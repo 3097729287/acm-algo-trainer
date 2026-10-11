@@ -219,12 +219,17 @@ def run_desktop() -> int:
         # 桌面全屏：受本机写接口保护，通过 pywebview 原生 toggle_fullscreen 实现。
         bind_desktop_fullscreen(server, window)
         from browser_bridge import BrowserBridge
+        from browser_sessions import BrowserSessions
+        from silent_submit import SilentSubmitter
+        sessions = BrowserSessions(STATE / 'browser-sessions.dpapi')
         official = BrowserBridge(
             url,
             guard=server.validate_official_url,
             on_receipt=server.record_official_receipt,
             on_pending=server.record_official_pending,
+            session_store=sessions,
         )
+        official.runner = SilentSubmitter(window, official, sessions)
         server.browser_bridge = official
         server.browser_extension_path = APP_DIR / 'browser-extension' if getattr(sys, 'frozen', False) else APP_DIR / 'build' / 'browser-extension'
         server.official_opener = official.open

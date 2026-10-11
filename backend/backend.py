@@ -53,7 +53,7 @@ class Handler(BaseHTTPRequestHandler):
     def do_OPTIONS(self):
         try:
             self.local_request()
-            if urlsplit(self.path).path in ('/api/browser/exchange', '/api/browser/register', '/api/browser/queue'):
+            if urlsplit(self.path).path in ('/api/browser/exchange', '/api/browser/register', '/api/browser/queue', '/api/browser/session'):
                 from browser_bridge import EXTENSION_ORIGIN
                 if self.headers.get('Origin') != EXTENSION_ORIGIN:
                     raise APIError(403, '请求来源不匹配')
@@ -317,7 +317,7 @@ class Handler(BaseHTTPRequestHandler):
         if path == '/api/browser/setup' and not writing:
             self.send_json(200, {'extensionPath': str(getattr(self.server, 'browser_extension_path', ''))})
             return
-        if path not in ('/api/browser/exchange', '/api/browser/register', '/api/browser/queue') or not writing:
+        if path not in ('/api/browser/exchange', '/api/browser/register', '/api/browser/queue', '/api/browser/session') or not writing:
             raise APIError(404, '没有找到这个接口')
         # Separate per-job capability: the browser never receives the app token.
         origin = self.headers.get('Origin')
@@ -349,8 +349,15 @@ class Handler(BaseHTTPRequestHandler):
             value = bridge.register_browser(body)
         elif path == '/api/browser/queue':
             value = bridge.browser_queue(body, self.headers.get('X-TB-Browser', ''))
+        elif path == '/api/browser/session':
+            value = bridge.sync_browser(body, self.headers.get('X-TB-Browser', ''))
         else:
-            value = bridge.exchange(body, self.headers.get('X-TB-Browser', ''))
+            if bridge.session_store is not None and not body.get('claim'):
+                with bridge.lock:
+                    bridge._authenticate(body.get('sessionId'), self.headers.get('X-TB-Browser', ''))
+                value = {'stop': True, 'status': 'closed'}
+            else:
+                value = bridge.exchange(body, self.headers.get('X-TB-Browser', ''))
         self.send_json(200, value)
 
     def static(self, path):

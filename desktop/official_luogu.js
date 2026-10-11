@@ -1,7 +1,15 @@
 // Luogu Columba routes and RecordStatus, verified from /_lfe/config?version=0.
 function installLuoguReceipts(ctx, report) {
   if (ctx.platform !== '洛谷' || !['www.luogu.com.cn', 'luogu.com.cn'].includes(location.hostname)) return null;
-  const pageData = () => { try { return JSON.parse(document.querySelector('#lentille-context')?.textContent || 'null'); } catch { return null; } };
+  let cachedPage = null;
+  const pageData = () => {
+    try {
+      const data=JSON.parse(document.querySelector('#lentille-context')?.textContent || 'null');
+      if(data?.data?.problem || !cachedPage) cachedPage=data;
+      else if(data && Object.prototype.hasOwnProperty.call(data,'user')) cachedPage.user=data.user;
+    } catch {}
+    return cachedPage;
+  };
   const owner = () => pageData()?.user?.uid || window._feInjection?.currentUser?.uid;
   const numericId = value => /^\d+$/.test(String(value ?? '')) && BigInt(value) > 0n ? String(value) : null;
   const problem = () => new URL(ctx.originalUrl).pathname.split('/')[2];
@@ -52,6 +60,21 @@ function installLuoguReceipts(ctx, report) {
     else if (![0, 1].includes(record.status)) notify({ status: 'error', submissionId: state.pending.id, message: '洛谷返回评测状态 ' + record.status + '，请在原站核对本次记录。' });
   };
   const originalFetch = window.fetch;
+  state.prepare = async () => {
+    if (pageData()?.data?.problem?.pid === problem() || state.preparing || state.prepared || document.readyState === 'loading') return;
+    state.preparing = true;
+    try {
+      const response=await originalFetch.call(window,new URL(ctx.originalUrl).pathname,{credentials:'same-origin',headers:{'x-lentille-request':'content-only'},signal:AbortSignal.timeout(15000)});
+      if(!response.ok) throw new Error('洛谷题目接口暂时不可用（HTTP '+response.status+'）');
+      const data=await response.json();
+      if(data?.data?.problem?.pid!==problem()) throw new Error('洛谷未返回本题提交信息');
+      cachedPage=data;
+      state.prepared=true;
+    }catch{
+      notify({status:'error',attempted:false,message:'无法读取洛谷本题的提交信息，尚未发送代码。请重试；如原站需要验证，请完成验证后再提交。'});
+    }finally{state.preparing=false;}
+  };
+  state.loggedOut = () => pageData() && Object.prototype.hasOwnProperty.call(pageData(),'user') && !owner();
   state.hasSubmitApi = () => pageData()?.data?.problem?.pid === problem();
   state.submitApi = async checkpoint => {
     const context = pageData(), targetProblem = context?.data?.problem;

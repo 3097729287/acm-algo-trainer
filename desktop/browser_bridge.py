@@ -20,13 +20,16 @@ VERDICTS = {'AC', 'WA', 'TLE', 'MLE', 'RE', 'CE', 'OLE'}
 
 
 class BrowserBridge:
-    def __init__(self, base_url, guard=None, on_receipt=None, on_pending=None, opener=None, clock=None):
+    def __init__(self, base_url, guard=None, on_receipt=None, on_pending=None, opener=None, clock=None, session_store=None):
         self.base_url = base_url.rstrip('/')
         self.guard, self.on_receipt, self.on_pending = guard, on_receipt, on_pending
         self.opener, self.clock = opener or webbrowser.open, clock or time.monotonic
         self.sessions = {}
         self.clients = {}
         self.lock = threading.RLock()
+        self.session_store, self.runner = session_store, None
+        self.client_protocols = {}
+        self.sync_client = None
 
     def register_browser(self, body):
         # The HTTP layer requires the bundled extension's exact browser origin.
@@ -40,7 +43,17 @@ class BrowserBridge:
             raise ServiceError(400, '浏览器连接标识无效')
         with self.lock:
             self.clients.setdefault(client, secrets.token_urlsafe(32))
-            return {'key': self.clients[client]}
+            self.client_protocols[client] = body.get('protocol', 1)
+            return {'key': self.clients[client], 'mode': 'silent' if self.session_store else 'tabs'}
+
+    def sync_browser(self, body, capability):
+        with self.lock:
+            expected = self.clients.get(body.get('clientId'))
+            if not expected or not secrets.compare_digest(expected, capability):
+                raise ServiceError(403, '浏览器后台连接已失效')
+        if self.session_store is None:
+            raise ServiceError(404, '未启用登录同步')
+        return self.session_store.accept(body)
 
     def browser_queue(self, body, capability):
         client = body.get('clientId')
@@ -48,6 +61,10 @@ class BrowserBridge:
             expected = self.clients.get(client)
             if not expected or not secrets.compare_digest(expected, capability):
                 raise ServiceError(403, '浏览器后台连接已失效')
+            if self.session_store:
+                if self.client_protocols.get(client) == 2 and self.sync_client is None:
+                    self.sync_client = client
+                return {'jobs': [], 'mode': 'silent', 'sync': self.session_store.requests() if client == self.sync_client else []}
             jobs = []
             for session in self.sessions.values():
                 self._expire(session)
@@ -69,7 +86,9 @@ class BrowserBridge:
             session.update(status='unconfirmed' if session.get('dispatchedAt') is not None else 'error', intent=False,
                            message='浏览器连接已中断，请打开原站核对提交记录后再重试。')
         elif not session.get('claimed') and now - session['createdAt'] > 12:
-            session.update(status='needs_browser', message='浏览器后台连接未就绪。请保持已登录的浏览器运行，并启用或重新加载 TB 浏览器连接扩展。')
+            session.update(status='needs_browser', message='尚未同步浏览器登录。首次使用请启用最新版 TB 浏览器连接扩展，随后可关闭浏览器静默提交。')
+        elif session.get('claimed') and session['status'] == 'loading' and now - session.get('preparingAt', session['createdAt']) > 40:
+            session.update(status='error', intent=False, message='原站提交接口准备超时，尚未发送代码。请重试；若原站要求验证，请在浏览器完成。')
         if now - session['createdAt'] > 900:
             session.update(status='error', intent=False,
                            message='等待原站结果超时，请在浏览器核对提交记录。')
@@ -103,13 +122,13 @@ class BrowserBridge:
             else:
                 session.update(intent=intent)
                 if intent:
-                    session.update(status='loading', message='正在检查浏览器登录和提交页面。')
+                    session.update(status='loading', message='正在后台准备原站提交。', preparingAt=self.clock())
             session['navigateTo'] = session['loginUrl'] if not intent and session['status'] == 'needs_login' else session['url']
             fragment = urlencode({'session': session['sessionId'], 'key': session['capability']})
-        # Submitting never launches a browser or activates a browser tab.
-        # Opening the site/setup remains an explicit user action only.
-        if not intent:
-            self.opener(self.base_url + '/browser-connect.html#' + fragment)
+        if intent and self.runner:
+            self.runner.start(session['sessionId'])
+        elif not intent:
+            self.opener(session['navigateTo'] if self.runner and session['status'] != 'needs_browser' else self.base_url + '/browser-connect.html#' + fragment)
         return self.status(session['sessionId'])
 
     def submit(self, url, code, title):
@@ -154,7 +173,7 @@ class BrowserBridge:
                 session.update(claimed=True, lastSeen=self.clock())
                 if session['status'] == 'needs_browser':
                     session['status'] = 'loading'
-                return {'url': session['navigateTo'], 'sessionId': session['sessionId'], 'status': session['status']}
+                return {'url': session['navigateTo'], 'sessionId': session['sessionId'], 'status': session['status'], 'mode': 'silent' if self.session_store else 'tabs'}
             page = urlsplit(str(body.get('pageUrl', '')))
             if page.scheme != 'https' or page.hostname not in LOGIN_HOSTS[session['platform']] or page.port not in (None, 443) or page.username or page.password:
                 raise ServiceError(403, '只接受本次竞赛平台的浏览器页面')
@@ -192,7 +211,7 @@ class BrowserBridge:
             return
         if session.get('dispatchedAt') is not None and status in ('ready', 'loading'):
             return
-        if status in ('needs_login', 'needs_verification', 'error'):
+        if status in ('needs_browser', 'needs_login', 'needs_verification', 'error'):
             session['intent'] = False
             if value.get('attempted') is False:
                 session.pop('dispatchedAt', None)
@@ -237,6 +256,8 @@ class BrowserBridge:
         return self.status(identity) if identity else {'status': 'ready'}
 
     def on_closing(self):
+        if self.runner:
+            self.runner.stop()
         with self.lock:
             for session in self.sessions.values():
                 if session['status'] not in TERMINAL:

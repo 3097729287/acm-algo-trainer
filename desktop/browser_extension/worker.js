@@ -23,8 +23,18 @@ async function pollQueues() {
       try {
         const local = new URL(base);
         if (local.protocol !== 'http:' || local.hostname !== '127.0.0.1' || local.origin !== base) continue;
-        if (!connections.has(base)) connections.set(base, (await backgroundRequest(base, 'register', { clientId })).key);
+        if (!connections.has(base)) connections.set(base, (await backgroundRequest(base, 'register', { clientId, protocol: 2 })).key);
         const answer = await backgroundRequest(base, 'queue', { clientId }, connections.get(base));
+        if (answer.mode === 'silent') {
+          const scopes = {Codeforces:['codeforces.com'],AtCoder:['atcoder.jp'],'牛客':['nowcoder.com'],'洛谷':['luogu.com.cn']};
+          for (const request of answer.sync || []) {
+            const domains = scopes[request.platform];
+            if (!domains || typeof request.nonce !== 'string') continue;
+            const cookies = (await Promise.all(domains.map(domain => chrome.cookies.getAll({domain,storeId:'0'})))).flat();
+            await backgroundRequest(base, 'session', {clientId,platform:request.platform,nonce:request.nonce,cookies,userAgent:navigator.userAgent}, connections.get(base));
+          }
+          continue;
+        }
         for (const item of answer.jobs || []) {
           const saved = (await chrome.storage.session.get('jobs')).jobs || {};
           if (Object.values(saved).some(j => j.sessionId === item.sessionId && j.base === base)) continue;
@@ -70,6 +80,10 @@ async function handle(message, sender) {
     if (['closed', 'finished', 'error'].includes(claim.status)) return { error: '本次连接已结束，请回 TB 重新提交。' };
     const target = new URL(claim.url);
     if (target.protocol !== 'https:' || !hosts.has(target.hostname)) throw new Error('原站地址无效');
+    if (claim.mode === 'silent') {
+      await chrome.tabs.update(sender.tab.id, { url: target.href, active: true });
+      return { connected: true };
+    }
     // A reconnect reuses its own submission tab instead of creating a second submitter.
     const saved = (await chrome.storage.session.get('jobs')).jobs || {};
     const old = Object.values(saved).find(j => j.sessionId === job.sessionId && j.base === job.base);
