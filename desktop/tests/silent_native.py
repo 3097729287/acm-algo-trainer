@@ -26,13 +26,14 @@ def run():
         def sync():
             for request in store.requests():
                 domain=request['domains'][0]
-                store.accept({**request,'cookies':[{'name':'fixture_login','value':'test-only-session','domain':'.'+domain,'path':'/','secure':True,'httpOnly':True,'sameSite':'lax'}], 'userAgent':'TB Fixture'})
+                store.accept({**request,'cookies':[{'name':'fixture_login','value':'test-only-session','domain':'.'+domain,'path':'/','secure':True,'httpOnly':True,'sameSite':'lax','expirationDate':time.time()+600}], 'userAgent':'TB Fixture'})
         bridge = BrowserBridge('http://127.0.0.1:1', session_store=store, opener=lambda _: (_ for _ in ()).throw(AssertionError('Browser opened')), on_receipt=lambda sid,s: saved.append(s['verdict']) or True)
         def fixture(view):
             from Microsoft.Web.WebView2.Core import CoreWebView2WebResourceContext
             from System.IO import MemoryStream, StreamReader
             from System.Text import Encoding
             core=view.CoreWebView2
+            assert str(core.Profile.ProfileName) in ('tb-cf','tb-atcoder','tb-nowcoder','tb-luogu')
             core.AddWebResourceRequestedFilter('*',CoreWebView2WebResourceContext.All)
             def serve(_, event):
                 # Fail closed even if a fixture assertion or header read fails.

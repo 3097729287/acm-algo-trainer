@@ -67,6 +67,8 @@ class SilentSubmitter(OfficialBridge):
             self.bridge.exchange({'sessionId': identity, 'claim': True}, session['capability'])
             event = self.store.request(session['platform'])
             if not event.wait(1):
+                if self.stopping.is_set():
+                    return
                 self.wake()
                 event.wait(2 if self.store.snapshot(session['platform']) else 12)
             snapshot = self.store.snapshot(session['platform'])
@@ -115,7 +117,7 @@ class SilentSubmitter(OfficialBridge):
 
     def _attach_silent(self, identity, snapshot):
         import System.Windows.Forms as Forms
-        from System import Action, String, DateTime
+        from System import Action, String, DateTime, DateTimeKind
         from System.Threading.Tasks import Task
         from Microsoft.Web.WebView2.WinForms import WebView2, CoreWebView2CreationProperties
         from Microsoft.Web.WebView2.Core import CoreWebView2CookieSameSiteKind
@@ -155,7 +157,7 @@ class SilentSubmitter(OfficialBridge):
                 cookie.SameSite = {'strict': CoreWebView2CookieSameSiteKind.Strict, 'lax': CoreWebView2CookieSameSiteKind.Lax,
                                    'no_restriction': getattr(CoreWebView2CookieSameSiteKind, 'None')}[item.get('sameSite') if item.get('sameSite') in ('strict', 'lax', 'no_restriction') else 'lax']
                 if item.get('expirationDate'):
-                    cookie.Expires = DateTime(1970, 1, 1).AddSeconds(float(item['expirationDate']))
+                    cookie.Expires = DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(float(item['expirationDate']))
                 manager.AddOrUpdateCookie(cookie)
             def navigation(_, event):
                 target = urlsplit(str(event.Uri))

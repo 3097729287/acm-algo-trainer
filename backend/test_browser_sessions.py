@@ -51,4 +51,3 @@ class BrowserSessionTests(unittest.TestCase):
         self.assertNotIn('cookies', json.dumps(answer))
         with self.assertRaises(ServiceError): bridge.sync_browser({**self.body,'clientId':client}, 'bad')
         bridge.sync_browser({**self.body,'clientId':client}, registration['key'])
-
