@@ -1,8 +1,8 @@
-# Third-party licenses and notices — TB 0.6.0
+# Third-party licenses and notices — TB
 
 TB application code uses the MIT license in LICENSE. Third-party components retain their own terms below. License texts are preserved from the actual installed distributions and compiler package sources. Build/test-only Node and Python tooling is included for completeness; it is not all embedded in the executable.
 
-The compiler runs as a separate tool. Its license and the GCC Runtime Library Exception do not change the license of TB source code or automatically impose GPL on code compiled by its users. The exact corresponding compiler sources, MSYS2 patches and build recipes are available in the same release as **TB-Toolchain-Sources-0.6.0.zip**; see TOOLCHAIN-SOURCES.md.
+The compiler runs as a separate tool. Its license and the GCC Runtime Library Exception do not change the license of TB source code or automatically impose GPL on code compiled by its users. The exact corresponding compiler sources, MSYS2 patches and build recipes are archived as **TB-Toolchain-Sources-0.6.0.zip** in the [v0.6.0 release](https://github.com/3097729287/acm-algo-trainer/releases/tag/v0.6.0); see [TOOLCHAIN-SOURCES.md](TOOLCHAIN-SOURCES.md). The v0.10.1 release assets do not include a separate compiler-source ZIP. This archive documents the compiler package selection recorded for v0.6.0; any changed toolchain requires matching sources and an updated inventory.
 
 The original notices below are not translated.
 
