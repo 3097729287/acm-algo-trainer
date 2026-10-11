@@ -1,6 +1,7 @@
 import { EventConflict } from './errors.mjs';
+import { bounds, REWARD_POLICY } from './ranking-rules.mjs';
 
-const VERSION = '0.10.0';
+const VERSION = '0.10.2';
 const NOTICE = '排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const hashPattern = /^[a-f0-9]{64}$/;
@@ -78,15 +79,6 @@ async function limit(env, bucket, maximum, windowSeconds, now) {
   if (count > maximum) throw new ApiError(429, '请求过于频繁，请稍后重试');
 }
 
-function bounds(period, now) {
-  const day = new Date(now + 8 * 3600 * 1000).toISOString().slice(0, 10);
-  const startDate = new Date(day + 'T00:00:00Z');
-  if (period === 'weekly') startDate.setUTCDate(startDate.getUTCDate() - (startDate.getUTCDay() + 6) % 7);
-  const start = startDate.toISOString().slice(0, 10);
-  startDate.setUTCDate(startDate.getUTCDate() + (period === 'weekly' ? 7 : 1));
-  return { day, start, end: startDate.toISOString().slice(0, 10) };
-}
-
 function rankingRow(row) {
   return { rank: row.rank, userId: row.user_id, nickname: row.nickname, displayName: row.nickname + ' #' + row.user_id, count: row.count };
 }
@@ -96,7 +88,7 @@ async function leaderboard(user, env, period, now) {
   const range = bounds(period, now);
   const { rows, own } = await env.STORE.rankings(user.user_id, period === 'total' ? null : range);
   return { period, date: range.day, timezone: 'Asia/Shanghai', startDate: period === 'total' ? null : range.start,
-    endDate: period === 'total' ? null : range.end, entries: rows.map(rankingRow),
+    endDate: period === 'total' ? null : range.end, entries: rows.map(rankingRow), isAdmin: Boolean(user.is_admin), rewardPolicy: REWARD_POLICY,
     self: own ? rankingRow(own) : { rank: null, userId: user.user_id, nickname: user.nickname, displayName: user.nickname + ' #' + user.user_id, count: 0 }, notice: NOTICE };
 }
 
@@ -142,7 +134,18 @@ export async function handle(request, env) {
     }
     const user = await authenticate(request, env);
     await limit(env, 'user:' + user.user_id, Math.min(600, Math.max(10, Number(env.REQUESTS_PER_USER_MINUTE) || 120)), 60, Math.floor(now / 1000));
-    if (path === '/v1/profile' && request.method === 'GET') return json({ userId: user.user_id, nickname: user.nickname, displayName: user.nickname + ' #' + user.user_id, createdAt: user.created_at });
+    if (env.READ_ONLY !== '1') await env.STORE.settleRewards(now);
+    if (path === '/v1/profile' && request.method === 'GET') return json({ userId: user.user_id, nickname: user.nickname, displayName: user.nickname + ' #' + user.user_id, createdAt: user.created_at, isAdmin: Boolean(user.is_admin) });
+    if (path === '/v1/rewards' && request.method === 'GET') return json(await env.STORE.rewards(user.user_id));
+    if (path === '/v1/admin/leaderboard/delete' && request.method === 'POST') {
+      if (!user.is_admin) throw new ApiError(403, '只有管理员可以删除排行榜成绩');
+      const value = await body(request, ['userId', 'period', 'confirmation']);
+      if (!['daily', 'weekly', 'total'].includes(value.period) || value.confirmation !== 'delete' ||
+          value.userId !== null && !uuid.test(value.userId || '')) throw new ApiError(400, '删除范围或确认无效');
+      if (value.userId && !await env.STORE.findUser(value.userId)) throw new ApiError(404, '用户不存在');
+      return json(await env.STORE.removeRankings(user.user_id, value.userId, value.period,
+        value.period === 'total' ? null : bounds(value.period, now), timestamp));
+    }
     if (path === '/v1/profile' && request.method === 'PUT') {
       const value = await body(request, ['nickname']), name = nickname(value.nickname);
       await env.STORE.updateNickname(user.user_id, name, timestamp);

@@ -170,6 +170,8 @@ class Handler(BaseHTTPRequestHandler):
                     value = training.configure_profile(body)
                 elif path in ("/api/leaderboard/sync", "/api/rankings/sync"):
                     value = training.leaderboard.queue_sync(force=True)
+                elif path == "/api/leaderboard/admin/delete":
+                    value = training.leaderboard.admin_delete(body)
                 elif path == "/api/hub/configure":
                     value = store.extensions.configure(body)
                 elif path == "/api/hub/sync":

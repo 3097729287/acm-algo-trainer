@@ -102,10 +102,28 @@ sudo docker compose logs --tail=100 api
 | `PUT /v1/profile` | `{nickname}` | 更新自己的昵称 |
 | `POST /v1/events` | `{events:[{eventId,problemKey,acceptedAt,difficulty,scope:"official"}]}` | `{processed,scope,notice}` |
 | `GET /v1/leaderboard?period=daily` | 周期 `daily`、`weekly` 或 `total` | `{period,date,timezone,entries,self,notice}` |
+| `GET /v1/rewards` | 无 | 当前身份的累计排行榜经验与最近 50 条奖励 |
+| `POST /v1/admin/leaderboard/delete` | `{userId,period,confirmation:"delete"}` | 管理员删除所选成绩；`userId:null` 清空所选周期 |
 
 每批最多 100 条通过记录。`problemKey` 是原题规范化链接的 SHA-256 摘要；`eventId` 是身份和原题摘要的 SHA-256 摘要。不发送题目代码、草稿、测试数据、翻译 API Key、原站 Cookie 或密码。记录按用户和原题唯一，重传不会增加题数；异步评测导致更早的通过记录稍后到达时，服务修正到更早日期。
 
 本机接口为 `GET/POST /api/profile`、`GET /api/leaderboard?period=daily`、`POST /api/leaderboard/sync`、`GET /api/daily-tasks` 和 `POST /api/daily-tasks/claim`。每日任务领取与奖励保存在本机 SQLite 事务中，不依赖服务器。
+
+## 奖牌与排行榜经验
+
+日榜、周榜、累计榜各有三种专属奖牌，档次依次为累计第一、累计第二、累计第三、周榜第一、周榜第二、周榜第三、日榜第一、日榜第二、日榜第三。前三名为三个独立席位，同题数先完成者排在前面，完成时间也相同时按固定用户 ID 排序。
+
+按北京时间每天 0 点结算前一天，前三名分别获得 100、60、30 XP。每周日 0 点结算上一周，前三名分别获得 500、300、150 XP。周榜周期为周日 0 点到下周日 0 点。累计榜仅授予当前奖牌，不额外发放经验。用户没有成绩时不分配空名次。
+
+服务使用数据库事务保存结算游标、周期快照与奖励，重试、并发查询和服务器重启都不会重复发放；停机期间未结算的完整周期在恢复时补结算。启用功能时从当前日和当前周开始，不追溯以前已结束的周期。晚同步的成绩可以更新排名，但不改写已经结算的奖励。客户端定期同步服务器奖励总额，在本机按服务器地址和身份保存，刷新和重新打开不会重复累加。客户端关闭时服务器照常结算。
+
+升级现有服务须先备份 MySQL，再应用 `mysql/003_ranking_rewards_admin.sql`，随后更新 `src/` 并重启 API。新部署由 MySQL 初始化目录执行三份迁移。
+
+## 管理员删除
+
+管理员由运维直接在 `ranking_admins` 表中授予已注册的用户 ID。客户端不能通过请求字段、昵称或界面设置提升权限；删除请求仍须验证该身份原有的安装凭据。本机转发接口为 `POST /api/leaderboard/admin/delete`，继续要求本机会话令牌和同源校验。
+
+管理员可删除某个用户当前周期的成绩，或清空当前周期。累计榜的操作涵盖所有时间。删除以原题为单位保留标记，三个榜单同步扣除相应题目，重传旧成绩不会恢复；未来首次通过的新题仍能计分。操作写入审计表，已发放经验保留。身份、官方回执证据及用户本机的训练、代码和草稿均保留。
 
 ## 本地验证
 

@@ -1,6 +1,7 @@
 import mysql from 'mysql2/promise';
 import { readFile } from 'node:fs/promises';
 import { EventConflict } from './errors.mjs';
+import { bounds, addDays, rankingQuery, normalizeRank, REWARD_POLICY } from './ranking-rules.mjs';
 
 export async function secret(env, name) {
   if (env[name + '_FILE']) return (await readFile(env[name + '_FILE'], 'utf8')).trim();
@@ -21,7 +22,7 @@ export class MySQLStore {
   constructor(pool) { this.pool = pool; }
   async health() { await this.pool.execute('SELECT 1 FROM official_ac_events LIMIT 0'); }
   async findUser(id) {
-    const [rows] = await this.pool.execute('SELECT * FROM users WHERE user_id=?', [id]);
+    const [rows] = await this.pool.execute('SELECT users.*,EXISTS(SELECT 1 FROM ranking_admins WHERE ranking_admins.user_id=users.user_id) AS is_admin FROM users WHERE user_id=?', [id]);
     return rows[0] || null;
   }
   async createUser(id, name, hash, timestamp) {
@@ -50,16 +51,54 @@ export class MySQLStore {
     });
   }
   async rankings(id, range) {
-    const where = range ? 'WHERE accepted_day>=? AND accepted_day<?' : '';
-    const values = range ? [range.start, range.end] : [];
-    // RANK is reserved in MySQL; expose the protocol's rank field after the query.
-    const cte = `WITH counts AS (SELECT user_id,COUNT(*) AS count FROM official_ac_events ${where} GROUP BY user_id),
-      ranked AS (SELECT users.user_id,users.nickname,counts.count,
-        RANK() OVER(ORDER BY counts.count DESC) AS position FROM counts JOIN users USING(user_id))`;
-    const normalize = row => row && ({ ...row, count: Number(row.count), rank: Number(row.position) });
-    const [rows] = await this.pool.execute(cte + ' SELECT * FROM ranked ORDER BY count DESC,user_id LIMIT 100', values);
-    const [own] = await this.pool.execute(cte + ' SELECT * FROM ranked WHERE user_id=?', [...values, id]);
-    return { rows: rows.map(normalize), own: normalize(own[0]) || null };
+    const { sql, values } = rankingQuery(range);
+    const [rows] = await this.pool.execute(sql + ' SELECT * FROM ranked ORDER BY position LIMIT 100', values);
+    const [own] = await this.pool.execute(sql + ' SELECT * FROM ranked WHERE user_id=?', [...values, id]);
+    return { rows: rows.map(normalizeRank), own: normalizeRank(own[0]) || null };
+  }
+  settleRewards(now) {
+    return this.transaction(async connection => {
+      const day = bounds('daily', now).start, week = bounds('weekly', now).start;
+      await connection.execute('INSERT INTO ranking_schedule VALUES(1,?,?) ON DUPLICATE KEY UPDATE singleton=singleton', [day, week]);
+      const [settings] = await connection.execute('SELECT * FROM ranking_schedule WHERE singleton=1 FOR UPDATE');
+      const timestamp = new Date(now).toISOString();
+      for (const [period, cutoff, step] of [['daily', day, 1], ['weekly', week, 7]]) {
+        let start = settings[0][period + '_start'];
+        while (start < cutoff) {
+          const end = addDays(start, step);
+          const { sql, values } = rankingQuery({ start, end });
+          const [winners] = await connection.execute(sql + ' SELECT * FROM ranked WHERE position<=3 ORDER BY position', values);
+          await connection.execute('INSERT INTO ranking_cycles VALUES(?,?,?,?)', [period, start, end, timestamp]);
+          for (const row of winners) {
+            await connection.execute('INSERT INTO ranking_rewards VALUES(?,?,?,?,?,?,?)',
+              [row.user_id, period, start, end, Number(row.position), REWARD_POLICY[period][Number(row.position)-1], timestamp]);
+          }
+          start = end;
+        }
+        await connection.execute(`UPDATE ranking_schedule SET ${period}_start=? WHERE singleton=1`, [start]);
+      }
+    });
+  }
+  async rewards(id) {
+    const [rows] = await this.pool.execute('SELECT COALESCE(SUM(xp),0) AS totalXp FROM ranking_rewards WHERE user_id=?', [id]);
+    const [awards] = await this.pool.execute('SELECT period,start_date AS startDate,end_date AS endDate,position AS `rank`,xp,settled_at AS awardedAt FROM ranking_rewards WHERE user_id=? ORDER BY settled_at DESC,start_date DESC,period LIMIT 50', [id]);
+    return { userId: id, totalXp: Number(rows[0].totalXp), awards };
+  }
+  removeRankings(actor, target, period, range, timestamp) {
+    return this.transaction(async connection => {
+      // Re-check the role in the same transaction as the write.
+      const [role] = await connection.execute('SELECT user_id FROM ranking_admins WHERE user_id=? FOR SHARE', [actor]);
+      if (!role.length) throw new Error('Administrator role required');
+      const filters = [], values = [];
+      if (target) { filters.push('e.user_id=?'); values.push(target); }
+      if (range) { filters.push('e.accepted_day>=? AND e.accepted_day<?'); values.push(range.start, range.end); }
+      const [result] = await connection.execute(`INSERT IGNORE INTO ranking_exclusions(user_id,problem_key,deleted_at)
+        SELECT e.user_id,e.problem_key,? FROM official_ac_events e ${filters.length ? 'WHERE '+filters.join(' AND ') : ''}`, [timestamp, ...values]);
+      const removed = Number(result.affectedRows);
+      await connection.execute('INSERT INTO ranking_admin_actions(actor_id,target_id,period,start_date,end_date,removed_count,created_at) VALUES(?,?,?,?,?,?,?)',
+        [actor, target, period, range?.start ?? null, range?.end ?? null, removed, timestamp]);
+      return { removed, period, userId: target };
+    });
   }
   async recordEvents(id, events, timestamp) {
     try {

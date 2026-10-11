@@ -98,6 +98,10 @@ class TrainingService:
             CREATE TABLE IF NOT EXISTS ranking_receipts (
               endpoint TEXT NOT NULL, event_id TEXT NOT NULL, accepted_at TEXT NOT NULL,
               PRIMARY KEY(endpoint,event_id));
+            CREATE TABLE IF NOT EXISTS ranking_reward_totals (
+              endpoint TEXT NOT NULL,user_id TEXT NOT NULL,total_xp INTEGER NOT NULL,
+              awards TEXT NOT NULL DEFAULT '[]',updated_at TEXT NOT NULL,
+              PRIMARY KEY(endpoint,user_id));
             CREATE TABLE IF NOT EXISTS official_pending (
               id TEXT PRIMARY KEY, session_id TEXT NOT NULL, submission_id TEXT NOT NULL,
               problem_id TEXT, url TEXT, code TEXT, platform TEXT, accepted_at TEXT);
@@ -386,10 +390,14 @@ class TrainingService:
             completed = qualified_contests(workspace["contests"], records)
             claimed_dates = [item["claimed_at"] for item in self.connection.execute("SELECT claimed_at FROM daily_missions WHERE claimed_at IS NOT NULL ORDER BY claimed_at,rowid")]
             value["achievements"].extend(extra_achievements(evidence, records, completed, value["summary"]["longestStreak"], claimed_dates))
-            xp = value["growth"]["xp"] + claimed["xp"]
+            ranking_profile = self._ranking_profile()
+            ranking_reward = self.connection.execute("SELECT total_xp FROM ranking_reward_totals WHERE endpoint=? AND user_id=?",
+                                                     (ranking_profile["endpoint"], ranking_profile["user_id"])).fetchone()
+            ranking_xp = ranking_reward["total_xp"] if ranking_reward else 0
+            xp = value["growth"]["xp"] + claimed["xp"] + ranking_xp
             level = xp // 500 + 1
             names = ["初次启程", "持续练习", "稳步积累", "独立攻坚", "长期精进"]
-            value["growth"].update(xp=xp, totalXp=xp, missionXp=claimed["xp"], level=level, levelName=names[min(level - 1, len(names) - 1)], currentLevelXp=xp % 500,
+            value["growth"].update(xp=xp, totalXp=xp, missionXp=claimed["xp"], rankingXp=ranking_xp, level=level, levelName=names[min(level - 1, len(names) - 1)], currentLevelXp=xp % 500,
                                    nextMilestone=f"再积累 {500 - xp % 500} XP 升至 {level + 1} 级")
             value["dailyTasks"] = tasks
             value["profile"] = self.profile()["profile"]
@@ -468,6 +476,18 @@ class TrainingService:
     def _ranking_profile(self):
         with self.lock:
             return dict(self.connection.execute("SELECT * FROM ranking_profile WHERE singleton=1").fetchone())
+
+    def _ranking_rewards(self, profile, value):
+        xp = value.get("totalXp")
+        if value.get("userId") != profile["user_id"] or type(xp) is not int or not 0 <= xp <= 1_000_000_000:
+            raise RuntimeError("排行榜经验响应无效")
+        awards = value.get("awards", [])
+        if not isinstance(awards, list) or len(awards) > 50:
+            raise RuntimeError("排行榜奖励记录响应无效")
+        with self.lock, self._write() as connection:
+            connection.execute("""INSERT INTO ranking_reward_totals VALUES(?,?,?,?,?)
+                ON CONFLICT(endpoint,user_id) DO UPDATE SET total_xp=excluded.total_xp,awards=excluded.awards,updated_at=excluded.updated_at""",
+                (profile["endpoint"], profile["user_id"], xp, json.dumps(awards, ensure_ascii=False), iso(self._now())))
 
     def profile(self):
         record = self._ranking_profile()

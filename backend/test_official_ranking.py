@@ -46,6 +46,39 @@ class OfficialRankingTests(unittest.TestCase):
         self.assertEqual(self.service.leaderboard.snapshot()['status'], 'error')
         self.assertEqual(len(self.service._ranking_events(profile['endpoint'])), 1)
 
+    def test_ranking_xp_is_an_authoritative_total_not_a_repeatable_claim(self):
+        with self.service._write() as db:
+            db.execute("UPDATE ranking_profile SET endpoint='https://fixture.example'")
+        profile = self.service._ranking_profile()
+        original = self.service.insights()['growth']['xp']
+        value = {'userId': profile['user_id'], 'totalXp': 600, 'awards': []}
+        for _ in range(3):
+            self.service._ranking_rewards(profile, value)
+        growth = self.service.insights()['growth']
+        self.assertEqual(growth['xp'], original + 600)
+        self.assertEqual(growth['rankingXp'], 600)
+        self.assertEqual(growth['level'], (original + 600) // 500 + 1)
+        with self.assertRaises(RuntimeError):
+            self.service._ranking_rewards(profile, {**value, 'userId': 'another-identity'})
+        with self.assertRaises(RuntimeError):
+            self.service._ranking_rewards(profile, {**value, 'totalXp': -1})
+        self.service.close()
+        self.service = fixtures.TrainingService(self.library, self.db, self.assets, self.judge, self.clock, self.root / 'backups')
+        self.assertEqual(self.service.insights()['growth']['rankingXp'], 600)
+        # Changing servers must not add two replicas of the same reward history.
+        with self.service._write() as db:
+            db.execute("UPDATE ranking_profile SET endpoint='https://other-fixture.example'")
+        self.assertEqual(self.service.insights()['growth']['rankingXp'], 0)
+        profile = self.service._ranking_profile()
+        self.service._ranking_rewards(profile, {**value, 'totalXp': 100})
+        self.assertEqual(self.service.insights()['growth']['rankingXp'], 100)
+
+    def test_admin_forwarding_does_not_accept_a_client_supplied_role(self):
+        from training import ServiceError
+        with self.assertRaises(ServiceError) as caught:
+            self.service.leaderboard.admin_delete({'userId': None, 'period': 'daily', 'confirmation': 'delete', 'isAdmin': True})
+        self.assertEqual(caught.exception.status, 400)
+
 
 if __name__ == '__main__':
     unittest.main()

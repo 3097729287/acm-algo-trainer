@@ -18,6 +18,12 @@ from progression import SHANGHAI
 NOTICE = "排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。"
 
 
+class RankingRequestError(RuntimeError):
+    def __init__(self, status, message):
+        self.status = status
+        super().__init__(message)
+
+
 def validate_endpoint(value):
     from training import ServiceError
     if not isinstance(value, str) or len(value) > 2048:
@@ -89,7 +95,7 @@ class LeaderboardClient:
                 raise ValueError("排行榜响应格式无效")
             return value
         except HTTPError as error:
-            raise RuntimeError(f"排行榜服务返回 HTTP {error.code}") from None
+            raise RankingRequestError(error.code, "只有管理员可以删除排行榜成绩" if error.code == 403 else f"排行榜服务返回 HTTP {error.code}") from None
         except (URLError, TimeoutError, OSError, ValueError) as error:
             # Never echo response bodies, credentials or URLs containing secrets.
             raise RuntimeError("排行榜服务连接失败，请检查服务地址或稍后重试") from error
@@ -127,6 +133,7 @@ class LeaderboardClient:
         return self.queue_sync(force=True)
 
     def _sync(self):
+        profile = {}
         try:
             profile = self.training._ranking_profile()
             if not profile["endpoint"]:
@@ -153,8 +160,11 @@ class LeaderboardClient:
                 value = self._request(profile, "GET", "/v1/leaderboard?" + urlencode({"period": period}))
                 if value.get("period") != period or not isinstance(value.get("entries"), list):
                     raise RuntimeError("排行榜响应格式无效")
-                values[period] = (time.monotonic(), value)
+                local_day = self.training._now().astimezone(SHANGHAI).date().isoformat()
+                values[period] = (time.monotonic(), value, local_day)
             self.training._ranking_synced(profile["endpoint"])
+            rewards = self._request(profile, "GET", "/v1/rewards")
+            self.training._ranking_rewards(profile, rewards)
             current_endpoint = self.training._ranking_profile()["endpoint"]
             with self.lock:
                 if profile["endpoint"] == current_endpoint:
@@ -172,7 +182,7 @@ class LeaderboardClient:
                 self.queue_sync()
             else:
                 with self.lock:
-                    if self.status == "error" and not self.closed:
+                    if not self.closed and profile.get("endpoint"):
                         self.retry_timer = threading.Timer(65, self.queue_sync)
                         self.retry_timer.daemon = True
                         self.retry_timer.start()
@@ -182,14 +192,32 @@ class LeaderboardClient:
         if period not in {"daily", "weekly", "total"}:
             raise ServiceError(400, "排行周期须为 daily、weekly 或 total")
         state = self.snapshot()
+        date = self.training._now().astimezone(SHANGHAI).date().isoformat()
         with self.lock:
             cached = self.cache.get(period)
+            if cached and cached[2] != date:
+                cached = None
         if state["configured"] and (cached is None or time.monotonic() - cached[0] > 60):
             self.queue_sync()
             state = self.snapshot()
-        date = self.training._now().astimezone(SHANGHAI).date().isoformat()
         value = dict(cached[1]) if cached else {"period": period, "date": date, "entries": [], "self": None}
         value.update(state)
+        return value
+
+    def admin_delete(self, body):
+        from training import ServiceError
+        if set(body) != {"userId", "period", "confirmation"} or body.get("period") not in {"daily", "weekly", "total"} or body.get("confirmation") != "delete":
+            raise ServiceError(400, "删除范围或确认无效")
+        profile = self.training._ranking_profile()
+        if not profile["endpoint"]:
+            raise ServiceError(409, "请先连接排行榜服务")
+        try:
+            value = self._request(profile, "POST", "/v1/admin/leaderboard/delete", body)
+        except RankingRequestError as error:
+            raise ServiceError(error.status, str(error)) from None
+        except RuntimeError as error:
+            raise ServiceError(503, str(error)) from None
+        self.invalidate()
         return value
 
     def close(self):
