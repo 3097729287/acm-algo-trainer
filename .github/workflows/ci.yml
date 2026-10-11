@@ -43,7 +43,9 @@ jobs:
       - name: SQLite, API, migration, translation and judge regressions
         run: python scripts/check.py
       - name: Native WebView compiler and form fixtures
-        run: python desktop/tests/official_native.py
+        run: |
+          python desktop/tests/official_native.py
+          python desktop/tests/silent_native.py
 
   frontend:
     runs-on: ubuntu-latest

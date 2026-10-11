@@ -33,6 +33,10 @@ def run():
                     content='<html><title>Login</title><body><input type="password"><button>Login</button></body></html>'
                     if 'luogu.com.cn/problem/' in str(request.Uri):
                         content='<html><title>Luogu problem</title><script id="lentille-context" type="application/json">{"template":"problem.show","user":null}</script><body>请登录后提交</body></html>'
+                elif 'luogu.com.cn/problem/' in str(request.Uri) and request.Headers.Contains('x-lentille-request'):
+                    content=json.dumps({'template':'problem.show','user':{'uid':12345},'data':{'problem':{'pid':'P1063','acceptLanguages':[12]}}});headers='Content-Type: application/json'
+                elif '/_lfe/config' in str(request.Uri):
+                    content=json.dumps({'route':{'api.problem.submit':'/fe/api/problem/submit/{pid}'},'CodeLanguage':{'12':{'id':12,'name':'C++17','canO2':True}}});headers='Content-Type: application/json'
                 elif '/fe/api/problem/submit/P1063' in str(request.Uri):
                     content='3001';headers='Content-Type: application/json'
                 elif '/record/3001' in str(request.Uri):
@@ -72,7 +76,7 @@ const savedFetch=window.fetch.bind(window);
 document.querySelector('form').onsubmit=async event=>{{event.preventDefault();const data=await savedFetch('{endpoint}',{{method:'POST',credentials:'include',body:new URLSearchParams({{questionId:'11604979',content:document.querySelector('textarea').value,submitType:1,userId:12345,appId:6,tagId:4,token:'fixture-only-token'}})}}).then(r=>r.json());{status_call}}};
 </script></body></html>'''
                     if 'luogu.com.cn/problem/' in str(request.Uri):
-                        content='''<html><title>Luogu submit</title><script id="lentille-context" type="application/json">{"template":"problem.show","user":{"uid":12345}}</script><body><form><select name="lang"><option value="12">C++17</option></select><div class="cm-editor"><div class="cm-content"></div></div><button type="submit">提交代码</button></form><script>
+                        content='''<html><title>Luogu submit</title><meta name="csrf-token" content="fixture-csrf"><script id="lentille-context" type="application/json">{"template":"problem.show","user":{"uid":12345},"data":{"problem":{"pid":"P1063","acceptLanguages":[12]}}}</script><body><form><select name="lang"><option value="12">C++17</option></select><div class="cm-editor"><div class="cm-content"></div></div><button type="submit">提交代码</button></form><script>
 let code='';const doc={length:0};document.querySelector('.cm-content').cmView={view:{state:{doc},dispatch(change){code=change.changes.insert;doc.length=code.length}}};
 const savedFetch=fetch.bind(window);document.querySelector('form').onsubmit=async event=>{event.preventDefault();await savedFetch('/fe/api/problem/submit/P1063',{method:'POST',body:JSON.stringify({lang:12,code})}).then(r=>r.json());};
 </script></body></html>'''
