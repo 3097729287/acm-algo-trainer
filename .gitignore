@@ -5,8 +5,6 @@ __pycache__/
 node_modules/
 frontend/dist/
 frontend/tests/screenshots/
-**/.wrangler/
-**/.dev.vars*
 .vscode/
 .idea/
 .claude/

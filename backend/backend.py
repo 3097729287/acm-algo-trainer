@@ -9,6 +9,7 @@ import os
 from pathlib import Path
 import re
 import secrets
+import socket
 import sys
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -53,7 +54,7 @@ class Handler(BaseHTTPRequestHandler):
     def do_OPTIONS(self):
         try:
             self.local_request()
-            if urlsplit(self.path).path in ('/api/browser/exchange', '/api/browser/register', '/api/browser/queue'):
+            if urlsplit(self.path).path in ('/api/browser/exchange', '/api/browser/register', '/api/browser/queue', '/api/browser/session'):
                 from browser_bridge import EXTENSION_ORIGIN
                 if self.headers.get('Origin') != EXTENSION_ORIGIN:
                     raise APIError(403, '请求来源不匹配')
@@ -123,7 +124,15 @@ class Handler(BaseHTTPRequestHandler):
                 if not isinstance(body, dict):
                     raise APIError(400, "请求必须是 JSON 对象")
                 training = self.server.training
-                if path == "/api/status":
+                if path == "/api/software-update/check":
+                    value = self.server.software_updates.check()
+                elif path == "/api/software-update/settings":
+                    value = self.server.software_updates.configure(body)
+                elif path == "/api/software-update/download":
+                    value = self.server.software_updates.download()
+                elif path == "/api/software-update/install":
+                    value = self.server.software_updates.install()
+                elif path == "/api/status":
                     with training.lock:
                         training.assert_solution_unlocked(body.get("id"))
                         value = store.update(body)
@@ -223,6 +232,8 @@ class Handler(BaseHTTPRequestHandler):
                     self.server.training.mark_solution_seen(identity)
                     solution["lectures"] = self.server.lectures.for_problem(identity)
                 self.send_json(200, solution)
+            elif path == "/api/software-update":
+                self.send_json(200, self.server.software_updates.snapshot())
             elif path == "/api/workspace":
                 self.send_json(200, self.server.training.workspace())
             elif path == "/api/hub":
@@ -317,7 +328,7 @@ class Handler(BaseHTTPRequestHandler):
         if path == '/api/browser/setup' and not writing:
             self.send_json(200, {'extensionPath': str(getattr(self.server, 'browser_extension_path', ''))})
             return
-        if path not in ('/api/browser/exchange', '/api/browser/register', '/api/browser/queue') or not writing:
+        if path not in ('/api/browser/exchange', '/api/browser/register', '/api/browser/queue', '/api/browser/session') or not writing:
             raise APIError(404, '没有找到这个接口')
         # Separate per-job capability: the browser never receives the app token.
         origin = self.headers.get('Origin')
@@ -349,8 +360,15 @@ class Handler(BaseHTTPRequestHandler):
             value = bridge.register_browser(body)
         elif path == '/api/browser/queue':
             value = bridge.browser_queue(body, self.headers.get('X-TB-Browser', ''))
+        elif path == '/api/browser/session':
+            value = bridge.sync_browser(body, self.headers.get('X-TB-Browser', ''))
         else:
-            value = bridge.exchange(body, self.headers.get('X-TB-Browser', ''))
+            if bridge.session_store is not None and not body.get('claim'):
+                with bridge.lock:
+                    bridge._authenticate(body.get('sessionId'), self.headers.get('X-TB-Browser', ''))
+                value = {'stop': True, 'status': 'closed'}
+            else:
+                value = bridge.exchange(body, self.headers.get('X-TB-Browser', ''))
         self.send_json(200, value)
 
     def static(self, path):
@@ -378,6 +396,17 @@ class Handler(BaseHTTPRequestHandler):
 
 
 class LocalServer(ThreadingHTTPServer):
+    # On Windows, SO_REUSEADDR permits two live listeners on the same port and
+    # arbitrarily routes requests between versions. Keep the desktop endpoint
+    # exclusive; repeated launches must never receive another app's session.
+    allow_reuse_address = os.name != 'nt'
+    allow_reuse_port = False
+
+    def server_bind(self):
+        if os.name == 'nt':
+            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 1)
+        super().server_bind()
+
     def register_official_session(self, identity, session, receipt):
         with self.official_session_lock:
             self.official_sessions.setdefault(identity, session)
@@ -466,6 +495,9 @@ class LocalServer(ThreadingHTTPServer):
 
     def server_close(self):
         super().server_close()
+        updates = getattr(self, "software_updates", None)
+        if updates is not None:
+            updates.close()
         extensions = getattr(getattr(self, "store", None), "extensions", None)
         training = getattr(self, "training", None)
         try:
@@ -510,6 +542,8 @@ def create_server(port=0, data_file=None, data_root=None, dist_dir=None, history
         server.desktop_state = None
         server.desktop_fullscreen = None
         server.state_dir = Path(training_file).parent
+        from software_updates import SoftwareUpdates
+        server.software_updates = SoftwareUpdates(server.state_dir)
         from knowledge import KnowledgeAnalysisCache
         server.store.knowledge_analysis = KnowledgeAnalysisCache(server.state_dir / "tb-knowledge-analysis.json")
         server.translation = translation

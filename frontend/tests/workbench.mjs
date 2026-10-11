@@ -22,6 +22,31 @@ try {
   await editor.waitFor({ state: 'visible' });
   await page.waitForFunction(() => document.querySelector('.cm-content')?.getAttribute('contenteditable') === 'true');
   assert.ok(await page.locator('.wb-statement .katex').count() >= 3);
+  const fontSize = page.getByRole('combobox', { name: '题面字号', exact: true });
+  const readingMetrics = () => page.evaluate(() => {
+    const size = selector => parseFloat(getComputedStyle(document.querySelector(selector)).fontSize);
+    return { prose: size('.wb-statement p'), math: size('.wb-statement .katex'), sample: size('.wb-statement pre'), editor: size('.cm-content'), toolbar: size('.wb-toolbar') };
+  });
+  const beforeSize = await readingMetrics();
+  await fontSize.selectOption('24');
+  const enlarged = await readingMetrics();
+  assert.equal(enlarged.prose, 24);
+  assert.ok(enlarged.math > beforeSize.math && enlarged.sample > beforeSize.sample, 'formulas and samples follow the reading size');
+  assert.equal(enlarged.editor, beforeSize.editor, 'reading size does not enlarge code');
+  assert.equal(enlarged.toolbar, beforeSize.toolbar);
+  await page.getByRole('button', { name: '放大题面字号', exact: true }).click();
+  assert.equal(await fontSize.inputValue(), '26');
+  await page.getByRole('button', { name: '缩小题面字号', exact: true }).click();
+  assert.equal(await fontSize.inputValue(), '24');
+  await page.reload();
+  await editor.waitFor({ state: 'visible' });
+  assert.equal(await fontSize.inputValue(), '24', 'reading size survives reopening');
+  await fontSize.selectOption('32');
+  assert.equal(await page.getByRole('button', { name: '放大题面字号', exact: true }).isDisabled(), true);
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+  await fontSize.selectOption('14');
+  assert.equal(await page.getByRole('button', { name: '缩小题面字号', exact: true }).isDisabled(), true);
+  await fontSize.selectOption('24');
   assert.equal(await page.locator('.wb-console').count(), 0, 'console stays collapsed initially');
   assert.ok(await page.locator('.cm-line > span').count() > 0, 'C++ syntax uses colored tokens');
   await editor.fill('fori');
@@ -79,6 +104,7 @@ try {
   await page.getByRole('button', { name: '中文', exact: true }).click();
   await page.getByText('机器翻译 · Fixture provider', { exact: true }).waitFor();
   assert.ok(await page.locator('.wb-statement').textContent().then(text => text.includes('A 的中文题面')));
+  assert.equal(await page.locator('.wb-statement p').evaluate(node => parseFloat(getComputedStyle(node).fontSize)), 24, 'Chinese uses the same reading size');
   assert.equal(await page.evaluate(() => 'code' in window.workbenchFixture.calls.filter(call => call.path === 'problem/translate').at(-1).body), false, 'translation sends only problem identity');
   await page.getByRole('button', { name: '原文', exact: true }).click();
   assert.ok(await page.locator('.wb-statement').textContent().then(text => text.includes('给出两个整数')));
@@ -188,6 +214,7 @@ try {
 
   await page.evaluate(() => window.workbenchFixture.changeContest({ id: 'mock1', status: 'running', slots: [{ id: 'A', letter: 'A' }] }));
   await page.waitForFunction(() => document.querySelector('.wb-letter')?.textContent === 'A' && document.querySelector('.cm-content')?.getAttribute('contenteditable') === 'true');
+  assert.equal(await fontSize.inputValue(), '24', 'mock practice uses the saved reading size');
   assert.equal(await page.getByRole('button', { name: '题解', exact: true }).count(), 0, 'mock never offers solutions while running');
   assert.equal(await page.getByRole('button', { name: '官方提交', exact: true }).count(), 0, 'mock never opens official submission');
   assert.notEqual(await page.evaluate(() => window.workbenchFixture.readCode()), 'reopened A final code', 'mock draft is separate from solo draft');

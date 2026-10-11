@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
+from contextvars import ContextVar
 import datetime as dt
 import hashlib
 import inspect
@@ -18,6 +19,7 @@ UTC = dt.timezone.utc
 FAILURES = {"WA", "TLE", "MLE", "RE", "CE", "OLE", "ERROR"}
 VERDICTS = FAILURES | {"AC", "SAMPLE_PASS", "RUN_OK", "QUEUED", "RUNNING"}
 MAX_CODE = 65_536
+_LIBRARY_VIEW = ContextVar('tb_request_library', default=None)
 
 
 class ServiceError(Exception):
@@ -160,7 +162,23 @@ class TrainingService:
                 raise
 
     def _library(self):
+        snapshot = _LIBRARY_VIEW.get()
+        if snapshot is not None and snapshot[0] is self:
+            return list(snapshot[1])
         return self.store.data()["rows"]
+
+    @contextmanager
+    def _library_view(self):
+        """Reuse one fresh catalog during this call, never across requests or threads."""
+        snapshot = _LIBRARY_VIEW.get()
+        token = None
+        if snapshot is None or snapshot[0] is not self:
+            token = _LIBRARY_VIEW.set((self, self._library()))
+        try:
+            yield
+        finally:
+            if token is not None:
+                _LIBRARY_VIEW.reset(token)
 
     def _row(self, identity):
         if not isinstance(identity, str) or not identity or len(identity) > 512:
@@ -339,11 +357,14 @@ class TrainingService:
                 connection.execute("INSERT INTO submissions(id,problem_id,contest_id,mode,code,submitted_at,finished_at,verdict,scope,message,solution_seen) VALUES(?,?,NULL,'submit',?,?,?,?, 'official',?,?)",
                     (identity,row['id'],self._code(session['code']),submitted,finished,verdict,'原站确认提交 #'+remote,int(seen)))
                 self._recompute_progress(connection,row['id'])
-            return self._submission(self.connection.execute('SELECT * FROM submissions WHERE id=?',(identity,)).fetchone())
+            result = self._submission(self.connection.execute('SELECT * FROM submissions WHERE id=?',(identity,)).fetchone())
+        if verdict == 'AC':
+            self.leaderboard.invalidate()
+        return result
 
     def insights(self, hub=None):
         from insights import build_insights
-        with self.lock:
+        with self.lock, self._library_view():
             workspace = self.workspace()
             records = [dict(record) for record in self.connection.execute("SELECT * FROM submissions WHERE mode='submit' AND finished_at IS NOT NULL ORDER BY submitted_at,rowid")]
             history = [dict(record) for record in self.connection.execute("SELECT * FROM training")]
@@ -468,9 +489,42 @@ class TrainingService:
         return self.profile()
 
     def _ranking_events(self, endpoint):
-        # 2026-10-10：远端 Worker 只接受旧的 scope=local-reviewed，本地已改为官方 AC 口径。
-        # 不再把官方回执冒标成 local-reviewed 上传；在新官方协议落地前不发任何本地默认上传。
-        return []
+        from progression import official_reward_evidence
+        from insights import canonical_url
+        with self.lock:
+            records = [dict(row) for row in self.connection.execute(
+                "SELECT * FROM submissions WHERE mode='submit' AND verdict='AC' AND scope='official' AND finished_at IS NOT NULL")]
+            rows = {row["id"]: dict(row) for row in self._library()}
+            for record in records:
+                identity = record["problem_id"]
+                if identity not in rows:
+                    try:
+                        rows[identity] = dict(self._row(identity))
+                    except ServiceError as error:
+                        if error.status != 404:
+                            raise
+                row = rows.get(identity)
+                if row is not None and not canonical_url(row.get("url")):
+                    try:
+                        row["url"] = self._asset_library().problem(identity).get("url")
+                    except (KeyError, ServiceError):
+                        pass
+            receipts = dict(self.connection.execute(
+                "SELECT event_id,accepted_at FROM ranking_receipts WHERE endpoint=?", (endpoint,)))
+            user = self._ranking_profile()["user_id"]
+            events = []
+            # Only persisted official submission receipts have a reliable date.
+            # Public account summaries without a receipt are not fabricated into today's AC.
+            for item in official_reward_evidence(list(rows.values()), records):
+                event_id = hashlib.sha256(("official-v1\0" + user + "\0" + item["problemKey"]).encode()).hexdigest()
+                previous = parse_time(receipts[event_id]) if event_id in receipts else None
+                if previous and previous <= item["timestamp"]:
+                    continue
+                difficulty = item["difficulty"]
+                events.append({"eventId": event_id, "problemKey": item["problemKey"],
+                               "acceptedAt": item["acceptedAt"], "scope": "official",
+                               "difficulty": difficulty if difficulty is not None and 0 <= difficulty <= 5000 else None})
+            return events
 
     def _ranking_receipts(self, endpoint, events):
         with self._write() as connection:

@@ -23,7 +23,7 @@ import public_platforms as P
 from version import VERSION
 LOG=logging.getLogger('tb.integrations')
 HOSTS={'codeforces.com','atcoder.jp','ac.nowcoder.com','www.luogu.com.cn','api.github.com','github.com','kenkoooo.com'}
-KNOWN_REPO='3097729287/acm-agent-workflow'
+KNOWN_REPO='3097729287/acm-algo-trainer'
 DEFAULTS={'githubRepo':KNOWN_REPO,'autoSync':True,'intervalHours':6,'minDifficulty':0,'maxDifficulty':10000,'includePrereleases':True,'accounts':{p:'' for p in P.LABELS}}
 
 def now():return dt.datetime.now(dt.timezone.utc)
@@ -170,6 +170,7 @@ class IntegrationService:
             self.state['collectionPolicy']='all-levels-v1'
         self.state['settings']['accounts']={**DEFAULTS['accounts'],**self.state['settings'].get('accounts',{})}
         if legacy_source and not self.state['settings']['githubRepo']:self.state['settings']['githubRepo']=KNOWN_REPO
+        if self.state['settings']['githubRepo']=='3097729287/acm-agent-workflow':self.state['settings']['githubRepo']=KNOWN_REPO
         self.state['githubSourceInitialized']=True
         from paths import resource
         seed=json.loads(resource('public-problem-metadata.json').read_text(encoding='utf-8'))

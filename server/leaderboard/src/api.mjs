@@ -1,5 +1,7 @@
-const VERSION = '0.6.0';
-const NOTICE = '排行统计客户端报告的首次本地审核通过题数，样例通过与重复题不计入；暂不提供防作弊认证。';
+import { EventConflict } from './errors.mjs';
+
+const VERSION = '0.10.0';
+const NOTICE = '排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const hashPattern = /^[a-f0-9]{64}$/;
 class ApiError extends Error {
@@ -64,7 +66,7 @@ function credentials(request) {
 
 async function authenticate(request, env) {
   const auth = credentials(request);
-  const user = await env.DB.prepare('SELECT * FROM users WHERE user_id=?').bind(auth.userId).first();
+  const user = await env.STORE.findUser(auth.userId);
   if (!user || !equalHash(user.token_hash, await digest(auth.token))) throw new ApiError(401, '安装身份验证失败');
   return user;
 }
@@ -72,9 +74,8 @@ async function authenticate(request, env) {
 async function limit(env, bucket, maximum, windowSeconds, now) {
   const window = Math.floor(now / windowSeconds);
   const key = bucket + ':' + window;
-  const row = await env.DB.prepare(`INSERT INTO request_limits(bucket,count,expires_at) VALUES(?,1,?)
-    ON CONFLICT(bucket) DO UPDATE SET count=count+1 RETURNING count`).bind(key, (window + 1) * windowSeconds).first();
-  if (row.count > maximum) throw new ApiError(429, '请求过于频繁，请稍后重试');
+  const count = await env.STORE.incrementLimit(key, (window + 1) * windowSeconds);
+  if (count > maximum) throw new ApiError(429, '请求过于频繁，请稍后重试');
 }
 
 function bounds(period, now) {
@@ -93,22 +94,16 @@ function rankingRow(row) {
 async function leaderboard(user, env, period, now) {
   if (!['daily', 'weekly', 'total'].includes(period)) throw new ApiError(400, '排行周期无效');
   const range = bounds(period, now);
-  const where = period === 'total' ? '' : 'WHERE accepted_day>=? AND accepted_day<?';
-  const parameters = period === 'total' ? [] : [range.start, range.end];
-  const cte = `WITH counts AS (SELECT user_id,COUNT(*) AS count FROM ac_events ${where} GROUP BY user_id),
-    ranked AS (SELECT users.user_id,users.nickname,counts.count,
-      RANK() OVER(ORDER BY counts.count DESC) AS rank FROM counts JOIN users USING(user_id))`;
-  const rows = await env.DB.prepare(cte + ' SELECT * FROM ranked ORDER BY count DESC,user_id LIMIT 100').bind(...parameters).all();
-  const own = await env.DB.prepare(cte + ' SELECT * FROM ranked WHERE user_id=?').bind(...parameters, user.user_id).first();
+  const { rows, own } = await env.STORE.rankings(user.user_id, period === 'total' ? null : range);
   return { period, date: range.day, timezone: 'Asia/Shanghai', startDate: period === 'total' ? null : range.start,
-    endDate: period === 'total' ? null : range.end, entries: rows.results.map(rankingRow),
+    endDate: period === 'total' ? null : range.end, entries: rows.map(rankingRow),
     self: own ? rankingRow(own) : { rank: null, userId: user.user_id, nickname: user.nickname, displayName: user.nickname + ' #' + user.user_id, count: 0 }, notice: NOTICE };
 }
 
 function event(item, now) {
   const fields = ['eventId', 'problemKey', 'acceptedAt', 'difficulty', 'scope'];
   if (!item || typeof item !== 'object' || Array.isArray(item) || Object.keys(item).some(key => !fields.includes(key)) ||
-      !hashPattern.test(item.eventId || '') || !hashPattern.test(item.problemKey || '') || item.scope !== 'local-reviewed') throw new ApiError(400, '通过记录字段无效');
+      !hashPattern.test(item.eventId || '') || !hashPattern.test(item.problemKey || '') || item.scope !== 'official') throw new ApiError(400, '通过记录字段无效');
   if (typeof item.acceptedAt !== 'string' || item.acceptedAt.length > 40 || !/T.*(?:Z|[+-]\d{2}:\d{2})$/.test(item.acceptedAt)) throw new ApiError(400, '通过时间无效');
   const time = Date.parse(item.acceptedAt);
   if (!Number.isFinite(time) || time < Date.parse('2000-01-01T00:00:00Z') || time > now + 5 * 60 * 1000) throw new ApiError(400, '通过时间超出有效范围');
@@ -118,25 +113,30 @@ function event(item, now) {
 
 export async function handle(request, env) {
   try {
-    if (!env.DB) throw new ApiError(503, '排行榜数据库尚未配置');
+    if (!env.STORE) throw new ApiError(503, '排行榜数据库尚未配置');
     const url = new URL(request.url), path = url.pathname.replace(/\/$/, '');
+    if (env.READ_ONLY === '1' && !['GET', 'HEAD'].includes(request.method)) {
+      return json({ error: '排行榜正在迁移，请稍后重试' }, 503, { 'Retry-After': '60' });
+    }
     const now = env.TEST_NOW == null ? Date.now() : Number(env.TEST_NOW);
     const timestamp = new Date(now).toISOString();
-    if (path === '/v1/health' && request.method === 'GET') return json({ ok: true, version: VERSION });
+    if (path === '/v1/health' && request.method === 'GET') {
+      await env.STORE.health();
+      return json({ ok: true, version: VERSION, eventScope: 'official' });
+    }
     if (path === '/v1/profile/register' && request.method === 'POST') {
       const auth = credentials(request), value = await body(request, ['userId', 'nickname']);
       if (value.userId !== auth.userId) throw new ApiError(403, '只能注册自己的安装身份');
       const tokenHash = await digest(auth.token);
-      const existing = await env.DB.prepare('SELECT * FROM users WHERE user_id=?').bind(auth.userId).first();
+      const existing = await env.STORE.findUser(auth.userId);
       if (existing) {
         if (!equalHash(existing.token_hash, tokenHash)) throw new ApiError(401, '安装身份验证失败');
         return json({ userId: existing.user_id, nickname: existing.nickname, createdAt: existing.created_at });
       }
-      const ipHash = await digest((env.RATE_LIMIT_SALT || 'tb-ranking-registration') + ':' + (request.headers.get('CF-Connecting-IP') || 'unknown'));
+      const ipHash = await digest((env.RATE_LIMIT_SALT || 'tb-ranking-registration') + ':' + (request.headers.get('X-TB-Client-IP') || 'unknown'));
       await limit(env, 'register-minute:' + ipHash, 10, 60, Math.floor(now / 1000));
       await limit(env, 'register-day:' + ipHash, Math.min(1000, Math.max(1, Number(env.REGISTRATIONS_PER_IP_DAY) || 100)), 86400, Math.floor(now / 1000));
-      await env.DB.prepare('INSERT OR IGNORE INTO users(user_id,nickname,token_hash,created_at,updated_at) VALUES(?,?,?,?,?)')
-        .bind(auth.userId, nickname(value.nickname), tokenHash, timestamp, timestamp).run();
+      await env.STORE.createUser(auth.userId, nickname(value.nickname), tokenHash, timestamp);
       const user = await authenticate(request, env);
       return json({ userId: user.user_id, nickname: user.nickname, createdAt: user.created_at }, 201);
     }
@@ -145,38 +145,22 @@ export async function handle(request, env) {
     if (path === '/v1/profile' && request.method === 'GET') return json({ userId: user.user_id, nickname: user.nickname, displayName: user.nickname + ' #' + user.user_id, createdAt: user.created_at });
     if (path === '/v1/profile' && request.method === 'PUT') {
       const value = await body(request, ['nickname']), name = nickname(value.nickname);
-      await env.DB.prepare('UPDATE users SET nickname=?,updated_at=? WHERE user_id=?').bind(name, timestamp, user.user_id).run();
+      await env.STORE.updateNickname(user.user_id, name, timestamp);
       return json({ userId: user.user_id, nickname: name, displayName: name + ' #' + user.user_id });
     }
     if (path === '/v1/events' && request.method === 'POST') {
       const value = await body(request, ['events']);
       if (!Array.isArray(value.events) || value.events.length < 1 || value.events.length > 100) throw new ApiError(400, '每次须提交 1–100 条通过记录');
       const events = value.events.map(item => event(item, now));
-      const statements = events.map(item => env.DB.prepare(`INSERT INTO ac_events(user_id,problem_key,event_id,accepted_at,accepted_day,difficulty,received_at)
-        VALUES(?,?,?,?,?,?,?) ON CONFLICT(user_id,problem_key) DO UPDATE SET
-        accepted_at=MIN(ac_events.accepted_at,excluded.accepted_at),
-        accepted_day=CASE WHEN excluded.accepted_at<ac_events.accepted_at THEN excluded.accepted_day ELSE ac_events.accepted_day END,
-        difficulty=COALESCE(ac_events.difficulty,excluded.difficulty)`)
-        .bind(user.user_id, item.problemKey, item.eventId, item.acceptedAt, item.day, item.difficulty ?? null, timestamp));
-      try { await env.DB.batch(statements); }
-      catch (error) {
-        if (/UNIQUE constraint/i.test(String(error))) throw new ApiError(409, '通过记录编号与原题不匹配');
-        throw error;
-      }
-      return json({ processed: events.length, scope: 'local-reviewed', notice: NOTICE });
+      await env.STORE.recordEvents(user.user_id, events, timestamp);
+      return json({ processed: events.length, scope: 'official', notice: NOTICE });
     }
     if (path === '/v1/leaderboard' && request.method === 'GET') return json(await leaderboard(user, env, url.searchParams.get('period') || 'daily', now));
     throw new ApiError(404, '没有找到这个接口');
   } catch (error) {
+    if (error instanceof EventConflict) return json({ error: '通过记录编号与原题不匹配' }, 409);
     if (error instanceof ApiError) return json({ error: error.message }, error.status, error.status === 429 ? { 'Retry-After': '60' } : {});
-    // Do not log tokens, metadata bodies or D1 statements with bound parameters.
+    // Do not log tokens, metadata bodies or SQL with bound parameters.
     return json({ error: '排行榜服务暂时无法完成请求' }, 503);
   }
 }
-
-export default {
-  fetch: handle,
-  async scheduled(controller, env) {
-    await env.DB.prepare('DELETE FROM request_limits WHERE expires_at<?').bind(Math.floor(Date.now() / 1000)).run();
-  },
-};

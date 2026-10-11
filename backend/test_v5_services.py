@@ -67,8 +67,10 @@ class DailyMissionTests(unittest.TestCase):
         self.accept("fixture::B", submission_id=7901)
         self.service.remove_training("fixture::A")
         self.assertEqual(self.service.daily_tasks()["tasks"][1]["progress"], 1)
-        # 排行榜默认协议已停用，不再产生旧 local-reviewed 事件。
-        self.assertEqual(len(self.service._ranking_events("fixture")), 0)
+        # 同题别名和移出训练都不改变官方首次 AC 的去重结果。
+        events = self.service._ranking_events("fixture")
+        self.assertEqual(len(events), 1)
+        self.assertEqual(events[0]["scope"], "official")
         self.clock.advance(minutes=2)
         self.assertEqual(self.service.daily_tasks()["date"], "2026-10-09")
         self.assertEqual(self.service.daily_tasks()["tasks"][0]["progress"], 0)
@@ -185,7 +187,7 @@ class IdentityAndClientTests(unittest.TestCase):
             with self.assertRaises(ServiceError): self.service.configure_profile({"endpoint": endpoint})
         self.assertEqual(self.service.leaderboard.rankings()["entries"], [])
 
-    def test_real_http_worker_and_sqlite_registration_metadata_only_and_auto_sync(self):
+    def test_real_http_api_and_sqlite_registration_metadata_only_and_auto_sync(self):
         script = Path(__file__).parent.parent / "server" / "leaderboard" / "tests" / "local-server.mjs"
         process = subprocess.Popen(["node", str(script)], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
         try:
@@ -204,9 +206,7 @@ class IdentityAndClientTests(unittest.TestCase):
                 if result["status"] == "ready": break
                 if result["status"] == "error": self.fail(result["error"])
                 time.sleep(.02)
-            # 2026-10-10：默认旧 local-reviewed 榜协议停用，本地不再上传事件；
-            # 服务仍连通、元数据隔离仍成立，只是 self.count 为 0。
-            self.assertEqual(result["self"]["count"], 0)
+            self.assertEqual(result["self"]["count"], 1)
             self.assertEqual(result["self"]["nickname"], "协议测试")
             self.assertEqual(self.service._ranking_events(endpoint), [])
             self.service.configure_profile({"nickname": "新的昵称"})

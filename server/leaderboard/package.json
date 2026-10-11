@@ -2,13 +2,13 @@
   "name": "tb-shared-leaderboard",
   "private": true,
   "type": "module",
-  "version": "0.6.0",
+  "version": "0.10.0",
   "scripts": {
-    "test": "node --test tests/worker.test.mjs",
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy"
+    "test": "node --test tests/api.test.mjs tests/server.test.mjs",
+    "test:mysql": "node --test tests/mysql.test.mjs",
+    "start": "node src/server.mjs"
   },
-  "devDependencies": {
-    "wrangler": "^4.0.0"
+  "dependencies": {
+    "mysql2": "^3.0.0"
   }
 }

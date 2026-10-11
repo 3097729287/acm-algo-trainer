@@ -49,10 +49,11 @@ return table?doc:null;
 }
 function receiptValue(receipt){return {status:receipt.verdict==='JUDGING'?'judging':'finished',submissionId:receipt.id,...(receipt.verdict==='JUDGING'?{}:{verdict:receipt.verdict}),message:receipt.verdict==='JUDGING'?'原站已接收，正在评测。':'本次提交结果：'+receipt.verdict};}
 function inspect(){
-if(login()||luoguLoggedOut()||(ctx.platform==='牛客'&&window.globalInfo?.ownerId!=null&&Number(window.globalInfo.ownerId)<=0))return {status:'needs_login',message:'请在浏览器登录原站，完成后回到 TB 点击提交。'};
+if(login()||luoguLoggedOut()||lgReceipt?.loggedOut()||(ctx.platform==='牛客'&&window.globalInfo?.ownerId!=null&&Number(window.globalInfo.ownerId)<=0))return {status:'needs_login',message:'请在浏览器登录原站，完成后回到 TB 点击提交。'};
 if(verification())return {status:'needs_verification',message:'请在浏览器完成原站验证，然后回到 TB 查看状态。'};
 if(ncReceipt?.receipt)return ncReceipt.receipt;
 if(lgReceipt?.receipt)return lgReceipt.receipt;
+if(lgReceipt&&!ctx.attempted)lgReceipt.prepare();
 if(ctx.attempted&&!ctx.submissionId){
 const errors=[...document.querySelectorAll('.el-message--error,.el-notification.error,.ivu-message-error,.ant-message-error')].filter(visible).map(e=>e.textContent.trim()).filter(Boolean);
 if(errors.length)return {status:'error',attempted:false,message:'原站未受理代码：'+errors.join('；').slice(0,200)};
@@ -62,7 +63,7 @@ const errors=[...document.querySelectorAll('span.error,.error-message,.submit-er
 if(errors.length)return {status:'error',attempted:false,message:'Codeforces 未受理代码：'+errors.join('；').slice(0,200)};
 }
 if(ctx.attempted&&ctx.baselineKnown){const baseline=new Set(ctx.baseline||[]);const receipt=receipts().find(r=>newerReceipt(r.id,baseline)&&(!ctx.submissionId||r.id===ctx.submissionId));if(receipt?.verdict)return receiptValue(receipt);}
-return (lgReceipt?.hasSubmitApi()||hasEditor())?{status:ctx.attempted?'submitted':'ready',message:ctx.attempted?'已发送原站提交请求，正在等待受理编号。':'后台连接已就绪。'}:{status:ctx.attempted?'submitted':'loading',message:ctx.attempted?'尚未收到原站受理编号，正在后台查询。':'正在准备原站提交接口。'};
+return (ctx.platform==='洛谷'?lgReceipt?.hasSubmitApi():hasEditor())?{status:ctx.attempted?'submitted':'ready',message:ctx.attempted?'已发送原站提交请求，正在等待受理编号。':'后台连接已就绪。'}:{status:ctx.attempted?'submitted':'loading',message:ctx.attempted?'尚未收到原站受理编号，正在后台查询。':'正在准备原站提交接口。'};
 }
 async function submit(){
 const state=inspect();if(['needs_login','needs_verification'].includes(state.status))return send(state);

@@ -6,6 +6,25 @@ export function difficultyBand(value) {
   return rating < 1200 ? "intro" : rating < 1500 ? "basic" : rating < 1800 ? "intermediate" : rating < 2100 ? "challenge" : "advanced";
 }
 
+// Definitions belong to the whole document. Each separately rendered excerpt
+// must retain them, even when the definition was below a different heading.
+function referenceDefinitions(markdown) {
+  const lines = String(markdown).split('\n'), result = [];
+  let fence = null;
+  for (let i = 0; i < lines.length; i++) {
+    const marker = lines[i].match(/^ {0,3}(`{3,}|~{3,})(.*)$/);
+    if (marker) {
+      if (!fence) fence = marker[1];
+      else if (marker[1][0] === fence[0] && marker[1].length >= fence.length && !marker[2].trim()) fence = null;
+      continue;
+    }
+    if (fence || !/^ {0,3}\[(?:\\.|[^\\\]])+\]:\s*\S/.test(lines[i])) continue;
+    result.push(lines[i]);
+    if (/^\s+(?:"[^"\n]*"|'[^'\n]*'|\([^\n]*\))\s*$/.test(lines[i + 1] || '')) result.push(lines[++i]);
+  }
+  return result.length ? '\n\n' + result.join('\n') : '';
+}
+
 export function briefSolution(markdown, difficulty) {
   if (typeof difficulty !== 'number' || difficulty > 1000 || difficulty < 0) return null;
   const lines = String(markdown || '').split('\n'), headings = [];
@@ -29,7 +48,7 @@ export function briefSolution(markdown, difficulty) {
   const intent = paragraph(section(/^题意/)), idea = paragraph(section(/^(?:思路|做法|算法)/));
   const code = section(/(?:参考代码|代码实现|^代码)/).match(/(```(?:cpp|c\+\+|cxx)[^\n]*\n[\s\S]*?\n```)/i)?.[1];
   if (!intent || !idea || !code || intent.length + idea.length > 1200) return null;
-  return `### 题意\n\n${intent}\n\n### 思路提要\n\n${idea}\n\n### 参考代码\n\n${code}`;
+  return `### 题意\n\n${intent}\n\n### 思路提要\n\n${idea}\n\n### 参考代码\n\n${code}` + referenceDefinitions(markdown);
 }
 
 export function contestTime(row) {
@@ -65,10 +84,11 @@ export function compareContestNewest(a, b) {
 // unchanged. Ignore heading-like text inside fenced C++/shell snippets.
 export function solutionBlocks(markdown = "", lectures = []) {
   const lines = String(markdown).split("\n"), blocks = [];
+  const definitions = referenceDefinitions(markdown);
   let buffered = [], lesson = null, fence = null;
   const flush = () => {
     if (!buffered.length) return;
-    blocks.push(lesson ? { type: "lecture", markdown: buffered.join("\n"), heading: lesson.heading, lecture: lesson.lecture } : { type: "markdown", markdown: buffered.join("\n") });
+    blocks.push(lesson ? { type: "lecture", markdown: buffered.join("\n") + definitions, heading: lesson.heading, lecture: lesson.lecture } : { type: "markdown", markdown: buffered.join("\n") + definitions });
     buffered = [];
   };
   for (const line of lines) {

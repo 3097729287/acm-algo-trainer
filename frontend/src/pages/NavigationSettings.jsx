@@ -3,7 +3,8 @@ import { ArrowDown, ArrowUp, Layers, RotateCcw } from 'lucide-react';
 export function orderedPages(pages, preferences) {
   const order = Array.isArray(preferences.navOrder) ? preferences.navOrder : [];
   const groups={...(preferences.navGroups||{})};
-  for(const [ids,fallback] of [[['mine','today'],'训练与待办'],[['growth','activity','goals'],'成长与能力']]) {
+  if (groups.mine?.trim() === '训练与待办') delete groups.mine;
+  for(const [ids,fallback] of [[['growth','activity','goals'],'成长与能力']]) {
     const group=ids.map(id=>groups[id]?.trim()).find(Boolean)||fallback;
     ids.forEach(id=>{groups[id]=group;});
   }

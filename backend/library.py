@@ -145,6 +145,17 @@ class LibraryDatabase:
                     remember('problem_lectures', identity, checksum)
                 elif existing == checksum:
                     remember('problem_lectures', identity, checksum)
+            seed_lecture_ids = {row['id'] for row in rows['lectures']}
+            obsolete = db.execute("SELECT item_id,digest FROM bundled_items WHERE table_name='lectures'").fetchall()
+            for old in obsolete:
+                identity = old['item_id']
+                if identity in seed_lecture_ids:
+                    continue
+                current = db.execute('SELECT id,content,digest FROM lectures WHERE id=?', (identity,)).fetchone()
+                linked = db.execute('SELECT 1 FROM problem_lectures WHERE lecture_id=? LIMIT 1', (identity,)).fetchone()
+                if current and not linked and digest(dict(current)) == old['digest']:
+                    db.execute('DELETE FROM lectures WHERE id=?', (identity,))
+                    db.execute("DELETE FROM bundled_items WHERE table_name='lectures' AND item_id=?", (identity,))
             for key, value in {'bundled_sha256': fingerprint, 'content_version': '0.6.0'}.items():
                 db.execute('INSERT INTO library_meta VALUES (?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value', (key, value))
             db.execute("UPDATE library_meta SET value=CAST(value AS INTEGER)+1 WHERE key='revision'")

@@ -10,7 +10,6 @@ import {
 import {
   BookOpen,
   Library,
-  CalendarDays,
   Flag,
   History,
   Network,
@@ -57,10 +56,14 @@ import {
   UserRound,
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import ReadingImage, { readingUrlTransform } from "@/components/ReadingImage.jsx";
+import InlineTitle from "@/components/InlineTitle.jsx";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import Workbench from "./Workbench.jsx";
+import { useSoftwareUpdates, SoftwareUpdatePanel, SoftwareUpdateNotice } from '@/pages/SoftwareUpdates.jsx';
+import MockProblemPicker from "./MockProblemPicker.jsx";
 import { LecturesPanel, LectureDisclosure } from "@/pages/LecturesPanel.jsx";
 import { difficultyBand, solutionBlocks, briefSolution } from "@/lib/practiceMetadata.js";
 import {
@@ -96,7 +99,6 @@ import {
 const PAGES = [
   { id: "mine", label: "我的训练", icon: Target, key: "1" },
   { id: "library", label: "题库", icon: Library, key: "2" },
-  { id: "today", label: "今日待办", icon: CalendarDays, key: "3" },
   { id: "competitions", label: "比赛", icon: Flag, key: "4" },
   { id: "mock", label: "模拟赛", icon: Clock, key: "5" },
   { id: "records", label: "提交记录", icon: History, key: "6" },
@@ -116,7 +118,7 @@ const DEFAULTS = {
   views: [],
   readerWidth: 520,
   fontSize: 15,
-  navOrder: ["mine", "today", "library", "lectures", "competitions", "mock", "records", "growth", "activity", "rankings"],
+  navOrder: ["mine", "library", "lectures", "competitions", "mock", "records", "growth", "activity", "rankings"],
   navLabels: {},
   navGroups: {},
   seenAchievements: [],
@@ -124,10 +126,17 @@ const DEFAULTS = {
 };
 function readPreferences() {
   try {
-    return {
+    const preferences = {
       ...DEFAULTS,
       ...JSON.parse(localStorage.getItem("tb.preferences") || "{}"),
     };
+    preferences.navOrder = (Array.isArray(preferences.navOrder) ? preferences.navOrder : DEFAULTS.navOrder).filter(id => id !== "today");
+    preferences.navGroups = { ...preferences.navGroups };
+    preferences.navLabels = { ...preferences.navLabels };
+    delete preferences.navGroups.today;
+    delete preferences.navLabels.today;
+    if (preferences.navGroups.mine?.trim() === "训练与待办") delete preferences.navGroups.mine;
+    return preferences;
   } catch {
     return { ...DEFAULTS };
   }
@@ -183,8 +192,8 @@ function Verdict({ value, accepted = false, scope }) {
         <Check
           size={11}
           style={{ color: "var(--success)" }}
-          aria-label="曾通过本地评测"
-          title="曾通过本地评测"
+          aria-label="曾 AC"
+          title="曾 AC"
         />
       )}
     </span>
@@ -267,7 +276,7 @@ function Modal({ title, onClose, children, wide = false, footer }) {
         aria-label={title}
       >
         <header>
-          <h2>{title}</h2>
+          <h2><InlineTitle>{title}</InlineTitle></h2>
           <IconButton label="关闭" icon={X} onClick={onClose} />
         </header>
         <div className="modal-body">{children}</div>
@@ -280,12 +289,13 @@ function Markdown({ text, onCopy, images = {} }) {
   return (
     <div className="markdown">
       <ReactMarkdown
+        urlTransform={readingUrlTransform}
         remarkPlugins={[remarkGfm, remarkMath]}
         rehypePlugins={[
           [rehypeKatex, { throwOnError: false, strict: "ignore" }],
         ]}
         components={{
-          img: ({ node, src, alt, ...props }) => <img {...props} src={images[src] || src} alt={alt || ""} loading="lazy" />,
+          img: ({ node, ...props }) => <ReadingImage {...props} images={images} />,
           a: ({ node, ...props }) => (
             <a {...props} target="_blank" rel="noreferrer" />
           ),
@@ -508,8 +518,7 @@ export default function App() {
       library: blankFilters(),
       mine: blankFilters(),
     }),
-    [todayQuery, setTodayQuery] = useState(""),
-    [todayQueue, setTodayQueue] = useState("all"),
+    [trainingQueue, setTrainingQueue] = useState("all"),
     [showFilters, setShowFilters] = useState(false);
   const [libraryPage, setLibraryPage] = useState(1),
     [libraryPageSize, setLibraryPageSize] = useState(50);
@@ -550,6 +559,7 @@ export default function App() {
     serverOffset = useRef(0),
     previousActive = useRef(null);
   const api = useCallback((path, body) => request(path, body, token.current), []);
+  const softwareUpdate = useSoftwareUpdates(api, Boolean(data));
   const notice = useCallback((message, type = "info", action = null) => {
     clearTimeout(toastTimer.current);
     setToast({ message, type, action });
@@ -643,16 +653,22 @@ export default function App() {
   }, []);
   useEffect(() => {
     if (!data) return;
-    const refresh = () =>
-      api("workspace")
-        .then(applyWorkspace)
-        .catch(() => {});
+    let active = true, pending = false;
+    const refresh = () => {
+      if (!active || pending) return;
+      pending = true;
+      return api("workspace")
+        .then(value => { if (active) applyWorkspace(value); })
+        .catch(() => {})
+        .finally(() => { pending = false; });
+    };
     const timer = setInterval(
       refresh,
       workspace.activeContest || workspace.summary?.pending ? 2500 : 15000,
     );
     window.addEventListener("focus", refresh);
     return () => {
+      active = false;
       clearInterval(timer);
       window.removeEventListener("focus", refresh);
     };
@@ -720,16 +736,22 @@ export default function App() {
   }
   useEffect(() => {
     if (!data) return;
-    const refresh = () =>
-      Promise.all([api("hub"), api("insights")])
+    let active = true, pending = false;
+    const refresh = () => {
+      if (!active || pending) return;
+      pending = true;
+      return Promise.allSettled([api("hub"), api("insights")])
         .then(([h, i]) => {
-          setHub(h);
-          setInsights(i);
+          if (!active || h.status !== "fulfilled" || i.status !== "fulfilled") return;
+          setHub(h.value);
+          setInsights(i.value);
         })
-        .catch(() => {});
+        .catch(() => {})
+        .finally(() => { pending = false; });
+    };
     refresh();
     const timer = setInterval(refresh, hub?.sync?.busy ? 3000 : 60000);
-    return () => clearInterval(timer);
+    return () => { active = false; clearInterval(timer); };
   }, [
     !!data,
     workspace.summary?.attempts,
@@ -761,21 +783,10 @@ export default function App() {
     [data?.categories],
   );
   const libraryQuery = useDeferredValue(filters.library.query),
-    mineQuery = useDeferredValue(filters.mine.query),
-    dueQuery = useDeferredValue(todayQuery);
+    mineQuery = useDeferredValue(filters.mine.query);
   const currentFilters = filters[page] || blankFilters(),
-    query =
-      page === "today" ? dueQuery : page === "mine" ? mineQuery : libraryQuery;
+    query = page === "mine" ? mineQuery : libraryQuery;
   const visible = useMemo(() => {
-    if (page === "today") {
-      const order = new Map(QUEUES.map((q, i) => [q.id, i]));
-      return filterRows(
-        mine.filter(
-          (r) => r.queue && (todayQueue === "all" || r.queue === todayQueue),
-        ),
-        { query, sort: "difficulty" },
-      ).sort((a, b) => (order.get(a.queue) ?? 9) - (order.get(b.queue) ?? 9));
-    }
     if (!["library", "mine"].includes(page)) return [];
     const base = page === "mine" ? mine : rows,
       params = { ...currentFilters, query, favorites: prefs.favorites };
@@ -790,6 +801,14 @@ export default function App() {
       const ids = new Set(set?.ids || set?.slots?.map((s) => s.id) || []);
       filtered = filtered.filter((r) => ids.has(r.id));
     }
+    if (page === "mine" && trainingQueue !== "all") {
+      filtered = filtered.filter(row => trainingQueue === "due" ? !!row.queue : row.queue === trainingQueue);
+    }
+    if (page === "mine") {
+      const order = new Map(QUEUES.map((queue, index) => [queue.id, index]));
+      const rank = row => order.get(row.queue) ?? (row.accepted ? QUEUES.length + 1 : QUEUES.length);
+      filtered.sort((left, right) => rank(left) - rank(right));
+    }
     return filtered;
   }, [
     page,
@@ -798,7 +817,7 @@ export default function App() {
     currentFilters,
     query,
     prefs.favorites,
-    todayQueue,
+    trainingQueue,
     workspace.sets,
     workspace.contests,
   ]);
@@ -815,7 +834,7 @@ export default function App() {
   visibleRef.current = visible;
   selectedRef.current = selected;
   useEffect(() => {
-    if (!["mine", "library", "today"].includes(page) || practiceId) return;
+    if (!["mine", "library"].includes(page) || practiceId) return;
     if (!displayedRows.some((r) => r.id === selected))
       setSelected(displayedRows[0]?.id || null);
   }, [displayedRows, page, practiceId, selected]);
@@ -828,6 +847,7 @@ export default function App() {
   }, [selected, practiceId]);
   const active = workspace.activeContest,
     summary = workspace.summary || emptyWorkspace.summary;
+  const mockFocus = page === "mock" && active && mockTab === "create" && !record && !practiceId;
   const passedCount = mine.filter((r) => r.accepted).length,
     totalCount = mine.length,
     dueCount = mine.filter((r) => r.queue).length;
@@ -876,10 +896,8 @@ export default function App() {
     } catch (e) { notice(e.message, "error"); }
   }
   function resetFilters() {
-    if (page === "today") {
-      setTodayQuery("");
-      setTodayQueue("all");
-    } else setFilters((f) => ({ ...f, [page]: blankFilters() }));
+    if (page === "mine") setTrainingQueue("all");
+    setFilters((f) => ({ ...f, [page]: blankFilters() }));
   }
   function toggleFavorite(id) {
     setPrefs((p) => ({
@@ -1124,6 +1142,11 @@ export default function App() {
       action: () => go(p.id),
     })),
     {
+      name: "查看训练待办",
+      detail: "Ctrl+3",
+      action: () => { go("mine"); setTrainingQueue("due"); setFilter({ result: "" }, "mine"); },
+    },
+    {
       name: "收起 / 展开侧栏",
       detail: "Ctrl+B",
       action: () => setPrefs((p) => ({ ...p, collapsed: !p.collapsed })),
@@ -1170,6 +1193,12 @@ export default function App() {
       if (control && /^[1-9]$/.test(e.key)) {
         e.preventDefault();
         e.stopPropagation();
+        if (e.key === "3") {
+          go("mine");
+          setTrainingQueue("due");
+          setFilter({ result: "" }, "mine");
+          return;
+        }
         const target = PAGES.find(item => item.key === e.key);
         if (target) go(target.id);
         return;
@@ -1240,8 +1269,7 @@ export default function App() {
         }
         if (typing && e.target === searchRef.current) {
           e.preventDefault();
-          if (page === "today") setTodayQuery("");
-          else setFilter({ query: "" });
+          setFilter({ query: "" });
           focusList();
           return;
         }
@@ -1271,7 +1299,7 @@ export default function App() {
         return;
       }
       if (practiceId) return;
-      if (!["mine", "library", "today"].includes(page)) return;
+      if (!["mine", "library"].includes(page)) return;
       if (e.key === "f" || e.key === "/") {
         e.preventDefault();
         searchRef.current?.focus();
@@ -1329,7 +1357,7 @@ export default function App() {
       if (
         e.key === "Delete" &&
         selectedRef.current &&
-        ["mine", "today"].includes(page)
+        page === "mine"
       ) {
         e.preventDefault();
         removeTraining(selectedRef.current);
@@ -1377,7 +1405,7 @@ export default function App() {
                 openPractice(row.id);
               }}
             >
-              {row.title}
+              <InlineTitle>{row.title}</InlineTitle>
             </button>
             <span className="problem-source">
               {row.contest} · {row.problem}
@@ -1467,206 +1495,61 @@ export default function App() {
       </tr>
     ));
   }
-  function renderTable(items, { today = false } = {}) {
+  function renderTable(items) {
+    const knownQueues = new Set(QUEUES.map(queue => queue.id));
+    const groups = page === "mine" ? [
+      ...QUEUES.map(queue => ({ ...queue, rows: items.filter(row => row.queue === queue.id) })),
+      { id: "practice", name: "继续练习", color: "neutral", rows: items.filter(row => !knownQueues.has(row.queue) && !row.accepted) },
+      { id: "accepted", name: "已 AC", color: "green", rows: items.filter(row => !knownQueues.has(row.queue) && row.accepted) },
+    ] : null;
     return (
-      <div
-        className="table-scroll"
-        ref={listRef}
-        tabIndex={0}
-        role="region"
-        aria-label={today ? "今日待办题目" : "题目列表"}
-      >
+      <div className="table-scroll" ref={listRef} tabIndex={0} role="region" aria-label="题目列表">
         <table className="problem-table">
-          <thead>
-            <tr>
-              <th className="title-head">题目 / 来源</th>
-              <th>知识点</th>
-              <th>
-                <button
-                  onClick={() =>
-                    !today &&
-                    setFilter({
-                      sort: "difficulty",
-                      desc:
-                        currentFilters.sort === "difficulty"
-                          ? !currentFilters.desc
-                          : false,
-                    })
-                  }
-                >
-                  难度
-                  {!today &&
-                    currentFilters.sort === "difficulty" &&
-                    (currentFilters.desc ? (
-                      <ArrowDown size={12} />
-                    ) : (
-                      <ArrowUp size={12} />
-                    ))}
-                </button>
-              </th>
-              <th>提交结果</th>
-              <th>最近练习</th>
-              <th>
-                <span className="sr-only">操作</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {today
-              ? QUEUES.map((q) => {
-                  const group = items.filter((r) => r.queue === q.id);
-                  return group.length ? (
-                    <FragmentRows
-                      key={q.id}
-                      header={
-                        <tr className={"queue-heading " + q.color}>
-                          <td colSpan={6}>
-                            <strong>{q.name}</strong>
-                            <span>{group.length} 题</span>
-                            <small>{q.description}</small>
-                          </td>
-                        </tr>
-                      }
-                    >
-                      {renderRows(group)}
-                    </FragmentRows>
-                  ) : null;
-                })
-              : renderRows(items)}
-          </tbody>
+          <thead><tr>
+            <th className="title-head">题目 / 来源</th><th>知识点</th>
+            <th><button onClick={() => setFilter({ sort: "difficulty", desc: currentFilters.sort === "difficulty" ? !currentFilters.desc : false })}>难度{currentFilters.sort === "difficulty" && (currentFilters.desc ? <ArrowDown size={12} /> : <ArrowUp size={12} />)}</button></th>
+            <th>提交结果</th><th>最近练习</th><th><span className="sr-only">操作</span></th>
+          </tr></thead>
+          <tbody>{groups ? groups.filter(group => group.rows.length).map(group => (
+            <FragmentRows key={group.id} header={<tr className={"queue-heading " + group.color}><td colSpan={6}><strong>{group.name}</strong><span>{group.rows.length} 题</span>{group.description && <small>{group.description}</small>}</td></tr>}>
+              {renderRows(group.rows)}
+            </FragmentRows>
+          )) : renderRows(items)}</tbody>
         </table>
-        {!items.length && (
-          <Empty
-            icon={today ? Check : Search}
-            title={today ? "今天的待办已清空" : "没有匹配的题目"}
-            description={
-              today
-                ? "继续新的练习，或等下一次复习到期。"
-                : "试试减少筛选条件，或换一个关键词。"
-            }
-          >
-            <button className="secondary" onClick={resetFilters}>
-              清除筛选
-            </button>
-            {today && (
-              <button className="primary" onClick={() => go("library")}>
-                选择新的练习
-              </button>
-            )}
-          </Empty>
-        )}
+        {!items.length && <Empty icon={page === "mine" && trainingQueue !== "all" ? Check : Search} title={page === "mine" && trainingQueue !== "all" ? "当前没有待办题目" : "没有匹配的题目"} description="试试减少筛选条件，或换一个关键词。">
+          <button className="secondary" onClick={resetFilters}>清除筛选</button>
+          <button className="primary" onClick={() => go("library")}>选择新的练习</button>
+        </Empty>}
       </div>
     );
   }
   function toolbar() {
-    const today = page === "today";
-    return (
-      <>
-        <div className="table-toolbar">
-          <div className="search-box">
-            <Search size={17} />
-            <input
-              ref={searchRef}
-              aria-label="搜索题目"
-              placeholder={today ? "搜索今日待办…" : "搜索题目、场次、知识点…"}
-              value={today ? todayQuery : currentFilters.query}
-              onChange={(e) =>
-                today
-                  ? setTodayQuery(e.target.value)
-                  : setFilter({ query: e.target.value })
-              }
-              onKeyDown={(e) => {
-                if (e.key === "ArrowDown") {
-                  e.preventDefault();
-                  focusList();
-                }
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  focusList();
-                }
-              }}
-            />
-            {(today ? todayQuery : currentFilters.query) ? (
-              <IconButton
-                label="清空搜索"
-                icon={X}
-                onClick={() =>
-                  today ? setTodayQuery("") : setFilter({ query: "" })
-                }
-              />
-            ) : (
-              <kbd>F</kbd>
-            )}
-          </div>
-          {!today && (
-            <>
-              <button
-                className={
-                  "secondary favorite-filter " +
-                  (currentFilters.favoritesOnly ? "active" : "")
-                }
-                aria-label="收藏题目筛选"
-                aria-pressed={currentFilters.favoritesOnly}
-                onClick={() =>
-                  setFilter({ favoritesOnly: !currentFilters.favoritesOnly })
-                }
-              >
-                <Star size={15} />
-                <span>收藏</span>
-              </button>
-              <button
-                className={"secondary " + (showFilters ? "active" : "")}
-                onClick={() => setShowFilters(!showFilters)}
-                aria-expanded={showFilters}
-              >
-                <SlidersHorizontal size={15} />
-                筛选
-              </button>
-              <select
-                className="sort-select"
-                aria-label="排序方式"
-                value={currentFilters.sort}
-                onChange={(e) =>
-                  setFilter({
-                    sort: e.target.value,
-                    desc: e.target.value === "date",
-                  })
-                }
-              >
-                <option value="contestDate">比赛时间 · 最新在前</option>
-                <option value="contest">按场次</option>
-                <option value="difficulty">按难度</option>
-                <option value="date">最近练习</option>
-                <option value="title">按题名</option>
-              </select>
-            </>
-          )}
-          <span className="toolbar-count">{visible.length} 题</span>
-          {page === 'mine' && <button className="secondary" aria-label="清空我的训练" disabled={busy || !mine.length || !!active || !!workspace.summary.pending} onClick={() => setDialog('clear-training')}><MinusCircle size={15} />一键清空</button>}
+    const chooseTraining = (queue = "all", result = "") => {
+      setTrainingQueue(queue);
+      setFilter({ result });
+    };
+    const trainingViews = [
+      { id: "all", name: "全部训练", count: totalCount },
+      { id: "due", name: "待办", count: dueCount },
+      ...QUEUES.filter(queue => mine.some(row => row.queue === queue.id)).map(queue => ({ id: queue.id, name: queue.name, count: mine.filter(row => row.queue === queue.id).length })),
+      { id: "pending", name: "尚未 AC", count: totalCount - passedCount, result: "pending" },
+      { id: "accepted", name: "AC", count: passedCount, result: "accepted" },
+      { id: "sample", name: "样例通过", result: "sample" },
+    ];
+    return <>
+      <div className="table-toolbar">
+        <div className="search-box"><Search size={17} />
+          <input ref={searchRef} aria-label="搜索题目" placeholder="搜索题目、场次、知识点…" value={currentFilters.query} onChange={event => setFilter({ query: event.target.value })} onKeyDown={event => { if (["ArrowDown", "Enter"].includes(event.key)) { event.preventDefault(); focusList(); } }} />
+          {currentFilters.query ? <IconButton label="清空搜索" icon={X} onClick={() => setFilter({ query: "" })} /> : <kbd>F</kbd>}
         </div>
-        {today ? (
-          <div className="filter-tabs">
-            <button
-              className={todayQueue === "all" ? "active" : ""}
-              onClick={() => setTodayQueue("all")}
-            >
-              全部待办 <small>{dueCount}</small>
-            </button>
-            {QUEUES.filter((q) => mine.some((r) => r.queue === q.id)).map(
-              (q) => (
-                <button
-                  key={q.id}
-                  className={todayQueue === q.id ? "active" : ""}
-                  onClick={() => setTodayQueue(q.id)}
-                >
-                  {q.name}{" "}
-                  <small>{mine.filter((r) => r.queue === q.id).length}</small>
-                </button>
-              ),
-            )}
-          </div>
-        ) : (
-          <>
+        <button className={"secondary favorite-filter " + (currentFilters.favoritesOnly ? "active" : "")} aria-label="收藏题目筛选" aria-pressed={currentFilters.favoritesOnly} onClick={() => setFilter({ favoritesOnly: !currentFilters.favoritesOnly })}><Star size={15} /><span>收藏</span></button>
+        <button className={"secondary " + (showFilters ? "active" : "")} onClick={() => setShowFilters(!showFilters)} aria-expanded={showFilters}><SlidersHorizontal size={15} />筛选</button>
+        <select className="sort-select" aria-label="排序方式" value={currentFilters.sort} onChange={event => setFilter({ sort: event.target.value, desc: event.target.value === "date" })}>
+          <option value="contestDate">比赛时间 · 最新在前</option><option value="contest">按场次</option><option value="difficulty">按难度</option><option value="date">最近练习</option><option value="title">按题名</option>
+        </select>
+        <span className="toolbar-count">{visible.length} 题</span>
+        {page === "mine" && <button className="secondary" aria-label="清空我的训练" disabled={busy || !mine.length || !!active || !!workspace.summary.pending} onClick={() => setDialog("clear-training")}><MinusCircle size={15} />一键清空</button>}
+      </div>
             {showFilters && (
               <div className="filter-fields">
                 <label>
@@ -1711,7 +1594,7 @@ export default function App() {
                     onChange={(e) => setFilter({ result: e.target.value })}
                   >
                     <option value="">全部结果</option>
-                    <option value="accepted">本地 AC</option>
+                    <option value="accepted">AC</option>
                     <option value="pending">尚未 AC</option>
                     <option value="sample">样例通过</option>
                     {["WA", "CE", "TLE", "MLE", "RE"].map((v) => (
@@ -1775,42 +1658,12 @@ export default function App() {
                 ))}
               </div>
             )}
-            {page === "mine" && (
-              <div className="filter-tabs">
-                <button
-                  className={!currentFilters.result ? "active" : ""}
-                  onClick={() => setFilter({ result: "" })}
-                >
-                  全部 <small>{totalCount}</small>
-                </button>
-                <button
-                  className={
-                    currentFilters.result === "pending" ? "active" : ""
-                  }
-                  onClick={() => setFilter({ result: "pending" })}
-                >
-                  尚未 AC <small>{totalCount - passedCount}</small>
-                </button>
-                <button
-                  className={
-                    currentFilters.result === "accepted" ? "active" : ""
-                  }
-                  onClick={() => setFilter({ result: "accepted" })}
-                >
-                  本地 AC <small>{passedCount}</small>
-                </button>
-                <button
-                  className={currentFilters.result === "sample" ? "active" : ""}
-                  onClick={() => setFilter({ result: "sample" })}
-                >
-                  样例通过
-                </button>
-              </div>
-            )}
-          </>
-        )}
-      </>
-    );
+      {page === "mine" && <div className="filter-tabs training-tabs" role="group" aria-label="训练状态筛选">
+        {trainingViews.map(view => { const active = view.result ? trainingQueue === "all" && currentFilters.result === view.result : trainingQueue === view.id && !currentFilters.result;
+          return <button key={view.id} className={active ? "active" : ""} aria-pressed={active} onClick={() => chooseTraining(view.result ? "all" : view.id, view.result || "")}>{view.name}{view.count != null && <small>{view.count}</small>}</button>;
+        })}
+      </div>}
+    </>;
   }
   function renderListPage() {
     if (page === "mine" && !mine.length)
@@ -1828,27 +1681,6 @@ export default function App() {
             <Flag size={16} />
             创建模拟赛
           </button>
-        </Empty>
-      );
-    if (page === "today" && !dueCount && !todayQuery)
-      return (
-        <Empty
-          icon={Check}
-          title="今天没有到期的待办"
-          description={
-            mine.length
-              ? "提交未通过的题和到期复习会出现在这里。"
-              : "开始练习后，这里会整理需要攻克和复习的题。"
-          }
-        >
-          <button className="primary" onClick={() => go("library")}>
-            选择一道题
-          </button>
-          {mine.length > 0 && (
-            <button className="secondary" onClick={() => go("mine")}>
-              回到我的训练
-            </button>
-          )}
         </Empty>
       );
     return (
@@ -1877,7 +1709,7 @@ export default function App() {
             </div>
           )}
         {toolbar()}
-        {renderTable(displayedRows, { today: page === "today" })}
+        {renderTable(displayedRows)}
         {page === "library" && (
           <nav className="library-pagination" aria-label="题库分页">
             <label>每页
@@ -1897,9 +1729,7 @@ export default function App() {
           <span>
             {page === "library"
               ? "题库用于选题"
-              : page === "today"
-                ? "只显示真实待办"
-                : "个人训练"}{" "}
+              : trainingQueue === "all" ? "个人训练" : "训练待办"}{" "}
             · {visible.length} 题
           </span>
           <span className="footer-hint">
@@ -1921,7 +1751,7 @@ export default function App() {
           </button>
           <h2>{record.name}</h2>
           <span>
-            {record.accepted}/{record.total} 本地 AC
+            {record.accepted}/{record.total} AC
           </span>
           <button
             className={"secondary " + (recordOnlyPending ? "active" : "")}
@@ -1947,7 +1777,7 @@ export default function App() {
                   {slot.letter}
                 </span>
                 <div>
-                  <strong>{slot.title}</strong>
+                  <strong><InlineTitle>{slot.title}</InlineTitle></strong>
                   {record.status !== "running" && <small>{slot.tags?.join(" / ")}</small>}
                 </div>
                 {record.status !== "running" && <Difficulty value={slot.difficulty} />}
@@ -1981,7 +1811,7 @@ export default function App() {
   function settingsPage() {
     return (
       <div className="settings-page scroll-panel">
-        <div className="settings-tabs" role="tablist" aria-label="设置分类">{[["appearance", "外观与导航"], ["accounts", "账号与身份"], ["translation", "翻译 API"], ["updates", "更新"], ["training", "训练与键盘"]].map(([value, label]) => <button key={value} role="tab" aria-selected={settingsTab === value} className={settingsTab === value ? "active" : ""} onClick={() => setSettingsTab(value)}>{label}</button>)}</div>
+        <div className="settings-tabs" role="tablist" aria-label="设置分类">{[["appearance", "外观与导航"], ["accounts", "账号与身份"], ["translation", "翻译 API"], ["updates", "更新"], ["training", "训练与键盘"]].map(([value, label]) => <button key={value} role="tab" aria-selected={settingsTab === value} className={settingsTab === value ? "active" : ""} onClick={() => setSettingsTab(value)}>{label}</button>)}<button className="settings-command-button" aria-label="快捷操作" title="快捷操作 · Ctrl+K" onClick={() => { setCommandQuery(""); setDialog("commands"); }}><Command size={15}/><span>快捷操作</span><kbd>Ctrl K</kbd></button></div>
         <div className="settings-column">
         <section className="settings-appearance" hidden={settingsTab !== "appearance"}>
           <h2>让界面适合你</h2>
@@ -2099,13 +1929,13 @@ export default function App() {
               个人进度只统计主动加入或提交的题，同题只计一次。取消训练保留代码和历史，重新加入可恢复。
             </p>
             <p>
-              <strong>官方 AC</strong>：在四个竞赛网站原站通过才算，并按难度积累经验。
+              <strong>AC</strong>：在四个竞赛网站原站通过才算，并按难度积累经验。
               <strong>样例通过</strong>
               ：本地测试全对也只叫样例通过，不等于 AC。比赛结束后可以查阅题解、重练未完成的题。
             </p>
             <p>
-              看过题解后完成的题会进入“独立重写”；独立官方 AC 后按 7 天 / 30
-              天安排复习。提交结果会保留，练习失败不会抹去以前的官方 AC。
+              看过题解后完成的题会进入“独立重写”；独立AC 后按 7 天 / 30
+              天安排复习。提交结果会保留，练习失败不会抹去以前的AC。
             </p>
           </div>
         </section>
@@ -2153,6 +1983,7 @@ export default function App() {
         {settingsTab === "translation" && <section className="settings-translation"><TranslationSettings api={api} onError={(message) => notice(message, "error")} /></section>}
         <section className="settings-updates" hidden={settingsTab !== "updates"}>
           <h2>更新与自动收录</h2>
+          <SoftwareUpdatePanel update={softwareUpdate} />
           <UpdatePanel
             showNotifications={false}
             onContent={openUpdate}
@@ -2225,9 +2056,9 @@ export default function App() {
       <header>
         <BookOpen size={17} />
         <strong>
-          {reader?.title ||
+          <InlineTitle>{reader?.title ||
             rows.find((r) => r.id === readerId)?.title ||
-            "题解"}
+            "题解"}</InlineTitle>
         </strong>
         <IconButton
           label={readerFull ? "退出题解全屏" : "题解全屏"}
@@ -2249,7 +2080,7 @@ export default function App() {
         {reader ? (
           <>
             {conciseSolution && <div className="concise-solution"><p className="progress-small">入门题简明阅读 · 思路提要与完整代码</p><Markdown text={conciseSolution} images={reader.images} onCopy={copy} /></div>}
-            <details className="solution-full" open={!conciseSolution} key={readerId}><summary style={conciseSolution ? undefined : {display: 'none'}}>查看完整题解与推导</summary>{solutionBlocks(reader.markdown, reader.lectures || []).map((block, index) => block.type === "lecture" ? <LectureDisclosure key={index} lecture={block.lecture || {title: block.heading}} inlineMarkdown={block.markdown} api={api} onTrain={openPractice} onError={(message) => notice(message, "error")} /> : <Markdown key={index} text={block.markdown} images={reader.images} onCopy={copy} />)}</details>
+            <details className="solution-full" open={!conciseSolution} key={readerId}><summary style={conciseSolution ? undefined : {display: 'none'}}>查看完整题解与推导</summary>{solutionBlocks(reader.markdown, reader.lectures || []).map((block, index) => block.type === "lecture" ? <LectureDisclosure key={index} lecture={block.lecture || {title: block.heading}} inlineMarkdown={block.markdown} images={reader.images} api={api} onTrain={openPractice} onError={(message) => notice(message, "error")} /> : <Markdown key={index} text={block.markdown} images={reader.images} onCopy={copy} />)}</details>
             {!!reader.lectures?.length && <div className="reader-lecture-references"><h3>本题的基础讲解与引用</h3>{reader.lectures.filter(item => !solutionBlocks(reader.markdown, reader.lectures).some(block => block.lecture?.id === item.id)).map(item => <LectureDisclosure key={item.id} lecture={item} api={api} onTrain={openPractice} onError={(message) => notice(message, "error")} />)}<button className="text-button" onClick={() => go("lectures")}>查看全部知识讲解 <ArrowUpRight size={13} /></button></div>}
           </>
         ) : readerError ? (
@@ -2273,8 +2104,9 @@ export default function App() {
   );
   return (
     <div
-      className={"app-shell " + (prefs.collapsed ? "sidebar-collapsed" : "")}
+      className={"app-shell " + (prefs.collapsed ? "sidebar-collapsed " : "") + (mockFocus ? "mock-focus" : "")}
     >
+      <SoftwareUpdateNotice update={softwareUpdate} onDetails={() => { setPage('settings'); setSettingsTab('updates'); }} />
       <aside className="sidebar">
         <div className="brand">
           <div className="brand-mark">
@@ -2328,23 +2160,6 @@ export default function App() {
         )}
         <div className="sidebar-bottom">
           <button
-            className="nav-item"
-            aria-label="命令面板"
-            title="命令面板 · Ctrl+K"
-            onClick={() => {
-              setCommandQuery("");
-              setDialog("commands");
-            }}
-          >
-            <Command size={18} />
-            {!prefs.collapsed && (
-              <>
-                <span>快捷操作</span>
-                <kbd>Ctrl K</kbd>
-              </>
-            )}
-          </button>
-          <button
             className={"nav-item " + (page === "settings" ? "active" : "")}
             aria-label="偏好设置"
             title="偏好设置 · Ctrl+,"
@@ -2367,9 +2182,9 @@ export default function App() {
               工作台 <ChevronRight size={13} />
             </span>
             <h1>
-              {practiceId
+              <InlineTitle>{practiceId
                 ? rows.find((r) => r.id === practiceId)?.title
-                : currentPage?.label || "偏好设置"}
+                : currentPage?.label || "偏好设置"}</InlineTitle>
             </h1>
             {practiceId && <span className="practice-label">单题练习</span>}
           </div>
@@ -2383,7 +2198,7 @@ export default function App() {
             )}
             <details className="topbar-overview"><summary aria-label="训练概览"><Award size={16} /><strong>Lv.{insights?.growth?.level || 1}</strong><span>{passedCount}/{totalCount} AC</span><ChevronDown size={13} /></summary><div className="overview-popover"><div className="overview-level"><strong>{insights?.growth?.levelName || "开始积累"}</strong><span>{num(insights?.growth?.totalXp || 0)} XP</span></div><div className="overview-statistics"><button onClick={() => go("mine")}><b>{passedCount}/{totalCount}</b><span>训练通过</span></button><button onClick={() => go("activity")}><b>{insights?.summary?.streak || summary.streak || 0} 天</b><span>连续训练</span></button><button onClick={() => { go("mock"); setMockTab("history"); }}><b>{workspace.contests.filter(contest => contest.status === "finished").length} 场</b><span>完成模拟赛</span></button><button onClick={() => go("growth")}><b>{num(insights?.growth?.totalXp || 0)} XP</b><span>成长与每日任务</span></button></div><button className="text-button" onClick={() => { document.querySelector(".topbar-overview")?.removeAttribute("open"); setDialog("summary"); }}>查看训练概览<ChevronRight size={13} /></button></div></details>
             <button className="achievement-top-button" aria-label="成就" onClick={openAchievements}><Medal size={17} /><span>成就</span><small>{unlockedAchievements.length}/{achievements.length}</small>{unseenAchievements.length > 0 && <i className="notification-dot" />}</button>
-            {["mine", "library", "today"].includes(page) && !practiceId && (
+            {["mine", "library"].includes(page) && !practiceId && (
               <button className="primary new-mock" onClick={() => go("mock")}>
                 <Plus size={15} />
                 模拟赛
@@ -2446,75 +2261,11 @@ export default function App() {
               onSolution={openSolution}
               onNext={nextPractice}
             />
-          ) : ["mine", "library", "today"].includes(page) ? (
-            page === 'today' ? <div className="today-workspace"><GoalsPanel api={api} onTrain={openPractice} dailyOnly />{renderListPage()}</div> : renderListPage()
+          ) : ["mine", "library"].includes(page) ? (
+            page === "mine" ? <div className="training-workspace"><GoalsPanel api={api} onTrain={openPractice} onManage={() => go("goals")} dailyOnly />{renderListPage()}</div> : renderListPage()
           ) : page === "mock" ? (
             <div className="mock-page"><div className="mock-page-tabs filter-tabs" role="tablist" aria-label="模拟赛页面"><button role="tab" aria-selected={mockTab === "create" && !record} className={mockTab === "create" && !record ? "active" : ""} onClick={() => { setMockTab("create"); setRecord(null); }}>{active ? "进行中的比赛" : "创建训练"}</button><button role="tab" aria-selected={mockTab === "history" || !!record} className={mockTab === "history" || record ? "active" : ""} onClick={() => { setMockTab("history"); setRecord(null); }}>模拟赛记录 <small>{workspace.contests.length}</small></button></div>{record ? recordDetail() : mockTab === "history" ? <MockHistory contests={workspace.contests} onSelect={openRecord} onResume={(contest) => { setMockTab("create"); setMockSlot(contest.slots[0]?.id); }} onCreate={() => setMockTab("create")} /> : active ? (
               <div className="contest-player">
-                <div className="contest-control">
-                  <div>
-                    <Flag size={16} />
-                    <strong>{active.name}</strong>
-                    <span>
-                      {active.accepted}/{active.total} 本地 AC
-                    </span>
-                  </div>
-                  <span
-                    className={
-                      "contest-clock " +
-                      (remainingSeconds(active, now) < 600 ? "urgent" : "")
-                    }
-                  >
-                    <Clock size={15} />
-                    {timerText(remainingSeconds(active, now))}
-                  </span>
-                  <button
-                    className="secondary finish-contest"
-                    onClick={() => setDialog("finish")}
-                  >
-                    结束比赛
-                  </button>
-                </div>
-                <div
-                  className="contest-tabs"
-                  role="tablist"
-                  aria-label="模拟赛题目"
-                >
-                  {active.slots.map((slot, i) => (
-                    <button
-                      role="tab"
-                      aria-selected={currentMockSlot?.id === slot.id}
-                      className={
-                        "contest-tab " +
-                        (currentMockSlot?.id === slot.id ? "active " : "") +
-                        (slot.accepted
-                          ? "solved"
-                          : slot.verdict
-                            ? "attempted"
-                            : "")
-                      }
-                      key={slot.id}
-                      onClick={() => setMockSlot(slot.id)}
-                      title={
-                        slot.letter +
-                        " · " +
-                        slot.title +
-                        " · " +
-                        verdictLabel(slot.verdict)
-                      }
-                    >
-                      <strong>{slot.letter}</strong>
-                      <span>{slot.title}</span>
-                      {slot.accepted ? (
-                        <Check size={14} />
-                      ) : slot.verdict ? (
-                        <span className="attempt-dot" />
-                      ) : (
-                        <kbd>{i + 1}</kbd>
-                      )}
-                    </button>
-                  ))}
-                </div>
                 {currentMockSlot && (
                   <Workbench
                     key={active.id + ":" + currentMockSlot.id}
@@ -2524,6 +2275,27 @@ export default function App() {
                     onProgress={applyWorkspace}
                     onExit={() => go("mine")}
                     onSolution={null}
+                    headerStart={<MockProblemPicker
+                      contest={active}
+                      currentId={currentMockSlot.id}
+                      onSelect={(id) => {
+                        setMockSlot(id);
+                        requestAnimationFrame(() => document.querySelector('.mock-problem-trigger')?.focus());
+                      }}
+                      onHistory={() => {
+                        setMockTab("history");
+                        requestAnimationFrame(() => document.querySelector('.mock-page-tabs [aria-selected="true"]')?.focus());
+                      }}
+                    />}
+                    headerEnd={<>
+                      <span className={"mock-timer " + (remainingSeconds(active, now) < 600 ? "urgent" : "")} role="timer" aria-label="比赛剩余时间">
+                        <Clock size={14} aria-hidden="true" />
+                        {timerText(remainingSeconds(active, now))}
+                      </span>
+                      <button type="button" className="wb-button finish-contest" onClick={() => setDialog("finish")}>
+                        结束比赛
+                      </button>
+                    </>}
                     onNext={() => {
                       const index = active.slots.findIndex(
                         (s) => s.id === currentMockSlot.id,
@@ -2621,7 +2393,7 @@ export default function App() {
               {passedCount}
               <small> / {totalCount}</small>
             </strong>
-            <span>题已通过本地评测</span>
+            <span>题已 AC</span>
           </div>
           <div className="summary-grid">
             <div>

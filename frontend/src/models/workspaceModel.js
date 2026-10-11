@@ -34,7 +34,7 @@ export const QUEUES = [
   },
 ];
 export const VERDICTS = {
-  AC: "本地 AC",
+  AC: "AC",
   SAMPLE_PASS: "样例通过",
   RUN_OK: "运行完成（未校验）",
   WA: "答案错误",

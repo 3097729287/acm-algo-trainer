@@ -21,8 +21,12 @@ def run(action, output):
         workspace = server.training.workspace()
         rows = [row for row in data['rows'] if row.get('solutionAvailable')]
         xterfusion = next(row for row in rows if row['title'] == 'Xterfusion')
-        text = server.store.solution(xterfusion['id'])['markdown']
-        assert len(rows) >= 607 and len(text) > 4000
+        solution = server.store.solution(xterfusion['id'])
+        text = solution['markdown']
+        assert len(rows) >= 796
+        assert all(section in text for section in ('### 题意', '### 思路', '### 参考代码', '```cpp'))
+        assert solution['images'] and all(value.startswith('data:image/') for value in solution['images'].values())
+        assert {'周赛 163::A', 'ABC 469::A', 'Div.3 1125::A'} <= {row['id'] for row in rows}
         assert len(server.lectures.for_problem(xterfusion['id'])) == 1
         report.update(ok=True, root=str(ROOT), state=str(STATE), frozen=bool(getattr(__import__('sys'), 'frozen', False)),
                       initialTrainingEmpty=workspace['summary']['total']==0, problems=len(data['rows']), solutions=len(rows),

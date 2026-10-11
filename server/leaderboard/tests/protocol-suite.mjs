@@ -1,7 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomUUID, createHash } from 'node:crypto';
-import { startFixture } from './local-server.mjs';
 
 const NOW = Date.parse('2026-10-08T15:59:00Z');
 const key = text => createHash('sha256').update(text).digest('hex');
@@ -16,8 +15,37 @@ async function register(fixture, user, nickname = '训练者') {
   return request(fixture, user, 'POST', '/v1/profile/register', { userId: user.userId, nickname });
 }
 function ac(user, name, acceptedAt = '2026-10-08T10:00:00Z') {
-  return { eventId: key(user.userId + name), problemKey: key(name), acceptedAt, difficulty: 1500, scope: 'local-reviewed' };
+  return { eventId: key(user.userId + name), problemKey: key(name), acceptedAt, difficulty: 1500, scope: 'official' };
 }
+
+export function protocolSuite(startFixture) {
+test('official protocol rejects old local receipts and explicitly acknowledges official scope', async () => {
+  const fixture = await startFixture({ now: NOW });
+  try {
+    const user = identity(); await register(fixture, user);
+    for (const scope of ['local-reviewed', 'local', 'samples', 'run']) {
+      assert.equal((await request(fixture, user, 'POST', '/v1/events', {events: [{...ac(user, 'one'), scope}]})).status, 400);
+    }
+    assert.equal(await fixture.countEvents(), 0);
+    const accepted = await request(fixture, user, 'POST', '/v1/events', {events: [ac(user, 'one')]});
+    assert.equal(accepted.value.scope, 'official');
+    assert.equal(accepted.value.processed, 1);
+  } finally { await fixture.close(); }
+});
+
+test('migration maintenance prevents writes while health and existing profiles remain readable', async () => {
+  const fixture = await startFixture({ now: NOW });
+  try {
+    const user = identity(); await register(fixture, user);
+    fixture.env.READ_ONLY = '1';
+    assert.equal((await register(fixture, identity())).status, 503);
+    assert.equal((await request(fixture, user, 'PUT', '/v1/profile', { nickname: 'changed' })).status, 503);
+    assert.equal((await request(fixture, user, 'POST', '/v1/events', { events: [ac(user, 'p1')] })).status, 503);
+    assert.equal((await request(fixture, user, 'GET', '/v1/profile')).value.nickname, '训练者');
+    assert.equal((await fetch(fixture.endpoint + '/v1/health')).status, 200);
+    assert.equal(await fixture.countEvents(), 0);
+  } finally { await fixture.close(); }
+});
 
 test('unique persisted identity, authenticated ownership, nickname + full ID', async () => {
   const fixture = await startFixture({ now: NOW });
@@ -38,7 +66,7 @@ test('unique persisted identity, authenticated ownership, nickname + full ID', a
   } finally { await fixture.close(); }
 });
 
-test('AC events are unique by original problem, retry safe, actual SQLite batches roll back', async () => {
+test('AC events are unique by original problem, retry safe, database batches roll back', async () => {
   const fixture = await startFixture({ now: NOW });
   try {
     const user = identity(); await register(fixture, user);
@@ -53,7 +81,7 @@ test('AC events are unique by original problem, retry safe, actual SQLite batche
     assert.equal((await request(fixture, user, 'POST', '/v1/events', { events: [ac(user, 'problem3'), invalid] })).status, 409);
     score = (await request(fixture, user, 'GET', '/v1/leaderboard?period=total')).value;
     assert.equal(score.self.count, 1);
-    assert.equal(fixture.DB.database.prepare('SELECT COUNT(*) AS n FROM ac_events').get().n, 1);
+    assert.equal(await fixture.countEvents(), 1);
   } finally { await fixture.close(); }
 });
 
@@ -107,3 +135,5 @@ test('per-user rate limits are atomic and have expiry', async () => {
     assert.equal((await request(fixture, user, 'GET', '/v1/profile')).status, 200);
   } finally { await fixture.close(); }
 });
+
+}

@@ -12,17 +12,28 @@ import { normalizeMarkdown } from '@/lib/normalizeMarkdown.js';
 import { normalizeStatement } from '@/lib/normalizeStatement.js';
 import { primeAcceptedSound, playAcceptedSound } from '@/lib/acceptedSound.js';
 import CodeEditor from '@/components/CodeEditor.jsx';
+import InlineTitle from '@/components/InlineTitle.jsx';
 import './Workbench.css';
 
 const TEMPLATE = '#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    \n    return 0;\n}\n';
 const MAX_BYTES = 64 * 1024;
 const byteLength = value => new TextEncoder().encode(value).byteLength;
+const STATEMENT_FONT_KEY = 'tb.statement-font-size';
+const STATEMENT_FONT_SIZES = [14, 16, 18, 20, 22, 24, 26, 28, 30, 32];
+function readStatementFontSize() {
+  try {
+    const saved = Number(localStorage.getItem(STATEMENT_FONT_KEY));
+    if (STATEMENT_FONT_SIZES.includes(saved)) return saved;
+  } catch { /* Reading remains available when browser storage is disabled. */ }
+  const uiSize = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ui-font-size')) || 16;
+  return Math.min(32, Math.max(16, Math.round(uiSize / 2) * 2));
+}
 const VERDICTS = {
   QUEUED: '等待评测', RUNNING: '正在评测', AC: 'AC', SAMPLE_PASS: '样例通过', RUN_OK: '运行完成（未校验）',
   WA: '答案错误', TLE: '超时', MLE: '内存超限', RE: '运行错误',
   CE: '编译错误', OLE: '输出超限', ERROR: '评测不可用',
 };
-const OFFICIAL_STATES = { loading: '连接原站', needs_browser: '需要连接浏览器', needs_login: '请在浏览器登录', needs_verification: '请在浏览器验证', ready: '已连接，可提交', submitted: '等待原站受理', judging: '评测中', finished: '评测完成', unconfirmed: '正在核对提交', error: '提交异常', closed: '会话已结束' };
+const OFFICIAL_STATES = { loading: '后台连接原站', needs_browser: '需要同步登录', needs_login: '请在浏览器登录', needs_verification: '请在浏览器验证', ready: '已连接，可提交', submitted: '等待原站受理', judging: '评测中', finished: '评测完成', unconfirmed: '正在核对提交', error: '提交异常', closed: '会话已结束' };
 const OFFICIAL_TERMINAL = new Set(['finished', 'error', 'closed']);
 
 // Serialize saves across mounts as well as edits. An older request must never
@@ -145,7 +156,7 @@ function CaseResults({ cases }) {
   })}</div>;
 }
 
-export default function Workbench({ problemId, contest = null, api, onProgress, onExit, onSolution, onNext }) {
+export default function Workbench({ problemId, contest = null, api, onProgress, onExit, onSolution, onNext, headerStart, headerEnd }) {
   const contestId = contest?.id || null;
   const runningContest = contest?.status === 'running';
   const endedContest = Boolean(contest && !runningContest);
@@ -191,6 +202,12 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
   const [translation, setTranslation] = useState(null);
   const [translationBusy, setTranslationBusy] = useState(false);
   const [translationError, setTranslationError] = useState('');
+  const [statementFontSize, setStatementFontSize] = useState(readStatementFontSize);
+  const changeStatementFontSize = size => {
+    if (!STATEMENT_FONT_SIZES.includes(size)) return;
+    setStatementFontSize(size);
+    try { localStorage.setItem(STATEMENT_FONT_KEY, String(size)); } catch { /* Keep the in-session choice. */ }
+  };
 
   const isActive = record => activeRecord.current === record;
   const saveRecord = useCallback(record => {
@@ -426,6 +443,16 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
     record.timer = setTimeout(() => saveRecord(record), 850);
   }, [saveRecord]);
 
+  useEffect(() => {
+    const beforeUpdate = event => {
+      const record = activeRecord.current;
+      clearTimeout(record?.timer);
+      event.detail.waitUntil(record && !record.loaded ? Promise.resolve(false) : saveRecord(record));
+    };
+    window.addEventListener('tb-before-update', beforeUpdate);
+    return () => window.removeEventListener('tb-before-update', beforeUpdate);
+  }, [saveRecord]);
+
   const manualSave = () => {
     const record = activeRecord.current;
     if (!record?.loaded || record.closed || sidePracticeLocked) return;
@@ -602,10 +629,11 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
 
   return <section className={`tb-workbench wb-pane-${pane}`} ref={sectionRef} onKeyDown={handleKeys} aria-label="代码训练工作台" data-problem-id={problemId}>
     <div className="wb-toolbar">
-      <button type="button" className="wb-icon-button" onClick={exit} title="返回列表" aria-label="返回列表"><ArrowLeft size={17} /></button>
+      <button type="button" className="wb-icon-button" onClick={exit} title={runningContest ? '返回工作台（比赛继续计时）' : '返回列表'} aria-label={runningContest ? '返回工作台' : '返回列表'}><ArrowLeft size={17} /></button>
+      {headerStart}
       <div className="wb-heading">
-        {slot && <span className="wb-letter">{slot.letter}</span>}
-        <strong title={problem?.title}>{problem?.title || (loading ? '载入题目…' : '题目')}</strong>
+        {slot && !headerStart && <span className="wb-letter">{slot.letter}</span>}
+        <strong title={problem?.title}><InlineTitle>{problem?.title || (loading ? '载入题目…' : '题目')}</InlineTitle></strong>
         {problem && <span className="wb-limits">{elapsedText(problem.limits?.timeMs)} · {problem.limits?.memoryMb || '—'} MB</span>}
       </div>
       <div className="wb-pane-buttons" role="group" aria-label="工作台布局">
@@ -615,6 +643,7 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
       </div>
       {onSolution && !runningContest && !problem?.locked && <button type="button" className="wb-button wb-solution-button" disabled={!problem} onClick={() => callbacks.current.onSolution?.(problemId)}><BookOpen size={14} />题解</button>}
       {onNext && <button type="button" className="wb-button wb-next-button" onClick={() => { saveRecord(activeRecord.current); callbacks.current.onNext?.(); }}>下一题<ArrowRight size={14} /></button>}
+      {headerEnd}
     </div>
 
     {sidePracticeLocked && !endedContest && <div className="wb-notice">这题正在模拟赛中，请进入考场运行与提交。</div>}
@@ -626,11 +655,19 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
 
     <div className="wb-body">
       <div className="wb-statement-pane">
-        <div className="wb-pane-header"><span><BookOpen size={14} />题面</span><div className="wb-statement-actions"><div className="wb-language-toggle" role="group" aria-label="题面语言"><button type="button" aria-pressed={language === 'original'} onClick={() => setLanguage('original')}>原文</button><button type="button" aria-pressed={language === 'zh'} disabled={loading || !problem?.markdown || translationBusy} onClick={translateStatement}>{translationBusy ? '翻译中…' : '中文'}</button></div>{problem?.url && !runningContest && <a href={problem.url} target="_blank" rel="noreferrer" title="在浏览器打开原题">原题<ExternalLink size={12} /></a>}</div></div>
+        <div className="wb-pane-header"><span><BookOpen size={14} />题面</span><div className="wb-statement-actions">
+          <div className="wb-font-controls" role="group" aria-label="题面字号调节">
+            <button type="button" aria-label="缩小题面字号" title="缩小题面字号" disabled={statementFontSize === STATEMENT_FONT_SIZES[0]} onClick={() => changeStatementFontSize(statementFontSize - 2)}>A−</button>
+            <select aria-label="题面字号" title="题面字号" value={statementFontSize} onChange={event => changeStatementFontSize(Number(event.target.value))}>{STATEMENT_FONT_SIZES.map(size => <option key={size} value={size}>{size}px</option>)}</select>
+            <button type="button" aria-label="放大题面字号" title="放大题面字号" disabled={statementFontSize === STATEMENT_FONT_SIZES.at(-1)} onClick={() => changeStatementFontSize(statementFontSize + 2)}>A+</button>
+          </div>
+          <div className="wb-language-toggle" role="group" aria-label="题面语言"><button type="button" aria-pressed={language === 'original'} onClick={() => setLanguage('original')}>原文</button><button type="button" aria-pressed={language === 'zh'} disabled={loading || !problem?.markdown || translationBusy} onClick={translateStatement}>{translationBusy ? '翻译中…' : '中文'}</button></div>
+          {problem?.url && !runningContest && <a href={problem.url} target="_blank" rel="noreferrer" title="在浏览器打开原题">原题<ExternalLink size={12} /></a>}
+        </div></div>
         {translationBusy && <p className="wb-translation-note" role="status"><LoaderCircle size={12} className="wb-spinner" />正在翻译公开题面，原文仍可阅读。</p>}
         {translationError && <div className="wb-translation-note wb-translation-error" role="alert"><span>{translationError}</span><button type="button" onClick={translateStatement}>重试</button></div>}
         {language === 'zh' && translation && <p className="wb-translation-note">机器翻译 · {translation.provider}{translation.cached ? ' · 已缓存' : ''}{translation.notice ? ` · ${translation.notice}` : ''}</p>}
-        <article className="wb-statement" ref={statementRef} tabIndex={0} aria-label="题面内容">
+        <article className="wb-statement" ref={statementRef} tabIndex={0} aria-label="题面内容" style={{ '--statement-font-size': `${statementFontSize}px` }}>
           {loading ? <div className="wb-empty"><LoaderCircle className="wb-spinner" size={22} /><span>正在载入题面</span></div>
             : loadError ? <div className="wb-empty"><span>{loadError}</span><button type="button" className="wb-button" onClick={() => setLoadAttempt(value => value + 1)}><RotateCcw size={14} />重新载入</button></div>
             : problem?.markdown ? <StatementMarkdown markdown={language === 'zh' && translation ? translation.markdown : problem.markdown} samples={problem.samples} title={problem.title} />

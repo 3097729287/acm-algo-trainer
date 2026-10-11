@@ -65,16 +65,29 @@ def _key(value):
     return re.sub(r'\s+', '', str(value or '')).lower()
 
 
+@lru_cache(maxsize=1)
+def _canonical_names(names):
+    # The immutable input changes immediately when the dictionary changes.
+    return {_key(name): name for name in names}
+
+
+@lru_cache(maxsize=1)
+def _category_parents(groups):
+    return {child: parent for parent, children in groups
+            for child in children if parent != child}
+
+
 def canonical_tag(value):
     table = dictionary()
-    lookup = {_key(n):n for n in table['names']}
-    return lookup.get(_key(value)) or table['aliases'].get(_key(value))
+    lookup = _canonical_names(tuple(table['names']))
+    key = _key(value)
+    return lookup.get(key) or table['aliases'].get(key)
 
 
 def category_path(name):
     """Keep the dictionary's complete parent chain, including self-named buckets."""
-    parents = {child:parent for parent,children in dictionary()['groups'].items()
-               for child in children if parent != child}
+    parents = _category_parents(tuple((parent, tuple(children))
+                                     for parent, children in dictionary()['groups'].items()))
     path = [name]; seen = {name}
     while path[0] in parents and parents[path[0]] not in seen:
         parent = parents[path[0]]; path.insert(0,parent); seen.add(parent)

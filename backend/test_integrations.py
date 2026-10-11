@@ -104,7 +104,9 @@ class IntegrationTests(unittest.TestCase):
         self.temp=tempfile.TemporaryDirectory();self.root=Path(self.temp.name);self.store=Store();self.client=Client();self.service=I.IntegrationService(self.store,self.root,auto_start=False,client=self.client,clock=lambda:NOW);self.store.extensions=self.service;self.store.library=LibraryDatabase(self.root/'library.sqlite3')
     def tearDown(self):self.service.close();self.temp.cleanup()
     def test_strict_filter_dedupe_local_first_and_unknown_pending(self):
-        self.service.configure({"minDifficulty":1000,"maxDifficulty":2199})
+        # This fixture drives _catalog directly; background sync must not race it.
+        with patch.object(self.service,'_ensure_worker',lambda:None):
+            self.service.configure({"minDifficulty":1000,"maxDifficulty":2199})
         values=[completed_row('A',999),completed_row('B',1000),completed_row('C',2199),completed_row('D',2200)]
         with patch.dict(P.DISCOVERY_ADAPTERS,{'codeforces':lambda *_:(values,[{'reason':'missing'}],'fixture')}):
             result=self.service._catalog('codeforces',{'https://codeforces.com/contest/1/problem/B'})

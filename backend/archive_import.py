@@ -361,6 +361,7 @@ def import_archive(database, root, data_file=None):
 def inbox(store, action=None):
     """Preview interchange files, then commit content/lesson relations as one transaction."""
     from lecture_library import portable_markdown
+    from educational_images import collect_images
     import lecture_curation as C
     from knowledge import normalize_tags
     directory = Path(store.data_root) / '题解' / '_收件箱'
@@ -399,7 +400,8 @@ def inbox(store, action=None):
                 encoded = {'id': identity, 'contest': contest, 'problem': letter, 'title': title, 'knowledge': tags, 'tags': normalized,
                            'difficulty': SR.difficulty_num(str(difficulty)), 'platform': toolutil.SERIES.get(series, {}).get('dir', ['其他'])[0], 'series': series,
                            'source': 'import', 'status': '未做', 'date': '', 'queue': None, 'url': url, 'solutionAvailable': True}
-                records.append((raw, encoded, {'markdown': markdown, 'path': path.name}, None))
+                images = collect_images(markdown, path, directory)
+                records.append((raw, encoded, {'markdown': markdown, 'path': path.name, 'images': images}, None))
                 links = []
                 problem = C.parse_document(markdown)
                 for heading in problem['headings']:
@@ -412,8 +414,11 @@ def inbox(store, action=None):
                     source = '# ' + heading['title'] + '\n\n' + body
                     entry = {'id': lecture_id, 'title': heading['title'], 'tags': normalized,
                              'sourceContest': contest, 'sourceProblem': letter, 'sourceTitle': title,
-                             'sourceProblemIds': [identity], 'sourcePath': path.name, 'available': True, 'images': {}}
+                             'sourceProblemIds': [identity], 'sourcePath': path.name, 'available': True,
+                             'editorialVersion': '2026-10-11' if '<!-- illustrated-editorial: 2026-10-11 -->' in text else None,
+                             'images': collect_images(source, path, directory)}
                     entries[lecture_id] = C.curate(entry, source, markdown)
+                    entries[lecture_id]['images'] = collect_images(entries[lecture_id]['markdown'], path, directory)
                     links.append((lecture_id, 'own'))
                 references[identity] = links
         except (OSError, UnicodeError, ValueError) as error:

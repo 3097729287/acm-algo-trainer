@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
-import { mkdtemp, mkdir, rm, realpath } from 'node:fs/promises';
+import { mkdtemp, mkdir, rm, realpath, readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { basename, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -8,6 +8,7 @@ import { createServer } from 'vite';
 import { chromium } from 'playwright';
 
 const root = resolve(fileURLToPath(new URL('../..', import.meta.url)));
+const seededSolutions = JSON.parse(await readFile(join(root, 'data/library/solutions.json'), 'utf8'));
 const state = await mkdtemp(join(tmpdir(), 'tb-api-e2e-'));
 const service = spawn(process.env.TB_PYTHON || 'python', [join(root, 'backend/backend.py'), '--offline', '--port', '0', '--state-dir', state], {
   cwd: root, windowsHide: true,
@@ -37,10 +38,10 @@ try {
   page.on('pageerror', error => errors.push(error.message));
   const catalog = await (await page.request.get(frontendUrl + '/api/data')).json();
   assert.ok(catalog.rows.length >= 607);
-  assert.equal(catalog.rows.filter(row => row.solutionAvailable).length,607);
+  assert.equal(catalog.rows.filter(row => row.solutionAvailable).length, seededSolutions.length, 'all bundled solutions reach the API');
   const problem = catalog.rows.find(row => row.title === 'Xterfusion');
   const solution = await (await page.request.get(frontendUrl + '/api/solution?id=' + encodeURIComponent(problem.id))).json();
-  assert.ok(solution.markdown.length > 4000);
+  assert.equal(solution.markdown, seededSolutions.find(record => record.problem_id === problem.id).markdown, 'the complete bundled solution reaches the API');
   assert.equal(solution.lectures.length, 1);
   await page.goto(frontendUrl);
   await page.getByRole('heading', { name: '从第一道题开始', exact: true }).waitFor();
@@ -64,7 +65,9 @@ try {
   await page.getByRole('button', { name: '题解', exact: true }).click();
   await page.locator('.reader-panel .markdown').first().waitFor();
   await page.getByText('本题的基础讲解与引用', { exact: true }).waitFor();
-  assert.ok(await page.locator('.reader-panel').getByText(/固定步长/).count());
+  const linkedLecture = solution.lectures[0];
+  assert.ok((await page.locator('.reader-panel .lecture-disclosure summary').first().textContent())
+    .includes(linkedLecture.displayTitle || linkedLecture.concept || linkedLecture.title));
   await editor.fill('#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    return 0;\n}\n');
   await mkdir('tests/screenshots', { recursive: true });
   await page.screenshot({ path: 'tests/screenshots/workbench-real.png', animations: 'disabled' });
@@ -104,6 +107,8 @@ try {
   assert.ok(await page.locator('.goal-week-plan > div').count());
   await page.keyboard.press('Control+3');
   await page.getByLabel('目标每日任务').waitFor();
+  assert.equal(await page.locator('.page-identity h1').textContent(), '我的训练');
+  assert.equal(await page.getByRole('tab', { name: '今日待办', exact: true }).count(), 0);
   await page.keyboard.press('Control+1');
   await page.getByLabel('清空我的训练').click();
   await page.getByRole('dialog').getByRole('button', {name: '取消', exact: true}).click();
@@ -143,7 +148,7 @@ try {
   assert.equal(await page.locator('.sidebar .knowledge-search,.sidebar .sidebar-section-title,.sidebar .knowledge-tools').count(),0);
   await page.screenshot({path:'tests/screenshots/sidebar-small.png',animations:'disabled'});
   assert.deepEqual(errors, []);
-  console.log('End-to-end passed: independent API, 607 SQLite solutions, precise lecture, saved draft through Vite, submit placement and responsive workbench.');
+  console.log('End-to-end passed: independent API, ' + seededSolutions.length + ' SQLite solutions, precise lecture, saved draft through Vite, submit placement and responsive workbench.');
 } catch (error) {
   console.error('Browser errors:', errors, '\nAPI stderr:', stderr);
   if (page) {

@@ -15,7 +15,7 @@ from urllib.request import Request, build_opener, HTTPRedirectHandler
 
 from progression import SHANGHAI
 
-NOTICE = "排行统计客户端报告的首次本地审核通过题数，样例通过与重复题不计入；暂不提供防作弊认证。"
+NOTICE = "排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。"
 
 
 def validate_endpoint(value):
@@ -72,12 +72,13 @@ class LeaderboardClient:
         self.status = "unconfigured"
         self.error = ""
         self.last_attempt = 0
+        self.retry_timer = None
 
     def _request(self, profile, method, path, data=None):
         payload = json.dumps(data, ensure_ascii=False).encode("utf-8") if data is not None else None
         request = Request(profile["endpoint"] + path, data=payload, method=method,
                           headers={"Content-Type": "application/json", "Accept": "application/json", "Authorization": "Bearer " + profile["auth_token"],
-                                   "X-TB-User": profile["user_id"], "User-Agent": "TB/0.5 Ranking"})
+                                   "X-TB-User": profile["user_id"], "User-Agent": "TB/0.10 Ranking"})
         try:
             with self.opener.open(request, timeout=self.timeout) as response:
                 raw = response.read(262145)
@@ -109,6 +110,9 @@ class LeaderboardClient:
             elif self.running:
                 self.dirty = True
             elif force or self.status != "error" or time.monotonic() - self.last_attempt >= 60:
+                if self.retry_timer:
+                    self.retry_timer.cancel()
+                    self.retry_timer = None
                 self.running = True
                 self.dirty = False
                 self.status = "syncing"
@@ -138,7 +142,7 @@ class LeaderboardClient:
                         return
                 batch = events[offset:offset + 100]
                 answer = self._request(profile, "POST", "/v1/events", {"events": batch})
-                if answer.get("processed") != len(batch):
+                if answer.get("processed") != len(batch) or answer.get("scope") != "official":
                     raise RuntimeError("排行榜通过记录未完整接收")
                 self.training._ranking_receipts(profile["endpoint"], batch)
             values = {}
@@ -166,6 +170,12 @@ class LeaderboardClient:
                 self.dirty = False
             if rerun:
                 self.queue_sync()
+            else:
+                with self.lock:
+                    if self.status == "error" and not self.closed:
+                        self.retry_timer = threading.Timer(65, self.queue_sync)
+                        self.retry_timer.daemon = True
+                        self.retry_timer.start()
 
     def rankings(self, period="daily"):
         from training import ServiceError
@@ -185,4 +195,6 @@ class LeaderboardClient:
     def close(self):
         with self.lock:
             self.closed = True
+            if self.retry_timer:
+                self.retry_timer.cancel()
         self.executor.shutdown(wait=True, cancel_futures=True)

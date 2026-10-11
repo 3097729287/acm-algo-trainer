@@ -23,7 +23,7 @@ export default function MockSetup({ api, onStarted, onError, activeContest, onRe
     catch (issue) { setError(issue.message); onError?.(issue.message, 'error'); setBusy(false); }
   }
   return <div className="mock-create"><section className="create-main">
-    <div className="section-title"><Flag size={22} /><div><h2>按目标组成一套训练</h2><p>选择综合练习、专项训练或随机单题，完成后解锁题解与考点。</p></div></div>
+    <div className="section-title"><Flag size={22} /><div><h2>按目标组成一套训练</h2><p>选择综合训练、专项训练、随机单题或重现赛，完成后解锁题解与考点。</p></div></div>
     {activeContest && <div className="active-notice"><Clock size={17} /><span>你有一场进行中的模拟赛</span><button className="primary" onClick={onResume}>继续比赛</button></div>}
     <div className="mock-config">
       <div className="mock-mode-options" role="group" aria-label="组题方式">{[['comprehensive', '综合训练', '多种知识点，逐步增加难度'], ['topic', '专项训练', '指定某个领域或知识点'], ['single', '随机单题', '抽取一道适合难度的题'], ['replay', '重现赛', '保留已收录比赛全部题序']].map(([mode, title, description]) => <button key={mode} aria-pressed={config.mode === mode} className={config.mode === mode ? 'active' : ''} disabled={busy} onClick={() => change({ mode })}><strong>{title}</strong><span>{description}</span></button>)}</div>

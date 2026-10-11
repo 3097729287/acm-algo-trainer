@@ -1,43 +1,64 @@
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
-import { createServer } from 'vite';
+import { createServer, preview as previewServer } from 'vite';
 import { mkdir } from 'node:fs/promises';
 
 // Every API request is isolated from the user's database and external accounts.
-const vite = await createServer({ server: { host: '127.0.0.1', port: 18775, strictPort: true } });
-await vite.listen();
+const serverSettings = { host: '127.0.0.1', port: 18775, strictPort: true };
+const vite = process.env.TB_UI_DIST ? await previewServer({ build: { outDir: process.env.TB_UI_DIST }, preview: serverSettings }) : await createServer({ server: serverSettings });
+if (!process.env.TB_UI_DIST) await vite.listen();
 const browser = await chromium.launch({ channel: process.env.CI ? undefined : 'msedge', headless: true });
 const page = await browser.newPage({ viewport: { width: 2048, height: 1152 } });
 page.setDefaultTimeout(10000);
-await page.addInitScript(() => localStorage.setItem('tb.preferences', JSON.stringify({ theme: 'light', fontSize: 18, accent: 'teal', pageBookmarks: [{ id: 'legacy', page: 'lectures', name: '旧书签' }] })));
+await page.addInitScript(() => localStorage.setItem('tb.preferences', JSON.stringify({ theme: 'light', fontSize: 18, accent: 'teal', navOrder: ['mine', 'today', 'library'], navGroups: { mine: '训练与待办', today: '训练与待办' }, pageBookmarks: [{ id: 'legacy', page: 'lectures', name: '旧书签' }] })));
 const errors = [], writes = [], now = () => new Date().toISOString(), date = now().slice(0, 10);
 page.on('pageerror', issue => errors.push(issue.message));
 const rows = ['A', 'B', 'C', 'D', 'E', 'F'].map((letter, index) => ({ id: '测试比赛::' + letter, contest: '测试比赛', problem: letter, title: ['区间统计练习', '位运算练习', '背包练习', '枚举练习', '数论练习', '字符串练习'][index], tags: [['前缀和'], ['位运算'], ['背包 DP'], ['枚举'], ['素数'], ['KMP']][index], knowledge: '知识点', platform: index % 2 ? 'AtCoder' : '牛客', series: '周赛', difficulty: 1000 + index * 200, contestDate: '2026-10-01T12:00:00Z', url: 'https://example.com/problem/' + letter, solutionAvailable: true }));
+rows[2].title = String.raw`小红的$\gcd$构造`;
+rows[3].title = String.raw`下标 \(a_i^2\) 练习`;
+rows[4].title = '相邻公式 $$$a$$$$$$b$$$';
+rows[5].title = '行内展示 $$n^2$$ 练习';
 const categories = [{ name: '基础技巧', tags: ['前缀和', '枚举', '位运算'], children: [{ name: '前缀和', tags: ['前缀和'], children: [] }, { name: '位运算', tags: ['位运算'], children: [] }] }, { name: '动态规划', tags: ['背包 DP'], children: [{ name: '背包 DP', tags: ['背包 DP'], children: [] }] }];
 const completed = { id: 'mock-old', name: '完成的模拟赛', duration: 60, startedAt: now(), deadline: now(), status: 'finished', accepted: 1, total: 3, slots: rows.slice(0, 3).map((row, index) => ({ ...row, letter: 'ABC'[index], accepted: index === 0, verdict: index === 0 ? 'AC' : 'WA', attempts: 1 })) };
 let activeContest = null;
 const training = rows.slice(0, 4).map((row, index) => ({ id: row.id, accepted: index === 0, verdict: index === 0 ? 'AC' : null, attempts: 1 }));
+training[0].queue = 'review';
+training[1].queue = 'rewrite';
+training[2].queue = 'fill';
+const goal = { id: 'goal-fixture', title: 'CF 2200', deadline: '2027-07-10', progress: 5, totalProblems: 300, remainingDays: 273, weeklyTarget: 8, workloadCompleted: false, warnings: [], dailyTask: { date, target: 2, progress: 5, completed: true, problems: [rows[4]] } };
 const contests = [completed];
 const workspace = () => ({ training, sets: [], contests, activeContest, summary: { total: training.length, accepted: 1, attempts: 3, due: 0, pending: 0, streak: 1 }, now: now() });
 const insights = { summary: { localAccepted: 1, officialSolved: 4, submissions: 3, activeDays: 1, streak: 1, completedContests: 1 }, growth: { level: 1, currentLevelXp: 10, nextLevelXp: 500, totalXp: 10, levelName: '初次启程' }, knowledge: [], recommendations: [{ name: '前缀和', reason: '巩固前缀和隐藏知识点', ids: [rows[3].id], stage: 'foundation', problem: rows[3] }], achievements: [{ id: 'first', name: '首次通过', description: '独立完成一道题', unlocked: true, unlockedAt: now(), progress: 1, target: 1 }, { id: 'ten', name: '十题积累', description: '通过十道不同题目', unlocked: false, progress: 1, target: 10 }], activity: [{ date, submissions: 3, accepted: 1, officialAccepted: 0 }], assessment: { rating: null, recommendationLevel: 1100, recommendationBasis: '基础练习', platforms: [] }, dailyTasks: { date, timezone: 'Asia/Shanghai', totalClaimedXp: 0, claimable: 1, tasks: [{ id: 'warmup', title: '每日热身', description: '完成一次有效提交', progress: 1, target: 1, xp: 20, completed: true, claimed: false }, { id: 'hard', title: '进阶挑战', description: '通过一道难度至少 1800 的题目', progress: 0, target: 1, xp: 100, completed: false, claimed: false, minDifficulty: 1800 }] } };
 const notice = { id: 'update-1', type: 'content', title: '新题已加入', body: '新增测试题目', createdAt: now(), read: false, count: 1, problemIds: [rows[4].id] };
-const hub = { version: '0.5.0', settings: { githubRepo: '3097729287/acm-agent-workflow', autoSync: true, intervalHours: 6, minDifficulty: 1000, maxDifficulty: 2199, accounts: { codeforces: 'tester', atcoder: 'tester', nowcoder: '', luogu: '' } }, accounts: [{ platform: 'codeforces', handle: 'tester', rating: 415, maxRating: 500, solvedCount: 22, submissionCount: 67, updatedAt: now(), status: 'ready' }, { platform: 'atcoder', handle: 'tester', rating: 98, maxRating: 101, solvedCount: 14, submissionCount: 38, updatedAt: now(), status: 'ready' }], sync: { busy: false, message: '同步完成', providers: [] }, updates: { configured: true, currentVersion: '0.5.0', latestVersion: '0.5.0', repository: '3097729287/acm-agent-workflow' }, notifications: [notice] };
+const hub = { version: '0.5.0', settings: { githubRepo: '3097729287/acm-algo-trainer', autoSync: true, intervalHours: 6, minDifficulty: 1000, maxDifficulty: 2199, accounts: { codeforces: 'tester', atcoder: 'tester', nowcoder: '', luogu: '' } }, accounts: [{ platform: 'codeforces', handle: 'tester', rating: 415, maxRating: 500, solvedCount: 22, submissionCount: 67, updatedAt: now(), status: 'ready' }, { platform: 'atcoder', handle: 'tester', rating: 98, maxRating: 101, solvedCount: 14, submissionCount: 38, updatedAt: now(), status: 'ready' }], sync: { busy: false, message: '同步完成', providers: [] }, updates: { configured: true, currentVersion: '0.5.0', latestVersion: '0.5.0', repository: '3097729287/acm-algo-trainer' }, notifications: [notice] };
 const lecture = { id: 'lesson-1', concept: '位运算：$v \\oplus (v-1)$', displayTitle: '位运算：$v \\oplus (v-1)$', title: '原题旧标题', originalTitle: '旧题应用标题', category: '基础技巧 / 位运算', categories: ['基础技巧 / 位运算'], tags: ['位运算'], sourceContest: '测试比赛', sourceProblem: 'B', sourceTitle: rows[1].title, sourceProblemIds: [rows[1].id], markdown: '## 位运算\n\n一个可手算的例子：$4 \\oplus 3 = 7$。\n\n```cpp\nint value = 4 ^ 3;\n```', images: {} };
 const profile = { userId: 'TB-fixture-00001', nickname: '测试用户', displayName: '测试用户#TB-fixture-00001', createdAt: now() };
 let rankingPolls = 0;
 const connection = { configured: false, endpoint: '', status: 'not_configured', notice: '共享排行榜尚未配置。' };
 const translation = { provider: 'deepseek', providerName: 'DeepSeek', model: 'deepseek-chat', baseUrl: '', configured: false, keyStored: false, providers: [{ id: 'deepseek', name: 'DeepSeek', defaultModel: 'deepseek-chat' }, { id: 'custom', name: '自定义 API', defaultModel: '' }] };
-const submissions = [{ id: 'sub-1', problemId: rows[3].id, mode: 'submit', verdict: 'WA', submittedAt: now(), timeMs: 14, code: '#include <iostream>\nint main(){std::cout << 1;}', message: '输出不匹配' }];
+insights.achievements[0].name = '首次官方 AC';
+insights.achievements[0].description = '官方 AC 1 道不同题目；样例通过不计入';
+insights.achievements.push({ id: 'difficulty-1500', name: '进阶第一步', description: '官方首次 AC 一道难度至少 1500 的题目', unlocked: false, progress: 0, target: 1 });
+insights.achievements.push({ id: 'independent-5', name: '独立五题', description: '独立官方 AC 五道不同题目；看题解后的 AC 不计入', unlocked: false, progress: 0, target: 5 });
+insights.dailyTasks.tasks[0].description = '官方 AC 一道题目';
+const submissions = [{ id: 'sub-1', problemId: rows[3].id, mode: 'submit', verdict: 'AC', scope: 'official', submittedAt: now(), timeMs: 14, code: '#include <iostream>\nint main(){std::cout << 1;}', message: '输出不匹配' }];
 for (let index = 1; index <= 100; index++) submissions.push({ ...submissions[0], id: 'sub-older-' + index, submittedAt: new Date(Date.now() - index * 60000).toISOString(), verdict: index === 100 ? 'CE' : 'WA', code: 'int main(){return 0;}' });
 let preview = null;
+const slowInsights = { enabled: false, active: 0, maxActive: 0, calls: 0 };
 await page.route('**/api/**', async route => {
   const request = route.request(), url = new URL(request.url()), path = url.pathname;
   if (!path.startsWith('/api/')) return route.continue();
+  if (path === '/api/hub' && slowInsights.enabled) {
+    await route.fulfill({ status: 503, json: { error: 'Temporary fixture hub outage' } });
+    return;
+  }
   const body = request.method() === 'POST' ? request.postDataJSON() : null;
   if (body) { assert.equal(request.headers()['x-tb-token'], 'fixture'); writes.push({ path, body }); }
   let value;
-  if (path === '/api/data') value = { rows, categories, token: 'fixture', today: date, revision: 'fixture' };
-  else if (path === '/api/goals') value = { goals: [] };
+  if (path === '/api/software-update') value = {currentVersion:'0.10.0', status:'current', autoCheck:true, canInstall:false};
+  else if (path === '/api/data') value = { rows, categories, token: 'fixture', today: date, revision: 'fixture' };
+  else if (path === '/api/goals') value = { goals: [goal] };
+  else if (path === '/api/contests/events') value = { events: [{ name: '测试比赛', count: 6, duration: 120, rules: 'acm' }] };
   else if (path === '/api/desktop/fullscreen') value = { available: false, fullscreen: false };
   else if (path === '/api/workspace') value = workspace();
   else if (path === '/api/inbox') value = { pending: 0, errors: [] };
@@ -55,12 +76,21 @@ await page.route('**/api/**', async route => {
   else if (path === '/api/contests/start') { assert.equal(body.previewId, preview.previewId); activeContest = { id: 'mock-new', name: body.name, status: 'running', duration: body.duration, startedAt: now(), deadline: new Date(Date.now() + body.duration * 60000).toISOString(), total: body.ids.length, accepted: 0, slots: preview.slots.map(({ tags, difficulty, ...slot }) => ({ ...slot, verdict: null, accepted: false })) }; contests.unshift(activeContest); value = { contest: activeContest, workspace: workspace() }; }
   else if (path === '/api/contests/finish') { const finished = { ...activeContest, status: 'finished', slots: activeContest.slots.map(slot => ({ ...slot, tags: ['枚举'], difficulty: 1600 })) }; contests[0] = finished; activeContest = null; value = { contest: finished, workspace: workspace() }; }
   else if (path === '/api/contest') value = { contest: contests.find(item => item.id === url.searchParams.get('id')) };
+  else if (path === '/api/training/start') { assert.ok(training.some(row => row.id === body.id)); value = { workspace: workspace() }; }
+  else if (path === '/api/solution') value = { id: url.searchParams.get('id'), title: rows.find(row => row.id === url.searchParams.get('id'))?.title, markdown: '## 题解\n\n计算 $gcd(a,b)$。', lectures: [] };
   else if (path === '/api/problem') value = { id: url.searchParams.get('id'), title: rows.find(row => row.id === url.searchParams.get('id'))?.title, locked: false, markdown: '## 题目描述\n\n输出整数 $n$。\n\n## 输入\n一个整数。', samples: [{ name: '样例 1', input: '1\n', output: '1\n' }], limits: { timeMs: 2000, memoryMb: 256 }, judge: { scope: 'samples', cases: 1 }, statementAvailable: true, draft: '', submissions: [] };
   else if (path === '/api/draft') value = { savedAt: now() };
   else if (path === '/api/hub/dismiss') { notice.read = true; value = hub; }
   else if (path === '/api/hub/configure') { Object.assign(hub.settings, body); value = hub; }
   else if (path === '/api/hub/sync') value = hub;
   else throw new Error('Unhandled fixture request: ' + path);
+  if (path === '/api/insights' && slowInsights.enabled) {
+    slowInsights.calls++;
+    slowInsights.active++;
+    slowInsights.maxActive = Math.max(slowInsights.maxActive, slowInsights.active);
+    await new Promise(resolve => setTimeout(resolve, 4500));
+    slowInsights.active--;
+  }
   await route.fulfill({ json: value });
 });
 
@@ -72,6 +102,46 @@ try {
   await mkdir('tests/screenshots', { recursive: true });
   await page.goto('http://127.0.0.1:18775');
   await page.locator('.problem-table').waitFor();
+  await page.getByLabel('目标每日任务').waitFor();
+  assert.equal(await page.locator('.page-identity h1').textContent(), '我的训练');
+  assert.equal(await page.getByRole('tab', { name: '今日待办', exact: true }).count(), 0);
+  assert.equal(await page.locator('.sidebar').getByLabel('命令面板').count(), 0);
+  assert.equal(await page.locator('.sidebar').getByText('快捷操作', { exact: true }).count(), 0);
+  assert.ok(await page.getByLabel('目标每日任务').evaluate(node => node.getBoundingClientRect().height < 110), 'one completed goal stays compact at 18px');
+  const trainingViews = page.getByRole('group', { name: '训练状态筛选', exact: true });
+  assert.equal(await page.locator('.problem-table tr[data-id]').count(), 4);
+  assert.equal(await page.locator('.problem-table tr[data-id]').evaluateAll(nodes => new Set(nodes.map(node => node.dataset.id)).size), 4, 'merged training has no duplicate questions');
+  assert.deepEqual(await page.locator('.problem-table tr[data-id]').evaluateAll(nodes => nodes.map(node => node.dataset.id)), [rows[1].id, rows[2].id, rows[0].id, rows[3].id]);
+  const mathTitle = page.locator('tr[data-id="测试比赛::C"] .problem-title');
+  assert.equal(await mathTitle.locator('.katex-html').textContent(), 'gcd');
+  assert.ok(!(await mathTitle.textContent()).includes('$'), 'the reported title shows its formula instead of delimiters');
+  assert.equal(await mathTitle.locator('p,div,a,button').count(), 0, 'title markup stays inline inside its button');
+  await mathTitle.click();
+  await page.locator('.wb-heading .katex').waitFor();
+  assert.equal(await page.locator('.page-identity h1 .katex-html').textContent(), 'gcd');
+  await page.getByRole('button', { name: '题解', exact: true }).click();
+  await page.locator('.reader-panel header .katex').waitFor();
+  assert.equal(await page.locator('.reader-panel header .katex-html').textContent(), 'gcd');
+  await page.screenshot({ path: 'tests/screenshots/title-math-workbench.png', animations: 'disabled' });
+  await page.getByRole('button', { name: '收起题解', exact: true }).click();
+  await page.getByRole('button', { name: '返回列表', exact: true }).click();
+  await page.locator('.table-scroll').focus();
+  await page.keyboard.press('Home');
+  await page.keyboard.press('ArrowDown');
+  assert.equal(await page.locator('.problem-table tr[data-selected="true"]').getAttribute('data-id'), rows[2].id, 'keyboard follows displayed queue order');
+  await trainingViews.getByRole('button', { name: /^待办/ }).click();
+  assert.equal(await page.locator('.problem-table tr[data-id]').count(), 3, 'AC questions due for review remain in the merged pending queue');
+  await page.getByLabel('搜索题目', { exact: true }).fill(rows[0].title);
+  await page.waitForFunction(() => document.querySelectorAll('.problem-table tr[data-id]').length === 1);
+  await trainingViews.getByRole('button', { name: /^全部训练/ }).click();
+  assert.equal(await page.getByLabel('搜索题目', { exact: true }).inputValue(), rows[0].title, 'queue filters share one search');
+  await page.getByLabel('清空搜索').click();
+  await page.waitForFunction(() => document.querySelectorAll('.problem-table tr[data-id]').length === 4);
+  await page.keyboard.press('Control+3');
+  assert.equal(await page.locator('.page-identity h1').textContent(), '我的训练', 'old shortcut now filters the single training page');
+  assert.equal(await trainingViews.getByRole('button', { name: /^待办/ }).getAttribute('aria-pressed'), 'true');
+  await trainingViews.getByRole('button', { name: /^全部训练/ }).click();
+  await page.screenshot({ path: 'tests/screenshots/training-unified-light-2048.png', animations: 'disabled' });
   assert.equal(await page.locator('.sidebar-statistics').count(), 0);
   assert.equal(await page.getByRole('button', { name: '提交记录', exact: true }).count(), 1);
   await page.getByLabel('训练分组').selectOption('@single');
@@ -87,6 +157,7 @@ try {
   assert.equal(await page.locator('.sidebar nav').evaluate(node => node.scrollHeight > node.clientHeight + 1), false);
 
   await page.keyboard.press('Control+7');
+  await page.locator('.progress-recommendation-title .katex').waitFor();
   assert.equal(await page.locator('.progress-recommendations').getByText('巩固前缀和隐藏知识点', { exact: true }).count(), 0);
   const task = page.locator('.daily-task').filter({ hasText: '每日热身' });
   await task.getByRole('button', { name: '领取经验' }).click();
@@ -97,6 +168,9 @@ try {
   await page.screenshot({ path: 'tests/screenshots/v5-growth-light-2048.png', animations: 'disabled' });
   await page.getByRole('button', { name: '成就', exact: true }).click();
   await page.getByRole('dialog').getByText('十题积累', { exact: true }).waitFor();
+  assert.equal(await page.getByRole('dialog').getByText('首次 AC', { exact: true }).count(), 1);
+  assert.ok(!(await page.getByRole('dialog').innerText()).includes('官方'));
+  assert.ok(!(await page.getByRole('dialog').innerText()).includes('不计入'));
   await page.keyboard.press('Escape');
   await page.keyboard.press('Control+8');
   assert.equal(await page.locator('.activity-details').getAttribute('open'), '');
@@ -109,9 +183,12 @@ try {
 
   await page.keyboard.press('Control+6');
   await page.getByLabel('搜索历史提交').waitFor();
+  await page.locator('.submission-log-row').first().locator('.katex').waitFor();
+  assert.equal(await page.locator('.submission-log-row .verdict').first().textContent(), 'AC');
   assert.equal(await page.getByRole('tab', { name: /模拟赛记录/ }).count(), 0);
   await page.locator('.submission-log-row').first().click();
   await page.getByRole('dialog').locator('.submission-source').getByText('#include <iostream>', { exact: false }).waitFor();
+  assert.ok(await page.getByRole('dialog').locator('header .katex').count() > 0);
   await page.keyboard.press('Escape');
   assert.equal(await page.locator('.submission-log-row').count(), 100);
   await page.getByRole('button', { name: '加载更早提交' }).click();
@@ -124,6 +201,7 @@ try {
   await page.getByRole('tab', { name: /模拟赛记录/ }).click();
   await page.getByRole('button', { name: /完成的模拟赛/ }).click();
   await page.locator('.record-detail').waitFor();
+  assert.ok(await page.locator('.record-slot .katex').count() > 0);
   await page.getByRole('tab', { name: '创建训练', exact: true }).click();
   await page.getByRole('button', { name: /专项训练.*指定某个/ }).click();
   assert.ok(await page.getByRole('button', { name: '生成试卷', exact: true }).isDisabled());
@@ -160,6 +238,15 @@ try {
   await page.locator('.ranking-table').getByText('测试新昵称', { exact: true }).waitFor();
 
   await page.keyboard.press('Control+0');
+  await page.getByRole('tab', { name: '外观与导航', exact: true }).click();
+  assert.equal(await page.getByLabel('页面组合 mine', { exact: true }).inputValue(), '', 'legacy training/today group is removed from preferences');
+  await page.getByLabel('快捷操作', { exact: true }).click();
+  await page.getByRole('dialog', { name: '快捷操作', exact: true }).waitFor();
+  assert.equal(await page.getByRole('dialog').getByRole('button', { name: /打开今日待办/ }).count(), 0);
+  await page.keyboard.press('Escape');
+  await page.keyboard.press('Control+k');
+  await page.getByRole('dialog', { name: '快捷操作', exact: true }).waitFor();
+  await page.keyboard.press('Escape');
   await page.getByRole('tab', { name: '翻译 API', exact: true }).click();
   await page.getByLabel('翻译服务', { exact: true }).selectOption('custom');
   await page.getByLabel('翻译 API Base URL').fill('http://127.0.0.1:1234/v1');
@@ -192,6 +279,10 @@ try {
     await page.keyboard.press('Control+5');
     await page.getByRole('tab', { name: '创建训练', exact: true }).click();
     await noOverflow('.mock-create');
+    const modes = await page.getByRole('group', { name: '组题方式', exact: true }).getByRole('button').evaluateAll(nodes => nodes.map(node => { const box = node.getBoundingClientRect(); return { x: box.x, y: box.y, width: box.width, height: box.height }; }));
+    assert.equal(modes.length, 4);
+    assert.equal(new Set(modes.map(box => box.y)).size, width === 1050 ? 2 : 1, 'four modes use balanced four-column or two-column rows');
+    assert.ok(Math.max(...modes.map(box => box.width)) - Math.min(...modes.map(box => box.width)) < 1);
     await page.screenshot({ path: `tests/screenshots/v5-mock-light-${width}.png`, animations: 'disabled' });
     await page.keyboard.press('Control+7');
     await noOverflow('.progress-page');
@@ -211,6 +302,16 @@ try {
     await noOverflow('.progress-page');
     await page.screenshot({ path: `tests/screenshots/v5-growth-dark-${width}.png`, animations: 'disabled' });
   }
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await page.keyboard.press('Control+1');
+  await noOverflow('.training-workspace');
+  await page.screenshot({ path: 'tests/screenshots/training-unified-dark-1920.png', animations: 'disabled' });
+  await page.keyboard.press('Control+5');
+  await page.getByRole('tab', { name: '创建训练', exact: true }).click();
+  await page.getByRole('button', { name: /重现赛.*保留已收录/ }).click();
+  await page.getByLabel('重现赛比赛').selectOption('测试比赛');
+  assert.equal(await page.getByLabel('模拟赛时长').inputValue(), '120');
+  await page.getByRole('button', { name: /综合训练.*多种知识点/ }).click();
   await page.setViewportSize({ width: 1050, height: 760 });
   await page.keyboard.press('Control+0');
   await page.getByLabel('导航名称 records').fill('历史提交');
@@ -227,6 +328,17 @@ try {
   await page.keyboard.press('Control+6');
   assert.equal(await page.locator('.page-identity h1').textContent(), '历史提交', 'fixed keyboard shortcut survives reorder/rename/group');
   await noOverflow('.records-page');
+  // A slow analytics response must not let the 3-second busy poll pile up work.
+  hub.sync.busy = true;
+  await page.reload();
+  await page.locator('.page-identity h1').waitFor();
+  await page.waitForTimeout(300);
+  slowInsights.enabled = true;
+  await page.waitForTimeout(10700);
+  slowInsights.enabled = false;
+  while (slowInsights.active) await new Promise(resolve => setTimeout(resolve, 100));
+  assert.ok(slowInsights.calls >= 2, 'polling resumes after a slow response');
+  assert.equal(slowInsights.maxActive, 1, 'busy polling has at most one pending analytics request');
   assert.deepEqual(errors, []);
   console.log('v5 UI passed: blind mock + filters + single groups, mock history/submission history, daily XP claims, visible achievements, canonical math lectures, custom API, persistent identity/offline and connected ranking states, configurable navigation and removed bookmarks and large-font responsive layouts.');
 } finally { await browser.close(); await vite.close(); }
