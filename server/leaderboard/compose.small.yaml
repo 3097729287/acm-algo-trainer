@@ -1,0 +1,58 @@
+# Use at least 1 GiB RAM and 2 GiB swap; verify swappiness after boot.
+services:
+  mysql:
+    command:
+      - --innodb-buffer-pool-size=32M
+      - --innodb-log-buffer-size=4M
+      - --innodb-redo-log-capacity=16M
+      - --innodb-read-io-threads=1
+      - --innodb-write-io-threads=1
+      - --innodb-purge-threads=1
+      - --innodb-parallel-read-threads=1
+      - --innodb-ddl-threads=1
+      - --max-connections=30
+      - --performance-schema=OFF
+      - --table-open-cache=128
+      - --table-definition-cache=400
+      - --tmp-table-size=8M
+      - --max-heap-table-size=8M
+      - --temptable-max-ram=16M
+      - --thread-cache-size=4
+      - --mysqlx=OFF
+    environment:
+      MALLOC_ARENA_MAX: '2'
+    cpus: 1.0
+    mem_limit: 224m
+    memswap_limit: 768m
+    healthcheck:
+      interval: 60s
+      start_interval: 5s
+      start_period: 60s
+      retries: 3
+  redis:
+    command: [redis-server, /etc/redis/redis.conf, --maxmemory, 32mb]
+    cpus: 0.25
+    mem_limit: 96m
+    memswap_limit: 192m
+    healthcheck:
+      interval: 60s
+      start_interval: 5s
+      retries: 3
+  api:
+    environment:
+      NODE_OPTIONS: --max-old-space-size=64
+    cpus: 0.5
+    mem_limit: 128m
+    memswap_limit: 256m
+    healthcheck:
+      test: [CMD, node, -e, "const r=require('node:http').get('http://127.0.0.1:8080/v1/health',s=>process.exit(s.statusCode===200?0:1));r.setTimeout(4000,()=>{r.destroy();process.exit(1)});r.on('error',()=>process.exit(1))"]
+      interval: 60s
+      start_interval: 5s
+      start_period: 30s
+      retries: 3
+  caddy:
+    environment:
+      GOMEMLIMIT: 64MiB
+    cpus: 0.25
+    mem_limit: 128m
+    memswap_limit: 256m

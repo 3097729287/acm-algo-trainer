@@ -144,34 +144,10 @@
     "problem_id": "ARC 224::B"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:cbf47ff11fd061e72d381fc1",
-    "position": 1,
-    "problem_id": "ARC 224::B"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:d7217d4d99aac72860952f39",
     "position": 0,
     "problem_id": "ARC 224::C"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:3346a9312b61209ecdcf2e2b",
-    "position": 0,
-    "problem_id": "ARC 225::B"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:1d570110be1c078376ebe2c3",
-    "position": 0,
-    "problem_id": "ARC 225::C"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:6073cb3e08e77dd2ae0b506e",
-    "position": 0,
-    "problem_id": "ARC 225::D"
   },
   {
     "kind": "own",
@@ -192,18 +168,6 @@
     "problem_id": "ARC 226::B"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:cbf47ff11fd061e72d381fc1",
-    "position": 1,
-    "problem_id": "ARC 226::B"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:6073cb3e08e77dd2ae0b506e",
-    "position": 0,
-    "problem_id": "ARC 226::C"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:3b20970a59e3bb98e9376eac",
     "position": 0,
@@ -219,12 +183,6 @@
     "kind": "own",
     "lecture_id": "lecture:4e931ca1e10c189be20ef2ab",
     "position": 0,
-    "problem_id": "ARC 229::A"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:6073cb3e08e77dd2ae0b506e",
-    "position": 1,
     "problem_id": "ARC 229::A"
   },
   {
@@ -270,18 +228,6 @@
     "problem_id": "ARC 231::B"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:ca0616e8e014e3b3d5bc8bcf",
-    "position": 1,
-    "problem_id": "ARC 231::B"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:a8da160ffd3165bffd4402fb",
-    "position": 0,
-    "problem_id": "Div.2 1112::C"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:0db4f5ccd5149933aa34c3ba",
     "position": 0,
@@ -301,6 +247,18 @@
   },
   {
     "kind": "own",
+    "lecture_id": "lecture:9d1b94f7de2ae2ed49c1b6c1",
+    "position": 0,
+    "problem_id": "Div.2 1113::A"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:8c13f5e8b7790fbf8333d371",
+    "position": 0,
+    "problem_id": "Div.2 1113::B"
+  },
+  {
+    "kind": "own",
     "lecture_id": "lecture:9d3420e6f24c5a7e97eee07a",
     "position": 0,
     "problem_id": "Div.2 1113::C"
@@ -316,6 +274,12 @@
     "lecture_id": "lecture:df85f4490a08f4cc05a08cba",
     "position": 0,
     "problem_id": "Div.2 1113::F"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:da920711f8ec6c49e230cb82",
+    "position": 0,
+    "problem_id": "Div.2 1115::B"
   },
   {
     "kind": "own",
@@ -340,6 +304,12 @@
     "lecture_id": "lecture:516aa0bc630d2c1d8de4625a",
     "position": 0,
     "problem_id": "Div.2 1115::F"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:14b43bad81227bdcd4abce7a",
+    "position": 0,
+    "problem_id": "Div.2 1116::B"
   },
   {
     "kind": "own",
@@ -379,6 +349,12 @@
   },
   {
     "kind": "own",
+    "lecture_id": "lecture:575a0f4e0bba75f977394914",
+    "position": 0,
+    "problem_id": "Div.2 1118::B1"
+  },
+  {
+    "kind": "own",
     "lecture_id": "lecture:2eaf2b9bb16d7b091b75d1a9",
     "position": 0,
     "problem_id": "Div.2 1118::B2"
@@ -387,12 +363,6 @@
     "kind": "own",
     "lecture_id": "lecture:a8962c0fc22b4908c9e8d1af",
     "position": 0,
-    "problem_id": "Div.2 1118::C"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:c6e733bb5c27d6873c4f4752",
-    "position": 1,
     "problem_id": "Div.2 1118::C"
   },
   {
@@ -411,12 +381,6 @@
     "kind": "own",
     "lecture_id": "lecture:e456f380c13202903d699cc7",
     "position": 0,
-    "problem_id": "Div.2 1118::F"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:3acb9aa2891108e17ab0d8fa",
-    "position": 1,
     "problem_id": "Div.2 1118::F"
   },
   {
@@ -442,6 +406,12 @@
     "lecture_id": "lecture:c575db6192997accea3433c7",
     "position": 0,
     "problem_id": "Div.2 1120::F"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:be7f798fbd49c81f52219414",
+    "position": 0,
+    "problem_id": "Div.2 1121::B"
   },
   {
     "kind": "own",
@@ -474,16 +444,22 @@
     "problem_id": "Div.2 1123::G"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:3ab89c62e991bdd70525bdd1",
+    "kind": "own",
+    "lecture_id": "lecture:756be1ed97d5d64d397ede4c",
     "position": 0,
-    "problem_id": "Div.2 1124::D"
+    "problem_id": "Div.2 1124::B"
   },
   {
     "kind": "own",
     "lecture_id": "lecture:dbb5140231db3fe8dac9eee5",
     "position": 0,
     "problem_id": "Div.2 1124::E"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:62f98f0692e42e30a63a6399",
+    "position": 0,
+    "problem_id": "Div.3 1076::B"
   },
   {
     "kind": "own",
@@ -510,22 +486,10 @@
     "problem_id": "Div.3 1076::G"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:064a7fe5cbd70ca95e0985f1",
-    "position": 1,
-    "problem_id": "Div.3 1076::G"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:5208d68db546551301d7f7d9",
     "position": 0,
     "problem_id": "Div.3 1076::H"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:4807bbae6052074a9269d95c",
-    "position": 0,
-    "problem_id": "Div.3 1080::C"
   },
   {
     "kind": "own",
@@ -546,22 +510,10 @@
     "problem_id": "Div.3 1080::G"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:7990d92643ad917708eb9306",
-    "position": 1,
-    "problem_id": "Div.3 1080::G"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:ed94b70384509b4c4bfffb0d",
     "position": 0,
     "problem_id": "Div.3 1080::H"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:2aab3ec49308b0a8c48bec09",
-    "position": 0,
-    "problem_id": "Div.3 1084::C"
   },
   {
     "kind": "own",
@@ -588,34 +540,22 @@
     "problem_id": "Div.3 1084::G"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:3352170b703373990d81630b",
-    "position": 1,
-    "problem_id": "Div.3 1084::G"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:2889b98e198092e6d05ffcb1",
-    "position": 2,
-    "problem_id": "Div.3 1084::G"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:b0234d872e0cc44a23687d44",
-    "position": 3,
-    "problem_id": "Div.3 1084::G"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:1d377838d15797c7097ed4e9",
     "position": 0,
     "problem_id": "Div.3 1084::H"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:77dc42c2339679b71a0ae38c",
-    "position": 1,
-    "problem_id": "Div.3 1084::H"
+    "kind": "own",
+    "lecture_id": "lecture:6960f1d27ee2103300cf1c58",
+    "position": 0,
+    "problem_id": "Div.3 1096::B"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:1b2f75e16ef0823bfabc36cd",
+    "position": 0,
+    "problem_id": "Div.3 1096::C"
   },
   {
     "kind": "own",
@@ -627,12 +567,6 @@
     "kind": "own",
     "lecture_id": "lecture:3304e7370900e1117b23edca",
     "position": 0,
-    "problem_id": "Div.3 1096::E"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:12253ec0825c1a3662567f0b",
-    "position": 1,
     "problem_id": "Div.3 1096::E"
   },
   {
@@ -666,12 +600,6 @@
     "problem_id": "Div.3 1103::E"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:b16d6ca425d923cefb4b04c7",
-    "position": 1,
-    "problem_id": "Div.3 1103::E"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:77dc42c2339679b71a0ae38c",
     "position": 0,
@@ -684,34 +612,10 @@
     "problem_id": "Div.3 1103::F2"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:40ab0f22414ba4d680b1357c",
-    "position": 1,
-    "problem_id": "Div.3 1103::F2"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:2889b98e198092e6d05ffcb1",
-    "position": 2,
-    "problem_id": "Div.3 1103::F2"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:69da547915c05b68a2e44bda",
     "position": 0,
     "problem_id": "Div.3 1103::G"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:be2ca3a8afe4d5b14777a2c3",
-    "position": 0,
-    "problem_id": "Div.3 1107::C"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:3ab89c62e991bdd70525bdd1",
-    "position": 0,
-    "problem_id": "Div.3 1107::D"
   },
   {
     "kind": "own",
@@ -720,27 +624,9 @@
     "problem_id": "Div.3 1107::E"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:96127d841bd77265d36121cf",
-    "position": 1,
-    "problem_id": "Div.3 1107::E"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:b5544b0c86f18ddcf01f3efc",
-    "position": 0,
-    "problem_id": "Div.3 1107::F"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:14db4c219b43e89231fdebeb",
     "position": 0,
-    "problem_id": "Div.3 1107::G"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:64c5080f953d67aabd8c09cb",
-    "position": 1,
     "problem_id": "Div.3 1107::G"
   },
   {
@@ -756,33 +642,15 @@
     "problem_id": "Div.3 1109::D"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:784f967357bec36ce1af044f",
-    "position": 0,
-    "problem_id": "Div.3 1109::E"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:2f9285c4b6f42f2f69044598",
     "position": 0,
     "problem_id": "Div.3 1109::F"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:3acb9aa2891108e17ab0d8fa",
-    "position": 1,
-    "problem_id": "Div.3 1109::F"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:a0959dc18e76a17122830d93",
     "position": 0,
-    "problem_id": "Div.3 1109::G"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:236c076c7e0f8cd291adb348",
-    "position": 1,
     "problem_id": "Div.3 1109::G"
   },
   {
@@ -802,12 +670,6 @@
     "lecture_id": "lecture:812a9b1b0337beb7409989f0",
     "position": 0,
     "problem_id": "Div.3 1114::G"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:9ff1353609b796aa991c00ba",
-    "position": 0,
-    "problem_id": "Div.3 1119::D"
   },
   {
     "kind": "own",
@@ -834,21 +696,9 @@
     "problem_id": "Div.3 1119::H"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:01621b0ef654cb12fa33b627",
-    "position": 0,
-    "problem_id": "Div.3 1122::E"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:9dd32db792771ea5498e83f9",
     "position": 0,
-    "problem_id": "Div.3 1122::F"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:bb49046826ce69c125abb3ad",
-    "position": 1,
     "problem_id": "Div.3 1122::F"
   },
   {
@@ -862,30 +712,6 @@
     "lecture_id": "lecture:22bee16b74b794312de650ba",
     "position": 0,
     "problem_id": "Div.3 1122::H"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:236c076c7e0f8cd291adb348",
-    "position": 1,
-    "problem_id": "Div.3 1122::H"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:f5aabbd1b00c744d1501046e",
-    "position": 0,
-    "problem_id": "Div.3 1125::B"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:669ad89b7baeec9cf666702e",
-    "position": 0,
-    "problem_id": "Div.3 1125::C"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:cbf47ff11fd061e72d381fc1",
-    "position": 0,
-    "problem_id": "Div.3 1125::D"
   },
   {
     "kind": "own",
@@ -904,18 +730,6 @@
     "lecture_id": "lecture:eace11dd653e69d7688fb92b",
     "position": 0,
     "problem_id": "Div.3 1125::G"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:a8da160ffd3165bffd4402fb",
-    "position": 0,
-    "problem_id": "Div.4 1003::C2"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:cbf47ff11fd061e72d381fc1",
-    "position": 1,
-    "problem_id": "Div.4 1003::C2"
   },
   {
     "kind": "own",
@@ -948,18 +762,6 @@
     "problem_id": "Div.4 1003::H"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:ff9fbee9ff36049ce6222ad3",
-    "position": 1,
-    "problem_id": "Div.4 1003::H"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:be2ca3a8afe4d5b14777a2c3",
-    "position": 0,
-    "problem_id": "Div.4 1017::D"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:9d02206fa0f32dc7fc1411e0",
     "position": 0,
@@ -978,40 +780,10 @@
     "problem_id": "Div.4 1017::G"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:236c076c7e0f8cd291adb348",
-    "position": 1,
-    "problem_id": "Div.4 1017::G"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:cbf47ff11fd061e72d381fc1",
-    "position": 0,
-    "problem_id": "Div.4 1017::H"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:1a6c8b1aeebcb87b03b48d51",
-    "position": 1,
-    "problem_id": "Div.4 1017::H"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:fbcfe1486eaf811ee56c64f9",
     "position": 0,
     "problem_id": "Div.4 1050::D"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:8ad04093012304fa2dc4de21",
-    "position": 1,
-    "problem_id": "Div.4 1050::D"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:b16d6ca425d923cefb4b04c7",
-    "position": 0,
-    "problem_id": "Div.4 1050::E"
   },
   {
     "kind": "own",
@@ -1038,21 +810,9 @@
     "problem_id": "Div.4 1062::E"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:cbf47ff11fd061e72d381fc1",
-    "position": 1,
-    "problem_id": "Div.4 1062::E"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:21987fd2aa1fa7ca5bebb500",
     "position": 0,
-    "problem_id": "Div.4 1062::F"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:43709c3e90bc96d6df7342aa",
-    "position": 1,
     "problem_id": "Div.4 1062::F"
   },
   {
@@ -1092,21 +852,9 @@
     "problem_id": "Div.4 1074::G"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:eae1a59d5809a9eb69b241b4",
-    "position": 1,
-    "problem_id": "Div.4 1074::G"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:b5e178e7056d243b1e6160c8",
     "position": 0,
-    "problem_id": "Div.4 1074::H"
-  },
-  {
-    "kind": "own",
-    "lecture_id": "lecture:a4a7377615cb3c20aca47075",
-    "position": 1,
     "problem_id": "Div.4 1074::H"
   },
   {
@@ -1116,52 +864,10 @@
     "problem_id": "Div.4 1090::D"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:01621b0ef654cb12fa33b627",
-    "position": 1,
-    "problem_id": "Div.4 1090::D"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:ca0616e8e014e3b3d5bc8bcf",
-    "position": 0,
-    "problem_id": "Div.4 1090::E"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:7734277051034f49ca3ee1e6",
-    "position": 1,
-    "problem_id": "Div.4 1090::E"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:415dfeeaeed17f1301547f2a",
-    "position": 2,
-    "problem_id": "Div.4 1090::E"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:6073cb3e08e77dd2ae0b506e",
-    "position": 0,
-    "problem_id": "Div.4 1090::F"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:57b8cb8fa9dcfd59b976ee08",
     "position": 0,
     "problem_id": "Div.4 1090::G"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:97284c7185a5bd970411ebfe",
-    "position": 1,
-    "problem_id": "Div.4 1090::G"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:97284c7185a5bd970411ebfe",
-    "position": 0,
-    "problem_id": "Div.4 952::C"
   },
   {
     "kind": "own",
@@ -1176,12 +882,6 @@
     "problem_id": "Div.4 952::E"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:cbf47ff11fd061e72d381fc1",
-    "position": 0,
-    "problem_id": "Div.4 952::F"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:b372ee3d824e865bf00482d2",
     "position": 0,
@@ -1194,33 +894,9 @@
     "problem_id": "Div.4 952::G"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:a5e7e2ae060523f2fe5610e6",
-    "position": 2,
-    "problem_id": "Div.4 952::G"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:1d570110be1c078376ebe2c3",
-    "position": 0,
-    "problem_id": "Div.4 952::H1"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:48a7a0c833dfc50593fb043d",
-    "position": 1,
-    "problem_id": "Div.4 952::H1"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:b590d36a4fc8918cacb53b6a",
     "position": 0,
-    "problem_id": "Div.4 952::H2"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:685b20fb286e61fe2748f923",
-    "position": 1,
     "problem_id": "Div.4 952::H2"
   },
   {
@@ -1236,27 +912,9 @@
     "problem_id": "Div.4 964::E"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:0e566a70c5f744f8f6c03adf",
-    "position": 0,
-    "problem_id": "Div.4 964::F"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:2889b98e198092e6d05ffcb1",
-    "position": 1,
-    "problem_id": "Div.4 964::F"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:064a7fe5cbd70ca95e0985f1",
     "position": 0,
-    "problem_id": "Div.4 964::G1"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:cbf47ff11fd061e72d381fc1",
-    "position": 1,
     "problem_id": "Div.4 964::G1"
   },
   {
@@ -1278,18 +936,6 @@
     "problem_id": "Div.4 971::D"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:cbf47ff11fd061e72d381fc1",
-    "position": 0,
-    "problem_id": "Div.4 971::E"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:97284c7185a5bd970411ebfe",
-    "position": 1,
-    "problem_id": "Div.4 971::E"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:a5cd0a4f7fd902c6385fc3d4",
     "position": 0,
@@ -1305,18 +951,6 @@
     "kind": "own",
     "lecture_id": "lecture:135b14ac5a8f6df9f8c0e2a5",
     "position": 0,
-    "problem_id": "Div.4 971::G2"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:ae097f80effa52e95d08146c",
-    "position": 1,
-    "problem_id": "Div.4 971::G2"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:ff9fbee9ff36049ce6222ad3",
-    "position": 2,
     "problem_id": "Div.4 971::G2"
   },
   {
@@ -1362,40 +996,16 @@
     "problem_id": "Div.4 993::H"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:a8da160ffd3165bffd4402fb",
-    "position": 0,
-    "problem_id": "入门赛 43::D"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:685b20fb286e61fe2748f923",
-    "position": 0,
-    "problem_id": "入门赛 43::F"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:5f16dde27485cf20e3b90a97",
     "position": 0,
     "problem_id": "入门赛 43::H"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:a8da160ffd3165bffd4402fb",
-    "position": 0,
-    "problem_id": "入门赛 44::B"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:89cb18950839727aefea1513",
     "position": 0,
     "problem_id": "入门赛 46::I"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:784f967357bec36ce1af044f",
-    "position": 0,
-    "problem_id": "入门赛 47::H"
   },
   {
     "kind": "own",
@@ -1422,12 +1032,6 @@
     "problem_id": "入门赛 49::F"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:01621b0ef654cb12fa33b627",
-    "position": 0,
-    "problem_id": "入门赛 50::E"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:3352170b703373990d81630b",
     "position": 0,
@@ -1450,6 +1054,12 @@
     "lecture_id": "lecture:32b3c3a8b7947f98dc7ad8a2",
     "position": 0,
     "problem_id": "入门赛 51::F"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:a36d097118502c3ef3e669f3",
+    "position": 0,
+    "problem_id": "入门赛 52::C"
   },
   {
     "kind": "own",
@@ -1513,6 +1123,12 @@
   },
   {
     "kind": "own",
+    "lecture_id": "lecture:ca0616e8e014e3b3d5bc8bcf",
+    "position": 0,
+    "problem_id": "周赛 141::B"
+  },
+  {
+    "kind": "own",
     "lecture_id": "lecture:1cf8e2b1969620bb0591cced",
     "position": 0,
     "problem_id": "周赛 141::C"
@@ -1522,18 +1138,6 @@
     "lecture_id": "lecture:4bdce889995be3c9bf43fdd0",
     "position": 0,
     "problem_id": "周赛 141::D"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:6073cb3e08e77dd2ae0b506e",
-    "position": 0,
-    "problem_id": "周赛 141::E"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:97284c7185a5bd970411ebfe",
-    "position": 0,
-    "problem_id": "周赛 141::F"
   },
   {
     "kind": "own",
@@ -1633,183 +1237,153 @@
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:aed5f3f9818fbd707b52d618",
+    "lecture_id": "lecture:ecb91c7093cc8a637ba52a09",
     "position": 0,
     "problem_id": "周赛 148::C"
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:5a0e7c3653df66cb7f298ad9",
+    "lecture_id": "lecture:74b690765bc5acf39c41c9cb",
     "position": 0,
     "problem_id": "周赛 148::D"
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:6d5749d13a040c30e5cf73eb",
+    "lecture_id": "lecture:63790a02d1158547d3274d68",
     "position": 0,
     "problem_id": "周赛 148::E"
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:c574e85217789fb9d62677af",
+    "lecture_id": "lecture:35a74d4f810d595eb0ba417f",
     "position": 0,
     "problem_id": "周赛 148::F"
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:e6c90d0c166af8226bfff827",
+    "lecture_id": "lecture:1743ab54662989e4434aeb4d",
     "position": 0,
     "problem_id": "周赛 149::E"
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:84b4bd4446683ef507cfe6a2",
+    "lecture_id": "lecture:c68e79bf4efb82f42fce9262",
+    "position": 0,
+    "problem_id": "周赛 149::F"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:00f0d40079e4424e557670d8",
     "position": 0,
     "problem_id": "周赛 150::D"
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:934f7d43a10c1957e30047fc",
+    "lecture_id": "lecture:9370c4d6a8bb92cf914e6521",
     "position": 0,
     "problem_id": "周赛 150::E"
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:b3ce304625e333ef5748a856",
+    "lecture_id": "lecture:972f6a7f0c28f48aa452ae8f",
     "position": 0,
     "problem_id": "周赛 150::F"
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:685b20fb286e61fe2748f923",
+    "lecture_id": "lecture:73b51ed694262da0be421479",
     "position": 0,
     "problem_id": "周赛 151::D"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:48a7a0c833dfc50593fb043d",
-    "position": 1,
-    "problem_id": "周赛 151::D"
-  },
-  {
     "kind": "own",
-    "lecture_id": "lecture:9fdd920cb5fbb1c5787d98d6",
+    "lecture_id": "lecture:175a1a45bd313d902f298fe9",
     "position": 0,
     "problem_id": "周赛 151::E"
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:95164363afd45e8bb7579e75",
+    "lecture_id": "lecture:15b2a21ca4a163e27d376902",
     "position": 0,
     "problem_id": "周赛 151::F"
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:be2ca3a8afe4d5b14777a2c3",
+    "lecture_id": "lecture:c789cb0d7b5a8faf728baf33",
     "position": 0,
     "problem_id": "周赛 152::E"
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:767018097db5bad522305855",
+    "lecture_id": "lecture:5ed856aaf9886187bdd50506",
     "position": 0,
     "problem_id": "周赛 152::F"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:6073cb3e08e77dd2ae0b506e",
-    "position": 0,
-    "problem_id": "周赛 153::C"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:d6a7d11d37b6c8ca841ff57a",
-    "position": 0,
-    "problem_id": "周赛 153::E"
-  },
-  {
     "kind": "own",
-    "lecture_id": "lecture:be81668c66b5872ab2647aba",
+    "lecture_id": "lecture:1dddc59453e14a5808adc1b2",
     "position": 0,
     "problem_id": "周赛 153::F"
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:bffe9685c8f6f70dacbe1bf9",
+    "lecture_id": "lecture:a32da56da95730c610cbac72",
     "position": 0,
     "problem_id": "周赛 153::G"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:a8da160ffd3165bffd4402fb",
-    "position": 0,
-    "problem_id": "周赛 154::C"
-  },
-  {
     "kind": "own",
-    "lecture_id": "lecture:784f967357bec36ce1af044f",
+    "lecture_id": "lecture:4bb0f01c4556b3632034e20e",
     "position": 0,
     "problem_id": "周赛 154::D"
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:0e566a70c5f744f8f6c03adf",
+    "lecture_id": "lecture:69b893c84e3546de4ddce420",
     "position": 0,
     "problem_id": "周赛 154::E"
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:a233abd460b7e7c72318de38",
+    "lecture_id": "lecture:2870e1f17a51e708b3f6ccc9",
     "position": 0,
     "problem_id": "周赛 154::F"
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:72a9edb8f63fcf94c6b0853e",
+    "lecture_id": "lecture:2ef3654e375a4598a8f196b2",
     "position": 0,
     "problem_id": "周赛 155::D"
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:8039778887c769c065fc537f",
+    "lecture_id": "lecture:383e8771dc5b27e009127851",
     "position": 0,
     "problem_id": "周赛 155::E"
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:631370e2d29afb0a3644b5a9",
+    "lecture_id": "lecture:ec5cd06a3ef1e2b0c40c2fac",
     "position": 0,
     "problem_id": "周赛 155::F"
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:4ca03a9b1a3ea29b3f368908",
+    "lecture_id": "lecture:70af84a0c817b70e897c1feb",
     "position": 0,
     "problem_id": "周赛 156::D"
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:c6e733bb5c27d6873c4f4752",
+    "lecture_id": "lecture:346e5fc01115983d020b8ff3",
     "position": 0,
     "problem_id": "周赛 156::E"
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:bd0a2d0dca92f2a668d9ae2f",
+    "lecture_id": "lecture:25513586e98366c3df3f1b15",
     "position": 0,
     "problem_id": "周赛 156::F"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:b16d6ca425d923cefb4b04c7",
-    "position": 0,
-    "problem_id": "周赛 157::D"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:97284c7185a5bd970411ebfe",
-    "position": 0,
-    "problem_id": "周赛 157::E"
   },
   {
     "kind": "own",
@@ -1818,14 +1392,8 @@
     "problem_id": "周赛 157::F"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:b16d6ca425d923cefb4b04c7",
-    "position": 0,
-    "problem_id": "周赛 158::D"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:784f967357bec36ce1af044f",
+    "kind": "own",
+    "lecture_id": "lecture:ce03516db2ddbfafa6e0c6fb",
     "position": 0,
     "problem_id": "周赛 158::E"
   },
@@ -1837,7 +1405,19 @@
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:03a5b3750370c5cf82117d80",
+    "lecture_id": "lecture:3289e0b73d45e5ac202ddcb5",
+    "position": 0,
+    "problem_id": "周赛 159::E"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:881fe08c43a5ed1cb661c768",
+    "position": 0,
+    "problem_id": "周赛 159::F"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:153279e21af5ea231ab51328",
     "position": 0,
     "problem_id": "周赛 161::C"
   },
@@ -1855,7 +1435,7 @@
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:e81e66e8e776562cfff682c0",
+    "lecture_id": "lecture:319afbcdea8c6a26fcf6667b",
     "position": 0,
     "problem_id": "周赛 161::F"
   },
@@ -1909,42 +1489,6 @@
   },
   {
     "kind": "own",
-    "lecture_id": "lecture:53542f2c881e7a43203bf295",
-    "position": 0,
-    "problem_id": "周赛 164::C"
-  },
-  {
-    "kind": "own",
-    "lecture_id": "lecture:97284c7185a5bd970411ebfe",
-    "position": 0,
-    "problem_id": "周赛 164::D"
-  },
-  {
-    "kind": "own",
-    "lecture_id": "lecture:a6ae4a278988ad1da3536456",
-    "position": 0,
-    "problem_id": "周赛 164::E"
-  },
-  {
-    "kind": "own",
-    "lecture_id": "lecture:12487b67366be06580d25c45",
-    "position": 0,
-    "problem_id": "周赛 164::F"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:2889b98e198092e6d05ffcb1",
-    "position": 1,
-    "problem_id": "周赛 164::F"
-  },
-  {
-    "kind": "own",
-    "lecture_id": "lecture:43709c3e90bc96d6df7342aa",
-    "position": 0,
-    "problem_id": "周赛 164::G"
-  },
-  {
-    "kind": "own",
     "lecture_id": "lecture:55bd91613693d594288c6a29",
     "position": 0,
     "problem_id": "基础赛 31::B"
@@ -1959,18 +1503,6 @@
     "kind": "own",
     "lecture_id": "lecture:f024e2d2cea607a12fd920a2",
     "position": 0,
-    "problem_id": "基础赛 31::D"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:b16d6ca425d923cefb4b04c7",
-    "position": 1,
-    "problem_id": "基础赛 31::D"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:a5e7e2ae060523f2fe5610e6",
-    "position": 2,
     "problem_id": "基础赛 31::D"
   },
   {
@@ -2004,12 +1536,6 @@
     "problem_id": "基础赛 33::C"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:3acb9aa2891108e17ab0d8fa",
-    "position": 1,
-    "problem_id": "基础赛 33::C"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:d1fd56fe43aee1f087997659",
     "position": 0,
@@ -2020,18 +1546,6 @@
     "lecture_id": "lecture:b0f78a243f157d77ebab4cd8",
     "position": 0,
     "problem_id": "基础赛 33::E"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:7734277051034f49ca3ee1e6",
-    "position": 1,
-    "problem_id": "基础赛 33::E"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:a8da160ffd3165bffd4402fb",
-    "position": 0,
-    "problem_id": "基础赛 34::B"
   },
   {
     "kind": "own",
@@ -2202,12 +1716,6 @@
     "problem_id": "小白月赛 130::F"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:03a5b3750370c5cf82117d80",
-    "position": 0,
-    "problem_id": "小白月赛 131::C"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:199f044e338c960f4d189616",
     "position": 0,
@@ -2220,58 +1728,16 @@
     "problem_id": "小白月赛 131::E"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:50bdee8c0efcb5fa4386102d",
-    "position": 1,
-    "problem_id": "小白月赛 131::E"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:823bab4f14b0dd39629a3d87",
     "position": 0,
     "problem_id": "小白月赛 131::F"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:03a5b3750370c5cf82117d80",
-    "position": 0,
-    "problem_id": "小白月赛 132::C"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:6073cb3e08e77dd2ae0b506e",
-    "position": 0,
-    "problem_id": "小白月赛 132::D"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:ae097f80effa52e95d08146c",
     "position": 0,
     "problem_id": "小白月赛 132::E"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:cf33bd5576caf6316dc3afdb",
-    "position": 0,
-    "problem_id": "小白月赛 132::F"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:3acb9aa2891108e17ab0d8fa",
-    "position": 1,
-    "problem_id": "小白月赛 132::F"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:cbf47ff11fd061e72d381fc1",
-    "position": 0,
-    "problem_id": "小白月赛 133::C"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:01621b0ef654cb12fa33b627",
-    "position": 0,
-    "problem_id": "小白月赛 133::D"
   },
   {
     "kind": "own",
@@ -2298,18 +1764,6 @@
     "problem_id": "小白月赛 134::F"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:685b20fb286e61fe2748f923",
-    "position": 1,
-    "problem_id": "小白月赛 134::F"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:2aab3ec49308b0a8c48bec09",
-    "position": 0,
-    "problem_id": "小白月赛 135::D"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:5a6e961ad91562882020c8b7",
     "position": 0,
@@ -2328,21 +1782,9 @@
     "problem_id": "小白月赛 136::C"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:cbf47ff11fd061e72d381fc1",
-    "position": 0,
-    "problem_id": "小白月赛 136::D"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:48d6dddacdb1338f4f71cc2d",
     "position": 0,
-    "problem_id": "小白月赛 136::E"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:48a7a0c833dfc50593fb043d",
-    "position": 1,
     "problem_id": "小白月赛 136::E"
   },
   {
@@ -2352,22 +1794,10 @@
     "problem_id": "小白月赛 136::F"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:236c076c7e0f8cd291adb348",
-    "position": 1,
-    "problem_id": "小白月赛 136::F"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:3ab89c62e991bdd70525bdd1",
     "position": 0,
     "problem_id": "小白月赛 137::E"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:2f34e5647d5a11a6e045db4c",
-    "position": 0,
-    "problem_id": "小白月赛 137::F"
   },
   {
     "kind": "own",
@@ -2448,12 +1878,6 @@
     "problem_id": "挑战赛 86::C"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:eae1a59d5809a9eb69b241b4",
-    "position": 1,
-    "problem_id": "挑战赛 86::C"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:59912b46e611d18d876de9ff",
     "position": 0,
@@ -2466,27 +1890,9 @@
     "problem_id": "挑战赛 87::B"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:685b20fb286e61fe2748f923",
-    "position": 1,
-    "problem_id": "挑战赛 87::B"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:48a7a0c833dfc50593fb043d",
-    "position": 2,
-    "problem_id": "挑战赛 87::B"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:5d088249ba6e27a509fe4c90",
     "position": 0,
-    "problem_id": "挑战赛 87::C"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:a5e7e2ae060523f2fe5610e6",
-    "position": 1,
     "problem_id": "挑战赛 87::C"
   },
   {
@@ -2494,18 +1900,6 @@
     "lecture_id": "lecture:83403ca2e63974b76380c6f4",
     "position": 0,
     "problem_id": "挑战赛 87::D"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:7734277051034f49ca3ee1e6",
-    "position": 1,
-    "problem_id": "挑战赛 87::D"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:72a9edb8f63fcf94c6b0853e",
-    "position": 0,
-    "problem_id": "挑战赛 88::B"
   },
   {
     "kind": "own",
@@ -2526,28 +1920,10 @@
     "problem_id": "挑战赛 88::D"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:a5e7e2ae060523f2fe5610e6",
-    "position": 2,
-    "problem_id": "挑战赛 88::D"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:a8da160ffd3165bffd4402fb",
-    "position": 0,
-    "problem_id": "挑战赛 89::A"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:99a7b014208cddabcf9962b2",
     "position": 0,
     "problem_id": "挑战赛 89::B"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:236c076c7e0f8cd291adb348",
-    "position": 0,
-    "problem_id": "挑战赛 89::C"
   },
   {
     "kind": "own",
@@ -2566,18 +1942,6 @@
     "lecture_id": "lecture:029fdafb70be04d3ca5a6364",
     "position": 0,
     "problem_id": "挑战赛 90::B"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:eae1a59d5809a9eb69b241b4",
-    "position": 0,
-    "problem_id": "挑战赛 90::C"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:0e566a70c5f744f8f6c03adf",
-    "position": 1,
-    "problem_id": "挑战赛 90::C"
   },
   {
     "kind": "own",
@@ -2622,12 +1986,6 @@
     "problem_id": "挑战赛 92::B"
   },
   {
-    "kind": "explicit",
-    "lecture_id": "lecture:43709c3e90bc96d6df7342aa",
-    "position": 0,
-    "problem_id": "挑战赛 92::C"
-  },
-  {
     "kind": "own",
     "lecture_id": "lecture:e289634c8dc0cd1b2a1bbfe3",
     "position": 0,
@@ -2662,12 +2020,6 @@
     "lecture_id": "lecture:40a2858efbec6008bcb079c8",
     "position": 0,
     "problem_id": "月赛 298::D"
-  },
-  {
-    "kind": "explicit",
-    "lecture_id": "lecture:e5f26fd152d2ac15ae4129c6",
-    "position": 0,
-    "problem_id": "月赛 301::B"
   },
   {
     "kind": "own",
@@ -2752,6 +2104,12 @@
     "lecture_id": "lecture:6a138d7e4a54951042312d96",
     "position": 0,
     "problem_id": "练习赛 150::D"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:3cfeb03b4a27feaddde82d28",
+    "position": 0,
+    "problem_id": "练习赛 150::E"
   },
   {
     "kind": "own",

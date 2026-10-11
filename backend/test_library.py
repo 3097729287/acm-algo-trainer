@@ -26,6 +26,7 @@ class LibraryTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix='tb-sql-tests-')
         self.root = Path(self.temp.name)
+        self.seed_counts = LibraryDatabase(LIBRARY_SEED, readonly=True).check()
 
     def tearDown(self):
         self.temp.cleanup()
@@ -36,14 +37,15 @@ class LibraryTests(unittest.TestCase):
                                            integration_auto_start=False)
         try:
             data = server.store.data()
-            self.assertEqual(len(data['rows']), 607)
-            self.assertTrue(all(row['solutionAvailable'] for row in data['rows']))
+            self.assertGreaterEqual(len(data['rows']), 607)
+            self.assertEqual(sum(row['solutionAvailable'] for row in data['rows']), self.seed_counts['solutions'])
+            self.assertTrue(all(row['solutionState']=='missing' for row in data['rows'] if row.get('source')=='lanqiao-history'))
             row = next(row for row in data['rows'] if row['title'] == 'Xterfusion')
             self.assertIn('e2', server.store.solution(row['id'])['markdown'])
             self.assertEqual(len(server.lectures.for_problem(row['id'])), 1)
             self.assertEqual(server.training.workspace()['summary']['total'], 0)
             self.assertTrue(server.store.library.path.parent.samefile(self.root))
-            self.assertEqual(server.store.library.check()['solutions'], 607)
+            self.assertEqual(server.store.library.check()['solutions'], self.seed_counts['solutions'])
             self.assertIsNone(server.dist_dir, 'API starts independently of frontend assets')
         finally:
             server.server_close()
@@ -55,11 +57,11 @@ class LibraryTests(unittest.TestCase):
             database = server.store.library
             with patch.object(database, 'connection', wraps=database.connection) as connections:
                 catalog = server.store.data()
-            self.assertEqual(len(catalog['rows']), 607)
+            self.assertGreaterEqual(len(catalog['rows']), 607)
             self.assertLessEqual(connections.call_count, 4, 'A list refresh must not open connections per problem')
             database.import_records([record('custom::A')], {}, {})
             self.assertIn('custom::A', {row['id'] for row in server.store.data()['rows']})
-            self.assertTrue(all(row['solutionAvailable'] for row in server.store.data()['rows']))
+            self.assertEqual(sum(row['solutionAvailable'] for row in server.store.data()['rows']), self.seed_counts['solutions'] + 1)
         finally:
             server.server_close()
 

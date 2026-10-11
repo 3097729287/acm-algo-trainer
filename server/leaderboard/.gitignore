@@ -1,0 +1,6 @@
+.env
+secrets/
+backups/
+*.sql.gz
+migration-data*.json
+d1-export*.sql

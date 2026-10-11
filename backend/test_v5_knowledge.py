@@ -113,7 +113,10 @@ class CurationTests(unittest.TestCase):
         for entry in payload['lectures']:
             self.assertEqual(K.canonical_tag(entry['knowledgeName']),entry['knowledgeName'],entry['id'])
             self.assertEqual(entry['displayTitle'],entry['knowledgeName']+'：'+entry['topic'])
-            self.assertNotRegex(entry['displayTitle'],r'[$\\]')
+            if entry.get('editorialVersion') == '2026-10-11':
+                self.assertEqual(entry['topic'], entry['originalConcept'])
+            else:
+                self.assertNotRegex(entry['displayTitle'],r'[$\\]')
             self.assertTrue(entry['category'],entry['id'])
             self.assertEqual(hashlib.sha256(entry['sourceMarkdown'].encode()).hexdigest(),entry['sourceHash'])
             self.assertRegex(entry['originalSourceHash'],r'^[0-9a-f]{64}$')

@@ -121,10 +121,11 @@ class LectureLibrary:
                     entry={'id':identity,'title':title,'concept':concept,'tags':list(dict.fromkeys(tags)),
                            'sourceProblemIds':[contest+'::'+problem],'sourceContest':contest,'sourceProblem':problem,
                            'sourceTitle':catalog.get(problem,(heading['problemTitle'],))[0],
-                           'available':True,'sourcePath':relative}
+                           'available':True,'sourcePath':relative,
+                           'editorialVersion':'2026-10-11' if '<!-- illustrated-editorial: 2026-10-11 -->' in original else None}
                     if registered:entry.update(title='从零讲：Hall 定理与二分图匹配',sourceHeading=title,registeredLesson=True)
                     entry=C.curate(entry,heading['markdown'],parsed['problems'].get(problem,''))
-                    entry.update(catalogTags=source_tags,images=self._images(heading['markdown'],path))
+                    entry.update(catalogTags=source_tags,images=self._images(entry['markdown'],path))
                     entries[identity]=entry
             # Standalone source tutorials are educational sources as well. They
             # are audited independently; ordinary state tables are counted only
@@ -149,9 +150,10 @@ class LectureLibrary:
                 entry={'id':identity,'title':title,'tags':normalize_tags(KD.split_names(title.replace('从零讲：','').replace('与',' + ')))['tags'],
                     'sourceProblemIds':[contest+'::'+problem],'sourceContest':contest,'sourceProblem':problem,
                     'sourceTitle':next((e['sourceTitle'] for e in entries.values() if e['sourceProblemIds']==[contest+'::'+problem]),'小月的对局'),
-                    'available':True,'sourcePath':relative,'standalone':True}
+                    'available':True,'sourcePath':relative,'standalone':True,
+                    'editorialVersion':'2026-10-11' if '<!-- illustrated-editorial: 2026-10-11 -->' in original else None}
                 entry=C.curate(entry,original,problem_text.get(contest+'::'+problem,''))
-                entry['images']=self._images(original,path);entries[identity]=entry
+                entry['images']=self._images(entry['markdown'],path);entries[identity]=entry
             for identity,e in entries.items():
                 path_entries.setdefault(Path(e.get('sourcePath','')).name,[]).append(identity)
             references={key:[] for key in problem_text}
@@ -207,15 +209,8 @@ class LectureLibrary:
         toolutil.write_text_atomic(str(path),payload)
 
     def _images(self,markdown,path):
-        import base64
-        images={}
-        for target in re.findall(r'!\[[^\]]*\]\(([^)\s]+)\)',markdown):
-            if urlsplit(target).scheme:continue
-            resolved=(path.parent/target).resolve()
-            if not resolved.is_relative_to(self.root) or not resolved.is_file() or resolved.stat().st_size>2*1024*1024:continue
-            mime={'.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.gif':'image/gif','.webp':'image/webp'}.get(resolved.suffix.lower())
-            if mime:images[target]='data:'+mime+';base64,'+base64.b64encode(resolved.read_bytes()).decode()
-        return images
+        from educational_images import collect_images
+        return collect_images(markdown, path, self.root, ignore_outside=True)
 
     def snapshot(self):
         self._refresh()

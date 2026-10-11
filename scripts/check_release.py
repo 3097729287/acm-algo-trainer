@@ -145,6 +145,10 @@ def main():
     try:
         version = (ROOT / 'VERSION').read_text().strip()
         package = args.stage.resolve() / 'release' / ('TB-' + version + '-win64')
+        with sqlite3.connect((package / 'data/library.sqlite3').as_uri() + '?mode=ro', uri=True) as seed:
+            bundled_problems = seed.execute('SELECT COUNT(*) FROM problems').fetchone()[0]
+            bundled_solutions = seed.execute('SELECT COUNT(*) FROM solutions').fetchone()[0]
+            assert bundled_problems >= bundled_solutions >= 607
         new_output, old_output = work / 'setup-new', work / 'setup-old'
         new_output.mkdir(); old_output.mkdir()
         run([args.inno, '/DAppId=' + identity, '/DPackageDir=' + str(package),
@@ -208,7 +212,8 @@ def main():
         assert hashlib.sha256((upgrade / 'state/tb-personal.sqlite3').read_bytes()).hexdigest() == original_personal
         with serving(upgrade, work / 'upgraded-api.json') as api:
             assert snapshot(api, problem, contest, mock_problem) == before, 'Upgrade altered identity, code, history, missions or XP'
-            assert len(api.catalog['rows']) == 607 and all(r['solutionAvailable'] for r in api.catalog['rows'])
+            assert len(api.catalog['rows']) >= bundled_problems
+            assert sum(bool(r.get('solutionAvailable')) for r in api.catalog['rows']) >= bundled_solutions
             assert api.get('translation/settings')['configured']
             assert api.get('hub')['settings']['intervalHours'] == 12
             assert all((upgrade / 'state' / name).read_bytes() == raw for name, raw in settings.items())
@@ -222,7 +227,7 @@ def main():
         assert hashes == state_hashes(upgrade)
         result.update(ok=True, phase='complete', upgrade={'identityPreserved': True, 'codeAndDraftsPreserved': True,
                       'mockPreserved': True, 'xpPreserved': True, 'protectedSettingsMigrated': True,
-                      'originalSettingsUnchanged': True, 'solutions': 607})
+                      'originalSettingsUnchanged': True, 'solutions': bundled_solutions})
     except Exception as error:
         result.update(error=str(error))
         raise

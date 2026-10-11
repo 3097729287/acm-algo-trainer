@@ -3,6 +3,7 @@
 需要 Python 3.13、Node.js 24，评测需要支持 C++17 的 g++。API 和数据库只依赖 Python 标准库；桌面构建依赖 `backend/requirements.txt`。
 
 ```powershell
+$env:TB_OFFLINE = "1"
 python backend/backend.py --offline --state-dir .backups/dev-state
 # 独立终端
 cd frontend
@@ -10,7 +11,20 @@ npm ci
 npm run dev
 ```
 
-Vite 默认代理 `127.0.0.1:18765`；改变后端地址时设置 `TB_API_URL`。构建后的界面可通过 `--frontend frontend/dist` 与本机服务组合；桌面入口为 `python desktop/launch.py`。API 的可选参数见 `--help`。
+Vite 默认代理 `127.0.0.1:18765`；改变后端地址时设置 `TB_API_URL`。构建后的界面可通过 `--frontend frontend/dist` 与本机服务组合。桌面开发先安装依赖并构建界面，在仓库根目录使用隔离状态启动：
+
+```powershell
+python -m pip install -r backend/requirements.txt
+cd frontend
+npm ci
+npm run build
+cd ..
+$env:TB_OFFLINE = "1"
+$env:TB_STATE_DIR = "$PWD/.backups/desktop-dev-state"
+python desktop/launch.py
+```
+
+API 的可选参数见 `python backend/backend.py --help`。当前正式版为 [v0.10.1](releases/0.10.1.md)，准确的发布源码以对应 Git 标签为准。
 
 ```powershell
 python scripts/check.py
@@ -18,7 +32,11 @@ cd frontend
 npm run build
 npm run test:ui
 npm run test:compilers
+npm run test:model
+npm run test:math
+npm run test:workbench
 npm run test:e2e
+node tests/software-updates.mjs
 cd ../server/leaderboard
 npm test
 ```
@@ -55,17 +73,19 @@ cd frontend
 npm ci
 npm run build
 cd ..
-python scripts/build_release.py build --stage build/0.6.0
-python scripts/build_release.py assemble --stage build/0.6.0 --compiler-source <compiler目录>
-python scripts/build_release.py installer --stage build/0.6.0 --inno <ISCC.exe> --webview2 <离线WebView2安装程序>
+python scripts/build_release.py build --stage build/0.10.1
+python scripts/build_release.py assemble --stage build/0.10.1 --compiler-source <compiler目录>
+python scripts/build_release.py installer --stage build/0.10.1 --inno <ISCC.exe> --webview2 <离线WebView2安装程序>
 ```
 
 `TB新版.exe --package-check <报告路径>` 在隔离状态下检查内置题解和真实 C++ 评测；`--native-check` 检查实际桌面界面；`--serve-check` 启动检查服务，到同名 `.stop` 文件出现时停止。通过 `TB_STATE_DIR` 指定一次性状态，验证时设置 `TB_OFFLINE=1`。生产安装包不得包含这些测试产生的数据。
 
-真实安装与升级检查使用独立 AppId，不修改日常安装、快捷方式或个人状态；在 `build/release-check-*` 保留报告与隔离数据。需要已有 0.5 公共安装目录以及对应的安装脚本：
+真实安装与升级检查使用独立 AppId，不修改日常安装、快捷方式或个人状态；在 `build/release-check-current-*` 保留报告与隔离数据。验证当前桌面版本的升级时，使用旧版公共安装目录作为输入，检查会排除其个人状态：
 
 ```powershell
-python scripts/check_release.py --stage build/0.6.0 --legacy-package <0.5公共安装目录> --legacy-iss <0.5的tb.iss> --inno <ISCC.exe> --webview2 <离线WebView2安装程序>
+python scripts/check_current_release.py --stage build/0.10.1 --legacy-package <旧版公共安装目录> --inno <ISCC.exe> --webview2 <离线WebView2安装程序>
 ```
 
-安装程序按相同 AppId 升级，只覆盖程序和公共种子库。完成后验证旧草稿、提交代码、身份、模拟赛和经验值仍在；生成 SHA256SUMS 和文件清单后再发布。
+`scripts/check_release.py` 保留为 0.5 迁移检查，需要对应旧版安装脚本（`--legacy-iss`）。`scripts/check_update_helper.py` 检查自动更新助手，须配合可丢弃程序与状态使用。
+
+安装程序按相同 AppId 升级，只覆盖程序和公共种子库。完成后验证旧草稿、提交代码、身份、模拟赛和经验值仍在；发布前准备 `SHA256SUMS.txt`、`BUILD-INFO.json` 与文件清单，并核对下载资产和对应源码。构建工具不会覆盖已有 staging；重复构建使用新的空目录。

@@ -1,4 +1,21 @@
 /* Shared spatial hierarchy, with the same contrast in light and dark themes. */
+.sidebar .brand { margin-bottom: 6px; }
+/* Reserve space for the logo and toggle even in short, icon-only sidebars. */
+.sidebar-collapsed .sidebar .brand { height: auto; gap: 8px; margin: 0 0 12px; }
+.sidebar-collapsed .brand > * { flex-shrink: 0; }
+.sidebar-collapsed .brand > .icon-button { width: 36px; height: 32px; }
+.sidebar-collapsed .sidebar nav { max-height: none; min-height: 0; flex-shrink: 1; }
+.sidebar-collapsed .sidebar .nav-item { min-height: 36px; padding: 0; justify-content: center; }
+.sidebar-collapsed .nav-item.active::before { top: 50%; transform: translateY(-50%); }
+@media (max-width: 850px) {
+  .sidebar .brand { height: auto; gap: 8px; margin: 0 0 12px; }
+  .sidebar .brand > * { flex-shrink: 0; }
+  .sidebar .brand > .icon-button { width: 36px; height: 32px; }
+  .sidebar nav { max-height: none; min-height: 0; flex-shrink: 1; }
+  .app-shell .sidebar .nav-item { min-height: 36px; padding: 0; justify-content: center; }
+  .sidebar .nav-item.active::before { top: 50%; transform: translateY(-50%); }
+}
+
 .knowledge-tree-tools { gap: 8px; padding: 8px 2px 10px; }
 .knowledge-tree-tools button { font-size: .8rem; }
 .knowledge-tree { padding: 2px 3px 12px; }
@@ -35,6 +52,39 @@
 .ranking-empty { min-height: 160px; }
 .ranking-empty h3 { margin: 0; }
 .progress-section { border-radius: 11px; }
+
+.training-workspace { display: flex; flex: 1; flex-direction: column; gap: 12px; min-width: 0; min-height: 0; }
+.training-workspace > .list-page, .training-workspace > .empty { flex: 1; min-height: 0; }
+.training-goals { flex-shrink: 0; max-height: 210px; overflow: auto; padding: 10px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+.training-goals-heading, .training-goals-heading > span, .training-goals-heading > div { display: flex; align-items: center; gap: 7px; }
+.training-goals-heading { justify-content: space-between; gap: 12px; color: var(--muted); font-size: .78rem; }
+.training-goals-heading .text-button { font-size: inherit; padding: 0 3px; min-height: 22px; }
+.training-goal { margin-top: 5px; }
+.training-goal + .training-goal { border-top: 1px solid var(--line); padding-top: 9px; margin-top: 9px; }
+.training-goal-summary { display: flex; align-items: center; flex-wrap: wrap; gap: 5px 18px; font-size: .86rem; line-height: 1.65; }
+.training-goal-summary > strong { font-size: .95rem; }
+.training-goal-today { display: inline-flex; align-items: center; gap: 4px; color: var(--accent); }
+.training-goal-today.completed { color: var(--success); }
+.training-goal-schedule, .training-goal-deadline { color: var(--muted); font-size: .78rem; }
+.training-goal-deadline { margin-left: auto; }
+.training-goal-details { margin-top: 4px; font-size: .78rem; color: var(--muted); }
+.training-goal-details > summary { width: fit-content; cursor: pointer; }
+.training-goal-details .goal-problems { margin-top: 10px; }
+.training-goal-details .goal-pressure { margin: 8px 0; }
+.training-tabs { gap: 16px; }
+.mock-create .mock-mode-options { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.mock-create .mock-mode-options button { min-width: 0; padding: 13px 15px; }
+.mock-create .mock-mode-options span { line-height: 1.45; }
+.mock-config .mock-rule-fields label:has(input[type="checkbox"]) { flex-direction: row; align-items: center; gap: 8px; align-self: center; }
+.mock-config .mock-rule-fields input[type="checkbox"] { width: 16px; min-height: 16px; height: 16px; accent-color: var(--accent); }
+.settings-tabs .settings-command-button { display: inline-flex; align-items: center; gap: 6px; }
+.settings-command-button kbd { font-size: .68rem; padding: 2px 4px; }
+@container workspace (max-width: 850px) {
+  .mock-create .mock-mode-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mock-create .mock-mode-options span { display: block; }
+  .training-goal-deadline { margin-left: 0; }
+  .training-goal-summary { gap: 4px 12px; }
+}
 @media (max-width: 1200px) {
   .daily-task-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .wb-run-toolbar .wb-scope { display: none; }

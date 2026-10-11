@@ -26,9 +26,10 @@ from paths import STATE, FRONTEND
 DSH_DIR = STATE.parent
 LOG_FILE = DSH_DIR / "logs" / "tb-web.log"
 PROFILE_DIR = DSH_DIR / "cache" / "tb-web-profile"
-PID_FILE = PROFILE_DIR / "instance.pid"
 PORT = int(os.environ.get("TB_PACKAGE_PORT", "18765"))
-MUTEX_NAME = "Local\\TB." + __import__("hashlib").sha256(str(APP_DIR).lower().encode()).hexdigest()[:16] + "." + str(PORT)
+INSTANCE_DIR = PROFILE_DIR if os.environ.get('TB_OFFLINE') == '1' else Path(os.environ.get('LOCALAPPDATA', str(STATE))) / 'TB' / 'desktop-instance'
+PID_FILE = INSTANCE_DIR / 'instance.pid'
+MUTEX_NAME = "Local\\TB." + __import__("hashlib").sha256(str(INSTANCE_DIR).lower().encode()).hexdigest()[:16] + "." + str(PORT)
 LOG = logging.getLogger("tb.desktop")
 
 
@@ -161,6 +162,24 @@ def check_dependencies() -> dict:
     }
 
 
+def bind_desktop_fullscreen(server, window) -> None:
+    from window_memory import is_fullscreen
+
+    def desktop_state():
+        try:
+            return {"available": True, "fullscreen": is_fullscreen(window)}
+        except Exception:
+            return {"available": False, "fullscreen": False}
+
+    def desktop_fullscreen(value):
+        if bool(value) != is_fullscreen(window):
+            window.toggle_fullscreen()
+        return {"available": True, "fullscreen": is_fullscreen(window)}
+
+    server.desktop_state = desktop_state
+    server.desktop_fullscreen = desktop_fullscreen
+
+
 def run_desktop() -> int:
     instance = SingleInstance()
     server = None
@@ -176,6 +195,7 @@ def run_desktop() -> int:
         from backend import start_server
 
         PROFILE_DIR.mkdir(parents=True, exist_ok=True)
+        INSTANCE_DIR.mkdir(parents=True, exist_ok=True)
         PID_FILE.write_text(str(os.getpid()), encoding="ascii")
         try:
             server = start_server(port=PORT, dist_dir=FRONTEND, integration_auto_start=False if os.environ.get("TB_OFFLINE")=="1" else None)
@@ -188,19 +208,60 @@ def run_desktop() -> int:
         url = f"http://127.0.0.1:{port}"
         LOG.info("Launching TB at %s with %s", url, sys.executable)
         webview.settings["OPEN_EXTERNAL_LINKS_IN_BROWSER"] = True
+        from window_memory import remembered, bind
+        memory_path = STATE / 'desktop-window.json'
+        bounds = remembered(memory_path)
         window = webview.create_window(
-            "TB", url, width=1480, height=920, min_size=(1050, 700),
+            "TB", url, **bounds, min_size=(1050, 700),
             background_color="#101116", text_select=True, zoomable=False,
         )
         if window is None:
             raise RuntimeError("无法创建 TB 窗口。")
-        from official_bridge import OfficialBridge
-        official = OfficialBridge(window, guard=server.validate_official_url)
+        bind(window, memory_path)
+        # 桌面全屏：受本机写接口保护，通过 pywebview 原生 toggle_fullscreen 实现。
+        bind_desktop_fullscreen(server, window)
+        from browser_bridge import BrowserBridge
+        from browser_sessions import BrowserSessions
+        from silent_submit import SilentSubmitter
+        sessions = BrowserSessions(STATE / 'browser-sessions.dpapi')
+        # Synchronize once on startup. It performs no site submission and makes
+        # the first submit usable after the browser's one-time extension update.
+        if os.environ.get('TB_OFFLINE') != '1':
+            from browser_sessions import DOMAINS
+            for platform in DOMAINS:
+                sessions.request(platform)
+            from silent_browser import wake_browser
+            threading.Thread(target=wake_browser, daemon=True).start()
+        official = BrowserBridge(
+            url,
+            guard=server.validate_official_url,
+            on_receipt=server.record_official_receipt,
+            on_pending=server.record_official_pending,
+            session_store=sessions,
+        )
+        official.runner = SilentSubmitter(window, official, sessions)
+        server.browser_bridge = official
+        server.browser_extension_path = APP_DIR / 'browser-extension' if getattr(sys, 'frozen', False) else APP_DIR / 'build' / 'browser-extension'
         server.official_opener = official.open
         server.official_submitter = official.submit
         server.official_status = official.status
         server.official_closer = official.close
         window.events.closing += official.on_closing
+        if getattr(sys, 'frozen', False):
+            from update_installer import launch_installer
+            from training import ServiceError
+            def update_guard():
+                with official.lock:
+                    if any(session['status'] in {'loading', 'submitted', 'judging', 'unconfirmed'} for session in official.sessions.values()):
+                        raise ServiceError(409, '请等待当前官方提交取得结果后再安装更新')
+                if server.training.active_contest():
+                    raise ServiceError(409, '请先结束当前模拟赛，再安装更新')
+            def install_update(path, digest, version):
+                launch_installer(path, digest, version, APP_DIR)
+                threading.Timer(1, window.destroy).start()
+            server.software_updates.guard = update_guard
+            server.software_updates.launcher = install_update
+        server.software_updates.start()
         webview.start(
             gui="edgechromium", private_mode=False, storage_path=str(PROFILE_DIR),
             icon=str(APP_DIR / "tb.ico"), debug=False,

@@ -37,10 +37,15 @@ jobs:
         run: g++ --version
       - name: Desktop and regression dependencies
         run: python -m pip install -r backend/requirements.txt
+      - name: Local leaderboard fixture dependencies
+        working-directory: server/leaderboard
+        run: npm ci --ignore-scripts
       - name: SQLite, API, migration, translation and judge regressions
         run: python scripts/check.py
       - name: Native WebView compiler and form fixtures
-        run: python desktop/tests/official_native.py
+        run: |
+          python desktop/tests/official_native.py
+          python desktop/tests/silent_native.py
 
   frontend:
     runs-on: ubuntu-latest
@@ -68,6 +73,7 @@ jobs:
       - run: npm run test:math
       - run: npm run test:compilers
       - run: npm run test:ui
+      - run: node tests/software-updates.mjs
       - run: npm run test:issues
       - run: npm run test:workbench
       - run: npm run test:e2e
@@ -81,11 +87,33 @@ jobs:
   leaderboard:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: tb-isolated-ci
+          MYSQL_ROOT_HOST: '%'
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - name: Worker protocol and ranking rules
+      - name: Install leaderboard dependencies
+        working-directory: server/leaderboard
+        run: npm ci --ignore-scripts
+      - name: HTTP protocol and ranking rules
         working-directory: server/leaderboard
         run: npm test
+      - name: MySQL protocol, transactions and snapshot migration
+        working-directory: server/leaderboard
+        env:
+          TB_MYSQL_TEST_PORT: '3306'
+          TB_MYSQL_TEST_PASSWORD: tb-isolated-ci
+        run: npm run test:mysql

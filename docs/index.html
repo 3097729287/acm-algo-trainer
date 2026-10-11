@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="TB 训练工作台：把题库、题解、C++ 编辑、本地评测与训练记录放在一起。">
-  <title>TB · 训练工作台</title>
+  <meta name="description" content="TB 训练工作台：把题库、题解、C++ 编辑、本地评测、官方 AC 排行榜与自动更新放在一起。">
+  <title>TB v0.10.1 · 训练工作台</title>
   <style>
     :root { color-scheme: light; --ink:#203047; --muted:#65748a; --accent:#197f74; --line:#dce6ed; }
     * { box-sizing: border-box; }
@@ -26,7 +26,7 @@
     .primary { background:var(--accent); border-color:var(--accent); color:white; }
     .requirement { font-size:13px; color:var(--muted); }
     .preview { margin:42px 0; padding:8px; border:1px solid var(--line); border-radius:14px; background:white; box-shadow:0 12px 40px #213c4d0a; }
-    .preview img { display:block; width:100%; border-radius:8px; }
+    .preview img { display:block; width:100%; height:auto; border-radius:8px; }
     .preview figcaption { padding:12px 12px 6px; color:var(--muted); font-size:13px; }
     .features { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; margin:44px 0; }
     .features article { border-top:2px solid #bed9d4; padding-top:14px; }
@@ -43,28 +43,28 @@
   <div class="shell">
     <header>
       <a class="brand" href="#" style="text-decoration:none;color:inherit"><span class="mark" aria-hidden="true">tb</span><span>TB 训练工作台</span></a>
-      <nav aria-label="导航"><a href="https://github.com/3097729287/acm-agent-workflow#readme">文档</a><a href="https://github.com/3097729287/acm-agent-workflow/issues">反馈</a><a href="https://github.com/3097729287/acm-agent-workflow">GitHub</a></nav>
+      <nav aria-label="导航"><a href="https://github.com/3097729287/acm-algo-trainer#readme">文档</a><a href="https://github.com/3097729287/acm-algo-trainer/issues">反馈</a><a href="https://github.com/3097729287/acm-algo-trainer">GitHub</a></nav>
     </header>
     <main>
       <div class="intro">
         <div class="eyebrow">COMPETITIVE PROGRAMMING WORKBENCH</div>
         <h1>专注每一道题，<br>看见每一步进展。</h1>
         <p>把题库、题解、C++ 编辑、本地评测和训练记录放在一起。支持牛客、Codeforces、AtCoder 和洛谷。</p>
-        <div class="actions"><a class="button primary" href="https://github.com/3097729287/acm-agent-workflow/releases">下载 TB</a><a class="button" href="https://github.com/3097729287/acm-agent-workflow/blob/main/docs/usage.md">使用说明</a></div>
-        <div class="requirement">Windows 10 / 11 · 64 位 · 完整安装包内含运行组件与 C++ 编译器</div>
+        <div class="actions"><a class="button primary" href="https://github.com/3097729287/acm-algo-trainer/releases/latest">下载 TB v0.10.1</a><a class="button" href="https://github.com/3097729287/acm-algo-trainer/blob/main/docs/usage.md">使用说明</a></div>
+        <div class="requirement">v0.10.1 · 2026-10-11 · Windows 10 / 11 x64 · 内含运行组件与 C++ 编译器</div>
       </div>
-      <figure class="preview"><img src="assets/workbench.png" alt="TB 工作台，左侧显示分层知识清单，中间是题面和 C++ 编辑器，右侧显示 Xterfusion 题解及可展开的基础讲解" width="1480" height="920"><figcaption>题面、编辑器与题解并排。官方提交位于运行和本地提交旁。</figcaption></figure>
+      <figure class="preview"><img src="assets/workbench.png" alt="TB 工作台，左侧显示分层知识清单，中间是题面和 C++ 编辑器，右侧显示 Xterfusion 题解及可展开的基础讲解" width="2048" height="1152"><figcaption>题面、编辑器与图文题解并排；“运行样例”检查公开样例，“提交”在后台提交原站并显示结果。</figcaption></figure>
       <div class="features">
-        <article><h2>内容随软件提供</h2><p>内置 607 道题、607 份题解和 378 篇基础讲解，SQLite 存储。基础讲解只关联本题章节与明确引用。</p></article>
-        <article><h2>按实际训练积累</h2><p>自动保存草稿与提交。样例通过、本地评测和官方结果分别记录；通过记录形成每日任务、知识覆盖与复习待办。</p></article>
+        <article><h2>内容随软件提供</h2><p>内置 958 道题、796 份图文题解和 376 篇基础讲义，SQLite 存储。配图离线可读、点击放大；讲义只关联本题章节与明确引用。</p></article>
+        <article><h2>按实际训练积累</h2><p>自动保存草稿、提交代码与结果。待办与目标汇入“我的训练”，支持独立题面字号、每日任务、知识覆盖与复习。样例通过不计入官方 AC。</p></article>
         <article><h2>组织自己的训练</h2><p>单题练习、专项与综合模拟赛。比赛期间隐藏知识点与题解，结束后结合记录复盘。</p></article>
       </div>
       <div class="details">
-        <section><h2>联网能力，按需使用</h2><p>同步原站公开账号；通过 DeepSeek 或自定义兼容 API 翻译题面；连接共享排行榜比较首次本地审核通过的题数。</p><a href="https://github.com/3097729287/acm-agent-workflow/blob/main/docs/usage.md">配置与常见问题 →</a></section>
-        <section><h2>记录保存在本机</h2><p>个人记录、身份、加密配置和导入内容在升级时保留。前端、后端、桌面窗口和共享服务拥有清晰的独立边界。</p><a href="https://github.com/3097729287/acm-agent-workflow/blob/main/docs/architecture.md">数据与项目架构 →</a></section>
+        <section><h2>联网能力，按需使用</h2><p>同步原站公开账号，通过 DeepSeek、火山方舟或自定义兼容 API 翻译题面。官方 AC 自动补传并按原题去重，提供北京时间日榜、周榜和总榜；仅同步身份与成绩摘要，不上传代码或 Cookie，暂无独立防作弊认证。</p><a href="https://github.com/3097729287/acm-algo-trainer/blob/main/docs/usage.md">配置与常见问题 →</a></section>
+        <section><h2>自动更新，保留记录</h2><p>启动时与运行期间每日检查正式版。在偏好设置中下载后选择“保存并安装更新”，保存草稿、备份 SQLite、校验 SHA-256，再原地安装并重开。个人记录、身份、加密配置和导入内容继续保留。</p><a href="https://github.com/3097729287/acm-algo-trainer/blob/main/docs/architecture.md">数据与项目架构 →</a></section>
       </div>
     </main>
-    <footer>TB · <a href="https://github.com/3097729287/acm-agent-workflow/blob/main/LICENSE">MIT</a> · <a href="https://github.com/3097729287/acm-agent-workflow/blob/main/THIRDPARTY.md">第三方许可</a> · 原流程工具保留在 legacy 目录。</footer>
+    <footer>TB · <a href="https://github.com/3097729287/acm-algo-trainer/blob/main/LICENSE">MIT</a> · <a href="https://github.com/3097729287/acm-algo-trainer/blob/main/THIRDPARTY.md">第三方许可</a> · <a href="https://github.com/3097729287/acm-algo-trainer/blob/main/docs/releases/0.10.1.md">v0.10.1 更新说明</a></footer>
   </div>
 </body>
 </html>

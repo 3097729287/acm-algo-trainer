@@ -2,7 +2,7 @@
   #define AppId "{{0F82D178-AC2B-4696-96C1-1A210F72B509}"
 #endif
 #ifndef AppVersion
-  #define AppVersion "0.6.0"
+  #define AppVersion "0.10.0"
 #endif
 #ifndef PackageDir
   #error PackageDir is required
@@ -19,9 +19,9 @@ AppId={#AppId}
 AppName=TB 训练工作台
 AppVersion={#AppVersion}
 AppPublisher=TB contributors
-AppPublisherURL=https://github.com/3097729287/acm-agent-workflow
-AppSupportURL=https://github.com/3097729287/acm-agent-workflow/issues
-AppUpdatesURL=https://github.com/3097729287/acm-agent-workflow/releases
+AppPublisherURL=https://github.com/3097729287/acm-algo-trainer
+AppSupportURL=https://github.com/3097729287/acm-algo-trainer/issues
+AppUpdatesURL=https://github.com/3097729287/acm-algo-trainer/releases
 DefaultDirName={localappdata}\Programs\TB
 DefaultGroupName=TB 训练工作台
 DisableProgramGroupPage=yes

@@ -9,7 +9,7 @@ import concept_basics
 from knowledge import canonical_tag, category_path, dictionary, normalize_tags
 import toolutil
 
-VERSION='lectures-v1.0'
+VERSION='lectures-v1.1'
 
 
 def fenced_mask(lines):
@@ -568,6 +568,9 @@ def curate(entry,source_markdown,problem_markdown=''):
     identity=entry['sourceContest']+'::'+entry['sourceProblem']
     raw_tags=list(entry.get('tags',[]));tags=normalize_tags(raw_tags)['tags']
     primary,topic,selection=choose_topic(identity,original_concept,tags)
+    if entry.get('editorialVersion') == '2026-10-11':
+        topic = original_concept
+        selection = 'reviewed-heading'
     if canonical_tag(primary)!=primary:raise ValueError('非标准讲义概念：'+primary)
     # This section is a positive explicit lesson, not an alternative mentioned in passing.
     tags=list(dict.fromkeys([primary]+tags))
@@ -607,4 +610,19 @@ def curate(entry,source_markdown,problem_markdown=''):
                 quality={'original':before,'normalized':True,'supplemented':True,
                          'catalogClassificationChanged':primary not in raw_tags,
                          'sourceAlgorithmReverified':False},excerpt=plain_text(definition)[:180],markdown=markdown)
+    if entry.get('editorialVersion') == '2026-10-11':
+        # The reviewed lesson already contains its example and derivation.
+        # Preserve it once, with the actual problem context and application.
+        parsed = parse_document(problem_markdown)
+        statement = next((h['body'] for h in parsed['headings'] if h['level'] == 3 and h['title'] == '题意'), '')
+        idea = next((h['body'] for h in parsed['headings'] if h['level'] == 3 and h['title'] == '思路'), '')
+        parts = ['# ' + concept]
+        if statement and not entry.get('standalone'):
+            parts.append('## 题目中的问题\n\n' + statement.strip())
+        parts.append(body)
+        if idea and idea.strip() != body.strip() and not entry.get('standalone'):
+            parts.append('## 用到这道题里\n\n' + idea.strip())
+        result['markdown'] = '\n\n'.join(parts) + '\n'
+        result['excerpt'] = plain_text(body)[:180]
+        result['quality'].update(supplemented=False, editorialVersion='2026-10-11')
     return result
