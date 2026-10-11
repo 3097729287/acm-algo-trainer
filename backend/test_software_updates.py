@@ -8,6 +8,7 @@ import tempfile
 import time
 import unittest
 from unittest.mock import Mock
+from urllib.error import HTTPError
 
 from software_updates import SoftwareUpdates, RELEASES, release_info, version_tuple, trusted_url
 from training import ServiceError
@@ -52,6 +53,29 @@ class UpdateTests(unittest.TestCase):
         self.assertEqual(idle(self.service)['status'], 'available')
         self.service.download()
         return idle(self.service)
+
+    def test_shared_proxy_quota_uses_one_verified_direct_metadata_request(self):
+        def exhausted_proxy(request, **kwargs):
+            request.set_proxy('127.0.0.1:7897', 'https')
+            raise HTTPError('https://api.github.com', 403, 'rate limit exceeded',
+                            {'X-RateLimit-Remaining': '0'}, io.BytesIO(b'quota'))
+        self.opener.open.side_effect = exhausted_proxy
+        self.service.direct_opener = Mock()
+        self.service.direct_opener.open.return_value = io.BytesIO(json.dumps(release()).encode())
+        self.service.check()
+        self.assertEqual(idle(self.service)['status'], 'available')
+        self.service.direct_opener.open.assert_called_once()
+        self.assertEqual(self.service.direct_opener.open.call_args.args[0].full_url,
+                         'https://api.github.com/repos/3097729287/acm-algo-trainer/releases/latest')
+        self.assertEqual(self.service.direct_opener.open.call_args.args[0].host, 'api.github.com')
+
+    def test_unrelated_forbidden_response_does_not_change_network_route(self):
+        self.opener.open.side_effect = HTTPError('https://api.github.com', 403, 'forbidden',
+                                                {'X-RateLimit-Remaining': '10'}, io.BytesIO(b'forbidden'))
+        self.service.direct_opener = Mock()
+        self.service.check()
+        self.assertEqual(idle(self.service)['status'], 'error')
+        self.service.direct_opener.open.assert_not_called()
 
     def test_stable_version_comparison_and_reject_untrusted_or_incomplete_release(self):
         self.assertGreater(version_tuple('v0.10.0'), version_tuple('0.9.99'))

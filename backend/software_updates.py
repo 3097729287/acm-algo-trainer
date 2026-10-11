@@ -11,7 +11,8 @@ import re
 import sqlite3
 import threading
 from urllib.parse import urlsplit
-from urllib.request import Request, build_opener, HTTPRedirectHandler
+from urllib.error import HTTPError
+from urllib.request import Request, build_opener, HTTPRedirectHandler, ProxyHandler
 
 from persistence import load_document, save_document
 from version import VERSION
@@ -88,6 +89,7 @@ class SoftwareUpdates:
         self.current = current
         self.offline = os.environ.get("TB_OFFLINE") == "1" if offline is None else offline
         self.opener = opener or build_opener(ReleaseRedirect())
+        self.direct_opener = None if opener is not None else build_opener(ProxyHandler({}), ReleaseRedirect())
         self.lock = threading.RLock()
         self.stop = threading.Event()
         self.workers = []
@@ -139,8 +141,22 @@ class SoftwareUpdates:
     def _open(self, url):
         if not trusted_url(url):
             raise ValueError("更新地址无效")
-        return self.opener.open(Request(url, headers={"User-Agent": "TB/" + self.current + " updater",
-                                                    "Accept": "application/vnd.github+json" if url == FEED else "application/octet-stream"}), timeout=30)
+        request = Request(url, headers={"User-Agent": "TB/" + self.current + " updater",
+                                        "Accept": "application/vnd.github+json" if url == FEED else "application/octet-stream"})
+        try:
+            return self.opener.open(request, timeout=30)
+        except HTTPError as error:
+            # A Windows system proxy may share GitHub's anonymous API quota with
+            # many users. Try one verified HTTPS direct request for this public
+            # metadata only; private endpoints and asset validation stay unchanged.
+            if url == FEED and self.direct_opener is not None and error.code == 403 and error.headers.get("X-RateLimit-Remaining") == "0":
+                error.close()
+                # ProxyHandler mutates Request.host/_tunnel_host. A fresh Request
+                # is necessary, otherwise the "direct" opener still uses the proxy.
+                direct_request = Request(url, headers={"User-Agent": "TB/" + self.current + " updater",
+                                                      "Accept": "application/vnd.github+json"})
+                return self.direct_opener.open(direct_request, timeout=30)
+            raise
 
     def check(self):
         with self.lock:
