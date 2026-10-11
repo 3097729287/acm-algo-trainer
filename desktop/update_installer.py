@@ -34,7 +34,8 @@ try {{
   if ($installerProcess.ExitCode -ne 0) {{ throw ('Installer failed: ' + $installerProcess.ExitCode) }}
   if ((Get-Content -LiteralPath (Join-Path $targetDir 'VERSION') -Raw).Trim() -ne {ps_literal(version)}) {{ throw 'Installed version does not match.' }}
   Set-Content -LiteralPath $resultPath -Value 'ok' -Encoding UTF8
-  Start-Process -FilePath $exePath -WorkingDirectory $targetDir -WindowStyle Hidden
+  # TB is the interactive application the user requested to reopen.
+  Start-Process -FilePath $exePath -WorkingDirectory $targetDir -WindowStyle Normal
   Remove-Item -LiteralPath $setupPath -Force
 }} catch {{
   Set-Content -LiteralPath $resultPath -Value $_.Exception.Message -Encoding UTF8
@@ -43,8 +44,12 @@ try {{
 }}
 """
     script.write_text(content, encoding="utf-8-sig")
-    subprocess.Popen([str(Path(os.environ.get("SystemRoot", r"C:\Windows")) / "System32/WindowsPowerShell/v1.0/powershell.exe"),
-                      "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File", str(script)],
-                     creationflags=subprocess.CREATE_NO_WINDOW | subprocess.DETACHED_PROCESS,
-                     stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, close_fds=True)
+    # Windows PowerShell may silently exit without running -File when a detached
+    # console and CREATE_NO_WINDOW are combined. A hidden independent process
+    # survives the GUI parent's exit without DETACHED_PROCESS.
+    with (installer.parent / "updater-launch.log").open("wb") as output:
+        return subprocess.Popen([str(Path(os.environ.get("SystemRoot", r"C:\Windows")) / "System32/WindowsPowerShell/v1.0/powershell.exe"),
+                                 "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File", str(script)],
+                                creationflags=subprocess.CREATE_NO_WINDOW | subprocess.CREATE_NEW_PROCESS_GROUP,
+                                stdin=subprocess.DEVNULL, stdout=output, stderr=subprocess.STDOUT, close_fds=True)
 

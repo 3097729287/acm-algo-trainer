@@ -37,6 +37,9 @@ jobs:
         run: g++ --version
       - name: Desktop and regression dependencies
         run: python -m pip install -r backend/requirements.txt
+      - name: Local leaderboard fixture dependencies
+        working-directory: server/leaderboard
+        run: npm ci --ignore-scripts
       - name: SQLite, API, migration, translation and judge regressions
         run: python scripts/check.py
       - name: Native WebView compiler and form fixtures
