@@ -40,6 +40,16 @@ class BrowserSessionTests(unittest.TestCase):
             with self.assertRaises(ServiceError): self.store.accept({**self.body, **change})
         self.assertFalse(self.path.exists())
 
+    def test_completed_or_expired_request_is_refreshed(self):
+        original = self.body['nonce']
+        self.store.accept(self.body)
+        self.assertFalse(self.store.request('洛谷').is_set())
+        self.assertNotEqual(self.store.requests()[0]['nonce'], original)
+        nonce = self.store.requests()[0]['nonce']
+        with patch('browser_sessions.time.monotonic', return_value=10**12):
+            self.store.request('洛谷')
+            self.assertNotEqual(self.store.requests()[0]['nonce'], nonce)
+
     def test_capability_sync_never_queues_submission_in_browser(self):
         bridge = BrowserBridge('http://127.0.0.1:1', session_store=self.store)
         client = str(uuid.uuid4())

@@ -25,7 +25,9 @@ class BrowserSessions:
 
     def request(self, platform):
         with self.lock:
-            self.pending.setdefault(platform, {'nonce': secrets.token_urlsafe(24), 'event': threading.Event(), 'at': time.monotonic()})
+            current = self.pending.get(platform)
+            if not current or current['event'].is_set() or time.monotonic() - current['at'] >= 30:
+                self.pending[platform] = {'nonce': secrets.token_urlsafe(24), 'event': threading.Event(), 'at': time.monotonic()}
             return self.pending[platform]['event']
 
     def requests(self):

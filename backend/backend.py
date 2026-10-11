@@ -9,6 +9,7 @@ import os
 from pathlib import Path
 import re
 import secrets
+import socket
 import sys
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -385,6 +386,17 @@ class Handler(BaseHTTPRequestHandler):
 
 
 class LocalServer(ThreadingHTTPServer):
+    # On Windows, SO_REUSEADDR permits two live listeners on the same port and
+    # arbitrarily routes requests between versions. Keep the desktop endpoint
+    # exclusive; repeated launches must never receive another app's session.
+    allow_reuse_address = os.name != 'nt'
+    allow_reuse_port = False
+
+    def server_bind(self):
+        if os.name == 'nt':
+            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 1)
+        super().server_bind()
+
     def register_official_session(self, identity, session, receipt):
         with self.official_session_lock:
             self.official_sessions.setdefault(identity, session)

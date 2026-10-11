@@ -26,9 +26,10 @@ from paths import STATE, FRONTEND
 DSH_DIR = STATE.parent
 LOG_FILE = DSH_DIR / "logs" / "tb-web.log"
 PROFILE_DIR = DSH_DIR / "cache" / "tb-web-profile"
-PID_FILE = PROFILE_DIR / "instance.pid"
 PORT = int(os.environ.get("TB_PACKAGE_PORT", "18765"))
-MUTEX_NAME = "Local\\TB." + __import__("hashlib").sha256(str(APP_DIR).lower().encode()).hexdigest()[:16] + "." + str(PORT)
+INSTANCE_DIR = PROFILE_DIR if os.environ.get('TB_OFFLINE') == '1' else Path(os.environ.get('LOCALAPPDATA', str(STATE))) / 'TB' / 'desktop-instance'
+PID_FILE = INSTANCE_DIR / 'instance.pid'
+MUTEX_NAME = "Local\\TB." + __import__("hashlib").sha256(str(INSTANCE_DIR).lower().encode()).hexdigest()[:16] + "." + str(PORT)
 LOG = logging.getLogger("tb.desktop")
 
 
@@ -194,6 +195,7 @@ def run_desktop() -> int:
         from backend import start_server
 
         PROFILE_DIR.mkdir(parents=True, exist_ok=True)
+        INSTANCE_DIR.mkdir(parents=True, exist_ok=True)
         PID_FILE.write_text(str(os.getpid()), encoding="ascii")
         try:
             server = start_server(port=PORT, dist_dir=FRONTEND, integration_auto_start=False if os.environ.get("TB_OFFLINE")=="1" else None)
@@ -222,6 +224,14 @@ def run_desktop() -> int:
         from browser_sessions import BrowserSessions
         from silent_submit import SilentSubmitter
         sessions = BrowserSessions(STATE / 'browser-sessions.dpapi')
+        # Synchronize once on startup. It performs no site submission and makes
+        # the first submit usable after the browser's one-time extension update.
+        if os.environ.get('TB_OFFLINE') != '1':
+            from browser_sessions import DOMAINS
+            for platform in DOMAINS:
+                sessions.request(platform)
+            from silent_browser import wake_browser
+            threading.Thread(target=wake_browser, daemon=True).start()
         official = BrowserBridge(
             url,
             guard=server.validate_official_url,
