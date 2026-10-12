@@ -137,7 +137,7 @@ class Accounts:
         original = self.base._ranking_profile()
         if not base_owner and (original['user_id'] == owner or self.registry.get('registeredOwner') == owner):
             base_owner = owner
-        if not base_owner:
+        if not base_owner and not self.registry.get('registeredOwner'):
             with self.base.lock:
                 empty = not any(self.base.connection.execute(f'SELECT 1 FROM {table} LIMIT 1').fetchone()
                                 for table in ('training', 'drafts', 'submissions', 'contests', 'goals', 'daily_missions'))

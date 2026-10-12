@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { Eye, EyeOff, LoaderCircle, LockKeyhole, LogIn, UserRoundPlus } from 'lucide-react';
 import { request } from '../api/client.js';
 import './Accounts.css';
@@ -54,7 +54,7 @@ export default function AccountGate({ children }) {
   }
   window.__tbAccountUserId = session?.account?.userId || '';
   window.__tbOriginalWorkspace = Boolean(session?.usesOriginalWorkspace);
-  if (session?.authenticated) return children;
+  if (session?.authenticated) return <Fragment key={`${session.account?.userId || 'fixture'}:${session.token}`}>{children}</Fragment>;
   const registering = mode === 'register';
   return <main className="account-screen">
     <div className="account-brand"><span className="account-logo">tb</span><span>TB <small>训练工作台</small></span></div>
