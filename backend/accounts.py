@@ -11,7 +11,7 @@ import uuid
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, build_opener
 
-from leaderboard import NoRedirect, validate_endpoint
+from leaderboard import NoRedirect, validate_endpoint, default_endpoint
 from persistence import load_document, save_document
 from training import ServiceError
 from translation_config import _crypt
@@ -23,7 +23,7 @@ class Accounts:
         self.lock = threading.RLock()
         self.base = server.training
         self.root = server.state_dir
-        self.endpoint = validate_endpoint(endpoint if endpoint is not None else self.base._ranking_profile()['endpoint'])
+        self.endpoint = validate_endpoint(endpoint if endpoint is not None else self.base._ranking_profile()['endpoint'] or default_endpoint())
         self.session_path = self.root / 'account-session.json'
         self.registry_path = self.root / 'account-workspaces.json'
         self.registry = load_document(self.registry_path, {})
