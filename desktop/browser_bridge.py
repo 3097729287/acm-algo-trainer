@@ -30,6 +30,9 @@ class BrowserBridge:
         self.session_store, self.runner = session_store, None
         self.client_protocols = {}
         self.sync_client = None
+        self.client_seen = {}
+        self.client_windows = {}
+        self.client_platforms = {}
 
     def register_browser(self, body):
         # The HTTP layer requires the bundled extension's exact browser origin.
@@ -43,7 +46,8 @@ class BrowserBridge:
             raise ServiceError(400, '浏览器连接标识无效')
         with self.lock:
             self.clients.setdefault(client, secrets.token_urlsafe(32))
-            self.client_protocols[client] = body.get('protocol', 1)
+            protocol = body.get('protocol', 1)
+            self.client_protocols[client] = protocol if isinstance(protocol, int) and protocol in (1, 2, 3) else 1
             return {'key': self.clients[client], 'mode': 'silent' if self.session_store else 'tabs'}
 
     def sync_browser(self, body, capability):
@@ -61,24 +65,74 @@ class BrowserBridge:
             expected = self.clients.get(client)
             if not expected or not secrets.compare_digest(expected, capability):
                 raise ServiceError(403, '浏览器后台连接已失效')
+            self.client_seen[client] = self.clock()
+            self.client_windows[client] = body.get('hasWindow', True) is True
+            self.client_platforms[client] = {p for p in body.get('platforms', []) if isinstance(p, str) and p in LOGIN_HOSTS} if isinstance(body.get('platforms', []), list) else set()
+            sync = []
             if self.session_store:
-                if self.client_protocols.get(client) == 2 and self.sync_client is None:
+                if self.client_protocols.get(client, 0) >= 2 and (self.sync_client is None or self.clock() - self.client_seen.get(self.sync_client, -10) > 6):
                     self.sync_client = client
-                return {'jobs': [], 'mode': 'silent', 'sync': self.session_store.requests() if client == self.sync_client else []}
+                sync = self.session_store.requests() if client == self.sync_client else []
             jobs = []
             for session in self.sessions.values():
                 self._expire(session)
+                if self.session_store and session.get('transport') != 'browser':
+                    continue
+                preferred = session.get('preferredClient')
+                if self.session_store and preferred and not session.get('claimed') and session.get('dispatchedAt') is None and self.clock() - self.client_seen.get(preferred, -10) > 6:
+                    session['preferredClient'] = self._browser_client(session['platform'])
+                    session.pop('browserClient', None)
+                if self.session_store and (not self.client_windows[client] or session.get('preferredClient') not in (None, client)):
+                    continue
                 if session['status'] in TERMINAL or session.get('browserClient') not in (None, client):
                     continue
                 # Assign once even when two browser profiles poll concurrently.
                 session['browserClient'] = client
                 jobs.append({'sessionId': session['sessionId'], 'key': session['capability']})
+            # Older protocol-2 connectors already handle tab jobs. New clients
+            # can synchronize cookies and process a fallback job in one tick.
+            if self.session_store:
+                if self.client_protocols.get(client) == 2 and sync:
+                    return {'jobs': [], 'mode': 'silent', 'sync': sync}
+                return {'jobs': jobs, 'mode': 'hybrid' if jobs else 'silent', 'sync': sync}
             return {'jobs': jobs}
+
+    def _browser_client(self, platform):
+        eligible = [client for client, at in self.client_seen.items()
+                    if self.clock() - at <= 6 and self.client_windows.get(client)
+                    and self.client_protocols.get(client, 0) >= 2]
+        return next((client for client in eligible if platform in self.client_platforms.get(client, set())),
+                    self.sync_client if self.sync_client in eligible else next(iter(eligible), None))
+
+    def route_to_browser(self, identity, before_click=False):
+        """Reuse the real CF browser session before any native form can click."""
+        with self.lock:
+            session = self.sessions[identity]
+            client = self._browser_client(session['platform'])
+            if not client or session.get('browserTried') or session['platform'] != 'Codeforces' or session.get('attempted') or session.get('submissionId'):
+                return False
+            if not session.get('intent') and not (before_click and session.get('dispatchedAt') is not None):
+                return False
+            if session.get('dispatchedAt') is not None and not before_click:
+                return False
+            session.pop('dispatchedAt', None)
+            session.update(transport='browser', preferredClient=client, claimed=False, intent=True,
+                           status='loading', preparingAt=self.clock(), routedAt=self.clock(), browserTried=True,
+                           message='正在使用浏览器现有登录后台提交 Codeforces。')
+            return True
 
     def _expire(self, session):
         if session['status'] in TERMINAL:
             return
         now = self.clock()
+        if self.runner and session.get('transport') == 'browser' and not session.get('claimed') and session.get('dispatchedAt') is None and now - session.get('routedAt', now) > 3:
+            # Protocol-2 connectors cannot report whether a browser window
+            # exists. If no tab claims the job, keep browser-closed submission
+            # working through the native runner without replaying a dispatch.
+            session.update(transport='silent', status='loading', preparingAt=now,
+                           message='浏览器未接收任务，正在使用后台登录会话。')
+            session.pop('browserClient', None)
+            self.runner.start(session['sessionId'])
         if session.get('dispatchedAt') is not None and not session.get('submissionId') and now - session['dispatchedAt'] > 45:
             session.update(status='unconfirmed', intent=False,
                            message='暂未确认原站受理，仍在后台查询结果；请先核对原站记录，避免重复提交。')
@@ -126,7 +180,10 @@ class BrowserBridge:
             session['navigateTo'] = session['loginUrl'] if not intent and session['status'] == 'needs_login' else session['url']
             fragment = urlencode({'session': session['sessionId'], 'key': session['capability']})
         if intent and self.runner:
-            self.runner.start(session['sessionId'])
+            # CF clearance/session cookies can be tied to the actual browser.
+            # Prefer its background tab when it is already running.
+            if not (session.get('transport') == 'browser' or self.route_to_browser(session['sessionId'])):
+                self.runner.start(session['sessionId'])
         elif not intent:
             self.opener(session['navigateTo'] if self.runner and session['status'] != 'needs_browser' else self.base_url + '/browser-connect.html#' + fragment)
         return self.status(session['sessionId'])

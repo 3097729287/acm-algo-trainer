@@ -32,6 +32,9 @@ class Fixture(Handler):
             self.send_json(200, [{'status': s['status'], 'platform': s['platform'], 'verdict': s['verdict']} for s in saved])
         elif target.path == '/fixture/opened':
             self.send_json(200, opened)
+        elif target.path == '/fixture/browser':
+            bridge=self.server.browser_bridge
+            self.send_json(200, {'connected':bool(bridge.client_seen), 'hasWindow':any(bridge.client_windows.values())})
         elif target.path == '/fixture/sync':
             store = self.server.browser_bridge.session_store
             if 'platform' in query:
@@ -48,9 +51,14 @@ server.dist_dir = ROOT / 'frontend' / 'public'
 server.browser_extension_path = ROOT / 'build' / 'browser-extension'
 server.browser_bridge = BrowserBridge('http://127.0.0.1:' + str(server.server_port), opener=opened.append,
                                        on_receipt=lambda sid, s: saved.append(s) or True)
-if os.environ.get('TB_TEST_SILENT') == '1':
+if os.environ.get('TB_TEST_SILENT') == '1' or os.environ.get('TB_TEST_HYBRID') == '1':
     from browser_sessions import BrowserSessions
     temporary = tempfile.TemporaryDirectory(prefix='tb-sync-fixture-')
     server.browser_bridge.session_store = BrowserSessions(Path(temporary.name) / 'sessions.dpapi')
+    if os.environ.get('TB_TEST_HYBRID') == '1':
+        from types import SimpleNamespace
+        def native_unexpected(_):
+            raise AssertionError('The CF fixture must use the already-running browser')
+        server.browser_bridge.runner=SimpleNamespace(start=native_unexpected)
 print(json.dumps({'port': server.server_port}), flush=True)
 server.serve_forever()

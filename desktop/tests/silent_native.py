@@ -18,7 +18,7 @@ from silent_submit import SilentSubmitter
 
 
 def run():
-    result, posts, saved, cookies = {}, [], [], []
+    result, posts, saved, cookies, timings = {}, [], [], [], []
     mode = {'login': True, 'context': True, 'invalid': False}
     with tempfile.TemporaryDirectory(prefix='tb-silent-proof-', ignore_cleanup_errors=True) as directory:
         main = webview.create_window('TB invisible fixture', html='<p>Fixture</p>', hidden=True)
@@ -74,9 +74,14 @@ def run():
                     if url.path.endswith('/my') or url.path.endswith('/submissions/me') or method=='POST':
                         row=('<a href="/contest/123/submission/1002">1002</a><a href="/contest/123/problem/A">A</a><a href="/profile/fixture">fixture</a><span class="submissionVerdictWrapper">Accepted</span>' if cf else '<a href="/contests/abc100/submissions/2002">2002</a><a href="/contests/abc100/tasks/abc100_a">A</a><span class="label">AC</span>') if submitted else ''
                         content='<table class="status-frame-datatable"><tr><th>Submission</th><th>Verdict</th></tr><tr><td>'+row+'</td></tr></table>'
+                        if not cf and not submitted:
+                            content='<title>My Submissions - AtCoder Beginner Contest 100</title><nav class="navbar"><a href="/users/fixture">fixture</a></nav><div class="panel-body">No Submissions</div>'
+                        elif not cf:
+                            content=content.replace('<span class="label">', '<a href="/users/fixture">fixture</a><span class="label">')
                     else:
                         task='A' if cf else 'abc100_a'
-                        content=f'<header id="header"><a href="/profile/fixture">fixture</a></header><form method="post"><select name="taskScreenName"><option value="{task}">{task}</option></select><select name="languageId"><option value="2">GNU C++17</option></select><textarea name="sourceCode"></textarea><button type="submit">Submit</button></form>'
+                        account='<header id="header"><a href="/profile/fixture">fixture</a></header>' if cf else '<nav class="navbar"><a href="/users/fixture">fixture</a></nav>'
+                        content=account+f'<form method="post"><select name="taskScreenName"><option value="{task}">{task}</option></select><select name="languageId"><option value="2">GNU C++17</option></select><textarea name="sourceCode"></textarea><button type="submit">Submit</button></form>'
                 event.Response=core.Environment.CreateWebResourceResponse(MemoryStream(Encoding.UTF8.GetBytes(content)),200,'OK',headers)
             core.WebResourceRequested+=serve
         runner=SilentSubmitter(main,bridge,store,wake=sync,native_setup=fixture)
@@ -94,8 +99,10 @@ def run():
             try:
                 urls=['https://codeforces.com/contest/123/problem/A','https://atcoder.jp/contests/abc100/tasks/abc100_a','https://ac.nowcoder.com/acm/contest/127263/B','https://www.luogu.com.cn/problem/B4536']
                 for url in urls:
+                    started=time.monotonic()
                     sid=bridge.submit(url,'int main(){}','fixture')['sessionId']
                     assert wait(sid,'finished')['verdict']=='AC'
+                    timings.append({'platform':bridge.sessions[sid]['platform'],'seconds':round(time.monotonic()-started,3)})
                     assert not runner._ui(lambda:main.native.Visible)
                 assert len(posts)==4 and saved==['AC']*4
                 assert all('fixture_login=test-only-session' in c for c in cookies)
@@ -119,7 +126,7 @@ def run():
                 until=time.monotonic()+25
                 while bridge.status(sid)['status']!='error' and time.monotonic()<until:time.sleep(.1)
                 assert bridge.status(sid)['status']=='error' and len(posts)==6
-                result.update(ok=True,allFourHidden=True,reusedBrowserLogin=True,encryptedSessionWorksWithBrowserClosed=True,luoguMissingEditor=True,luoguContextFetch=True,loginRetry=True,invalidContextNoPost=True,posts=len(posts),realAccountSubmission=False)
+                result.update(ok=True,allFourHidden=True,atcoderFirstContestSubmission=True,reusedBrowserLogin=True,encryptedSessionWorksWithBrowserClosed=True,luoguMissingEditor=True,luoguContextFetch=True,loginRetry=True,invalidContextNoPost=True,posts=len(posts),fixtureTimings=timings,realAccountSubmission=False)
             except Exception as error:
                 result.update(ok=False,error=repr(error),states=[bridge.status(sid) for sid in bridge.sessions],posts=len(posts))
             finally: main.destroy()

@@ -46,6 +46,13 @@ jobs:
         run: |
           python desktop/tests/official_native.py
           python desktop/tests/silent_native.py
+      - name: CF browser session with native submissions enabled
+        working-directory: frontend
+        env:
+          TB_PYTHON: python
+        run: |
+          npm ci --ignore-scripts
+          node tests/hybrid-cf.mjs
 
   frontend:
     runs-on: ubuntu-latest
@@ -72,6 +79,7 @@ jobs:
       - run: npm run test:model
       - run: npm run test:math
       - run: npm run test:compilers
+      - run: node tests/official-sites.mjs
       - run: npm run test:ui
       - run: node tests/software-updates.mjs
       - run: npm run test:issues

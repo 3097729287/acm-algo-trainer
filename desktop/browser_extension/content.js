@@ -16,11 +16,12 @@
     chrome.runtime.sendMessage({ type: 'event', value: event.data.value }).then(answer => {
       if (requestId) window.postMessage({ tbBrowserAck: channel, requestId, ok: answer?.ack === true }, location.origin);
       run(answer);
+      if (event.data.value?.status === 'ready') tick();
     }).catch(() => {
       if (requestId) window.postMessage({ tbBrowserAck: channel, requestId, ok: false }, location.origin);
     });
   });
   chrome.runtime.onMessage.addListener(message => { if (message.type === 'wake') tick(); });
   document.addEventListener('DOMContentLoaded', tick, { once: true });
-  setInterval(tick, 2000);
+  setInterval(tick, 1000);
 })();

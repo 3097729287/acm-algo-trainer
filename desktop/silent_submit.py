@@ -10,6 +10,12 @@ from official_bridge import OfficialBridge, LOGIN_HOSTS, page_source
 from silent_browser import wake_browser
 
 
+def navigation_failure(session):
+    attempted = bool(session.get('attempted'))
+    return {'sessionId': session['sessionId'], 'status': 'unconfirmed' if attempted else 'error',
+            'attempted': attempted, 'message': '提交后连接中断，正在核对原站记录，请勿重复提交。' if attempted else '原站页面加载失败，请检查网络后重试。'}
+
+
 def bootstrap(session):
     context = {k: session.get(k) for k in ('sessionId', 'platform', 'originalUrl', 'problem', 'code', 'attempted', 'baseline', 'baselineKnown', 'baselineOwner', 'submissionId')}
     return page_source() + ';(' + r'''function(ctx){
@@ -65,12 +71,14 @@ class SilentSubmitter(OfficialBridge):
         messages = self.messages[identity] = queue.Queue()
         try:
             self.bridge.exchange({'sessionId': identity, 'claim': True}, session['capability'])
+            cached = self.store.snapshot(session['platform'])
             event = self.store.request(session['platform'])
-            if not event.wait(1):
+            if not event.wait(.35 if cached else 1):
                 if self.stopping.is_set():
                     return
-                self.wake()
-                event.wait(2 if self.store.snapshot(session['platform']) else 12)
+                if not cached:
+                    self.wake()
+                    event.wait(12)
             snapshot = self.store.snapshot(session['platform'])
             self.store.finish(session['platform'])
             if snapshot is None:
@@ -82,9 +90,15 @@ class SilentSubmitter(OfficialBridge):
             while not self.stopping.is_set():
                 try:
                     packet = messages.get(timeout=.2)
+                    if packet.get('tick'):
+                        next_inspect = 0
                     value = packet.get('value')
                     if isinstance(value, dict) and value.get('sessionId') == identity:
+                        if value.get('status') in ('needs_login', 'needs_verification', 'error') and self.bridge.route_to_browser(identity, before_click=value.get('attempted') is False):
+                            return
                         answer = self._event(identity, value)
+                        if value.get('status') == 'ready':
+                            next_inspect = 0
                         if packet.get('requestId'):
                             self._eval('window.__tbSilentAck?.(' + json.dumps(packet['requestId']) + ',' + json.dumps(answer.get('ack') is True) + ')', identity=identity)
                 except queue.Empty:
@@ -96,7 +110,7 @@ class SilentSubmitter(OfficialBridge):
                     answer = self.bridge.exchange({'sessionId': identity, 'pageUrl': session['url']}, session['capability'])
                     if answer.get('context'):
                         self._eval('window.__tbSilentCommand?.(' + json.dumps(answer, ensure_ascii=True) + ')', identity=identity)
-                    next_inspect = time.monotonic() + 1
+                    next_inspect = time.monotonic() + (.25 if status == 'loading' else 1)
         except Exception:
             self._event(identity, {'status': 'error', 'message': '后台提交组件未能完成连接，请重试。'})
         finally:
@@ -106,7 +120,7 @@ class SilentSubmitter(OfficialBridge):
                 pass
             with self.lock:
                 self.threads.pop(identity, None)
-                if session['status'] == 'loading' and session.get('intent') and not self.stopping.is_set():
+                if session['status'] == 'loading' and session.get('intent') and session.get('transport') != 'browser' and not self.stopping.is_set():
                     self.start(identity)
 
     def _release_silent(self, identity):
@@ -176,6 +190,21 @@ class SilentSubmitter(OfficialBridge):
             core.NavigationStarting += navigation
             core.NewWindowRequested += popup
             core.WebMessageReceived += message
+            def parsed(_, event):
+                self.messages[identity].put({'tick': True})
+            recovering = [False]
+            def loaded(_, event):
+                if event.IsSuccess:
+                    parsed(_, event)
+                elif str(event.WebErrorStatus) != 'OperationCanceled':
+                    value = navigation_failure(session)
+                    self.messages[identity].put({'value': value})
+                    if value['attempted'] and not recovering[0] and not self.stopping.is_set() and session['platform'] in ('Codeforces', 'AtCoder'):
+                        recovering[0] = True
+                        suffix = '/my' if session['platform'] == 'Codeforces' else '/submissions/me'
+                        core.Navigate(session['url'].split('?')[0].removesuffix('/submit') + suffix)
+            core.DOMContentLoaded += parsed
+            core.NavigationCompleted += loaded
             def registered(task):
                 try:
                     task.Result

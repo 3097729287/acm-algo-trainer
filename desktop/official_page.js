@@ -10,6 +10,9 @@ const visible=e=>e&&e.getClientRects().length>0;
 const editors=()=>[...document.querySelectorAll('textarea')].filter(e=>/source|code|editor/i.test((e.name||'')+' '+(e.id||'')));
 const hasEditor=()=>editors().length||document.querySelector('.CodeMirror,.cm-editor,.ace_editor,.monaco-editor');
 const login=()=>[...document.querySelectorAll('input[type=password]')].some(visible)||/\/login|\/enter(?:\/|$)|\/auth\/login/i.test(location.pathname);
+const pageKey=ctx.sessionId+':'+ctx.originalUrl;
+const host=typeof window==='undefined'?globalThis:window;
+const work=host.__tbSubmissionWork?.key===pageKey?host.__tbSubmissionWork:(host.__tbSubmissionWork={key:pageKey,preparing:null,snapshot:null,polling:false,nextPoll:0});
 function luoguLoggedOut(){
 if(ctx.platform!=='洛谷')return false;
 try{const data=JSON.parse(document.querySelector('#lentille-context')?.textContent||'null');if(data&&Object.prototype.hasOwnProperty.call(data,'user'))return data.user===null;}catch{}
@@ -25,7 +28,7 @@ for(const [label,value] of Object.entries(map))if(label.length>3&&new RegExp('^'
 return /^(WJ|WR|TESTING|Judging|Running|Waiting|Pending|Queuing|评测中|等待评测)(\b|$)/i.test(text)?'JUDGING':null;
 }
 function taskPath(path){return path.replace(/^\/problemset\/problem\/(\d+)\/([A-Za-z]\d?)$/,'/contest/$1/problem/$2');}
-function receipts(doc=document){const rows=[];doc.querySelectorAll('tr').forEach(row=>{const links=[...row.querySelectorAll('a[href]')];const a=links.find(a=>/\/submission(?:s)?\/\d+/.test(a.getAttribute('href')||''));if(!a)return;const id=(a.getAttribute('href')||'').match(/\/submission(?:s)?\/(\d+)/)?.[1];const task=links.some(a=>{try{const target=new URL(a.getAttribute('href'),location.href),original=new URL(ctx.originalUrl);return target.origin===location.origin&&taskPath(target.pathname)===taskPath(original.pathname)}catch{return false}});const owner=!ctx.baselineOwner||links.some(a=>{try{const link=new URL(a.getAttribute('href'),location.href);return link.origin===location.origin&&link.pathname==='/profile/'+ctx.baselineOwner}catch{return false}});const verdict=[...row.querySelectorAll('.label,.submissionVerdictWrapper,.verdict,[data-verdict],.verdict-accepted,.verdict-rejected,.status-cell')].map(e=>normal(e.getAttribute('data-verdict')||e.getAttribute('verdict')||e.textContent)).find(Boolean);if(id&&task&&owner)rows.push({id,verdict});});return rows;}
+function receipts(doc=document){const rows=[];doc.querySelectorAll('tr').forEach(row=>{const links=[...row.querySelectorAll('a[href]')];const a=links.find(a=>/\/submission(?:s)?\/\d+/.test(a.getAttribute('href')||''));if(!a)return;const id=(a.getAttribute('href')||'').match(/\/submission(?:s)?\/(\d+)/)?.[1];const task=links.some(a=>{try{const target=new URL(a.getAttribute('href'),location.href),original=new URL(ctx.originalUrl);return target.origin===location.origin&&taskPath(target.pathname)===taskPath(original.pathname)}catch{return false}});const owner=!ctx.baselineOwner||links.some(a=>{try{const link=new URL(a.getAttribute('href'),location.href);return link.origin===location.origin&&link.pathname===(ctx.platform==='AtCoder'?'/users/':'/profile/')+ctx.baselineOwner}catch{return false}});const verdict=[...row.querySelectorAll('.label,.submissionVerdictWrapper,.verdict,[data-verdict],.verdict-accepted,.verdict-rejected,.status-cell')].map(e=>normal(e.getAttribute('data-verdict')||e.getAttribute('verdict')||e.textContent)).find(Boolean);if(id&&task&&owner)rows.push({id,verdict});});return rows;}
 function newerReceipt(id,baseline){
 if(!/^\d+$/.test(id))return false;
 const previous=[...baseline].filter(value=>/^\d+$/.test(value));
@@ -34,12 +37,18 @@ return !baseline.has(id)&&previous.every(value=>BigInt(id)>BigInt(value));
 function cfOwner(doc=document){
 return [...doc.querySelectorAll('#header a[href],header a[href],.lang-chooser a[href]')].map(a=>{try{const url=new URL(a.getAttribute('href'),location.href);return url.origin===location.origin&&url.pathname.match(/^\/profile\/([A-Za-z0-9_.-]{1,64})\/?$/)?.[1]}catch{return null}}).find(Boolean)||'';
 }
+function acOwner(doc=document){
+return [...doc.querySelectorAll('.navbar a[href],#navbar-collapse a[href],header a[href]')].map(a=>{try{const url=new URL(a.getAttribute('href'),location.href);return url.origin===location.origin&&url.pathname.match(/^\/users\/([A-Za-z0-9_]{1,64})\/?$/)?.[1]}catch{return null}}).find(Boolean)||'';
+}
+function cfLoggedOut(){
+return ctx.platform==='Codeforces'&&!cfOwner()&&[...document.querySelectorAll('#header a[href],header a[href],.lang-chooser a[href]')].some(a=>{try{return new URL(a.getAttribute('href'),location.href).pathname==='/enter'}catch{return false}});
+}
 function myPaths(){
 const original=new URL(ctx.originalUrl),match=taskPath(original.pathname).match(/^\/(contest|gym)\/(\d+)\/problem\//);
 return match?[`/${match[1]}/${match[2]}/my`,...(match[1]==='contest'?['/problemset/my']:[])]:[];
 }
 async function myPage(path){
-const response=await fetch(path,{credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(15000)});
+const response=await fetch(path,{credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(5000)});
 const final=new URL(response.url||path,location.href);
 if(!response.ok||final.origin!==location.origin||!myPaths().includes(final.pathname))return null;
 const doc=new DOMParser().parseFromString((await response.text()).slice(0,2000000),'text/html');
@@ -47,9 +56,43 @@ if(/just a moment|checking your browser|人机验证|安全验证|验证码/i.te
 const table=doc.querySelector('table.status-frame-datatable')||[...doc.querySelectorAll('table')].find(t=>/submission|提交|status|verdict|结果|when/i.test([...t.querySelectorAll('th,tr:first-child td')].map(e=>e.textContent).join(' ')));
 return table?doc:null;
 }
+async function acMyPage(){
+const path=new URL(ctx.originalUrl).pathname.replace(/\/tasks\/[^/]+$/,'/submissions/me');
+const r=await fetch(path,{credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(5000)});
+const final=new URL(r.url||path,location.href);
+if(!r.ok||final.origin!==location.origin||final.pathname!==path)return null;
+const doc=new DOMParser().parseFromString((await r.text()).slice(0,2000000),'text/html');
+if(/just a moment|checking your browser|人机验证|安全验证|验证码/i.test(doc.title+' '+(doc.body?.textContent||'').slice(0,1200))||doc.querySelector('input[type=password],iframe[src*=captcha],iframe[src*=challenge]'))return null;
+const owner=acOwner(doc),expected=ctx.baselineOwner||acOwner();
+if(expected&&owner!==expected)return null;
+const table=[...doc.querySelectorAll('table')].some(t=>/submission|提出|提交|status|verdict|結果|时间|when/i.test([...t.querySelectorAll('th, tr:first-child td')].map(e=>e.textContent).join(' ')));
+// AtCoder omits the table for a user's first submission in a contest.
+// Require the authenticated personal page and its explicit empty state.
+const empty=owner&&/My Submissions|自分の提出/i.test(doc.title)&&[...doc.querySelectorAll('.panel-body,p,.alert,h3,h4')].some(e=>/^(?:No Submissions|提出はありません|提出がありません|提出が存在しません)[.!。]?$/.test(e.textContent.trim()));
+return table||empty?doc:null;
+}
+function prepare(){
+if(work.preparing)return work.preparing;
+work.preparing=(async()=>{
+if(ctx.platform==='AtCoder'){
+const doc=await acMyPage();if(!doc)return null;
+return {baseline:[...doc.querySelectorAll('a[href]')].map(a=>(a.getAttribute('href')||'').match(/\/submissions\/(\d+)/)?.[1]).filter(Boolean),baselineKnown:true,baselineOwner:acOwner(doc)||acOwner()};
+}
+if(ctx.platform==='Codeforces'){
+const owner=cfOwner();
+// The fastest valid personal list wins. A slow/blocked endpoint never holds
+// the other list or the official owner-scoped API behind serial timeouts.
+const candidates=myPaths().map(async path=>{const doc=await myPage(path);if(!doc)throw new Error('No personal list');return {baseline:[...doc.querySelectorAll('a[href]')].map(a=>(a.getAttribute('href')||'').match(/\/submission\/(\d+)/)?.[1]).filter(Boolean),baselineKnown:true,baselineOwner:owner||cfOwner(doc)};});
+if(owner)candidates.push((async()=>{const r=await fetch('/api/user.status?handle='+encodeURIComponent(owner)+'&from=1&count=100',{credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(5000)});if(!r.ok||new URL(r.url||'/api/user.status',location.href).origin!==location.origin)throw new Error('No owner snapshot');const value=await r.json();if(value.status!=='OK'||!Array.isArray(value.result)||!value.result.every(row=>Number.isSafeInteger(row.id)&&row.id>0&&row.author?.members?.some(member=>member.handle?.toLowerCase()===owner.toLowerCase())))throw new Error('Invalid owner snapshot');return {baseline:value.result.map(row=>String(row.id)),baselineKnown:true,baselineOwner:owner};})());
+return await Promise.any(candidates);
+}
+return {baseline:[],baselineKnown:false,baselineOwner:''};
+})().catch(()=>null).then(value=>{work.snapshot=value;return value;});
+return work.preparing;
+}
 function receiptValue(receipt){return {status:receipt.verdict==='JUDGING'?'judging':'finished',submissionId:receipt.id,...(receipt.verdict==='JUDGING'?{}:{verdict:receipt.verdict}),message:receipt.verdict==='JUDGING'?'原站已接收，正在评测。':'本次提交结果：'+receipt.verdict};}
 function inspect(){
-if(login()||luoguLoggedOut()||lgReceipt?.loggedOut()||(ctx.platform==='牛客'&&window.globalInfo?.ownerId!=null&&Number(window.globalInfo.ownerId)<=0))return {status:'needs_login',message:'请在浏览器登录原站，完成后回到 TB 点击提交。'};
+if(login()||cfLoggedOut()||luoguLoggedOut()||lgReceipt?.loggedOut()||(ctx.platform==='牛客'&&window.globalInfo?.ownerId!=null&&Number(window.globalInfo.ownerId)<=0))return {status:'needs_login',message:'请在浏览器登录原站，完成后回到 TB 点击提交。'};
 if(verification())return {status:'needs_verification',message:'请在浏览器完成原站验证，然后回到 TB 查看状态。'};
 if(ncReceipt?.receipt)return ncReceipt.receipt;
 if(lgReceipt?.receipt)return lgReceipt.receipt;
@@ -63,6 +106,8 @@ const errors=[...document.querySelectorAll('span.error,.error-message,.submit-er
 if(errors.length)return {status:'error',attempted:false,message:'Codeforces 未受理代码：'+errors.join('；').slice(0,200)};
 }
 if(ctx.attempted&&ctx.baselineKnown){const baseline=new Set(ctx.baseline||[]);const receipt=receipts().find(r=>newerReceipt(r.id,baseline)&&(!ctx.submissionId||r.id===ctx.submissionId));if(receipt?.verdict)return receiptValue(receipt);}
+if(!ctx.attempted&&document.readyState==='loading')return {status:'loading',message:'正在加载原站提交表单。'};
+if(!ctx.attempted&&hasEditor()&&['Codeforces','AtCoder'].includes(ctx.platform))prepare();
 return (ctx.platform==='洛谷'?lgReceipt?.hasSubmitApi():hasEditor())?{status:ctx.attempted?'submitted':'ready',message:ctx.attempted?'已发送原站提交请求，正在等待受理编号。':'后台连接已就绪。'}:{status:ctx.attempted?'submitted':'loading',message:ctx.attempted?'尚未收到原站受理编号，正在后台查询。':'正在准备原站提交接口。'};
 }
 async function submit(){
@@ -81,22 +126,8 @@ editors().forEach(e=>{Object.getOwnPropertyDescriptor(HTMLTextAreaElement.protot
 document.querySelectorAll('.CodeMirror').forEach(e=>{if(e.CodeMirror){e.CodeMirror.setValue(ctx.code);filled++;}});document.querySelectorAll('.ace_editor').forEach(e=>{try{if(window.ace){window.ace.edit(e).setValue(ctx.code,-1);filled++;}}catch{}});try{window.monaco?.editor?.getModels?.().filter(m=>!m.isDisposed()&&/cpp|c\+\+/.test(m.getLanguageId?.()||'')).forEach(m=>{m.setValue(ctx.code);filled++;});}catch{}
 document.querySelectorAll('.cm-editor .cm-content').forEach(e=>{const view=e.cmView?.view;if(view?.state?.doc&&view?.dispatch){view.dispatch({changes:{from:0,to:view.state.doc.length,insert:ctx.code}});filled++;}});
 if(!filled)return send({status:'error',message:'编辑器接口不可用，请手动粘贴并提交；未发出自动提交。'});
-let baseline=[],baselineKnown=false,baselineOwner='';
-if(ctx.platform==='Codeforces'){
-baselineOwner=cfOwner();
-}
-if(ctx.platform==='Codeforces'){
-for(const path of myPaths()){try{const doc=await myPage(path);if(!doc)continue;baselineOwner=baselineOwner||cfOwner(doc);baseline=[...doc.querySelectorAll('a[href]')].map(a=>(a.getAttribute('href')||'').match(/\/submission\/(\d+)/)?.[1]).filter(Boolean);baselineKnown=true;break;}catch{}}
-}else{
-try{let path=null;if(ctx.platform==='AtCoder')path=location.pathname.replace(/\/submit$/,'/submissions/me');if(path){const r=await fetch(path,{credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(15000)});if(r.ok&&new URL(r.url).origin===location.origin&&new URL(r.url).pathname===path){const html=await r.text();const doc=new DOMParser().parseFromString(html.slice(0,2000000),'text/html');const challenge=/just a moment|checking your browser|人机验证|安全验证|验证码/i.test(doc.title+' '+(doc.body?.textContent||'').slice(0,1200));const table=[...doc.querySelectorAll('table')].some(t=>/submission|提出|提交|status|verdict|結果|时间|when/i.test([...t.querySelectorAll('th, tr:first-child td')].map(e=>e.textContent).join(' ')));if(!challenge&&table&&!doc.querySelector('input[type=password],iframe[src*=captcha],iframe[src*=challenge]')){baseline=receipts(doc).map(r=>r.id);baselineKnown=true;}}}}catch{}
-}
-// The official public API provides a bounded snapshot when the HTML list is
-// unavailable. Only the authenticated page's own handle is used. A global ID
-// lower bound prevents older records outside this snapshot from becoming AC.
-if(ctx.platform==='Codeforces'&&!baselineKnown&&baselineOwner){
-try{const r=await fetch('/api/user.status?handle='+encodeURIComponent(baselineOwner)+'&from=1&count=100',{credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(15000)});if(r.ok){const value=await r.json();if(value.status==='OK'&&Array.isArray(value.result)&&value.result.every(row=>Number.isSafeInteger(row.id)&&row.id>0)){baseline=value.result.map(row=>String(row.id));baselineKnown=true;}}}catch{}
-}
-if(['Codeforces','AtCoder'].includes(ctx.platform)&&!baselineKnown)return send({status:'error',message:'暂时无法读取本账号的提交记录。请在浏览器完成登录或验证，再重试提交。'});
+const snapshot=await prepare(),{baseline=[],baselineKnown=false,baselineOwner=''}=snapshot||{};
+if(['Codeforces','AtCoder'].includes(ctx.platform)&&!baselineKnown)return send({status:'error',attempted:false,message:'暂时无法读取本账号的提交记录。请在浏览器完成登录或验证，再重试提交。'});
 const form=editors().map(e=>e.closest('form')).find(Boolean)||[...document.querySelectorAll('form')].find(f=>f.querySelector('.CodeMirror,.cm-editor,.ace_editor,.monaco-editor'));
 let button=[...(form?.querySelectorAll('button[type=submit],input[type=submit],#submit')||[])].find(b=>visible(b)&&!b.disabled);if(!button&&['牛客','洛谷'].includes(ctx.platform))button=[...document.querySelectorAll('button,[role=button],.btn-submit,.submit-btn,.submit-button')].find(b=>visible(b)&&!b.disabled&&b.getAttribute('aria-disabled')!=='true'&&/^(?:保存并)?提交(?:代码|题目|评测)?$/.test(b.textContent.trim()));
 if(!button)return send({status:'error',message:'未找到与代码编辑器对应的官方提交控件，请手动提交；未点击其它按钮。'});
@@ -111,18 +142,16 @@ if(action==='submit'){submit().catch(e=>send({status:'error',message:'表单操�
 const state=inspect();
 if(ctx.attempted&&ncReceipt)ncReceipt.poll();
 if(ctx.attempted&&lgReceipt)lgReceipt.poll();
-if(ctx.platform==='AtCoder'&&ctx.attempted&&ctx.baselineKnown&&state.status!=='finished'){
+if(ctx.platform==='AtCoder'&&ctx.attempted&&ctx.baselineKnown&&state.status!=='finished'&&!work.polling&&Date.now()>=work.nextPoll){
+  work.polling=true;
   (async()=>{try{
-    const path=new URL(ctx.originalUrl).pathname.replace(/\/tasks\/[^/]+$/,'/submissions/me');
-    const response=await fetch(path,{credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(15000)});
-    if(!response.ok||new URL(response.url,location.href).origin!==location.origin||new URL(response.url,location.href).pathname!==path)return;
-    const doc=new DOMParser().parseFromString((await response.text()).slice(0,2000000),'text/html');
-    if(doc.querySelector('input[type=password]'))return;
+    const doc=await acMyPage();if(!doc)return;
     const receipt=receipts(doc).find(r=>newerReceipt(r.id,new Set(ctx.baseline||[]))&&(!ctx.submissionId||r.id===ctx.submissionId));
     if(receipt?.verdict)send(receiptValue(receipt));
-  }catch{}})();
+  }catch{}finally{work.polling=false;work.nextPoll=Date.now()+1000;}})();
 }
-if(ctx.platform==='Codeforces'&&ctx.attempted&&ctx.baselineKnown&&state.status!=='finished'){
+if(ctx.platform==='Codeforces'&&ctx.attempted&&ctx.baselineKnown&&state.status!=='finished'&&!work.polling&&Date.now()>=work.nextPoll){
+  work.polling=true;
   const owner=ctx.baselineOwner||cfOwner();
   (async()=>{try{
     // A hidden CF page may stop updating its live verdict cells. Read a fresh
@@ -131,7 +160,7 @@ if(ctx.platform==='Codeforces'&&ctx.attempted&&ctx.baselineKnown&&state.status!=
       try{const doc=await myPage(path);if(!doc)continue;const candidate=receipts(doc).find(row=>newerReceipt(row.id,new Set(ctx.baseline||[]))&&(!ctx.submissionId||row.id===ctx.submissionId));if(candidate?.verdict){send(receiptValue(candidate));return;}}catch{}
     }
     if(!owner)return;
-    const response=await fetch('/api/user.status?handle='+encodeURIComponent(owner)+'&from=1&count=100',{credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(15000)});
+    const response=await fetch('/api/user.status?handle='+encodeURIComponent(owner)+'&from=1&count=100',{credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(5000)});
     if(!response.ok||new URL(response.url,location.href).origin!==location.origin)return;
     const value=await response.json(),original=new URL(ctx.originalUrl),match=taskPath(original.pathname).match(/^\/(?:contest|gym)\/(\d+)\/problem\/([A-Za-z]\d?)$/);
     if(value.status!=='OK'||!Array.isArray(value.result)||!match)return;
@@ -140,7 +169,7 @@ if(ctx.platform==='Codeforces'&&ctx.attempted&&ctx.baselineKnown&&state.status!=
     if(!receipt)return;
     const verdict=normal(receipt.verdict)||'JUDGING';
     send({status:verdict==='JUDGING'?'judging':'finished',submissionId:String(receipt.id),...(verdict==='JUDGING'?{}:{verdict}),message:verdict==='JUDGING'?'原站已接收，正在评测。':'已读取原站本次新提交结果：'+verdict});
-  }catch{}})();
+  }catch{}finally{work.polling=false;work.nextPoll=Date.now()+1000;}})();
 }
 return state;
 }

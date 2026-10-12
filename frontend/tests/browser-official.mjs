@@ -50,7 +50,7 @@ try {
     if (request.method() === 'POST') {
       posted.push(url.hostname + url.pathname);
       if (url.hostname !== 'victorinox.nowcoder.com') cookieChecks.push((await request.allHeaders()).cookie?.includes('fixture_login=existing-browser-session'));
-      if (url.hostname === 'codeforces.com') { cfSubmitted = true; assert.equal(new URLSearchParams(request.postData()).get('source'), source); return route.fulfill({ status: 302, headers: { location: '/contest/123/my' }, body: '' }); }
+      if (url.hostname === 'codeforces.com') { cfSubmitted = true; assert.equal(new URLSearchParams(request.postData()).get('source'), source); return html('<div id="header"><a href="/profile/fixture">fixture</a></div>'+row('Codeforces',true)); }
       if (url.hostname === 'atcoder.jp') { acSubmitted = true; assert.ok(request.postData().includes('int main()')); return json({ ok: true }); }
       if (url.hostname === 'victorinox.nowcoder.com') {
         assert.equal(JSON.parse(request.postData()).content, source);

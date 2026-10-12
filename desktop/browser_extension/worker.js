@@ -23,31 +23,38 @@ async function pollQueues() {
       try {
         const local = new URL(base);
         if (local.protocol !== 'http:' || local.hostname !== '127.0.0.1' || local.origin !== base) continue;
-        if (!connections.has(base)) connections.set(base, (await backgroundRequest(base, 'register', { clientId, protocol: 2 })).key);
-        const answer = await backgroundRequest(base, 'queue', { clientId }, connections.get(base));
-        if (answer.mode === 'silent') {
+        if (!connections.has(base)) connections.set(base, (await backgroundRequest(base, 'register', { clientId, protocol: 3 })).key);
+        const [windows, tabs] = await Promise.all([
+          chrome.windows.getAll({ windowTypes: ['normal'] }),
+          chrome.tabs.query({url:['https://codeforces.com/*','https://www.codeforces.com/*','https://atcoder.jp/*','https://ac.nowcoder.com/*','https://www.luogu.com.cn/*','https://luogu.com.cn/*']}),
+        ]);
+        const platformHosts = {'codeforces.com':'Codeforces','www.codeforces.com':'Codeforces','atcoder.jp':'AtCoder','ac.nowcoder.com':'牛客','www.luogu.com.cn':'洛谷','luogu.com.cn':'洛谷'};
+        const platforms = [...new Set(tabs.filter(tab=>!tab.incognito).map(tab=>platformHosts[new URL(tab.url).hostname]).filter(Boolean))];
+        const answer = await backgroundRequest(base, 'queue', { clientId, hasWindow:windows.some(w=>!w.incognito), platforms }, connections.get(base));
+        if (answer.mode === 'silent' || answer.mode === 'hybrid') {
           const scopes = {Codeforces:['codeforces.com'],AtCoder:['atcoder.jp'],'牛客':['nowcoder.com'],'洛谷':['luogu.com.cn']};
-          for (const request of answer.sync || []) {
+          await Promise.all((answer.sync || []).map(async request => {
             const domains = scopes[request.platform];
-            if (!domains || typeof request.nonce !== 'string') continue;
+            if (!domains || typeof request.nonce !== 'string') return;
             const cookies = (await Promise.all(domains.map(domain => chrome.cookies.getAll({domain,storeId:'0'})))).flat();
             await backgroundRequest(base, 'session', {clientId,platform:request.platform,nonce:request.nonce,cookies,userAgent:navigator.userAgent}, connections.get(base));
-          }
-          continue;
+          }));
+          if (answer.mode === 'silent') continue;
         }
         for (const item of answer.jobs || []) {
           const saved = (await chrome.storage.session.get('jobs')).jobs || {};
           if (Object.values(saved).some(j => j.sessionId === item.sessionId && j.base === base)) continue;
           // Never create/activate a browser window. Reuse an existing window in
           // the background solely as the authenticated origin for site requests.
-          const windows = await chrome.windows.getAll({ windowTypes: ['normal'] });
-          if (!windows.length) continue;
+          const regularWindows=windows.filter(w=>!w.incognito);
+          if (!regularWindows.length) continue;
           const job = { ...item, base, owned: true };
           const claim = await exchange(job, { claim: true });
           if (['closed', 'finished', 'error'].includes(claim.status)) continue;
           const target = new URL(claim.url);
           if (target.protocol !== 'https:' || !hosts.has(target.hostname)) continue;
-          const tab = await chrome.tabs.create({ windowId: (windows.find(w => w.focused) || windows[0]).id, url: 'about:blank', active: false });
+          const matching=tabs.find(tab=>!tab.incognito&&new URL(tab.url).hostname===target.hostname);
+          const tab = await chrome.tabs.create({ windowId: matching?.windowId||(regularWindows.find(w => w.focused) || regularWindows[0]).id, url: 'about:blank', active: false });
           job.tabId = tab.id;
           saved[tab.id] = job;
           await chrome.storage.session.set({ jobs: saved });

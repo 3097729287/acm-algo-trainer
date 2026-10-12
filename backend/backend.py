@@ -367,8 +367,9 @@ class Handler(BaseHTTPRequestHandler):
         else:
             if bridge.session_store is not None and not body.get('claim'):
                 with bridge.lock:
-                    bridge._authenticate(body.get('sessionId'), self.headers.get('X-TB-Browser', ''))
-                value = {'stop': True, 'status': 'closed'}
+                    session = bridge._authenticate(body.get('sessionId'), self.headers.get('X-TB-Browser', ''))
+                    browser_transport = session.get('transport') == 'browser'
+                value = bridge.exchange(body, self.headers.get('X-TB-Browser', '')) if browser_transport else {'stop': True, 'status': 'closed'}
             else:
                 value = bridge.exchange(body, self.headers.get('X-TB-Browser', ''))
         self.send_json(200, value)
