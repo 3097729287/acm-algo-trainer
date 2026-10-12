@@ -4,6 +4,7 @@ from __future__ import annotations
 from concurrent.futures import ThreadPoolExecutor
 import datetime as dt
 import json
+import logging
 import os
 from pathlib import Path
 import sys
@@ -81,7 +82,7 @@ def service_opener(endpoint):
 
 
 class LeaderboardClient:
-    def __init__(self, training, timeout=5):
+    def __init__(self, training, timeout=10):
         self.training = training
         self.timeout = timeout
         self.lock = threading.RLock()
@@ -118,6 +119,11 @@ class LeaderboardClient:
             raise RankingRequestError(error.code, "只有管理员可以删除排行榜成绩" if error.code == 403 else f"排行榜服务返回 HTTP {error.code}") from None
         except (URLError, TimeoutError, OSError, ValueError) as error:
             # Never echo response bodies, credentials or URLs containing secrets.
+            cause = getattr(error, 'reason', error)
+            logging.getLogger('tb.ranking').warning('Ranking connection failed: %s %s %s',
+                                                   method, path.partition('?')[0], type(cause).__name__)
+            if isinstance(cause, TimeoutError):
+                raise RuntimeError("排行榜服务响应超时，后台将自动重试") from error
             raise RuntimeError("排行榜服务连接失败，请检查服务地址或稍后重试") from error
 
     def snapshot(self):
@@ -171,23 +177,38 @@ class LeaderboardClient:
                 if answer.get("processed") != len(batch) or answer.get("scope") != "official":
                     raise RuntimeError("排行榜通过记录未完整接收")
                 self.training._ranking_receipts(profile["endpoint"], batch)
-            values = {}
+            failures = []
             for period in ("daily", "weekly", "total"):
                 with self.lock:
                     if self.closed:
                         return
-                value = self._request(profile, "GET", "/v1/leaderboard?" + urlencode({"period": period}))
-                if value.get("period") != period or not isinstance(value.get("entries"), list):
-                    raise RuntimeError("排行榜响应格式无效")
+                try:
+                    value = self._request(profile, "GET", "/v1/leaderboard?" + urlencode({"period": period}))
+                    if value.get("period") != period or not isinstance(value.get("entries"), list):
+                        raise RuntimeError("排行榜响应格式无效")
+                except RankingRequestError as error:
+                    if error.status in (401, 429):
+                        raise
+                    failures.append(str(error))
+                    continue
+                except RuntimeError as error:
+                    failures.append(str(error))
+                    continue
                 local_day = self.training._now().astimezone(SHANGHAI).date().isoformat()
-                values[period] = (time.monotonic(), value, local_day)
-            self.training._ranking_synced(profile["endpoint"])
+                current = self.training._ranking_profile()
+                with self.lock:
+                    if not self.closed and all(profile[key] == current[key] for key in ('endpoint', 'user_id', 'auth_token')):
+                        # An empty board is also a valid result. Publish each
+                        # period before a later board or reward request can fail.
+                        self.cache[period] = (time.monotonic(), value, local_day)
             rewards = self._request(profile, "GET", "/v1/rewards")
             self.training._ranking_rewards(profile, rewards)
+            if failures:
+                raise RuntimeError(failures[0])
+            self.training._ranking_synced(profile["endpoint"])
             current_endpoint = self.training._ranking_profile()["endpoint"]
             with self.lock:
                 if profile["endpoint"] == current_endpoint:
-                    self.cache = values
                     self.status, self.error = "ready", ""
         except Exception as error:
             if isinstance(error, RankingRequestError) and error.status == 401:
@@ -225,6 +246,7 @@ class LeaderboardClient:
             state = self.snapshot()
         value = dict(cached[1]) if cached else {"period": period, "date": date, "entries": [], "self": None}
         value.update(state)
+        value['hasSnapshot'] = cached is not None
         return value
 
     def admin_delete(self, body):

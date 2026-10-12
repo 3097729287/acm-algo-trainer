@@ -54,9 +54,25 @@ try {
  await page.waitForTimeout(100);
  assert.equal(await page.getByRole('button',{name:'清空当前榜单'}).count(),0);
  assert.equal(await page.locator('.ranking-table .ranking-delete-button').count(),0);
+ // A fetched empty board remains readable when another period or XP fails.
+ await page.evaluate(()=>window.rankingState={status:'error',hasSnapshot:true,entries:[],self:{count:0},error:'排行榜服务响应超时，后台将自动重试'});
+ await page.getByRole('button',{name:'同步与刷新'}).click();
+ await page.getByRole('heading',{name:'榜单已读取',exact:true}).waitFor();
+ assert.equal(await page.getByText('排行榜暂时无法连接',{exact:true}).count(),0);
+ await page.getByText('这个统计周期还没有首次官方 AC 记录。',{exact:true}).waitFor();
+ await page.getByText('部分数据刷新未完成，后台将重试。',{exact:false}).waitFor();
+ await page.evaluate(()=>window.rankingState={status:'error',hasSnapshot:false,entries:[],self:null,error:'排行榜服务响应超时，后台将自动重试'});
+ await page.getByRole('button',{name:'同步与刷新'}).click();
+ await page.getByRole('heading',{name:'排行榜暂时无法连接',exact:true}).waitFor();
+ const retries=await page.evaluate(()=>window.rankingSyncs);
+ await page.getByRole('button',{name:'重试连接',exact:true}).click();
+ await page.waitForFunction(expected=>window.rankingSyncs>expected,retries);
+ await page.evaluate(()=>window.rankingState=null);
+ await page.getByRole('button',{name:'同步与刷新'}).click();
+ await page.waitForFunction(()=>document.querySelectorAll('.ranking-table tbody tr').length===3);
  await page.setViewportSize({width:390,height:844});
  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=390));
  await page.screenshot({path:path.join(root,'tests/screenshots/rankings-mobile.png'),fullPage:true});
  assert.deepEqual(errors,[]);
- console.log(JSON.stringify({nineDistinctMedals:true,gradeOrder:true,threeWinners:true,adminControls:true,confirmationAndCancel:true,ordinaryUserHidden:true,periodSwitchRace:true,mobile:true,errors}));
+ console.log(JSON.stringify({nineDistinctMedals:true,gradeOrder:true,threeWinners:true,adminControls:true,confirmationAndCancel:true,ordinaryUserHidden:true,periodSwitchRace:true,emptySnapshotPreserved:true,connectionRetry:true,mobile:true,errors}));
 } finally {await browser.close();await server.close();}

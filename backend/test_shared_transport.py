@@ -3,6 +3,7 @@ import json
 import os
 import socket
 import threading
+import time
 import unittest
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from unittest.mock import patch
@@ -10,7 +11,7 @@ from urllib.error import URLError
 from urllib.request import Request
 
 from accounts import Accounts
-from leaderboard import service_opener
+from leaderboard import LeaderboardClient, service_opener
 from training import ServiceError
 
 
@@ -18,6 +19,7 @@ class SharedTransportTests(unittest.TestCase):
     def setUp(self):
         self.requests = []
         self.drop_response = False
+        self.delay = 0
         owner = self
 
         class Handler(BaseHTTPRequestHandler):
@@ -30,6 +32,8 @@ class SharedTransportTests(unittest.TestCase):
             def do_POST(self):
                 body = self.rfile.read(int(self.headers.get('Content-Length', 0)))
                 owner.requests.append((self.path, self.headers.get('Authorization'), body))
+                if owner.delay:
+                    time.sleep(owner.delay)
                 if owner.drop_response:
                     self.connection.shutdown(socket.SHUT_RDWR)
                     self.connection.close()
@@ -105,6 +109,16 @@ class SharedTransportTests(unittest.TestCase):
         self.assertEqual(caught.exception.status, 503)
         self.assertEqual(len(self.requests), 1)
         self.assertNotIn('private-fixture-only', '\n'.join(log.output))
+
+    def test_ranking_accepts_a_response_slower_than_the_old_five_second_limit(self):
+        self.delay = 5.2
+        client = LeaderboardClient(None)
+        self.addCleanup(client.close)
+        profile = {'endpoint': self.endpoint, 'user_id': 'fixture', 'auth_token': 'fixture-only'}
+        started = time.monotonic()
+        self.assertTrue(client._request(profile, 'GET', '/slow-ranking')['ok'])
+        self.assertGreater(time.monotonic() - started, 5)
+        self.assertEqual(len(self.requests), 1)
 
 
 if __name__ == '__main__':
