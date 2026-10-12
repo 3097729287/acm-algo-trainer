@@ -6,7 +6,50 @@ import threading
 import time
 
 
+def network_check(output):
+    """Explicit diagnosis of the bundled service; no account or credential input."""
+    from version import VERSION
+    from leaderboard import bundled_endpoint, service_opener
+    from urllib.error import HTTPError
+    from urllib.request import Request
+    report = {'ok': False, 'version': VERSION, 'frozen': bool(getattr(__import__('sys'), 'frozen', False))}
+    try:
+        if not os.environ.get('TB_STATE_DIR'):
+            raise RuntimeError('Network checks require an explicitly isolated state directory')
+        if os.environ.get('TB_OFFLINE') == '1':
+            raise RuntimeError('An offline check cannot contact the bundled service')
+        endpoint = bundled_endpoint()
+        if not endpoint.startswith('https://'):
+            raise RuntimeError('The bundled account service must use HTTPS')
+        opener = service_opener(endpoint)
+        started = time.monotonic()
+        with opener.open(Request(endpoint + '/v1/health', headers={'Accept': 'application/json'}), timeout=8) as response:
+            health = json.loads(response.read(4096))
+        assert health.get('ok') is True
+        report.update(httpsVerified=True, healthSeconds=round(time.monotonic() - started, 3), serverVersion=health['version'])
+        # Empty input is always rejected before account creation. This exercises
+        # the shipped POST transport without registering a production fixture.
+        started = time.monotonic()
+        try:
+            with opener.open(Request(endpoint + '/v1/accounts/register', data=b'{}',
+                             headers={'Content-Type': 'application/json', 'Accept': 'application/json'}), timeout=8):
+                raise AssertionError('Empty registration input was unexpectedly accepted')
+        except HTTPError as issue:
+            assert issue.code == 400
+            assert isinstance(json.loads(issue.read(4096)).get('error'), str)
+            report.update(registrationValidationStatus=issue.code, postSeconds=round(time.monotonic() - started, 3))
+        report.update(ok=True, credentialsSent=False, productionTestRegistrations=0)
+    except Exception as issue:
+        # Do not serialize response bodies, headers or proxy configuration.
+        report.update(error=type(issue).__name__)
+    Path(output).parent.mkdir(parents=True, exist_ok=True)
+    Path(output).write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
+    return 0 if report['ok'] else 1
+
+
 def run(action, output):
+    if action == '--account-network-check':
+        return network_check(output)
     from paths import ROOT, STATE, FRONTEND
     from version import VERSION
     server = None

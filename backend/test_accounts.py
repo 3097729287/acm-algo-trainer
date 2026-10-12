@@ -7,6 +7,7 @@ import sqlite3
 import subprocess
 import tempfile
 import threading
+import time
 import unittest
 from unittest.mock import patch
 
@@ -139,6 +140,25 @@ class AccountTests(unittest.TestCase):
             _, value = self.call('/api/' + path)
             self.assertNotIn(secret, json.dumps(value))
             self.assertNotIn('fixture-password', json.dumps(value))
+
+    def test_registration_login_and_ranking_bypass_a_broken_system_proxy(self):
+        proxy = 'http://127.0.0.1:9'
+        with patch.dict(os.environ, {'http_proxy': proxy, 'https_proxy': proxy,
+                                    'HTTP_PROXY': proxy, 'HTTPS_PROXY': proxy,
+                                    'no_proxy': '', 'NO_PROXY': ''}):
+            self.stop(); self.start()
+            status, value = self.signup()
+            self.assertEqual(status, 200, value)
+            self.assertEqual(self.login()[0], 200)
+            self.call('/api/leaderboard/sync', {})
+            deadline = time.monotonic() + 8
+            while time.monotonic() < deadline:
+                _, ranking = self.call('/api/leaderboard')
+                if ranking['status'] in ('ready', 'error'):
+                    break
+                time.sleep(.05)
+            self.assertEqual(ranking['status'], 'ready', ranking.get('error'))
+            self.assertEqual(self.call('/api/account/logout', {})[0], 200)
 
     def test_account_backups_work_in_long_windows_directories(self):
         from training import TrainingService

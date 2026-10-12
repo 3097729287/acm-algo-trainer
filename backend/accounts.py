@@ -3,15 +3,16 @@ from __future__ import annotations
 
 import base64
 import json
+import logging
 import re
 import secrets
 import threading
 import time
 import uuid
 from urllib.error import HTTPError, URLError
-from urllib.request import Request, build_opener
+from urllib.request import Request
 
-from leaderboard import NoRedirect, validate_endpoint, default_endpoint
+from leaderboard import service_opener, validate_endpoint, default_endpoint
 from persistence import load_document, save_document
 from training import ServiceError
 from translation_config import _crypt
@@ -24,6 +25,7 @@ class Accounts:
         self.base = server.training
         self.root = server.state_dir
         self.endpoint = validate_endpoint(endpoint if endpoint is not None else self.base._ranking_profile()['endpoint'] or default_endpoint())
+        self.opener = service_opener(self.endpoint)
         self.session_path = self.root / 'account-session.json'
         self.registry_path = self.root / 'account-workspaces.json'
         self.registry = load_document(self.registry_path, {})
@@ -49,12 +51,12 @@ class Accounts:
             raise ServiceError(503, 'TB 正在关闭')
         if not self.endpoint:
             raise ServiceError(503, '账号服务尚未配置，请连接账号服务后重试')
-        headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'User-Agent': 'TB/0.10.4'}
+        headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'User-Agent': 'TB/0.10.5'}
         if session:
             headers.update({'X-TB-User': session['userId'], 'Authorization': 'Bearer ' + session['token']})
         payload = json.dumps(body, ensure_ascii=False).encode('utf-8') if body is not None else None
         try:
-            with build_opener(NoRedirect()).open(Request(self.endpoint + path, data=payload, method=method, headers=headers), timeout=8) as response:
+            with self.opener.open(Request(self.endpoint + path, data=payload, method=method, headers=headers), timeout=8) as response:
                 raw = response.read(262145)
             if len(raw) > 262144:
                 raise ValueError()
@@ -71,7 +73,9 @@ class Accounts:
             if issue.code == 401 and session and self.session and self.session['token'] == session['token']:
                 self.invalidate(session['token'])
             raise ServiceError(issue.code, safe) from None
-        except (URLError, TimeoutError, OSError, ValueError):
+        except (URLError, TimeoutError, OSError, ValueError) as issue:
+            cause = getattr(issue, 'reason', issue)
+            logging.getLogger('tb.accounts').warning('Account connection failed: %s %s', method, type(cause).__name__)
             raise ServiceError(503, '账号服务连接失败，请检查网络后重试') from None
 
     def credentials(self, owner):

@@ -11,7 +11,7 @@ import threading
 import time
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode, urlsplit
-from urllib.request import Request, build_opener, HTTPRedirectHandler
+from urllib.request import Request, build_opener, HTTPRedirectHandler, ProxyHandler
 
 from progression import SHANGHAI
 
@@ -47,6 +47,10 @@ def validate_endpoint(value):
 def default_endpoint():
     if os.environ.get("TB_OFFLINE") == "1":return ""
     if "TB_LEADERBOARD_URL" in os.environ:return validate_endpoint(os.environ["TB_LEADERBOARD_URL"])
+    return bundled_endpoint()
+
+
+def bundled_endpoint():
     value = ""
     from paths import resource
     path = resource('leaderboard.defaults.json')
@@ -64,13 +68,26 @@ class NoRedirect(HTTPRedirectHandler):
         raise URLError("排行榜服务发生重定向，请使用最终 HTTPS 地址")
 
 
+def service_opener(endpoint):
+    """The bundled service is reachable directly; do not tunnel it via an OJ proxy."""
+    host = urlsplit(endpoint).hostname
+    bundled_host = urlsplit(bundled_endpoint()).hostname
+    handlers = [NoRedirect()]
+    if host in {"127.0.0.1", "localhost", "::1"} or host and host == bundled_host:
+        handlers.append(ProxyHandler({}))
+    # Custom servers retain the user's system proxy. HTTPS verification stays
+    # enabled, redirects remain forbidden and requests are never replayed.
+    return build_opener(*handlers)
+
+
 class LeaderboardClient:
     def __init__(self, training, timeout=5):
         self.training = training
         self.timeout = timeout
         self.lock = threading.RLock()
         self.executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="tb-ranking")
-        self.opener = build_opener(NoRedirect())
+        self.opener = None
+        self.opener_endpoint = None
         self.running = False
         self.closed = False
         self.dirty = False
@@ -86,6 +103,9 @@ class LeaderboardClient:
                           headers={"Content-Type": "application/json", "Accept": "application/json", "Authorization": "Bearer " + profile["auth_token"],
                                    "X-TB-User": profile["user_id"], "User-Agent": "TB/0.10 Ranking"})
         try:
+            if self.opener_endpoint != profile['endpoint']:
+                self.opener = service_opener(profile['endpoint'])
+                self.opener_endpoint = profile['endpoint']
             with self.opener.open(request, timeout=self.timeout) as response:
                 raw = response.read(262145)
             if len(raw) > 262144:
