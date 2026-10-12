@@ -1,5 +1,6 @@
 """Account gate and migration against a disposable real HTTP account service."""
 import http.client
+from concurrent.futures import ThreadPoolExecutor, TimeoutError as FutureTimeout
 import json
 import os
 from pathlib import Path
@@ -9,6 +10,7 @@ import tempfile
 import threading
 import time
 import unittest
+from types import SimpleNamespace
 from unittest.mock import patch
 
 import backend
@@ -171,6 +173,51 @@ class AccountTests(unittest.TestCase):
                 self.assertTrue(list((self.root / 'backups').rglob('*.bak')))
             finally:
                 service.close()
+
+    def test_slow_translation_does_not_block_draft_saving_or_account_reads(self):
+        self.signup(); self.login()
+        started, release = threading.Event(), threading.Event()
+        def translate(identity):
+            started.set()
+            if not release.wait(8):
+                raise RuntimeError('Translation fixture was not released')
+            return {'id': identity, 'markdown': 'Translated fixture'}
+        with patch.object(self.server, 'translation', SimpleNamespace(translate=translate)), ThreadPoolExecutor(3) as pool:
+            pending = pool.submit(self.call, '/api/problem/translate?id=fixture::A')
+            try:
+                self.assertTrue(started.wait(3))
+                saved = pool.submit(self.call, '/api/draft', {'id': 'fixture::A', 'code': 'parallel private draft'})
+                self.assertEqual(saved.result(timeout=2)[0], 200)
+                self.assertEqual(pool.submit(self.call, '/api/account').result(timeout=2)[0], 200)
+                self.assertFalse(pending.done(), 'The slow request is still in flight')
+            finally:
+                release.set()
+            self.assertEqual(pending.result(timeout=3)[0], 200)
+        self.assertEqual(self.call('/api/problem?id=fixture::A')[1]['draft'], 'parallel private draft')
+
+    def test_logout_waits_for_inflight_requests_and_releases_the_gate(self):
+        self.signup(); self.login()
+        started, release = threading.Event(), threading.Event()
+        def translate(identity):
+            started.set()
+            if not release.wait(8):
+                raise RuntimeError('Translation fixture was not released')
+            return {'id': identity}
+        with patch.object(self.server, 'translation', SimpleNamespace(translate=translate)), ThreadPoolExecutor(2) as pool:
+            pending = pool.submit(self.call, '/api/problem/translate?id=fixture::A')
+            try:
+                self.assertTrue(started.wait(3))
+                logout = pool.submit(self.call, '/api/account/logout', {})
+                with self.assertRaises(FutureTimeout):
+                    logout.result(timeout=.3)
+                self.assertTrue(self.server.accounts.session, 'Identity stays active until the request finishes')
+            finally:
+                release.set()
+            self.assertEqual(pending.result(timeout=3)[0], 200)
+            self.assertEqual(logout.result(timeout=3)[0], 200)
+        self.assertEqual(self.call('/api/data')[0], 401)
+        self.assertEqual(self.login()[0], 200, 'Gate remains usable after changing identity')
+        self.assertEqual(self.call('/api/workspace')[0], 200)
 
 
 if __name__ == '__main__':

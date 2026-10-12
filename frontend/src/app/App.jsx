@@ -6,6 +6,7 @@ import {
   useRef,
   useCallback,
   useDeferredValue,
+  memo,
 } from "react";
 import {
   BookOpen,
@@ -80,6 +81,7 @@ import NavigationSettings, { orderedPages } from "@/pages/NavigationSettings.jsx
 import RankingsPage, { ProfileSettings } from "@/pages/CommunityPanel.jsx";
 import MockSetup from "@/app/MockSetup.jsx";
 import GoalsPanel, { GoalReminder } from '@/pages/GoalsPanel.jsx';
+import BrowserPreparation from '@/pages/BrowserPreparation.jsx';
 import SubmissionRecords, { MockHistory } from "@/pages/SubmissionRecords.jsx";
 import { normalizeMarkdown } from "@/lib/normalizeMarkdown.js";
 import {
@@ -285,7 +287,7 @@ function Modal({ title, onClose, children, wide = false, footer }) {
     </div>
   );
 }
-function Markdown({ text, onCopy, images = {} }) {
+const Markdown = memo(function Markdown({ text, onCopy, images = {} }) {
   return (
     <div className="markdown">
       <ReactMarkdown
@@ -317,7 +319,7 @@ function Markdown({ text, onCopy, images = {} }) {
       </ReactMarkdown>
     </div>
   );
-}
+});
 
 // Each tree item owns one tab stop. Arrow keys follow the visible tree, rather than the question table.
 function KnowledgeTree({
@@ -559,6 +561,33 @@ export default function App() {
     serverOffset = useRef(0),
     previousActive = useRef(null);
   const api = useCallback((path, body) => request(path, body, token.current), []);
+  const backgroundRequest = useRef(null), backgroundAgain = useRef(false),
+    backgroundSeq = useRef(0), backgroundVersion = useRef(null);
+  const refreshBackground = useCallback(function refresh(force = false) {
+    if (backgroundRequest.current) {
+      if (force) backgroundAgain.current = true;
+      return backgroundRequest.current;
+    }
+    const seq = ++backgroundSeq.current;
+    const pending = Promise.allSettled([
+      ["inbox", setInbox], ["hub", setHub], ["insights", setInsights],
+    ].map(([path, apply]) => api(path).then(value => {
+      if (seq === backgroundSeq.current) apply(value);
+    }))).finally(() => {
+      backgroundRequest.current = null;
+      if (backgroundAgain.current) {
+        backgroundAgain.current = false;
+        return refresh();
+      }
+    });
+    backgroundRequest.current = pending;
+    return pending;
+  }, [api]);
+  const readerBlocks = useMemo(() => reader ? solutionBlocks(reader.markdown, reader.lectures || []) : [], [reader]);
+  const readerReferences = useMemo(() => {
+    const inline = new Set(readerBlocks.map(block => block.lecture?.id).filter(Boolean));
+    return (reader?.lectures || []).filter(item => !inline.has(item.id));
+  }, [reader, readerBlocks]);
   const softwareUpdate = useSoftwareUpdates(api, Boolean(data));
   const notice = useCallback((message, type = "info", action = null) => {
     clearTimeout(toastTimer.current);
@@ -582,33 +611,33 @@ export default function App() {
       const seq = ++loadSeq.current;
       if (initial) setLoading(true);
       try {
-        const [library, personal, incoming, connections, evidence] =
+        const [library, personal] =
           await Promise.all([
             api("data"),
             api("workspace"),
-            api("inbox"),
-            api("hub").catch(() => null),
-            api("insights").catch(() => null),
           ]);
         if (seq !== loadSeq.current) return;
         token.current = library.token;
         setData(library);
         applyWorkspace(personal);
-        setInbox(incoming);
-        setHub(connections);
-        setInsights(evidence);
         setError("");
+        refreshBackground(true);
       } catch (e) {
         if (seq === loadSeq.current) setError(e.message);
       } finally {
         if (seq === loadSeq.current) setLoading(false);
       }
     },
-    [api, applyWorkspace],
+    [api, applyWorkspace, refreshBackground],
   );
   useEffect(() => {
     reload(true);
-    return () => clearTimeout(toastTimer.current);
+    return () => {
+      loadSeq.current++;
+      backgroundSeq.current++;
+      backgroundAgain.current = false;
+      clearTimeout(toastTimer.current);
+    };
   }, [reload]);
   useEffect(() => {
     localStorage.setItem("tb.preferences", JSON.stringify(prefs));
@@ -645,12 +674,14 @@ export default function App() {
     return () => { alive = false; window.removeEventListener("keydown", onKey); };
   }, [api, applyFullscreen]);
   useEffect(() => {
+    if (!workspace.activeContest) return;
+    setNow(Date.now() + serverOffset.current);
     const tick = setInterval(
       () => setNow(Date.now() + serverOffset.current),
       1000,
     );
     return () => clearInterval(tick);
-  }, []);
+  }, [workspace.activeContest?.id]);
   useEffect(() => {
     if (!data) return;
     let active = true, pending = false;
@@ -736,29 +767,19 @@ export default function App() {
   }
   useEffect(() => {
     if (!data) return;
-    let active = true, pending = false;
-    const refresh = () => {
-      if (!active || pending) return;
-      pending = true;
-      return Promise.allSettled([api("hub"), api("insights")])
-        .then(([h, i]) => {
-          if (!active || h.status !== "fulfilled" || i.status !== "fulfilled") return;
-          setHub(h.value);
-          setInsights(i.value);
-        })
-        .catch(() => {})
-        .finally(() => { pending = false; });
-    };
-    refresh();
-    const timer = setInterval(refresh, hub?.sync?.busy ? 3000 : 60000);
-    return () => { active = false; clearInterval(timer); };
+    const version = [workspace.summary?.attempts, workspace.summary?.total, workspace.summary?.accepted].join(":");
+    const changed = backgroundVersion.current !== null && version !== backgroundVersion.current;
+    backgroundVersion.current = version;
+    refreshBackground(changed);
+    const timer = setInterval(() => refreshBackground(), hub?.sync?.busy ? 3000 : 60000);
+    return () => clearInterval(timer);
   }, [
     !!data,
     workspace.summary?.attempts,
     workspace.summary?.total,
     workspace.summary?.accepted,
     hub?.sync?.busy,
-    api,
+    refreshBackground,
   ]);
   useEffect(() => {
     if (!hub?.sync?.lastSuccessAt) return;
@@ -1105,14 +1126,14 @@ export default function App() {
       setReaderFull(false);
     }
   }, [active?.id, readerId]);
-  const copy = async (text) => {
+  const copy = useCallback(async (text) => {
     try {
       await navigator.clipboard.writeText(String(text).replace(/\n$/, ""));
       notice("已复制");
     } catch {
       notice("复制未完成，请选择文字后按 Ctrl+C", "error");
     }
-  };
+  }, [notice]);
   function resizeReader(e) {
     const start = e.clientX,
       width = prefs.readerWidth;
@@ -2080,8 +2101,8 @@ export default function App() {
         {reader ? (
           <>
             {conciseSolution && <div className="concise-solution"><p className="progress-small">入门题简明阅读 · 思路提要与完整代码</p><Markdown text={conciseSolution} images={reader.images} onCopy={copy} /></div>}
-            <details className="solution-full" open={!conciseSolution} key={readerId}><summary style={conciseSolution ? undefined : {display: 'none'}}>查看完整题解与推导</summary>{solutionBlocks(reader.markdown, reader.lectures || []).map((block, index) => block.type === "lecture" ? <LectureDisclosure key={index} lecture={block.lecture || {title: block.heading}} inlineMarkdown={block.markdown} images={reader.images} api={api} onTrain={openPractice} onError={(message) => notice(message, "error")} /> : <Markdown key={index} text={block.markdown} images={reader.images} onCopy={copy} />)}</details>
-            {!!reader.lectures?.length && <div className="reader-lecture-references"><h3>本题的基础讲解与引用</h3>{reader.lectures.filter(item => !solutionBlocks(reader.markdown, reader.lectures).some(block => block.lecture?.id === item.id)).map(item => <LectureDisclosure key={item.id} lecture={item} api={api} onTrain={openPractice} onError={(message) => notice(message, "error")} />)}<button className="text-button" onClick={() => go("lectures")}>查看全部知识讲解 <ArrowUpRight size={13} /></button></div>}
+            <details className="solution-full" open={!conciseSolution} key={readerId}><summary style={conciseSolution ? undefined : {display: 'none'}}>查看完整题解与推导</summary>{readerBlocks.map((block, index) => block.type === "lecture" ? <LectureDisclosure key={index} lecture={block.lecture || {title: block.heading}} inlineMarkdown={block.markdown} images={reader.images} api={api} onTrain={openPractice} onError={(message) => notice(message, "error")} /> : <Markdown key={index} text={block.markdown} images={reader.images} onCopy={copy} />)}</details>
+            {!!reader.lectures?.length && <div className="reader-lecture-references"><h3>本题的基础讲解与引用</h3>{readerReferences.map(item => <LectureDisclosure key={item.id} lecture={item} api={api} onTrain={openPractice} onError={(message) => notice(message, "error")} />)}<button className="text-button" onClick={() => go("lectures")}>查看全部知识讲解 <ArrowUpRight size={13} /></button></div>}
           </>
         ) : readerError ? (
           <Empty title="暂时无法读取题解" description={readerError} />
@@ -2244,6 +2265,7 @@ export default function App() {
           </div>
         )}
         {!practiceId && mergedPages.length > 1 && <div className="merged-page-tabs" role="tablist" aria-label={`组合页面 ${currentPage?.group}`}>{mergedPages.map(item => <button key={item.id} role="tab" aria-selected={page === item.id} className={page === item.id ? "active" : ""} onClick={() => go(item.id)}><item.icon size={15} />{item.label}</button>)}</div>}
+        <BrowserPreparation api={api} enabled={Boolean(data)} />
         <div className={"workspace-area " + (practiceId ? "practicing" : "")}>
           {loading ? (
             <div className="loading-screen">

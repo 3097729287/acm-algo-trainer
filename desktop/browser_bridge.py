@@ -33,6 +33,8 @@ class BrowserBridge:
         self.client_seen = {}
         self.client_windows = {}
         self.client_platforms = {}
+        self.client_versions = {}
+        self.client_login_states = {}
 
     def register_browser(self, body):
         # The HTTP layer requires the bundled extension's exact browser origin.
@@ -48,6 +50,8 @@ class BrowserBridge:
             self.clients.setdefault(client, secrets.token_urlsafe(32))
             protocol = body.get('protocol', 1)
             self.client_protocols[client] = protocol if isinstance(protocol, int) and protocol in (1, 2, 3) else 1
+            version = body.get('extensionVersion', '')
+            self.client_versions[client] = version if isinstance(version, str) and len(version) <= 32 else ''
             return {'key': self.clients[client], 'mode': 'silent' if self.session_store else 'tabs'}
 
     def sync_browser(self, body, capability):
@@ -68,6 +72,10 @@ class BrowserBridge:
             self.client_seen[client] = self.clock()
             self.client_windows[client] = body.get('hasWindow', True) is True
             self.client_platforms[client] = {p for p in body.get('platforms', []) if isinstance(p, str) and p in LOGIN_HOSTS} if isinstance(body.get('platforms', []), list) else set()
+            states = body.get('loginStates', {})
+            if not isinstance(states, dict) or set(states) - LOGIN_HOSTS.keys() or any(s not in ('logged_in', 'logged_out', 'unknown') for s in states.values()):
+                raise ServiceError(400, '浏览器登录状态无效')
+            self.client_login_states[client] = dict(states)
             sync = []
             if self.session_store:
                 if self.client_protocols.get(client, 0) >= 2 and (self.sync_client is None or self.clock() - self.client_seen.get(self.sync_client, -10) > 6):

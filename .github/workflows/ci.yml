@@ -52,6 +52,9 @@ jobs:
           TB_PYTHON: python
         run: |
           npm ci --ignore-scripts
+          npx playwright install chromium
+          npm run build
+          node tests/accounts.mjs
           node tests/hybrid-cf.mjs
 
   frontend:
@@ -81,6 +84,7 @@ jobs:
       - run: npm run test:compilers
       - run: node tests/official-sites.mjs
       - run: npm run test:ui
+      - run: node tests/browser-preparation.mjs
       - run: node tests/software-updates.mjs
       - run: npm run test:issues
       - run: npm run test:workbench

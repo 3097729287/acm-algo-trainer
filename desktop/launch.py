@@ -242,6 +242,8 @@ def run_desktop() -> int:
         official.runner = SilentSubmitter(window, official, sessions)
         server.browser_bridge = official
         server.browser_extension_path = APP_DIR / 'browser-extension' if getattr(sys, 'frozen', False) else APP_DIR / 'build' / 'browser-extension'
+        from browser_preparation import BrowserPreparation
+        server.browser_preparation = BrowserPreparation(official, server.browser_extension_path)
         server.official_opener = official.open
         server.official_submitter = official.submit
         server.official_status = official.status

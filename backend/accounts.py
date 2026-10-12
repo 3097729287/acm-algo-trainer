@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import base64
+from contextlib import contextmanager, nullcontext
 import json
 import logging
 import re
@@ -22,6 +23,10 @@ class Accounts:
     def __init__(self, server, training_factory, endpoint=None, crypt=_crypt):
         self.server, self.factory, self.crypt = server, training_factory, crypt
         self.lock = threading.RLock()
+        self.requests = threading.Condition()
+        self.active_requests = 0
+        self.changing_account = False
+        self.waiting_changes = 0
         self.base = server.training
         self.root = server.state_dir
         self.endpoint = validate_endpoint(endpoint if endpoint is not None else self.base._ranking_profile()['endpoint'] or default_endpoint())
@@ -45,6 +50,33 @@ class Accounts:
             except Exception:
                 self.saved = None
                 self.error = '本机登录凭据无法读取，请重新登录'
+
+    @contextmanager
+    def request_context(self, changing=False):
+        """Allow concurrent work for one account; drain it before switching."""
+        with self.requests:
+            if changing:
+                self.waiting_changes += 1
+            try:
+                self.requests.wait_for(lambda: not self.changing_account and
+                    (self.active_requests == 0 if changing else self.waiting_changes == 0))
+                if changing:
+                    self.changing_account = True
+                else:
+                    self.active_requests += 1
+            finally:
+                if changing:
+                    self.waiting_changes -= 1
+        try:
+            with self.lock if changing else nullcontext():
+                yield
+        finally:
+            with self.requests:
+                if changing:
+                    self.changing_account = False
+                else:
+                    self.active_requests -= 1
+                self.requests.notify_all()
 
     def _remote(self, method, path, body=None, session=None):
         if self.closed:

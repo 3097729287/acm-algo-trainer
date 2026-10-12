@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { once } from 'node:events';
+import { listenFixture } from './listen.mjs';
 import { request as httpRequest } from 'node:http';
 import { randomUUID } from 'node:crypto';
 import { createApiServer } from '../src/server.mjs';
@@ -10,7 +10,7 @@ async function fixture(options) {
   const STORE = new SQLiteStore();
   const env = { STORE, RATE_LIMIT_SALT: 'test', TEST_NOW: Date.parse('2026-10-08T10:00:00Z') };
   const server = createApiServer(env, options);
-  server.listen(0, '127.0.0.1'); await once(server, 'listening');
+  await listenFixture(server);
   return { env, endpoint: `http://127.0.0.1:${server.address().port}`,
     async close() { await new Promise(resolve => server.close(resolve)); await STORE.close(); } };
 }

@@ -66,8 +66,32 @@ try {
   await page.getByRole('button', { name: '登录', exact: true }).click();
   await page.getByText('登录号或密码错误', { exact: true }).waitFor();
   await page.getByLabel('密码', { exact: true }).fill('fixture-password');
-  await page.getByRole('button', { name: '登录', exact: true }).click();
-  await page.locator('.nav-item').first().waitFor();
+  let releaseStale, staleReady, staleDone;
+  const held = new Promise(resolve => { releaseStale = resolve; });
+  const captured = new Promise(resolve => { staleReady = resolve; });
+  const completed = new Promise(resolve => { staleDone = resolve; });
+  let capturedOnce = false;
+  const staleAccount = async route => {
+    if (capturedOnce) return route.continue();
+    capturedOnce = true;
+    const response = await route.fetch();
+    assert.equal((await response.json()).authenticated, false);
+    staleReady();
+    await held;
+    await route.fulfill({ response });
+    staleDone();
+  };
+  await page.route('**/api/account', staleAccount);
+  try {
+    await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+    await captured;
+    await page.getByRole('button', { name: '登录', exact: true }).click();
+    await page.locator('.nav-item').first().waitFor();
+  } finally { releaseStale(); }
+  await completed;
+  await page.waitForTimeout(200);
+  assert.ok(await page.locator('.nav-item').count(), 'A stale account poll cannot undo a successful login');
+  await page.unroute('**/api/account', staleAccount);
   const a = await get('account'); assert.equal(a.account.nickname, '星河');
   const library = await get('data'), problemId = library.rows[0].id;
   await post('training/start', { id: problemId });

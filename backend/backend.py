@@ -97,8 +97,12 @@ class Handler(BaseHTTPRequestHandler):
     def dispatch(self, writing=False):
         accounts = getattr(self.server, 'accounts', None)
         if accounts is not None:
-            # Switching identity cannot interleave with a response or a write.
-            with accounts.lock:
+            path = unquote(urlsplit(self.path).path)
+            changing = (writing and (path.startswith('/api/account/') or path in ('/api/profile', '/api/identity'))
+                        or path == '/api/account' and accounts.saved is not None)
+            # Normal requests share the current workspace. Account mutations
+            # wait for all of them, preventing writes/responses crossing users.
+            with accounts.request_context(changing=changing):
                 self._dispatch(writing)
         else:
             self._dispatch(writing)
@@ -230,6 +234,9 @@ class Handler(BaseHTTPRequestHandler):
                         url = training._asset_library().problem(identity).get("url")
                     if not canonical_url(url):
                         raise APIError(422, "没有找到这道题的原站链接")
+                    preparation = getattr(self.server, 'browser_preparation', None)
+                    if path.endswith('/submit') and preparation is not None:
+                        preparation.check_submission(url)
                     with training.lock:
                         training.assert_solution_unlocked(identity)
                         opened = opener(url, code, row["title"])
@@ -241,6 +248,11 @@ class Handler(BaseHTTPRequestHandler):
                     if not callable(self.server.official_closer):
                         raise APIError(503, "浏览器提交服务尚未连接")
                     value = self.server.official_closer(body.get("sessionId"))
+                elif path == '/api/browser-preparation':
+                    preparation = getattr(self.server, 'browser_preparation', None)
+                    if preparation is None:
+                        raise APIError(503, '请在 TB 桌面版准备浏览器连接')
+                    value = preparation.action(body)
                 elif path == "/api/desktop/fullscreen":
                     if not callable(getattr(self.server, "desktop_fullscreen", None)):
                         raise APIError(503, "当前浏览器测试没有原生窗口，无法切换全屏")
@@ -273,6 +285,9 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_json(200, self.server.software_updates.snapshot())
             elif path == "/api/workspace":
                 self.send_json(200, self.server.training.workspace())
+            elif path == '/api/browser-preparation':
+                preparation = getattr(self.server, 'browser_preparation', None)
+                self.send_json(200, preparation.snapshot() if preparation else {'available': False})
             elif path == "/api/hub":
                 self.send_json(200, store.extensions.snapshot())
             elif path == "/api/insights":

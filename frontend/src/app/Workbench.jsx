@@ -192,6 +192,14 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
   const undoReplace = useRef(null);
   const officialRef = useRef(null);
   const officialReported = useRef(new Set());
+  const preparationReported = useRef(new Set());
+  const offerPreparation = useCallback(session => {
+    if (!['needs_browser', 'needs_login', 'needs_verification'].includes(session.status)) return;
+    const key = session.sessionId + ':' + session.status;
+    if (preparationReported.current.has(key)) return;
+    preparationReported.current.add(key);
+    window.dispatchEvent(new CustomEvent('tb:browser-preparation', {detail:session}));
+  }, []);
   const [problem, setProblem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState('');
@@ -433,6 +441,7 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
         const answer = await apiRef.current(`official/status?sessionId=${encodeURIComponent(sessionId)}`);
         if (!alive || !isActive(record) || officialRef.current?.id !== sessionId) return;
         setOfficialSession({ ...answer, sessionId });
+        offerPreparation({ ...answer, sessionId });
         setOfficialPollError('');
         await announceOfficialCompletion({ ...answer, sessionId }, record);
         if (!OFFICIAL_TERMINAL.has(answer.status)) timer = setTimeout(poll, ['needs_login', 'needs_verification', 'ready'].includes(answer.status) ? 2200 : 900);
@@ -445,7 +454,7 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
     };
     timer = setTimeout(poll, 450);
     return () => { alive = false; clearTimeout(timer); };
-  }, [officialSession?.sessionId, contextKey, announceOfficialCompletion]);
+  }, [officialSession?.sessionId, contextKey, announceOfficialCompletion, offerPreparation]);
 
   const updateCode = useCallback(value => {
     const record = activeRecord.current;
@@ -538,9 +547,13 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
       }
       officialRef.current = { id: answer.sessionId, record };
       setOfficialSession(answer);
+      offerPreparation(answer);
       await announceOfficialCompletion(answer, record);
     } catch (error) {
-      if (isActive(record)) setActionError(error.message || '暂时无法提交到原站，请稍后重试。');
+      if (isActive(record)) {
+        setActionError(error.message || '暂时无法提交到原站，请稍后重试。');
+        if (error.status === 412) window.dispatchEvent(new CustomEvent('tb:browser-preparation', {detail:{message:error.message}}));
+      }
     } finally { record.officialBusy = false; if (isActive(record)) setOpeningOfficial(false); }
   };
   const closeOfficial = async () => {

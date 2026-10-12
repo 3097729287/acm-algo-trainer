@@ -45,9 +45,15 @@ const submissions = [{ id: 'sub-1', problemId: rows[3].id, mode: 'submit', verdi
 for (let index = 1; index <= 100; index++) submissions.push({ ...submissions[0], id: 'sub-older-' + index, submittedAt: new Date(Date.now() - index * 60000).toISOString(), verdict: index === 100 ? 'CE' : 'WA', code: 'int main(){return 0;}' });
 let preview = null;
 const slowInsights = { enabled: false, active: 0, maxActive: 0, calls: 0 };
+let releaseBootstrap;
+const bootstrap = { enabled: true, pending: 0, ready: new Promise(resolve => { releaseBootstrap = resolve; }) };
 await page.route('**/api/**', async route => {
   const request = route.request(), url = new URL(request.url()), path = url.pathname;
   if (!path.startsWith('/api/')) return route.continue();
+  if (bootstrap.enabled && ['/api/inbox', '/api/hub', '/api/insights'].includes(path)) {
+    bootstrap.pending++;
+    await bootstrap.ready;
+  }
   if (path === '/api/hub' && slowInsights.enabled) {
     await route.fulfill({ status: 503, json: { error: 'Temporary fixture hub outage' } });
     return;
@@ -57,6 +63,7 @@ await page.route('**/api/**', async route => {
   let value;
   if (path === '/api/account') value = { required: false, authenticated: true, token: 'fixture', account: null };
   else if (path === '/api/software-update') value = {currentVersion:'0.10.0', status:'current', autoCheck:true, canInstall:false};
+  else if (path === '/api/browser-preparation') value = {available:false};
   else if (path === '/api/data') value = { rows, categories, token: 'fixture', today: date, revision: 'fixture' };
   else if (path === '/api/goals') value = { goals: [goal] };
   else if (path === '/api/contests/events') value = { events: [{ name: '测试比赛', count: 6, duration: 120, rules: 'acm' }] };
@@ -103,6 +110,11 @@ try {
   await mkdir('tests/screenshots', { recursive: true });
   await page.goto('http://127.0.0.1:18775');
   await page.locator('.problem-table').waitFor();
+  assert.ok(bootstrap.enabled, 'The workspace renders while optional startup requests are held');
+  for (let attempt = 0; bootstrap.pending < 3 && attempt < 50; attempt++) await page.waitForTimeout(20);
+  assert.equal(bootstrap.pending, 3, 'Optional startup requests are coalesced');
+  bootstrap.enabled = false;
+  releaseBootstrap();
   await page.getByLabel('目标每日任务').waitFor();
   assert.equal(await page.locator('.page-identity h1').textContent(), '我的训练');
   assert.equal(await page.getByRole('tab', { name: '今日待办', exact: true }).count(), 0);
@@ -336,11 +348,14 @@ try {
   await page.locator('.page-identity h1').waitFor();
   await page.waitForTimeout(300);
   slowInsights.enabled = true;
+  insights.growth.levelName = '独立统计更新';
   await page.waitForTimeout(10700);
   slowInsights.enabled = false;
   while (slowInsights.active) await new Promise(resolve => setTimeout(resolve, 100));
   assert.ok(slowInsights.calls >= 2, 'polling resumes after a slow response');
   assert.equal(slowInsights.maxActive, 1, 'busy polling has at most one pending analytics request');
+  await page.keyboard.press('Control+7');
+  await page.locator('.progress-level-main').getByText('独立统计更新', { exact: true }).waitFor();
   assert.deepEqual(errors, []);
   console.log('v5 UI passed: blind mock + filters + single groups, mock history/submission history, daily XP claims, visible achievements, canonical math lectures, custom API, persistent identity/offline and connected ranking states, configurable navigation and removed bookmarks and large-font responsive layouts.');
-} finally { await browser.close(); await vite.close(); }
+} finally { releaseBootstrap(); await browser.close(); await vite.close(); }

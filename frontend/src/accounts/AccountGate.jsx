@@ -9,8 +9,10 @@ export default function AccountGate({ children }) {
   const [password, setPassword] = useState(''), [confirmation, setConfirmation] = useState(''), [visible, setVisible] = useState(false);
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [message, setMessage] = useState('');
   const generation = useRef(0);
+  const submitting = useRef(false);
   const seeded = useRef(false);
   const refresh = useCallback(async () => {
+    if (submitting.current) return;
     const current = ++generation.current;
     try {
       const value = await request('account');
@@ -36,6 +38,8 @@ export default function AccountGate({ children }) {
     setError(''); setMessage('');
     if (!session?.token) { await refresh(); return; }
     if (mode === 'register' && password !== confirmation) { setError('两次输入的密码不一致'); return; }
+    generation.current++;
+    submitting.current = true;
     setBusy(true);
     try {
       if (mode === 'register') {
@@ -47,7 +51,7 @@ export default function AccountGate({ children }) {
         setPassword(''); setConfirmation(''); setSession(result);
       }
     } catch (issue) { setError(issue.message); }
-    finally { setBusy(false); }
+    finally { submitting.current = false; setBusy(false); }
   }
   function changeMode(next) {
     setMode(next); setError(''); setMessage(''); setPassword(''); setConfirmation(''); setVisible(false);

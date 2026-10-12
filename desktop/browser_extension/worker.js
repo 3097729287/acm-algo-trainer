@@ -1,4 +1,35 @@
 // Capabilities stay in the extension's session storage, never in an OJ page.
+importScripts('login_state.js');
+const loginStates = {}, loginChecks = new Map(), loginGenerations = {};
+async function updateLoginState(platform, cookies) {
+  const generation = loginGenerations[platform] = (loginGenerations[platform] || 0) + 1;
+  loginStates[platform] = tbCookieLoginState(platform, cookies);
+  if (loginChecks.has(platform)) return;
+  const urls = {Codeforces:'https://codeforces.com/',AtCoder:'https://atcoder.jp/','牛客':'https://ac.nowcoder.com/acm/home','洛谷':'https://www.luogu.com.cn/'};
+  const check = (async () => {
+    try {
+      const patterns = {Codeforces:['https://codeforces.com/*','https://www.codeforces.com/*'],AtCoder:['https://atcoder.jp/*'],'牛客':['https://ac.nowcoder.com/*'],'洛谷':['https://www.luogu.com.cn/*','https://luogu.com.cn/*']};
+      const tabs = await chrome.tabs.query({url:patterns[platform]});
+      const hints = await Promise.all(tabs.filter(tab=>!tab.incognito).slice(0,8).map(async tab=>{
+        try { return await Promise.race([chrome.tabs.sendMessage(tab.id,{type:'login-state',platform}),new Promise(resolve=>setTimeout(()=>resolve({state:'unknown'}),750))]); }
+        catch { return {state:'unknown'}; }
+      }));
+      if (generation !== loginGenerations[platform]) return;
+      if (hints.some(value=>value?.state==='logged_in')) {loginStates[platform]='logged_in';return;}
+      if (hints.some(value=>value?.state==='logged_out') && loginStates[platform]!=='logged_in') {loginStates[platform]='logged_out';return;}
+      const response = await fetch(urls[platform], {credentials:'include',cache:'no-store',signal:AbortSignal.timeout(5000)});
+      if (!response.ok || Number(response.headers.get('content-length')) > 1048576) return;
+      const html = await response.text();
+      if (html.length > 1048576 || generation !== loginGenerations[platform]) return;
+      const state = tbPageLoginState(platform, html);
+      // A cross-origin negative may be caused by the browser's SameSite cookie
+      // policy. Only an original-page hint or empty cookies proves logout.
+      if (state === 'logged_in') loginStates[platform] = state;
+    } catch { /* A blocked or unavailable site is not evidence of logout. */ }
+    finally { loginChecks.delete(platform); }
+  })();
+  loginChecks.set(platform, check);
+}
 const hosts = new Set(['codeforces.com', 'www.codeforces.com', 'atcoder.jp', 'ac.nowcoder.com', 'www.nowcoder.com', 'nowcoder.com', 'www.luogu.com.cn', 'luogu.com.cn', 'login.luogu.com.cn']);
 const queues = new Map();
 const connections = new Map();
@@ -23,20 +54,21 @@ async function pollQueues() {
       try {
         const local = new URL(base);
         if (local.protocol !== 'http:' || local.hostname !== '127.0.0.1' || local.origin !== base) continue;
-        if (!connections.has(base)) connections.set(base, (await backgroundRequest(base, 'register', { clientId, protocol: 3 })).key);
+        if (!connections.has(base)) connections.set(base, (await backgroundRequest(base, 'register', { clientId, protocol: 3, extensionVersion:chrome.runtime.getManifest().version })).key);
         const [windows, tabs] = await Promise.all([
           chrome.windows.getAll({ windowTypes: ['normal'] }),
           chrome.tabs.query({url:['https://codeforces.com/*','https://www.codeforces.com/*','https://atcoder.jp/*','https://ac.nowcoder.com/*','https://www.luogu.com.cn/*','https://luogu.com.cn/*']}),
         ]);
         const platformHosts = {'codeforces.com':'Codeforces','www.codeforces.com':'Codeforces','atcoder.jp':'AtCoder','ac.nowcoder.com':'牛客','www.luogu.com.cn':'洛谷','luogu.com.cn':'洛谷'};
         const platforms = [...new Set(tabs.filter(tab=>!tab.incognito).map(tab=>platformHosts[new URL(tab.url).hostname]).filter(Boolean))];
-        const answer = await backgroundRequest(base, 'queue', { clientId, hasWindow:windows.some(w=>!w.incognito), platforms }, connections.get(base));
+        const answer = await backgroundRequest(base, 'queue', { clientId, hasWindow:windows.some(w=>!w.incognito), platforms, loginStates }, connections.get(base));
         if (answer.mode === 'silent' || answer.mode === 'hybrid') {
           const scopes = {Codeforces:['codeforces.com'],AtCoder:['atcoder.jp'],'牛客':['nowcoder.com'],'洛谷':['luogu.com.cn']};
           await Promise.all((answer.sync || []).map(async request => {
             const domains = scopes[request.platform];
             if (!domains || typeof request.nonce !== 'string') return;
             const cookies = (await Promise.all(domains.map(domain => chrome.cookies.getAll({domain,storeId:'0'})))).flat();
+            updateLoginState(request.platform, cookies);
             await backgroundRequest(base, 'session', {clientId,platform:request.platform,nonce:request.nonce,cookies,userAgent:navigator.userAgent}, connections.get(base));
           }));
           if (answer.mode === 'silent') continue;

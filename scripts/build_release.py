@@ -86,6 +86,7 @@ def assemble(args):
         shutil.copy2(ROOT / name, package / name)
     shutil.copy2(ROOT / 'docs' / 'usage.md', package / '使用说明.md')
     shutil.copy2(ROOT / 'docs' / 'accounts.md', package / 'accounts.md')
+    shutil.copy2(ROOT / 'docs' / 'browser-preparation.md', package / 'browser-preparation.md')
     files = manifest(package)
     forbidden = [key for key in files if key.startswith(('state/', 'cache/', 'logs/', 'backups/'))]
     if forbidden:
