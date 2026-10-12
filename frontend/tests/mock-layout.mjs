@@ -36,7 +36,8 @@ await page.route('**/api/**', async route => {
   const body = request.method() === 'POST' ? request.postDataJSON() : null;
   if (body) assert.equal(request.headers()['x-tb-token'], 'mock-ui-fixture');
   let value;
-  if (path === '/api/data') value = { rows, categories: [], token: 'mock-ui-fixture', today: now().slice(0, 10) };
+  if (path === '/api/account') value = { required: false, authenticated: true, token: 'mock-ui-fixture', account: null };
+  else if (path === '/api/data') value = { rows, categories: [], token: 'mock-ui-fixture', today: now().slice(0, 10) };
   else if (path === '/api/workspace') value = workspace();
   else if (path === '/api/inbox') value = { pending: 0, errors: [] };
   else if (path === '/api/hub' || path === '/api/insights') value = null;

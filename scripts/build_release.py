@@ -85,6 +85,7 @@ def assemble(args):
     for name in ('VERSION', 'LICENSE', 'THIRDPARTY.md', 'TOOLCHAIN-SOURCES.md', 'third-party-inventory.json'):
         shutil.copy2(ROOT / name, package / name)
     shutil.copy2(ROOT / 'docs' / 'usage.md', package / '使用说明.md')
+    shutil.copy2(ROOT / 'docs' / 'accounts.md', package / 'accounts.md')
     files = manifest(package)
     forbidden = [key for key in files if key.startswith(('state/', 'cache/', 'logs/', 'backups/'))]
     if forbidden:

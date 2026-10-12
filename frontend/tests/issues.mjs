@@ -24,7 +24,8 @@ await page.route('**/api/**', async route => {
   const request = route.request(), url = new URL(request.url()), path = url.pathname;
   if (!path.startsWith('/api/')) return route.continue();
   let value;
-  if (path === '/api/software-update') value = {currentVersion:'0.10.0', status:'current', autoCheck:true, canInstall:false};
+  if (path === '/api/account') value = { required: false, authenticated: true, token: 'fixture', account: null };
+  else if (path === '/api/software-update') value = {currentVersion:'0.10.0', status:'current', autoCheck:true, canInstall:false};
   else if (path === '/api/data') value = { rows, categories: [], token: 'fixture', today: now().slice(0, 10) };
   else if (path === '/api/goals') value = { goals: [] };
   else if (path === '/api/desktop/fullscreen') value = { available: false, fullscreen: false };
