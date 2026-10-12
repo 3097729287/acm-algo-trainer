@@ -18,7 +18,7 @@ class BackendTests(unittest.TestCase):
         self.root = Path(self.temp.name)
         database = LibraryDatabase(self.root / 'library.sqlite3')
         database.import_records([record()], {}, {})
-        self.server = backend.create_server(training_file=self.root / 'personal.sqlite3',
+        self.server = backend.create_server(require_account=False, training_file=self.root / 'personal.sqlite3',
                                             library_file=database.path, data_root=self.root,
                                             data_file=self.root / 'absent.md', integration_auto_start=False)
         self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)

@@ -1,7 +1,9 @@
 import { EventConflict } from './errors.mjs';
 import { bounds, REWARD_POLICY } from './ranking-rules.mjs';
+import { AccountError, loginId, password, verifyPassword, hashPassword, tokenHash,
+  session, publicAccount, registerAccount } from './accounts.mjs';
 
-const VERSION = '0.10.2';
+const VERSION = '0.10.4';
 const NOTICE = '排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const hashPattern = /^[a-f0-9]{64}$/;
@@ -61,14 +63,14 @@ async function body(request, allowed) {
 function credentials(request) {
   const userId = request.headers.get('X-TB-User') || '';
   const bearer = /^Bearer ([A-Za-z0-9_-]{32,200})$/.exec(request.headers.get('Authorization') || '');
-  if (!uuid.test(userId) || !bearer) throw new ApiError(401, '需要有效的安装身份');
+  if (!uuid.test(userId) || !bearer) throw new ApiError(401, '请先登录账号');
   return { userId, token: bearer[1] };
 }
 
-async function authenticate(request, env) {
+async function authenticate(request, env, now) {
   const auth = credentials(request);
-  const user = await env.STORE.findUser(auth.userId);
-  if (!user || !equalHash(user.token_hash, await digest(auth.token))) throw new ApiError(401, '安装身份验证失败');
+  const user = await env.STORE.findSession(auth.userId, tokenHash(auth.token), Math.floor(now / 1000));
+  if (!user) throw new ApiError(401, '登录已失效，请重新登录');
   return user;
 }
 
@@ -80,7 +82,7 @@ async function limit(env, bucket, maximum, windowSeconds, now) {
 }
 
 function rankingRow(row) {
-  return { rank: row.rank, userId: row.user_id, nickname: row.nickname, displayName: row.nickname + ' #' + row.user_id, count: row.count };
+  return { rank: row.rank, userId: row.user_id, nickname: row.nickname, displayName: row.nickname, count: row.count };
 }
 
 async function leaderboard(user, env, period, now) {
@@ -89,7 +91,7 @@ async function leaderboard(user, env, period, now) {
   const { rows, own } = await env.STORE.rankings(user.user_id, period === 'total' ? null : range);
   return { period, date: range.day, timezone: 'Asia/Shanghai', startDate: period === 'total' ? null : range.start,
     endDate: period === 'total' ? null : range.end, entries: rows.map(rankingRow), isAdmin: Boolean(user.is_admin), rewardPolicy: REWARD_POLICY,
-    self: own ? rankingRow(own) : { rank: null, userId: user.user_id, nickname: user.nickname, displayName: user.nickname + ' #' + user.user_id, count: 0 }, notice: NOTICE };
+    self: own ? rankingRow(own) : { rank: null, userId: user.user_id, nickname: user.nickname, displayName: user.nickname, count: 0 }, notice: NOTICE };
 }
 
 function event(item, now) {
@@ -116,26 +118,55 @@ export async function handle(request, env) {
       await env.STORE.health();
       return json({ ok: true, version: VERSION, eventScope: 'official' });
     }
-    if (path === '/v1/profile/register' && request.method === 'POST') {
-      const auth = credentials(request), value = await body(request, ['userId', 'nickname']);
-      if (value.userId !== auth.userId) throw new ApiError(403, '只能注册自己的安装身份');
-      const tokenHash = await digest(auth.token);
-      const existing = await env.STORE.findUser(auth.userId);
-      if (existing) {
-        if (!equalHash(existing.token_hash, tokenHash)) throw new ApiError(401, '安装身份验证失败');
-        return json({ userId: existing.user_id, nickname: existing.nickname, createdAt: existing.created_at });
-      }
+    if (path === '/v1/profile/register') throw new ApiError(410, '请升级 TB 并注册账号后登录');
+    if (['/v1/accounts/register', '/v1/accounts/login'].includes(path) && request.method === 'POST') {
+      const registering = path.endsWith('/register');
+      const value = await body(request, registering ? ['loginId', 'nickname', 'password'] : ['loginId', 'password']);
+      const login = loginId(value.loginId), secret = password(value.password);
       const ipHash = await digest((env.RATE_LIMIT_SALT || 'tb-ranking-registration') + ':' + (request.headers.get('X-TB-Client-IP') || 'unknown'));
-      await limit(env, 'register-minute:' + ipHash, 10, 60, Math.floor(now / 1000));
-      await limit(env, 'register-day:' + ipHash, Math.min(1000, Math.max(1, Number(env.REGISTRATIONS_PER_IP_DAY) || 100)), 86400, Math.floor(now / 1000));
-      await env.STORE.createUser(auth.userId, nickname(value.nickname), tokenHash, timestamp);
-      const user = await authenticate(request, env);
-      return json({ userId: user.user_id, nickname: user.nickname, createdAt: user.created_at }, 201);
+      const seconds = Math.floor(now / 1000);
+      if (registering) {
+        await limit(env, 'register-minute:' + ipHash, 10, 60, seconds);
+        await limit(env, 'register-day:' + ipHash, Math.min(1000, Math.max(1, Number(env.REGISTRATIONS_PER_IP_DAY) || 100)), 86400, seconds);
+        let legacy = null;
+        if (request.headers.has('Authorization') || request.headers.has('X-TB-User')) {
+          const auth = credentials(request), existing = await env.STORE.findUser(auth.userId);
+          if (existing) {
+            if (!equalHash(existing.token_hash, tokenHash(auth.token))) throw new ApiError(401, '旧身份已关联账号或验证失败，请使用登录号登录');
+            legacy = existing;
+          } else legacy = { user_id: auth.userId, token_hash: null };
+        }
+        const account = await registerAccount(env.STORE, { ...value, loginId: login, nickname: nickname(value.nickname) }, legacy, timestamp);
+        return json({ account }, 201);
+      }
+      await limit(env, 'login-ip:' + ipHash, 30, 60, seconds);
+      await limit(env, 'login-account:' + await digest(login), 10, 60, seconds);
+      const user = await env.STORE.findAccount(login);
+      if (!await verifyPassword(secret, user?.password_hash)) throw new ApiError(401, '登录号或密码错误');
+      const issued = session(now);
+      await env.STORE.createSession(user, issued, timestamp);
+      return json({ account: publicAccount(user), token: issued.token, expiresAt: issued.expiresAt });
     }
-    const user = await authenticate(request, env);
+    const user = await authenticate(request, env, now);
     await limit(env, 'user:' + user.user_id, Math.min(600, Math.max(10, Number(env.REQUESTS_PER_USER_MINUTE) || 120)), 60, Math.floor(now / 1000));
+    if (path === '/v1/accounts/me' && request.method === 'GET') return json({ account: publicAccount(user) });
+    if (path === '/v1/accounts/logout' && request.method === 'POST') {
+      await body(request, []);
+      await env.STORE.deleteSession(tokenHash(credentials(request).token));
+      return json({ ok: true });
+    }
+    if (path === '/v1/accounts/password' && request.method === 'POST') {
+      const value = await body(request, ['oldPassword', 'newPassword']);
+      await limit(env, 'password:' + user.user_id, 5, 300, Math.floor(now / 1000));
+      if (!await verifyPassword(password(value.oldPassword), user.password_hash)) throw new ApiError(400, '原密码错误');
+      const next = password(value.newPassword);
+      if (next === value.oldPassword) throw new ApiError(400, '新密码不能与原密码相同');
+      const encoded = await hashPassword(next), issued = session(now);
+      await env.STORE.changePassword(user, encoded, issued, timestamp);
+      return json({ account: publicAccount(user), token: issued.token, expiresAt: issued.expiresAt });
+    }
     if (env.READ_ONLY !== '1') await env.STORE.settleRewards(now);
-    if (path === '/v1/profile' && request.method === 'GET') return json({ userId: user.user_id, nickname: user.nickname, displayName: user.nickname + ' #' + user.user_id, createdAt: user.created_at, isAdmin: Boolean(user.is_admin) });
+    if (path === '/v1/profile' && request.method === 'GET') return json(publicAccount(user));
     if (path === '/v1/rewards' && request.method === 'GET') return json(await env.STORE.rewards(user.user_id));
     if (path === '/v1/admin/leaderboard/delete' && request.method === 'POST') {
       if (!user.is_admin) throw new ApiError(403, '只有管理员可以删除排行榜成绩');
@@ -149,7 +180,7 @@ export async function handle(request, env) {
     if (path === '/v1/profile' && request.method === 'PUT') {
       const value = await body(request, ['nickname']), name = nickname(value.nickname);
       await env.STORE.updateNickname(user.user_id, name, timestamp);
-      return json({ userId: user.user_id, nickname: name, displayName: name + ' #' + user.user_id });
+      return json({ userId: user.user_id, nickname: name, displayName: name });
     }
     if (path === '/v1/events' && request.method === 'POST') {
       const value = await body(request, ['events']);
@@ -162,7 +193,7 @@ export async function handle(request, env) {
     throw new ApiError(404, '没有找到这个接口');
   } catch (error) {
     if (error instanceof EventConflict) return json({ error: '通过记录编号与原题不匹配' }, 409);
-    if (error instanceof ApiError) return json({ error: error.message }, error.status, error.status === 429 ? { 'Retry-After': '60' } : {});
+    if (error instanceof ApiError || error instanceof AccountError) return json({ error: error.message }, error.status, error.status === 429 ? { 'Retry-After': '60' } : {});
     // Do not log tokens, metadata bodies or SQL with bound parameters.
     return json({ error: '排行榜服务暂时无法完成请求' }, 503);
   }

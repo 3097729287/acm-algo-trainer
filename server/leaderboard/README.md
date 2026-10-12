@@ -1,10 +1,10 @@
 # TB 排行榜服务
 
-TB 的题目、代码、草稿、每日任务和经验值保存在本机。排行榜支持在阿里云服务器上使用 Docker 部署 Node.js API、MySQL 8.4、Redis 8.4 和 Caddy HTTPS。MySQL 保存每个安装用户的昵称、唯一 ID，以及首次原站确认 AC 的题目摘要；Redis 作为独立服务提供，当前排行榜逻辑尚未使用 Redis 缓存。生产服务使用 MySQL，SQLite 仅用于测试和快照转换。
+TB 的题目、代码、草稿、每日任务和经验值保存在本机。账号与排行榜支持在阿里云服务器上使用 Docker 部署 Node.js API、MySQL 8.4、Redis 8.4 和 Caddy HTTPS。MySQL 保存注册账号、密码摘要、会话摘要及原站确认 AC 的题目摘要；Redis 当前尚未用于 API 缓存。生产服务使用 MySQL，SQLite 仅用于测试和快照转换。
 
-程序首次运行生成 UUID 和随机凭据；更新版本沿用原身份。安装包不包含任何用户身份、凭据或个人数据库。修改昵称不会改变 ID。复制个人数据库到另一台机器会沿用同一身份；完整卸载并删除个人数据后会创建新身份。
+从 0.10.4 起整个软件要求登录。注册填写昵称、登录号和密码；注册成功后另行登录。旧安装凭据只能用于一次性关联原身份、成绩、奖励与管理员角色，不能继续作为登录凭据。账号允许验证旧密码后修改密码，不提供找回密码。安装包不包含用户身份、凭据或个人数据库。密码使用 scrypt 随机盐摘要，会话只保存 SHA-256 摘要；本机会话凭据使用 Windows DPAPI 保护，详见[账号说明](../../docs/accounts.md)。
 
-日榜按北京时间当天计算，周榜从北京时间星期一开始，总榜统计全部不同题目。同题重复通过、运行和样例通过均不增加排名。界面展示 `昵称 #完整 ID`。v0.10.1 客户端报告已经持久化的原站 AC 回执，按原题只计最早一次；旧本地审核成绩不参与官方排名。服务暂不进行独立原站防作弊复核。
+日榜按北京时间当天计算，周榜从周日开始，总榜统计全部不同题目。同题重复通过、运行和样例通过均不增加排名。界面展示昵称。客户端报告已经持久化的原站 AC 回执，按原题只计最早一次；旧本地审核成绩不参与官方排名。未注册的旧身份暂不参与新排行榜，原记录继续保留。服务暂不进行独立原站防作弊复核。
 
 ## 阿里云 Docker 部署
 
@@ -93,11 +93,15 @@ sudo docker compose logs --tail=100 api
 
 ## 服务接口
 
-除了 `GET /v1/health`，请求均携带 `X-TB-User: UUID` 和 `Authorization: Bearer 安装凭据`。凭据由客户端首次运行生成，服务器只保存其 SHA-256 摘要。请求体仅接受规定字段，最多 64 KiB。
+健康检查、注册和登录以外的请求均携带 `X-TB-User: UUID` 和 `Authorization: Bearer 登录会话令牌`。会话三十天过期；退出撤销当前会话，修改密码撤销全部旧会话并签发当前设备的新会话。请求体仅接受规定字段，最多 64 KiB。
 
 | 接口 | 请求 | 返回 |
 |---|---|---|
-| `POST /v1/profile/register` | `{userId,nickname}` | `{userId,nickname,createdAt}`；重复注册验证原凭据 |
+| `POST /v1/accounts/register` | `{loginId,nickname,password}` | `{account}`；不自动登录；旧凭据可在头部用于一次性关联 |
+| `POST /v1/accounts/login` | `{loginId,password}` | `{account,token,expiresAt}`；令牌只交给本机后台 |
+| `GET /v1/accounts/me` | 无 | 当前注册账号 |
+| `POST /v1/accounts/logout` | `{}` | 撤销当前会话 |
+| `POST /v1/accounts/password` | `{oldPassword,newPassword}` | 验证旧密码并撤销全部旧会话，返回新会话 |
 | `GET /v1/profile` | 无 | 当前身份与昵称 |
 | `PUT /v1/profile` | `{nickname}` | 更新自己的昵称 |
 | `POST /v1/events` | `{events:[{eventId,problemKey,acceptedAt,difficulty,scope:"official"}]}` | `{processed,scope,notice}` |
@@ -117,7 +121,7 @@ sudo docker compose logs --tail=100 api
 
 服务使用数据库事务保存结算游标、周期快照与奖励，重试、并发查询和服务器重启都不会重复发放；停机期间未结算的完整周期在恢复时补结算。启用功能时从当前日和当前周开始，不追溯以前已结束的周期。晚同步的成绩可以更新排名，但不改写已经结算的奖励。客户端定期同步服务器奖励总额，在本机按服务器地址和身份保存，刷新和重新打开不会重复累加。客户端关闭时服务器照常结算。
 
-升级现有服务须先备份 MySQL，再应用 `mysql/003_ranking_rewards_admin.sql`，随后更新 `src/` 并重启 API。新部署由 MySQL 初始化目录执行三份迁移。
+升级现有服务须先备份 MySQL，再按顺序应用未执行的迁移，包括 `mysql/004_accounts.sql`，随后更新 `src/` 并重启 API。新部署由 MySQL 初始化目录执行四份迁移。旧 `/v1/profile/register` 返回 410，提示升级并注册账号。
 
 ## 管理员删除
 

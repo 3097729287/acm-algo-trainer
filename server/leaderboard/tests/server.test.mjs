@@ -31,10 +31,10 @@ test('public callers cannot spoof proxy headers to bypass IP registration limits
   try {
     for (let i = 0; i < 11; i++) {
       const id = randomUUID();
-      const response = await fetch(f.endpoint + '/v1/profile/register', { method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-TB-User': id, Authorization: 'Bearer ' + 'a'.repeat(64),
+      const response = await fetch(f.endpoint + '/v1/accounts/register', { method: 'POST',
+        headers: { 'Content-Type': 'application/json',
           'X-TB-Client-IP': `192.0.2.${i}`, 'X-Forwarded-For': `192.0.2.${i}` },
-        body: JSON.stringify({ userId: id, nickname: 'test' }) });
+        body: JSON.stringify({ loginId: 'user_' + id.slice(0, 8), nickname: 'test', password: 'fixture-password' }) });
       assert.equal(response.status, i < 10 ? 201 : 429);
       await response.text();
     }

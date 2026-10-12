@@ -59,7 +59,24 @@ function queuedSave(key, body, api, revision) {
   return request;
 }
 function draftKey(id, contestId) {
-  return `tb.draft.v2.${encodeURIComponent(contestId || 'solo')}.${encodeURIComponent(id)}`;
+  const legacy = `tb.draft.v2.${encodeURIComponent(contestId || 'solo')}.${encodeURIComponent(id)}`;
+  const account = window.__tbAccountUserId;
+  if (!account) return legacy;
+  const key = `tb.draft.v3.${account}.${encodeURIComponent(contestId || 'solo')}.${encodeURIComponent(id)}`;
+  try {
+    // Only the account owning the old personal database may recover its browser
+    // drafts. Copy first; keep the pre-upgrade backup intact.
+    if (window.__tbOriginalWorkspace && !localStorage.getItem(key) && localStorage.getItem(legacy))
+      localStorage.setItem(key, localStorage.getItem(legacy));
+  } catch { /* The SQLite draft remains available. */ }
+  return key;
+}
+
+export async function saveBeforeLogout() {
+  const pending = [];
+  window.dispatchEvent(new CustomEvent('tb-before-update', { detail: { waitUntil: promise => pending.push(promise) } }));
+  const result = await Promise.all([...pending, ...draftQueues.values()]);
+  if (result.some(value => value === false)) throw new Error('草稿尚未保存，请保存成功后再退出账号。');
 }
 function readDraft(key) {
   try {

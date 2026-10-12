@@ -194,6 +194,16 @@ class IdentityAndClientTests(unittest.TestCase):
             line = process.stdout.readline()
             if not line: self.fail("Worker fixture did not start: " + process.stderr.read())
             endpoint = json.loads(line)["endpoint"]
+            def remote(path, body, method='POST'):
+                profile = self.service._ranking_profile()
+                request = Request(endpoint + path, json.dumps(body).encode(), method=method,
+                                  headers={'Content-Type': 'application/json', 'X-TB-User': profile['user_id'], 'Authorization': 'Bearer ' + profile['auth_token']})
+                with urlopen(request, timeout=5) as response:
+                    return json.loads(response.read())
+            remote('/v1/accounts/register', {'loginId': 'protocol_user', 'nickname': '协议测试', 'password': 'fixture-password'})
+            login = remote('/v1/accounts/login', {'loginId': 'protocol_user', 'password': 'fixture-password'})
+            with self.service._write() as db:
+                db.execute('UPDATE ranking_profile SET user_id=?,auth_token=?', (login['account']['userId'], login['token']))
             self.service.configure_profile({"nickname": "协议测试", "endpoint": endpoint})
             self.service.start_training("fixture::A")
             self.accept()
@@ -209,6 +219,7 @@ class IdentityAndClientTests(unittest.TestCase):
             self.assertEqual(result["self"]["count"], 1)
             self.assertEqual(result["self"]["nickname"], "协议测试")
             self.assertEqual(self.service._ranking_events(endpoint), [])
+            remote('/v1/profile', {'nickname': '新的昵称'}, 'PUT')
             self.service.configure_profile({"nickname": "新的昵称"})
             until = time.monotonic() + 10
             while time.monotonic() < until:

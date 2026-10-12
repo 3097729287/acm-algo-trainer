@@ -12,7 +12,15 @@ async function request(fixture, user, method, path, body) {
   return { status: result.status, value: await result.json() };
 }
 async function register(fixture, user, nickname = '训练者') {
-  return request(fixture, user, 'POST', '/v1/profile/register', { userId: user.userId, nickname });
+  user.loginId ||= 'tb_' + user.userId.replaceAll('-', '').slice(0, 24);
+  const created = await request(fixture, user, 'POST', '/v1/accounts/register', { loginId: user.loginId, nickname, password: 'fixture-password-123' });
+  if (created.status === 201) {
+    const login = await request(fixture, user, 'POST', '/v1/accounts/login', { loginId: user.loginId, password: 'fixture-password-123' });
+    assert.equal(login.status, 200);
+    user.userId = login.value.account.userId;
+    user.token = login.value.token;
+  }
+  return created;
 }
 function ac(user, name, acceptedAt = '2026-10-08T10:00:00Z') {
   return { eventId: key(user.userId + name), problemKey: key(name), acceptedAt, difficulty: 1500, scope: 'official' };
@@ -47,20 +55,20 @@ test('migration maintenance prevents writes while health and existing profiles r
   } finally { await fixture.close(); }
 });
 
-test('unique persisted identity, authenticated ownership, nickname + full ID', async () => {
+test('unique registered accounts, authenticated ownership and nickname display', async () => {
   const fixture = await startFixture({ now: NOW });
   try {
     const a = identity(), b = identity();
     assert.equal((await register(fixture, a)).status, 201);
     assert.equal((await register(fixture, b, '另一用户')).status, 201);
     assert.notEqual(a.userId, b.userId);
-    assert.equal((await register(fixture, a)).status, 200);
+    assert.equal((await register(fixture, a)).status, 401);
     const stolen = { ...a, token: b.token };
     assert.equal((await register(fixture, stolen)).status, 401);
     assert.equal((await request(fixture, stolen, 'PUT', '/v1/profile', { nickname: '冒领' })).status, 401);
     assert.equal((await request(fixture, a, 'PUT', '/v1/profile', { nickname: '新昵称' })).status, 200);
     const profile = await request(fixture, a, 'GET', '/v1/profile');
-    assert.equal(profile.value.displayName, '新昵称 #' + a.userId);
+    assert.equal(profile.value.displayName, '新昵称');
     assert(!JSON.stringify(profile.value).includes('token'));
     assert.equal((await request(fixture, a, 'PUT', '/v1/profile', { nickname: 'X', userId: b.userId })).status, 400);
   } finally { await fixture.close(); }

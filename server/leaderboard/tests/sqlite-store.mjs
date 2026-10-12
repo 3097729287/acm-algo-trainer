@@ -2,6 +2,7 @@
 import { DatabaseSync } from 'node:sqlite';
 import { readFileSync } from 'node:fs';
 import { EventConflict } from '../src/errors.mjs';
+import { AccountError } from '../src/accounts.mjs';
 import { bounds, addDays, rankingQuery, normalizeRank, REWARD_POLICY } from '../src/ranking-rules.mjs';
 
 export class SQLiteStore {
@@ -20,6 +21,59 @@ export class SQLiteStore {
   }
   async updateNickname(id, name, timestamp) {
     this.database.prepare('UPDATE users SET nickname=?,updated_at=? WHERE user_id=?').run(name, timestamp, id);
+  }
+  async findAccount(login) {
+    return this.database.prepare(`SELECT users.*,accounts.login_id,accounts.password_hash,accounts.password_version,
+      EXISTS(SELECT 1 FROM ranking_admins WHERE ranking_admins.user_id=users.user_id) AS is_admin
+      FROM accounts JOIN users USING(user_id) WHERE login_id=?`).get(login) || null;
+  }
+  async findSession(id, hash, now) {
+    return this.database.prepare(`SELECT users.*,accounts.login_id,accounts.password_hash,accounts.password_version,
+      EXISTS(SELECT 1 FROM ranking_admins WHERE ranking_admins.user_id=users.user_id) AS is_admin
+      FROM account_sessions s JOIN accounts USING(user_id) JOIN users USING(user_id)
+      WHERE s.user_id=? AND s.token_hash=? AND s.expires_at>? AND s.password_version=accounts.password_version`).get(id, hash, now) || null;
+  }
+  transaction(action) {
+    this.database.exec('BEGIN IMMEDIATE');
+    try { const value = action(); this.database.exec('COMMIT'); return value; }
+    catch (error) { this.database.exec('ROLLBACK'); throw error; }
+  }
+  async createAccount(value) {
+    try {
+      this.transaction(() => {
+        if (value.legacyHash) {
+          const row = this.database.prepare('SELECT token_hash FROM users WHERE user_id=?').get(value.userId);
+          if (row?.token_hash !== value.legacyHash) throw new AccountError(409, '旧身份已经关联账号，请使用登录号登录');
+          this.database.prepare('UPDATE users SET nickname=?,token_hash=?,updated_at=? WHERE user_id=?')
+            .run(value.nickname, value.retiredHash, value.timestamp, value.userId);
+        } else this.database.prepare('INSERT INTO users VALUES(?,?,?,?,?)')
+          .run(value.userId, value.nickname, value.retiredHash, value.timestamp, value.timestamp);
+        this.database.prepare('INSERT INTO accounts VALUES(?,?,?,1,?,?)')
+          .run(value.userId, value.loginId, value.passwordHash, value.timestamp, value.timestamp);
+      });
+    } catch (error) {
+      if (/UNIQUE constraint/i.test(String(error))) throw new AccountError(409, '登录号已被注册，或旧身份已关联账号');
+      throw error;
+    }
+  }
+  async createSession(user, session, timestamp) {
+    this.transaction(() => {
+      const row = this.database.prepare('SELECT password_hash,password_version FROM accounts WHERE user_id=?').get(user.user_id);
+      if (row?.password_hash !== user.password_hash) throw new AccountError(401, '账号密码已变更，请重新登录');
+      this.database.prepare('INSERT INTO account_sessions VALUES(?,?,?,?,?)')
+        .run(session.hash, user.user_id, row.password_version, session.expiresAt, timestamp);
+    });
+  }
+  async deleteSession(hash) { this.database.prepare('DELETE FROM account_sessions WHERE token_hash=?').run(hash); }
+  async changePassword(user, encoded, session, timestamp) {
+    this.transaction(() => {
+      const result = this.database.prepare('UPDATE accounts SET password_hash=?,password_version=password_version+1,updated_at=? WHERE user_id=? AND password_hash=? AND password_version=?')
+        .run(encoded, timestamp, user.user_id, user.password_hash, user.password_version);
+      if (result.changes !== 1) throw new AccountError(409, '密码已变更，请重新登录');
+      this.database.prepare('DELETE FROM account_sessions WHERE user_id=?').run(user.user_id);
+      this.database.prepare('INSERT INTO account_sessions VALUES(?,?,?,?,?)')
+        .run(session.hash, user.user_id, user.password_version + 1, session.expiresAt, timestamp);
+    });
   }
   async incrementLimit(bucket, expiresAt) {
     return this.database.prepare(`INSERT INTO request_limits(bucket,count,expires_at) VALUES(?,1,?)
@@ -86,6 +140,9 @@ export class SQLiteStore {
       throw error;
     }
   }
-  async cleanup(now) { this.database.prepare('DELETE FROM request_limits WHERE expires_at<?').run(now); }
+  async cleanup(now) {
+    this.database.prepare('DELETE FROM request_limits WHERE expires_at<?').run(now);
+    this.database.prepare('DELETE FROM account_sessions WHERE expires_at<=?').run(now);
+  }
   async close() { this.database.close(); }
 }

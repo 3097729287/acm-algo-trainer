@@ -237,7 +237,7 @@ class OverlayHTTPTests(unittest.TestCase):
         self.table.write_bytes(self.original)
         self.remote = {"id": "remote:codeforces:123::A", "contest": "CF 123", "problem": "A", "title": "远程题目", "tags": ["排序"], "knowledge": "排序", "difficulty": 1300, "status": "未做", "date": "", "platform": "Codeforces", "series": "Div.4", "queue": None, "url": "https://codeforces.com/contest/123/problem/A", "source": "remote", "solutionAvailable": False, "solutionState": "missing"}
         self.integration = HubFixture([self.remote])
-        self.server = backend.create_server(data_file=self.table, data_root=self.root, training_file=self.root / "personal.sqlite", integrations=self.integration, backup_dir=self.root / "backups")
+        self.server = backend.create_server(require_account=False, data_file=self.table, data_root=self.root, training_file=self.root / "personal.sqlite", integrations=self.integration, backup_dir=self.root / "backups")
         self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
         self.thread.start()
 
@@ -299,7 +299,7 @@ class OverlayHTTPTests(unittest.TestCase):
         for override, expected in ((None, False), (True, True)):
             fixture = HubFixture()
             with patch("integrations.IntegrationService", return_value=fixture) as constructor:
-                server = backend.create_server(data_file=self.table, data_root=self.root, training_file=self.root / f"fixture-{expected}.sqlite", integration_auto_start=override, backup_dir=self.root / "backups")
+                server = backend.create_server(require_account=False, data_file=self.table, data_root=self.root, training_file=self.root / f"fixture-{expected}.sqlite", integration_auto_start=override, backup_dir=self.root / "backups")
                 self.assertEqual(constructor.call_args.kwargs["auto_start"], expected)
                 server.server_close()
 

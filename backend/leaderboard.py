@@ -111,7 +111,7 @@ class LeaderboardClient:
     def queue_sync(self, force=False):
         profile = self.training._ranking_profile()
         with self.lock:
-            if self.closed or not profile["endpoint"]:
+            if self.closed or not profile["endpoint"] or not profile['auth_token']:
                 pass
             elif self.running:
                 self.dirty = True
@@ -136,12 +136,11 @@ class LeaderboardClient:
         profile = {}
         try:
             profile = self.training._ranking_profile()
-            if not profile["endpoint"]:
+            if not profile["endpoint"] or not profile['auth_token']:
                 return
-            registered = self._request(profile, "POST", "/v1/profile/register", {"userId": profile["user_id"], "nickname": profile["nickname"]})
+            registered = self._request(profile, "GET", "/v1/profile")
             if registered.get("userId") != profile["user_id"]:
                 raise RuntimeError("排行榜身份响应不匹配")
-            self._request(profile, "PUT", "/v1/profile", {"nickname": profile["nickname"]})
             events = self.training._ranking_events(profile["endpoint"])
             for offset in range(0, len(events), 100):
                 with self.lock:
@@ -171,6 +170,10 @@ class LeaderboardClient:
                     self.cache = values
                     self.status, self.error = "ready", ""
         except Exception as error:
+            if isinstance(error, RankingRequestError) and error.status == 401:
+                owner = getattr(self.training.account_provider, '__self__', None)
+                if owner is not None:
+                    owner.invalidate(profile.get('auth_token'))
             with self.lock:
                 self.status, self.error = "error", str(error)[:200]
         finally:
@@ -182,7 +185,7 @@ class LeaderboardClient:
                 self.queue_sync()
             else:
                 with self.lock:
-                    if not self.closed and profile.get("endpoint"):
+                    if not self.closed and profile.get("endpoint") and profile.get('auth_token'):
                         self.retry_timer = threading.Timer(65, self.queue_sync)
                         self.retry_timer.daemon = True
                         self.retry_timer.start()

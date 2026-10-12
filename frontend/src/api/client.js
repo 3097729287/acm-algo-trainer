@@ -8,6 +8,11 @@ export async function request(path, body, token) {
   let result;
   try { result = JSON.parse(text); }
   catch { throw new Error('TB 服务没有返回有效数据，请检查服务连接'); }
-  if (!response.ok) throw new Error(result.error || '操作未完成，请重试');
+  if (!response.ok) {
+    const error = new Error(result.error || '操作未完成，请重试');
+    error.status = response.status;
+    if (response.status === 401 && !['account/login', 'account/register'].includes(path)) window.dispatchEvent(new Event('tb:account-change'));
+    throw error;
+  }
   return result;
 }

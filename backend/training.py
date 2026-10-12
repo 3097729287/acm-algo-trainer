@@ -37,8 +37,9 @@ def parse_time(value):
 
 
 class TrainingService:
-    def __init__(self, store, db_path, assets=None, judge=None, clock=None, backup_dir=None, rng=None):
+    def __init__(self, store, db_path, assets=None, judge=None, clock=None, backup_dir=None, rng=None, account_provider=None):
         self.store = store
+        self.account_provider = account_provider
         self.db_path = Path(db_path).resolve()
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self.lock = threading.RLock()
@@ -135,9 +136,11 @@ class TrainingService:
         from leaderboard import LeaderboardClient
         self.leaderboard = LeaderboardClient(self)
         self.leaderboard.queue_sync()
-        pending = self.connection.execute("SELECT id FROM submissions WHERE finished_at IS NULL").fetchall()
-        for record in pending:
-            self._enqueue(record["id"])
+        self.jobs_started = account_provider is None
+        if self.jobs_started:
+            pending = self.connection.execute("SELECT id FROM submissions WHERE finished_at IS NULL").fetchall()
+            for record in pending:
+                self._enqueue(record["id"])
 
     def _now(self):
         value = self.clock()
@@ -475,7 +478,27 @@ class TrainingService:
 
     def _ranking_profile(self):
         with self.lock:
-            return dict(self.connection.execute("SELECT * FROM ranking_profile WHERE singleton=1").fetchone())
+            record = dict(self.connection.execute("SELECT * FROM ranking_profile WHERE singleton=1").fetchone())
+        if self.account_provider is not None:
+            auth = self.account_provider(record['user_id'])
+            record['auth_token'] = auth['auth_token'] if auth else ''
+            record['endpoint'] = auth['endpoint'] if auth else record['endpoint']
+        return record
+
+    def legacy_token(self):
+        with self.lock:
+            return self.connection.execute('SELECT auth_token FROM ranking_profile WHERE singleton=1').fetchone()[0]
+
+    def bind_account(self, account, endpoint):
+        with self.lock, self._write() as connection:
+            connection.execute('UPDATE ranking_profile SET user_id=?,nickname=?,auth_token=?,endpoint=? WHERE singleton=1',
+                               (account['userId'], account['nickname'], '', endpoint))
+        if not self.jobs_started:
+            self.jobs_started = True
+            with self.lock:
+                pending = self.connection.execute('SELECT id FROM submissions WHERE finished_at IS NULL').fetchall()
+            for record in pending:
+                self._enqueue(record['id'])
 
     def _ranking_rewards(self, profile, value):
         xp = value.get("totalXp")
@@ -491,7 +514,7 @@ class TrainingService:
 
     def profile(self):
         record = self._ranking_profile()
-        return {"profile": {"userId": record["user_id"], "nickname": record["nickname"], "displayName": record["nickname"] + " #" + record["user_id"], "createdAt": record["created_at"]},
+        return {"profile": {"userId": record["user_id"], "nickname": record["nickname"], "displayName": record["nickname"], "createdAt": record["created_at"]},
                 "leaderboard": self.leaderboard.snapshot()}
 
     def configure_profile(self, body):

@@ -15,7 +15,15 @@ def run(action, output):
         if not os.environ.get('TB_STATE_DIR'):
             raise RuntimeError('Set TB_STATE_DIR to a disposable directory before running a release probe')
         from backend import create_server
-        server = create_server(port=int(os.environ.get('TB_PACKAGE_PORT', '0')), dist_dir=FRONTEND,
+        account_check = action in ('--serve-account-check', '--native-account-check')
+        account_endpoint = os.environ.get('TB_TEST_ACCOUNTS_ENDPOINT') if account_check else None
+        if account_check:
+            from urllib.parse import urlsplit
+            endpoint = urlsplit(account_endpoint or '')
+            if endpoint.scheme != 'http' or endpoint.hostname != '127.0.0.1' or not endpoint.port:
+                raise RuntimeError('Account release checks require a disposable loopback account service')
+        server = create_server(require_account=account_check, account_endpoint=account_endpoint,
+                               port=int(os.environ.get('TB_PACKAGE_PORT', '0')), dist_dir=FRONTEND,
                                training_file=STATE / 'tb-personal.sqlite3', integration_auto_start=False)
         data = server.store.data()
         workspace = server.training.workspace()
@@ -47,10 +55,47 @@ def run(action, output):
         else:
             worker = threading.Thread(target=server.serve_forever, daemon=True)
             worker.start()
-            if action == '--serve-check':
+            if action in ('--serve-check', '--serve-account-check'):
                 Path(output).write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
                 while not Path(output).with_suffix('.stop').exists():
                     time.sleep(.2)
+            elif action == '--native-account-check':
+                import webview
+                window = webview.create_window('TB account validation', report['baseUrl'], hidden=True, width=1100, height=850)
+                def check_account():
+                    def wait_js(script):
+                        deadline = time.monotonic() + 35
+                        while time.monotonic() < deadline:
+                            if window.evaluate_js(script):
+                                return
+                            time.sleep(.1)
+                        raise RuntimeError('Native account UI condition timed out')
+                    def fill(name, value):
+                        window.evaluate_js("(()=>{const e=document.querySelector(" + json.dumps('input[name="'+name+'"]') +
+                            ");Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(e," + json.dumps(value) +
+                            ");e.dispatchEvent(new Event('input',{bubbles:true}));})()")
+                    try:
+                        wait_js("document.querySelector('.account-card h1')?.textContent==='登录 TB'")
+                        assert not server.accounts.snapshot()['authenticated']
+                        report['nativeLoginGate'] = True
+                        window.evaluate_js("document.querySelectorAll('.account-tabs button')[1].click()")
+                        wait_js("!!document.querySelector('input[name=nickname]')")
+                        fill('nickname', '打包验证者'); fill('username', 'native_account_fixture')
+                        fill('password', 'native-fixture-password'); fill('passwordConfirmation', 'native-fixture-password')
+                        window.evaluate_js("document.querySelector('.account-submit').click()")
+                        wait_js("document.querySelector('.account-message')?.textContent.includes('注册成功')")
+                        assert not server.accounts.snapshot()['authenticated']
+                        report['nativeRegistrationRequiresLogin'] = True
+                        fill('password', 'native-fixture-password')
+                        window.evaluate_js("document.querySelector('.account-submit').click()")
+                        wait_js("!!document.querySelector('.nav-item')")
+                        assert server.accounts.snapshot()['authenticated']
+                        report['nativeAccountLogin'] = True
+                    except Exception as issue:
+                        report.update(ok=False, error=str(issue))
+                    finally:
+                        window.destroy()
+                webview.start(check_account, gui='edgechromium', private_mode=False, storage_path=str(STATE / 'native-account-webview'))
             elif action == '--native-check':
                 import webview
                 from launch import bind_desktop_fullscreen

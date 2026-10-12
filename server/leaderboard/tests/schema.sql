@@ -28,6 +28,17 @@ CREATE TABLE request_limits (
 );
 CREATE INDEX request_limits_expiry ON request_limits(expires_at);
 
+CREATE TABLE accounts (
+  user_id TEXT PRIMARY KEY REFERENCES users(user_id), login_id TEXT NOT NULL UNIQUE,
+  password_hash TEXT NOT NULL, password_version INTEGER NOT NULL DEFAULT 1,
+  created_at TEXT NOT NULL, updated_at TEXT NOT NULL
+);
+CREATE TABLE account_sessions (
+  token_hash TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES accounts(user_id),
+  password_version INTEGER NOT NULL, expires_at INTEGER NOT NULL, created_at TEXT NOT NULL
+);
+CREATE INDEX sessions_expiry ON account_sessions(expires_at);
+
 CREATE TABLE official_ac_events (
   user_id TEXT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
   problem_key TEXT NOT NULL,

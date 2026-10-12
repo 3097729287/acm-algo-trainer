@@ -22,7 +22,7 @@ export function rankingQuery(range) {
     ${range ? 'AND e.accepted_day>=? AND e.accepted_day<?' : ''} GROUP BY e.user_id),
     ranked AS (SELECT users.user_id,users.nickname,counts.count,
       ROW_NUMBER() OVER(ORDER BY counts.count DESC,counts.completed_at,users.user_id) AS position
-      FROM counts JOIN users USING(user_id))`;
+      FROM counts JOIN users USING(user_id) JOIN accounts USING(user_id))`;
   return { sql, values };
 }
 

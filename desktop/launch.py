@@ -301,7 +301,7 @@ def main(argv=None) -> int:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 3 and sys.argv[1] in ("--package-check", "--serve-check", "--native-check"):
+    if len(sys.argv) == 3 and sys.argv[1] in ("--package-check", "--serve-check", "--serve-account-check", "--native-account-check", "--native-check"):
         from release_probe import run
         raise SystemExit(run(sys.argv[1], sys.argv[2]))
     if len(sys.argv) == 2 and sys.argv[1] == "--migrate-local":

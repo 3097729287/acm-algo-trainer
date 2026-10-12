@@ -55,7 +55,8 @@ await page.route('**/api/**', async route => {
   const body = request.method() === 'POST' ? request.postDataJSON() : null;
   if (body) { assert.equal(request.headers()['x-tb-token'], 'fixture'); writes.push({ path, body }); }
   let value;
-  if (path === '/api/software-update') value = {currentVersion:'0.10.0', status:'current', autoCheck:true, canInstall:false};
+  if (path === '/api/account') value = { required: false, authenticated: true, token: 'fixture', account: null };
+  else if (path === '/api/software-update') value = {currentVersion:'0.10.0', status:'current', autoCheck:true, canInstall:false};
   else if (path === '/api/data') value = { rows, categories, token: 'fixture', today: date, revision: 'fixture' };
   else if (path === '/api/goals') value = { goals: [goal] };
   else if (path === '/api/contests/events') value = { events: [{ name: '测试比赛', count: 6, duration: 120, rules: 'acm' }] };
@@ -67,7 +68,7 @@ await page.route('**/api/**', async route => {
   else if (path === '/api/submissions') { const offset = Number(url.searchParams.get('offset') || 0), limit = Number(url.searchParams.get('limit') || 100); value = { submissions: submissions.slice(offset, offset + limit), total: submissions.length, offset, limit, hasMore: offset + limit < submissions.length }; }
   else if (path === '/api/lectures') value = { lectures: [lecture] };
   else if (path === '/api/lecture') value = lecture;
-  else if (path === '/api/profile') { if (body) { profile.nickname = body.nickname; profile.displayName = `${profile.nickname}#${profile.userId}`; connection.endpoint = body.endpoint || ''; connection.configured = !!connection.endpoint; connection.status = connection.configured ? 'syncing' : 'not_configured'; connection.notice = connection.configured ? '已连接测试排行榜' : '共享排行榜尚未配置。'; } value = { profile, leaderboard: connection }; }
+  else if (path === '/api/profile') { if (body) { profile.nickname = body.nickname; profile.displayName = profile.nickname; connection.endpoint = body.endpoint || connection.endpoint; connection.configured = !!connection.endpoint; connection.status = connection.configured ? 'syncing' : 'not_configured'; connection.notice = connection.configured ? '已连接测试排行榜' : '共享排行榜尚未配置。'; } value = { profile, leaderboard: connection }; }
   else if (path === '/api/leaderboard') { if (connection.configured && ++rankingPolls > 1) connection.status = 'ready'; value = { period: url.searchParams.get('period'), date, ...connection, entries: connection.status === 'ready' ? [{ rank: 1, userId: profile.userId, nickname: profile.nickname, count: 1 }] : [], self: connection.configured ? profile : null }; }
   else if (path === '/api/leaderboard/sync') value = { queued: true };
   else if (path === '/api/translation/settings') { if (body) { Object.assign(translation, body); if (body.apiKey !== undefined) translation.keyStored = !!body.apiKey; translation.configured = true; delete translation.apiKey; } value = translation; }
@@ -230,9 +231,10 @@ try {
   assert.equal(await page.locator('.ranking-table').count(), 0);
   await page.getByRole('button', { name: '设置昵称与连接' }).click();
   await page.getByLabel('用户昵称').fill('测试新昵称');
-  await page.getByLabel('排行榜服务地址').fill('https://fixture.example.com');
-  await page.getByRole('button', { name: '保存身份' }).click();
-  await page.getByText('昵称与排行榜连接已保存。').waitFor();
+  connection.endpoint = 'https://fixture.example.com';
+  connection.configured = true; connection.status = 'syncing';
+  await page.getByRole('button', { name: '保存昵称' }).click();
+  await page.getByText('昵称已保存。').waitFor();
   assert.equal(profile.userId, 'TB-fixture-00001');
   await page.getByRole('button', { name: '排行榜', exact: true }).click();
   await page.locator('.ranking-table').getByText('测试新昵称', { exact: true }).waitFor();
