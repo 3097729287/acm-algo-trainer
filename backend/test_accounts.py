@@ -8,6 +8,7 @@ import subprocess
 import tempfile
 import threading
 import unittest
+from unittest.mock import patch
 
 import backend
 from library import LibraryDatabase
@@ -138,6 +139,18 @@ class AccountTests(unittest.TestCase):
             _, value = self.call('/api/' + path)
             self.assertNotIn(secret, json.dumps(value))
             self.assertNotIn('fixture-password', json.dumps(value))
+
+    def test_account_backups_work_in_long_windows_directories(self):
+        from training import TrainingService
+        folder = self.root / ('long-account-directory-' + 'x' * 70)
+        with patch('toolutil.BACKUP_ROOT', str(self.root / 'backups')):
+            service = TrainingService(self.server.store, folder / 'tb-personal.sqlite3', assets=Assets(None), judge=self.judge)
+            try:
+                service.save_draft('fixture::A', 'private draft in long directory')
+                self.assertEqual(service.problem('fixture::A')['draft'], 'private draft in long directory')
+                self.assertTrue(list((self.root / 'backups').rglob('*.bak')))
+            finally:
+                service.close()
 
 
 if __name__ == '__main__':

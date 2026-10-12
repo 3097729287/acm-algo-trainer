@@ -45,7 +45,10 @@ class TrainingService:
         self.lock = threading.RLock()
         self.clock = clock or (lambda: dt.datetime.now(UTC))
         self.rng = rng or secrets.SystemRandom()
-        mirror = str(self.db_path.parent).replace(":", "").replace("\\", "_").replace("/", "_")
+        # A full directory mirrored into the backup name doubles its length.
+        # Per-account paths then exceed SQLite's Windows path limit. Existing
+        # backup folders stay intact; new backups use a stable short namespace.
+        mirror = 'personal-' + hashlib.sha256(str(self.db_path.parent).encode('utf-8')).hexdigest()[:16]
         self.backup_dir = Path(backup_dir) if backup_dir else Path(__import__("toolutil").BACKUP_ROOT) / mirror
         existed = self.db_path.exists()
         self.connection = sqlite3.connect(self.db_path, check_same_thread=False, isolation_level=None)
