@@ -27,6 +27,9 @@ try {
  assert.equal(new Set(drawings).size,9);
  fs.mkdirSync(path.join(root,'tests/screenshots'),{recursive:true});
  await page.screenshot({path:path.join(root,'tests/screenshots/rankings-medals-admin.png'),fullPage:true});
+ await page.evaluate(()=>document.documentElement.dataset.theme='light');
+ await page.screenshot({path:path.join(root,'tests/screenshots/rankings-medals-light.png'),fullPage:true});
+ await page.evaluate(()=>document.documentElement.dataset.theme='dark');
  // Switching periods discards a late response from the previous period.
  await page.getByRole('tab',{name:'每日过题',exact:true}).click();
  await page.getByRole('tab',{name:'本周过题',exact:true}).click();
@@ -41,6 +44,7 @@ try {
  await remove.click();await page.getByRole('button',{name:'确认删除',exact:true}).click();
  await page.getByText('已删除 1 条排行榜成绩。').waitFor();
  assert.deepEqual(await page.evaluate(()=>window.rankingWrites[0]),{userId:'10000000-0000-4000-8000-000000000002',period:'weekly',confirmation:'delete'});
+ await page.waitForFunction(()=>document.querySelectorAll('.ranking-table tbody tr').length===3);
  assert.equal(await page.locator('.ranking-table tbody tr').count(),3);
  await page.getByRole('button',{name:'清空当前榜单'}).click();
  await page.getByRole('button',{name:'取消',exact:true}).click();
