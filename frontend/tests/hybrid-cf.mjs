@@ -7,12 +7,13 @@ import os from 'node:os';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {chromium} from 'playwright';
+import {fixtureExtension} from './extension-fixture.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 const server=spawn(process.env.TB_PYTHON||'C:/Users/lenovo/AppData/Local/Programs/Python/Python313/python.exe',['desktop/tests/browser_server.py'],{cwd:root,env:{...process.env,TB_OFFLINE:'1',TB_TEST_HYBRID:'1',PYTHONIOENCODING:'utf-8'},windowsHide:true});
 let serverErrors='';server.stderr.on('data',b=>{serverErrors+=b});
 const {port}=await new Promise((resolve,reject)=>{let output='';server.stdout.on('data',b=>{output+=b;if(output.includes('\n'))resolve(JSON.parse(output.split('\n')[0]))});server.on('exit',code=>reject(new Error('Fixture server exited '+code)))});
 const base=`http://127.0.0.1:${port}`,profile=await mkdtemp(path.join(os.tmpdir(),'tb-hybrid-cf-'));
-const extension=process.env.TB_BROWSER_EXTENSION||path.join(root,'build/browser-extension');
+const extension=await fixtureExtension(process.env.TB_BROWSER_EXTENSION||path.join(root,'build/browser-extension'),profile,base);
 let browser;const posts=[];let accepted=false;const errors=[],requests=[];
 try{
  browser=await chromium.launchPersistentContext(profile,{channel:'msedge',headless:true,args:[`--disable-extensions-except=${extension}`,`--load-extension=${extension}`]});

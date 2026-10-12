@@ -6,12 +6,13 @@ import os from 'node:os';
 import path from 'node:path';
 import { chromium } from 'playwright';
 import { fileURLToPath } from 'node:url';
+import { fixtureExtension } from './extension-fixture.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 const server=spawn(process.env.TB_PYTHON||'C:/Users/lenovo/AppData/Local/Programs/Python/Python313/python.exe',['desktop/tests/browser_server.py'],{cwd:root,env:{...process.env,TB_OFFLINE:'1',TB_TEST_SILENT:'1'},windowsHide:true});
 const port=await new Promise(resolve=>server.stdout.once('data',b=>resolve(JSON.parse(b.toString().trim()).port)));
 const base=`http://127.0.0.1:${port}`;
 const profile=await mkdtemp(path.join(os.tmpdir(),'tb-silent-start-'));
-const extension=process.env.TB_BROWSER_EXTENSION||path.join(root,'build/browser-extension');
+const extension=await fixtureExtension(process.env.TB_BROWSER_EXTENSION||path.join(root,'build/browser-extension'),profile,base);
 let browser, child;
 try{
  browser=await chromium.launchPersistentContext(profile,{channel:'msedge',headless:true,args:[`--disable-extensions-except=${extension}`,`--load-extension=${extension}`]});

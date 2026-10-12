@@ -5,6 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
+import { fixtureExtension } from './extension-fixture.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const python = process.env.TB_PYTHON || 'C:/Users/lenovo/AppData/Local/Programs/Python/Python313/python.exe';
@@ -18,7 +19,7 @@ const { port } = await new Promise((resolve, reject) => {
 });
 const base = `http://127.0.0.1:${port}`;
 const profile = await mkdtemp(path.join(os.tmpdir(), 'tb-browser-extension-'));
-const extension = process.env.TB_BROWSER_EXTENSION || path.join(root, 'build/browser-extension');
+const extension = await fixtureExtension(process.env.TB_BROWSER_EXTENSION || path.join(root, 'build/browser-extension'), profile, base);
 let browser;
 const posted = [], cookieChecks = [], errors = [];
 let cfSubmitted = false, acSubmitted = false, ncReject = false, luoguLoggedIn = true, ncModern = false;
