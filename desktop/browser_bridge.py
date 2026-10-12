@@ -105,11 +105,11 @@ class BrowserBridge:
                     self.sync_client if self.sync_client in eligible else next(iter(eligible), None))
 
     def route_to_browser(self, identity, before_click=False):
-        """Reuse the real CF browser session before any native form can click."""
+        """Reuse the browser session before a protected native form can click."""
         with self.lock:
             session = self.sessions[identity]
             client = self._browser_client(session['platform'])
-            if not client or session.get('browserTried') or session['platform'] != 'Codeforces' or session.get('attempted') or session.get('submissionId'):
+            if not client or session.get('browserTried') or session['platform'] not in ('Codeforces', 'AtCoder') or session.get('attempted') or session.get('submissionId'):
                 return False
             if not session.get('intent') and not (before_click and session.get('dispatchedAt') is not None):
                 return False
@@ -118,7 +118,7 @@ class BrowserBridge:
             session.pop('dispatchedAt', None)
             session.update(transport='browser', preferredClient=client, claimed=False, intent=True,
                            status='loading', preparingAt=self.clock(), routedAt=self.clock(), browserTried=True,
-                           message='正在使用浏览器现有登录后台提交 Codeforces。')
+                           message='正在使用浏览器现有登录后台提交 ' + session['platform'] + '。')
             return True
 
     def _expire(self, session):
@@ -180,7 +180,7 @@ class BrowserBridge:
             session['navigateTo'] = session['loginUrl'] if not intent and session['status'] == 'needs_login' else session['url']
             fragment = urlencode({'session': session['sessionId'], 'key': session['capability']})
         if intent and self.runner:
-            # CF clearance/session cookies can be tied to the actual browser.
+            # Original-site verification can be tied to the actual browser.
             # Prefer its background tab when it is already running.
             if not (session.get('transport') == 'browser' or self.route_to_browser(session['sessionId'])):
                 self.runner.start(session['sessionId'])

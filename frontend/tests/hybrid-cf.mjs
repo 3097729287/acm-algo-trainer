@@ -9,6 +9,10 @@ import {fileURLToPath} from 'node:url';
 import {chromium} from 'playwright';
 import {fixtureExtension} from './extension-fixture.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
+const atcoder=process.argv.includes('--atcoder'),platform=atcoder?'AtCoder':'Codeforces';
+const officialHost=atcoder?'atcoder.jp':'codeforces.com';
+const original=atcoder?'https://atcoder.jp/contests/abc100/tasks/abc100_a':'https://codeforces.com/contest/123/problem/A';
+const fixtureKey=atcoder?'ac':'cf',receiptId=atcoder?'2002':'1002';
 const server=spawn(process.env.TB_PYTHON||'C:/Users/lenovo/AppData/Local/Programs/Python/Python313/python.exe',['desktop/tests/browser_server.py'],{cwd:root,env:{...process.env,TB_OFFLINE:'1',TB_TEST_HYBRID:'1',PYTHONIOENCODING:'utf-8'},windowsHide:true});
 let serverErrors='';server.stderr.on('data',b=>{serverErrors+=b});
 const {port}=await new Promise((resolve,reject)=>{let output='';server.stdout.on('data',b=>{output+=b;if(output.includes('\n'))resolve(JSON.parse(output.split('\n')[0]))});server.on('exit',code=>reject(new Error('Fixture server exited '+code)))});
@@ -21,12 +25,26 @@ try{
  await worker.evaluate(async base=>chrome.storage.local.set({bases:[base]}),base);
  const foreground=browser.pages()[0];await foreground.goto(base+'/browser-connect.html');
  const active=await worker.evaluate(async()=>(await chrome.tabs.query({active:true,lastFocusedWindow:true}))[0].id);
- await browser.addCookies([{name:'fixture_login',value:'actual-browser-session',domain:'codeforces.com',path:'/',secure:true,httpOnly:true,sameSite:'Lax'}]);
+ await browser.addCookies([{name:'fixture_login',value:'actual-browser-session',domain:officialHost,path:'/',secure:true,httpOnly:true,sameSite:'Lax'}]);
  browser.on('page',p=>p.on('pageerror',e=>errors.push({url:p.url(),message:e.stack||e.message})));
  await browser.route('**/*',async route=>{
   const req=route.request(),url=new URL(req.url());if(url.hostname==='127.0.0.1')return route.continue();
   requests.push({url:req.url(),type:req.resourceType()});
-  assert.equal(url.hostname,'codeforces.com');
+  assert.equal(url.hostname,officialHost);
+  if(atcoder){
+   const account='<nav class="navbar"><a href="/users/fixture">fixture</a></nav>';
+   const row='<table><tr><th>Submission Time</th><th>Status</th></tr><tr><td><a href="/contests/abc100/submissions/2002">2002</a><a href="/contests/abc100/tasks/abc100_a">A</a><a href="/users/fixture">fixture</a></td><td><span class="label">AC</span></td></tr></table>';
+   if(req.method()==='POST'){
+    const form=new URLSearchParams(req.postData());
+    assert.equal(form.get('sourceCode'),'int main(){}');assert.equal(form.get('csrf_token'),'fixture-csrf');
+    assert.equal(form.get('data.TaskScreenName'),'abc100_a');assert.equal(form.get('data.LanguageId'),'6017');
+    assert.equal(form.get('cf-turnstile-response'),'fixture-site-token');
+    assert.ok((await req.allHeaders()).cookie.includes('fixture_login=actual-browser-session'));
+    posts.push(req.url());accepted=true;return route.fulfill({contentType:'text/html',body:account+row});
+   }
+   if(url.pathname.endsWith('/submissions/me'))return route.fulfill({contentType:'text/html',body:'<title>My Submissions - Fixture</title>'+account+(accepted?row:'<div class="panel-body">No Submissions</div>')});
+   return route.fulfill({contentType:'text/html',body:account+'<form method="post"><input name="csrf_token" value="fixture-csrf" type="hidden"><select name="data.TaskScreenName"><option value="abc100_a">A</option></select><select name="data.LanguageId" required><option value="">Select</option><option value="6017">C++23 (GCC 15.2.0)</option></select><textarea name="sourceCode"></textarea><div class="cf-challenge"><input type="hidden" name="cf-turnstile-response" value="fixture-site-token"></div><input type="submit" value="Submit"></form>'});
+  }
   if(req.method()==='POST'){
    const form=new URLSearchParams(req.postData());
    assert.equal(form.get('source'),'int main(){}');assert.equal(form.get('csrf_token'),'fixture-csrf');
@@ -40,15 +58,15 @@ try{
  });
  for(let i=0;i<100;i++){const value=await(await fetch(base+'/fixture/browser')).json();if(value.connected&&value.hasWindow)break;await new Promise(r=>setTimeout(r,100))}
  const started=performance.now();
- const response=await fetch(base+'/fixture/create?'+new URLSearchParams({key:'cf',url:'https://codeforces.com/contest/123/problem/A'}));assert.equal(response.status,200);
+ const response=await fetch(base+'/fixture/create?'+new URLSearchParams({key:fixtureKey,url:original}));assert.equal(response.status,200);
  let status;
- for(let i=0;i<150;i++){status=(await(await fetch(base+'/fixture/status')).json()).cf;if(status.status==='finished')break;if(status.status==='error')throw new Error(JSON.stringify(status));await new Promise(r=>setTimeout(r,100))}
+ for(let i=0;i<150;i++){status=(await(await fetch(base+'/fixture/status')).json())[fixtureKey];if(status.status==='finished')break;if(status.status==='error')throw new Error(JSON.stringify(status));await new Promise(r=>setTimeout(r,100))}
  if(status.verdict!=='AC')console.log(JSON.stringify({status,serverErrors,errors,pages:await Promise.all(browser.pages().map(async p=>({url:p.url(),dom:await p.evaluate(()=>({ready:document.readyState,text:document.body?.innerText?.slice(0,250),work:window.__tbSubmissionWork?.key,commandListener:String(window.tbOfficialPage).slice(0,50)}))}))),jobs:await worker.evaluate(async()=>Object.values((await chrome.storage.session.get('jobs')).jobs||{}).map(j=>({sessionId:j.sessionId,tabId:j.tabId,base:j.base})))}));
- assert.equal(status.verdict,'AC',JSON.stringify(status));assert.equal(status.submissionId,'1002');assert.equal(posts.length,1);
+ assert.equal(status.verdict,'AC',JSON.stringify(status));assert.equal(status.submissionId,receiptId);assert.equal(posts.length,1);
  assert.equal((await(await fetch(base+'/fixture/opened')).json()).length,0);
  assert.equal(await worker.evaluate(async()=>(await chrome.tabs.query({active:true,lastFocusedWindow:true}))[0].id),active);
  assert.deepEqual(errors,[],JSON.stringify({errors,requests}));
- console.log(JSON.stringify({ok:true,hybridMode:true,actualBrowserCookiesPreserved:true,nativeFormCsrf:true,exactReceipt:true,fixtureSeconds:Number(((performance.now()-started)/1000).toFixed(3)),posts:1,foregroundUnchanged:true,realAccountSubmission:false}));
+ console.log(JSON.stringify({ok:true,platform,hybridMode:true,actualBrowserCookiesPreserved:true,nativeFormCsrf:true,exactReceipt:true,fixtureSeconds:Number(((performance.now()-started)/1000).toFixed(3)),posts:1,foregroundUnchanged:true,realAccountSubmission:false}));
 }finally{
  if(browser)await browser.close();server.kill();
  assert.ok(path.resolve(profile).startsWith(path.resolve(os.tmpdir())+path.sep));

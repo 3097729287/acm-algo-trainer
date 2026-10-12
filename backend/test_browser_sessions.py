@@ -62,7 +62,7 @@ class BrowserSessionTests(unittest.TestCase):
         with self.assertRaises(ServiceError): bridge.sync_browser({**self.body,'clientId':client}, 'bad')
         bridge.sync_browser({**self.body,'clientId':client}, registration['key'])
 
-    def test_cf_uses_real_browser_while_other_platforms_remain_native(self):
+    def test_cf_and_atcoder_use_real_browser_with_an_existing_window(self):
         from types import SimpleNamespace
         started = []
         bridge = BrowserBridge('http://127.0.0.1:1', session_store=self.store)
@@ -72,13 +72,45 @@ class BrowserSessionTests(unittest.TestCase):
         bridge.browser_queue({'clientId':client, 'hasWindow':True, 'platforms':['Codeforces']}, key)
         cf = bridge.submit('https://codeforces.com/contest/123/problem/A', 'int main(){}', 'CF')
         ac = bridge.submit('https://atcoder.jp/contests/abc100/tasks/abc100_a', 'int main(){}', 'AC')
+        lg = bridge.submit('https://www.luogu.com.cn/problem/B4536', 'int main(){}', 'LG')
         queue = bridge.browser_queue({'clientId':client, 'hasWindow':True}, key)
-        self.assertEqual(started, [ac['sessionId']])
+        self.assertEqual(started, [lg['sessionId']])
         self.assertEqual(queue['mode'], 'hybrid')
-        self.assertEqual([job['sessionId'] for job in queue['jobs']], [cf['sessionId']])
+        self.assertEqual([job['sessionId'] for job in queue['jobs']], [cf['sessionId'], ac['sessionId']])
         session = bridge.sessions[cf['sessionId']]
         self.assertFalse(session['attempted'])
         self.assertNotIn('dispatchedAt', session)
+
+    def test_atcoder_never_switches_transport_after_a_submission_checkpoint(self):
+        from types import SimpleNamespace
+        bridge = BrowserBridge('http://127.0.0.1:1', session_store=self.store)
+        bridge.runner = SimpleNamespace(start=lambda unused: None)
+        ac = bridge.submit('https://atcoder.jp/contests/abc100/tasks/abc100_a', 'int main(){}', 'AC')
+        client = str(uuid.uuid4())
+        key = bridge.register_browser({'clientId': client, 'protocol': 3})['key']
+        bridge.browser_queue({'clientId': client, 'hasWindow': True, 'platforms': ['AtCoder']}, key)
+        session = bridge.sessions[ac['sessionId']]
+        session.update(dispatchedAt=0, attempted=True)
+        self.assertFalse(bridge.route_to_browser(ac['sessionId'], before_click=True))
+        self.assertNotIn('transport', session)
+        session['attempted'] = False
+        self.assertTrue(bridge.route_to_browser(ac['sessionId'], before_click=True))
+        self.assertEqual(session['transport'], 'browser')
+
+    def test_atcoder_uses_native_when_no_browser_claims_the_job(self):
+        from types import SimpleNamespace
+        now, started = [0], []
+        bridge = BrowserBridge('http://127.0.0.1:1', session_store=self.store, clock=lambda: now[0])
+        bridge.runner = SimpleNamespace(start=started.append)
+        client = str(uuid.uuid4())
+        key = bridge.register_browser({'clientId': client, 'protocol': 3})['key']
+        bridge.browser_queue({'clientId': client, 'hasWindow': True, 'platforms': ['AtCoder']}, key)
+        ac = bridge.submit('https://atcoder.jp/contests/abc100/tasks/abc100_a', 'int main(){}', 'AC')
+        self.assertEqual(started, [])
+        now[0] = 4
+        bridge.status(ac['sessionId'])
+        self.assertEqual(started, [ac['sessionId']])
+        self.assertFalse(bridge.sessions[ac['sessionId']]['attempted'])
 
     def test_native_cf_never_switches_transport_after_checkpoint(self):
         from types import SimpleNamespace

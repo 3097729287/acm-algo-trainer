@@ -19,7 +19,8 @@ from silent_submit import SilentSubmitter
 
 def run():
     result, posts, saved, cookies, timings = {}, [], [], [], []
-    mode = {'login': True, 'context': True, 'invalid': False}
+    mode = {'login': True, 'context': True, 'invalid': False, 'acToken': None, 'acReject': False}
+    accepted_atcoder = [0]
     with tempfile.TemporaryDirectory(prefix='tb-silent-proof-', ignore_cleanup_errors=True) as directory:
         main = webview.create_window('TB invisible fixture', html='<p>Fixture</p>', hidden=True)
         store = BrowserSessions(Path(directory) / 'login.dpapi')
@@ -70,18 +71,27 @@ def run():
                     else: content='''<select name="language"><option value="2">C++（clang++18）</option></select><div class="CodeMirror"></div><script>window.pageInfo={contestId:'127263',questionId:'11604979',isNewJudgeEditor:false,codeJudgeType:'0',tagId:'4',subTagId:'1',doneQuestionId:'127263'};window.globalInfo={ownerId:12345};</script>'''
                 else:
                     cf=url.hostname=='codeforces.com'
-                    submitted=any(p[0]==url.hostname for p in posts)
-                    if url.path.endswith('/my') or url.path.endswith('/submissions/me') or method=='POST':
-                        row=('<a href="/contest/123/submission/1002">1002</a><a href="/contest/123/problem/A">A</a><a href="/profile/fixture">fixture</a><span class="submissionVerdictWrapper">Accepted</span>' if cf else '<a href="/contests/abc100/submissions/2002">2002</a><a href="/contests/abc100/tasks/abc100_a">A</a><span class="label">AC</span>') if submitted else ''
+                    if not cf and method=='POST' and not mode['acReject']:
+                        accepted_atcoder[0]+=1
+                    submitted=any(p[0]==url.hostname for p in posts) if cf else bool(accepted_atcoder[0])
+                    rejected=not cf and method=='POST' and mode['acReject']
+                    if not rejected and (url.path.endswith('/my') or url.path.endswith('/submissions/me') or method=='POST'):
+                        remote=2001+accepted_atcoder[0]
+                        row=('<a href="/contest/123/submission/1002">1002</a><a href="/contest/123/problem/A">A</a><a href="/profile/fixture">fixture</a><span class="submissionVerdictWrapper">Accepted</span>' if cf else f'<a href="/contests/abc100/submissions/{remote}">{remote}</a><a href="/contests/abc100/tasks/abc100_a">A</a><span class="label">AC</span>') if submitted else ''
                         content='<table class="status-frame-datatable"><tr><th>Submission</th><th>Verdict</th></tr><tr><td>'+row+'</td></tr></table>'
                         if not cf and not submitted:
                             content='<title>My Submissions - AtCoder Beginner Contest 100</title><nav class="navbar"><a href="/users/fixture">fixture</a></nav><div class="panel-body">No Submissions</div>'
                         elif not cf:
-                            content=content.replace('<span class="label">', '<a href="/users/fixture">fixture</a><span class="label">')
+                            content='<nav class="navbar"><a href="/users/fixture">fixture</a></nav>'+content.replace('<span class="label">', '<a href="/users/fixture">fixture</a><span class="label">')
                     else:
                         task='A' if cf else 'abc100_a'
                         account='<header id="header"><a href="/profile/fixture">fixture</a></header>' if cf else '<nav class="navbar"><a href="/users/fixture">fixture</a></nav>'
                         content=account+f'<form method="post"><select name="taskScreenName"><option value="{task}">{task}</option></select><select name="languageId"><option value="2">GNU C++17</option></select><textarea name="sourceCode"></textarea><button type="submit">Submit</button></form>'
+                        if not cf and mode['acToken'] is not None:
+                            token='fixture-site-token' if mode['acToken'] else ''
+                            content=content.replace('</form>',f'<div class="cf-challenge"><input type="hidden" name="cf-turnstile-response" value="{token}"></div></form>')
+                        if rejected:
+                            content+='<div class="alert alert-danger">Invalid submission verification</div>'
                 event.Response=core.Environment.CreateWebResourceResponse(MemoryStream(Encoding.UTF8.GetBytes(content)),200,'OK',headers)
             core.WebResourceRequested+=serve
         runner=SilentSubmitter(main,bridge,store,wake=sync,native_setup=fixture)
@@ -106,27 +116,45 @@ def run():
                     assert not runner._ui(lambda:main.native.Visible)
                 assert len(posts)==4 and saved==['AC']*4
                 assert all('fixture_login=test-only-session' in c for c in cookies)
+                # The current AtCoder form requires its original-site token.
+                before=len(posts)
+                mode['acToken']=False
+                sid=bridge.submit(urls[1],'int main(){}','AtCoder verification required')['sessionId']
+                wait(sid,'needs_verification')
+                assert len(posts)==before and not bridge.sessions[sid]['attempted']
+                mode['acToken']=True
+                time.sleep(.4)
+                sid=bridge.submit(urls[1],'int main(){}','explicit AtCoder retry')['sessionId']
+                assert wait(sid,'finished')['verdict']=='AC'
+                assert len(posts)==before+1 and 'cf-turnstile-response=fixture-site-token' in posts[-1][2]
+                mode['acReject']=True
+                sid=bridge.submit(urls[1],'int main(){}','AtCoder server rejection')['sessionId']
+                rejected=wait(sid,'error')
+                assert 'Invalid submission verification' in rejected['message'] and len(posts)==before+2
+                mode['acReject']=False
+                mode['acToken']=None
+                extra_atcoder=2
                 # Persisted encrypted session, no browser process or connector.
                 runner.store=BrowserSessions(Path(directory)/'login.dpapi');runner.wake=lambda:False
                 mode['context']=False
                 sid=bridge.submit(urls[-1],'int main(){}','lazy Luogu context')['sessionId']
                 assert wait(sid,'finished')['verdict']=='AC'
-                assert len(posts)==5
+                assert len(posts)==5+extra_atcoder
                 mode['login']=False
                 sid=bridge.submit(urls[-1],'int main(){}','expired login')['sessionId']
                 wait(sid,'needs_login')
-                assert len(posts)==5
+                assert len(posts)==5+extra_atcoder
                 mode['login']=True
                 time.sleep(.4)
                 bridge.submit(urls[-1],'int main(){}','explicit retry')
                 assert wait(sid,'finished')['verdict']=='AC'
-                assert len(posts)==6
+                assert len(posts)==6+extra_atcoder
                 mode['invalid']=True
                 sid=bridge.submit(urls[-1],'int main(){}','invalid context')['sessionId']
                 until=time.monotonic()+25
                 while bridge.status(sid)['status']!='error' and time.monotonic()<until:time.sleep(.1)
-                assert bridge.status(sid)['status']=='error' and len(posts)==6
-                result.update(ok=True,allFourHidden=True,atcoderFirstContestSubmission=True,reusedBrowserLogin=True,encryptedSessionWorksWithBrowserClosed=True,luoguMissingEditor=True,luoguContextFetch=True,loginRetry=True,invalidContextNoPost=True,posts=len(posts),fixtureTimings=timings,realAccountSubmission=False)
+                assert bridge.status(sid)['status']=='error' and len(posts)==6+extra_atcoder
+                result.update(ok=True,allFourHidden=True,atcoderFirstContestSubmission=True,atcoderVerificationNoPost=True,atcoderVerifiedRetry=True,atcoderRejectionDisplayed=True,reusedBrowserLogin=True,encryptedSessionWorksWithBrowserClosed=True,luoguMissingEditor=True,luoguContextFetch=True,loginRetry=True,invalidContextNoPost=True,posts=len(posts),fixtureTimings=timings,realAccountSubmission=False)
             except Exception as error:
                 result.update(ok=False,error=repr(error),states=[bridge.status(sid) for sid in bridge.sessions],posts=len(posts))
             finally: main.destroy()

@@ -213,7 +213,7 @@ class IdentityAndClientTests(unittest.TestCase):
             result = None
             while time.monotonic() < until:
                 result = self.service.leaderboard.rankings("total")
-                if result["status"] == "ready": break
+                if result["status"] == "ready" and (result.get("self") or {}).get("count") == 1: break
                 if result["status"] == "error": self.fail(result["error"])
                 time.sleep(.02)
             self.assertEqual(result["self"]["count"], 1)
