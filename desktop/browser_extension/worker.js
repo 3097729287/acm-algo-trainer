@@ -1,12 +1,28 @@
 // Capabilities stay in the extension's session storage, never in an OJ page.
 importScripts('login_state.js');
 const loginStates = {}, loginChecks = new Map(), loginGenerations = {}, loginCookies = {}, loginRescans = new Set();
-const loginDirty = new Set();
-let lastLoginRefresh = 0;
+const scopes = {Codeforces:'codeforces.com',AtCoder:'atcoder.jp','牛客':'nowcoder.com','洛谷':'luogu.com.cn'};
+const loginDirty = new Set(Object.keys(scopes));
+let lastLoginRefresh = 0, lastOpenRefresh = 0;
+async function readCookies(platform) {
+  const domain = scopes[platform];
+  // Chromium defaults to unpartitioned cookies. Include only this site's own
+  // top-level partition as well; never merge other sites' embedded sessions.
+  const plain = await chrome.cookies.getAll({domain});
+  const partitioned = await chrome.cookies.getAll({domain, partitionKey:{topLevelSite:'https://' + domain,hasCrossSiteAncestor:false}});
+  const selected = new Map();
+  for (const cookie of [...plain, ...partitioned].filter(cookie => tbFirstPartyCookie(platform, cookie))) {
+    selected.set(JSON.stringify([cookie.domain,cookie.path,cookie.name]), cookie);
+  }
+  return [...selected.values()].sort((a,b) => JSON.stringify([a.domain,a.path,a.name]).localeCompare(JSON.stringify([b.domain,b.path,b.name])));
+}
 async function updateLoginState(platform, cookies) {
+  const same = JSON.stringify(loginCookies[platform]) === JSON.stringify(cookies);
+  if (same && loginChecks.has(platform)) return;
   loginCookies[platform] = cookies;
   const generation = loginGenerations[platform] = (loginGenerations[platform] || 0) + 1;
-  loginStates[platform] = tbCookieLoginState(platform, cookies);
+  const cookieState = tbCookieLoginState(platform, cookies);
+  if (!same || cookieState !== 'unknown') loginStates[platform] = cookieState;
   if (loginChecks.has(platform)) { loginRescans.add(platform); return; }
   const urls = {Codeforces:'https://codeforces.com/',AtCoder:'https://atcoder.jp/','牛客':'https://ac.nowcoder.com/acm/home','洛谷':'https://www.luogu.com.cn/'};
   const check = (async () => {
@@ -14,12 +30,12 @@ async function updateLoginState(platform, cookies) {
       const patterns = {Codeforces:['https://codeforces.com/*','https://www.codeforces.com/*'],AtCoder:['https://atcoder.jp/*'],'牛客':['https://ac.nowcoder.com/*'],'洛谷':['https://www.luogu.com.cn/*','https://luogu.com.cn/*']};
       const tabs = await chrome.tabs.query({url:patterns[platform]});
       const hints = await Promise.all(tabs.filter(tab=>!tab.incognito).slice(0,8).map(async tab=>{
-        try { return await Promise.race([chrome.tabs.sendMessage(tab.id,{type:'login-state',platform}),new Promise(resolve=>setTimeout(()=>resolve({state:'unknown'}),750))]); }
+        try { return await Promise.race([chrome.tabs.sendMessage(tab.id,{type:'login-state',platform}),new Promise(resolve=>setTimeout(()=>resolve({state:'unknown'}),5500))]); }
         catch { return {state:'unknown'}; }
       }));
       if (generation !== loginGenerations[platform]) return;
       if (hints.some(value=>value?.state==='logged_in')) {loginStates[platform]='logged_in';return;}
-      if (hints.some(value=>value?.state==='logged_out') && loginStates[platform]!=='logged_in') {loginStates[platform]='logged_out';return;}
+      if (hints.some(value=>value?.fresh && value.state==='logged_out')) {loginStates[platform]='logged_out';return;}
       const response = await fetch(urls[platform], {credentials:'include',cache:'no-store',signal:AbortSignal.timeout(5000)});
       if (!response.ok || Number(response.headers.get('content-length')) > 1048576) return;
       const html = await response.text();
@@ -27,7 +43,7 @@ async function updateLoginState(platform, cookies) {
       const state = tbPageLoginState(platform, html);
       // A cross-origin negative may be caused by the browser's SameSite cookie
       // policy. Only an original-page hint or empty cookies proves logout.
-      if (state === 'logged_in') loginStates[platform] = state;
+      if (state === 'logged_in' || (state === 'logged_out' && !cookies.some(cookie=>cookie.value))) loginStates[platform] = state;
     } catch { /* A blocked or unavailable site is not evidence of logout. */ }
     finally {
       loginChecks.delete(platform);
@@ -67,18 +83,21 @@ async function pollQueues() {
         ]);
         const platformHosts = {'codeforces.com':'Codeforces','www.codeforces.com':'Codeforces','atcoder.jp':'AtCoder','ac.nowcoder.com':'牛客','www.luogu.com.cn':'洛谷','luogu.com.cn':'洛谷'};
         const platforms = [...new Set(tabs.filter(tab=>!tab.incognito).map(tab=>platformHosts[new URL(tab.url).hostname]).filter(Boolean))];
-        if (Date.now() - lastLoginRefresh >= 5000) { platforms.forEach(platform=>loginDirty.add(platform)); lastLoginRefresh=Date.now(); }
+        if (Date.now() - lastLoginRefresh >= 30000) { Object.keys(scopes).forEach(platform=>loginDirty.add(platform)); lastLoginRefresh=Date.now(); }
+        if (Date.now() - lastOpenRefresh >= 5000) { platforms.forEach(platform=>loginDirty.add(platform)); lastOpenRefresh=Date.now(); }
         const syncPlatforms = [...loginDirty];
-        const answer = await backgroundRequest(base, 'queue', { clientId, hasWindow:windows.some(w=>!w.incognito), platforms, loginStates, syncPlatforms }, connections.get(base));
         syncPlatforms.forEach(platform=>loginDirty.delete(platform));
+        await Promise.all(syncPlatforms.map(async platform=>{
+          try { updateLoginState(platform, await readCookies(platform)); }
+          catch { loginDirty.add(platform); } // A failed export is not an empty session.
+        }));
+        const answer = await backgroundRequest(base, 'queue', { clientId, hasWindow:windows.some(w=>!w.incognito), platforms, loginStates, syncPlatforms }, connections.get(base));
         if (answer.mode === 'silent' || answer.mode === 'hybrid') {
-          const scopes = {Codeforces:['codeforces.com'],AtCoder:['atcoder.jp'],'牛客':['nowcoder.com'],'洛谷':['luogu.com.cn']};
           await Promise.all((answer.sync || []).map(async request => {
-            const domains = scopes[request.platform];
-            if (!domains || typeof request.nonce !== 'string') return;
-            const cookies = (await Promise.all(domains.map(domain => chrome.cookies.getAll({domain})))).flat();
+            if (!scopes[request.platform] || typeof request.nonce !== 'string') return;
+            const cookies = await readCookies(request.platform);
             updateLoginState(request.platform, cookies);
-            await backgroundRequest(base, 'session', {clientId,platform:request.platform,nonce:request.nonce,cookies,userAgent:navigator.userAgent}, connections.get(base));
+            await backgroundRequest(base, 'session', {clientId,platform:request.platform,nonce:request.nonce,cookies,loginState:loginStates[request.platform] || 'unknown',userAgent:navigator.userAgent}, connections.get(base));
           }));
           if (answer.mode === 'silent') continue;
         }
@@ -94,14 +113,24 @@ async function pollQueues() {
           if (['closed', 'finished', 'error'].includes(claim.status)) continue;
           const target = new URL(claim.url);
           if (target.protocol !== 'https:' || !hosts.has(target.hostname)) continue;
+          let tab;
+          if (target.hostname === 'atcoder.jp') {
+            for (const candidate of tabs.filter(t=>!t.incognito&&!saved[t.id]&&new URL(t.url).origin===target.origin&&new URL(t.url).pathname===target.pathname)) {
+              try {
+                const probe = await Promise.race([chrome.tabs.sendMessage(candidate.id,{type:'submission-page',url:target.href}),new Promise(resolve=>setTimeout(()=>resolve({}),750))]);
+                if (probe?.available) { tab=candidate;job.owned=false;break; }
+              } catch { /* A stale page without the connector is not reusable. */ }
+            }
+          }
           const matching=tabs.find(tab=>!tab.incognito&&new URL(tab.url).hostname===target.hostname);
-          const tab = await chrome.tabs.create({ windowId: matching?.windowId||(regularWindows.find(w => w.focused) || regularWindows[0]).id, url: 'about:blank', active: false });
+          if (!tab) tab = await chrome.tabs.create({ windowId: matching?.windowId||(regularWindows.find(w => w.focused) || regularWindows[0]).id, url: 'about:blank', active: false });
           job.tabId = tab.id;
           saved[tab.id] = job;
           await chrome.storage.session.set({ jobs: saved });
-          await chrome.tabs.update(tab.id, { url: target.href });
+          if (job.owned) await chrome.tabs.update(tab.id, { url: target.href });
+          else await chrome.tabs.sendMessage(tab.id, {type:'wake'}).catch(()=>{});
         }
-      } catch { /* No browser window or missing TB: wait for the next heartbeat. */ }
+      } catch { Object.keys(scopes).forEach(platform=>loginDirty.add(platform)); }
     }
   } finally { queueBusy = false; }
 }
@@ -135,12 +164,22 @@ async function handle(message, sender) {
     // A reconnect reuses its own submission tab instead of creating a second submitter.
     const saved = (await chrome.storage.session.get('jobs')).jobs || {};
     const old = Object.values(saved).find(j => j.sessionId === job.sessionId && j.base === job.base);
+    let existing;
     if (old && old.tabId !== job.tabId) {
-      try { await chrome.tabs.get(old.tabId); job.tabId = old.tabId; } catch { delete saved[old.tabId]; }
+      try {
+        const tab = await chrome.tabs.get(old.tabId), current = new URL(tab.url);
+        if (current.protocol === 'https:' && current.hostname === target.hostname) { existing=tab;job.tabId=old.tabId;job.owned=old.owned; }
+      } catch { delete saved[old.tabId]; }
     }
     saved[job.tabId] = job;
     await chrome.storage.session.set({ jobs: saved });
-    await chrome.tabs.update(job.tabId, { url: target.href, active: true });
+    // Preserve this tab's form and completed verification. Reloading it here
+    // would discard precisely the state the user needs to inspect or complete.
+    await chrome.tabs.update(job.tabId, { ...(existing ? {} : {url:target.href}), active: true });
+    if (existing) {
+      await chrome.windows.update(existing.windowId, {focused:true});
+      await chrome.tabs.sendMessage(job.tabId, {type:'wake'}).catch(()=>{});
+    }
     if (job.tabId !== sender.tab.id) await chrome.tabs.remove(sender.tab.id);
     return { connected: true };
   }
@@ -178,13 +217,14 @@ chrome.runtime.onStartup.addListener(pollQueues);
 chrome.runtime.onInstalled.addListener(pollQueues);
 chrome.cookies.onChanged.addListener(({cookie}) => {
   const domain = cookie.domain.replace(/^\./,'').toLowerCase();
-  const scopes = {Codeforces:'codeforces.com',AtCoder:'atcoder.jp','牛客':'nowcoder.com','洛谷':'luogu.com.cn'};
+  if (!cookie) return;
   for (const [platform, root] of Object.entries(scopes)) {
     if (domain === root || domain.endsWith('.'+root)) loginDirty.add(platform);
   }
   if (loginDirty.size) pollQueues();
 });
 // Requests keep an active desktop session responsive; the alarm revives an idle
-// service worker. No cookies, account passwords or CSRF tokens leave the browser.
+// service worker. Only the four scoped sessions go to authenticated local TB;
+// passwords are never read, and cookie values never enter preparation responses.
 setInterval(pollQueues, 1000);
 pollQueues();

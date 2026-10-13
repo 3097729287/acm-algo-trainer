@@ -17,10 +17,10 @@ function acSubmitForm(){return editors().map(e=>e.closest('form')).find(Boolean)
 function acVerificationState(){
 if(ctx.platform!=='AtCoder')return null;
 const form=acSubmitForm(),widget=form?.querySelector('.cf-challenge,.cf-turnstile'),token=form?.querySelector('[name="cf-turnstile-response"]');
-if(!widget&&!token||token?.value.trim())return null;
+if(!widget&&!token||token?.value.trim()){delete work.verifyingAt;return null;}
 if(ctx.attempted)return {status:'unconfirmed',message:'原站要求提交验证，尚未确认本次代码受理；请在浏览器核对记录。'};
 work.verifyingAt??=Date.now();
-return Date.now()-work.verifyingAt<8000?{status:'loading',attempted:false,message:'正在等待 AtCoder 完成提交验证，尚未发送代码。'}:{status:'needs_verification',attempted:false,message:'AtCoder 的提交验证尚未完成，请在浏览器打开本题提交页完成验证，再回到 TB 提交。'};
+return Date.now()-work.verifyingAt<30000?{status:'loading',attempted:false,message:'正在等待 AtCoder 完成提交验证，尚未发送代码。'}:{status:'needs_verification',attempted:false,message:'AtCoder 仍在等待原站验证。点击“在浏览器查看”会打开本次提交页，完成后回到 TB 点击提交。'};
 }
 function luoguLoggedOut(){
 if(ctx.platform!=='洛谷')return false;
@@ -28,7 +28,7 @@ try{const data=JSON.parse(document.querySelector('#lentille-context')?.textConte
 const legacy=window._feInjection;if(legacy&&Object.prototype.hasOwnProperty.call(legacy,'currentUser'))return !legacy.currentUser;
 return false;
 }
-const verification=()=>[...document.querySelectorAll('iframe')].some(e=>visible(e)&&/captcha|challenge/i.test(e.src))||!hasEditor()&&/just a moment|checking your browser|人机验证|安全验证|验证码/i.test(document.title+' '+(document.body?.innerText||'').slice(0,1200));
+const verification=()=>[...document.querySelectorAll('iframe')].some(e=>visible(e)&&/captcha|challenge/i.test(e.src)&&!(ctx.platform==='AtCoder'&&e.closest('.cf-challenge,.cf-turnstile')?.closest('form')===acSubmitForm()))||!hasEditor()&&/just a moment|checking your browser|人机验证|安全验证|验证码/i.test(document.title+' '+(document.body?.innerText||'').slice(0,1200));
 function normal(text){
 text=(text||'').trim().replace(/_/g,' ').replace(/\s+/g,' ');
 const map={'AC':'AC','OK':'AC','ACCEPTED':'AC','通过':'AC','WA':'WA','WRONG ANSWER':'WA','答案错误':'WA','TLE':'TLE','TIME LIMIT EXCEEDED':'TLE','超时':'TLE','MLE':'MLE','MEMORY LIMIT EXCEEDED':'MLE','内存超限':'MLE','RE':'RE','RUNTIME ERROR':'RE','运行错误':'RE','CE':'CE','COMPILATION ERROR':'CE','COMPILE ERROR':'CE','编译错误':'CE','OLE':'OLE','OUTPUT LIMIT EXCEEDED':'OLE'};
@@ -96,13 +96,13 @@ if(owner)candidates.push((async()=>{const r=await fetch('/api/user.status?handle
 return await Promise.any(candidates);
 }
 return {baseline:[],baselineKnown:false,baselineOwner:''};
-})().catch(()=>null).then(value=>{work.snapshot=value;return value;});
+})().catch(()=>null).then(value=>{work.snapshot=value;if(!value)work.preparing=null;return value;});
 return work.preparing;
 }
 function receiptValue(receipt){return {status:receipt.verdict==='JUDGING'?'judging':'finished',submissionId:receipt.id,...(receipt.verdict==='JUDGING'?{}:{verdict:receipt.verdict}),message:receipt.verdict==='JUDGING'?'原站已接收，正在评测。':'本次提交结果：'+receipt.verdict};}
 function inspect(){
-if(login()||cfLoggedOut()||luoguLoggedOut()||lgReceipt?.loggedOut()||(ctx.platform==='牛客'&&window.globalInfo?.ownerId!=null&&Number(window.globalInfo.ownerId)<=0))return {status:'needs_login',message:'请在浏览器登录原站，完成后回到 TB 点击提交。'};
-if(verification())return {status:'needs_verification',message:'请在浏览器完成原站验证，然后回到 TB 查看状态。'};
+if(login()||cfLoggedOut()||luoguLoggedOut()||lgReceipt?.loggedOut()||(ctx.platform==='牛客'&&window.globalInfo?.ownerId!=null&&Number(window.globalInfo.ownerId)<=0))return {status:'needs_login',...(!ctx.attempted?{attempted:false}:{}),message:'请在浏览器登录原站，完成后回到 TB 点击提交。'};
+if(verification())return {status:'needs_verification',...(!ctx.attempted?{attempted:false}:{}),message:'请在浏览器完成原站验证，然后回到 TB 查看状态。'};
 if(ctx.platform==='AtCoder'&&new URL(ctx.originalUrl).pathname.replace(/\/tasks\/[^/]+$/,'/submit')===location.pathname){
 const errors=[...document.querySelectorAll('.alert-danger,.has-error .help-block,.error-message')].filter(visible).map(e=>e.textContent.trim()).filter(Boolean);
 if(errors.length)return {status:'error',attempted:false,message:'AtCoder 未受理代码：'+errors.join('；').slice(0,200)};
@@ -130,7 +130,7 @@ const checkpoint=value=>postMessage({tbOfficial:true,sessionId:ctx.sessionId,...
 if(lgReceipt?.hasSubmitApi())return lgReceipt.submitApi(checkpoint);
 if(!hasEditor())return send({status:'error',message:'没有找到原站代码编辑器，请进入本题提交页；不会点击其它表单。'});
 let task=!ctx.problem,filled=0;
-document.querySelectorAll('select').forEach(s=>{const field=(s.name||s.id||'').toLowerCase();if(/problem|task/.test(field)&&ctx.problem){const o=[...s.options].find(o=>o.value===ctx.problem);if(o){s.value=o.value;s.dispatchEvent(new Event('change',{bubbles:true}));task=true;}}});
+document.querySelectorAll('select').forEach(s=>{const field=(s.name||s.id||'').toLowerCase();if(/problem|task/.test(field)&&ctx.problem){const o=[...s.options].find(o=>o.value===ctx.problem);if(o){if(ctx.platform!=='AtCoder'||s.value!==o.value){s.value=o.value;s.dispatchEvent(new Event('change',{bubbles:true}));}task=true;}}});
 if(['牛客','洛谷'].includes(ctx.platform))task=location.pathname===new URL(ctx.originalUrl).pathname;
 if(!task)return send({status:'error',message:'未能准确选定本题，已停止；请在原站确认题目。'});
 const compiler=await selectOfficialCompiler(ctx.code,ctx.platform);
@@ -141,7 +141,10 @@ document.querySelectorAll('.CodeMirror').forEach(e=>{if(e.CodeMirror){e.CodeMirr
 document.querySelectorAll('.cm-editor .cm-content').forEach(e=>{const view=e.cmView?.view;if(view?.state?.doc&&view?.dispatch){view.dispatch({changes:{from:0,to:view.state.doc.length,insert:ctx.code}});filled++;}});
 if(!filled)return send({status:'error',message:'编辑器接口不可用，请手动粘贴并提交；未发出自动提交。'});
 const snapshot=await prepare(),{baseline=[],baselineKnown=false,baselineOwner=''}=snapshot||{};
-if(['Codeforces','AtCoder'].includes(ctx.platform)&&!baselineKnown)return send({status:'error',attempted:false,message:'暂时无法读取本账号的提交记录。请在浏览器完成登录或验证，再重试提交。'});
+if(['Codeforces','AtCoder'].includes(ctx.platform)&&!baselineKnown)return send({status:'error',attempted:false,message:'暂时无法读取本账号的提交记录，尚未发送代码，请稍后重试。'});
+// The site may refresh/expire its token while language/editor/list preparation
+// is in flight. Recheck this form immediately before the dispatch checkpoint.
+const verificationAfterPreparation=acVerificationState();if(verificationAfterPreparation)return send(verificationAfterPreparation);
 const form=editors().map(e=>e.closest('form')).find(Boolean)||[...document.querySelectorAll('form')].find(f=>f.querySelector('.CodeMirror,.cm-editor,.ace_editor,.monaco-editor'));
 if(ctx.platform==='AtCoder'&&form&&!form.checkValidity())return send({status:'error',attempted:false,message:'AtCoder 提交表单未通过校验，尚未发送代码；请检查原站题目和语言选择。'});
 let button=[...(form?.querySelectorAll('button[type=submit],input[type=submit],#submit')||[])].find(b=>visible(b)&&!b.disabled);if(!button&&['牛客','洛谷'].includes(ctx.platform))button=[...document.querySelectorAll('button,[role=button],.btn-submit,.submit-btn,.submit-button')].find(b=>visible(b)&&!b.disabled&&b.getAttribute('aria-disabled')!=='true'&&/^(?:保存并)?提交(?:代码|题目|评测)?$/.test(b.textContent.trim()));

@@ -133,10 +133,10 @@ class LibraryTests(unittest.TestCase):
         for row in database.rows(raw=True):
             self.assertEqual((row['状态'], row['日期']), ('未做', ''))
         with database.connection() as db:
-            for row in db.execute('SELECT source_path FROM solutions'):
+            for row in db.execute('SELECT source_path FROM solutions UNION ALL SELECT source_path FROM detailed_solutions'):
                 self.assertFalse(Path(row[0]).is_absolute(), row[0])
             from lecture_curation import fenced_mask
-            texts = [row[0] for row in db.execute('SELECT markdown FROM solutions')]
+            texts = [row[0] for row in db.execute('SELECT markdown FROM solutions UNION ALL SELECT markdown FROM detailed_solutions')]
             for content, in db.execute('SELECT content FROM lectures'):
                 entry = json.loads(content)
                 texts.extend(entry.get(field, '') for field in ('markdown', 'sourceMarkdown'))

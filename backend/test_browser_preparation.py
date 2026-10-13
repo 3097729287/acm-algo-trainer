@@ -36,7 +36,7 @@ class PreparationTests(unittest.TestCase):
         return client, key
 
     def cache_logins(self):
-        self.cached.update({platform:{'cookies':[{'name':'fixture','value':'PRIVATE-COOKIE','path':'/'}]}
+        self.cached.update({platform:{'loginState':'logged_in','cookies':[{'name':'fixture','value':'PRIVATE-COOKIE','path':'/'}]}
                             for platform in DOMAINS})
 
     def test_missing_extension_and_login_have_separate_states(self):
@@ -69,16 +69,18 @@ class PreparationTests(unittest.TestCase):
         self.assertFalse(value['extension']['connected'])
         self.assertTrue(value['ready'])
 
-    def test_expired_or_empty_cookies_override_old_positive_login_hints(self):
+    def test_empty_or_expired_cache_requests_refresh_instead_of_demanding_login(self):
         self.cache_logins()
         self.connect({platform:'logged_in' for platform in DOMAINS})
         self.cached['Codeforces']['cookies'] = [{'name':'expired','value':'old','expirationDate':1}]
         self.cached['AtCoder']['cookies'] = []
+        self.now = 20  # No live browser remains to validate the original session.
+        self.profiles.append((self.root / 'msedge.exe', 'Default'))
         states = {p['platform']:p['state'] for p in self.preparation.snapshot()['platforms']}
-        self.assertEqual(states['Codeforces'], 'logged_out')
-        self.assertEqual(states['AtCoder'], 'logged_out')
-        with self.assertRaises(ServiceError):
-            self.preparation.check_submission('https://atcoder.jp/contests/abc100/tasks/abc100_a')
+        self.assertEqual(states['Codeforces'], 'unknown')
+        self.assertEqual(states['AtCoder'], 'unknown')
+        self.preparation.check_submission('https://atcoder.jp/contests/abc100/tasks/abc100_a')
+        self.assertIn('AtCoder', self.requested)
 
     def test_unknown_login_does_not_pretend_logged_out_or_block_original_validation(self):
         self.cache_logins(); self.connect()
@@ -104,6 +106,52 @@ class PreparationTests(unittest.TestCase):
         self.cached['Codeforces'] = {'cookies':[]}
         self.connect({'Codeforces':'logged_out'})
         self.preparation.check_submission('https://codeforces.com/contest/1/problem/A')
+
+    def test_atcoder_live_login_is_independent_of_replay_cache(self):
+        url = 'https://atcoder.jp/contests/abc100/tasks/abc100_a'
+        for state in ('logged_in', 'unknown', 'logged_out'):
+            with self.subTest(state=state):
+                self.cached['AtCoder'] = {'cookies': []}
+                self.now += 10  # Previous profile's heartbeat has expired.
+                client, key = self.connect({'AtCoder': state})
+                # Make this the browser that owns the open AtCoder page.
+                for previous in self.bridge.client_platforms:
+                    self.bridge.client_platforms[previous] = set()
+                self.bridge.browser_queue({'clientId':client, 'platforms':['AtCoder'],
+                                           'loginStates':{'AtCoder':state}}, key)
+                states = {p['platform']:p['state'] for p in self.preparation.snapshot()['platforms']}
+                self.assertEqual(states['AtCoder'], state)
+                self.preparation.check_submission(url)
+
+    def test_all_four_logins_are_recognized_without_any_tabs_or_windows(self):
+        client, key = self.connect()
+        self.bridge.browser_queue({'clientId':client,'hasWindow':False,'platforms':[],
+                                   'loginStates':{p:'logged_in' for p in DOMAINS}}, key)
+        self.assertTrue(self.preparation.snapshot()['ready'])
+        self.assertEqual(self.opened, [])
+
+    def test_desktop_restart_uses_persisted_login_metadata_without_a_browser(self):
+        self.cache_logins()
+        self.profiles.append((self.root / 'msedge.exe', 'Default'))
+        self.assertFalse(self.preparation.snapshot()['extension']['connected'])
+        self.assertTrue(self.preparation.snapshot()['ready'])
+
+    def test_all_four_stale_or_missing_snapshots_can_refresh_at_submission(self):
+        self.profiles.append((self.root / 'msedge.exe', 'Default'))
+        urls = ['https://codeforces.com/contest/1/problem/A',
+                'https://atcoder.jp/contests/abc100/tasks/abc100_a',
+                'https://ac.nowcoder.com/acm/contest/127263/B',
+                'https://www.luogu.com.cn/problem/B4536']
+        for cached in (None, {'cookies':[], 'loginState':'logged_out'}):
+            for platform, url in zip(DOMAINS, urls):
+                with self.subTest(platform=platform, cached=cached):
+                    self.cached[platform] = cached
+                    self.preparation.check_submission(url)
+                    self.assertEqual(self.requested[-1], platform)
+
+    def test_atcoder_can_validate_in_live_browser_before_cookie_sync(self):
+        self.connect({'AtCoder':'logged_out'})
+        self.preparation.check_submission('https://atcoder.jp/contests/abc100/tasks/abc100_a')
 
     def test_explicit_actions_use_fixed_extension_path_and_original_login_urls(self):
         self.preparation.action({'action':'open-folder'})

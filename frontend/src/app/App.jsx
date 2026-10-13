@@ -542,6 +542,7 @@ export default function App() {
     [commandQuery, setCommandQuery] = useState("");
   const [readerId, setReaderId] = useState(null),
     [reader, setReader] = useState(null),
+    [readerVariant, setReaderVariant] = useState("default"),
     [readerError, setReaderError] = useState(""),
     [readerFull, setReaderFull] = useState(false),
     [lectureId, setLectureId] = useState(null),
@@ -1105,6 +1106,7 @@ export default function App() {
     const sequence = ++readerSeq.current;
     setReaderId(id);
     setReader(null);
+    setReaderVariant("default");
     setReaderError("");
     try {
       const result = await api("solution?id=" + encodeURIComponent(id));
@@ -2097,9 +2099,15 @@ export default function App() {
           }}
         />
       </header>
-      <div className="reader-content">
+      {reader && <div className="reader-versions" role="group" aria-label="题解版本">
+        <button type="button" aria-pressed={readerVariant === "default"} onClick={() => setReaderVariant("default")}>默认题解</button>
+        <button type="button" aria-label="详细题解" aria-pressed={readerVariant === "detailed"} onClick={() => setReaderVariant("detailed")}>详细题解{!reader.detailedSolution && <small aria-hidden="true">待补充</small>}</button>
+      </div>}
+      <div className="reader-content" key={`${readerId}:${readerVariant}`}>
         {reader ? (
-          <>
+          readerVariant === "detailed" ? (
+            reader.detailedSolution ? <Markdown text={reader.detailedSolution.markdown} images={reader.detailedSolution.images} onCopy={copy} /> : <div className="reader-missing-detailed"><Empty title="详细题解待补充" description="这道题尚未收录详细版，可以先阅读默认题解。" /><button type="button" className="text-button" onClick={() => setReaderVariant("default")}>返回默认题解</button></div>
+          ) : !reader.markdown ? <div className="reader-missing-detailed"><Empty title="默认题解尚未收录" description="这道题已有详细版，可以切换阅读。" /><button type="button" className="text-button" onClick={() => setReaderVariant("detailed")}>阅读详细题解</button></div> : <>
             {conciseSolution && <div className="concise-solution"><p className="progress-small">入门题简明阅读 · 思路提要与完整代码</p><Markdown text={conciseSolution} images={reader.images} onCopy={copy} /></div>}
             <details className="solution-full" open={!conciseSolution} key={readerId}><summary style={conciseSolution ? undefined : {display: 'none'}}>查看完整题解与推导</summary>{readerBlocks.map((block, index) => block.type === "lecture" ? <LectureDisclosure key={index} lecture={block.lecture || {title: block.heading}} inlineMarkdown={block.markdown} images={reader.images} api={api} onTrain={openPractice} onError={(message) => notice(message, "error")} /> : <Markdown key={index} text={block.markdown} images={reader.images} onCopy={copy} />)}</details>
             {!!reader.lectures?.length && <div className="reader-lecture-references"><h3>本题的基础讲解与引用</h3>{readerReferences.map(item => <LectureDisclosure key={item.id} lecture={item} api={api} onTrain={openPractice} onError={(message) => notice(message, "error")} />)}<button className="text-button" onClick={() => go("lectures")}>查看全部知识讲解 <ArrowUpRight size={13} /></button></div>}
