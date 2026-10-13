@@ -118,7 +118,9 @@ try {
 
   await page.evaluate(() => { window.workbenchFixture.nextRunVerdict = 'WA'; });
   await editor.press('Control+r');
-  await page.waitForFunction(() => document.querySelector('.wb-result-summary')?.textContent.includes('答案错误'));
+  await page.waitForFunction(() => document.querySelector('.wb-result-summary .wb-verdict-wa')?.textContent.trim() === 'WA');
+  assert.ok(await page.locator('.wb-result-summary .wb-verdict-wa').evaluate(node => parseFloat(getComputedStyle(node).fontSize) >= 32));
+  assert.equal(await page.locator('.wb-result-summary .wb-verdict-wa').evaluate(node => getComputedStyle(node).color), 'rgb(190, 57, 76)');
   assert.equal(await page.locator('.wb-case-mismatch').count(), 2, 'WA highlights expected and actual mismatch lines');
   assert.ok(await page.getByRole('generic', { name: '样例 2 实际输出' }).count() || await page.locator('pre[aria-label="样例 2 实际输出"]').count());
   await page.getByLabel('运行输入', { exact: true }).selectOption('custom');
@@ -165,6 +167,23 @@ try {
   await page.getByRole('button', { name: /^记录/ }).click();
   await page.locator('.wb-history-main').first().click();
   assert.equal(await page.evaluate(() => window.acceptedTones), 4, 'viewing an accepted history record stays silent');
+
+  await page.evaluate(() => {
+    document.documentElement.style.setProperty('--blue', '#3e78bd');
+    document.documentElement.style.setProperty('--verdict-purple', '#8053ba');
+  });
+  await page.getByLabel('运行输入', { exact: true }).selectOption('samples');
+  for (const [verdict, color] of [['RE', 'rgb(128, 83, 186)'], ['CE', 'rgb(62, 120, 189)'], ['TLE', 'rgb(161, 100, 25)'], ['MLE', 'rgb(161, 100, 25)'], ['OLE', 'rgb(161, 100, 25)'], ['ERROR', 'rgb(190, 57, 76)']]) {
+    await page.evaluate(value => { window.workbenchFixture.nextRunVerdict = value; }, verdict);
+    await page.getByRole('button', { name: '运行样例', exact: true }).click();
+    const badge = page.locator('.wb-result-summary .wb-verdict-' + verdict.toLowerCase());
+    await badge.waitFor();
+    assert.equal(await badge.textContent(), verdict === 'ERROR' ? 'SE' : verdict);
+    assert.equal(await badge.evaluate(node => getComputedStyle(node).color), color);
+    assert.ok(await badge.evaluate(node => parseFloat(getComputedStyle(node).fontSize) >= 32));
+    if (verdict === 'RE') await page.screenshot({ path: path.join(root, 'tests', 'screenshots', 'workbench-re.png'), animations: 'disabled' });
+  }
+  assert.equal(await page.evaluate(() => window.acceptedTones), 4, 'errors never play acceptance sound');
 
   // Button Enter must remain a native click, not a preview toggle/global key.
   const solution = page.getByRole('button', { name: '题解', exact: true });

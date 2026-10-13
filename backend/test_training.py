@@ -119,6 +119,52 @@ class ServiceTests(unittest.TestCase):
         self.assertIsNone(row["queue"])
         self.assertEqual(self.library.rows[0]["status"], "独立AC")
 
+    def test_daily_training_rolls_over_at_beijing_midnight_without_erasing_history(self):
+        self.clock.value = dt.datetime(2026, 10, 12, 15, 59, 50, tzinfo=UTC)
+        self.accept("fixture::A")
+        self.service.start_training("fixture::B")
+        self.assertTrue(all(row["today"] for row in self.service.workspace()["training"]))
+        self.clock.advance(seconds=20)
+        self.assertFalse(any(row["today"] for row in self.service.workspace()["training"]))
+        self.assertEqual(self.service.workspace()["summary"]["accepted"], 1)
+        self.assertEqual(self.service.submissions()["total"], 1)
+        self.service.save_draft("fixture::B", "// today's draft")
+        self.completed("fixture::A", mode="run")
+        self.assertTrue(all(row["today"] for row in self.service.workspace()["training"]))
+        self.service.close()
+        self.service = TrainingService(self.library, self.db, self.assets, self.judge, self.clock, self.root / "backups")
+        self.assertTrue(all(row["today"] for row in self.service.workspace()["training"]))
+        self.assertEqual(self.service.submissions()["total"], 2)
+
+    def test_rejoining_an_old_problem_adds_it_to_today_once(self):
+        self.accept()
+        self.clock.advance(days=1)
+        self.assertFalse(self.service.workspace()["training"][0]["today"])
+        for _ in range(2):
+            self.service.start_training("fixture::A")
+        self.assertEqual(len(self.service.workspace()["training"]), 1)
+        self.assertTrue(self.service.workspace()["training"][0]["today"])
+        self.assertEqual(self.service.submissions()["total"], 1)
+
+    def test_daily_queue_carries_failures_and_schedules_seven_then_thirty_day_review(self):
+        self.accept("fixture::A")
+        self.accept("fixture::B", verdict="WA")
+        self.service.start_training("fixture::C")
+        self.service.mark_solution_seen("fixture::C")
+        self.accept("fixture::C", verdict="WA")
+        self.clock.advance(days=7)
+        rows = {row["id"]: row for row in self.service.workspace()["training"]}
+        self.assertEqual([rows[f"fixture::{key}"]["queue"] for key in "ABC"], ["review", "fill", "rewrite"])
+        self.assertTrue(all(row["today"] for row in rows.values()))
+        self.accept("fixture::A")
+        self.clock.advance(days=1)
+        row = next(row for row in self.service.workspace()["training"] if row["id"] == "fixture::A")
+        self.assertFalse(row["today"])
+        self.clock.advance(days=29)
+        row = next(row for row in self.service.workspace()["training"] if row["id"] == "fixture::A")
+        self.assertEqual(row["queue"], "check")
+        self.assertTrue(row["today"])
+
     def test_open_draft_and_run_are_not_participation(self):
         problem = self.service.problem("fixture::A")
         self.assertNotIn("referenceCode", problem)

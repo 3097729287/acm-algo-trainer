@@ -1,5 +1,6 @@
 import { matches } from "./model.js";
 import { compareContestNewest } from "@/lib/practiceMetadata.js";
+import { trainingDay } from "@/lib/trainingDate.js";
 
 export const QUEUES = [
   {
@@ -37,13 +38,13 @@ export const VERDICTS = {
   AC: "AC",
   SAMPLE_PASS: "样例通过",
   RUN_OK: "运行完成（未校验）",
-  WA: "答案错误",
-  TLE: "超时",
-  MLE: "内存超限",
-  RE: "运行错误",
-  CE: "编译错误",
-  OLE: "输出超限",
-  ERROR: "评测异常",
+  WA: "WA",
+  TLE: "TLE",
+  MLE: "MLE",
+  RE: "RE",
+  CE: "CE",
+  OLE: "OLE",
+  ERROR: "SE",
   RUNNING: "评测中",
   QUEUED: "排队中",
 };
@@ -54,7 +55,35 @@ export function verdictTone(value) {
   if (value === "AC") return "success";
   if (value === "SAMPLE_PASS" || ["运行完成", "RUN_OK"].includes(value)) return "sample";
   if (["QUEUED", "RUNNING"].includes(value)) return "pending";
+  if (value === "WA") return "wrong";
+  if (value === "RE") return "runtime";
+  if (["TLE", "MLE", "OLE"].includes(value)) return "limit";
+  if (value === "CE") return "compile";
   return value ? "failed" : "neutral";
+}
+export function isTodayTraining(row, now) {
+  if (typeof row.today === "boolean") return row.today;
+  const day = trainingDay(now);
+  return !!row.queue || [row.lastActivityAt, row.lastSubmittedAt, row.activeAt]
+    .some(value => value && trainingDay(value) === day);
+}
+
+export function trainingPriority(row) {
+  const rank = QUEUES.findIndex(queue => queue.id === row.queue);
+  return rank >= 0 ? rank : QUEUES.length + Number(!!row.accepted);
+}
+
+export function groupSubmissionsByDay(submissions) {
+  const groups = new Map();
+  for (const submission of [...submissions].sort((a, b) => (Date.parse(b.submittedAt) || 0) - (Date.parse(a.submittedAt) || 0))) {
+    const day = trainingDay(submission.submittedAt);
+    if (!groups.has(day)) groups.set(day, { day, submissions: [], problems: new Set(), accepted: new Set() });
+    const group = groups.get(day);
+    group.submissions.push(submission);
+    group.problems.add(submission.problemId);
+    if (submission.verdict === "AC" && submission.scope === "official") group.accepted.add(submission.problemId);
+  }
+  return [...groups.values()];
 }
 export function progressMap(workspace) {
   return new Map((workspace?.training || []).map((row) => [row.id, row]));

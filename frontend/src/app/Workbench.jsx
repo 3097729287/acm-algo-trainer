@@ -11,6 +11,7 @@ import {
 import { normalizeMarkdown } from '@/lib/normalizeMarkdown.js';
 import { normalizeStatement } from '@/lib/normalizeStatement.js';
 import { primeAcceptedSound, playAcceptedSound } from '@/lib/acceptedSound.js';
+import { verdictLabel } from '@/models/workspaceModel.js';
 import CodeEditor from '@/components/CodeEditor.jsx';
 import InlineTitle from '@/components/InlineTitle.jsx';
 import './Workbench.css';
@@ -28,11 +29,6 @@ function readStatementFontSize() {
   const uiSize = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ui-font-size')) || 16;
   return Math.min(32, Math.max(16, Math.round(uiSize / 2) * 2));
 }
-const VERDICTS = {
-  QUEUED: '等待评测', RUNNING: '正在评测', AC: 'AC', SAMPLE_PASS: '样例通过', RUN_OK: '运行完成（未校验）',
-  WA: '答案错误', TLE: '超时', MLE: '内存超限', RE: '运行错误',
-  CE: '编译错误', OLE: '输出超限', ERROR: '评测不可用',
-};
 const OFFICIAL_STATES = { loading: '后台连接原站', needs_browser: '需要同步登录', needs_login: '请在浏览器登录', needs_verification: '请在浏览器验证', ready: '已连接，可提交', submitted: '等待原站受理', judging: '评测中', finished: '评测完成', unconfirmed: '正在核对提交', error: '提交异常', closed: '会话已结束' };
 const OFFICIAL_TERMINAL = new Set(['finished', 'error', 'closed']);
 
@@ -112,7 +108,7 @@ function verdictText(submission) {
   if (!submission) return '尚未运行';
   // 旧记录里的本地 AC（scope=local + verdict=AC）现在只算样例通过，不叫 AC。
   if (submission.verdict === 'AC' && submission.scope && submission.scope !== 'official') return '样例通过（旧本地记录）';
-  return VERDICTS[submission.verdict] || submission.verdict;
+  return verdictLabel(submission.verdict);
 }
 function dateText(value) {
   if (!value) return '';
@@ -677,7 +673,7 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
     </div>
 
     {sidePracticeLocked && !endedContest && <div className="wb-notice">这题正在模拟赛中，请进入考场运行与提交。</div>}
-    {officialSession && !runningContest && <div className="wb-official-status" aria-label="原站提交状态"><div role="status"><strong>{OFFICIAL_STATES[officialSession.status] || '原站提交'}</strong><span>{officialSession.message}</span>{officialSession.submissionId && <span>提交 #{officialSession.submissionId}</span>}{officialSession.verdict && <b className={officialSession.verdict === 'AC' ? 'wb-receipt-ac' : ''}>{officialSession.verdict}</b>}</div><div className="wb-official-actions">
+    {officialSession && !runningContest && <div className="wb-official-status" aria-label="原站提交状态"><div role="status"><strong>{OFFICIAL_STATES[officialSession.status] || '原站提交'}</strong><span>{officialSession.message}</span>{officialSession.submissionId && <span>提交 #{officialSession.submissionId}</span>}{officialSession.verdict && <b className={`wb-verdict-${officialSession.verdict.toLowerCase()}${officialSession.verdict === 'AC' ? ' wb-receipt-ac' : ''}`}>{verdictLabel(officialSession.verdict)}</b>}</div><div className="wb-official-actions">
       {['needs_browser', 'needs_login', 'needs_verification', 'unconfirmed', 'error'].includes(officialSession.status) && <button type="button" className="wb-button" disabled={unavailable || openingOfficial} onClick={() => openOfficial('official/open')}>{officialSession.status === 'needs_browser' ? '连接浏览器' : '在浏览器查看'}</button>}
       {['finished', 'closed'].includes(officialSession.status) && <button type="button" className="wb-icon-button" aria-label="收起提交状态" onClick={() => setOfficialSession(null)}><ChevronUp size={14} /></button>}
     </div>{officialPollError && <p className="wb-poll-error" role="alert">{officialPollError}</p>}</div>}
