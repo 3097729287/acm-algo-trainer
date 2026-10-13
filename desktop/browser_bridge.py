@@ -199,7 +199,10 @@ class BrowserBridge:
             if not (session.get('transport') == 'browser' or self.route_to_browser(session['sessionId'])):
                 self.runner.start(session['sessionId'])
         elif not intent:
-            self.opener(session['navigateTo'] if self.runner and session['status'] != 'needs_browser' else self.base_url + '/browser-connect.html#' + fragment)
+            # Browser jobs must reveal their own tab. A separate original-site
+            # page has a different form/verification token and cannot unblock it.
+            direct = self.runner and session.get('transport') != 'browser' and session['status'] != 'needs_browser'
+            self.opener(session['navigateTo'] if direct else self.base_url + '/browser-connect.html#' + fragment)
         return self.status(session['sessionId'])
 
     def submit(self, url, code, title):
@@ -244,7 +247,8 @@ class BrowserBridge:
                 session.update(claimed=True, lastSeen=self.clock())
                 if session['status'] == 'needs_browser':
                     session['status'] = 'loading'
-                return {'url': session['navigateTo'], 'sessionId': session['sessionId'], 'status': session['status'], 'mode': 'silent' if self.session_store else 'tabs'}
+                mode = 'silent' if self.session_store and session.get('transport') != 'browser' else 'tabs'
+                return {'url': session['navigateTo'], 'sessionId': session['sessionId'], 'status': session['status'], 'mode': mode}
             page = urlsplit(str(body.get('pageUrl', '')))
             if page.scheme != 'https' or page.hostname not in LOGIN_HOSTS[session['platform']] or page.port not in (None, 443) or page.username or page.password:
                 raise ServiceError(403, '只接受本次竞赛平台的浏览器页面')
@@ -280,6 +284,12 @@ class BrowserBridge:
                 return
         if session.get('submissionId') and status in ('loading', 'ready', 'submitted'):
             return
+        if (status == 'loading' and value.get('attempted') is False
+                and session.get('dispatchedAt') is not None and not session.get('attempted')):
+            # Verification can expire while the form is being prepared. Only a
+            # confirmed pre-click wait may resume the original submit intent.
+            session.pop('dispatchedAt', None)
+            session['intent'] = True
         if session.get('dispatchedAt') is not None and status in ('ready', 'loading'):
             return
         if status in ('needs_browser', 'needs_login', 'needs_verification', 'error'):

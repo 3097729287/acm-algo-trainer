@@ -33,7 +33,7 @@ async function fixture(platform, list=empty, delay=0){
     window.ctx={sessionId:'fixture',platform,originalUrl:original,problem:platform==='Codeforces'?'A':'abc100_a',code:'int main(){}',attempted:false};
     window.messages=[];window.report=value=>{window.messages.push(value);Object.assign(window.ctx,...['attempted','baseline','baselineKnown','baselineOwner','submissionId'].filter(k=>k in value).map(k=>({[k]:value[k]})));return Promise.resolve()};
   },{platform,original});
-  return {page,requests,setPosted:()=>{posted=true}};
+  return {page,requests,setPosted:()=>{posted=true},setList:value=>{list=value}};
 }
 try{
   const first=await fixture('AtCoder');
@@ -54,16 +54,36 @@ try{
   }
   result.unknownOwnerPublicListAndLoginNeverSubmit=true;
   const pending=await fixture('AtCoder');
-  await pending.page.evaluate(()=>{document.querySelector('form').insertAdjacentHTML('beforeend','<div class="cf-challenge" data-sitekey="fixture"><input type="hidden" name="cf-turnstile-response" value=""></div>');tbOfficialPage(ctx,'submit',report);});
+  await pending.page.evaluate(()=>{document.querySelector('form').insertAdjacentHTML('beforeend','<div class="cf-challenge" data-sitekey="fixture"><iframe src="/challenge-fixture"></iframe><input type="hidden" name="cf-turnstile-response" value=""></div>');tbOfficialPage(ctx,'submit',report);});
   await pending.page.waitForFunction(()=>messages.some(m=>m.status==='loading'&&m.attempted===false));
   assert.equal(await pending.page.evaluate(()=>posts.length),0);
-  await pending.page.evaluate(()=>{window.__tbSubmissionWork.verifyingAt=Date.now()-9000;tbOfficialPage(ctx,'submit',report);});
+  await pending.page.evaluate(()=>{window.__tbSubmissionWork.verifyingAt=Date.now()-31000;tbOfficialPage(ctx,'submit',report);});
   await pending.page.waitForFunction(()=>messages.some(m=>m.status==='needs_verification'&&m.attempted===false));
   assert.equal(await pending.page.evaluate(()=>posts.length),0);
   await pending.page.evaluate(()=>{document.querySelector('[name="cf-turnstile-response"]').value='fixture-site-token';tbOfficialPage(ctx,'submit',report);});
   await pending.page.waitForFunction(()=>posts.length===1);
   assert.equal(await pending.page.evaluate(()=>posts[0]['cf-turnstile-response']),'fixture-site-token');
   await pending.page.close();result.atcoderVerificationBeforeDispatch=true;
+  const expiring=await fixture('AtCoder',empty,400);
+  await expiring.page.evaluate(()=>{
+    document.querySelector('form').insertAdjacentHTML('beforeend','<div class="cf-turnstile"><iframe src="/challenge-fixture"></iframe><input type="hidden" name="cf-turnstile-response" value="fixture-site-token"></div>');
+    document.querySelectorAll('select').forEach(e=>e.addEventListener('change',()=>{throw new Error('Already selected AtCoder task/language must not be reset')}));
+    tbOfficialPage(ctx,'submit',report);
+    setTimeout(()=>{document.querySelector('[name="cf-turnstile-response"]').value=''},50);
+  });
+  await expiring.page.waitForFunction(()=>messages.some(m=>m.status==='loading'&&m.attempted===false));
+  assert.equal(await expiring.page.evaluate(()=>posts.length),0);
+  await expiring.page.evaluate(()=>{document.querySelector('[name="cf-turnstile-response"]').value='fixture-renewed-token';tbOfficialPage(ctx,'submit',report)});
+  await expiring.page.waitForFunction(()=>posts.length===1);
+  assert.equal(await expiring.page.evaluate(()=>posts[0]['cf-turnstile-response']),'fixture-renewed-token');
+  await expiring.page.close();result.atcoderExpiredTokenWaitsForRenewal=true;
+  const recover=await fixture('AtCoder','Temporary upstream error');
+  await recover.page.evaluate(()=>tbOfficialPage(ctx,'submit',report));
+  await recover.page.waitForFunction(()=>messages.some(m=>m.status==='error'));
+  recover.setList(empty);
+  await recover.page.evaluate(()=>tbOfficialPage(ctx,'submit',report));
+  await recover.page.waitForFunction(()=>posts.length===1);
+  await recover.page.close();result.atcoderFailedSnapshotCanRecover=true;
   const invalidForm=await fixture('AtCoder');
   await invalidForm.page.evaluate(()=>{document.querySelector('form').insertAdjacentHTML('beforeend','<input name="required-field" required>');tbOfficialPage(ctx,'submit',report);});
   await invalidForm.page.waitForFunction(()=>messages.some(m=>m.status==='error'&&m.attempted===false&&m.message.includes('表单未通过校验')));

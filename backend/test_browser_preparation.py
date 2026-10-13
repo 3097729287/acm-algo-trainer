@@ -74,6 +74,7 @@ class PreparationTests(unittest.TestCase):
         self.connect({platform:'logged_in' for platform in DOMAINS})
         self.cached['Codeforces']['cookies'] = [{'name':'expired','value':'old','expirationDate':1}]
         self.cached['AtCoder']['cookies'] = []
+        self.now = 20  # No live browser remains to validate the original session.
         states = {p['platform']:p['state'] for p in self.preparation.snapshot()['platforms']}
         self.assertEqual(states['Codeforces'], 'logged_out')
         self.assertEqual(states['AtCoder'], 'logged_out')
@@ -104,6 +105,25 @@ class PreparationTests(unittest.TestCase):
         self.cached['Codeforces'] = {'cookies':[]}
         self.connect({'Codeforces':'logged_out'})
         self.preparation.check_submission('https://codeforces.com/contest/1/problem/A')
+
+    def test_atcoder_live_login_is_independent_of_replay_cache(self):
+        url = 'https://atcoder.jp/contests/abc100/tasks/abc100_a'
+        for state in ('logged_in', 'unknown', 'logged_out'):
+            with self.subTest(state=state):
+                self.cached['AtCoder'] = {'cookies': []}
+                client, key = self.connect({'AtCoder': state})
+                # Make this the browser that owns the open AtCoder page.
+                for previous in self.bridge.client_platforms:
+                    self.bridge.client_platforms[previous] = set()
+                self.bridge.browser_queue({'clientId':client, 'platforms':['AtCoder'],
+                                           'loginStates':{'AtCoder':state}}, key)
+                states = {p['platform']:p['state'] for p in self.preparation.snapshot()['platforms']}
+                self.assertEqual(states['AtCoder'], state)
+                self.preparation.check_submission(url)
+
+    def test_atcoder_can_validate_in_live_browser_before_cookie_sync(self):
+        self.connect({'AtCoder':'logged_out'})
+        self.preparation.check_submission('https://atcoder.jp/contests/abc100/tasks/abc100_a')
 
     def test_explicit_actions_use_fixed_extension_path_and_original_login_urls(self):
         self.preparation.action({'action':'open-folder'})

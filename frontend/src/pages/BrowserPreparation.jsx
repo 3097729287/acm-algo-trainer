@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { CheckCircle2, ExternalLink, FolderOpen, Plug, RefreshCw, X } from 'lucide-react';
+import { ExternalLink, FolderOpen, Plug, RefreshCw, X } from 'lucide-react';
 import './BrowserPreparation.css';
 
 const labels = {logged_in:'已登录',logged_out:'未登录或登录已失效',not_synced:'尚未同步登录',unknown:'登录状态待确认'};
@@ -63,11 +63,11 @@ export default function BrowserPreparation({ api, enabled }) {
   const status = !extension.installed ? '尚未安装或启用 TB 浏览器连接扩展'
     : !extension.connected ? '扩展已安装，浏览器当前未连接' : 'TB 浏览器连接扩展已连接';
   return <>
-    <section className={`browser-preparation-notice${snapshot.ready ? ' browser-prepared' : ''}`} aria-label="浏览器提交准备" role="status">
-      {snapshot.ready ? <CheckCircle2 size={16}/> : <Plug size={16}/>}
-      <span>{snapshot.ready ? '四个平台的浏览器登录已准备好' : !extension.installed ? '原站提交前，请先安装浏览器连接扩展，再登录原站账号。' : `原站提交准备：${missing.map(item => item.platform).join('、') || '浏览器连接'}还需检查。`}</span>
+    {!snapshot.ready && <section className="browser-preparation-notice" aria-label="浏览器提交准备" role="status">
+      <Plug size={16}/>
+      <span>{!extension.installed ? '原站提交前，请先安装浏览器连接扩展，再登录原站账号。' : `原站提交准备：${missing.map(item => item.platform).join('、') || '浏览器连接'}还需检查。`}</span>
       <button className="browser-guide-button" onClick={() => { setContext(null); setOpen(true); refresh(); }}>查看准备说明</button>
-    </section>
+    </section>}
     <dialog className="browser-preparation-dialog" ref={dialog} aria-labelledby="browser-preparation-title" onCancel={event => { event.preventDefault(); setOpen(false); }}>
       <header><div><h2 id="browser-preparation-title">浏览器提交准备</h2><p>按顺序完成一次，之后即可在 TB 提交题目。</p></div><button ref={close} className="browser-guide-button" aria-label="关闭浏览器准备说明" onClick={() => setOpen(false)}><X size={18}/></button></header>
       <div className="browser-guide-body">

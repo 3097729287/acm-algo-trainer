@@ -89,6 +89,40 @@ class BrowserBridgeTests(unittest.TestCase):
         self.exchange(event={'status': 'ready'})
         self.assertEqual(self.exchange()['action'], 'submit')
 
+    def test_verification_expiring_before_click_keeps_single_submit_intent(self):
+        first = self.dispatch()
+        self.exchange(event={'status':'loading', 'attempted':False, 'message':'Waiting for verification'})
+        self.assertNotIn('dispatchedAt', self.bridge.sessions[self.sid])
+        self.assertEqual(self.exchange()['action'], 'inspect')
+        self.exchange(event={'status':'ready'})
+        second = self.exchange()
+        self.assertEqual(second['action'], 'submit')
+        self.assertGreater(second['command'], first['command'])
+        self.exchange(event={'status':'submitted', 'attempted':True})
+        dispatched_at = self.bridge.sessions[self.sid]['dispatchedAt']
+        self.exchange(event={'status':'loading', 'attempted':False})
+        self.exchange(event={'status':'ready'})
+        self.assertEqual(self.exchange()['action'], 'inspect')
+        self.assertTrue(self.bridge.sessions[self.sid]['attempted'])
+        self.assertEqual(self.bridge.sessions[self.sid]['dispatchedAt'], dispatched_at)
+
+    def test_view_browser_verification_reconnects_the_existing_tab_without_submit(self):
+        from types import SimpleNamespace
+        self.create(); self.exchange(claim=True)
+        self.bridge.session_store = object()
+        self.bridge.runner = SimpleNamespace(start=lambda _:self.fail('Must keep the browser tab'))
+        self.bridge.sessions[self.sid]['transport'] = 'browser'
+        self.exchange(event={'status':'needs_verification', 'attempted':False})
+        opened = self.bridge.open(self.url, 'int main(){}', 'fixture')
+        self.assertEqual(opened['sessionId'], self.sid)
+        self.assertTrue(self.opened[-1].startswith(self.bridge.base_url + '/browser-connect.html#'))
+        self.assertEqual(self.exchange(claim=True)['mode'], 'tabs')
+        self.exchange(event={'status':'ready'})
+        self.assertEqual(self.exchange()['action'], 'inspect')
+        self.bridge.submit(self.url, 'int main(){}', 'fixture')
+        self.exchange(event={'status':'ready'})
+        self.assertEqual(self.exchange()['action'], 'submit')
+
     def test_open_button_is_read_only_after_an_unknown_result(self):
         self.dispatch(); self.now = 46
         self.assertEqual(self.bridge.status(self.sid)['status'], 'unconfirmed')

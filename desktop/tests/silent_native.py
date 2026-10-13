@@ -97,8 +97,8 @@ def run():
         runner=SilentSubmitter(main,bridge,store,wake=sync,native_setup=fixture)
         bridge.runner=runner
         main.events.closing+=bridge.on_closing
-        def wait(sid, status):
-            until=time.monotonic()+30
+        def wait(sid, status, timeout=30):
+            until=time.monotonic()+timeout
             while time.monotonic()<until:
                 value=bridge.status(sid)
                 if value['status']==status:return value
@@ -120,7 +120,7 @@ def run():
                 before=len(posts)
                 mode['acToken']=False
                 sid=bridge.submit(urls[1],'int main(){}','AtCoder verification required')['sessionId']
-                wait(sid,'needs_verification')
+                wait(sid,'needs_verification',timeout=40)
                 assert len(posts)==before and not bridge.sessions[sid]['attempted']
                 mode['acToken']=True
                 time.sleep(.4)

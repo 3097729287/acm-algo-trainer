@@ -1,9 +1,9 @@
 // Preparation hints only. Original-site submission still verifies the account.
 function tbCookieLoginState(platform, cookies) {
   const live = cookies.filter(cookie => cookie.value && (!cookie.expirationDate || cookie.expirationDate > Date.now() / 1000));
-  // CF's live browser session is authoritative; a replayable cookie export
+  // The live CF/AtCoder browser session is authoritative; a cookie export
   // can be empty without proving that the original page is logged out.
-  if (!live.length) return platform === 'Codeforces' ? 'unknown' : 'logged_out';
+  if (!live.length) return ['Codeforces','AtCoder'].includes(platform) ? 'unknown' : 'logged_out';
   if (platform === '牛客' && live.some(cookie => cookie.name === 't')) return 'logged_in';
   if (platform === '洛谷') {
     const user = live.find(cookie => cookie.name === '_uid');

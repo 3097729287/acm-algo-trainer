@@ -31,6 +31,8 @@ class Fixture(Handler):
             self.send_json(200, value)
         elif target.path == '/fixture/status':
             self.send_json(200, {key: self.server.browser_bridge.status(sid) for key, sid in sessions.items()})
+        elif target.path == '/fixture/view':
+            self.send_json(200, self.server.browser_bridge.open(query['url'][0], 'int main(){}', 'fixture'))
         elif target.path == '/fixture/saved':
             self.send_json(200, [{'status': s['status'], 'platform': s['platform'], 'verdict': s['verdict']} for s in saved])
         elif target.path == '/fixture/opened':

@@ -40,20 +40,22 @@ class BrowserPreparation:
             states = dict(bridge.client_login_states.get(bridge.sync_client, {}))
             versions = [bridge.client_versions.get(client, '') for client, at in bridge.client_seen.items()
                         if bridge.clock() - at <= 6]
-            cf_client = bridge._browser_client('Codeforces')
-            cf_live = bool(cf_client and 'Codeforces' in bridge.client_platforms.get(cf_client, set()))
-            if cf_live:
-                states['Codeforces'] = bridge.client_login_states.get(cf_client, {}).get('Codeforces', 'unknown')
+            live = set()
+            for platform in ('Codeforces', 'AtCoder'):
+                client = bridge._browser_client(platform)
+                if client and platform in bridge.client_platforms.get(client, set()):
+                    live.add(platform)
+                    states[platform] = bridge.client_login_states.get(client, {}).get(platform, 'unknown')
         installed = bool(profiles) or connected
         platforms = []
         for platform in DOMAINS:
             cached = bridge.session_store.snapshot(platform) if bridge.session_store else None
             state = states.get(platform, 'unknown')
             if cached is None:
-                state = state if platform == 'Codeforces' and cf_live else 'not_synced'
+                state = state if platform in live else 'not_synced'
             elif not any(cookie.get('value') and cookie.get('expirationDate', float('inf')) > time.time()
                          for cookie in cached.get('cookies', [])):
-                state = state if platform == 'Codeforces' and cf_live else 'logged_out'
+                state = state if platform in live else 'logged_out'
             platforms.append({'platform': platform, 'state': state, 'loginUrl': LOGIN_URLS[platform]})
         return {'available': True, 'extensionPath': str(self.path),
                 'extension': {'installed': installed, 'connected': connected, 'versions': versions},
@@ -68,7 +70,7 @@ class BrowserPreparation:
         state = next(p['state'] for p in value['platforms'] if p['platform'] == platform)
         if not value['extension']['installed']:
             raise ServiceError(412, '请先安装并启用 TB 浏览器连接扩展，按“浏览器提交准备”中的步骤操作')
-        if platform == 'Codeforces':
+        if platform in ('Codeforces', 'AtCoder'):
             # The already-running browser validates its own account and native
             # form before sending. A stale/empty replay cache must not stop it.
             with self.bridge.lock:

@@ -94,12 +94,22 @@ async function pollQueues() {
           if (['closed', 'finished', 'error'].includes(claim.status)) continue;
           const target = new URL(claim.url);
           if (target.protocol !== 'https:' || !hosts.has(target.hostname)) continue;
+          let tab;
+          if (target.hostname === 'atcoder.jp') {
+            for (const candidate of tabs.filter(t=>!t.incognito&&!saved[t.id]&&new URL(t.url).origin===target.origin&&new URL(t.url).pathname===target.pathname)) {
+              try {
+                const probe = await Promise.race([chrome.tabs.sendMessage(candidate.id,{type:'submission-page',url:target.href}),new Promise(resolve=>setTimeout(()=>resolve({}),750))]);
+                if (probe?.available) { tab=candidate;job.owned=false;break; }
+              } catch { /* A stale page without the connector is not reusable. */ }
+            }
+          }
           const matching=tabs.find(tab=>!tab.incognito&&new URL(tab.url).hostname===target.hostname);
-          const tab = await chrome.tabs.create({ windowId: matching?.windowId||(regularWindows.find(w => w.focused) || regularWindows[0]).id, url: 'about:blank', active: false });
+          if (!tab) tab = await chrome.tabs.create({ windowId: matching?.windowId||(regularWindows.find(w => w.focused) || regularWindows[0]).id, url: 'about:blank', active: false });
           job.tabId = tab.id;
           saved[tab.id] = job;
           await chrome.storage.session.set({ jobs: saved });
-          await chrome.tabs.update(tab.id, { url: target.href });
+          if (job.owned) await chrome.tabs.update(tab.id, { url: target.href });
+          else await chrome.tabs.sendMessage(tab.id, {type:'wake'}).catch(()=>{});
         }
       } catch { /* No browser window or missing TB: wait for the next heartbeat. */ }
     }
@@ -135,12 +145,22 @@ async function handle(message, sender) {
     // A reconnect reuses its own submission tab instead of creating a second submitter.
     const saved = (await chrome.storage.session.get('jobs')).jobs || {};
     const old = Object.values(saved).find(j => j.sessionId === job.sessionId && j.base === job.base);
+    let existing;
     if (old && old.tabId !== job.tabId) {
-      try { await chrome.tabs.get(old.tabId); job.tabId = old.tabId; } catch { delete saved[old.tabId]; }
+      try {
+        const tab = await chrome.tabs.get(old.tabId), current = new URL(tab.url);
+        if (current.protocol === 'https:' && current.hostname === target.hostname) { existing=tab;job.tabId=old.tabId;job.owned=old.owned; }
+      } catch { delete saved[old.tabId]; }
     }
     saved[job.tabId] = job;
     await chrome.storage.session.set({ jobs: saved });
-    await chrome.tabs.update(job.tabId, { url: target.href, active: true });
+    // Preserve this tab's form and completed verification. Reloading it here
+    // would discard precisely the state the user needs to inspect or complete.
+    await chrome.tabs.update(job.tabId, { ...(existing ? {} : {url:target.href}), active: true });
+    if (existing) {
+      await chrome.windows.update(existing.windowId, {focused:true});
+      await chrome.tabs.sendMessage(job.tabId, {type:'wake'}).catch(()=>{});
+    }
     if (job.tabId !== sender.tab.id) await chrome.tabs.remove(sender.tab.id);
     return { connected: true };
   }

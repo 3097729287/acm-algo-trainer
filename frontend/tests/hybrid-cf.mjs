@@ -11,6 +11,8 @@ import {fixtureExtension} from './extension-fixture.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 const atcoder=process.argv.includes('--atcoder'),platform=atcoder?'AtCoder':'Codeforces';
 const preparation=process.argv.includes('--preparation');
+const reuse=process.argv.includes('--reuse'), verification=process.argv.includes('--verification'), draft=process.argv.includes('--draft');
+assert.ok(!(reuse||verification||draft)||atcoder);
 const officialHost=atcoder?'atcoder.jp':'codeforces.com';
 const original=atcoder?'https://atcoder.jp/contests/abc100/tasks/abc100_a':'https://codeforces.com/contest/123/problem/A';
 const fixtureKey=atcoder?'ac':'cf',receiptId=atcoder?'2002':'1002';
@@ -33,7 +35,7 @@ try{
   requests.push({url:req.url(),type:req.resourceType()});
   assert.equal(url.hostname,officialHost);
   if(atcoder){
-   const account='<nav class="navbar"><a href="/users/fixture">fixture</a></nav>';
+   const account='<script>var userScreenName="fixture";</script><nav class="navbar"><a href="/users/fixture">fixture</a></nav>';
    const row='<table><tr><th>Submission Time</th><th>Status</th></tr><tr><td><a href="/contests/abc100/submissions/2002">2002</a><a href="/contests/abc100/tasks/abc100_a">A</a><a href="/users/fixture">fixture</a></td><td><span class="label">AC</span></td></tr></table>';
    if(req.method()==='POST'){
     const form=new URLSearchParams(req.postData());
@@ -44,7 +46,8 @@ try{
     posts.push(req.url());accepted=true;return route.fulfill({contentType:'text/html',body:account+row});
    }
    if(url.pathname.endsWith('/submissions/me'))return route.fulfill({contentType:'text/html',body:'<title>My Submissions - Fixture</title>'+account+(accepted?row:'<div class="panel-body">No Submissions</div>')});
-   return route.fulfill({contentType:'text/html',body:account+'<form method="post"><input name="csrf_token" value="fixture-csrf" type="hidden"><select name="data.TaskScreenName"><option value="abc100_a">A</option></select><select name="data.LanguageId" required><option value="">Select</option><option value="6017">C++23 (GCC 15.2.0)</option></select><textarea name="sourceCode"></textarea><div class="cf-challenge"><input type="hidden" name="cf-turnstile-response" value="fixture-site-token"></div><input type="submit" value="Submit"></form>'});
+   if(url.pathname==='/challenge-fixture')return route.fulfill({contentType:'text/html',body:'<p>Fixture verification widget</p>'});
+   return route.fulfill({contentType:'text/html',body:account+'<form method="post"><input name="csrf_token" value="fixture-csrf" type="hidden"><select name="data.TaskScreenName"><option value="abc100_a">A</option></select><select name="data.LanguageId" required><option value="">Select</option><option value="6017">C++23 (GCC 15.2.0)</option></select><textarea name="sourceCode"></textarea><div class="cf-challenge"><iframe src="/challenge-fixture"></iframe><input type="hidden" name="cf-turnstile-response" value="'+(verification?'':'fixture-site-token')+'"></div><input type="submit" value="Submit"></form>'});
   }
   if(req.method()==='POST'){
    const form=new URLSearchParams(req.postData());
@@ -58,30 +61,64 @@ try{
   return route.fulfill({contentType:'text/html',body:account+'<form method="post"><input name="csrf_token" value="fixture-csrf" type="hidden"><select name="submittedProblemIndex"><option value="A">A</option></select><select name="programTypeId"><option value="54">GNU C++17</option></select><textarea name="source"></textarea><input type="submit" value="Submit"></form>'});
  });
  if(preparation){
-  assert.ok(!atcoder);
   // The real browser remains signed in, while the replayable cookie export is
   // empty. The preparation gate must use the actual page and permit its form.
-  await worker.evaluate(()=>{const original=chrome.cookies.getAll.bind(chrome.cookies);chrome.cookies.getAll=details=>details.domain==='codeforces.com'?Promise.resolve([]):original(details)});
-  await foreground.goto('https://codeforces.com/');
+  await worker.evaluate(host=>{const original=chrome.cookies.getAll.bind(chrome.cookies);chrome.cookies.getAll=details=>details.domain===host?Promise.resolve([]):original(details)},officialHost);
+  await foreground.goto('https://'+officialHost+'/');
   let snapshot;
   for(let i=0;i<150;i++){
    snapshot=await(await fetch(base+'/fixture/preparation')).json();
-   if(snapshot.platforms.find(p=>p.platform==='Codeforces')?.state==='logged_in')break;
+   if(snapshot.platforms.find(p=>p.platform===platform)?.state==='logged_in')break;
    await new Promise(r=>setTimeout(r,100));
   }
-  assert.equal(snapshot.platforms.find(p=>p.platform==='Codeforces')?.state,'logged_in',JSON.stringify(snapshot));
+  assert.equal(snapshot.platforms.find(p=>p.platform===platform)?.state,'logged_in',JSON.stringify(snapshot));
+ }
+ if(reuse||draft){
+  await foreground.goto('https://atcoder.jp/contests/abc100/submit?taskScreenName=abc100_a');
+  if(draft)await foreground.locator('textarea').fill('browser draft must survive');
  }
  for(let i=0;i<100;i++){const value=await(await fetch(base+'/fixture/browser')).json();if(value.connected&&value.hasWindow)break;await new Promise(r=>setTimeout(r,100))}
  const started=performance.now();
  const response=await fetch(base+'/fixture/create?'+new URLSearchParams({key:fixtureKey,url:original}));assert.equal(response.status,200);
+ if(verification){
+  let tab;
+  for(let i=0;i<100;i++){
+   tab=browser.pages().find(p=>p.url().includes('/contests/abc100/submit'));
+   if(tab&&await tab.evaluate(()=>Boolean(window.__tbSubmissionWork?.verifyingAt)))break;
+   await new Promise(r=>setTimeout(r,100));
+  }
+  assert.ok(tab);
+  await tab.evaluate(()=>{window.__tbSubmissionWork.verifyingAt=Date.now()-31000});
+  for(let i=0;i<50;i++){
+   const state=(await(await fetch(base+'/fixture/status')).json())[fixtureKey];
+   if(state.status==='needs_verification')break;
+   await new Promise(r=>setTimeout(r,100));
+  }
+  assert.equal((await(await fetch(base+'/fixture/status')).json())[fixtureKey].status,'needs_verification');
+  assert.equal(posts.length,0);
+  // Viewing must attach to this exact form, including its completed token.
+  await tab.evaluate(()=>{document.querySelector('[name="cf-turnstile-response"]').value='fixture-site-token'});
+  await fetch(base+'/fixture/view?'+new URLSearchParams({url:original}));
+  const opened=await(await fetch(base+'/fixture/opened')).json();assert.equal(opened.length,1);
+  assert.ok(opened[0].startsWith(base+'/browser-connect.html#'));
+  const helper=await browser.newPage();await helper.goto(opened[0]);
+  for(let i=0;i<80&&!helper.isClosed();i++)await new Promise(r=>setTimeout(r,100));
+  assert.ok(helper.isClosed());
+  assert.equal(await tab.locator('[name="cf-turnstile-response"]').inputValue(),'fixture-site-token');
+  assert.equal(requests.filter(r=>new URL(r.url).pathname.endsWith('/submit')&&r.type==='document').length,1);
+  assert.equal(posts.length,0,'Viewing/verification alone must not submit');
+  const retry=await fetch(base+'/fixture/create?'+new URLSearchParams({key:fixtureKey,url:original}));assert.equal(retry.status,200);
+ }
  let status;
  for(let i=0;i<150;i++){status=(await(await fetch(base+'/fixture/status')).json())[fixtureKey];if(status.status==='finished')break;if(status.status==='error')throw new Error(JSON.stringify(status));await new Promise(r=>setTimeout(r,100))}
  if(status.verdict!=='AC')console.log(JSON.stringify({status,serverErrors,errors,pages:await Promise.all(browser.pages().map(async p=>({url:p.url(),dom:await p.evaluate(()=>({ready:document.readyState,text:document.body?.innerText?.slice(0,250),work:window.__tbSubmissionWork?.key,commandListener:String(window.tbOfficialPage).slice(0,50)}))}))),jobs:await worker.evaluate(async()=>Object.values((await chrome.storage.session.get('jobs')).jobs||{}).map(j=>({sessionId:j.sessionId,tabId:j.tabId,base:j.base})))}));
  assert.equal(status.verdict,'AC',JSON.stringify(status));assert.equal(status.submissionId,receiptId);assert.equal(posts.length,1);
- assert.equal((await(await fetch(base+'/fixture/opened')).json()).length,0);
- assert.equal(await worker.evaluate(async()=>(await chrome.tabs.query({active:true,lastFocusedWindow:true}))[0].id),active);
+ assert.equal((await(await fetch(base+'/fixture/opened')).json()).length,verification?1:0);
+ if(!verification)assert.equal(await worker.evaluate(async()=>(await chrome.tabs.query({active:true,lastFocusedWindow:true}))[0].id),active);
+ if(reuse){assert.equal(foreground.isClosed(),false);assert.equal(requests.filter(r=>new URL(r.url).pathname.endsWith('/submit')&&r.type==='document').length,2,'One original GET and one native POST; no reload or second submit tab');}
+ if(draft)assert.equal(await foreground.locator('textarea').inputValue(),'browser draft must survive');
  assert.deepEqual(errors,[],JSON.stringify({errors,requests}));
- console.log(JSON.stringify({ok:true,platform,hybridMode:true,emptyReplayCacheWithOriginalLogin:preparation,actualBrowserCookiesPreserved:true,nativeFormCsrf:true,exactReceipt:true,fixtureSeconds:Number(((performance.now()-started)/1000).toFixed(3)),posts:1,foregroundUnchanged:true,realAccountSubmission:false}));
+ console.log(JSON.stringify({ok:true,platform,hybridMode:true,emptyReplayCacheWithOriginalLogin:preparation,existingVerifiedTabReused:reuse,verificationViewPreservesForm:verification,browserDraftPreserved:draft,actualBrowserCookiesPreserved:true,nativeFormCsrf:true,exactReceipt:true,fixtureSeconds:Number(((performance.now()-started)/1000).toFixed(3)),posts:1,foregroundUnchanged:!verification,realAccountSubmission:false}));
 }finally{
  if(browser)await browser.close();server.kill();
  assert.ok(path.resolve(profile).startsWith(path.resolve(os.tmpdir())+path.sep));
