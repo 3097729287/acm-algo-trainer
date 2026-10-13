@@ -16,6 +16,7 @@ import threading
 import uuid
 
 UTC = dt.timezone.utc
+TRAINING_ZONE = dt.timezone(dt.timedelta(hours=8))
 FAILURES = {"WA", "TLE", "MLE", "RE", "CE", "OLE", "ERROR"}
 VERDICTS = FAILURES | {"AC", "SAMPLE_PASS", "RUN_OK", "QUEUED", "RUNNING"}
 MAX_CODE = 65_536
@@ -221,7 +222,7 @@ class TrainingService:
             return self.judge
 
     def _activate(self, connection, identity, timestamp):
-        connection.execute("INSERT INTO training(id,active_at) VALUES(?,?) ON CONFLICT(id) DO UPDATE SET active=1,removed_at=NULL", (identity, timestamp))
+        connection.execute("INSERT INTO training(id,active_at) VALUES(?,?) ON CONFLICT(id) DO UPDATE SET active=1,removed_at=NULL,active_at=MAX(training.active_at,excluded.active_at)", (identity, timestamp))
         self._recompute_progress(connection, identity)
 
     def _identity_map(self, library=None):
@@ -255,9 +256,8 @@ class TrainingService:
     def start_training(self, identity):
         with self.lock:
             self._row(identity)
-            if not self.connection.execute("SELECT 1 FROM training WHERE id=? AND active=1", (identity,)).fetchone():
-                with self._write() as connection:
-                    self._activate(connection, identity, iso(self._now()))
+            with self._write() as connection:
+                self._activate(connection, identity, iso(self._now()))
             return {"workspace": self.workspace()}
 
     def remove_training(self, identity):
@@ -1300,6 +1300,12 @@ class TrainingService:
             running = self.connection.execute("SELECT * FROM contests WHERE status='running'").fetchone()
             locked = self._locked_ids(running) if running else set()
             now = self._now()
+            today = now.astimezone(TRAINING_ZONE).date()
+            # Keep the complete personal history; only the daily view is derived.
+            activity = {}
+            for event in self.connection.execute("SELECT problem_id,submitted_at AS at FROM submissions UNION ALL SELECT problem_id,saved_at AS at FROM drafts"):
+                identity = aliases.get(event["problem_id"], event["problem_id"])
+                activity[identity] = max(activity.get(identity, ""), event["at"])
             training = []
             for record in self.connection.execute("SELECT * FROM training WHERE active=1 ORDER BY active_at,id"):
                 canonical = aliases.get(record["id"], record["id"])
@@ -1311,10 +1317,10 @@ class TrainingService:
                 accepted = bool(accepted_at)
                 queue = None
                 if canonical not in locked:
-                    if latest and latest["verdict"] in FAILURES or record["mock_due"]:
-                        queue = "fill"
-                    elif record["rewrite_due"]:
+                    if record["rewrite_due"]:
                         queue = "rewrite"
+                    elif latest and latest["verdict"] in FAILURES or record["mock_due"]:
+                        queue = "fill"
                     elif latest and latest["verdict"] == "SAMPLE_PASS" and not accepted:
                         queue = "verify"
                     elif accepted and record["review_count"]:
@@ -1333,6 +1339,8 @@ class TrainingService:
                 last_attempt = attempts[-1] if attempts else None
                 accepted_scope = ('official' if any(submission['scope']=='official' and submission['verdict']=='AC' for submission in completed) else 'local') if accepted else None
                 item.update({"id": canonical, "accepted": accepted, "verdict": last_attempt["verdict"] if last_attempt else None, "scope": accepted_scope if accepted else last_attempt["scope"] if last_attempt else None, "attempts": len(attempts), "acceptedAt": accepted_at, "lastSubmittedAt": attempts[-1]["submitted_at"] if attempts else None, "queue": queue, "reviewCount": record["review_count"], "solutionSeen": bool(record["solution_pending"] or record["rewrite_due"]), "activeAt": record["active_at"]})
+                last_activity = max(activity.get(canonical, ""), record["active_at"], record["solution_seen_at"] or "")
+                item.update(lastActivityAt=last_activity, today=bool(queue or canonical in locked or parse_time(last_activity).astimezone(TRAINING_ZONE).date() == today))
                 if canonical in locked:
                     item.update({"difficulty": None, "tags": [], "knowledge": ""})
                 training.append(item)
@@ -1343,6 +1351,8 @@ class TrainingService:
                     previous["queue"] = previous["queue"] or item["queue"]
                     previous["solutionSeen"] = previous["solutionSeen"] or item["solutionSeen"]
                     previous["reviewCount"] = max(previous["reviewCount"], item["reviewCount"])
+                    previous["today"] = previous["today"] or item["today"]
+                    previous["lastActivityAt"] = max(previous["lastActivityAt"], item["lastActivityAt"])
                 else:
                     merged[item["id"]] = item
             training = list(merged.values())
