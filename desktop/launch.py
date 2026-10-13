@@ -242,6 +242,8 @@ def run_desktop() -> int:
         official.runner = SilentSubmitter(window, official, sessions)
         server.browser_bridge = official
         server.browser_extension_path = APP_DIR / 'browser-extension' if getattr(sys, 'frozen', False) else APP_DIR / 'build' / 'browser-extension'
+        from browser_preparation import BrowserPreparation
+        server.browser_preparation = BrowserPreparation(official, server.browser_extension_path)
         server.official_opener = official.open
         server.official_submitter = official.submit
         server.official_status = official.status
@@ -301,7 +303,7 @@ def main(argv=None) -> int:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 3 and sys.argv[1] in ("--package-check", "--serve-check", "--native-check"):
+    if len(sys.argv) == 3 and sys.argv[1] in ("--package-check", "--serve-check", "--serve-account-check", "--native-account-check", "--native-check", "--account-network-check"):
         from release_probe import run
         raise SystemExit(run(sys.argv[1], sys.argv[2]))
     if len(sys.argv) == 2 and sys.argv[1] == "--migrate-local":

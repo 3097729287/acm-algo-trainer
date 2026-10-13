@@ -175,6 +175,34 @@ class BrowserBridgeTests(unittest.TestCase):
         finally:
             server.shutdown(); server.server_close()
 
+    def test_http_hybrid_only_exposes_explicit_browser_transport(self):
+        from backend import Handler
+        from http.server import ThreadingHTTPServer
+        import uuid
+        self.bridge.session_store = object()
+        client = str(uuid.uuid4())
+        key = self.bridge.register_browser({'clientId':client, 'protocol':3})['key']
+        self.bridge.client_seen[client] = 0
+        self.bridge.client_windows[client] = True
+        cf = self.bridge.submit('https://codeforces.com/contest/123/problem/A', 'int main(){}', 'fixture')
+        self.assertTrue(self.bridge.route_to_browser(cf['sessionId']))
+        ac = self.bridge.submit('https://atcoder.jp/contests/abc100/tasks/abc100_a', 'private native code', 'fixture')
+        server = ThreadingHTTPServer(('127.0.0.1',0), Handler)
+        server.frontend_origins=set();server.browser_bridge=self.bridge
+        threading.Thread(target=server.serve_forever, daemon=True).start()
+        try:
+            for answer,url,expected in [(cf,'https://codeforces.com/contest/123/submit',False),(ac,'https://atcoder.jp/contests/abc100/submit',True)]:
+                session=self.bridge.sessions[answer['sessionId']]
+                body=json.dumps({'sessionId':answer['sessionId'],'pageUrl':url}).encode()
+                headers={'Content-Type':'application/json','Origin':EXTENSION_ORIGIN,'X-TB-Browser':session['capability'],'X-TB-Browser-Client':EXTENSION_ID}
+                with urlopen(Request('http://127.0.0.1:'+str(server.server_port)+'/api/browser/exchange',body,headers),timeout=5) as response:
+                    value=json.load(response)
+                self.assertEqual(bool(value.get('stop')),expected)
+                if expected:self.assertNotIn('context',value)
+                else:self.assertEqual(value['context']['code'],'int main(){}')
+        finally:
+            server.shutdown();server.server_close()
+
 
 if __name__ == '__main__':
     unittest.main()

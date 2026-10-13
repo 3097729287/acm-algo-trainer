@@ -16,7 +16,7 @@ export async function startMySQLFixture({ now } = {}) {
     await admin.query(`CREATE DATABASE ${database} CHARACTER SET utf8mb4 COLLATE utf8mb4_bin`);
     const pool = mysql.createPool({ ...options, database, connectionLimit: 10 });
     STORE = new MySQLStore(pool);
-    const schema = await readFile(new URL('../mysql/001_schema.sql', import.meta.url), 'utf8') + '\n' + await readFile(new URL('../mysql/002_official_ac.sql', import.meta.url), 'utf8');
+    const schema = (await Promise.all(['001_schema.sql', '002_official_ac.sql', '003_ranking_rewards_admin.sql', '004_accounts.sql'].map(name => readFile(new URL('../mysql/' + name, import.meta.url), 'utf8')))).join('\n');
     for (const sql of schema.split(';').map(value => value.trim()).filter(Boolean)) await pool.query(sql);
     const env = { STORE, RATE_LIMIT_SALT: 'isolated-test-salt', ...(now ? { TEST_NOW: now } : {}) };
     server = createApiServer(env);

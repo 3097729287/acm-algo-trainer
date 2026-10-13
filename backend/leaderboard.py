@@ -4,6 +4,7 @@ from __future__ import annotations
 from concurrent.futures import ThreadPoolExecutor
 import datetime as dt
 import json
+import logging
 import os
 from pathlib import Path
 import sys
@@ -11,11 +12,17 @@ import threading
 import time
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode, urlsplit
-from urllib.request import Request, build_opener, HTTPRedirectHandler
+from urllib.request import Request, build_opener, HTTPRedirectHandler, ProxyHandler
 
 from progression import SHANGHAI
 
 NOTICE = "排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。"
+
+
+class RankingRequestError(RuntimeError):
+    def __init__(self, status, message):
+        self.status = status
+        super().__init__(message)
 
 
 def validate_endpoint(value):
@@ -41,6 +48,10 @@ def validate_endpoint(value):
 def default_endpoint():
     if os.environ.get("TB_OFFLINE") == "1":return ""
     if "TB_LEADERBOARD_URL" in os.environ:return validate_endpoint(os.environ["TB_LEADERBOARD_URL"])
+    return bundled_endpoint()
+
+
+def bundled_endpoint():
     value = ""
     from paths import resource
     path = resource('leaderboard.defaults.json')
@@ -58,13 +69,26 @@ class NoRedirect(HTTPRedirectHandler):
         raise URLError("排行榜服务发生重定向，请使用最终 HTTPS 地址")
 
 
+def service_opener(endpoint):
+    """The bundled service is reachable directly; do not tunnel it via an OJ proxy."""
+    host = urlsplit(endpoint).hostname
+    bundled_host = urlsplit(bundled_endpoint()).hostname
+    handlers = [NoRedirect()]
+    if host in {"127.0.0.1", "localhost", "::1"} or host and host == bundled_host:
+        handlers.append(ProxyHandler({}))
+    # Custom servers retain the user's system proxy. HTTPS verification stays
+    # enabled, redirects remain forbidden and requests are never replayed.
+    return build_opener(*handlers)
+
+
 class LeaderboardClient:
-    def __init__(self, training, timeout=5):
+    def __init__(self, training, timeout=10):
         self.training = training
         self.timeout = timeout
         self.lock = threading.RLock()
         self.executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="tb-ranking")
-        self.opener = build_opener(NoRedirect())
+        self.opener = None
+        self.opener_endpoint = None
         self.running = False
         self.closed = False
         self.dirty = False
@@ -80,6 +104,9 @@ class LeaderboardClient:
                           headers={"Content-Type": "application/json", "Accept": "application/json", "Authorization": "Bearer " + profile["auth_token"],
                                    "X-TB-User": profile["user_id"], "User-Agent": "TB/0.10 Ranking"})
         try:
+            if self.opener_endpoint != profile['endpoint']:
+                self.opener = service_opener(profile['endpoint'])
+                self.opener_endpoint = profile['endpoint']
             with self.opener.open(request, timeout=self.timeout) as response:
                 raw = response.read(262145)
             if len(raw) > 262144:
@@ -89,9 +116,14 @@ class LeaderboardClient:
                 raise ValueError("排行榜响应格式无效")
             return value
         except HTTPError as error:
-            raise RuntimeError(f"排行榜服务返回 HTTP {error.code}") from None
+            raise RankingRequestError(error.code, "只有管理员可以删除排行榜成绩" if error.code == 403 else f"排行榜服务返回 HTTP {error.code}") from None
         except (URLError, TimeoutError, OSError, ValueError) as error:
             # Never echo response bodies, credentials or URLs containing secrets.
+            cause = getattr(error, 'reason', error)
+            logging.getLogger('tb.ranking').warning('Ranking connection failed: %s %s %s',
+                                                   method, path.partition('?')[0], type(cause).__name__)
+            if isinstance(cause, TimeoutError):
+                raise RuntimeError("排行榜服务响应超时，后台将自动重试") from error
             raise RuntimeError("排行榜服务连接失败，请检查服务地址或稍后重试") from error
 
     def snapshot(self):
@@ -105,7 +137,7 @@ class LeaderboardClient:
     def queue_sync(self, force=False):
         profile = self.training._ranking_profile()
         with self.lock:
-            if self.closed or not profile["endpoint"]:
+            if self.closed or not profile["endpoint"] or not profile['auth_token']:
                 pass
             elif self.running:
                 self.dirty = True
@@ -127,14 +159,14 @@ class LeaderboardClient:
         return self.queue_sync(force=True)
 
     def _sync(self):
+        profile = {}
         try:
             profile = self.training._ranking_profile()
-            if not profile["endpoint"]:
+            if not profile["endpoint"] or not profile['auth_token']:
                 return
-            registered = self._request(profile, "POST", "/v1/profile/register", {"userId": profile["user_id"], "nickname": profile["nickname"]})
+            registered = self._request(profile, "GET", "/v1/profile")
             if registered.get("userId") != profile["user_id"]:
                 raise RuntimeError("排行榜身份响应不匹配")
-            self._request(profile, "PUT", "/v1/profile", {"nickname": profile["nickname"]})
             events = self.training._ranking_events(profile["endpoint"])
             for offset in range(0, len(events), 100):
                 with self.lock:
@@ -145,22 +177,44 @@ class LeaderboardClient:
                 if answer.get("processed") != len(batch) or answer.get("scope") != "official":
                     raise RuntimeError("排行榜通过记录未完整接收")
                 self.training._ranking_receipts(profile["endpoint"], batch)
-            values = {}
+            failures = []
             for period in ("daily", "weekly", "total"):
                 with self.lock:
                     if self.closed:
                         return
-                value = self._request(profile, "GET", "/v1/leaderboard?" + urlencode({"period": period}))
-                if value.get("period") != period or not isinstance(value.get("entries"), list):
-                    raise RuntimeError("排行榜响应格式无效")
-                values[period] = (time.monotonic(), value)
+                try:
+                    value = self._request(profile, "GET", "/v1/leaderboard?" + urlencode({"period": period}))
+                    if value.get("period") != period or not isinstance(value.get("entries"), list):
+                        raise RuntimeError("排行榜响应格式无效")
+                except RankingRequestError as error:
+                    if error.status in (401, 429):
+                        raise
+                    failures.append(str(error))
+                    continue
+                except RuntimeError as error:
+                    failures.append(str(error))
+                    continue
+                local_day = self.training._now().astimezone(SHANGHAI).date().isoformat()
+                current = self.training._ranking_profile()
+                with self.lock:
+                    if not self.closed and all(profile[key] == current[key] for key in ('endpoint', 'user_id', 'auth_token')):
+                        # An empty board is also a valid result. Publish each
+                        # period before a later board or reward request can fail.
+                        self.cache[period] = (time.monotonic(), value, local_day)
+            rewards = self._request(profile, "GET", "/v1/rewards")
+            self.training._ranking_rewards(profile, rewards)
+            if failures:
+                raise RuntimeError(failures[0])
             self.training._ranking_synced(profile["endpoint"])
             current_endpoint = self.training._ranking_profile()["endpoint"]
             with self.lock:
                 if profile["endpoint"] == current_endpoint:
-                    self.cache = values
                     self.status, self.error = "ready", ""
         except Exception as error:
+            if isinstance(error, RankingRequestError) and error.status == 401:
+                owner = getattr(self.training.account_provider, '__self__', None)
+                if owner is not None:
+                    owner.invalidate(profile.get('auth_token'))
             with self.lock:
                 self.status, self.error = "error", str(error)[:200]
         finally:
@@ -172,7 +226,7 @@ class LeaderboardClient:
                 self.queue_sync()
             else:
                 with self.lock:
-                    if self.status == "error" and not self.closed:
+                    if not self.closed and profile.get("endpoint") and profile.get('auth_token'):
                         self.retry_timer = threading.Timer(65, self.queue_sync)
                         self.retry_timer.daemon = True
                         self.retry_timer.start()
@@ -182,14 +236,33 @@ class LeaderboardClient:
         if period not in {"daily", "weekly", "total"}:
             raise ServiceError(400, "排行周期须为 daily、weekly 或 total")
         state = self.snapshot()
+        date = self.training._now().astimezone(SHANGHAI).date().isoformat()
         with self.lock:
             cached = self.cache.get(period)
+            if cached and cached[2] != date:
+                cached = None
         if state["configured"] and (cached is None or time.monotonic() - cached[0] > 60):
             self.queue_sync()
             state = self.snapshot()
-        date = self.training._now().astimezone(SHANGHAI).date().isoformat()
         value = dict(cached[1]) if cached else {"period": period, "date": date, "entries": [], "self": None}
         value.update(state)
+        value['hasSnapshot'] = cached is not None
+        return value
+
+    def admin_delete(self, body):
+        from training import ServiceError
+        if set(body) != {"userId", "period", "confirmation"} or body.get("period") not in {"daily", "weekly", "total"} or body.get("confirmation") != "delete":
+            raise ServiceError(400, "删除范围或确认无效")
+        profile = self.training._ranking_profile()
+        if not profile["endpoint"]:
+            raise ServiceError(409, "请先连接排行榜服务")
+        try:
+            value = self._request(profile, "POST", "/v1/admin/leaderboard/delete", body)
+        except RankingRequestError as error:
+            raise ServiceError(error.status, str(error)) from None
+        except RuntimeError as error:
+            raise ServiceError(503, str(error)) from None
+        self.invalidate()
         return value
 
     def close(self):

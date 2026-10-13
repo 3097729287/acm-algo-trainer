@@ -10,7 +10,7 @@ import { chromium } from 'playwright';
 const root = resolve(fileURLToPath(new URL('../..', import.meta.url)));
 const seededSolutions = JSON.parse(await readFile(join(root, 'data/library/solutions.json'), 'utf8'));
 const state = await mkdtemp(join(tmpdir(), 'tb-api-e2e-'));
-const service = spawn(process.env.TB_PYTHON || 'python', [join(root, 'backend/backend.py'), '--offline', '--port', '0', '--state-dir', state], {
+const service = spawn(process.env.TB_PYTHON || 'python', [join(root, 'frontend/tests/local-api-server.py')], {
   cwd: root, windowsHide: true,
   env: { ...process.env, TB_STATE_DIR: state, TB_OFFLINE: '1', DSH_HOME: join(state, 'absent'), PYTHONIOENCODING: 'utf-8' },
 });

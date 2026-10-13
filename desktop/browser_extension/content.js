@@ -16,11 +16,18 @@
     chrome.runtime.sendMessage({ type: 'event', value: event.data.value }).then(answer => {
       if (requestId) window.postMessage({ tbBrowserAck: channel, requestId, ok: answer?.ack === true }, location.origin);
       run(answer);
+      if (event.data.value?.status === 'ready') tick();
     }).catch(() => {
       if (requestId) window.postMessage({ tbBrowserAck: channel, requestId, ok: false }, location.origin);
     });
   });
-  chrome.runtime.onMessage.addListener(message => { if (message.type === 'wake') tick(); });
+  chrome.runtime.onMessage.addListener((message, sender, reply) => {
+    if (message.type === 'wake') tick();
+    if (message.type === 'login-state') {
+      const platform = ({'codeforces.com':'Codeforces','www.codeforces.com':'Codeforces','atcoder.jp':'AtCoder','ac.nowcoder.com':'牛客','www.luogu.com.cn':'洛谷','luogu.com.cn':'洛谷'})[location.hostname];
+      reply({state:platform===message.platform ? tbPageLoginState(platform,document.documentElement.outerHTML) : 'unknown'});
+    }
+  });
   document.addEventListener('DOMContentLoaded', tick, { once: true });
-  setInterval(tick, 2000);
+  setInterval(tick, 1000);
 })();

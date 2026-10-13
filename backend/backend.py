@@ -95,9 +95,25 @@ class Handler(BaseHTTPRequestHandler):
                 raise APIError(403, "会话已失效，请刷新")
 
     def dispatch(self, writing=False):
+        accounts = getattr(self.server, 'accounts', None)
+        if accounts is not None:
+            path = unquote(urlsplit(self.path).path)
+            changing = (writing and (path.startswith('/api/account/') or path in ('/api/profile', '/api/identity'))
+                        or path == '/api/account' and accounts.saved is not None)
+            # Normal requests share the current workspace. Account mutations
+            # wait for all of them, preventing writes/responses crossing users.
+            with accounts.request_context(changing=changing):
+                self._dispatch(writing)
+        else:
+            self._dispatch(writing)
+
+    def _dispatch(self, writing=False):
         body_consumed = False
         try:
+            accounts = getattr(self.server, 'accounts', None)
             if urlsplit(self.path).path.startswith('/api/browser/'):
+                if accounts is not None:
+                    accounts.require()
                 self.browser_dispatch(writing)
                 return
             self.local_request(writing)
@@ -106,6 +122,11 @@ class Handler(BaseHTTPRequestHandler):
             if "\\" in path or "\x00" in path or any(part in (".", "..") for part in path.split("/")):
                 raise APIError(404, "没有找到这个页面")
             store = self.server.store
+            if path == '/api/account' and not writing:
+                self.send_json(200, accounts.snapshot() if accounts else {'required': False, 'authenticated': True, 'token': store.token, 'account': None})
+                return
+            if accounts is not None and path.startswith('/api/') and path not in ('/api/account/register', '/api/account/login'):
+                accounts.require()
             if writing:
                 try:
                     size = int(self.headers.get("Content-Length", "0"))
@@ -124,7 +145,20 @@ class Handler(BaseHTTPRequestHandler):
                 if not isinstance(body, dict):
                     raise APIError(400, "请求必须是 JSON 对象")
                 training = self.server.training
-                if path == "/api/software-update/check":
+                if path.startswith('/api/account/'):
+                    if accounts is None:
+                        raise APIError(404, '此测试服务未启用账号')
+                    actions = {'/api/account/register': accounts.register, '/api/account/login': accounts.login,
+                               '/api/account/password': accounts.change_password}
+                    if path == '/api/account/logout':
+                        if body:
+                            raise APIError(400, '请求字段无效')
+                        value = accounts.logout()
+                    elif path in actions:
+                        value = actions[path](body)
+                    else:
+                        raise APIError(404, '没有找到这个接口')
+                elif path == "/api/software-update/check":
                     value = self.server.software_updates.check()
                 elif path == "/api/software-update/settings":
                     value = self.server.software_updates.configure(body)
@@ -167,9 +201,16 @@ class Handler(BaseHTTPRequestHandler):
                 elif path == "/api/daily-tasks/claim":
                     value = training.claim_daily_task(body.get("id"), body.get("date"))
                 elif path in ("/api/profile", "/api/identity"):
-                    value = training.configure_profile(body)
+                    if accounts is not None:
+                        if set(body) - {'nickname', 'endpoint'} or body.get('endpoint', accounts.endpoint) != accounts.endpoint:
+                            raise APIError(400, '账号使用注册时的服务地址')
+                        value = accounts.rename(body.get('nickname'))
+                    else:
+                        value = training.configure_profile(body)
                 elif path in ("/api/leaderboard/sync", "/api/rankings/sync"):
                     value = training.leaderboard.queue_sync(force=True)
+                elif path == "/api/leaderboard/admin/delete":
+                    value = training.leaderboard.admin_delete(body)
                 elif path == "/api/hub/configure":
                     value = store.extensions.configure(body)
                 elif path == "/api/hub/sync":
@@ -193,6 +234,9 @@ class Handler(BaseHTTPRequestHandler):
                         url = training._asset_library().problem(identity).get("url")
                     if not canonical_url(url):
                         raise APIError(422, "没有找到这道题的原站链接")
+                    preparation = getattr(self.server, 'browser_preparation', None)
+                    if path.endswith('/submit') and preparation is not None:
+                        preparation.check_submission(url)
                     with training.lock:
                         training.assert_solution_unlocked(identity)
                         opened = opener(url, code, row["title"])
@@ -204,6 +248,11 @@ class Handler(BaseHTTPRequestHandler):
                     if not callable(self.server.official_closer):
                         raise APIError(503, "浏览器提交服务尚未连接")
                     value = self.server.official_closer(body.get("sessionId"))
+                elif path == '/api/browser-preparation':
+                    preparation = getattr(self.server, 'browser_preparation', None)
+                    if preparation is None:
+                        raise APIError(503, '请在 TB 桌面版准备浏览器连接')
+                    value = preparation.action(body)
                 elif path == "/api/desktop/fullscreen":
                     if not callable(getattr(self.server, "desktop_fullscreen", None)):
                         raise APIError(503, "当前浏览器测试没有原生窗口，无法切换全屏")
@@ -236,6 +285,9 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_json(200, self.server.software_updates.snapshot())
             elif path == "/api/workspace":
                 self.send_json(200, self.server.training.workspace())
+            elif path == '/api/browser-preparation':
+                preparation = getattr(self.server, 'browser_preparation', None)
+                self.send_json(200, preparation.snapshot() if preparation else {'available': False})
             elif path == "/api/hub":
                 self.send_json(200, store.extensions.snapshot())
             elif path == "/api/insights":
@@ -365,8 +417,9 @@ class Handler(BaseHTTPRequestHandler):
         else:
             if bridge.session_store is not None and not body.get('claim'):
                 with bridge.lock:
-                    bridge._authenticate(body.get('sessionId'), self.headers.get('X-TB-Browser', ''))
-                value = {'stop': True, 'status': 'closed'}
+                    session = bridge._authenticate(body.get('sessionId'), self.headers.get('X-TB-Browser', ''))
+                    browser_transport = session.get('transport') == 'browser'
+                value = bridge.exchange(body, self.headers.get('X-TB-Browser', '')) if browser_transport else {'stop': True, 'status': 'closed'}
             else:
                 value = bridge.exchange(body, self.headers.get('X-TB-Browser', ''))
         self.send_json(200, value)
@@ -409,6 +462,7 @@ class LocalServer(ThreadingHTTPServer):
 
     def register_official_session(self, identity, session, receipt):
         with self.official_session_lock:
+            session['_training'] = self.training
             self.official_sessions.setdefault(identity, session)
             pending = self.official_pending_receipts.pop(identity, None)
         if isinstance(pending or receipt, dict) and (pending or receipt).get('submissionId'):
@@ -430,7 +484,7 @@ class LocalServer(ThreadingHTTPServer):
                   "url": context["url"], "code": context["code"],
                   "platform": session.get("platform")}
         try:
-            self.training.save_official_pending(record)
+            context.get('_training', self.training).save_official_pending(record)
         except Exception:
             return None
         return record
@@ -454,10 +508,11 @@ class LocalServer(ThreadingHTTPServer):
                 while len(self.official_pending_receipts) > 30:
                     self.official_pending_receipts.pop(next(iter(self.official_pending_receipts)))
         if session:
-            saved = self.training.record_official(session, receipt)
+            training = session.get('_training', self.training)
+            saved = training.record_official(session, receipt)
             if saved and receipt.get('submissionId'):
                 try:
-                    self.training.clear_official_pending(url=session.get('url'), code=session.get('code'))
+                    training.clear_official_pending(url=session.get('url'), code=session.get('code'))
                 except Exception:
                     pass
             return saved
@@ -471,6 +526,8 @@ class LocalServer(ThreadingHTTPServer):
             return self.translation
 
     def validate_official_url(self, url):
+        if getattr(self, 'accounts', None) is not None:
+            self.accounts.require()
         with self.training.lock:
             key = canonical_url(url)
             ids = {row["id"] for row in self.store.data()["rows"] if key and canonical_url(row.get("url")) == key}
@@ -504,14 +561,18 @@ class LocalServer(ThreadingHTTPServer):
             if extensions is not None:
                 extensions.close()
         finally:
-            if training is not None:
+            accounts = getattr(self, 'accounts', None)
+            if accounts is not None:
+                accounts.close()
+            elif training is not None:
                 training.close()
 
 
 def create_server(port=0, data_file=None, data_root=None, dist_dir=None, history_file=None,
                   training_file=None, assets=None, judge=None, clock=None, backup_dir=None, rng=None,
                   integration_state_dir=None, integration_auto_start=None, integrations=None, official_opener=None,
-                  official_submitter=None, official_status=None, official_closer=None, lectures=None, translation=None, library_file=None, frontend_origins=None):
+                  official_submitter=None, official_status=None, official_closer=None, lectures=None, translation=None, library_file=None, frontend_origins=None,
+                  require_account=True, account_endpoint=None):
     explicit_training = training_file is not None
     server = LocalServer(("127.0.0.1", port), Handler)
     server.daemon_threads = True
@@ -548,7 +609,19 @@ def create_server(port=0, data_file=None, data_root=None, dist_dir=None, history
         server.store.knowledge_analysis = KnowledgeAnalysisCache(server.state_dir / "tb-knowledge-analysis.json")
         server.translation = translation
         server.translation_lock = threading.RLock()
-        server.training = TrainingService(server.store, training_file, assets=assets, judge=judge, clock=clock, backup_dir=backup_dir, rng=rng)
+        server.accounts = None
+        def account_credentials(owner):
+            return server.accounts.credentials(owner) if server.accounts is not None else None
+        def personal_service(path):
+            return TrainingService(server.store, path, assets=assets, judge=judge, clock=clock, backup_dir=backup_dir, rng=rng,
+                                   account_provider=account_credentials if require_account else None)
+        server.training = personal_service(training_file)
+        if require_account:
+            from accounts import Accounts
+            server.accounts = Accounts(server, personal_service, endpoint=account_endpoint)
+            # Background authentication failures revoke the whole local session.
+            for service in server.accounts.services.values():
+                service.account_provider = server.accounts.credentials
         if lectures is None:
             from lectures import LectureLibrary
             lectures = LectureLibrary(server.store, server.state_dir)

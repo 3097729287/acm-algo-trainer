@@ -6,7 +6,50 @@ import threading
 import time
 
 
+def network_check(output):
+    """Explicit diagnosis of the bundled service; no account or credential input."""
+    from version import VERSION
+    from leaderboard import bundled_endpoint, service_opener
+    from urllib.error import HTTPError
+    from urllib.request import Request
+    report = {'ok': False, 'version': VERSION, 'frozen': bool(getattr(__import__('sys'), 'frozen', False))}
+    try:
+        if not os.environ.get('TB_STATE_DIR'):
+            raise RuntimeError('Network checks require an explicitly isolated state directory')
+        if os.environ.get('TB_OFFLINE') == '1':
+            raise RuntimeError('An offline check cannot contact the bundled service')
+        endpoint = bundled_endpoint()
+        if not endpoint.startswith('https://'):
+            raise RuntimeError('The bundled account service must use HTTPS')
+        opener = service_opener(endpoint)
+        started = time.monotonic()
+        with opener.open(Request(endpoint + '/v1/health', headers={'Accept': 'application/json'}), timeout=8) as response:
+            health = json.loads(response.read(4096))
+        assert health.get('ok') is True
+        report.update(httpsVerified=True, healthSeconds=round(time.monotonic() - started, 3), serverVersion=health['version'])
+        # Empty input is always rejected before account creation. This exercises
+        # the shipped POST transport without registering a production fixture.
+        started = time.monotonic()
+        try:
+            with opener.open(Request(endpoint + '/v1/accounts/register', data=b'{}',
+                             headers={'Content-Type': 'application/json', 'Accept': 'application/json'}), timeout=8):
+                raise AssertionError('Empty registration input was unexpectedly accepted')
+        except HTTPError as issue:
+            assert issue.code == 400
+            assert isinstance(json.loads(issue.read(4096)).get('error'), str)
+            report.update(registrationValidationStatus=issue.code, postSeconds=round(time.monotonic() - started, 3))
+        report.update(ok=True, credentialsSent=False, productionTestRegistrations=0)
+    except Exception as issue:
+        # Do not serialize response bodies, headers or proxy configuration.
+        report.update(error=type(issue).__name__)
+    Path(output).parent.mkdir(parents=True, exist_ok=True)
+    Path(output).write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
+    return 0 if report['ok'] else 1
+
+
 def run(action, output):
+    if action == '--account-network-check':
+        return network_check(output)
     from paths import ROOT, STATE, FRONTEND
     from version import VERSION
     server = None
@@ -15,7 +58,15 @@ def run(action, output):
         if not os.environ.get('TB_STATE_DIR'):
             raise RuntimeError('Set TB_STATE_DIR to a disposable directory before running a release probe')
         from backend import create_server
-        server = create_server(port=int(os.environ.get('TB_PACKAGE_PORT', '0')), dist_dir=FRONTEND,
+        account_check = action in ('--serve-account-check', '--native-account-check')
+        account_endpoint = os.environ.get('TB_TEST_ACCOUNTS_ENDPOINT') if account_check else None
+        if account_check:
+            from urllib.parse import urlsplit
+            endpoint = urlsplit(account_endpoint or '')
+            if endpoint.scheme != 'http' or endpoint.hostname != '127.0.0.1' or not endpoint.port:
+                raise RuntimeError('Account release checks require a disposable loopback account service')
+        server = create_server(require_account=account_check, account_endpoint=account_endpoint,
+                               port=int(os.environ.get('TB_PACKAGE_PORT', '0')), dist_dir=FRONTEND,
                                training_file=STATE / 'tb-personal.sqlite3', integration_auto_start=False)
         data = server.store.data()
         workspace = server.training.workspace()
@@ -47,10 +98,47 @@ def run(action, output):
         else:
             worker = threading.Thread(target=server.serve_forever, daemon=True)
             worker.start()
-            if action == '--serve-check':
+            if action in ('--serve-check', '--serve-account-check'):
                 Path(output).write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
                 while not Path(output).with_suffix('.stop').exists():
                     time.sleep(.2)
+            elif action == '--native-account-check':
+                import webview
+                window = webview.create_window('TB account validation', report['baseUrl'], hidden=True, width=1100, height=850)
+                def check_account():
+                    def wait_js(script):
+                        deadline = time.monotonic() + 35
+                        while time.monotonic() < deadline:
+                            if window.evaluate_js(script):
+                                return
+                            time.sleep(.1)
+                        raise RuntimeError('Native account UI condition timed out')
+                    def fill(name, value):
+                        window.evaluate_js("(()=>{const e=document.querySelector(" + json.dumps('input[name="'+name+'"]') +
+                            ");Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(e," + json.dumps(value) +
+                            ");e.dispatchEvent(new Event('input',{bubbles:true}));})()")
+                    try:
+                        wait_js("document.querySelector('.account-card h1')?.textContent==='登录 TB'")
+                        assert not server.accounts.snapshot()['authenticated']
+                        report['nativeLoginGate'] = True
+                        window.evaluate_js("document.querySelectorAll('.account-tabs button')[1].click()")
+                        wait_js("!!document.querySelector('input[name=nickname]')")
+                        fill('nickname', '打包验证者'); fill('username', 'native_account_fixture')
+                        fill('password', 'native-fixture-password'); fill('passwordConfirmation', 'native-fixture-password')
+                        window.evaluate_js("document.querySelector('.account-submit').click()")
+                        wait_js("document.querySelector('.account-message')?.textContent.includes('注册成功')")
+                        assert not server.accounts.snapshot()['authenticated']
+                        report['nativeRegistrationRequiresLogin'] = True
+                        fill('password', 'native-fixture-password')
+                        window.evaluate_js("document.querySelector('.account-submit').click()")
+                        wait_js("!!document.querySelector('.nav-item')")
+                        assert server.accounts.snapshot()['authenticated']
+                        report['nativeAccountLogin'] = True
+                    except Exception as issue:
+                        report.update(ok=False, error=str(issue))
+                    finally:
+                        window.destroy()
+                webview.start(check_account, gui='edgechromium', private_mode=False, storage_path=str(STATE / 'native-account-webview'))
             elif action == '--native-check':
                 import webview
                 from launch import bind_desktop_fullscreen

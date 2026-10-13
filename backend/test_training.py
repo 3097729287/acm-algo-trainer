@@ -447,7 +447,7 @@ class HTTPTests(unittest.TestCase):
         self.table.write_bytes(self.original)
         self.clock = Clock()
         self.judge = Judge()
-        self.server = backend.create_server(data_file=self.table, data_root=self.root, training_file=self.root / "personal.sqlite3", assets=Assets(None), judge=self.judge, clock=self.clock, backup_dir=self.root / "backups")
+        self.server = backend.create_server(require_account=False, data_file=self.table, data_root=self.root, training_file=self.root / "personal.sqlite3", assets=Assets(None), judge=self.judge, clock=self.clock, backup_dir=self.root / "backups")
         self.server.store.solution = lambda identity: {"markdown": "## 思路\nSECRET SOLUTION", "url": "https://example.com", "title": identity}
         self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
         self.thread.start()

@@ -2,12 +2,14 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { protocolSuite } from './protocol-suite.mjs';
+import { accountsSuite } from './accounts-suite.mjs';
 import { startMySQLFixture } from './mysql-fixture.mjs';
 import { snapshotFromSQL } from '../scripts/export-sqlite.mjs';
 import { importSnapshot } from '../scripts/import-snapshot.mjs';
 import { readFile } from 'node:fs/promises';
 
 protocolSuite(startMySQLFixture);
+accountsSuite(startMySQLFixture);
 
 test('MySQL concurrent rate limits allocate each count once and expiry cleanup works', async () => {
   const fixture = await startMySQLFixture();

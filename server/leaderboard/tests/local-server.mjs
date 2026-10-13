@@ -1,5 +1,5 @@
 // Offline SQLite fixture using the same HTTP adapter as production.
-import { once } from 'node:events';
+import { listenFixture } from './listen.mjs';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 import { createApiServer } from '../src/server.mjs';
@@ -9,7 +9,7 @@ export async function startFixture({ database = ':memory:', now } = {}) {
   const STORE = new SQLiteStore(database);
   const env = { STORE, RATE_LIMIT_SALT: 'test-only', ...(now ? { TEST_NOW: now } : {}) };
   const server = createApiServer(env);
-  server.listen(0, '127.0.0.1'); await once(server, 'listening');
+  await listenFixture(server);
   return { server, STORE, env, endpoint: `http://127.0.0.1:${server.address().port}`,
     async countEvents() { return STORE.database.prepare('SELECT COUNT(*) AS n FROM official_ac_events').get().n; },
     async close() { await new Promise(resolve => server.close(resolve)); await STORE.close(); } };

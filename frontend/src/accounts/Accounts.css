@@ -1,0 +1,34 @@
+.account-screen { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:28px; background:radial-gradient(ellipse at 50% 10%,#27233a 0,transparent 56%),#111319; color:#e6e5ef; padding:36px 20px; box-sizing:border-box; }
+.account-brand { display:flex; align-items:center; gap:12px; font-size:25px; font-weight:700; }
+.account-brand small { font-size:15px; font-weight:400; margin-left:6px; color:#a5a4b9; }
+.account-logo { font:bold 29px Georgia,serif; color:#b6a2ff; background:#292338; border:1px solid #4c4268; border-radius:12px; width:45px; height:45px; display:grid; place-items:center; }
+.account-card { width:100%; max-width:440px; box-sizing:border-box; padding:32px; border:1px solid #353240; border-radius:18px; background:#1b1d26; box-shadow:0 20px 65px #0004; }
+.account-symbol { width:46px; height:46px; border-radius:13px; display:grid; place-items:center; background:#302943; color:#bdadfc; margin-bottom:16px; }
+.account-card h1 { font-size:25px; margin:0 0 10px; }
+.account-intro { color:#aeadbf; font-size:14px; line-height:1.7; margin:0 0 24px; }
+.account-tabs { display:flex; background:#13151c; padding:4px; border-radius:9px; gap:4px; margin-bottom:23px; }
+.account-tabs button { flex:1; border:0; padding:10px; border-radius:6px; color:#aeadbf; background:transparent; cursor:pointer; font:inherit; }
+.account-tabs button[aria-selected=true] { background:#302b42; color:#d3c8ff; }
+.account-form { display:flex; flex-direction:column; gap:17px; }
+.account-form label { display:flex; flex-direction:column; gap:8px; font-size:14px; color:#dddbea; }
+.account-form input,.account-settings input { box-sizing:border-box; width:100%; padding:12px 13px; color:#eeeafc; background:#12141b; border:1px solid #3b3748; border-radius:8px; font:inherit; outline:none; }
+.account-form input:focus,.account-settings input:focus { border-color:#aa91f5; box-shadow:0 0 0 3px #aa91f520; }
+.account-form input::placeholder { color:#858295; }
+.account-password { position:relative; }
+.account-password input { padding-right:43px; }
+.account-password button { position:absolute; right:7px; top:7px; display:grid; place-items:center; width:32px; height:32px; background:transparent; border:0; color:#a9a2bd; cursor:pointer; }
+.account-submit { display:flex; justify-content:center; align-items:center; gap:8px; color:#191228; background:#b29afa; border:0; border-radius:8px; padding:13px; font:inherit; font-size:15px; font-weight:600; cursor:pointer; margin-top:3px; }
+.account-submit:hover { background:#c1adff; }
+.account-screen button:focus-visible { outline:2px solid #c5b4ff; outline-offset:3px; }
+.account-screen button:disabled { opacity:.55; cursor:wait; }
+.account-error,.account-message { font-size:14px; line-height:1.6; margin:0; padding:10px 12px; border-radius:7px; background:#38212b; color:#ffbbc5; overflow-wrap:anywhere; }
+.account-message { background:#1d352e; color:#a8e4c9; }
+.account-loading { display:flex; gap:9px; align-items:center; color:#bfb0f5; }
+.account-retry { border:0; background:transparent; color:#c5b4ff; cursor:pointer; padding:12px 0 0; }
+.account-footer { color:#878292; font-size:13px; margin:0; }
+.account-settings { border-top:1px solid var(--border,#353240); padding-top:20px; margin-top:24px; }
+.account-settings h3 { margin:0 0 14px; font-size:16px; }
+.account-settings form { max-width:380px; display:flex; flex-direction:column; gap:13px; }
+.account-settings label { display:flex; flex-direction:column; gap:7px; font-size:14px; }
+.account-logout { margin-top:20px; }
+@media (max-width:540px) { .account-screen { padding:24px 16px; gap:22px; } .account-card { padding:25px 22px; } }

@@ -17,6 +17,8 @@ services:
       - mysql_data:/var/lib/mysql
       - ./mysql/001_schema.sql:/docker-entrypoint-initdb.d/001_schema.sql:ro
       - ./mysql/002_official_ac.sql:/docker-entrypoint-initdb.d/002_official_ac.sql:ro
+      - ./mysql/003_ranking_rewards_admin.sql:/docker-entrypoint-initdb.d/003_ranking_rewards_admin.sql:ro
+      - ./mysql/004_accounts.sql:/docker-entrypoint-initdb.d/004_accounts.sql:ro
     networks: [database]
     healthcheck:
       test: [CMD-SHELL, 'MYSQL_PWD="$$(cat /run/secrets/mysql_password)" mysql --protocol=TCP -h 127.0.0.1 -u tb -D tb_leaderboard -e "SELECT 1 FROM users LIMIT 0" >/dev/null 2>&1']

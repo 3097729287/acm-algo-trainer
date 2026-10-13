@@ -56,6 +56,7 @@ export async function start(env = process.env) {
   let server;
   try {
     await STORE.health();
+    if (env.READ_ONLY !== '1') await STORE.settleRewards(Date.now());
     const apiEnv = { STORE, RATE_LIMIT_SALT: await secret(env, 'RATE_LIMIT_SALT'),
       READ_ONLY: env.READ_ONLY,
       REGISTRATIONS_PER_IP_DAY: env.REGISTRATIONS_PER_IP_DAY, REQUESTS_PER_USER_MINUTE: env.REQUESTS_PER_USER_MINUTE };
@@ -72,11 +73,30 @@ export async function start(env = process.env) {
     process.stderr.write('Rate-limit cleanup failed\n');
   }), 60 * 60 * 1000);
   cleanup.unref();
+  // The shared service settles at Beijing midnight even when clients are closed.
+  // Database cursors catch up completed cycles after downtime without duplicate XP.
   let closing = false;
+  let rewards;
+  const scheduleRewards = (retry = false) => {
+    if (closing) return;
+    const delay = retry ? 60000 : 86400000 - (Date.now() + 8 * 3600 * 1000) % 86400000;
+    rewards = setTimeout(async () => {
+      try {
+        if (env.READ_ONLY !== '1') await STORE.settleRewards(Date.now());
+        scheduleRewards();
+      } catch {
+        process.stderr.write('Ranking reward settlement failed\n');
+        scheduleRewards(true);
+      }
+    }, delay);
+    rewards.unref();
+  };
+  scheduleRewards();
   const close = async () => {
     if (closing) return;
     closing = true;
     clearInterval(cleanup);
+    clearTimeout(rewards);
     await new Promise(resolveClose => server.close(resolveClose));
     await STORE.close();
   };

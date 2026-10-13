@@ -5,6 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
+import { fixtureExtension } from './extension-fixture.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const python = process.env.TB_PYTHON || 'C:/Users/lenovo/AppData/Local/Programs/Python/Python313/python.exe';
@@ -18,9 +19,10 @@ const { port } = await new Promise((resolve, reject) => {
 });
 const base = `http://127.0.0.1:${port}`;
 const profile = await mkdtemp(path.join(os.tmpdir(), 'tb-browser-extension-'));
-const extension = process.env.TB_BROWSER_EXTENSION || path.join(root, 'build/browser-extension');
+const extension = await fixtureExtension(process.env.TB_BROWSER_EXTENSION || path.join(root, 'build/browser-extension'), profile, base);
 let browser;
 const posted = [], cookieChecks = [], errors = [];
+const receipts = [];
 let cfSubmitted = false, acSubmitted = false, ncReject = false, luoguLoggedIn = true, ncModern = false;
 const source = 'int main(){}';
 const headers = { 'access-control-allow-origin': 'https://ac.nowcoder.com', 'access-control-allow-credentials': 'true', 'access-control-allow-headers': 'content-type', 'access-control-allow-methods': 'GET, POST, OPTIONS' };
@@ -50,7 +52,7 @@ try {
     if (request.method() === 'POST') {
       posted.push(url.hostname + url.pathname);
       if (url.hostname !== 'victorinox.nowcoder.com') cookieChecks.push((await request.allHeaders()).cookie?.includes('fixture_login=existing-browser-session'));
-      if (url.hostname === 'codeforces.com') { cfSubmitted = true; assert.equal(new URLSearchParams(request.postData()).get('source'), source); return route.fulfill({ status: 302, headers: { location: '/contest/123/my' }, body: '' }); }
+      if (url.hostname === 'codeforces.com') { cfSubmitted = true; assert.equal(new URLSearchParams(request.postData()).get('source'), source); return html('<div id="header"><a href="/profile/fixture">fixture</a></div>'+row('Codeforces',true)); }
       if (url.hostname === 'atcoder.jp') { acSubmitted = true; assert.ok(request.postData().includes('int main()')); return json({ ok: true }); }
       if (url.hostname === 'victorinox.nowcoder.com') {
         assert.equal(JSON.parse(request.postData()).content, source);
@@ -111,21 +113,27 @@ try {
     }
     throw new Error(key + ': expected ' + status + ', got ' + JSON.stringify(value));
   }
-  for (const [key, url] of [
-    ['cf', 'https://codeforces.com/contest/123/problem/A'],
-    ['atcoder', 'https://atcoder.jp/contests/abc100/tasks/abc100_a'],
-    ['nowcoder', 'https://ac.nowcoder.com/acm/contest/127263/B'],
-    ['luogu', 'https://www.luogu.com.cn/problem/P1001'],
+  for (const [key, url, expectedId] of [
+    ['cf', 'https://codeforces.com/contest/123/problem/A', '1002'],
+    ['atcoder', 'https://atcoder.jp/contests/abc100/tasks/abc100_a', '2002'],
+    ['nowcoder', 'https://ac.nowcoder.com/acm/contest/127263/B', '3002'],
+    ['luogu', 'https://www.luogu.com.cn/problem/P1001', '4002'],
   ]) {
     await submit(key, url);
     const result = await state(key, 'finished');
     assert.equal(result.verdict, 'AC');
+    assert.equal(result.submissionId, expectedId, key + ' must return the exact receipt for this submission');
+    assert.ok(Number.isFinite(Date.parse(result.acceptedAt)), key + ' receipt must carry its acceptance time');
+    receipts.push({platform:result.platform,submissionId:result.submissionId,verdict:result.verdict});
     assert.equal(await worker.evaluate(async () => (await chrome.tabs.query({active:true,lastFocusedWindow:true}))[0].id),activeTab,'submission never activates a browser tab');
     assert.ok((await browser.cookies(url)).some(cookie => cookie.name === 'fixture_login'));
   }
   assert.equal(posted.length, 4, 'each platform issues exactly one native submission');
   assert.ok(cookieChecks.every(Boolean), 'submissions reuse cookies already in the ordinary browser');
-  assert.equal((await (await fetch(base + '/fixture/saved')).json()).length, 4, 'all four receipts reach desktop persistence callback');
+  const saved=await (await fetch(base + '/fixture/saved')).json();
+  assert.equal(saved.length, 4, 'all four receipts reach desktop persistence callback');
+  assert.deepEqual(saved.map(receipt=>receipt.platform).sort(),receipts.map(receipt=>receipt.platform).sort());
+  assert.ok(saved.every(receipt=>receipt.status==='finished'&&receipt.verdict==='AC'));
   assert.deepEqual(await (await fetch(base + '/fixture/opened')).json(), [], 'TB never launches the browser on submit');
   ncModern = true;
   await submit('modern', 'https://ac.nowcoder.com/acm/contest/127263/B');
@@ -149,6 +157,7 @@ try {
   assert.deepEqual(errors, []);
   assert.equal(await worker.evaluate(async () => (await chrome.tabs.query({active:true,lastFocusedWindow:true}))[0].id),activeTab);
   console.log('Background extension: four platforms; no opened browser or active tab changes; legacy Nowcoder nccommon/top-level receipts; modern cached fetch; Luogu API without editor; original CSRF/cookies; captcha, login retry, no duplicates passed.');
+  console.log(JSON.stringify({ok:true,receipts,exactSubmissionIds:true,desktopReceiptsSaved:true,noDuplicatePosts:true,realAccountSubmission:false}));
 } finally {
   if (browser) await browser.close();
   server.kill();

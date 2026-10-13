@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { once } from 'node:events';
+import { listenFixture } from './listen.mjs';
 import { request as httpRequest } from 'node:http';
 import { randomUUID } from 'node:crypto';
 import { createApiServer } from '../src/server.mjs';
@@ -10,7 +10,7 @@ async function fixture(options) {
   const STORE = new SQLiteStore();
   const env = { STORE, RATE_LIMIT_SALT: 'test', TEST_NOW: Date.parse('2026-10-08T10:00:00Z') };
   const server = createApiServer(env, options);
-  server.listen(0, '127.0.0.1'); await once(server, 'listening');
+  await listenFixture(server);
   return { env, endpoint: `http://127.0.0.1:${server.address().port}`,
     async close() { await new Promise(resolve => server.close(resolve)); await STORE.close(); } };
 }
@@ -31,10 +31,10 @@ test('public callers cannot spoof proxy headers to bypass IP registration limits
   try {
     for (let i = 0; i < 11; i++) {
       const id = randomUUID();
-      const response = await fetch(f.endpoint + '/v1/profile/register', { method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-TB-User': id, Authorization: 'Bearer ' + 'a'.repeat(64),
+      const response = await fetch(f.endpoint + '/v1/accounts/register', { method: 'POST',
+        headers: { 'Content-Type': 'application/json',
           'X-TB-Client-IP': `192.0.2.${i}`, 'X-Forwarded-For': `192.0.2.${i}` },
-        body: JSON.stringify({ userId: id, nickname: 'test' }) });
+        body: JSON.stringify({ loginId: 'user_' + id.slice(0, 8), nickname: 'test', password: 'fixture-password' }) });
       assert.equal(response.status, i < 10 ? 201 : 429);
       await response.text();
     }

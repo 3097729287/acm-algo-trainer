@@ -33,7 +33,7 @@ class LibraryTests(unittest.TestCase):
 
     def test_fresh_install_without_archive_reads_all_bundled_solutions(self):
         with patch.dict('os.environ', {'TB_OFFLINE': '1'}):
-            server = backend.create_server(training_file=self.root / 'tb-personal.sqlite3',
+            server = backend.create_server(require_account=False, training_file=self.root / 'tb-personal.sqlite3',
                                            integration_auto_start=False)
         try:
             data = server.store.data()
@@ -52,7 +52,7 @@ class LibraryTests(unittest.TestCase):
 
     def test_catalog_queries_stay_bounded_and_an_import_is_immediately_visible(self):
         with patch.dict('os.environ', {'TB_OFFLINE': '1'}):
-            server = backend.create_server(training_file=self.root / 'tb-personal.sqlite3', integration_auto_start=False)
+            server = backend.create_server(require_account=False, training_file=self.root / 'tb-personal.sqlite3', integration_auto_start=False)
         try:
             database = server.store.library
             with patch.object(database, 'connection', wraps=database.connection) as connections:

@@ -37,14 +37,18 @@ def parse_time(value):
 
 
 class TrainingService:
-    def __init__(self, store, db_path, assets=None, judge=None, clock=None, backup_dir=None, rng=None):
+    def __init__(self, store, db_path, assets=None, judge=None, clock=None, backup_dir=None, rng=None, account_provider=None):
         self.store = store
+        self.account_provider = account_provider
         self.db_path = Path(db_path).resolve()
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self.lock = threading.RLock()
         self.clock = clock or (lambda: dt.datetime.now(UTC))
         self.rng = rng or secrets.SystemRandom()
-        mirror = str(self.db_path.parent).replace(":", "").replace("\\", "_").replace("/", "_")
+        # A full directory mirrored into the backup name doubles its length.
+        # Per-account paths then exceed SQLite's Windows path limit. Existing
+        # backup folders stay intact; new backups use a stable short namespace.
+        mirror = 'personal-' + hashlib.sha256(str(self.db_path.parent).encode('utf-8')).hexdigest()[:16]
         self.backup_dir = Path(backup_dir) if backup_dir else Path(__import__("toolutil").BACKUP_ROOT) / mirror
         existed = self.db_path.exists()
         self.connection = sqlite3.connect(self.db_path, check_same_thread=False, isolation_level=None)
@@ -98,6 +102,10 @@ class TrainingService:
             CREATE TABLE IF NOT EXISTS ranking_receipts (
               endpoint TEXT NOT NULL, event_id TEXT NOT NULL, accepted_at TEXT NOT NULL,
               PRIMARY KEY(endpoint,event_id));
+            CREATE TABLE IF NOT EXISTS ranking_reward_totals (
+              endpoint TEXT NOT NULL,user_id TEXT NOT NULL,total_xp INTEGER NOT NULL,
+              awards TEXT NOT NULL DEFAULT '[]',updated_at TEXT NOT NULL,
+              PRIMARY KEY(endpoint,user_id));
             CREATE TABLE IF NOT EXISTS official_pending (
               id TEXT PRIMARY KEY, session_id TEXT NOT NULL, submission_id TEXT NOT NULL,
               problem_id TEXT, url TEXT, code TEXT, platform TEXT, accepted_at TEXT);
@@ -131,9 +139,11 @@ class TrainingService:
         from leaderboard import LeaderboardClient
         self.leaderboard = LeaderboardClient(self)
         self.leaderboard.queue_sync()
-        pending = self.connection.execute("SELECT id FROM submissions WHERE finished_at IS NULL").fetchall()
-        for record in pending:
-            self._enqueue(record["id"])
+        self.jobs_started = account_provider is None
+        if self.jobs_started:
+            pending = self.connection.execute("SELECT id FROM submissions WHERE finished_at IS NULL").fetchall()
+            for record in pending:
+                self._enqueue(record["id"])
 
     def _now(self):
         value = self.clock()
@@ -386,10 +396,14 @@ class TrainingService:
             completed = qualified_contests(workspace["contests"], records)
             claimed_dates = [item["claimed_at"] for item in self.connection.execute("SELECT claimed_at FROM daily_missions WHERE claimed_at IS NOT NULL ORDER BY claimed_at,rowid")]
             value["achievements"].extend(extra_achievements(evidence, records, completed, value["summary"]["longestStreak"], claimed_dates))
-            xp = value["growth"]["xp"] + claimed["xp"]
+            ranking_profile = self._ranking_profile()
+            ranking_reward = self.connection.execute("SELECT total_xp FROM ranking_reward_totals WHERE endpoint=? AND user_id=?",
+                                                     (ranking_profile["endpoint"], ranking_profile["user_id"])).fetchone()
+            ranking_xp = ranking_reward["total_xp"] if ranking_reward else 0
+            xp = value["growth"]["xp"] + claimed["xp"] + ranking_xp
             level = xp // 500 + 1
             names = ["初次启程", "持续练习", "稳步积累", "独立攻坚", "长期精进"]
-            value["growth"].update(xp=xp, totalXp=xp, missionXp=claimed["xp"], level=level, levelName=names[min(level - 1, len(names) - 1)], currentLevelXp=xp % 500,
+            value["growth"].update(xp=xp, totalXp=xp, missionXp=claimed["xp"], rankingXp=ranking_xp, level=level, levelName=names[min(level - 1, len(names) - 1)], currentLevelXp=xp % 500,
                                    nextMilestone=f"再积累 {500 - xp % 500} XP 升至 {level + 1} 级")
             value["dailyTasks"] = tasks
             value["profile"] = self.profile()["profile"]
@@ -467,11 +481,43 @@ class TrainingService:
 
     def _ranking_profile(self):
         with self.lock:
-            return dict(self.connection.execute("SELECT * FROM ranking_profile WHERE singleton=1").fetchone())
+            record = dict(self.connection.execute("SELECT * FROM ranking_profile WHERE singleton=1").fetchone())
+        if self.account_provider is not None:
+            auth = self.account_provider(record['user_id'])
+            record['auth_token'] = auth['auth_token'] if auth else ''
+            record['endpoint'] = auth['endpoint'] if auth else record['endpoint']
+        return record
+
+    def legacy_token(self):
+        with self.lock:
+            return self.connection.execute('SELECT auth_token FROM ranking_profile WHERE singleton=1').fetchone()[0]
+
+    def bind_account(self, account, endpoint):
+        with self.lock, self._write() as connection:
+            connection.execute('UPDATE ranking_profile SET user_id=?,nickname=?,auth_token=?,endpoint=? WHERE singleton=1',
+                               (account['userId'], account['nickname'], '', endpoint))
+        if not self.jobs_started:
+            self.jobs_started = True
+            with self.lock:
+                pending = self.connection.execute('SELECT id FROM submissions WHERE finished_at IS NULL').fetchall()
+            for record in pending:
+                self._enqueue(record['id'])
+
+    def _ranking_rewards(self, profile, value):
+        xp = value.get("totalXp")
+        if value.get("userId") != profile["user_id"] or type(xp) is not int or not 0 <= xp <= 1_000_000_000:
+            raise RuntimeError("排行榜经验响应无效")
+        awards = value.get("awards", [])
+        if not isinstance(awards, list) or len(awards) > 50:
+            raise RuntimeError("排行榜奖励记录响应无效")
+        with self.lock, self._write() as connection:
+            connection.execute("""INSERT INTO ranking_reward_totals VALUES(?,?,?,?,?)
+                ON CONFLICT(endpoint,user_id) DO UPDATE SET total_xp=excluded.total_xp,awards=excluded.awards,updated_at=excluded.updated_at""",
+                (profile["endpoint"], profile["user_id"], xp, json.dumps(awards, ensure_ascii=False), iso(self._now())))
 
     def profile(self):
         record = self._ranking_profile()
-        return {"profile": {"userId": record["user_id"], "nickname": record["nickname"], "displayName": record["nickname"] + " #" + record["user_id"], "createdAt": record["created_at"]},
+        return {"profile": {"userId": record["user_id"], "nickname": record["nickname"], "displayName": record["nickname"], "createdAt": record["created_at"]},
                 "leaderboard": self.leaderboard.snapshot()}
 
     def configure_profile(self, body):
