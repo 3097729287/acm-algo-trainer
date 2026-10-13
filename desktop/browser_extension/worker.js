@@ -1,10 +1,13 @@
 // Capabilities stay in the extension's session storage, never in an OJ page.
 importScripts('login_state.js');
-const loginStates = {}, loginChecks = new Map(), loginGenerations = {};
+const loginStates = {}, loginChecks = new Map(), loginGenerations = {}, loginCookies = {}, loginRescans = new Set();
+const loginDirty = new Set();
+let lastLoginRefresh = 0;
 async function updateLoginState(platform, cookies) {
+  loginCookies[platform] = cookies;
   const generation = loginGenerations[platform] = (loginGenerations[platform] || 0) + 1;
   loginStates[platform] = tbCookieLoginState(platform, cookies);
-  if (loginChecks.has(platform)) return;
+  if (loginChecks.has(platform)) { loginRescans.add(platform); return; }
   const urls = {Codeforces:'https://codeforces.com/',AtCoder:'https://atcoder.jp/','牛客':'https://ac.nowcoder.com/acm/home','洛谷':'https://www.luogu.com.cn/'};
   const check = (async () => {
     try {
@@ -26,7 +29,10 @@ async function updateLoginState(platform, cookies) {
       // policy. Only an original-page hint or empty cookies proves logout.
       if (state === 'logged_in') loginStates[platform] = state;
     } catch { /* A blocked or unavailable site is not evidence of logout. */ }
-    finally { loginChecks.delete(platform); }
+    finally {
+      loginChecks.delete(platform);
+      if (loginRescans.delete(platform)) updateLoginState(platform, loginCookies[platform]);
+    }
   })();
   loginChecks.set(platform, check);
 }
@@ -61,13 +67,16 @@ async function pollQueues() {
         ]);
         const platformHosts = {'codeforces.com':'Codeforces','www.codeforces.com':'Codeforces','atcoder.jp':'AtCoder','ac.nowcoder.com':'牛客','www.luogu.com.cn':'洛谷','luogu.com.cn':'洛谷'};
         const platforms = [...new Set(tabs.filter(tab=>!tab.incognito).map(tab=>platformHosts[new URL(tab.url).hostname]).filter(Boolean))];
-        const answer = await backgroundRequest(base, 'queue', { clientId, hasWindow:windows.some(w=>!w.incognito), platforms, loginStates }, connections.get(base));
+        if (Date.now() - lastLoginRefresh >= 5000) { platforms.forEach(platform=>loginDirty.add(platform)); lastLoginRefresh=Date.now(); }
+        const syncPlatforms = [...loginDirty];
+        const answer = await backgroundRequest(base, 'queue', { clientId, hasWindow:windows.some(w=>!w.incognito), platforms, loginStates, syncPlatforms }, connections.get(base));
+        syncPlatforms.forEach(platform=>loginDirty.delete(platform));
         if (answer.mode === 'silent' || answer.mode === 'hybrid') {
           const scopes = {Codeforces:['codeforces.com'],AtCoder:['atcoder.jp'],'牛客':['nowcoder.com'],'洛谷':['luogu.com.cn']};
           await Promise.all((answer.sync || []).map(async request => {
             const domains = scopes[request.platform];
             if (!domains || typeof request.nonce !== 'string') return;
-            const cookies = (await Promise.all(domains.map(domain => chrome.cookies.getAll({domain,storeId:'0'})))).flat();
+            const cookies = (await Promise.all(domains.map(domain => chrome.cookies.getAll({domain})))).flat();
             updateLoginState(request.platform, cookies);
             await backgroundRequest(base, 'session', {clientId,platform:request.platform,nonce:request.nonce,cookies,userAgent:navigator.userAgent}, connections.get(base));
           }));
@@ -167,6 +176,14 @@ chrome.alarms.onAlarm.addListener(async alarm => {
 });
 chrome.runtime.onStartup.addListener(pollQueues);
 chrome.runtime.onInstalled.addListener(pollQueues);
+chrome.cookies.onChanged.addListener(({cookie}) => {
+  const domain = cookie.domain.replace(/^\./,'').toLowerCase();
+  const scopes = {Codeforces:'codeforces.com',AtCoder:'atcoder.jp','牛客':'nowcoder.com','洛谷':'luogu.com.cn'};
+  for (const [platform, root] of Object.entries(scopes)) {
+    if (domain === root || domain.endsWith('.'+root)) loginDirty.add(platform);
+  }
+  if (loginDirty.size) pollQueues();
+});
 // Requests keep an active desktop session responsive; the alarm revives an idle
 // service worker. No cookies, account passwords or CSRF tokens leave the browser.
 setInterval(pollQueues, 1000);

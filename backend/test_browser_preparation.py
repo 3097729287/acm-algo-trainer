@@ -85,6 +85,26 @@ class PreparationTests(unittest.TestCase):
         self.assertEqual(self.preparation.snapshot()['platforms'][0]['state'], 'unknown')
         self.preparation.check_submission('https://codeforces.com/contest/1/problem/A')
 
+    def test_cf_original_browser_login_survives_empty_replay_cookie_cache(self):
+        self.cached['Codeforces'] = {'cookies':[]}
+        client, key = self.connect({'Codeforces':'logged_in'})
+        self.bridge.browser_queue({'clientId':client,'platforms':['Codeforces'],
+                                   'loginStates':{'Codeforces':'logged_in'}}, key)
+        self.assertEqual(self.preparation.snapshot()['platforms'][0]['state'], 'logged_in')
+        self.preparation.check_submission('https://codeforces.com/contest/1/problem/A')
+
+    def test_cf_unknown_original_page_does_not_become_logged_out_from_empty_cache(self):
+        self.cached['Codeforces'] = {'cookies':[]}
+        client, key = self.connect()
+        self.bridge.browser_queue({'clientId':client,'platforms':['Codeforces']}, key)
+        self.assertEqual(self.preparation.snapshot()['platforms'][0]['state'], 'unknown')
+        self.preparation.check_submission('https://codeforces.com/contest/1/problem/A')
+
+    def test_cf_stale_logged_out_hint_is_rechecked_by_live_original_browser(self):
+        self.cached['Codeforces'] = {'cookies':[]}
+        self.connect({'Codeforces':'logged_out'})
+        self.preparation.check_submission('https://codeforces.com/contest/1/problem/A')
+
     def test_explicit_actions_use_fixed_extension_path_and_original_login_urls(self):
         self.preparation.action({'action':'open-folder'})
         self.assertEqual(self.opened[-1][1], self.root)

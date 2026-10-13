@@ -10,10 +10,11 @@ import {chromium} from 'playwright';
 import {fixtureExtension} from './extension-fixture.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 const atcoder=process.argv.includes('--atcoder'),platform=atcoder?'AtCoder':'Codeforces';
+const preparation=process.argv.includes('--preparation');
 const officialHost=atcoder?'atcoder.jp':'codeforces.com';
 const original=atcoder?'https://atcoder.jp/contests/abc100/tasks/abc100_a':'https://codeforces.com/contest/123/problem/A';
 const fixtureKey=atcoder?'ac':'cf',receiptId=atcoder?'2002':'1002';
-const server=spawn(process.env.TB_PYTHON||'C:/Users/lenovo/AppData/Local/Programs/Python/Python313/python.exe',['desktop/tests/browser_server.py'],{cwd:root,env:{...process.env,TB_OFFLINE:'1',TB_TEST_HYBRID:'1',PYTHONIOENCODING:'utf-8'},windowsHide:true});
+const server=spawn(process.env.TB_PYTHON||'C:/Users/lenovo/AppData/Local/Programs/Python/Python313/python.exe',['desktop/tests/browser_server.py'],{cwd:root,env:{...process.env,TB_OFFLINE:'1',TB_TEST_HYBRID:'1',TB_TEST_PREPARATION:preparation?'1':'0',PYTHONIOENCODING:'utf-8'},windowsHide:true});
 let serverErrors='';server.stderr.on('data',b=>{serverErrors+=b});
 const {port}=await new Promise((resolve,reject)=>{let output='';server.stdout.on('data',b=>{output+=b;if(output.includes('\n'))resolve(JSON.parse(output.split('\n')[0]))});server.on('exit',code=>reject(new Error('Fixture server exited '+code)))});
 const base=`http://127.0.0.1:${port}`,profile=await mkdtemp(path.join(os.tmpdir(),'tb-hybrid-cf-'));
@@ -56,6 +57,20 @@ try{
   if(url.pathname==='/api/user.status')return route.fulfill({contentType:'application/json',body:JSON.stringify({status:'OK',result:[]})});
   return route.fulfill({contentType:'text/html',body:account+'<form method="post"><input name="csrf_token" value="fixture-csrf" type="hidden"><select name="submittedProblemIndex"><option value="A">A</option></select><select name="programTypeId"><option value="54">GNU C++17</option></select><textarea name="source"></textarea><input type="submit" value="Submit"></form>'});
  });
+ if(preparation){
+  assert.ok(!atcoder);
+  // The real browser remains signed in, while the replayable cookie export is
+  // empty. The preparation gate must use the actual page and permit its form.
+  await worker.evaluate(()=>{const original=chrome.cookies.getAll.bind(chrome.cookies);chrome.cookies.getAll=details=>details.domain==='codeforces.com'?Promise.resolve([]):original(details)});
+  await foreground.goto('https://codeforces.com/');
+  let snapshot;
+  for(let i=0;i<150;i++){
+   snapshot=await(await fetch(base+'/fixture/preparation')).json();
+   if(snapshot.platforms.find(p=>p.platform==='Codeforces')?.state==='logged_in')break;
+   await new Promise(r=>setTimeout(r,100));
+  }
+  assert.equal(snapshot.platforms.find(p=>p.platform==='Codeforces')?.state,'logged_in',JSON.stringify(snapshot));
+ }
  for(let i=0;i<100;i++){const value=await(await fetch(base+'/fixture/browser')).json();if(value.connected&&value.hasWindow)break;await new Promise(r=>setTimeout(r,100))}
  const started=performance.now();
  const response=await fetch(base+'/fixture/create?'+new URLSearchParams({key:fixtureKey,url:original}));assert.equal(response.status,200);
@@ -66,7 +81,7 @@ try{
  assert.equal((await(await fetch(base+'/fixture/opened')).json()).length,0);
  assert.equal(await worker.evaluate(async()=>(await chrome.tabs.query({active:true,lastFocusedWindow:true}))[0].id),active);
  assert.deepEqual(errors,[],JSON.stringify({errors,requests}));
- console.log(JSON.stringify({ok:true,platform,hybridMode:true,actualBrowserCookiesPreserved:true,nativeFormCsrf:true,exactReceipt:true,fixtureSeconds:Number(((performance.now()-started)/1000).toFixed(3)),posts:1,foregroundUnchanged:true,realAccountSubmission:false}));
+ console.log(JSON.stringify({ok:true,platform,hybridMode:true,emptyReplayCacheWithOriginalLogin:preparation,actualBrowserCookiesPreserved:true,nativeFormCsrf:true,exactReceipt:true,fixtureSeconds:Number(((performance.now()-started)/1000).toFixed(3)),posts:1,foregroundUnchanged:true,realAccountSubmission:false}));
 }finally{
  if(browser)await browser.close();server.kill();
  assert.ok(path.resolve(profile).startsWith(path.resolve(os.tmpdir())+path.sep));

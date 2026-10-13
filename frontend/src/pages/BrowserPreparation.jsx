@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { CheckCircle2, ExternalLink, FolderOpen, Plug, RefreshCw, X } from 'lucide-react';
 import './BrowserPreparation.css';
 
-const labels = {logged_in:'登录已同步',logged_out:'未登录或登录已失效',not_synced:'尚未同步登录',unknown:'登录状态待确认'};
+const labels = {logged_in:'已登录',logged_out:'未登录或登录已失效',not_synced:'尚未同步登录',unknown:'登录状态待确认'};
 
 export default function BrowserPreparation({ api, enabled }) {
   const [snapshot, setSnapshot] = useState(null), [open, setOpen] = useState(false);
@@ -65,7 +65,7 @@ export default function BrowserPreparation({ api, enabled }) {
   return <>
     <section className={`browser-preparation-notice${snapshot.ready ? ' browser-prepared' : ''}`} aria-label="浏览器提交准备" role="status">
       {snapshot.ready ? <CheckCircle2 size={16}/> : <Plug size={16}/>}
-      <span>{snapshot.ready ? '四个平台的浏览器登录已同步' : !extension.installed ? '原站提交前，请先安装浏览器连接扩展，再登录原站账号。' : `原站提交准备：${missing.map(item => item.platform).join('、') || '浏览器连接'}还需检查。`}</span>
+      <span>{snapshot.ready ? '四个平台的浏览器登录已准备好' : !extension.installed ? '原站提交前，请先安装浏览器连接扩展，再登录原站账号。' : `原站提交准备：${missing.map(item => item.platform).join('、') || '浏览器连接'}还需检查。`}</span>
       <button className="browser-guide-button" onClick={() => { setContext(null); setOpen(true); refresh(); }}>查看准备说明</button>
     </section>
     <dialog className="browser-preparation-dialog" ref={dialog} aria-labelledby="browser-preparation-title" onCancel={event => { event.preventDefault(); setOpen(false); }}>
@@ -85,7 +85,7 @@ export default function BrowserPreparation({ api, enabled }) {
             <div className="browser-guide-platforms">{platforms.map(item => <div className={context?.platform === item.platform ? 'browser-guide-selected' : ''} key={item.platform}><strong>{item.platform === 'Codeforces' ? 'Codeforces（CF）' : item.platform}</strong><span className={item.state === 'logged_in' ? 'browser-login-ready' : ''}>{labels[item.state] || labels.unknown}</span><button className="browser-guide-button" disabled={busy} onClick={() => action('open-login', item.platform)}>打开{item.platform}登录</button><code>{item.loginUrl}</code></div>)}</div>
             <p>如果原站要求验证码或安全验证，请在原站完成。遇到提交页验证时，回到题目点击“在浏览器查看”。</p>
           </li>
-          <li><h3>回到 TB 重新检测</h3><p>保持浏览器打开，点击下方按钮。显示“登录已同步”后，再回到题目点击“提交”。检测和登录不会自动提交代码。</p><button className="browser-guide-button" disabled={busy} onClick={() => action('refresh')}><RefreshCw size={14}/>{busy ? '正在操作…' : '重新检测浏览器准备'}</button><p>登录同步完成后可以关闭浏览器；登录失效时按本说明重新登录。</p></li>
+          <li><h3>回到 TB 重新检测</h3><p>显示“已登录”后，再回到题目点击“提交”。打开的平台会自动更新登录状态，也可点击下方按钮立即检测。检测和登录不会自动提交代码。</p><button className="browser-guide-button" disabled={busy} onClick={() => action('refresh')}><RefreshCw size={14}/>{busy ? '正在操作…' : '重新检测浏览器准备'}</button><p>CF 优先复用浏览器的原站会话，请保持该浏览器打开；登录失效时按本说明重新登录。</p></li>
         </ol>
         {error && <p className="browser-guide-error" role="alert">{error}</p>}{message && <p role="status">{message}</p>}
       </div>

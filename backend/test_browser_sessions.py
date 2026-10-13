@@ -81,6 +81,22 @@ class BrowserSessionTests(unittest.TestCase):
         self.assertFalse(session['attempted'])
         self.assertNotIn('dispatchedAt', session)
 
+    def test_cookie_change_requests_fresh_sync_without_queuing_a_submission(self):
+        bridge = BrowserBridge('http://127.0.0.1:1', session_store=self.store)
+        client = str(uuid.uuid4())
+        key = bridge.register_browser({'clientId':client,'protocol':3})['key']
+        self.store.finish('洛谷')
+        answer = bridge.browser_queue({'clientId':client,'syncPlatforms':['Codeforces']}, key)
+        self.assertEqual([item['platform'] for item in answer['sync']], ['Codeforces'])
+        self.assertEqual(answer['jobs'], [])
+        nonce = answer['sync'][0]['nonce']
+        bridge.sync_browser({'clientId':client,'platform':'Codeforces','nonce':nonce,
+                             'cookies':[],'userAgent':'Fixture browser'}, key)
+        answer = bridge.browser_queue({'clientId':client,'syncPlatforms':['Codeforces']}, key)
+        self.assertNotEqual(answer['sync'][0]['nonce'], nonce)
+        with self.assertRaises(ServiceError):
+            bridge.browser_queue({'clientId':client,'syncPlatforms':['unrelated.example']}, key)
+
     def test_atcoder_never_switches_transport_after_a_submission_checkpoint(self):
         from types import SimpleNamespace
         bridge = BrowserBridge('http://127.0.0.1:1', session_store=self.store)

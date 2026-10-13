@@ -56,6 +56,7 @@ jobs:
           npm run build
           node tests/accounts.mjs
           node tests/hybrid-cf.mjs
+          node tests/hybrid-cf.mjs --preparation
           node tests/browser-official.mjs
 
   frontend:

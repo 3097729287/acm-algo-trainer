@@ -1,7 +1,9 @@
 // Preparation hints only. Original-site submission still verifies the account.
 function tbCookieLoginState(platform, cookies) {
   const live = cookies.filter(cookie => cookie.value && (!cookie.expirationDate || cookie.expirationDate > Date.now() / 1000));
-  if (!live.length) return 'logged_out';
+  // CF's live browser session is authoritative; a replayable cookie export
+  // can be empty without proving that the original page is logged out.
+  if (!live.length) return platform === 'Codeforces' ? 'unknown' : 'logged_out';
   if (platform === '牛客' && live.some(cookie => cookie.name === 't')) return 'logged_in';
   if (platform === '洛谷') {
     const user = live.find(cookie => cookie.name === '_uid');
@@ -12,6 +14,22 @@ function tbCookieLoginState(platform, cookies) {
 }
 function tbPageLoginState(platform, html) {
   if (/just a moment|checking your browser|cf-chl-|安全验证/i.test(html.slice(0, 10000))) return 'unknown';
+  if (platform === 'Codeforces') {
+    const start = /<(div|header)\b[^>]*\bid\s*=\s*["']header["'][^>]*>/i.exec(html);
+    if (!start) return 'unknown';
+    const tags = new RegExp('<\\/?' + start[1] + '\\b[^>]*>', 'gi');
+    tags.lastIndex = start.index;
+    let depth = 0, end = html.length, tag;
+    while ((tag = tags.exec(html))) {
+      depth += /^<\//.test(tag[0]) ? -1 : 1;
+      if (!depth) { end = tags.lastIndex; break; }
+    }
+    const header = html.slice(start.index, end);
+    // Ignore article/sidebar/login-dialog links outside the account header.
+    if (/\bhref\s*=\s*["'](?:https:\/\/(?:www\.)?codeforces\.com)?\/(?:profile\/|logout(?:["'?/#]|$))/i.test(header)) return 'logged_in';
+    if (/\bhref\s*=\s*["']\/(?:login|enter)(?:["'?/#]|$)/i.test(header)) return 'logged_out';
+    return 'unknown';
+  }
   if (platform === '洛谷') {
     const raw = html.match(/<script\b[^>]*\bid=["']lentille-context["'][^>]*>([\s\S]*?)<\/script>/i)?.[1];
     if (raw) {
@@ -29,6 +47,5 @@ function tbPageLoginState(platform, html) {
     if (owner) return owner[1] ? 'logged_in' : 'logged_out';
   }
   if (/\bhref\s*=\s*["']\/(?:login|enter)(?:["'?/#]|$)/i.test(html)) return 'logged_out';
-  if (platform === 'Codeforces' && /id=["']header["'][\s\S]{0,12000}?href=["']\/profile\//i.test(html)) return 'logged_in';
   return 'unknown';
 }

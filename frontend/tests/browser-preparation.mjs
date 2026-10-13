@@ -6,11 +6,13 @@ import {createServer} from 'vite';
 
 const detector = {};
 vm.runInNewContext(await readFile('../desktop/browser_extension/login_state.js','utf8'), detector);
-assert.equal(detector.tbCookieLoginState('Codeforces',[]), 'logged_out');
+assert.equal(detector.tbCookieLoginState('Codeforces',[]), 'unknown');
 assert.equal(detector.tbCookieLoginState('Codeforces',[{name:'JSESSIONID',value:'anonymous'}]), 'unknown');
 assert.equal(detector.tbPageLoginState('Codeforces','<div id="header"><a href="/enter">Enter</a></div>'), 'logged_out');
 assert.equal(detector.tbPageLoginState('Codeforces','<div id="header"><a href="/profile/fixture">Fixture</a></div>'), 'logged_in');
 assert.equal(detector.tbPageLoginState('Codeforces','<title>Just a moment</title>'), 'unknown');
+assert.equal(detector.tbPageLoginState('Codeforces','<div id = "header"><div><a href="/profile/fixture">Fixture</a></div></div><a href="/enter">Article login prompt</a>'), 'logged_in');
+assert.equal(detector.tbPageLoginState('Codeforces','<div id="header"><a href="/enter">Enter</a></div><a href="/profile/author">Article author</a>'), 'logged_out');
 assert.equal(detector.tbPageLoginState('AtCoder','var userScreenName = "fixture";'), 'logged_in');
 assert.equal(detector.tbPageLoginState('AtCoder','var userScreenName = "";'), 'logged_out');
 assert.equal(detector.tbPageLoginState('牛客','window.globalInfo={"ownerId":123};'), 'logged_in');
@@ -69,7 +71,7 @@ try {
   state={...state,ready:true,extension:{installed:true,connected:false},platforms:state.platforms.map(p=>({...p,state:'logged_in'}))};
   await page.evaluate(()=>window.dispatchEvent(new Event('focus')));
   await guide.getByText('扩展已安装，浏览器当前未连接',{exact:true}).waitFor();
-  await page.getByText('四个平台的浏览器登录已同步',{exact:true}).waitFor();
+  await page.getByText('四个平台的浏览器登录已准备好',{exact:true}).waitFor();
   assert.deepEqual(errors,[]);
   console.log(JSON.stringify({ok:true,missingExtensionGuide:true,fourLoginActions:true,knownLogout:true,unknownIsNotLogout:true,verificationGuide:true,cachedLoginWithBrowserClosed:true,mobile:true,realAccountSubmission:false}));
 } finally {await browser.close();await vite.close();}

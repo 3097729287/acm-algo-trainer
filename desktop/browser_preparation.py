@@ -40,16 +40,20 @@ class BrowserPreparation:
             states = dict(bridge.client_login_states.get(bridge.sync_client, {}))
             versions = [bridge.client_versions.get(client, '') for client, at in bridge.client_seen.items()
                         if bridge.clock() - at <= 6]
+            cf_client = bridge._browser_client('Codeforces')
+            cf_live = bool(cf_client and 'Codeforces' in bridge.client_platforms.get(cf_client, set()))
+            if cf_live:
+                states['Codeforces'] = bridge.client_login_states.get(cf_client, {}).get('Codeforces', 'unknown')
         installed = bool(profiles) or connected
         platforms = []
         for platform in DOMAINS:
             cached = bridge.session_store.snapshot(platform) if bridge.session_store else None
             state = states.get(platform, 'unknown')
             if cached is None:
-                state = 'not_synced'
+                state = state if platform == 'Codeforces' and cf_live else 'not_synced'
             elif not any(cookie.get('value') and cookie.get('expirationDate', float('inf')) > time.time()
                          for cookie in cached.get('cookies', [])):
-                state = 'logged_out'
+                state = state if platform == 'Codeforces' and cf_live else 'logged_out'
             platforms.append({'platform': platform, 'state': state, 'loginUrl': LOGIN_URLS[platform]})
         return {'available': True, 'extensionPath': str(self.path),
                 'extension': {'installed': installed, 'connected': connected, 'versions': versions},
@@ -64,6 +68,12 @@ class BrowserPreparation:
         state = next(p['state'] for p in value['platforms'] if p['platform'] == platform)
         if not value['extension']['installed']:
             raise ServiceError(412, '请先安装并启用 TB 浏览器连接扩展，按“浏览器提交准备”中的步骤操作')
+        if platform == 'Codeforces':
+            # The already-running browser validates its own account and native
+            # form before sending. A stale/empty replay cache must not stop it.
+            with self.bridge.lock:
+                if self.bridge._browser_client(platform):
+                    return
         if state in ('not_synced', 'logged_out'):
             raise ServiceError(412, '请先在安装了 TB 扩展的浏览器登录 ' + platform + '，再回 TB 重新检测')
 

@@ -12,6 +12,7 @@ for directory in ('desktop', 'backend', 'backend/common'):
     sys.path.insert(0, str(ROOT / directory))
 from backend import Handler
 from browser_bridge import BrowserBridge
+from browser_preparation import BrowserPreparation
 
 opened, saved, sessions = [], [], {}
 
@@ -23,6 +24,8 @@ class Fixture(Handler):
         if target.path == '/fixture/create':
             key = query['key'][0]
             url = query['url'][0]
+            if getattr(self.server, 'browser_preparation', None):
+                self.server.browser_preparation.check_submission(url)
             value = self.server.browser_bridge.submit(url, 'int main(){}', key)
             sessions[key] = value['sessionId']
             self.send_json(200, value)
@@ -35,6 +38,8 @@ class Fixture(Handler):
         elif target.path == '/fixture/browser':
             bridge=self.server.browser_bridge
             self.send_json(200, {'connected':bool(bridge.client_seen), 'hasWindow':any(bridge.client_windows.values())})
+        elif target.path == '/fixture/preparation':
+            self.send_json(200, self.server.browser_preparation.snapshot())
         elif target.path == '/fixture/sync':
             store = self.server.browser_bridge.session_store
             if 'platform' in query:
@@ -60,5 +65,7 @@ if os.environ.get('TB_TEST_SILENT') == '1' or os.environ.get('TB_TEST_HYBRID') =
         def native_unexpected(_):
             raise AssertionError('The CF fixture must use the already-running browser')
         server.browser_bridge.runner=SimpleNamespace(start=native_unexpected)
+if os.environ.get('TB_TEST_PREPARATION') == '1':
+    server.browser_preparation = BrowserPreparation(server.browser_bridge, server.browser_extension_path, profiles=lambda:[])
 print(json.dumps({'port': server.server_port}), flush=True)
 server.serve_forever()

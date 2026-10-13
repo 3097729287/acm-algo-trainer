@@ -76,10 +76,16 @@ class BrowserBridge:
             if not isinstance(states, dict) or set(states) - LOGIN_HOSTS.keys() or any(s not in ('logged_in', 'logged_out', 'unknown') for s in states.values()):
                 raise ServiceError(400, '浏览器登录状态无效')
             self.client_login_states[client] = dict(states)
+            refresh = body.get('syncPlatforms', [])
+            if not isinstance(refresh, list) or len(refresh) > 4 or any(not isinstance(p, str) or p not in LOGIN_HOSTS for p in refresh):
+                raise ServiceError(400, '浏览器登录刷新范围无效')
             sync = []
             if self.session_store:
                 if self.client_protocols.get(client, 0) >= 2 and (self.sync_client is None or self.clock() - self.client_seen.get(self.sync_client, -10) > 6):
                     self.sync_client = client
+                if client == self.sync_client:
+                    for platform in set(refresh):
+                        self.session_store.request(platform)
                 sync = self.session_store.requests() if client == self.sync_client else []
             jobs = []
             for session in self.sessions.values():
