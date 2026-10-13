@@ -40,6 +40,44 @@ class BrowserSessionTests(unittest.TestCase):
             with self.assertRaises(ServiceError): self.store.accept({**self.body, **change})
         self.assertFalse(self.path.exists())
 
+    def test_first_party_partition_survives_encrypted_restart_but_other_partitions_do_not(self):
+        for platform, domain in [('Codeforces','codeforces.com'),('AtCoder','atcoder.jp'),('牛客','nowcoder.com'),('洛谷','luogu.com.cn')]:
+            with self.subTest(platform=platform):
+                self.store.request(platform)
+                request = next(r for r in self.store.requests() if r['platform'] == platform)
+                cookie = {**self.body['cookies'][0], 'domain':domain}
+                self.store.accept({**request,'clientId':'fixture-profile','loginState':'logged_in','cookies':[
+                    {**cookie,'name':'first-party','partitionKey':{'topLevelSite':'https://'+domain,'hasCrossSiteAncestor':False}},
+                    {**cookie,'name':'other-site','partitionKey':{'topLevelSite':'https://evil.test','hasCrossSiteAncestor':False}},
+                    {**cookie,'name':'embedded','partitionKey':{'topLevelSite':'https://'+domain,'hasCrossSiteAncestor':True}},
+                    {**cookie,'name':'malformed','partitionKey':{'topLevelSite':123}}]})
+                restored = BrowserSessions(self.path).snapshot(platform)
+                self.assertEqual([c['name'] for c in restored['cookies']], ['first-party'])
+                self.assertEqual(restored['loginState'], 'logged_in')
+
+    def test_login_proof_persists_but_another_profile_cannot_change_it(self):
+        self.store.accept({**self.body,'clientId':'owner','loginState':'unknown'})
+        self.store.update_login_states('owner', {'洛谷':'logged_in'})
+        self.store.update_login_states('other', {'洛谷':'logged_out'})
+        self.assertEqual(BrowserSessions(self.path).snapshot('洛谷')['loginState'], 'logged_in')
+        self.store.update_login_states('owner', {'洛谷':'logged_out'})
+        self.assertEqual(BrowserSessions(self.path).snapshot('洛谷')['loginState'], 'logged_out')
+
+    def test_logged_in_profile_wins_even_without_an_open_site_tab(self):
+        bridge = BrowserBridge('http://127.0.0.1:1', session_store=self.store)
+        guest, signed = str(uuid.uuid4()), str(uuid.uuid4())
+        keys = {c:bridge.register_browser({'clientId':c,'protocol':3})['key'] for c in (guest,signed)}
+        bridge.browser_queue({'clientId':guest,'hasWindow':True,'platforms':['洛谷'],
+                              'loginStates':{'洛谷':'logged_out'}}, keys[guest])
+        answer = bridge.browser_queue({'clientId':signed,'hasWindow':False,'platforms':[],
+                                       'loginStates':{'洛谷':'logged_in'}}, keys[signed])
+        self.assertEqual(bridge._session_client('洛谷'), signed)
+        self.assertEqual(answer['sync'][0]['platform'], '洛谷')
+        with self.assertRaises(ServiceError):
+            bridge.sync_browser({**self.body,'clientId':guest}, keys[guest])
+        bridge.sync_browser({**self.body,'clientId':signed,'loginState':'logged_in'}, keys[signed])
+        self.assertEqual(self.store.snapshot('洛谷')['clientId'], signed)
+
     def test_completed_or_expired_request_is_refreshed(self):
         original = self.body['nonce']
         self.store.accept(self.body)

@@ -48,7 +48,7 @@ export default function BrowserPreparation({ api, enabled }) {
     setBusy(true); setError(''); setMessage('');
     try {
       const value = await api('browser-preparation', {action, browser, ...(platform ? {platform} : {})});
-      if (action === 'refresh') { setSnapshot(value); setMessage('检测已开始。请保持浏览器打开，状态会自动刷新；准备完成后回到题目点击提交。'); }
+      if (action === 'refresh') { setSnapshot(value); setMessage('正在后台同步四个平台的登录状态，无需打开原站页面。完成后可直接提交。'); }
       else setMessage(action === 'open-folder' ? '请选择这个包含 manifest.json 的文件夹。' : '请在打开的浏览器中完成操作，再回 TB 点击重新检测。');
     } catch (issue) { setError(issue.message); }
     finally { setBusy(false); }
@@ -85,7 +85,7 @@ export default function BrowserPreparation({ api, enabled }) {
             <div className="browser-guide-platforms">{platforms.map(item => <div className={context?.platform === item.platform ? 'browser-guide-selected' : ''} key={item.platform}><strong>{item.platform === 'Codeforces' ? 'Codeforces（CF）' : item.platform}</strong><span className={item.state === 'logged_in' ? 'browser-login-ready' : ''}>{labels[item.state] || labels.unknown}</span><button className="browser-guide-button" disabled={busy} onClick={() => action('open-login', item.platform)}>打开{item.platform}登录</button><code>{item.loginUrl}</code></div>)}</div>
             <p>如果原站要求验证码或安全验证，请在原站完成。遇到提交页验证时，回到题目点击“在浏览器查看”。</p>
           </li>
-          <li><h3>回到 TB 重新检测</h3><p>显示“已登录”后，再回到题目点击“提交”。打开的平台会自动更新登录状态，也可点击下方按钮立即检测。检测和登录不会自动提交代码。</p><button className="browser-guide-button" disabled={busy} onClick={() => action('refresh')}><RefreshCw size={14}/>{busy ? '正在操作…' : '重新检测浏览器准备'}</button><p>CF 优先复用浏览器的原站会话，请保持该浏览器打开；登录失效时按本说明重新登录。</p></li>
+          <li><h3>回到 TB 提交</h3><p>已安装扩展且在浏览器登录后，可直接回到题目点击“提交”。四个平台会自动同步，无需打开原站标签页或重复登录；提交时会再次检查实际会话。</p><button className="browser-guide-button" disabled={busy} onClick={() => action('refresh')}><RefreshCw size={14}/>{busy ? '正在操作…' : '重新检测浏览器准备'}</button><p>关闭浏览器后仍可使用已同步的有效会话，必要时 TB 会在后台唤醒扩展。检测不会发送代码；原站明确要求登录或验证时再按提示处理。</p></li>
         </ol>
         {error && <p className="browser-guide-error" role="alert">{error}</p>}{message && <p role="status">{message}</p>}
       </div>

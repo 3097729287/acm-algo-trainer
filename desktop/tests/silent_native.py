@@ -14,6 +14,7 @@ os.environ['TB_OFFLINE'] = '1'
 import webview
 from browser_bridge import BrowserBridge
 from browser_sessions import BrowserSessions
+from browser_preparation import BrowserPreparation
 from silent_submit import SilentSubmitter
 
 
@@ -27,7 +28,11 @@ def run():
         def sync():
             for request in store.requests():
                 domain=request['domains'][0]
-                store.accept({**request,'cookies':[{'name':'fixture_login','value':'test-only-session','domain':'.'+domain,'path':'/','secure':True,'httpOnly':True,'sameSite':'lax','expirationDate':time.time()+600}], 'userAgent':'TB Fixture'})
+                cookie={'value':'test-only-session','domain':'.'+domain,'path':'/','httpOnly':True,'sameSite':'lax','expirationDate':time.time()+600}
+                store.accept({**request,'loginState':'logged_in','cookies':[
+                    {**cookie,'name':'fixture_login','secure':False},
+                    {**cookie,'name':'fixture_partition','secure':True,'partitionKey':{'topLevelSite':'https://'+domain,'hasCrossSiteAncestor':False}}],
+                    'userAgent':'TB Fixture'})
         bridge = BrowserBridge('http://127.0.0.1:1', session_store=store, opener=lambda _: (_ for _ in ()).throw(AssertionError('Browser opened')), on_receipt=lambda sid,s: saved.append(s['verdict']) or True)
         def fixture(view):
             from Microsoft.Web.WebView2.Core import CoreWebView2WebResourceContext
@@ -96,6 +101,7 @@ def run():
             core.WebResourceRequested+=serve
         runner=SilentSubmitter(main,bridge,store,wake=sync,native_setup=fixture)
         bridge.runner=runner
+        preparation=BrowserPreparation(bridge,ROOT/'build/browser-extension',profiles=lambda:[(Path('fixture-browser'),'Default')])
         main.events.closing+=bridge.on_closing
         def wait(sid, status, timeout=30):
             until=time.monotonic()+timeout
@@ -110,12 +116,19 @@ def run():
                 urls=['https://codeforces.com/contest/123/problem/A','https://atcoder.jp/contests/abc100/tasks/abc100_a','https://ac.nowcoder.com/acm/contest/127263/B','https://www.luogu.com.cn/problem/B4536']
                 for url in urls:
                     started=time.monotonic()
+                    # A stale empty snapshot used to prevent waking the closed
+                    # browser at all. Exercise the actual submit gate + runner.
+                    preparation.check_submission(url)
+                    request=store.requests()[-1]
+                    store.accept({**request,'cookies':[],'loginState':'logged_out'})
+                    preparation.check_submission(url)
                     sid=bridge.submit(url,'int main(){}','fixture')['sessionId']
                     assert wait(sid,'finished')['verdict']=='AC'
                     timings.append({'platform':bridge.sessions[sid]['platform'],'seconds':round(time.monotonic()-started,3)})
                     assert not runner._ui(lambda:main.native.Visible)
                 assert len(posts)==4 and saved==['AC']*4
                 assert all('fixture_login=test-only-session' in c for c in cookies)
+                assert all('fixture_partition=test-only-session' in c for c in cookies)
                 # The current AtCoder form requires its original-site token.
                 before=len(posts)
                 mode['acToken']=False
@@ -154,7 +167,7 @@ def run():
                 until=time.monotonic()+25
                 while bridge.status(sid)['status']!='error' and time.monotonic()<until:time.sleep(.1)
                 assert bridge.status(sid)['status']=='error' and len(posts)==6+extra_atcoder
-                result.update(ok=True,allFourHidden=True,atcoderFirstContestSubmission=True,atcoderVerificationNoPost=True,atcoderVerifiedRetry=True,atcoderRejectionDisplayed=True,reusedBrowserLogin=True,encryptedSessionWorksWithBrowserClosed=True,luoguMissingEditor=True,luoguContextFetch=True,loginRetry=True,invalidContextNoPost=True,posts=len(posts),fixtureTimings=timings,realAccountSubmission=False)
+                result.update(ok=True,allFourHidden=True,allFourStaleCacheRefreshedBeforeSubmit=True,firstPartyPartitionReplayed=True,atcoderFirstContestSubmission=True,atcoderVerificationNoPost=True,atcoderVerifiedRetry=True,atcoderRejectionDisplayed=True,reusedBrowserLogin=True,encryptedSessionWorksWithBrowserClosed=True,luoguMissingEditor=True,luoguContextFetch=True,loginRetry=True,invalidContextNoPost=True,posts=len(posts),fixtureTimings=timings,realAccountSubmission=False)
             except Exception as error:
                 result.update(ok=False,error=repr(error),states=[bridge.status(sid) for sid in bridge.sessions],posts=len(posts))
             finally: main.destroy()

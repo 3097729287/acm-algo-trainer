@@ -4,10 +4,19 @@ import vm from 'node:vm';
 import {chromium} from 'playwright';
 import {createServer} from 'vite';
 
-const detector = {};
+const detector = {URL};
 vm.runInNewContext(await readFile('../desktop/browser_extension/login_state.js','utf8'), detector);
 assert.equal(detector.tbCookieLoginState('Codeforces',[]), 'unknown');
 assert.equal(detector.tbCookieLoginState('AtCoder',[]), 'unknown');
+assert.equal(detector.tbCookieLoginState('AtCoder',[{name:'REVEL_SESSION',value:encodeURIComponent('signed-\x00csrf_token:test\x00\x00UserScreenName:fixture\x00')}]), 'logged_in');
+assert.equal(detector.tbCookieLoginState('AtCoder',[{name:'REVEL_SESSION',value:encodeURIComponent('signed-\x00csrf_token:test\x00')}]), 'logged_out');
+assert.equal(detector.tbCookieLoginState('AtCoder',[{name:'REVEL_SESSION',value:'%malformed'}]), 'unknown');
+assert.equal(detector.tbCookieLoginState('AtCoder',[{name:'REVEL_SESSION',value:encodeURIComponent('signed-\x00UserScreenName:fixture\x00'),expirationDate:1}]), 'unknown');
+for (const [platform,domain] of Object.entries({Codeforces:'codeforces.com',AtCoder:'atcoder.jp','牛客':'nowcoder.com','洛谷':'luogu.com.cn'})) {
+  assert.equal(detector.tbFirstPartyCookie(platform,{domain,partitionKey:{topLevelSite:'https://'+domain,hasCrossSiteAncestor:false}}),true);
+  assert.equal(detector.tbFirstPartyCookie(platform,{domain,partitionKey:{topLevelSite:'https://'+domain,hasCrossSiteAncestor:true}}),false);
+  assert.equal(detector.tbFirstPartyCookie(platform,{domain,partitionKey:{topLevelSite:'https://evil.test'}}),false);
+}
 assert.equal(detector.tbCookieLoginState('Codeforces',[{name:'JSESSIONID',value:'anonymous'}]), 'unknown');
 assert.equal(detector.tbPageLoginState('Codeforces','<div id="header"><a href="/enter">Enter</a></div>'), 'logged_out');
 assert.equal(detector.tbPageLoginState('Codeforces','<div id="header"><a href="/profile/fixture">Fixture</a></div>'), 'logged_in');

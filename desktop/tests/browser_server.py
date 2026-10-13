@@ -42,6 +42,13 @@ class Fixture(Handler):
             self.send_json(200, {'connected':bool(bridge.client_seen), 'hasWindow':any(bridge.client_windows.values())})
         elif target.path == '/fixture/preparation':
             self.send_json(200, self.server.browser_preparation.snapshot())
+        elif target.path == '/fixture/restart-sessions':
+            bridge = self.server.browser_bridge
+            with bridge.lock:
+                bridge.session_store = BrowserSessions(bridge.session_store.path)
+                bridge.client_seen.clear()
+                bridge.client_login_states.clear()
+            self.send_json(200, {'restored': True})
         elif target.path == '/fixture/sync':
             store = self.server.browser_bridge.session_store
             if 'platform' in query:
@@ -68,6 +75,7 @@ if os.environ.get('TB_TEST_SILENT') == '1' or os.environ.get('TB_TEST_HYBRID') =
             raise AssertionError('The CF fixture must use the already-running browser')
         server.browser_bridge.runner=SimpleNamespace(start=native_unexpected)
 if os.environ.get('TB_TEST_PREPARATION') == '1':
-    server.browser_preparation = BrowserPreparation(server.browser_bridge, server.browser_extension_path, profiles=lambda:[])
+    server.browser_preparation = BrowserPreparation(server.browser_bridge, server.browser_extension_path,
+        profiles=lambda:[(Path('fixture-browser.exe'),'Default')] if os.environ.get('TB_TEST_INSTALLED') == '1' else [])
 print(json.dumps({'port': server.server_port}), flush=True)
 server.serve_forever()

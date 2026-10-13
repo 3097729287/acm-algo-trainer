@@ -40,7 +40,17 @@
     }
     if (message.type === 'login-state') {
       const platform = ({'codeforces.com':'Codeforces','www.codeforces.com':'Codeforces','atcoder.jp':'AtCoder','ac.nowcoder.com':'牛客','www.luogu.com.cn':'洛谷','luogu.com.cn':'洛谷'})[location.hostname];
-      reply({state:platform===message.platform ? tbPageLoginState(platform,document.documentElement.outerHTML) : 'unknown'});
+      if (platform !== message.platform) { reply({state:'unknown'}); return; }
+      // Check a fresh same-origin page: an old sign-in/header DOM can remain
+      // open after logging in or out elsewhere. No navigation or form action.
+      const path = platform === '牛客' ? '/acm/home' : '/';
+      fetch(path,{credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(5000)})
+        .then(async response=>{
+          if (!response.ok || Number(response.headers.get('content-length')) > 1048576) return {state:'unknown'};
+          const html = await response.text();
+          return {state:html.length <= 1048576 ? tbPageLoginState(platform,html) : 'unknown',fresh:true};
+        }).then(reply,()=>reply({state:'unknown'}));
+      return true;
     }
   });
   document.addEventListener('DOMContentLoaded', tick, { once: true });

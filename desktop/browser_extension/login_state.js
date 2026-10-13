@@ -4,6 +4,18 @@ function tbCookieLoginState(platform, cookies) {
   // The live CF/AtCoder browser session is authoritative; a cookie export
   // can be empty without proving that the original page is logged out.
   if (!live.length) return ['Codeforces','AtCoder'].includes(platform) ? 'unknown' : 'logged_out';
+  if (platform === 'AtCoder') {
+    const session = live.find(cookie => cookie.name === 'REVEL_SESSION');
+    if (session) {
+      try {
+        // Revel signs a URL-encoded, NUL-delimited map. The session cookie also
+        // exists for guests; only its explicit user claim is a login hint.
+        const value = decodeURIComponent(session.value.replace(/\+/g, ' '));
+        if (/\x00UserScreenName:[A-Za-z0-9_]+\x00/.test(value)) return 'logged_in';
+        if (/\x00(?:csrf_token|_TS):[^\x00]*\x00/.test(value)) return 'logged_out';
+      } catch { /* Unknown encodings still require the original site's check. */ }
+    }
+  }
   if (platform === '牛客' && live.some(cookie => cookie.name === 't')) return 'logged_in';
   if (platform === '洛谷') {
     const user = live.find(cookie => cookie.name === '_uid');
@@ -11,6 +23,19 @@ function tbCookieLoginState(platform, cookies) {
     if (/^[1-9]\d*$/.test(user?.value || '') && live.some(cookie => cookie.name === '__client_id')) return 'logged_in';
   }
   return 'unknown';
+}
+
+function tbFirstPartyCookie(platform, cookie) {
+  const root = {Codeforces:'codeforces.com',AtCoder:'atcoder.jp','牛客':'nowcoder.com','洛谷':'luogu.com.cn'}[platform];
+  const domain = cookie.domain?.replace(/^\./, '').toLowerCase();
+  if (!root || !(domain === root || domain?.endsWith('.' + root))) return false;
+  if (!cookie.partitionKey) return true;
+  try {
+    const site = new URL(cookie.partitionKey.topLevelSite);
+    return site.protocol === 'https:' && !site.username && !site.password && !site.port
+      && (site.hostname === root || site.hostname.endsWith('.' + root))
+      && cookie.partitionKey.hasCrossSiteAncestor !== true;
+  } catch { return false; }
 }
 function tbPageLoginState(platform, html) {
   if (/just a moment|checking your browser|cf-chl-|安全验证/i.test(html.slice(0, 10000))) return 'unknown';

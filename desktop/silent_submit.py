@@ -8,6 +8,7 @@ from urllib.parse import urlsplit
 
 from official_bridge import OfficialBridge, LOGIN_HOSTS, page_source
 from silent_browser import wake_browser
+from browser_sessions import live_cookies
 
 
 def navigation_failure(session):
@@ -73,10 +74,11 @@ class SilentSubmitter(OfficialBridge):
             self.bridge.exchange({'sessionId': identity, 'claim': True}, session['capability'])
             cached = self.store.snapshot(session['platform'])
             event = self.store.request(session['platform'])
-            if not event.wait(.35 if cached else 1):
+            usable = bool(live_cookies(cached)) and cached.get('loginState') != 'logged_out'
+            if not event.wait(1.5 if usable else 1):
                 if self.stopping.is_set():
                     return
-                if not cached:
+                if not usable:
                     self.wake()
                     event.wait(12)
             snapshot = self.store.snapshot(session['platform'])
@@ -84,6 +86,8 @@ class SilentSubmitter(OfficialBridge):
             if snapshot is None:
                 self._event(identity, {'status': 'needs_browser', 'attempted': False,
                     'message': '首次登录同步尚未完成：请启用或重新加载最新版 TB 浏览器连接扩展；同步后可关闭浏览器静默提交。'})
+                return
+            if self.bridge.route_to_browser(identity):
                 return
             self._ui(lambda: self._attach_silent(identity, snapshot))
             next_inspect = 0

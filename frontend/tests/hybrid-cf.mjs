@@ -33,6 +33,11 @@ try{
  await browser.route('**/*',async route=>{
   const req=route.request(),url=new URL(req.url());if(url.hostname==='127.0.0.1')return route.continue();
   requests.push({url:req.url(),type:req.resourceType()});
+  if(url.hostname!==officialHost){
+   assert.ok(['codeforces.com','atcoder.jp','ac.nowcoder.com','www.luogu.com.cn'].includes(url.hostname));
+   assert.equal(req.method(),'GET');
+   return route.fulfill({status:503,body:'Other platform fixture unavailable'});
+  }
   assert.equal(url.hostname,officialHost);
   if(atcoder){
    const account='<script>var userScreenName="fixture";</script><nav class="navbar"><a href="/users/fixture">fixture</a></nav>';

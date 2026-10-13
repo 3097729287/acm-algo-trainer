@@ -57,6 +57,8 @@ jobs:
           node tests/accounts.mjs
           node tests/hybrid-cf.mjs
           node tests/hybrid-cf.mjs --preparation
+          node tests/hybrid-cf.mjs --atcoder --preparation --reuse
+          node tests/login-sessions.mjs
           node tests/browser-official.mjs
 
   frontend:

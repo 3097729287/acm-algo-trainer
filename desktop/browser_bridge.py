@@ -35,6 +35,7 @@ class BrowserBridge:
         self.client_platforms = {}
         self.client_versions = {}
         self.client_login_states = {}
+        self.sync_assignments = {}
 
     def register_browser(self, body):
         # The HTTP layer requires the bundled extension's exact browser origin.
@@ -61,7 +62,11 @@ class BrowserBridge:
                 raise ServiceError(403, '浏览器后台连接已失效')
         if self.session_store is None:
             raise ServiceError(404, '未启用登录同步')
-        return self.session_store.accept(body)
+        with self.lock:
+            assigned = self.sync_assignments.get(body.get('platform'))
+            if assigned and assigned != (body.get('nonce'), body.get('clientId')):
+                raise ServiceError(403, '登录同步已分配给其他浏览器配置')
+            return self.session_store.accept(body)
 
     def browser_queue(self, body, capability):
         client = body.get('clientId')
@@ -73,7 +78,7 @@ class BrowserBridge:
             self.client_windows[client] = body.get('hasWindow', True) is True
             self.client_platforms[client] = {p for p in body.get('platforms', []) if isinstance(p, str) and p in LOGIN_HOSTS} if isinstance(body.get('platforms', []), list) else set()
             states = body.get('loginStates', {})
-            if not isinstance(states, dict) or set(states) - LOGIN_HOSTS.keys() or any(s not in ('logged_in', 'logged_out', 'unknown') for s in states.values()):
+            if not isinstance(states, dict) or set(states) - LOGIN_HOSTS.keys() or any(not isinstance(s, str) or s not in ('logged_in', 'logged_out', 'unknown') for s in states.values()):
                 raise ServiceError(400, '浏览器登录状态无效')
             self.client_login_states[client] = dict(states)
             refresh = body.get('syncPlatforms', [])
@@ -83,10 +88,15 @@ class BrowserBridge:
             if self.session_store:
                 if self.client_protocols.get(client, 0) >= 2 and (self.sync_client is None or self.clock() - self.client_seen.get(self.sync_client, -10) > 6):
                     self.sync_client = client
-                if client == self.sync_client:
-                    for platform in set(refresh):
+                for platform in set(refresh):
+                    if self._session_client(platform) == client:
                         self.session_store.request(platform)
-                sync = self.session_store.requests() if client == self.sync_client else []
+                for request in self.session_store.requests():
+                    if self._session_client(request['platform']) == client:
+                        self.sync_assignments[request['platform']] = (request['nonce'], client)
+                        sync.append(request)
+                if hasattr(self.session_store, 'update_login_states'):
+                    self.session_store.update_login_states(client, states)
             jobs = []
             for session in self.sessions.values():
                 self._expire(session)
@@ -111,12 +121,18 @@ class BrowserBridge:
                 return {'jobs': jobs, 'mode': 'hybrid' if jobs else 'silent', 'sync': sync}
             return {'jobs': jobs}
 
-    def _browser_client(self, platform):
+    def _session_client(self, platform, require_window=False):
         eligible = [client for client, at in self.client_seen.items()
-                    if self.clock() - at <= 6 and self.client_windows.get(client)
+                    if self.clock() - at <= 6 and (not require_window or self.client_windows.get(client))
                     and self.client_protocols.get(client, 0) >= 2]
-        return next((client for client in eligible if platform in self.client_platforms.get(client, set())),
-                    self.sync_client if self.sync_client in eligible else next(iter(eligible), None))
+        return max(eligible, key=lambda client: (
+            self.client_login_states.get(client, {}).get(platform) == 'logged_in',
+            self.client_login_states.get(client, {}).get(platform) != 'logged_out',
+            platform in self.client_platforms.get(client, set()), client == self.sync_client), default=None)
+
+    def _browser_client(self, platform):
+        client = self._session_client(platform)
+        return client if client and self.client_windows.get(client) else None
 
     def route_to_browser(self, identity, before_click=False):
         """Reuse the browser session before a protected native form can click."""
