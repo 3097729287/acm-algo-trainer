@@ -333,7 +333,7 @@ class IntegrationService:
         for row in rows:
             row.update(metadata.get(canonical(row.get('url')),{}))
             if self._collectable(row,settings):
-                result.append(enrich_row(row,official_tags=row.get('officialTags')))
+                result.append(enrich_row(P.classify_contest(row),official_tags=row.get('officialTags')))
         return result
 
     def row(self,identity):
@@ -384,6 +384,37 @@ class IntegrationService:
 
     def _catalog(self,platform,local_urls):
         rows,pending,message=P.DISCOVERY_ADAPTERS[platform](self.client,self.clock());added=0;added_ids=[];added_urls=[]
+        # Fetch publicly available statements in the existing background worker.
+        # No network or model calls while the UI encodes rows; retry missing evidence
+        # next sync, retaining analyses already obtained for unchanged questions.
+        from knowledge import enrich_row
+        enriched=[]
+        for value in rows:
+            if self.stop.is_set():break
+            with self.lock:previous=copy.deepcopy(self.state['rows'].get(value['id'],{}))
+            if previous.get('knowledgeAnalysis'):
+                value['knowledgeAnalysis']=previous['knowledgeAnalysis']
+                value=enrich_row(value)
+            if not value.get('tags'):
+                path=self.state_dir/'statements'/(hashlib.sha256(value['id'].encode()).hexdigest()+'.json')
+                saved=load(path,{})
+                try:
+                    if not saved.get('statementAvailable'):
+                        saved=P.statement(self.client,value['id'],value['title'],value['url'])
+                        if not self.stop.is_set():atomic(path,saved)
+                    value=enrich_row(value,statement=saved.get('markdown'),official_tags=saved.get('officialTags'))
+                except (OSError,ValueError,RuntimeError,KeyError,TypeError):pass
+            if platform=='atcoder' and not value.get('tags'):
+                hint_path=self.state_dir/'knowledge-hints'/(hashlib.sha256(value['id'].encode()).hexdigest()+'.json')
+                hint=load(hint_path,{})
+                try:
+                    if not hint:
+                        hint=P.atcoder_knowledge(self.client,value)
+                        if hint and not self.stop.is_set():atomic(hint_path,hint)
+                    if hint:value=enrich_row(value,algorithm_evidence=hint)
+                except (OSError,ValueError,RuntimeError,KeyError,TypeError):pass
+            enriched.append(value)
+        rows=enriched
         if platform=='codeforces':
             try:
                 listing=self.client.json('https://codeforces.com/api/contest.list?gym=false')

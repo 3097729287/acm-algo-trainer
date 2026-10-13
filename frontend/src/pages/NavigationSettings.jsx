@@ -4,10 +4,8 @@ export function orderedPages(pages, preferences) {
   const order = Array.isArray(preferences.navOrder) ? preferences.navOrder : [];
   const groups={...(preferences.navGroups||{})};
   if (groups.mine?.trim() === '训练与待办') delete groups.mine;
-  for(const [ids,fallback] of [[['growth','activity','goals'],'成长与能力']]) {
-    const group=ids.map(id=>groups[id]?.trim()).find(Boolean)||fallback;
-    ids.forEach(id=>{groups[id]=group;});
-  }
+  // Activity has its own entry; retire the previously forced growth group.
+  for (const id of ['growth','activity','goals']) delete groups[id];
   return [...pages].sort((left, right) => {
     const a = order.indexOf(left.id), b = order.indexOf(right.id);
     return (a < 0 ? 100 + pages.indexOf(left) : a) - (b < 0 ? 100 + pages.indexOf(right) : b);

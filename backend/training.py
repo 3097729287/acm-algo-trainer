@@ -96,6 +96,8 @@ class TrainingService:
             CREATE TABLE IF NOT EXISTS goals (
               id TEXT PRIMARY KEY, created_at TEXT NOT NULL, config TEXT NOT NULL,
               archived INTEGER NOT NULL DEFAULT 0);
+            CREATE TABLE IF NOT EXISTS goal_daily_assignments (
+              goal_id TEXT NOT NULL, day TEXT NOT NULL, ids TEXT NOT NULL, PRIMARY KEY(goal_id,day));
             CREATE TABLE IF NOT EXISTS ranking_profile (
               singleton INTEGER PRIMARY KEY CHECK(singleton=1), user_id TEXT NOT NULL UNIQUE,
               nickname TEXT NOT NULL, auth_token TEXT NOT NULL, endpoint TEXT NOT NULL DEFAULT '',
@@ -680,7 +682,7 @@ class TrainingService:
             if record:
                 with self._write() as connection:
                     connection.execute(f"UPDATE training SET solution_pending=1,solution_seen_at=? WHERE id IN ({placeholders})", [iso(self._now())] + ids)
-                    # 看题解会改变重写队列状态，立即重算该题。
+                    # 保留题解查看证据，不再强制进入重写队列。
                     self._recompute_progress(connection, identity)
             else:
                 # Reading a solution before joining still affects independence,
@@ -1291,6 +1293,8 @@ class TrainingService:
     def workspace(self):
         with self.lock:
             self._expire()
+            from goals import Goals
+            Goals(self).list(assign=True)
             library = {row["id"]: row for row in self._library()}
             aliases = self._identity_map(list(library.values()))
             records = self.connection.execute("SELECT * FROM submissions WHERE mode='submit' ORDER BY submitted_at,rowid").fetchall()
@@ -1317,9 +1321,7 @@ class TrainingService:
                 accepted = bool(accepted_at)
                 queue = None
                 if canonical not in locked:
-                    if record["rewrite_due"]:
-                        queue = "rewrite"
-                    elif latest and latest["verdict"] in FAILURES or record["mock_due"]:
+                    if latest and latest["verdict"] in FAILURES or record["mock_due"]:
                         queue = "fill"
                     elif latest and latest["verdict"] == "SAMPLE_PASS" and not accepted:
                         queue = "verify"

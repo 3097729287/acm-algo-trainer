@@ -98,7 +98,7 @@ class RemovalInsightsTests(unittest.TestCase):
         self.assertEqual(self.service.problem("archive::A")["draft"], "retained code")
         self.assertEqual(len(self.service.submissions("archive::A")["submissions"]), 1)
         self.service.mark_solution_seen("archive::A")
-        self.assertEqual(self.service.workspace()["training"][0]["queue"], "rewrite")
+        self.assertIsNone(self.service.workspace()["training"][0]["queue"])
         self.service.remove_training("archive::A")
         self.assertEqual(self.service.workspace()["summary"]["total"], 0)
         self.assertEqual(self.service.insights()["summary"]["officialSolved"], 1)

@@ -140,11 +140,56 @@ def account_nc(client,handle):
 
 ACCOUNT_ADAPTERS={'codeforces':account_cf,'atcoder':account_at,'nowcoder':account_nc,'luogu':account_lg}
 
+def classify_contest(value):
+    value=dict(value);name=value.get('contest','');cid=str(value.get('contestId',''));url=value.get('url','')
+    value.setdefault('contestFullName',name)
+    at=re.search(r'atcoder\.jp/contests/((?:abc|arc|agc)(\d+))/',url,re.I)
+    if at:
+        family=re.match(r'[a-z]+',at[1],re.I)[0].upper()
+        value.update(contest=f'{family} {int(at[2])}',series=family,contestFamily=family)
+    elif '洛谷' in name and ('月赛' in name or re.search(r'LGR-\d+',name)):
+        match=re.search(r'LGR-(\d+)',name);division=re.search(r'Div\.\s*(\d+)',name,re.I)
+        value.update(contest=('洛谷月赛 LGR-'+match[1] if match else name)+((' · Div.'+division[1]) if division else ''),series='洛谷月赛',contestFamily='洛谷月赛')
+    elif '洛谷' in name and re.search(r'(基础赛|入门赛)',name):
+        value.update(series='洛谷基础赛' if '基础赛' in name else '洛谷入门赛',contestFamily='洛谷基础赛' if '基础赛' in name else '洛谷入门赛')
+    elif value.get('platform')=='Codeforces' and re.search(r'Div\.\s*3',name,re.I):
+        match=re.search(r'(?:Round|Div\.3)\s*#?\s*(\d+)',name,re.I)
+        value.update(series='Div.3',contestFamily='Div.3')
+        if match:value['contest']='Div.3 '+match[1]
+    elif re.search(r'(周赛|Weekly)',name,re.I) and value.get('platform')=='牛客':
+        value.update(series='牛客周赛',contestFamily='牛客周赛')
+    else:value.setdefault('contestFamily',value.get('series') or value.get('platform'))
+    return value
+
+
+def atcoder_knowledge(client, value):
+    """Read explicit techniques from this task's official English editorial."""
+    from knowledge import OFFICIAL, BROAD
+    from urllib.parse import urljoin
+    match=re.fullmatch(r'https://atcoder.jp/contests/([a-z0-9_-]+)/tasks/([a-z0-9_-]+)',value.get('url',''))
+    if not match:return None
+    listing=client.text(value['url']+'/editorial?editorialLang=en&lang=en')
+    for block in re.findall(r'<li\b[^>]*>.*?</li>',listing,re.S):
+        if 'Official Editorial' not in text(block):continue
+        link=re.search(r'href=["\'](/contests/'+re.escape(match[1])+r'/editorial/\d+)["\']',block)
+        if not link:continue
+        source=urljoin('https://atcoder.jp',link[1])+'?lang=en'
+        article=client.text(source)
+        article=re.sub(r'<(?:script|style|pre)\b[^>]*>.*?</(?:script|style|pre)>','',article,flags=re.S|re.I)
+        prose=text(article)
+        tags=[]
+        for phrase,tag in {**OFFICIAL,**BROAD, 'simulate':'模拟', 'simulation':'模拟', 'enumerate':'枚举', 'enumeration':'枚举', 'sorting':'排序', 'sort':'排序', 'modulo':'数学', 'ceiling':'数学'}.items():
+            hit=re.search(r'(?<!\w)'+re.escape(phrase)+r'(?!\w)',prose,re.I)
+            if hit and not re.search(r'(?:not|cannot|fails?|doesn.t work)\b.{0,35}$',prose[max(0,hit.start()-45):hit.start()],re.I):tags.append(tag)
+        if tags:return {'source':source,'tags':list(dict.fromkeys(tags)),'verified':False}
+    return None
+
+
 def row(platform,contest,index,title,url,difficulty,source,tags=()):
     cid=str(contest['id']);name=contest.get('name') or cid
     result={'id':f'remote:{platform}:{cid}::{index}','contest':name,'problem':str(index),'title':title,'tags':list(tags),'knowledge':'、'.join(tags),'difficulty':difficulty,'difficultySource':source,'status':'未做','date':'','platform':LABELS[platform],'series':contest.get('series') or LABELS[platform],'queue':None,'url':url,'source':'remote','solutionAvailable':False,'solutionState':'missing','contestId':cid,'startedAt':utc(contest.get('start')),'endedAt':utc(contest.get('end')),'contestDate':utc(contest.get('start')),'contestDateSource':'原站公开比赛时间'}
     from knowledge import enrich_row
-    return enrich_row(result,official_tags=tags)
+    return enrich_row(classify_contest(result),official_tags=tags)
 
 
 def discover_cf(client,now):
@@ -169,6 +214,9 @@ def discover_lg(client,now):
     ended=[c for c in contests if integer(c.get('endTime')) is not None and c['endTime']<=now.timestamp() and (c.get('host') or {}).get('id')==1000][:6]
     import cf_eq
     rows=[];pending=[]
+    try:tag_names={tag['id']:tag['name'] for tag in client.json('https://www.luogu.com.cn/_lfe/tags').get('tags',[]) if 'id' in tag and 'name' in tag}
+    except (OSError,ValueError,RuntimeError):tag_names={}
+    if tag_names:client._tb_luogu_tags=tag_names
     for c in ended:
         detail=lg_data(client.json('https://www.luogu.com.cn/contest/'+str(c['id']),headers={'x-lentille-request':'content-only'}))
         verified=detail.get('contest') or {}
@@ -178,7 +226,7 @@ def discover_lg(client,now):
             p=entry.get('problem') or {};pid=p.get('pid')
             if not pid:continue
             level=integer(p.get('difficulty'));evaluation=cf_eq.cf_eq_luogu(level)
-            item=row('luogu',contest,entry.get('no') or chr(65+index),p.get('name') or pid,'https://www.luogu.com.cn/problem/'+pid,evaluation['cf_eq_rating'],'CF-EQ v1.0 / 洛谷官方难度档 '+str(level))
+            item=row('luogu',contest,entry.get('no') or chr(65+index),p.get('name') or pid,'https://www.luogu.com.cn/problem/'+pid,evaluation['cf_eq_rating'],'CF-EQ v1.0 / 洛谷官方难度档 '+str(level),[tag_names[i] for i in p.get('tags',[]) if i in tag_names])
             rows.append(item)
     return rows,pending,'洛谷官方结束赛；难度按已有 CF-EQ 档位规则换算，非官方 CF rating'
 
@@ -236,10 +284,18 @@ DISCOVERY_ADAPTERS={'codeforces':discover_cf,'luogu':discover_lg,'atcoder':disco
 
 def statement(client,identity,title,url):
     import fetch_problem as adapter
-    parsed=urlsplit(url);host=parsed.hostname;limits={'timeMs':2000,'memoryMb':256};body='';samples=[]
+    parsed=urlsplit(url);host=parsed.hostname;limits={'timeMs':2000,'memoryMb':256};body='';samples=[];official_tags=None
     if host=='www.luogu.com.cn':
         pid=parsed.path.rsplit('/',1)[-1];p=lg_data(client.json(url,headers={'x-lentille-request':'content-only'})).get('problem') or {}
         if p.get('pid')!=pid:raise ValueError('原题编号不匹配或题面尚未公开')
+        if p.get('tags'):
+            try:
+                names=getattr(client,'_tb_luogu_tags',None)
+                if not names:
+                    names={tag['id']:tag['name'] for tag in client.json('https://www.luogu.com.cn/_lfe/tags').get('tags',[]) if 'id' in tag and 'name' in tag}
+                    client._tb_luogu_tags=names
+                official_tags=[names[i] for i in p['tags'] if i in names]
+            except (OSError,ValueError,RuntimeError,KeyError,TypeError):pass
         content=p.get('content') or p.get('contenu') or {};body='\n\n'.join('## '+label+'\n\n'+content[key] for key,label in adapter.LG_SECTIONS if content.get(key))
         samples=[{'name':'样例 '+str(i+1),'input':x[0],'output':x[1]} for i,x in enumerate(p.get('samples') or [])]
         raw=p.get('limits') or {};times=raw.get('time') or [];memories=raw.get('memory') or []
@@ -262,4 +318,4 @@ def statement(client,identity,title,url):
         if '题目描述' not in body:body=''
     else:raise ValueError('不支持的原题站点')
     if not body or not samples or not all(x['input'] and x['output'] for x in samples):raise ValueError('原站未返回完整公开题面与官方样例')
-    return {'id':identity,'title':title,'url':url,'markdown':'# '+title+'\n\n'+body,'samples':samples,'limits':limits,'statementAvailable':True}
+    return {'id':identity,'title':title,'url':url,'markdown':'# '+title+'\n\n'+body,'samples':samples,'limits':limits,'statementAvailable':True, **({'officialTags':official_tags} if official_tags is not None else {})}

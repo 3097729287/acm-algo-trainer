@@ -47,7 +47,7 @@ class Goals:
             with t._write() as db:
                 db.execute('INSERT INTO goals(id,created_at,config,archived) VALUES(?,?,?,0) ON CONFLICT(id) DO UPDATE SET config=excluded.config',
                            (identity,start,json.dumps(config,ensure_ascii=False)))
-            return self.list()
+            return self.list(assign=True)
 
     def archive(self,identity):
         t=self.training
@@ -56,10 +56,11 @@ class Goals:
             with t._write() as db:db.execute('UPDATE goals SET archived=1 WHERE id=?',(identity,))
         return self.list()
 
-    def list(self):
+    def list(self, assign=False):
         t=self.training
         with t.lock:
             now=t._now();today=now.astimezone(SHANGHAI).date()
+            if not t.connection.execute('SELECT 1 FROM goals WHERE archived=0 LIMIT 1').fetchone():return {'goals':[],'date':today.isoformat()}
             rows=t._library();metadata={row['id']:row for row in rows}
             accepted={}
             for record in t.connection.execute("SELECT * FROM submissions WHERE mode='submit' AND verdict='AC' AND scope='official' AND finished_at IS NOT NULL ORDER BY submitted_at,rowid"):
@@ -95,16 +96,35 @@ class Goals:
                     return (not preferred,fit,row['id'])
                 candidates=[row for row in rows if row['id'] not in locked and (canonical_url(row.get('url')) or row['id']) not in accepted]
                 candidates.sort(key=score)
-                weekly_plan=[]
-                cursor=max(first,today);offset=0
-                while cursor<=end and len(weekly_plan)<260:
-                    stop=min(end,cursor+dt.timedelta(days=6));span=(stop-cursor).days+1
-                    amount=math.ceil(remaining*(offset+span)/max(1,left))-math.ceil(remaining*offset/max(1,left))
-                    weekly_plan.append({'start':cursor.isoformat(),'end':stop.isoformat(),'target':amount});offset+=span;cursor=stop+dt.timedelta(days=1)
+                families=[('Codeforces Div.3',4),('AtCoder ABC',3),('牛客周赛',2),('洛谷基础赛 / 月赛',1)]
+                if goal['kind']=='xcpc':families=[('Codeforces Div.3',2),('AtCoder ABC',2),('牛客周赛',4),('洛谷基础赛 / 月赛',2)]
+                amounts=[1 if weekly>=4 else 0 for _ in families]
+                for _ in range(max(0,weekly-sum(amounts))):
+                    index=max(range(4),key=lambda i:families[i][1]/(amounts[i]+1))
+                    amounts[index]+=1
+                ranges=('A–D','A–D','A–D','基础题') if goal['currentRating']<1400 else ('C–F','C–F','C–F','提高题')
+                contest_plan=[{'contest':name,'target':amount,'problems':ranges[i]} for i,((name,_),amount) in enumerate(zip(families,amounts))]
                 before_today=max(0,total-done+today_done)
                 task_target=min(before_today,max(daily,math.ceil(before_today/max(1,left)))) if left else 0
+                # One persisted selection per goal/day: refreshes and restarts cannot
+                # change the assignments or undo a user's removal on the same day.
+                saved=t.connection.execute('SELECT ids FROM goal_daily_assignments WHERE goal_id=? AND day=?',(record['id'],today.isoformat())).fetchone()
+                selected=[metadata[i] for i in json.loads(saved[0]) if i in metadata] if saved else []
+                if not saved:
+                    seen=set();selected=[]
+                    for row in candidates:
+                        key=canonical_url(row.get('url')) or row['id']
+                        if key in seen:continue
+                        seen.add(key);selected.append(row)
+                        if len(selected)>=min(8,max(0,task_target-today_done)):break
+                    if today_done>=task_target or not left:selected=[]
+                    if assign:
+                        with t._write() as db:
+                            db.execute('INSERT OR IGNORE INTO goal_daily_assignments VALUES(?,?,?)',(record['id'],today.isoformat(),json.dumps([row['id'] for row in selected],ensure_ascii=False)))
+                            for row in selected:
+                                t._activate(db,row['id'],iso(now))
                 result.append({**goal,'id':record['id'],'createdAt':record['created_at'],'progress':done,'remaining':remaining,
-                    'remainingDays':left,'weeklyTarget':weekly,'weeklyPlan':weekly_plan,'capacity':capacity,'warnings':warnings,'workloadCompleted':done>=total,
+                    'remainingDays':left,'weeklyTarget':weekly,'weeklyPlan':[],'contestPlan':contest_plan,'capacity':capacity,'warnings':warnings,'workloadCompleted':done>=total,
                     'dailyTask':{'date':today.isoformat(),'target':task_target,'progress':today_done,'completed':today_done>=task_target,
-                                 'problems':[{key:row.get(key) for key in ('id','title','contest','difficulty')} for row in candidates[:min(8,max(1,task_target))]]}})
+                                 'problems':[{key:row.get(key) for key in ('id','title','contest','difficulty')} for row in selected if (canonical_url(row.get('url')) or row['id']) not in accepted]}})
             return {'goals':result,'date':today.isoformat(),'notice':DISCLAIMER}

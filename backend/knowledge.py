@@ -219,6 +219,14 @@ def analyze_problem(row=None, statement=None, official_tags=None, algorithm_evid
         if graph and (re.search(r'unweighted graph|无权图',lower) or re.search(r'all (?:edges?|roads?).{0,30}(?:weight|length|cost).{0,8}(?:1|one|equal)',lower)) and re.search(r'shortest (?:path|distance)|minimum (?:number of )?(?:edges|steps)|最短路|最少步数',text,re.I):
             tags.extend(['BFS','最短路']);categories.append('搜索')
             evidence.append({'source':'statement-conditions','tag':'BFS','excerpt':'题面明确无权/等长边，并要求最少步数'})
+        # Explicit operations permit a useful classification for elementary
+        # tasks without guessing an algorithm from its letter or difficulty.
+        if re.search(r'(?:sum|total).{0,100}(?:elements?|integers?|numbers?)|(?:elements?|integers?|numbers?).{0,100}(?:sum|total)|求.{0,20}和',text,re.I|re.S) and not re.search(r'(?:queries|updates|subsequences|subsets|query|maximum|minimum)|询问|修改|子序列|子集|最大|最小',text,re.I):
+            tags.append('枚举');categories.append(category_path('枚举'))
+            evidence.append({'source':'statement-conditions','tag':'枚举','excerpt':'直接统计给定数字或指定下标的总和'})
+        if re.search(r'(?:consecutive|连续).{0,80}(?:days|天)|(?:days|天).{0,80}(?:consecutive|连续)',text,re.I|re.S) and not graph:
+            tags.append('模拟');categories.append(category_path('模拟'))
+            evidence.append({'source':'statement-conditions','tag':'模拟','excerpt':'逐项检查连续天数'})
         if re.search(r'\bgcd\b|\blcm\b|greatest common divisor|least common multiple|最大公约数|最小公倍数',text,re.I):
             categories.append('数学 / 数论')
         if re.search(r'\bprobability\b|\bexpected (?:value|number|cost)\b|概率|数学期望',text,re.I):
@@ -233,7 +241,7 @@ def analyze_problem(row=None, statement=None, official_tags=None, algorithm_evid
     official=any(e['source']=='official-tags' and e.get('tag') in tags for e in evidence)
     local=any(e['source']=='archive-catalog' and e.get('tag') in tags for e in evidence)
     confidence='high' if curated or official or local else 'medium' if tags else 'pending'
-    source='archive-lesson' if curated else 'archive-catalog' if local else 'official-tags' if official else 'statement-analysis' if text else 'pending-evidence'
+    source='archive-lesson' if curated else 'archive-catalog' if local else 'official-tags' if official else 'algorithm-evidence' if algorithm_evidence else 'statement-analysis' if text else 'pending-evidence'
     digest=hashlib.sha256(json.dumps({'tags':inputs,'statement':text,'algorithm':algorithm_evidence,'curated':curated},ensure_ascii=False,sort_keys=True,default=str).encode()).hexdigest()
     return {'version':VERSION,'tags':tags,'knowledge':' + '.join(tags),'categories':categories,
             'status':'classified' if tags else 'pending','source':source,'confidence':confidence,
@@ -254,7 +262,7 @@ def enrich_row(row, statement=None, official_tags=None, algorithm_evidence=None)
         obsolete={category_path(t) for t in result['supersededTags']}
         kept_categories=[c for c in previous.get('categories',[]) if c not in obsolete or c in result['categories']]
         result['categories']=list(dict.fromkeys(result['categories']+kept_categories))
-        result['evidence']+= [e for e in previous.get('evidence',[]) if e.get('source','').startswith('statement-')]
+        result['evidence']+= [e for e in previous.get('evidence',[]) if e.get('source','').startswith('statement-') or e.get('source')=='algorithm-explicit']
         if result['tags']:result['status']='classified'
         if result['confidence']=='pending' and previous.get('confidence') in ('high','medium'):
             result['confidence']=previous['confidence'];result['source']=previous.get('source','statement-analysis')

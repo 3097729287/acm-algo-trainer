@@ -154,7 +154,7 @@ class ServiceTests(unittest.TestCase):
         self.accept("fixture::C", verdict="WA")
         self.clock.advance(days=7)
         rows = {row["id"]: row for row in self.service.workspace()["training"]}
-        self.assertEqual([rows[f"fixture::{key}"]["queue"] for key in "ABC"], ["review", "fill", "rewrite"])
+        self.assertEqual([rows[f"fixture::{key}"]["queue"] for key in "ABC"], ["review", "fill", "fill"])
         self.assertTrue(all(row["today"] for row in rows.values()))
         self.accept("fixture::A")
         self.clock.advance(days=1)
@@ -220,13 +220,13 @@ class ServiceTests(unittest.TestCase):
         self.assertEqual(self.service.workspace()["summary"]["total"], 0)
         self.service.start_training("fixture::A")
         self.service.mark_solution_seen("fixture::A")
-        # 看题解后完成 → 进入独立重写队列。
-        self.assertEqual(self.service.workspace()["training"][0]["queue"], "rewrite")
+        # 查看题解保留证据，不生成强制重写待办。
+        self.assertIsNone(self.service.workspace()["training"][0]["queue"])
         self.clock.advance(days=1)
         self.accept()
-        # 看过题解的官方 AC 仍记 solution_seen，停留在重写队列。
+        # 看过题解的官方 AC 仍记 solution_seen，但不生成重写待办。
         self.assertTrue(self.service.workspace()["training"][0]["solutionSeen"])
-        self.assertEqual(self.service.workspace()["training"][0]["queue"], "rewrite")
+        self.assertIsNone(self.service.workspace()["training"][0]["queue"])
 
     def test_independent_acceptance_schedules_review_at_seven_days(self):
         self.service.start_training("fixture::A")
@@ -397,7 +397,7 @@ class ServiceTests(unittest.TestCase):
         self.clock.advance(seconds=1)
         self.accept(submission_id=9002)
         row = self.service.workspace()["training"][0]
-        self.assertEqual(row["queue"], "rewrite")
+        self.assertIsNone(row["queue"])
 
     def test_restart_preserves_running_deadline_and_expired_history(self):
         contest = self.contest(duration=1)

@@ -41,8 +41,8 @@ export function useSoftwareUpdates(api, enabled) {
 function UpdateAction({ update }) {
   const { state, action, busy } = update;
   if (state.status === 'installing') return <span role="status">正在关闭 TB 并安装，完成后将自动重新打开…</span>;
-  if (state.status === 'downloading') return <div role="status"><progress max={state.totalBytes || 1} value={state.downloadedBytes || 0} aria-label="安装包下载进度" /> {Math.floor(100 * (state.downloadedBytes || 0) / (state.totalBytes || 1))}%</div>;
-  if (state.status === 'ready') return <button className="primary" disabled={busy || !state.canInstall} onClick={() => action('install')}>保存并安装更新</button>;
+  if (state.status === 'downloading') return <div role="status"><progress max={state.totalBytes || 1} value={state.downloadedBytes || 0} aria-label="更新包下载进度" /> {Math.floor(100 * (state.downloadedBytes || 0) / (state.totalBytes || 1))}%</div>;
+  if (state.status === 'ready') return <button className="primary" disabled={busy || !state.canInstall} onClick={() => action('install')}>保存并替换更新</button>;
   if (state.latestVersion) return state.canInstall
     ? <button className="primary" disabled={busy} onClick={() => action('download')}>下载更新 v{state.latestVersion}</button>
     : <a href={state.releaseUrl} target="_blank" rel="noreferrer">下载 Windows 安装版</a>;
@@ -57,7 +57,7 @@ export function SoftwareUpdatePanel({ update }) {
     <p>当前版本 v{state.currentVersion}{state.latestVersion ? ` · 新版本 v${state.latestVersion}` : state.status === 'current' ? ' · 已是最新正式版' : ''}</p>
     <label><input type="checkbox" checked={state.autoCheck} onChange={event => action('settings', { autoCheck: event.target.checked })} disabled={busy} />启动时自动检查更新（运行期间每天检查一次）</label>
     <div className="software-update-actions"><button disabled={busy || ['checking', 'downloading', 'installing'].includes(state.status)} onClick={() => action('check')}>{state.status === 'checking' ? '正在检查…' : '检查软件更新'}</button><UpdateAction update={update} /></div>
-    {state.latestVersion && <p>安装前会保存当前草稿并备份个人数据，安装完成后自动重新打开 TB。</p>}
+    {state.latestVersion && <p>更新只下载变化的程序文件。替换前保存草稿并备份个人数据，完成后自动重新打开 TB。</p>}
     {(error || state.error) && <p className="software-update-error" role="alert">{error || state.error}</p>}
     {state.notes && <details><summary>本次更新内容</summary><pre>{state.notes}</pre></details>}
     <a href={state.releaseUrl} target="_blank" rel="noreferrer">在 GitHub 查看正式发布</a>
