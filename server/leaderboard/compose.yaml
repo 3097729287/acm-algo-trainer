@@ -1,0 +1,114 @@
+name: tb-leaderboard
+
+services:
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: tb_leaderboard
+      MYSQL_USER: tb
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
+      MYSQL_ROOT_HOST: localhost
+    secrets:
+      - mysql_password
+      - mysql_root_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/001_schema.sql:/docker-entrypoint-initdb.d/001_schema.sql:ro
+    networks: [database]
+    healthcheck:
+      test: [CMD-SHELL, 'MYSQL_PWD="$$(cat /run/secrets/mysql_password)" mysql --protocol=TCP -h 127.0.0.1 -u tb -D tb_leaderboard -e "SELECT 1 FROM users LIMIT 0" >/dev/null 2>&1']
+      interval: 10s
+      timeout: 5s
+      retries: 18
+      start_period: 40s
+    logging:
+      driver: json-file
+      options: {max-size: 10m, max-file: '3'}
+
+  redis:
+    image: redis:8.4-alpine
+    restart: unless-stopped
+    command: [redis-server, /etc/redis/redis.conf]
+    secrets: [redis_password, redis_acl]
+    volumes:
+      - redis_data:/data
+      - ./redis/redis.conf:/etc/redis/redis.conf:ro
+    networks: [database]
+    healthcheck:
+      test: [CMD-SHELL, 'REDISCLI_AUTH="$$(cat /run/secrets/redis_password)" redis-cli ping | grep -qx PONG']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    logging:
+      driver: json-file
+      options: {max-size: 10m, max-file: '3'}
+
+  api:
+    build: .
+    restart: unless-stopped
+    init: true
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_DATABASE: tb_leaderboard
+      MYSQL_USER: tb
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
+      RATE_LIMIT_SALT_FILE: /run/secrets/rate_limit_salt
+      TRUST_PROXY: '1'
+      READ_ONLY: ${READ_ONLY:-0}
+      REGISTRATIONS_PER_IP_DAY: '100'
+      REQUESTS_PER_USER_MINUTE: '120'
+    secrets: [mysql_password, rate_limit_salt]
+    depends_on:
+      mysql: {condition: service_healthy}
+    networks: [database, web]
+    ports: ['127.0.0.1:8080:8080']
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:8080/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    logging:
+      driver: json-file
+      options: {max-size: 10m, max-file: '3'}
+
+  caddy:
+    image: caddy:2.11.6
+    profiles: [https]
+    restart: unless-stopped
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS:-localhost}
+    ports: ['80:80', '443:443', '443:443/udp']
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      api: {condition: service_healthy}
+    networks: [web]
+    logging:
+      driver: json-file
+      options: {max-size: 10m, max-file: '3'}
+
+secrets:
+  mysql_password: {file: ./secrets/mysql_password}
+  mysql_root_password: {file: ./secrets/mysql_root_password}
+  rate_limit_salt: {file: ./secrets/rate_limit_salt}
+  redis_password: {file: ./secrets/redis_password}
+  redis_acl: {file: ./secrets/redis_acl}
+
+volumes:
+  mysql_data:
+  redis_data:
+  caddy_data:
+  caddy_config:
+
+networks:
+  database: {internal: true}
+  web:

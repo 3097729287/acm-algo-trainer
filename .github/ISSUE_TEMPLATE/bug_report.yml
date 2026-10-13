@@ -1,0 +1,42 @@
+name: TB 问题反馈
+description: 题库、题解、界面、评测、翻译或连接问题
+title: "[TB Bug] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请描述可以复现的操作。可以附截图和日志片段；不要提交 API Key、登录 Cookie 或私人代码。
+  - type: input
+    id: version
+    attributes:
+      label: TB 版本与安装方式
+      placeholder: "0.6.0，Windows 安装包 / 便携包 / 源码运行"
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: 系统与显示设置
+      placeholder: "Windows 11，1920×1080，缩放 125%"
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      description: 涉及题目时请附原题链接；翻译问题可说明服务商与模型。
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际结果、截图或错误信息
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 预期结果
+    validations:
+      required: true

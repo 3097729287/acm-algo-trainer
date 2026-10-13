@@ -1,0 +1,21 @@
+# Local environments and generated artifacts
+.backups/
+__pycache__/
+*.py[cod]
+node_modules/
+frontend/dist/
+frontend/tests/screenshots/
+.vscode/
+.idea/
+.claude/
+.venv/
+build/
+release/
+state/
+cache/
+logs/
+backups/
+compiler/
+*.exe
+*.zip
+*.sqlite*

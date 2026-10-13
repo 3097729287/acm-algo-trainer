@@ -1,0 +1,113 @@
+name: TB checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    env:
+      TB_OFFLINE: '1'
+      PYTHONIOENCODING: utf-8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: msys2/setup-msys2@v2
+        id: compiler
+        with:
+          msystem: UCRT64
+          install: mingw-w64-ucrt-x86_64-gcc
+      - name: Expose the Windows compiler to Python
+        env:
+          MSYS2_LOCATION: ${{ steps.compiler.outputs.msys2-location }}
+        run: |
+          Join-Path $env:MSYS2_LOCATION 'ucrt64/bin' | Out-File $env:GITHUB_PATH -Encoding utf8 -Append
+      - name: Verify C++ dependency
+        run: g++ --version
+      - name: Desktop and regression dependencies
+        run: python -m pip install -r backend/requirements.txt
+      - name: SQLite, API, migration, translation and judge regressions
+        run: python scripts/check.py
+      - name: Native WebView compiler and form fixtures
+        run: python desktop/tests/official_native.py
+
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CI: 'true'
+      TB_OFFLINE: '1'
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - run: npm run test:model
+      - run: npm run test:math
+      - run: npm run test:compilers
+      - run: npm run test:ui
+      - run: npm run test:issues
+      - run: npm run test:workbench
+      - run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tb-ui-screenshots
+          path: frontend/tests/screenshots/
+          if-no-files-found: ignore
+
+  leaderboard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: tb-isolated-ci
+          MYSQL_ROOT_HOST: '%'
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install leaderboard dependencies
+        working-directory: server/leaderboard
+        run: npm ci --ignore-scripts
+      - name: HTTP protocol and ranking rules
+        working-directory: server/leaderboard
+        run: npm test
+      - name: MySQL protocol, transactions and snapshot migration
+        working-directory: server/leaderboard
+        env:
+          TB_MYSQL_TEST_PORT: '3306'
+          TB_MYSQL_TEST_PASSWORD: tb-isolated-ci
+        run: npm run test:mysql

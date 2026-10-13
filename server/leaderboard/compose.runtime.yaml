@@ -1,0 +1,13 @@
+# Run a prepared JavaScript-only runtime without invoking a server-side build.
+# Use with compose.yaml; compose.small.yaml is optional.
+services:
+  api:
+    build: !reset null
+    image: node:24-bookworm-slim
+    user: node
+    working_dir: /app
+    command: [node, src/server.mjs]
+    environment:
+      NODE_ENV: production
+    volumes:
+      - ./runtime:/app:ro
