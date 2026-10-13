@@ -1,0 +1,24 @@
+name: TB 功能建议
+description: 提出更适合训练的功能或界面改进
+title: "[TB 建议] "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: 使用场景与当前问题
+      description: 描述你正在做的训练和遇到的不便。
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: 希望怎样改进
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: 怎样判断改进有效
+    validations:
+      required: false

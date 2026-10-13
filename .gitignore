@@ -1,0 +1,27 @@
+# Local environments and generated artifacts
+.backups/
+__pycache__/
+*.py[cod]
+node_modules/
+frontend/dist/
+frontend/tests/screenshots/
+**/.wrangler/
+**/.dev.vars*
+.vscode/
+.idea/
+.claude/
+.venv/
+build/
+release/
+state/
+cache/
+logs/
+backups/
+compiler/
+*.exe
+*.zip
+*.sqlite*
+!data/library.sqlite3
+legacy/**/_work/
+legacy/**/TimuZhuangtai.log
+legacy/**/status_gui.config.json
