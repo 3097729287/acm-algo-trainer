@@ -1,0 +1,53 @@
+import assert from 'node:assert/strict';
+import { readFileSync, writeFileSync } from 'node:fs';
+import { chromium } from 'playwright';
+
+const record = 'D:/项目/TB/整理记录/当前修复验证/';
+const server = JSON.parse(readFileSync(record + 'upgrade-server.json', 'utf8'));
+assert.equal(server.version, '0.7.3');
+assert.equal(server.frozen, true);
+assert.ok(server.state.replaceAll('\\', '/').endsWith('/build/upgrade/state'));
+assert.notEqual(new URL(server.baseUrl).port, '18765');
+const browser = await chromium.launch({ channel: 'msedge', headless: true });
+const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
+const errors = [];
+page.on('pageerror', error => errors.push(error.message));
+try {
+  const response = await page.request.get(server.baseUrl + '/api/data');
+  assert.ok(response.ok());
+  const data = await response.json();
+  assert.equal(data.rows.length, server.problems);
+  const hub = await (await page.request.get(server.baseUrl + '/api/hub')).json();
+  assert.equal(hub.version, '0.7.3');
+  await page.goto(server.baseUrl);
+  await page.getByRole('navigation', { name: '主导航' }).waitFor();
+  assert.equal(await page.locator('.sidebar nav kbd, .sidebar nav .nav-badge').count(), 0);
+  await page.keyboard.press('Control+2');
+  const status = page.locator('.library-pagination [role=status]');
+  const rows = page.locator('.problem-table tbody tr[data-id]');
+  await page.waitForFunction(total => document.querySelector('.library-pagination [role=status]')?.textContent === `1–50 / ${total} 题`, data.rows.length);
+  assert.equal(await rows.count(), 50);
+  const firstIds = await rows.evaluateAll(nodes => nodes.map(node => node.dataset.id));
+  await page.getByLabel('题库下一页').click();
+  await page.waitForFunction(total => document.querySelector('.library-pagination [role=status]')?.textContent === `51–100 / ${total} 题`, data.rows.length);
+  const secondIds = await rows.evaluateAll(nodes => nodes.map(node => node.dataset.id));
+  assert.ok(secondIds.every(id => !firstIds.includes(id)));
+  await page.getByLabel('题库每页题数').selectOption('25');
+  await page.waitForFunction(() => document.querySelectorAll('.problem-table tbody tr[data-id]').length === 25);
+  assert.equal(await status.textContent(), `1–25 / ${data.rows.length} 题`);
+  await page.getByLabel('题库每页题数').selectOption('100');
+  await page.waitForFunction(() => document.querySelectorAll('.problem-table tbody tr[data-id]').length === 100);
+  await page.getByRole('textbox', { name: '搜索题目', exact: true }).fill(data.rows[100].title);
+  await page.waitForFunction(() => document.querySelector('.library-pagination [role=status]')?.textContent.startsWith('1–') && document.querySelectorAll('.problem-table tbody tr[data-id]').length < 100);
+  assert.ok(await rows.count() > 0);
+  await page.getByRole('textbox', { name: '搜索题目', exact: true }).fill('');
+  await page.getByLabel('题库每页题数').selectOption('50');
+  await page.waitForFunction(total => document.querySelector('.library-pagination [role=status]')?.textContent === `1–50 / ${total} 题`, data.rows.length);
+  await page.screenshot({ path: record + '新版题库.png', animations: 'disabled' });
+  assert.deepEqual(errors, []);
+  const report = { ok: true, version: hub.version, exactExecutableRoot: server.root, frozen: true, privateUpgradeState: true, problems: data.rows.length, sidebarNumbersRemoved: true, defaultRows: 50, pageSizes: [25, 50, 100], nextPageVerified: true, searchResetsPage: true, browserErrors: errors };
+  writeFileSync(record + '界面核验.json', JSON.stringify(report, null, 2));
+  console.log(JSON.stringify(report));
+} finally {
+  await browser.close();
+}
