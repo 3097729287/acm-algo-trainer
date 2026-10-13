@@ -87,7 +87,7 @@ class Store:
 
     def _archive_info(self, row):
         found = self.library.find(row.get('_id') or row['场次'] + '::' + row['题号'], canonical_url(row.get('_url')))
-        return (bool(self.library.solution(found['id'])), found['url']) if found else (False, row.get('_url'))
+        return (bool(self.library.solution(found['id']) or self.library.solution(found['id'], 'detailed')), found['url']) if found else (False, row.get('_url'))
 
     def data(self):
         with self.lock:
@@ -120,9 +120,12 @@ class Store:
         row = self.row(identity)
         found = self.library.find(identity, canonical_url(row.get('_url')))
         value = self.library.solution(found['id']) if found else None
-        if not value:
+        detailed = self.library.solution(found['id'], 'detailed') if found else None
+        if not value and not detailed:
             raise APIError(404, '这道题尚未收录题解')
-        return {**value, 'title': found['encoded']['title'], 'url': found['url']}
+        value = value or {'markdown': '', 'path': '', 'images': {}, 'digest': ''}
+        return {**value, 'title': found['encoded']['title'], 'url': found['url'],
+                'detailedSolution': detailed}
 
     def update(self, body):
         raise APIError(410, '训练进度由提交记录产生，请使用运行或提交')

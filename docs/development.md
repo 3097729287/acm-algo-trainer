@@ -63,6 +63,8 @@ python scripts/check.py --library-only
 
 `data/library.sqlite3` 不进入 git，git 管理的是其文本源 `data/library/*.json`。改完题库后运行 `export` 提交文本源；clone 或打包时 `data/library.sqlite3` 缺失会自动由文本源重建（`scripts/library_seed.py build` 可手动触发）。
 
+新增详细版写入 `data/library/detailed_solutions.json`：每条记录使用 `problem_id`、`markdown`、`source_path`、`images`，与默认版的记录格式一致。`problem_id` 必须对应已有题目，`source_path` 只保存可移植的来源说明；运行时只读数据库。不要覆盖 `solutions.json`。补写后执行 `python scripts/library_seed.py build`、`python scripts/check.py` 和 `node frontend/tests/detailed-solutions.mjs`（在 `frontend` 目录运行时使用 `node tests/detailed-solutions.mjs`）。详细版须针对本题解释读者卡点，包含必要的样例推演与正确性说明，不由默认版机械扩写或自动改名生成。
+
 ## Windows 安装包
 
 先构建前端，再在新的空 staging 目录进行构建。编译器目录必须包含完整 `ucrt64` 树；与分发二进制对应的源代码、许可证和构建配方也要提供。

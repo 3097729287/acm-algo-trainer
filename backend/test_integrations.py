@@ -143,6 +143,7 @@ class IntegrationTests(unittest.TestCase):
         self.assertEqual(library.candidates([value]),[]);self.assertEqual(self.client.calls,[])
         problem=library.problem(value['id']);self.assertEqual(problem['judge']['scope'],'samples');self.assertEqual(problem['samples'][0]['output'],'2');self.assertEqual(problem['limits'],{'timeMs':1000,'memoryMb':128})
         self.assertEqual(len(library.candidates([value])),1);self.assertEqual(len(self.client.calls),1);self.assertFalse((self.root/'题解').exists())
+    @patch.object(I, 'VERSION', '0.4.0')
     def test_github_release_and_content_notify_once_no_install(self):
         repo='owner/repo';self.service.state['settings']['githubRepo']=repo
         prefix='https://api.github.com/repos/'+repo

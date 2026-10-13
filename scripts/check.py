@@ -24,13 +24,13 @@ def library_check():
         assert db.execute('PRAGMA integrity_check').fetchone()[0] == 'ok'
         assert not db.execute('PRAGMA foreign_key_check').fetchall()
         counts = {table: db.execute('SELECT COUNT(*) FROM ' + table).fetchone()[0]
-                  for table in ('problems', 'solutions', 'statements', 'lectures', 'problem_lectures')}
+                  for table in ('problems', 'solutions', 'detailed_solutions', 'statements', 'lectures', 'problem_lectures')}
         assert counts['problems'] >= counts['solutions'] >= 607
         assert not db.execute('SELECT problem_id FROM solutions WHERE NOT EXISTS (SELECT 1 FROM problems WHERE problems.id=solutions.problem_id)').fetchall()
         for row, in db.execute('SELECT raw FROM problems'):
             data = json.loads(row)
             assert (data['状态'], data['日期']) == ('未做', '')
-        for path, in db.execute('SELECT source_path FROM solutions'):
+        for path, in db.execute('SELECT source_path FROM solutions UNION ALL SELECT source_path FROM detailed_solutions'):
             assert not Path(path).is_absolute(), 'Absolute source path in public content'
         tables = {row[0] for row in db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
         assert not tables.intersection({'training', 'drafts', 'submissions', 'ranking_profile', 'documents'})

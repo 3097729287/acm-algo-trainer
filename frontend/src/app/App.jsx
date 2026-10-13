@@ -84,6 +84,7 @@ import GoalsPanel, { GoalReminder } from '@/pages/GoalsPanel.jsx';
 import BrowserPreparation from '@/pages/BrowserPreparation.jsx';
 import SubmissionRecords, { MockHistory } from "@/pages/SubmissionRecords.jsx";
 import { normalizeMarkdown } from "@/lib/normalizeMarkdown.js";
+import { trainingDay, trainingDateLabel } from "@/lib/trainingDate.js";
 import {
   QUEUES,
   verdictLabel,
@@ -96,6 +97,8 @@ import {
   timerText,
   nextSurviving,
   emptyWorkspace,
+  isTodayTraining,
+  trainingPriority,
 } from "@/models/workspaceModel.js";
 
 const PAGES = [
@@ -520,7 +523,6 @@ export default function App() {
       library: blankFilters(),
       mine: blankFilters(),
     }),
-    [trainingQueue, setTrainingQueue] = useState("all"),
     [showFilters, setShowFilters] = useState(false);
   const [libraryPage, setLibraryPage] = useState(1),
     [libraryPageSize, setLibraryPageSize] = useState(50);
@@ -542,6 +544,7 @@ export default function App() {
     [commandQuery, setCommandQuery] = useState("");
   const [readerId, setReaderId] = useState(null),
     [reader, setReader] = useState(null),
+    [readerVariant, setReaderVariant] = useState("default"),
     [readerError, setReaderError] = useState(""),
     [readerFull, setReaderFull] = useState(false),
     [lectureId, setLectureId] = useState(null),
@@ -799,6 +802,7 @@ export default function App() {
       [data?.rows, workspace],
     ),
     mine = useMemo(() => rows.filter((r) => r.active), [rows]);
+  const todayMine = useMemo(() => mine.filter(row => isTodayTraining(row, workspace.now || now)), [mine, workspace.now, now]);
   const categories = useMemo(
     () => organizeCategories(data?.categories || []),
     [data?.categories],
@@ -809,7 +813,7 @@ export default function App() {
     query = page === "mine" ? mineQuery : libraryQuery;
   const visible = useMemo(() => {
     if (!["library", "mine"].includes(page)) return [];
-    const base = page === "mine" ? mine : rows,
+    const base = page === "mine" ? todayMine : rows,
       params = { ...currentFilters, query, favorites: prefs.favorites };
     let filtered = filterRows(base, params);
     if (page === "mine" && params.setId === "@single") {
@@ -822,23 +826,17 @@ export default function App() {
       const ids = new Set(set?.ids || set?.slots?.map((s) => s.id) || []);
       filtered = filtered.filter((r) => ids.has(r.id));
     }
-    if (page === "mine" && trainingQueue !== "all") {
-      filtered = filtered.filter(row => trainingQueue === "due" ? !!row.queue : row.queue === trainingQueue);
-    }
     if (page === "mine") {
-      const order = new Map(QUEUES.map((queue, index) => [queue.id, index]));
-      const rank = row => order.get(row.queue) ?? (row.accepted ? QUEUES.length + 1 : QUEUES.length);
-      filtered.sort((left, right) => rank(left) - rank(right));
+      filtered.sort((left, right) => trainingPriority(left) - trainingPriority(right));
     }
     return filtered;
   }, [
     page,
-    mine,
+    todayMine,
     rows,
     currentFilters,
     query,
     prefs.favorites,
-    trainingQueue,
     workspace.sets,
     workspace.contests,
   ]);
@@ -917,7 +915,6 @@ export default function App() {
     } catch (e) { notice(e.message, "error"); }
   }
   function resetFilters() {
-    if (page === "mine") setTrainingQueue("all");
     setFilters((f) => ({ ...f, [page]: blankFilters() }));
   }
   function toggleFavorite(id) {
@@ -1105,6 +1102,7 @@ export default function App() {
     const sequence = ++readerSeq.current;
     setReaderId(id);
     setReader(null);
+    setReaderVariant("default");
     setReaderError("");
     try {
       const result = await api("solution?id=" + encodeURIComponent(id));
@@ -1165,7 +1163,7 @@ export default function App() {
     {
       name: "查看训练待办",
       detail: "Ctrl+3",
-      action: () => { go("mine"); setTrainingQueue("due"); setFilter({ result: "" }, "mine"); },
+      action: () => { go("mine"); setFilter(blankFilters(), "mine"); },
     },
     {
       name: "收起 / 展开侧栏",
@@ -1216,8 +1214,7 @@ export default function App() {
         e.stopPropagation();
         if (e.key === "3") {
           go("mine");
-          setTrainingQueue("due");
-          setFilter({ result: "" }, "mine");
+          setFilter(blankFilters(), "mine");
           return;
         }
         const target = PAGES.find(item => item.key === e.key);
@@ -1459,8 +1456,8 @@ export default function App() {
           <Verdict scope={row.scope} value={row.verdict} accepted={row.accepted} />
         </td>
         <td className="last-date">
-          {row.lastSubmittedAt
-            ? formatDate(row.lastSubmittedAt)
+          {row.lastActivityAt || row.lastSubmittedAt
+            ? formatDate(row.lastActivityAt || row.lastSubmittedAt)
             : row.active
               ? "已加入训练"
               : "—"}
@@ -1537,7 +1534,7 @@ export default function App() {
             </FragmentRows>
           )) : renderRows(items)}</tbody>
         </table>
-        {!items.length && <Empty icon={page === "mine" && trainingQueue !== "all" ? Check : Search} title={page === "mine" && trainingQueue !== "all" ? "当前没有待办题目" : "没有匹配的题目"} description="试试减少筛选条件，或换一个关键词。">
+        {!items.length && <Empty icon={page === "mine" && !todayMine.length ? Check : Search} title={page === "mine" && !todayMine.length ? "今天暂无训练题目" : "没有匹配的题目"} description={page === "mine" && !todayMine.length ? "到期复习会自动出现在这里，也可以去题库开始今天的练习。" : "试试减少筛选条件，或换一个关键词。"}>
           <button className="secondary" onClick={resetFilters}>清除筛选</button>
           <button className="primary" onClick={() => go("library")}>选择新的练习</button>
         </Empty>}
@@ -1545,18 +1542,6 @@ export default function App() {
     );
   }
   function toolbar() {
-    const chooseTraining = (queue = "all", result = "") => {
-      setTrainingQueue(queue);
-      setFilter({ result });
-    };
-    const trainingViews = [
-      { id: "all", name: "全部训练", count: totalCount },
-      { id: "due", name: "待办", count: dueCount },
-      ...QUEUES.filter(queue => mine.some(row => row.queue === queue.id)).map(queue => ({ id: queue.id, name: queue.name, count: mine.filter(row => row.queue === queue.id).length })),
-      { id: "pending", name: "尚未 AC", count: totalCount - passedCount, result: "pending" },
-      { id: "accepted", name: "AC", count: passedCount, result: "accepted" },
-      { id: "sample", name: "样例通过", result: "sample" },
-    ];
     return <>
       <div className="table-toolbar">
         <div className="search-box"><Search size={17} />
@@ -1565,11 +1550,11 @@ export default function App() {
         </div>
         <button className={"secondary favorite-filter " + (currentFilters.favoritesOnly ? "active" : "")} aria-label="收藏题目筛选" aria-pressed={currentFilters.favoritesOnly} onClick={() => setFilter({ favoritesOnly: !currentFilters.favoritesOnly })}><Star size={15} /><span>收藏</span></button>
         <button className={"secondary " + (showFilters ? "active" : "")} onClick={() => setShowFilters(!showFilters)} aria-expanded={showFilters}><SlidersHorizontal size={15} />筛选</button>
-        <select className="sort-select" aria-label="排序方式" value={currentFilters.sort} onChange={event => setFilter({ sort: event.target.value, desc: event.target.value === "date" })}>
+        <select className="sort-select" aria-label="排序方式" title={page === "mine" ? "任务按紧迫程度排列，此项调整同类任务的顺序" : undefined} value={currentFilters.sort} onChange={event => setFilter({ sort: event.target.value, desc: event.target.value === "date" })}>
           <option value="contestDate">比赛时间 · 最新在前</option><option value="contest">按场次</option><option value="difficulty">按难度</option><option value="date">最近练习</option><option value="title">按题名</option>
         </select>
         <span className="toolbar-count">{visible.length} 题</span>
-        {page === "mine" && <button className="secondary" aria-label="清空我的训练" disabled={busy || !mine.length || !!active || !!workspace.summary.pending} onClick={() => setDialog("clear-training")}><MinusCircle size={15} />一键清空</button>}
+        {page === "mine" && <button className="secondary" aria-label="清空我的训练" disabled={busy || !mine.length || !!active || !!workspace.summary.pending} onClick={() => setDialog("clear-training")}><MinusCircle size={15} />清空全部训练</button>}
       </div>
             {showFilters && (
               <div className="filter-fields">
@@ -1679,11 +1664,6 @@ export default function App() {
                 ))}
               </div>
             )}
-      {page === "mine" && <div className="filter-tabs training-tabs" role="group" aria-label="训练状态筛选">
-        {trainingViews.map(view => { const active = view.result ? trainingQueue === "all" && currentFilters.result === view.result : trainingQueue === view.id && !currentFilters.result;
-          return <button key={view.id} className={active ? "active" : ""} aria-pressed={active} onClick={() => chooseTraining(view.result ? "all" : view.id, view.result || "")}>{view.name}{view.count != null && <small>{view.count}</small>}</button>;
-        })}
-      </div>}
     </>;
   }
   function renderListPage() {
@@ -1713,7 +1693,7 @@ export default function App() {
                 value={currentFilters.setId}
                 onChange={(e) => setFilter({ setId: e.target.value })}
               >
-                <option value="">全部训练题</option>
+                <option value="">今日训练 · {trainingDateLabel(trainingDay(workspace.now || now))}</option>
                 <option value="@single">单题练习</option>
                 {workspace.sets.map((set) => (
                   <option key={set.id} value={set.id}>
@@ -1726,7 +1706,7 @@ export default function App() {
                   </option>
                 ))}
               </select>
-              <span>同一道题在个人进度中只计一次</span>
+              <span title="按北京时间每日刷新；重写、补题和到期复习自动进入今日训练。">按紧迫程度排列 · AC 后 7 天复习，复习后 30 天抽检</span>
             </div>
           )}
         {toolbar()}
@@ -1750,7 +1730,7 @@ export default function App() {
           <span>
             {page === "library"
               ? "题库用于选题"
-              : trainingQueue === "all" ? "个人训练" : "训练待办"}{" "}
+              : "今日训练"}{" "}
             · {visible.length} 题
           </span>
           <span className="footer-hint">
@@ -2097,9 +2077,15 @@ export default function App() {
           }}
         />
       </header>
-      <div className="reader-content">
+      {reader && <div className="reader-versions" role="group" aria-label="题解版本">
+        <button type="button" aria-pressed={readerVariant === "default"} onClick={() => setReaderVariant("default")}>默认题解</button>
+        <button type="button" aria-label="详细题解" aria-pressed={readerVariant === "detailed"} onClick={() => setReaderVariant("detailed")}>详细题解{!reader.detailedSolution && <small aria-hidden="true">待补充</small>}</button>
+      </div>}
+      <div className="reader-content" key={`${readerId}:${readerVariant}`}>
         {reader ? (
-          <>
+          readerVariant === "detailed" ? (
+            reader.detailedSolution ? <Markdown text={reader.detailedSolution.markdown} images={reader.detailedSolution.images} onCopy={copy} /> : <div className="reader-missing-detailed"><Empty title="详细题解待补充" description="这道题尚未收录详细版，可以先阅读默认题解。" /><button type="button" className="text-button" onClick={() => setReaderVariant("default")}>返回默认题解</button></div>
+          ) : !reader.markdown ? <div className="reader-missing-detailed"><Empty title="默认题解尚未收录" description="这道题已有详细版，可以切换阅读。" /><button type="button" className="text-button" onClick={() => setReaderVariant("detailed")}>阅读详细题解</button></div> : <>
             {conciseSolution && <div className="concise-solution"><p className="progress-small">入门题简明阅读 · 思路提要与完整代码</p><Markdown text={conciseSolution} images={reader.images} onCopy={copy} /></div>}
             <details className="solution-full" open={!conciseSolution} key={readerId}><summary style={conciseSolution ? undefined : {display: 'none'}}>查看完整题解与推导</summary>{readerBlocks.map((block, index) => block.type === "lecture" ? <LectureDisclosure key={index} lecture={block.lecture || {title: block.heading}} inlineMarkdown={block.markdown} images={reader.images} api={api} onTrain={openPractice} onError={(message) => notice(message, "error")} /> : <Markdown key={index} text={block.markdown} images={reader.images} onCopy={copy} />)}</details>
             {!!reader.lectures?.length && <div className="reader-lecture-references"><h3>本题的基础讲解与引用</h3>{readerReferences.map(item => <LectureDisclosure key={item.id} lecture={item} api={api} onTrain={openPractice} onError={(message) => notice(message, "error")} />)}<button className="text-button" onClick={() => go("lectures")}>查看全部知识讲解 <ArrowUpRight size={13} /></button></div>}
@@ -2464,7 +2450,7 @@ export default function App() {
           </div>
         </Modal>
       )}
-      {dialog === 'clear-training' && <Modal title="清空我的训练" onClose={() => setDialog(null)} footer={<><button className="secondary" onClick={() => setDialog(null)}>取消</button><button className="primary" disabled={busy || !!active} onClick={async () => { setBusy(true); try { const result = await api('training/clear', {}); applyWorkspace(result.workspace); setDialog(null); notice(`已清空 ${result.cleared} 道训练题，代码与提交记录已保留`, 'success'); } catch (issue) { notice(issue.message, 'error'); } finally { setBusy(false); } }}>确认清空 {mine.length} 道训练题</button></>}><p>将 {mine.length} 道题从当前训练和待办中移除。保留全部代码、草稿、提交历史、身份和目标计划；可以从题库重新加入。</p></Modal>}
+      {dialog === 'clear-training' && <Modal title="清空我的训练" onClose={() => setDialog(null)} footer={<><button className="secondary" onClick={() => setDialog(null)}>取消</button><button className="primary" disabled={busy || !!active} onClick={async () => { setBusy(true); try { const result = await api('training/clear', {}); applyWorkspace(result.workspace); setDialog(null); notice(`已清空 ${result.cleared} 道训练题，代码与提交记录已保留`, 'success'); } catch (issue) { notice(issue.message, 'error'); } finally { setBusy(false); } }}>确认清空 {mine.length} 道训练题</button></>}><p>将全部 {mine.length} 道题从训练和待办中移除，包括未在今日列表显示的题目。保留全部代码、草稿、提交历史、身份和目标计划；可以从题库重新加入。</p></Modal>}
       {dialog === "help" && (
         <Modal title="键盘操作" onClose={() => setDialog(null)} wide>
           <div className="shortcut-grid">
