@@ -19,6 +19,9 @@ CREATE TABLE IF NOT EXISTS problem_urls(
 CREATE TABLE IF NOT EXISTS solutions(
  problem_id TEXT PRIMARY KEY REFERENCES problems(id) ON DELETE CASCADE,
  markdown TEXT NOT NULL, source_path TEXT NOT NULL, images TEXT NOT NULL, digest TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS detailed_solutions(
+ problem_id TEXT PRIMARY KEY REFERENCES problems(id) ON DELETE CASCADE,
+ markdown TEXT NOT NULL, source_path TEXT NOT NULL, images TEXT NOT NULL, digest TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS statements(problem_id TEXT PRIMARY KEY, content TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS lectures(id TEXT PRIMARY KEY, content TEXT NOT NULL, digest TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS problem_lectures(
@@ -50,11 +53,11 @@ class LibraryDatabase:
             with self.connection() as db:
                 exists = db.execute("SELECT 1 FROM sqlite_master WHERE name='library_meta'").fetchone()
                 version = db.execute("SELECT value FROM library_meta WHERE key='schema'").fetchone() if exists else None
-            if version and int(version[0]) < 3:
+            if version and int(version[0]) < 4:
                 self.backup('schema-migration')
         with self.connection() as db:
             db.executescript(SCHEMA)
-            db.execute("INSERT INTO library_meta VALUES ('schema', '3') ON CONFLICT(key) DO UPDATE SET value='3'")
+            db.execute("INSERT INTO library_meta VALUES ('schema', '4') ON CONFLICT(key) DO UPDATE SET value='4'")
             db.execute("INSERT OR IGNORE INTO library_meta VALUES ('revision', '0')")
             self._rebuild_urls(db)
 
@@ -103,6 +106,9 @@ class LibraryDatabase:
                 'solutions': ('problem_id', ['problem_id', 'markdown', 'source_path', 'images', 'digest']),
                 'statements': ('problem_id', ['problem_id', 'content']),
             }
+            # Older distributions have only default solutions. They remain valid seeds.
+            if seed.execute("SELECT 1 FROM sqlite_master WHERE name='detailed_solutions'").fetchone():
+                tables['detailed_solutions'] = ('problem_id', ['problem_id', 'markdown', 'source_path', 'images', 'digest'])
             rows = {name: list(seed.execute('SELECT * FROM ' + name)) for name in tables}
             links = {}
             for row in seed.execute('SELECT * FROM problem_lectures ORDER BY problem_id,position'):
@@ -185,7 +191,8 @@ class LibraryDatabase:
         connection for each problem. Content readers use solution() separately.
         """
         with self.connection() as db:
-            rows = db.execute('SELECT p.*, EXISTS(SELECT 1 FROM solutions s WHERE s.problem_id=p.id) AS available '
+            rows = db.execute('SELECT p.*, (EXISTS(SELECT 1 FROM solutions s WHERE s.problem_id=p.id) '
+                              'OR EXISTS(SELECT 1 FROM detailed_solutions s WHERE s.problem_id=p.id)) AS available '
                               'FROM problems p ORDER BY p.rowid')
             return [{**dict(row), 'raw': json.loads(row['raw']), 'encoded': json.loads(row['encoded'])}
                     for row in rows]
@@ -199,9 +206,13 @@ class LibraryDatabase:
                 row = db.execute('SELECT p.* FROM problems p JOIN problem_urls u ON u.problem_id=p.id WHERE u.url_key=?', (key,)).fetchone()
             return {**dict(row), 'raw': json.loads(row['raw']), 'encoded': json.loads(row['encoded'])} if row else None
 
-    def solution(self, identity):
+    def solution(self, identity, variant='default'):
+        table = {'default': 'solutions', 'detailed': 'detailed_solutions'}[variant]
         with self.connection() as db:
-            row = db.execute('SELECT * FROM solutions WHERE problem_id=?', (identity,)).fetchone()
+            # Read-only access to a previous public seed must not migrate it.
+            if variant == 'detailed' and not db.execute("SELECT 1 FROM sqlite_master WHERE name='detailed_solutions'").fetchone():
+                return None
+            row = db.execute('SELECT * FROM ' + table + ' WHERE problem_id=?', (identity,)).fetchone()
             if not row:
                 return None
             return {'markdown': row['markdown'], 'path': row['source_path'], 'images': json.loads(row['images']), 'digest': row['digest']}
@@ -263,6 +274,7 @@ class LibraryDatabase:
             integrity = db.execute('PRAGMA integrity_check').fetchone()[0]
             broken = db.execute('PRAGMA foreign_key_check').fetchall()
             counts = {table: db.execute(f'SELECT COUNT(*) FROM {table}').fetchone()[0] for table in ('problems', 'solutions', 'statements', 'lectures', 'problem_lectures')}
+            counts['detailed_solutions'] = db.execute('SELECT COUNT(*) FROM detailed_solutions').fetchone()[0] if db.execute("SELECT 1 FROM sqlite_master WHERE name='detailed_solutions'").fetchone() else 0
         if integrity != 'ok' or broken:
             raise ValueError('Invalid library database')
         return counts
@@ -283,6 +295,9 @@ class LibraryDatabase:
             solutions = [{'problem_id': row['problem_id'], 'markdown': row['markdown'],
                           'source_path': row['source_path'], 'images': json.loads(row['images'])}
                          for row in db.execute('SELECT problem_id,markdown,source_path,images FROM solutions ORDER BY problem_id')]
+            detailed_solutions = [{'problem_id': row['problem_id'], 'markdown': row['markdown'],
+                                   'source_path': row['source_path'], 'images': json.loads(row['images'])}
+                                  for row in db.execute('SELECT problem_id,markdown,source_path,images FROM detailed_solutions ORDER BY problem_id')] if db.execute("SELECT 1 FROM sqlite_master WHERE name='detailed_solutions'").fetchone() else []
             statements = [{'problem_id': row['problem_id'], 'content': json.loads(row['content'])}
                           for row in db.execute('SELECT problem_id,content FROM statements ORDER BY problem_id')]
             lectures = [{'id': row['id'], 'content': json.loads(row['content'])}
@@ -296,6 +311,7 @@ class LibraryDatabase:
         dump('meta.json', meta)
         dump('problems.json', problems)
         dump('solutions.json', solutions)
+        dump('detailed_solutions.json', detailed_solutions)
         dump('statements.json', statements)
         dump('lectures.json', lectures)
         dump('links.json', links)
@@ -310,6 +326,7 @@ class LibraryDatabase:
                 return json.load(handle)
         problems = load('problems.json')
         solutions = load('solutions.json')
+        detailed_solutions = load('detailed_solutions.json') if (directory / 'detailed_solutions.json').is_file() else []
         statements = load('statements.json')
         lectures = load('lectures.json')
         links = load('links.json')
@@ -323,6 +340,9 @@ class LibraryDatabase:
             db.executemany('INSERT OR REPLACE INTO solutions (problem_id,markdown,source_path,images,digest) VALUES (?,?,?,?,?)',
                            [(s['problem_id'], s['markdown'], s['source_path'], json.dumps(s['images'], ensure_ascii=False),
                              hashlib.sha256(s['markdown'].encode()).hexdigest()) for s in solutions])
+            db.executemany('INSERT OR REPLACE INTO detailed_solutions (problem_id,markdown,source_path,images,digest) VALUES (?,?,?,?,?)',
+                           [(s['problem_id'], s['markdown'], s['source_path'], json.dumps(s['images'], ensure_ascii=False),
+                             hashlib.sha256(s['markdown'].encode()).hexdigest()) for s in detailed_solutions])
             db.executemany('INSERT OR REPLACE INTO statements (problem_id,content) VALUES (?,?)',
                            [(st['problem_id'], json.dumps(st['content'], ensure_ascii=False)) for st in statements])
             db.executemany('INSERT OR REPLACE INTO lectures (id,content,digest) VALUES (?,?,?)',
@@ -330,7 +350,7 @@ class LibraryDatabase:
                              hashlib.sha256(lecture['content']['markdown'].encode()).hexdigest()) for lecture in lectures])
             db.executemany('INSERT OR REPLACE INTO problem_lectures (problem_id,lecture_id,kind,position) VALUES (?,?,?,?)',
                            [(link['problem_id'], link['lecture_id'], link['kind'], link['position']) for link in links])
-            for key, value in meta.items():
+            for key, value in {**meta, 'schema': '4'}.items():
                 db.execute('INSERT INTO library_meta VALUES (?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value', (key, value))
             cls._rebuild_urls(db)
             if db.execute('PRAGMA foreign_key_check').fetchall():
