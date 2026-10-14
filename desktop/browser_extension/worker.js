@@ -114,7 +114,7 @@ async function pollQueues() {
           const target = new URL(claim.url);
           if (target.protocol !== 'https:' || !hosts.has(target.hostname)) continue;
           let tab;
-          if (target.hostname === 'atcoder.jp') {
+          if (['atcoder.jp','www.luogu.com.cn','luogu.com.cn'].includes(target.hostname)) {
             for (const candidate of tabs.filter(t=>!t.incognito&&!saved[t.id]&&new URL(t.url).origin===target.origin&&new URL(t.url).pathname===target.pathname)) {
               try {
                 const probe = await Promise.race([chrome.tabs.sendMessage(candidate.id,{type:'submission-page',url:target.href}),new Promise(resolve=>setTimeout(()=>resolve({}),750))]);

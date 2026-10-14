@@ -139,7 +139,7 @@ class BrowserBridge:
         with self.lock:
             session = self.sessions[identity]
             client = self._browser_client(session['platform'])
-            if not client or session.get('browserTried') or session['platform'] not in ('Codeforces', 'AtCoder') or session.get('attempted') or session.get('submissionId'):
+            if not client or session.get('browserTried') or session['platform'] not in LOGIN_HOSTS or session.get('attempted') or session.get('submissionId'):
                 return False
             if not session.get('intent') and not (before_click and session.get('dispatchedAt') is not None):
                 return False
@@ -155,7 +155,7 @@ class BrowserBridge:
         if session['status'] in TERMINAL:
             return
         now = self.clock()
-        if self.runner and session.get('transport') == 'browser' and not session.get('claimed') and session.get('dispatchedAt') is None and now - session.get('routedAt', now) > 3:
+        if self.runner and session.get('transport') == 'browser' and not session.get('interactiveVerification') and not session.get('claimed') and session.get('dispatchedAt') is None and now - session.get('routedAt', now) > 3:
             # Protocol-2 connectors cannot report whether a browser window
             # exists. If no tab claims the job, keep browser-closed submission
             # working through the native runner without replaying a dispatch.
@@ -169,7 +169,7 @@ class BrowserBridge:
         elif session.get('claimed') and now - session.get('lastSeen', now) > 90:
             session.update(status='unconfirmed' if session.get('dispatchedAt') is not None else 'error', intent=False,
                            message='浏览器连接已中断，请打开原站核对提交记录后再重试。')
-        elif not session.get('claimed') and now - session['createdAt'] > 12:
+        elif not session.get('claimed') and not session.get('interactiveVerification') and now - session['createdAt'] > 12:
             session.update(status='needs_browser', message='尚未同步浏览器登录。首次使用请启用最新版 TB 浏览器连接扩展，随后可关闭浏览器静默提交。')
         elif session.get('claimed') and session['status'] == 'loading' and now - session.get('preparingAt', session['createdAt']) > 40:
             session.update(status='error', intent=False, message='原站提交接口准备超时，尚未发送代码。请重试；若原站要求验证，请在浏览器完成。')
@@ -207,6 +207,15 @@ class BrowserBridge:
                 session.update(intent=intent)
                 if intent:
                     session.update(status='loading', message='正在后台准备原站提交。', preparingAt=self.clock())
+            if intent:
+                session['retry'] = session.get('retry', 0) + 1
+            elif session['status'] == 'needs_verification' and not session.get('attempted') and not session.get('submissionId'):
+                # An explicit verification click transfers the unaccepted job
+                # to its real browser page, without another submit intention.
+                if session.get('transport') != 'browser':
+                    session.update(transport='browser', claimed=False, routedAt=self.clock())
+                    session.pop('browserClient', None)
+                session['interactiveVerification'] = True
             session['navigateTo'] = session['loginUrl'] if not intent and session['status'] == 'needs_login' else session['url']
             fragment = urlencode({'session': session['sessionId'], 'key': session['capability']})
         if intent and self.runner:
@@ -283,7 +292,7 @@ class BrowserBridge:
                                message='正在操作原站提交表单，尚未确认受理。')
                 session['command'] += 1
             context = {k: session.get(k) for k in ('sessionId', 'platform', 'problem', 'code', 'originalUrl',
-                       'attempted', 'baseline', 'baselineKnown', 'baselineOwner', 'submissionId')}
+                       'attempted', 'baseline', 'baselineKnown', 'baselineOwner', 'submissionId', 'retry')}
             return {'context': context, 'action': action, 'command': session['command']}
 
     def _update(self, session, value):

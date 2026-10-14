@@ -20,6 +20,19 @@
     {"name":"可撤销并查集","category":"数据结构","aliases":["rollback DSU"],"sources":["练习赛 153::F"]},
     {"name":"根号分治","category":"思维与策略","aliases":[],"sources":["月赛 310::C"]},
     {"name":"摊还分析","category":"思维与策略","aliases":["amortized analysis"],"sources":["小白月赛 129::F"]},
-    {"name":"FFT","category":"数学","aliases":["快速傅里叶变换"],"sources":["原站官方 fft 标签"]}
+    {"name":"FFT","category":"数学","aliases":["快速傅里叶变换"],"sources":["原站官方 fft 标签"]},
+    {"name":"最大公约数","category":"数论","aliases":["gcd","最大公约数 gcd"],"sources":["洛谷公开题目算法标签"]},
+    {"name":"最小公倍数","category":"数论","aliases":["lcm","最小公倍数 lcm"],"sources":["洛谷公开题目算法标签"]},
+    {"name":"队列","category":"数据结构","aliases":[],"sources":["洛谷公开题目算法标签"]},
+    {"name":"堆","category":"数据结构","aliases":["优先队列"],"sources":["洛谷公开题目算法标签"]},
+    {"name":"链表","category":"数据结构","aliases":[],"sources":["洛谷公开题目算法标签"]},
+    {"name":"高斯消元","category":"数学","aliases":[],"sources":["洛谷公开题目算法标签"]},
+    {"name":"基环树","category":"图论","aliases":[],"sources":["洛谷公开题目算法标签"]},
+    {"name":"双连通分量","category":"图论","aliases":[],"sources":["洛谷公开题目算法标签"]},
+    {"name":"整除分块","category":"数论","aliases":[],"sources":["洛谷公开题目算法标签"]},
+    {"name":"欧拉函数","category":"数论","aliases":[],"sources":["洛谷公开题目算法标签"]},
+    {"name":"bitset","category":"数据结构","aliases":[],"sources":["洛谷公开题目算法标签"]},
+    {"name":"生成函数","category":"数学","aliases":[],"sources":["洛谷公开题目算法标签"]},
+    {"name":"Pólya 定理","category":"数学","aliases":[],"sources":["洛谷公开题目算法标签"]}
   ]
 }

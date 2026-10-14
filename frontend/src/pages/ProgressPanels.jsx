@@ -3,6 +3,7 @@ import InlineTitle from '@/components/InlineTitle.jsx';
 import { ArrowLeft, ArrowRight, Award, BookOpen, CalendarDays, Check, ChevronRight, ExternalLink, Flag, Github, LoaderCircle, RefreshCw, Search, Target, TrendingUp, Trophy, UserRound } from 'lucide-react';
 import { compareContestNewest, contestTime, difficultyBand } from '@/lib/practiceMetadata.js';
 import './ProgressPanels.css';
+import GoalsPanel from './GoalsPanel.jsx';
 
 const PLATFORMS = [
   ['codeforces', 'Codeforces', 'Handle'], ['atcoder', 'AtCoder', '用户名'],
@@ -40,16 +41,17 @@ function DailyTasks({ dailyTasks, onClaim }) {
   const [claiming, setClaiming] = useState(null), [error, setError] = useState('');
   const tasks = list(dailyTasks?.tasks);
   async function claim(task) { if (claiming || !task.completed || task.claimed) return; setClaiming(task.id); setError(''); try { await onClaim?.(task.id, dailyTasks.date); } catch (issue) { setError(issue.message); } finally { setClaiming(null); } }
-  return <section className="progress-section daily-tasks" aria-label="每日任务"><div className="progress-section-heading"><h2><CalendarDays size={18} />每日任务</h2><span>{dailyTasks?.date || '每日更新'} · {tasks.filter(task => task.claimed).length}/{tasks.length}</span></div><p className="progress-small">完成任务获得经验；更高难度的挑战获得更多经验。每天按北京时间刷新。</p><div className="daily-task-grid">{tasks.map(task => <article className={`daily-task${task.claimed ? ' daily-task-claimed' : ''}`} key={task.id}><div className="daily-task-main"><div><strong>{task.title}</strong><span className="daily-task-xp">+{number(task.xp)} XP</span></div><p>{acText(task.description)}</p><div className="daily-task-progress"><Meter value={task.target ? task.progress / task.target * 100 : 0} label={`${task.title}任务进度`} /><span>{number(task.progress)}/{number(task.target)}</span></div></div><button className={'progress-button ' + (task.completed && !task.claimed ? 'progress-primary' : '')} disabled={!task.completed || task.claimed || !!claiming || !onClaim} onClick={() => claim(task)}>{claiming === task.id ? <LoaderCircle size={13} className="spin" /> : task.claimed ? <Check size={13} /> : null}{task.claimed ? '已领取' : task.completed ? '领取经验' : '进行中'}</button></article>)}</div>{!tasks.length && <p className="progress-muted">每日任务正在准备。完成训练后，任务进度会自动更新。</p>}{error && <p role="alert" className="connection-error">{error}</p>}</section>;
+  return <section className="progress-section daily-tasks" aria-label="每日任务"><div className="progress-section-heading"><h2><CalendarDays size={18} />每日任务</h2><span>{dailyTasks?.date || '每日更新'} · {tasks.filter(task => task.claimed).length}/{tasks.length}</span></div><p className="progress-small">每天按北京时间刷新。当天 AC 的不同题目分别计数，旧题再次 AC 也计入；同题当天只算一次。</p><div className="daily-task-grid">{tasks.map(task => <article className={`daily-task${task.claimed ? ' daily-task-claimed' : ''}`} key={task.id}><div className="daily-task-main"><div><strong>{task.title}</strong><span className="daily-task-xp">+{number(task.xp)} XP</span></div><p>{acText(task.description)}</p><div className="daily-task-progress"><Meter value={task.target ? task.progress / task.target * 100 : 0} label={`${task.title}任务进度`} /><span>{number(task.progress)}/{number(task.target)}</span></div></div><button className={'progress-button ' + (task.completed && !task.claimed ? 'progress-primary' : '')} disabled={!task.completed || task.claimed || !!claiming || !onClaim} onClick={() => claim(task)}>{claiming === task.id ? <LoaderCircle size={13} className="spin" /> : task.claimed ? <Check size={13} /> : null}{task.claimed ? '已领取' : task.completed ? '领取经验' : '进行中'}</button></article>)}</div>{!tasks.length && <p className="progress-muted">每日任务正在准备。完成训练后，任务进度会自动更新。</p>}{error && <p role="alert" className="connection-error">{error}</p>}</section>;
 }
 
-export function GrowthPage({ insights, hub, onTrain, onTopic, onSync, onAccounts, onClaimTask, onAchievements }) {
+export function GrowthPage({ api, onGoalsChanged, insights, hub, onTrain, onTopic, onSync, onAccounts, onClaimTask, onAchievements }) {
   const [gapsOnly, setGapsOnly] = useState(false);
+  const [topicSearch, setTopicSearch] = useState('');
   const [moreRecommendations, setMoreRecommendations] = useState(false);
   if (!insights) return <Loading />;
   const summary = insights.summary || {}, growth = insights.growth || {}, assessment = insights.assessment || {};
   const recommendations = list(insights.recommendations);
-  const topics = list(insights.knowledge).filter(topic => !gapsOnly || topic.due > 0 || topic.failures > 0)
+  const topics = list(insights.knowledge).filter(topic => (!gapsOnly || topic.due > 0 || topic.failures > 0) && topic.name.toLowerCase().includes(topicSearch.trim().toLowerCase()))
     .slice().sort((a, b) => (b.priority || 0) - (a.priority || 0));
   const trend = list(assessment.trend).filter(item => typeof item.value === 'number');
   const min = Math.min(...trend.map(item => item.value)), max = Math.max(...trend.map(item => item.value));
@@ -88,16 +90,18 @@ export function GrowthPage({ insights, hub, onTrain, onTopic, onSync, onAccounts
       </section>
     </div>
       <DailyTasks dailyTasks={insights.dailyTasks} onClaim={onClaimTask} />
-    <section className="progress-section">
-      <div className="progress-section-heading"><h2><BookOpen size={17} />知识掌握与缺口</h2><label className="progress-check"><input type="checkbox" checked={gapsOnly} onChange={event => setGapsOnly(event.target.checked)} />只看待加强</label></div>
+    <details className="progress-section knowledge-details">
+      <summary><BookOpen size={17} />知识掌握与缺口<ChevronRight className="knowledge-chevron" size={16}/></summary>
+      <div className="progress-section-heading"><label className="knowledge-search"><Search size={15}/><input type="search" aria-label="搜索知识点" placeholder="搜索知识点" value={topicSearch} onChange={event => setTopicSearch(event.target.value)}/></label><label className="progress-check"><input type="checkbox" checked={gapsOnly} onChange={event => setGapsOnly(event.target.checked)} />只看待加强</label></div>
       <div className="progress-table-scroll"><table className="progress-knowledge-table"><thead><tr><th>知识领域</th><th>参与 / 可用</th><th>本地 / AC</th><th>通过覆盖率</th><th>待办</th><th>下一步</th></tr></thead><tbody>{topics.map(topic => <tr key={topic.name}>
         <td><button type="button" className="progress-topic" onClick={() => onTopic?.(topic)}>{topic.name}<ChevronRight size={13} /></button><small>{topic.reason || topic.label}</small></td>
         <td>{number(topic.participated)} / {number(topic.available)}</td><td>{number(topic.localAccepted)} / {number(topic.officialAccepted)}</td>
         <td>{topic.mastery == null ? <span className="progress-muted">待积累</span> : <div className="progress-mastery"><Meter value={topic.mastery} label={`${topic.name}通过覆盖率`} /><span>{Math.round(topic.mastery)}%</span></div>}<small>{confidence(topic.confidence)}</small></td>
         <td>{number(topic.due)}</td><td>{topic.suggestedIds?.length > 0 && onTrain ? <button type="button" className="progress-text-button" onClick={() => onTrain(topic.suggestedIds[0])}>练习<ArrowRight size={13} /></button> : '—'}</td>
       </tr>)}</tbody></table></div>
-      {!topics.length && <p className="progress-muted">这一组暂时没有需要加强的记录。</p>}
-    </section>
+      {!topics.length && <p className="progress-muted">这一组暂时没有匹配的知识点。</p>}
+    </details>
+    <section id="growth-goals" className="progress-section">{api && <GoalsPanel api={api} onTrain={onTrain} onChanged={onGoalsChanged}/>}</section>
   </div>;
 }
 

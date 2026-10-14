@@ -4,12 +4,6 @@ import { trainingDay } from "@/lib/trainingDate.js";
 
 export const QUEUES = [
   {
-    id: "rewrite",
-    name: "独立重写",
-    description: "看过题解后，再独立完成一次",
-    color: "purple",
-  },
-  {
     id: "fill",
     name: "待攻克",
     description: "从上次未通过的地方继续",

@@ -14,12 +14,12 @@ try {
   assert.equal(await page.getByRole('complementary', { name: '软件更新提示' }).count(), 0);
   await panel.getByRole('checkbox').uncheck();
   await panel.getByRole('button', { name: '下载更新 v0.10.0' }).click();
-  await panel.getByRole('button', { name: '保存并安装更新' }).click();
+  await panel.getByRole('button', { name: '保存并替换更新' }).click();
   await panel.getByRole('alert').waitFor();
   assert.match(await panel.getByRole('alert').innerText(), /草稿尚未保存/);
   assert.equal(await page.evaluate(() => window.updaterCalls.some(item => item.path.endsWith('/install'))), false);
   await page.evaluate(() => { window.saveAllowed = true; });
-  await panel.getByRole('button', { name: '保存并安装更新' }).click();
+  await panel.getByRole('button', { name: '保存并替换更新' }).click();
   await page.getByRole('status').filter({ hasText: '正在关闭 TB' }).waitFor();
   const installs = await page.evaluate(() => window.updaterCalls.filter(item => item.path.endsWith('/install')));
   assert.deepEqual(installs, [{ path: 'software-update/install', draftSaved: true }]);

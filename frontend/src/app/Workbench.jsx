@@ -190,7 +190,7 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
   const officialReported = useRef(new Set());
   const preparationReported = useRef(new Set());
   const offerPreparation = useCallback(session => {
-    if (!['needs_browser', 'needs_login', 'needs_verification'].includes(session.status)) return;
+    if (!['needs_browser', 'needs_login'].includes(session.status)) return;
     const key = session.sessionId + ':' + session.status;
     if (preparationReported.current.has(key)) return;
     preparationReported.current.add(key);
@@ -674,7 +674,7 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
 
     {sidePracticeLocked && !endedContest && <div className="wb-notice">这题正在模拟赛中，请进入考场运行与提交。</div>}
     {officialSession && !runningContest && <div className="wb-official-status" aria-label="原站提交状态"><div role="status"><strong>{OFFICIAL_STATES[officialSession.status] || '原站提交'}</strong><span>{officialSession.message}</span>{officialSession.submissionId && <span>提交 #{officialSession.submissionId}</span>}{officialSession.verdict && <b className={`wb-verdict-${officialSession.verdict.toLowerCase()}${officialSession.verdict === 'AC' ? ' wb-receipt-ac' : ''}`}>{verdictLabel(officialSession.verdict)}</b>}</div><div className="wb-official-actions">
-      {['needs_browser', 'needs_login', 'needs_verification', 'unconfirmed', 'error'].includes(officialSession.status) && <button type="button" className="wb-button" disabled={unavailable || openingOfficial} onClick={() => openOfficial('official/open')}>{officialSession.status === 'needs_browser' ? '连接浏览器' : '在浏览器查看'}</button>}
+      {['needs_browser', 'needs_login', 'needs_verification', 'unconfirmed', 'error'].includes(officialSession.status) && <button type="button" className="wb-button" disabled={unavailable || openingOfficial} onClick={() => openOfficial('official/open')}>{officialSession.status === 'needs_browser' ? '连接浏览器' : officialSession.status === 'needs_verification' ? '完成原站验证' : '在浏览器查看'}</button>}
       {['finished', 'closed'].includes(officialSession.status) && <button type="button" className="wb-icon-button" aria-label="收起提交状态" onClick={() => setOfficialSession(null)}><ChevronUp size={14} /></button>}
     </div>{officialPollError && <p className="wb-poll-error" role="alert">{officialPollError}</p>}</div>}
     {actionError && <div className="wb-error-strip" role="alert"><span>{actionError}</span><button type="button" onClick={() => setActionError('')}>知道了</button></div>}
@@ -687,17 +687,17 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
             <select aria-label="题面字号" title="题面字号" value={statementFontSize} onChange={event => changeStatementFontSize(Number(event.target.value))}>{STATEMENT_FONT_SIZES.map(size => <option key={size} value={size}>{size}px</option>)}</select>
             <button type="button" aria-label="放大题面字号" title="放大题面字号" disabled={statementFontSize === STATEMENT_FONT_SIZES.at(-1)} onClick={() => changeStatementFontSize(statementFontSize + 2)}>A+</button>
           </div>
-          <div className="wb-language-toggle" role="group" aria-label="题面语言"><button type="button" aria-pressed={language === 'original'} onClick={() => setLanguage('original')}>原文</button><button type="button" aria-pressed={language === 'zh'} disabled={loading || !problem?.markdown || translationBusy} onClick={translateStatement}>{translationBusy ? '翻译中…' : '中文'}</button></div>
+          <div className="wb-language-toggle" role="group" aria-label="题面语言"><button type="button" aria-pressed={language === 'original'} onClick={() => { setLanguage('original'); setTranslationError(''); }}>原文</button><button type="button" aria-pressed={language === 'zh'} disabled={loading || !problem?.markdown || translationBusy} onClick={translateStatement}>{translationBusy ? '翻译中…' : '中文'}</button></div>
           {problem?.url && !runningContest && <a href={problem.url} target="_blank" rel="noreferrer" title="在浏览器打开原题">原题<ExternalLink size={12} /></a>}
         </div></div>
         {translationBusy && <p className="wb-translation-note" role="status"><LoaderCircle size={12} className="wb-spinner" />正在翻译公开题面，原文仍可阅读。</p>}
         {translationError && <div className="wb-translation-note wb-translation-error" role="alert"><span>{translationError}</span><button type="button" onClick={translateStatement}>重试</button></div>}
-        {language === 'zh' && translation && <p className="wb-translation-note">机器翻译 · {translation.provider}{translation.cached ? ' · 已缓存' : ''}{translation.notice ? ` · ${translation.notice}` : ''}</p>}
+        {language === 'zh' && translation && <p className="wb-translation-note">{!['site', 'original'].includes(translation.kind) && '机器翻译 · '}{translation.provider}{translation.cached && translation.kind !== 'original' ? ' · 已缓存' : ''}{translation.notice ? ` · ${translation.notice}` : ''}</p>}
         <article className="wb-statement" ref={statementRef} tabIndex={0} aria-label="题面内容" style={{ '--statement-font-size': `${statementFontSize}px` }}>
           {loading ? <div className="wb-empty"><LoaderCircle className="wb-spinner" size={22} /><span>正在载入题面</span></div>
             : loadError ? <div className="wb-empty"><span>{loadError}</span><button type="button" className="wb-button" onClick={() => setLoadAttempt(value => value + 1)}><RotateCcw size={14} />重新载入</button></div>
             : problem?.markdown ? <StatementMarkdown markdown={language === 'zh' && translation ? translation.markdown : problem.markdown} samples={problem.samples} title={problem.title} />
-            : <div className="wb-empty"><BookOpen size={24} /><strong>本地尚未缓存原题面</strong><span>打开原题后，可以在右侧编写并提交代码。</span>{problem?.url && <a className="wb-button" href={problem.url} target="_blank" rel="noreferrer">打开原题<ExternalLink size={14} /></a>}</div>}
+            : <div className="wb-empty"><BookOpen size={24} /><strong>题面暂时未能加载</strong><span>{problem?.statementError || '请重试读取原站题面。'}</span><button type="button" className="wb-button" onClick={() => setLoadAttempt(value => value + 1)}><RotateCcw size={14} />重新载入</button>{problem?.url && <a className="wb-button" href={problem.url} target="_blank" rel="noreferrer">打开原题<ExternalLink size={14} /></a>}</div>}
         </article>
       </div>
 

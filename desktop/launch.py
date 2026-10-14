@@ -259,7 +259,11 @@ def run_desktop() -> int:
                 if server.training.active_contest():
                     raise ServiceError(409, '请先结束当前模拟赛，再安装更新')
             def install_update(path, digest, version):
-                launch_installer(path, digest, version, APP_DIR)
+                if path.suffix.lower() == ".zip":
+                    from update_patch import launch_patch
+                    launch_patch(path, digest, version, APP_DIR)
+                else:
+                    launch_installer(path, digest, version, APP_DIR)
                 threading.Timer(1, window.destroy).start()
             server.software_updates.guard = update_guard
             server.software_updates.launcher = install_update
@@ -303,6 +307,9 @@ def main(argv=None) -> int:
 
 
 if __name__ == "__main__":
+    if len(sys.argv) == 7 and sys.argv[1] == "--apply-update-patch":
+        from update_patch import helper_main
+        raise SystemExit(helper_main(sys.argv[2:]))
     if len(sys.argv) == 3 and sys.argv[1] in ("--package-check", "--serve-check", "--serve-account-check", "--native-account-check", "--native-check", "--account-network-check"):
         from release_probe import run
         raise SystemExit(run(sys.argv[1], sys.argv[2]))

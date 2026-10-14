@@ -322,6 +322,7 @@ kbd {
   gap: 4px;
 }
 .nav-item {
+  position: relative;
   display: flex;
   width: 100%;
   padding: 9px 11px;

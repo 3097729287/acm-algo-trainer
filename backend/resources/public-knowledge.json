@@ -1,0 +1,1552 @@
+{
+  "schema": 1,
+  "checkedAt": "2026-10-14",
+  "problems": {
+    "https://www.luogu.com.cn/problem/P17632": {
+      "tags": [
+        "动态规划 DP"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P17632",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "0dbcf054c93709a5cf0fba25a40cc2f433e785d4fa2c39f8db2b319ee1702c63"
+    },
+    "https://www.luogu.com.cn/problem/P17633": {
+      "tags": [
+        "模拟",
+        "数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P17633",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "6897efe7a9da83b312730c49f8f0b6ed05169a633187a28399ca3ef802a71d39"
+    },
+    "https://www.luogu.com.cn/problem/P17643": {
+      "tags": [
+        "状压 DP",
+        "记忆化搜索"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P17643",
+      "reason": "最多 18 个物体；以剩余物体的位掩码记状态，枚举当前可消去的成对物体。",
+      "statementHash": "aae7bb24dd5dcae57132cda0aef28034d746c65d2a7bd504f14ffa1866aeaaf8"
+    },
+    "https://www.luogu.com.cn/problem/P17644": {
+      "tags": [
+        "动态规划 DP",
+        "数学",
+        "数论",
+        "群论",
+        "Pólya 定理",
+        "生成函数",
+        "导数"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P17644",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "93cc7f4c12c8da3e3d56e903c57fd43446578481ae1f882adc42ae9b782bd29a"
+    },
+    "https://www.luogu.com.cn/problem/P17645": {
+      "tags": [
+        "模拟",
+        "递推"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P17645",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "4c965391f58ea06e7df2eab3388e0ec3dba0978d6762d23c646dd1c13a00097b"
+    },
+    "https://www.luogu.com.cn/problem/P17690": {
+      "tags": [
+        "数学",
+        "最大公约数 gcd"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P17690",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "7d14d122f913ec94571395ffc3511ca72021ca1b16722933635abb31170286e3"
+    },
+    "https://atcoder.jp/contests/abc479/tasks/abc479_c": {
+      "tags": [
+        "枚举",
+        "深度优先搜索 DFS"
+      ],
+      "source": "https://www.luogu.com.cn/problem/AT_abc479_c",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "e8b3b5754c05c9a02867d71eab2b173427395101cdb98aa5b209c7e6325a5189"
+    },
+    "https://atcoder.jp/contests/abc479/tasks/abc479_d": {
+      "tags": [
+        "枚举",
+        "递推"
+      ],
+      "source": "https://atcoder.jp/contests/abc479/editorial/27141?lang=en",
+      "reason": "按首次移动方向分类；递推维护前缀、后缀最小移动代价。",
+      "statementHash": "902e8149f3413a551c82551334d49c4863e5f54d2643920376e60923e47ee57a"
+    },
+    "https://atcoder.jp/contests/abc479/tasks/abc479_e": {
+      "tags": [
+        "深度优先搜索 DFS",
+        "树形 DP",
+        "差分"
+      ],
+      "source": "https://www.luogu.com.cn/problem/AT_abc479_e",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "8518831a047f7879ce96071724a71d958b105c640f084625a3ad075a11bc92f7"
+    },
+    "https://atcoder.jp/contests/abc479/tasks/abc479_f": {
+      "tags": [
+        "排序",
+        "树状数组"
+      ],
+      "source": "https://atcoder.jp/contests/abc479/tasks/abc479_f",
+      "reason": "把空位视为保持相对次序的相同元素；总相邻交换数为人的逆序对加每人跨过的空位数，排序后用树状数组计数。",
+      "statementHash": "5f630e1f08e2bc53739711a94e9d087c7e5d9091c5f4ea3a58e3907d3062119a"
+    },
+    "https://www.luogu.com.cn/problem/P16235": {
+      "tags": [
+        "贪心"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P16235",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "016dffafbda7d63ccaae1206fc54ea0ed63548fdccd7217365b5b5d852414cad"
+    },
+    "https://www.luogu.com.cn/problem/P12835": {
+      "tags": [
+        "数学",
+        "二分",
+        "数位 DP"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12835",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "1e68261752b49587fb04d824ae18a71e4eec80c07ec96929f016d2ad97c098c0"
+    },
+    "https://www.luogu.com.cn/problem/P8761": {
+      "tags": [
+        "模拟"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8761",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "8b4029b27be5a05cb2c3fe3263ffe1e112459d6e7fdb8b3ceae282f883a29a04"
+    },
+    "https://www.luogu.com.cn/problem/P8785": {
+      "tags": [
+        "图论",
+        "计算几何"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8785",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "6d7a17215689617720d6ad25aa2af9883269f2ba961d974d6ce2d0f4c7c20582"
+    },
+    "https://www.luogu.com.cn/problem/P8799": {
+      "tags": [
+        "数论"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8799",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "30fc971efb6e5ad06d8a1e66c7c539933c4711fcc6bbfe73007f3fb32dea0391"
+    },
+    "https://www.luogu.com.cn/problem/P8800": {
+      "tags": [
+        "贪心",
+        "二分",
+        "排序"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8800",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "10359419df095c3ae65f6ae2cd1690de1ef408a7be0ec78caabbbb8d82d531f5"
+    },
+    "https://www.luogu.com.cn/problem/P8802": {
+      "tags": [
+        "最短路"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8802",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "cb2dda16e248165b1e6dd36d565e145957c6c83552e40bec912601f9994c5c64"
+    },
+    "https://www.luogu.com.cn/problem/P8804": {
+      "tags": [
+        "概率论"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8804",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "937946686e296bb1ee4cceffb2badab11ebf5079f8ee16cb1104cf79bd17aab3"
+    },
+    "https://www.luogu.com.cn/problem/P8805": {
+      "tags": [
+        "最近公共祖先 LCA",
+        "前缀和"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8805",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "41802b269bdada6a7dd38b62bc3d99bfe6a97e70ef841680a8fd94403576359c"
+    },
+    "https://www.luogu.com.cn/problem/P8806": {
+      "tags": [
+        "动态规划 DP",
+        "排序",
+        "背包 DP"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8806",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "72700cf793952034f79891dee9c3225e84ff491e227fd01a7f2764c5dadd608f"
+    },
+    "https://www.luogu.com.cn/problem/P9246": {
+      "tags": [
+        "最近公共祖先 LCA",
+        "差分"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P9246",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "7c3b53f0974c87f9dd6b93879cc132d447c93cce103b47dcce6893fc098d7431"
+    },
+    "https://www.luogu.com.cn/problem/P9428": {
+      "tags": [
+        "深度优先搜索 DFS",
+        "期望"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P9428",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "260b76b6d18ed36475b25c6be93a029b780c47f685dc7379ad25bb67fea1064e"
+    },
+    "https://www.luogu.com.cn/problem/P10424": {
+      "tags": [
+        "模拟"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P10424",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "077eaaee11c4b85e97ad081a714ce926b49904390289c094db74f1a1c33f4c63"
+    },
+    "https://www.luogu.com.cn/problem/P10428": {
+      "tags": [
+        "数学",
+        "贪心",
+        "根号分治"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P10428",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "ac721774bcbe5288a06864c1d9889bd158f4296be2a5ef78d520573f78783a74"
+    },
+    "https://www.luogu.com.cn/problem/P10429": {
+      "tags": [
+        "枚举",
+        "前缀和"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P10429",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "ae86b03d57c2c94c49b44d497aa2555fca0a98b1ce38cb533c45677025cebddf"
+    },
+    "https://www.luogu.com.cn/problem/P12836": {
+      "tags": [
+        "数学",
+        "贪心"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12836",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "f6560c1ef75e6adc70bd8e9eafd2d4c88bee249f1ddbe3da6c4c569bb703e6dc"
+    },
+    "https://www.luogu.com.cn/problem/P8597": {
+      "tags": [
+        "模拟",
+        "贪心"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8597",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "22de9dca8055c216ac08c6598becdbd5b29451c1986003f3e6eaf348a590d552"
+    },
+    "https://www.luogu.com.cn/problem/P8599": {
+      "tags": [
+        "枚举"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8599",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "1a75f1b6a31d0fd21e4aed0f3874b3230f111a074fd0b11d98b91ad74c42b9cc"
+    },
+    "https://www.luogu.com.cn/problem/P8618": {
+      "tags": [
+        "线段树",
+        "摊还分析"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8618",
+      "reason": "区间取对数后求和；稳定于 1、2 的元素不再变化，可维护区间最大值和区间和并跳过稳定区间。",
+      "statementHash": "67d2410976f5388c5749b8f6b8e77f2b98fcca73d5d5b0008332d373ee7db449"
+    },
+    "https://www.luogu.com.cn/problem/P8619": {
+      "tags": [
+        "网络流"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8619",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "eaf577f6d5c3cb03d756f380b69fe51c8b037b4ffc06ccbfadfde68aa79b00c3"
+    },
+    "https://www.luogu.com.cn/problem/P8645": {
+      "tags": [
+        "计算几何",
+        "数论"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8645",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "aaf923f99b0681e07171508af1ba8bc2677b5062233dfb9c2517a3cc2d4565d9"
+    },
+    "https://www.luogu.com.cn/problem/P8655": {
+      "tags": [
+        "基环树"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8655",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "1fce83afaf897297df1437166a70110547b3d72f370f678e72a20007afba8ccb"
+    },
+    "https://www.luogu.com.cn/problem/P8674": {
+      "tags": [
+        "最短路"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8674",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "7fff352eb258698dd1224dc99919fe3f27022b13036d9203821b47f68394f848"
+    },
+    "https://www.luogu.com.cn/problem/P8675": {
+      "tags": [
+        "动态规划 DP",
+        "区间 DP",
+        "前缀和"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8675",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "73e53e831babd0af6575351a3234a3ef737b46063219d1e46e0e91c37197dfc1"
+    },
+    "https://www.luogu.com.cn/problem/P8699": {
+      "tags": [
+        "动态规划 DP"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8699",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "040aef7379152faf9839e0cc843c5c2cce260d2c516a9377cfd48d0d12fb30aa"
+    },
+    "https://www.luogu.com.cn/problem/P8784": {
+      "tags": [
+        "动态规划 DP"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8784",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "5a74cc1d8735b145062deb865c1c22bb32032456c52aaffe33eb7ac4ddf67163"
+    },
+    "https://www.luogu.com.cn/problem/P8787": {
+      "tags": [
+        "贪心"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8787",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "e14715704db4b9fb7d6ff882fc65a37931245da8e7a45e134a823b4168bfcbcf"
+    },
+    "https://www.luogu.com.cn/problem/P9423": {
+      "tags": [
+        "数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P9423",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "e177082529065b993b91a5b39abbb5cdfdd9cdc2661d71cebfa8432649d093a6"
+    },
+    "https://www.luogu.com.cn/problem/P9425": {
+      "tags": [
+        "广度优先搜索 BFS"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P9425",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "55b747e1eabf4006e2124a426ba8bae89487915b30f97745f5de1993c498f199"
+    },
+    "https://www.luogu.com.cn/problem/P9426": {
+      "tags": [
+        "前缀和"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P9426",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "3f29172501653c215e5d04e6b3c0868bebfe2e1339c015007ff70582e83fc58c"
+    },
+    "https://www.luogu.com.cn/problem/P9427": {
+      "tags": [
+        "取模与同余",
+        "构造"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P9427",
+      "reason": "由指定数量的 2、3 构造 2023 的倍数，目标为字典序最大。",
+      "statementHash": "f2efcf8eb022cca199a7991353a9b1d955803a2fc8fe06370a05e77ddfa4f952"
+    },
+    "https://www.luogu.com.cn/problem/P10425": {
+      "tags": [
+        "模拟",
+        "高精度"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P10425",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "11231eb76308df46d33e8f6d6ceced61fcf76b26788b165050f3d8d270aeb6be"
+    },
+    "https://www.luogu.com.cn/problem/P10912": {
+      "tags": [
+        "图论",
+        "组合数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P10912",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "fe76ea34b503089c9265c680f5799bcb0c49245c3fb1deaf6a8486a43cb5e8a1"
+    },
+    "https://www.luogu.com.cn/problem/P10913": {
+      "tags": [
+        "贪心",
+        "优先队列",
+        "双指针 two-pointer"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P10913",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "c76201374daf46ae2d4d08e45225b01d5fef5d7f97ced843df4dfb3c73c4f4ed"
+    },
+    "https://www.luogu.com.cn/problem/P10914": {
+      "tags": [
+        "动态规划 DP",
+        "bitset"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P10914",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "93b2b55c677594c4957275e59ac34aa502a37605305f1af81ceaa6620d2cce38"
+    },
+    "https://www.luogu.com.cn/problem/P12830": {
+      "tags": [
+        "动态规划 DP",
+        "数论"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12830",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "70a8741e7589d353524070cbf86ebad52260623a3fe345bf1a124b5ad68bda29"
+    },
+    "https://www.luogu.com.cn/problem/P12839": {
+      "tags": [
+        "并查集",
+        "组合数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12839",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "7017998507ab87ac03a22b31ce17bbb88fe55f1eb679101c1dc3a9cf8850ecc5"
+    },
+    "https://www.luogu.com.cn/problem/P16236": {
+      "tags": [
+        "数学",
+        "贪心",
+        "前缀和"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P16236",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "dfe3169886f0746d9ece441bf2ba91c6ca1f82fc0eed565c070c9a6d63844f2d"
+    },
+    "https://www.luogu.com.cn/problem/P16798": {
+      "tags": [
+        "递推"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P16798",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "5650ffaef2d8cbf93fbbefdf45ac3d763d4ad8f189a3a41ee0becc96fd3c23d2"
+    },
+    "https://www.luogu.com.cn/problem/P8606": {
+      "tags": [
+        "博弈论"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8606",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "8d7418beb3c1869c33a91e84134488370f2cd750408861ca38c671e8abaa2130"
+    },
+    "https://www.luogu.com.cn/problem/P8608": {
+      "tags": [
+        "计算几何"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8608",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "422e4f3a5c9d195d447208f7fea0a193677d5d1cab1346ddb1093b3601e598b1"
+    },
+    "https://www.luogu.com.cn/problem/P8622": {
+      "tags": [
+        "数学",
+        "整数平方根"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8622",
+      "reason": "灯的翻转次数由除 1 以外的约数个数决定，平方数决定奇偶性。",
+      "statementHash": "1b40e277a8e929360fd6eb5992e3e9e4a9690debe3547f48ebeb8545f8adf610"
+    },
+    "https://www.luogu.com.cn/problem/P8623": {
+      "tags": [
+        "模拟"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8623",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "ad71fc70c04196f80a95dfa87b51ffef6738e87c1ceb30d622d03ee5dd95b80f"
+    },
+    "https://www.luogu.com.cn/problem/P8625": {
+      "tags": [
+        "树形 DP"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8625",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "7fcdc61cc0838ed862bfe09b5ff8807075f8f8ff8ff9f44fa980ac4e4db7ee82"
+    },
+    "https://www.luogu.com.cn/problem/P8630": {
+      "tags": [
+        "哈希 hashing"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8630",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "94209a7a2e4af54789828a66d3daddb1444bdbd0dfdc334ecfe7d540961af7c3"
+    },
+    "https://www.luogu.com.cn/problem/P8632": {
+      "tags": [
+        "动态规划 DP"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8632",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "c9c1595d5fa8bfe743838e99e203010a5481c33c8cd5a9b51aceea4e6e6ae2ea"
+    },
+    "https://www.luogu.com.cn/problem/P8633": {
+      "tags": [
+        "枚举",
+        "Pólya 定理"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8633",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "4a6feab6340e97c5fbcdc84394689ffa8ec44e41674f64105eff524ab0f321d7"
+    },
+    "https://www.luogu.com.cn/problem/P8637": {
+      "tags": [
+        "贪心"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8637",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "65479796611c20ee4daf7f2f15734fd8449b37534a2e3e40946b9530499ac0d8"
+    },
+    "https://www.luogu.com.cn/problem/P8644": {
+      "tags": [
+        "枚举"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8644",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "e49d8b3c6c46af8eceb1287862d0ba76551dd61688919e6dec2a49b6913694d8"
+    },
+    "https://www.luogu.com.cn/problem/P8649": {
+      "tags": [
+        "枚举",
+        "前缀和"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8649",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "0f087d279cbfeb9d6e5bc20c06445c2c7c88fb30a793db94ea6b82c744aeb110"
+    },
+    "https://www.luogu.com.cn/problem/P8651": {
+      "tags": [
+        "枚举"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8651",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "7c1710031678c4cc8f1602e93092508bc68d10639b45fb05fca1d44c13272a72"
+    },
+    "https://www.luogu.com.cn/problem/P8656": {
+      "tags": [
+        "动态规划 DP"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8656",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "2c8eaebe1e5f2bd229d22018422d7539066f1bccede3c5f12652dffffe5e6e40"
+    },
+    "https://www.luogu.com.cn/problem/P8657": {
+      "tags": [
+        "高斯消元",
+        "随机游走 Markov Chain"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8657",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "6d099b246ff49b2a7fa389af57ecc25985d8d0f6808f5a9b42f94f78c3d06caa"
+    },
+    "https://www.luogu.com.cn/problem/P8661": {
+      "tags": [
+        "单调队列",
+        "队列"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8661",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "0be0c9dea18b3e4eddd5d43bc17ca12c36a3fb158dc6b6b8dc90970532f4db97"
+    },
+    "https://www.luogu.com.cn/problem/P8668": {
+      "tags": [
+        "数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8668",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "9c27d8c84ce4836e7aa32b823988f56e0b84123a83b103dd55b9399254e8289d"
+    },
+    "https://www.luogu.com.cn/problem/P8669": {
+      "tags": [
+        "贪心",
+        "分类讨论"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8669",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "c00445bd22f41b23aa801c88511501dee5640adfd45b1cb69a351d2b9ed970ec"
+    },
+    "https://www.luogu.com.cn/problem/P8670": {
+      "tags": [
+        "数论",
+        "素数判断",
+        "莫比乌斯反演",
+        "前缀和",
+        "容斥原理",
+        "整除分块",
+        "欧拉函数"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8670",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "d2246091cdfd33d47f2037551f8b7990bcc8ad86926ea276fe843254f540e1da"
+    },
+    "https://www.luogu.com.cn/problem/P8679": {
+      "tags": [
+        "递推",
+        "枚举",
+        "广度优先搜索 BFS",
+        "深度优先搜索 DFS",
+        "进制",
+        "线性递推"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8679",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "c355eb71d78c80417a24986fdb39bc858055a34411891097b28184245f913e86"
+    },
+    "https://www.luogu.com.cn/problem/P8682": {
+      "tags": [
+        "最大公约数 gcd"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8682",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "57095953d7d3d40ef852658cd7bd6e6924874d118d42d5d866466961b156a95f"
+    },
+    "https://www.luogu.com.cn/problem/P8684": {
+      "tags": [
+        "贪心",
+        "前缀和"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8684",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "35a3ff7b62aeb5f67553333d9bdb0226dfe33cedfe5655c1b0bb5a6f4308684f"
+    },
+    "https://www.luogu.com.cn/problem/P8690": {
+      "tags": [
+        "枚举",
+        "背包 DP",
+        "DFS"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8690",
+      "reason": "合并填空包含平方序列、不同质数拆分和小网格路径枚举。",
+      "statementHash": "0bded3bfc0a9b1292b34aea0a141685aeb06d307260cfeeee87e6d2de44432c7"
+    },
+    "https://www.luogu.com.cn/problem/P8700": {
+      "tags": [
+        "置换环",
+        "数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8700",
+      "reason": "三种操作均为固定位置的置换，检查颜色可达性及置换不变量。",
+      "statementHash": "831902ed6b760d1011c04381dab4c3e6a96ec6447069547469d92373caa24af5"
+    },
+    "https://www.luogu.com.cn/problem/P8702": {
+      "tags": [
+        "期望与概率",
+        "乘法逆元"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8702",
+      "reason": "题目要求随机伤害过程的获胜概率，并以模质数逆元表示有理数。",
+      "statementHash": "fde01cca378247d89582122c5e8723934632159b7014fc95e23d6897f9d4bfa4"
+    },
+    "https://www.luogu.com.cn/problem/P8703": {
+      "tags": [
+        "动态规划 DP"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8703",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "43da896882b26c7181dde11949b246bc0431df7185f708491fb0b23a338da371"
+    },
+    "https://www.luogu.com.cn/problem/P8705": {
+      "tags": [
+        "模拟",
+        "枚举"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8705",
+      "reason": "合并填空包含跑步体力交替变化、日期分钟统计及检测分组大小枚举。",
+      "statementHash": "5a7a2c80141fb6e17aa0dc7e55c872bb8870de1d3b8293d43acc9cede90b1f61"
+    },
+    "https://www.luogu.com.cn/problem/P8711": {
+      "tags": [
+        "模拟"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8711",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "fbe5a3b6b429fb3788897715bfc1b8a660d15ca552bf3c3efb1f512642c06a49"
+    },
+    "https://www.luogu.com.cn/problem/P8712": {
+      "tags": [
+        "枚举"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8712",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "4393a32496717c67f9ae6d6f53f2802660d1cc1ffda8b284f834753b15058018"
+    },
+    "https://www.luogu.com.cn/problem/P8714": {
+      "tags": [
+        "枚举",
+        "最大公约数",
+        "模拟"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8714",
+      "reason": "合并填空包含数字出现次数、互质分数计数和蛇形填数。",
+      "statementHash": "a462ad166ca791f42f18232ed19ff671a171f14cf1497c9f820d83927364f090"
+    },
+    "https://www.luogu.com.cn/problem/P8720": {
+      "tags": [
+        "计算几何"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8720",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "37246e2276556b8b1c93a1a6638a11123b2064a616359759bbcd359195d99790"
+    },
+    "https://www.luogu.com.cn/problem/P8728": {
+      "tags": [
+        "BFS",
+        "线性 DP",
+        "DFS"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8728",
+      "reason": "合并填空包含多源网格扩散、递增子序列计数和 4×4 网格路径遍历。",
+      "statementHash": "086da630fd50866aefcd3efd75c8f92ebc0ba1580e6abbe526320d8cdfb73362"
+    },
+    "https://www.luogu.com.cn/problem/P8736": {
+      "tags": [
+        "动态规划 DP",
+        "二分",
+        "字典树 Trie"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8736",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "eae55594467af4b0622c4f9803c6227ac80cd326a5c862e0083e053269c0643c"
+    },
+    "https://www.luogu.com.cn/problem/P8737": {
+      "tags": [
+        "动态规划 DP",
+        "容斥原理"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8737",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "9bc8e01ff462715e3a476297496d153dba6b8462b199e98253256035865b2ee1"
+    },
+    "https://www.luogu.com.cn/problem/P8741": {
+      "tags": [
+        "枚举",
+        "模拟",
+        "最短路"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8741",
+      "reason": "合并填空包含数字卡片消耗、格点直线去重和图上最短路径。",
+      "statementHash": "d528c5662f134459bd0e5df1e379a0e582a458fdb5a3f05ec6965828289e0d94"
+    },
+    "https://www.luogu.com.cn/problem/P8747": {
+      "tags": [
+        "线段树"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8747",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "b8c93149721e2bd61edf0e946682a2eae7a6cfe33d38ebae8885571e44ac48a6"
+    },
+    "https://www.luogu.com.cn/problem/P8748": {
+      "tags": [
+        "模拟"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8748",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "8504a68b8e4924988631c4f788e49e2256cbf2403162e59f2e5e3aaf2367cbdf"
+    },
+    "https://www.luogu.com.cn/problem/P8751": {
+      "tags": [
+        "取模与同余",
+        "组合计数",
+        "生成树"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8751",
+      "reason": "合并填空包含阶乘末位、正整数分拆和连接全部城邦的最低费用。",
+      "statementHash": "e8a66c799c35f46a1984cb0867f3e51c6678998a1e0e70906fb3ae7eb77b13e2"
+    },
+    "https://www.luogu.com.cn/problem/P8752": {
+      "tags": [
+        "模拟"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8752",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "109090e3d24543bd136e9b695dcb5fc294e470aa26720f7c4076f5d4e30d197b"
+    },
+    "https://www.luogu.com.cn/problem/P8759": {
+      "tags": [
+        "素数",
+        "枚举",
+        "树形 DP"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8759",
+      "reason": "合并填空包含纯质数筛选、日期枚举和按左右子树规模求最小权值。",
+      "statementHash": "963a97e896d05db39525a422c0044fce9f62b686d6d0dc4025b2c3be107ba6b4"
+    },
+    "https://www.luogu.com.cn/problem/P8771": {
+      "tags": [
+        "进制"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8771",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "d6de94feca05c161db45e0afd4add5f18cbc9ba9421434d84132831f19ac982a"
+    },
+    "https://www.luogu.com.cn/problem/P8780": {
+      "tags": [
+        "模拟"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8780",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "20088266fbdd81ba862739648d81ff774096c01d0d9827225a3cf9c16f46d2e0"
+    },
+    "https://www.luogu.com.cn/problem/P8781": {
+      "tags": [
+        "模拟"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8781",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "930d23f6d529f325066b8b4b698dfb94c45091f80125e2873b99abc90908b5b3"
+    },
+    "https://www.luogu.com.cn/problem/P8789": {
+      "tags": [
+        "背包 DP",
+        "枚举"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8789",
+      "reason": "合并填空包含不同整数拆分计数和时分秒夹角枚举。",
+      "statementHash": "dfbe2d7f5b534f45c5bbd20b9ea39e79223f7139877078df9020bc21ec5c05eb"
+    },
+    "https://www.luogu.com.cn/problem/P8801": {
+      "tags": [
+        "模拟",
+        "搜索",
+        "贪心",
+        "深度优先搜索 DFS"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8801",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "481f976507c2c135182b271814b725b9bce98d3e7e080935f07e87f75b9cf21a"
+    },
+    "https://www.luogu.com.cn/problem/P8803": {
+      "tags": [
+        "动态规划 DP"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8803",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "f80fe1a65a58289a1f58ab9c314259f2929aeb8d34f49dd01196860d1648243d"
+    },
+    "https://www.luogu.com.cn/problem/P9239": {
+      "tags": [
+        "模拟",
+        "枚举"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P9239",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "ee700976dfede4a644b10f7db7af4f7e0d76134fce5b040e80dbc540302a9626"
+    },
+    "https://www.luogu.com.cn/problem/P9240": {
+      "tags": [
+        "数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P9240",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "7085fc7e51982374312a90fd54b1a30a1f50ffbdfe9b0c9046e39718d47f6d4b"
+    },
+    "https://www.luogu.com.cn/problem/P9241": {
+      "tags": [
+        "搜索",
+        "枚举"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P9241",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "db7e4014225c7803476617277be90669d1db2c1bf2021683580720180dea6d0a"
+    },
+    "https://www.luogu.com.cn/problem/P9242": {
+      "tags": [
+        "动态规划 DP"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P9242",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "97336bc52430a4e6468d34710cf29eab16bd65e818f73edb014ba472e9f3fec9"
+    },
+    "https://www.luogu.com.cn/problem/P9243": {
+      "tags": [
+        "搜索",
+        "广度优先搜索 BFS",
+        "深度优先搜索 DFS"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P9243",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "5ded789827fa5b27a35c618bf42ad703a1436c719975d8b053f291545ea5ef94"
+    },
+    "https://www.luogu.com.cn/problem/P9244": {
+      "tags": [
+        "字符串",
+        "前缀和",
+        "双指针 two-pointer"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P9244",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "3853a0077efbd5ca778bc31c305c94242f482fc2d466319f68ac57067aa01692"
+    },
+    "https://www.luogu.com.cn/problem/P9245": {
+      "tags": [
+        "最近公共祖先 LCA"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P9245",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "1633b76d7c410a291126b81e40dd5395a80236af8e0032ff4d7fed950baaef7a"
+    },
+    "https://www.luogu.com.cn/problem/P9421": {
+      "tags": [
+        "模拟",
+        "分类讨论"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P9421",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "dbb99b13fe03a8e9325780b96f0f524464732e99ecc4ce3c005d5637d3a3c599"
+    },
+    "https://www.luogu.com.cn/problem/P9422": {
+      "tags": [
+        "队列"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P9422",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "0f021402d014d0562ae600e662906a100a077724521b33e9589a7f0ff4494cb1"
+    },
+    "https://www.luogu.com.cn/problem/P9424": {
+      "tags": [
+        "双连通分量"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P9424",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "44bedf7215c8de958d648581a264764e86b18af0f81ad1ae0f5e6fe8ec5a2850"
+    },
+    "https://www.luogu.com.cn/problem/P10423": {
+      "tags": [
+        "数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P10423",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "f63dc59ec5b0dd69ce6dc7e2a1e723efb5ee4ad6e1804b4391f85c45269acd32"
+    },
+    "https://www.luogu.com.cn/problem/P10426": {
+      "tags": [
+        "数论",
+        "最大公约数 gcd"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P10426",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "b767336b01a9127c046ad53bbae2dc9b69744c188135f8baa337e72654cef405"
+    },
+    "https://www.luogu.com.cn/problem/P10427": {
+      "tags": [
+        "动态规划 DP",
+        "搜索",
+        "网络流"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P10427",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "b846502d4ad0a152d21372955f16c2cd41d4c16ac4e610190cc5e5d58e690905"
+    },
+    "https://www.luogu.com.cn/problem/P10906": {
+      "tags": [
+        "模拟",
+        "字符串"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P10906",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "24356ce6c44b3084e791dc4555ba67837a6cffa989c281fe1e6dbd964ceb1f1c"
+    },
+    "https://www.luogu.com.cn/problem/P10907": {
+      "tags": [
+        "数学",
+        "数论",
+        "哈希 hashing"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P10907",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "483463c7ef3547598e3e4e104652463ee2c59724af942fe51dc3988b3c50d6c1"
+    },
+    "https://www.luogu.com.cn/problem/P10908": {
+      "tags": [
+        "数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P10908",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "c84e5d484f3adcd15adc9f969523acbae2168272845c4a3430e23fbb61c2dc70"
+    },
+    "https://www.luogu.com.cn/problem/P10909": {
+      "tags": [
+        "二分"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P10909",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "1b12755f326906afad73087ca7e4254b8d5d2313ba76fe3c549f6da92855afcf"
+    },
+    "https://www.luogu.com.cn/problem/P10911": {
+      "tags": [
+        "动态规划 DP"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P10911",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "38d7c3740d50b19cd3b1722e801f5b996dd3bad75a82a9a2703e9e693b72db8c"
+    },
+    "https://www.luogu.com.cn/problem/P12085": {
+      "tags": [
+        "堆",
+        "链表"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12085",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "bad924938f141e7289c29dc6e955881dc996364b99883c49a9e43106067951c9"
+    },
+    "https://www.luogu.com.cn/problem/P12130": {
+      "tags": [
+        "数学",
+        "微积分"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12130",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "948f219a62bc6f34d982b601229f4e4af18c438825809b5187e54282cdb52533"
+    },
+    "https://www.luogu.com.cn/problem/P12133": {
+      "tags": [
+        "模拟"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12133",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "3bce4be179b031893ac075d2c54ff7c8f650a3f4df02e4672568b6c787bf85af"
+    },
+    "https://www.luogu.com.cn/problem/P12134": {
+      "tags": [
+        "数学",
+        "排序",
+        "前缀和",
+        "双指针 two-pointer"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12134",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "de78867c803a6d75681437392edaf178af4283529aef937696d1a8ecbcd10daa"
+    },
+    "https://www.luogu.com.cn/problem/P12135": {
+      "tags": [
+        "模拟",
+        "动态规划 DP",
+        "贪心",
+        "分类讨论"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12135",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "43dd113cafafc69724d0932c64d36109d51dd4cbfaaeaaf27fd824afbc852db0"
+    },
+    "https://www.luogu.com.cn/problem/P12136": {
+      "tags": [
+        "背包 DP",
+        "树形 DP",
+        "bitset"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12136",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "48ce70e882d211128b881a25e6500fe759910382d9af473d9aafea7e952fc432"
+    },
+    "https://www.luogu.com.cn/problem/P12137": {
+      "tags": [
+        "数学",
+        "组合数学",
+        "容斥原理",
+        "位运算"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12137",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "f4766722c0742cf921125dc2cfbdc0fbbbdac0da7b1e968acb58857a41c1d2eb"
+    },
+    "https://www.luogu.com.cn/problem/P12831": {
+      "tags": [
+        "数论",
+        "素数判断"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12831",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "fe77c28d4bd720d4927c77ae9d0a68aae66490a46c4da4a43d51ab561843cf50"
+    },
+    "https://www.luogu.com.cn/problem/P12832": {
+      "tags": [
+        "数学",
+        "数论"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12832",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "69ce31b8686be37bc560335c55cfc67f19f52d5cce08c20d88bc7df54dc07245"
+    },
+    "https://www.luogu.com.cn/problem/P12834": {
+      "tags": [
+        "贪心",
+        "构造"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12834",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "642d511ff15aeab9a9eee7372fc6a2aeaeaefa9d325c2845651d63c7c5508b64"
+    },
+    "https://www.luogu.com.cn/problem/P12838": {
+      "tags": [
+        "字符串",
+        "二分"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12838",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "e1943e506654ab70ba5a223665b2c25cef32e12a5ddaeb8381db767dacbb12d9"
+    },
+    "https://www.luogu.com.cn/problem/P16232": {
+      "tags": [
+        "数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P16232",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "84e73e2faa497f6cd567ce2b1735c21a1a12d7716ff0f5a4a19c936737fbc820"
+    },
+    "https://www.luogu.com.cn/problem/P16233": {
+      "tags": [
+        "组合数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P16233",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "51a6f16f9f35b73cfe3cd1927ed9ead128606262ba05253474a80d27fd28d3fc"
+    },
+    "https://www.luogu.com.cn/problem/P16234": {
+      "tags": [
+        "结论与计数"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P16234",
+      "reason": "每个长度为 2 的子数组循环移位不变，推出相邻元素相等，按共同取值计数。",
+      "statementHash": "6ef705924592e69ce9855ea265828ffc5ac73b9e07dd764bff615bff3258a427"
+    },
+    "https://www.luogu.com.cn/problem/P16237": {
+      "tags": [
+        "并查集",
+        "连通块"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P16237",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "a79fa7e3ec8a66eb3280192a439182e8a3145e72f965cf5cd1c878698109ef8e"
+    },
+    "https://www.luogu.com.cn/problem/P16238": {
+      "tags": [
+        "动态规划 DP",
+        "前缀和"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P16238",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "25fbc92d68632d40e47686538d228f2842212d168b01cfb4641f3325d25e730e"
+    },
+    "https://www.luogu.com.cn/problem/P16239": {
+      "tags": [
+        "贪心",
+        "二分"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P16239",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "21db9fd6f2f3f65fabae6b3b0dd770fb7067bf19997f480d47df185b443a45a1"
+    },
+    "https://www.luogu.com.cn/problem/P16793": {
+      "tags": [
+        "数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P16793",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "b14f352b864df6c0135a2cc8934689e987d91c077b512580851045d13a751fd4"
+    },
+    "https://www.luogu.com.cn/problem/P16796": {
+      "tags": [
+        "二分",
+        "前缀和",
+        "双指针 two-pointer"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P16796",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "b8334e7fcf565a18238d3e3f06d12d5abc598b53ccd9b310400b82900c406360"
+    },
+    "https://www.luogu.com.cn/problem/P16797": {
+      "tags": [
+        "数学",
+        "前缀和"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P16797",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "976f1b80912dde84311463fbb9e3716811b3918d87539e506d84c484d7629398"
+    },
+    "https://www.luogu.com.cn/problem/P16799": {
+      "tags": [
+        "线段树",
+        "树状数组"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P16799",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "1adecd9b15b3f24c28ce4836618abc310374f311516e8211458c55c38445d132"
+    },
+    "https://www.luogu.com.cn/problem/P16800": {
+      "tags": [
+        "线性筛法"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P16800",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "b6e2a2aa191964c150dda5720a9555dccd89b8796521018261318a9d2db98597"
+    },
+    "https://www.luogu.com.cn/problem/P16801": {
+      "tags": [
+        "数学",
+        "贪心"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P16801",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "acb1fc68de04d5b74e41399ae2777611226ca07765530e5b9b7c637a1bf1dfdc"
+    },
+    "https://www.luogu.com.cn/problem/P12125": {
+      "tags": [
+        "线性 DP",
+        "字符串"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12125",
+      "reason": "按已输入前缀长度和键盘位置维护最少移动代价。",
+      "statementHash": "e2636779d4d5df0bef58429d3c4fc1d90d1f7f7159fbe9abf99bd5d811b49ca4"
+    },
+    "https://www.luogu.com.cn/problem/P16802": {
+      "tags": [
+        "组合计数",
+        "生成函数"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P16802",
+      "reason": "每班选取 j 人的系数是组合数，目标是各班多项式乘积的第 M 项系数。",
+      "statementHash": "d38c6e9d52f8f5532e0f02a3775dbaf808e61a92651a8dd48de38df4978166bd"
+    },
+    "https://www.luogu.com.cn/problem/P8600": {
+      "tags": [
+        "线段树",
+        "前缀和"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8600",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "0e8d476ef7b29e95e2123feea9fe83a03e8f1f0bf96781bd12140fdaa4bb71b1"
+    },
+    "https://www.luogu.com.cn/problem/P8607": {
+      "tags": [
+        "动态规划 DP",
+        "递推",
+        "分类讨论"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8607",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "bfeee70b2aa9a9e744b7bacd05430977e90fa3e6ae554c8b4942f5139163a45d"
+    },
+    "https://www.luogu.com.cn/problem/P8613": {
+      "tags": [
+        "贪心",
+        "树状数组",
+        "前缀和"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8613",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "129ce193235f83867ab0fb0df684d200a4a71714f1551ff61311c7de5cdcc2b5"
+    },
+    "https://www.luogu.com.cn/problem/P8639": {
+      "tags": [
+        "状压 DP"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8639",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "8460f8b81ddba484bfd8b704a986042855d22c98d391f38fc10398fed9ab40b7"
+    },
+    "https://www.luogu.com.cn/problem/P8667": {
+      "tags": [
+        "动态规划 DP",
+        "二分",
+        "枚举"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8667",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "835bc85d226702f15976f46861cd55252e1a68a488ab74d96e55055df36c6626"
+    },
+    "https://www.luogu.com.cn/problem/P8680": {
+      "tags": [
+        "枚举"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8680",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "88082044931d41aeb85b9efd0f05e0af03353ee458f0082b34de52c6da6f874b"
+    },
+    "https://www.luogu.com.cn/problem/P8683": {
+      "tags": [
+        "贪心"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8683",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "56d8fa3670ef2d4eca28e8d1a6f70f47fd17a1a914e2fea6f975d76ecff38821"
+    },
+    "https://www.luogu.com.cn/problem/P8701": {
+      "tags": [
+        "线段树",
+        "可持久化线段树"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8701",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "26346ab40a742b5323cf808f442e84d02f2bd7e7e3aa4c353bafc1aa0421a9e6"
+    },
+    "https://www.luogu.com.cn/problem/P8749": {
+      "tags": [
+        "二分",
+        "枚举"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8749",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "39a87fb31d1e4a38bd727d6647b051999d470247ed4c7380f7c006b2b76a8421"
+    },
+    "https://www.luogu.com.cn/problem/P8764": {
+      "tags": [
+        "数位 DP"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8764",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "e9396d37a8aa227be2d421a1b9a2cb08428930215f42dadc1c7bd7180c4c0a72"
+    },
+    "https://www.luogu.com.cn/problem/P8782": {
+      "tags": [
+        "贪心"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8782",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "8bf09960016113c76997e6d80b2ceca2a50cdab8a38cbf2afac8e75df6a74052"
+    },
+    "https://www.luogu.com.cn/problem/P8783": {
+      "tags": [
+        "枚举",
+        "双指针 two-pointer"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8783",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "a2320fe3639ba4773fc1c635497e7a0b69dcc41eeea81172eff3d4ee179d2f96"
+    },
+    "https://www.luogu.com.cn/problem/P9420": {
+      "tags": [
+        "动态规划 DP",
+        "素数判断"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P9420",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "a49fc82a45c5e564d777e102641fea8aa97068af6a0cb851b46da50a7ec625b4"
+    },
+    "https://www.luogu.com.cn/problem/P10910": {
+      "tags": [
+        "贪心",
+        "排序"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P10910",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "b62472f11fd6037c06842bea3c20269c9a1624a2c5d38ba1875f04df1c0ac115"
+    },
+    "https://www.luogu.com.cn/problem/P12121": {
+      "tags": [
+        "模拟",
+        "数学",
+        "进制"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12121",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "0c5241023986f3d66ae7684121b454f0e5c9de63e0073538de537555a85063d0"
+    },
+    "https://www.luogu.com.cn/problem/P12131": {
+      "tags": [
+        "组合数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12131",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "c7bb5cf70cea49e957a23a65a211f45c181bbd003c6bdee175209c267704f2e2"
+    },
+    "https://www.luogu.com.cn/problem/P16794": {
+      "tags": [
+        "数位 DP"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P16794",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "e98f3b6817307e3f6107af65dff7631c42cd096c623b33547d54250ba3ddefd5"
+    },
+    "https://www.luogu.com.cn/problem/P12132": {
+      "tags": [
+        "数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12132",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "54ff1722f86eca9238185d76924db07b27edcefa0f5232d7f695cf2f1f8a9e9f"
+    },
+    "https://www.luogu.com.cn/problem/P12338": {
+      "tags": [
+        "数学"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12338",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "b7f98159f0f6d33f50baa2c5658718f8fe7570d635bb7b2e919458986b6707c6"
+    },
+    "https://www.luogu.com.cn/problem/P12339": {
+      "tags": [
+        "模拟"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12339",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "1da2ccc48af66b0a7450fbf0529a167ce8011c790a3604dacd529f390ee9d584"
+    },
+    "https://www.luogu.com.cn/problem/P12344": {
+      "tags": [
+        "贪心"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12344",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "e05895d0e9e1dd28c02e6da515f1ba1dd74849efba9225d00f0fc71872a654b5"
+    },
+    "https://www.luogu.com.cn/problem/P16795": {
+      "tags": [
+        "贪心"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P16795",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "8d5d03e6de1c4698991d707f0b820b38d337907573dccf2fe94f6421246f3c6f"
+    },
+    "https://www.luogu.com.cn/problem/P12123": {
+      "tags": [
+        "并查集"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12123",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "5d011f58299e3526d7d6ebb0c0512ca379de44f9137aa331c0b5cf22a8eeb11b"
+    },
+    "https://www.luogu.com.cn/problem/P12128": {
+      "tags": [
+        "根号分治"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12128",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "df3e29a1a79fc7467f55be4e87ab505357f4c1f88082eb61fbe4aab29eddd99d"
+    },
+    "https://www.luogu.com.cn/problem/P12122": {
+      "tags": [
+        "模拟",
+        "数学",
+        "期望"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12122",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "152f67121f8e8eb196be862a153ecab38f3457d7265df3333c6810c0a3ca8774"
+    },
+    "https://www.luogu.com.cn/problem/P12124": {
+      "tags": [
+        "字符串"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12124",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "0a03211d8cfca4b178e08e9ef36800f565adba241d9fd0b2f78aaf2a2ce2d2ea"
+    },
+    "https://www.luogu.com.cn/problem/P12126": {
+      "tags": [
+        "并查集",
+        "BFS",
+        "最短路"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12126",
+      "reason": "洞窟内转移代价为零，合并同洞窟出入口后求地面单位边的最短路。",
+      "statementHash": "5a2e5e2ce93266c0ced922bad0285fbf1563e77d8c121bab84f6454e5f92fb0a"
+    },
+    "https://www.luogu.com.cn/problem/P12129": {
+      "tags": [
+        "动态规划 DP"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12129",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "68ad572701c100730db41be9a7c1912e2f474181ff9d55e992f766eaeb13826f"
+    },
+    "https://www.luogu.com.cn/problem/P12349": {
+      "tags": [
+        "动态规划 DP"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12349",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "21c7b69c02d917269c122b32ab0d567fe8ed282459554adbc844024a271e9cfa"
+    },
+    "https://www.luogu.com.cn/problem/P8786": {
+      "tags": [
+        "动态规划 DP",
+        "搜索",
+        "深度优先搜索 DFS",
+        "记忆化搜索"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P8786",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "89e931c9bef9f06c5c78c3f4fba7f1afcf4d9d6b0d28d94d3c91361563f955a0"
+    },
+    "https://www.luogu.com.cn/problem/P10915": {
+      "tags": [
+        "二分",
+        "哈希 hashing",
+        "KMP 算法"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P10915",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "3e2914fda74ccc753ec7301dcb47e6f45cbc2a7e38b53bfc38d2408af719884b"
+    },
+    "https://www.luogu.com.cn/problem/P12127": {
+      "tags": [
+        "线段树",
+        "树状数组"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12127",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "d7bfb6204fd5feca86791b1802b8f8f36660f65e642265b853c7713f09521aa0"
+    },
+    "https://www.luogu.com.cn/problem/P12833": {
+      "tags": [
+        "动态规划 DP",
+        "线性 DP"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12833",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "0a4dfcf82d4e829951f69acb5d2b22b76fff123986bcdfe659394919b09cc1d7"
+    },
+    "https://www.luogu.com.cn/problem/P12837": {
+      "tags": [
+        "数学",
+        "组合数学",
+        "容斥原理"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12837",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "429688dfb9c6c924f7c654569d950c2fffa2f0bc8991b65d6cadd2dbfa627908"
+    },
+    "https://www.luogu.com.cn/problem/P12342": {
+      "tags": [
+        "贪心",
+        "二分",
+        "双指针 two-pointer"
+      ],
+      "source": "https://www.luogu.com.cn/problem/P12342",
+      "reason": "洛谷公开题目知识标签",
+      "statementHash": "a9a5b23d20bf733ddb782f3ebbb24476a0868decfa5a037a959a0a4996db09f0"
+    },
+    "https://codeforces.com/contest/2242/problem/D": {
+      "tags": [
+        "动态规划（官方宽标签）",
+        "字符串"
+      ],
+      "source": "https://codeforces.com/contest/2242/problem/D",
+      "reason": "原站已保存的公开算法标签"
+    },
+    "https://codeforces.com/contest/2238/problem/B": {
+      "tags": [
+        "动态规划（官方宽标签）",
+        "数学",
+        "数论"
+      ],
+      "source": "https://codeforces.com/contest/2238/problem/B",
+      "reason": "原站已保存的公开算法标签"
+    }
+  }
+}

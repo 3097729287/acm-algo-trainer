@@ -109,7 +109,6 @@ const PAGES = [
   { id: "records", label: "提交记录", icon: History, key: "6" },
   { id: "growth", label: "成长与能力", icon: ChartNoAxesCombined, key: "7" },
   { id: "activity", label: "活动记录", icon: Activity, key: "8" },
-  { id: "goals", label: "目标计划", icon: Target, key: "" },
   { id: "lectures", label: "从零讲", icon: BookOpen, key: "9" },
   { id: "rankings", label: "排行榜", icon: ListOrdered, key: "" },
 ];
@@ -879,7 +878,8 @@ export default function App() {
     document.querySelectorAll(".topbar details[open]").forEach(node => node.removeAttribute("open"));
     setPracticeId(null);
     setRecord(null);
-    setPage(next);
+    setPage(next === "goals" ? "growth" : next);
+    if (next === "goals") setTimeout(() => document.getElementById("growth-goals")?.scrollIntoView({ behavior: "smooth" }), 100);
     setShowFilters(false);
     setReaderId(null);
     setReaderFull(false);
@@ -1434,6 +1434,7 @@ export default function App() {
           </div>
         </td>
         <td className="tags-cell">
+          {!row.tags.length && !row.locked && (row.knowledgeCategories || []).slice(0,3).map(topic => <span className="tag" key={topic}>{topic}</span>)}
           {row.tags.slice(0, 3).map((tag) => (
             <button
               key={tag}
@@ -1935,7 +1936,7 @@ export default function App() {
               ：本地测试全对也只叫样例通过，不等于 AC。比赛结束后可以查阅题解、重练未完成的题。
             </p>
             <p>
-              看过题解后完成的题会进入“独立重写”；独立AC 后按 7 天 / 30
+              AC 后按 7 天 / 30
               天安排复习。提交结果会保留，练习失败不会抹去以前的AC。
             </p>
           </div>
@@ -2149,6 +2150,7 @@ export default function App() {
                   {p.id === "mock" && active && <span className="live-dot" />}
                 </>
               )}
+              {p.id === "growth" && insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed) && <span className="task-claim-dot" aria-label="每日任务可领取" />}
             </button>
           ))}
         </nav>
@@ -2338,6 +2340,8 @@ export default function App() {
             />
           ) : page === "growth" ? (
             <GrowthPage
+              api={api}
+              onGoalsChanged={() => api("workspace").then(applyWorkspace)}
               insights={insights}
               hub={hub}
               onTrain={openPractice}

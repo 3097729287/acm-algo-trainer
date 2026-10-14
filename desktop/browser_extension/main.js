@@ -28,6 +28,15 @@
     if (event.source !== window || event.origin !== location.origin || !packet?.tbBrowserCommand || !packet.context || packet.context.platform !== platform) return;
     if (channel && channel !== packet.tbBrowserCommand) return;
     channel = packet.tbBrowserCommand;
+    if (context.sessionId !== packet.context.sessionId && context.sessionId !== 'unbound') {
+      // A reused page keeps its original fetch observers, but an old receipt
+      // must never be reported as the new job's result.
+      submitted = '';
+      for (const state of [window.__tbNowcoder, window.__tbLuogu]) if (state) {
+        state.armed = false; state.pending = null; state.receipt = null;
+      }
+      delete window.__tbSubmissionWork;
+    }
     Object.assign(context, packet.context);
     for (const state of [window.__tbNowcoder, window.__tbLuogu]) if (state) state.sessionId = context.sessionId;
     if (packet.action === 'submit') {
