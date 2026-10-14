@@ -744,7 +744,7 @@ export default function App() {
     const seq = ++submissionSeq.current;
     if (page !== "records") return;
     setSubmissionLoading(true);
-    api("submissions?limit=100&offset=0")
+    api("submissions?resultsOnly=1&limit=100&offset=0")
       .then((value) => {
         if (seq !== submissionSeq.current) return;
         const logs = value.submissions || [];
@@ -759,7 +759,7 @@ export default function App() {
     const seq = submissionSeq.current;
     setSubmissionLoading(true);
     try {
-      const value = await api(`submissions?limit=100&offset=${submissionPage.nextOffset}`);
+      const value = await api(`submissions?resultsOnly=1&limit=100&offset=${submissionPage.nextOffset}`);
       if (seq !== submissionSeq.current) return;
       const logs = value.submissions || [];
       setSubmissionLog((previous) => { const known = new Set(previous.map(item => item.id)); return [...previous, ...logs.filter(item => !known.has(item.id))]; });
@@ -2205,14 +2205,8 @@ export default function App() {
                 {timerText(remainingSeconds(active, now))}
               </button>
             )}
-            <details className="topbar-overview"><summary aria-label="训练概览"><Award size={16} /><strong>Lv.{insights?.growth?.level || 1}</strong><span>{passedCount}/{totalCount} AC</span><ChevronDown size={13} /></summary><div className="overview-popover"><div className="overview-level"><strong>{insights?.growth?.levelName || "开始积累"}</strong><span>{num(insights?.growth?.totalXp || 0)} XP</span></div><div className="overview-statistics"><button onClick={() => go("mine")}><b>{passedCount}/{totalCount}</b><span>训练通过</span></button><button onClick={() => go("activity")}><b>{insights?.summary?.streak || summary.streak || 0} 天</b><span>连续训练</span></button><button onClick={() => { go("mock"); setMockTab("history"); }}><b>{workspace.contests.filter(contest => contest.status === "finished").length} 场</b><span>完成模拟赛</span></button><button onClick={() => go("growth")}><b>{num(insights?.growth?.totalXp || 0)} XP</b><span>成长与每日任务</span></button></div><button className="text-button" onClick={() => { document.querySelector(".topbar-overview")?.removeAttribute("open"); setDialog("summary"); }}>查看训练概览<ChevronRight size={13} /></button></div></details>
+            <details className="topbar-overview"><summary aria-label="训练概览"><Award size={16} /><strong>Lv.{insights?.growth?.level || 1}</strong><span>今日 AC {summary.todayAccepted || 0} 题</span><ChevronDown size={13} /></summary><div className="overview-popover"><div className="overview-level"><strong>{insights?.growth?.levelName || "开始积累"}</strong><span>{num(insights?.growth?.totalXp || 0)} XP</span></div><div className="overview-statistics"><button onClick={() => go("mine")}><b>{summary.todayAccepted || 0} 题</b><span>今日 AC</span></button><button onClick={() => go("activity")}><b>{insights?.summary?.streak || summary.streak || 0} 天</b><span>连续训练</span></button><button onClick={() => { go("mock"); setMockTab("history"); }}><b>{workspace.contests.filter(contest => contest.status === "finished").length} 场</b><span>完成模拟赛</span></button><button onClick={() => go("growth")}><b>{num(insights?.growth?.totalXp || 0)} XP</b><span>成长与每日任务</span></button></div><button className="text-button" onClick={() => { document.querySelector(".topbar-overview")?.removeAttribute("open"); setDialog("summary"); }}>查看训练概览<ChevronRight size={13} /></button></div></details>
             <button className="achievement-top-button" aria-label="成就" onClick={openAchievements}><Medal size={17} /><span>成就</span><small>{unlockedAchievements.length}/{achievements.length}</small>{unseenAchievements.length > 0 && <i className="notification-dot" />}</button>
-            {["mine", "library"].includes(page) && !practiceId && (
-              <button className="primary new-mock" onClick={() => go("mock")}>
-                <Plus size={15} />
-                模拟赛
-              </button>
-            )}
             <IconButton
               label="更新通知"
               icon={Bell}
@@ -2274,7 +2268,7 @@ export default function App() {
           ) : ["mine", "library"].includes(page) ? (
             page === "mine" ? <div className="training-workspace"><GoalsPanel api={api} onTrain={openPractice} onManage={() => go("goals")} dailyOnly />{renderListPage()}</div> : renderListPage()
           ) : page === "mock" ? (
-            <div className="mock-page"><div className="mock-page-tabs filter-tabs" role="tablist" aria-label="模拟赛页面"><button role="tab" aria-selected={mockTab === "create" && !record} className={mockTab === "create" && !record ? "active" : ""} onClick={() => { setMockTab("create"); setRecord(null); }}>{active ? "进行中的比赛" : "创建训练"}</button><button role="tab" aria-selected={mockTab === "history" || !!record} className={mockTab === "history" || record ? "active" : ""} onClick={() => { setMockTab("history"); setRecord(null); }}>模拟赛记录 <small>{workspace.contests.length}</small></button></div>{record ? recordDetail() : mockTab === "history" ? <MockHistory contests={workspace.contests} onSelect={openRecord} onResume={(contest) => { setMockTab("create"); setMockSlot(contest.slots[0]?.id); }} onCreate={() => setMockTab("create")} /> : active ? (
+            <div className="mock-page"><div className="mock-page-tabs filter-tabs" role="tablist" aria-label="模拟赛页面"><button role="tab" aria-selected={mockTab === "create" && !record} className={mockTab === "create" && !record ? "active" : ""} onClick={() => { setMockTab("create"); setRecord(null); }}>{active ? "进行中的比赛" : "创建训练"}</button><button role="tab" aria-selected={mockTab === "history" || !!record} className={mockTab === "history" || record ? "active" : ""} onClick={() => { setMockTab("history"); setRecord(null); }}>模拟赛记录 <small>{workspace.contests.length}</small></button></div>{record ? recordDetail() : mockTab === "history" ? <MockHistory contests={workspace.contests} onDelete={async body => { const answer = await api("contests/delete", body); applyWorkspace(answer.workspace); notice(`已删除 ${answer.deleted} 场模拟赛记录`); }} onSelect={openRecord} onResume={(contest) => { setMockTab("create"); setMockSlot(contest.slots[0]?.id); }} onCreate={() => setMockTab("create")} /> : active ? (
               <div className="contest-player">
                 {currentMockSlot && (
                   <Workbench

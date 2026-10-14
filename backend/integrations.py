@@ -215,7 +215,9 @@ class IntegrationService:
     @staticmethod
     def _collectable(row,settings):
         from contest_rules import is_xcpc
-        if is_xcpc(row):return True
+        # A published contest roster must not lose its hard or unrated tasks.
+        # Difficulty preferences still apply to individual discovery candidates.
+        if is_xcpc(row) or row.get('contestRoster') is True or (type(row.get('contestProblemCount')) is int and row['contestProblemCount'] > 0):return True
         difficulty=row.get('difficulty')
         if difficulty is None:return settings['minDifficulty']==0 and settings['maxDifficulty']==10000
         return isinstance(difficulty,int) and not isinstance(difficulty,bool) and settings['minDifficulty']<=difficulty<=settings['maxDifficulty']

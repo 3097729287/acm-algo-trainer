@@ -132,22 +132,33 @@ if(!ctx.attempted&&document.readyState==='loading')return {status:'loading',mess
 if(!ctx.attempted&&hasEditor()&&['Codeforces','AtCoder'].includes(ctx.platform))prepare();
 return (ctx.platform==='洛谷'?lgReceipt?.hasSubmitApi():hasEditor())?{status:ctx.attempted?'submitted':'ready',message:ctx.attempted?'已发送原站提交请求，正在等待受理编号。':'后台连接已就绪。'}:{status:ctx.attempted?'submitted':'loading',message:ctx.attempted?'尚未收到原站受理编号，正在后台查询。':'正在准备原站提交接口。'};
 }
-async function submit(){
-const state=inspect();if(['needs_login','needs_verification'].includes(state.status)||ctx.platform==='AtCoder'&&['loading','error'].includes(state.status))return send(state);
+async function submit(manual=false){
+if(manual&&work.manualFilled)return send({status:'awaiting_submit',message:'代码已填入浏览器，请在官网点击提交。结果会自动同步到 TB。'});
+const state=inspect();if(state.status==='needs_login'||!manual&&(['needs_verification'].includes(state.status)||ctx.platform==='AtCoder'&&['loading','error'].includes(state.status)))return send(state);
 const checkpoint=value=>postMessage({tbOfficial:true,sessionId:ctx.sessionId,...value});
-if(lgReceipt?.hasSubmitApi())return lgReceipt.submitApi(checkpoint);
-if(!hasEditor())return send({status:'error',message:'没有找到原站代码编辑器，请进入本题提交页；不会点击其它表单。'});
+if(!manual&&lgReceipt?.hasSubmitApi())return lgReceipt.submitApi(checkpoint);
+if(!hasEditor())return send({status:manual?'awaiting_submit':'error',message:manual?'请在浏览器完成验证并打开提交编辑器，TB 会继续尝试填入代码。':'没有找到原站代码编辑器，请进入本题提交页；不会点击其它表单。'});
 let task=!ctx.problem,filled=0;
 document.querySelectorAll('select').forEach(s=>{const field=(s.name||s.id||'').toLowerCase();if(/problem|task/.test(field)&&ctx.problem){const o=[...s.options].find(o=>o.value===ctx.problem);if(o){if(ctx.platform!=='AtCoder'||s.value!==o.value){s.value=o.value;s.dispatchEvent(new Event('change',{bubbles:true}));}task=true;}}});
 if(['牛客','洛谷'].includes(ctx.platform))task=location.pathname===new URL(ctx.originalUrl).pathname;
 if(!task)return send({status:'error',message:'未能准确选定本题，已停止；请在原站确认题目。'});
 const compiler=await selectOfficialCompiler(ctx.code,ctx.platform);
 if(!compiler)return send({status:'error',message:'没有找到支持当前代码的 C++17 / C++20 / C++23 编译器，请在原站确认语言后重试。'});
-if(ncReceipt?.hasLegacyApi())return ncReceipt.submitLegacy(compiler,checkpoint);
+if(!manual&&ncReceipt?.hasLegacyApi())return ncReceipt.submitLegacy(compiler,checkpoint);
 editors().forEach(e=>{Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,'value').set.call(e,ctx.code);e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));filled++;});
 document.querySelectorAll('.CodeMirror').forEach(e=>{if(e.CodeMirror){e.CodeMirror.setValue(ctx.code);filled++;}});document.querySelectorAll('.ace_editor').forEach(e=>{try{if(window.ace){window.ace.edit(e).setValue(ctx.code,-1);filled++;}}catch{}});try{window.monaco?.editor?.getModels?.().filter(m=>!m.isDisposed()&&/cpp|c\+\+/.test(m.getLanguageId?.()||'')).forEach(m=>{m.setValue(ctx.code);filled++;});}catch{}
 document.querySelectorAll('.cm-editor .cm-content').forEach(e=>{const view=e.cmView?.view;if(view?.state?.doc&&view?.dispatch){view.dispatch({changes:{from:0,to:view.state.doc.length,insert:ctx.code}});filled++;}});
 if(!filled)return send({status:'error',message:'编辑器接口不可用，请手动粘贴并提交；未发出自动提交。'});
+if(manual){
+work.manualFilled=true;
+const snapshot=await prepare();
+if(snapshot)Object.assign(ctx,snapshot);
+// Keep the user's native form, CSRF and verification behavior. Never click it.
+const form=editors().map(e=>e.closest('form')).find(Boolean);
+form?.addEventListener('submit',()=>{ctx.attempted=true;const submittedCode=editors().map(e=>e.value).find(v=>v.trim())||'';postMessage({tbOfficial:true,sessionId:ctx.sessionId,status:'submitted',attempted:true,submittedCode,...(snapshot||{}),message:'已在官网提交，正在读取原站结果。'});},{once:true});
+if(ncReceipt)ncReceipt.armed=true;if(lgReceipt)lgReceipt.armed=true;
+return send({status:'awaiting_submit',...(snapshot||{}),message:'代码已填入浏览器，请在官网点击提交。结果会自动同步到 TB。'});
+}
 const snapshot=await prepare(),{baseline=[],baselineKnown=false,baselineOwner=''}=snapshot||{};
 if(['Codeforces','AtCoder'].includes(ctx.platform)&&!baselineKnown)return send({status:'error',attempted:false,message:'暂时无法读取本账号的提交记录，尚未发送代码，请稍后重试。'});
 // The site may refresh/expire its token while language/editor/list preparation
@@ -164,6 +175,7 @@ if(lgReceipt){lgReceipt.armed=true;lgReceipt.pending=null;lgReceipt.receipt=null
 await postMessage({tbOfficial:true,sessionId:ctx.sessionId,status:'submitted',message:'已选择 '+compiler.label+'，正在操作原站表单，尚未确认受理。',compiler:compiler.label,baseline,baselineKnown,baselineOwner,attempted:true});button.click();return {status:'submitted'};
 }
 if(action==='observe')return null;
+if(action==='prepare'){if(!work.filling){work.filling=true;submit(true).catch(e=>send({status:'awaiting_submit',message:'请在官网检查代码并提交；'+String(e).slice(0,120)})).finally(()=>{work.filling=false});}return null;}
 if(action==='submit'){submit().catch(e=>send({status:'error',message:'表单操作未完成：'+String(e).slice(0,160)}));return {status:'loading'};}
 const state=inspect();
 if(ctx.attempted&&ncReceipt)ncReceipt.poll();

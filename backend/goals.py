@@ -62,6 +62,11 @@ class Goals:
             now=t._now();today=now.astimezone(SHANGHAI).date()
             if not t.connection.execute('SELECT 1 FROM goals WHERE archived=0 LIMIT 1').fetchone():return {'goals':[],'date':today.isoformat()}
             rows=t._library();metadata={row['id']:row for row in rows}
+            # A bundled roster can replace the visible remote row for the same
+            # URL. Keep persisted selections and receipts attached to that task.
+            for identity, preferred in t._identity_map(rows).items():
+                if identity not in metadata and preferred in metadata:
+                    metadata[identity]={**metadata[preferred],'id':identity}
             accepted={}
             for record in t.connection.execute("SELECT * FROM submissions WHERE mode='submit' AND verdict='AC' AND scope='official' AND finished_at IS NOT NULL ORDER BY submitted_at,rowid"):
                 row=metadata.get(record['problem_id'],{})

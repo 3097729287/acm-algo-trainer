@@ -29,7 +29,7 @@ function readStatementFontSize() {
   const uiSize = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ui-font-size')) || 16;
   return Math.min(32, Math.max(16, Math.round(uiSize / 2) * 2));
 }
-const OFFICIAL_STATES = { loading: '后台连接原站', needs_browser: '需要同步登录', needs_login: '请在浏览器登录', needs_verification: '请在浏览器验证', ready: '已连接，可提交', submitted: '等待原站受理', judging: '评测中', finished: '评测完成', unconfirmed: '正在核对提交', error: '提交异常', closed: '会话已结束' };
+const OFFICIAL_STATES = { awaiting_submit: '请在官网提交', loading: '后台连接原站', needs_browser: '需要同步登录', needs_login: '请在浏览器登录', needs_verification: '请在浏览器验证', ready: '已连接，可提交', submitted: '等待原站受理', judging: '评测中', finished: '评测完成', unconfirmed: '正在核对提交', error: '提交异常', closed: '会话已结束' };
 const OFFICIAL_TERMINAL = new Set(['finished', 'error', 'closed']);
 
 // Serialize saves across mounts as well as edits. An older request must never

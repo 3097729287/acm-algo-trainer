@@ -32,10 +32,11 @@ function installLuoguReceipts(ctx, report) {
   };
   const requestInfo = (url, method, body) => {
     const target = parseUrl(url), params = fields(body);
-    if (!state.armed || method.toUpperCase() !== 'POST' || target?.origin !== location.origin || target.pathname !== '/fe/api/problem/submit/' + problem()) return null;
-    if (location.pathname !== new URL(ctx.originalUrl).pathname || String(params.code || '').replace(/\r\n/g, '\n').trim() !== ctx.code.replace(/\r\n/g, '\n').trim()) return null;
+    const passive = ctx.sessionId === 'unbound';
+    if ((!state.armed && !passive) || method.toUpperCase() !== 'POST' || target?.origin !== location.origin || target.pathname !== '/fe/api/problem/submit/' + problem()) return null;
+    if (location.pathname !== new URL(ctx.originalUrl).pathname || (!passive && !ctx.manual && String(params.code || '').replace(/\r\n/g, '\n').trim() !== ctx.code.replace(/\r\n/g, '\n').trim())) return null;
     if (!numericId(owner()) || target.searchParams.has('contestId')) return null;
-    return { owner: numericId(owner()) };
+    return { owner: numericId(owner()), code: String(params.code || '') };
   };
   const observeSubmit = (request, value) => {
     if (!request) return;
@@ -48,14 +49,14 @@ function installLuoguReceipts(ctx, report) {
       }
       return;
     }
-    state.pending = { id: remoteId, owner: request.owner };
-    notify({ status: 'judging', submissionId: remoteId, acceptedAt: new Date().toISOString(), message: '洛谷已接收本次提交 #' + remoteId + '，正在评测。' });
+    state.pending = { id: remoteId, owner: request.owner, acceptedAt: new Date().toISOString() };
+    notify({ status: 'judging', submissionId: remoteId, attempted:true, ...(ctx.manual ? {submittedCode:request.code} : {}), acceptedAt: state.pending.acceptedAt, message: '洛谷已接收本次提交 #' + remoteId + '，正在评测。' });
   };
   const inspectRecord = payload => {
     const record = payload?.data?.record || payload?.currentData?.record || payload?.record;
     if (!state.pending || numericId(record?.id) !== state.pending.id || record.problem?.pid !== problem() || numericId(record.user?.uid) !== state.pending.owner) return;
     const verdict = { 2: 'CE', 3: 'OLE', 4: 'MLE', 5: 'TLE', 6: 'WA', 7: 'RE', 12: 'AC', 14: 'WA' }[record.status];
-    if (verdict) notify({ status: 'finished', submissionId: state.pending.id, verdict,
+    if (verdict) notify({ status: 'finished', submissionId: state.pending.id, verdict, owner:state.pending.owner, url:ctx.originalUrl, acceptedAt:state.pending.acceptedAt,
       message: '洛谷确认本次提交 #' + state.pending.id + '：' + (record.status === 14 ? '未通过全部用例' : verdict) });
     else if (![0, 1].includes(record.status)) notify({ status: 'error', submissionId: state.pending.id, message: '洛谷返回评测状态 ' + record.status + '，请在原站核对本次记录。' });
   };

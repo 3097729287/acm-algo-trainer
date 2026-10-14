@@ -14,7 +14,7 @@ from backend import Handler
 from browser_bridge import BrowserBridge
 from browser_preparation import BrowserPreparation
 
-opened, saved, sessions = [], [], {}
+opened, saved, sessions, public_receipts = [], [], {}, []
 
 
 class Fixture(Handler):
@@ -35,6 +35,13 @@ class Fixture(Handler):
             self.send_json(200, self.server.browser_bridge.open(query['url'][0], 'int main(){}', 'fixture'))
         elif target.path == '/fixture/saved':
             self.send_json(200, [{'status': s['status'], 'platform': s['platform'], 'verdict': s['verdict']} for s in saved])
+        elif target.path == '/fixture/public-receipts':
+            self.send_json(200, public_receipts)
+        elif target.path == '/fixture/manual':
+            bridge = self.server.browser_bridge
+            for session in bridge.sessions.values():
+                session['preparingAt'] = bridge.clock() - 41
+            self.send_json(200, {key: bridge.status(identity) for key, identity in sessions.items()})
         elif target.path == '/fixture/opened':
             self.send_json(200, opened)
         elif target.path == '/fixture/browser':
@@ -63,6 +70,8 @@ server = ThreadingHTTPServer(('127.0.0.1', 0), Fixture)
 server.frontend_origins = set()
 server.dist_dir = ROOT / 'frontend' / 'public'
 server.browser_extension_path = ROOT / 'build' / 'browser-extension'
+from types import SimpleNamespace
+server.official_sync = SimpleNamespace(from_browser=lambda body: public_receipts.append(body) or {'imported':len(body['records'])})
 server.browser_bridge = BrowserBridge('http://127.0.0.1:' + str(server.server_port), opener=opened.append,
                                        on_receipt=lambda sid, s: saved.append(s) or True)
 if os.environ.get('TB_TEST_SILENT') == '1' or os.environ.get('TB_TEST_HYBRID') == '1':

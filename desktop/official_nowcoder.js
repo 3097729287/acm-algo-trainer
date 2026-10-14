@@ -6,6 +6,7 @@ function installNowcoderReceipts(ctx, report) {
   const state = { sessionId: ctx.sessionId, armed: false, pending: null, receipt: null, early: [] };
   window.__tbNowcoder = state;
   const notify = value => {
+    if (value.status === 'finished' && state.pending) value = {...value, owner:state.pending.owner, url:ctx.originalUrl, acceptedAt:state.pending.acceptedAt};
     state.receipt = value;
     if (report) report(value);
     else chrome.webview.postMessage(JSON.stringify({ tbOfficial: true, sessionId: ctx.sessionId, ...value }));
@@ -29,10 +30,11 @@ function installNowcoderReceipts(ctx, report) {
     const target = parseUrl(url), params = { ...Object.fromEntries(target?.searchParams || []), ...fields(body) };
     if (!allowed(target)) return null;
     if (statusPaths.has(target.pathname)) return { kind: 'status', target, params: { ...Object.fromEntries(target.searchParams), ...params } };
-    if (!state.armed || method.toUpperCase() !== 'POST' || !submitPaths.has(target.pathname)) return null;
+    const passive = ctx.sessionId === 'unbound';
+    if ((!state.armed && !passive) || method.toUpperCase() !== 'POST' || !submitPaths.has(target.pathname)) return null;
     const original = parseUrl(ctx.originalUrl), info = window.pageInfo;
     if (!original || location.pathname !== original.pathname || !info || String(info.contestId) !== original.pathname.split('/')[3]) return null;
-    if (String(params.questionId) !== String(info.questionId) || textCode(params.content) !== textCode(ctx.code)) return null;
+    if (String(params.questionId) !== String(info.questionId) || (!passive && !ctx.manual && textCode(params.content) !== textCode(ctx.code))) return null;
     if (target.pathname === '/api/service/judge/submit' && String(params.submitType) !== '1') return null;
     if (params.selfType != null || params.selfInputData != null || params.input != null || params.isSelfTest) return null;
     const owner = id(window.globalInfo?.ownerId);
@@ -72,7 +74,7 @@ function installNowcoderReceipts(ctx, report) {
     if (request.kind === 'submit') {
       const submissionId = id(typeof data === 'object' ? data?.submissionId ?? data?.id : data);
       if (!submissionId) return;
-      state.pending = { submissionId, owner: request.owner, origin: request.target.origin, userId: request.params.userId, appId: request.params.appId, tagId: request.params.tagId };
+      state.pending = { submissionId, owner: request.owner, acceptedAt:new Date().toISOString(), origin: request.target.origin, userId: request.params.userId, appId: request.params.appId, tagId: request.params.tagId };
       // Keep the site's short-lived judge token in this page only. It is never
       // sent to TB, persisted, logged, or used to submit a second request.
       const modern = request.target.pathname === '/api/service/judge/submit';
@@ -85,7 +87,7 @@ function installNowcoderReceipts(ctx, report) {
       state.attempted = true;
       // 受理时刻随 judging 消息一起发出：宿主据此持久化 pending，并用它（而非
       // 收到回执的时间）记 submitted_at。不额外多发消息，保持既有消息条数契约。
-      notify({ status: 'judging', submissionId, acceptedAt: new Date().toISOString(), message: '牛客已接收本次提交 #' + submissionId + '，正在评测。' });
+      notify({ status: 'judging', submissionId, attempted:true, ...(ctx.manual ? {submittedCode:String(request.params.content || '')} : {}), acceptedAt: state.pending.acceptedAt, message: '牛客已接收本次提交 #' + submissionId + '，正在评测。' });
       // Replay any status payload that arrived before we knew the submission ID.
       const early = state.early; state.early = [];
       for (const item of early) {

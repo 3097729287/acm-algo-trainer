@@ -192,6 +192,10 @@ class Handler(BaseHTTPRequestHandler):
                     value = training.submit(body.get("id"), body.get("code"), body.get("mode", "submit"), body.get("input", ""), body.get("contestId"), body.get("sampleRun"))
                 elif path == "/api/contests/preview":
                     value = training.preview_contest(body)
+                elif path == "/api/contests/delete":
+                    value = training.delete_contests(body.get('id'), all_records=body.get('all', False))
+                elif path == "/api/official/sync":
+                    value = self.server.official_sync.once()
                 elif path == "/api/contests/start":
                     value = training.start_contest(body)
                     if callable(self.server.official_closer):
@@ -343,7 +347,7 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_json(200, self.server.training.submission(identity))
             elif path == "/api/submissions":
                 query = parse_qs(target.query)
-                self.send_json(200, self.server.training.submissions(query.get("id", [None])[0], query.get("contestId", [None])[0], limit=query.get("limit", [100])[0], offset=query.get("offset", [0])[0]))
+                self.send_json(200, self.server.training.submissions(query.get("id", [None])[0], query.get("contestId", [None])[0], limit=query.get("limit", [100])[0], offset=query.get("offset", [0])[0], results_only=query.get('resultsOnly', ['0'])[0] == '1'))
             elif path == "/api/contest":
                 identity = parse_qs(target.query).get("id", [None])[0]
                 self.send_json(200, self.server.training.contest(identity))
@@ -380,7 +384,7 @@ class Handler(BaseHTTPRequestHandler):
         if path == '/api/browser/setup' and not writing:
             self.send_json(200, {'extensionPath': str(getattr(self.server, 'browser_extension_path', ''))})
             return
-        if path not in ('/api/browser/exchange', '/api/browser/register', '/api/browser/queue', '/api/browser/session') or not writing:
+        if path not in ('/api/browser/exchange', '/api/browser/register', '/api/browser/queue', '/api/browser/session', '/api/browser/receipts') or not writing:
             raise APIError(404, '没有找到这个接口')
         # Separate per-job capability: the browser never receives the app token.
         origin = self.headers.get('Origin')
@@ -414,6 +418,12 @@ class Handler(BaseHTTPRequestHandler):
             value = bridge.browser_queue(body, self.headers.get('X-TB-Browser', ''))
         elif path == '/api/browser/session':
             value = bridge.sync_browser(body, self.headers.get('X-TB-Browser', ''))
+        elif path == '/api/browser/receipts':
+            with bridge.lock:
+                expected = bridge.clients.get(body.get('clientId'))
+                if not expected or not secrets.compare_digest(expected, self.headers.get('X-TB-Browser', '')):
+                    raise ServiceError(403, '浏览器后台连接已失效')
+            value = self.server.official_sync.from_browser(body)
         else:
             if bridge.session_store is not None and not body.get('claim'):
                 with bridge.lock:
@@ -481,7 +491,7 @@ class LocalServer(ThreadingHTTPServer):
                 return None
         record = {"sessionId": identity, "submissionId": session.get("submissionId"),
                   "acceptedAt": session.get("acceptedAt"), "problemId": context["id"],
-                  "url": context["url"], "code": context["code"],
+                  "url": context["url"], "code": session.get('submittedCode', '') if session.get('manual') else context["code"],
                   "platform": session.get("platform")}
         try:
             context.get('_training', self.training).save_official_pending(record)
@@ -508,6 +518,8 @@ class LocalServer(ThreadingHTTPServer):
                 while len(self.official_pending_receipts) > 30:
                     self.official_pending_receipts.pop(next(iter(self.official_pending_receipts)))
         if session:
+            if receipt.get('manual'):
+                session = {**session, 'code': receipt.get('submittedCode', ''), 'external': not bool(receipt.get('submittedCode'))}
             training = session.get('_training', self.training)
             saved = training.record_official(session, receipt)
             if saved and receipt.get('submissionId'):
@@ -551,6 +563,9 @@ class LocalServer(ThreadingHTTPServer):
         return value
 
     def server_close(self):
+        sync = getattr(self, 'official_sync', None)
+        if sync is not None:
+            sync.close()
         super().server_close()
         updates = getattr(self, "software_updates", None)
         if updates is not None:
@@ -626,6 +641,10 @@ def create_server(port=0, data_file=None, data_root=None, dist_dir=None, history
             from lectures import LectureLibrary
             lectures = LectureLibrary(server.store, server.state_dir)
         server.lectures = lectures
+        from official_sync import OfficialSync
+        server.official_sync = OfficialSync(server)
+        if integration_auto_start:
+            server.official_sync.start()
     except Exception:
         server.server_close()
         raise

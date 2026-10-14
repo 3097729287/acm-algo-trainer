@@ -63,7 +63,7 @@ export function GrowthPage({ api, onGoalsChanged, insights, hub, onTrain, onTopi
       {growth.nextMilestone && <span className="progress-milestone">{typeof growth.nextMilestone === 'string' ? growth.nextMilestone : growth.nextMilestone.name || growth.nextMilestone.label}</span>}
     </div>
     <div className="progress-stat-line">
-      <span><b>{number(summary.localAccepted)}</b> 本地通过</span><span><b>{number(summary.officialSolved)}</b> 库内 AC</span><span><b>{number(summary.submissions)}</b> 次提交</span><span><b>{number(summary.activeDays)}</b> 个活跃日</span><span><b>{number(summary.streak)}</b> 天连续训练</span><span><b>{number(summary.completedContests)}</b> 场模拟赛</span>
+      <span title="按原题去重，累计已确认 AC 的题目"><b>{number(summary.totalSolved ?? summary.officialSolved)}</b> 总做题数（AC）</span><span><b>{number(summary.submissions)}</b> 次提交</span><span><b>{number(summary.activeDays)}</b> 个活跃日</span><span><b>{number(summary.streak)}</b> 天连续训练</span><span><b>{number(summary.completedContests)}</b> 场模拟赛</span>
     </div>
     <div className="progress-growth-columns">
       <div className="progress-growth-left">
@@ -172,7 +172,7 @@ function contestGroups(rows) {
   const map = new Map();
   for (const row of list(rows)) {
     const key = `${row.platform || ''}::${row.contest}`;
-    if (!map.has(key)) map.set(key, { key, name: row.contest, platform: row.platform, series: row.series, examYear: row.examYear, examStage: row.examStage, notice: row.collectionNotice, rows: [] });
+    if (!map.has(key)) map.set(key, { key, name: row.contest, platform: row.platform, series: row.series, examYear: row.examYear, examStage: row.examStage, xcpc: row.series === 'XCPC' || /ICPC|CCPC|大学生程序设计竞赛/.test(row.contest), notice: row.collectionNotice, rows: [] });
     map.get(key).rows.push(row);
   }
   return [...map.values()].map(group => ({ ...group, rows: group.rows.sort((a, b) => String(a.problem).localeCompare(String(b.problem), 'en', { numeric: true })) })).sort(compareContestNewest);
@@ -182,6 +182,7 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, initial
   const groups = useMemo(() => contestGroups(rows), [rows]);
   const [query, setQuery] = useState(''), [platform, setPlatform] = useState(''), [filter, setFilter] = useState('all');
   const [shelf, setShelf] = useState('all'), [examYear, setExamYear] = useState(''), [examStage, setExamStage] = useState('');
+  const [sort, setSort] = useState('name');
   const [selected, setSelected] = useState(null), [joining, setJoining] = useState(false), [joinError, setJoinError] = useState('');
   const progress = useMemo(() => new Map(list(workspace?.training).map(row => [row.id, row])), [workspace?.training]);
   const lockedIds = new Set(workspace?.activeContest?.status === 'running' ? list(workspace.activeContest.slots).map(row => row.id) : []);
@@ -196,10 +197,11 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, initial
   const activeCount = group => group.rows.filter(row => progress.has(row.id)).length;
   const acceptedCount = group => group.rows.filter(row => progress.get(row.id)?.accepted).length;
   const filtered = groups.filter(group => (shelf !== 'lanqiao' || group.series === '蓝桥杯 C/C++大学B')
+    && (shelf !== 'xcpc' || group.xcpc)
     && (!examYear || String(group.examYear) === examYear) && (!examStage || group.examStage === examStage)
     && (!platform || group.platform === platform)
     && (!query.trim() || `${group.name} ${group.platform} ${group.rows.map(row => `${row.title} ${row.problem} ${lockedIds.has(row.id) ? '' : list(row.tags).join(' ')}`).join(' ')}`.toLowerCase().includes(query.trim().toLowerCase()))
-    && (filter === 'all' || filter === 'joined' ? filter === 'all' || activeCount(group) > 0 : filter === 'available' ? activeCount(group) === 0 : acceptedCount(group) < group.rows.length));
+    && (filter === 'all' || filter === 'joined' ? filter === 'all' || activeCount(group) > 0 : filter === 'available' ? activeCount(group) === 0 : acceptedCount(group) < group.rows.length)).sort(sort === 'name' ? (a,b) => a.name.localeCompare(b.name, 'zh-CN', {numeric:true}) : compareContestNewest);
   const join = async group => { if (!onJoin || joining) return; setJoining(true); setJoinError(''); try { await onJoin(group.name); } catch (issue) { setJoinError(issue.message || '暂时无法加入训练，请重试。'); } finally { setJoining(false); } };
   if (current) {
     const inMock = current.rows.some(row => lockedIds.has(row.id));
@@ -215,9 +217,10 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, initial
     </div>;
   }
   return <div className="competition-page" aria-label="比赛列表">
-    <div className="ranking-tabs" role="tablist" aria-label="比赛题库分类"><button role="tab" aria-selected={shelf === 'all'} className={shelf === 'all' ? 'active' : ''} onClick={() => { setShelf('all'); setExamYear(''); setExamStage(''); }}>全部比赛</button><button role="tab" aria-selected={shelf === 'lanqiao'} className={shelf === 'lanqiao' ? 'active' : ''} onClick={() => { setShelf('lanqiao'); setPlatform(''); }}>蓝桥杯 B 组历年</button></div>
+    <div className="ranking-tabs" role="tablist" aria-label="比赛题库分类"><button role="tab" aria-selected={shelf === 'all'} className={shelf === 'all' ? 'active' : ''} onClick={() => { setShelf('all'); setExamYear(''); setExamStage(''); }}>全部比赛</button><button role="tab" aria-selected={shelf === 'lanqiao'} className={shelf === 'lanqiao' ? 'active' : ''} onClick={() => { setShelf('lanqiao'); setPlatform(''); setExamYear(''); setExamStage(''); }}>蓝桥杯 B 组历年</button><button role="tab" aria-selected={shelf === 'xcpc'} className={shelf === 'xcpc' ? 'active' : ''} onClick={() => { setShelf('xcpc'); setPlatform(''); setExamYear(''); setExamStage(''); }}>XCPC 历年</button></div>
+    {shelf === 'xcpc' && <div className="competition-toolbar"><select aria-label="XCPC 年份" value={examYear} onChange={event => setExamYear(event.target.value)}><option value="">全部年份</option>{[...new Set(groups.filter(group => group.xcpc && group.examYear).map(group => group.examYear))].sort((a,b) => b-a).map(year => <option key={year}>{year}</option>)}</select><select aria-label="XCPC 比赛类型" value={examStage} onChange={event => setExamStage(event.target.value)}><option value="">全部类型</option><option>区域赛</option><option>邀请赛</option><option>省赛</option></select></div>}
     {shelf === 'lanqiao' && <><p className="competition-sync-note">C/C++大学B组 · 2013—2026 年公开题目，按初赛 / 决赛分类。早年部分原卷未完整公开；填空题有合并，当前题单不代表原卷题数或题序。</p><div className="competition-toolbar"><select aria-label="蓝桥杯年份" value={examYear} onChange={event => setExamYear(event.target.value)}><option value="">全部年份</option>{[...new Set(groups.filter(group => group.examYear).map(group => group.examYear))].sort((a,b) => b-a).map(year => <option key={year}>{year}</option>)}</select><select aria-label="蓝桥杯赛段" value={examStage} onChange={event => setExamStage(event.target.value)}><option value="">初赛与决赛</option><option>初赛</option><option>决赛</option></select></div></>}
-    <div className="competition-toolbar"><label className="competition-search"><Search size={16} /><input value={query} onChange={event => setQuery(event.target.value)} placeholder="搜索比赛、题名或知识点" aria-label="搜索比赛" /></label><select value={platform} onChange={event => setPlatform(event.target.value)} aria-label="比赛平台"><option value="">全部平台</option>{[...new Set(groups.map(group => group.platform).filter(Boolean))].map(item => <option key={item}>{item}</option>)}</select><select value={filter} onChange={event => setFilter(event.target.value)} aria-label="比赛训练情况"><option value="all">全部比赛</option><option value="joined">已加入训练</option><option value="available">尚未加入</option><option value="unfinished">尚未全部通过</option></select><span className="competition-count">{filtered.length} 场</span></div>
+    <div className="competition-toolbar"><label className="competition-search"><Search size={16} /><input value={query} onChange={event => setQuery(event.target.value)} placeholder="搜索比赛、题名或知识点" aria-label="搜索比赛" /></label><select value={platform} onChange={event => setPlatform(event.target.value)} aria-label="比赛平台"><option value="">全部平台</option>{[...new Set(groups.map(group => group.platform).filter(Boolean))].map(item => <option key={item}>{item}</option>)}</select><select value={filter} onChange={event => setFilter(event.target.value)} aria-label="比赛训练情况"><option value="all">全部比赛</option><option value="joined">已加入训练</option><option value="available">尚未加入</option><option value="unfinished">尚未全部通过</option></select><select aria-label="比赛排序" value={sort} onChange={event => setSort(event.target.value)}><option value="name">名称顺序</option><option value="newest">最新比赛在前</option></select><span className="competition-count">{filtered.length} 场</span></div>
     {hub?.sync?.message && <p className="competition-sync-note">{hub.sync.message}</p>}
     <div className="competition-list">{filtered.map(group => <button type="button" className="competition-card" key={group.key} onClick={() => setSelected(group.key)} aria-label={`查看 ${group.platform} ${group.name}，${group.rows.length} 道题`}><span className="competition-platform">{group.platform}</span><span className="competition-card-title"><strong>{group.name}</strong><small>{contestDateLabel(group)} · {group.rows.length} 题 · {activeCount(group) ? `已加入 ${activeCount(group)}，通过 ${acceptedCount(group)}` : '尚未加入训练'}</small></span><span className="competition-problem-tokens">{group.rows.map(row => <span className={`competition-problem-token${progress.get(row.id)?.accepted ? ' competition-token-accepted' : ''}`} key={row.id}><b>{row.problem}</b><Difficulty row={row} locked={lockedIds.has(row.id)} /></span>)}</span><ChevronRight size={16} /></button>)}</div>
     {!filtered.length && <Empty><Flag size={24} /><span>{groups.length ? '没有匹配的比赛，试试减少筛选条件。' : '题库还没有收录比赛。'}</span></Empty>}

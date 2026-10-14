@@ -120,10 +120,15 @@ def build_insights(rows, submissions, history, workspace, hub, now):
             identity=aliases.get(record['problem_id'],record['problem_id']);official.add(identity)
             day=_date(record.get('submitted_at'))
             if day:official_dates[identity]=min(day,official_dates.get(identity,day))
+    # Total solved includes verified public ACs outside the current library;
+    # the knowledge/ability model below still uses known problem metadata.
+    total_solved = {canonical_url(library.get(i, {}).get('url')) or 'local-id:'+i for i in official}
     platforms = []
     for account in hub.get("accounts", []):
         platforms.append({key: account.get(key) for key in ("platform", "rating", "maxRating", "status")})
         for solved in account.get("solved", []):
+            if canonical_url(solved.get('url')):
+                total_solved.add(canonical_url(solved['url']))
             row = by_url.get(canonical_url(solved.get("url")))
             if not row:
                 continue
@@ -206,7 +211,7 @@ def build_insights(rows, submissions, history, workspace, hub, now):
     assessment = {"rating": rating, "band": "insufficient" if not enough else "low" if evidence_count < 10 else "medium" if evidence_count < 30 else "high", "label": "训练难度估算" if enough else "独立通过证据不足", "confidence": "none" if not enough else "low" if evidence_count < 10 else "medium" if evidence_count < 30 else "high", "evidenceCount": evidence_count, "explanation": "取至少五道独立官方 AC 题目的难度中位数，仅描述已验证训练范围，不是官方等级分；查看题解后的提交、运行和样例通过不计入。", "platforms": platforms, "trend": trend[-365:]}
     recommendations, level, basis = recommend_problems(library, active, independent, personal, official, hub)
     assessment.update(recommendationLevel=level, recommendationBasis=basis)
-    summary = {"active": len(active), "accepted": sum(bool(row.get("accepted")) for row in active.values()), "submissions": len(records), "activeDays": len(days), "streak": streak, "longestStreak": longest, "completedContests": len(completed_contests), "officialSolved": len(official), "localAccepted": len(personal), "samplePassed": len(samples)}
+    summary = {"active": len(active), "accepted": sum(bool(row.get("accepted")) for row in active.values()), "submissions": len(records), "activeDays": len(days), "streak": streak, "longestStreak": longest, "completedContests": len(completed_contests), "officialSolved": len(official), "totalSolved": len(total_solved), "localAccepted": len(personal), "samplePassed": len(samples)}
     return {"summary": summary, "growth": growth, "activity": activity, "knowledge": knowledge, "recommendations": recommendations, "achievements": achievements, "assessment": assessment}
 
 

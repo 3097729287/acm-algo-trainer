@@ -1,6 +1,7 @@
 """Independent daily goal allocation and legacy upgrade, using disposable state."""
 import json
 import unittest
+from types import SimpleNamespace
 import test_training as fixtures
 from goals import Goals
 from training import TrainingService
@@ -85,6 +86,23 @@ class GoalAssignmentTests(unittest.TestCase):
         self.assertFalse(set(ids[0]) & set(ids[1]))
         self.assertNotIn(solved, ids[0] + ids[1])
         self.assertEqual([g['dailyTask']['progress'] for g in goals], [0, 0])
+
+    def test_bundled_roster_replacing_remote_ids_keeps_completed_daily_selection(self):
+        for index,row in enumerate(self.library.rows):
+            row.update(url=f'https://codeforces.com/contest/123/problem/{chr(65+index)}',source='remote')
+        first,second=self.plans()
+        for row in second['dailyTask']['problems']:
+            self.clock.advance(seconds=1);self.accept(row['id'])
+        before=[tuple(row) for row in self.service.connection.execute('SELECT * FROM goal_daily_assignments ORDER BY goal_id')]
+        old=[dict(row) for row in self.library.rows]
+        self.library.rows=[{**row,'id':'bundled-'+row['id'],'source':'archive'} for row in old]
+        self.library.extensions=SimpleNamespace(rows=lambda:old,snapshot=lambda:{})
+        for _ in range(2):
+            goals=Goals(self.service).list(assign=True)['goals']
+            self.assertEqual([g['dailyTask']['progress'] for g in goals],[0,2])
+            self.assertTrue(goals[1]['dailyTask']['completed'])
+            self.assertEqual(goals[0]['dailyTask']['problems'],first['dailyTask']['problems'])
+        self.assertEqual([tuple(row) for row in self.service.connection.execute('SELECT * FROM goal_daily_assignments ORDER BY goal_id')],before)
 
 
 if __name__ == '__main__':

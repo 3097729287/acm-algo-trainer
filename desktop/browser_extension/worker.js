@@ -110,6 +110,7 @@ async function pollQueues() {
           if (!regularWindows.length) continue;
           const job = { ...item, base, owned: true };
           const claim = await exchange(job, { claim: true });
+          if (claim.manual) job.owned = false;
           if (['closed', 'finished', 'error'].includes(claim.status)) continue;
           const target = new URL(claim.url);
           if (target.protocol !== 'https:' || !hosts.has(target.hostname)) continue;
@@ -123,11 +124,12 @@ async function pollQueues() {
             }
           }
           const matching=tabs.find(tab=>!tab.incognito&&new URL(tab.url).hostname===target.hostname);
-          if (!tab) tab = await chrome.tabs.create({ windowId: matching?.windowId||(regularWindows.find(w => w.focused) || regularWindows[0]).id, url: 'about:blank', active: false });
+          const created = !tab;
+          if (!tab) tab = await chrome.tabs.create({ windowId: matching?.windowId||(regularWindows.find(w => w.focused) || regularWindows[0]).id, url: 'about:blank', active: !!claim.manual });
           job.tabId = tab.id;
           saved[tab.id] = job;
           await chrome.storage.session.set({ jobs: saved });
-          if (job.owned) await chrome.tabs.update(tab.id, { url: target.href });
+          if (created) await chrome.tabs.update(tab.id, { url: target.href });
           else await chrome.tabs.sendMessage(tab.id, {type:'wake'}).catch(()=>{});
         }
       } catch { Object.keys(scopes).forEach(platform=>loginDirty.add(platform)); }
@@ -184,11 +186,25 @@ async function handle(message, sender) {
     return { connected: true };
   }
   if (page.protocol !== 'https:' || !hosts.has(page.hostname)) return {};
+  const receiptPlatform = {'codeforces.com':'Codeforces','www.codeforces.com':'Codeforces','atcoder.jp':'AtCoder','ac.nowcoder.com':'牛客','www.luogu.com.cn':'洛谷','luogu.com.cn':'洛谷'}[page.hostname];
+  if (message.type === 'receipts' && receiptPlatform && message.platform === receiptPlatform) {
+    const {clientId} = await chrome.storage.local.get('clientId');
+    for (const [base, key] of connections) {
+      try { await backgroundRequest(base, 'receipts', {clientId,platform:message.platform,owner:message.owner,records:message.records}, key); } catch {}
+    }
+    return {ok:true};
+  }
   const jobs = (await chrome.storage.session.get('jobs')).jobs || {}, job = jobs[sender.tab.id];
   if (!job) return {};
   if (message.type === 'event' && message.value?.sessionId !== job.sessionId) return {};
   if (!['tick', 'event'].includes(message.type)) return {};
   const answer = await exchange(job, { pageUrl: page.href, ...(message.type === 'event' ? { event: message.value } : {}) });
+  if (answer.reveal && !job.revealed) {
+    job.revealed = true; job.owned = false;
+    jobs[sender.tab.id] = job; await chrome.storage.session.set({jobs});
+    await chrome.tabs.update(sender.tab.id, {active:true});
+    await chrome.windows.update(sender.tab.windowId, {focused:true});
+  }
   if (answer.stop) {
     const latest = (await chrome.storage.session.get('jobs')).jobs || {};
     delete latest[sender.tab.id]; await chrome.storage.session.set({ jobs: latest });

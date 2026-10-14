@@ -83,7 +83,7 @@ class TrainingService:
             CREATE INDEX IF NOT EXISTS submission_problem ON submissions(problem_id,submitted_at);
             CREATE INDEX IF NOT EXISTS submission_contest ON submissions(contest_id,submitted_at);
         """)
-        for table, additions in (("training", {"solution_seen_at": "TEXT", "mock_due_at": "TEXT", "mock_due_context": "TEXT", "active": "INTEGER NOT NULL DEFAULT 1", "removed_at": "TEXT"}), ("submissions", {"solution_seen": "INTEGER NOT NULL DEFAULT 0", "sample_run": "INTEGER NOT NULL DEFAULT 0", "case_results": "TEXT NOT NULL DEFAULT '[]'"}), ("contests", {"config": "TEXT NOT NULL DEFAULT '{}'"})):
+        for table, additions in (("training", {"solution_seen_at": "TEXT", "mock_due_at": "TEXT", "mock_due_context": "TEXT", "active": "INTEGER NOT NULL DEFAULT 1", "removed_at": "TEXT"}), ("submissions", {"solution_seen": "INTEGER NOT NULL DEFAULT 0", "sample_run": "INTEGER NOT NULL DEFAULT 0", "case_results": "TEXT NOT NULL DEFAULT '[]'"}), ("contests", {"config": "TEXT NOT NULL DEFAULT '{}'", "deleted_at": "TEXT"})):
             columns = {record[1] for record in self.connection.execute(f"PRAGMA table_info({table})")}
             for column, definition in additions.items():
                 if column not in columns:
@@ -353,7 +353,13 @@ class TrainingService:
             self.assert_solution_unlocked(row['id'])
             identity='official-'+hashlib.sha256((str(urlsplit(session['url']).hostname)+'/'+remote).encode()).hexdigest()
             existing=self.connection.execute('SELECT * FROM submissions WHERE id=?',(identity,)).fetchone()
-            if existing:return self._submission(existing)
+            if existing:
+                # A public receipt may arrive before the bound browser job.
+                # Enrich its missing code when the actual submitted code arrives.
+                if not existing['code'] and session.get('code'):
+                    with self._write() as connection:
+                        connection.execute('UPDATE submissions SET code=? WHERE id=?', (self._code(session['code']), identity))
+                return self._submission(self.connection.execute('SELECT * FROM submissions WHERE id=?', (identity,)).fetchone())
             # 受理时刻：优先用桥冻结的 acceptedAt（原站真正接收提交的时间），
             # 没有才退回当前时间——这样延迟回执不会把通过挪到收到回执那天。
             accepted_at = receipt.get('acceptedAt') or session.get('acceptedAt')
@@ -369,7 +375,7 @@ class TrainingService:
                 seen_at=seen_row[0] if seen_row else None
                 seen=bool(seen_at and seen_at<submitted)
                 connection.execute("INSERT INTO submissions(id,problem_id,contest_id,mode,code,submitted_at,finished_at,verdict,scope,message,solution_seen) VALUES(?,?,NULL,'submit',?,?,?,?, 'official',?,?)",
-                    (identity,row['id'],self._code(session['code']),submitted,finished,verdict,'原站确认提交 #'+remote,int(seen)))
+                    (identity,row['id'],self._code(session['code']),submitted,finished,verdict,'原站确认提交 #'+remote+(' · 官网同步（未取得源码）' if session.get('external') else ''),int(seen)))
                 self._recompute_progress(connection,row['id'])
             result = self._submission(self.connection.execute('SELECT * FROM submissions WHERE id=?',(identity,)).fetchone())
         if verdict == 'AC':
@@ -949,7 +955,7 @@ class TrainingService:
                 result["workspace"] = self.workspace()
             return result
 
-    def submissions(self, identity=None, contest_id=None, exact_context=False, limit=100, offset=0):
+    def submissions(self, identity=None, contest_id=None, exact_context=False, limit=100, offset=0, results_only=False):
         try:
             limit, offset = int(limit), int(offset)
         except (ValueError, TypeError):
@@ -963,6 +969,8 @@ class TrainingService:
             if identity:
                 self._history_visible(identity, contest_id)
             clauses, values = [], []
+            if results_only:
+                clauses.append("mode='submit' AND sample_run=0 AND verdict!='SAMPLE_PASS' AND (scope='official' OR scope='local')")
             if identity:
                 ids = self._equivalent_ids(identity)
                 clauses.append("problem_id IN (" + ",".join("?" for _ in ids) + ")")
@@ -1166,7 +1174,10 @@ class TrainingService:
             groups={}
             for row in self._library():groups.setdefault(row['contest'],[]).append(row)
             result=[event_info(name,rows) for name,rows in groups.items()]
-            return {'events':result}
+            from contest_names import contest_name, natural_key
+            for item in result:
+                item['displayName'] = contest_name(item['name'])
+            return {'events':sorted(result, key=lambda item: natural_key(item['displayName']))}
 
     def preview_replay(self, body):
         from contest_rules import event_info, rules
@@ -1295,6 +1306,22 @@ class TrainingService:
                     self._finish_record(connection, record, iso(self._now()))
             return {"contest": self._contest(self._contest_record(identity)), "workspace": self.workspace()}
 
+    def delete_contests(self, identity=None, all_records=False):
+        if not isinstance(all_records, bool) or (not all_records and (not isinstance(identity, str) or not identity)):
+            raise ServiceError(400, '请选择要删除的模拟赛记录')
+        with self.lock:
+            self._expire()
+            if not all_records:
+                record = self._contest_record(identity)
+                if record['status'] == 'running':
+                    raise ServiceError(409, '请先交卷，再删除这场模拟赛记录')
+            # Hide the contest without deleting submitted code, drafts or AC
+            # evidence. A durable tombstone also keeps old context IDs valid.
+            with self._write() as connection:
+                rows = connection.execute("SELECT id FROM contests WHERE status='finished' AND deleted_at IS NULL" + ('' if all_records else ' AND id=?'), () if all_records else (identity,)).fetchall()
+                connection.executemany('UPDATE contests SET deleted_at=? WHERE id=?', [(iso(self._now()), row['id']) for row in rows])
+            return {'deleted': len(rows), 'workspace': self.workspace()}
+
     def workspace(self):
         with self.lock:
             self._expire()
@@ -1370,7 +1397,7 @@ class TrainingService:
                 ids = list(dict.fromkeys(aliases.get(problem_id, problem_id) for problem_id in json.loads(record["ids"]) if aliases.get(problem_id, problem_id) in active_ids))
                 if ids:
                     sets.append({"id": record["id"], "name": record["name"], "type": "practice", "ids": ids, "createdAt": record["created_at"], "accepted": len(set(ids) & accepted_ids), "total": len(set(ids))})
-            contests = [self._contest(record) for record in self.connection.execute("SELECT * FROM contests ORDER BY started_at DESC,rowid DESC")]
+            contests = [self._contest(record) for record in self.connection.execute("SELECT * FROM contests WHERE deleted_at IS NULL ORDER BY started_at DESC,rowid DESC")]
             days = {parse_time(record["submitted_at"]).astimezone().date() for record in records}
             day = now.astimezone().date()
             if day not in days:
@@ -1379,8 +1406,11 @@ class TrainingService:
             while day in days:
                 streak += 1
                 day -= dt.timedelta(days=1)
+            official_ac = [r for r in records if r['scope'] == 'official' and r['verdict'] == 'AC' and r['finished_at']]
+            historical_ac = {aliases.get(r['problem_id'], r['problem_id']) for r in official_ac}
+            today_ac = {aliases.get(r['problem_id'], r['problem_id']) for r in official_ac if parse_time(r['submitted_at']).astimezone(TRAINING_ZONE).date() == today}
             pending = self.connection.execute("SELECT COUNT(*) FROM submissions WHERE finished_at IS NULL").fetchone()[0]
-            return {"training": training, "sets": sets, "contests": contests, "activeContest": next((contest for contest in contests if contest["status"] == "running"), None), "summary": {"total": len(training), "accepted": sum(item["accepted"] for item in training), "samplePassed": sum(item["verdict"] == "SAMPLE_PASS" and not item["accepted"] for item in training), "attempts": len(records), "due": sum(item["queue"] is not None for item in training), "streak": streak, "pending": pending}, "now": iso(now)}
+            return {"training": training, "sets": sets, "contests": contests, "activeContest": next((contest for contest in contests if contest["status"] == "running"), None), "summary": {"todayAccepted": len(today_ac), "historicalAccepted": len(historical_ac), "total": len(training), "accepted": sum(item["accepted"] for item in training), "samplePassed": sum(item["verdict"] == "SAMPLE_PASS" and not item["accepted"] for item in training), "attempts": len(records), "due": sum(item["queue"] is not None for item in training), "streak": streak, "pending": pending}, "now": iso(now)}
 
     def close(self):
         with self.lock:

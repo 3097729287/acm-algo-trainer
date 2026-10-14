@@ -1637,7 +1637,9 @@ kbd {
 }
 .paper-slot > strong {
   font-size: var(--ui-font-size, 15px);
-  width: 23px;
+  flex: 0 0 auto;
+  min-width: 4.5ch;
+  width: auto;
   color: var(--accent);
   font-family: Consolas, monospace;
 }
@@ -3037,3 +3039,14 @@ kbd {
 @media(max-width:650px){.topbar-overview summary{padding:6px;gap:4px}.topbar-overview summary>svg:first-child,.achievement-top-button>span{display:none}.topbar-actions .icon-button[aria-label="收件箱"],.topbar-actions .icon-button[aria-label="键盘帮助"]{display:none}.settings-tabs button{padding:7px 10px}.settings-translation .translation-fields{grid-template-columns:minmax(0,1fr)}.merged-page-tabs{padding-inline:10px}.navigation-editor-row{grid-template-columns:minmax(0,1fr) 72px}.navigation-editor-row>input{grid-column:1/-1;grid-row:2}.navigation-editor-heading{display:none}.navigation-editor-row{border-bottom:1px solid var(--line);padding-bottom:9px}.navigation-reorder{grid-column:2;grid-row:1}}
 .mock-extra-options label{flex-direction:row}
 .submission-pagination{display:flex;justify-content:center;align-items:center;gap:16px;flex-wrap:wrap;padding:20px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line)}.submission-pagination .secondary{min-height:36px;flex-shrink:0}
+
+.mock-record{display:flex;align-items:stretch;min-width:0;border-bottom:1px solid var(--line)}
+.mock-record .record-row{flex:1;min-width:0;border-bottom:0}
+.mock-record-delete{flex:0 0 44px;align-self:center;margin:0 12px;color:var(--muted)}
+.mock-record-delete:hover{color:var(--red)}
+.mock-delete-confirm{border:1px solid var(--line);border-radius:8px;padding:16px;background:var(--panel-2)}
+.mock-delete-confirm button{margin-right:10px}
+.replay-event-picker{display:flex;flex-direction:column;gap:8px;min-width:0}
+.replay-event-picker .search-box{display:flex;flex-direction:row;align-items:center}
+.paper-preview-title>span:first-child{min-width:0;overflow-wrap:anywhere}
+.paper-slot>div{min-width:0}

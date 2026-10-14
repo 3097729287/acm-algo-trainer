@@ -159,7 +159,8 @@ def classify_contest(value):
     elif re.search(r'(周赛|Weekly)',name,re.I) and value.get('platform')=='牛客':
         value.update(series='牛客周赛',contestFamily='牛客周赛')
     else:value.setdefault('contestFamily',value.get('series') or value.get('platform'))
-    return value
+    from contest_names import normalize_row
+    return normalize_row(value)
 
 
 def atcoder_knowledge(client, value):
@@ -203,7 +204,10 @@ def discover_cf(client,now):
         contest={'id':c['id'],'name':c['name'],'start':c['startTimeSeconds'],'end':c['startTimeSeconds']+c['durationSeconds'],'series':'Codeforces'}
         item=row('codeforces',contest,p['index'],p['name'],f"https://codeforces.com/contest/{c['id']}/problem/{p['index']}",integer(p.get('rating')),'Codeforces 官方 rating',[CF_TAGS[t] for t in p.get('tags',[]) if t in CF_TAGS])
         rows.append(item)
-    return rows,pending,'已检查最近 30 场已结束比赛；缺官方评级的题等待评级发布'
+    # problemset.problems can omit shared Div.1/Div.2 tasks; it is not
+    # evidence of an exact original task count. Still keep every public task.
+    for item in rows:item['contestRoster']=True
+    return rows,pending,'最近 30 场已结束比赛公开赛题；未评级题如实标注，共用题可能仍需核对'
 
 def lg_data(value):
     if not isinstance(value,dict) or value.get('status',200)!=200:raise ValueError('洛谷公开页面暂不可用或需要登录')
@@ -227,6 +231,7 @@ def discover_lg(client,now):
             if not pid:continue
             level=integer(p.get('difficulty'));evaluation=cf_eq.cf_eq_luogu(level)
             item=row('luogu',contest,entry.get('no') or chr(65+index),p.get('name') or pid,'https://www.luogu.com.cn/problem/'+pid,evaluation['cf_eq_rating'],'CF-EQ v1.0 / 洛谷官方难度档 '+str(level),[tag_names[i] for i in p.get('tags',[]) if i in tag_names])
+            item['contestProblemCount']=len(detail.get('contestProblems') or [])
             rows.append(item)
     return rows,pending,'洛谷官方结束赛；难度按已有 CF-EQ 档位规则换算，非官方 CF rating'
 
@@ -258,6 +263,7 @@ def discover_at(client,now):
             evaluation=cf_eq.cf_eq_atcoder(native)
             value=row('atcoder',contest,index.strip(),html.unescape(title.strip()),f'https://atcoder.jp/contests/{cid}/tasks/{task}',evaluation['cf_eq_rating'],'CF-EQ · AtCoder Problems估算')
             value['nativeDifficulty']=native;value['difficultyEvidence']=evaluation['difficulty_evidence']
+            value['contestProblemCount']=len(matches)
             rows.append(value)
     return rows,pending,'官方已结束 ABC/ARC；按既有 CF-EQ 换算 AtCoder Problems 模型估算，模型未出则待定'
 

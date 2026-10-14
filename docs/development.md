@@ -24,7 +24,7 @@ $env:TB_STATE_DIR = "$PWD/.backups/desktop-dev-state"
 python desktop/launch.py
 ```
 
-API 的可选参数见 `python backend/backend.py --help`。当前正式版为 [v0.10.1](releases/0.10.1.md)，准确的发布源码以对应 Git 标签为准。
+API 的可选参数见 `python backend/backend.py --help`。当前源码为 [v1.0.15（尚未正式发布）](releases/1.0.15.md)，最新正式版为 [v1.0.14](releases/1.0.14.md)；已发布版本的准确源码以对应 Git 标签为准。
 
 ```powershell
 python scripts/check.py
@@ -75,9 +75,10 @@ cd frontend
 npm ci
 npm run build
 cd ..
-python scripts/build_release.py build --stage build/0.10.1
-python scripts/build_release.py assemble --stage build/0.10.1 --compiler-source <compiler目录>
-python scripts/build_release.py installer --stage build/0.10.1 --inno <ISCC.exe> --webview2 <离线WebView2安装程序>
+$tbVersion = (Get-Content VERSION).Trim()
+python scripts/build_release.py build --stage "build/$tbVersion"
+python scripts/build_release.py assemble --stage "build/$tbVersion" --compiler-source <compiler目录>
+python scripts/build_release.py installer --stage "build/$tbVersion" --inno <ISCC.exe> --webview2 <离线WebView2安装程序>
 ```
 
 `TB新版.exe --package-check <报告路径>` 在隔离状态下检查内置题解和真实 C++ 评测；`--native-check` 检查实际桌面界面；`--serve-check` 启动检查服务，到同名 `.stop` 文件出现时停止。通过 `TB_STATE_DIR` 指定一次性状态，验证时设置 `TB_OFFLINE=1`。生产安装包不得包含这些测试产生的数据。
@@ -85,9 +86,20 @@ python scripts/build_release.py installer --stage build/0.10.1 --inno <ISCC.exe>
 真实安装与升级检查使用独立 AppId，不修改日常安装、快捷方式或个人状态；在 `build/release-check-current-*` 保留报告与隔离数据。验证当前桌面版本的升级时，使用旧版公共安装目录作为输入，检查会排除其个人状态：
 
 ```powershell
-python scripts/check_current_release.py --stage build/0.10.1 --legacy-package <旧版公共安装目录> --inno <ISCC.exe> --webview2 <离线WebView2安装程序>
+python scripts/check_current_release.py --stage "build/$tbVersion" --legacy-package <旧版公共安装目录> --inno <ISCC.exe> --webview2 <离线WebView2安装程序>
 ```
 
 `scripts/check_release.py` 保留为 0.5 迁移检查，需要对应旧版安装脚本（`--legacy-iss`）。`scripts/check_update_helper.py` 检查自动更新助手，须配合可丢弃程序与状态使用。
 
 安装程序按相同 AppId 升级，只覆盖程序和公共种子库。完成后验证旧草稿、提交代码、身份、模拟赛和经验值仍在；发布前准备 `SHA256SUMS.txt`、`BUILD-INFO.json` 与文件清单，并核对下载资产和对应源码。构建工具不会覆盖已有 staging；重复构建使用新的空目录。
+
+## 发布同步检查
+
+每次发布都必须把实际源码和文档作为同一版本交付，不能只上传发布包。
+
+1. 统一 `VERSION`、`frontend/package.json`、`frontend/package-lock.json` 和 `desktop/browser_extension/manifest.json` 的版本；核对安装程序与扩展构建使用该版本。
+2. 同步 `README.md`、`README.en.md`、相关使用/架构说明、`docs/index.html` 和 `docs/releases/<版本>.md`。逐项核对真实功能、题库统计、下载文件名、源码标签、升级方式和已知限制。源码领先正式版时明确标注源码版本及“尚未正式发布”，保留已发布版本的下载链接；正式发布时再一起更新正式版入口。
+3. 运行相关后端、前端、浏览器与共享服务检查；将发布源码、公共题库文本源和文档一起提交并推送到 GitHub。检查提交内容不含个人状态、凭据、Cookie、恢复备份或本机绝对路径。
+4. 从确认过的提交构建安装版、便携版和浏览器扩展，生成 `RELEASE-MANIFEST.json`、`SHA256SUMS.txt` 与记录准确提交的 `BUILD-INFO.json`。根据上一正式版文件清单生成增量包，并在隔离状态完成新安装、升级、个人数据保留及增量替换验证。构建后源码若有改动，重新提交并构建受影响资产。
+5. 发布标签指向构建提交，发布说明与 README 描述同一版本；核对 GitHub 上的源码、版本号、下载链接和资产哈希后完成发布。不要移动已有正式版标签或把尚未发布的版本写成最新正式版。
+6. 更新指定本地项目目录的当前记录，写清源码提交、GitHub 同步结果、已发布/未发布状态、检查结果和实际启动入口。仅更新源码或文档时，明确说明本次未重新打包。

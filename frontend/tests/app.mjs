@@ -29,7 +29,7 @@ training[2].queue = 'fill';
 const goal = { id: 'goal-fixture', title: 'CF 2200', deadline: '2027-07-10', progress: 5, totalProblems: 300, remainingDays: 273, weeklyTarget: 8, workloadCompleted: false, warnings: [], dailyTask: { date, target: 2, progress: 5, completed: true, problems: [rows[4]] } };
 goal.contestPlan=[{contest:'Codeforces Div.3',target:3,problems:'A–D'},{contest:'AtCoder ABC',target:2,problems:'A–D'},{contest:'牛客周赛',target:2,problems:'A–D'},{contest:'洛谷基础赛 / 月赛',target:1,problems:'基础题'}];
 const contests = [completed];
-const workspace = () => ({ training, sets: [], contests, activeContest, summary: { total: training.length, accepted: 1, attempts: 3, due: 0, pending: 0, streak: 1 }, now: now() });
+const workspace = () => ({ training, sets: [], contests, activeContest, summary: { todayAccepted: 3, historicalAccepted: 4, total: training.length, accepted: 1, attempts: 3, due: 0, pending: 0, streak: 1 }, now: now() });
 const insights = { summary: { localAccepted: 1, officialSolved: 4, submissions: 3, activeDays: 1, streak: 1, completedContests: 1 }, growth: { level: 1, currentLevelXp: 10, nextLevelXp: 500, totalXp: 10, levelName: '初次启程' }, knowledge: [], recommendations: [{ name: '前缀和', reason: '巩固前缀和隐藏知识点', ids: [rows[3].id], stage: 'foundation', problem: rows[3] }], achievements: [{ id: 'first', name: '首次通过', description: '独立完成一道题', unlocked: true, unlockedAt: now(), progress: 1, target: 1 }, { id: 'ten', name: '十题积累', description: '通过十道不同题目', unlocked: false, progress: 1, target: 10 }], activity: [{ date, submissions: 3, accepted: 1, officialAccepted: 0 }], assessment: { rating: null, recommendationLevel: 1100, recommendationBasis: '基础练习', platforms: [] }, dailyTasks: { date, timezone: 'Asia/Shanghai', totalClaimedXp: 0, claimable: 1, tasks: [{ id: 'warmup', title: '每日热身', description: '完成一次有效提交', progress: 1, target: 1, xp: 20, completed: true, claimed: false }, { id: 'hard', title: '进阶挑战', description: '通过一道难度至少 1800 的题目', progress: 0, target: 1, xp: 100, completed: false, claimed: false, minDifficulty: 1800 }] } };
 const notice = { id: 'update-1', type: 'content', title: '新题已加入', body: '新增测试题目', createdAt: now(), read: false, count: 1, problemIds: [rows[4].id] };
 const hub = { version: '0.5.0', settings: { githubRepo: '3097729287/acm-algo-trainer', autoSync: true, intervalHours: 6, minDifficulty: 1000, maxDifficulty: 2199, accounts: { codeforces: 'tester', atcoder: 'tester', nowcoder: '', luogu: '' } }, accounts: [{ platform: 'codeforces', handle: 'tester', rating: 415, maxRating: 500, solvedCount: 22, submissionCount: 67, updatedAt: now(), status: 'ready' }, { platform: 'atcoder', handle: 'tester', rating: 98, maxRating: 101, solvedCount: 14, submissionCount: 38, updatedAt: now(), status: 'ready' }], sync: { busy: false, message: '同步完成', providers: [] }, updates: { configured: true, currentVersion: '0.5.0', latestVersion: '0.5.0', repository: '3097729287/acm-algo-trainer' }, notifications: [notice] };
@@ -74,7 +74,7 @@ await page.route('**/api/**', async route => {
   else if (path === '/api/inbox') value = { pending: 0, errors: [] };
   else if (path === '/api/hub') value = hub;
   else if (path === '/api/insights') value = insights;
-  else if (path === '/api/submissions') { const offset = Number(url.searchParams.get('offset') || 0), limit = Number(url.searchParams.get('limit') || 100); value = { submissions: submissions.slice(offset, offset + limit), total: submissions.length, offset, limit, hasMore: offset + limit < submissions.length }; }
+  else if (path === '/api/submissions') { assert.equal(url.searchParams.get('resultsOnly'),'1'); const offset = Number(url.searchParams.get('offset') || 0), limit = Number(url.searchParams.get('limit') || 100); value = { submissions: submissions.slice(offset, offset + limit), total: submissions.length, offset, limit, hasMore: offset + limit < submissions.length }; }
   else if (path === '/api/lectures') value = { lectures: [lecture] };
   else if (path === '/api/lecture') value = lecture;
   else if (path === '/api/profile') { if (body) { profile.nickname = body.nickname; profile.displayName = profile.nickname; connection.endpoint = body.endpoint || connection.endpoint; connection.configured = !!connection.endpoint; connection.status = connection.configured ? 'syncing' : 'not_configured'; connection.notice = connection.configured ? '已连接测试排行榜' : '共享排行榜尚未配置。'; } value = { profile, leaderboard: connection }; }
@@ -84,6 +84,7 @@ await page.route('**/api/**', async route => {
   else if (path === '/api/daily-tasks/claim') { const task = insights.dailyTasks.tasks.find(item => item.id === body.id); if (!task.claimed) { task.claimed = true; insights.growth.totalXp += task.xp; insights.growth.currentLevelXp += task.xp; } value = { dailyTasks: insights.dailyTasks }; }
   else if (path === '/api/contests/preview') { preview = { previewId: 'preview-fixture', name: '测试专项训练', duration: body.duration, constraints: body, slots: rows.slice(3, body.mode === 'single' ? 4 : 6).map((row, index) => ({ id: row.id, letter: 'ABC'[index], title: row.title, judgeScope: 'samples', tags: ['不应泄露考点'], difficulty: 2100 })) }; value = { plan: preview }; }
   else if (path === '/api/contests/start') { assert.equal(body.previewId, preview.previewId); activeContest = { id: 'mock-new', name: body.name, status: 'running', duration: body.duration, startedAt: now(), deadline: new Date(Date.now() + body.duration * 60000).toISOString(), total: body.ids.length, accepted: 0, slots: preview.slots.map(({ tags, difficulty, ...slot }) => ({ ...slot, verdict: null, accepted: false })) }; contests.unshift(activeContest); value = { contest: activeContest, workspace: workspace() }; }
+  else if (path === '/api/contests/delete') { const keep=contests.filter(c=>c.status==='running'||(!body.all&&c.id!==body.id));contests.splice(0,contests.length,...keep);value={workspace:workspace()}; }
   else if (path === '/api/contests/finish') { const finished = { ...activeContest, status: 'finished', slots: activeContest.slots.map(slot => ({ ...slot, tags: ['枚举'], difficulty: 1600 })) }; contests[0] = finished; activeContest = null; value = { contest: finished, workspace: workspace() }; }
   else if (path === '/api/contest') value = { contest: contests.find(item => item.id === url.searchParams.get('id')) };
   else if (path === '/api/training/start') { assert.ok(training.some(row => row.id === body.id)); value = { workspace: workspace() }; }
@@ -239,7 +240,7 @@ try {
   await page.keyboard.press('Control+5');
   assert.equal(await page.locator('.mock-followup').count(), 0);
   await page.getByRole('tab', { name: /模拟赛记录/ }).click();
-  await page.getByRole('button', { name: /完成的模拟赛/ }).click();
+  await page.locator('.record-row').filter({ hasText: '完成的模拟赛' }).click();
   await page.locator('.record-detail').waitFor();
   assert.ok(await page.locator('.record-slot .katex').count() > 0);
   await page.getByRole('tab', { name: '创建训练', exact: true }).click();
@@ -350,8 +351,29 @@ try {
   await page.keyboard.press('Control+5');
   await page.getByRole('tab', { name: '创建训练', exact: true }).click();
   await page.getByRole('button', { name: /重现赛.*保留已收录/ }).click();
-  await page.getByLabel('重现赛比赛').selectOption('测试比赛');
+  await page.getByLabel('重现赛比赛', {exact:true}).selectOption('测试比赛');
   assert.equal(await page.getByLabel('模拟赛时长').inputValue(), '120');
+  await page.getByLabel('搜索重现赛比赛').fill('不存在的比赛');
+  assert.equal(await page.getByLabel('重现赛比赛', {exact:true}).locator('option').count(),2,'keep selected contest while filtering');
+  await page.getByLabel('搜索重现赛比赛').fill('测试');
+  await page.getByRole('button', {name:'预览重现赛',exact:true}).click();
+  await page.getByLabel('训练试卷预览').waitFor();
+  assert.match(await page.locator('.paper-preview-title').textContent(),/重现赛.*测试比赛/);
+  await page.locator('.paper-slot > strong').first().evaluate(node=>node.textContent='P16232');
+  assert.ok(await page.locator('.paper-slot').first().evaluate(node=>node.querySelector('strong').getBoundingClientRect().right < node.querySelector('div').getBoundingClientRect().left),'long native task ID must not overlap text');
+  await page.screenshot({path:'tests/screenshots/replay-format-fixed.png',animations:'disabled'});
+  assert.match(await page.getByLabel('训练概览',{exact:true}).textContent(),/今日 AC 3 题/);
+  assert.equal(await page.locator('.topbar').getByRole('button',{name:'模拟赛',exact:true}).count(),0);
+  await page.getByRole('tab', {name:/模拟赛记录/}).click();
+  await page.getByRole('button',{name:'删除模拟赛 完成的模拟赛',exact:true}).click();
+  await page.getByRole('alertdialog').getByRole('button',{name:'确认删除',exact:true}).click();
+  await page.waitForFunction(()=>!document.querySelector('.mock-delete-confirm'));
+  assert.ok(writes.some(w=>w.path==='/api/contests/delete'&&w.body.id==='mock-old'));
+  await page.getByRole('button',{name:'删除全部记录',exact:true}).click();
+  await page.getByRole('alertdialog').getByRole('button',{name:'确认删除',exact:true}).click();
+  await page.getByText('还没有模拟赛记录',{exact:true}).waitFor();
+  assert.ok(writes.some(w=>w.path==='/api/contests/delete'&&w.body.all));
+  await page.getByRole('tab',{name:'创建训练',exact:true}).click();
   await page.getByRole('button', { name: /综合训练.*多种知识点/ }).click();
   await page.setViewportSize({ width: 1050, height: 760 });
   await page.keyboard.press('Control+0');

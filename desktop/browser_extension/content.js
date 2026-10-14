@@ -6,7 +6,7 @@
     if (answer?.context) window.postMessage({ tbBrowserCommand: channel, ...answer }, location.origin);
   };
   async function tick() {
-    if (busy || stopped || document.readyState === 'loading') return;
+    if (busy || stopped) return;
     busy = true;
     try { run(await chrome.runtime.sendMessage({ type: 'tick' })); } catch {} finally { busy = false; }
   }

@@ -108,6 +108,8 @@ class SilentSubmitter(OfficialBridge):
                 except queue.Empty:
                     pass
                 status = self.bridge.status(identity)['status']
+                if session.get('manual') and session.get('transport') == 'browser':
+                    return
                 if status in ('closed', 'finished', 'error', 'needs_login', 'needs_verification', 'needs_browser'):
                     return
                 if time.monotonic() >= next_inspect:

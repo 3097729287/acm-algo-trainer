@@ -8,7 +8,7 @@ import { chromium } from 'playwright';
 import { fixtureExtension } from './extension-fixture.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-const python = process.env.TB_PYTHON || 'C:/Users/lenovo/AppData/Local/Programs/Python/Python313/python.exe';
+const python = process.env.TB_PYTHON || (process.platform === 'win32' ? 'python' : 'python3');
 const server = spawn(python, ['desktop/tests/browser_server.py'], { cwd: root, env: { ...process.env, TB_OFFLINE: '1', PYTHONIOENCODING: 'utf-8' }, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] });
 let serverErrors = '';
 server.stderr.on('data', c => { serverErrors += c; });
@@ -148,7 +148,7 @@ try {
   assert.equal(await luoguIdle.evaluate(() => window.preservedVerificationPage), 'original-page', 'a finished job cannot poison the next submission on a reused page');
   ncReject = true;
   await submit('captcha', 'https://ac.nowcoder.com/acm/contest/127263/B');
-  await state('captcha', 'needs_verification');
+  await state('captcha', 'awaiting_submit');
   assert.equal((await (await fetch(base + '/fixture/saved')).json()).length, 6);
   luoguLoggedIn = false;
   await luoguIdle.reload();
@@ -165,7 +165,7 @@ try {
   assert.equal(posted.length, before + 1);
   luoguReject = true;
   await submit('luogu-verification', 'https://www.luogu.com.cn/problem/P1001');
-  await state('luogu-verification', 'needs_verification');
+  await state('luogu-verification', 'awaiting_submit');
   const rejectedCount = posted.length;
   const verifyPage = browser.pages().find(p => p.url() === 'https://www.luogu.com.cn/problem/P1001#submit');
   await verifyPage.evaluate(() => window.preservedVerificationPage = 'verify-this-page');
@@ -183,6 +183,20 @@ try {
   await foreground.bringToFront();
   assert.deepEqual(errors, []);
   assert.equal(await worker.evaluate(async () => (await chrome.tabs.query({active:true,lastFocusedWindow:true}))[0].id),activeTab);
+  // User submits directly on an unbound site tab; no TB job is created.
+  ncReject=false;luoguReject=false;
+  const directNC=await browser.newPage();
+  await directNC.goto('https://ac.nowcoder.com/acm/contest/127263/B');
+  await directNC.evaluate(()=>document.querySelector('.CodeMirror').CodeMirror.setValue('int main(){}'));
+  await directNC.locator('.btn-submit').click();
+  const directLG=await browser.newPage();
+  await directLG.goto('https://www.luogu.com.cn/problem/P1001');
+  await directLG.evaluate(()=>{const b=document.createElement('button');b.textContent='Fixture user submit';b.onclick=()=>fetch('/fe/api/problem/submit/P1001',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':'fixture-csrf'},body:JSON.stringify({code:'int main(){}',lang:12,enableO2:1})});document.body.append(b);});
+  await directLG.getByRole('button',{name:'Fixture user submit'}).click();
+  let passive=[];
+  for(let i=0;i<120;i++){passive=await(await fetch(base+'/fixture/public-receipts')).json();if(['牛客','洛谷'].every(p=>passive.some(r=>r.platform===p&&r.owner==='12345'&&r.records.some(v=>v.verdict==='AC'))))break;await new Promise(r=>setTimeout(r,100));}
+  assert.ok(['牛客','洛谷'].every(p=>passive.some(r=>r.platform===p&&r.owner==='12345'&&r.records.some(v=>v.verdict==='AC'))),'unbound official user submissions reach TB without a submit job');
+  console.log('Direct official submissions without TB jobs: Nowcoder and Luogu AC receipts imported.');
   console.log('Background extension: four platforms; no opened browser or active tab changes; legacy Nowcoder nccommon/top-level receipts; modern cached fetch; Luogu API without editor; original CSRF/cookies; captcha, login retry, no duplicates passed.');
   console.log(JSON.stringify({ok:true,receipts,exactSubmissionIds:true,desktopReceiptsSaved:true,noDuplicatePosts:true,realAccountSubmission:false}));
 } finally {

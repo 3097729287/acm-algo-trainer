@@ -47,7 +47,9 @@ def main():
         data=fetch('/problem/list?'+urlencode({'keyword':'蓝桥杯','page':page}),f'list-{page}')['problems']
         pages=math.ceil(data['count']/data['perPage'])
         for problem in data['result']:
-            match=re.match(r'^\[蓝桥杯 (20\d{2}) (省|国) B([^\]]*)\]',problem.get('name',''))
+            # AB/ABC denote shared C/C++ questions and belong in B as well.
+            # Python/Java have an explicit language before the group and do not match.
+            match=re.match(r'^\[蓝桥杯 (20\d{2}) (省|国) [AC]*B[AC]*([^\]]*)\]',problem.get('name',''))
             if match:discovered[problem['pid']]=(problem,match.groups())
         print('list',page,'/',pages,'B originals',len(discovered),flush=True);page+=1
     records=[];errors=[];coverage={}

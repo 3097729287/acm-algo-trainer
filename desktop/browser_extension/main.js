@@ -4,7 +4,10 @@
   let channel = '', submitted = '';
   const acknowledgments = new Map();
   const report = value => {
-    if (!channel) return;
+    if (!channel) {
+      if (value.status === 'finished' && value.owner && value.url && value.acceptedAt) window.postMessage({tbPublicReceipt:{platform,owner:value.owner,records:[{submissionId:value.submissionId,url:value.url,verdict:value.verdict,acceptedAt:value.acceptedAt}]}}, location.origin);
+      return;
+    }
     for (const key of ['attempted', 'baseline', 'baselineKnown', 'baselineOwner', 'submissionId']) if (key in value) context[key] = value[key];
     if (value.status === 'submitted' && value.attempted) {
       return new Promise((resolve, reject) => {
@@ -19,6 +22,7 @@
   // Observe before the site can cache fetch/XHR. Context is filled later, without
   // replacing the observer or losing closures retained by the site's editor.
   tbOfficialPage(context, 'observe', report);
+  setInterval(() => { if (!channel) for (const state of [window.__tbNowcoder, window.__tbLuogu]) state?.poll?.(); }, 2500);
   window.addEventListener('message', event => {
     const packet = event.data;
     if (event.source === window && event.origin === location.origin && channel && packet?.tbBrowserAck === channel) {

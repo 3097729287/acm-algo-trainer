@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import datetime as dt
+import logging
 import secrets
 import threading
 import time
@@ -15,7 +16,7 @@ from training import ServiceError
 EXTENSION_ID = 'blgkmkjbdekeoenepgnajpeafofccbjm'
 EXTENSION_ORIGIN = 'chrome-extension://' + EXTENSION_ID
 TERMINAL = {'finished', 'error', 'closed'}
-STATES = TERMINAL | {'loading', 'needs_browser', 'needs_login', 'needs_verification', 'ready', 'submitted', 'judging', 'unconfirmed'}
+STATES = TERMINAL | {'loading', 'needs_browser', 'needs_login', 'needs_verification', 'ready', 'submitted', 'judging', 'unconfirmed', 'awaiting_submit'}
 VERDICTS = {'AC', 'WA', 'TLE', 'MLE', 'RE', 'CE', 'OLE'}
 
 
@@ -166,16 +167,46 @@ class BrowserBridge:
         if session.get('dispatchedAt') is not None and not session.get('submissionId') and now - session['dispatchedAt'] > 45:
             session.update(status='unconfirmed', intent=False,
                            message='暂未确认原站受理，仍在后台查询结果；请先核对原站记录，避免重复提交。')
-        elif session.get('claimed') and now - session.get('lastSeen', now) > 90:
+        elif session.get('claimed') and not session.get('manual') and now - session.get('lastSeen', now) > 90:
             session.update(status='unconfirmed' if session.get('dispatchedAt') is not None else 'error', intent=False,
                            message='浏览器连接已中断，请打开原站核对提交记录后再重试。')
         elif not session.get('claimed') and not session.get('interactiveVerification') and now - session['createdAt'] > 12:
             session.update(status='needs_browser', message='尚未同步浏览器登录。首次使用请启用最新版 TB 浏览器连接扩展，随后可关闭浏览器静默提交。')
-        elif session.get('claimed') and session['status'] == 'loading' and now - session.get('preparingAt', session['createdAt']) > 40:
-            session.update(status='error', intent=False, message='原站提交接口准备超时，尚未发送代码。请重试；若原站要求验证，请在浏览器完成。')
-        if now - session['createdAt'] > 900:
+        elif session.get('claimed') and session['status'] == 'loading' and not session.get('manual') and now - session.get('preparingAt', session['createdAt']) > 40:
+            self._manual(session, '原站页面未在限时内准备好。已转到浏览器，代码填好后请在官网提交；TB 会自动同步结果。')
+        if now - session['createdAt'] > 900 and not session.get('manual'):
             session.update(status='error', intent=False,
                            message='等待原站结果超时，请在浏览器核对提交记录。')
+
+    def _manual(self, session, message):
+        if session.get('attempted') or session.get('submissionId') or session.get('manual'):
+            return
+        native = session.get('transport') != 'browser'
+        logging.getLogger('tb.browser-submit').info('Manual handoff: platform=%s state=%s reason=%s', session['platform'], session['status'], message)
+        session.update(manual=True, intent=False, interactiveVerification=True, transport='browser',
+                       status='awaiting_submit', message=message)
+        session.pop('dispatchedAt', None)
+        if native:
+            session.update(claimed=False, routedAt=self.clock())
+            session.pop('browserClient', None)
+            session['preferredClient'] = self._browser_client(session['platform'])
+        if not self._browser_client(session['platform']):
+            fragment = urlencode({'session': session['sessionId'], 'key': session['capability']})
+            self.opener(self.base_url + '/browser-connect.html#' + fragment)
+
+    def observe_receipt(self, receipt):
+        """A trusted owner-scoped synchronizer can finish even a failed/manual job."""
+        from insights import canonical_url
+        accepted = dt.datetime.fromisoformat(receipt['acceptedAt']).timestamp()
+        with self.lock:
+            for session in self.sessions.values():
+                if (session.get('saved') or session['status'] == 'closed'
+                        or canonical_url(session['originalUrl']) != canonical_url(receipt['url'])
+                        or accepted < session.get('createdWall', float('inf')) - 5):
+                    continue
+                session.update(status='finished', intent=False, submissionId=receipt['submissionId'],
+                               verdict=receipt['verdict'], acceptedAt=receipt['acceptedAt'], saved=True,
+                               message='已同步官网提交结果：' + receipt['verdict'])
 
     def _open(self, url, code, title, intent):
         from insights import canonical_url
@@ -201,7 +232,7 @@ class BrowserBridge:
                 session = {**target, 'sessionId': identity, 'code': code, 'title': str(title),
                            'status': 'loading', 'message': '正在连接已登录的浏览器。', 'intent': intent,
                            'attempted': False, 'baseline': [], 'baselineKnown': False, 'baselineOwner': '',
-                           'capability': secrets.token_urlsafe(32), 'createdAt': self.clock(), 'command': 0}
+                           'capability': secrets.token_urlsafe(32), 'createdAt': self.clock(), 'createdWall': time.time(), 'command': 0}
                 self.sessions[identity] = session
             else:
                 session.update(intent=intent)
@@ -209,6 +240,7 @@ class BrowserBridge:
                     session.update(status='loading', message='正在后台准备原站提交。', preparingAt=self.clock())
             if intent:
                 session['retry'] = session.get('retry', 0) + 1
+                session['manual'] = False
             elif session['status'] == 'needs_verification' and not session.get('attempted') and not session.get('submissionId'):
                 # An explicit verification click transfers the unaccepted job
                 # to its real browser page, without another submit intention.
@@ -273,7 +305,7 @@ class BrowserBridge:
                 if session['status'] == 'needs_browser':
                     session['status'] = 'loading'
                 mode = 'silent' if self.session_store and session.get('transport') != 'browser' else 'tabs'
-                return {'url': session['navigateTo'], 'sessionId': session['sessionId'], 'status': session['status'], 'mode': mode}
+                return {'url': session['navigateTo'], 'sessionId': session['sessionId'], 'status': session['status'], 'mode': mode, 'manual': session.get('manual', False)}
             page = urlsplit(str(body.get('pageUrl', '')))
             if page.scheme != 'https' or page.hostname not in LOGIN_HOSTS[session['platform']] or page.port not in (None, 443) or page.username or page.password:
                 raise ServiceError(403, '只接受本次竞赛平台的浏览器页面')
@@ -284,21 +316,27 @@ class BrowserBridge:
             if session['status'] in TERMINAL:
                 return {'stop': True, 'status': session['status']}
             if isinstance(value, dict):
-                return {'ack': True}
-            action = 'inspect'
+                return {'ack': True, 'reveal': session.get('manual', False)}
+            action = 'prepare' if session.get('manual') and not session.get('attempted') else 'inspect'
             if session.get('intent') and session['status'] == 'ready' and session.get('dispatchedAt') is None:
                 action = 'submit'
                 session.update(intent=False, dispatchedAt=self.clock(), status='submitted',
                                message='正在操作原站提交表单，尚未确认受理。')
                 session['command'] += 1
             context = {k: session.get(k) for k in ('sessionId', 'platform', 'problem', 'code', 'originalUrl',
-                       'attempted', 'baseline', 'baselineKnown', 'baselineOwner', 'submissionId', 'retry')}
+                       'attempted', 'baseline', 'baselineKnown', 'baselineOwner', 'submissionId', 'retry', 'manual')}
             return {'context': context, 'action': action, 'command': session['command']}
 
     def _update(self, session, value):
         if session['status'] in TERMINAL or value.get('status') not in STATES:
             return
         status = value['status']
+        if session.get('manual') and status == 'submitted' and value.get('attempted') is True:
+            session.setdefault('dispatchedAt', self.clock())
+        if session.get('manual') and status in ('judging', 'finished') and value.get('attempted') is True:
+            session.setdefault('dispatchedAt', self.clock())
+        if session.get('manual') and isinstance(value.get('submittedCode'), str) and len(value['submittedCode'].encode('utf-8')) <= 65536:
+            session['submittedCode'] = value['submittedCode']
         remote_id = str(value.get('submissionId', session.get('submissionId', '')))
         if status in ('judging', 'finished'):
             if session.get('dispatchedAt') is None or not remote_id.isascii() or not remote_id.isdigit() or int(remote_id) <= 0:
@@ -340,6 +378,10 @@ class BrowserBridge:
             session.setdefault('acceptedAt', dt.datetime.now(dt.timezone.utc).isoformat())
         if status == 'finished':
             session['verdict'] = value['verdict']
+        if status == 'needs_verification' and not session.get('attempted'):
+            self._manual(session, '原站要求验证。请在打开的浏览器中完成验证并提交，TB 会自动同步结果。')
+        elif status == 'error' and value.get('attempted') is False and not session.get('manual'):
+            self._manual(session, '后台提交准备失败：' + str(value.get('message', ''))[:200] + ' 请在浏览器确认并提交，TB 会继续同步结果。')
 
     def _persist(self, identity):
         with self.lock:

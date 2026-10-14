@@ -88,7 +88,8 @@ class Store:
             value.update(metadata(row, value.get('url')))
         dated_row = dict(row, _library_metadata=found['encoded']) if found else row
         value.update(self.contest_metadata(dated_row, value.get('url')))
-        return self._enrich_knowledge(value)
+        from contest_names import normalize_row
+        return self._enrich_knowledge(normalize_row(value))
 
     def _archive_info(self, row):
         found = self.library.find(row.get('_id') or row['场次'] + '::' + row['题号'], canonical_url(row.get('_url')))

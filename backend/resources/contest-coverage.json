@@ -1,0 +1,2161 @@
+{
+  "contests": 174,
+  "added": 0,
+  "statements": 0,
+  "coverage": {
+    "ABC 469": {
+      "expected": 7,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "ABC 471": {
+      "expected": 7,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "ABC 470": {
+      "expected": 7,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "ABC 472": {
+      "expected": 7,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "ABC 473": {
+      "expected": 7,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "ABC 475": {
+      "expected": 7,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "ABC 474": {
+      "expected": 7,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "ABC 476": {
+      "expected": 7,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "ABC 477": {
+      "expected": 7,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "ABC 478": {
+      "expected": 7,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "ARC 222": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "ARC 223": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "ARC 225": {
+      "expected": 5,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ]
+    },
+    "ARC 224": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "ARC 226": {
+      "expected": 5,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ]
+    },
+    "ARC 230": {
+      "expected": 5,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ]
+    },
+    "ARC 227": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "ARC 228": {
+      "expected": 5,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ]
+    },
+    "Div.2 1112": {
+      "expected": null,
+      "problems": [
+        "B",
+        "A"
+      ]
+    },
+    "ARC 229": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "Div.2 1116": {
+      "expected": null,
+      "problems": [
+        "B",
+        "A"
+      ]
+    },
+    "ARC 231": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "Div.2 1115": {
+      "expected": null,
+      "problems": [
+        "F",
+        "E",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "Div.2 1113": {
+      "expected": null,
+      "problems": [
+        "G",
+        "F",
+        "E",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "Div.2 1120": {
+      "expected": null,
+      "problems": [
+        "B",
+        "A"
+      ]
+    },
+    "Div.2 1117": {
+      "expected": null,
+      "problems": [
+        "F2",
+        "F1",
+        "E",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "Div.2 1118": {
+      "expected": null,
+      "problems": [
+        "F",
+        "E",
+        "D",
+        "C",
+        "B2",
+        "B1",
+        "A"
+      ]
+    },
+    "Div.2 1124": {
+      "expected": null,
+      "problems": [
+        "B",
+        "A"
+      ]
+    },
+    "Div.2 1121": {
+      "expected": null,
+      "problems": [
+        "F",
+        "E2",
+        "E1",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "Div.2 1123": {
+      "expected": null,
+      "problems": [
+        "G",
+        "F2",
+        "F1",
+        "E",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "Div.3 1080": {
+      "expected": null,
+      "problems": [
+        "H",
+        "G",
+        "F",
+        "E",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "Div.3 1076": {
+      "expected": null,
+      "problems": [
+        "H",
+        "G",
+        "F",
+        "E",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "Div.3 1084": {
+      "expected": null,
+      "problems": [
+        "H",
+        "G",
+        "F",
+        "E",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "Div.3 1096": {
+      "expected": null,
+      "problems": [
+        "H",
+        "G",
+        "F",
+        "E",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "Div.3 1103": {
+      "expected": null,
+      "problems": [
+        "G",
+        "F2",
+        "F1",
+        "E",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "Div.3 1107": {
+      "expected": null,
+      "problems": [
+        "G",
+        "F",
+        "E",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "Div.3 1109": {
+      "expected": null,
+      "problems": [
+        "G",
+        "F",
+        "E",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "Div.3 1114": {
+      "expected": null,
+      "problems": [
+        "G",
+        "F",
+        "E",
+        "D",
+        "C2",
+        "C1",
+        "B",
+        "A"
+      ]
+    },
+    "Div.3 1119": {
+      "expected": null,
+      "problems": [
+        "H",
+        "G",
+        "F",
+        "E",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "Div.3 1122": {
+      "expected": null,
+      "problems": [
+        "H",
+        "G",
+        "F",
+        "E",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "Div.3 1125": {
+      "expected": null,
+      "problems": [
+        "H",
+        "G",
+        "F",
+        "E",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "Div.4 1050": {
+      "expected": null,
+      "problems": [
+        "G",
+        "F",
+        "E",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "Div.4 1003": {
+      "expected": null,
+      "problems": [
+        "H",
+        "G",
+        "F",
+        "E",
+        "D",
+        "C2",
+        "C1",
+        "B",
+        "A"
+      ]
+    },
+    "Div.4 1062": {
+      "expected": null,
+      "problems": [
+        "G",
+        "F",
+        "E",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "Div.4 1017": {
+      "expected": null,
+      "problems": [
+        "H",
+        "G",
+        "F",
+        "E",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "Div.4 1090": {
+      "expected": null,
+      "problems": [
+        "G",
+        "F",
+        "E",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "Div.4 1074": {
+      "expected": null,
+      "problems": [
+        "H",
+        "G",
+        "F",
+        "E",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "Div.4 964": {
+      "expected": null,
+      "problems": [
+        "G2",
+        "G1",
+        "F",
+        "E",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "Div.4 952": {
+      "expected": null,
+      "problems": [
+        "H2",
+        "H1",
+        "G",
+        "F",
+        "E",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "Div.4 993": {
+      "expected": null,
+      "problems": [
+        "H",
+        "G2",
+        "G1",
+        "F",
+        "E",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "Div.4 971": {
+      "expected": null,
+      "problems": [
+        "G3",
+        "G2",
+        "G1",
+        "F",
+        "E",
+        "D",
+        "C",
+        "B",
+        "A"
+      ]
+    },
+    "周赛 123": {
+      "expected": 7,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "周赛 124": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "周赛 141": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "周赛 140": {
+      "expected": 7,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "周赛 142": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "周赛 143": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "周赛 145": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "周赛 144": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "周赛 147": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "周赛 146": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "周赛 148": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "周赛 149": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "周赛 150": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "周赛 151": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "周赛 152": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "周赛 153": {
+      "expected": 7,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "周赛 155": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "周赛 154": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "周赛 156": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "周赛 158": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "周赛 157": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "周赛 161": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "周赛 159": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "周赛 162": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "周赛 163": {
+      "expected": 7,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "小白月赛 128": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "小白月赛 130": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "小白月赛 131": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "小白月赛 132": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "小白月赛 133": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "小白月赛 134": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "小白月赛 135": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "小白月赛 136": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "小白月赛 137": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "挑战赛 84": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "挑战赛 83": {
+      "expected": 7,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "挑战赛 85": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "挑战赛 86": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "挑战赛 88": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "挑战赛 87": {
+      "expected": 7,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "周赛 164": {
+      "expected": 7,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "挑战赛 89": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "挑战赛 90": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "挑战赛 91": {
+      "expected": 7,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "挑战赛 92": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "练习赛 148": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "练习赛 149": {
+      "expected": 7,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "练习赛 150": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "练习赛 151": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "小白月赛 129": {
+      "expected": 7,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "练习赛 154": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "练习赛 153": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "练习赛 152": {
+      "expected": 7,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "练习赛 155": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "练习赛 156": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "练习赛 157": {
+      "expected": 6,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    "2026年ICPC新疆维吾尔自治区大学生程序设计竞赛": {
+      "expected": 10,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ]
+    },
+    "第九届广西大学生程序设计大赛暨2026邀请赛": {
+      "expected": 11,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ]
+    },
+    "第八届广西大学生程序设计大赛暨2025邀请赛（热身赛）": {
+      "expected": 4,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ]
+    },
+    "第八届广西大学生程序设计大赛暨2025邀请赛": {
+      "expected": 12,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ]
+    },
+    "2024年中国大学生程序设计竞赛（CCPC）新疆赛区": {
+      "expected": 10,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ]
+    },
+    "2025年ICPC新疆维吾尔自治区大学生程序设计竞赛": {
+      "expected": 10,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ]
+    },
+    "2024年国际大学生程序设计竞赛（ACM-ICPC）新疆赛区大赛": {
+      "expected": 10,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ]
+    },
+    "2023 中国大学生程序设计竞赛（CCPC）新疆赛区": {
+      "expected": 10,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ]
+    },
+    "第四届辽宁省大学生程序设计竞赛（热身赛）": {
+      "expected": 3,
+      "problems": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    "第四届辽宁省大学生程序设计竞赛（正式赛）": {
+      "expected": 13,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ]
+    },
+    "2023年国际大学生程序设计竞赛（ACM-ICPC）新疆赛区": {
+      "expected": 10,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ]
+    },
+    "2022年江西省大学生程序设计竞赛（正式赛）": {
+      "expected": 12,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ]
+    },
+    "2022年江西省大学生程序设计竞赛（热身赛）": {
+      "expected": 4,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ]
+    },
+    "2022年第三届辽宁省大学生程序设计竞赛（热身赛）": {
+      "expected": 3,
+      "problems": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    "2022年第三届辽宁省大学生程序设计竞赛（正式赛）": {
+      "expected": 13,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ]
+    },
+    "“海康威视杯“ 2022年第十四届四川省大学生程序设计大赛（热身赛）": {
+      "expected": 5,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ]
+    },
+    "“海康威视杯“ 2022年第十四届四川省大学生程序设计大赛": {
+      "expected": 11,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ]
+    },
+    "2021年ICPC国际大学生程序设计竞赛暨陕西省第九届大学生程序设计竞赛（热身赛）": {
+      "expected": 3,
+      "problems": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    "“山大地纬杯”第十二届山东省ICPC大学生程序设计竞赛（热身赛）": {
+      "expected": 3,
+      "problems": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    "2021年ICPC国际大学生程序设计竞赛暨陕西省第九届大学生程序设计竞赛（正式赛）": {
+      "expected": 12,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ]
+    },
+    "“山大地纬杯”第十二届山东省ICPC大学生程序设计竞赛(正式赛）": {
+      "expected": 13,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ]
+    },
+    "“统信杯” 第十七届黑龙江省大学生程序设计竞赛（热身赛）": {
+      "expected": 4,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ]
+    },
+    "“统信杯” 第十七届黑龙江省大学生程序设计竞赛（正式赛）": {
+      "expected": 12,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ]
+    },
+    "第46屆ICPC亚洲区域赛（昆明）(热身赛）": {
+      "expected": 3,
+      "problems": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    "第46屆ICPC 東亞洲區域賽（澳門）(熱身賽）": {
+      "expected": 3,
+      "problems": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    "第46届ICPC亚洲区域赛（昆明）(正式赛）": {
+      "expected": 13,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ]
+    },
+    "第46屆ICPC 東亞洲區域賽（澳門）(正式賽）": {
+      "expected": 11,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ]
+    },
+    "第1届ICPC青少年程序设计竞赛（热身赛）": {
+      "expected": 3,
+      "problems": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    "第1届ICPC青少年程序设计竞赛（正式赛）": {
+      "expected": 7,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "第 46 届 ICPC 国际大学生程序设计竞赛亚洲区域赛（上海）": {
+      "expected": 13,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ]
+    },
+    "第 46 届 ICPC 国际大学生程序设计竞赛亚洲区域赛（上海）热身赛": {
+      "expected": 3,
+      "problems": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    "第 46 届 ICPC 国际大学生程序设计竞赛亚洲区域赛（沈阳）热身赛": {
+      "expected": 4,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ]
+    },
+    "第 46 届 ICPC 国际大学生程序设计竞赛亚洲区域赛（沈阳）": {
+      "expected": 13,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ]
+    },
+    "2021 CCPC 新疆省赛": {
+      "expected": 10,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ]
+    },
+    "2021 ICPC 江西省大学生程序设计竞赛（热身赛）": {
+      "expected": 4,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ]
+    },
+    "2021 ICPC 江西省大学生程序设计竞赛（正式赛）": {
+      "expected": 12,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ]
+    },
+    "2021辽宁省大学生程序设计竞赛（正式赛）": {
+      "expected": 13,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ]
+    },
+    "2021辽宁省大学生程序设计竞赛(热身赛）": {
+      "expected": 5,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ]
+    },
+    "GDCPC广东省大学生程序设计竞赛（热身赛）": {
+      "expected": 2,
+      "problems": [
+        "A",
+        "B"
+      ]
+    },
+    "GDCPC广东省大学生程序设计竞赛（正式赛）": {
+      "expected": 12,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ]
+    },
+    "第 45 届国际大学生程序设计竞赛（ICPC）亚洲区域赛（沈阳）（重现赛）": {
+      "expected": 13,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ]
+    },
+    "河南省第十三届ICPC大学生程序设计竞赛（重现赛）": {
+      "expected": 13,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ]
+    },
+    "2021 年第十三届四川省 ACM-ICPC 大学生程序设计竞赛（重现赛）": {
+      "expected": 13,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ]
+    },
+    "第十一届山东省大学生程序设计竞赛(热身赛）": {
+      "expected": 3,
+      "problems": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    "第十一届山东省大学生程序设计竞赛(重现赛）": {
+      "expected": 13,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ]
+    },
+    "第十一届山东省大学生程序设计竞赛(正式赛）": {
+      "expected": 13,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ]
+    },
+    "第 45 届国际大学生程序设计竞赛（ICPC）亚洲区域赛（昆明）(热身赛)": {
+      "expected": 3,
+      "problems": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    "第 45 届国际大学生程序设计竞赛（ICPC）亚洲区域赛（昆明）（重现赛）": {
+      "expected": 13,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ]
+    },
+    "第 45 届国际大学生程序设计竞赛（ICPC）亚洲区域赛（济南）(热身赛)": {
+      "expected": 3,
+      "problems": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    "第 45 届国际大学生程序设计竞赛（ICPC）亚洲区域赛（昆明）": {
+      "expected": 13,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ]
+    },
+    "第 45 届国际大学生程序设计竞赛（ICPC）亚洲区域赛（济南）": {
+      "expected": 13,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ]
+    },
+    "第 45 届国际大学生程序设计竞赛（ICPC）亚洲区域赛（南京）（热身赛）": {
+      "expected": 3,
+      "problems": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    "第 45 届国际大学生程序设计竞赛（ICPC）亚洲区域赛（南京）": {
+      "expected": 13,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ]
+    },
+    "第 45 届国际大学生程序设计竞赛（ICPC）亚洲区域赛（上海）（热身赛）": {
+      "expected": 3,
+      "problems": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    "2020 ICPC·小米邀请赛 决赛热身赛": {
+      "expected": 3,
+      "problems": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    "第 45 届国际大学生程序设计竞赛（ICPC）亚洲区域赛（上海）": {
+      "expected": 13,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ]
+    },
+    "2020 ICPC·小米邀请赛 决赛": {
+      "expected": 13,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ]
+    },
+    "2020ICPC 江西省大学生程序设计竞赛热身赛": {
+      "expected": 5,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ]
+    },
+    "2020ICPC 江西省大学生程序设计竞赛": {
+      "expected": 13,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ]
+    },
+    "第 45 届国际大学生程序设计竞赛（ICPC）亚洲网上区域赛模拟赛": {
+      "expected": 10,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ]
+    },
+    "2020ICPC·小米 网络选拔赛第二场": {
+      "expected": 11,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ]
+    },
+    "2020ICPC·小米 网络选拔赛第一场": {
+      "expected": 11,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ]
+    },
+    "2020ICPC·小米 网络选拔赛热身赛": {
+      "expected": 11,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ]
+    },
+    "The 2019 ICPC Asia Shanghai Regional Contest(重现赛)": {
+      "expected": 13,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ]
+    },
+    "The 2019 ICPC Asia-East Continent Final（重现赛）": {
+      "expected": 13,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ]
+    },
+    "2018 ACM-ICPC EC-Final 重现赛": {
+      "expected": 12,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ]
+    },
+    "第九届广西大学生程序设计大赛暨2026邀请赛（热身赛）": {
+      "expected": 4,
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ]
+    }
+  },
+  "missing": []
+}
