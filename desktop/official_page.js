@@ -139,7 +139,7 @@ const checkpoint=value=>postMessage({tbOfficial:true,sessionId:ctx.sessionId,...
 if(!manual&&lgReceipt?.hasSubmitApi())return lgReceipt.submitApi(checkpoint);
 if(!hasEditor())return send({status:manual?'awaiting_submit':'error',message:manual?'请在浏览器完成验证并打开提交编辑器，TB 会继续尝试填入代码。':'没有找到原站代码编辑器，请进入本题提交页；不会点击其它表单。'});
 let task=!ctx.problem,filled=0;
-document.querySelectorAll('select').forEach(s=>{const field=(s.name||s.id||'').toLowerCase();if(/problem|task/.test(field)&&ctx.problem){const o=[...s.options].find(o=>o.value===ctx.problem);if(o){if(ctx.platform!=='AtCoder'||s.value!==o.value){s.value=o.value;s.dispatchEvent(new Event('change',{bubbles:true}));}task=true;}}});
+document.querySelectorAll('select').forEach(s=>{const field=(s.name||s.id||'').toLowerCase();if(/problem|task/.test(field)&&ctx.problem){const o=[...s.options].find(o=>o.value===ctx.problem);if(o){if(s.value!==o.value){s.value=o.value;s.dispatchEvent(new Event('change',{bubbles:true}));}task=true;}}});
 if(['牛客','洛谷'].includes(ctx.platform))task=location.pathname===new URL(ctx.originalUrl).pathname;
 if(!task)return send({status:'error',message:'未能准确选定本题，已停止；请在原站确认题目。'});
 const compiler=await selectOfficialCompiler(ctx.code,ctx.platform);
@@ -169,7 +169,21 @@ const form=editors().map(e=>e.form||e.closest('form')).find(submitForm)||[...doc
 if(ctx.platform==='AtCoder'&&form&&!form.checkValidity())return send({status:'error',attempted:false,message:'AtCoder 提交表单未通过校验，尚未发送代码；请检查原站题目和语言选择。'});
 // Use DOM form ownership, including external controls and default-type buttons.
 // CF also uses an input[type=button].submit with its own native click handler.
-let button=[...(form?.elements||[])].find(b=>visible(b)&&!b.disabled&&b.form===form&&(['BUTTON','INPUT'].includes(b.tagName)&&b.type==='submit'||ctx.platform==='Codeforces'&&b.type==='button'&&b.matches('.submit,#submit')&&/^(submit|提交)$/i.test(b.value||b.textContent.trim())));
+const controls=()=>[...(form?.elements||[])].filter(b=>b.isConnected&&b.form===form&&(['BUTTON','INPUT'].includes(b.tagName)&&b.type==='submit'||ctx.platform==='Codeforces'&&b.type==='button'&&b.matches('.submit,#submit')&&/^(submit|提交)$/i.test(b.value||b.textContent.trim())));
+const enabledButton=()=>controls().find(b=>visible(b)&&!b.disabled);
+let button=enabledButton();
+// CF keeps #singlePageSubmitButton disabled until its asynchronous problemLock
+// POST grants permission. Existing source/language changes can restart that
+// request. Wait for the real page; never force-enable or replace its handler.
+if(!button&&controls().length&&ctx.platform==='Codeforces'){
+  const deadline=Date.now()+30000;
+  while(!button&&Date.now()<deadline){
+    if(login()||cfLoggedOut())return send({status:'needs_login',attempted:false,message:'原站登录已失效，请登录后重试。'});
+    if(verification())return send({status:'needs_verification',attempted:false,message:'原站要求验证，请完成后再提交。'});
+    await new Promise(resolve=>setTimeout(resolve,100));
+    button=enabledButton();
+  }
+}
 if(!button&&['牛客','洛谷'].includes(ctx.platform))button=[...document.querySelectorAll('button,[role=button],.btn-submit,.submit-btn,.submit-button')].find(b=>visible(b)&&!b.disabled&&b.getAttribute('aria-disabled')!=='true'&&/^(?:保存并)?提交(?:代码|题目|评测)?$/.test(b.textContent.trim()));
 if(!button)return send({status:'error',attempted:false,message:'原站提交控件尚未就绪，未发送代码。请稍后重试或查看原站页面。'});
 if(ncReceipt){ncReceipt.armed=true;ncReceipt.pending=null;ncReceipt.receipt=null;}

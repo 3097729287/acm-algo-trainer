@@ -123,6 +123,20 @@ try{
     await f.page.close();
   }
   result.cfNativeButtonsAndFormOwnership=true;
+  const locked=await fixture('Codeforces','<table class="status-frame-datatable"><tr><th>Submission</th></tr></table>');
+  const lockStarted=performance.now();
+  await locked.page.evaluate(()=>{
+    const button=document.querySelector('button');button.id='singlePageSubmitButton';button.disabled=true;
+    window.lockRequests=1;
+    document.querySelectorAll('select').forEach(e=>e.addEventListener('change',()=>{window.lockRequests++;throw new Error('Selected CF task/language must not restart problemLock')}));
+    setTimeout(()=>{button.disabled=false},500);
+    tbOfficialPage(ctx,'submit',report);
+  });
+  await locked.page.waitForFunction(()=>posts.length===1);
+  assert.ok(performance.now()-lockStarted>=450);
+  assert.equal(await locked.page.evaluate(()=>lockRequests),1);
+  assert.equal(await locked.page.evaluate(()=>messages.filter(m=>m.attempted===true).length),1);
+  await locked.page.close();result.cfWaitsForOriginalProblemLock=true;
   const single=await fixture('AtCoder',empty,500);
   await single.page.evaluate(()=>{ctx.attempted=true;ctx.baselineKnown=true;ctx.baseline=[];ctx.baselineOwner='fixture';for(let i=0;i<25;i++)tbOfficialPage(ctx,'inspect',report)});
   await new Promise(r=>setTimeout(r,100));

@@ -16,7 +16,7 @@ Assets include a 1.0.14 → 1.0.16 delta, a browser extension ZIP, `RELEASE-MANI
 
 ## Changes in v1.0.16
 
-- Fix CF native submit controls and form ownership. Waiting for preparation does not imply logout. Ordinary preparation errors stay retryable; human handoff happens for an actual verification request. An uncertain dispatched request is tracked without resending code.
+- Wait for CF's original asynchronous problem lock to enable Submit after filling the editor. Already selected task/language controls are not reset. Preparation delays do not imply logout, and ordinary errors stay retryable. Actual verification and uncertain receipts retain the human review flow without resending code.
 - Ten progression levels require 200, 400, …, 1800 XP respectively, totaling 9000 XP. Each tier has a distinct icon and color; achievements now extend to harder tasks, 10,000 independent solves and longer training streaks.
 - Level 10 unlocks TB ranked points. Independent first official ACs meeting the current difficulty earn points once per original problem. Emerald and higher require daily qualifying solves; missed completed Beijing days deduct points. King stars continue increasing. TB ranked points are personal training scores, separate from official ratings and the shared solve leaderboard.
 - Daily AC is a separate topbar item. The level control displays X/Y XP or ranked points; old popup statistics are removed. Account editing is collapsed. Public-statistics binding is limited to CF and AtCoder; all four original-site submission adapters remain available.

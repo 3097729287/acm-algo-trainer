@@ -41,7 +41,7 @@ async function selectOfficialCompiler(code, platform = '') {
     if (!/language|programtype|compiler|lang/i.test((select.name || '') + ' ' + (select.id || ''))) continue;
     const item = candidates([...select.options])[0];
     if (!item) continue;
-    if (platform !== 'AtCoder' || select.value !== item.node.value) {
+    if (select.value !== item.node.value) {
       select.value = item.node.value;
       select.dispatchEvent(new Event('input', {bubbles:true}));
       select.dispatchEvent(new Event('change', {bubbles:true}));
