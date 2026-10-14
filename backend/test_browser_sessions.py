@@ -100,7 +100,7 @@ class BrowserSessionTests(unittest.TestCase):
         with self.assertRaises(ServiceError): bridge.sync_browser({**self.body,'clientId':client}, 'bad')
         bridge.sync_browser({**self.body,'clientId':client}, registration['key'])
 
-    def test_cf_and_atcoder_use_real_browser_with_an_existing_window(self):
+    def test_four_sites_use_real_browser_with_an_existing_window(self):
         from types import SimpleNamespace
         started = []
         bridge = BrowserBridge('http://127.0.0.1:1', session_store=self.store)
@@ -111,10 +111,11 @@ class BrowserSessionTests(unittest.TestCase):
         cf = bridge.submit('https://codeforces.com/contest/123/problem/A', 'int main(){}', 'CF')
         ac = bridge.submit('https://atcoder.jp/contests/abc100/tasks/abc100_a', 'int main(){}', 'AC')
         lg = bridge.submit('https://www.luogu.com.cn/problem/B4536', 'int main(){}', 'LG')
+        nc = bridge.submit('https://ac.nowcoder.com/acm/contest/127263/B', 'int main(){}', 'NC')
         queue = bridge.browser_queue({'clientId':client, 'hasWindow':True}, key)
-        self.assertEqual(started, [lg['sessionId']])
+        self.assertEqual(started, [])
         self.assertEqual(queue['mode'], 'hybrid')
-        self.assertEqual([job['sessionId'] for job in queue['jobs']], [cf['sessionId'], ac['sessionId']])
+        self.assertEqual([job['sessionId'] for job in queue['jobs']], [cf['sessionId'], ac['sessionId'], lg['sessionId'], nc['sessionId']])
         session = bridge.sessions[cf['sessionId']]
         self.assertFalse(session['attempted'])
         self.assertNotIn('dispatchedAt', session)

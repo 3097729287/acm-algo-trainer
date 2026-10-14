@@ -168,7 +168,7 @@ class AdditionalReviewTests(unittest.TestCase):
             store=Store();store.library=LibraryDatabase(root/'library.sqlite3')
             store.library.save_statement('ABC 1::A',{'markdown':'Original statement','samples':[{'name':'Sample','input':'1','output':'2'}]})
             library=assets.AssetLibrary(store)
-            with patch.object(assets,'urlopen',side_effect=AssertionError('Preview must not fetch')):
+            with patch('integrations.PublicClient._get',side_effect=AssertionError('Preview must not fetch')):
                 result=library.candidates([{'id':'ABC 1::A'}])
             self.assertEqual(result,[{'id':'ABC 1::A','judgeScope':'samples'}])
             self.assertEqual(store.scans,1);self.assertIsNone(library._candidate_rows)
@@ -190,12 +190,7 @@ class AdditionalReviewTests(unittest.TestCase):
             store._archive_info=lambda row:(False,'https://ac.nowcoder.com/acm/contest/123/A')
             library=assets.AssetLibrary(store,root/'personal')
             html=b'<div>\xe9\xa2\x98\xe7\x9b\xae\xe6\x8f\x8f\xe8\xbf\xb0</div><div>input description</div><div class="question-oi"><textarea data-clipboard-text-id="input1">1</textarea><textarea data-clipboard-text-id="output1">2</textarea></div>'
-            class Response:
-                url='https://ac.nowcoder.com/acm/contest/123/A'
-                def __enter__(self):return self
-                def __exit__(self,*args):pass
-                def read(self,size):return html
-            with patch.object(assets,'urlopen',return_value=Response()) as network:
+            with patch('integrations.PublicClient.text',return_value=html.decode('utf-8')) as network:
                 first=library.problem('周赛 1::A');second=library.problem('周赛 1::A')
                 self.assertEqual(network.call_count,1)
             self.assertTrue(first['statementAvailable']);self.assertEqual(first['samples'][0]['output'],'2')

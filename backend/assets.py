@@ -1,15 +1,11 @@
 """Read-only original statements and AST samples; explicit reviewed local profiles."""
-import ast
 import hashlib
 import json
 from functools import lru_cache
 from pathlib import Path
 import re
 import threading
-import time
-from types import SimpleNamespace
 from urllib.parse import urlsplit
-from urllib.request import Request,urlopen
 import reviewed_cases
 
 class AssetLibrary:
@@ -17,7 +13,6 @@ class AssetLibrary:
         self.store=store
         self.lock=threading.RLock()
         self.cache_dir=Path(cache_dir) if cache_dir else __import__('paths').STATE/'tb-problem-assets'
-        self.failures={}
         self._candidate_rows=None
         self._public_client=None
 
@@ -50,12 +45,13 @@ class AssetLibrary:
     def problem(self,identity):
         with self.lock:
             value=dict(self._cached(identity))
-            if (not value['statementAvailable'] or not value['samples']) and value['url']:
+            if not value['statementAvailable'] and value['url']:
                 if identity.startswith('remote:'):
-                    self.store.extensions.statement(identity,fetch=True)
+                    fetched=self.store.extensions.statement(identity,fetch=True)
                     self._cached.cache_clear();self.bundle.cache_clear()
-                else:self._fetch_missing(identity,value)
+                else:fetched=self._fetch_missing(identity,value)
                 value=dict(self._cached(identity))
+                if fetched and fetched.get('statementError'):value['statementError']=fetched['statementError']
         bundle=self.bundle(identity)
         value.update(judge={'scope':bundle['scope'],'label':'本地审核测试' if bundle['scope']=='local' else '仅官方样例', 'cases':len(bundle['cases'])},locked=False,draft='',submissions=[])
         return value
@@ -63,8 +59,7 @@ class AssetLibrary:
     def _fetch_missing(self,identity,value):
         """Only an explicit single-problem opening fetches; preview never does network I/O."""
         parsed=urlsplit(value['url'])
-        if parsed.hostname in ('codeforces.com','atcoder.jp','www.luogu.com.cn'):
-            if time.monotonic()-self.failures.get(identity,-1000)<300:return
+        if parsed.hostname in ('codeforces.com','atcoder.jp','www.luogu.com.cn','ac.nowcoder.com'):
             try:
                 from integrations import PublicClient
                 from public_platforms import statement
@@ -72,33 +67,22 @@ class AssetLibrary:
                 saved=statement(self._public_client,identity,value['title'],value['url'])
                 self.cache_dir.mkdir(parents=True,exist_ok=True)
                 self.store.library.save_statement(identity,saved)
-                destination=self._cache_path(identity)
-                import toolutil
                 # SQLite transaction above owns the fetched statement cache.
                 self._cached.cache_clear();self.bundle.cache_clear()
-            except (OSError,ValueError,RuntimeError):self.failures[identity]=time.monotonic()
-            return
-        if parsed.hostname!='ac.nowcoder.com' or not re.fullmatch(r'/acm/contest/\d+/[A-Z]\d?',parsed.path):return
-        if time.monotonic()-self.failures.get(identity,-1000)<300:return
-        try:
-            import fetch_problem as adapter
-            request=Request(value['url'],headers={'User-Agent':'Mozilla/5.0 TB local practice','Accept':'text/html'})
-            with urlopen(request,timeout=15) as response:
-                if urlsplit(response.url).hostname!='ac.nowcoder.com':raise ValueError('原站要求登录，无法读取公开题面')
-                raw=response.read(4*1024*1024+1)
-                if len(raw)>4*1024*1024:raise ValueError('原题面过大')
-            html=raw.decode('utf-8','replace')
-            entries=adapter.extract_samples(html)
-            body=adapter.cut_body(adapter.strip_tags(html))
-            if '题目描述' not in body or not entries or not all(e['in'] and e['out'] for e in entries):
-                raise ValueError('原站未返回完整题面与样例')
-            saved={'id':identity,'url':value['url'],'markdown':f"# {value['title']}\n\n原题：{value['url']}\n\n"+body,
-                   'samples':[{'name':e['name'],'input':e['in'],'output':e['out']} for e in entries]}
-            self.cache_dir.mkdir(parents=True,exist_ok=True)
-            self.store.library.save_statement(identity,saved)
-            self._cached.cache_clear();self.bundle.cache_clear()
-        except (OSError,ValueError,RuntimeError):
-            self.failures[identity]=time.monotonic()
+                return saved
+            except (OSError,ValueError,RuntimeError) as error:return {'statementError':str(error)[:250]}
+    def localized_statement(self,identity):
+        """On demand, refresh old Luogu caches that predate site translations."""
+        with self.lock:
+            value=dict(self._cached(identity))
+            if urlsplit(value.get('url') or '').hostname!='www.luogu.com.cn':return None
+            if value.get('statementVersion',0)<2:
+                if identity.startswith('remote:'):
+                    self.store.extensions.statement(identity,fetch=True,refresh=True)
+                    self._cached.cache_clear();self.bundle.cache_clear()
+                else:self._fetch_missing(identity,value)
+                value=dict(self._cached(identity))
+            return value.get('translation')
 
     @lru_cache(maxsize=32)
     def bundle(self,identity):

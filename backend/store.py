@@ -70,6 +70,11 @@ class Store:
         identity = row.get('_id') or row['场次'] + '::' + row['题号']
         if found:
             value = dict(found['encoded'])
+        elif isinstance(row.get('_encoded'),dict):
+            # Preserve captured categories and statement/editorial evidence.
+            # Reconstructing from the old text-only 知识点 field erased them.
+            from public_platforms import classify_contest
+            value = classify_contest(row['_encoded'])
         else:
             value = {'id': identity, 'contest': row['场次'], 'problem': row['题号'], 'title': row['题名'],
                      'knowledge': row['知识点'], 'tags': KD.split_names(row['知识点']), 'difficulty': SR.difficulty_num(str(row['难度'])),

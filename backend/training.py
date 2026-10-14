@@ -97,7 +97,7 @@ class TrainingService:
               id TEXT PRIMARY KEY, created_at TEXT NOT NULL, config TEXT NOT NULL,
               archived INTEGER NOT NULL DEFAULT 0);
             CREATE TABLE IF NOT EXISTS goal_daily_assignments (
-              goal_id TEXT NOT NULL, day TEXT NOT NULL, ids TEXT NOT NULL, PRIMARY KEY(goal_id,day));
+              goal_id TEXT NOT NULL, day TEXT NOT NULL, ids TEXT NOT NULL, target INTEGER, PRIMARY KEY(goal_id,day));
             CREATE TABLE IF NOT EXISTS ranking_profile (
               singleton INTEGER PRIMARY KEY CHECK(singleton=1), user_id TEXT NOT NULL UNIQUE,
               nickname TEXT NOT NULL, auth_token TEXT NOT NULL, endpoint TEXT NOT NULL DEFAULT '',
@@ -113,6 +113,8 @@ class TrainingService:
               id TEXT PRIMARY KEY, session_id TEXT NOT NULL, submission_id TEXT NOT NULL,
               problem_id TEXT, url TEXT, code TEXT, platform TEXT, accepted_at TEXT);
         """)
+        if 'target' not in {row[1] for row in self.connection.execute('PRAGMA table_info(goal_daily_assignments)')}:
+            self.connection.execute('ALTER TABLE goal_daily_assignments ADD COLUMN target INTEGER')
         from leaderboard import default_endpoint
         from persistence import load_document,save_document
         upgrade_marker=self.db_path.parent/'leaderboard-default-migration.json'
@@ -411,9 +413,9 @@ class TrainingService:
             value["profile"] = self.profile()["profile"]
             return value
 
-    def _evidence(self):
-        """官方 AC 唯一证据（成长/每日任务/成就/模拟赛过滤共用）。"""
-        from progression import official_reward_evidence
+    def _evidence(self, day=None):
+        """Unique official ACs; daily rewards deduplicate within the requested day."""
+        from progression import official_reward_evidence, local_date
         rows = self._library()
         known = {row["id"] for row in rows}
         records = [dict(record) for record in self.connection.execute("SELECT * FROM submissions WHERE mode='submit' AND verdict='AC' AND scope='official' AND finished_at IS NOT NULL ORDER BY submitted_at,rowid")]
@@ -431,6 +433,8 @@ class TrainingService:
             snapshot = getattr(extensions, "snapshot", None)
             if callable(snapshot):
                 hub = snapshot()
+        if day is not None:
+            records = [record for record in records if str(local_date(record['submitted_at'])) == day]
         return official_reward_evidence(rows, records, hub)
 
     def daily_tasks(self):
@@ -448,7 +452,7 @@ class TrainingService:
                         # 未领取的旧定义升级到官方口径；已领取的保留原定义与奖励。
                         if record["claimed_at"] is None and record["definition"] != current[task["id"]]:
                             connection.execute("UPDATE daily_missions SET definition=? WHERE day=? AND id=?", (current[task["id"]], day, task["id"]))
-            evidence = self._evidence()
+            evidence = self._evidence(day)
             tasks = []
             for record in self.connection.execute("SELECT * FROM daily_missions WHERE day=? ORDER BY rowid", (day,)):
                 task = json.loads(record["definition"])
@@ -456,7 +460,7 @@ class TrainingService:
                 task.update(progress=progress, completed=progress >= task["target"], claimed=bool(record["claimed_at"]), claimedAt=record["claimed_at"])
                 tasks.append(task)
             return {"date": day, "timezone": "Asia/Shanghai", "tasks": tasks, "claimable": sum(task["completed"] and not task["claimed"] for task in tasks),
-                    "totalClaimedXp": sum(task["xp"] for task in tasks if task["claimed"]), "notice": "每日按北京时间刷新。只计当天首次官方 AC；本地样例、运行、重复通过都不计入。"}
+                    "totalClaimedXp": sum(task["xp"] for task in tasks if task["claimed"]), "notice": "每日按北京时间刷新，统计当天官方 AC 的不同题目；旧题重新 AC 可计入，同题当天只算一次，样例通过和仅打开题目不计入。"}
 
     def claim_daily_task(self, identity, date=None):
         from progression import task_progress
@@ -473,7 +477,7 @@ class TrainingService:
             if not already:
                 with self._write() as connection:
                     task = json.loads(record["definition"])
-                    progress, evidence = task_progress(task, self._evidence(), tasks["date"])
+                    progress, evidence = task_progress(task, self._evidence(tasks["date"]), tasks["date"])
                     if progress < task["target"]:
                         raise ServiceError(409, "这项任务尚未完成")
                     connection.execute("UPDATE daily_missions SET claimed_at=?,awarded_xp=?,evidence=? WHERE day=? AND id=? AND claimed_at IS NULL",
@@ -719,7 +723,7 @@ class TrainingService:
                 raise ServiceError(503, "服务正在关闭，请稍后重试")
             self._context(identity, contest_id)
             self._history_visible(identity, contest_id)
-            allowed = {"id", "title", "markdown", "url", "samples", "limits", "judge", "statementAvailable"}
+            allowed = {"id", "title", "markdown", "url", "samples", "limits", "judge", "statementAvailable", "statementError"}
             problem = {key: raw[key] for key in allowed if key in raw}
             problem.setdefault("id", identity)
             problem.setdefault("title", row["title"])
@@ -745,7 +749,8 @@ class TrainingService:
             if not problem["locked"]:
                 from knowledge import enrich_row
                 cache = getattr(self.store, "knowledge_analysis", None)
-                analyzed = cache.enrich(row, statement=problem["markdown"]) if cache is not None else enrich_row(row, statement=problem["markdown"])
+                evidence = {"statement":problem["markdown"], "official_tags":raw.get("officialTags")}
+                analyzed = cache.enrich(row, **evidence) if cache is not None else enrich_row(row, **evidence)
                 problem.update({key: analyzed[key] for key in ("tags", "knowledge", "knowledgeAnalysis") if key in analyzed})
             return problem
 

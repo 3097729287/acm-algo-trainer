@@ -214,6 +214,27 @@ try {
   await page.locator('.wb-translation-error').getByRole('button', { name: '重试', exact: true }).click();
   await page.getByText('机器翻译 · Fixture provider', { exact: true }).waitFor();
 
+  // Site translations have an honest label; missing statements can recover
+  // without losing an unsaved draft, including a legitimate empty input.
+  await page.evaluate(() => { window.workbenchFixture.translationKind = 'site'; window.workbenchFixture.changeProblem('D'); });
+  await page.waitForFunction(() => document.querySelector('.tb-workbench').dataset.problemId === 'D' && document.querySelector('.cm-content')?.getAttribute('contenteditable') === 'true');
+  await page.getByRole('button', { name: '中文', exact: true }).click();
+  await page.getByText('Fixture provider', { exact: true }).waitFor();
+  assert.equal(await page.getByText('机器翻译 · Fixture provider', { exact: true }).count(), 0);
+  await page.evaluate(() => { window.workbenchFixture.problemOverrides.E = { markdown: '', statementAvailable: false, statementError: 'Temporary fixture failure', samples: [] }; window.workbenchFixture.changeProblem('E'); });
+  await page.getByText('题面暂时未能加载', { exact: true }).waitFor();
+  await editor.fill('// keep this unsaved recovery draft');
+  await page.evaluate(() => { window.workbenchFixture.problemOverrides.E = { samples: [{name:'样例 1',input:'',output:'1 1 2 3 5'}] }; });
+  await page.getByRole('button', {name:'重新载入',exact:true}).click();
+  await page.waitForFunction(() => document.querySelector('.wb-statement') && window.workbenchFixture.readCode() === '// keep this unsaved recovery draft');
+  assert.equal(await page.getByText('题面暂时未能加载', { exact: true }).count(), 0);
+  await page.evaluate(() => { window.workbenchFixture.officialStatus = 'needs_verification'; window.workbenchFixture.preparationEvents = []; });
+  await page.getByRole('button', {name:'提交',exact:true}).click();
+  await page.getByRole('button', {name:'完成原站验证',exact:true}).waitFor();
+  assert.deepEqual(await page.evaluate(() => window.workbenchFixture.preparationEvents), [], 'submission verification never opens the four-account login panel');
+  await page.getByRole('button', {name:'完成原站验证',exact:true}).click();
+  assert.equal(await page.evaluate(() => window.workbenchFixture.calls.at(-1).path), 'official/open');
+
   await page.evaluate(() => { window.workbenchFixture.problemDelay.B = 10; window.workbenchFixture.officialStatus = 'judging'; window.workbenchFixture.changeProblem('B'); });
   await page.waitForFunction(() => document.querySelector('.wb-heading strong').textContent === '最长的路径');
   await editor.fill('int main() { return 0; }');

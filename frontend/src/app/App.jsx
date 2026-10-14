@@ -2148,9 +2148,9 @@ export default function App() {
                 <>
                   <span>{p.label}</span>
                   {p.id === "mock" && active && <span className="live-dot" />}
-                  {p.id === "growth" && insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed) && <span className="live-dot task-claim-dot" aria-label="每日任务可领取" />}
                 </>
               )}
+              {p.id === "growth" && insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed) && <span className="task-claim-dot" aria-label="每日任务可领取" />}
             </button>
           ))}
         </nav>

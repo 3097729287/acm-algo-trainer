@@ -171,6 +171,12 @@ try {
   await page.locator('.progress-recommendation-title .katex').waitFor();
   assert.equal(await page.locator('.progress-recommendations').getByText('巩固前缀和隐藏知识点', { exact: true }).count(), 0);
   assert.equal(await page.locator('.task-claim-dot').count(),1);
+  const dotStyle=await page.locator('.task-claim-dot').evaluate(dot=>{
+    const box=dot.getBoundingClientRect(),parent=dot.closest('button').getBoundingClientRect();
+    return {color:getComputedStyle(dot).backgroundColor,verticalOffset:Math.abs(box.top+box.height/2-parent.top-parent.height/2),rightGap:parent.right-box.right};
+  });
+  assert.equal(dotStyle.color,'rgb(255, 255, 255)');
+  assert.ok(dotStyle.verticalOffset<=1 && dotStyle.rightGap>=5 && dotStyle.rightGap<=15,'claim dot is centered at the menu item right edge');
   assert.equal(await page.locator('.knowledge-details').getAttribute('open'),null);
   assert.equal(await page.locator('#growth-goals .goal-form').count(),0);
   assert.equal(await page.locator('.goal-contest-grid > div').count(),4);

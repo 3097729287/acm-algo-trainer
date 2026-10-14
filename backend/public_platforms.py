@@ -284,7 +284,7 @@ DISCOVERY_ADAPTERS={'codeforces':discover_cf,'luogu':discover_lg,'atcoder':disco
 
 def statement(client,identity,title,url):
     import fetch_problem as adapter
-    parsed=urlsplit(url);host=parsed.hostname;limits={'timeMs':2000,'memoryMb':256};body='';samples=[];official_tags=None
+    parsed=urlsplit(url);host=parsed.hostname;limits={'timeMs':2000,'memoryMb':256};body='';samples=[];official_tags=None;translation=None
     if host=='www.luogu.com.cn':
         pid=parsed.path.rsplit('/',1)[-1];p=lg_data(client.json(url,headers={'x-lentille-request':'content-only'})).get('problem') or {}
         if p.get('pid')!=pid:raise ValueError('原题编号不匹配或题面尚未公开')
@@ -297,7 +297,14 @@ def statement(client,identity,title,url):
                 official_tags=[names[i] for i in p['tags'] if i in names]
             except (OSError,ValueError,RuntimeError,KeyError,TypeError):pass
         content=p.get('content') or p.get('contenu') or {};body='\n\n'.join('## '+label+'\n\n'+content[key] for key,label in adapter.LG_SECTIONS if content.get(key))
-        samples=[{'name':'样例 '+str(i+1),'input':x[0],'output':x[1]} for i,x in enumerate(p.get('samples') or [])]
+        localized=p.get('contenu') or {}
+        if str(localized.get('locale','')).startswith('zh') and localized.get('description') and localized!=content:
+            translated='\n\n'.join('## '+label+'\n\n'+localized[key] for key,label in adapter.LG_SECTIONS if localized.get(key))
+            translation={'markdown':'# '+title+'\n\n'+translated,'provider':'洛谷原站中文题面','kind':'site','sourceUrl':url}
+        examples=p.get('samples') or []
+        if not isinstance(examples,list) or any(not isinstance(x,(list,tuple)) or len(x)!=2 or not all(isinstance(s,str) for s in x) for x in examples):
+            raise ValueError('原站样例格式不完整，请稍后重试')
+        samples=[{'name':'样例 '+str(i+1),'input':x[0],'output':x[1]} for i,x in enumerate(examples)]
         raw=p.get('limits') or {};times=raw.get('time') or [];memories=raw.get('memory') or []
         if times:limits['timeMs']=int(times[0])
         if memories:limits['memoryMb']=max(1,round(memories[0]/1000))
@@ -317,5 +324,7 @@ def statement(client,identity,title,url):
         page=client.text(url);body=adapter.cut_body(adapter.strip_tags(page));samples=[{'name':x['name'],'input':x['in'],'output':x['out']} for x in adapter.extract_samples(page)]
         if '题目描述' not in body:body=''
     else:raise ValueError('不支持的原题站点')
-    if not body or not samples or not all(x['input'] and x['output'] for x in samples):raise ValueError('原站未返回完整公开题面与官方样例')
-    return {'id':identity,'title':title,'url':url,'markdown':'# '+title+'\n\n'+body,'samples':samples,'limits':limits,'statementAvailable':True, **({'officialTags':official_tags} if official_tags is not None else {})}
+    # Empty standard input is valid (e.g. print-only problems). Some public
+    # statements have no examples at all; their text is still readable.
+    if not body.strip() or not all(isinstance(x.get('input'),str) and isinstance(x.get('output'),str) for x in samples):raise ValueError('原站未返回完整公开题面')
+    return {'id':identity,'title':title,'url':url,'markdown':'# '+title+'\n\n'+body,'samples':samples,'limits':limits,'statementAvailable':True,'statementVersion':2, **({'officialTags':official_tags} if official_tags is not None else {}), **({'translation':translation} if translation else {})}

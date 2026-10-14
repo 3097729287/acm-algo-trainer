@@ -191,6 +191,6 @@ button.update-notification-main:hover strong { color: var(--accent); }
 .knowledge-details[open] > summary { margin-bottom:18px; }
 .knowledge-search { display:flex; align-items:center; gap:8px; }
 .knowledge-search input { min-width:220px; }
-.task-claim-dot { margin-left:auto; background:#b39aff; box-shadow:0 0 0 3px #b39aff22; }
+.nav-item .task-claim-dot { position:absolute; right:11px; top:50%; transform:translateY(-50%); width:6px; height:6px; border-radius:50%; display:inline-block; background:#fff; box-shadow:0 0 0 1px #8490a033; }
 .knowledge-chevron { margin-left:auto; transition:transform .15s; }
 .knowledge-details[open] > summary .knowledge-chevron { transform:rotate(90deg); }

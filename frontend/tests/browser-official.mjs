@@ -23,7 +23,7 @@ const extension = await fixtureExtension(process.env.TB_BROWSER_EXTENSION || pat
 let browser;
 const posted = [], cookieChecks = [], errors = [];
 const receipts = [];
-let cfSubmitted = false, acSubmitted = false, ncReject = false, luoguLoggedIn = true, ncModern = false;
+let cfSubmitted = false, acSubmitted = false, ncReject = false, luoguLoggedIn = true, ncModern = false, luoguReject = false;
 const source = 'int main(){}';
 const headers = { 'access-control-allow-origin': 'https://ac.nowcoder.com', 'access-control-allow-credentials': 'true', 'access-control-allow-headers': 'content-type', 'access-control-allow-methods': 'GET, POST, OPTIONS' };
 const form = (platform, task = '') => `<select name="${platform === 'AtCoder' ? 'data.TaskScreenName' : 'submittedProblemIndex'}"><option value="${task}">${task}</option></select><select name="${platform === 'AtCoder' ? 'data.LanguageId' : 'programTypeId'}"><option value="2">GNU C++17</option></select><textarea id="sourceCode" name="source"></textarea><button type="submit">提交</button>`;
@@ -70,7 +70,7 @@ try {
         const body=JSON.parse(request.postData());
         assert.equal(body.code, source); assert.equal(body.lang,12); assert.equal(body.enableO2,1);
         assert.equal((await request.allHeaders())['x-csrf-token'],'fixture-csrf');
-        return json({ rid: 4002 });
+        return json(luoguReject ? {errorType:'CaptchaError',errorMessage:'请完成人机验证'} : { rid: 4002 });
       }
       return route.abort();
     }
@@ -93,7 +93,7 @@ try {
       if (url.pathname === '/_lfe/config') return json({route:{'api.problem.submit':'/fe/api/problem/submit/{pid}'},CodeLanguage:{12:{id:12,name:'C++17',canO2:true},34:{id:34,name:'C++23',canO2:true}}});
       if (url.pathname.startsWith('/record/')) return json({ data: { record: { id: 4002, problem: { pid: 'P1001' }, user: { uid: 12345 }, status: 12 } } });
       if (url.pathname.startsWith('/auth/login')) return html('<input type="password">');
-      return html(`<meta name="csrf-token" content="fixture-csrf"><script id="lentille-context" type="application/json">${JSON.stringify({user:luoguLoggedIn?{uid:12345}:null,data:{problem:{pid:'P1001',acceptLanguages:[12,34]},contest:null}})}</script><p>新版提交页面尚未挂载编辑器</p>`);
+      return html(`<meta name="csrf-token" content="fixture-csrf"><script id="lentille-context" type="application/json">${JSON.stringify({user:luoguLoggedIn?{uid:12345}:null,data:{problem:{pid:'P1001',acceptLanguages:[12,34]},contest:null}})}</script><p>新版提交页面尚未挂载编辑器。题目描述提到验证码，正常题面不能误判为验证页面。</p>`);
     }
     return route.abort();
   });
@@ -113,6 +113,10 @@ try {
     }
     throw new Error(key + ': expected ' + status + ', got ' + JSON.stringify(value));
   }
+  const luoguIdle = await browser.newPage();
+  await luoguIdle.goto('https://www.luogu.com.cn/problem/P1001');
+  await luoguIdle.evaluate(() => window.preservedVerificationPage = 'original-page');
+  await foreground.bringToFront();
   for (const [key, url, expectedId] of [
     ['cf', 'https://codeforces.com/contest/123/problem/A', '1002'],
     ['atcoder', 'https://atcoder.jp/contests/abc100/tasks/abc100_a', '2002'],
@@ -129,6 +133,7 @@ try {
     assert.ok((await browser.cookies(url)).some(cookie => cookie.name === 'fixture_login'));
   }
   assert.equal(posted.length, 4, 'each platform issues exactly one native submission');
+  assert.equal(await luoguIdle.evaluate(() => window.preservedVerificationPage), 'original-page', 'Luogu reuses the existing page without reloading its verification');
   assert.ok(cookieChecks.every(Boolean), 'submissions reuse cookies already in the ordinary browser');
   const saved=await (await fetch(base + '/fixture/saved')).json();
   assert.equal(saved.length, 4, 'all four receipts reach desktop persistence callback');
@@ -138,22 +143,44 @@ try {
   ncModern = true;
   await submit('modern', 'https://ac.nowcoder.com/acm/contest/127263/B');
   await state('modern','finished');
+  await submit('luogu-reused-job', 'https://www.luogu.com.cn/problem/P1001');
+  await state('luogu-reused-job','finished');
+  assert.equal(await luoguIdle.evaluate(() => window.preservedVerificationPage), 'original-page', 'a finished job cannot poison the next submission on a reused page');
   ncReject = true;
   await submit('captcha', 'https://ac.nowcoder.com/acm/contest/127263/B');
   await state('captcha', 'needs_verification');
-  assert.equal((await (await fetch(base + '/fixture/saved')).json()).length, 5);
+  assert.equal((await (await fetch(base + '/fixture/saved')).json()).length, 6);
   luoguLoggedIn = false;
+  await luoguIdle.reload();
   await submit('login', 'https://www.luogu.com.cn/problem/P1001');
   await state('login', 'needs_login');
   const before = posted.length;
   luoguLoggedIn = true;
-  const login = browser.pages().find(page => page.url().startsWith('https://www.luogu.com.cn/problem/P1001'));
+  const login = browser.pages().find(page => page.url() === 'https://www.luogu.com.cn/problem/P1001#submit');
   await login.reload();
   await state('login', 'ready');
   assert.equal(posted.length, before, 'logging in does not auto-submit');
   await submit('login', 'https://www.luogu.com.cn/problem/P1001');
   await state('login', 'finished');
   assert.equal(posted.length, before + 1);
+  luoguReject = true;
+  await submit('luogu-verification', 'https://www.luogu.com.cn/problem/P1001');
+  await state('luogu-verification', 'needs_verification');
+  const rejectedCount = posted.length;
+  const verifyPage = browser.pages().find(p => p.url() === 'https://www.luogu.com.cn/problem/P1001#submit');
+  await verifyPage.evaluate(() => window.preservedVerificationPage = 'verify-this-page');
+  await fetch(base + '/fixture/view?' + new URLSearchParams({url:'https://www.luogu.com.cn/problem/P1001'}));
+  const openedLinks = await (await fetch(base + '/fixture/opened')).json();
+  const pair = await browser.newPage();
+  await pair.goto(openedLinks.at(-1));
+  await verifyPage.waitForFunction(() => window.preservedVerificationPage === 'verify-this-page');
+  luoguReject = false;
+  await new Promise(resolve => setTimeout(resolve, 1500));
+  assert.equal(posted.length, rejectedCount, 'opening or completing verification must not replay a rejected POST');
+  await submit('luogu-verification', 'https://www.luogu.com.cn/problem/P1001');
+  await state('luogu-verification', 'finished');
+  assert.equal(posted.length, rejectedCount + 1, 'an explicit retry can clear a stale CaptchaError and submit exactly once');
+  await foreground.bringToFront();
   assert.deepEqual(errors, []);
   assert.equal(await worker.evaluate(async () => (await chrome.tabs.query({active:true,lastFocusedWindow:true}))[0].id),activeTab);
   console.log('Background extension: four platforms; no opened browser or active tab changes; legacy Nowcoder nccommon/top-level receipts; modern cached fetch; Luogu API without editor; original CSRF/cookies; captcha, login retry, no duplicates passed.');
