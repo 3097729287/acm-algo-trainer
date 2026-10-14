@@ -13,6 +13,12 @@ const login=()=>[...document.querySelectorAll('input[type=password]')].some(visi
 const pageKey=ctx.sessionId+':'+ctx.originalUrl;
 const host=typeof window==='undefined'?globalThis:window;
 const work=host.__tbSubmissionWork?.key===pageKey?host.__tbSubmissionWork:(host.__tbSubmissionWork={key:pageKey,preparing:null,snapshot:null,polling:false,nextPoll:0});
+if(work.retry!==(ctx.retry||0)){
+work.retry=ctx.retry||0;
+// Clear a rejected request only on the user's next explicit Submit click.
+// Inspection, opening verification, and receiving a token never resubmit.
+for(const receipt of [ncReceipt,lgReceipt])if(!ctx.attempted&&!receipt?.pending&&['needs_verification','needs_login','error'].includes(receipt?.receipt?.status))receipt.receipt=null;
+}
 function acSubmitForm(){return editors().map(e=>e.closest('form')).find(Boolean)||document.querySelector('form[action$="/submit"]');}
 function acVerificationState(){
 if(ctx.platform!=='AtCoder')return null;
@@ -20,7 +26,7 @@ const form=acSubmitForm(),widget=form?.querySelector('.cf-challenge,.cf-turnstil
 if(!widget&&!token||token?.value.trim()){delete work.verifyingAt;return null;}
 if(ctx.attempted)return {status:'unconfirmed',message:'原站要求提交验证，尚未确认本次代码受理；请在浏览器核对记录。'};
 work.verifyingAt??=Date.now();
-return Date.now()-work.verifyingAt<30000?{status:'loading',attempted:false,message:'正在等待 AtCoder 完成提交验证，尚未发送代码。'}:{status:'needs_verification',attempted:false,message:'AtCoder 仍在等待原站验证。点击“在浏览器查看”会打开本次提交页，完成后回到 TB 点击提交。'};
+return Date.now()-work.verifyingAt<30000?{status:'loading',attempted:false,message:'正在等待 AtCoder 完成提交验证，尚未发送代码。'}:{status:'needs_verification',attempted:false,message:'AtCoder 仍在等待原站验证。点击“完成原站验证”打开本次提交页，完成后回到 TB 点击提交。'};
 }
 function luoguLoggedOut(){
 if(ctx.platform!=='洛谷')return false;
@@ -28,7 +34,9 @@ try{const data=JSON.parse(document.querySelector('#lentille-context')?.textConte
 const legacy=window._feInjection;if(legacy&&Object.prototype.hasOwnProperty.call(legacy,'currentUser'))return !legacy.currentUser;
 return false;
 }
-const verification=()=>[...document.querySelectorAll('iframe')].some(e=>visible(e)&&/captcha|challenge/i.test(e.src)&&!(ctx.platform==='AtCoder'&&e.closest('.cf-challenge,.cf-turnstile')?.closest('form')===acSubmitForm()))||!hasEditor()&&/just a moment|checking your browser|人机验证|安全验证|验证码/i.test(document.title+' '+(document.body?.innerText||'').slice(0,1200));
+const verification=()=>[...document.querySelectorAll('iframe')].some(e=>visible(e)&&/captcha|challenge/i.test(e.src)&&!(ctx.platform==='AtCoder'&&e.closest('.cf-challenge,.cf-turnstile')?.closest('form')===acSubmitForm()))
+||/just a moment|checking your browser|人机验证|安全验证/i.test(document.title)
+||!hasEditor()&&!lgReceipt?.hasSubmitApi()&&/just a moment|checking your browser|人机验证|安全验证|验证码/i.test((document.body?.innerText||'').slice(0,1200));
 function normal(text){
 text=(text||'').trim().replace(/_/g,' ').replace(/\s+/g,' ');
 const map={'AC':'AC','OK':'AC','ACCEPTED':'AC','通过':'AC','WA':'WA','WRONG ANSWER':'WA','答案错误':'WA','TLE':'TLE','TIME LIMIT EXCEEDED':'TLE','超时':'TLE','MLE':'MLE','MEMORY LIMIT EXCEEDED':'MLE','内存超限':'MLE','RE':'RE','RUNTIME ERROR':'RE','运行错误':'RE','CE':'CE','COMPILATION ERROR':'CE','COMPILE ERROR':'CE','编译错误':'CE','OLE':'OLE','OUTPUT LIMIT EXCEEDED':'OLE'};

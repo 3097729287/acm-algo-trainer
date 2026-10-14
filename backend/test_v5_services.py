@@ -38,7 +38,7 @@ class DailyMissionTests(unittest.TestCase):
         self.assertTrue(self.service.daily_tasks()["tasks"][0]["claimed"])
         self.assertEqual(self.service.insights()["growth"]["missionXp"], 25)
 
-    def test_harder_tasks_award_more_and_same_problem_cannot_replay_next_day(self):
+    def test_harder_tasks_award_more_and_next_day_ac_counts_once_without_base_xp_replay(self):
         self.library.rows[0]["difficulty"] = 2100
         self.service.start_training("fixture::A")
         self.accept()
@@ -49,12 +49,24 @@ class DailyMissionTests(unittest.TestCase):
         for identity in ("solve-1", "hard-1500", "hard-1800", "hard-2100"):
             self.service.claim_daily_task(identity)
         self.assertEqual(self.service.insights()["growth"]["missionXp"], 435)
+        base_xp=self.service.insights()['growth']['xp']-435
         self.clock.advance(days=1)
         self.accept(submission_id=7777)
-        # 同题隔天再次官方 AC 不算新完成，任务进度仍为 0。
-        self.assertTrue(all(task["progress"] == 0 for task in self.service.daily_tasks()["tasks"]))
+        self.accept(submission_id=7778)
+        self.assertTrue(all(task["progress"] == 1 for task in self.service.daily_tasks()["tasks"]))
+        self.assertEqual(self.service.insights()['growth']['xp']-435,base_xp)
         self.assertEqual(self.service.insights()["growth"]["missionXp"], 435)
         with self.assertRaises(ServiceError): self.service.claim_daily_task("solve-1", "2026-10-08")
+
+    def test_three_different_today_acs_include_repractice_but_not_opened_old_acs(self):
+        self.accept('fixture::A');self.accept('fixture::D')
+        self.clock.advance(days=1)
+        self.service.start_training('fixture::D')
+        self.assertEqual(self.service.daily_tasks()['tasks'][1]['progress'],0)
+        self.accept('fixture::A');self.accept('fixture::B');self.accept('fixture::C')
+        self.assertEqual(self.service.daily_tasks()['tasks'][1]['progress'],3)
+        self.service.claim_daily_task('solve-3')
+        self.assertEqual(self.service.insights()['growth']['missionXp'],60)
 
     def test_aliases_removals_and_beijing_midnight(self):
         url = "https://codeforces.com/contest/123/problem/A"

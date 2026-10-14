@@ -127,6 +127,23 @@ class FeatureTests(unittest.TestCase):
         self.clock.advance(minutes=15);self.completed(identity,contest_id=contest['id'])
         self.assertEqual(self.service.contest(contest['id'])['contest']['penalty'],45)
 
+    def test_goal_recommendations_join_once_survive_removal_restart_and_next_day(self):
+        planner=Goals(self.service)
+        goal=planner.save({'title':'CF 2200','kind':'cf','deadline':'2026-11-08','dailyMinutes':90})['goals'][0]
+        ids=[row['id'] for row in goal['dailyTask']['problems']]
+        self.assertTrue(ids)
+        self.assertTrue(set(ids)<=set(row['id'] for row in self.service.workspace()['training']))
+        self.assertEqual(sum(item['target'] for item in goal['contestPlan']),goal['weeklyTarget'])
+        self.assertEqual(len(goal['contestPlan']),4)
+        self.assertEqual(goal['weeklyPlan'],[])
+        self.service.clear_training()
+        self.assertEqual(self.service.workspace()['training'],[])
+        self.service.close();self.service=TrainingService(self.library,self.db,self.assets,self.judge,self.clock,self.root/'backups')
+        self.assertEqual([row['id'] for row in Goals(self.service).list()['goals'][0]['dailyTask']['problems']],ids)
+        self.assertEqual(self.service.workspace()['training'],[])
+        self.clock.advance(days=1)
+        self.assertTrue(self.service.workspace()['training'])
+
     def test_goals_dates_capacity_daily_progress_unique_and_restart(self):
         planner=Goals(self.service)
         result=planner.save({'title':'CF 2200','deadline':'2026-10-09','dailyMinutes':30,'currentRating':1000})

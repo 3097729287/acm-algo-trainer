@@ -44,6 +44,10 @@ class ReleaseRedirect(HTTPRedirectHandler):
         return super().redirect_request(req, fp, code, msg, headers, newurl)
 
 
+class MissingDelta(ValueError):
+    pass
+
+
 def release_info(payload, current):
     if not isinstance(payload, dict) or payload.get("draft") or payload.get("prerelease"):
         raise ValueError("更新源没有提供正式版本")
@@ -52,18 +56,21 @@ def release_info(payload, current):
     if latest <= version_tuple(current):
         return None
     version = ".".join(map(str, latest))
-    name = "TB-Setup-" + version + "-win64.exe"
+    incremental = version_tuple(current) >= (1, 0, 13)
+    name = ("TB-Update-" + current + "-to-" + version + "-win64.zip") if incremental else "TB-Setup-" + version + "-win64.exe"
     assets = [asset for asset in payload.get("assets", []) if asset.get("name") == name and asset.get("state") == "uploaded"]
     if len(assets) != 1:
-        raise ValueError("新版本的 Windows 安装包尚未发布完整，请稍后重试")
+        if incremental:
+            raise MissingDelta("此版本的增量更新尚未发布完整，请稍后重试")
+        raise ValueError("新版本的更新包尚未发布完整，请稍后重试")
     asset = assets[0]
     expected = RELEASES + "/download/" + tag + "/" + name
     if asset.get("browser_download_url") != expected or not re.fullmatch(r"sha256:[a-f0-9]{64}", asset.get("digest") or ""):
-        raise ValueError("新版本缺少可信的安装包地址或 SHA-256 校验值")
+        raise ValueError("新版本缺少可信的更新包地址或 SHA-256 校验值")
     size = asset.get("size")
     if type(size) is not int or not 0 < size <= MAX_INSTALLER:
-        raise ValueError("安装包大小无效")
-    return {"version": version, "name": name, "url": expected, "sha256": asset["digest"][7:], "size": size,
+        raise ValueError("更新包大小无效")
+    return {"kind": "delta" if incremental else "installer", "version": version, "name": name, "url": expected, "sha256": asset["digest"][7:], "size": size,
             "releaseUrl": RELEASES + "/tag/" + tag, "notes": str(payload.get("body") or "")[:12000]}
 
 
@@ -105,6 +112,7 @@ class SoftwareUpdates:
             return {"currentVersion": self.current, "status": self.status, "autoCheck": self.auto_check,
                     "lastCheckedAt": self.checked_at, "error": self.error, "canInstall": self.launcher is not None,
                     "latestVersion": self.release["version"] if self.release else None,
+                    "updateKind": self.release.get("kind") if self.release else "delta",
                     "releaseUrl": self.release["releaseUrl"] if self.release else RELEASES,
                     "notes": self.release["notes"] if self.release else "",
                     "downloadedBytes": self.downloaded, "totalBytes": self.release["size"] if self.release else 0}
@@ -172,7 +180,34 @@ class SoftwareUpdates:
                 raw = response.read(2 * 1024 * 1024 + 1)
             if len(raw) > 2 * 1024 * 1024:
                 raise ValueError("更新信息过大")
-            release = release_info(json.loads(raw), self.current)
+            try:
+                release = release_info(json.loads(raw), self.current)
+            except MissingDelta:
+                # An installation that skipped releases follows verified deltas
+                # through an intermediate version, without a full installer fallback.
+                with self._open(FEED.rsplit('/', 1)[0] + '?per_page=100') as response:
+                    history = response.read(2 * 1024 * 1024 + 1)
+                if len(history) > 2 * 1024 * 1024:
+                    raise ValueError('更新信息过大')
+                records = json.loads(history)
+                if not isinstance(records, list):
+                    raise ValueError('更新版本列表无效')
+                compatible = []
+                for record in records:
+                    if not isinstance(record,dict):continue
+                    try:version_tuple(record.get('tag_name'))
+                    except ValueError:continue
+                    if record.get('draft') or record.get('prerelease'):
+                        continue
+                    try:
+                        candidate = release_info(record, self.current)
+                    except MissingDelta:
+                        continue
+                    if candidate:
+                        compatible.append(candidate)
+                if not compatible:
+                    raise MissingDelta('暂时没有适用于当前版本的增量包，请稍后重试')
+                release = max(compatible, key=lambda item: version_tuple(item['version']))
             with self.lock:
                 self.release = release
                 self.status = "available" if release else "current"
@@ -214,13 +249,13 @@ class SoftwareUpdates:
                         break
                     size += len(block)
                     if size > release["size"]:
-                        raise ValueError("安装包大小不匹配，已停止下载")
+                        raise ValueError("更新包大小不匹配，已停止下载")
                     digest.update(block)
                     output.write(block)
                     with self.lock:
                         self.downloaded = size
             if size != release["size"] or digest.hexdigest() != release["sha256"]:
-                raise ValueError("安装包校验失败，请重新下载")
+                raise ValueError("更新包校验失败，请重新下载")
             partial.replace(destination)
             with self.lock:
                 self.installer, self.status = destination, "ready"
@@ -244,7 +279,7 @@ class SoftwareUpdates:
                 if digest != self.release["sha256"]:
                     self.installer = None
                     self.status = "error"
-                    raise ValueError("安装包校验失败，请重新下载")
+                    raise ValueError("更新包校验失败，请重新下载")
                 stamp = dt.datetime.now().strftime("%Y%m%d-%H%M%S-%f")
                 backup_databases(self.state_dir, self.state_dir / "backups" / ("before-update-" + stamp))
                 self.launcher(self.installer, self.release["sha256"], self.release["version"])

@@ -24,7 +24,7 @@
   chrome.runtime.onMessage.addListener((message, sender, reply) => {
     if (message.type === 'wake') { stopped = false; tick(); }
     if (message.type === 'submission-page') {
-      // Reuse only an idle AtCoder form for this exact task. Never disclose a
+      // Reuse only an idle page for this exact task. Never disclose a
       // verification token or replace code that the user wrote in the browser.
       let available = false;
       try {
@@ -32,9 +32,14 @@
         const task = document.querySelector('select[name="data.TaskScreenName"]');
         const editors = [...document.querySelectorAll('textarea')].filter(e => /source|code|editor/i.test(e.name + ' ' + e.id));
         const rendered = [...document.querySelectorAll('.ace_text-layer,.CodeMirror-code,.monaco-editor .view-lines,.cm-content')];
-        available = location.hostname === 'atcoder.jp' && target.origin === location.origin && target.pathname === location.pathname
-          && document.readyState !== 'loading' && task?.value === target.searchParams.get('taskScreenName')
-          && editors.length > 0 && editors.every(e => !e.value.trim()) && rendered.every(e => !e.textContent.trim());
+        const samePage = target.origin === location.origin && target.pathname === location.pathname && document.readyState !== 'loading';
+        const empty = editors.every(e => !e.value.trim()) && rendered.every(e => !e.textContent.trim());
+        if (location.hostname === 'atcoder.jp') available = samePage && empty && editors.length > 0 && task?.value === target.searchParams.get('taskScreenName');
+        if (['www.luogu.com.cn','luogu.com.cn'].includes(location.hostname)) {
+          const context = JSON.parse(document.querySelector('#lentille-context')?.textContent || 'null');
+          available = samePage && empty && /^\/problem\/\w+$/.test(location.pathname) && !location.search && !target.search
+            && !!context?.user?.uid && !context?.data?.contest && context?.data?.problem?.pid === target.pathname.split('/')[2];
+        }
       } catch {}
       reply({available});
     }

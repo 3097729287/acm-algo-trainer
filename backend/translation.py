@@ -222,12 +222,18 @@ class TranslationService:
         with self.assets.lock:problem=dict(self.assets._cached(identity))
         original=problem.get('markdown') or ''
         host=__import__('urllib.parse',fromlist=['urlsplit']).urlsplit(problem.get('url') or '').hostname
-        if host not in ('atcoder.jp','codeforces.com'):raise ServiceError(422,'此题并非支持的公开英文题面，请直接阅读原文')
+        if host not in ('atcoder.jp','codeforces.com','www.luogu.com.cn','ac.nowcoder.com'):raise ServiceError(422,'只支持四个原站的公开题面翻译')
         if not problem.get('statementAvailable') or not original:raise ServiceError(422,'请先加载完整原站题面，再请求翻译')
+        localized=getattr(self.assets,'localized_statement',lambda _:None)(identity)
+        if isinstance(localized,dict) and localized.get('markdown'):
+            return dict(localized,id=identity,sourceLanguage='en',targetLanguage='zh-CN',cached=True)
         if len(original)>24000:raise ServiceError(422,'题面过长，本次不自动发送翻译；请阅读原文')
         # Only translation of actual English prose counts as translation.
         shielded,tokens=protect(original)
-        if len(re.findall(r'\b[A-Za-z]{3,}\b',re.sub(r'TBPROTECT[A-F0-9]{8}\d{4}TOKEN','',shielded)))<5:raise ServiceError(422,'当前题面没有足够英文正文，无需翻译')
+        prose=re.sub(r'(?m)^#+[^\n]*','',re.sub(r'TBPROTECT[A-F0-9]{8}\d{4}TOKEN','',shielded))
+        if len(re.findall(r'\b[A-Za-z]{3,}\b',prose))<5 and re.search(r'[\u3400-\u9fff]',prose):
+            return {'id':identity,'markdown':original,'sourceLanguage':'zh-CN','targetLanguage':'zh-CN','provider':'原站中文题面','kind':'original','cached':True}
+        if len(re.findall(r'\b[A-Za-z]{3,}\b',prose))<5:raise ServiceError(422,'当前题面没有足够英文正文，无需翻译')
         configuration=self.settings.status() if isinstance(self.provider,DeepSeekProvider) else {}
         fingerprint=hashlib.sha256((TRANSLATION_FORMAT+'\n'+identity+'\n'+problem['url']+'\n'+original+'\n'+self.provider.name+'\n'+str(configuration.get('provider'))+'\n'+str(configuration.get('model'))+'\n'+str(configuration.get('baseUrl'))).encode()).hexdigest()
         path=self.directory/(fingerprint+'.json')

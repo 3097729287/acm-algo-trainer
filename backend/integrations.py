@@ -228,7 +228,7 @@ class IntegrationService:
                 'difficultyConfidence':'HIGH' if official else row.get('difficultyConfidence','MEDIUM' if platform in ('AtCoder','atcoder') else 'LOW'),
                 'difficultyEstimated':not official,'difficultyBand':[rating,rating] if official else row.get('difficultyBand'),
                 'difficultyCheckedAt':stamp(self.clock()),'nativeDifficulty':row.get('nativeDifficulty',rating),
-                'officialTags':row.get('tags',[])}
+                'officialTags':row.get('sourceTags',row.get('tags',[]))}
         with self.lock:self.state['difficultyMetadata'][key]=fields
 
     def _refresh_difficulties(self,platform):
@@ -333,27 +333,29 @@ class IntegrationService:
         for row in rows:
             row.update(metadata.get(canonical(row.get('url')),{}))
             if self._collectable(row,settings):
-                result.append(enrich_row(row,official_tags=row.get('officialTags')))
+                result.append(enrich_row(P.classify_contest(row),official_tags=row.get('officialTags')))
         return result
 
     def row(self,identity):
         with self.lock:
             value=self.state['rows'].get(identity)
             if not value:return None
-            return {'场次':value['contest'],'题号':value['problem'],'题名':value['title'],'知识点':value['knowledge'],'难度':str(value['difficulty']),'状态':'未做','日期':'','_remote':True,'_url':value['url'],'_id':value['id'],'_platform':value['platform'],'_series':value['series']}
+            return {'场次':value['contest'],'题号':value['problem'],'题名':value['title'],'知识点':value['knowledge'],'难度':str(value['difficulty']),'状态':'未做','日期':'','_remote':True,'_url':value['url'],'_id':value['id'],'_platform':value['platform'],'_series':value['series'],'_encoded':copy.deepcopy(value)}
 
-    def statement(self,identity,fetch=False):
+    def statement(self,identity,fetch=False,refresh=False):
         raw=self.row(identity)
         if not raw:fail(404,'没有找到远端题目')
         path=self.state_dir/'statements'/(hashlib.sha256(identity.encode()).hexdigest()+'.json')
         saved=load(path,{})
-        if saved.get('id')==identity and saved.get('url')==raw['_url'] and saved.get('statementAvailable'):return saved
+        if not refresh and saved.get('id')==identity and saved.get('url')==raw['_url'] and saved.get('statementAvailable'):return saved
         value={'id':identity,'title':raw['题名'],'url':raw['_url'],'markdown':None,'samples':[],'limits':{'timeMs':2000,'memoryMb':256},'statementAvailable':False}
         if fetch:
             try:
                 value=P.statement(self.client,identity,raw['题名'],raw['_url'])
                 if not self.stop.is_set():atomic(path,value)
-            except (OSError,ValueError,RuntimeError) as error:value['error']=str(error)[:250]
+            except (OSError,ValueError,RuntimeError) as error:
+                if saved.get('id')==identity and saved.get('url')==raw['_url'] and saved.get('statementAvailable'):return saved
+                value['statementError']=str(error)[:250]
         return value
 
     def _notice(self,identity,kind,title,body,url=None,count=None,problem_ids=None,solution_ids=None,problem_urls=None):
@@ -382,8 +384,73 @@ class IntegrationService:
                     self._notice('local:'+digest,'content','本地题库有更新',f'新增 {len(added)} 道题，新增可用题解 {len(solutions)} 道。',count=len(set(added+solutions)),problem_ids=added,solution_ids=solutions,problem_urls=[by_id[i]['url'] for i in dict.fromkeys(added+solutions) if by_id[i].get('url')])
         return urls
 
+    def _supplement_knowledge(self,value):
+        from knowledge import enrich_row
+        value=enrich_row(value)
+        if value.get('tags') or value.get('knowledgeCategories'):return value
+        path=self.state_dir/'statements'/(hashlib.sha256(value['id'].encode()).hexdigest()+'.json')
+        saved=load(path,{})
+        if not saved.get('statementAvailable'):
+            local=getattr(self.store,'library',None)
+            saved=(local.statement(value['id']) if local else None) or saved
+        try:
+            if not saved.get('statementAvailable'):
+                saved=P.statement(self.client,value['id'],value['title'],value['url'])
+                if not self.stop.is_set():atomic(path,saved)
+            value=enrich_row(value,statement=saved.get('markdown'),official_tags=saved.get('officialTags'))
+        except (OSError,ValueError,RuntimeError,KeyError,TypeError):pass
+        if value.get('tags') or value.get('knowledgeCategories'):return value
+        if urlsplit(value.get('url','')).hostname=='atcoder.jp':
+            hint_path=self.state_dir/'knowledge-hints'/(hashlib.sha256(value['id'].encode()).hexdigest()+'.json')
+            hint=load(hint_path,{})
+            if not hint:
+                try:hint=P.atcoder_knowledge(self.client,value)
+                except (OSError,ValueError,RuntimeError,KeyError,TypeError):pass
+            if not hint and not self.stop.is_set():
+                # Luogu's exact AtCoder task mirror may already expose tags
+                # while an English editorial is unavailable.
+                task=value['url'].rstrip('/').rsplit('/',1)[-1]
+                if re.fullmatch(r'[a-z0-9_]+',task):
+                    url='https://www.luogu.com.cn/problem/AT_'+task
+                    try:
+                        mirrored=P.statement(self.client,value['id'],value['title'],url)
+                        if mirrored.get('officialTags'):hint={'tags':mirrored['officialTags'],'source':url,'verified':False}
+                    except (OSError,ValueError,RuntimeError,KeyError,TypeError):pass
+            if hint:
+                if not self.stop.is_set():atomic(hint_path,hint)
+                value=enrich_row(value,algorithm_evidence=hint)
+        return value
+
+    def _refresh_knowledge(self,platform,limit=12):
+        # Older rows must participate too. Rotate failed attempts so one missing
+        # editorial cannot starve the rest; bound work and keep it off UI reads.
+        cache=getattr(self.store,'knowledge_analysis',None)
+        if cache is None:return
+        expected={'codeforces':'codeforces.com','atcoder':'atcoder.jp','nowcoder':'ac.nowcoder.com','luogu':'www.luogu.com.cn'}[platform]
+        rows=self.store.data()['rows']
+        candidates=[r for r in rows if urlsplit(r.get('url') or '').hostname==expected and not (r.get('tags') or r.get('knowledgeCategories'))]
+        with self.lock:attempts=self.state.setdefault('knowledgeAttempts',{})
+        candidates.sort(key=lambda r:attempts.get(r['id'],'') or '')
+        deadline=time.monotonic()+45
+        for row in candidates[:limit]:
+            if self.stop.is_set() or time.monotonic()>deadline:break
+            value=self._supplement_knowledge(row)
+            if value.get('tags') or value.get('knowledgeCategories'):
+                cache.enrich(value)
+                with self.lock:
+                    existing=self.state['rows'].get(row['id'])
+                    if existing:existing.update({k:value[k] for k in ('tags','knowledge','sourceTags','knowledgeCategories','knowledgeAnalysis') if k in value})
+            with self.lock:attempts[row['id']]=stamp(self.clock())
+
     def _catalog(self,platform,local_urls):
         rows,pending,message=P.DISCOVERY_ADAPTERS[platform](self.client,self.clock());added=0;added_ids=[];added_urls=[]
+        enriched=[]
+        for value in rows:
+            if self.stop.is_set():break
+            with self.lock:previous=copy.deepcopy(self.state['rows'].get(value['id'],{}))
+            if previous.get('knowledgeAnalysis'):value['knowledgeAnalysis']=previous['knowledgeAnalysis']
+            enriched.append(self._supplement_knowledge(value))
+        rows=enriched
         if platform=='codeforces':
             try:
                 listing=self.client.json('https://codeforces.com/api/contest.list?gym=false')
@@ -500,6 +567,8 @@ class IntegrationService:
                 try:self._refresh_difficulties(platform)
                 except (OSError,ValueError,RuntimeError,KeyError,TypeError):LOG.debug('Latest difficulty data unavailable; retain prior evidence',exc_info=True)
             except (OSError,ValueError,RuntimeError,KeyError,TypeError) as error:providers.append({'platform':platform,'status':'error','message':str(error)[:250],'added':0,'pending':0})
+            try:self._refresh_knowledge(platform)
+            except (OSError,ValueError,RuntimeError,KeyError,TypeError):LOG.debug('Knowledge supplementation unavailable; retain prior evidence',exc_info=True)
         if not self.stop.is_set() and ('all' in selected or 'github' in selected):success=bool(self._github()) or success
         with self.lock:
             if self.closed:return

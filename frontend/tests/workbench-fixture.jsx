@@ -12,7 +12,9 @@ const fixture = window.workbenchFixture = {
   drafts: {}, calls: [], submissions: [], progress: [], problemDelay: {}, draftDelay: 15,
   nextVerdict: 'SAMPLE_PASS', nextRunVerdict: 'SAMPLE_PASS', exitCount: 0, solutionCount: 0, nextCount: 0,
   officialStatus: 'needs_login', officialSessions: {}, translationError: '', translationDelay: 10,
+  problemOverrides: {}, translationKind: '', preparationEvents: [],
 };
+window.addEventListener('tb:browser-preparation', event => fixture.preparationEvents.push(event.detail));
 const currentEditor = () => EditorView.findFromDOM(document.querySelector('.cm-content'));
 fixture.readCode = () => currentEditor().state.doc.toString();
 fixture.selectCode = (start, end = start) => currentEditor().dispatch({ selection: { anchor: start, head: end } });
@@ -31,7 +33,7 @@ async function api(path, body) {
   if (path === 'problem/translate') {
     await sleep(fixture.translationDelay);
     if (fixture.translationError) throw new Error(fixture.translationError);
-    return { id: body.id, markdown: `## 题目描述\n\n真实翻译服务模拟：${body.id} 的中文题面，计算 $a+b$。`, sourceLanguage: 'en', targetLanguage: 'zh-CN', provider: 'Fixture provider', cached: false };
+    return { id: body.id, markdown: `## 题目描述\n\n真实翻译服务模拟：${body.id} 的中文题面，计算 $a+b$。`, sourceLanguage: 'en', targetLanguage: 'zh-CN', provider: 'Fixture provider', cached: false, kind: fixture.translationKind };
   }
   if (path === 'official/open' || path === 'official/submit') {
     const sessionId = `official-${Object.keys(fixture.officialSessions).length + 1}`;
@@ -55,7 +57,7 @@ async function api(path, body) {
     const id = url.searchParams.get('id');
     await sleep(fixture.problemDelay[id] || 10);
     const context = { id, contestId: url.searchParams.get('contestId') };
-    return { ...problem(id), draft: fixture.drafts[key(context)] || '', submissions: fixture.submissions.filter(row => row.problemId === id && row.contestId === context.contestId) };
+    return { ...problem(id), ...fixture.problemOverrides[id], draft: fixture.drafts[key(context)] || '', submissions: fixture.submissions.filter(row => row.problemId === id && row.contestId === context.contestId) };
   }
   if (path === 'draft') {
     await sleep(fixture.draftDelay);

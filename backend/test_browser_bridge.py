@@ -132,6 +132,31 @@ class BrowserBridgeTests(unittest.TestCase):
         self.exchange(claim=True); self.exchange(event={'status': 'ready'})
         self.assertEqual(self.exchange()['action'], 'inspect')
 
+    def test_native_verification_opens_matching_browser_job_and_never_falls_back(self):
+        from types import SimpleNamespace
+        self.url = 'https://www.luogu.com.cn/problem/P1001'
+        self.create(); self.exchange(claim=True)
+        self.exchange(event={'status': 'needs_verification', 'attempted': False})
+        self.bridge.runner = SimpleNamespace(start=lambda _: self.fail('Verification must stay in its browser page'))
+        self.bridge.session_store = object()
+        self.bridge.open(self.url, 'int main(){}', 'fixture')
+        session = self.bridge.sessions[self.sid]
+        retry = session['retry']
+        self.assertEqual(session['transport'], 'browser')
+        self.assertFalse(session['intent'])
+        self.assertTrue(self.opened[-1].startswith(self.bridge.base_url + '/browser-connect.html#'))
+        self.now = 15
+        self.assertEqual(self.bridge.status(self.sid)['status'], 'needs_verification')
+        self.assertEqual(self.exchange(claim=True)['mode'], 'tabs')
+        self.exchange(event={'status': 'ready'})
+        self.assertEqual(self.exchange()['action'], 'inspect')
+        self.assertEqual(session['retry'], retry)
+        self.bridge.submit(self.url, 'int main(){}', 'fixture')
+        self.exchange(event={'status': 'ready'})
+        answer = self.exchange()
+        self.assertEqual(answer['action'], 'submit')
+        self.assertEqual(answer['context']['retry'], retry + 1)
+
     def test_receipt_requires_dispatch_and_exact_id_and_saves_once(self):
         self.create(); self.exchange(claim=True)
         self.exchange(event={'status': 'finished', 'submissionId': '99', 'verdict': 'AC'})

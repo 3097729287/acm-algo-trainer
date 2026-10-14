@@ -47,7 +47,7 @@ class Goals:
             with t._write() as db:
                 db.execute('INSERT INTO goals(id,created_at,config,archived) VALUES(?,?,?,0) ON CONFLICT(id) DO UPDATE SET config=excluded.config',
                            (identity,start,json.dumps(config,ensure_ascii=False)))
-            return self.list()
+            return self.list(assign=True)
 
     def archive(self,identity):
         t=self.training
@@ -56,10 +56,11 @@ class Goals:
             with t._write() as db:db.execute('UPDATE goals SET archived=1 WHERE id=?',(identity,))
         return self.list()
 
-    def list(self):
+    def list(self, assign=False):
         t=self.training
         with t.lock:
             now=t._now();today=now.astimezone(SHANGHAI).date()
+            if not t.connection.execute('SELECT 1 FROM goals WHERE archived=0 LIMIT 1').fetchone():return {'goals':[],'date':today.isoformat()}
             rows=t._library();metadata={row['id']:row for row in rows}
             accepted={}
             for record in t.connection.execute("SELECT * FROM submissions WHERE mode='submit' AND verdict='AC' AND scope='official' AND finished_at IS NOT NULL ORDER BY submitted_at,rowid"):
@@ -73,14 +74,24 @@ class Goals:
                         stamp=parse_time(item.get('acceptedAt'));key=canonical_url(item.get('url'))
                         if key and stamp and (key not in accepted or stamp<accepted[key]['at']):accepted[key]={'id':None,'at':stamp}
             locked=set(t._locked_ids(t.connection.execute("SELECT * FROM contests WHERE status='running'").fetchone())) if t.active_contest() else set()
+            records=t.connection.execute('SELECT * FROM goals WHERE archived=0 ORDER BY created_at,id').fetchall()
+            assignments={row['goal_id']:row for row in t.connection.execute('SELECT * FROM goal_daily_assignments WHERE day=?',(today.isoformat(),))}
+            problem_key=lambda row:canonical_url(row.get('url')) or row['id']
+            # Reserve all existing selections before allocating any new goal.
+            # Older releases could assign the same canonical problem twice.
+            owners={}
+            for record in records:
+                saved=assignments.get(record['id'])
+                for identity in json.loads(saved['ids']) if saved else []:
+                    if identity in metadata:owners.setdefault(problem_key(metadata[identity]),record['id'])
             result=[]
-            for record in t.connection.execute('SELECT * FROM goals WHERE archived=0 ORDER BY created_at,id'):
+            for record in records:
                 goal=json.loads(record['config']);start=parse_time(record['created_at']);first=start.astimezone(SHANGHAI).date();end=dt.date.fromisoformat(goal['deadline'])
                 days=max(1,(end-first).days+1);total=goal['totalProblems']
                 evidence=[item for item in accepted.values() if start<item['at']<=now and item['at'].astimezone(SHANGHAI).date()<=end]
                 done=len(evidence);elapsed=max(0,min(days,(today-first).days));expected=math.ceil(total*elapsed/days)
                 due=math.ceil(total*min(days,elapsed+1)/days);daily=max(0,due-expected)
-                today_done=sum(item['at'].astimezone(SHANGHAI).date()==today for item in evidence)
+                all_today_done=sum(item['at'].astimezone(SHANGHAI).date()==today for item in evidence)
                 left=max(0,(end-today).days+1);remaining=max(0,total-done);weekly=math.ceil(remaining*min(7,left)/max(1,left))
                 # Reserve 30% of study time for reviewing and contest participation.
                 capacity=math.floor(left*goal['dailyMinutes']*.7/goal['minutesPerProblem']);warnings=[]
@@ -95,16 +106,46 @@ class Goals:
                     return (not preferred,fit,row['id'])
                 candidates=[row for row in rows if row['id'] not in locked and (canonical_url(row.get('url')) or row['id']) not in accepted]
                 candidates.sort(key=score)
-                weekly_plan=[]
-                cursor=max(first,today);offset=0
-                while cursor<=end and len(weekly_plan)<260:
-                    stop=min(end,cursor+dt.timedelta(days=6));span=(stop-cursor).days+1
-                    amount=math.ceil(remaining*(offset+span)/max(1,left))-math.ceil(remaining*offset/max(1,left))
-                    weekly_plan.append({'start':cursor.isoformat(),'end':stop.isoformat(),'target':amount});offset+=span;cursor=stop+dt.timedelta(days=1)
-                before_today=max(0,total-done+today_done)
-                task_target=min(before_today,max(daily,math.ceil(before_today/max(1,left)))) if left else 0
+                families=[('Codeforces Div.3',4),('AtCoder ABC',3),('牛客周赛',2),('洛谷基础赛 / 月赛',1)]
+                if goal['kind']=='xcpc':families=[('Codeforces Div.3',2),('AtCoder ABC',2),('牛客周赛',4),('洛谷基础赛 / 月赛',2)]
+                amounts=[1 if weekly>=4 else 0 for _ in families]
+                for _ in range(max(0,weekly-sum(amounts))):
+                    index=max(range(4),key=lambda i:families[i][1]/(amounts[i]+1))
+                    amounts[index]+=1
+                ranges=('A–D','A–D','A–D','基础题') if goal['currentRating']<1400 else ('C–F','C–F','C–F','提高题')
+                contest_plan=[{'contest':name,'target':amount,'problems':ranges[i]} for i,((name,_),amount) in enumerate(zip(families,amounts))]
+                before_today=max(0,total-done+all_today_done)
+                task_target=min(8,before_today,max(daily,math.ceil(before_today/max(1,left)))) if left else 0
+                # One persisted selection per goal/day: refreshes and restarts cannot
+                # change the assignments or undo a user's removal on the same day.
+                saved=assignments.get(record['id'])
+                original_ids=json.loads(saved['ids']) if saved else []
+                seen=set();selected=[]
+                for identity in original_ids:
+                    row=metadata.get(identity)
+                    if not row:continue
+                    key=problem_key(row)
+                    if key in seen or owners.get(key)!=record['id']:continue
+                    seen.add(key);selected.append(row)
+                if saved and saved['target'] is not None:task_target=saved['target']
+                repairing=not saved or saved['target'] is None or len(selected)!=len(original_ids)
+                if repairing:
+                    for row in candidates:
+                        if len(selected)>=task_target:break
+                        key=problem_key(row)
+                        if key in seen or key in owners:continue
+                        owners[key]=record['id']
+                        seen.add(key);selected.append(row)
+                    if assign:
+                        with t._write() as db:
+                            db.execute('INSERT INTO goal_daily_assignments(goal_id,day,ids,target) VALUES(?,?,?,?) ON CONFLICT(goal_id,day) DO UPDATE SET ids=excluded.ids,target=excluded.target',
+                                       (record['id'],today.isoformat(),json.dumps([row['id'] for row in selected],ensure_ascii=False),task_target))
+                            for row in selected:
+                                if row['id'] not in original_ids:t._activate(db,row['id'],iso(now))
+                today_done=sum(1 for row in selected if (item:=accepted.get(problem_key(row)))
+                               and start<item['at']<=now and item['at'].astimezone(SHANGHAI).date()==today)
                 result.append({**goal,'id':record['id'],'createdAt':record['created_at'],'progress':done,'remaining':remaining,
-                    'remainingDays':left,'weeklyTarget':weekly,'weeklyPlan':weekly_plan,'capacity':capacity,'warnings':warnings,'workloadCompleted':done>=total,
+                    'remainingDays':left,'weeklyTarget':weekly,'weeklyPlan':[],'contestPlan':contest_plan,'capacity':capacity,'warnings':warnings,'workloadCompleted':done>=total,
                     'dailyTask':{'date':today.isoformat(),'target':task_target,'progress':today_done,'completed':today_done>=task_target,
-                                 'problems':[{key:row.get(key) for key in ('id','title','contest','difficulty')} for row in candidates[:min(8,max(1,task_target))]]}})
+                                 'problems':[{key:row.get(key) for key in ('id','title','contest','difficulty')} for row in selected if (canonical_url(row.get('url')) or row['id']) not in accepted]}})
             return {'goals':result,'date':today.isoformat(),'notice':DISCLAIMER}

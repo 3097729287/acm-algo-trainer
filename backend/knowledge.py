@@ -30,6 +30,7 @@ BROAD = {
     '动态规划':'动态规划', 'math':'数学', '数学':'数学', 'number theory':'数学 / 数论',
     '数论':'数学 / 数论', 'strings':'字符串', '字符串':'字符串', 'trees':'图论 / 树',
     '树':'图论 / 树', 'data structures':'数据结构', '数据结构':'数据结构',
+    '动态规划 DP':'动态规划', '搜索':'搜索', '群论':'数学 / 群论', '微积分':'数学 / 微积分', '导数':'数学 / 微积分',
 }
 OFFICIAL = {
     'binary search':'二分查找', 'brute force':'枚举', 'combinatorics':'组合计数',
@@ -37,7 +38,22 @@ OFFICIAL = {
     'geometry':'计算几何', 'graph matchings':'二分图匹配', 'graphs':'图论',
     'greedy':'贪心', 'hashing':'哈希', 'implementation':'模拟', 'shortest paths':'最短路',
     'sortings':'排序', 'two pointers':'双指针', 'bitmasks':'位运算', 'flows':'网络流', 'fft':'FFT',
+    '深度优先搜索 dfs':'DFS', '广度优先搜索 bfs':'BFS', '最近公共祖先 lca':'LCA',
+    '二分':'二分查找', '概率论':'期望与概率', '期望':'期望与概率', '前缀和与差分':'前缀和',
+    '字符串哈希':'哈希', '状态压缩':'状压 DP', '树状数组 bit':'树状数组',
+    '最大公约数 gcd':'最大公约数', '最小公倍数 lcm':'最小公倍数',
+    '组合数学':'组合计数', '双指针 two-pointer':'双指针', '哈希 hashing':'哈希', 'kmp 算法':'KMP',
+    '分类讨论':'枚举', '素数判断':'素数', '线性筛法':'素数', '字典树 trie':'字典树',
+    '连通块':'连通块计数', '线性递推':'递推', '进制':'取模与同余', '随机游走 markov chain':'期望与概率',
 }
+
+
+@lru_cache(maxsize=1)
+def public_knowledge():
+    """Reviewed public metadata, keyed by exact original URL, never title/rating."""
+    path=asset_path('public-knowledge.json')
+    try:return json.loads(path.read_text(encoding='utf-8')).get('problems',{})
+    except (OSError,ValueError):return {}
 
 
 @lru_cache(maxsize=1)
@@ -186,6 +202,16 @@ def analyze_problem(row=None, statement=None, official_tags=None, algorithm_evid
     evidence=[{'source':'official-tags' if remote or official_tags is not None else 'archive-catalog',
                'value':str(value),'tag':OFFICIAL.get(str(value).lower()) or canonical_tag(value)} for value in inputs or []]
     tags=list(parsed['tags']);categories=list(parsed['categories']);unknown=list(parsed['unknown'])
+    original_url=str(row.get('url') or row.get('_url') or '')
+    original_parts=urlsplit(original_url)
+    public=public_knowledge().get('https://'+(original_parts.hostname or '')+original_parts.path.rstrip('/'))
+    if public:
+        extra=normalize_tags(public.get('tags',[]),official=True)
+        tags+=extra['tags'];categories+=extra['categories']
+        for tag in extra['tags']:
+            evidence.append({'source':'public-reviewed','tag':tag,'reference':public['source'],'reason':public.get('reason','原站知识标签'),'verified':False})
+        for category in extra['categories']:
+            evidence.append({'source':'public-reviewed','category':category,'reference':public['source'],'reason':public.get('reason','原站知识标签'),'verified':False})
     curated=_curated_problem(row);removed=[]
     if curated:
         removed=normalize_tags(curated.get('removeTags',[]))['tags']
@@ -211,7 +237,7 @@ def analyze_problem(row=None, statement=None, official_tags=None, algorithm_evid
             # Names in an explanatory statement are classified, not a verified solution.
             tags.append(tag);categories.append(category_path(tag))
             evidence.append({'source':'statement-explicit','tag':tag,'excerpt':text[max(0,match.start()-50):match.end()+100].strip()})
-        graph=re.search(r'(?:undirected|directed|unweighted|connected)\s+(?:graph|tree)|(?:有向|无向|无权|连通)图|(?:given|have)\s+(?:an?\s+)?tree\b|给定.{0,10}(?:一棵树|一张图)',text,re.I)
+        graph=re.search(r'(?:undirected|directed|unweighted|connected)\s+(?:graph|tree)|(?:有向|无向|无权|连通)图|(?:given|have|is)\s+(?:an?\s+)?tree\b|给定.{0,10}(?:一棵树|一张图)',text,re.I)
         if graph:
             tags.append('图论');categories.append('图论')
             evidence.append({'source':'statement-model','tag':'图论','excerpt':graph[0]})
@@ -219,21 +245,29 @@ def analyze_problem(row=None, statement=None, official_tags=None, algorithm_evid
         if graph and (re.search(r'unweighted graph|无权图',lower) or re.search(r'all (?:edges?|roads?).{0,30}(?:weight|length|cost).{0,8}(?:1|one|equal)',lower)) and re.search(r'shortest (?:path|distance)|minimum (?:number of )?(?:edges|steps)|最短路|最少步数',text,re.I):
             tags.extend(['BFS','最短路']);categories.append('搜索')
             evidence.append({'source':'statement-conditions','tag':'BFS','excerpt':'题面明确无权/等长边，并要求最少步数'})
+        # Explicit operations permit a useful classification for elementary
+        # tasks without guessing an algorithm from its letter or difficulty.
+        if re.search(r'(?:sum|total).{0,100}(?:elements?|integers?|numbers?)|(?:elements?|integers?|numbers?).{0,100}(?:sum|total)|求.{0,20}和',text,re.I|re.S) and not re.search(r'(?:queries|updates|subsequences|subsets|query|maximum|minimum)|询问|修改|子序列|子集|最大|最小',text,re.I):
+            tags.append('枚举');categories.append(category_path('枚举'))
+            evidence.append({'source':'statement-conditions','tag':'枚举','excerpt':'直接统计给定数字或指定下标的总和'})
+        if re.search(r'(?:consecutive|连续).{0,80}(?:days|天)|(?:days|天).{0,80}(?:consecutive|连续)',text,re.I|re.S) and not graph:
+            tags.append('模拟');categories.append(category_path('模拟'))
+            evidence.append({'source':'statement-conditions','tag':'模拟','excerpt':'逐项检查连续天数'})
         if re.search(r'\bgcd\b|\blcm\b|greatest common divisor|least common multiple|最大公约数|最小公倍数',text,re.I):
             categories.append('数学 / 数论')
         if re.search(r'\bprobability\b|\bexpected (?:value|number|cost)\b|概率|数学期望',text,re.I):
             tags.append('期望与概率');categories.append(category_path('期望与概率'))
             evidence.append({'source':'statement-model','tag':'期望与概率','excerpt':'题面明确概率或期望目标'})
     if isinstance(algorithm_evidence,dict) and algorithm_evidence.get('source') and algorithm_evidence.get('tags'):
-        extra=normalize_tags(algorithm_evidence['tags']);tags+=extra['tags'];categories+=extra['categories'];unknown+=extra['unknown']
+        extra=normalize_tags(algorithm_evidence['tags'],official=True);tags+=extra['tags'];categories+=extra['categories'];unknown+=extra['unknown']
         for tag in extra['tags']:
             evidence.append({'source':'algorithm-explicit','tag':tag,'reference':str(algorithm_evidence['source'])[:500],
                              'verified':algorithm_evidence.get('verified') is True})
     tags=list(dict.fromkeys(t for t in tags if canonical_tag(t)==t));categories=list(dict.fromkeys(categories))
     official=any(e['source']=='official-tags' and e.get('tag') in tags for e in evidence)
     local=any(e['source']=='archive-catalog' and e.get('tag') in tags for e in evidence)
-    confidence='high' if curated or official or local else 'medium' if tags else 'pending'
-    source='archive-lesson' if curated else 'archive-catalog' if local else 'official-tags' if official else 'statement-analysis' if text else 'pending-evidence'
+    confidence='high' if curated or official or local else 'medium' if tags or public else 'pending'
+    source='archive-lesson' if curated else 'archive-catalog' if local else 'official-tags' if official else 'public-reviewed' if public else 'algorithm-evidence' if algorithm_evidence else 'statement-analysis' if text else 'pending-evidence'
     digest=hashlib.sha256(json.dumps({'tags':inputs,'statement':text,'algorithm':algorithm_evidence,'curated':curated},ensure_ascii=False,sort_keys=True,default=str).encode()).hexdigest()
     return {'version':VERSION,'tags':tags,'knowledge':' + '.join(tags),'categories':categories,
             'status':'classified' if tags else 'pending','source':source,'confidence':confidence,
@@ -254,7 +288,7 @@ def enrich_row(row, statement=None, official_tags=None, algorithm_evidence=None)
         obsolete={category_path(t) for t in result['supersededTags']}
         kept_categories=[c for c in previous.get('categories',[]) if c not in obsolete or c in result['categories']]
         result['categories']=list(dict.fromkeys(result['categories']+kept_categories))
-        result['evidence']+= [e for e in previous.get('evidence',[]) if e.get('source','').startswith('statement-')]
+        result['evidence']+= [e for e in previous.get('evidence',[]) if e.get('source','').startswith('statement-') or e.get('source')=='algorithm-explicit']
         if result['tags']:result['status']='classified'
         if result['confidence']=='pending' and previous.get('confidence') in ('high','medium'):
             result['confidence']=previous['confidence'];result['source']=previous.get('source','statement-analysis')
@@ -273,10 +307,10 @@ class KnowledgeAnalysisCache:
     def enrich(self,row,**kwargs):
         with self.lock:
             identity=str(row.get('id') or row.get('_id') or '')
-            previous=self.state.get(identity)
+            previous=row.get('knowledgeAnalysis') or self.state.get(identity)
             value=dict(row,**({'knowledgeAnalysis':previous} if previous else {}))
             value=enrich_row(value,**kwargs);analysis=value['knowledgeAnalysis']
-            if identity and analysis!=previous:
+            if identity and analysis!=self.state.get(identity):
                 self.state[identity]=analysis;self.path.parent.mkdir(parents=True,exist_ok=True)
                 from persistence import save_document
                 save_document(self.path,self.state)
