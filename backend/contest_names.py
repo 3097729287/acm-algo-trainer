@@ -46,6 +46,8 @@ def contest_name(value, date=None):
         provinces = ('黑龙江', '新疆', '广西', '山东', '四川', '江西', '辽宁', '河南', '陕西', '广东', '浙江', '江苏', '湖北', '湖南', '福建', '安徽', '河北', '吉林', '云南', '贵州', '山西', '海南', '宁夏')
         province = next((p for p in provinces if p in name), None)
         if province and ('省' in name or not re.search(r'区域|邀请', name)):
+            if re.search(r'ICPC|CCPC', name, re.I):
+                return f'{series} {year} {province}省赛{suffix}'.replace('  ', ' ').strip()
             return f'{province}省赛 {year}{suffix}'.replace('  ', ' ').strip()
         if province and '邀请' in name:
             return f'{series} {year} {province}邀请赛{suffix}'.replace('  ', ' ')
@@ -64,6 +66,11 @@ def normalize_row(value):
     original = value.get('contest', '')
     value.setdefault('contestFullName', original)
     value['contest'] = contest_name(original, value.get('contestDate') or value.get('startedAt'))
+    # Earlier display normalization removed the ICPC/CCPC distinction in
+    # provincial events. Recover it from retained first-party provenance.
+    full = value.get('contestFullName', '')
+    if '省赛' in value['contest'] and re.search(r'ICPC|CCPC', full, re.I):
+        value['contest'] = contest_name(full, value.get('contestDate') or value.get('startedAt'))
     if value.get('title'):
         value.setdefault('originalTitle', value['title'])
         value['title'] = re.sub(r'^(?:\[(?:ICPC|CCPC|[A-Z]{2,8}CPC)\s*[^\]]+\]\s*)+', '', value['title'], flags=re.I)

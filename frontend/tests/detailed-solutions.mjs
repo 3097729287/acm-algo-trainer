@@ -38,6 +38,7 @@ try {
   const get = async path => (await page.request.get(url + '/api/' + path)).json();
   const solution = await get('solution?id=' + encodeURIComponent(pid));
   const defaults = JSON.parse(await readFile(join(root, 'data/library/solutions.json'), 'utf8'));
+  const editorialRows = (await get('data')).rows;
   const details = JSON.parse(await readFile(join(root, 'data/library/detailed_solutions.json'), 'utf8'));
   assert.equal(solution.markdown, defaults.find(row => row.problem_id === pid).markdown);
   assert.equal(solution.detailedSolution.markdown, details.find(row => row.problem_id === pid).markdown);
@@ -47,7 +48,9 @@ try {
   await page.keyboard.press('Control+2');
   const open = async title => {
     await page.getByRole('textbox', { name: '搜索题目', exact: true }).fill(title);
-    await page.getByRole('button', { name: '题解 ' + title, exact: true }).click();
+    const identity = title === 'Rank Subsequence' ? pid : editorialRows.find(row => row.title === title && row.solutionAvailable)?.id;
+    assert.ok(identity, 'The test must open an exact problem with a bundled editorial');
+    await page.locator(`tr[data-id=${JSON.stringify(identity)}]`).getByRole('button', { name: '题解 ' + title, exact: true }).click();
     await page.getByRole('group', { name: '题解版本' }).waitFor();
   };
   await open('Rank Subsequence');

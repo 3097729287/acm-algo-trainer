@@ -35,6 +35,7 @@ class CatalogMetadataTests(unittest.TestCase):
         self.assertEqual(normalize_row({'title':'[模板] 最短路','contest':'模板题'})['title'],'[模板] 最短路')
         self.assertEqual(contest_name('“海康威视杯” 2022年第十四届四川省大学生程序设计大赛（热身赛）'),'四川省赛 2022（热身赛）')
         self.assertEqual(contest_name('第 45 届国际大学生程序设计竞赛（ICPC）亚洲区域赛（南京）'),'ICPC 2020 南京区域赛')
+        self.assertNotEqual(contest_name('2023年ICPC新疆赛区'), contest_name('2023年CCPC新疆赛区'))
 
 
 if __name__=='__main__':unittest.main()
