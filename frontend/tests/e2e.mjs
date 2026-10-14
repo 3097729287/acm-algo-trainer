@@ -135,7 +135,7 @@ try {
   await page.keyboard.press('Control+5');
   await page.getByRole('button', {name: /重现赛.*保留/}).click();
   const collected = catalog.rows.filter(row => row.contest === '入门赛 49');
-  await page.getByLabel('重现赛比赛').selectOption('入门赛 49');
+  await page.getByRole('combobox', {name: '重现赛比赛', exact: true}).selectOption('入门赛 49');
   const previewResponse=page.waitForResponse(response=>response.url().endsWith('/api/contests/preview')&&response.request().method()==='POST');
   await page.getByRole('button', {name:'预览重现赛',exact:true}).click();
   const replay = (await (await previewResponse).json()).plan;
