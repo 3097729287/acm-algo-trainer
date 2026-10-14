@@ -145,9 +145,8 @@ def build_insights(rows, submissions, history, workspace, hub, now):
     reviewed = {aliases.get(row["id"], row["id"]) for row in history if row.get("review_count", 0)}
     completed_contests = qualified_contests(workspace.get("contests", []), records)
     # 2026-10-10：取消模赛本地 AC +10 XP；完成模拟赛只保留成就，不发经验。
-    level = xp // 500 + 1
-    names = ["初次启程", "持续练习", "稳步积累", "独立攻坚", "长期精进"]
-    growth = {"xp": xp, "totalXp": xp, "level": level, "levelName": names[min(level - 1, len(names) - 1)], "currentLevelXp": xp % 500, "nextLevelXp": 500, "nextMilestone": f"再积累 {500 - xp % 500} XP 升至 {level + 1} 级"}
+    from tb_rank import growth as build_growth
+    growth = build_growth(xp)
     today = now.astimezone(SHANGHAI).date()
     days = {day for day, value in per_day.items() if value["submissions"]}
     day = today if today in days else today - dt.timedelta(days=1)

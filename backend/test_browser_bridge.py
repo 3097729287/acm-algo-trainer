@@ -39,6 +39,26 @@ class BrowserBridgeTests(unittest.TestCase):
         self.assertEqual(answer['action'], 'submit')
         return answer
 
+    def test_native_preparation_timeout_does_not_report_logout_or_require_manual_submit(self):
+        from types import SimpleNamespace
+        self.bridge.runner = SimpleNamespace(start=lambda identity: None)
+        self.create()
+        self.now = 13
+        self.assertEqual(self.bridge.status(self.sid)['status'], 'loading')
+        self.exchange(claim=True)
+        self.now = 55
+        self.exchange(event={'status': 'loading'})
+        self.assertEqual(self.bridge.status(self.sid)['status'], 'loading')
+        self.assertFalse(self.bridge.sessions[self.sid].get('manual'))
+        self.assertEqual(self.opened, [])
+
+    def test_pre_click_adapter_error_never_requires_manual_submission(self):
+        self.dispatch()
+        self.exchange(event={'status':'error','attempted':False,'message':'control not ready'})
+        self.assertEqual(self.bridge.status(self.sid)['status'],'error')
+        self.assertFalse(self.bridge.sessions[self.sid].get('manual'))
+        self.assertEqual(self.opened,[])
+
     def test_all_four_platforms_submit_without_opening_browser(self):
         for url in (self.url, 'https://codeforces.com/contest/123/problem/A',
                     'https://atcoder.jp/contests/abc100/tasks/abc100_a', 'https://www.luogu.com.cn/problem/P1001'):

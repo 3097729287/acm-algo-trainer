@@ -24,7 +24,7 @@ $env:TB_STATE_DIR = "$PWD/.backups/desktop-dev-state"
 python desktop/launch.py
 ```
 
-API 的可选参数见 `python backend/backend.py --help`。当前源码为 [v1.0.15（尚未正式发布）](releases/1.0.15.md)，最新正式版为 [v1.0.14](releases/1.0.14.md)；已发布版本的准确源码以对应 Git 标签为准。
+API 的可选参数见 `python backend/backend.py --help`。当前源码为 [v1.0.16](releases/1.0.16.md)，已发布版本的准确源码以对应 Git 标签与 BUILD-INFO 为准。
 
 ```powershell
 python scripts/check.py

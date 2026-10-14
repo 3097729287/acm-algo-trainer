@@ -171,17 +171,19 @@ def extra_achievements(evidence, records, completed, longest_streak, claimed_dat
         values = sorted(value for value in values if value)
         result.append({"id": identity, "name": name, "description": description, "unlocked": len(values) >= target,
                        "unlockedAt": values[target - 1] if len(values) >= target else None, "progress": min(target, len(values)), "target": target})
-    for difficulty, name in ((1500, "进阶第一步"), (1800, "攻坚突破"), (2100, "高难突破")):
+    for difficulty, name in ((1500, "进阶第一步"), (1800, "攻坚突破"), (2100, "高难突破"), (2400, "钻石攻坚者"), (2700, "大师挑战者"), (3000, "宗师突破"), (3300, "王者之路"), (3600, "巅峰解题者")):
         add("difficulty-" + str(difficulty), name, f"官方首次 AC 一道难度至少 {difficulty} 的题目", [item["acceptedAt"] for item in evidence if item.get("difficulty") is not None and item["difficulty"] >= difficulty and item.get("acceptedAt")], 1)
     add("independent-5", "独立五题", "独立官方 AC 五道不同题目；看题解后的 AC 不计入", [item["acceptedAt"] for item in evidence if item.get("independent") and item.get("acceptedAt")], 5)
     add("independent-25", "独立积累", "独立官方 AC 二十五道不同题目", [item["acceptedAt"] for item in evidence if item.get("independent") and item.get("acceptedAt")], 25)
+    for target, name in ((100, '百题先锋'), (300, '算法精英'), (1000, '千题大师'), (3000, '万里宗师'), (10000, '万题王者')):
+        add('independent-' + str(target), name, f'独立首次 AC {target} 道不同题目', [item['acceptedAt'] for item in evidence if item.get('independent') and item.get('acceptedAt')], target)
     add("contest-5", "模拟赛常客", "完成五场至少训练一分钟并实际提交的模拟赛", [item.get("finishedAt") for item in completed], 5)
     training_days = {}
     for record in records:
         day = local_date(record.get("submitted_at"))
         if record.get("mode") == "submit" and day:
             training_days.setdefault(day, record.get("submitted_at"))
-    for target in (3, 7, 30):
+    for target in (3, 7, 30, 90, 180, 365, 1000):
         previous, current, unlocked_at = None, 0, None
         for day in sorted(training_days):
             current = current + 1 if previous and day == previous + dt.timedelta(days=1) else 1

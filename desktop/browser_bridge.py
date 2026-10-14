@@ -170,10 +170,10 @@ class BrowserBridge:
         elif session.get('claimed') and not session.get('manual') and now - session.get('lastSeen', now) > 90:
             session.update(status='unconfirmed' if session.get('dispatchedAt') is not None else 'error', intent=False,
                            message='浏览器连接已中断，请打开原站核对提交记录后再重试。')
-        elif not session.get('claimed') and not session.get('interactiveVerification') and now - session['createdAt'] > 12:
+        elif not self.runner and not self._session_client(session['platform']) and not session.get('claimed') and not session.get('interactiveVerification') and now - session['createdAt'] > 12:
             session.update(status='needs_browser', message='尚未同步浏览器登录。首次使用请启用最新版 TB 浏览器连接扩展，随后可关闭浏览器静默提交。')
         elif session.get('claimed') and session['status'] == 'loading' and not session.get('manual') and now - session.get('preparingAt', session['createdAt']) > 40:
-            self._manual(session, '原站页面未在限时内准备好。已转到浏览器，代码填好后请在官网提交；TB 会自动同步结果。')
+            session.update(message='原站响应较慢，正在后台继续准备提交；尚未发送代码。')
         if now - session['createdAt'] > 900 and not session.get('manual'):
             session.update(status='error', intent=False,
                            message='等待原站结果超时，请在浏览器核对提交记录。')
@@ -380,8 +380,6 @@ class BrowserBridge:
             session['verdict'] = value['verdict']
         if status == 'needs_verification' and not session.get('attempted'):
             self._manual(session, '原站要求验证。请在打开的浏览器中完成验证并提交，TB 会自动同步结果。')
-        elif status == 'error' and value.get('attempted') is False and not session.get('manual'):
-            self._manual(session, '后台提交准备失败：' + str(value.get('message', ''))[:200] + ' 请在浏览器确认并提交，TB 会继续同步结果。')
 
     def _persist(self, identity):
         with self.lock:

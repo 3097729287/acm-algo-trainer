@@ -89,6 +89,8 @@ class TrainingService:
                 if column not in columns:
                     self.connection.execute(f"ALTER TABLE {table} ADD COLUMN {column} {definition}")
         self.connection.executescript("""
+            CREATE TABLE IF NOT EXISTS tb_rank_profile (
+              id INTEGER PRIMARY KEY CHECK(id=1), unlocked_at TEXT NOT NULL);
             CREATE TABLE IF NOT EXISTS daily_missions (
               day TEXT NOT NULL, id TEXT NOT NULL, definition TEXT NOT NULL,
               claimed_at TEXT, awarded_xp INTEGER NOT NULL DEFAULT 0, evidence TEXT NOT NULL DEFAULT '[]',
@@ -411,10 +413,23 @@ class TrainingService:
                                                      (ranking_profile["endpoint"], ranking_profile["user_id"])).fetchone()
             ranking_xp = ranking_reward["total_xp"] if ranking_reward else 0
             xp = value["growth"]["xp"] + claimed["xp"] + ranking_xp
-            level = xp // 500 + 1
-            names = ["初次启程", "持续练习", "稳步积累", "独立攻坚", "长期精进"]
-            value["growth"].update(xp=xp, totalXp=xp, missionXp=claimed["xp"], rankingXp=ranking_xp, level=level, levelName=names[min(level - 1, len(names) - 1)], currentLevelXp=xp % 500,
-                                   nextMilestone=f"再积累 {500 - xp % 500} XP 升至 {level + 1} 级")
+            from tb_rank import growth, ranked
+            value['growth'] = dict(growth(xp), missionXp=claimed['xp'], rankingXp=ranking_xp)
+            if value['growth']['rankedEligible']:
+                self.connection.execute('INSERT OR IGNORE INTO tb_rank_profile VALUES(1,?)', (iso(self._now()),))
+            rank_profile = self.connection.execute('SELECT unlocked_at FROM tb_rank_profile WHERE id=1').fetchone()
+            if rank_profile:
+                # Retain unlock if public metadata temporarily changes the XP total.
+                value['growth'].update(mode='ranked', rankedEligible=True, level=10)
+                per_day = {}
+                from progression import local_date
+                for record in records:
+                    day = local_date(record.get('submitted_at'))
+                    if day:
+                        per_day.setdefault(day, []).append(record)
+                daily_evidence = [item for daily_records in per_day.values()
+                                  for item in official_reward_evidence(library, daily_records)]
+                value['growth']['ranked'] = ranked(evidence, daily_evidence, rank_profile['unlocked_at'], self._now())
             value["dailyTasks"] = tasks
             value["profile"] = self.profile()["profile"]
             return value

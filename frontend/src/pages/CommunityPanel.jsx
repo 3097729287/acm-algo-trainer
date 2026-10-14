@@ -28,7 +28,7 @@ export function ProfileSettings({ api, onError, onChanged }) {
   }
   return <section className="profile-settings" aria-label="TB 账号设置"><div className="progress-section-heading"><h2><UserRound size={18} />我的账号</h2><span>{snapshot?.leaderboard?.configured ? '排行榜已连接' : '账号设置'}</span></div>
     {snapshot?.profile && <div className="profile-identity"><strong>{snapshot.profile.nickname || '用户'}</strong>{account && <span>登录号：{account.loginId}</span>}</div>}
-    <p className="progress-small">排行榜显示昵称。修改昵称会保留你的成绩和训练记录。</p>
+    <details className="profile-edit"><summary>管理账号</summary><p className="progress-small">排行榜显示昵称。修改昵称会保留你的成绩和训练记录。</p>
     <form onSubmit={save} className="profile-form"><label>昵称<input aria-label="用户昵称" maxLength={32} value={nickname} onChange={event => setNickname(event.target.value)} placeholder="设置你的昵称" required /></label><button className="progress-button progress-primary" disabled={busy || !snapshot}><Check size={14} />保存昵称</button></form>
     <p className="progress-small">{snapshot?.leaderboard?.notice || '共享排行榜尚未连接。连接后同步 ID、昵称与过题统计。'}</p>{error && <p className="connection-error" role="alert">{error}</p>}{message && <p className="connection-message" role="status">{message}</p>}
     {account && <div className="account-settings"><h3><LockKeyhole size={16}/> 修改密码</h3><form onSubmit={changePassword}>
@@ -37,7 +37,7 @@ export function ProfileSettings({ api, onError, onChanged }) {
       <label>确认新密码<input type="password" autoComplete="new-password" minLength={8} maxLength={128} value={confirmation} onChange={event => setConfirmation(event.target.value)} required disabled={busy}/></label>
       <button className="progress-button progress-primary" disabled={busy}>修改密码</button></form>
       <button className="progress-button account-logout" onClick={logout} disabled={busy}><LogOut size={15}/>退出账号</button>
-    </div>}
+    </div>}</details>
   </section>;
 }
 

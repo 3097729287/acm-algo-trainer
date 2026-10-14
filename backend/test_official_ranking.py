@@ -58,7 +58,8 @@ class OfficialRankingTests(unittest.TestCase):
         growth = self.service.insights()['growth']
         self.assertEqual(growth['xp'], original + 600)
         self.assertEqual(growth['rankingXp'], 600)
-        self.assertEqual(growth['level'], (original + 600) // 500 + 1)
+        from tb_rank import growth as expected_growth
+        self.assertEqual(growth['level'], expected_growth(original + 600)['level'])
         with self.assertRaises(RuntimeError):
             self.service._ranking_rewards(profile, {**value, 'userId': 'another-identity'})
         with self.assertRaises(RuntimeError):

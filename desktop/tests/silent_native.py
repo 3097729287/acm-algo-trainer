@@ -139,9 +139,9 @@ def run():
                 assert len(posts)==before+1 and 'cf-turnstile-response=fixture-site-token' in posts[-1][2]
                 mode['acReject']=True
                 sid=bridge.submit(urls[1],'int main(){}','AtCoder server rejection')['sessionId']
-                rejected=wait(sid,'awaiting_submit')
+                rejected=wait(sid,'error')
                 assert 'Invalid submission verification' in rejected['message'] and len(posts)==before+2
-                assert len(opened)==1 and bridge.sessions[sid]['manual']
+                assert len(opened)==0 and not bridge.sessions[sid].get('manual')
                 mode['acReject']=False
                 mode['acToken']=None
                 extra_atcoder=2
@@ -159,13 +159,13 @@ def run():
                 time.sleep(.4)
                 bridge.submit(urls[-1],'int main(){}','explicit retry')
                 assert wait(sid,'finished')['verdict']=='AC'
-                assert len(posts)==6+extra_atcoder and len(opened)==1
+                assert len(posts)==6+extra_atcoder and len(opened)==0
                 mode['invalid']=True
                 sid=bridge.submit(urls[-1],'int main(){}','invalid context')['sessionId']
-                wait(sid,'awaiting_submit',timeout=25)
+                wait(sid,'error',timeout=25)
                 assert len(posts)==6+extra_atcoder and not bridge.sessions[sid]['attempted']
-                assert bridge.sessions[sid]['manual'] and bridge.sessions[sid]['transport']=='browser'
-                assert len(opened)==2 and opened[1].startswith(bridge.base_url+'/browser-connect.html#')
+                assert not bridge.sessions[sid].get('manual')
+                assert len(opened)==0
                 mode['acToken']=False
                 # Different code creates an independent native job; the earlier
                 # rejected job must remain with the browser until superseded.
@@ -173,7 +173,7 @@ def run():
                 wait(sid,'awaiting_submit',timeout=40)
                 assert len(posts)==6+extra_atcoder and not bridge.sessions[sid]['attempted']
                 assert bridge.sessions[sid]['manual'] and bridge.sessions[sid]['transport']=='browser'
-                assert len(opened)==3 and all(url.startswith(bridge.base_url+'/browser-connect.html#') for url in opened)
+                assert len(opened)==1 and all(url.startswith(bridge.base_url+'/browser-connect.html#') for url in opened)
                 assert not runner._ui(lambda:main.native.Visible)
                 result.update(ok=True,allFourHidden=True,allFourStaleCacheRefreshedBeforeSubmit=True,firstPartyPartitionReplayed=True,atcoderFirstContestSubmission=True,atcoderVerificationNoPost=True,atcoderVerifiedNativeForm=True,atcoderRejectionDisplayed=True,reusedBrowserLogin=True,encryptedSessionWorksWithBrowserClosed=True,luoguMissingEditor=True,luoguContextFetch=True,loginRetry=True,invalidContextNoPost=True,manualBrowserHandoffs=len(opened),posts=len(posts),fixtureTimings=timings,realAccountSubmission=False)
             except Exception as error:

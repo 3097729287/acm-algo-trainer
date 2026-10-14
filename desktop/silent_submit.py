@@ -83,11 +83,15 @@ class SilentSubmitter(OfficialBridge):
                     event.wait(12)
             snapshot = self.store.snapshot(session['platform'])
             self.store.finish(session['platform'])
+            if self.bridge.route_to_browser(identity):
+                return
             if snapshot is None:
+                if self.bridge._session_client(session['platform']):
+                    self._event(identity, {'status': 'loading', 'attempted': False,
+                        'message': '浏览器已连接，正在刷新本平台的登录会话；尚未发送代码。'})
+                    return
                 self._event(identity, {'status': 'needs_browser', 'attempted': False,
                     'message': '首次登录同步尚未完成：请启用或重新加载最新版 TB 浏览器连接扩展；同步后可关闭浏览器静默提交。'})
-                return
-            if self.bridge.route_to_browser(identity):
                 return
             self._ui(lambda: self._attach_silent(identity, snapshot))
             next_inspect = 0

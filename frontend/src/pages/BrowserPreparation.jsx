@@ -27,7 +27,17 @@ export default function BrowserPreparation({ api, enabled }) {
   useEffect(() => {
     if (!enabled) return;
     refresh();
-    const show = event => { setContext(event.detail || null); setOpen(true); refresh(); };
+    const show = async event => {
+      const detail = event.detail || null;
+      try {
+        const value = await api('browser-preparation');
+        setSnapshot(value);
+        const state = value.platforms?.find(item => item.platform === detail?.platform)?.state;
+        // A connected browser's stale job status must not reopen setup.
+        if (value.extension?.installed && detail?.status === 'needs_browser' && state === 'logged_in') return;
+      } catch {}
+      setContext(detail); setOpen(true); refresh();
+    };
     window.addEventListener('tb:browser-preparation', show);
     window.addEventListener('focus', refresh);
     return () => { generation.current++; pending.current = null; window.removeEventListener('tb:browser-preparation', show); window.removeEventListener('focus', refresh); };

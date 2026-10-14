@@ -169,6 +169,10 @@ class IntegrationService:
             if (self.state['settings']['minDifficulty'],self.state['settings']['maxDifficulty'])==(1000,2199):self.state['settings'].update(minDifficulty=0,maxDifficulty=10000)
             self.state['collectionPolicy']='all-levels-v1'
         self.state['settings']['accounts']={**DEFAULTS['accounts'],**self.state['settings'].get('accounts',{})}
+        # Public account binding is supported only where complete statistics are available.
+        for platform in ('nowcoder', 'luogu'):
+            self.state['settings']['accounts'][platform] = ''
+            self.state['accounts'].pop(platform, None)
         if legacy_source and not self.state['settings']['githubRepo']:self.state['settings']['githubRepo']=KNOWN_REPO
         if self.state['settings']['githubRepo']=='3097729287/acm-agent-workflow':self.state['settings']['githubRepo']=KNOWN_REPO
         self.state['githubSourceInitialized']=True
@@ -176,7 +180,10 @@ class IntegrationService:
         seed=json.loads(resource('public-problem-metadata.json').read_text(encoding='utf-8'))
         if isinstance(seed,dict):
             for url,value in seed.items():
-                if url not in self.state['difficultyMetadata'] and isinstance(value,dict):self.state['difficultyMetadata'][url]=value
+                if isinstance(value,dict):
+                    previous = self.state['difficultyMetadata'].get(url, {})
+                    if not previous or value.get('metadataVersion') == '1.0.16' and previous.get('difficultyConfidence') not in ('HIGH', 'MEDIUM'):
+                        self.state['difficultyMetadata'][url]=value
         from contestmeta import ContestDates
         self.dates=ContestDates(store)
         self.dates.by_url=copy.deepcopy(self.state.get('contestDates') or {})
@@ -298,6 +305,8 @@ class IntegrationService:
                         expected=P.profile(platform,'')['url'];handle=handle[len(expected):].rstrip('/') if handle.startswith(expected) else '!'
                     regex=r'\d{1,20}' if platform in ('luogu','nowcoder') else r'[A-Za-z0-9_.-]{1,64}'
                     if handle and not re.fullmatch(regex,handle):fail(422,'牛客/洛谷请填公开用户 ID 或主页地址；CF/AtCoder 请填公开用户名')
+                    if platform in ('nowcoder', 'luogu'):
+                        handle = ''
                     settings['accounts'][platform]=handle
                     if handle!=old['accounts'][platform]:updated_accounts[platform]=P.profile(platform,handle)
             if settings['githubRepo']!=old['githubRepo']:
@@ -389,7 +398,11 @@ class IntegrationService:
     def _supplement_knowledge(self,value):
         from knowledge import enrich_row
         value=enrich_row(value)
-        if value.get('tags') or value.get('knowledgeCategories'):return value
+        if value.get('tags') or value.get('knowledgeCategories'):
+            if value.get('difficulty') is None:
+                from catalog_metadata import supplement
+                value=supplement(value)
+            return value
         path=self.state_dir/'statements'/(hashlib.sha256(value['id'].encode()).hexdigest()+'.json')
         saved=load(path,{})
         if not saved.get('statementAvailable'):
@@ -421,7 +434,8 @@ class IntegrationService:
             if hint:
                 if not self.stop.is_set():atomic(hint_path,hint)
                 value=enrich_row(value,algorithm_evidence=hint)
-        return value
+        from catalog_metadata import supplement
+        return supplement(value, saved.get('markdown', ''))
 
     def _refresh_knowledge(self,platform,limit=12):
         # Older rows must participate too. Rotate failed attempts so one missing
@@ -449,7 +463,10 @@ class IntegrationService:
         enriched=[]
         for value in rows:
             if self.stop.is_set():break
-            with self.lock:previous=copy.deepcopy(self.state['rows'].get(value['id'],{}))
+            with self.lock:
+                previous=copy.deepcopy(self.state['rows'].get(value['id'],{}))
+                if value.get('difficulty') is None:
+                    value.update(copy.deepcopy(self.state['difficultyMetadata'].get(canonical(value.get('url')),{})))
             if previous.get('knowledgeAnalysis'):value['knowledgeAnalysis']=previous['knowledgeAnalysis']
             enriched.append(self._supplement_knowledge(value))
         rows=enriched
@@ -563,7 +580,8 @@ class IntegrationService:
         for platform in P.LABELS:
             if self.stop.is_set():break
             if 'all' not in selected and platform not in selected:continue
-            self._account(platform)
+            if platform in ('codeforces', 'atcoder'):
+                self._account(platform)
             try:
                 providers.append(self._catalog(platform,local_urls));success=True
                 try:self._refresh_difficulties(platform)

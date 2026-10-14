@@ -4,10 +4,10 @@ import { ArrowLeft, ArrowRight, Award, BookOpen, CalendarDays, Check, ChevronRig
 import { compareContestNewest, contestTime, difficultyBand } from '@/lib/practiceMetadata.js';
 import './ProgressPanels.css';
 import GoalsPanel from './GoalsPanel.jsx';
+import TierIcon from '@/components/TierIcon.jsx';
 
 const PLATFORMS = [
   ['codeforces', 'Codeforces', 'Handle'], ['atcoder', 'AtCoder', '用户名'],
-  ['nowcoder', '牛客', '公开用户 ID'], ['luogu', '洛谷', '公开用户 ID'],
 ];
 const LABELS = Object.fromEntries(PLATFORMS.map(([key, name]) => [key, name]));
 const number = value => typeof value === 'number' && Number.isFinite(value) ? value.toLocaleString('zh-CN') : '—';
@@ -58,10 +58,11 @@ export function GrowthPage({ api, onGoalsChanged, insights, hub, onTrain, onTopi
   const points = trend.map((item, index) => `${trend.length === 1 ? 150 : index / (trend.length - 1) * 300},${42 - (item.value - min) / (max - min || 1) * 32}`).join(' ');
   return <div className="progress-page" aria-label="成长与能力">
     <div className="progress-level-strip">
-      <span className="progress-level-badge"><Award size={22} /><b>Lv.{growth.level ?? '—'}</b></span>
-      <div className="progress-level-main"><strong>{growth.levelName || '从第一步开始'}</strong><span>{number(growth.currentLevelXp)} / {number(growth.nextLevelXp)} XP · 累计 {number(growth.totalXp ?? growth.xp)} XP</span><Meter value={growth.nextLevelXp ? growth.currentLevelXp / growth.nextLevelXp * 100 : 0} label="本级经验进度" /></div>
+      <span className={`progress-level-badge ${growth.ranked?.badge || growth.badge || ''}`}><TierIcon badge={growth.ranked?.badge || growth.badge} /><b>{growth.ranked?.tier || growth.tier || '黑铁'}</b><small>Lv.{growth.level ?? '—'}</small></span>
+      <div className="progress-level-main"><strong>{growth.ranked?.title || growth.levelName || '从第一步开始'}</strong>{growth.ranked ? <><span>{number(growth.ranked.score)} TB 排位分 · 下一星 / 段位 {number(growth.ranked.nextScore)} 分</span><Meter value={growth.ranked.score / growth.ranked.nextScore * 100} label="排位进度" /></> : <><span>{number(growth.currentLevelXp)} / {number(growth.nextLevelXp)} XP · 累计 {number(growth.totalXp ?? growth.xp)} XP</span><Meter value={growth.nextLevelXp ? growth.currentLevelXp / growth.nextLevelXp * 100 : 0} label="本级经验进度" /></>}</div>
       {growth.nextMilestone && <span className="progress-milestone">{typeof growth.nextMilestone === 'string' ? growth.nextMilestone : growth.nextMilestone.name || growth.nextMilestone.label}</span>}
     </div>
+    <section className="progress-section rank-rules"><details><summary>{growth.ranked ? `今日排位 +${growth.ranked.todayPoints} 分 · 达标 ${growth.ranked.dailyQualified}/${growth.ranked.dailyRequired} 题 · 难度 ≥${growth.ranked.minDifficulty}` : '升级与排位规则 · 10 级解锁 TB 排位'}</summary><p className="progress-small">每级所需经验依次为 {list(growth.levelCosts).join('、')} XP，累计 {number(growth.rankUnlockXp)} XP 达到 10 级。经验与已获成就保留。</p><p className="progress-small">{growth.ranked?.rules || '排位按独立首次原站 AC 的难度加分，同题只奖励一次。翡翠及以上需每天完成当前段位难度的题目维持分数；王者星级持续提升。'}</p></details></section>
     <div className="progress-stat-line">
       <span title="按原题去重，累计已确认 AC 的题目"><b>{number(summary.totalSolved ?? summary.officialSolved)}</b> 总做题数（AC）</span><span><b>{number(summary.submissions)}</b> 次提交</span><span><b>{number(summary.activeDays)}</b> 个活跃日</span><span><b>{number(summary.streak)}</b> 天连续训练</span><span><b>{number(summary.completedContests)}</b> 场模拟赛</span>
     </div>
@@ -161,7 +162,8 @@ export function ActivityPage({ insights, onTrain }) {
       <div className="activity-calendar-caption"><span role="status">{focused} · {focusedData.submissions || 0} 次提交 · {focusedData.accepted || 0} 次本地通过 · {focusedData.officialAccepted || 0} 次官方通过</span><span className="activity-legend">少{[0, 1, 2, 3, 4].map(level => <i key={level} className={`activity-level-${level}`} />)}多</span></div>
       <p className="progress-small">方向键移动，Enter 查看当天；每格数据也可在下方日期明细中读取。</p>
     </section>
-    <section className="progress-section activity-day-detail"><div className="progress-section-heading"><h2>{selected || '日期详情'}</h2><span>{selectedData.submissions || selectedData.accepted || selectedData.officialAccepted ? '已经留下训练记录' : '这一天没有提交记录'}</span></div><div className="progress-stat-line"><span><b>{number(selectedData.submissions)}</b> 次提交</span><span><b>{number(selectedData.accepted)}</b> 次本地通过</span><span><b>{number(selectedData.officialAccepted)}</b> 次官方通过</span></div></section>
+    <section className="progress-section activity-day-detail"><div className="progress-section-heading"><h2>{selected || '日期详情'}</h2><span>{selectedData.submissions || selectedData.accepted || selectedData.officialAccepted ? '已经留下训练记录' : '这一天没有提交记录'}</span></div>
+    <div className="progress-stat-line"><span><b>{number(selectedData.submissions)}</b> 次提交</span><span><b>{number(selectedData.accepted)}</b> 次本地通过</span><span><b>{number(selectedData.officialAccepted)}</b> 次官方通过</span></div></section>
     <section className="progress-section"><details className="activity-details" open><summary>查看日期明细（{selectedDays.length} 天）</summary>{selectedDays.length ? <div className="progress-table-scroll"><table><thead><tr><th>日期</th><th>提交</th><th>本地通过</th><th>官方通过</th></tr></thead><tbody>{selectedDays.slice().reverse().map(key => { const item = activity.get(key); return <tr key={key}><td><button type="button" className="progress-text-button" onClick={() => { setSelected(key); focusDay(key); }}>{key}</button></td><td>{number(item.submissions)}</td><td>{number(item.accepted)}</td><td>{number(item.officialAccepted)}</td></tr>; })}</tbody></table></div> : <p className="progress-muted">这一年还没有记录。完成正式提交后会自动记录。</p>}</details>
       {insights.recommendations?.[0]?.ids?.[0] && onTrain && <button type="button" className="progress-button" onClick={() => onTrain(insights.recommendations[0].ids[0])}>继续练习<ArrowRight size={13} /></button>}
     </section>
@@ -294,7 +296,7 @@ export function ConnectionsPanel({ hub, api, onChanged, onError, includeTranslat
       <div className="progress-actions"><button type="submit" className="progress-button progress-primary" disabled={busy || !api}>{busy ? <LoaderCircle size={14} className="progress-spin" /> : <Check size={14} />}保存账号</button><button type="button" className="progress-button" disabled={busy || hub?.sync?.busy || !api} onClick={() => request('hub/sync', {})}><RefreshCw size={14} />刷新公开记录</button><span className="progress-small">清空后保存，可解除关联。</span></div>
     </form>
     {error && <p className="connection-error" role="alert">{error}</p>}{message && <p className="connection-message" role="status">{message}</p>}
-    <div className="connection-account-list">{list(hub?.accounts).filter(account => account.handle).map(account => <div className="connection-account" key={account.platform}><div className="connection-account-heading"><strong>{LABELS[account.platform] || account.platform}</strong>{account.url ? <a href={account.url} target="_blank" rel="noreferrer">{account.displayName || account.handle}<ExternalLink size={12} /></a> : <span>{account.displayName || account.handle}</span>}<span className={`connection-status connection-status-${account.status}`}>{({ ready: '已更新', partial: '公开信息有限', error: '暂未读取' })[account.status] || '尚未配置'}</span></div><div className="connection-evidence"><span>评分 <b>{number(account.rating)}</b></span><span>最高 <b>{number(account.maxRating)}</b></span><span>通过 <b>{number(account.solvedCount)}</b></span><span>提交 <b>{number(account.submissionCount)}</b></span><span>{dateLabel(account.updatedAt)}</span></div>{account.error && <p>{account.error}</p>}</div>)}</div>
+    <div className="connection-account-list">{list(hub?.accounts).filter(account => account.handle && PLATFORMS.some(([key]) => key === account.platform)).map(account => <div className="connection-account" key={account.platform}><div className="connection-account-heading"><strong>{LABELS[account.platform] || account.platform}</strong>{account.url ? <a href={account.url} target="_blank" rel="noreferrer">{account.displayName || account.handle}<ExternalLink size={12} /></a> : <span>{account.displayName || account.handle}</span>}<span className={`connection-status connection-status-${account.status}`}>{({ ready: '已更新', partial: '公开信息有限', error: '暂未读取' })[account.status] || '尚未配置'}</span></div><div className="connection-evidence"><span>评分 <b>{number(account.rating)}</b></span><span>最高 <b>{number(account.maxRating)}</b></span><span>通过 <b>{number(account.solvedCount)}</b></span><span>提交 <b>{number(account.submissionCount)}</b></span><span>{dateLabel(account.updatedAt)}</span></div>{account.error && <p>{account.error}</p>}</div>)}</div>
     {includeTranslation && <TranslationSettings api={api} onError={onError} />}
   </section>;
 }

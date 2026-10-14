@@ -21,7 +21,7 @@ class CaptureTests(unittest.TestCase):
         self.assertIn('Star OI', value['contestFullName'])
 
     def test_public_statement_is_enriched_on_capture_and_reused_after_restart(self):
-        value = row('atcoder', {'id':'abc479','name':'AtCoder Beginner Contest 479','end':100}, 'A', 'Odd Index Sum', 'https://atcoder.jp/contests/abc479/tasks/abc479_a', 800, 'fixture')
+        value = row('atcoder', {'id':'abc999','name':'AtCoder Beginner Contest 999','end':100}, 'A', 'Odd Index Sum', 'https://atcoder.jp/contests/abc999/tasks/abc999_a', 800, 'fixture')
         statement = {'id':value['id'], 'url':value['url'], 'markdown':'Find the sum of the elements of an integer sequence at odd indices.', 'statementAvailable':True}
         with tempfile.TemporaryDirectory() as temporary:
             store = Store(); service = IntegrationService(store, Path(temporary), auto_start=False, client=Client(), clock=lambda:NOW)
@@ -30,7 +30,7 @@ class CaptureTests(unittest.TestCase):
                 with patch.dict('public_platforms.DISCOVERY_ADAPTERS', {'atcoder':lambda client, now:([value],[], 'fixture')}), patch('public_platforms.statement', return_value=statement) as fetch:
                     service._catalog('atcoder', set())
                     result=service.rows()[0]
-                    self.assertEqual(result['contest'], 'ABC 479')
+                    self.assertEqual(result['contest'], 'ABC 999')
                     self.assertIn('枚举', result['tags'])
                     service._catalog('atcoder', set())
                     self.assertEqual(fetch.call_count,1)

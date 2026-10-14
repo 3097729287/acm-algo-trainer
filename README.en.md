@@ -1,44 +1,35 @@
 # TB · Training Workbench
 
-TB brings competitive programming problems, editorials, C++ editing, local sample judging and training records into one desktop workspace. It supports Nowcoder, Codeforces, AtCoder and Luogu. Bundled content and personal records work locally; public account sync, translation and shared rankings use the network as needed.
+TB combines competitive programming problems, editorials, C++ editing, local sample judging and personal training records. It supports Codeforces, AtCoder, Nowcoder and Luogu.
 
-**Latest stable release: [TB v1.0.14](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.0.14), released on October 14, 2026.** It fixes independent daily-goal counts, original-site submission verification and statement loading, with file delta updates.
+**Version: [TB v1.0.16](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.0.16), October 15, 2026.** Source, application and browser extension share the same version. The release tag and BUILD-INFO identify the build commit; asset availability is shown on the release page.
 
-**Current source: v1.0.15, built and validated locally; no GitHub Release has been published for this version.** It adds official receipt synchronization, training statistics, contest improvements and more bundled problems. See the [1.0.15 source update notes](docs/releases/1.0.15.md). Downloads below remain on the published 1.0.14 release.
+[Latest stable download](https://github.com/3097729287/acm-algo-trainer/releases/latest) · [Website](https://3097729287.github.io/acm-algo-trainer/) · [中文](README.md) · [Usage](docs/usage.md) · [Development](docs/development.md)
 
-[Download latest](https://github.com/3097729287/acm-algo-trainer/releases/latest) · [Website](https://3097729287.github.io/acm-algo-trainer/) · [中文](README.md) · [Usage](docs/usage.md) · [Development](docs/development.md) · [Report an issue](https://github.com/3097729287/acm-algo-trainer/issues)
+![TB training workbench](docs/assets/workbench.png)
 
-![TB workbench with problem, editor and illustrated editorial](docs/assets/workbench.png)
+## Install and upgrade
 
-## Install and start
+For Windows 10/11 x64 use `TB-Setup-1.0.16-win64.exe`; it includes a C++ compiler and offline WebView2 setup. Extract the entire `TB-1.0.16-win64.zip` for portable use. Save drafts and exit TB before upgrading into the existing directory. Personal databases are preserved.
 
-For Windows 10/11 x64, download [TB-Setup-1.0.14-win64.exe](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.0.14/TB-Setup-1.0.14-win64.exe). The installer includes Python, a C++ toolchain and an offline WebView2 installer. Exit TB before manually upgrading into the existing directory.
+Assets include a 1.0.14 → 1.0.16 delta, a browser extension ZIP, `RELEASE-MANIFEST.json`, `SHA256SUMS.txt` and `BUILD-INFO.json`. Local 1.0.15 users can use the full installer. Reload the bundled extension in Edge/Chrome after updating.
 
-Extract the entire [portable ZIP](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.0.14/TB-1.0.14-win64.zip); it requires an existing WebView2 runtime. The release also includes the 1.0.13 → 1.0.14 delta package, `RELEASE-MANIFEST.json`, `SHA256SUMS.txt` and `BUILD-INFO.json`.
+## Changes in v1.0.16
 
-Choose a problem, add it to your training and write C++. **Run samples** tests public examples. **Submit** (Ctrl+Enter) sends code through your connected original-site account in the background and shows the result in TB. For first use, load the bundled Edge/Chrome browser extension and sign in to the platform in your regular browser; see [browser setup](docs/usage.md#练习).
+- Fix CF native submit controls and form ownership. Waiting for preparation does not imply logout. Ordinary preparation errors stay retryable; human handoff happens for an actual verification request. An uncertain dispatched request is tracked without resending code.
+- Ten progression levels require 200, 400, …, 1800 XP respectively, totaling 9000 XP. Each tier has a distinct icon and color; achievements now extend to harder tasks, 10,000 independent solves and longer training streaks.
+- Level 10 unlocks TB ranked points. Independent first official ACs meeting the current difficulty earn points once per original problem. Emerald and higher require daily qualifying solves; missed completed Beijing days deduct points. King stars continue increasing. TB ranked points are personal training scores, separate from official ratings and the shared solve leaderboard.
+- Daily AC is a separate topbar item. The level control displays X/Y XP or ranked points; old popup statistics are removed. Account editing is collapsed. Public-statistics binding is limited to CF and AtCoder; all four original-site submission adapters remain available.
+- The public library contains 2202 problems and statements, 796 default editorials, 1 detailed editorial and 376 foundation lessons. Every problem has a knowledge classification and practice difficulty; 762 ratings are explicitly marked TB estimates. Some classifications describe statement subjects and do not claim a verified solution algorithm.
+- Normalize XCPC and Nowcoder contest names automatically. Remove repeated contest prefixes from problem titles while preserving original titles and identities.
 
-## Latest stable release: v1.0.14
-
-- Each daily goal keeps and counts its own assigned problems. Daily XP counts distinct problems accepted that day, including previously solved problems, without repeating first-AC rewards.
-- Submission verification is separate from account login and reuses existing browser sessions. Fixes cover stale receipts blocking later submissions and statements with empty sample input. Users complete site verification themselves; uncertain requests are never resent automatically.
-- Updates use verified file deltas, preserving drafts and databases without downloading the compiler or WebView2 again. Skipped versions follow available intermediate delta packages.
-- The published 1.0.14 bundle contains 958 problems and statements, 796 default editorials, 1 detailed editorial and 376 foundation lessons.
-
-See the [v1.0.14 release notes](docs/releases/1.0.14.md).
-
-## Additions in the current v1.0.15 source
-
-- Synchronize Codeforces official submissions for the configured account and receive personal submission records through the browser extension for Codeforces, AtCoder, Nowcoder and Luogu. Records matching bundled or locally known problems retain their original timestamps and are deduplicated by platform and submission ID. Missing submitted code is labeled explicitly.
-- If submission preparation times out or verification is required, open the relevant browser page and try to prefill the code. The user completes verification and submits through the original form while TB continues watching for the result without resending code.
-- Show today's AC count and total solved problems; keep sample runs out of global submission history. Search naturally sorted contest names and delete finished mock-contest records while preserving drafts, code and AC progress. Daily goals retain their original tasks when bundled problem IDs change.
-- Bundle 1,982 problems and statements, 796 default editorials, 1 detailed editorial and 376 foundation lessons. Public synchronization may add more problems locally. Some contest rosters remain unverified; coverage reports live in `backend/resources/*-coverage.json`.
+See [v1.0.16 release notes](docs/releases/1.0.16.md).
 
 ## Workbench features (current source)
 
 | Feature | Behavior |
 | --- | --- |
-| Bundled content | 1,982 problems and statements, 796 default editorials, 1 detailed editorial and 376 foundation lessons in SQLite; illustrations work offline and open at full size |
+| Bundled content | 2,202 problems and statements, 796 default editorials, 1 detailed editorial and 376 foundation lessons in SQLite; illustrations work offline and open at full size |
 | Training and mock contests | Single-problem, mixed, focused and replay contests; topics and editorials stay hidden until review; finished contest records can be deleted |
 | Code and records | Saved drafts, code and results; official submission history is separate from workbench sample runs; independent statement font size from 14 to 32px |
 | Knowledge and growth | Today's AC count, total solved problems, hierarchical knowledge coverage, recommendations, independent daily goals and achievements |
@@ -71,6 +62,6 @@ npm run dev
 
 The backend defaults to `127.0.0.1:18765`, the frontend to `127.0.0.1:5173`. For desktop development, install `backend/requirements.txt`, build the frontend and run `python desktop/launch.py` with disposable state. See [development and validation](docs/development.md).
 
-The repository is `3097729287/acm-algo-trainer`; published source is available at the [v1.0.14 tag](https://github.com/3097729287/acm-algo-trainer/tree/v1.0.14). Each release must synchronize source, both READMEs and affected documentation; the release tag must identify the build commit. See the [release synchronization checklist](docs/development.md#发布同步检查).
+The repository is `3097729287/acm-algo-trainer`; versioned source is available at the [v1.0.16 tag](https://github.com/3097729287/acm-algo-trainer/tree/v1.0.16). Each release synchronizes source, both READMEs and affected documentation; the release tag identifies the build commit. See the [release synchronization checklist](docs/development.md#发布同步检查).
 
 Application source is MIT licensed. See [contributing](CONTRIBUTING.md), [third-party notices](THIRDPARTY.md), [compiler sources](TOOLCHAIN-SOURCES.md) and [ranking deployment](server/leaderboard/README.md).

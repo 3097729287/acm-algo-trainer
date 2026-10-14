@@ -107,6 +107,22 @@ try{
   result.cfFixturePrepareMs=Math.round(performance.now()-started);
   assert.ok(result.cfFixturePrepareMs<900,JSON.stringify(result));
   assert.ok(fast.requests.includes('/api/user.status'));await fast.page.close();
+  for (const variant of ['default-button','cf-input-button','external-owner','unrelated-form']) {
+    const f=await fixture('Codeforces','<table class="status-frame-datatable"><tr><th>Submission</th></tr></table>');
+    await f.page.evaluate(variant=>{
+      const form=document.querySelector('form'),button=form.querySelector('button');form.id='submitForm';
+      if(variant==='default-button')button.removeAttribute('type');
+      if(variant==='cf-input-button') { button.outerHTML='<input type="button" class="submit" value="Submit">';form.querySelector('.submit').onclick=()=>form.requestSubmit(); }
+      if(variant==='external-owner') { const textarea=form.querySelector('textarea');textarea.setAttribute('form','submitForm');form.before(textarea); }
+      if(variant==='unrelated-form')form.insertAdjacentHTML('beforebegin','<form id="search"><textarea id="code-search"></textarea><button type="button">Search</button></form>');
+      tbOfficialPage(ctx,'submit',report);
+    },variant);
+    await f.page.waitForFunction(()=>posts.length===1);
+    assert.equal(await f.page.evaluate(()=>posts[0].sourceCode),'int main(){}');
+    assert.equal(await f.page.evaluate(()=>messages.filter(m=>m.attempted===true).length),1);
+    await f.page.close();
+  }
+  result.cfNativeButtonsAndFormOwnership=true;
   const single=await fixture('AtCoder',empty,500);
   await single.page.evaluate(()=>{ctx.attempted=true;ctx.baselineKnown=true;ctx.baseline=[];ctx.baselineOwner='fixture';for(let i=0;i<25;i++)tbOfficialPage(ctx,'inspect',report)});
   await new Promise(r=>setTimeout(r,100));

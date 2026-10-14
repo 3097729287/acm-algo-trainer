@@ -164,10 +164,14 @@ if(['Codeforces','AtCoder'].includes(ctx.platform)&&!baselineKnown)return send({
 // The site may refresh/expire its token while language/editor/list preparation
 // is in flight. Recheck this form immediately before the dispatch checkpoint.
 const verificationAfterPreparation=acVerificationState();if(verificationAfterPreparation)return send(verificationAfterPreparation);
-const form=editors().map(e=>e.closest('form')).find(Boolean)||[...document.querySelectorAll('form')].find(f=>f.querySelector('.CodeMirror,.cm-editor,.ace_editor,.monaco-editor'));
+const submitForm=f=>f&&[...f.elements].some(e=>e.tagName==='SELECT'&&/language|programType/i.test((e.name||'')+' '+(e.id||'')))&&(f.querySelector('.CodeMirror,.cm-editor,.ace_editor,.monaco-editor')||editors().some(e=>e.form===f));
+const form=editors().map(e=>e.form||e.closest('form')).find(submitForm)||[...document.forms].find(submitForm);
 if(ctx.platform==='AtCoder'&&form&&!form.checkValidity())return send({status:'error',attempted:false,message:'AtCoder 提交表单未通过校验，尚未发送代码；请检查原站题目和语言选择。'});
-let button=[...(form?.querySelectorAll('button[type=submit],input[type=submit],#submit')||[])].find(b=>visible(b)&&!b.disabled);if(!button&&['牛客','洛谷'].includes(ctx.platform))button=[...document.querySelectorAll('button,[role=button],.btn-submit,.submit-btn,.submit-button')].find(b=>visible(b)&&!b.disabled&&b.getAttribute('aria-disabled')!=='true'&&/^(?:保存并)?提交(?:代码|题目|评测)?$/.test(b.textContent.trim()));
-if(!button)return send({status:'error',message:'未找到与代码编辑器对应的官方提交控件，请手动提交；未点击其它按钮。'});
+// Use DOM form ownership, including external controls and default-type buttons.
+// CF also uses an input[type=button].submit with its own native click handler.
+let button=[...(form?.elements||[])].find(b=>visible(b)&&!b.disabled&&b.form===form&&(['BUTTON','INPUT'].includes(b.tagName)&&b.type==='submit'||ctx.platform==='Codeforces'&&b.type==='button'&&b.matches('.submit,#submit')&&/^(submit|提交)$/i.test(b.value||b.textContent.trim())));
+if(!button&&['牛客','洛谷'].includes(ctx.platform))button=[...document.querySelectorAll('button,[role=button],.btn-submit,.submit-btn,.submit-button')].find(b=>visible(b)&&!b.disabled&&b.getAttribute('aria-disabled')!=='true'&&/^(?:保存并)?提交(?:代码|题目|评测)?$/.test(b.textContent.trim()));
+if(!button)return send({status:'error',attempted:false,message:'原站提交控件尚未就绪，未发送代码。请稍后重试或查看原站页面。'});
 if(ncReceipt){ncReceipt.armed=true;ncReceipt.pending=null;ncReceipt.receipt=null;}
 if(lgReceipt){lgReceipt.armed=true;lgReceipt.pending=null;lgReceipt.receipt=null;}
 // Persist the pre-submit snapshot before a native form can navigate away.

@@ -270,6 +270,8 @@ try {
   await page.getByText('共享排行榜尚未连接', { exact: true }).waitFor();
   assert.equal(await page.locator('.ranking-table').count(), 0);
   await page.getByRole('button', { name: '设置昵称与连接' }).click();
+  assert.equal(await page.locator('.profile-edit').getAttribute('open'), null);
+  await page.getByText('管理账号',{exact:true}).click();
   await page.getByLabel('用户昵称').fill('测试新昵称');
   connection.endpoint = 'https://fixture.example.com';
   connection.configured = true; connection.status = 'syncing';
@@ -362,7 +364,9 @@ try {
   await page.locator('.paper-slot > strong').first().evaluate(node=>node.textContent='P16232');
   assert.ok(await page.locator('.paper-slot').first().evaluate(node=>node.querySelector('strong').getBoundingClientRect().right < node.querySelector('div').getBoundingClientRect().left),'long native task ID must not overlap text');
   await page.screenshot({path:'tests/screenshots/replay-format-fixed.png',animations:'disabled'});
-  assert.match(await page.getByLabel('训练概览',{exact:true}).textContent(),/今日 AC 3 题/);
+  assert.match(await page.getByLabel('训练概览',{exact:true}).textContent(),/30\/500 XP/);
+  assert.match(await page.locator('.topbar-daily-ac').textContent(),/今日 AC 3 题/);
+  assert.equal(await page.locator('.overview-statistics').count(),0);
   assert.equal(await page.locator('.topbar').getByRole('button',{name:'模拟赛',exact:true}).count(),0);
   await page.getByRole('tab', {name:/模拟赛记录/}).click();
   await page.getByRole('button',{name:'删除模拟赛 完成的模拟赛',exact:true}).click();
@@ -391,6 +395,17 @@ try {
   await page.keyboard.press('Control+6');
   assert.equal(await page.locator('.page-identity h1').textContent(), '历史提交', 'fixed keyboard shortcut survives reorder/rename/group');
   await noOverflow('.records-page');
+  const beforeRank = structuredClone(insights.growth);
+  insights.growth = { ...beforeRank, level: 10, tier: '王者', badge: 'tier-9', mode: 'ranked', rankedEligible: true,
+    ranked: { score: 8800, tier: '王者', badge: 'tier-9', title: '最强王者 · 5 星', nextScore: 9000, todayPoints: 30, dailyQualified: 1, dailyRequired: 1, minDifficulty: 3000 } };
+  await page.reload();
+  await page.locator('.page-identity h1').waitFor();
+  await page.keyboard.press('Control+7');
+  await page.locator('.progress-level-main').getByText(/8,800 TB 排位分/).waitFor();
+  assert.match(await page.getByLabel('训练概览',{exact:true}).textContent(),/8,800 TB 排位分/);
+  assert.ok(!(await page.locator('.progress-level-main').innerText()).includes('XP'));
+  await page.screenshot({ path: 'tests/screenshots/ranked-v16.png', animations: 'disabled' });
+  insights.growth = beforeRank;
   // A slow analytics response must not let the 3-second busy poll pile up work.
   hub.sync.busy = true;
   await page.reload();
