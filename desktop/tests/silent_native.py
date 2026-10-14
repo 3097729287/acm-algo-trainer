@@ -19,7 +19,7 @@ from silent_submit import SilentSubmitter
 
 
 def run():
-    result, posts, saved, cookies, timings = {}, [], [], [], []
+    result, posts, saved, cookies, timings, opened = {}, [], [], [], [], []
     mode = {'login': True, 'context': True, 'invalid': False, 'acToken': None, 'acReject': False}
     accepted_atcoder = [0]
     with tempfile.TemporaryDirectory(prefix='tb-silent-proof-', ignore_cleanup_errors=True) as directory:
@@ -33,7 +33,7 @@ def run():
                     {**cookie,'name':'fixture_login','secure':False},
                     {**cookie,'name':'fixture_partition','secure':True,'partitionKey':{'topLevelSite':'https://'+domain,'hasCrossSiteAncestor':False}}],
                     'userAgent':'TB Fixture'})
-        bridge = BrowserBridge('http://127.0.0.1:1', session_store=store, opener=lambda _: (_ for _ in ()).throw(AssertionError('Browser opened')), on_receipt=lambda sid,s: saved.append(s['verdict']) or True)
+        bridge = BrowserBridge('http://127.0.0.1:1', session_store=store, opener=opened.append, on_receipt=lambda sid,s: saved.append(s['verdict']) or True)
         def fixture(view):
             from Microsoft.Web.WebView2.Core import CoreWebView2WebResourceContext
             from System.IO import MemoryStream, StreamReader
@@ -126,24 +126,22 @@ def run():
                     assert wait(sid,'finished')['verdict']=='AC'
                     timings.append({'platform':bridge.sessions[sid]['platform'],'seconds':round(time.monotonic()-started,3)})
                     assert not runner._ui(lambda:main.native.Visible)
-                assert len(posts)==4 and saved==['AC']*4
+                assert len(posts)==4 and saved==['AC']*4 and not opened
                 assert all('fixture_login=test-only-session' in c for c in cookies)
                 assert all('fixture_partition=test-only-session' in c for c in cookies)
-                # The current AtCoder form requires its original-site token.
+                # A native form with an existing original-site token can submit.
+                # Missing-token handoff is checked last: that job belongs to the
+                # browser thereafter, and must not restart the hidden transport.
                 before=len(posts)
-                mode['acToken']=False
-                sid=bridge.submit(urls[1],'int main(){}','AtCoder verification required')['sessionId']
-                wait(sid,'needs_verification',timeout=40)
-                assert len(posts)==before and not bridge.sessions[sid]['attempted']
                 mode['acToken']=True
-                time.sleep(.4)
-                sid=bridge.submit(urls[1],'int main(){}','explicit AtCoder retry')['sessionId']
+                sid=bridge.submit(urls[1],'int main(){}','AtCoder verified native form')['sessionId']
                 assert wait(sid,'finished')['verdict']=='AC'
                 assert len(posts)==before+1 and 'cf-turnstile-response=fixture-site-token' in posts[-1][2]
                 mode['acReject']=True
                 sid=bridge.submit(urls[1],'int main(){}','AtCoder server rejection')['sessionId']
-                rejected=wait(sid,'error')
+                rejected=wait(sid,'awaiting_submit')
                 assert 'Invalid submission verification' in rejected['message'] and len(posts)==before+2
+                assert len(opened)==1 and bridge.sessions[sid]['manual']
                 mode['acReject']=False
                 mode['acToken']=None
                 extra_atcoder=2
@@ -161,13 +159,23 @@ def run():
                 time.sleep(.4)
                 bridge.submit(urls[-1],'int main(){}','explicit retry')
                 assert wait(sid,'finished')['verdict']=='AC'
-                assert len(posts)==6+extra_atcoder
+                assert len(posts)==6+extra_atcoder and len(opened)==1
                 mode['invalid']=True
                 sid=bridge.submit(urls[-1],'int main(){}','invalid context')['sessionId']
-                until=time.monotonic()+25
-                while bridge.status(sid)['status']!='error' and time.monotonic()<until:time.sleep(.1)
-                assert bridge.status(sid)['status']=='error' and len(posts)==6+extra_atcoder
-                result.update(ok=True,allFourHidden=True,allFourStaleCacheRefreshedBeforeSubmit=True,firstPartyPartitionReplayed=True,atcoderFirstContestSubmission=True,atcoderVerificationNoPost=True,atcoderVerifiedRetry=True,atcoderRejectionDisplayed=True,reusedBrowserLogin=True,encryptedSessionWorksWithBrowserClosed=True,luoguMissingEditor=True,luoguContextFetch=True,loginRetry=True,invalidContextNoPost=True,posts=len(posts),fixtureTimings=timings,realAccountSubmission=False)
+                wait(sid,'awaiting_submit',timeout=25)
+                assert len(posts)==6+extra_atcoder and not bridge.sessions[sid]['attempted']
+                assert bridge.sessions[sid]['manual'] and bridge.sessions[sid]['transport']=='browser'
+                assert len(opened)==2 and opened[1].startswith(bridge.base_url+'/browser-connect.html#')
+                mode['acToken']=False
+                # Different code creates an independent native job; the earlier
+                # rejected job must remain with the browser until superseded.
+                sid=bridge.submit(urls[1],'int main(){return 0;}','AtCoder verification required')['sessionId']
+                wait(sid,'awaiting_submit',timeout=40)
+                assert len(posts)==6+extra_atcoder and not bridge.sessions[sid]['attempted']
+                assert bridge.sessions[sid]['manual'] and bridge.sessions[sid]['transport']=='browser'
+                assert len(opened)==3 and all(url.startswith(bridge.base_url+'/browser-connect.html#') for url in opened)
+                assert not runner._ui(lambda:main.native.Visible)
+                result.update(ok=True,allFourHidden=True,allFourStaleCacheRefreshedBeforeSubmit=True,firstPartyPartitionReplayed=True,atcoderFirstContestSubmission=True,atcoderVerificationNoPost=True,atcoderVerifiedNativeForm=True,atcoderRejectionDisplayed=True,reusedBrowserLogin=True,encryptedSessionWorksWithBrowserClosed=True,luoguMissingEditor=True,luoguContextFetch=True,loginRetry=True,invalidContextNoPost=True,manualBrowserHandoffs=len(opened),posts=len(posts),fixtureTimings=timings,realAccountSubmission=False)
             except Exception as error:
                 result.update(ok=False,error=repr(error),states=[bridge.status(sid) for sid in bridge.sessions],posts=len(posts))
             finally: main.destroy()

@@ -16,7 +16,7 @@ assert.ok(!(reuse||verification||draft)||atcoder);
 const officialHost=atcoder?'atcoder.jp':'codeforces.com';
 const original=atcoder?'https://atcoder.jp/contests/abc100/tasks/abc100_a':'https://codeforces.com/contest/123/problem/A';
 const fixtureKey=atcoder?'ac':'cf',receiptId=atcoder?'2002':'1002';
-const server=spawn(process.env.TB_PYTHON||'C:/Users/lenovo/AppData/Local/Programs/Python/Python313/python.exe',['desktop/tests/browser_server.py'],{cwd:root,env:{...process.env,TB_OFFLINE:'1',TB_TEST_HYBRID:'1',TB_TEST_PREPARATION:preparation?'1':'0',PYTHONIOENCODING:'utf-8'},windowsHide:true});
+const server=spawn(process.env.TB_PYTHON||(process.platform==='win32'?'python':'python3'),['desktop/tests/browser_server.py'],{cwd:root,env:{...process.env,TB_OFFLINE:'1',TB_TEST_HYBRID:'1',TB_TEST_PREPARATION:preparation?'1':'0',PYTHONIOENCODING:'utf-8'},windowsHide:true});
 let serverErrors='';server.stderr.on('data',b=>{serverErrors+=b});
 const {port}=await new Promise((resolve,reject)=>{let output='';server.stdout.on('data',b=>{output+=b;if(output.includes('\n'))resolve(JSON.parse(output.split('\n')[0]))});server.on('exit',code=>reject(new Error('Fixture server exited '+code)))});
 const base=`http://127.0.0.1:${port}`,profile=await mkdtemp(path.join(os.tmpdir(),'tb-hybrid-cf-'));
@@ -96,10 +96,10 @@ try{
   await tab.evaluate(()=>{window.__tbSubmissionWork.verifyingAt=Date.now()-31000});
   for(let i=0;i<50;i++){
    const state=(await(await fetch(base+'/fixture/status')).json())[fixtureKey];
-   if(state.status==='needs_verification')break;
+   if(state.status==='awaiting_submit')break;
    await new Promise(r=>setTimeout(r,100));
   }
-  assert.equal((await(await fetch(base+'/fixture/status')).json())[fixtureKey].status,'needs_verification');
+  assert.equal((await(await fetch(base+'/fixture/status')).json())[fixtureKey].status,'awaiting_submit');
   assert.equal(posts.length,0);
   // Viewing must attach to this exact form, including its completed token.
   await tab.evaluate(()=>{document.querySelector('[name="cf-turnstile-response"]').value='fixture-site-token'});
