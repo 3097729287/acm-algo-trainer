@@ -226,14 +226,15 @@ try {
   await editor.fill('// keep this unsaved recovery draft');
   await page.evaluate(() => { window.workbenchFixture.problemOverrides.E = { samples: [{name:'样例 1',input:'',output:'1 1 2 3 5'}] }; });
   await page.getByRole('button', {name:'重新载入',exact:true}).click();
-  await page.waitForFunction(() => document.querySelector('.wb-statement') && window.workbenchFixture.readCode() === '// keep this unsaved recovery draft');
-  assert.equal(await page.getByText('题面暂时未能加载', { exact: true }).count(), 0);
+  await page.getByText('题面暂时未能加载', { exact: true }).waitFor({state:'hidden'});
+  await page.waitForFunction(() => document.querySelector('.wb-statement')?.textContent.includes('给出两个整数') && window.workbenchFixture.readCode() === '// keep this unsaved recovery draft');
   await page.evaluate(() => { window.workbenchFixture.officialStatus = 'needs_verification'; window.workbenchFixture.preparationEvents = []; });
   await page.getByRole('button', {name:'提交',exact:true}).click();
   await page.getByRole('button', {name:'完成原站验证',exact:true}).waitFor();
   assert.deepEqual(await page.evaluate(() => window.workbenchFixture.preparationEvents), [], 'submission verification never opens the four-account login panel');
+  const viewCalls=await page.evaluate(() => window.workbenchFixture.calls.filter(call=>call.path==='official/open').length);
   await page.getByRole('button', {name:'完成原站验证',exact:true}).click();
-  assert.equal(await page.evaluate(() => window.workbenchFixture.calls.at(-1).path), 'official/open');
+  await page.waitForFunction(count => window.workbenchFixture.calls.filter(call=>call.path==='official/open').length===count+1, viewCalls);
 
   await page.evaluate(() => { window.workbenchFixture.problemDelay.B = 10; window.workbenchFixture.officialStatus = 'judging'; window.workbenchFixture.changeProblem('B'); });
   await page.waitForFunction(() => document.querySelector('.wb-heading strong').textContent === '最长的路径');
