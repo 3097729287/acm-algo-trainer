@@ -2,7 +2,7 @@
 
 TB combines competitive programming problems, editorials, C++ editing, local sample judging and personal training records. It supports Codeforces, AtCoder, Nowcoder and Luogu.
 
-**Source: 1.0.17 (not formally released yet). Latest downloadable stable: [TB v1.0.16](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.0.16).**
+**Version: [TB v1.0.17](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.0.17), October 15, 2026.** Source, application and extension share version 1.0.17; the tag and BUILD-INFO identify the build commit. Before its release assets become public this version is not formally released; use the latest-stable download link below.
 
 [Latest stable download](https://github.com/3097729287/acm-algo-trainer/releases/latest) · [Website](https://3097729287.github.io/acm-algo-trainer/) · [中文](README.md) · [Usage](docs/usage.md) · [Development](docs/development.md)
 
@@ -10,9 +10,9 @@ TB combines competitive programming problems, editorials, C++ editing, local sam
 
 ## Install and upgrade
 
-For Windows 10/11 x64 use `TB-Setup-1.0.16-win64.exe`; it includes a C++ compiler and offline WebView2 setup. Extract the entire `TB-1.0.16-win64.zip` for portable use. Save drafts and exit TB before upgrading into the existing directory. Personal databases are preserved.
+For Windows 10/11 x64 use `TB-Setup-1.0.17-win64.exe`; it includes a C++ compiler and offline WebView2 setup. Extract the entire `TB-1.0.17-win64.zip` for portable use. Save drafts and exit TB before upgrading into the existing directory. Personal databases are preserved.
 
-Assets include a 1.0.14 → 1.0.16 delta, a browser extension ZIP, `RELEASE-MANIFEST.json`, `SHA256SUMS.txt` and `BUILD-INFO.json`. Local 1.0.15 users can use the full installer. Reload the bundled extension in Edge/Chrome after updating.
+Assets include a 1.0.16 → 1.0.17 delta, a browser extension ZIP, `RELEASE-MANIFEST.json`, `SHA256SUMS.txt` and `BUILD-INFO.json`. Older versions can follow the existing delta chain or use the full installer. Reload the bundled extension in Edge/Chrome after updating.
 
 ## Changes in v1.0.17
 
@@ -61,6 +61,6 @@ npm run dev
 
 The backend defaults to `127.0.0.1:18765`, the frontend to `127.0.0.1:5173`. For desktop development, install `backend/requirements.txt`, build the frontend and run `python desktop/launch.py` with disposable state. See [development and validation](docs/development.md).
 
-The repository is `3097729287/acm-algo-trainer`; versioned source is available at the [v1.0.16 tag](https://github.com/3097729287/acm-algo-trainer/tree/v1.0.16). Each release synchronizes source, both READMEs and affected documentation; the release tag identifies the build commit. See the [release synchronization checklist](docs/development.md#发布同步检查).
+The repository is `3097729287/acm-algo-trainer`; versioned source is available at the [v1.0.17 tag](https://github.com/3097729287/acm-algo-trainer/tree/v1.0.17). Each release synchronizes source, both READMEs and affected documentation; the release tag identifies the build commit. See the [release synchronization checklist](docs/development.md#发布同步检查).
 
 Application source is MIT licensed. See [contributing](CONTRIBUTING.md), [third-party notices](THIRDPARTY.md), [compiler sources](TOOLCHAIN-SOURCES.md) and [ranking deployment](server/leaderboard/README.md).

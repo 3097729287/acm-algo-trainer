@@ -2,7 +2,7 @@
 
 TB 将题库、题解、C++ 编辑、本地评测和训练记录放在同一个工作台，支持 Codeforces、AtCoder、牛客和洛谷。个人训练与草稿保存在本机。
 
-**源码：1.0.17（尚未正式发布）；当前可下载正式版：[TB v1.0.16](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.0.16)。**
+**版本：[TB v1.0.17](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.0.17) · 2026-10-15。** 源码、程序、前端与浏览器扩展统一为 1.0.17，标签与 BUILD-INFO 指向构建提交。发布状态以发布页为准；发布资产公开前本版本尚未正式发布，请使用下方“下载最新正式版”入口。
 
 [下载最新正式版](https://github.com/3097729287/acm-algo-trainer/releases/latest) · [项目主页](https://3097729287.github.io/acm-algo-trainer/) · [使用说明](docs/usage.md) · [开发与构建](docs/development.md) · [English](README.en.md)
 
@@ -10,9 +10,9 @@ TB 将题库、题解、C++ 编辑、本地评测和训练记录放在同一个�
 
 ## 安装与更新
 
-Windows 10/11 x64 使用发布页的 `TB-Setup-1.0.16-win64.exe`，含 C++ 编译器及离线 WebView2 安装组件。便携版为 `TB-1.0.16-win64.zip`，请完整解压。已有版本先保存草稿并退出 TB，再安装到原目录；安装包不会覆盖个人数据库。
+Windows 10/11 x64 使用发布页的 `TB-Setup-1.0.17-win64.exe`，含 C++ 编译器及离线 WebView2 安装组件。便携版为 `TB-1.0.17-win64.zip`，请完整解压。已有版本先保存草稿并退出 TB，再安装到原目录；安装包不会覆盖个人数据库。
 
-发布资产包含 1.0.14 → 1.0.16 增量包、浏览器扩展 ZIP、`RELEASE-MANIFEST.json`、`SHA256SUMS.txt` 和 `BUILD-INFO.json`。本地使用 1.0.15 的用户也可完整安装升级。更新后在 Edge/Chrome 扩展管理中重新加载随包“TB 浏览器连接”。
+发布资产包含 1.0.16 → 1.0.17 增量包、浏览器扩展 ZIP、`RELEASE-MANIFEST.json`、`SHA256SUMS.txt` 和 `BUILD-INFO.json`。更早版本可沿既有增量链更新或使用完整安装包。更新后在 Edge/Chrome 扩展管理中重新加载随包“TB 浏览器连接”。
 
 ## v1.0.17 的改动
 
