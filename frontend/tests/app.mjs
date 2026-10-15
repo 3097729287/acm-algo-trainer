@@ -159,9 +159,11 @@ try {
   await page.getByLabel('训练分组').selectOption('@single');
   assert.equal(await page.locator('.problem-table tbody tr[data-id]').count(), 1);
   await page.getByLabel('训练分组').selectOption('');
-  await page.getByRole('button', { name: '筛选', exact: true }).click();
+  assert.equal(await page.getByRole('button', { name: '筛选', exact: true }).count(), 0);
+  await page.getByLabel('最低难度', { exact: true }).waitFor();
   assert.ok(await page.getByLabel('排序方式').evaluate(node => node.clientWidth >= 180));
-  await page.getByLabel('平台筛选').selectOption('AtCoder');
+  await page.getByRole('tab', { name: 'AtCoder', exact: true }).click();
+  assert.equal(await page.getByLabel('平台筛选', { exact: true }).count(), 0);
   assert.equal(await page.locator('.problem-table tbody tr[data-id]').count(), 2);
   assert.equal(await page.locator('.page-identity h1').evaluate(node => getComputedStyle(node).userSelect), 'none');
   assert.equal(await page.locator('.sidebar .knowledge-search,.sidebar .knowledge-tree-tools,.sidebar-section-title').count(), 0);
@@ -317,7 +319,7 @@ try {
       await page.screenshot({ path: `tests/screenshots/v5-settings-${tab}-${width}.png`, animations: 'disabled' });
     }
     await page.keyboard.press('Control+1');
-    await page.getByRole('button', { name: '筛选', exact: true }).click();
+    await page.getByLabel('最低难度', { exact: true }).waitFor();
     await noOverflow('.list-page');
     await page.screenshot({ path: `tests/screenshots/v5-filters-${width}.png`, animations: 'disabled' });
     await page.keyboard.press('Control+5');

@@ -6,6 +6,17 @@ export function difficultyBand(value) {
   return rating < 1200 ? "intro" : rating < 1500 ? "basic" : rating < 1800 ? "intermediate" : rating < 2100 ? "challenge" : "advanced";
 }
 
+export function difficultyLabel(row = {}) {
+  return row.difficulty == null ? '未定级' : `${row.difficultyEstimated ? '≈' : ''}${row.difficulty}`;
+}
+
+export function difficultyDescription(row = {}) {
+  const band = row.difficultyBand;
+  return [row.difficultySource || '难度待复核',
+    Array.isArray(band) ? `参考区间 ${band[0]}–${band[1] ?? '∞'}` : '',
+    ...(Array.isArray(row.difficultyEvidence) ? row.difficultyEvidence : [])].filter(Boolean).join(' · ');
+}
+
 // Definitions belong to the whole document. Each separately rendered excerpt
 // must retain them, even when the definition was below a different heading.
 function referenceDefinitions(markdown) {

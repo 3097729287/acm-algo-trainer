@@ -2,7 +2,7 @@
 
 TB combines competitive programming problems, editorials, C++ editing, local sample judging and personal training records. It supports Codeforces, AtCoder, Nowcoder and Luogu.
 
-**Version: [TB v1.0.16](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.0.16), October 15, 2026.** Source, application and browser extension share the same version. The release tag and BUILD-INFO identify the build commit; asset availability is shown on the release page.
+**Source: 1.0.17 (not formally released yet). Latest downloadable stable: [TB v1.0.16](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.0.16).**
 
 [Latest stable download](https://github.com/3097729287/acm-algo-trainer/releases/latest) · [Website](https://3097729287.github.io/acm-algo-trainer/) · [中文](README.md) · [Usage](docs/usage.md) · [Development](docs/development.md)
 
@@ -14,22 +14,21 @@ For Windows 10/11 x64 use `TB-Setup-1.0.16-win64.exe`; it includes a C++ compile
 
 Assets include a 1.0.14 → 1.0.16 delta, a browser extension ZIP, `RELEASE-MANIFEST.json`, `SHA256SUMS.txt` and `BUILD-INFO.json`. Local 1.0.15 users can use the full installer. Reload the bundled extension in Edge/Chrome after updating.
 
-## Changes in v1.0.16
+## Changes in v1.0.17
 
-- Wait for CF's original asynchronous problem lock to enable Submit after filling the editor. Already selected task/language controls are not reset. Preparation delays do not imply logout, and ordinary errors stay retryable. Actual verification and uncertain receipts retain the human review flow without resending code.
-- Ten progression levels require 200, 400, …, 1800 XP respectively, totaling 9000 XP. Each tier has a distinct icon and color; achievements now extend to harder tasks, 10,000 independent solves and longer training streaks.
-- Level 10 unlocks TB ranked points. Independent first official ACs meeting the current difficulty earn points once per original problem. Emerald and higher require daily qualifying solves; missed completed Beijing days deduct points. King stars continue increasing. TB ranked points are personal training scores, separate from official ratings and the shared solve leaderboard.
-- Daily AC is a separate topbar item. The level control displays X/Y XP or ranked points; old popup statistics are removed. Account editing is collapsed. Public-statistics binding is limited to CF and AtCoder; all four original-site submission adapters remain available.
-- The public library contains 2202 problems and statements, 796 default editorials, 1 detailed editorial and 376 foundation lessons. Every problem has a knowledge classification and practice difficulty; 762 ratings are explicitly marked TB estimates. Some classifications describe statement subjects and do not claim a verified solution algorithm.
-- Normalize XCPC and Nowcoder contest names automatically. Remove repeated contest prefixes from problem titles while preserving original titles and identities.
+- Shared shelves in the competition and problem library pages: All, Nowcoder, Luogu, Codeforces, AtCoder, XCPC history and Lanqiao Group B history. Removed the platform dropdown, exposed difficulty/result filters, and shortened the date-sort label.
+- Natural contest-name ordering retains series, year, location and distinct Gym mirrors. Existing task IDs and personal records are preserved.
+- Added 5328 tasks from 455 verified ICPC/CCPC Gym rosters. Rechecked all 2202 existing tasks and changed 1003 difficulty values. Reviewed Nowcoder Weekly 165 E/F estimates are approximately 1900/2100.
+- Estimates display an approximation sign with source, interval and confidence. Tasks without sufficient evidence remain unrated; statement subjects and zero solves no longer manufacture difficulty values.
+- Activity shows only distinct official passes per day, including repeat passes on later days. The calendar and counts use five styles for 0, 1, 2–3, 4–6 and 7+ tasks.
 
-See [v1.0.16 release notes](docs/releases/1.0.16.md).
+The library contains **7530 tasks across 760 contests**, 2202 bundled statements, 796 default editorials, 1 detailed editorial and 376 lessons. New Gym statements are fetched and cached when opened; they require an accessible original site. 1781 tasks have official or estimated difficulty and 5749 remain unrated. Another 16 online rosters could not be verified; see the [coverage report](backend/resources/cf-xcpc-coverage.json) and [release notes](docs/releases/1.0.17.md).
 
 ## Workbench features (current source)
 
 | Feature | Behavior |
 | --- | --- |
-| Bundled content | 2,202 problems and statements, 796 default editorials, 1 detailed editorial and 376 foundation lessons in SQLite; illustrations work offline and open at full size |
+| Bundled content | 7,530 tasks, 2,202 bundled statements, 796 default editorials, 1 detailed editorial and 376 foundation lessons in SQLite; illustrations work offline and open at full size |
 | Training and mock contests | Single-problem, mixed, focused and replay contests; topics and editorials stay hidden until review; finished contest records can be deleted |
 | Code and records | Saved drafts, code and results; official submission history is separate from workbench sample runs; independent statement font size from 14 to 32px |
 | Knowledge and growth | Today's AC count, total solved problems, hierarchical knowledge coverage, recommendations, independent daily goals and achievements |

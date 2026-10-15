@@ -46,7 +46,7 @@ class AssetLibrary:
         with self.lock:
             value=dict(self._cached(identity))
             if not value['statementAvailable'] and value['url']:
-                if identity.startswith('remote:'):
+                if identity.startswith('remote:') and not self.store.library.find(identity):
                     fetched=self.store.extensions.statement(identity,fetch=True)
                     self._cached.cache_clear();self.bundle.cache_clear()
                 else:fetched=self._fetch_missing(identity,value)
@@ -77,7 +77,7 @@ class AssetLibrary:
             value=dict(self._cached(identity))
             if urlsplit(value.get('url') or '').hostname!='www.luogu.com.cn':return None
             if value.get('statementVersion',0)<2:
-                if identity.startswith('remote:'):
+                if identity.startswith('remote:') and not self.store.library.find(identity):
                     self.store.extensions.statement(identity,fetch=True,refresh=True)
                     self._cached.cache_clear();self.bundle.cache_clear()
                 else:self._fetch_missing(identity,value)

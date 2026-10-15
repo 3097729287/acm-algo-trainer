@@ -88,6 +88,7 @@ jobs:
       - run: npm run test:compilers
       - run: node tests/official-sites.mjs
       - run: npm run test:ui
+      - run: node tests/catalog-activity.mjs
       - run: node tests/browser-preparation.mjs
       - run: node tests/software-updates.mjs
       - run: npm run test:issues

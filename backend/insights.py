@@ -97,6 +97,8 @@ def build_insights(rows, submissions, history, workspace, hub, now):
             credited_codes.add(code_key)
         if record.get("verdict") != "AC" or record.get("scope") != "official":
             continue
+        if day:
+            per_day[day]["officialAccepted"].add(identity)
         code_key = (identity, hashlib.sha256(record.get("code", "").encode()).hexdigest())
         if record.get("solution_seen"):
             viewed_codes.add(code_key)
@@ -130,6 +132,9 @@ def build_insights(rows, submissions, history, workspace, hub, now):
             if canonical_url(solved.get('url')):
                 total_solved.add(canonical_url(solved['url']))
             row = by_url.get(canonical_url(solved.get("url")))
+            day = _date(solved.get("acceptedAt"))
+            if day and canonical_url(solved.get('url')):
+                per_day[day]["officialAccepted"].add(row['id'] if row else 'public:' + canonical_url(solved['url']))
             if not row:
                 continue
             identity = row["id"]

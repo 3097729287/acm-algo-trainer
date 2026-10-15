@@ -182,7 +182,9 @@ class IntegrationService:
             for url,value in seed.items():
                 if isinstance(value,dict):
                     previous = self.state['difficultyMetadata'].get(url, {})
-                    if not previous or value.get('metadataVersion') == '1.0.16' and previous.get('difficultyConfidence') not in ('HIGH', 'MEDIUM'):
+                    revised = value.get('metadataVersion') == '1.0.17' and previous.get('metadataVersion') != '1.0.17'
+                    fresh_official = previous.get('difficultySource') == 'Codeforces 官方 rating' and previous.get('difficultyCheckedAt', '') > value.get('difficultyCheckedAt', '')
+                    if not previous or (revised and not fresh_official):
                         self.state['difficultyMetadata'][url]=value
         from contestmeta import ContestDates
         self.dates=ContestDates(store)
@@ -231,13 +233,21 @@ class IntegrationService:
 
     def _observe_difficulty(self,row):
         key=canonical(row.get('url'));rating=row.get('difficulty')
-        if not key or not isinstance(rating,int) or isinstance(rating,bool) or not 0<rating<=10000:return
+        if not key:return
+        if rating is None and row.get('metadataVersion') == '1.0.17' and row.get('difficultyConfidence') == 'UNKNOWN':
+            fields = {name:copy.deepcopy(row.get(name)) for name in ('difficulty','difficultySource','difficultyEstimated','difficultyConfidence','difficultyBand','difficultyEvidence','metadataVersion')}
+            fields['difficultyCheckedAt'] = stamp(self.clock())
+            with self.lock:self.state['difficultyMetadata'][key] = fields
+            return
+        if not isinstance(rating,int) or isinstance(rating,bool) or not 0<rating<=10000:return
         platform=row.get('platform');official=platform in ('Codeforces','codeforces') and '官方' in row.get('difficultySource','')
         fields={'difficulty':rating,'difficultySource':row.get('difficultySource') or '公开难度资料',
                 'difficultyConfidence':'HIGH' if official else row.get('difficultyConfidence','MEDIUM' if platform in ('AtCoder','atcoder') else 'LOW'),
                 'difficultyEstimated':not official,'difficultyBand':[rating,rating] if official else row.get('difficultyBand'),
                 'difficultyCheckedAt':stamp(self.clock()),'nativeDifficulty':row.get('nativeDifficulty',rating),
-                'officialTags':row.get('sourceTags',row.get('tags',[]))}
+                'officialTags':row.get('sourceTags',row.get('tags',[])),
+                'metadataVersion':row.get('metadataVersion','1.0.17'),
+                'difficultyEvidence':row.get('difficultyEvidence',[])}
         with self.lock:self.state['difficultyMetadata'][key]=fields
 
     def _refresh_difficulties(self,platform):

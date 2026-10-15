@@ -282,6 +282,8 @@ def discover_nc(client,now):
         contest={'id':cid,'name':text(name[1]) if name else cid,'start':start,'end':end,'series':'牛客'}
         for p in entries:
             value=row('nowcoder',contest,p.get('index'),p.get('title'),f"https://ac.nowcoder.com/acm/contest/{cid}/{p.get('index')}",None,'原站未提供可靠数值难度')
+            from difficulty import nowcoder
+            value.update(nowcoder(value, p, max((entry.get('acceptedCount', 0) for entry in entries), default=0)))
             value['contestProblemCount']=len(entries);rows.append(value)
         if len(rows)>=100:break
     return rows,pending,'牛客公开结束赛完整题单；未评级如实标注，XCPC 不设难度限制'

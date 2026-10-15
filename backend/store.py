@@ -85,7 +85,11 @@ class Store:
             value['url'] = url
         metadata = getattr(self.extensions, 'problem_metadata', None)
         if callable(metadata):
-            value.update(metadata(row, value.get('url')))
+            patch = metadata(row, value.get('url'))
+            # Generic fallback copy must not erase bundled evidence (e.g. a
+            # Gym task explicitly recorded as unrated by Codeforces).
+            if 'difficulty' in patch or not value.get('difficultySource'):
+                value.update(patch)
         dated_row = dict(row, _library_metadata=found['encoded']) if found else row
         value.update(self.contest_metadata(dated_row, value.get('url')))
         from contest_names import normalize_row

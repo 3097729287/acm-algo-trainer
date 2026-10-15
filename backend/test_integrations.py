@@ -103,6 +103,24 @@ class IntegrationTests(unittest.TestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.root=Path(self.temp.name);self.store=Store();self.client=Client();self.service=I.IntegrationService(self.store,self.root,auto_start=False,client=self.client,clock=lambda:NOW);self.store.extensions=self.service;self.store.library=LibraryDatabase(self.root/'library.sqlite3')
     def tearDown(self):self.service.close();self.temp.cleanup()
+    def test_revised_seed_replaces_stale_high_weekly_estimate_on_upgrade(self):
+        url = 'https://ac.nowcoder.com/acm/contest/141721/E'
+        self.service.state['difficultyMetadata'][url] = {'difficulty': 2600, 'metadataVersion': '1.0.16', 'difficultyConfidence': 'MEDIUM'}
+        self.service._save()
+        restarted = I.IntegrationService(self.store, self.root, auto_start=False, client=self.client)
+        try:
+            value = restarted.problem_metadata({}, url)
+            self.assertEqual(value['difficulty'], 1900)
+            self.assertTrue(value['difficultyEstimated'])
+        finally:restarted.close()
+
+    def test_explicit_unknown_removes_stale_remote_guess(self):
+        url = 'https://ac.nowcoder.com/acm/contest/1/F'
+        self.service.state['difficultyMetadata'][url] = {'difficulty': 3500}
+        self.service._observe_difficulty({'url': url, 'difficulty': None, 'difficultySource': '证据不足',
+                                         'difficultyConfidence': 'UNKNOWN', 'metadataVersion': '1.0.17'})
+        self.assertIsNone(self.service.problem_metadata({}, url)['difficulty'])
+
     def test_strict_filter_dedupe_local_first_and_unknown_pending(self):
         # This fixture drives _catalog directly; background sync must not race it.
         with patch.object(self.service,'_ensure_worker',lambda:None):

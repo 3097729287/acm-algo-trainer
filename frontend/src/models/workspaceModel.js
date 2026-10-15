@@ -1,6 +1,7 @@
 import { matches } from "./model.js";
 import { compareContestNewest } from "@/lib/practiceMetadata.js";
 import { trainingDay } from "@/lib/trainingDate.js";
+import { matchesShelf } from "@/lib/contestShelves.js";
 
 export const QUEUES = [
   {
@@ -98,6 +99,7 @@ export function filterRows(rows, filters = {}) {
   const {
     query = "",
     platform = "",
+    shelf = 'all',
     category = null,
     min = "",
     max = "",
@@ -115,6 +117,7 @@ export function filterRows(rows, filters = {}) {
         (!ids || ids.includes(row.id)) &&
         matches({ ...row, status: verdictLabel(row.verdict) }, query) &&
         (!platform || row.platform === platform) &&
+        matchesShelf(row, shelf) &&
         (!category || row.tags.some((tag) => category.tags.includes(tag))) &&
         (min === "" ||
           (row.difficulty != null && row.difficulty >= Number(min))) &&

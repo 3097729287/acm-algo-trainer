@@ -1,0 +1,9178 @@
+{
+  "source": "https://codeforces.com/api/contest.list?gym=true",
+  "checkedAt": "2026-10-15T03:52:36.657974+00:00",
+  "nameMatches": 500,
+  "discovered": 471,
+  "excludedTraining": [
+    {
+      "id": 100227,
+      "name": "2013-2014 CT S01E01: Extended 2000 ACM-ICPC East Central North America Regional Contest (ECNA 2000)"
+    },
+    {
+      "id": 100228,
+      "name": "2013-2014 CT S01E02: Extended 2003 ACM-ICPC East Central North America Regional Contest (ECNA 2003)"
+    },
+    {
+      "id": 100248,
+      "name": "2013-2014 CT S01E06: 2002-2003 ACM-ICPC Northwestern European Regional Contest (NWERC 2002) + Some Problems from COCI and POI"
+    },
+    {
+      "id": 100263,
+      "name": "2013-2014 ACM-ICPC, University of Cambridge, Selection Contest"
+    },
+    {
+      "id": 100268,
+      "name": "2013-2014 CT S01E08: 2013 ACM-ICPC Rocky Mountain Regional Contest (RMRC 2013) + GCJ 2009 WF C-D"
+    },
+    {
+      "id": 100283,
+      "name": "2013-2014 CT S01E10: 2013 ACM-ICPC Egyptian Collegiate Programming Contest (ECPC 2013)"
+    },
+    {
+      "id": 100291,
+      "name": "2013-2014 CT S01E011: 2013-2014 ACM-ICPC East Central North America Regional Contest (ECNA 2013)"
+    },
+    {
+      "id": 100503,
+      "name": "2014-2015 CT S02E05: Codeforces Trainings Season 2 Episode 5 - 2009-2010 ACM-ICPC, NEERC, Southern Subregional Contest"
+    },
+    {
+      "id": 100532,
+      "name": "2014-2015 CT S02E09: Codeforces Trainings Season 2 Episode 9 - 2006-2007 ACM-ICPC Northeastern European Regional Contest (NEERC 06)"
+    },
+    {
+      "id": 100540,
+      "name": "2014-2015 CT S02E11: Codeforces Trainings Season 2 Episode 11 (2011-2012 ACM-ICPC Latin American Regional Contest + Extended)"
+    },
+    {
+      "id": 100796,
+      "name": "2015-2016 ACM ICPC Baltic Selection Contest"
+    },
+    {
+      "id": 101095,
+      "name": "2016-2017 CT S03E03: Codeforces Trainings Season 3 Episode 3 - 2007-2008 ACM-ICPC, Central European Regional Contest 2007 (CERC 07)"
+    },
+    {
+      "id": 101150,
+      "name": "2016-2017 CT S03E08: Codeforces Trainings Season 3 Episode 8 - 2005-2006 ACM-ICPC, Tokyo Regional Contest + 2010 Google Code Jam Qualification Round (CGJ 10, Q)"
+    },
+    {
+      "id": 101639,
+      "name": "Окружной этап Всероссийской олимпиады школьников по информатике - 2017-2018, Самара, II тур (ACM ICPC правила)"
+    },
+    {
+      "id": 101638,
+      "name": "Окружной этап Всероссийской олимпиады школьников по информатике - 2017-2018, Самара, I тур (правила ACM ICPC)"
+    },
+    {
+      "id": 101962,
+      "name": "UFBA Practice Session for Brazilian ICPC Regionals - 2018"
+    },
+    {
+      "id": 102279,
+      "name": "HCW 19 Team Round (ICPC format)"
+    },
+    {
+      "id": 102367,
+      "name": "Fall 2019 ICPC-style Waterloo Local Contest"
+    },
+    {
+      "id": 102388,
+      "name": "SUFE ICPC Team Formation Test"
+    },
+    {
+      "id": 102760,
+      "name": "2020 KAIST 10th ICPC Mock Contest (XXI Open Cup. Grand Prix of Korea. Division 2)"
+    },
+    {
+      "id": 102862,
+      "name": "LU ICPC Selection Contest 2020 and KFU Open Contest 2020"
+    },
+    {
+      "id": 104755,
+      "name": "LU ICPC Selection Contest 2023"
+    },
+    {
+      "id": 105307,
+      "name": "ICPC 2024 Thailand - Chulalongkorn University Internal Round"
+    },
+    {
+      "id": 105401,
+      "name": "2024 KAIST 14th ICPC Mock Competition"
+    },
+    {
+      "id": 105669,
+      "name": "Combinatorics Contest - Brazilian ICPC Summer School 2025"
+    },
+    {
+      "id": 106118,
+      "name": "2025 ICPC, Chula Selection Contest"
+    },
+    {
+      "id": 106331,
+      "name": "Brazilian ICPC Summer School 2026 problems"
+    },
+    {
+      "id": 106396,
+      "name": "Tiangong University 2025 ICPC Team Selection Contest II (Online Mirror)"
+    },
+    {
+      "id": 106627,
+      "name": "SMU ICPC Selection Contest 2026"
+    }
+  ],
+  "coverage": [
+    {
+      "id": 100002,
+      "name": "2002-2003 ACM-ICPC Northeastern European Regional Contest (NEERC 02)",
+      "url": "https://codeforces.com/gym/100002",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I"
+      ],
+      "count": 9
+    },
+    {
+      "id": 100069,
+      "name": "2009-2010 ACM-ICPC Northeastern European Regional Contest (NEERC 09) (Deprecated, without interactive problem C)",
+      "url": "https://codeforces.com/gym/100069",
+      "problems": [
+        "A",
+        "B",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 10
+    },
+    {
+      "id": 100078,
+      "name": "2007–2008 ACM ICPC Northern Subregional Contest (NEERC 07)",
+      "url": "https://codeforces.com/gym/100078",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100085,
+      "name": "2011-2012 ACM-ICPC Northeastern European Regional Contest (NEERC 11)",
+      "url": "https://codeforces.com/gym/100085",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100084,
+      "name": "2010-2011 ACM-ICPC Northeastern European Regional Contest (NEERC 10) (Deprecated, without interactive problem G)",
+      "url": "https://codeforces.com/gym/100084",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 10
+    },
+    {
+      "id": 100090,
+      "name": "2012, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "url": "https://codeforces.com/gym/100090",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 100095,
+      "name": "2011-2012 ACM ICPC Northern Subregional Contest",
+      "url": "https://codeforces.com/gym/100095",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100107,
+      "name": "2012-2013 ACM-ICPC, NEERC, Eastern Subregional Contest",
+      "url": "https://codeforces.com/gym/100107",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100109,
+      "name": "2012-2013 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "url": "https://codeforces.com/gym/100109",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100113,
+      "name": "2012-2013 ACM-ICPC, NEERC, Western Subregional Contest",
+      "url": "https://codeforces.com/gym/100113",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100114,
+      "name": "2012-2013 ACM-ICPC, NEERC, Central Subregional Contest",
+      "url": "https://codeforces.com/gym/100114",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100125,
+      "name": "2012-2013 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "url": "https://codeforces.com/gym/100125",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100134,
+      "name": "2012-2013 ACM-ICPC Northeastern European Regional Contest (NEERC 12)",
+      "url": "https://codeforces.com/gym/100134",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100151,
+      "name": "2011-2012 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "url": "https://codeforces.com/gym/100151",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100182,
+      "name": "2009 ACM-ICPC Southeast USA Regional Programming Contest",
+      "url": "https://codeforces.com/gym/100182",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I"
+      ],
+      "count": 9
+    },
+    {
+      "id": 100184,
+      "name": "2013 ACM-ICPC Ukraine, Round 1",
+      "url": "https://codeforces.com/gym/100184",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 100190,
+      "name": "2011 ACM-ICPC East Central North America (ECNA 2011)",
+      "url": "https://codeforces.com/gym/100190",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I"
+      ],
+      "count": 9
+    },
+    {
+      "id": 100192,
+      "name": "2012-2013 ACM-ICPC, Northwestern European Regional Contest (NWERC 2012)",
+      "url": "https://codeforces.com/gym/100192",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100247,
+      "name": "2013, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "url": "https://codeforces.com/gym/100247",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100253,
+      "name": "2013-2014 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "url": "https://codeforces.com/gym/100253",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 100257,
+      "name": "2013-2014 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "url": "https://codeforces.com/gym/100257",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100269,
+      "name": "2013-2014 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "url": "https://codeforces.com/gym/100269",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100273,
+      "name": "2007-2008 ACM-ICPC Northeastern European Regional Contest (NEERC 07)",
+      "url": "https://codeforces.com/gym/100273",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100285,
+      "name": "2013-2014 ACM-ICPC, NEERC, Eastern Subregional Contest",
+      "url": "https://codeforces.com/gym/100285",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 100287,
+      "name": "2006-2007 ACM-ICPC Northeastern European Regional Contest (NEERC 06)",
+      "url": "https://codeforces.com/gym/100287",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100286,
+      "name": "2008-2009 ACM-ICPC Northeastern European Regional Contest (NEERC 08)",
+      "url": "https://codeforces.com/gym/100286",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100299,
+      "name": "2013-2014 ACM ICPC Central European Regional Contest (CERC 13)",
+      "url": "https://codeforces.com/gym/100299",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100307,
+      "name": "2013-2014 ACM-ICPC Northeastern European Regional Contest (NEERC 13)",
+      "url": "https://codeforces.com/gym/100307",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100438,
+      "name": "2012-2013 ACM-ICPC Southwestern Europe Regional Contest (SWERC 12)",
+      "url": "https://codeforces.com/gym/100438",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 100443,
+      "name": "2013-2014 ACM-ICPC Southwestern Europe Regional Contest (SWERC 13)",
+      "url": "https://codeforces.com/gym/100443",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 100482,
+      "name": "2013 KTU ACM ICPC Qualification Round",
+      "url": "https://codeforces.com/gym/100482",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 100488,
+      "name": "2014, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "url": "https://codeforces.com/gym/100488",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 100495,
+      "name": "2014 KTU ACM ICPC Qualification Round",
+      "url": "https://codeforces.com/gym/100495",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100499,
+      "name": "2014 ACM-ICPC Vietnam National First Round",
+      "url": "https://codeforces.com/gym/100499",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 100507,
+      "name": "2014-2015 ACM-ICPC, NEERC, Eastern Subregional Contest",
+      "url": "https://codeforces.com/gym/100507",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100513,
+      "name": "2014-2015 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "url": "https://codeforces.com/gym/100513",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 100519,
+      "name": "2014-2015 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "url": "https://codeforces.com/gym/100519",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100531,
+      "name": "2014-2015 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "url": "https://codeforces.com/gym/100531",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100536,
+      "name": "2004-2005 ACM-ICPC Northeastern European Regional Contest (NEERC 04)",
+      "url": "https://codeforces.com/gym/100536",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100541,
+      "name": "2014 ACM-ICPC Vietnam National Second Round",
+      "url": "https://codeforces.com/gym/100541",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 100543,
+      "name": "2014-2015 ACM-ICPC, Central Europe Regional Contest (CERC 14)",
+      "url": "https://codeforces.com/gym/100543",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100548,
+      "name": "2014-2015 ACM-ICPC, Asia Xian Regional Contest",
+      "url": "https://codeforces.com/gym/100548",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100553,
+      "name": "2014-2015 ACM-ICPC Northeastern European Regional Contest (NEERC 14)",
+      "url": "https://codeforces.com/gym/100553",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100554,
+      "name": "2014-2015 ACM-ICPC, Asia Mudanjiang Regional Contest",
+      "url": "https://codeforces.com/gym/100554",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100609,
+      "name": "2011-2012 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "url": "https://codeforces.com/gym/100609",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100610,
+      "name": "2010-2011 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "url": "https://codeforces.com/gym/100610",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100623,
+      "name": "2008-2009 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "url": "https://codeforces.com/gym/100623",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100622,
+      "name": "2009-2010 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "url": "https://codeforces.com/gym/100622",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100624,
+      "name": "2012-2013 ACM-ICPC, Central Europe Regional Contest (CERC 12)",
+      "url": "https://codeforces.com/gym/100624",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100641,
+      "name": "2014-2015 ACM-ICPC East Central North America Regional Contest (ECNA 2014)",
+      "url": "https://codeforces.com/gym/100641",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I"
+      ],
+      "count": 9
+    },
+    {
+      "id": 100643,
+      "name": "2011-2012 ACM-ICPC East Central North America Regional Contest (ECNA 2011)",
+      "url": "https://codeforces.com/gym/100643",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I"
+      ],
+      "count": 9
+    },
+    {
+      "id": 100642,
+      "name": "2012-2013 ACM-ICPC East Central North America Regional Contest (ECNA 2012)",
+      "url": "https://codeforces.com/gym/100642",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I"
+      ],
+      "count": 9
+    },
+    {
+      "id": 100645,
+      "name": "2009-2010 ACM-ICPC East Central North America Regional Contest (ECNA 2009)",
+      "url": "https://codeforces.com/gym/100645",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "count": 8
+    },
+    {
+      "id": 100644,
+      "name": "2010-2011 ACM-ICPC East Central North America Regional Contest (ECNA 2010)",
+      "url": "https://codeforces.com/gym/100644",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "count": 8
+    },
+    {
+      "id": 100647,
+      "name": "2007-2008 ACM-ICPC East Central North America Regional Contest (ECNA 2007)",
+      "url": "https://codeforces.com/gym/100647",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "count": 8
+    },
+    {
+      "id": 100646,
+      "name": "2008-2009 ACM-ICPC East Central North America Regional Contest (ECNA 2008)",
+      "url": "https://codeforces.com/gym/100646",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "count": 8
+    },
+    {
+      "id": 100648,
+      "name": "2006-2007 ACM-ICPC East Central North America Regional Contest (ECNA 2006)",
+      "url": "https://codeforces.com/gym/100648",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "count": 8
+    },
+    {
+      "id": 100651,
+      "name": "2004-2005 ACM-ICPC East Central North America Regional Contest (ECNA 2004)",
+      "url": "https://codeforces.com/gym/100651",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "count": 8
+    },
+    {
+      "id": 100650,
+      "name": "2005-2006 ACM-ICPC East Central North America Regional Contest (ECNA 2005)",
+      "url": "https://codeforces.com/gym/100650",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "count": 8
+    },
+    {
+      "id": 100685,
+      "name": "2012-2013 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "url": "https://codeforces.com/gym/100685",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100714,
+      "name": "2010-2011 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "url": "https://codeforces.com/gym/100714",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100725,
+      "name": "2003-2004 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "url": "https://codeforces.com/gym/100725",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100765,
+      "name": "2005-2006 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "url": "https://codeforces.com/gym/100765",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 100781,
+      "name": "2015-2016 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2015)",
+      "url": "https://codeforces.com/gym/100781",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 100783,
+      "name": "2014-2015 ACM-ICPC Southwestern Europe Regional Contest (SWERC 14)",
+      "url": "https://codeforces.com/gym/100783",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 100792,
+      "name": "2015-2016 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "url": "https://codeforces.com/gym/100792",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100801,
+      "name": "2015-2016 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "url": "https://codeforces.com/gym/100801",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100803,
+      "name": "2014-2015 ACM-ICPC, Asia Tokyo Regional Contest",
+      "url": "https://codeforces.com/gym/100803",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100812,
+      "name": "2015, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "url": "https://codeforces.com/gym/100812",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100819,
+      "name": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "url": "https://codeforces.com/gym/100819",
+      "problems": [
+        "L",
+        "M",
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100820,
+      "name": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "url": "https://codeforces.com/gym/100820",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100825,
+      "name": "2015-2016 ACM-ICPC East Central North America Regional Contest (ECNA 2015)",
+      "url": "https://codeforces.com/gym/100825",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I"
+      ],
+      "count": 9
+    },
+    {
+      "id": 100827,
+      "name": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "url": "https://codeforces.com/gym/100827",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100851,
+      "name": "2015-2016 ACM-ICPC Northeastern European Regional Contest (NEERC 15)",
+      "url": "https://codeforces.com/gym/100851",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100861,
+      "name": "2008-2009 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "url": "https://codeforces.com/gym/100861",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100860,
+      "name": "2007-2008 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "url": "https://codeforces.com/gym/100860",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 100863,
+      "name": "2011-2012 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "url": "https://codeforces.com/gym/100863",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100864,
+      "name": "2009-2010 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "url": "https://codeforces.com/gym/100864",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 100867,
+      "name": "2004-2005 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "url": "https://codeforces.com/gym/100867",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 100866,
+      "name": "2005-2006 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "url": "https://codeforces.com/gym/100866",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 101128,
+      "name": "2015-2016 ACM-ICPC Southwestern Europe Regional Contest (SWERC 15)",
+      "url": "https://codeforces.com/gym/101128",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 101137,
+      "name": "2016-2017 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "url": "https://codeforces.com/gym/101137",
+      "problems": [
+        "A",
+        "B",
+        "D",
+        "E",
+        "F",
+        "G",
+        "I",
+        "K",
+        "L"
+      ],
+      "count": 9
+    },
+    {
+      "id": 101142,
+      "name": "2016-2017 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "url": "https://codeforces.com/gym/101142",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101147,
+      "name": "2016-2017 ACM-ICPC, Egyptian Collegiate Programming Contest (ECPC 16)",
+      "url": "https://codeforces.com/gym/101147",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101149,
+      "name": "2016, Samara University ACM ICPC Quarterfinal Qualification Contest",
+      "url": "https://codeforces.com/gym/101149",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 101158,
+      "name": "2016-2017 ACM-ICPC, Asia Tsukuba Regional Contest",
+      "url": "https://codeforces.com/gym/101158",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101161,
+      "name": "2016-2017 ACM-ICPC Asia-Bangkok Regional Contest",
+      "url": "https://codeforces.com/gym/101161",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 101164,
+      "name": "2016-2017 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2016)",
+      "url": "https://codeforces.com/gym/101164",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101170,
+      "name": "2016-2017 ACM-ICPC Northwestern European Regional Programming Contest (NWERC 2016)",
+      "url": "https://codeforces.com/gym/101170",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101173,
+      "name": "2016-2017 ACM-ICPC, Central Europe Regional Contest (CERC 16)",
+      "url": "https://codeforces.com/gym/101173",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 101175,
+      "name": "2011 ACM-ICPC World Finals",
+      "url": "https://codeforces.com/gym/101175",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101174,
+      "name": "2016-2017 ACM-ICPC Southwestern European Regional Programming Contest (SWERC 2016)",
+      "url": "https://codeforces.com/gym/101174",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101177,
+      "name": "2016-2017 ACM-ICPC, South Pacific Regional Contest (SPPC 16)",
+      "url": "https://codeforces.com/gym/101177",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101190,
+      "name": "2016-2017 ACM-ICPC Northeastern European Regional Contest (NEERC 16)",
+      "url": "https://codeforces.com/gym/101190",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 101194,
+      "name": "2016-2017 ACM-ICPC CHINA-Final",
+      "url": "https://codeforces.com/gym/101194",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 101196,
+      "name": "2016-2017 ACM-ICPC East Central North America Regional Contest (ECNA 2016)",
+      "url": "https://codeforces.com/gym/101196",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 101201,
+      "name": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "url": "https://codeforces.com/gym/101201",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 101205,
+      "name": "2012 ACM-ICPC World Finals",
+      "url": "https://codeforces.com/gym/101205",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 101206,
+      "name": "CCPC 2016-2017, Finals",
+      "url": "https://codeforces.com/gym/101206",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 101208,
+      "name": "2013 ACM-ICPC World Finals",
+      "url": "https://codeforces.com/gym/101208",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101221,
+      "name": "2014 ACM-ICPC World Finals",
+      "url": "https://codeforces.com/gym/101221",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 101239,
+      "name": "2015 ACM-ICPC World Finals",
+      "url": "https://codeforces.com/gym/101239",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 101243,
+      "name": "2016-2017 ACM-ICPC, NEERC, Central Subregional Contest",
+      "url": "https://codeforces.com/gym/101243",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101242,
+      "name": "2016 ACM-ICPC World Finals",
+      "url": "https://codeforces.com/gym/101242",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 101246,
+      "name": "2010-2011 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "url": "https://codeforces.com/gym/101246",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 101252,
+      "name": "2009-2010 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "url": "https://codeforces.com/gym/101252",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101291,
+      "name": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "url": "https://codeforces.com/gym/101291",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 101309,
+      "name": "2010-2011 ACM-ICPC Northeastern European Regional Contest (NEERC 10)",
+      "url": "https://codeforces.com/gym/101309",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101308,
+      "name": "2009-2010 ACM-ICPC Northeastern European Regional Contest (NEERC 09)",
+      "url": "https://codeforces.com/gym/101308",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101334,
+      "name": "2005-2006 ACM-ICPC Northeastern European Regional Contest (NEERC 05)",
+      "url": "https://codeforces.com/gym/101334",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101388,
+      "name": "2003-2004 ACM-ICPC Northeastern European Regional Contest (NEERC 03)",
+      "url": "https://codeforces.com/gym/101388",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101409,
+      "name": "2010-2011 ACM-ICPC, NEERC, Western Subregional Contest",
+      "url": "https://codeforces.com/gym/101409",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 101411,
+      "name": "2009-2010 ACM-ICPC, NEERC, Western Subregional Contest",
+      "url": "https://codeforces.com/gym/101411",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 101410,
+      "name": "2011-2012 ACM-ICPC, NEERC, Western Subregional Contest",
+      "url": "https://codeforces.com/gym/101410",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 101413,
+      "name": "2010-2011 ACM-ICPC, Asia Tokyo Regional Contest",
+      "url": "https://codeforces.com/gym/101413",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 101412,
+      "name": "2012-2013 ACM-ICPC, Asia Tokyo Regional Contest",
+      "url": "https://codeforces.com/gym/101412",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 101415,
+      "name": "2007-2008 ACM-ICPC, Asia Tokyo Regional Contest",
+      "url": "https://codeforces.com/gym/101415",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 101414,
+      "name": "2009-2010 ACM-ICPC, Asia Tokyo Regional Contest",
+      "url": "https://codeforces.com/gym/101414",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 101461,
+      "name": "2004-2005 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2004)",
+      "url": "https://codeforces.com/gym/101461",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I"
+      ],
+      "count": 9
+    },
+    {
+      "id": 101463,
+      "name": "2009-2010 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2009)",
+      "url": "https://codeforces.com/gym/101463",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101462,
+      "name": "2008-2009 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2008)",
+      "url": "https://codeforces.com/gym/101462",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I"
+      ],
+      "count": 9
+    },
+    {
+      "id": 101464,
+      "name": "2010-2011 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2010)",
+      "url": "https://codeforces.com/gym/101464",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 101467,
+      "name": "2005-2006 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2005)",
+      "url": "https://codeforces.com/gym/101467",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I"
+      ],
+      "count": 9
+    },
+    {
+      "id": 101466,
+      "name": "2017 ACM-ICPC, Universidad Nacional de Colombia Programming Contest",
+      "url": "https://codeforces.com/gym/101466",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101468,
+      "name": "2006-2007 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2006)",
+      "url": "https://codeforces.com/gym/101468",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I"
+      ],
+      "count": 9
+    },
+    {
+      "id": 101471,
+      "name": "2017 ACM-ICPC World Finals",
+      "url": "https://codeforces.com/gym/101471",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 101470,
+      "name": "2014-2015 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2014)",
+      "url": "https://codeforces.com/gym/101470",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 101473,
+      "name": "2013-2014 ACM-ICPC Brazil Subregional Programming Contest",
+      "url": "https://codeforces.com/gym/101473",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 101472,
+      "name": "2012-2013 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2012)",
+      "url": "https://codeforces.com/gym/101472",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 101481,
+      "name": "2011-2012 ACM-ICPC, Central Europe Regional Contest (CERC 11)",
+      "url": "https://codeforces.com/gym/101481",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 101480,
+      "name": "2015-2016 ACM-ICPC, Central Europe Regional Contest (CERC 15)",
+      "url": "https://codeforces.com/gym/101480",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 101487,
+      "name": "2010-2011 ACM-ICPC, Central Europe Regional Contest (CERC 10)",
+      "url": "https://codeforces.com/gym/101487",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 101503,
+      "name": "2007-2008 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "url": "https://codeforces.com/gym/101503",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 101504,
+      "name": "2008-2009 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "url": "https://codeforces.com/gym/101504",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101549,
+      "name": "2012 ACM-ICPC Asia Hatyai Regional Programming Contest",
+      "url": "https://codeforces.com/gym/101549",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 101550,
+      "name": "2016-2017 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2016)",
+      "url": "https://codeforces.com/gym/101550",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101555,
+      "name": "2011-2012 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2011)",
+      "url": "https://codeforces.com/gym/101555",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 101554,
+      "name": "2013-2014 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2013)",
+      "url": "https://codeforces.com/gym/101554",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101557,
+      "name": "2009-2010 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2009)",
+      "url": "https://codeforces.com/gym/101557",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 101556,
+      "name": "2010-2011 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2010)",
+      "url": "https://codeforces.com/gym/101556",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101561,
+      "name": "2011-2012 ACM-ICPC Southwestern European Regional Programming Contest (SWERC 2011)",
+      "url": "https://codeforces.com/gym/101561",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 101564,
+      "name": "2010-2011 ACM-ICPC Southwestern European Regional Programming Contest (SWERC 2010)",
+      "url": "https://codeforces.com/gym/101564",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 101573,
+      "name": "2017-2018 ACM-ICPC Квалификационный этап Четвертьфинала Московского подрегиона NEERC",
+      "url": "https://codeforces.com/gym/101573",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101572,
+      "name": "2017-2018 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2017)",
+      "url": "https://codeforces.com/gym/101572",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101585,
+      "name": "2016-2017 ACM-ICPC, NEERC, Восточно-сибирский четвертьфинал",
+      "url": "https://codeforces.com/gym/101585",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 101590,
+      "name": "2017-2018 ACM-ICPC, NEERC, Восточно-сибирский четвертьфинал",
+      "url": "https://codeforces.com/gym/101590",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101597,
+      "name": "ACM-ICPC-Swiss-Subregional 2017",
+      "url": "https://codeforces.com/gym/101597",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101611,
+      "name": "2017-2018 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "url": "https://codeforces.com/gym/101611",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 101612,
+      "name": "2017-2018 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "url": "https://codeforces.com/gym/101612",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 101615,
+      "name": "2017-2018 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "url": "https://codeforces.com/gym/101615",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 101617,
+      "name": "2017-2018 ACM-ICPC Southeast Regional Contest (Div. 1)",
+      "url": "https://codeforces.com/gym/101617",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101620,
+      "name": "2017-2018 ACM-ICPC, Central Europe Regional Contest (CERC 17)",
+      "url": "https://codeforces.com/gym/101620",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 101630,
+      "name": "2017-2018 ACM-ICPC Northern Eurasia (Northeastern European Regional) Contest (NEERC 17)",
+      "url": "https://codeforces.com/gym/101630",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 101635,
+      "name": "2017-2018 ACM-ICPC Southwestern European Regional Programming Contest (SWERC 2017)",
+      "url": "https://codeforces.com/gym/101635",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101649,
+      "name": "2005-2006 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "url": "https://codeforces.com/gym/101649",
+      "problems": [
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 9
+    },
+    {
+      "id": 101648,
+      "name": "2004-2005 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "url": "https://codeforces.com/gym/101648",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101651,
+      "name": "2003-2004 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "url": "https://codeforces.com/gym/101651",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101650,
+      "name": "2006-2007 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "url": "https://codeforces.com/gym/101650",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101653,
+      "name": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "url": "https://codeforces.com/gym/101653",
+      "problems": [
+        "M",
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X"
+      ],
+      "count": 12
+    },
+    {
+      "id": 101652,
+      "name": "2017-2018 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "url": "https://codeforces.com/gym/101652",
+      "problems": [
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X",
+        "Y",
+        "Z"
+      ],
+      "count": 13
+    },
+    {
+      "id": 101655,
+      "name": "2013-2014 ACM-ICPC Pacific Northwest Regional Contest",
+      "url": "https://codeforces.com/gym/101655",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 101657,
+      "name": "2011-2012 ACM-ICPC Pacific Northwest Regional Contest",
+      "url": "https://codeforces.com/gym/101657",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101656,
+      "name": "2012-2013 ACM-ICPC Pacific Northwest Regional Contest",
+      "url": "https://codeforces.com/gym/101656",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 101667,
+      "name": "2017-2018 ACM-ICPC, Asia Daejeon Regional Contest",
+      "url": "https://codeforces.com/gym/101667",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 101669,
+      "name": "2017-2018 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2017)",
+      "url": "https://codeforces.com/gym/101669",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 101673,
+      "name": "2017-2018 ACM-ICPC East Central North America Regional Contest (ECNA 2017)",
+      "url": "https://codeforces.com/gym/101673",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 101775,
+      "name": "2017-2018 ACM-ICPC Asia East Continent League Final (ECL-Final 2017)",
+      "url": "https://codeforces.com/gym/101775",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 101845,
+      "name": "2018 ACM-ICPC, Universidad Nacional de Colombia Programming Contest",
+      "url": "https://codeforces.com/gym/101845",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 101873,
+      "name": "2017-2018 ACM-ICPC German Collegiate Programming Contest (GCPC 2017)",
+      "url": "https://codeforces.com/gym/101873",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101889,
+      "name": "2017-2018 ACM-ICPC Latin American Regional Programming Contest",
+      "url": "https://codeforces.com/gym/101889",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 101908,
+      "name": "2018-2019 ACM-ICPC Brazil Subregional Programming Contest",
+      "url": "https://codeforces.com/gym/101908",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 101911,
+      "name": "2018-2019 ACM-ICPC, NEERC, Southern Subregional Contest, Qualification Stage",
+      "url": "https://codeforces.com/gym/101911",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 101931,
+      "name": "Квалификационный этап Четвертьфинала Центрального подрегиона NEERC, ACM-ICPC 2018-2019",
+      "url": "https://codeforces.com/gym/101931",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I"
+      ],
+      "count": 9
+    },
+    {
+      "id": 101933,
+      "name": "2018-2019 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2018)",
+      "url": "https://codeforces.com/gym/101933",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101942,
+      "name": "2016-2017 ACM-ICPC, NEERC, Западно-сибирский четвертьфинал",
+      "url": "https://codeforces.com/gym/101942",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101955,
+      "name": "2018-2019 ACM-ICPC, Asia Shenyang Regional Contest",
+      "url": "https://codeforces.com/gym/101955",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 101961,
+      "name": "2014-2015 ACM-ICPC, NEERC, Восточно-сибирский четвертьфинал",
+      "url": "https://codeforces.com/gym/101961",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101964,
+      "name": "2018-2019 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2018)",
+      "url": "https://codeforces.com/gym/101964",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 101981,
+      "name": "2018-2019 ACM-ICPC, Asia Nanjing Regional Contest",
+      "url": "https://codeforces.com/gym/101981",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 101982,
+      "name": "2018-2019 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "url": "https://codeforces.com/gym/101982",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 101987,
+      "name": "2018-2019 ACM-ICPC, Asia Seoul Regional Contest",
+      "url": "https://codeforces.com/gym/101987",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 101986,
+      "name": "2017-2018 ACM-ICPC, Asia Tsukuba Regional Contest",
+      "url": "https://codeforces.com/gym/101986",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 102001,
+      "name": "2018 ICPC Asia Jakarta Regional Contest",
+      "url": "https://codeforces.com/gym/102001",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 102004,
+      "name": "2011-2012 ACM-ICPC, Asia Fukuoka Regional Contest",
+      "url": "https://codeforces.com/gym/102004",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 102006,
+      "name": "2018 ACM-ICPC, Syrian Collegiate Programming Contest",
+      "url": "https://codeforces.com/gym/102006",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 102012,
+      "name": "2018-2019 ACM-ICPC, Asia Xuzhou Regional Contest",
+      "url": "https://codeforces.com/gym/102012",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 102014,
+      "name": "2013-2014 ACM-ICPC, Asia Aizu Regional Contest",
+      "url": "https://codeforces.com/gym/102014",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 102028,
+      "name": "2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest",
+      "url": "https://codeforces.com/gym/102028",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 102040,
+      "name": "2018-2019 ACM-ICPC, Asia Dhaka Regional Contest",
+      "url": "https://codeforces.com/gym/102040",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 102055,
+      "name": "2018 China Collegiate Programming Contest Final (CCPC-Final 2018)",
+      "url": "https://codeforces.com/gym/102055",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 102056,
+      "name": "2018-2019 ACM-ICPC, Asia East Continent Finals",
+      "url": "https://codeforces.com/gym/102056",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 102082,
+      "name": "2018-2019, ICPC, Asia Yokohama Regional Contest 2018",
+      "url": "https://codeforces.com/gym/102082",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 102091,
+      "name": "2018-2019 ACM-ICPC, Asia Nakhon Pathom Regional Contest",
+      "url": "https://codeforces.com/gym/102091",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 102219,
+      "name": "2019 ICPC Malaysia National",
+      "url": "https://codeforces.com/gym/102219",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 102222,
+      "name": "2018-2019 ACM-ICPC, China Multi-Provincial Collegiate Programming Contest",
+      "url": "https://codeforces.com/gym/102222",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 102307,
+      "name": "2019 ICPC Universidad Nacional de Colombia Programming Contest",
+      "url": "https://codeforces.com/gym/102307",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 102346,
+      "name": "2019-2020 ACM-ICPC Brazil Subregional Programming Contest",
+      "url": "https://codeforces.com/gym/102346",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 102348,
+      "name": "ICPC 2019-2020 NERC (NEERC), Southern and Volga Russia Qualifier",
+      "url": "https://codeforces.com/gym/102348",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 102375,
+      "name": "Квалификационный раунд Чемпионата Северо-Запада России и Москвы ICPC 2019",
+      "url": "https://codeforces.com/gym/102375",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 102392,
+      "name": "2019-2020 ICPC Southeastern European Regional Programming Contest (SEERC 2019)",
+      "url": "https://codeforces.com/gym/102392",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 102411,
+      "name": "ICPC 2019-2020 North-Western Russia Regional Contest",
+      "url": "https://codeforces.com/gym/102411",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 102428,
+      "name": "2019-2020 ACM-ICPC Latin American Regional Programming Contest",
+      "url": "https://codeforces.com/gym/102428",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 102431,
+      "name": "2019 China Collegiate Programming Contest Final (CCPC-Final 2019)",
+      "url": "https://codeforces.com/gym/102431",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 102433,
+      "name": "2019-2020 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "url": "https://codeforces.com/gym/102433",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 102452,
+      "name": "2019-2020 ICPC Asia Hong Kong Regional Contest",
+      "url": "https://codeforces.com/gym/102452",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 102460,
+      "name": "2019-2020 ICPC Asia Taipei-Hsinchu Regional Contest",
+      "url": "https://codeforces.com/gym/102460",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 102465,
+      "name": "2018-2019 ICPC Southwestern European Regional Programming Contest (SWERC 2018)",
+      "url": "https://codeforces.com/gym/102465",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 102471,
+      "name": "2019 ICPC Asia-East Continent Final",
+      "url": "https://codeforces.com/gym/102471",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 102470,
+      "name": "2009-2010 ACM ICPC Southwestern European Regional Programming Contest (SWERC 2009)",
+      "url": "https://codeforces.com/gym/102470",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 102483,
+      "name": "2018-2019 ICPC Northwestern European Regional Programming Contest (NWERC 2018)",
+      "url": "https://codeforces.com/gym/102483",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 102482,
+      "name": "2018 ACM-ICPC World Finals",
+      "url": "https://codeforces.com/gym/102482",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 102501,
+      "name": "2019-2020 ICPC Southwestern European Regional Programming Contest (SWERC 2019-20)",
+      "url": "https://codeforces.com/gym/102501",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 102500,
+      "name": "2019-2020 ICPC Northwestern European Regional Programming Contest (NWERC 2019)",
+      "url": "https://codeforces.com/gym/102500",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 102511,
+      "name": "2019 ICPC World Finals",
+      "url": "https://codeforces.com/gym/102511",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 102700,
+      "name": "2020 ICPC Universidad Nacional de Colombia Programming Contest",
+      "url": "https://codeforces.com/gym/102700",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 102780,
+      "name": "ICPC Central Russia Regional Contest (CRRC 19)",
+      "url": "https://codeforces.com/gym/102780",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 102785,
+      "name": "ICPC Central Russia Regional Contest (CRRC 18)",
+      "url": "https://codeforces.com/gym/102785",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 102788,
+      "name": "2017-2018 ICPC Central Quarter Final of Northeastern European Regional Collegiate Programming Contest",
+      "url": "https://codeforces.com/gym/102788",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 102791,
+      "name": "ICPC 2020-2021 NERC (NEERC), Southern and Volga Russia Qualifier",
+      "url": "https://codeforces.com/gym/102791",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 102835,
+      "name": "The 2020 ICPC Asia Taipei-Hsinchu Site Programming Contest",
+      "url": "https://codeforces.com/gym/102835",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 102861,
+      "name": "2020-2021 ACM-ICPC Brazil Subregional Programming Contest",
+      "url": "https://codeforces.com/gym/102861",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O"
+      ],
+      "count": 15
+    },
+    {
+      "id": 102890,
+      "name": "2020 ICPC Gran Premio de Mexico 3ra Fecha",
+      "url": "https://codeforces.com/gym/102890",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 102900,
+      "name": "2020 ICPC Shanghai Site",
+      "url": "https://codeforces.com/gym/102900",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 102920,
+      "name": "2020-2021 ACM-ICPC, Asia Seoul Regional Contest",
+      "url": "https://codeforces.com/gym/102920",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 102966,
+      "name": "2020-2021 ICPC - Gran Premio de Mexico - Repechaje",
+      "url": "https://codeforces.com/gym/102966",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 102992,
+      "name": "2020-2021 ACM-ICPC, Asia Nanjing Regional Contest (XXI Open Cup, Grand Prix of Nanjing)",
+      "url": "https://codeforces.com/gym/102992",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 103049,
+      "name": "2020-2021 ICPC Northwestern European Regional Programming Contest (NWERC 2020)",
+      "url": "https://codeforces.com/gym/103049",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 103069,
+      "name": "2020 ICPC Asia East Continent Final",
+      "url": "https://codeforces.com/gym/103069",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 103081,
+      "name": "2020-2021 ICPC Southwestern European Regional Contest (SWERC 2020)",
+      "url": "https://codeforces.com/gym/103081",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 103102,
+      "name": "2020-2021 ICPC Southeastern European Regional Programming Contest (SEERC 2020)",
+      "url": "https://codeforces.com/gym/103102",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 103119,
+      "name": "The 2020 ICPC Asia Macau Regional Contest",
+      "url": "https://codeforces.com/gym/103119",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 103185,
+      "name": "2020-2021 ACM-ICPC Latin American Regional Programming Contest",
+      "url": "https://codeforces.com/gym/103185",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 103202,
+      "name": "The 2020 ICPC Asia Shenyang Regional Programming Contest",
+      "url": "https://codeforces.com/gym/103202",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 103274,
+      "name": "2021 ICPC Gran Premio de Mexico 1ra Fecha",
+      "url": "https://codeforces.com/gym/103274",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 103306,
+      "name": "2021 ICPC Gran Premio de Mexico 2da Fecha",
+      "url": "https://codeforces.com/gym/103306",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 103373,
+      "name": "2021 ICPC Asia Taiwan Online Programming Contest",
+      "url": "https://codeforces.com/gym/103373",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 103388,
+      "name": "2021-2022 ACM-ICPC Brazil Subregional Programming Contest",
+      "url": "https://codeforces.com/gym/103388",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 103409,
+      "name": "The 2021 CCPC Guilin Onsite (XXII Open Cup, Grand Prix of EDG)",
+      "url": "https://codeforces.com/gym/103409",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 103411,
+      "name": "2020-2021, ICPC, East Siberian Regional Contest",
+      "url": "https://codeforces.com/gym/103411",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 103415,
+      "name": "The 2021 CCPC Guangzhou Onsite",
+      "url": "https://codeforces.com/gym/103415",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 103427,
+      "name": "The 2021 ICPC Asia Shenyang Regional Contest",
+      "url": "https://codeforces.com/gym/103427",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 103428,
+      "name": "The 2021 CCPC Weihai Onsite",
+      "url": "https://codeforces.com/gym/103428",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 103430,
+      "name": "2021-2022 ICPC, NERC, Southern and Volga Russian Regional Contest (problems intersect with Educational Codeforces Round 117)",
+      "url": "https://codeforces.com/gym/103430",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 103438,
+      "name": "2021 ICPC Southeastern Europe Regional Contest",
+      "url": "https://codeforces.com/gym/103438",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 103443,
+      "name": "The 2021 ICPC Asia Taipei Regional Programming Contest",
+      "url": "https://codeforces.com/gym/103443",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 103446,
+      "name": "The 2021 ICPC Asia Shanghai Regional Programming Contest",
+      "url": "https://codeforces.com/gym/103446",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 103466,
+      "name": "The 2019 ICPC Asia Nanjing Regional Contest",
+      "url": "https://codeforces.com/gym/103466",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 103470,
+      "name": "The 2021 ICPC Asia Nanjing Regional Contest (XXII Open Cup, Grand Prix of Nanjing)",
+      "url": "https://codeforces.com/gym/103470",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 103577,
+      "name": "2021 ICPC Universidad Nacional de Colombia Programming Contest",
+      "url": "https://codeforces.com/gym/103577",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 103640,
+      "name": "2021-2022 ACM-ICPC Latin American Regional Programming Contest",
+      "url": "https://codeforces.com/gym/103640",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 103708,
+      "name": "2022 ICPC Gran Premio de Mexico 1ra Fecha",
+      "url": "https://codeforces.com/gym/103708",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 103861,
+      "name": "2021 ICPC Asia East Continent Final",
+      "url": "https://codeforces.com/gym/103861",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 103860,
+      "name": "The 7th China Collegiate Programming Contest, Finals (CCPC Finals 2021)",
+      "url": "https://codeforces.com/gym/103860",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 103941,
+      "name": "2022 CCPC Henan Provincial Collegiate Programming Contest",
+      "url": "https://codeforces.com/gym/103941",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 103940,
+      "name": "2022 ICPC Gran Premio de Mexico 2da Fecha",
+      "url": "https://codeforces.com/gym/103940",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 103957,
+      "name": "2015 ACM-ICPC Asia EC-Final Contest",
+      "url": "https://codeforces.com/gym/103957",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 103960,
+      "name": "2022-2023 ICPC Brazil Subregional Programming Contest",
+      "url": "https://codeforces.com/gym/103960",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 103964,
+      "name": "The 2015 China Collegiate Programming Contest (CCPC 2015)",
+      "url": "https://codeforces.com/gym/103964",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 103990,
+      "name": "2022 ICPC Asia Taiwan Online Programming Contest",
+      "url": "https://codeforces.com/gym/103990",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I"
+      ],
+      "count": 9
+    },
+    {
+      "id": 103993,
+      "name": "ICPC 2022-2023 NERC (NEERC), Southern and Volga Russia Qualifier",
+      "url": "https://codeforces.com/gym/103993",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104008,
+      "name": "2022 China Collegiate Programming Contest (CCPC) Guilin Site",
+      "url": "https://codeforces.com/gym/104008",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104011,
+      "name": "2021-2022 ICPC NERC (NEERC), North-Western Russia Regional Contest (Northern Subregionals)",
+      "url": "https://codeforces.com/gym/104011",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 104013,
+      "name": "2020-2021 ICPC NERC (NEERC), North-Western Russia Regional Contest (Northern Subregionals)",
+      "url": "https://codeforces.com/gym/104013",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 104015,
+      "name": "ICPC 2021-2022 NERC (NEERC), Southern and Volga Russia Qualifier",
+      "url": "https://codeforces.com/gym/104015",
+      "problems": [
+        "A",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104014,
+      "name": "2022-2023 ICPC NERC, квалификации Уральского региона и Северо-Запада России",
+      "url": "https://codeforces.com/gym/104014",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 104017,
+      "name": "2021-2022 ICPC Southwestern European Regional Contest (SWERC 2021-2022)",
+      "url": "https://codeforces.com/gym/104017",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104021,
+      "name": "The 2019 ICPC Asia Yinchuan Regional Contest",
+      "url": "https://codeforces.com/gym/104021",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 104023,
+      "name": "2022 China Collegiate Programming Contest (CCPC) Weihai Site",
+      "url": "https://codeforces.com/gym/104023",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104022,
+      "name": "The 2020 ICPC Asia Yinchuan Regional Programming Contest",
+      "url": "https://codeforces.com/gym/104022",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104030,
+      "name": "2022-2023 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2022)",
+      "url": "https://codeforces.com/gym/104030",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 104053,
+      "name": "2022 China Collegiate Programming Contest (CCPC) Guangzhou Onsite",
+      "url": "https://codeforces.com/gym/104053",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104059,
+      "name": "2022-2023 ACM-ICPC German Collegiate Programming Contest (GCPC 2022)",
+      "url": "https://codeforces.com/gym/104059",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104065,
+      "name": "2022 China Collegiate Programming Contest (CCPC) Mianyang Onsite",
+      "url": "https://codeforces.com/gym/104065",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104064,
+      "name": "2021-2022 ICPC Northwestern European Regional Programming Contest (NWERC 2021)",
+      "url": "https://codeforces.com/gym/104064",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104077,
+      "name": "The 2022 ICPC Asia Xian Regional Contest",
+      "url": "https://codeforces.com/gym/104077",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104090,
+      "name": "The 2022 ICPC Asia Hangzhou Regional Programming Contest",
+      "url": "https://codeforces.com/gym/104090",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104114,
+      "name": "2022 ICPC Southeastern Europe Regional Contest",
+      "url": "https://codeforces.com/gym/104114",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 104118,
+      "name": "2022 ICPC Asia-Manila Regional Contest",
+      "url": "https://codeforces.com/gym/104118",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104120,
+      "name": "2022 ICPC Gran Premio de Mexico Repechaje",
+      "url": "https://codeforces.com/gym/104120",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104128,
+      "name": "The 2022 ICPC Asia Nanjing Regional Contest",
+      "url": "https://codeforces.com/gym/104128",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104160,
+      "name": "The 2022 ICPC Asia Shenyang Regional Contest (The 1st Universal Cup, Stage 1: Shenyang)",
+      "url": "https://codeforces.com/gym/104160",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104172,
+      "name": "The 2023 ICPC Asia Hong Kong Regional Programming Contest (The 1st Universal Cup, Stage 2:Hong Kong)",
+      "url": "https://codeforces.com/gym/104172",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104196,
+      "name": "2021-2022 ICPC East Central North America Regional Contest (ECNA 2021)",
+      "url": "https://codeforces.com/gym/104196",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104207,
+      "name": "2017 China Collegiate Programming Contest Final (CCPC-Final 2017)",
+      "url": "https://codeforces.com/gym/104207",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 104252,
+      "name": "2022-2023 ACM-ICPC Latin American Regional Programming Contest",
+      "url": "https://codeforces.com/gym/104252",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104288,
+      "name": "2021 ICPC World Finals",
+      "url": "https://codeforces.com/gym/104288",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104354,
+      "name": "2023 CCPC Henan Provincial Collegiate Programming Contest",
+      "url": "https://codeforces.com/gym/104354",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104373,
+      "name": "The 2021 ICPC Asia Macau Regional Contest",
+      "url": "https://codeforces.com/gym/104373",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 104375,
+      "name": "2023 ICPC Gran Premio de Mexico 1ra Fecha",
+      "url": "https://codeforces.com/gym/104375",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 104385,
+      "name": "2023 (ICPC) Jiangxi Provincial Contest -- Official Contest",
+      "url": "https://codeforces.com/gym/104385",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104393,
+      "name": "ICPC Masters Mexico LATAM 2023",
+      "url": "https://codeforces.com/gym/104393",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 104396,
+      "name": "2023 Jiangsu Collegiate Programming Contest, 2023 National Invitational of CCPC (Hunan), The 13th Xiangtan Collegiate Programming Contest",
+      "url": "https://codeforces.com/gym/104396",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104412,
+      "name": "2023 ICPC Gran Premio de Mexico 2da Fecha",
+      "url": "https://codeforces.com/gym/104412",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 104417,
+      "name": "The 13th Shandong ICPC Provincial Collegiate Programming Contest",
+      "url": "https://codeforces.com/gym/104417",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104453,
+      "name": "ICPC Central Russia Regional Qualyfing Round, 2021",
+      "url": "https://codeforces.com/gym/104453",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104452,
+      "name": "ICPC Central Russia Regional Contest - 2020",
+      "url": "https://codeforces.com/gym/104452",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 104454,
+      "name": "ICPC Central Russia Regional Contest, 2021",
+      "url": "https://codeforces.com/gym/104454",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O"
+      ],
+      "count": 15
+    },
+    {
+      "id": 104460,
+      "name": "The 2019 ICPC China Shaanxi Provincial Programming Contest",
+      "url": "https://codeforces.com/gym/104460",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104466,
+      "name": "2023-2024 ICPC German Collegiate Programming Contest (GCPC 2023)",
+      "url": "https://codeforces.com/gym/104466",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104493,
+      "name": "2023 ICPC HIAST Collegiate Programming Contest",
+      "url": "https://codeforces.com/gym/104493",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 104555,
+      "name": "2023-2024 ICPC Brazil Subregional Programming Contest",
+      "url": "https://codeforces.com/gym/104555",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104566,
+      "name": "The 2018 ACM-ICPC Asia Qingdao Regional Contest, Online (The 2nd Universal Cup. Stage 1: Qingdao)",
+      "url": "https://codeforces.com/gym/104566",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 104587,
+      "name": "2020-2021 ICPC East Central North America Regional Contest (ECNA 2020)",
+      "url": "https://codeforces.com/gym/104587",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104596,
+      "name": "2019-2020 ICPC East Central North America Regional Contest (ECNA 2019)",
+      "url": "https://codeforces.com/gym/104596",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 104614,
+      "name": "2022-2023 ICPC East Central North America Regional Contest (ECNA 2022)",
+      "url": "https://codeforces.com/gym/104614",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104619,
+      "name": "2023 ICPC Asia Taiwan Online Programming Contest",
+      "url": "https://codeforces.com/gym/104619",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104633,
+      "name": "2020 ICPC World Finals",
+      "url": "https://codeforces.com/gym/104633",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O"
+      ],
+      "count": 15
+    },
+    {
+      "id": 104639,
+      "name": "The 2023 ICPC Asia EC Regionals Online Contest (I)",
+      "url": "https://codeforces.com/gym/104639",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104651,
+      "name": "The 2023 CCPC Online Contest",
+      "url": "https://codeforces.com/gym/104651",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104666,
+      "name": "2019-2020 ICPC Central Europe Regional Contest (CERC 19)",
+      "url": "https://codeforces.com/gym/104666",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104668,
+      "name": "2018-2019 ACM-ICPC Central Europe Regional Contest (CERC 18)",
+      "url": "https://codeforces.com/gym/104668",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104671,
+      "name": "2023 ICPC Columbia University Local Contest",
+      "url": "https://codeforces.com/gym/104671",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 104670,
+      "name": "2021-2022 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2021)",
+      "url": "https://codeforces.com/gym/104670",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104686,
+      "name": "2022-2023 ICPC Central Europe Regional Contest (CERC 22)",
+      "url": "https://codeforces.com/gym/104686",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104713,
+      "name": "2020-2021 ICPC Central Europe Regional Contest (CERC 20)",
+      "url": "https://codeforces.com/gym/104713",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 104736,
+      "name": "2023-2024 ACM-ICPC Latin American Regional Programming Contest",
+      "url": "https://codeforces.com/gym/104736",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104757,
+      "name": "2023-2024 ICPC East North America Regional Contest (ECNA 2023)",
+      "url": "https://codeforces.com/gym/104757",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104758,
+      "name": "The 2023 ICPC Masters Mexico Regional #ICPCMX2023 Edition",
+      "url": "https://codeforces.com/gym/104758",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I"
+      ],
+      "count": 9
+    },
+    {
+      "id": 104760,
+      "name": "2023-2024 ICPC NERC (NEERC), Kyrgyzstan Qualification Contest",
+      "url": "https://codeforces.com/gym/104760",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I"
+      ],
+      "count": 9
+    },
+    {
+      "id": 104768,
+      "name": "2023 China Collegiate Programming Contest (CCPC) Guilin Onsite (The 2nd Universal Cup. Stage 8: Guilin)",
+      "url": "https://codeforces.com/gym/104768",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104772,
+      "name": "2023-2024 ICPC NERC (NEERC), North-Western Russia Regional Contest (Northern Subregionals)",
+      "url": "https://codeforces.com/gym/104772",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104777,
+      "name": "2023-2024 ICPC, NERC, Southern and Volga Russian Regional Contest (problems intersect with Educational Codeforces Round 157)",
+      "url": "https://codeforces.com/gym/104777",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 104787,
+      "name": "The 2023 CCPC (Qinhuangdao) Onsite (The 2nd Universal Cup. Stage 9: Qinhuangdao)",
+      "url": "https://codeforces.com/gym/104787",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104797,
+      "name": "2021-2022 ICPC Central Europe Regional Contest (CERC 21)",
+      "url": "https://codeforces.com/gym/104797",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104813,
+      "name": "The 9th CCPC (Harbin) Onsite(The 2nd Universal Cup. Stage 10: Harbin)",
+      "url": "https://codeforces.com/gym/104813",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104821,
+      "name": "The 2023 ICPC Asia Nanjing Regional Contest (The 2nd Universal Cup. Stage 11: Nanjing)",
+      "url": "https://codeforces.com/gym/104821",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104832,
+      "name": "2023-2024 ICPC, Asia Yokohama Regional Contest 2023",
+      "url": "https://codeforces.com/gym/104832",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 104842,
+      "name": "2020-2021 ICPC, Moscow Subregional",
+      "url": "https://codeforces.com/gym/104842",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 104847,
+      "name": "2019-2020 ICPC, Moscow Subregional",
+      "url": "https://codeforces.com/gym/104847",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 104849,
+      "name": "2022-2023 ICPC, Asia Yokohama Regional Contest 2022",
+      "url": "https://codeforces.com/gym/104849",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 104848,
+      "name": "2021-2022 ICPC, Moscow Subregional",
+      "url": "https://codeforces.com/gym/104848",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O"
+      ],
+      "count": 15
+    },
+    {
+      "id": 104854,
+      "name": "2023-2024 ICPC, Swiss Subregional",
+      "url": "https://codeforces.com/gym/104854",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 104857,
+      "name": "The 2023 ICPC Asia Hefei Regional Contest (The 2nd Universal Cup. Stage 12: Hefei)",
+      "url": "https://codeforces.com/gym/104857",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104869,
+      "name": "The 2023 ICPC Asia Shenyang Regional Contest (The 2nd Universal Cup. Stage 13: Shenyang)",
+      "url": "https://codeforces.com/gym/104869",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104871,
+      "name": "2023-2024 ICPC Central Europe Regional Contest (CERC 23)",
+      "url": "https://codeforces.com/gym/104871",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104873,
+      "name": "2018-2019 ICPC NERC (NEERC), North-Western Russia Regional Contest (Northern Subregionals)",
+      "url": "https://codeforces.com/gym/104873",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104875,
+      "name": "2022-2023 ICPC Northwestern European Regional Programming Contest (NWERC 2022)",
+      "url": "https://codeforces.com/gym/104875",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 104874,
+      "name": "2019-2020 ICPC NERC (NEERC), North-Western Russia Regional Contest (Northern Subregionals)",
+      "url": "https://codeforces.com/gym/104874",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104891,
+      "name": "The 2023 ICPC Asia Macau Regional Contest (The 2nd Universal Cup. Stage 15: Macau)",
+      "url": "https://codeforces.com/gym/104891",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 104901,
+      "name": "The 2023 ICPC Asia Jinan Regional Contest (The 2nd Universal Cup. Stage 17: Jinan)",
+      "url": "https://codeforces.com/gym/104901",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104945,
+      "name": "2023-2024 ICPC Southwestern European Regional Contest (SWERC 2023)",
+      "url": "https://codeforces.com/gym/104945",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 104976,
+      "name": "The 2023 ICPC Asia Hangzhou Regional Contest (The 2nd Universal Cup. Stage 22: Hangzhou)",
+      "url": "https://codeforces.com/gym/104976",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105053,
+      "name": "The 2024 ICPC Latin America Championship",
+      "url": "https://codeforces.com/gym/105053",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 105064,
+      "name": "ICPC-de-Tryst 2024",
+      "url": "https://codeforces.com/gym/105064",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 105112,
+      "name": "2023-2024 ICPC Northwestern European Regional Programming Contest (NWERC 2023)",
+      "url": "https://codeforces.com/gym/105112",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 105143,
+      "name": "2024 ICPC National Invitational Collegiate Programming Contest, Wuhan Site",
+      "url": "https://codeforces.com/gym/105143",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105158,
+      "name": "2024 National Invitational of CCPC (Zhengzhou), 2024 CCPC Henan Provincial Collegiate Programming Contest",
+      "url": "https://codeforces.com/gym/105158",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105164,
+      "name": "2024 ICPC Gran Premio de Mexico 1ra Fecha",
+      "url": "https://codeforces.com/gym/105164",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 105173,
+      "name": "The 2024 CCPC National Invitational Contest (Northeast), The 18th Northeast Collegiate Programming Contest",
+      "url": "https://codeforces.com/gym/105173",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105216,
+      "name": "2024 ICPC Gran Premio de Mexico 2da Fecha",
+      "url": "https://codeforces.com/gym/105216",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105231,
+      "name": "2024 (ICPC) Jiangxi Provincial Contest -- Official Contest",
+      "url": "https://codeforces.com/gym/105231",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 105230,
+      "name": "2024-2025 ICPC Bolivia Pre-National Contest",
+      "url": "https://codeforces.com/gym/105230",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 105255,
+      "name": "2023 ICPC World Finals",
+      "url": "https://codeforces.com/gym/105255",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 105254,
+      "name": "2022 ICPC World Finals",
+      "url": "https://codeforces.com/gym/105254",
+      "problems": [
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X",
+        "Y",
+        "Z"
+      ],
+      "count": 11
+    },
+    {
+      "id": 105257,
+      "name": "2024 ICPC ShaanXi Provincial Contest",
+      "url": "https://codeforces.com/gym/105257",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105278,
+      "name": "2024 ICPC Universidad Nacional de Colombia Programming Contest",
+      "url": "https://codeforces.com/gym/105278",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105327,
+      "name": "2024-2025 ICPC Brazil Subregional Programming Contest",
+      "url": "https://codeforces.com/gym/105327",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 105335,
+      "name": "ICPC Thailand National Competition 2024",
+      "url": "https://codeforces.com/gym/105335",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 105336,
+      "name": "The 2024 CCPC Online Contest",
+      "url": "https://codeforces.com/gym/105336",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 105358,
+      "name": "The 2024 ICPC Asia EC Regionals Online Contest (II)",
+      "url": "https://codeforces.com/gym/105358",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 105383,
+      "name": "2024 ICPC Asia Taiwan Online Programming Contest",
+      "url": "https://codeforces.com/gym/105383",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 105385,
+      "name": "The 2024 CCPC Shandong Invitational Contest and Provincial Collegiate Programming Contest",
+      "url": "https://codeforces.com/gym/105385",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105387,
+      "name": "ICPC Central Russia Regional Contest, 2023",
+      "url": "https://codeforces.com/gym/105387",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 105386,
+      "name": "The 2024 ICPC Kunming Invitational Contest",
+      "url": "https://codeforces.com/gym/105386",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105394,
+      "name": "2024-2025 ICPC German Collegiate Programming Contest (GCPC 2024)",
+      "url": "https://codeforces.com/gym/105394",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105408,
+      "name": "2024 ICPC Gran Premio de Mexico Repechaje",
+      "url": "https://codeforces.com/gym/105408",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 105424,
+      "name": "2023-2024 Квалификационный тур Уральского четвертьфинала ICPC",
+      "url": "https://codeforces.com/gym/105424",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 105427,
+      "name": "2023-2024 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2023)",
+      "url": "https://codeforces.com/gym/105427",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 105431,
+      "name": "2024-2025 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2024)",
+      "url": "https://codeforces.com/gym/105431",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 105437,
+      "name": "ICPC 2024-2025 NERC, Southern and Volga Russia Qualifier",
+      "url": "https://codeforces.com/gym/105437",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 105444,
+      "name": "2020-2021 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2020)",
+      "url": "https://codeforces.com/gym/105444",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105453,
+      "name": "2024 ICPC Greece Regional Collegiate Programming Contest (GRCPC 2024)",
+      "url": "https://codeforces.com/gym/105453",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "count": 8
+    },
+    {
+      "id": 105461,
+      "name": "2024-2025 ICPC, Swiss Subregional",
+      "url": "https://codeforces.com/gym/105461",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 105465,
+      "name": "2023 ICPC Southeastern Europe Regional Contest (The 2nd Universal Cup, Stage 14: Southeastern Europe)",
+      "url": "https://codeforces.com/gym/105465",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105471,
+      "name": "The 2023 ICPC Asia Xian Regional Contest (The 3rd Universal Cup. Stage 9: Xian)",
+      "url": "https://codeforces.com/gym/105471",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 105472,
+      "name": "2019-2020 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2019)",
+      "url": "https://codeforces.com/gym/105472",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 105481,
+      "name": "2024 CCPC Liaoning Provincial Contest",
+      "url": "https://codeforces.com/gym/105481",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105484,
+      "name": "The 2024 ICPC Asia Nanjing Regional Contest (The 3rd Universal Cup. Stage 16: Nanjing)",
+      "url": "https://codeforces.com/gym/105484",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105487,
+      "name": "2024 China Collegiate Programming Contest (CCPC) Female Onsite (2024年中国大学生程序设计竞赛女生专场)",
+      "url": "https://codeforces.com/gym/105487",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105486,
+      "name": "2024 ICPC Asia Chengdu Regional Contest (The 3rd Universal Cup. Stage 15: Chengdu)",
+      "url": "https://codeforces.com/gym/105486",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105494,
+      "name": "2024-2025 ICPC NERC, Kyrgyzstan Qualification Contest",
+      "url": "https://codeforces.com/gym/105494",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I"
+      ],
+      "count": 9
+    },
+    {
+      "id": 105505,
+      "name": "2024-2025 ICPC Latin American Regional Programming Contest",
+      "url": "https://codeforces.com/gym/105505",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 105537,
+      "name": "2024-2025 ICPC NERC (NEERC), North-Western Russia Regional Contest (Northern Subregionals)",
+      "url": "https://codeforces.com/gym/105537",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105540,
+      "name": "2024 China Collegiate Programming Contest (CCPC) Jinan Site (The 3rd Universal Cup. Stage 17: Jinan)",
+      "url": "https://codeforces.com/gym/105540",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105544,
+      "name": "The 2023 ICPC Asia Taoyuan Regional Programming Contest",
+      "url": "https://codeforces.com/gym/105544",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "V",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 14
+    },
+    {
+      "id": 105578,
+      "name": "The 2024 ICPC Asia Shenyang Regional Contest (The 3rd Universal Cup. Stage 19: Shenyang)",
+      "url": "https://codeforces.com/gym/105578",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105584,
+      "name": "The 2024 ICPC Asia Japan Online First-Round Contest",
+      "url": "https://codeforces.com/gym/105584",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I"
+      ],
+      "count": 9
+    },
+    {
+      "id": 105588,
+      "name": "The 2024 ICPC Asia Kunming Regional Contest (The 3rd Universal Cup. Stage 20: Kunming)",
+      "url": "https://codeforces.com/gym/105588",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105627,
+      "name": "The 2023 ICPC Asia Tehran Regional Contest",
+      "url": "https://codeforces.com/gym/105627",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105633,
+      "name": "The 2024 ICPC Asia Yokohama Regional Contest",
+      "url": "https://codeforces.com/gym/105633",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 105632,
+      "name": "2024 China Collegiate Programming Contest (CCPC) Zhengzhou Onsite (The 3rd Universal Cup. Stage 22: Zhengzhou)",
+      "url": "https://codeforces.com/gym/105632",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105637,
+      "name": "The 2022 ICPC Asia Tehran Regional Contest",
+      "url": "https://codeforces.com/gym/105637",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 105657,
+      "name": "The 2024 ICPC Asia Hangzhou Regional Contest (The 3rd Universal Cup. Stage 25: Hangzhou)",
+      "url": "https://codeforces.com/gym/105657",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105677,
+      "name": "2024-2025 ICPC Southwestern European Regional Contest (SWERC 2024)",
+      "url": "https://codeforces.com/gym/105677",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105789,
+      "name": "The 2025 ICPC Latin America Championship",
+      "url": "https://codeforces.com/gym/105789",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 105873,
+      "name": "2025 ICPC Gran Premio de Mexico 1ra Fecha",
+      "url": "https://codeforces.com/gym/105873",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 105901,
+      "name": "2025 ICPC Wuhan Invitational Contest (The 3rd Universal Cup. Stage 37: Wuhan)",
+      "url": "https://codeforces.com/gym/105901",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105911,
+      "name": "2025 ICPC Nanchang Invitational and Jiangxi Provincial Collegiate Programming Contest",
+      "url": "https://codeforces.com/gym/105911",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105924,
+      "name": "The 2025 CCPC National Invitational Contest (Northeast), The 19th Northeast Collegiate Programming Contest",
+      "url": "https://codeforces.com/gym/105924",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 105930,
+      "name": "The 15th Shandong CCPC Provincial Collegiate Programming Contest",
+      "url": "https://codeforces.com/gym/105930",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105941,
+      "name": "2025 National Invitational of CCPC (Zhengzhou), 2025 CCPC Henan Provincial Collegiate Programming Contest",
+      "url": "https://codeforces.com/gym/105941",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105977,
+      "name": "2025 National Invitational of CCPC (Fujian), The 12th Fujian Collegiate Programming Contest",
+      "url": "https://codeforces.com/gym/105977",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 105979,
+      "name": "2025 ICPC Gran Premio de Mexico 2da Fecha",
+      "url": "https://codeforces.com/gym/105979",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 106017,
+      "name": "2025 ICPC Universidad Nacional de Colombia Programming Contest",
+      "url": "https://codeforces.com/gym/106017",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 12
+    },
+    {
+      "id": 106030,
+      "name": "2024 China Collegiate Programming Contest (CCPC) Chongqing Onsite",
+      "url": "https://codeforces.com/gym/106030",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 106032,
+      "name": "The 2025 ICPC Syrian Private Universities Collegiate Programming Contest",
+      "url": "https://codeforces.com/gym/106032",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 106035,
+      "name": "ICPC Central Russia Regional Contest, 2024",
+      "url": "https://codeforces.com/gym/106035",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 106034,
+      "name": "ICPC Central Russia Regional Qualification Round, 2024",
+      "url": "https://codeforces.com/gym/106034",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 106063,
+      "name": "2025 ICPC Gran Premio de Mexico 3ra Fecha",
+      "url": "https://codeforces.com/gym/106063",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 106069,
+      "name": "ICPC Thailand National Contest 2025 (Partial)",
+      "url": "https://codeforces.com/gym/106069",
+      "problems": [
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "L"
+      ],
+      "count": 6
+    },
+    {
+      "id": 106073,
+      "name": "The 2025 ICPC South America - Brazil First Phase",
+      "url": "https://codeforces.com/gym/106073",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 106072,
+      "name": "The 2025 ICPC Asia EC Regionals Online Contest (II)",
+      "url": "https://codeforces.com/gym/106072",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 106084,
+      "name": "2025 ICPC Asia Taiwan Online Programming Contest",
+      "url": "https://codeforces.com/gym/106084",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 106110,
+      "name": "2025-2026 ICPC NERC, Kyrgyzstan Qualification Contest",
+      "url": "https://codeforces.com/gym/106110",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "count": 8
+    },
+    {
+      "id": 106124,
+      "name": "2025-2026 ICPC Nordic Collegiate Programming Contest (NCPC 2025)",
+      "url": "https://codeforces.com/gym/106124",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 106129,
+      "name": "2025-2026 ICPC German Collegiate Programming Contest (GCPC 2025)",
+      "url": "https://codeforces.com/gym/106129",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 106144,
+      "name": "2025-2026 ICPC, NERC, Southern and Volga Russian Regional Contest",
+      "url": "https://codeforces.com/gym/106144",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 106151,
+      "name": "2025 ICPC Greek Collegiate Programming Contest (GRCPC 2025)",
+      "url": "https://codeforces.com/gym/106151",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I"
+      ],
+      "count": 9
+    },
+    {
+      "id": 106161,
+      "name": "The 2025 ICPC Asia Chengdu Regional Contest (The 4rd Universal Cup. Stage 4: Grand Prix of Chengdu)",
+      "url": "https://codeforces.com/gym/106161",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 106164,
+      "name": "ICPC Asia Bangkok Regional Contest 2025",
+      "url": "https://codeforces.com/gym/106164",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 106167,
+      "name": "2021-2022 ICPC German Collegiate Programming Contest (GCPC 2021)",
+      "url": "https://codeforces.com/gym/106167",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 106169,
+      "name": "2025-2026 ICPC NERC, Kyrgyzstan Regional Contest",
+      "url": "https://codeforces.com/gym/106169",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 106179,
+      "name": "ICPC India Online Prelims (2025 - 2026)",
+      "url": "https://codeforces.com/gym/106179",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ],
+      "count": 6
+    },
+    {
+      "id": 106178,
+      "name": "2025-2026 ICPC Latin American Regional Programming Contest",
+      "url": "https://codeforces.com/gym/106178",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 106185,
+      "name": "The 2025 ICPC Japan Online First Round Contest",
+      "url": "https://codeforces.com/gym/106185",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I"
+      ],
+      "count": 9
+    },
+    {
+      "id": 106184,
+      "name": "The 2025 China Collegiate Programming Contest (CCPC) Harbin Onsite Warmup",
+      "url": "https://codeforces.com/gym/106184",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "count": 4
+    },
+    {
+      "id": 106189,
+      "name": "ICPC Central Russia Regional Contest, 2025",
+      "url": "https://codeforces.com/gym/106189",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 106193,
+      "name": "2025-2026 ICPC NERC (NEERC), North-Western Russia Regional Contest (Northern Subregionals)",
+      "url": "https://codeforces.com/gym/106193",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 106225,
+      "name": "2025-2026 ICPC Southwestern European Regional Contest (SWERC 2025)",
+      "url": "https://codeforces.com/gym/106225",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 106252,
+      "name": "The 2025 ICPC Asia Shenyang Regional Contest (The 4th Universal Cup. Stage 6: Grand Prix of Shenyang)",
+      "url": "https://codeforces.com/gym/106252",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 106262,
+      "name": "2025 ICPC Asia Manila Regional",
+      "url": "https://codeforces.com/gym/106262",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 106270,
+      "name": "ICPC Asia Dhaka Regional Onsite 2025 — Replay Contest",
+      "url": "https://codeforces.com/gym/106270",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 106315,
+      "name": "ICPC Dhaka 2025 Online Preliminary - Replay Contest",
+      "url": "https://codeforces.com/gym/106315",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "count": 8
+    },
+    {
+      "id": 106353,
+      "name": "2025-2026 ICPC Northwestern European Regional Programming Contest (NWERC 2025)",
+      "url": "https://codeforces.com/gym/106353",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 106416,
+      "name": "The 2026 ICPC Latin America Championship",
+      "url": "https://codeforces.com/gym/106416",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 106495,
+      "name": "2026 ICPC Gran Premio de Mexico 1ra Fecha",
+      "url": "https://codeforces.com/gym/106495",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 106534,
+      "name": "CCPC2026黑龙江省大学生程序设计竞赛",
+      "url": "https://codeforces.com/gym/106534",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 106540,
+      "name": "2026 ICPC Gran Premio de Mexico 2da Fecha",
+      "url": "https://codeforces.com/gym/106540",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 106551,
+      "name": "2026 ICPC Nanchang Invitational and Jiangxi Provincial Collegiate Programming Contest",
+      "url": "https://codeforces.com/gym/106551",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 106554,
+      "name": "[Unofficial Mirror] 2026 CCPC National Invitational (Nanchang) and The 3rd Jiangxi Provincial Programming Contest",
+      "url": "https://codeforces.com/gym/106554",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 106565,
+      "name": "2026 National Invitational of CCPC (Fujian), The 13th Fujian Collegiate Programming Contest",
+      "url": "https://codeforces.com/gym/106565",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 106570,
+      "name": "The 2026 ICPC China Sichuan Provincial Programming Contest",
+      "url": "https://codeforces.com/gym/106570",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 106646,
+      "name": "ICPC Masters Mexico 2026",
+      "url": "https://codeforces.com/gym/106646",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 106677,
+      "name": "The 2026 ICPC Asia Japan Online First-Round Contest",
+      "url": "https://codeforces.com/gym/106677",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "count": 10
+    },
+    {
+      "id": 106679,
+      "name": "The 2026 ICPC South America - Brazil First Phase",
+      "url": "https://codeforces.com/gym/106679",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 106695,
+      "name": "2026 National Invitational of CCPC (Qinhuangdao) and the 10th Hebei Collegiate Programming Contest",
+      "url": "https://codeforces.com/gym/106695",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 106696,
+      "name": "2026 CCPC National Invitational (Nanchang) and Jiangxi Provincial Collegiate Programming Contest",
+      "url": "https://codeforces.com/gym/106696",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 106701,
+      "name": "The 2026 ICPC Asia EC Regionals Online Contest (II)",
+      "url": "https://codeforces.com/gym/106701",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 106705,
+      "name": "The 2026 ICPC China Guizhou Provincial Contest",
+      "url": "https://codeforces.com/gym/106705",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    },
+    {
+      "id": 106710,
+      "name": "2026 ICPC Gran Premio de Mexico Repechaje",
+      "url": "https://codeforces.com/gym/106710",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 106714,
+      "name": "[Unofficial Mirror] 2025 ICPC Shaanxi National Invitational Contest",
+      "url": "https://codeforces.com/gym/106714",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M"
+      ],
+      "count": 13
+    },
+    {
+      "id": 106725,
+      "name": "The 2026 CCPC Online Contest",
+      "url": "https://codeforces.com/gym/106725",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N"
+      ],
+      "count": 14
+    },
+    {
+      "id": 106728,
+      "name": "2026 ICPC Asia Taiwan Online Programming Contest",
+      "url": "https://codeforces.com/gym/106728",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "count": 12
+    },
+    {
+      "id": 106744,
+      "name": "2026-2027 ICPC NERC, Kyrgyzstan Qualification Contest",
+      "url": "https://codeforces.com/gym/106744",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "count": 8
+    },
+    {
+      "id": 106758,
+      "name": "2026 ICPC Bolivia National Contest (Phase 2)",
+      "url": "https://codeforces.com/gym/106758",
+      "problems": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K"
+      ],
+      "count": 11
+    }
+  ],
+  "missing": [
+    {
+      "id": 102008,
+      "name": "2018-2019 ACM-ICPC, NEERC, Западно-сибирский четвертьфинал",
+      "error": "公开题单本次无法读取"
+    },
+    {
+      "id": 102139,
+      "name": "2018-2019, ICPC, Восточно-Сибирский четвертьфинал",
+      "error": "公开题单本次无法读取"
+    },
+    {
+      "id": 102282,
+      "name": "2011, Отборочный контест СГАУ на четвертьфинал ACM ICPC",
+      "error": "公开题单本次无法读取"
+    },
+    {
+      "id": 102775,
+      "name": "ICPC Central Russia Regional Contest (CRRC 20), Чемпионат Центральной России, квалификационный раунд",
+      "error": "公开题单本次无法读取"
+    },
+    {
+      "id": 102777,
+      "name": "ICPC Central Russia Regional Contest (CRRC 19), Чемпионат Центральной России, квалификационный раунд",
+      "error": "公开题单本次无法读取"
+    },
+    {
+      "id": 104012,
+      "name": "2022-2023 ICPC NERC (NEERC), North-Western Russia Regional Contest (Northern Subregionals)",
+      "error": "公开题单本次无法读取"
+    },
+    {
+      "id": 104018,
+      "name": "2022-2023 ICPC NERC (NEERC), Kyrgyzstan Regional Contest",
+      "error": "公开题单本次无法读取"
+    },
+    {
+      "id": 104095,
+      "name": "2020 CCPC Henan Provincial Collegiate Programming Contest",
+      "error": "公开题单本次无法读取"
+    },
+    {
+      "id": 104270,
+      "name": "The 2018 ICPC Asia Qingdao Regional Programming Contest (The 1st Universal Cup, Stage 9: Qingdao)",
+      "error": "公开题单本次无法读取"
+    },
+    {
+      "id": 104761,
+      "name": "2023-2024 ICPC NERC (NEERC), Kyrgyzstan Regional Contest",
+      "error": "公开题单本次无法读取"
+    },
+    {
+      "id": 104791,
+      "name": "The 2023 CCPC (Qinhuangdao) Onsite Warmup",
+      "error": "公开题单本次无法读取"
+    },
+    {
+      "id": 105170,
+      "name": "The 2024 CCPC National Invitational Contest (Changchun) , The 17th Jilin Provincial Collegiate Programming Contest",
+      "error": "公开题单本次无法读取"
+    },
+    {
+      "id": 105459,
+      "name": "2024 China Collegiate Programming Contest (CCPC) Harbin Onsite (The 3rd Universal Cup. Stage 14: Harbin)",
+      "error": "公开题单本次无法读取"
+    },
+    {
+      "id": 105493,
+      "name": "2024-2025 ICPC NERC, Kyrgyzstan Regional Contest",
+      "error": "公开题单本次无法读取"
+    },
+    {
+      "id": 105535,
+      "name": "2024 ICPC Belarus Regional Contest",
+      "error": "公开题单本次无法读取"
+    },
+    {
+      "id": 105562,
+      "name": "2024-2025 ICPC Northwestern European Regional Programming Contest (NWERC 2024)",
+      "error": "公开题单本次无法读取"
+    }
+  ],
+  "added": 5328,
+  "notice": "公开且已结束的 ICPC/CCPC Gym；题单按公开比赛页面核对。无官方 rating 的题目保持未定级，题面打开时读取原站。"
+}

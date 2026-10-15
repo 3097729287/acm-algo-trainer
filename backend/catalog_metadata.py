@@ -1,10 +1,9 @@
-"""Transparent fallback classification and estimated practice difficulty.
+"""Statement-subject classification and evidence-based difficulty enrichment.
 
 Original-site tags and ratings take precedence. Statement subjects describe the
 problem model, not an unverified solution technique. Estimates use technique
 complexity and, when available, relative public acceptance counts in one contest.
 """
-import math
 import re
 from knowledge import enrich_row
 
@@ -20,10 +19,6 @@ SUBJECTS = (
     ('数据结构', r'\b(?:queues?|stack|deque|sets?|data structure|automaton)\b|队列|栈|集合|数据结构|自动机'),
     ('交互题', r'\binteractive problem\b|交互题'),
 )
-TECHNIQUE_RATINGS = {'模拟':900, '枚举':1000, '排序':1100, '前缀和':1200, '双指针':1300,
-    '二分查找':1400, '贪心':1500, '构造':1600, 'DFS':1500, 'BFS':1500,
-    '并查集':1600, '最短路':1700, '线性 DP':1700, '树状数组':1800, 'LCA':1900,
-    '线段树':2100, '树形 DP':2100, '状压 DP':2200, '网络流':2400, 'NTT':2600, 'FFT':2600}
 
 
 def supplement(row, statement='', statistics=None):
@@ -41,17 +36,8 @@ def supplement(row, statement='', statistics=None):
             value['knowledgeCategories'] = subjects[:3]
             analysis.update(categories=subjects[:3], pendingCategories=subjects[:3], source='statement-model', confidence='medium')
             analysis['evidence'].append({'source':'statement-model', 'categories':subjects[:3], 'reason':'题面描述的对象和运算；具体解法尚待题解核验'})
-    if value.get('difficulty') is None:
-        tags = value.get('tags', [])
-        rating = max([TECHNIQUE_RATINGS[t] for t in tags if t in TECHNIQUE_RATINGS] or [1700])
-        if '计算几何' in value.get('knowledgeCategories', []):
-            rating = max(rating, 1900)
-        if statistics and statistics.get('maxAccepted', 0) > 0:
-            fraction = (statistics.get('acceptedCount', 0) + 1) / (statistics['maxAccepted'] + 1)
-            # Relative acceptance is a practice estimate, not official rating.
-            rating = round((900 + 450 * -math.log2(max(.005, min(1, fraction)))) / 100) * 100
-            rating = max(800, min(3500, rating))
-        value.update(difficulty=rating, difficultySource='TB 估算 · 同场公开通过数' if statistics else 'TB 估算 · 题面模型与知识复杂度',
-                     difficultyEstimated=True, difficultyConfidence='LOW', difficultyBand=[max(800, rating-400), min(4000, rating+400)],
-                     metadataVersion='1.0.16')
+    if value.get('difficulty') is None and statistics:
+        from difficulty import nowcoder
+        if value.get('platform') == '牛客':
+            value.update(nowcoder(value, statistics, statistics.get('maxAccepted')))
     return value

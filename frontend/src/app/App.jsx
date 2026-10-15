@@ -1,5 +1,6 @@
 import { request } from '@/api/client';
 import TierIcon from '@/components/TierIcon.jsx';
+import ContestTabs from '@/components/ContestTabs.jsx';
 import {
   useState,
   useEffect,
@@ -30,7 +31,6 @@ import {
   Play,
   Check,
   Star,
-  SlidersHorizontal,
   ArrowUp,
   ArrowDown,
   ArrowUpRight,
@@ -67,7 +67,7 @@ import Workbench from "./Workbench.jsx";
 import { useSoftwareUpdates, SoftwareUpdatePanel, SoftwareUpdateNotice } from '@/pages/SoftwareUpdates.jsx';
 import MockProblemPicker from "./MockProblemPicker.jsx";
 import { LecturesPanel, LectureDisclosure } from "@/pages/LecturesPanel.jsx";
-import { difficultyBand, solutionBlocks, briefSolution } from "@/lib/practiceMetadata.js";
+import { difficultyBand, difficultyLabel, difficultyDescription, solutionBlocks, briefSolution } from "@/lib/practiceMetadata.js";
 import {
   GrowthPage,
   ActivityPage,
@@ -149,6 +149,7 @@ function readPreferences() {
 const blankFilters = () => ({
   query: "",
   platform: "",
+  shelf: "all",
   category: null,
   min: "",
   max: "",
@@ -204,8 +205,8 @@ function Verdict({ value, accepted = false, scope }) {
     </span>
   );
 }
-function Difficulty({ value }) {
-  return <span className={"difficulty band-" + difficultyBand(value)}>{value ?? "—"}</span>;
+function Difficulty({ value, row }) {
+  return <span className={"difficulty band-" + difficultyBand(value)} title={row ? difficultyDescription(row) : undefined}>{row ? difficultyLabel(row) : value ?? "—"}</span>;
 }
 function IconButton({ label, icon: Icon, onClick, children, ...props }) {
   return (
@@ -522,8 +523,7 @@ export default function App() {
     [filters, setFilters] = useState({
       library: blankFilters(),
       mine: blankFilters(),
-    }),
-    [showFilters, setShowFilters] = useState(false);
+    });
   const [libraryPage, setLibraryPage] = useState(1),
     [libraryPageSize, setLibraryPageSize] = useState(50);
   const [selected, setSelected] = useState(null),
@@ -881,7 +881,6 @@ export default function App() {
     setRecord(null);
     setPage(next === "goals" ? "growth" : next);
     if (next === "goals") setTimeout(() => document.getElementById("growth-goals")?.scrollIntoView({ behavior: "smooth" }), 100);
-    setShowFilters(false);
     setReaderId(null);
     setReaderFull(false);
     setDialog(null);
@@ -1452,7 +1451,7 @@ export default function App() {
           )}
         </td>
         <td>
-          <Difficulty value={row.difficulty} />
+          <Difficulty value={row.difficulty} row={row} />
         </td>
         <td>
           <Verdict scope={row.scope} value={row.verdict} accepted={row.accepted} />
@@ -1545,34 +1544,20 @@ export default function App() {
   }
   function toolbar() {
     return <>
+      <ContestTabs value={currentFilters.platform || currentFilters.shelf || 'all'} onChange={shelf => setFilter({ shelf, platform: '', contest: '' })} label="题库比赛分类" />
       <div className="table-toolbar">
         <div className="search-box"><Search size={17} />
           <input ref={searchRef} aria-label="搜索题目" placeholder="搜索题目、场次、知识点…" value={currentFilters.query} onChange={event => setFilter({ query: event.target.value })} onKeyDown={event => { if (["ArrowDown", "Enter"].includes(event.key)) { event.preventDefault(); focusList(); } }} />
           {currentFilters.query ? <IconButton label="清空搜索" icon={X} onClick={() => setFilter({ query: "" })} /> : <kbd>F</kbd>}
         </div>
         <button className={"secondary favorite-filter " + (currentFilters.favoritesOnly ? "active" : "")} aria-label="收藏题目筛选" aria-pressed={currentFilters.favoritesOnly} onClick={() => setFilter({ favoritesOnly: !currentFilters.favoritesOnly })}><Star size={15} /><span>收藏</span></button>
-        <button className={"secondary " + (showFilters ? "active" : "")} onClick={() => setShowFilters(!showFilters)} aria-expanded={showFilters}><SlidersHorizontal size={15} />筛选</button>
         <select className="sort-select" aria-label="排序方式" title={page === "mine" ? "任务按紧迫程度排列，此项调整同类任务的顺序" : undefined} value={currentFilters.sort} onChange={event => setFilter({ sort: event.target.value, desc: event.target.value === "date" })}>
-          <option value="contestDate">比赛时间 · 最新在前</option><option value="contest">按场次</option><option value="difficulty">按难度</option><option value="date">最近练习</option><option value="title">按题名</option>
+          <option value="contestDate">比赛时间</option><option value="contest">按场次</option><option value="difficulty">按难度</option><option value="date">最近练习</option><option value="title">按题名</option>
         </select>
         <span className="toolbar-count">{visible.length} 题</span>
         {page === "mine" && <button className="secondary" aria-label="清空我的训练" disabled={busy || !mine.length || !!active || !!workspace.summary.pending} onClick={() => setDialog("clear-training")}><MinusCircle size={15} />清空全部训练</button>}
       </div>
-            {showFilters && (
-              <div className="filter-fields">
-                <label>
-                  平台
-                  <select
-                    aria-label="平台筛选"
-                    value={currentFilters.platform}
-                    onChange={(e) => setFilter({ platform: e.target.value })}
-                  >
-                    <option value="">全部平台</option>
-                    {[...new Set(rows.map((r) => r.platform))].map((p) => (
-                      <option key={p}>{p}</option>
-                    ))}
-                  </select>
-                </label>
+              <div className="filter-fields" aria-label="题目筛选条件">
                 <label>
                   最低难度
                   <input
@@ -1626,7 +1611,6 @@ export default function App() {
                   保存筛选
                 </button>
               </div>
-            )}
             {(currentFilters.category ||
               currentFilters.contest ||
               currentFilters.ids ||
