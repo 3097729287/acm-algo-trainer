@@ -182,9 +182,10 @@ class IntegrationService:
             # Capture the user's actual pre-upgrade overlay before replacing
             # difficulty metadata. Published baseline bands fill missing URLs.
             self.state['legacyFirstXp'] = dict(getattr(self.store, 'previous_first_xp', {}))
-            self.state['legacyFirstXp'].update({canonical_url(url):official_first_xp(value.get('difficulty'))
-                                               for url,value in self.state['difficultyMetadata'].items()
-                                               if canonical_url(url) and isinstance(value,dict) and type(value.get('difficulty')) is int})
+            for url,value in self.state['difficultyMetadata'].items():
+                key = canonical_url(url)
+                if key and isinstance(value,dict) and type(value.get('difficulty')) is int:
+                    self.state['legacyFirstXp'][key] = max(self.state['legacyFirstXp'].get(key, 0), official_first_xp(value['difficulty']))
         from paths import resource
         seed=json.loads(resource('public-problem-metadata.json').read_text(encoding='utf-8'))
         if isinstance(seed,dict):

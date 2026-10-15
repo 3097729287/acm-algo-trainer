@@ -449,7 +449,8 @@ class TrainingService:
         legacy = legacy_first_xp() if migrating else {}
         cached_legacy = getattr(getattr(self.store, 'extensions', None), 'legacy_first_xp', None)
         if migrating and callable(cached_legacy):
-            legacy.update(cached_legacy())
+            for key, amount in cached_legacy().items():
+                legacy[key] = max(legacy.get(key, 0), amount)
         awards = {row['problem_key']: row['awarded_xp'] for row in self.connection.execute('SELECT * FROM official_first_xp_awards')}
         total = 0
         changes = []
