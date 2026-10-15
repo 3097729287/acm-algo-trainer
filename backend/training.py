@@ -1271,7 +1271,7 @@ class TrainingService:
             duration = int(body.get("duration", 120))
         except (ValueError, TypeError):
             raise ServiceError(400, "模拟赛时长无效")
-        with self.lock:
+        with self.lock, self._library_view():
             self._expire()
             if self.connection.execute("SELECT 1 FROM contests WHERE status='running'").fetchone():
                 raise ServiceError(409, "已有一场模拟赛正在进行，请先回到考场或交卷")

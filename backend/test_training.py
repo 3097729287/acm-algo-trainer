@@ -8,6 +8,7 @@ import tempfile
 import threading
 import time
 import unittest
+from unittest.mock import patch
 from urllib.parse import quote
 
 import backend
@@ -92,6 +93,14 @@ class ServiceTests(unittest.TestCase):
                 return result
             time.sleep(.01)
         self.fail("asynchronous judge did not complete")
+
+    def test_start_contest_reads_one_catalog_when_validating_multiple_slots(self):
+        plan = self.service.preview_contest({'count': 4, 'duration': 120, 'min': 1000, 'max': 2100})['plan']
+        with patch.object(self.library, 'data', wraps=self.library.data) as reads:
+            result = self.service.start_contest({'ids': [slot['id'] for slot in plan['slots']],
+                                                 'duration': plan['duration'], 'previewId': plan['previewId']})
+        self.assertEqual(result['contest']['total'], 4)
+        self.assertEqual(reads.call_count, 1)
 
     def accept(self, identity="fixture::A", verdict="AC", submission_id=None, code="AC"):
         """2026-10-10：官方 AC 只能来自原站回执。测试用 record_official 造官方通过。"""
