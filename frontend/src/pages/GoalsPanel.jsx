@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Bell, Check, Play, RefreshCw, Target } from 'lucide-react';
 import InlineTitle from '@/components/InlineTitle.jsx';
+import { difficultyLabel } from '@/lib/practiceMetadata.js';
 import '@/pages/GoalsPanel.css';
 
 function useGoals(api) {
@@ -48,13 +49,17 @@ export default function GoalsPanel({api,onTrain,onManage,dailyOnly=false,onChang
     {error&&<p className="inline-error" role="alert">{error}</p>}
     {confirm&&<div className="goal-archive-confirm" role="alertdialog" aria-label="归档目标确认"><p>归档“{confirm.title}”后停止每日提醒，保留计划和训练记录。</p><button className="secondary" disabled={busy} onClick={()=>setConfirm(null)}>取消</button><button className="primary" disabled={busy} onClick={archive}>确认归档</button></div>}
     {!data.goals.length&&<p className="progress-muted">填写目标和截止日期后，今日题目会自动加入我的训练。</p>}
+    {data.contestPlan?.contests?.length > 0 && <section className="goal-card shared-contest-plan" aria-label="本周比赛题量">
+      <div className="progress-section-heading"><h3>本周比赛与补题</h3><span>共 {data.contestPlan.total} 题</span></div>
+      <p className="progress-small">合并 {data.contestPlan.goalCount} 个目标，同类比赛取最高题量与最高练习范围。</p>
+      <div className="goal-contest-grid">{data.contestPlan.contests.map(item=><div key={item.contest}><strong>{item.contest}</strong><span>{item.problems} · <b>{item.target} 题 / 周</b></span>{item.questions?.length>0&&<details><summary>本周建议题目 · {item.questions.length} 题</summary><div className="goal-problems">{item.questions.map(problem=><button className="secondary" key={problem.id} onClick={()=>onTrain(problem.id)}><Play size={13}/><InlineTitle>{problem.title}</InlineTitle><small>{difficultyLabel(problem)}</small></button>)}</div></details>}</div>)}</div>
+    </section>}
     {data.goals.map(goal=><section className="goal-card" key={goal.id}>
       <div className="progress-section-heading"><h3>{goal.title}</h3><span>截止 {goal.deadline}</span></div>
       <p>新题进度 <b>{goal.progress}/{goal.totalProblems}</b> · 剩余 {goal.remainingDays} 天 · 本周安排 <b>{goal.weeklyTarget}</b> 题{goal.workloadCompleted&&' · 已完成'}</p>
       {goal.warnings.map(warning=><p key={warning} className="goal-pressure" role="alert">{warning}</p>)}
       <div className="goal-daily-task"><strong>{goal.dailyTask.date} · 今日目标任务</strong><span>{goal.dailyTask.progress}/{goal.dailyTask.target} 道新题通过 · {goal.dailyTask.completed?'今日已完成':'尚未完成，请安排训练时间'}</span></div>
       <div className="goal-problems">{!goal.dailyTask.completed&&goal.dailyTask.problems.map(problem=><button className="secondary" key={problem.id} onClick={()=>onTrain(problem.id)}><Play size={13}/><InlineTitle>{problem.title}</InlineTitle><small>{problem.difficulty??'未评级'}</small></button>)}</div>
-      <div className="goal-contest-plan" aria-label="本周比赛题量"><h4>本周比赛与补题 · 共 {goal.weeklyTarget} 题</h4><div className="goal-contest-grid">{(goal.contestPlan||[]).map(item=><div key={item.contest}><strong>{item.contest}</strong><span>{item.problems} · <b>{item.target} 题 / 周</b></span></div>)}</div></div>
       <div className="progress-actions"><button className="text-button" onClick={()=>{setForm(goal);setEditing(true);setConfirm(null);document.getElementById('growth-goals')?.scrollIntoView({behavior:'smooth'});}}>调整目标</button><button className="text-button" onClick={()=>setConfirm(goal)}>归档目标</button></div>
     </section>)}
   </div>;

@@ -66,13 +66,25 @@
 .activity-year { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: .9rem; }
 .activity-year select, .competition-toolbar select { padding: 5px 8px; color: var(--text); background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px; }
 .activity-stats { margin-bottom: 18px; }
-.activity-pass-count { display: inline-flex; align-items: baseline; gap: 5px; padding: 5px 11px; border: 1px solid var(--line); border-radius: 6px; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.activity-pass-count b { color: inherit; font-size: 1.05em; }
-.activity-pass-0 { color: var(--muted); background: var(--panel-2); }
-.activity-pass-1 { color: var(--text); background: color-mix(in srgb, var(--accent) 12%, var(--panel)); }
-.activity-pass-2 { color: var(--accent); background: color-mix(in srgb, var(--accent) 18%, var(--panel)); border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); }
-.activity-pass-3 { color: var(--accent); background: color-mix(in srgb, var(--accent) 28%, var(--panel)); border-color: var(--accent); font-weight: 600; }
-.activity-pass-4 { color: var(--text); background: color-mix(in srgb, var(--accent) 45%, var(--panel)); border-color: var(--accent); box-shadow: inset 3px 0 var(--accent); font-weight: 700; }
+.activity-pass-count { display: inline-flex; align-items: center; gap: 7px; min-width: 108px; padding: 4px 0; color: var(--accent); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.activity-pass-count b { min-width: 2ch; text-align: right; font-size: 1.08em; font-weight: 600; }
+.activity-pass-count > span { color: var(--muted); font-size: .83em; }
+.activity-pass-count > i { width: 46px; height: 4px; margin-left: 4px; border-radius: 4px; background: var(--line); overflow: hidden; }
+.activity-pass-count em { display: block; height: 100%; border-radius: inherit; background: currentColor; }
+.activity-pass-0 { color: var(--muted); }
+.activity-pass-1 { color: color-mix(in srgb, var(--accent) 65%, var(--muted)); }
+.activity-pass-2 { color: color-mix(in srgb, var(--accent) 85%, var(--muted)); }
+.activity-pass-3, .activity-pass-4 { color: var(--accent); }
+.activity-pass-4 b { font-weight: 750; }
+.activity-year-total { display: inline-flex; align-items: baseline; gap: 9px; }
+.activity-year-total b { font-size: 1.65rem; letter-spacing: -.04em; }
+.activity-year-total > span { color: var(--muted); font-size: .9rem; }
+.activity-details table { table-layout: fixed; max-width: 880px; }
+.activity-details th:first-child { width: 55%; }
+.activity-day-detail .activity-pass-count { font-size: 1.1rem; }
+.update-notification-heading > .progress-text-button { margin-left: auto; margin-right: 12px; }
+.daily-task-top-button { white-space: nowrap; }
+.modal-body > .daily-tasks { border: 0; padding: 0; background: transparent; }
 .contest-shelves { display: flex; flex-wrap: wrap; gap: 7px; flex-shrink: 0; }
 .list-page > .contest-shelves { padding: 12px 14px 0; }
 .activity-calendar-scroll { max-width: 100%; overflow-x: auto; padding: 4px 2px 7px; }
@@ -210,3 +222,4 @@ button.update-notification-main:hover strong { color: var(--accent); }
 .progress-level-badge small { font-size:.68rem; } .profile-edit > summary { cursor:pointer; color:var(--accent); margin-top:12px; } .rank-rules summary { cursor:pointer; } .topbar-daily-ac { white-space:nowrap; }
 .topbar-overview[class*="tier-"] > summary svg, .topbar-overview[class*="tier-"] > summary strong { color:var(--tier-color); }
 @media (max-width:1200px) { .topbar .topbar-overview summary > span { display:inline; } .topbar .topbar-overview summary > strong { display:none; } }
+.contest-grade { display: inline-flex; align-items: center; margin-left: 8px; color: var(--muted); font-size: .8rem; white-space: nowrap; }.competition-question-meta .competition-tag { line-height: 1.5; }

@@ -192,7 +192,7 @@ class IntegrationService:
             for url,value in seed.items():
                 if isinstance(value,dict):
                     previous = self.state['difficultyMetadata'].get(url, {})
-                    revised = value.get('metadataVersion') == '1.0.17' and previous.get('metadataVersion') != '1.0.17'
+                    revised = (version_number(value.get('metadataVersion')) or (0,0,0)) > (version_number(previous.get('metadataVersion')) or (0,0,0))
                     fresh_official = previous.get('difficultySource') == 'Codeforces 官方 rating' and previous.get('difficultyCheckedAt', '') > value.get('difficultyCheckedAt', '')
                     if not previous or (revised and not fresh_official):
                         self.state['difficultyMetadata'][url]=value
@@ -249,7 +249,7 @@ class IntegrationService:
     def _observe_difficulty(self,row):
         key=canonical(row.get('url'));rating=row.get('difficulty')
         if not key:return
-        if rating is None and row.get('metadataVersion') == '1.0.17' and row.get('difficultyConfidence') == 'UNKNOWN':
+        if rating is None and (version_number(row.get('metadataVersion')) or (0,0,0)) >= (1,0,17) and row.get('difficultyConfidence') == 'UNKNOWN':
             fields = {name:copy.deepcopy(row.get(name)) for name in ('difficulty','difficultySource','difficultyEstimated','difficultyConfidence','difficultyBand','difficultyEvidence','metadataVersion')}
             fields['difficultyCheckedAt'] = stamp(self.clock())
             with self.lock:self.state['difficultyMetadata'][key] = fields
@@ -358,6 +358,15 @@ class IntegrationService:
             item=next((n for n in self.state['notifications'] if n['id']==identity),None)
             if not item:fail(404,'没有找到这条通知')
             item['read']=True;self._save()
+        return self.snapshot()
+
+    def dismiss_all(self):
+        with self.lock:
+            unread = [item for item in self.state['notifications'] if not item.get('read')]
+            if unread:
+                for item in unread:
+                    item['read'] = True
+                self._save()
         return self.snapshot()
 
     def rows(self):
@@ -484,7 +493,12 @@ class IntegrationService:
             with self.lock:attempts[row['id']]=stamp(self.clock())
 
     def _catalog(self,platform,local_urls):
-        rows,pending,message=P.DISCOVERY_ADAPTERS[platform](self.client,self.clock());added=0;added_ids=[];added_urls=[]
+        adapter=P.DISCOVERY_ADAPTERS[platform]
+        if platform=='codeforces' and adapter is P.discover_curated_cf:
+            with self.lock:known={str(row['contestId']) for row in self.state['rows'].values() if row.get('source')=='xcpc-codeforces' and str(row.get('contestId','')).isdigit()}
+            rows,pending,message=adapter(self.client,self.clock(),known_gyms=known)
+        else:rows,pending,message=adapter(self.client,self.clock())
+        added=0;added_ids=[];added_urls=[]
         enriched=[]
         for value in rows:
             if self.stop.is_set():break
@@ -521,7 +535,8 @@ class IntegrationService:
                 self._observe_difficulty(value)
                 self.dates.observe(value)
                 difficulty=value.get('difficulty');ended=P.utc(value.get('endedAt'))
-                if not ended or dt.datetime.fromisoformat(ended)>self.clock():continue
+                finished_gym=value.get('source')=='xcpc-codeforces' and value.get('contestPhase')=='FINISHED'
+                if not finished_gym and (not ended or dt.datetime.fromisoformat(ended)>self.clock()):continue
                 existing=self.state['rows'].get(value['id'])
                 if existing and 'addedAt' in existing:value['addedAt']=existing['addedAt']
                 if existing:self.state['rows'][value['id']]=value

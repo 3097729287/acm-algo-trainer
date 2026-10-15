@@ -2,7 +2,7 @@
   "source": "https://codeforces.com/api/contest.list?gym=true",
   "checkedAt": "2026-10-15T03:52:36.657974+00:00",
   "nameMatches": 500,
-  "discovered": 471,
+  "discovered": 308,
   "excludedTraining": [
     {
       "id": 100227,
@@ -123,2334 +123,6 @@
   ],
   "coverage": [
     {
-      "id": 100002,
-      "name": "2002-2003 ACM-ICPC Northeastern European Regional Contest (NEERC 02)",
-      "url": "https://codeforces.com/gym/100002",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I"
-      ],
-      "count": 9
-    },
-    {
-      "id": 100069,
-      "name": "2009-2010 ACM-ICPC Northeastern European Regional Contest (NEERC 09) (Deprecated, without interactive problem C)",
-      "url": "https://codeforces.com/gym/100069",
-      "problems": [
-        "A",
-        "B",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 10
-    },
-    {
-      "id": 100078,
-      "name": "2007–2008 ACM ICPC Northern Subregional Contest (NEERC 07)",
-      "url": "https://codeforces.com/gym/100078",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100085,
-      "name": "2011-2012 ACM-ICPC Northeastern European Regional Contest (NEERC 11)",
-      "url": "https://codeforces.com/gym/100085",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100084,
-      "name": "2010-2011 ACM-ICPC Northeastern European Regional Contest (NEERC 10) (Deprecated, without interactive problem G)",
-      "url": "https://codeforces.com/gym/100084",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 10
-    },
-    {
-      "id": 100090,
-      "name": "2012, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
-      "url": "https://codeforces.com/gym/100090",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M"
-      ],
-      "count": 13
-    },
-    {
-      "id": 100095,
-      "name": "2011-2012 ACM ICPC Northern Subregional Contest",
-      "url": "https://codeforces.com/gym/100095",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100107,
-      "name": "2012-2013 ACM-ICPC, NEERC, Eastern Subregional Contest",
-      "url": "https://codeforces.com/gym/100107",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100109,
-      "name": "2012-2013 ACM-ICPC, NEERC, Southern Subregional Contest",
-      "url": "https://codeforces.com/gym/100109",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100113,
-      "name": "2012-2013 ACM-ICPC, NEERC, Western Subregional Contest",
-      "url": "https://codeforces.com/gym/100113",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100114,
-      "name": "2012-2013 ACM-ICPC, NEERC, Central Subregional Contest",
-      "url": "https://codeforces.com/gym/100114",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100125,
-      "name": "2012-2013 ACM-ICPC, NEERC, Northern Subregional Contest",
-      "url": "https://codeforces.com/gym/100125",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100134,
-      "name": "2012-2013 ACM-ICPC Northeastern European Regional Contest (NEERC 12)",
-      "url": "https://codeforces.com/gym/100134",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100151,
-      "name": "2011-2012 ACM-ICPC, NEERC, Southern Subregional Contest",
-      "url": "https://codeforces.com/gym/100151",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100182,
-      "name": "2009 ACM-ICPC Southeast USA Regional Programming Contest",
-      "url": "https://codeforces.com/gym/100182",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I"
-      ],
-      "count": 9
-    },
-    {
-      "id": 100184,
-      "name": "2013 ACM-ICPC Ukraine, Round 1",
-      "url": "https://codeforces.com/gym/100184",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M"
-      ],
-      "count": 13
-    },
-    {
-      "id": 100190,
-      "name": "2011 ACM-ICPC East Central North America (ECNA 2011)",
-      "url": "https://codeforces.com/gym/100190",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I"
-      ],
-      "count": 9
-    },
-    {
-      "id": 100192,
-      "name": "2012-2013 ACM-ICPC, Northwestern European Regional Contest (NWERC 2012)",
-      "url": "https://codeforces.com/gym/100192",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100247,
-      "name": "2013, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
-      "url": "https://codeforces.com/gym/100247",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100253,
-      "name": "2013-2014 ACM-ICPC, NEERC, Southern Subregional Contest",
-      "url": "https://codeforces.com/gym/100253",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M"
-      ],
-      "count": 13
-    },
-    {
-      "id": 100257,
-      "name": "2013-2014 ACM-ICPC, NEERC, Moscow Subregional Contest",
-      "url": "https://codeforces.com/gym/100257",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100269,
-      "name": "2013-2014 ACM-ICPC, NEERC, Northern Subregional Contest",
-      "url": "https://codeforces.com/gym/100269",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100273,
-      "name": "2007-2008 ACM-ICPC Northeastern European Regional Contest (NEERC 07)",
-      "url": "https://codeforces.com/gym/100273",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100285,
-      "name": "2013-2014 ACM-ICPC, NEERC, Eastern Subregional Contest",
-      "url": "https://codeforces.com/gym/100285",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 100287,
-      "name": "2006-2007 ACM-ICPC Northeastern European Regional Contest (NEERC 06)",
-      "url": "https://codeforces.com/gym/100287",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100286,
-      "name": "2008-2009 ACM-ICPC Northeastern European Regional Contest (NEERC 08)",
-      "url": "https://codeforces.com/gym/100286",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100299,
-      "name": "2013-2014 ACM ICPC Central European Regional Contest (CERC 13)",
-      "url": "https://codeforces.com/gym/100299",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100307,
-      "name": "2013-2014 ACM-ICPC Northeastern European Regional Contest (NEERC 13)",
-      "url": "https://codeforces.com/gym/100307",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100438,
-      "name": "2012-2013 ACM-ICPC Southwestern Europe Regional Contest (SWERC 12)",
-      "url": "https://codeforces.com/gym/100438",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 100443,
-      "name": "2013-2014 ACM-ICPC Southwestern Europe Regional Contest (SWERC 13)",
-      "url": "https://codeforces.com/gym/100443",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 100482,
-      "name": "2013 KTU ACM ICPC Qualification Round",
-      "url": "https://codeforces.com/gym/100482",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 100488,
-      "name": "2014, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
-      "url": "https://codeforces.com/gym/100488",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M"
-      ],
-      "count": 13
-    },
-    {
-      "id": 100495,
-      "name": "2014 KTU ACM ICPC Qualification Round",
-      "url": "https://codeforces.com/gym/100495",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100499,
-      "name": "2014 ACM-ICPC Vietnam National First Round",
-      "url": "https://codeforces.com/gym/100499",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 100507,
-      "name": "2014-2015 ACM-ICPC, NEERC, Eastern Subregional Contest",
-      "url": "https://codeforces.com/gym/100507",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100513,
-      "name": "2014-2015 ACM-ICPC, NEERC, Southern Subregional Contest",
-      "url": "https://codeforces.com/gym/100513",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M"
-      ],
-      "count": 13
-    },
-    {
-      "id": 100519,
-      "name": "2014-2015 ACM-ICPC, NEERC, Moscow Subregional Contest",
-      "url": "https://codeforces.com/gym/100519",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100531,
-      "name": "2014-2015 ACM-ICPC, NEERC, Northern Subregional Contest",
-      "url": "https://codeforces.com/gym/100531",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100536,
-      "name": "2004-2005 ACM-ICPC Northeastern European Regional Contest (NEERC 04)",
-      "url": "https://codeforces.com/gym/100536",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100541,
-      "name": "2014 ACM-ICPC Vietnam National Second Round",
-      "url": "https://codeforces.com/gym/100541",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 100543,
-      "name": "2014-2015 ACM-ICPC, Central Europe Regional Contest (CERC 14)",
-      "url": "https://codeforces.com/gym/100543",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100548,
-      "name": "2014-2015 ACM-ICPC, Asia Xian Regional Contest",
-      "url": "https://codeforces.com/gym/100548",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100553,
-      "name": "2014-2015 ACM-ICPC Northeastern European Regional Contest (NEERC 14)",
-      "url": "https://codeforces.com/gym/100553",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100554,
-      "name": "2014-2015 ACM-ICPC, Asia Mudanjiang Regional Contest",
-      "url": "https://codeforces.com/gym/100554",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100609,
-      "name": "2011-2012 ACM-ICPC, NEERC, Northern Subregional Contest",
-      "url": "https://codeforces.com/gym/100609",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100610,
-      "name": "2010-2011 ACM-ICPC, NEERC, Northern Subregional Contest",
-      "url": "https://codeforces.com/gym/100610",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100623,
-      "name": "2008-2009 ACM-ICPC, NEERC, Northern Subregional Contest",
-      "url": "https://codeforces.com/gym/100623",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100622,
-      "name": "2009-2010 ACM-ICPC, NEERC, Northern Subregional Contest",
-      "url": "https://codeforces.com/gym/100622",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100624,
-      "name": "2012-2013 ACM-ICPC, Central Europe Regional Contest (CERC 12)",
-      "url": "https://codeforces.com/gym/100624",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100641,
-      "name": "2014-2015 ACM-ICPC East Central North America Regional Contest (ECNA 2014)",
-      "url": "https://codeforces.com/gym/100641",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I"
-      ],
-      "count": 9
-    },
-    {
-      "id": 100643,
-      "name": "2011-2012 ACM-ICPC East Central North America Regional Contest (ECNA 2011)",
-      "url": "https://codeforces.com/gym/100643",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I"
-      ],
-      "count": 9
-    },
-    {
-      "id": 100642,
-      "name": "2012-2013 ACM-ICPC East Central North America Regional Contest (ECNA 2012)",
-      "url": "https://codeforces.com/gym/100642",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I"
-      ],
-      "count": 9
-    },
-    {
-      "id": 100645,
-      "name": "2009-2010 ACM-ICPC East Central North America Regional Contest (ECNA 2009)",
-      "url": "https://codeforces.com/gym/100645",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H"
-      ],
-      "count": 8
-    },
-    {
-      "id": 100644,
-      "name": "2010-2011 ACM-ICPC East Central North America Regional Contest (ECNA 2010)",
-      "url": "https://codeforces.com/gym/100644",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H"
-      ],
-      "count": 8
-    },
-    {
-      "id": 100647,
-      "name": "2007-2008 ACM-ICPC East Central North America Regional Contest (ECNA 2007)",
-      "url": "https://codeforces.com/gym/100647",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H"
-      ],
-      "count": 8
-    },
-    {
-      "id": 100646,
-      "name": "2008-2009 ACM-ICPC East Central North America Regional Contest (ECNA 2008)",
-      "url": "https://codeforces.com/gym/100646",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H"
-      ],
-      "count": 8
-    },
-    {
-      "id": 100648,
-      "name": "2006-2007 ACM-ICPC East Central North America Regional Contest (ECNA 2006)",
-      "url": "https://codeforces.com/gym/100648",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H"
-      ],
-      "count": 8
-    },
-    {
-      "id": 100651,
-      "name": "2004-2005 ACM-ICPC East Central North America Regional Contest (ECNA 2004)",
-      "url": "https://codeforces.com/gym/100651",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H"
-      ],
-      "count": 8
-    },
-    {
-      "id": 100650,
-      "name": "2005-2006 ACM-ICPC East Central North America Regional Contest (ECNA 2005)",
-      "url": "https://codeforces.com/gym/100650",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H"
-      ],
-      "count": 8
-    },
-    {
-      "id": 100685,
-      "name": "2012-2013 ACM-ICPC, NEERC, Moscow Subregional Contest",
-      "url": "https://codeforces.com/gym/100685",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100714,
-      "name": "2010-2011 ACM-ICPC, NEERC, Moscow Subregional Contest",
-      "url": "https://codeforces.com/gym/100714",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100725,
-      "name": "2003-2004 ACM-ICPC, NEERC, Northern Subregional Contest",
-      "url": "https://codeforces.com/gym/100725",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100765,
-      "name": "2005-2006 ACM-ICPC, NEERC, Southern Subregional Contest",
-      "url": "https://codeforces.com/gym/100765",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 100781,
-      "name": "2015-2016 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2015)",
-      "url": "https://codeforces.com/gym/100781",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 100783,
-      "name": "2014-2015 ACM-ICPC Southwestern Europe Regional Contest (SWERC 14)",
-      "url": "https://codeforces.com/gym/100783",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 100792,
-      "name": "2015-2016 ACM-ICPC, NEERC, Moscow Subregional Contest",
-      "url": "https://codeforces.com/gym/100792",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100801,
-      "name": "2015-2016 ACM-ICPC, NEERC, Northern Subregional Contest",
-      "url": "https://codeforces.com/gym/100801",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100803,
-      "name": "2014-2015 ACM-ICPC, Asia Tokyo Regional Contest",
-      "url": "https://codeforces.com/gym/100803",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100812,
-      "name": "2015, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
-      "url": "https://codeforces.com/gym/100812",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100819,
-      "name": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
-      "url": "https://codeforces.com/gym/100819",
-      "problems": [
-        "L",
-        "M",
-        "N",
-        "O",
-        "P",
-        "Q",
-        "R",
-        "S",
-        "T",
-        "U",
-        "V"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100820,
-      "name": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
-      "url": "https://codeforces.com/gym/100820",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100825,
-      "name": "2015-2016 ACM-ICPC East Central North America Regional Contest (ECNA 2015)",
-      "url": "https://codeforces.com/gym/100825",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I"
-      ],
-      "count": 9
-    },
-    {
-      "id": 100827,
-      "name": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
-      "url": "https://codeforces.com/gym/100827",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100851,
-      "name": "2015-2016 ACM-ICPC Northeastern European Regional Contest (NEERC 15)",
-      "url": "https://codeforces.com/gym/100851",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100861,
-      "name": "2008-2009 ACM-ICPC, NEERC, Moscow Subregional Contest",
-      "url": "https://codeforces.com/gym/100861",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100860,
-      "name": "2007-2008 ACM-ICPC, NEERC, Moscow Subregional Contest",
-      "url": "https://codeforces.com/gym/100860",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 100863,
-      "name": "2011-2012 ACM-ICPC, NEERC, Moscow Subregional Contest",
-      "url": "https://codeforces.com/gym/100863",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100864,
-      "name": "2009-2010 ACM-ICPC, NEERC, Moscow Subregional Contest",
-      "url": "https://codeforces.com/gym/100864",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 100867,
-      "name": "2004-2005 ACM-ICPC, NEERC, Moscow Subregional Contest",
-      "url": "https://codeforces.com/gym/100867",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 100866,
-      "name": "2005-2006 ACM-ICPC, NEERC, Moscow Subregional Contest",
-      "url": "https://codeforces.com/gym/100866",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 101128,
-      "name": "2015-2016 ACM-ICPC Southwestern Europe Regional Contest (SWERC 15)",
-      "url": "https://codeforces.com/gym/101128",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 101137,
-      "name": "2016-2017 ACM-ICPC, NEERC, Moscow Subregional Contest",
-      "url": "https://codeforces.com/gym/101137",
-      "problems": [
-        "A",
-        "B",
-        "D",
-        "E",
-        "F",
-        "G",
-        "I",
-        "K",
-        "L"
-      ],
-      "count": 9
-    },
-    {
-      "id": 101142,
-      "name": "2016-2017 ACM-ICPC, NEERC, Northern Subregional Contest",
-      "url": "https://codeforces.com/gym/101142",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101147,
-      "name": "2016-2017 ACM-ICPC, Egyptian Collegiate Programming Contest (ECPC 16)",
-      "url": "https://codeforces.com/gym/101147",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101149,
-      "name": "2016, Samara University ACM ICPC Quarterfinal Qualification Contest",
-      "url": "https://codeforces.com/gym/101149",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M"
-      ],
-      "count": 13
-    },
-    {
-      "id": 101158,
-      "name": "2016-2017 ACM-ICPC, Asia Tsukuba Regional Contest",
-      "url": "https://codeforces.com/gym/101158",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101161,
-      "name": "2016-2017 ACM-ICPC Asia-Bangkok Regional Contest",
-      "url": "https://codeforces.com/gym/101161",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 101164,
-      "name": "2016-2017 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2016)",
-      "url": "https://codeforces.com/gym/101164",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101170,
-      "name": "2016-2017 ACM-ICPC Northwestern European Regional Programming Contest (NWERC 2016)",
-      "url": "https://codeforces.com/gym/101170",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101173,
-      "name": "2016-2017 ACM-ICPC, Central Europe Regional Contest (CERC 16)",
-      "url": "https://codeforces.com/gym/101173",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 101175,
-      "name": "2011 ACM-ICPC World Finals",
-      "url": "https://codeforces.com/gym/101175",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101174,
-      "name": "2016-2017 ACM-ICPC Southwestern European Regional Programming Contest (SWERC 2016)",
-      "url": "https://codeforces.com/gym/101174",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101177,
-      "name": "2016-2017 ACM-ICPC, South Pacific Regional Contest (SPPC 16)",
-      "url": "https://codeforces.com/gym/101177",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101190,
-      "name": "2016-2017 ACM-ICPC Northeastern European Regional Contest (NEERC 16)",
-      "url": "https://codeforces.com/gym/101190",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M"
-      ],
-      "count": 13
-    },
-    {
-      "id": 101194,
-      "name": "2016-2017 ACM-ICPC CHINA-Final",
-      "url": "https://codeforces.com/gym/101194",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 101196,
-      "name": "2016-2017 ACM-ICPC East Central North America Regional Contest (ECNA 2016)",
-      "url": "https://codeforces.com/gym/101196",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 101201,
-      "name": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
-      "url": "https://codeforces.com/gym/101201",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 101205,
-      "name": "2012 ACM-ICPC World Finals",
-      "url": "https://codeforces.com/gym/101205",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 101206,
-      "name": "CCPC 2016-2017, Finals",
-      "url": "https://codeforces.com/gym/101206",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 101208,
-      "name": "2013 ACM-ICPC World Finals",
-      "url": "https://codeforces.com/gym/101208",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101221,
-      "name": "2014 ACM-ICPC World Finals",
-      "url": "https://codeforces.com/gym/101221",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 101239,
-      "name": "2015 ACM-ICPC World Finals",
-      "url": "https://codeforces.com/gym/101239",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M"
-      ],
-      "count": 13
-    },
-    {
-      "id": 101243,
-      "name": "2016-2017 ACM-ICPC, NEERC, Central Subregional Contest",
-      "url": "https://codeforces.com/gym/101243",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101242,
-      "name": "2016 ACM-ICPC World Finals",
-      "url": "https://codeforces.com/gym/101242",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M"
-      ],
-      "count": 13
-    },
-    {
-      "id": 101246,
-      "name": "2010-2011 ACM-ICPC, NEERC, Southern Subregional Contest",
-      "url": "https://codeforces.com/gym/101246",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 101252,
-      "name": "2009-2010 ACM-ICPC, NEERC, Southern Subregional Contest",
-      "url": "https://codeforces.com/gym/101252",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101291,
-      "name": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
-      "url": "https://codeforces.com/gym/101291",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M"
-      ],
-      "count": 13
-    },
-    {
-      "id": 101309,
-      "name": "2010-2011 ACM-ICPC Northeastern European Regional Contest (NEERC 10)",
-      "url": "https://codeforces.com/gym/101309",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101308,
-      "name": "2009-2010 ACM-ICPC Northeastern European Regional Contest (NEERC 09)",
-      "url": "https://codeforces.com/gym/101308",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101334,
-      "name": "2005-2006 ACM-ICPC Northeastern European Regional Contest (NEERC 05)",
-      "url": "https://codeforces.com/gym/101334",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101388,
-      "name": "2003-2004 ACM-ICPC Northeastern European Regional Contest (NEERC 03)",
-      "url": "https://codeforces.com/gym/101388",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101409,
-      "name": "2010-2011 ACM-ICPC, NEERC, Western Subregional Contest",
-      "url": "https://codeforces.com/gym/101409",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M"
-      ],
-      "count": 13
-    },
-    {
-      "id": 101411,
-      "name": "2009-2010 ACM-ICPC, NEERC, Western Subregional Contest",
-      "url": "https://codeforces.com/gym/101411",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 101410,
-      "name": "2011-2012 ACM-ICPC, NEERC, Western Subregional Contest",
-      "url": "https://codeforces.com/gym/101410",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 101413,
-      "name": "2010-2011 ACM-ICPC, Asia Tokyo Regional Contest",
-      "url": "https://codeforces.com/gym/101413",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 101412,
-      "name": "2012-2013 ACM-ICPC, Asia Tokyo Regional Contest",
-      "url": "https://codeforces.com/gym/101412",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 101415,
-      "name": "2007-2008 ACM-ICPC, Asia Tokyo Regional Contest",
-      "url": "https://codeforces.com/gym/101415",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 101414,
-      "name": "2009-2010 ACM-ICPC, Asia Tokyo Regional Contest",
-      "url": "https://codeforces.com/gym/101414",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 101461,
-      "name": "2004-2005 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2004)",
-      "url": "https://codeforces.com/gym/101461",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I"
-      ],
-      "count": 9
-    },
-    {
-      "id": 101463,
-      "name": "2009-2010 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2009)",
-      "url": "https://codeforces.com/gym/101463",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101462,
-      "name": "2008-2009 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2008)",
-      "url": "https://codeforces.com/gym/101462",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I"
-      ],
-      "count": 9
-    },
-    {
-      "id": 101464,
-      "name": "2010-2011 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2010)",
-      "url": "https://codeforces.com/gym/101464",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 101467,
-      "name": "2005-2006 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2005)",
-      "url": "https://codeforces.com/gym/101467",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I"
-      ],
-      "count": 9
-    },
-    {
       "id": 101466,
       "name": "2017 ACM-ICPC, Universidad Nacional de Colombia Programming Contest",
       "url": "https://codeforces.com/gym/101466",
@@ -2468,23 +140,6 @@
         "K"
       ],
       "count": 11
-    },
-    {
-      "id": 101468,
-      "name": "2006-2007 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2006)",
-      "url": "https://codeforces.com/gym/101468",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I"
-      ],
-      "count": 9
     },
     {
       "id": 101471,
@@ -2505,302 +160,6 @@
         "L"
       ],
       "count": 12
-    },
-    {
-      "id": 101470,
-      "name": "2014-2015 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2014)",
-      "url": "https://codeforces.com/gym/101470",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 101473,
-      "name": "2013-2014 ACM-ICPC Brazil Subregional Programming Contest",
-      "url": "https://codeforces.com/gym/101473",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 101472,
-      "name": "2012-2013 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2012)",
-      "url": "https://codeforces.com/gym/101472",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 101481,
-      "name": "2011-2012 ACM-ICPC, Central Europe Regional Contest (CERC 11)",
-      "url": "https://codeforces.com/gym/101481",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 101480,
-      "name": "2015-2016 ACM-ICPC, Central Europe Regional Contest (CERC 15)",
-      "url": "https://codeforces.com/gym/101480",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 101487,
-      "name": "2010-2011 ACM-ICPC, Central Europe Regional Contest (CERC 10)",
-      "url": "https://codeforces.com/gym/101487",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 101503,
-      "name": "2007-2008 ACM-ICPC, NEERC, Southern Subregional Contest",
-      "url": "https://codeforces.com/gym/101503",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
-    },
-    {
-      "id": 101504,
-      "name": "2008-2009 ACM-ICPC, NEERC, Southern Subregional Contest",
-      "url": "https://codeforces.com/gym/101504",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101549,
-      "name": "2012 ACM-ICPC Asia Hatyai Regional Programming Contest",
-      "url": "https://codeforces.com/gym/101549",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 101550,
-      "name": "2016-2017 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2016)",
-      "url": "https://codeforces.com/gym/101550",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101555,
-      "name": "2011-2012 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2011)",
-      "url": "https://codeforces.com/gym/101555",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 101554,
-      "name": "2013-2014 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2013)",
-      "url": "https://codeforces.com/gym/101554",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101557,
-      "name": "2009-2010 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2009)",
-      "url": "https://codeforces.com/gym/101557",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 101556,
-      "name": "2010-2011 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2010)",
-      "url": "https://codeforces.com/gym/101556",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101561,
-      "name": "2011-2012 ACM-ICPC Southwestern European Regional Programming Contest (SWERC 2011)",
-      "url": "https://codeforces.com/gym/101561",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
-      "id": 101564,
-      "name": "2010-2011 ACM-ICPC Southwestern European Regional Programming Contest (SWERC 2010)",
-      "url": "https://codeforces.com/gym/101564",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
     },
     {
       "id": 101573,
@@ -2839,26 +198,6 @@
         "K"
       ],
       "count": 11
-    },
-    {
-      "id": 101585,
-      "name": "2016-2017 ACM-ICPC, NEERC, Восточно-сибирский четвертьфинал",
-      "url": "https://codeforces.com/gym/101585",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
     },
     {
       "id": 101590,
@@ -3036,100 +375,6 @@
       "count": 11
     },
     {
-      "id": 101649,
-      "name": "2005-2006 ACM-ICPC, NEERC, Northern Subregional Contest",
-      "url": "https://codeforces.com/gym/101649",
-      "problems": [
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 9
-    },
-    {
-      "id": 101648,
-      "name": "2004-2005 ACM-ICPC, NEERC, Northern Subregional Contest",
-      "url": "https://codeforces.com/gym/101648",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101651,
-      "name": "2003-2004 ACM-ICPC, NEERC, Northern Subregional Contest",
-      "url": "https://codeforces.com/gym/101651",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101650,
-      "name": "2006-2007 ACM-ICPC, NEERC, Northern Subregional Contest",
-      "url": "https://codeforces.com/gym/101650",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101653,
-      "name": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
-      "url": "https://codeforces.com/gym/101653",
-      "problems": [
-        "M",
-        "N",
-        "O",
-        "P",
-        "Q",
-        "R",
-        "S",
-        "T",
-        "U",
-        "V",
-        "W",
-        "X"
-      ],
-      "count": 12
-    },
-    {
       "id": 101652,
       "name": "2017-2018 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
       "url": "https://codeforces.com/gym/101652",
@@ -3149,66 +394,6 @@
         "Z"
       ],
       "count": 13
-    },
-    {
-      "id": 101655,
-      "name": "2013-2014 ACM-ICPC Pacific Northwest Regional Contest",
-      "url": "https://codeforces.com/gym/101655",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M"
-      ],
-      "count": 13
-    },
-    {
-      "id": 101657,
-      "name": "2011-2012 ACM-ICPC Pacific Northwest Regional Contest",
-      "url": "https://codeforces.com/gym/101657",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
-      "id": 101656,
-      "name": "2012-2013 ACM-ICPC Pacific Northwest Regional Contest",
-      "url": "https://codeforces.com/gym/101656",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
     },
     {
       "id": 101667,
@@ -3428,25 +613,6 @@
       "count": 11
     },
     {
-      "id": 101942,
-      "name": "2016-2017 ACM-ICPC, NEERC, Западно-сибирский четвертьфинал",
-      "url": "https://codeforces.com/gym/101942",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
       "id": 101955,
       "name": "2018-2019 ACM-ICPC, Asia Shenyang Regional Contest",
       "url": "https://codeforces.com/gym/101955",
@@ -3466,25 +632,6 @@
         "M"
       ],
       "count": 13
-    },
-    {
-      "id": 101961,
-      "name": "2014-2015 ACM-ICPC, NEERC, Восточно-сибирский четвертьфинал",
-      "url": "https://codeforces.com/gym/101961",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
     },
     {
       "id": 101964,
@@ -3607,24 +754,6 @@
       "count": 12
     },
     {
-      "id": 102004,
-      "name": "2011-2012 ACM-ICPC, Asia Fukuoka Regional Contest",
-      "url": "https://codeforces.com/gym/102004",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
-    },
-    {
       "id": 102006,
       "name": "2018 ACM-ICPC, Syrian Collegiate Programming Contest",
       "url": "https://codeforces.com/gym/102006",
@@ -3664,24 +793,6 @@
         "M"
       ],
       "count": 13
-    },
-    {
-      "id": 102014,
-      "name": "2013-2014 ACM-ICPC, Asia Aizu Regional Contest",
-      "url": "https://codeforces.com/gym/102014",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
     },
     {
       "id": 102028,
@@ -4102,24 +1213,6 @@
         "M"
       ],
       "count": 13
-    },
-    {
-      "id": 102470,
-      "name": "2009-2010 ACM ICPC Southwestern European Regional Programming Contest (SWERC 2009)",
-      "url": "https://codeforces.com/gym/102470",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J"
-      ],
-      "count": 10
     },
     {
       "id": 102483,
@@ -5064,27 +2157,6 @@
       "count": 12
     },
     {
-      "id": 103957,
-      "name": "2015 ACM-ICPC Asia EC-Final Contest",
-      "url": "https://codeforces.com/gym/103957",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M"
-      ],
-      "count": 13
-    },
-    {
       "id": 103960,
       "name": "2022-2023 ICPC Brazil Subregional Programming Contest",
       "url": "https://codeforces.com/gym/103960",
@@ -5105,26 +2177,6 @@
         "N"
       ],
       "count": 14
-    },
-    {
-      "id": 103964,
-      "name": "The 2015 China Collegiate Programming Contest (CCPC 2015)",
-      "url": "https://codeforces.com/gym/103964",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L"
-      ],
-      "count": 12
     },
     {
       "id": 103990,
@@ -6210,25 +3262,6 @@
       "count": 12
     },
     {
-      "id": 104671,
-      "name": "2023 ICPC Columbia University Local Contest",
-      "url": "https://codeforces.com/gym/104671",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
-    },
-    {
       "id": 104670,
       "name": "2021-2022 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2021)",
       "url": "https://codeforces.com/gym/104670",
@@ -6467,27 +3500,6 @@
         "L"
       ],
       "count": 12
-    },
-    {
-      "id": 104813,
-      "name": "The 9th CCPC (Harbin) Onsite(The 2nd Universal Cup. Stage 10: Harbin)",
-      "url": "https://codeforces.com/gym/104813",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M"
-      ],
-      "count": 13
     },
     {
       "id": 104821,
@@ -6854,25 +3866,6 @@
         "L"
       ],
       "count": 12
-    },
-    {
-      "id": 105064,
-      "name": "ICPC-de-Tryst 2024",
-      "url": "https://codeforces.com/gym/105064",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K"
-      ],
-      "count": 11
     },
     {
       "id": 105112,
@@ -7989,27 +4982,6 @@
       "count": 12
     },
     {
-      "id": 105930,
-      "name": "The 15th Shandong CCPC Provincial Collegiate Programming Contest",
-      "url": "https://codeforces.com/gym/105930",
-      "problems": [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M"
-      ],
-      "count": 13
-    },
-    {
       "id": 105941,
       "name": "2025 National Invitational of CCPC (Zhengzhou), 2025 CCPC Henan Provincial Collegiate Programming Contest",
       "url": "https://codeforces.com/gym/105941",
@@ -9103,21 +6075,6 @@
       "error": "公开题单本次无法读取"
     },
     {
-      "id": 102282,
-      "name": "2011, Отборочный контест СГАУ на четвертьфинал ACM ICPC",
-      "error": "公开题单本次无法读取"
-    },
-    {
-      "id": 102775,
-      "name": "ICPC Central Russia Regional Contest (CRRC 20), Чемпионат Центральной России, квалификационный раунд",
-      "error": "公开题单本次无法读取"
-    },
-    {
-      "id": 102777,
-      "name": "ICPC Central Russia Regional Contest (CRRC 19), Чемпионат Центральной России, квалификационный раунд",
-      "error": "公开题单本次无法读取"
-    },
-    {
       "id": 104012,
       "name": "2022-2023 ICPC NERC (NEERC), North-Western Russia Regional Contest (Northern Subregionals)",
       "error": "公开题单本次无法读取"
@@ -9173,6 +6130,973 @@
       "error": "公开题单本次无法读取"
     }
   ],
-  "added": 5328,
-  "notice": "公开且已结束的 ICPC/CCPC Gym；题单按公开比赛页面核对。无官方 rating 的题目保持未定级，题面打开时读取原站。"
+  "added": 3580,
+  "notice": "当前仅保留 2017 年起可核对的 XCPC 赛事。退役条目只退出公共选题；升级时个人记录与私有库中的旧题保留。整场 Gym 1–5 级与单题 rating 分开显示。",
+  "updatedForVersion": "1.0.18",
+  "minimumEventYear": 2017,
+  "retired": [
+    {
+      "id": "100002",
+      "name": "2002-2003 ACM-ICPC Northeastern European Regional Contest (NEERC 02)",
+      "eventYear": 2002,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100069",
+      "name": "2009-2010 ACM-ICPC Northeastern European Regional Contest (NEERC 09) (Deprecated, without interactive problem C)",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100078",
+      "name": "2007–2008 ACM ICPC Northern Subregional Contest (NEERC 07)",
+      "eventYear": 2007,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100084",
+      "name": "2010-2011 ACM-ICPC Northeastern European Regional Contest (NEERC 10) (Deprecated, without interactive problem G)",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100085",
+      "name": "2011-2012 ACM-ICPC Northeastern European Regional Contest (NEERC 11)",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100090",
+      "name": "2012, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100095",
+      "name": "2011-2012 ACM ICPC Northern Subregional Contest",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100107",
+      "name": "2012-2013 ACM-ICPC, NEERC, Eastern Subregional Contest",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100109",
+      "name": "2012-2013 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100113",
+      "name": "2012-2013 ACM-ICPC, NEERC, Western Subregional Contest",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100114",
+      "name": "2012-2013 ACM-ICPC, NEERC, Central Subregional Contest",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100125",
+      "name": "2012-2013 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100134",
+      "name": "2012-2013 ACM-ICPC Northeastern European Regional Contest (NEERC 12)",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100151",
+      "name": "2011-2012 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100182",
+      "name": "2009 ACM-ICPC Southeast USA Regional Programming Contest",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100184",
+      "name": "2013 ACM-ICPC Ukraine, Round 1",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100190",
+      "name": "2011 ACM-ICPC East Central North America (ECNA 2011)",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100192",
+      "name": "2012-2013 ACM-ICPC, Northwestern European Regional Contest (NWERC 2012)",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100247",
+      "name": "2013, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100253",
+      "name": "2013-2014 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100257",
+      "name": "2013-2014 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100269",
+      "name": "2013-2014 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100273",
+      "name": "2007-2008 ACM-ICPC Northeastern European Regional Contest (NEERC 07)",
+      "eventYear": 2007,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100285",
+      "name": "2013-2014 ACM-ICPC, NEERC, Eastern Subregional Contest",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100286",
+      "name": "2008-2009 ACM-ICPC Northeastern European Regional Contest (NEERC 08)",
+      "eventYear": 2008,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100287",
+      "name": "2006-2007 ACM-ICPC Northeastern European Regional Contest (NEERC 06)",
+      "eventYear": 2006,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100299",
+      "name": "2013-2014 ACM ICPC Central European Regional Contest (CERC 13)",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100307",
+      "name": "2013-2014 ACM-ICPC Northeastern European Regional Contest (NEERC 13)",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100438",
+      "name": "2012-2013 ACM-ICPC Southwestern Europe Regional Contest (SWERC 12)",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100443",
+      "name": "2013-2014 ACM-ICPC Southwestern Europe Regional Contest (SWERC 13)",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100482",
+      "name": "2013 KTU ACM ICPC Qualification Round",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100488",
+      "name": "2014, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100495",
+      "name": "2014 KTU ACM ICPC Qualification Round",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100499",
+      "name": "2014 ACM-ICPC Vietnam National First Round",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100507",
+      "name": "2014-2015 ACM-ICPC, NEERC, Eastern Subregional Contest",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100513",
+      "name": "2014-2015 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100519",
+      "name": "2014-2015 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100531",
+      "name": "2014-2015 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100536",
+      "name": "2004-2005 ACM-ICPC Northeastern European Regional Contest (NEERC 04)",
+      "eventYear": 2004,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100541",
+      "name": "2014 ACM-ICPC Vietnam National Second Round",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100543",
+      "name": "2014-2015 ACM-ICPC, Central Europe Regional Contest (CERC 14)",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100548",
+      "name": "2014-2015 ACM-ICPC, Asia Xian Regional Contest",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100553",
+      "name": "2014-2015 ACM-ICPC Northeastern European Regional Contest (NEERC 14)",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100554",
+      "name": "2014-2015 ACM-ICPC, Asia Mudanjiang Regional Contest",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100609",
+      "name": "2011-2012 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100610",
+      "name": "2010-2011 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100622",
+      "name": "2009-2010 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100623",
+      "name": "2008-2009 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2008,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100624",
+      "name": "2012-2013 ACM-ICPC, Central Europe Regional Contest (CERC 12)",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100641",
+      "name": "2014-2015 ACM-ICPC East Central North America Regional Contest (ECNA 2014)",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100642",
+      "name": "2012-2013 ACM-ICPC East Central North America Regional Contest (ECNA 2012)",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100643",
+      "name": "2011-2012 ACM-ICPC East Central North America Regional Contest (ECNA 2011)",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100644",
+      "name": "2010-2011 ACM-ICPC East Central North America Regional Contest (ECNA 2010)",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100645",
+      "name": "2009-2010 ACM-ICPC East Central North America Regional Contest (ECNA 2009)",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100646",
+      "name": "2008-2009 ACM-ICPC East Central North America Regional Contest (ECNA 2008)",
+      "eventYear": 2008,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100647",
+      "name": "2007-2008 ACM-ICPC East Central North America Regional Contest (ECNA 2007)",
+      "eventYear": 2007,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100648",
+      "name": "2006-2007 ACM-ICPC East Central North America Regional Contest (ECNA 2006)",
+      "eventYear": 2006,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100650",
+      "name": "2005-2006 ACM-ICPC East Central North America Regional Contest (ECNA 2005)",
+      "eventYear": 2005,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100651",
+      "name": "2004-2005 ACM-ICPC East Central North America Regional Contest (ECNA 2004)",
+      "eventYear": 2004,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100685",
+      "name": "2012-2013 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100714",
+      "name": "2010-2011 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100725",
+      "name": "2003-2004 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2003,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100765",
+      "name": "2005-2006 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "eventYear": 2005,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100781",
+      "name": "2015-2016 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2015)",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100783",
+      "name": "2014-2015 ACM-ICPC Southwestern Europe Regional Contest (SWERC 14)",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100792",
+      "name": "2015-2016 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100801",
+      "name": "2015-2016 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100803",
+      "name": "2014-2015 ACM-ICPC, Asia Tokyo Regional Contest",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100812",
+      "name": "2015, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100819",
+      "name": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100820",
+      "name": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100825",
+      "name": "2015-2016 ACM-ICPC East Central North America Regional Contest (ECNA 2015)",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100827",
+      "name": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100851",
+      "name": "2015-2016 ACM-ICPC Northeastern European Regional Contest (NEERC 15)",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100860",
+      "name": "2007-2008 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2007,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100861",
+      "name": "2008-2009 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2008,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100863",
+      "name": "2011-2012 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100864",
+      "name": "2009-2010 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100866",
+      "name": "2005-2006 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2005,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100867",
+      "name": "2004-2005 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2004,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101128",
+      "name": "2015-2016 ACM-ICPC Southwestern Europe Regional Contest (SWERC 15)",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101137",
+      "name": "2016-2017 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101142",
+      "name": "2016-2017 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101147",
+      "name": "2016-2017 ACM-ICPC, Egyptian Collegiate Programming Contest (ECPC 16)",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101149",
+      "name": "2016, Samara University ACM ICPC Quarterfinal Qualification Contest",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101158",
+      "name": "2016-2017 ACM-ICPC, Asia Tsukuba Regional Contest",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101161",
+      "name": "2016-2017 ACM-ICPC Asia-Bangkok Regional Contest",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101164",
+      "name": "2016-2017 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2016)",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101170",
+      "name": "2016-2017 ACM-ICPC Northwestern European Regional Programming Contest (NWERC 2016)",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101173",
+      "name": "2016-2017 ACM-ICPC, Central Europe Regional Contest (CERC 16)",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101174",
+      "name": "2016-2017 ACM-ICPC Southwestern European Regional Programming Contest (SWERC 2016)",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101175",
+      "name": "2011 ACM-ICPC World Finals",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101177",
+      "name": "2016-2017 ACM-ICPC, South Pacific Regional Contest (SPPC 16)",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101190",
+      "name": "2016-2017 ACM-ICPC Northeastern European Regional Contest (NEERC 16)",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101194",
+      "name": "2016-2017 ACM-ICPC CHINA-Final",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101196",
+      "name": "2016-2017 ACM-ICPC East Central North America Regional Contest (ECNA 2016)",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101201",
+      "name": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101205",
+      "name": "2012 ACM-ICPC World Finals",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101206",
+      "name": "CCPC 2016-2017, Finals",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101208",
+      "name": "2013 ACM-ICPC World Finals",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101221",
+      "name": "2014 ACM-ICPC World Finals",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101239",
+      "name": "2015 ACM-ICPC World Finals",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101242",
+      "name": "2016 ACM-ICPC World Finals",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101243",
+      "name": "2016-2017 ACM-ICPC, NEERC, Central Subregional Contest",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101246",
+      "name": "2010-2011 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101252",
+      "name": "2009-2010 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101291",
+      "name": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101308",
+      "name": "2009-2010 ACM-ICPC Northeastern European Regional Contest (NEERC 09)",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101309",
+      "name": "2010-2011 ACM-ICPC Northeastern European Regional Contest (NEERC 10)",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101334",
+      "name": "2005-2006 ACM-ICPC Northeastern European Regional Contest (NEERC 05)",
+      "eventYear": 2005,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101388",
+      "name": "2003-2004 ACM-ICPC Northeastern European Regional Contest (NEERC 03)",
+      "eventYear": 2003,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101409",
+      "name": "2010-2011 ACM-ICPC, NEERC, Western Subregional Contest",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101410",
+      "name": "2011-2012 ACM-ICPC, NEERC, Western Subregional Contest",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101411",
+      "name": "2009-2010 ACM-ICPC, NEERC, Western Subregional Contest",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101412",
+      "name": "2012-2013 ACM-ICPC, Asia Tokyo Regional Contest",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101413",
+      "name": "2010-2011 ACM-ICPC, Asia Tokyo Regional Contest",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101414",
+      "name": "2009-2010 ACM-ICPC, Asia Tokyo Regional Contest",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101415",
+      "name": "2007-2008 ACM-ICPC, Asia Tokyo Regional Contest",
+      "eventYear": 2007,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101461",
+      "name": "2004-2005 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2004)",
+      "eventYear": 2004,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101462",
+      "name": "2008-2009 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2008)",
+      "eventYear": 2008,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101463",
+      "name": "2009-2010 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2009)",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101464",
+      "name": "2010-2011 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2010)",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101467",
+      "name": "2005-2006 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2005)",
+      "eventYear": 2005,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101468",
+      "name": "2006-2007 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2006)",
+      "eventYear": 2006,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101470",
+      "name": "2014-2015 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2014)",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101472",
+      "name": "2012-2013 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2012)",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101473",
+      "name": "2013-2014 ACM-ICPC Brazil Subregional Programming Contest",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101480",
+      "name": "2015-2016 ACM-ICPC, Central Europe Regional Contest (CERC 15)",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101481",
+      "name": "2011-2012 ACM-ICPC, Central Europe Regional Contest (CERC 11)",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101487",
+      "name": "2010-2011 ACM-ICPC, Central Europe Regional Contest (CERC 10)",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101503",
+      "name": "2007-2008 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "eventYear": 2007,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101504",
+      "name": "2008-2009 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "eventYear": 2008,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101549",
+      "name": "2012 ACM-ICPC Asia Hatyai Regional Programming Contest",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101550",
+      "name": "2016-2017 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2016)",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101554",
+      "name": "2013-2014 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2013)",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101555",
+      "name": "2011-2012 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2011)",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101556",
+      "name": "2010-2011 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2010)",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101557",
+      "name": "2009-2010 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2009)",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101561",
+      "name": "2011-2012 ACM-ICPC Southwestern European Regional Programming Contest (SWERC 2011)",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101564",
+      "name": "2010-2011 ACM-ICPC Southwestern European Regional Programming Contest (SWERC 2010)",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101585",
+      "name": "2016-2017 ACM-ICPC, NEERC, Восточно-сибирский четвертьфинал",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101648",
+      "name": "2004-2005 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2004,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101649",
+      "name": "2005-2006 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2005,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101650",
+      "name": "2006-2007 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2006,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101651",
+      "name": "2003-2004 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2003,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101653",
+      "name": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101655",
+      "name": "2013-2014 ACM-ICPC Pacific Northwest Regional Contest",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101656",
+      "name": "2012-2013 ACM-ICPC Pacific Northwest Regional Contest",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101657",
+      "name": "2011-2012 ACM-ICPC Pacific Northwest Regional Contest",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101942",
+      "name": "2016-2017 ACM-ICPC, NEERC, Западно-сибирский четвертьфинал",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101961",
+      "name": "2014-2015 ACM-ICPC, NEERC, Восточно-сибирский четвертьфинал",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "102004",
+      "name": "2011-2012 ACM-ICPC, Asia Fukuoka Regional Contest",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "102014",
+      "name": "2013-2014 ACM-ICPC, Asia Aizu Regional Contest",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "102470",
+      "name": "2009-2010 ACM ICPC Southwestern European Regional Programming Contest (SWERC 2009)",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "103957",
+      "name": "2015 ACM-ICPC Asia EC-Final Contest",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "103964",
+      "name": "The 2015 China Collegiate Programming Contest (CCPC 2015)",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "104671",
+      "name": "2023 ICPC Columbia University Local Contest",
+      "eventYear": 2023,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "104813",
+      "name": "The 9th CCPC (Harbin) Onsite(The 2nd Universal Cup. Stage 10: Harbin)",
+      "eventYear": null,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "105064",
+      "name": "ICPC-de-Tryst 2024",
+      "eventYear": 2024,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "105930",
+      "name": "The 15th Shandong CCPC Provincial Collegiate Programming Contest",
+      "eventYear": null,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    }
+  ],
+  "retainedGymContests": 295,
+  "retainedGymProblems": 3580,
+  "addedThisRelease": 0
 }

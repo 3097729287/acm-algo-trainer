@@ -1099,6 +1099,8 @@ class TrainingService:
     @staticmethod
     def _eligible_contest_row(row, options, lower, upper, solved):
         from insights import canonical_url
+        if row.get('catalogHidden'):
+            return False
         difficulty = row.get("difficulty")
         if not isinstance(difficulty, (int, float)) or isinstance(difficulty, bool) or not lower <= difficulty <= upper:
             return False
@@ -1228,7 +1230,8 @@ class TrainingService:
         from contest_rules import event_info
         with self.lock:
             groups={}
-            for row in self._library():groups.setdefault(row['contest'],[]).append(row)
+            for row in self._library():
+                if not row.get('catalogHidden'):groups.setdefault(row['contest'],[]).append(row)
             result=[event_info(name,rows) for name,rows in groups.items()]
             from contest_names import contest_name, natural_key
             for item in result:

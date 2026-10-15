@@ -1,6 +1,7 @@
 """Independent daily goal allocation and legacy upgrade, using disposable state."""
 import json
 import unittest
+from unittest.mock import patch
 from types import SimpleNamespace
 import test_training as fixtures
 from goals import Goals
@@ -19,6 +20,15 @@ class GoalAssignmentTests(unittest.TestCase):
             planner.save({'title': title, 'deadline': '2026-10-09', 'totalProblems': 4})
             self.clock.advance(seconds=1)
         return planner.list()['goals']
+
+    def test_recommendation_batch_uses_one_fresh_catalogue_per_call(self):
+        planner = Goals(self.service)
+        with patch.object(self.library, 'data', wraps=self.library.data) as read:
+            result = planner.save({'title': '批量建议', 'deadline': '2026-10-09', 'totalProblems': 8})
+            self.assertGreater(len(result['goals'][0]['dailyTask']['problems']), 1)
+            self.assertEqual(read.call_count, 1)
+            planner.list()
+            self.assertEqual(read.call_count, 2, 'The catalogue must be fresh again on the next call')
 
     def test_one_goal_finishing_keeps_other_tasks_and_target_through_restart(self):
         first, second = self.plans()

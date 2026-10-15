@@ -1,0 +1,137 @@
+{
+  "version": "1.0.18",
+  "documents": [
+    {
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E5%A8%81%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "matchedContests": [
+        "CCPC 2021 威海区域赛"
+      ],
+      "matchedTitles": 7,
+      "assignedPages": 9
+    },
+    {
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E5%B9%BF%E5%B7%9E%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "matchedContests": [
+        "CCPC 2021 广州区域赛"
+      ],
+      "matchedTitles": 9,
+      "assignedPages": 5
+    },
+    {
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E6%A1%82%E6%9E%97%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "matchedContests": [
+        "CCPC 2021 桂林区域赛"
+      ],
+      "matchedTitles": 10,
+      "assignedPages": 1
+    },
+    {
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2017/icpc-solutions2017.pdf",
+      "matchedContests": [
+        "ICPC 2017 全球总决赛"
+      ],
+      "matchedTitles": 11,
+      "assignedPages": 3
+    },
+    {
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2018/finals2018solutions.pdf",
+      "matchedContests": [
+        "ICPC 2018 全球总决赛"
+      ],
+      "matchedTitles": 11,
+      "assignedPages": 1
+    },
+    {
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2019/19ICPCHKEditorial-V1.pdf",
+      "matchedContests": [
+        "ICPC 2019 香港区域赛"
+      ],
+      "matchedTitles": 11,
+      "assignedPages": 8
+    },
+    {
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2019/finals2019solutions.pdf",
+      "matchedContests": [
+        "ICPC 2019 全球总决赛"
+      ],
+      "matchedTitles": 11,
+      "assignedPages": 1
+    },
+    {
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2020/2020ICPC%E6%B5%8E%E5%8D%97%E8%B5%9B%E5%8C%BA%E9%A2%98%E8%A7%A3.pdf",
+      "matchedContests": [
+        "ICPC 2020 济南区域赛"
+      ],
+      "matchedTitles": 11,
+      "assignedPages": 1
+    },
+    {
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2020/%E7%89%9B%E5%AE%A2%E7%BD%912020ICPC%E5%B0%8F%E7%B1%B3%E9%82%80%E8%AF%B7%E8%B5%9B%E7%BD%91%E7%BB%9C%E8%B5%9B%E7%AC%AC%E4%B8%80%E5%9C%BA%E9%A2%98%E8%A7%A3.pdf",
+      "matchedContests": [
+        "ICPC 2020 小米网络选拔赛（第 1 场）"
+      ],
+      "matchedTitles": 11,
+      "assignedPages": 0
+    },
+    {
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2020/%E7%89%9B%E5%AE%A2%E7%BD%912020ICPC%E5%B0%8F%E7%B1%B3%E9%82%80%E8%AF%B7%E8%B5%9B%E7%BD%91%E7%BB%9C%E8%B5%9B%E7%AC%AC%E4%BA%8C%E5%9C%BA%E9%A2%98%E8%A7%A3.pdf",
+      "matchedContests": [
+        "ICPC 2020 小米网络选拔赛（第 2 场）"
+      ],
+      "matchedTitles": 10,
+      "assignedPages": 0
+    },
+    {
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021-macau-editorial.pdf",
+      "matchedContests": [
+        "ICPC 2021 澳门区域赛"
+      ],
+      "matchedTitles": 12,
+      "assignedPages": 29
+    },
+    {
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021ICPC%E4%B8%8A%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "matchedContests": [
+        "ICPC 2021 上海区域赛"
+      ],
+      "matchedTitles": 12,
+      "assignedPages": 26
+    },
+    {
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021ICPC%E6%B2%88%E9%98%B3%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "matchedContests": [
+        "ICPC 2021 沈阳区域赛"
+      ],
+      "matchedTitles": 12,
+      "assignedPages": 10
+    },
+    {
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021ICPC%E6%B2%88%E9%98%B3%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pptx",
+      "matchedContests": [
+        "ICPC 2021 沈阳区域赛"
+      ],
+      "matchedTitles": 12,
+      "assignedPages": 12
+    },
+    {
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/49th/2024_wuhan_tutorial_final.pdf",
+      "matchedContests": [
+        "ICPC 2024 武汉邀请赛"
+      ],
+      "matchedTitles": 10,
+      "assignedPages": 4
+    },
+    {
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/provincial-contest/2021/2021ICPC%E6%B1%9F%E8%A5%BF%E7%9C%81%E8%B5%9B%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "matchedContests": [
+        "ICPC 2021 江西区域赛"
+      ],
+      "matchedTitles": 11,
+      "assignedPages": 2
+    }
+  ],
+  "problemsWithEvidence": 70,
+  "newlyTagged": 30,
+  "updated": 37,
+  "notice": "知识标签来自对应公开题解的明确技术词，题单与题目标题先行匹配；算法未重新验证。未识别文档和扫描页不猜测。"
+}

@@ -1,0 +1,2293 @@
+{
+  "version": "1.0.18",
+  "retiredGymContests": [
+    {
+      "id": "100002",
+      "name": "2002-2003 ACM-ICPC Northeastern European Regional Contest (NEERC 02)",
+      "eventYear": 2002,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100069",
+      "name": "2009-2010 ACM-ICPC Northeastern European Regional Contest (NEERC 09) (Deprecated, without interactive problem C)",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100078",
+      "name": "2007–2008 ACM ICPC Northern Subregional Contest (NEERC 07)",
+      "eventYear": 2007,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100084",
+      "name": "2010-2011 ACM-ICPC Northeastern European Regional Contest (NEERC 10) (Deprecated, without interactive problem G)",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100085",
+      "name": "2011-2012 ACM-ICPC Northeastern European Regional Contest (NEERC 11)",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100090",
+      "name": "2012, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100095",
+      "name": "2011-2012 ACM ICPC Northern Subregional Contest",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100107",
+      "name": "2012-2013 ACM-ICPC, NEERC, Eastern Subregional Contest",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100109",
+      "name": "2012-2013 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100113",
+      "name": "2012-2013 ACM-ICPC, NEERC, Western Subregional Contest",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100114",
+      "name": "2012-2013 ACM-ICPC, NEERC, Central Subregional Contest",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100125",
+      "name": "2012-2013 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100134",
+      "name": "2012-2013 ACM-ICPC Northeastern European Regional Contest (NEERC 12)",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100151",
+      "name": "2011-2012 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100182",
+      "name": "2009 ACM-ICPC Southeast USA Regional Programming Contest",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100184",
+      "name": "2013 ACM-ICPC Ukraine, Round 1",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100190",
+      "name": "2011 ACM-ICPC East Central North America (ECNA 2011)",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100192",
+      "name": "2012-2013 ACM-ICPC, Northwestern European Regional Contest (NWERC 2012)",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100247",
+      "name": "2013, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100253",
+      "name": "2013-2014 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100257",
+      "name": "2013-2014 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100269",
+      "name": "2013-2014 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100273",
+      "name": "2007-2008 ACM-ICPC Northeastern European Regional Contest (NEERC 07)",
+      "eventYear": 2007,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100285",
+      "name": "2013-2014 ACM-ICPC, NEERC, Eastern Subregional Contest",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100286",
+      "name": "2008-2009 ACM-ICPC Northeastern European Regional Contest (NEERC 08)",
+      "eventYear": 2008,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100287",
+      "name": "2006-2007 ACM-ICPC Northeastern European Regional Contest (NEERC 06)",
+      "eventYear": 2006,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100299",
+      "name": "2013-2014 ACM ICPC Central European Regional Contest (CERC 13)",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100307",
+      "name": "2013-2014 ACM-ICPC Northeastern European Regional Contest (NEERC 13)",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100438",
+      "name": "2012-2013 ACM-ICPC Southwestern Europe Regional Contest (SWERC 12)",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100443",
+      "name": "2013-2014 ACM-ICPC Southwestern Europe Regional Contest (SWERC 13)",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100482",
+      "name": "2013 KTU ACM ICPC Qualification Round",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100488",
+      "name": "2014, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100495",
+      "name": "2014 KTU ACM ICPC Qualification Round",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100499",
+      "name": "2014 ACM-ICPC Vietnam National First Round",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100507",
+      "name": "2014-2015 ACM-ICPC, NEERC, Eastern Subregional Contest",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100513",
+      "name": "2014-2015 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100519",
+      "name": "2014-2015 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100531",
+      "name": "2014-2015 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100536",
+      "name": "2004-2005 ACM-ICPC Northeastern European Regional Contest (NEERC 04)",
+      "eventYear": 2004,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100541",
+      "name": "2014 ACM-ICPC Vietnam National Second Round",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100543",
+      "name": "2014-2015 ACM-ICPC, Central Europe Regional Contest (CERC 14)",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100548",
+      "name": "2014-2015 ACM-ICPC, Asia Xian Regional Contest",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100553",
+      "name": "2014-2015 ACM-ICPC Northeastern European Regional Contest (NEERC 14)",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100554",
+      "name": "2014-2015 ACM-ICPC, Asia Mudanjiang Regional Contest",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100609",
+      "name": "2011-2012 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100610",
+      "name": "2010-2011 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100622",
+      "name": "2009-2010 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100623",
+      "name": "2008-2009 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2008,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100624",
+      "name": "2012-2013 ACM-ICPC, Central Europe Regional Contest (CERC 12)",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100641",
+      "name": "2014-2015 ACM-ICPC East Central North America Regional Contest (ECNA 2014)",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100642",
+      "name": "2012-2013 ACM-ICPC East Central North America Regional Contest (ECNA 2012)",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100643",
+      "name": "2011-2012 ACM-ICPC East Central North America Regional Contest (ECNA 2011)",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100644",
+      "name": "2010-2011 ACM-ICPC East Central North America Regional Contest (ECNA 2010)",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100645",
+      "name": "2009-2010 ACM-ICPC East Central North America Regional Contest (ECNA 2009)",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100646",
+      "name": "2008-2009 ACM-ICPC East Central North America Regional Contest (ECNA 2008)",
+      "eventYear": 2008,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100647",
+      "name": "2007-2008 ACM-ICPC East Central North America Regional Contest (ECNA 2007)",
+      "eventYear": 2007,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100648",
+      "name": "2006-2007 ACM-ICPC East Central North America Regional Contest (ECNA 2006)",
+      "eventYear": 2006,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100650",
+      "name": "2005-2006 ACM-ICPC East Central North America Regional Contest (ECNA 2005)",
+      "eventYear": 2005,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100651",
+      "name": "2004-2005 ACM-ICPC East Central North America Regional Contest (ECNA 2004)",
+      "eventYear": 2004,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100685",
+      "name": "2012-2013 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100714",
+      "name": "2010-2011 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100725",
+      "name": "2003-2004 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2003,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100765",
+      "name": "2005-2006 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "eventYear": 2005,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100781",
+      "name": "2015-2016 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2015)",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100783",
+      "name": "2014-2015 ACM-ICPC Southwestern Europe Regional Contest (SWERC 14)",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100792",
+      "name": "2015-2016 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100801",
+      "name": "2015-2016 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100803",
+      "name": "2014-2015 ACM-ICPC, Asia Tokyo Regional Contest",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100812",
+      "name": "2015, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100819",
+      "name": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100820",
+      "name": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100825",
+      "name": "2015-2016 ACM-ICPC East Central North America Regional Contest (ECNA 2015)",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100827",
+      "name": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100851",
+      "name": "2015-2016 ACM-ICPC Northeastern European Regional Contest (NEERC 15)",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100860",
+      "name": "2007-2008 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2007,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100861",
+      "name": "2008-2009 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2008,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100863",
+      "name": "2011-2012 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100864",
+      "name": "2009-2010 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100866",
+      "name": "2005-2006 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2005,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "100867",
+      "name": "2004-2005 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2004,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101128",
+      "name": "2015-2016 ACM-ICPC Southwestern Europe Regional Contest (SWERC 15)",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101137",
+      "name": "2016-2017 ACM-ICPC, NEERC, Moscow Subregional Contest",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101142",
+      "name": "2016-2017 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101147",
+      "name": "2016-2017 ACM-ICPC, Egyptian Collegiate Programming Contest (ECPC 16)",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101149",
+      "name": "2016, Samara University ACM ICPC Quarterfinal Qualification Contest",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101158",
+      "name": "2016-2017 ACM-ICPC, Asia Tsukuba Regional Contest",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101161",
+      "name": "2016-2017 ACM-ICPC Asia-Bangkok Regional Contest",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101164",
+      "name": "2016-2017 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2016)",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101170",
+      "name": "2016-2017 ACM-ICPC Northwestern European Regional Programming Contest (NWERC 2016)",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101173",
+      "name": "2016-2017 ACM-ICPC, Central Europe Regional Contest (CERC 16)",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101174",
+      "name": "2016-2017 ACM-ICPC Southwestern European Regional Programming Contest (SWERC 2016)",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101175",
+      "name": "2011 ACM-ICPC World Finals",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101177",
+      "name": "2016-2017 ACM-ICPC, South Pacific Regional Contest (SPPC 16)",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101190",
+      "name": "2016-2017 ACM-ICPC Northeastern European Regional Contest (NEERC 16)",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101194",
+      "name": "2016-2017 ACM-ICPC CHINA-Final",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101196",
+      "name": "2016-2017 ACM-ICPC East Central North America Regional Contest (ECNA 2016)",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101201",
+      "name": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101205",
+      "name": "2012 ACM-ICPC World Finals",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101206",
+      "name": "CCPC 2016-2017, Finals",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101208",
+      "name": "2013 ACM-ICPC World Finals",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101221",
+      "name": "2014 ACM-ICPC World Finals",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101239",
+      "name": "2015 ACM-ICPC World Finals",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101242",
+      "name": "2016 ACM-ICPC World Finals",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101243",
+      "name": "2016-2017 ACM-ICPC, NEERC, Central Subregional Contest",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101246",
+      "name": "2010-2011 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101252",
+      "name": "2009-2010 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101291",
+      "name": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101308",
+      "name": "2009-2010 ACM-ICPC Northeastern European Regional Contest (NEERC 09)",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101309",
+      "name": "2010-2011 ACM-ICPC Northeastern European Regional Contest (NEERC 10)",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101334",
+      "name": "2005-2006 ACM-ICPC Northeastern European Regional Contest (NEERC 05)",
+      "eventYear": 2005,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101388",
+      "name": "2003-2004 ACM-ICPC Northeastern European Regional Contest (NEERC 03)",
+      "eventYear": 2003,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101409",
+      "name": "2010-2011 ACM-ICPC, NEERC, Western Subregional Contest",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101410",
+      "name": "2011-2012 ACM-ICPC, NEERC, Western Subregional Contest",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101411",
+      "name": "2009-2010 ACM-ICPC, NEERC, Western Subregional Contest",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101412",
+      "name": "2012-2013 ACM-ICPC, Asia Tokyo Regional Contest",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101413",
+      "name": "2010-2011 ACM-ICPC, Asia Tokyo Regional Contest",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101414",
+      "name": "2009-2010 ACM-ICPC, Asia Tokyo Regional Contest",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101415",
+      "name": "2007-2008 ACM-ICPC, Asia Tokyo Regional Contest",
+      "eventYear": 2007,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101461",
+      "name": "2004-2005 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2004)",
+      "eventYear": 2004,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101462",
+      "name": "2008-2009 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2008)",
+      "eventYear": 2008,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101463",
+      "name": "2009-2010 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2009)",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101464",
+      "name": "2010-2011 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2010)",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101467",
+      "name": "2005-2006 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2005)",
+      "eventYear": 2005,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101468",
+      "name": "2006-2007 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2006)",
+      "eventYear": 2006,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101470",
+      "name": "2014-2015 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2014)",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101472",
+      "name": "2012-2013 ACM-ICPC Southeastern European Regional Programming Contest (SEERC 2012)",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101473",
+      "name": "2013-2014 ACM-ICPC Brazil Subregional Programming Contest",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101480",
+      "name": "2015-2016 ACM-ICPC, Central Europe Regional Contest (CERC 15)",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101481",
+      "name": "2011-2012 ACM-ICPC, Central Europe Regional Contest (CERC 11)",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101487",
+      "name": "2010-2011 ACM-ICPC, Central Europe Regional Contest (CERC 10)",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101503",
+      "name": "2007-2008 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "eventYear": 2007,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101504",
+      "name": "2008-2009 ACM-ICPC, NEERC, Southern Subregional Contest",
+      "eventYear": 2008,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101549",
+      "name": "2012 ACM-ICPC Asia Hatyai Regional Programming Contest",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101550",
+      "name": "2016-2017 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2016)",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101554",
+      "name": "2013-2014 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2013)",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101555",
+      "name": "2011-2012 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2011)",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101556",
+      "name": "2010-2011 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2010)",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101557",
+      "name": "2009-2010 ACM-ICPC Nordic Collegiate Programming Contest (NCPC 2009)",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101561",
+      "name": "2011-2012 ACM-ICPC Southwestern European Regional Programming Contest (SWERC 2011)",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101564",
+      "name": "2010-2011 ACM-ICPC Southwestern European Regional Programming Contest (SWERC 2010)",
+      "eventYear": 2010,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101585",
+      "name": "2016-2017 ACM-ICPC, NEERC, Восточно-сибирский четвертьфинал",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101648",
+      "name": "2004-2005 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2004,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101649",
+      "name": "2005-2006 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2005,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101650",
+      "name": "2006-2007 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2006,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101651",
+      "name": "2003-2004 ACM-ICPC, NEERC, Northern Subregional Contest",
+      "eventYear": 2003,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101653",
+      "name": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101655",
+      "name": "2013-2014 ACM-ICPC Pacific Northwest Regional Contest",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101656",
+      "name": "2012-2013 ACM-ICPC Pacific Northwest Regional Contest",
+      "eventYear": 2012,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101657",
+      "name": "2011-2012 ACM-ICPC Pacific Northwest Regional Contest",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101942",
+      "name": "2016-2017 ACM-ICPC, NEERC, Западно-сибирский четвертьфинал",
+      "eventYear": 2016,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "101961",
+      "name": "2014-2015 ACM-ICPC, NEERC, Восточно-сибирский четвертьфинал",
+      "eventYear": 2014,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "102004",
+      "name": "2011-2012 ACM-ICPC, Asia Fukuoka Regional Contest",
+      "eventYear": 2011,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "102014",
+      "name": "2013-2014 ACM-ICPC, Asia Aizu Regional Contest",
+      "eventYear": 2013,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "102470",
+      "name": "2009-2010 ACM ICPC Southwestern European Regional Programming Contest (SWERC 2009)",
+      "eventYear": 2009,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "103957",
+      "name": "2015 ACM-ICPC Asia EC-Final Contest",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "103964",
+      "name": "The 2015 China Collegiate Programming Contest (CCPC 2015)",
+      "eventYear": 2015,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "104671",
+      "name": "2023 ICPC Columbia University Local Contest",
+      "eventYear": 2023,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "104813",
+      "name": "The 9th CCPC (Harbin) Onsite(The 2nd Universal Cup. Stage 10: Harbin)",
+      "eventYear": null,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "105064",
+      "name": "ICPC-de-Tryst 2024",
+      "eventYear": 2024,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    },
+    {
+      "id": "105930",
+      "name": "The 15th Shandong CCPC Provincial Collegiate Programming Contest",
+      "eventYear": null,
+      "reason": "2016 年及以前或非主线 XCPC 赛事"
+    }
+  ],
+  "datesVerified": [
+    {
+      "name": "ICPC 2019 银川区域赛",
+      "startedAt": "2019-10-20T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2019/yinchuan/config.json",
+      "boardPath": "data/icpc/2019/yinchuan/config.json"
+    },
+    {
+      "name": "ICPC 2020 南京区域赛（热身赛）",
+      "startedAt": "2020-12-19T11:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/nanjing-warmup/config.json",
+      "boardPath": "data/icpc/2020/nanjing-warmup/config.json"
+    },
+    {
+      "name": "ICPC 2020 南京区域赛",
+      "startedAt": "2020-12-20T03:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/nanjing/config.json",
+      "boardPath": "data/icpc/2020/nanjing/config.json"
+    },
+    {
+      "name": "ICPC 2020 济南区域赛（热身赛）",
+      "startedAt": "2020-12-26T11:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/jinan-warmup/config.json",
+      "boardPath": "data/icpc/2020/jinan-warmup/config.json"
+    },
+    {
+      "name": "ICPC 2020 济南区域赛",
+      "startedAt": "2020-12-27T03:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/jinan/config.json",
+      "boardPath": "data/icpc/2020/jinan/config.json"
+    },
+    {
+      "name": "ICPC 2020 昆明区域赛",
+      "startedAt": "2021-04-03T03:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/kunming/config.json",
+      "boardPath": "data/icpc/2020/kunming/config.json"
+    },
+    {
+      "name": "ICPC 2020 昆明区域赛（热身赛）",
+      "startedAt": "2021-04-02T11:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/kunming-warmup/config.json",
+      "boardPath": "data/icpc/2020/kunming-warmup/config.json"
+    },
+    {
+      "name": "ICPC 2020 沈阳区域赛",
+      "startedAt": "2021-07-18T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/shenyang/config.json",
+      "boardPath": "data/icpc/2020/shenyang/config.json"
+    },
+    {
+      "name": "ICPC 2021 沈阳区域赛（热身赛）",
+      "startedAt": "2021-11-20T08:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/46th/shenyang-warmup/config.json",
+      "boardPath": "data/icpc/46th/shenyang-warmup/config.json"
+    },
+    {
+      "name": "ICPC 2021 沈阳区域赛",
+      "startedAt": "2021-11-21T03:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/46th/shenyang/config.json",
+      "boardPath": "data/icpc/46th/shenyang/config.json"
+    },
+    {
+      "name": "ICPC 2021 上海区域赛（热身赛）",
+      "startedAt": "2021-11-27T06:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/46th/shanghai-warmup/config.json",
+      "boardPath": "data/icpc/46th/shanghai-warmup/config.json"
+    },
+    {
+      "name": "ICPC 2021 上海区域赛",
+      "startedAt": "2021-11-28T03:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/46th/shanghai/config.json",
+      "boardPath": "data/icpc/46th/shanghai/config.json"
+    },
+    {
+      "name": "ICPC 2021 昆明区域赛",
+      "startedAt": "2022-04-17T03:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/46th/kunming/config.json",
+      "boardPath": "data/icpc/46th/kunming/config.json"
+    },
+    {
+      "name": "ICPC 2020 小米网络选拔赛（第 1 场）",
+      "startedAt": "2020-10-25T04:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/xiaomi-preliminary-contest-1/config.json",
+      "boardPath": "data/icpc/2020/xiaomi-preliminary-contest-1/config.json"
+    },
+    {
+      "name": "ICPC 2020 小米网络选拔赛（第 2 场）",
+      "startedAt": "2020-10-31T04:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/xiaomi-preliminary-contest-2/config.json",
+      "boardPath": "data/icpc/2020/xiaomi-preliminary-contest-2/config.json"
+    },
+    {
+      "name": "ICPC 2020 小米邀请赛决赛（热身赛）",
+      "startedAt": "2020-11-21T07:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/xiaomi-warmup/config.json",
+      "boardPath": "data/icpc/2020/xiaomi-warmup/config.json"
+    },
+    {
+      "name": "ICPC 2020 小米邀请赛决赛",
+      "startedAt": "2020-11-22T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/xiaomi/config.json",
+      "boardPath": "data/icpc/2020/xiaomi/config.json"
+    },
+    {
+      "name": "ICPC 2020 上海区域赛（热身赛）",
+      "startedAt": "2020-12-12T11:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/shanghai-warmup/config.json",
+      "boardPath": "data/icpc/2020/shanghai-warmup/config.json"
+    },
+    {
+      "name": "ICPC 2020 上海区域赛",
+      "startedAt": "2020-12-13T03:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/shanghai/config.json",
+      "boardPath": "data/icpc/2020/shanghai/config.json"
+    },
+    {
+      "name": "CCPC 2024 重庆区域赛",
+      "startedAt": "2024-11-10T01:20:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/10th/chongqing/config.json",
+      "boardPath": "data/ccpc/10th/chongqing/config.json"
+    },
+    {
+      "name": "ICPC 2023 南京区域赛",
+      "startedAt": "2023-11-05T01:30:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/48th/nanjing/config.json",
+      "boardPath": "data/icpc/48th/nanjing/config.json"
+    },
+    {
+      "name": "ICPC 2024 南京区域赛",
+      "startedAt": "2024-11-03T01:30:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/49th/nanjing/config.json",
+      "boardPath": "data/icpc/49th/nanjing/config.json"
+    },
+    {
+      "name": "ICPC 2024 杭州区域赛",
+      "startedAt": "2024-11-10T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/49th/hangzhou/config.json",
+      "boardPath": "data/icpc/49th/hangzhou/config.json"
+    },
+    {
+      "name": "ICPC 2024 昆明邀请赛",
+      "startedAt": "2024-05-26T02:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/49th/kunming-invitational/config.json",
+      "boardPath": "data/icpc/49th/kunming-invitational/config.json"
+    },
+    {
+      "name": "CCPC 2024 哈尔滨区域赛",
+      "startedAt": "2024-10-20T01:20:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/10th/harbin/config.json",
+      "boardPath": "data/ccpc/10th/harbin/config.json"
+    },
+    {
+      "name": "ICPC 2024 成都区域赛",
+      "startedAt": "2024-10-27T01:05:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/49th/chengdu/config.json",
+      "boardPath": "data/icpc/49th/chengdu/config.json"
+    },
+    {
+      "name": "CCPC 2025 哈尔滨区域赛",
+      "startedAt": "2025-11-09T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/11th/harbin/config.json",
+      "boardPath": "data/ccpc/11th/harbin/config.json"
+    },
+    {
+      "name": "ICPC 2017 沈阳区域赛",
+      "startedAt": "2017-10-22T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2017/neu_onsite/config.json",
+      "boardPath": "data/icpc/2017/neu_onsite/config.json"
+    },
+    {
+      "name": "ICPC 2017 青岛区域赛",
+      "startedAt": "2017-09-01T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2017/qingdao/config.json",
+      "boardPath": "data/icpc/2017/qingdao/config.json"
+    },
+    {
+      "name": "ICPC 2025 上海区域赛",
+      "startedAt": "2025-11-23T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/50th/shanghai/config.json",
+      "boardPath": "data/icpc/50th/shanghai/config.json"
+    },
+    {
+      "name": "ICPC 2021 南京区域赛",
+      "startedAt": "2021-12-04T03:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/46th/nanjing/config.json",
+      "boardPath": "data/icpc/46th/nanjing/config.json"
+    },
+    {
+      "name": "ICPC 2018 青岛区域赛",
+      "startedAt": "2018-10-21T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2018/qingdao/config.json",
+      "boardPath": "data/icpc/2018/qingdao/config.json"
+    },
+    {
+      "name": "ICPC 2018 全球总决赛",
+      "startedAt": "2018-04-19T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2018/world-finals/config.json",
+      "boardPath": "data/icpc/2018/world-finals/config.json"
+    },
+    {
+      "name": "ICPC 2019 全球总决赛",
+      "startedAt": "2019-04-04T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2019/world-finals/config.json",
+      "boardPath": "data/icpc/2019/world-finals/config.json"
+    },
+    {
+      "name": "ICPC 2020 亚洲东区决赛",
+      "startedAt": "2021-04-18T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/ec-final/config.json",
+      "boardPath": "data/icpc/2020/ec-final/config.json"
+    },
+    {
+      "name": "CCPC 2021 广州区域赛",
+      "startedAt": "2021-11-14T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/7th/guangzhou/config.json",
+      "boardPath": "data/ccpc/7th/guangzhou/config.json"
+    },
+    {
+      "name": "CCPC 2021 威海区域赛",
+      "startedAt": "2021-11-21T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/7th/weihai/config.json",
+      "boardPath": "data/ccpc/7th/weihai/config.json"
+    },
+    {
+      "name": "ICPC 2021 亚洲东区决赛",
+      "startedAt": "2022-07-20T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/46th/ec-final/config.json",
+      "boardPath": "data/icpc/46th/ec-final/config.json"
+    },
+    {
+      "name": "CCPC 2022 桂林区域赛",
+      "startedAt": "2022-10-30T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/8th/guilin/config.json",
+      "boardPath": "data/ccpc/8th/guilin/config.json"
+    },
+    {
+      "name": "ICPC 2020 银川区域赛",
+      "startedAt": "2021-05-16T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/yinchuan/config.json",
+      "boardPath": "data/icpc/2020/yinchuan/config.json"
+    },
+    {
+      "name": "CCPC 2017 总决赛",
+      "startedAt": "2017-09-01T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/2017/final_onsite/config.json",
+      "boardPath": "data/ccpc/2017/final_onsite/config.json"
+    },
+    {
+      "name": "ICPC 2021 全球总决赛",
+      "startedAt": "2024-04-18T09:48:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/46th/world-finals/config.json",
+      "boardPath": "data/icpc/46th/world-finals/config.json"
+    },
+    {
+      "name": "CCPC 2023 桂林区域赛",
+      "startedAt": "2023-10-29T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/9th/guilin/config.json",
+      "boardPath": "data/ccpc/9th/guilin/config.json"
+    },
+    {
+      "name": "CCPC 2023 秦皇岛区域赛",
+      "startedAt": "2023-10-15T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/9th/qinhuangdao/config.json",
+      "boardPath": "data/ccpc/9th/qinhuangdao/config.json"
+    },
+    {
+      "name": "ICPC 2023 合肥区域赛",
+      "startedAt": "2023-11-26T01:30:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/48th/hefei/config.json",
+      "boardPath": "data/icpc/48th/hefei/config.json"
+    },
+    {
+      "name": "ICPC 2023 沈阳区域赛",
+      "startedAt": "2023-11-12T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/48th/shenyang/config.json",
+      "boardPath": "data/icpc/48th/shenyang/config.json"
+    },
+    {
+      "name": "ICPC 2023 澳门区域赛",
+      "startedAt": "2023-11-19T03:05:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/48th/macau/config.json",
+      "boardPath": "data/icpc/48th/macau/config.json"
+    },
+    {
+      "name": "ICPC 2023 济南区域赛",
+      "startedAt": "2023-12-03T01:30:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/48th/jinan/config.json",
+      "boardPath": "data/icpc/48th/jinan/config.json"
+    },
+    {
+      "name": "ICPC 2023 杭州区域赛",
+      "startedAt": "2023-12-10T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/48th/hangzhou/config.json",
+      "boardPath": "data/icpc/48th/hangzhou/config.json"
+    },
+    {
+      "name": "ICPC 2024 武汉邀请赛",
+      "startedAt": "2024-05-02T01:40:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/49th/wuhan-invitational/config.json",
+      "boardPath": "data/icpc/49th/wuhan-invitational/config.json"
+    },
+    {
+      "name": "ICPC 2022 全球总决赛",
+      "startedAt": "2024-04-18T09:48:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/47th/world-finals/config.json",
+      "boardPath": "data/icpc/47th/world-finals/config.json"
+    },
+    {
+      "name": "ICPC 2023 全球总决赛",
+      "startedAt": "2024-09-19T05:51:19+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/48th/world-finals/config.json",
+      "boardPath": "data/icpc/48th/world-finals/config.json"
+    },
+    {
+      "name": "ICPC 2023 西安区域赛",
+      "startedAt": "2023-10-22T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/48th/xian/config.json",
+      "boardPath": "data/icpc/48th/xian/config.json"
+    },
+    {
+      "name": "CCPC 2024 济南区域赛",
+      "startedAt": "2024-10-27T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/10th/jinan/config.json",
+      "boardPath": "data/ccpc/10th/jinan/config.json"
+    },
+    {
+      "name": "ICPC 2024 沈阳区域赛",
+      "startedAt": "2024-11-24T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/49th/shenyang/config.json",
+      "boardPath": "data/icpc/49th/shenyang/config.json"
+    },
+    {
+      "name": "ICPC 2024 昆明区域赛",
+      "startedAt": "2024-12-01T01:30:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/49th/kunming/config.json",
+      "boardPath": "data/icpc/49th/kunming/config.json"
+    },
+    {
+      "name": "CCPC 2024 郑州区域赛",
+      "startedAt": "2024-11-17T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/10th/zhengzhou/config.json",
+      "boardPath": "data/ccpc/10th/zhengzhou/config.json"
+    },
+    {
+      "name": "ICPC 2025 武汉邀请赛",
+      "startedAt": "2025-04-27T02:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/50th/wuhan-invitational/config.json",
+      "boardPath": "data/icpc/50th/wuhan-invitational/config.json"
+    },
+    {
+      "name": "ICPC 2025 成都区域赛",
+      "startedAt": "2025-10-26T01:10:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/50th/chengdu/config.json",
+      "boardPath": "data/icpc/50th/chengdu/config.json"
+    },
+    {
+      "name": "CCPC 2025 哈尔滨区域赛（热身赛）",
+      "startedAt": "2025-11-08T06:30:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/11th/harbin-warmup/config.json",
+      "boardPath": "data/ccpc/11th/harbin-warmup/config.json"
+    },
+    {
+      "name": "ICPC 2025 沈阳区域赛",
+      "startedAt": "2025-11-16T01:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/50th/shenyang/config.json",
+      "boardPath": "data/icpc/50th/shenyang/config.json"
+    },
+    {
+      "name": "CCPC 2026 秦皇岛邀请赛",
+      "startedAt": "2026-05-24T00:30:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/12th/qinhuangdao-invitational/config.json",
+      "boardPath": "data/ccpc/12th/qinhuangdao-invitational/config.json"
+    },
+    {
+      "name": "CCPC 2026 网络赛",
+      "startedAt": "2026-09-19T05:00:00+00:00",
+      "contestDateSource": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/12th/online-qualification/config.json",
+      "boardPath": "data/ccpc/12th/online-qualification/config.json"
+    }
+  ],
+  "dateConflicts": [],
+  "mirrorMetadata": [
+    {
+      "id": "remote:codeforces:102471::J",
+      "reference": "https://ac.nowcoder.com/acm/contest/3732/J",
+      "difficulty": null,
+      "tags": [
+        "枚举"
+      ]
+    },
+    {
+      "id": "remote:codeforces:102471::K",
+      "reference": "https://ac.nowcoder.com/acm/contest/3732/K",
+      "difficulty": null,
+      "tags": [
+        "图论"
+      ]
+    },
+    {
+      "id": "remote:codeforces:102471::L",
+      "reference": "https://ac.nowcoder.com/acm/contest/3732/L",
+      "difficulty": null,
+      "tags": [
+        "图论"
+      ]
+    },
+    {
+      "id": "remote:codeforces:102471::M",
+      "reference": "https://ac.nowcoder.com/acm/contest/3732/M",
+      "difficulty": 1500,
+      "tags": []
+    },
+    {
+      "id": "remote:codeforces:102900::A",
+      "reference": "https://ac.nowcoder.com/acm/contest/9925/A",
+      "difficulty": null,
+      "tags": [
+        "计算几何"
+      ]
+    },
+    {
+      "id": "remote:codeforces:102900::B",
+      "reference": "https://ac.nowcoder.com/acm/contest/9925/B",
+      "difficulty": 1300,
+      "tags": [
+        "枚举"
+      ]
+    },
+    {
+      "id": "remote:codeforces:102900::C",
+      "reference": "https://ac.nowcoder.com/acm/contest/9925/C",
+      "difficulty": 1900,
+      "tags": [
+        "位运算"
+      ]
+    },
+    {
+      "id": "remote:codeforces:102900::D",
+      "reference": "https://ac.nowcoder.com/acm/contest/9925/D",
+      "difficulty": 1500,
+      "tags": [
+        "计算几何"
+      ]
+    },
+    {
+      "id": "remote:codeforces:102900::E",
+      "reference": "https://ac.nowcoder.com/acm/contest/9925/E",
+      "difficulty": 2200,
+      "tags": []
+    },
+    {
+      "id": "remote:codeforces:102900::F",
+      "reference": "https://ac.nowcoder.com/acm/contest/9925/F",
+      "difficulty": null,
+      "tags": [
+        "模拟",
+        "期望与概率"
+      ]
+    },
+    {
+      "id": "remote:codeforces:102900::G",
+      "reference": "https://ac.nowcoder.com/acm/contest/9925/G",
+      "difficulty": 1100,
+      "tags": [
+        "枚举"
+      ]
+    },
+    {
+      "id": "remote:codeforces:102900::H",
+      "reference": "https://ac.nowcoder.com/acm/contest/9925/H",
+      "difficulty": 2100,
+      "tags": [
+        "图论",
+        "计算几何"
+      ]
+    },
+    {
+      "id": "remote:codeforces:102900::I",
+      "reference": "https://ac.nowcoder.com/acm/contest/9925/I",
+      "difficulty": 1800,
+      "tags": [
+        "枚举"
+      ]
+    },
+    {
+      "id": "remote:codeforces:102900::J",
+      "reference": "https://ac.nowcoder.com/acm/contest/9925/J",
+      "difficulty": null,
+      "tags": [
+        "计算几何"
+      ]
+    },
+    {
+      "id": "remote:codeforces:102900::K",
+      "reference": "https://ac.nowcoder.com/acm/contest/9925/K",
+      "difficulty": null,
+      "tags": [
+        "图论"
+      ]
+    },
+    {
+      "id": "remote:codeforces:102900::L",
+      "reference": "https://ac.nowcoder.com/acm/contest/9925/L",
+      "difficulty": 2300,
+      "tags": [
+        "图论",
+        "计算几何"
+      ]
+    },
+    {
+      "id": "remote:codeforces:102900::M",
+      "reference": "https://ac.nowcoder.com/acm/contest/9925/M",
+      "difficulty": 1200,
+      "tags": []
+    },
+    {
+      "id": "remote:codeforces:102992::A",
+      "reference": "https://ac.nowcoder.com/acm/contest/10272/A",
+      "difficulty": null,
+      "tags": [
+        "期望与概率"
+      ]
+    },
+    {
+      "id": "remote:codeforces:102992::C",
+      "reference": "https://ac.nowcoder.com/acm/contest/10272/C",
+      "difficulty": null,
+      "tags": [
+        "计算几何"
+      ]
+    },
+    {
+      "id": "remote:codeforces:102992::D",
+      "reference": "https://ac.nowcoder.com/acm/contest/10272/D",
+      "difficulty": null,
+      "tags": [
+        "图论"
+      ]
+    },
+    {
+      "id": "remote:codeforces:102992::E",
+      "reference": "https://ac.nowcoder.com/acm/contest/10272/E",
+      "difficulty": 1300,
+      "tags": [
+        "计算几何"
+      ]
+    },
+    {
+      "id": "remote:codeforces:102992::F",
+      "reference": "https://ac.nowcoder.com/acm/contest/10272/F",
+      "difficulty": 1400,
+      "tags": [
+        "期望与概率"
+      ]
+    },
+    {
+      "id": "remote:codeforces:102992::H",
+      "reference": "https://ac.nowcoder.com/acm/contest/10272/H",
+      "difficulty": 1900,
+      "tags": [
+        "图论",
+        "计算几何"
+      ]
+    },
+    {
+      "id": "remote:codeforces:102992::I",
+      "reference": "https://ac.nowcoder.com/acm/contest/10272/I",
+      "difficulty": null,
+      "tags": [
+        "计算几何"
+      ]
+    },
+    {
+      "id": "remote:codeforces:102992::J",
+      "reference": "https://ac.nowcoder.com/acm/contest/10272/J",
+      "difficulty": 2300,
+      "tags": [
+        "博弈论"
+      ]
+    },
+    {
+      "id": "remote:codeforces:102992::K",
+      "reference": "https://ac.nowcoder.com/acm/contest/10272/K",
+      "difficulty": 1100,
+      "tags": []
+    },
+    {
+      "id": "remote:codeforces:102992::L",
+      "reference": "https://ac.nowcoder.com/acm/contest/10272/L",
+      "difficulty": 1200,
+      "tags": [
+        "计算几何"
+      ]
+    },
+    {
+      "id": "remote:codeforces:102992::M",
+      "reference": "https://ac.nowcoder.com/acm/contest/10272/M",
+      "difficulty": 1900,
+      "tags": [
+        "图论",
+        "计算几何"
+      ]
+    },
+    {
+      "id": "remote:codeforces:103202::A",
+      "reference": "https://ac.nowcoder.com/acm/contest/18713/A",
+      "difficulty": null,
+      "tags": [
+        "计算几何"
+      ]
+    },
+    {
+      "id": "remote:codeforces:103202::C",
+      "reference": "https://ac.nowcoder.com/acm/contest/18713/C",
+      "difficulty": null,
+      "tags": [
+        "FFT",
+        "枚举"
+      ]
+    },
+    {
+      "id": "remote:codeforces:103202::D",
+      "reference": "https://ac.nowcoder.com/acm/contest/18713/D",
+      "difficulty": 2200,
+      "tags": []
+    },
+    {
+      "id": "remote:codeforces:103202::F",
+      "reference": "https://ac.nowcoder.com/acm/contest/18713/F",
+      "difficulty": 1500,
+      "tags": []
+    },
+    {
+      "id": "remote:codeforces:103202::G",
+      "reference": "https://ac.nowcoder.com/acm/contest/18713/G",
+      "difficulty": 1100,
+      "tags": []
+    },
+    {
+      "id": "remote:codeforces:103202::I",
+      "reference": "https://ac.nowcoder.com/acm/contest/18713/I",
+      "difficulty": 2100,
+      "tags": [
+        "计算几何"
+      ]
+    },
+    {
+      "id": "remote:codeforces:103202::K",
+      "reference": "https://ac.nowcoder.com/acm/contest/18713/K",
+      "difficulty": 1800,
+      "tags": []
+    },
+    {
+      "id": "remote:codeforces:103427::A",
+      "reference": "https://ac.nowcoder.com/acm/contest/24346/A",
+      "difficulty": null,
+      "tags": [
+        "枚举"
+      ]
+    },
+    {
+      "id": "remote:codeforces:103427::B",
+      "reference": "https://ac.nowcoder.com/acm/contest/24346/B",
+      "difficulty": 1300,
+      "tags": [
+        "位运算"
+      ]
+    },
+    {
+      "id": "remote:codeforces:103427::C",
+      "reference": "https://ac.nowcoder.com/acm/contest/24346/C",
+      "difficulty": null,
+      "tags": [
+        "期望与概率"
+      ]
+    },
+    {
+      "id": "remote:codeforces:103427::D",
+      "reference": "https://ac.nowcoder.com/acm/contest/24346/D",
+      "difficulty": null,
+      "tags": [
+        "图论"
+      ]
+    },
+    {
+      "id": "remote:codeforces:103427::E",
+      "reference": "https://ac.nowcoder.com/acm/contest/24346/E",
+      "difficulty": 1100,
+      "tags": []
+    },
+    {
+      "id": "remote:codeforces:103427::F",
+      "reference": "https://ac.nowcoder.com/acm/contest/24346/F",
+      "difficulty": 1100,
+      "tags": []
+    },
+    {
+      "id": "remote:codeforces:103427::G",
+      "reference": "https://ac.nowcoder.com/acm/contest/24346/G",
+      "difficulty": 2200,
+      "tags": []
+    },
+    {
+      "id": "remote:codeforces:103427::H",
+      "reference": "https://ac.nowcoder.com/acm/contest/24346/H",
+      "difficulty": 1800,
+      "tags": [
+        "图论"
+      ]
+    },
+    {
+      "id": "remote:codeforces:103427::I",
+      "reference": "https://ac.nowcoder.com/acm/contest/24346/I",
+      "difficulty": 2000,
+      "tags": [
+        "计算几何"
+      ]
+    },
+    {
+      "id": "remote:codeforces:103427::J",
+      "reference": "https://ac.nowcoder.com/acm/contest/24346/J",
+      "difficulty": 1400,
+      "tags": []
+    },
+    {
+      "id": "remote:codeforces:103427::L",
+      "reference": "https://ac.nowcoder.com/acm/contest/24346/L",
+      "difficulty": 1900,
+      "tags": [
+        "图论"
+      ]
+    },
+    {
+      "id": "remote:codeforces:103427::M",
+      "reference": "https://ac.nowcoder.com/acm/contest/24346/M",
+      "difficulty": 2000,
+      "tags": [
+        "计算几何"
+      ]
+    },
+    {
+      "id": "remote:codeforces:103446::B",
+      "reference": "https://ac.nowcoder.com/acm/contest/24872/B",
+      "difficulty": 2100,
+      "tags": []
+    },
+    {
+      "id": "remote:codeforces:103446::C",
+      "reference": "https://ac.nowcoder.com/acm/contest/24872/C",
+      "difficulty": 2400,
+      "tags": []
+    },
+    {
+      "id": "remote:codeforces:103446::D",
+      "reference": "https://ac.nowcoder.com/acm/contest/24872/D",
+      "difficulty": 1100,
+      "tags": []
+    },
+    {
+      "id": "remote:codeforces:103446::E",
+      "reference": "https://ac.nowcoder.com/acm/contest/24872/E",
+      "difficulty": 1100,
+      "tags": []
+    },
+    {
+      "id": "remote:codeforces:103446::F",
+      "reference": "https://ac.nowcoder.com/acm/contest/24872/F",
+      "difficulty": null,
+      "tags": [
+        "枚举",
+        "期望与概率"
+      ]
+    },
+    {
+      "id": "remote:codeforces:103446::G",
+      "reference": "https://ac.nowcoder.com/acm/contest/24872/G",
+      "difficulty": 1200,
+      "tags": [
+        "图论"
+      ]
+    },
+    {
+      "id": "remote:codeforces:103446::H",
+      "reference": "https://ac.nowcoder.com/acm/contest/24872/H",
+      "difficulty": 1600,
+      "tags": [
+        "图论"
+      ]
+    },
+    {
+      "id": "remote:codeforces:103446::I",
+      "reference": "https://ac.nowcoder.com/acm/contest/24872/I",
+      "difficulty": 1400,
+      "tags": [
+        "计算几何"
+      ]
+    },
+    {
+      "id": "remote:codeforces:103446::J",
+      "reference": "https://ac.nowcoder.com/acm/contest/24872/J",
+      "difficulty": 2000,
+      "tags": []
+    },
+    {
+      "id": "remote:codeforces:103446::K",
+      "reference": "https://ac.nowcoder.com/acm/contest/24872/K",
+      "difficulty": 1900,
+      "tags": [
+        "枚举"
+      ]
+    },
+    {
+      "id": "remote:codeforces:103446::L",
+      "reference": "https://ac.nowcoder.com/acm/contest/24872/L",
+      "difficulty": null,
+      "tags": [
+        "图论"
+      ]
+    },
+    {
+      "id": "remote:codeforces:103446::M",
+      "reference": "https://ac.nowcoder.com/acm/contest/24872/M",
+      "difficulty": 1900,
+      "tags": [
+        "计算几何"
+      ]
+    },
+    {
+      "id": "remote:codeforces:104021::A",
+      "reference": "https://www.luogu.com.cn/problem/P17632",
+      "difficulty": 2050,
+      "tags": []
+    },
+    {
+      "id": "remote:codeforces:104021::B",
+      "reference": "https://www.luogu.com.cn/problem/P17633",
+      "difficulty": 1150,
+      "tags": [
+        "模拟"
+      ]
+    },
+    {
+      "id": "remote:codeforces:104021::C",
+      "reference": "https://www.luogu.com.cn/problem/P17634",
+      "difficulty": 2650,
+      "tags": [
+        "线段树",
+        "单调队列",
+        "双指针"
+      ]
+    },
+    {
+      "id": "remote:codeforces:104021::D",
+      "reference": "https://www.luogu.com.cn/problem/P17635",
+      "difficulty": 2050,
+      "tags": [
+        "容斥",
+        "枚举"
+      ]
+    },
+    {
+      "id": "remote:codeforces:104021::E",
+      "reference": "https://www.luogu.com.cn/problem/P17636",
+      "difficulty": 2650,
+      "tags": [
+        "前缀和",
+        "图论",
+        "枚举"
+      ]
+    },
+    {
+      "id": "remote:codeforces:104021::F",
+      "reference": "https://www.luogu.com.cn/problem/P17637",
+      "difficulty": 1750,
+      "tags": [
+        "根号分治"
+      ]
+    },
+    {
+      "id": "remote:codeforces:104021::H",
+      "reference": "https://www.luogu.com.cn/problem/P17639",
+      "difficulty": 2050,
+      "tags": [
+        "拓扑排序",
+        "最短路"
+      ]
+    },
+    {
+      "id": "remote:codeforces:104021::I",
+      "reference": "https://www.luogu.com.cn/problem/P17640",
+      "difficulty": 1450,
+      "tags": [
+        "模拟",
+        "高精度",
+        "取模与同余"
+      ]
+    },
+    {
+      "id": "remote:codeforces:104021::J",
+      "reference": "https://www.luogu.com.cn/problem/P17641",
+      "difficulty": 2650,
+      "tags": [
+        "最短路",
+        "双连通分量"
+      ]
+    },
+    {
+      "id": "remote:codeforces:104021::K",
+      "reference": "https://www.luogu.com.cn/problem/P17642",
+      "difficulty": 1750,
+      "tags": [
+        "单调栈"
+      ]
+    },
+    {
+      "id": "remote:codeforces:104021::L",
+      "reference": "https://www.luogu.com.cn/problem/P17643",
+      "difficulty": 2050,
+      "tags": [
+        "计算几何"
+      ]
+    },
+    {
+      "id": "remote:codeforces:104021::M",
+      "reference": "https://www.luogu.com.cn/problem/P17644",
+      "difficulty": 2900,
+      "tags": [
+        "Pólya 定理",
+        "生成函数"
+      ]
+    },
+    {
+      "id": "remote:codeforces:104021::N",
+      "reference": "https://www.luogu.com.cn/problem/P17645",
+      "difficulty": 900,
+      "tags": [
+        "模拟",
+        "递推"
+      ]
+    },
+    {
+      "id": "remote:codeforces:104373::C",
+      "reference": "https://ac.nowcoder.com/acm/contest/31454/C",
+      "difficulty": 1500,
+      "tags": [
+        "计算几何"
+      ]
+    },
+    {
+      "id": "remote:codeforces:104373::D",
+      "reference": "https://ac.nowcoder.com/acm/contest/31454/D",
+      "difficulty": null,
+      "tags": [
+        "图论"
+      ]
+    },
+    {
+      "id": "remote:codeforces:104373::E",
+      "reference": "https://ac.nowcoder.com/acm/contest/31454/E",
+      "difficulty": 1700,
+      "tags": []
+    },
+    {
+      "id": "remote:codeforces:104373::F",
+      "reference": "https://ac.nowcoder.com/acm/contest/31454/F",
+      "difficulty": 1200,
+      "tags": [
+        "图论"
+      ]
+    },
+    {
+      "id": "remote:codeforces:104373::G",
+      "reference": "https://ac.nowcoder.com/acm/contest/31454/G",
+      "difficulty": 1700,
+      "tags": []
+    },
+    {
+      "id": "remote:codeforces:104373::H",
+      "reference": "https://ac.nowcoder.com/acm/contest/31454/H",
+      "difficulty": null,
+      "tags": [
+        "图论",
+        "枚举"
+      ]
+    },
+    {
+      "id": "remote:codeforces:104373::I",
+      "reference": "https://ac.nowcoder.com/acm/contest/31454/I",
+      "difficulty": 1800,
+      "tags": [
+        "图论"
+      ]
+    },
+    {
+      "id": "remote:codeforces:104373::J",
+      "reference": "https://ac.nowcoder.com/acm/contest/31454/J",
+      "difficulty": null,
+      "tags": [
+        "图论"
+      ]
+    },
+    {
+      "id": "remote:codeforces:104373::K",
+      "reference": "https://ac.nowcoder.com/acm/contest/31454/K",
+      "difficulty": 1100,
+      "tags": [
+        "图论"
+      ]
+    }
+  ],
+  "contestDifficultySource": "https://codeforces.com/api/contest.list?gym=true",
+  "unmatchedDates": [
+    "ICPC 2025 新疆区域赛",
+    "ICPC 2025 广西邀请赛（热身赛）",
+    "ICPC 2025 广西邀请赛",
+    "ICPC 2026 新疆区域赛",
+    "ICPC 2026 广西邀请赛（热身赛）",
+    "ICPC 2026 广西邀请赛",
+    "ICPC 河南区域赛",
+    "ICPC 2021 四川区域赛",
+    "ICPC 2021 江西区域赛（热身赛）",
+    "ICPC 2021 江西区域赛",
+    "CCPC 2021 新疆省赛",
+    "ICPC 2021 青少年程序设计竞赛（热身赛）",
+    "ICPC 2021 青少年程序设计竞赛",
+    "ICPC 2021 澳门区域赛（热身赛）",
+    "ICPC 2021 澳门区域赛",
+    "ICPC 昆明区域赛（热身赛）",
+    "ICPC 山东区域赛（热身赛）",
+    "ICPC 山东区域赛",
+    "ICPC 2021 陕西区域赛",
+    "ICPC 2021 陕西区域赛（热身赛）",
+    "ICPC 2018 亚洲东区决赛",
+    "ICPC 2019 亚洲东区决赛",
+    "ICPC 2019 上海区域赛",
+    "ICPC 2023 新疆区域赛",
+    "CCPC 2023 新疆区域赛",
+    "ICPC 2024 新疆区域赛",
+    "ICPC 2020 小米网络选拔赛（热身赛）",
+    "ICPC 2020 亚洲网络赛（模拟赛）",
+    "ICPC 2020 江西区域赛",
+    "ICPC 2020 江西区域赛（热身赛）",
+    "CCPC 2024 新疆区域赛",
+    "CCPC 2023 北京省赛",
+    "ICPC 2022 南京区域赛",
+    "ICPC 2017 香港区域赛",
+    "ICPC 2017 南宁区域赛",
+    "ICPC 2018 南京区域赛",
+    "ICPC 2018 沈阳区域赛",
+    "ICPC 2018 徐州区域赛",
+    "ICPC 2018 焦作区域赛",
+    "ICPC 2026 武汉邀请赛",
+    "ICPC 2009 武汉区域赛",
+    "ICPC 2022 济南区域赛",
+    "ICPC 2017 哥伦比亚国立大学程序设计竞赛",
+    "ICPC 2017 全球总决赛",
+    "ICPC 2017 北欧大学生程序设计竞赛",
+    "ICPC 2017 莫斯科分区赛资格赛",
+    "ICPC 2017 东西伯利亚分区赛",
+    "ICPC 2017 瑞士分区赛",
+    "ICPC 2017 莫斯科分区赛",
+    "ICPC 2017 俄罗斯北部分区赛",
+    "ICPC 2017 北美太平洋西北区域赛（第 1 组）",
+    "ICPC 2017 北美东南区域赛（第 1 组）",
+    "ICPC 2017 中欧区域赛",
+    "ICPC 2017 北欧亚区域赛",
+    "ICPC 2017 西南欧区域赛",
+    "ICPC 2017 北美太平洋西北区域赛（第 2 组）",
+    "ICPC 2017 大田区域赛",
+    "ICPC 2017 东南欧区域赛",
+    "ICPC 2017 北美东中部区域赛",
+    "ICPC 2017 亚洲东区决赛",
+    "ICPC 2018 哥伦比亚国立大学程序设计竞赛",
+    "ICPC 2017 德国大学生程序设计竞赛",
+    "ICPC 2017 拉丁美洲区域赛",
+    "ICPC 2018 巴西分区赛",
+    "ICPC 2018 俄罗斯南部分区赛资格赛",
+    "ICPC 2018 俄罗斯中部分区赛资格赛",
+    "ICPC 2018 北欧大学生程序设计竞赛",
+    "ICPC 2018 东南欧区域赛",
+    "ICPC 2018 北美太平洋西北区域赛（第 1 组）",
+    "ICPC 2017 筑波区域赛",
+    "ICPC 2018 首尔区域赛",
+    "ICPC 2018 雅加达区域赛",
+    "ICPC 2018 达卡区域赛",
+    "CCPC 2018 总决赛",
+    "ICPC 2018 佛统区域赛",
+    "ICPC 2019 马来西亚全国赛",
+    "ICPC 2018 中国多省联合大学生程序设计竞赛",
+    "ICPC 2019 哥伦比亚国立大学程序设计竞赛",
+    "ICPC 2019 巴西分区赛",
+    "ICPC 2019 俄罗斯南部及伏尔加地区赛资格赛",
+    "ICPC 2019 俄罗斯西北分区赛资格赛",
+    "ICPC 2019 东南欧区域赛",
+    "ICPC 2019 俄罗斯西北分区赛",
+    "ICPC 2019 拉丁美洲区域赛",
+    "CCPC 2019 总决赛",
+    "ICPC 2019 北美太平洋西北区域赛（第 1 组）",
+    "ICPC 2019 香港区域赛",
+    "ICPC 2019 台北新竹区域赛",
+    "ICPC 2018 西南欧区域赛",
+    "ICPC 2018 西北欧区域赛",
+    "ICPC 2019 西北欧区域赛",
+    "ICPC 2019 西南欧区域赛",
+    "ICPC 2020 哥伦比亚国立大学程序设计竞赛",
+    "ICPC 2019 俄罗斯中部分区赛",
+    "ICPC 2018 俄罗斯中部分区赛",
+    "ICPC 2017 俄罗斯中部分区赛",
+    "ICPC 2020 俄罗斯南部及伏尔加地区赛资格赛",
+    "ICPC 2020 巴西分区赛",
+    "ICPC 2020 墨西哥大奖赛（第 3 轮）",
+    "ICPC 2020 首尔区域赛",
+    "ICPC 2020 墨西哥大奖赛复活赛",
+    "ICPC 2020 西北欧区域赛",
+    "ICPC 2020 西南欧区域赛",
+    "ICPC 2020 东南欧区域赛",
+    "ICPC 2020 拉丁美洲区域赛",
+    "ICPC 2021 墨西哥大奖赛（第 1 轮）",
+    "ICPC 2021 墨西哥大奖赛（第 2 轮）",
+    "ICPC 2021 台湾网络赛",
+    "ICPC 2021 巴西分区赛",
+    "CCPC 2021 桂林区域赛",
+    "ICPC 2020 东西伯利亚分区赛",
+    "ICPC 2021 俄罗斯南部及伏尔加地区赛",
+    "ICPC 2021 东南欧区域赛",
+    "ICPC 2021 台北区域赛",
+    "ICPC 2021 哥伦比亚国立大学程序设计竞赛",
+    "ICPC 2021 拉丁美洲区域赛",
+    "ICPC 2022 墨西哥大奖赛（第 1 轮）",
+    "CCPC 2021 总决赛",
+    "ICPC 2022 墨西哥大奖赛（第 2 轮）",
+    "CCPC 2022 河南省赛",
+    "ICPC 2022 巴西分区赛",
+    "ICPC 2022 台湾网络赛",
+    "ICPC 2022 俄罗斯南部及伏尔加地区赛资格赛",
+    "ICPC 2021 俄罗斯西北分区赛",
+    "ICPC 2020 俄罗斯西北分区赛",
+    "ICPC 2022 乌拉尔及俄罗斯西北地区资格赛",
+    "ICPC 2021 俄罗斯南部及伏尔加地区赛资格赛",
+    "ICPC 2021 西南欧区域赛",
+    "CCPC 2022 威海区域赛",
+    "ICPC 2022 北欧大学生程序设计竞赛",
+    "CCPC 2022 广州区域赛",
+    "ICPC 2022 德国大学生程序设计竞赛",
+    "ICPC 2021 西北欧区域赛",
+    "CCPC 2022 绵阳区域赛",
+    "ICPC 2022 东南欧区域赛",
+    "ICPC 2022 墨西哥大奖赛复活赛",
+    "ICPC 2023 香港区域赛",
+    "ICPC 2021 北美东中部区域赛",
+    "ICPC 2022 拉丁美洲区域赛",
+    "CCPC 2023 河南省赛",
+    "ICPC 2023 墨西哥大奖赛（第 1 轮）",
+    "ICPC 2023 江西省赛",
+    "ICPC 2023 墨西哥大师赛",
+    "CCPC 2023 湘潭邀请赛",
+    "ICPC 2023 墨西哥大奖赛（第 2 轮）",
+    "ICPC 2023 山东省赛",
+    "ICPC 2020 俄罗斯中部分区赛",
+    "ICPC 2021 俄罗斯中部分区赛",
+    "ICPC 2019 陕西省赛",
+    "ICPC 2023 德国大学生程序设计竞赛",
+    "ICPC 2023 叙利亚高等应用科技学院程序设计竞赛",
+    "ICPC 2023 巴西分区赛",
+    "ICPC 2018 青岛网络赛",
+    "ICPC 2020 北美东中部区域赛",
+    "ICPC 2019 北美东中部区域赛",
+    "ICPC 2022 北美东中部区域赛",
+    "ICPC 2023 台湾网络赛",
+    "ICPC 2020 全球总决赛",
+    "ICPC 2023 亚洲东区网络预选赛（第 1 场）",
+    "CCPC 2023 网络赛",
+    "ICPC 2019 中欧区域赛",
+    "ICPC 2018 中欧区域赛",
+    "ICPC 2021 北欧大学生程序设计竞赛",
+    "ICPC 2022 中欧区域赛",
+    "ICPC 2020 中欧区域赛",
+    "ICPC 2023 拉丁美洲区域赛",
+    "ICPC 2023 北美东部区域赛",
+    "ICPC 2023 吉尔吉斯斯坦分区赛资格赛",
+    "ICPC 2023 俄罗斯西北分区赛",
+    "ICPC 2023 俄罗斯南部及伏尔加地区赛",
+    "ICPC 2021 中欧区域赛",
+    "ICPC 2023 横滨区域赛",
+    "ICPC 2020 莫斯科分区赛",
+    "ICPC 2019 莫斯科分区赛",
+    "ICPC 2021 莫斯科分区赛",
+    "ICPC 2022 横滨区域赛",
+    "ICPC 2023 瑞士分区赛",
+    "ICPC 2023 中欧区域赛",
+    "ICPC 2018 俄罗斯西北分区赛",
+    "ICPC 2022 西北欧区域赛",
+    "ICPC 2023 西南欧区域赛",
+    "ICPC 2024 拉丁美洲总决赛",
+    "ICPC 2023 西北欧区域赛",
+    "CCPC 2024 郑州邀请赛暨省赛",
+    "ICPC 2024 墨西哥大奖赛（第 1 轮）",
+    "CCPC 2024 东北邀请赛",
+    "ICPC 2024 墨西哥大奖赛（第 2 轮）",
+    "ICPC 2024 玻利维亚全国预选赛",
+    "ICPC 2024 江西省赛",
+    "ICPC 2024 陕西省赛",
+    "ICPC 2024 哥伦比亚国立大学程序设计竞赛",
+    "ICPC 2024 巴西分区赛",
+    "ICPC 2024 泰国全国赛",
+    "CCPC 2024 网络赛",
+    "ICPC 2024 亚洲东区网络预选赛（第 2 场）",
+    "ICPC 2024 台湾网络赛",
+    "CCPC 2024 山东邀请赛暨省赛",
+    "ICPC 2023 俄罗斯中部分区赛",
+    "ICPC 2024 德国大学生程序设计竞赛",
+    "ICPC 2024 墨西哥大奖赛复活赛",
+    "ICPC 2023 乌拉尔分区赛资格赛",
+    "ICPC 2023 北欧大学生程序设计竞赛",
+    "ICPC 2024 北欧大学生程序设计竞赛",
+    "ICPC 2024 俄罗斯南部及伏尔加地区赛资格赛",
+    "ICPC 2020 北欧大学生程序设计竞赛",
+    "ICPC 2024 希腊大学生程序设计竞赛",
+    "ICPC 2024 瑞士分区赛",
+    "ICPC 2023 东南欧区域赛",
+    "ICPC 2019 北欧大学生程序设计竞赛",
+    "CCPC 2024 辽宁省赛",
+    "CCPC 2024 女生专场",
+    "ICPC 2024 吉尔吉斯斯坦分区赛资格赛",
+    "ICPC 2024 拉丁美洲区域赛",
+    "ICPC 2024 俄罗斯西北分区赛",
+    "ICPC 2023 桃园区域赛",
+    "ICPC 2024 日本网络赛（第 1 场）",
+    "ICPC 2023 德黑兰区域赛",
+    "ICPC 2022 德黑兰区域赛",
+    "ICPC 2024 西南欧区域赛",
+    "ICPC 2025 墨西哥大奖赛（第 1 轮）",
+    "ICPC 2025 南昌邀请赛暨省赛",
+    "CCPC 2025 东北邀请赛",
+    "CCPC 2025 郑州邀请赛暨省赛",
+    "CCPC 2025 福建邀请赛",
+    "ICPC 2025 墨西哥大奖赛（第 2 轮）",
+    "ICPC 2025 哥伦比亚国立大学程序设计竞赛",
+    "ICPC 2025 叙利亚私立高校程序设计竞赛",
+    "ICPC 2024 俄罗斯中部分区赛资格赛",
+    "ICPC 2024 俄罗斯中部分区赛",
+    "ICPC 2025 墨西哥大奖赛（第 3 轮）",
+    "ICPC 2025 泰国全国赛（部分题目）",
+    "ICPC 2025 亚洲东区网络预选赛（第 2 场）",
+    "ICPC 2025 巴西第一轮选拔赛",
+    "ICPC 2025 台湾网络赛",
+    "ICPC 2025 吉尔吉斯斯坦分区赛资格赛",
+    "ICPC 2025 北欧大学生程序设计竞赛",
+    "ICPC 2025 德国大学生程序设计竞赛",
+    "ICPC 2025 希腊大学生程序设计竞赛",
+    "ICPC 2025 曼谷区域赛",
+    "ICPC 2021 德国大学生程序设计竞赛",
+    "ICPC 2025 拉丁美洲区域赛",
+    "ICPC 2025 印度网络赛",
+    "ICPC 2025 日本网络赛（第 1 场）",
+    "ICPC 2025 俄罗斯中部分区赛",
+    "ICPC 2025 西南欧区域赛",
+    "ICPC 2025 马尼拉区域赛",
+    "ICPC 2025 达卡区域赛",
+    "ICPC 2025 达卡网络赛",
+    "ICPC 2025 西北欧区域赛",
+    "ICPC 2026 墨西哥大奖赛（第 1 轮）",
+    "CCPC 2026 黑龙江区域赛",
+    "ICPC 2026 墨西哥大奖赛（第 2 轮）",
+    "ICPC 2026 南昌邀请赛暨省赛",
+    "CCPC 2026 南昌邀请赛暨省赛",
+    "CCPC 2026 福建邀请赛",
+    "ICPC 2026 四川省赛",
+    "ICPC 2026 墨西哥大师赛",
+    "ICPC 2026 日本网络赛（第 1 场）",
+    "ICPC 2026 巴西第一轮选拔赛",
+    "ICPC 2026 亚洲东区网络预选赛（第 2 场）",
+    "ICPC 2026 贵州省赛",
+    "ICPC 2026 墨西哥大奖赛复活赛",
+    "ICPC 2025 陕西邀请赛",
+    "ICPC 2026 台湾网络赛",
+    "ICPC 2026 吉尔吉斯斯坦分区赛资格赛",
+    "ICPC 2026 玻利维亚全国赛（第 2 轮）"
+  ],
+  "publicProblems": 5782,
+  "retainedGymProblems": 3580,
+  "retainedGymContests": 295,
+  "curatedCodeforcesContests": [
+    1985,
+    1999,
+    2009,
+    2044,
+    2065,
+    2094,
+    2148,
+    2167,
+    2185,
+    2193,
+    2195,
+    2200,
+    2218,
+    2227,
+    2236,
+    2241,
+    2244,
+    2248,
+    2250,
+    2252,
+    2254,
+    2256,
+    2257,
+    2258,
+    2259,
+    2263,
+    2264,
+    2266,
+    2267,
+    2269,
+    2275
+  ],
+  "publicContests": 600,
+  "changedNames": 3506,
+  "changedDifficultyValues": 439,
+  "newlyKnownDifficulty": 439,
+  "officialRatings": 291,
+  "estimatedRatings": 1929,
+  "unratedProblems": 3562,
+  "knowledgeTags": 1936,
+  "knowledgeWithSubjects": 2373,
+  "newKnowledge": 172,
+  "retiredProblems": 1748,
+  "gymContestGrades": 284,
+  "originalProblemIdsPreserved": true
+}

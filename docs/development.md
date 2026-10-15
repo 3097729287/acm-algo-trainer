@@ -24,7 +24,7 @@ $env:TB_STATE_DIR = "$PWD/.backups/desktop-dev-state"
 python desktop/launch.py
 ```
 
-API 的可选参数见 `python backend/backend.py --help`。当前源码为 [v1.0.17](releases/1.0.17.md)，已发布版本的准确源码以对应 Git 标签与 BUILD-INFO 为准。
+API 的可选参数见 `python backend/backend.py --help`。当前源码为 [v1.0.18](releases/1.0.18.md)，已发布版本的准确源码以对应 Git 标签与 BUILD-INFO 为准。
 
 ```powershell
 python scripts/check.py
@@ -90,6 +90,8 @@ python scripts/check_current_release.py --stage "build/$tbVersion" --legacy-pack
 ```
 
 `scripts/check_release.py` 保留为 0.5 迁移检查，需要对应旧版安装脚本（`--legacy-iss`）。`scripts/check_update_helper.py` 检查自动更新助手，须配合可丢弃程序与状态使用。
+
+1.0.18 自动更新回归须覆盖关闭每日检查后仍立即执行启动检查、登录前更新、无确认自动安装、草稿屏障、进行中任务结束后自动重试、损坏下载拒绝安装以及其他账号数据库/WAL 备份。测试指定本地更新源，不查询或安装真实发布资产。
 
 安装程序按相同 AppId 升级，只覆盖程序和公共种子库。完成后验证旧草稿、提交代码、身份、模拟赛和经验值仍在；发布前准备 `SHA256SUMS.txt`、`BUILD-INFO.json` 与文件清单，并核对下载资产和对应源码。构建工具不会覆盖已有 staging；重复构建使用新的空目录。
 

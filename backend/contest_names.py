@@ -1,5 +1,14 @@
 """Stable display names; problem IDs and original provenance remain unchanged."""
 import re
+from functools import lru_cache
+import json
+
+
+@lru_cache(maxsize=1)
+def event_metadata():
+    from paths import resource
+    path = resource('contest-event-metadata.json')
+    return json.loads(path.read_text('utf8')) if path.exists() else {'names': {}, 'origins': {}}
 
 
 def natural_key(value):
@@ -8,19 +17,36 @@ def natural_key(value):
 
 def contest_name(value, date=None):
     name = re.sub(r'\s+', ' ', str(value or '')).strip()
+    alias = event_metadata().get('names', {}).get(name)
+    if isinstance(alias, dict) and alias.get('name'):
+        return alias['name']
+    from contest_translations import xcpc_name
+    if re.search(r'[a-zA-Zа-яА-Я]{3}', re.sub(r'ICPC|CCPC|ACM|XCPC', '', name)):
+        translated = xcpc_name(name, str(date or '')[:4])
+        if translated:
+            return translated
+    atcoder = re.fullmatch(r'(?:AtCoder\s+)?(ABC|ARC|AGC|AHC)\s*(\d+)', name, re.I)
+    if atcoder:
+        return f'AtCoder {dict(ABC="初学者赛", ARC="常规赛", AGC="高难度赛", AHC="启发式赛")[atcoder[1].upper()]} {atcoder[2]}'
+    camp = re.search(r'(20\d{2})牛客国庆集训派对day\s*(\d+)', name, re.I)
+    if camp:
+        return f'牛客 {camp[1]} 国庆集训第 {camp[2]} 场'
     # Luogu replays sometimes repeat the English problem-set prefix before
     # the already translated contest name.
     name = re.sub(r'^\[(?:ICPC|CCPC)[^\]]*\]\s*(?=.*[\u4e00-\u9fff])', '', name, flags=re.I)
     name = re.sub(r'^(ICPC|CCPC)\s*(20\d{2})\s*区域赛\s*([\u4e00-\u9fff]+?)站(?:重现赛)?$', r'\1 \2 \3区域赛', name)
     educational = re.search(r'(?:Educational Codeforces Round|教育赛)\s*#?\s*(\d+)', name, re.I)
     if educational:
-        return '教育赛 ' + educational[1]
+        return 'Codeforces 教育赛第 ' + educational[1] + ' 轮'
     match = re.search(r'Codeforces Round\s*#?\s*(\d+).*?Div\.\s*([1-4])(?:\s*\+\s*(?:Div\.\s*)?([1-4]))?', name, re.I)
     if match:
-        return 'Div.' + match[2] + ('+Div.' + match[3] if match[3] else '') + ' ' + match[1]
+        return f'Codeforces 第 {match[1]} 轮（第 {match[2]}' + ('、' + match[3] if match[3] else '') + ' 组）'
+    simple = re.fullmatch(r'Div\.([1-4])(?:\+Div\.([1-4]))?\s+(\d+)', name)
+    if simple:
+        return f'Codeforces 第 {simple[3]} 轮（第 {simple[1]}' + ('、' + simple[2] if simple[2] else '') + ' 组）'
     match = re.search(r'Codeforces Global Round\s*(\d+)', name, re.I)
     if match:
-        return 'Global ' + match[1]
+        return 'Codeforces 全球赛第 ' + match[1] + ' 轮'
     match = re.search(r'(?:牛客)?周赛(?:\s*Round)?\s*(\d+)', name, re.I)
     if match:
         return '周赛 ' + match[1]
@@ -93,6 +119,14 @@ def normalize_row(value):
         value['contest'] = contest_name(full, value.get('contestDate') or value.get('startedAt'))
     if variant:
         value['contest'] += f'（{variant}）'
+    origins = event_metadata().get('origins', {})
+    event = origins.get(str(value.get('collectionSource', '')).split('?')[0].rstrip('/'))
+    if not event:
+        event = event_metadata().get('names', {}).get(value['contest'])
+    if isinstance(event, dict):
+        for key in ('startedAt', 'endedAt', 'contestDate', 'contestDateSource', 'contestDatePrecision', 'eventYear', 'contestDifficulty', 'contestDifficultySource'):
+            if key in event:
+                value[key] = event[key]
     if value.get('title'):
         value.setdefault('originalTitle', value['title'])
         value['title'] = re.sub(r'^(?:\[(?:ICPC|CCPC|[A-Z]{2,8}CPC)\s*[^\]]+\]\s*)+', '', value['title'], flags=re.I)

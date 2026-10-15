@@ -254,6 +254,8 @@ def recommend_problems(library, active, independent, personal, official, hub):
         return 1
     ranked = []
     for identity, row in library.items():
+        if row.get('catalogHidden') and not active.get(identity, {}).get('queue'):
+            continue
         difficulty = row.get('difficulty')
         if not isinstance(difficulty, (int, float)) or isinstance(difficulty, bool) or not lower <= difficulty <= upper:
             continue

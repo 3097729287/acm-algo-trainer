@@ -1,6 +1,7 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { Eye, EyeOff, LoaderCircle, LockKeyhole, LogIn, UserRoundPlus } from 'lucide-react';
 import { request } from '../api/client.js';
+import { SoftwareUpdateNotice, useSoftwareUpdates } from '../pages/SoftwareUpdates.jsx';
 import './Accounts.css';
 
 export default function AccountGate({ children }) {
@@ -11,6 +12,8 @@ export default function AccountGate({ children }) {
   const generation = useRef(0);
   const submitting = useRef(false);
   const seeded = useRef(false);
+  const updateApi = useCallback((path, body) => request(path, body, session?.token), [session?.token]);
+  const softwareUpdate = useSoftwareUpdates(updateApi, Boolean(session?.token && !session.authenticated));
   const refresh = useCallback(async () => {
     if (submitting.current) return;
     const current = ++generation.current;
@@ -84,5 +87,6 @@ export default function AccountGate({ children }) {
       </>}
     </section>
     <p className="account-footer">TB · 每一步训练，都留下进步</p>
+    <SoftwareUpdateNotice update={softwareUpdate} onDetails={() => window.open(softwareUpdate.state.releaseUrl, '_blank', 'noopener,noreferrer')} />
   </main>;
 }

@@ -106,6 +106,7 @@ try {
   await page.getByRole('button', { name: '偏好设置', exact: true }).click();
   await page.getByRole('tab', { name: '账号与身份', exact: true }).click();
   await page.getByText('登录号：ui_account_a', { exact: true }).waitFor();
+  await page.getByText('管理账号', { exact: true }).click();
   await page.getByLabel('用户昵称', { exact: true }).fill('新昵称');
   await page.getByRole('button', { name: '保存昵称', exact: true }).click();
   await page.getByText('昵称已保存。').waitFor();

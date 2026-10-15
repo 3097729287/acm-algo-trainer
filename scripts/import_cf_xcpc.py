@@ -24,6 +24,9 @@ def historical_contest(contest):
     name = contest.get('name', '')
     if contest.get('phase') != 'FINISHED' or not re.search(r'ICPC|CCPC', name, re.I):
         return False
+    year = re.search(r'(?:19|20)\d{2}', name)
+    if not year or int(year[0]) < 2017:
+        return False
     # Using ACM/ICPC rules does not make a school test an ICPC event.
     return not re.search(r'ICPC[- ]style|ICPC format|ICPC правила|правила.*ICPC|'
                          r'Team Formation|Team Selection|Selection Contest|Internal Round|'
@@ -135,7 +138,7 @@ def main():
                              collectionNotice='按 Codeforces Gym 公开题单核对；题面打开时联网读取，原站不可用时可稍后重试或打开原题。',
                              difficultyEstimated=task.get('rating') is None,
                              difficultyConfidence='HIGH' if task.get('rating') is not None else 'UNKNOWN',
-                             metadataVersion='1.0.17')
+                             metadataVersion='1.0.18')
                 raw = {'场次': value['contest'], '题号': letter, '题名': value['title'],
                        '知识点': value['knowledge'], '难度': str(value['difficulty']) if value['difficulty'] is not None else '—',
                        '状态': '未做', '日期': '', '_id': value['id'], '_url': url,

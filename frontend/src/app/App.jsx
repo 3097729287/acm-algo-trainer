@@ -1,6 +1,7 @@
 import { request } from '@/api/client';
 import TierIcon from '@/components/TierIcon.jsx';
 import ContestTabs from '@/components/ContestTabs.jsx';
+import ProblemFilters from '@/components/ProblemFilters.jsx';
 import {
   useState,
   useEffect,
@@ -52,6 +53,7 @@ import {
   ArrowLeft,
   Bell,
   ChartNoAxesCombined,
+  CalendarDays,
   Activity,
   MinusCircle,
   Award,
@@ -76,6 +78,7 @@ import {
   UpdatePanel,
   TranslationSettings,
   AchievementPanel,
+  DailyTasks,
 } from "@/pages/ProgressPanels.jsx";
 import { organizeCategories } from "@/models/model.js";
 import NavigationSettings, { orderedPages } from "@/pages/NavigationSettings.jsx";
@@ -262,9 +265,9 @@ function Modal({ title, onClose, children, wide = false, footer }) {
         }
       }
     };
-    node.addEventListener("keydown", key);
+    document.addEventListener("keydown", key);
     return () => {
-      node.removeEventListener("keydown", key);
+      document.removeEventListener("keydown", key);
       if (restore.current?.isConnected) restore.current.focus();
     };
   }, []);
@@ -813,7 +816,7 @@ export default function App() {
     query = page === "mine" ? mineQuery : libraryQuery;
   const visible = useMemo(() => {
     if (!["library", "mine"].includes(page)) return [];
-    const base = page === "mine" ? todayMine : rows,
+    const base = page === "mine" ? todayMine : rows.filter(row => !row.catalogHidden),
       params = { ...currentFilters, query, favorites: prefs.favorites };
     let filtered = filterRows(base, params);
     if (page === "mine" && params.setId === "@single") {
@@ -873,7 +876,7 @@ export default function App() {
   const setFilter = (patch, target = page) =>
     setFilters((current) => ({
       ...current,
-      [target]: { ...current[target], ...patch },
+      [target]: { ...current[target], ...patch, ...(target === "mine" ? { platform: "", shelf: "all", setId: "" } : {}) },
     }));
   function go(next) {
     document.querySelectorAll(".topbar details[open]").forEach(node => node.removeAttribute("open"));
@@ -1544,12 +1547,13 @@ export default function App() {
   }
   function toolbar() {
     return <>
-      <ContestTabs value={currentFilters.platform || currentFilters.shelf || 'all'} onChange={shelf => setFilter({ shelf, platform: '', contest: '' })} label="题库比赛分类" />
-      <div className="table-toolbar">
+      {page === "library" && <ContestTabs value={currentFilters.platform || currentFilters.shelf || 'all'} onChange={shelf => setFilter({ shelf, platform: '', contest: '' })} label="题库比赛分类" />}
+      <div className="table-toolbar compact-search-toolbar">
         <div className="search-box"><Search size={17} />
           <input ref={searchRef} aria-label="搜索题目" placeholder="搜索题目、场次、知识点…" value={currentFilters.query} onChange={event => setFilter({ query: event.target.value })} onKeyDown={event => { if (["ArrowDown", "Enter"].includes(event.key)) { event.preventDefault(); focusList(); } }} />
           {currentFilters.query ? <IconButton label="清空搜索" icon={X} onClick={() => setFilter({ query: "" })} /> : <kbd>F</kbd>}
         </div>
+        <ProblemFilters value={currentFilters} onChange={setFilter} onReset={resetFilters} onSave={() => { setViewName(""); setDialog("saveView"); }} />
         <button className={"secondary favorite-filter " + (currentFilters.favoritesOnly ? "active" : "")} aria-label="收藏题目筛选" aria-pressed={currentFilters.favoritesOnly} onClick={() => setFilter({ favoritesOnly: !currentFilters.favoritesOnly })}><Star size={15} /><span>收藏</span></button>
         <select className="sort-select" aria-label="排序方式" title={page === "mine" ? "任务按紧迫程度排列，此项调整同类任务的顺序" : undefined} value={currentFilters.sort} onChange={event => setFilter({ sort: event.target.value, desc: event.target.value === "date" })}>
           <option value="contestDate">比赛时间</option><option value="contest">按场次</option><option value="difficulty">按难度</option><option value="date">最近练习</option><option value="title">按题名</option>
@@ -1557,60 +1561,6 @@ export default function App() {
         <span className="toolbar-count">{visible.length} 题</span>
         {page === "mine" && <button className="secondary" aria-label="清空我的训练" disabled={busy || !mine.length || !!active || !!workspace.summary.pending} onClick={() => setDialog("clear-training")}><MinusCircle size={15} />清空全部训练</button>}
       </div>
-              <div className="filter-fields" aria-label="题目筛选条件">
-                <label>
-                  最低难度
-                  <input
-                    aria-label="最低难度"
-                    type="number"
-                    step={100}
-                    value={currentFilters.min}
-                    onChange={(e) => setFilter({ min: e.target.value })}
-                  />
-                </label>
-                <span>—</span>
-                <label>
-                  最高难度
-                  <input
-                    aria-label="最高难度"
-                    type="number"
-                    step={100}
-                    value={currentFilters.max}
-                    onChange={(e) => setFilter({ max: e.target.value })}
-                  />
-                </label>
-                <label>
-                  提交结果
-                  <select
-                    aria-label="提交结果筛选"
-                    value={currentFilters.result}
-                    onChange={(e) => setFilter({ result: e.target.value })}
-                  >
-                    <option value="">全部结果</option>
-                    <option value="accepted">AC</option>
-                    <option value="pending">尚未 AC</option>
-                    <option value="sample">样例通过</option>
-                    {["WA", "CE", "TLE", "MLE", "RE"].map((v) => (
-                      <option key={v} value={v}>
-                        {v}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <button className="text-button" onClick={resetFilters}>
-                  重置
-                </button>
-                <button
-                  className="secondary"
-                  onClick={() => {
-                    setViewName("");
-                    setDialog("saveView");
-                  }}
-                >
-                  <BookmarkPlus size={14} />
-                  保存筛选
-                </button>
-              </div>
             {(currentFilters.category ||
               currentFilters.contest ||
               currentFilters.ids ||
@@ -1672,29 +1622,6 @@ export default function App() {
       );
     return (
       <div className="list-page">
-        {page === "mine" && (
-            <div className="set-strip">
-              <select
-                aria-label="训练分组"
-                value={currentFilters.setId}
-                onChange={(e) => setFilter({ setId: e.target.value })}
-              >
-                <option value="">今日训练 · {trainingDateLabel(trainingDay(workspace.now || now))}</option>
-                <option value="@single">单题练习</option>
-                {workspace.sets.map((set) => (
-                  <option key={set.id} value={set.id}>
-                    {set.name} · {set.accepted}/{set.total} AC
-                  </option>
-                ))}
-                {workspace.contests.map((contest) => (
-                  <option key={contest.id} value={contest.id}>
-                    {contest.name} · {contest.accepted}/{contest.total} AC
-                  </option>
-                ))}
-              </select>
-              <span title="按北京时间每日刷新；重写、补题和到期复习自动进入今日训练。">按紧迫程度排列 · AC 后 7 天复习，复习后 30 天抽检</span>
-            </div>
-          )}
         {toolbar()}
         {renderTable(displayedRows)}
         {page === "library" && (
@@ -2190,7 +2117,8 @@ export default function App() {
                 {timerText(remainingSeconds(active, now))}
               </button>
             )}
-            <button className="text-button topbar-daily-ac" onClick={() => go("mine")}>今日 AC {summary.todayAccepted || 0} 题</button><details className={`topbar-overview ${insights?.growth?.ranked?.badge || insights?.growth?.badge || ""}`}><summary aria-label="训练概览"><TierIcon badge={insights?.growth?.ranked?.badge || insights?.growth?.badge} size={16} /><strong>{insights?.growth?.ranked?.tier || insights?.growth?.tier || "黑铁"} · Lv.{insights?.growth?.level || 1}</strong><span>{insights?.growth?.ranked ? `${num(insights.growth.ranked.score)} TB 排位分` : `${num(insights?.growth?.currentLevelXp || 0)}/${num(insights?.growth?.nextLevelXp || 200)} XP`}</span><ChevronDown size={13} /></summary><div className="overview-popover"><div className="overview-level"><strong>{insights?.growth?.ranked?.title || insights?.growth?.levelName || "初入赛场"}</strong><span>{insights?.growth?.ranked ? `${num(insights.growth.ranked.score)} TB 排位分` : `${num(insights?.growth?.currentLevelXp || 0)}/${num(insights?.growth?.nextLevelXp || 200)} XP`}</span></div><button className="text-button" onClick={() => { document.querySelector(".topbar-overview")?.removeAttribute("open"); setDialog("summary"); }}>查看训练概览<ChevronRight size={13} /></button></div></details>
+            <button className="text-button topbar-daily-ac" onClick={() => go("mine")}>今日 AC {summary.todayAccepted || 0} 题</button><details className={`topbar-overview ${insights?.growth?.ranked?.badge || insights?.growth?.badge || ""}`}><summary aria-label="训练概览"><TierIcon badge={insights?.growth?.ranked?.badge || insights?.growth?.badge} size={16} /><strong>{insights?.growth?.ranked?.tier || insights?.growth?.tier || "黑铁"} · Lv.{insights?.growth?.level || 1}</strong><span>{insights?.growth?.ranked ? `${num(insights.growth.ranked.score)} TB 排位分` : `${num(insights?.growth?.currentLevelXp || 0)}/${num(insights?.growth?.nextLevelXp || 200)} XP`}</span><ChevronDown size={13} /></summary><div className="overview-popover"><div className="overview-level"><strong>{insights?.growth?.ranked?.title || insights?.growth?.levelName || "编程入门"}</strong><span>{insights?.growth?.ranked ? `${num(insights.growth.ranked.score)} TB 排位分` : `${num(insights?.growth?.currentLevelXp || 0)}/${num(insights?.growth?.nextLevelXp || 200)} XP`}</span></div><button className="text-button" onClick={() => { document.querySelector(".topbar-overview")?.removeAttribute("open"); setDialog("summary"); }}>查看训练概览<ChevronRight size={13} /></button></div></details>
+            <button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><span>每日任务</span><small>{(insights?.dailyTasks?.tasks || []).filter(task => task.claimed).length}/{insights?.dailyTasks?.tasks?.length || 6}</small>{insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed) && <i className="notification-dot" />}</button>
             <button className="achievement-top-button" aria-label="成就" onClick={openAchievements}><Medal size={17} /><span>成就</span><small>{unlockedAchievements.length}/{achievements.length}</small>{unseenAchievements.length > 0 && <i className="notification-dot" />}</button>
             <IconButton
               label="更新通知"
@@ -2332,7 +2260,6 @@ export default function App() {
               }
               onAccounts={() => { setSettingsTab("accounts"); go("settings"); }}
               onAchievements={openAchievements}
-              onClaimTask={async (id, date) => { try { await api("daily-tasks/claim", { id, date }); setInsights(await api("insights")); notice("每日任务经验已领取", "success"); } catch (issue) { notice(issue.message, "error"); throw issue; } }}
             />
           ) : page === "goals" ? (
             <GoalsPanel api={api} onTrain={openPractice} />
@@ -2363,6 +2290,7 @@ export default function App() {
           )}
         </div>
       )}
+      {dialog === "daily-tasks" && <Modal title="每日任务" onClose={() => setDialog(null)} wide><DailyTasks dailyTasks={insights?.dailyTasks} onClaim={async (id, date) => { try { await api("daily-tasks/claim", { id, date }); setInsights(await api("insights")); notice("每日任务经验已领取", "success"); } catch (issue) { notice(issue.message, "error"); throw issue; } }} /></Modal>}
       {dialog === "achievements" && <Modal title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => setDialog(null)} wide><AchievementPanel achievements={achievements} /></Modal>}
       {dialog === "submission" && selectedSubmission && <Modal title={selectedSubmission.title + " · 历史提交"} onClose={() => setDialog(null)} wide footer={<button className="primary" onClick={() => { setDialog(null); openPractice(selectedSubmission.problemId); }}><Play size={14} />继续练习</button>}><div className="submission-detail-meta"><Verdict value={selectedSubmission.verdict} /><span>{formatDate(selectedSubmission.submittedAt)}</span><span>{selectedSubmission.contestName}</span><button className="secondary" disabled={!selectedSubmission.code} onClick={() => copy(selectedSubmission.code)}><Copy size={14} />复制本次代码</button></div><pre className="submission-source"><code>{selectedSubmission.code || "这条记录没有保存代码。"}</code></pre>{selectedSubmission.message && <p className="submission-message">{selectedSubmission.message}</p>}</Modal>}
       {dialog === "updates" && (
@@ -2410,7 +2338,7 @@ export default function App() {
             </div>
           </div>
           <p className="summary-description">
-            题库 {rows.length}{" "}
+            题库 {rows.filter(row => !row.catalogHidden).length}{" "}
             题可供选择。个人分母只包含主动加入的单题、比赛和模拟赛，同题只计一次。
           </p>
           <div className="milestones">

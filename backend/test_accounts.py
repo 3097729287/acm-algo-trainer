@@ -76,8 +76,14 @@ class AccountTests(unittest.TestCase):
         status, bootstrap = self.call('/api/account')
         self.assertEqual(status, 200)
         self.assertFalse(bootstrap['authenticated'])
-        for path in ('data', 'workspace', 'profile', 'submissions', 'hub', 'lectures', 'translation/settings', 'software-update', 'browser/setup'):
+        for path in ('data', 'workspace', 'profile', 'submissions', 'hub', 'lectures', 'translation/settings', 'browser/setup'):
             self.assertEqual(self.call('/api/' + path)[0], 401, path)
+        self.assertEqual(self.call('/api/software-update')[0], 200, 'Startup updates also work before login')
+        self.assertEqual(self.call('/api/software-update/settings', {'autoCheck': False}, token='wrong-token')[0], 403)
+        self.assertEqual(self.call('/api/software-update/settings', {'autoCheck': False}, headers={'Origin': 'https://untrusted.example'})[0], 403)
+        self.assertEqual(self.call('/api/software-update/settings', {'autoCheck': False})[0], 200)
+        self.assertEqual(self.call('/api/software-update/check', {})[0], 200)
+        self.assertEqual(self.call('/api/software-update/install', {})[0], 409)
         self.assertEqual(self.call('/api/draft', {'id': 'fixture::A', 'code': 'private'})[0], 401)
         self.assertEqual(self.signup()[0], 200)
         self.assertEqual(self.call('/api/data')[0], 401, 'Registration must still require login')

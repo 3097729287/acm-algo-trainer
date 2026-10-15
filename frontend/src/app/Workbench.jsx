@@ -68,11 +68,14 @@ function draftKey(id, contestId) {
   return key;
 }
 
-export async function saveBeforeLogout() {
+export async function saveBeforeUpdate(message = '草稿尚未保存，保存成功后会自动继续更新。') {
   const pending = [];
   window.dispatchEvent(new CustomEvent('tb-before-update', { detail: { waitUntil: promise => pending.push(promise) } }));
   const result = await Promise.all([...pending, ...draftQueues.values()]);
-  if (result.some(value => value === false)) throw new Error('草稿尚未保存，请保存成功后再退出账号。');
+  if (result.some(value => value === false)) throw new Error(message);
+}
+export async function saveBeforeLogout() {
+  await saveBeforeUpdate('草稿尚未保存，请保存成功后再退出账号。');
 }
 function readDraft(key) {
   try {

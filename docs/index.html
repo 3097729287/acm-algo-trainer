@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="TB 训练工作台：把题库、题解、C++ 编辑、本地评测、官方 AC 排行榜与自动更新放在一起。">
-  <title>TB v1.0.17 · 训练工作台</title>
+  <title>TB v1.0.18 · 训练工作台</title>
   <style>
     :root { color-scheme: light; --ink:#203047; --muted:#65748a; --accent:#197f74; --line:#dce6ed; }
     * { box-sizing: border-box; }
@@ -51,21 +51,21 @@
         <h1>专注每一道题，<br>看见每一步进展。</h1>
         <p>把题库、题解、C++ 编辑、本地评测和训练记录放在一起。支持牛客、Codeforces、AtCoder 和洛谷。</p>
         <div class="actions"><a class="button primary" href="https://github.com/3097729287/acm-algo-trainer/releases/latest">下载最新正式版</a><a class="button" href="https://github.com/3097729287/acm-algo-trainer/blob/main/docs/usage.md">使用说明</a></div>
-        <div class="requirement">版本 v1.0.17 · 2026-10-15 · Windows 10 / 11 x64 · 内含运行组件与 C++ 编译器</div>
-        <p>v1.0.17 统一比赛与题库分类，重查全部旧题难度，活动只显示通过题数，补入 455 场 ICPC/CCPC Gym 赛题。题库为 7530 道，新增 Gym 题面按需联网读取，证据不足的难度保持未定级。<a href="https://github.com/3097729287/acm-algo-trainer/blob/main/docs/releases/1.0.17.md">查看版本说明</a>。下载与正式发布状态以发布页为准，资产公开前新版尚未正式发布。</p>
+        <div class="requirement">版本 v1.0.18 · 2026-10-15 · Windows 10 / 11 x64 · 内含运行组件与 C++ 编译器</div>
+        <p>v1.0.18 收紧赛事收录范围、规范中文名称并核对原赛时间，整场难度与单题估分分开显示。每日任务移入顶部弹窗，多目标共用周计划，通知支持一键已读。公共题库 5782 题、600 场，个人记录与旧题历史保留。<a href="https://github.com/3097729287/acm-algo-trainer/blob/main/docs/releases/1.0.18.md">查看版本说明</a>。发布资产公开前新版尚未正式发布，下载入口指向当前正式版。</p>
       </div>
       <figure class="preview"><img src="assets/workbench.png" alt="TB 工作台，左侧显示分层知识清单，中间是题面和 C++ 编辑器，右侧显示 Xterfusion 题解及可展开的基础讲解" width="2048" height="1152"><figcaption>题面、编辑器与图文题解并排；“运行样例”检查公开样例，“提交”在后台提交原站并显示结果。</figcaption></figure>
       <div class="features">
-        <article><h2>内容随软件提供</h2><p>1.0.17 内置 7530 道题、2202 份题面、796 份默认题解、1 份详细题解和 376 篇基础讲义，SQLite 存储。有证据的难度保留来源，估算显示“≈”，不足以定级时显示“未定级”。新增 Gym 题面按需联网缓存；内置配图离线可读、点击放大。</p></article>
+        <article><h2>内容随软件提供</h2><p>1.0.18 内置 5782 道题、2202 份题面、796 份默认题解、1 份详细题解和 376 篇基础讲义，SQLite 存储。有证据的难度保留来源，估算显示“≈”，不足以定级时显示“未定级”。新增 Gym 题面按需联网缓存；内置配图离线可读、点击放大。</p></article>
         <article><h2>按实际训练积累</h2><p>自动保存草稿、提交代码与结果。每日目标独立计数并汇入“我的训练”，支持独立题面字号、每日经验、知识覆盖与复习。样例通过不计入官方 AC。</p></article>
         <article><h2>组织自己的训练</h2><p>单题练习、专项与综合模拟赛。比赛期间隐藏知识点与题解，结束后结合记录复盘。</p></article>
       </div>
       <div class="details">
         <section><h2>联网能力，按需使用</h2><p>同步原站公开账号，通过 DeepSeek、火山方舟或自定义兼容 API 翻译题面。官方 AC 自动补传并按原题去重，提供北京时间日榜、周榜和总榜；仅同步身份与成绩摘要，不上传代码或 Cookie，暂无独立防作弊认证。</p><a href="https://github.com/3097729287/acm-algo-trainer/blob/main/docs/usage.md">配置与常见问题 →</a></section>
-        <section><h2>增量更新，保留记录</h2><p>启动时与运行期间每日检查正式版。在偏好设置中下载后选择“保存并替换更新”，保存草稿、备份 SQLite、校验 SHA-256，只替换变化文件并重开，不重复下载编译器与 WebView2。个人记录、身份、加密配置和导入内容继续保留。</p><a href="https://github.com/3097729287/acm-algo-trainer/blob/main/docs/architecture.md">数据与项目架构 →</a></section>
+        <section><h2>自动更新，保留记录</h2><p>每次启动强制检查正式版，登录前也能更新；有新版自动下载、校验并安装，无需确认。保存草稿、在线备份 SQLite，只替换变化文件并重开。进行中的提交或模拟赛结束后自动继续。个人记录、身份、加密配置和导入内容继续保留。</p><a href="https://github.com/3097729287/acm-algo-trainer/blob/main/docs/architecture.md">数据与项目架构 →</a></section>
       </div>
     </main>
-    <footer>TB · <a href="https://github.com/3097729287/acm-algo-trainer/blob/main/LICENSE">MIT</a> · <a href="https://github.com/3097729287/acm-algo-trainer/blob/main/THIRDPARTY.md">第三方许可</a> · <a href="https://github.com/3097729287/acm-algo-trainer/blob/main/docs/releases/1.0.16.md">v1.0.17 更新说明</a></footer>
+    <footer>TB · <a href="https://github.com/3097729287/acm-algo-trainer/blob/main/LICENSE">MIT</a> · <a href="https://github.com/3097729287/acm-algo-trainer/blob/main/THIRDPARTY.md">第三方许可</a> · <a href="https://github.com/3097729287/acm-algo-trainer/blob/main/docs/releases/1.0.18.md">v1.0.18 更新说明</a></footer>
   </div>
 </body>
 </html>

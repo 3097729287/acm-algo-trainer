@@ -83,6 +83,9 @@ function roundInfo(row) {
 
 export function compareContestNewest(a, b) {
   const left = contestTime(a), right = contestTime(b);
+  const eventYear = (row, time) => time != null ? new Date(time).getUTCFullYear() : Number(row.eventYear || row.xcpcYear || row.examYear || row.rows?.find(item => item.eventYear || item.xcpcYear || item.examYear)?.eventYear || row.rows?.[0]?.xcpcYear || row.rows?.[0]?.examYear || 0);
+  const leftYear = eventYear(a, left), rightYear = eventYear(b, right);
+  if (leftYear && rightYear && leftYear !== rightYear) return rightYear - leftYear;
   if (left != null && right != null && left !== right) return right - left;
   if (left != null && right == null) return -1;
   if (left == null && right != null) return 1;

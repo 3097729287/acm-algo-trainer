@@ -34,6 +34,15 @@ def idle(service):
     return service.snapshot()
 
 
+def wait_for(service, status):
+    deadline = time.monotonic() + 3
+    while service.snapshot()['status'] != status:
+        if time.monotonic() > deadline:
+            raise AssertionError(service.snapshot())
+        time.sleep(.01)
+    return service.snapshot()
+
+
 class UpdateTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
@@ -132,6 +141,63 @@ class UpdateTests(unittest.TestCase):
         with self.assertRaises(ServiceError): self.service.install()
         self.service.launcher.assert_not_called()
         self.assertEqual(self.service.snapshot()['status'], 'ready')
+
+    def test_startup_always_checks_and_downloads_even_when_daily_preference_is_off(self):
+        self.service.configure({'autoCheck': False})
+        self.opener.open.side_effect = [io.BytesIO(json.dumps(release()).encode()), io.BytesIO(DATA)]
+        self.service.start()
+        state = wait_for(self.service, 'ready')
+        self.assertTrue(state['startupCheckRequired'])
+        self.assertTrue(state['automatic'])
+        self.assertFalse(state['autoCheck'])
+        self.assertEqual(self.opener.open.call_count, 2)
+        self.service.start()
+        self.assertEqual(self.opener.open.call_count, 2, 'Starting twice must not create another update job')
+        self.service.launcher.assert_not_called()  # The UI must first finish its draft-save barrier.
+        self.assertEqual(self.service.install()['status'], 'installing')
+        self.service.launcher.assert_called_once()
+
+    def test_startup_on_current_version_checks_once_without_downloading(self):
+        self.opener.open.return_value = io.BytesIO(json.dumps(release('0.9.3')).encode())
+        self.service.start()
+        self.assertTrue(wait_for(self.service, 'current')['automatic'])
+        self.assertEqual(self.opener.open.call_count, 1)
+        self.service.launcher.assert_not_called()
+
+    def test_automatic_bad_download_never_reaches_install(self):
+        self.opener.open.side_effect = [io.BytesIO(json.dumps(release()).encode()), io.BytesIO(DATA[:-1])]
+        self.service.start()
+        self.assertIn('校验失败', wait_for(self.service, 'error')['error'])
+        self.assertIsNone(self.service.installer)
+        self.service.launcher.assert_not_called()
+
+    def test_guard_wait_does_not_backup_repeatedly_and_can_continue_without_redownload(self):
+        self.prepare()
+        self.service.guard = Mock(side_effect=ServiceError(409, '模拟赛进行中'))
+        for _ in range(2):
+            with self.assertRaises(ServiceError): self.service.install()
+        self.assertFalse((self.state / 'backups').exists())
+        self.service.guard.side_effect = None
+        self.assertEqual(self.service.install()['status'], 'installing')
+        self.assertEqual(self.opener.open.call_count, 2)
+        self.service.launcher.assert_called_once()
+
+    def test_update_backup_includes_other_accounts_and_skips_old_backups(self):
+        account = self.state / 'accounts' / 'fixture-user' / 'tb-personal.sqlite3'
+        account.parent.mkdir(parents=True)
+        with closing(sqlite3.connect(account)) as db:
+            db.execute('CREATE TABLE drafts (code TEXT)')
+            db.execute('INSERT INTO drafts VALUES (?)', ('account-private-draft',))
+            db.commit()
+        old = self.state / 'backups' / 'old'
+        old.mkdir(parents=True)
+        (old / 'broken.sqlite3').write_bytes(b'old unused backup')
+        self.prepare(); self.service.install()
+        copies = list((self.state / 'backups').glob('before-update-*/accounts/fixture-user/tb-personal.sqlite3'))
+        self.assertEqual(len(copies), 1)
+        with closing(sqlite3.connect(copies[0])) as db:
+            self.assertEqual(db.execute('SELECT code FROM drafts').fetchone()[0], 'account-private-draft')
+        self.assertFalse(list((self.state / 'backups').glob('before-update-*/backups')))
 
 
 if __name__ == '__main__':

@@ -125,7 +125,11 @@ class Handler(BaseHTTPRequestHandler):
             if path == '/api/account' and not writing:
                 self.send_json(200, accounts.snapshot() if accounts else {'required': False, 'authenticated': True, 'token': store.token, 'account': None})
                 return
-            if accounts is not None and path.startswith('/api/') and path not in ('/api/account/register', '/api/account/login'):
+            # Software updates also run on the login screen. Local origin and
+            # session-token guards above still protect every mutation.
+            software_paths = {'/api/software-update', '/api/software-update/check', '/api/software-update/settings',
+                              '/api/software-update/download', '/api/software-update/install'}
+            if accounts is not None and path.startswith('/api/') and path not in software_paths | {'/api/account/register', '/api/account/login'}:
                 accounts.require()
             if writing:
                 try:
@@ -221,6 +225,8 @@ class Handler(BaseHTTPRequestHandler):
                     value = store.extensions.sync(body)
                 elif path == "/api/hub/dismiss":
                     value = store.extensions.dismiss(body.get("id"))
+                elif path == "/api/hub/dismiss-all":
+                    value = store.extensions.dismiss_all()
                 elif path in ("/api/official/open", "/api/official/submit"):
                     identity = body.get("id")
                     code = training._code(body.get("code"))

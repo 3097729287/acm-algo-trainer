@@ -19205,6 +19205,351 @@
       "source": "https://codeforces.com/contest/2271/problem/A",
       "reason": "公开题面明确技术或已保存的题目知识资料",
       "checkedAt": "2026-10-15"
+    },
+    "https://codeforces.com/gym/101471/problem/B": {
+      "tags": [
+        "并查集",
+        "二分图匹配",
+        "二分查找",
+        "动态规划",
+        "扫描线"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2017/icpc-solutions2017.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/101471/problem/H": {
+      "tags": [
+        "贪心"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2017/icpc-solutions2017.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/101471/problem/I": {
+      "tags": [
+        "期望与概率"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2017/icpc-solutions2017.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/101471/problem/L": {
+      "tags": [
+        "KMP",
+        "哈希"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2017/icpc-solutions2017.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/102452/problem/C": {
+      "tags": [
+        "点分治",
+        "树状数组"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2019/19ICPCHKEditorial-V1.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/102452/problem/E": {
+      "tags": [
+        "贪心"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2019/19ICPCHKEditorial-V1.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/102452/problem/G": {
+      "tags": [
+        "动态规划"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2019/19ICPCHKEditorial-V1.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/102452/problem/H": {
+      "tags": [
+        "线段树",
+        "二分查找",
+        "单调队列"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2019/19ICPCHKEditorial-V1.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/102452/problem/J": {
+      "tags": [
+        "动态规划"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2019/19ICPCHKEditorial-V1.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/102482/problem/D": {
+      "tags": [
+        "期望与概率"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2018/finals2018solutions.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/102482/problem/E": {
+      "tags": [
+        "计算几何",
+        "凸包",
+        "二分查找",
+        "双指针"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2018/finals2018solutions.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/102482/problem/I": {
+      "tags": [
+        "树状数组",
+        "动态规划"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2018/finals2018solutions.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/102511/problem/E": {
+      "tags": [
+        "扫描线",
+        "二分查找",
+        "字典树"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2019/finals2019solutions.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/102511/problem/H": {
+      "tags": [
+        "动态规划",
+        "期望与概率"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2019/finals2019solutions.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103409/problem/E": {
+      "tags": [
+        "最短路"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E6%A1%82%E6%9E%97%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103415/problem/B": {
+      "tags": [
+        "线段树"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E5%B9%BF%E5%B7%9E%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103415/problem/C": {
+      "tags": [
+        "二分查找",
+        "贪心"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E5%B9%BF%E5%B7%9E%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103415/problem/D": {
+      "tags": [
+        "动态规划",
+        "线段树"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E5%B9%BF%E5%B7%9E%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103415/problem/J": {
+      "tags": [
+        "动态规划"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E5%B9%BF%E5%B7%9E%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103427/problem/C": {
+      "tags": [
+        "期望与概率"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021ICPC%E6%B2%88%E9%98%B3%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103427/problem/D": {
+      "tags": [
+        "二分查找",
+        "网络流"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021ICPC%E6%B2%88%E9%98%B3%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103427/problem/H": {
+      "tags": [
+        "贪心"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021ICPC%E6%B2%88%E9%98%B3%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103427/problem/K": {
+      "tags": [
+        "线段树",
+        "扫描线"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021ICPC%E6%B2%88%E9%98%B3%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103427/problem/L": {
+      "tags": [
+        "动态规划"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021ICPC%E6%B2%88%E9%98%B3%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103427/problem/M": {
+      "tags": [
+        "KMP"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021ICPC%E6%B2%88%E9%98%B3%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pptx",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103428/problem/B": {
+      "tags": [
+        "动态规划"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E5%A8%81%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103428/problem/C": {
+      "tags": [
+        "树状数组"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E5%A8%81%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103428/problem/D": {
+      "tags": [
+        "KMP"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E5%A8%81%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103428/problem/E": {
+      "tags": [
+        "双指针",
+        "动态规划"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E5%A8%81%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103428/problem/H": {
+      "tags": [
+        "最小割"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E5%A8%81%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103428/problem/I": {
+      "tags": [
+        "最短路"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E5%A8%81%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103428/problem/K": {
+      "tags": [
+        "期望与概率"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E5%A8%81%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103428/problem/L": {
+      "tags": [
+        "贪心"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E5%A8%81%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103446/problem/B": {
+      "tags": [
+        "NTT"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021ICPC%E4%B8%8A%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103446/problem/C": {
+      "tags": [
+        "动态规划",
+        "状压 DP"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021ICPC%E4%B8%8A%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103446/problem/F": {
+      "tags": [
+        "期望与概率"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021ICPC%E4%B8%8A%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103446/problem/G": {
+      "tags": [
+        "动态规划"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021ICPC%E4%B8%8A%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/103446/problem/I": {
+      "tags": [
+        "动态规划"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021ICPC%E4%B8%8A%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/104373/problem/B": {
+      "tags": [
+        "组合计数"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021-macau-editorial.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/104373/problem/C": {
+      "tags": [
+        "双指针",
+        "凸包"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021-macau-editorial.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/104373/problem/D": {
+      "tags": [
+        "最短路"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021-macau-editorial.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/104373/problem/E": {
+      "tags": [
+        "FFT"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021-macau-editorial.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/104373/problem/G": {
+      "tags": [
+        "树状数组"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021-macau-editorial.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/104373/problem/J": {
+      "tags": [
+        "线段树"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021-macau-editorial.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/104373/problem/K": {
+      "tags": [
+        "并查集",
+        "最小生成树"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021-macau-editorial.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
+    },
+    "https://codeforces.com/gym/105143/problem/H": {
+      "tags": [
+        "动态规划"
+      ],
+      "source": "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/49th/2024_wuhan_tutorial_final.pdf",
+      "reason": "对应原赛题解明确技术词；自动匹配题单与题目，算法未重新验证"
     }
   }
 }

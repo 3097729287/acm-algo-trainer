@@ -67,7 +67,7 @@ await page.route('**/api/**', async route => {
   else if (path === '/api/software-update') value = {currentVersion:'0.10.0', status:'current', autoCheck:true, canInstall:false};
   else if (path === '/api/browser-preparation') value = {available:false};
   else if (path === '/api/data') value = { rows, categories, token: 'fixture', today: date, revision: 'fixture' };
-  else if (path === '/api/goals') value = { goals: [goal] };
+  else if (path === '/api/goals') value = { goals: [goal], contestPlan: { goalCount: 1, total: 8, contests: goal.contestPlan } };
   else if (path === '/api/contests/events') value = { events: [{ name: '测试比赛', count: 6, duration: 120, rules: 'acm' }] };
   else if (path === '/api/desktop/fullscreen') value = { available: false, fullscreen: false };
   else if (path === '/api/workspace') value = workspace();
@@ -92,6 +92,7 @@ await page.route('**/api/**', async route => {
   else if (path === '/api/problem') value = { id: url.searchParams.get('id'), title: rows.find(row => row.id === url.searchParams.get('id'))?.title, locked: false, markdown: '## 题目描述\n\n输出整数 $n$。\n\n## 输入\n一个整数。', samples: [{ name: '样例 1', input: '1\n', output: '1\n' }], limits: { timeMs: 2000, memoryMb: 256 }, judge: { scope: 'samples', cases: 1 }, statementAvailable: true, draft: '', submissions: [] };
   else if (path === '/api/draft') value = { savedAt: now() };
   else if (path === '/api/hub/dismiss') { notice.read = true; value = hub; }
+  else if (path === '/api/hub/dismiss-all') { hub.notifications.forEach(item => { item.read = true; }); value = hub; }
   else if (path === '/api/hub/configure') { Object.assign(hub.settings, body); value = hub; }
   else if (path === '/api/hub/sync') value = hub;
   else throw new Error('Unhandled fixture request: ' + path);
@@ -156,15 +157,22 @@ try {
   await page.screenshot({ path: 'tests/screenshots/training-unified-light-2048.png', animations: 'disabled' });
   assert.equal(await page.locator('.sidebar-statistics').count(), 0);
   assert.equal(await page.getByRole('button', { name: '提交记录', exact: true }).count(), 1);
-  await page.getByLabel('训练分组').selectOption('@single');
-  assert.equal(await page.locator('.problem-table tbody tr[data-id]').count(), 1);
-  await page.getByLabel('训练分组').selectOption('');
+  assert.equal(await page.getByLabel('训练分组').count(), 0);
+  assert.equal(await page.getByRole('tablist', { name: '题库比赛分类' }).count(), 0);
   assert.equal(await page.getByRole('button', { name: '筛选', exact: true }).count(), 0);
   await page.getByLabel('最低难度', { exact: true }).waitFor();
-  assert.ok(await page.getByLabel('排序方式').evaluate(node => node.clientWidth >= 180));
+  assert.ok(await page.getByLabel('排序方式').evaluate(node => node.clientWidth >= 120));
+  const inlineFilters = await page.evaluate(() => {
+    const search = document.querySelector('.compact-search-toolbar .search-box').getBoundingClientRect();
+    const minimum = document.querySelector('[aria-label="最低难度"]').getBoundingClientRect();
+    const result = document.querySelector('[aria-label="提交结果筛选"]').getBoundingClientRect();
+    return { aligned: Math.abs(search.top - minimum.top) < 4 && Math.abs(search.top - result.top) < 4, searchWidth: search.width };
+  });
+  assert.ok(inlineFilters.aligned && inlineFilters.searchWidth < 1000, 'search and visible filters share one compact row');
+  await page.keyboard.press('Control+2');
   await page.getByRole('tab', { name: 'AtCoder', exact: true }).click();
   assert.equal(await page.getByLabel('平台筛选', { exact: true }).count(), 0);
-  assert.equal(await page.locator('.problem-table tbody tr[data-id]').count(), 2);
+  assert.equal(await page.locator('.problem-table tbody tr[data-id]').count(), 3);
   assert.equal(await page.locator('.page-identity h1').evaluate(node => getComputedStyle(node).userSelect), 'none');
   assert.equal(await page.locator('.sidebar .knowledge-search,.sidebar .knowledge-tree-tools,.sidebar-section-title').count(), 0);
   assert.ok(await page.locator('.sidebar').getByRole('treeitem').count() > 0);
@@ -192,12 +200,15 @@ try {
   await page.getByLabel('目标类型').waitFor();
   await page.locator('#growth-goals').getByRole('button',{name:'取消',exact:true}).click();
   assert.equal(await page.locator('#growth-goals .goal-form').count(),0);
-  const task = page.locator('.daily-task').filter({ hasText: '每日热身' });
+  assert.equal(await page.locator('.progress-page .daily-tasks').count(), 0);
+  await page.getByRole('button', { name: '每日任务', exact: true }).click();
+  const task = page.getByRole('dialog').locator('.daily-task').filter({ hasText: '每日热身' });
   await task.getByRole('button', { name: '领取经验' }).click();
   await task.getByRole('button', { name: '已领取' }).waitFor();
   assert.equal(insights.growth.totalXp, 30);
   assert.equal(await page.locator('.task-claim-dot').count(),0);
   assert.equal(writes.filter(item => item.path === '/api/daily-tasks/claim').length, 1);
+  await page.keyboard.press('Escape');
   assert.equal(await page.locator('.progress-page .progress-achievements').count(), 0);
   await page.screenshot({ path: 'tests/screenshots/v5-growth-light-2048.png', animations: 'disabled' });
   await page.getByRole('button', { name: '成就', exact: true }).click();
@@ -308,6 +319,10 @@ try {
   assert.equal(await page.locator('.settings-page .update-notifications').count(), 0);
   await page.getByRole('button', { name: '更新通知', exact: true }).click();
   await page.getByRole('dialog').getByText('新题已加入', { exact: true }).waitFor();
+  await page.getByRole('dialog').getByRole('button', { name: '一键已读', exact: true }).click();
+  await page.waitForFunction(() => document.querySelector('.update-notification-heading button')?.disabled);
+  assert.ok(hub.notifications.every(item => item.read));
+  assert.equal(writes.filter(item => item.path === '/api/hub/dismiss-all').length, 1);
   await page.keyboard.press('Escape');
 
   for (const width of [2048, 1050]) {

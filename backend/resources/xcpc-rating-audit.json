@@ -1,0 +1,394 @@
+{
+  "version": "1.0.18",
+  "publicBoards": [
+    {
+      "name": "CCPC 2024 重庆区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/10th/chongqing/run.json",
+      "activeTeams": 278,
+      "tasks": 13
+    },
+    {
+      "name": "CCPC 2024 哈尔滨区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/10th/harbin/run.json",
+      "activeTeams": 279,
+      "tasks": 13
+    },
+    {
+      "name": "CCPC 2024 济南区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/10th/jinan/run.json",
+      "activeTeams": 280,
+      "tasks": 13
+    },
+    {
+      "name": "CCPC 2024 郑州区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/10th/zhengzhou/run.json",
+      "activeTeams": 279,
+      "tasks": 13
+    },
+    {
+      "name": "CCPC 2025 哈尔滨区域赛（热身赛）",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/11th/harbin-warmup/run.json",
+      "activeTeams": 253,
+      "tasks": 4
+    },
+    {
+      "name": "CCPC 2025 哈尔滨区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/11th/harbin/run.json",
+      "activeTeams": 260,
+      "tasks": 13
+    },
+    {
+      "name": "CCPC 2026 网络赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/12th/online-qualification/run.json",
+      "activeTeams": 2109,
+      "tasks": 14
+    },
+    {
+      "name": "CCPC 2026 秦皇岛邀请赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/12th/qinhuangdao-invitational/run.json",
+      "activeTeams": 361,
+      "tasks": 13
+    },
+    {
+      "name": "CCPC 2017 总决赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/2017/final_onsite/run.json",
+      "activeTeams": 117,
+      "tasks": 11
+    },
+    {
+      "name": "CCPC 2021 广州区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/7th/guangzhou/run.json",
+      "activeTeams": 253,
+      "tasks": 12
+    },
+    {
+      "name": "CCPC 2021 威海区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/7th/weihai/run.json",
+      "activeTeams": 326,
+      "tasks": 13
+    },
+    {
+      "name": "CCPC 2022 桂林区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/8th/guilin/run.json",
+      "activeTeams": 321,
+      "tasks": 13
+    },
+    {
+      "name": "CCPC 2023 桂林区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/9th/guilin/run.json",
+      "activeTeams": 240,
+      "tasks": 13
+    },
+    {
+      "name": "CCPC 2023 秦皇岛区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/ccpc/9th/qinhuangdao/run.json",
+      "activeTeams": 240,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2017 沈阳区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2017/neu_onsite/run.json",
+      "activeTeams": 185,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2017 青岛区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2017/qingdao/run.json",
+      "activeTeams": 357,
+      "tasks": 11
+    },
+    {
+      "name": "ICPC 2018 青岛区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2018/qingdao/run.json",
+      "activeTeams": 353,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2018 全球总决赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2018/world-finals/run.json",
+      "activeTeams": 140,
+      "tasks": 11
+    },
+    {
+      "name": "ICPC 2019 全球总决赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2019/world-finals/run.json",
+      "activeTeams": 135,
+      "tasks": 11
+    },
+    {
+      "name": "ICPC 2019 银川区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2019/yinchuan/run.json",
+      "activeTeams": 398,
+      "tasks": 14
+    },
+    {
+      "name": "ICPC 2020 亚洲东区决赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/ec-final/run.json",
+      "activeTeams": 294,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2020 济南区域赛（热身赛）",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/jinan-warmup/run.json",
+      "activeTeams": 520,
+      "tasks": 3
+    },
+    {
+      "name": "ICPC 2020 济南区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/jinan/run.json",
+      "activeTeams": 545,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2020 昆明区域赛（热身赛）",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/kunming-warmup/run.json",
+      "activeTeams": 795,
+      "tasks": 3
+    },
+    {
+      "name": "ICPC 2020 昆明区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/kunming/run.json",
+      "activeTeams": 813,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2020 南京区域赛（热身赛）",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/nanjing-warmup/run.json",
+      "activeTeams": 512,
+      "tasks": 3
+    },
+    {
+      "name": "ICPC 2020 南京区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/nanjing/run.json",
+      "activeTeams": 556,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2020 上海区域赛（热身赛）",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/shanghai-warmup/run.json",
+      "activeTeams": 549,
+      "tasks": 3
+    },
+    {
+      "name": "ICPC 2020 上海区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/shanghai/run.json",
+      "activeTeams": 677,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2020 沈阳区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/shenyang/run.json",
+      "activeTeams": 285,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2020 小米网络选拔赛（第 1 场）",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/xiaomi-preliminary-contest-1/run.json",
+      "activeTeams": 1805,
+      "tasks": 11
+    },
+    {
+      "name": "ICPC 2020 小米网络选拔赛（第 2 场）",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/xiaomi-preliminary-contest-2/run.json",
+      "activeTeams": 939,
+      "tasks": 11
+    },
+    {
+      "name": "ICPC 2020 小米邀请赛决赛（热身赛）",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/xiaomi-warmup/run.json",
+      "activeTeams": 96,
+      "tasks": 3
+    },
+    {
+      "name": "ICPC 2020 小米邀请赛决赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/xiaomi/run.json",
+      "activeTeams": 101,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2020 银川区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/2020/yinchuan/run.json",
+      "activeTeams": 506,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2021 亚洲东区决赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/46th/ec-final/run.json",
+      "activeTeams": 358,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2021 昆明区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/46th/kunming/run.json",
+      "activeTeams": 887,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2021 南京区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/46th/nanjing/run.json",
+      "activeTeams": 682,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2021 上海区域赛（热身赛）",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/46th/shanghai-warmup/run.json",
+      "activeTeams": 607,
+      "tasks": 3
+    },
+    {
+      "name": "ICPC 2021 上海区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/46th/shanghai/run.json",
+      "activeTeams": 682,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2021 沈阳区域赛（热身赛）",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/46th/shenyang-warmup/run.json",
+      "activeTeams": 554,
+      "tasks": 4
+    },
+    {
+      "name": "ICPC 2021 沈阳区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/46th/shenyang/run.json",
+      "activeTeams": 576,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2021 全球总决赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/46th/world-finals/run.json",
+      "activeTeams": 124,
+      "tasks": 11
+    },
+    {
+      "name": "ICPC 2022 全球总决赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/47th/world-finals/run.json",
+      "activeTeams": 129,
+      "tasks": 11
+    },
+    {
+      "name": "ICPC 2023 杭州区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/48th/hangzhou/run.json",
+      "activeTeams": 440,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2023 合肥区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/48th/hefei/run.json",
+      "activeTeams": 342,
+      "tasks": 12
+    },
+    {
+      "name": "ICPC 2023 济南区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/48th/jinan/run.json",
+      "activeTeams": 333,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2023 澳门区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/48th/macau/run.json",
+      "activeTeams": 82,
+      "tasks": 11
+    },
+    {
+      "name": "ICPC 2023 南京区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/48th/nanjing/run.json",
+      "activeTeams": 331,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2023 沈阳区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/48th/shenyang/run.json",
+      "activeTeams": 289,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2023 全球总决赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/48th/world-finals/run.json",
+      "activeTeams": 141,
+      "tasks": 12
+    },
+    {
+      "name": "ICPC 2023 西安区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/48th/xian/run.json",
+      "activeTeams": 406,
+      "tasks": 14
+    },
+    {
+      "name": "ICPC 2024 成都区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/49th/chengdu/run.json",
+      "activeTeams": 307,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2024 杭州区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/49th/hangzhou/run.json",
+      "activeTeams": 366,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2024 昆明邀请赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/49th/kunming-invitational/run.json",
+      "activeTeams": 262,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2024 昆明区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/49th/kunming/run.json",
+      "activeTeams": 448,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2024 南京区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/49th/nanjing/run.json",
+      "activeTeams": 335,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2024 沈阳区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/49th/shenyang/run.json",
+      "activeTeams": 300,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2024 武汉邀请赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/49th/wuhan-invitational/run.json",
+      "activeTeams": 217,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2025 成都区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/50th/chengdu/run.json",
+      "activeTeams": 320,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2025 上海区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/50th/shanghai/run.json",
+      "activeTeams": 329,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2025 沈阳区域赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/50th/shenyang/run.json",
+      "activeTeams": 400,
+      "tasks": 13
+    },
+    {
+      "name": "ICPC 2025 武汉邀请赛",
+      "source": "https://raw.githubusercontent.com/xcpcio/board-data/main/data/icpc/50th/wuhan-invitational/run.json",
+      "activeTeams": 279,
+      "tasks": 13
+    }
+  ],
+  "calibrationEnabled": true,
+  "anchorProblems": 43,
+  "anchorContests": 7,
+  "leaveOneContestOutMae": 241.5,
+  "referenceHalfWidth": 500,
+  "intercept": 1352.187,
+  "slope": 259.277,
+  "newBoardEstimates": 277,
+  "publishedModelEstimates": 11,
+  "rosterMirrorTransfers": 96,
+  "notice": "所有估分带来源和区间。原赛少于十队通过时不外推高分，整场 Gym 1–5 级另行展示，不当作单题评级。"
+}

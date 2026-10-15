@@ -11,6 +11,55 @@ from insights import canonical_url
 DISCLAIMER='题量是训练安排，不保证评级或奖项；每周还需比赛、复盘与专项学习。区域赛另需队伍配合。'
 
 
+def shared_contest_plan(goals, rows=(), accepted_keys=()):
+    """A contest appears once, with the strongest active requirement per field."""
+    merged = {}
+    for goal in goals:
+        if goal.get('workloadCompleted'):
+            continue
+        for item in goal.get('contestPlan', []):
+            if item['target'] <= 0:
+                continue
+            name = item['contest']
+            saved = merged.setdefault(name, {**item, 'goalIds': [], 'referenceRating': 0})
+            saved['target'] = max(saved['target'], item['target'])
+            rating = goal.get('currentRating', 0)
+            if rating >= saved['referenceRating']:
+                saved['problems'] = item['problems']
+                saved['referenceRating'] = rating
+            saved['goalIds'].append(goal['id'])
+    contests = list(merged.values())
+    chosen=set(accepted_keys)
+    patterns={'Codeforces Div.3':r'Div\.\s*3|第\s*3\s*组',
+              'AtCoder ABC':r'ABC|AtCoder Beginner|AtCoder 初学者',
+              '牛客周赛':r'周赛', '洛谷基础赛 / 月赛':r'入门赛|基础赛|月赛'}
+    for item in contests:
+        lower,upper=('C','F') if item['problems']=='C–F' else ('A','D')
+        candidates=[]
+        for row in rows:
+            identity=canonical_url(row.get('url')) or row['id']
+            if identity in chosen or row.get('catalogHidden'):continue
+            platform={'Codeforces Div.3':'Codeforces','AtCoder ABC':'AtCoder','牛客周赛':'牛客','洛谷基础赛 / 月赛':'洛谷'}[item['contest']]
+            if row.get('platform')!=platform:continue
+            name=(row.get('contestFullName') or '')+' '+row.get('contest','')
+            if not re.search(patterns[item['contest']],name,re.I):continue
+            letter=str(row.get('problem',''))
+            if len(letter)==1 and not lower<=letter<=upper:continue
+            candidates.append(row)
+        candidates.sort(key=lambda row:row['id'])
+        candidates.sort(key=lambda row:str(row.get('contestDate') or row.get('startedAt') or ''),reverse=True)
+        questions=[]
+        for row in candidates:
+            identity=canonical_url(row.get('url')) or row['id']
+            if identity in chosen:continue
+            chosen.add(identity)
+            questions.append({field:row.get(field) for field in ('id','title','contest','problem','difficulty','difficultyEstimated')})
+            if len(questions)>=item['target']:break
+        item['questions']=questions
+    return {'contests': contests, 'total': sum(item['target'] for item in contests),
+            'goalCount': sum(not goal.get('workloadCompleted') for goal in goals)}
+
+
 class Goals:
     def __init__(self,training):self.training=training
 
@@ -60,7 +109,16 @@ class Goals:
         t=self.training
         with t.lock:
             now=t._now();today=now.astimezone(SHANGHAI).date()
-            if not t.connection.execute('SELECT 1 FROM goals WHERE archived=0 LIMIT 1').fetchone():return {'goals':[],'date':today.isoformat()}
+            if not t.connection.execute('SELECT 1 FROM goals WHERE archived=0 LIMIT 1').fetchone():return {'goals':[],'date':today.isoformat(),'contestPlan':shared_contest_plan([])}
+            # Activating several recommendations recomputes aliases for each
+            # task. Reuse a single fresh catalogue for this allocation only.
+            with t._library_view():
+                return self._list(assign)
+
+    def _list(self, assign=False):
+        t=self.training
+        with t.lock:
+            now=t._now();today=now.astimezone(SHANGHAI).date()
             rows=t._library();metadata={row['id']:row for row in rows}
             # A bundled roster can replace the visible remote row for the same
             # URL. Keep persisted selections and receipts attached to that task.
@@ -109,7 +167,7 @@ class Goals:
                     preferred=(goal['kind']=='lanqiao' and '蓝桥' in row['contest']) or (goal['kind']=='cf' and row.get('platform')=='Codeforces') or (goal['kind']=='xcpc' and re.search(r'(?i)(ICPC|CCPC)',row['contest']))
                     difficulty=row.get('difficulty');fit=abs(difficulty-goal['currentRating']-150) if isinstance(difficulty,(int,float)) else 500
                     return (not preferred,fit,row['id'])
-                candidates=[row for row in rows if row['id'] not in locked and (canonical_url(row.get('url')) or row['id']) not in accepted]
+                candidates=[row for row in rows if not row.get('catalogHidden') and row['id'] not in locked and (canonical_url(row.get('url')) or row['id']) not in accepted]
                 candidates.sort(key=score)
                 families=[('Codeforces Div.3',4),('AtCoder ABC',3),('牛客周赛',2),('洛谷基础赛 / 月赛',1)]
                 if goal['kind']=='xcpc':families=[('Codeforces Div.3',2),('AtCoder ABC',2),('牛客周赛',4),('洛谷基础赛 / 月赛',2)]
@@ -153,4 +211,4 @@ class Goals:
                     'remainingDays':left,'weeklyTarget':weekly,'weeklyPlan':[],'contestPlan':contest_plan,'capacity':capacity,'warnings':warnings,'workloadCompleted':done>=total,
                     'dailyTask':{'date':today.isoformat(),'target':task_target,'progress':today_done,'completed':today_done>=task_target,
                                  'problems':[{key:row.get(key) for key in ('id','title','contest','difficulty')} for row in selected if (canonical_url(row.get('url')) or row['id']) not in accepted]}})
-            return {'goals':result,'date':today.isoformat(),'notice':DISCLAIMER}
+            return {'goals':result,'date':today.isoformat(),'notice':DISCLAIMER,'contestPlan':shared_contest_plan(result,rows,accepted)}

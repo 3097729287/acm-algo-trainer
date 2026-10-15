@@ -3050,3 +3050,14 @@ kbd {
 .replay-event-picker .search-box{display:flex;flex-direction:row;align-items:center}
 .paper-preview-title>span:first-child{min-width:0;overflow-wrap:anywhere}
 .paper-slot>div{min-width:0}
+.compact-search-toolbar { gap: 8px; flex-wrap: wrap; }
+.compact-search-toolbar .search-box { flex: 1 1 220px; min-width: 160px; }
+.inline-problem-filters { display: flex; align-items: center; flex: 0 0 auto; gap: 8px; }
+.inline-difficulty-range { display: flex; align-items: center; gap: 5px; color: var(--muted); }
+.inline-difficulty-range input { width: 96px; min-width: 0; }
+.inline-problem-filters input, .inline-problem-filters select { min-height: 36px; font-size: .86rem; padding: 6px 8px; }
+.inline-problem-filters select { width: 120px; }
+.inline-problem-filters .text-button { padding: 7px 2px; font-size: .84rem; }
+.inline-problem-filters .secondary { white-space: nowrap; padding-inline: 8px; font-size: .84rem; }
+.compact-search-toolbar .sort-select { flex: 0 1 145px; width: 145px; min-width: 125px; }
+@container workspace (max-width: 900px) { .compact-search-toolbar .search-box { flex-basis: 100%; }.inline-problem-filters { flex-wrap: wrap; } }

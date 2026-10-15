@@ -178,7 +178,7 @@ export function categoryCounts(node, rows, training) {
   const has = (row) => row.tags.some((tag) => node.tags.includes(tag));
   const active = training.filter(has);
   return {
-    available: rows.filter(has).length,
+    available: rows.filter(row => !row.catalogHidden && has(row)).length,
     active: active.length,
     accepted: active.filter((r) => r.accepted).length,
     due: active.filter((r) => r.queue).length,

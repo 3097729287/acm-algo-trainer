@@ -78,8 +78,12 @@ try {
   }
   await page.setViewportSize({ width: 1480, height: 920 });
   await page.locator('.nav-item').filter({hasText: '成长与能力'}).click();
-  await page.getByRole('heading', {name: '每日任务', exact: true}).waitFor();
+  assert.equal(await page.locator('.daily-task').count(), 0);
+  await page.getByRole('button', {name: '每日任务', exact: true}).click();
+  await page.getByRole('dialog').getByRole('heading', {name: '每日任务', exact: true}).first().waitFor();
   assert.equal(await page.locator('.daily-task').count(), 6);
+  await page.keyboard.press('Escape');
+  await page.waitForFunction(() => !document.querySelector('[role="dialog"]'));
   assert.equal(await page.locator('.progress-recommendation').count(), 4);
   await page.getByRole('button', {name: /查看其余.*题/}).click();
   assert.ok(await page.locator('.progress-recommendation').count() > 4);

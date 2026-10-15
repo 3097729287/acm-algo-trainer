@@ -1,4 +1,4 @@
-"""Opt-in installation, automatic stable-release discovery, no user data upload."""
+"""Mandatory startup discovery and automatic verified desktop updates."""
 from __future__ import annotations
 
 from contextlib import closing
@@ -77,14 +77,21 @@ def release_info(payload, current):
 def backup_databases(state, destination):
     """Online SQLite backup includes committed WAL, never replaces live databases."""
     destination.mkdir(parents=True, exist_ok=False)
-    for name in ("tb-personal.sqlite3", "tb-library.sqlite3", "tb-documents.sqlite3"):
-        source = state / name
-        if not source.is_file():
-            continue
-        with closing(sqlite3.connect(source.as_uri() + "?mode=ro", uri=True)) as src, closing(sqlite3.connect(destination / name)) as dst:
-            src.backup(dst)
-            if dst.execute("PRAGMA integrity_check").fetchone()[0] != "ok":
-                raise RuntimeError("个人数据库备份未通过校验，已停止更新")
+    for directory, children, names in os.walk(state, followlinks=False):
+        # Include other account workspaces and document caches, but never recurse
+        # into earlier backups (or the backup currently being created).
+        children[:] = [name for name in children if name not in {"backups", "backup"}
+                       and not (Path(directory) / name).is_symlink()]
+        for name in names:
+            source = Path(directory) / name
+            if not name.endswith(".sqlite3") or source.is_symlink():
+                continue
+            target = destination / source.relative_to(state)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            with closing(sqlite3.connect(source.as_uri() + "?mode=ro", uri=True)) as src, closing(sqlite3.connect(target)) as dst:
+                src.backup(dst)
+                if dst.execute("PRAGMA integrity_check").fetchone()[0] != "ok":
+                    raise RuntimeError("个人数据库备份未通过校验，已停止更新")
 
 
 class SoftwareUpdates:
@@ -106,10 +113,13 @@ class SoftwareUpdates:
         self.guard = None
         self.status, self.error, self.checked_at = "idle", "", None
         self.downloaded = 0
+        self.started = False
+        self.automatic = False
 
     def snapshot(self):
         with self.lock:
             return {"currentVersion": self.current, "status": self.status, "autoCheck": self.auto_check,
+                    "startupCheckRequired": True, "automatic": self.automatic,
                     "lastCheckedAt": self.checked_at, "error": self.error, "canInstall": self.launcher is not None,
                     "latestVersion": self.release["version"] if self.release else None,
                     "updateKind": self.release.get("kind") if self.release else "delta",
@@ -135,16 +145,22 @@ class SoftwareUpdates:
         worker.start()
 
     def start(self):
-        def automatic():
-            if self.stop.wait(12):
+        with self.lock:
+            if self.started or self.offline or self.stop.is_set():
                 return
-            while not self.stop.is_set():
-                if self.auto_check:
+            self.started = True
+            self.automatic = self.launcher is not None
+        # The persisted preference controls daily checks only. Every launch must
+        # check immediately, including installations that disabled the old option.
+        self.check()
+        def automatic():
+            last_check = dt.datetime.now(dt.timezone.utc)
+            while not self.stop.wait(60):
+                now = dt.datetime.now(dt.timezone.utc)
+                if self.status == "error" or self.auto_check and (now - last_check).total_seconds() >= 24 * 3600:
                     self.check()
-                if self.stop.wait(24 * 3600):
-                    return
-        if not self.offline:
-            self._spawn(automatic)
+                    last_check = now
+        self._spawn(automatic)
 
     def _open(self, url):
         if not trusted_url(url):
@@ -212,6 +228,8 @@ class SoftwareUpdates:
                 self.release = release
                 self.status = "available" if release else "current"
                 self.checked_at = dt.datetime.now(dt.timezone.utc).isoformat()
+            if release and self.automatic and not self.stop.is_set():
+                self.download()
         except Exception as error:
             with self.lock:
                 self.status = "error"
@@ -227,6 +245,7 @@ class SoftwareUpdates:
             if not self.release:
                 raise ServiceError(409, "请先检查可用更新")
             self.status, self.error, self.downloaded = "downloading", "", 0
+            self.installer = None
             self._spawn(self._download)
         return self.snapshot()
 

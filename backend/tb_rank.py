@@ -4,7 +4,7 @@ import datetime as dt
 from progression import SHANGHAI, parse_time, local_date
 
 TIERS = ('黑铁', '青铜', '白银', '黄金', '铂金', '翡翠', '钻石', '大师', '宗师', '王者')
-TITLES = ('初入赛场', '坚毅学徒', '解题新秀', '独立先锋', '算法精英', '攻坚专家', '钻石领航', '算法大师', '巅峰宗师', '最强王者')
+TITLES = ('编程入门', '基础研习', '算法实践', '结构分析', '状态建模', '构造与证明', '复杂度掌控', '算法设计', '竞赛研究', '算法专家')
 LEVEL_COSTS = tuple(200 * level for level in range(1, 10))
 RANK_UNLOCK_XP = sum(LEVEL_COSTS)
 RANK_THRESHOLDS = (0, 300, 700, 1200, 1800, 2500, 3300, 4200, 5300, 6500)

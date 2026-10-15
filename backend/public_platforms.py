@@ -193,10 +193,13 @@ def row(platform,contest,index,title,url,difficulty,source,tags=()):
     return enrich_row(classify_contest(result),official_tags=tags)
 
 
-def discover_cf(client,now):
+def discover_cf(client,now,allowed_ids=None):
     contests=cf_result(client,'contest.list?gym=false')
     ended=[c for c in contests if c.get('phase')=='FINISHED' and integer(c.get('startTimeSeconds')) is not None and integer(c.get('durationSeconds')) is not None and c['startTimeSeconds']+c['durationSeconds']<=now.timestamp()][:30]
+    if allowed_ids is not None:
+        ended=[c for c in contests if c.get('id') in allowed_ids and c.get('phase')=='FINISHED' and integer(c.get('startTimeSeconds')) is not None and integer(c.get('durationSeconds')) is not None and c['startTimeSeconds']+c['durationSeconds']<=now.timestamp()]
     ids={c['id']:c for c in ended}
+    if not ids:return [],[],'指定题解赛事暂未发现可补充的公开题目'
     problems=cf_result(client,'problemset.problems')['problems'];rows=[];pending=[]
     for p in problems:
         c=ids.get(p.get('contestId'))
@@ -208,6 +211,16 @@ def discover_cf(client,now):
     # evidence of an exact original task count. Still keep every public task.
     for item in rows:item['contestRoster']=True
     return rows,pending,'最近 30 场已结束比赛公开赛题；未评级题如实标注，共用题可能仍需核对'
+
+
+def discover_curated_cf(client,now,known_gyms=()):
+    from contest_policy import policy
+    from xcpc_discovery import discover_gyms
+    settings=policy()
+    settings={**settings,'knownGymContests':list(set(settings['knownGymContests'])|{int(cid) for cid in known_gyms})}
+    rows,pending,_=discover_cf(client,now,set(settings['curatedCodeforcesContests']))
+    extra,waiting=discover_gyms(client,now,settings)
+    return rows+extra,pending+waiting,'只补指定题解赛事与 2017 年起的新 XCPC；原站公开整场难度和单题评级分别展示'
 
 def lg_data(value):
     if not isinstance(value,dict) or value.get('status',200)!=200:raise ValueError('洛谷公开页面暂不可用或需要登录')
@@ -288,7 +301,7 @@ def discover_nc(client,now):
         if len(rows)>=100:break
     return rows,pending,'牛客公开结束赛完整题单；未评级如实标注，XCPC 不设难度限制'
 
-DISCOVERY_ADAPTERS={'codeforces':discover_cf,'luogu':discover_lg,'atcoder':discover_at,'nowcoder':discover_nc}
+DISCOVERY_ADAPTERS={'codeforces':discover_curated_cf,'luogu':discover_lg,'atcoder':discover_at,'nowcoder':discover_nc}
 
 def statement(client,identity,title,url):
     import fetch_problem as adapter
