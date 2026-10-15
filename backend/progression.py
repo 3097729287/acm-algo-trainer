@@ -31,6 +31,14 @@ def official_first_xp(difficulty):
     return 300
 
 
+def legacy_first_xp():
+    """Published 1.0.16 award bands, used only to preserve pre-upgrade earnings."""
+    from paths import resource
+    import json
+    values = json.loads(resource('legacy-first-xp.json').read_text(encoding='utf8'))
+    return values['awards']
+
+
 def parse_time(value):
     try:
         result = dt.datetime.fromisoformat(value.replace("Z", "+00:00"))

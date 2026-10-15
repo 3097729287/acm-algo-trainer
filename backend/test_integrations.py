@@ -106,12 +106,14 @@ class IntegrationTests(unittest.TestCase):
     def test_revised_seed_replaces_stale_high_weekly_estimate_on_upgrade(self):
         url = 'https://ac.nowcoder.com/acm/contest/141721/E'
         self.service.state['difficultyMetadata'][url] = {'difficulty': 2600, 'metadataVersion': '1.0.16', 'difficultyConfidence': 'MEDIUM'}
+        self.service.state.pop('legacyFirstXp', None)
         self.service._save()
         restarted = I.IntegrationService(self.store, self.root, auto_start=False, client=self.client)
         try:
             value = restarted.problem_metadata({}, url)
             self.assertEqual(value['difficulty'], 1900)
             self.assertTrue(value['difficultyEstimated'])
+            self.assertEqual(restarted.legacy_first_xp()['ac.nowcoder.com/acm/contest/141721/E'], 300)
         finally:restarted.close()
 
     def test_explicit_unknown_removes_stale_remote_guess(self):

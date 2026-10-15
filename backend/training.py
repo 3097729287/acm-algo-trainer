@@ -91,6 +91,11 @@ class TrainingService:
         self.connection.executescript("""
             CREATE TABLE IF NOT EXISTS tb_rank_profile (
               id INTEGER PRIMARY KEY CHECK(id=1), unlocked_at TEXT NOT NULL);
+            CREATE TABLE IF NOT EXISTS official_first_xp_awards (
+              problem_key TEXT PRIMARY KEY, accepted_at TEXT NOT NULL,
+              awarded_xp INTEGER NOT NULL CHECK(awarded_xp >= 0));
+            CREATE TABLE IF NOT EXISTS official_xp_state (
+              id INTEGER PRIMARY KEY CHECK(id=1), migrated_at TEXT NOT NULL);
             CREATE TABLE IF NOT EXISTS daily_missions (
               day TEXT NOT NULL, id TEXT NOT NULL, definition TEXT NOT NULL,
               claimed_at TEXT, awarded_xp INTEGER NOT NULL DEFAULT 0, evidence TEXT NOT NULL DEFAULT '[]',
@@ -115,6 +120,8 @@ class TrainingService:
               id TEXT PRIMARY KEY, session_id TEXT NOT NULL, submission_id TEXT NOT NULL,
               problem_id TEXT, url TEXT, code TEXT, platform TEXT, accepted_at TEXT);
         """)
+        if not existed:
+            self.connection.execute('INSERT OR IGNORE INTO official_xp_state VALUES(1,?)', (iso(self._now()),))
         if 'target' not in {row[1] for row in self.connection.execute('PRAGMA table_info(goal_daily_assignments)')}:
             self.connection.execute('ALTER TABLE goal_daily_assignments ADD COLUMN target INTEGER')
         from leaderboard import default_endpoint
@@ -412,7 +419,7 @@ class TrainingService:
             ranking_reward = self.connection.execute("SELECT total_xp FROM ranking_reward_totals WHERE endpoint=? AND user_id=?",
                                                      (ranking_profile["endpoint"], ranking_profile["user_id"])).fetchone()
             ranking_xp = ranking_reward["total_xp"] if ranking_reward else 0
-            xp = value["growth"]["xp"] + claimed["xp"] + ranking_xp
+            xp = self._first_acceptance_xp(library, records) + claimed["xp"] + ranking_xp
             from tb_rank import growth, ranked
             value['growth'] = dict(growth(xp), missionXp=claimed['xp'], rankingXp=ranking_xp)
             if value['growth']['rankedEligible']:
@@ -433,6 +440,39 @@ class TrainingService:
             value["dailyTasks"] = tasks
             value["profile"] = self.profile()["profile"]
             return value
+
+    def _first_acceptance_xp(self, library, records):
+        """Freeze earned awards; later difficulty corrections never subtract XP."""
+        from progression import official_reward_evidence, official_first_xp, legacy_first_xp
+        evidence = official_reward_evidence(library, records)
+        migrating = not self.connection.execute('SELECT 1 FROM official_xp_state WHERE id=1').fetchone()
+        legacy = legacy_first_xp() if migrating else {}
+        cached_legacy = getattr(getattr(self.store, 'extensions', None), 'legacy_first_xp', None)
+        if migrating and callable(cached_legacy):
+            legacy.update(cached_legacy())
+        awards = {row['problem_key']: row['awarded_xp'] for row in self.connection.execute('SELECT * FROM official_first_xp_awards')}
+        total = 0
+        changes = []
+        for item in evidence:
+            key = item['key']
+            current = official_first_xp(item.get('difficulty'))
+            amount = awards.get(key)
+            if amount is None:
+                amount = legacy.get(key, current) if migrating else current
+                if amount == 0:
+                    amount = current
+                changes.append(('INSERT INTO official_first_xp_awards VALUES(?,?,?)', (key, item['acceptedAt'], amount)))
+            elif amount == 0 and current > 0:
+                amount = current
+                changes.append(('UPDATE official_first_xp_awards SET awarded_xp=? WHERE problem_key=?', (amount, key)))
+            total += amount
+        if changes or migrating:
+            with self._write() as connection:
+                for query, parameters in changes:
+                    connection.execute(query, parameters)
+                if migrating:
+                    connection.execute('INSERT INTO official_xp_state VALUES(1,?)', (iso(self._now()),))
+        return total
 
     def _evidence(self, day=None):
         """Unique official ACs; daily rewards deduplicate within the requested day."""

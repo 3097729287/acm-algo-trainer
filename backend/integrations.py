@@ -176,6 +176,15 @@ class IntegrationService:
         if legacy_source and not self.state['settings']['githubRepo']:self.state['settings']['githubRepo']=KNOWN_REPO
         if self.state['settings']['githubRepo']=='3097729287/acm-agent-workflow':self.state['settings']['githubRepo']=KNOWN_REPO
         self.state['githubSourceInitialized']=True
+        if 'legacyFirstXp' not in self.state:
+            from insights import canonical_url
+            from progression import official_first_xp
+            # Capture the user's actual pre-upgrade overlay before replacing
+            # difficulty metadata. Published baseline bands fill missing URLs.
+            self.state['legacyFirstXp'] = dict(getattr(self.store, 'previous_first_xp', {}))
+            self.state['legacyFirstXp'].update({canonical_url(url):official_first_xp(value.get('difficulty'))
+                                               for url,value in self.state['difficultyMetadata'].items()
+                                               if canonical_url(url) and isinstance(value,dict) and type(value.get('difficulty')) is int})
         from paths import resource
         seed=json.loads(resource('public-problem-metadata.json').read_text(encoding='utf-8'))
         if isinstance(seed,dict):
@@ -220,6 +229,11 @@ class IntegrationService:
         remote=bool(raw.get('_remote'))
         return {'difficultySource':'公开同步记录' if remote else '归档训练难度（联网后核对最新资料）',
                 'difficultyConfidence':'UNKNOWN','difficultyEstimated':True}
+
+    def legacy_first_xp(self):
+        with self.lock:
+            return {key:value for key,value in self.state.get('legacyFirstXp',{}).items()
+                    if isinstance(key,str) and type(value) is int and value in (0,100,150,200,300)}
 
     @staticmethod
     def _collectable(row,settings):

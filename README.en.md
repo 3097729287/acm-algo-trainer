@@ -20,6 +20,7 @@ Assets include a 1.0.16 → 1.0.17 delta, a browser extension ZIP, `RELEASE-MANI
 - Natural contest-name ordering retains series, year, location and distinct Gym mirrors. Existing task IDs and personal records are preserved.
 - Added 5328 tasks from 455 verified ICPC/CCPC Gym rosters. Rechecked all 2202 existing tasks and changed 1003 difficulty values. Reviewed Nowcoder Weekly 165 E/F estimates are approximately 1900/2100.
 - Estimates display an approximation sign with source, interval and confidence. Tasks without sufficient evidence remain unrated; statement subjects and zero solves no longer manufacture difficulty values.
+- Earned first-pass XP is persisted separately and survives later difficulty corrections. New passes use the current difficulty; previously unrated tasks receive their first award when rated.
 - Activity shows only distinct official passes per day, including repeat passes on later days. The calendar and counts use five styles for 0, 1, 2–3, 4–6 and 7+ tasks.
 
 The library contains **7530 tasks across 760 contests**, 2202 bundled statements, 796 default editorials, 1 detailed editorial and 376 lessons. New Gym statements are fetched and cached when opened; they require an accessible original site. 1781 tasks have official or estimated difficulty and 5749 remain unrated. Another 16 online rosters could not be verified; see the [coverage report](backend/resources/cf-xcpc-coverage.json) and [release notes](docs/releases/1.0.17.md).

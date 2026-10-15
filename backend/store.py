@@ -27,6 +27,9 @@ class Store:
             # The SQLite seed is a build artifact; rebuild it from the text source on first start.
             LibraryDatabase.from_source(LIBRARY_SOURCE, LIBRARY_SEED)
         self.library = LibraryDatabase(target)
+        from progression import official_first_xp
+        self.previous_first_xp = {canonical_url(row.get('url')) or row['id']:official_first_xp(row.get('difficulty'))
+                                  for row in self.library.rows()}
         if data_file is None and LIBRARY_SEED.is_file() and target != LIBRARY_SEED.resolve():
             fingerprint = source_fingerprint(LIBRARY_SOURCE) if LIBRARY_SOURCE.is_dir() else None
             self.library.merge_seed(LIBRARY_SEED, fingerprint=fingerprint)
