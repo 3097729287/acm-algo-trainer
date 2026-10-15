@@ -100,8 +100,10 @@ try {
 
   // The real API protects the combined response, including the new detailed body.
   const catalog = await get('data');
+  const contest = catalog.rows.find(row => row.id === pid)?.contest;
+  assert.ok(contest, 'Use the current display name while preserving the original problem identity');
   const preview = await page.request.post(url + '/api/contests/preview', {
-    headers: { 'X-TB-Token': catalog.token }, data: { mode: 'replay', contest: 'Div.2 1112', duration: 30 },
+    headers: { 'X-TB-Token': catalog.token }, data: { mode: 'replay', contest, duration: 30 },
   });
   assert.equal(preview.status(), 200, await preview.text());
   const { plan } = await preview.json();
