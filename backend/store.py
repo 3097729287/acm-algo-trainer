@@ -5,11 +5,13 @@ import json
 import os
 from pathlib import Path
 import shutil
+import sqlite3
 import threading
 from errors import APIError
 from insights import canonical_url
 from library import LibraryDatabase, source_fingerprint
 from paths import LIBRARY_SEED, LIBRARY_SOURCE, STATE
+from version import VERSION
 import toolutil
 import knowledge_dict as KD
 import status_report as SR
@@ -17,6 +19,12 @@ import status_report as SR
 class Store:
     def __init__(self, data_file=None, data_root=None, history_file=None, library_file=None):
         self.lock = threading.RLock()
+        self._data_signature = None
+        self._data_json = None
+        self._data_base_key = None
+        self._data_analysis = {}
+        self._compact_signature = None
+        self._compact_json = None
         self.token = __import__('secrets').token_urlsafe(32)
         self.data_root = str(Path(data_root or os.environ.get('TB_ARCHIVE_ROOT') or STATE / 'imports').resolve())
         self.extensions = None
@@ -84,6 +92,8 @@ class Store:
                      'platform': row.get('_platform', '其他'), 'series': row.get('_series', '其他'), 'url': row.get('_url'),
                      'source': 'remote', 'status': '未做', 'date': '', 'queue': None, 'solutionAvailable': False, 'solutionState': 'missing'}
         value.update(solutionAvailable=available, solutionState='available' if available else 'missing')
+        if found is not None and 'content_ready' in found:
+            value['catalogContentReady'] = bool(found['content_ready'])
         if url:
             value['url'] = url
         metadata = getattr(self.extensions, 'problem_metadata', None)
@@ -93,6 +103,10 @@ class Store:
             # Gym task explicitly recorded as unrated by Codeforces).
             if 'difficulty' in patch or not value.get('difficultySource'):
                 value.update(patch)
+            else:
+                # Official tags can be published before ratings. Keep reviewed
+                # local knowledge while allowing fresh first-party evidence.
+                value.update({key: patch[key] for key in ('officialTags', 'officialTagsCheckedAt') if key in patch})
         dated_row = dict(row, _library_metadata=found['encoded']) if found else row
         value.update(self.contest_metadata(dated_row, value.get('url')))
         from contest_names import normalize_row
@@ -101,34 +115,135 @@ class Store:
 
     def _archive_info(self, row):
         found = self.library.find(row.get('_id') or row['场次'] + '::' + row['题号'], canonical_url(row.get('_url')))
-        return (bool(self.library.solution(found['id']) or self.library.solution(found['id'], 'detailed')), found['url']) if found else (False, row.get('_url'))
+        return (self.library.has_solution(found['id']), found['url']) if found else (False, row.get('_url'))
+
+    def _content_signature(self):
+        extensions = self.extensions
+        signature = getattr(extensions, 'catalog_signature', None)
+        # An injected provider without an invalidation contract must stay fresh.
+        if extensions is not None and not callable(signature):
+            return None
+        from knowledge import asset_path
+        assets = []
+        for name in ('problem_knowledge.json', 'public-knowledge.json'):
+            try:
+                stat = asset_path(name).stat()
+                assets.append((stat.st_mtime_ns, stat.st_size))
+            except FileNotFoundError:
+                assets.append(None)
+        return ('catalog-20261015-v3', VERSION, self.library.content_signature(),
+                signature() if signature else None, tuple(assets))
+
+    def _analysis_signature(self):
+        analysis = getattr(self, 'knowledge_analysis', None)
+        return analysis.catalog_signature() if analysis else {}
 
     def data(self):
         with self.lock:
-            records = self.library.catalog()
-            by_id = {record['id']: record for record in records}
-            by_url = {}
-            for record in records:
-                key = canonical_url(record['url'])
-                if key:
-                    by_url.setdefault(key, record)
-            encoded = [self._encode_record(record['raw'], record, bool(record['available']), record['url'])
-                       for record in records]
-            seen_urls = {canonical_url(row.get('url')) for row in encoded if row.get('url')}
-            seen_ids = {row['id'] for row in encoded}
-            for row in self.extensions.rows() if self.extensions else []:
-                key = canonical_url(row.get('url'))
-                if row['id'] in seen_ids or key and key in seen_urls:
-                    continue
-                source = by_id.get(row['id']) or by_url.get(key)
-                encoded.append(self._encode_record(self.extensions.row(row['id']), by_id.get(row['id']),
-                                                   bool(source and source['available']), source['url'] if source else row.get('url')))
-                seen_ids.add(row['id'])
-                if key:
-                    seen_urls.add(key)
+            public_signature = self._content_signature()
+            analysis = self._analysis_signature()
+            signature = (public_signature, tuple(sorted(analysis.items()))) if public_signature is not None else None
+            cache_key = hashlib.sha256(repr(signature).encode()).hexdigest() if signature is not None else None
+            base_key = hashlib.sha256(repr(public_signature).encode()).hexdigest() if signature is not None else None
+            cache_path = self.library.path.with_name('tb-catalog-cache.json')
+            if cache_key and self._data_json is None:
+                from persistence import load_document
+                try:
+                    cached = load_document(cache_path, {})
+                    if cached.get('baseSignature') == base_key and isinstance(cached.get('catalog'), str):
+                        value = json.loads(cached['catalog'])
+                        if (isinstance(value.get('rows'), list) and isinstance(value.get('categories'), list)
+                                and isinstance(cached.get('analysis'), dict)):
+                            self._data_json, self._data_base_key = cached['catalog'].encode('utf-8'), base_key
+                            self._data_analysis = cached.get('analysis', {})
+                            if cached.get('signature') == cache_key:
+                                self._data_signature = signature
+                except (OSError, ValueError, TypeError, AttributeError, sqlite3.Error):
+                    pass  # An optional cache never prevents reading the library.
+            if signature is not None and signature == self._data_signature and self._data_json is not None:
+                # JSON decoding is much cheaper than reclassifying thousands of rows.
+                # Every caller owns its result; personal/consumer mutations cannot
+                # contaminate the shared public snapshot or another account.
+                result = json.loads(self._data_json)
+                result.update(today=dt.date.today().isoformat(), token=self.token)
+                return result
+            if base_key and self._data_base_key == base_key and self._data_json is not None:
+                # Opening one statement can add knowledge evidence for one task.
+                # Refresh only affected rows, rather than reclassifying the library.
+                encoded = json.loads(self._data_json)['rows']
+                for i, row in enumerate(encoded):
+                    identity = row['id']
+                    if self._data_analysis.get(identity) != analysis.get(identity):
+                        record = self.library.find(identity)
+                        raw = record['raw'] if record else self.row(identity)
+                        encoded[i] = self._encode_record(raw, record, row['solutionAvailable'], row.get('url'))
+            else:
+                encoded = self._catalog_rows()
             revision = hashlib.sha256(json.dumps(encoded, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
-            return {'rows': encoded, 'statuses': list(SR.STATES), 'categories': self.categories(),
-                    'revision': revision, 'today': dt.date.today().isoformat(), 'token': self.token}
+            result = {'rows': encoded, 'statuses': list(SR.STATES), 'categories': self.categories(),
+                      'revision': revision, 'today': dt.date.today().isoformat(), 'token': self.token}
+            if signature is not None and public_signature == self._content_signature() and analysis == self._analysis_signature():
+                self._data_json = json.dumps({key: value for key, value in result.items() if key not in ('token', 'today')}, ensure_ascii=False).encode('utf-8')
+                self._data_signature, self._data_base_key, self._data_analysis = signature, base_key, analysis
+                from persistence import save_document
+                try:
+                    save_document(cache_path, {'signature': cache_key, 'baseSignature': base_key,
+                                               'analysis': analysis, 'catalog': self._data_json.decode('utf-8')})
+                except (OSError, sqlite3.Error):
+                    pass
+            return result
+
+    def data_response_bytes(self, compact=False):
+        """Serve a warm public snapshot without another large object graph.
+
+        Invalidation is identical to data(); a response always appends the
+        current session token/date, which are never saved in a public cache.
+        """
+        with self.lock:
+            public = self._content_signature()
+            analysis = self._analysis_signature()
+            signature = (public, tuple(sorted(analysis.items()))) if public is not None else None
+            if signature is None or signature != self._data_signature or self._data_json is None:
+                value = self.data()
+                # A writer may change the signature while data() is building.
+                # The value just read is valid even when no stable cache exists.
+                if compact:
+                    from catalog_payload import catalogue_payload
+                    value = catalogue_payload(value)
+                return json.dumps(value, ensure_ascii=False).encode('utf-8')
+            raw = self._data_json
+            if compact:
+                if self._compact_signature != self._data_signature or self._compact_json is None:
+                    from catalog_payload import catalogue_payload
+                    self._compact_json = json.dumps(catalogue_payload(json.loads(raw)), ensure_ascii=False).encode('utf-8')
+                    self._compact_signature = self._data_signature
+                raw = self._compact_json
+            suffix = json.dumps({'today': dt.date.today().isoformat(), 'token': self.token}, ensure_ascii=False).encode('utf-8')
+            return raw[:-1] + b', ' + suffix[1:]
+
+    def _catalog_rows(self):
+        records = self.library.catalog()
+        by_id = {record['id']: record for record in records}
+        by_url = {}
+        for record in records:
+            key = canonical_url(record['url'])
+            if key:
+                by_url.setdefault(key, record)
+        encoded = [self._encode_record(record['raw'], record, bool(record['available']), record['url'])
+                   for record in records]
+        seen_urls = {canonical_url(row.get('url')) for row in encoded if row.get('url')}
+        seen_ids = {row['id'] for row in encoded}
+        for row in self.extensions.rows() if self.extensions else []:
+            key = canonical_url(row.get('url'))
+            if row['id'] in seen_ids or key and key in seen_urls:
+                continue
+            source = by_id.get(row['id']) or by_url.get(key)
+            encoded.append(self._encode_record(self.extensions.row(row['id']), by_id.get(row['id']),
+                                               bool(source and source['available']), source['url'] if source else row.get('url')))
+            seen_ids.add(row['id'])
+            if key:
+                seen_urls.add(key)
+        return encoded
 
     def solution(self, identity):
         row = self.row(identity)

@@ -18,6 +18,8 @@ def run():
     result={};phase={'value':'main'};requests=[];mode={'language':'C++(g++ 13)','authorized':False,'modern':False,'cfPosted':False,'cfFinished':False}
     with tempfile.TemporaryDirectory(prefix='tb-v5-native-',ignore_cleanup_errors=True) as directory:
         main=webview.create_window('TB hidden official layout proof',html='<html><body><script>window.preserved=7</script></body></html>',width=1480,height=920,hidden=True)
+        from webview_resources import bind as bind_resources
+        bind_resources(main)
         def fixture(view):
             from Microsoft.Web.WebView2.Core import CoreWebView2WebResourceContext
             from System.IO import MemoryStream,StreamReader

@@ -24,6 +24,8 @@ def run():
     accepted_atcoder = [0]
     with tempfile.TemporaryDirectory(prefix='tb-silent-proof-', ignore_cleanup_errors=True) as directory:
         main = webview.create_window('TB invisible fixture', html='<p>Fixture</p>', hidden=True)
+        from webview_resources import bind as bind_resources
+        bind_resources(main)
         store = BrowserSessions(Path(directory) / 'login.dpapi')
         def sync():
             for request in store.requests():

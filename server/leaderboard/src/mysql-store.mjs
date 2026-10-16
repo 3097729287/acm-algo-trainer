@@ -2,6 +2,7 @@ import mysql from 'mysql2/promise';
 import { readFile } from 'node:fs/promises';
 import { EventConflict } from './errors.mjs';
 import { AccountError } from './accounts.mjs';
+import { storedPublicProgress } from './public-progress.mjs';
 import { bounds, addDays, rankingQuery, normalizeRank, REWARD_POLICY } from './ranking-rules.mjs';
 
 export async function secret(env, name) {
@@ -25,6 +26,9 @@ export class MySQLStore {
     await this.pool.execute('SELECT 1 FROM official_ac_events LIMIT 0');
     await this.pool.execute('SELECT 1 FROM accounts LIMIT 0');
     await this.pool.execute('SELECT 1 FROM account_sessions LIMIT 0');
+    await this.pool.execute('SELECT 1 FROM account_state LIMIT 0');
+    await this.pool.execute('SELECT 1 FROM account_login_days LIMIT 0');
+    await this.pool.execute('SELECT 1 FROM account_public_progress LIMIT 0');
   }
   async findUser(id) {
     const [rows] = await this.pool.execute('SELECT users.*,EXISTS(SELECT 1 FROM ranking_admins WHERE ranking_admins.user_id=users.user_id) AS is_admin FROM users WHERE user_id=?', [id]);
@@ -36,6 +40,22 @@ export class MySQLStore {
   }
   async updateNickname(id, name, timestamp) {
     await this.pool.execute('UPDATE users SET nickname=?,updated_at=? WHERE user_id=?', [name, timestamp, id]);
+  }
+  async publicProgress(id) {
+    const [rows] = await this.pool.execute('SELECT payload FROM account_public_progress WHERE user_id=?', [id]);
+    return storedPublicProgress(rows[0]?.payload);
+  }
+  savePublicProfile(id, hash, now, name, progress, timestamp) {
+    return this.transaction(async connection => {
+      // Serialize with login so an authenticated-but-delayed old device cannot
+      // overwrite the current device's public medals after session takeover.
+      await connection.execute('SELECT user_id FROM accounts WHERE user_id=? FOR UPDATE', [id]);
+      const [sessions] = await connection.execute('SELECT token_hash FROM account_sessions WHERE user_id=? AND token_hash=? AND expires_at>?', [id, hash, now]);
+      if (!sessions.length) throw new AccountError(401, '账号已在另一台设备登录，请重新登录');
+      if (name !== null) await connection.execute('UPDATE users SET nickname=?,updated_at=? WHERE user_id=?', [name, timestamp, id]);
+      if (progress !== null) await connection.execute('INSERT INTO account_public_progress VALUES(?,?,?) ON DUPLICATE KEY UPDATE payload=VALUES(payload),updated_at=VALUES(updated_at)',
+        [id, JSON.stringify(progress), timestamp]);
+    });
   }
   async findAccount(login) {
     const [rows] = await this.pool.execute(`SELECT users.*,accounts.login_id,accounts.password_hash,accounts.password_version,
@@ -70,12 +90,17 @@ export class MySQLStore {
       throw error;
     }
   }
-  createSession(user, session, timestamp) {
+  createSession(user, session, timestamp, stateProtocol = false) {
     return this.transaction(async connection => {
       const [rows] = await connection.execute('SELECT password_hash,password_version FROM accounts WHERE user_id=? FOR UPDATE', [user.user_id]);
       if (rows[0]?.password_hash !== user.password_hash) throw new AccountError(401, '账号密码已变更，请重新登录');
+      const [state] = await connection.execute('SELECT revision FROM account_state WHERE user_id=?', [user.user_id]);
+      if (!stateProtocol && Number(state[0]?.revision || 0) > 0)
+        throw new AccountError(426, '该账号已启用跨电脑同步，请升级 TB 至 1.0.20 或更新版本后登录');
+      await connection.execute('DELETE FROM account_sessions WHERE user_id=?', [user.user_id]);
       await connection.execute('INSERT INTO account_sessions VALUES(?,?,?,?,?)',
         [session.hash, user.user_id, rows[0].password_version, session.expiresAt, timestamp]);
+      await connection.execute('INSERT IGNORE INTO account_login_days VALUES(?,?,?)', [user.user_id, bounds('daily', Date.parse(timestamp)).day, timestamp]);
     });
   }
   async deleteSession(hash) { await this.pool.execute('DELETE FROM account_sessions WHERE token_hash=?', [hash]); }
@@ -107,11 +132,39 @@ export class MySQLStore {
       return Number(rows[0].count);
     });
   }
-  async rankings(id, range) {
-    const { sql, values } = rankingQuery(range);
-    const [rows] = await this.pool.execute(sql + ' SELECT * FROM ranked ORDER BY position LIMIT 100', values);
-    const [own] = await this.pool.execute(sql + ' SELECT * FROM ranked WHERE user_id=?', [...values, id]);
-    return { rows: rows.map(normalizeRank), own: normalizeRank(own[0]) || null };
+  async rankings(id, range, loginDay) {
+    const { sql, values } = rankingQuery(range, loginDay);
+    const enriched = ' SELECT ranked.*,p.payload AS public_progress FROM ranked LEFT JOIN account_public_progress p ON p.user_id=ranked.user_id';
+    // Rank the event history once for both the visible page and the caller's
+    // own row. The result stays bounded at 101 rows even for a large board.
+    const [found] = await this.pool.execute(sql + enriched + ' WHERE ranked.position<=100 OR ranked.user_id=? ORDER BY position', [...values, id]);
+    const rows = found.map(normalizeRank);
+    return { rows: rows.filter(row => row.rank <= 100), own: rows.find(row => row.user_id === id) || null };
+  }
+  async recordLogin(id, day, timestamp) {
+    await this.pool.execute('INSERT IGNORE INTO account_login_days VALUES(?,?,?)', [id, day, timestamp]);
+  }
+  async stateRevision(id) {
+    const [rows] = await this.pool.execute('SELECT revision FROM account_state WHERE user_id=?', [id]);
+    return Number(rows[0]?.revision || 0);
+  }
+  async accountState(id) {
+    const [rows] = await this.pool.execute('SELECT revision,payload FROM account_state WHERE user_id=?', [id]);
+    return { revision: Number(rows[0]?.revision || 0), state: rows[0] ? JSON.parse(rows[0].payload) : null };
+  }
+  saveAccountState(id, hash, now, revision, state, timestamp) {
+    return this.transaction(async connection => {
+      // Same account lock as login: an old device cannot write after takeover,
+      // even if its HTTP request authenticated before the new login committed.
+      await connection.execute('SELECT user_id FROM accounts WHERE user_id=? FOR UPDATE', [id]);
+      const [sessions] = await connection.execute('SELECT token_hash FROM account_sessions WHERE user_id=? AND token_hash=? AND expires_at>?', [id, hash, now]);
+      if (!sessions.length) throw new AccountError(401, '账号已在另一台设备登录，请重新登录');
+      const [rows] = await connection.execute('SELECT revision FROM account_state WHERE user_id=?', [id]);
+      if (Number(rows[0]?.revision || 0) !== revision) throw new AccountError(409, '账号数据已更新，请重新同步');
+      await connection.execute('INSERT INTO account_state VALUES(?,?,?,?) ON DUPLICATE KEY UPDATE revision=VALUES(revision),payload=VALUES(payload),updated_at=VALUES(updated_at)',
+        [id, revision + 1, JSON.stringify(state), timestamp]);
+      return { revision: revision + 1, savedAt: timestamp };
+    });
   }
   settleRewards(now) {
     return this.transaction(async connection => {

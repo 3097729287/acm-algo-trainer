@@ -1,36 +1,40 @@
 # TB · Training Workbench
 
-TB combines a problem library, editorials, C++ editing, local sample judging and personal training records. It supports Codeforces, AtCoder, Nowcoder and Luogu; personal data stays on your computer.
+TB combines a problem library, illustrated editorials, C++ editing, local sample judging and personal training records for Codeforces, AtCoder, Nowcoder and Luogu. Account data and rankings share the existing server-side MySQL database; local SQLite retains a durable working copy and pending changes.
 
-**[v1.0.18](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.0.18), 2026-10-15.** Application, frontend and extension share this version. The tag and BUILD-INFO identify the actual build commit. Before the assets become public this source is unpublished preparation and v1.0.17 remains stable; use the latest-release link. Once published, the v1.0.18 release is authoritative.
+<!-- release-status:start -->
+**Current source: v1.1.0, preparing for release.** The features below describe that target version. [v1.0.18](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.0.18) remains the published stable version; [latest stable downloads](https://github.com/3097729287/acm-algo-trainer/releases/latest) continue to provide published assets. Version 1.1.0 incorporates the unpublished 1.0.19/1.0.20 functionality and editorial updates.
+<!-- release-status:end -->
 
-[Latest stable download](https://github.com/3097729287/acm-algo-trainer/releases/latest) · [Usage](docs/usage.md) · [Build instructions](docs/development.md) · [中文](README.md)
+[Usage](docs/usage.md) · [1.1.0 release notes](docs/releases/1.1.0.md) · [Build instructions](docs/development.md) · [中文](README.md)
 
 ![TB workbench](docs/assets/workbench.png)
 
 ## Install and upgrade
 
-Windows 10/11 x64: `TB-Setup-1.0.18-win64.exe` includes the compiler and offline WebView2 runtime. Extract the entire `TB-1.0.18-win64.zip` for portable use. Save drafts and close TB before updating the existing directory. Personal databases are never replaced by the public seed.
+Windows 10/11 x64. Target assets are [TB-Setup-1.1.0-win64.exe](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.0/TB-Setup-1.1.0-win64.exe) and [TB-1.1.0-win64.zip](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.0/TB-1.1.0-win64.zip); use the stable download link above until publication. The installer includes the compiler and offline WebView2 runtime. Extract the complete portable archive.
 
-Assets include the 1.0.17 → 1.0.18 delta, browser-extension ZIP, `RELEASE-MANIFEST.json`, `SHA256SUMS.txt` and `BUILD-INFO.json`. Older installations can follow the existing delta chain or use the full installer. Reload the bundled extension after upgrading.
+Save drafts, close TB and update the existing directory. Personal databases and imported content remain intact. Upgrade each computer to the same current release and reload the bundled browser extension. Automatic updates wait for saved drafts and active submissions/mocks, make online SQLite backups, verify SHA-256 and replace program files. Available deltas, extension ZIP, `BUILD-INFO.json`, `RELEASE-MANIFEST.json` and `SHA256SUMS.txt` are listed on the release page.
 
-## Changes in v1.0.18
+## Version 1.1.0
 
-- Every launch checks for stable updates, including before login, and automatically downloads, verifies and installs a new version without confirmation. Installation waits for draft saving and pending submissions/mocks, then retries automatically. The daily-check preference only affects additional checks while running.
-- Removed the group and platform strip from My Training. Difficulty and verdict controls share a compact row with search; the library retains its seven category tabs.
-- Daily missions open from the top bar, with claim progress and reward indicators. Notifications support marking all as read without deleting links or history.
-- Replaced level titles with algorithm-oriented themes. Activity counts use quieter numeric and bar styles with five intensity bands.
-- Multiple goals share one weekly contest plan: each contest family takes its highest workload and practice range, with suggested unsolved questions. Daily goal assignments remain independent.
-- New discovery is limited to ended Nowcoder, Luogu and AtCoder contests, the 31 previously selected Codeforces editorial contests, and new XCPC events from 2017 onward. Retired catalogue entries remain available to existing personal history.
-- Standardized Chinese contest names and verified 63 original event dates. Mirror upload/replay dates are separated; unknown dates display only the verified event year.
-- Retained 295 CF Gym XCPC contests / 3580 problems, including 284 published whole-contest Gym difficulty levels. Added 439 evidence-backed problem estimates and 172 specific knowledge labels.
+- **Titles and progress:** twelve cumulative AC milestones from 1 to 2000 problems. Milestones at 500, 750, 1000, 1500 and 2000 award permanent titles instead of new XP. Training streaks of 30, 90, 180, 365 and 730 days also award titles; two years replaces the former 1000-day target. The highest AC title and streak title are equipped automatically. Previously earned XP remains unchanged.
+- **Achievement feedback:** newly earned cards remain highlighted until hovered or focused individually. Read acknowledgements synchronize across computers. Clicking the top progress badge opens the training overview directly, with the highest earned AC milestone and the next target. Daily mission indicators stay in the top bar; unfinished training has its own navigation indicator.
+- **Account and ranking display:** Growth groups the username, public ID, medals, account management, CF/AtCoder public ratings and translation settings. Rankings show titles, level, tier and ranked points; the public ID is separate from the private login ID. Users who log in that Beijing day appear with zero solves when applicable; zero solves earn no placement rewards.
+- **Navigation and responsiveness:** contest rows offer a replay start action; recommendation rows open a problem directly. Training, keyboard settings and quick actions are grouped together. Contest lists use 40-item pages and unchanged workspace data keeps its object references. Hidden windows pause regular data and goal polling, then refresh when visible. Session checks, uploads and automatic software updates continue in the background.
+- **Synchronization:** training, complete submitted code, drafts, goals, daily assignments, XP ledgers and preferences restore on another computer. A new login revokes the previous device; online clients detect revocation through an approximately three-second heartbeat. Initial merges are backed up and conflicting drafts are retained.
+- **Loading and editorials:** compact catalogue payloads, cached response bytes, a lazy editor, bounded background statement fetching and shorter database locks reduce work. All 918 problems with a default editorial now have a detailed version, including all 26 problems in Nowcoder Weekly 162–165. The current XCPC and Lanqiao batch adds 109 editorial pairs covering 91 distinct problems; [completed and pending content](docs/editorial-content-20261016.md).
 
-The public seed contains **5782 problems, 600 contests, 2202 statements, 796 default editorials, one detailed editorial and 376 lessons**. Of the problem ratings, 291 are official and 1929 are clearly marked estimates; 3562 remain unrated. Whole-contest Gym levels are separate from problem ratings. Knowledge metadata uses existing public/mirror evidence and explicit terms in identified public editorials; automatic classification does not claim a reverified algorithm. Newly added Gym statements require an online fetch and are cached after opening.
+The library contains **5795 problems: 5622 visible and 173 hidden**, plus **2215 statements, 918 default editorials, 918 detailed editorials and 376 lessons**. Other entries are not guaranteed to have offline statements or editorials. Source-site failures retain cached content and drafts.
 
-[Release notes](docs/releases/1.0.18.md) · [Contest audit](backend/resources/contest-audit-1.0.18.json) · [Rating audit](backend/resources/xcpc-rating-audit.json) · [Knowledge audit](backend/resources/xcpc-knowledge-audit.json)
+Automatic discovery follows the selected families: Nowcoder Weekly, Beginner, Practice and Challenge; Luogu Introductory, Basic and Monthly Div.2; CF Div.2/3/4; AtCoder ABC/ARC. Existing XCPC and Lanqiao collections remain. Unsupported automatic entries and those without usable statement/samples or an editorial are hidden without deleting personal history. Existing official ratings and tags also refresh; unknown ratings remain unknown.
 
-## Data and development
+## Data, services and development
 
-`frontend/` renders the workbench, `backend/` owns the SQLite library and personal records, `desktop/` hosts WebView2 and the browser bridge, and `server/leaderboard/` provides the independent shared service. Public library source lives under `data/library/`; `data/library.sqlite3` is rebuilt from those tracked JSON files. Personal databases, drafts, identity, credentials and cookies are excluded from distributions.
+Public library JSON under `data/library/` is tracked in git and rebuilt into `data/library.sqlite3`. Personal databases and credentials are excluded from distributions. Account snapshots include full personal code and referenced problem metadata/cached statements, but exclude site cookies, translation keys, DPAPI ciphertext and machine settings. Configure site login and translation keys separately on each computer.
 
-Run `python scripts/check.py`, the frontend build and the relevant Playwright tests before release. Packaged releases require isolated native desktop, C++ judging, fresh-install, upgrade, uninstall retention and actual delta replacement checks. See [architecture](docs/architecture.md), [development](docs/development.md) and [third-party notices](THIRDPARTY.md).
+Migrations `005_account_state.sql` and `006_public_progress.sql` are deployed on the existing server and MySQL database. Public HTTPS checks on October 16, 2026 confirmed service version 1.1.0, account-state protocol 1, single-device sessions and public-progress protocol 1. Client installation and upgrade packages are still being prepared for release. The local backend remains Python and the shared service remains Node.js.
+
+Python 3.13, Node.js 24 and a C++17 compiler are required for development. Run `python scripts/check.py`, the frontend build and relevant Playwright tests. Packaged releases also require isolated desktop, judging, fresh-install, upgrade and retention checks. Source, documentation, release tag and build metadata must agree.
+
+[Accounts and synchronization](docs/accounts.md) · [Architecture](docs/architecture.md) · [Development](docs/development.md) · [Shared service](server/leaderboard/README.md) · [Historical 1.0.19](docs/releases/1.0.19.md) · [Historical 1.0.20](docs/releases/1.0.20.md) · [MIT](LICENSE)

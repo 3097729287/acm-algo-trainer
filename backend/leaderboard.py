@@ -97,12 +97,13 @@ class LeaderboardClient:
         self.error = ""
         self.last_attempt = 0
         self.retry_timer = None
+        self.last_public_progress = None
 
     def _request(self, profile, method, path, data=None):
         payload = json.dumps(data, ensure_ascii=False).encode("utf-8") if data is not None else None
         request = Request(profile["endpoint"] + path, data=payload, method=method,
                           headers={"Content-Type": "application/json", "Accept": "application/json", "Authorization": "Bearer " + profile["auth_token"],
-                                   "X-TB-User": profile["user_id"], "User-Agent": "TB/0.10 Ranking"})
+                                   "X-TB-User": profile["user_id"], "User-Agent": "TB/1.0.20 Ranking", "X-TB-State-Protocol": "1"})
         try:
             if self.opener_endpoint != profile['endpoint']:
                 self.opener = service_opener(profile['endpoint'])
@@ -127,7 +128,13 @@ class LeaderboardClient:
             raise RuntimeError("排行榜服务连接失败，请检查服务地址或稍后重试") from error
 
     def snapshot(self):
-        profile = self.training._ranking_profile()
+        # TrainingService.close marks closed and later closes SQLite under this
+        # same lock. A timer that already fired must not read after that barrier.
+        with self.training.lock:
+            if self.closed or self.training.closed:
+                return {"configured": False, "status": "closed", "endpoint": "", "lastSyncedAt": None,
+                        "error": "", "notice": ""}
+            profile = self.training._ranking_profile()
         with self.lock:
             configured = bool(profile["endpoint"])
             return {"configured": configured, "status": self.status if configured else "unconfigured", "endpoint": profile["endpoint"],
@@ -135,7 +142,10 @@ class LeaderboardClient:
                     "notice": NOTICE if configured else "排行榜服务尚未配置；设置服务地址后自动同步。"}
 
     def queue_sync(self, force=False):
-        profile = self.training._ranking_profile()
+        with self.training.lock:
+            if self.closed or self.training.closed:
+                return self.snapshot()
+            profile = self.training._ranking_profile()
         with self.lock:
             if self.closed or not profile["endpoint"] or not profile['auth_token']:
                 pass
@@ -167,6 +177,14 @@ class LeaderboardClient:
             registered = self._request(profile, "GET", "/v1/profile")
             if registered.get("userId") != profile["user_id"]:
                 raise RuntimeError("排行榜身份响应不匹配")
+            if registered.get("publicProgressProtocol") == 1:
+                progress = self.training.public_progress()
+                signature = (profile["endpoint"], profile["user_id"], profile["auth_token"], progress)
+                if self.last_public_progress != signature:
+                    published = self._request(profile, "PUT", "/v1/profile", {"publicProgress": progress})
+                    if published.get("userId") != profile["user_id"] or published.get("publicProgress") != progress:
+                        raise RuntimeError("排行榜成长资料响应不匹配")
+                    self.last_public_progress = signature
             events = self.training._ranking_events(profile["endpoint"])
             for offset in range(0, len(events), 100):
                 with self.lock:
@@ -270,4 +288,5 @@ class LeaderboardClient:
             self.closed = True
             if self.retry_timer:
                 self.retry_timer.cancel()
+                self.retry_timer = None
         self.executor.shutdown(wait=True, cancel_futures=True)

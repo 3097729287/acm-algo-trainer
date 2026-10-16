@@ -1,4 +1,5 @@
 import { request } from '@/api/client';
+import AccountSyncStatus from '@/components/AccountSyncStatus.jsx';
 import TierIcon from '@/components/TierIcon.jsx';
 import ContestTabs from '@/components/ContestTabs.jsx';
 import ProblemFilters from '@/components/ProblemFilters.jsx';
@@ -10,6 +11,8 @@ import {
   useCallback,
   useDeferredValue,
   memo,
+  lazy,
+  Suspense,
 } from "react";
 import {
   BookOpen,
@@ -59,41 +62,33 @@ import {
   Award,
   UserRound,
 } from "lucide-react";
-import ReactMarkdown from "react-markdown";
-import ReadingImage, { readingUrlTransform } from "@/components/ReadingImage.jsx";
 import InlineTitle from "@/components/InlineTitle.jsx";
-import remarkGfm from "remark-gfm";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
-import Workbench from "./Workbench.jsx";
 import { useSoftwareUpdates, SoftwareUpdatePanel, SoftwareUpdateNotice } from '@/pages/SoftwareUpdates.jsx';
 import MockProblemPicker from "./MockProblemPicker.jsx";
-import { LecturesPanel, LectureDisclosure } from "@/pages/LecturesPanel.jsx";
 import { difficultyBand, difficultyLabel, difficultyDescription, solutionBlocks, briefSolution } from "@/lib/practiceMetadata.js";
 import {
   GrowthPage,
   ActivityPage,
   CompetitionPage,
-  ConnectionsPanel,
+  TitleMedals,
   UpdatePanel,
-  TranslationSettings,
   AchievementPanel,
   DailyTasks,
 } from "@/pages/ProgressPanels.jsx";
 import { organizeCategories } from "@/models/model.js";
 import NavigationSettings, { orderedPages } from "@/pages/NavigationSettings.jsx";
-import RankingsPage, { ProfileSettings } from "@/pages/CommunityPanel.jsx";
+import RankingsPage from "@/pages/CommunityPanel.jsx";
 import MockSetup from "@/app/MockSetup.jsx";
 import GoalsPanel, { GoalReminder } from '@/pages/GoalsPanel.jsx';
 import BrowserPreparation from '@/pages/BrowserPreparation.jsx';
 import SubmissionRecords, { MockHistory } from "@/pages/SubmissionRecords.jsx";
-import { normalizeMarkdown } from "@/lib/normalizeMarkdown.js";
 import { trainingDay, trainingDateLabel } from "@/lib/trainingDate.js";
 import {
   QUEUES,
   verdictLabel,
   verdictTone,
   progressRows,
+  shareWorkspace,
   filterRows,
   groupContests,
   categoryCounts,
@@ -104,6 +99,8 @@ import {
   isTodayTraining,
   trainingPriority,
 } from "@/models/workspaceModel.js";
+
+const Workbench = lazy(() => import("./Workbench.jsx"));
 
 const PAGES = [
   { id: "mine", label: "我的训练", icon: Target, key: "1" },
@@ -132,11 +129,13 @@ const DEFAULTS = {
   seenAchievements: [],
   fullscreen: false,
 };
-function readPreferences() {
-  try {
+function preferencesKey() {
+  return window.__tbAccountUserId ? `tb.preferences.v2.${window.__tbAccountUserId}` : 'tb.preferences';
+}
+function normalizePreferences(saved) {
     const preferences = {
       ...DEFAULTS,
-      ...JSON.parse(localStorage.getItem("tb.preferences") || "{}"),
+      ...saved,
     };
     preferences.navOrder = (Array.isArray(preferences.navOrder) ? preferences.navOrder : DEFAULTS.navOrder).filter(id => id !== "today");
     preferences.navGroups = { ...preferences.navGroups };
@@ -145,6 +144,15 @@ function readPreferences() {
     delete preferences.navLabels.today;
     if (preferences.navGroups.mine?.trim() === "训练与待办") delete preferences.navGroups.mine;
     return preferences;
+}
+function portablePreferences(preferences) {
+  return Object.fromEntries(Object.keys(DEFAULTS).filter(key => key !== 'fullscreen').map(key => [key, preferences[key]]));
+}
+function readPreferences() {
+  try {
+    const current = localStorage.getItem(preferencesKey());
+    const legacy = !window.__tbAccountUserId || window.__tbOriginalWorkspace ? localStorage.getItem('tb.preferences') : null;
+    return normalizePreferences(JSON.parse(current || legacy || '{}'));
   } catch {
     return { ...DEFAULTS };
   }
@@ -294,39 +302,9 @@ function Modal({ title, onClose, children, wide = false, footer }) {
     </div>
   );
 }
-const Markdown = memo(function Markdown({ text, onCopy, images = {} }) {
-  return (
-    <div className="markdown">
-      <ReactMarkdown
-        urlTransform={readingUrlTransform}
-        remarkPlugins={[remarkGfm, remarkMath]}
-        rehypePlugins={[
-          [rehypeKatex, { throwOnError: false, strict: "ignore" }],
-        ]}
-        components={{
-          img: ({ node, ...props }) => <ReadingImage {...props} images={images} />,
-          a: ({ node, ...props }) => (
-            <a {...props} target="_blank" rel="noreferrer" />
-          ),
-          pre: (props) => (
-            <div className="code-block">
-              <button
-                className="copy-code"
-                onClick={() => onCopy?.(props.children?.props?.children || "")}
-              >
-                <Copy size={13} />
-                复制
-              </button>
-              <pre {...props} />
-            </div>
-          ),
-        }}
-      >
-        {normalizeMarkdown(text || "")}
-      </ReactMarkdown>
-    </div>
-  );
-});
+const Markdown = lazy(() => import('@/components/SolutionMarkdown.jsx'));
+const LecturesPanel = lazy(() => import('@/pages/LecturesPanel.jsx').then(module => ({ default: module.LecturesPanel })));
+const LectureDisclosure = lazy(() => import('@/pages/LecturesPanel.jsx').then(module => ({ default: module.LectureDisclosure })));
 
 // Each tree item owns one tab stop. Arrow keys follow the visible tree, rather than the question table.
 function KnowledgeTree({
@@ -567,18 +545,30 @@ export default function App() {
     serverOffset = useRef(0),
     previousActive = useRef(null);
   const api = useCallback((path, body) => request(path, body, token.current), []);
+  const [account, setAccount] = useState(() => window.__tbAccount || null);
+  const [profileSnapshot, setProfileSnapshot] = useState(null), [accountFocus, setAccountFocus] = useState(null);
+  useEffect(() => {
+    const changed = event => setAccount(previous => shareWorkspace(previous, event.detail));
+    window.addEventListener('tb:account-state', changed);
+    return () => window.removeEventListener('tb:account-state', changed);
+  }, []);
+  const profileChanged = useCallback(value => setProfileSnapshot(previous => shareWorkspace(previous, value)), []);
+  const preferencesLoaded = useRef(false), uploadedPreferences = useRef(''), preferencesQueue = useRef(Promise.resolve(true));
+  const preferencesBaseline = useRef(prefs);
+  const [preferencesRevision, setPreferencesRevision] = useState(0);
   const backgroundRequest = useRef(null), backgroundAgain = useRef(false),
     backgroundSeq = useRef(0), backgroundVersion = useRef(null);
   const refreshBackground = useCallback(function refresh(force = false) {
+    if (document.hidden && !force) return Promise.resolve();
     if (backgroundRequest.current) {
       if (force) backgroundAgain.current = true;
       return backgroundRequest.current;
     }
     const seq = ++backgroundSeq.current;
     const pending = Promise.allSettled([
-      ["inbox", setInbox], ["hub", setHub], ["insights", setInsights],
+      ["inbox", setInbox], ["hub?compact=1", setHub], ["insights", setInsights],
     ].map(([path, apply]) => api(path).then(value => {
-      if (seq === backgroundSeq.current) apply(value);
+      if (seq === backgroundSeq.current) apply(previous => shareWorkspace(previous, value));
     }))).finally(() => {
       backgroundRequest.current = null;
       if (backgroundAgain.current) {
@@ -600,12 +590,85 @@ export default function App() {
     setToast({ message, type, action });
     toastTimer.current = setTimeout(() => setToast(null), 4200);
   }, []);
+  useEffect(() => {
+    if (!window.__tbAccountUserId) return;
+    let alive = true, loading = false, timer;
+    const load = () => {
+      if (!alive || loading || preferencesLoaded.current || document.hidden) return;
+      clearTimeout(timer);
+      loading = true;
+      const pending = preferencesQueue.current.catch(() => false).then(async () => {
+        if (!alive) return false;
+        try {
+          const answer = await api('preferences');
+          if (!alive) return false;
+          if (answer.preferences) {
+            const loaded = normalizePreferences(answer.preferences);
+            // Compare uploads with the remote snapshot, not the merged state:
+            // changes made while this read was pending still need to be saved.
+            uploadedPreferences.current = JSON.stringify(portablePreferences(loaded));
+            setPrefs(previous => {
+              const merged = { ...loaded, fullscreen: previous.fullscreen };
+              for (const key of Object.keys(DEFAULTS)) {
+                if (key !== 'seenAchievements' && JSON.stringify(previous[key]) !== JSON.stringify(preferencesBaseline.current[key]))
+                  merged[key] = previous[key];
+              }
+              merged.seenAchievements = [...new Set([
+                ...(Array.isArray(loaded.seenAchievements) ? loaded.seenAchievements : []),
+                ...(Array.isArray(previous.seenAchievements) ? previous.seenAchievements : []),
+              ])];
+              return merged;
+            });
+          }
+          preferencesLoaded.current = true;
+          setPreferencesRevision(value => value + 1);
+          return true;
+        } catch (issue) {
+          if (alive) {
+            notice(`偏好设置读取未完成：${issue.message}`, 'error');
+            timer = setTimeout(load, 5000);
+          }
+          return false;
+        } finally { loading = false; }
+      });
+      preferencesQueue.current = pending;
+    };
+    const visible = () => { if (!document.hidden) load(); };
+    document.addEventListener('visibilitychange', visible);
+    window.addEventListener('focus', visible);
+    load();
+    return () => { alive = false; clearTimeout(timer); document.removeEventListener('visibilitychange', visible); window.removeEventListener('focus', visible); };
+  }, [api, notice]);
+  useEffect(() => {
+    if (!data || !preferencesLoaded.current || !window.__tbAccountUserId) return;
+    const value = portablePreferences(prefs), signature = JSON.stringify(value);
+    if (signature === uploadedPreferences.current) return;
+    const save = () => {
+      const pending = preferencesQueue.current.catch(() => false).then(async () => {
+        if (signature === uploadedPreferences.current) return true;
+        try {
+          await api('preferences', { preferences: value });
+          uploadedPreferences.current = signature;
+          return true;
+        } catch (issue) {
+          notice(`偏好设置尚未同步：${issue.message}`, 'error');
+          return false;
+        }
+      });
+      preferencesQueue.current = pending;
+      return pending;
+    };
+    const timer = setTimeout(save, 600);
+    const beforeExit = event => { clearTimeout(timer); event.detail?.waitUntil?.(save()); };
+    window.addEventListener('tb-before-update', beforeExit);
+    return () => { clearTimeout(timer); window.removeEventListener('tb-before-update', beforeExit); };
+  }, [prefs, !!data, preferencesRevision, api, notice]);
   const applyWorkspace = useCallback((value) => {
     if (!value) return;
     const stamp = value.now ? Date.parse(value.now) : Date.now();
     if (stamp >= workspaceTime.current) {
       workspaceTime.current = stamp;
-      setWorkspace(value);
+      setWorkspace(previous => shareWorkspace(previous, value));
       if (value.now) {
         serverOffset.current = stamp - Date.now();
         setNow(stamp);
@@ -619,7 +682,7 @@ export default function App() {
       try {
         const [library, personal] =
           await Promise.all([
-            api("data"),
+            api("data?compact=1"),
             api("workspace"),
           ]);
         if (seq !== loadSeq.current) return;
@@ -646,7 +709,7 @@ export default function App() {
     };
   }, [reload]);
   useEffect(() => {
-    localStorage.setItem("tb.preferences", JSON.stringify(prefs));
+    try { localStorage.setItem(preferencesKey(), JSON.stringify(prefs)); } catch { /* SQLite/cloud still retain account preferences. */ }
     const root = document.documentElement;
     root.dataset.theme = prefs.theme;
     root.dataset.accent = prefs.accent;
@@ -683,7 +746,7 @@ export default function App() {
     if (!workspace.activeContest) return;
     setNow(Date.now() + serverOffset.current);
     const tick = setInterval(
-      () => setNow(Date.now() + serverOffset.current),
+      () => { if (!document.hidden) setNow(Date.now() + serverOffset.current); },
       1000,
     );
     return () => clearInterval(tick);
@@ -692,7 +755,7 @@ export default function App() {
     if (!data) return;
     let active = true, pending = false;
     const refresh = () => {
-      if (!active || pending) return;
+      if (!active || pending || document.hidden) return;
       pending = true;
       return api("workspace")
         .then(value => { if (active) applyWorkspace(value); })
@@ -704,10 +767,12 @@ export default function App() {
       workspace.activeContest || workspace.summary?.pending ? 2500 : 15000,
     );
     window.addEventListener("focus", refresh);
+    document.addEventListener("visibilitychange", refresh);
     return () => {
       active = false;
       clearInterval(timer);
       window.removeEventListener("focus", refresh);
+      document.removeEventListener("visibilitychange", refresh);
     };
   }, [
     !!data,
@@ -778,7 +843,9 @@ export default function App() {
     backgroundVersion.current = version;
     refreshBackground(changed);
     const timer = setInterval(() => refreshBackground(), hub?.sync?.busy ? 3000 : 60000);
-    return () => clearInterval(timer);
+    const visible = () => { if (!document.hidden) refreshBackground(); };
+    document.addEventListener('visibilitychange', visible);
+    return () => { clearInterval(timer); document.removeEventListener('visibilitychange', visible); };
   }, [
     !!data,
     workspace.summary?.attempts,
@@ -790,7 +857,7 @@ export default function App() {
   useEffect(() => {
     if (!hub?.sync?.lastSuccessAt) return;
     let cancelled = false;
-    Promise.all([api("data"), api("workspace")])
+    Promise.all([api("data?compact=1"), api("workspace")])
       .then(([library, personal]) => {
         if (cancelled) return;
         token.current = library.token;
@@ -802,10 +869,11 @@ export default function App() {
   }, [hub?.sync?.lastSuccessAt, api, applyWorkspace]);
   const rows = useMemo(
       () => progressRows(data?.rows || [], workspace),
-      [data?.rows, workspace],
+      [data?.rows, workspace.training, workspace.activeContest],
     ),
     mine = useMemo(() => rows.filter((r) => r.active), [rows]);
-  const todayMine = useMemo(() => mine.filter(row => isTodayTraining(row, workspace.now || now)), [mine, workspace.now, now]);
+  const currentTrainingDay = trainingDay(workspace.now || now);
+  const todayMine = useMemo(() => mine.filter(row => isTodayTraining(row, workspace.now || now)), [mine, currentTrainingDay]);
   const categories = useMemo(
     () => organizeCategories(data?.categories || []),
     [data?.categories],
@@ -1054,6 +1122,36 @@ export default function App() {
     } finally {
       setBusy(false);
     }
+  }
+  const replayStarting = useRef(false);
+  async function startReproduction(name) {
+    if (replayStarting.current) return;
+    if (workspace.activeContest) {
+      go('mock');
+      notice('请先完成当前比赛');
+      return;
+    }
+    replayStarting.current = true;
+    setBusy(true);
+    try {
+      const { events = [] } = await api('contests/events');
+      const event = events.find(item => item.name === name);
+      if (!event) throw new Error('这场比赛暂不能开始重现赛，请刷新比赛列表');
+      const { plan } = await api('contests/preview', {
+        mode: 'replay', contest: name, duration: event.duration, rules: event.rules,
+        wrongPenalty: 20, compilePenalty: false,
+      });
+      const result = await api('contests/start', {
+        previewId: plan.previewId, ids: plan.slots.map(slot => slot.id),
+        duration: event.duration, name: plan.name,
+      });
+      startedMock(result);
+    } catch (issue) { notice(issue.message, 'error'); }
+    finally { replayStarting.current = false; setBusy(false); }
+  }
+  function openAccounts(section = 'accounts') {
+    setAccountFocus(previous => ({ section, request: (previous?.request || 0) + 1 }));
+    go('growth');
   }
   function startedMock(result) {
     applyWorkspace(result.workspace);
@@ -1725,7 +1823,7 @@ export default function App() {
   function settingsPage() {
     return (
       <div className="settings-page scroll-panel">
-        <div className="settings-tabs" role="tablist" aria-label="设置分类">{[["appearance", "外观与导航"], ["accounts", "账号与身份"], ["translation", "翻译 API"], ["updates", "更新"], ["training", "训练与键盘"]].map(([value, label]) => <button key={value} role="tab" aria-selected={settingsTab === value} className={settingsTab === value ? "active" : ""} onClick={() => setSettingsTab(value)}>{label}</button>)}<button className="settings-command-button" aria-label="快捷操作" title="快捷操作 · Ctrl+K" onClick={() => { setCommandQuery(""); setDialog("commands"); }}><Command size={15}/><span>快捷操作</span><kbd>Ctrl K</kbd></button></div>
+        <div className="settings-tabs" role="tablist" aria-label="设置分类">{[["appearance", "外观与导航"], ["updates", "更新"], ["training", "训练与快捷操作"]].map(([value, label]) => <button key={value} role="tab" aria-selected={settingsTab === value} className={settingsTab === value ? "active" : ""} onClick={() => setSettingsTab(value)}>{label}</button>)}</div>
         <div className="settings-column">
         <section className="settings-appearance" hidden={settingsTab !== "appearance"}>
           <h2>让界面适合你</h2>
@@ -1836,7 +1934,7 @@ export default function App() {
           ))}
         </section>
         {settingsTab === "appearance" && <NavigationSettings pages={PAGES} prefs={prefs} setPrefs={setPrefs} />}
-        <section hidden={settingsTab !== "training"}>
+        {settingsTab === "training" && <section>
           <h2>训练与评测</h2>
           <div className="settings-information">
             <p>
@@ -1852,8 +1950,8 @@ export default function App() {
               天安排复习。提交结果会保留，练习失败不会抹去以前的AC。
             </p>
           </div>
-        </section>
-        <section hidden={settingsTab !== "training"}>
+        </section>}
+        {settingsTab === "training" && <section>
           <h2>键盘与常用筛选</h2>
           <div className="settings-row">
             <div>
@@ -1880,22 +1978,14 @@ export default function App() {
               />
             </div>
           ))}
-        </section>
+          <h3>快捷操作</h3>
+          <div className="settings-commands">{commands.map(command => <button key={command.name} className="secondary" onClick={command.action}><span>{command.name}</span>{command.detail && <kbd>{command.detail}</kbd>}</button>)}</div>
+          <p className="progress-small">随时按 Ctrl+K 打开快捷操作。</p>
+        </section>}
         </div>
         <div className="settings-column">
-        {settingsTab === "accounts" && <ProfileSettings api={api} onError={(message) => notice(message, "error")} />}
-        <section className="settings-connections" hidden={settingsTab !== "accounts"}>
-          <h2>平台账号</h2>
-          <ConnectionsPanel
-            includeTranslation={false}
-            hub={hub}
-            api={api}
-            onChanged={setHub}
-            onError={(message) => notice(message, "error")}
-          />
-        </section>
-        {settingsTab === "translation" && <section className="settings-translation"><TranslationSettings api={api} onError={(message) => notice(message, "error")} /></section>}
-        <section className="settings-updates" hidden={settingsTab !== "updates"}>
+        {settingsTab === "appearance" && <section><h2>账号与身份</h2><p>在成长与能力中管理账号、公开评分和翻译 API。</p><button className="secondary" onClick={() => openAccounts()}><UserRound size={16} />管理账号与身份</button></section>}
+        {settingsTab === "updates" && <section className="settings-updates">
           <h2>更新与自动收录</h2>
           <SoftwareUpdatePanel update={softwareUpdate} />
           <UpdatePanel
@@ -1907,7 +1997,7 @@ export default function App() {
             onError={(message) => notice(message, "error")}
           />
           <button className="text-button" onClick={() => setDialog("updates")}><Bell size={14} />在铃铛查看更新通知</button>
-        </section>
+        </section>}
         </div>
       </div>
     );
@@ -1921,8 +2011,16 @@ export default function App() {
   }, []);
   const mergedPages = navigationPages.filter(item => item.group && item.group === navigationPages.find(entry => entry.id === page)?.group);
   const achievements = insights?.achievements || [], unlockedAchievements = achievements.filter(item => item.unlocked);
+  const acAchievements = achievements.filter(item => /^official-\d+$/.test(item.id) && Number.isFinite(item.target)).slice().sort((a, b) => a.target - b.target);
+  const highestAcAchievement = acAchievements.filter(item => item.unlocked).at(-1), nextAcAchievement = acAchievements.find(item => !item.unlocked);
+  const growth = insights?.growth, growthReady = Number.isFinite(growth?.level);
   const unseenAchievements = unlockedAchievements.filter(item => !(prefs.seenAchievements || []).includes(item.id));
-  function openAchievements() { setPrefs(previous => ({ ...previous, seenAchievements: unlockedAchievements.map(item => item.id) })); setDialog("achievements"); }
+  function openAchievements() { setDialog("achievements"); }
+  function markAchievementSeen(id) {
+    setPrefs(previous => (previous.seenAchievements || []).includes(id) ? previous : {
+      ...previous, seenAchievements: [...(previous.seenAchievements || []), id],
+    });
+  }
   const currentPage = navigationPages.find((p) => p.id === page),
     currentMockSlot =
       active?.slots.find((slot) => slot.id === mockSlot) || active?.slots[0];
@@ -2052,6 +2150,7 @@ export default function App() {
               className={"nav-item " + (page === p.id || p.members?.some(member => member.id === page) ? "active" : "")}
               aria-current={page === p.id || p.members?.some(member => member.id === page) ? "page" : undefined}
               aria-label={p.label}
+              aria-describedby={dueCount > 0 && (p.id === "mine" || p.members?.some(member => member.id === "mine")) ? `training-pending-${p.id}` : undefined}
               title={prefs.collapsed ? p.label + (p.key ? " · Ctrl+" + p.key : "") : undefined}
               onClick={() => go(p.members ? p.members.find(member => member.id === page)?.id || p.members[0].id : p.id)}
             >
@@ -2062,7 +2161,7 @@ export default function App() {
                   {p.id === "mock" && active && <span className="live-dot" />}
                 </>
               )}
-              {p.id === "growth" && insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed) && <span className="task-claim-dot" aria-label="每日任务可领取" />}
+              {dueCount > 0 && (p.id === "mine" || p.members?.some(member => member.id === "mine")) && <><i className="training-pending-dot" aria-hidden="true" /><span className="sr-only" id={`training-pending-${p.id}`}>有 {dueCount} 项未完成训练待办</span></>}
             </button>
           ))}
         </nav>
@@ -2090,7 +2189,7 @@ export default function App() {
             {!prefs.collapsed && (
               <>
                 <span>偏好设置</span>
-                <span className="local-indicator">本地</span>
+                <AccountSyncStatus />
               </>
             )}
           </button>
@@ -2110,6 +2209,7 @@ export default function App() {
             {practiceId && <span className="practice-label">单题练习</span>}
           </div>
           <div className="topbar-actions">
+            <div className="topbar-titles"><TitleMedals titles={insights?.equippedTitles || growth?.equippedTitles || []} /></div>
             <GoalReminder api={api} onOpen={() => go("goals")} />
             {active && page !== "mock" && (
               <button className="live-contest" onClick={() => go("mock")}>
@@ -2117,7 +2217,10 @@ export default function App() {
                 {timerText(remainingSeconds(active, now))}
               </button>
             )}
-            <button className="text-button topbar-daily-ac" onClick={() => go("mine")}>今日 AC {summary.todayAccepted || 0} 题</button><details className={`topbar-overview ${insights?.growth?.ranked?.badge || insights?.growth?.badge || ""}`}><summary aria-label="训练概览"><TierIcon badge={insights?.growth?.ranked?.badge || insights?.growth?.badge} size={16} /><strong>{insights?.growth?.ranked?.tier || insights?.growth?.tier || "黑铁"} · Lv.{insights?.growth?.level || 1}</strong><span>{insights?.growth?.ranked ? `${num(insights.growth.ranked.score)} TB 排位分` : `${num(insights?.growth?.currentLevelXp || 0)}/${num(insights?.growth?.nextLevelXp || 200)} XP`}</span><ChevronDown size={13} /></summary><div className="overview-popover"><div className="overview-level"><strong>{insights?.growth?.ranked?.title || insights?.growth?.levelName || "编程入门"}</strong><span>{insights?.growth?.ranked ? `${num(insights.growth.ranked.score)} TB 排位分` : `${num(insights?.growth?.currentLevelXp || 0)}/${num(insights?.growth?.nextLevelXp || 200)} XP`}</span></div><button className="text-button" onClick={() => { document.querySelector(".topbar-overview")?.removeAttribute("open"); setDialog("summary"); }}>查看训练概览<ChevronRight size={13} /></button></div></details>
+            <button className="text-button topbar-daily-ac" onClick={() => go("mine")}>今日 AC {summary.todayAccepted || 0} 题</button>
+            <button type="button" className={`topbar-overview ${growth?.ranked?.badge || growth?.badge || ""}`} aria-label="训练概览" aria-haspopup="dialog" aria-busy={!growthReady} title="你的训练概览" onClick={() => setDialog("summary")}>
+              {growthReady ? <><TierIcon badge={growth.ranked?.badge || growth.badge} size={16} /><strong>{growth.ranked?.tier || growth.tier} · Lv.{growth.level}</strong><span>{growth.ranked ? `${num(growth.ranked.score)} TB 排位分` : `${num(growth.currentLevelXp)}/${num(growth.nextLevelXp)} XP`}</span></> : <><LoaderCircle size={16} className="spin" /><span role="status">成长数据读取中</span></>}
+            </button>
             <button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><span>每日任务</span><small>{(insights?.dailyTasks?.tasks || []).filter(task => task.claimed).length}/{insights?.dailyTasks?.tasks?.length || 6}</small>{insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed) && <i className="notification-dot" />}</button>
             <button className="achievement-top-button" aria-label="成就" onClick={openAchievements}><Medal size={17} /><span>成就</span><small>{unlockedAchievements.length}/{achievements.length}</small>{unseenAchievements.length > 0 && <i className="notification-dot" />}</button>
             <IconButton
@@ -2159,9 +2262,10 @@ export default function App() {
             <button onClick={() => reload(true)}>重新读取</button>
           </div>
         )}
-        {!practiceId && mergedPages.length > 1 && <div className="merged-page-tabs" role="tablist" aria-label={`组合页面 ${currentPage?.group}`}>{mergedPages.map(item => <button key={item.id} role="tab" aria-selected={page === item.id} className={page === item.id ? "active" : ""} onClick={() => go(item.id)}><item.icon size={15} />{item.label}</button>)}</div>}
+        {!practiceId && mergedPages.length > 1 && <div className="merged-page-tabs" role="tablist" aria-label={`组合页面 ${currentPage?.group}`}>{mergedPages.map(item => <button key={item.id} role="tab" aria-selected={page === item.id} className={page === item.id ? "active" : ""} onClick={() => go(item.id)}><item.icon size={15} />{item.label}{item.id === "mine" && dueCount > 0 && <i className="training-tab-dot" role="img" aria-label="有未完成训练待办" />}</button>)}</div>}
         <BrowserPreparation api={api} enabled={Boolean(data)} />
         <div className={"workspace-area " + (practiceId ? "practicing" : "")}>
+          <Suspense fallback={<div className="loading-screen" role="status"><LoaderCircle size={27} className="spin" /><p>正在载入练习编辑器</p></div>}>
           {loading ? (
             <div className="loading-screen">
               <LoaderCircle size={27} className="spin" />
@@ -2244,6 +2348,7 @@ export default function App() {
               hub={hub}
               onTrain={openPractice}
               onJoin={startOriginalContest}
+              onStartReproduction={startReproduction}
             />
           ) : page === "growth" ? (
             <GrowthPage
@@ -2251,6 +2356,13 @@ export default function App() {
               onGoalsChanged={() => api("workspace").then(applyWorkspace)}
               insights={insights}
               hub={hub}
+              account={account}
+              profile={profileSnapshot?.profile}
+              profileSnapshot={profileSnapshot}
+              accountFocus={accountFocus}
+              onProfileChanged={profileChanged}
+              onHubChanged={setHub}
+              onError={(message) => notice(message, 'error')}
               onTrain={openPractice}
               onTopic={(node) => filterCategory(node, "library")}
               onSync={() =>
@@ -2258,7 +2370,7 @@ export default function App() {
                   .then(setHub)
                   .catch((e) => notice(e.message, "error"))
               }
-              onAccounts={() => { setSettingsTab("accounts"); go("settings"); }}
+              onAccounts={() => openAccounts('connections')}
               onAchievements={openAchievements}
             />
           ) : page === "goals" ? (
@@ -2268,11 +2380,12 @@ export default function App() {
           ) : page === "lectures" ? (
             <LecturesPanel api={api} initialLecture={lectureId} onTrain={openPractice} onError={(message) => notice(message, "error")} />
           ) : page === "rankings" ? (
-            <RankingsPage api={api} onConfigure={() => { setSettingsTab("accounts"); go("settings"); }} onError={(message) => notice(message, "error")} />
+            <RankingsPage api={api} onConfigure={() => openAccounts()} onError={(message) => notice(message, "error")} />
           ) : (
             settingsPage()
           )}
-          {readerPanel}
+          </Suspense>
+          <Suspense fallback={<div className="loading-small" role="status"><LoaderCircle className="spin" size={20} /></div>}>{readerPanel}</Suspense>
         </div>
       </main>
       {toast && (
@@ -2291,7 +2404,7 @@ export default function App() {
         </div>
       )}
       {dialog === "daily-tasks" && <Modal title="每日任务" onClose={() => setDialog(null)} wide><DailyTasks dailyTasks={insights?.dailyTasks} onClaim={async (id, date) => { try { await api("daily-tasks/claim", { id, date }); setInsights(await api("insights")); notice("每日任务经验已领取", "success"); } catch (issue) { notice(issue.message, "error"); throw issue; } }} /></Modal>}
-      {dialog === "achievements" && <Modal title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => setDialog(null)} wide><AchievementPanel achievements={achievements} /></Modal>}
+      {dialog === "achievements" && <Modal title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => setDialog(null)} wide><AchievementPanel achievements={achievements} newIds={unseenAchievements.map(item => item.id)} onSeen={markAchievementSeen} /></Modal>}
       {dialog === "submission" && selectedSubmission && <Modal title={selectedSubmission.title + " · 历史提交"} onClose={() => setDialog(null)} wide footer={<button className="primary" onClick={() => { setDialog(null); openPractice(selectedSubmission.problemId); }}><Play size={14} />继续练习</button>}><div className="submission-detail-meta"><Verdict value={selectedSubmission.verdict} /><span>{formatDate(selectedSubmission.submittedAt)}</span><span>{selectedSubmission.contestName}</span><button className="secondary" disabled={!selectedSubmission.code} onClick={() => copy(selectedSubmission.code)}><Copy size={14} />复制本次代码</button></div><pre className="submission-source"><code>{selectedSubmission.code || "这条记录没有保存代码。"}</code></pre>{selectedSubmission.message && <p className="submission-message">{selectedSubmission.message}</p>}</Modal>}
       {dialog === "updates" && (
         <Modal title="更新与新内容" onClose={() => setDialog(null)} wide>
@@ -2312,20 +2425,12 @@ export default function App() {
               {passedCount}
               <small> / {totalCount}</small>
             </strong>
-            <span>题已 AC</span>
+            <span className={highestAcAchievement ? 'summary-earned-achievement' : ''}>{highestAcAchievement && <Trophy size={17} />}{!insights ? "成长与成就数据读取中" : highestAcAchievement?.name || "开始训练"}</span>
           </div>
           <div className="summary-grid">
             <div>
               <strong>{num(summary.attempts)}</strong>
               <span>代码提交</span>
-            </div>
-            <div>
-              <strong>{num(summary.samplePassed)}</strong>
-              <span>仅样例通过</span>
-            </div>
-            <div>
-              <strong>{dueCount}</strong>
-              <span>今日待办</span>
             </div>
             <div>
               <strong>
@@ -2342,22 +2447,7 @@ export default function App() {
             题可供选择。个人分母只包含主动加入的单题、比赛和模拟赛，同题只计一次。
           </p>
           <div className="milestones">
-            {[
-              { goal: 1, name: "第一次通过" },
-              { goal: 10, name: "积累十题" },
-              { goal: 50, name: "五十题里程碑" },
-            ].map((m) => (
-              <div
-                key={m.goal}
-                className={passedCount >= m.goal ? "earned" : ""}
-              >
-                <Trophy size={16} />
-                <span>{m.name}</span>
-                <small>
-                  {passedCount >= m.goal ? "已达成" : m.goal + " AC"}
-                </small>
-              </div>
-            ))}
+            {nextAcAchievement ? <div className="next-ac-milestone"><Trophy size={16} /><span>下个成就 · {nextAcAchievement.name}</span><small>{num(nextAcAchievement.progress)} / {num(nextAcAchievement.target)}</small>{nextAcAchievement.rewardTitle ? <b>称号 · {nextAcAchievement.rewardTitle.name}</b> : nextAcAchievement.rewardXp > 0 && <b>+{num(nextAcAchievement.rewardXp)} XP</b>}</div> : <div>{insights ? acAchievements.length ? "全部 AC 成就已达成" : "AC 成就正在准备" : "正在读取 AC 成就"}</div>}
           </div>
         </Modal>
       )}

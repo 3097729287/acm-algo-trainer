@@ -34,6 +34,9 @@ LOG = logging.getLogger("tb.desktop")
 
 
 def configure_logging() -> None:
+    if any(isinstance(handler, RotatingFileHandler) and Path(handler.baseFilename) == LOG_FILE
+           for handler in logging.getLogger().handlers):
+        return
     LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
     handler = RotatingFileHandler(LOG_FILE, maxBytes=2_000_000, backupCount=3, encoding="utf-8")
     handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(name)s: %(message)s"))
@@ -218,6 +221,8 @@ def run_desktop() -> int:
         if window is None:
             raise RuntimeError("无法创建 TB 窗口。")
         bind(window, memory_path)
+        from webview_resources import bind as bind_resources
+        bind_resources(window)
         # 桌面全屏：受本机写接口保护，通过 pywebview 原生 toggle_fullscreen 实现。
         bind_desktop_fullscreen(server, window)
         from browser_bridge import BrowserBridge
@@ -310,6 +315,10 @@ if __name__ == "__main__":
     if len(sys.argv) == 7 and sys.argv[1] == "--apply-update-patch":
         from update_patch import helper_main
         raise SystemExit(helper_main(sys.argv[2:]))
+    if getattr(sys, 'frozen', False):
+        configure_logging()
+        from release_metadata import refresh_release_metadata
+        refresh_release_metadata(APP_DIR)
     if len(sys.argv) == 3 and sys.argv[1] in ("--package-check", "--serve-check", "--serve-account-check", "--native-account-check", "--native-check", "--account-network-check"):
         from release_probe import run
         raise SystemExit(run(sys.argv[1], sys.argv[2]))

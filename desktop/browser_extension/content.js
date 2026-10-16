@@ -1,14 +1,19 @@
 (() => {
-  let busy = false, stopped = false;
+  let busy = false, stopped = false, timer, idle = true;
   const channel = crypto.randomUUID();
   const run = answer => {
-    if (answer?.stop) { stopped = true; return; }
-    if (answer?.context) window.postMessage({ tbBrowserCommand: channel, ...answer }, location.origin);
+    if (answer?.stop) { stopped = true; clearTimeout(timer); return; }
+    if (answer?.idle === true) idle = true;
+    if (answer?.context) { idle = false; window.postMessage({ tbBrowserCommand: channel, ...answer }, location.origin); }
   };
   async function tick() {
     if (busy || stopped) return;
     busy = true;
-    try { run(await chrome.runtime.sendMessage({ type: 'tick' })); } catch {} finally { busy = false; }
+    clearTimeout(timer);
+    try { run(await chrome.runtime.sendMessage({ type: 'tick' })); } catch {} finally {
+      busy = false;
+      if (!stopped) timer = setTimeout(tick, idle ? 30000 : 1000);
+    }
   }
   window.addEventListener('message', event => {
     if (event.source !== window || event.origin !== location.origin || event.data?.tbBrowserResult !== channel) return;
@@ -22,7 +27,7 @@
     });
   });
   chrome.runtime.onMessage.addListener((message, sender, reply) => {
-    if (message.type === 'wake') { stopped = false; tick(); }
+    if (message.type === 'wake') { stopped = false; idle = false; clearTimeout(timer); tick(); }
     if (message.type === 'submission-page') {
       // Reuse only an idle page for this exact task. Never disclose a
       // verification token or replace code that the user wrote in the browser.
@@ -59,5 +64,7 @@
     }
   });
   document.addEventListener('DOMContentLoaded', tick, { once: true });
-  setInterval(tick, 1000);
+  // Unbound tabs need no one-second IPC/storage polling. A newly assigned or
+  // reused job is explicitly woken by the worker and remains responsive.
+  if (document.readyState !== 'loading') tick();
 })();

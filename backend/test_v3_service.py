@@ -22,6 +22,19 @@ class RemovalInsightsTests(unittest.TestCase):
     accept = fixtures.ServiceTests.accept
     contest = fixtures.ServiceTests.contest
 
+    def assert_xp_components(self, base, achievement):
+        growth = self.service.insights()['growth']
+        self.assertEqual(growth['xp'], base + achievement)
+        self.assertEqual(growth['achievementXp'], achievement)
+        self.assertEqual(growth['missionXp'], 0)
+        self.assertEqual(growth['rankingXp'], 0)
+        self.assertEqual(self.service.connection.execute('SELECT COALESCE(SUM(awarded_xp),0) FROM official_first_xp_awards').fetchone()[0], base)
+        claims = [tuple(row) for row in self.service.connection.execute('SELECT * FROM achievement_xp_claims ORDER BY achievement_id')]
+        repeated = self.service.insights()['growth']
+        self.assertEqual(repeated['xp'], growth['xp'])
+        self.assertEqual(repeated['newAchievementXp'], 0)
+        self.assertEqual([tuple(row) for row in self.service.connection.execute('SELECT * FROM achievement_xp_claims ORDER BY achievement_id')], claims)
+
     def test_remove_retains_code_evidence_and_rejoin(self):
         self.service.save_draft("fixture::A", "my draft")
         self.service.start_training("fixture::A")
@@ -103,7 +116,7 @@ class RemovalInsightsTests(unittest.TestCase):
         self.assertEqual(self.service.workspace()["summary"]["total"], 0)
         self.assertEqual(self.service.insights()["summary"]["officialSolved"], 1)
         # 1500 以下官方首次 AC = 100 XP。
-        self.assertEqual(self.service.insights()["growth"]["xp"], 100)
+        self.assert_xp_components(100,25)
         self.service.start_training("archive::A")
         self.assertEqual(self.service.workspace()["summary"]["accepted"], 1)
 
@@ -146,9 +159,9 @@ class RemovalInsightsTests(unittest.TestCase):
         self.assertEqual(after["assessment"]["rating"], None)
         # 官方 AC 才加经验，重复同题只加一次。
         self.accept()
-        self.assertEqual(self.service.insights()["growth"]["xp"], 100)
+        self.assert_xp_components(100,25)
         self.accept(submission_id=6001)
-        self.assertEqual(self.service.insights()["growth"]["xp"], 100)
+        self.assert_xp_components(100,25)
 
     def test_official_evidence_exact_match_only_no_unknown_tags(self):
         self.library.rows[0]["url"] = "https://codeforces.com/contest/123/problem/A"
@@ -167,11 +180,11 @@ class RemovalInsightsTests(unittest.TestCase):
         self.accept()
         self.clock.advance(hours=23)
         self.accept(submission_id=6101)
-        self.assertEqual(self.service.insights()["growth"]["xp"], 100)
+        self.assert_xp_components(100,25)
         self.clock.advance(hours=2)
         self.accept(submission_id=6102)
         self.accept(submission_id=6103)
-        self.assertEqual(self.service.insights()["growth"]["xp"], 100)
+        self.assert_xp_components(100,25)
         # 只有未看题解的官方 AC 算独立完成证据（A 算，B 不算）。
         self.service.start_training("fixture::B")
         self.service.mark_solution_seen("fixture::B")
@@ -222,7 +235,7 @@ class HubFixture:
 
     def row(self, identity):
         row = next((row for row in self.library if row["id"] == identity), None)
-        return {"场次": row["contest"], "题号": row["problem"], "题名": row["title"], "知识点": row["knowledge"], "难度": str(row["difficulty"]), "状态": "未做", "日期": "", "_remote": True, "_id": identity, "_url": row["url"], "_platform": row["platform"], "_series": row["series"]} if row else None
+        return {"场次": row["contest"], "题号": row["problem"], "题名": row["title"], "知识点": row["knowledge"], "难度": str(row["difficulty"]), "状态": "未做", "日期": "", "_remote": True, "_id": identity, "_url": row["url"], "_platform": row["platform"], "_series": row["series"], "_encoded":dict(row)} if row else None
 
     def close(self):
         self.closed = True
@@ -235,9 +248,16 @@ class OverlayHTTPTests(unittest.TestCase):
         self.table = self.root / "TB.md"
         self.original = "| 场次 | 题号 | 题名 | 知识点 | 难度 | 状态 | 日期 |\n|---|---|---|---|---|---|---|\n| ABC 478 | D | 原归档 | 排序 | 1100 | 独立AC | 2020-01-01 |\n".encode()
         self.table.write_bytes(self.original)
-        self.remote = {"id": "remote:codeforces:123::A", "contest": "CF 123", "problem": "A", "title": "远程题目", "tags": ["排序"], "knowledge": "排序", "difficulty": 1300, "status": "未做", "date": "", "platform": "Codeforces", "series": "Div.4", "queue": None, "url": "https://codeforces.com/contest/123/problem/A", "source": "remote", "solutionAvailable": False, "solutionState": "missing"}
+        self.remote = {"id": "remote:codeforces:123::A", "contest": "Div.4 123", "contestFullName":"Codeforces Round 123 (Div. 4)", "problem": "A", "title": "远程题目", "tags": ["排序"], "knowledge": "排序", "difficulty": 1300, "status": "未做", "date": "", "platform": "Codeforces", "series": "Div.4", "queue": None, "url": "https://codeforces.com/contest/123/problem/A", "source": "remote", "solutionAvailable": False, "solutionState": "missing"}
         self.integration = HubFixture([self.remote])
         self.server = backend.create_server(require_account=False, data_file=self.table, data_root=self.root, training_file=self.root / "personal.sqlite", integrations=self.integration, backup_dir=self.root / "backups")
+        statement = {'id':self.remote['id'],'title':self.remote['title'],'url':self.remote['url'],
+                     'markdown':'Read two integers and print their sum.',
+                     'samples':[{'name':'Sample 1','input':'1 2\n','output':'3\n'}],
+                     'limits':{'timeMs':1000,'memoryMb':128},'statementAvailable':True}
+        self.server.store.library.save_statement(self.remote['id'],statement)
+        from contest_policy import content_ready
+        self.remote['catalogContentReady'] = content_ready(self.server.store.library.statement(self.remote['id']))
         self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
         self.thread.start()
 
@@ -265,6 +285,9 @@ class OverlayHTTPTests(unittest.TestCase):
         status, data = self.request("/api/data")
         self.assertEqual(status, 200)
         self.assertEqual(len(data["rows"]), 2)
+        remote = next(row for row in data['rows'] if row['id']==self.remote['id'])
+        self.assertFalse(remote.get('catalogHidden',False))
+        self.assertTrue(self.server.store.library.statement(self.remote['id'])['samples'])
         self.assertFalse(data["rows"][0]["solutionAvailable"])
         self.assertTrue(self.server.store.row(self.remote["id"])["_remote"])
         self.assertEqual(len(self.server.store.raw_rows()), 1)

@@ -2,11 +2,12 @@
 from __future__ import annotations
 
 import base64
-from contextlib import contextmanager, nullcontext
+from contextlib import closing, contextmanager, nullcontext
 import json
 import logging
 import re
 import secrets
+import sqlite3
 import threading
 import time
 import uuid
@@ -27,15 +28,21 @@ class Accounts:
         self.active_requests = 0
         self.changing_account = False
         self.waiting_changes = 0
-        self.base = server.training
+        original = server.training
+        self.original_db_path = original.db_path
+        self.legacy_owner = original._ranking_profile()['user_id']
+        self.legacy_secret = original.legacy_token()
         self.root = server.state_dir
-        self.endpoint = validate_endpoint(endpoint if endpoint is not None else self.base._ranking_profile()['endpoint'] or default_endpoint())
+        self.endpoint = validate_endpoint(endpoint if endpoint is not None else original._ranking_profile()['endpoint'] or default_endpoint())
         self.opener = service_opener(self.endpoint)
         self.session_path = self.root / 'account-session.json'
         self.registry_path = self.root / 'account-workspaces.json'
         self.registry = load_document(self.registry_path, {})
-        self.services = {str(self.base.db_path): self.base}
+        self.services = {str(original.db_path): original}
+        self.retired_services = []
+        self.retired_syncs = []
         self.session = None
+        self.state_sync = None
         self.saved = None
         self.closed = False
         self.error = ''
@@ -77,20 +84,32 @@ class Accounts:
                 else:
                     self.active_requests -= 1
                 self.requests.notify_all()
+            # Joining a ranking job under the account writer lock can deadlock
+            # with a late 401. Drain retired workspaces only after releasing it.
+            self._drain_retired()
 
-    def _remote(self, method, path, body=None, session=None):
+    def _drain_retired(self):
+        with self.lock:
+            services, self.retired_services = self.retired_services, []
+            syncs, self.retired_syncs = self.retired_syncs, []
+        for sync in syncs:
+            sync.close()
+        for service in services:
+            service.close()
+
+    def _remote(self, method, path, body=None, session=None, *, invalidate=True, maximum=262144, timeout=8):
         if self.closed:
             raise ServiceError(503, 'TB 正在关闭')
         if not self.endpoint:
             raise ServiceError(503, '账号服务尚未配置，请连接账号服务后重试')
-        headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'User-Agent': 'TB/0.10.5'}
+        headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'User-Agent': 'TB/1.0.20', 'X-TB-State-Protocol': '1'}
         if session:
             headers.update({'X-TB-User': session['userId'], 'Authorization': 'Bearer ' + session['token']})
         payload = json.dumps(body, ensure_ascii=False).encode('utf-8') if body is not None else None
         try:
-            with self.opener.open(Request(self.endpoint + path, data=payload, method=method, headers=headers), timeout=8) as response:
-                raw = response.read(262145)
-            if len(raw) > 262144:
+            with self.opener.open(Request(self.endpoint + path, data=payload, method=method, headers=headers), timeout=timeout) as response:
+                raw = response.read(maximum + 1)
+            if len(raw) > maximum:
                 raise ValueError()
             result = json.loads(raw)
             if not isinstance(result, dict):
@@ -102,7 +121,7 @@ class Accounts:
             except (ValueError, UnicodeError):
                 message = None
             safe = message if isinstance(message, str) and len(message) <= 180 and not any(ord(c) < 32 for c in message) else '账号服务暂时无法完成请求'
-            if issue.code == 401 and session and self.session and self.session['token'] == session['token']:
+            if invalidate and issue.code == 401 and session and self.session and self.session['token'] == session['token']:
                 self.invalidate(session['token'])
             raise ServiceError(issue.code, safe) from None
         except (URLError, TimeoutError, OSError, ValueError) as issue:
@@ -128,8 +147,11 @@ class Accounts:
             if token and (not self.session or self.session['token'] != token):
                 return
             self.session = self.saved = None
+            if self.state_sync:
+                self.state_sync.stop.set()
+                self.state_sync.wake.set()
             save_document(self.session_path, '')
-            self.error = '登录已失效，请重新登录'
+            self.error = '登录已失效或账号已在另一台电脑登录，请重新登录'
             self.server.store.token = secrets.token_urlsafe(32)
 
     def snapshot(self):
@@ -148,8 +170,9 @@ class Accounts:
                         self.invalidate()
             return {'required': True, 'authenticated': bool(self.session), 'token': self.server.store.token,
                     'account': self.session['account'] if self.session else None,
-                    'usesOriginalWorkspace': bool(self.session) and self.server.training.db_path == self.base.db_path,
-                    'lastLoginId': self.last_login, 'error': self.error if not self.session else ''}
+                    'usesOriginalWorkspace': bool(self.session) and self.server.training.db_path == self.original_db_path,
+                    'lastLoginId': self.last_login, 'error': self.error if not self.session else '',
+                    'sync': self.state_sync.snapshot() if self.session and self.state_sync else None}
 
     def _assert_idle(self):
         current = self.server.training
@@ -170,19 +193,20 @@ class Accounts:
         if str(uuid.UUID(owner)) != owner:
             raise ServiceError(503, '账号响应无效')
         base_owner = self.registry.get('originalOwner')
-        original = self.base._ranking_profile()
-        if not base_owner and (original['user_id'] == owner or self.registry.get('registeredOwner') == owner):
+        if not base_owner and (self.legacy_owner == owner or self.registry.get('registeredOwner') == owner):
             base_owner = owner
         if not base_owner and not self.registry.get('registeredOwner'):
-            with self.base.lock:
-                empty = not any(self.base.connection.execute(f'SELECT 1 FROM {table} LIMIT 1').fetchone()
+            # The original workspace need not remain a live service after an
+            # account switch. A short read-only check preserves claim rules.
+            with closing(sqlite3.connect(self.original_db_path.as_uri() + '?mode=ro', uri=True)) as connection:
+                empty = not any(connection.execute(f'SELECT 1 FROM {table} LIMIT 1').fetchone()
                                 for table in ('training', 'drafts', 'submissions', 'contests', 'goals', 'daily_missions'))
             if empty:
                 base_owner = owner
         if base_owner == owner:
             self.registry['originalOwner'] = owner
             save_document(self.registry_path, self.registry)
-            return self.base.db_path
+            return self.original_db_path
         return self.root / 'accounts' / owner / 'tb-personal.sqlite3'
 
     def _activate(self, value, rotate=True):
@@ -200,9 +224,20 @@ class Accounts:
             service = self.factory(path)
             self.services[str(path)] = service
         service.account_provider = self.credentials
+        from account_sync import AccountStateSync
+        old_sync = self.state_sync
+        if self.session and self.session['userId'] == owner and old_sync and old_sync.service is service:
+            old_sync.session = candidate
+            state_sync = old_sync
+        else:
+            state_sync = AccountStateSync(self, service, candidate)
+            state_sync.initialize()
         service.bind_account(account, self.endpoint)
         self.server.training = service
         self.session = candidate
+        self.state_sync = state_sync
+        self.registry['activeOwner'] = owner
+        save_document(self.registry_path, self.registry)
         self.saved = None
         self.last_login = account['loginId']
         save_document(self.root / 'account-login.json', self.last_login)
@@ -211,6 +246,16 @@ class Accounts:
             self.server.store.token = secrets.token_urlsafe(32)
         self.error = ''
         service.leaderboard.invalidate()
+        state_sync.start()
+        if old_sync and old_sync is not state_sync:
+            old_sync.stop.set()
+            old_sync.wake.set()
+            self.retired_syncs.append(old_sync)
+        for key, previous in list(self.services.items()):
+            if previous is not service:
+                previous.account_provider = lambda owner: None
+                self.retired_services.append(previous)
+                del self.services[key]
 
     def register(self, body):
         with self.lock:
@@ -220,8 +265,7 @@ class Accounts:
                 raise ServiceError(400, '请填写昵称、登录号和密码')
             legacy = None
             if not self.registry.get('originalOwner') and not self.registry.get('registeredOwner'):
-                profile = self.base._ranking_profile()
-                legacy = {'userId': profile['user_id'], 'token': self.base.legacy_token()}
+                legacy = {'userId': self.legacy_owner, 'token': self.legacy_secret}
             value = self._remote('POST', '/v1/accounts/register', body, legacy)
             if not self.registry.get('originalOwner') and not self.registry.get('registeredOwner'):
                 self.registry['registeredOwner'] = value['account']['userId']
@@ -243,6 +287,7 @@ class Accounts:
             return self.snapshot()
 
     def logout(self):
+        self.sync_pending(wait=True)
         with self.lock:
             self.require()
             self._assert_idle()
@@ -279,6 +324,14 @@ class Accounts:
         return self.server.training.profile()
 
     def close(self):
+        self._drain_retired()
+        state_sync = self.state_sync
+        if state_sync:
+            try:
+                state_sync.flush()
+            except ServiceError:
+                pass  # Durable local journal is retried before next login.
+            state_sync.close()
         with self.lock:
             self.closed = True
             self.session = self.saved = None
@@ -287,3 +340,9 @@ class Accounts:
         # hold the account lock while joining its executor.
         for service in services:
             service.close()
+
+    def sync_pending(self, wait=False):
+        current = self.state_sync
+        if not self.session or current is None or current.session['token'] != self.session['token']:
+            return {'status': 'offline', 'pending': False, 'error': '', 'lastSyncedAt': None}
+        return current.flush(wait=wait)

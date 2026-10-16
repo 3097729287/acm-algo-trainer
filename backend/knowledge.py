@@ -305,6 +305,11 @@ class KnowledgeAnalysisCache:
         from persistence import load_document
         self.state=load_document(self.path,{})
 
+    def catalog_signature(self):
+        with self.lock:
+            return {identity: hashlib.sha256(json.dumps(value, ensure_ascii=False, sort_keys=True).encode()).hexdigest()
+                    for identity, value in self.state.items()}
+
     def enrich(self,row,**kwargs):
         with self.lock:
             identity=str(row.get('id') or row.get('_id') or '')

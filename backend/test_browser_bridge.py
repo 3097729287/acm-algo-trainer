@@ -59,6 +59,23 @@ class BrowserBridgeTests(unittest.TestCase):
         self.assertFalse(self.bridge.sessions[self.sid].get('manual'))
         self.assertEqual(self.opened,[])
 
+    def test_transport_error_after_checkpoint_keeps_late_receipt_and_never_replays(self):
+        self.dispatch()
+        self.exchange(event={'status': 'submitted', 'attempted': True})
+        self.exchange(event={'status': 'error', 'message': 'connection interrupted'})
+        self.assertEqual(self.bridge.status(self.sid)['status'], 'unconfirmed')
+        self.assertEqual(self.exchange()['action'], 'inspect')
+        self.exchange(event={'status': 'finished', 'submissionId': '101', 'verdict': 'WA'})
+        self.assertEqual(self.bridge.status(self.sid)['verdict'], 'WA')
+        self.assertEqual(len(self.saved), 1)
+
+    def test_explicit_original_site_rejection_remains_an_error(self):
+        self.dispatch()
+        self.exchange(event={'status': 'submitted', 'attempted': True})
+        self.exchange(event={'status': 'error', 'attempted': False, 'message': 'Unsupported language'})
+        self.assertEqual(self.bridge.status(self.sid)['status'], 'error')
+        self.assertEqual(self.bridge.status(self.sid)['message'], 'Unsupported language')
+
     def test_all_four_platforms_submit_without_opening_browser(self):
         for url in (self.url, 'https://codeforces.com/contest/123/problem/A',
                     'https://atcoder.jp/contests/abc100/tasks/abc100_a', 'https://www.luogu.com.cn/problem/P1001'):

@@ -7,7 +7,7 @@ import '@/pages/GoalsPanel.css';
 function useGoals(api) {
   const [data,setData]=useState({goals:[]}),[error,setError]=useState('');
   const reload=useCallback(()=>api('goals').then(value=>{setData(value);setError('');}).catch(issue=>setError(issue.message)),[api]);
-  useEffect(()=>{reload();const timer=setInterval(reload,60000);const visible=()=>{if(!document.hidden)reload();};document.addEventListener('visibilitychange',visible);return()=>{clearInterval(timer);document.removeEventListener('visibilitychange',visible);};},[reload]);
+  useEffect(()=>{reload();const visible=()=>{if(!document.hidden)reload();};const timer=setInterval(visible,60000);document.addEventListener('visibilitychange',visible);return()=>{clearInterval(timer);document.removeEventListener('visibilitychange',visible);};},[reload]);
   return {data,setData,error,setError,reload};
 }
 

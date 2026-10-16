@@ -195,7 +195,7 @@ async function handle(message, sender) {
     return {ok:true};
   }
   const jobs = (await chrome.storage.session.get('jobs')).jobs || {}, job = jobs[sender.tab.id];
-  if (!job) return {};
+  if (!job) return {idle:true};
   if (message.type === 'event' && message.value?.sessionId !== job.sessionId) return {};
   if (!['tick', 'event'].includes(message.type)) return {};
   const answer = await exchange(job, { pageUrl: page.href, ...(message.type === 'event' ? { event: message.value } : {}) });
@@ -208,7 +208,10 @@ async function handle(message, sender) {
   if (answer.stop) {
     const latest = (await chrome.storage.session.get('jobs')).jobs || {};
     delete latest[sender.tab.id]; await chrome.storage.session.set({ jobs: latest });
-    if (job.owned && answer.status === 'finished') await chrome.tabs.remove(sender.tab.id).catch(() => {});
+    // Only pages created for this task belong to TB. Release them on ordinary
+    // failure as well as success; preserve user-owned or revealed verification
+    // tabs and every unconfirmed job that can still receive a late receipt.
+    if (job.owned && ['finished','error','closed'].includes(answer.status)) await chrome.tabs.remove(sender.tab.id).catch(() => {});
   }
   return answer;
 }

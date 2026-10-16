@@ -86,12 +86,8 @@ class SilentSubmitter(OfficialBridge):
             if self.bridge.route_to_browser(identity):
                 return
             if snapshot is None:
-                if self.bridge._session_client(session['platform']):
-                    self._event(identity, {'status': 'loading', 'attempted': False,
-                        'message': '浏览器已连接，正在刷新本平台的登录会话；尚未发送代码。'})
-                    return
                 self._event(identity, {'status': 'needs_browser', 'attempted': False,
-                    'message': '首次登录同步尚未完成：请启用或重新加载最新版 TB 浏览器连接扩展；同步后可关闭浏览器静默提交。'})
+                    'message': '未收到本平台的登录会话，尚未发送代码。请在浏览器确认已启用最新版 TB 连接扩展，重新检测后再提交。'})
                 return
             self._ui(lambda: self._attach_silent(identity, snapshot))
             next_inspect = 0
@@ -122,7 +118,11 @@ class SilentSubmitter(OfficialBridge):
                         self._eval('window.__tbSilentCommand?.(' + json.dumps(answer, ensure_ascii=True) + ')', identity=identity)
                     next_inspect = time.monotonic() + (.25 if status == 'loading' else 1)
         except Exception:
-            self._event(identity, {'status': 'error', 'message': '后台提交组件未能完成连接，请重试。'})
+            # A lost connection after the dispatch checkpoint cannot prove that
+            # the original site rejected the code. Keep its receipt poll alive
+            # and never invite an automatic duplicate submit.
+            logging.exception('Silent submission failed: platform=%s', session['platform'])
+            self._event(identity, navigation_failure(session))
         finally:
             try:
                 self._ui(lambda: self._release_silent(identity))
@@ -130,8 +130,15 @@ class SilentSubmitter(OfficialBridge):
                 pass
             with self.lock:
                 self.threads.pop(identity, None)
-                if session['status'] == 'loading' and session.get('intent') and session.get('transport') != 'browser' and not self.stopping.is_set():
-                    self.start(identity)
+                self.messages.pop(identity, None)
+
+    def _message(self, identity, packet):
+        # WebView callbacks can arrive while its panel is being disposed. Do
+        # not retain a finished queue or resurrect a completed worker for them.
+        with self.lock:
+            messages = self.messages.get(identity)
+        if messages is not None:
+            messages.put(packet)
 
     def _release_silent(self, identity):
         entry = self.views.pop(identity, None)
@@ -163,7 +170,7 @@ class SilentSubmitter(OfficialBridge):
         def initialized(_, args):
             if not args.IsSuccess:
                 logging.error('Silent WebView initialization: %s', args.InitializationException)
-                self.messages[identity].put({'value': {'sessionId': identity, 'status': 'error', 'message': 'WebView2 后台组件初始化失败。'}})
+                self._message(identity, {'value': {'sessionId': identity, 'status': 'error', 'attempted': False, 'message': 'WebView2 后台组件初始化失败。'}})
                 return
             core = view.CoreWebView2
             if self.native_setup:
@@ -187,28 +194,31 @@ class SilentSubmitter(OfficialBridge):
                 target = urlsplit(str(event.Uri))
                 if target.scheme != 'https' or target.hostname not in LOGIN_HOSTS[session['platform']]:
                     event.Cancel = True
-                    self.messages[identity].put({'value': {'sessionId': identity, 'status': 'error', 'message': '已停止离开原站的提交跳转。'}})
+                    value = navigation_failure(session)
+                    if not value['attempted']:
+                        value['message'] = '已停止离开原站的提交跳转，尚未发送代码。'
+                    self._message(identity, {'value': value})
             def popup(_, event):
                 event.Handled = True
             def message(_, event):
                 try:
                     target = urlsplit(str(event.Source))
                     if target.scheme == 'https' and target.hostname in LOGIN_HOSTS[session['platform']]:
-                        self.messages[identity].put(json.loads(str(event.TryGetWebMessageAsString())))
+                        self._message(identity, json.loads(str(event.TryGetWebMessageAsString())))
                 except (ValueError, TypeError):
                     pass
             core.NavigationStarting += navigation
             core.NewWindowRequested += popup
             core.WebMessageReceived += message
             def parsed(_, event):
-                self.messages[identity].put({'tick': True})
+                self._message(identity, {'tick': True})
             recovering = [False]
             def loaded(_, event):
                 if event.IsSuccess:
                     parsed(_, event)
                 elif str(event.WebErrorStatus) != 'OperationCanceled':
                     value = navigation_failure(session)
-                    self.messages[identity].put({'value': value})
+                    self._message(identity, {'value': value})
                     if value['attempted'] and not recovering[0] and not self.stopping.is_set() and session['platform'] in ('Codeforces', 'AtCoder'):
                         recovering[0] = True
                         suffix = '/my' if session['platform'] == 'Codeforces' else '/submissions/me'
@@ -220,7 +230,7 @@ class SilentSubmitter(OfficialBridge):
                     task.Result
                     self._ui(lambda: core.Navigate(session['url']))
                 except Exception:
-                    self.messages[identity].put({'value': {'sessionId': identity, 'status': 'error', 'message': '原站回执监听初始化失败。'}})
+                    self._message(identity, {'value': {'sessionId': identity, 'status': 'error', 'attempted': False, 'message': '原站回执监听初始化失败。'}})
             core.AddScriptToExecuteOnDocumentCreatedAsync(bootstrap(dict(session))).ContinueWith(Action[Task[String]](registered))
         view.CoreWebView2InitializationCompleted += initialized
         view.EnsureCoreWebView2Async(form.browser.webview.CoreWebView2.Environment)

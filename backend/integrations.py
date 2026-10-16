@@ -116,15 +116,22 @@ class _Redirect(HTTPRedirectHandler):
 class PublicClient:
     def __init__(self,state_dir,stop=None,transport=None,spacing=2):
         self.directory=Path(state_dir)/'http';self.stop=stop or threading.Event();self.transport=transport;self.spacing=spacing
-        self.lock=threading.RLock();self.pacing={};self.backoff={};self.opener=build_opener(_Redirect())
-    def _get(self,url,headers=None):
-        safe_url(url);host=urlsplit(url).hostname;path=self.directory/(hashlib.sha256(url.encode()).hexdigest()+'.json')
-        with self.lock:
+        self.lock=threading.RLock();self.pacing={};self.backoff={};self.request_locks={};self.opener=build_opener(_Redirect())
+    def _get(self,url,headers=None,public_fields=None):
+        safe_url(url);host=urlsplit(url).hostname
+        cache_key=url+('\0contest-metadata' if public_fields else '')
+        path=self.directory/(hashlib.sha256(cache_key.encode()).hexdigest()+'.json')
+        # Deduplicate one URL, but never hold a global lock during pacing or
+        # network I/O. A blocked CF discovery must not stall AtCoder/the UI.
+        with self.lock:request_lock=self.request_locks.setdefault(url,threading.Lock())
+        with request_lock:
             saved=load(path,{})
             if saved and time.time()-saved.get('at',0)<300:return saved['text']
             if self.stop.is_set():raise RuntimeError('同步已停止')
-            if time.monotonic()<self.backoff.get(host,(0,0))[0]:raise RuntimeError('原站暂不可用，正在退避等待')
-            delay=self.spacing-(time.monotonic()-self.pacing.get(host,-1000))
+            with self.lock:
+                if time.monotonic()<self.backoff.get(host,(0,0))[0]:raise RuntimeError('原站暂不可用，正在退避等待')
+                scheduled=max(time.monotonic(),self.pacing.get(host,-1000)+self.spacing)
+                delay=scheduled-time.monotonic();self.pacing[host]=scheduled
             if delay>0 and self.stop.wait(delay):raise RuntimeError('同步已停止')
             request_headers={'User-Agent':'TB/'+VERSION+' public-practice (+read-only)','Accept':'application/json,text/html;q=0.9'}
             if headers:request_headers.update(headers)
@@ -136,21 +143,33 @@ class PublicClient:
                         safe_url(response.url);body=response.read(32*1024*1024+1);etag=response.headers.get('ETag')
                 if len(body)>32*1024*1024:raise ValueError('公开响应超过大小限制')
                 text=body.decode('utf-8','replace')
-                self.pacing[host]=time.monotonic();self.backoff.pop(host,None)
+                if public_fields:
+                    # The anonymous CF standings endpoint requires an entire
+                    # board response. Retain task metadata, not participants.
+                    payload=json.loads(text);result=payload.get('result')
+                    if payload.get('status')=='OK' and isinstance(result,dict):
+                        payload['result']={key:result[key] for key in public_fields if key in result}
+                        text=json.dumps(payload,ensure_ascii=False)
+                with self.lock:self.backoff.pop(host,None)
                 if not self.stop.is_set():atomic(path,{'url':url,'text':text,'etag':etag,'at':time.time()})
                 return text
             except HTTPError as error:
                 if error.code==304 and saved:
-                    saved['at']=time.time();atomic(path,saved);self.pacing[host]=time.monotonic();return saved['text']
-                count=self.backoff.get(host,(0,0))[1]+1
-                self.backoff[host]=(time.monotonic()+min(3600,15*2**min(count,8)),count)
+                    saved['at']=time.time();atomic(path,saved);return saved['text']
+                with self.lock:
+                    count=self.backoff.get(host,(0,0))[1]+1
+                    self.backoff[host]=(time.monotonic()+min(3600,15*2**min(count,8)),count)
                 raise RuntimeError(f'原站公开 GET 返回 HTTP {error.code}；保留已有缓存') from error
             except (OSError,ValueError,RuntimeError) as error:
-                count=self.backoff.get(host,(0,0))[1]+1
-                self.backoff[host]=(time.monotonic()+min(3600,15*2**min(count,8)),count)
+                with self.lock:
+                    count=self.backoff.get(host,(0,0))[1]+1
+                    self.backoff[host]=(time.monotonic()+min(3600,15*2**min(count,8)),count)
                 raise RuntimeError(str(error)[:250]) from error
     def text(self,url,headers=None):return self._get(url,headers)
     def json(self,url,headers=None):return json.loads(self._get(url,headers))
+    def contest_problems(self,identity):
+        if not str(identity).isdigit():raise ValueError('比赛编号必须是数字')
+        return json.loads(self._get('https://codeforces.com/api/contest.standings?contestId='+str(identity),public_fields=('contest','problems')))
 
 class IntegrationService:
     def __init__(self,store,state_dir,auto_start=True,client=None,clock=None):
@@ -220,6 +239,14 @@ class IntegrationService:
             result['updates']['sourceNotice']='项目源代码与 TB 安装包；版本与下载入口以 GitHub Releases 为准。' if result['settings']['githubRepo']==KNOWN_REPO else '自定义公开来源；仅通知，不自动安装。'
             return result
 
+    def catalog_signature(self):
+        """Only public catalog inputs affect the catalog, not notifications/polls."""
+        with self.lock, self.dates.lock:
+            value = [self.state['rows'], self.state['difficultyMetadata'],
+                     self.state['settings']['minDifficulty'], self.state['settings']['maxDifficulty'],
+                     self.dates.public, self.dates.by_url]
+            return hashlib.sha256(json.dumps(value, ensure_ascii=False, sort_keys=True).encode()).digest()
+
     def contest_metadata(self,raw,url=None):
         return self.dates.for_row(raw,url)
 
@@ -249,9 +276,16 @@ class IntegrationService:
     def _observe_difficulty(self,row):
         key=canonical(row.get('url'));rating=row.get('difficulty')
         if not key:return
+        tags=row.get('sourceTags',row.get('tags'))
+        if isinstance(tags,list):
+            with self.lock:
+                previous=self.state['difficultyMetadata'].setdefault(key,{})
+                previous['officialTags']=copy.deepcopy(tags)
+                previous['officialTagsCheckedAt']=stamp(self.clock())
         if rating is None and (version_number(row.get('metadataVersion')) or (0,0,0)) >= (1,0,17) and row.get('difficultyConfidence') == 'UNKNOWN':
             fields = {name:copy.deepcopy(row.get(name)) for name in ('difficulty','difficultySource','difficultyEstimated','difficultyConfidence','difficultyBand','difficultyEvidence','metadataVersion')}
             fields['difficultyCheckedAt'] = stamp(self.clock())
+            if isinstance(tags,list):fields.update(officialTags=copy.deepcopy(tags),officialTagsCheckedAt=stamp(self.clock()))
             with self.lock:self.state['difficultyMetadata'][key] = fields
             return
         if not isinstance(rating,int) or isinstance(rating,bool) or not 0<rating<=10000:return
@@ -270,22 +304,46 @@ class IntegrationService:
         # and leave their difficulty frozen even when the official rating changes.
         if platform not in ('codeforces','atcoder'):return
         urls={}
-        for raw in self.store.raw_rows():
-            encoded=self.store.encode_row(raw,self.clock().date());key=canonical(encoded.get('url'))
-            if key:urls[key]=encoded
+        # A single cached catalogue read replaces thousands of per-row database
+        # connections; this is background work and does not invalidate the view.
+        data=getattr(self.store,'data',None)
+        if callable(data):
+            for encoded in data()['rows']:
+                key=canonical(encoded.get('url'))
+                if key:urls[key]=encoded
+        else:
+            for raw in self.store.raw_rows():
+                encoded=self.store.encode_row(raw,self.clock().date());key=canonical(encoded.get('url'))
+                if key:urls[key]=encoded
         with self.lock:
             for value in self.state['rows'].values():
                 key=canonical(value.get('url'))
                 if key:urls[key]=value
         if platform=='codeforces':
             result=P.cf_result(self.client,'problemset.problems')
+            seen=set()
             for item in result.get('problems',[]):
                 cid,index=item.get('contestId'),item.get('index');rating=P.integer(item.get('rating'))
-                if cid is None or not index or rating is None:continue
+                if cid is None or not index:continue
                 url=f'https://codeforces.com/contest/{cid}/problem/{index}'
                 if canonical(url) not in urls:continue
+                seen.add(canonical(url))
                 self._observe_difficulty({'url':url,'platform':'Codeforces','difficulty':rating,
                     'difficultySource':'Codeforces 官方 rating','tags':[P.CF_TAGS[tag] for tag in item.get('tags',[]) if tag in P.CF_TAGS]})
+            # Shared tasks may only appear under Div.1 in problemset.problems.
+            # Read the exact authorized Div.2 roster; never infer its indices.
+            from contest_policy import authorized
+            missing={int(match[1]) for key,row in urls.items() if key not in seen and authorized(row,'codeforces')
+                     and (match:=re.fullmatch(r'https://codeforces.com/contest/(\d+)/problem/[A-Za-z0-9]+',key))}
+            for cid in sorted(missing,reverse=True)[:2]:
+                if self.stop.is_set():break
+                try:roster=P.cf_roster(self.client,cid)
+                except (OSError,ValueError,RuntimeError,KeyError,TypeError):continue
+                for item in roster.get('problems',[]):
+                    url=f"https://codeforces.com/contest/{cid}/problem/{item.get('index')}"
+                    if canonical(url) in urls:
+                        self._observe_difficulty({'url':url,'platform':'Codeforces','difficulty':P.integer(item.get('rating')),
+                            'difficultySource':'Codeforces 官方 rating','tags':[P.CF_TAGS[tag] for tag in item.get('tags',[]) if tag in P.CF_TAGS]})
         else:
             import cf_eq
             models=self.client.json('https://kenkoooo.com/atcoder/resources/problem-models.json')
@@ -371,15 +429,24 @@ class IntegrationService:
 
     def rows(self):
         with self.lock:
+            if not self.state['rows']:
+                return []
             settings=self.state['settings'];rows=copy.deepcopy(list(self.state['rows'].values()))
-            metadata=copy.deepcopy(self.state['difficultyMetadata'])
+            metadata={canonical(row.get('url')):copy.deepcopy(self.state['difficultyMetadata'].get(canonical(row.get('url')),{})) for row in rows}
         from knowledge import enrich_row
+        from contest_policy import apply_visibility
         result=[]
         for row in rows:
             row.update(metadata.get(canonical(row.get('url')),{}))
             if self._collectable(row,settings):
-                result.append(enrich_row(P.classify_contest(row),official_tags=row.get('officialTags')))
+                result.append(apply_visibility(enrich_row(P.classify_contest(row),official_tags=row.get('officialTags'))))
         return result
+
+    def identity_rows(self):
+        """All remote aliases, including hidden tasks, without catalogue work."""
+        with self.lock:
+            return [{'id':value.get('id',identity),'url':value.get('url'),'source':value.get('source','remote')}
+                    for identity,value in self.state['rows'].items() if isinstance(value,dict)]
 
     def row(self,identity):
         with self.lock:
@@ -493,20 +560,52 @@ class IntegrationService:
             with self.lock:attempts[row['id']]=stamp(self.clock())
 
     def _catalog(self,platform,local_urls):
+        from contest_policy import authorized, content_ready, preserved_collection
         adapter=P.DISCOVERY_ADAPTERS[platform]
         if platform=='codeforces' and adapter is P.discover_curated_cf:
             with self.lock:known={str(row['contestId']) for row in self.state['rows'].values() if row.get('source')=='xcpc-codeforces' and str(row.get('contestId','')).isdigit()}
             rows,pending,message=adapter(self.client,self.clock(),known_gyms=known)
         else:rows,pending,message=adapter(self.client,self.clock())
         added=0;added_ids=[];added_urls=[]
-        enriched=[]
+        enriched=[];checks=0;deadline=time.monotonic()+45
         for value in rows:
             if self.stop.is_set():break
+            # Do not fetch statements for archive duplicates, or for a series
+            # the user never requested. Their official metadata still refreshes.
+            if not authorized(value,platform):continue
+            if canonical(value.get('url')) in local_urls:
+                self._observe_difficulty(value);self.dates.observe(value)
+                continue
             with self.lock:
                 previous=copy.deepcopy(self.state['rows'].get(value['id'],{}))
                 if value.get('difficulty') is None:
                     value.update(copy.deepcopy(self.state['difficultyMetadata'].get(canonical(value.get('url')),{})))
             if previous.get('knowledgeAnalysis'):value['knowledgeAnalysis']=previous['knowledgeAnalysis']
+            if preserved_collection(value):
+                # Large historical rosters stay intact. Their missing evidence
+                # rotates through the separate bounded knowledge worker.
+                from knowledge import enrich_row
+                enriched.append(enrich_row(value));continue
+            path=self.state_dir/'statements'/(hashlib.sha256(value['id'].encode()).hexdigest()+'.json')
+            saved=load(path,{})
+            library=getattr(self.store,'library',None)
+            if not content_ready(saved) and library:
+                saved=library.statement(value['id']) or saved
+            if not content_ready(saved):
+                if checks>=12 or time.monotonic()>deadline:
+                    pending.append({'id':value['id'],'title':value['title'],'reason':'等待后台校验公开题面与样例'})
+                    continue
+                checks+=1
+                try:
+                    saved=P.statement(self.client,value['id'],value['title'],value['url'])
+                    if not self.stop.is_set():atomic(path,saved)
+                except (OSError,ValueError,RuntimeError,KeyError,TypeError) as error:
+                    pending.append({'id':value['id'],'title':value['title'],'reason':str(error)[:160]})
+                    continue
+            if not content_ready(saved):
+                pending.append({'id':value['id'],'title':value['title'],'reason':'公开题面或样例尚未就绪'})
+                continue
+            value['catalogContentReady']=True
             enriched.append(self._supplement_knowledge(value))
         rows=enriched
         if platform=='codeforces':
@@ -544,7 +643,7 @@ class IntegrationService:
                 if value['id'] not in self.state['rows']:
                     value['addedAt']=stamp(self.clock());added+=1;added_ids.append(value['id']);added_urls.append(value['url'])
                 self.state['rows'][value['id']]=value
-            if added:self._notice('catalog:'+platform+':'+hashlib.sha256(json.dumps(sorted(self.state['rows'])).encode()).hexdigest()[:16],'catalog',P.LABELS[platform]+' 新结束赛题目',f'新增 {added} 道赛题；未评级题如实标注，题解尚未生成。',count=added,problem_ids=added_ids,problem_urls=added_urls)
+            if added:self._notice('catalog:'+platform+':'+hashlib.sha256(json.dumps(sorted(self.state['rows'])).encode()).hexdigest()[:16],'catalog',P.LABELS[platform]+' 新结束赛题目',f'新增 {added} 道可用赛题；新题已校验公开题面与样例，未评级题如实标注。',count=added,problem_ids=added_ids,problem_urls=added_urls)
         return {'platform':platform,'status':'partial' if pending else 'ready','message':message,'added':added,'pending':len(pending)}
 
     def _account(self,platform):
@@ -624,9 +723,11 @@ class IntegrationService:
                 self._account(platform)
             try:
                 providers.append(self._catalog(platform,local_urls));success=True
-                try:self._refresh_difficulties(platform)
-                except (OSError,ValueError,RuntimeError,KeyError,TypeError):LOG.debug('Latest difficulty data unavailable; retain prior evidence',exc_info=True)
             except (OSError,ValueError,RuntimeError,KeyError,TypeError) as error:providers.append({'platform':platform,'status':'error','message':str(error)[:250],'added':0,'pending':0})
+            # A discovery failure (for example a blocked task list) must not
+            # prevent already stored problems from receiving new official tags.
+            try:self._refresh_difficulties(platform)
+            except (OSError,ValueError,RuntimeError,KeyError,TypeError):LOG.debug('Latest difficulty data unavailable; retain prior evidence',exc_info=True)
             try:self._refresh_knowledge(platform)
             except (OSError,ValueError,RuntimeError,KeyError,TypeError):LOG.debug('Knowledge supplementation unavailable; retain prior evidence',exc_info=True)
         if not self.stop.is_set() and ('all' in selected or 'github' in selected):success=bool(self._github()) or success

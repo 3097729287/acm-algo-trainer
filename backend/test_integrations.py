@@ -38,11 +38,12 @@ class Client:
     def text(self,url,headers=None):return self.json(url,headers)
 
 def completed_row(index='A',difficulty=1300,url=None):
-    return P.row('codeforces',{'id':1,'name':'Fixture finished','start':1,'end':100},index,'Fixture '+index,url or 'https://codeforces.com/contest/1/problem/'+index,difficulty,'Codeforces 官方 rating',['贪心'])
+    value=P.row('codeforces',{'id':1,'name':'Codeforces Round 1 (Div. 2)','start':1,'end':100},index,'Fixture '+index,url or 'https://codeforces.com/contest/1/problem/'+index,difficulty,'Codeforces 官方 rating',['贪心'])
+    return {**value,'catalogContentReady':True}
 
 class PublicSchemaTests(unittest.TestCase):
     def test_cf_finished_and_missing_rating_do_not_guess(self):
-        client=Client({'https://codeforces.com/api/contest.list?gym=false':{'status':'OK','result':[{'id':1,'name':'Ended','phase':'FINISHED','startTimeSeconds':1,'durationSeconds':100},{'id':2,'name':'Future','phase':'FINISHED','startTimeSeconds':int(NOW.timestamp())+100,'durationSeconds':1}]},'https://codeforces.com/api/problemset.problems':{'status':'OK','result':{'problems':[{'contestId':1,'index':'A','name':'Rated','rating':1300,'tags':['greedy']},{'contestId':1,'index':'B','name':'Unrated','tags':[]},{'contestId':2,'index':'A','name':'Future','rating':1300}]}}})
+        client=Client({'https://codeforces.com/api/contest.list?gym=false':{'status':'OK','result':[{'id':1,'name':'Codeforces Round 1 (Div. 2)','phase':'FINISHED','startTimeSeconds':1,'durationSeconds':100},{'id':2,'name':'Codeforces Round 2 (Div. 3)','phase':'FINISHED','startTimeSeconds':int(NOW.timestamp())+100,'durationSeconds':1}]},'https://codeforces.com/api/problemset.problems':{'status':'OK','result':{'problems':[{'contestId':1,'index':'A','name':'Rated','rating':1300,'tags':['greedy']},{'contestId':1,'index':'B','name':'Unrated','tags':[]},{'contestId':2,'index':'A','name':'Future','rating':1300}]}}})
         rows,pending,_=P.discover_cf(client,NOW)
         self.assertEqual(len(rows),2);self.assertEqual(rows[0]['difficulty'],1300);self.assertEqual(rows[0]['tags'],['贪心']);self.assertIsNone(rows[1]['difficulty']);self.assertEqual(pending,[])
     def test_cf_exact_url_earliest_accept_and_unique_counts(self):
@@ -71,7 +72,7 @@ class PublicSchemaTests(unittest.TestCase):
         self.assertEqual(rows[0]['difficulty'],cf_eq.cf_eq_atcoder(1000)['cf_eq_rating']);self.assertEqual(rows[0]['difficultySource'],'CF-EQ · AtCoder Problems估算');self.assertEqual(len(rows),2);self.assertIsNone(rows[1]['difficulty']);self.assertEqual(pending,[])
     def test_nowcoder_score_and_accept_ratio_not_difficulty(self):
         meta={'contestStartTime':1,'contestEndTime':100}
-        page='<div data-id="1" data-json="'+json.dumps(meta).replace('"','&quot;')+'"><h4><a>Fixture</a></h4></div>'
+        page='<div data-id="1" data-json="'+json.dumps(meta).replace('"','&quot;')+'"><h4><a>牛客周赛 Round 1</a></h4></div>'
         client=Client({'https://ac.nowcoder.com/acm/contest/vip-index':page,'https://ac.nowcoder.com/acm/contest/problem-list?token=&id=1':{'code':0,'data':{'data':[{'index':'C','title':'P','score':200,'acceptedCount':2,'submitCount':100}]}}})
         rows,pending,_=P.discover_nc(client,NOW);self.assertEqual(len(rows),1);self.assertIsNone(rows[0]['difficulty']);self.assertEqual(pending,[])
     def test_nowcoder_partial_only_explicit_profile_fields(self):
@@ -102,6 +103,9 @@ class CacheSafetyTests(unittest.TestCase):
 class IntegrationTests(unittest.TestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.root=Path(self.temp.name);self.store=Store();self.client=Client();self.service=I.IntegrationService(self.store,self.root,auto_start=False,client=self.client,clock=lambda:NOW);self.store.extensions=self.service;self.store.library=LibraryDatabase(self.root/'library.sqlite3')
+        for index in 'ABCD':
+            value=completed_row(index)
+            self.store.library.save_statement(value['id'],{'markdown':'Fixture public statement','samples':[{'input':'1','output':'2'}]})
     def tearDown(self):self.service.close();self.temp.cleanup()
     def test_revised_seed_replaces_stale_high_weekly_estimate_on_upgrade(self):
         url = 'https://ac.nowcoder.com/acm/contest/141721/E'

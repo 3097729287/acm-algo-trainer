@@ -1,10 +1,51 @@
 # TB 排行榜服务
 
-TB 的题目、代码、草稿、每日任务和经验值保存在本机。账号与排行榜支持在阿里云服务器上使用 Docker 部署 Node.js API、MySQL 8.4、Redis 8.4 和 Caddy HTTPS。MySQL 保存注册账号、密码摘要、会话摘要及原站确认 AC 的题目摘要；Redis 当前尚未用于 API 缓存。生产服务使用 MySQL，SQLite 仅用于测试和快照转换。
+当前源码和生产共享服务为 **1.1.0**，客户端仍在发布准备中。2026-10-16 公网 HTTPS 健康检查已确认本次服务升级。1.1.0 增加排行榜公开成长摘要与稳定公开 ID，数据库、账号同步和排行榜继续共用原服务器。
+
+1.0.20 的账号学习数据以服务端 MySQL 为权威版本，本机 SQLite 作为耐久工作副本与待同步日志。训练、提交源码与官网回执、草稿、模拟赛、目标及固定题单、首通经验、每日领取、成就奖励、排位解锁、排行榜奖励账本和收藏/筛选等账号偏好随账号同步。CF/AtCoder 的公开用户名与已读取的公开证据同样随账号迁移；Cookie、浏览器会话、翻译密钥、机器路径和本机安装设置不会上传。服务使用 Docker 部署 Node.js API、MySQL 8.4、Redis 8.4 和 Caddy HTTPS，Redis 当前尚未用于 API 缓存。生产数据保存在 MySQL；SQLite 仅用于测试和快照转换。
+
+2026-10-16 13:51（北京时间）在已有 `005` 的原排行榜服务器完成 `006_public_progress.sql` 增量迁移，继续使用原 MySQL 数据卷及原 compose 覆盖配置。公网 HTTPS 健康检查确认 `version: 1.1.0`、`accountStateProtocol: 1`、`singleSession: true`、`publicProgressProtocol: 1`。在线备份已下载并核验；此次迁移前后 143 个身份、3 个账号、164107 条官方 AC 记录及其指纹、4 笔共 400 XP 的排行榜奖励和 3 个会话完全一致。账号快照及登录日期各保留 1 条，同账号多会话为 0。新建公开成长表初始为空，等待客户端正常上传；没有制造测试用户或提交。真实账号快照上传和跨电脑恢复仍须以实际登录后的同步状态核验，服务健康不能替代该验证。
+
+个人库还保存本账号已训练、保存草稿、提交、加入模拟赛/练习题单/目标题单的题目事实：轻量题目元数据、原题链接、已缓存题面与样例，必要时包括本机导入题的两版题解与嵌入图片。另一电脑没有原题库 ID 时使用这些账号事实继续显示和练习。不会复制整套公共题库或未被当前账号引用的其他导入内容；原始文件路径不进入快照。仅引用题目集合、题库数据库/WAL 或公开同步批次变化时重新采集，平常心跳不扫描整库。
 
 从 0.10.4 起整个软件要求登录。注册填写昵称、登录号和密码；注册成功后另行登录。旧安装凭据只能用于一次性关联原身份、成绩、奖励与管理员角色，不能继续作为登录凭据。账号允许验证旧密码后修改密码，不提供找回密码。安装包不包含用户身份、凭据或个人数据库。密码使用 scrypt 随机盐摘要，会话只保存 SHA-256 摘要；本机会话凭据使用 Windows DPAPI 保护，详见[账号说明](../../docs/accounts.md)。
 
-日榜按北京时间当天计算，周榜从周日开始，总榜统计全部不同题目。同题重复通过、运行和样例通过均不增加排名。界面展示昵称。客户端报告已经持久化的原站 AC 回执，按原题只计最早一次；旧本地审核成绩不参与官方排名。未注册的旧身份暂不参与新排行榜，原记录继续保留。服务暂不进行独立原站防作弊复核。
+日榜按北京时间当天计算，周榜从周日开始，总榜统计全部不同题目。同题重复通过、运行和样例通过均不增加排名。当天登录或恢复有效登录的注册用户会进入榜单，即使过题数为 0；此前已有该周期成绩的用户照常保留。零题用户不会领取空名次奖励。界面展示昵称。客户端报告已经持久化的原站 AC 回执，按原题只计最早一次；旧本地审核成绩不参与官方排名。未注册的旧身份暂不参与新排行榜，原记录继续保留。服务暂不进行独立原站防作弊复核。
+
+## 1.0.20 同步上线
+
+先部署共享服务，再向客户端分发 1.0.20。新客户端在登录返回前完成账号数据读取、旧本地数据安全合并及版本确认；同步失败停留在登录界面，不先展示空账号。首次合并按各表主键去重，奖励按同一领取键取已领取值，不累加重复经验；草稿等冲突版本保存于账号的 `account_sync_conflicts`，本地应用远端版本前使用 SQLite 在线备份。同步基线保存逐行摘要，远端未改时保留本机尚未上传的编辑或删除，双方均修改时保留冲突版本；后续客户端按版本号 CAS 保存，删除不会因重启重新混入旧副本。网络失败保留本机日志，明确显示待同步，后台重试；退出账号前必须完成上传。
+
+每次登录在账号行锁下撤销旧会话，再签发一个新会话；修改密码也撤销旧令牌。已认证但迟到的旧设备保存仍在事务内重新验证令牌，不能覆盖新设备数据。客户端后台每 3 秒检查会话；同一账号在另一台电脑登录后，旧设备的下一次心跳收到 401 并退出工作台。离线时不能保证实时获知另一设备登录；本机未上传记录保留，下次登录合并。
+
+已存在云端学习版本的账号拒绝不带 `X-TB-State-Protocol: 1` 的旧客户端登录，返回 426 并要求升级，防止旧版本继续仅保存在某一台电脑。迁移前的旧账号仍可升级并带回原身份。新部署须挂载 `mysql/005_account_state.sql`；已有数据卷必须手工执行迁移，不重新创建数据卷。
+
+## 1.1.0 公开成长资料升级
+
+生产使用 `/opt/tb-leaderboard/runtime` 的只读运行时挂载。从已经具备 005 迁移的 1.0.20 升级，仅执行幂等 `mysql/006_public_progress.sql` 新建小型摘要表；账号、云端快照、原会话与历史过题数据不重写。新部署的 Compose 初始化目录包含 001–006 六份迁移。
+
+在开发机准备独立 `runtime.next-1.1.0`：包含 `src/`、`mysql/`、`scripts/`、`Caddyfile`、两份 package 文件、仅生产依赖的 `node_modules/`、逐文件 `runtime-manifest.sha256`：
+
+```powershell
+python scripts/prepare-account-sync-runtime.py --output /path/to/empty-output
+```
+
+打包器拒绝密钥文件、SQLite/DB 文件、`.env`、私有目录、符号链接与本机二进制扩展。公开运行时须可被容器 node 用户遍历与读取。保留服务器现有 `.env` 及小内存、恢复卷、CPU、runtime 等全部 compose 覆盖文件；实际持久卷 `tb-leaderboard_mysql_data_swap_enabled` 保持原样。上传 `TB-account-service-1.1.0.tar.gz`、核对 SHA-256 并解包后，从 `/opt/tb-leaderboard` 执行：
+
+```sh
+sh runtime.next-1.1.0/scripts/deploy-account-sync.sh runtime.next-1.1.0
+curl --fail https://47.82.84.74/v1/health
+```
+
+脚本先检查旧库已存在账号快照与登录日期表，再用现有备份脚本在线导出 MySQL 并私有备份代理配置。停止 API 后仅执行 006，替换运行时并检查 `version: 1.1.0` 和 `publicProgressProtocol: 1`。启动使用 `--no-deps`，避免重建 MySQL 等依赖容器或改变实际持久卷。
+
+现有 Caddy 已支持账号快照 PUT 4194304 字节、其他请求 65536 字节时，不改写或重新加载代理配置。只有与已核对旧模板完全相同（允许 CRLF/LF 差异）的配置才会自动更新，未知自定义配置在改动前拒绝执行；需要更新时保留原 bind mount 文件并 validate/reload。任一后续步骤失败恢复旧运行时和必要的代理配置；新增表与 SQL 备份保留。升级后还须核验公网 HTTPS，服务健康检查不代替真实用户登录同步。
+
+脚本不打印密码、不删除卷、不修改账号或历史 AC。部署成功后将 MySQL 备份复制到服务器外的受控位置。服务状态检查不创建用户；真实登录测试仅在用户正常使用时进行，开发回归必须使用隔离服务。
+
+`account_public_progress` 每个账号只保存一份有界摘要：等级、成长段位、TB 排位段位与分数、自动佩戴的最高 AC/连续训练称号各一枚。客户端通过已认证 `PUT /v1/profile` 更新，仅在摘要改变时上传；旧服务未声明 `publicProgressProtocol: 1` 时保持旧同步流程。请求校验允许字段、字符数、整数范围、称号类别和数量，事务内再次验证当前会话，另一设备登录后的迟到写入会返回 401。摘要来自客户端已有成长计算，不新增防作弊认证。
+
+榜单查询通过 JOIN 读取小摘要，不读取或解压用户源码快照；单次排名聚合同时返回前 100 名和本人（最多 101 行），避免每个周期重复扫描历史。未上传摘要的旧客户端账号显示“成长资料待同步”。公开 ID 为 `TB-` 加内部 UUID 的 32 位大写十六进制形式，昵称修改或设备更换均不改变，不使用登录手机号/登录号。当天登录且零 AC 的账号仍显示，但不授予前三名奖牌或 XP。
 
 ## 阿里云 Docker 部署
 
@@ -93,25 +134,27 @@ sudo docker compose logs --tail=100 api
 
 ## 服务接口
 
-健康检查、注册和登录以外的请求均携带 `X-TB-User: UUID` 和 `Authorization: Bearer 登录会话令牌`。会话三十天过期；退出撤销当前会话，修改密码撤销全部旧会话并签发当前设备的新会话。请求体仅接受规定字段，最多 64 KiB。
+健康检查、注册和登录以外的请求均携带 `X-TB-User: UUID` 和 `Authorization: Bearer 登录会话令牌`。1.0.20 同时携带 `X-TB-State-Protocol: 1`。会话三十天过期；新登录原子撤销该账号全部旧会话，退出撤销当前会话，修改密码撤销全部旧会话并签发当前设备的新会话。请求体只接受规定字段，普通接口最多 64 KiB。账号快照由客户端按白名单导出，使用 gzip 和 base64 封装，SHA-256 校验原始 JSON；压缩请求最多 4 MiB，展开最多 64 MiB。服务端保存压缩快照而不在 64 MiB Node 堆里展开，每次只处理一个大状态读写；其他客户端稍后重试。客户端限量展开、校验摘要和表白名单后才应用。小于 64 KiB 的明文白名单状态仍用于接口兼容和隔离测试。超限保留本机数据并明确报错，不截断记录。
 
 | 接口 | 请求 | 返回 |
 |---|---|---|
 | `POST /v1/accounts/register` | `{loginId,nickname,password}` | `{account}`；不自动登录；旧凭据可在头部用于一次性关联 |
 | `POST /v1/accounts/login` | `{loginId,password}` | `{account,token,expiresAt}`；令牌只交给本机后台 |
 | `GET /v1/accounts/me` | 无 | 当前注册账号 |
+| `GET /v1/accounts/state` | 无 | `{revision,state}`，仅当前账号可读 |
+| `PUT /v1/accounts/state` | `{revision,state}` | 保存整个账号白名单状态；返回 `{revision,savedAt}`；旧版本 409、撤销会话 401 |
 | `POST /v1/accounts/logout` | `{}` | 撤销当前会话 |
 | `POST /v1/accounts/password` | `{oldPassword,newPassword}` | 验证旧密码并撤销全部旧会话，返回新会话 |
-| `GET /v1/profile` | 无 | 当前身份与昵称 |
-| `PUT /v1/profile` | `{nickname}` | 更新自己的昵称 |
+| `GET /v1/profile` | 无 | 当前身份、昵称、公开 ID、`publicProgress` 与能力标志 |
+| `PUT /v1/profile` | `{nickname?,publicProgress?}`，至少一个 | 更新自己的昵称或成长摘要；只传旧 nickname 字段仍兼容 |
 | `POST /v1/events` | `{events:[{eventId,problemKey,acceptedAt,difficulty,scope:"official"}]}` | `{processed,scope,notice}` |
 | `GET /v1/leaderboard?period=daily` | 周期 `daily`、`weekly` 或 `total` | `{period,date,timezone,entries,self,notice}` |
 | `GET /v1/rewards` | 无 | 当前身份的累计排行榜经验与最近 50 条奖励 |
 | `POST /v1/admin/leaderboard/delete` | `{userId,period,confirmation:"delete"}` | 管理员删除所选成绩；`userId:null` 清空所选周期 |
 
-每批最多 100 条通过记录。`problemKey` 是原题规范化链接的 SHA-256 摘要；`eventId` 是身份和原题摘要的 SHA-256 摘要。不发送题目代码、草稿、测试数据、翻译 API Key、原站 Cookie 或密码。记录按用户和原题唯一，重传不会增加题数；异步评测导致更早的通过记录稍后到达时，服务修正到更早日期。
+每批最多 100 条通过记录。`problemKey` 是原题规范化链接的 SHA-256 摘要；`eventId` 是身份和原题摘要的 SHA-256 摘要。排行榜事件接口不发送题目代码、草稿、测试数据、翻译 API Key、原站 Cookie 或密码。账号状态同步接口单独保存用户要求同步的源码、草稿与学习记录，排行榜响应不会泄露这些私有数据。记录按用户和原题唯一，重传不会增加题数；异步评测导致更早的通过记录稍后到达时，服务修正到更早日期。
 
-本机接口为 `GET/POST /api/profile`、`GET /api/leaderboard?period=daily`、`POST /api/leaderboard/sync`、`GET /api/daily-tasks` 和 `POST /api/daily-tasks/claim`。每日任务领取与奖励保存在本机 SQLite 事务中，不依赖服务器。
+本机接口为 `GET/POST /api/profile`、`GET /api/leaderboard?period=daily`、`POST /api/leaderboard/sync`、`GET /api/daily-tasks` 和 `POST /api/daily-tasks/claim`。每日任务领取和奖励先在本机 SQLite 事务中保存，再写入账号云端状态；重传不重复领取。
 
 ## 奖牌与排行榜经验
 
@@ -121,7 +164,7 @@ sudo docker compose logs --tail=100 api
 
 服务使用数据库事务保存结算游标、周期快照与奖励，重试、并发查询和服务器重启都不会重复发放；停机期间未结算的完整周期在恢复时补结算。启用功能时从当前日和当前周开始，不追溯以前已结束的周期。晚同步的成绩可以更新排名，但不改写已经结算的奖励。客户端定期同步服务器奖励总额，在本机按服务器地址和身份保存，刷新和重新打开不会重复累加。客户端关闭时服务器照常结算。
 
-升级现有服务须先备份 MySQL，再按顺序应用未执行的迁移，包括 `mysql/004_accounts.sql`，随后更新 `src/` 并重启 API。新部署由 MySQL 初始化目录执行四份迁移。旧 `/v1/profile/register` 返回 410，提示升级并注册账号。
+升级现有服务须先备份 MySQL，再按顺序应用未执行的迁移，包括 `mysql/004_accounts.sql`、`mysql/005_account_state.sql` 与 `mysql/006_public_progress.sql`，随后更新 `src/` 并重启 API。新部署由 MySQL 初始化目录执行六份迁移。旧 `/v1/profile/register` 返回 410，提示升级并注册账号。
 
 ## 管理员删除
 

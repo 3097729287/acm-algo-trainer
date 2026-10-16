@@ -217,6 +217,7 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
   const [sample, setSample] = useState('custom');
   const [input, setInput] = useState('');
   const [restoreAvailable, setRestoreAvailable] = useState(false);
+  const [localDraftRecovery, setLocalDraftRecovery] = useState(null);
   const [outputTab, setOutputTab] = useState('output');
   const [copied, setCopied] = useState(false);
   const [openingOfficial, setOpeningOfficial] = useState(false);
@@ -289,6 +290,7 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
     setSaveState({ kind: 'automatic' });
     setCursor({ line: 1, column: 1 });
     setRestoreAvailable(false);
+    setLocalDraftRecovery(null);
     setConsoleOpen(false);
     setConsoleTab('input');
     setOutputTab('output');
@@ -304,15 +306,22 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
     setInput('');
     (async () => {
       try {
-        const answer = await apiRef.current(queryPath('problem', problemId, contestId));
+        const answer = await apiRef.current(`${queryPath('problem', problemId, contestId)}&background=1${loadAttempt ? '&refresh=1' : ''}`);
         if (!alive || !isActive(record)) return;
         const backup = readDraft(record.key);
         record.locked = Boolean(answer.locked && !contestId);
         record.closed = record.closed || record.locked;
-        record.code = backup?.dirty ? backup.code : (answer.draft || TEMPLATE);
+        const useLocal = backup?.dirty && (!answer.draftSavedAt || Number(backup.modifiedAt || 0) >= Date.parse(answer.draftSavedAt));
+        record.code = useLocal ? backup.code : (answer.draftSavedAt ? answer.draft : (answer.draft || TEMPLATE));
+        if (backup?.dirty && !useLocal && backup.code !== record.code) {
+          // A newer draft restored from another computer wins. Keep this
+          // device's unsent version separately, never silently overwrite it.
+          try { localStorage.setItem(`${record.key}.recovery.${backup.modifiedAt || Date.now()}`, JSON.stringify(backup)); } catch { /* The original backup is still present. */ }
+          setLocalDraftRecovery(backup.code);
+        }
         record.loaded = true;
         record.revision = latestDraftRevision.get(record.key) || 0;
-        if (backup?.dirty) {
+        if (useLocal) {
           record.version = 1;
           touchDraft(record);
         }
@@ -325,8 +334,8 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
         setSample(first ? 'samples' : 'custom');
         setInput('');
         setLoading(false);
-        setSaveState({ kind: record.closed ? 'closed' : backup?.dirty ? 'unsaved' : answer.draft ? 'saved' : 'automatic' });
-        if (backup?.dirty && !record.closed) record.timer = setTimeout(() => saveRecord(record), 850);
+        setSaveState({ kind: record.closed ? 'closed' : useLocal ? 'unsaved' : answer.draftSavedAt || answer.draft ? 'saved' : 'automatic' });
+        if (useLocal && !record.closed) record.timer = setTimeout(() => saveRecord(record), 850);
         requestAnimationFrame(() => {
           if (!isActive(record)) return;
           if (statementRef.current) statementRef.current.scrollTop = 0;
@@ -355,6 +364,37 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
     // belongs to its identity, so those renders must not reload the editor.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contextKey, problemId, contestId, loadAttempt, saveRecord]);
+
+  useEffect(() => {
+    if (!problem?.statementLoading) return;
+    let alive = true, timer;
+    const record = activeRecord.current;
+    const poll = async () => {
+      try {
+        const answer = await apiRef.current(`${queryPath('problem', problemId, contestId)}&background=1`);
+        if (!alive || !isActive(record)) return;
+        // A late statement response must never reset an editor or its draft.
+        setProblem(answer);
+        if (answer.statementLoading) timer = setTimeout(poll, 1200);
+      } catch (error) {
+        if (alive && isActive(record)) setProblem(previous => ({ ...previous, statementLoading: false, statementError: error.message }));
+      }
+    };
+    timer = setTimeout(poll, 450);
+    return () => { alive = false; clearTimeout(timer); };
+  }, [problemId, contestId, problem?.statementLoading]);
+
+  async function retryStatement() {
+    const record = activeRecord.current;
+    if (!record?.loaded) return;
+    setProblem(previous => ({ ...previous, statementLoading: true, statementError: '' }));
+    try {
+      const answer = await apiRef.current(`${queryPath('problem', record.id, record.contestId)}&background=1&refresh=1`);
+      if (isActive(record)) setProblem(answer);
+    } catch (error) {
+      if (isActive(record)) setProblem(previous => ({ ...previous, statementLoading: false, statementError: error.message }));
+    }
+  }
 
   useEffect(() => {
     const record = activeRecord.current;
@@ -419,7 +459,7 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
       // 官方回执已入库，但当前工作台的提交历史/结果栏还是旧的——拉回本题记录并合并，
       // 让官方 AC 当场出现在历史里，不必退出重进。
       if (isActive(record)) {
-        const answer = await apiRef.current(`problem?id=${encodeURIComponent(record.id)}${record.contestId ? `&contestId=${encodeURIComponent(record.contestId)}` : ''}`);
+        const answer = await apiRef.current(`${queryPath('problem', record.id, record.contestId)}&background=1`);
         if (isActive(record) && Array.isArray(answer?.submissions)) {
           const history = answer.submissions.slice().sort((a, b) => String(b.submittedAt || '').localeCompare(String(a.submittedAt || '')));
           setSubmissions(history);
@@ -700,7 +740,8 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
           {loading ? <div className="wb-empty"><LoaderCircle className="wb-spinner" size={22} /><span>正在载入题面</span></div>
             : loadError ? <div className="wb-empty"><span>{loadError}</span><button type="button" className="wb-button" onClick={() => setLoadAttempt(value => value + 1)}><RotateCcw size={14} />重新载入</button></div>
             : problem?.markdown ? <StatementMarkdown markdown={language === 'zh' && translation ? translation.markdown : problem.markdown} samples={problem.samples} title={problem.title} />
-            : <div className="wb-empty"><BookOpen size={24} /><strong>题面暂时未能加载</strong><span>{problem?.statementError || '请重试读取原站题面。'}</span><button type="button" className="wb-button" onClick={() => setLoadAttempt(value => value + 1)}><RotateCcw size={14} />重新载入</button>{problem?.url && <a className="wb-button" href={problem.url} target="_blank" rel="noreferrer">打开原题<ExternalLink size={14} /></a>}</div>}
+            : problem?.statementLoading ? <div className="wb-empty" role="status"><LoaderCircle className="wb-spinner" size={22}/><strong>正在读取原站题面</strong><span>代码和草稿已就绪，可以先编辑。</span>{problem?.url && <a className="wb-button" href={problem.url} target="_blank" rel="noreferrer">打开原题<ExternalLink size={14}/></a>}</div>
+            : <div className="wb-empty"><BookOpen size={24} /><strong>题面暂时未能加载</strong><span>{problem?.statementError || '请重试读取原站题面。'}</span><button type="button" className="wb-button" onClick={retryStatement}><RotateCcw size={14} />重新载入</button>{problem?.url && <a className="wb-button" href={problem.url} target="_blank" rel="noreferrer">打开原题<ExternalLink size={14} /></a>}</div>}
         </article>
       </div>
 
@@ -709,6 +750,12 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
           <span><Code2 size={14} />C++17</span>
           <span className={`wb-save-state wb-save-${saveState.kind}`} title={saveState.message || '草稿自动保存；Ctrl+S 立即保存'} aria-live="polite">{saveState.kind === 'saving' ? <LoaderCircle size={11} className="wb-spinner" /> : saveState.kind === 'saved' ? <Check size={11} /> : null}{saveLabel}</span>
           <div className="wb-editor-actions">
+            {localDraftRecovery !== null && <button type="button" className="wb-button" disabled={unavailable} title="当前为更新的同步版本；可恢复本机未上传的旧草稿" onClick={() => {
+              undoReplace.current = code;
+              updateCode(localDraftRecovery);
+              setLocalDraftRecovery(null);
+              setRestoreAvailable(true);
+            }}><History size={14}/>恢复本机草稿</button>}
             {restoreAvailable && <button type="button" className="wb-icon-button" disabled={unavailable} aria-label="撤销载入代码" title="撤销载入代码" onClick={() => {
               const previous = undoReplace.current;
               undoReplace.current = null;

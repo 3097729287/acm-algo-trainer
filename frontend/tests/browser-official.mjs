@@ -23,7 +23,7 @@ const extension = await fixtureExtension(process.env.TB_BROWSER_EXTENSION || pat
 let browser;
 const posted = [], cookieChecks = [], errors = [];
 const receipts = [];
-let cfSubmitted = false, acSubmitted = false, ncReject = false, luoguLoggedIn = true, ncModern = false, luoguReject = false;
+let cfSubmitted = false, cfUnsupported = false, acSubmitted = false, ncReject = false, luoguLoggedIn = true, ncModern = false, luoguReject = false;
 const source = 'int main(){}';
 const headers = { 'access-control-allow-origin': 'https://ac.nowcoder.com', 'access-control-allow-credentials': 'true', 'access-control-allow-headers': 'content-type', 'access-control-allow-methods': 'GET, POST, OPTIONS' };
 const form = (platform, task = '') => `<select name="${platform === 'AtCoder' ? 'data.TaskScreenName' : 'submittedProblemIndex'}"><option value="${task}">${task}</option></select><select name="${platform === 'AtCoder' ? 'data.LanguageId' : 'programTypeId'}"><option value="2">GNU C++17</option></select><textarea id="sourceCode" name="source"></textarea><button type="submit">提交</button>`;
@@ -76,7 +76,7 @@ try {
     }
     if (url.hostname === 'codeforces.com') {
       if (url.pathname.endsWith('/my')) return html('<div id="header"><a href="/profile/fixture">fixture</a></div>' + row('Codeforces', cfSubmitted));
-      if (url.pathname.endsWith('/submit')) return html('<div id="header"><a href="/profile/fixture">fixture</a></div><form method="post" action="/contest/123/submit">' + form('Codeforces', 'A') + '</form>');
+      if (url.pathname.endsWith('/submit')) return html('<div id="header"><a href="/profile/fixture">fixture</a></div><form method="post" action="/contest/123/submit">' + form('Codeforces', 'A').replace('GNU C++17', cfUnsupported ? 'Python 3' : 'GNU C++17') + '</form>');
     }
     if (url.hostname === 'atcoder.jp') {
       if (url.pathname.endsWith('/submissions/me')) return html(row('AtCoder', acSubmitted));
@@ -140,6 +140,30 @@ try {
   assert.deepEqual(saved.map(receipt=>receipt.platform).sort(),receipts.map(receipt=>receipt.platform).sort());
   assert.ok(saved.every(receipt=>receipt.status==='finished'&&receipt.verdict==='AC'));
   assert.deepEqual(await (await fetch(base + '/fixture/opened')).json(), [], 'TB never launches the browser on submit');
+  cfUnsupported = true;
+  const failed = await submit('unsupported-compiler', 'https://codeforces.com/contest/123/problem/A');
+  await state('unsupported-compiler', 'error');
+  const cleanupUntil = Date.now() + 5000;
+  let retained = true;
+  while (retained && Date.now() < cleanupUntil) {
+    retained = await worker.evaluate(async sid => Object.values((await chrome.storage.session.get('jobs')).jobs || {}).some(job => job.sessionId === sid), failed.sessionId);
+    if (retained) await new Promise(resolve => setTimeout(resolve, 100));
+  }
+  assert.equal(retained, false, 'failed background jobs release their browser storage entry');
+  assert.equal(browser.pages().some(page => page.url().startsWith('https://codeforces.com/contest/123/submit')), false, 'TB closes its own failed background tab');
+  assert.equal(posted.length, 4, 'unsupported compiler never sends code');
+  cfUnsupported = false;
+  const idleTab = await browser.newPage();
+  await idleTab.route('https://codeforces.com/contest/123/problem/A', route => route.fulfill({contentType:'text/html',body:'<p>Unbound fixture problem</p>'}));
+  await idleTab.goto('https://codeforces.com/contest/123/problem/A');
+  const idleId = await worker.evaluate(async () => (await chrome.tabs.query({url:'https://codeforces.com/contest/123/problem/A'}))[0].id);
+  await worker.evaluate(id => {
+    globalThis.idleFixtureTicks = 0;
+    chrome.runtime.onMessage.addListener((message, sender) => { if (message.type === 'tick' && sender.tab?.id === id) globalThis.idleFixtureTicks++; });
+  }, idleId);
+  await new Promise(resolve => setTimeout(resolve, 3100));
+  assert.ok(await worker.evaluate(() => globalThis.idleFixtureTicks <= 1), 'unbound original-site pages no longer poll the connector every second');
+  await idleTab.close();
   ncModern = true;
   await submit('modern', 'https://ac.nowcoder.com/acm/contest/127263/B');
   await state('modern','finished');

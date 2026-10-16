@@ -79,10 +79,10 @@ class ReceiptSyncTests(unittest.TestCase):
         self.assertEqual(self.service.submissions()['total'], 3)
 
     def test_names_preserve_divisions_and_educational_series(self):
-        self.assertEqual(contest_name('Codeforces Round 1124 (Div. 1)'), 'Codeforces 第 1124 轮（第 1 组）')
-        self.assertEqual(contest_name('Educational Codeforces Round 194 (Rated for Div. 2)'), 'Codeforces 教育赛第 194 轮')
+        self.assertEqual(contest_name('Codeforces Round 1124 (Div. 1)'), 'Div.1 1124')
+        self.assertEqual(contest_name('Educational Codeforces Round 194 (Rated for Div. 2)'), '教育赛 194')
         self.assertEqual(contest_name('[ICPC2019 Yinchuan R] ICPC 2019 区域赛银川站重现赛'), 'ICPC 2019 银川区域赛')
-        self.assertEqual(contest_name('Codeforces Round 1000 (Div. 1 + Div. 2)'), 'Codeforces 第 1000 轮（第 1、2 组）')
+        self.assertEqual(contest_name('Codeforces Round 1000 (Div. 1 + Div. 2)'), 'Div.1+Div.2 1000')
 
     def test_passive_browser_receipts_require_matching_platform_owner_and_url(self):
         sync, _ = self.sync()

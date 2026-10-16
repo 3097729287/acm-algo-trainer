@@ -9,8 +9,20 @@
       profile shortlived
     }
   }
-  request_body {
-    max_size 65536
+  @account_state_put {
+    method PUT
+    path /v1/accounts/state
   }
-  reverse_proxy api:8080
+  handle @account_state_put {
+    request_body {
+      max_size 4194304
+    }
+    reverse_proxy api:8080
+  }
+  handle {
+    request_body {
+      max_size 65536
+    }
+    reverse_proxy api:8080
+  }
 }

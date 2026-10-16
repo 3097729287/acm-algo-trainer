@@ -57,3 +57,42 @@ test('HTTP adapter rejects oversized declared and chunked bodies', async () => {
     assert.equal(status, 413);
   } finally { await f.close(); }
 });
+
+test('state requests are authenticated before large bodies and bounded without blocking heartbeats', async () => {
+  const f = await fixture();
+  let release;
+  try {
+    const denied = await fetch(f.endpoint + '/v1/accounts/state', {method:'PUT',body:'unauthenticated'});
+    assert.equal(denied.status,401); await denied.text();
+    const signup = {loginId:'bounded_state_user',nickname:'bounded',password:'fixture-password'};
+    await fetch(f.endpoint+'/v1/accounts/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(signup)}).then(r=>r.text());
+    const login = await fetch(f.endpoint+'/v1/accounts/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({loginId:signup.loginId,password:signup.password})}).then(r=>r.json());
+    const headers = {'X-TB-User':login.account.userId,Authorization:'Bearer '+login.token};
+    const dense = '{"revision":0,"state":{"format":"tb-account-state-v1","tables":{"drafts":[' + '{},'.repeat(1000000) + '{}]},"publicAccounts":{}}}';
+    const rejected = await fetch(f.endpoint+'/v1/accounts/state',{method:'PUT',headers:{...headers,'Content-Type':'application/json'},body:dense});
+    assert.equal(rejected.status,413); await rejected.text();
+    const oversized = await new Promise((resolve,reject)=>{
+      const request=httpRequest(f.endpoint+'/v1/accounts/state',{method:'PUT',headers:{...headers,'Content-Type':'application/json','Content-Length':20*1024*1024}},response=>{
+        response.resume(); response.on('end',()=>resolve(response.statusCode));
+      });
+      request.on('error',reject); request.end('invalid-json');
+    });
+    assert.equal(oversized,413,'20 MiB declared input is rejected before reading or parsing it');
+    const original = f.env.STORE.accountState.bind(f.env.STORE);
+    let entered;
+    const started = new Promise(resolve=>{entered=resolve;});
+    const held = new Promise(resolve=>{release=resolve;});
+    f.env.STORE.accountState = async id=>{entered(); await held; return original(id);};
+    const pending = fetch(f.endpoint+'/v1/accounts/state',{headers});
+    await started;
+    const parallel = await fetch(f.endpoint+'/v1/accounts/state',{headers});
+    assert.equal(parallel.status,429); await parallel.text();
+    const heartbeat = await fetch(f.endpoint+'/v1/accounts/me',{headers});
+    assert.equal(heartbeat.status,200); await heartbeat.text();
+    release();
+    const first = await pending;
+    assert.equal(first.status,200); await first.text();
+    const later = await fetch(f.endpoint+'/v1/accounts/state',{headers});
+    assert.equal(later.status,200); await later.text();
+  } finally { release?.(); await f.close(); }
+});

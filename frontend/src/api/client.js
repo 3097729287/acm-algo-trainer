@@ -1,5 +1,24 @@
 // HTTP contract shared by the browser build and the desktop webview.
-export async function request(path, body, token) {
+const pendingReads = new Map();
+let generation = 0;
+
+export function request(path, body, token) {
+  if (body !== undefined) {
+    generation++;
+    return load(path, body, token);
+  }
+  // Share concurrent reads (including StrictMode's initial effects), while
+  // every completed request and every write still permits a fresh response.
+  const key = `${generation}:${window.__tbAccountUserId || ''}:${token || ''}:${path}`;
+  if (pendingReads.has(key)) return pendingReads.get(key);
+  const pending = load(path, body, token).finally(() => {
+    if (pendingReads.get(key) === pending) pendingReads.delete(key);
+  });
+  pendingReads.set(key, pending);
+  return pending;
+}
+
+async function load(path, body, token) {
   const base = (import.meta.env.VITE_API_BASE_URL || '/api').replace(/\/$/, '');
   const response = await fetch(`${base}/${path}`, body === undefined
     ? { cache: 'no-store' }

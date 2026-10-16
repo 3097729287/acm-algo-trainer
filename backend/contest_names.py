@@ -15,8 +15,45 @@ def natural_key(value):
     return tuple((0, int(p)) if p.isdecimal() else (1, p.casefold()) for p in re.split(r'(\d+)', value))
 
 
+def regular_contest(value):
+    """Return the registered series/number only when the source says which one.
+
+    A round number is never evidence of its division. This also accepts the
+    previous Chinese display names so upgrading does not change task identity.
+    """
+    name = re.sub(r'\s+', ' ', str(value or '')).strip()
+    at = re.fullmatch(r'(?:AtCoder\s+)?(ABC|ARC|AGC|AHC)\s*#?\s*(\d+)', name, re.I)
+    if not at:
+        at = re.fullmatch(r'AtCoder\s*(初学者赛|常规赛|高难度赛|启发式赛)\s*(\d+)', name)
+        if at:
+            return dict(初学者赛='ABC', 常规赛='ARC', 高难度赛='AGC', 启发式赛='AHC')[at[1]], int(at[2])
+    if at:
+        return at[1].upper(), int(at[2])
+    if re.search(r'Educational|教育赛', name, re.I):
+        match = re.search(r'(?:Round|教育赛(?:第)?)\s*#?\s*(\d+)', name, re.I)
+        return ('教育赛', int(match[1])) if match else None
+    cf = re.search(r'Codeforces Round\s*#?\s*(\d+).*?Div\.\s*([1-4])(?:\s*\+\s*(?:Div\.\s*)?([1-4]))?', name, re.I)
+    if cf:
+        return 'Div.' + cf[2] + ('+Div.' + cf[3] if cf[3] else ''), int(cf[1])
+    cf = re.fullmatch(r'Div\.\s*([1-4])(?:\s*\+\s*Div\.\s*([1-4]))?\s+#?\s*(\d+)', name, re.I)
+    if cf:
+        return 'Div.' + cf[1] + ('+Div.' + cf[2] if cf[2] else ''), int(cf[3])
+    cf = re.fullmatch(r'Codeforces 第\s*(\d+)\s*轮（第\s*([1-4])(?:、([1-4]))?\s*组）', name)
+    if cf:
+        return 'Div.' + cf[2] + ('+Div.' + cf[3] if cf[3] else ''), int(cf[1])
+    for series in ('小白月赛', '挑战赛', '练习赛', '周赛', '入门赛', '基础赛', '月赛'):
+        match = re.search(re.escape(series) + r'(?:\s*Round)?\s*#?\s*(\d+)', name, re.I)
+        if match:
+            return series, int(match[1])
+    lg = re.search(r'LGR\s*-\s*(\d+)', name, re.I)
+    return ('月赛', int(lg[1])) if lg else None
+
+
 def contest_name(value, date=None):
     name = re.sub(r'\s+', ' ', str(value or '')).strip()
+    regular = regular_contest(name)
+    if regular:
+        return f'{regular[0]} {regular[1]}'
     alias = event_metadata().get('names', {}).get(name)
     if isinstance(alias, dict) and alias.get('name'):
         return alias['name']
@@ -111,7 +148,13 @@ def normalize_row(value):
     if variant:
         original = re.sub(r'（' + re.escape(variant) + r'）$', '', original)
     value.setdefault('contestFullName', original)
-    value['contest'] = contest_name(original, value.get('contestDate') or value.get('startedAt'))
+    # Kept first-party provenance wins over an old display label, especially
+    # when Div.1 and Div.2 share a round number and some task URLs.
+    provenance = value.get('contestFullName', original)
+    regular = regular_contest(provenance) or regular_contest(original)
+    value['contest'] = f'{regular[0]} {regular[1]}' if regular else contest_name(original, value.get('contestDate') or value.get('startedAt'))
+    if regular:
+        value.update(series=regular[0], contestFamily=regular[0])
     # Earlier display normalization removed the ICPC/CCPC distinction in
     # provincial events. Recover it from retained first-party provenance.
     full = value.get('contestFullName', '')

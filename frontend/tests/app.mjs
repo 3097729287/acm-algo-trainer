@@ -181,13 +181,8 @@ try {
   await page.keyboard.press('Control+7');
   await page.locator('.progress-recommendation-title .katex').waitFor();
   assert.equal(await page.locator('.progress-recommendations').getByText('巩固前缀和隐藏知识点', { exact: true }).count(), 0);
-  assert.equal(await page.locator('.task-claim-dot').count(),1);
-  const dotStyle=await page.locator('.task-claim-dot').evaluate(dot=>{
-    const box=dot.getBoundingClientRect(),parent=dot.closest('button').getBoundingClientRect();
-    return {color:getComputedStyle(dot).backgroundColor,verticalOffset:Math.abs(box.top+box.height/2-parent.top-parent.height/2),rightGap:parent.right-box.right};
-  });
-  assert.equal(dotStyle.color,'rgb(255, 255, 255)');
-  assert.ok(dotStyle.verticalOffset<=1 && dotStyle.rightGap>=5 && dotStyle.rightGap<=15,'claim dot is centered at the menu item right edge');
+  assert.equal(await page.locator('.task-claim-dot').count(),0,'growth navigation no longer duplicates daily mission alerts');
+  assert.equal(await page.getByRole('button',{name:'每日任务',exact:true}).locator('.notification-dot').count(),1);
   assert.equal(await page.locator('.knowledge-details').getAttribute('open'),null);
   assert.equal(await page.locator('#growth-goals .goal-form').count(),0);
   assert.equal(await page.locator('.goal-contest-grid > div').count(),4);
@@ -207,6 +202,7 @@ try {
   await task.getByRole('button', { name: '已领取' }).waitFor();
   assert.equal(insights.growth.totalXp, 30);
   assert.equal(await page.locator('.task-claim-dot').count(),0);
+  assert.equal(await page.getByRole('button',{name:'每日任务',exact:true}).locator('.notification-dot').count(),0);
   assert.equal(writes.filter(item => item.path === '/api/daily-tasks/claim').length, 1);
   await page.keyboard.press('Escape');
   assert.equal(await page.locator('.progress-page .progress-achievements').count(), 0);
@@ -297,14 +293,17 @@ try {
   await page.keyboard.press('Control+0');
   await page.getByRole('tab', { name: '外观与导航', exact: true }).click();
   assert.equal(await page.getByLabel('页面组合 mine', { exact: true }).inputValue(), '', 'legacy training/today group is removed from preferences');
-  await page.getByLabel('快捷操作', { exact: true }).click();
+  await page.getByRole('tab', { name: '训练与快捷操作', exact: true }).click();
+  assert.ok(await page.locator('.settings-commands button').count() > 0,'training and quick commands share one settings panel');
+  await page.keyboard.press('Control+k');
   await page.getByRole('dialog', { name: '快捷操作', exact: true }).waitFor();
   assert.equal(await page.getByRole('dialog').getByRole('button', { name: /打开今日待办/ }).count(), 0);
   await page.keyboard.press('Escape');
   await page.keyboard.press('Control+k');
   await page.getByRole('dialog', { name: '快捷操作', exact: true }).waitFor();
   await page.keyboard.press('Escape');
-  await page.getByRole('tab', { name: '翻译 API', exact: true }).click();
+  await page.keyboard.press('Control+7');
+  await page.getByText('翻译 API', { exact: true }).click();
   await page.getByLabel('翻译服务', { exact: true }).selectOption('custom');
   await page.getByLabel('翻译 API Base URL').fill('http://127.0.0.1:1234/v1');
   await page.getByLabel('翻译模型', { exact: true }).fill('my-custom-model');
@@ -315,6 +314,7 @@ try {
   assert.equal(saved.baseUrl, 'http://127.0.0.1:1234/v1');
   assert.equal(saved.model, 'my-custom-model');
   assert.equal(await page.getByLabel('翻译服务 API Key').inputValue(), '');
+  await page.keyboard.press('Control+0');
   await page.getByRole('tab', { name: '更新', exact: true }).click();
   assert.equal(await page.locator('.settings-page .update-notifications').count(), 0);
   await page.getByRole('button', { name: '更新通知', exact: true }).click();
@@ -328,7 +328,7 @@ try {
   for (const width of [2048, 1050]) {
     await page.setViewportSize({ width, height: width === 1050 ? 760 : 1152 });
     await page.keyboard.press('Control+0');
-    for (const tab of ['外观与导航', '账号与身份', '翻译 API', '更新']) {
+    for (const tab of ['外观与导航', '训练与快捷操作', '更新']) {
       await page.getByRole('tab', { name: tab, exact: true }).click();
       await noOverflow('.settings-page');
       await page.screenshot({ path: `tests/screenshots/v5-settings-${tab}-${width}.png`, animations: 'disabled' });
@@ -398,6 +398,7 @@ try {
   await page.getByRole('button', { name: /综合训练.*多种知识点/ }).click();
   await page.setViewportSize({ width: 1050, height: 760 });
   await page.keyboard.press('Control+0');
+  await page.getByRole('tab', { name: '外观与导航', exact: true }).click();
   await page.getByLabel('导航名称 records').fill('历史提交');
   await page.getByLabel('页面组合 records').fill('我的记录');
   await page.getByLabel('页面组合 activity').fill('我的记录');

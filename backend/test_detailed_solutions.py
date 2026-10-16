@@ -100,7 +100,13 @@ class DetailedSolutionTests(unittest.TestCase):
                 self.assertEqual(value[field], expected[field])
             self.assertIn('第三个样例', value['detailedSolution']['markdown'])
             self.assertNotEqual(value['detailedSolution']['markdown'], value['markdown'])
+            # Model a missing detailed version explicitly: the bundled archive
+            # now includes one for every problem with a default editorial.
+            default_only = server.store.solution('Div.2 1112::B')['markdown']
+            with server.store.library.connection() as db:
+                db.execute('DELETE FROM detailed_solutions WHERE problem_id=?', ('Div.2 1112::B',))
             self.assertIsNone(server.store.solution('Div.2 1112::B')['detailedSolution'])
+            self.assertEqual(server.store.solution('Div.2 1112::B')['markdown'], default_only)
             alias = {'_id': 'remote:cf:2250::C', '_url': 'https://codeforces.com/problemset/problem/2250/C'}
             with patch.object(server.store, 'row', return_value=alias):
                 self.assertEqual(server.store.solution(alias['_id']), value)

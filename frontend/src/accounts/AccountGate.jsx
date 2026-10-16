@@ -9,6 +9,7 @@ export default function AccountGate({ children }) {
   const [mode, setMode] = useState('login'), [loginId, setLoginId] = useState(''), [nickname, setNickname] = useState('');
   const [password, setPassword] = useState(''), [confirmation, setConfirmation] = useState(''), [visible, setVisible] = useState(false);
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [message, setMessage] = useState('');
+  const [syncBusy, setSyncBusy] = useState(false);
   const generation = useRef(0);
   const submitting = useRef(false);
   const seeded = useRef(false);
@@ -31,10 +32,12 @@ export default function AccountGate({ children }) {
   useEffect(() => {
     refresh();
     const changed = () => { setSession(null); seeded.current = false; setPassword(''); setConfirmation(''); setMode('login'); refresh(); };
+    const visible = () => { if (!document.hidden) refresh(); };
     window.addEventListener('tb:account-change', changed);
     window.addEventListener('focus', refresh);
-    const interval = setInterval(refresh, 30000);
-    return () => { generation.current++; clearInterval(interval); window.removeEventListener('tb:account-change', changed); window.removeEventListener('focus', refresh); };
+    document.addEventListener('visibilitychange', visible);
+    const interval = setInterval(() => { if (!document.hidden) refresh(); }, 3000);
+    return () => { generation.current++; clearInterval(interval); window.removeEventListener('tb:account-change', changed); window.removeEventListener('focus', refresh); document.removeEventListener('visibilitychange', visible); };
   }, [refresh]);
   async function submit(event) {
     event.preventDefault(); if (busy) return;
@@ -60,8 +63,23 @@ export default function AccountGate({ children }) {
     setMode(next); setError(''); setMessage(''); setPassword(''); setConfirmation(''); setVisible(false);
   }
   window.__tbAccountUserId = session?.account?.userId || '';
+  window.__tbAccount = session?.account || null;
   window.__tbOriginalWorkspace = Boolean(session?.usesOriginalWorkspace);
-  if (session?.authenticated) return <Fragment key={`${session.account?.userId || 'fixture'}:${session.token}`}>{children}</Fragment>;
+  window.__tbAccountSync = session?.authenticated ? session.sync : null;
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent('tb:sync-status', { detail: session?.authenticated ? session.sync : null }));
+    window.dispatchEvent(new CustomEvent('tb:account-state', { detail: session?.account || null }));
+  }, [session]);
+  async function retrySync() {
+    if (syncBusy) return;
+    setSyncBusy(true);
+    try { await request('account/sync', {}, session.token); }
+    catch (issue) { setError(issue.message); }
+    finally { setSyncBusy(false); refresh(); }
+  }
+  if (session?.authenticated) return <Fragment key={`${session.account?.userId || 'fixture'}:${session.token}`}>{children}
+    {session.sync?.status === 'error' && <aside className="account-sync-alert" role="status"><span>{session.sync.error || '云端同步暂未完成，本机数据已保留。'}</span><button type="button" onClick={retrySync} disabled={syncBusy}>{syncBusy ? '正在同步…' : '重试同步'}</button></aside>}
+  </Fragment>;
   const registering = mode === 'register';
   return <main className="account-screen">
     <div className="account-brand"><span className="account-logo">tb</span><span>TB <small>训练工作台</small></span></div>
@@ -81,7 +99,7 @@ export default function AccountGate({ children }) {
           {registering && <label>确认密码<input name="passwordConfirmation" type={visible ? 'text' : 'password'} autoComplete="new-password" minLength={8} maxLength={128} value={confirmation} onChange={event => setConfirmation(event.target.value)} placeholder="再次输入密码" required disabled={busy}/></label>}
           {error && <p className="account-error" role="alert">{error}</p>}
           {message && <p className="account-message" role="status">{message}</p>}
-          <button type="submit" className="account-submit" disabled={busy || !session?.token}>{busy ? <LoaderCircle className="spin" size={18}/> : registering ? <UserRoundPlus size={18}/> : <LogIn size={18}/>} {busy ? '正在处理…' : registering ? '注册账号' : '登录'}</button>
+          <button type="submit" className="account-submit" disabled={busy || !session?.token}>{busy ? <LoaderCircle className="spin" size={18}/> : registering ? <UserRoundPlus size={18}/> : <LogIn size={18}/>} {busy ? registering ? '正在注册…' : '正在登录并同步数据…' : registering ? '注册账号' : '登录'}</button>
         </form>
         {!session?.token && <button className="account-retry" onClick={refresh}>重新连接</button>}
       </>}

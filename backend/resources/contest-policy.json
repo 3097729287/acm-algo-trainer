@@ -1,6 +1,13 @@
 {
-  "version": "1.0.18",
+  "version": "1.0.20",
   "minimumXcpcYear": 2017,
+  "discoverAuthorizedSeries": true,
+  "authorizedSeries": {
+    "codeforces": ["Div.2", "Div.3", "Div.4"],
+    "atcoder": ["ABC", "ARC"],
+    "nowcoder": ["周赛", "小白月赛", "练习赛", "挑战赛"],
+    "luogu": ["入门赛", "基础赛", "月赛"]
+  },
   "curatedCodeforcesContests": [
     1985,
     1999,
@@ -32,6 +39,7 @@
     2266,
     2267,
     2269,
+    2274,
     2275
   ],
   "knownGymContests": [
@@ -335,5 +343,5 @@
     "105064",
     "104671"
   ],
-  "notice": "自动新增牛客、洛谷、AtCoder 已结束比赛；CF 普通赛只补已指定题解赛事，另增 2017 年起正式 XCPC 赛事。"
+  "notice": "仅自动检测已指定系列的结束赛；CF 仅 Div.2/Div.3/Div.4，排除教育赛、Div.1 和合并组。公开题面与样例校验后加入题库；保留 XCPC、蓝桥杯及个人训练历史。"
 }

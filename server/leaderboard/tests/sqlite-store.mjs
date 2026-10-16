@@ -3,6 +3,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { readFileSync } from 'node:fs';
 import { EventConflict } from '../src/errors.mjs';
 import { AccountError } from '../src/accounts.mjs';
+import { storedPublicProgress } from '../src/public-progress.mjs';
 import { bounds, addDays, rankingQuery, normalizeRank, REWARD_POLICY } from '../src/ranking-rules.mjs';
 
 export class SQLiteStore {
@@ -21,6 +22,18 @@ export class SQLiteStore {
   }
   async updateNickname(id, name, timestamp) {
     this.database.prepare('UPDATE users SET nickname=?,updated_at=? WHERE user_id=?').run(name, timestamp, id);
+  }
+  async publicProgress(id) {
+    return storedPublicProgress(this.database.prepare('SELECT payload FROM account_public_progress WHERE user_id=?').get(id)?.payload);
+  }
+  async savePublicProfile(id, hash, now, name, progress, timestamp) {
+    return this.transaction(() => {
+      if (!this.database.prepare('SELECT 1 FROM account_sessions WHERE user_id=? AND token_hash=? AND expires_at>?').get(id, hash, now))
+        throw new AccountError(401, '账号已在另一台设备登录，请重新登录');
+      if (name !== null) this.database.prepare('UPDATE users SET nickname=?,updated_at=? WHERE user_id=?').run(name, timestamp, id);
+      if (progress !== null) this.database.prepare('INSERT INTO account_public_progress VALUES(?,?,?) ON CONFLICT(user_id) DO UPDATE SET payload=excluded.payload,updated_at=excluded.updated_at')
+        .run(id, JSON.stringify(progress), timestamp);
+    });
   }
   async findAccount(login) {
     return this.database.prepare(`SELECT users.*,accounts.login_id,accounts.password_hash,accounts.password_version,
@@ -56,12 +69,17 @@ export class SQLiteStore {
       throw error;
     }
   }
-  async createSession(user, session, timestamp) {
+  async createSession(user, session, timestamp, stateProtocol = false) {
     this.transaction(() => {
       const row = this.database.prepare('SELECT password_hash,password_version FROM accounts WHERE user_id=?').get(user.user_id);
       if (row?.password_hash !== user.password_hash) throw new AccountError(401, '账号密码已变更，请重新登录');
+      const state = this.database.prepare('SELECT revision FROM account_state WHERE user_id=?').get(user.user_id);
+      if (!stateProtocol && Number(state?.revision || 0) > 0)
+        throw new AccountError(426, '该账号已启用跨电脑同步，请升级 TB 至 1.0.20 或更新版本后登录');
+      this.database.prepare('DELETE FROM account_sessions WHERE user_id=?').run(user.user_id);
       this.database.prepare('INSERT INTO account_sessions VALUES(?,?,?,?,?)')
         .run(session.hash, user.user_id, row.password_version, session.expiresAt, timestamp);
+      this.database.prepare('INSERT OR IGNORE INTO account_login_days VALUES(?,?,?)').run(user.user_id, bounds('daily', Date.parse(timestamp)).day, timestamp);
     });
   }
   async deleteSession(hash) { this.database.prepare('DELETE FROM account_sessions WHERE token_hash=?').run(hash); }
@@ -79,12 +97,30 @@ export class SQLiteStore {
     return this.database.prepare(`INSERT INTO request_limits(bucket,count,expires_at) VALUES(?,1,?)
       ON CONFLICT(bucket) DO UPDATE SET count=count+1 RETURNING count`).get(bucket, expiresAt).count;
   }
-  async rankings(id, range) {
-    const { sql, values } = rankingQuery(range);
-    return {
-      rows: this.database.prepare(sql + ' SELECT * FROM ranked ORDER BY position LIMIT 100').all(...values).map(normalizeRank),
-      own: normalizeRank(this.database.prepare(sql + ' SELECT * FROM ranked WHERE user_id=?').get(...values, id)) || null,
-    };
+  async rankings(id, range, loginDay) {
+    const { sql, values } = rankingQuery(range, loginDay);
+    const enriched = ' SELECT ranked.*,p.payload AS public_progress FROM ranked LEFT JOIN account_public_progress p ON p.user_id=ranked.user_id';
+    const rows = this.database.prepare(sql + enriched + ' WHERE ranked.position<=100 OR ranked.user_id=? ORDER BY position').all(...values, id).map(normalizeRank);
+    return { rows: rows.filter(row => row.rank <= 100), own: rows.find(row => row.user_id === id) || null };
+  }
+  async recordLogin(id, day, timestamp) {
+    this.database.prepare('INSERT OR IGNORE INTO account_login_days VALUES(?,?,?)').run(id, day, timestamp);
+  }
+  async stateRevision(id) { return this.database.prepare('SELECT revision FROM account_state WHERE user_id=?').get(id)?.revision || 0; }
+  async accountState(id) {
+    const row = this.database.prepare('SELECT revision,payload FROM account_state WHERE user_id=?').get(id);
+    return { revision: row?.revision || 0, state: row ? JSON.parse(row.payload) : null };
+  }
+  async saveAccountState(id, hash, now, revision, state, timestamp) {
+    return this.transaction(() => {
+      if (!this.database.prepare('SELECT 1 FROM account_sessions WHERE user_id=? AND token_hash=? AND expires_at>?').get(id, hash, now))
+        throw new AccountError(401, '账号已在另一台设备登录，请重新登录');
+      const previous = this.database.prepare('SELECT revision FROM account_state WHERE user_id=?').get(id)?.revision || 0;
+      if (previous !== revision) throw new AccountError(409, '账号数据已更新，请重新同步');
+      this.database.prepare('INSERT INTO account_state VALUES(?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET revision=excluded.revision,payload=excluded.payload,updated_at=excluded.updated_at')
+        .run(id, revision + 1, JSON.stringify(state), timestamp);
+      return { revision: revision + 1, savedAt: timestamp };
+    });
   }
   async settleRewards(now) {
     this.database.exec('BEGIN IMMEDIATE');

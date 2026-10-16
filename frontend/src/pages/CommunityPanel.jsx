@@ -1,14 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Check, LogOut, LockKeyhole, RefreshCw, ShieldCheck, Sparkles, Trash2, Trophy, UserRound } from 'lucide-react';
-import { saveBeforeLogout } from '../app/Workbench.jsx';
+import { Award, Check, LogOut, LockKeyhole, RefreshCw, ShieldCheck, Sparkles, Trash2, Trophy, UserRound } from 'lucide-react';
 import RankingMedal from '../components/RankingMedal.jsx';
 import './Rankings.css';
 
-export function ProfileSettings({ api, onError, onChanged }) {
-  const [snapshot, setSnapshot] = useState(null), [account, setAccount] = useState(null), [nickname, setNickname] = useState('');
+const saveBeforeLogout = async () => (await import('../app/Workbench.jsx')).saveBeforeLogout();
+
+export function ProfileSettings({ api, onError, onChanged, initialAccount, initialProfileSnapshot }) {
+  const [snapshot, setSnapshot] = useState(initialProfileSnapshot || null), [account, setAccount] = useState(initialAccount || null), [nickname, setNickname] = useState(initialProfileSnapshot?.profile?.nickname || '');
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [message, setMessage] = useState('');
+  const onChangedRef = useRef(onChanged);
+  onChangedRef.current = onChanged;
   const [oldPassword, setOldPassword] = useState(''), [newPassword, setNewPassword] = useState(''), [confirmation, setConfirmation] = useState('');
-  useEffect(() => { let alive = true; Promise.all([api('profile'), api('account')]).then(([value, login]) => { if (!alive) return; setSnapshot(value); setNickname(value.profile?.nickname || ''); setAccount(login.account); }).catch(issue => { if (alive) setError(issue.message); }); return () => { alive = false; }; }, [api]);
+  useEffect(() => { let alive = true; Promise.all([initialProfileSnapshot || api('profile'), initialAccount ? { account: initialAccount } : api('account')]).then(([value, login]) => { if (!alive) return; setSnapshot(value); setNickname(value.profile?.nickname || ''); setAccount(login.account); if (!initialProfileSnapshot) onChangedRef.current?.(value); }).catch(issue => { if (alive) setError(issue.message); }); return () => { alive = false; }; }, [api, initialAccount, initialProfileSnapshot]);
   async function save(event) {
     event.preventDefault(); if (busy) return; setBusy(true); setError(''); setMessage('');
     try { const value = await api('profile', { nickname: nickname.trim() }); setSnapshot(value); setNickname(value.profile?.nickname || ''); setMessage('昵称已保存。'); onChanged?.(value); }
@@ -27,9 +30,10 @@ export function ProfileSettings({ api, onError, onChanged }) {
     catch (issue) { setError(issue.message); setBusy(false); }
   }
   return <section className="profile-settings" aria-label="TB 账号设置"><div className="progress-section-heading"><h2><UserRound size={18} />我的账号</h2><span>{snapshot?.leaderboard?.configured ? '排行榜已连接' : '账号设置'}</span></div>
+    {!snapshot && !error && <p className="progress-muted" role="status">正在读取已同步的账号信息…</p>}
     {snapshot?.profile && <div className="profile-identity"><strong>{snapshot.profile.nickname || '用户'}</strong>{account && <span>登录号：{account.loginId}</span>}</div>}
     <details className="profile-edit"><summary>管理账号</summary><p className="progress-small">排行榜显示昵称。修改昵称会保留你的成绩和训练记录。</p>
-    <form onSubmit={save} className="profile-form"><label>昵称<input aria-label="用户昵称" maxLength={32} value={nickname} onChange={event => setNickname(event.target.value)} placeholder="设置你的昵称" required /></label><button className="progress-button progress-primary" disabled={busy || !snapshot}><Check size={14} />保存昵称</button></form>
+    <form onSubmit={save} className="profile-form"><label>昵称<input aria-label="用户昵称" maxLength={32} value={nickname} onChange={event => setNickname(event.target.value)} placeholder="设置你的昵称" required disabled={busy || !snapshot} /></label><button className="progress-button progress-primary" disabled={busy || !snapshot}><Check size={14} />保存昵称</button></form>
     <p className="progress-small">{snapshot?.leaderboard?.notice || '共享排行榜尚未连接。连接后同步 ID、昵称与过题统计。'}</p>{error && <p className="connection-error" role="alert">{error}</p>}{message && <p className="connection-message" role="status">{message}</p>}
     {account && <div className="account-settings"><h3><LockKeyhole size={16}/> 修改密码</h3><form onSubmit={changePassword}>
       <label>原密码<input type="password" autoComplete="current-password" minLength={8} maxLength={128} value={oldPassword} onChange={event => setOldPassword(event.target.value)} required disabled={busy}/></label>
@@ -42,6 +46,16 @@ export function ProfileSettings({ api, onError, onChanged }) {
 }
 
 const periods = [['daily', '每日过题'], ['weekly', '本周过题'], ['total', '累计过题']];
+
+function RankingIdentity({ item, period, self }) {
+  const progress = item.publicProgress;
+  const identity = item.publicId || (item.userId ? 'TB-' + item.userId.replaceAll('-', '').toUpperCase() : '');
+  return <div className="ranking-identity"><div className="ranking-identity-heading"><span className="ranking-user-name">{item.count > 0 && item.rank > 0 && item.rank <= 3 && <RankingMedal period={period} rank={item.rank}/>}<strong>{item.nickname || item.displayName || '用户'}</strong></span>{self && <span className="tag">我</span>}
+    {progress?.titles?.map(title => <span className="ranking-title-badge" key={title.id} title={`${title.category === 'streak' ? '连续训练' : 'AC'} ${title.target}${title.category === 'streak' ? ' 天' : ' 题'}`}><Award size={14}/>{title.name}</span>)}</div>
+    {identity && <span className="ranking-public-id" title={identity}>ID：{identity}</span>}
+    {progress ? <div className="ranking-public-progress"><span>Lv.{progress.level}</span><span>{progress.tier}</span><span>{progress.rankTier ? `排位 ${progress.rankTier} · ${Number(progress.rankScore).toLocaleString('zh-CN')} 分` : '排位未解锁'}</span></div> : <span className="ranking-public-progress ranking-progress-pending">成长资料待同步</span>}
+  </div>;
+}
 
 function DeleteConfirmation({ target, busy, onCancel, onConfirm }) {
   const dialog = useRef(null), cancel = useRef(null);
@@ -109,7 +123,7 @@ export default function RankingsPage({ api, onConfigure, onError }) {
     {message && <p className="ranking-operation-message" role="status">{message}</p>}
     {error && <p className="connection-error" role="alert">{error}</p>}
     {snapshot?.hasSnapshot && snapshot.status === 'error' && <p className="connection-error" role="status">部分数据刷新未完成，后台将重试。{snapshot.error}</p>}
-    {!snapshot ? <p className="progress-muted" role="status">正在读取排行榜…</p> : !snapshot.configured || snapshot.status === 'offline' || snapshot.status === 'error' && !snapshot.hasSnapshot && !entries.length ? <div className="ranking-empty"><Trophy size={32}/><h3>{snapshot.configured ? '排行榜暂时无法连接' : '共享排行榜尚未连接'}</h3><p>{snapshot.error || snapshot.notice || '在偏好设置中填写排行榜服务地址，连接后查看所有用户的排名。'}</p><button className="progress-button progress-primary" disabled={busy} onClick={snapshot.configured ? sync : onConfigure}>{snapshot.configured ? '重试连接' : '设置昵称与连接'}</button></div> : entries.length ? <div className="progress-table-scroll"><table className="ranking-table"><thead><tr><th>排名</th><th>昵称</th><th>过题数</th>{snapshot.isAdmin && <th>管理</th>}</tr></thead><tbody>{entries.map(item => <tr key={item.userId} className={snapshot.self?.userId === item.userId ? 'ranking-self' : ''}><td>{item.rank}</td><td><span className="ranking-user-name">{item.rank <= 3 && <RankingMedal period={period} rank={item.rank}/>}<strong>{item.nickname || item.displayName || '用户'}</strong></span>{snapshot.self?.userId === item.userId && <span className="tag">我</span>}</td><td><b>{item.count}</b></td>{snapshot.isAdmin && <td><button className="text-button ranking-delete-button" aria-label={`删除 ${item.nickname || '用户'} 的${label}成绩`} disabled={busy || deleting || !ready} onClick={() => askDelete(item)}><Trash2 size={14}/>删除</button></td>}</tr>)}</tbody></table></div> : <div className="ranking-empty" role="status">{snapshot.status === 'syncing' && !snapshot.hasSnapshot ? <p><RefreshCw size={18} className="spin"/>正在同步过题记录…</p> : <><h3>{snapshot.status === 'error' ? '榜单已读取' : '服务已连接'}</h3><p>这个统计周期还没有首次官方 AC 记录。</p>{snapshot.self && <p>我的过题数：{snapshot.self.count || 0}</p>}</>}</div>}
+    {!snapshot ? <p className="progress-muted" role="status">正在读取排行榜…</p> : !snapshot.configured || snapshot.status === 'offline' || snapshot.status === 'error' && !snapshot.hasSnapshot && !entries.length ? <div className="ranking-empty"><Trophy size={32}/><h3>{snapshot.configured ? '排行榜暂时无法连接' : '共享排行榜尚未连接'}</h3><p>{snapshot.error || snapshot.notice || '在成长与能力中登录账号，连接后查看所有用户的排名。'}</p><button className="progress-button progress-primary" disabled={busy} onClick={snapshot.configured ? sync : onConfigure}>{snapshot.configured ? '重试连接' : '设置昵称与连接'}</button></div> : entries.length ? <div className="progress-table-scroll"><table className="ranking-table"><thead><tr><th>排名</th><th>用户与成长</th><th>过题数</th>{snapshot.isAdmin && <th>管理</th>}</tr></thead><tbody>{entries.map(item => <tr key={item.userId} className={snapshot.self?.userId === item.userId ? 'ranking-self' : ''}><td>{item.rank}</td><td><RankingIdentity item={item} period={period} self={snapshot.self?.userId === item.userId}/></td><td><b>{item.count}</b></td>{snapshot.isAdmin && <td><button className="text-button ranking-delete-button" aria-label={`删除 ${item.nickname || '用户'} 的${label}成绩`} disabled={busy || deleting || !ready} onClick={() => askDelete(item)}><Trash2 size={14}/>删除</button></td>}</tr>)}</tbody></table></div> : <div className="ranking-empty" role="status">{snapshot.status === 'syncing' && !snapshot.hasSnapshot ? <p><RefreshCw size={18} className="spin"/>正在同步过题记录…</p> : <><h3>{snapshot.status === 'error' ? '榜单已读取' : '服务已连接'}</h3><p>这个统计周期还没有首次官方 AC 记录。</p>{snapshot.self && <p>我的过题数：{snapshot.self.count || 0}</p>}</>}</div>}
     {confirmation && <DeleteConfirmation target={confirmation} busy={deleting} onCancel={() => setConfirmation(null)} onConfirm={remove}/>}
   </section></div>;
 }

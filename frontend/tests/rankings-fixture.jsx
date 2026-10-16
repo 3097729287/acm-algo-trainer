@@ -8,7 +8,7 @@ import '../src/pages/ProgressPanels.css';
 document.documentElement.dataset.theme='dark';
 document.body.style.margin='0';
 const initial = [
-  {rank:1,userId:'10000000-0000-4000-8000-000000000001',nickname:'练习者一',count:128},
+  {rank:1,userId:'10000000-0000-4000-8000-000000000001',nickname:'练习者一',count:128,publicId:'TB-10000000000040008000000000000001',publicProgress:{level:10,tier:'王者',rankTier:'黄金',rankScore:1560,titles:[{id:'ac-500',name:'破题先锋',category:'ac',target:500},{id:'streak-30',name:'月度恒心',category:'streak',target:30}]}},
   {rank:2,userId:'10000000-0000-4000-8000-000000000002',nickname:'练习者二',count:86},
   {rank:3,userId:'10000000-0000-4000-8000-000000000003',nickname:'练习者三',count:62},
   {rank:4,userId:'10000000-0000-4000-8000-000000000004',nickname:'练习者四',count:41},

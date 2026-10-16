@@ -7,6 +7,8 @@ from urllib.parse import quote,urlsplit
 
 LABELS={'codeforces':'Codeforces','atcoder':'AtCoder','nowcoder':'牛客','luogu':'洛谷'}
 CF_TAGS={'binary search':'二分查找','brute force':'枚举','combinatorics':'组合计数','constructive algorithms':'构造','data structures':'数据结构','dfs and similar':'DFS','dp':'动态规划（官方宽标签）','dsu':'并查集','geometry':'计算几何','graph matchings':'二分图匹配','graphs':'图论','greedy':'贪心','hashing':'哈希','implementation':'模拟','math':'数学','number theory':'数论','shortest paths':'最短路','sortings':'排序','strings':'字符串','trees':'树','two pointers':'双指针','bitmasks':'位运算','flows':'网络流','fft':'FFT'}
+CF_TAGS.update({'games':'博弈论','matrices':'矩阵运算','interactive':'交互题',
+                'probabilities':'期望与概率','meet-in-the-middle':'折半枚举'})
 
 def utc(value):
     if isinstance(value,str):
@@ -28,6 +30,13 @@ def profile(platform,handle):
 def cf_result(client,path):
     value=client.json('https://codeforces.com/api/'+path)
     if value.get('status')!='OK':raise ValueError('Codeforces: '+str(value.get('comment','公开 API 未成功'))[:200])
+    return value['result']
+
+def cf_roster(client,identity):
+    # Non-admin access accepts only anonymous GET + contestId, with no paging.
+    method=getattr(client,'contest_problems',None)
+    value=method(identity) if callable(method) else client.json('https://codeforces.com/api/contest.standings?contestId='+str(identity))
+    if value.get('status')!='OK':raise ValueError('Codeforces 官方题单暂不可用')
     return value['result']
 
 def account_cf(client,handle):
@@ -194,13 +203,27 @@ def row(platform,contest,index,title,url,difficulty,source,tags=()):
 
 
 def discover_cf(client,now,allowed_ids=None):
+    from contest_policy import authorized
     contests=cf_result(client,'contest.list?gym=false')
-    ended=[c for c in contests if c.get('phase')=='FINISHED' and integer(c.get('startTimeSeconds')) is not None and integer(c.get('durationSeconds')) is not None and c['startTimeSeconds']+c['durationSeconds']<=now.timestamp()][:30]
+    ended=[c for c in contests if c.get('phase')=='FINISHED' and integer(c.get('startTimeSeconds')) is not None and integer(c.get('durationSeconds')) is not None and c['startTimeSeconds']+c['durationSeconds']<=now.timestamp()
+           and authorized({'contest':c.get('name'),'url':f"https://codeforces.com/contest/{c.get('id')}"},'codeforces')][:30]
     if allowed_ids is not None:
-        ended=[c for c in contests if c.get('id') in allowed_ids and c.get('phase')=='FINISHED' and integer(c.get('startTimeSeconds')) is not None and integer(c.get('durationSeconds')) is not None and c['startTimeSeconds']+c['durationSeconds']<=now.timestamp()]
+        ended=[c for c in contests if c.get('id') in allowed_ids and c.get('phase')=='FINISHED' and integer(c.get('startTimeSeconds')) is not None and integer(c.get('durationSeconds')) is not None and c['startTimeSeconds']+c['durationSeconds']<=now.timestamp()
+               and authorized({'contest':c.get('name'),'url':f"https://codeforces.com/contest/{c.get('id')}"},'codeforces')]
     ids={c['id']:c for c in ended}
     if not ids:return [],[],'指定题解赛事暂未发现可补充的公开题目'
-    problems=cf_result(client,'problemset.problems')['problems'];rows=[];pending=[]
+    problems=list(cf_result(client,'problemset.problems')['problems']);rows=[];pending=[]
+    # Recent split divisions frequently share most tasks. The global problemset
+    # then lists only the Div.1 URL; exact rosters retain Div.2 letters and URLs.
+    for contest in ended[:2]:
+        if len([p for p in problems if p.get('contestId')==contest['id']])>=5:continue
+        try:roster=cf_roster(client,contest['id'])
+        except (OSError,ValueError,RuntimeError,KeyError,TypeError):continue
+        official=roster.get('contest') or {}
+        if str(official.get('id'))!=str(contest['id']) or not authorized({'contest':official.get('name')},'codeforces'):continue
+        tasks=roster.get('problems') or []
+        if tasks:
+            problems=[p for p in problems if p.get('contestId')!=contest['id']]+tasks
     for p in problems:
         c=ids.get(p.get('contestId'))
         if not c:continue
@@ -218,17 +241,19 @@ def discover_curated_cf(client,now,known_gyms=()):
     from xcpc_discovery import discover_gyms
     settings=policy()
     settings={**settings,'knownGymContests':list(set(settings['knownGymContests'])|{int(cid) for cid in known_gyms})}
-    rows,pending,_=discover_cf(client,now,set(settings['curatedCodeforcesContests']))
+    rows,pending,_=discover_cf(client,now,None if settings.get('discoverAuthorizedSeries',True) else set(settings['curatedCodeforcesContests']))
     extra,waiting=discover_gyms(client,now,settings)
-    return rows+extra,pending+waiting,'只补指定题解赛事与 2017 年起的新 XCPC；原站公开整场难度和单题评级分别展示'
+    return rows+extra,pending+waiting,'只补 Div.2/Div.3/Div.4 与 2017 年起的新 XCPC；公开题面与样例校验后入库'
 
 def lg_data(value):
     if not isinstance(value,dict) or value.get('status',200)!=200:raise ValueError('洛谷公开页面暂不可用或需要登录')
     return value.get('data') or {}
 
 def discover_lg(client,now):
+    from contest_policy import authorized
     data=lg_data(client.json('https://www.luogu.com.cn/contest/list',headers={'x-lentille-request':'content-only'}));contests=((data.get('contests') or {}).get('result') or [])
-    ended=[c for c in contests if integer(c.get('endTime')) is not None and c['endTime']<=now.timestamp() and (c.get('host') or {}).get('id')==1000][:6]
+    ended=[c for c in contests if integer(c.get('endTime')) is not None and c['endTime']<=now.timestamp() and (c.get('host') or {}).get('id')==1000
+           and authorized({'contest':c.get('name')},'luogu')][:6]
     import cf_eq
     rows=[];pending=[]
     try:tag_names={tag['id']:tag['name'] for tag in client.json('https://www.luogu.com.cn/_lfe/tags').get('tags',[]) if 'id' in tag and 'name' in tag}
@@ -239,6 +264,7 @@ def discover_lg(client,now):
         verified=detail.get('contest') or {}
         if not integer(verified.get('endTime')) or verified['endTime']>now.timestamp():continue
         contest={'id':c['id'],'name':verified.get('name',c['name']),'start':verified.get('startTime'),'end':verified['endTime'],'series':'洛谷官方赛'}
+        if not authorized({'contest':contest['name']},'luogu'):continue
         for index,entry in enumerate(detail.get('contestProblems') or []):
             p=entry.get('problem') or {};pid=p.get('pid')
             if not pid:continue
@@ -281,6 +307,7 @@ def discover_at(client,now):
     return rows,pending,'官方已结束 ABC/ARC；按既有 CF-EQ 换算 AtCoder Problems 模型估算，模型未出则待定'
 
 def discover_nc(client,now):
+    from contest_policy import authorized
     page=client.text('https://ac.nowcoder.com/acm/contest/vip-index');pending=[];rows=[]
     for block in re.findall(r'<div\b[^>]*data-id="(\d+)"[^>]*data-json="([^"]+)"[^>]*>(.*?)(?=<div\b[^>]*data-id=|$)',page,re.S):
         cid,encoded,body=block
@@ -289,10 +316,12 @@ def discover_nc(client,now):
         end=meta.get('contestEndTime');start=meta.get('contestStartTime')
         if not integer(end) or end/1000>now.timestamp():continue
         name=re.search(r'<h4>.*?<a[^>]*>(.*?)</a>',body,re.S)
+        contest_name=text(name[1]) if name else cid
+        if not authorized({'contest':contest_name},'nowcoder'):continue
         problems=client.json('https://ac.nowcoder.com/acm/contest/problem-list?token=&id='+cid)
         if problems.get('code')!=0:raise ValueError('牛客公开题单不可用或比赛未公开')
         entries=(problems.get('data') or {}).get('data') or []
-        contest={'id':cid,'name':text(name[1]) if name else cid,'start':start,'end':end,'series':'牛客'}
+        contest={'id':cid,'name':contest_name,'start':start,'end':end,'series':'牛客'}
         for p in entries:
             value=row('nowcoder',contest,p.get('index'),p.get('title'),f"https://ac.nowcoder.com/acm/contest/{cid}/{p.get('index')}",None,'原站未提供可靠数值难度')
             from difficulty import nowcoder

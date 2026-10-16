@@ -38,6 +38,10 @@ CREATE TABLE account_sessions (
   password_version INTEGER NOT NULL, expires_at INTEGER NOT NULL, created_at TEXT NOT NULL
 );
 CREATE INDEX sessions_expiry ON account_sessions(expires_at);
+CREATE TABLE account_state (user_id TEXT PRIMARY KEY REFERENCES accounts(user_id),revision INTEGER NOT NULL,payload TEXT NOT NULL,updated_at TEXT NOT NULL);
+CREATE TABLE account_login_days (user_id TEXT NOT NULL REFERENCES accounts(user_id),day TEXT NOT NULL,first_seen_at TEXT NOT NULL,PRIMARY KEY(user_id,day));
+CREATE INDEX login_days_day ON account_login_days(day,user_id);
+CREATE TABLE account_public_progress (user_id TEXT PRIMARY KEY REFERENCES accounts(user_id),payload TEXT NOT NULL,updated_at TEXT NOT NULL);
 
 CREATE TABLE official_ac_events (
   user_id TEXT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { saveBeforeUpdate } from '../app/Workbench.jsx';
 import './SoftwareUpdates.css';
+
+const saveBeforeUpdate = async () => (await import('../app/Workbench.jsx')).saveBeforeUpdate();
 
 export function useSoftwareUpdates(api, enabled) {
   const [state, setState] = useState(null);

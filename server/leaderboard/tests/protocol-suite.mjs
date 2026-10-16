@@ -179,7 +179,7 @@ test('only a server-granted administrator can delete scores, and replay cannot r
     assert.equal((await request(fixture,user,'GET','/v1/leaderboard?period=total')).value.self.count,1);
     assert.equal((await request(fixture,admin,'POST','/v1/admin/leaderboard/delete',body)).value.removed,0);
     assert.equal((await request(fixture,admin,'POST','/v1/admin/leaderboard/delete',{...body,userId:null,period:'total'})).value.removed,1);
-    assert.equal((await request(fixture,user,'GET','/v1/leaderboard?period=total')).value.entries.length,0);
+    assert.deepEqual((await request(fixture,user,'GET','/v1/leaderboard?period=total')).value.entries.map(row=>row.count),[0,0]);
     // Tombstones preserve identity and original event evidence.
     assert.equal(await fixture.countEvents(),2);
     assert.equal((await request(fixture,user,'GET','/v1/profile')).status,200);
@@ -190,7 +190,7 @@ test('ranks real users only, bounds bad payloads, excludes samples and impersona
   const fixture = await startFixture({ now: NOW });
   try {
     const a = identity(), b = identity(); await register(fixture, a); await register(fixture, b);
-    assert.equal((await request(fixture, a, 'GET', '/v1/leaderboard')).value.entries.length, 0);
+    assert.deepEqual((await request(fixture, a, 'GET', '/v1/leaderboard')).value.entries.map(row=>row.count), [0,0]);
     await request(fixture, a, 'POST', '/v1/events', { events: [ac(a, 'p1'), ac(a, 'p2')] });
     await request(fixture, b, 'POST', '/v1/events', { events: [ac(b, 'p3')] });
     const scores = (await request(fixture, b, 'GET', '/v1/leaderboard')).value;

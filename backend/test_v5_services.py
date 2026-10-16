@@ -28,15 +28,32 @@ class DailyMissionTests(unittest.TestCase):
         with self.assertRaises(ServiceError): self.service.claim_daily_task("solve-1")
         self.service.start_training("fixture::A")
         self.accept()
-        before = self.service.insights()["growth"]["xp"]
+        before = self.service.insights()['growth']
+        self.assertEqual(before['xp'],125)
+        self.assertEqual(before['achievementXp'],25)
+        self.assertEqual(before['missionXp'],0)
         with ThreadPoolExecutor(max_workers=8) as workers:
             results = list(workers.map(lambda _: self.service.claim_daily_task("solve-1"), range(8)))
         self.assertEqual(sum(not result["alreadyClaimed"] for result in results), 1)
-        self.assertEqual(self.service.insights()["growth"]["xp"], before + 25)
+        after = self.service.insights()['growth']
+        self.assertEqual(after['xp'],before['xp'] + 25 + 15)
+        self.assertEqual(after['missionXp'],25)
+        self.assertEqual(after['achievementXp'],before['achievementXp'] + 15)
+        self.assertEqual(after['rankingXp'],0)
+        self.assertEqual(self.service.connection.execute('SELECT SUM(awarded_xp) FROM official_first_xp_awards').fetchone()[0],100)
+        self.assertEqual(sum(result['progression']['newAchievementXp'] for result in results),15)
+        claims = [tuple(row) for row in self.service.connection.execute('SELECT * FROM achievement_xp_claims ORDER BY achievement_id')]
+        self.assertEqual({row[0]:row[2] for row in claims},{'official-1':25,'missions-1':15})
         self.service.close()
         self.service = TrainingService(self.library, self.db, self.assets, self.judge, self.clock, self.root / "backups")
         self.assertTrue(self.service.daily_tasks()["tasks"][0]["claimed"])
-        self.assertEqual(self.service.insights()["growth"]["missionXp"], 25)
+        restored = self.service.insights()['growth']
+        self.assertEqual(restored['xp'],after['xp'])
+        self.assertEqual(restored['missionXp'],25)
+        self.assertEqual(restored['achievementXp'],40)
+        self.assertEqual(restored['newAchievementXp'],0)
+        self.assertTrue(self.service.claim_daily_task('solve-1')['alreadyClaimed'])
+        self.assertEqual([tuple(row) for row in self.service.connection.execute('SELECT * FROM achievement_xp_claims ORDER BY achievement_id')],claims)
 
     def test_harder_tasks_award_more_and_next_day_ac_counts_once_without_base_xp_replay(self):
         self.library.rows[0]["difficulty"] = 2100
@@ -48,14 +65,20 @@ class DailyMissionTests(unittest.TestCase):
         self.assertLess(tasks["hard-1800"]["xp"], tasks["hard-2100"]["xp"])
         for identity in ("solve-1", "hard-1500", "hard-1800", "hard-2100"):
             self.service.claim_daily_task(identity)
-        self.assertEqual(self.service.insights()["growth"]["missionXp"], 435)
-        base_xp=self.service.insights()['growth']['xp']-435
+        growth = self.service.insights()['growth']
+        self.assertEqual(growth['missionXp'],435)
+        self.assertEqual(growth['achievementXp'],220)
+        base_xp = growth['xp'] - growth['missionXp'] - growth['achievementXp'] - growth['rankingXp']
+        self.assertEqual(base_xp,300)
         self.clock.advance(days=1)
         self.accept(submission_id=7777)
         self.accept(submission_id=7778)
         self.assertTrue(all(task["progress"] == 1 for task in self.service.daily_tasks()["tasks"]))
-        self.assertEqual(self.service.insights()['growth']['xp']-435,base_xp)
-        self.assertEqual(self.service.insights()["growth"]["missionXp"], 435)
+        repeated = self.service.insights()['growth']
+        self.assertEqual(repeated['xp']-repeated['missionXp']-repeated['achievementXp']-repeated['rankingXp'],base_xp)
+        self.assertEqual(repeated['achievementXp'],220)
+        self.assertEqual(repeated['newAchievementXp'],0)
+        self.assertEqual(repeated['missionXp'],435)
         with self.assertRaises(ServiceError): self.service.claim_daily_task("solve-1", "2026-10-08")
 
     def test_three_different_today_acs_include_repractice_but_not_opened_old_acs(self):

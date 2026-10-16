@@ -1,12 +1,13 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
 import InlineTitle from '@/components/InlineTitle.jsx';
-import { ArrowLeft, ArrowRight, Award, BookOpen, CalendarDays, Check, CheckCheck, ChevronRight, ExternalLink, Flag, Github, LoaderCircle, RefreshCw, Search, Target, TrendingUp, Trophy, UserRound } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Award, BookOpen, CalendarDays, Check, CheckCheck, ChevronRight, ExternalLink, Flag, Github, LoaderCircle, Play, RefreshCw, Search, Target, TrendingUp, Trophy, UserRound } from 'lucide-react';
 import { compareContestNewest, contestTime, difficultyBand, difficultyLabel, difficultyDescription } from '@/lib/practiceMetadata.js';
 import './ProgressPanels.css';
 import GoalsPanel from './GoalsPanel.jsx';
 import TierIcon from '@/components/TierIcon.jsx';
 import ContestTabs, { isXcpc, matchesShelf } from '@/components/ContestTabs.jsx';
 import { knowledgeLabels } from '@/lib/knowledgeLabels.js';
+import { ProfileSettings } from './CommunityPanel.jsx';
 
 const PLATFORMS = [
   ['codeforces', 'Codeforces', 'Handle'], ['atcoder', 'AtCoder', '用户名'],
@@ -35,10 +36,26 @@ function Loading({ text = '正在读取记录' }) { return <div className="progr
 function Empty({ children }) { return <div className="progress-empty">{children}</div>; }
 function Meter({ value, label }) { return <span className="progress-meter" role="meter" aria-label={label} aria-valuemin={0} aria-valuemax={100} aria-valuenow={clamp(value)}><i style={{ width: `${clamp(value)}%` }} /></span>; }
 
-export function AchievementPanel({ achievements = [] }) {
+export function TitleMedals({ titles = [], compact = false }) {
+  const items = list(titles);
+  if (!items.length) return null;
+  return <span className={`title-medals${compact ? ' title-medals-compact' : ''}`} aria-label="已获得称号">{items.map(item => <span className={`title-medal title-medal-${item.category || 'ac'}`} key={item.id} title={`${item.category === 'streak' ? '连续训练' : 'AC'} ${number(item.target)} ${item.category === 'streak' ? '天' : '题'} · ${item.name}`}><Award size={compact ? 14 : 17} aria-hidden="true" /><span>{item.name}</span></span>)}</span>;
+}
+
+export function AchievementPanel({ achievements = [], newIds = [], onSeen }) {
   const [filter, setFilter] = useState('all');
+  const [seen, setSeen] = useState(() => new Set());
+  const fresh = new Set(newIds);
+  const markSeen = id => {
+    if (seen.has(id) || !fresh.has(id)) return;
+    setSeen(previous => new Set([...previous, id]));
+    onSeen?.(id);
+  };
   const items = list(achievements).map(item => ({ ...item, name: acText(item.name), description: achievementText(item.description) })).filter(item => filter === 'all' || (filter === 'unlocked' ? item.unlocked : !item.unlocked)).slice().sort((left, right) => Number(right.unlocked) - Number(left.unlocked));
-  return <div className="achievement-panel"><div className="ranking-tabs" role="group" aria-label="成就筛选">{[['all', '全部成就'], ['unlocked', '已达成'], ['pending', '待达成']].map(([value, label]) => <button className={filter === value ? 'active' : ''} aria-pressed={filter === value} key={value} onClick={() => setFilter(value)}>{label}</button>)}</div><div className="progress-achievements">{items.map(item => <div className={`progress-achievement${item.unlocked ? ' progress-unlocked' : ''}`} key={item.id}><Award size={21} /><div><strong>{item.name}</strong><p>{item.description}</p>{!item.unlocked && <Meter value={item.target ? item.progress / item.target * 100 : 0} label={`${item.name}完成进度`} />}<span>{item.unlocked ? `已达成${item.unlockedAt ? ' · ' + dateLabel(item.unlockedAt) : ''}` : `${number(item.progress)} / ${number(item.target)}`}</span></div></div>)}</div>{!items.length && <p className="progress-muted">这一组暂时没有成就记录。</p>}</div>;
+  return <div className="achievement-panel"><div className="ranking-tabs" role="group" aria-label="成就筛选">{[['all', '全部成就'], ['unlocked', '已达成'], ['pending', '待达成']].map(([value, label]) => <button className={filter === value ? 'active' : ''} aria-pressed={filter === value} key={value} onClick={() => setFilter(value)}>{label}</button>)}</div><div className="progress-achievements">{items.map(item => {
+    const isNew = item.unlocked && fresh.has(item.id) && !seen.has(item.id);
+    return <div className={`progress-achievement${item.unlocked ? ' progress-unlocked' : ''}${isNew ? ' progress-achievement-new' : ''}`} key={item.id} data-achievement-id={item.id} tabIndex={isNew ? 0 : undefined} onMouseEnter={() => markSeen(item.id)} onFocus={() => markSeen(item.id)}><Award size={21} aria-hidden="true" /><div><div className="progress-achievement-name"><strong>{item.name}</strong>{isNew && <span className="achievement-new-label">新达成</span>}</div><p>{item.description}</p>{!item.unlocked && <Meter value={item.target ? item.progress / item.target * 100 : 0} label={`${item.name}完成进度`} />}<div className="progress-achievement-status"><span>{item.unlocked ? `已达成${item.unlockedAt ? ' · ' + dateLabel(item.unlockedAt) : ''}` : `${number(item.progress)} / ${number(item.target)}`}</span>{item.rewardTitle ? <span className={`achievement-title-reward${item.unlocked ? ' claimed' : ''}`}><Award size={14} aria-hidden="true" />{item.rewardTitle.name} · {item.unlocked ? '称号已获得' : '达成后获得称号'}</span> : item.rewardXp > 0 && <span className={`achievement-reward${item.rewardClaimed ? ' claimed' : ''}`}>+{number(item.rewardXp)} XP · {item.rewardClaimed ? '已发放' : item.unlocked ? '待发放' : '达成后发放'}</span>}</div></div></div>;
+  })}</div>{!items.length && <p className="progress-muted">这一组暂时没有成就记录。</p>}</div>;
 }
 export function DailyTasks({ dailyTasks, onClaim }) {
   const [claiming, setClaiming] = useState(null), [error, setError] = useState('');
@@ -47,12 +64,38 @@ export function DailyTasks({ dailyTasks, onClaim }) {
   return <section className="progress-section daily-tasks" aria-label="每日任务"><div className="progress-section-heading"><h2><CalendarDays size={18} />每日任务</h2><span>{dailyTasks?.date || '每日更新'} · {tasks.filter(task => task.claimed).length}/{tasks.length}</span></div><p className="progress-small">每天按北京时间刷新。当天 AC 的不同题目分别计数，旧题再次 AC 也计入；同题当天只算一次。</p><div className="daily-task-grid">{tasks.map(task => <article className={`daily-task${task.claimed ? ' daily-task-claimed' : ''}`} key={task.id}><div className="daily-task-main"><div><strong>{task.title}</strong><span className="daily-task-xp">+{number(task.xp)} XP</span></div><p>{acText(task.description)}</p><div className="daily-task-progress"><Meter value={task.target ? task.progress / task.target * 100 : 0} label={`${task.title}任务进度`} /><span>{number(task.progress)}/{number(task.target)}</span></div></div><button className={'progress-button ' + (task.completed && !task.claimed ? 'progress-primary' : '')} disabled={!task.completed || task.claimed || !!claiming || !onClaim} onClick={() => claim(task)}>{claiming === task.id ? <LoaderCircle size={13} className="spin" /> : task.claimed ? <Check size={13} /> : null}{task.claimed ? '已领取' : task.completed ? '领取经验' : '进行中'}</button></article>)}</div>{!tasks.length && <p className="progress-muted">每日任务正在准备。完成训练后，任务进度会自动更新。</p>}{error && <p role="alert" className="connection-error">{error}</p>}</section>;
 }
 
-export function GrowthPage({ api, onGoalsChanged, insights, hub, onTrain, onTopic, onSync, onAccounts, onAchievements }) {
+export function GrowthAccountPanel({ api, hub, account, profile, profileSnapshot: suppliedSnapshot, onProfileChanged, onHubChanged, onError, accountFocus }) {
+  const panelRef = useRef(null);
+  const profileSnapshot = useMemo(() => suppliedSnapshot || (profile ? { profile } : undefined), [profile, suppliedSnapshot]);
+  const [publicOpen, setPublicOpen] = useState(false), [translationOpen, setTranslationOpen] = useState(false);
+  const focusSection = typeof accountFocus === 'string' ? accountFocus : accountFocus?.section;
+  useEffect(() => {
+    if (!focusSection) return;
+    if (focusSection === 'translation') setTranslationOpen(true);
+    else if (focusSection === 'connections' || focusSection === 'public') setPublicOpen(true);
+    const frame = requestAnimationFrame(() => {
+      const target = focusSection === 'translation' ? panelRef.current?.querySelector('#growth-translation') : panelRef.current;
+      target?.scrollIntoView({ block: 'start' });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [accountFocus, focusSection]);
+  return <section ref={panelRef} id="growth-accounts" className="progress-section growth-account-panel" aria-label="账号与身份">
+    <ProfileSettings api={api} initialAccount={account} initialProfileSnapshot={profileSnapshot} onChanged={onProfileChanged} onError={onError} />
+    <details className="growth-account-section" open={publicOpen} onToggle={event => setPublicOpen(event.currentTarget.open)}><summary><UserRound size={16} />公开账号与评分<ChevronRight size={15} /></summary>{publicOpen && <ConnectionsPanel hub={hub} api={api} onChanged={onHubChanged} onError={onError} includeTranslation={false} />}</details>
+    <details id="growth-translation" className="growth-account-section" open={translationOpen} onToggle={event => setTranslationOpen(event.currentTarget.open)}><summary><BookOpen size={16} />翻译 API<ChevronRight size={15} /></summary>{translationOpen && <TranslationSettings api={api} onError={onError} />}</details>
+  </section>;
+}
+
+export function GrowthPage({ api, onGoalsChanged, insights, hub, account, profile, profileSnapshot, onProfileChanged, onHubChanged, onError, accountFocus, onTrain, onTopic, onSync, onAccounts, onAchievements }) {
   const [gapsOnly, setGapsOnly] = useState(false);
   const [topicSearch, setTopicSearch] = useState('');
   const [moreRecommendations, setMoreRecommendations] = useState(false);
   if (!insights) return <Loading />;
   const summary = insights.summary || {}, growth = insights.growth || {}, assessment = insights.assessment || {};
+  const titles = list(insights.titles || growth.titles), equippedTitles = list(insights.equippedTitles || growth.equippedTitles);
+  const identity = profile || insights.profile || {}, nickname = identity.nickname || account?.nickname;
+  const userId = identity.userId || account?.userId;
+  const publicId = identity.publicId || (userId ? 'TB-' + userId.replaceAll('-', '').toUpperCase() : '');
   const recommendations = list(insights.recommendations);
   const topics = list(insights.knowledge).filter(topic => (!gapsOnly || topic.due > 0 || topic.failures > 0) && topic.name.toLowerCase().includes(topicSearch.trim().toLowerCase()))
     .slice().sort((a, b) => (b.priority || 0) - (a.priority || 0));
@@ -62,7 +105,8 @@ export function GrowthPage({ api, onGoalsChanged, insights, hub, onTrain, onTopi
   return <div className="progress-page" aria-label="成长与能力">
     <div className="progress-level-strip">
       <span className={`progress-level-badge ${growth.ranked?.badge || growth.badge || ''}`}><TierIcon badge={growth.ranked?.badge || growth.badge} /><b>{growth.ranked?.tier || growth.tier || '黑铁'}</b><small>Lv.{growth.level ?? '—'}</small></span>
-      <div className="progress-level-main"><strong>{growth.ranked?.title || growth.levelName || '从第一步开始'}</strong>{growth.ranked ? <><span>{number(growth.ranked.score)} TB 排位分 · 下一星 / 段位 {number(growth.ranked.nextScore)} 分</span><Meter value={growth.ranked.score / growth.ranked.nextScore * 100} label="排位进度" /></> : <><span>{number(growth.currentLevelXp)} / {number(growth.nextLevelXp)} XP · 累计 {number(growth.totalXp ?? growth.xp)} XP</span><Meter value={growth.nextLevelXp ? growth.currentLevelXp / growth.nextLevelXp * 100 : 0} label="本级经验进度" /></>}</div>
+      <div className="progress-level-main">{nickname && <div className="growth-profile-identity"><UserRound size={16} /><strong>{nickname}</strong>{publicId && <small>ID：{publicId}</small>}</div>}<strong>{growth.ranked?.title || growth.levelName || '从第一步开始'}</strong>{growth.ranked ? <><span>{number(growth.ranked.score)} TB 排位分 · 下一星 / 段位 {number(growth.ranked.nextScore)} 分</span><Meter value={growth.ranked.nextScore ? growth.ranked.score / growth.ranked.nextScore * 100 : 0} label="排位进度" /></> : <><span>{number(growth.currentLevelXp)} / {number(growth.nextLevelXp)} XP · 累计 {number(growth.totalXp ?? growth.xp)} XP</span><Meter value={growth.nextLevelXp ? growth.currentLevelXp / growth.nextLevelXp * 100 : 0} label="本级经验进度" /></>}</div>
+      {titles.length > 0 && <div className="growth-title-showcase"><span>我的称号</span><TitleMedals titles={titles} /></div>}
       {growth.nextMilestone && <span className="progress-milestone">{typeof growth.nextMilestone === 'string' ? growth.nextMilestone : growth.nextMilestone.name || growth.nextMilestone.label}</span>}
     </div>
     <section className="progress-section rank-rules"><details><summary>{growth.ranked ? `今日排位 +${growth.ranked.todayPoints} 分 · 达标 ${growth.ranked.dailyQualified}/${growth.ranked.dailyRequired} 题 · 难度 ≥${growth.ranked.minDifficulty}` : '升级与排位规则 · 10 级解锁 TB 排位'}</summary><p className="progress-small">每级所需经验依次为 {list(growth.levelCosts).join('、')} XP，累计 {number(growth.rankUnlockXp)} XP 达到 10 级。经验与已获成就保留。</p><p className="progress-small">{growth.ranked?.rules || '排位按独立首次原站 AC 的难度加分，同题只奖励一次。翡翠及以上需每天完成当前段位难度的题目维持分数；王者星级持续提升。'}</p></details></section>
@@ -77,9 +121,11 @@ export function GrowthPage({ api, onGoalsChanged, insights, hub, onTrain, onTopi
         <p className="progress-muted">{acText(assessment.explanation) || '更多独立完成的题目，才能提供可信的能力参考。'}</p>
         {assessment.evidenceCount != null && <p className="progress-small">独立通过证据：{number(assessment.evidenceCount)} 题</p>}
         {trend.length > 1 && <div className="progress-trend"><svg viewBox="0 0 300 50" role="img" aria-label={`训练参考值变化，${number(min)} 至 ${number(max)}`}><polyline points={points} fill="none" stroke="currentColor" strokeWidth="2" /></svg><details><summary>查看参考值明细</summary><table><thead><tr><th>日期</th><th>训练参考值</th></tr></thead><tbody>{trend.map((item, index) => <tr key={index}><td>{item.date}</td><td>{number(item.value)}</td></tr>)}</tbody></table></details></div>}
-        <div className="progress-platform-scores">{list(assessment.platforms).map(item => <div key={item.platform}><span>{LABELS[item.platform] || item.platform}</span><b>{number(item.rating)}</b><span className="progress-small">最高 {number(item.maxRating)}</span></div>)}</div>
-        <div className="progress-actions"><button type="button" className="progress-button" onClick={() => onAccounts?.()}><UserRound size={14} />{list(hub?.accounts).some(account => account.handle) ? '管理公开账号' : '连接公开账号'}</button>{onSync && <button type="button" className="progress-text-button" disabled={hub?.sync?.busy} onClick={() => onSync()}><RefreshCw size={13} />刷新</button>}</div>
+        {equippedTitles.length > 0 && <div className="growth-equipped-titles"><TitleMedals titles={equippedTitles} compact /></div>}
+        <div className="progress-platform-scores">{list(assessment.platforms).filter(item => LABELS[item.platform]).map(item => <div key={item.platform}><span>{LABELS[item.platform]}</span><b>{number(item.rating)}</b><span className="progress-small">最高 {number(item.maxRating)}</span></div>)}</div>
+        {onSync && <div className="progress-actions"><button type="button" className="progress-text-button" disabled={hub?.sync?.busy} onClick={() => onSync()}><RefreshCw size={13} />刷新评分</button></div>}
       </section>
+      {api && <GrowthAccountPanel api={api} hub={hub} account={account} profile={profile} profileSnapshot={profileSnapshot} onProfileChanged={onProfileChanged} onHubChanged={onHubChanged} onError={onError} accountFocus={accountFocus} />}
       {onAchievements && <button className="growth-achievement-link" onClick={onAchievements}><Trophy size={17} /><span>查看成就</span><small>{list(insights.achievements).filter(item => item.unlocked).length}/{list(insights.achievements).length}</small><ArrowRight size={14} /></button>}
       </div>
       <section className="progress-section progress-recommendations">
@@ -88,7 +134,8 @@ export function GrowthPage({ api, onGoalsChanged, insights, hub, onTrain, onTopi
         {recommendations.length ? <div id="growth-recommendations-list">{recommendations.slice(0, moreRecommendations ? recommendations.length : 4).map((item, index) => {
           const question = item.problem, identity = question?.id || item.ids?.[0];
           const completed = question?.accepted || question?.officialAccepted || question?.completed;
-          return <div className="progress-recommendation" key={identity || index}><div><div className="progress-recommendation-title"><strong><InlineTitle>{question?.title || '推荐练习'}</InlineTitle></strong>{question && <Difficulty row={question} />}</div><span className="progress-recommendation-stage">{STAGES[item.stage] || '推荐练习'}{question?.contest ? ` · ${question.contest}` : ''}</span><p>{completed ? item.reason : `${question?.difficulty != null ? '难度 ' + question.difficulty + ' 在当前训练范围内。' : '适合当前训练阶段。'}完成后显示知识点。`}</p></div>{identity && onTrain && <button type="button" className="progress-button" onClick={() => onTrain(identity)}>练习<ArrowRight size={13} /></button>}</div>;
+          const clickable = !!identity && !!onTrain;
+          return <button type="button" className="progress-recommendation" key={identity || index} disabled={!clickable} onClick={() => onTrain?.(identity)} aria-label={`练习 ${question?.title || '推荐题目'}`}><div><div className="progress-recommendation-title"><strong><InlineTitle>{question?.title || '推荐练习'}</InlineTitle></strong>{question && <Difficulty row={question} />}</div><span className="progress-recommendation-stage">{STAGES[item.stage] || '推荐练习'}{question?.contest ? ` · ${question.contest}` : ''}</span><p>{completed ? item.reason : `${question?.difficulty != null ? '难度 ' + question.difficulty + ' 在当前训练范围内。' : '适合当前训练阶段。'}完成后显示知识点。`}</p></div><ChevronRight size={15} aria-hidden="true" /></button>;
         })}</div> : <p className="progress-muted">先选择题目完成一次提交，建议会根据真实结果更新。</p>}
         {recommendations.length > 4 && <button type="button" className="progress-text-button recommendation-more" aria-expanded={moreRecommendations} aria-controls="growth-recommendations-list" onClick={() => setMoreRecommendations(value => !value)}>{moreRecommendations ? '收起推荐' : `查看其余 ${recommendations.length - 4} 题`}<ChevronRight size={13} /></button>}
       </section>
@@ -198,14 +245,34 @@ function ContestGrade({ group, locked = false }) {
   const median = ratings[Math.floor(ratings.length / 2)];
   return <span className="contest-grade" title={`已评级 ${ratings.length}/${group.rows.length} 题的难度中位数，仅供训练参考`}>参考 ≈{median}</span>;
 }
-export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, initialContest, onBack }) {
-  const groups = useMemo(() => contestGroups(rows.filter(row => !row.catalogHidden)), [rows]);
+export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStartReproduction, initialContest, onBack }) {
+  const groups = useMemo(() => contestGroups(list(rows).filter(row => !row.catalogHidden)), [rows]);
   const [query, setQuery] = useState(''), [filter, setFilter] = useState('all');
+  const deferredQuery = useDeferredValue(query);
   const [shelf, setShelf] = useState('all'), [examYear, setExamYear] = useState(''), [examStage, setExamStage] = useState('');
   const [sort, setSort] = useState('name');
-  const [selected, setSelected] = useState(null), [joining, setJoining] = useState(false), [joinError, setJoinError] = useState('');
+  const [page, setPage] = useState(1);
+  const [selected, setSelected] = useState(null), [joining, setJoining] = useState(false), [joinError, setJoinError] = useState(''), [starting, setStarting] = useState(null);
   const progress = useMemo(() => new Map(list(workspace?.training).map(row => [row.id, row])), [workspace?.training]);
-  const lockedIds = new Set(workspace?.activeContest?.status === 'running' ? list(workspace.activeContest.slots).map(row => row.id) : []);
+  const lockedIds = useMemo(() => new Set(workspace?.activeContest?.status === 'running' ? list(workspace.activeContest.slots).map(row => row.id) : []), [workspace?.activeContest]);
+  const counts = useMemo(() => new Map(groups.map(group => [group.key, {
+    active: group.rows.filter(row => progress.has(row.id)).length,
+    accepted: group.rows.filter(row => progress.get(row.id)?.accepted).length,
+  }])), [groups, progress]);
+  const activeCount = group => counts.get(group.key)?.active || 0;
+  const acceptedCount = group => counts.get(group.key)?.accepted || 0;
+  const filtered = useMemo(() => {
+    const search = deferredQuery.trim().toLowerCase();
+    return groups.filter(group => matchesShelf(group, shelf)
+      && (!examYear || String(group.examYear) === examYear) && (!examStage || group.examStage === examStage)
+      && (!search || `${group.name} ${group.platform} ${group.rows.map(row => `${row.title} ${row.problem} ${lockedIds.has(row.id) ? '' : list(row.tags).join(' ')}`).join(' ')}`.toLowerCase().includes(search))
+      && (filter === 'all' || filter === 'joined' ? filter === 'all' || counts.get(group.key).active > 0 : filter === 'available' ? counts.get(group.key).active === 0 : counts.get(group.key).accepted < group.rows.length))
+      .sort(sort === 'name' ? (a,b) => a.name.localeCompare(b.name, 'zh-CN', {numeric:true}) : compareContestNewest);
+  }, [groups, shelf, examYear, examStage, deferredQuery, lockedIds, filter, counts, sort]);
+  useEffect(() => { setPage(1); }, [deferredQuery, shelf, examYear, examStage, filter, sort]);
+  const pageSize = 40, pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
+  const currentPage = Math.min(page, pageCount), first = (currentPage - 1) * pageSize;
+  const visibleGroups = filtered.slice(first, first + pageSize);
   useEffect(() => {
     if (!initialContest) return;
     const name = typeof initialContest === 'string' ? initialContest : initialContest.name || initialContest.contest || initialContest.id;
@@ -214,23 +281,19 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, initial
   }, [initialContest, groups]);
   if (!rows) return <Loading text="正在读取比赛列表" />;
   const current = groups.find(group => group.key === selected);
-  const activeCount = group => group.rows.filter(row => progress.has(row.id)).length;
-  const acceptedCount = group => group.rows.filter(row => progress.get(row.id)?.accepted).length;
-  const filtered = groups.filter(group => matchesShelf(group, shelf)
-    && (!examYear || String(group.examYear) === examYear) && (!examStage || group.examStage === examStage)
-    && (!query.trim() || `${group.name} ${group.platform} ${group.rows.map(row => `${row.title} ${row.problem} ${lockedIds.has(row.id) ? '' : list(row.tags).join(' ')}`).join(' ')}`.toLowerCase().includes(query.trim().toLowerCase()))
-    && (filter === 'all' || filter === 'joined' ? filter === 'all' || activeCount(group) > 0 : filter === 'available' ? activeCount(group) === 0 : acceptedCount(group) < group.rows.length)).sort(sort === 'name' ? (a,b) => a.name.localeCompare(b.name, 'zh-CN', {numeric:true}) : compareContestNewest);
   const join = async group => { if (!onJoin || joining) return; setJoining(true); setJoinError(''); try { await onJoin(group.name); } catch (issue) { setJoinError(issue.message || '暂时无法加入训练，请重试。'); } finally { setJoining(false); } };
+  const start = async group => { if (!onStartReproduction || starting) return; setStarting(group.key); setJoinError(''); try { await onStartReproduction(group.name); } catch (issue) { setJoinError(issue.message || '暂时无法开始比赛，请重试。'); } finally { setStarting(null); } };
+  const startButton = group => onStartReproduction && <button type="button" className="progress-button progress-primary competition-start" disabled={!!starting} onClick={() => start(group)} aria-label={`开始比赛 ${group.name}`}>{starting === group.key ? <LoaderCircle size={14} className="progress-spin" /> : <Play size={14} />}{starting === group.key ? '正在开始' : '开始比赛'}</button>;
   if (current) {
     const inMock = current.rows.some(row => lockedIds.has(row.id));
     return <div className="competition-page competition-detail" aria-label={`${current.name}比赛详情`}>
-      <div className="competition-detail-heading"><button type="button" className="progress-button" onClick={() => { setSelected(null); if (initialContest) onBack?.(); }}><ArrowLeft size={14} />全部比赛</button><div><h2>{current.name}</h2><span>{current.platform} · {contestDateLabel(current)} · {current.rows.length} 题 · 已通过 {acceptedCount(current)} 题 <ContestGrade group={current} locked={inMock} /></span></div>{onJoin && <button type="button" className="progress-button progress-primary" disabled={joining || inMock || activeCount(current) === current.rows.length} onClick={() => join(current)}>{joining ? <LoaderCircle size={14} className="progress-spin" /> : <Flag size={14} />}{activeCount(current) === current.rows.length ? '已加入训练' : activeCount(current) ? '加入剩余题目' : '加入我的训练'}</button>}</div>
+      <div className="competition-detail-heading"><button type="button" className="progress-button" onClick={() => { setSelected(null); if (initialContest) onBack?.(); }}><ArrowLeft size={14} />全部比赛</button><div><h2>{current.name}</h2><span>{current.platform} · {contestDateLabel(current)} · {current.rows.length} 题 · 已通过 {acceptedCount(current)} 题 <ContestGrade group={current} locked={inMock} /></span></div>{onJoin && <button type="button" className="progress-button" disabled={joining || inMock || activeCount(current) === current.rows.length} onClick={() => join(current)}>{joining ? <LoaderCircle size={14} className="progress-spin" /> : <Flag size={14} />}{activeCount(current) === current.rows.length ? '已加入训练' : activeCount(current) ? '加入剩余题目' : '加入我的训练'}</button>}{startButton(current)}</div>
       {inMock && <div className="competition-notice">本场部分题目正在模拟赛中，难度和知识点将在赛后显示。请从模拟赛页继续。</div>}
       {current.notice && <div className="competition-notice">{current.notice}题面可直接练习，题解逐步补充。</div>}
       {joinError && <p className="connection-error" role="alert">{joinError}</p>}
       <div className="competition-question-list">{current.rows.map(row => {
         const state = progress.get(row.id), locked = lockedIds.has(row.id);
-        return <div className="competition-question" key={row.id}><span className="competition-letter">{row.problem}</span><div className="competition-question-main"><strong><InlineTitle>{row.title}</InlineTitle></strong><div className="competition-question-meta">{locked ? <span>模拟赛进行中</span> : knowledgeLabels(row).map(tag => <span className="competition-tag" key={tag}>{tag}</span>)}<span>{row.solutionAvailable === false ? '题解未生成' : row.solutionAvailable === true ? '有题解' : '题解状态未知'}</span></div></div><Difficulty row={row} locked={locked} /><span className={`competition-result${state?.accepted ? ' competition-accepted' : ''}`}>{locked ? '考场中' : state?.accepted ? (state.scope === 'official' ? '官方通过' : '本地通过') : state?.verdict === 'SAMPLE_PASS' ? '样例通过' : state ? '已加入' : '未加入'}</span><button type="button" className="progress-button" disabled={!onTrain || locked} onClick={() => onTrain?.(row.id)}>练习<ArrowRight size={13} /></button></div>;
+        return <button type="button" className="competition-question" key={row.id} disabled={!onTrain || locked} onClick={() => onTrain?.(row.id)} aria-label={`练习 ${row.problem} ${row.title}`}><span className="competition-letter">{row.problem}</span><div className="competition-question-main"><strong><InlineTitle>{row.title}</InlineTitle></strong><div className="competition-question-meta">{locked ? <span>模拟赛进行中</span> : knowledgeLabels(row).map(tag => <span className="competition-tag" key={tag}>{tag}</span>)}<span>{row.solutionAvailable === false ? '题解未生成' : row.solutionAvailable === true ? '有题解' : '题解状态未知'}</span></div></div><Difficulty row={row} locked={locked} /><span className={`competition-result${state?.accepted ? ' competition-accepted' : ''}`}>{locked ? '考场中' : state?.accepted ? (state.scope === 'official' ? '官方通过' : '本地通过') : state?.verdict === 'SAMPLE_PASS' ? '样例通过' : state ? '已加入' : '未加入'}</span><ChevronRight size={15} aria-hidden="true" /></button>;
       })}</div>
     </div>;
   }
@@ -240,7 +303,9 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, initial
     {shelf === 'lanqiao' && <><p className="competition-sync-note">C/C++大学B组 · 2013—2026 年公开题目，按初赛 / 决赛分类。早年部分原卷未完整公开；填空题有合并，当前题单不代表原卷题数或题序。</p><div className="competition-toolbar"><select aria-label="蓝桥杯年份" value={examYear} onChange={event => setExamYear(event.target.value)}><option value="">全部年份</option>{[...new Set(groups.filter(group => group.examYear).map(group => group.examYear))].sort((a,b) => b-a).map(year => <option key={year}>{year}</option>)}</select><select aria-label="蓝桥杯赛段" value={examStage} onChange={event => setExamStage(event.target.value)}><option value="">初赛与决赛</option><option>初赛</option><option>决赛</option></select></div></>}
     <div className="competition-toolbar"><label className="competition-search"><Search size={16} /><input value={query} onChange={event => setQuery(event.target.value)} placeholder="搜索比赛、题名或知识点" aria-label="搜索比赛" /></label><select value={filter} onChange={event => setFilter(event.target.value)} aria-label="比赛训练情况"><option value="all">全部比赛</option><option value="joined">已加入训练</option><option value="available">尚未加入</option><option value="unfinished">尚未全部通过</option></select><select aria-label="比赛排序" value={sort} onChange={event => setSort(event.target.value)}><option value="name">名称顺序</option><option value="newest">比赛时间</option></select><span className="competition-count">{filtered.length} 场</span></div>
     {hub?.sync?.message && <p className="competition-sync-note">{hub.sync.message}</p>}
-    <div className="competition-list">{filtered.map(group => <button type="button" className="competition-card" key={group.key} onClick={() => setSelected(group.key)} aria-label={`查看 ${group.platform} ${group.name}，${group.rows.length} 道题`}><span className="competition-platform">{group.platform}</span><span className="competition-card-title"><strong>{group.name}</strong><small>{contestDateLabel(group)} · {group.rows.length} 题 · {activeCount(group) ? `已加入 ${activeCount(group)}，通过 ${acceptedCount(group)}` : '尚未加入训练'} <ContestGrade group={group} locked={group.rows.some(row => lockedIds.has(row.id))} /></small></span><span className="competition-problem-tokens">{group.rows.map(row => <span className={`competition-problem-token${progress.get(row.id)?.accepted ? ' competition-token-accepted' : ''}`} key={row.id}><b>{row.problem}</b><Difficulty row={row} locked={lockedIds.has(row.id)} /></span>)}</span><ChevronRight size={16} /></button>)}</div>
+    {joinError && <p className="connection-error" role="alert">{joinError}</p>}
+    <div className="competition-list">{visibleGroups.map(group => <article className="competition-card" key={group.key}><button type="button" className="competition-card-open" onClick={() => setSelected(group.key)} aria-label={`查看 ${group.platform} ${group.name}，${group.rows.length} 道题`}><span className="competition-platform">{group.platform}</span><span className="competition-card-title"><strong>{group.name}</strong><small>{contestDateLabel(group)} · {group.rows.length} 题 · {activeCount(group) ? `已加入 ${activeCount(group)}，通过 ${acceptedCount(group)}` : '尚未加入训练'} <ContestGrade group={group} locked={group.rows.some(row => lockedIds.has(row.id))} /></small></span><span className="competition-problem-tokens">{group.rows.map(row => <span className={`competition-problem-token${progress.get(row.id)?.accepted ? ' competition-token-accepted' : ''}`} key={row.id}><b>{row.problem}</b><Difficulty row={row} locked={lockedIds.has(row.id)} /></span>)}</span><ChevronRight size={16} aria-hidden="true" /></button>{startButton(group)}</article>)}</div>
+    {filtered.length > pageSize && <nav className="competition-pagination" aria-label="比赛分页"><span>{first + 1}–{Math.min(first + pageSize, filtered.length)} / {filtered.length} 场</span><button type="button" className="progress-button" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}>上一页</button><span aria-live="polite">第 {currentPage} / {pageCount} 页</span><button type="button" className="progress-button" disabled={currentPage === pageCount} onClick={() => setPage(currentPage + 1)}>下一页</button></nav>}
     {!filtered.length && <Empty><Flag size={24} /><span>{groups.length ? '没有匹配的比赛，试试减少筛选条件。' : '题库还没有收录比赛。'}</span></Empty>}
   </div>;
 }

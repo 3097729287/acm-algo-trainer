@@ -2,8 +2,10 @@ import { EventConflict } from './errors.mjs';
 import { bounds, REWARD_POLICY } from './ranking-rules.mjs';
 import { AccountError, loginId, password, verifyPassword, hashPassword, tokenHash,
   session, publicAccount, registerAccount } from './accounts.mjs';
+import { validateState, guardStateJson, STATE_LIMIT } from './account-state.mjs';
+import { publicId, storedPublicProgress, validatePublicProgress } from './public-progress.mjs';
 
-const VERSION = '0.10.4';
+const VERSION = '1.1.0';
 const NOTICE = '排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const hashPattern = /^[a-f0-9]{64}$/;
@@ -37,10 +39,10 @@ function nickname(value) {
   return result;
 }
 
-async function body(request, allowed) {
+async function body(request, allowed, maximum = 65536) {
   if (!request.headers.get('Content-Type')?.toLowerCase().startsWith('application/json')) throw new ApiError(415, '请求须使用 application/json');
   const declared = Number(request.headers.get('Content-Length') || 0);
-  if (!Number.isFinite(declared) || declared > 65536) throw new ApiError(413, '请求不能超过 64 KB');
+  if (!Number.isFinite(declared) || declared > maximum) throw new ApiError(413, '请求内容过大');
   if (!request.body) throw new ApiError(400, '缺少 JSON 请求');
   const reader = request.body.getReader();
   const chunks = []; let size = 0;
@@ -48,11 +50,12 @@ async function body(request, allowed) {
     const { done, value } = await reader.read();
     if (done) break;
     size += value.length;
-    if (size > 65536) { await reader.cancel(); throw new ApiError(413, '请求不能超过 64 KB'); }
+    if (size > maximum) { await reader.cancel(); throw new ApiError(413, '请求内容过大'); }
     chunks.push(value);
   }
   const bytes = new Uint8Array(size); let offset = 0;
   for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.length; }
+  if (maximum > 65536 && size > 65536) guardStateJson(bytes);
   let value;
   try { value = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes)); }
   catch { throw new ApiError(400, 'JSON 请求无效'); }
@@ -67,7 +70,7 @@ function credentials(request) {
   return { userId, token: bearer[1] };
 }
 
-async function authenticate(request, env, now) {
+export async function authenticate(request, env, now) {
   const auth = credentials(request);
   const user = await env.STORE.findSession(auth.userId, tokenHash(auth.token), Math.floor(now / 1000));
   if (!user) throw new ApiError(401, '登录已失效，请重新登录');
@@ -82,16 +85,17 @@ async function limit(env, bucket, maximum, windowSeconds, now) {
 }
 
 function rankingRow(row) {
-  return { rank: row.rank, userId: row.user_id, nickname: row.nickname, displayName: row.nickname, count: row.count };
+  return { rank: row.rank, userId: row.user_id, publicId: publicId(row.user_id), nickname: row.nickname,
+    displayName: row.nickname, count: row.count, publicProgress: storedPublicProgress(row.public_progress) };
 }
 
 async function leaderboard(user, env, period, now) {
   if (!['daily', 'weekly', 'total'].includes(period)) throw new ApiError(400, '排行周期无效');
   const range = bounds(period, now);
-  const { rows, own } = await env.STORE.rankings(user.user_id, period === 'total' ? null : range);
+  const { rows, own } = await env.STORE.rankings(user.user_id, period === 'total' ? null : range, range.day);
   return { period, date: range.day, timezone: 'Asia/Shanghai', startDate: period === 'total' ? null : range.start,
     endDate: period === 'total' ? null : range.end, entries: rows.map(rankingRow), isAdmin: Boolean(user.is_admin), rewardPolicy: REWARD_POLICY,
-    self: own ? rankingRow(own) : { rank: null, userId: user.user_id, nickname: user.nickname, displayName: user.nickname, count: 0 }, notice: NOTICE };
+    self: own ? rankingRow(own) : { ...rankingRow(user), rank: null, count: 0 }, notice: NOTICE };
 }
 
 function event(item, now) {
@@ -116,7 +120,7 @@ export async function handle(request, env) {
     const timestamp = new Date(now).toISOString();
     if (path === '/v1/health' && request.method === 'GET') {
       await env.STORE.health();
-      return json({ ok: true, version: VERSION, eventScope: 'official' });
+      return json({ ok: true, version: VERSION, eventScope: 'official', accountStateProtocol: 1, singleSession: true, publicProgressProtocol: 1 });
     }
     if (path === '/v1/profile/register') throw new ApiError(410, '请升级 TB 并注册账号后登录');
     if (['/v1/accounts/register', '/v1/accounts/login'].includes(path) && request.method === 'POST') {
@@ -143,13 +147,25 @@ export async function handle(request, env) {
       await limit(env, 'login-account:' + await digest(login), 10, 60, seconds);
       const user = await env.STORE.findAccount(login);
       if (!await verifyPassword(secret, user?.password_hash)) throw new ApiError(401, '登录号或密码错误');
+      if (request.headers.get('X-TB-State-Protocol') !== '1' && await env.STORE.stateRevision(user.user_id) > 0)
+        throw new ApiError(426, '该账号已启用跨电脑同步，请升级 TB 至 1.0.20 或更新版本后登录');
       const issued = session(now);
-      await env.STORE.createSession(user, issued, timestamp);
+      await env.STORE.createSession(user, issued, timestamp, request.headers.get('X-TB-State-Protocol') === '1');
       return json({ account: publicAccount(user), token: issued.token, expiresAt: issued.expiresAt });
     }
     const user = await authenticate(request, env, now);
     await limit(env, 'user:' + user.user_id, Math.min(600, Math.max(10, Number(env.REQUESTS_PER_USER_MINUTE) || 120)), 60, Math.floor(now / 1000));
-    if (path === '/v1/accounts/me' && request.method === 'GET') return json({ account: publicAccount(user) });
+    if (path === '/v1/accounts/me' && request.method === 'GET') {
+      if (env.READ_ONLY !== '1') await env.STORE.recordLogin(user.user_id, bounds('daily', now).day, timestamp);
+      return json({ account: publicAccount(user), stateRevision: await env.STORE.stateRevision(user.user_id), singleSession: true });
+    }
+    if (path === '/v1/accounts/state' && request.method === 'GET') return json(await env.STORE.accountState(user.user_id));
+    if (path === '/v1/accounts/state' && request.method === 'PUT') {
+      const value = await body(request, ['revision', 'state'], STATE_LIMIT);
+      if (!Number.isSafeInteger(value.revision) || value.revision < 0) throw new ApiError(400, '账号同步版本无效');
+      validateState(value.state, user.user_id);
+      return json(await env.STORE.saveAccountState(user.user_id, tokenHash(credentials(request).token), Math.floor(now / 1000), value.revision, value.state, timestamp));
+    }
     if (path === '/v1/accounts/logout' && request.method === 'POST') {
       await body(request, []);
       await env.STORE.deleteSession(tokenHash(credentials(request).token));
@@ -166,7 +182,8 @@ export async function handle(request, env) {
       return json({ account: publicAccount(user), token: issued.token, expiresAt: issued.expiresAt });
     }
     if (env.READ_ONLY !== '1') await env.STORE.settleRewards(now);
-    if (path === '/v1/profile' && request.method === 'GET') return json(publicAccount(user));
+    if (path === '/v1/profile' && request.method === 'GET') return json({ ...publicAccount(user), publicId: publicId(user.user_id), publicProgressProtocol: 1,
+      publicProgress: await env.STORE.publicProgress(user.user_id) });
     if (path === '/v1/rewards' && request.method === 'GET') return json(await env.STORE.rewards(user.user_id));
     if (path === '/v1/admin/leaderboard/delete' && request.method === 'POST') {
       if (!user.is_admin) throw new ApiError(403, '只有管理员可以删除排行榜成绩');
@@ -178,9 +195,13 @@ export async function handle(request, env) {
         value.period === 'total' ? null : bounds(value.period, now), timestamp));
     }
     if (path === '/v1/profile' && request.method === 'PUT') {
-      const value = await body(request, ['nickname']), name = nickname(value.nickname);
-      await env.STORE.updateNickname(user.user_id, name, timestamp);
-      return json({ userId: user.user_id, nickname: name, displayName: name });
+      const value = await body(request, ['nickname', 'publicProgress']);
+      if (!Object.keys(value).length) throw new ApiError(400, '缺少要更新的资料');
+      const name = Object.hasOwn(value, 'nickname') ? nickname(value.nickname) : null;
+      const progress = Object.hasOwn(value, 'publicProgress') ? validatePublicProgress(value.publicProgress) : null;
+      await env.STORE.savePublicProfile(user.user_id, tokenHash(credentials(request).token), Math.floor(now / 1000), name, progress, timestamp);
+      return json({ userId: user.user_id, publicId: publicId(user.user_id), nickname: name ?? user.nickname,
+        displayName: name ?? user.nickname, ...(progress ? { publicProgress: progress } : {}) });
     }
     if (path === '/v1/events' && request.method === 'POST') {
       const value = await body(request, ['events']);

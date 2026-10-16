@@ -13,6 +13,7 @@ from pathlib import Path
 import secrets
 import sqlite3
 import threading
+import time
 import uuid
 
 UTC = dt.timezone.utc
@@ -96,6 +97,13 @@ class TrainingService:
               awarded_xp INTEGER NOT NULL CHECK(awarded_xp >= 0));
             CREATE TABLE IF NOT EXISTS official_xp_state (
               id INTEGER PRIMARY KEY CHECK(id=1), migrated_at TEXT NOT NULL);
+            CREATE TABLE IF NOT EXISTS achievement_xp_claims (
+              achievement_id TEXT PRIMARY KEY, unlocked_at TEXT,
+              awarded_xp INTEGER NOT NULL CHECK(awarded_xp>=0), claimed_at TEXT NOT NULL);
+            CREATE TABLE IF NOT EXISTS account_preferences (
+              key TEXT PRIMARY KEY, value TEXT NOT NULL, updated_at TEXT NOT NULL);
+            CREATE TABLE IF NOT EXISTS account_problem_facts (
+              problem_id TEXT PRIMARY KEY, value TEXT NOT NULL, updated_at TEXT NOT NULL);
             CREATE TABLE IF NOT EXISTS daily_missions (
               day TEXT NOT NULL, id TEXT NOT NULL, definition TEXT NOT NULL,
               claimed_at TEXT, awarded_xp INTEGER NOT NULL DEFAULT 0, evidence TEXT NOT NULL DEFAULT '[]',
@@ -142,7 +150,7 @@ class TrainingService:
         # Replay before any workspace response or leaderboard synchronization.
         cached = self.connection.execute("SELECT id FROM training WHERE accepted_at IS NOT NULL").fetchall()
         if cached:
-            with self._write() as connection:
+            with self._library_view(), self._write() as connection:
                 for record in cached:
                     self._recompute_progress(connection, record["id"])
         self.previews = {}
@@ -197,7 +205,7 @@ class TrainingService:
         snapshot = _LIBRARY_VIEW.get()
         token = None
         if snapshot is None or snapshot[0] is not self:
-            token = _LIBRARY_VIEW.set((self, self._library()))
+            token = _LIBRARY_VIEW.set((self, self._library(), {}))
         try:
             yield
         finally:
@@ -216,15 +224,35 @@ class TrainingService:
             except Exception as error:
                 if getattr(error, "status", None) != 404:
                     raise
+        if not rows:
+            fact = self.portable_problem(identity)
+            if fact and isinstance(fact.get('row'), dict):
+                rows = [dict(fact['row'], id=identity)]
         if len(rows) != 1:
             raise ServiceError(404 if not rows else 409, "没有找到唯一对应的题目，请刷新")
         return rows[0]
+
+    def portable_problem(self, identity):
+        """Only this account's referenced imported/retired problem facts."""
+        with self.lock:
+            row = self.connection.execute('SELECT value FROM account_problem_facts WHERE problem_id=?', (identity,)).fetchone()
+            return json.loads(row['value']) if row else None
+
+    def portable_solution(self, identity):
+        fact = self.portable_problem(identity)
+        if not fact or not (fact.get('solution') or fact.get('detailedSolution')):
+            return None
+        value = dict(fact.get('solution') or {'markdown': '', 'images': {}, 'path': ''})
+        value.update(title=fact.get('row', {}).get('title') or identity,
+                     url=fact.get('row', {}).get('url'),
+                     detailedSolution=fact.get('detailedSolution'))
+        return value
 
     def _asset_library(self):
         with self.lock:
             if self.assets is None:
                 from assets import AssetLibrary
-                self.assets = AssetLibrary(self.store)
+                self.assets = AssetLibrary(self.store, portable=self.portable_problem)
             return self.assets
 
     def _judge(self):
@@ -240,10 +268,15 @@ class TrainingService:
 
     def _identity_map(self, library=None):
         from insights import canonical_url
+        snapshot = _LIBRARY_VIEW.get()
+        scoped = snapshot[2] if snapshot is not None and snapshot[0] is self else None
+        if scoped is not None and 'aliases' in scoped:
+            return scoped['aliases']
         rows = list(library if library is not None else self._library())
         extensions = getattr(self.store, "extensions", None)
         if extensions is not None:
-            rows += extensions.rows()
+            identities = getattr(extensions, 'identity_rows', None)
+            rows += identities() if callable(identities) else extensions.rows()
         known = {row["id"] for row in rows}
         if hasattr(self.store, "row"):
             for record in self.connection.execute("SELECT id FROM training"):
@@ -254,12 +287,19 @@ class TrainingService:
                     except Exception as error:
                         if getattr(error, "status", None) != 404:
                             raise
-        preferred = {}
+                        fact = self.portable_problem(record['id'])
+                        if fact and isinstance(fact.get('row'), dict):
+                            rows.append(dict(fact['row'], id=record['id']))
+        preferred, keys = {}, {}
         for row in rows:
             key = canonical_url(row.get("url"))
+            keys[row['id']] = key
             if key and (key not in preferred or preferred[key].get("source") == "remote" and row.get("source") != "remote"):
                 preferred[key] = row
-        return {row["id"]: preferred[canonical_url(row.get("url"))]["id"] if canonical_url(row.get("url")) else row["id"] for row in rows}
+        aliases = {row["id"]: preferred[keys[row['id']]]["id"] if keys[row['id']] else row["id"] for row in rows}
+        if scoped is not None:
+            scoped['aliases'] = aliases
+        return aliases
 
     def _equivalent_ids(self, identity):
         aliases = self._identity_map()
@@ -415,14 +455,30 @@ class TrainingService:
             completed = qualified_contests(workspace["contests"], records)
             claimed_dates = [item["claimed_at"] for item in self.connection.execute("SELECT claimed_at FROM daily_missions WHERE claimed_at IS NOT NULL ORDER BY claimed_at,rowid")]
             value["achievements"].extend(extra_achievements(evidence, records, completed, value["summary"]["longestStreak"], claimed_dates))
+            from achievement_rewards import award_achievement_xp
+            from progression import ACHIEVEMENT_DEFINITIONS, earned_titles
+            awarded = {item[0] for item in self.connection.execute('SELECT achievement_id FROM achievement_xp_claims')}
+            new_achievements = any(item.get('unlocked') and item['id'] in ACHIEVEMENT_DEFINITIONS and item['id'] not in awarded
+                                   and not (item['id'] == 'streak-730' and 'streak-1000' in awarded)
+                                   for item in value['achievements'])
+            if new_achievements:
+                with self._write() as connection:
+                    achievement_rewards = award_achievement_xp(connection, value['achievements'], self._now())
+            else:
+                achievement_rewards = award_achievement_xp(self.connection, value['achievements'], self._now())
             ranking_profile = self._ranking_profile()
             ranking_reward = self.connection.execute("SELECT total_xp FROM ranking_reward_totals WHERE endpoint=? AND user_id=?",
                                                      (ranking_profile["endpoint"], ranking_profile["user_id"])).fetchone()
             ranking_xp = ranking_reward["total_xp"] if ranking_reward else 0
-            xp = self._first_acceptance_xp(library, records) + claimed["xp"] + ranking_xp
+            xp = self._first_acceptance_xp(library, records) + claimed["xp"] + ranking_xp + achievement_rewards['xp']
             from tb_rank import growth, ranked
-            value['growth'] = dict(growth(xp), missionXp=claimed['xp'], rankingXp=ranking_xp)
-            if value['growth']['rankedEligible']:
+            value['growth'] = dict(growth(xp), missionXp=claimed['xp'], rankingXp=ranking_xp,
+                                   achievementXp=achievement_rewards['xp'], newAchievementXp=achievement_rewards['newXp'])
+            titles, equipped_titles = earned_titles(achievement_rewards['claims'])
+            value.update(titles=titles, equippedTitles=equipped_titles)
+            value['growth'].update(titles=titles, equippedTitles=equipped_titles)
+            rank_profile = self.connection.execute('SELECT unlocked_at FROM tb_rank_profile WHERE id=1').fetchone()
+            if value['growth']['rankedEligible'] and not rank_profile:
                 self.connection.execute('INSERT OR IGNORE INTO tb_rank_profile VALUES(1,?)', (iso(self._now()),))
             rank_profile = self.connection.execute('SELECT unlocked_at FROM tb_rank_profile WHERE id=1').fetchone()
             if rank_profile:
@@ -439,7 +495,31 @@ class TrainingService:
                 value['growth']['ranked'] = ranked(evidence, daily_evidence, rank_profile['unlocked_at'], self._now())
             value["dailyTasks"] = tasks
             value["profile"] = self.profile()["profile"]
+            from progression import public_progress
+            self._public_progress_cache = (time.monotonic(), self._public_progress_signature(hub or {}), public_progress(value))
             return value
+
+    def _public_progress_signature(self, hub):
+        profiles = hashlib.sha256(json.dumps(hub.get('accounts', []), ensure_ascii=False, sort_keys=True).encode()).digest()
+        return (self.connection.total_changes, self.connection.execute('PRAGMA data_version').fetchone()[0],
+                self._now().astimezone(TRAINING_ZONE).date(), profiles)
+
+    def public_progress(self):
+        """Cached small leaderboard card, computed from the same growth evidence.
+
+        A short cache avoids duplicate background/UI calculations. Local writes,
+        public account replacement and the Beijing date immediately invalidate
+        it; the five-second bound also catches new public library metadata.
+        """
+        from copy import deepcopy
+        extensions = getattr(self.store, 'extensions', None)
+        with self.lock:
+            hub = extensions.snapshot() if callable(getattr(extensions, 'snapshot', None)) else {}
+            cache = getattr(self, '_public_progress_cache', None)
+            if cache and time.monotonic() - cache[0] < 5 and cache[1] == self._public_progress_signature(hub):
+                return deepcopy(cache[2])
+            self.insights(hub)
+            return deepcopy(self._public_progress_cache[2])
 
     def _first_acceptance_xp(self, library, records):
         """Freeze earned awards; later difficulty corrections never subtract XP."""
@@ -505,14 +585,16 @@ class TrainingService:
             day = self._now().astimezone(SHANGHAI).date().isoformat()
             current = {task["id"]: json.dumps(task, ensure_ascii=False) for task in TASKS}
             existing = {record["id"]: record for record in self.connection.execute("SELECT * FROM daily_missions WHERE day=?", (day,))}
-            with self._write() as connection:
-                for task in TASKS:
-                    if task["id"] not in existing:
-                        connection.execute("INSERT OR IGNORE INTO daily_missions(day,id,definition) VALUES(?,?,?)", (day, task["id"], current[task["id"]]))
-                    else:
-                        record = existing[task["id"]]
-                        # 未领取的旧定义升级到官方口径；已领取的保留原定义与奖励。
-                        if record["claimed_at"] is None and record["definition"] != current[task["id"]]:
+            changes = [task for task in TASKS if task['id'] not in existing or
+                       existing[task['id']]['claimed_at'] is None and existing[task['id']]['definition'] != current[task['id']]]
+            if changes:
+                # Reading a settled daily task list must not make another full
+                # database backup or open a write transaction on each poll.
+                with self._write() as connection:
+                    for task in changes:
+                        if task["id"] not in existing:
+                            connection.execute("INSERT OR IGNORE INTO daily_missions(day,id,definition) VALUES(?,?,?)", (day, task["id"], current[task["id"]]))
+                        else:
                             connection.execute("UPDATE daily_missions SET definition=? WHERE day=? AND id=?", (current[task["id"]], day, task["id"]))
             evidence = self._evidence(day)
             tasks = []
@@ -771,13 +853,19 @@ class TrainingService:
             self.assert_solution_unlocked(identity)
         return None
 
-    def problem(self, identity, contest_id=None):
+    def problem(self, identity, contest_id=None, background=False, refresh=False):
+        with self._library_view():
+            return self._problem(identity, contest_id, background=background, refresh=refresh)
+
+    def _problem(self, identity, contest_id=None, background=False, refresh=False):
         with self.lock:
             row = self._row(identity)
             self._context(identity, contest_id)
             self._history_visible(identity, contest_id)
         try:
-            raw = self._asset_library().problem(identity)
+            assets = self._asset_library()
+            deferred = getattr(assets, 'background_problem', None)
+            raw = deferred(identity, refresh=refresh) if background and callable(deferred) else assets.problem(identity)
         except (ValueError, RuntimeError, OSError) as error:
             raise ServiceError(422, "题面资源暂时无法读取：" + str(error)) from error
         with self.lock:
@@ -785,7 +873,7 @@ class TrainingService:
                 raise ServiceError(503, "服务正在关闭，请稍后重试")
             self._context(identity, contest_id)
             self._history_visible(identity, contest_id)
-            allowed = {"id", "title", "markdown", "url", "samples", "limits", "judge", "statementAvailable", "statementError"}
+            allowed = {"id", "title", "markdown", "url", "samples", "limits", "judge", "statementAvailable", "statementError", "statementLoading"}
             problem = {key: raw[key] for key in allowed if key in raw}
             problem.setdefault("id", identity)
             problem.setdefault("title", row["title"])
@@ -805,8 +893,9 @@ class TrainingService:
             context = contest_id or ""
             ids = self._equivalent_ids(identity)
             placeholders = ",".join("?" for _ in ids)
-            draft = self.connection.execute(f"SELECT code FROM drafts WHERE problem_id IN ({placeholders}) AND context=? ORDER BY saved_at DESC LIMIT 1", ids + [context]).fetchone()
+            draft = self.connection.execute(f"SELECT code,saved_at FROM drafts WHERE problem_id IN ({placeholders}) AND context=? ORDER BY saved_at DESC LIMIT 1", ids + [context]).fetchone()
             problem["draft"] = draft["code"] if draft else ""
+            problem["draftSavedAt"] = draft["saved_at"] if draft else None
             problem["submissions"] = self.submissions(identity, contest_id, exact_context=True)["submissions"]
             if not problem["locked"]:
                 from knowledge import enrich_row
@@ -1382,7 +1471,7 @@ class TrainingService:
             return {'deleted': len(rows), 'workspace': self.workspace()}
 
     def workspace(self):
-        with self.lock:
+        with self.lock, self._library_view():
             self._expire()
             from goals import Goals
             Goals(self).list(assign=True)
@@ -1480,5 +1569,7 @@ class TrainingService:
                 cancel.set()
         self.executor.shutdown(wait=True, cancel_futures=False)
         self.leaderboard.close()
+        if self.assets is not None and callable(getattr(self.assets, 'close', None)):
+            self.assets.close()
         with self.lock:
             self.connection.close()

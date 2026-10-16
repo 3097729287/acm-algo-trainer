@@ -4,7 +4,7 @@ import { randomUUID, createHash } from 'node:crypto';
 import { tokenHash } from '../src/accounts.mjs';
 
 async function call(f, path, body, auth, method = body === undefined ? 'GET' : 'POST') {
-  const response = await fetch(f.endpoint + path, { method, headers: { 'Content-Type': 'application/json',
+  const response = await fetch(f.endpoint + path, { method, headers: { 'Content-Type': 'application/json', 'X-TB-State-Protocol': '1',
     ...(auth ? { 'X-TB-User': auth.userId, Authorization: 'Bearer ' + auth.token } : {}) },
     ...(body === undefined ? {} : { body: JSON.stringify(body) }) });
   return { status: response.status, value: await response.json() };
@@ -13,6 +13,81 @@ const signup = { nickname: '星河', loginId: 'star_user', password: 'a-long-fix
 const credential = result => ({ userId: result.value.account.userId, token: result.value.token });
 
 export function accountsSuite(startFixture) {
+  test('one ranking query returns at most 100 visible rows while preserving a caller outside that page', async () => {
+    const f = await startFixture();
+    try {
+      const ids = [];
+      for (let index = 0; index < 102; index++) {
+        const userId = randomUUID(), timestamp = new Date(Date.parse('2026-10-16T00:00:00Z') + index * 1000).toISOString();
+        await f.STORE.createAccount({ userId, nickname: 'fixture-' + index, retiredHash: 'a'.repeat(64), loginId: 'fixture_' + index,
+          passwordHash: 'unused-fixture-hash', timestamp });
+        await f.STORE.recordLogin(userId, '2026-10-16', timestamp);
+        ids.push(userId);
+      }
+      const board = await f.STORE.rankings(ids[101], { start: '2026-10-16', end: '2026-10-17' }, '2026-10-16');
+      assert.equal(board.rows.length, 100);
+      assert.deepEqual(board.rows.map(row => row.rank), Array.from({ length: 100 }, (_, index) => index + 1));
+      assert.equal(board.own.user_id, ids[101]); assert.equal(board.own.rank, 102); assert.equal(board.own.count, 0);
+      const absent = await f.STORE.rankings(ids[101], { start: '2026-10-17', end: '2026-10-18' }, '2026-10-17');
+      assert.deepEqual(absent.rows, []); assert.equal(absent.own, null);
+    } finally { await f.close(); }
+  });
+  test('rankings publish bounded growth and a stable public ID without exposing login or private state', async () => {
+    const f = await startFixture({ now: Date.now() });
+    try {
+      await call(f, '/v1/accounts/register', signup);
+      const auth = credential(await call(f, '/v1/accounts/login', { loginId: signup.loginId, password: signup.password }));
+      let board = (await call(f, '/v1/leaderboard', undefined, auth)).value;
+      assert.equal(board.self.publicProgress, null);
+      assert.equal(board.self.publicId, 'TB-' + auth.userId.replaceAll('-', '').toUpperCase());
+      const progress = { level: 10, tier: '王者', rankTier: '黄金', rankScore: 1560,
+        titles: [{ id: 'ac-500', name: '破题先锋', category: 'ac', target: 500 }, { id: 'streak-30', name: '月度恒心', category: 'streak', target: 30 }] };
+      assert.equal((await call(f, '/v1/profile', { publicProgress: progress }, auth, 'PUT')).status, 200);
+      assert.deepEqual((await call(f, '/v1/profile', undefined, auth)).value.publicProgress, progress);
+      await call(f, '/v1/profile', { nickname: '新的昵称' }, auth, 'PUT');
+      // Ranking reads join the small summary table and must not read/decompress
+      // private state, even when a login snapshot is large or unavailable.
+      f.STORE.accountState = () => { throw new Error('Private state must not be read by rankings'); };
+      board = (await call(f, '/v1/leaderboard', undefined, auth)).value;
+      assert.equal(board.self.nickname, '新的昵称');
+      assert.deepEqual(board.self.publicProgress, progress);
+      assert.equal(board.self.count, 0);
+      assert(!JSON.stringify(board).includes(signup.loginId));
+      assert(!JSON.stringify(board).includes('loginId'));
+      const previousId = board.self.publicId;
+      const next = credential(await call(f, '/v1/accounts/login', { loginId: signup.loginId, password: signup.password }));
+      assert.equal((await call(f, '/v1/profile', { publicProgress: progress }, auth, 'PUT')).status, 401);
+      await assert.rejects(() => f.STORE.savePublicProfile(auth.userId, tokenHash(auth.token), Math.floor(f.env.TEST_NOW / 1000), 'stale', progress, new Date().toISOString()), error => error.status === 401);
+      board = (await call(f, '/v1/leaderboard', undefined, next)).value;
+      assert.equal(board.self.publicId, previousId);
+      assert.equal(board.self.nickname, '新的昵称');
+      assert.deepEqual(board.self.publicProgress, progress);
+    } finally { await f.close(); }
+  });
+  test('public growth rejects unknown fields, excess medals and malformed values without partial profile writes', async () => {
+    const f = await startFixture({ now: Date.now() });
+    try {
+      await call(f, '/v1/accounts/register', signup);
+      const auth = credential(await call(f, '/v1/accounts/login', { loginId: signup.loginId, password: signup.password }));
+      const progress = { level: 7, tier: '钻石', rankTier: null, rankScore: null, titles: [] };
+      const title = { id: 'ac-500', name: '破题先锋', category: 'ac', target: 500 };
+      const invalid = [null, [], {}, { ...progress, level: 0 }, { ...progress, level: 7.5 }, { ...progress, level: 101 },
+        { ...progress, tier: 'x'.repeat(25) }, { ...progress, tier: '\u0000bad' }, { ...progress, rankScore: -1 },
+        { ...progress, rankScore: 1 }, { ...progress, rankTier: '王者', rankScore: 1000001 },
+        { ...progress, loginId: signup.loginId }, { ...progress, titles: Array(3).fill(title) },
+        { ...progress, titles: [title, { ...title, id: 'ac-1000', target: 1000 }] },
+        { ...progress, titles: [{ ...title, name: 'x'.repeat(25) }] },
+        { ...progress, titles: [{ ...title, secret: 'PRIVATE' }] }];
+      for (const publicProgress of invalid) assert.equal((await call(f, '/v1/profile', { nickname: 'must not save', publicProgress }, auth, 'PUT')).status, 400);
+      assert.equal((await call(f, '/v1/profile', {}, auth, 'PUT')).status, 400);
+      assert.equal((await call(f, '/v1/profile', { publicProgress: progress, userId: randomUUID() }, auth, 'PUT')).status, 400);
+      let profile = (await call(f, '/v1/profile', undefined, auth)).value;
+      assert.equal(profile.nickname, signup.nickname); assert.equal(profile.publicProgress, null);
+      assert.equal((await call(f, '/v1/profile', { publicProgress: progress }, auth, 'PUT')).status, 200);
+      profile = (await call(f, '/v1/profile', undefined, auth)).value;
+      assert.deepEqual(profile.publicProgress, progress);
+    } finally { await f.close(); }
+  });
   test('concurrent signup and password changes cannot overwrite another account or keep old sessions', async () => {
     const f = await startFixture({ now: Date.now() });
     try {
@@ -58,9 +133,10 @@ export function accountsSuite(startFixture) {
       const second = await call(f, '/v1/accounts/login', { loginId: signup.loginId, password: signup.password });
       assert.equal(first.status, 200);
       const a = credential(first), b = credential(second);
-      assert.equal((await call(f, '/v1/accounts/me', undefined, a)).status, 200);
-      assert.equal((await call(f, '/v1/accounts/password', { oldPassword: 'wrong-password', newPassword: 'next-password' }, a)).status, 400);
-      const changed = await call(f, '/v1/accounts/password', { oldPassword: signup.password, newPassword: 'next-password' }, a);
+      assert.equal((await call(f, '/v1/accounts/me', undefined, a)).status, 401, 'A new login revokes the previous device');
+      assert.equal((await call(f, '/v1/accounts/me', undefined, b)).status, 200);
+      assert.equal((await call(f, '/v1/accounts/password', { oldPassword: 'wrong-password', newPassword: 'next-password' }, b)).status, 400);
+      const changed = await call(f, '/v1/accounts/password', { oldPassword: signup.password, newPassword: 'next-password' }, b);
       assert.equal(changed.status, 200);
       for (const old of [a, b]) assert.equal((await call(f, '/v1/accounts/me', undefined, old)).status, 401);
       assert.equal((await call(f, '/v1/accounts/login', { loginId: signup.loginId, password: signup.password })).status, 401);
@@ -103,6 +179,74 @@ export function accountsSuite(startFixture) {
       assert.equal(answers.filter(value => value.status === 401).length, 10);
       assert.equal(answers.filter(value => value.status === 429).length, 2);
       assert(!JSON.stringify(answers).includes('scrypt'));
+    } finally { await f.close(); }
+  });
+  test('account state is private, revision guarded, durable across takeover, and rejects secrets', async () => {
+    const f = await startFixture({ now: Date.now() });
+    try {
+      await call(f, '/v1/accounts/register', signup);
+      const first = await call(f, '/v1/accounts/login', { loginId: signup.loginId, password: signup.password });
+      const a = credential(first);
+      const state = { format: 'tb-account-state-v1', tables: { drafts: [{problem_id: 'fixture::A', context: '', code: 'private code', saved_at: new Date().toISOString()}] }, publicAccounts: {} };
+      assert.deepEqual((await call(f, '/v1/accounts/state', undefined, a)).value, {revision: 0, state: null});
+      const saved = await call(f, '/v1/accounts/state', {revision: 0, state}, a, 'PUT');
+      assert.equal(saved.status, 200); assert.equal(saved.value.revision, 1);
+      const legacy = await fetch(f.endpoint + '/v1/accounts/login', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({loginId:signup.loginId,password:signup.password})});
+      assert.equal(legacy.status,426); await legacy.text();
+      assert.equal((await call(f,'/v1/accounts/me',undefined,a)).status,200,'A rejected old client does not revoke the active device');
+      assert.equal((await call(f, '/v1/accounts/state', {revision: 0, state}, a, 'PUT')).status, 409);
+      assert.equal((await call(f, '/v1/accounts/state', {revision: 1, state: {...state, tables: {...state.tables, ranking_profile: [{auth_token: 'secret'}]}}}, a, 'PUT')).status, 400);
+      assert.equal((await call(f, '/v1/accounts/state', {revision: 1, state: {...state, publicAccounts: {codeforces: {platform: 'codeforces', handle: 'fixture', cookie: 'secret'}}}}, a, 'PUT')).status, 400);
+      const second = await call(f, '/v1/accounts/login', { loginId: signup.loginId, password: signup.password });
+      assert.equal((await call(f, '/v1/accounts/state', undefined, a)).status, 401);
+      const b = credential(second);
+      assert.deepEqual((await call(f, '/v1/accounts/state', undefined, b)).value, {revision: 1, state});
+      // A request authenticated before takeover is checked again in the write transaction.
+      await assert.rejects(() => f.STORE.saveAccountState(a.userId, tokenHash(a.token), Math.floor(f.env.TEST_NOW / 1000), 1, state, new Date().toISOString()), error => error.status === 401);
+      await call(f, '/v1/accounts/register', {...signup, loginId: 'other_user'});
+      const other = credential(await call(f, '/v1/accounts/login', {loginId: 'other_user', password: signup.password}));
+      assert.equal((await call(f, '/v1/accounts/state', undefined, other)).value.state, null);
+      assert(!JSON.stringify((await call(f, '/v1/leaderboard', undefined, b)).value).includes('private code'));
+    } finally { await f.close(); }
+  });
+  test('a user logged in today appears with zero AC, survives restart, and heartbeat marks a new Beijing day', async () => {
+    const f = await startFixture({ now: Date.parse('2026-10-15T15:59:59Z') });
+    try {
+      await call(f, '/v1/accounts/register', signup);
+      const auth = credential(await call(f, '/v1/accounts/login', {loginId: signup.loginId, password: signup.password}));
+      let board = (await call(f, '/v1/leaderboard', undefined, auth)).value;
+      assert.equal(board.entries.length, 1); assert.equal(board.entries[0].count, 0);
+      assert.equal(board.self.count, 0);
+      f.env.TEST_NOW += 1000;
+      board = (await call(f, '/v1/leaderboard', undefined, auth)).value;
+      assert.equal(board.entries.length, 0);
+      assert.equal((await call(f, '/v1/accounts/me', undefined, auth)).status, 200);
+      board = (await call(f, '/v1/leaderboard', undefined, auth)).value;
+      assert.equal(board.entries.length, 1); assert.equal(board.entries[0].count, 0);
+      const rewards = (await call(f, '/v1/rewards', undefined, auth)).value;
+      assert.equal(rewards.totalXp, 0, 'Zero-AC login receives no medal XP');
+    } finally { await f.close(); }
+  });
+  test('legacy login checks cloud activation again under the account lock', async () => {
+    const f = await startFixture({now:Date.now()});
+    try {
+      await call(f,'/v1/accounts/register',signup);
+      const auth=credential(await call(f,'/v1/accounts/login',{loginId:signup.loginId,password:signup.password}));
+      const original=f.STORE.stateRevision.bind(f.STORE);
+      let activated=false;
+      f.STORE.stateRevision=async id=>{
+        const revision=await original(id);
+        if (!activated && revision===0) {
+          activated=true;
+          await f.STORE.saveAccountState(id,tokenHash(auth.token),Math.floor(f.env.TEST_NOW/1000),0,
+            {format:'tb-account-state-v1',tables:{},publicAccounts:{}},new Date(f.env.TEST_NOW).toISOString());
+        }
+        return revision;
+      };
+      const old=await fetch(f.endpoint+'/v1/accounts/login',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({loginId:signup.loginId,password:signup.password})});
+      assert.equal(old.status,426); await old.text();
+      assert.equal((await call(f,'/v1/accounts/me',undefined,auth)).status,200,'Rejected legacy login must not kick the synchronized device');
     } finally { await f.close(); }
   });
 }

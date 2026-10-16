@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from functools import lru_cache
 import datetime as dt
 import hashlib
 import re
@@ -16,8 +17,15 @@ def canonical_url(value):
     """Only identity-preserving first-party URL normalization; no title guessing."""
     if not isinstance(value, str) or not value:
         return None
+    return _canonical_url(value.strip())
+
+
+@lru_cache(maxsize=16384)
+def _canonical_url(value):
+    # A bounded pure identity cache avoids reparsing the same public URL in
+    # every goal, receipt, achievement and alias lookup. No account data lives here.
     try:
-        parsed = urlsplit(value.strip())
+        parsed = urlsplit(value)
     except ValueError:
         return None
     host = parsed.hostname or ""
@@ -193,10 +201,8 @@ def build_insights(rows, submissions, history, workspace, hub, now):
     knowledge.sort(key=lambda item: (-item["priority"], item["name"]))
     recommendations = [{"name": item["name"], "reason": item["reason"], "priority": item["priority"], "ids": item["suggestedIds"]} for item in knowledge if item["suggestedIds"]][:6]
 
-    first_dates = sorted(value for value in first_accepted.values() if value)
-    achievements = []
-    for target, name in ((1, "首次官方 AC"), (10, "十题积累"), (50, "五十题积累"), (100, "百题积累")):
-        achievements.append({"id": f"official-{target}", "name": name, "description": f"官方 AC {target} 道不同题目；样例通过不计入", "unlocked": len(first_accepted) >= target, "unlockedAt": first_dates[target - 1] if len(first_dates) >= target else None, "progress": min(target, len(first_accepted)), "target": target})
+    from progression import ac_achievements, official_reward_evidence
+    achievements = ac_achievements(official_reward_evidence(rows, records, hub))
     achievements.append({"id": "contest-1", "name": "完成模拟赛", "description": "完成一场至少训练一分钟并实际提交的计时模拟赛", "unlocked": bool(completed_contests), "unlockedAt": min((item.get("finishedAt") for item in completed_contests if item.get("finishedAt")), default=None), "progress": min(1, len(completed_contests)), "target": 1})
     evidence_count = len(independent)
     enough = evidence_count >= 5

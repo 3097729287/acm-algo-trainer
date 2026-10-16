@@ -1,6 +1,6 @@
 # 开发、验证与构建
 
-需要 Python 3.13、Node.js 24，评测需要支持 C++17 的 g++。API 和数据库只依赖 Python 标准库；桌面构建依赖 `backend/requirements.txt`。
+需要 Python 3.13、Node.js 24，评测需要支持 C++17 的 g++。本机 API 和 SQLite 使用 Python 标准库；桌面构建依赖 `backend/requirements.txt`。独立共享服务使用 Node.js 与 mysql2，生产账号和学习数据保存在与排行榜共用的 MySQL。
 
 ```powershell
 $env:TB_OFFLINE = "1"
@@ -24,7 +24,7 @@ $env:TB_STATE_DIR = "$PWD/.backups/desktop-dev-state"
 python desktop/launch.py
 ```
 
-API 的可选参数见 `python backend/backend.py --help`。当前源码为 [v1.0.18](releases/1.0.18.md)，已发布版本的准确源码以对应 Git 标签与 BUILD-INFO 为准。
+API 的可选参数见 `python backend/backend.py --help`。当前源码为准备发布的 [v1.1.0](releases/1.1.0.md)，当前正式下载为 v1.0.18。原服务器的 `005` 账号同步与 `006` 公开成长资料迁移均已完成，公网 HTTPS 已确认服务 1.1.0；客户端安装与升级验证仍待完成。已发布版本的准确源码以对应 Git 标签与 BUILD-INFO 为准。
 
 ```powershell
 python scripts/check.py
@@ -105,3 +105,66 @@ python scripts/check_current_release.py --stage "build/$tbVersion" --legacy-pack
 4. 从确认过的提交构建安装版、便携版和浏览器扩展，生成 `RELEASE-MANIFEST.json`、`SHA256SUMS.txt` 与记录准确提交的 `BUILD-INFO.json`。根据上一正式版文件清单生成增量包，并在隔离状态完成新安装、升级、个人数据保留及增量替换验证。构建后源码若有改动，重新提交并构建受影响资产。
 5. 发布标签指向构建提交，发布说明与 README 描述同一版本；核对 GitHub 上的源码、版本号、下载链接和资产哈希后完成发布。不要移动已有正式版标签或把尚未发布的版本写成最新正式版。
 6. 更新指定本地项目目录的当前记录，写清源码提交、GitHub 同步结果、已发布/未发布状态、检查结果和实际启动入口。仅更新源码或文档时，明确说明本次未重新打包。
+
+## 1.0.19 内容与加载检查
+
+`python scripts/measure_loading.py --output build/loading.json` 使用临时离线状态记录首次启动、重启、题库、工作台、题面和题解耗时，不读取个人数据。`node frontend/tests/loading.mjs` 须在 frontend 目录改用 `node tests/loading.mjs`，检查在途请求合并及写后刷新；`node tests/latest-editorials.mjs` 实际渲染本批 71 题的公式和配图。后端覆盖重启复用、导入/WAL 失效、单题知识增量、并发、令牌替换与讲义关系批量读取。
+
+10 月 16 日为 134 场已有默认题解的比赛补写 727 份详细版，原有 82 份保留。1.1.0 使用的公共源与 SQLite 为 5795 题、2215 份题面、918 份默认题解、918 份详细题解、376 篇讲义；应用可见性策略后为 5622 可见、173 隐藏。另完成 XCPC 与蓝桥杯 91 道不同题目、含镜像 109 组两版题解；用户要求本批收尾后停止，未完成范围见[内容记录](editorial-content-20261016.md)。统计核对要区分库存、可见题目与有题面数量；必须重新从当前公共源构建，不能复用尚未包含这批内容的旧 1.0.20 包。
+
+## 1.0.20 同步与性能检查
+
+同步回归必须使用本机隔离账号服务及临时个人数据库，覆盖登录恢复失败不进入空工作区、两设备接管、慢上传期间心跳撤销、旧会话迟到写入拒绝、三方修改与删除、草稿冲突留存、XP/成就重放幂等、公开账号绑定隔离、偏好迁移和另一电脑缺公共题目 ID 的继续练习。不得用生产用户验证登录或向真实原站提交测试代码。
+
+```powershell
+$env:TB_OFFLINE = "1"
+python -m unittest discover -s backend -p "test_account_sync.py"
+python -m unittest discover -s backend -p "test_sync_independent_review.py"
+python -m unittest discover -s backend -p "test_account_preferences.py"
+cd server/leaderboard
+$env:NODE_OPTIONS = "--max-old-space-size=64"
+npm test
+# 仅对已显式配置的可丢弃本机 MySQL 实例运行；配置变量见 tests/mysql.test.mjs
+npm run test:mysql
+```
+
+本轮在隔离 MySQL 8.0.27、回环随机端口与 Node 64 MiB 堆限制下通过 22 项真实数据库测试，包含大压缩源码快照、005 迁移重入、并发 CAS、单会话与零题登录榜。实例正常 shutdown，未操作系统 MySQL 服务或用户数据库。共享服务另以 SQLite 测试适配器验证高密度 JSON 在解析前拒绝、20 MiB 超限请求、快照限并发和心跳可用；不能用 SQLite 测试替代真实 MySQL 协议验证。
+
+前端新增 `node tests/account-sync-status.mjs`、`node tests/background-statement.mjs`、`node tests/training-overview.mjs`，分别验证待同步/失效、题面后台读取和 XP/AC 成就展示，运行目录为 `frontend/`。其他既有发布检查继续执行，最终通过情况以构建报告为准。
+
+体积测量比较同一题库的 UTF-8 完整与紧凑响应（约 12.68 → 7.98 MB）和构建入口 JS（约 1.419 → 0.863 MB，编辑器约 560 KB 按需加载）；耗时测量须记录机器、冷/热缓存与历史条数。重点覆盖有大量官方回执的成长统计、并发题面失败、锁等待和账号切换后的后台服务释放，避免只测空账号。
+
+本机进程样本约 70% 的私有内存属于 WebView。当前保留 Python 本机后端与 Node.js 共享服务，优化重复数据、缓存、锁和任务生命周期；换为 Go 不能直接消除 WebView 占用，尚未实施语言迁移。
+
+## 1.0.20 服务先行迁移
+
+生产现有数据卷必须保留，先在线备份 MySQL，再执行幂等的 `mysql/005_account_state.sql` 与运行时替换，检查健康响应含 `accountStateProtocol: 1` 后再安装或分发客户端。部署脚本只收拢旧会话，不改身份、历史 AC 或角色；已有云端状态后旧协议客户端会收到 426 升级提示。详见[完整步骤与回滚](../server/leaderboard/README.md#1020-同步上线)。
+
+发布包不含个人数据，但运行时账号同步会上传个人代码；不要沿用“只上传成绩摘要”的整体隐私描述。Cookie、翻译密钥、DPAPI 密文和机器设置仍不上传。数据库备份须按个人数据保护，首次合并前保留本机 SQLite 在线备份和冲突记录。
+
+2026-10-16 已完成生产在线备份、原 MySQL 卷上的增量迁移及 API/Caddy 更新。公网健康检查确认 `version: 1.0.20`、`accountStateProtocol: 1`、`singleSession: true`；143 个身份、3 个账号、164106 条官方 AC 记录及指纹、4 笔共 400 XP 的奖励前后一致。每个账号最多保留一个会话。日常客户端已升级至 1.0.20：安装器退出码为 0，4526 个文件符合包清单，首次启动前核对 8 个原数据库的全部表与模式不变，3 个快捷方式不变。正式下载链接仍指向 v1.0.18，尚未推送源码或公开发布资产。公开发布前仍须完成上方发布同步检查。
+
+## 1.1.0 发布检查
+
+源码、安装器默认版本、前端和浏览器扩展均使用 1.1.0。发布包重新构建当前 918 份详细题解的公共库；以前的 1.0.20 包不具备这次全部内容。`006_public_progress.sql` 已于 2026-10-16 13:51（北京时间）在原 MySQL 上完成生产部署；公网 HTTPS 确认服务 1.1.0、账号同步协议 1、单设备会话及公开成长协议 1。原表、卷、compose 覆盖配置及账号快照保留，在线备份已在受控位置核验。前后 143 个身份、3 个账号、164107 条官方 AC 及指纹、4 笔共 400 XP 奖励和 3 个会话完全一致；账号快照与登录日期各 1 条，同账号多会话为 0。
+
+成就回归覆盖旧 XP 不追扣、退休目标不再发奖、称号零 XP 一次领取、1000 天旧记录兼容两年目标、自动佩戴最高两枚、双机已读并集与公开摘要缓存失效。排行榜另测旧版缺资料、零 AC 登录、已认证摘要更新、拒绝非法字段、真实 MySQL JOIN，以及关闭后定时器不再访问 SQLite。测试始终使用临时个人库与本机服务。
+
+```powershell
+$env:TB_OFFLINE = "1"
+$env:PYTHONPATH = "backend;backend/common;desktop"
+python -m unittest test_achievement_rewards test_account_preferences test_leaderboard_lifecycle
+python scripts/check.py
+cd frontend
+npm run build
+node tests/progress-v110.mjs
+node tests/ranking-public-progress.mjs
+```
+
+已完成源码全套 449 项检查，后续增量升级与构建元数据的 17 项定向检查也全部通过。前端构建、12 项界面检查、训练概览、隐藏/恢复轮询及 3 种偏好同步场景通过；覆盖顶部直接概览、成就 hover/focus 独立已读、称号样式、账号/翻译入口、比赛分页与直接重现赛。常规界面数据和目标轮询在隐藏窗口暂停，恢复可见立即读取状态与待处理结果；后台会话心跳、上传、任务和软件自动更新继续运行。无变化工作区保持对象引用，提交或同步后的更新仍会刷新。
+
+数学标题、Markdown 和讲义阅读器按需加载。当前构建主入口 871.12 → 423.61 KB，首屏另有 8.90 KB JSX runtime，编辑器约 560 KB 按需读取；比较时须计算所有首屏块，不能只报入口当总下载量。WebView Normal/Low 与取消请求头订阅的三轮隔离测量见[发布说明](releases/1.1.0.md#响应与加载)。它验证最小化时草稿和计时器继续执行，不使用 Suspend；真实 Windows WebView 的 7 项官方流程和 8 项静默流程 fixture 也已通过，未向真实原站提交。最终新安装、完整升级与资产检查仍待完成。
+
+旧版增量更新器不接受根目录新增 `BUILD-INFO.json` 和 `SOURCE-MANIFEST.json`。构建包在 `resources/` 放置两份权威副本；面向旧客户端的增量清单省略这两个根路径，经原有资源白名单交付。冻结程序通用启动入口跳过更新助手，在普通启动及隔离发布探针前校验版本、40 位提交号与来源清单 SHA-256，再原子恢复根目录信息；大小有界、拒绝符号链接及 junction、失败回滚并留日志。新版白名单仅增加这两个根文件供后续升级使用。`test_update_patch` 与 `test_release_metadata` 的 17 项定向检查覆盖旧版路径兼容、幂等、非法资源拒绝、回滚和个人状态字节/修改时间不变；正式旧版 EXE 的完整增量升级还须由构建探针验证。
+
+正式发布切换时，同步两份 README 的 `release-status` 区块、`docs/index.html` 的版本标识与待发布提示，以及 usage/accounts/architecture/development/1.1.0 发布说明的准备状态。只有收到部署报告才将 006 标为已部署，只有资产存在才将 1.1.0 标为正式下载。目标安装包和便携版链接已经包含 1.1.0；发布前的可用入口仍为 `releases/latest`。最终构建提交须含正确的目标链接和真实状态，标签与 `BUILD-INFO.json` 指向该提交；发布后逐项核对资产名称、哈希及下载地址。

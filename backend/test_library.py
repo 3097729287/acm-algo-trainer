@@ -39,7 +39,11 @@ class LibraryTests(unittest.TestCase):
             data = server.store.data()
             self.assertGreaterEqual(len(data['rows']), 607)
             self.assertEqual(sum(row['solutionAvailable'] for row in data['rows']), self.seed_counts['solutions'])
-            self.assertTrue(all(row['solutionState']=='missing' for row in data['rows'] if row.get('source')=='lanqiao-history'))
+            with server.store.library.connection() as db:
+                available_ids = {row[0] for row in db.execute('SELECT problem_id FROM solutions')}
+            for row in data['rows']:
+                self.assertEqual(row['solutionState'],
+                                 'available' if row['id'] in available_ids else 'missing', row['id'])
             row = next(row for row in data['rows'] if row['title'] == 'Xterfusion')
             self.assertIn('e2', server.store.solution(row['id'])['markdown'])
             self.assertEqual(len(server.lectures.for_problem(row['id'])), 1)

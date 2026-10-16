@@ -37,8 +37,14 @@ class DataTests(unittest.TestCase):
     def test_exact_catalog_local_targets_and_legacy_no_invented_mapping(self):
         service=I.IntegrationService(self.store,self.root/'state',auto_start=False,client=NoNetwork())
         try:
-            row=P.row('codeforces',{'id':1,'name':'Fixture','start':1,'end':2},'A','P','https://codeforces.com/contest/1/problem/A',1300,'official')
-            with patch.dict(P.DISCOVERY_ADAPTERS,{'codeforces':lambda *_:([row],[],'actual fixture')}):service._catalog('codeforces',set())
+            row=P.row('codeforces',{'id':1,'name':'Codeforces Round 1 (Div. 2)','start':1,'end':2},'A','P','https://codeforces.com/contest/1/problem/A',1300,'official')
+            statement={'id':row['id'],'title':row['title'],'url':row['url'],'markdown':'Read two integers and print their sum.',
+                       'samples':[{'input':'1 2\n','output':'3\n'}],'statementAvailable':True,'limits':{'timeMs':1000,'memoryMb':128}}
+            with patch.dict(P.DISCOVERY_ADAPTERS,{'codeforces':lambda *_:([row],[],'actual fixture')}),patch.object(P,'statement',return_value=statement) as fetch:
+                service._catalog('codeforces',set())
+                self.assertEqual(fetch.call_count,1)
+            self.assertFalse(service.rows()[0].get('catalogHidden',False))
+            self.assertEqual(service.statement(row['id'])['samples'],statement['samples'])
             notification=service.snapshot()['notifications'][0]
             self.assertEqual(notification['problemIds'],[row['id']]);self.assertEqual(notification['problemUrls'],[row['url']]);self.assertEqual(notification['solutionIds'],[])
             original_added=service.rows()[0]['addedAt']

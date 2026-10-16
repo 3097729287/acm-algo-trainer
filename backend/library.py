@@ -31,6 +31,16 @@ CREATE TABLE IF NOT EXISTS problem_lectures(
  PRIMARY KEY(problem_id, lecture_id));
 '''
 
+# Check presence in SQLite without transferring full statement bodies/images
+# into every catalogue response. Empty sample input/output remain legitimate.
+_CONTENT_READY_SQL = """EXISTS(
+    SELECT 1 FROM statements st WHERE st.problem_id=p.id
+    AND length(trim(COALESCE(json_extract(st.content,'$.markdown'),'')))>0
+    AND EXISTS(SELECT 1 FROM json_each(st.content,'$.samples') sample
+               WHERE CASE WHEN sample.type='object' THEN
+                 json_type(sample.value,'$.input')='text'
+                 AND json_type(sample.value,'$.output')='text' ELSE 0 END))"""
+
 def source_fingerprint(directory):
     """Stable fingerprint of the text seed; merge_seed uses it instead of file bytes."""
     directory = Path(directory)
@@ -57,9 +67,11 @@ class LibraryDatabase:
                 self.backup('schema-migration')
         with self.connection() as db:
             db.executescript(SCHEMA)
-            db.execute("INSERT INTO library_meta VALUES ('schema', '4') ON CONFLICT(key) DO UPDATE SET value='4'")
+            db.execute("INSERT INTO library_meta VALUES ('schema', '4') ON CONFLICT(key) DO UPDATE SET value='4' WHERE value!='4'")
             db.execute("INSERT OR IGNORE INTO library_meta VALUES ('revision', '0')")
-            self._rebuild_urls(db)
+            indexed = db.execute("SELECT value FROM library_meta WHERE key='url_index_version'").fetchone()
+            if not indexed or indexed[0] != '1':
+                self._rebuild_urls(db)
 
     @contextmanager
     def connection(self):
@@ -178,11 +190,30 @@ class LibraryDatabase:
             key = canonical_url(row['url'])
             if key:
                 db.execute('INSERT OR IGNORE INTO problem_urls VALUES (?,?)', (key, row['id']))
+        db.execute("INSERT INTO library_meta VALUES ('url_index_version','1') ON CONFLICT(key) DO UPDATE SET value='1'")
 
     def rows(self, raw=False):
         column = 'raw' if raw else 'encoded'
         with self.connection() as db:
             return [json.loads(row[0]) for row in db.execute(f'SELECT {column} FROM problems ORDER BY rowid')]
+
+    def content_signature(self):
+        """Detect commits from this process and other SQLite writers, including WAL."""
+        result = []
+        for path in (self.path, Path(str(self.path) + '-wal')):
+            try:
+                stat = path.stat()
+                result.append((stat.st_mtime_ns, stat.st_ctime_ns, stat.st_size))
+            except FileNotFoundError:
+                result.append(None)
+        return tuple(result)
+
+    def has_solution(self, identity):
+        # List/identity lookups only need existence, never Markdown or image blobs.
+        with self.connection() as db:
+            return bool(db.execute('SELECT EXISTS(SELECT 1 FROM solutions WHERE problem_id=?) '
+                                   'OR EXISTS(SELECT 1 FROM detailed_solutions WHERE problem_id=?)',
+                                   (identity, identity)).fetchone()[0])
 
     def catalog(self):
         """Read list metadata and solution presence in one database snapshot.
@@ -191,7 +222,7 @@ class LibraryDatabase:
         connection for each problem. Content readers use solution() separately.
         """
         with self.connection() as db:
-            rows = db.execute('SELECT p.*, (EXISTS(SELECT 1 FROM solutions s WHERE s.problem_id=p.id) '
+            rows = db.execute('SELECT p.*, ' + _CONTENT_READY_SQL + ' AS content_ready, (EXISTS(SELECT 1 FROM solutions s WHERE s.problem_id=p.id) '
                               'OR EXISTS(SELECT 1 FROM detailed_solutions s WHERE s.problem_id=p.id)) AS available '
                               'FROM problems p ORDER BY p.rowid')
             return [{**dict(row), 'raw': json.loads(row['raw']), 'encoded': json.loads(row['encoded'])}
@@ -199,11 +230,11 @@ class LibraryDatabase:
 
     def find(self, identity=None, url=None):
         with self.connection() as db:
-            row = db.execute('SELECT * FROM problems WHERE id=?', (identity,)).fetchone()
+            row = db.execute('SELECT p.*, ' + _CONTENT_READY_SQL + ' AS content_ready FROM problems p WHERE p.id=?', (identity,)).fetchone()
             if row is None and url:
                 from insights import canonical_url
                 key = canonical_url(url) if '://' in url else url
-                row = db.execute('SELECT p.* FROM problems p JOIN problem_urls u ON u.problem_id=p.id WHERE u.url_key=?', (key,)).fetchone()
+                row = db.execute('SELECT p.*, ' + _CONTENT_READY_SQL + ' AS content_ready FROM problems p JOIN problem_urls u ON u.problem_id=p.id WHERE u.url_key=?', (key,)).fetchone()
             return {**dict(row), 'raw': json.loads(row['raw']), 'encoded': json.loads(row['encoded'])} if row else None
 
     def solution(self, identity, variant='default'):
@@ -232,6 +263,14 @@ class LibraryDatabase:
     def lecture_entries(self):
         with self.connection() as db:
             return {row[0]: json.loads(row[1]) for row in db.execute('SELECT id,content FROM lectures ORDER BY rowid')}
+
+    def reference_map(self):
+        """Load lecture relationships once, without opening a connection per task."""
+        with self.connection() as db:
+            result = {}
+            for identity, lecture in db.execute('SELECT problem_id,lecture_id FROM problem_lectures ORDER BY problem_id,position'):
+                result.setdefault(identity, []).append(lecture)
+            return result
 
     def references(self, identity):
         with self.connection() as db:

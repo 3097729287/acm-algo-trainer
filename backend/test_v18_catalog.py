@@ -29,8 +29,8 @@ class CataloguePolicyTests(unittest.TestCase):
         self.assertEqual(row['id'],'preserved::A')
 
     def test_chinese_names_preserve_country_stage_and_divisions(self):
-        self.assertEqual(contest_name('ABC 471'),'AtCoder 初学者赛 471')
-        self.assertEqual(contest_name('Codeforces Round 1124 (Div. 1)'),'Codeforces 第 1124 轮（第 1 组）')
+        self.assertEqual(contest_name('ABC 471'),'ABC 471')
+        self.assertEqual(contest_name('Codeforces Round 1124 (Div. 1)'),'Div.1 1124')
         self.assertIn('乌拉尔',xcpc_name('2023-2024 Квалификационный тур Уральского четвертьфинала ICPC'))
         self.assertIn('资格',xcpc_name('2023-2024 Квалификационный тур Уральского четвертьфинала ICPC'))
         self.assertNotEqual(xcpc_name('2024 ICPC Asia Taiwan Online Programming Contest'),xcpc_name('2024 ICPC Asia Japan Online First-Round Contest'))
@@ -38,8 +38,8 @@ class CataloguePolicyTests(unittest.TestCase):
 
     def test_only_curated_regular_rounds_and_new_eligible_gyms_are_discovered(self):
         now=dt.datetime(2026,10,15,tzinfo=dt.timezone.utc)
-        policy={'curatedCodeforcesContests':[10],'knownGymContests':[101700],'excludedGymContests':[]}
-        contests=[{'id':i,'name':'CF '+str(i),'phase':'FINISHED','startTimeSeconds':1,'durationSeconds':100} for i in (10,11)]
+        policy={'curatedCodeforcesContests':[10],'knownGymContests':[101700],'excludedGymContests':[],'discoverAuthorizedSeries':False}
+        contests=[{'id':i,'name':'Codeforces Round '+str(i)+' (Div. 2)','phase':'FINISHED','startTimeSeconds':1,'durationSeconds':100} for i in (10,11)]
         gyms=[{'id':101700,'name':'2017 ICPC Asia Xian','phase':'FINISHED'},
               {'id':101600,'name':'2016 ICPC Asia Xian','phase':'FINISHED'},
               {'id':106800,'name':'2026 ICPC Asia Xian','phase':'FINISHED','difficulty':4},

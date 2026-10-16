@@ -67,7 +67,7 @@ class LectureLibrary:
                 revision=self.store.library.metadata().get('revision','0')
                 if self.signature==revision:return
                 self.entries=self.store.library.lecture_entries()
-                self.references={row['场次']+'::'+row['题号']:[i for i,k in self.store.library.references(row['场次']+'::'+row['题号'])] for row in self.store.raw_rows()}
+                self.references=self.store.library.reference_map()
                 self.signature=revision;self.revision=revision
                 self.audit={'lectureCount':len(self.entries),'usingDatabase':True}
                 return

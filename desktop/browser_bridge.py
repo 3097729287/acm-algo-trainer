@@ -330,6 +330,12 @@ class BrowserBridge:
     def _update(self, session, value):
         if session['status'] in TERMINAL or value.get('status') not in STATES:
             return
+        if (value.get('status') == 'error' and value.get('attempted') is not False
+                and (session.get('attempted') or session.get('dispatchedAt') is not None)):
+            # Transport failures do not establish a site rejection. Continue
+            # accepting the late numbered receipt through the existing job.
+            value = {**value, 'status': 'unconfirmed',
+                     'message': '连接中断，尚未确认原站是否受理；正在核对记录，请勿重复提交。'}
         status = value['status']
         if session.get('manual') and status == 'submitted' and value.get('attempted') is True:
             session.setdefault('dispatchedAt', self.clock())

@@ -35,7 +35,7 @@ class Handler(BaseHTTPRequestHandler):
         pass
 
     def send_json(self, status, value):
-        raw = json.dumps(value, ensure_ascii=False).encode("utf-8")
+        raw = value if isinstance(value, bytes) else json.dumps(value, ensure_ascii=False).encode("utf-8")
         self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(raw)))
@@ -98,7 +98,7 @@ class Handler(BaseHTTPRequestHandler):
         accounts = getattr(self.server, 'accounts', None)
         if accounts is not None:
             path = unquote(urlsplit(self.path).path)
-            changing = (writing and (path.startswith('/api/account/') or path in ('/api/profile', '/api/identity'))
+            changing = (writing and (path.startswith('/api/account/') and path != '/api/account/sync' or path in ('/api/profile', '/api/identity'))
                         or path == '/api/account' and accounts.saved is not None)
             # Normal requests share the current workspace. Account mutations
             # wait for all of them, preventing writes/responses crossing users.
@@ -154,7 +154,12 @@ class Handler(BaseHTTPRequestHandler):
                         raise APIError(404, '此测试服务未启用账号')
                     actions = {'/api/account/register': accounts.register, '/api/account/login': accounts.login,
                                '/api/account/password': accounts.change_password}
-                    if path == '/api/account/logout':
+                    if path == '/api/account/sync':
+                        if body:
+                            raise APIError(400, '请求字段无效')
+                        accounts.require()
+                        value = accounts.sync_pending(wait=True)
+                    elif path == '/api/account/logout':
                         if body:
                             raise APIError(400, '请求字段无效')
                         value = accounts.logout()
@@ -169,6 +174,10 @@ class Handler(BaseHTTPRequestHandler):
                 elif path == "/api/software-update/download":
                     value = self.server.software_updates.download()
                 elif path == "/api/software-update/install":
+                    if accounts is not None and accounts.session:
+                        sync = accounts.sync_pending(wait=True)
+                        if sync.get('pending'):
+                            raise APIError(409, '云端数据尚未同步，本机草稿已保留；同步完成后继续更新。')
                     value = self.server.software_updates.install()
                 elif path == "/api/status":
                     with training.lock:
@@ -192,6 +201,9 @@ class Handler(BaseHTTPRequestHandler):
                     value = training.start_practice_set(body.get("contest"))
                 elif path == "/api/draft":
                     value = training.save_draft(body.get("id"), body.get("code"), body.get("contestId"))
+                elif path == '/api/preferences':
+                    from preferences import save_preferences
+                    value = save_preferences(training, body)
                 elif path == "/api/submissions":
                     value = training.submit(body.get("id"), body.get("code"), body.get("mode", "submit"), body.get("input", ""), body.get("contestId"), body.get("sampleRun"))
                 elif path == "/api/contests/preview":
@@ -278,28 +290,46 @@ class Handler(BaseHTTPRequestHandler):
                     value = self.server.translation_service().configure(body)
                 else:
                     raise APIError(404, "没有找到这个接口")
+                if accounts is not None and accounts.session and path not in ('/api/account/sync', '/api/software-update/install'):
+                    accounts.sync_pending(wait=False)
                 self.send_json(200, value)
             elif path == "/api/data":
-                self.send_json(200, store.data())
+                self.send_json(200, store.data_response_bytes(compact=parse_qs(target.query).get('compact', ['0'])[0]=='1'))
             elif path == "/api/solution":
                 identity = parse_qs(target.query).get("id", [None])[0]
                 if not identity:
                     raise APIError(400, "缺少题目编号")
                 with self.server.training.lock:
                     self.server.training.assert_solution_unlocked(identity)
-                    solution = store.solution(identity)
+                    try:
+                        solution = store.solution(identity)
+                    except APIError as issue:
+                        solution = self.server.training.portable_solution(identity) if issue.status == 404 else None
+                        if solution is None:
+                            raise
                     self.server.training.mark_solution_seen(identity)
-                    solution["lectures"] = self.server.lectures.for_problem(identity)
+                    try:
+                        solution["lectures"] = self.server.lectures.for_problem(identity)
+                    except APIError as issue:
+                        if issue.status != 404:raise
+                        solution["lectures"] = []
                 self.send_json(200, solution)
             elif path == "/api/software-update":
                 self.send_json(200, self.server.software_updates.snapshot())
             elif path == "/api/workspace":
                 self.send_json(200, self.server.training.workspace())
+            elif path == '/api/preferences':
+                from preferences import read_preferences
+                self.send_json(200, read_preferences(self.server.training))
             elif path == '/api/browser-preparation':
                 preparation = getattr(self.server, 'browser_preparation', None)
                 self.send_json(200, preparation.snapshot() if preparation else {'available': False})
             elif path == "/api/hub":
-                self.send_json(200, store.extensions.snapshot())
+                value = store.extensions.snapshot()
+                if parse_qs(target.query).get('compact', ['0'])[0]=='1':
+                    from catalog_payload import hub_payload
+                    value = hub_payload(value)
+                self.send_json(200, value)
             elif path == "/api/insights":
                 self.send_json(200, self.server.training.insights(store.extensions.snapshot()))
             elif path == "/api/daily-tasks":
@@ -316,7 +346,9 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_json(200, self.server.training.leaderboard.rankings(period))
             elif path == "/api/problem":
                 query = parse_qs(target.query)
-                self.send_json(200, self.server.training.problem(query.get("id", [None])[0], query.get("contestId", [None])[0]))
+                self.send_json(200, self.server.training.problem(query.get("id", [None])[0], query.get("contestId", [None])[0],
+                                                               background=query.get('background', ['0'])[0]=='1',
+                                                               refresh=query.get('refresh', ['0'])[0]=='1'))
             elif path == "/api/problem/translate":
                 query = parse_qs(target.query)
                 self.send_json(200, self.server.translate_problem(query.get("id", [None])[0], query.get("contestId", [None])[0]))

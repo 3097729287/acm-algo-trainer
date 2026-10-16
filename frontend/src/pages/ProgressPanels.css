@@ -218,8 +218,50 @@ button.update-notification-main:hover strong { color: var(--accent); }
 
 .tier-0 { --tier-color:#9c9ca5; } .tier-1 { --tier-color:#c48a60; } .tier-2 { --tier-color:#c7d0df; } .tier-3 { --tier-color:#efc35e; } .tier-4 { --tier-color:#68c9d0; } .tier-5 { --tier-color:#55cf98; } .tier-6 { --tier-color:#74b5ff; } .tier-7 { --tier-color:#bc8aff; } .tier-8 { --tier-color:#f18ba8; } .tier-9 { --tier-color:#ffb54f; }
 .progress-level-badge[class*="tier-"] { color:var(--tier-color); border:2px solid var(--tier-color); background:color-mix(in srgb,var(--tier-color) 12%,var(--panel)); box-shadow:0 0 14px color-mix(in srgb,var(--tier-color) 18%,transparent); }
-.topbar-overview[class*="tier-"] > summary { color:var(--tier-color); border-color:var(--tier-color); }
+.topbar-overview[class*="tier-"] { color:var(--tier-color); border-color:var(--tier-color); }
 .progress-level-badge small { font-size:.68rem; } .profile-edit > summary { cursor:pointer; color:var(--accent); margin-top:12px; } .rank-rules summary { cursor:pointer; } .topbar-daily-ac { white-space:nowrap; }
-.topbar-overview[class*="tier-"] > summary svg, .topbar-overview[class*="tier-"] > summary strong { color:var(--tier-color); }
-@media (max-width:1200px) { .topbar .topbar-overview summary > span { display:inline; } .topbar .topbar-overview summary > strong { display:none; } }
+.topbar-overview[class*="tier-"] svg, .topbar-overview[class*="tier-"] strong { color:var(--tier-color); }
+@media (max-width:1200px) { .topbar .topbar-overview > span { display:inline; } .topbar .topbar-overview > strong { display:none; } }
+.progress-achievement-status { display:flex; flex-wrap:wrap; gap:5px 12px; align-items:center; }
+.progress-achievement .achievement-reward { color:var(--accent); font-size:.78rem; font-weight:600; }
+.progress-achievement .achievement-reward.claimed { color:var(--success); }
 .contest-grade { display: inline-flex; align-items: center; margin-left: 8px; color: var(--muted); font-size: .8rem; white-space: nowrap; }.competition-question-meta .competition-tag { line-height: 1.5; }
+.title-medals { display:flex; flex-wrap:wrap; align-items:center; gap:7px; }
+.title-medal { display:inline-flex; align-items:center; gap:5px; max-width:100%; padding:6px 9px; color:var(--title-color, #c49338); background:color-mix(in srgb, var(--title-color, #c49338) 10%, var(--panel)); border:1px solid color-mix(in srgb, var(--title-color, #c49338) 60%, var(--line)); border-radius:7px; font-size:.88rem; font-weight:650; white-space:nowrap; }
+.title-medal svg { flex-shrink:0; }
+.title-medal-streak { --title-color:var(--accent); }
+.title-medals-compact .title-medal { padding:3px 6px; font-size:.78rem; }
+:root[data-theme="dark"] .title-medal-ac { --title-color:#ecc66e; }
+.growth-title-showcase { display:flex; flex-direction:column; gap:8px; flex:1; min-width:140px; }
+.growth-title-showcase > span { font-size:.82rem; color:var(--muted); }
+.growth-profile-identity { display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+.growth-profile-identity > strong { font-size:1.1rem; }
+.growth-profile-identity small { color:var(--muted); font-size:.78rem; overflow-wrap:anywhere; }
+.growth-equipped-titles { margin-top:12px; }
+.growth-account-panel { scroll-margin-top:12px; }
+.growth-account-panel > .profile-settings { border:0; padding:0; background:transparent; }
+.growth-account-section { margin-top:15px; padding-top:13px; border-top:1px solid var(--line); scroll-margin-top:12px; }
+.growth-account-section > summary { display:flex; align-items:center; gap:7px; cursor:pointer; font-weight:600; }
+.growth-account-section > summary > svg:last-child { margin-left:auto; }
+.growth-account-section[open] > summary > svg:last-child { transform:rotate(90deg); }
+.growth-account-section > .connection-panel { padding:15px 0 0; border:0; border-radius:0; background:transparent; }
+.growth-account-section > .translation-settings { margin-top:0; border:0; }
+.progress-achievement-name { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.progress-achievement.progress-achievement-new { border-color:var(--accent); outline:1px solid var(--accent); outline-offset:-1px; }
+.progress-achievement .achievement-new-label { margin:0; padding:2px 5px; background:var(--accent); color:var(--bg); border-radius:4px; font-size:.72rem; white-space:nowrap; }
+.progress-achievement .achievement-title-reward { display:inline-flex; align-items:center; gap:4px; color:var(--accent); font-size:.8rem; font-weight:600; }
+button.progress-recommendation { width:100%; text-align:left; color:var(--text); background:transparent; border-right:0; border-left:0; border-bottom:0; border-radius:0; }
+button.progress-recommendation:hover:not(:disabled) { background:var(--accent-soft); }
+button.progress-recommendation:focus-visible, button.competition-question:focus-visible { outline:2px solid var(--accent); outline-offset:-2px; }
+.competition-card { padding:0; gap:8px; }
+.competition-card-open { display:flex; align-items:center; gap:13px; flex:1; min-width:0; padding:13px 15px; color:var(--text); background:transparent; border:0; text-align:left; }
+.competition-card-open > svg { flex-shrink:0; }
+.competition-start { margin-right:12px; flex-shrink:0; }
+.competition-pagination { display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:10px; color:var(--muted); font-size:.88rem; padding:8px 0; }
+.competition-pagination > span:first-child { margin-right:auto; }
+button.competition-question { width:100%; text-align:left; color:var(--text); border-top:0; border-left:0; border-right:0; border-radius:0; background:transparent; }
+button.competition-question:hover:not(:disabled) { background:var(--accent-soft); }
+button.competition-question:disabled { opacity:1; cursor:default; }
+@media(max-width:1100px) { .progress-level-strip { flex-wrap:wrap; } .growth-title-showcase { flex-basis:100%; } .competition-card-open { flex-wrap:wrap; gap:8px; } .competition-card-open .competition-problem-tokens { flex-basis:100%; max-width:none; padding-left:0; justify-content:flex-start; } .competition-card-open > svg { margin-left:auto; } }
+@media(max-width:650px) { .competition-card { flex-wrap:wrap; padding-bottom:10px; } .competition-card-open { flex-basis:100%; } .competition-start { margin-left:auto; } .growth-title-showcase { min-width:0; } }
+@container workspace (max-width:900px) { .progress-level-strip { flex-wrap:wrap; } .growth-title-showcase { flex-basis:100%; } }

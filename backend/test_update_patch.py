@@ -55,6 +55,43 @@ class PatchTests(unittest.TestCase):
         for name, value in self.old.items(): self.assertEqual((self.app / name).read_bytes(), value)
         self.assertFalse((self.app / 'frontend/dist/new.js').exists())
 
+    def test_build_provenance_updates_with_program_and_preserves_personal_state(self):
+        for name in ('BUILD-INFO.json', 'SOURCE-MANIFEST.json'):
+            self.old[name] = json.dumps({'commit': 'old-build', 'file': name}).encode()
+            self.new[name] = json.dumps({'commit': 'new-build', 'file': name}).encode()
+            (self.app / name).write_bytes(self.old[name])
+        path = self.package()
+        with zipfile.ZipFile(path) as archive:
+            for name in ('BUILD-INFO.json', 'SOURCE-MANIFEST.json'):
+                self.assertIn('files/' + name, archive.namelist())
+        apply_patch_file(path, digest(path), '1.0.14', self.app)
+        for name, value in self.new.items():
+            self.assertEqual((self.app / name).read_bytes(), value)
+        self.assertEqual((self.app / 'state/private.sqlite3').read_bytes(), b'personal WAL and code untouched')
+
+    def test_build_provenance_rolls_back_with_failed_program_update(self):
+        for name in ('BUILD-INFO.json', 'SOURCE-MANIFEST.json'):
+            self.old[name] = b'{"commit":"old-build"}'
+            self.new[name] = b'{"commit":"new-build"}'
+            (self.app / name).write_bytes(self.old[name])
+        path = self.package()
+        with self.assertRaises(OSError):
+            apply_patch_file(path, digest(path), '1.0.14', self.app, fail_after=1)
+        for name, value in self.old.items():
+            self.assertEqual((self.app / name).read_bytes(), value)
+
+    def test_provenance_allowlist_does_not_allow_private_or_unknown_metadata(self):
+        for name in ('state/BUILD-INFO.json', 'cache/SOURCE-MANIFEST.json', 'runtime-source-manifest.json', 'BUILD-INFO.json/extra', 'SOURCE-MANIFEST.json:private', 'accounts.json'):
+            with self.subTest(name=name):
+                self.new[name] = b'{"private":"must not be replaced"}'
+                path = self.package()
+                with self.assertRaises(ValueError):
+                    apply_patch_file(path, digest(path), '1.0.14', self.app)
+                for old_name, value in self.old.items():
+                    self.assertEqual((self.app / old_name).read_bytes(), value)
+                self.assertEqual((self.app / 'state/private.sqlite3').read_bytes(), b'personal WAL and code untouched')
+                del self.new[name]
+
     def test_tampering_wrong_base_and_private_paths_rejected_before_writes(self):
         path = self.package()
         with self.assertRaises(ValueError): apply_patch_file(path, '0'*64, '1.0.14', self.app)

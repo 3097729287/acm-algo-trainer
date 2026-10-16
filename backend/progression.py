@@ -6,6 +6,111 @@ import hashlib
 
 SHANGHAI = dt.timezone(dt.timedelta(hours=8), name="Asia/Shanghai")
 
+# Stable IDs retain old XP claims even when a milestone now awards a title.
+AC_ACHIEVEMENT_REWARDS = (
+    (1, 25), (10, 40), (25, 60), (50, 80), (100, 120),
+    (200, 160), (300, 200), (500, 0), (750, 0), (1000, 0),
+    (1500, 0), (2000, 0),
+)
+ACHIEVEMENT_TITLES = {
+    **{f'official-{target}': {'id': f'ac-{target}', 'name': name, 'category': 'ac', 'target': target}
+       for target, name in ((500, '解题能手'), (750, '解题精英'), (1000, '千题大师'), (1500, '解题宗师'), (2000, '双千传奇'))},
+    **{f'streak-{target}': {'id': f'streak-{target}', 'name': name, 'category': 'streak', 'target': target}
+       for target, name in ((30, '持之以恒'), (90, '百炼不怠'), (180, '半载精进'), (365, '全年坚守'), (730, '双年不辍'))},
+}
+ACHIEVEMENT_DEFINITIONS = {
+    **{f'official-{target}': {'target': target, 'rewardXp': xp} for target, xp in AC_ACHIEVEMENT_REWARDS},
+    **{f'difficulty-{difficulty}': {'target': 1, 'rewardXp': xp}
+       for difficulty, xp in ((1500, 40), (1800, 60), (2100, 80), (2400, 100), (2700, 120), (3000, 150), (3300, 180), (3600, 200))},
+    **{f'independent-{target}': {'target': target, 'rewardXp': xp}
+       for target, xp in ((5, 30), (25, 60), (100, 120), (300, 200), (1000, 350))},
+    **{f'contest-{target}': {'target': target, 'rewardXp': xp} for target, xp in ((1, 40), (5, 100))},
+    **{f'streak-{target}': {'target': target, 'rewardXp': xp}
+       for target, xp in ((3, 20), (7, 40), (30, 0), (90, 0), (180, 0), (365, 0), (730, 0))},
+    'platforms-2': {'target': 2, 'rewardXp': 40},
+    **{f'missions-{target}': {'target': target, 'rewardXp': xp} for target, xp in ((1, 15), (10, 40), (50, 80))},
+}
+
+
+def achievement_reward(identity):
+    return ACHIEVEMENT_DEFINITIONS.get(identity, {}).get('rewardXp', 0)
+
+
+def achievement_title(identity):
+    title = ACHIEVEMENT_TITLES.get(identity)
+    return dict(title) if title else None
+
+
+def earned_titles(claims):
+    """Permanent title ownership derives from the one-time award ledger.
+
+    Old 1,000-day training awards also prove the replacement two-year award.
+    Archived XP remains in its original row and is never regranted or removed.
+    """
+    titles = []
+    for identity, definition in ACHIEVEMENT_TITLES.items():
+        claim = claims.get(identity)
+        if claim is None and identity == 'streak-730':
+            claim = claims.get('streak-1000')
+        if claim is not None:
+            titles.append({**definition, 'unlockedAt': claim.get('unlockedAt')})
+    equipped = [max((title for title in titles if title['category'] == category),
+                    key=lambda title: title['target'], default=None) for category in ('ac', 'streak')]
+    return titles, [dict(title) for title in equipped if title]
+
+
+def public_progress(insights):
+    """Small public leaderboard summary; never include private login IDs."""
+    growth = insights.get('growth') or {}
+    rank = growth.get('ranked') or {}
+    return {'level': int(growth.get('level') or 1), 'tier': growth.get('tier') or '黑铁',
+            'rankTier': rank.get('tier'), 'rankScore': rank.get('score'),
+            'titles': [{key: title[key] for key in ('id', 'name', 'category', 'target')}
+                       for title in growth.get('equippedTitles', [])]}
+
+
+def ac_achievements(first_accepted):
+    """Build AC milestones from server-derived evidence, never frontend flags.
+
+    Accept the insights ``{canonical_problem: first_timestamp_or_None}`` map,
+    an official_reward_evidence iterable, or an already deduplicated date list.
+    Undated public ACs count without inventing their acceptance time. Evidence
+    rows with an explicit nonofficial scope or non-AC verdict are excluded.
+    """
+    from collections.abc import Mapping
+    from insights import canonical_url
+    values = {}
+    if isinstance(first_accepted, Mapping):
+        source = first_accepted.items()
+    else:
+        source = []
+        for index, item in enumerate(first_accepted or ()):
+            if isinstance(item, Mapping):
+                if item.get('scope', 'official') != 'official' or item.get('verdict', 'AC') != 'AC':
+                    continue
+                identity = item.get('key') or item.get('problemKey') or item.get('url') or item.get('problemId')
+                if not isinstance(identity, str) or not identity:
+                    continue
+                source.append((identity, item.get('acceptedAt') or item.get('submitted_at')))
+            elif isinstance(item, (str, dt.datetime)) or item is None:
+                source.append((str(index), item))
+    for identity, value in source:
+        key = canonical_url(identity) or identity
+        stamp = value if isinstance(value, dt.datetime) else parse_time(value)
+        if stamp and stamp.tzinfo is None:
+            stamp = stamp.replace(tzinfo=dt.timezone.utc)
+        if key not in values or stamp and (values[key] is None or stamp < values[key]):
+            values[key] = stamp
+    dated = sorted(stamp for stamp in values.values() if stamp)
+    count = len(values)
+    return [{'id': f'official-{target}', 'name': f'AC {target}题',
+             'description': f'官方 AC {target} 道不同题目；样例通过不计入',
+             'unlocked': count >= target,
+             'unlockedAt': dated[target - 1].astimezone(dt.timezone.utc).isoformat() if len(dated) >= target else None,
+             'progress': min(target, count), 'target': target, 'rewardXp': xp,
+             'rewardTitle': achievement_title(f'official-{target}')}
+            for target, xp in AC_ACHIEVEMENT_REWARDS]
+
 # Rewards are explicit and versioned; a claimed row retains its original reward.
 TASKS = (
     {"id": "solve-1", "title": "今日首题", "description": "官方 AC 一道题目", "kind": "solve", "target": 1, "minDifficulty": 0, "xp": 25, "scope": "official", "version": 2},
@@ -94,6 +199,14 @@ def official_reward_evidence(rows, submissions, hub=None):
     """
     from insights import canonical_url
     metadata = {row["id"]: row for row in rows}
+    by_url = {}
+    for row in rows:
+        key = canonical_url(row.get('url'))
+        if not key:
+            continue
+        existing = by_url.get(key)
+        if existing is None or existing.get('source') == 'remote' and row.get('source') != 'remote':
+            by_url[key] = row
     result = {}
     records = sorted(submissions, key=lambda record: (record.get("submitted_at", ""), record.get("id", "")))
     for record in records:
@@ -125,7 +238,7 @@ def official_reward_evidence(rows, submissions, hub=None):
                 previous = result.get(key)
                 if previous and previous.get("source") == "submission":
                     continue  # 本机官方回执优先
-                if previous and stamp and stamp >= previous["timestamp"]:
+                if previous and stamp and previous.get('timestamp') and stamp >= previous["timestamp"]:
                     continue
                 if not previous and not stamp:
                     # hub 无日期：仍记 AC 但 day=None（不计当天任务）
@@ -136,11 +249,7 @@ def official_reward_evidence(rows, submissions, hub=None):
                     continue
                 if not stamp:
                     continue
-                difficulty = None
-                for row in rows:
-                    if canonical_url(row.get("url")) == key:
-                        difficulty = row.get("difficulty")
-                        break
+                difficulty = by_url.get(key, {}).get('difficulty')
                 if not isinstance(difficulty, (int, float)) or isinstance(difficulty, bool):
                     difficulty = None
                 result[key] = {"key": key, "problemKey": hashlib.sha256(key.encode("utf-8")).hexdigest(), "problemId": None,
@@ -178,12 +287,12 @@ def extra_achievements(evidence, records, completed, longest_streak, claimed_dat
     def add(identity, name, description, values, target):
         values = sorted(value for value in values if value)
         result.append({"id": identity, "name": name, "description": description, "unlocked": len(values) >= target,
-                       "unlockedAt": values[target - 1] if len(values) >= target else None, "progress": min(target, len(values)), "target": target})
+                       "unlockedAt": values[target - 1] if len(values) >= target else None, "progress": min(target, len(values)), "target": target, "rewardXp": achievement_reward(identity)})
     for difficulty, name in ((1500, "进阶第一步"), (1800, "攻坚突破"), (2100, "高难突破"), (2400, "钻石攻坚者"), (2700, "大师挑战者"), (3000, "宗师突破"), (3300, "王者之路"), (3600, "巅峰解题者")):
         add("difficulty-" + str(difficulty), name, f"官方首次 AC 一道难度至少 {difficulty} 的题目", [item["acceptedAt"] for item in evidence if item.get("difficulty") is not None and item["difficulty"] >= difficulty and item.get("acceptedAt")], 1)
     add("independent-5", "独立五题", "独立官方 AC 五道不同题目；看题解后的 AC 不计入", [item["acceptedAt"] for item in evidence if item.get("independent") and item.get("acceptedAt")], 5)
     add("independent-25", "独立积累", "独立官方 AC 二十五道不同题目", [item["acceptedAt"] for item in evidence if item.get("independent") and item.get("acceptedAt")], 25)
-    for target, name in ((100, '百题先锋'), (300, '算法精英'), (1000, '千题大师'), (3000, '万里宗师'), (10000, '万题王者')):
+    for target, name in ((100, '百题先锋'), (300, '算法精英'), (1000, '千题大师')):
         add('independent-' + str(target), name, f'独立首次 AC {target} 道不同题目', [item['acceptedAt'] for item in evidence if item.get('independent') and item.get('acceptedAt')], target)
     add("contest-5", "模拟赛常客", "完成五场至少训练一分钟并实际提交的模拟赛", [item.get("finishedAt") for item in completed], 5)
     training_days = {}
@@ -191,15 +300,16 @@ def extra_achievements(evidence, records, completed, longest_streak, claimed_dat
         day = local_date(record.get("submitted_at"))
         if record.get("mode") == "submit" and day:
             training_days.setdefault(day, record.get("submitted_at"))
-    for target in (3, 7, 30, 90, 180, 365, 1000):
+    for target in (3, 7, 30, 90, 180, 365, 730):
         previous, current, unlocked_at = None, 0, None
         for day in sorted(training_days):
             current = current + 1 if previous and day == previous + dt.timedelta(days=1) else 1
             if current >= target and unlocked_at is None:
                 unlocked_at = training_days[day]
             previous = day
-        result.append({"id": "streak-" + str(target), "name": f"连续训练 {target} 天", "description": "以正式提交记录计算连续训练日期", "unlocked": longest_streak >= target,
-                       "unlockedAt": unlocked_at, "progress": min(target, longest_streak), "target": target})
+        result.append({"id": "streak-" + str(target), "name": "连续训练 2 年" if target == 730 else f"连续训练 {target} 天", "description": "以正式提交记录计算连续训练日期" + ("；连续 730 天" if target == 730 else ""), "unlocked": longest_streak >= target,
+                       "unlockedAt": unlocked_at, "progress": min(target, longest_streak), "target": target, "rewardXp": achievement_reward('streak-' + str(target)),
+                       "rewardTitle": achievement_title('streak-' + str(target))})
     platforms = {item["platform"] for item in evidence if item.get("platform")}
     encountered, platform_at = set(), None
     for item in evidence:
@@ -208,7 +318,7 @@ def extra_achievements(evidence, records, completed, longest_streak, claimed_dat
             if len(encountered) >= 2:
                 platform_at = item["acceptedAt"]
                 break
-    result.append({"id": "platforms-2", "name": "跨平台练习", "description": "通过来自两个平台的本地审核题目", "unlocked": len(platforms) >= 2, "unlockedAt": platform_at, "progress": min(2, len(platforms)), "target": 2})
+    result.append({"id": "platforms-2", "name": "跨平台练习", "description": "通过来自两个平台的本地审核题目", "unlocked": len(platforms) >= 2, "unlockedAt": platform_at, "progress": min(2, len(platforms)), "target": 2, "rewardXp": achievement_reward('platforms-2')})
     for target, name in ((1, "领取每日奖励"), (10, "任务积累"), (50, "日积月累")):
         add("missions-" + str(target), name, f"完成并领取 {target} 项每日任务奖励", claimed_dates, target)
     return result
