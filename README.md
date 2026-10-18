@@ -3,21 +3,20 @@
 TB 将题库、图文题解、C++ 编辑、本地评测和训练记录放在同一个工作台，支持 Codeforces、AtCoder、牛客和洛谷。账号数据存放在与排行榜共用的服务端 MySQL，本机 SQLite 保存工作副本和待同步记录。
 
 <!-- release-status:start -->
-**当前正式版为 v1.1.1。** [安装包、便携版、增量包与校验清单](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.1.1)。本次正式包固定为 960 组默认/详细题解，后续题解续写独立保留。
-v1.1.2 正在验证与打包，尚未正式发布；当前正式下载仍为 v1.1.1。
+**当前正式版为 v1.1.2。** [安装包、便携版、增量包与校验清单](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.1.2)。正式包固定为 960 组两版题解，后续题解续写独立保留。
 <!-- release-status:end -->
 
-[项目主页](https://3097729287.github.io/acm-algo-trainer/) · [使用说明](docs/usage.md) · [1.1.1 更新说明](docs/releases/1.1.1.md) · [开发与构建](docs/development.md) · [English](README.en.md)
+[项目主页](https://3097729287.github.io/acm-algo-trainer/) · [使用说明](docs/usage.md) · [1.1.2 更新说明](docs/releases/1.1.2.md) · [开发与构建](docs/development.md) · [English](README.en.md)
 
 ![TB 训练工作台](docs/assets/workbench.png)
 
 ## 安装与更新
 
-Windows 10/11 x64。[安装包](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.1/TB-Setup-1.1.1-win64.exe)包含 C++ 编译器和离线 WebView2 组件；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.1/TB-1.1.1-win64.zip)需要完整解压。
+Windows 10/11 x64。[安装包](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.2/TB-Setup-1.1.2-win64.exe)包含 C++ 编译器和离线 WebView2 组件；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.2/TB-1.1.2-win64.zip)需要完整解压。
 
 保存草稿、退出 TB 后安装到原目录，个人数据库和导入内容保留。跨电脑使用同一账号时，各电脑应升级到同一新版；1.1.1 起无需扩展，原站登录保存在独立的提交浏览器配置中。自动更新先保存草稿、在线备份 SQLite、校验 SHA-256，再替换程序；进行中的提交或模拟赛结束后继续。实际增量包、`BUILD-INFO.json`、`RELEASE-MANIFEST.json` 与 `SHA256SUMS.txt` 以发布页为准。
 
-## v1.1.2（准备发布）
+## v1.1.2
 
 - 重现赛改为原站表单提交，官方回执关联本场成绩；长题号不再重叠，删除记录同时移除独立加入的训练项。
 - 记住 TB 专用浏览器与本机加密会话；登录恢复通过版本确认跳过未变化的大快照。
@@ -40,7 +39,7 @@ Windows 10/11 x64。[安装包](https://github.com/3097729287/acm-algo-trainer/r
 
 - **称号与成长：** 累计 AC 保留 1–2000 题的 12 档目标，500、750、1000、1500、2000 题改奖永久称号；连续训练 30、90、180、365、730 天改奖称号，最高目标为两年。自动佩戴最高 AC 与最高连续训练称号；旧版已发经验保留，不追扣或重复发放。
 - **成就提示：** 新达成卡片显示边框，鼠标经过或键盘聚焦该卡片才标为已读；已读状态随账号同步。点击顶部段位经验框直接打开训练概览，最高已达成 AC 成就带奖杯，另显示下一个目标；每日任务提示只留在顶部，我的训练显示未完成待办提示。
-- **账号与排行：** 成长页集中展示用户名、公开 ID、勋章、账号管理、CF/AtCoder 公开评分和翻译 API。排行榜展示称号、等级、段位与排位分；公开 ID 不采用登录号。当天登录零题也入榜，零题不领取名次奖励。
+- **账号与排行：** 成长页集中展示用户名、公开 ID、勋章、账号管理、CF/AtCoder 公开评分和翻译 API。排行榜展示称号、等级、段位与排位分；公开 ID 仅留在账号页，榜单不公开 ID。当天登录零题也入榜，零题不领取名次奖励。
 - **操作与响应：** 比赛列表增加“开始比赛”以启动重现赛；推荐题整行可进入单题。训练、键盘和快捷操作合并。比赛列表每页 40 场，工作区没有变化时复用已有对象；隐藏窗口暂停常规数据和目标轮询，恢复时刷新。后台会话检查、上传与软件自动更新继续运行。
 - **数据同步：** 训练、完整提交代码、草稿、目标、每日题单、经验账本、收藏和账号偏好跨电脑恢复。同一账号只保留一个有效会话；另一台登录后，联网旧设备约三秒内检测失效。首次合并有备份，冲突草稿另存。
 - **加载与内容：** 题库紧凑响应、缓存序列化结果、编辑器按需加载、后台限量读取题面与缩短个人数据锁，减少等待。现有 960 道带默认题解的题目均有详细版，包括牛客周赛 162–165 全部 26 题；本批为 XCPC 与蓝桥杯新增 151 组两版题解，覆盖 127 道不同题目；2026 四川省赛和秦皇岛邀请赛的已筛选范围均已补齐，蓝桥杯 2026 初赛 B 组八题已全部补齐，国赛 B 组 A–I 九题已补双版题解（J 题等待题面更正），武汉邀请赛的已筛选六题已补齐，[完成与待补清单](docs/editorial-content-20261016.md)。
@@ -51,7 +50,7 @@ Windows 10/11 x64。[安装包](https://github.com/3097729287/acm-algo-trainer/r
 
 [账号与同步](docs/accounts.md) · [架构](docs/architecture.md) · [1.0.19 内容记录](docs/releases/1.0.19.md) · [1.0.20 同步与性能记录](docs/releases/1.0.20.md) · [已发布 1.0.18](docs/releases/1.0.18.md)
 
-上述题库统计对应所读源码的内容；v1.1.1 二进制包的库存以 `BUILD-INFO.json` 为准（960 组两版题解）。后续续写不会替换已发布资产。
+上述题库统计对应所读源码的内容；v1.1.2 二进制包的库存以 `BUILD-INFO.json` 为准（960 组两版题解）。后续续写不会替换已发布资产。
 
 ## 数据与服务
 
@@ -59,7 +58,7 @@ Windows 10/11 x64。[安装包](https://github.com/3097729287/acm-algo-trainer/r
 
 账号快照通过 HTTPS 同步完整个人代码和引用题目的轻量资料、已缓存题面；站点 Cookie、翻译密钥、DPAPI 密文和机器配置保留本机。换电脑后须分别完成原站登录及翻译密钥配置。快照具有版本检查、校验和容量限制，网络失败保留本机未上传记录。
 
-账号、数据库和排行榜共用现有服务器。`005_account_state.sql` 和 `006_public_progress.sql` 已在原 MySQL 上部署；2026-10-16 公网 HTTPS 健康检查确认共享服务 1.1.0、账号同步协议 1、单设备会话及公开成长协议 1。客户端已于 2026-10-18 发布并在本机完成升级。应用保留 Python 本机 API 与 Node.js 共享服务，没有改写为 Go。[服务部署](server/leaderboard/README.md)。
+账号、数据库和排行榜共用现有服务器。`005_account_state.sql`、`006_public_progress.sql` 和 `007_unique_nicknames.sql` 已在原 MySQL 上部署；2026-10-19 HTTPS 健康检查确认共享服务 1.1.2、账号与公开成长协议 1、单设备会话、昵称唯一性及快照版本恢复。客户端 v1.1.2 已发布并在本机完成升级。应用保留 Python 本机 API 与 Node.js 共享服务，没有改写为 Go。[服务部署](server/leaderboard/README.md)。
 
 ## 开发
 
