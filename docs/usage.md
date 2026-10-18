@@ -1,6 +1,6 @@
 # 使用 TB
 
-本文涵盖 [v1.1.0](releases/1.1.0.md)，正在准备正式发布；当前[正式下载](https://github.com/3097729287/acm-algo-trainer/releases/latest)仍为 v1.0.18。账号同步沿用原排行榜服务器和原 MySQL，每台电脑应升级到同一新版。Windows 10/11 x64 安装到原目录，个人记录与设置继续保留。
+本文涵盖已发布的 [v1.1.0](releases/1.1.0.md)；[正式下载](https://github.com/3097729287/acm-algo-trainer/releases/latest)提供当前客户端。账号同步沿用原排行榜服务器和原 MySQL，每台电脑应升级到同一新版。Windows 10/11 x64 安装到原目录，个人记录与设置继续保留。
 
 ## 账号与跨电脑同步
 

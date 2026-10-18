@@ -3,7 +3,7 @@
 TB combines a problem library, illustrated editorials, C++ editing, local sample judging and personal training records for Codeforces, AtCoder, Nowcoder and Luogu. Account data and rankings share the existing server-side MySQL database; local SQLite retains a durable working copy and pending changes.
 
 <!-- release-status:start -->
-**Current source: v1.1.0, preparing for release.** The features below describe that target version. [v1.0.18](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.0.18) remains the published stable version; [latest stable downloads](https://github.com/3097729287/acm-algo-trainer/releases/latest) continue to provide published assets. Version 1.1.0 incorporates the unpublished 1.0.19/1.0.20 functionality and editorial updates.
+**Current stable release: v1.1.0.** This release combines the 1.0.19/1.0.20 features, library updates and current interface work. The [GitHub release page](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.1.0) provides the installer, portable archive, deltas and checksums.
 <!-- release-status:end -->
 
 [Usage](docs/usage.md) · [1.1.0 release notes](docs/releases/1.1.0.md) · [Build instructions](docs/development.md) · [中文](README.md)
@@ -12,7 +12,7 @@ TB combines a problem library, illustrated editorials, C++ editing, local sample
 
 ## Install and upgrade
 
-Windows 10/11 x64. Target assets are [TB-Setup-1.1.0-win64.exe](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.0/TB-Setup-1.1.0-win64.exe) and [TB-1.1.0-win64.zip](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.0/TB-1.1.0-win64.zip); use the stable download link above until publication. The installer includes the compiler and offline WebView2 runtime. Extract the complete portable archive.
+Windows 10/11 x64. The [installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.0/TB-Setup-1.1.0-win64.exe) includes the compiler and offline WebView2 runtime. Extract the complete [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.0/TB-1.1.0-win64.zip).
 
 Save drafts, close TB and update the existing directory. Personal databases and imported content remain intact. Upgrade each computer to the same current release and reload the bundled browser extension. Automatic updates wait for saved drafts and active submissions/mocks, make online SQLite backups, verify SHA-256 and replace program files. Available deltas, extension ZIP, `BUILD-INFO.json`, `RELEASE-MANIFEST.json` and `SHA256SUMS.txt` are listed on the release page.
 
@@ -33,7 +33,7 @@ Automatic discovery follows the selected families: Nowcoder Weekly, Beginner, Pr
 
 Public library JSON under `data/library/` is tracked in git and rebuilt into `data/library.sqlite3`. Personal databases and credentials are excluded from distributions. Account snapshots include full personal code and referenced problem metadata/cached statements, but exclude site cookies, translation keys, DPAPI ciphertext and machine settings. Configure site login and translation keys separately on each computer.
 
-Migrations `005_account_state.sql` and `006_public_progress.sql` are deployed on the existing server and MySQL database. Public HTTPS checks on October 16, 2026 confirmed service version 1.1.0, account-state protocol 1, single-device sessions and public-progress protocol 1. Client installation and upgrade packages are still being prepared for release. The local backend remains Python and the shared service remains Node.js.
+Migrations `005_account_state.sql` and `006_public_progress.sql` are deployed on the existing server and MySQL database. Public HTTPS checks on October 16, 2026 confirmed service version 1.1.0, account-state protocol 1, single-device sessions and public-progress protocol 1. The client was released on October 18, 2026, and the local installation was upgraded. The local backend remains Python and the shared service remains Node.js.
 
 Python 3.13, Node.js 24 and a C++17 compiler are required for development. Run `python scripts/check.py`, the frontend build and relevant Playwright tests. Packaged releases also require isolated desktop, judging, fresh-install, upgrade and retention checks. Source, documentation, release tag and build metadata must agree.
 

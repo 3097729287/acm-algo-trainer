@@ -24,7 +24,7 @@ $env:TB_STATE_DIR = "$PWD/.backups/desktop-dev-state"
 python desktop/launch.py
 ```
 
-API 的可选参数见 `python backend/backend.py --help`。当前源码为准备发布的 [v1.1.0](releases/1.1.0.md)，当前正式下载为 v1.0.18。原服务器的 `005` 账号同步与 `006` 公开成长资料迁移均已完成，公网 HTTPS 已确认服务 1.1.0；客户端安装与升级验证仍待完成。已发布版本的准确源码以对应 Git 标签与 BUILD-INFO 为准。
+API 的可选参数见 `python backend/backend.py --help`。当前正式版为 [v1.1.0](releases/1.1.0.md)，源码标签、`BUILD-INFO.json` 与已发布资产均指向提交 `474d347b34fbd3815072d78ceed41c6abec18f72`。原服务器的 `005` 账号同步与 `006` 公开成长资料迁移均已完成，公网 HTTPS 已确认服务 1.1.0；本机客户端已升级，8 个个人数据库和 3 个快捷方式均已核对保留。
 
 ```powershell
 python scripts/check.py
@@ -163,8 +163,8 @@ node tests/ranking-public-progress.mjs
 
 已完成源码全套 461 项检查，后续增量升级与构建元数据的 17 项定向检查也全部通过。前端构建、12 项界面检查、训练概览、隐藏/恢复轮询及 3 种偏好同步场景通过；覆盖顶部直接概览、成就 hover/focus 独立已读、称号样式、账号/翻译入口、比赛分页与直接重现赛。常规界面数据和目标轮询在隐藏窗口暂停，恢复可见立即读取状态与待处理结果；后台会话心跳、上传、任务和软件自动更新继续运行。无变化工作区保持对象引用，提交或同步后的更新仍会刷新。
 
-数学标题、Markdown 和讲义阅读器按需加载。当前构建主入口 871.12 → 423.61 KB，首屏另有 8.90 KB JSX runtime，编辑器约 560 KB 按需读取；比较时须计算所有首屏块，不能只报入口当总下载量。WebView Normal/Low 与取消请求头订阅的三轮隔离测量见[发布说明](releases/1.1.0.md#响应与加载)。它验证最小化时草稿和计时器继续执行，不使用 Suspend；真实 Windows WebView 的 7 项官方流程和 8 项静默流程 fixture 也已通过，未向真实原站提交。最终新安装、完整升级与资产检查仍待完成。
+数学标题、Markdown 和讲义阅读器按需加载。当前构建主入口 871.12 → 423.61 KB，首屏另有 8.90 KB JSX runtime，编辑器约 560 KB 按需读取；比较时须计算所有首屏块，不能只报入口当总下载量。WebView Normal/Low 与取消请求头订阅的三轮隔离测量见[发布说明](releases/1.1.0.md#响应与加载)。它验证最小化时草稿和计时器继续执行，不使用 Suspend；真实 Windows WebView 的 7 项官方流程和 8 项静默流程 fixture 也已通过，未向真实原站提交。v1.1.0 的全新安装、完整升级、更新器重启和增量包验证均已通过。
 
 旧版增量更新器不接受根目录新增 `BUILD-INFO.json` 和 `SOURCE-MANIFEST.json`。构建包在 `resources/` 放置两份权威副本；面向旧客户端的增量清单省略这两个根路径，经原有资源白名单交付。冻结程序通用启动入口跳过更新助手，在普通启动及隔离发布探针前校验版本、40 位提交号与来源清单 SHA-256，再原子恢复根目录信息；大小有界、拒绝符号链接及 junction、失败回滚并留日志。新版白名单仅增加这两个根文件供后续升级使用。`test_update_patch` 与 `test_release_metadata` 的 17 项定向检查覆盖旧版路径兼容、幂等、非法资源拒绝、回滚和个人状态字节/修改时间不变；正式旧版 EXE 的完整增量升级还须由构建探针验证。
 
-正式发布切换时，同步两份 README 的 `release-status` 区块、`docs/index.html` 的版本标识与待发布提示，以及 usage/accounts/architecture/development/1.1.0 发布说明的准备状态。只有收到部署报告才将 006 标为已部署，只有资产存在才将 1.1.0 标为正式下载。目标安装包和便携版链接已经包含 1.1.0；发布前的可用入口仍为 `releases/latest`。最终构建提交须含正确的目标链接和真实状态，标签与 `BUILD-INFO.json` 指向该提交；发布后逐项核对资产名称、哈希及下载地址。
+2026-10-18 发布切换已完成：两份 README、主页、usage/accounts/architecture/development 与本版说明均显示 v1.1.0 为当前正式版。`v1.1.0` 标签和 `BUILD-INFO.json` 指向 `474d347b34fbd3815072d78ceed41c6abec18f72`；GitHub 发布页的 9 个资产名称、大小和 SHA-256 与本地清单逐项一致。下一版仍须在构建提交、标签和发布页之间执行同样的对应检查。
