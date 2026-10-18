@@ -3,22 +3,20 @@
 TB combines a problem library, illustrated editorials, C++ editing, local sample judging and personal training records for Codeforces, AtCoder, Nowcoder and Luogu. Account data and rankings share the existing server-side MySQL database; local SQLite retains a durable working copy and pending changes.
 
 <!-- release-status:start -->
-**Source v1.1.1 is being prepared and is not yet published.** Stable downloads below still point to v1.1.0.
-
-**Current stable release: v1.1.0.** This release combines the 1.0.19/1.0.20 features, library updates and current interface work. The [GitHub release page](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.1.0) provides the installer, portable archive, deltas and checksums.
+**Current stable release: v1.1.1.** [Installer, portable archive, delta and checksums](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.1.1). The release package contains 960 default/detailed editorial pairs; subsequent editorial work remains separate.
 <!-- release-status:end -->
 
-[Usage](docs/usage.md) · [1.1.0 release notes](docs/releases/1.1.0.md) · [Build instructions](docs/development.md) · [中文](README.md)
+[Usage](docs/usage.md) · [1.1.1 release notes](docs/releases/1.1.1.md) · [Build instructions](docs/development.md) · [中文](README.md)
 
 ![TB workbench](docs/assets/workbench.png)
 
 ## Install and upgrade
 
-Windows 10/11 x64. The [installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.0/TB-Setup-1.1.0-win64.exe) includes the compiler and offline WebView2 runtime. Extract the complete [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.0/TB-1.1.0-win64.zip).
+Windows 10/11 x64. The [installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.1/TB-Setup-1.1.1-win64.exe) includes the compiler and offline WebView2 runtime. Extract the complete [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.1/TB-1.1.1-win64.zip).
 
 Save drafts, close TB and update the existing directory. Personal databases and imported content remain intact. Upgrade each computer to the same current release and log in in the dedicated submission browser when using v1.1.1. Automatic updates wait for saved drafts and active submissions/mocks, make online SQLite backups, verify SHA-256 and replace program files. Available deltas, `BUILD-INFO.json`, `RELEASE-MANIFEST.json` and `SHA256SUMS.txt` are listed on the release page.
 
-## Version 1.1.1 (in preparation)
+## Version 1.1.1
 
 - Visible browser submission replaces the silent transport. TB opens an original-site form in a dedicated Edge/Chrome profile, fills code, clicks once per explicit intent and follows that attempt's receipt. No browser extension is required. Log in once in that profile; verification stays with the source site.
 - Startup validates a saved session through the authenticated state request, avoids replacing unchanged personal tables, and coalesces slow login requests. Authentication and cross-device takeover checks remain in place.
@@ -40,6 +38,8 @@ Save drafts, close TB and update the existing directory. Personal databases and 
 The library contains **5795 problems: 5622 visible and 173 hidden**, plus **2215 statements, 960 default editorials, 960 detailed editorials and 376 lessons**. Other entries are not guaranteed to have offline statements or editorials. Source-site failures retain cached content and drafts.
 
 Automatic discovery follows the selected families: Nowcoder Weekly, Beginner, Practice and Challenge; Luogu Introductory, Basic and Monthly Div.2; CF Div.2/3/4; AtCoder ABC/ARC. Existing XCPC and Lanqiao collections remain. Unsupported automatic entries and those without usable statement/samples or an editorial are hidden without deleting personal history. Existing official ratings and tags also refresh; unknown ratings remain unknown.
+
+The inventory below follows the source snapshot being read. The v1.1.1 binary inventory is pinned in BUILD-INFO.json (960 editorial pairs). Later editorial work is not silently substituted into that release.
 
 ## Data, services and development
 

@@ -3,22 +3,20 @@
 TB 将题库、图文题解、C++ 编辑、本地评测和训练记录放在同一个工作台，支持 Codeforces、AtCoder、牛客和洛谷。账号数据存放在与排行榜共用的服务端 MySQL，本机 SQLite 保存工作副本和待同步记录。
 
 <!-- release-status:start -->
-**当前源码为 v1.1.1，尚未正式发布。** 下方正式下载仍指向 v1.1.0。
-
-**当前正式版为 v1.1.0。** 本版把 1.0.19/1.0.20 的本地功能、题库补充和本轮界面调整一并交付；[GitHub 发布页](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.1.0)提供安装包、便携版、增量更新和校验清单。
+**当前正式版为 v1.1.1。** [安装包、便携版、增量包与校验清单](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.1.1)。本次正式包固定为 960 组默认/详细题解，后续题解续写独立保留。
 <!-- release-status:end -->
 
-[项目主页](https://3097729287.github.io/acm-algo-trainer/) · [使用说明](docs/usage.md) · [1.1.0 更新说明](docs/releases/1.1.0.md) · [开发与构建](docs/development.md) · [English](README.en.md)
+[项目主页](https://3097729287.github.io/acm-algo-trainer/) · [使用说明](docs/usage.md) · [1.1.1 更新说明](docs/releases/1.1.1.md) · [开发与构建](docs/development.md) · [English](README.en.md)
 
 ![TB 训练工作台](docs/assets/workbench.png)
 
 ## 安装与更新
 
-Windows 10/11 x64。[安装包](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.0/TB-Setup-1.1.0-win64.exe)包含 C++ 编译器和离线 WebView2 组件；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.0/TB-1.1.0-win64.zip)需要完整解压。
+Windows 10/11 x64。[安装包](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.1/TB-Setup-1.1.1-win64.exe)包含 C++ 编译器和离线 WebView2 组件；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.1/TB-1.1.1-win64.zip)需要完整解压。
 
 保存草稿、退出 TB 后安装到原目录，个人数据库和导入内容保留。跨电脑使用同一账号时，各电脑应升级到同一新版；1.1.1 起无需扩展，原站登录保存在独立的提交浏览器配置中。自动更新先保存草稿、在线备份 SQLite、校验 SHA-256，再替换程序；进行中的提交或模拟赛结束后继续。实际增量包、`BUILD-INFO.json`、`RELEASE-MANIFEST.json` 与 `SHA256SUMS.txt` 以发布页为准。
 
-## v1.1.1（准备发布）
+## v1.1.1
 
 - **可见浏览器提交：** 取消默认静默通道。点击提交后，在 TB 专用的 Edge/Chrome 配置打开原站表单、填入代码、按本次意图点击一次提交，再跟踪对应回执。无需浏览器扩展；首次在这个窗口登录原站，登录和验证码由原站处理。
 - **启动恢复：** 通过一次已认证的状态请求恢复会话，跳过无变化个人表的备份和重写，合并慢登录请求；继续校验账号和单设备会话。
@@ -42,6 +40,8 @@ Windows 10/11 x64。[安装包](https://github.com/3097729287/acm-algo-trainer/r
 新增自动比赛限于指定系列：牛客周赛、小白月赛、练习赛、挑战赛；洛谷入门赛、基础赛、月赛 Div.2；CF Div.2/3/4；AtCoder ABC/ARC。XCPC 与蓝桥杯继续保留。超范围或既无可用题面样例也无题解的自动条目隐藏，个人训练和代码不删除；既有题目的官方难度与标签也会刷新，未知评级不编造。
 
 [账号与同步](docs/accounts.md) · [架构](docs/architecture.md) · [1.0.19 内容记录](docs/releases/1.0.19.md) · [1.0.20 同步与性能记录](docs/releases/1.0.20.md) · [已发布 1.0.18](docs/releases/1.0.18.md)
+
+上述题库统计对应所读源码的内容；v1.1.1 二进制包的库存以 `BUILD-INFO.json` 为准（960 组两版题解）。后续续写不会替换已发布资产。
 
 ## 数据与服务
 

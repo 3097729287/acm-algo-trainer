@@ -1,5 +1,7 @@
 # 开发、验证与构建
 
+当前客户端正式版为 [v1.1.1](releases/1.1.1.md)。可见浏览器提交无需扩展；首次需在 TB 打开的浏览器中登录。正式包题解为 960 组，后续源码内容续写不改写已发布包。
+
 ## 1.1.1 发布检查
 
 本版使用可见浏览器适配层，不再分发浏览器扩展 ZIP。版本同步仍包含保留的扩展源码清单，以便历史 fixture 使用；实际安装包与资产清单不包含扩展。运行 scripts/check.py、前端构建、tests/external-browser.mjs、tests/workspace-decorations.mjs、tests/app.mjs 和 tests/rankings.mjs；从最终已推送提交重新构建公共题库、安装包、便携版及上一正式版增量包，并完成隔离全新安装、升级和草稿保留验证。
