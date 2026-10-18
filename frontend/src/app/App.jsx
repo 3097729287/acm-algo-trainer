@@ -78,6 +78,7 @@ import {
 import { organizeCategories } from "@/models/model.js";
 import NavigationSettings, { orderedPages } from "@/pages/NavigationSettings.jsx";
 import RankingsPage from "@/pages/CommunityPanel.jsx";
+import { AppearanceSettings, TrainingPulse } from "@/components/WorkspaceDecorations.jsx";
 import MockSetup from "@/app/MockSetup.jsx";
 import GoalsPanel, { GoalReminder } from '@/pages/GoalsPanel.jsx';
 import BrowserPreparation from '@/pages/BrowserPreparation.jsx';
@@ -114,6 +115,9 @@ const PAGES = [
   { id: "rankings", label: "排行榜", icon: ListOrdered, key: "" },
 ];
 const DEFAULTS = {
+  panelStyle: "outlined",
+  backdrop: "none",
+  widgets: true,
   theme: "dark",
   accent: "violet",
   motion: true,
@@ -711,6 +715,10 @@ export default function App() {
   useEffect(() => {
     try { localStorage.setItem(preferencesKey(), JSON.stringify(prefs)); } catch { /* SQLite/cloud still retain account preferences. */ }
     const root = document.documentElement;
+    root.dataset.panelStyle = prefs.panelStyle;
+    root.dataset.backdrop = prefs.backdrop;
+    const background = localStorage.getItem("tb.appearance.background");
+    if (background?.startsWith("data:image/jpeg;base64,")) root.style.setProperty("--workspace-image", `url("${background}")`);
     root.dataset.theme = prefs.theme;
     root.dataset.accent = prefs.accent;
     root.dataset.motion = prefs.motion ? "on" : "off";
@@ -1984,11 +1992,12 @@ export default function App() {
         </section>}
         </div>
         <div className="settings-column">
-        {settingsTab === "appearance" && <section><h2>账号与身份</h2><p>在成长与能力中管理账号、公开评分和翻译 API。</p><button className="secondary" onClick={() => openAccounts()}><UserRound size={16} />管理账号与身份</button></section>}
+        {settingsTab === "appearance" && <AppearanceSettings prefs={prefs} setPrefs={setPrefs} onError={message => notice(message, "error")} />}
         {settingsTab === "updates" && <section className="settings-updates">
           <h2>更新与自动收录</h2>
           <SoftwareUpdatePanel update={softwareUpdate} />
           <UpdatePanel
+            softwareState={softwareUpdate.state}
             showNotifications={false}
             onContent={openUpdate}
             hub={hub}
@@ -2283,7 +2292,7 @@ export default function App() {
               onNext={nextPractice}
             />
           ) : ["mine", "library"].includes(page) ? (
-            page === "mine" ? <div className="training-workspace"><GoalsPanel api={api} onTrain={openPractice} onManage={() => go("goals")} dailyOnly />{renderListPage()}</div> : renderListPage()
+            page === "mine" ? <div className="training-workspace"><div className={prefs.widgets ? "training-dashboard" : "training-dashboard-plain"}><GoalsPanel api={api} onTrain={openPractice} onManage={() => go("goals")} dailyOnly />{prefs.widgets && <TrainingPulse insights={insights} workspace={workspace}/>}</div>{renderListPage()}</div> : renderListPage()
           ) : page === "mock" ? (
             <div className="mock-page"><div className="mock-page-tabs filter-tabs" role="tablist" aria-label="模拟赛页面"><button role="tab" aria-selected={mockTab === "create" && !record} className={mockTab === "create" && !record ? "active" : ""} onClick={() => { setMockTab("create"); setRecord(null); }}>{active ? "进行中的比赛" : "创建训练"}</button><button role="tab" aria-selected={mockTab === "history" || !!record} className={mockTab === "history" || record ? "active" : ""} onClick={() => { setMockTab("history"); setRecord(null); }}>模拟赛记录 <small>{workspace.contests.length}</small></button></div>{record ? recordDetail() : mockTab === "history" ? <MockHistory contests={workspace.contests} onDelete={async body => { const answer = await api("contests/delete", body); applyWorkspace(answer.workspace); notice(`已删除 ${answer.deleted} 场模拟赛记录`); }} onSelect={openRecord} onResume={(contest) => { setMockTab("create"); setMockSlot(contest.slots[0]?.id); }} onCreate={() => setMockTab("create")} /> : active ? (
               <div className="contest-player">
@@ -2352,6 +2361,7 @@ export default function App() {
             />
           ) : page === "growth" ? (
             <GrowthPage
+              onRankings={() => go("rankings")}
               api={api}
               onGoalsChanged={() => api("workspace").then(applyWorkspace)}
               insights={insights}
@@ -2409,6 +2419,7 @@ export default function App() {
       {dialog === "updates" && (
         <Modal title="更新与新内容" onClose={() => setDialog(null)} wide>
           <UpdatePanel
+            softwareState={softwareUpdate.state}
             onContent={openUpdate}
             hub={hub}
             api={api}

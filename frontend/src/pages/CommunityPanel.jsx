@@ -51,8 +51,8 @@ function RankingIdentity({ item, period, self }) {
   const progress = item.publicProgress;
   const identity = item.publicId || (item.userId ? 'TB-' + item.userId.replaceAll('-', '').toUpperCase() : '');
   return <div className="ranking-identity"><div className="ranking-identity-heading"><span className="ranking-user-name">{item.count > 0 && item.rank > 0 && item.rank <= 3 && <RankingMedal period={period} rank={item.rank}/>}<strong>{item.nickname || item.displayName || '用户'}</strong></span>{self && <span className="tag">我</span>}
-    {progress?.titles?.map(title => <span className="ranking-title-badge" key={title.id} title={`${title.category === 'streak' ? '连续训练' : 'AC'} ${title.target}${title.category === 'streak' ? ' 天' : ' 题'}`}><Award size={14}/>{title.name}</span>)}</div>
-    {identity && <span className="ranking-public-id" title={identity}>ID：{identity}</span>}
+    {progress?.titles?.map(title => <span className="ranking-title-badge" key={title.id} title={`${title.category === 'streak' ? '连续训练' : 'AC'} ${title.target}${title.category === 'streak' ? ' 天' : ' 题'}`}><Award size={14}/>{title.name}</span>)}
+    {identity && <span className="ranking-public-id" title={identity}>ID：{identity}</span>}</div>
     {progress ? <div className="ranking-public-progress"><span>Lv.{progress.level}</span><span>{progress.tier}</span><span>{progress.rankTier ? `排位 ${progress.rankTier} · ${Number(progress.rankScore).toLocaleString('zh-CN')} 分` : '排位未解锁'}</span></div> : <span className="ranking-public-progress ranking-progress-pending">成长资料待同步</span>}
   </div>;
 }
@@ -118,6 +118,7 @@ export default function RankingsPage({ api, onConfigure, onError }) {
       <button className="progress-button" onClick={snapshot?.configured ? sync : load} disabled={busy || deleting}><RefreshCw size={14} className={busy ? 'spin' : ''}/>{snapshot?.configured ? '同步与刷新' : '刷新'}</button>
     </div></div>
     <div className="ranking-tabs" role="tablist" aria-label="排行榜时间范围">{periods.map(([value, title]) => <button role="tab" disabled={deleting} aria-selected={period === value} className={period === value ? 'active' : ''} key={value} onClick={() => setPeriod(value)}>{title}</button>)}</div>
+    {snapshot && <div className="ranking-board-summary"><div><UserRound size={17}/><span>本榜训练者</span><b>{entries.length}</b></div><div><Check size={17}/><span>本榜通过</span><b>{entries.reduce((sum,item)=>sum+Number(item.count||0),0)}</b></div><div><Trophy size={17}/><span>我的过题</span><b>{entries.find(item=>item.userId===snapshot.self?.userId)?.count ?? snapshot.self?.count ?? 0}</b></div></div>}
     <p className="progress-small">按不同题目的首次官方 AC 数排名，同分按完成时间先后排序。{snapshot?.date ? `统计日期：${snapshot.date}。` : ''}</p>
     <div className="ranking-reward-rule"><Sparkles size={16}/>{period === 'total' ? <><b>累计荣誉</b>前三名佩戴专属冠饰徽章<span>九种奖牌，累计榜高于周榜，周榜高于日榜</span></> : <><b>{period === 'daily' ? '每日奖励' : '每周奖励'}</b>第一名 +{awards[0]} · 第二名 +{awards[1]} · 第三名 +{awards[2]} XP<span>{period === 'daily' ? '北京时间每天 0 点结算前一日' : '北京时间每周日 0 点结算前一周'} · 自动到账</span></>}</div>
     {message && <p className="ranking-operation-message" role="status">{message}</p>}

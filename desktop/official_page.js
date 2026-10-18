@@ -136,7 +136,7 @@ async function submit(manual=false){
 if(manual&&work.manualFilled)return send({status:'awaiting_submit',message:'代码已填入浏览器，请在官网点击提交。结果会自动同步到 TB。'});
 const state=inspect();if(state.status==='needs_login'||!manual&&(['needs_verification'].includes(state.status)||ctx.platform==='AtCoder'&&['loading','error'].includes(state.status)))return send(state);
 const checkpoint=value=>postMessage({tbOfficial:true,sessionId:ctx.sessionId,...value});
-if(!manual&&lgReceipt?.hasSubmitApi())return lgReceipt.submitApi(checkpoint);
+if(!manual&&!ctx.nativeFormOnly&&lgReceipt?.hasSubmitApi())return lgReceipt.submitApi(checkpoint);
 if(!hasEditor())return send({status:manual?'awaiting_submit':'error',attempted:false,message:manual?'请在浏览器完成验证并打开提交编辑器，TB 会继续尝试填入代码。':'没有找到原站代码编辑器，请进入本题提交页；不会点击其它表单。'});
 let task=!ctx.problem,filled=0;
 document.querySelectorAll('select').forEach(s=>{const field=(s.name||s.id||'').toLowerCase();if(/problem|task/.test(field)&&ctx.problem){const o=[...s.options].find(o=>o.value===ctx.problem);if(o){if(s.value!==o.value){s.value=o.value;s.dispatchEvent(new Event('change',{bubbles:true}));}task=true;}}});
@@ -144,7 +144,7 @@ if(['牛客','洛谷'].includes(ctx.platform))task=location.pathname===new URL(c
 if(!task)return send({status:'error',attempted:false,message:'未能准确选定本题，已停止；请在原站确认题目。'});
 const compiler=await selectOfficialCompiler(ctx.code,ctx.platform);
 if(!compiler)return send({status:'error',attempted:false,message:'没有找到支持当前代码的 C++17 / C++20 / C++23 编译器，请在原站确认语言后重试。'});
-if(!manual&&ncReceipt?.hasLegacyApi())return ncReceipt.submitLegacy(compiler,checkpoint);
+if(!manual&&!ctx.nativeFormOnly&&ncReceipt?.hasLegacyApi())return ncReceipt.submitLegacy(compiler,checkpoint);
 editors().forEach(e=>{Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,'value').set.call(e,ctx.code);e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));filled++;});
 document.querySelectorAll('.CodeMirror').forEach(e=>{if(e.CodeMirror){e.CodeMirror.setValue(ctx.code);filled++;}});document.querySelectorAll('.ace_editor').forEach(e=>{try{if(window.ace){window.ace.edit(e).setValue(ctx.code,-1);filled++;}}catch{}});try{window.monaco?.editor?.getModels?.().filter(m=>!m.isDisposed()&&/cpp|c\+\+/.test(m.getLanguageId?.()||'')).forEach(m=>{m.setValue(ctx.code);filled++;});}catch{}
 document.querySelectorAll('.cm-editor .cm-content').forEach(e=>{const view=e.cmView?.view;if(view?.state?.doc&&view?.dispatch){view.dispatch({changes:{from:0,to:view.state.doc.length,insert:ctx.code}});filled++;}});

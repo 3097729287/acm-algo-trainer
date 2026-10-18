@@ -1,0 +1,56 @@
+import assert from 'node:assert/strict';
+import {chromium} from 'playwright';
+import {createServer} from 'vite';
+import {mkdir} from 'node:fs/promises';
+const vite=await createServer({server:{host:'127.0.0.1',port:0}});await vite.listen();
+const browser=await chromium.launch({channel:'msedge',headless:true});
+const page=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];
+page.on('pageerror',e=>errors.push(e.message));
+let accountCalls=0;
+const owner='10000000-0000-4000-8000-000000000001';
+const growth={level:8,tier:'大师',badge:'master',currentLevelXp:400,nextLevelXp:1600,totalXp:6000,levelCosts:[200,400],levelName:'算法设计'};
+const entries=[{rank:1,userId:owner,nickname:'我的训练',count:0,publicProgress:{level:8,tier:'大师',titles:[]}},{rank:2,userId:'other',nickname:'同行者',count:0}];
+try{
+ await page.route('**/api/**',async route=>{
+  if(!new URL(route.request().url()).pathname.startsWith('/api/'))return route.continue();
+  const path=new URL(route.request().url()).pathname.split('/api/')[1];let value;
+  if(path==='account'){accountCalls++;if(accountCalls===1)await new Promise(r=>setTimeout(r,3200));value={authenticated:true,required:false,token:'fixture',account:{userId:owner,nickname:'我的训练',loginId:'fixture'}};}
+  else if(path==='data')value={token:'fixture',revision:'fixture',rows:[],categories:[]};
+  else if(path==='workspace')value={now:new Date().toISOString(),training:[],sets:[],contests:[],activeContest:null,summary:{accepted:0,total:0,attempts:0}};
+  else if(path==='insights')value={summary:{totalSolved:0,streak:0},growth,achievements:[],knowledge:[],recommendations:[],assessment:{platforms:[]},dailyTasks:{tasks:[]},activity:[{date:'2026-10-01',officialAccepted:73}]};
+  else if(path==='hub')value={version:'0.1.0',settings:{accounts:{}},sync:{},updates:{currentVersion:'0.1.0',latestVersion:'v0.1.0'},notifications:[]};
+  else if(path==='goals')value={goals:[]};
+  else if(path==='software-update')value={currentVersion:'1.1.1',status:'current',releaseUrl:'https://github.com/3097729287/acm-algo-trainer/releases/latest'};
+  else if(path==='leaderboard')value={period:'daily',date:'2026-10-18',configured:true,status:'ready',entries,self:{userId:owner},isAdmin:false};
+  else if(path==='profile')value={profile:{userId:owner,nickname:'我的训练'},leaderboard:{configured:true}};
+  else if(path==='browser-preparation')value={available:false};
+  else if(path==='preferences')value={preferences:null};
+  else if(path==='desktop/fullscreen')value={available:false,fullscreen:false};
+  else if(path==='inbox')value={pending:0};
+  else throw new Error('Unhandled fixture '+path);
+  await route.fulfill({contentType:'application/json',body:JSON.stringify(value)});
+ });
+ await page.goto(vite.resolvedUrls.local[0]);
+ await page.locator('.sidebar').waitFor();assert.equal(accountCalls,1,'A slow bootstrap is not superseded by the three-second poll');
+ await page.getByRole('button',{name:'偏好设置',exact:false}).click();
+ await page.getByRole('region',{name:'工作台装饰'}).waitFor();
+ assert.equal(await page.getByRole('heading',{name:'账号与身份',exact:true}).count(),0);
+ for(const label of ['清简','线框','极光','蓝图'])await page.getByRole('button',{name:new RegExp(label)}).click();
+ assert.equal(await page.locator('html').getAttribute('data-panel-style'),'blueprint');
+ await page.getByLabel('页面背景',{exact:true}).selectOption('aurora');
+ await page.getByLabel('训练小挂件',{exact:true}).uncheck();
+ await page.getByLabel('训练小挂件',{exact:true}).check();
+ await page.getByRole('tab',{name:'更新',exact:true}).click();
+ await page.getByText('公开版本：',{exact:false}).waitFor();assert.equal(await page.getByText('v0.1.0',{exact:true}).count(),0,'Stale catalog cache cannot show an old public release');
+ await page.locator('.sidebar').getByRole('button',{name:'成长与能力',exact:false}).click();
+ await page.getByRole('region',{name:'今日排行榜速览'}).waitFor();
+ await page.getByRole('button',{name:'查看榜单',exact:true}).click();
+ await page.locator('.ranking-table').waitFor();assert.equal(await page.locator('.ranking-table .ranking-medal').count(),0);
+ const id=page.locator('.ranking-table .ranking-public-id').first(),name=page.locator('.ranking-table .ranking-user-name').first();
+ const [ib,nb]=await Promise.all([id.boundingBox(),name.boundingBox()]);assert.ok(Math.abs(ib.y-nb.y)<16,'ID shares the name row at desktop widths');
+ await page.locator('.sidebar').getByRole('button',{name:'活动记录',exact:false}).click();
+ const values=await page.locator('.activity-stats>span>b').evaluateAll(nodes=>nodes.map(n=>n.getBoundingClientRect().y));assert.ok(Math.abs(values[0]-values[1])<1,'Calendar summary numbers align');
+ await mkdir('tests/screenshots',{recursive:true});
+ for(const [width,height]of[[2048,1152],[1440,900],[1280,720]]){await page.setViewportSize({width,height});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.screenshot({path:`tests/screenshots/v111-activity-${width}.png`});}
+ assert.deepEqual(errors,[]);console.log(JSON.stringify({ok:true,slowLoginSingleFlight:true,stylesAndBackground:true,duplicateEntryRemoved:true,releaseSourceUnified:true,miniLeaderboard:true,zeroSolveNoMedal:true,alignedNumbers:true,responsive:true}));
+}finally{await browser.close();await vite.close();}

@@ -265,3 +265,9 @@ button.competition-question:disabled { opacity:1; cursor:default; }
 @media(max-width:1100px) { .progress-level-strip { flex-wrap:wrap; } .growth-title-showcase { flex-basis:100%; } .competition-card-open { flex-wrap:wrap; gap:8px; } .competition-card-open .competition-problem-tokens { flex-basis:100%; max-width:none; padding-left:0; justify-content:flex-start; } .competition-card-open > svg { margin-left:auto; } }
 @media(max-width:650px) { .competition-card { flex-wrap:wrap; padding-bottom:10px; } .competition-card-open { flex-basis:100%; } .competition-start { margin-left:auto; } .growth-title-showcase { min-width:0; } }
 @container workspace (max-width:900px) { .progress-level-strip { flex-wrap:wrap; } .growth-title-showcase { flex-basis:100%; } }
+
+/* Baseline alignment for all numeric summaries, regardless of font fallback. */
+.progress-stat-line>span{display:inline-flex;align-items:baseline;gap:6px;white-space:nowrap;line-height:1.45}
+.progress-stat-line>span>b{line-height:1.2;font-variant-numeric:tabular-nums;margin:0}
+.activity-stats{gap:14px 28px;margin:12px 0 18px}.activity-stats>span{padding:9px 12px;border:1px solid var(--line);border-radius:7px;background:var(--panel-2)}.activity-stats>span>b{font-size:1.55rem}.activity-stats>span>span{font-size:.88rem}
+.progress-section-heading :is(button,label,a){align-items:center}.progress-section-heading svg,.progress-button svg,.progress-text-button svg{flex:none}

@@ -225,30 +225,15 @@ def run_desktop() -> int:
         bind_resources(window)
         # 桌面全屏：受本机写接口保护，通过 pywebview 原生 toggle_fullscreen 实现。
         bind_desktop_fullscreen(server, window)
-        from browser_bridge import BrowserBridge
-        from browser_sessions import BrowserSessions
-        from silent_submit import SilentSubmitter
-        sessions = BrowserSessions(STATE / 'browser-sessions.dpapi')
-        # Synchronize once on startup. It performs no site submission and makes
-        # the first submit usable after the browser's one-time extension update.
-        if os.environ.get('TB_OFFLINE') != '1':
-            from browser_sessions import DOMAINS
-            for platform in DOMAINS:
-                sessions.request(platform)
-            from silent_browser import wake_browser
-            threading.Thread(target=wake_browser, daemon=True).start()
-        official = BrowserBridge(
-            url,
+        from external_browser import ExternalBrowserBridge, ExternalBrowserPreparation
+        official = ExternalBrowserBridge(
+            STATE.parent / 'cache' / 'tb-submission-browser',
             guard=server.validate_official_url,
             on_receipt=server.record_official_receipt,
             on_pending=server.record_official_pending,
-            session_store=sessions,
         )
-        official.runner = SilentSubmitter(window, official, sessions)
         server.browser_bridge = official
-        server.browser_extension_path = APP_DIR / 'browser-extension' if getattr(sys, 'frozen', False) else APP_DIR / 'build' / 'browser-extension'
-        from browser_preparation import BrowserPreparation
-        server.browser_preparation = BrowserPreparation(official, server.browser_extension_path)
+        server.browser_preparation = ExternalBrowserPreparation(official)
         server.official_opener = official.open
         server.official_submitter = official.submit
         server.official_status = official.status

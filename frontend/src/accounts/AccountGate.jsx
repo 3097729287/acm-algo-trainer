@@ -12,32 +12,40 @@ export default function AccountGate({ children }) {
   const [syncBusy, setSyncBusy] = useState(false);
   const generation = useRef(0);
   const submitting = useRef(false);
+  const refreshing = useRef(false);
+  const mounted = useRef(false);
   const seeded = useRef(false);
   const updateApi = useCallback((path, body) => request(path, body, session?.token), [session?.token]);
   const softwareUpdate = useSoftwareUpdates(updateApi, Boolean(session?.token && !session.authenticated));
   const refresh = useCallback(async () => {
-    if (submitting.current) return;
+    if (submitting.current || refreshing.current) return;
+    refreshing.current = true;
     const current = ++generation.current;
     try {
       const value = await request('account');
-      if (current !== generation.current) return;
+      if (current !== generation.current || !mounted.current) return;
       setSession(value);
       if (!value.authenticated) {
         if (!seeded.current) { setLoginId(value.lastLoginId || ''); seeded.current = true; }
         if (value.error) setError(value.error);
       }
     } catch (issue) { if (current === generation.current) setError(issue.message); }
-    finally { if (current === generation.current) setBooting(false); }
+    finally {
+      refreshing.current = false;
+      if (mounted.current && current === generation.current) setBooting(false);
+      else if (mounted.current && !submitting.current) queueMicrotask(refresh);
+    }
   }, []);
   useEffect(() => {
+    mounted.current = true;
     refresh();
-    const changed = () => { setSession(null); seeded.current = false; setPassword(''); setConfirmation(''); setMode('login'); refresh(); };
+    const changed = () => { generation.current++; setSession(null); seeded.current = false; setPassword(''); setConfirmation(''); setMode('login'); refresh(); };
     const visible = () => { if (!document.hidden) refresh(); };
     window.addEventListener('tb:account-change', changed);
     window.addEventListener('focus', refresh);
     document.addEventListener('visibilitychange', visible);
     const interval = setInterval(() => { if (!document.hidden) refresh(); }, 3000);
-    return () => { generation.current++; clearInterval(interval); window.removeEventListener('tb:account-change', changed); window.removeEventListener('focus', refresh); document.removeEventListener('visibilitychange', visible); };
+    return () => { mounted.current = false; clearInterval(interval); window.removeEventListener('tb:account-change', changed); window.removeEventListener('focus', refresh); document.removeEventListener('visibilitychange', visible); };
   }, [refresh]);
   async function submit(event) {
     event.preventDefault(); if (busy) return;

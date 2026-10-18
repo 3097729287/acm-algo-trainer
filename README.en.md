@@ -3,6 +3,8 @@
 TB combines a problem library, illustrated editorials, C++ editing, local sample judging and personal training records for Codeforces, AtCoder, Nowcoder and Luogu. Account data and rankings share the existing server-side MySQL database; local SQLite retains a durable working copy and pending changes.
 
 <!-- release-status:start -->
+**Source v1.1.1 is being prepared and is not yet published.** Stable downloads below still point to v1.1.0.
+
 **Current stable release: v1.1.0.** This release combines the 1.0.19/1.0.20 features, library updates and current interface work. The [GitHub release page](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.1.0) provides the installer, portable archive, deltas and checksums.
 <!-- release-status:end -->
 
@@ -14,18 +16,28 @@ TB combines a problem library, illustrated editorials, C++ editing, local sample
 
 Windows 10/11 x64. The [installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.0/TB-Setup-1.1.0-win64.exe) includes the compiler and offline WebView2 runtime. Extract the complete [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.0/TB-1.1.0-win64.zip).
 
-Save drafts, close TB and update the existing directory. Personal databases and imported content remain intact. Upgrade each computer to the same current release and reload the bundled browser extension. Automatic updates wait for saved drafts and active submissions/mocks, make online SQLite backups, verify SHA-256 and replace program files. Available deltas, extension ZIP, `BUILD-INFO.json`, `RELEASE-MANIFEST.json` and `SHA256SUMS.txt` are listed on the release page.
+Save drafts, close TB and update the existing directory. Personal databases and imported content remain intact. Upgrade each computer to the same current release and log in in the dedicated submission browser when using v1.1.1. Automatic updates wait for saved drafts and active submissions/mocks, make online SQLite backups, verify SHA-256 and replace program files. Available deltas, `BUILD-INFO.json`, `RELEASE-MANIFEST.json` and `SHA256SUMS.txt` are listed on the release page.
 
-## Version 1.1.0
+## Version 1.1.1 (in preparation)
+
+- Visible browser submission replaces the silent transport. TB opens an original-site form in a dedicated Edge/Chrome profile, fills code, clicks once per explicit intent and follows that attempt's receipt. No browser extension is required. Log in once in that profile; verification stays with the source site.
+- Startup validates a saved session through the authenticated state request, avoids replacing unchanged personal tables, and coalesces slow login requests. Authentication and cross-device takeover checks remain in place.
+- Standings use compact framed rows, inline public IDs and small summary cards. Zero-solve users have no medal placeholder. Calendar summary values align across font sizes.
+- Optional outlined, aurora and blueprint panels, static backgrounds, local background images and a training clock. The growth page includes a real daily leaderboard preview. Background images stay on the device.
+- Duplicate account-settings entry removed; software-version labels use the software updater instead of an old catalogue cache.
+
+[1.1.1 notes](docs/releases/1.1.1.md) · [Browser submission](docs/browser-preparation.md) · [Site adapter boundary](docs/site-adapters.md)
+
+## Training and current library
 
 - **Titles and progress:** twelve cumulative AC milestones from 1 to 2000 problems. Milestones at 500, 750, 1000, 1500 and 2000 award permanent titles instead of new XP. Training streaks of 30, 90, 180, 365 and 730 days also award titles; two years replaces the former 1000-day target. The highest AC title and streak title are equipped automatically. Previously earned XP remains unchanged.
 - **Achievement feedback:** newly earned cards remain highlighted until hovered or focused individually. Read acknowledgements synchronize across computers. Clicking the top progress badge opens the training overview directly, with the highest earned AC milestone and the next target. Daily mission indicators stay in the top bar; unfinished training has its own navigation indicator.
 - **Account and ranking display:** Growth groups the username, public ID, medals, account management, CF/AtCoder public ratings and translation settings. Rankings show titles, level, tier and ranked points; the public ID is separate from the private login ID. Users who log in that Beijing day appear with zero solves when applicable; zero solves earn no placement rewards.
 - **Navigation and responsiveness:** contest rows offer a replay start action; recommendation rows open a problem directly. Training, keyboard settings and quick actions are grouped together. Contest lists use 40-item pages and unchanged workspace data keeps its object references. Hidden windows pause regular data and goal polling, then refresh when visible. Session checks, uploads and automatic software updates continue in the background.
 - **Synchronization:** training, complete submitted code, drafts, goals, daily assignments, XP ledgers and preferences restore on another computer. A new login revokes the previous device; online clients detect revocation through an approximately three-second heartbeat. Initial merges are backed up and conflicting drafts are retained.
-- **Loading and editorials:** compact catalogue payloads, cached response bytes, a lazy editor, bounded background statement fetching and shorter database locks reduce work. All 929 problems with a default editorial now have a detailed version, including all 26 problems in Nowcoder Weekly 162–165. The current XCPC and Lanqiao batch adds 120 editorial pairs covering 98 distinct problems; the resumed batch covers C, D, G and H of the 2026 Sichuan provincial contest, plus A, B and H of the 2026 Qinhuangdao invitational; [completed and pending content](docs/editorial-content-20261016.md).
+- **Loading and editorials:** compact catalogue payloads, cached response bytes, a lazy editor, bounded background statement fetching and shorter database locks reduce work. All 960 problems with a default editorial now have a detailed version, including all 26 problems in Nowcoder Weekly 162–165. The current XCPC and Lanqiao batch adds 151 editorial pairs covering 127 distinct problems; the selected scope of the 2026 Sichuan provincial contest and Qinhuangdao invitational is now complete, together with all eight problems of the 2026 Lanqiao provincial B paper and A–I of the 2026 national B paper (J awaits corrected constraints), plus all six selected problems of the 2026 Wuhan invitational; [completed and pending content](docs/editorial-content-20261016.md).
 
-The library contains **5795 problems: 5622 visible and 173 hidden**, plus **2215 statements, 929 default editorials, 929 detailed editorials and 376 lessons**. Other entries are not guaranteed to have offline statements or editorials. Source-site failures retain cached content and drafts.
+The library contains **5795 problems: 5622 visible and 173 hidden**, plus **2215 statements, 960 default editorials, 960 detailed editorials and 376 lessons**. Other entries are not guaranteed to have offline statements or editorials. Source-site failures retain cached content and drafts.
 
 Automatic discovery follows the selected families: Nowcoder Weekly, Beginner, Practice and Challenge; Luogu Introductory, Basic and Monthly Div.2; CF Div.2/3/4; AtCoder ABC/ARC. Existing XCPC and Lanqiao collections remain. Unsupported automatic entries and those without usable statement/samples or an editorial are hidden without deleting personal history. Existing official ratings and tags also refresh; unknown ratings remain unknown.
 

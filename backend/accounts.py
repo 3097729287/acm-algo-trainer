@@ -160,9 +160,10 @@ class Accounts:
                 self.invalidate()
             if not self.session and self.saved:
                 try:
-                    result = self._remote('GET', '/v1/accounts/me', session=self.saved)
-                    value = {**self.saved, 'account': result['account']}
-                    self._activate(value)
+                    # The authenticated state GET in initialize validates the
+                    # saved credential too. Avoid a second serial TLS request;
+                    # never expose the workspace before that validation.
+                    self._activate(self.saved)
                     self.error = ''
                 except ServiceError as issue:
                     self.error = issue.message

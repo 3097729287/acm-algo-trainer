@@ -107,6 +107,12 @@
       "version": "84.0.0",
       "license": "MIT",
       "licenseFiles": 17
+    },
+    {
+      "name": "websocket-client",
+      "version": "1.9.0",
+      "license": "Apache-2.0",
+      "licenseFiles": 1
     }
   ],
   "nodeLicenseFiles": [
@@ -2269,6 +2275,11 @@
       "component": "Toolchain: mingw-w64-zstd/zstd-1.5.7/COPYING",
       "origin": "MSYS2 UCRT64 package/source license; complete sources in TB-Toolchain-Sources-0.5.0.zip",
       "sha256": "f9c375a1be4a41f7b70301dd83c91cb89e41567478859b77eef375a52d782505"
+    },
+    {
+      "component": "Python: websocket-client 1.9.0",
+      "origin": "websocket_client-1.9.0.dist-info/licenses/LICENSE",
+      "sha256": "d7ad8d0966aa363d45c7b16b0838cadcd51676acdf215ad967307d581b47872c"
     }
   ]
 }

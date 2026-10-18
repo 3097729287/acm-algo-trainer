@@ -1,0 +1,350 @@
+"""Visible original-site forms in an isolated Edge/Chrome profile, no extension.
+
+The browser owns login, CSRF and verification. One explicit TB intent may click
+one native submit control. The same adapter observes only that attempt's receipt.
+No cookies are exported or copied from a user's everyday browser profile.
+"""
+from __future__ import annotations
+
+import datetime as dt
+import json
+import logging
+import os
+from pathlib import Path
+import subprocess
+import threading
+import time
+import uuid
+from urllib.parse import urlsplit
+from urllib.request import build_opener, ProxyHandler
+
+from official_bridge import LOGIN_HOSTS, page_source, submission_target
+from training import ServiceError
+
+
+def browsers():
+    roots = [Path(os.environ.get(key, 'C:/')) for key in ('PROGRAMFILES(X86)', 'PROGRAMFILES', 'LOCALAPPDATA')]
+    return {name: next((root / relative for root in roots if (root / relative).is_file()), None)
+            for name, relative in (('edge', 'Microsoft/Edge/Application/msedge.exe'),
+                                   ('chrome', 'Google/Chrome/Application/chrome.exe'))}
+
+
+class BrowserProcess:
+    def __init__(self, profile):
+        self.profile = Path(profile)
+        self.lock = threading.Lock()
+        self.process = None
+        self.port = None
+        self.opener = build_opener(ProxyHandler({}))
+
+    def request(self, path, method='GET'):
+        from urllib.request import Request
+        with self.opener.open(Request(f'http://127.0.0.1:{self.port}{path}', method=method), timeout=3) as reply:
+            return json.loads(reply.read(2_000_000))
+
+    def ensure(self, browser='edge'):
+        with self.lock:
+            if self.port:
+                try:
+                    self.request('/json/version')
+                    return
+                except (OSError, ValueError):
+                    self.port = None
+            executable = browsers().get(browser)
+            if not executable:
+                executable = next((path for path in browsers().values() if path), None)
+            if not executable:
+                raise ServiceError(503, '未找到 Microsoft Edge 或 Google Chrome，请安装后重试')
+            self.profile.mkdir(parents=True, exist_ok=True)
+            active = self.profile / 'DevToolsActivePort'
+            # Reattach only to this dedicated profile, never the default one.
+            if active.is_file():
+                try:
+                    self.port = int(active.read_text().splitlines()[0])
+                    self.request('/json/version')
+                    return
+                except (OSError, ValueError, IndexError):
+                    self.port = None
+                    active.unlink(missing_ok=True)
+            self.process = subprocess.Popen([str(executable), '--user-data-dir=' + str(self.profile),
+                '--remote-debugging-port=0', '--remote-debugging-address=127.0.0.1',
+                '--no-first-run', '--no-default-browser-check', '--disable-background-mode', '--new-window', 'about:blank'],
+                creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0),
+                stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            deadline = time.monotonic() + 12
+            while time.monotonic() < deadline:
+                if active.is_file():
+                    try:
+                        self.port = int(active.read_text().splitlines()[0])
+                        self.request('/json/version')
+                        return
+                    except (OSError, ValueError, IndexError):
+                        self.port = None
+                time.sleep(.1)
+            raise ServiceError(503, '浏览器尚未启动，请检查弹出的浏览器窗口后重试')
+
+    def new_page(self, url='about:blank', browser='edge'):
+        from urllib.parse import quote
+        self.ensure(browser)
+        return self.request('/json/new?' + quote(url, safe=''), 'PUT')
+
+
+class DevToolsPage:
+    def __init__(self, endpoint, on_event):
+        import websocket
+        parsed = urlsplit(endpoint)
+        if parsed.scheme != 'ws' or parsed.hostname not in ('127.0.0.1', 'localhost'):
+            raise ValueError('Browser control must remain on loopback')
+        self.socket = websocket.create_connection(endpoint, timeout=2, suppress_origin=True,
+                                                   http_no_proxy=['127.0.0.1', 'localhost'])
+        self.sequence = 0
+        self.on_event = on_event
+
+    def send(self, method, params=None):
+        self.sequence += 1
+        self.socket.send(json.dumps({'id': self.sequence, 'method': method, 'params': params or {}}))
+        return self.sequence
+
+    def call(self, method, params=None, timeout=8):
+        from websocket import WebSocketTimeoutException
+        identity = self.send(method, params)
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            try:
+                value = json.loads(self.socket.recv())
+            except (TimeoutError, WebSocketTimeoutException):
+                continue
+            if value.get('method') == 'Runtime.bindingCalled':
+                self.on_event(value.get('params', {}), self)
+            if value.get('id') == identity:
+                if 'error' in value:
+                    raise RuntimeError(value['error'].get('message', 'Browser command failed'))
+                return value.get('result', {})
+        raise TimeoutError('Browser response timed out')
+
+    def evaluate(self, expression):
+        result = self.call('Runtime.evaluate', {'expression': expression, 'returnByValue': True})
+        return result.get('result', {}).get('value')
+
+    def close(self):
+        self.socket.close()
+
+
+class ExternalBrowserBridge:
+    transport = 'external'
+    terminal = {'finished', 'closed', 'error', 'unconfirmed'}
+
+    def __init__(self, profile, guard=None, on_receipt=None, on_pending=None, browser_process=None):
+        self.browser = browser_process or BrowserProcess(profile)
+        self.guard, self.on_receipt, self.on_pending = guard, on_receipt, on_pending
+        self.lock = threading.RLock()
+        self.sessions, self.clients = {}, {}
+        self.stopping = threading.Event()
+        self.source = page_source()
+
+    def _open(self, url, code, title, intent):
+        if self.guard:
+            self.guard(url)
+        target = submission_target(url)
+        with self.lock:
+            completed = [key for key, item in self.sessions.items() if item['status'] in self.terminal]
+            for key in completed[:-20]:
+                del self.sessions[key]
+            # Never replay an attempt merely because a request/focus repeats.
+            for session in self.sessions.values():
+                if session['originalUrl'] == url and session['code'] == code and session['status'] not in self.terminal:
+                    if intent and not session.get('attempted'):
+                        session['intent'] = True
+                    session['focus'] = True
+                    return self.status(session['sessionId'])
+            if sum(item['status'] not in self.terminal for item in self.sessions.values()) >= 8:
+                raise ServiceError(409, '请先处理已有的浏览器提交，再打开新的提交页')
+            if intent and any(item['originalUrl'] == url and item.get('attempted') and item['status'] not in self.terminal for item in self.sessions.values()):
+                raise ServiceError(409, '本题已有提交正在等待回执，请先核对该次结果')
+            identity = uuid.uuid4().hex
+            session = dict(target, sessionId=identity, code=code, title=title, intent=intent,
+                           status='loading', attempted=False, created=time.monotonic(),
+                           transport='external', message='正在打开浏览器原站提交页…', focus=True)
+            self.sessions[identity] = session
+        threading.Thread(target=self._run, args=(identity,), name='tb-visible-submit', daemon=True).start()
+        return self.status(identity)
+
+    def open(self, url, code, title):
+        return self._open(url, code, title, False)
+
+    def submit(self, url, code, title):
+        return self._open(url, code, title, True)
+
+    def status(self, identity):
+        with self.lock:
+            session = self.sessions.get(identity)
+            if not session:
+                raise ServiceError(404, '没有找到本次浏览器提交')
+            return {key: value for key, value in session.items() if key not in
+                    {'code', 'title', 'intent', 'created', 'focus', 'originalUrl', 'target', 'dispatching'}}
+
+    def _update(self, identity, value, inspection=False):
+        if not isinstance(value, dict):
+            return
+        with self.lock:
+            session = self.sessions.get(identity)
+            if not session or session['status'] in ('finished', 'closed'):
+                return
+            status = value.get('status')
+            allowed = {'loading', 'ready', 'submitted', 'judging', 'finished', 'error',
+                       'needs_login', 'needs_verification', 'awaiting_submit', 'unconfirmed'}
+            if status not in allowed:
+                return
+            if session.get('attempted') and status in ('ready', 'loading', 'awaiting_submit'):
+                return
+            if session.get('submissionId') and status == 'submitted':
+                return
+            for key in ('status', 'message', 'submissionId', 'verdict', 'attempted',
+                        'baseline', 'baselineKnown', 'baselineOwner', 'compiler', 'acceptedAt'):
+                if key in value:
+                    if key == 'attempted' and inspection and session.get('attempted') and not value[key]:
+                        continue  # An inspection begun before the click may finish after it.
+                    session[key] = value[key]
+            session['updatedAt'] = dt.datetime.now(dt.timezone.utc).isoformat()
+            if session.get('attempted'):
+                session.setdefault('acceptedAt', session['updatedAt'])
+            if status in ('needs_login', 'needs_verification', 'error'):
+                session['intent'] = False
+                session['dispatching'] = False
+            snapshot = dict(session)
+        if snapshot.get('submissionId') and self.on_pending:
+            self.on_pending(identity, snapshot)
+        if status == 'finished' and self.on_receipt:
+            saved = self.on_receipt(identity, snapshot)
+            if saved is False:
+                with self.lock:
+                    session.update(status='judging', message='回执已取得，正在重试保存…')
+
+    def _event(self, identity, event, page):
+        if event.get('name') != '__tbReceipt':
+            return
+        value = json.loads(event.get('payload', '{}'))
+        if value.get('sessionId') != identity:
+            return
+        self._update(identity, value)
+        # Acknowledge the pre-click checkpoint only after the state was stored.
+        ack = value.get('ack')
+        if type(ack) is int and ack > 0:
+            page.send('Runtime.evaluate', {'expression': f'window.__tbAcks?.[{ack}]?.()'})
+
+    def _script(self, session, action):
+        context = {key: session.get(key) for key in ('sessionId', 'platform', 'problem', 'code',
+                   'originalUrl', 'attempted', 'baseline', 'baselineKnown', 'baselineOwner', 'submissionId')}
+        context['nativeFormOnly'] = True
+        callback = """value => new Promise(resolve => {
+          const n = (window.__tbAckSeq = (window.__tbAckSeq || 0) + 1);
+          (window.__tbAcks ||= {})[n] = () => { delete window.__tbAcks[n]; resolve(); };
+          window.__tbReceipt(JSON.stringify({...value, ack:n}));
+        })"""
+        return self.source + ';tbOfficialPage(' + json.dumps(context, ensure_ascii=True) + ',' + json.dumps(action) + ',' + callback + ')'
+
+    def _run(self, identity):
+        page = None
+        try:
+            target = self.browser.new_page()
+            page = DevToolsPage(target['webSocketDebuggerUrl'], lambda event, connection: self._event(identity, event, connection))
+            page.call('Runtime.enable')
+            page.call('Runtime.addBinding', {'name': '__tbReceipt'})
+            page.call('Page.enable')
+            with self.lock:
+                self.sessions[identity]['target'] = target['id']
+                url = self.sessions[identity]['url']
+            page.call('Page.navigate', {'url': url})
+            while not self.stopping.is_set():
+                with self.lock:
+                    session = dict(self.sessions[identity])
+                    if session['status'] in self.terminal:
+                        return
+                    focus = self.sessions[identity].pop('focus', False)
+                if time.monotonic() - session['created'] > 900:
+                    self._update(identity, {'status': 'unconfirmed' if session.get('attempted') else 'error',
+                                           'message': '等待原站回执超时；请在浏览器核对本次提交，勿重复发送。'})
+                    return
+                try:
+                    current = page.evaluate('location.href')
+                    host = (urlsplit(current or '').hostname or '').lower()
+                    if host not in LOGIN_HOSTS[session['platform']]:
+                        if current not in ('about:blank', None):
+                            self._update(identity, {'status':'error', 'message':'页面已离开支持的原站，自动操作已停止。'})
+                        self.stopping.wait(.4)
+                        continue
+                    if focus:
+                        page.call('Page.bringToFront')
+                    state = page.evaluate(self._script(session, 'inspect'))
+                    self._update(identity, state, inspection=True)
+                    with self.lock:
+                        live = self.sessions[identity]
+                        dispatch = live.get('intent') and live['status'] == 'ready' and not live.get('attempted') and not live.get('dispatching')
+                        if dispatch:
+                            live.update(dispatching=True, intent=False)
+                            session = dict(live)
+                    if dispatch:
+                        if self.guard:
+                            self.guard(session['originalUrl'])
+                        page.evaluate(self._script(session, 'submit'))
+                except Exception:
+                    # Navigation destroys the old execution context. The next
+                    # inspection reinstalls observers using the durable attempt.
+                    try:
+                        targets = self.browser.request('/json/list')
+                        if not any(item.get('id') == target['id'] for item in targets):
+                            self._update(identity, {'status':'unconfirmed' if session.get('attempted') else 'error',
+                                                   'message':'提交标签页已关闭，请核对原站记录。'})
+                            return
+                    except (OSError, ValueError):
+                        self._update(identity, {'status':'unconfirmed' if session.get('attempted') else 'error',
+                                               'message':'浏览器连接已断开，请核对原站记录后重试。'})
+                        return
+                self.stopping.wait(1.5 if session.get('attempted') else .6)
+        except Exception:
+            logging.getLogger('tb.visible-submit').exception('Visible browser session failed')
+            self._update(identity, {'status':'error', 'message':'浏览器未能连接，请重新打开提交页；代码已保留。'})
+        finally:
+            if page:
+                page.close()
+
+    def close(self, identity):
+        with self.lock:
+            for key, session in self.sessions.items():
+                if identity is None or identity == key:
+                    session.update(status='closed', intent=False)
+        # User's browser/tab stays open for inspection.
+        return {'closed': True}
+
+    def on_closing(self, *args):
+        self.stopping.set()
+
+
+class ExternalBrowserPreparation:
+    def __init__(self, bridge):
+        self.bridge = bridge
+
+    def snapshot(self):
+        available = browsers()
+        return {'available': True, 'mode': 'external', 'ready': any(available.values()),
+                'browsers': [{'id': key, 'available': bool(path)} for key, path in available.items()],
+                'platforms': [{'platform': key, 'state': 'browser_owned', 'loginUrl': url} for key, url in {
+                    'Codeforces':'https://codeforces.com/enter', 'AtCoder':'https://atcoder.jp/login',
+                    '牛客':'https://ac.nowcoder.com/login', '洛谷':'https://www.luogu.com.cn/auth/login'}.items()]}
+
+    def check_submission(self, url):
+        submission_target(url)
+        if not any(browsers().values()):
+            raise ServiceError(503, '请安装 Edge 或 Chrome 后使用浏览器提交')
+
+    def action(self, body):
+        action = body.get('action')
+        if action == 'refresh':
+            return self.snapshot()
+        if action == 'open-login':
+            entry = next((item for item in self.snapshot()['platforms'] if item['platform'] == body.get('platform')), None)
+            if entry is None or body.get('browser', 'edge') not in ('edge', 'chrome'):
+                raise ServiceError(400, '请选择支持的平台和浏览器')
+            self.bridge.browser.new_page(entry['loginUrl'], body.get('browser', 'edge'))
+            return {'opened': True}
+        raise ServiceError(400, '浏览器操作无效')

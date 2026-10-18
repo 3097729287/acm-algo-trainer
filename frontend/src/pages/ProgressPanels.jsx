@@ -8,6 +8,7 @@ import TierIcon from '@/components/TierIcon.jsx';
 import ContestTabs, { isXcpc, matchesShelf } from '@/components/ContestTabs.jsx';
 import { knowledgeLabels } from '@/lib/knowledgeLabels.js';
 import { ProfileSettings } from './CommunityPanel.jsx';
+import { MiniLeaderboard } from '../components/WorkspaceDecorations.jsx';
 
 const PLATFORMS = [
   ['codeforces', 'Codeforces', 'Handle'], ['atcoder', 'AtCoder', '用户名'],
@@ -86,7 +87,7 @@ export function GrowthAccountPanel({ api, hub, account, profile, profileSnapshot
   </section>;
 }
 
-export function GrowthPage({ api, onGoalsChanged, insights, hub, account, profile, profileSnapshot, onProfileChanged, onHubChanged, onError, accountFocus, onTrain, onTopic, onSync, onAccounts, onAchievements }) {
+export function GrowthPage({ onRankings, api, onGoalsChanged, insights, hub, account, profile, profileSnapshot, onProfileChanged, onHubChanged, onError, accountFocus, onTrain, onTopic, onSync, onAccounts, onAchievements }) {
   const [gapsOnly, setGapsOnly] = useState(false);
   const [topicSearch, setTopicSearch] = useState('');
   const [moreRecommendations, setMoreRecommendations] = useState(false);
@@ -128,7 +129,7 @@ export function GrowthPage({ api, onGoalsChanged, insights, hub, account, profil
       {api && <GrowthAccountPanel api={api} hub={hub} account={account} profile={profile} profileSnapshot={profileSnapshot} onProfileChanged={onProfileChanged} onHubChanged={onHubChanged} onError={onError} accountFocus={accountFocus} />}
       {onAchievements && <button className="growth-achievement-link" onClick={onAchievements}><Trophy size={17} /><span>查看成就</span><small>{list(insights.achievements).filter(item => item.unlocked).length}/{list(insights.achievements).length}</small><ArrowRight size={14} /></button>}
       </div>
-      <section className="progress-section progress-recommendations">
+      <div className="progress-growth-right"><section className="progress-section progress-recommendations">
         <div className="progress-section-heading"><h2><Target size={17} />下一步练什么</h2><span>按实际记录推荐</span></div>
         {assessment.recommendationLevel != null && <p className="progress-small">建议练习参考：<b>{number(assessment.recommendationLevel)}</b>{assessment.recommendationBasis ? ` · ${acText(assessment.recommendationBasis)}` : ''}</p>}
         {recommendations.length ? <div id="growth-recommendations-list">{recommendations.slice(0, moreRecommendations ? recommendations.length : 4).map((item, index) => {
@@ -139,6 +140,7 @@ export function GrowthPage({ api, onGoalsChanged, insights, hub, account, profil
         })}</div> : <p className="progress-muted">先选择题目完成一次提交，建议会根据真实结果更新。</p>}
         {recommendations.length > 4 && <button type="button" className="progress-text-button recommendation-more" aria-expanded={moreRecommendations} aria-controls="growth-recommendations-list" onClick={() => setMoreRecommendations(value => !value)}>{moreRecommendations ? '收起推荐' : `查看其余 ${recommendations.length - 4} 题`}<ChevronRight size={13} /></button>}
       </section>
+      {api && <MiniLeaderboard api={api} onOpen={onRankings}/>}</div>
     </div>
     <details className="progress-section knowledge-details">
       <summary><BookOpen size={17} />知识掌握与缺口<ChevronRight className="knowledge-chevron" size={16}/></summary>
@@ -204,7 +206,7 @@ export function ActivityPage({ insights, onTrain }) {
   };
   return <div className="activity-page" aria-label="训练活动">
     <section className="progress-section"><div className="progress-section-heading"><h2><CalendarDays size={17} />训练日历</h2><label className="activity-year">年份<select aria-label="活动年份" value={year} onChange={event => setYear(Number(event.target.value))}>{years.map(value => <option key={value}>{value}</option>)}</select></label></div>
-      <div className="progress-stat-line activity-stats"><span className="activity-year-total"><b>{number(totals.official)}</b><span>题次通过</span></span><span><b>{number(totals.longest)}</b> 天最长连续通过</span></div>
+      <div className="progress-stat-line activity-stats"><span className="activity-year-total"><b>{number(totals.official)}</b><span>题次通过</span></span><span className="activity-year-streak"><b>{number(totals.longest)}</b><span>天最长连续通过</span></span></div>
       <div className="activity-calendar-scroll"><div className="activity-calendar" role="grid" aria-label={`${year}年训练热力图，方向键移动，Enter查看日期`} onKeyDown={handleKey}>
         {Array.from({ length: offset }, (_, index) => <span className="activity-day activity-padding" role="presentation" key={'pad' + index} />)}
         {days.map(key => {
@@ -383,7 +385,7 @@ export function ConnectionsPanel({ hub, api, onChanged, onError, includeTranslat
 }
 
 function updateDraft(hub) { return { autoSync: hub?.settings?.autoSync ?? true, intervalHours: hub?.settings?.intervalHours ?? 6, minDifficulty: hub?.settings?.minDifficulty ?? 0, maxDifficulty: hub?.settings?.maxDifficulty ?? 10000 }; }
-export function UpdatePanel({ hub, api, onChanged, onError, onContent, showNotifications = true }) {
+export function UpdatePanel({ softwareState, hub, api, onChanged, onError, onContent, showNotifications = true }) {
   const [draft, setDraft] = useState(() => updateDraft(hub)), [busy, setBusy] = useState(false), [message, setMessage] = useState(''), [error, setError] = useState(''), [unreadOnly, setUnreadOnly] = useState(false);
   const dirty = useRef(false), editRevision = useRef(0);
   useEffect(() => { if (!dirty.current) setDraft(updateDraft(hub)); }, [hub?.settings]);
@@ -396,9 +398,10 @@ export function UpdatePanel({ hub, api, onChanged, onError, onContent, showNotif
     catch (issue) { setError(issue.message || '未能完成操作，请重试。'); onError?.(issue.message || '未能完成操作'); }
     finally { setBusy(false); }
   };
-  const updates = hub?.updates || {}, sync = hub?.sync || {};
+  const cached = hub?.updates || {}, sync = hub?.sync || {};
+  const updates = { ...cached, currentVersion: __TB_VERSION__, latestVersion: softwareState ? softwareState.latestVersion || (softwareState.status === "current" ? `v${softwareState.currentVersion}` : null) : null, url: softwareState?.releaseUrl, notes: softwareState?.notes || "" };
   const notifications = list(hub?.notifications).filter(item => !unreadOnly || !item.read);
-  return <section className="update-panel" aria-label="题库与版本更新"><div className="progress-section-heading"><h2><Github size={17} />题库与版本更新</h2><span>当前 {hub?.version || updates.currentVersion || __TB_VERSION__}</span></div>
+  return <section className="update-panel" aria-label="题库与版本更新"><div className="progress-section-heading"><h2><Github size={17} />题库与版本更新</h2><span>当前 {__TB_VERSION__}</span></div>
     <div className="update-project-source"><span>项目公开仓库</span><a href={PROJECT_URL} target="_blank" rel="noreferrer">acm-algo-trainer<ExternalLink size={12} /></a></div>
     {updates.sourceNotice && <p className="progress-small">{updates.sourceNotice}</p>}
     <form onSubmit={event => { event.preventDefault(); request('hub/configure', { ...draft, intervalHours: Number(draft.intervalHours), minDifficulty: Number(draft.minDifficulty), maxDifficulty: Number(draft.maxDifficulty) }); }}>

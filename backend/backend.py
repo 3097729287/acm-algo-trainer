@@ -112,6 +112,9 @@ class Handler(BaseHTTPRequestHandler):
         try:
             accounts = getattr(self.server, 'accounts', None)
             if urlsplit(self.path).path.startswith('/api/browser/'):
+                if getattr(getattr(self.server, 'browser_bridge', None), 'transport', None) == 'external':
+                    self.send_json(410, {'error': '新版使用可见浏览器原站提交，无需浏览器扩展；可停用旧版 TB 扩展'})
+                    return
                 if accounts is not None:
                     accounts.require()
                 self.browser_dispatch(writing)

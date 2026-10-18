@@ -300,8 +300,9 @@ class AccountStateSync:
         with extensions.lock:
             return self._profile_stamp_locked(extensions)
 
-    def _capture(self, import_original=False):
-        self._refresh_problem_facts()
+    def _capture(self, import_original=False, refresh_facts=True):
+        if refresh_facts:
+            self._refresh_problem_facts()
         # Public profile evidence is copied under its own short lock. No network
         # call occurs under either the integration lock or the SQLite lock.
         profiles = self._profiles(import_original)
@@ -446,6 +447,10 @@ class AccountStateSync:
                 db.execute('ROLLBACK')
                 raise
             changes = db.total_changes
+        self._apply_profiles(state)
+        return changes
+
+    def _apply_profiles(self, state):
         extensions = getattr(self.accounts.server.store, 'extensions', None)
         if extensions is not None:
             from public_platforms import profile
@@ -455,13 +460,15 @@ class AccountStateSync:
                     extensions.state['settings']['accounts'][platform] = value['handle']
                     extensions.state['accounts'][platform] = copy.deepcopy(value)
                 extensions._save()
-        return changes
 
     def initialize(self):
         with self.operation:
             imported = (self.accounts.registry.get('activeOwner') == self.owner or
                         not self.meta and self.accounts.registry.get('originalOwner') == self.owner)
-            local, _ = self._capture(import_original=imported)
+            # Cached portable facts are already durable. Refresh their public
+            # metadata in the background after authentication, not on the
+            # startup critical path. First migrations still capture everything.
+            local, local_changes = self._capture(import_original=imported, refresh_facts=not bool(self.meta))
             try:
                 answer = self._call('GET', '/v1/accounts/state')
             except ServiceError as issue:
@@ -483,7 +490,13 @@ class AccountStateSync:
                 self.last_synced = saved['savedAt']
             else:
                 self.last_synced = dt.datetime.now(dt.timezone.utc).isoformat()
-            changes = self._apply(state)
+            # Most restarts restore the very same state. Do not take another
+            # online backup and DELETE/INSERT every personal row in that case.
+            if state != local:
+                changes = self._apply(state)
+            else:
+                changes = local_changes
+                self._apply_profiles(state)
             self._persist_meta(state, changes)
             with self.status_lock:
                 self.status, self.error, self.pending = 'ready', '', False

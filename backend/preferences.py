@@ -4,7 +4,7 @@ import re
 
 from training import ServiceError, iso
 
-ALLOWED = frozenset(('theme', 'accent', 'motion', 'compact', 'collapsed', 'favorites', 'views',
+ALLOWED = frozenset(('panelStyle', 'backdrop', 'widgets', 'theme', 'accent', 'motion', 'compact', 'collapsed', 'favorites', 'views',
                      'readerWidth', 'fontSize', 'navOrder', 'navLabels', 'navGroups', 'seenAchievements'))
 
 
@@ -22,6 +22,12 @@ def save_preferences(training, body):
     value = dict(body['preferences'])
     if set(value) - ALLOWED:
         raise ServiceError(400, '偏好设置包含不支持的字段')
+    for name, allowed in (('panelStyle', {'minimal', 'outlined', 'aurora', 'blueprint'}),
+                          ('backdrop', {'none', 'aurora', 'grid', 'sunset', 'custom'})):
+        if name in value and (not isinstance(value[name], str) or value[name] not in allowed):
+            raise ServiceError(400, '外观选项无效')
+    if 'widgets' in value and type(value['widgets']) is not bool:
+        raise ServiceError(400, '训练挂件选项无效')
     try:
         text = json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False)
     except (ValueError, TypeError):
