@@ -4,6 +4,7 @@ TB combines a problem library, illustrated editorials, C++ editing, local sample
 
 <!-- release-status:start -->
 **Current stable release: v1.1.1.** [Installer, portable archive, delta and checksums](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.1.1). The release package contains 960 default/detailed editorial pairs; subsequent editorial work remains separate.
+Source v1.1.2 is being validated and packaged; it is not yet published. Stable downloads remain v1.1.1.
 <!-- release-status:end -->
 
 [Usage](docs/usage.md) · [1.1.1 release notes](docs/releases/1.1.1.md) · [Build instructions](docs/development.md) · [中文](README.md)
@@ -15,6 +16,15 @@ TB combines a problem library, illustrated editorials, C++ editing, local sample
 Windows 10/11 x64. The [installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.1/TB-Setup-1.1.1-win64.exe) includes the compiler and offline WebView2 runtime. Extract the complete [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.1/TB-1.1.1-win64.zip).
 
 Save drafts, close TB and update the existing directory. Personal databases and imported content remain intact. Upgrade each computer to the same current release and log in in the dedicated submission browser when using v1.1.1. Automatic updates wait for saved drafts and active submissions/mocks, make online SQLite backups, verify SHA-256 and replace program files. Available deltas, `BUILD-INFO.json`, `RELEASE-MANIFEST.json` and `SHA256SUMS.txt` are listed on the release page.
+
+## Version 1.1.2 (in preparation)
+
+- Replay contests submit through original-site forms and attach official receipts to the running contest. Long task IDs fit; deleting a replay removes training entries introduced only by it while preserving code and results.
+- Remember the dedicated browser and locally encrypted sessions. Authenticated revision checks avoid downloading unchanged learning snapshots.
+- Reduce full-database copies on autosave and keep remove/clear actions visible on smaller screens.
+- Nicknames are unique; standings omit public IDs. Consistent status chips, progress cards and adjustable panel opacity make the workspace more useful.
+
+[Details and a sample screen](docs/releases/1.1.2.md). The fixed build retains 960 editorial pairs; ongoing editorial additions remain separate.
 
 ## Version 1.1.1
 

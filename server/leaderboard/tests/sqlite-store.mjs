@@ -3,6 +3,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { readFileSync } from 'node:fs';
 import { EventConflict } from '../src/errors.mjs';
 import { AccountError } from '../src/accounts.mjs';
+import { nicknameKey } from '../src/nicknames.mjs';
 import { storedPublicProgress } from '../src/public-progress.mjs';
 import { bounds, addDays, rankingQuery, normalizeRank, REWARD_POLICY } from '../src/ranking-rules.mjs';
 
@@ -15,6 +16,14 @@ export class SQLiteStore {
     }
   }
   async health() { this.database.prepare('SELECT 1').get(); }
+  claimNickname(id, name) {
+    this.database.prepare('DELETE FROM account_nicknames WHERE user_id=?').run(id);
+    try { this.database.prepare('INSERT INTO account_nicknames VALUES(?,?)').run(nicknameKey(name), id); }
+    catch (error) {
+      if (/UNIQUE constraint/i.test(String(error))) throw new AccountError(409, '昵称已被使用，请换一个');
+      throw error;
+    }
+  }
   async findUser(id) { return this.database.prepare('SELECT users.*,EXISTS(SELECT 1 FROM ranking_admins WHERE ranking_admins.user_id=users.user_id) AS is_admin FROM users WHERE user_id=?').get(id) || null; }
   async createUser(id, name, hash, timestamp) {
     this.database.prepare('INSERT OR IGNORE INTO users(user_id,nickname,token_hash,created_at,updated_at) VALUES(?,?,?,?,?)')
@@ -30,7 +39,10 @@ export class SQLiteStore {
     return this.transaction(() => {
       if (!this.database.prepare('SELECT 1 FROM account_sessions WHERE user_id=? AND token_hash=? AND expires_at>?').get(id, hash, now))
         throw new AccountError(401, '账号已在另一台设备登录，请重新登录');
-      if (name !== null) this.database.prepare('UPDATE users SET nickname=?,updated_at=? WHERE user_id=?').run(name, timestamp, id);
+      if (name !== null) {
+        this.claimNickname(id, name);
+        this.database.prepare('UPDATE users SET nickname=?,updated_at=? WHERE user_id=?').run(name, timestamp, id);
+      }
       if (progress !== null) this.database.prepare('INSERT INTO account_public_progress VALUES(?,?,?) ON CONFLICT(user_id) DO UPDATE SET payload=excluded.payload,updated_at=excluded.updated_at')
         .run(id, JSON.stringify(progress), timestamp);
     });
@@ -63,6 +75,7 @@ export class SQLiteStore {
           .run(value.userId, value.nickname, value.retiredHash, value.timestamp, value.timestamp);
         this.database.prepare('INSERT INTO accounts VALUES(?,?,?,1,?,?)')
           .run(value.userId, value.loginId, value.passwordHash, value.timestamp, value.timestamp);
+        this.claimNickname(value.userId, value.nickname);
       });
     } catch (error) {
       if (/UNIQUE constraint/i.test(String(error))) throw new AccountError(409, '登录号已被注册，或旧身份已关联账号');

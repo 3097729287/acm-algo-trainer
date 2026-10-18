@@ -1,5 +1,20 @@
 # TB 架构
 
+v1.1.2 正在验证与打包，尚未正式发布；当前正式下载仍为 v1.1.1。 [1.1.2 说明](releases/1.1.2.md)。
+
+## 1.1.2 重现赛、会话与快照恢复
+
+重现赛的原站提交与盲组题模拟赛分开授权：`assert_official_allowed` 只允许重现赛走可见原生表单，题解与考点仍锁定。官方回执使用 `contest_id` 关联考场，按受理时间判断本场归属，合并公开同步先到的同一回执及别名题；样例不计作 AC。重现赛禁止旧的本地 submit，run 仍可校验样例。
+
+考场冻结题单记录 `trainingAdded`。显式加入或独立练习会保留个人训练归属；删除重现赛只停用其独立创建、没有其他引用的训练，不删除草稿与提交。记录仍以墓碑保存，迟到回执落库而不重新激活已删除项。
+
+`BrowserProcess` 复用专用浏览器配置，并核对 DevToolsActivePort 的浏览器 GUID。`browser_login_memory.py` 仅保存该配置内四站的一方 Cookie，Windows DPAPI 密文写入本机 SQLite；重启补回缺失且未过期的会话，退出原站的空会话同样持久化。日常浏览器不参与读取，Cookie 不进入账号同步、安装包或公共库。监测只在专用浏览器已经打开时运行。
+
+客户端仅在本机内容摘要与已同步基线一致时发送 `X-TB-State-Revision`。服务器先验证会话，再确认版本；匹配时返回 `{revision,unchanged:true}`，不读取大快照。版本不同或旧服务不支持时继续完整 GET 与合并；未认证响应不能打开工作区。
+
+个人库普通 `_write` 将完整在线恢复副本限频为五分钟，事务与 FULL 同步保持；构造升级和云端替换仍显式备份。昵称预留通过 `007` 和注册/改名事务维护，NFKC、空白与小写归一后的 SHA-256 键唯一，失败回滚资料更新。前端移除排行 ID，增加透明面板、小屏操作与静态进度卡片。
+
+
 当前客户端正式版为 [v1.1.1](releases/1.1.1.md)。可见浏览器提交无需扩展；首次需在 TB 打开的浏览器中登录。正式包题解为 960 组，后续源码内容续写不改写已发布包。
 
 ## 1.1.1 架构变化
@@ -26,7 +41,7 @@
 
 ## 边界
 
-`frontend/` 只负责界面、编辑器与交互，通过 JSON HTTP API 调用服务；不导入 Python 或读取归档文件。`backend/` 管理题库、个人记录、公开数据、翻译和本地评测，可以只启动 API。`desktop/` 创建 WebView2 工作台窗口，并通过随包的浏览器扩展连接用户日常浏览器中的原站会话。`server/leaderboard/` 是独立部署的 Node.js 账号、学习数据同步与排行榜服务，共用同服务器的 MySQL。客户端 API 保留 Python，本轮没有改写为 Go。
+`frontend/` 只负责界面、编辑器与交互，通过 JSON HTTP API 调用服务；不导入 Python 或读取归档文件。`backend/` 管理题库、个人记录、公开数据、翻译和本地评测，可以只启动 API。`desktop/` 创建 WebView2 工作台窗口，并通过 `external_browser.py` 操作可见浏览器的原站表单。`server/leaderboard/` 是独立部署的 Node.js 账号、学习数据同步与排行榜服务，共用同服务器的 MySQL。客户端 API 保留 Python，本轮没有改写为 Go。
 
 开发入口：`python backend/backend.py --offline` 与 `frontend/npm run dev`。Vite 代理 `/api` 并保留会话令牌。若直接跨源连接，使用 `TB_FRONTEND_ORIGINS` 显式配置允许的来源，多个来源以逗号分隔；未配置时仍执行同源校验。API 只监听回环地址，写入要求 `X-TB-Token`。
 

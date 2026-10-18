@@ -2,6 +2,7 @@ import mysql from 'mysql2/promise';
 import { readFile } from 'node:fs/promises';
 import { EventConflict } from './errors.mjs';
 import { AccountError } from './accounts.mjs';
+import { claimNickname } from './nicknames.mjs';
 import { storedPublicProgress } from './public-progress.mjs';
 import { bounds, addDays, rankingQuery, normalizeRank, REWARD_POLICY } from './ranking-rules.mjs';
 
@@ -29,6 +30,7 @@ export class MySQLStore {
     await this.pool.execute('SELECT 1 FROM account_state LIMIT 0');
     await this.pool.execute('SELECT 1 FROM account_login_days LIMIT 0');
     await this.pool.execute('SELECT 1 FROM account_public_progress LIMIT 0');
+    await this.pool.execute('SELECT 1 FROM account_nicknames LIMIT 0');
   }
   async findUser(id) {
     const [rows] = await this.pool.execute('SELECT users.*,EXISTS(SELECT 1 FROM ranking_admins WHERE ranking_admins.user_id=users.user_id) AS is_admin FROM users WHERE user_id=?', [id]);
@@ -52,7 +54,10 @@ export class MySQLStore {
       await connection.execute('SELECT user_id FROM accounts WHERE user_id=? FOR UPDATE', [id]);
       const [sessions] = await connection.execute('SELECT token_hash FROM account_sessions WHERE user_id=? AND token_hash=? AND expires_at>?', [id, hash, now]);
       if (!sessions.length) throw new AccountError(401, '账号已在另一台设备登录，请重新登录');
-      if (name !== null) await connection.execute('UPDATE users SET nickname=?,updated_at=? WHERE user_id=?', [name, timestamp, id]);
+      if (name !== null) {
+        await claimNickname(connection, id, name);
+        await connection.execute('UPDATE users SET nickname=?,updated_at=? WHERE user_id=?', [name, timestamp, id]);
+      }
       if (progress !== null) await connection.execute('INSERT INTO account_public_progress VALUES(?,?,?) ON DUPLICATE KEY UPDATE payload=VALUES(payload),updated_at=VALUES(updated_at)',
         [id, JSON.stringify(progress), timestamp]);
     });
@@ -84,6 +89,7 @@ export class MySQLStore {
         }
         await connection.execute('INSERT INTO accounts VALUES(?,?,?,1,?,?)',
           [value.userId, value.loginId, value.passwordHash, value.timestamp, value.timestamp]);
+        await claimNickname(connection, value.userId, value.nickname, false);
       });
     } catch (error) {
       if (error.code === 'ER_DUP_ENTRY') throw new AccountError(409, '登录号已被注册，或旧身份已关联账号');

@@ -124,7 +124,8 @@ try {
   assert.equal(await page.getByRole('tab', { name: '今日待办', exact: true }).count(), 0);
   assert.equal(await page.locator('.sidebar').getByLabel('命令面板').count(), 0);
   assert.equal(await page.locator('.sidebar').getByText('快捷操作', { exact: true }).count(), 0);
-  assert.ok(await page.getByLabel('目标每日任务').evaluate(node => node.getBoundingClientRect().height < 110), 'one completed goal stays compact at 18px');
+  const goalHeight=await page.getByLabel('目标每日任务').evaluate(node => node.getBoundingClientRect().height);
+  assert.ok(goalHeight < 110, `one completed goal stays compact at 18px; height=${goalHeight}`);
   assert.equal(await page.getByRole('group', { name: '训练状态筛选', exact: true }).count(), 0);
   assert.equal(await page.locator('.problem-table tr[data-id]').count(), 4);
   assert.equal(await page.locator('.problem-table tr[data-id]').evaluateAll(nodes => new Set(nodes.map(node => node.dataset.id)).size), 4, 'merged training has no duplicate questions');
@@ -382,7 +383,7 @@ try {
   assert.ok(await page.locator('.paper-slot').first().evaluate(node=>node.querySelector('strong').getBoundingClientRect().right < node.querySelector('div').getBoundingClientRect().left),'long native task ID must not overlap text');
   await page.screenshot({path:'tests/screenshots/replay-format-fixed.png',animations:'disabled'});
   assert.match(await page.getByLabel('训练概览',{exact:true}).textContent(),/30\/500 XP/);
-  assert.match(await page.locator('.topbar-daily-ac').textContent(),/今日 AC 3 题/);
+  assert.match(await page.locator('.topbar-daily-ac').getAttribute('aria-label'),/今日 AC 3 题/);
   assert.equal(await page.locator('.overview-statistics').count(),0);
   assert.equal(await page.locator('.topbar').getByRole('button',{name:'模拟赛',exact:true}).count(),0);
   await page.getByRole('tab', {name:/模拟赛记录/}).click();
@@ -394,6 +395,15 @@ try {
   await page.getByRole('alertdialog').getByRole('button',{name:'确认删除',exact:true}).click();
   await page.getByText('还没有模拟赛记录',{exact:true}).waitFor();
   assert.ok(writes.some(w=>w.path==='/api/contests/delete'&&w.body.all));
+  await page.keyboard.press('Control+1');
+  for (const width of [1280,1024]) {
+    await page.setViewportSize({width,height:760});
+    await page.getByLabel('清空我的训练',{exact:true}).waitFor({state:'visible'});
+    const actions=page.locator('.problem-table .remove-training').first();
+    await actions.waitFor({state:'visible'});
+    assert.ok(await actions.evaluate(node=>{const box=node.getBoundingClientRect(),list=node.closest('.table-scroll').getBoundingClientRect();return box.right<=list.right&&box.left>=list.left;}),'Remove training remains inside the visible list');
+  }
+  await page.keyboard.press('Control+5');
   await page.getByRole('tab',{name:'创建训练',exact:true}).click();
   await page.getByRole('button', { name: /综合训练.*多种知识点/ }).click();
   await page.setViewportSize({ width: 1050, height: 760 });

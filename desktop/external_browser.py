@@ -31,10 +31,17 @@ def browsers():
 
 class BrowserProcess:
     def __init__(self, profile):
-        self.profile = Path(profile)
+        from persistence import load_document
+        self.root = Path(profile)
+        self.preference = self.root.parent / 'managed-browser.json'
+        self.preferred = load_document(self.preference, 'edge')
+        if self.preferred not in ('edge', 'chrome'):
+            self.preferred = 'edge'
+        self.profile = self.root if self.preferred == 'edge' else self.root / 'chrome'
         self.lock = threading.Lock()
         self.process = None
         self.port = None
+        self.memory_endpoint = None
         self.opener = build_opener(ProxyHandler({}))
 
     def request(self, path, method='GET'):
@@ -42,26 +49,68 @@ class BrowserProcess:
         with self.opener.open(Request(f'http://127.0.0.1:{self.port}{path}', method=method), timeout=3) as reply:
             return json.loads(reply.read(2_000_000))
 
-    def ensure(self, browser='edge'):
+    def _memory(self, version, restore=False):
+        endpoint = version.get('webSocketDebuggerUrl')
+        if not endpoint or endpoint == self.memory_endpoint:
+            return
+        from browser_login_memory import BrowserLoginMemory
+        memory = BrowserLoginMemory(self.root.parent, self.preferred)
+        page = DevToolsPage(endpoint, lambda *_: None)
+        if restore:
+            memory.restore(page)
+        self.memory_endpoint = endpoint
+        def remember():
+            try:
+                while True:
+                    memory.capture(page)
+                    time.sleep(1)
+            except Exception:
+                pass
+            finally:
+                page.close()
+                if self.memory_endpoint == endpoint:
+                    self.memory_endpoint = None
+        threading.Thread(target=remember, name='tb-remember-login', daemon=True).start()
+
+    def _active(self, active):
+        lines = active.read_text().splitlines()
+        self.port = int(lines[0])
+        version = self.request('/json/version')
+        # An old ephemeral port can be reused by an unrelated browser process.
+        if len(lines) < 2 or urlsplit(version.get('webSocketDebuggerUrl', '')).path != lines[1]:
+            raise ValueError('Browser profile no longer owns this endpoint')
+        return version
+
+    def ensure(self, browser=None):
         with self.lock:
+            browser = browser or self.preferred
+            if browser != self.preferred:
+                self.preferred, self.port = browser, None
+                self.profile = self.root if browser == 'edge' else self.root / 'chrome'
             if self.port:
                 try:
-                    self.request('/json/version')
+                    version = self._active(self.profile / 'DevToolsActivePort')
+                    self._memory(version)
                     return
                 except (OSError, ValueError):
                     self.port = None
             executable = browsers().get(browser)
             if not executable:
-                executable = next((path for path in browsers().values() if path), None)
+                available = [(name, path) for name, path in browsers().items() if path]
+                if available:
+                    self.preferred, executable = available[0]
+                    self.profile = self.root if self.preferred == 'edge' else self.root / 'chrome'
             if not executable:
                 raise ServiceError(503, '未找到 Microsoft Edge 或 Google Chrome，请安装后重试')
             self.profile.mkdir(parents=True, exist_ok=True)
+            from persistence import save_document
+            save_document(self.preference, self.preferred)
             active = self.profile / 'DevToolsActivePort'
             # Reattach only to this dedicated profile, never the default one.
             if active.is_file():
                 try:
-                    self.port = int(active.read_text().splitlines()[0])
-                    self.request('/json/version')
+                    version = self._active(active)
+                    self._memory(version)
                     return
                 except (OSError, ValueError, IndexError):
                     self.port = None
@@ -75,15 +124,15 @@ class BrowserProcess:
             while time.monotonic() < deadline:
                 if active.is_file():
                     try:
-                        self.port = int(active.read_text().splitlines()[0])
-                        self.request('/json/version')
+                        version = self._active(active)
+                        self._memory(version, restore=True)
                         return
                     except (OSError, ValueError, IndexError):
                         self.port = None
                 time.sleep(.1)
             raise ServiceError(503, '浏览器尚未启动，请检查弹出的浏览器窗口后重试')
 
-    def new_page(self, url='about:blank', browser='edge'):
+    def new_page(self, url='about:blank', browser=None):
         from urllib.parse import quote
         self.ensure(browser)
         return self.request('/json/new?' + quote(url, safe=''), 'PUT')
@@ -230,6 +279,9 @@ class ExternalBrowserBridge:
         # Acknowledge the pre-click checkpoint only after the state was stored.
         ack = value.get('ack')
         if type(ack) is int and ack > 0:
+            with self.lock:
+                if self.sessions.get(identity, {}).get('status') == 'closed':
+                    return  # A cancelled pre-click checkpoint must not click.
             page.send('Runtime.evaluate', {'expression': f'window.__tbAcks?.[{ack}]?.()'})
 
     def _script(self, session, action):
@@ -326,7 +378,7 @@ class ExternalBrowserPreparation:
 
     def snapshot(self):
         available = browsers()
-        return {'available': True, 'mode': 'external', 'ready': any(available.values()),
+        return {'available': True, 'mode': 'external', 'ready': any(available.values()), 'preferredBrowser': self.bridge.browser.preferred,
                 'browsers': [{'id': key, 'available': bool(path)} for key, path in available.items()],
                 'platforms': [{'platform': key, 'state': 'browser_owned', 'loginUrl': url} for key, url in {
                     'Codeforces':'https://codeforces.com/enter', 'AtCoder':'https://atcoder.jp/login',
@@ -345,6 +397,15 @@ class ExternalBrowserPreparation:
             entry = next((item for item in self.snapshot()['platforms'] if item['platform'] == body.get('platform')), None)
             if entry is None or body.get('browser', 'edge') not in ('edge', 'chrome'):
                 raise ServiceError(400, '请选择支持的平台和浏览器')
-            self.bridge.browser.new_page(entry['loginUrl'], body.get('browser', 'edge'))
+            browser = body.get('browser', self.bridge.browser.preferred)
+            with self.bridge.lock:
+                if browser != self.bridge.browser.preferred:
+                    active = [session for session in self.bridge.sessions.values() if session['status'] not in self.bridge.terminal]
+                    if any(session.get('attempted') or session.get('dispatching') for session in active):
+                        raise ServiceError(409, '请先取得当前提交的回执，再切换浏览器')
+                    # A login in Chrome must not leave Submit reusing an older
+                    # unlogged Edge tab. Cancel only jobs that never clicked.
+                    self.bridge.close(None)
+                self.bridge.browser.new_page(entry['loginUrl'], browser)
             return {'opened': True}
         raise ServiceError(400, '浏览器操作无效')

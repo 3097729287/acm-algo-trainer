@@ -97,7 +97,7 @@ class Accounts:
         for service in services:
             service.close()
 
-    def _remote(self, method, path, body=None, session=None, *, invalidate=True, maximum=262144, timeout=8):
+    def _remote(self, method, path, body=None, session=None, *, invalidate=True, maximum=262144, timeout=8, state_revision=None):
         if self.closed:
             raise ServiceError(503, 'TB 正在关闭')
         if not self.endpoint:
@@ -105,6 +105,8 @@ class Accounts:
         headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'User-Agent': 'TB/1.0.20', 'X-TB-State-Protocol': '1'}
         if session:
             headers.update({'X-TB-User': session['userId'], 'Authorization': 'Bearer ' + session['token']})
+        if type(state_revision) is int and state_revision > 0:
+            headers['X-TB-State-Revision'] = str(state_revision)
         payload = json.dumps(body, ensure_ascii=False).encode('utf-8') if body is not None else None
         try:
             with self.opener.open(Request(self.endpoint + path, data=payload, method=method, headers=headers), timeout=timeout) as response:

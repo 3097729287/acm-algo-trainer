@@ -95,3 +95,54 @@
   .daily-task-grid .daily-task-main p { min-height: 0; }
   .wb-run-actions { width: 100%; justify-content: flex-end; }
 }
+
+/* 1.1.2: responsive controls and identity styling. */
+.topbar-status-chip,
+.topbar .goal-reminder,
+.topbar .topbar-daily-ac {
+  display:inline-flex;align-items:center;gap:7px;min-height:34px;padding:6px 10px;
+  border:1px solid var(--line);border-radius:7px;background:var(--panel);font-size:.8rem;
+  line-height:1.2;white-space:nowrap;font-variant-numeric:tabular-nums;
+}
+.topbar-status-chip b {font-size:.85rem;color:var(--text)}
+.topbar .goal-reminder {color:var(--warning,#d4ad68)}
+.topbar .topbar-daily-ac {color:var(--muted)}
+.topbar .topbar-daily-ac svg {color:var(--accent)}
+.problem-table th:nth-child(6) {width:108px}
+.problem-table .row-actions {padding:0 8px!important;text-overflow:clip}
+.row-actions .row-icon {width:27px;height:29px}
+.row-actions .remove-training {opacity:.65}
+.row-actions .remove-training:hover {color:var(--danger)}
+.compact-search-toolbar .clear-training-button {flex-shrink:0;white-space:nowrap}
+.inline-problem-filters {flex-wrap:wrap;min-width:0}
+.record-slot {gap:12px}
+.record-slot .slot-letter {min-width:36px;max-width:140px;overflow-wrap:anywhere;white-space:normal;min-height:32px;height:auto;align-self:center;font-size:.8rem;line-height:1.3;padding:6px 9px}
+.record-slot>div {overflow-wrap:anywhere}
+.record-slot>div strong {line-height:1.45}
+.ranking-identity {grid-template-columns:42px minmax(0,1fr);column-gap:12px;row-gap:7px;padding:2px 0}
+.ranking-avatar {grid-row:1/3;display:flex;align-items:center;justify-content:center;align-self:center;width:40px;height:40px;border:1px solid color-mix(in srgb,var(--accent) 30%,var(--line));border-radius:12px;color:var(--accent);background:linear-gradient(145deg,var(--accent-soft),var(--panel));font-size:1.2rem;font-weight:650}
+.ranking-identity-heading {min-width:0}
+.ranking-public-progress {grid-column:2;padding-top:0}
+.ranking-table .ranking-identity-heading strong {font-size:.98rem;letter-spacing:.02em}
+.ranking-table tbody td {padding-block:14px!important}
+.ranking-table .ranking-public-progress>span:first-child {color:var(--accent);border-color:color-mix(in srgb,var(--accent) 28%,var(--line))}
+.ranking-title-badge {display:inline-flex;gap:4px;align-items:center;color:#d2b879;border:1px solid #bba05e66;background:#ad914112;border-radius:12px;padding:3px 8px;font-size:.73rem}
+.ranking-board-summary>div {position:relative;overflow:hidden}
+.ranking-board-summary>div::after {content:"";position:absolute;width:48px;height:48px;right:-12px;bottom:-20px;transform:rotate(30deg);border:1px solid color-mix(in srgb,var(--accent) 20%,transparent);border-radius:9px;pointer-events:none}
+.ranking-reward-rule {line-height:1.5}
+@container workspace (max-width:950px) {
+  .problem-table th:nth-child(6) {width:104px}
+  .problem-table .row-actions {padding-inline:7px!important}
+  .row-actions .row-icon {width:27px}
+  .compact-search-toolbar .search-box {flex-basis:100%}
+}
+@container workspace (max-width:650px) {
+  .problem-table th:nth-child(6) {width:100px}
+  .compact-search-toolbar .sort-select {flex:1;min-width:125px}
+  .record-slot {display:grid;grid-template-columns:max-content minmax(0,1fr) auto;padding:12px;gap:8px}
+  .record-slot>div {grid-column:2/-1}
+  .record-slot .slot-letter {grid-row:1/3}
+  .record-slot>.secondary {grid-column:2;justify-self:start}
+  .record-slot>.row-icon {grid-column:3}
+}
+@media (max-width:1150px) {.topbar-status-chip>span{display:none}.topbar .topbar-daily-ac{gap:4px;padding-inline:7px}.topbar .goal-reminder{gap:4px;padding-inline:7px}}

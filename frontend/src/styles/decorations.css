@@ -13,3 +13,46 @@
 @media(prefers-reduced-motion:reduce){.training-pulse *{animation:none!important}}
 .training-dashboard{align-items:start}.training-pulse{padding:12px 15px;gap:12px}
 .training-dashboard:not(:has(.training-goals)){grid-template-columns:1fr}
+
+/* Static, readable glass surfaces; menus and dialogs retain solid surfaces. */
+[data-backdrop=custom] .app-shell::before {
+  background-image: linear-gradient(color-mix(in srgb,var(--bg) 26%,transparent),color-mix(in srgb,var(--bg) 36%,transparent)),var(--workspace-image);
+}
+[data-backdrop]:not([data-backdrop=none]) {
+  --glass-panel: color-mix(in srgb,var(--panel) var(--panel-opacity,76%),transparent);
+  --glass-raised: color-mix(in srgb,var(--panel-2) var(--panel-opacity,76%),transparent);
+}
+[data-backdrop]:not([data-backdrop=none]) :is(.sidebar,.topbar,.progress-section,.list-page,.training-goals,.settings-page section,.progress-level-strip,.next-milestone) {
+  background-color:var(--glass-panel);
+}
+[data-backdrop]:not([data-backdrop=none]) :is(.problem-table thead th,.queue-heading,.search-toolbar,.ranking-table tbody td) {
+  background-color:var(--glass-raised);
+}
+[data-backdrop]:not([data-backdrop=none]) :is(.problem-table tbody tr,.progress-page,.settings-page,.workspace-area,.record-slot) {background-color:transparent}
+[data-backdrop=custom] :is(.wb-statement-pane,.wb-code-pane,.wb-body,.tb-workbench) {background:color-mix(in srgb,var(--panel) 88%,transparent)}
+.appearance-opacity {gap:12px}
+.appearance-opacity input {width:min(180px,30%);accent-color:var(--accent)}
+.appearance-opacity output {width:3em;font-variant-numeric:tabular-nums;color:var(--muted);font-size:.85rem}
+.training-dashboard {align-items:stretch}
+.training-dashboard:has(.training-goal):not(:has(.training-goal~.training-goal)) .pulse-week {display:none}
+.training-dashboard:has(.training-goal):not(:has(.training-goal~.training-goal))>.training-goals {align-self:start}
+.training-pulse {justify-content:flex-start}
+.pulse-week {position:relative;margin-top:auto;border-top:1px solid var(--line);padding-top:9px}
+.pulse-week-heading {display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted)}
+.pulse-week-heading b {color:var(--accent);font-weight:600;font-variant-numeric:tabular-nums}
+.pulse-week-bars {display:flex;gap:8px;height:47px;margin-top:7px;align-items:stretch}
+.pulse-week-bars>div {flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px}
+.pulse-week-bars i {display:block;width:min(100%,24px);height:calc(var(--day-height) * .65);min-height:3px;border-radius:3px;background:var(--line)}
+.pulse-week-bars i[data-active=true] {background:color-mix(in srgb,var(--accent) 75%,transparent)}
+.pulse-week-bars small {color:var(--muted);font-size:.65rem}
+.next-milestone {display:flex;flex-direction:column;text-align:left;gap:10px;flex:1;padding:17px 19px;border:1px solid var(--line);border-radius:10px;color:var(--text);background:linear-gradient(125deg,var(--panel),var(--accent-soft));min-height:150px}
+.next-milestone>div:first-child {display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--accent)}
+.next-milestone>div:first-child svg:last-child {margin-left:auto}
+.next-milestone>strong {font-size:1.15rem}
+.next-milestone>p {font-size:.85rem;margin:0;color:var(--muted)}
+.next-milestone>small {font-size:.76rem;color:var(--muted)}
+.milestone-meter {height:5px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:auto}
+.milestone-meter>i {display:block;height:100%;background:var(--accent);border-radius:inherit}
+.next-milestone:hover {border-color:var(--accent)}
+@container workspace (max-width:1000px) {.training-pulse{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center}.pulse-week{grid-column:2;grid-row:1/3;border:0;margin:0;padding:0 0 0 18px;border-left:1px solid var(--line)}.pulse-facts{grid-column:1}.pulse-clock small{width:100%}}
+@container workspace (max-width:560px) {.training-pulse{grid-template-columns:1fr}.pulse-week{grid-column:auto;grid-row:auto;border:0;border-top:1px solid var(--line);padding:9px 0 0}}

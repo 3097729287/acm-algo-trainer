@@ -14,7 +14,7 @@ function useGoals(api) {
 export function GoalReminder({api,onOpen}) {
   const {data}=useGoals(api);
   const incomplete=data.goals.filter(goal=>!goal.workloadCompleted&&(!goal.dailyTask.completed||goal.warnings.length));
-  return incomplete.length>0&&<button className="goal-reminder" aria-label="目标任务提醒" onClick={onOpen}><Bell size={15}/><span>{incomplete.length} 个目标待推进</span></button>;
+  return incomplete.length>0&&<button className="goal-reminder topbar-status-chip" aria-label="目标任务提醒" onClick={onOpen}><Bell size={15}/><span>待办目标</span><b>{incomplete.length}</b></button>;
 }
 
 const blank=()=>({title:'CF 2200',kind:'cf',deadline:'',currentRating:1000,targetRating:2200,dailyMinutes:90,totalProblems:100});

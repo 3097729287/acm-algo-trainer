@@ -104,7 +104,7 @@
 }
 .mock-picker-item {
   display: grid;
-  grid-template-columns: 20px minmax(0, 1fr) auto;
+  grid-template-columns: minmax(20px, max-content) minmax(0, 1fr) auto;
   align-items: center;
   gap: 8px;
   width: 100%;
@@ -125,6 +125,7 @@
   color: var(--accent);
 }
 .mock-picker-title {
+  min-width: 0;
   overflow-wrap: anywhere;
 }
 .mock-picker-verdict {

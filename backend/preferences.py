@@ -4,7 +4,7 @@ import re
 
 from training import ServiceError, iso
 
-ALLOWED = frozenset(('panelStyle', 'backdrop', 'widgets', 'theme', 'accent', 'motion', 'compact', 'collapsed', 'favorites', 'views',
+ALLOWED = frozenset(('panelStyle', 'backdrop', 'panelOpacity', 'widgets', 'theme', 'accent', 'motion', 'compact', 'collapsed', 'favorites', 'views',
                      'readerWidth', 'fontSize', 'navOrder', 'navLabels', 'navGroups', 'seenAchievements'))
 
 
@@ -28,6 +28,8 @@ def save_preferences(training, body):
             raise ServiceError(400, '外观选项无效')
     if 'widgets' in value and type(value['widgets']) is not bool:
         raise ServiceError(400, '训练挂件选项无效')
+    if 'panelOpacity' in value and (type(value['panelOpacity']) is not int or not 25 <= value['panelOpacity'] <= 100):
+        raise ServiceError(400, '面板不透明度须为 25–100')
     try:
         text = json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False)
     except (ValueError, TypeError):

@@ -1,5 +1,16 @@
 # 开发、验证与构建
 
+v1.1.2 正在验证与打包，尚未正式发布；当前正式下载仍为 v1.1.1。 [1.1.2 说明](releases/1.1.2.md)。
+
+## 1.1.2 发布检查
+
+运行 `python scripts/check.py`、前端 build，以及 `tests/app.mjs`、`tests/workbench.mjs`、`tests/rankings.mjs`、`tests/workspace-decorations.mjs`、`tests/replay-layout.mjs`、`tests/external-browser.mjs` 与 `tests/webview-loading.mjs`。`python desktop/tests/managed_login.py` 使用隔离无头浏览器和合成会话验证关闭、重启；不访问真实 OJ。共享服务运行 SQLite 与独立 MySQL 的协议套件，包含并发抢昵称和快照版本确认。
+
+恢复副本按五分钟限频，升级和云端替换仍独立备份。不要把该优化改成异步未提交写入。昵称迁移前备份同一 MySQL，在 API 停止时应用 `007` 并运行 `scripts/migrate-nicknames.mjs`，冲突中止而不自动改名。
+
+发布使用固定、已推送提交的独立工作树，避免正在续写的公共内容改变包内库存；题库、前端、安装器、增量包、来源清单和标签须来自同一提交。完成全新安装、完整升级、更新器重启和上一正式版增量应用后再公开资产。
+
+
 当前客户端正式版为 [v1.1.1](releases/1.1.1.md)。可见浏览器提交无需扩展；首次需在 TB 打开的浏览器中登录。正式包题解为 960 组，后续源码内容续写不改写已发布包。
 
 ## 1.1.1 发布检查

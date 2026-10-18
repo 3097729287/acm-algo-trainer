@@ -1936,7 +1936,10 @@ kbd {
 }
 .slot-letter {
   height: 30px;
-  width: 30px;
+  min-width: 30px;
+  width: max-content;
+  padding-inline: 8px;
+  box-sizing: border-box;
   background: var(--panel-2);
   border: 1px solid var(--line);
   color: var(--muted);

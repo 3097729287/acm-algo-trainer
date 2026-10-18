@@ -4,6 +4,7 @@ TB 将题库、图文题解、C++ 编辑、本地评测和训练记录放在同�
 
 <!-- release-status:start -->
 **当前正式版为 v1.1.1。** [安装包、便携版、增量包与校验清单](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.1.1)。本次正式包固定为 960 组默认/详细题解，后续题解续写独立保留。
+v1.1.2 正在验证与打包，尚未正式发布；当前正式下载仍为 v1.1.1。
 <!-- release-status:end -->
 
 [项目主页](https://3097729287.github.io/acm-algo-trainer/) · [使用说明](docs/usage.md) · [1.1.1 更新说明](docs/releases/1.1.1.md) · [开发与构建](docs/development.md) · [English](README.en.md)
@@ -15,6 +16,15 @@ TB 将题库、图文题解、C++ 编辑、本地评测和训练记录放在同�
 Windows 10/11 x64。[安装包](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.1/TB-Setup-1.1.1-win64.exe)包含 C++ 编译器和离线 WebView2 组件；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.1/TB-1.1.1-win64.zip)需要完整解压。
 
 保存草稿、退出 TB 后安装到原目录，个人数据库和导入内容保留。跨电脑使用同一账号时，各电脑应升级到同一新版；1.1.1 起无需扩展，原站登录保存在独立的提交浏览器配置中。自动更新先保存草稿、在线备份 SQLite、校验 SHA-256，再替换程序；进行中的提交或模拟赛结束后继续。实际增量包、`BUILD-INFO.json`、`RELEASE-MANIFEST.json` 与 `SHA256SUMS.txt` 以发布页为准。
+
+## v1.1.2（准备发布）
+
+- 重现赛改为原站表单提交，官方回执关联本场成绩；长题号不再重叠，删除记录同时移除独立加入的训练项。
+- 记住 TB 专用浏览器与本机加密会话；登录恢复通过版本确认跳过未变化的大快照。
+- 自动保存减少整库复制，小屏保留移除和清空入口。
+- 排行榜去掉 ID，昵称不可重复；顶部状态统一，增加训练进度卡片和可调透明面板。
+
+[完整说明与示例界面](docs/releases/1.1.2.md)。固定构建沿用 960 组两版题解，另行续写的内容独立保留。
 
 ## v1.1.1
 

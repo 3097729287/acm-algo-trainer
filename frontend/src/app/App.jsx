@@ -118,6 +118,7 @@ const DEFAULTS = {
   panelStyle: "outlined",
   backdrop: "none",
   widgets: true,
+  panelOpacity: 76,
   theme: "dark",
   accent: "violet",
   motion: true,
@@ -717,6 +718,7 @@ export default function App() {
     const root = document.documentElement;
     root.dataset.panelStyle = prefs.panelStyle;
     root.dataset.backdrop = prefs.backdrop;
+    root.style.setProperty('--panel-opacity', `${Math.min(100, Math.max(25, Number(prefs.panelOpacity) || 76))}%`);
     const background = localStorage.getItem("tb.appearance.background");
     if (background?.startsWith("data:image/jpeg;base64,")) root.style.setProperty("--workspace-image", `url("${background}")`);
     root.dataset.theme = prefs.theme;
@@ -1600,14 +1602,6 @@ export default function App() {
           >
             <BookOpen size={15} />
           </button>
-          <button
-            className="row-icon start"
-            aria-label={"练习 " + row.title}
-            onClick={() => openPractice(row.id)}
-            disabled={busy}
-          >
-            <Play size={15} />
-          </button>
           {row.active && (
             <button
               className="row-icon remove-training"
@@ -1665,7 +1659,7 @@ export default function App() {
           <option value="contestDate">比赛时间</option><option value="contest">按场次</option><option value="difficulty">按难度</option><option value="date">最近练习</option><option value="title">按题名</option>
         </select>
         <span className="toolbar-count">{visible.length} 题</span>
-        {page === "mine" && <button className="secondary" aria-label="清空我的训练" disabled={busy || !mine.length || !!active || !!workspace.summary.pending} onClick={() => setDialog("clear-training")}><MinusCircle size={15} />清空全部训练</button>}
+        {page === "mine" && <button className="secondary clear-training-button" aria-label="清空我的训练" disabled={busy || !mine.length || !!active || !!workspace.summary.pending} onClick={() => setDialog("clear-training")}><MinusCircle size={15} />清空训练</button>}
       </div>
             {(currentFilters.category ||
               currentFilters.contest ||
@@ -2226,7 +2220,7 @@ export default function App() {
                 {timerText(remainingSeconds(active, now))}
               </button>
             )}
-            <button className="text-button topbar-daily-ac" onClick={() => go("mine")}>今日 AC {summary.todayAccepted || 0} 题</button>
+            <button className="text-button topbar-daily-ac topbar-status-chip" aria-label={`今日 AC ${summary.todayAccepted || 0} 题`} onClick={() => go("mine")}><Check size={14}/><span>今日 AC</span><b>{summary.todayAccepted || 0}</b></button>
             <button type="button" className={`topbar-overview ${growth?.ranked?.badge || growth?.badge || ""}`} aria-label="训练概览" aria-haspopup="dialog" aria-busy={!growthReady} title="你的训练概览" onClick={() => setDialog("summary")}>
               {growthReady ? <><TierIcon badge={growth.ranked?.badge || growth.badge} size={16} /><strong>{growth.ranked?.tier || growth.tier} · Lv.{growth.level}</strong><span>{growth.ranked ? `${num(growth.ranked.score)} TB 排位分` : `${num(growth.currentLevelXp)}/${num(growth.nextLevelXp)} XP`}</span></> : <><LoaderCircle size={16} className="spin" /><span role="status">成长数据读取中</span></>}
             </button>

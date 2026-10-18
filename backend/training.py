@@ -47,6 +47,7 @@ class TrainingService:
         self.lock = threading.RLock()
         self.clock = clock or (lambda: dt.datetime.now(UTC))
         self.rng = rng or secrets.SystemRandom()
+        self._last_backup_at = None
         # A full directory mirrored into the backup name doubles its length.
         # Per-account paths then exceed SQLite's Windows path limit. Existing
         # backup folders stay intact; new backups use a stable short namespace.
@@ -180,11 +181,17 @@ class TrainingService:
             self.connection.backup(backup)
         finally:
             backup.close()
+        self._last_backup_at = time.monotonic()
 
     @contextmanager
     def _write(self):
         with self.lock:
-            self._backup()
+            # SQLite commits remain fully durable. Full online recovery copies
+            # are bounded, rather than copying the entire code history for
+            # every autosave, mission update and receipt in the same minute.
+            # Migrations and cloud replacements still call _backup explicitly.
+            if self._last_backup_at is None or time.monotonic() - self._last_backup_at >= 300:
+                self._backup()
             self.connection.execute("BEGIN IMMEDIATE")
             try:
                 yield self.connection
@@ -310,6 +317,7 @@ class TrainingService:
         with self.lock:
             self._row(identity)
             with self._write() as connection:
+                self._claim_training(connection, identity)
                 self._activate(connection, identity, iso(self._now()))
             return {"workspace": self.workspace()}
 
@@ -399,7 +407,15 @@ class TrainingService:
             key=canonical_url(session['url'])
             if not key or canonical_url(row.get('url') or self._asset_library().problem(row['id']).get('url'))!=key:
                 raise ServiceError(409,"官方回执与本题不一致")
-            self.assert_solution_unlocked(row['id'])
+            contest = self.assert_official_allowed(row['id'], session.get('contestId'), receipt=True)
+            accepted_at = receipt.get('acceptedAt') or session.get('acceptedAt')
+            try:
+                submitted = iso(parse_time(accepted_at)) if accepted_at else iso(self._now())
+            except (ValueError, TypeError, AttributeError):
+                submitted = iso(self._now())
+            contest_id = None
+            if contest and contest['started_at'] <= submitted <= min(contest['deadline'], contest['finished_at'] or contest['deadline']):
+                contest_id = contest['id']
             identity='official-'+hashlib.sha256((str(urlsplit(session['url']).hostname)+'/'+remote).encode()).hexdigest()
             existing=self.connection.execute('SELECT * FROM submissions WHERE id=?',(identity,)).fetchone()
             if existing:
@@ -408,23 +424,23 @@ class TrainingService:
                 if not existing['code'] and session.get('code'):
                     with self._write() as connection:
                         connection.execute('UPDATE submissions SET code=? WHERE id=?', (self._code(session['code']), identity))
+                if contest_id and not existing['contest_id'] and contest['started_at'] <= existing['submitted_at'] <= min(contest['deadline'], contest['finished_at'] or contest['deadline']):
+                    with self._write() as connection:
+                        connection.execute('UPDATE submissions SET contest_id=? WHERE id=? AND contest_id IS NULL', (contest_id, identity))
+                        self._recompute_progress(connection, row['id'])
                 return self._submission(self.connection.execute('SELECT * FROM submissions WHERE id=?', (identity,)).fetchone())
-            # 受理时刻：优先用桥冻结的 acceptedAt（原站真正接收提交的时间），
-            # 没有才退回当前时间——这样延迟回执不会把通过挪到收到回执那天。
-            accepted_at = receipt.get('acceptedAt') or session.get('acceptedAt')
-            try:
-                submitted = iso(parse_time(accepted_at)) if accepted_at else iso(self._now())
-            except (ValueError, TypeError, AttributeError):
-                submitted = iso(self._now())
             finished = iso(self._now())
             with self._write() as connection:
-                self._activate(connection,row['id'],submitted)
+                if contest and contest['deleted_at']:
+                    connection.execute('INSERT OR IGNORE INTO training(id,active_at,active) VALUES(?,?,0)', (row['id'], submitted))
+                else:
+                    self._activate(connection,row['id'],submitted)
                 # 独立性以“受理时刻是否在看过题解之后”判定：看题解时间早于本次受理 = 看过题解。
                 seen_row=connection.execute('SELECT solution_seen_at FROM training WHERE id=?',(row['id'],)).fetchone()
                 seen_at=seen_row[0] if seen_row else None
                 seen=bool(seen_at and seen_at<submitted)
-                connection.execute("INSERT INTO submissions(id,problem_id,contest_id,mode,code,submitted_at,finished_at,verdict,scope,message,solution_seen) VALUES(?,?,NULL,'submit',?,?,?,?, 'official',?,?)",
-                    (identity,row['id'],self._code(session['code']),submitted,finished,verdict,'原站确认提交 #'+remote+(' · 官网同步（未取得源码）' if session.get('external') else ''),int(seen)))
+                connection.execute("INSERT INTO submissions(id,problem_id,contest_id,mode,code,submitted_at,finished_at,verdict,scope,message,solution_seen) VALUES(?,?,?,'submit',?,?,?,?, 'official',?,?)",
+                    (identity,row['id'],contest_id,self._code(session['code']),submitted,finished,verdict,'原站确认提交 #'+remote+(' · 官网同步（未取得源码）' if session.get('external') else ''),int(seen)))
                 self._recompute_progress(connection,row['id'])
             result = self._submission(self.connection.execute('SELECT * FROM submissions WHERE id=?',(identity,)).fetchone())
         if verdict == 'AC':
@@ -643,9 +659,12 @@ class TrainingService:
             return self.connection.execute('SELECT auth_token FROM ranking_profile WHERE singleton=1').fetchone()[0]
 
     def bind_account(self, account, endpoint):
-        with self.lock, self._write() as connection:
-            connection.execute('UPDATE ranking_profile SET user_id=?,nickname=?,auth_token=?,endpoint=? WHERE singleton=1',
-                               (account['userId'], account['nickname'], '', endpoint))
+        with self.lock:
+            previous = self.connection.execute('SELECT user_id,nickname,auth_token,endpoint FROM ranking_profile WHERE singleton=1').fetchone()
+            values = (account['userId'], account['nickname'], '', endpoint)
+            if not previous or tuple(previous) != values:
+                with self._write() as connection:
+                    connection.execute('UPDATE ranking_profile SET user_id=?,nickname=?,auth_token=?,endpoint=? WHERE singleton=1', values)
         if not self.jobs_started:
             self.jobs_started = True
             with self.lock:
@@ -746,6 +765,7 @@ class TrainingService:
                 with self._write() as connection:
                     connection.execute("INSERT INTO practice_sets VALUES(?,?,?,?)", (identity, contest_name, json.dumps(ids, ensure_ascii=False), timestamp))
                     for problem_id in ids:
+                        self._claim_training(connection, problem_id)
                         self._activate(connection, problem_id, timestamp)
             else:
                 identity = existing["id"]
@@ -757,6 +777,7 @@ class TrainingService:
                     with self._write() as connection:
                         connection.execute("UPDATE practice_sets SET ids=? WHERE id=?", (json.dumps(ids, ensure_ascii=False), identity))
                         for problem_id in ids:
+                            self._claim_training(connection, problem_id)
                             self._activate(connection, problem_id, timestamp)
             workspace = self.workspace()
             return {"set": next(item for item in workspace["sets"] if item["id"] == identity), "workspace": workspace}
@@ -771,9 +792,11 @@ class TrainingService:
 
     def _finish_record(self, connection, contest, finished_at):
         connection.execute("UPDATE contests SET status='finished',finished_at=? WHERE id=? AND status='running'", (finished_at, contest["id"]))
+        replay = json.loads(contest['config'] or '{}').get('strategy') == 'replay'
+        aliases = self._identity_map() if replay else {}
+        solved = {aliases.get(row[0], row[0]) for row in connection.execute("SELECT problem_id FROM submissions WHERE contest_id=? AND mode='submit' AND ((?=0 AND scope='local' AND verdict IN ('AC','SAMPLE_PASS')) OR (scope='official' AND verdict='AC')) AND finished_at IS NOT NULL", (contest['id'], int(replay)))}
         for slot in json.loads(contest["slots"]):
-            solved = connection.execute("SELECT 1 FROM submissions WHERE contest_id=? AND problem_id=? AND mode='submit' AND scope='local' AND verdict IN ('AC','SAMPLE_PASS') AND finished_at IS NOT NULL", (contest["id"], slot["id"])).fetchone()
-            if not solved:
+            if aliases.get(slot['id'], slot['id']) not in solved:
                 connection.execute("UPDATE training SET mock_due=1,mock_due_at=?,mock_due_context=? WHERE id=?", (finished_at, contest["id"], slot["id"]))
 
     def _contest_record(self, identity):
@@ -796,6 +819,32 @@ class TrainingService:
             active = self.connection.execute("SELECT slots FROM contests WHERE status='running'").fetchone()
             if active and identity in self._locked_ids(active):
                 raise ServiceError(403, "模拟赛进行中，这道题的题解已锁定。交卷后可以复盘。")
+
+    def assert_official_allowed(self, identity, contest_id=None, receipt=False):
+        """Replay uses native OJ forms; blind mock exams retain their lock."""
+        with self.lock:
+            contest = self._context(identity, contest_id, writing=not receipt) if contest_id else None
+            if contest and json.loads(contest['config'] or '{}').get('strategy') == 'replay':
+                return contest
+            active = self.connection.execute("SELECT * FROM contests WHERE status='running'").fetchone()
+            if not contest and active and json.loads(active['config'] or '{}').get('strategy') == 'replay':
+                if identity in self._locked_ids(active):
+                    return None
+            self.assert_solution_unlocked(identity)
+            return None
+
+    def _claim_training(self, connection, identity):
+        """An explicit join gives a replay-created training entry its own life."""
+        equivalents = set(self._equivalent_ids(identity))
+        for contest in connection.execute("SELECT id,slots FROM contests WHERE deleted_at IS NULL").fetchall():
+            slots = json.loads(contest['slots'])
+            changed = False
+            for slot in slots:
+                if slot['id'] in equivalents and slot.get('trainingAdded'):
+                    slot['trainingAdded'] = False
+                    changed = True
+            if changed:
+                connection.execute('UPDATE contests SET slots=? WHERE id=?', (json.dumps(slots, ensure_ascii=False), contest['id']))
 
     def _locked_ids(self, active):
         """A remote/archive alias must not bypass the same original-question lock."""
@@ -922,6 +971,8 @@ class TrainingService:
                 return {"savedAt": existing["saved_at"]}
             saved_at = iso(self._now())
             with self._write() as connection:
+                if not contest_id and code.strip():
+                    self._claim_training(connection, identity)
                 connection.execute("INSERT INTO drafts VALUES(?,?,?,?) ON CONFLICT(problem_id,context) DO UPDATE SET code=excluded.code,saved_at=excluded.saved_at", (identity, context, code, saved_at))
             return {"savedAt": saved_at}
 
@@ -938,7 +989,9 @@ class TrainingService:
             raise ServiceError(400, "请先输入 C++ 代码")
         with self.lock:
             self._row(identity)
-            self._context(identity, contest_id, writing=True)
+            contest = self._context(identity, contest_id, writing=True)
+            if mode == 'submit' and contest and json.loads(contest['config'] or '{}').get('strategy') == 'replay':
+                raise ServiceError(409, '重现赛请使用原站提交')
             if self.closed:
                 raise ServiceError(503, "判题服务正在关闭，请稍后重试")
             pending = self.connection.execute("SELECT COUNT(*) FROM submissions WHERE finished_at IS NULL").fetchone()[0]
@@ -1405,7 +1458,11 @@ class TrainingService:
             deadline = iso(now + dt.timedelta(minutes=duration))
             identity = "contest-" + uuid.uuid4().hex
             with self._write() as connection:
-                connection.execute("INSERT INTO contests(id,name,status,started_at,deadline,finished_at,duration,slots,config) VALUES(?,?,'running',?,?,NULL,?,?,?)", (identity, name, timestamp, deadline, duration, json.dumps(preview["slots"], ensure_ascii=False), json.dumps(options, ensure_ascii=False)))
+                owned = {slot['id'] for prior in connection.execute('SELECT slots,config FROM contests WHERE deleted_at IS NULL')
+                         if json.loads(prior['config'] or '{}').get('strategy') == 'replay' for slot in json.loads(prior['slots']) if slot.get('trainingAdded')}
+                slots = [dict(slot, trainingAdded=bool(set(self._equivalent_ids(slot['id'])) & owned) or not any(connection.execute('SELECT 1 FROM training WHERE id=? AND active=1', (other,)).fetchone()
+                         for other in self._equivalent_ids(slot['id']))) for slot in preview['slots']]
+                connection.execute("INSERT INTO contests(id,name,status,started_at,deadline,finished_at,duration,slots,config) VALUES(?,?,'running',?,?,NULL,?,?,?)", (identity, name, timestamp, deadline, duration, json.dumps(slots, ensure_ascii=False), json.dumps(options, ensure_ascii=False)))
                 for problem_id in ids:
                     self._activate(connection, problem_id, timestamp)
             self.previews.pop(tuple(ids), None)
@@ -1413,17 +1470,19 @@ class TrainingService:
 
     def _contest(self, record):
         records = self.connection.execute("SELECT * FROM submissions WHERE contest_id=? AND mode='submit' ORDER BY submitted_at,rowid", (record["id"],)).fetchall()
+        config = json.loads(record['config'] or '{}')
+        aliases = self._identity_map() if config.get('strategy') == 'replay' else {}
         by_problem = {}
         for submission in records:
-            by_problem.setdefault(submission["problem_id"], []).append(submission)
+            by_problem.setdefault(aliases.get(submission['problem_id'], submission['problem_id']), []).append(submission)
         slots, penalty = [], 0
-        config = json.loads(record["config"] or "{}")
         for frozen in json.loads(record["slots"]):
-            attempts = by_problem.get(frozen["id"], [])
-            # 2026-10-10：赛中以本地判题为准（赛中不开放官方提交）。本场“通过”指本地审核题
-            # 全部用例通过（scope=local），属模赛内部成绩，不叫本地 AC、不发主经验、不改个人进度；
-            # 纯样例题（scope=samples）全对只记样例通过，不计本场通过。
-            accepted = next((submission for submission in attempts if submission["finished_at"] and submission["scope"] == "local" and submission["verdict"] in ("AC", "SAMPLE_PASS")), None)
+            attempts = by_problem.get(aliases.get(frozen['id'], frozen['id']), [])
+            # Replay counts original-site AC; blind mock exams also accept
+            # reviewed local cases. Public samples never count as a solved slot.
+            accepted = next((submission for submission in attempts if submission["finished_at"] and
+                (submission['scope'] == 'official' and submission['verdict'] == 'AC' or
+                 config.get('strategy') != 'replay' and submission['scope'] == 'local' and submission['verdict'] in ('AC', 'SAMPLE_PASS'))), None)
             latest = attempts[-1] if attempts else None
             sample_ok = accepted is not None or any(submission["finished_at"] and submission["verdict"] == "SAMPLE_PASS" for submission in attempts)
             slot = {"letter": frozen["letter"], "id": frozen["id"], "title": frozen["title"], "accepted": accepted is not None, "samplePassed": sample_ok, "verdict": latest["verdict"] if latest else None, "attempts": len(attempts), "solvedAt": accepted["submitted_at"] if accepted else None}
@@ -1463,12 +1522,36 @@ class TrainingService:
                 record = self._contest_record(identity)
                 if record['status'] == 'running':
                     raise ServiceError(409, '请先交卷，再删除这场模拟赛记录')
-            # Hide the contest without deleting submitted code, drafts or AC
-            # evidence. A durable tombstone also keeps old context IDs valid.
+            # A tombstone preserves code and score evidence. Only entries
+            # introduced by a deleted replay lose their active training link.
+            removed = set()
             with self._write() as connection:
-                rows = connection.execute("SELECT id FROM contests WHERE status='finished' AND deleted_at IS NULL" + ('' if all_records else ' AND id=?'), () if all_records else (identity,)).fetchall()
+                rows = connection.execute("SELECT * FROM contests WHERE status='finished' AND deleted_at IS NULL" + ('' if all_records else ' AND id=?'), () if all_records else (identity,)).fetchall()
                 connection.executemany('UPDATE contests SET deleted_at=? WHERE id=?', [(iso(self._now()), row['id']) for row in rows])
-            return {'deleted': len(rows), 'workspace': self.workspace()}
+                remaining = {slot['id'] for other in connection.execute('SELECT slots FROM contests WHERE deleted_at IS NULL') for slot in json.loads(other['slots'])}
+                practiced = {item for other in connection.execute('SELECT ids FROM practice_sets') for item in json.loads(other['ids'])}
+                for record in rows:
+                    if json.loads(record['config'] or '{}').get('strategy') != 'replay':
+                        continue
+                    for slot in json.loads(record['slots']):
+                        ids = self._equivalent_ids(slot['id'])
+                        if set(ids) & (remaining | practiced) or slot.get('trainingAdded') is False:
+                            continue
+                        placeholders = ','.join('?' for _ in ids)
+                        if 'trainingAdded' not in slot:
+                            # Legacy replay: preserve any evidence of training
+                            # before the replay, or subsequent separate practice.
+                            earlier = connection.execute(f'SELECT 1 FROM training WHERE id IN ({placeholders}) AND active_at<?', ids + [record['started_at']]).fetchone()
+                            personal = connection.execute(f'SELECT 1 FROM drafts WHERE problem_id IN ({placeholders}) AND context=? AND code<>?', ids + ['', '']).fetchone()
+                            external = connection.execute(f'SELECT 1 FROM submissions WHERE problem_id IN ({placeholders}) AND (contest_id IS NULL OR contest_id<>?)', ids + [record['id']]).fetchone()
+                            if earlier or personal or external:
+                                continue
+                        pending = connection.execute(f'SELECT 1 FROM submissions WHERE problem_id IN ({placeholders}) AND finished_at IS NULL', ids).fetchone()
+                        if pending:
+                            continue
+                        connection.execute(f'UPDATE training SET active=0,removed_at=?,mock_due=0,mock_due_at=NULL,mock_due_context=NULL WHERE id IN ({placeholders}) AND active=1', [iso(self._now())] + ids)
+                        removed.add(slot['id'])
+            return {'deleted': len(rows), 'removedTraining': len(removed), 'workspace': self.workspace()}
 
     def workspace(self):
         with self.lock, self._library_view():

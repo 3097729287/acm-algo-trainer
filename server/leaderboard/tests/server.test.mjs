@@ -34,7 +34,7 @@ test('public callers cannot spoof proxy headers to bypass IP registration limits
       const response = await fetch(f.endpoint + '/v1/accounts/register', { method: 'POST',
         headers: { 'Content-Type': 'application/json',
           'X-TB-Client-IP': `192.0.2.${i}`, 'X-Forwarded-For': `192.0.2.${i}` },
-        body: JSON.stringify({ loginId: 'user_' + id.slice(0, 8), nickname: 'test', password: 'fixture-password' }) });
+        body: JSON.stringify({ loginId: 'user_' + id.slice(0, 8), nickname: 'test-' + id.slice(0, 8), password: 'fixture-password' }) });
       assert.equal(response.status, i < 10 ? 201 : 429);
       await response.text();
     }

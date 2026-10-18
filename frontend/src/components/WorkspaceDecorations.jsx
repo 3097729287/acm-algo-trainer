@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Award, Clock3, ImagePlus, Mountain, Palette, Sparkles, Target, Trophy, X } from 'lucide-react';
 import RankingMedal from './RankingMedal.jsx';
+import TitleMedals from './TitleMedals.jsx';
 import '../styles/decorations.css';
 
 export function AppearanceSettings({ prefs, setPrefs, onError }) {
@@ -29,6 +30,7 @@ export function AppearanceSettings({ prefs, setPrefs, onError }) {
       ['minimal', '清简', '干净的实色面板'], ['outlined', '线框', '清晰边框与细节'], ['aurora', '极光', '柔和渐变与光点'], ['blueprint', '蓝图', '工程网格与标尺'],
     ].map(([id, title, note]) => <button type="button" key={id} aria-pressed={prefs.panelStyle === id} className={`style-preset style-${id}`} onClick={() => setPrefs(previous => ({ ...previous, panelStyle: id }))}><i aria-hidden="true"/><strong>{title}</strong><small>{note}</small></button>)}</div>
     <div className="settings-row"><div><strong>页面背景</strong><small>使用静态图案，减少动画开销</small></div><select aria-label="页面背景" value={prefs.backdrop} onChange={event => setPrefs(previous => ({ ...previous, backdrop: event.target.value }))}>{[['none','纯色'],['aurora','夜空极光'],['grid','细线网格'],['sunset','落日余晖'],...(hasImage ? [['custom','我的图片']] : [])].map(([id,name]) => <option value={id} key={id}>{name}</option>)}</select></div>
+    <label className="settings-row appearance-opacity"><div><strong>面板不透明度</strong><small>降低后可透出更多背景</small></div><input type="range" aria-label="面板不透明度" min="25" max="100" step="1" value={prefs.panelOpacity ?? 76} onChange={event => setPrefs(previous => ({...previous,panelOpacity:Number(event.target.value)}))}/><output>{prefs.panelOpacity ?? 76}%</output></label>
     <div className="appearance-image-actions"><input ref={input} hidden type="file" accept="image/png,image/jpeg,image/webp" onChange={imageSelected}/><button className="secondary" onClick={() => input.current.click()}><ImagePlus size={15}/>选择背景图片</button>{hasImage && <button className="text-button" onClick={() => { localStorage.removeItem('tb.appearance.background'); document.documentElement.style.removeProperty('--workspace-image'); setHasImage(false); setPrefs(previous => ({...previous, backdrop:'none'})); }}><X size={14}/>清除图片</button>}<small>图片仅保存在本机，不上传到账号。</small></div>
     <label className="settings-row"><div><strong>训练小挂件</strong><small>显示专注时钟、训练进度与简约山景</small></div><input className="toggle" type="checkbox" aria-label="训练小挂件" checked={prefs.widgets} onChange={event => setPrefs(previous => ({...previous, widgets:event.target.checked}))}/></label>
   </section>;
@@ -39,7 +41,19 @@ export function TrainingPulse({ insights, workspace }) {
   useEffect(() => { const tick = () => { if (!document.hidden) setNow(new Date()); }; const id = setInterval(tick, 60000); document.addEventListener('visibilitychange',tick); return () => {clearInterval(id); document.removeEventListener('visibilitychange',tick);}; }, []);
   const summary = insights?.summary || {}, tasks = insights?.dailyTasks?.tasks || [];
   const remaining = tasks.filter(task => !task.completed && (task.progress || 0) < (task.target || 1)).length;
-  return <aside className="training-pulse" aria-label="训练小挂件"><div className="pulse-clock"><Clock3 size={14}/><time>{now.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit',hour12:false})}</time><small>保持专注，每一步都算数</small></div><Mountain className="pulse-mountain" size={84} strokeWidth={.8} aria-hidden="true"/><div className="pulse-facts"><span><Trophy size={14}/><b>{summary.totalSolved ?? summary.officialSolved ?? workspace?.summary?.accepted ?? '—'}</b>累计 AC</span><span><Target size={14}/>{remaining ? `${remaining} 项任务待完成` : '开始今天的训练'}</span></div></aside>;
+  const activity = new Map((insights?.activity || []).map(item=>[item.date,item.officialAccepted || 0]));
+  const date = new Date(now.toLocaleDateString('en-CA',{timeZone:'Asia/Shanghai'})+'T00:00:00Z');
+  const week = Array.from({length:7},(_,index)=>{const day=new Date(+date-(6-index)*86400000),key=day.toISOString().slice(0,10);return {key,count:activity.get(key)||0,label:['日','一','二','三','四','五','六'][day.getUTCDay()]};});
+  const peak=Math.max(1,...week.map(day=>day.count));
+  return <aside className="training-pulse" aria-label="训练小挂件"><div className="pulse-clock"><Clock3 size={14}/><time>{now.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit',hour12:false})}</time><small>保持专注，每一步都算数</small></div><Mountain className="pulse-mountain" size={84} strokeWidth={.8} aria-hidden="true"/><div className="pulse-facts"><span><Trophy size={14}/><b>{summary.totalSolved ?? summary.officialSolved ?? workspace?.summary?.accepted ?? '—'}</b>累计 AC</span><span><Target size={14}/>{remaining ? `${remaining} 项待完成` : '今日任务已完成'}</span></div><div className="pulse-week" aria-label="近七日原站通过"><div className="pulse-week-heading"><span>近七日</span><b>{week.reduce((sum,day)=>sum+day.count,0)} 题次</b></div><div className="pulse-week-bars">{week.map(day=><div key={day.key} title={`${day.key} · ${day.count} 题`}><i style={{'--day-height':`${Math.max(8,day.count/peak*100)}%`}} data-active={day.count>0}/><small>{day.label}</small></div>)}</div></div></aside>;
+}
+
+export function NextMilestone({ insights, onOpen }) {
+  const achievements=(insights?.achievements || []).filter(item=>/^official-\d+$/.test(item.id)).sort((a,b)=>(a.target||0)-(b.target||0));
+  const next=achievements.find(item=>!item.unlocked),earned=achievements.filter(item=>item.unlocked).at(-1);
+  const solved=insights?.summary?.totalSolved ?? insights?.summary?.officialSolved ?? 0;
+  const percent=next ? Math.min(100,solved/next.target*100) : 100;
+  return <button className="next-milestone" aria-label="下一个成就目标" onClick={onOpen}><div><Award size={18}/><span>下一个里程碑</span><ArrowUpRight size={15}/></div><strong>{next?.title || next?.name || '继续创造新纪录'}</strong><p>{next ? `再完成 ${Math.max(0,next.target-solved)} 题` : `已累计 AC ${solved} 题`}</p><div className="milestone-meter" role="progressbar" aria-label="成就目标进度" aria-valuenow={Math.round(percent)} aria-valuemin={0} aria-valuemax={100}><i style={{width:`${percent}%`}}/></div><small>{next ? `${solved} / ${next.target}` : earned?.title || earned?.name || '每一步都算数'}{next?.rewardTitle ? ` · 称号「${next.rewardTitle.name}」` : next?.rewardXp ? ` · +${next.rewardXp} XP` : ''}</small>{insights?.equippedTitles?.length>0&&<TitleMedals titles={insights.equippedTitles} compact/>}</button>;
 }
 
 export function MiniLeaderboard({ api, onOpen }) {

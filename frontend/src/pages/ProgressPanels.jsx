@@ -1,5 +1,6 @@
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
 import InlineTitle from '@/components/InlineTitle.jsx';
+import TitleMedals from '../components/TitleMedals.jsx';
 import { ArrowLeft, ArrowRight, Award, BookOpen, CalendarDays, Check, CheckCheck, ChevronRight, ExternalLink, Flag, Github, LoaderCircle, Play, RefreshCw, Search, Target, TrendingUp, Trophy, UserRound } from 'lucide-react';
 import { compareContestNewest, contestTime, difficultyBand, difficultyLabel, difficultyDescription } from '@/lib/practiceMetadata.js';
 import './ProgressPanels.css';
@@ -8,7 +9,7 @@ import TierIcon from '@/components/TierIcon.jsx';
 import ContestTabs, { isXcpc, matchesShelf } from '@/components/ContestTabs.jsx';
 import { knowledgeLabels } from '@/lib/knowledgeLabels.js';
 import { ProfileSettings } from './CommunityPanel.jsx';
-import { MiniLeaderboard } from '../components/WorkspaceDecorations.jsx';
+import { MiniLeaderboard, NextMilestone } from '../components/WorkspaceDecorations.jsx';
 
 const PLATFORMS = [
   ['codeforces', 'Codeforces', 'Handle'], ['atcoder', 'AtCoder', '用户名'],
@@ -37,11 +38,7 @@ function Loading({ text = '正在读取记录' }) { return <div className="progr
 function Empty({ children }) { return <div className="progress-empty">{children}</div>; }
 function Meter({ value, label }) { return <span className="progress-meter" role="meter" aria-label={label} aria-valuemin={0} aria-valuemax={100} aria-valuenow={clamp(value)}><i style={{ width: `${clamp(value)}%` }} /></span>; }
 
-export function TitleMedals({ titles = [], compact = false }) {
-  const items = list(titles);
-  if (!items.length) return null;
-  return <span className={`title-medals${compact ? ' title-medals-compact' : ''}`} aria-label="已获得称号">{items.map(item => <span className={`title-medal title-medal-${item.category || 'ac'}`} key={item.id} title={`${item.category === 'streak' ? '连续训练' : 'AC'} ${number(item.target)} ${item.category === 'streak' ? '天' : '题'} · ${item.name}`}><Award size={compact ? 14 : 17} aria-hidden="true" /><span>{item.name}</span></span>)}</span>;
-}
+export { default as TitleMedals } from '../components/TitleMedals.jsx';
 
 export function AchievementPanel({ achievements = [], newIds = [], onSeen }) {
   const [filter, setFilter] = useState('all');
@@ -128,6 +125,7 @@ export function GrowthPage({ onRankings, api, onGoalsChanged, insights, hub, acc
       </section>
       {api && <GrowthAccountPanel api={api} hub={hub} account={account} profile={profile} profileSnapshot={profileSnapshot} onProfileChanged={onProfileChanged} onHubChanged={onHubChanged} onError={onError} accountFocus={accountFocus} />}
       {onAchievements && <button className="growth-achievement-link" onClick={onAchievements}><Trophy size={17} /><span>查看成就</span><small>{list(insights.achievements).filter(item => item.unlocked).length}/{list(insights.achievements).length}</small><ArrowRight size={14} /></button>}
+      <NextMilestone insights={insights} onOpen={onAchievements}/>
       </div>
       <div className="progress-growth-right"><section className="progress-section progress-recommendations">
         <div className="progress-section-heading"><h2><Target size={17} />下一步练什么</h2><span>按实际记录推荐</span></div>

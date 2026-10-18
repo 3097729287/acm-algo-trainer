@@ -29,8 +29,8 @@ def main():
         if (source / name).is_symlink():
             raise SystemExit('Runtime source files must not be symbolic links.')
         shutil.copy2(source / name, folder / name)
-    if not (folder / 'mysql/006_public_progress.sql').is_file():
-        raise SystemExit('Public progress migration 006 is required for this runtime.')
+    if not all((folder / 'mysql' / name).is_file() for name in ('006_public_progress.sql', '007_unique_nicknames.sql')):
+        raise SystemExit('Public progress 006 and nickname 007 migrations are required for this runtime.')
     npm = shutil.which('npm.cmd' if sys.platform == 'win32' else 'npm')
     if not npm:
         raise SystemExit('npm is required to prepare production dependencies.')

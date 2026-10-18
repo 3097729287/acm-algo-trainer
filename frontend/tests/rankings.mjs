@@ -19,7 +19,7 @@ try {
  await own.getByText('Lv.10',{exact:true}).waitFor();
  await own.getByText('王者',{exact:true}).waitFor();
  await own.getByText('排位 黄金 · 1,560 分',{exact:true}).waitFor();
- await own.getByText('ID：TB-10000000000040008000000000000001',{exact:true}).waitFor();
+ assert.equal(await own.locator('.ranking-public-id').count(),0);
  assert.equal(await page.getByText('成长资料待同步',{exact:true}).count(),3);
  const medals=page.locator('.ranking-table .ranking-medal');
  for(const [label,period] of [['每日过题','daily'],['本周过题','weekly'],['累计过题','total']]) {
@@ -81,5 +81,5 @@ try {
  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=390));
  await page.screenshot({path:path.join(root,'tests/screenshots/rankings-mobile.png'),fullPage:true});
  assert.deepEqual(errors,[]);
- console.log(JSON.stringify({publicProgressAndStableId:true,legacyProgressPlaceholder:true,nineDistinctMedals:true,gradeOrder:true,threeWinners:true,adminControls:true,confirmationAndCancel:true,ordinaryUserHidden:true,periodSwitchRace:true,emptySnapshotPreserved:true,connectionRetry:true,mobile:true,errors}));
+ console.log(JSON.stringify({publicProgressAndNickname:true,idsHidden:true,legacyProgressPlaceholder:true,nineDistinctMedals:true,gradeOrder:true,threeWinners:true,adminControls:true,confirmationAndCancel:true,ordinaryUserHidden:true,periodSwitchRace:true,emptySnapshotPreserved:true,connectionRetry:true,mobile:true,errors}));
 } finally {await browser.close();await server.close();}

@@ -8,6 +8,11 @@ CREATE TABLE users (
   updated_at TEXT NOT NULL
 );
 
+CREATE TABLE account_nicknames (
+  nickname_key TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL UNIQUE REFERENCES users(user_id) ON DELETE CASCADE
+);
+
 CREATE TABLE ac_events (
   user_id TEXT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
   problem_key TEXT NOT NULL,

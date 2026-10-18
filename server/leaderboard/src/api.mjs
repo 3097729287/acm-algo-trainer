@@ -5,7 +5,7 @@ import { AccountError, loginId, password, verifyPassword, hashPassword, tokenHas
 import { validateState, guardStateJson, STATE_LIMIT } from './account-state.mjs';
 import { publicId, storedPublicProgress, validatePublicProgress } from './public-progress.mjs';
 
-const VERSION = '1.1.0';
+const VERSION = '1.1.2';
 const NOTICE = '排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const hashPattern = /^[a-f0-9]{64}$/;
@@ -120,7 +120,7 @@ export async function handle(request, env) {
     const timestamp = new Date(now).toISOString();
     if (path === '/v1/health' && request.method === 'GET') {
       await env.STORE.health();
-      return json({ ok: true, version: VERSION, eventScope: 'official', accountStateProtocol: 1, singleSession: true, publicProgressProtocol: 1 });
+      return json({ ok: true, version: VERSION, eventScope: 'official', accountStateProtocol: 1, singleSession: true, publicProgressProtocol: 1, nicknameUnique: true, stateResumeProtocol: 1 });
     }
     if (path === '/v1/profile/register') throw new ApiError(410, '请升级 TB 并注册账号后登录');
     if (['/v1/accounts/register', '/v1/accounts/login'].includes(path) && request.method === 'POST') {
@@ -159,7 +159,14 @@ export async function handle(request, env) {
       if (env.READ_ONLY !== '1') await env.STORE.recordLogin(user.user_id, bounds('daily', now).day, timestamp);
       return json({ account: publicAccount(user), stateRevision: await env.STORE.stateRevision(user.user_id), singleSession: true });
     }
-    if (path === '/v1/accounts/state' && request.method === 'GET') return json(await env.STORE.accountState(user.user_id));
+    if (path === '/v1/accounts/state' && request.method === 'GET') {
+      const cached = request.headers.get('X-TB-State-Revision');
+      if (/^[1-9]\d{0,14}$/.test(cached || '')) {
+        const revision = await env.STORE.stateRevision(user.user_id);
+        if (revision === Number(cached)) return json({revision, unchanged:true});
+      }
+      return json(await env.STORE.accountState(user.user_id));
+    }
     if (path === '/v1/accounts/state' && request.method === 'PUT') {
       const value = await body(request, ['revision', 'state'], STATE_LIMIT);
       if (!Number.isSafeInteger(value.revision) || value.revision < 0) throw new ApiError(400, '账号同步版本无效');

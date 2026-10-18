@@ -249,8 +249,7 @@ class Handler(BaseHTTPRequestHandler):
                         raise APIError(400, "请先输入要提交的代码")
                     with training.lock:
                         row = training._row(identity)
-                        training._context(identity, body.get("contestId"))
-                        training.assert_solution_unlocked(identity)
+                        training.assert_official_allowed(identity, body.get("contestId"))
                     opener = self.server.official_submitter if path.endswith("/submit") else self.server.official_opener
                     if not callable(opener):
                         raise APIError(503, "请在 TB 桌面版连接浏览器提交")
@@ -263,7 +262,7 @@ class Handler(BaseHTTPRequestHandler):
                     if path.endswith('/submit') and preparation is not None:
                         preparation.check_submission(url)
                     with training.lock:
-                        training.assert_solution_unlocked(identity)
+                        training.assert_official_allowed(identity, body.get("contestId"))
                         opened = opener(url, code, row["title"])
                     value = opened if isinstance(opened, dict) else {"sessionId": opened, "platform": row.get("platform"), "url": url, "status": "opened"}
                     if not isinstance(value.get("sessionId"), str):
@@ -590,7 +589,7 @@ class LocalServer(ThreadingHTTPServer):
             if not ids:
                 raise ServiceError(404, "这道原站题目不在当前题库中")
             for identity in ids:
-                self.training.assert_solution_unlocked(identity)
+                self.training.assert_official_allowed(identity)
 
     def translate_problem(self, identity, contest_id=None):
         def validate():

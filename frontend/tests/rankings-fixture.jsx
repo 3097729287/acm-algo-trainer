@@ -3,6 +3,7 @@ import {createRoot} from 'react-dom/client';
 import RankingsPage from '../src/pages/CommunityPanel.jsx';
 import RankingMedal from '../src/components/RankingMedal.jsx';
 import '../src/styles/workspace.css';
+import '../src/styles/refinements.css';
 import '../src/pages/ProgressPanels.css';
 
 document.documentElement.dataset.theme='dark';

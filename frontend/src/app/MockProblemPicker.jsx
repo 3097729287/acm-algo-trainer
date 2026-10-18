@@ -52,7 +52,7 @@ export default function MockProblemPicker({ contest, currentId, onSelect, onHist
     </button>
     {open && <div className="mock-problem-menu" ref={menuRef} id={menuId} role="menu" aria-label="模拟赛题目">
       <div className="mock-picker-summary" role="presentation">
-        <strong>{contest.name}</strong><span>{contest.accepted}/{contest.total} 本地 AC</span>
+        <strong>{contest.name}</strong><span>{contest.accepted}/{contest.total} {contest.strategy === 'replay' ? '原站 AC' : '通过'}</span>
       </div>
       {contest.slots.map(slot => <button type="button" key={slot.id} role="menuitemradio"
         aria-checked={slot.id === currentId}

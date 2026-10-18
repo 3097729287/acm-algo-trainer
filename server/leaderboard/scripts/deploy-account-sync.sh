@@ -1,7 +1,7 @@
 #!/bin/sh
 # Run on the existing /opt/tb-leaderboard runtime deployment, after review.
 # Upgrade an existing 1.0.20 deployment without changing its data volumes.
-# Usage: sh runtime.next-1.1.0/scripts/deploy-account-sync.sh runtime.next-1.1.0
+# Usage: sh runtime.next-1.1.2/scripts/deploy-account-sync.sh runtime.next-1.1.2
 set -eu
 umask 077
 project=$(pwd -P)
@@ -13,6 +13,10 @@ test -f runtime/src/server.mjs
 test -f "$stage/src/account-state.mjs"
 test -f "$stage/mysql/006_public_progress.sql"
 test -f "$stage/src/public-progress.mjs"
+test -f "$stage/mysql/007_unique_nicknames.sql"
+test -f "$stage/scripts/migrate-nicknames.mjs"
+version=$(sed -n 's/.*"version": *"\([0-9.]*\)".*/\1/p' "$stage/package.json" | head -n 1)
+test -n "$version"
 test -f "$stage/Caddyfile"
 test -f "$stage/runtime-manifest.sha256"
 (cd "$stage" && sha256sum --status -c runtime-manifest.sha256)
@@ -37,8 +41,8 @@ SELECT 1 FROM account_login_days LIMIT 0;
 SQL
 sh scripts/backup.sh
 stamp=$(date -u +%Y%m%dT%H%M%SZ)
-backup="$project/backups/runtime-before-1.1.0-$stamp"
-proxy_backup="$project/backups/Caddyfile-before-1.1.0-$stamp"
+backup="$project/backups/runtime-before-$version-$stamp"
+proxy_backup="$project/backups/Caddyfile-before-$version-$stamp"
 test ! -e "$backup"
 test ! -e "$proxy_backup"
 cp -- "$project/Caddyfile" "$proxy_backup"
@@ -93,13 +97,15 @@ trap 'exit 143' TERM
 stopped=1
 docker compose stop api
 docker compose exec -T mysql sh -c 'MYSQL_PWD="$(cat /run/secrets/mysql_root_password)" exec mysql -u root tb_leaderboard' < "$stage/mysql/006_public_progress.sql"
+docker compose exec -T mysql sh -c 'MYSQL_PWD="$(cat /run/secrets/mysql_root_password)" exec mysql -u root tb_leaderboard' < "$stage/mysql/007_unique_nicknames.sql"
 mv -- "$project/runtime" "$backup"
 mv -- "$stage" "$project/runtime"
+docker compose run --rm --no-deps api node scripts/migrate-nicknames.mjs
 # Preserve all existing overlays and never recreate the database dependencies.
 docker compose up --no-build --no-deps -d api
 attempt=0
 until health=$(curl --fail --silent --max-time 2 http://127.0.0.1:8080/v1/health) &&
-  printf '%s' "$health" | grep -q '"version":"1.1.0"' &&
+  printf '%s' "$health" | grep -q "\"version\":\"$version\"" &&
   printf '%s' "$health" | grep -q '"publicProgressProtocol":1'; do
   attempt=$((attempt+1))
   test "$attempt" -lt 15
@@ -113,5 +119,7 @@ if [ "$current_caddy_sha" != "$next_caddy_sha" ]; then
 fi
 cp -- "$project/runtime/mysql/006_public_progress.sql" "$project/mysql/006_public_progress.sql"
 chmod 644 "$project/mysql/006_public_progress.sql"
+cp -- "$project/runtime/mysql/007_unique_nicknames.sql" "$project/mysql/007_unique_nicknames.sql"
+chmod 644 "$project/mysql/007_unique_nicknames.sql"
 trap - EXIT INT TERM
-printf 'TB 1.1.0 public progress protocol 1 is healthy. Existing accounts, snapshots, sessions and data volumes were preserved.\n'
+printf 'TB %s is healthy. Accounts, snapshots, sessions and data volumes preserved; nicknames reserved.\n' "$version"

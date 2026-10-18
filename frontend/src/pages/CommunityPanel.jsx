@@ -49,10 +49,9 @@ const periods = [['daily', '每日过题'], ['weekly', '本周过题'], ['total'
 
 function RankingIdentity({ item, period, self }) {
   const progress = item.publicProgress;
-  const identity = item.publicId || (item.userId ? 'TB-' + item.userId.replaceAll('-', '').toUpperCase() : '');
-  return <div className="ranking-identity"><div className="ranking-identity-heading"><span className="ranking-user-name">{item.count > 0 && item.rank > 0 && item.rank <= 3 && <RankingMedal period={period} rank={item.rank}/>}<strong>{item.nickname || item.displayName || '用户'}</strong></span>{self && <span className="tag">我</span>}
+  return <div className="ranking-identity"><span className="ranking-avatar" aria-hidden="true">{Array.from(item.nickname || item.displayName || '用户')[0]}</span><div className="ranking-identity-heading"><span className="ranking-user-name">{item.count > 0 && item.rank > 0 && item.rank <= 3 && <RankingMedal period={period} rank={item.rank}/>}<strong>{item.nickname || item.displayName || '用户'}</strong></span>{self && <span className="tag">我</span>}
     {progress?.titles?.map(title => <span className="ranking-title-badge" key={title.id} title={`${title.category === 'streak' ? '连续训练' : 'AC'} ${title.target}${title.category === 'streak' ? ' 天' : ' 题'}`}><Award size={14}/>{title.name}</span>)}
-    {identity && <span className="ranking-public-id" title={identity}>ID：{identity}</span>}</div>
+    </div>
     {progress ? <div className="ranking-public-progress"><span>Lv.{progress.level}</span><span>{progress.tier}</span><span>{progress.rankTier ? `排位 ${progress.rankTier} · ${Number(progress.rankScore).toLocaleString('zh-CN')} 分` : '排位未解锁'}</span></div> : <span className="ranking-public-progress ranking-progress-pending">成长资料待同步</span>}
   </div>;
 }

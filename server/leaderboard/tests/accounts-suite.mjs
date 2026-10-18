@@ -121,6 +121,40 @@ export function accountsSuite(startFixture) {
       assert(account.password_hash.startsWith('scrypt$')); assert(!account.password_hash.includes(signup.password));
     } finally { await f.close(); }
   });
+  test('nicknames are unique across registration and rename, including normalized Unicode and races', async () => {
+    const f = await startFixture();
+    try {
+      assert.equal((await call(f, '/v1/accounts/register', {...signup, nickname:'星河 TB'})).status,201);
+      const duplicate = await call(f, '/v1/accounts/register', {...signup,loginId:'second_user',nickname:'星河　ＴＢ'});
+      assert.equal(duplicate.status,409); assert.match(duplicate.value.error,/昵称/);
+      assert.equal((await call(f,'/v1/accounts/register',{...signup,loginId:'second_user',nickname:'另一个昵称'})).status,201);
+      const login=await call(f,'/v1/accounts/login',{loginId:'second_user',password:signup.password});
+      const auth=credential(login);
+      assert.equal((await call(f,'/v1/profile',{nickname:' 星河 tb '},auth,'PUT')).status,409);
+      assert.equal((await call(f,'/v1/profile',undefined,auth,'GET')).value.nickname,'另一个昵称');
+      assert.equal((await call(f,'/v1/profile',{nickname:'另一个昵称'},auth,'PUT')).status,200);
+      const race=await Promise.all(['racer_one','racer_two'].map(loginId=>call(f,'/v1/accounts/register',{...signup,loginId,nickname:'同一个新昵称'})));
+      assert.deepEqual(race.map(item=>item.status).sort(),[201,409]);
+    } finally { await f.close(); }
+  });
+  test('unchanged authenticated state resumes without reading the large snapshot', async () => {
+    const f = await startFixture();
+    try {
+      await call(f,'/v1/accounts/register',signup);
+      const auth=credential(await call(f,'/v1/accounts/login',{loginId:signup.loginId,password:signup.password}));
+      const state={format:'tb-account-state-v1',tables:{drafts:[{problem_id:'fixture',context:'',code:'x'.repeat(20000),saved_at:new Date().toISOString()}]},publicAccounts:{}};
+      assert.equal((await call(f,'/v1/accounts/state',{revision:0,state},auth,'PUT')).status,200);
+      let reads=0;const original=f.STORE.accountState.bind(f.STORE);
+      f.STORE.accountState=(...args)=>{reads++;return original(...args);};
+      const headers={'X-TB-User':auth.userId,Authorization:'Bearer '+auth.token,'X-TB-State-Revision':'1'};
+      const answer=await fetch(f.endpoint+'/v1/accounts/state',{headers});
+      assert.deepEqual(await answer.json(),{revision:1,unchanged:true});assert.equal(reads,0);
+      const mismatch=await fetch(f.endpoint+'/v1/accounts/state',{headers:{...headers,'X-TB-State-Revision':'2'}});
+      assert.deepEqual((await mismatch.json()).state,state);assert.equal(reads,1);
+      const unauthenticated=await fetch(f.endpoint+'/v1/accounts/state',{headers:{'X-TB-State-Revision':'1'}});
+      assert.equal(unauthenticated.status,401);
+    } finally { await f.close(); }
+  });
   test('login, logout, session expiry and changing password revoke old credentials', async () => {
     const f = await startFixture({ now: Date.now() });
     try {
@@ -203,7 +237,7 @@ export function accountsSuite(startFixture) {
       assert.deepEqual((await call(f, '/v1/accounts/state', undefined, b)).value, {revision: 1, state});
       // A request authenticated before takeover is checked again in the write transaction.
       await assert.rejects(() => f.STORE.saveAccountState(a.userId, tokenHash(a.token), Math.floor(f.env.TEST_NOW / 1000), 1, state, new Date().toISOString()), error => error.status === 401);
-      await call(f, '/v1/accounts/register', {...signup, loginId: 'other_user'});
+      await call(f, '/v1/accounts/register', {...signup, loginId: 'other_user', nickname: 'other user'});
       const other = credential(await call(f, '/v1/accounts/login', {loginId: 'other_user', password: signup.password}));
       assert.equal((await call(f, '/v1/accounts/state', undefined, other)).value.state, null);
       assert(!JSON.stringify((await call(f, '/v1/leaderboard', undefined, b)).value).includes('private code'));

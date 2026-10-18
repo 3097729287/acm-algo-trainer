@@ -117,7 +117,7 @@ test('midnight and Sunday settle only three distinct places, atomically and with
   try {
     const users = Array.from({length: 4}, identity);
     for (let index = 0; index < users.length; index++) {
-      const user = users[index]; await register(fixture, user);
+      const user = users[index]; await register(fixture, user, 'fixture-' + index);
       const events = Array.from({length: Math.max(1, 3-index)}, (_, i) => ac(user, `p${index}-${i}`, `2026-10-10T${index === 3 ? '11' : '10'}:00:00Z`));
       assert.equal((await request(fixture, user, 'POST', '/v1/events', {events})).status, 200);
       assert.equal((await request(fixture, user, 'GET', '/v1/rewards')).value.totalXp, 0);
@@ -161,7 +161,7 @@ test('daily settlement on a weekday does not grant weekly or cumulative rewards'
 test('only a server-granted administrator can delete scores, and replay cannot resurrect them', async () => {
   const fixture = await startFixture({now: NOW});
   try {
-    const admin = identity(), user = identity(); await register(fixture,admin); await register(fixture,user);
+    const admin = identity(), user = identity(); await register(fixture,admin); await register(fixture,user,'second user');
     const events = [ac(user,'today'),ac(user,'older','2026-10-05T08:00:00Z')];
     await request(fixture,user,'POST','/v1/events',{events});
     const body = {userId:user.userId,period:'daily',confirmation:'delete'};
@@ -189,7 +189,7 @@ test('only a server-granted administrator can delete scores, and replay cannot r
 test('ranks real users only, bounds bad payloads, excludes samples and impersonation', async () => {
   const fixture = await startFixture({ now: NOW });
   try {
-    const a = identity(), b = identity(); await register(fixture, a); await register(fixture, b);
+    const a = identity(), b = identity(); await register(fixture, a); await register(fixture, b,'second user');
     assert.deepEqual((await request(fixture, a, 'GET', '/v1/leaderboard')).value.entries.map(row=>row.count), [0,0]);
     await request(fixture, a, 'POST', '/v1/events', { events: [ac(a, 'p1'), ac(a, 'p2')] });
     await request(fixture, b, 'POST', '/v1/events', { events: [ac(b, 'p3')] });

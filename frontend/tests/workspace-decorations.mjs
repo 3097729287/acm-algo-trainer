@@ -10,6 +10,7 @@ let accountCalls=0;
 const owner='10000000-0000-4000-8000-000000000001';
 const growth={level:8,tier:'大师',badge:'master',currentLevelXp:400,nextLevelXp:1600,totalXp:6000,levelCosts:[200,400],levelName:'算法设计'};
 const entries=[{rank:1,userId:owner,nickname:'我的训练',count:0,publicProgress:{level:8,tier:'大师',titles:[]}},{rank:2,userId:'other',nickname:'同行者',count:0}];
+await page.addInitScript(()=>{const canvas=document.createElement('canvas');canvas.width=1000;canvas.height=700;const context=canvas.getContext('2d'),sky=context.createLinearGradient(0,0,1000,700);sky.addColorStop(0,'#375b85');sky.addColorStop(.5,'#628388');sky.addColorStop(1,'#a66c77');context.fillStyle=sky;context.fillRect(0,0,1000,700);context.fillStyle='#213c50';context.beginPath();context.moveTo(0,700);context.lineTo(380,190);context.lineTo(600,500);context.lineTo(800,280);context.lineTo(1000,700);context.fill();localStorage.setItem('tb.appearance.background',canvas.toDataURL('image/jpeg'));});
 try{
  await page.route('**/api/**',async route=>{
   if(!new URL(route.request().url()).pathname.startsWith('/api/'))return route.continue();
@@ -38,6 +39,9 @@ try{
  for(const label of ['清简','线框','极光','蓝图'])await page.getByRole('button',{name:new RegExp(label)}).click();
  assert.equal(await page.locator('html').getAttribute('data-panel-style'),'blueprint');
  await page.getByLabel('页面背景',{exact:true}).selectOption('aurora');
+ await page.getByLabel('页面背景',{exact:true}).selectOption('custom');
+ await page.getByLabel('面板不透明度',{exact:true}).evaluate(node=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(node,'55');node.dispatchEvent(new Event('input',{bubbles:true}));});
+ assert.equal(await page.locator('html').evaluate(node=>node.style.getPropertyValue('--panel-opacity')),'55%');
  await page.getByLabel('训练小挂件',{exact:true}).uncheck();
  await page.getByLabel('训练小挂件',{exact:true}).check();
  await page.getByRole('tab',{name:'更新',exact:true}).click();
@@ -46,8 +50,9 @@ try{
  await page.getByRole('region',{name:'今日排行榜速览'}).waitFor();
  await page.getByRole('button',{name:'查看榜单',exact:true}).click();
  await page.locator('.ranking-table').waitFor();assert.equal(await page.locator('.ranking-table .ranking-medal').count(),0);
- const id=page.locator('.ranking-table .ranking-public-id').first(),name=page.locator('.ranking-table .ranking-user-name').first();
- const [ib,nb]=await Promise.all([id.boundingBox(),name.boundingBox()]);assert.ok(Math.abs(ib.y-nb.y)<16,'ID shares the name row at desktop widths');
+ assert.equal(await page.locator('.ranking-table .ranking-public-id').count(),0,'Standings do not expose ID text');
+ assert.equal(await page.locator('.ranking-avatar').count(),2);
+ await page.screenshot({path:'tests/screenshots/v112-rankings-glass.png'});
  await page.locator('.sidebar').getByRole('button',{name:'活动记录',exact:false}).click();
  const values=await page.locator('.activity-stats>span>b').evaluateAll(nodes=>nodes.map(n=>n.getBoundingClientRect().y));assert.ok(Math.abs(values[0]-values[1])<1,'Calendar summary numbers align');
  await mkdir('tests/screenshots',{recursive:true});

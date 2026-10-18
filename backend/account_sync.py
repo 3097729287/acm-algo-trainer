@@ -217,7 +217,7 @@ class AccountStateSync:
         if self.meta and (self.meta.get('owner') != self.owner or self.meta.get('endpoint') != session['endpoint']):
             raise ServiceError(409, '个人工作区所属账号不一致，请保留本地数据并检查账号设置')
 
-    def _call(self, method, path, body=None):
+    def _call(self, method, path, body=None, cached_revision=None):
         if method == 'PUT' and path == '/v1/accounts/state':
             raw = encoded(body['state']).encode('utf-8')
             if len(raw) > 64 * 1024 * 1024:
@@ -228,16 +228,17 @@ class AccountStateSync:
             body = {'revision': body['revision'], 'state': {'format': 'tb-account-state-gzip-v1',
                     'payload': payload, 'sha256': hashlib.sha256(raw).hexdigest(), 'uncompressedBytes': len(raw)}}
         session = self.session
+        options = {'state_revision': cached_revision} if cached_revision is not None else {}
         try:
             value = self.accounts._remote(method, path, body, session, invalidate=False,
-                                          maximum=4 * 1024 * 1024, timeout=20)
+                                          maximum=4 * 1024 * 1024, timeout=20, **options)
         except ServiceError as issue:
             # Password changes rotate the token while a heartbeat can be in
             # flight. A late rejection of that old token must not log out the
             # replacement session. Its rejected request is safe to retry once.
             if issue.status == 401 and session['token'] != self.session['token']:
                 value = self.accounts._remote(method, path, body, self.session, invalidate=False,
-                                               maximum=4 * 1024 * 1024, timeout=20)
+                                               maximum=4 * 1024 * 1024, timeout=20, **options)
             else:
                 raise
         if path == '/v1/accounts/state' and isinstance(value.get('state'), dict) and value['state'].get('format') == 'tb-account-state-gzip-v1':
@@ -469,12 +470,17 @@ class AccountStateSync:
             # metadata in the background after authentication, not on the
             # startup critical path. First migrations still capture everything.
             local, local_changes = self._capture(import_original=imported, refresh_facts=not bool(self.meta))
+            cached_revision = self.meta.get('revision') if self.meta and digest(local) == self.meta.get('syncedHash') else None
             try:
-                answer = self._call('GET', '/v1/accounts/state')
+                answer = self._call('GET', '/v1/accounts/state', cached_revision=cached_revision)
             except ServiceError as issue:
                 if issue.status == 404:
                     raise ServiceError(503, '账号云端同步服务正在升级，请稍后重试；本机数据已保留') from None
                 raise
+            if answer.get('unchanged') is True:
+                if cached_revision is None or answer.get('revision') != cached_revision:
+                    raise ServiceError(503, '云端同步版本不一致，请重试；本机数据已保留')
+                answer = {'revision': cached_revision, 'state': local}
             if type(answer.get('revision')) is not int or 'state' not in answer:
                 raise ServiceError(503, '账号同步服务需要升级，请稍后重试')
             self.revision = answer['revision']
