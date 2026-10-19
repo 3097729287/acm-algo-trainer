@@ -21,9 +21,10 @@ export default function NavigationSettings({ pages, prefs, setPrefs }) {
     setPrefs(previous => ({ ...previous, navOrder: next }));
   };
   const rename = (field, id, value) => setPrefs(previous => ({ ...previous, [field]: { ...previous[field], [id]: value } }));
-  return <section className="settings-navigation">
-    <div className="progress-section-heading"><h2><Layers size={18} />导航与页面组合</h2><button className="text-button" onClick={() => setPrefs(previous => ({ ...previous, navOrder: [], navLabels: {}, navGroups: {} }))}><RotateCcw size={14} />恢复默认</button></div>
-    <p className="progress-small">修改名称与顺序；填写相同组合名称，将页面合并到一个导航入口，使用页内标签切换。键盘快捷键保留。</p>
+  return <details className="settings-navigation">
+    <summary><Layers size={18} /><strong>导航与页面组合</strong><span>名称 · 分组 · 顺序</span></summary>
+    <div className="navigation-settings-content">
+    <div className="progress-section-heading"><p className="progress-small">相同分组名会合并为一个导航入口。</p><button className="text-button" onClick={() => setPrefs(previous => ({ ...previous, navOrder: [], navLabels: {}, navGroups: {} }))}><RotateCcw size={14} />恢复默认</button></div>
     <div className="navigation-editor" aria-label="自定义导航栏">
       <div className="navigation-editor-heading"><span>页面名称</span><span>页面组合（可选）</span><span>顺序</span></div>
       {ordered.map((page, index) => <div className="navigation-editor-row" key={page.id}>
@@ -32,5 +33,6 @@ export default function NavigationSettings({ pages, prefs, setPrefs }) {
         <span className="navigation-reorder"><button aria-label={`上移 ${page.label}`} disabled={index === 0} onClick={() => move(page.id, -1)}><ArrowUp size={16} /></button><button aria-label={`下移 ${page.label}`} disabled={index === ordered.length - 1} onClick={() => move(page.id, 1)}><ArrowDown size={16} /></button></span>
       </div>)}
     </div>
-  </section>;
+    </div>
+  </details>;
 }

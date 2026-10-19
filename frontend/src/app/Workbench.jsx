@@ -143,9 +143,14 @@ function Verdict({ submission }) {
 
 // The statement can contain substantial math. Editing code or moving the
 // caret must not parse and typeset the same document again.
+function StatementPre({ children }) {
+  const [copied, setCopied] = useState(false);
+  const value = String(children?.props?.children ?? '');
+  return <div className="wb-statement-code"><button className="wb-statement-copy" aria-label={copied ? '已复制' : '复制样例或代码'} onClick={async () => { try { await navigator.clipboard.writeText(value); setCopied(true); } catch { setCopied(false); } }}>{copied ? <Check size={14}/> : <Copy size={14}/>}</button><pre tabIndex={0}>{children}</pre></div>;
+}
 const StatementMarkdown = memo(function StatementMarkdown({ markdown, samples, title }) {
   return <ReactMarkdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[[rehypeKatex, { throwOnError: false, strict: false, trust: false }]]}
-    components={{ a: ({ node, ...props }) => <a {...props} target="_blank" rel="noreferrer" /> }}>{normalizeMarkdown(normalizeStatement(markdown, samples, title))}</ReactMarkdown>;
+    components={{ pre: StatementPre, a: ({ node, ...props }) => <a {...props} target="_blank" rel="noreferrer" /> }}>{normalizeMarkdown(normalizeStatement(markdown, samples, title))}</ReactMarkdown>;
 });
 
 function CaseResults({ cases }) {
@@ -410,6 +415,9 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
 
   const pending = submissions.find(submissionPending) || null;
   const result = submissions.find(row => row.id === resultId) || submissions[0] || null;
+  useEffect(() => {
+    if (result?.stderr && !result.output && result.finishedAt) setOutputTab('stderr');
+  }, [result?.id, result?.finishedAt, result?.stderr]);
   const sidePracticeLocked = Boolean(problem?.locked && !runningContest);
   const unavailable = loading || !problem || endedContest || sidePracticeLocked || activeRecord.current?.key !== contextKey;
   const busy = creating || Boolean(pending);

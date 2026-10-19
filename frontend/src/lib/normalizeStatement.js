@@ -14,16 +14,42 @@ export function normalizeStatement(markdown, samples = [], title = '') {
   }
   // Platform automation notices do not change the task's inputs, outputs or constraints.
   text = text.replace(/::anti-ai\[[^\]]*\]/g, '');
-  const sampleBanner = /\n={12,}\s*\n官方样例\s*\n={12,}\s*\n/;
-  const banner = text.match(sampleBanner);
-  if (banner && samples.length) {
-    text = text.slice(0, banner.index).trimEnd() + '\n\n## 样例\n\n' + samples.map((sample, index) => {
-      const fence = '```';
-      // Official inputs are plain text. Use a longer fence if a literal fence occurs in a sample.
-      const longest = Math.max(0,...[String(sample.input || ''),String(sample.output || '')].flatMap(value => [...value.matchAll(/`+/g)].map(match => match[0].length)));
-      const delimiter = longest >= 3 ? '`'.repeat(longest + 1) : fence;
-      return `### 样例 ${index + 1}\n\n输入\n\n${delimiter}text\n${String(sample.input || '').trimEnd()}\n${delimiter}\n\n输出\n\n${delimiter}text\n${String(sample.output || '').trimEnd()}\n${delimiter}`;
-    }).join('\n\n');
+  // Promote legacy plain section labels without touching code or formulae.
+  let fenced = null;
+  text = text.split('\n').map(line => {
+    const marker = line.match(/^\s*(`{3,}|~{3,})/);
+    if (marker) { if (!fenced) fenced = marker[1][0]; else if (fenced === marker[1][0]) fenced = null; return line; }
+    if (fenced) return line;
+    const heading = line.match(/^\s*(题目描述|输入描述|输出描述|输入格式|输出格式|数据范围|约束条件)\s*[:：]?\s*$/);
+    return heading ? '## ' + heading[1].replace('描述', heading[1] === '题目描述' ? '描述' : '格式') : line;
+  }).join('\n');
+  if (samples.length) {
+    const banner = text.match(/\n={12,}\s*\n官方样例\s*\n={12,}\s*\n/);
+    const legacy = text.match(/(?:^|\n)(?:#{1,4}\s*)?(?:示例|样例)\s*\d+\s*[:：]?\s*\n/);
+    let sampleFence = null;
+    const rawSamples = legacy && text.slice(legacy.index).split('\n').some(line => {
+      const marker = line.match(/^\s*(`{3,}|~{3,})/);
+      if (marker) { sampleFence = sampleFence ? null : marker[1][0]; return false; }
+      return !sampleFence && /^\s*复制\s*$/.test(line);
+    });
+    let suffix = '';
+    if (banner) text = text.slice(0, banner.index).trimEnd();
+    else if (rawSamples) {
+      const tail = text.slice(legacy.index);
+      const notes = tail.match(/\n(?:#{1,4}\s*)?(?:备注|提示|Note|Notes|Hint|Hints)\s*[:：]?\s*\n/i);
+      if (notes) suffix = tail.slice(notes.index);
+      text = text.slice(0, legacy.index).trimEnd();
+    }
+    // Existing formatted samples remain intact. Otherwise display structured
+    // official bytes rather than attempting to infer lost whitespace.
+    const rendered = /(?:Sample Input|样例\s*输入|示例\s*输入|输入)\s*\d*\s*[:：]?\s*\n\s*`{3,}/i.test(text);
+    if (banner || rawSamples || !rendered) text += '\n\n## 样例\n\n' + samples.map((sample, index) => {
+      const values = [String(sample.input ?? ''), String(sample.output ?? '')].map(value => value.replace(/\r\n?/g, '\n'));
+      const longest = Math.max(0, ...values.flatMap(value => [...value.matchAll(/`+/g)].map(match => match[0].length)));
+      const delimiter = '`'.repeat(Math.max(3, longest + 1));
+      const block = value => `${delimiter}text\n${value}${value.endsWith('\n') ? '' : '\n'}${delimiter}`;
+      return `### 样例 ${index + 1}\n\n输入\n\n${block(values[0])}\n\n输出\n\n${block(values[1])}${sample.explanation ? '\n\n' + sample.explanation : ''}`;
+    }).join('\n\n') + suffix;
   }
   return text.trim();
 }

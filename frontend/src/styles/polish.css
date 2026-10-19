@@ -1,0 +1,126 @@
+/* Shared surfaces: opacity is a device preference in every background mode. */
+html:root[data-panel-style] {
+  --panel: color-mix(in srgb, var(--panel-base) var(--panel-opacity, 76%), transparent);
+  --panel-2: color-mix(in srgb, var(--panel-raised-base) var(--panel-opacity, 76%), transparent);
+  --glass-panel: var(--panel);
+  --glass-raised: var(--panel-2);
+}
+html .app-shell :is(.topbar, .sidebar, .settings-tabs) { background: var(--panel); }
+html .workspace-area :is(.settings-column > section, .settings-navigation, .list-page, .progress-section, .mock-config, .competition-card, .goal-card, .paper-preview) { background-color: var(--panel); }
+html .workspace-area :is(.table-toolbar, .problem-table thead, .problem-table th, .list-status, .competition-toolbar, .mock-tabs, .merged-page-tabs, .settings-row, .progress-platform-scores > div) { background: transparent; border-color: transparent; }
+html .workspace-area :is(.goal-contest-grid, .goal-contest-grid > div, .daily-goal-tasks, .settings-information) { background: transparent; }
+html :is(.tb-workbench, .wb-statement-pane, .wb-code-pane) { background: var(--panel); }
+html .tb-workbench :is(.wb-body, .wb-statement, .wb-statement-toolbar) { background: transparent; }
+html .settings-page .settings-row { border: 0; }
+html [hidden] { display: none !important; }
+
+/* A compact, balanced settings page with progressive disclosure. */
+html .settings-page { display: flex !important; flex-direction: column; align-items: stretch; gap: 12px; padding: 0 2px 18px !important; }
+html .settings-column { display: contents; }
+html .settings-tabs { position: sticky; top: 0; z-index: 4; flex: 0 0 auto; gap: 6px; padding: 8px; border: 0; border-radius: 10px; }
+html .settings-tabs button { padding: 7px 12px; font-size: .88rem; }
+html .settings-column > section, html .settings-navigation { padding: 18px; border: 1px solid var(--line); border-radius: 11px; }
+html .settings-page h2 { margin: 0 0 12px; font-size: 1.06rem; }
+html .settings-appearance, html .appearance-studio { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 26px; row-gap: 4px; }
+html :is(.settings-appearance, .appearance-studio) > h2 { grid-column: 1 / -1; }
+html .settings-page .settings-row { min-height: 64px; margin: 0; padding: 10px 0; gap: 10px; }
+html .settings-page .settings-row > div:first-child { min-width: 0; }
+html .settings-page .settings-row strong { font-size: .94rem; }
+html .settings-page .settings-row small { font-size: .77rem; margin-top: 3px; }
+html .settings-page :is(.choice-group, .accent-options) { gap: 5px; }
+html .settings-page :is(.choice-group, .accent-options, .font-options) button { padding: 6px 9px; font-size: .83rem; }
+html .style-preset-grid { grid-column: 1 / -1; margin: 0 0 8px; gap: 9px; }
+html .style-preset { min-height: 80px; padding: 12px; display: grid; grid-template-columns: 48px 1fr; align-content: center; column-gap: 12px; row-gap: 3px; box-shadow: none; }
+html .style-preset > i { grid-row: span 2; align-self: center; height: 35px; width: 45px; }
+html .style-preset strong { font-size: .95rem; }
+html .settings-page .style-preset { background: var(--panel-2); }
+html .style-preset small { font-size: .77rem; }
+html .appearance-opacity { display: grid; grid-template-columns: minmax(100px,1fr) minmax(70px,160px) 42px; }
+html .appearance-opacity input { width: 100%; }
+html .appearance-opacity output { text-align: right; color: var(--muted); font-size: .85rem; font-variant-numeric: tabular-nums; }
+html .appearance-image-actions { margin: 0; gap: 9px; }
+html .appearance-image-actions small { font-size: .75rem; }
+html .settings-navigation { padding: 0; }
+.settings-navigation > summary { display: flex; align-items: center; gap: 9px; padding: 16px 18px; cursor: pointer; list-style: none; }
+.settings-navigation > summary::-webkit-details-marker { display: none; }
+.settings-navigation > summary::after { content: '›'; margin-left: auto; color: var(--muted); transform: rotate(90deg); }
+.settings-navigation[open] > summary::after { transform: rotate(-90deg); }
+.settings-navigation > summary > span { color: var(--muted); font-size: .8rem; }
+.navigation-settings-content { padding: 0 18px 18px; }
+.navigation-settings-content .progress-section-heading { margin-bottom: 12px; }
+html .navigation-editor-row { gap: 10px; }
+html .navigation-editor-row input { min-height: 36px; padding: 7px 9px; font-size: .88rem; }
+html .navigation-editor-row + .navigation-editor-row { margin-top: 7px; }
+.help-action-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.help-action { display: flex; align-items: center; gap: 14px; text-align: left; padding: 18px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 9px; }
+.help-action > svg { color: var(--accent); flex-shrink: 0; }
+.help-action strong, .help-action small { display: block; }
+.help-action small, .export-note { color: var(--muted); font-size: .8rem; margin-top: 5px; }
+.export-note { margin-bottom: 0; }
+.acknowledgements { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 18px; margin-top: 20px; font-size: .85rem; }
+.acknowledgements > svg { color: var(--accent); }
+.acknowledgements > span { color: var(--muted); }
+.acknowledgements > strong { font-weight: 500; }
+
+/* Each style has a distinct silhouette and a matching miniature. */
+html[data-panel-style=minimal] .workspace-area :is(.progress-section, .list-page, .competition-card, .settings-column > section, .settings-navigation) { border-color: transparent; border-radius: 12px; box-shadow: none; background-image: none; }
+html[data-panel-style=outlined] .workspace-area :is(.progress-section, .list-page, .competition-card, .settings-column > section, .settings-navigation) { border: 1px solid color-mix(in srgb,var(--accent) 40%,var(--line)); border-radius: 12px; box-shadow: 0 3px 10px #0000000c; background-image: none; }
+html[data-panel-style=aurora] .workspace-area :is(.progress-section, .list-page, .competition-card, .settings-column > section, .settings-navigation) { border: 1px solid color-mix(in srgb,var(--accent) 18%,transparent); border-radius: 16px; background-image: radial-gradient(ellipse at 0 0,color-mix(in srgb,var(--accent) 12%,transparent),transparent 65%); box-shadow: none; }
+html[data-panel-style=blueprint] .workspace-area :is(.progress-section, .list-page, .competition-card, .settings-column > section, .settings-navigation) { border: 1px dashed color-mix(in srgb,var(--accent) 45%,var(--line)); border-radius: 3px; background-image: linear-gradient(color-mix(in srgb,var(--accent) 5%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--accent) 5%,transparent) 1px,transparent 1px); background-size: 22px 22px; box-shadow: none; }
+html[data-panel-style=blueprint] :is(.progress-section-heading h2, .settings-page h2)::before { content: none; }
+html .style-minimal > i { border: 0; background: var(--muted); opacity: .2; }
+html .style-outlined > i { border: 2px solid var(--accent); border-radius: 9px; background: transparent; box-shadow: 0 3px 8px #0003; }
+html .style-blueprint > i { border: 1px dashed var(--accent); border-radius: 0; background-image: linear-gradient(var(--accent-soft) 1px,transparent 1px),linear-gradient(90deg,var(--accent-soft) 1px,transparent 1px); background-size: 7px 7px; }
+
+/* Consistent baseline, height and type for top status items. */
+html .topbar-actions { align-items: center; gap: 8px; }
+html .topbar-actions > :is(.topbar-status-chip, .topbar-clock, .topbar-overview, .achievement-top-button) { display: inline-flex; align-items: center; justify-content: center; min-height: 34px; gap: 6px; padding: 6px 9px; line-height: 1; font-size: .82rem; font-variant-numeric: tabular-nums; }
+html .topbar-actions > :is(.topbar-status-chip, .topbar-clock, .topbar-overview, .achievement-top-button) > :is(b,span,strong,small,time) { display: inline-flex; align-items: center; font-size: inherit; line-height: 1; margin: 0; transform: none; }
+html .topbar-actions svg { flex-shrink: 0; vertical-align: middle; }
+html .competition-card-open { gap: 12px; padding: 14px; }
+html .competition-platform { flex: 0 0 auto; width: auto; min-width: 44px; font-size: .78rem; }
+html .competition-card-title { min-width: 120px; flex: 1 1 27%; }
+html .competition-card-title strong { font-size: .94rem; overflow-wrap: anywhere; }
+html .competition-problem-tokens { max-width: 65%; flex: 0 1 auto; gap: 5px; }
+html .competition-problem-token { padding: 4px 7px; gap: 3px; white-space: nowrap; }
+html .competition-start { margin-right: 12px; }
+.daily-goal-state { display: inline-flex; color: var(--muted); }
+.daily-goal-row[data-accepted=true] .daily-goal-state { color: var(--success); }
+.wb-statement-code { position: relative; }
+.wb-statement-copy { position: absolute; right: 7px; top: 7px; display: flex; padding: 5px; border-radius: 5px; color: var(--muted); background: var(--panel); }
+.wb-statement-copy:hover { color: var(--accent); }
+html .wb-statement-code pre { padding-right: 40px; }
+html .progress-growth-left .growth-account-panel, html .progress-growth-right .progress-recommendations { flex: 0 0 auto; }
+html .progress-growth-columns { align-items: start; }
+
+.onboarding { padding: 4px 8px; }
+.onboarding-art { height: 104px; display: flex; align-items: center; justify-content: center; gap: 18px; color: var(--accent); border-radius: 12px; background: radial-gradient(ellipse at 30% 50%,var(--accent-soft),transparent); }
+.onboarding-art span { font-size: 2.8rem; font-weight: 700; opacity: .15; }
+.onboarding-dots { display: flex; justify-content: center; gap: 6px; margin: 12px 0; }
+.onboarding-dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--line); }
+.onboarding-dots i[data-active=true] { width: 18px; border-radius: 4px; background: var(--accent); }
+.onboarding-step { min-height: 160px; }
+.onboarding-step h3 { margin: 15px 0 12px; font-size: 1.15rem; }
+.onboarding-step p { line-height: 1.8; }
+.onboarding-step small { color: var(--muted); line-height: 1.7; }
+.onboarding footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 18px; }
+.onboarding footer > span { color: var(--muted); font-size: .82rem; }
+html[data-motion=on] :is(.competition-card, .help-action, .style-preset, .daily-goal-row, .problem-table tr) { transition: background-color 120ms ease,border-color 120ms ease,box-shadow 120ms ease; }
+html[data-motion=on] :is(.onboarding-step, .modal, .goal-editor) { animation: tb-enter 150ms ease-out; }
+@keyframes tb-enter { from { opacity: .4; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion:reduce) { html[data-motion=on] :is(.onboarding-step,.modal,.goal-editor) { animation: none; } }
+@media(max-width:1100px) {
+  html .settings-appearance, html .appearance-studio { column-gap: 18px; }
+  html .settings-page .settings-row { flex-wrap: wrap; }
+  html .topbar-actions { gap: 5px; }
+  html .topbar-overview > span { display: none !important; }
+  html .competition-problem-tokens { max-width: 56%; }
+}
+@media(max-width:760px) {
+  html .settings-appearance, html .appearance-studio, .help-action-grid { grid-template-columns: minmax(0,1fr); }
+  html .style-preset-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  html .settings-column > section { padding: 15px; }
+  html .competition-card-open { flex-wrap: wrap; }
+  html .competition-problem-tokens { max-width: 100%; flex-basis: 100%; justify-content: flex-start; }
+  .settings-navigation > summary > span { display: none; }
+}

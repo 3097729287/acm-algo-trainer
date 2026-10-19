@@ -146,9 +146,12 @@ def merge_states(remote, local, baseline=None):
                     left, right = json.loads(old['value']), json.loads(row['value'])
                 except (ValueError, TypeError):
                     left = right = None  # Preserve malformed legacy documents in conflicts without blocking the rest of a login.
-                if isinstance(left, dict) and isinstance(right, dict) and ('seenAchievements' in left or 'seenAchievements' in right):
+                if isinstance(left, dict) and isinstance(right, dict):
                     preferences = json.loads(winner['value'])
-                    preferences['seenAchievements'] = merge_seen_achievements(left.get('seenAchievements'), right.get('seenAchievements'))
+                    if 'seenAchievements' in left or 'seenAchievements' in right:
+                        preferences['seenAchievements'] = merge_seen_achievements(left.get('seenAchievements'), right.get('seenAchievements'))
+                    if left.get('onboardingCompleted') is True or right.get('onboardingCompleted') is True:
+                        preferences['onboardingCompleted'] = True
                     winner['value'] = encoded(preferences)
             rows[key] = winner
         result['tables'][table] = list(rows.values())

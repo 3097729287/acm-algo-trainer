@@ -76,7 +76,7 @@ class AssetLibrary:
         # Never hold the shared asset lock while waiting for the original site.
         # A blocked CF page must not block cached statements or other platforms.
         if identity.startswith('remote:') and not self.store.library.find(identity):
-            fetched=self.store.extensions.statement(identity,fetch=True)
+            fetched=self.store.extensions.statement(identity,fetch=True,refresh=bool(value.get('statementAvailable')))
             with self.lock:
                 self._cached.cache_clear();self.bundle.cache_clear()
             return fetched
@@ -85,7 +85,9 @@ class AssetLibrary:
     def background_problem(self,identity,refresh=False):
         """Return cached content/draft immediately; bound slow public fetching."""
         value=self.problem(identity,fetch=False)
-        if value['statementAvailable'] or not value.get('url'):
+        format_refresh = (urlsplit(value.get('url') or '').hostname == 'ac.nowcoder.com'
+                          and value.get('statementVersion', 0) < 3)
+        if (value['statementAvailable'] and not refresh and not format_refresh) or not value.get('url'):
             return value
         with self.lock:
             if refresh:self._fetch_errors.pop(identity,None)
@@ -112,8 +114,10 @@ class AssetLibrary:
             if fetched and fetched.get('statementError'):
                 return fetched['statementError']
             with self.lock:
-                if self._cached(identity).get('statementAvailable'):
-                    return None
+                saved = self._cached(identity)
+                if saved.get('statementAvailable'):
+                    if urlsplit(saved.get('url') or '').hostname != 'ac.nowcoder.com' or saved.get('statementVersion', 0) >= 3:
+                        return None
             return '原站暂未返回可用题面，请稍后重试。'
         except (OSError,ValueError,RuntimeError) as error:
             return str(error)[:250]

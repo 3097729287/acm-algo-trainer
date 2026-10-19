@@ -334,6 +334,7 @@ DISCOVERY_ADAPTERS={'codeforces':discover_curated_cf,'luogu':discover_lg,'atcode
 
 def statement(client,identity,title,url):
     import fetch_problem as adapter
+    from statement_format import html_markdown, nowcoder_statement, nowcoder_explanations
     parsed=urlsplit(url);host=parsed.hostname;limits={'timeMs':2000,'memoryMb':256};body='';samples=[];official_tags=None;translation=None
     if host=='www.luogu.com.cn':
         pid=parsed.path.rsplit('/',1)[-1];p=lg_data(client.json(url,headers={'x-lentille-request':'content-only'})).get('problem') or {}
@@ -361,7 +362,7 @@ def statement(client,identity,title,url):
     elif host=='atcoder.jp':
         page=client.text(url+('&' if '?' in url else '?')+'lang=en');english=adapter.at_span(page,'lang-en')
         if not english:raise ValueError('AtCoder 英文原题面暂不可读取')
-        body,raw=adapter.at_statement(english);samples=[{'name':x['name'],'input':x['in'],'output':x['out']} for x in raw]
+        _,raw=adapter.at_statement(english);body=html_markdown(english,url);samples=[{'name':x['name'],'input':x['in'],'output':x['out'], **({'explanation':x['expl']} if x.get('expl') else {})} for x in raw]
         tl=re.search(r'Time Limit:\s*([\d.]+)\s*sec',text(page));ml=re.search(r'Memory Limit:\s*(\d+)\s*MiB',text(page))
         if tl:limits['timeMs']=round(float(tl[1])*1000)
         if ml:limits['memoryMb']=int(ml[1])
@@ -370,11 +371,15 @@ def statement(client,identity,title,url):
         tl=re.search(r'Time limit:\s*([\d.]+)\s*seconds?',body,re.I);ml=re.search(r'Memory limit:\s*(\d+)\s*megabytes',body,re.I)
         if tl:limits['timeMs']=round(float(tl[1])*1000)
         if ml:limits['memoryMb']=int(ml[1])
+        start=page.find('<div class="problem-statement">')
+        if start>=0:body=html_markdown(adapter.cf_balanced(page,start,'div'),url)
     elif host=='ac.nowcoder.com':
-        page=client.text(url);body=adapter.cut_body(adapter.strip_tags(page));samples=[{'name':x['name'],'input':x['in'],'output':x['out']} for x in adapter.extract_samples(page)]
+        page=client.text(url);body=nowcoder_statement(page,url);samples=[{'name':x['name'],'input':x['in'],'output':x['out'], **({'explanation': x['expl']} if x.get('expl') else {})} for x in adapter.extract_samples(page)]
+        for sample,explanation in zip(samples,nowcoder_explanations(page,url)):
+            if explanation:sample['explanation']=explanation
         if '题目描述' not in body:body=''
     else:raise ValueError('不支持的原题站点')
     # Empty standard input is valid (e.g. print-only problems). Some public
     # statements have no examples at all; their text is still readable.
     if not body.strip() or not all(isinstance(x.get('input'),str) and isinstance(x.get('output'),str) for x in samples):raise ValueError('原站未返回完整公开题面')
-    return {'id':identity,'title':title,'url':url,'markdown':'# '+title+'\n\n'+body,'samples':samples,'limits':limits,'statementAvailable':True,'statementVersion':2, **({'officialTags':official_tags} if official_tags is not None else {}), **({'translation':translation} if translation else {})}
+    return {'id':identity,'title':title,'url':url,'markdown':'# '+title+'\n\n'+body,'samples':samples,'limits':limits,'statementAvailable':True,'statementVersion':3, **({'officialTags':official_tags} if official_tags is not None else {}), **({'translation':translation} if translation else {})}

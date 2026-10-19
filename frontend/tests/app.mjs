@@ -208,7 +208,7 @@ try {
   await task.getByRole('button', { name: '已领取' }).waitFor();
   assert.equal(insights.growth.totalXp, 30);
   assert.equal(await page.locator('.task-claim-dot').count(),0);
-  assert.equal(await page.getByRole('button',{name:'每日任务',exact:true}).locator('.notification-dot').count(),1,'Unfinished goal questions keep their task notification');
+  assert.equal(await page.getByRole('button',{name:'每日任务',exact:true}).locator('.notification-dot').count(),0,'Only completed unclaimed XP tasks show a notification');
   assert.equal(await page.getByRole('region',{name:'目标题目',exact:true}).locator('.daily-goal-row').count(),1);
   assert.equal(writes.filter(item => item.path === '/api/daily-tasks/claim').length, 1);
   await page.keyboard.press('Escape');
@@ -299,6 +299,7 @@ try {
 
   await page.keyboard.press('Control+0');
   await page.getByRole('tab', { name: '外观与导航', exact: true }).click();
+  await page.locator('.settings-navigation>summary').click();
   assert.equal(await page.getByLabel('页面组合 mine', { exact: true }).inputValue(), '', 'legacy training/today group is removed from preferences');
   await page.getByRole('tab', { name: '训练与快捷操作', exact: true }).click();
   assert.ok(await page.locator('.settings-commands button').count() > 0,'training and quick commands share one settings panel');
@@ -415,6 +416,7 @@ try {
   await page.setViewportSize({ width: 1050, height: 760 });
   await page.keyboard.press('Control+0');
   await page.getByRole('tab', { name: '外观与导航', exact: true }).click();
+  if (await page.locator('.settings-navigation').getAttribute('open') === null) await page.locator('.settings-navigation>summary').click();
   await page.getByLabel('导航名称 records').fill('历史提交');
   await page.getByLabel('页面组合 records').fill('我的记录');
   await page.getByLabel('页面组合 activity').fill('我的记录');

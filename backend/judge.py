@@ -4,11 +4,14 @@ Each compile and execution gets a private directory and a kill-on-close Job.
 This is resource isolation, not a filesystem sandbox or an official OJ judge.
 """
 import ctypes as C
+from collections import OrderedDict
+import hashlib
 from ctypes import wintypes as W
 import os
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 import tempfile
 import threading
 import time
@@ -44,6 +47,8 @@ def _kernel():
       'CreateProcessW':([W.LPCWSTR,W.LPWSTR,C.c_void_p,C.c_void_p,W.BOOL,W.DWORD,C.c_void_p,W.LPCWSTR,C.c_void_p,C.c_void_p],W.BOOL),
       'GetErrorMode':([],W.UINT),
       'SetErrorMode':([W.UINT],W.UINT),
+      'GetDllDirectoryW':([W.DWORD,W.LPWSTR],W.DWORD),
+      'SetDllDirectoryW':([W.LPCWSTR],W.BOOL),
       'AssignProcessToJobObject':([W.HANDLE,W.HANDLE],W.BOOL),
       'ResumeThread':([W.HANDLE],W.DWORD),
       'WaitForSingleObject':([W.HANDLE,W.DWORD],W.DWORD),
@@ -60,7 +65,7 @@ def _kernel():
 def _cancelled(cancel):
     return bool(cancel and (cancel.is_set() if hasattr(cancel,'is_set') else cancel()))
 
-def _run(command,inp,directory,time_ms,memory_mb,output_limit=32*1024*1024,cancel=None,max_processes=1):
+def _run(command,inp,directory,time_ms,memory_mb,output_limit=32*1024*1024,cancel=None,max_processes=1,env=None):
     if os.name!='nt':raise RuntimeError('此评测器需要 Windows Job Object，未启用无内存保护的降级运行')
     k=_kernel();handles=[];pi=_Process();reason=None;rc=None;elapsed=0;memory=0
     folder=Path(directory);input_path=folder/'stdin';out_path=folder/'stdout';err_path=folder/'stderr'
@@ -92,10 +97,17 @@ def _run(command,inp,directory,time_ms,memory_mb,output_limit=32*1024*1024,cance
             # The shared spawn lock also protects its temporary change and restoration.
             previous_mode=k.GetErrorMode()
             k.SetErrorMode(previous_mode|_NO_ERROR_DIALOGS)
+            dll_buffer=C.create_unicode_buffer(32768)
+            dll_size=k.GetDllDirectoryW(len(dll_buffer),dll_buffer)
+            environment=C.create_unicode_buffer('\0'.join(f'{key}={value}' for key,value in sorted(env.items(),key=lambda item:item[0].upper()))+'\0\0') if env is not None else None
             try:
-                check(k.CreateProcessW(str(command[0]),line,None,None,True,0x4|0x08000000,None,str(folder),C.byref(startup),C.byref(pi)))
+                # A frozen Python DLL search path is inherited by children.
+                # Compiler/runtime DLLs must come from the toolchain instead.
+                if dll_size:check(k.SetDllDirectoryW(None))
+                check(k.CreateProcessW(str(command[0]),line,None,None,True,0x4|0x08000000|0x400,environment,str(folder),C.byref(startup),C.byref(pi)))
                 handles.extend([pi.process,pi.thread])
             finally:
+                if dll_size:k.SetDllDirectoryW(dll_buffer.value)
                 k.SetErrorMode(previous_mode)
                 for handle in (startup.stdin,startup.stdout,startup.stderr):
                     if handle:k.SetHandleInformation(handle,1,0)
@@ -139,6 +151,22 @@ class Judge:
         self.assets=assets;self.work_dir=Path(work_dir);self.work_dir.mkdir(parents=True,exist_ok=True)
         bundled=__import__('paths').ROOT/'compiler'/'ucrt64'/'bin'/'g++.exe'
         self.compiler=str(bundled) if bundled.is_file() else shutil.which('g++')
+        self._compiled=OrderedDict()
+        self._compiled_lock=threading.Lock()
+
+    def _environment(self):
+        value=dict(os.environ)
+        frozen=Path(sys._MEIPASS).resolve() if getattr(sys,'_MEIPASS',None) else None
+        paths=[]
+        for item in value.get('PATH','').split(os.pathsep):
+            if not item:continue
+            try:
+                if frozen and Path(item).resolve().is_relative_to(frozen):continue
+            except (OSError,ValueError):pass
+            paths.append(item)
+        # cc1plus/as/ld and generated executables need the same runtime DLLs.
+        value['PATH']=str(Path(self.compiler).resolve().parent)+os.pathsep+os.pathsep.join(paths)
+        return value
 
     def execute(self,identity,code,mode='submit',input_text='',cancel=None,sample_run=None):
         result={'verdict':'ERROR','scope':'samples','timeMs':None,'memoryKb':None,'passed':0,'total':0,'output':'','stderr':'','message':'','caseResults':[]}
@@ -148,6 +176,7 @@ class Judge:
             if not isinstance(code,str) or not code.strip():raise ValueError('请先输入 C++17 代码')
             if len(code.encode('utf-8'))>262144:raise ValueError('代码超过 256 KiB')
             if not self.compiler:raise RuntimeError('没有找到本机 C++17 编译器')
+            environment=self._environment()
             sample_run=(not input_text) if sample_run is None else sample_run
             if mode=='run' and sample_run:
                 if hasattr(self.assets,'problem'):
@@ -159,12 +188,30 @@ class Judge:
             if _cancelled(cancel):raise ValueError('评测已取消')
             with tempfile.TemporaryDirectory(prefix='submission-',dir=self.work_dir) as temporary:
                 directory=Path(temporary);source=directory/'main.cpp';exe=directory/'main.exe';source.write_text(code,encoding='utf-8')
-                compiled=_run([self.compiler,'-O2','-std=c++17','-o',exe,source],'',directory,30000,1024,262144,cancel,max_processes=32)
+                compiler_stat=Path(self.compiler).stat()
+                cache_key=(str(Path(self.compiler).resolve()),compiler_stat.st_mtime_ns,compiler_stat.st_size,hashlib.sha256(code.encode('utf-8')).digest())
+                with self._compiled_lock:
+                    executable=self._compiled.get(cache_key)
+                    if executable is not None:self._compiled.move_to_end(cache_key)
+                if executable is not None:
+                    exe.write_bytes(executable)
+                    compiled={'verdict':None}
+                else:
+                    compiled=_run([self.compiler,'-O2','-std=c++17','-fdiagnostics-color=never','-o',exe,source],'',directory,30000,1024,262144,cancel,max_processes=32,env=environment)
                 if compiled['verdict']:
-                    result.update(verdict='ERROR' if _cancelled(cancel) else 'CE',stderr=compiled['stderr'],message='编译已取消' if _cancelled(cancel) else 'C++17 编译未通过');return result
+                    code_error=not _cancelled(cancel) and bool(compiled['stderr']) and compiled['returncode']==1 and compiled['verdict']=='RE'
+                    detail=compiled['stderr'] or f"本地编译器退出码：0x{compiled['returncode']:08X}" if compiled['returncode'] is not None else '编译器未能启动'
+                    result.update(verdict='CE' if code_error else 'ERROR',stderr=detail,message='编译已取消' if _cancelled(cancel) else 'C++17 编译未通过' if code_error else '本地编译器运行失败，请查看诊断信息');return result
+                if executable is None and not _cancelled(cancel) and exe.stat().st_size <= 8*1024*1024:
+                    with self._compiled_lock:
+                        self._compiled[cache_key]=exe.read_bytes()
+                        while len(self._compiled)>8 or sum(map(len,self._compiled.values()))>16*1024*1024:
+                            self._compiled.popitem(last=False)
                 maximum_time=maximum_memory=0;failed=None
                 for index,case in enumerate(cases):
-                    ran=_run([exe],case['input'],directory,bundle['limits']['timeMs'],bundle['limits']['memoryMb'],cancel=cancel)
+                    ran=_run([exe],case['input'],directory,bundle['limits']['timeMs'],bundle['limits']['memoryMb'],cancel=cancel,env=environment)
+                    if ran['verdict'] not in ('MLE','TLE') and ran['returncode'] in (0xc0000135,0xc000007b,0xc0000142):
+                        ran.update(verdict='ERROR',stderr=ran['stderr'] or f"程序依赖加载失败：0x{ran['returncode']:08X}")
                     maximum_time=max(maximum_time,ran['timeMs']);maximum_memory=max(maximum_memory,ran['memoryKb'])
                     result.update(timeMs=maximum_time,memoryKb=maximum_memory,output=ran['output'][:65536],stderr=ran['stderr'])
                     verdict=ran['verdict'];message=''

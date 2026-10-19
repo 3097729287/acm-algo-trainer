@@ -3,10 +3,10 @@
 TB combines a problem library, illustrated editorials, C++ editing, local sample judging and personal training records for Codeforces, AtCoder, Nowcoder and Luogu. Account data and rankings share the existing server-side MySQL database; local SQLite retains a durable working copy and pending changes.
 
 <!-- release-status:start -->
-**Current stable release: v1.1.3.** [Installer, portable archive, v1.1.2 delta and checksums](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.1.3). The fixed build contains 960 editorial pairs.
+Source v1.1.4 is being validated and packaged; it has not been published. The current stable download remains [v1.1.3](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.1.3).
 <!-- release-status:end -->
 
-[Usage](docs/usage.md) · [1.1.3 release notes](docs/releases/1.1.3.md) · [Build instructions](docs/development.md) · [中文](README.md)
+[Usage](docs/usage.md) · [1.1.4 release notes](docs/releases/1.1.4.md) · [Build instructions](docs/development.md) · [中文](README.md)
 
 ![TB workbench](docs/assets/workbench.png)
 
@@ -15,6 +15,16 @@ TB combines a problem library, illustrated editorials, C++ editing, local sample
 Windows 10/11 x64. The [installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.3/TB-Setup-1.1.3-win64.exe) includes the compiler and offline WebView2 runtime. Extract the complete [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.3/TB-1.1.3-win64.zip).
 
 Save drafts, close TB and update the existing directory. Personal databases and imported content remain intact. Upgrade each computer to the same current release and log in in the dedicated submission browser when using v1.1.3. Automatic updates wait for saved drafts and active submissions/mocks, make online SQLite backups, verify SHA-256 and replace program files. Available deltas, `BUILD-INFO.json`, `RELEASE-MANIFEST.json` and `SHA256SUMS.txt` are listed on the release page.
+
+## Version 1.1.4
+
+- Fix the bundled C++ compiler/runtime without a developer PATH, reuse successful compilations for unchanged code, and always execute fresh input. Recognize Luogu's unnamed language select and display compiler diagnostics.
+- Synchronize panel/tab opacity, distinguish outline and blueprint styles, compact settings, collapse navigation options and make platform labels optional. Remove the growth ID and simplify difficulty labels.
+- Preserve statement formulae, lists and official sample newlines. Refresh old Nowcoder caches in the background. Task dots indicate completed, unclaimed XP only; claiming no longer waits for full statistics.
+- Add JSON data export, a first-registration guide and a replay entry. Acknowledgements: InkStarry, 猫猫头教主 and 蒟蒻.
+- Defer secondary pages, share duplicate statistics and install the visible-browser adapter once per document.
+
+[Validation and upgrade scope](docs/releases/1.1.4.md). The fixed public build retains 960 editorial pairs; personal data and existing local content remain intact.
 
 ## Version 1.1.3
 

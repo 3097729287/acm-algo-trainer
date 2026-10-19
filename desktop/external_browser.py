@@ -284,7 +284,7 @@ class ExternalBrowserBridge:
                     return  # A cancelled pre-click checkpoint must not click.
             page.send('Runtime.evaluate', {'expression': f'window.__tbAcks?.[{ack}]?.()'})
 
-    def _script(self, session, action):
+    def _script(self, session, action, install=True):
         context = {key: session.get(key) for key in ('sessionId', 'platform', 'problem', 'code',
                    'originalUrl', 'attempted', 'baseline', 'baselineKnown', 'baselineOwner', 'submissionId')}
         context['nativeFormOnly'] = True
@@ -293,7 +293,7 @@ class ExternalBrowserBridge:
           (window.__tbAcks ||= {})[n] = () => { delete window.__tbAcks[n]; resolve(); };
           window.__tbReceipt(JSON.stringify({...value, ack:n}));
         })"""
-        return self.source + ';tbOfficialPage(' + json.dumps(context, ensure_ascii=True) + ',' + json.dumps(action) + ',' + callback + ')'
+        return (self.source + ';' if install else '') + 'tbOfficialPage(' + json.dumps(context, ensure_ascii=True) + ',' + json.dumps(action) + ',' + callback + ')'
 
     def _run(self, identity):
         page = None
@@ -303,6 +303,9 @@ class ExternalBrowserBridge:
             page.call('Runtime.enable')
             page.call('Runtime.addBinding', {'name': '__tbReceipt'})
             page.call('Page.enable')
+            # Install once per document, including native login redirects.
+            # Polls no longer transmit and parse the entire platform adapter.
+            page.call('Page.addScriptToEvaluateOnNewDocument', {'source': self.source})
             with self.lock:
                 self.sessions[identity]['target'] = target['id']
                 url = self.sessions[identity]['url']
@@ -327,7 +330,7 @@ class ExternalBrowserBridge:
                         continue
                     if focus:
                         page.call('Page.bringToFront')
-                    state = page.evaluate(self._script(session, 'inspect'))
+                    state = page.evaluate(self._script(session, 'inspect', install=False))
                     self._update(identity, state, inspection=True)
                     with self.lock:
                         live = self.sessions[identity]
@@ -338,7 +341,7 @@ class ExternalBrowserBridge:
                     if dispatch:
                         if self.guard:
                             self.guard(session['originalUrl'])
-                        page.evaluate(self._script(session, 'submit'))
+                        page.evaluate(self._script(session, 'submit', install=False))
                 except Exception:
                     # Navigation destroys the old execution context. The next
                     # inspection reinstalls observers using the durable attempt.
@@ -352,7 +355,7 @@ class ExternalBrowserBridge:
                         self._update(identity, {'status':'unconfirmed' if session.get('attempted') else 'error',
                                                'message':'浏览器连接已断开，请核对原站记录后重试。'})
                         return
-                self.stopping.wait(1.5 if session.get('attempted') else .6)
+                self.stopping.wait(1.5 if session.get('attempted') else (.15 if time.monotonic() - session['created'] < 30 else .6))
         except Exception:
             logging.getLogger('tb.visible-submit').exception('Visible browser session failed')
             self._update(identity, {'status':'error', 'message':'浏览器未能连接，请重新打开提交页；代码已保留。'})

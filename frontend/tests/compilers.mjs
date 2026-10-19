@@ -11,6 +11,8 @@ try {
     ['Codeforces', '<select name="programTypeId"><option value="54">GNU G++17 7.3.0</option><option value="89">GNU G++20 13.2</option></select>', '89', '#include <ranges>\nint main(){}'],
     ['AtCoder', '<select id="select-lang" name="data.LanguageId" style="display:none"><option value="old">C++14 (GCC 5.4.1)</option><option value="17">C++17 (GCC 12.2)</option><option value="20">C++20 (GCC 12.2)</option></select>', '17', 'int main(){}'],
     ['洛谷', '<select name="language"><option value="cpp">C++14</option><option value="cpp17">C++17</option><option value="cpp20">C++20</option></select>', 'cpp17', 'int main(){}'],
+    ['洛谷', '<select><option value="java">Java 21</option><option value="12">C++17</option><option value="28">C++20</option></select>', '12', '#include <stdio.h>\nint main(){printf("0");}'],
+    ['洛谷', '<select><option value="cpp14">C++14</option><option value="12" selected>C++17</option><option value="28">C++20</option></select>', '12', 'int main(){}'],
   ];
   for (const [platform, html, expected, code] of native) {
     await page.setContent(html);

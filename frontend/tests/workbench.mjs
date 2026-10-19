@@ -104,7 +104,7 @@ try {
   await page.getByRole('button', { name: '中文', exact: true }).click();
   await page.getByText('机器翻译 · Fixture provider', { exact: true }).waitFor();
   assert.ok(await page.locator('.wb-statement').textContent().then(text => text.includes('A 的中文题面')));
-  assert.equal(await page.locator('.wb-statement p').evaluate(node => parseFloat(getComputedStyle(node).fontSize)), 24, 'Chinese uses the same reading size');
+  assert.equal(await page.locator('.wb-statement p').first().evaluate(node => parseFloat(getComputedStyle(node).fontSize)), 24, 'Chinese uses the same reading size');
   assert.equal(await page.evaluate(() => 'code' in window.workbenchFixture.calls.filter(call => call.path === 'problem/translate').at(-1).body), false, 'translation sends only problem identity');
   await page.getByRole('button', { name: '原文', exact: true }).click();
   assert.ok(await page.locator('.wb-statement').textContent().then(text => text.includes('给出两个整数')));

@@ -38,7 +38,10 @@ async function selectOfficialCompiler(code, platform = '') {
     .filter(item => item.candidate && !item.node.disabled).sort((a,b)=>a.candidate.score-b.candidate.score);
   for (const select of document.querySelectorAll('select')) {
     if (!visible(select) && platform !== 'AtCoder') continue;
-    if (!/language|programtype|compiler|lang/i.test((select.name || '') + ' ' + (select.id || ''))) continue;
+    // Luogu's native Vue select has no name/id. Its actual option list,
+    // rather than attributes or unrelated page text, identifies the control.
+    const languageOptions = [...select.options].filter(option => /^(?:GNU\s+)?(?:C\+\+|C(?:11|17|23)?(?:\s|$)|Python|Java|Rust|Go(?:\s|$)|Pascal|Clang)/i.test((option.textContent || '').trim()));
+    if (!/language|programtype|compiler|lang/i.test((select.name || '') + ' ' + (select.id || '')) && languageOptions.length < 2) continue;
     const item = candidates([...select.options])[0];
     if (!item) continue;
     if (select.value !== item.node.value) {

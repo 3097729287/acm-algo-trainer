@@ -5,7 +5,7 @@ import re
 from training import ServiceError, iso
 
 ALLOWED = frozenset(('panelStyle', 'backdrop', 'panelOpacity', 'widgets', 'theme', 'accent', 'motion', 'compact', 'collapsed', 'favorites', 'views',
-                     'readerWidth', 'fontSize', 'navOrder', 'navLabels', 'navGroups', 'seenAchievements'))
+                     'readerWidth', 'fontSize', 'navOrder', 'navLabels', 'navGroups', 'seenAchievements', 'showPlatforms', 'onboardingCompleted'))
 
 
 def receipt_bindings(rows):
@@ -51,6 +51,9 @@ def save_preferences(training, body):
             raise ServiceError(400, '外观选项无效')
     if 'widgets' in value and type(value['widgets']) is not bool:
         raise ServiceError(400, '训练挂件选项无效')
+    for name in ('showPlatforms', 'onboardingCompleted'):
+        if name in value and type(value[name]) is not bool:
+            raise ServiceError(400, '界面选项格式无效')
     if 'panelOpacity' in value and (type(value['panelOpacity']) is not int or not 25 <= value['panelOpacity'] <= 100):
         raise ServiceError(400, '面板不透明度须为 25–100')
     try:
@@ -74,6 +77,9 @@ def save_preferences(training, body):
         # Read acknowledgements are monotonic. A delayed save of appearance or
         # favourites must not make an already inspected achievement unread.
         previous = json.loads(row['value']) if row else {}
+        if previous.get('onboardingCompleted'):
+            value['onboardingCompleted'] = True
+            text = json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False)
         if 'seenAchievements' in previous or 'seenAchievements' in value:
             value['seenAchievements'] = merge_seen_achievements(previous.get('seenAchievements'), value.get('seenAchievements'))
             text = json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False)

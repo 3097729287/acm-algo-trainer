@@ -41,7 +41,8 @@ class DailyMissionTests(unittest.TestCase):
         self.assertEqual(after['achievementXp'],before['achievementXp'] + 15)
         self.assertEqual(after['rankingXp'],0)
         self.assertEqual(self.service.connection.execute('SELECT SUM(awarded_xp) FROM official_first_xp_awards').fetchone()[0],100)
-        self.assertEqual(sum(result['progression']['newAchievementXp'] for result in results),15)
+        self.assertEqual(sum(result['awardedXp'] for result in results),25)
+        self.assertEqual(after['newAchievementXp'],15)
         claims = [tuple(row) for row in self.service.connection.execute('SELECT * FROM achievement_xp_claims ORDER BY achievement_id')]
         self.assertEqual({row[0]:row[2] for row in claims},{'official-1':25,'missions-1':15})
         self.service.close()

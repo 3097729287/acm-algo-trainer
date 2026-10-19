@@ -15,6 +15,7 @@ export default function AccountGate({ children }) {
   const refreshing = useRef(false);
   const mounted = useRef(false);
   const seeded = useRef(false);
+  const registeredLogin = useRef('');
   const updateApi = useCallback((path, body) => request(path, body, session?.token), [session?.token]);
   const softwareUpdate = useSoftwareUpdates(updateApi, Boolean(session?.token && !session.authenticated));
   const refresh = useCallback(async () => {
@@ -58,10 +59,14 @@ export default function AccountGate({ children }) {
     try {
       if (mode === 'register') {
         const result = await request('account/register', { nickname: nickname.trim(), loginId: loginId.trim(), password }, session.token);
+        registeredLogin.current = result.loginId.toLowerCase();
+        try { sessionStorage.setItem(`tb.onboarding.pending.${registeredLogin.current}`, '1'); } catch { /* Optional device hint. */ }
         setLoginId(result.loginId); setMode('login'); setPassword(''); setConfirmation(''); setVisible(false);
         setMessage('注册成功，请用登录号和密码登录。');
       } else {
         const result = await request('account/login', { loginId: loginId.trim(), password }, session.token);
+        window.__tbNewAccount = registeredLogin.current === loginId.trim().toLowerCase();
+        try { window.__tbNewAccount ||= sessionStorage.getItem(`tb.onboarding.pending.${loginId.trim().toLowerCase()}`) === '1'; } catch { /* The in-memory registration hint still works. */ }
         setPassword(''); setConfirmation(''); setSession(result);
       }
     } catch (issue) { setError(issue.message); }

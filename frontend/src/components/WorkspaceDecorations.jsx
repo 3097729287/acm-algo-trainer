@@ -25,9 +25,8 @@ export function AppearanceSettings({ prefs, setPrefs, onError }) {
     finally { event.target.value = ''; }
   }
   return <section className="appearance-studio" aria-label="工作台装饰"><h2><Palette size={18}/>工作台风格</h2>
-    <p className="progress-small">边框、背景和小挂件均可单独选择，阅读区保持清晰。</p>
     <div className="style-preset-grid">{[
-      ['minimal', '清简', '干净的实色面板'], ['outlined', '线框', '清晰边框与细节'], ['aurora', '极光', '柔和渐变与光点'], ['blueprint', '蓝图', '工程网格与标尺'],
+      ['minimal', '清简', '轻盈留白'], ['outlined', '线框', '圆角与轮廓'], ['aurora', '极光', '柔和渐变'], ['blueprint', '蓝图', '网格与虚线'],
     ].map(([id, title, note]) => <button type="button" key={id} aria-pressed={prefs.panelStyle === id} className={`style-preset style-${id}`} onClick={() => setPrefs(previous => ({ ...previous, panelStyle: id }))}><i aria-hidden="true"/><strong>{title}</strong><small>{note}</small></button>)}</div>
     <div className="settings-row"><div><strong>页面背景</strong><small>使用静态图案，减少动画开销</small></div><select aria-label="页面背景" value={prefs.backdrop} onChange={event => setPrefs(previous => ({ ...previous, backdrop: event.target.value }))}>{[['none','纯色'],['aurora','夜空极光'],['grid','细线网格'],['sunset','落日余晖'],...(hasImage ? [['custom','我的图片']] : [])].map(([id,name]) => <option value={id} key={id}>{name}</option>)}</select></div>
     <label className="settings-row appearance-opacity"><div><strong>面板不透明度</strong><small>降低后可透出更多背景</small></div><input type="range" aria-label="面板不透明度" min="25" max="100" step="1" value={prefs.panelOpacity ?? 76} onChange={event => setPrefs(previous => ({...previous,panelOpacity:Number(event.target.value)}))}/><output>{prefs.panelOpacity ?? 76}%</output></label>

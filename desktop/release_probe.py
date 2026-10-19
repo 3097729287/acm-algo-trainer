@@ -86,6 +86,7 @@ def run(action, output):
                       baseUrl='http://127.0.0.1:'+str(server.server_port))
         if action == '--package-check':
             from judge import Judge
+            import re
             class Fixture:
                 def bundle(self, identity):
                     return {'scope':'local','cases':[{'input':'','output':'42\n'}],
@@ -95,6 +96,29 @@ def run(action, output):
             result = runner.execute('release-check','#include <iostream>\nint main(){std::cout<<42<<"\\n";}')
             report.update(compiler=str(runner.compiler), compilerVerdict=result['verdict'])
             assert result['verdict']=='SAMPLE_PASS', result
+            # A user's PC need not have MSYS/GCC on PATH. Exercise all four
+            # platforms using bundled public statements/reference code only.
+            old_path=os.environ.get('PATH','')
+            platform_runs=[]
+            try:
+                os.environ['PATH']=str(Path(os.environ['SystemRoot'])/'System32')+os.pathsep+os.environ['SystemRoot']
+                engine=Judge(server.training.assets,STATE/'release-platform-check')
+                for platform in ('Codeforces','AtCoder','牛客','洛谷'):
+                    for row in rows:
+                        if row.get('platform')!=platform or (row.get('difficulty') or 9999)>1200:continue
+                        asset=server.training.assets.problem(row['id'],fetch=False)
+                        if not asset.get('statementAvailable') or not asset.get('samples'):continue
+                        sources=re.findall(r'```(?:cpp|c\+\+)\s*\n(.*?)```',server.store.solution(row['id'])['markdown'],re.S)
+                        sources=[code for code in sources if re.search(r'\bmain\s*\(',code)]
+                        if not sources:continue
+                        started=time.monotonic()
+                        checked=engine.execute(row['id'],sources[-1],mode='run',sample_run=True)
+                        assert checked['verdict']=='SAMPLE_PASS',(platform,row['id'],checked)
+                        platform_runs.append({'platform':platform,'id':row['id'],'verdict':checked['verdict'],'samples':checked['total'],'seconds':round(time.monotonic()-started,3)})
+                        break
+                    else:raise AssertionError('No public compiler fixture for '+platform)
+                report.update(platformRuns=platform_runs,developerCompilerPathRequired=False)
+            finally:os.environ['PATH']=old_path
         else:
             worker = threading.Thread(target=server.serve_forever, daemon=True)
             worker.start()
@@ -132,6 +156,9 @@ def run(action, output):
                         fill('password', 'native-fixture-password')
                         window.evaluate_js("document.querySelector('.account-submit').click()")
                         wait_js("!!document.querySelector('.nav-item')")
+                        wait_js("!!document.querySelector('.onboarding')")
+                        window.evaluate_js("document.querySelector('.modal header button[aria-label=关闭]').click()")
+                        report['nativeNewUserGuide'] = True
                         assert server.accounts.snapshot()['authenticated']
                         report['nativeAccountLogin'] = True
                     except Exception as issue:

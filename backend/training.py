@@ -450,6 +450,15 @@ class TrainingService:
     def insights(self, hub=None):
         from insights import build_insights
         with self.lock, self._library_view():
+            # UI polls and the leaderboard share this read. Writes, library
+            # changes, account switches and the Beijing date invalidate it.
+            from copy import deepcopy
+            signature = self._insights_signature(hub)
+            cache = getattr(self, '_insights_cache', None)
+            if signature is not None and cache and time.monotonic() - cache[0] < 3 and cache[1] == signature:
+                result = deepcopy(cache[2])
+                result['growth']['newAchievementXp'] = 0
+                return result
             workspace = self.workspace()
             records = [dict(record) for record in self.connection.execute("SELECT * FROM submissions WHERE mode='submit' AND finished_at IS NOT NULL ORDER BY submitted_at,rowid")]
             history = [dict(record) for record in self.connection.execute("SELECT * FROM training")]
@@ -513,7 +522,15 @@ class TrainingService:
             value["profile"] = self.profile()["profile"]
             from progression import public_progress
             self._public_progress_cache = (time.monotonic(), self._public_progress_signature(hub or {}), public_progress(value))
+            signature = self._insights_signature(hub)
+            self._insights_cache = (time.monotonic(), signature, deepcopy(value))
             return value
+
+    def _insights_signature(self, hub):
+        library = getattr(self.store, 'library', None)
+        if not callable(getattr(library, 'content_signature', None)):
+            return None
+        return id(self.connection), self._public_progress_signature(hub or {}), library.content_signature()
 
     def _public_progress_signature(self, hub):
         profiles = hashlib.sha256(json.dumps(hub.get('accounts', []), ensure_ascii=False, sort_keys=True).encode()).digest()
@@ -630,7 +647,7 @@ class TrainingService:
         if not isinstance(identity, str) or not identity or len(identity) > 64:
             raise ServiceError(400, "每日任务编号无效")
         with self.lock:
-            tasks = self.daily_tasks()
+            tasks = self.daily_tasks(goal_tasks=[])
             if date is not None and date != tasks["date"]:
                 raise ServiceError(409, "每日任务已刷新，请重新打开任务列表")
             record = self.connection.execute("SELECT * FROM daily_missions WHERE day=? AND id=?", (tasks["date"], identity)).fetchone()
@@ -645,8 +662,15 @@ class TrainingService:
                         raise ServiceError(409, "这项任务尚未完成")
                     connection.execute("UPDATE daily_missions SET claimed_at=?,awarded_xp=?,evidence=? WHERE day=? AND id=? AND claimed_at IS NULL",
                                        (iso(self._now()), task["xp"], json.dumps(evidence), tasks["date"], identity))
-            insights = self.insights()
-            return {"dailyTasks": insights["dailyTasks"], "progression": insights["growth"], "achievements": insights["achievements"], "alreadyClaimed": already}
+            # The durable claim is the response barrier. Heavy growth and
+            # achievement calculations happen on the next background read.
+            if not already:
+                for item in tasks['tasks']:
+                    if item['id'] == identity:
+                        item.update(claimed=True, claimedAt=iso(self._now()))
+                tasks['claimable'] = sum(item['completed'] and not item['claimed'] for item in tasks['tasks'])
+                tasks['totalClaimedXp'] = sum(item['xp'] for item in tasks['tasks'] if item['claimed'])
+            return {"dailyTasks": tasks, "awardedXp": 0 if already else task['xp'], "alreadyClaimed": already}
 
     def _ranking_profile(self):
         with self.lock:

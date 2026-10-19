@@ -14,6 +14,7 @@ from paths import LIBRARY_SEED
 import backend
 import judge
 import reviewed_cases
+from unittest.mock import patch
 
 class FixtureAssets:
     def __init__(self,scope='samples',time_ms=600,memory_mb=128,checker=None):
@@ -43,6 +44,33 @@ class JudgeTests(unittest.TestCase):
         self.assertEqual(self.execute('#include <iostream>\nint main(){std::cout<<9;}')['verdict'],'WA')
         value=self.execute('this is not C++');self.assertEqual(value['verdict'],'CE');self.assertTrue(value['stderr'])
         self.assertEqual(self.execute('int main(){return 7;}')['verdict'],'RE')
+    def test_toolchain_without_developer_path_handles_unicode_and_restores_host_dlls(self):
+        compiler=judge.shutil.which('g++')
+        if not compiler:self.skipTest('C++ compiler unavailable')
+        engine=judge.Judge(FixtureAssets(),self.directory/'中文 空格')
+        engine.compiler=compiler
+        clean_path=str(Path(os.environ['SystemRoot'])/'System32')+os.pathsep+os.environ['SystemRoot']
+        kernel=judge._kernel();saved=judge.C.create_unicode_buffer(32768)
+        kernel.GetDllDirectoryW(len(saved),saved)
+        kernel.SetDllDirectoryW(str(self.directory))
+        try:
+            with patch.dict(os.environ,{'PATH':clean_path}):
+                result=engine.execute('fixture','#include <bits/stdc++.h>\nint main(){long long a,b;std::cin>>a>>b;std::cout<<a+b;}',mode='run',sample_run=True)
+            self.assertEqual(result['verdict'],'SAMPLE_PASS',result)
+            current=judge.C.create_unicode_buffer(32768);kernel.GetDllDirectoryW(len(current),current)
+            self.assertEqual(current.value,str(self.directory))
+        finally:kernel.SetDllDirectoryW(saved.value or None)
+    def test_unchanged_code_reuses_compilation_but_executes_fresh_inputs(self):
+        engine=judge.Judge(FixtureAssets(),self.directory)
+        source='#include <cstdio>\nint main(){int a,b;scanf("%d%d",&a,&b);printf("%d",a+b);}'
+        with patch('judge._run',wraps=judge._run) as run:
+            first=engine.execute('fixture',source,mode='run',input_text='1 2',sample_run=False)
+            second=engine.execute('fixture',source,mode='run',input_text='8 9',sample_run=False)
+            self.assertEqual((first['output'],second['output']),('3','17'))
+            self.assertEqual(sum('-std=c++17' in call.args[0] for call in run.call_args_list),1)
+            engine.execute('fixture',source+'\n// changed',mode='run',input_text='8 9',sample_run=False)
+            self.assertEqual(sum('-std=c++17' in call.args[0] for call in run.call_args_list),2)
+        self.assertEqual(list(self.directory.iterdir()),[])
     def test_cpu_limit_cancellation_and_output_limit(self):
         value=self.execute('int main(){volatile unsigned long long x=0;for(;;)++x;}',FixtureAssets(time_ms=150))
         self.assertEqual(value['verdict'],'TLE',value)

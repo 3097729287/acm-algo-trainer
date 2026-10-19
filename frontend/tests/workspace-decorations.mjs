@@ -1,12 +1,14 @@
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
 import {createServer} from 'vite';
-import {mkdir} from 'node:fs/promises';
+import {mkdir,readFile} from 'node:fs/promises';
 const vite=await createServer({server:{host:'127.0.0.1',port:0}});await vite.listen();
 const browser=await chromium.launch({channel:'msedge',headless:true});
 const page=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];
 page.on('pageerror',e=>errors.push(e.message));
 let accountCalls=0;
+let savedPreferences=null;
+let registrationMode=false;
 const owner='10000000-0000-4000-8000-000000000001';
 const growth={level:8,tier:'大师',badge:'master',currentLevelXp:400,nextLevelXp:1600,totalXp:6000,levelCosts:[200,400],levelName:'算法设计'};
 const entries=[{rank:1,userId:owner,nickname:'我的训练',count:0,publicProgress:{level:8,tier:'大师',titles:[]}},{rank:2,userId:'other',nickname:'同行者',count:0}];
@@ -14,10 +16,12 @@ const rows=[152,165,166].map(number=>({id:`weekly-${number}`,contest:`周赛 ${n
 const goals={goals:[{id:'goal',title:'CF 2200',kind:'cf',deadline:'2027-07-10',currentRating:1000,targetRating:2200,dailyMinutes:90}]};
 await page.addInitScript(()=>{const canvas=document.createElement('canvas');canvas.width=1000;canvas.height=700;const context=canvas.getContext('2d'),sky=context.createLinearGradient(0,0,1000,700);sky.addColorStop(0,'#375b85');sky.addColorStop(.5,'#628388');sky.addColorStop(1,'#a66c77');context.fillStyle=sky;context.fillRect(0,0,1000,700);context.fillStyle='#213c50';context.beginPath();context.moveTo(0,700);context.lineTo(380,190);context.lineTo(600,500);context.lineTo(800,280);context.lineTo(1000,700);context.fill();localStorage.setItem('tb.appearance.background',canvas.toDataURL('image/jpeg'));});
 try{
- await page.route('**/api/**',async route=>{
+ const routes=async route=>{
   if(!new URL(route.request().url()).pathname.startsWith('/api/'))return route.continue();
   const path=new URL(route.request().url()).pathname.split('/api/')[1];let value;
-  if(path==='account'){accountCalls++;if(accountCalls===1)await new Promise(r=>setTimeout(r,3200));value={authenticated:true,required:false,token:'fixture',account:{userId:owner,nickname:'我的训练',loginId:'fixture'}};}
+  if(path==='account'){accountCalls++;if(accountCalls===1)await new Promise(r=>setTimeout(r,3200));value={authenticated:!registrationMode,required:registrationMode,token:'fixture',account:registrationMode?null:{userId:owner,nickname:'我的训练',loginId:'fixture'}};}
+  else if(path==='account/register')value={loginId:'newuser'};
+  else if(path==='account/login'){registrationMode=false;value={authenticated:true,required:true,token:'fixture',account:{userId:owner,nickname:'新手',loginId:'newuser'}};}
   else if(path==='data')value={token:'fixture',revision:'fixture',rows,categories:[]};
   else if(path==='workspace')value={now:new Date().toISOString(),training:rows.map(r=>({id:r.id,activeAt:new Date().toISOString(),today:true,accepted:false,attempts:0})),sets:[],contests:[],activeContest:null,goals,goalTasks:[{...rows[0],accepted:false,goalTitles:['CF 2200']}],summary:{accepted:0,total:3,attempts:0}};
   else if(path==='insights')value={summary:{totalSolved:0,streak:0},growth,achievements:[],knowledge:[],recommendations:[],assessment:{platforms:[]},dailyTasks:{tasks:[]},activity:[{date:'2026-10-01',officialAccepted:73}]};
@@ -27,22 +31,29 @@ try{
   else if(path==='leaderboard')value={period:'daily',date:'2026-10-18',configured:true,status:'ready',entries,self:{userId:owner},isAdmin:false};
   else if(path==='profile')value={profile:{userId:owner,nickname:'我的训练'},leaderboard:{configured:true}};
   else if(path==='browser-preparation')value={available:false};
-  else if(path==='preferences')value={preferences:null};
+  else if(path==='preferences'){if(route.request().method()==='POST')savedPreferences=route.request().postDataJSON().preferences;value={preferences:savedPreferences};}
+  else if(path==='data/export')value={format:'tb-learning-export',formatVersion:1,tables:{drafts:[{code:'// 中文代码\nint main(){}'}]}};
   else if(path==='desktop/fullscreen')value={available:false,fullscreen:false};
   else throw new Error('Unhandled fixture '+path);
   await route.fulfill({contentType:'application/json',body:JSON.stringify(value)});
- });
+ };await page.route('**/api/**',routes);
  await page.goto(vite.resolvedUrls.local[0]);
  await page.locator('.sidebar').waitFor();assert.equal(accountCalls,1,'A slow bootstrap is not superseded by the three-second poll');
  await page.getByRole('button',{name:'偏好设置',exact:false}).click();
  await page.getByRole('region',{name:'工作台装饰'}).waitFor();
+ assert.equal(await page.locator('.settings-navigation').getAttribute('open'),null,'Navigation starts collapsed');
+ const order=await page.locator('.appearance-studio,.settings-navigation').evaluateAll(nodes=>nodes.map(n=>n.className));
+ assert.deepEqual(order,['appearance-studio','settings-navigation']);
  assert.equal(await page.getByRole('heading',{name:'账号与身份',exact:true}).count(),0);
  for(const label of ['清简','线框','极光','蓝图'])await page.getByRole('button',{name:new RegExp(label)}).click();
  assert.equal(await page.locator('html').getAttribute('data-panel-style'),'blueprint');
+ const styleSignature=()=>page.locator('.settings-appearance').evaluate(n=>{const s=getComputedStyle(n);return [s.borderStyle,s.borderRadius,s.backgroundImage];});
+ const blueprint=await styleSignature();await page.getByRole('button',{name:/线框/}).click();const outlined=await styleSignature();assert.notDeepEqual(blueprint,outlined,'Blueprint has a grid/dashed silhouette');
  await page.getByLabel('页面背景',{exact:true}).selectOption('aurora');
  await page.getByLabel('页面背景',{exact:true}).selectOption('custom');
  await page.getByLabel('面板不透明度',{exact:true}).evaluate(node=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(node,'55');node.dispatchEvent(new Event('input',{bubbles:true}));});
  assert.equal(await page.locator('html').evaluate(node=>node.style.getPropertyValue('--panel-opacity')),'55%');
+ await page.waitForTimeout(180); // Let the 120 ms surface transition settle.
  await page.getByLabel('顶部时钟',{exact:true}).uncheck();
  assert.equal(await page.getByLabel('北京时间',{exact:true}).count(),0);
  await page.getByLabel('顶部时钟',{exact:true}).check();
@@ -51,7 +62,15 @@ try{
    const alpha=await page.locator(selector).first().evaluate(node=>{const canvas=document.createElement('canvas');canvas.width=canvas.height=1;const c=canvas.getContext('2d');c.fillStyle=getComputedStyle(node).backgroundColor;c.fillRect(0,0,1,1);return c.getImageData(0,0,1,1).data[3]/255;});
    assert.ok(alpha>0&&alpha<.58,`${selector} uses the selected translucent palette: ${alpha}`);
  };
+ for(const selector of ['.settings-tabs','.settings-appearance','.appearance-studio','.style-preset','.topbar'])await glass(selector);
+ await page.getByLabel('页面背景',{exact:true}).selectOption('none');await glass('.settings-tabs');
+ await page.getByLabel('页面背景',{exact:true}).selectOption('custom');
+ await page.getByLabel('显示比赛平台',{exact:true}).uncheck();
  await page.locator('.sidebar').getByRole('button',{name:'比赛',exact:true}).click();
+ await page.locator('.competition-card').first().waitFor();
+ assert.equal(await page.locator('.competition-platform:visible').count(),0);
+ assert.equal(await page.locator('.competition-card-title small').count(),0);
+ assert.ok((await page.locator('.competition-problem-token').first().innerText()).includes('A:'));
  assert.deepEqual(await page.locator('.competition-card-title>strong').allTextContents(),['周赛 166','周赛 165','周赛 152'],'Name order uses descending numeric rounds');
  await glass('.competition-card');
  await page.screenshot({path:'tests/screenshots/v113-competitions-glass.png'});
@@ -59,6 +78,8 @@ try{
  await glass('.mock-config');
  await page.screenshot({path:'tests/screenshots/v113-mock-glass.png'});
  await page.locator('.sidebar').getByRole('button',{name:'成长与能力',exact:false}).click();
+ await page.locator('.growth-account-panel').waitFor();
+ assert.equal(await page.locator('.growth-profile-identity').getByText(/ID/).count(),0);
  await glass('.growth-account-panel');
  assert.equal(await page.locator('.next-milestone').count(),0);
  assert.equal(await page.locator('.goal-card,.goal-contest-grid').count(),0);
@@ -80,8 +101,30 @@ try{
  assert.equal(await page.locator('.ranking-avatar').count(),2);
  await page.screenshot({path:'tests/screenshots/v112-rankings-glass.png'});
  await page.locator('.sidebar').getByRole('button',{name:'活动记录',exact:false}).click();
+ await page.locator('.activity-stats>span>b').first().waitFor();
  const values=await page.locator('.activity-stats>span>b').evaluateAll(nodes=>nodes.map(n=>n.getBoundingClientRect().y));assert.ok(Math.abs(values[0]-values[1])<1,'Calendar summary numbers align');
  await mkdir('tests/screenshots',{recursive:true});
  for(const [width,height]of[[2048,1152],[1440,900],[1280,720],[1024,760]]){await page.setViewportSize({width,height});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));const clock=await page.getByLabel('北京时间',{exact:true}).boundingBox();assert.ok(clock.y<100&&clock.x+clock.width<=width,'Clock stays within the top bar');await page.screenshot({path:`tests/screenshots/v113-activity-${width}.png`});}
+ await page.locator('.sidebar').getByRole('button',{name:'我的训练',exact:true}).click();
+ assert.equal(await page.locator('.platform-symbol:visible').count(),0);
+ assert.equal(await page.locator('.daily-task-top-button .notification-dot').count(),0,'Pending goals alone do not light the task dot');
+ const alignment=await page.locator('.topbar-daily-ac').evaluate(n=>[...n.querySelectorAll('span,b')].map(c=>{const r=c.getBoundingClientRect();return r.y+r.height/2;}));assert.ok(Math.abs(alignment[0]-alignment[1])<1);
+ await page.locator('.sidebar').getByRole('button',{name:'偏好设置',exact:false}).click();
+ await page.getByRole('tab',{name:'数据与帮助',exact:true}).click();
+ await page.getByText('InkStarry',{exact:true}).waitFor();await page.getByText('蒟蒻',{exact:true}).waitFor();assert.equal(await page.getByText('自渡',{exact:true}).count(),0);
+ const downloaded=page.waitForEvent('download');await page.getByRole('button',{name:/导出数据/}).click();const download=await downloaded;
+ assert.ok(download.suggestedFilename().endsWith('.json'));const data=JSON.parse(await readFile(await download.path(),'utf8'));assert.equal(data.tables.drafts[0].code,'// 中文代码\nint main(){}');
+ await page.getByRole('button',{name:/新手指引/}).click();await page.getByRole('heading',{name:'连接你的竞赛账号',exact:true}).waitFor();
+ for(let i=0;i<3;i++)await page.getByRole('button',{name:'下一步',exact:true}).click();await page.getByRole('button',{name:'开始训练',exact:true}).click();
+ await page.waitForFunction(()=>JSON.parse(localStorage.getItem('tb.preferences.v2.10000000-0000-4000-8000-000000000001')).onboardingCompleted===true);
+ await page.getByRole('button',{name:/新手指引/}).click();await page.getByRole('dialog',{name:'新手指引',exact:true}).waitFor();await page.keyboard.press('Escape');
+ await page.close();registrationMode=true;savedPreferences=null;
+ const fresh=await browser.newPage({viewport:{width:1024,height:760}});await fresh.route('**/api/**',routes);await fresh.goto(vite.resolvedUrls.local[0]);
+ await fresh.getByRole('tab',{name:'注册',exact:true}).click();
+ await fresh.locator('[name=nickname]').fill('新手');await fresh.locator('[name=username]').fill('newuser');await fresh.locator('[name=password]').fill('fixture-password');await fresh.locator('[name=passwordConfirmation]').fill('fixture-password');
+ await fresh.getByRole('button',{name:'注册账号',exact:true}).click();await fresh.getByText('注册成功',{exact:false}).waitFor();await fresh.locator('[name=password]').fill('fixture-password');await fresh.getByRole('button',{name:'登录',exact:true}).click();
+ await fresh.getByRole('dialog',{name:'新手指引',exact:true}).waitFor();await fresh.keyboard.press('Escape');
+ for(let i=0;i<50&&!savedPreferences?.onboardingCompleted;i++)await new Promise(resolve=>setTimeout(resolve,50));assert.equal(savedPreferences?.onboardingCompleted,true);
+ await fresh.reload();await fresh.locator('.sidebar').waitFor();assert.equal(await fresh.getByRole('dialog',{name:'新手指引',exact:true}).count(),0,'Completed guide does not reopen after login restore');await fresh.close();
  assert.deepEqual(errors,[]);console.log(JSON.stringify({ok:true,slowLoginSingleFlight:true,stylesAndBackground:true,duplicateEntryRemoved:true,releaseSourceUnified:true,miniLeaderboard:true,zeroSolveNoMedal:true,alignedNumbers:true,responsive:true}));
 }finally{await browser.close();await vite.close();}

@@ -65,23 +65,12 @@ import InlineTitle from "@/components/InlineTitle.jsx";
 import { useSoftwareUpdates, SoftwareUpdatePanel, SoftwareUpdateNotice } from '@/pages/SoftwareUpdates.jsx';
 import MockProblemPicker from "./MockProblemPicker.jsx";
 import { difficultyBand, difficultyLabel, difficultyDescription, solutionBlocks, briefSolution } from "@/lib/practiceMetadata.js";
-import {
-  GrowthPage,
-  ActivityPage,
-  CompetitionPage,
-  TitleMedals,
-  UpdatePanel,
-  AchievementPanel,
-  DailyTasks,
-} from "@/pages/ProgressPanels.jsx";
+import TitleMedals from '@/components/TitleMedals.jsx';
 import { organizeCategories } from "@/models/model.js";
 import NavigationSettings, { orderedPages } from "@/pages/NavigationSettings.jsx";
-import RankingsPage from "@/pages/CommunityPanel.jsx";
 import { AppearanceSettings, TopbarClock } from "@/components/WorkspaceDecorations.jsx";
-import MockSetup from "@/app/MockSetup.jsx";
 import GoalsPanel from '@/pages/GoalsPanel.jsx';
 import BrowserPreparation from '@/pages/BrowserPreparation.jsx';
-import SubmissionRecords, { MockHistory } from "@/pages/SubmissionRecords.jsx";
 import { trainingDay, trainingDateLabel } from "@/lib/trainingDate.js";
 import {
   QUEUES,
@@ -101,6 +90,15 @@ import {
 } from "@/models/workspaceModel.js";
 
 const Workbench = lazy(() => import("./Workbench.jsx"));
+const progressPanel = name => lazy(() => import('@/pages/ProgressPanels.jsx').then(module => ({ default: module[name] })));
+const GrowthPage = progressPanel('GrowthPage'), ActivityPage = progressPanel('ActivityPage'), CompetitionPage = progressPanel('CompetitionPage');
+const UpdatePanel = progressPanel('UpdatePanel'), AchievementPanel = progressPanel('AchievementPanel'), DailyTasks = progressPanel('DailyTasks');
+const RankingsPage = lazy(() => import('@/pages/CommunityPanel.jsx'));
+const MockSetup = lazy(() => import('@/app/MockSetup.jsx'));
+const SubmissionRecords = lazy(() => import('@/pages/SubmissionRecords.jsx'));
+const MockHistory = lazy(() => import('@/pages/SubmissionRecords.jsx').then(module => ({ default: module.MockHistory })));
+const Onboarding = lazy(() => import('@/pages/Onboarding.jsx'));
+const DataHelpSettings = lazy(() => import('@/pages/DataHelpSettings.jsx'));
 
 const PAGES = [
   { id: "mine", label: "我的训练", icon: Target, key: "1" },
@@ -123,6 +121,8 @@ const DEFAULTS = {
   motion: true,
   compact: true,
   collapsed: false,
+  showPlatforms: true,
+  onboardingCompleted: false,
   favorites: [],
   views: [],
   readerWidth: 520,
@@ -221,7 +221,7 @@ function Verdict({ value, accepted = false, scope }) {
   );
 }
 function Difficulty({ value, row }) {
-  return <span className={"difficulty band-" + difficultyBand(value)} title={row ? difficultyDescription(row) : undefined}>{row ? difficultyLabel(row) : value ?? "—"}</span>;
+  return <span className={"difficulty band-" + difficultyBand(value)} title={row ? difficultyDescription(row) : undefined}>{row ? difficultyLabel(row).replace(/^≈\s*/, '') : value ?? "—"}</span>;
 }
 function IconButton({ label, icon: Icon, onClick, children, ...props }) {
   return (
@@ -300,7 +300,7 @@ function Modal({ title, onClose, children, wide = false, footer }) {
           <h2><InlineTitle>{title}</InlineTitle></h2>
           <IconButton label="关闭" icon={X} onClick={onClose} />
         </header>
-        <div className="modal-body">{children}</div>
+        <div className="modal-body"><Suspense fallback={<p role="status">正在读取…</p>}>{children}</Suspense></div>
         {footer && <footer>{footer}</footer>}
       </section>
     </div>
@@ -559,6 +559,16 @@ export default function App() {
   const preferencesLoaded = useRef(false), uploadedPreferences = useRef(''), preferencesQueue = useRef(Promise.resolve(true));
   const preferencesBaseline = useRef(prefs);
   const [preferencesRevision, setPreferencesRevision] = useState(0);
+  useEffect(() => {
+    if (!loading && preferencesLoaded.current && window.__tbNewAccount && !prefs.onboardingCompleted && !dialog)
+      setDialog('onboarding');
+  }, [loading, preferencesRevision, prefs.onboardingCompleted, dialog]);
+  function finishOnboarding() {
+    window.__tbNewAccount = false;
+    try { sessionStorage.removeItem(`tb.onboarding.pending.${(window.__tbAccount?.loginId || '').toLowerCase()}`); } catch { /* Optional device hint. */ }
+    setPrefs(previous => ({ ...previous, onboardingCompleted: true }));
+    setDialog(null);
+  }
   const backgroundRequest = useRef(null), backgroundAgain = useRef(false),
     backgroundSeq = useRef(0), backgroundVersion = useRef(null);
   const refreshBackground = useCallback(function refresh(force = false) {
@@ -1510,7 +1520,7 @@ export default function App() {
       >
         <td className="title-cell">
           <span
-            className={"platform-symbol " + row.platform}
+            hidden={!prefs.showPlatforms} className={"platform-symbol " + row.platform}
             title={row.platform}
           >
             {row.platform === "牛客"
@@ -1823,11 +1833,10 @@ export default function App() {
   function settingsPage() {
     return (
       <div className="settings-page scroll-panel">
-        <div className="settings-tabs" role="tablist" aria-label="设置分类">{[["appearance", "外观与导航"], ["updates", "更新"], ["training", "训练与快捷操作"]].map(([value, label]) => <button key={value} role="tab" aria-selected={settingsTab === value} className={settingsTab === value ? "active" : ""} onClick={() => setSettingsTab(value)}>{label}</button>)}</div>
+        <div className="settings-tabs" role="tablist" aria-label="设置分类">{[["appearance", "外观与导航"], ["updates", "更新"], ["training", "训练与快捷操作"], ["help", "数据与帮助"]].map(([value, label]) => <button key={value} role="tab" aria-selected={settingsTab === value} className={settingsTab === value ? "active" : ""} onClick={() => setSettingsTab(value)}>{label}</button>)}</div>
         <div className="settings-column">
         <section className="settings-appearance" hidden={settingsTab !== "appearance"}>
-          <h2>让界面适合你</h2>
-          <p>偏好自动保存，下一次打开继续使用。</p>
+          <h2>界面偏好</h2>
           <div className="settings-row">
             <div>
               <strong>主题</strong>
@@ -1915,6 +1924,7 @@ export default function App() {
               title: "收起左侧栏",
               desc: "保留导航图标，Ctrl+B 随时切换",
             },
+            { id: 'showPlatforms', title: '显示比赛平台', desc: '题目图标与比赛来源' },
           ].map((item) => (
             <label className="settings-row" key={item.id}>
               <div>
@@ -1933,7 +1943,9 @@ export default function App() {
             </label>
           ))}
         </section>
+        {settingsTab === "appearance" && <AppearanceSettings prefs={prefs} setPrefs={setPrefs} onError={message => notice(message, "error")} />}
         {settingsTab === "appearance" && <NavigationSettings pages={PAGES} prefs={prefs} setPrefs={setPrefs} />}
+        {settingsTab === "help" && <Suspense fallback={<p role="status">正在读取…</p>}><DataHelpSettings api={api} onTutorial={() => setDialog('onboarding')} onError={message => notice(message, 'error')}/></Suspense>}
         {settingsTab === "training" && <section>
           <h2>训练与评测</h2>
           <div className="settings-information">
@@ -1984,7 +1996,6 @@ export default function App() {
         </section>}
         </div>
         <div className="settings-column">
-        {settingsTab === "appearance" && <AppearanceSettings prefs={prefs} setPrefs={setPrefs} onError={message => notice(message, "error")} />}
         {settingsTab === "updates" && <section className="settings-updates">
           <h2>更新与自动收录</h2>
           <SoftwareUpdatePanel update={softwareUpdate} />
@@ -2222,7 +2233,7 @@ export default function App() {
             <button type="button" className={`topbar-overview ${growth?.ranked?.badge || growth?.badge || ""}`} aria-label="训练概览" aria-haspopup="dialog" aria-busy={!growthReady} title="你的训练概览" onClick={() => setDialog("summary")}>
               {growthReady ? <><TierIcon badge={growth.ranked?.badge || growth.badge} size={16} /><strong>{growth.ranked?.tier || growth.tier} · Lv.{growth.level}</strong><span>{growth.ranked ? `${num(growth.ranked.score)} TB 排位分` : `${num(growth.currentLevelXp)}/${num(growth.nextLevelXp)} XP`}</span></> : <><LoaderCircle size={16} className="spin" /><span role="status">成长数据读取中</span></>}
             </button>
-            <button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><span>每日任务</span><small>{(insights?.dailyTasks?.tasks || []).filter(task => task.claimed).length}/{insights?.dailyTasks?.tasks?.length || 6}</small>{(insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed) || workspace.goalTasks?.some(task => !task.accepted)) && <i className="notification-dot" />}</button>
+            <button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><span>每日任务</span><small>{(insights?.dailyTasks?.tasks || []).filter(task => task.claimed).length}/{insights?.dailyTasks?.tasks?.length || 6}</small>{(insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed)) && <i className="notification-dot" />}</button>
             <button className="achievement-top-button" aria-label="成就" onClick={openAchievements}><Medal size={17} /><span>成就</span><small>{unlockedAchievements.length}/{achievements.length}</small>{unseenAchievements.length > 0 && <i className="notification-dot" />}</button>
             <IconButton
               label="更新通知"
@@ -2259,7 +2270,7 @@ export default function App() {
         {!practiceId && mergedPages.length > 1 && <div className="merged-page-tabs" role="tablist" aria-label={`组合页面 ${currentPage?.group}`}>{mergedPages.map(item => <button key={item.id} role="tab" aria-selected={page === item.id} className={page === item.id ? "active" : ""} onClick={() => go(item.id)}><item.icon size={15} />{item.label}{item.id === "mine" && dueCount > 0 && <i className="training-tab-dot" role="img" aria-label="有未完成训练待办" />}</button>)}</div>}
         <BrowserPreparation api={api} enabled={Boolean(data)} />
         <div className={"workspace-area " + (practiceId ? "practicing" : "")}>
-          <Suspense fallback={<div className="loading-screen" role="status"><LoaderCircle size={27} className="spin" /><p>正在载入练习编辑器</p></div>}>
+          <Suspense fallback={<div className="loading-screen" role="status"><LoaderCircle size={27} className="spin" /><p>正在载入</p></div>}>
           {loading ? (
             <div className="loading-screen">
               <LoaderCircle size={27} className="spin" />
@@ -2337,6 +2348,7 @@ export default function App() {
             <SubmissionRecords submissions={submissionLog} total={submissionPage.total} hasMore={submissionPage.hasMore} loading={submissionLoading} onLoadMore={loadMoreSubmissions} rows={rows} onSelect={(submission) => { setSelectedSubmission(submission); setDialog("submission"); }} />
           ) : page === "competitions" ? (
             <CompetitionPage
+              showPlatforms={prefs.showPlatforms}
               rows={rows}
               workspace={workspace}
               hub={hub}
@@ -2399,7 +2411,8 @@ export default function App() {
           )}
         </div>
       )}
-      {dialog === "daily-tasks" && <Modal title="每日任务" onClose={() => setDialog(null)} wide><DailyTasks dailyTasks={insights?.dailyTasks} goalTasks={workspace.goalTasks} onTrain={id => { setDialog(null); openPractice(id); }} onClaim={async (id, date) => { try { await api("daily-tasks/claim", { id, date }); setInsights(await api("insights")); notice("每日任务经验已领取", "success"); } catch (issue) { notice(issue.message, "error"); throw issue; } }} /></Modal>}
+      {dialog === "daily-tasks" && <Modal title="每日任务" onClose={() => setDialog(null)} wide><DailyTasks dailyTasks={insights?.dailyTasks} goalTasks={workspace.goalTasks} onTrain={id => { setDialog(null); openPractice(id); }} onClaim={async (id, date) => { try { const result = await api("daily-tasks/claim", { id, date }); backgroundSeq.current++; setInsights(previous => ({ ...previous, dailyTasks: result.dailyTasks })); notice("经验已领取", "success"); void refreshBackground(true); } catch (issue) { notice(issue.message, "error"); throw issue; } }} /></Modal>}
+      {dialog === "onboarding" && <Modal title="新手指引" onClose={finishOnboarding}><Suspense fallback={<p role="status">正在读取指引…</p>}><Onboarding onComplete={finishOnboarding}/></Suspense></Modal>}
       {dialog === "achievements" && <Modal title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => setDialog(null)} wide><AchievementPanel achievements={achievements} newIds={unseenAchievements.map(item => item.id)} onSeen={markAchievementSeen} /></Modal>}
       {dialog === "submission" && selectedSubmission && <Modal title={selectedSubmission.title + " · 历史提交"} onClose={() => setDialog(null)} wide footer={<button className="primary" onClick={() => { setDialog(null); openPractice(selectedSubmission.problemId); }}><Play size={14} />继续练习</button>}><div className="submission-detail-meta"><Verdict value={selectedSubmission.verdict} /><span>{formatDate(selectedSubmission.submittedAt)}</span><span>{selectedSubmission.contestName}</span><button className="secondary" disabled={!selectedSubmission.code} onClick={() => copy(selectedSubmission.code)}><Copy size={14} />复制本次代码</button></div><pre className="submission-source"><code>{selectedSubmission.code || "这条记录没有保存代码。"}</code></pre>{selectedSubmission.message && <p className="submission-message">{selectedSubmission.message}</p>}</Modal>}
       {dialog === "updates" && (

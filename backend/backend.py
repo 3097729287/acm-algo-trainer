@@ -324,6 +324,9 @@ class Handler(BaseHTTPRequestHandler):
             elif path == '/api/preferences':
                 from preferences import read_preferences
                 self.send_json(200, read_preferences(self.server.training))
+            elif path == '/api/data/export':
+                from data_export import export_data
+                self.send_json(200, export_data(self.server.training))
             elif path == '/api/browser-preparation':
                 preparation = getattr(self.server, 'browser_preparation', None)
                 self.send_json(200, preparation.snapshot() if preparation else {'available': False})
