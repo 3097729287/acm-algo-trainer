@@ -3,7 +3,7 @@
 TB 将题库、图文题解、C++ 编辑、本地评测和训练记录放在同一个工作台，支持 Codeforces、AtCoder、牛客和洛谷。账号数据存放在与排行榜共用的服务端 MySQL，本机 SQLite 保存工作副本和待同步记录。
 
 <!-- release-status:start -->
-源码 v1.1.4 正在验证与打包，尚未发布；当前正式下载仍为 [v1.1.3](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.1.3)。
+**当前正式版为 v1.1.4。** [安装包、便携版、v1.1.3 增量与校验清单](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.1.4)。正式包固定为 960 组两版题解，已有本机内容保留。
 <!-- release-status:end -->
 
 [项目主页](https://3097729287.github.io/acm-algo-trainer/) · [使用说明](docs/usage.md) · [1.1.4 更新说明](docs/releases/1.1.4.md) · [开发与构建](docs/development.md) · [English](README.en.md)
@@ -12,7 +12,7 @@ TB 将题库、图文题解、C++ 编辑、本地评测和训练记录放在同�
 
 ## 安装与更新
 
-Windows 10/11 x64。[安装包](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.3/TB-Setup-1.1.3-win64.exe)包含 C++ 编译器和离线 WebView2 组件；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.3/TB-1.1.3-win64.zip)需要完整解压。
+Windows 10/11 x64。[安装包](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.4/TB-Setup-1.1.4-win64.exe)包含 C++ 编译器和离线 WebView2 组件；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.4/TB-1.1.4-win64.zip)需要完整解压。
 
 保存草稿、退出 TB 后安装到原目录，个人数据库和导入内容保留。跨电脑使用同一账号时，各电脑应升级到同一新版；1.1.1 起无需扩展，原站登录保存在独立的提交浏览器配置中。自动更新先保存草稿、在线备份 SQLite、校验 SHA-256，再替换程序；进行中的提交或模拟赛结束后继续。实际增量包、`BUILD-INFO.json`、`RELEASE-MANIFEST.json` 与 `SHA256SUMS.txt` 以发布页为准。
 
