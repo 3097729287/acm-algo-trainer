@@ -110,6 +110,7 @@ class CloudStateTests(unittest.TestCase):
         self.assertEqual(self.server.training.problem('fixture::A')['draft'], 'second computer draft')
         self.assertEqual(self.server.training.insights()['growth'], before['growth'])
 
+    @patch('integrations.IntegrationService.sync', lambda service, body=None: service.snapshot())
     def test_receipt_owner_bindings_follow_account_across_computers_and_clear_on_switch(self):
         self.signup(); self.login()
         self.assertEqual(self.call('/api/hub/configure', {'accounts': {'nowcoder': '42', 'luogu': '66'}})[0], 200)
