@@ -165,6 +165,12 @@ def check_dependencies() -> dict:
     }
 
 
+def configure_desktop_downloads() -> None:
+    import webview
+    # Explicit exports from the trusted local UI need WebView2's save dialog.
+    webview.settings['ALLOW_DOWNLOADS'] = True
+
+
 def bind_desktop_fullscreen(server, window) -> None:
     from window_memory import is_fullscreen
 
@@ -211,6 +217,7 @@ def run_desktop() -> int:
         url = f"http://127.0.0.1:{port}"
         LOG.info("Launching TB at %s with %s", url, sys.executable)
         webview.settings["OPEN_EXTERNAL_LINKS_IN_BROWSER"] = True
+        configure_desktop_downloads()
         from window_memory import remembered, bind
         memory_path = STATE / 'desktop-window.json'
         bounds = remembered(memory_path)

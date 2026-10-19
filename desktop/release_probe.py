@@ -169,8 +169,9 @@ def run(action, output):
                 webview.start(check_account, gui='edgechromium', private_mode=False, storage_path=str(STATE / 'native-account-webview'))
             elif action == '--native-check':
                 import webview
-                from launch import bind_desktop_fullscreen
+                from launch import bind_desktop_fullscreen, configure_desktop_downloads
                 from window_memory import is_fullscreen
+                configure_desktop_downloads()
                 assert workspace['summary']['total'] == 0, 'Native UI probe requires fresh disposable state'
                 assert server.training.submissions()['total'] == 0, 'Native UI probe refuses existing history'
                 tested = next(row for row in rows if row['contest'] == '入门赛 49' and row['problem'] == 'D')
@@ -234,6 +235,40 @@ def run(action, output):
                         report['localSubmission'] = {name: submission[name] for name in ('verdict', 'scope', 'passed', 'total')}
                         report['localAwardsNothing'] = True
                         report['officialSubmissionSent'] = False
+                        # Exercise the real desktop Blob download path. Only
+                        # the modal destination picker is replaced in this
+                        # disposable probe; WebView2 still writes the JSON.
+                        import webview.platforms.edgechromium as edge
+                        native_forms=edge.WinForms
+                        destination=STATE/'native-learning-export.json'
+                        class ExportDialog:
+                            def ShowDialog(self, _form):
+                                assert self.FileName.endswith('.json'),self.FileName
+                                self.FileName=str(destination)
+                                return native_forms.DialogResult.OK
+                        class FormsProxy:
+                            def __getattr__(self,name):
+                                return ExportDialog if name=='SaveFileDialog' else getattr(native_forms,name)
+                        edge.WinForms=FormsProxy()
+                        try:
+                            window.evaluate_js("Array.from(document.querySelectorAll('.sidebar button')).find(b=>b.textContent.includes('偏好设置')).click()")
+                            wait_js("!!document.querySelector('.settings-tabs')")
+                            window.evaluate_js("Array.from(document.querySelectorAll('.settings-tabs button')).find(b=>b.textContent==='数据与帮助').click()")
+                            wait_js("!!document.querySelector('.help-action')")
+                            window.evaluate_js("document.querySelector('.help-action').click()")
+                            deadline=time.monotonic()+20
+                            exported=None
+                            while time.monotonic()<deadline:
+                                try:
+                                    exported=json.loads(destination.read_text(encoding='utf-8'))
+                                    break
+                                except (FileNotFoundError,json.JSONDecodeError):time.sleep(.1)
+                            assert exported is not None,'Native JSON download did not finish'
+                            assert exported['format']=='tb-learning-export'
+                            assert any(row['code']==code for row in exported['tables']['drafts'])
+                            assert 'ranking_profile' not in exported['tables']
+                            report['nativeJsonExport']=True
+                        finally:edge.WinForms=native_forms
                     except Exception as error:
                         import traceback
                         report.update(ok=False,error=str(error),traceback=traceback.format_exc())
