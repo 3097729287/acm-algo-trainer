@@ -8,6 +8,29 @@ ALLOWED = frozenset(('panelStyle', 'backdrop', 'panelOpacity', 'widgets', 'theme
                      'readerWidth', 'fontSize', 'navOrder', 'navLabels', 'navGroups', 'seenAchievements'))
 
 
+def receipt_bindings(rows):
+    """Numeric owner IDs travel in the existing private preference journal."""
+    saved = next((row.get('value') for row in rows if row.get('key') == 'receipt-bindings'), '{}')
+    try:
+        value = json.loads(saved)
+    except (TypeError, ValueError):
+        value = {}
+    if not isinstance(value, dict):
+        value = {}
+    return {site: handle if isinstance(handle := value.get(site), str) and re.fullmatch(r'\d{1,20}', handle) else ''
+            for site in ('nowcoder', 'luogu')}
+
+
+def save_receipt_bindings(training, accounts):
+    value = json.dumps({site: accounts.get(site, '') for site in ('nowcoder', 'luogu')}, sort_keys=True)
+    with training.lock:
+        previous = training.connection.execute("SELECT value FROM account_preferences WHERE key='receipt-bindings'").fetchone()
+        if previous is None or previous['value'] != value:
+            with training._write() as connection:
+                connection.execute("INSERT INTO account_preferences VALUES('receipt-bindings',?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at",
+                                   (value, iso(training._now())))
+
+
 def read_preferences(training):
     with training.lock:
         row = training.connection.execute("SELECT value,updated_at FROM account_preferences WHERE key='ui'").fetchone()

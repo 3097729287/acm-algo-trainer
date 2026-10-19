@@ -110,6 +110,31 @@ class CloudStateTests(unittest.TestCase):
         self.assertEqual(self.server.training.problem('fixture::A')['draft'], 'second computer draft')
         self.assertEqual(self.server.training.insights()['growth'], before['growth'])
 
+    def test_receipt_owner_bindings_follow_account_across_computers_and_clear_on_switch(self):
+        self.signup(); self.login()
+        self.assertEqual(self.call('/api/hub/configure', {'accounts': {'nowcoder': '42', 'luogu': '66'}})[0], 200)
+        self.server.accounts.sync_pending(wait=True)
+        other = self.other_computer()
+        status, result = self.call_other(other, '/api/account/login', {'loginId': 'account_a', 'password': 'fixture-password'})
+        self.assertEqual(status, 200, result)
+        def bindings():
+            value = other.store.extensions.snapshot()['settings']['accounts']
+            return {site: value[site] for site in ('nowcoder', 'luogu')}
+        self.assertEqual(bindings(), {'nowcoder': '42', 'luogu': '66'})
+        self.assertEqual(self.call_other(other, '/api/account/logout', {})[0], 200)
+        self.assertEqual(self.call_other(other, '/api/account/register', {'loginId': 'account_b', 'nickname': '账号乙', 'password': 'fixture-password'})[0], 200)
+        self.assertEqual(self.call_other(other, '/api/account/login', {'loginId': 'account_b', 'password': 'fixture-password'})[0], 200)
+        self.assertEqual(bindings(), {'nowcoder': '', 'luogu': ''})
+        self.assertEqual(self.call_other(other, '/api/account/logout', {})[0], 200)
+        self.assertEqual(self.call_other(other, '/api/account/login', {'loginId': 'account_a', 'password': 'fixture-password'})[0], 200)
+        self.assertEqual(bindings(), {'nowcoder': '42', 'luogu': '66'})
+        self.assertEqual(self.call_other(other, '/api/hub/configure', {'accounts': {'nowcoder': '', 'luogu': ''}})[0], 200)
+        other.accounts.sync_pending(wait=True)
+        self.assertEqual(self.call_other(other, '/api/account/logout', {})[0], 200)
+        self.assertEqual(self.login()[0], 200)
+        value = self.server.store.extensions.snapshot()['settings']['accounts']
+        self.assertEqual((value['nowcoder'], value['luogu']), ('', ''))
+
     def test_unsynchronized_legacy_draft_is_preserved_in_conflicts_when_remote_is_newer(self):
         self.signup(); self.login()
         service = self.server.training

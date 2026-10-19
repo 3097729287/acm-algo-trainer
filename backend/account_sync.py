@@ -460,6 +460,13 @@ class AccountStateSync:
                     value = state['publicAccounts'].get(platform) or profile(platform, '')
                     extensions.state['settings']['accounts'][platform] = value['handle']
                     extensions.state['accounts'][platform] = copy.deepcopy(value)
+                # The v1 shared service only accepts CF/AtCoder public profiles.
+                # Receipt-only numeric IDs use its existing private journal and
+                # must also clear on an account without bindings.
+                from preferences import receipt_bindings
+                for platform, handle in receipt_bindings(state['tables'].get('account_preferences', [])).items():
+                    extensions.state['settings']['accounts'][platform] = handle
+                    extensions.state['accounts'][platform] = profile(platform, handle)
                 extensions._save()
 
     def initialize(self):

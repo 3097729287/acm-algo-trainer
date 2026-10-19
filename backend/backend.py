@@ -234,6 +234,9 @@ class Handler(BaseHTTPRequestHandler):
                     value = training.leaderboard.admin_delete(body)
                 elif path == "/api/hub/configure":
                     value = store.extensions.configure(body)
+                    if 'accounts' in body:
+                        from preferences import save_receipt_bindings
+                        save_receipt_bindings(training, value['settings']['accounts'])
                 elif path == "/api/hub/sync":
                     value = store.extensions.sync(body)
                 elif path == "/api/hub/dismiss":
