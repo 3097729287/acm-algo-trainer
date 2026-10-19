@@ -10,8 +10,10 @@
   color-scheme: dark;
   --bg: #101217;
   --sidebar: #15171e;
-  --panel: #191c24;
-  --panel-2: #21252f;
+  --panel-base: #191c24;
+  --panel-raised-base: #21252f;
+  --panel: var(--panel-base);
+  --panel-2: var(--panel-raised-base);
   --raised: var(--panel-2);
   --hover: #272b37;
   --text: #e7eaf1;
@@ -33,8 +35,8 @@
   color-scheme: light;
   --bg: #f4f6f9;
   --sidebar: #ffffff;
-  --panel: #ffffff;
-  --panel-2: #f2f4f8;
+  --panel-base: #ffffff;
+  --panel-raised-base: #f2f4f8;
   --hover: #edf0f5;
   --text: #252c3b;
   --muted: #68748a;

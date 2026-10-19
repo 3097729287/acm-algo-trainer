@@ -5,7 +5,7 @@ export default function MockSetup({ api, onStarted, onError, activeContest, onRe
   const [config, setConfig] = useState({ mode: 'comprehensive', count: 6, duration: 120, min: 0, max: 10000, tags: [], platform: '', excludeSolved: true, reviewedOnly: false, rules: 'acm', wrongPenalty: 20, compilePenalty: false, contest: '' });
   const [events, setEvents] = useState([]);
   const [eventQuery, setEventQuery] = useState('');
-  const shownEvents = useMemo(() => events.filter(item => eventQuery.trim().toLowerCase().split(/\s+/).every(word => `${item.displayName || item.name} ${item.name}`.toLowerCase().includes(word))).sort((a,b) => (a.displayName || a.name).localeCompare(b.displayName || b.name, 'zh-CN', {numeric:true})), [events, eventQuery]);
+  const shownEvents = useMemo(() => events.filter(item => eventQuery.trim().toLowerCase().split(/\s+/).every(word => `${item.displayName || item.name} ${item.name}`.toLowerCase().includes(word))).sort((a,b) => (b.displayName || b.name).localeCompare(a.displayName || a.name, 'zh-CN', {numeric:true})), [events, eventQuery]);
   const replay = config.mode === 'replay';
   useEffect(() => { if (!replay) return; let alive = true; api('contests/events').then(result => { if (alive) setEvents(result.events || []); }).catch(issue => { if (alive) setError(issue.message); }); return () => { alive = false; }; }, [replay, api]);
   const [plan, setPlan] = useState(null), [busy, setBusy] = useState(false), [name, setName] = useState(''), [error, setError] = useState(''), [topic, setTopic] = useState('');

@@ -38,7 +38,6 @@ import {
   ArrowUp,
   ArrowDown,
   ArrowUpRight,
-  Inbox,
   LoaderCircle,
   Keyboard,
   Maximize2,
@@ -78,9 +77,9 @@ import {
 import { organizeCategories } from "@/models/model.js";
 import NavigationSettings, { orderedPages } from "@/pages/NavigationSettings.jsx";
 import RankingsPage from "@/pages/CommunityPanel.jsx";
-import { AppearanceSettings, TrainingPulse } from "@/components/WorkspaceDecorations.jsx";
+import { AppearanceSettings, TopbarClock } from "@/components/WorkspaceDecorations.jsx";
 import MockSetup from "@/app/MockSetup.jsx";
-import GoalsPanel, { GoalReminder } from '@/pages/GoalsPanel.jsx';
+import GoalsPanel from '@/pages/GoalsPanel.jsx';
 import BrowserPreparation from '@/pages/BrowserPreparation.jsx';
 import SubmissionRecords, { MockHistory } from "@/pages/SubmissionRecords.jsx";
 import { trainingDay, trainingDateLabel } from "@/lib/trainingDate.js";
@@ -500,7 +499,6 @@ export default function App() {
   const [prefs, setPrefs] = useState(readPreferences),
     [data, setData] = useState(null),
     [workspace, setWorkspace] = useState(emptyWorkspace),
-    [inbox, setInbox] = useState(null),
     [hub, setHub] = useState(null),
     [insights, setInsights] = useState(null),
     [loading, setLoading] = useState(true),
@@ -571,7 +569,7 @@ export default function App() {
     }
     const seq = ++backgroundSeq.current;
     const pending = Promise.allSettled([
-      ["inbox", setInbox], ["hub?compact=1", setHub], ["insights", setInsights],
+      ["hub?compact=1", setHub], ["insights", setInsights],
     ].map(([path, apply]) => api(path).then(value => {
       if (seq === backgroundSeq.current) apply(previous => shareWorkspace(previous, value));
     }))).finally(() => {
@@ -1504,14 +1502,11 @@ export default function App() {
         data-selected={selected === row.id}
         aria-selected={selected === row.id}
         onClick={(e) => {
-          if (!e.target.closest("button,a")) {
+          if (!e.target.closest("button,a,input,select,label,summary")) {
             setSelected(row.id);
-            listRef.current?.focus();
+            openPractice(row.id);
           }
         }}
-        onDoubleClick={(e) =>
-          !e.target.closest("button,a") && openPractice(row.id)
-        }
       >
         <td className="title-cell">
           <span
@@ -1619,10 +1614,13 @@ export default function App() {
   }
   function renderTable(items) {
     const knownQueues = new Set(QUEUES.map(queue => queue.id));
+    const goalIds = new Set((workspace.goalTasks || []).map(task => task.id));
+    const otherItems = items.filter(row => !goalIds.has(row.id));
     const groups = page === "mine" ? [
-      ...QUEUES.map(queue => ({ ...queue, rows: items.filter(row => row.queue === queue.id) })),
-      { id: "practice", name: "继续练习", color: "neutral", rows: items.filter(row => !knownQueues.has(row.queue) && !row.accepted) },
-      { id: "accepted", name: "已 AC", color: "green", rows: items.filter(row => !knownQueues.has(row.queue) && row.accepted) },
+      { id: "goals", name: "今日目标", color: "accent", rows: items.filter(row => goalIds.has(row.id)) },
+      ...QUEUES.map(queue => ({ ...queue, rows: otherItems.filter(row => row.queue === queue.id) })),
+      { id: "practice", name: "继续练习", color: "neutral", rows: otherItems.filter(row => !knownQueues.has(row.queue) && !row.accepted) },
+      { id: "accepted", name: "已 AC", color: "green", rows: otherItems.filter(row => !knownQueues.has(row.queue) && row.accepted) },
     ] : null;
     return (
       <div className="table-scroll" ref={listRef} tabIndex={0} role="region" aria-label="题目列表">
@@ -2213,7 +2211,7 @@ export default function App() {
           </div>
           <div className="topbar-actions">
             <div className="topbar-titles"><TitleMedals titles={insights?.equippedTitles || growth?.equippedTitles || []} /></div>
-            <GoalReminder api={api} onOpen={() => go("goals")} />
+            {prefs.widgets && <TopbarClock />}
             {active && page !== "mock" && (
               <button className="live-contest" onClick={() => go("mock")}>
                 <Clock size={14} />
@@ -2224,7 +2222,7 @@ export default function App() {
             <button type="button" className={`topbar-overview ${growth?.ranked?.badge || growth?.badge || ""}`} aria-label="训练概览" aria-haspopup="dialog" aria-busy={!growthReady} title="你的训练概览" onClick={() => setDialog("summary")}>
               {growthReady ? <><TierIcon badge={growth.ranked?.badge || growth.badge} size={16} /><strong>{growth.ranked?.tier || growth.tier} · Lv.{growth.level}</strong><span>{growth.ranked ? `${num(growth.ranked.score)} TB 排位分` : `${num(growth.currentLevelXp)}/${num(growth.nextLevelXp)} XP`}</span></> : <><LoaderCircle size={16} className="spin" /><span role="status">成长数据读取中</span></>}
             </button>
-            <button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><span>每日任务</span><small>{(insights?.dailyTasks?.tasks || []).filter(task => task.claimed).length}/{insights?.dailyTasks?.tasks?.length || 6}</small>{insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed) && <i className="notification-dot" />}</button>
+            <button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><span>每日任务</span><small>{(insights?.dailyTasks?.tasks || []).filter(task => task.claimed).length}/{insights?.dailyTasks?.tasks?.length || 6}</small>{(insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed) || workspace.goalTasks?.some(task => !task.accepted)) && <i className="notification-dot" />}</button>
             <button className="achievement-top-button" aria-label="成就" onClick={openAchievements}><Medal size={17} /><span>成就</span><small>{unlockedAchievements.length}/{achievements.length}</small>{unseenAchievements.length > 0 && <i className="notification-dot" />}</button>
             <IconButton
               label="更新通知"
@@ -2234,13 +2232,6 @@ export default function App() {
               {(hub?.notifications || []).some((n) => !n.read) && (
                 <span className="notification-dot" />
               )}
-            </IconButton>
-            <IconButton
-              label="收件箱"
-              icon={Inbox}
-              onClick={() => setDialog("inbox")}
-            >
-              {inbox?.pending > 0 && <span className="notification-dot" />}
             </IconButton>
             <IconButton
               label="切换主题"
@@ -2286,7 +2277,7 @@ export default function App() {
               onNext={nextPractice}
             />
           ) : ["mine", "library"].includes(page) ? (
-            page === "mine" ? <div className="training-workspace"><div className={prefs.widgets ? "training-dashboard" : "training-dashboard-plain"}><GoalsPanel api={api} onTrain={openPractice} onManage={() => go("goals")} dailyOnly />{prefs.widgets && <TrainingPulse insights={insights} workspace={workspace}/>}</div>{renderListPage()}</div> : renderListPage()
+            page === "mine" ? <div className="training-workspace">{renderListPage()}</div> : renderListPage()
           ) : page === "mock" ? (
             <div className="mock-page"><div className="mock-page-tabs filter-tabs" role="tablist" aria-label="模拟赛页面"><button role="tab" aria-selected={mockTab === "create" && !record} className={mockTab === "create" && !record ? "active" : ""} onClick={() => { setMockTab("create"); setRecord(null); }}>{active ? "进行中的比赛" : "创建训练"}</button><button role="tab" aria-selected={mockTab === "history" || !!record} className={mockTab === "history" || record ? "active" : ""} onClick={() => { setMockTab("history"); setRecord(null); }}>模拟赛记录 <small>{workspace.contests.length}</small></button></div>{record ? recordDetail() : mockTab === "history" ? <MockHistory contests={workspace.contests} onDelete={async body => { const answer = await api("contests/delete", body); applyWorkspace(answer.workspace); notice(`已删除 ${answer.deleted} 场模拟赛记录`); }} onSelect={openRecord} onResume={(contest) => { setMockTab("create"); setMockSlot(contest.slots[0]?.id); }} onCreate={() => setMockTab("create")} /> : active ? (
               <div className="contest-player">
@@ -2360,6 +2351,7 @@ export default function App() {
               onGoalsChanged={() => api("workspace").then(applyWorkspace)}
               insights={insights}
               hub={hub}
+              goalOverview={workspace.goals}
               account={account}
               profile={profileSnapshot?.profile}
               profileSnapshot={profileSnapshot}
@@ -2378,7 +2370,7 @@ export default function App() {
               onAchievements={openAchievements}
             />
           ) : page === "goals" ? (
-            <GoalsPanel api={api} onTrain={openPractice} />
+            <GoalsPanel api={api} overview={workspace.goals} onChanged={() => reload()} />
           ) : page === "activity" ? (
             <ActivityPage insights={insights} onTrain={openPractice} />
           ) : page === "lectures" ? (
@@ -2407,7 +2399,7 @@ export default function App() {
           )}
         </div>
       )}
-      {dialog === "daily-tasks" && <Modal title="每日任务" onClose={() => setDialog(null)} wide><DailyTasks dailyTasks={insights?.dailyTasks} onClaim={async (id, date) => { try { await api("daily-tasks/claim", { id, date }); setInsights(await api("insights")); notice("每日任务经验已领取", "success"); } catch (issue) { notice(issue.message, "error"); throw issue; } }} /></Modal>}
+      {dialog === "daily-tasks" && <Modal title="每日任务" onClose={() => setDialog(null)} wide><DailyTasks dailyTasks={insights?.dailyTasks} goalTasks={workspace.goalTasks} onTrain={id => { setDialog(null); openPractice(id); }} onClaim={async (id, date) => { try { await api("daily-tasks/claim", { id, date }); setInsights(await api("insights")); notice("每日任务经验已领取", "success"); } catch (issue) { notice(issue.message, "error"); throw issue; } }} /></Modal>}
       {dialog === "achievements" && <Modal title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => setDialog(null)} wide><AchievementPanel achievements={achievements} newIds={unseenAchievements.map(item => item.id)} onSeen={markAchievementSeen} /></Modal>}
       {dialog === "submission" && selectedSubmission && <Modal title={selectedSubmission.title + " · 历史提交"} onClose={() => setDialog(null)} wide footer={<button className="primary" onClick={() => { setDialog(null); openPractice(selectedSubmission.problemId); }}><Play size={14} />继续练习</button>}><div className="submission-detail-meta"><Verdict value={selectedSubmission.verdict} /><span>{formatDate(selectedSubmission.submittedAt)}</span><span>{selectedSubmission.contestName}</span><button className="secondary" disabled={!selectedSubmission.code} onClick={() => copy(selectedSubmission.code)}><Copy size={14} />复制本次代码</button></div><pre className="submission-source"><code>{selectedSubmission.code || "这条记录没有保存代码。"}</code></pre>{selectedSubmission.message && <p className="submission-message">{selectedSubmission.message}</p>}</Modal>}
       {dialog === "updates" && (
@@ -2635,73 +2627,10 @@ export default function App() {
           </p>
         </Modal>
       )}
-      {dialog === "inbox" && (
-        <Modal title="题解收件箱" onClose={() => !busy && setDialog(null)}>
-          <p className="inbox-description">
-            把题解 Markdown 放入收件箱后导入。新增内容只进入题库。
-          </p>
-          <div className="inbox-path">
-            {inbox?.path || "D:\\Data\\Code\\题解\\_收件箱"}
-          </div>
-          <div className="inbox-count">待处理 {inbox?.pending || 0} 项</div>
-          {inbox?.errors?.map((message, index) => (
-            <p className="inline-error" key={index}>
-              {typeof message === "string" ? message : JSON.stringify(message)}
-            </p>
-          ))}
-          {inbox?.needsChoice ? (
-            <>
-              <p className="inline-error">存在冲突，请选择如何导入。</p>
-              <div className="inbox-buttons">
-                {[
-                  { action: "skip", label: "跳过冲突项" },
-                  { action: "overwrite", label: "覆盖冲突项" },
-                ].map((item) => (
-                  <button
-                    className="secondary"
-                    key={item.action}
-                    disabled={busy}
-                    onClick={() => importInbox(item.action)}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            </>
-          ) : (
-            <button
-              className="primary"
-              disabled={busy || !inbox?.pending}
-              onClick={() => importInbox("import")}
-            >
-              {busy ? (
-                <LoaderCircle size={16} className="spin" />
-              ) : (
-                <Inbox size={16} />
-              )}
-              导入新题解
-            </button>
-          )}
-        </Modal>
-      )}
+
     </div>
   );
-  async function importInbox(action) {
-    setBusy(true);
-    try {
-      const result = await api("inbox", { action });
-      if (result.needsChoice) setInbox(result);
-      else {
-        setDialog(null);
-        await reload();
-        notice("收件箱已处理");
-      }
-    } catch (e) {
-      notice(e.message, "error");
-    } finally {
-      setBusy(false);
-    }
-  }
+
 }
 function FragmentRows({ header, children }) {
   return (

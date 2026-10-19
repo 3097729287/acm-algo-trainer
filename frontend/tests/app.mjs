@@ -29,7 +29,8 @@ training[2].queue = 'fill';
 const goal = { id: 'goal-fixture', title: 'CF 2200', deadline: '2027-07-10', progress: 5, totalProblems: 300, remainingDays: 273, weeklyTarget: 8, workloadCompleted: false, warnings: [], dailyTask: { date, target: 2, progress: 5, completed: true, problems: [rows[4]] } };
 goal.contestPlan=[{contest:'Codeforces Div.3',target:3,problems:'A–D'},{contest:'AtCoder ABC',target:2,problems:'A–D'},{contest:'牛客周赛',target:2,problems:'A–D'},{contest:'洛谷基础赛 / 月赛',target:1,problems:'基础题'}];
 const contests = [completed];
-const workspace = () => ({ training, sets: [], contests, activeContest, summary: { todayAccepted: 3, historicalAccepted: 4, total: training.length, accepted: 1, attempts: 3, due: 0, pending: 0, streak: 1 }, now: now() });
+const goalTasks = [{ ...rows[2], accepted: false, goalTitles: [goal.title], sources: ['每日目标'] }];
+const workspace = () => ({ training, sets: [], contests, activeContest, goals: { goals: [goal] }, goalTasks, summary: { todayAccepted: 3, historicalAccepted: 4, total: training.length, accepted: 1, attempts: 3, due: 0, pending: 0, streak: 1 }, now: now() });
 const insights = { summary: { localAccepted: 1, officialSolved: 4, submissions: 3, activeDays: 1, streak: 1, completedContests: 1 }, growth: { level: 1, currentLevelXp: 10, nextLevelXp: 500, totalXp: 10, levelName: '初次启程' }, knowledge: [], recommendations: [{ name: '前缀和', reason: '巩固前缀和隐藏知识点', ids: [rows[3].id], stage: 'foundation', problem: rows[3] }], achievements: [{ id: 'first', name: '首次通过', description: '独立完成一道题', unlocked: true, unlockedAt: now(), progress: 1, target: 1 }, { id: 'ten', name: '十题积累', description: '通过十道不同题目', unlocked: false, progress: 1, target: 10 }], activity: [{ date, submissions: 3, accepted: 1, officialAccepted: 0 }], assessment: { rating: null, recommendationLevel: 1100, recommendationBasis: '基础练习', platforms: [] }, dailyTasks: { date, timezone: 'Asia/Shanghai', totalClaimedXp: 0, claimable: 1, tasks: [{ id: 'warmup', title: '每日热身', description: '完成一次有效提交', progress: 1, target: 1, xp: 20, completed: true, claimed: false }, { id: 'hard', title: '进阶挑战', description: '通过一道难度至少 1800 的题目', progress: 0, target: 1, xp: 100, completed: false, claimed: false, minDifficulty: 1800 }] } };
 const notice = { id: 'update-1', type: 'content', title: '新题已加入', body: '新增测试题目', createdAt: now(), read: false, count: 1, problemIds: [rows[4].id] };
 const hub = { version: '0.5.0', settings: { githubRepo: '3097729287/acm-algo-trainer', autoSync: true, intervalHours: 6, minDifficulty: 1000, maxDifficulty: 2199, accounts: { codeforces: 'tester', atcoder: 'tester', nowcoder: '', luogu: '' } }, accounts: [{ platform: 'codeforces', handle: 'tester', rating: 415, maxRating: 500, solvedCount: 22, submissionCount: 67, updatedAt: now(), status: 'ready' }, { platform: 'atcoder', handle: 'tester', rating: 98, maxRating: 101, solvedCount: 14, submissionCount: 38, updatedAt: now(), status: 'ready' }], sync: { busy: false, message: '同步完成', providers: [] }, updates: { configured: true, currentVersion: '0.5.0', latestVersion: '0.5.0', repository: '3097729287/acm-algo-trainer' }, notifications: [notice] };
@@ -52,7 +53,8 @@ const bootstrap = { enabled: true, pending: 0, ready: new Promise(resolve => { r
 await page.route('**/api/**', async route => {
   const request = route.request(), url = new URL(request.url()), path = url.pathname;
   if (!path.startsWith('/api/')) return route.continue();
-  if (bootstrap.enabled && ['/api/inbox', '/api/hub', '/api/insights'].includes(path)) {
+  assert.notEqual(path, '/api/inbox', 'Removed editorial imports must not poll in the background');
+  if (bootstrap.enabled && ['/api/hub', '/api/insights'].includes(path)) {
     bootstrap.pending++;
     await bootstrap.ready;
   }
@@ -115,17 +117,18 @@ try {
   await page.goto('http://127.0.0.1:18775');
   await page.locator('.problem-table').waitFor();
   assert.ok(bootstrap.enabled, 'The workspace renders while optional startup requests are held');
-  for (let attempt = 0; bootstrap.pending < 3 && attempt < 50; attempt++) await page.waitForTimeout(20);
-  assert.equal(bootstrap.pending, 3, 'Optional startup requests are coalesced');
+  for (let attempt = 0; bootstrap.pending < 2 && attempt < 50; attempt++) await page.waitForTimeout(20);
+  assert.equal(bootstrap.pending, 2, 'Optional startup requests are coalesced');
   bootstrap.enabled = false;
   releaseBootstrap();
-  await page.getByLabel('目标每日任务').waitFor();
+  await page.locator('.queue-heading').filter({hasText:'今日目标'}).waitFor();
+  await page.getByLabel('北京时间',{exact:true}).waitFor();
   assert.equal(await page.locator('.page-identity h1').textContent(), '我的训练');
   assert.equal(await page.getByRole('tab', { name: '今日待办', exact: true }).count(), 0);
   assert.equal(await page.locator('.sidebar').getByLabel('命令面板').count(), 0);
   assert.equal(await page.locator('.sidebar').getByText('快捷操作', { exact: true }).count(), 0);
-  const goalHeight=await page.getByLabel('目标每日任务').evaluate(node => node.getBoundingClientRect().height);
-  assert.ok(goalHeight < 110, `one completed goal stays compact at 18px; height=${goalHeight}`);
+  assert.equal(await page.getByLabel('目标每日任务').count(), 0, 'Goal questions share the training list');
+  assert.equal(await page.locator('.training-pulse').count(), 0, 'Clock no longer takes a separate dashboard card');
   assert.equal(await page.getByRole('group', { name: '训练状态筛选', exact: true }).count(), 0);
   assert.equal(await page.locator('.problem-table tr[data-id]').count(), 4);
   assert.equal(await page.locator('.problem-table tr[data-id]').evaluateAll(nodes => new Set(nodes.map(node => node.dataset.id)).size), 4, 'merged training has no duplicate questions');
@@ -134,7 +137,7 @@ try {
   assert.equal(await mathTitle.locator('.katex-html').textContent(), 'gcd');
   assert.ok(!(await mathTitle.textContent()).includes('$'), 'the reported title shows its formula instead of delimiters');
   assert.equal(await mathTitle.locator('p,div,a,button').count(), 0, 'title markup stays inline inside its button');
-  await mathTitle.click();
+  await page.locator('tr[data-id="测试比赛::C"] td').nth(2).click();
   await page.locator('.wb-heading .katex').waitFor();
   assert.equal(await page.locator('.page-identity h1 .katex-html').textContent(), 'gcd');
   await page.getByRole('button', { name: '题解', exact: true }).click();
@@ -186,7 +189,9 @@ try {
   assert.equal(await page.getByRole('button',{name:'每日任务',exact:true}).locator('.notification-dot').count(),1);
   assert.equal(await page.locator('.knowledge-details').getAttribute('open'),null);
   assert.equal(await page.locator('#growth-goals .goal-form').count(),0);
-  assert.equal(await page.locator('.goal-contest-grid > div').count(),4);
+  assert.equal(await page.locator('.goal-contest-grid > div').count(),0);
+  assert.ok(await page.locator('.goal-management-bar').evaluate(node=>node.getBoundingClientRect().height<60),'Goal management stays in one line');
+  assert.equal(await page.locator('.next-milestone').count(),0);
   assert.equal(await page.locator('.goal-week-plan').count(),0);
   await page.locator('.knowledge-details > summary').click();
   await page.getByLabel('搜索知识点').fill('不存在的知识点');
@@ -194,7 +199,7 @@ try {
   await page.locator('.knowledge-details > summary').click();
   await page.locator('#growth-goals').getByRole('button',{name:'新建目标',exact:true}).click();
   await page.getByLabel('目标类型').waitFor();
-  await page.locator('#growth-goals').getByRole('button',{name:'取消',exact:true}).click();
+  await page.getByRole('dialog',{name:'新建目标',exact:true}).getByRole('button',{name:'取消',exact:true}).click();
   assert.equal(await page.locator('#growth-goals .goal-form').count(),0);
   assert.equal(await page.locator('.progress-page .daily-tasks').count(), 0);
   await page.getByRole('button', { name: '每日任务', exact: true }).click();
@@ -203,7 +208,8 @@ try {
   await task.getByRole('button', { name: '已领取' }).waitFor();
   assert.equal(insights.growth.totalXp, 30);
   assert.equal(await page.locator('.task-claim-dot').count(),0);
-  assert.equal(await page.getByRole('button',{name:'每日任务',exact:true}).locator('.notification-dot').count(),0);
+  assert.equal(await page.getByRole('button',{name:'每日任务',exact:true}).locator('.notification-dot').count(),1,'Unfinished goal questions keep their task notification');
+  assert.equal(await page.getByRole('region',{name:'目标题目',exact:true}).locator('.daily-goal-row').count(),1);
   assert.equal(writes.filter(item => item.path === '/api/daily-tasks/claim').length, 1);
   await page.keyboard.press('Escape');
   assert.equal(await page.locator('.progress-page .progress-achievements').count(), 0);

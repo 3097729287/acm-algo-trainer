@@ -1,6 +1,12 @@
 # 开发、验证与构建
 
-当前正式版为 [v1.1.2](releases/1.1.2.md)，共享服务已同步升级。
+v1.1.3 正在验证与打包，尚未发布；当前正式下载仍为 v1.1.2。 [本轮说明](releases/1.1.3.md)。
+
+## 1.1.3 验证范围
+
+运行 `python scripts/check.py`、前端 build，以及 `tests/app.mjs`、`tests/workspace-decorations.mjs`、`tests/workbench.mjs`、`tests/replay-layout.mjs`、`tests/rankings.mjs`、`tests/webview-loading.mjs`。新增回归覆盖周日 AC 在周一收录、原日期保留、重复回执、未知题延迟回填、账号切换、四类目标比赛、重启及手动清空、本人缓存裁剪与移除收件箱 API。UI 检查整行点击、未完成目标提示、倒序轮次、透明度及 1024–2048 宽度的顶部时钟。
+
+共享服务本版无修改，继续使用 1.1.2 与协议 1。安装、升级、更新器重启及 1.1.2 增量仍须在隔离目录执行；打包固定于已推送提交，续写题解和用户个人库不得混入。
 
 ## 1.1.2 发布检查
 

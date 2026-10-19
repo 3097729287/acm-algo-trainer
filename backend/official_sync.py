@@ -1,13 +1,14 @@
 """Import owner-scoped official receipts independently of a TB submit attempt."""
 import contextlib
 import datetime as dt
+import hashlib
 import json
 import logging
 import os
 import re
 import threading
 import urllib.request
-from urllib.parse import quote
+from urllib.parse import quote, urlsplit
 
 from insights import canonical_url
 from training import ServiceError
@@ -41,9 +42,14 @@ def cf_receipts(payload, handle):
 
 
 class OfficialSync:
-    def __init__(self, server, fetch=None):
+    def __init__(self, server, fetch=None, site_fetch=None):
         self.server = server
         self.fetch = fetch or self._fetch
+        self.site_fetch = site_fetch
+        client=getattr(server.store.extensions,'client',None)
+        if fetch is None and site_fetch is None and client is not None:
+            from site_receipts import PublicReceiptSource
+            self.site_fetch = PublicReceiptSource(client).fetch
         self.stop = threading.Event()
         self.lock = threading.Lock()
         self.thread = None
@@ -78,18 +84,33 @@ class OfficialSync:
             return dict(self.status)
         try:
             with self._context():
-                handle, training = self._owner(), self.server.training
-            if not handle:
-                return dict(self.status)
-            receipts = cf_receipts(self.fetch(handle), handle)
-            with self._context():
-                # A logout/account switch while the GET was in flight must not
-                # attach the old owner's submissions to the new workspace.
-                if self.server.training is not training or self._owner() != handle:
-                    return dict(self.status)
-                imported = self.import_receipts(receipts)
-            self.status.update(lastSuccessAt=dt.datetime.now(dt.timezone.utc).isoformat(),
-                               imported=imported, message='官网提交已同步')
+                self._owner()  # Require the active TB session before any work.
+                training = self.server.training
+                bindings = dict(self.server.store.extensions.snapshot().get('settings',{}).get('accounts',{}))
+                with training.lock,training._library_view():rows=training._library()
+            imported=0;platforms=[]
+            for platform,handle in bindings.items():
+                if not handle or platform!='codeforces' and not self.site_fetch:continue
+                try:
+                    with self._context():
+                        current=self.server.store.extensions.snapshot().get('settings',{}).get('accounts',{})
+                        if self.server.training is not training or current.get(platform)!=handle:return dict(self.status)
+                        imported+=self.import_receipts(self._remember(training,platform,handle,[]))
+                    receipts=cf_receipts(self.fetch(handle),handle) if platform=='codeforces' else self.site_fetch(platform,handle,rows)
+                    with self._context():
+                        # Both the TB workspace and the platform binding must
+                        # still belong to the request that began this fetch.
+                        current=self.server.store.extensions.snapshot().get('settings',{}).get('accounts',{})
+                        if self.server.training is not training or current.get(platform)!=handle:return dict(self.status)
+                        receipts=self._remember(training,platform,handle,receipts)
+                        imported+=self.import_receipts(receipts)
+                    platforms.append({'platform':platform,'status':'ready'})
+                except Exception as error:
+                    platforms.append({'platform':platform,'status':'error','message':'原站记录暂不可用，保留已有结果'})
+                    LOG.debug('Official %s sync: %s',platform,type(error).__name__)
+            self.status.update(imported=imported,platforms=platforms,
+                message='官网提交已同步' if not any(item['status']=='error' for item in platforms) else '部分原站记录暂不可用，稍后重试')
+            if any(item['status']=='ready' for item in platforms):self.status['lastSuccessAt']=dt.datetime.now(dt.timezone.utc).isoformat()
         except Exception as error:
             self.status['message'] = '官网提交同步暂不可用，稍后自动重试'
             LOG.debug('Official receipt sync: %s', type(error).__name__)
@@ -97,9 +118,25 @@ class OfficialSync:
             self.lock.release()
         return dict(self.status)
 
+    @staticmethod
+    def _remember(training,platform,owner,receipts):
+        from persistence import load_document,save_document
+        path=training.db_path.parent/'official-receipt-cache.json'
+        cache=load_document(path,{})
+        previous=cache.get(platform,{})
+        existing=previous.get('records',[]) if previous.get('owner')==owner else []
+        merged={row['submissionId']:row for row in existing}
+        merged.update({row['submissionId']:row for row in receipts})
+        value={'owner':owner,'records':sorted(merged.values(),key=lambda row:row['acceptedAt'])[-5000:]}
+        if value!=previous:
+            cache[platform]=value;save_document(path,cache)
+        return value['records']
+
     def import_receipts(self, receipts):
+        if not receipts:return 0
         training = self.server.training
         with training.lock, training._library_view():
+            recorded={row[0] for row in training.connection.execute("SELECT id FROM submissions WHERE id LIKE 'official-%'")}
             rows = {}
             for row in training._library():
                 key = canonical_url(row.get('url'))
@@ -110,9 +147,12 @@ class OfficialSync:
                 row = rows.get(canonical_url(receipt.get('url')))
                 if not row:
                     continue
+                remote_id='official-'+hashlib.sha256((str(urlsplit(row['url']).hostname)+'/'+str(receipt.get('submissionId'))).encode()).hexdigest()
+                if remote_id in recorded:continue
                 try:
                     before = training.connection.total_changes
                     training.record_official({'id': row['id'], 'url': row['url'], 'code': '', 'external': True}, receipt)
+                    recorded.add(remote_id)
                     imported += int(training.connection.total_changes > before)
                 except ServiceError as error:
                     if error.status not in (403, 404, 409):

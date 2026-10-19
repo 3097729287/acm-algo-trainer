@@ -117,9 +117,10 @@ class PublicClient:
     def __init__(self,state_dir,stop=None,transport=None,spacing=2):
         self.directory=Path(state_dir)/'http';self.stop=stop or threading.Event();self.transport=transport;self.spacing=spacing
         self.lock=threading.RLock();self.pacing={};self.backoff={};self.request_locks={};self.opener=build_opener(_Redirect())
-    def _get(self,url,headers=None,public_fields=None):
+    def _get(self,url,headers=None,public_fields=None,owner_filter=None):
         safe_url(url);host=urlsplit(url).hostname
         cache_key=url+('\0contest-metadata' if public_fields else '')
+        if owner_filter:cache_key+='\0owner-receipts-v1:'+owner_filter[0]
         path=self.directory/(hashlib.sha256(cache_key.encode()).hexdigest()+'.json')
         # Deduplicate one URL, but never hold a global lock during pacing or
         # network I/O. A blocked CF discovery must not stall AtCoder/the UI.
@@ -143,6 +144,7 @@ class PublicClient:
                         safe_url(response.url);body=response.read(32*1024*1024+1);etag=response.headers.get('ETag')
                 if len(body)>32*1024*1024:raise ValueError('公开响应超过大小限制')
                 text=body.decode('utf-8','replace')
+                if owner_filter:text=json.dumps(owner_filter[1](json.loads(text)),ensure_ascii=False)
                 if public_fields:
                     # The anonymous CF standings endpoint requires an entire
                     # board response. Retain task metadata, not participants.
@@ -167,6 +169,7 @@ class PublicClient:
                 raise RuntimeError(str(error)[:250]) from error
     def text(self,url,headers=None):return self._get(url,headers)
     def json(self,url,headers=None):return json.loads(self._get(url,headers))
+    def owner_json(self,url,owner,parse,headers=None):return json.loads(self._get(url,headers,owner_filter=(owner,parse)))
     def contest_problems(self,identity):
         if not str(identity).isdigit():raise ValueError('比赛编号必须是数字')
         return json.loads(self._get('https://codeforces.com/api/contest.standings?contestId='+str(identity),public_fields=('contest','problems')))
@@ -188,10 +191,7 @@ class IntegrationService:
             if (self.state['settings']['minDifficulty'],self.state['settings']['maxDifficulty'])==(1000,2199):self.state['settings'].update(minDifficulty=0,maxDifficulty=10000)
             self.state['collectionPolicy']='all-levels-v1'
         self.state['settings']['accounts']={**DEFAULTS['accounts'],**self.state['settings'].get('accounts',{})}
-        # Public account binding is supported only where complete statistics are available.
-        for platform in ('nowcoder', 'luogu'):
-            self.state['settings']['accounts'][platform] = ''
-            self.state['accounts'].pop(platform, None)
+        # Numeric bindings identify receipt owners; they do not imply a rating.
         if legacy_source and not self.state['settings']['githubRepo']:self.state['settings']['githubRepo']=KNOWN_REPO
         if self.state['settings']['githubRepo']=='3097729287/acm-agent-workflow':self.state['settings']['githubRepo']=KNOWN_REPO
         self.state['githubSourceInitialized']=True
@@ -388,8 +388,6 @@ class IntegrationService:
                         expected=P.profile(platform,'')['url'];handle=handle[len(expected):].rstrip('/') if handle.startswith(expected) else '!'
                     regex=r'\d{1,20}' if platform in ('luogu','nowcoder') else r'[A-Za-z0-9_.-]{1,64}'
                     if handle and not re.fullmatch(regex,handle):fail(422,'牛客/洛谷请填公开用户 ID 或主页地址；CF/AtCoder 请填公开用户名')
-                    if platform in ('nowcoder', 'luogu'):
-                        handle = ''
                     settings['accounts'][platform]=handle
                     if handle!=old['accounts'][platform]:updated_accounts[platform]=P.profile(platform,handle)
             if settings['githubRepo']!=old['githubRepo']:

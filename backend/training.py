@@ -463,7 +463,7 @@ class TrainingService:
                         if getattr(error, "status", None) != 404:
                             raise
             value = build_insights(library, records, history, workspace, hub or {}, self._now())
-            tasks = self.daily_tasks()
+            tasks = self.daily_tasks(goal_tasks=workspace.get('goalTasks', []))
             # 只累加版本 2（官方口径）任务的经验；旧本地任务领取保留在库里但不再计入成长。
             claimed = self.connection.execute("SELECT COALESCE(SUM(awarded_xp),0) AS xp,COUNT(*) AS count,MAX(claimed_at) AS latest FROM daily_missions WHERE claimed_at IS NOT NULL AND definition LIKE '%\"version\": 2%'").fetchone()
             from progression import official_reward_evidence, extra_achievements, qualified_contests
@@ -595,7 +595,7 @@ class TrainingService:
             records = [record for record in records if str(local_date(record['submitted_at'])) == day]
         return official_reward_evidence(rows, records, hub)
 
-    def daily_tasks(self):
+    def daily_tasks(self, goal_tasks=None):
         from progression import TASKS, SHANGHAI, task_progress
         with self.lock:
             day = self._now().astimezone(SHANGHAI).date().isoformat()
@@ -619,7 +619,10 @@ class TrainingService:
                 progress, _ = task_progress(task, evidence, day)
                 task.update(progress=progress, completed=progress >= task["target"], claimed=bool(record["claimed_at"]), claimedAt=record["claimed_at"])
                 tasks.append(task)
-            return {"date": day, "timezone": "Asia/Shanghai", "tasks": tasks, "claimable": sum(task["completed"] and not task["claimed"] for task in tasks),
+            if goal_tasks is None:
+                from goals import Goals
+                goal_tasks = Goals(self).list(assign=True).get('goalTasks', [])
+            return {"date": day, "timezone": "Asia/Shanghai", "tasks": tasks, "goalTasks": goal_tasks, "goalPending": sum(not task['accepted'] for task in goal_tasks), "claimable": sum(task["completed"] and not task["claimed"] for task in tasks),
                     "totalClaimedXp": sum(task["xp"] for task in tasks if task["claimed"]), "notice": "每日按北京时间刷新，统计当天官方 AC 的不同题目；旧题重新 AC 可计入，同题当天只算一次，样例通过和仅打开题目不计入。"}
 
     def claim_daily_task(self, identity, date=None):
@@ -1557,7 +1560,8 @@ class TrainingService:
         with self.lock, self._library_view():
             self._expire()
             from goals import Goals
-            Goals(self).list(assign=True)
+            goal_overview = Goals(self).list(assign=True)
+            goal_tasks = goal_overview.get('goalTasks', [])
             library = {row["id"]: row for row in self._library()}
             aliases = self._identity_map(list(library.values()))
             records = self.connection.execute("SELECT * FROM submissions WHERE mode='submit' ORDER BY submitted_at,rowid").fetchall()
@@ -1621,10 +1625,17 @@ class TrainingService:
                 else:
                     merged[item["id"]] = item
             training = list(merged.values())
+            task_ids = {aliases.get(task['id'], task['id']) for task in goal_tasks}
+            for task in goal_tasks:
+                task['id'] = aliases.get(task['id'], task['id'])
+            for item in training:
+                if item['id'] in task_ids:
+                    item['goalTask'] = True
+                    item['today'] = True
             accepted_ids = {item["id"] for item in training if item["accepted"]}
             active_ids = {item["id"] for item in training}
             sets = []
-            for record in self.connection.execute("SELECT * FROM practice_sets ORDER BY created_at DESC,id"):
+            for record in self.connection.execute("SELECT * FROM practice_sets WHERE id NOT LIKE 'goal-contest:%' ORDER BY created_at DESC,id"):
                 ids = list(dict.fromkeys(aliases.get(problem_id, problem_id) for problem_id in json.loads(record["ids"]) if aliases.get(problem_id, problem_id) in active_ids))
                 if ids:
                     sets.append({"id": record["id"], "name": record["name"], "type": "practice", "ids": ids, "createdAt": record["created_at"], "accepted": len(set(ids) & accepted_ids), "total": len(set(ids))})
@@ -1641,7 +1652,7 @@ class TrainingService:
             historical_ac = {aliases.get(r['problem_id'], r['problem_id']) for r in official_ac}
             today_ac = {aliases.get(r['problem_id'], r['problem_id']) for r in official_ac if parse_time(r['submitted_at']).astimezone(TRAINING_ZONE).date() == today}
             pending = self.connection.execute("SELECT COUNT(*) FROM submissions WHERE finished_at IS NULL").fetchone()[0]
-            return {"training": training, "sets": sets, "contests": contests, "activeContest": next((contest for contest in contests if contest["status"] == "running"), None), "summary": {"todayAccepted": len(today_ac), "historicalAccepted": len(historical_ac), "total": len(training), "accepted": sum(item["accepted"] for item in training), "samplePassed": sum(item["verdict"] == "SAMPLE_PASS" and not item["accepted"] for item in training), "attempts": len(records), "due": sum(item["queue"] is not None for item in training), "streak": streak, "pending": pending}, "now": iso(now)}
+            return {"training": training, "sets": sets, "contests": contests, "goals": goal_overview, "goalTasks": goal_tasks, "activeContest": next((contest for contest in contests if contest["status"] == "running"), None), "summary": {"todayAccepted": len(today_ac), "historicalAccepted": len(historical_ac), "total": len(training), "accepted": sum(item["accepted"] for item in training), "samplePassed": sum(item["verdict"] == "SAMPLE_PASS" and not item["accepted"] for item in training), "attempts": len(records), "due": sum(item["queue"] is not None for item in training), "streak": streak, "pending": pending}, "now": iso(now)}
 
     def close(self):
         with self.lock:

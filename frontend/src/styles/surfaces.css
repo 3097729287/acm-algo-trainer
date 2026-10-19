@@ -1,0 +1,57 @@
+/* One palette covers every page, including nested forms and goal cards. */
+:root[data-backdrop]:not([data-backdrop=none]) {
+  --panel: color-mix(in srgb,var(--panel-base) var(--panel-opacity,76%),transparent);
+  --panel-2: color-mix(in srgb,var(--panel-raised-base) var(--panel-opacity,76%),transparent);
+  --glass-panel: var(--panel);
+  --glass-raised: var(--panel-2);
+  --line: color-mix(in srgb,var(--text) 13%,transparent);
+  --soft-line: color-mix(in srgb,var(--text) 6%,transparent);
+}
+html .app-shell :is(.topbar,.sidebar-knowledge,.sidebar-bottom,.list-status,.merged-page-tabs) {border-color:transparent}
+html .workspace-area :is(.progress-platform-scores>div,.progress-recommendation,.growth-account-section,.daily-task,.mini-board-footer,.pulse-week,.training-goal+.training-goal,.update-providers>div,.update-notification,.translation-settings) {border-top:0;border-bottom:0}
+html .workspace-area :is(.problem-table,.progress-table-scroll,.activity-details,.submission-table) :is(th,td) {border-top:0;border-bottom:0}
+html .problem-table tbody tr:not(.queue-heading) {cursor:pointer}
+html .problem-table tbody tr:not(.queue-heading):hover {background:var(--accent-soft)}
+html .problem-table .queue-heading td {background:color-mix(in srgb,var(--panel-raised-base) 42%,transparent)}
+html .problem-table .queue-heading.accent strong {color:var(--accent)}
+html .workspace-area :is(.competition-card,.mock-config,.mock-mode-options>button,.paper-preview,.goal-card,.goal-contest-grid>div,.record-summary,.activity-day-detail) {background-color:var(--panel)}
+html .workspace-area :is(.mock-config,.competition-card,.progress-section) {box-shadow:none}
+html .workspace-area :is(.section-title,.paper-preview-title,.record-detail-heading,.record-slot,.mock-tabs,.competition-tabs) {border-color:transparent}
+:root[data-backdrop=custom] :is(.wb-statement-pane,.wb-code-pane,.wb-body,.tb-workbench) {background:color-mix(in srgb,var(--panel-base) 88%,transparent)}
+.topbar-clock {display:inline-flex;align-items:center;gap:7px;white-space:nowrap;color:var(--muted);font-size:.85rem;padding:6px 9px;border-radius:8px;background:var(--panel);font-variant-numeric:tabular-nums}
+.topbar-clock time {color:var(--text);font-weight:600}
+.goal-management-bar {display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;min-height:30px}
+.goal-management-bar>span,.goal-management-bar>div {display:flex;align-items:center;gap:12px}
+.goal-management-bar>span>svg {color:var(--accent)}
+.goal-management-bar small {color:var(--muted);font-size:.78rem}
+.goal-management-bar .progress-text-button {padding:6px 9px;border-radius:6px}
+.goal-management-bar button:hover:not(:disabled) {background:var(--accent-soft)}
+.goal-editor-backdrop {position:fixed;inset:0;background:#0007;z-index:150;display:flex;align-items:center;justify-content:center;padding:20px}
+.goal-editor {width:min(720px,100%);max-height:calc(100dvh - 40px);overflow:auto;padding:22px;border:1px solid var(--line);border-radius:14px;background:color-mix(in srgb,var(--panel-base) 91%,transparent);box-shadow:var(--shadow)}
+.goal-editor>header {display:flex;align-items:center;justify-content:space-between;gap:16px}
+.goal-editor h2 {display:flex;align-items:center;gap:9px;font-size:1.1rem;margin:0}
+.goal-editor .goal-form {grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:0}
+.goal-editor-note {font-size:.82rem;color:var(--muted);line-height:1.7;margin:0}
+.goal-editor :is(.inline-error,.goal-archive-confirm,footer) {grid-column:1/-1}
+.goal-editor footer>span {flex:1}
+.goal-selector {display:flex;align-items:center;gap:12px;margin-top:16px;color:var(--muted)}
+.goal-selector select {flex:1;min-width:0}
+.goal-archive-confirm {display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.goal-archive-confirm>span {flex:1;font-size:.84rem}
+.daily-goal-tasks {margin-top:20px;display:flex;flex-direction:column;gap:6px}
+.daily-goal-heading {display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.daily-goal-heading h3 {display:flex;align-items:center;gap:8px;margin:0;font-size:1rem}
+.daily-goal-heading>span {font-size:.8rem;color:var(--muted)}
+.daily-goal-row {display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:1px solid var(--line);border-radius:9px;background:var(--panel);padding:11px 13px;color:var(--text)}
+.daily-goal-row>div {min-width:0;flex:1}
+.daily-goal-row strong {display:block;font-size:.9rem}
+.daily-goal-row small {display:block;margin-top:4px;color:var(--muted);font-size:.76rem}
+.daily-goal-row>span {font-size:.79rem;color:var(--muted)}
+.daily-goal-row[data-accepted=true]>svg,.daily-goal-row[data-accepted=true]>span {color:var(--success)}
+.daily-goal-row:hover {border-color:var(--accent);background:var(--accent-soft)}
+html .progress-growth-columns {align-items:stretch}
+html .progress-growth-left .growth-account-panel {flex:1}
+html .progress-growth-right .progress-recommendations {flex:1}
+html .progress-growth-right .mini-leaderboard {flex:0 0 auto}
+@media(max-width:1050px) {.topbar-clock{padding:4px}.topbar-clock>svg{display:none}.topbar-titles{display:none}}
+@media(max-width:600px) {.goal-editor{padding:16px}.goal-editor .goal-form{grid-template-columns:1fr}.topbar-clock{font-size:.77rem}.goal-management-bar>div{gap:4px}}

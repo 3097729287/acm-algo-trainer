@@ -186,8 +186,6 @@ class Handler(BaseHTTPRequestHandler):
                     with training.lock:
                         training.assert_solution_unlocked(body.get("id"))
                         value = store.update(body)
-                elif path == "/api/inbox":
-                    value = store.inbox(body.get("action", "import"))
                 elif path == "/api/training/start":
                     value = training.start_training(body.get("id"))
                 elif path == "/api/training/remove":
@@ -391,8 +389,6 @@ class Handler(BaseHTTPRequestHandler):
             elif path == "/api/contest":
                 identity = parse_qs(target.query).get("id", [None])[0]
                 self.send_json(200, self.server.training.contest(identity))
-            elif path == "/api/inbox":
-                self.send_json(200, store.inbox())
             elif path.startswith("/api/"):
                 raise APIError(404, "没有找到这个接口")
             else:

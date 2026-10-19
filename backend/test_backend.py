@@ -49,6 +49,10 @@ class BackendTests(unittest.TestCase):
         self.assertEqual(self.request('/api/solution?id=' + quote('fixture::A'))[1]['markdown'], record()[2]['markdown'])
         self.assertEqual(self.request('/')[0], 404)
 
+    def test_runtime_editorial_import_entry_is_removed(self):
+        self.assertEqual(self.request('/api/inbox')[0], 404)
+        self.assertEqual(self.request('/api/inbox', {})[0], 404)
+
     def test_token_origin_host_and_traversal_guards_survive_architecture_split(self):
         body = {'id': 'fixture::A'}
         self.assertEqual(self.request('/api/training/start', body, {'X-TB-Token': 'invalid'})[0], 403)
@@ -90,10 +94,10 @@ class BackendTests(unittest.TestCase):
         file = inbox / 'ABC1题解.md'
         file.write_text('# ABC 1 题解\n\n## 目录\n| 题号 | 题名 | 考点 | 难度 |\n|---|---|---|---|\n| A | A | 枚举 | 1000 |\n| B | B | 枚举 | 1000 |\n\n## A. A\nOnly one section.\n', encoding='utf-8')
         original = file.read_bytes()
-        preview = self.request('/api/inbox')[1]
+        preview = self.server.store.inbox()
         self.assertEqual(preview['pending'], 2)
         self.assertTrue(preview['errors'])
-        self.assertTrue(self.request('/api/inbox', {'action': 'import'})[1]['errors'])
+        self.assertTrue(self.server.store.inbox('import')['errors'])
         self.assertEqual(len(self.server.store.raw_rows()), 1)
         self.assertEqual(file.read_bytes(), original)
 
@@ -104,7 +108,7 @@ class BackendTests(unittest.TestCase):
         body = ('### 从零讲：枚举\n\n' + '枚举是逐一检查有限候选，再根据条件选择可行答案。' * 12)
         source = '# ABC 1 题解\n\n## 目录\n| 题号 | 题名 | 考点 | 难度 |\n|---|---|---|---|\n| A | A | 枚举 | 1000 |\n\n## A. A\n```text\n## B. Fenced heading\n```\n' + body + '\n'
         file.write_text(source, encoding='utf-8')
-        imported = self.request('/api/inbox', {'action': 'import'})[1]
+        imported = self.server.store.inbox('import')
         self.assertEqual(imported['result']['added'], 1)
         self.assertIn('## B. Fenced heading', self.server.store.solution('ABC 1::A')['markdown'])
         self.assertEqual(len(self.server.lectures.for_problem('ABC 1::A')), 1)

@@ -10,24 +10,25 @@ let accountCalls=0;
 const owner='10000000-0000-4000-8000-000000000001';
 const growth={level:8,tier:'大师',badge:'master',currentLevelXp:400,nextLevelXp:1600,totalXp:6000,levelCosts:[200,400],levelName:'算法设计'};
 const entries=[{rank:1,userId:owner,nickname:'我的训练',count:0,publicProgress:{level:8,tier:'大师',titles:[]}},{rank:2,userId:'other',nickname:'同行者',count:0}];
+const rows=[152,165,166].map(number=>({id:`weekly-${number}`,contest:`周赛 ${number}`,problem:'A',title:`周赛练习 ${number}`,platform:'牛客',series:'周赛',url:`https://ac.nowcoder.com/acm/contest/${number}/A`,tags:['模拟'],difficulty:800,solutionAvailable:true}));
+const goals={goals:[{id:'goal',title:'CF 2200',kind:'cf',deadline:'2027-07-10',currentRating:1000,targetRating:2200,dailyMinutes:90}]};
 await page.addInitScript(()=>{const canvas=document.createElement('canvas');canvas.width=1000;canvas.height=700;const context=canvas.getContext('2d'),sky=context.createLinearGradient(0,0,1000,700);sky.addColorStop(0,'#375b85');sky.addColorStop(.5,'#628388');sky.addColorStop(1,'#a66c77');context.fillStyle=sky;context.fillRect(0,0,1000,700);context.fillStyle='#213c50';context.beginPath();context.moveTo(0,700);context.lineTo(380,190);context.lineTo(600,500);context.lineTo(800,280);context.lineTo(1000,700);context.fill();localStorage.setItem('tb.appearance.background',canvas.toDataURL('image/jpeg'));});
 try{
  await page.route('**/api/**',async route=>{
   if(!new URL(route.request().url()).pathname.startsWith('/api/'))return route.continue();
   const path=new URL(route.request().url()).pathname.split('/api/')[1];let value;
   if(path==='account'){accountCalls++;if(accountCalls===1)await new Promise(r=>setTimeout(r,3200));value={authenticated:true,required:false,token:'fixture',account:{userId:owner,nickname:'我的训练',loginId:'fixture'}};}
-  else if(path==='data')value={token:'fixture',revision:'fixture',rows:[],categories:[]};
-  else if(path==='workspace')value={now:new Date().toISOString(),training:[],sets:[],contests:[],activeContest:null,summary:{accepted:0,total:0,attempts:0}};
+  else if(path==='data')value={token:'fixture',revision:'fixture',rows,categories:[]};
+  else if(path==='workspace')value={now:new Date().toISOString(),training:rows.map(r=>({id:r.id,activeAt:new Date().toISOString(),today:true,accepted:false,attempts:0})),sets:[],contests:[],activeContest:null,goals,goalTasks:[{...rows[0],accepted:false,goalTitles:['CF 2200']}],summary:{accepted:0,total:3,attempts:0}};
   else if(path==='insights')value={summary:{totalSolved:0,streak:0},growth,achievements:[],knowledge:[],recommendations:[],assessment:{platforms:[]},dailyTasks:{tasks:[]},activity:[{date:'2026-10-01',officialAccepted:73}]};
   else if(path==='hub')value={version:'0.1.0',settings:{accounts:{}},sync:{},updates:{currentVersion:'0.1.0',latestVersion:'v0.1.0'},notifications:[]};
-  else if(path==='goals')value={goals:[]};
+  else if(path==='goals')value=goals;
   else if(path==='software-update')value={currentVersion:'1.1.1',status:'current',releaseUrl:'https://github.com/3097729287/acm-algo-trainer/releases/latest'};
   else if(path==='leaderboard')value={period:'daily',date:'2026-10-18',configured:true,status:'ready',entries,self:{userId:owner},isAdmin:false};
   else if(path==='profile')value={profile:{userId:owner,nickname:'我的训练'},leaderboard:{configured:true}};
   else if(path==='browser-preparation')value={available:false};
   else if(path==='preferences')value={preferences:null};
   else if(path==='desktop/fullscreen')value={available:false,fullscreen:false};
-  else if(path==='inbox')value={pending:0};
   else throw new Error('Unhandled fixture '+path);
   await route.fulfill({contentType:'application/json',body:JSON.stringify(value)});
  });
@@ -42,8 +43,33 @@ try{
  await page.getByLabel('页面背景',{exact:true}).selectOption('custom');
  await page.getByLabel('面板不透明度',{exact:true}).evaluate(node=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(node,'55');node.dispatchEvent(new Event('input',{bubbles:true}));});
  assert.equal(await page.locator('html').evaluate(node=>node.style.getPropertyValue('--panel-opacity')),'55%');
- await page.getByLabel('训练小挂件',{exact:true}).uncheck();
- await page.getByLabel('训练小挂件',{exact:true}).check();
+ await page.getByLabel('顶部时钟',{exact:true}).uncheck();
+ assert.equal(await page.getByLabel('北京时间',{exact:true}).count(),0);
+ await page.getByLabel('顶部时钟',{exact:true}).check();
+ await page.getByLabel('北京时间',{exact:true}).waitFor();
+ const glass=async selector=>{
+   const alpha=await page.locator(selector).first().evaluate(node=>{const canvas=document.createElement('canvas');canvas.width=canvas.height=1;const c=canvas.getContext('2d');c.fillStyle=getComputedStyle(node).backgroundColor;c.fillRect(0,0,1,1);return c.getImageData(0,0,1,1).data[3]/255;});
+   assert.ok(alpha>0&&alpha<.58,`${selector} uses the selected translucent palette: ${alpha}`);
+ };
+ await page.locator('.sidebar').getByRole('button',{name:'比赛',exact:true}).click();
+ assert.deepEqual(await page.locator('.competition-card-title>strong').allTextContents(),['周赛 166','周赛 165','周赛 152'],'Name order uses descending numeric rounds');
+ await glass('.competition-card');
+ await page.screenshot({path:'tests/screenshots/v113-competitions-glass.png'});
+ await page.locator('.sidebar').getByRole('button',{name:'模拟赛',exact:false}).click();
+ await glass('.mock-config');
+ await page.screenshot({path:'tests/screenshots/v113-mock-glass.png'});
+ await page.locator('.sidebar').getByRole('button',{name:'成长与能力',exact:false}).click();
+ await glass('.growth-account-panel');
+ assert.equal(await page.locator('.next-milestone').count(),0);
+ assert.equal(await page.locator('.goal-card,.goal-contest-grid').count(),0);
+ const goalHeight=await page.locator('#growth-goals').evaluate(n=>n.getBoundingClientRect().height);
+ assert.ok(goalHeight<90,`Goal controls stay compact: ${goalHeight}`);
+ await page.getByRole('button',{name:'调整目标',exact:true}).click();
+ await page.getByRole('dialog',{name:'调整目标',exact:true}).waitFor();
+ assert.equal(await page.getByLabel('具体目标',{exact:true}).inputValue(),'CF 2200');
+ await page.keyboard.press('Escape');
+ await page.screenshot({path:'tests/screenshots/v113-growth-glass.png'});
+ await page.locator('.sidebar').getByRole('button',{name:'偏好设置',exact:false}).click();
  await page.getByRole('tab',{name:'更新',exact:true}).click();
  await page.getByText('公开版本：',{exact:false}).waitFor();assert.equal(await page.getByText('v0.1.0',{exact:true}).count(),0,'Stale catalog cache cannot show an old public release');
  await page.locator('.sidebar').getByRole('button',{name:'成长与能力',exact:false}).click();
@@ -56,6 +82,6 @@ try{
  await page.locator('.sidebar').getByRole('button',{name:'活动记录',exact:false}).click();
  const values=await page.locator('.activity-stats>span>b').evaluateAll(nodes=>nodes.map(n=>n.getBoundingClientRect().y));assert.ok(Math.abs(values[0]-values[1])<1,'Calendar summary numbers align');
  await mkdir('tests/screenshots',{recursive:true});
- for(const [width,height]of[[2048,1152],[1440,900],[1280,720]]){await page.setViewportSize({width,height});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.screenshot({path:`tests/screenshots/v111-activity-${width}.png`});}
+ for(const [width,height]of[[2048,1152],[1440,900],[1280,720],[1024,760]]){await page.setViewportSize({width,height});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));const clock=await page.getByLabel('北京时间',{exact:true}).boundingBox();assert.ok(clock.y<100&&clock.x+clock.width<=width,'Clock stays within the top bar');await page.screenshot({path:`tests/screenshots/v113-activity-${width}.png`});}
  assert.deepEqual(errors,[]);console.log(JSON.stringify({ok:true,slowLoginSingleFlight:true,stylesAndBackground:true,duplicateEntryRemoved:true,releaseSourceUnified:true,miniLeaderboard:true,zeroSolveNoMedal:true,alignedNumbers:true,responsive:true}));
 }finally{await browser.close();await vite.close();}

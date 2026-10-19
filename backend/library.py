@@ -200,10 +200,15 @@ class LibraryDatabase:
     def content_signature(self):
         """Detect commits from this process and other SQLite writers, including WAL."""
         result = []
-        for path in (self.path, Path(str(self.path) + '-wal')):
+        for path in (self.path, Path(str(self.path) + '-wal'), Path(str(self.path) + '-shm')):
             try:
                 stat = path.stat()
-                result.append((stat.st_mtime_ns, stat.st_ctime_ns, stat.st_size))
+                # Windows can retain a file's timestamp across same-size writes.
+                # The SQLite change counter and WAL index headers change with
+                # commits even then. Read only fixed-size headers, never bodies.
+                with path.open('rb') as source:
+                    header = source.read(96)
+                result.append((stat.st_mtime_ns, stat.st_ctime_ns, stat.st_size, stat.st_ino, header.hex()))
             except FileNotFoundError:
                 result.append(None)
         return tuple(result)

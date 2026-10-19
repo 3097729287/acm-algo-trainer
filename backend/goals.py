@@ -1,5 +1,6 @@
 """Deadline plans with explicit workload assumptions and real acceptance evidence."""
 import datetime as dt
+import hashlib
 import json
 import math
 import re
@@ -109,7 +110,7 @@ class Goals:
         t=self.training
         with t.lock:
             now=t._now();today=now.astimezone(SHANGHAI).date()
-            if not t.connection.execute('SELECT 1 FROM goals WHERE archived=0 LIMIT 1').fetchone():return {'goals':[],'date':today.isoformat(),'contestPlan':shared_contest_plan([])}
+            if not t.connection.execute('SELECT 1 FROM goals WHERE archived=0 LIMIT 1').fetchone():return {'goals':[],'date':today.isoformat(),'contestPlan':shared_contest_plan([]),'goalTasks':[]}
             # Activating several recommendations recomputes aliases for each
             # task. Reuse a single fresh catalogue for this allocation only.
             with t._library_view():
@@ -147,7 +148,7 @@ class Goals:
                 saved=assignments.get(record['id'])
                 for identity in json.loads(saved['ids']) if saved else []:
                     if identity in metadata:owners.setdefault(problem_key(metadata[identity]),record['id'])
-            result=[]
+            result=[];daily_selections={}
             for record in records:
                 goal=json.loads(record['config']);start=parse_time(record['created_at']);first=start.astimezone(SHANGHAI).date();end=dt.date.fromisoformat(goal['deadline'])
                 days=max(1,(end-first).days+1);total=goal['totalProblems']
@@ -207,8 +208,87 @@ class Goals:
                                 if row['id'] not in original_ids:t._activate(db,row['id'],iso(now))
                 today_done=sum(1 for row in selected if (item:=accepted.get(problem_key(row)))
                                and start<item['at']<=now and item['at'].astimezone(SHANGHAI).date()==today)
+                daily_selections[record['id']]=selected
                 result.append({**goal,'id':record['id'],'createdAt':record['created_at'],'progress':done,'remaining':remaining,
                     'remainingDays':left,'weeklyTarget':weekly,'weeklyPlan':[],'contestPlan':contest_plan,'capacity':capacity,'warnings':warnings,'workloadCompleted':done>=total,
                     'dailyTask':{'date':today.isoformat(),'target':task_target,'progress':today_done,'completed':today_done>=task_target,
                                  'problems':[{key:row.get(key) for key in ('id','title','contest','difficulty')} for row in selected if (canonical_url(row.get('url')) or row['id']) not in accepted]}})
-            return {'goals':result,'date':today.isoformat(),'notice':DISCLAIMER,'contestPlan':shared_contest_plan(result,rows,accepted)}
+            tasks=self._tasks(result,rows,metadata,accepted,daily_selections,assign,locked)
+            return {'goals':result,'date':today.isoformat(),'notice':DISCLAIMER,'contestPlan':shared_contest_plan(result,rows,accepted),'goalTasks':tasks}
+
+    def _tasks(self,goals,rows,metadata,accepted,daily_selections,assign,locked):
+        """Daily selections and new-contest practice groups share the existing journal.
+
+        Generated groups are ordinary synchronized practice_sets, with a reserved
+        ID prefix. No new snapshot protocol or second completion ledger is needed.
+        A persisted selection never reactivates a task the user removed.
+        """
+        t=self.training;now=t._now();recent=now-dt.timedelta(days=7)
+        key=lambda row:canonical_url(row.get('url')) or row['id']
+        plans={goal['id']:goal for goal in goals if not goal['workloadCompleted']}
+        tasks={}
+        def include(row,goal,source):
+            if row['id'] in locked:return
+            identity=key(row)
+            task=tasks.setdefault(identity,{**{field:row.get(field) for field in ('id','title','contest','problem','platform','difficulty','difficultyEstimated')},
+                'accepted':identity in accepted,'goalTitles':[],'sources':[]})
+            if goal['title'] not in task['goalTitles']:task['goalTitles'].append(goal['title'])
+            if source not in task['sources']:task['sources'].append(source)
+        def date(value):
+            try:return parse_time(value) if value else None
+            except (TypeError,ValueError,AttributeError):return None
+        families={'Codeforces Div.3':('Codeforces',r'Div\.\s*3|第\s*3\s*组'),
+                  'AtCoder ABC':('AtCoder',r'\bABC\b|AtCoder Beginner|AtCoder 初学者'),
+                  '牛客周赛':('牛客',r'周赛'), '洛谷基础赛 / 月赛':('洛谷',r'入门赛|基础赛|月赛')}
+        events={}
+        for row in rows:
+            if row.get('catalogHidden'):continue
+            event_key=(canonical_url(row.get('url')) or '').rsplit('/',1)[0]
+            if row.get('platform')=='洛谷':event_key='luogu/'+str(row.get('contestId') or row.get('contest',''))
+            if not event_key:continue
+            events.setdefault((row.get('platform'),event_key),[]).append(row)
+        persisted={record['id']:dict(record) for record in t.connection.execute("SELECT * FROM practice_sets WHERE id LIKE 'goal-contest:%'")}
+        for goal in plans.values():
+            for row in daily_selections.get(goal['id'],[]):include(row,goal,'每日目标')
+            prefix='goal-contest:'+goal['id']+':'
+            for record in persisted.values():
+                if not record['id'].startswith(prefix):continue
+                for identity in json.loads(record['ids']):
+                    if identity in metadata:include(metadata[identity],goal,'比赛目标')
+            for requirement in goal.get('contestPlan',[]):
+                if requirement['target']<=0:continue
+                platform,pattern=families[requirement['contest']]
+                matches=[]
+                for (site,event_key),roster in events.items():
+                    if site!=platform or not re.search(pattern,(roster[0].get('contestFullName') or '')+' '+roster[0].get('contest',''),re.I):continue
+                    end=max((stamp for row in roster if (stamp:=date(row.get('endedAt') or row.get('contestDate') or row.get('startedAt')))),default=None)
+                    added=max((stamp for row in roster if (stamp:=date(row.get('addedAt')))),default=end)
+                    if end and end>now:continue
+                    if not added or added<max(recent,date(goal['createdAt'])) or added>now:continue
+                    matches.append((added,event_key,roster))
+                for _,event_key,roster in sorted(matches,key=lambda item:item[0],reverse=True)[:4]:
+                    lower,upper=('C','F') if requirement['problems']=='C–F' else ('A','D')
+                    seen=set();eligible=[]
+                    for row in sorted(roster,key=lambda row:(str(row.get('problem','')),row['id'])):
+                        letter=str(row.get('problem','')).upper()
+                        identity=key(row)
+                        if len(letter)==1 and not lower<=letter<=upper:continue
+                        if identity in seen or row['id'] in locked:continue
+                        seen.add(identity);eligible.append(row)
+                    selected=eligible[:min(8,requirement['target'])]
+                    if not selected:continue
+                    group_id=prefix+hashlib.sha256(event_key.encode()).hexdigest()[:20]
+                    saved=persisted.get(group_id)
+                    # Frozen groups may expand with a larger requirement or a
+                    # late public task. Existing rows retain their ownership.
+                    old_ids=json.loads(saved['ids']) if saved else []
+                    ids=list(dict.fromkeys(old_ids+[row['id'] for row in selected]))
+                    if assign and ids!=old_ids:
+                        name=f"目标题目 · {goal['title']} · {selected[0]['contest']} · {group_id[-8:]}"
+                        with t._write() as db:
+                            db.execute('INSERT INTO practice_sets(id,name,ids,created_at) VALUES(?,?,?,?) ON CONFLICT(id) DO UPDATE SET ids=excluded.ids',
+                                (group_id,name,json.dumps(ids,ensure_ascii=False),iso(now)))
+                            for row in selected:
+                                if row['id'] not in old_ids:t._activate(db,row['id'],iso(now))
+                    for row in selected:include(row,goal,'比赛目标')
+        return sorted(tasks.values(),key=lambda task:(task['accepted'],task['contest'] or '',str(task['problem'] or '')))

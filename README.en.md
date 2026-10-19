@@ -3,7 +3,7 @@
 TB combines a problem library, illustrated editorials, C++ editing, local sample judging and personal training records for Codeforces, AtCoder, Nowcoder and Luogu. Account data and rankings share the existing server-side MySQL database; local SQLite retains a durable working copy and pending changes.
 
 <!-- release-status:start -->
-**Current stable release: v1.1.2.** [Installer, portable archive, delta and checksums](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.1.2). The fixed release contains 960 editorial pairs; ongoing editorial work remains separate.
+**Source v1.1.3 is being validated and packaged; stable downloads remain v1.1.2.** [Changes](docs/releases/1.1.3.md).
 <!-- release-status:end -->
 
 [Usage](docs/usage.md) · [1.1.2 release notes](docs/releases/1.1.2.md) · [Build instructions](docs/development.md) · [中文](README.md)
@@ -15,6 +15,15 @@ TB combines a problem library, illustrated editorials, C++ editing, local sample
 Windows 10/11 x64. The [installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.2/TB-Setup-1.1.2-win64.exe) includes the compiler and offline WebView2 runtime. Extract the complete [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.2/TB-1.1.2-win64.zip).
 
 Save drafts, close TB and update the existing directory. Personal databases and imported content remain intact. Upgrade each computer to the same current release and log in in the dedicated submission browser when using v1.1.2. Automatic updates wait for saved drafts and active submissions/mocks, make online SQLite backups, verify SHA-256 and replace program files. Available deltas, `BUILD-INFO.json`, `RELEASE-MANIFEST.json` and `SHA256SUMS.txt` are listed on the release page.
+
+## Version 1.1.3 (in preparation)
+
+- Move the clock to the top bar and today's goal questions into the training list. Goal management uses one compact row.
+- Add goal questions to Daily Tasks with a pending indicator. Newly discovered Div.3, ABC, Nowcoder weekly and Luogu basic/monthly events follow active goal requirements.
+- Match actual owner submissions, preserve original acceptance dates and deduplicate historical results.
+- Apply translucent surfaces across pages, reduce dividers, remove the standalone milestone and editorial inbox, open problems from the whole row, and sort numbered events newest first.
+
+[Scope and details](docs/releases/1.1.3.md). This build retains 960 editorial pairs; parallel editorial additions remain separate.
 
 ## Version 1.1.2
 
