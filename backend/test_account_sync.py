@@ -132,7 +132,14 @@ class CloudStateTests(unittest.TestCase):
         self.assertEqual(self.call_other(other, '/api/hub/configure', {'accounts': {'nowcoder': '', 'luogu': ''}})[0], 200)
         other.accounts.sync_pending(wait=True)
         self.assertEqual(self.call_other(other, '/api/account/logout', {})[0], 200)
-        self.assertEqual(self.login()[0], 200)
+        # The first computer learns that another login revoked its session on
+        # its heartbeat. Fast offline fixtures must not log in before that.
+        deadline = time.monotonic() + 6
+        while self.server.accounts.session and time.monotonic() < deadline:
+            time.sleep(.05)
+        self.assertIsNone(self.server.accounts.session)
+        status, answer = self.login()
+        self.assertEqual(status, 200, answer)
         value = self.server.store.extensions.snapshot()['settings']['accounts']
         self.assertEqual((value['nowcoder'], value['luogu']), ('', ''))
 
