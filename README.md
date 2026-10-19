@@ -3,20 +3,20 @@
 TB 将题库、图文题解、C++ 编辑、本地评测和训练记录放在同一个工作台，支持 Codeforces、AtCoder、牛客和洛谷。账号数据存放在与排行榜共用的服务端 MySQL，本机 SQLite 保存工作副本和待同步记录。
 
 <!-- release-status:start -->
-**源码 v1.1.3 正在验证与打包，尚未发布；正式下载仍为 v1.1.2。** [本轮改动](docs/releases/1.1.3.md)。
+**当前正式版为 v1.1.3。** [安装包、便携版、v1.1.2 增量与校验清单](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.1.3)。正式包固定为 960 组两版题解，续写内容独立保留。
 <!-- release-status:end -->
 
-[项目主页](https://3097729287.github.io/acm-algo-trainer/) · [使用说明](docs/usage.md) · [1.1.2 更新说明](docs/releases/1.1.2.md) · [开发与构建](docs/development.md) · [English](README.en.md)
+[项目主页](https://3097729287.github.io/acm-algo-trainer/) · [使用说明](docs/usage.md) · [1.1.3 更新说明](docs/releases/1.1.3.md) · [开发与构建](docs/development.md) · [English](README.en.md)
 
 ![TB 训练工作台](docs/assets/workbench.png)
 
 ## 安装与更新
 
-Windows 10/11 x64。[安装包](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.2/TB-Setup-1.1.2-win64.exe)包含 C++ 编译器和离线 WebView2 组件；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.2/TB-1.1.2-win64.zip)需要完整解压。
+Windows 10/11 x64。[安装包](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.3/TB-Setup-1.1.3-win64.exe)包含 C++ 编译器和离线 WebView2 组件；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.3/TB-1.1.3-win64.zip)需要完整解压。
 
 保存草稿、退出 TB 后安装到原目录，个人数据库和导入内容保留。跨电脑使用同一账号时，各电脑应升级到同一新版；1.1.1 起无需扩展，原站登录保存在独立的提交浏览器配置中。自动更新先保存草稿、在线备份 SQLite、校验 SHA-256，再替换程序；进行中的提交或模拟赛结束后继续。实际增量包、`BUILD-INFO.json`、`RELEASE-MANIFEST.json` 与 `SHA256SUMS.txt` 以发布页为准。
 
-## v1.1.3（准备发布）
+## v1.1.3
 
 - 时间移至顶部，今日目标题目并入训练列表；成长页仅保留一行新建与调整目标。
 - 每日任务新增“目标题目”，有未完成题目时显示提示点；新 Div.3、ABC、牛客周赛、洛谷基础赛/月赛按目标要求加入。
@@ -59,7 +59,7 @@ Windows 10/11 x64。[安装包](https://github.com/3097729287/acm-algo-trainer/r
 
 [账号与同步](docs/accounts.md) · [架构](docs/architecture.md) · [1.0.19 内容记录](docs/releases/1.0.19.md) · [1.0.20 同步与性能记录](docs/releases/1.0.20.md) · [已发布 1.0.18](docs/releases/1.0.18.md)
 
-上述题库统计对应所读源码的内容；v1.1.2 二进制包的库存以 `BUILD-INFO.json` 为准（960 组两版题解）。后续续写不会替换已发布资产。
+上述题库统计对应所读源码的内容；v1.1.3 二进制包固定为 960 组两版题解，以 `BUILD-INFO.json` 为准。后续续写不会替换已发布资产。
 
 ## 数据与服务
 
@@ -67,7 +67,7 @@ Windows 10/11 x64。[安装包](https://github.com/3097729287/acm-algo-trainer/r
 
 账号快照通过 HTTPS 同步完整个人代码和引用题目的轻量资料、已缓存题面；站点 Cookie、翻译密钥、DPAPI 密文和机器配置保留本机。换电脑后须分别完成原站登录及翻译密钥配置。快照具有版本检查、校验和容量限制，网络失败保留本机未上传记录。
 
-账号、数据库和排行榜共用现有服务器。`005_account_state.sql`、`006_public_progress.sql` 和 `007_unique_nicknames.sql` 已在原 MySQL 上部署；2026-10-19 HTTPS 健康检查确认共享服务 1.1.2、账号与公开成长协议 1、单设备会话、昵称唯一性及快照版本恢复。客户端 v1.1.2 已发布并在本机完成升级。应用保留 Python 本机 API 与 Node.js 共享服务，没有改写为 Go。[服务部署](server/leaderboard/README.md)。
+账号、数据库和排行榜共用现有服务器。`005_account_state.sql`、`006_public_progress.sql` 和 `007_unique_nicknames.sql` 已在原 MySQL 上部署；2026-10-19 HTTPS 健康检查确认共享服务 1.1.2、账号与公开成长协议 1、单设备会话、昵称唯一性及快照版本恢复。客户端 v1.1.3 已发布并在本机完成升级，共享服务继续使用 1.1.2。应用保留 Python 本机 API 与 Node.js 共享服务，没有改写为 Go。[服务部署](server/leaderboard/README.md)。
 
 ## 开发
 

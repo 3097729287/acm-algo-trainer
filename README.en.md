@@ -3,20 +3,20 @@
 TB combines a problem library, illustrated editorials, C++ editing, local sample judging and personal training records for Codeforces, AtCoder, Nowcoder and Luogu. Account data and rankings share the existing server-side MySQL database; local SQLite retains a durable working copy and pending changes.
 
 <!-- release-status:start -->
-**Source v1.1.3 is being validated and packaged; stable downloads remain v1.1.2.** [Changes](docs/releases/1.1.3.md).
+**Current stable release: v1.1.3.** [Installer, portable archive, v1.1.2 delta and checksums](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.1.3). The fixed build contains 960 editorial pairs.
 <!-- release-status:end -->
 
-[Usage](docs/usage.md) · [1.1.2 release notes](docs/releases/1.1.2.md) · [Build instructions](docs/development.md) · [中文](README.md)
+[Usage](docs/usage.md) · [1.1.3 release notes](docs/releases/1.1.3.md) · [Build instructions](docs/development.md) · [中文](README.md)
 
 ![TB workbench](docs/assets/workbench.png)
 
 ## Install and upgrade
 
-Windows 10/11 x64. The [installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.2/TB-Setup-1.1.2-win64.exe) includes the compiler and offline WebView2 runtime. Extract the complete [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.2/TB-1.1.2-win64.zip).
+Windows 10/11 x64. The [installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.3/TB-Setup-1.1.3-win64.exe) includes the compiler and offline WebView2 runtime. Extract the complete [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.3/TB-1.1.3-win64.zip).
 
-Save drafts, close TB and update the existing directory. Personal databases and imported content remain intact. Upgrade each computer to the same current release and log in in the dedicated submission browser when using v1.1.2. Automatic updates wait for saved drafts and active submissions/mocks, make online SQLite backups, verify SHA-256 and replace program files. Available deltas, `BUILD-INFO.json`, `RELEASE-MANIFEST.json` and `SHA256SUMS.txt` are listed on the release page.
+Save drafts, close TB and update the existing directory. Personal databases and imported content remain intact. Upgrade each computer to the same current release and log in in the dedicated submission browser when using v1.1.3. Automatic updates wait for saved drafts and active submissions/mocks, make online SQLite backups, verify SHA-256 and replace program files. Available deltas, `BUILD-INFO.json`, `RELEASE-MANIFEST.json` and `SHA256SUMS.txt` are listed on the release page.
 
-## Version 1.1.3 (in preparation)
+## Version 1.1.3
 
 - Move the clock to the top bar and today's goal questions into the training list. Goal management uses one compact row.
 - Add goal questions to Daily Tasks with a pending indicator. Newly discovered Div.3, ABC, Nowcoder weekly and Luogu basic/monthly events follow active goal requirements.
@@ -57,13 +57,13 @@ The library contains **5795 problems: 5622 visible and 173 hidden**, plus **2215
 
 Automatic discovery follows the selected families: Nowcoder Weekly, Beginner, Practice and Challenge; Luogu Introductory, Basic and Monthly Div.2; CF Div.2/3/4; AtCoder ABC/ARC. Existing XCPC and Lanqiao collections remain. Unsupported automatic entries and those without usable statement/samples or an editorial are hidden without deleting personal history. Existing official ratings and tags also refresh; unknown ratings remain unknown.
 
-The inventory below follows the source snapshot being read. The v1.1.2 binary inventory is pinned in BUILD-INFO.json (960 editorial pairs). Later editorial work is not silently substituted into that release.
+The inventory below follows the source snapshot being read. The v1.1.3 binary inventory is pinned by `BUILD-INFO.json`: 960 editorial pairs. Later editorial additions do not replace published assets.
 
 ## Data, services and development
 
 Public library JSON under `data/library/` is tracked in git and rebuilt into `data/library.sqlite3`. Personal databases and credentials are excluded from distributions. Account snapshots include full personal code and referenced problem metadata/cached statements, but exclude site cookies, translation keys, DPAPI ciphertext and machine settings. Configure site login and translation keys separately on each computer.
 
-Migrations `005_account_state.sql`, `006_public_progress.sql` and `007_unique_nicknames.sql` are deployed on the existing server and MySQL database. HTTPS checks on October 19, 2026 confirmed service version 1.1.2, account-state and public-progress protocol 1, single-device sessions, unique nicknames and revision-based snapshot restoration. The v1.1.2 client is published and the local installation has been upgraded. The local backend remains Python and the shared service remains Node.js.
+Migrations `005_account_state.sql`, `006_public_progress.sql` and `007_unique_nicknames.sql` are deployed on the existing server and MySQL database. HTTPS checks on October 19, 2026 confirmed service version 1.1.2, account-state and public-progress protocol 1, single-device sessions, unique nicknames and revision-based snapshot restoration. The v1.1.3 client is published and the local installation has been upgraded; the shared service remains at 1.1.2. The local backend remains Python and the shared service remains Node.js.
 
 Python 3.13, Node.js 24 and a C++17 compiler are required for development. Run `python scripts/check.py`, the frontend build and relevant Playwright tests. Packaged releases also require isolated desktop, judging, fresh-install, upgrade and retention checks. Source, documentation, release tag and build metadata must agree.
 
