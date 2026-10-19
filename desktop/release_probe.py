@@ -102,11 +102,12 @@ def run(action, output):
             platform_runs=[]
             try:
                 os.environ['PATH']=str(Path(os.environ['SystemRoot'])/'System32')+os.pathsep+os.environ['SystemRoot']
-                engine=Judge(server.training.assets,STATE/'release-platform-check')
+                asset_library=server.training._asset_library()
+                engine=Judge(asset_library,STATE/'release-platform-check')
                 for platform in ('Codeforces','AtCoder','牛客','洛谷'):
                     for row in rows:
                         if row.get('platform')!=platform or (row.get('difficulty') or 9999)>1200:continue
-                        asset=server.training.assets.problem(row['id'],fetch=False)
+                        asset=asset_library.problem(row['id'],fetch=False)
                         if not asset.get('statementAvailable') or not asset.get('samples'):continue
                         sources=re.findall(r'```(?:cpp|c\+\+)\s*\n(.*?)```',server.store.solution(row['id'])['markdown'],re.S)
                         sources=[code for code in sources if re.search(r'\bmain\s*\(',code)]
