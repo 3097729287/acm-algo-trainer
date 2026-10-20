@@ -21,12 +21,16 @@ try {
  await own.getByText('排位 黄金 · 1,560 分',{exact:true}).waitFor();
  assert.equal(await own.locator('.ranking-public-id').count(),0);
  assert.equal(await page.getByText('成长资料待同步',{exact:true}).count(),3);
- const medals=page.locator('.ranking-table .ranking-medal');
  for(const [label,period] of [['每日过题','daily'],['本周过题','weekly'],['累计过题','total']]) {
   await page.getByRole('tab',{name:label,exact:true}).click();
-  await page.locator('.ranking-table .ranking-medal-'+period).first().waitFor();
-  assert.equal(await medals.count(),3);
-  assert.deepEqual(await medals.evaluateAll(nodes=>nodes.map(node=>Number(node.dataset.grade))),period==='total'?[9,8,7]:period==='weekly'?[6,5,4]:[3,2,1]);
+  // Capture one complete render. A period switch can clear the previous table
+  // between two locator reads while the new fixture response is still pending.
+  const rendered=await page.waitForFunction(period=>{
+   const nodes=[...document.querySelectorAll('.ranking-table .ranking-medal-'+period)];
+   return nodes.length===3 ? nodes.map(node=>Number(node.dataset.grade)) : false;
+  },period);
+  assert.deepEqual(await rendered.jsonValue(),period==='total'?[9,8,7]:period==='weekly'?[6,5,4]:[3,2,1]);
+  await rendered.dispose();
  }
  const gallery=page.getByRole('region',{name:'九种奖牌预览'});
  assert.equal(await gallery.locator('svg').count(),9);
@@ -40,8 +44,7 @@ try {
  // Switching periods discards a late response from the previous period.
  await page.getByRole('tab',{name:'每日过题',exact:true}).click();
  await page.getByRole('tab',{name:'本周过题',exact:true}).click();
- await page.waitForTimeout(120);
- assert.equal(await page.locator('.ranking-table .ranking-medal-weekly').count(),3);
+ await page.waitForFunction(()=>document.querySelectorAll('.ranking-table .ranking-medal-weekly').length===3);
  const remove=page.getByRole('button',{name:'删除 练习者二 的本周过题成绩'});
  await remove.click();
  await page.getByRole('dialog').waitFor();
@@ -58,7 +61,7 @@ try {
  assert.equal(await page.evaluate(()=>window.rankingWrites.length),1);
  await page.evaluate(()=>window.rankingAdmin=false);
  await page.getByRole('button',{name:'同步与刷新'}).click();
- await page.waitForTimeout(100);
+ await page.getByRole('button',{name:'清空当前榜单'}).waitFor({state:'hidden'});
  assert.equal(await page.getByRole('button',{name:'清空当前榜单'}).count(),0);
  assert.equal(await page.locator('.ranking-table .ranking-delete-button').count(),0);
  // A fetched empty board remains readable when another period or XP fails.
