@@ -71,7 +71,9 @@ class Fixture(unittest.TestCase):
         entered=threading.Event();release=threading.Event();self.releases.append(release);calls=[]
         def fetch(_client,identity,title,url):
             calls.append(identity);entered.set()
-            if not release.wait(4):raise RuntimeError('Fixture public GET deadline')
+            # The test/tearDown always releases the worker. A slow CI machine
+            # must not turn a deliberately blocked GET into a fetch failure.
+            release.wait()
             return public_statement(identity,title)
         return entered,release,calls,fetch
 
@@ -107,8 +109,10 @@ class BackgroundProblemTests(Fixture):
             self.assertTrue(cached['statementAvailable']);self.assertEqual(cached['samples'][0]['output'],'3\n')
             for _ in range(8):self.assets.background_problem('loading::A')
             self.assertEqual(calls,['loading::A'],'concurrent openings must share one original-site request')
+            pending=self.assets._fetches['loading::A']
             release.set()
-            self.assertTrue(eventually(lambda:self.assets.problem('loading::A',fetch=False)['statementAvailable']))
+            self.assertIsNone(pending.result(timeout=15))
+            self.assertTrue(self.assets.problem('loading::A',fetch=False)['statementAvailable'])
             recovered=self.assets.background_problem('loading::A')
             self.assertTrue(recovered['statementAvailable']);self.assertFalse(recovered.get('statementLoading',False))
             self.assertEqual(calls,['loading::A'])
@@ -184,8 +188,10 @@ class TrainingBackgroundHTTPTests(Fixture):
             second=get('/api/problem?'+urlencode({'id':'loading::B','background':1}))
             self.assertTrue(second['statementAvailable']);self.assertIn('Read two integers',second['markdown'])
             server.training.save_draft('loading::A','// newer code while original site is slow')
+            pending=self.assets._fetches['loading::A']
             release.set()
-            self.assertTrue(eventually(lambda:self.assets.problem('loading::A',fetch=False)['statementAvailable']))
+            self.assertIsNone(pending.result(timeout=15))
+            self.assertTrue(self.assets.problem('loading::A',fetch=False)['statementAvailable'])
             loaded=get('/api/problem?'+urlencode({'id':'loading::A','background':1}))
             self.assertEqual(loaded['draft'],'// newer code while original site is slow')
             self.assertTrue(loaded['statementAvailable']);self.assertFalse(loaded.get('statementLoading',False))
