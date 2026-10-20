@@ -3,7 +3,7 @@ import {chromium} from 'playwright';
 import {createServer} from 'vite';
 import {mkdir,readFile} from 'node:fs/promises';
 const vite=await createServer({server:{host:'127.0.0.1',port:0}});await vite.listen();
-const browser=await chromium.launch({channel:'msedge',headless:true});
+const browser=await chromium.launch({channel:process.env.CI ? undefined : 'msedge',headless:true});
 const page=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];
 page.on('pageerror',e=>errors.push(e.message));
 let accountCalls=0;

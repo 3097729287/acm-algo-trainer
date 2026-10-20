@@ -74,6 +74,15 @@ try {
   await panel.getByRole('button', { name: '收起题解', exact: true }).click();
   await open('Rank Subsequence');
   assert.equal(await defaultButton.getAttribute('aria-pressed'), 'true', 'Reopening starts from the original default');
+  // Public content keeps growing. Make the missing-detail response explicit
+  // without deleting an editorial from the real library or personal state.
+  const missingId = editorialRows.find(row => row.title === 'String Construction' && row.solutionAvailable).id;
+  await page.route('**/api/solution?*', async route => {
+    if (new URL(route.request().url()).searchParams.get('id') !== missingId) return route.continue();
+    const response = await route.fetch();
+    const body = await response.json();
+    await route.fulfill({response,json:{...body,detailedSolution:null}});
+  });
   await open('String Construction');
   await detailedButton.click();
   await panel.getByRole('heading', { name: '详细题解待补充', exact: true }).waitFor();

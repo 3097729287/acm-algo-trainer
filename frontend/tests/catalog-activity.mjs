@@ -15,7 +15,7 @@ try {
   assert.deepEqual(await tabs.getByRole('tab').allTextContents(), ['全部比赛', '牛客', '洛谷', 'Codeforces', 'AtCoder', 'XCPC 历年', '蓝桥杯 B 组历年']);
   assert.equal(await page.getByLabel('比赛平台', { exact: true }).count(), 0);
   await tabs.getByRole('tab', { name: '牛客', exact: true }).click();
-  assert.deepEqual(await page.locator('.competition-card-title strong').allTextContents(), ['周赛 2', '周赛 10']);
+  assert.deepEqual(await page.locator('.competition-card-title strong').allTextContents(), ['周赛 10', '周赛 2']);
   await tabs.getByRole('tab', { name: 'Codeforces', exact: true }).click();
   assert.equal(await page.locator('.competition-card').count(), 2);
   await tabs.getByRole('tab', { name: 'XCPC 历年', exact: true }).click();

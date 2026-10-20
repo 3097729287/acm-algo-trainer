@@ -46,7 +46,8 @@ jobs:
         run: |
           python desktop/tests/official_native.py
           python desktop/tests/silent_native.py
-      - name: CF browser session with native submissions enabled
+          python desktop/tests/managed_login.py
+      - name: Browser sessions and intercepted native submissions
         working-directory: frontend
         env:
           TB_PYTHON: python
@@ -55,6 +56,7 @@ jobs:
           npx playwright install chromium
           npm run build
           node tests/accounts.mjs
+          node tests/external-browser.mjs
           node tests/hybrid-cf.mjs
           node tests/hybrid-cf.mjs --preparation
           node tests/hybrid-cf.mjs --atcoder --preparation --reuse
@@ -90,6 +92,11 @@ jobs:
       - run: npm run test:ui
       - run: node tests/catalog-activity.mjs
       - run: node tests/browser-preparation.mjs
+      - run: node tests/workspace-decorations.mjs
+      - run: node tests/statement-format.mjs
+      - run: node tests/webview-loading.mjs
+      - run: node tests/replay-layout.mjs
+      - run: node tests/rankings.mjs
       - run: node tests/software-updates.mjs
       - run: npm run test:issues
       - run: npm run test:workbench

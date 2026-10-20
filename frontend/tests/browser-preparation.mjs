@@ -36,35 +36,35 @@ const page = await browser.newPage({viewport:{width:1050,height:760}});
 page.setDefaultTimeout(10000);
 const errors=[], actions=[];
 page.on('pageerror',error=>errors.push(error.message));
-let state = {available:true, extensionPath:'C:\\TB\\browser-extension', extension:{installed:false,connected:false,versions:[]},
+let state = {available:true, preferredBrowser:'edge',
   browsers:[{id:'edge',name:'Edge',available:true},{id:'chrome',name:'Chrome',available:true}],
   platforms:[['Codeforces','https://codeforces.com/enter'],['AtCoder','https://atcoder.jp/login'],['牛客','https://ac.nowcoder.com/login'],['洛谷','https://www.luogu.com.cn/auth/login']].map(([platform,loginUrl])=>({platform,loginUrl,state:'not_synced'})),ready:false};
 await page.route('**/api/browser-preparation',async route=>{
   if (route.request().method()==='POST') {
     assert.equal(route.request().headers()['x-tb-token'],'preparation-fixture');
     const body=route.request().postDataJSON(); actions.push(body);
-    if(body.action==='refresh') {state.extension={installed:true,connected:true,versions:['0.10.8']};state.platforms=state.platforms.map(p=>({...p,state:p.platform==='AtCoder'?'logged_out':'logged_in'}));}
+    state.preferredBrowser=body.browser;
+    if(body.action==='refresh') state={...state,ready:true};
     return route.fulfill({json:body.action==='refresh'?{...state,checking:true}:{opened:true}});
   }
   return route.fulfill({json:state});
 });
 try {
   await page.goto(`http://127.0.0.1:${vite.httpServer.address().port}/tests/browser-preparation-fixture.html`);
-  await page.getByText('原站提交前，请先安装浏览器连接扩展，再登录原站账号。').waitFor();
-  await page.getByRole('button',{name:'查看准备说明'}).click();
-  const guide=page.getByRole('dialog',{name:'浏览器提交准备'});
+  await page.getByText('浏览器提交需要 Edge 或 Chrome。').waitFor();
+  await page.getByRole('button',{name:'查看提交说明'}).click();
+  const guide=page.getByRole('dialog',{name:'浏览器原站提交'});
   await guide.waitFor();
   assert.equal(await guide.locator('.browser-guide-steps > li').count(),3);
-  assert.equal(await guide.getByLabel('扩展文件夹路径').inputValue(),state.extensionPath);
+  assert.equal(await guide.getByText('无需扩展。',{exact:false}).count(),1);
+  assert.equal(await guide.getByLabel('扩展文件夹路径').count(),0);
   await guide.getByLabel('准备使用的浏览器').selectOption('chrome');
-  await guide.getByRole('button',{name:'打开扩展管理',exact:true}).click();
-  await guide.getByRole('button',{name:'打开扩展文件夹',exact:true}).click();
-  for(const platform of ['牛客','洛谷','AtCoder','Codeforces']) await guide.getByRole('button',{name:'打开'+platform+'登录',exact:true}).click();
+  for(const platform of ['牛客','洛谷','AtCoder','Codeforces']) await guide.locator('.browser-guide-platforms>div').filter({hasText:platform}).getByRole('button',{name:'打开登录',exact:true}).click();
   assert.deepEqual(actions.filter(a=>a.action==='open-login').map(a=>a.platform),['牛客','洛谷','AtCoder','Codeforces']);
   assert.ok(actions.every(a=>a.browser==='chrome'));
-  await guide.getByRole('button',{name:'重新检测浏览器准备'}).click();
-  await guide.getByText('TB 浏览器连接扩展已连接',{exact:true}).waitFor();
-  assert.equal(await guide.getByText('未登录或登录已失效',{exact:true}).count(),1);
+  await guide.getByRole('button',{name:'重新检测浏览器',exact:true}).click();
+  await page.locator('.browser-guide-banner').waitFor({state:'hidden'});
+  assert.equal(await guide.getByLabel('准备使用的浏览器').inputValue(),'chrome');
   for (const [width,theme] of [[1050,'dark'],[375,'light']]) {
     await page.setViewportSize({width,height:760});
     await page.evaluate(theme=>{document.documentElement.dataset.theme=theme;document.documentElement.style.setProperty('--ui-font-size','18px');},theme);
@@ -76,15 +76,11 @@ try {
   await page.keyboard.press('Escape');
   await guide.waitFor({state:'hidden'});
   await page.evaluate(()=>window.dispatchEvent(new CustomEvent('tb:browser-preparation',{detail:{platform:'AtCoder',status:'needs_login',message:'AtCoder 登录已失效，请先登录。'}})));
-  await guide.getByText('AtCoder 登录已失效，请先登录。').waitFor();
-  assert.ok((await guide.locator('.browser-guide-selected').innerText()).includes('AtCoder'));
-  state={...state,ready:true,extension:{installed:true,connected:false},platforms:state.platforms.map(p=>({...p,state:'logged_in'}))};
-  await page.evaluate(()=>window.dispatchEvent(new Event('focus')));
-  await guide.getByText('扩展已安装，浏览器当前未连接',{exact:true}).waitFor();
-  assert.equal(await page.locator('.browser-preparation-notice').count(),0);
+  await guide.waitFor();
+  assert.equal(await guide.locator('.browser-guide-platforms>div').count(),4);
+  assert.equal(await page.locator('.browser-guide-banner').count(),0);
   await page.keyboard.press('Escape');
   await guide.waitFor({state:'hidden'});
-  assert.equal(await page.getByText('四个平台的浏览器登录已准备好',{exact:true}).count(),0);
   assert.deepEqual(errors,[]);
-  console.log(JSON.stringify({ok:true,missingExtensionGuide:true,fourLoginActions:true,knownLogout:true,unknownIsNotLogout:true,verificationGuide:true,cachedLoginWithBrowserClosed:true,mobile:true,realAccountSubmission:false}));
+  console.log(JSON.stringify({ok:true,managedBrowserGuide:true,fourLoginActions:true,browserChoice:true,cookieDetectionCompatibility:true,verificationGuide:true,mobile:true,realAccountSubmission:false}));
 } finally {await browser.close();await vite.close();}

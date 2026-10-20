@@ -92,10 +92,18 @@ try {
   await page.waitForTimeout(200);
   assert.ok(await page.locator('.nav-item').count(), 'A stale account poll cannot undo a successful login');
   await page.unroute('**/api/account', staleAccount);
+  const guide = page.getByRole('dialog', { name: '新手指引', exact: true });
+  await guide.waitFor();
+  await page.keyboard.press('Escape');
+  await guide.waitFor({ state: 'hidden' });
+  await page.waitForFunction(() => Object.keys(localStorage).some(key => key.startsWith('tb.preferences.v2.') && JSON.parse(localStorage.getItem(key))?.onboardingCompleted));
+  for (let i = 0; i < 100 && !(await get('preferences')).preferences?.onboardingCompleted; i++) await wait(50);
+  assert.equal((await get('preferences')).preferences.onboardingCompleted, true);
   const a = await get('account'); assert.equal(a.account.nickname, '星河');
+  assert.equal(a.usesOriginalWorkspace, true, 'Only the original workspace owner may recover legacy browser drafts');
   const library = await get('data'), problemId = library.rows[0].id;
   await post('training/start', { id: problemId });
-  await page.evaluate(id => localStorage.setItem(`tb.draft.v2.solo.${encodeURIComponent(id)}`, JSON.stringify({ code: 'old private browser draft', dirty: true, version: 1, owner: 'legacy' })), problemId);
+  await page.evaluate(id => localStorage.setItem(`tb.draft.v2.solo.${encodeURIComponent(id)}`, JSON.stringify({ code: 'old private browser draft', dirty: true, version: 1, owner: 'legacy', modifiedAt: Date.now() })), problemId);
   await page.reload();
   await page.locator('tr[data-id] .problem-title').first().click();
   const editor = page.getByRole('textbox', { name: 'C++ 代码', exact: true });
@@ -103,8 +111,7 @@ try {
   await page.waitForFunction(() => document.querySelector('.cm-content')?.textContent.includes('old private browser draft'));
   assert((await editor.innerText()).includes('old private browser draft'));
   await page.getByRole('button', { name: '返回列表', exact: true }).click();
-  await page.getByRole('button', { name: '偏好设置', exact: true }).click();
-  await page.getByRole('tab', { name: '账号与身份', exact: true }).click();
+  await page.getByRole('button', { name: '成长与能力', exact: true }).click();
   await page.getByText('登录号：ui_account_a', { exact: true }).waitFor();
   await page.getByText('管理账号', { exact: true }).click();
   await page.getByLabel('用户昵称', { exact: true }).fill('新昵称');
@@ -147,7 +154,7 @@ try {
   await page.screenshot({ path: path.join(state, 'login-mobile.png'), fullPage: true });
   assert.deepEqual(errors, []);
   console.log(JSON.stringify({ ok: true, frozen: Boolean(probe.frozen), wholeAppLogin: true, registration: true,
-    passwordChange: true, accountIsolation: true, legacyBrowserDrafts: true, mobile: true, state }));
+    onboarding: true, passwordChange: true, accountIsolation: true, legacyBrowserDrafts: true, mobile: true, state }));
 } finally {
   await browser?.close();
   if (processHandle && processHandle.exitCode == null) {

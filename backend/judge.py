@@ -197,7 +197,10 @@ class Judge:
                     exe.write_bytes(executable)
                     compiled={'verdict':None}
                 else:
-                    compiled=_run([self.compiler,'-O2','-std=c++17','-fdiagnostics-color=never','-o',exe,source],'',directory,30000,1024,262144,cancel,max_processes=32,env=environment)
+                    # MinGW's linker still narrows absolute output arguments
+                    # through the Windows code page. CreateProcessW supplies
+                    # the Unicode cwd; local names avoid that lossy roundtrip.
+                    compiled=_run([self.compiler,'-O2','-std=c++17','-fdiagnostics-color=never','-o','main.exe','main.cpp'],'',directory,30000,1024,262144,cancel,max_processes=32,env=environment)
                 if compiled['verdict']:
                     code_error=not _cancelled(cancel) and bool(compiled['stderr']) and compiled['returncode']==1 and compiled['verdict']=='RE'
                     detail=compiled['stderr'] or f"本地编译器退出码：0x{compiled['returncode']:08X}" if compiled['returncode'] is not None else '编译器未能启动'
