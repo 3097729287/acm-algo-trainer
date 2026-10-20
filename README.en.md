@@ -3,20 +3,20 @@
 TB combines a problem library, illustrated editorials, C++ editing, local sample judging and personal training records for Codeforces, AtCoder, Nowcoder and Luogu. Account data and rankings share the existing server-side MySQL database; local SQLite retains a durable working copy and pending changes.
 
 <!-- release-status:start -->
-**Source v1.1.5 is being validated; it is not published yet. Current stable: v1.1.4.** [Download the stable release](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.1.4). The fixed build contains 960 editorial pairs.
+**Current stable release: v1.1.5.** [Installer, portable archive, v1.1.4 delta and checksums](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.1.5). The fixed build contains 960 editorial pairs.
 <!-- release-status:end -->
 
-[Usage](docs/usage.md) · [1.1.4 release notes](docs/releases/1.1.4.md) · [Build instructions](docs/development.md) · [中文](README.md)
+[Usage](docs/usage.md) · [1.1.5 release notes](docs/releases/1.1.5.md) · [Build instructions](docs/development.md) · [中文](README.md)
 
 ![TB workbench](docs/assets/workbench.png)
 
 ## Install and upgrade
 
-Windows 10/11 x64. The [installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.4/TB-Setup-1.1.4-win64.exe) includes the compiler and offline WebView2 runtime. Extract the complete [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.4/TB-1.1.4-win64.zip).
+Windows 10/11 x64. The [installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.5/TB-Setup-1.1.5-win64.exe) includes the compiler and offline WebView2 runtime. Extract the complete [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.5/TB-1.1.5-win64.zip).
 
 Save drafts, close TB and update the existing directory. Personal databases and imported content remain intact. Upgrade each computer to the same current release and log in in the dedicated submission browser when using v1.1.3. Automatic updates wait for saved drafts and active submissions/mocks, make online SQLite backups, verify SHA-256 and replace program files. Available deltas, `BUILD-INFO.json`, `RELEASE-MANIFEST.json` and `SHA256SUMS.txt` are listed on the release page.
 
-## Version 1.1.5 (unpublished)
+## Version 1.1.5
 
 - Fix MinGW linking in Chinese working directories on English Windows by passing local input/output filenames under a Unicode process directory.
 - Update regression coverage for descending contest rounds, the current browser guide and first-login onboarding; add four-site intercepted browser submissions and managed-session restart to CI.
