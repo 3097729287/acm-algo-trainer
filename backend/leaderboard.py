@@ -108,9 +108,10 @@ class LeaderboardClient:
             if self.opener_endpoint != profile['endpoint']:
                 self.opener = service_opener(profile['endpoint'])
                 self.opener_endpoint = profile['endpoint']
+            maximum = 1024 * 1024 if method == 'GET' and path == '/v1/social' else 256 * 1024
             with self.opener.open(request, timeout=self.timeout) as response:
-                raw = response.read(262145)
-            if len(raw) > 262144:
+                raw = response.read(maximum + 1)
+            if len(raw) > maximum:
                 raise ValueError("排行榜响应过大")
             value = json.loads(raw)
             if not isinstance(value, dict):
@@ -281,6 +282,40 @@ class LeaderboardClient:
         except RuntimeError as error:
             raise ServiceError(503, str(error)) from None
         self.invalidate()
+        return value
+
+    def social(self, body=None, action=None):
+        """Protocol boundary: an older service remains usable without social tables."""
+        from training import ServiceError
+        profile = self.training._ranking_profile()
+        empty = {'available': False, 'protocol': 1, 'totalLikes': 0, 'unreadCount': 0, 'notifications': [], 'activity': []}
+        if not profile.get('endpoint') or not profile.get('auth_token'):
+            if action:
+                raise ServiceError(409, '请先登录账号')
+            return empty
+        allowed = {'likes': ({'targetId'},), 'comments': ({'targetId', 'text', 'requestId'},), 'read': ({'ids'}, {'all'})}
+        if action and (action not in allowed or not isinstance(body, dict) or set(body) not in allowed[action]
+                       or action == 'read' and 'all' in body and body['all'] is not True):
+            raise ServiceError(400, '互动请求格式无效')
+        try:
+            value = self._request(profile, 'POST' if action else 'GET', '/v1/social' + ('/' + action if action else ''), body if action else None)
+        except RankingRequestError as error:
+            if error.status in (404, 405, 501):
+                if not action:
+                    return empty
+                raise ServiceError(503, '互动服务正在升级，请稍后重试') from None
+            if error.status == 401:
+                owner = getattr(self.training.account_provider, '__self__', None)
+                if owner is not None:
+                    owner.invalidate(profile.get('auth_token'))
+            messages = {400: '互动内容无效，留言须为 1–500 字', 401: '登录已失效，请重新登录', 409: '这条留言请求已被使用，请重新打开后发送', 429: '操作较频繁，请稍后重试', 503: '互动服务正在升级，请稍后重试'}
+            raise ServiceError(error.status, messages.get(error.status, '互动服务暂时不可用')) from None
+        except RuntimeError as error:
+            raise ServiceError(503, str(error)) from None
+        if action == 'likes':
+            # A stale ranking refresh must not restore an unliked button.
+            with self.lock:
+                self.cache.clear()
         return value
 
     def close(self):

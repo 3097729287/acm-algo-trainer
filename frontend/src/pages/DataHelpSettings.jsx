@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Download, GraduationCap, Heart, LoaderCircle } from 'lucide-react';
+import Tooltip from '../components/Tooltip.jsx';
 
 export default function DataHelpSettings({ api, onTutorial, onError }) {
   const [busy, setBusy] = useState(false);
@@ -19,13 +20,11 @@ export default function DataHelpSettings({ api, onTutorial, onError }) {
   return <section className="settings-data-help" aria-label="数据与帮助">
     <h2>数据与帮助</h2>
     <div className="help-action-grid">
-      <button className="help-action" onClick={download} disabled={busy}>
+      <Tooltip text="导出当前账号的训练、代码、记录、目标和偏好为 JSON；不含密码、Cookie 或 API 密钥。"><button className="help-action" aria-label="导出数据 · JSON" onClick={download} disabled={busy}>
         {busy ? <LoaderCircle size={22} className="spin"/> : <Download size={22}/>}
-        <span><strong>{busy ? '正在导出' : '导出数据 · JSON'}</strong><small>训练、代码、记录、目标与偏好</small></span>
-      </button>
-      <button className="help-action" onClick={onTutorial}><GraduationCap size={22}/><span><strong>新手指引</strong><small>从选题到原站提交</small></span></button>
+      </button></Tooltip>
+      <Tooltip text="新手指引：从选题到原站提交。"><button className="help-action" aria-label="新手指引" onClick={onTutorial}><GraduationCap size={22}/></button></Tooltip>
     </div>
-    <p className="export-note">仅导出当前账号，不含密码、Cookie 和 API 密钥。JSON 是数据备份，暂不支持在界面导入。</p>
-    <div className="acknowledgements"><Heart size={16}/><span>鸣谢</span><strong>InkStarry</strong><strong>猫猫头教主</strong><strong>蒟蒻</strong></div>
+    <div className="acknowledgements"><Heart size={16}/><span>鸣谢</span><strong>InkStarry</strong><strong>猫猫头教主</strong><strong>蒟蒻</strong><strong>她不爱吃酸</strong></div>
   </section>;
 }

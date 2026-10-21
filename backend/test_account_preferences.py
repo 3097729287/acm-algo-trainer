@@ -1,8 +1,9 @@
+import base64
 import json
 import unittest
 from unittest.mock import patch
 
-from preferences import read_preferences, save_preferences
+from preferences import AVATAR_DATA_MAX_BYTES, read_preferences, save_preferences
 from training import ServiceError
 import test_training as fixtures
 
@@ -10,6 +11,10 @@ import test_training as fixtures
 class AccountPreferencesTests(unittest.TestCase):
     setUp = fixtures.ServiceTests.setUp
     tearDown = fixtures.ServiceTests.tearDown
+
+    @staticmethod
+    def avatar():
+        return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jPqEAAAAASUVORK5CYII='
 
     def test_favorites_views_and_navigation_survive_restart(self):
         value = {'theme': 'dark', 'favorites': ['fixture::A'],
@@ -48,6 +53,46 @@ class AccountPreferencesTests(unittest.TestCase):
         self.assertEqual(row['key'], 'ui')
         self.assertEqual(json.loads(row['value']), value)
         self.assertTrue(row['updated_at'].endswith('Z'))
+
+    def test_private_avatar_survives_restart_can_be_cleared_and_stays_out_of_public_progress(self):
+        value={'avatarData':self.avatar(),'theme':'light'}
+        result=save_preferences(self.service,{'preferences':value})
+        self.service.close()
+        from training import TrainingService
+        self.service=TrainingService(self.library,self.db,self.assets,self.judge,self.clock,self.root/'backups')
+        self.assertEqual(read_preferences(self.service),result)
+        self.assertNotIn('avatarData',json.dumps(self.service.public_progress()))
+        cleared=save_preferences(self.service,{'preferences':{'avatarData':''}})
+        self.assertEqual(cleared['preferences']['avatarData'],'')
+
+    def test_avatar_rejects_remote_paths_svg_wrong_signatures_and_excessive_size(self):
+        png=self.avatar()
+        values=[None,True,{},'https://example.com/avatar.png',r'C:\Users\private\avatar.png',
+                'data:image/svg+xml;base64,PHN2Zy8+',png.replace('image/png','image/jpeg'),
+                'data:image/png;base64,not-a-base64-image',
+                'data:image/png;base64,'+base64.b64encode(b'not a PNG').decode(),
+                png+'A'*(AVATAR_DATA_MAX_BYTES+1-len(png))]
+        for value in values:
+            with self.subTest(value_type=type(value).__name__,prefix=str(value)[:36]):
+                with self.assertRaises(ServiceError):
+                    save_preferences(self.service,{'preferences':{'avatarData':value}})
+        self.assertIsNone(read_preferences(self.service)['preferences'])
+
+    def test_avatar_checks_jpeg_webp_headers_and_data_url_byte_limit(self):
+        jpeg=b'\xff\xd8\xff\xe0fixture\xff\xd9'
+        webp=b'RIFF'+(12).to_bytes(4,'little')+b'WEBPVP8 fixture!'
+        webp=webp[:4]+(len(webp)-8).to_bytes(4,'little')+webp[8:]
+        for kind,data in [('jpeg',jpeg),('webp',webp)]:
+            value='data:image/'+kind+';base64,'+base64.b64encode(data).decode()
+            self.assertEqual(save_preferences(self.service,{'preferences':{'avatarData':value}})['preferences']['avatarData'],value)
+        maximum_payload=b'\xff\xd8\xff'+b'X'*36839+b'\xff\xd9'
+        bounded='data:image/jpeg;base64,'+base64.b64encode(maximum_payload).decode()
+        self.assertLessEqual(len(bounded),AVATAR_DATA_MAX_BYTES)
+        save_preferences(self.service,{'preferences':{'avatarData':bounded}})
+        oversized='data:image/jpeg;base64,'+base64.b64encode(maximum_payload+b'XXXX').decode()
+        self.assertGreater(len(oversized),AVATAR_DATA_MAX_BYTES)
+        with self.assertRaises(ServiceError):
+            save_preferences(self.service,{'preferences':{'avatarData':oversized}})
 
     def test_stale_ui_saves_preserve_individually_read_achievements(self):
         save_preferences(self.service, {'preferences': {'seenAchievements': ['official-1'], 'theme': 'dark'}})

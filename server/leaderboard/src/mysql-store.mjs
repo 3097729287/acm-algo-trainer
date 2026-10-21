@@ -1,4 +1,5 @@
 import mysql from 'mysql2/promise';
+import { SocialStore } from './social-store.mjs';
 import { readFile } from 'node:fs/promises';
 import { EventConflict } from './errors.mjs';
 import { AccountError } from './accounts.mjs';
@@ -22,7 +23,7 @@ export async function openStore(env = process.env) {
 }
 
 export class MySQLStore {
-  constructor(pool) { this.pool = pool; }
+  constructor(pool) { this.pool = pool; this.social = new SocialStore({ execute:(...args)=>pool.execute(...args), transaction:action=>this.transaction(action) }); }
   async health() {
     await this.pool.execute('SELECT 1 FROM official_ac_events LIMIT 0');
     await this.pool.execute('SELECT 1 FROM accounts LIMIT 0');
@@ -58,7 +59,7 @@ export class MySQLStore {
         await claimNickname(connection, id, name);
         await connection.execute('UPDATE users SET nickname=?,updated_at=? WHERE user_id=?', [name, timestamp, id]);
       }
-      if (progress !== null) await connection.execute('INSERT INTO account_public_progress VALUES(?,?,?) ON DUPLICATE KEY UPDATE payload=VALUES(payload),updated_at=VALUES(updated_at)',
+      if (progress !== null) await connection.execute('INSERT INTO account_public_progress(user_id,payload,updated_at) VALUES(?,?,?) ON DUPLICATE KEY UPDATE payload=VALUES(payload),updated_at=VALUES(updated_at)',
         [id, JSON.stringify(progress), timestamp]);
     });
   }
@@ -84,10 +85,10 @@ export class MySQLStore {
           await connection.execute('UPDATE users SET nickname=?,token_hash=?,updated_at=? WHERE user_id=?',
             [value.nickname, value.retiredHash, value.timestamp, value.userId]);
         } else {
-          await connection.execute('INSERT INTO users VALUES(?,?,?,?,?)',
+          await connection.execute('INSERT INTO users(user_id,nickname,token_hash,created_at,updated_at) VALUES(?,?,?,?,?)',
             [value.userId, value.nickname, value.retiredHash, value.timestamp, value.timestamp]);
         }
-        await connection.execute('INSERT INTO accounts VALUES(?,?,?,1,?,?)',
+        await connection.execute('INSERT INTO accounts(user_id,login_id,password_hash,password_version,created_at,updated_at) VALUES(?,?,?,1,?,?)',
           [value.userId, value.loginId, value.passwordHash, value.timestamp, value.timestamp]);
         await claimNickname(connection, value.userId, value.nickname, false);
       });
@@ -104,9 +105,9 @@ export class MySQLStore {
       if (!stateProtocol && Number(state[0]?.revision || 0) > 0)
         throw new AccountError(426, '该账号已启用跨电脑同步，请升级 TB 至 1.0.20 或更新版本后登录');
       await connection.execute('DELETE FROM account_sessions WHERE user_id=?', [user.user_id]);
-      await connection.execute('INSERT INTO account_sessions VALUES(?,?,?,?,?)',
+      await connection.execute('INSERT INTO account_sessions(token_hash,user_id,password_version,expires_at,created_at) VALUES(?,?,?,?,?)',
         [session.hash, user.user_id, rows[0].password_version, session.expiresAt, timestamp]);
-      await connection.execute('INSERT IGNORE INTO account_login_days VALUES(?,?,?)', [user.user_id, bounds('daily', Date.parse(timestamp)).day, timestamp]);
+      await connection.execute('INSERT IGNORE INTO account_login_days(user_id,day,first_seen_at) VALUES(?,?,?)', [user.user_id, bounds('daily', Date.parse(timestamp)).day, timestamp]);
     });
   }
   async deleteSession(hash) { await this.pool.execute('DELETE FROM account_sessions WHERE token_hash=?', [hash]); }
@@ -116,7 +117,7 @@ export class MySQLStore {
         [encoded, timestamp, user.user_id, user.password_hash, user.password_version]);
       if (result.affectedRows !== 1) throw new AccountError(409, '密码已变更，请重新登录');
       await connection.execute('DELETE FROM account_sessions WHERE user_id=?', [user.user_id]);
-      await connection.execute('INSERT INTO account_sessions VALUES(?,?,?,?,?)',
+      await connection.execute('INSERT INTO account_sessions(token_hash,user_id,password_version,expires_at,created_at) VALUES(?,?,?,?,?)',
         [session.hash, user.user_id, user.password_version + 1, session.expiresAt, timestamp]);
     });
   }
@@ -148,7 +149,7 @@ export class MySQLStore {
     return { rows: rows.filter(row => row.rank <= 100), own: rows.find(row => row.user_id === id) || null };
   }
   async recordLogin(id, day, timestamp) {
-    await this.pool.execute('INSERT IGNORE INTO account_login_days VALUES(?,?,?)', [id, day, timestamp]);
+    await this.pool.execute('INSERT IGNORE INTO account_login_days(user_id,day,first_seen_at) VALUES(?,?,?)', [id, day, timestamp]);
   }
   async stateRevision(id) {
     const [rows] = await this.pool.execute('SELECT revision FROM account_state WHERE user_id=?', [id]);
@@ -167,7 +168,7 @@ export class MySQLStore {
       if (!sessions.length) throw new AccountError(401, '账号已在另一台设备登录，请重新登录');
       const [rows] = await connection.execute('SELECT revision FROM account_state WHERE user_id=?', [id]);
       if (Number(rows[0]?.revision || 0) !== revision) throw new AccountError(409, '账号数据已更新，请重新同步');
-      await connection.execute('INSERT INTO account_state VALUES(?,?,?,?) ON DUPLICATE KEY UPDATE revision=VALUES(revision),payload=VALUES(payload),updated_at=VALUES(updated_at)',
+      await connection.execute('INSERT INTO account_state(user_id,revision,payload,updated_at) VALUES(?,?,?,?) ON DUPLICATE KEY UPDATE revision=VALUES(revision),payload=VALUES(payload),updated_at=VALUES(updated_at)',
         [id, revision + 1, JSON.stringify(state), timestamp]);
       return { revision: revision + 1, savedAt: timestamp };
     });
@@ -175,7 +176,7 @@ export class MySQLStore {
   settleRewards(now) {
     return this.transaction(async connection => {
       const day = bounds('daily', now).start, week = bounds('weekly', now).start;
-      await connection.execute('INSERT INTO ranking_schedule VALUES(1,?,?) ON DUPLICATE KEY UPDATE singleton=singleton', [day, week]);
+      await connection.execute('INSERT INTO ranking_schedule(singleton,daily_start,weekly_start) VALUES(1,?,?) ON DUPLICATE KEY UPDATE singleton=singleton', [day, week]);
       const [settings] = await connection.execute('SELECT * FROM ranking_schedule WHERE singleton=1 FOR UPDATE');
       const timestamp = new Date(now).toISOString();
       for (const [period, cutoff, step] of [['daily', day, 1], ['weekly', week, 7]]) {
@@ -184,9 +185,9 @@ export class MySQLStore {
           const end = addDays(start, step);
           const { sql, values } = rankingQuery({ start, end });
           const [winners] = await connection.execute(sql + ' SELECT * FROM ranked WHERE position<=3 ORDER BY position', values);
-          await connection.execute('INSERT INTO ranking_cycles VALUES(?,?,?,?)', [period, start, end, timestamp]);
+          await connection.execute('INSERT INTO ranking_cycles(period,start_date,end_date,settled_at) VALUES(?,?,?,?)', [period, start, end, timestamp]);
           for (const row of winners) {
-            await connection.execute('INSERT INTO ranking_rewards VALUES(?,?,?,?,?,?,?)',
+            await connection.execute('INSERT INTO ranking_rewards(user_id,period,start_date,end_date,position,xp,settled_at) VALUES(?,?,?,?,?,?,?)',
               [row.user_id, period, start, end, Number(row.position), REWARD_POLICY[period][Number(row.position)-1], timestamp]);
           }
           start = end;

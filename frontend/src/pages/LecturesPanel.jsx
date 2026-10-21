@@ -1,3 +1,4 @@
+import ThemedSelect from '@/components/ThemedSelect.jsx';
 import { useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import ReadingImage, { readingUrlTransform } from '@/components/ReadingImage.jsx';
@@ -63,7 +64,7 @@ export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError 
   const filtered = entries.filter(item => (!classification || item.category === classification || item.categories?.includes(classification)) && `${item.concept} ${item.displayTitle || ''} ${item.originalTitle || item.title} ${(item.tags || []).join(' ')} ${item.category || ''} ${item.sourceContest} ${item.sourceTitle}`.toLowerCase().includes(query.trim().toLowerCase()));
   return <div className="lectures-page" aria-label="从零讲知识总结">
     <header className="lectures-header"><div><h2><BookOpen size={20} />从零讲</h2><p>题解里的完整基础讲解集中在这里；遇到相同知识点时，可按需展开。</p></div><span>{entries.length} 个完整讲解</span></header>
-    <div className="lectures-toolbar"><label><Search size={16} /><input aria-label="搜索从零讲知识" placeholder="搜索知识点、题目或比赛" value={query} onChange={event => setQuery(event.target.value)} /></label>{classifications.length > 0 && <select aria-label="从零讲知识分类" value={classification} onChange={event => setClassification(event.target.value)}><option value="">全部知识分类</option>{classifications.map(item => <option key={item}>{item}</option>)}</select>}<button onClick={() => setRefresh(value => value + 1)}>刷新讲解</button></div>
+    <div className="lectures-toolbar"><label><Search size={16} /><input aria-label="搜索从零讲知识" placeholder="搜索知识点、题目或比赛" value={query} onChange={event => setQuery(event.target.value)} /></label>{classifications.length > 0 && <ThemedSelect aria-label="从零讲知识分类" value={classification} onChange={event => setClassification(event.target.value)}><option value="">全部知识分类</option>{classifications.map(item => <option key={item}>{item}</option>)}</ThemedSelect>}<button onClick={() => setRefresh(value => value + 1)}>刷新讲解</button></div>
     <div className={'lectures-layout' + (selected ? ' has-selection' : '')}>
       <nav className="lectures-list" aria-label="完整知识讲解">{filtered.map(item => <button key={item.id} className={selected === item.id ? 'selected' : ''} onClick={() => setSelected(item.id)}><strong><LessonTitle>{item.displayTitle || item.concept || item.title}</LessonTitle></strong>{item.category && <span className="lecture-category">{item.category}</span>}<span>{(item.tags || []).join(' / ')}</span><small>{item.sourceContest} · {item.sourceProblem} <InlineTitle>{item.sourceTitle}</InlineTitle></small></button>)}{snapshot && !filtered.length && <p>没有匹配的完整讲解。仅有指针的段落会链接已有讲解。</p>}</nav>
       <article className="lectures-detail" tabIndex={0} aria-label="知识讲解正文">

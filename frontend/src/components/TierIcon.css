@@ -1,0 +1,13 @@
+.tier-0 { --tier-color:#9c9ca5; }
+.tier-1 { --tier-color:#c48a60; }
+.tier-2 { --tier-color:#c7d0df; }
+.tier-3 { --tier-color:#efc35e; }
+.tier-4 { --tier-color:#68c9d0; }
+.tier-5 { --tier-color:#55cf98; }
+.tier-6 { --tier-color:#74b5ff; }
+.tier-7 { --tier-color:#bc8aff; }
+.tier-8 { --tier-color:#f18ba8; }
+.tier-9 { --tier-color:#ffb54f; }
+html .topbar .topbar-overview[class*="tier-"] { border:1px solid var(--tier-color); color:var(--tier-color); background:color-mix(in srgb,var(--tier-color) 7%,transparent); }
+html .topbar .topbar-overview[class*="tier-"] :is(svg,strong) { color:var(--tier-color); }
+html .topbar .topbar-overview[class*="tier-"]:focus-visible { outline-color:var(--tier-color); }

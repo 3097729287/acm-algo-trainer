@@ -1,4 +1,8 @@
 .ranking-user-name{display:inline-flex;gap:10px;align-items:center;vertical-align:middle;margin-right:14px;min-height:36px}
+.ranking-table:has(.ranking-social-heading) :is(th,td).ranking-social-cell,.ranking-table .ranking-social-heading{width:180px;text-align:right}
+.ranking-table :is(th,td).ranking-count{width:86px;text-align:right}
+.ranking-table td.ranking-count>b{font-size:1.28rem;font-variant-numeric:tabular-nums;color:var(--accent)}
+.ranking-table:has(.ranking-social-heading) :is(th,td):nth-child(3){width:180px}
 .ranking-medal{display:block;flex:none;overflow:visible;filter:none}
 .ranking-medal[data-rank="1"]{color:#ccb47d}.ranking-medal[data-rank="2"]{color:#aab4c7}.ranking-medal[data-rank="3"]{color:#b9937e}
 [data-theme="light"] .ranking-medal[data-rank="1"]{color:#876b2b}[data-theme="light"] .ranking-medal[data-rank="2"]{color:#667287}[data-theme="light"] .ranking-medal[data-rank="3"]{color:#936b53}
@@ -29,3 +33,4 @@
 .ranking-table tbody tr.ranking-self td{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 40%,var(--line))!important}.ranking-table tbody tr:hover td{background:color-mix(in srgb,var(--accent) 5%,var(--panel-2))}
 .ranking-identity-heading{min-height:25px;gap:7px 10px}.ranking-identity-heading .ranking-public-id{margin-left:auto;text-align:right;max-width:55%;line-height:1.4}.ranking-public-progress{padding-top:3px}.ranking-public-progress>span{padding:2px 6px;border:1px solid var(--line);border-radius:4px;background:var(--panel)}.ranking-table td:nth-child(3)>b{font-size:1.28rem;font-variant-numeric:tabular-nums;color:var(--accent)}.ranking-table td:nth-child(2){min-width:0}.ranking-user-name{line-height:1.4}.ranking-table .ranking-medal{width:26px;height:30px}
 @media(max-width:850px){.ranking-identity-heading .ranking-public-id{max-width:100%;width:100%;margin-left:0;text-align:left}.ranking-board-summary>div{padding:10px;gap:7px;flex-wrap:wrap}.ranking-board-summary b{font-size:1.1rem}.ranking-board-summary span{font-size:.75rem}.ranking-table{min-width:540px}.ranking-table th:first-child,.ranking-table td:first-child{width:35px}.ranking-table th:nth-child(3),.ranking-table td:nth-child(3){width:62px}.ranking-table th:last-child:not(:nth-child(3)),.ranking-table td:last-child:not(:nth-child(3)){width:62px}}
+.ranking-skill-badge { display:inline-flex; align-items:center; justify-content:center; min-width:26px; min-height:26px; padding:3px; color:var(--tier-color); border:1px solid var(--tier-color); border-radius:4px; background:color-mix(in srgb,var(--tier-color) 9%,transparent); }

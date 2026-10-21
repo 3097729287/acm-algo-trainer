@@ -20,7 +20,9 @@ try {
   assert.equal(await page.locator('.competition-card').count(), 2);
   await tabs.getByRole('tab', { name: 'XCPC 历年', exact: true }).click();
   assert.equal(await page.locator('.competition-card').count(), 1);
-  assert.equal(await page.locator('.competition-difficulty').textContent(), '未定级');
+  assert.equal(await page.locator('.competition-difficulty').count(), 0, 'unknown difficulty has no placeholder');
+  assert.equal(await page.locator('.competition-problem-token').textContent(), 'A', 'unknown difficulty shows only its problem letter');
+  assert.equal(await page.locator('.competition-platform').count(), 0, 'competition cards do not repeat platform labels');
   await tabs.getByRole('tab', { name: '蓝桥杯 B 组历年', exact: true }).click();
   assert.equal(await page.locator('.competition-card').count(), 1);
   await tabs.getByRole('tab', { name: '全部比赛', exact: true }).click();

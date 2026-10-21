@@ -1,0 +1,91 @@
+.tooltip-anchor { display:inline-flex; vertical-align:middle; align-items:center; min-width:0; }
+.hint-icon { display:inline-flex; align-items:center; justify-content:center; color:var(--muted); background:transparent; border:0; padding:4px; border-radius:4px; min-height:24px; min-width:24px; }
+.hint-icon:hover,.hint-icon:focus-visible { color:var(--accent); background:var(--hover); }
+.tb-tooltip { z-index:10050; padding:10px 12px; border:1px solid var(--line); border-radius:6px; background:var(--panel-raised-base); color:var(--text); font-size:13px; line-height:1.7; box-shadow:0 4px 14px #0002; pointer-events:none; overflow-wrap:anywhere; }
+.bounded-number { display:inline-flex; align-items:center; position:relative; min-width:0; width:100px; max-width:100%; }
+.bounded-number > input { width:100%; min-width:0; min-height:34px; padding:6px 28px 6px 9px; border:1px solid var(--line); border-radius:5px; background:var(--panel-2); color:var(--text); font:inherit; font-variant-numeric:tabular-nums; }
+.bounded-number > input::-webkit-inner-spin-button { opacity:.5; }
+.bounded-number > span { position:absolute; right:9px; pointer-events:none; color:var(--muted); font-size:.8em; }
+.bounded-number:has(> span) > input { appearance:textfield; }
+.bounded-number:has(> span) > input::-webkit-inner-spin-button { display:none; }
+.setting-line { display:flex; align-items:center; justify-content:space-between; gap:20px; min-height:64px; padding:12px 0; }
+.setting-label { display:inline-flex; align-items:center; gap:4px; min-width:100px; flex-shrink:0; }
+.setting-label strong { font-weight:500; font-size:.94rem; line-height:1.5; white-space:nowrap; }
+.setting-control { display:flex; justify-content:flex-end; align-items:center; gap:10px; flex-wrap:wrap; min-width:0; }
+.setting-control input[type=range] { width:clamp(100px,18vw,220px); accent-color:var(--accent); }
+.setting-control .choice-group button,.setting-control .accent-options button { min-width:36px; min-height:34px; justify-content:center; }
+.setting-control .accent-options button { padding:6px 8px; }
+.setting-control .accent-options > .tooltip-anchor { flex:none; }
+.setting-control .bounded-number { width:88px; }
+.background-options { display:flex; align-items:center; flex-wrap:wrap; gap:7px; }
+.background-option { display:flex; justify-content:center; align-items:center; width:36px; height:34px; border:1px solid var(--line); border-radius:5px; color:var(--muted); background:transparent; }
+.background-option[aria-pressed=true] { color:var(--accent); border-color:var(--accent); background:transparent; }
+.settings-subpage-tabs { display:flex; flex-wrap:wrap; gap:6px; padding:8px; background:var(--panel); border:1px solid var(--line); border-radius:7px; margin-bottom:6px; }
+.settings-subpage-tabs button { display:flex; align-items:center; gap:7px; padding:8px 11px; min-height:36px; border:1px solid transparent; border-radius:5px; color:var(--muted); background:transparent; font:inherit; font-size:.87rem; }
+.settings-subpage-tabs button[aria-selected=true] { color:var(--accent); border-color:var(--accent); }
+.settings-page-description { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.settings-command-grid { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+.settings-command-grid button { position:relative; min-width:44px; min-height:40px; justify-content:center; }
+.settings-command-index { font-size:10px; color:var(--muted); }
+html .navigation-editor-row,html .navigation-editor-heading { grid-template-columns:minmax(0,1fr) minmax(0,1fr); }
+html .navigation-order-only .navigation-editor-row,html .navigation-order-only .navigation-editor-heading { grid-template-columns:minmax(0,1fr) 84px; }
+html .navigation-editor-row input { width:100%; min-width:0; }
+html .navigation-settings-content { padding:0; }
+html .settings-navigation { width:100%; }
+html .settings-page .settings-column { display:contents; }
+html .workspace-area .settings-page { gap:24px; padding-bottom:24px!important; }
+html .settings-page :is(.visual-preferences,.appearance-studio) { display:block; }
+html .settings-page .appearance-studio .style-preset-grid { display:flex; gap:8px; margin:12px 0; }
+html .style-preset-grid > .tooltip-anchor { flex:1; }
+html .style-preset-grid > .tooltip-anchor > button { width:100%; }
+html .page-opacity-settings > div { display:block; }
+html .settings-page .style-preset { display:flex; flex:1; align-items:center; justify-content:center; min-width:0; min-height:58px; padding:10px 12px; gap:10px; border:1px solid var(--line); border-radius:5px; background:transparent!important; box-shadow:none!important; }
+html .settings-page .style-preset { flex-direction:row; min-height:52px; }
+html .settings-page .style-preset[aria-pressed=true] { border-color:var(--accent); outline:1px solid var(--accent); }
+html .settings-page .style-preset > i { width:28px; height:24px; flex:none; }
+html .settings-page .style-preset strong { font-size:.86rem; white-space:nowrap; }
+html .settings-page .style-preset small { display:none; }
+html .settings-page .settings-column > section,html .settings-page .settings-navigation { padding:20px 24px; border:1px solid var(--line)!important; border-radius:7px!important; background-image:none!important; box-shadow:none!important; }
+html[data-panel-style=outlined] :is(.progress-section,.competition-card,.list-page,.goal-card,.mock-config) { border-color:var(--line)!important; box-shadow:none!important; border-radius:6px!important; }
+html[data-panel-style=outlined] :is(button,select,input,textarea,.tb-select-menu) { border-radius:5px; box-shadow:none; }
+html[data-theme=light] { --text:#253243; --muted:#59687b; --line:#d9e0e8; --soft-line:#e9edf2; }
+html .tree-personal-count em { color:var(--muted); font-style:normal; opacity:.7; background:var(--panel-2); border-radius:3px; padding:1px 3px; }
+html .tree-item:hover .tree-personal-count em,html .tree-item:focus-visible .tree-personal-count em { opacity:1; color:var(--accent); }
+html .sidebar .tree-name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0; }
+html .sidebar .tree-count { flex-shrink:0; }
+html .sidebar .tree-line { min-height:48px; }
+html .topbar .page-identity { overflow:hidden; }
+html .topbar .topbar-actions > :is(.topbar-status-chip,.topbar-overview,.achievement-top-button,.topbar-clock) { font-size:13px; }
+@media(max-width:1400px) { html .topbar .breadcrumb { display:none; } html .topbar .topbar-overview > span { display:none!important; } }
+html .competition-problem-token { min-height:28px; align-items:center; gap:4px; font-size:.85rem; font-variant-numeric:tabular-nums; }
+html .competition-problem-token > :is(b,span) { font:inherit; line-height:1.25; }
+html .competition-problem-token > b:only-child { min-width:14px; text-align:center; color:var(--muted); }
+.assessment-evidence,.recommendation-reference { display:inline-flex; align-items:center; gap:6px; margin:10px 0; color:var(--muted); font-size:.86rem; }
+.assessment-evidence { margin-left:10px; }
+.growth-quick-stats { display:flex; flex-wrap:wrap; gap:16px; align-items:center; margin:14px 0; }
+.growth-stat-icon { display:inline-flex; align-items:center; gap:6px; color:var(--muted); font-size:.92rem; }
+.growth-stat-icon b { color:var(--text); font-weight:600; font-variant-numeric:tabular-nums; }
+.recommendation-reference b { color:var(--text); }
+.inline-difficulty-range .bounded-number { width:96px; }
+.field-grid .bounded-number,.mock-name-fields .bounded-number { width:100%; }
+.wb-font-controls .bounded-number { width:66px; }
+.wb-font-controls .bounded-number input { min-height:26px; height:26px; padding:2px 22px 2px 6px; font-size:12px; }
+.library-pagination .bounded-number { width:66px; }
+@container workspace (max-width:900px) {
+  html .setting-line { gap:12px; }
+  html .settings-page .settings-column > section { padding:18px; }
+  html .settings-page .style-preset { padding:9px 6px; gap:6px; }
+}
+@media(max-width:900px) {
+  html .topbar-actions > :is(.topbar-daily-ac,.daily-task-top-button,.achievement-top-button,.topbar-love-count) > span { display:none!important; }
+  html .topbar-actions .topbar-status-chip { padding-inline:6px; }
+  .settings-subpage-tabs button > span { display:none; }
+}
+@media(max-width:540px) {
+  .setting-line { align-items:flex-start; }
+  .setting-label { min-width:82px; }
+  .setting-label strong { font-size:.84rem; }
+  .setting-control { gap:5px; }
+  .setting-control input[type=range] { width:90px; }
+  html .settings-page .style-preset > i { display:none; }
+}

@@ -232,6 +232,8 @@ class Handler(BaseHTTPRequestHandler):
                     value = training.leaderboard.queue_sync(force=True)
                 elif path == "/api/leaderboard/admin/delete":
                     value = training.leaderboard.admin_delete(body)
+                elif path in ('/api/social/likes', '/api/social/comments', '/api/social/read'):
+                    value = training.leaderboard.social(body, path.rsplit('/', 1)[-1])
                 elif path == "/api/hub/configure":
                     value = store.extensions.configure(body)
                     if 'accounts' in body:
@@ -350,6 +352,8 @@ class Handler(BaseHTTPRequestHandler):
             elif path in ("/api/leaderboard", "/api/rankings"):
                 period = parse_qs(target.query).get("period", ["daily"])[0]
                 self.send_json(200, self.server.training.leaderboard.rankings(period))
+            elif path == '/api/social':
+                self.send_json(200, self.server.training.leaderboard.social())
             elif path == "/api/problem":
                 query = parse_qs(target.query)
                 self.send_json(200, self.server.training.problem(query.get("id", [None])[0], query.get("contestId", [None])[0],

@@ -1,5 +1,6 @@
 // Test-only SQLite store for exercising the production API protocol offline.
 import { DatabaseSync } from 'node:sqlite';
+import { SocialStore } from '../src/social-store.mjs';
 import { readFileSync } from 'node:fs';
 import { EventConflict } from '../src/errors.mjs';
 import { AccountError } from '../src/accounts.mjs';
@@ -14,6 +15,16 @@ export class SQLiteStore {
     if (!this.database.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='users'").get()) {
       this.database.exec(readFileSync(new URL('./schema.sql', import.meta.url), 'utf8'));
     }
+    const execute = async (sql, params=[]) => {
+      const statement=this.database.prepare(sql);
+      if (/^\s*SELECT/i.test(sql)) return [statement.all(...params)];
+      const value=statement.run(...params);return [{affectedRows:Number(value.changes)}];
+    };
+    let writes=Promise.resolve();
+    this.social=new SocialStore({execute,transaction:action=>{
+      const next=writes.then(async()=>{this.database.exec('BEGIN IMMEDIATE');try {const result=await action({execute});this.database.exec('COMMIT');return result;} catch(error){this.database.exec('ROLLBACK');throw error;}});
+      writes=next.catch(()=>{});return next;
+    }},'sqlite');
   }
   async health() { this.database.prepare('SELECT 1').get(); }
   claimNickname(id, name) {
@@ -71,7 +82,7 @@ export class SQLiteStore {
           if (row?.token_hash !== value.legacyHash) throw new AccountError(409, '旧身份已经关联账号，请使用登录号登录');
           this.database.prepare('UPDATE users SET nickname=?,token_hash=?,updated_at=? WHERE user_id=?')
             .run(value.nickname, value.retiredHash, value.timestamp, value.userId);
-        } else this.database.prepare('INSERT INTO users VALUES(?,?,?,?,?)')
+        } else this.database.prepare('INSERT INTO users(user_id,nickname,token_hash,created_at,updated_at) VALUES(?,?,?,?,?)')
           .run(value.userId, value.nickname, value.retiredHash, value.timestamp, value.timestamp);
         this.database.prepare('INSERT INTO accounts VALUES(?,?,?,1,?,?)')
           .run(value.userId, value.loginId, value.passwordHash, value.timestamp, value.timestamp);

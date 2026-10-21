@@ -17,8 +17,12 @@ try {
  const own=page.locator('.ranking-table tbody tr').first();
  assert.equal(await own.locator('.ranking-title-badge').count(),2);
  await own.getByText('Lv.10',{exact:true}).waitFor();
- await own.getByText('王者',{exact:true}).waitFor();
- await own.getByText('排位 黄金 · 1,560 分',{exact:true}).waitFor();
+ const rank=own.getByLabel('黄金 · 能力分 1,560',{exact:true});
+ await rank.waitFor();
+ assert.match(await rank.getAttribute('class'),/\btier-3\b/,'skill rank retains its own tier style');
+ await rank.hover();
+ await page.getByRole('tooltip').getByText('黄金 · 能力分 1,560',{exact:true}).waitFor();
+ assert.equal(await own.getByText('王者',{exact:true}).count(),0,'legacy experience tier is not repeated as a skill rank');
  assert.equal(await own.locator('.ranking-public-id').count(),0);
  assert.equal(await page.getByText('成长资料待同步',{exact:true}).count(),3);
  for(const [label,period] of [['每日过题','daily'],['本周过题','weekly'],['累计过题','total']]) {

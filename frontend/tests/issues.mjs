@@ -33,6 +33,7 @@ await page.route('**/api/**', async route => {
   else if (path === '/api/workspace') value = workspace();
   else if (path === '/api/inbox') value = { pending: 0, errors: [] };
   else if (path === '/api/hub' || path === '/api/insights') value = null;
+  else if (path === '/api/social') value = { available: false, totalLikes: 0, unreadCount: 0, notifications: [] };
   else if (path === '/api/training/start') { assert.equal(request.headers()['x-tb-token'], 'fixture'); value = { workspace: workspace() }; }
   else if (path === '/api/problem') value = { id: url.searchParams.get('id'), title: '公式练习', markdown, samples: [], limits: {},
     judge: { scope: 'samples', cases: 0 }, statementAvailable: true, draft: '', submissions: [] };
@@ -63,6 +64,10 @@ try {
   const secondIds = await tableRows.evaluateAll(nodes => nodes.map(node => node.dataset.id));
   assert.equal(new Set([...firstIds, ...secondIds]).size, 100);
   await page.getByRole('region', { name: '题目列表', exact: true }).focus();
+  assert.equal(await page.locator('.problem-table tr[data-selected="true"]').count(), 0, 'focus alone does not mark a row');
+  await page.keyboard.press('Home');
+  for (let index = 0; index < 5; index++) await page.keyboard.press('PageDown');
+  await status('51–100 / 10037 题');
   await selected(secondIds[0]);
   await page.keyboard.press('ArrowUp');
   await status('1–50 / 10037 题');
@@ -83,16 +88,20 @@ try {
   await page.keyboard.press('PageDown');
   for (let index = 0; index < 9; index++) await page.keyboard.press('ArrowDown');
   await selected(firstIds.at(-1));
+  const priorScroll = await page.locator('.table-scroll').evaluate(node => node.scrollTop);
   await page.keyboard.press('Enter');
   await page.getByRole('button', { name: '下一题', exact: true }).click();
   await page.waitForFunction(expected => document.querySelector('.tb-workbench')?.dataset.problemId === expected, secondIds[0]);
   await page.getByRole('button', { name: '返回列表', exact: true }).click();
-  await status('51–100 / 10037 题');
-  await selected(secondIds[0]);
-  await page.getByLabel('题库每页题数').selectOption('25');
+  await status('1–50 / 10037 题');
+  assert.equal(await page.locator('.problem-table tr[data-selected="true"]').count(), 0, 'returning from practice clears special row marks');
+  assert.ok(Math.abs(await page.locator('.table-scroll').evaluate(node => node.scrollTop) - priorScroll) < 2, 'returning restores the original list scroll position');
+  await page.getByLabel('题库每页题数').fill('25');
+  await page.getByLabel('题库每页题数').press('Tab');
   await status('1–25 / 10037 题');
   assert.equal(await tableRows.count(), 25);
-  await page.getByLabel('题库每页题数').selectOption('100');
+  await page.getByLabel('题库每页题数').fill('100');
+  await page.getByLabel('题库每页题数').press('Tab');
   await status('1–100 / 10037 题');
   assert.equal(await tableRows.count(), 100);
   await page.getByLabel('题库下一页').click();

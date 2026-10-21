@@ -80,6 +80,7 @@ await page.route('**/api/**', async route => {
   else if (path === '/api/lectures') value = { lectures: [lecture] };
   else if (path === '/api/lecture') value = lecture;
   else if (path === '/api/profile') { if (body) { profile.nickname = body.nickname; profile.displayName = profile.nickname; connection.endpoint = body.endpoint || connection.endpoint; connection.configured = !!connection.endpoint; connection.status = connection.configured ? 'syncing' : 'not_configured'; connection.notice = connection.configured ? '已连接测试排行榜' : '共享排行榜尚未配置。'; } value = { profile, leaderboard: connection }; }
+  else if (path === '/api/social') value = { available: false, totalLikes: 0, unreadCount: 0, notifications: [] };
   else if (path === '/api/leaderboard') { if (connection.configured && ++rankingPolls > 1) connection.status = 'ready'; value = { period: url.searchParams.get('period'), date, ...connection, entries: connection.status === 'ready' ? [{ rank: 1, userId: profile.userId, nickname: profile.nickname, count: 1 }] : [], self: connection.configured ? profile : null }; }
   else if (path === '/api/leaderboard/sync') value = { queued: true };
   else if (path === '/api/translation/settings') { if (body) { Object.assign(translation, body); if (body.apiKey !== undefined) translation.keyStored = !!body.apiKey; translation.configured = true; delete translation.apiKey; } value = translation; }
@@ -298,11 +299,11 @@ try {
   await page.locator('.ranking-table').getByText('测试新昵称', { exact: true }).waitFor();
 
   await page.keyboard.press('Control+0');
-  await page.getByRole('tab', { name: '外观与导航', exact: true }).click();
-  await page.locator('.settings-navigation>summary').click();
+  await page.getByRole('tab', { name: '导航', exact: true }).click();
   assert.equal(await page.getByLabel('页面组合 mine', { exact: true }).inputValue(), '', 'legacy training/today group is removed from preferences');
+  assert.equal(await page.getByRole('button', { name: /^上移 / }).count(), 0, 'navigation naming has no custom ordering controls');
   await page.getByRole('tab', { name: '训练与快捷操作', exact: true }).click();
-  assert.ok(await page.locator('.settings-commands button').count() > 0,'training and quick commands share one settings panel');
+  assert.ok(await page.locator('.settings-command-grid button').count() > 0,'training and quick commands share one settings panel');
   await page.keyboard.press('Control+k');
   await page.getByRole('dialog', { name: '快捷操作', exact: true }).waitFor();
   assert.equal(await page.getByRole('dialog').getByRole('button', { name: /打开今日待办/ }).count(), 0);
@@ -325,7 +326,7 @@ try {
   await page.keyboard.press('Control+0');
   await page.getByRole('tab', { name: '更新', exact: true }).click();
   assert.equal(await page.locator('.settings-page .update-notifications').count(), 0);
-  await page.getByRole('button', { name: '更新通知', exact: true }).click();
+  await page.getByRole('button', { name: '消息通知', exact: true }).click();
   await page.getByRole('dialog').getByText('新题已加入', { exact: true }).waitFor();
   await page.getByRole('dialog').getByRole('button', { name: '一键已读', exact: true }).click();
   await page.waitForFunction(() => document.querySelector('.update-notification-heading button')?.disabled);
@@ -336,7 +337,7 @@ try {
   for (const width of [2048, 1050]) {
     await page.setViewportSize({ width, height: width === 1050 ? 760 : 1152 });
     await page.keyboard.press('Control+0');
-    for (const tab of ['外观与导航', '训练与快捷操作', '更新']) {
+    for (const tab of ['外观', '头像', '交互设置', '导航', '训练与快捷操作', '更新', '高级设置']) {
       await page.getByRole('tab', { name: tab, exact: true }).click();
       await noOverflow('.settings-page');
       await page.screenshot({ path: `tests/screenshots/v5-settings-${tab}-${width}.png`, animations: 'disabled' });
@@ -358,7 +359,7 @@ try {
     await page.screenshot({ path: `tests/screenshots/v5-growth-light-${width}.png`, animations: 'disabled' });
   }
   await page.keyboard.press('Control+0');
-  await page.getByRole('tab', { name: '外观与导航', exact: true }).click();
+  await page.getByRole('tab', { name: '外观', exact: true }).click();
   await page.getByRole('button', { name: '石墨深色', exact: true }).click();
   await page.screenshot({ path: 'tests/screenshots/v5-settings-dark-1050.png', animations: 'disabled' });
   for (const width of [1050, 2048]) {
@@ -389,7 +390,8 @@ try {
   await page.locator('.paper-slot > strong').first().evaluate(node=>node.textContent='P16232');
   assert.ok(await page.locator('.paper-slot').first().evaluate(node=>node.querySelector('strong').getBoundingClientRect().right < node.querySelector('div').getBoundingClientRect().left),'long native task ID must not overlap text');
   await page.screenshot({path:'tests/screenshots/replay-format-fixed.png',animations:'disabled'});
-  assert.match(await page.getByLabel('训练概览',{exact:true}).textContent(),/30\/500 XP/);
+  assert.match(await page.locator('.topbar').getByRole('meter',{name:'本级经验进度',exact:true}).getAttribute('aria-valuetext'),/经验值:30\/500/);
+  assert.ok(!(await page.getByLabel('训练概览',{exact:true}).textContent()).includes('XP'),'topbar experience is represented by the avatar ring');
   assert.match(await page.locator('.topbar-daily-ac').getAttribute('aria-label'),/今日 AC 3 题/);
   assert.equal(await page.locator('.overview-statistics').count(),0);
   assert.equal(await page.locator('.topbar').getByRole('button',{name:'模拟赛',exact:true}).count(),0);
@@ -415,11 +417,11 @@ try {
   await page.getByRole('button', { name: /综合训练.*多种知识点/ }).click();
   await page.setViewportSize({ width: 1050, height: 760 });
   await page.keyboard.press('Control+0');
-  await page.getByRole('tab', { name: '外观与导航', exact: true }).click();
-  if (await page.locator('.settings-navigation').getAttribute('open') === null) await page.locator('.settings-navigation>summary').click();
+  await page.getByRole('tab', { name: '导航', exact: true }).click();
   await page.getByLabel('导航名称 records').fill('历史提交');
   await page.getByLabel('页面组合 records').fill('我的记录');
   await page.getByLabel('页面组合 activity').fill('我的记录');
+  await page.getByRole('tab', { name: '高级设置', exact: true }).click();
   await page.getByRole('button', { name: '上移 排行榜', exact: true }).click();
   assert.equal(await page.getByText('我的书签', { exact: true }).count(), 0);
   assert.equal(await page.getByRole('button', { name: '添加书签', exact: true }).count(), 0);
@@ -433,13 +435,16 @@ try {
   await noOverflow('.records-page');
   const beforeRank = structuredClone(insights.growth);
   insights.growth = { ...beforeRank, level: 10, tier: '王者', badge: 'tier-9', mode: 'ranked', rankedEligible: true,
-    ranked: { score: 8800, tier: '王者', badge: 'tier-9', title: '最强王者 · 5 星', nextScore: 9000, todayPoints: 30, dailyQualified: 1, dailyRequired: 1, minDifficulty: 3000 } };
+    ranked: { score: 3100, abilityScore: 3100, tier: '王者', badge: 'tier-9', qualified: true, levelGate: 5, evidenceCount: 5, minimumEvidence: 5 } };
   await page.reload();
   await page.locator('.page-identity h1').waitFor();
   await page.keyboard.press('Control+7');
-  await page.locator('.progress-level-main').getByText(/8,800 TB 排位分/).waitFor();
-  assert.match(await page.getByLabel('训练概览',{exact:true}).textContent(),/8,800 TB 排位分/);
-  assert.ok(!(await page.locator('.progress-level-main').innerText()).includes('XP'));
+  await page.locator('.progress-level-strip .profile-rank-emblem[aria-label="王者"]').waitFor();
+  await page.getByLabel('训练概览',{exact:true}).hover();
+  await page.getByRole('tooltip').getByText(/王者 · 能力分 3,100/).waitFor();
+  assert.equal(await page.locator('.topbar .profile-badge.tier-9').count(),1,'rank uses its own tier style');
+  assert.ok(!(await page.locator('.progress-level-strip').innerText()).includes('XP'));
+  await page.mouse.move(0,0);
   await page.screenshot({ path: 'tests/screenshots/ranked-v16.png', animations: 'disabled' });
   insights.growth = beforeRank;
   // A slow analytics response must not let the 3-second busy poll pile up work.
@@ -448,14 +453,14 @@ try {
   await page.locator('.page-identity h1').waitFor();
   await page.waitForTimeout(300);
   slowInsights.enabled = true;
-  insights.growth.levelName = '独立统计更新';
+  insights.growth.currentLevelXp = 31;
   await page.waitForTimeout(10700);
   slowInsights.enabled = false;
   while (slowInsights.active) await new Promise(resolve => setTimeout(resolve, 100));
   assert.ok(slowInsights.calls >= 2, 'polling resumes after a slow response');
   assert.equal(slowInsights.maxActive, 1, 'busy polling has at most one pending analytics request');
   await page.keyboard.press('Control+7');
-  await page.locator('.progress-level-main').getByText('独立统计更新', { exact: true }).waitFor();
+  await page.waitForFunction(()=>document.querySelector('.progress-level-strip .profile-xp-ring')?.getAttribute('aria-valuetext')==='经验值:31/500');
   assert.deepEqual(errors, []);
   console.log('v5 UI passed: blind mock + filters + single groups, mock history/submission history, daily XP claims, visible achievements, canonical math lectures, custom API, persistent identity/offline and connected ranking states, configurable navigation and removed bookmarks and large-font responsive layouts.');
 } finally { releaseBootstrap(); await browser.close(); await vite.close(); }

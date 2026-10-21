@@ -1,3 +1,5 @@
+import ThemedSelect from '@/components/ThemedSelect.jsx';
+import BoundedNumber from '@/components/BoundedNumber.jsx';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -24,7 +26,7 @@ const STATEMENT_FONT_SIZES = [14, 16, 18, 20, 22, 24, 26, 28, 30, 32];
 function readStatementFontSize() {
   try {
     const saved = Number(localStorage.getItem(STATEMENT_FONT_KEY));
-    if (STATEMENT_FONT_SIZES.includes(saved)) return saved;
+    if (Number.isInteger(saved) && saved >= 14 && saved <= 32) return saved;
   } catch { /* Reading remains available when browser storage is disabled. */ }
   const uiSize = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ui-font-size')) || 16;
   return Math.min(32, Math.max(16, Math.round(uiSize / 2) * 2));
@@ -236,7 +238,7 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
   const [translationError, setTranslationError] = useState('');
   const [statementFontSize, setStatementFontSize] = useState(readStatementFontSize);
   const changeStatementFontSize = size => {
-    if (!STATEMENT_FONT_SIZES.includes(size)) return;
+    if (!Number.isInteger(size) || size < 14 || size > 32) return;
     setStatementFontSize(size);
     try { localStorage.setItem(STATEMENT_FONT_KEY, String(size)); } catch { /* Keep the in-session choice. */ }
   };
@@ -736,9 +738,9 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
       <div className="wb-statement-pane">
         <div className="wb-pane-header"><span><BookOpen size={14} />题面</span><div className="wb-statement-actions">
           <div className="wb-font-controls" role="group" aria-label="题面字号调节">
-            <button type="button" aria-label="缩小题面字号" title="缩小题面字号" disabled={statementFontSize === STATEMENT_FONT_SIZES[0]} onClick={() => changeStatementFontSize(statementFontSize - 2)}>A−</button>
-            <select aria-label="题面字号" title="题面字号" value={statementFontSize} onChange={event => changeStatementFontSize(Number(event.target.value))}>{STATEMENT_FONT_SIZES.map(size => <option key={size} value={size}>{size}px</option>)}</select>
-            <button type="button" aria-label="放大题面字号" title="放大题面字号" disabled={statementFontSize === STATEMENT_FONT_SIZES.at(-1)} onClick={() => changeStatementFontSize(statementFontSize + 2)}>A+</button>
+            <button type="button" aria-label="缩小题面字号" title="缩小题面字号" disabled={statementFontSize <= 14} onClick={() => changeStatementFontSize(Math.max(14,statementFontSize - 1))}>A−</button>
+            <BoundedNumber aria-label="题面字号" min={14} max={32} unit="px" value={statementFontSize} required onChange={event => changeStatementFontSize(Number(event.target.value))}/>
+            <button type="button" aria-label="放大题面字号" title="放大题面字号" disabled={statementFontSize >= 32} onClick={() => changeStatementFontSize(Math.min(32,statementFontSize + 1))}>A+</button>
           </div>
           <div className="wb-language-toggle" role="group" aria-label="题面语言"><button type="button" aria-pressed={language === 'original'} onClick={() => { setLanguage('original'); setTranslationError(''); }}>原文</button><button type="button" aria-pressed={language === 'zh'} disabled={loading || !problem?.markdown || translationBusy} onClick={translateStatement}>{translationBusy ? '翻译中…' : '中文'}</button></div>
           {problem?.url && !localContest && <a href={problem.url} target="_blank" rel="noreferrer" title="在浏览器打开原题">原题<ExternalLink size={12} /></a>}
@@ -782,10 +784,10 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
         </div>
         <div className="wb-editor-status"><span>Ln {cursor.line}, Col {cursor.column}</span><span title="Tab 缩进，Shift+Tab 取消缩进，Ctrl+Tab 离开编辑器">Tab 缩进 · Ctrl+Tab 离开</span></div>
         <div className="wb-run-toolbar">
-          <select value={sample} onChange={selectSample} aria-label="运行输入" disabled={loading || !problem}>
+          <ThemedSelect value={sample} onChange={selectSample} aria-label="运行输入" disabled={loading || !problem}>
             {samples.length > 0 && <option value="samples">全部样例（{samples.length}）</option>}
             <option value="custom">自定义输入</option>
-          </select>
+          </ThemedSelect>
           <span className={`wb-scope wb-scope-${problem?.judge?.scope || 'samples'}`} title={problem?.judge?.scope === 'local' ? `本地验证用例 ${problem.judge.cases || 0} 个` : '仅使用公开样例，通过样例不会计入已 AC'}>{problem?.judge?.label || (problem?.judge?.scope === 'local' ? '本地验证' : '样例评测')}</span>
           <div className="wb-run-actions">
             <button type="button" className="wb-button" disabled={unavailable || busy} onClick={() => execute('run')} title={sample === 'samples' ? '编译并对比全部官方样例 · Ctrl+R' : '编译并运行自定义输入 · Ctrl+R'}><Play size={14} />{sample === 'custom' ? '运行输入' : '运行样例'}</button>

@@ -1099,7 +1099,7 @@ kbd {
 }
 .last-date {
   color: var(--muted);
-  font-size: 10px !important;
+  font-size: max(13px, calc(var(--ui-font-size, 15px) - 1px));
   font-variant-numeric: tabular-nums;
 }
 .row-actions {

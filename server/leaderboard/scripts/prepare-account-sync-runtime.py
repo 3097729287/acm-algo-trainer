@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -12,9 +13,22 @@ import tarfile
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--output', required=True, type=Path)
+    parser.add_argument('--source-commit', required=True, help='Reviewed full Git commit to package')
     args = parser.parse_args()
     source = Path(__file__).resolve().parents[1]
     version = json.loads((source / 'package.json').read_text(encoding='utf-8'))['version']
+    expected = args.source_commit
+    if not re.fullmatch(r'[0-9a-f]{40}', expected):
+        raise SystemExit('A full lowercase Git commit is required.')
+    repository = source.parents[1]
+    actual = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repository, text=True).strip()
+    dirty = subprocess.check_output(['git', 'status', '--porcelain', '--untracked-files=all', '--', 'server/leaderboard'],
+                                    cwd=repository, text=True).strip()
+    if actual != expected or dirty:
+        raise SystemExit('Server source must be clean and checked out at the reviewed commit.')
+    lock = json.loads((source / 'package-lock.json').read_text(encoding='utf-8'))
+    if lock['version'] != version or lock['packages']['']['version'] != version:
+        raise SystemExit('Server package versions do not match.')
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=True)
     folder = output / ('runtime.next-' + version)
@@ -29,8 +43,10 @@ def main():
         if (source / name).is_symlink():
             raise SystemExit('Runtime source files must not be symbolic links.')
         shutil.copy2(source / name, folder / name)
-    if not all((folder / 'mysql' / name).is_file() for name in ('006_public_progress.sql', '007_unique_nicknames.sql')):
-        raise SystemExit('Public progress 006 and nickname 007 migrations are required for this runtime.')
+    if not all((folder / 'mysql' / name).is_file() for name in ('006_public_progress.sql', '007_unique_nicknames.sql', '008_social.sql')):
+        raise SystemExit('Migrations 006, 007 and 008 are required for this runtime.')
+    (folder / 'BUILD-INFO.json').write_text(json.dumps({'format': 'tb-account-runtime-v1', 'version': version,
+                                                      'sourceCommit': expected}, indent=2) + '\n', encoding='utf-8')
     npm = shutil.which('npm.cmd' if sys.platform == 'win32' else 'npm')
     if not npm:
         raise SystemExit('npm is required to prepare production dependencies.')
@@ -58,7 +74,7 @@ def main():
         return info
     with tarfile.open(artifact, 'w:gz', compresslevel=6) as archive:
         archive.add(folder, arcname=folder.name, filter=public_permissions)
-    report = {'version': version, 'artifact': artifact.name, 'files': len(files) + 1,
+    report = {'version': version, 'sourceCommit': expected, 'artifact': artifact.name, 'files': len(files) + 1,
               'bytes': artifact.stat().st_size, 'sha256': hashlib.sha256(artifact.read_bytes()).hexdigest()}
     (output / 'runtime-build-info.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(report))

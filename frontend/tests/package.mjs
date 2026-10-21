@@ -145,7 +145,8 @@ try {
 
   await page.keyboard.press('Control+5');
   await page.getByRole('button', { name: /专项训练.*指定某个/ }).click();
-  await page.getByLabel('模拟赛题目数').selectOption('1');
+  await page.getByLabel('模拟赛题目数').fill('1');
+  await page.getByLabel('模拟赛题目数').press('Tab');
   await page.getByLabel('模拟赛最低难度').fill(String(tested.difficulty));
   await page.getByLabel('模拟赛最高难度').fill(String(tested.difficulty));
   await page.getByLabel('组题平台').selectOption(tested.platform);

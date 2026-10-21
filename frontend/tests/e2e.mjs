@@ -81,6 +81,7 @@ try {
   assert.equal(await page.locator('.daily-task').count(), 0);
   await page.getByRole('button', {name: '每日任务', exact: true}).click();
   await page.getByRole('dialog').getByRole('heading', {name: '每日任务', exact: true}).first().waitFor();
+  await page.getByRole('dialog').locator('.daily-task').first().waitFor();
   assert.equal(await page.locator('.daily-task').count(), 6);
   await page.keyboard.press('Escape');
   await page.waitForFunction(() => !document.querySelector('[role="dialog"]'));

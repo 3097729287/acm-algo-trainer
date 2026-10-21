@@ -1,11 +1,36 @@
 """Small account-owned preferences. Device state and credentials stay local."""
+import base64
+import binascii
 import json
 import re
 
 from training import ServiceError, iso
 
-ALLOWED = frozenset(('panelStyle', 'backdrop', 'panelOpacity', 'widgets', 'theme', 'accent', 'motion', 'compact', 'collapsed', 'favorites', 'views',
-                     'readerWidth', 'fontSize', 'navOrder', 'navLabels', 'navGroups', 'seenAchievements', 'showPlatforms', 'onboardingCompleted'))
+ALLOWED = frozenset(('panelStyle', 'backdrop', 'panelOpacity', 'pageOpacities', 'widgets', 'theme', 'accent', 'motion', 'compact', 'collapsed', 'favorites', 'views',
+                     'readerWidth', 'fontSize', 'navOrder', 'navLabels', 'navGroups', 'seenAchievements', 'showPlatforms', 'onboardingCompleted', 'avatarData'))
+AVATAR_DATA_MAX_BYTES = 48 * 1024
+
+
+def validate_avatar(value):
+    """Only bounded, embedded raster images belong in private preferences."""
+    if value == '':
+        return  # Clear avatar; retain the account's default initials.
+    if not isinstance(value, str) or len(value) > AVATAR_DATA_MAX_BYTES:
+        raise ServiceError(400, '头像须为不超过 48 KB 的 PNG、JPEG 或 WebP 图片')
+    match = re.fullmatch(r'data:image/(png|jpeg|webp);base64,([A-Za-z0-9+/]+={0,2})', value)
+    if not match:
+        raise ServiceError(400, '头像图片格式无效')
+    try:
+        data = base64.b64decode(match[2], validate=True)
+    except (ValueError, binascii.Error):
+        raise ServiceError(400, '头像图片编码无效') from None
+    kind = match[1]
+    signatures = {'png': len(data) >= 24 and data.startswith(b'\x89PNG\r\n\x1a\n') and data[12:16] == b'IHDR',
+                  'jpeg': len(data) >= 4 and data.startswith(b'\xff\xd8\xff') and data.endswith(b'\xff\xd9'),
+                  'webp': len(data) >= 16 and data.startswith(b'RIFF') and data[8:12] == b'WEBP'
+                          and int.from_bytes(data[4:8], 'little') == len(data) - 8}
+    if not signatures[kind]:
+        raise ServiceError(400, '头像内容与图片类型不一致')
 
 
 def receipt_bindings(rows):
@@ -45,6 +70,8 @@ def save_preferences(training, body):
     value = dict(body['preferences'])
     if set(value) - ALLOWED:
         raise ServiceError(400, '偏好设置包含不支持的字段')
+    if 'avatarData' in value:
+        validate_avatar(value['avatarData'])
     for name, allowed in (('panelStyle', {'minimal', 'outlined', 'aurora', 'blueprint'}),
                           ('backdrop', {'none', 'aurora', 'grid', 'sunset', 'custom'})):
         if name in value and (not isinstance(value[name], str) or value[name] not in allowed):
@@ -56,6 +83,13 @@ def save_preferences(training, body):
             raise ServiceError(400, '界面选项格式无效')
     if 'panelOpacity' in value and (type(value['panelOpacity']) is not int or not 25 <= value['panelOpacity'] <= 100):
         raise ServiceError(400, '面板不透明度须为 25–100')
+    if 'fontSize' in value and (type(value['fontSize']) is not int or not 13 <= value['fontSize'] <= 22):
+        raise ServiceError(400, '界面字号须为 13–22')
+    if 'pageOpacities' in value:
+        opacities = value['pageOpacities']
+        if (not isinstance(opacities, dict) or set(opacities) - {'mine','library','competitions','mock','rankings','growth','records','activity','lectures','settings','statement','editor'}
+                or any(type(opacity) is not int or not 0 <= opacity <= 100 for opacity in opacities.values())):
+            raise ServiceError(400, '界面不透明度须为 0–100')
     try:
         text = json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False)
     except (ValueError, TypeError):

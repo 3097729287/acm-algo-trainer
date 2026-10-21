@@ -60,11 +60,18 @@ def earned_titles(claims):
 
 
 def public_progress(insights):
-    """Small public leaderboard summary; never include private login IDs."""
+    """Protocol-1 public summary; private avatars and XP ledgers stay private.
+
+    ``rankScore`` now carries the demonstrated ability score. The same five
+    fields remain valid for older shared services; unplaced ranks use the
+    existing null/null pair. Old local rank payloads without ``qualified``
+    remain readable during a mixed-version upgrade.
+    """
     growth = insights.get('growth') or {}
     rank = growth.get('ranked') or {}
-    return {'level': int(growth.get('level') or 1), 'tier': growth.get('tier') or '黑铁',
-            'rankTier': rank.get('tier'), 'rankScore': rank.get('score'),
+    placed = rank.get('qualified', True) and bool(rank.get('tier'))
+    return {'level': min(100, max(1, int(growth.get('level') or 1))), 'tier': growth.get('tier') or '黑铁',
+            'rankTier': rank.get('tier') if placed else None, 'rankScore': rank.get('score') if placed else None,
             'titles': [{key: title[key] for key in ('id', 'name', 'category', 'target')}
                        for title in growth.get('equippedTitles', [])]}
 

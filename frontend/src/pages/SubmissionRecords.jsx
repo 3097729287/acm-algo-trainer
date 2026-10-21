@@ -1,3 +1,4 @@
+import ThemedSelect from '@/components/ThemedSelect.jsx';
 import { useState } from 'react';
 import InlineTitle from '@/components/InlineTitle.jsx';
 import { ChevronRight, Code2, Flag, Search, Trash2 } from 'lucide-react';
@@ -17,7 +18,7 @@ export default function SubmissionRecords({ submissions = [], total = submission
   return <div className="records-page">
     <div className="table-toolbar">
       <label className="search-box"><Search size={16} /><input aria-label="搜索历史提交" placeholder="搜索题名、比赛或提交结果" value={query} onChange={event => setQuery(event.target.value)} /></label>
-      <select aria-label="历史提交结果" value={result} onChange={event => setResult(event.target.value)}><option value="">全部提交结果</option>{['AC', 'WA', 'CE', 'TLE', 'MLE', 'RE', 'OLE', 'ERROR'].map(value => <option key={value} value={value}>{verdictLabel(value)}</option>)}</select>
+      <ThemedSelect aria-label="历史提交结果" value={result} onChange={event => setResult(event.target.value)}><option value="">全部提交结果</option>{['AC', 'WA', 'CE', 'TLE', 'MLE', 'RE', 'OLE', 'ERROR'].map(value => <option key={value} value={value}>{verdictLabel(value)}</option>)}</ThemedSelect>
       <span className="toolbar-count">{logs.length} 条记录{hasMore ? ` · 已读取 ${submissions.length}/${total}` : ''}</span>
     </div>
     <div className="submission-log scroll-panel">

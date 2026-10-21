@@ -7,7 +7,7 @@ html:root[data-panel-style] {
 }
 html .app-shell :is(.topbar, .sidebar, .settings-tabs) { background: var(--panel); }
 html .workspace-area :is(.settings-column > section, .settings-navigation, .list-page, .progress-section, .mock-config, .competition-card, .goal-card, .paper-preview) { background-color: var(--panel); }
-html .workspace-area :is(.table-toolbar, .problem-table thead, .problem-table th, .list-status, .competition-toolbar, .mock-tabs, .merged-page-tabs, .settings-row, .progress-platform-scores > div) { background: transparent; border-color: transparent; }
+html .workspace-area :is(.table-toolbar, .list-status, .competition-toolbar, .mock-tabs, .merged-page-tabs, .settings-row, .progress-platform-scores > div) { background: transparent; border-color: transparent; }
 html .workspace-area :is(.goal-contest-grid, .goal-contest-grid > div, .daily-goal-tasks, .settings-information) { background: transparent; }
 html :is(.tb-workbench, .wb-statement-pane, .wb-code-pane) { background: var(--panel); }
 html .tb-workbench :is(.wb-body, .wb-statement, .wb-statement-toolbar) { background: transparent; }
@@ -123,4 +123,72 @@ html[data-motion=on] :is(.onboarding-step, .modal, .goal-editor) { animation: tb
   html .competition-card-open { flex-wrap: wrap; }
   html .competition-problem-tokens { max-width: 100%; flex-basis: 100%; justify-content: flex-start; }
   .settings-navigation > summary > span { display: none; }
+}
+
+/* Page surfaces share the same palette; each page can override opacity. */
+html .workspace-area {
+  --panel: color-mix(in srgb, var(--panel-base) var(--page-opacity, var(--panel-opacity)), transparent);
+  --panel-2: color-mix(in srgb, var(--panel-raised-base) var(--page-opacity, var(--panel-opacity)), transparent);
+  --glass-panel: var(--panel);
+  --glass-raised: var(--panel-2);
+}
+html { color-scheme: dark; }
+html[data-theme=light] { color-scheme: light; }
+html select { color: var(--text); accent-color: var(--accent); }
+html :is(option,optgroup) { color: var(--text); background: var(--panel-raised-base); }
+html :is(input,select,textarea,button) { vertical-align: middle; }
+html :is(.table-toolbar,.competition-toolbar,.progress-section-heading,.record-bar,.wb-toolbar) { align-items: center; }
+html :is(.table-toolbar,.competition-toolbar) :is(input,select,button) { min-height: 34px; }
+html .topbar { min-height: 55px; height: auto; padding-block: 8px; }
+html .topbar-actions > .topbar-clock { border: 1px solid var(--line); border-radius: 7px; flex-shrink: 0; min-width: 70px; }
+html .topbar-actions > .icon-button { width: 34px; height: 34px; flex-shrink: 0; }
+html .page-identity { flex: 1; }
+html .page-identity h1 { margin: 0; line-height: 1.35; }
+
+/* Sticky content needs a solid backing even over a translucent page. */
+html .workspace-area .problem-table thead { z-index: 5; background: var(--panel-raised-base); }
+html .workspace-area .problem-table th { background: var(--panel-raised-base); height: 38px; border-bottom: 1px solid var(--line); font-size: max(13px, calc(var(--ui-font-size) - 1px)); }
+html .workspace-area .settings-tabs,
+html .workspace-area .submission-day-heading,
+html .browser-preparation-dialog > header { background: var(--panel-base); isolation: isolate; }
+html .problem-table tbody tr { transition: none !important; }
+html .workspace-area .problem-table tbody tr:not(.queue-heading):hover { background: transparent; }
+html .workspace-area .problem-table tbody tr:not(.queue-heading):is([data-hovered=true],[data-selected=true]) { background: var(--accent-soft); }
+html .workspace-area .problem-table tbody tr:not(.queue-heading)[data-hovered=true] td:first-child { box-shadow: inset 2px 0 var(--accent); }
+html .problem-table td.last-date { font-size: max(13px, calc(var(--ui-font-size) - 1px)); color: var(--text); font-variant-numeric: tabular-nums; }
+html .saved-filter { display: inline-flex; align-items: stretch; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: var(--panel-2); }
+html .saved-filter > button { border: 0; border-radius: 0; background: transparent; min-height: 28px; }
+html .saved-filter .saved-chip { padding: 4px 9px; }
+html .saved-filter-delete { display: inline-flex; align-items: center; justify-content: center; padding: 4px 6px; color: var(--muted); }
+html .saved-filter-delete:hover { color: var(--danger); background: var(--hover); }
+
+.page-opacity-settings { grid-column: 1 / -1; padding: 10px 0; }
+.page-opacity-settings > summary { cursor: pointer; color: var(--accent); font-size: .88rem; }
+.page-opacity-settings > div { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px 26px; }
+.page-opacity-row { display: grid; grid-template-columns: minmax(90px,1fr) minmax(60px,130px) 40px 60px; gap: 9px; align-items: center; min-height: 42px; font-size: .84rem; }
+.page-opacity-row input { width: 100%; accent-color: var(--accent); }
+.page-opacity-row output { text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
+.page-opacity-row button { font-size: .75rem; padding: 3px 0; }
+
+/* Keep one translucent layer behind each reading and editing pane. */
+html .workspace-area .tb-workbench,
+html .tb-workbench :is(.wb-body,.wb-statement,.wb-statement-toolbar,.wb-code-toolbar,.wb-editor-wrap,.code-editor,.cm-editor,.cm-gutters,.wb-console,.wb-console-toolbar) { background: transparent; }
+html .tb-workbench .wb-statement-pane { background: color-mix(in srgb,var(--panel-base) var(--opacity-statement,var(--panel-opacity)),transparent); }
+html .tb-workbench .wb-code-pane { background: color-mix(in srgb,var(--panel-base) var(--opacity-editor,var(--panel-opacity)),transparent); }
+html .tb-workbench .wb-toolbar { background: var(--panel); }
+html .tb-workbench :is(.cm-tooltip,.cm-panels) { background: var(--panel-raised-base); }
+html .wb-statement-pane,.wb-code-pane { min-width: 0; }
+.rank-requirements { margin-top:20px; border-top:1px solid var(--line); padding-top:14px; }
+.rank-requirements > summary { cursor:pointer; color:var(--text); }
+.rank-requirements p { color:var(--muted); font-size:.85rem; line-height:1.7; }
+.rank-requirements table { width:100%; margin-top:12px; border-collapse:collapse; font-size:.88rem; }
+.rank-requirements :is(th,td) { padding:8px; text-align:left; border-bottom:1px solid var(--line); }
+.rank-requirements :is(th,td):last-child { text-align:right; font-variant-numeric:tabular-nums; }
+.rank-requirement-tier { display:inline-flex; align-items:center; gap:8px; color:var(--tier-color); }
+@media(max-width:1100px) { .page-opacity-settings > div { grid-template-columns: minmax(0,1fr); } }
+@media(max-width:800px) {
+  html .topbar { flex-wrap: wrap; gap: 6px; }
+  html .topbar-actions { margin-left: auto; max-width: 100%; }
+  html .breadcrumb { display: none; }
+  html .topbar-actions > :is(.topbar-status-chip,.topbar-overview,.achievement-top-button) { padding-inline: 6px; }
 }

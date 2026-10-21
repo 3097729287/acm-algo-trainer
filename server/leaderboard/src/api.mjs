@@ -4,8 +4,9 @@ import { AccountError, loginId, password, verifyPassword, hashPassword, tokenHas
   session, publicAccount, registerAccount } from './accounts.mjs';
 import { validateState, guardStateJson, STATE_LIMIT } from './account-state.mjs';
 import { publicId, storedPublicProgress, validatePublicProgress } from './public-progress.mjs';
+import { socialSnapshot, socialWrite, rankingSocial } from './social.mjs';
 
-const VERSION = '1.1.2';
+const VERSION = '1.2.0';
 const NOTICE = '排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const hashPattern = /^[a-f0-9]{64}$/;
@@ -93,9 +94,11 @@ async function leaderboard(user, env, period, now) {
   if (!['daily', 'weekly', 'total'].includes(period)) throw new ApiError(400, '排行周期无效');
   const range = bounds(period, now);
   const { rows, own } = await env.STORE.rankings(user.user_id, period === 'total' ? null : range, range.day);
+  const entries=rows.map(rankingRow), self=own ? rankingRow(own) : { ...rankingRow(user),rank:null,count:0 };
+  const socialAvailable=await rankingSocial(env.STORE,user.user_id,[...entries,self],range.day);
   return { period, date: range.day, timezone: 'Asia/Shanghai', startDate: period === 'total' ? null : range.start,
-    endDate: period === 'total' ? null : range.end, entries: rows.map(rankingRow), isAdmin: Boolean(user.is_admin), rewardPolicy: REWARD_POLICY,
-    self: own ? rankingRow(own) : { ...rankingRow(user), rank: null, count: 0 }, notice: NOTICE };
+    endDate: period === 'total' ? null : range.end, entries, isAdmin: Boolean(user.is_admin), rewardPolicy: REWARD_POLICY,
+    self, socialAvailable, socialProtocol:1, notice: NOTICE };
 }
 
 function event(item, now) {
@@ -120,7 +123,7 @@ export async function handle(request, env) {
     const timestamp = new Date(now).toISOString();
     if (path === '/v1/health' && request.method === 'GET') {
       await env.STORE.health();
-      return json({ ok: true, version: VERSION, eventScope: 'official', accountStateProtocol: 1, singleSession: true, publicProgressProtocol: 1, nicknameUnique: true, stateResumeProtocol: 1 });
+      return json({ ok: true, version: VERSION, eventScope: 'official', accountStateProtocol: 1, singleSession: true, publicProgressProtocol: 1, nicknameUnique: true, stateResumeProtocol: 1, socialProtocol:env.STORE.social && await env.STORE.social.available() ? 1 : 0 });
     }
     if (path === '/v1/profile/register') throw new ApiError(410, '请升级 TB 并注册账号后登录');
     if (['/v1/accounts/register', '/v1/accounts/login'].includes(path) && request.method === 'POST') {
@@ -155,6 +158,13 @@ export async function handle(request, env) {
     }
     const user = await authenticate(request, env, now);
     await limit(env, 'user:' + user.user_id, Math.min(600, Math.max(10, Number(env.REQUESTS_PER_USER_MINUTE) || 120)), 60, Math.floor(now / 1000));
+    if (path === '/v1/social' && request.method === 'GET') return json(await socialSnapshot(env.STORE,user,now));
+    if (['/v1/social/likes','/v1/social/comments','/v1/social/read'].includes(path) && request.method === 'POST') {
+      const fields=path.endsWith('/likes') ? ['targetId'] : path.endsWith('/comments') ? ['targetId','text','requestId'] : ['ids','all'];
+      const value=await body(request,fields,8192);
+      await limit(env,'social:'+path+':'+user.user_id,path.endsWith('/comments')?10:60,60,Math.floor(now/1000));
+      return json(await socialWrite(env.STORE,user,credentials(request).token,path,value,now));
+    }
     if (path === '/v1/accounts/me' && request.method === 'GET') {
       if (env.READ_ONLY !== '1') await env.STORE.recordLogin(user.user_id, bounds('daily', now).day, timestamp);
       return json({ account: publicAccount(user), stateRevision: await env.STORE.stateRevision(user.user_id), singleSession: true });

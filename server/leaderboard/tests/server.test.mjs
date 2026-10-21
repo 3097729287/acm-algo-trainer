@@ -18,7 +18,11 @@ async function fixture(options) {
 test('health reflects database availability', async () => {
   const f = await fixture();
   try {
-    assert.equal((await fetch(f.endpoint + '/v1/health')).status, 200);
+    const ready = await fetch(f.endpoint + '/v1/health');
+    assert.equal(ready.status, 200);
+    const health = await ready.json();
+    assert.equal(health.version, '1.2.0');
+    assert.equal(health.socialProtocol, 1);
     f.env.STORE = { async health() { throw new Error('private database details'); } };
     const response = await fetch(f.endpoint + '/v1/health');
     assert.equal(response.status, 503);

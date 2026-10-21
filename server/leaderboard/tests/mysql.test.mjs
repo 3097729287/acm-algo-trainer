@@ -5,6 +5,7 @@ import { gzipSync, gunzipSync } from 'node:zlib';
 import { protocolSuite } from './protocol-suite.mjs';
 import { accountsSuite } from './accounts-suite.mjs';
 import { startMySQLFixture } from './mysql-fixture.mjs';
+import { socialSuite } from './social-suite.mjs';
 import { snapshotFromSQL } from '../scripts/export-sqlite.mjs';
 import { importSnapshot } from '../scripts/import-snapshot.mjs';
 import { readFile } from 'node:fs/promises';
@@ -12,6 +13,7 @@ import { tokenHash } from '../src/accounts.mjs';
 
 protocolSuite(startMySQLFixture);
 accountsSuite(startMySQLFixture);
+socialSuite(startMySQLFixture);
 
 test('MySQL concurrent rate limits allocate each count once and expiry cleanup works', async () => {
   const fixture = await startMySQLFixture();

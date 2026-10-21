@@ -504,11 +504,13 @@ class TrainingService:
             value['growth'].update(titles=titles, equippedTitles=equipped_titles)
             rank_profile = self.connection.execute('SELECT unlocked_at FROM tb_rank_profile WHERE id=1').fetchone()
             if value['growth']['rankedEligible'] and not rank_profile:
-                self.connection.execute('INSERT OR IGNORE INTO tb_rank_profile VALUES(1,?)', (iso(self._now()),))
+                with self._write() as connection:
+                    connection.execute('INSERT OR IGNORE INTO tb_rank_profile VALUES(1,?)', (iso(self._now()),))
             rank_profile = self.connection.execute('SELECT unlocked_at FROM tb_rank_profile WHERE id=1').fetchone()
             if rank_profile:
-                # Retain unlock if public metadata temporarily changes the XP total.
-                value['growth'].update(mode='ranked', rankedEligible=True, level=10)
+                # Keep the original unlock without rewriting XP-based level.
+                # Level and skill remain independent after the level-5 gate.
+                value['growth']['rankedEligible'] = True
                 per_day = {}
                 from progression import local_date
                 for record in records:
@@ -518,6 +520,8 @@ class TrainingService:
                 daily_evidence = [item for daily_records in per_day.values()
                                   for item in official_reward_evidence(library, daily_records)]
                 value['growth']['ranked'] = ranked(evidence, daily_evidence, rank_profile['unlocked_at'], self._now())
+                if value['growth']['ranked']['qualified']:
+                    value['growth'].update(tier=value['growth']['ranked']['tier'], badge=value['growth']['ranked']['badge'])
             value["dailyTasks"] = tasks
             value["profile"] = self.profile()["profile"]
             from progression import public_progress
@@ -1315,6 +1319,22 @@ class TrainingService:
             chosen, covered, main_tags, platforms = [], set(), set(), set()
             pool = list(eligible)
             random_rank = {row["id"]: self.rng.random() for row in eligible}
+            # Persisted papers count as exposure, including deleted papers. A
+            # mirror uses the same canonical key as its original problem.
+            keys = {row['id']: canonical_url(row.get('url')) or row['id'] for row in rows}
+            usage, latest, previews = {}, {}, {}
+            for paper in self.connection.execute('SELECT slots,started_at FROM contests ORDER BY started_at'):
+                for slot in json.loads(paper['slots']):
+                    key = keys.get(slot['id'], slot['id'])
+                    usage[key] = usage.get(key, 0) + 1
+                    latest[key] = paper['started_at']
+            for saved in self.previews.values():
+                for slot in saved['slots']:
+                    key = keys.get(slot['id'], slot['id'])
+                    previews[key] = previews.get(key, 0) + 1
+            def exposure(row):
+                key = keys.get(row['id'], row['id'])
+                return (bool(usage.get(key, 0) or previews.get(key, 0)), usage.get(key, 0) + previews.get(key, 0), latest.get(key, ''))
             band_width = max(100, (upper - lower) / count * .65)
             for index in range(count):
                 center = lower + (upper - lower) * ((index + .5) / count)
@@ -1323,7 +1343,7 @@ class TrainingService:
                     tags = row.get("tags", [])
                     main = tags[0] if tags else ""
                     fit = int(abs(row["difficulty"] - center) / band_width)
-                    return (row["difficulty"] in selected_difficulties, fit + (0 if row.get("judgeScope") == "local" else 2), bool(main and main in main_tags), active.get(row["id"], False), row["id"] in active, row.get("platform") in platforms, random_rank[row["id"]] - .06 * min(3, len(set(tags) - covered)), abs(row["difficulty"] - center), row["id"])
+                    return (row["difficulty"] in selected_difficulties, fit // 2, exposure(row), bool(main and main in main_tags), active.get(row["id"], False), row["id"] in active, row.get("platform") in platforms, random_rank[row["id"]] - .06 * min(3, len(set(tags) - covered)), abs(row["difficulty"] - center), row["id"])
                 eligible.sort(key=score)
                 row = eligible.pop(0)
                 chosen.append(row)
@@ -1343,24 +1363,26 @@ class TrainingService:
                 if any(tag in {"模拟", "枚举", "贪心", "排序", "前缀和", "差分", "二分查找", "双指针"} for tag in tags):
                     result.add("basic")
                 return result
-            required = {family for family in ("dp", "graph", "basic") if options["strategy"] == "comprehensive" and count >= 3 and any(row.get("judgeScope") == "local" and family in families(row) for row in pool)}
+            required = {family for family in ("dp", "graph", "basic") if options["strategy"] == "comprehensive" and count >= 3 and any(family in families(row) for row in pool)}
             for family in ("dp", "graph", "basic"):
                 if family not in required or any(family in families(row) for row in chosen):
                     continue
                 replacements = []
                 for replacement in pool:
-                    if replacement in chosen or family not in families(replacement) or replacement.get("judgeScope") != "local":
+                    if replacement in chosen or family not in families(replacement):
                         continue
                     for index, current in enumerate(chosen):
+                        if exposure(replacement) > exposure(current):
+                            continue
                         alternate = chosen[:index] + [replacement] + chosen[index + 1:]
                         if len({row["difficulty"] for row in alternate}) != len({row["difficulty"] for row in chosen}):
                             continue
                         protected = required & set().union(*(families(row) for row in chosen))
                         if not protected <= set().union(*(families(row) for row in alternate)):
                             continue
-                        replacements.append((int(abs(replacement["difficulty"] - current["difficulty"]) / band_width), random_rank[replacement["id"]], index, replacement))
+                        replacements.append((exposure(replacement), int(abs(replacement["difficulty"] - current["difficulty"]) / band_width), random_rank[replacement["id"]], index, replacement))
                 if replacements:
-                    _, _, index, replacement = min(replacements, key=lambda option: option[:3])
+                    _, _, _, index, replacement = min(replacements, key=lambda option: option[:4])
                     chosen[index] = replacement
             chosen.sort(key=lambda row: (row["difficulty"], row["id"]))
             preview_key = (count, duration, lower, upper, json.dumps(options, sort_keys=True, ensure_ascii=False))
@@ -1372,7 +1394,7 @@ class TrainingService:
                     if replacement in chosen:
                         continue
                     for index, current in enumerate(chosen):
-                        if current.get("judgeScope") == "local" and replacement.get("judgeScope") != "local":
+                        if exposure(replacement) > exposure(current):
                             continue
                         if abs(replacement["difficulty"] - current["difficulty"]) > band_width * 1.5:
                             continue
@@ -1389,7 +1411,8 @@ class TrainingService:
             name = f"模拟赛 · {len(slots)} 题 / {duration} 分钟"
             # The server retains full metadata, but the random preview stays blind.
             public_slots = [{key: slot[key] for key in ("letter", "id", "title", "judgeScope")} for slot in slots]
-            plan = {"previewId": uuid.uuid4().hex, "name": name, "slots": public_slots, "duration": duration, "min": lower, "max": upper, "strategy": options["strategy"], "constraints": options}
+            repeated = sum(bool(exposure(row)[0]) for row in chosen)
+            plan = {"previewId": uuid.uuid4().hex, "name": name, "slots": public_slots, "duration": duration, "min": lower, "max": upper, "strategy": options["strategy"], "constraints": options, "selectionNotice": f'当前范围的新题不足，本卷含 {repeated} 道曾抽取或练习的题目。' if repeated else ''}
             self.previews[tuple(slot["id"] for slot in slots)] = {"plan": plan, "slots": slots, "at": self._now()}
             while len(self.previews) > 20:
                 self.previews.pop(next(iter(self.previews)))

@@ -119,6 +119,9 @@ class FeatureTests(unittest.TestCase):
             self.service.preview_contest({'mode':'replay','contest':'fixture'})
 
     def test_xcpc_custom_penalty_freezes_and_ce_does_not_penalize_by_default(self):
+        # Penalty needs a solved slot with full local cases. Unbiased random
+        # papers may otherwise choose H, whose public samples never prove AC.
+        self.library.rows=[row for row in self.library.rows if self.assets.problem(row['id'])['judge']['scope']=='local']
         plan=self.service.preview_contest({'mode':'single','rules':'xcpc','wrongPenalty':30})['plan']
         self.assertEqual(plan['duration'],300)
         with self.assertRaises(ServiceError):self.service.start_contest({'ids':[plan['slots'][0]['id']],'duration':300,'wrongPenalty':10})

@@ -1,6 +1,32 @@
 # TB 排行榜服务
 
-当前正式版为 [v1.1.2](../../docs/releases/1.1.2.md)，共享服务已同步升级。
+当前源码为 **1.2.0**。生产切换须完成下述备份、增量迁移与核验；实际运行版本以 `GET /v1/health` 为准。以下旧版本部署记录保留为历史。
+
+## 1.2.0 账号互动与保留数据升级
+
+新增 `mysql/008_social.sql`；先备份原 MySQL，再对同一数据库应用幂等建表并更新 API，不能重新建立数据卷或覆盖用户库。新部署会按初始化目录顺序包含此文件。`socialProtocol: 1` 表示两个互动表可用；缺表时旧登录、排行和学习快照继续服务，客户端隐藏互动入口。详情见[工作台开发记录](../../docs/workbench-update-20261020.md)。
+
+已具备 001–007 的生产实例使用 `scripts/deploy-social.sh`，不再使用旧的 `deploy-account-sync.sh`。先固定并公开源码提交，再从干净的对应提交准备运行时：
+
+```sh
+python server/leaderboard/scripts/prepare-account-sync-runtime.py --output /path/to/empty-output --source-commit FULL_40_CHARACTER_COMMIT
+```
+
+准备器核对 HEAD、服务目录无未提交变化、package 与 lock 版本一致，并将源码提交写入 `BUILD-INFO.json`；产物包含生产依赖、008、审计工具和逐文件 SHA-256 清单。上传 `TB-account-service-1.2.0.tar.gz` 后核对整体 SHA-256，在原 `/opt/tb-leaderboard` 内解包，保持服务器现有 `.env`、所有 compose 覆盖文件、密钥、Caddy 配置及持久卷：
+
+```sh
+cd /opt/tb-leaderboard
+sh runtime.next-1.2.0/scripts/deploy-social.sh runtime.next-1.2.0 FULL_40_CHARACTER_COMMIT
+curl --fail https://47.82.84.74/v1/health
+```
+
+脚本在线执行 `mysqldump --single-transaction` 并校验压缩文件，私有保存配置与依赖容器/卷绑定；短暂停止 API、等待在途请求完成后，只执行 008 的幂等建表。`audit-preserved-data.mjs` 在只读一致性事务中核对既有用户、账号、会话、完整学习快照、官方/历史 AC、昵称、登录日、管理及 XP 奖励等 15 张表的记录数、所有字段的 SHA-256 行指纹聚合，并单独记录快照字节、修订号和奖励 XP 总额。只有新加且为空的两张社交表允许出现；已有社交数据必须完全一致。证据只包含聚合指纹，不输出身份、源码、快照正文或凭据。
+
+冻结前后指纹在新 API 接受请求或启动奖励结算之前比较，避免把之后正常用户同步当作迁移改动。通过后才切换运行时并以 `--no-deps` 启动 API，验证 `version: 1.2.0`、`socialProtocol: 1` 与原同步协议；再次确认配置字节、MySQL/Redis/Caddy 容器及卷绑定均未变化。不重建或重启数据库、Redis、代理，不覆盖自定义代理配置。公网 HTTPS 还须独立只读核验。
+
+失败自动恢复旧运行时并启动原 API，保留原数据库、新增表及所有已接受的用户写入；不会把旧 SQL 备份自动覆盖到现有用户库。私有恢复材料与部署证据在 `backups/deploy-social-1.2.0-时间/`，数据库备份位于 `backups/mysql-时间.sql.gz`，部署后须复制到服务器外的受控位置。健康检查不创建测试账号、留言或爱心，也不替代用户正常登录后的跨设备同步验证。
+
+`GET /v1/social` 返回本人的爱心总数、最近 100 条私密通知及公开爱心动态。`POST /v1/social/likes` 接收 `targetId`，北京时间每天一次，不提供取消；`POST /v1/social/comments` 接收 `targetId/text/requestId`，留言 1–500 字并按 UUID 幂等；`POST /v1/social/read` 接收 `{ids:[…]}`（最多 100 个本人通知 ID）或 `{all:true}`（当前收件人的全部未读），二者不可混用。所有接口要求现有账号会话，写入事务再次验证会话。公开动态不包含留言正文和通知已读状态。
 
 ## 1.1.2 迁移
 
@@ -11,7 +37,7 @@
 `GET /v1/accounts/state` 可带 `X-TB-State-Revision`。有效会话且版本一致时返回 `{revision,unchanged:true}`，不读取大快照；其他情况保持完整响应。客户端须先确认本机摘要等于已同步基线，才能使用小型确认。旧客户端不发送该头，行为保持兼容。健康检查新增 `nicknameUnique:true`、`stateResumeProtocol:1`。
 
 
-当前源码和生产共享服务为 **1.1.0**，客户端仍在发布准备中。2026-10-16 公网 HTTPS 健康检查已确认本次服务升级。1.1.0 增加排行榜公开成长摘要与稳定公开 ID，数据库、账号同步和排行榜继续共用原服务器。
+以下为 **1.1.0 历史部署记录**。2026-10-16 公网 HTTPS 健康检查已确认当时的服务升级。1.1.0 增加排行榜公开成长摘要与稳定公开 ID，数据库、账号同步和排行榜继续共用原服务器。
 
 1.0.20 的账号学习数据以服务端 MySQL 为权威版本，本机 SQLite 作为耐久工作副本与待同步日志。训练、提交源码与官网回执、草稿、模拟赛、目标及固定题单、首通经验、每日领取、成就奖励、排位解锁、排行榜奖励账本和收藏/筛选等账号偏好随账号同步。CF/AtCoder 的公开用户名与已读取的公开证据同样随账号迁移；Cookie、浏览器会话、翻译密钥、机器路径和本机安装设置不会上传。服务使用 Docker 部署 Node.js API、MySQL 8.4、Redis 8.4 和 Caddy HTTPS，Redis 当前尚未用于 API 缓存。生产数据保存在 MySQL；SQLite 仅用于测试和快照转换。
 

@@ -193,6 +193,12 @@ class AchievementRewardsTests(unittest.TestCase):
         pending = public_progress({'growth': {'level': 7, 'tier': '钻石'}})
         self.assertIsNone(pending['rankScore'])
         self.assertIsNone(pending['rankTier'])
+        placing = public_progress({'growth': {'level': 6, 'ranked': {'qualified': False, 'score': 0, 'tier': None}}})
+        self.assertIsNone(placing['rankScore'])
+        self.assertIsNone(placing['rankTier'])
+        high_level = public_progress({'growth': {'level': 150, 'ranked': {'qualified': True, 'score': 2300, 'tier': '钻石'}}})
+        self.assertEqual(high_level['level'],100)
+        self.assertEqual((high_level['rankTier'],high_level['rankScore']),('钻石',2300))
 
     def test_extra_rewards_backfill_once_alongside_ac_ladder(self):
         evidence = [{'key': f'problem-{index}', 'acceptedAt': self.now.isoformat(),

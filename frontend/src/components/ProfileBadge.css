@@ -1,0 +1,119 @@
+.profile-badge {
+  --xp-ring-color:#d8b76c;
+  display:inline-flex;
+  align-items:center;
+  flex-shrink:0;
+  gap:9px;
+  min-height:54px;
+  padding:5px 10px 5px 7px;
+  border:1px solid var(--tier-color,#9c9ca5);
+  border-radius:7px;
+  background:color-mix(in srgb,var(--tier-color,#9c9ca5) 12%,var(--panel-base,#191c24));
+  color:var(--text,#e7eaf1);
+  box-shadow:none;
+}
+.profile-badge > .tooltip-anchor { flex-shrink:0; }
+.profile-badge > .tooltip-anchor:last-child { flex-shrink:1; }
+.profile-avatar-button {
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  width:44px;
+  height:44px;
+  min-width:44px;
+  padding:0;
+  border:0;
+  border-radius:50%;
+  background:transparent;
+  color:inherit;
+  box-shadow:none;
+}
+button.profile-avatar-button { cursor:pointer; }
+.profile-avatar-button:focus-visible,.profile-overview:focus-visible {
+  outline:2px solid var(--tier-color,#9c9ca5);
+  outline-offset:4px;
+}
+.profile-xp-ring { position:absolute; inset:0; width:100%; height:100%; overflow:visible; transform:rotate(-90deg); }
+.profile-xp-ring circle { fill:none; stroke-width:2.5; }
+.profile-xp-track { stroke:color-mix(in srgb,var(--text,#e7eaf1) 18%,transparent); }
+.profile-xp-value { stroke:var(--xp-ring-color); stroke-linecap:round; }
+.profile-avatar-face {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:33px;
+  height:33px;
+  overflow:hidden;
+  border-radius:50%;
+  background:color-mix(in srgb,var(--tier-color,#9c9ca5) 10%,var(--panel-raised-base,#232731));
+  color:var(--text,#e7eaf1);
+}
+.profile-avatar-face > img { display:block; width:100%; height:100%; object-fit:cover; }
+.profile-avatar-face > b { font-size:16px; line-height:1; font-weight:600; }
+.profile-level-number {
+  position:absolute;
+  bottom:-3px;
+  left:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-width:21px;
+  height:16px;
+  padding:0 4px;
+  border:1px solid var(--xp-ring-color);
+  border-radius:4px;
+  background:var(--panel-base,#191c24);
+  color:var(--text,#e7eaf1);
+  font-size:10px;
+  font-weight:600;
+  font-variant-numeric:tabular-nums;
+  line-height:1;
+  transform:translateX(-50%);
+}
+.profile-overview {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  min-height:38px;
+  min-width:26px;
+  max-width:190px;
+  padding:2px 0 2px 2px;
+  border:0;
+  border-radius:4px;
+  background:transparent;
+  color:var(--text,#e7eaf1);
+  box-shadow:none;
+  font:inherit;
+}
+button.profile-overview { cursor:pointer; }
+.profile-nickname { max-width:130px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; font-size:.9rem; font-weight:600; line-height:1.35; }
+.profile-rank-emblem { display:flex; align-items:center; justify-content:center; flex-shrink:0; color:var(--tier-color,#9c9ca5); }
+.profile-rank-emblem svg { color:inherit; }
+.profile-badge-compact { min-height:42px; padding:2px 7px 3px 4px; gap:6px; }
+.profile-badge-compact .profile-avatar-button { width:36px; height:36px; min-width:36px; }
+.profile-badge-compact .profile-avatar-face { width:27px; height:27px; }
+.profile-badge-compact .profile-avatar-face > b { font-size:13px; }
+.profile-badge-compact .profile-level-number { bottom:-2px; min-width:18px; height:13px; padding:0 3px; font-size:9px; }
+.profile-badge-compact .profile-overview { min-height:30px; gap:7px; }
+.profile-badge-compact .profile-nickname { max-width:86px; font-size:12px; }
+html[data-theme=light] .profile-badge { --xp-ring-color:#9b7328; }
+html .topbar .profile-badge button { background:transparent; box-shadow:none; }
+html .profile-badge .profile-avatar-button { border-radius:50%; }
+html .topbar .profile-badge .profile-level-number { background:var(--panel-base,#191c24); }
+html .profile-badge button:hover { background:transparent; color:var(--text,#e7eaf1); }
+html .profile-badge button:hover .profile-avatar-face { filter:brightness(1.1); }
+html[data-motion=on] .profile-xp-value { transition:stroke-dasharray .4s ease; }
+.avatar-settings-preview { display:flex; align-items:center; justify-content:center; width:64px; height:64px; overflow:hidden; border:1px solid var(--line); border-radius:50%; background:var(--panel-2); color:var(--text); }
+.avatar-settings-preview img { width:100%; height:100%; object-fit:cover; }
+.avatar-settings-actions { display:flex; align-items:center; gap:8px; }
+.avatar-settings-actions button { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; min-width:36px; padding:0; border:1px solid var(--line); border-radius:5px; background:transparent; color:var(--text); box-shadow:none; }
+.avatar-settings-actions button:hover { border-color:var(--accent); color:var(--accent); }
+.avatar-settings-actions button:disabled { opacity:.45; cursor:not-allowed; }
+.avatar-settings .setting-control { gap:18px; }
+.avatar-settings-error { margin:10px 0 0; color:var(--danger,#d36570); font-size:.86rem; }
+.avatar-settings-status { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+@media(max-width:900px) { .profile-badge-compact .profile-nickname { display:none; } }
+@media(prefers-reduced-motion:reduce) { html[data-motion=on] .profile-xp-value { transition:none; } }

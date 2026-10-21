@@ -1,0 +1,21 @@
+.tb-select-wrap { display:inline-grid; grid-template-columns:minmax(0,1fr); position:relative; min-width:0; max-width:100%; vertical-align:middle; }
+.tb-select-wrap > .tb-select { width:100%; max-width:100%; appearance:none; padding-right:30px!important; text-overflow:ellipsis; cursor:pointer; }
+.tb-select-chevron { pointer-events:none; position:absolute; right:9px; top:50%; transform:translateY(-50%); color:var(--muted); }
+.tb-select:disabled + .tb-select-chevron { opacity:.45; }
+.tb-select-menu { z-index:10020; padding:5px; overflow-y:auto; border:1px solid var(--line); border-radius:8px; background:var(--panel-raised-base); color:var(--text); box-shadow:0 8px 28px #0003; font-size:calc(var(--ui-font-size,15px) - 1px); scrollbar-width:thin; scrollbar-color:var(--line) transparent; }
+.tb-select-menu [role=option] { display:flex; align-items:center; justify-content:space-between; gap:12px; width:100%; min-height:34px; padding:7px 10px; border:0; border-radius:5px; color:var(--text); background:transparent; text-align:left; font:inherit; line-height:1.45; cursor:pointer; }
+.tb-select-menu [role=option][data-active=true] { color:var(--text); background:var(--hover); }
+.tb-select-menu [role=option][aria-selected=true] { color:var(--accent); background:var(--accent-soft); }
+.tb-select-menu [role=option]:disabled { opacity:.45; cursor:default; }
+.tb-select-menu [role=option] > svg { flex-shrink:0; }
+.tb-select-group { color:var(--muted); padding:7px 10px 4px; font-size:.8em; }
+.tb-select-wrap:has(> select:focus-visible) { outline:2px solid var(--accent); outline-offset:2px; border-radius:6px; }
+.tb-select-wrap > select:focus-visible { outline:0!important; }
+.table-toolbar > .tb-select-wrap { flex:0 1 auto; }
+.tb-select-wrap:has(> .sort-select) { min-width:130px; }
+.tb-select-wrap:has(> .filter-select) { min-width:100px; }
+.settings-row > .tb-select-wrap { min-width:130px; }
+.connection-fields .tb-select-wrap,.translation-fields .tb-select-wrap,.goal-form .tb-select-wrap,.field-grid .tb-select-wrap { width:100%; }
+.wb-font-controls .tb-select-wrap { min-width:55px; }
+.wb-font-controls .tb-select-wrap > select { padding-right:20px!important; }
+.wb-font-controls .tb-select-chevron { right:4px; width:12px; }

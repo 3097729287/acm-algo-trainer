@@ -30,6 +30,7 @@ try{
   else if(path==='software-update')value={currentVersion:'1.1.1',status:'current',releaseUrl:'https://github.com/3097729287/acm-algo-trainer/releases/latest'};
   else if(path==='leaderboard')value={period:'daily',date:'2026-10-18',configured:true,status:'ready',entries,self:{userId:owner},isAdmin:false};
   else if(path==='profile')value={profile:{userId:owner,nickname:'我的训练'},leaderboard:{configured:true}};
+  else if(path==='social')value={available:false,totalLikes:0,unreadCount:0,notifications:[]};
   else if(path==='browser-preparation')value={available:false};
   else if(path==='preferences'){if(route.request().method()==='POST')savedPreferences=route.request().postDataJSON().preferences;value={preferences:savedPreferences};}
   else if(path==='data/export')value={format:'tb-learning-export',formatVersion:1,tables:{drafts:[{code:'// 中文代码\nint main(){}'}]}};
@@ -40,31 +41,40 @@ try{
  await page.goto(vite.resolvedUrls.local[0]);
  await page.locator('.sidebar').waitFor();assert.equal(accountCalls,1,'A slow bootstrap is not superseded by the three-second poll');
  await page.getByRole('button',{name:'偏好设置',exact:false}).click();
- await page.getByRole('region',{name:'工作台装饰'}).waitFor();
- assert.equal(await page.locator('.settings-navigation').getAttribute('open'),null,'Navigation starts collapsed');
- const order=await page.locator('.appearance-studio,.settings-navigation').evaluateAll(nodes=>nodes.map(n=>n.className));
- assert.deepEqual(order,['appearance-studio','settings-navigation']);
+ await page.getByRole('region',{name:'工作台风格',exact:true}).waitFor();
+ assert.equal(await page.locator('.settings-navigation').count(),0,'Navigation has its own settings page');
+ assert.equal(await page.getByRole('checkbox').count(),0,'Appearance contains only visual controls');
+ const order=await page.locator('.visual-preferences,.appearance-studio').evaluateAll(nodes=>nodes.map(n=>n.className));
+ assert.deepEqual(order,['visual-preferences','appearance-studio']);
  assert.equal(await page.getByRole('heading',{name:'账号与身份',exact:true}).count(),0);
- for(const label of ['清简','线框','极光','蓝图'])await page.getByRole('button',{name:new RegExp(label)}).click();
+ for(const label of ['清简','线框','极光','蓝图'])await page.getByRole('button',{name:label,exact:true}).click();
  assert.equal(await page.locator('html').getAttribute('data-panel-style'),'blueprint');
- const styleSignature=()=>page.locator('.settings-appearance').evaluate(n=>{const s=getComputedStyle(n);return [s.borderStyle,s.borderRadius,s.backgroundImage];});
- const blueprint=await styleSignature();await page.getByRole('button',{name:/线框/}).click();const outlined=await styleSignature();assert.notDeepEqual(blueprint,outlined,'Blueprint has a grid/dashed silhouette');
- await page.getByLabel('页面背景',{exact:true}).selectOption('aurora');
- await page.getByLabel('页面背景',{exact:true}).selectOption('custom');
+ const styleSignature=()=>page.locator('.progress-assessment').evaluate(n=>{const s=getComputedStyle(n);return [s.borderStyle,s.borderRadius,s.backgroundImage];});
+ await page.locator('.sidebar').getByRole('button',{name:'成长与能力',exact:true}).click();
+ const blueprint=await styleSignature();
+ await page.locator('.sidebar').getByRole('button',{name:'偏好设置',exact:false}).click();
+ await page.getByRole('button',{name:'线框',exact:true}).click();
+ await page.locator('.sidebar').getByRole('button',{name:'成长与能力',exact:true}).click();
+ const outlined=await styleSignature();assert.notDeepEqual(blueprint,outlined,'Blueprint has a grid/dashed silhouette on shared content cards');
+ await page.locator('.sidebar').getByRole('button',{name:'偏好设置',exact:false}).click();
+ await page.getByRole('button',{name:'夜空极光',exact:true}).click();
+ await page.getByRole('button',{name:'我的图片',exact:true}).click();
  await page.getByLabel('面板不透明度',{exact:true}).evaluate(node=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(node,'55');node.dispatchEvent(new Event('input',{bubbles:true}));});
  assert.equal(await page.locator('html').evaluate(node=>node.style.getPropertyValue('--panel-opacity')),'55%');
  await page.waitForTimeout(180); // Let the 120 ms surface transition settle.
+ const glass=async (selector,allowTransparent=false)=>{
+   const alpha=await page.locator(selector).first().evaluate(node=>{const canvas=document.createElement('canvas');canvas.width=canvas.height=1;const c=canvas.getContext('2d');c.fillStyle=getComputedStyle(node).backgroundColor;c.fillRect(0,0,1,1);return c.getImageData(0,0,1,1).data[3]/255;});
+   assert.ok((allowTransparent?alpha>=0:alpha>0)&&alpha<.58,`${selector} uses the selected translucent palette: ${alpha}`);
+ };
+ for(const selector of ['.settings-subpage-tabs','.visual-preferences','.appearance-studio','.topbar'])await glass(selector);
+ await glass('.style-preset',true); // Preview cards use a border over their parent surface.
+ await page.getByRole('button',{name:'纯色',exact:true}).click();await glass('.settings-subpage-tabs');
+ await page.getByRole('button',{name:'我的图片',exact:true}).click();
+ await page.getByRole('tab',{name:'交互设置',exact:true}).click();
  await page.getByLabel('顶部时钟',{exact:true}).uncheck();
  assert.equal(await page.getByLabel('北京时间',{exact:true}).count(),0);
  await page.getByLabel('顶部时钟',{exact:true}).check();
  await page.getByLabel('北京时间',{exact:true}).waitFor();
- const glass=async selector=>{
-   const alpha=await page.locator(selector).first().evaluate(node=>{const canvas=document.createElement('canvas');canvas.width=canvas.height=1;const c=canvas.getContext('2d');c.fillStyle=getComputedStyle(node).backgroundColor;c.fillRect(0,0,1,1);return c.getImageData(0,0,1,1).data[3]/255;});
-   assert.ok(alpha>0&&alpha<.58,`${selector} uses the selected translucent palette: ${alpha}`);
- };
- for(const selector of ['.settings-tabs','.settings-appearance','.appearance-studio','.style-preset','.topbar'])await glass(selector);
- await page.getByLabel('页面背景',{exact:true}).selectOption('none');await glass('.settings-tabs');
- await page.getByLabel('页面背景',{exact:true}).selectOption('custom');
  await page.getByLabel('显示比赛平台',{exact:true}).uncheck();
  await page.locator('.sidebar').getByRole('button',{name:'比赛',exact:true}).click();
  await page.locator('.competition-card').first().waitFor();
@@ -111,7 +121,7 @@ try{
  const alignment=await page.locator('.topbar-daily-ac').evaluate(n=>[...n.querySelectorAll('span,b')].map(c=>{const r=c.getBoundingClientRect();return r.y+r.height/2;}));assert.ok(Math.abs(alignment[0]-alignment[1])<1);
  await page.locator('.sidebar').getByRole('button',{name:'偏好设置',exact:false}).click();
  await page.getByRole('tab',{name:'数据与帮助',exact:true}).click();
- await page.getByText('InkStarry',{exact:true}).waitFor();await page.getByText('蒟蒻',{exact:true}).waitFor();assert.equal(await page.getByText('自渡',{exact:true}).count(),0);
+ await page.getByText('InkStarry',{exact:true}).waitFor();await page.getByText('蒟蒻',{exact:true}).waitFor();await page.getByText('她不爱吃酸',{exact:true}).waitFor();assert.equal(await page.getByText('自渡',{exact:true}).count(),0);
  const downloaded=page.waitForEvent('download');await page.getByRole('button',{name:/导出数据/}).click();const download=await downloaded;
  assert.ok(download.suggestedFilename().endsWith('.json'));const data=JSON.parse(await readFile(await download.path(),'utf8'));assert.equal(data.tables.drafts[0].code,'// 中文代码\nint main(){}');
  await page.getByRole('button',{name:/新手指引/}).click();await page.getByRole('heading',{name:'连接你的竞赛账号',exact:true}).waitFor();

@@ -453,7 +453,12 @@ class ServiceTests(unittest.TestCase):
         self.assertGreater(len(set(plans)), 1)
         self.service.rng = random.Random(1234)
         repeated = self.service.preview_contest({"count": 6, "min": 1000, "max": 2100})["plan"]["slots"]
-        self.assertEqual(tuple(slot["id"] for slot in repeated), plans[0])
+        self.assertNotEqual(tuple(slot["id"] for slot in repeated), plans[0])
+        self.service.previews.clear()
+        self.service.previous_previews.clear()
+        self.service.rng = random.Random(1234)
+        fresh = self.service.preview_contest({"count": 6, "min": 1000, "max": 2100})["plan"]["slots"]
+        self.assertEqual(tuple(slot["id"] for slot in fresh), plans[0])
         with self.assertRaises(ServiceError) as error:
             self.service.preview_contest({"count": 10, "min": 1000, "max": 1000})
         self.assertEqual(error.exception.status, 422)

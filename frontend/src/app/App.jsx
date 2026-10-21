@@ -1,11 +1,18 @@
+import Tooltip from '@/components/Tooltip.jsx';
+import CatalogExplorer, { CatalogPath } from '@/components/CatalogExplorer.jsx';
+import ProfileBadge from '@/components/ProfileBadge.jsx';
+import BoundedNumber from '@/components/BoundedNumber.jsx';
+import ThemedSelect from '@/components/ThemedSelect.jsx';
 import { request } from '@/api/client';
 import AccountSyncStatus from '@/components/AccountSyncStatus.jsx';
+import { useSocial, SocialNotifications } from '@/components/Social.jsx';
 import TierIcon from '@/components/TierIcon.jsx';
 import ContestTabs from '@/components/ContestTabs.jsx';
 import ProblemFilters from '@/components/ProblemFilters.jsx';
 import {
   useState,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useCallback,
@@ -52,8 +59,10 @@ import {
   Copy,
   BookmarkPlus,
   Layers,
+  FolderTree,
   ArrowLeft,
   Bell,
+  Heart,
   ChartNoAxesCombined,
   CalendarDays,
   Activity,
@@ -98,7 +107,7 @@ const MockSetup = lazy(() => import('@/app/MockSetup.jsx'));
 const SubmissionRecords = lazy(() => import('@/pages/SubmissionRecords.jsx'));
 const MockHistory = lazy(() => import('@/pages/SubmissionRecords.jsx').then(module => ({ default: module.MockHistory })));
 const Onboarding = lazy(() => import('@/pages/Onboarding.jsx'));
-const DataHelpSettings = lazy(() => import('@/pages/DataHelpSettings.jsx'));
+const PreferencesPage = lazy(() => import('@/pages/PreferencesPage.jsx'));
 
 const PAGES = [
   { id: "mine", label: "我的训练", icon: Target, key: "1" },
@@ -116,6 +125,8 @@ const DEFAULTS = {
   backdrop: "none",
   widgets: true,
   panelOpacity: 76,
+  pageOpacities: {},
+  avatarData: '',
   theme: "dark",
   accent: "violet",
   motion: true,
@@ -144,6 +155,7 @@ function normalizePreferences(saved) {
     preferences.navOrder = (Array.isArray(preferences.navOrder) ? preferences.navOrder : DEFAULTS.navOrder).filter(id => id !== "today");
     preferences.navGroups = { ...preferences.navGroups };
     preferences.navLabels = { ...preferences.navLabels };
+    preferences.pageOpacities = { ...preferences.pageOpacities };
     delete preferences.navGroups.today;
     delete preferences.navLabels.today;
     if (preferences.navGroups.mine?.trim() === "训练与待办") delete preferences.navGroups.mine;
@@ -521,6 +533,11 @@ export default function App() {
     [submissionLog, setSubmissionLog] = useState([]),
     [submissionPage, setSubmissionPage] = useState({ total: 0, nextOffset: 0, hasMore: false }),
     [submissionLoading, setSubmissionLoading] = useState(false);
+  const [keyboardSelection, setKeyboardSelection] = useState(false), [listOrder, setListOrder] = useState(null);
+  const restoreList = useRef(null);
+  const [catalogScope,setCatalogScope]=useState(null);
+  const pointerPosition = useRef(null);
+  const [hoveredRow, setHoveredRow] = useState(null);
   const [dialog, setDialog] = useState(null),
     [toast, setToast] = useState(null),
     [busy, setBusy] = useState(false),
@@ -549,6 +566,7 @@ export default function App() {
     previousActive = useRef(null);
   const api = useCallback((path, body) => request(path, body, token.current), []);
   const [account, setAccount] = useState(() => window.__tbAccount || null);
+  const social = useSocial(api, Boolean(data && account?.userId));
   const [profileSnapshot, setProfileSnapshot] = useState(null), [accountFocus, setAccountFocus] = useState(null);
   useEffect(() => {
     const changed = event => setAccount(previous => shareWorkspace(previous, event.detail));
@@ -727,6 +745,10 @@ export default function App() {
     root.dataset.panelStyle = prefs.panelStyle;
     root.dataset.backdrop = prefs.backdrop;
     root.style.setProperty('--panel-opacity', `${Math.min(100, Math.max(25, Number(prefs.panelOpacity) || 76))}%`);
+    for (const [key, value] of Object.entries(prefs.pageOpacities || {}))
+      root.style.setProperty(`--opacity-${key}`, `${Math.min(100, Math.max(0, Number(value) || 0))}%`);
+    for (const key of ['mine','library','competitions','mock','rankings','growth','records','activity','lectures','settings','statement','editor'])
+      if (prefs.pageOpacities?.[key] == null) root.style.removeProperty(`--opacity-${key}`);
     const background = localStorage.getItem("tb.appearance.background");
     if (background?.startsWith("data:image/jpeg;base64,")) root.style.setProperty("--workspace-image", `url("${background}")`);
     root.dataset.theme = prefs.theme;
@@ -735,7 +757,7 @@ export default function App() {
     root.dataset.density = prefs.compact ? "compact" : "comfortable";
     root.style.setProperty(
       "--ui-font-size",
-      `${Math.min(18, Math.max(13, Number(prefs.fontSize) || 15))}px`,
+      `${Math.min(22, Math.max(13, Number(prefs.fontSize) || 15))}px`,
     );
   }, [prefs]);
   // 桌面全屏：浏览器测试环境没有原生窗口，available=false 时设置项禁用。
@@ -905,6 +927,7 @@ export default function App() {
     const base = page === "mine" ? todayMine : rows.filter(row => !row.catalogHidden),
       params = { ...currentFilters, query, favorites: prefs.favorites };
     let filtered = filterRows(base, params);
+    if (catalogScope?.page===page) filtered=filtered.filter(row=>(!catalogScope.platform||row.platform===catalogScope.platform)&&(!catalogScope.contest||row.contest===catalogScope.contest));
     if (page === "mine" && params.setId === "@single") {
       const grouped = new Set([...workspace.sets.flatMap(set => set.ids || []), ...workspace.contests.flatMap(contest => contest.slots?.map(slot => slot.id) || [])]);
       filtered = filtered.filter(row => !grouped.has(row.id));
@@ -918,6 +941,10 @@ export default function App() {
     if (page === "mine") {
       filtered.sort((left, right) => trainingPriority(left) - trainingPriority(right));
     }
+    if (listOrder?.page === page && listOrder.filters === currentFilters && listOrder.query === query) {
+      const positions = new Map(listOrder.ids.map((id, index) => [id, index]));
+      filtered.sort((left, right) => (positions.get(left.id) ?? Infinity) - (positions.get(right.id) ?? Infinity));
+    }
     return filtered;
   }, [
     page,
@@ -928,6 +955,8 @@ export default function App() {
     prefs.favorites,
     workspace.sets,
     workspace.contests,
+    listOrder,
+    catalogScope,
   ]);
   const libraryPages = Math.max(1, Math.ceil(visible.length / libraryPageSize)),
     currentLibraryPage = Math.min(libraryPage, libraryPages),
@@ -943,16 +972,23 @@ export default function App() {
   selectedRef.current = selected;
   useEffect(() => {
     if (!["mine", "library"].includes(page) || practiceId) return;
-    if (!displayedRows.some((r) => r.id === selected))
-      setSelected(displayedRows[0]?.id || null);
+    if (selected && !displayedRows.some((r) => r.id === selected)) setSelected(null);
   }, [displayedRows, page, practiceId, selected]);
   useEffect(() => {
-    if (practiceId || !selected) return;
+    if (practiceId || !selected || !keyboardSelection) return;
     const element = listRef.current?.querySelector(
       `tr[data-id="${CSS.escape(selected)}"]`,
     );
     element?.scrollIntoView({ block: "nearest" });
-  }, [selected, practiceId]);
+  }, [selected, keyboardSelection]);
+  useLayoutEffect(() => {
+    const saved = restoreList.current, list = listRef.current;
+    if (practiceId || !saved || !list || saved.page !== page) return;
+    list.scrollTop = saved.scrollTop;
+    list.scrollLeft = saved.scrollLeft;
+    list.focus({ preventScroll: true });
+    restoreList.current = null;
+  }, [practiceId, page, displayedRows]);
   const active = workspace.activeContest,
     summary = workspace.summary || emptyWorkspace.summary;
   const mockFocus = page === "mock" && active && mockTab === "create" && !record && !practiceId;
@@ -965,6 +1001,9 @@ export default function App() {
       [target]: { ...current[target], ...patch, ...(target === "mine" ? { platform: "", shelf: "all", setId: "" } : {}) },
     }));
   function go(next) {
+    setKeyboardSelection(false);
+    setSelected(null);
+    setListOrder(null);
     document.querySelectorAll(".topbar details[open]").forEach(node => node.removeAttribute("open"));
     setPracticeId(null);
     setRecord(null);
@@ -1015,7 +1054,7 @@ export default function App() {
     }));
   }
   function focusList() {
-    requestAnimationFrame(() => listRef.current?.focus());
+    requestAnimationFrame(() => listRef.current?.focus({ preventScroll: true }));
   }
   async function openPractice(id) {
     if (!id || busy) return;
@@ -1027,14 +1066,23 @@ export default function App() {
       return;
     }
     setBusy(true);
+    const list = listRef.current;
+    const context = contextRef.current && practiceId ? contextRef.current : {
+      page, ids: visibleRef.current.map(row => row.id), id, libraryPage: currentLibraryPage,
+      scrollTop: list?.scrollTop || 0, scrollLeft: list?.scrollLeft || 0,
+    };
+    if (list) {
+      const goals=new Set((workspace.goalTasks || []).map(task=>task.id)), queues=new Set(QUEUES.map(item=>item.id));
+      const groups=Object.fromEntries(visibleRef.current.map(row=>[row.id,goals.has(row.id)?'goals':queues.has(row.queue)?row.queue:row.accepted?'accepted':'practice']));
+      setListOrder({ page, filters: currentFilters, query, ids: context.ids, groups });
+    }
+    pointerPosition.current = null;
+    setHoveredRow(null);
+    setKeyboardSelection(false);
     try {
       const result = await api("training/start", { id });
       applyWorkspace(result.workspace);
-      contextRef.current = {
-        page,
-        ids: visibleRef.current.map((r) => r.id),
-        id,
-      };
+      contextRef.current = context;
       advanceRef.current = null;
       setPracticeId(id);
       setReaderId(null);
@@ -1094,17 +1142,11 @@ export default function App() {
     setPracticeId(null);
     setReaderId(null);
     if (context) {
-      const id = advanceRef.current ? nextSurviving(
-          context.ids,
-          advanceRef.current,
-          visibleRef.current.map((r) => r.id),
-        ) : context.id;
-      if (page === "library") {
-        const index = visibleRef.current.findIndex(row => row.id === id);
-        if (index >= 0) setLibraryPage(Math.floor(index / libraryPageSize) + 1);
-      }
-      setSelected(id);
+      if (page === "library") setLibraryPage(context.libraryPage || 1);
+      restoreList.current = context;
     }
+    setSelected(null);
+    setKeyboardSelection(false);
     advanceRef.current = null;
     focusList();
     api("workspace")
@@ -1475,9 +1517,12 @@ export default function App() {
                 ? 10
                 : -10;
         const nextIndex = Math.max(0, Math.min(items.length - 1, index));
+        pointerPosition.current = null;
+        setHoveredRow(null);
+        setKeyboardSelection(true);
         if (page === "library") setLibraryPage(Math.floor(nextIndex / libraryPageSize) + 1);
         setSelected(items[nextIndex]?.id || null);
-        list.focus();
+        list.focus({ preventScroll: true });
       }
       if (e.key === "Enter" && selectedRef.current) {
         e.preventDefault();
@@ -1509,8 +1554,9 @@ export default function App() {
       <tr
         key={row.id}
         data-id={row.id}
-        data-selected={selected === row.id}
-        aria-selected={selected === row.id}
+        data-selected={keyboardSelection && selected === row.id}
+        aria-selected={keyboardSelection && selected === row.id}
+        data-hovered={hoveredRow === row.id}
         onClick={(e) => {
           if (!e.target.closest("button,a,input,select,label,summary")) {
             setSelected(row.id);
@@ -1625,15 +1671,28 @@ export default function App() {
   function renderTable(items) {
     const knownQueues = new Set(QUEUES.map(queue => queue.id));
     const goalIds = new Set((workspace.goalTasks || []).map(task => task.id));
-    const otherItems = items.filter(row => !goalIds.has(row.id));
+    const frozenGroups=listOrder?.page===page && listOrder.filters===currentFilters && listOrder.query===query ? listOrder.groups : null;
+    const groupOf=row=>frozenGroups?.[row.id] || (goalIds.has(row.id)?'goals':knownQueues.has(row.queue)?row.queue:row.accepted?'accepted':'practice');
     const groups = page === "mine" ? [
-      { id: "goals", name: "今日目标", color: "accent", rows: items.filter(row => goalIds.has(row.id)) },
-      ...QUEUES.map(queue => ({ ...queue, rows: otherItems.filter(row => row.queue === queue.id) })),
-      { id: "practice", name: "继续练习", color: "neutral", rows: otherItems.filter(row => !knownQueues.has(row.queue) && !row.accepted) },
-      { id: "accepted", name: "已 AC", color: "green", rows: otherItems.filter(row => !knownQueues.has(row.queue) && row.accepted) },
+      { id: "goals", name: "今日目标", color: "accent", rows: items.filter(row => groupOf(row)==='goals') },
+      ...QUEUES.map(queue => ({ ...queue, rows: items.filter(row => groupOf(row)===queue.id) })),
+      { id: "practice", name: "继续练习", color: "neutral", rows: items.filter(row => groupOf(row)==='practice') },
+      { id: "accepted", name: "已 AC", color: "green", rows: items.filter(row => groupOf(row)==='accepted') },
     ] : null;
     return (
-      <div className="table-scroll" ref={listRef} tabIndex={0} role="region" aria-label="题目列表">
+      <div className="table-scroll" ref={listRef} tabIndex={0} role="region" aria-label="题目列表"
+        onPointerMove={event => {
+          pointerPosition.current = { x:event.clientX,y:event.clientY };
+          setHoveredRow(event.target.closest('tr[data-id]')?.dataset.id || null);
+          if (keyboardSelection) setKeyboardSelection(false);
+        }}
+        onPointerLeave={() => { pointerPosition.current=null;setHoveredRow(null); }}
+        onScroll={() => {
+          const position=pointerPosition.current;
+          if (!position) return;
+          const row=document.elementFromPoint(position.x,position.y)?.closest('tr[data-id]');
+          setHoveredRow(row && listRef.current?.contains(row) ? row.dataset.id : null);
+        }}>
         <table className="problem-table">
           <thead><tr>
             <th className="title-head">题目 / 来源</th><th>知识点</th>
@@ -1655,17 +1714,18 @@ export default function App() {
   }
   function toolbar() {
     return <>
-      {page === "library" && <ContestTabs value={currentFilters.platform || currentFilters.shelf || 'all'} onChange={shelf => setFilter({ shelf, platform: '', contest: '' })} label="题库比赛分类" />}
+      {page === "library" && catalogScope?.page!==page && <ContestTabs value={currentFilters.platform || currentFilters.shelf || 'all'} onChange={shelf => setFilter({ shelf, platform: '', contest: '' })} label="题库比赛分类" />}
       <div className="table-toolbar compact-search-toolbar">
+        <Tooltip text="按平台、比赛逐层浏览；再次点击返回题目列表。"><button className="secondary catalog-view-toggle" aria-label="逐层浏览题库" aria-pressed={catalogScope?.page===page} onClick={()=>{setListOrder(null);setSelected(null);if(catalogScope?.page===page)setCatalogScope(null);else{setCatalogScope({page,stage:'platforms',platform:'',contest:''});setFilter({platform:'',shelf:'all',contest:''});}}}><FolderTree size={17}/></button></Tooltip>
         <div className="search-box"><Search size={17} />
           <input ref={searchRef} aria-label="搜索题目" placeholder="搜索题目、场次、知识点…" value={currentFilters.query} onChange={event => setFilter({ query: event.target.value })} onKeyDown={event => { if (["ArrowDown", "Enter"].includes(event.key)) { event.preventDefault(); focusList(); } }} />
           {currentFilters.query ? <IconButton label="清空搜索" icon={X} onClick={() => setFilter({ query: "" })} /> : <kbd>F</kbd>}
         </div>
         <ProblemFilters value={currentFilters} onChange={setFilter} onReset={resetFilters} onSave={() => { setViewName(""); setDialog("saveView"); }} />
         <button className={"secondary favorite-filter " + (currentFilters.favoritesOnly ? "active" : "")} aria-label="收藏题目筛选" aria-pressed={currentFilters.favoritesOnly} onClick={() => setFilter({ favoritesOnly: !currentFilters.favoritesOnly })}><Star size={15} /><span>收藏</span></button>
-        <select className="sort-select" aria-label="排序方式" title={page === "mine" ? "任务按紧迫程度排列，此项调整同类任务的顺序" : undefined} value={currentFilters.sort} onChange={event => setFilter({ sort: event.target.value, desc: event.target.value === "date" })}>
+        <ThemedSelect className="sort-select" aria-label="排序方式" title={page === "mine" ? "任务按紧迫程度排列，此项调整同类任务的顺序" : undefined} value={currentFilters.sort} onChange={event => setFilter({ sort: event.target.value, desc: event.target.value === "date" })}>
           <option value="contestDate">比赛时间</option><option value="contest">按场次</option><option value="difficulty">按难度</option><option value="date">最近练习</option><option value="title">按题名</option>
-        </select>
+        </ThemedSelect>
         <span className="toolbar-count">{visible.length} 题</span>
         {page === "mine" && <button className="secondary clear-training-button" aria-label="清空我的训练" disabled={busy || !mine.length || !!active || !!workspace.summary.pending} onClick={() => setDialog("clear-training")}><MinusCircle size={15} />清空训练</button>}
       </div>
@@ -1695,17 +1755,7 @@ export default function App() {
                     <X size={12} />
                   </button>
                 )}
-                {prefs.views?.map((view) => (
-                  <button
-                    key={view.id}
-                    className="saved-chip"
-                    onClick={() =>
-                      setFilter({ ...blankFilters(), ...view.filters })
-                    }
-                  >
-                    {view.name}
-                  </button>
-                ))}
+                {prefs.views?.map(view => <span key={view.id} className="saved-filter"><button className="saved-chip" onClick={() => setFilter({ ...blankFilters(), ...view.filters })}>{view.name}</button><button className="saved-filter-delete" aria-label={`删除已保存筛选 ${view.name}`} title="删除已保存的筛选" onClick={() => setPrefs(previous => ({ ...previous, views: previous.views.filter(item => item.id !== view.id) }))}><X size={13}/></button></span>)}
               </div>
             )}
     </>;
@@ -1731,13 +1781,12 @@ export default function App() {
     return (
       <div className="list-page">
         {toolbar()}
-        {renderTable(displayedRows)}
-        {page === "library" && (
+        {catalogScope?.page===page && <CatalogPath scope={catalogScope} onChange={scope=>{setCatalogScope({page,...scope});setListOrder(null);setLibraryPage(1);}}/>}
+        {catalogScope?.page===page && catalogScope.stage!=='problems'?<CatalogExplorer rows={visible} scope={catalogScope} onChange={scope=>{setCatalogScope({page,...scope});setListOrder(null);setLibraryPage(1);}}/>:renderTable(displayedRows)}
+        {page === "library" && !(catalogScope?.page===page&&catalogScope.stage!=='problems') && (
           <nav className="library-pagination" aria-label="题库分页">
             <label>每页
-              <select aria-label="题库每页题数" value={libraryPageSize} onChange={(event) => { setLibraryPageSize(Number(event.target.value)); setLibraryPage(1); }}>
-                {[25, 50, 100].map(size => <option key={size} value={size}>{size} 题</option>)}
-              </select>
+              <BoundedNumber aria-label="题库每页题数" min={10} max={200} value={libraryPageSize} required onChange={event=>{setLibraryPageSize(Number(event.target.value));setLibraryPage(1);}}/>
             </label>
             <span role="status">{visible.length ? `${libraryStart + 1}–${Math.min(libraryStart + libraryPageSize, visible.length)}` : "0"} / {visible.length} 题</span>
             <div className="pagination-actions">
@@ -1831,188 +1880,7 @@ export default function App() {
     );
   }
   function settingsPage() {
-    return (
-      <div className="settings-page scroll-panel">
-        <div className="settings-tabs" role="tablist" aria-label="设置分类">{[["appearance", "外观与导航"], ["updates", "更新"], ["training", "训练与快捷操作"], ["help", "数据与帮助"]].map(([value, label]) => <button key={value} role="tab" aria-selected={settingsTab === value} className={settingsTab === value ? "active" : ""} onClick={() => setSettingsTab(value)}>{label}</button>)}</div>
-        <div className="settings-column">
-        <section className="settings-appearance" hidden={settingsTab !== "appearance"}>
-          <h2>界面偏好</h2>
-          <div className="settings-row">
-            <div>
-              <strong>主题</strong>
-              <small>长时间阅读也保持清楚</small>
-            </div>
-            <div className="choice-group">
-              <button
-                className={prefs.theme === "dark" ? "active" : ""}
-                onClick={() => setPrefs((p) => ({ ...p, theme: "dark" }))}
-              >
-                <Moon size={15} />
-                石墨深色
-              </button>
-              <button
-                className={prefs.theme === "light" ? "active" : ""}
-                onClick={() => setPrefs((p) => ({ ...p, theme: "light" }))}
-              >
-                <Sun size={15} />
-                云白浅色
-              </button>
-            </div>
-          </div>
-          <div className="settings-row">
-            <div>
-              <strong>强调色</strong>
-              <small>用于当前焦点与主要操作</small>
-            </div>
-            <div className="accent-options">
-              {[
-                { id: "violet", name: "雾紫", color: "#9d8df1" },
-                { id: "blue", name: "澄空蓝", color: "#6fa5e8" },
-                { id: "teal", name: "松石绿", color: "#5bbda4" },
-                { id: "amber", name: "暖琥珀", color: "#d7a45e" },
-              ].map((a) => (
-                <button
-                  key={a.id}
-                  aria-label={a.name}
-                  className={prefs.accent === a.id ? "active" : ""}
-                  style={{ "--swatch": a.color }}
-                  onClick={() => setPrefs((p) => ({ ...p, accent: a.id }))}
-                >
-                  <span />
-                  {a.name}
-                  {prefs.accent === a.id && <Check size={13} />}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="settings-row font-setting">
-            <div>
-              <strong>界面字号</strong>
-              <small>题目、列表和阅读区同步调整</small>
-            </div>
-            <div className="font-options">
-              {[13, 15, 17, 18].map((size) => (
-                <button
-                  key={size}
-                  className={prefs.fontSize === size ? "active" : ""}
-                  aria-label={`字号 ${size}`}
-                  onClick={() => setPrefs((p) => ({ ...p, fontSize: size }))}
-                >
-                  {size}px
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="settings-row">
-            <div>
-              <strong>全屏</strong>
-              <small>{display.available ? "按 F11 或在此切换整窗全屏" : "仅桌面版可用"}</small>
-            </div>
-            <label className="toggle-label">
-              <input className="toggle" aria-label="全屏" type="checkbox" checked={display.fullscreen} disabled={!display.available} onChange={(event) => applyFullscreen(event.target.checked)} />
-            </label>
-          </div>
-          {[
-            { id: "compact", title: "紧凑列表", desc: "在同一屏显示更多题目" },
-            {
-              id: "motion",
-              title: "界面动效",
-              desc: "遵循系统减少动态效果设置",
-            },
-            {
-              id: "collapsed",
-              title: "收起左侧栏",
-              desc: "保留导航图标，Ctrl+B 随时切换",
-            },
-            { id: 'showPlatforms', title: '显示比赛平台', desc: '题目图标与比赛来源' },
-          ].map((item) => (
-            <label className="settings-row" key={item.id}>
-              <div>
-                <strong>{item.title}</strong>
-                <small>{item.desc}</small>
-              </div>
-              <input
-                className="toggle"
-                aria-label={item.title}
-                type="checkbox"
-                checked={prefs[item.id]}
-                onChange={(e) =>
-                  setPrefs((p) => ({ ...p, [item.id]: e.target.checked }))
-                }
-              />
-            </label>
-          ))}
-        </section>
-        {settingsTab === "appearance" && <AppearanceSettings prefs={prefs} setPrefs={setPrefs} onError={message => notice(message, "error")} />}
-        {settingsTab === "appearance" && <NavigationSettings pages={PAGES} prefs={prefs} setPrefs={setPrefs} />}
-        {settingsTab === "help" && <Suspense fallback={<p role="status">正在读取…</p>}><DataHelpSettings api={api} onTutorial={() => setDialog('onboarding')} onError={message => notice(message, 'error')}/></Suspense>}
-        {settingsTab === "training" && <section>
-          <h2>训练与评测</h2>
-          <div className="settings-information">
-            <p>
-              个人进度只统计主动加入或提交的题，同题只计一次。取消训练保留代码和历史，重新加入可恢复。
-            </p>
-            <p>
-              <strong>AC</strong>：在四个竞赛网站原站通过才算，并按难度积累经验。
-              <strong>样例通过</strong>
-              ：本地测试全对也只叫样例通过，不等于 AC。比赛结束后可以查阅题解、重练未完成的题。
-            </p>
-            <p>
-              AC 后按 7 天 / 30
-              天安排复习。提交结果会保留，练习失败不会抹去以前的AC。
-            </p>
-          </div>
-        </section>}
-        {settingsTab === "training" && <section>
-          <h2>键盘与常用筛选</h2>
-          <div className="settings-row">
-            <div>
-              <strong>完整键盘操作</strong>
-              <small>导航、知识点树、选题、编辑与提交</small>
-            </div>
-            <button className="secondary" onClick={() => setDialog("help")}>
-              <Keyboard size={16} />
-              查看键位
-            </button>
-          </div>
-          {prefs.views?.map((view) => (
-            <div className="settings-row" key={view.id}>
-              <strong>{view.name}</strong>
-              <IconButton
-                label={"删除筛选 " + view.name}
-                icon={X}
-                onClick={() =>
-                  setPrefs((p) => ({
-                    ...p,
-                    views: p.views.filter((v) => v.id !== view.id),
-                  }))
-                }
-              />
-            </div>
-          ))}
-          <h3>快捷操作</h3>
-          <div className="settings-commands">{commands.map(command => <button key={command.name} className="secondary" onClick={command.action}><span>{command.name}</span>{command.detail && <kbd>{command.detail}</kbd>}</button>)}</div>
-          <p className="progress-small">随时按 Ctrl+K 打开快捷操作。</p>
-        </section>}
-        </div>
-        <div className="settings-column">
-        {settingsTab === "updates" && <section className="settings-updates">
-          <h2>更新与自动收录</h2>
-          <SoftwareUpdatePanel update={softwareUpdate} />
-          <UpdatePanel
-            softwareState={softwareUpdate.state}
-            showNotifications={false}
-            onContent={openUpdate}
-            hub={hub}
-            api={api}
-            onChanged={setHub}
-            onError={(message) => notice(message, "error")}
-          />
-          <button className="text-button" onClick={() => setDialog("updates")}><Bell size={14} />在铃铛查看更新通知</button>
-        </section>}
-        </div>
-      </div>
-    );
+    return <PreferencesPage tab={settingsTab} onTab={setSettingsTab} prefs={prefs} setPrefs={setPrefs} display={display} onFullscreen={applyFullscreen} api={api} softwareUpdate={softwareUpdate} hub={hub} onHubChanged={setHub} onError={message=>notice(message, "error")} onContent={openUpdate} onMessages={()=>setDialog("updates")} onTutorial={()=>setDialog("onboarding")} onKeyboard={()=>setDialog("help")} commands={{pages:PAGES,items:commands}}/>;
   }
 
   const navigationPages = orderedPages(PAGES, prefs);
@@ -2222,7 +2090,6 @@ export default function App() {
           </div>
           <div className="topbar-actions">
             <div className="topbar-titles"><TitleMedals titles={insights?.equippedTitles || growth?.equippedTitles || []} /></div>
-            {prefs.widgets && <TopbarClock />}
             {active && page !== "mock" && (
               <button className="live-contest" onClick={() => go("mock")}>
                 <Clock size={14} />
@@ -2230,17 +2097,16 @@ export default function App() {
               </button>
             )}
             <button className="text-button topbar-daily-ac topbar-status-chip" aria-label={`今日 AC ${summary.todayAccepted || 0} 题`} onClick={() => go("mine")}><Check size={14}/><span>今日 AC</span><b>{summary.todayAccepted || 0}</b></button>
-            <button type="button" className={`topbar-overview ${growth?.ranked?.badge || growth?.badge || ""}`} aria-label="训练概览" aria-haspopup="dialog" aria-busy={!growthReady} title="你的训练概览" onClick={() => setDialog("summary")}>
-              {growthReady ? <><TierIcon badge={growth.ranked?.badge || growth.badge} size={16} /><strong>{growth.ranked?.tier || growth.tier} · Lv.{growth.level}</strong><span>{growth.ranked ? `${num(growth.ranked.score)} TB 排位分` : `${num(growth.currentLevelXp)}/${num(growth.nextLevelXp)} XP`}</span></> : <><LoaderCircle size={16} className="spin" /><span role="status">成长数据读取中</span></>}
-            </button>
+            {social.snapshot?.available && <button className="text-button topbar-love-count topbar-status-chip" aria-label={`收到的总爱心 ${social.snapshot.totalLikes}`} onClick={() => setDialog('updates')}><Heart size={15}/><span>总爱心</span><b>{social.snapshot.totalLikes}</b></button>}
+            <ProfileBadge growth={growth} avatar={prefs.avatarData} nickname={account?.nickname || profileSnapshot?.profile?.nickname} onClick={()=>setDialog('summary')} onAvatarClick={()=>{go('settings');setSettingsTab('account');}}/>
             <button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><span>每日任务</span><small>{(insights?.dailyTasks?.tasks || []).filter(task => task.claimed).length}/{insights?.dailyTasks?.tasks?.length || 6}</small>{(insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed)) && <i className="notification-dot" />}</button>
             <button className="achievement-top-button" aria-label="成就" onClick={openAchievements}><Medal size={17} /><span>成就</span><small>{unlockedAchievements.length}/{achievements.length}</small>{unseenAchievements.length > 0 && <i className="notification-dot" />}</button>
             <IconButton
-              label="更新通知"
+              label="消息通知"
               icon={Bell}
               onClick={() => setDialog("updates")}
             >
-              {(hub?.notifications || []).some((n) => !n.read) && (
+              {((hub?.notifications || []).some((n) => !n.read) || social.snapshot?.unreadCount > 0) && (
                 <span className="notification-dot" />
               )}
             </IconButton>
@@ -2259,6 +2125,7 @@ export default function App() {
               icon={Keyboard}
               onClick={() => setDialog("help")}
             />
+            {prefs.widgets && <TopbarClock />}
           </div>
         </header>
         {error && (
@@ -2269,7 +2136,7 @@ export default function App() {
         )}
         {!practiceId && mergedPages.length > 1 && <div className="merged-page-tabs" role="tablist" aria-label={`组合页面 ${currentPage?.group}`}>{mergedPages.map(item => <button key={item.id} role="tab" aria-selected={page === item.id} className={page === item.id ? "active" : ""} onClick={() => go(item.id)}><item.icon size={15} />{item.label}{item.id === "mine" && dueCount > 0 && <i className="training-tab-dot" role="img" aria-label="有未完成训练待办" />}</button>)}</div>}
         <BrowserPreparation api={api} enabled={Boolean(data)} />
-        <div className={"workspace-area " + (practiceId ? "practicing" : "")}>
+        <div data-page={practiceId ? "practice" : page} className={"workspace-area " + (practiceId ? "practicing" : "")} style={{ '--page-opacity': `var(--opacity-${practiceId ? 'mock' : page}, var(--panel-opacity))` }}>
           <Suspense fallback={<div className="loading-screen" role="status"><LoaderCircle size={27} className="spin" /><p>正在载入</p></div>}>
           {loading ? (
             <div className="loading-screen">
@@ -2348,7 +2215,6 @@ export default function App() {
             <SubmissionRecords submissions={submissionLog} total={submissionPage.total} hasMore={submissionPage.hasMore} loading={submissionLoading} onLoadMore={loadMoreSubmissions} rows={rows} onSelect={(submission) => { setSelectedSubmission(submission); setDialog("submission"); }} />
           ) : page === "competitions" ? (
             <CompetitionPage
-              showPlatforms={prefs.showPlatforms}
               rows={rows}
               workspace={workspace}
               hub={hub}
@@ -2358,6 +2224,8 @@ export default function App() {
             />
           ) : page === "growth" ? (
             <GrowthPage
+              avatarData={prefs.avatarData}
+              onAvatar={()=>{go('settings');setSettingsTab('account');}}
               onRankings={() => go("rankings")}
               api={api}
               onGoalsChanged={() => api("workspace").then(applyWorkspace)}
@@ -2416,7 +2284,8 @@ export default function App() {
       {dialog === "achievements" && <Modal title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => setDialog(null)} wide><AchievementPanel achievements={achievements} newIds={unseenAchievements.map(item => item.id)} onSeen={markAchievementSeen} /></Modal>}
       {dialog === "submission" && selectedSubmission && <Modal title={selectedSubmission.title + " · 历史提交"} onClose={() => setDialog(null)} wide footer={<button className="primary" onClick={() => { setDialog(null); openPractice(selectedSubmission.problemId); }}><Play size={14} />继续练习</button>}><div className="submission-detail-meta"><Verdict value={selectedSubmission.verdict} /><span>{formatDate(selectedSubmission.submittedAt)}</span><span>{selectedSubmission.contestName}</span><button className="secondary" disabled={!selectedSubmission.code} onClick={() => copy(selectedSubmission.code)}><Copy size={14} />复制本次代码</button></div><pre className="submission-source"><code>{selectedSubmission.code || "这条记录没有保存代码。"}</code></pre>{selectedSubmission.message && <p className="submission-message">{selectedSubmission.message}</p>}</Modal>}
       {dialog === "updates" && (
-        <Modal title="更新与新内容" onClose={() => setDialog(null)} wide>
+        <Modal title="消息与更新" onClose={() => setDialog(null)} wide>
+          <SocialNotifications social={social} api={api}/>
           <UpdatePanel
             softwareState={softwareUpdate.state}
             onContent={openUpdate}
@@ -2459,6 +2328,7 @@ export default function App() {
           <div className="milestones">
             {nextAcAchievement ? <div className="next-ac-milestone"><Trophy size={16} /><span>下个成就 · {nextAcAchievement.name}</span><small>{num(nextAcAchievement.progress)} / {num(nextAcAchievement.target)}</small>{nextAcAchievement.rewardTitle ? <b>称号 · {nextAcAchievement.rewardTitle.name}</b> : nextAcAchievement.rewardXp > 0 && <b>+{num(nextAcAchievement.rewardXp)} XP</b>}</div> : <div>{insights ? acAchievements.length ? "全部 AC 成就已达成" : "AC 成就正在准备" : "正在读取 AC 成就"}</div>}
           </div>
+          {growth?.ranked?.tierRequirements?.length > 0 && <details className="rank-requirements"><summary>段位要求</summary><p>{growth.ranked.rules}</p><table aria-label="段位能力分要求"><thead><tr><th>段位</th><th>最低能力分</th></tr></thead><tbody>{growth.ranked.tierRequirements.map(tier=><tr key={tier.badge}><td><span className={`rank-requirement-tier ${tier.badge}`}><TierIcon badge={tier.badge} size={16}/>{tier.tier}</span></td><td>{num(tier.minAbilityScore)}</td></tr>)}</tbody></table></details>}
         </Modal>
       )}
       {dialog === 'clear-training' && <Modal title="清空我的训练" onClose={() => setDialog(null)} footer={<><button className="secondary" onClick={() => setDialog(null)}>取消</button><button className="primary" disabled={busy || !!active} onClick={async () => { setBusy(true); try { const result = await api('training/clear', {}); applyWorkspace(result.workspace); setDialog(null); notice(`已清空 ${result.cleared} 道训练题，代码与提交记录已保留`, 'success'); } catch (issue) { notice(issue.message, 'error'); } finally { setBusy(false); } }}>确认清空 {mine.length} 道训练题</button></>}><p>将全部 {mine.length} 道题从训练和待办中移除，包括未在今日列表显示的题目。保留全部代码、草稿、提交历史、身份和目标计划；可以从题库重新加入。</p></Modal>}

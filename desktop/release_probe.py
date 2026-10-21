@@ -196,6 +196,8 @@ def run(action, output):
                         wait_js("!!document.querySelector('.nav-item')")
                         report['nativeLoaded'] = True
                         window.evaluate_js("document.querySelector('[aria-label=\"偏好设置\"]').click()")
+                        wait_js("!!document.querySelector('[role=tab][aria-label=\"交互设置\"]')")
+                        window.evaluate_js("document.querySelector('[role=tab][aria-label=\"交互设置\"]').click()")
                         wait_js("!!document.querySelector('input[aria-label=\"全屏\"]') && !document.querySelector('input[aria-label=\"全屏\"]').disabled")
                         assert not is_fullscreen(window)
                         window.evaluate_js("document.querySelector('input[aria-label=\"全屏\"]').click()")
@@ -252,8 +254,8 @@ def run(action, output):
                         edge.WinForms=FormsProxy()
                         try:
                             window.evaluate_js("Array.from(document.querySelectorAll('.sidebar button')).find(b=>b.textContent.includes('偏好设置')).click()")
-                            wait_js("!!document.querySelector('.settings-tabs')")
-                            window.evaluate_js("Array.from(document.querySelectorAll('.settings-tabs button')).find(b=>b.textContent==='数据与帮助').click()")
+                            wait_js("!!document.querySelector('.settings-subpage-tabs')")
+                            window.evaluate_js("document.querySelector('[role=tab][aria-label=\"数据与帮助\"]').click()")
                             wait_js("!!document.querySelector('.help-action')")
                             window.evaluate_js("document.querySelector('.help-action').click()")
                             deadline=time.monotonic()+20

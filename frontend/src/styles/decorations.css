@@ -25,11 +25,10 @@
 [data-backdrop]:not([data-backdrop=none]) :is(.sidebar,.topbar,.progress-section,.list-page,.training-goals,.settings-page section,.progress-level-strip,.next-milestone) {
   background-color:var(--glass-panel);
 }
-[data-backdrop]:not([data-backdrop=none]) :is(.problem-table thead th,.queue-heading,.search-toolbar,.ranking-table tbody td) {
+[data-backdrop]:not([data-backdrop=none]) :is(.queue-heading,.search-toolbar,.ranking-table tbody td) {
   background-color:var(--glass-raised);
 }
 [data-backdrop]:not([data-backdrop=none]) :is(.problem-table tbody tr,.progress-page,.settings-page,.workspace-area,.record-slot) {background-color:transparent}
-[data-backdrop=custom] :is(.wb-statement-pane,.wb-code-pane,.wb-body,.tb-workbench) {background:color-mix(in srgb,var(--panel) 88%,transparent)}
 .appearance-opacity {gap:12px}
 .appearance-opacity input {width:min(180px,30%);accent-color:var(--accent)}
 .appearance-opacity output {width:3em;font-variant-numeric:tabular-nums;color:var(--muted);font-size:.85rem}

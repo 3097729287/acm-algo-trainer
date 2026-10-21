@@ -17,7 +17,6 @@ html .problem-table .queue-heading.accent strong {color:var(--accent)}
 html .workspace-area :is(.competition-card,.mock-config,.mock-mode-options>button,.paper-preview,.goal-card,.goal-contest-grid>div,.record-summary,.activity-day-detail) {background-color:var(--panel)}
 html .workspace-area :is(.mock-config,.competition-card,.progress-section) {box-shadow:none}
 html .workspace-area :is(.section-title,.paper-preview-title,.record-detail-heading,.record-slot,.mock-tabs,.competition-tabs) {border-color:transparent}
-:root[data-backdrop=custom] :is(.wb-statement-pane,.wb-code-pane,.wb-body,.tb-workbench) {background:color-mix(in srgb,var(--panel-base) 88%,transparent)}
 .topbar-clock {display:inline-flex;align-items:center;gap:7px;white-space:nowrap;color:var(--muted);font-size:.85rem;padding:6px 9px;border-radius:8px;background:var(--panel);font-variant-numeric:tabular-nums}
 .topbar-clock time {color:var(--text);font-weight:600}
 .goal-management-bar {display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;min-height:30px}
