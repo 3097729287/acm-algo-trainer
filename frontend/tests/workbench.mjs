@@ -36,8 +36,10 @@ try {
   assert.equal(enlarged.editor, beforeSize.editor, 'reading size does not enlarge code');
   assert.equal(enlarged.toolbar, beforeSize.toolbar);
   await page.getByRole('button', { name: '放大题面字号', exact: true }).click();
+  await page.waitForFunction(() => document.querySelector('input[aria-label="题面字号"]').value === '25');
   assert.equal(await fontSize.inputValue(), '25');
   await page.getByRole('button', { name: '缩小题面字号', exact: true }).click();
+  await page.waitForFunction(() => document.querySelector('input[aria-label="题面字号"]').value === '24');
   assert.equal(await fontSize.inputValue(), '24');
   await page.reload();
   await editor.waitFor({ state: 'visible' });
