@@ -81,8 +81,8 @@ def save_preferences(training, body):
     for name in ('showPlatforms', 'onboardingCompleted'):
         if name in value and type(value[name]) is not bool:
             raise ServiceError(400, '界面选项格式无效')
-    if 'panelOpacity' in value and (type(value['panelOpacity']) is not int or not 25 <= value['panelOpacity'] <= 100):
-        raise ServiceError(400, '面板不透明度须为 25–100')
+    if 'panelOpacity' in value and (type(value['panelOpacity']) is not int or not 0 <= value['panelOpacity'] <= 100):
+        raise ServiceError(400, '面板不透明度须为 0–100')
     if 'fontSize' in value and (type(value['fontSize']) is not int or not 13 <= value['fontSize'] <= 22):
         raise ServiceError(400, '界面字号须为 13–22')
     if 'pageOpacities' in value:

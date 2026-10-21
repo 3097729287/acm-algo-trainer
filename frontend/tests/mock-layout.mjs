@@ -38,6 +38,7 @@ await page.route('**/api/**', async route => {
   let value;
   if (path === '/api/account') value = { required: false, authenticated: true, token: 'mock-ui-fixture', account: null };
   else if (path === '/api/data') value = { rows, categories: [], token: 'mock-ui-fixture', today: now().slice(0, 10) };
+  else if (path === '/api/software-update') value = {currentVersion:'1.2.1',status:'current',autoCheck:false,canInstall:false};
   else if (path === '/api/browser-preparation') value = {available:false};
   else if (path === '/api/workspace') value = workspace();
   else if (path === '/api/inbox') value = { pending: 0, errors: [] };

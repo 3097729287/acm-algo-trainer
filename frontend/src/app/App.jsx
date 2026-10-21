@@ -1,5 +1,5 @@
 import Tooltip from '@/components/Tooltip.jsx';
-import CatalogExplorer, { CatalogPath } from '@/components/CatalogExplorer.jsx';
+import CatalogExplorer, { catalogMatches, CatalogPath } from '@/components/CatalogExplorer.jsx';
 import ProfileBadge from '@/components/ProfileBadge.jsx';
 import BoundedNumber from '@/components/BoundedNumber.jsx';
 import ThemedSelect from '@/components/ThemedSelect.jsx';
@@ -28,6 +28,7 @@ import {
   History,
   Network,
   Settings2,
+  Settings,
   Search,
   ChevronRight,
   ChevronDown,
@@ -106,6 +107,7 @@ const RankingsPage = lazy(() => import('@/pages/CommunityPanel.jsx'));
 const MockSetup = lazy(() => import('@/app/MockSetup.jsx'));
 const SubmissionRecords = lazy(() => import('@/pages/SubmissionRecords.jsx'));
 const MockHistory = lazy(() => import('@/pages/SubmissionRecords.jsx').then(module => ({ default: module.MockHistory })));
+const AvatarSettings = lazy(() => import('@/components/AvatarSettings.jsx'));
 const Onboarding = lazy(() => import('@/pages/Onboarding.jsx'));
 const PreferencesPage = lazy(() => import('@/pages/PreferencesPage.jsx'));
 
@@ -220,7 +222,7 @@ function Verdict({ value, accepted = false, scope }) {
   return (
     <span className={"verdict " + verdictTone(current)}>
       <span />
-      {verdictLabel(current)}
+      {current ? verdictLabel(current) : <span className="sr-only">未提交</span>}
       {accepted && current !== "AC" && (
         <Check
           size={11}
@@ -529,13 +531,16 @@ export default function App() {
     [recordOnlyPending, setRecordOnlyPending] = useState(false),
     [mockTab, setMockTab] = useState("create"),
     [selectedSubmission, setSelectedSubmission] = useState(null),
-    [settingsTab, setSettingsTab] = useState("appearance"),
+    [settingsTab, setSettingsTab] = useState(()=>{try{const value=JSON.parse(sessionStorage.getItem(`tb.settings.location.${window.__tbAccount?.userId || window.__tbAccount?.loginId || 'local'}`)||'{}').tab;return ['appearance','interaction','updates','training','help','advanced'].includes(value)?value:'home';}catch{return 'home';}}),
     [submissionLog, setSubmissionLog] = useState([]),
     [submissionPage, setSubmissionPage] = useState({ total: 0, nextOffset: 0, hasMore: false }),
     [submissionLoading, setSubmissionLoading] = useState(false);
   const [keyboardSelection, setKeyboardSelection] = useState(false), [listOrder, setListOrder] = useState(null);
   const restoreList = useRef(null);
   const [catalogScope,setCatalogScope]=useState(null);
+  const [knowledgeOpen,setKnowledgeOpen]=useState(false);
+  useEffect(() => { if (prefs.collapsed) setKnowledgeOpen(false); }, [prefs.collapsed]);
+  const [tourOpen,setTourOpen]=useState(false);
   const pointerPosition = useRef(null);
   const [hoveredRow, setHoveredRow] = useState(null);
   const [dialog, setDialog] = useState(null),
@@ -579,9 +584,10 @@ export default function App() {
   const [preferencesRevision, setPreferencesRevision] = useState(0);
   useEffect(() => {
     if (!loading && preferencesLoaded.current && window.__tbNewAccount && !prefs.onboardingCompleted && !dialog)
-      setDialog('onboarding');
+      setTourOpen(true);
   }, [loading, preferencesRevision, prefs.onboardingCompleted, dialog]);
   function finishOnboarding() {
+    setTourOpen(false);
     window.__tbNewAccount = false;
     try { sessionStorage.removeItem(`tb.onboarding.pending.${(window.__tbAccount?.loginId || '').toLowerCase()}`); } catch { /* Optional device hint. */ }
     setPrefs(previous => ({ ...previous, onboardingCompleted: true }));
@@ -656,7 +662,7 @@ export default function App() {
           return true;
         } catch (issue) {
           if (alive) {
-            notice(`偏好设置读取未完成：${issue.message}`, 'error');
+            notice(`设置读取未完成：${issue.message}`, 'error');
             timer = setTimeout(load, 5000);
           }
           return false;
@@ -682,7 +688,7 @@ export default function App() {
           uploadedPreferences.current = signature;
           return true;
         } catch (issue) {
-          notice(`偏好设置尚未同步：${issue.message}`, 'error');
+          notice(`设置尚未同步：${issue.message}`, 'error');
           return false;
         }
       });
@@ -744,7 +750,7 @@ export default function App() {
     const root = document.documentElement;
     root.dataset.panelStyle = prefs.panelStyle;
     root.dataset.backdrop = prefs.backdrop;
-    root.style.setProperty('--panel-opacity', `${Math.min(100, Math.max(25, Number(prefs.panelOpacity) || 76))}%`);
+    root.style.setProperty('--panel-opacity', `${Math.min(100, Math.max(0, Number(prefs.panelOpacity ?? 76)))}%`);
     for (const [key, value] of Object.entries(prefs.pageOpacities || {}))
       root.style.setProperty(`--opacity-${key}`, `${Math.min(100, Math.max(0, Number(value) || 0))}%`);
     for (const key of ['mine','library','competitions','mock','rankings','growth','records','activity','lectures','settings','statement','editor'])
@@ -927,7 +933,7 @@ export default function App() {
     const base = page === "mine" ? todayMine : rows.filter(row => !row.catalogHidden),
       params = { ...currentFilters, query, favorites: prefs.favorites };
     let filtered = filterRows(base, params);
-    if (catalogScope?.page===page) filtered=filtered.filter(row=>(!catalogScope.platform||row.platform===catalogScope.platform)&&(!catalogScope.contest||row.contest===catalogScope.contest));
+    if (catalogScope?.page===page) filtered=filtered.filter(row=>catalogMatches(row,catalogScope));
     if (page === "mine" && params.setId === "@single") {
       const grouped = new Set([...workspace.sets.flatMap(set => set.ids || []), ...workspace.contests.flatMap(contest => contest.slots?.map(slot => slot.id) || [])]);
       filtered = filtered.filter(row => !grouped.has(row.id));
@@ -1346,7 +1352,7 @@ export default function App() {
     },
     { name: "打开键盘帮助", detail: "?", action: () => setDialog("help") },
     { name: "查看训练概览", action: () => setDialog("summary") },
-    { name: "偏好设置", detail: "Ctrl+,", action: () => go("settings") },
+    { name: "设置", detail: "Ctrl+,", action: () => go("settings") },
   ];
   useEffect(() => {
     function keyboard(e) {
@@ -1880,7 +1886,7 @@ export default function App() {
     );
   }
   function settingsPage() {
-    return <PreferencesPage tab={settingsTab} onTab={setSettingsTab} prefs={prefs} setPrefs={setPrefs} display={display} onFullscreen={applyFullscreen} api={api} softwareUpdate={softwareUpdate} hub={hub} onHubChanged={setHub} onError={message=>notice(message, "error")} onContent={openUpdate} onMessages={()=>setDialog("updates")} onTutorial={()=>setDialog("onboarding")} onKeyboard={()=>setDialog("help")} commands={{pages:PAGES,items:commands}}/>;
+    return <PreferencesPage tab={settingsTab} onTab={setSettingsTab} prefs={prefs} setPrefs={setPrefs} display={display} onFullscreen={applyFullscreen} api={api} softwareUpdate={softwareUpdate} hub={hub} onHubChanged={setHub} onError={message=>notice(message, "error")} onContent={openUpdate} onMessages={()=>setDialog("updates")} onTutorial={()=>setTourOpen(true)} onKeyboard={()=>setDialog("help")} commands={{pages:PAGES,items:commands}}/>;
   }
 
   const navigationPages = orderedPages(PAGES, prefs);
@@ -2005,7 +2011,7 @@ export default function App() {
       className={"app-shell " + (prefs.collapsed ? "sidebar-collapsed " : "") + (mockFocus ? "mock-focus" : "")}
     >
       <SoftwareUpdateNotice update={softwareUpdate} onDetails={() => { setPage('settings'); setSettingsTab('updates'); }} />
-      <aside className="sidebar">
+      <aside className={"sidebar " + (knowledgeOpen ? "knowledge-open" : "")}>
         <div className="brand">
           <div className="brand-mark">
             tb
@@ -2023,7 +2029,7 @@ export default function App() {
             onClick={() => setPrefs((p) => ({ ...p, collapsed: !p.collapsed }))}
           />
         </div>
-        <nav aria-label="主导航">
+        <nav aria-label="主导航" inert={knowledgeOpen && !prefs.collapsed}>
           {navigationEntries.map((p) => (
             <button
               key={p.id}
@@ -2045,8 +2051,9 @@ export default function App() {
             </button>
           ))}
         </nav>
+        {!prefs.collapsed && <button className="knowledge-drawer-toggle" aria-expanded={knowledgeOpen} onClick={()=>setKnowledgeOpen(value=>!value)}><ChevronRight size={16}/>知识点</button>}
         {!prefs.collapsed && (
-          <div className="sidebar-knowledge">
+          <div className="sidebar-knowledge" inert={!knowledgeOpen}>
             <div className="sidebar-tree-scroll">
               <KnowledgeTree
                 nodes={categories}
@@ -2061,14 +2068,14 @@ export default function App() {
         <div className="sidebar-bottom">
           <button
             className={"nav-item " + (page === "settings" ? "active" : "")}
-            aria-label="偏好设置"
-            title="偏好设置 · Ctrl+,"
+            aria-label="设置"
+            title="设置 · Ctrl+,"
             onClick={() => go("settings")}
           >
-            <Settings2 size={18} />
+            <Settings size={18} />
             {!prefs.collapsed && (
               <>
-                <span>偏好设置</span>
+                <span>设置</span>
                 <AccountSyncStatus />
               </>
             )}
@@ -2076,7 +2083,7 @@ export default function App() {
         </div>
       </aside>
       <main className="main-area">
-        <header className="topbar">
+        <header className={"topbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}>
           <div className="page-identity">
             <span className="breadcrumb">
               工作台 <ChevronRight size={13} />
@@ -2084,7 +2091,7 @@ export default function App() {
             <h1>
               <InlineTitle>{practiceId
                 ? rows.find((r) => r.id === practiceId)?.title
-                : currentPage?.label || "偏好设置"}</InlineTitle>
+                : currentPage?.label || "设置"}</InlineTitle>
             </h1>
             {practiceId && <span className="practice-label">单题练习</span>}
           </div>
@@ -2096,11 +2103,9 @@ export default function App() {
                 {timerText(remainingSeconds(active, now))}
               </button>
             )}
-            <button className="text-button topbar-daily-ac topbar-status-chip" aria-label={`今日 AC ${summary.todayAccepted || 0} 题`} onClick={() => go("mine")}><Check size={14}/><span>今日 AC</span><b>{summary.todayAccepted || 0}</b></button>
-            {social.snapshot?.available && <button className="text-button topbar-love-count topbar-status-chip" aria-label={`收到的总爱心 ${social.snapshot.totalLikes}`} onClick={() => setDialog('updates')}><Heart size={15}/><span>总爱心</span><b>{social.snapshot.totalLikes}</b></button>}
-            <ProfileBadge growth={growth} avatar={prefs.avatarData} nickname={account?.nickname || profileSnapshot?.profile?.nickname} onClick={()=>setDialog('summary')} onAvatarClick={()=>{go('settings');setSettingsTab('account');}}/>
-            <button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><span>每日任务</span><small>{(insights?.dailyTasks?.tasks || []).filter(task => task.claimed).length}/{insights?.dailyTasks?.tasks?.length || 6}</small>{(insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed)) && <i className="notification-dot" />}</button>
-            <button className="achievement-top-button" aria-label="成就" onClick={openAchievements}><Medal size={17} /><span>成就</span><small>{unlockedAchievements.length}/{achievements.length}</small>{unseenAchievements.length > 0 && <i className="notification-dot" />}</button>
+            <button className="text-button topbar-daily-ac topbar-status-chip" style={{color:`color-mix(in srgb, var(--success) ${Math.min(65+(summary.todayAccepted||0)*4,100)}%, var(--muted))`,background:`color-mix(in srgb, var(--success) ${Math.min(7+(summary.todayAccepted||0)*3,40)}%, transparent)`,borderColor:`color-mix(in srgb, var(--success) ${Math.min(20+(summary.todayAccepted||0)*5,100)}%, transparent)`}} aria-label={`今日 AC ${summary.todayAccepted || 0} 题`} onClick={() => go("mine")}><strong>AC:</strong><b>{summary.todayAccepted || 0}</b></button>
+            {social.snapshot?.available && <button className="text-button topbar-love-count topbar-status-chip" aria-label={`今日获得爱心 ${social.snapshot.todayLikes ?? "—"}`} onClick={() => setDialog('updates')}><Heart size={15}/><span>:</span><b>{social.snapshot.todayLikes ?? "—"}</b></button>}
+            <ProfileBadge growth={growth} avatar={prefs.avatarData} nickname={account?.nickname || profileSnapshot?.profile?.nickname} onClick={()=>setDialog('summary')} onAvatarClick={()=>setDialog('avatar')}/>
             <IconButton
               label="消息通知"
               icon={Bell}
@@ -2120,14 +2125,12 @@ export default function App() {
                 }))
               }
             />
-            <IconButton
-              label="键盘帮助"
-              icon={Keyboard}
-              onClick={() => setDialog("help")}
-            />
-            {prefs.widgets && <TopbarClock />}
+
           </div>
         </header>
+        <footer className={"app-statusbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}>             <button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><small>{(insights?.dailyTasks?.tasks || []).filter(task => task.claimed).length}/{insights?.dailyTasks?.tasks?.length || 6}</small>{(insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed)) && <i className="notification-dot" />}</button>
+            <button className="achievement-top-button" aria-label="成就" onClick={openAchievements}><Medal size={17} /><small>{unlockedAchievements.length}/{achievements.length}</small>{unseenAchievements.length > 0 && <i className="notification-dot" />}</button>
+{prefs.widgets && <TopbarClock />}</footer>
         {error && (
           <div className="error-banner" role="alert">
             {error}
@@ -2225,7 +2228,7 @@ export default function App() {
           ) : page === "growth" ? (
             <GrowthPage
               avatarData={prefs.avatarData}
-              onAvatar={()=>{go('settings');setSettingsTab('account');}}
+              onAvatar={()=>setDialog('avatar')}
               onRankings={() => go("rankings")}
               api={api}
               onGoalsChanged={() => api("workspace").then(applyWorkspace)}
@@ -2280,7 +2283,8 @@ export default function App() {
         </div>
       )}
       {dialog === "daily-tasks" && <Modal title="每日任务" onClose={() => setDialog(null)} wide><DailyTasks dailyTasks={insights?.dailyTasks} goalTasks={workspace.goalTasks} onTrain={id => { setDialog(null); openPractice(id); }} onClaim={async (id, date) => { try { const result = await api("daily-tasks/claim", { id, date }); backgroundSeq.current++; setInsights(previous => ({ ...previous, dailyTasks: result.dailyTasks })); notice("经验已领取", "success"); void refreshBackground(true); } catch (issue) { notice(issue.message, "error"); throw issue; } }} /></Modal>}
-      {dialog === "onboarding" && <Modal title="新手指引" onClose={finishOnboarding}><Suspense fallback={<p role="status">正在读取指引…</p>}><Onboarding onComplete={finishOnboarding}/></Suspense></Modal>}
+      {dialog === "avatar" && <Modal title="修改头像" onClose={()=>setDialog(null)}><Suspense fallback={<p role="status">正在读取…</p>}><AvatarSettings prefs={prefs} setPrefs={setPrefs} onError={message=>notice(message,"error")}/></Suspense></Modal>}
+      {tourOpen && <Suspense fallback={null}><Onboarding practiceId={practiceId} onComplete={finishOnboarding} onNavigate={target=>{setKnowledgeOpen(false);go(target);if(target==="library")setCatalogScope(null);if(target==="settings")setSettingsTab("home");}}/></Suspense>}
       {dialog === "achievements" && <Modal title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => setDialog(null)} wide><AchievementPanel achievements={achievements} newIds={unseenAchievements.map(item => item.id)} onSeen={markAchievementSeen} /></Modal>}
       {dialog === "submission" && selectedSubmission && <Modal title={selectedSubmission.title + " · 历史提交"} onClose={() => setDialog(null)} wide footer={<button className="primary" onClick={() => { setDialog(null); openPractice(selectedSubmission.problemId); }}><Play size={14} />继续练习</button>}><div className="submission-detail-meta"><Verdict value={selectedSubmission.verdict} /><span>{formatDate(selectedSubmission.submittedAt)}</span><span>{selectedSubmission.contestName}</span><button className="secondary" disabled={!selectedSubmission.code} onClick={() => copy(selectedSubmission.code)}><Copy size={14} />复制本次代码</button></div><pre className="submission-source"><code>{selectedSubmission.code || "这条记录没有保存代码。"}</code></pre>{selectedSubmission.message && <p className="submission-message">{selectedSubmission.message}</p>}</Modal>}
       {dialog === "updates" && (
@@ -2345,7 +2349,7 @@ export default function App() {
                 ["Ctrl+B", "收起或展开左侧栏"],
                 ["Ctrl+K", "命令面板"],
                 ["F6 / Shift+F6", "切换导航、知识清单、主区与代码焦点"],
-                ["Ctrl+0 / Ctrl+,", "偏好设置"],
+                ["Ctrl+0 / Ctrl+,", "设置"],
                 ["F 或 Ctrl+F", "搜索当前列表"],
                 ["Esc", "关闭题解、清空搜索或返回"],
                 ["?", "打开这张键位表"],

@@ -1,3 +1,4 @@
+import { openSettings } from './settings-navigation.mjs';
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
 import { createServer } from 'vite';
@@ -16,9 +17,9 @@ const training=rows.map(row=>({id:row.id,activeAt:timestamp,lastActivityAt:times
 let preferences=null,likes={total:4,likedToday:false},failLike=true,boardDay=date,notifications=[{id:'33333333-3333-4333-8333-333333333333',kind:'comment',actor:other,recipient:self,text:'一起加油 <script>window.untrusted=true</script>',createdAt:timestamp,read:false}];
 notifications.push(...Array.from({length:100},(_,index)=>({id:`55555555-5555-4555-8555-${String(index).padStart(12,'0')}`,kind:'like',actor:other,recipient:self,createdAt:timestamp,read:false})));
 const workspace=()=>({training,sets:[],contests:[],activeContest:null,goals:{goals:[]},goalTasks:[],summary:{total:120,accepted:training.filter(row=>row.accepted).length,todayAccepted:0,attempts:0,due:0,pending:0,streak:1},now:timestamp});
-const progress={badge:'tier-7',level:8,tier:'大师',rankTier:'大师',rankScore:2650,titles:[]};
-const ranked={badge:'tier-7',tier:'大师',qualified:true,abilityScore:2650,nextAbilityScore:2900,evidenceCount:8,minimumEvidence:5,levelGate:5};
-ranked.tierRequirements=['黑铁','青铜','白银','黄金','铂金','翡翠','钻石','大师','宗师','王者'].map((tier,index)=>({tier,badge:`tier-${index}`,minAbilityScore:[0,800,1100,1400,1700,2000,2300,2600,2900,3200][index]}));
+const progress={badge:'tier-7',level:8,tier:'大师',rankTier:'大师',rankScore:2000,titles:[]};
+const ranked={badge:'tier-7',tier:'大师',qualified:true,abilityScore:2000,nextAbilityScore:2100,evidenceCount:8,minimumEvidence:5,levelGate:5};
+ranked.tierRequirements=['黑铁','青铜','白银','黄金','铂金','翡翠','钻石','大师','宗师','王者'].map((tier,index)=>({tier,badge:`tier-${index}`,minAbilityScore:[0,800,1000,1200,1400,1600,1800,2000,2100,2200][index]}));
 const hub={settings:{githubRepo:'3097729287/acm-algo-trainer',accounts:{},autoSync:false,intervalHours:6,minDifficulty:0,maxDifficulty:2199},sync:{busy:false},updates:{currentVersion:'1.1.5'},accounts:[],notifications:[]};
 await page.addInitScript(()=>localStorage.setItem('tb.preferences',JSON.stringify({theme:'dark',accent:'teal',backdrop:'aurora',panelOpacity:35,widgets:true,fontSize:16,navOrder:['mine','library','competitions','mock','rankings','growth','records','activity','lectures'],views:[]})));
 await page.route('**/api/**',async route=>{
@@ -47,7 +48,7 @@ await page.route('**/api/**',async route=>{
   else if(path==='/api/translation/settings')value={provider:'custom',providerName:'自定义',model:'fixture',configured:false,keyStored:false,providers:[]};
   else if(path==='/api/leaderboard')value={period:url.searchParams.get('period')||'daily',date:boardDay,configured:true,status:'ready',hasSnapshot:true,socialAvailable:true,socialProtocol:1,isAdmin:false,entries:[{...self,rank:1,count:2,likes:{total:9,likedToday:false},publicProgress:progress},{...other,rank:2,count:1,likes,publicProgress:progress}],self};
   else if(path==='/api/leaderboard/sync')value={queued:true};
-  else if(path==='/api/social')value={available:true,protocol:1,totalLikes:9,unreadCount:notifications.filter(row=>!row.read).length,notifications:notifications.slice(0,100),activity:likes.likedToday?[{id:'44444444-4444-4444-8444-444444444444',kind:'like',actor:self,recipient:other,createdAt:timestamp}]:[]};
+  else if(path==='/api/social')value={available:true,protocol:1,totalLikes:9,todayLikes:3,unreadCount:notifications.filter(row=>!row.read).length,notifications:notifications.slice(0,100),activity:likes.likedToday?[{id:'44444444-4444-4444-8444-444444444444',kind:'like',actor:self,recipient:other,createdAt:timestamp}]:[]};
   else if(path==='/api/social/likes'){
     await new Promise(resolve=>setTimeout(resolve,120));
     if(failLike){failLike=false;await route.fulfill({status:503,json:{error:'测试连接中断'}});return;}
@@ -65,11 +66,11 @@ try {
   await mkdir('tests/screenshots',{recursive:true});
   await page.goto('http://127.0.0.1:18826');
   await page.locator('.problem-table tr[data-id]').first().waitFor();
-  await page.getByLabel('收到的总爱心 9',{exact:true}).waitFor();
+  await page.getByLabel('今日获得爱心 3',{exact:true}).waitFor();
   const clock=page.getByLabel('北京时间',{exact:true});
-  const topbar=await page.locator('.topbar-actions').boundingBox(),clockBox=await clock.boundingBox();
-  assert(Math.abs(topbar.x+topbar.width-clockBox.x-clockBox.width)<2);
-  assert.equal(await clock.evaluate(node=>getComputedStyle(node).borderTopWidth),'1px');
+  const statusbar=await page.locator('.app-statusbar').boundingBox(),clockBox=await clock.boundingBox();
+  assert(clockBox.y>=statusbar.y && clockBox.x+clockBox.width<=statusbar.x+statusbar.width);
+  assert(await page.locator('.app-statusbar').getByLabel('北京时间',{exact:true}).isVisible());
   const list=page.getByRole('region',{name:'题目列表',exact:true});
   await list.evaluate(node=>node.scrollTop=510);
   const listBox=await list.boundingBox();
@@ -117,9 +118,9 @@ try {
   assert.equal(await heart.getAttribute('aria-pressed'),'true');
   await page.waitForTimeout(500);assert.equal(await heart.getAttribute('data-burst'),'false');assert(await heart.isDisabled());
   const sent=writes.filter(item=>item.path==='/api/social/likes').length;
-  await page.getByRole('tab',{name:'本周过题',exact:true}).click();await heart.waitFor();assert(await heart.isDisabled());assert.equal(writes.filter(item=>item.path==='/api/social/likes').length,sent);
-  boardDay='2026-10-21';likes={total:likes.total,likedToday:false};
-  await page.getByRole('tab',{name:'每日过题',exact:true}).click();await heart.waitFor();assert.equal(await heart.isDisabled(),false,'next Beijing day allows a new heart');
+  await page.getByRole('tab',{name:'本周',exact:true}).click();await heart.waitFor();assert(await heart.isDisabled());assert.equal(writes.filter(item=>item.path==='/api/social/likes').length,sent);
+  boardDay=new Date(new Date(date+'T00:00:00Z').getTime()+86400000).toISOString().slice(0,10);likes={total:likes.total,likedToday:false};
+  await page.getByRole('tab',{name:'每日',exact:true}).click();await heart.waitFor();assert.equal(await heart.isDisabled(),false,'next Beijing day allows a new heart');
   await page.getByRole('button',{name:'给 训练者乙 留言',exact:true}).click();
   await page.getByLabel('留言内容',{exact:true}).fill('继续加油！');await page.getByRole('button',{name:'发送留言',exact:true}).click();
   await page.getByText('留言已发送。',{exact:true}).waitFor();assert.equal(writes.filter(item=>item.path==='/api/social/comments').length,1);
@@ -130,34 +131,34 @@ try {
   await page.getByRole('button',{name:'全部已读',exact:true}).click();
   await page.getByText('共收到 9 个爱心 · 0 条未读消息',{exact:true}).waitFor();assert(writes.some(item=>item.path==='/api/social/read'&&item.body.all===true),'read-all includes messages beyond the first 100');await shot('notifications');
   await page.keyboard.press('Escape');
-  await nav('偏好设置').click();
-  await page.getByText('各界面透明度',{exact:true}).click();
+  await nav('设置').click();
+  await openSettings(page, '外观');
   await page.getByLabel('练习题面不透明度',{exact:true}).fill('42');
   await page.getByLabel('代码编辑器不透明度',{exact:true}).fill('65');
   for(let attempt=0;attempt<30&&preferences?.pageOpacities?.editor!==65;attempt++)await page.waitForTimeout(100);
   assert.equal(preferences.pageOpacities.statement,42);assert.equal(preferences.pageOpacities.editor,65);
-  assert.equal(await page.getByLabel('\u5168\u5c4f',{exact:true}).count(),0,'appearance contains no behavior switches');
-  const font=page.getByRole('spinbutton',{name:'\u754c\u9762\u5b57\u53f7',exact:true});
+  assert.equal(await page.getByLabel('全屏',{exact:true}).count(),0,'appearance contains no behavior switches');
+  const font=page.getByRole('spinbutton',{name:'界面字号',exact:true});
   await font.fill('19');await font.blur();assert.equal(await page.locator('html').evaluate(node=>node.style.getPropertyValue('--ui-font-size')),'19px');
   await font.fill('99');await font.blur();assert.equal(await font.inputValue(),'22');
   await font.fill('16');await font.blur();
-  await page.getByRole('button',{name:'\u843d\u65e5\u4f59\u6656',exact:true}).click();
+  await page.getByRole('button',{name:'落日余晖',exact:true}).click();
   assert.equal(await page.locator('html').getAttribute('data-backdrop'),'sunset');
-  await page.getByRole('button',{name:'\u4e91\u767d\u6d45\u8272',exact:true}).click();
-  await page.getByRole('button',{name:'\u5f3a\u8c03\u8272\u8bf4\u660e',exact:true}).hover();
-  await page.getByRole('tooltip').filter({hasText:'\u7528\u4e8e\u6838\u5fc3\u64cd\u4f5c'}).waitFor();await shot('tooltip-light');
+  await page.getByRole('button',{name:'云白浅色',exact:true}).click();
+  await page.getByRole('button',{name:'强调色说明',exact:true}).hover();
+  await page.getByRole('tooltip').filter({hasText:'用于核心操作'}).waitFor();await shot('tooltip-light');
   await page.mouse.move(10,10);
-  await page.getByRole('tab',{name:'\u4ea4\u4e92\u8bbe\u7f6e',exact:true}).click();await page.getByLabel('\u5168\u5c4f',{exact:true}).waitFor();
-  assert.equal(await page.getByRole('spinbutton',{name:'\u754c\u9762\u5b57\u53f7',exact:true}).count(),0);
-  await page.getByRole('tab',{name:'\u5bfc\u822a',exact:true}).click();await page.getByLabel('\u5bfc\u822a\u540d\u79f0 mine',{exact:true}).waitFor();
-  assert.equal(await page.getByRole('button',{name:/^\u4e0a\u79fb /}).count(),0);
-  await page.getByRole('tab',{name:'\u9ad8\u7ea7\u8bbe\u7f6e',exact:true}).click();assert((await page.getByRole('button',{name:/^\u4e0a\u79fb /}).count())>0);
-  await page.getByRole('tab',{name:'\u5916\u89c2',exact:true}).click();
+  await openSettings(page, '交互与导航');await page.getByLabel('全屏',{exact:true}).waitFor();
+  assert.equal(await page.getByRole('spinbutton',{name:'界面字号',exact:true}).count(),0);
+  await openSettings(page, '交互与导航');await page.getByLabel('导航名称 mine',{exact:true}).waitFor();
+  assert.ok(await page.getByRole('button',{name:/^上移 /}).count()>0);
+  await openSettings(page, '交互与导航');assert((await page.getByRole('button',{name:/^上移 /}).count())>0);
+  await openSettings(page, '外观');
   await page.setViewportSize({width:1296,height:860});await font.fill('22');await font.blur();await checkOverflow();assert.equal(await page.locator('.page-identity').evaluate(node=>node.getBoundingClientRect().right>document.querySelector('.topbar-actions').getBoundingClientRect().left+1),false);await shot('small-settings');
   await font.fill('16');await font.blur();await page.setViewportSize({width:1600,height:1000});
   const topProfile=page.locator('.topbar .profile-badge');
   const tierBefore=await topProfile.evaluate(node=>getComputedStyle(node).borderColor);
-  await page.getByRole('button',{name:'\u77f3\u58a8\u6df1\u8272',exact:true}).click();
+  await page.getByRole('button',{name:'石墨深色',exact:true}).click();
   assert.equal(await topProfile.evaluate(node=>getComputedStyle(node).borderColor),tierBefore);
   assert.equal(tierBefore,'rgb(188, 138, 255)');
   assert.equal(await topProfile.getByLabel('大师',{exact:true}).count(),1);
@@ -178,17 +179,17 @@ try {
   await topProfile.locator('img').waitFor();
   assert.equal(await topProfile.locator('img').getAttribute('src'),preferences.avatarData);
   await shot('avatar');
-  await page.getByRole('tab',{name:'外观',exact:true}).click();
-  await page.getByRole('button',{name:'\u591c\u7a7a\u6781\u5149',exact:true}).click();
+  await page.keyboard.press('Escape');
+  await openSettings(page, '外观');
+  await page.getByRole('button',{name:'夜空极光',exact:true}).click();
   await shot('settings');
-  await nav('\u9898\u5e93').click();await page.getByRole('button',{name:'\u9010\u5c42\u6d4f\u89c8\u9898\u5e93',exact:true}).click();
-  assert.equal(await page.getByRole('region',{name:'\u9898\u5e93\u5c42\u7ea7\u6d4f\u89c8',exact:true}).getByRole('button',{name:/^\u6253\u5f00\u5e73\u53f0/}).count(),4);
-  await page.getByRole('button',{name:'\u6253\u5f00\u5e73\u53f0 \u725b\u5ba2',exact:true}).click();
-  await page.getByRole('button',{name:'\u6253\u5f00\u6bd4\u8d5b \u5468\u8d5b 166',exact:true}).click();await page.locator('tr[data-id]').first().waitFor();
+  await nav('题库').click();await page.getByRole('button',{name:'逐层浏览题库',exact:true}).click();
+  assert.equal(await page.locator('.catalog-folder-row').count(),2);
+  for (const name of ['牛客','周赛','周赛 166']) await page.locator('.catalog-folder-row').filter({has:page.getByText(name,{exact:true})}).click();await page.locator('tr[data-id]').first().waitFor();
   assert.equal(await page.locator('tr[data-id]').count(),50);await shot('explorer-problems');
-  await page.getByRole('navigation',{name:'\u9898\u76ee\u6d4f\u89c8\u8def\u5f84'}).getByRole('button',{name:'\u5168\u90e8\u5e73\u53f0',exact:true}).click();await shot('explorer-platforms');
-  await page.getByRole('button',{name:'\u9010\u5c42\u6d4f\u89c8\u9898\u5e93',exact:true}).click();
-  for(const label of ['\u6211\u7684\u8bad\u7ec3','题库','比赛','模拟赛','排行榜','成长与能力','提交记录','活动记录','从零讲']) {
+  await page.getByRole('navigation',{name:'题目浏览路径'}).getByRole('button',{name:'全部平台',exact:true}).click();await shot('explorer-platforms');
+  await page.getByRole('button',{name:'逐层浏览题库',exact:true}).click();
+  for(const label of ['我的训练','题库','比赛','模拟赛','排行榜','成长与能力','提交记录','活动记录','从零讲']) {
     await nav(label).click();await page.waitForTimeout(250);await page.locator('.workspace-area .loading-screen').waitFor({state:'hidden'});await checkOverflow();await shot(label);
   }
   await page.setViewportSize({width:800,height:900});await nav('排行榜').click();await checkOverflow();await shot('compact');

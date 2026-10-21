@@ -1,3 +1,4 @@
+import { openSettings } from './settings-navigation.mjs';
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
 import { createServer, preview as previewServer } from 'vite';
@@ -241,18 +242,18 @@ try {
   await page.keyboard.press('Escape');
   assert.equal(await page.locator('.submission-log-row').count(), 100);
   assert.equal(await page.locator('.submission-day').count(), 1);
-  assert.equal(await page.locator('.submission-day-heading > span').textContent(), '1 题 · 100 条记录 · 1 题 AC');
+  assert.equal(await page.locator('.submission-day-heading > span').count(), 0);
   assert.equal(await page.locator('.submission-log-row .verdict').nth(1).textContent(), 'WA');
   assert.equal(await page.locator('.submission-log-row .verdict.wrong').first().evaluate(node => getComputedStyle(node).color), 'rgb(182, 67, 88)');
   await page.getByRole('button', { name: '加载更早提交' }).click();
   await page.waitForFunction(() => document.querySelectorAll('.submission-log-row').length === 101);
   assert.deepEqual(await page.locator('.submission-day').evaluateAll(nodes => nodes.map(node => node.dataset.day)), ['2026-10-13', '2026-10-12']);
-  assert.equal(await page.locator('.submission-day[data-day="2026-10-12"] .submission-log-row small').textContent(), '23:59 · 提交 · 平台回执 · 测试比赛');
+  assert.equal(await page.locator('.submission-day[data-day="2026-10-12"] .submission-log-row small').textContent(), '23:59 · 测试比赛');
   await page.screenshot({ path: 'tests/screenshots/submissions-by-day-light-2048.png', animations: 'disabled' });
   await page.getByLabel('历史提交结果').selectOption('CE');
   assert.equal(await page.locator('.submission-log-row').count(), 1);
   assert.equal(await page.locator('.submission-day').count(), 1);
-  assert.equal(await page.locator('.submission-day-heading > span').textContent(), '1 题 · 1 条记录 · 0 题 AC');
+  assert.equal(await page.locator('.submission-day-heading > span').count(), 0);
   await page.getByLabel('历史提交结果').selectOption('');
   await page.keyboard.press('Control+5');
   assert.equal(await page.locator('.mock-followup').count(), 0);
@@ -261,7 +262,7 @@ try {
   await page.locator('.record-detail').waitFor();
   assert.ok(await page.locator('.record-slot .katex').count() > 0);
   await page.getByRole('tab', { name: '创建训练', exact: true }).click();
-  await page.getByRole('button', { name: /专项训练.*指定某个/ }).click();
+  await page.getByRole('button', { name: /^专项训练$/ }).click();
   assert.ok(await page.getByRole('button', { name: '生成试卷', exact: true }).isDisabled());
   await page.getByLabel('专项训练知识点').selectOption('前缀和');
   await page.getByLabel('组题平台').selectOption('AtCoder');
@@ -273,7 +274,7 @@ try {
   assert.equal(writes.findLast(item => item.path === '/api/contests/preview').body.platform, 'AtCoder');
   assert.equal(writes.findLast(item => item.path === '/api/contests/preview').body.reviewedOnly, true);
   await page.screenshot({ path: 'tests/screenshots/v5-mock-light-2048.png', animations: 'disabled' });
-  await page.getByRole('button', { name: /随机单题.*抽取一道/ }).click();
+  await page.getByRole('button', { name: /^随机单题$/ }).click();
   await page.getByRole('button', { name: '抽取单题', exact: true }).click();
   await page.getByRole('button', { name: /开始 120 分钟训练/ }).waitFor();
   assert.equal(writes.findLast(item => item.path === '/api/contests/preview').body.count, 1);
@@ -299,11 +300,11 @@ try {
   await page.locator('.ranking-table').getByText('测试新昵称', { exact: true }).waitFor();
 
   await page.keyboard.press('Control+0');
-  await page.getByRole('tab', { name: '导航', exact: true }).click();
+  await openSettings(page, '交互与导航');
   assert.equal(await page.getByLabel('页面组合 mine', { exact: true }).inputValue(), '', 'legacy training/today group is removed from preferences');
-  assert.equal(await page.getByRole('button', { name: /^上移 / }).count(), 0, 'navigation naming has no custom ordering controls');
-  await page.getByRole('tab', { name: '训练与快捷操作', exact: true }).click();
-  assert.ok(await page.locator('.settings-command-grid button').count() > 0,'training and quick commands share one settings panel');
+  assert.ok(await page.getByRole('button', { name: /^上移 / }).count() > 0, 'navigation naming and ordering share one category');
+  await openSettings(page, '训练与筛选');
+  assert.equal(await page.locator('.settings-command-grid button').count(), 0, 'shortcut launcher was removed');
   await page.keyboard.press('Control+k');
   await page.getByRole('dialog', { name: '快捷操作', exact: true }).waitFor();
   assert.equal(await page.getByRole('dialog').getByRole('button', { name: /打开今日待办/ }).count(), 0);
@@ -312,7 +313,7 @@ try {
   await page.getByRole('dialog', { name: '快捷操作', exact: true }).waitFor();
   await page.keyboard.press('Escape');
   await page.keyboard.press('Control+7');
-  await page.getByText('翻译 API', { exact: true }).click();
+  await openSettings(page, '翻译 API');
   await page.getByLabel('翻译服务', { exact: true }).selectOption('custom');
   await page.getByLabel('翻译 API Base URL').fill('http://127.0.0.1:1234/v1');
   await page.getByLabel('翻译模型', { exact: true }).fill('my-custom-model');
@@ -324,7 +325,7 @@ try {
   assert.equal(saved.model, 'my-custom-model');
   assert.equal(await page.getByLabel('翻译服务 API Key').inputValue(), '');
   await page.keyboard.press('Control+0');
-  await page.getByRole('tab', { name: '更新', exact: true }).click();
+  await openSettings(page, '更新');
   assert.equal(await page.locator('.settings-page .update-notifications').count(), 0);
   await page.getByRole('button', { name: '消息通知', exact: true }).click();
   await page.getByRole('dialog').getByText('新题已加入', { exact: true }).waitFor();
@@ -337,8 +338,8 @@ try {
   for (const width of [2048, 1050]) {
     await page.setViewportSize({ width, height: width === 1050 ? 760 : 1152 });
     await page.keyboard.press('Control+0');
-    for (const tab of ['外观', '头像', '交互设置', '导航', '训练与快捷操作', '更新', '高级设置']) {
-      await page.getByRole('tab', { name: tab, exact: true }).click();
+    for (const tab of ['外观', '交互与导航', '训练与筛选', '更新', '翻译 API']) {
+      await openSettings(page, tab);
       await noOverflow('.settings-page');
       await page.screenshot({ path: `tests/screenshots/v5-settings-${tab}-${width}.png`, animations: 'disabled' });
     }
@@ -359,7 +360,7 @@ try {
     await page.screenshot({ path: `tests/screenshots/v5-growth-light-${width}.png`, animations: 'disabled' });
   }
   await page.keyboard.press('Control+0');
-  await page.getByRole('tab', { name: '外观', exact: true }).click();
+  await openSettings(page, '外观');
   await page.getByRole('button', { name: '石墨深色', exact: true }).click();
   await page.screenshot({ path: 'tests/screenshots/v5-settings-dark-1050.png', animations: 'disabled' });
   for (const width of [1050, 2048]) {
@@ -378,7 +379,7 @@ try {
   await page.screenshot({ path: 'tests/screenshots/training-unified-dark-1920.png', animations: 'disabled' });
   await page.keyboard.press('Control+5');
   await page.getByRole('tab', { name: '创建训练', exact: true }).click();
-  await page.getByRole('button', { name: /重现赛.*保留已收录/ }).click();
+  await page.getByRole('button', { name: /^重现赛$/ }).click();
   await page.getByLabel('重现赛比赛', {exact:true}).selectOption('测试比赛');
   assert.equal(await page.getByLabel('模拟赛时长').inputValue(), '120');
   await page.getByLabel('搜索重现赛比赛').fill('不存在的比赛');
@@ -414,14 +415,14 @@ try {
   }
   await page.keyboard.press('Control+5');
   await page.getByRole('tab',{name:'创建训练',exact:true}).click();
-  await page.getByRole('button', { name: /综合训练.*多种知识点/ }).click();
+  await page.getByRole('button', { name: /^综合训练$/ }).click();
   await page.setViewportSize({ width: 1050, height: 760 });
   await page.keyboard.press('Control+0');
-  await page.getByRole('tab', { name: '导航', exact: true }).click();
+  await openSettings(page, '交互与导航');
   await page.getByLabel('导航名称 records').fill('历史提交');
   await page.getByLabel('页面组合 records').fill('我的记录');
   await page.getByLabel('页面组合 activity').fill('我的记录');
-  await page.getByRole('tab', { name: '高级设置', exact: true }).click();
+  await openSettings(page, '交互与导航');
   await page.getByRole('button', { name: '上移 排行榜', exact: true }).click();
   assert.equal(await page.getByText('我的书签', { exact: true }).count(), 0);
   assert.equal(await page.getByRole('button', { name: '添加书签', exact: true }).count(), 0);
@@ -439,11 +440,11 @@ try {
   await page.reload();
   await page.locator('.page-identity h1').waitFor();
   await page.keyboard.press('Control+7');
-  await page.locator('.progress-level-strip .profile-rank-emblem[aria-label="王者"]').waitFor();
+  await page.locator('.topbar .profile-rank-emblem[aria-label="王者"]').waitFor();
   await page.getByLabel('训练概览',{exact:true}).hover();
   await page.getByRole('tooltip').getByText(/王者 · 能力分 3,100/).waitFor();
   assert.equal(await page.locator('.topbar .profile-badge.tier-9').count(),1,'rank uses its own tier style');
-  assert.ok(!(await page.locator('.progress-level-strip').innerText()).includes('XP'));
+  assert.equal(await page.locator('.progress-level-strip').count(),0);
   await page.mouse.move(0,0);
   await page.screenshot({ path: 'tests/screenshots/ranked-v16.png', animations: 'disabled' });
   insights.growth = beforeRank;
@@ -460,7 +461,7 @@ try {
   assert.ok(slowInsights.calls >= 2, 'polling resumes after a slow response');
   assert.equal(slowInsights.maxActive, 1, 'busy polling has at most one pending analytics request');
   await page.keyboard.press('Control+7');
-  await page.waitForFunction(()=>document.querySelector('.progress-level-strip .profile-xp-ring')?.getAttribute('aria-valuetext')==='经验值:31/500');
+  await page.waitForFunction(()=>document.querySelector('.topbar .profile-xp-ring')?.getAttribute('aria-valuetext')==='经验值:31/500');
   assert.deepEqual(errors, []);
   console.log('v5 UI passed: blind mock + filters + single groups, mock history/submission history, daily XP claims, visible achievements, canonical math lectures, custom API, persistent identity/offline and connected ranking states, configurable navigation and removed bookmarks and large-font responsive layouts.');
 } finally { releaseBootstrap(); await browser.close(); await vite.close(); }

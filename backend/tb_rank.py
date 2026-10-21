@@ -15,7 +15,7 @@ LEVEL_COSTS = tuple(200 * level for level in range(1, LEVEL_CAP))
 RANK_UNLOCK_LEVEL = 5
 RANK_UNLOCK_XP = sum(LEVEL_COSTS[:RANK_UNLOCK_LEVEL - 1])
 MIN_RANK_EVIDENCE = 5
-RANK_THRESHOLDS = (0, 800, 1100, 1400, 1700, 2000, 2300, 2600, 2900, 3200)
+RANK_THRESHOLDS = (0, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2100, 2200)
 LEGACY_RANK_THRESHOLDS = (0, 300, 700, 1200, 1800, 2500, 3300, 4200, 5300, 6500)
 
 
@@ -158,5 +158,5 @@ def ranked(evidence, daily_evidence, unlocked_at, now):
             'topDifficulties': difficulties[:MIN_RANK_EVIDENCE],
             'levelGate': RANK_UNLOCK_LEVEL, 'tierRequirements': requirements, 'thresholds': requirements,
             'unlockedAt': unlocked_at, 'date': now.astimezone(SHANGHAI).date().isoformat(),
-            'rules': '5 级解锁段位。至少需要 5 道不同原题的独立首次官方 AC，且难度和独立完成情况已知；取最高 5 题难度的中位数作为能力分。解锁前的真实记录同样有效。段位按能力分门槛确定，不随经验、刷简单题或缺勤改变；题库难度修订后按证据重新计算。',
+            'rules': '5 级解锁段位。至少需要 5 道不同原题的独立首次官方 AC，且难度和独立完成情况已知；取最高 5 题难度的中位数作为能力分。解锁前的真实记录同样有效。能力分 2200 达到王者。段位按能力分门槛确定，不随经验、刷简单题或缺勤改变；题库难度修订后按证据重新计算。',
             'legacyPoints': legacy_ranked_points(evidence, daily_evidence, unlocked_at, now)}

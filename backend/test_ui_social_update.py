@@ -18,12 +18,14 @@ class UICompatibilityTests(unittest.TestCase):
         self.service.start_training('fixture::A')
         self.service.save_draft('fixture::A', 'int main() { return 7; }')
         saved={'favorites':['fixture::A'],'views':[{'id':'v','name':'saved','filters':{'min':1000}}],
-               'panelOpacity':76,'pageOpacities':{'library':0,'statement':45,'editor':90}}
+               'panelOpacity':0,'pageOpacities':{'library':0,'statement':45,'editor':90}}
         save_preferences(self.service,{'preferences':saved})
         self.service.close()
         self.service=TrainingService(self.library,self.db,self.assets,self.judge,self.clock,self.root/'backups')
         self.assertEqual(read_preferences(self.service)['preferences'],saved)
         self.assertEqual(self.service.problem('fixture::A')['draft'],'int main() { return 7; }')
+        for opacity in (-1,101,True,0.5):
+            with self.assertRaises(ServiceError):save_preferences(self.service,{'preferences':{'panelOpacity':opacity}})
         for opacities in ({'library':101},{'editor':-1},{'unknown':70},{'library':True},[]):
             with self.assertRaises(ServiceError):save_preferences(self.service,{'preferences':{'pageOpacities':opacities}})
 

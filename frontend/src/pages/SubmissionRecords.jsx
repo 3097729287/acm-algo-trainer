@@ -25,12 +25,11 @@ export default function SubmissionRecords({ submissions = [], total = submission
       {days.map(group => <section className="submission-day" key={group.day} data-day={group.day} aria-label={`${trainingDateLabel(group.day)}提交`}>
         <header className="submission-day-heading">
           <h2><time dateTime={group.day || undefined}>{trainingDateLabel(group.day)}</time> 提交</h2>
-          <span>{group.problems.size} 题 · {group.submissions.length} 条记录 · <b>{group.accepted.size} 题 AC</b></span>
         </header>
         {group.submissions.map(submission => {
           const row = rowMap.get(submission.problemId);
           return <button className="submission-log-row" key={submission.id} onClick={() => onSelect({ ...submission, title: row?.title || submission.problemId, contestName: row?.contest })}>
-            <span><strong><InlineTitle>{row?.title || submission.problemId}</InlineTitle></strong><small>{trainingTime(submission.submittedAt)} · {submission.mode === 'run' ? '运行' : '提交'}{submission.scope === 'official' ? ' · 平台回执' : submission.contestId ? ' · 模拟赛' : ' · 单题练习'}{row?.contest ? ` · ${row.contest}` : ''}</small></span>
+            <span><strong><InlineTitle>{row?.title || submission.problemId}</InlineTitle></strong><small>{trainingTime(submission.submittedAt)}{row?.contest ? ` · ${row.contest}` : ''}</small></span>
             <span className={'verdict ' + verdictTone(submission.verdict)}><span />{verdictLabel(submission.verdict)}</span>
             <span>{submission.timeMs != null ? submission.timeMs + ' ms' : '—'}</span><ChevronRight size={15} />
           </button>;

@@ -192,3 +192,27 @@ html .wb-statement-pane,.wb-code-pane { min-width: 0; }
   html .breadcrumb { display: none; }
   html .topbar-actions > :is(.topbar-status-chip,.topbar-overview,.achievement-top-button) { padding-inline: 6px; }
 }
+
+/* Keep disclosure and visual presets authoritative across lazy page styles. */
+html .app-shell .sidebar.knowledge-open nav{max-height:0;min-height:0;overflow:hidden;opacity:0;pointer-events:none}
+html .app-shell .sidebar:not(.knowledge-open) nav{max-height:65vh;overflow:auto;gap:8px}
+html .app-shell .sidebar:not(.knowledge-open) .sidebar-knowledge{margin:0!important;padding:0!important}
+html .app-shell .sidebar .nav-item{min-height:38px;padding-block:7px}
+html .settings-page .page-opacity-settings>header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:10px}
+html .page-opacity-settings h3{font-size:.94rem;margin:0;color:var(--accent)}
+html .page-opacity-settings>header button{display:inline-flex;align-items:center;gap:7px;font-size:.8rem}
+html[data-panel-style=minimal] .workspace-area :is(.progress-section,.list-page,.competition-card,.settings-column>section,.mock-config,.settings-home-grid){border:1px solid transparent;border-radius:10px;background-image:none;box-shadow:none}
+html[data-panel-style=outlined] .workspace-area :is(.progress-section,.list-page,.competition-card,.settings-column>section,.mock-config,.settings-home-grid){border:1px solid color-mix(in srgb,var(--accent) 60%,var(--line));border-radius:18px;background-image:none;box-shadow:3px 3px 0 color-mix(in srgb,var(--accent) 12%,transparent)}
+html[data-panel-style=aurora] .workspace-area :is(.progress-section,.list-page,.competition-card,.settings-column>section,.mock-config,.settings-home-grid){border:1px solid color-mix(in srgb,var(--accent) 30%,var(--line));border-radius:22px;background-image:radial-gradient(ellipse at top left,color-mix(in srgb,var(--accent) 20%,transparent),transparent 65%);box-shadow:0 8px 28px color-mix(in srgb,var(--accent) 8%,transparent)}
+html[data-panel-style=blueprint] .workspace-area :is(.progress-section,.list-page,.competition-card,.settings-column>section,.mock-config,.settings-home-grid){border:1px dashed var(--accent);border-radius:2px;background-image:linear-gradient(color-mix(in srgb,var(--accent) 9%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--accent) 9%,transparent) 1px,transparent 1px);background-size:22px 22px;box-shadow:none}
+html .workspace-area .settings-subpage-tabs.settings-hidden-nav{display:none}
+html .workspace-area .settings-home-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));padding:20px}
+
+html .avatar-settings .settings-row{display:flex;flex-direction:column;align-items:center;gap:24px;padding:20px}html .avatar-settings .settings-row>div:first-child{display:none}html .avatar-settings-actions{display:flex;gap:16px}html .avatar-settings-actions button{width:auto;display:inline-flex;align-items:center;gap:8px;padding:12px 18px}html .avatar-settings-preview{width:96px;height:96px}
+
+html .ranking-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}html .ranking-header .ranking-tabs{margin:0}html .ranking-header .ranking-board-summary{margin:0 0 0 auto;padding:0;display:flex;gap:22px}html .ranking-header .ranking-board-summary>span>span{display:inline-flex;align-items:center;gap:8px;color:var(--muted)}html .ranking-header .ranking-board-summary b{font-size:1rem;color:var(--text)}html .ranking-header .ranking-board-summary .tooltip-anchor{border:0;background:none;padding:0;min-width:0}html .ranking-header .ranking-board-summary .tooltip-anchor:after{display:none}html .ranking-table{table-layout:fixed}html .ranking-table td:first-child{width:58px;text-align:center}html .ranking-table td:nth-child(2){width:auto;text-align:left}html .ranking-table td.ranking-social-cell{width:170px}html .ranking-table td.ranking-count{width:90px}html .ranking-table tbody td{padding:14px 18px}
+
+html .sidebar .brand>div:nth-child(2){flex:1;min-width:0}html .sidebar .brand small{font-size:12px;white-space:nowrap}html .sidebar .brand strong{font-size:22px}html .sidebar .brand{gap:8px}html .sidebar .brand>.icon-button{flex-shrink:0}
+
+.topbar .topbar-daily-ac b { color: inherit; }
+.topbar .topbar-love-count > span { display: inline-flex; }

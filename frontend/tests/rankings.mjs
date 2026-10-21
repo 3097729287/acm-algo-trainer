@@ -25,7 +25,7 @@ try {
  assert.equal(await own.getByText('王者',{exact:true}).count(),0,'legacy experience tier is not repeated as a skill rank');
  assert.equal(await own.locator('.ranking-public-id').count(),0);
  assert.equal(await page.getByText('成长资料待同步',{exact:true}).count(),3);
- for(const [label,period] of [['每日过题','daily'],['本周过题','weekly'],['累计过题','total']]) {
+ for(const [label,period] of [['每日','daily'],['本周','weekly'],['累计','total']]) {
   await page.getByRole('tab',{name:label,exact:true}).click();
   // Capture one complete render. A period switch can clear the previous table
   // between two locator reads while the new fixture response is still pending.
@@ -46,8 +46,8 @@ try {
  await page.screenshot({path:path.join(root,'tests/screenshots/rankings-medals-light.png'),fullPage:true});
  await page.evaluate(()=>document.documentElement.dataset.theme='dark');
  // Switching periods discards a late response from the previous period.
- await page.getByRole('tab',{name:'每日过题',exact:true}).click();
- await page.getByRole('tab',{name:'本周过题',exact:true}).click();
+ await page.getByRole('tab',{name:'每日',exact:true}).click();
+ await page.getByRole('tab',{name:'本周',exact:true}).click();
  await page.waitForFunction(()=>document.querySelectorAll('.ranking-table .ranking-medal-weekly').length===3);
  const remove=page.getByRole('button',{name:'删除 练习者二 的本周过题成绩'});
  await remove.click();

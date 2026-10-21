@@ -45,8 +45,8 @@ html .settings-page .style-preset[aria-pressed=true] { border-color:var(--accent
 html .settings-page .style-preset > i { width:28px; height:24px; flex:none; }
 html .settings-page .style-preset strong { font-size:.86rem; white-space:nowrap; }
 html .settings-page .style-preset small { display:none; }
-html .settings-page .settings-column > section,html .settings-page .settings-navigation { padding:20px 24px; border:1px solid var(--line)!important; border-radius:7px!important; background-image:none!important; box-shadow:none!important; }
-html[data-panel-style=outlined] :is(.progress-section,.competition-card,.list-page,.goal-card,.mock-config) { border-color:var(--line)!important; box-shadow:none!important; border-radius:6px!important; }
+html .settings-page .settings-column > section,html .settings-page .settings-navigation { padding:20px 24px; border:1px solid var(--line); border-radius:7px; }
+
 html[data-panel-style=outlined] :is(button,select,input,textarea,.tb-select-menu) { border-radius:5px; box-shadow:none; }
 html[data-theme=light] { --text:#253243; --muted:#59687b; --line:#d9e0e8; --soft-line:#e9edf2; }
 html .tree-personal-count em { color:var(--muted); font-style:normal; opacity:.7; background:var(--panel-2); border-radius:3px; padding:1px 3px; }

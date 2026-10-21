@@ -1,3 +1,4 @@
+import { openSettings } from './settings-navigation.mjs';
 // All API calls use public fixture data; no user state or original-site access.
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
@@ -49,7 +50,7 @@ try {
   await page.goto(`http://127.0.0.1:${server.httpServer.address().port}`);
   await page.getByRole('navigation',{name:'主导航'}).waitFor();
   const overview = page.getByRole('button',{name:'训练概览',exact:true});
-  assert.match(await overview.textContent(),/成长数据读取中/);
+  assert.equal(await overview.getAttribute('aria-busy'),'true');
   assert.doesNotMatch(await overview.textContent(),/黑铁|Lv\.1\b/);
   await overview.click();
   const dialog = page.getByRole('dialog',{name:'你的训练概览',exact:true});
@@ -59,7 +60,7 @@ try {
   await page.keyboard.press('Escape');
   assert.deepEqual(loadedModules,[],'the library/home page does not load the practice editor or CodeMirror');
   releaseInsights();
-  await overview.getByText('钻石 · Lv.7',{exact:true}).waitFor();
+  await page.waitForFunction(()=>document.querySelector('.profile-level-number')?.textContent==='7');
   await overview.click();
   await dialog.getByText('AC 25题',{exact:true}).waitFor();
   assert.equal(await dialog.locator('.summary-grid > div').count(),2);
@@ -94,11 +95,11 @@ try {
   await page.getByRole('button',{name:'成就',exact:true}).click();
   assert.equal(await achievementDialog.locator('.progress-achievement-new').count(),2,'read status survives reopening');
   await page.keyboard.press('Escape');
-  await page.getByRole('button',{name:'偏好设置',exact:true}).click();
-  assert.equal(await page.getByRole('tab',{name:'翻译 API',exact:true}).count(),0);
+  await openSettings(page);await page.locator('.settings-home-grid').waitFor();
+  assert.equal(await page.getByRole('tab',{name:'翻译 API',exact:true}).count(),1);
   assert.equal(await page.getByRole('tab',{name:'账号与身份',exact:true}).count(),0);
-  await page.getByRole('tab',{name:'训练与快捷操作',exact:true}).click();
-  await page.locator('.settings-commands').getByRole('button',{name:/查看训练概览/}).waitFor();
+  await openSettings(page, '训练与筛选');
+  assert.equal(await page.locator('.settings-commands').count(),0);
   await page.getByRole('button',{name:'切换主题',exact:true}).click();
   await overview.click();
   await page.screenshot({path:'tests/screenshots/training-overview/overview-light.png',animations:'disabled'});

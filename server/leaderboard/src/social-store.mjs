@@ -26,10 +26,11 @@ export class SocialStore {
     const unique = [...new Set(ids)].slice(0, 201);
     if (!unique.length) return new Map();
     const [rows] = await this.database.execute(`SELECT recipient_id,COUNT(*) AS total,
+      SUM(CASE WHEN liked_day=? THEN 1 ELSE 0 END) AS received_today,
       SUM(CASE WHEN actor_id=? AND liked_day=? THEN 1 ELSE 0 END) AS liked_today
-      FROM social_likes WHERE recipient_id IN (${unique.map(() => '?').join(',')}) GROUP BY recipient_id`, [viewer,day,...unique]);
-    const result = new Map(unique.map(id => [id,{ total:0, likedToday:false }]));
-    for (const row of rows) result.set(row.recipient_id,{ total:Number(row.total), likedToday:Boolean(Number(row.liked_today)) });
+      FROM social_likes WHERE recipient_id IN (${unique.map(() => '?').join(',')}) GROUP BY recipient_id`, [day,viewer,day,...unique]);
+    const result = new Map(unique.map(id => [id,{ total:0, today:0, likedToday:false }]));
+    for (const row of rows) result.set(row.recipient_id,{ total:Number(row.total), today:Number(row.received_today), likedToday:Boolean(Number(row.liked_today)) });
     return result;
   }
   async inbox(id) {

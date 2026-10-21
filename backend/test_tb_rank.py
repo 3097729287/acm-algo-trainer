@@ -65,23 +65,31 @@ class TBRankTests(unittest.TestCase):
 
     def test_history_before_unlock_qualifies_for_skill_without_awarding_legacy_points(self):
         now=dt.datetime(2026,10,2,tzinfo=dt.timezone.utc)
-        values=self.evidence(5,'2026-09-30',2300)
+        values=self.evidence(5,'2026-09-30',1800)
         value=ranked(values,values,'2026-10-01T00:00:00Z',now)
-        self.assertEqual((value['tier'],value['abilityScore'],value['evidenceCount']),('钻石',2300,5))
+        self.assertEqual((value['tier'],value['abilityScore'],value['evidenceCount']),('钻石',1800,5))
         self.assertEqual(value['legacyPoints']['earnedPoints'],0)
 
     def test_skill_uses_strongest_five_median_and_all_tiers_have_distinct_thresholds(self):
         now=dt.datetime(2026,10,2,tzinfo=dt.timezone.utc)
-        values=[dict(item,difficulty=difficulty) for item,difficulty in zip(self.evidence(7),[800,1100,1400,1700,2000,2300,3600])]
+        values=[dict(item,difficulty=difficulty) for item,difficulty in zip(self.evidence(7),[800,1100,1400,1700,2000,1800,3600])]
         value=ranked(values,values,'2026-10-01T00:00:00Z',now)
-        self.assertEqual(value['topDifficulties'],[3600,2300,2000,1700,1400])
-        self.assertEqual((value['abilityScore'],value['tier'],value['nextAbilityScore']),(2000,'翡翠',2300))
+        self.assertEqual(value['topDifficulties'],[3600,2000,1800,1700,1400])
+        self.assertEqual((value['abilityScore'],value['tier'],value['nextAbilityScore']),(1800,'钻石',2000))
         for difficulty,tier in zip(RANK_THRESHOLDS,TIERS):
             with self.subTest(tier=tier):
                 sample=self.evidence(5,difficulty=max(1,difficulty))
                 result=ranked(sample,sample,'2026-10-01T00:00:00Z',now)
                 self.assertEqual(result['tier'],tier)
                 self.assertEqual(result['tierRequirements'][TIERS.index(tier)]['minAbilityScore'],difficulty)
+
+    def test_king_starts_at_2200_and_existing_evidence_is_reclassified(self):
+        now=dt.datetime(2026,10,2,tzinfo=dt.timezone.utc)
+        for score, tier, next_score in ((2199, '宗师', 2200), (2200, '王者', None), (3200, '王者', None)):
+            with self.subTest(score=score):
+                evidence=self.evidence(5, difficulty=score)
+                result=ranked(evidence,evidence,'2026-10-01T00:00:00Z',now)
+                self.assertEqual((result['tier'],result['abilityScore'],result['nextAbilityScore']), (tier,score,next_score))
 
     def test_one_hard_solve_and_unlimited_easy_solves_do_not_grant_high_rank(self):
         now=dt.datetime(2026,10,2,tzinfo=dt.timezone.utc)
@@ -144,11 +152,11 @@ class RankIntegrationTests(unittest.TestCase):
     def test_real_official_evidence_places_without_changing_claims_or_code(self):
         self.service.connection.execute("INSERT INTO tb_rank_profile VALUES(1,'2026-10-09T00:00:00Z')")
         for row in self.library.rows[:5]:
-            row['difficulty']=2300
+            row['difficulty']=1800
             self.accept(row['id'],code='// Preserve this exact official code')
         result=self.service.insights()
         rank=result['growth']['ranked']
-        self.assertEqual((rank['abilityScore'],rank['tier'],rank['evidenceCount']),(2300,'钻石',5))
+        self.assertEqual((rank['abilityScore'],rank['tier'],rank['evidenceCount']),(1800,'钻石',5))
         self.assertEqual(result['growth']['badge'],'tier-6')
         claims=[tuple(item) for item in self.service.connection.execute('SELECT * FROM achievement_xp_claims ORDER BY achievement_id')]
         awards=[tuple(item) for item in self.service.connection.execute('SELECT * FROM official_first_xp_awards ORDER BY problem_key')]
@@ -160,7 +168,7 @@ class RankIntegrationTests(unittest.TestCase):
         self.assertEqual([tuple(item) for item in self.service.connection.execute('SELECT * FROM submissions ORDER BY id')],records)
         self.assertTrue(all(item['code']=='// Preserve this exact official code' for item in self.service.connection.execute('SELECT code FROM submissions')))
         summary=public_progress(result)
-        self.assertEqual((summary['rankTier'],summary['rankScore']),('钻石',2300))
+        self.assertEqual((summary['rankTier'],summary['rankScore']),('钻石',1800))
         self.assertEqual(set(summary),{'level','tier','rankTier','rankScore','titles'})
 
 

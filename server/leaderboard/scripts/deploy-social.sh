@@ -1,7 +1,7 @@
 #!/bin/sh
 # Existing 001–007 runtime installation only. No database/config replacement.
 # Usage from /opt/tb-leaderboard:
-# sh runtime.next-1.2.0/scripts/deploy-social.sh runtime.next-1.2.0 REVIEWED_COMMIT
+# sh runtime.next-1.2.1/scripts/deploy-social.sh runtime.next-1.2.1 REVIEWED_COMMIT
 set -eu
 umask 077
 project=$(pwd -P)
@@ -9,7 +9,7 @@ test "$project" = /opt/tb-leaderboard || { printf 'Run from /opt/tb-leaderboard.
 test "$#" = 2 || { printf 'Provide staged runtime and reviewed full Git commit.\n' >&2; exit 1; }
 stage=$(realpath -- "$1")
 commit=$2
-case "$stage" in "$project"/runtime.next-1.2.0) ;; *) printf 'Unexpected stage path.\n' >&2; exit 1;; esac
+case "$stage" in "$project"/runtime.next-1.2.1) ;; *) printf 'Unexpected stage path.\n' >&2; exit 1;; esac
 printf '%s\n' "$commit" | grep -Eq '^[0-9a-f]{40}$'
 test ! -L "$stage"
 test ! -L "$project/runtime"
@@ -18,7 +18,7 @@ for required in package.json BUILD-INFO.json runtime-manifest.sha256 mysql/008_s
   test -f "$stage/$required"
 done
 version=$(sed -n 's/.*"version": *"\([0-9.]*\)".*/\1/p' "$stage/package.json" | head -n 1)
-test "$version" = 1.2.0
+test "$version" = 1.2.1
 (cd "$stage" && sha256sum --status -c runtime-manifest.sha256)
 docker compose config --quiet
 stamp=$(date -u +%Y%m%dT%H%M%SZ)
@@ -102,7 +102,7 @@ docker compose up --no-build --no-deps -d api
 attempt=0
 until health=$(curl --fail --silent --max-time 3 http://127.0.0.1:8080/v1/health) &&
   printf '%s' "$health" | grep -q '"ok":true' &&
-  printf '%s' "$health" | grep -q '"version":"1.2.0"' &&
+  printf '%s' "$health" | grep -q '"version":"1.2.1"' &&
   printf '%s' "$health" | grep -q '"accountStateProtocol":1' &&
   printf '%s' "$health" | grep -q '"publicProgressProtocol":1' &&
   printf '%s' "$health" | grep -q '"socialProtocol":1'; do

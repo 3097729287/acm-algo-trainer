@@ -23,7 +23,7 @@ export default function NavigationSettings({ pages, prefs, setPrefs, orderOnly=f
   };
   const rename = (field, id, value) => setPrefs(previous => ({ ...previous, [field]: { ...previous[field], [id]: value } }));
   return <section className={`settings-navigation ${orderOnly?'navigation-order-only':'navigation-labels-only'}`}>
-    <div className="settings-page-description"><h2><Layers size={18} />{orderOnly?'自定义顺序':'导航与页面组合'}</h2><Tooltip text="相同分组名会合并为一个导航入口。高级设置可调整顺序。"/></div>
+    <div className="settings-page-description"><h2><Layers size={18} />{orderOnly?'自定义顺序':'导航与页面组合'}</h2><Tooltip text="相同分组名会合并为一个导航入口。下方“自定义顺序”可调整入口顺序。"/></div>
     <div className="navigation-settings-content">
     <div className="progress-section-heading"><span/><Tooltip text="恢复默认导航"><button className="icon-button" aria-label="恢复默认导航" onClick={() => setPrefs(previous => ({ ...previous, ...(orderOnly?{navOrder:[]}:{navLabels:{},navGroups:{}}) }))}><RotateCcw size={14} /></button></Tooltip></div>
     <div className="navigation-editor" aria-label="自定义导航栏">

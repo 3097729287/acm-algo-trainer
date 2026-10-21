@@ -17,8 +17,8 @@ test -f "$stage/mysql/007_unique_nicknames.sql"
 test -f "$stage/scripts/migrate-nicknames.mjs"
 version=$(sed -n 's/.*"version": *"\([0-9.]*\)".*/\1/p' "$stage/package.json" | head -n 1)
 test -n "$version"
-if [ "$version" = 1.2.0 ]; then
-  printf 'Use deploy-social.sh STAGE EXPECTED_SOURCE_COMMIT for 1.2.0 and migration 008.\n' >&2
+if [ "$version" = 1.2.0 ] || [ "$version" = 1.2.1 ]; then
+  printf 'Use deploy-social.sh STAGE EXPECTED_SOURCE_COMMIT for 1.2.x and migration 008.\n' >&2
   exit 1
 fi
 test -f "$stage/Caddyfile"

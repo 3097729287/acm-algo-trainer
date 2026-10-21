@@ -1,3 +1,4 @@
+import CatalogExplorer, { CatalogPath } from '../components/CatalogExplorer.jsx';
 import Tooltip from '@/components/Tooltip.jsx';
 import ProfileBadge from '@/components/ProfileBadge.jsx';
 import { Info, Code2, Flame } from 'lucide-react';
@@ -72,14 +73,13 @@ export function DailyTasks({ dailyTasks, goalTasks, onTrain, onClaim }) {
 export function GrowthAccountPanel({ api, hub, account, profile, profileSnapshot: suppliedSnapshot, onProfileChanged, onHubChanged, onError, accountFocus }) {
   const panelRef = useRef(null);
   const profileSnapshot = useMemo(() => suppliedSnapshot || (profile ? { profile } : undefined), [profile, suppliedSnapshot]);
-  const [publicOpen, setPublicOpen] = useState(false), [translationOpen, setTranslationOpen] = useState(false);
+  const [publicOpen, setPublicOpen] = useState(false);
   const focusSection = typeof accountFocus === 'string' ? accountFocus : accountFocus?.section;
   useEffect(() => {
     if (!focusSection) return;
-    if (focusSection === 'translation') setTranslationOpen(true);
-    else if (focusSection === 'connections' || focusSection === 'public') setPublicOpen(true);
+    if (focusSection === 'connections' || focusSection === 'public') setPublicOpen(true);
     const frame = requestAnimationFrame(() => {
-      const target = focusSection === 'translation' ? panelRef.current?.querySelector('#growth-translation') : panelRef.current;
+      const target = panelRef.current;
       target?.scrollIntoView({ block: 'start' });
     });
     return () => cancelAnimationFrame(frame);
@@ -87,7 +87,6 @@ export function GrowthAccountPanel({ api, hub, account, profile, profileSnapshot
   return <section ref={panelRef} id="growth-accounts" className="progress-section growth-account-panel" aria-label="账号与身份">
     <ProfileSettings api={api} initialAccount={account} initialProfileSnapshot={profileSnapshot} onChanged={onProfileChanged} onError={onError} />
     <details className="growth-account-section" open={publicOpen} onToggle={event => setPublicOpen(event.currentTarget.open)}><summary><UserRound size={16} />公开账号与评分<ChevronRight size={15} /></summary>{publicOpen && <ConnectionsPanel hub={hub} api={api} onChanged={onHubChanged} onError={onError} includeTranslation={false} />}</details>
-    <details id="growth-translation" className="growth-account-section" open={translationOpen} onToggle={event => setTranslationOpen(event.currentTarget.open)}><summary><BookOpen size={16} />翻译 API<ChevronRight size={15} /></summary>{translationOpen && <TranslationSettings api={api} onError={onError} />}</details>
   </section>;
 }
 
@@ -106,10 +105,7 @@ export function GrowthPage({ avatarData, onAvatar, goalOverview, onRankings, api
   const min = Math.min(...trend.map(item => item.value)), max = Math.max(...trend.map(item => item.value));
   const points = trend.map((item, index) => `${trend.length === 1 ? 150 : index / (trend.length - 1) * 300},${42 - (item.value - min) / (max - min || 1) * 32}`).join(' ');
   return <div className="progress-page" aria-label="成长与能力">
-    <div className="progress-level-strip">
-      <ProfileBadge growth={growth} avatar={avatarData} nickname={nickname} compact={false} onAvatarClick={onAvatar}/>
-      {titles.length > 0 && <div className="growth-title-showcase"><span>我的称号</span><TitleMedals titles={titles} /></div>}
-    </div>
+      {api && <GrowthAccountPanel api={api} hub={hub} account={account} profile={profile} profileSnapshot={profileSnapshot} onProfileChanged={onProfileChanged} onHubChanged={onHubChanged} onError={onError} accountFocus={accountFocus} />}
     <div className="growth-quick-stats">
       <Tooltip text={growth.ranked?.rules || '等级由经验值累积，5 级解锁段位。段位参考已验证独立 AC 的题目难度。'} label="等级与段位规则"/>
       {[[Check,summary.totalSolved??summary.officialSolved,'AC'],[Code2,summary.submissions,'\u63d0\u4ea4'],[CalendarDays,summary.activeDays,'\u6d3b\u8dc3\u65e5'],[Flame,summary.streak,'\u8fde\u7eed\u8bad\u7ec3'],[Flag,summary.completedContests,'\u6a21\u62df\u8d5b']].map(([Icon,value,label])=><Tooltip text={label} key={label}><span className="growth-stat-icon" tabIndex={0} aria-label={`${label} ${number(value)}`}><Icon size={16}/><b>{number(value)}</b></span></Tooltip>)}
@@ -126,7 +122,6 @@ export function GrowthPage({ avatarData, onAvatar, goalOverview, onRankings, api
         <div className="progress-platform-scores">{list(assessment.platforms).filter(item => LABELS[item.platform]).map(item => <div key={item.platform}><span>{LABELS[item.platform]}</span><b>{number(item.rating)}</b><span className="progress-small">最高 {number(item.maxRating)}</span></div>)}</div>
         {onSync && <div className="progress-actions"><button type="button" className="progress-text-button" title="刷新评分" aria-label="刷新评分" disabled={hub?.sync?.busy} onClick={() => onSync()}><RefreshCw size={16} /><span className="sr-only">刷新评分</span></button></div>}
       </section>
-      {api && <GrowthAccountPanel api={api} hub={hub} account={account} profile={profile} profileSnapshot={profileSnapshot} onProfileChanged={onProfileChanged} onHubChanged={onHubChanged} onError={onError} accountFocus={accountFocus} />}
       {onAchievements && <button className="growth-achievement-link" onClick={onAchievements}><Trophy size={17} /><span>查看成就</span><small>{list(insights.achievements).filter(item => item.unlocked).length}/{list(insights.achievements).length}</small><ArrowRight size={14} /></button>}
       </div>
       <div className="progress-growth-right"><section className="progress-section progress-recommendations">
@@ -252,6 +247,7 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
   const [query, setQuery] = useState(''), [filter, setFilter] = useState('all');
   const deferredQuery = useDeferredValue(query);
   const [shelf, setShelf] = useState('all'), [examYear, setExamYear] = useState(''), [examStage, setExamStage] = useState('');
+  const [folder,setFolder]=useState(null);
   const [sort, setSort] = useState('name');
   const [page, setPage] = useState(1);
   const [selected, setSelected] = useState(null), [joining, setJoining] = useState(false), [joinError, setJoinError] = useState(''), [starting, setStarting] = useState(null);
@@ -300,14 +296,16 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
     </div>;
   }
   return <div className="competition-page" aria-label="比赛列表">
+    <button className="progress-button" aria-pressed={!!folder} onClick={()=>setFolder(folder?null:{stage:"platforms",path:[]})}>文件夹浏览</button>
     <ContestTabs value={shelf} onChange={value => { setShelf(value); setExamYear(''); setExamStage(''); }} />
     {shelf === 'xcpc' && <div className="competition-toolbar"><ThemedSelect aria-label="XCPC 年份" value={examYear} onChange={event => setExamYear(event.target.value)}><option value="">全部年份</option>{[...new Set(groups.filter(group => group.xcpc && group.examYear).map(group => group.examYear))].sort((a,b) => b-a).map(year => <option key={year}>{year}</option>)}</ThemedSelect><ThemedSelect aria-label="XCPC 比赛类型" value={examStage} onChange={event => setExamStage(event.target.value)}><option value="">全部类型</option><option>区域赛</option><option>邀请赛</option><option>省赛</option></ThemedSelect></div>}
     {shelf === 'lanqiao' && <><p className="competition-sync-note">C/C++大学B组 · 2013—2026 年公开题目，按初赛 / 决赛分类。早年部分原卷未完整公开；填空题有合并，当前题单不代表原卷题数或题序。</p><div className="competition-toolbar"><ThemedSelect aria-label="蓝桥杯年份" value={examYear} onChange={event => setExamYear(event.target.value)}><option value="">全部年份</option>{[...new Set(groups.filter(group => group.examYear).map(group => group.examYear))].sort((a,b) => b-a).map(year => <option key={year}>{year}</option>)}</ThemedSelect><ThemedSelect aria-label="蓝桥杯赛段" value={examStage} onChange={event => setExamStage(event.target.value)}><option value="">初赛与决赛</option><option>初赛</option><option>决赛</option></ThemedSelect></div></>}
     <div className="competition-toolbar"><label className="competition-search"><Search size={16} /><input value={query} onChange={event => setQuery(event.target.value)} placeholder="搜索比赛、题名或知识点" aria-label="搜索比赛" /></label><ThemedSelect value={filter} onChange={event => setFilter(event.target.value)} aria-label="比赛训练情况"><option value="all">全部比赛</option><option value="joined">已加入训练</option><option value="available">尚未加入</option><option value="unfinished">尚未全部通过</option></ThemedSelect><ThemedSelect aria-label="比赛排序" value={sort} onChange={event => setSort(event.target.value)}><option value="name">名称顺序</option><option value="newest">比赛时间</option></ThemedSelect><span className="competition-count">{filtered.length} 场</span></div>
     {hub?.sync?.message && <p className="competition-sync-note">{hub.sync.message}</p>}
     {joinError && <p className="connection-error" role="alert">{joinError}</p>}
-    <div className="competition-list">{visibleGroups.map(group => <article className="competition-card" key={group.key}><button type="button" className="competition-card-open" onClick={() => setSelected(group.key)} aria-label={`查看 ${group.platform} ${group.name}，${group.rows.length} 道题`}><span className="competition-card-title"><strong>{group.name}</strong></span><span className="competition-problem-tokens">{group.rows.map(row => <span className={`competition-problem-token${progress.get(row.id)?.accepted ? ' competition-token-accepted' : ''}`} key={row.id}><b>{row.problem}{typeof row.difficulty==='number' && !lockedIds.has(row.id) ? ':' : ''}</b>{typeof row.difficulty==='number' && !lockedIds.has(row.id) && <Difficulty row={row}/>}</span>)}</span><ChevronRight size={16} aria-hidden="true" /></button>{startButton(group)}</article>)}</div>
-    {filtered.length > pageSize && <nav className="competition-pagination" aria-label="比赛分页"><span>{first + 1}–{Math.min(first + pageSize, filtered.length)} / {filtered.length} 场</span><button type="button" className="progress-button" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}>上一页</button><span aria-live="polite">第 {currentPage} / {pageCount} 页</span><button type="button" className="progress-button" disabled={currentPage === pageCount} onClick={() => setPage(currentPage + 1)}>下一页</button></nav>}
+    <div hidden={!!folder} className="competition-list">{visibleGroups.map(group => <article className="competition-card" key={group.key}><button type="button" className="competition-card-open" onClick={() => setSelected(group.key)} aria-label={`查看 ${group.platform} ${group.name}，${group.rows.length} 道题`}><span className="competition-card-title"><strong>{group.name}</strong></span><span className="competition-problem-tokens">{group.rows.map(row => <span className={`competition-problem-token${progress.get(row.id)?.accepted ? ' competition-token-accepted' : ''}`} key={row.id}><b>{row.problem}{typeof row.difficulty==='number' && !lockedIds.has(row.id) ? ':' : ''}</b>{typeof row.difficulty==='number' && !lockedIds.has(row.id) && <Difficulty row={row}/>}</span>)}</span><ChevronRight size={16} aria-hidden="true" /></button>{startButton(group)}</article>)}</div>
+    {folder&&<><CatalogPath scope={folder} onChange={setFolder}/><CatalogExplorer rows={filtered.flatMap(group=>group.rows.map(row=>({...row,groupKey:group.key})))} scope={folder} onChange={setFolder} onContest={row=>setSelected(row.groupKey)}/></>}
+    {!folder && filtered.length > pageSize && <nav className="competition-pagination" aria-label="比赛分页"><span>{first + 1}–{Math.min(first + pageSize, filtered.length)} / {filtered.length} 场</span><button type="button" className="progress-button" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}>上一页</button><span aria-live="polite">第 {currentPage} / {pageCount} 页</span><button type="button" className="progress-button" disabled={currentPage === pageCount} onClick={() => setPage(currentPage + 1)}>下一页</button></nav>}
     {!filtered.length && <Empty><Flag size={24} /><span>{groups.length ? '没有匹配的比赛，试试减少筛选条件。' : '题库还没有收录比赛。'}</span></Empty>}
   </div>;
 }

@@ -97,10 +97,12 @@ try {
   });
   assert.ok(Math.abs(heights.left - heights.right) < 180, JSON.stringify(heights));
   await page.screenshot({path: 'tests/screenshots/growth-real.png', animations: 'disabled'});
+  await page.locator('.knowledge-drawer-toggle').click();
   await page.getByRole('tree', {name: '知识点目录', exact: true}).getByRole('treeitem').first().focus();
   await page.keyboard.press('ArrowRight');
   await page.locator('.tree-line[data-depth="1"]').first().waitFor();
   await page.screenshot({path: 'tests/screenshots/knowledge-real.png', animations: 'disabled'});
+  await page.locator('.knowledge-drawer-toggle').click();
   assert.equal(await page.getByRole('tab', {name: '目标计划', exact: true}).count(),0);
   await page.locator('#growth-goals').scrollIntoViewIfNeeded();
   await page.getByRole('button', {name: '新建目标', exact: true}).click();
@@ -146,7 +148,7 @@ try {
   assert.equal(await page.locator('.competition-card').filter({hasText: '初赛'}).count(),0);
   await page.screenshot({path: 'tests/screenshots/lanqiao-history.png', animations: 'disabled'});
   await page.keyboard.press('Control+5');
-  await page.getByRole('button', {name: /重现赛.*保留/}).click();
+  await page.getByRole('button', {name: '重现赛', exact: true}).click();
   const collected = catalog.rows.filter(row => row.contest === '入门赛 49');
   await page.getByRole('combobox', {name: '重现赛比赛', exact: true}).selectOption('入门赛 49');
   const previewResponse=page.waitForResponse(response=>response.url().endsWith('/api/contests/preview')&&response.request().method()==='POST');

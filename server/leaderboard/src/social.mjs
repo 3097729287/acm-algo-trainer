@@ -13,16 +13,16 @@ const socialActivity = row => ({
   recipient:{userId:row.recipient_id,nickname:row.recipient_name}, createdAt:row.created_at,
 });
 export async function socialSnapshot(store,user,now) {
-  if (!store.social || !await store.social.available()) return { available:false,protocol:1,totalLikes:0,unreadCount:0,notifications:[],activity:[] };
+  if (!store.social || !await store.social.available()) return { available:false,protocol:1,totalLikes:0,todayLikes:0,unreadCount:0,notifications:[],activity:[] };
   const [summary,inbox,activity] = await Promise.all([
     store.social.summary(user.user_id,[user.user_id],bounds('daily',now).day),store.social.inbox(user.user_id),store.social.activity(),
   ]);
-  return { available:true,protocol:1,totalLikes:summary.get(user.user_id).total,unreadCount:inbox.unreadCount,notifications:inbox.rows.map(socialEvent),activity:activity.map(socialActivity) };
+  return { available:true,protocol:1,totalLikes:summary.get(user.user_id).total,todayLikes:summary.get(user.user_id).today,unreadCount:inbox.unreadCount,notifications:inbox.rows.map(socialEvent),activity:activity.map(socialActivity) };
 }
 export async function rankingSocial(store,viewer,rows,day) {
   if (!store.social || !await store.social.available()) return false;
   const values = await store.social.summary(viewer,rows.map(row => row.userId),day);
-  for (const row of rows) row.likes=values.get(row.userId) || { total:0,likedToday:false };
+  for (const row of rows) { const value=values.get(row.userId);row.likes={total:value?.total || 0,likedToday:value?.likedToday || false}; }
   return true;
 }
 export async function socialWrite(store,user,token,path,value,now) {
@@ -39,7 +39,7 @@ export async function socialWrite(store,user,token,path,value,now) {
   if (path === '/v1/social/likes') {
     const result=await store.social.like(user.user_id,hash,seconds,value.targetId,bounds('daily',now).day,timestamp);
     const counts=await store.social.summary(user.user_id,[value.targetId],bounds('daily',now).day);
-    return { ...result,targetId:value.targetId,likes:counts.get(value.targetId) };
+    return { ...result,targetId:value.targetId,likes:{total:counts.get(value.targetId).total,likedToday:counts.get(value.targetId).likedToday} };
   }
   if (typeof value.text !== 'string' || /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/u.test(value.text) || !value.text.trim() || [...value.text.trim()].length>500 || !uuid.test(value.requestId || '')) throw new AccountError(400,'留言须为 1–500 字');
   return store.social.comment(user.user_id,hash,seconds,value.targetId,value.text.trim(),value.requestId,timestamp);

@@ -27,12 +27,13 @@ export function socialSuite(startFixture) {
       }
       assert.equal((await call(f,'/v1/social/likes',{targetId:target.userId},actor,'DELETE')).status,404);
       let inbox=(await call(f,'/v1/social',undefined,target)).value;
-      assert.equal(inbox.totalLikes,1);assert.equal(inbox.notifications.length,1);assert.equal(inbox.unreadCount,1);
+      assert.equal(inbox.totalLikes,1);assert.equal(inbox.todayLikes,1);assert.equal(inbox.notifications.length,1);assert.equal(inbox.unreadCount,1);
       assert.equal(inbox.notifications[0].actor.nickname,'heart_actor');
       f.env.TEST_NOW=Date.parse('2026-10-20T16:01:00Z');
+      assert.equal((await call(f,'/v1/social',undefined,target)).value.todayLikes,0);
       const next=await call(f,'/v1/social/likes',{targetId:target.userId},actor);
       assert.deepEqual(next.value.likes,{total:2,likedToday:true});
-      assert.equal((await call(f,'/v1/social',undefined,target)).value.totalLikes,2);
+      assert.equal((await call(f,'/v1/social',undefined,target)).value.totalLikes,2);assert.equal((await call(f,'/v1/social',undefined,target)).value.todayLikes,1);
     } finally {await f.close();}
   });
   test('private comments are retry safe, owner readable, bounded and never leak into public activity',async()=>{

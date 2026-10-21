@@ -1,3 +1,4 @@
+import { openSettings } from './settings-navigation.mjs';
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
 import {createServer} from 'vite';
@@ -40,7 +41,8 @@ try{
  };await page.route('**/api/**',routes);
  await page.goto(vite.resolvedUrls.local[0]);
  await page.locator('.sidebar').waitFor();assert.equal(accountCalls,1,'A slow bootstrap is not superseded by the three-second poll');
- await page.getByRole('button',{name:'偏好设置',exact:false}).click();
+ await page.getByRole('button',{name:'设置',exact:true}).click();
+ await openSettings(page,'外观');
  await page.getByRole('region',{name:'工作台风格',exact:true}).waitFor();
  assert.equal(await page.locator('.settings-navigation').count(),0,'Navigation has its own settings page');
  assert.equal(await page.getByRole('checkbox').count(),0,'Appearance contains only visual controls');
@@ -52,11 +54,11 @@ try{
  const styleSignature=()=>page.locator('.progress-assessment').evaluate(n=>{const s=getComputedStyle(n);return [s.borderStyle,s.borderRadius,s.backgroundImage];});
  await page.locator('.sidebar').getByRole('button',{name:'成长与能力',exact:true}).click();
  const blueprint=await styleSignature();
- await page.locator('.sidebar').getByRole('button',{name:'偏好设置',exact:false}).click();
+ await page.locator('.sidebar').getByRole('button',{name:'设置',exact:true}).click();
  await page.getByRole('button',{name:'线框',exact:true}).click();
  await page.locator('.sidebar').getByRole('button',{name:'成长与能力',exact:true}).click();
  const outlined=await styleSignature();assert.notDeepEqual(blueprint,outlined,'Blueprint has a grid/dashed silhouette on shared content cards');
- await page.locator('.sidebar').getByRole('button',{name:'偏好设置',exact:false}).click();
+ await page.locator('.sidebar').getByRole('button',{name:'设置',exact:true}).click();
  await page.getByRole('button',{name:'夜空极光',exact:true}).click();
  await page.getByRole('button',{name:'我的图片',exact:true}).click();
  await page.getByLabel('面板不透明度',{exact:true}).evaluate(node=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(node,'55');node.dispatchEvent(new Event('input',{bubbles:true}));});
@@ -66,14 +68,14 @@ try{
    const alpha=await page.locator(selector).first().evaluate(node=>{const canvas=document.createElement('canvas');canvas.width=canvas.height=1;const c=canvas.getContext('2d');c.fillStyle=getComputedStyle(node).backgroundColor;c.fillRect(0,0,1,1);return c.getImageData(0,0,1,1).data[3]/255;});
    assert.ok((allowTransparent?alpha>=0:alpha>0)&&alpha<.58,`${selector} uses the selected translucent palette: ${alpha}`);
  };
- for(const selector of ['.settings-subpage-tabs','.visual-preferences','.appearance-studio','.topbar'])await glass(selector);
+ for(const selector of ['.visual-preferences','.appearance-studio','.topbar'])await glass(selector);
  await glass('.style-preset',true); // Preview cards use a border over their parent surface.
- await page.getByRole('button',{name:'纯色',exact:true}).click();await glass('.settings-subpage-tabs');
+ await page.getByRole('button',{name:'纯色',exact:true}).click();await glass('.appearance-studio');
  await page.getByRole('button',{name:'我的图片',exact:true}).click();
- await page.getByRole('tab',{name:'交互设置',exact:true}).click();
- await page.getByLabel('顶部时钟',{exact:true}).uncheck();
+ await openSettings(page, '交互与导航');
+ await page.getByLabel('底部时钟',{exact:true}).uncheck();
  assert.equal(await page.getByLabel('北京时间',{exact:true}).count(),0);
- await page.getByLabel('顶部时钟',{exact:true}).check();
+ await page.getByLabel('底部时钟',{exact:true}).check();
  await page.getByLabel('北京时间',{exact:true}).waitFor();
  await page.getByLabel('显示比赛平台',{exact:true}).uncheck();
  await page.locator('.sidebar').getByRole('button',{name:'比赛',exact:true}).click();
@@ -100,8 +102,8 @@ try{
  assert.equal(await page.getByLabel('具体目标',{exact:true}).inputValue(),'CF 2200');
  await page.keyboard.press('Escape');
  await page.screenshot({path:'tests/screenshots/v113-growth-glass.png'});
- await page.locator('.sidebar').getByRole('button',{name:'偏好设置',exact:false}).click();
- await page.getByRole('tab',{name:'更新',exact:true}).click();
+ await page.locator('.sidebar').getByRole('button',{name:'设置',exact:true}).click();
+ await openSettings(page, '更新');
  await page.getByText('公开版本：',{exact:false}).waitFor();assert.equal(await page.getByText('v0.1.0',{exact:true}).count(),0,'Stale catalog cache cannot show an old public release');
  await page.locator('.sidebar').getByRole('button',{name:'成长与能力',exact:false}).click();
  await page.getByRole('region',{name:'今日排行榜速览'}).waitFor();
@@ -114,20 +116,21 @@ try{
  await page.locator('.activity-stats>span>b').first().waitFor();
  const values=await page.locator('.activity-stats>span>b').evaluateAll(nodes=>nodes.map(n=>n.getBoundingClientRect().y));assert.ok(Math.abs(values[0]-values[1])<1,'Calendar summary numbers align');
  await mkdir('tests/screenshots',{recursive:true});
- for(const [width,height]of[[2048,1152],[1440,900],[1280,720],[1024,760]]){await page.setViewportSize({width,height});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));const clock=await page.getByLabel('北京时间',{exact:true}).boundingBox();assert.ok(clock.y<100&&clock.x+clock.width<=width,'Clock stays within the top bar');await page.screenshot({path:`tests/screenshots/v113-activity-${width}.png`});}
+ for(const [width,height]of[[2048,1152],[1440,900],[1280,720],[1024,760]]){await page.setViewportSize({width,height});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));const clock=await page.getByLabel('北京时间',{exact:true}).boundingBox();assert.ok(clock.y>height-100&&clock.x+clock.width<=width,'Clock stays within the bottom status bar');await page.screenshot({path:`tests/screenshots/v113-activity-${width}.png`});}
  await page.locator('.sidebar').getByRole('button',{name:'我的训练',exact:true}).click();
  assert.equal(await page.locator('.platform-symbol:visible').count(),0);
  assert.equal(await page.locator('.daily-task-top-button .notification-dot').count(),0,'Pending goals alone do not light the task dot');
- const alignment=await page.locator('.topbar-daily-ac').evaluate(n=>[...n.querySelectorAll('span,b')].map(c=>{const r=c.getBoundingClientRect();return r.y+r.height/2;}));assert.ok(Math.abs(alignment[0]-alignment[1])<1);
- await page.locator('.sidebar').getByRole('button',{name:'偏好设置',exact:false}).click();
- await page.getByRole('tab',{name:'数据与帮助',exact:true}).click();
+ const alignment=await page.locator('.topbar-daily-ac').evaluate(n=>[...n.querySelectorAll('strong,b')].map(c=>{const r=c.getBoundingClientRect();return r.y+r.height/2;}));assert.ok(Math.abs(alignment[0]-alignment[1])<1);
+ await page.locator('.sidebar').getByRole('button',{name:'设置',exact:true}).click();
+ await openSettings(page);
  await page.getByText('InkStarry',{exact:true}).waitFor();await page.getByText('蒟蒻',{exact:true}).waitFor();await page.getByText('她不爱吃酸',{exact:true}).waitFor();assert.equal(await page.getByText('自渡',{exact:true}).count(),0);
+ await openSettings(page,'数据与帮助');
  const downloaded=page.waitForEvent('download');await page.getByRole('button',{name:/导出数据/}).click();const download=await downloaded;
  assert.ok(download.suggestedFilename().endsWith('.json'));const data=JSON.parse(await readFile(await download.path(),'utf8'));assert.equal(data.tables.drafts[0].code,'// 中文代码\nint main(){}');
- await page.getByRole('button',{name:/新手指引/}).click();await page.getByRole('heading',{name:'连接你的竞赛账号',exact:true}).waitFor();
- for(let i=0;i<3;i++)await page.getByRole('button',{name:'下一步',exact:true}).click();await page.getByRole('button',{name:'开始训练',exact:true}).click();
+ await page.getByRole('button',{name:/新手指引/}).click();await page.getByRole('heading',{name:'连接账号',exact:true}).waitFor();
+ await page.keyboard.press('Escape');
  await page.waitForFunction(()=>JSON.parse(localStorage.getItem('tb.preferences.v2.10000000-0000-4000-8000-000000000001')).onboardingCompleted===true);
- await page.getByRole('button',{name:/新手指引/}).click();await page.getByRole('dialog',{name:'新手指引',exact:true}).waitFor();await page.keyboard.press('Escape');
+ await openSettings(page,'数据与帮助');await page.getByRole('button',{name:/新手指引/}).click();await page.getByRole('dialog',{name:'新手指引',exact:true}).waitFor();await page.keyboard.press('Escape');
  await page.close();registrationMode=true;savedPreferences=null;
  const fresh=await browser.newPage({viewport:{width:1024,height:760}});await fresh.route('**/api/**',routes);await fresh.goto(vite.resolvedUrls.local[0]);
  await fresh.getByRole('tab',{name:'注册',exact:true}).click();

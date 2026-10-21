@@ -25,6 +25,5 @@ export default function DataHelpSettings({ api, onTutorial, onError }) {
       </button></Tooltip>
       <Tooltip text="新手指引：从选题到原站提交。"><button className="help-action" aria-label="新手指引" onClick={onTutorial}><GraduationCap size={22}/></button></Tooltip>
     </div>
-    <div className="acknowledgements"><Heart size={16}/><span>鸣谢</span><strong>InkStarry</strong><strong>猫猫头教主</strong><strong>蒟蒻</strong><strong>她不爱吃酸</strong></div>
   </section>;
 }
