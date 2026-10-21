@@ -88,7 +88,7 @@ function readDraft(key) {
 function retainDraft(record, dirty = true) {
   try {
     localStorage.setItem(record.key, JSON.stringify({
-      code: record.code, dirty, owner: record.owner, version: record.version,
+      code: record.code, language:record.language || "cpp17", dirty, owner: record.owner, version: record.version,
       modifiedAt: Date.now(),
     }));
     record.retained = true;
@@ -130,7 +130,7 @@ function queryPath(path, id, contestId) {
   return `${path}?id=${encodeURIComponent(id)}${contestId ? `&contestId=${encodeURIComponent(contestId)}` : ''}`;
 }
 function requestBody(record, extra = {}) {
-  return { id: record.id, ...(record.contestId ? { contestId: record.contestId } : {}), ...extra };
+  return { id: record.id, language:record.language || "cpp17", ...(record.contestId ? { contestId: record.contestId } : {}), ...extra };
 }
 
 function Verdict({ submission }) {
@@ -213,6 +213,7 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
   const [loadError, setLoadError] = useState('');
   const [loadAttempt, setLoadAttempt] = useState(0);
   const [code, setCode] = useState('');
+  const [codeLanguage,setCodeLanguage]=useState('cpp17');
   const [saveState, setSaveState] = useState({ kind: 'automatic' });
   const [pane, setPane] = useState('both');
   const [cursor, setCursor] = useState({ line: 1, column: 1 });
@@ -321,6 +322,8 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
         record.locked = Boolean(answer.locked && !contestId);
         record.closed = record.closed || record.locked;
         const useLocal = backup?.dirty && (!answer.draftSavedAt || Number(backup.modifiedAt || 0) >= Date.parse(answer.draftSavedAt));
+        record.language = useLocal ? backup.language || 'cpp17' : answer.draftLanguage || 'cpp17';
+        setCodeLanguage(record.language);
         record.code = useLocal ? backup.code : (answer.draftSavedAt ? answer.draft : (answer.draft || TEMPLATE));
         if (backup?.dirty && !useLocal && backup.code !== record.code) {
           // A newer draft restored from another computer wins. Keep this
@@ -507,6 +510,14 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
     return () => { alive = false; clearTimeout(timer); };
   }, [officialSession?.sessionId, contextKey, announceOfficialCompletion, offerPreparation]);
 
+  useEffect(()=>{
+    if(officialSession?.status!=='finished'||!officialSession.sessionId)return;
+    // This effect runs after React commits the result to the visible workbench.
+    let cancelled=false,timer;
+    const acknowledge=async(attempt=0)=>{try{const result=await apiRef.current('official/ack',{sessionId:officialSession.sessionId});if(!cancelled&&!result.closed&&attempt<4)timer=setTimeout(()=>acknowledge(attempt+1),700);}catch{if(!cancelled&&attempt<4)timer=setTimeout(()=>acknowledge(attempt+1),1000);}};
+    timer=setTimeout(()=>acknowledge(),500);
+    return()=>{cancelled=true;clearTimeout(timer);};
+  },[officialSession?.sessionId,officialSession?.status]);
   const updateCode = useCallback(value => {
     const record = activeRecord.current;
     if (!record?.loaded || record.closed) return;
@@ -530,6 +541,16 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
     return () => window.removeEventListener('tb-before-update', beforeUpdate);
   }, [saveRecord]);
 
+  const changeCodeLanguage = event => {
+    const record=activeRecord.current;if(!record?.loaded||record.closed)return;
+    const next=event.target.value;if(next===record.language)return;
+    const newTemplate=next==='python3' ? 'import sys\n\ndef solve():\n    pass\n\nif __name__ == "__main__":\n    solve()\n' : TEMPLATE;
+    // Each language keeps an independent editor buffer for this problem.
+    try {localStorage.setItem(`${record.key}.language.${record.language||'cpp17'}`,record.code);}catch{}
+    let remembered;try{remembered=localStorage.getItem(`${record.key}.language.${next}`);}catch{}
+    record.language=next;setCodeLanguage(next);
+    updateCode(remembered ?? newTemplate);
+  };
   const manualSave = () => {
     const record = activeRecord.current;
     if (!record?.loaded || record.closed || sidePracticeLocked) return;
@@ -709,7 +730,17 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
     : saveState.kind === 'automatic' ? '自动保存' : '草稿已保存';
 
   return <section className={`tb-workbench wb-pane-${pane}`} ref={sectionRef} onKeyDown={handleKeys} aria-label="代码训练工作台" data-problem-id={problemId}>
-    <div className="wb-toolbar">
+
+    {sidePracticeLocked && !endedContest && <div className="wb-notice">这题正在模拟赛中，请进入考场运行与提交。</div>}
+    {officialSession && !localContest && <div className="wb-official-status" aria-label="原站提交状态"><div role="status"><strong>{OFFICIAL_STATES[officialSession.status] || '原站提交'}</strong><span>{officialSession.message}</span>{officialSession.submissionId && <span>提交 #{officialSession.submissionId}</span>}{officialSession.verdict && <b className={`wb-verdict-${officialSession.verdict.toLowerCase()}${officialSession.verdict === 'AC' ? ' wb-receipt-ac' : ''}`}>{verdictLabel(officialSession.verdict)}</b>}</div><div className="wb-official-actions">
+      {['needs_browser', 'needs_login', 'needs_verification', 'unconfirmed', 'error'].includes(officialSession.status) && <button type="button" className="wb-button" disabled={unavailable || openingOfficial} onClick={() => openOfficial('official/open')}>{officialSession.status === 'needs_browser' ? '连接浏览器' : officialSession.status === 'needs_verification' ? '完成原站验证' : '在浏览器查看'}</button>}
+      {['finished', 'closed'].includes(officialSession.status) && <button type="button" className="wb-icon-button" aria-label="收起提交状态" onClick={() => setOfficialSession(null)}><ChevronUp size={14} /></button>}
+    </div>{officialPollError && <p className="wb-poll-error" role="alert">{officialPollError}</p>}</div>}
+    {actionError && <div className="wb-error-strip" role="alert"><span>{actionError}</span><button type="button" onClick={() => setActionError('')}>知道了</button></div>}
+
+    <div className="wb-body">
+      <div className="wb-statement-pane">
+        <div className="wb-pane-header wb-merged-header"><div className="wb-toolbar">
       <button type="button" className="wb-icon-button" onClick={exit} title={runningContest ? '返回工作台（比赛继续计时）' : '返回列表'} aria-label={runningContest ? '返回工作台' : '返回列表'}><ArrowLeft size={17} /></button>
       {headerStart}
       <div className="wb-heading">
@@ -724,19 +755,7 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
       </div>
       {onSolution && !runningContest && !problem?.locked && <button type="button" className="wb-button wb-solution-button" disabled={!problem} onClick={() => callbacks.current.onSolution?.(problemId)}><BookOpen size={14} />题解</button>}
       {onNext && <button type="button" className="wb-button wb-next-button" onClick={() => { saveRecord(activeRecord.current); callbacks.current.onNext?.(); }}>下一题<ArrowRight size={14} /></button>}
-      {headerEnd}
-    </div>
-
-    {sidePracticeLocked && !endedContest && <div className="wb-notice">这题正在模拟赛中，请进入考场运行与提交。</div>}
-    {officialSession && !localContest && <div className="wb-official-status" aria-label="原站提交状态"><div role="status"><strong>{OFFICIAL_STATES[officialSession.status] || '原站提交'}</strong><span>{officialSession.message}</span>{officialSession.submissionId && <span>提交 #{officialSession.submissionId}</span>}{officialSession.verdict && <b className={`wb-verdict-${officialSession.verdict.toLowerCase()}${officialSession.verdict === 'AC' ? ' wb-receipt-ac' : ''}`}>{verdictLabel(officialSession.verdict)}</b>}</div><div className="wb-official-actions">
-      {['needs_browser', 'needs_login', 'needs_verification', 'unconfirmed', 'error'].includes(officialSession.status) && <button type="button" className="wb-button" disabled={unavailable || openingOfficial} onClick={() => openOfficial('official/open')}>{officialSession.status === 'needs_browser' ? '连接浏览器' : officialSession.status === 'needs_verification' ? '完成原站验证' : '在浏览器查看'}</button>}
-      {['finished', 'closed'].includes(officialSession.status) && <button type="button" className="wb-icon-button" aria-label="收起提交状态" onClick={() => setOfficialSession(null)}><ChevronUp size={14} /></button>}
-    </div>{officialPollError && <p className="wb-poll-error" role="alert">{officialPollError}</p>}</div>}
-    {actionError && <div className="wb-error-strip" role="alert"><span>{actionError}</span><button type="button" onClick={() => setActionError('')}>知道了</button></div>}
-
-    <div className="wb-body">
-      <div className="wb-statement-pane">
-        <div className="wb-pane-header"><span><BookOpen size={14} />题面</span><div className="wb-statement-actions">
+    </div><div className="wb-statement-actions">
           <div className="wb-font-controls" role="group" aria-label="题面字号调节">
             <button type="button" aria-label="缩小题面字号" title="缩小题面字号" disabled={statementFontSize <= 14} onClick={() => changeStatementFontSize(Math.max(14,statementFontSize - 1))}>A−</button>
             <BoundedNumber aria-label="题面字号" min={14} max={32} unit="px" value={statementFontSize} required onChange={event => changeStatementFontSize(Number(event.target.value))}/>
@@ -759,8 +778,8 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
 
       <div className="wb-code-pane">
         <div className="wb-pane-header wb-editor-header">
-          <span><Code2 size={14} />C++17</span>
-          <span className={`wb-save-state wb-save-${saveState.kind}`} title={saveState.message || '草稿自动保存；Ctrl+S 立即保存'} aria-live="polite">{saveState.kind === 'saving' ? <LoaderCircle size={11} className="wb-spinner" /> : saveState.kind === 'saved' ? <Check size={11} /> : null}{saveLabel}</span>
+          <span><Code2 size={14}/><ThemedSelect aria-label="编程语言" value={codeLanguage} disabled={unavailable||busy||officialBusy} onChange={changeCodeLanguage}><option value="cpp17">C++17</option><option value="python3">Python 3</option></ThemedSelect></span>
+          {headerEnd}<span className={`wb-save-state wb-save-${saveState.kind}`} title={saveState.message || '草稿自动保存；Ctrl+S 立即保存'} aria-live="polite">{saveState.kind === 'saving' ? <LoaderCircle size={11} className="wb-spinner" /> : saveState.kind === 'saved' ? <Check size={11} /> : null}{saveLabel}</span>
           <div className="wb-editor-actions">
             {localDraftRecovery !== null && <button type="button" className="wb-button" disabled={unavailable} title="当前为更新的同步版本；可恢复本机未上传的旧草稿" onClick={() => {
               undoReplace.current = code;
@@ -774,13 +793,13 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
               setRestoreAvailable(false);
               if (typeof previous === 'string') updateCode(previous);
             }}><RotateCcw size={14} /></button>}
-            <button type="button" className="wb-icon-button" disabled={unavailable} title="导入自己的 C++ 代码" aria-label="导入代码" onClick={() => fileRef.current?.click()}><FileCode2 size={14} /></button>
+            <button type="button" className="wb-icon-button" disabled={unavailable} title="导入自己的代码" aria-label="导入代码" onClick={() => fileRef.current?.click()}><FileCode2 size={14} /></button>
             <button type="button" className="wb-icon-button" disabled={unavailable} title="保存草稿 · Ctrl+S" aria-label="保存草稿" onClick={manualSave}><Save size={14} /></button>
-            <input className="wb-file-input" type="file" accept=".cpp,.cc,.cxx,.txt" ref={fileRef} onChange={importCode} tabIndex={-1} />
+            <input className="wb-file-input" type="file" accept=".cpp,.cc,.cxx,.py,.txt" ref={fileRef} onChange={importCode} tabIndex={-1} />
           </div>
         </div>
         <div className="wb-editor">
-          <CodeEditor ref={editorRef} value={code} docKey={contextKey} onChange={updateCode} onCursorChange={setCursor} onCommand={editorCommand} onLeave={() => consoleButtonRef.current?.focus()} readOnly={unavailable} disabled={loading || !problem} ariaLabel="C++ 代码" />
+          <CodeEditor ref={editorRef} value={code} docKey={contextKey} onChange={updateCode} onCursorChange={setCursor} onCommand={editorCommand} onLeave={() => consoleButtonRef.current?.focus()} readOnly={unavailable} disabled={loading || !problem} language={codeLanguage} ariaLabel={codeLanguage==='python3'?'Python 代码':'C++ 代码'} />
         </div>
         <div className="wb-editor-status"><span>Ln {cursor.line}, Col {cursor.column}</span><span title="Tab 缩进，Shift+Tab 取消缩进，Ctrl+Tab 离开编辑器">Tab 缩进 · Ctrl+Tab 离开</span></div>
         <div className="wb-run-toolbar">

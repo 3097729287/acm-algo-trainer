@@ -100,6 +100,8 @@ class LeaderboardClient:
         self.last_public_progress = None
 
     def _request(self, profile, method, path, data=None):
+        if getattr(self.training, "admin_mode", False):
+            raise RankingRequestError(403, "管理员工作区不连接公共排行")
         payload = json.dumps(data, ensure_ascii=False).encode("utf-8") if data is not None else None
         request = Request(profile["endpoint"] + path, data=payload, method=method,
                           headers={"Content-Type": "application/json", "Accept": "application/json", "Authorization": "Bearer " + profile["auth_token"],
@@ -132,7 +134,7 @@ class LeaderboardClient:
         # TrainingService.close marks closed and later closes SQLite under this
         # same lock. A timer that already fired must not read after that barrier.
         with self.training.lock:
-            if self.closed or self.training.closed:
+            if self.closed or self.training.closed or getattr(self.training, "admin_mode", False):
                 return {"configured": False, "status": "closed", "endpoint": "", "lastSyncedAt": None,
                         "error": "", "notice": ""}
             profile = self.training._ranking_profile()
@@ -144,7 +146,7 @@ class LeaderboardClient:
 
     def queue_sync(self, force=False):
         with self.training.lock:
-            if self.closed or self.training.closed:
+            if self.closed or self.training.closed or getattr(self.training, "admin_mode", False):
                 return self.snapshot()
             profile = self.training._ranking_profile()
         with self.lock:

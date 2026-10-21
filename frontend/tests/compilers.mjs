@@ -46,6 +46,14 @@ try {
   await page.addScriptTag({ content: source });
   assert.equal(await page.evaluate(() => selectOfficialCompiler('int main(){}', '牛客')), null);
   assert.equal(await page.evaluate(() => compilerCandidate('C++(g++ 13)', '#include <ranges>', '牛客')), null);
+  for(const platform of ['Codeforces','AtCoder','牛客','洛谷']){
+    await page.setContent('<select name="language"><option value="cpp">GNU C++17</option><option value="py2">Python 2.7</option><option value="pypy">PyPy 3.10</option><option value="py">Python 3.13</option></select>');
+    await page.addScriptTag({content:source});
+    const language=await page.evaluate(platform=>selectOfficialCompiler('print(42)',platform,'python3'),platform);
+    assert.equal(language.language,'python3');assert.equal(await page.locator('select').inputValue(),'py');
+  }
+  await page.setContent('<select name="language"><option>Python 2.7</option><option>GNU C++17</option></select>');await page.addScriptTag({content:source});
+  assert.equal(await page.evaluate(()=>selectOfficialCompiler('print(42)','Codeforces','python3')),null);
   console.log('Compiler adapters passed: Codeforces, AtCoder, Luogu, Nowcoder custom dropdown, standard requirements and unsupported options.');
 } finally {
   await browser.close();

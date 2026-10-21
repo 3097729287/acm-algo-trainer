@@ -7,7 +7,7 @@ import re
 from training import ServiceError, iso
 
 ALLOWED = frozenset(('panelStyle', 'backdrop', 'panelOpacity', 'pageOpacities', 'widgets', 'theme', 'accent', 'motion', 'compact', 'collapsed', 'favorites', 'views',
-                     'readerWidth', 'fontSize', 'navOrder', 'navLabels', 'navGroups', 'seenAchievements', 'showPlatforms', 'onboardingCompleted', 'avatarData'))
+                     'readerWidth', 'fontSize', 'navOrder', 'navLabels', 'navGroups', 'seenAchievements', 'showPlatforms', 'onboardingCompleted', 'avatarData', 'navSchema', 'learningPaths'))
 AVATAR_DATA_MAX_BYTES = 48 * 1024
 
 
@@ -70,6 +70,10 @@ def save_preferences(training, body):
     value = dict(body['preferences'])
     if set(value) - ALLOWED:
         raise ServiceError(400, '偏好设置包含不支持的字段')
+    if 'learningPaths' in value and (not isinstance(value['learningPaths'], dict) or len(value['learningPaths']) > 64):
+        raise ServiceError(400, '题单进度格式无效')
+    if 'navSchema' in value and (type(value['navSchema']) is not int or not 1 <= value['navSchema'] <= 2):
+        raise ServiceError(400, '导航版本无效')
     if 'avatarData' in value:
         validate_avatar(value['avatarData'])
     for name, allowed in (('panelStyle', {'minimal', 'outlined', 'aurora', 'blueprint'}),
@@ -87,7 +91,7 @@ def save_preferences(training, body):
         raise ServiceError(400, '界面字号须为 13–22')
     if 'pageOpacities' in value:
         opacities = value['pageOpacities']
-        if (not isinstance(opacities, dict) or set(opacities) - {'mine','library','competitions','mock','rankings','growth','records','activity','lectures','settings','statement','editor'}
+        if (not isinstance(opacities, dict) or set(opacities) - {'mine','library','competitions','mock','rankings','growth','records','activity','lectures','settings','statement','editor','solution','paths'}
                 or any(type(opacity) is not int or not 0 <= opacity <= 100 for opacity in opacities.values())):
             raise ServiceError(400, '界面不透明度须为 0–100')
     try:

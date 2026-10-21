@@ -1,3 +1,4 @@
+import { isXcpc } from '@/lib/contestShelves.js';
 import { ChevronRight, FileText, Folder, House } from 'lucide-react';
 import './CatalogExplorer.css';
 
@@ -16,7 +17,7 @@ export function catalogSegments(row) {
     const year = fullName.match(/20\d{2}/)?.[0] || String(row.contestDate || row.startedAt || '').match(/^20\d{2}/)?.[0];
     const warmup = /热身|warm.?up/i.test(fullName);
     const event = name.replace(/[（(]\s*(?:热身赛?|正式赛|正赛|warm.?up)\s*[）)]/gi, '').trim();
-    return ['XCPC', 'ACM', type, year ? `${year}年` : '年份待核实', event, warmup ? '热身赛' : '正赛'];
+    return ['ACM', type, year ? `${year}年` : '年份待核实', event, warmup ? '热身赛' : '正赛'];
   }
   const series = row.series && row.series !== row.platform ? row.series
     : name.match(/练习赛|小白月赛|周赛|月赛|挑战赛|入门赛|基础赛|教育赛|ABC|ARC|Div\.?\s*[1-4](?:\s*\+\s*Div\.?\s*[1-4])?/i)?.[0] || '其他比赛';
@@ -35,7 +36,7 @@ export function CatalogPath({ scope, onChange }) {
     {path.map((part, index) => <span key={index}><ChevronRight size={13}/><button aria-current={index === path.length - 1 ? 'page' : undefined} onClick={() => onChange({ stage: index === path.length - 1 ? scope.stage : 'contests', path: path.slice(0, index + 1) })}>{part}</button></span>)}
   </nav>;
 }
-export default function CatalogExplorer({ rows, scope, onChange, onContest }) {
+export default function CatalogExplorer({ rows, scope, onChange, onContest, renderContest }) {
   const path = pathOf(scope), selected = rows.filter(row => catalogMatches(row, scope)), groups = new Map();
   for (const row of selected) {
     const name = catalogSegments(row)[path.length];
@@ -46,7 +47,7 @@ export default function CatalogExplorer({ rows, scope, onChange, onContest }) {
   const entries = [...groups].sort(([a], [b]) => a.localeCompare(b, 'zh-CN', { numeric: true }));
   return <section className="catalog-explorer" aria-label={onContest ? '比赛层级浏览' : '题库层级浏览'}>
     {!onContest && <button className="catalog-folder-row" onClick={() => onChange({ ...scope, stage: 'problems' })}><FileText size={19}/><strong>全部题目</strong><span>{selected.length}</span><ChevronRight size={16}/></button>}
-    {entries.map(([name, items]) => <button className="catalog-folder-row" key={name} onClick={() => {
+    {entries.map(([name, items]) => renderContest && new Set(items.map(row=>row.groupKey)).size===1 ? <div className="catalog-contest-entry" key={name}>{renderContest(items[0])}</div> : <button className="catalog-folder-row" key={name} onClick={() => {
       const next = [...path, name], leaf = items.every(row => catalogSegments(row).length === next.length);
       if (leaf && onContest) onContest(items[0]);
       else onChange({ path: next, stage: leaf ? 'problems' : 'contests' });

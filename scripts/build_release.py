@@ -72,6 +72,9 @@ def assemble(args):
     shutil.copytree(ROOT / 'frontend' / 'dist', package / 'frontend' / 'dist')
     shutil.copytree(ROOT / 'backend' / 'resources', package / 'resources')
     shutil.copytree(args.compiler_source, package / 'compiler')
+    if not args.python_source or not (args.python_source / 'python.exe').is_file() or not (args.python_source / 'LICENSE.txt').is_file():
+        raise RuntimeError('--python-source must contain the verified CPython embeddable runtime')
+    shutil.copytree(args.python_source, package / '_internal' / 'python3')
     shutil.copytree(ROOT / 'licenses', package / 'licenses')
     (package / 'data').mkdir()
     shutil.copy2(seed, package / 'data' / 'library.sqlite3')
@@ -116,6 +119,7 @@ def main():
     parser.add_argument('action', choices=['build', 'assemble', 'installer'])
     parser.add_argument('--stage', type=Path, required=True)
     parser.add_argument('--compiler-source', type=Path)
+    parser.add_argument('--python-source', type=Path)
     parser.add_argument('--inno', type=Path)
     parser.add_argument('--webview2', type=Path)
     args = parser.parse_args()

@@ -57,6 +57,7 @@ Source: "{#PackageDir}\data\library.sqlite3"; DestDir: "{app}\data"; Flags: igno
 Source: "{#WebViewInstaller}"; DestName: "WebView2-offline-x64.exe"; Flags: dontcopy nocompression
 
 [Icons]
+Name: "{group}\TB 管理员工作台"; Filename: "{app}\TB新版.exe"; Parameters: "--admin"; WorkingDir: "{app}"; IconFilename: "{app}\tb.ico"
 Name: "{group}\TB 训练工作台"; Filename: "{app}\TB新版.exe"; WorkingDir: "{app}"; IconFilename: "{app}\tb.ico"
 Name: "{autodesktop}\TB 训练工作台"; Filename: "{app}\TB新版.exe"; WorkingDir: "{app}"; IconFilename: "{app}\tb.ico"; Tasks: desktopicon
 

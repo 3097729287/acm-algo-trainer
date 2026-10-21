@@ -1,5 +1,6 @@
 """Explicit, read-only JSON export of the active account's learning journal."""
 import json
+import re
 
 from account_sync import TABLES, AccountStateSync, clean_profile
 from training import iso
@@ -14,8 +15,11 @@ def export_data(training):
             f'SELECT * FROM "{name}" ORDER BY ' + ','.join(keys))] if name in existing else []
             for name, keys in TABLES.items()}
         tables['account_preferences'] = [row for row in tables['account_preferences']
-                                         if row['key'] in ('ui', 'receipt-bindings')]
+                                         if row['key'] in ('ui', 'receipt-bindings') or
+                                         re.fullmatch(r'(?:draft-language:[a-f0-9]{64}|submission-language:[a-z0-9-]{1,100})',row['key']) and row['value'] in ('cpp17','python3')]
         for row in tables['account_preferences']:
+            if row['key'].startswith(('draft-language:','submission-language:')):
+                continue
             row['value'] = json.dumps(AccountStateSync._portable_json(json.loads(row['value'])), ensure_ascii=False)
         identity = training.connection.execute('SELECT nickname FROM ranking_profile WHERE singleton=1').fetchone()
         exported_at = iso(training._now())

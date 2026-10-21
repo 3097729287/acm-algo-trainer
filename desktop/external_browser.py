@@ -42,6 +42,7 @@ class BrowserProcess:
         self.process = None
         self.port = None
         self.memory_endpoint = None
+        self.bootstrap_targets = set()
         self.opener = build_opener(ProxyHandler({}))
 
     def request(self, path, method='GET'):
@@ -126,11 +127,34 @@ class BrowserProcess:
                     try:
                         version = self._active(active)
                         self._memory(version, restore=True)
+                        self.bootstrap_targets={item['id'] for item in self.request('/json/list') if item.get('type')=='page' and item.get('url')=='about:blank'}
                         return
                     except (OSError, ValueError, IndexError):
                         self.port = None
                 time.sleep(.1)
             raise ServiceError(503, '浏览器尚未启动，请检查弹出的浏览器窗口后重试')
+
+    def close_page(self, identity):
+        version=self.request('/json/version')
+        page=DevToolsPage(version['webSocketDebuggerUrl'],lambda *_:None)
+        try:
+            return page.call('Target.closeTarget',{'targetId':identity}).get('success',False)
+        finally:
+            page.close()
+
+    def new_submission_page(self):
+        # Each submission owns one window; never close a login or unrelated tab.
+        self.ensure()
+        version=self.request('/json/version')
+        page=DevToolsPage(version['webSocketDebuggerUrl'],lambda *_:None)
+        try:
+            target=page.call('Target.createTarget',{'url':'about:blank','newWindow':True})['targetId']
+            for blank in self.bootstrap_targets:
+                page.call('Target.closeTarget',{'targetId':blank})
+            self.bootstrap_targets.clear()
+            return next(item for item in self.request('/json/list') if item.get('id')==target)
+        finally:
+            page.close()
 
     def new_page(self, url='about:blank', browser=None):
         from urllib.parse import quote
@@ -191,7 +215,7 @@ class ExternalBrowserBridge:
         self.stopping = threading.Event()
         self.source = page_source()
 
-    def _open(self, url, code, title, intent):
+    def _open(self, url, code, title, intent, language='cpp17'):
         if self.guard:
             self.guard(url)
         target = submission_target(url)
@@ -201,9 +225,10 @@ class ExternalBrowserBridge:
                 del self.sessions[key]
             # Never replay an attempt merely because a request/focus repeats.
             for session in self.sessions.values():
-                if session['originalUrl'] == url and session['code'] == code and session['status'] not in self.terminal:
+                if session['originalUrl'] == url and session['code'] == code and session.get('language','cpp17') == language and session['status'] not in self.terminal:
                     if intent and not session.get('attempted'):
                         session['intent'] = True
+                        session['autoClose'] = True
                     session['focus'] = True
                     return self.status(session['sessionId'])
             if sum(item['status'] not in self.terminal for item in self.sessions.values()) >= 8:
@@ -211,18 +236,18 @@ class ExternalBrowserBridge:
             if intent and any(item['originalUrl'] == url and item.get('attempted') and item['status'] not in self.terminal for item in self.sessions.values()):
                 raise ServiceError(409, '本题已有提交正在等待回执，请先核对该次结果')
             identity = uuid.uuid4().hex
-            session = dict(target, sessionId=identity, code=code, title=title, intent=intent,
+            session = dict(target, sessionId=identity, code=code, title=title, language=language, intent=intent, autoClose=bool(intent),
                            status='loading', attempted=False, created=time.monotonic(),
                            transport='external', message='正在打开浏览器原站提交页…', focus=True)
             self.sessions[identity] = session
         threading.Thread(target=self._run, args=(identity,), name='tb-visible-submit', daemon=True).start()
         return self.status(identity)
 
-    def open(self, url, code, title):
-        return self._open(url, code, title, False)
+    def open(self, url, code, title, language='cpp17'):
+        return self._open(url, code, title, False, language)
 
-    def submit(self, url, code, title):
-        return self._open(url, code, title, True)
+    def submit(self, url, code, title, language='cpp17'):
+        return self._open(url, code, title, True, language)
 
     def status(self, identity):
         with self.lock:
@@ -264,10 +289,16 @@ class ExternalBrowserBridge:
         if snapshot.get('submissionId') and self.on_pending:
             self.on_pending(identity, snapshot)
         if status == 'finished' and self.on_receipt:
-            saved = self.on_receipt(identity, snapshot)
-            if saved is False:
+            try:
+                saved = self.on_receipt(identity, snapshot)
+            except Exception:
+                saved = False
+            if not saved:
                 with self.lock:
                     session.update(status='judging', message='回执已取得，正在重试保存…')
+            else:
+                with self.lock:
+                    session['receiptSaved']=True
 
     def _event(self, identity, event, page):
         if event.get('name') != '__tbReceipt':
@@ -285,7 +316,7 @@ class ExternalBrowserBridge:
             page.send('Runtime.evaluate', {'expression': f'window.__tbAcks?.[{ack}]?.()'})
 
     def _script(self, session, action, install=True):
-        context = {key: session.get(key) for key in ('sessionId', 'platform', 'problem', 'code',
+        context = {key: session.get(key) for key in ('sessionId', 'platform', 'problem', 'code', 'language',
                    'originalUrl', 'attempted', 'baseline', 'baselineKnown', 'baselineOwner', 'submissionId')}
         context['nativeFormOnly'] = True
         callback = """value => new Promise(resolve => {
@@ -298,7 +329,7 @@ class ExternalBrowserBridge:
     def _run(self, identity):
         page = None
         try:
-            target = self.browser.new_page()
+            target = self.browser.new_submission_page() if hasattr(self.browser,'new_submission_page') else self.browser.new_page()
             page = DevToolsPage(target['webSocketDebuggerUrl'], lambda event, connection: self._event(identity, event, connection))
             page.call('Runtime.enable')
             page.call('Runtime.addBinding', {'name': '__tbReceipt'})
@@ -310,6 +341,7 @@ class ExternalBrowserBridge:
                 self.sessions[identity]['target'] = target['id']
                 url = self.sessions[identity]['url']
             page.call('Page.navigate', {'url': url})
+            page.call('Page.bringToFront')
             while not self.stopping.is_set():
                 with self.lock:
                     session = dict(self.sessions[identity])
@@ -362,6 +394,24 @@ class ExternalBrowserBridge:
         finally:
             if page:
                 page.close()
+
+    def acknowledge(self, identity):
+        with self.lock:
+            session=self.sessions.get(identity)
+            if not session:
+                raise ServiceError(404,'没有找到本次提交')
+            if session.get('windowClosed'):
+                return {'closed':True}
+            if session.get('status')!='finished' or not session.get('receiptSaved') or not session.get('autoClose'):
+                return {'closed':False}
+            target=session.get('target')
+        if not target:
+            return {'closed':False}
+        closed=self.browser.close_page(target)
+        if closed:
+            with self.lock:
+                session['windowClosed']=True
+        return {'closed':bool(closed)}
 
     def close(self, identity):
         with self.lock:

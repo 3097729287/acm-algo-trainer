@@ -1,4 +1,6 @@
 import React from 'react';
+import '../src/styles/workspace.css';
+import '../src/styles/unified.css';
 import { createRoot } from 'react-dom/client';
 import AccountSyncStatus from '../src/components/AccountSyncStatus.jsx';
 

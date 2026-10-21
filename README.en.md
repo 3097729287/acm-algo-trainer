@@ -1,9 +1,9 @@
 # TB · Training Workbench
 
-TB combines a problem library, illustrated editorials, a C++ editor, local judging and training records for Codeforces, AtCoder, Nowcoder and Luogu. SQLite preserves local work; the account service synchronizes learning data between computers.
+TB combines a problem library, illustrated editorials, a C++ / Python editor, local judging and training records for Codeforces, AtCoder, Nowcoder and Luogu. SQLite preserves local work; the account service synchronizes learning data between computers.
 
 <!-- release-status:start -->
-**TB 1.2.1 is published.** [Download](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.2.1) · [Changes and validation](docs/releases/1.2.1.md). The desktop app and shared service have been updated and verified.
+**Source 1.3.0 is not yet published.** [1.2.1 remains the stable download](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.2.1). [Changes and validation](docs/releases/1.3.0.md).
 <!-- release-status:end -->
 
 [Website](https://3097729287.github.io/acm-algo-trainer/) · [Usage](docs/usage.md) · [Development](docs/development.md) · [中文](README.md)
@@ -16,14 +16,17 @@ Windows 10/11 x64. The [installer](https://github.com/3097729287/acm-algo-traine
 
 Save drafts and exit TB before installing into the existing directory. Personal databases, source code and imported content are preserved. The updater saves work, takes online SQLite backups and verifies SHA-256 before replacement. Keep the same TB version on your computers. Original-site login uses TB's dedicated browser profile; no extension is required.
 
-## Changes in 1.2.1
+## Changes in 1.3.0
 
-- A settings home opens detailed categories and remembers the category and scroll position when you leave and return. Similar interaction/navigation controls are merged. Translation API settings move here. Click the top-right avatar to choose or remove its image.
-- Global and per-page opacity supports **0–100%**, with always-visible page controls and a reset-all action. Minimal, outlined, aurora and blueprint styles have distinct surfaces.
-- Both problems and contests support nested folders: platform, series, contest; XCPC additionally groups event type, year, event and warm-up/main round. Existing metadata supplies categories and dates; unknown years remain unknown.
-- A narrower sidebar has a collapsed knowledge drawer with a smooth transition. Unsubmitted problems use a grey dot. Mock setup, rankings and submission history remove repetitive text and put necessary explanations in tooltips.
-- Daily tasks, achievements and the clock move to the bottom-right status bar. Top and bottom bars hide during practice. The top shows daily AC and hearts received today; AC color strengthens with the count. Hearts reset by the Beijing calendar date.
-- **King starts at ability score 2200.** Existing ability evidence is reclassified without changing XP or records. The guided tour highlights real controls and waits for you to open a problem and return before continuing through the workflow.
+- Unified surfaces remove chrome separators and status icon borders, align values and keep table headers translucent. Problems and personal training use lists; contests have category folders with playable contest rows directly inside them.
+- One filter button contains platform/event categories, nested knowledge topics, difficulty, verdicts and saved filters. CF / AC labels are shorter; ACM mirrors belong exclusively to ACM. Problem and contest ordering can be reversed.
+- A practice flame counts consecutive Beijing dates with at least one formal submission. Drafts, browsing and sample runs do not count. Yesterday's streak remains while today is still open. Seven animated sizes begin at **1, 2, 4, 7, 15, 30 and 60 days**, then stay capped.
+- Click a knowledge-domain radar vertex to drill into its topics, then filter problems. Difficulty estimates cover basic through common graph algorithms. Learning paths provide five stages (ideas, templates, interaction, practice and transfer), a two-pointer demo and candidate problems; editorial curation and per-problem explanations remain explicitly pending.
+- Four training modes share green/yellow/red easy, normal and hard presets, defaulting to 0–10000. Topic/event selection moves into filters. Replay difficulty filters the whole event's median, preserving all original tasks and their order.
+- A tiled settings home includes animated coffee, balloon, dinosaur, bulb and clouds. Account identity and acknowledgements have separate pages; jiahao27 joins the one-name-per-line credits. Backgrounds support GIF/animated WebP/PNG and timed local playlists. Editorial opacity is independently adjustable. Skill and title medals differ by tier/title. Sync uses a spinner and a transient completion indicator.
+- The editor supports C++17 and Python 3, persists language metadata, and runs Python with the existing Windows Job resource limits. An isolated CPython 3.13.16 runtime ships with the app. Native site language controls select Python 3 / PyPy 3 for official submissions.
+- Start the separate local administrator workspace with `TB新版.exe --admin` or its shortcut. Change XP level and skill tier and unlock every achievement/title. Its records and browser profile live under `admin-workspace/`; it neither authenticates to the user cloud account nor uploads public standings.
+- Official submission opens its own browser window and closes that window after a durable final receipt has been displayed in TB. Login, verification and uncertain/error states remain visible. The guided tour reflects the new workflow.
 
 ## Library and progression
 

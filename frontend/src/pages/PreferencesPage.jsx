@@ -1,5 +1,8 @@
-import { Bell, Command, Download, Keyboard, Layers, Palette, RefreshCw, Settings2, SlidersHorizontal, UserRound, X } from 'lucide-react';
+import { Heart, ShieldCheck, Bell, Command, Download, Keyboard, Layers, Palette, RefreshCw, Settings2, SlidersHorizontal, UserRound, X } from 'lucide-react';
 import { lazy, Suspense, useLayoutEffect, useRef } from 'react';
+import SettingsScene from '@/components/SettingsScene.jsx';
+import AdminSettings from './AdminSettings.jsx';
+import { GrowthAccountPanel } from './ProgressPanels.jsx';
 import VisualStyleSettings from '../components/VisualStyleSettings.jsx';
 import { InteractionSettings, VisualPreferences } from '../components/SettingsControls.jsx';
 import Tooltip from '../components/Tooltip.jsx';
@@ -9,7 +12,7 @@ import { TranslationSettings, UpdatePanel } from './ProgressPanels.jsx';
 const DataHelpSettings=lazy(()=>import('./DataHelpSettings.jsx'));
 
 
-export default function PreferencesPage({tab,onTab,prefs,setPrefs,display,onFullscreen,api,softwareUpdate,hub,onHubChanged,onError,onContent,onMessages,onTutorial,onKeyboard,commands}) {
+export default function PreferencesPage({tab,onTab,prefs,setPrefs,display,onFullscreen,api,softwareUpdate,hub,account,accountFocus,profileSnapshot,onProfileChanged,onRefresh,onHubChanged,onError,onContent,onMessages,onTutorial,onKeyboard,commands}) {
   const panel=useRef(null),restoring=useRef(false);
   const locationKey=`tb.settings.location.${window.__tbAccount?.userId || window.__tbAccount?.loginId || 'local'}`;
   const positions=useRef((()=>{try{return JSON.parse(sessionStorage.getItem(locationKey)||'{}').scroll || {};}catch{return {};}})());
@@ -22,9 +25,12 @@ export default function PreferencesPage({tab,onTab,prefs,setPrefs,display,onFull
     try{sessionStorage.setItem(locationKey,JSON.stringify({tab,scroll:positions.current}));}catch{}
     return()=>{clearTimeout(timer);observer.disconnect();restoring.current=false;};
   },[tab]);
-  const tabs=[['appearance','外观',Palette],['interaction','交互与导航',SlidersHorizontal],['updates','更新',RefreshCw],['training','训练与筛选',Keyboard],['help','数据与帮助',Download],['advanced','翻译 API',Settings2]];
-  return <div ref={panel} onScroll={savePosition} className="settings-page scroll-panel" aria-label="设置">{tab !== 'home' && <button className="settings-back" onClick={()=>onTab('home')}>← 全部设置</button>}<nav className={"settings-subpage-tabs " + (tab==='home'?'settings-home-grid':'settings-hidden-nav')} role="tablist" aria-label="设置分类">{tabs.map(([key,label,Icon])=><Tooltip text={label} key={key}><button role="tab" aria-label={label} aria-selected={tab===key} onClick={()=>onTab(key)}><Icon size={17}/><span>{label}</span></button></Tooltip>)}</nav>
-    {tab==='home'&&<div className="acknowledgements"><span>鸣谢</span><strong>InkStarry</strong><strong>猫猫头教主</strong><strong>蒟蒻</strong><strong>她不爱吃酸</strong></div>}<div className="settings-column">
+  const tabs=[['appearance','外观',Palette],['interaction','交互与导航',SlidersHorizontal],['updates','更新',RefreshCw],['training','训练与筛选',Keyboard],['help','数据与帮助',Download],['advanced','翻译 API',Settings2],['accounts','账号与身份',UserRound],['thanks','鸣谢',Heart],...(window.__tbAdmin?[['admin','管理员',ShieldCheck]]:[])];
+  return <div ref={panel} onScroll={savePosition} className="settings-page scroll-panel" aria-label="设置">{tab !== 'home' && <button className="settings-back" onClick={()=>onTab('home')}>← 全部设置</button>}<nav className={"settings-subpage-tabs " + (tab==='home'?'settings-home-grid':'settings-hidden-nav')} role="tablist" aria-label="设置分类">{tabs.map(([key,label,Icon],index)=><Tooltip text={label} key={key}><button role="tab" aria-label={label} aria-selected={tab===key} onClick={()=>onTab(key)}><Icon size={17}/><span>{label}</span><SettingsScene kind={['coffee','balloon','dino','bulb','cloud','orbit','cloud','coffee','bulb'][index]}/></button></Tooltip>)}</nav>
+    <div className="settings-column">
+      {tab==='thanks'&&<section className="acknowledgements" aria-label="鸣谢"><h2>鸣谢</h2>{['InkStarry','猫猫头教主','蒟蒻','她不爱吃酸','jiahao27'].map(name=><p key={name}>{name}</p>)}</section>}
+      {tab==='accounts'&&<GrowthAccountPanel accountFocus={accountFocus} api={api} hub={hub} account={account} profileSnapshot={profileSnapshot} onProfileChanged={onProfileChanged} onHubChanged={onHubChanged} onError={onError}/>}
+      {tab==='admin'&&window.__tbAdmin&&<AdminSettings api={api} onChanged={onRefresh} onError={onError}/>}
       {tab==='appearance'&&<><VisualPreferences prefs={prefs} setPrefs={setPrefs}/><VisualStyleSettings prefs={prefs} setPrefs={setPrefs} onError={onError}/></>}
       {tab==='interaction'&&<><InteractionSettings prefs={prefs} setPrefs={setPrefs} display={display} onFullscreen={onFullscreen}/><NavigationSettings pages={commands.pages} prefs={prefs} setPrefs={setPrefs}/><NavigationSettings pages={commands.pages} prefs={prefs} setPrefs={setPrefs} orderOnly/></>}
       {tab==='navigation'&&<NavigationSettings pages={commands.pages} prefs={prefs} setPrefs={setPrefs}/>}

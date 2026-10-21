@@ -1,5 +1,14 @@
 # 开发、验证与构建
 
+## 1.3.0 构建与验证
+
+新功能回归为 `python -m unittest discover -s backend -p test_v130.py`、`node tests/ui-v130.mjs` 和 `node tests/account-sync-status.mjs`；其余前后端回归继续执行。测试使用临时 SQLite 与合成回执，不向真实账号提交。
+
+先运行 `python scripts/fetch_python_runtime.py <空目录>`，校验官方 CPython 3.13.16 的固定 SHA-256，再向 `scripts/build_release.py assemble` 传入 `--python-source <目录>`。运行时安装到 `_internal/python3`，本次 C++ 工具链不变，增量包显式包含新增 Python 字节与许可证。`--package-check` 同时验证随包 C++ 与 Python 样例。
+
+发布 1.3.0 前完成源代码、双语 README、VERSION、扩展清单、主页、用法与本说明的同步，先推送再构建。全新安装、旧版升级和增量实际应用必须在隔离目录验证。管理员须核对独立路径、普通版接口拒绝、等级/段位可编辑和勋章授权不修改用户记录。共享服务保持 1.2.1，无服务端表迁移。
+
+
 ## 1.2.1 发布验证
 
 1.2.1 已正式发布，构建提交 `173b23094256fc52d727c01bc4aeec69d87b9486`。[完整验证记录](releases/1.2.1.md) · [通过的 GitHub CI](https://github.com/3097729287/acm-algo-trainer/actions/runs/39555071361)。后端 512 项、共享服务 SQLite/MySQL 各 33 项、前端、原生安装和两条增量路径均已通过。除既有构建和安装检查外，执行 `node tests/ui-redesign.mjs` 与 `node tests/ui-social.mjs`，覆盖设置返回位置、真实引导流程、四种风格、0% 透明度、抽屉、深层文件夹、底栏和今日爱心。后端检查包含透明度保存后重启读取，以及 2199/2200 的段位边界。桌面原生检查使用新的两级设置入口。

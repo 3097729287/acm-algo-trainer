@@ -100,9 +100,10 @@ try {
   const dateStyle=await page.locator('.last-date').first().evaluate(node=>({font:getComputedStyle(node).fontSize,root:getComputedStyle(document.documentElement).getPropertyValue('--ui-font-size')}));
   assert(Number.parseFloat(dateStyle.font)>=13);
   const headerStyle=await page.locator('.problem-table th').first().evaluate(node=>({color:getComputedStyle(node).backgroundColor,rules:Array.from(document.styleSheets).flatMap(sheet=>{try{return Array.from(sheet.cssRules).filter(rule=>rule.selectorText&&node.matches(rule.selectorText)&&rule.style?.background).map(rule=>rule.cssText)}catch{return[]}})}));
-  assert(!headerStyle.color.includes('/ 0.')&&!headerStyle.color.startsWith('rgba'),'sticky header is opaque');
+  assert(['rgba(0, 0, 0, 0)','transparent'].includes(headerStyle.color),'header follows the translucent page');
   await shot('list');
   await nav('题库').click();
+  await page.getByRole('button',{name:'筛选题目',exact:true}).click();
   await page.getByRole('button',{name:'保存筛选',exact:true}).click();
   await page.getByLabel('筛选名称',{exact:true}).fill('可删除筛选');
   await page.getByRole('dialog').getByRole('button',{name:'保存筛选',exact:true}).click();
@@ -157,10 +158,10 @@ try {
   await page.setViewportSize({width:1296,height:860});await font.fill('22');await font.blur();await checkOverflow();assert.equal(await page.locator('.page-identity').evaluate(node=>node.getBoundingClientRect().right>document.querySelector('.topbar-actions').getBoundingClientRect().left+1),false);await shot('small-settings');
   await font.fill('16');await font.blur();await page.setViewportSize({width:1600,height:1000});
   const topProfile=page.locator('.topbar .profile-badge');
-  const tierBefore=await topProfile.evaluate(node=>getComputedStyle(node).borderColor);
+  const tierBefore=await topProfile.evaluate(node=>getComputedStyle(node).getPropertyValue('--tier-color').trim());
   await page.getByRole('button',{name:'石墨深色',exact:true}).click();
-  assert.equal(await topProfile.evaluate(node=>getComputedStyle(node).borderColor),tierBefore);
-  assert.equal(tierBefore,'rgb(188, 138, 255)');
+  assert.equal(await topProfile.evaluate(node=>getComputedStyle(node).getPropertyValue('--tier-color').trim()),tierBefore);
+  assert.equal(tierBefore,'#bc8aff');
   assert.equal(await topProfile.getByLabel('大师',{exact:true}).count(),1);
   assert(!/XP|665\s*\//.test(await topProfile.innerText()),'XP stays in the ring tooltip');
   await page.getByRole('meter',{name:'本级经验进度',exact:true}).hover();
@@ -183,12 +184,8 @@ try {
   await openSettings(page, '外观');
   await page.getByRole('button',{name:'夜空极光',exact:true}).click();
   await shot('settings');
-  await nav('题库').click();await page.getByRole('button',{name:'逐层浏览题库',exact:true}).click();
-  assert.equal(await page.locator('.catalog-folder-row').count(),2);
-  for (const name of ['牛客','周赛','周赛 166']) await page.locator('.catalog-folder-row').filter({has:page.getByText(name,{exact:true})}).click();await page.locator('tr[data-id]').first().waitFor();
-  assert.equal(await page.locator('tr[data-id]').count(),50);await shot('explorer-problems');
-  await page.getByRole('navigation',{name:'题目浏览路径'}).getByRole('button',{name:'全部平台',exact:true}).click();await shot('explorer-platforms');
-  await page.getByRole('button',{name:'逐层浏览题库',exact:true}).click();
+  await nav('题库').click();assert.equal(await page.getByRole('button',{name:'逐层浏览题库',exact:true}).count(),0);await page.locator('tr[data-id]').first().waitFor();
+  assert.equal(await page.locator('tr[data-id]').count(),50);await shot('problem-list');
   for(const label of ['我的训练','题库','比赛','模拟赛','排行榜','成长与能力','提交记录','活动记录','从零讲']) {
     await nav(label).click();await page.waitForTimeout(250);await page.locator('.workspace-area .loading-screen').waitFor({state:'hidden'});await checkOverflow();await shot(label);
   }

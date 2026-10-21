@@ -51,7 +51,7 @@ try{
  assert.equal(await page.getByRole('heading',{name:'账号与身份',exact:true}).count(),0);
  for(const label of ['清简','线框','极光','蓝图'])await page.getByRole('button',{name:label,exact:true}).click();
  assert.equal(await page.locator('html').getAttribute('data-panel-style'),'blueprint');
- const styleSignature=()=>page.locator('.progress-assessment').evaluate(n=>{const s=getComputedStyle(n);return [s.borderStyle,s.borderRadius,s.backgroundImage];});
+ const styleSignature=()=>page.locator('.knowledge-radar').evaluate(n=>{const s=getComputedStyle(n);return [s.borderStyle,s.borderRadius,s.backgroundImage];});
  await page.locator('.sidebar').getByRole('button',{name:'成长与能力',exact:true}).click();
  const blueprint=await styleSignature();
  await page.locator('.sidebar').getByRole('button',{name:'设置',exact:true}).click();
@@ -60,7 +60,7 @@ try{
  const outlined=await styleSignature();assert.notDeepEqual(blueprint,outlined,'Blueprint has a grid/dashed silhouette on shared content cards');
  await page.locator('.sidebar').getByRole('button',{name:'设置',exact:true}).click();
  await page.getByRole('button',{name:'夜空极光',exact:true}).click();
- await page.getByRole('button',{name:'我的图片',exact:true}).click();
+ await page.getByRole('button',{name:'我的背景',exact:true}).click();
  await page.getByLabel('面板不透明度',{exact:true}).evaluate(node=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(node,'55');node.dispatchEvent(new Event('input',{bubbles:true}));});
  assert.equal(await page.locator('html').evaluate(node=>node.style.getPropertyValue('--panel-opacity')),'55%');
  await page.waitForTimeout(180); // Let the 120 ms surface transition settle.
@@ -71,7 +71,7 @@ try{
  for(const selector of ['.visual-preferences','.appearance-studio','.topbar'])await glass(selector);
  await glass('.style-preset',true); // Preview cards use a border over their parent surface.
  await page.getByRole('button',{name:'纯色',exact:true}).click();await glass('.appearance-studio');
- await page.getByRole('button',{name:'我的图片',exact:true}).click();
+ await page.getByRole('button',{name:'我的背景',exact:true}).click();
  await openSettings(page, '交互与导航');
  await page.getByLabel('底部时钟',{exact:true}).uncheck();
  assert.equal(await page.getByLabel('北京时间',{exact:true}).count(),0);
@@ -79,6 +79,7 @@ try{
  await page.getByLabel('北京时间',{exact:true}).waitFor();
  await page.getByLabel('显示比赛平台',{exact:true}).uncheck();
  await page.locator('.sidebar').getByRole('button',{name:'比赛',exact:true}).click();
+ await page.getByRole('button',{name:'比赛文件夹浏览',exact:true}).click();
  await page.locator('.competition-card').first().waitFor();
  assert.equal(await page.locator('.competition-platform:visible').count(),0);
  assert.equal(await page.locator('.competition-card-title small').count(),0);
@@ -90,9 +91,9 @@ try{
  await glass('.mock-config');
  await page.screenshot({path:'tests/screenshots/v113-mock-glass.png'});
  await page.locator('.sidebar').getByRole('button',{name:'成长与能力',exact:false}).click();
- await page.locator('.growth-account-panel').waitFor();
- assert.equal(await page.locator('.growth-profile-identity').getByText(/ID/).count(),0);
- await glass('.growth-account-panel');
+ await page.locator('.knowledge-radar').waitFor();
+ assert.equal(await page.locator('.growth-account-panel').count(),0);
+ await glass('.knowledge-radar');
  assert.equal(await page.locator('.next-milestone').count(),0);
  assert.equal(await page.locator('.goal-card,.goal-contest-grid').count(),0);
  const goalHeight=await page.locator('#growth-goals').evaluate(n=>n.getBoundingClientRect().height);
@@ -122,7 +123,7 @@ try{
  assert.equal(await page.locator('.daily-task-top-button .notification-dot').count(),0,'Pending goals alone do not light the task dot');
  const alignment=await page.locator('.topbar-daily-ac').evaluate(n=>[...n.querySelectorAll('strong,b')].map(c=>{const r=c.getBoundingClientRect();return r.y+r.height/2;}));assert.ok(Math.abs(alignment[0]-alignment[1])<1);
  await page.locator('.sidebar').getByRole('button',{name:'设置',exact:true}).click();
- await openSettings(page);
+ await openSettings(page,'鸣谢');
  await page.getByText('InkStarry',{exact:true}).waitFor();await page.getByText('蒟蒻',{exact:true}).waitFor();await page.getByText('她不爱吃酸',{exact:true}).waitFor();assert.equal(await page.getByText('自渡',{exact:true}).count(),0);
  await openSettings(page,'数据与帮助');
  const downloaded=page.waitForEvent('download');await page.getByRole('button',{name:/导出数据/}).click();const download=await downloaded;

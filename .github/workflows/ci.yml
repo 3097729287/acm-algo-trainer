@@ -101,6 +101,8 @@ jobs:
       - run: npm run test:issues
       - run: node tests/ui-social.mjs
       - run: node tests/ui-redesign.mjs
+      - run: node tests/ui-v130.mjs
+      - run: node tests/account-sync-status.mjs
       - run: node tests/mock-layout.mjs
       - run: node tests/training-overview.mjs
       - run: npm run test:workbench

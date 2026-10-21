@@ -1,7 +1,7 @@
 export const CONTEST_SHELVES = [
   ['all', '全部比赛'], ['牛客', '牛客'], ['洛谷', '洛谷'],
-  ['Codeforces', 'Codeforces'], ['AtCoder', 'AtCoder'],
-  ['xcpc', 'XCPC 历年'], ['lanqiao', '蓝桥杯 B 组历年'],
+  ['Codeforces', 'CF'], ['AtCoder', 'AC'],
+  ['xcpc', 'ACM'], ['lanqiao', '蓝桥杯'],
 ];
 
 export { isXcpc, matchesShelf } from '@/lib/contestShelves.js';

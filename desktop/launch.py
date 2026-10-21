@@ -22,12 +22,12 @@ import time
 APP_DIR = Path(sys.executable).resolve().parent if getattr(sys, "frozen", False) else Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(APP_DIR / "backend"))
 sys.path.insert(0, str(APP_DIR / "desktop"))
-from paths import STATE, FRONTEND
+from paths import STATE, FRONTEND, ADMIN_MODE
 DSH_DIR = STATE.parent
 LOG_FILE = DSH_DIR / "logs" / "tb-web.log"
 PROFILE_DIR = DSH_DIR / "cache" / "tb-web-profile"
-PORT = int(os.environ.get("TB_PACKAGE_PORT", "18765"))
-INSTANCE_DIR = PROFILE_DIR if os.environ.get('TB_OFFLINE') == '1' else Path(os.environ.get('LOCALAPPDATA', str(STATE))) / 'TB' / 'desktop-instance'
+PORT = int(os.environ.get("TB_PACKAGE_PORT", "18766" if ADMIN_MODE else "18765"))
+INSTANCE_DIR = PROFILE_DIR if ADMIN_MODE or os.environ.get('TB_OFFLINE') == '1' else Path(os.environ.get('LOCALAPPDATA', str(STATE))) / 'TB' / 'desktop-instance'
 PID_FILE = INSTANCE_DIR / 'instance.pid'
 MUTEX_NAME = "Local\\TB." + __import__("hashlib").sha256(str(INSTANCE_DIR).lower().encode()).hexdigest()[:16] + "." + str(PORT)
 LOG = logging.getLogger("tb.desktop")
@@ -207,10 +207,10 @@ def run_desktop() -> int:
         INSTANCE_DIR.mkdir(parents=True, exist_ok=True)
         PID_FILE.write_text(str(os.getpid()), encoding="ascii")
         try:
-            server = start_server(port=PORT, dist_dir=FRONTEND, integration_auto_start=False if os.environ.get("TB_OFFLINE")=="1" else None)
+            server = start_server(port=PORT, dist_dir=FRONTEND, admin_mode=ADMIN_MODE, integration_auto_start=False if os.environ.get("TB_OFFLINE")=="1" else None)
         except OSError as exc:
             LOG.info("Default port unavailable; choosing a free local port")
-            server = start_server(port=0, dist_dir=FRONTEND, integration_auto_start=False if os.environ.get("TB_OFFLINE")=="1" else None)
+            server = start_server(port=0, dist_dir=FRONTEND, admin_mode=ADMIN_MODE, integration_auto_start=False if os.environ.get("TB_OFFLINE")=="1" else None)
         service_thread = threading.Thread(target=server.serve_forever, name="tb-local-service", daemon=True)
         service_thread.start()
         port = server.server_address[1]
@@ -222,7 +222,7 @@ def run_desktop() -> int:
         memory_path = STATE / 'desktop-window.json'
         bounds = remembered(memory_path)
         window = webview.create_window(
-            "TB", url, **bounds, min_size=(1050, 700),
+            "TB 管理员" if ADMIN_MODE else "TB", url, **bounds, min_size=(1050, 700),
             background_color="#101116", text_select=True, zoomable=False,
         )
         if window is None:
@@ -242,6 +242,7 @@ def run_desktop() -> int:
         server.browser_bridge = official
         server.browser_preparation = ExternalBrowserPreparation(official)
         server.official_opener = official.open
+        server.official_acknowledger = official.acknowledge
         server.official_submitter = official.submit
         server.official_status = official.status
         server.official_closer = official.close
@@ -285,6 +286,7 @@ def run_desktop() -> int:
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="TB 桌面应用")
+    parser.add_argument("--admin", action="store_true", help="使用独立管理员数据与浏览器配置")
     parser.add_argument("--check", action="store_true", help="只检查组件，不打开窗口")
     args = parser.parse_args(argv)
     try:

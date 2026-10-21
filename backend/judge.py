@@ -151,10 +151,12 @@ class Judge:
         self.assets=assets;self.work_dir=Path(work_dir);self.work_dir.mkdir(parents=True,exist_ok=True)
         bundled=__import__('paths').ROOT/'compiler'/'ucrt64'/'bin'/'g++.exe'
         self.compiler=str(bundled) if bundled.is_file() else shutil.which('g++')
+        python_bundled=__import__('paths').ROOT/'_internal'/'python3'/'python.exe'
+        self.python=str(python_bundled) if python_bundled.is_file() else (os.environ.get('TB_PYTHON3') or (sys.executable if not getattr(sys,'frozen',False) else None))
         self._compiled=OrderedDict()
         self._compiled_lock=threading.Lock()
 
-    def _environment(self):
+    def _environment(self, executable=None):
         value=dict(os.environ)
         frozen=Path(sys._MEIPASS).resolve() if getattr(sys,'_MEIPASS',None) else None
         paths=[]
@@ -165,18 +167,22 @@ class Judge:
             except (OSError,ValueError):pass
             paths.append(item)
         # cc1plus/as/ld and generated executables need the same runtime DLLs.
-        value['PATH']=str(Path(self.compiler).resolve().parent)+os.pathsep+os.pathsep.join(paths)
+        value['PATH']=str(Path(executable or self.compiler).resolve().parent)+os.pathsep+os.pathsep.join(paths)
+        value.pop('PYTHONHOME',None);value.pop('PYTHONPATH',None)
+        value['PYTHONIOENCODING']='utf-8'
         return value
 
-    def execute(self,identity,code,mode='submit',input_text='',cancel=None,sample_run=None):
+    def execute(self,identity,code,mode='submit',input_text='',cancel=None,sample_run=None,language='cpp17'):
         result={'verdict':'ERROR','scope':'samples','timeMs':None,'memoryKb':None,'passed':0,'total':0,'output':'','stderr':'','message':'','caseResults':[]}
         try:
             bundle=self.assets.bundle(identity);result['scope']=bundle['scope']
             if mode not in ('run','submit'):raise ValueError('运行模式无效')
-            if not isinstance(code,str) or not code.strip():raise ValueError('请先输入 C++17 代码')
+            if not isinstance(code,str) or not code.strip():raise ValueError('请先输入代码')
             if len(code.encode('utf-8'))>262144:raise ValueError('代码超过 256 KiB')
-            if not self.compiler:raise RuntimeError('没有找到本机 C++17 编译器')
-            environment=self._environment()
+            if language not in ('cpp17','python3'):raise ValueError('不支持的运行语言')
+            executable_path=self.python if language=='python3' else self.compiler
+            if not executable_path:raise RuntimeError('没有找到本机 '+('Python 3 解释器' if language=='python3' else 'C++17 编译器'))
+            environment=self._environment(executable_path)
             sample_run=(not input_text) if sample_run is None else sample_run
             if mode=='run' and sample_run:
                 if hasattr(self.assets,'problem'):
@@ -187,32 +193,42 @@ class Judge:
             if not cases:raise ValueError('此题没有可用测试样例，请先补充原题资产')
             if _cancelled(cancel):raise ValueError('评测已取消')
             with tempfile.TemporaryDirectory(prefix='submission-',dir=self.work_dir) as temporary:
-                directory=Path(temporary);source=directory/'main.cpp';exe=directory/'main.exe';source.write_text(code,encoding='utf-8')
-                compiler_stat=Path(self.compiler).stat()
-                cache_key=(str(Path(self.compiler).resolve()),compiler_stat.st_mtime_ns,compiler_stat.st_size,hashlib.sha256(code.encode('utf-8')).digest())
-                with self._compiled_lock:
-                    executable=self._compiled.get(cache_key)
-                    if executable is not None:self._compiled.move_to_end(cache_key)
-                if executable is not None:
-                    exe.write_bytes(executable)
-                    compiled={'verdict':None}
+                directory=Path(temporary)
+                if language=='python3':
+                    source=directory/'main.py';source.write_text(code,encoding='utf-8')
+                    checked=_run([self.python,'-I','-X','utf8','-c',"compile(open('main.py',encoding='utf-8-sig').read(),'main.py','exec')"],'',directory,30000,1024,262144,cancel,env=environment)
+                    if checked['verdict']:
+                        syntax=checked['returncode']==1 and 'SyntaxError' in checked['stderr'] or checked['returncode']==1 and 'IndentationError' in checked['stderr']
+                        result.update(verdict='CE' if syntax else checked['verdict'],stderr=checked['stderr'],message='Python 3 语法检查未通过' if syntax else 'Python 3 解释器运行失败');return result
+                    command=[self.python,'-I','-X','utf8','-u',str(source)]
                 else:
-                    # MinGW's linker still narrows absolute output arguments
-                    # through the Windows code page. CreateProcessW supplies
-                    # the Unicode cwd; local names avoid that lossy roundtrip.
-                    compiled=_run([self.compiler,'-O2','-std=c++17','-fdiagnostics-color=never','-o','main.exe','main.cpp'],'',directory,30000,1024,262144,cancel,max_processes=32,env=environment)
-                if compiled['verdict']:
-                    code_error=not _cancelled(cancel) and bool(compiled['stderr']) and compiled['returncode']==1 and compiled['verdict']=='RE'
-                    detail=compiled['stderr'] or f"本地编译器退出码：0x{compiled['returncode']:08X}" if compiled['returncode'] is not None else '编译器未能启动'
-                    result.update(verdict='CE' if code_error else 'ERROR',stderr=detail,message='编译已取消' if _cancelled(cancel) else 'C++17 编译未通过' if code_error else '本地编译器运行失败，请查看诊断信息');return result
-                if executable is None and not _cancelled(cancel) and exe.stat().st_size <= 8*1024*1024:
+                    source=directory/'main.cpp';exe=directory/'main.exe';source.write_text(code,encoding='utf-8')
+                    compiler_stat=Path(self.compiler).stat()
+                    cache_key=(str(Path(self.compiler).resolve()),compiler_stat.st_mtime_ns,compiler_stat.st_size,hashlib.sha256(code.encode('utf-8')).digest())
                     with self._compiled_lock:
-                        self._compiled[cache_key]=exe.read_bytes()
-                        while len(self._compiled)>8 or sum(map(len,self._compiled.values()))>16*1024*1024:
-                            self._compiled.popitem(last=False)
+                        executable=self._compiled.get(cache_key)
+                        if executable is not None:self._compiled.move_to_end(cache_key)
+                    if executable is not None:
+                        exe.write_bytes(executable)
+                        compiled={'verdict':None}
+                    else:
+                        # MinGW's linker still narrows absolute output arguments
+                        # through the Windows code page. CreateProcessW supplies
+                        # the Unicode cwd; local names avoid that lossy roundtrip.
+                        compiled=_run([self.compiler,'-O2','-std=c++17','-fdiagnostics-color=never','-o','main.exe','main.cpp'],'',directory,30000,1024,262144,cancel,max_processes=32,env=environment)
+                    if compiled['verdict']:
+                        code_error=not _cancelled(cancel) and bool(compiled['stderr']) and compiled['returncode']==1 and compiled['verdict']=='RE'
+                        detail=compiled['stderr'] or f"本地编译器退出码：0x{compiled['returncode']:08X}" if compiled['returncode'] is not None else '编译器未能启动'
+                        result.update(verdict='CE' if code_error else 'ERROR',stderr=detail,message='编译已取消' if _cancelled(cancel) else 'C++17 编译未通过' if code_error else '本地编译器运行失败，请查看诊断信息');return result
+                    if executable is None and not _cancelled(cancel) and exe.stat().st_size <= 8*1024*1024:
+                        with self._compiled_lock:
+                            self._compiled[cache_key]=exe.read_bytes()
+                            while len(self._compiled)>8 or sum(map(len,self._compiled.values()))>16*1024*1024:
+                                self._compiled.popitem(last=False)
+                    command=[exe]
                 maximum_time=maximum_memory=0;failed=None
                 for index,case in enumerate(cases):
-                    ran=_run([exe],case['input'],directory,bundle['limits']['timeMs'],bundle['limits']['memoryMb'],cancel=cancel,env=environment)
+                    ran=_run(command,case['input'],directory,bundle['limits']['timeMs'],bundle['limits']['memoryMb'],cancel=cancel,env=environment)
                     if ran['verdict'] not in ('MLE','TLE') and ran['returncode'] in (0xc0000135,0xc000007b,0xc0000142):
                         ran.update(verdict='ERROR',stderr=ran['stderr'] or f"程序依赖加载失败：0x{ran['returncode']:08X}")
                     maximum_time=max(maximum_time,ran['timeMs']);maximum_memory=max(maximum_memory,ran['memoryKb'])

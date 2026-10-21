@@ -1,3 +1,4 @@
+import MedalEmblem, {titleMedalIndex} from '@/components/MedalEmblem.jsx';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Award, Check, LogOut, LockKeyhole, MessageCircle, RefreshCw, ShieldCheck, Sparkles, Trash2, Trophy, UserRound } from 'lucide-react';
 import { LikeBurst, CommentDialog, SocialActivity, useSocial } from '../components/Social.jsx';
@@ -38,7 +39,7 @@ export function ProfileSettings({ api, onError, onChanged, initialAccount, initi
     <details className="profile-edit"><summary>管理账号</summary><p className="progress-small">排行榜显示昵称。修改昵称会保留你的成绩和训练记录。</p>
     <form onSubmit={save} className="profile-form"><label>昵称<input aria-label="用户昵称" maxLength={32} value={nickname} onChange={event => setNickname(event.target.value)} placeholder="设置你的昵称" required disabled={busy || !snapshot} /></label><button className="progress-button progress-primary" disabled={busy || !snapshot}><Check size={14} />保存昵称</button></form>
     <p className="progress-small">{snapshot?.leaderboard?.notice || '共享排行榜尚未连接。连接后同步 ID、昵称与过题统计。'}</p>{error && <p className="connection-error" role="alert">{error}</p>}{message && <p className="connection-message" role="status">{message}</p>}
-    {account && <div className="account-settings"><h3><LockKeyhole size={16}/> 修改密码</h3><form onSubmit={changePassword}>
+    {account && !window.__tbAdmin && <div className="account-settings"><h3><LockKeyhole size={16}/> 修改密码</h3><form onSubmit={changePassword}>
       <label>原密码<input type="password" autoComplete="current-password" minLength={8} maxLength={128} value={oldPassword} onChange={event => setOldPassword(event.target.value)} required disabled={busy}/></label>
       <label>新密码<input type="password" autoComplete="new-password" minLength={8} maxLength={128} value={newPassword} onChange={event => setNewPassword(event.target.value)} required disabled={busy}/></label>
       <label>确认新密码<input type="password" autoComplete="new-password" minLength={8} maxLength={128} value={confirmation} onChange={event => setConfirmation(event.target.value)} required disabled={busy}/></label>
@@ -55,7 +56,7 @@ function RankingIdentity({ item, period, self }) {
   const tierIndex = TIER_NAMES.indexOf(progress?.rankTier);
   const rankLabel = tierIndex >= 0 ? `${progress.rankTier} · 能力分 ${Number(progress.rankScore).toLocaleString('zh-CN')}` : Number(progress?.level) >= 5 ? '定级中' : '5 级解锁段位';
   return <div className="ranking-identity"><span className="ranking-avatar" aria-hidden="true">{Array.from(item.nickname || item.displayName || '用户')[0]}</span><div className="ranking-identity-heading"><span className="ranking-user-name">{item.count > 0 && item.rank > 0 && item.rank <= 3 && <RankingMedal period={period} rank={item.rank}/>}<strong>{item.nickname || item.displayName || '用户'}</strong></span>{self && <span className="tag">我</span>}
-    {progress?.titles?.map(title => <span className="ranking-title-badge" key={title.id} title={`${title.category === 'streak' ? '连续训练' : 'AC'} ${title.target}${title.category === 'streak' ? ' 天' : ' 题'}`}><Award size={14}/>{title.name}</span>)}
+    {progress?.titles?.map(title => <span className="ranking-title-badge" key={title.id} title={`${title.category === 'streak' ? '连续训练' : 'AC'} ${title.target}${title.category === 'streak' ? ' 天' : ' 题'}`}><MedalEmblem size={18} index={titleMedalIndex(title)} variant={title.category==='streak'?'streak':'ac'}/>{title.name}</span>)}
     </div>
     {progress ? <div className="ranking-public-progress"><span>Lv.{progress.level}</span><Tooltip text={rankLabel}><span className={`ranking-skill-badge tier-${Math.max(0,tierIndex)}`} tabIndex={0} aria-label={rankLabel}>{Number(progress.level) < 5 ? <LockKeyhole size={14}/> : <TierIcon badge={`tier-${Math.max(0,tierIndex)}`} size={15}/>}</span></Tooltip></div> : <span className="ranking-public-progress ranking-progress-pending">成长资料待同步</span>}
   </div>;

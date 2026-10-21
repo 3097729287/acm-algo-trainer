@@ -5,7 +5,8 @@ import sys
 
 ROOT = Path(sys.executable).resolve().parent if getattr(sys, 'frozen', False) else Path(__file__).resolve().parent.parent
 RESOURCES = ROOT / 'resources' if getattr(sys, 'frozen', False) else ROOT / 'backend' / 'resources'
-STATE = Path(os.environ.get('TB_STATE_DIR') or ROOT / 'state').resolve()
+ADMIN_MODE = '--admin' in sys.argv or os.environ.get('TB_ADMIN_MODE') == '1'
+STATE = Path(os.environ.get('TB_STATE_DIR') or (ROOT / 'admin-workspace' / 'state' if ADMIN_MODE else ROOT / 'state')).resolve()
 FRONTEND = ROOT / 'frontend' / 'dist'
 LIBRARY_SEED = ROOT / 'data' / 'library.sqlite3'
 LIBRARY_SOURCE = ROOT / 'data' / 'library'

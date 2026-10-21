@@ -52,3 +52,14 @@ Extract this ZIP, then unpack the desired .src.tar.zst archive with tar --zstd. 
 For the MinGW-w64 packages, the source tarballs contain a bare Git mirror rather than a checked-out source tree. The recipe obtains the pinned commit from that mirror. It can also be inspected with git --git-dir=mingw-w64 show 4564ee4b5063097bf747af3a3f8270a28adff820:<path>. The full pinned source and build recipe are included, not just internet pointers.
 
 Primary distribution: https://packages.msys2.org/ and https://mirror.msys2.org/mingw/sources/. Packaging repository: https://github.com/msys2/MINGW-packages. Build instructions: https://www.msys2.org/wiki/Creating-Packages/. GNU GCC licensing/runtime exception: https://gcc.gnu.org/onlinedocs/libstdc++/manual/license.html. Those upstream terms apply to their respective components; TB application source remains under its MIT license.
+
+## Python 3 runtime (1.3.0)
+
+Local Python execution ships the unmodified official CPython 3.13.16 Windows x64 embeddable runtime under `_internal/python3/`. It is a program runtime, delivered explicitly in the full installer and versioned delta; the C++ toolchain remains unchanged. No pip or third-party Python packages are installed into this interpreter. The included `LICENSE.txt` covers PSF and bundled components.
+
+- [Official release, files, SHA-256](https://www.python.org/downloads/release/python-31316/)
+- [Embeddable distribution documentation](https://docs.python.org/3.13/using/windows.html#the-embeddable-package)
+- Source: https://www.python.org/ftp/python/3.13.16/Python-3.13.16.tar.xz
+- Runtime ZIP: https://www.python.org/ftp/python/3.13.16/python-3.13.16-embed-amd64.zip
+- ZIP SHA-256: `97dae5274cc54867065e8d5a3226e48c35017ed332a0fdb0e27d5b5821961297`
+- Reproduce: `python scripts/fetch_python_runtime.py <empty-directory>`; pass it to `build_release.py assemble --python-source <directory>`.

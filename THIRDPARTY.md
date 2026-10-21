@@ -20585,3 +20585,11 @@ Origin: installed websocket_client-1.9.0.dist-info/licenses/LICENSE
 
 
 ```
+
+## CPython 3.13.16 local runner
+
+The unmodified official embeddable runtime is redistributed under the PSF License and bundled component notices. See [licenses/python-3.13.16.txt](licenses/python-3.13.16.txt), the runtime LICENSE.txt and TOOLCHAIN-SOURCES.md for provenance.
+
+## Python editor modules
+
+@codemirror/lang-python and @lezer/python are MIT licensed; their notices are included under licenses/node/.

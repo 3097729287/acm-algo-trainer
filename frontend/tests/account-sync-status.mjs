@@ -29,33 +29,22 @@ try {
   page = await context.newPage();
   page.setDefaultTimeout(5000);
   page.on('pageerror', error => errors.push(error.message));
-  const status = () => page.locator('.local-indicator');
-  const assertState = async (label, title) => {
-    await page.getByLabel(`账号数据${label}`, { exact: true }).waitFor();
-    assert.equal(await status().textContent(), label);
-    assert.equal(await status().getAttribute('title'), title);
-  };
-  for (const state of ['error', 'ready', 'pending']) {
-    await page.goto(`${base}tests/account-sync-status-fixture.html?state=${state}`);
-    if (state === 'error') await assertState('待同步', '本地模拟：同步失败，请稍后重试');
-    if (state === 'ready') {
-      const title = await page.evaluate(() => `最近同步：${new Date(window.__tbAccountSync.lastSyncedAt).toLocaleString('zh-CN')}`);
-      await assertState('已同步', title);
-    }
-    if (state === 'pending') await assertState('同步中', '本机数据已保存');
-    await page.screenshot({ path: path.join(artifactDir, `${state}.png`), animations: 'disabled' });
-    report(`PASS: initial ${state} state has the expected visible label, accessible name, and tooltip.`);
-  }
-  await page.evaluate(() => window.accountSyncStatusFixture.update({ status: 'error', pending: true, error: '事件模拟：连接已中断' }));
-  await assertState('待同步', '事件模拟：连接已中断');
-  await page.evaluate(() => window.accountSyncStatusFixture.update({ status: 'syncing', pending: false }));
-  await assertState('同步中', '本机数据已保存');
-  await page.evaluate(() => window.accountSyncStatusFixture.update({ status: 'ready', pending: false }));
-  await assertState('已同步', '本机数据已保存');
-  await page.evaluate(() => window.accountSyncStatusFixture.update(undefined));
-  await assertState('本地', '本机数据已保存');
-  report('PASS: tb:sync-status events update error, syncing, ready, and local labels; error takes precedence over pending.');
-  await page.screenshot({ path: path.join(artifactDir, 'events-local.png'), animations: 'disabled' });
+  await page.goto(`${base}tests/account-sync-status-fixture.html?state=pending`);
+  await page.getByLabel('账号数据同步中',{exact:true}).waitFor();
+  assert.equal(await page.getByLabel('账号数据同步中',{exact:true}).innerText(),'');
+  await page.getByLabel('账号数据同步中',{exact:true}).hover();
+  await page.getByRole('tooltip').getByText('同步中',{exact:true}).waitFor();
+  await page.evaluate(()=>window.accountSyncStatusFixture.update({status:'ready',pending:false}));
+  await page.getByLabel('账号数据已同步',{exact:true}).waitFor();
+  await page.getByLabel('账号数据已同步',{exact:true}).waitFor({state:'hidden',timeout:5000});
+  await page.evaluate(()=>window.accountSyncStatusFixture.update({status:'error',pending:true,error:'事件模拟：连接已中断'}));
+  await page.getByLabel('账号数据待同步',{exact:true}).waitFor();
+  assert.equal(await page.getByLabel('账号数据同步中',{exact:true}).count(),0);
+  await page.getByLabel('账号数据待同步',{exact:true}).hover();
+  await page.getByRole('tooltip').getByText('事件模拟：连接已中断',{exact:true}).waitFor();
+  await page.evaluate(()=>window.accountSyncStatusFixture.update(undefined));
+  assert.equal(await page.locator('.sync-status-icon').count(),0);
+  report('PASS: spinner + hover tooltip, durable error precedence, completion icon toast and automatic disappearance.');
   assert.deepEqual(errors, [], 'no unhandled browser errors');
   assert.deepEqual(blockedRequests, [], 'fixture attempts no API or external requests');
   report('PASS: no API requests, external requests, or unhandled browser errors.');

@@ -39,7 +39,8 @@ def parse_time(value):
 
 
 class TrainingService:
-    def __init__(self, store, db_path, assets=None, judge=None, clock=None, backup_dir=None, rng=None, account_provider=None):
+    def __init__(self, store, db_path, assets=None, judge=None, clock=None, backup_dir=None, rng=None, account_provider=None, admin_mode=False):
+        self.admin_mode = bool(admin_mode)
         self.store = store
         self.account_provider = account_provider
         self.db_path = Path(db_path).resolve()
@@ -524,6 +525,9 @@ class TrainingService:
                     value['growth'].update(tier=value['growth']['ranked']['tier'], badge=value['growth']['ranked']['badge'])
             value["dailyTasks"] = tasks
             value["profile"] = self.profile()["profile"]
+            if self.admin_mode:
+                from admin import decorate
+                decorate(self, value)
             from progression import public_progress
             self._public_progress_cache = (time.monotonic(), self._public_progress_signature(hub or {}), public_progress(value))
             signature = self._insights_signature(hub)
@@ -973,8 +977,9 @@ class TrainingService:
             context = contest_id or ""
             ids = self._equivalent_ids(identity)
             placeholders = ",".join("?" for _ in ids)
-            draft = self.connection.execute(f"SELECT code,saved_at FROM drafts WHERE problem_id IN ({placeholders}) AND context=? ORDER BY saved_at DESC LIMIT 1", ids + [context]).fetchone()
+            draft = self.connection.execute(f"SELECT problem_id,code,saved_at FROM drafts WHERE problem_id IN ({placeholders}) AND context=? ORDER BY saved_at DESC LIMIT 1", ids + [context]).fetchone()
             problem["draft"] = draft["code"] if draft else ""
+            problem["draftLanguage"] = self._read_language(self._draft_language_key(draft["problem_id"] if draft else identity,context))
             problem["draftSavedAt"] = draft["saved_at"] if draft else None
             problem["submissions"] = self.submissions(identity, contest_id, exact_context=True)["submissions"]
             if not problem["locked"]:
@@ -991,24 +996,46 @@ class TrainingService:
             raise ServiceError(400, "代码必须是文本，且大小不超过 64 KB")
         return code
 
-    def save_draft(self, identity, code, contest_id=None):
+    @staticmethod
+    def _language(value):
+        if value not in ('cpp17', 'python3'):
+            raise ServiceError(400, '请选择 C++17 或 Python 3')
+        return value
+
+    @staticmethod
+    def _draft_language_key(identity, context):
+        return 'draft-language:' + hashlib.sha256((identity + '\0' + (context or '')).encode()).hexdigest()
+
+    def _read_language(self, key):
+        row = self.connection.execute('SELECT value FROM account_preferences WHERE key=?', (key,)).fetchone()
+        return row['value'] if row and row['value'] in ('cpp17','python3') else 'cpp17'
+
+    def _save_language(self, connection, key, language):
+        previous=connection.execute('SELECT value FROM account_preferences WHERE key=?', (key,)).fetchone()
+        if language!='cpp17' or previous:
+            connection.execute('INSERT INTO account_preferences VALUES(?,?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at', (key,language,iso(self._now())))
+
+    def save_draft(self, identity, code, contest_id=None, language='cpp17'):
         self._code(code)
+        self._language(language)
         with self.lock:
             self._row(identity)
             self._context(identity, contest_id, writing=True)
             context = contest_id or ""
             existing = self.connection.execute("SELECT code,saved_at FROM drafts WHERE problem_id=? AND context=?", (identity, context)).fetchone()
-            if existing and existing["code"] == code:
+            if existing and existing["code"] == code and self._read_language(self._draft_language_key(identity,context)) == language:
                 return {"savedAt": existing["saved_at"]}
             saved_at = iso(self._now())
             with self._write() as connection:
+                self._save_language(connection,self._draft_language_key(identity,context),language)
                 if not contest_id and code.strip():
                     self._claim_training(connection, identity)
                 connection.execute("INSERT INTO drafts VALUES(?,?,?,?) ON CONFLICT(problem_id,context) DO UPDATE SET code=excluded.code,saved_at=excluded.saved_at", (identity, context, code, saved_at))
             return {"savedAt": saved_at}
 
-    def submit(self, identity, code, mode="submit", input_text="", contest_id=None, sample_run=None):
+    def submit(self, identity, code, mode="submit", input_text="", contest_id=None, sample_run=None, language='cpp17'):
         self._code(code)
+        self._language(language)
         if mode not in ("run", "submit"):
             raise ServiceError(400, "操作类型必须是 run 或 submit")
         if not isinstance(input_text, str) or len(input_text.encode("utf-8")) > MAX_CODE:
@@ -1017,7 +1044,7 @@ class TrainingService:
             raise ServiceError(400, "样例运行选项必须是布尔值")
         sample_run = mode == "run" and (not input_text if sample_run is None else sample_run)
         if not code.strip():
-            raise ServiceError(400, "请先输入 C++ 代码")
+            raise ServiceError(400, "请先输入代码")
         with self.lock:
             self._row(identity)
             contest = self._context(identity, contest_id, writing=True)
@@ -1051,6 +1078,7 @@ class TrainingService:
             seen_solution = int(bool(training and training["solution_pending"]))
             with self._write() as connection:
                 connection.execute("INSERT INTO submissions(id,problem_id,contest_id,mode,code,submitted_at,verdict,scope,custom_input,solution_seen,sample_run) VALUES(?,?,?,?,?,?,'QUEUED',?,?,?,?)", (submission_id, identity, contest_id or None, mode, code, timestamp, scope, input_text, seen_solution, int(sample_run)))
+                self._save_language(connection, "submission-language:"+submission_id, language)
                 if mode == "submit":
                     self._activate(connection, identity, timestamp)
             self._enqueue(submission_id)
@@ -1074,6 +1102,8 @@ class TrainingService:
                 options = {"mode": record["mode"], "input_text": record["custom_input"], "cancel": cancel}
                 if "sample_run" in inspect.signature(execute).parameters:
                     options["sample_run"] = bool(record["sample_run"])
+                if "language" in inspect.signature(execute).parameters:
+                    options["language"] = self._read_language("submission-language:"+record["id"])
                 result = execute(record["problem_id"], record["code"], **options)
             except Exception:
                 logging.exception("TB judge execution failed")
@@ -1168,9 +1198,8 @@ class TrainingService:
             results.append(case)
         return results
 
-    @staticmethod
-    def _submission(record):
-        return {"id": record["id"], "problemId": record["problem_id"], "contestId": record["contest_id"], "mode": record["mode"], "verdict": record["verdict"], "scope": record["scope"], "code": record["code"], "submittedAt": record["submitted_at"], "finishedAt": record["finished_at"], "timeMs": record["time_ms"], "memoryKb": record["memory_kb"], "passed": record["passed"], "total": record["total"], "output": record["output"], "stderr": record["stderr"], "message": record["message"], "sampleRun": bool(record["sample_run"]), "caseResults": json.loads(record["case_results"])}
+    def _submission(self, record):
+        return {"language":self._read_language("submission-language:"+record["id"]), "id": record["id"], "problemId": record["problem_id"], "contestId": record["contest_id"], "mode": record["mode"], "verdict": record["verdict"], "scope": record["scope"], "code": record["code"], "submittedAt": record["submitted_at"], "finishedAt": record["finished_at"], "timeMs": record["time_ms"], "memoryKb": record["memory_kb"], "passed": record["passed"], "total": record["total"], "output": record["output"], "stderr": record["stderr"], "message": record["message"], "sampleRun": bool(record["sample_run"]), "caseResults": json.loads(record["case_results"])}
 
     def submission(self, identity):
         with self.lock:
@@ -1280,7 +1309,8 @@ class TrainingService:
         aliases = {"codeforces": "codeforces", "atcoder": "atcoder", "nowcoder": "牛客", "luogu": "洛谷"}
         platform = options["platform"].casefold()
         platform = aliases.get(platform, platform)
-        if platform and platform != str(row.get("platform", "")).casefold():
+        from contest_categories import matches_shelf
+        if platform and not matches_shelf(row,platform):
             return False
         if options["tags"] and not set(options["tags"]) & set(row.get("tags", [])):
             return False
@@ -1428,6 +1458,11 @@ class TrainingService:
             from contest_names import contest_name, natural_key
             for item in result:
                 item['displayName'] = contest_name(item['name'])
+                event_rows=groups[item['name']]
+                levels=sorted(row['difficulty'] for row in event_rows if isinstance(row.get('difficulty'), (int,float)))
+                item['difficulty']=levels[len(levels)//2] if levels else None
+                item['platform']=event_rows[0].get('platform','')
+                item['series']=event_rows[0].get('series','')
             return {'events':sorted(result, key=lambda item: natural_key(item['displayName']))}
 
     def preview_replay(self, body):
@@ -1687,8 +1722,8 @@ class TrainingService:
                 if ids:
                     sets.append({"id": record["id"], "name": record["name"], "type": "practice", "ids": ids, "createdAt": record["created_at"], "accepted": len(set(ids) & accepted_ids), "total": len(set(ids))})
             contests = [self._contest(record) for record in self.connection.execute("SELECT * FROM contests WHERE deleted_at IS NULL ORDER BY started_at DESC,rowid DESC")]
-            days = {parse_time(record["submitted_at"]).astimezone().date() for record in records}
-            day = now.astimezone().date()
+            days = {parse_time(record["submitted_at"]).astimezone(TRAINING_ZONE).date() for record in records if record["finished_at"] and (record["code"].strip() or record["scope"]=="official")}
+            day = now.astimezone(TRAINING_ZONE).date()
             if day not in days:
                 day -= dt.timedelta(days=1)
             streak = 0

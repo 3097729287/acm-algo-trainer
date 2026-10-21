@@ -1,7 +1,12 @@
 // The displayed language may name a C++ standard, a compiler release, or both.
 // We only select values in actual language controls, never arbitrary page text.
-function compilerCandidate(text, code = '', platform = '') {
+function compilerCandidate(text, code = '', platform = '', language = 'cpp17') {
   const value = String(text || '').replaceAll('（', '(').replaceAll('）', ')').replace(/\s+/g, ' ').trim();
+  if(language==='python3') {
+    const python=/\bpython\s*3(?:\.\d+)?/i.test(value),pypy=/\bpypy\s*3(?:\.\d+)?/i.test(value)||/pypy.*(?:python\s*)?3\./i.test(value);
+    if(!python&&!pypy)return null;
+    return {label:value,language:'python3',standard:3,score:python?0:10};
+  }
   if (!/(?:c\+\+|g\+\+|gnu\+\+|clang\+\+)/i.test(value) || /(?:c#|objective)/i.test(value)) return null;
   let required = /(?:std::(?:print|println|expected)|#\s*include\s*<\s*(?:print|expected)\s*>)/.test(code) ? 23
     : /(?:std::(?:ranges|span)|#\s*include\s*<\s*(?:ranges|span|concepts|coroutine)\s*>|\b(?:concept|co_await|co_return|requires)\b)/.test(code) ? 20 : 17;
@@ -25,7 +30,7 @@ function compilerCandidate(text, code = '', platform = '') {
     score:standard !== null ? standard - required : version !== null ? 40 - Math.min(version,30) : 45};
 }
 
-async function selectOfficialCompiler(code, platform = '') {
+async function selectOfficialCompiler(code, platform = '', language = 'cpp17') {
   const site = {
     '牛客': { selected: '.btn-language .el-input__inner,.language-select .el-input__inner,.nc-select .nc-select-label,.nc-select .selected-value,.select-language,.language-select .selected,.lang-select .selected-text', options: '.nc-select-item,.nc-select-option,.select-language-menu li,.language-list li' },
     '洛谷': { selected: '.language-select .selected,.select-language .selected,.el-input__inner', options: '.language-list li,.el-select-dropdown__item' },
@@ -34,7 +39,7 @@ async function selectOfficialCompiler(code, platform = '') {
   }[platform] || { selected: '', options: '' };
   const selectors = '.ivu-select-selected-value,.el-select__selected-item,.ant-select-selection-item,[role=combobox],.language-select .selected,.lang-select .selected' + (site.selected ? ',' + site.selected : '');
   const visible = node => node && node.getClientRects().length > 0;
-  const candidates = values => values.map(node => ({node, candidate:compilerCandidate(node.textContent || node.value, code, platform)}))
+  const candidates = values => values.map(node => ({node, candidate:compilerCandidate(node.textContent || node.value, code, platform, language)}))
     .filter(item => item.candidate && !item.node.disabled).sort((a,b)=>a.candidate.score-b.candidate.score);
   for (const select of document.querySelectorAll('select')) {
     if (!visible(select) && platform !== 'AtCoder') continue;

@@ -1,16 +1,16 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 const STEPS = [
-  { page: 'growth', target: '.growth-account-panel', title: '连接账号', text: '展开“公开账号与评分”，填写你的竞赛账号。已有公开 AC 会自动同步；TB 账号负责保存训练数据。可以稍后绑定。' },
-  { page: 'library', target: '.list-page .search-box', title: '找到想练的题', text: '输入题名、比赛或知识点，或用文件夹逐层选题。准备好后，下一步会指引你打开一道题。' },
+  { page: 'settings', target: '[aria-label="账号与身份"]', title: '连接账号', text: '打开“账号与身份”，展开“公开账号与评分”，填写你的竞赛账号。已有公开 AC 会自动同步；TB 账号负责保存训练数据。可以稍后绑定。' },
+  { page: 'library', target: '.list-page .search-box', title: '找到想练的题', text: '输入题名、比赛或知识点；筛选按钮汇总比赛分类、知识点和难度。准备好后，下一步会指引你打开一道题。' },
   { page: 'library', target: '.problem-table tbody tr[data-id] .problem-title', title: '进入练习', text: '点击高亮题名，实际打开一道题。进入工作台后，指引会继续介绍题面、代码和运行。', action: 'open' },
   { practice: true, target: '.wb-statement-pane', title: '阅读题面', text: '先确认题意、输入输出和样例。这里可以切换原文与中文，也可以调整题面字号。' },
-  { practice: true, target: '.cm-editor', title: '编写代码', text: '点击编辑器编写代码，草稿会自动保存。上方的保存状态会告诉你是否保存成功。' },
-  { practice: true, target: '.wb-run-actions', title: '运行与提交', text: '先用“运行”检查样例，再用“提交”进入原站。首次提交需在浏览器登录并确认；原站 AC 才计入通过数。你可以稍后完成这道题。' },
+  { practice: true, target: '.cm-editor', title: '编写代码', text: '选择 C++17 或 Python 3 后编写代码，草稿会自动保存。上方的保存状态会告诉你是否保存成功。' },
+  { practice: true, target: '.wb-run-actions', title: '运行与提交', text: '先用“运行”检查样例，再用“提交”进入原站。首次提交需在浏览器登录并确认；结果显示后自动关闭本次提交窗口，原站 AC 才计入通过数。你可以稍后完成这道题。' },
   { practice: true, target: '.wb-toolbar button[aria-label="返回列表"]', title: '回到题库', text: '点击高亮的返回按钮。草稿会保留，下次打开这道题可以接着写。', action: 'return' },
   { page: 'records', target: '.submission-log', title: '查看提交结果', text: '正式提交后，这里会按日期保存结果。点击记录可以查看当次代码；样例运行结果留在工作台中。' },
   { page: 'mock', target: '.mock-mode-options', title: '组成一场训练', text: '选择综合、专项、随机单题或重现赛，设置题数和时长，再生成预览。确认试卷后才开始计时，结束后复盘。' },
-  { page: 'growth', target: '.progress-growth-columns', title: '安排下一次练习', text: '查看能力参考与推荐题，再用目标计划安排练习。右下角的日历和奖章分别打开每日任务与成就。' },
+  { page: 'growth', target: '.progress-growth-columns', title: '安排下一次练习', text: '点击知识雷达的专题进入二级知识点，查看掌握程度与推荐题。题单提供从基础思想到迁移练习的学习框架。右下角的日历和奖章分别打开每日任务与成就。' },
   { page: 'settings', target: '.settings-home-grid', title: '完成入门', text: '选择分类进入详细设置，返回时会记住打开位置。点击右上角头像更换图片；数据与帮助里可以导出数据、重新开始指引。' },
 ];
 

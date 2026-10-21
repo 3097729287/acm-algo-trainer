@@ -1093,6 +1093,18 @@
       "version": "6.43.14",
       "file": "@codemirror/view/LICENSE",
       "license": "MIT"
+    },
+    {
+      "package": "@codemirror/lang-python",
+      "version": "6.2.1",
+      "file": "@codemirror__lang-python-6.2.1.txt",
+      "license": "MIT"
+    },
+    {
+      "package": "@lezer/python",
+      "version": "1.1.19",
+      "file": "@lezer__python-1.1.19.txt",
+      "license": "MIT"
     }
   ],
   "notices": [
@@ -2280,6 +2292,11 @@
       "component": "Python: websocket-client 1.9.0",
       "origin": "websocket_client-1.9.0.dist-info/licenses/LICENSE",
       "sha256": "d7ad8d0966aa363d45c7b16b0838cadcd51676acdf215ad967307d581b47872c"
+    },
+    {
+      "component": "CPython 3.13.16 embeddable local runner",
+      "origin": "https://www.python.org/downloads/release/python-31316/",
+      "sha256": "59688d8633ce27b1d8220f223b9520c4e039e4ba6ccceb345793a74fd5c155b9"
     }
   ]
 }

@@ -1,3 +1,9 @@
+import MedalEmblem, {titleMedalIndex} from '@/components/MedalEmblem.jsx';
+import KnowledgeRadar from '@/components/KnowledgeRadar.jsx';
+import FilterMenu from '@/components/FilterMenu.jsx';
+import { CONTEST_SHELVES } from '@/components/ContestTabs.jsx';
+import { CONTEST_KINDS, contestKind } from '@/lib/contestShelves.js';
+import { ArrowDown, ArrowUp, FolderTree } from 'lucide-react';
 import CatalogExplorer, { CatalogPath } from '../components/CatalogExplorer.jsx';
 import Tooltip from '@/components/Tooltip.jsx';
 import ProfileBadge from '@/components/ProfileBadge.jsx';
@@ -59,7 +65,7 @@ export function AchievementPanel({ achievements = [], newIds = [], onSeen }) {
   const items = list(achievements).map(item => ({ ...item, name: acText(item.name), description: achievementText(item.description) })).filter(item => filter === 'all' || (filter === 'unlocked' ? item.unlocked : !item.unlocked)).slice().sort((left, right) => Number(right.unlocked) - Number(left.unlocked));
   return <div className="achievement-panel"><div className="ranking-tabs" role="group" aria-label="成就筛选">{[['all', '全部成就'], ['unlocked', '已达成'], ['pending', '待达成']].map(([value, label]) => <button className={filter === value ? 'active' : ''} aria-pressed={filter === value} key={value} onClick={() => setFilter(value)}>{label}</button>)}</div><div className="progress-achievements">{items.map(item => {
     const isNew = item.unlocked && fresh.has(item.id) && !seen.has(item.id);
-    return <div className={`progress-achievement${item.unlocked ? ' progress-unlocked' : ''}${isNew ? ' progress-achievement-new' : ''}`} key={item.id} data-achievement-id={item.id} tabIndex={isNew ? 0 : undefined} onMouseEnter={() => markSeen(item.id)} onFocus={() => markSeen(item.id)}><Award size={21} aria-hidden="true" /><div><div className="progress-achievement-name"><strong>{item.name}</strong>{isNew && <span className="achievement-new-label">新达成</span>}</div><p>{item.description}</p>{!item.unlocked && <Meter value={item.target ? item.progress / item.target * 100 : 0} label={`${item.name}完成进度`} />}<div className="progress-achievement-status"><span>{item.unlocked ? `已达成${item.unlockedAt ? ' · ' + dateLabel(item.unlockedAt) : ''}` : `${number(item.progress)} / ${number(item.target)}`}</span>{item.rewardTitle ? <span className={`achievement-title-reward${item.unlocked ? ' claimed' : ''}`}><Award size={14} aria-hidden="true" />{item.rewardTitle.name} · {item.unlocked ? '称号已获得' : '达成后获得称号'}</span> : item.rewardXp > 0 && <span className={`achievement-reward${item.rewardClaimed ? ' claimed' : ''}`}>+{number(item.rewardXp)} XP · {item.rewardClaimed ? '已发放' : item.unlocked ? '待发放' : '达成后发放'}</span>}</div></div></div>;
+    return <div className={`progress-achievement${item.unlocked ? ' progress-unlocked' : ''}${isNew ? ' progress-achievement-new' : ''}`} key={item.id} data-achievement-id={item.id} tabIndex={isNew ? 0 : undefined} onMouseEnter={() => markSeen(item.id)} onFocus={() => markSeen(item.id)}><MedalEmblem size={36} variant={item.rewardTitle?.category==='streak'?'streak':'ac'} index={item.rewardTitle?titleMedalIndex(item.rewardTitle):Math.min(9,Math.floor(Math.log2(item.target||1)))}/><div><div className="progress-achievement-name"><strong>{item.name}</strong>{isNew && <span className="achievement-new-label">新达成</span>}</div><p>{item.description}</p>{!item.unlocked && <Meter value={item.target ? item.progress / item.target * 100 : 0} label={`${item.name}完成进度`} />}<div className="progress-achievement-status"><span>{item.unlocked ? `已达成${item.unlockedAt ? ' · ' + dateLabel(item.unlockedAt) : ''}` : `${number(item.progress)} / ${number(item.target)}`}</span>{item.rewardTitle ? <span className={`achievement-title-reward${item.unlocked ? ' claimed' : ''}`}><Award size={14} aria-hidden="true" />{item.rewardTitle.name} · {item.unlocked ? '称号已获得' : '达成后获得称号'}</span> : item.rewardXp > 0 && <span className={`achievement-reward${item.rewardClaimed ? ' claimed' : ''}`}>+{number(item.rewardXp)} XP · {item.rewardClaimed ? '已发放' : item.unlocked ? '待发放' : '达成后发放'}</span>}</div></div></div>;
   })}</div>{!items.length && <p className="progress-muted">这一组暂时没有成就记录。</p>}</div>;
 }
 export function DailyTasks({ dailyTasks, goalTasks, onTrain, onClaim }) {
@@ -105,24 +111,13 @@ export function GrowthPage({ avatarData, onAvatar, goalOverview, onRankings, api
   const min = Math.min(...trend.map(item => item.value)), max = Math.max(...trend.map(item => item.value));
   const points = trend.map((item, index) => `${trend.length === 1 ? 150 : index / (trend.length - 1) * 300},${42 - (item.value - min) / (max - min || 1) * 32}`).join(' ');
   return <div className="progress-page" aria-label="成长与能力">
-      {api && <GrowthAccountPanel api={api} hub={hub} account={account} profile={profile} profileSnapshot={profileSnapshot} onProfileChanged={onProfileChanged} onHubChanged={onHubChanged} onError={onError} accountFocus={accountFocus} />}
     <div className="growth-quick-stats">
       <Tooltip text={growth.ranked?.rules || '等级由经验值累积，5 级解锁段位。段位参考已验证独立 AC 的题目难度。'} label="等级与段位规则"/>
       {[[Check,summary.totalSolved??summary.officialSolved,'AC'],[Code2,summary.submissions,'\u63d0\u4ea4'],[CalendarDays,summary.activeDays,'\u6d3b\u8dc3\u65e5'],[Flame,summary.streak,'\u8fde\u7eed\u8bad\u7ec3'],[Flag,summary.completedContests,'\u6a21\u62df\u8d5b']].map(([Icon,value,label])=><Tooltip text={label} key={label}><span className="growth-stat-icon" tabIndex={0} aria-label={`${label} ${number(value)}`}><Icon size={16}/><b>{number(value)}</b></span></Tooltip>)}
     </div>
     <div className="progress-growth-columns">
       <div className="progress-growth-left">
-      <section className="progress-section progress-assessment">
-        <div className="progress-section-heading"><h2><TrendingUp size={17} />能力参考</h2><Tooltip text={confidence(assessment.confidence)} label="参考可信度"/></div>
-        <div className="progress-estimate"><strong>{assessment.rating == null ? '积累独立通过记录' : number(assessment.rating)}</strong><span>{assessment.label || '训练难度估算'}</span></div>
-        <Tooltip text={acText(assessment.explanation) || '更多独立完成的题目，才能提供可信的能力参考。'} label="能力参考说明"/>
-        {assessment.evidenceCount != null && <span className="assessment-evidence" title="独立通过证据"><Check size={14}/>{number(assessment.evidenceCount)}</span>}
-        {trend.length > 1 && <div className="progress-trend"><svg viewBox="0 0 300 50" role="img" aria-label={`训练参考值变化，${number(min)} 至 ${number(max)}`}><polyline points={points} fill="none" stroke="currentColor" strokeWidth="2" /></svg><details><summary>查看参考值明细</summary><table><thead><tr><th>日期</th><th>训练参考值</th></tr></thead><tbody>{trend.map((item, index) => <tr key={index}><td>{item.date}</td><td>{number(item.value)}</td></tr>)}</tbody></table></details></div>}
-        {equippedTitles.length > 0 && <div className="growth-equipped-titles"><TitleMedals titles={equippedTitles} compact /></div>}
-        <div className="progress-platform-scores">{list(assessment.platforms).filter(item => LABELS[item.platform]).map(item => <div key={item.platform}><span>{LABELS[item.platform]}</span><b>{number(item.rating)}</b><span className="progress-small">最高 {number(item.maxRating)}</span></div>)}</div>
-        {onSync && <div className="progress-actions"><button type="button" className="progress-text-button" title="刷新评分" aria-label="刷新评分" disabled={hub?.sync?.busy} onClick={() => onSync()}><RefreshCw size={16} /><span className="sr-only">刷新评分</span></button></div>}
-      </section>
-      {onAchievements && <button className="growth-achievement-link" onClick={onAchievements}><Trophy size={17} /><span>查看成就</span><small>{list(insights.achievements).filter(item => item.unlocked).length}/{list(insights.achievements).length}</small><ArrowRight size={14} /></button>}
+      <KnowledgeRadar knowledge={insights.knowledge || []} onTopic={onTopic}/>
       </div>
       <div className="progress-growth-right"><section className="progress-section progress-recommendations">
         <div className="progress-section-heading"><h2><Target size={17} />下一步练什么</h2><Tooltip text="按实际训练记录推荐" label="推荐依据"/></div>
@@ -200,7 +195,7 @@ export function ActivityPage({ insights, onTrain }) {
     if (next != null) { event.preventDefault(); event.stopPropagation(); focusDay(days[clamp(next, days.length - 1)]); }
   };
   return <div className="activity-page" aria-label="训练活动">
-    <section className="progress-section"><div className="progress-section-heading"><h2><CalendarDays size={17} />训练日历</h2><label className="activity-year">年份<ThemedSelect aria-label="活动年份" value={year} onChange={event => setYear(Number(event.target.value))}>{years.map(value => <option key={value}>{value}</option>)}</ThemedSelect></label></div>
+    <section className="progress-section"><div className="progress-section-heading"><h2><CalendarDays size={17} /><Tooltip label="训练日历说明" text="按北京时间统计原站 AC，同题同日计一次；颜色依次对应 0、1、2–3、4–6、7+ 题。方向键移动，Enter 查看当天。"/></h2><label className="activity-year">年份<ThemedSelect aria-label="活动年份" value={year} onChange={event => setYear(Number(event.target.value))}>{years.map(value => <option key={value}>{value}</option>)}</ThemedSelect></label></div>
       <div className="progress-stat-line activity-stats"><span className="activity-year-total"><b>{number(totals.official)}</b><span>题次通过</span></span><span className="activity-year-streak"><b>{number(totals.longest)}</b><span>天最长连续通过</span></span></div>
       <div className="activity-calendar-scroll"><div className="activity-calendar" role="grid" aria-label={`${year}年训练热力图，方向键移动，Enter查看日期`} onKeyDown={handleKey}>
         {Array.from({ length: offset }, (_, index) => <span className="activity-day activity-padding" role="presentation" key={'pad' + index} />)}
@@ -212,8 +207,7 @@ export function ActivityPage({ insights, onTrain }) {
             tabIndex={focused === key ? 0 : -1} aria-label={description} aria-selected={selected === key} title={description} onFocus={() => { focusRef.current = key; setFocused(key); }} onClick={() => { focusRef.current = key; setFocused(key); setSelected(key); }} />;
         })}
       </div></div>
-      <div className="activity-calendar-caption"><span role="status">{focused} · {focusedData.officialAccepted || 0} 题通过</span><span className="activity-legend">少{[0, 1, 2, 3, 4].map(level => <i key={level} className={`activity-level-${level}`} />)}多</span></div>
-      <p className="progress-small">按北京时间统计原站 AC，同题同日计一次。颜色依次对应 0、1、2–3、4–6、7+ 题。方向键移动，Enter 查看当天。</p>
+      <div className="activity-calendar-caption"><Tooltip text={`${focused} · ${focusedData.officialAccepted || 0} 题通过`} label="当前日期统计"/><Tooltip text="0 / 1 / 2–3 / 4–6 / 7+ 题"><span className="activity-legend" tabIndex={0} aria-label="热力图图例">{[0,1,2,3,4].map(level=><i key={level} className={`activity-level-${level}`}/>)}</span></Tooltip></div>
     </section>
     <section className="progress-section activity-day-detail"><div className="progress-section-heading"><h2>{selected || '日期详情'}</h2></div>
     <PassCount count={selectedData.officialAccepted || 0} /></section>
@@ -247,7 +241,7 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
   const [query, setQuery] = useState(''), [filter, setFilter] = useState('all');
   const deferredQuery = useDeferredValue(query);
   const [shelf, setShelf] = useState('all'), [examYear, setExamYear] = useState(''), [examStage, setExamStage] = useState('');
-  const [folder,setFolder]=useState(null);
+  const [folder,setFolder]=useState({stage:'platforms',path:[]}), [kind,setKind]=useState(''), [descending,setDescending]=useState(true);
   const [sort, setSort] = useState('name');
   const [page, setPage] = useState(1);
   const [selected, setSelected] = useState(null), [joining, setJoining] = useState(false), [joinError, setJoinError] = useState(''), [starting, setStarting] = useState(null);
@@ -262,12 +256,12 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
   const filtered = useMemo(() => {
     const search = deferredQuery.trim().toLowerCase();
     return groups.filter(group => matchesShelf(group, shelf)
-      && (!examYear || String(group.examYear) === examYear) && (!examStage || group.examStage === examStage)
+      && (!kind || contestKind(group)===kind) && (!examYear || String(group.examYear) === examYear) && (!examStage || group.examStage === examStage)
       && (!search || `${group.name} ${group.platform} ${group.rows.map(row => `${row.title} ${row.problem} ${lockedIds.has(row.id) ? '' : list(row.tags).join(' ')}`).join(' ')}`.toLowerCase().includes(search))
       && (filter === 'all' || filter === 'joined' ? filter === 'all' || counts.get(group.key).active > 0 : filter === 'available' ? counts.get(group.key).active === 0 : counts.get(group.key).accepted < group.rows.length))
-      .sort(sort === 'name' ? (a,b) => b.name.localeCompare(a.name, 'zh-CN', {numeric:true}) : compareContestNewest);
-  }, [groups, shelf, examYear, examStage, deferredQuery, lockedIds, filter, counts, sort]);
-  useEffect(() => { setPage(1); }, [deferredQuery, shelf, examYear, examStage, filter, sort]);
+      .sort((a,b) => (sort === 'name' ? a.name.localeCompare(b.name, 'zh-CN', {numeric:true}) : -compareContestNewest(a,b)) * (descending ? -1 : 1));
+  }, [groups, shelf, examYear, examStage, deferredQuery, lockedIds, filter, counts, sort, kind, descending]);
+  useEffect(() => { setPage(1); }, [deferredQuery, shelf, examYear, examStage, filter, sort, kind, descending]);
   const pageSize = 40, pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
   const currentPage = Math.min(page, pageCount), first = (currentPage - 1) * pageSize;
   const visibleGroups = filtered.slice(first, first + pageSize);
@@ -295,18 +289,21 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
       })}</div>
     </div>;
   }
+  const renderCard = group => <article className="competition-card" key={group.key}><button type="button" className="competition-card-open" onClick={() => setSelected(group.key)} aria-label={`查看 ${group.platform} ${group.name}，${group.rows.length} 道题`}><span className="competition-card-title"><strong>{group.name}</strong></span><span className="competition-problem-tokens">{group.rows.map(row => <span className={`competition-problem-token${progress.get(row.id)?.accepted ? ' competition-token-accepted' : ''}`} key={row.id}><b>{row.problem}{typeof row.difficulty==='number' && !lockedIds.has(row.id) ? ':' : ''}</b>{typeof row.difficulty==='number' && !lockedIds.has(row.id) && <Difficulty row={row}/>}</span>)}</span><ChevronRight size={16}/></button>{startButton(group)}</article>;
+  const reset = () => {setShelf('all');setKind('');setExamYear('');setExamStage('');setFilter('all');};
   return <div className="competition-page" aria-label="比赛列表">
-    <button className="progress-button" aria-pressed={!!folder} onClick={()=>setFolder(folder?null:{stage:"platforms",path:[]})}>文件夹浏览</button>
-    <ContestTabs value={shelf} onChange={value => { setShelf(value); setExamYear(''); setExamStage(''); }} />
-    {shelf === 'xcpc' && <div className="competition-toolbar"><ThemedSelect aria-label="XCPC 年份" value={examYear} onChange={event => setExamYear(event.target.value)}><option value="">全部年份</option>{[...new Set(groups.filter(group => group.xcpc && group.examYear).map(group => group.examYear))].sort((a,b) => b-a).map(year => <option key={year}>{year}</option>)}</ThemedSelect><ThemedSelect aria-label="XCPC 比赛类型" value={examStage} onChange={event => setExamStage(event.target.value)}><option value="">全部类型</option><option>区域赛</option><option>邀请赛</option><option>省赛</option></ThemedSelect></div>}
-    {shelf === 'lanqiao' && <><p className="competition-sync-note">C/C++大学B组 · 2013—2026 年公开题目，按初赛 / 决赛分类。早年部分原卷未完整公开；填空题有合并，当前题单不代表原卷题数或题序。</p><div className="competition-toolbar"><ThemedSelect aria-label="蓝桥杯年份" value={examYear} onChange={event => setExamYear(event.target.value)}><option value="">全部年份</option>{[...new Set(groups.filter(group => group.examYear).map(group => group.examYear))].sort((a,b) => b-a).map(year => <option key={year}>{year}</option>)}</ThemedSelect><ThemedSelect aria-label="蓝桥杯赛段" value={examStage} onChange={event => setExamStage(event.target.value)}><option value="">初赛与决赛</option><option>初赛</option><option>决赛</option></ThemedSelect></div></>}
-    <div className="competition-toolbar"><label className="competition-search"><Search size={16} /><input value={query} onChange={event => setQuery(event.target.value)} placeholder="搜索比赛、题名或知识点" aria-label="搜索比赛" /></label><ThemedSelect value={filter} onChange={event => setFilter(event.target.value)} aria-label="比赛训练情况"><option value="all">全部比赛</option><option value="joined">已加入训练</option><option value="available">尚未加入</option><option value="unfinished">尚未全部通过</option></ThemedSelect><ThemedSelect aria-label="比赛排序" value={sort} onChange={event => setSort(event.target.value)}><option value="name">名称顺序</option><option value="newest">比赛时间</option></ThemedSelect><span className="competition-count">{filtered.length} 场</span></div>
-    {hub?.sync?.message && <p className="competition-sync-note">{hub.sync.message}</p>}
-    {joinError && <p className="connection-error" role="alert">{joinError}</p>}
-    <div hidden={!!folder} className="competition-list">{visibleGroups.map(group => <article className="competition-card" key={group.key}><button type="button" className="competition-card-open" onClick={() => setSelected(group.key)} aria-label={`查看 ${group.platform} ${group.name}，${group.rows.length} 道题`}><span className="competition-card-title"><strong>{group.name}</strong></span><span className="competition-problem-tokens">{group.rows.map(row => <span className={`competition-problem-token${progress.get(row.id)?.accepted ? ' competition-token-accepted' : ''}`} key={row.id}><b>{row.problem}{typeof row.difficulty==='number' && !lockedIds.has(row.id) ? ':' : ''}</b>{typeof row.difficulty==='number' && !lockedIds.has(row.id) && <Difficulty row={row}/>}</span>)}</span><ChevronRight size={16} aria-hidden="true" /></button>{startButton(group)}</article>)}</div>
-    {folder&&<><CatalogPath scope={folder} onChange={setFolder}/><CatalogExplorer rows={filtered.flatMap(group=>group.rows.map(row=>({...row,groupKey:group.key})))} scope={folder} onChange={setFolder} onContest={row=>setSelected(row.groupKey)}/></>}
-    {!folder && filtered.length > pageSize && <nav className="competition-pagination" aria-label="比赛分页"><span>{first + 1}–{Math.min(first + pageSize, filtered.length)} / {filtered.length} 场</span><button type="button" className="progress-button" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}>上一页</button><span aria-live="polite">第 {currentPage} / {pageCount} 页</span><button type="button" className="progress-button" disabled={currentPage === pageCount} onClick={() => setPage(currentPage + 1)}>下一页</button></nav>}
-    {!filtered.length && <Empty><Flag size={24} /><span>{groups.length ? '没有匹配的比赛，试试减少筛选条件。' : '题库还没有收录比赛。'}</span></Empty>}
+    <div className="competition-toolbar"><Tooltip text="按比赛分类浏览"><button type="button" className="icon-button catalog-view-toggle" aria-label="比赛文件夹浏览" aria-pressed={!!folder} onClick={()=>setFolder(folder?null:{stage:'platforms',path:[]})}><FolderTree size={18}/></button></Tooltip>
+    <label className="competition-search"><Search size={16}/><input value={query} onChange={event=>setQuery(event.target.value)} placeholder="搜索比赛、题名或知识点" aria-label="搜索比赛"/></label>
+    <FilterMenu label="筛选比赛" active={shelf!=='all'||!!kind||!!examYear||filter!=='all'} onReset={reset}>
+      <details className="filter-submenu" open><summary>比赛分类</summary><div className="filter-choice-grid">{CONTEST_SHELVES.map(([id,label])=><button type="button" key={id} aria-pressed={shelf===id} onClick={()=>{setShelf(id);setFolder(null);setExamYear('');setExamStage('');}}>{label}</button>)}</div><div className="filter-choice-grid">{CONTEST_KINDS.map(([id,label])=><button type="button" key={id} aria-pressed={kind===id} onClick={()=>{setKind(kind===id?'':id);setFolder(null);}}>{label}</button>)}</div></details>
+      <label className="filter-field"><span>年份</span><ThemedSelect aria-label="比赛年份" value={examYear} onChange={event=>setExamYear(event.target.value)}><option value="">全部年份</option>{[...new Set(groups.map(group=>group.examYear).filter(Boolean))].sort((a,b)=>b-a).map(year=><option key={year}>{year}</option>)}</ThemedSelect></label>
+      <label className="filter-field"><span>训练情况</span><ThemedSelect value={filter} onChange={event=>setFilter(event.target.value)} aria-label="比赛训练情况"><option value="all">全部比赛</option><option value="joined">已加入训练</option><option value="available">尚未加入</option><option value="unfinished">尚未全部通过</option></ThemedSelect></label>
+    </FilterMenu>
+    <ThemedSelect aria-label="比赛排序" value={sort} onChange={event=>setSort(event.target.value)}><option value="name">名称</option><option value="newest">比赛时间</option></ThemedSelect><Tooltip text={descending?'倒序，点击改为正序':'正序，点击改为倒序'}><button type="button" className="icon-button" aria-label="切换比赛正序倒序" aria-pressed={descending} onClick={()=>setDescending(value=>!value)}>{descending?<ArrowDown size={16}/>:<ArrowUp size={16}/>}</button></Tooltip><span className="competition-count">{filtered.length} 场</span></div>
+    {joinError&&<p className="connection-error" role="alert">{joinError}</p>}
+    {folder?<><CatalogPath scope={folder} onChange={setFolder}/><CatalogExplorer rows={filtered.flatMap(group=>group.rows.map(row=>({...row,groupKey:group.key})))} scope={folder} onChange={setFolder} onContest={row=>setSelected(row.groupKey)} renderContest={row=>renderCard(groups.find(group=>group.key===row.groupKey))}/></>:<div className="competition-list">{visibleGroups.map(renderCard)}</div>}
+    {!folder&&filtered.length>pageSize&&<nav className="competition-pagination" aria-label="比赛分页"><span>{first+1}–{Math.min(first+pageSize,filtered.length)} / {filtered.length} 场</span><button type="button" className="progress-button" disabled={currentPage===1} onClick={()=>setPage(currentPage-1)}>上一页</button><span>第 {currentPage} / {pageCount} 页</span><button type="button" className="progress-button" disabled={currentPage===pageCount} onClick={()=>setPage(currentPage+1)}>下一页</button></nav>}
+    {!filtered.length&&<Empty><Flag size={24}/><span>没有匹配的比赛</span></Empty>}
   </div>;
 }
 

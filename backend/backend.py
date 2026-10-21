@@ -126,7 +126,7 @@ class Handler(BaseHTTPRequestHandler):
                 raise APIError(404, "没有找到这个页面")
             store = self.server.store
             if path == '/api/account' and not writing:
-                self.send_json(200, accounts.snapshot() if accounts else {'required': False, 'authenticated': True, 'token': store.token, 'account': None})
+                self.send_json(200, accounts.snapshot() if accounts else {'required': False, 'authenticated': True, 'token': store.token, 'admin': self.server.admin_mode, 'account': {'userId':'local-admin','nickname':'管理员','loginId':'admin-local'} if self.server.admin_mode else None})
                 return
             # Software updates also run on the login screen. Local origin and
             # session-token guards above still protect every mutation.
@@ -201,12 +201,15 @@ class Handler(BaseHTTPRequestHandler):
                 elif path == "/api/training/contest":
                     value = training.start_practice_set(body.get("contest"))
                 elif path == "/api/draft":
-                    value = training.save_draft(body.get("id"), body.get("code"), body.get("contestId"))
+                    value = training.save_draft(body.get("id"), body.get("code"), body.get("contestId"), body.get("language", "cpp17"))
+                elif path == '/api/admin':
+                    from admin import controls
+                    value = controls(training, body)
                 elif path == '/api/preferences':
                     from preferences import save_preferences
                     value = save_preferences(training, body)
                 elif path == "/api/submissions":
-                    value = training.submit(body.get("id"), body.get("code"), body.get("mode", "submit"), body.get("input", ""), body.get("contestId"), body.get("sampleRun"))
+                    value = training.submit(body.get("id"), body.get("code"), body.get("mode", "submit"), body.get("input", ""), body.get("contestId"), body.get("sampleRun"), body.get("language", "cpp17"))
                 elif path == "/api/contests/preview":
                     value = training.preview_contest(body)
                 elif path == "/api/contests/delete":
@@ -266,11 +269,26 @@ class Handler(BaseHTTPRequestHandler):
                         preparation.check_submission(url)
                     with training.lock:
                         training.assert_official_allowed(identity, body.get("contestId"))
-                        opened = opener(url, code, row["title"])
+                        language=training._language(body.get('language','cpp17'))
+                        import inspect
+                        if 'language' in inspect.signature(opener).parameters:
+                            opened=opener(url,code,row['title'],language=language)
+                        elif language!='cpp17':
+                            raise APIError(422,'当前浏览器连接不支持 Python 3')
+                        else:
+                            opened = opener(url, code, row["title"])
                     value = opened if isinstance(opened, dict) else {"sessionId": opened, "platform": row.get("platform"), "url": url, "status": "opened"}
                     if not isinstance(value.get("sessionId"), str):
                         raise APIError(503, "浏览器连接没有返回有效会话")
-                    self.server.register_official_session(value["sessionId"], {"id": identity, "contestId": body.get("contestId"), "url": url, "code": code}, value)
+                    self.server.register_official_session(value["sessionId"], {"id": identity, "contestId": body.get("contestId"), "url": url, "code": code, "language":language}, value)
+                elif path == '/api/official/ack':
+                    acknowledge=getattr(self.server,'official_acknowledger',None)
+                    identity=body.get('sessionId')
+                    with self.server.official_session_lock:
+                        session=self.server.official_sessions.get(identity)
+                    if not session or session.get('_training') is not training:
+                        raise APIError(404,'没有找到本次提交')
+                    value=acknowledge(identity) if callable(acknowledge) else {'closed':False}
                 elif path == "/api/official/close":
                     if not callable(self.server.official_closer):
                         raise APIError(503, "浏览器提交服务尚未连接")
@@ -323,6 +341,9 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_json(200, self.server.software_updates.snapshot())
             elif path == "/api/workspace":
                 self.send_json(200, self.server.training.workspace())
+            elif path == '/api/admin':
+                from admin import controls
+                self.send_json(200, controls(self.server.training))
             elif path == '/api/preferences':
                 from preferences import read_preferences
                 self.send_json(200, read_preferences(self.server.training))
@@ -568,6 +589,11 @@ class LocalServer(ThreadingHTTPServer):
                 session = {**session, 'code': receipt.get('submittedCode', ''), 'external': not bool(receipt.get('submittedCode'))}
             training = session.get('_training', self.training)
             saved = training.record_official(session, receipt)
+            if saved and session.get('language')=='python3' and isinstance(saved,dict):
+                submission=saved.get('submission',saved)
+                if submission.get('id'):
+                    with training.lock,training._write() as connection:
+                        training._save_language(connection,'submission-language:'+submission['id'],'python3')
             if saved and receipt.get('submissionId'):
                 try:
                     training.clear_official_pending(url=session.get('url'), code=session.get('code'))
@@ -633,7 +659,14 @@ def create_server(port=0, data_file=None, data_root=None, dist_dir=None, history
                   training_file=None, assets=None, judge=None, clock=None, backup_dir=None, rng=None,
                   integration_state_dir=None, integration_auto_start=None, integrations=None, official_opener=None,
                   official_submitter=None, official_status=None, official_closer=None, lectures=None, translation=None, library_file=None, frontend_origins=None,
-                  require_account=True, account_endpoint=None):
+                  require_account=True, account_endpoint=None, admin_mode=False):
+    from paths import ADMIN_MODE
+    admin_mode = bool(admin_mode or ADMIN_MODE)
+    if admin_mode:
+        require_account = False
+        if training_file is None:
+            from paths import ROOT
+            training_file = (STATE if ADMIN_MODE else ROOT / 'admin-workspace' / 'state') / 'tb-personal.sqlite3'
     explicit_training = training_file is not None
     server = LocalServer(("127.0.0.1", port), Handler)
     server.daemon_threads = True
@@ -665,16 +698,17 @@ def create_server(port=0, data_file=None, data_root=None, dist_dir=None, history
         server.desktop_fullscreen = None
         server.state_dir = Path(training_file).parent
         from software_updates import SoftwareUpdates
-        server.software_updates = SoftwareUpdates(server.state_dir)
+        server.software_updates = SoftwareUpdates(server.state_dir, offline=True if admin_mode else None)
         from knowledge import KnowledgeAnalysisCache
         server.store.knowledge_analysis = KnowledgeAnalysisCache(server.state_dir / "tb-knowledge-analysis.json")
         server.translation = translation
         server.translation_lock = threading.RLock()
+        server.admin_mode = admin_mode
         server.accounts = None
         def account_credentials(owner):
             return server.accounts.credentials(owner) if server.accounts is not None else None
         def personal_service(path):
-            return TrainingService(server.store, path, assets=assets, judge=judge, clock=clock, backup_dir=backup_dir, rng=rng,
+            return TrainingService(server.store, path, assets=assets, judge=judge, clock=clock, backup_dir=backup_dir, rng=rng, admin_mode=admin_mode,
                                    account_provider=account_credentials if require_account else None)
         server.training = personal_service(training_file)
         if require_account:
@@ -704,6 +738,7 @@ def start_server(port=18765, **kwargs):
 
 def main():
     parser = argparse.ArgumentParser(description="TB 本机数据服务")
+    parser.add_argument("--admin", action="store_true", help="启动独立管理员工作区")
     parser.add_argument("--port", type=int, default=18765)
     parser.add_argument("--data-file", help="显式导入旧 Markdown 表，仅在 SQL 题库为空时读取")
     parser.add_argument("--state-dir", type=Path, default=STATE)

@@ -75,6 +75,7 @@ export default function AccountGate({ children }) {
   function changeMode(next) {
     setMode(next); setError(''); setMessage(''); setPassword(''); setConfirmation(''); setVisible(false);
   }
+  window.__tbAdmin = Boolean(session?.admin);
   window.__tbAccountUserId = session?.account?.userId || '';
   window.__tbAccount = session?.account || null;
   window.__tbOriginalWorkspace = Boolean(session?.usesOriginalWorkspace);

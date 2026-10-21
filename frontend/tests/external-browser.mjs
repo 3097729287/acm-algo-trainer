@@ -46,6 +46,11 @@ try{
   const repeated=await(await fetch(base+'/create?'+new URLSearchParams({url}))).json();assert.equal(repeated.sessionId,value.sessionId,'An in-flight request reuses the same intent');
   const saved=await until(async()=>({saved:await(await fetch(base+'/saved')).json(),status:await(await fetch(base+'/status')).json(),diagnostic:stderr,counts}),v=>v.saved.some(item=>item.sessionId===value.sessionId));
   assert.equal(saved.saved.find(item=>item.sessionId===value.sessionId).verdict,'AC');assert.equal(counts[key],1,'one native click per TB intent');
+  assert.equal(tab.isClosed(),false,'result window stays open before display acknowledgment');
+  const closed=await(await fetch(base+'/ack?'+new URLSearchParams({id:value.sessionId}))).json();assert.equal(closed.closed,true);
+  await until(()=>tab.isClosed(),Boolean);
+  const repeatedAck=await(await fetch(base+'/ack?'+new URLSearchParams({id:value.sessionId}))).json();assert.equal(repeatedAck.closed,true,'close is idempotent');
+
  }
  assert.equal(browser.serviceWorkers().length,0,'No browser extension is installed');
  console.log(JSON.stringify({ok:true,nativeFormPosts:counts,receiptSavedForAllFour:true,browserExtension:false,realAccountSubmission:false}));

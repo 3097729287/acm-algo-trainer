@@ -2,6 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { CompetitionPage, ActivityPage } from '../src/pages/ProgressPanels.jsx';
 import '../src/styles/workspace.css';
+import '../src/styles/unified.css';
 document.documentElement.dataset.theme = 'dark';
 const rows = [
   ['周赛 2', '牛客', '牛客周赛'], ['周赛 10', '牛客', '牛客周赛'],

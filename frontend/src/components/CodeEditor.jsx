@@ -4,6 +4,7 @@ import { EditorView, keymap } from '@codemirror/view';
 import { Annotation, Compartment, EditorState, Prec } from '@codemirror/state';
 import { indentLess, indentMore } from '@codemirror/commands';
 import { cpp } from '@codemirror/lang-cpp';
+import { python } from '@codemirror/lang-python';
 import { HighlightStyle, indentUnit, syntaxHighlighting } from '@codemirror/language';
 import { acceptCompletion, autocompletion, completionStatus, snippetCompletion } from '@codemirror/autocomplete';
 import { tags } from '@lezer/highlight';
@@ -53,7 +54,7 @@ const theme = EditorView.theme({
   '.cm-searchMatch-selected': { backgroundColor: 'color-mix(in srgb, var(--warning) 45%, transparent)' },
 });
 
-const CodeEditor = forwardRef(function CodeEditor({ value = '', onChange, onCursorChange, onCommand, onLeave, readOnly = false, disabled = false, docKey = '', ariaLabel = 'C++ 代码' }, ref) {
+const CodeEditor = forwardRef(function CodeEditor({ value = '', onChange, onCursorChange, onCommand, onLeave, readOnly = false, disabled = false, docKey = '', language = 'cpp17', ariaLabel = 'C++ 代码' }, ref) {
   const host = useRef(null), viewRef = useRef(null), readonlyCompartment = useRef(new Compartment());
   const callbacks = useRef({ onChange, onCursorChange, onCommand, onLeave });
   callbacks.current = { onChange, onCursorChange, onCommand, onLeave };
@@ -85,10 +86,10 @@ const CodeEditor = forwardRef(function CodeEditor({ value = '', onChange, onCurs
         event.preventDefault(); event.stopPropagation(); callbacks.current.onCommand?.(command); return true;
       } })),
       Prec.highest(keymap.of([{ key: 'Tab', run: editor => (completionStatus(editor.state) === 'active' && acceptCompletion(editor)) || indentMore(editor), shift: indentLess }])),
-      basicSetup, cpp(), indentUnit.of('    '), theme, syntaxHighlighting(colors),
-      autocompletion({ override: [completeCpp], activateOnTyping: true, maxRenderedOptions: 12 }),
+      basicSetup, language==='python3' ? python() : cpp(), indentUnit.of('    '), theme, syntaxHighlighting(colors),
+      autocompletion({ ...(language==='python3'?{}:{override:[completeCpp]}), activateOnTyping: true, maxRenderedOptions: 12 }),
       readonlyCompartment.current.of([EditorState.readOnly.of(readOnly || disabled), EditorView.editable.of(!disabled)]),
-      EditorView.contentAttributes.of(editor => ({ 'aria-label': ariaLabel, 'aria-multiline': 'true', 'aria-readonly': editor.state.readOnly ? 'true' : 'false', role: 'textbox', spellcheck: 'false', autocapitalize: 'off' })),
+      EditorView.contentAttributes.of(editor => ({ 'aria-label': language==='python3'?'Python 代码':ariaLabel, 'aria-multiline': 'true', 'aria-readonly': editor.state.readOnly ? 'true' : 'false', role: 'textbox', spellcheck: 'false', autocapitalize: 'off' })),
       EditorView.updateListener.of(update => {
         if (update.docChanged && !update.transactions.some(transaction => transaction.annotation(externalChange))) callbacks.current.onChange?.(update.state.doc.toString());
         if (update.docChanged || update.selectionSet) notifyCursor(update.view);
@@ -100,7 +101,7 @@ const CodeEditor = forwardRef(function CodeEditor({ value = '', onChange, onCurs
     // Changing document identity creates a fresh undo history; mirrored value
     // updates below preserve the current caret and history during ordinary edits.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [docKey]);
+  }, [docKey, language]);
   useEffect(() => {
     const view = viewRef.current;
     if (view && view.state.doc.toString() !== value) view.dispatch({ changes: { from: 0, to: view.state.doc.length, insert: value }, annotations: externalChange.of(true) });

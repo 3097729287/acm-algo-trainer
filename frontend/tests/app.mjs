@@ -157,8 +157,8 @@ try {
   await page.waitForFunction(() => document.querySelectorAll('.problem-table tr[data-id]').length === 1);
   await page.getByLabel('清空搜索').click();
   await page.waitForFunction(() => document.querySelectorAll('.problem-table tr[data-id]').length === 4);
-  await page.keyboard.press('Control+3');
-  assert.equal(await page.locator('.page-identity h1').textContent(), '我的训练', 'old shortcut opens the daily priority list');
+  await page.keyboard.press('Control+1');
+  assert.equal(await page.locator('.page-identity h1').textContent(), '我的训练');
   assert.equal(await page.locator('.problem-table tr[data-id]').count(), 4);
   await page.screenshot({ path: 'tests/screenshots/training-unified-light-2048.png', animations: 'disabled' });
   assert.equal(await page.locator('.sidebar-statistics').count(), 0);
@@ -166,22 +166,20 @@ try {
   assert.equal(await page.getByLabel('训练分组').count(), 0);
   assert.equal(await page.getByRole('tablist', { name: '题库比赛分类' }).count(), 0);
   assert.equal(await page.getByRole('button', { name: '筛选', exact: true }).count(), 0);
-  await page.getByLabel('最低难度', { exact: true }).waitFor();
-  assert.ok(await page.getByLabel('排序方式').evaluate(node => node.clientWidth >= 120));
-  const inlineFilters = await page.evaluate(() => {
-    const search = document.querySelector('.compact-search-toolbar .search-box').getBoundingClientRect();
-    const minimum = document.querySelector('[aria-label="最低难度"]').getBoundingClientRect();
-    const result = document.querySelector('[aria-label="提交结果筛选"]').getBoundingClientRect();
-    return { aligned: Math.abs(search.top - minimum.top) < 4 && Math.abs(search.top - result.top) < 4, searchWidth: search.width };
-  });
-  assert.ok(inlineFilters.aligned && inlineFilters.searchWidth < 1000, 'search and visible filters share one compact row');
+  await page.getByRole('button',{name:'筛选题目',exact:true}).click();
+  await page.getByLabel('最低难度',{exact:true}).waitFor();
+  assert.ok(await page.getByLabel('排序方式').evaluate(node=>node.clientWidth>=90));
+  await page.keyboard.press('Escape');
   await page.keyboard.press('Control+2');
-  await page.getByRole('tab', { name: 'AtCoder', exact: true }).click();
+  await page.getByRole('button',{name:'筛选题目',exact:true}).click();
+  await page.locator('.filter-popover').getByText('比赛分类',{exact:true}).click();
+  await page.locator('.filter-popover').getByRole('button',{name:'AC',exact:true}).click();
+  await page.keyboard.press('Escape');
   assert.equal(await page.getByLabel('平台筛选', { exact: true }).count(), 0);
   assert.equal(await page.locator('.problem-table tbody tr[data-id]').count(), 3);
   assert.equal(await page.locator('.page-identity h1').evaluate(node => getComputedStyle(node).userSelect), 'none');
   assert.equal(await page.locator('.sidebar .knowledge-search,.sidebar .knowledge-tree-tools,.sidebar-section-title').count(), 0);
-  assert.ok(await page.locator('.sidebar').getByRole('treeitem').count() > 0);
+  assert.equal(await page.locator('.sidebar').getByRole('treeitem').count(),0,'knowledge is in the filter menu');
   assert.equal(await page.locator('.sidebar nav').evaluate(node => node.scrollHeight > node.clientHeight + 1), false);
 
   await page.keyboard.press('Control+7');
@@ -264,9 +262,12 @@ try {
   await page.getByRole('tab', { name: '创建训练', exact: true }).click();
   await page.getByRole('button', { name: /^专项训练$/ }).click();
   assert.ok(await page.getByRole('button', { name: '生成试卷', exact: true }).isDisabled());
+  await page.getByRole('button',{name:'训练筛选',exact:true}).click();
   await page.getByLabel('专项训练知识点').selectOption('前缀和');
-  await page.getByLabel('组题平台').selectOption('AtCoder');
+  await page.locator('.filter-popover').getByText('比赛分类',{exact:true}).click();
+  await page.locator('.filter-popover').getByRole('button',{name:'AC',exact:true}).click();
   await page.getByLabel('只选本地完整评测题').check();
+  await page.keyboard.press('Escape');
   await page.getByRole('button', { name: '生成试卷', exact: true }).click();
   await page.getByLabel('训练试卷预览').waitFor();
   assert.equal(await page.getByLabel('训练试卷预览').getByText('不应泄露考点').count(), 0);
@@ -344,7 +345,7 @@ try {
       await page.screenshot({ path: `tests/screenshots/v5-settings-${tab}-${width}.png`, animations: 'disabled' });
     }
     await page.keyboard.press('Control+1');
-    await page.getByLabel('最低难度', { exact: true }).waitFor();
+    await page.getByRole('button',{name:'筛选题目',exact:true}).waitFor();
     await noOverflow('.list-page');
     await page.screenshot({ path: `tests/screenshots/v5-filters-${width}.png`, animations: 'disabled' });
     await page.keyboard.press('Control+5');
@@ -352,7 +353,7 @@ try {
     await noOverflow('.mock-create');
     const modes = await page.getByRole('group', { name: '组题方式', exact: true }).getByRole('button').evaluateAll(nodes => nodes.map(node => { const box = node.getBoundingClientRect(); return { x: box.x, y: box.y, width: box.width, height: box.height }; }));
     assert.equal(modes.length, 4);
-    assert.equal(new Set(modes.map(box => box.y)).size, width === 1050 ? 2 : 1, 'four modes use balanced four-column or two-column rows');
+    assert.equal(new Set(modes.map(box => box.y)).size, 1, 'four training modes share one row');
     assert.ok(Math.max(...modes.map(box => box.width)) - Math.min(...modes.map(box => box.width)) < 1);
     await page.screenshot({ path: `tests/screenshots/v5-mock-light-${width}.png`, animations: 'disabled' });
     await page.keyboard.press('Control+7');
@@ -380,11 +381,13 @@ try {
   await page.keyboard.press('Control+5');
   await page.getByRole('tab', { name: '创建训练', exact: true }).click();
   await page.getByRole('button', { name: /^重现赛$/ }).click();
+  await page.getByRole('button',{name:'训练筛选',exact:true}).click();
   await page.getByLabel('重现赛比赛', {exact:true}).selectOption('测试比赛');
   assert.equal(await page.getByLabel('模拟赛时长').inputValue(), '120');
   await page.getByLabel('搜索重现赛比赛').fill('不存在的比赛');
   assert.equal(await page.getByLabel('重现赛比赛', {exact:true}).locator('option').count(),2,'keep selected contest while filtering');
   await page.getByLabel('搜索重现赛比赛').fill('测试');
+  await page.keyboard.press('Escape');
   await page.getByRole('button', {name:'预览重现赛',exact:true}).click();
   await page.getByLabel('训练试卷预览').waitFor();
   assert.match(await page.locator('.paper-preview-title').textContent(),/重现赛.*测试比赛/);

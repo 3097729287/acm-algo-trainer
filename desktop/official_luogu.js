@@ -89,7 +89,7 @@ function installLuoguReceipts(ctx, report) {
     if (config.route?.['api.problem.submit'] !== '/fe/api/problem/submit/{pid}') throw new Error('洛谷提交接口已变化，请更新 TB');
     const accepted = new Set((targetProblem.acceptLanguages || []).map(String));
     const choices = Object.values(config.CodeLanguage || {}).filter(lang=>!lang.disabled&&accepted.has(String(lang.id)))
-      .map(lang=>({lang,candidate:compilerCandidate(lang.name,ctx.code,'洛谷')})).filter(item=>item.candidate)
+      .map(lang=>({lang,candidate:compilerCandidate(lang.name,ctx.code,'洛谷',ctx.language || 'cpp17')})).filter(item=>item.candidate)
       .sort((a,b)=>a.candidate.score-b.candidate.score);
     const choice = choices[0];
     if (!choice) throw new Error('这道洛谷题没有支持当前代码的 C++ 编译器');

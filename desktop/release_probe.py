@@ -96,6 +96,9 @@ def run(action, output):
             result = runner.execute('release-check','#include <iostream>\nint main(){std::cout<<42<<"\\n";}')
             report.update(compiler=str(runner.compiler), compilerVerdict=result['verdict'])
             assert result['verdict']=='SAMPLE_PASS', result
+            python_result=runner.execute('release-python-check','print(42)',language='python3')
+            assert python_result['verdict']=='SAMPLE_PASS', python_result
+            report.update(pythonRuntime=str(runner.python),pythonVerdict=python_result['verdict'])
             # A user's PC need not have MSYS/GCC on PATH. Exercise all four
             # platforms using bundled public statements/reference code only.
             old_path=os.environ.get('PATH','')

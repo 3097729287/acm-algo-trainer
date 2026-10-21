@@ -25,6 +25,8 @@ class FixtureBrowser(BrowserProcess):
         return next(item for item in self.request('/json/list') if item['id'] == identity)
 
 
+FixtureBrowser.new_submission_page = FixtureBrowser.new_page
+
 bridge = ExternalBrowserBridge(Path(os.environ['TB_EXTERNAL_FIXTURE_PROFILE']),
     browser_process=FixtureBrowser(Path(os.environ['TB_EXTERNAL_FIXTURE_PROFILE'])),
     on_receipt=lambda sid, value: saved.append({key:value.get(key) for key in ('sessionId','platform','verdict','submissionId')}) or True)
@@ -40,6 +42,8 @@ class Handler(BaseHTTPRequestHandler):
         elif target.path == '/create':
             query = parse_qs(target.query)
             value = bridge.submit(query['url'][0], 'int main(){}', 'isolated fixture')
+        elif target.path == '/ack':
+            value=bridge.acknowledge(parse_qs(target.query)['id'][0])
         elif target.path == '/saved':
             value = saved
         elif target.path == '/status':

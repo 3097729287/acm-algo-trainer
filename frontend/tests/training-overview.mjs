@@ -97,7 +97,7 @@ try {
   await page.keyboard.press('Escape');
   await openSettings(page);await page.locator('.settings-home-grid').waitFor();
   assert.equal(await page.getByRole('tab',{name:'翻译 API',exact:true}).count(),1);
-  assert.equal(await page.getByRole('tab',{name:'账号与身份',exact:true}).count(),0);
+  assert.equal(await page.getByRole('tab',{name:'账号与身份',exact:true}).count(),1);
   await openSettings(page, '训练与筛选');
   assert.equal(await page.locator('.settings-commands').count(),0);
   await page.getByRole('button',{name:'切换主题',exact:true}).click();
