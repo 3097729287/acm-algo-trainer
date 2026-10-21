@@ -6,7 +6,7 @@ TB combines a problem library, illustrated editorials, C++ editing, local sample
 **Current stable release: v1.1.5.** [Installer, portable archive, v1.1.4 delta and checksums](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.1.5). The fixed build contains 960 editorial pairs.
 <!-- release-status:end -->
 
-**v1.2.0 is in release preparation and has not been publicly released.** It adds separate settings pages, shared controls, hierarchical browsing, restored list positions, independent skill ranks, avatar XP rings, hearts and messages. Public downloads remain on v1.1.5; packaging, installation checks and the additive service deployment are tracked separately. [v1.2.0 notes](docs/releases/1.2.0.md) · [Implementation and validation](docs/workbench-update-20261020.md).
+**v1.2.0 has been built, installed locally and deployed to the server; GitHub release assets are not yet public.** It adds separate settings pages, shared controls, hierarchical browsing, restored list positions, independent skill ranks, avatar XP rings, hearts and messages. Public downloads remain on v1.1.5. The server now runs 1.2.0 with existing account and learning data preserved. [Delivery and validation](docs/releases/1.2.0.md) · [Implementation](docs/workbench-update-20261020.md).
 
 [Usage](docs/usage.md) · [1.1.5 release notes](docs/releases/1.1.5.md) · [Build instructions](docs/development.md) · [中文](README.md)
 
@@ -18,7 +18,7 @@ Windows 10/11 x64. The [installer](https://github.com/3097729287/acm-algo-traine
 
 Save drafts, close TB and update the existing directory. Personal databases and imported content remain intact. Upgrade each computer to the same current release and log in in the dedicated submission browser; no extension is required. Automatic updates wait for saved drafts and active submissions/mocks, make online SQLite backups, verify SHA-256 and replace program files. Available deltas, `BUILD-INFO.json`, `RELEASE-MANIFEST.json` and `SHA256SUMS.txt` are listed on the release page.
 
-## Version 1.2.0 — release preparation
+## Version 1.2.0 — local and server delivery complete
 
 - **Shared, compact controls:** separate appearance, avatar, interaction, navigation, updates, training, data/help and advanced pages. Consistent dropdown popovers, bounded numeric inputs and hover/focus tips; aligned headers, readable dates, narrow-window layouts and per-page/practice opacity.
 - **Browse and return:** explore platform, contest and problem folders; return from practice to the previous order and scroll position. Hover follows the pointer during scrolling. Saved filters can be removed; unrated contest tasks show their letters.
@@ -26,7 +26,7 @@ Save drafts, close TB and update the existing directory. Personal databases and 
 - **Hearts and messages:** one irrevocable heart per sender/recipient/Beijing day, with a short particle/count animation. The top bar shows hearts received; messages stay in the recipient's inbox, while public activity shows heart relationships only. Older services retain account and learning access.
 - **Mock selection and content:** difficulty bands, recent selections and persisted papers reduce repeats. The public seed contains 5819 problems, 2422 statements, 1302 editorial pairs and 376 lessons. Acknowledgements add 她不爱吃酸.
 
-[Details, migration and validation status](docs/releases/1.2.0.md). New editorial authoring is strictly below difficulty 2200; all existing editorials, illustrations and records remain, and unknown difficulty requires verification. [Editorial policy](docs/editorial-policy.md).
+[Details, migration and validation status](docs/releases/1.2.0.md). Build source: [5479866](https://github.com/3097729287/acm-algo-trainer/commit/54798667ac8dee3d4006ce43cd56f8e573da26bf). Native WebView, fresh installation, upgrade from 1.1.5, the update helper and the previous delta updater passed local checks. New editorial authoring is strictly below difficulty 2200; all existing editorials, illustrations and records remain, and unknown difficulty requires verification. [Editorial policy](docs/editorial-policy.md).
 
 ## Version 1.1.5
 
@@ -87,15 +87,15 @@ The library contains **5819 problems: 5646 visible and 173 hidden**, plus **2422
 
 Automatic discovery follows the selected families: Nowcoder Weekly, Beginner, Practice and Challenge; Luogu Introductory, Basic and Monthly Div.2; CF Div.2/3/4; AtCoder ABC/ARC. Existing XCPC and Lanqiao collections remain. Unsupported automatic entries and those without usable statement/samples or an editorial are hidden without deleting personal history. Existing official ratings and tags also refresh; unknown ratings remain unknown.
 
-The inventory above is the pending v1.2.0 public seed, checked by `scripts/check.py`. The published v1.1.5 build remains fixed at 5795 problems, 2215 statements, 960 editorial pairs and 376 lessons, as recorded by its `BUILD-INFO.json`. New seed content does not replace older release assets.
+The inventory above is the seed included in the actual v1.2.0 build, checked by `scripts/check.py` and installation validation. The published v1.1.5 build remains fixed at 5795 problems, 2215 statements, 960 editorial pairs and 376 lessons, as recorded by its `BUILD-INFO.json`. The new build does not replace older release assets.
 
-October 19, 2026, unpackaged content update: 29 newly written default/detailed editorial pairs for the recent contests and 11 automatic entries linked to existing pairs. New authoring remains strictly below 2200; all existing content is retained, and unrated tasks require verification. [Scope and checks](docs/recent-contest-editorials-20261019.md).
+The October 19, 2026 content update is included in the v1.2.0 build: 29 newly written default/detailed editorial pairs for recent contests and 11 automatic entries linked to existing pairs. New authoring remains strictly below 2200; all existing content is retained, and unrated tasks require verification. [Scope and checks](docs/recent-contest-editorials-20261019.md).
 
 ## Data, services and development
 
 Public library JSON under `data/library/` is tracked in git and rebuilt into `data/library.sqlite3`. Personal databases and credentials are excluded from distributions. Account snapshots include full personal code and referenced problem metadata/cached statements, but exclude site cookies, translation keys, DPAPI ciphertext and machine settings. Configure site login and translation keys separately on each computer.
 
-Existing migrations `005_account_state.sql`, `006_public_progress.sql` and `007_unique_nicknames.sql` remain in place. v1.2.0 adds interaction tables through `008_social.sql` on the same MySQL database, after backup, without rebuilding volumes or replacing account snapshots. Missing interaction tables or columns disable social features while preserving login and learning access. The local backend remains Python and the shared service remains Node.js. See the [release status](docs/releases/1.2.0.md) and [service deployment guide](server/leaderboard/README.md).
+The shared server now runs 1.2.0; HTTPS health checks confirm `socialProtocol: 1`. Migration `008_social.sql` added only two interaction tables to the original MySQL database. Existing table fingerprints, account snapshots, configuration and volumes remain intact; the SQL backup passed gzip and SHA-256 verification. Missing interaction tables or columns still disable social features while preserving login and learning access. The local backend remains Python and the shared service remains Node.js. See the [delivery record](docs/releases/1.2.0.md) and [service deployment guide](server/leaderboard/README.md).
 
 Python 3.13, Node.js 24 and a C++17 compiler are required for development. Run `python scripts/check.py`, the frontend build and relevant Playwright tests. Packaged releases also require isolated desktop, judging, fresh-install, upgrade and retention checks. Source, documentation, release tag and build metadata must agree.
 
