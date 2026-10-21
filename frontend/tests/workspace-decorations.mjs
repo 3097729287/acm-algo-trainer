@@ -79,7 +79,7 @@ try{
  await page.getByLabel('北京时间',{exact:true}).waitFor();
  await page.getByLabel('显示比赛平台',{exact:true}).uncheck();
  await page.locator('.sidebar').getByRole('button',{name:'比赛',exact:true}).click();
- assert.equal(await page.getByRole('button',{name:'比赛文件夹浏览',exact:true}).count(),1);
+ await page.getByRole('button',{name:'比赛文件夹浏览',exact:true}).waitFor();
  await page.locator('.competition-card').first().waitFor();
  assert.equal(await page.locator('.competition-platform:visible').count(),0);
  assert.equal(await page.locator('.competition-card-title small').count(),0);
