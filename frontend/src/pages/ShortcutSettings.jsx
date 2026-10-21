@@ -1,0 +1,8 @@
+import {useState} from 'react';
+import {Keyboard,RotateCcw} from 'lucide-react';
+import {SHORTCUTS,eventShortcut,shortcutValue} from '@/lib/shortcuts.js';
+export default function ShortcutSettings({prefs,setPrefs}) {
+ const [error,setError]=useState(''),[editing,setEditing]=useState('');
+ function record(event,id){if(event.key==='Tab')return;event.preventDefault();event.stopPropagation();if(event.key==='Escape'){setEditing('');event.currentTarget.blur();return;}const value=['Backspace','Delete'].includes(event.key)?'':eventShortcut(event);if(!value&&!['Backspace','Delete'].includes(event.key))return;const duplicate=value&&SHORTCUTS.find(item=>item[0]!==id&&shortcutValue(item[0],prefs.shortcuts).toLowerCase()===value.toLowerCase());if(duplicate){setError(`${value} 已用于“${duplicate[1]}”`);return;}setError('');setPrefs(previous=>({...previous,shortcuts:{...previous.shortcuts,[id]:value}}));setEditing('');event.currentTarget.blur();}
+ return <section className="shortcut-settings" aria-label="快捷键设置"><header className="progress-section-heading"><h2><Keyboard size={20}/>快捷键</h2><button type="button" className="icon-button" aria-label="恢复默认快捷键" onClick={()=>{setPrefs(previous=>({...previous,shortcuts:{}}));setError('');}}><RotateCcw size={17}/></button></header>{error&&<p className="connection-error" role="alert">{error}</p>}<div className="shortcut-list">{SHORTCUTS.map(([id,label,,group])=><label key={id}><span><strong>{label}</strong><small>{group}</small></span><input data-shortcut-input aria-label={`快捷键 ${label}`} value={editing===id?'按下新快捷键':shortcutValue(id,prefs.shortcuts)||'未设置'} readOnly onFocus={()=>setEditing(id)} onBlur={()=>setEditing('')} onKeyDown={event=>record(event,id)}/></label>)}</div></section>;
+}

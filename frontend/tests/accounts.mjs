@@ -86,7 +86,7 @@ try {
     await page.evaluate(() => window.dispatchEvent(new Event('focus')));
     await captured;
     await page.getByRole('button', { name: '登录', exact: true }).click();
-    await page.locator('.nav-item').first().waitFor();
+    await page.locator('.nav-item').first().waitFor().catch(async issue=>{console.error('Account fixture UI:',await page.locator('body').innerText(),errors);throw issue;});
   } finally { releaseStale(); }
   await completed;
   await page.waitForTimeout(200);
@@ -111,7 +111,7 @@ try {
   await page.waitForFunction(() => document.querySelector('.cm-content')?.textContent.includes('old private browser draft'));
   assert((await editor.innerText()).includes('old private browser draft'));
   await page.getByRole('button', { name: '返回列表', exact: true }).click();
-  await page.getByRole('button', { name: '成长与能力', exact: true }).click();
+  await page.getByRole('button', { name: '设置', exact: true }).click();await page.locator('.page-identity h1').click();await page.getByRole('tab',{name:'账号与身份',exact:true}).click();
   await page.getByText('登录号：ui_account_a', { exact: true }).waitFor();
   await page.getByText('管理账号', { exact: true }).click();
   await page.getByLabel('用户昵称', { exact: true }).fill('新昵称');

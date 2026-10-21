@@ -7,7 +7,7 @@ import re
 from training import ServiceError, iso
 
 ALLOWED = frozenset(('panelStyle', 'backdrop', 'panelOpacity', 'pageOpacities', 'widgets', 'theme', 'accent', 'motion', 'compact', 'collapsed', 'favorites', 'views',
-                     'readerWidth', 'fontSize', 'navOrder', 'navLabels', 'navGroups', 'seenAchievements', 'showPlatforms', 'onboardingCompleted', 'avatarData', 'navSchema', 'learningPaths'))
+                     'readerWidth', 'fontSize', 'navOrder', 'navLabels', 'navGroups', 'seenAchievements', 'showPlatforms', 'onboardingCompleted', 'avatarData', 'navSchema', 'learningPaths', 'shortcuts'))
 AVATAR_DATA_MAX_BYTES = 48 * 1024
 
 
@@ -70,6 +70,15 @@ def save_preferences(training, body):
     value = dict(body['preferences'])
     if set(value) - ALLOWED:
         raise ServiceError(400, '偏好设置包含不支持的字段')
+    if 'shortcuts' in value:
+        shortcuts = value['shortcuts']
+        allowed = {'commands','sidebar','settings','search','refresh','regions','help','practice','solution','favorite','listSearch',
+                   'run','submit','official','save','pane-0','pane-1','pane-2',
+                   'page-mine','page-library','page-paths','page-competitions','page-mock','page-records','page-growth','page-activity','page-lectures'}
+        if (not isinstance(shortcuts, dict) or set(shortcuts) - allowed or any(
+                not isinstance(binding, str) or len(binding) > 64 or any(ord(char) < 32 for char in binding)
+                for binding in shortcuts.values())):
+            raise ServiceError(400, '快捷键设置格式无效')
     if 'learningPaths' in value and (not isinstance(value['learningPaths'], dict) or len(value['learningPaths']) > 64):
         raise ServiceError(400, '题单进度格式无效')
     if 'navSchema' in value and (type(value['navSchema']) is not int or not 1 <= value['navSchema'] <= 2):

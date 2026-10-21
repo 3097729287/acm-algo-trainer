@@ -71,7 +71,7 @@ await page.route('**/api/**', async route => {
   else if (path === '/api/browser-preparation') value = {available:false};
   else if (path === '/api/data') value = { rows, categories, token: 'fixture', today: date, revision: 'fixture' };
   else if (path === '/api/goals') value = { goals: [goal], contestPlan: { goalCount: 1, total: 8, contests: goal.contestPlan } };
-  else if (path === '/api/contests/events') value = { events: [{ name: '测试比赛', count: 6, duration: 120, rules: 'acm' }] };
+  else if (path === '/api/contests/events') value = { events: [{ name: '测试比赛', count: 6, duration: 120, rules: 'acm', difficulty:1200 }] };
   else if (path === '/api/desktop/fullscreen') value = { available: false, fullscreen: false };
   else if (path === '/api/workspace') value = workspace();
   else if (path === '/api/inbox') value = { pending: 0, errors: [] };
@@ -155,7 +155,7 @@ try {
   assert.equal(await page.locator('.problem-table tr[data-id="测试比赛::F"]').count(), 0, 'yesterday AC stays out of the daily list');
   await page.getByLabel('搜索题目', { exact: true }).fill(rows[0].title);
   await page.waitForFunction(() => document.querySelectorAll('.problem-table tr[data-id]').length === 1);
-  await page.getByLabel('清空搜索').click();
+  await page.getByLabel('搜索题目',{exact:true}).fill('');
   await page.waitForFunction(() => document.querySelectorAll('.problem-table tr[data-id]').length === 4);
   await page.keyboard.press('Control+1');
   assert.equal(await page.locator('.page-identity h1').textContent(), '我的训练');
@@ -183,20 +183,19 @@ try {
   assert.equal(await page.locator('.sidebar nav').evaluate(node => node.scrollHeight > node.clientHeight + 1), false);
 
   await page.keyboard.press('Control+7');
-  await page.locator('.progress-recommendation-title .katex').waitFor();
+  await page.getByLabel('账号成长统计',{exact:true}).waitFor();
   assert.equal(await page.locator('.progress-recommendations').getByText('巩固前缀和隐藏知识点', { exact: true }).count(), 0);
   assert.equal(await page.locator('.task-claim-dot').count(),0,'growth navigation no longer duplicates daily mission alerts');
   assert.equal(await page.getByRole('button',{name:'每日任务',exact:true}).locator('.notification-dot').count(),1);
-  assert.equal(await page.locator('.knowledge-details').getAttribute('open'),null);
+  assert.equal(await page.locator('.knowledge-details').count(),0);
   assert.equal(await page.locator('#growth-goals .goal-form').count(),0);
   assert.equal(await page.locator('.goal-contest-grid > div').count(),0);
   assert.ok(await page.locator('.goal-management-bar').evaluate(node=>node.getBoundingClientRect().height<60),'Goal management stays in one line');
   assert.equal(await page.locator('.next-milestone').count(),0);
   assert.equal(await page.locator('.goal-week-plan').count(),0);
-  await page.locator('.knowledge-details > summary').click();
   await page.getByLabel('搜索知识点').fill('不存在的知识点');
-  await page.getByText('这一组暂时没有匹配的知识点。').waitFor();
-  await page.locator('.knowledge-details > summary').click();
+  assert.equal(await page.locator('.radar-detail-row').count(),0);
+  await page.getByLabel('搜索知识点').fill('');
   await page.locator('#growth-goals').getByRole('button',{name:'新建目标',exact:true}).click();
   await page.getByLabel('目标类型').waitFor();
   await page.getByRole('dialog',{name:'新建目标',exact:true}).getByRole('button',{name:'取消',exact:true}).click();
@@ -248,11 +247,12 @@ try {
   assert.deepEqual(await page.locator('.submission-day').evaluateAll(nodes => nodes.map(node => node.dataset.day)), ['2026-10-13', '2026-10-12']);
   assert.equal(await page.locator('.submission-day[data-day="2026-10-12"] .submission-log-row small').textContent(), '23:59 · 测试比赛');
   await page.screenshot({ path: 'tests/screenshots/submissions-by-day-light-2048.png', animations: 'disabled' });
+  await page.getByRole('button',{name:'筛选提交',exact:true}).click();
   await page.getByLabel('历史提交结果').selectOption('CE');
   assert.equal(await page.locator('.submission-log-row').count(), 1);
   assert.equal(await page.locator('.submission-day').count(), 1);
   assert.equal(await page.locator('.submission-day-heading > span').count(), 0);
-  await page.getByLabel('历史提交结果').selectOption('');
+  await page.getByLabel('历史提交结果').selectOption('');await page.keyboard.press('Escape');
   await page.keyboard.press('Control+5');
   assert.equal(await page.locator('.mock-followup').count(), 0);
   await page.getByRole('tab', { name: /模拟赛记录/ }).click();
@@ -261,7 +261,7 @@ try {
   assert.ok(await page.locator('.record-slot .katex').count() > 0);
   await page.getByRole('tab', { name: '创建训练', exact: true }).click();
   await page.getByRole('button', { name: /^专项训练$/ }).click();
-  assert.ok(await page.getByRole('button', { name: '生成试卷', exact: true }).isDisabled());
+  await page.getByRole('button',{name:'生成试卷',exact:true}).click();await page.getByRole('alert').getByText('请选择知识点').waitFor();
   await page.getByRole('button',{name:'训练筛选',exact:true}).click();
   await page.getByLabel('专项训练知识点').selectOption('前缀和');
   await page.locator('.filter-popover').getByText('比赛分类',{exact:true}).click();
@@ -276,10 +276,10 @@ try {
   assert.equal(writes.findLast(item => item.path === '/api/contests/preview').body.reviewedOnly, true);
   await page.screenshot({ path: 'tests/screenshots/v5-mock-light-2048.png', animations: 'disabled' });
   await page.getByRole('button', { name: /^随机单题$/ }).click();
-  await page.getByRole('button', { name: '抽取单题', exact: true }).click();
-  await page.getByRole('button', { name: /开始 120 分钟训练/ }).waitFor();
+  await page.getByRole('button', { name: '生成试卷', exact: true }).click();
+  await page.getByRole('button', { name: '开始训练' }).waitFor();
   assert.equal(writes.findLast(item => item.path === '/api/contests/preview').body.count, 1);
-  await page.getByRole('button', { name: /开始 120 分钟训练/ }).click();
+  await page.getByRole('button', { name: '开始训练' }).click();
   await page.getByRole('button', { name: '结束比赛', exact: true }).click();
   await page.getByRole('dialog').getByRole('button', { name: '结束并复盘', exact: true }).click();
   await page.locator('.record-detail').waitFor();
@@ -304,7 +304,7 @@ try {
   await openSettings(page, '交互与导航');
   assert.equal(await page.getByLabel('页面组合 mine', { exact: true }).inputValue(), '', 'legacy training/today group is removed from preferences');
   assert.ok(await page.getByRole('button', { name: /^上移 / }).count() > 0, 'navigation naming and ordering share one category');
-  await openSettings(page, '训练与筛选');
+  await openSettings(page, '快捷键');
   assert.equal(await page.locator('.settings-command-grid button').count(), 0, 'shortcut launcher was removed');
   await page.keyboard.press('Control+k');
   await page.getByRole('dialog', { name: '快捷操作', exact: true }).waitFor();
@@ -339,7 +339,7 @@ try {
   for (const width of [2048, 1050]) {
     await page.setViewportSize({ width, height: width === 1050 ? 760 : 1152 });
     await page.keyboard.press('Control+0');
-    for (const tab of ['外观', '交互与导航', '训练与筛选', '更新', '翻译 API']) {
+    for (const tab of ['外观', '交互与导航', '快捷键', '更新', '翻译 API']) {
       await openSettings(page, tab);
       await noOverflow('.settings-page');
       await page.screenshot({ path: `tests/screenshots/v5-settings-${tab}-${width}.png`, animations: 'disabled' });
@@ -388,15 +388,15 @@ try {
   assert.equal(await page.getByLabel('重现赛比赛', {exact:true}).locator('option').count(),2,'keep selected contest while filtering');
   await page.getByLabel('搜索重现赛比赛').fill('测试');
   await page.keyboard.press('Escape');
-  await page.getByRole('button', {name:'预览重现赛',exact:true}).click();
+  await page.getByRole('button', {name:'生成试卷',exact:true}).click();
   await page.getByLabel('训练试卷预览').waitFor();
   assert.match(await page.locator('.paper-preview-title').textContent(),/重现赛.*测试比赛/);
   await page.locator('.paper-slot > strong').first().evaluate(node=>node.textContent='P16232');
-  assert.ok(await page.locator('.paper-slot').first().evaluate(node=>node.querySelector('strong').getBoundingClientRect().right < node.querySelector('div').getBoundingClientRect().left),'long native task ID must not overlap text');
+  assert.ok(await page.locator('.paper-slot').first().evaluate(node=>node.querySelector('strong').getBoundingClientRect().right < node.querySelector('span').getBoundingClientRect().left),'long native task ID must not overlap text');
   await page.screenshot({path:'tests/screenshots/replay-format-fixed.png',animations:'disabled'});
   assert.match(await page.locator('.topbar').getByRole('meter',{name:'本级经验进度',exact:true}).getAttribute('aria-valuetext'),/经验值:30\/500/);
   assert.ok(!(await page.getByLabel('训练概览',{exact:true}).textContent()).includes('XP'),'topbar experience is represented by the avatar ring');
-  assert.match(await page.locator('.topbar-daily-ac').getAttribute('aria-label'),/今日 AC 3 题/);
+  assert.match(await page.locator('.topbar-daily-ac').getAttribute('aria-label'),/今日 3/);
   assert.equal(await page.locator('.overview-statistics').count(),0);
   assert.equal(await page.locator('.topbar').getByRole('button',{name:'模拟赛',exact:true}).count(),0);
   await page.getByRole('tab', {name:/模拟赛记录/}).click();
@@ -406,12 +406,12 @@ try {
   assert.ok(writes.some(w=>w.path==='/api/contests/delete'&&w.body.id==='mock-old'));
   await page.getByRole('button',{name:'删除全部记录',exact:true}).click();
   await page.getByRole('alertdialog').getByRole('button',{name:'确认删除',exact:true}).click();
-  await page.getByText('还没有模拟赛记录',{exact:true}).waitFor();
+  await page.getByRole('button',{name:'创建模拟赛',exact:true}).waitFor();
   assert.ok(writes.some(w=>w.path==='/api/contests/delete'&&w.body.all));
   await page.keyboard.press('Control+1');
   for (const width of [1280,1024]) {
     await page.setViewportSize({width,height:760});
-    await page.getByLabel('清空我的训练',{exact:true}).waitFor({state:'visible'});
+    await page.getByRole('button',{name:'筛选题目',exact:true}).click();await page.getByLabel('清空我的训练',{exact:true}).waitFor({state:'visible'});await page.keyboard.press('Escape');
     const actions=page.locator('.problem-table .remove-training').first();
     await actions.waitFor({state:'visible'});
     assert.ok(await actions.evaluate(node=>{const box=node.getBoundingClientRect(),list=node.closest('.table-scroll').getBoundingClientRect();return box.right<=list.right&&box.left>=list.left;}),'Remove training remains inside the visible list');
@@ -443,7 +443,7 @@ try {
   await page.reload();
   await page.locator('.page-identity h1').waitFor();
   await page.keyboard.press('Control+7');
-  await page.locator('.topbar .profile-rank-emblem[aria-label="王者"]').waitFor();
+  await page.locator('.topbar .avatar-rank-frame.tier-9').waitFor();
   await page.getByLabel('训练概览',{exact:true}).hover();
   await page.getByRole('tooltip').getByText(/王者 · 能力分 3,100/).waitFor();
   assert.equal(await page.locator('.topbar .profile-badge.tier-9').count(),1,'rank uses its own tier style');

@@ -28,6 +28,18 @@ class AccountPreferencesTests(unittest.TestCase):
         self.service = TrainingService(self.library, self.db, self.assets, self.judge, self.clock, self.root/'backups')
         self.assertEqual(read_preferences(self.service), result)
 
+    def test_editable_shortcuts_survive_restart_and_reject_invalid_maps(self):
+        value = {'shortcuts': {'search': 'Ctrl+G', 'solution': '', 'save': 'Ctrl+Shift+S'}, 'panelOpacity': 100}
+        result = save_preferences(self.service, {'preferences': value})
+        self.service.close()
+        from training import TrainingService
+        self.service = TrainingService(self.library, self.db, self.assets, self.judge, self.clock, self.root/'backups')
+        self.assertEqual(read_preferences(self.service), result)
+        for invalid in ([], {'unknown': 'X'}, {'save': None}, {'search': 'X'*65}, {'search': 'Ctrl+\n'}):
+            with self.subTest(invalid=invalid), self.assertRaises(ServiceError):
+                save_preferences(self.service, {'preferences': {'shortcuts': invalid}})
+        self.assertEqual(read_preferences(self.service), result)
+
     def test_unchanged_preferences_do_not_back_up_or_write_on_polls(self):
         value = {'favorites': ['fixture::A'], 'navLabels': {}}
         first = save_preferences(self.service, {'preferences': value})

@@ -47,6 +47,7 @@ jobs:
           python desktop/tests/official_native.py
           python desktop/tests/silent_native.py
           python desktop/tests/managed_login.py
+          python desktop/tests/webview_resources_native.py --rounds 0
       - name: Browser sessions and intercepted native submissions
         working-directory: frontend
         env:
@@ -101,7 +102,8 @@ jobs:
       - run: npm run test:issues
       - run: node tests/ui-social.mjs
       - run: node tests/ui-redesign.mjs
-      - run: node tests/ui-v130.mjs
+      - run: node tests/ui-v131.mjs
+      - run: node tests/revision-flows.mjs
       - run: node tests/account-sync-status.mjs
       - run: node tests/mock-layout.mjs
       - run: node tests/training-overview.mjs

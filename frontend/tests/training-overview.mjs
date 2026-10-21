@@ -74,7 +74,7 @@ try {
   assert.match(await groupedNav.getAttribute('aria-describedby'),/training-pending/);
   assert.ok(await groupedNav.locator('.training-pending-dot').isVisible());
   assert.ok(await page.getByRole('tab',{name:/我的训练/}).locator('.training-tab-dot').isVisible());
-  await page.getByRole('button',{name:'收起侧栏',exact:true}).click();
+  await page.keyboard.press('Control+b');
   assert.ok(await groupedNav.locator('.training-pending-dot').isVisible(),'pending hint survives an icon-only grouped navigation');
   assert.ok(await groupedNav.evaluate(node => {
     const dot=node.querySelector('.training-pending-dot').getBoundingClientRect(),nav=node.getBoundingClientRect();
@@ -98,7 +98,7 @@ try {
   await openSettings(page);await page.locator('.settings-home-grid').waitFor();
   assert.equal(await page.getByRole('tab',{name:'翻译 API',exact:true}).count(),1);
   assert.equal(await page.getByRole('tab',{name:'账号与身份',exact:true}).count(),1);
-  await openSettings(page, '训练与筛选');
+  await openSettings(page, '快捷键');
   assert.equal(await page.locator('.settings-commands').count(),0);
   await page.getByRole('button',{name:'切换主题',exact:true}).click();
   await overview.click();

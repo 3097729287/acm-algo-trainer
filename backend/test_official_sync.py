@@ -100,6 +100,15 @@ class ReceiptSyncTests(unittest.TestCase):
         self.assertEqual(result['summary']['totalSolved'],2)
         self.assertEqual(result['summary']['officialSolved'],1)
 
+    def test_header_totals_include_public_ac_outside_library_and_use_beijing_day(self):
+        self.clock.value = dt.datetime(2026, 10, 12, 16, 1, tzinfo=dt.timezone.utc)
+        accounts = [{'solved': [
+            {'url': 'https://codeforces.com/contest/999/problem/Z', 'acceptedAt': '2026-10-12T15:59:00Z'},
+            {'url': 'https://codeforces.com/contest/998/problem/Z', 'acceptedAt': '2026-10-12T16:00:00Z'},
+            {'url': 'https://codeforces.com/contest/997/problem/Z'}]}]
+        result = self.service.insights({'accounts': accounts})['summary']
+        self.assertEqual((result['beforeTodaySolved'], result['todaySolved'], result['totalSolved']), (2, 1, 3))
+
     def test_contest_roster_is_not_trimmed_by_training_difficulty(self):
         from integrations import IntegrationService
         settings={'minDifficulty':800,'maxDifficulty':1999}

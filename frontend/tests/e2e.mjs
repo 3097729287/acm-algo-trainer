@@ -77,6 +77,8 @@ try {
     await page.screenshot({ path: `tests/screenshots/workbench-real-${width}.png`, animations: 'disabled' });
   }
   await page.setViewportSize({ width: 1480, height: 920 });
+  await page.keyboard.press('Escape');
+  await page.keyboard.press('Escape');
   await page.locator('.nav-item').filter({hasText: '成长与能力'}).click();
   assert.equal(await page.locator('.daily-task').count(), 0);
   await page.getByRole('button', {name: '每日任务', exact: true}).click();
@@ -85,17 +87,13 @@ try {
   assert.equal(await page.locator('.daily-task').count(), 6);
   await page.keyboard.press('Escape');
   await page.waitForFunction(() => !document.querySelector('[role="dialog"]'));
-  assert.equal(await page.locator('.progress-recommendation').count(), 4);
-  await page.getByRole('button', {name: /查看其余.*题/}).click();
-  assert.ok(await page.locator('.progress-recommendation').count() > 4);
-  await page.getByRole('button', {name: '收起推荐'}).click();
-  assert.equal(await page.locator('.progress-recommendation').count(), 4);
+  assert.equal(await page.locator('.progress-recommendations').count(),0);
   const heights = await page.evaluate(() => {
-    const left = document.querySelector('.progress-growth-left').getBoundingClientRect();
-    const right = document.querySelector('.progress-recommendations').getBoundingClientRect();
-    return {left: left.height, right: right.height};
+    const left=document.querySelector('.knowledge-radar').getBoundingClientRect();
+    const right=document.querySelector('.growth-account-hero').getBoundingClientRect();
+    return {left:left.height,right:right.height};
   });
-  assert.ok(heights.left>250&&heights.right>200, JSON.stringify(heights));
+  assert.ok(heights.left>250&&heights.right>200,JSON.stringify(heights));
   assert.equal(await page.locator('.knowledge-radar .radar-node').count(),8);
   await page.screenshot({path: 'tests/screenshots/growth-real.png', animations: 'disabled'});
   assert.equal(await page.locator('.knowledge-drawer-toggle').count(),0);
@@ -126,12 +124,12 @@ try {
   assert.equal(await page.locator('.page-identity h1').textContent(), '我的训练');
   assert.equal(await page.getByRole('tab', { name: '今日待办', exact: true }).count(), 0);
   await page.keyboard.press('Control+1');
-  await page.getByLabel('清空我的训练').click();
+  await page.getByRole('button',{name:'筛选题目',exact:true}).click();await page.getByLabel('清空我的训练').click();
   await page.getByRole('dialog').getByRole('button', {name: '取消', exact: true}).click();
   const beforeClear = await (await page.request.get(frontendUrl + '/api/workspace')).json();
   const beforeClearDraft = (await (await page.request.get(frontendUrl + '/api/problem?id=' + encodeURIComponent(problem.id))).json()).draft;
   assert.ok(beforeClear.summary.total > 0);
-  await page.getByLabel('清空我的训练').click();
+  await page.getByRole('button',{name:'筛选题目',exact:true}).click();await page.getByLabel('清空我的训练').click();
   await page.getByRole('dialog').getByRole('button', {name: /确认清空/}).click();
   await page.waitForFunction(() => !document.querySelector('[role="dialog"]'));
   assert.equal((await (await page.request.get(frontendUrl + '/api/workspace')).json()).summary.total,0);
@@ -150,16 +148,16 @@ try {
   await page.getByRole('button', {name: '重现赛', exact: true}).click();
   const collected = catalog.rows.filter(row => row.contest === '入门赛 49');
   await page.getByRole('button',{name:'训练筛选',exact:true}).click();
-  await page.getByRole('combobox',{name:'重现赛比赛',exact:true}).selectOption('入门赛 49');
+  await page.getByLabel('模拟赛最低难度',{exact:true}).fill('0');await page.getByLabel('模拟赛最高难度',{exact:true}).fill('10000');await page.getByRole('combobox',{name:'重现赛比赛',exact:true}).selectOption('入门赛 49');
   await page.keyboard.press('Escape');
   const previewResponse=page.waitForResponse(response=>response.url().endsWith('/api/contests/preview')&&response.request().method()==='POST');
-  await page.getByRole('button', {name:'预览重现赛',exact:true}).click();
+  await page.getByRole('button', {name:'生成试卷',exact:true}).click();
   const replay = (await (await previewResponse).json()).plan;
   assert.equal(replay.slots.length,collected.length);
   assert.deepEqual(replay.slots.map(slot=>slot.id),collected.sort((a,b)=>a.problem.localeCompare(b.problem)).map(row=>row.id));
   await page.getByRole('button',{name:'训练筛选',exact:true}).click();
   await page.getByLabel('模拟赛赛制').selectOption('xcpc');
-  assert.equal(await page.getByLabel('模拟赛时长').inputValue(),'300');
+  assert.equal(await page.getByLabel('模拟赛时长').inputValue(),String(replay.duration),'replay retains the selected event duration');
   assert.equal(await page.getByLabel('编译错误计罚时').isChecked(),false);
   await page.keyboard.press('Escape');
   await page.setViewportSize({width:1050,height:700});

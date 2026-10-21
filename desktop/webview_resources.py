@@ -7,6 +7,7 @@ thread and optional SDK capabilities are allowed to fail without blocking TB.
 from __future__ import annotations
 
 import logging
+import time
 
 LOG = logging.getLogger('tb.desktop.resources')
 
@@ -54,6 +55,8 @@ class MainViewResources:
         self.memory_supported = None
         self.memory_target = None
         self.removed_hooks = []
+        self.recoveries = []
+        self.failure_panel = None
 
     def attach(self):
         try:
@@ -78,7 +81,65 @@ class MainViewResources:
             return
         self.core = self.view.CoreWebView2
         self.removed_hooks = remove_unused_network_hooks(self.window, self.form.browser, self.core)
+        try:
+            self.core.ProcessFailed += self._process_failed
+        except Exception as issue:
+            LOG.info('WebView recovery hook unavailable: %s', type(issue).__name__)
         self._apply()
+
+    def _process_failed(self, _sender, event):
+        kind = str(event.ProcessFailedKind)
+        LOG.error('Main WebView process failure: %s', kind)
+        # Reload only after an actual renderer exit, never on a slow script or
+        # GPU restart. Drafts are journaled synchronously on every edit.
+        if kind == 'RenderProcessExited':
+            now = time.monotonic()
+            self.recoveries = [stamp for stamp in self.recoveries if now - stamp < 60]
+            if len(self.recoveries) < 2:
+                self.recoveries.append(now)
+                try:
+                    self.core.Reload()
+                    return
+                except Exception as issue:
+                    LOG.error('WebView reload failed: %s', type(issue).__name__)
+            self._show_failure(retry=True)
+        elif kind == 'BrowserProcessExited':
+            self._show_failure(retry=False)
+
+    def _show_failure(self, retry):
+        # A native fallback also works when no JavaScript engine remains alive.
+        try:
+            from System.Windows.Forms import Button, DockStyle, FlowLayoutPanel, Label
+            from System.Drawing import Color
+            if self.failure_panel is not None:
+                self.failure_panel.Dispose()
+            panel = FlowLayoutPanel()
+            panel.Dock = DockStyle.Fill
+            panel.BackColor = Color.FromArgb(24, 28, 34)
+            panel.ForeColor = Color.FromArgb(225, 229, 235)
+            label = Label()
+            label.AutoSize = True
+            label.Text = '界面进程意外退出，请恢复界面。' if retry else '界面进程意外退出，请关闭并重新打开 TB。'
+            panel.Controls.Add(label)
+            if retry:
+                button = Button()
+                button.AutoSize = True
+                button.Text = '恢复界面'
+                def restore(_sender, _event):
+                    try:
+                        self.core.Reload()
+                        panel.Dispose()
+                        self.failure_panel = None
+                        self.view.Visible = True
+                    except Exception as issue:
+                        LOG.error('Manual WebView reload failed: %s', type(issue).__name__)
+                button.Click += restore
+                panel.Controls.Add(button)
+            self.failure_panel = panel
+            self.form.Controls.Add(panel)
+            panel.BringToFront()
+        except Exception as issue:
+            LOG.error('Native recovery UI failed: %s', type(issue).__name__)
 
     def _activated(self, _sender, _event):
         self.active = True
@@ -95,19 +156,11 @@ class MainViewResources:
         if self.core is None or self.view is None or self.view.IsDisposed:
             return
         try:
-            from System.Windows.Forms import DockStyle, FormWindowState
+            from System.Windows.Forms import FormWindowState
             minimized = self.form.WindowState == FormWindowState.Minimized
-            if minimized and self.view.Visible:
-                self.hidden_for_minimize = True
-                self.view.Visible = False
-            elif not minimized and self.hidden_for_minimize:
-                # An original-site overlay may have opened while minimized.
-                # Leave that overlay in control of restoring the editor view.
-                overlay_visible = any(control != self.view and control.Visible and control.Dock == DockStyle.Fill
-                                      for control in self.form.Controls)
-                self.hidden_for_minimize = False
-                if not overlay_visible:
-                    self.view.Visible = True
+            # Keep visibility owned by the original-site overlay. Toggling it
+            # during minimize/restore races with WinForms visibility events and
+            # can leave a restored window black. Memory hints are sufficient.
             low = minimized or not self.form.Visible or not self.active
             target = 'Low' if low else 'Normal'
             if self.memory_supported is False or target == self.memory_target:

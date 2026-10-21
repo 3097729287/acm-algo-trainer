@@ -16,15 +16,13 @@ try {
  await page.getByRole('button',{name:'清空当前榜单'}).waitFor();
  const own=page.locator('.ranking-table tbody tr').first();
  assert.equal(await own.locator('.ranking-title-badge').count(),2);
- await own.getByText('Lv.10',{exact:true}).waitFor();
- const rank=own.getByLabel('黄金 · 能力分 1,560',{exact:true});
- await rank.waitFor();
- assert.match(await rank.getAttribute('class'),/\btier-3\b/,'skill rank retains its own tier style');
- await rank.hover();
- await page.getByRole('tooltip').getByText('黄金 · 能力分 1,560',{exact:true}).waitFor();
- assert.equal(await own.getByText('王者',{exact:true}).count(),0,'legacy experience tier is not repeated as a skill rank');
+ assert.equal(await own.locator('.profile-level-number').innerText(),'10');
+ const rank=own.locator('.profile-badge');
+ assert.match(await rank.getAttribute('class'),/\btier-3\b/);
+ assert.equal(await rank.locator('.avatar-rank-frame').count(),1);
+ assert.equal(await own.getByText('王者',{exact:true}).count(),0);
  assert.equal(await own.locator('.ranking-public-id').count(),0);
- assert.equal(await page.getByText('成长资料待同步',{exact:true}).count(),3);
+ assert.equal(await page.locator('.ranking-table .profile-level-number').count(),4);
  for(const [label,period] of [['每日','daily'],['本周','weekly'],['累计','total']]) {
   await page.getByRole('tab',{name:label,exact:true}).click();
   // Capture one complete render. A period switch can clear the previous table
@@ -51,9 +49,9 @@ try {
  await page.waitForFunction(()=>document.querySelectorAll('.ranking-table .ranking-medal-weekly').length===3);
  const remove=page.getByRole('button',{name:'删除 练习者二 的本周过题成绩'});
  await remove.click();
- await page.getByRole('dialog').waitFor();
+ await page.getByRole('alertdialog').waitFor();
  await page.keyboard.press('Escape');
- assert.equal(await page.getByRole('dialog').count(),0);
+ assert.equal(await page.getByRole('alertdialog').count(),0);
  assert.equal(await page.evaluate(()=>window.rankingWrites.length),0);
  await remove.click();await page.getByRole('button',{name:'确认删除',exact:true}).click();
  await page.getByText('已删除 1 条排行榜成绩。').waitFor();

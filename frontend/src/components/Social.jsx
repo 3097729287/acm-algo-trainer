@@ -1,22 +1,24 @@
+import {trainingDay} from '@/lib/trainingDate.js';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Check, Heart, MessageCircle, Send, X } from 'lucide-react';
 import './Social.css';
 
 const dateText=value=>new Date(value).toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+const socialCache=new WeakMap();
 export function useSocial(api, enabled) {
-  const [snapshot,setSnapshot]=useState(null), [error,setError]=useState('');
+  const [snapshot,setSnapshot]=useState(()=>enabled?socialCache.get(api)||null:null), [error,setError]=useState('');
   const generation=useRef(0), pending=useRef(null);
   const refresh=useCallback(() => {
     if (!enabled) return Promise.resolve();
     if (pending.current) return pending.current;
     const request=generation.current;
-    const task=api('social').then(value=>{if(request===generation.current){setSnapshot(value);setError('');}})
+    const task=api('social').then(value=>{if(request===generation.current){setSnapshot(value);socialCache.set(api,value);setError('');}})
       .catch(issue=>{if(request===generation.current)setError(issue.message);})
       .finally(()=>{if(pending.current===task)pending.current=null;});
     pending.current=task;return task;
   },[api,enabled]);
   useEffect(()=>{
-    generation.current++;pending.current=null;setSnapshot(null);
+    generation.current++;pending.current=null;setSnapshot(enabled?socialCache.get(api)||null:null);
     if(!enabled)return;
     refresh();const visible=()=>{if(!document.hidden)refresh();};
     const timer=setInterval(visible,30000);
@@ -27,7 +29,7 @@ export function useSocial(api, enabled) {
 }
 
 const particles=[['0px','-30px','#f97083'],['23px','-23px','#f5bd63'],['32px','0px','#8f8cf0'],['23px','23px','#6ccbb1'],['0px','31px','#68b8f4'],['-23px','23px','#e18ce8'],['-32px','0px','#f5bd63'],['-23px','-23px','#6ccbb1']];
-export function LikeBurst({ targetId,nickname,likes,disabled,api,onLiked,onError }) {
+export function LikeBurst({ targetId,nickname,likes,disabled,self=false,api,onLiked,onError }) {
   const [value,setValue]=useState(likes || {total:0,likedToday:false}), [burst,setBurst]=useState(false), [oldCount,setOldCount]=useState(0);
   const inFlight=useRef(false), acknowledged=useRef(false), timer=useRef(null);
   useEffect(()=>{setValue(previous=>acknowledged.current ? {total:Math.max(previous.total,likes?.total || 0),likedToday:true} : likes || {total:0,likedToday:false});},[likes?.total,likes?.likedToday]);
@@ -44,8 +46,8 @@ export function LikeBurst({ targetId,nickname,likes,disabled,api,onLiked,onError
     } catch(issue){setValue(before);setBurst(false);onError?.(issue.message);}
     finally{inFlight.current=false;}
   }
-  return <button type="button" className="like-burst" data-liked={value.likedToday} data-burst={burst} disabled={disabled || value.likedToday} aria-label={`${value.likedToday ? '今天已给' : '给'} ${nickname} 点爱心，${value.total} 个爱心`} aria-pressed={value.likedToday} title={value.likedToday ? '今天已点爱心，明天可以再点' : disabled ? '收到的爱心' : '点爱心，今天不能取消'} onClick={like}>
-    <span className="like-burst-icon"><Heart size={19} fill={value.likedToday?'currentColor':'none'}/>{burst && particles.map(([x,y,color],index)=><i key={index} style={{'--dx':x,'--dy':y,'--particle-color':color}} aria-hidden="true"/>)}</span>
+  return <button type="button" className="like-burst" data-liked={value.likedToday||self} data-self={self} data-burst={burst} disabled={disabled || value.likedToday} aria-label={`${value.likedToday ? '今天已给' : '给'} ${nickname} 点爱心，${value.total} 个爱心`} aria-pressed={value.likedToday} title={value.likedToday ? '今天已点爱心，明天可以再点' : disabled ? '收到的爱心' : '点爱心，今天不能取消'} onClick={like}>
+    <span className="like-burst-icon"><Heart size={19} fill={value.likedToday||self?'currentColor':'none'}/>{burst && particles.map(([x,y,color],index)=><i key={index} style={{'--dx':x,'--dy':y,'--particle-color':color}} aria-hidden="true"/>)}</span>
     <span className="like-burst-count" aria-live="polite"><span key={burst ? 'roll' : 'still'} className={burst?'like-count-roll':''}>{burst && <span aria-hidden="true">{oldCount}</span>}<span>{value.total}</span></span></span>
   </button>;
 }
@@ -83,6 +85,7 @@ export function SocialNotifications({ social,api }) {
 }
 
 export function SocialActivity({ items=[] }) {
-  if(!items.length)return null;
-  return <section className="social-activity" aria-label="爱心动态"><h3><Heart size={16}/>爱心动态</h3>{items.slice(0,10).map(item=><div key={item.id}><span><strong>{item.actor.nickname}</strong> 给 <strong>{item.recipient.nickname}</strong> 点了爱心</span><time dateTime={item.createdAt}>{dateText(item.createdAt)}</time></div>)}</section>;
+  const today=trainingDay(new Date().toISOString());
+  const current=items.filter(item=>trainingDay(item.createdAt)===today);
+  return <section className="social-activity" aria-label="爱心动态"><h3><Heart size={16}/>爱心动态</h3>{current.slice(0,20).map(item=><div key={item.id}><span><strong>{item.actor.nickname}</strong> 给 <strong>{item.recipient.nickname}</strong> 点了爱心</span><time dateTime={item.createdAt}>{dateText(item.createdAt)}</time></div>)}</section>;
 }

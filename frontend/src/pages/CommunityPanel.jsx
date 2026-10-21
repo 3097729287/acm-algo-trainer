@@ -1,3 +1,5 @@
+import ProfileBadge from '@/components/ProfileBadge.jsx';
+import PopConfirm from '@/components/PopConfirm.jsx';
 import MedalEmblem, {titleMedalIndex} from '@/components/MedalEmblem.jsx';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Award, Check, LogOut, LockKeyhole, MessageCircle, RefreshCw, ShieldCheck, Sparkles, Trash2, Trophy, UserRound } from 'lucide-react';
@@ -10,7 +12,7 @@ import './Rankings.css';
 const saveBeforeLogout = async () => (await import('../app/Workbench.jsx')).saveBeforeLogout();
 
 export function ProfileSettings({ api, onError, onChanged, initialAccount, initialProfileSnapshot }) {
-  const [snapshot, setSnapshot] = useState(initialProfileSnapshot || null), [account, setAccount] = useState(initialAccount || null), [nickname, setNickname] = useState(initialProfileSnapshot?.profile?.nickname || '');
+  const [snapshot, setSnapshot] = useState(initialProfileSnapshot || (initialAccount ? {profile:initialAccount}:null)), [account, setAccount] = useState(initialAccount || null), [nickname, setNickname] = useState(initialProfileSnapshot?.profile?.nickname || initialAccount?.nickname || '');
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [message, setMessage] = useState('');
   const onChangedRef = useRef(onChanged);
   onChangedRef.current = onChanged;
@@ -33,12 +35,12 @@ export function ProfileSettings({ api, onError, onChanged, initialAccount, initi
     try { await saveBeforeLogout(); await api('account/logout', {}); window.dispatchEvent(new Event('tb:account-change')); }
     catch (issue) { setError(issue.message); setBusy(false); }
   }
-  return <section className="profile-settings" aria-label="TB 账号设置"><div className="progress-section-heading"><h2><UserRound size={18} />我的账号</h2><span>{snapshot?.leaderboard?.configured ? '排行榜已连接' : '账号设置'}</span></div>
+  return <section className="profile-settings" aria-label="TB 账号设置"><div className="progress-section-heading"><h2><UserRound size={18} />我的账号</h2><span/></div>
     {!snapshot && !error && <p className="progress-muted" role="status">正在读取已同步的账号信息…</p>}
     {snapshot?.profile && <div className="profile-identity"><strong>{snapshot.profile.nickname || '用户'}</strong>{account && <span>登录号：{account.loginId}</span>}</div>}
-    <details className="profile-edit"><summary>管理账号</summary><p className="progress-small">排行榜显示昵称。修改昵称会保留你的成绩和训练记录。</p>
+    <details className="profile-edit"><summary>管理账号</summary>
     <form onSubmit={save} className="profile-form"><label>昵称<input aria-label="用户昵称" maxLength={32} value={nickname} onChange={event => setNickname(event.target.value)} placeholder="设置你的昵称" required disabled={busy || !snapshot} /></label><button className="progress-button progress-primary" disabled={busy || !snapshot}><Check size={14} />保存昵称</button></form>
-    <p className="progress-small">{snapshot?.leaderboard?.notice || '共享排行榜尚未连接。连接后同步 ID、昵称与过题统计。'}</p>{error && <p className="connection-error" role="alert">{error}</p>}{message && <p className="connection-message" role="status">{message}</p>}
+    {error && <p className="connection-error" role="alert">{error}</p>}{message && <p className="connection-message" role="status">{message}</p>}
     {account && !window.__tbAdmin && <div className="account-settings"><h3><LockKeyhole size={16}/> 修改密码</h3><form onSubmit={changePassword}>
       <label>原密码<input type="password" autoComplete="current-password" minLength={8} maxLength={128} value={oldPassword} onChange={event => setOldPassword(event.target.value)} required disabled={busy}/></label>
       <label>新密码<input type="password" autoComplete="new-password" minLength={8} maxLength={128} value={newPassword} onChange={event => setNewPassword(event.target.value)} required disabled={busy}/></label>
@@ -49,17 +51,13 @@ export function ProfileSettings({ api, onError, onChanged, initialAccount, initi
   </section>;
 }
 
+const rankingCache=new WeakMap();
+const rankingDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Shanghai'}).format(new Date());
 const periods = [['daily', '每日过题'], ['weekly', '本周过题'], ['total', '累计过题']];
 
-function RankingIdentity({ item, period, self }) {
-  const progress = item.publicProgress;
-  const tierIndex = TIER_NAMES.indexOf(progress?.rankTier);
-  const rankLabel = tierIndex >= 0 ? `${progress.rankTier} · 能力分 ${Number(progress.rankScore).toLocaleString('zh-CN')}` : Number(progress?.level) >= 5 ? '定级中' : '5 级解锁段位';
-  return <div className="ranking-identity"><span className="ranking-avatar" aria-hidden="true">{Array.from(item.nickname || item.displayName || '用户')[0]}</span><div className="ranking-identity-heading"><span className="ranking-user-name">{item.count > 0 && item.rank > 0 && item.rank <= 3 && <RankingMedal period={period} rank={item.rank}/>}<strong>{item.nickname || item.displayName || '用户'}</strong></span>{self && <span className="tag">我</span>}
-    {progress?.titles?.map(title => <span className="ranking-title-badge" key={title.id} title={`${title.category === 'streak' ? '连续训练' : 'AC'} ${title.target}${title.category === 'streak' ? ' 天' : ' 题'}`}><MedalEmblem size={18} index={titleMedalIndex(title)} variant={title.category==='streak'?'streak':'ac'}/>{title.name}</span>)}
-    </div>
-    {progress ? <div className="ranking-public-progress"><span>Lv.{progress.level}</span><Tooltip text={rankLabel}><span className={`ranking-skill-badge tier-${Math.max(0,tierIndex)}`} tabIndex={0} aria-label={rankLabel}>{Number(progress.level) < 5 ? <LockKeyhole size={14}/> : <TierIcon badge={`tier-${Math.max(0,tierIndex)}`} size={15}/>}</span></Tooltip></div> : <span className="ranking-public-progress ranking-progress-pending">成长资料待同步</span>}
-  </div>;
+function RankingIdentity({item,self,avatarData}) {
+ const progress=item.publicProgress||{},index=TIER_NAMES.indexOf(progress.rankTier),growth={level:progress.level,ranked:{tier:progress.rankTier,badge:`tier-${Math.max(0,index)}`,qualified:index>=0,abilityScore:progress.rankScore}};
+ return <div className="ranking-identity"><ProfileBadge compact={false} showXp={false} avatar={self?avatarData:undefined} growth={growth} nickname={item.nickname||item.displayName||'用户'}/><div className="ranking-title-list">{progress.titles?.map(title=><span className="ranking-title-badge" key={title.id}><MedalEmblem size={20} index={titleMedalIndex(title)} variant={title.category==='streak'?'streak':'ac'}/>{title.name}</span>)}</div></div>;
 }
 
 function DeleteConfirmation({ target, busy, onCancel, onConfirm }) {
@@ -77,21 +75,22 @@ function DeleteConfirmation({ target, busy, onCancel, onConfirm }) {
   </dialog>;
 }
 
-export default function RankingsPage({ api, onConfigure, onError }) {
-  const [period, setPeriod] = useState('daily'), [snapshot, setSnapshot] = useState(null), [busy, setBusy] = useState(false), [error, setError] = useState('');
+export default function RankingsPage({ api, onConfigure, onError, socialState, avatarData }) {
+  const [period, setPeriod] = useState('daily'), [snapshot, setSnapshot] = useState(()=>{const cached=rankingCache.get(api)?.daily;return cached?.date===rankingDate()?cached.value:null;}), [busy, setBusy] = useState(false), [error, setError] = useState('');
   const [confirmation, setConfirmation] = useState(null), [deleting, setDeleting] = useState(false), [message, setMessage] = useState('');
   const generation = useRef(0);
   const confirmedLikes = useRef(new Map());
   const [commentTarget,setCommentTarget] = useState(null);
-  const social=useSocial(api,Boolean(snapshot?.socialAvailable));
+  const ownSocial=useSocial(api,!socialState&&Boolean(snapshot?.socialAvailable));
+  const social=socialState||ownSocial;
   const load = useCallback(async () => {
     const request = ++generation.current;
     setBusy(true); setError('');
-    try { const value = await api('leaderboard?period=' + period); if (request === generation.current) setSnapshot(value); }
+    try { const value = await api('leaderboard?period=' + period); if(request===generation.current){setSnapshot(value);rankingCache.set(api,{...rankingCache.get(api),[period]:{date:rankingDate(),value}});} }
     catch (issue) { if (request === generation.current) { setError(issue.message); onError?.(issue.message); } }
     finally { if (request === generation.current) setBusy(false); }
   }, [api, period]);
-  useEffect(() => { setSnapshot(null); setMessage(''); load(); return () => { generation.current++; }; }, [load]);
+  useEffect(() => { setSnapshot(previous=>{const cached=rankingCache.get(api)?.[period];return cached?.date===rankingDate()?cached.value:previous?.period===period?previous:null;});setMessage('');load(); return () => { generation.current++; }; }, [load]);
   async function sync() {
     if (busy || deleting) return;
     setBusy(true); setError('');
@@ -102,7 +101,7 @@ export default function RankingsPage({ api, onConfigure, onError }) {
     if (!snapshot?.configured || deleting) return;
     const request = generation.current;
     const timer = setTimeout(() => {
-      api('leaderboard?period=' + period).then(value => { if (request === generation.current) setSnapshot(value); }).catch(issue => { if (request === generation.current) setError(issue.message); });
+      api('leaderboard?period=' + period).then(value => { if(request===generation.current){setSnapshot(value);rankingCache.set(api,{...rankingCache.get(api),[period]:{date:rankingDate(),value}});} }).catch(issue => { if (request === generation.current) setError(issue.message); });
     }, snapshot.status === 'syncing' ? 1000 : 60000);
     return () => clearTimeout(timer);
   }, [api, period, snapshot, deleting]);
@@ -113,7 +112,7 @@ export default function RankingsPage({ api, onConfigure, onError }) {
   const label = periods.find(([key]) => key === period)[1];
   const ready = snapshot?.configured && snapshot.status !== 'offline' && snapshot.status !== 'error';
   const awards = snapshot?.rewardPolicy?.[period] || (period === 'daily' ? [100, 60, 30] : [500, 300, 150]);
-  function askDelete(item = null) { setConfirmation({ userId: item?.userId || null, nickname: item?.nickname || '用户', period, label }); }
+  function askDelete(item = null, anchor) { setConfirmation({anchor, userId: item?.userId || null, nickname: item?.nickname || '用户', period, label }); }
   async function remove() {
     if (deleting || !confirmation) return;
     setDeleting(true); setError('');
@@ -129,13 +128,13 @@ export default function RankingsPage({ api, onConfigure, onError }) {
       <div className="ranking-tabs" role="tablist" aria-label="排行榜时间范围">{periods.map(([value,title])=><button role="tab" disabled={deleting} aria-selected={period===value} className={period===value?'active':''} key={value} onClick={()=>setPeriod(value)}>{title.replace('过题','')}</button>)}</div>
       <Tooltip text={`${period==='total'?'累计榜前三名佩戴专属冠饰徽章。':`前三名奖励 ${awards.join(' / ')} XP，按北京时间结算，自动到账。`}统计日期：${snapshot?.date || '读取中'}`}><button className="hint-icon" aria-label="排名与奖励说明"><Sparkles size={16}/></button></Tooltip>
       {snapshot&&<div className="ranking-board-summary"><Tooltip text="本榜训练者"><span><UserRound size={16}/><b>{entries.length}</b></span></Tooltip><Tooltip text="本榜通过"><span><Check size={16}/><b>{entries.reduce((sum,item)=>sum+Number(item.count||0),0)}</b></span></Tooltip><Tooltip text="我的过题"><span><Trophy size={16}/><b>{entries.find(item=>item.userId===snapshot.self?.userId)?.count ?? snapshot.self?.count ?? 0}</b></span></Tooltip></div>}
-      <div className="ranking-controls">{snapshot?.isAdmin&&<Tooltip text="清空当前榜单"><button aria-label="清空当前榜单" className="progress-button ranking-delete-button" onClick={()=>askDelete()} disabled={busy||deleting||!ready||!entries.length}><Trash2 size={16}/></button></Tooltip>}<Tooltip text="同步与刷新"><button aria-label="同步与刷新" className="progress-button" onClick={snapshot?.configured?sync:load} disabled={busy||deleting}><RefreshCw size={16} className={busy?'spin':''}/></button></Tooltip></div>
+      <div className="ranking-controls">{snapshot?.isAdmin&&<Tooltip text="清空当前榜单"><button aria-label="清空当前榜单" className="progress-button ranking-delete-button" onClick={event=>askDelete(null,event.currentTarget)} disabled={busy||deleting||!ready||!entries.length}><Trash2 size={16}/></button></Tooltip>}<Tooltip text="同步与刷新"><button aria-label="同步与刷新" className="progress-button" onClick={snapshot?.configured?sync:load} disabled={busy||deleting}><RefreshCw size={16} className={busy?'spin':''}/></button></Tooltip></div>
     </div>
     {message && <p className="ranking-operation-message" role="status">{message}</p>}
     {error && <p className="connection-error" role="alert">{error}</p>}
     {snapshot?.hasSnapshot && snapshot.status === 'error' && <p className="connection-error" role="status">部分数据刷新未完成，后台将重试。{snapshot.error}</p>}
-    {!snapshot ? <p className="progress-muted" role="status">正在读取排行榜…</p> : !snapshot.configured || snapshot.status === 'offline' || snapshot.status === 'error' && !snapshot.hasSnapshot && !entries.length ? <div className="ranking-empty"><Trophy size={32}/><h3>{snapshot.configured ? '排行榜暂时无法连接' : '共享排行榜尚未连接'}</h3><p>{snapshot.error || snapshot.notice || '在成长与能力中登录账号，连接后查看所有用户的排名。'}</p><button className="progress-button progress-primary" disabled={busy} onClick={snapshot.configured ? sync : onConfigure}>{snapshot.configured ? '重试连接' : '设置昵称与连接'}</button></div> : entries.length ? <div className="progress-table-scroll"><table className="ranking-table"><thead className="sr-only"><tr><th>排名</th><th>用户</th>{snapshot.socialAvailable && <th>互动</th>}<th>过题数</th>{snapshot.isAdmin && <th>管理</th>}</tr></thead><tbody>{entries.map(item => <tr key={item.userId} className={snapshot.self?.userId === item.userId ? 'ranking-self' : ''}><td>{item.rank}</td><td><RankingIdentity item={item} period={period} self={snapshot.self?.userId === item.userId}/></td>{snapshot.socialAvailable && <td className="ranking-social-cell"><div className="ranking-social"><LikeBurst key={snapshot.date+":"+item.userId} targetId={item.userId} nickname={item.nickname} likes={item.likes} disabled={!ready || item.userId===snapshot.self?.userId} api={api} onError={message=>setError(message)} onLiked={result=>{confirmedLikes.current.set(snapshot.date+":"+item.userId,result.likes);setSnapshot(previous=>({...previous}));}}/><button className="ranking-message" disabled={!ready || item.userId===snapshot.self?.userId} aria-label={`给 ${item.nickname} 留言`} onClick={()=>setCommentTarget(item)}><MessageCircle size={16}/></button></div></td>}<td className="ranking-count"><b>{item.count}</b></td>{snapshot.isAdmin && <td><button className="text-button ranking-delete-button" aria-label={`删除 ${item.nickname || '用户'} 的${label}成绩`} disabled={busy || deleting || !ready} onClick={() => askDelete(item)}><Trash2 size={14}/></button></td>}</tr>)}</tbody></table></div> : <div className="ranking-empty" role="status">{snapshot.status === 'syncing' && !snapshot.hasSnapshot ? <p><RefreshCw size={18} className="spin"/>正在同步过题记录…</p> : <><h3>{snapshot.status === 'error' ? '榜单已读取' : '服务已连接'}</h3><p>这个统计周期还没有首次官方 AC 记录。</p>{snapshot.self && <p>我的过题数：{snapshot.self.count || 0}</p>}</>}</div>}
-    {snapshot?.socialAvailable && <SocialActivity items={social.snapshot?.activity}/>}{commentTarget && <CommentDialog target={commentTarget} api={api} onClose={()=>setCommentTarget(null)} onSent={()=>setMessage('留言已发送。')}/> }
-    {confirmation && <DeleteConfirmation target={confirmation} busy={deleting} onCancel={() => setConfirmation(null)} onConfirm={remove}/>}
+    {!snapshot ? <p className="progress-muted" role="status">正在读取排行榜…</p> : !snapshot.configured || snapshot.status === 'offline' || snapshot.status === 'error' && !snapshot.hasSnapshot && !entries.length ? <div className="ranking-empty"><Trophy size={32}/><h3>{snapshot.configured ? '排行榜暂时无法连接' : '共享排行榜尚未连接'}</h3><p>{snapshot.error || snapshot.notice || '在成长与能力中登录账号，连接后查看所有用户的排名。'}</p><button className="progress-button progress-primary" disabled={busy} onClick={snapshot.configured ? sync : onConfigure}>{snapshot.configured ? '重试连接' : '设置昵称与连接'}</button></div> : entries.length ? <div className="progress-table-scroll"><table className="ranking-table"><thead className="sr-only"><tr><th>排名</th><th>用户</th><th>AC</th>{snapshot.socialAvailable&&<th>互动</th>}{snapshot.isAdmin&&<th>管理</th>}</tr></thead><tbody>{entries.map(item=>{const self=snapshot.self?.userId===item.userId;return <tr key={item.userId} className={self?'ranking-self':''}><td className="ranking-place">{item.count>0&&item.rank<=3?<RankingMedal period={period} rank={item.rank}/>:item.rank}</td><td><RankingIdentity item={item} self={self} avatarData={avatarData}/></td><td className="ranking-count"><b>{item.count}</b></td>{snapshot.socialAvailable&&<td className="ranking-social-cell"><div className="ranking-social"><LikeBurst key={snapshot.date+':'+item.userId} self={self} targetId={item.userId} nickname={item.nickname} likes={item.likes} disabled={!ready||self} api={api} onError={message=>setError(message)} onLiked={result=>{confirmedLikes.current.set(snapshot.date+':'+item.userId,result.likes);setSnapshot(previous=>({...previous}));}}/>{!self&&<button className="ranking-message" disabled={!ready} aria-label={`给 ${item.nickname} 留言`} onClick={()=>setCommentTarget(item)}><MessageCircle size={18}/></button>}</div></td>}{snapshot.isAdmin&&<td className="ranking-admin-cell"><button type="button" className="text-button ranking-delete-button" aria-label={`删除 ${item.nickname||'用户'} 的${label}成绩`} disabled={busy||deleting||!ready} onClick={event=>askDelete(item,event.currentTarget)}><Trash2 size={16}/></button></td>}</tr>;})}</tbody></table></div> : <div className="ranking-empty" role="status">{snapshot.status === 'syncing' && !snapshot.hasSnapshot ? <p><RefreshCw size={18} className="spin"/>正在同步过题记录…</p> : <><h3>{snapshot.status === 'error' ? '榜单已读取' : '服务已连接'}</h3><p>这个统计周期还没有首次官方 AC 记录。</p>{snapshot.self && <p>我的过题数：{snapshot.self.count || 0}</p>}</>}</div>}
+    <SocialActivity items={social.snapshot?.activity||[]}/>{commentTarget && <CommentDialog target={commentTarget} api={api} onClose={()=>setCommentTarget(null)} onSent={()=>setMessage('留言已发送。')}/> }
+    {confirmation && <PopConfirm anchor={confirmation.anchor} title={confirmation.userId?`删除 ${confirmation.nickname} 的${confirmation.label}成绩？`:`清空${confirmation.label}成绩？`} busy={deleting} error={error} onCancel={()=>setConfirmation(null)} onConfirm={remove}/>}
   </section></div>;
 }

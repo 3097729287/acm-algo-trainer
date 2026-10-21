@@ -1,5 +1,11 @@
 # 开发、验证与构建
 
+## 1.3.1 构建与验证
+
+源码已更新，资产与本机升级尚在验证。[发布记录](releases/1.3.1.md)。新增 `node tests/ui-v131.mjs` 和 `node tests/revision-flows.mjs` 覆盖搜索栏、筛选浮层、可修改快捷键、透明度、模拟赛四模式、账号立即显示和渲染错误恢复。`python desktop/tests/webview_resources_native.py --rounds 0` 在隔离原生窗口验证最小化、覆盖层及真实测试渲染进程退出后的草稿恢复。
+
+后端偏好协议新增受限 `shortcuts` 映射，云端仍沿用私有偏好文档，无服务端 schema 变更。运行完整 `python scripts/check.py`、前端构建和相关回归；固定干净已推送提交后构建，标签与 BUILD-INFO 保持一致。发布前完成原生检查、管理员隔离、安装/卸载、完整升级与旧更新器实际应用增量，所有状态位于临时目录。
+
 ## 1.3.0 构建与验证
 
 1.3.0 已正式发布，固定构建提交 `8922ffbc144402adf01b6367a9f68775e1461b77`。[交付与验证](releases/1.3.0.md) · [GitHub CI](https://github.com/3097729287/acm-algo-trainer/actions/runs/39622874758)。GitHub CI 的全部测试步骤成功；Windows runner 仍在收尾，工作流汇总状态以链接为准。随包双语言、管理员隔离、原生窗口、全新安装/卸载、完整升级、更新助手和 1.2.1 实际增量均通过；本机 8 个数据库已在线备份并验证表与 schema 保留。后续发布状态文档可领先构建提交，程序与标签身份保持不变。

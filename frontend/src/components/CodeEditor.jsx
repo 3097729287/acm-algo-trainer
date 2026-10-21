@@ -1,3 +1,4 @@
+import {matchesShortcut} from '@/lib/shortcuts.js';
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import { basicSetup } from 'codemirror';
 import { EditorView, keymap } from '@codemirror/view';
@@ -54,10 +55,10 @@ const theme = EditorView.theme({
   '.cm-searchMatch-selected': { backgroundColor: 'color-mix(in srgb, var(--warning) 45%, transparent)' },
 });
 
-const CodeEditor = forwardRef(function CodeEditor({ value = '', onChange, onCursorChange, onCommand, onLeave, readOnly = false, disabled = false, docKey = '', language = 'cpp17', ariaLabel = 'C++ 代码' }, ref) {
+const CodeEditor = forwardRef(function CodeEditor({ shortcuts={}, value = '', onChange, onCursorChange, onCommand, onLeave, readOnly = false, disabled = false, docKey = '', language = 'cpp17', ariaLabel = 'C++ 代码' }, ref) {
   const host = useRef(null), viewRef = useRef(null), readonlyCompartment = useRef(new Compartment());
-  const callbacks = useRef({ onChange, onCursorChange, onCommand, onLeave });
-  callbacks.current = { onChange, onCursorChange, onCommand, onLeave };
+  const callbacks = useRef({ onChange, onCursorChange, onCommand, onLeave, shortcuts });
+  callbacks.current = { onChange, onCursorChange, onCommand, onLeave, shortcuts };
   useImperativeHandle(ref, () => ({
     focus: () => viewRef.current?.focus(),
     get value() { return viewRef.current?.state.doc.toString() || ''; },
@@ -75,13 +76,8 @@ const CodeEditor = forwardRef(function CodeEditor({ value = '', onChange, onCurs
     const view = new EditorView({ parent: host.current, state: EditorState.create({ doc: value, extensions: [
       Prec.highest(EditorView.domEventHandlers({ keydown(event, editor) {
         if (event.isComposing || editor.composing || event.keyCode === 229) return false;
-        let command;
-        if ((event.ctrlKey || event.metaKey) && !event.altKey) {
-          if (event.key === 'Enter') command = event.shiftKey ? 'official' : 'submit';
-          else if (!event.shiftKey && event.key.toLowerCase() === 'r') command = 'run';
-          else if (!event.shiftKey && event.key.toLowerCase() === 's') command = 'save';
-          else if (event.key === 'Tab') { event.preventDefault(); event.stopPropagation(); callbacks.current.onLeave?.(); return true; }
-        } else if (event.altKey && !event.ctrlKey && !event.metaKey && ['0', '1', '2'].includes(event.key)) command = 'pane-' + event.key;
+        if((event.ctrlKey||event.metaKey)&&event.key==='Tab'){event.preventDefault();event.stopPropagation();callbacks.current.onLeave?.();return true;}
+        const command=['official','submit','run','save','pane-0','pane-1','pane-2'].find(id=>matchesShortcut(event,id,callbacks.current.shortcuts));
         if (!command) return false;
         event.preventDefault(); event.stopPropagation(); callbacks.current.onCommand?.(command); return true;
       } })),

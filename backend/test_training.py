@@ -128,6 +128,21 @@ class ServiceTests(unittest.TestCase):
         self.assertIsNone(row["queue"])
         self.assertEqual(self.library.rows[0]["status"], "独立AC")
 
+    def test_header_ac_keeps_before_today_baseline_and_counts_current_beijing_day(self):
+        self.clock.value = dt.datetime(2026, 10, 12, 15, 59, 50, tzinfo=UTC)
+        self.accept("fixture::A")
+        summary = self.service.workspace()["summary"]
+        self.assertEqual((summary["beforeTodayAccepted"], summary["todayAccepted"]), (0, 1))
+        self.clock.advance(seconds=20)
+        summary = self.service.workspace()["summary"]
+        self.assertEqual((summary["beforeTodayAccepted"], summary["todayAccepted"]), (1, 0))
+        self.accept("fixture::B")
+        self.accept("fixture::C")
+        self.accept("fixture::C")
+        self.completed("fixture::D", mode="run")
+        summary = self.service.workspace()["summary"]
+        self.assertEqual((summary["beforeTodayAccepted"], summary["todayAccepted"], summary["historicalAccepted"]), (1, 2, 3))
+
     def test_daily_training_rolls_over_at_beijing_midnight_without_erasing_history(self):
         self.clock.value = dt.datetime(2026, 10, 12, 15, 59, 50, tzinfo=UTC)
         self.accept("fixture::A")

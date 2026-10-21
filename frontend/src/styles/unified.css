@@ -6,7 +6,7 @@ html .app-shell :is(.topbar-status-chip,.profile-badge,.achievement-top-button,.
 html .topbar-actions {align-items:center;gap:12px}
 html .app-statusbar {align-items:center;gap:12px}
 html .workspace-area {min-width:0;--panel:color-mix(in srgb,var(--panel-base) var(--page-opacity,var(--panel-opacity,76%)),transparent);--panel-2:color-mix(in srgb,var(--panel-raised-base) var(--page-opacity,var(--panel-opacity,76%)),transparent)}
-html .workspace-area :is(.problem-table thead,.problem-table th,.problem-table .queue-heading td,.list-footer,.library-pagination,.competition-pagination,.list-page,.settings-home-grid) {background:transparent;border:0;box-shadow:none}
+html .workspace-area :is(.list-footer,.library-pagination,.competition-pagination) {background:transparent;border:0;box-shadow:none}
 html .problem-table {table-layout:fixed}
 html .problem-table :is(th,td) {vertical-align:middle;font-variant-numeric:tabular-nums}
 html .problem-table th {white-space:nowrap;color:var(--muted)}

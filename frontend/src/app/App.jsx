@@ -1,3 +1,5 @@
+import {matchesShortcut} from '@/lib/shortcuts.js';
+import PageSearch from '@/components/PageSearch.jsx';
 import Tooltip from '@/components/Tooltip.jsx';
 import PracticeStreak from '@/components/PracticeStreak.jsx';
 import ProfileBadge from '@/components/ProfileBadge.jsx';
@@ -22,6 +24,7 @@ import {
 } from "react";
 import {
   BookOpen,
+  NotebookPen,
   Library,
   Flag,
   History,
@@ -119,7 +122,7 @@ const PAGES = [
   { id: "growth", label: "成长与能力", icon: ChartNoAxesCombined, key: "7" },
   { id: "activity", label: "活动记录", icon: Activity, key: "8" },
   { id: "lectures", label: "从零讲", icon: BookOpen, key: "9" },
-  { id: "paths", label: "题单", icon: BookOpen, key: "3" },
+  { id: "paths", label: "题单", icon: NotebookPen, key: "3" },
   { id: "rankings", label: "排行榜", icon: ListOrdered, key: "" },
 ];
 const DEFAULTS = {
@@ -142,6 +145,7 @@ const DEFAULTS = {
   fontSize: 15,
   navOrder: ["mine", "library", "competitions", "mock", "paths", "rankings", "growth", "records", "activity", "lectures"],
   learningPaths: {},
+  shortcuts: {},
   navSchema: 2,
   navLabels: {},
   navGroups: {},
@@ -162,6 +166,7 @@ function normalizePreferences(saved) {
     preferences.navGroups = { ...preferences.navGroups };
     preferences.navLabels = { ...preferences.navLabels };
     preferences.pageOpacities = { ...preferences.pageOpacities };
+    preferences.shortcuts = { ...preferences.shortcuts };
     delete preferences.navGroups.today;
     delete preferences.navLabels.today;
     if (preferences.navGroups.mine?.trim() === "训练与待办") delete preferences.navGroups.mine;
@@ -536,7 +541,7 @@ export default function App() {
     [recordOnlyPending, setRecordOnlyPending] = useState(false),
     [mockTab, setMockTab] = useState("create"),
     [selectedSubmission, setSelectedSubmission] = useState(null),
-    [settingsTab, setSettingsTab] = useState(()=>{try{const value=JSON.parse(sessionStorage.getItem(`tb.settings.location.${window.__tbAccount?.userId || window.__tbAccount?.loginId || 'local'}`)||'{}').tab;return ['appearance','interaction','updates','training','help','advanced'].includes(value)?value:'home';}catch{return 'home';}}),
+    [settingsTab, setSettingsTab] = useState(()=>{try{const value=JSON.parse(sessionStorage.getItem(`tb.settings.location.${window.__tbAccount?.userId || window.__tbAccount?.loginId || 'local'}`)||'{}').tab;return ['appearance','interaction','updates','training','help','advanced','accounts','thanks','admin'].includes(value)?value:'home';}catch{return 'home';}}),
     [submissionLog, setSubmissionLog] = useState([]),
     [submissionPage, setSubmissionPage] = useState({ total: 0, nextOffset: 0, hasMore: false }),
     [submissionLoading, setSubmissionLoading] = useState(false);
@@ -1349,46 +1354,48 @@ export default function App() {
           theme: p.theme === "dark" ? "light" : "dark",
         })),
     },
-    { name: "打开键盘帮助", detail: "?", action: () => setDialog("help") },
+    { name: "快捷键设置", action: () => {setPage("settings");setSettingsTab("training");} },
     { name: "查看训练概览", action: () => setDialog("summary") },
     { name: "设置", detail: "Ctrl+,", action: () => go("settings") },
   ];
   useEffect(() => {
     function keyboard(e) {
-      if (e.defaultPrevented || e.isComposing) return;
+      if (e.defaultPrevented || e.isComposing || e.target.closest?.('[data-shortcut-input]')) return;
+      if (e.key==='Escape' && (document.querySelector('.filter-popover') || document.querySelector('.tb-select-menu') || document.querySelector('[data-popconfirm]'))) return;
+      const shortcut=id=>matchesShortcut(e,id,prefs.shortcuts);
       if (document.querySelector('[aria-modal="true"]')) return;
       const control = e.ctrlKey || e.metaKey,
         typing = isTyping(e.target),
         button =
           e.target instanceof Element &&
           !!e.target.closest('button,a,[role="treeitem"]');
-      if (control && e.key.toLowerCase() === "k") {
+      if (shortcut("commands")) {
         e.preventDefault();
         e.stopPropagation();
         setCommandQuery("");
         setDialog("commands");
         return;
       }
-      if (control && e.key.toLowerCase() === "b") {
+      if (shortcut("sidebar")) {
         e.preventDefault();
         e.stopPropagation();
         setPrefs((p) => ({ ...p, collapsed: !p.collapsed }));
         return;
       }
-      if (control && /^[1-9]$/.test(e.key)) {
+      if (PAGES.some(item=>shortcut("page-"+item.id))) {
         e.preventDefault();
         e.stopPropagation();
-        const target = PAGES.find(item => item.key === e.key);
+        const target = PAGES.find(item=>shortcut("page-"+item.id));
         if (target) go(target.id);
         return;
       }
-      if (control && [",", "0"].includes(e.key)) {
+      if (shortcut("settings")) {
         e.preventDefault();
         e.stopPropagation();
         go("settings");
         return;
       }
-      if (e.key === "F6") {
+      if (shortcut("regions")) {
         e.preventDefault();
         e.stopPropagation();
         const regions = [
@@ -1422,22 +1429,22 @@ export default function App() {
         return;
       }
       if (
-        control &&
-        e.key.toLowerCase() === "f" &&
+        shortcut("search") &&
         !practiceId &&
         !(page === "mock" && active)
       ) {
         e.preventDefault();
-        searchRef.current?.focus();
-        searchRef.current?.select();
+        const input=document.querySelector("#tb-page-search input");input?.focus();input?.select();
         return;
       }
-      if (e.key === "F5") {
+      if (shortcut("refresh")) {
         e.preventDefault();
         reload().then(() => notice("已刷新"));
         return;
       }
       if (e.key === "Escape") {
+        if (page==='settings' && settingsTab!=='home') {e.preventDefault();setSettingsTab('home');return;}
+
         if (readerId) {
           e.preventDefault();
           readerSeq.current++;
@@ -1452,7 +1459,7 @@ export default function App() {
           focusList();
           return;
         }
-        if (practiceId && !typing) {
+        if (practiceId) {
           e.preventDefault();
           exitPractice();
           return;
@@ -1463,10 +1470,11 @@ export default function App() {
           return;
         }
       }
-      if (typing || control || e.altKey || button) return;
-      if (e.key === "?") {
+      if (typing || button) return;
+      if ((control || e.altKey) && !["practice","solution","favorite","listSearch","help"].some(shortcut)) return;
+      if (shortcut("help")) {
         e.preventDefault();
-        setDialog("help");
+        setPage("settings");setSettingsTab("training");
         return;
       }
       if (page === "mock" && active && /^[1-9]$/.test(e.key)) {
@@ -1479,7 +1487,7 @@ export default function App() {
       }
       if (practiceId) return;
       if (!["mine", "library"].includes(page)) return;
-      if (e.key === "f" || e.key === "/") {
+      if (shortcut("listSearch") || e.key === "/") {
         e.preventDefault();
         searchRef.current?.focus();
         return;
@@ -1524,15 +1532,15 @@ export default function App() {
         setSelected(items[nextIndex]?.id || null);
         list.focus({ preventScroll: true });
       }
-      if (e.key === "Enter" && selectedRef.current) {
+      if (shortcut("practice") && selectedRef.current) {
         e.preventDefault();
         openPractice(selectedRef.current);
       }
-      if (e.key.toLowerCase() === "u" && selectedRef.current) {
+      if (shortcut("solution") && selectedRef.current) {
         e.preventDefault();
         openSolution(selectedRef.current);
       }
-      if (e.key.toLowerCase() === "s" && selectedRef.current) {
+      if (shortcut("favorite") && selectedRef.current) {
         e.preventDefault();
         toggleFavorite(selectedRef.current);
       }
@@ -1713,53 +1721,9 @@ export default function App() {
     );
   }
   function toolbar() {
-    return <>
-      <div className="table-toolbar compact-search-toolbar">
-
-        <div className="search-box"><Search size={17} />
-          <input ref={searchRef} aria-label="搜索题目" placeholder="搜索题目、场次、知识点…" value={currentFilters.query} onChange={event => setFilter({ query: event.target.value })} onKeyDown={event => { if (["ArrowDown", "Enter"].includes(event.key)) { event.preventDefault(); focusList(); } }} />
-          {currentFilters.query ? <IconButton label="清空搜索" icon={X} onClick={() => setFilter({ query: "" })} /> : <kbd>F</kbd>}
-        </div>
-        <ProblemFilters categories={categories} views={prefs.views || []} value={currentFilters} onChange={setFilter} onReset={resetFilters} onSave={() => { setViewName(""); setDialog("saveView"); }} />
-        <button className={"secondary favorite-filter " + (currentFilters.favoritesOnly ? "active" : "")} aria-label="收藏题目筛选" aria-pressed={currentFilters.favoritesOnly} onClick={() => setFilter({ favoritesOnly: !currentFilters.favoritesOnly })}><Star size={15} /></button>
-        <ThemedSelect className="sort-select" aria-label="排序方式" title={page === "mine" ? "任务按紧迫程度排列，此项调整同类任务的顺序" : undefined} value={currentFilters.sort} onChange={event => setFilter({ sort: event.target.value, desc: event.target.value === "date" })}>
-          <option value="contestDate">比赛时间</option><option value="contest">按场次</option><option value="difficulty">按难度</option><option value="date">最近练习</option><option value="title">按题名</option>
-        </ThemedSelect>
-        <IconButton label={currentFilters.desc ? "倒序，点击改为正序" : "正序，点击改为倒序"} icon={currentFilters.desc ? ArrowDown : ArrowUp} onClick={() => setFilter({desc:!currentFilters.desc})}/>
-        <span className="toolbar-count">{visible.length} 题</span>
-        {page === "mine" && <button className="secondary clear-training-button" aria-label="清空我的训练" disabled={busy || !mine.length || !!active || !!workspace.summary.pending} onClick={() => setDialog("clear-training")}><MinusCircle size={15} /></button>}
-      </div>
-            {(currentFilters.category ||
-              currentFilters.contest ||
-              currentFilters.ids ||
-              prefs.views?.length > 0) && (
-              <div className="filter-chips">
-                {currentFilters.ids && <button className="selected-chip" aria-label="清除更新内容筛选" onClick={() => setFilter({ ids: null, updateTitle: "" })}><Bell size={12} />{currentFilters.updateTitle || "新增内容"} · {currentFilters.ids.length}题<X size={12} /></button>}
-                {currentFilters.category && (
-                  <button
-                    className="selected-chip"
-                    aria-label="清除知识点筛选"
-                    onClick={() => setFilter({ category: null })}
-                  >
-                    <Network size={12} />
-                    {currentFilters.category.name}
-                    <X size={12} />
-                  </button>
-                )}
-                {currentFilters.contest && (
-                  <button
-                    className="selected-chip"
-                    onClick={() => setFilter({ contest: "" })}
-                  >
-                    {currentFilters.contest}
-                    <X size={12} />
-                  </button>
-                )}
-                {prefs.views?.map(view => <span key={view.id} className="saved-filter"><button className="saved-chip" onClick={() => setFilter({ ...blankFilters(), ...view.filters })}>{view.name}</button><button className="saved-filter-delete" aria-label={`删除已保存筛选 ${view.name}`} title="删除已保存的筛选" onClick={() => setPrefs(previous => ({ ...previous, views: previous.views.filter(item => item.id !== view.id) }))}><X size={13}/></button></span>)}
-              </div>
-            )}
-    </>;
+    return <PageSearch><label className="search-box"><Search size={17}/><input ref={searchRef} aria-label="搜索题目" value={currentFilters.query} onChange={event=>setFilter({query:event.target.value})} onKeyDown={event=>{if(['ArrowDown','Enter'].includes(event.key)){event.preventDefault();focusList();}}}/></label><ProblemFilters categories={categories} views={prefs.views||[]} onDeleteView={id=>setPrefs(previous=>({...previous,views:previous.views.filter(view=>view.id!==id)}))} value={currentFilters} onChange={setFilter} onReset={resetFilters} onSave={()=>{setViewName('');setDialog('saveView');}} onClear={page==='mine'?()=>setDialog('clear-training'):undefined} clearDisabled={busy||!mine.length||!!active||!!workspace.summary.pending}/></PageSearch>;
   }
+
   function renderListPage() {
     if (page === "mine" && !mine.length)
       return (
@@ -1801,10 +1765,6 @@ export default function App() {
               ? "题库用于选题"
               : "今日训练"}{" "}
             · {visible.length} 题
-          </span>
-          <span className="footer-hint">
-            <kbd>↑ ↓</kbd>选题 <kbd>Enter</kbd>练习 <kbd>U</kbd>题解{" "}
-            <kbd>S</kbd>收藏
           </span>
           <span className="autosave-dot">本地保存</span>
         </div>
@@ -1879,7 +1839,7 @@ export default function App() {
     );
   }
   function settingsPage() {
-    return <PreferencesPage tab={settingsTab} onTab={setSettingsTab} prefs={prefs} setPrefs={setPrefs} display={display} onFullscreen={applyFullscreen} api={api} softwareUpdate={softwareUpdate} hub={hub} account={account} accountFocus={accountFocus} profileSnapshot={profileSnapshot} onProfileChanged={profileChanged} onRefresh={()=>refreshBackground(true)} onHubChanged={setHub} onError={message=>notice(message, "error")} onContent={openUpdate} onMessages={()=>setDialog("updates")} onTutorial={()=>setTourOpen(true)} onKeyboard={()=>setDialog("help")} commands={{pages:PAGES,items:commands}}/>;
+    return <PreferencesPage tab={settingsTab} onTab={setSettingsTab} prefs={prefs} setPrefs={setPrefs} display={display} onFullscreen={applyFullscreen} api={api} softwareUpdate={softwareUpdate} hub={hub} account={account} accountFocus={accountFocus} profileSnapshot={profileSnapshot} onProfileChanged={profileChanged} onRefresh={()=>refreshBackground(true)} onHubChanged={setHub} onError={message=>notice(message, "error")} onContent={openUpdate} onMessages={()=>setDialog("updates")} onTutorial={()=>setTourOpen(true)} onKeyboard={()=>{setPage("settings");setSettingsTab("training");}} commands={{pages:PAGES,items:commands}}/>;
   }
 
   const navigationPages = orderedPages(PAGES, prefs);
@@ -2001,7 +1961,7 @@ export default function App() {
   );
   return (
     <div
-      className={"app-shell " + (prefs.collapsed ? "sidebar-collapsed " : "") + (mockFocus ? "mock-focus" : "")}
+      className={"app-shell " + (prefs.collapsed ? "sidebar-collapsed " : "") + (practiceId || mockFocus ? "mock-focus practice-focus" : "")}
     >
       <SoftwareUpdateNotice update={softwareUpdate} onDetails={() => { setPage('settings'); setSettingsTab('updates'); }} />
       <aside className="sidebar">
@@ -2016,11 +1976,7 @@ export default function App() {
               <small>训练工作台</small>
             </div>
           )}
-          <IconButton
-            label={prefs.collapsed ? "展开侧栏" : "收起侧栏"}
-            icon={prefs.collapsed ? PanelLeftOpen : PanelLeftClose}
-            onClick={() => setPrefs((p) => ({ ...p, collapsed: !p.collapsed }))}
-          />
+
         </div>
         <nav aria-label="主导航">
           {navigationEntries.map((p) => (
@@ -2036,7 +1992,7 @@ export default function App() {
               <p.icon size={18} />
               {!prefs.collapsed && (
                 <>
-                  <span>{p.label}</span>
+                  <span>{p.label}{p.id === "paths" && <small className="nav-development">（待开发）</small>}</span>
                   {p.id === "mock" && active && <span className="live-dot" />}
                 </>
               )}
@@ -2067,13 +2023,14 @@ export default function App() {
             <span className="breadcrumb">
               工作台 <ChevronRight size={13} />
             </span>
-            <h1>
+            <h1 onClick={()=>{if(page==='settings')setSettingsTab('home');}}>
               <InlineTitle>{practiceId
                 ? rows.find((r) => r.id === practiceId)?.title
                 : currentPage?.label || "设置"}</InlineTitle>
             </h1>
-            {practiceId && <span className="practice-label">单题练习</span>}
+            {page==='settings' && settingsTab!=='home' && <><ChevronRight size={14}/><button className="settings-breadcrumb" onClick={()=>setSettingsTab('home')} aria-label="返回全部设置">{({appearance:'外观',interaction:'交互与导航',updates:'更新',training:'快捷键',help:'数据与帮助',advanced:'翻译 API',accounts:'账号与身份',thanks:'鸣谢',admin:'管理员'})[settingsTab]}</button></>}
           </div>
+          <div id="tb-page-search" className="topbar-search-slot"/>
           <div className="topbar-actions">
             <PracticeStreak days={summary.streak || 0}/>{window.__tbAdmin&&<span className="admin-workspace-label">管理员</span>}<div className="topbar-titles"><TitleMedals titles={insights?.equippedTitles || growth?.equippedTitles || []} /></div>
             {active && page !== "mock" && (
@@ -2082,7 +2039,7 @@ export default function App() {
                 {timerText(remainingSeconds(active, now))}
               </button>
             )}
-            <button className="text-button topbar-daily-ac topbar-status-chip" style={{color:`color-mix(in srgb, var(--success) ${Math.min(65+(summary.todayAccepted||0)*4,100)}%, var(--muted))`,background:`color-mix(in srgb, var(--success) ${Math.min(7+(summary.todayAccepted||0)*3,40)}%, transparent)`,borderColor:`color-mix(in srgb, var(--success) ${Math.min(20+(summary.todayAccepted||0)*5,100)}%, transparent)`}} aria-label={`今日 AC ${summary.todayAccepted || 0} 题`} onClick={() => go("mine")}><strong>AC:</strong><b>{summary.todayAccepted || 0}</b></button>
+            <button className="text-button topbar-daily-ac topbar-status-chip" aria-label={`AC：历史 ${insights?.summary?.beforeTodaySolved ?? Math.max(summary.beforeTodayAccepted||0,(insights?.summary?.totalSolved ?? summary.historicalAccepted ?? 0)-(summary.todayAccepted||0))}，今日 ${insights?.summary?.todaySolved ?? summary.todayAccepted ?? 0}`} onClick={()=>go('mine')}><b>AC:{insights?.summary?.beforeTodaySolved ?? Math.max(summary.beforeTodayAccepted||0,(insights?.summary?.totalSolved ?? summary.historicalAccepted ?? 0)-(summary.todayAccepted||0))}{(insights?.summary?.todaySolved ?? summary.todayAccepted ?? 0)>0?`+${insights?.summary?.todaySolved ?? summary.todayAccepted}`:""}</b></button>
             {social.snapshot?.available && <button className="text-button topbar-love-count topbar-status-chip" aria-label={`今日获得爱心 ${social.snapshot.todayLikes ?? "—"}`} onClick={() => setDialog('updates')}><Heart size={15}/><span>:</span><b>{social.snapshot.todayLikes ?? "—"}</b></button>}
             <ProfileBadge growth={growth} avatar={prefs.avatarData} nickname={account?.nickname || profileSnapshot?.profile?.nickname} onClick={()=>setDialog('summary')} onAvatarClick={()=>setDialog('avatar')}/>
             <IconButton
@@ -2128,6 +2085,7 @@ export default function App() {
           ) : practiceId ? (
             <Workbench
               key={"practice:" + practiceId}
+              shortcuts={prefs.shortcuts}
               problemId={practiceId}
               contest={null}
               api={api}
@@ -2145,13 +2103,15 @@ export default function App() {
                   <Workbench
                     key={active.id + ":" + currentMockSlot.id}
                     problemId={currentMockSlot.id}
-                    contest={active}
+                    shortcuts={prefs.shortcuts}
+              contest={active}
                     api={api}
                     onProgress={applyWorkspace}
                     onExit={() => go("mine")}
                     onSolution={null}
                     headerStart={<MockProblemPicker
-                      contest={active}
+                      shortcuts={prefs.shortcuts}
+              contest={active}
                       currentId={currentMockSlot.id}
                       onSelect={(id) => {
                         setMockSlot(id);
@@ -2240,7 +2200,7 @@ export default function App() {
           ) : page === "lectures" ? (
             <LecturesPanel api={api} initialLecture={lectureId} onTrain={openPractice} onError={(message) => notice(message, "error")} />
           ) : page === "rankings" ? (
-            <RankingsPage api={api} onConfigure={() => openAccounts()} onError={(message) => notice(message, "error")} />
+            <RankingsPage socialState={social} avatarData={prefs.avatarData} api={api} onConfigure={() => openAccounts()} onError={(message) => notice(message, "error")} />
           ) : (
             settingsPage()
           )}
@@ -2271,7 +2231,7 @@ export default function App() {
       {dialog === "updates" && (
         <Modal title="消息与更新" onClose={() => setDialog(null)} wide>
           <SocialNotifications social={social} api={api}/>
-          <UpdatePanel
+          <UpdatePanel notificationsOnly
             softwareState={softwareUpdate.state}
             onContent={openUpdate}
             hub={hub}

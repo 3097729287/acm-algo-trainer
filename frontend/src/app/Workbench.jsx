@@ -1,3 +1,4 @@
+import {matchesShortcut} from '@/lib/shortcuts.js';
 import ThemedSelect from '@/components/ThemedSelect.jsx';
 import BoundedNumber from '@/components/BoundedNumber.jsx';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
@@ -179,7 +180,7 @@ function CaseResults({ cases }) {
   })}</div>;
 }
 
-export default function Workbench({ problemId, contest = null, api, onProgress, onExit, onSolution, onNext, headerStart, headerEnd }) {
+export default function Workbench({shortcuts={}, problemId, contest = null, api, onProgress, onExit, onSolution, onNext, headerStart, headerEnd }) {
   const contestId = contest?.id || null;
   const runningContest = contest?.status === 'running';
   const replayContest = runningContest && contest.strategy === 'replay';
@@ -669,20 +670,9 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
   };
   const handleKeys = event => {
     if (event.defaultPrevented || event.nativeEvent.isComposing) return;
-    const command = (event.ctrlKey || event.metaKey) && !event.altKey && !event.shiftKey;
-    if ((event.ctrlKey || event.metaKey) && event.shiftKey && !event.altKey && event.key === 'Enter') {
-      event.preventDefault(); event.stopPropagation(); openOfficial();
-    } else if (command && event.key === 'Enter') {
-      event.preventDefault(); event.stopPropagation(); localContest ? execute('submit') : openOfficial();
-    } else if (command && event.key.toLowerCase() === 'r') {
-      event.preventDefault(); event.stopPropagation(); execute('run');
-    } else if (command && event.key.toLowerCase() === 's') {
-      event.preventDefault(); event.stopPropagation(); manualSave();
-    } else if (event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey && ['0', '1', '2'].includes(event.key)) {
-      event.preventDefault(); event.stopPropagation();
-      if (event.key === '0') setPane('both');
-      else focusPane(event.key === '1' ? 'statement' : 'code');
-    }
+    const id=['official','submit','run','save','pane-0','pane-1','pane-2'].find(id=>matchesShortcut(event,id,shortcuts));
+    if(id){event.preventDefault();event.stopPropagation();editorCommand(id);}
+
   };
   const loadOwnCode = value => {
     if (unavailable || typeof value !== 'string') return;
@@ -753,8 +743,6 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
         <button type="button" className="wb-icon-button" aria-pressed={pane === 'both'} onClick={() => setPane('both')} title="题面与代码 · Alt+0" aria-label="题面与代码"><PanelsTopLeft size={16} /></button>
         <button type="button" className="wb-icon-button" aria-pressed={pane === 'code'} onClick={() => focusPane('code')} title="只看代码 · Alt+2" aria-label="只看代码"><Code2 size={16} /></button>
       </div>
-      {onSolution && !runningContest && !problem?.locked && <button type="button" className="wb-button wb-solution-button" disabled={!problem} onClick={() => callbacks.current.onSolution?.(problemId)}><BookOpen size={14} />题解</button>}
-      {onNext && <button type="button" className="wb-button wb-next-button" onClick={() => { saveRecord(activeRecord.current); callbacks.current.onNext?.(); }}>下一题<ArrowRight size={14} /></button>}
     </div><div className="wb-statement-actions">
           <div className="wb-font-controls" role="group" aria-label="题面字号调节">
             <button type="button" aria-label="缩小题面字号" title="缩小题面字号" disabled={statementFontSize <= 14} onClick={() => changeStatementFontSize(Math.max(14,statementFontSize - 1))}>A−</button>
@@ -781,6 +769,8 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
           <span><Code2 size={14}/><ThemedSelect aria-label="编程语言" value={codeLanguage} disabled={unavailable||busy||officialBusy} onChange={changeCodeLanguage}><option value="cpp17">C++17</option><option value="python3">Python 3</option></ThemedSelect></span>
           {headerEnd}<span className={`wb-save-state wb-save-${saveState.kind}`} title={saveState.message || '草稿自动保存；Ctrl+S 立即保存'} aria-live="polite">{saveState.kind === 'saving' ? <LoaderCircle size={11} className="wb-spinner" /> : saveState.kind === 'saved' ? <Check size={11} /> : null}{saveLabel}</span>
           <div className="wb-editor-actions">
+            {onSolution && !runningContest && !problem?.locked && <button type="button" className="wb-button wb-solution-button" disabled={!problem} onClick={() => callbacks.current.onSolution?.(problemId)}><BookOpen size={14} />题解</button>}
+            {onNext && <button type="button" className="wb-button wb-next-button" onClick={() => { saveRecord(activeRecord.current); callbacks.current.onNext?.(); }}>下一题<ArrowRight size={14} /></button>}
             {localDraftRecovery !== null && <button type="button" className="wb-button" disabled={unavailable} title="当前为更新的同步版本；可恢复本机未上传的旧草稿" onClick={() => {
               undoReplace.current = code;
               updateCode(localDraftRecovery);
@@ -799,7 +789,7 @@ export default function Workbench({ problemId, contest = null, api, onProgress, 
           </div>
         </div>
         <div className="wb-editor">
-          <CodeEditor ref={editorRef} value={code} docKey={contextKey} onChange={updateCode} onCursorChange={setCursor} onCommand={editorCommand} onLeave={() => consoleButtonRef.current?.focus()} readOnly={unavailable} disabled={loading || !problem} language={codeLanguage} ariaLabel={codeLanguage==='python3'?'Python 代码':'C++ 代码'} />
+          <CodeEditor shortcuts={shortcuts} ref={editorRef} value={code} docKey={contextKey} onChange={updateCode} onCursorChange={setCursor} onCommand={editorCommand} onLeave={() => consoleButtonRef.current?.focus()} readOnly={unavailable} disabled={loading || !problem} language={codeLanguage} ariaLabel={codeLanguage==='python3'?'Python 代码':'C++ 代码'} />
         </div>
         <div className="wb-editor-status"><span>Ln {cursor.line}, Col {cursor.column}</span><span title="Tab 缩进，Shift+Tab 取消缩进，Ctrl+Tab 离开编辑器">Tab 缩进 · Ctrl+Tab 离开</span></div>
         <div className="wb-run-toolbar">

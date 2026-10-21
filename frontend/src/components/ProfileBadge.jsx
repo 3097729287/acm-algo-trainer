@@ -1,4 +1,5 @@
 import { LoaderCircle, LockKeyhole, UserRound } from 'lucide-react';
+import AvatarFrame from './AvatarFrame.jsx';
 import Tooltip from './Tooltip.jsx';
 import TierIcon from './TierIcon.jsx';
 import './ProfileBadge.css';
@@ -20,7 +21,7 @@ function number(value) {
 }
 
 /** XP belongs to the avatar ring; rank belongs to the separate skill emblem. */
-export default function ProfileBadge({ growth, avatar, nickname, onClick, onAvatarClick, compact = true }) {
+export default function ProfileBadge({ growth, avatar, nickname, onClick, onAvatarClick, compact = true, showXp = true }) {
   const ready = Number.isFinite(growth?.level);
   const level = ready ? Math.max(1, Math.floor(growth.level)) : null;
   const rank = growth?.ranked;
@@ -52,22 +53,21 @@ export default function ProfileBadge({ growth, avatar, nickname, onClick, onAvat
   const image = isAvatarData(avatar) ? avatar : null;
 
   return <div className={`profile-badge ${badge}${compact ? ' profile-badge-compact' : ''}${qualified ? '' : ' profile-badge-unplaced'}`}>
-    <Tooltip text={xpText}>
+    <Tooltip text={showXp ? xpText : `等级 ${level ?? '—'} · ${rankName}`}>
       <AvatarControl className="profile-avatar-button" {...(onAvatarClick ? { type: 'button', onClick: onAvatarClick, 'aria-label': '设置头像' } : { tabIndex: 0, 'aria-label': `等级 ${level ?? '读取中'}` })}>
-        <svg className="profile-xp-ring" viewBox="0 0 44 44" role="meter" aria-label="本级经验进度" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress)} aria-valuetext={xpText}>
+        {showXp && <svg className="profile-xp-ring" viewBox="0 0 44 44" role="meter" aria-label="本级经验进度" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress)} aria-valuetext={xpText}>
           <circle className="profile-xp-track" cx="22" cy="22" r="19.5" />
           <circle className="profile-xp-value" cx="22" cy="22" r="19.5" pathLength="100" strokeDasharray={`${progress} 100`} />
-        </svg>
-        <span className="profile-avatar-face" aria-hidden="true">{image ? <img src={image} alt="" /> : initials ? <b>{initials}</b> : <UserRound size={19} />}</span>
+        </svg>}
+        <AvatarFrame index={Number(badge.slice(5)) || 0}/>
+        <span className="profile-avatar-face" aria-hidden="true">{image ? <img src={image} alt="" /> : <UserRound size={19} />}</span>
         <b className="profile-level-number" aria-hidden="true">{level ?? '—'}</b>
       </AvatarControl>
     </Tooltip>
     <Tooltip text={rankText}>
       <OverviewControl className="profile-overview" {...(onClick ? { type: 'button', onClick, 'aria-label': '训练概览', 'aria-haspopup': 'dialog', 'aria-busy': !ready } : { tabIndex: 0, 'aria-label': rankText })}>
         {nickname && <strong className="profile-nickname">{nickname}</strong>}
-        <span className="profile-rank-emblem" aria-label={rankName}>
-          {!ready ? <LoaderCircle className="spin" size={20} aria-hidden="true" /> : !unlocked ? <LockKeyhole size={19} aria-hidden="true" /> : <TierIcon badge={badge} size={22} />}
-        </span>
+
       </OverviewControl>
     </Tooltip>
   </div>;

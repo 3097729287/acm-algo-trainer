@@ -5,6 +5,7 @@ import RankingMedal from '../src/components/RankingMedal.jsx';
 import '../src/styles/workspace.css';
 import '../src/styles/refinements.css';
 import '../src/pages/ProgressPanels.css';
+import '../src/styles/revision.css';
 
 document.documentElement.dataset.theme='dark';
 document.body.style.margin='0';

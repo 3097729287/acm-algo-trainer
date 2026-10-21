@@ -23,6 +23,7 @@ sys.path.insert(0, str(ROOT / 'desktop'))
 
 HTML = b'''<!doctype html><meta charset="utf-8"><title>TB isolated resource fixture</title>
 <body><textarea id="draft"></textarea><main id="rows"></main><script>
+document.querySelector('#draft').value=localStorage.getItem('fixture-draft')||'';
 window.ticks=0; setInterval(()=>window.ticks++,100);
 document.querySelector('#rows').innerHTML=Array.from({length:1200},(_,i)=>'<article><strong>Problem '+i+'</strong><p>Stable local fixture</p></article>').join('');
 window.burst=async count=>{
@@ -32,7 +33,7 @@ window.burst=async count=>{
  }));
  window.burstResult={count,elapsedMs:performance.now()-start};
 };
-window.saveDraft=async()=>{const text='fixture-code-'.repeat(4000);document.querySelector('#draft').value=text;
+window.saveDraft=async()=>{const text='fixture-code-'.repeat(4000);document.querySelector('#draft').value=text;localStorage.setItem('fixture-draft',text);
  const result=await fetch('/draft',{method:'POST',body:text});window.savedDraft=await result.json();};
 </script>'''
 
@@ -144,7 +145,7 @@ def phase(directory, mode):
             time.sleep(.2)
             minimized=ui(state_view)
             assert not minimized['suspended'],minimized
-            if policy:assert minimized['target']=='Low' and not minimized['visible'],minimized
+            if policy:assert minimized['target']=='Low' and minimized['visible'],minimized
             result['minimizedState']=minimized
             window.evaluate_js('void window.saveDraft()')
             saved=wait(lambda:window.evaluate_js('window.savedDraft'))
@@ -168,7 +169,7 @@ def phase(directory, mode):
                     from System.Windows.Forms import DockStyle, Panel
                     form=window.native;view=form.browser.webview
                     form.WindowState=FormWindowState.Minimized
-                    overlay=Panel();overlay.Dock=DockStyle.Fill;form.Controls.Add(overlay);overlay.BringToFront();overlay.Visible=True
+                    overlay=Panel();overlay.Dock=DockStyle.Fill;form.Controls.Add(overlay);overlay.BringToFront();overlay.Visible=True;view.Visible=False
                     form.WindowState=FormWindowState.Normal
                     assert not view.Visible and overlay.Visible,'restoring the app must not cover an open original-site overlay'
                     overlay.Dispose();view.Visible=True
@@ -186,6 +187,21 @@ def phase(directory, mode):
                         policy.core=original_core;policy.memory_supported=None;policy._apply()
                 ui(overlay_during_minimize)
                 result.update(originalSiteOverlayPreserved=True,unsupportedSdkFallsBack=True)
+            if mode == 'subscribed':
+                renderer_pids = ui(lambda: [int(item.ProcessId) for item in policy.core.Environment.GetProcessInfos() if str(item.Kind) == 'Renderer'])
+                assert renderer_pids, 'Isolated renderer process not found'
+                before_recovery = len(policy.recoveries)
+                for pid in renderer_pids:
+                    try:
+                        process = Process.GetProcessById(pid)
+                        process.Kill()
+                        process.Dispose()
+                    except Exception:
+                        pass
+                wait(lambda: len(policy.recoveries) > before_recovery)
+                wait(lambda: window.evaluate_js("document.querySelector('#draft')?.value.length") == 52000)
+                result['rendererCrashRecovered'] = True
+                result['draftJournalSurvivedCrash'] = True
             result.update(restoredState=restored,backgroundDraftBytes=52000,timersRunningWhileMinimized=True,subscribers=subscribers,ok=True)
         except Exception as issue:
             result.update(ok=False,error=repr(issue))

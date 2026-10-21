@@ -79,7 +79,7 @@ try{
  await page.getByLabel('北京时间',{exact:true}).waitFor();
  await page.getByLabel('显示比赛平台',{exact:true}).uncheck();
  await page.locator('.sidebar').getByRole('button',{name:'比赛',exact:true}).click();
- await page.getByRole('button',{name:'比赛文件夹浏览',exact:true}).click();
+ assert.equal(await page.getByRole('button',{name:'比赛文件夹浏览',exact:true}).count(),0);
  await page.locator('.competition-card').first().waitFor();
  assert.equal(await page.locator('.competition-platform:visible').count(),0);
  assert.equal(await page.locator('.competition-card-title small').count(),0);
@@ -107,11 +107,11 @@ try{
  await openSettings(page, '更新');
  await page.getByText('公开版本：',{exact:false}).waitFor();assert.equal(await page.getByText('v0.1.0',{exact:true}).count(),0,'Stale catalog cache cannot show an old public release');
  await page.locator('.sidebar').getByRole('button',{name:'成长与能力',exact:false}).click();
- await page.getByRole('region',{name:'今日排行榜速览'}).waitFor();
- await page.getByRole('button',{name:'查看榜单',exact:true}).click();
+ assert.equal(await page.getByRole('region',{name:'今日排行榜速览'}).count(),0);
+ await page.locator('.sidebar').getByRole('button',{name:'排行榜',exact:true}).click();
  await page.locator('.ranking-table').waitFor();assert.equal(await page.locator('.ranking-table .ranking-medal').count(),0);
  assert.equal(await page.locator('.ranking-table .ranking-public-id').count(),0,'Standings do not expose ID text');
- assert.equal(await page.locator('.ranking-avatar').count(),2);
+ assert.equal(await page.locator('.ranking-table .avatar-rank-frame').count(),2);
  await page.screenshot({path:'tests/screenshots/v112-rankings-glass.png'});
  await page.locator('.sidebar').getByRole('button',{name:'活动记录',exact:false}).click();
  await page.locator('.activity-stats>span>b').first().waitFor();
@@ -121,7 +121,7 @@ try{
  await page.locator('.sidebar').getByRole('button',{name:'我的训练',exact:true}).click();
  assert.equal(await page.locator('.platform-symbol:visible').count(),0);
  assert.equal(await page.locator('.daily-task-top-button .notification-dot').count(),0,'Pending goals alone do not light the task dot');
- const alignment=await page.locator('.topbar-daily-ac').evaluate(n=>[...n.querySelectorAll('strong,b')].map(c=>{const r=c.getBoundingClientRect();return r.y+r.height/2;}));assert.ok(Math.abs(alignment[0]-alignment[1])<1);
+ assert.equal(await page.locator('.topbar-daily-ac>b').count(),1);
  await page.locator('.sidebar').getByRole('button',{name:'设置',exact:true}).click();
  await openSettings(page,'鸣谢');
  await page.getByText('InkStarry',{exact:true}).waitFor();await page.getByText('蒟蒻',{exact:true}).waitFor();await page.getByText('她不爱吃酸',{exact:true}).waitFor();assert.equal(await page.getByText('自渡',{exact:true}).count(),0);

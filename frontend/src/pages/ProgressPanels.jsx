@@ -1,3 +1,4 @@
+import PageSearch from '@/components/PageSearch.jsx';
 import MedalEmblem, {titleMedalIndex} from '@/components/MedalEmblem.jsx';
 import KnowledgeRadar from '@/components/KnowledgeRadar.jsx';
 import FilterMenu from '@/components/FilterMenu.jsx';
@@ -96,55 +97,17 @@ export function GrowthAccountPanel({ api, hub, account, profile, profileSnapshot
   </section>;
 }
 
-export function GrowthPage({ avatarData, onAvatar, goalOverview, onRankings, api, onGoalsChanged, insights, hub, account, profile, profileSnapshot, onProfileChanged, onHubChanged, onError, accountFocus, onTrain, onTopic, onSync, onAccounts, onAchievements }) {
-  const [gapsOnly, setGapsOnly] = useState(false);
-  const [topicSearch, setTopicSearch] = useState('');
-  const [moreRecommendations, setMoreRecommendations] = useState(false);
-  if (!insights) return <Loading />;
-  const summary = insights.summary || {}, growth = insights.growth || {}, assessment = insights.assessment || {};
-  const titles = list(insights.titles || growth.titles), equippedTitles = list(insights.equippedTitles || growth.equippedTitles);
-  const identity = profile || insights.profile || {}, nickname = identity.nickname || account?.nickname;
-  const recommendations = list(insights.recommendations);
-  const topics = list(insights.knowledge).filter(topic => (!gapsOnly || topic.due > 0 || topic.failures > 0) && topic.name.toLowerCase().includes(topicSearch.trim().toLowerCase()))
-    .slice().sort((a, b) => (b.priority || 0) - (a.priority || 0));
-  const trend = list(assessment.trend).filter(item => typeof item.value === 'number');
-  const min = Math.min(...trend.map(item => item.value)), max = Math.max(...trend.map(item => item.value));
-  const points = trend.map((item, index) => `${trend.length === 1 ? 150 : index / (trend.length - 1) * 300},${42 - (item.value - min) / (max - min || 1) * 32}`).join(' ');
-  return <div className="progress-page" aria-label="成长与能力">
-    <div className="growth-quick-stats">
-      <Tooltip text={growth.ranked?.rules || '等级由经验值累积，5 级解锁段位。段位参考已验证独立 AC 的题目难度。'} label="等级与段位规则"/>
-      {[[Check,summary.totalSolved??summary.officialSolved,'AC'],[Code2,summary.submissions,'\u63d0\u4ea4'],[CalendarDays,summary.activeDays,'\u6d3b\u8dc3\u65e5'],[Flame,summary.streak,'\u8fde\u7eed\u8bad\u7ec3'],[Flag,summary.completedContests,'\u6a21\u62df\u8d5b']].map(([Icon,value,label])=><Tooltip text={label} key={label}><span className="growth-stat-icon" tabIndex={0} aria-label={`${label} ${number(value)}`}><Icon size={16}/><b>{number(value)}</b></span></Tooltip>)}
-    </div>
-    <div className="progress-growth-columns">
-      <div className="progress-growth-left">
-      <KnowledgeRadar knowledge={insights.knowledge || []} onTopic={onTopic}/>
-      </div>
-      <div className="progress-growth-right"><section className="progress-section progress-recommendations">
-        <div className="progress-section-heading"><h2><Target size={17} />下一步练什么</h2><Tooltip text="按实际训练记录推荐" label="推荐依据"/></div>
-        {assessment.recommendationLevel != null && <div className="recommendation-reference"><Target size={14}/><b>{number(assessment.recommendationLevel)}</b><Tooltip text={acText(assessment.recommendationBasis) || '建议练习难度'} label="练习参考说明"/></div>}
-        {recommendations.length ? <div id="growth-recommendations-list">{recommendations.slice(0, moreRecommendations ? recommendations.length : 4).map((item, index) => {
-          const question = item.problem, identity = question?.id || item.ids?.[0];
-          const completed = question?.accepted || question?.officialAccepted || question?.completed;
-          const clickable = !!identity && !!onTrain;
-          return <button type="button" className="progress-recommendation" key={identity || index} disabled={!clickable} onClick={() => onTrain?.(identity)} title={completed?item.reason:'适合当前训练阶段，完成后显示知识点。'} aria-label={`练习 ${question?.title || '推荐题目'}`}><div><div className="progress-recommendation-title"><strong><InlineTitle>{question?.title || '推荐练习'}</InlineTitle></strong>{question && <Difficulty row={question} />}</div><span className="progress-recommendation-stage">{STAGES[item.stage] || '推荐练习'}{question?.contest ? ` · ${question.contest}` : ''}</span></div><ChevronRight size={15} aria-hidden="true" /></button>;
-        })}</div> : <p className="progress-muted">先选择题目完成一次提交，建议会根据真实结果更新。</p>}
-        {recommendations.length > 4 && <button type="button" className="progress-text-button recommendation-more" aria-expanded={moreRecommendations} aria-controls="growth-recommendations-list" onClick={() => setMoreRecommendations(value => !value)}>{moreRecommendations ? '收起推荐' : `查看其余 ${recommendations.length - 4} 题`}<ChevronRight size={13} /></button>}
-      </section>
-      {api && <MiniLeaderboard api={api} onOpen={onRankings}/>}</div>
-    </div>
-    <details className="progress-section knowledge-details">
-      <summary><BookOpen size={17} />知识掌握与缺口<ChevronRight className="knowledge-chevron" size={16}/></summary>
-      <div className="progress-section-heading"><label className="knowledge-search"><Search size={15}/><input type="search" aria-label="搜索知识点" placeholder="搜索知识点" value={topicSearch} onChange={event => setTopicSearch(event.target.value)}/></label><label className="progress-check"><input type="checkbox" checked={gapsOnly} onChange={event => setGapsOnly(event.target.checked)} />只看待加强</label></div>
-      <div className="progress-table-scroll"><table className="progress-knowledge-table"><thead><tr><th>知识领域</th><th>参与 / 可用</th><th>本地 / AC</th><th>通过覆盖率</th><th>待办</th><th>下一步</th></tr></thead><tbody>{topics.map(topic => <tr key={topic.name}>
-        <td><button type="button" className="progress-topic" onClick={() => onTopic?.(topic)}>{topic.name}<ChevronRight size={13} /></button><small>{topic.reason || topic.label}</small></td>
-        <td>{number(topic.participated)} / {number(topic.available)}</td><td>{number(topic.localAccepted)} / {number(topic.officialAccepted)}</td>
-        <td>{topic.mastery == null ? <span className="progress-muted">待积累</span> : <div className="progress-mastery"><Meter value={topic.mastery} label={`${topic.name}通过覆盖率`} /><span>{Math.round(topic.mastery)}%</span></div>}<small>{confidence(topic.confidence)}</small></td>
-        <td>{number(topic.due)}</td><td>{topic.suggestedIds?.length > 0 && onTrain ? <button type="button" className="progress-text-button" onClick={() => onTrain(topic.suggestedIds[0])}>练习<ArrowRight size={13} /></button> : '—'}</td>
-      </tr>)}</tbody></table></div>
-      {!topics.length && <p className="progress-muted">这一组暂时没有匹配的知识点。</p>}
-    </details>
-    <section id="growth-goals" className="progress-section">{api && <GoalsPanel api={api} overview={goalOverview} onChanged={onGoalsChanged}/>}</section>
-  </div>;
+export function GrowthPage({avatarData,onAvatar,goalOverview,api,onGoalsChanged,insights,account,profile,onTopic,onTrain,onAccounts,onAchievements}) {
+ if(!insights)return <Loading/>;
+ const summary=insights.summary||{},growth=insights.growth||{},rank=growth.ranked||{},nickname=profile?.nickname||account?.nickname||insights.profile?.nickname||'练习者';
+ const stats=[[Check,summary.totalSolved??summary.officialSolved,'总 AC'],[Code2,summary.submissions,'提交'],[CalendarDays,summary.activeDays,'活跃天数'],[Flame,summary.streak,'连续练习'],[Flag,summary.completedContests,'完成比赛']];
+ const rankName=Number(growth.level)<5?'未定级':rank.qualified===false?'定级中':rank.tier||'定级中';
+ return <div className="progress-page growth-dashboard" aria-label="成长与能力"><div className="progress-growth-columns">
+ <KnowledgeRadar knowledge={insights.knowledge||[]} onTopic={onTopic} onTrain={onTrain}/>
+ <section className="progress-section growth-account-hero" aria-label="账号成长统计"><div className="account-hero-identity"><ProfileBadge compact={false} growth={growth} avatar={avatarData} nickname={nickname} onAvatarClick={onAvatar} onClick={onAccounts}/><div className="account-hero-rank"><TierIcon badge={rank.badge||'tier-0'} size={180}/><strong>{rankName}</strong>{rank.abilityScore!=null&&<span>{number(rank.abilityScore)}</span>}</div></div>
+ <div className="account-hero-level"><span>Lv.{growth.level??'—'}</span><div><Meter value={growth.nextLevelXp?Number(growth.currentLevelXp||0)/growth.nextLevelXp*100:0} label="等级经验"/><span>{number(growth.currentLevelXp||0)} / {number(growth.nextLevelXp||0)} XP</span></div></div>
+ <div className="account-hero-statistics">{stats.map(([Icon,value,label])=><div key={label}><Icon size={21}/><b>{number(value)}</b><span>{label}</span></div>)}</div><div className="account-hero-titles"><TitleMedals titles={insights.equippedTitles||growth.equippedTitles||[]}/></div><button type="button" className="text-button" onClick={onAchievements}><Award size={18}/>成就与称号</button>
+ </section></div><section id="growth-goals" className="progress-section">{api&&<GoalsPanel api={api} overview={goalOverview} onChanged={onGoalsChanged}/>}</section></div>;
 }
 
 const dayKey = date => date.toISOString().slice(0, 10);
@@ -207,7 +170,7 @@ export function ActivityPage({ insights, onTrain }) {
             tabIndex={focused === key ? 0 : -1} aria-label={description} aria-selected={selected === key} title={description} onFocus={() => { focusRef.current = key; setFocused(key); }} onClick={() => { focusRef.current = key; setFocused(key); setSelected(key); }} />;
         })}
       </div></div>
-      <div className="activity-calendar-caption"><Tooltip text={`${focused} · ${focusedData.officialAccepted || 0} 题通过`} label="当前日期统计"/><Tooltip text="0 / 1 / 2–3 / 4–6 / 7+ 题"><span className="activity-legend" tabIndex={0} aria-label="热力图图例">{[0,1,2,3,4].map(level=><i key={level} className={`activity-level-${level}`}/>)}</span></Tooltip></div>
+      <div className="activity-calendar-caption"><Tooltip text="0 / 1 / 2–3 / 4–6 / 7+ 题"><span className="activity-legend" tabIndex={0} aria-label="热力图图例">{[0,1,2,3,4].map(level=><i key={level} className={`activity-level-${level}`}/>)}</span></Tooltip></div>
     </section>
     <section className="progress-section activity-day-detail"><div className="progress-section-heading"><h2>{selected || '日期详情'}</h2></div>
     <PassCount count={selectedData.officialAccepted || 0} /></section>
@@ -241,8 +204,8 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
   const [query, setQuery] = useState(''), [filter, setFilter] = useState('all');
   const deferredQuery = useDeferredValue(query);
   const [shelf, setShelf] = useState('all'), [examYear, setExamYear] = useState(''), [examStage, setExamStage] = useState('');
-  const [folder,setFolder]=useState({stage:'platforms',path:[]}), [kind,setKind]=useState(''), [descending,setDescending]=useState(true);
-  const [sort, setSort] = useState('name');
+  const [folder,setFolder]=useState(null), [kind,setKind]=useState(''), [descending,setDescending]=useState(true);
+  const [sort, setSort] = useState('newest');
   const [page, setPage] = useState(1);
   const [selected, setSelected] = useState(null), [joining, setJoining] = useState(false), [joinError, setJoinError] = useState(''), [starting, setStarting] = useState(null);
   const progress = useMemo(() => new Map(list(workspace?.training).map(row => [row.id, row])), [workspace?.training]);
@@ -292,14 +255,16 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
   const renderCard = group => <article className="competition-card" key={group.key}><button type="button" className="competition-card-open" onClick={() => setSelected(group.key)} aria-label={`查看 ${group.platform} ${group.name}，${group.rows.length} 道题`}><span className="competition-card-title"><strong>{group.name}</strong></span><span className="competition-problem-tokens">{group.rows.map(row => <span className={`competition-problem-token${progress.get(row.id)?.accepted ? ' competition-token-accepted' : ''}`} key={row.id}><b>{row.problem}{typeof row.difficulty==='number' && !lockedIds.has(row.id) ? ':' : ''}</b>{typeof row.difficulty==='number' && !lockedIds.has(row.id) && <Difficulty row={row}/>}</span>)}</span><ChevronRight size={16}/></button>{startButton(group)}</article>;
   const reset = () => {setShelf('all');setKind('');setExamYear('');setExamStage('');setFilter('all');};
   return <div className="competition-page" aria-label="比赛列表">
-    <div className="competition-toolbar"><Tooltip text="按比赛分类浏览"><button type="button" className="icon-button catalog-view-toggle" aria-label="比赛文件夹浏览" aria-pressed={!!folder} onClick={()=>setFolder(folder?null:{stage:'platforms',path:[]})}><FolderTree size={18}/></button></Tooltip>
-    <label className="competition-search"><Search size={16}/><input value={query} onChange={event=>setQuery(event.target.value)} placeholder="搜索比赛、题名或知识点" aria-label="搜索比赛"/></label>
+    <PageSearch><label className="search-box"><Search size={17}/><input value={query} onChange={event=>setQuery(event.target.value)} aria-label="搜索比赛"/></label>
     <FilterMenu label="筛选比赛" active={shelf!=='all'||!!kind||!!examYear||filter!=='all'} onReset={reset}>
       <details className="filter-submenu" open><summary>比赛分类</summary><div className="filter-choice-grid">{CONTEST_SHELVES.map(([id,label])=><button type="button" key={id} aria-pressed={shelf===id} onClick={()=>{setShelf(id);setFolder(null);setExamYear('');setExamStage('');}}>{label}</button>)}</div><div className="filter-choice-grid">{CONTEST_KINDS.map(([id,label])=><button type="button" key={id} aria-pressed={kind===id} onClick={()=>{setKind(kind===id?'':id);setFolder(null);}}>{label}</button>)}</div></details>
       <label className="filter-field"><span>年份</span><ThemedSelect aria-label="比赛年份" value={examYear} onChange={event=>setExamYear(event.target.value)}><option value="">全部年份</option>{[...new Set(groups.map(group=>group.examYear).filter(Boolean))].sort((a,b)=>b-a).map(year=><option key={year}>{year}</option>)}</ThemedSelect></label>
       <label className="filter-field"><span>训练情况</span><ThemedSelect value={filter} onChange={event=>setFilter(event.target.value)} aria-label="比赛训练情况"><option value="all">全部比赛</option><option value="joined">已加入训练</option><option value="available">尚未加入</option><option value="unfinished">尚未全部通过</option></ThemedSelect></label>
-    </FilterMenu>
-    <ThemedSelect aria-label="比赛排序" value={sort} onChange={event=>setSort(event.target.value)}><option value="name">名称</option><option value="newest">比赛时间</option></ThemedSelect><Tooltip text={descending?'倒序，点击改为正序':'正序，点击改为倒序'}><button type="button" className="icon-button" aria-label="切换比赛正序倒序" aria-pressed={descending} onClick={()=>setDescending(value=>!value)}>{descending?<ArrowDown size={16}/>:<ArrowUp size={16}/>}</button></Tooltip><span className="competition-count">{filtered.length} 场</span></div>
+      <label className="filter-field"><span>排序</span><ThemedSelect aria-label="比赛排序" value={sort} onChange={event=>setSort(event.target.value)}><option value="newest">比赛时间</option><option value="name">名称</option></ThemedSelect></label>
+      <label className="filter-field"><span>方向</span><ThemedSelect aria-label="比赛排序方向" value={descending?'desc':'asc'} onChange={event=>setDescending(event.target.value==='desc')}><option value="desc">倒序</option><option value="asc">正序</option></ThemedSelect></label>
+      <label className="filter-field"><span>文件夹浏览</span><input type="checkbox" aria-label="比赛文件夹浏览" checked={!!folder} onChange={event=>setFolder(event.target.checked?{stage:'platforms',path:[]}:null)}/></label>
+      <span className="filter-result-count">{filtered.length} 场</span>
+    </FilterMenu></PageSearch>
     {joinError&&<p className="connection-error" role="alert">{joinError}</p>}
     {folder?<><CatalogPath scope={folder} onChange={setFolder}/><CatalogExplorer rows={filtered.flatMap(group=>group.rows.map(row=>({...row,groupKey:group.key})))} scope={folder} onChange={setFolder} onContest={row=>setSelected(row.groupKey)} renderContest={row=>renderCard(groups.find(group=>group.key===row.groupKey))}/></>:<div className="competition-list">{visibleGroups.map(renderCard)}</div>}
     {!folder&&filtered.length>pageSize&&<nav className="competition-pagination" aria-label="比赛分页"><span>{first+1}–{Math.min(first+pageSize,filtered.length)} / {filtered.length} 场</span><button type="button" className="progress-button" disabled={currentPage===1} onClick={()=>setPage(currentPage-1)}>上一页</button><span>第 {currentPage} / {pageCount} 页</span><button type="button" className="progress-button" disabled={currentPage===pageCount} onClick={()=>setPage(currentPage+1)}>下一页</button></nav>}
@@ -380,7 +345,7 @@ export function ConnectionsPanel({ hub, api, onChanged, onError, includeTranslat
 }
 
 function updateDraft(hub) { return { autoSync: hub?.settings?.autoSync ?? true, intervalHours: hub?.settings?.intervalHours ?? 6, minDifficulty: hub?.settings?.minDifficulty ?? 0, maxDifficulty: hub?.settings?.maxDifficulty ?? 10000 }; }
-export function UpdatePanel({ softwareState, hub, api, onChanged, onError, onContent, showNotifications = true }) {
+export function UpdatePanel({ softwareState, hub, api, onChanged, onError, onContent, showNotifications = true, notificationsOnly = false }) {
   const [draft, setDraft] = useState(() => updateDraft(hub)), [busy, setBusy] = useState(false), [message, setMessage] = useState(''), [error, setError] = useState(''), [unreadOnly, setUnreadOnly] = useState(false);
   const dirty = useRef(false), editRevision = useRef(0);
   useEffect(() => { if (!dirty.current) setDraft(updateDraft(hub)); }, [hub?.settings]);
@@ -396,7 +361,7 @@ export function UpdatePanel({ softwareState, hub, api, onChanged, onError, onCon
   const cached = hub?.updates || {}, sync = hub?.sync || {};
   const updates = { ...cached, currentVersion: __TB_VERSION__, latestVersion: softwareState ? softwareState.latestVersion || (softwareState.status === "current" ? `v${softwareState.currentVersion}` : null) : null, url: softwareState?.releaseUrl, notes: softwareState?.notes || "" };
   const notifications = list(hub?.notifications).filter(item => !unreadOnly || !item.read);
-  return <section className="update-panel" aria-label="题库与版本更新"><div className="progress-section-heading"><h2><Github size={17} />题库与版本更新</h2><span>当前 {__TB_VERSION__}</span></div>
+  return <section className="update-panel" aria-label="题库与版本更新">{!notificationsOnly&&<><div className="progress-section-heading"><h2><Github size={17} />题库与版本更新</h2><span>当前 {__TB_VERSION__}</span></div>
     <div className="update-project-source"><span>项目公开仓库</span><a href={PROJECT_URL} target="_blank" rel="noreferrer">acm-algo-trainer<ExternalLink size={12} /></a></div>
     {updates.sourceNotice && <p className="progress-small">{updates.sourceNotice}</p>}
     <form onSubmit={event => { event.preventDefault(); request('hub/configure', { ...draft, intervalHours: Number(draft.intervalHours), minDifficulty: Number(draft.minDifficulty), maxDifficulty: Number(draft.maxDifficulty) }); }}>
@@ -409,6 +374,7 @@ export function UpdatePanel({ softwareState, hub, api, onChanged, onError, onCon
     {sync.message && <p className="progress-small">{sync.message}</p>}{updates.error && <p className="connection-error">{updates.error}</p>}
     {list(sync.providers).length > 0 && <div className="update-providers">{list(sync.providers).map(item => <div key={item.platform}><strong>{LABELS[item.platform] || item.platform}</strong><span>{item.message || item.status}</span><small>新增 {number(item.added)} · 待定级 {number(item.pending)}</small></div>)}</div>}
     {updates.notes && <details className="update-release-notes"><summary>版本说明</summary><p>{updates.notes}</p></details>}
+</>}
     {showNotifications && <><div className="progress-section-heading update-notification-heading"><h3>更新通知</h3><button type="button" className="progress-text-button" disabled={busy || !api || !list(hub?.notifications).some(item => !item.read)} onClick={() => request('hub/dismiss-all', {})}><CheckCheck size={14} />一键已读</button><label className="progress-check"><input type="checkbox" checked={unreadOnly} onChange={event => setUnreadOnly(event.target.checked)} />只看未读</label></div>
     <div className="update-notifications">{notifications.length ? notifications.map(item => {
       const targets = [...list(item.problemIds), ...list(item.solutionIds), ...list(item.problemUrls)];

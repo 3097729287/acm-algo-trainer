@@ -100,14 +100,14 @@ try {
   const dateStyle=await page.locator('.last-date').first().evaluate(node=>({font:getComputedStyle(node).fontSize,root:getComputedStyle(document.documentElement).getPropertyValue('--ui-font-size')}));
   assert(Number.parseFloat(dateStyle.font)>=13);
   const headerStyle=await page.locator('.problem-table th').first().evaluate(node=>({color:getComputedStyle(node).backgroundColor,rules:Array.from(document.styleSheets).flatMap(sheet=>{try{return Array.from(sheet.cssRules).filter(rule=>rule.selectorText&&node.matches(rule.selectorText)&&rule.style?.background).map(rule=>rule.cssText)}catch{return[]}})}));
-  assert(['rgba(0, 0, 0, 0)','transparent'].includes(headerStyle.color),'header follows the translucent page');
+  assert(/(?:0\.35|35%)/.test(headerStyle.color),'header follows the configured page opacity');
   await shot('list');
   await nav('题库').click();
   await page.getByRole('button',{name:'筛选题目',exact:true}).click();
   await page.getByRole('button',{name:'保存筛选',exact:true}).click();
   await page.getByLabel('筛选名称',{exact:true}).fill('可删除筛选');
   await page.getByRole('dialog').getByRole('button',{name:'保存筛选',exact:true}).click();
-  await page.getByRole('button',{name:'删除已保存筛选 可删除筛选',exact:true}).click();
+  await page.getByRole('button',{name:'筛选题目',exact:true}).click();await page.locator('.filter-popover').getByText('已保存筛选',{exact:true}).click();await page.getByRole('button',{name:'删除已保存筛选 可删除筛选',exact:true}).click();
   assert.equal(await page.getByRole('button',{name:'删除已保存筛选 可删除筛选',exact:true}).count(),0);
   await nav('比赛').click();await page.locator('.competition-card').first().waitFor();assert.equal(await page.locator('.competition-platform').count(),0);
   await shot('competitions');
@@ -162,7 +162,7 @@ try {
   await page.getByRole('button',{name:'石墨深色',exact:true}).click();
   assert.equal(await topProfile.evaluate(node=>getComputedStyle(node).getPropertyValue('--tier-color').trim()),tierBefore);
   assert.equal(tierBefore,'#bc8aff');
-  assert.equal(await topProfile.getByLabel('大师',{exact:true}).count(),1);
+  assert.equal(await topProfile.locator('.avatar-rank-frame').count(),1);assert.equal(await topProfile.locator('.profile-rank-emblem').count(),0);
   assert(!/XP|665\s*\//.test(await topProfile.innerText()),'XP stays in the ring tooltip');
   await page.getByRole('meter',{name:'本级经验进度',exact:true}).hover();
   await page.getByRole('tooltip').filter({hasText:'经验值:665/1,600'}).waitFor();
