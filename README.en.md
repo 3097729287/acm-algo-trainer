@@ -3,7 +3,7 @@
 TB combines a problem library, illustrated editorials, a C++ editor, local judging and training records for Codeforces, AtCoder, Nowcoder and Luogu. SQLite preserves local work; the account service synchronizes learning data between computers.
 
 <!-- release-status:start -->
-**Source version 1.2.1 is not yet published.** Release validation is in progress. Public downloads remain on [v1.1.5](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.1.5). [1.2.1 changes and validation](docs/releases/1.2.1.md).
+**TB 1.2.1 is published.** [Download](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.2.1) · [Changes and validation](docs/releases/1.2.1.md). The desktop app and shared service have been updated and verified.
 <!-- release-status:end -->
 
 [Website](https://3097729287.github.io/acm-algo-trainer/) · [Usage](docs/usage.md) · [Development](docs/development.md) · [中文](README.md)
@@ -12,7 +12,7 @@ TB combines a problem library, illustrated editorials, a C++ editor, local judgi
 
 ## Install and upgrade
 
-Windows 10/11 x64. The [installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.5/TB-Setup-1.1.5-win64.exe) includes the C++ compiler and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.1.5/TB-1.1.5-win64.zip) before running it. Release pages include checksums and supported incremental updates.
+Windows 10/11 x64. The [installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.2.1/TB-Setup-1.2.1-win64.exe) includes the C++ compiler and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.2.1/TB-1.2.1-win64.zip) before running it. Release pages include checksums and supported incremental updates.
 
 Save drafts and exit TB before installing into the existing directory. Personal databases, source code and imported content are preserved. The updater saves work, takes online SQLite backups and verifies SHA-256 before replacement. Keep the same TB version on your computers. Original-site login uses TB's dedicated browser profile; no extension is required.
 
