@@ -111,7 +111,7 @@ try {
   await page.waitForFunction(() => document.querySelector('.cm-content')?.textContent.includes('old private browser draft'));
   assert((await editor.innerText()).includes('old private browser draft'));
   await page.getByRole('button', { name: '返回列表', exact: true }).click();
-  await page.getByRole('button', { name: '设置', exact: true }).click();await page.locator('.page-identity h1').click();await page.getByRole('tab',{name:'账号与身份',exact:true}).click();
+  await page.getByRole('button', { name: '设置', exact: true }).click();await page.locator('.settings-page').waitFor();if(!(await page.locator('.settings-home-grid').count()))await page.keyboard.press('Escape');await page.getByRole('tab',{name:'账号与身份',exact:true}).click();
   await page.getByText('登录号：ui_account_a', { exact: true }).waitFor();
   await page.getByText('管理账号', { exact: true }).click();
   await page.getByLabel('用户昵称', { exact: true }).fill('新昵称');

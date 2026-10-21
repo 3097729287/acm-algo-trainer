@@ -71,10 +71,8 @@
   color: var(--danger);
 }
 .mock-problem-menu {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 0;
-  z-index: 30;
+  position: fixed;
+  z-index: 1400;
   width: min(360px, calc(100vw - 54px));
   max-height: min(440px, calc(100dvh - 90px));
   overflow: auto;

@@ -258,7 +258,7 @@ def run(action, output):
                         try:
                             window.evaluate_js("Array.from(document.querySelectorAll('.sidebar button')).find(b=>b.textContent.includes('设置')).click()")
                             wait_js("!!document.querySelector('.settings-subpage-tabs')")
-                            window.evaluate_js("document.querySelector('.page-identity h1')?.click()")
+                            window.evaluate_js("document.querySelector('.settings-return-button')?.click()")
                             wait_js("!!document.querySelector('.settings-home-grid')")
                             window.evaluate_js("document.querySelector('[role=tab][aria-label=\"数据与帮助\"]').click()")
                             wait_js("!!document.querySelector('.help-action')")

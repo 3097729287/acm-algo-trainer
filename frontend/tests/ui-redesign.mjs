@@ -68,7 +68,7 @@ try {
  await page.getByLabel('今日获得爱心 3',{exact:true}).waitFor();
  const paths=await page.evaluate(async()=>{const {catalogSegments}=await import('/src/components/CatalogExplorer.jsx');return ['练习赛 153','CCPC 2025 郑州区域赛（热身赛）','CCPC 2025 郑州区域赛','ICPC 2026 亚洲区网络预选赛'].map(contest=>catalogSegments({contest,platform:'牛客'}));});
  assert.deepEqual(paths[0],['牛客','练习赛','练习赛 153']);assert.deepEqual(paths[1].slice(0,3),['ACM','CCPC','2025年']);assert.deepEqual(paths[1].slice(0,-1),paths[2].slice(0,-1));assert.equal(paths[1].at(-1),'热身赛');assert.equal(paths[2].at(-1),'正赛');assert.equal(paths[3][1],'网络预选赛');
- assert.equal(await page.locator('.sidebar').evaluate(el=>Math.round(el.getBoundingClientRect().width)),174);
+ assert.equal(await page.locator('.sidebar').evaluate(el=>Math.round(el.getBoundingClientRect().width)),128);
  assert.equal(await page.locator('.knowledge-drawer-toggle').count(),0);
  await page.keyboard.press('Control+b');await page.keyboard.press('Control+b');
  assert(await page.locator('.topbar-daily-ac').evaluate(el=>getComputedStyle(el).color===getComputedStyle(el.querySelector('b')).color),'AC count inherits intensity');
@@ -81,15 +81,15 @@ try {
  await page.getByRole('button',{name:'重置所有透明度',exact:true}).click();await page.waitForTimeout(100);assert.equal(await opacity.inputValue(),'76');
  await page.waitForTimeout(300);await page.locator('.settings-page').evaluate(el=>el.scrollTop=250);const savedScroll=await page.locator('.settings-page').evaluate(el=>el.scrollTop);await nav('我的训练').click();await nav('设置').click();await page.waitForTimeout(350);assert.equal(await page.locator('.settings-page').evaluate(el=>el.scrollTop),savedScroll,'settings restores detailed page and scroll position');
  const styles=[];for(const name of ['清简','线框','极光','蓝图']){await page.getByRole('button',{name,exact:true}).click();styles.push(await page.locator('.appearance-studio').evaluate(el=>{const style=getComputedStyle(el);return [style.borderRadius,style.borderStyle,style.backgroundImage].join('|');}));}assert.equal(new Set(styles).size,4,'all presets produce distinct rendered surfaces');await page.getByRole('button',{name:'清简',exact:true}).click();
- await page.getByRole('button',{name:'返回全部设置',exact:true}).click();await page.getByRole('tab',{name:'翻译 API',exact:true}).click();await page.getByLabel('题面翻译配置',{exact:true}).waitFor();
+ await page.keyboard.press('Escape');await page.getByRole('tab',{name:'翻译 API',exact:true}).click();await page.getByLabel('题面翻译配置',{exact:true}).waitFor();
  await nav('模拟赛').click();await page.locator('.mock-mode-options').waitFor();assert.equal(await page.getByText('按目标组成一套训练',{exact:true}).count(),0);
  await page.getByRole('button',{name:'综合训练',exact:true}).hover();assert.equal(await page.getByRole('tooltip').count(),0);await page.screenshot({path:'tests/screenshots/ui-redesign-mock.png'});
- await nav('比赛').click();assert.equal(await page.getByRole('button',{name:'比赛文件夹浏览',exact:true}).count(),0);await page.locator('.competition-card').first().waitFor();
+ await nav('比赛').click();await page.getByRole('button',{name:'比赛文件夹浏览',exact:true}).waitFor();await page.locator('.competition-card').first().waitFor();
  await nav('题库').click();assert.equal(await page.getByRole('button',{name:'逐层浏览题库',exact:true}).count(),0);
  await page.locator('.problem-table tr[data-id]').first().waitFor();
  await page.locator('.problem-table tr[data-id]').first().locator('.problem-title').click();await page.locator('.cm-editor').waitFor();assert.equal(await page.locator('.topbar').isVisible(),false);assert.equal(await page.locator('.app-statusbar').isVisible(),false);await page.getByRole('button',{name:'返回列表',exact:true}).click();
  await nav('排行榜').click();await page.locator('.ranking-table tbody tr').first().waitFor();assert.equal(await page.getByText('本榜训练者',{exact:true}).count(),0);assert.equal(await page.getByRole('button',{name:'同步与刷新',exact:true}).innerText(),'');await checkOverflow();await page.screenshot({path:'tests/screenshots/ui-redesign-ranking.png'});
- await nav('设置').click();await page.getByRole('button',{name:'返回全部设置',exact:true}).click();await page.getByRole('tab',{name:'数据与帮助',exact:true}).click();await page.getByRole('button',{name:'新手指引',exact:true}).click();await page.getByRole('heading',{name:'连接账号',exact:true}).waitFor();
+ await nav('设置').click();await page.keyboard.press('Escape');await page.getByRole('tab',{name:'数据与帮助',exact:true}).click();await page.getByRole('button',{name:'新手指引',exact:true}).click();await page.getByRole('heading',{name:'连接账号',exact:true}).waitFor();
  const next=page.locator('.tour-card').getByRole('button',{name:'下一步',exact:true});
  await next.click();await page.getByRole('heading',{name:'找到想练的题',exact:true}).waitFor();
  await next.click();await page.getByRole('heading',{name:'进入练习',exact:true}).waitFor();assert(await next.isDisabled());
@@ -101,7 +101,7 @@ try {
  for (const title of ['组成一场训练','安排下一次练习','完成入门']) {await next.click();await page.getByRole('heading',{name:title,exact:true}).waitFor();}
  await page.locator('.tour-card').getByRole('button',{name:'完成',exact:true}).click();assert.equal(await page.locator('.guided-tour').count(),0);
  await page.getByRole('tab',{name:'数据与帮助',exact:true}).click();await page.getByRole('button',{name:'新手指引',exact:true}).click();await page.getByRole('heading',{name:'连接账号',exact:true}).waitFor();
- await page.locator('.tour-card').getByRole('button',{name:'结束指引 ×',exact:true}).click();await page.setViewportSize({width:1280,height:800});await nav('设置').click();if(await page.getByRole('button',{name:'返回全部设置',exact:true}).count())await page.getByRole('button',{name:'返回全部设置',exact:true}).click();await page.getByRole('tab',{name:'外观',exact:true}).click();await page.getByRole('spinbutton',{name:'界面字号',exact:true}).fill('22');await page.getByRole('spinbutton',{name:'界面字号',exact:true}).blur();await checkOverflow();await page.screenshot({path:'tests/screenshots/ui-redesign-settings-22.png'});
+ await page.locator('.tour-card').getByRole('button',{name:'结束指引 ×',exact:true}).click();await page.setViewportSize({width:1280,height:800});await nav('设置').click();if(!(await page.locator('.settings-home-grid').count()))await page.keyboard.press('Escape');await page.getByRole('tab',{name:'外观',exact:true}).click();await page.getByRole('spinbutton',{name:'界面字号',exact:true}).fill('22');await page.getByRole('spinbutton',{name:'界面字号',exact:true}).blur();await checkOverflow();await page.screenshot({path:'tests/screenshots/ui-redesign-settings-22.png'});
  await page.getByRole('button',{name:'切换主题',exact:true}).click();await nav('模拟赛').click();await page.locator('.mock-mode-options').waitFor();await checkOverflow();await page.getByRole('button',{name:'训练筛选',exact:true}).click();assert((await page.getByLabel('模拟赛赛制',{exact:true}).boundingBox()).width>=100);await page.keyboard.press('Escape');await page.screenshot({path:'tests/screenshots/ui-redesign-light-mock-22.png'});
  assert.equal(errors.length,0,JSON.stringify(errors));console.log('UI redesign navigation checks passed');
 } finally {await browser.close();await vite.close();}

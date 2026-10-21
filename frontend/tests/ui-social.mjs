@@ -155,7 +155,7 @@ try {
   assert.ok(await page.getByRole('button',{name:/^上移 /}).count()>0);
   await openSettings(page, '交互与导航');assert((await page.getByRole('button',{name:/^上移 /}).count())>0);
   await openSettings(page, '外观');
-  await page.setViewportSize({width:1296,height:860});await font.fill('22');await font.blur();await checkOverflow();assert.equal(await page.locator('.page-identity').evaluate(node=>node.getBoundingClientRect().right>document.querySelector('.topbar-actions').getBoundingClientRect().left+1),false);await shot('small-settings');
+  await page.setViewportSize({width:1296,height:860});await font.fill('22');await font.blur();await checkOverflow();assert.equal(await page.locator('#tb-page-search').evaluate(node=>node.getBoundingClientRect().right>document.querySelector('.topbar-actions').getBoundingClientRect().left+1),false);await shot('small-settings');
   await font.fill('16');await font.blur();await page.setViewportSize({width:1600,height:1000});
   const topProfile=page.locator('.topbar .profile-badge');
   const tierBefore=await topProfile.evaluate(node=>getComputedStyle(node).getPropertyValue('--tier-color').trim());

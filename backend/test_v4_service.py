@@ -139,6 +139,10 @@ class AdditiveHTTPTests(unittest.TestCase):
         self.assertEqual(self.request('/api/official/status?sessionId=native')[0],403)
         self.assertEqual(self.request('/api/problem/translate',{'id':self.remote['id']})[0],403)
         self.assertEqual(self.request('/api/problem/translate',{'id':self.remote['id'],'contestId':value['contest']['id']})[0],200)
+        self.server.official_opener=lambda url,code,title:{'sessionId':'contest-native','status':'ready'}
+        self.assertEqual(self.request('/api/official/open',{'id':self.remote['id'],'contestId':value['contest']['id'],'code':'int main(){}'})[0],200)
+        self.assertEqual(self.request('/api/official/status?sessionId=contest-native')[0],200)
+        self.assertEqual(self.request('/api/lecture?id=lesson')[0],403)
     def test_actual_contest_times_and_solution_lecture_refs(self):
         self.server.lectures=LectureFixture()
         directory,source=backend.toolutil.contest_paths(str(self.root),'ABC',478)

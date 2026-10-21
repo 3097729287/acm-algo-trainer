@@ -9,6 +9,7 @@ import re
 import statistics
 from urllib.parse import urlsplit, unquote
 from progression import SHANGHAI, qualified_contests
+from knowledge_mastery import MODEL as KNOWLEDGE_MODEL, problem_evidence, summarize as summarize_mastery
 
 FAILURES = {"WA", "TLE", "MLE", "RE", "CE", "OLE", "ERROR"}
 
@@ -194,6 +195,7 @@ def build_insights(rows, submissions, history, workspace, hub, now):
         row = library.get(canonical, row)
         for tag in row.get("tags", []):
             tag_ids[tag].add(canonical)
+    mastery_evidence = problem_evidence(library, grouped, official)
     knowledge = []
     for name, ids in tag_ids.items():
         participated = ids & active.keys()
@@ -203,13 +205,12 @@ def build_insights(rows, submissions, history, workspace, hub, now):
         attempts = sum(len(grouped[identity]) for identity in ids)
         failures = sum(record.get("verdict") in FAILURES for identity in ids for record in grouped[identity])
         due_ids = [identity for identity in participated if active[identity].get("queue")]
-        evidence = len(accepted)
-        confidence = "none" if not attempts and not public else "low" if evidence < 3 else "medium" if evidence < 10 else "high"
-        mastery = round(100 * len(accepted) / len(ids)) if attempts or public else None
+        evidence_ids = sorted(ids & mastery_evidence.keys())
+        estimate = summarize_mastery(mastery_evidence[identity] for identity in evidence_ids)
         priority = min(100, len(due_ids) * 20 + (20 if participated and not accepted else 0) + min(10, failures))
         suggestions = sorted(due_ids) + sorted(ids - official - set(due_ids), key=lambda identity: (library.get(identity, {}).get("difficulty") is None, library.get(identity, {}).get("difficulty") or 99999, identity))
         reason = f"有 {len(due_ids)} 道待办" if due_ids else "已有尝试，可继续独立验证" if participated and not accepted else "继续扩大通过覆盖" if accepted else "还没有个人提交证据"
-        knowledge.append({"name": name, "tags": [name], "available": len(ids), "participated": len(participated), "accepted": len(accepted), "officialAccepted": len(public), "localAccepted": len(local), "attempts": attempts, "failures": failures, "due": len(due_ids), "reviewed": len(ids & reviewed), "mastery": mastery, "confidence": confidence, "label": "官方通过覆盖率" if mastery is not None else "暂无证据", "priority": priority, "reason": reason, "suggestedIds": suggestions[:6]})
+        knowledge.append({"name": name, "tags": [name], "available": len(ids), "participated": len(evidence_ids), "accepted": len(accepted), "officialAccepted": len(public), "localAccepted": len(local), "attempts": attempts, "failures": failures, "due": len(due_ids), "dueIds": sorted(due_ids), "reviewed": len(ids & reviewed), **estimate, "evidenceIds": evidence_ids, "label": "个人作答掌握度" if estimate['mastery'] is not None else "证据不足", "priority": priority, "reason": reason, "suggestedIds": suggestions[:6]})
     knowledge.sort(key=lambda item: (-item["priority"], item["name"]))
     recommendations = [{"name": item["name"], "reason": item["reason"], "priority": item["priority"], "ids": item["suggestedIds"]} for item in knowledge if item["suggestedIds"]][:6]
 
@@ -236,7 +237,7 @@ def build_insights(rows, submissions, history, workspace, hub, now):
     before_today_solved = {key for key in total_solved if not solved_dates[key] or any(day < today for day in solved_dates[key])}
     today_solved = {key for key in total_solved if today in solved_dates[key]}
     summary = {"beforeTodaySolved": len(before_today_solved), "todaySolved": len(today_solved), "active": len(active), "accepted": sum(bool(row.get("accepted")) for row in active.values()), "submissions": len(records), "activeDays": len(days), "streak": streak, "longestStreak": longest, "completedContests": len(completed_contests), "officialSolved": len(official), "totalSolved": len(total_solved), "localAccepted": len(personal), "samplePassed": len(samples)}
-    return {"summary": summary, "growth": growth, "activity": activity, "knowledge": knowledge, "recommendations": recommendations, "achievements": achievements, "assessment": assessment}
+    return {"summary": summary, "growth": growth, "activity": activity, "knowledge": knowledge, "knowledgeEvidence": list(mastery_evidence.values()), "knowledgeModel": dict(KNOWLEDGE_MODEL), "recommendations": recommendations, "achievements": achievements, "assessment": assessment}
 
 
 def recommend_problems(library, active, independent, personal, official, hub):

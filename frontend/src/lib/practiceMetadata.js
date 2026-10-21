@@ -7,7 +7,7 @@ export function difficultyBand(value) {
 }
 
 export function difficultyLabel(row = {}) {
-  return row.difficulty == null ? '未定级' : `${row.difficultyEstimated ? '≈' : ''}${row.difficulty}`;
+  return row.difficulty == null ? '未定级' : String(row.difficulty);
 }
 
 export function difficultyDescription(row = {}) {

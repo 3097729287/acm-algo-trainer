@@ -2,7 +2,8 @@ import {useMemo,useState} from 'react';
 import {ArrowLeft,Network,Search} from 'lucide-react';
 import PageSearch from './PageSearch.jsx';
 import FilterMenu from './FilterMenu.jsx';
-import {knowledgeAliases} from '@/lib/knowledgeNames.js';
+import {canonicalKnowledgeName,knowledgeAliases} from '@/lib/knowledgeNames.js';
+import {combineKnowledgeEvidence} from '@/lib/knowledgeMastery.js';
 export const KNOWLEDGE_DOMAINS = [
   { name: '基础技巧', topics: [['前缀和',900],['差分',1100],['二分查找',1300],['双指针',1300],['位运算',1200],['离散化',1400],['倍增',1800]] },
   { name: '数据结构', topics: [['栈',900],['队列',900],['单调栈',1500],['单调队列',1700],['并查集',1500],['堆',1400],['树状数组',1800],['线段树',2100]] },
@@ -16,24 +17,27 @@ export const KNOWLEDGE_DOMAINS = [
 
 export function topicTags(name){return knowledgeAliases(name);}
 export function estimatedDifficulty(name){const found=KNOWLEDGE_DOMAINS.flatMap(domain=>domain.topics).filter(([topic])=>topicTags(topic).some(tag=>String(name).toLowerCase().includes(tag.toLowerCase())));if(found.length)return Math.max(...found.map(([,value])=>value));if(/流|后缀|自动机|多项式|FFT|NTT|生成函数|分治优化|可持久化|莫队/.test(name))return 2400;return /图|树|DP|动态规划|几何/.test(name)?2100:1600;}
-export default function KnowledgeRadar({knowledge=[],onTopic,onTrain}) {
+export default function KnowledgeRadar({knowledge=[],knowledgeEvidence=[],knowledgeModel={},onTopic,onTrain}) {
  const [domain,setDomain]=useState(null),[query,setQuery]=useState(''),[gaps,setGaps]=useState(false);
  const evidence=names=>{const tags=new Set(names.flatMap(topicTags));return knowledge.filter(item=>tags.has(item.name));};
- const facts=names=>{const entries=evidence(names),maximum=key=>Math.max(0,...entries.map(item=>Number(item[key])||0));return {value:maximum('mastery'),available:maximum('available'),participated:maximum('participated'),officialAccepted:maximum('officialAccepted'),localAccepted:maximum('localAccepted'),due:maximum('due'),failures:maximum('failures'),suggested:entries.flatMap(item=>item.suggestedIds||[])[0]};};
- const nodes=useMemo(()=>domain?domain.topics.map(([name,difficulty])=>({name,difficulty,...facts([name])})):KNOWLEDGE_DOMAINS.map(item=>({...item,...facts(item.topics.map(([name])=>name)),value:item.topics.reduce((sum,[name])=>sum+facts([name]).value,0)/item.topics.length})),[domain,knowledge]);
+ const facts=names=>{const entries=evidence(names),maximum=key=>Math.max(0,...entries.map(item=>Number(item[key])||0)),pool=new Map(knowledgeEvidence.map(item=>[item.id,item]));return {...combineKnowledgeEvidence(entries.flatMap(item=>item.evidenceIds||[]),pool,knowledgeModel),available:maximum('available'),due:entries.some(item=>item.dueIds)?new Set(entries.flatMap(item=>item.dueIds||[])).size:maximum('due'),failures:maximum('failures'),suggested:entries.flatMap(item=>item.suggestedIds||[])[0]};};
+ const nodes=useMemo(()=>domain?domain.topics.map(([name,difficulty])=>({name:canonicalKnowledgeName(name),difficulty,...facts([name])})):KNOWLEDGE_DOMAINS.map(item=>({...item,...facts(item.topics.map(([name])=>name))})),[domain,knowledge,knowledgeEvidence,knowledgeModel]);
  const position=(index,radius)=>{const angle=-Math.PI/2+index*Math.PI*2/nodes.length;return [340+Math.cos(angle)*radius,245+Math.sin(angle)*radius];};
  const polygon=radius=>nodes.map((_,i)=>position(i,radius).join(',')).join(' ');
  const select=node=>{if(domain)onTopic?.({name:node.name,tags:topicTags(node.name)});else setDomain(KNOWLEDGE_DOMAINS.find(item=>item.name===node.name));};
- const shown=nodes.filter(node=>(!gaps||node.due>0||node.failures>0||node.value<50)&&topicTags(node.name).some(tag=>tag.toLowerCase().includes(query.trim().toLowerCase())));
+ const shown=nodes.filter(node=>(!gaps||node.due>0||node.failures>0||node.value===null||node.value<50)&&topicTags(node.name).some(tag=>tag.toLowerCase().includes(query.trim().toLowerCase())));
+ const valueText=node=>node.value===null?'?%':`${node.value}%`;
+ const allKnown=nodes.every(node=>node.value!==null);
  return <section className="progress-section knowledge-radar" aria-label="知识点雷达图">
  <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索知识点" value={query} onChange={event=>setQuery(event.target.value)}/></label><FilterMenu label="雷达筛选" active={gaps}><label className="filter-field"><span>只看待加强</span><input type="checkbox" checked={gaps} onChange={event=>setGaps(event.target.checked)}/></label></FilterMenu></PageSearch>
  <header className="progress-section-heading"><h2>{domain?<button className="icon-button" aria-label="返回一级雷达" onClick={()=>{setDomain(null);setQuery('');}}><ArrowLeft size={18}/></button>:<Network size={19}/>} {domain?.name||'知识点雷达'}</h2></header>
  <svg viewBox="0 0 680 500" role="group" aria-label={domain?`${domain.name}二级雷达`:'一级知识雷达'}>
  {[.25,.5,.75,1].map(ratio=><polygon key={ratio} className="radar-grid" points={polygon(163*ratio)}/>)}
- {nodes.map((node,i)=>{const [x,y]=position(i,163),[tx,ty]=position(i,199);return <g key={node.name}><path className="radar-axis" d={`M340 245L${x} ${y}`}/><text x={tx} y={ty} textAnchor="middle" dominantBaseline="middle">{node.name}</text></g>;})}
- <polygon className="radar-value" points={nodes.map((node,i)=>position(i,163*Math.max(0,Math.min(100,node.value))/100).join(',')).join(' ')}/>
- {nodes.map((node,i)=>{const [x,y]=position(i,163),[mx,my]=position(i,163*node.value/100);return <g key={node.name}><circle className="radar-data-dot" cx={mx} cy={my} r={3}/><circle className="radar-node" cx={x} cy={y} r={8} tabIndex={0} role="button" aria-label={`${node.name}，掌握 ${Math.round(node.value)}%，${domain?'筛选题目':'进入二级雷达'}`} onClick={()=>select(node)} onKeyDown={event=>{if(['Enter',' '].includes(event.key)){event.preventDefault();select(node);}}}/></g>;})}
+ {nodes.map((node,i)=>{const [x,y]=position(i,163),dx=(x-340)/163,dy=(y-245)/163,horizontal=Math.abs(dx)>.25;return <g key={node.name}><path className="radar-axis" d={`M340 245L${x} ${y}`}/><text x={x+(horizontal?Math.sign(dx)*20:0)} y={y+(horizontal?dy*16:Math.sign(dy)*30)} textAnchor={horizontal?(dx>0?'start':'end'):'middle'} dominantBaseline="middle" data-knowledge-name={node.name}>{node.name}</text></g>;})}
+ {allKnown&&<polygon className="radar-value" points={nodes.map((node,i)=>position(i,163*node.value/100).join(',')).join(' ')}/>}
+ {!allKnown&&nodes.map((node,i)=>{const next=nodes[(i+1)%nodes.length];return node.value!==null&&next.value!==null?<path key={node.name} className="radar-value radar-partial" d={`M${position(i,163*node.value/100).join(' ')}L${position((i+1)%nodes.length,163*next.value/100).join(' ')}`}/>:null;})}
+ {nodes.map((node,i)=>{const [x,y]=position(i,163),[mx,my]=position(i,163*(node.value??0)/100);return <g key={node.name}>{node.value!==null&&<circle className="radar-data-dot" cx={mx} cy={my} r={3}/>}<circle className="radar-node" data-unknown={node.value===null} cx={x} cy={y} r={8} tabIndex={0} role="button" aria-label={`${node.name}，掌握 ${valueText(node)}，${domain?'筛选题目':'进入二级雷达'}`} onClick={()=>select(node)} onKeyDown={event=>{if(['Enter',' '].includes(event.key)){event.preventDefault();select(node);}}}><title>{node.reason}</title></circle></g>;})}
  </svg>
- <div className="radar-knowledge-details" aria-label="雷达知识掌握与缺口"><div className="radar-detail-heading"><span>知识点</span><span>掌握</span><span>参与 / 可用</span><span>AC</span><span>待练</span></div>{shown.map(node=><div className="radar-detail-row" key={node.name}><button type="button" onClick={()=>select(node)}>{node.name}{domain&&<small>≈{node.difficulty}</small>}</button><b>{Math.round(node.value)}%</b><span>{node.participated} / {node.available}</span><span>{node.officialAccepted}</span><span>{node.suggested&&onTrain?<button type="button" onClick={()=>onTrain(node.suggested)}>{node.due||'练习'}</button>:node.due}</span></div>)}</div>
+ <div className="radar-knowledge-details" aria-label="雷达知识掌握与缺口"><div className="radar-detail-heading"><span>知识点</span><span>掌握</span><span>作答 / 可用</span><span>AC</span><span>待练</span></div>{shown.map(node=><div className="radar-detail-row" key={node.name}><button type="button" onClick={()=>select(node)}>{node.name}{domain&&<small>{node.difficulty}</small>}</button><b title={node.reason} data-unknown={node.value===null}>{valueText(node)}</b><span>{node.participated} / {node.available}</span><span>{node.officialAccepted}</span><span>{node.suggested&&onTrain?<button type="button" onClick={()=>onTrain(node.suggested)}>{node.due||'练习'}</button>:node.due}</span></div>)}</div>
  </section>;
 }

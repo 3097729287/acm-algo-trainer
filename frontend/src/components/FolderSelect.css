@@ -1,0 +1,7 @@
+.folder-select-menu>header {display:flex;align-items:center;gap:8px;position:sticky;top:-5px;padding:8px 5px;background:var(--panel-raised-base);border-bottom:1px solid var(--line);margin-bottom:5px;color:var(--muted)}
+.folder-select-menu>header>button {display:grid;place-items:center;width:26px;height:26px;padding:0;border-radius:4px;color:var(--accent)}
+.folder-select-menu>header strong {font-size:.85em;font-weight:500}
+.folder-select-menu [role=option] {gap:8px}
+.folder-select-menu [role=option]>span {flex:1;min-width:0;overflow-wrap:anywhere}
+.folder-select-menu [role=option]>svg {color:var(--accent)}
+.folder-select-menu>p {margin:14px 10px;color:var(--muted);font-size:.85em}

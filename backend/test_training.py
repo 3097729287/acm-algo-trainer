@@ -102,6 +102,24 @@ class ServiceTests(unittest.TestCase):
         self.assertEqual(result['contest']['total'], 4)
         self.assertEqual(reads.call_count, 1)
 
+    def test_topic_group_keeps_all_child_tags_and_excludes_other_topics(self):
+        for index, row in enumerate(self.library.rows):
+            row['tags'] = ['topic-0' if index == 0 else 'topic-31' if index == 1 else 'outside-group']
+        plan = self.service.preview_contest({'mode': 'topic', 'tags': [f'topic-{index}' for index in range(32)],
+                                             'count': 2, 'min': 0, 'max': 10000})['plan']
+        self.assertEqual({slot['id'] for slot in plan['slots']}, {'fixture::A', 'fixture::B'})
+        with self.assertRaises(ServiceError):
+            self.service.preview_contest({'mode': 'topic', 'tags': [f'topic-{index}' for index in range(257)]})
+
+    def test_training_defaults_follow_mode_difficulty_and_question_count(self):
+        for mode, count, upper, expected in [('single',1,1400,30),('single',1,2000,60),
+                                              ('topic',2,1700,60),('comprehensive',4,2000,180)]:
+            plan=self.service.preview_contest({'mode':mode,'count':count,'min':0,'max':upper,
+                                               'tags':[f'知识 {index}' for index in range(3)]})['plan']
+            self.assertEqual(plan['duration'],expected)
+        custom=self.service.preview_contest({'mode':'single','duration':50,'min':0,'max':1400})['plan']
+        self.assertEqual(custom['duration'],50)
+
     def accept(self, identity="fixture::A", verdict="AC", submission_id=None, code="AC"):
         """2026-10-10：官方 AC 只能来自原站回执。测试用 record_official 造官方通过。"""
         # 用题目在库中的真实 URL，兼容测试里改过 URL（别名/远端）的情况。

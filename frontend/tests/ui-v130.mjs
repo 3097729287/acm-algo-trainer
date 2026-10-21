@@ -77,12 +77,12 @@ try {
  await page.getByRole('button',{name:'倒序，点击改为正序',exact:true}).waitFor();
  await nav('成长与能力').click();await page.getByLabel('一级知识雷达',{exact:true}).waitFor();
  assert.equal(await page.locator('.growth-account-panel').count(),0);
- await page.getByRole('button',{name:'数据结构，掌握 0%，进入二级雷达',exact:true}).click();
+ await page.getByRole('button',{name:'数据结构，掌握 ?%，进入二级雷达',exact:true}).click();
  await page.getByLabel('数据结构二级雷达',{exact:true}).waitFor();
- await page.getByRole('button',{name:'单调栈，掌握 0%，筛选题目',exact:true}).waitFor();
+ await page.getByRole('button',{name:'单调栈，掌握 ?%，筛选题目',exact:true}).waitFor();
  await page.getByRole('button',{name:'返回一级雷达',exact:true}).click();
  await page.screenshot({path:'tests/screenshots/v130-growth.png'});
- await nav('比赛').click();await page.getByLabel('比赛文件夹浏览',{exact:true}).waitFor();
+ await nav('比赛').click();await page.getByRole('button',{name:'比赛文件夹浏览',exact:true}).waitFor();
  assert.equal(await page.getByRole('button',{name:'文件夹浏览',exact:true}).count(),0);
  await page.locator('.competition-card').first().waitFor();await page.getByRole('button',{name:'开始比赛 周赛 166',exact:true}).waitFor();
  await page.screenshot({path:'tests/screenshots/v130-competitions.png'});

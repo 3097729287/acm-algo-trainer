@@ -114,7 +114,10 @@ try {
     assert.equal(await page.getByRole('menu').getByText('不应泄露的考点').count(), 0);
     assert.ok(await page.getByRole('menu').evaluate(node => {
       const box = node.getBoundingClientRect();
-      return box.left >= 0 && box.right <= innerWidth && box.bottom <= innerHeight;
+      const trigger=document.querySelector('.mock-problem-trigger').getBoundingClientRect();
+      const item=node.querySelector('.mock-picker-item'),slot=item.getBoundingClientRect();
+      return box.left >= 0 && box.right <= innerWidth && box.bottom <= innerHeight && box.top >= trigger.bottom
+        && item.contains(document.elementFromPoint(slot.left+slot.width/2,slot.top+slot.height/2));
     }));
     await page.keyboard.press('Escape');
     assert.equal(await picker().evaluate(node => node === document.activeElement), true);
@@ -158,7 +161,7 @@ try {
   await page.getByRole('menuitem', { name: '模拟赛记录', exact: true }).click();
   await page.locator('.records-page').waitFor();
   assert.equal(await page.locator('.sidebar').isVisible(), true);
-  await page.getByRole('tab', { name: '进行中的比赛', exact: true }).click();
+  await page.getByRole('button', { name: '继续比赛', exact: true }).click();
   await selected('B');
   await page.getByRole('button', { name: '返回工作台', exact: true }).click();
   assert.equal(await page.locator('.topbar').isVisible(), true);

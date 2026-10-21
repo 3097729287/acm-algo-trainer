@@ -196,7 +196,7 @@ try {
   const afterMock = await get('insights');
   assert.equal(afterMock.growth.totalXp, afterClaim.growth.totalXp, 'An empty immediate finish awards no experience.');
   assert.equal(afterMock.achievements.find(item => item.id === 'contest-1').unlocked, false, 'An empty immediate finish earns no completion achievement.');
-  await page.getByRole('tab', { name: /模拟赛记录/ }).click();
+  await page.locator('.mock-history').waitFor();
   await page.getByRole('button', { name: /随机单题|模拟赛|安装包验证/ }).filter({ has: page.locator('small') }).first().waitFor();
 
   await page.keyboard.press('Control+1');
@@ -220,7 +220,7 @@ try {
   await page.locator('.lecture-markdown .katex').first().waitFor();
   assert.equal(await page.locator('.lecture-markdown .katex-error').count(), 0);
   assert.equal(await page.locator('.lecture-markdown').evaluate(node => getComputedStyle(node).userSelect), 'text');
-  assert.equal(await page.locator('.page-identity h1').evaluate(node => getComputedStyle(node).userSelect), 'none');
+  assert.equal(await page.locator('.topbar').evaluate(node => getComputedStyle(node).userSelect), 'none');
   await screenshot('v5-packaged-canonical-lecture');
 
   await page.getByRole('button', { name: '排行榜', exact: true }).click();
@@ -240,7 +240,7 @@ try {
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Installed UI fits the smaller viewport at 18 px.');
   await screenshot('v5-packaged-settings');
   await page.reload();
-  await page.locator('.page-identity').waitFor();
+  await page.locator('.topbar').waitFor();
   assert.equal((await get('profile')).profile.userId, identity.profile.userId, 'Reload preserves the same unique ID.');
   const replayRows=library.rows.filter(row=>row.contest==='入门赛 49').sort((a,b)=>a.problem.localeCompare(b.problem));
   const replay=(await post('contests/preview',{mode:'replay',contest:'入门赛 49',duration:300,rules:'xcpc'})).plan;

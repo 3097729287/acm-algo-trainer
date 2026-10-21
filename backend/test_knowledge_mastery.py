@@ -1,0 +1,76 @@
+"""Personal skill estimates stay independent from the size of the catalog."""
+import datetime as dt
+import unittest
+
+from insights import build_insights
+
+
+class KnowledgeMasteryTests(unittest.TestCase):
+    def rows(self, count=5, difficulty=1400):
+        return [dict(id=f'p{i}', title=f'Problem {i}', tags=['sorting', 'greedy'], difficulty=difficulty,
+                     url=f'https://codeforces.com/contest/123/problem/{chr(65+i)}') for i in range(count)]
+
+    def record(self, identity, verdict='AC', **extra):
+        return dict(problem_id=identity, mode='submit', scope='official', verdict=verdict,
+                    submitted_at='2026-10-08T09:00:00Z', finished_at='2026-10-08T09:01:00Z',
+                    code='independent source '+identity, solution_seen=0, **extra)
+
+    def estimate(self, rows, records):
+        return build_insights(rows, records, [], {'training': [], 'contests': []}, {},
+                              dt.datetime(2026, 10, 8, 12, tzinfo=dt.timezone.utc))
+
+    def topic(self, value):
+        return next(item for item in value['knowledge'] if item['name']=='sorting')
+
+    def test_unattempted_catalog_growth_cannot_change_mastery(self):
+        rows=self.rows()
+        records=[self.record(row['id']) for row in rows]
+        before=self.topic(self.estimate(rows,records))
+        after=self.topic(self.estimate(rows+self.rows(30)[5:],records))
+        self.assertIsNotNone(before['mastery'])
+        self.assertEqual(before['mastery'],after['mastery'])
+        self.assertEqual(before['evidenceCount'],5)
+        self.assertGreater(after['available'],before['available'])
+
+    def test_low_or_unrated_samples_are_unknown_not_zero(self):
+        rows=self.rows(4)
+        low=self.topic(self.estimate(rows,[self.record(row['id']) for row in rows]))
+        self.assertIsNone(low['mastery'])
+        rows=self.rows(5,None)
+        low=self.topic(self.estimate(rows,[self.record(row['id']) for row in rows]))
+        self.assertIsNone(low['mastery'])
+        self.assertEqual(low['ratedEvidenceCount'],0)
+
+    def test_failure_difficulty_and_assistance_influence_estimate(self):
+        rows=self.rows()
+        records=[self.record(row['id']) for row in rows]
+        clean=self.topic(self.estimate(rows,records))['mastery']
+        harder=self.topic(self.estimate(self.rows(difficulty=2200),records))['mastery']
+        self.assertGreater(harder,clean)
+        failed=self.topic(self.estimate(rows,records[:3]+[self.record('p3','WA'),self.record('p4','TLE')]))['mastery']
+        self.assertLess(failed,clean)
+        assisted=self.topic(self.estimate(rows,[dict(record,solution_seen=1) for record in records]))['mastery']
+        self.assertLess(assisted,clean)
+        retries=[dict(self.record(row['id'],'WA'),submitted_at='2026-10-08T08:00:00Z') for row in rows]+records
+        self.assertLess(self.topic(self.estimate(rows,retries))['mastery'],clean)
+
+    def test_samples_compile_errors_and_aliases_do_not_inflate_evidence(self):
+        rows=self.rows(4)
+        alias=dict(rows[0],id='remote-alias',source='remote')
+        records=[self.record(row['id']) for row in rows]+[self.record(alias['id'])]
+        rows += [alias]+self.rows(7)[4:]
+        records += [dict(self.record('p4'),mode='run'),dict(self.record('p5'),scope='samples'),self.record('p6','CE')]
+        value=self.estimate(rows,records)
+        self.assertEqual(self.topic(value)['evidenceCount'],4)
+        self.assertIsNone(self.topic(value)['mastery'])
+        self.assertEqual(len(value['knowledgeEvidence']),4)
+
+    def test_public_receipts_do_not_claim_independent_source(self):
+        rows=self.rows()
+        records=[dict(self.record(row['id']),code='') for row in rows]
+        value=self.estimate(rows,records)
+        self.assertTrue(all(item['independence']<1 for item in value['knowledgeEvidence']))
+
+
+if __name__=='__main__':
+    unittest.main()

@@ -9,13 +9,13 @@ import '../src/styles/unified.css';
 import '../src/styles/revision.css';
 
 const fixture=window.revisionFixture={calls:[],started:[],fail:false,profileReady:false};
-const event={name:'区域赛测试',displayName:'区域赛测试',difficulty:1200,count:2,duration:300,rules:'xcpc'};
+const event={name:'CCPC 2025 郑州区域赛',displayName:'CCPC 2025 郑州区域赛',platform:'牛客',series:'XCPC',difficulty:1200,count:2,duration:300,rules:'xcpc'};
 const categories=[{name:'基础技巧',tags:Array.from({length:30},(_,i)=>'parent'+i),children:[{name:'前缀和',tags:['前缀和']},{name:'二分查找',tags:['二分','二分查找']}]}];
 async function api(path,body){
  fixture.calls.push({path,body});
  if(path==='contests/events')return {events:[event]};
  if(path==='contests/preview'){
-  if(body.mode==='topic'&&(!body.tags.length||body.tags.length>20))throw Error('Invalid topics');
+  if(body.mode==='topic'&&(!body.tags.length||body.tags.length>256))throw Error('Invalid topics');
   if(body.mode==='replay'&&body.contest!==event.name)throw Error('Invalid event');
   const count=body.mode==='replay'?2:body.count;
   return {plan:{previewId:'preview-'+body.mode,name:body.mode,slots:Array.from({length:count},(_,i)=>({id:'fixture::'+i,letter:String.fromCharCode(65+i),judgeScope:'local'}))}};

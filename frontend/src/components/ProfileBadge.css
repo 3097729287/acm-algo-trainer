@@ -35,7 +35,7 @@ button.profile-avatar-button { cursor:pointer; }
   outline:2px solid var(--tier-color,#9c9ca5);
   outline-offset:4px;
 }
-.profile-xp-ring { position:absolute; inset:0; width:100%; height:100%; overflow:visible; transform:rotate(-90deg); }
+.profile-xp-ring { position:absolute; inset:0; width:100%; height:100%; overflow:visible; transform:rotate(90deg); }
 .profile-xp-ring circle { fill:none; stroke-width:2.5; }
 .profile-xp-track { stroke:color-mix(in srgb,var(--text,#e7eaf1) 18%,transparent); }
 .profile-xp-value { stroke:var(--xp-ring-color); stroke-linecap:round; }

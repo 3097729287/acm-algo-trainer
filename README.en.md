@@ -4,6 +4,7 @@ TB combines a problem library, illustrated editorials, a C++ / Python editor, lo
 
 <!-- release-status:start -->
 **[1.3.1 is released](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.1).** [Changes and validation](docs/releases/1.3.1.md).
+The source is **1.3.2, not yet released**. Downloads continue to point to 1.3.1 until validation and publication finish. [Upcoming changes](docs/releases/1.3.2.md).
 <!-- release-status:end -->
 
 [Website](https://3097729287.github.io/acm-algo-trainer/) · [Usage](docs/usage.md) · [Development](docs/development.md) · [中文](README.md)
@@ -16,7 +17,18 @@ Windows 10/11 x64. The [installer](https://github.com/3097729287/acm-algo-traine
 
 Save drafts and exit TB before installing into the existing directory. Personal databases, source code and imported content are preserved. The updater saves work, takes online SQLite backups and verifies SHA-256 before replacement. Keep the same TB version on your computers. Original-site login uses TB's dedicated browser profile; no extension is required.
 
-## Changes in 1.3.1
+## Changes in 1.3.2
+
+- Compact navigation removes page breadcrumbs. The uppercase TB mark toggles the sidebar; settings subpages have a return arrow and Escape navigation, tooltips for explanations and solid configuration panels. Sync indicators keep a fixed position.
+- Daily goal problems move into My Training. Queue headings align left, outlined themes border individual problems and rounded surfaces clip square overflow. Remove redundant submission symbols and approximate difficulty prefixes.
+- Browse contests, replay events and topic selections through nested folders. Parent topics are selectable, active topic filters can be cleared in the header, and ordered lists expose a direction button beside search.
+- Mock history appears below setup, newest first. Single problems default to 30/45/60/75 minutes by difficulty; topical and comprehensive durations follow difficulty and problem count. Replays use the original duration; manual values are retained.
+- Every timed mode submits through the original-site browser workflow. The problem menu escapes toolbar clipping, timer and finish controls sit at the upper right, and the editor keeps autosave without import/save buttons or a focus outline.
+- Knowledge mastery weights judged success, independence, submission stability and difficulty. Fewer than five distinct judged problems or three rated problems displays `?%`. Parent topics deduplicate shared evidence; adding unused catalog problems cannot reduce mastery.
+- Compact standings, restored AC colors, larger counters, filled hearts, consistent flame icons, symmetric rank medals and refined avatar frames. XP rings grow clockwise from the bottom. Achievement icons reflect their meaning, goal controls move into the account panel and credits use larger, colored names.
+- Each settings tile has a distinct, centered animation suited to its space: a detailed dinosaur turns at the edges, balloons rise through a tall tile, clouds cross a wide tile, varied buildings surround a planet with a slower explosion and rebuilding cycle, and the bulb glows gently.
+
+## Changes in 1.3.1 (released baseline)
 
 - Search and filter share the top bar without covering status controls. Favorites and sorting move into the filter; contests default to a list.
 - The AC indicator shows the pre-today baseline and today's count, e.g. `AC:82` or `AC:82+2`. Static sketch flames and decorated rank avatar frames replace the previous artwork. Growth combines account statistics and radar details.
@@ -33,7 +45,7 @@ The public seed contains **5,819 problems (5,646 visible, 173 hidden), 2,422 sta
 
 XP levels and skill tiers are independent. Level 5 unlocks placement; at least five distinct, verified, independent first official ACs are required. Ability is the median difficulty of the strongest five. Iron through King starts at **0, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2100 and 2200**. This is a training estimate, not a direct copy of an original-site account rating. [Progression rules](docs/progression.md).
 
-Only official AC receipts count as accepted problems. Sample runs retain their actual scope. Replay contests use original-site submissions; generated contests use the indicated local judging scope. Standings display separate level and ability information, daily hearts and private messages.
+Only official AC receipts count as accepted problems. In 1.3.2 every timed mode submits through the original-site browser; local sample runs and historical local records retain their actual scope. Standings display separate level and ability information, daily hearts and private messages.
 
 ## Data and development
 

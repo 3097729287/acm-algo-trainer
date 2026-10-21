@@ -1,0 +1,51 @@
+.settings-home-grid .settings-tile>button>.settings-scene {left:50%;top:calc(50% + 20px);right:auto;bottom:auto;transform:translate(-50%,-50%);width:210px;height:160px;max-width:75%;max-height:75%;opacity:.8;overflow:visible}
+.settings-home-grid .settings-tile>button>.scene-globe {width:300px;height:230px}
+.settings-home-grid .settings-tile>button>:is(.scene-dino-stage,.scene-cloud-stage,.scene-balloon-stage) {top:52px;bottom:10px;left:12px;right:12px;transform:none;width:auto;height:auto;max-width:none;max-height:none;overflow:hidden}
+.dino-ground {position:absolute;left:8px;right:8px;bottom:10px;border-bottom:1px solid currentColor;opacity:.2}
+.dino-traveler {position:absolute;bottom:11px;width:120px;height:120px;animation:dino-across 18s linear infinite}
+.dino-model {width:100%;height:100%;animation:dino-direction 18s steps(1,end) infinite}
+.dino-body {animation:dino-bob .6s ease-in-out infinite alternate}
+.dino-leg {transform-origin:center;animation:dino-step .6s ease-in-out infinite alternate}
+.dino-leg-back {animation-delay:-.6s}
+.cloud-flight {position:absolute;width:115px;height:70px;top:20%;animation:cloud-across 22s linear infinite;animation-delay:-7s}
+.cloud-flight-1 {top:58%;width:96px;height:60px;animation-duration:29s;animation-direction:reverse;animation-delay:-18s;opacity:.55}
+.balloon-flight {position:absolute;left:calc(50% - 38px);width:76px;height:140px;animation:balloon-ascent 22s linear infinite;animation-delay:-5s}
+.coffee-steam {animation:steam-rise 4s ease-in-out infinite}
+.scene-orbit {transform-origin:90px 70px;animation:orbital-turn 24s linear infinite}
+.scene-star {animation:star-twinkle 6s ease-in-out infinite}
+.compass-needle {transform-origin:90px 67px;animation:compass-settle 12s ease-in-out infinite}
+.bulb-halo {fill-opacity:.05;animation:bulb-aura 6s ease-in-out infinite;filter:none!important}
+.settings-scene .scene-bulb {animation:none;filter:none}
+.bulb-glass {fill-opacity:.09;animation:bulb-glass-light 6s ease-in-out infinite}
+.bulb-filament {stroke:var(--warning);animation:bulb-filament 6s ease-in-out infinite}
+.bulb-rays {animation:bulb-rays 6s ease-in-out infinite}
+.globe-turn {transform-origin:90px 73px;animation:planet-rotation 24s linear infinite}
+.globe-planet {transform-origin:90px 73px;animation:planet-cycle 24s ease-in-out infinite}
+.globe-building {transform-origin:90px 40px;animation:city-rise 24s ease-out infinite;animation-delay:var(--build-delay);opacity:0}
+.globe-burst {opacity:0;animation:planet-burst 24s linear infinite}
+.globe-shockwave {transform-origin:90px 73px;animation:shockwave-spread 24s ease-out infinite}
+.globe-fragment {transform-origin:90px 73px;animation:fragment-flight 24s ease-out infinite}
+@keyframes dino-across {0%,100%{left:5px}50%{left:calc(100% - 125px)}}
+@keyframes dino-direction {0%,49.99%{transform:scaleX(1)}50%,99.99%{transform:scaleX(-1)}100%{transform:scaleX(1)}}
+@keyframes dino-bob {to{transform:translateY(-1.5px)}}
+@keyframes dino-step {from{transform:translateX(-2px)}to{transform:translateX(2px) translateY(-2px)}}
+@keyframes cloud-across {0%{left:-125px;opacity:0}8%,92%{opacity:.75}100%{left:calc(100% + 5px);opacity:0}}
+@keyframes balloon-ascent {0%{bottom:-155px;transform:translateX(0) rotate(-3deg);opacity:0}8%{opacity:.9}25%{bottom:5%;transform:translateX(-15px) rotate(3deg)}45%{bottom:25%;transform:translateX(17px) rotate(-3deg)}65%{bottom:48%;transform:translateX(-18px) rotate(3deg)}85%{bottom:76%;transform:translateX(13px) rotate(-2deg);opacity:.9}100%{bottom:110%;transform:translateX(-10px);opacity:0}}
+@keyframes steam-rise {0%{opacity:.15;transform:translateY(4px)}50%{opacity:.65}100%{opacity:0;transform:translateY(-10px)}}
+@keyframes orbital-turn {to{transform:rotate(360deg)}}
+@keyframes star-twinkle {0%,100%{opacity:.25}50%{opacity:.9}}
+@keyframes compass-settle {0%,100%{transform:rotate(-15deg)}35%{transform:rotate(32deg)}65%{transform:rotate(4deg)}}
+@keyframes bulb-aura {0%,100%{fill-opacity:.025}50%{fill-opacity:.12}}
+@keyframes bulb-glass-light {0%,100%{fill-opacity:.06}50%{fill-opacity:.28}}
+@keyframes bulb-filament {0%,100%{stroke-opacity:.35}50%{stroke-opacity:1}}
+@keyframes bulb-rays {0%,100%{opacity:.25}50%{opacity:.9}}
+@keyframes planet-rotation {to{transform:rotate(360deg)}}
+@keyframes city-rise {0%,2%{opacity:0;transform:scaleY(.05)}6%,62%{opacity:1;transform:scaleY(1)}68%,100%{opacity:0;transform:scaleY(.05)}}
+@keyframes planet-cycle {0%,66%,100%{transform:scale(1);opacity:1}70%{transform:scale(1.07) rotate(-3deg)}73%{transform:scale(1.02) rotate(3deg)}77%{transform:scale(.7);opacity:.6}82%,91%{transform:scale(.05);opacity:0}96%{transform:scale(.65);opacity:.65}}
+@keyframes planet-burst {0%,69%,94%,100%{opacity:0}72%,80%{opacity:1}90%{opacity:0}}
+@keyframes shockwave-spread {0%,69%{transform:scale(.9);opacity:0}73%{opacity:.8}87%,100%{transform:scale(2);opacity:0}}
+@keyframes fragment-flight {0%,70%{transform:translateY(0) rotate(0)}88%,100%{transform:translateY(var(--fragment-distance)) rotate(var(--fragment-turn))}}
+@media(max-width:800px) {.settings-home-grid .settings-tile>button>.settings-scene {width:150px;height:110px;top:calc(50% + 15px)}.dino-traveler {width:88px;height:88px;animation-name:dino-across-small}.balloon-flight {width:52px;height:100px;left:calc(50% - 26px)}.cloud-flight {width:80px;height:50px}.cloud-flight-1{top:55%}.settings-home-grid .settings-tile>button>.scene-globe{width:150px;height:116px}}
+@keyframes dino-across-small {0%,100%{left:5px}50%{left:calc(100% - 93px)}}
+@media(prefers-reduced-motion:reduce) {.settings-scene * {animation:none!important}.dino-traveler{left:calc(50% - 60px)}.balloon-flight{bottom:5%}.cloud-flight{left:12%}.cloud-flight-1{left:60%}.globe-building{opacity:1}}
+html[data-motion=off] .settings-scene * {animation:none!important}

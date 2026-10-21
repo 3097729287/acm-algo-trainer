@@ -1,3 +1,4 @@
+import SortDirection from '@/components/SortDirection.jsx';
 import {matchesShortcut} from '@/lib/shortcuts.js';
 import PageSearch from '@/components/PageSearch.jsx';
 import Tooltip from '@/components/Tooltip.jsx';
@@ -245,7 +246,7 @@ function Verdict({ value, accepted = false, scope }) {
   );
 }
 function Difficulty({ value, row }) {
-  return <span className={"difficulty band-" + difficultyBand(value)} title={row ? difficultyDescription(row) : undefined}>{row ? difficultyLabel(row).replace(/^≈\s*/, '') : value ?? "—"}</span>;
+  return <span className={"difficulty band-" + difficultyBand(value)} title={row ? difficultyDescription(row) : undefined}>{row ? difficultyLabel(row) : value ?? "—"}</span>;
 }
 function IconButton({ label, icon: Icon, onClick, children, ...props }) {
   return (
@@ -921,10 +922,14 @@ export default function App() {
   const rows = useMemo(
       () => progressRows(data?.rows || [], workspace),
       [data?.rows, workspace.training, workspace.activeContest],
-    ),
-    mine = useMemo(() => rows.filter((r) => r.active), [rows]);
+    );
+  const mine = useMemo(()=>{
+    const result=new Map(rows.filter(row=>row.active).map(row=>[row.id,row])),catalog=new Map(rows.map(row=>[row.id,row]));
+    for(const task of workspace.goalTasks||[]){const row=catalog.get(task.id);result.set(task.id,{...task,...row,tags:row?.tags||[],accepted:!!(row?.accepted||task.accepted),goalTask:true,goalTitles:task.goalTitles||[]});}
+    return [...result.values()];
+  },[rows,workspace.goalTasks]);
   const currentTrainingDay = trainingDay(workspace.now || now);
-  const todayMine = useMemo(() => mine.filter(row => isTodayTraining(row, workspace.now || now)), [mine, currentTrainingDay]);
+  const todayMine = useMemo(() => mine.filter(row => row.goalTask || isTodayTraining(row, workspace.now || now)), [mine, currentTrainingDay]);
   const categories = useMemo(
     () => organizeCategories(data?.categories || []),
     [data?.categories],
@@ -1001,6 +1006,8 @@ export default function App() {
   const active = workspace.activeContest,
     summary = workspace.summary || emptyWorkspace.summary;
   const mockFocus = page === "mock" && active && mockTab === "create" && !record && !practiceId;
+  const lastWorkspacePage = useRef("mine");
+  useEffect(()=>{if(page!=="settings")lastWorkspacePage.current=page;},[page]);
   const passedCount = mine.filter((r) => r.accepted).length,
     totalCount = mine.length,
     dueCount = mine.filter((r) => r.queue).length;
@@ -1362,6 +1369,7 @@ export default function App() {
     function keyboard(e) {
       if (e.defaultPrevented || e.isComposing || e.target.closest?.('[data-shortcut-input]')) return;
       if (e.key==='Escape' && (document.querySelector('.filter-popover') || document.querySelector('.tb-select-menu') || document.querySelector('[data-popconfirm]'))) return;
+      if (e.key==='Escape' && e.target.closest?.('.tooltip-anchor') && document.querySelector('[role="tooltip"]')) return;
       const shortcut=id=>matchesShortcut(e,id,prefs.shortcuts);
       if (document.querySelector('[aria-modal="true"]')) return;
       const control = e.ctrlKey || e.metaKey,
@@ -1444,6 +1452,7 @@ export default function App() {
       }
       if (e.key === "Escape") {
         if (page==='settings' && settingsTab!=='home') {e.preventDefault();setSettingsTab('home');return;}
+        if (page==='settings') {e.preventDefault();go(lastWorkspacePage.current);return;}
 
         if (readerId) {
           e.preventDefault();
@@ -1721,7 +1730,7 @@ export default function App() {
     );
   }
   function toolbar() {
-    return <PageSearch><label className="search-box"><Search size={17}/><input ref={searchRef} aria-label="搜索题目" value={currentFilters.query} onChange={event=>setFilter({query:event.target.value})} onKeyDown={event=>{if(['ArrowDown','Enter'].includes(event.key)){event.preventDefault();focusList();}}}/></label><ProblemFilters categories={categories} views={prefs.views||[]} onDeleteView={id=>setPrefs(previous=>({...previous,views:previous.views.filter(view=>view.id!==id)}))} value={currentFilters} onChange={setFilter} onReset={resetFilters} onSave={()=>{setViewName('');setDialog('saveView');}} onClear={page==='mine'?()=>setDialog('clear-training'):undefined} clearDisabled={busy||!mine.length||!!active||!!workspace.summary.pending}/></PageSearch>;
+    return <PageSearch><label className="search-box"><Search size={17}/><input ref={searchRef} aria-label="搜索题目" value={currentFilters.query} onChange={event=>setFilter({query:event.target.value})} onKeyDown={event=>{if(['ArrowDown','Enter'].includes(event.key)){event.preventDefault();focusList();}}}/></label><ProblemFilters categories={categories} views={prefs.views||[]} onDeleteView={id=>setPrefs(previous=>({...previous,views:previous.views.filter(view=>view.id!==id)}))} value={currentFilters} onChange={setFilter} onReset={resetFilters} onSave={()=>{setViewName('');setDialog('saveView');}} onClear={page==='mine'?()=>setDialog('clear-training'):undefined} clearDisabled={busy||!mine.length||!!active||!!workspace.summary.pending}/><SortDirection label="切换题目排序方向" descending={currentFilters.desc} onChange={desc=>setFilter({desc})}/>{currentFilters.category&&<span className="active-knowledge-filter" role="group" aria-label="当前知识点筛选"><span>{currentFilters.category.name}</span><button type="button" aria-label={`清除知识点筛选 ${currentFilters.category.name}`} onClick={()=>setFilter({category:null})}><X size={13}/></button></span>}</PageSearch>;
   }
 
   function renderListPage() {
@@ -1959,6 +1968,8 @@ export default function App() {
       )}
     </aside>
   );
+  const beforeTodayAc = insights?.summary?.beforeTodaySolved ?? Math.max(summary.beforeTodayAccepted || 0, (insights?.summary?.totalSolved ?? summary.historicalAccepted ?? 0) - (summary.todayAccepted || 0));
+  const todayAc = insights?.summary?.todaySolved ?? summary.todayAccepted ?? 0;
   return (
     <div
       className={"app-shell " + (prefs.collapsed ? "sidebar-collapsed " : "") + (practiceId || mockFocus ? "mock-focus practice-focus" : "")}
@@ -1966,14 +1977,12 @@ export default function App() {
       <SoftwareUpdateNotice update={softwareUpdate} onDetails={() => { setPage('settings'); setSettingsTab('updates'); }} />
       <aside className="sidebar">
         <div className="brand">
-          <div className="brand-mark">
-            tb
-            <span />
-          </div>
+          <button type="button" className="brand-mark" aria-label={prefs.collapsed?"展开侧边栏":"收起侧边栏"} aria-expanded={!prefs.collapsed} onClick={()=>setPrefs(previous=>({...previous,collapsed:!previous.collapsed}))}>
+            TB
+          </button>
           {!prefs.collapsed && (
             <div>
               <strong>TB</strong>
-              <small>训练工作台</small>
             </div>
           )}
 
@@ -2019,17 +2028,7 @@ export default function App() {
       </aside>
       <main className="main-area">
         <header className={"topbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}>
-          <div className="page-identity">
-            <span className="breadcrumb">
-              工作台 <ChevronRight size={13} />
-            </span>
-            <h1 onClick={()=>{if(page==='settings')setSettingsTab('home');}}>
-              <InlineTitle>{practiceId
-                ? rows.find((r) => r.id === practiceId)?.title
-                : currentPage?.label || "设置"}</InlineTitle>
-            </h1>
-            {page==='settings' && settingsTab!=='home' && <><ChevronRight size={14}/><button className="settings-breadcrumb" onClick={()=>setSettingsTab('home')} aria-label="返回全部设置">{({appearance:'外观',interaction:'交互与导航',updates:'更新',training:'快捷键',help:'数据与帮助',advanced:'翻译 API',accounts:'账号与身份',thanks:'鸣谢',admin:'管理员'})[settingsTab]}</button></>}
-          </div>
+          <div id="tb-page-location" className="page-location-slot"/>
           <div id="tb-page-search" className="topbar-search-slot"/>
           <div className="topbar-actions">
             <PracticeStreak days={summary.streak || 0}/>{window.__tbAdmin&&<span className="admin-workspace-label">管理员</span>}<div className="topbar-titles"><TitleMedals titles={insights?.equippedTitles || growth?.equippedTitles || []} /></div>
@@ -2039,8 +2038,8 @@ export default function App() {
                 {timerText(remainingSeconds(active, now))}
               </button>
             )}
-            <button className="text-button topbar-daily-ac topbar-status-chip" aria-label={`AC：历史 ${insights?.summary?.beforeTodaySolved ?? Math.max(summary.beforeTodayAccepted||0,(insights?.summary?.totalSolved ?? summary.historicalAccepted ?? 0)-(summary.todayAccepted||0))}，今日 ${insights?.summary?.todaySolved ?? summary.todayAccepted ?? 0}`} onClick={()=>go('mine')}><b>AC:{insights?.summary?.beforeTodaySolved ?? Math.max(summary.beforeTodayAccepted||0,(insights?.summary?.totalSolved ?? summary.historicalAccepted ?? 0)-(summary.todayAccepted||0))}{(insights?.summary?.todaySolved ?? summary.todayAccepted ?? 0)>0?`+${insights?.summary?.todaySolved ?? summary.todayAccepted}`:""}</b></button>
-            {social.snapshot?.available && <button className="text-button topbar-love-count topbar-status-chip" aria-label={`今日获得爱心 ${social.snapshot.todayLikes ?? "—"}`} onClick={() => setDialog('updates')}><Heart size={15}/><span>:</span><b>{social.snapshot.todayLikes ?? "—"}</b></button>}
+            <button className="text-button topbar-daily-ac topbar-status-chip" aria-label={`AC：历史 ${beforeTodayAc}，今日 ${todayAc}`} onClick={()=>go('mine')}><b>AC:{beforeTodayAc}{todayAc>0&&<em>+{todayAc}</em>}</b></button>
+            {social.snapshot?.available && <button className="text-button topbar-love-count topbar-status-chip" aria-label={`今日获得爱心 ${social.snapshot.todayLikes ?? "—"}`} onClick={() => setDialog('updates')}><Heart size={18} fill="currentColor"/><span>:</span><b>{social.snapshot.todayLikes ?? "—"}</b></button>}
             <ProfileBadge growth={growth} avatar={prefs.avatarData} nickname={account?.nickname || profileSnapshot?.profile?.nickname} onClick={()=>setDialog('summary')} onAvatarClick={()=>setDialog('avatar')}/>
             <IconButton
               label="消息通知"
@@ -2097,7 +2096,7 @@ export default function App() {
           ) : ["mine", "library"].includes(page) ? (
             page === "mine" ? <div className="training-workspace">{renderListPage()}</div> : renderListPage()
           ) : page === "mock" ? (
-            <div className="mock-page"><div className="mock-page-tabs filter-tabs" role="tablist" aria-label="模拟赛页面"><button role="tab" aria-selected={mockTab === "create" && !record} className={mockTab === "create" && !record ? "active" : ""} onClick={() => { setMockTab("create"); setRecord(null); }}>{active ? "进行中的比赛" : "创建训练"}</button><button role="tab" aria-selected={mockTab === "history" || !!record} className={mockTab === "history" || record ? "active" : ""} onClick={() => { setMockTab("history"); setRecord(null); }}>模拟赛记录 <small>{workspace.contests.length}</small></button></div>{record ? recordDetail() : mockTab === "history" ? <MockHistory contests={workspace.contests} onDelete={async body => { const answer = await api("contests/delete", body); applyWorkspace(answer.workspace); notice(`已删除 ${answer.deleted} 场模拟赛记录`); }} onSelect={openRecord} onResume={(contest) => { setMockTab("create"); setMockSlot(contest.slots[0]?.id); }} onCreate={() => setMockTab("create")} /> : active ? (
+            <div className="mock-page">{record ? recordDetail() : <>{active && mockTab === "create" ? (
               <div className="contest-player">
                 {currentMockSlot && (
                   <Workbench
@@ -2119,7 +2118,7 @@ export default function App() {
                       }}
                       onHistory={() => {
                         setMockTab("history");
-                        requestAnimationFrame(() => document.querySelector('.mock-page-tabs [aria-selected="true"]')?.focus());
+                        requestAnimationFrame(() => document.getElementById('mock-history-heading')?.focus());
                       }}
                     />}
                     headerEnd={<>
@@ -2142,7 +2141,7 @@ export default function App() {
                   />
                 )}
               </div>
-            ) : (
+            ) : <>{active ? <div className="mock-resume-row"><button className="secondary" onClick={()=>setMockTab("create")}><Play size={15}/>继续比赛</button></div> : (
               <MockSetup
                 api={api}
                 activeContest={active}
@@ -2152,7 +2151,7 @@ export default function App() {
                 onStarted={startedMock}
                 onError={notice}
               />
-            )}</div>
+            )}<MockHistory embedded contests={workspace.contests} onDelete={async body => { const answer = await api("contests/delete", body); applyWorkspace(answer.workspace); notice(`已删除 ${answer.deleted} 场模拟赛记录`); }} onSelect={openRecord} onResume={contest=>{setMockTab("create");setMockSlot(contest.slots[0]?.id);}} onCreate={()=>{setMockTab("create");document.querySelector('.mock-create')?.scrollIntoView({block:'start'});}}/></>}</>}</div>
           ) : page === "records" ? (
             <SubmissionRecords submissions={submissionLog} total={submissionPage.total} hasMore={submissionPage.hasMore} loading={submissionLoading} onLoadMore={loadMoreSubmissions} rows={rows} onSelect={(submission) => { setSelectedSubmission(submission); setDialog("submission"); }} />
           ) : page === "competitions" ? (
@@ -2223,7 +2222,7 @@ export default function App() {
           )}
         </div>
       )}
-      {dialog === "daily-tasks" && <Modal title="每日任务" onClose={() => setDialog(null)} wide><DailyTasks dailyTasks={insights?.dailyTasks} goalTasks={workspace.goalTasks} onTrain={id => { setDialog(null); openPractice(id); }} onClaim={async (id, date) => { try { const result = await api("daily-tasks/claim", { id, date }); backgroundSeq.current++; setInsights(previous => ({ ...previous, dailyTasks: result.dailyTasks })); notice("经验已领取", "success"); void refreshBackground(true); } catch (issue) { notice(issue.message, "error"); throw issue; } }} /></Modal>}
+      {dialog === "daily-tasks" && <Modal title="每日任务" onClose={() => setDialog(null)} wide><DailyTasks dailyTasks={insights?.dailyTasks} onClaim={async (id, date) => { try { const result = await api("daily-tasks/claim", { id, date }); backgroundSeq.current++; setInsights(previous => ({ ...previous, dailyTasks: result.dailyTasks })); notice("经验已领取", "success"); void refreshBackground(true); } catch (issue) { notice(issue.message, "error"); throw issue; } }} /></Modal>}
       {dialog === "avatar" && <Modal title="修改头像" onClose={()=>setDialog(null)}><Suspense fallback={<p role="status">正在读取…</p>}><AvatarSettings prefs={prefs} setPrefs={setPrefs} onError={message=>notice(message,"error")}/></Suspense></Modal>}
       {tourOpen && <Suspense fallback={null}><Onboarding practiceId={practiceId} onComplete={finishOnboarding} onNavigate={target=>{go(target);if(target==="settings")setSettingsTab("home");}}/></Suspense>}
       {dialog === "achievements" && <Modal title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => setDialog(null)} wide><AchievementPanel achievements={achievements} newIds={unseenAchievements.map(item => item.id)} onSeen={markAchievementSeen} /></Modal>}

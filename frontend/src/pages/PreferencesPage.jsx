@@ -1,5 +1,5 @@
 import ShortcutSettings from './ShortcutSettings.jsx';
-import { Heart, ShieldCheck, Bell, Command, Download, Keyboard, Layers, Palette, RefreshCw, Settings2, SlidersHorizontal, UserRound, X } from 'lucide-react';
+import { ArrowLeft, Heart, ShieldCheck, Command, Download, Keyboard, Layers, Palette, RefreshCw, Settings2, SlidersHorizontal, UserRound, X } from 'lucide-react';
 import { lazy, Suspense, useLayoutEffect, useRef } from 'react';
 import SettingsScene from '@/components/SettingsScene.jsx';
 import AdminSettings from './AdminSettings.jsx';
@@ -27,7 +27,7 @@ export default function PreferencesPage({tab,onTab,prefs,setPrefs,display,onFull
     return()=>{clearTimeout(timer);observer.disconnect();restoring.current=false;};
   },[tab]);
   const tabs=[['appearance','外观',Palette],['interaction','交互与导航',SlidersHorizontal],['updates','更新',RefreshCw],['training','快捷键',Keyboard],['help','数据与帮助',Download],['advanced','翻译 API',Settings2],['accounts','账号与身份',UserRound],['thanks','鸣谢',Heart],...(window.__tbAdmin?[['admin','管理员',ShieldCheck]]:[])];
-  return <div ref={panel} onScroll={savePosition} className="settings-page scroll-panel" aria-label="设置"><nav className={"settings-subpage-tabs " + (tab==='home'?'settings-home-grid':'settings-hidden-nav')} role="tablist" aria-label="设置分类">{tabs.map(([key,label,Icon],index)=><span className="settings-tile" key={key}><button role="tab" aria-label={label} aria-selected={tab===key} onClick={()=>onTab(key)}><Icon size={17}/><span>{label}</span><SettingsScene kind={['coffee','balloon','dino','bulb','cloud','orbit','globe','stars','globe'][index]}/></button></span>)}</nav>
+  return <div ref={panel} onScroll={savePosition} className="settings-page scroll-panel" aria-label="设置">{tab!=='home'&&<div className="settings-subpage-controls"><button type="button" className="icon-button settings-return-button" aria-label="返回设置首页" title="返回设置首页 · Esc" onClick={()=>onTab('home')}><ArrowLeft size={19}/></button></div>}<nav className={"settings-subpage-tabs " + (tab==='home'?'settings-home-grid':'settings-hidden-nav')} role="tablist" aria-label="设置分类">{tabs.map(([key,label,Icon])=><span className="settings-tile" key={key}><button role="tab" aria-label={label} aria-selected={tab===key} onClick={()=>onTab(key)}><Icon size={17}/><span>{label}</span><SettingsScene kind={{appearance:'dino',interaction:'globe',updates:'balloon',training:'cloud',help:'coffee',advanced:'orbit',accounts:'bulb',thanks:'stars',admin:'compass'}[key]}/></button></span>)}</nav>
     <div className="settings-column">
       {tab==='thanks'&&<section className="acknowledgements" aria-label="鸣谢"><h2>鸣谢</h2>{['InkStarry','猫猫头教主','蒟蒻','她不爱吃酸','jiahao27'].map(name=><p key={name}>{name}</p>)}</section>}
       {tab==='accounts'&&<GrowthAccountPanel accountFocus={accountFocus} api={api} hub={hub} account={account} profileSnapshot={profileSnapshot} onProfileChanged={onProfileChanged} onHubChanged={onHubChanged} onError={onError}/>}
@@ -35,10 +35,10 @@ export default function PreferencesPage({tab,onTab,prefs,setPrefs,display,onFull
       {tab==='appearance'&&<><VisualPreferences prefs={prefs} setPrefs={setPrefs}/><VisualStyleSettings prefs={prefs} setPrefs={setPrefs} onError={onError}/></>}
       {tab==='interaction'&&<><InteractionSettings prefs={prefs} setPrefs={setPrefs} display={display} onFullscreen={onFullscreen}/><NavigationSettings pages={commands.pages} prefs={prefs} setPrefs={setPrefs}/></>}
       {tab==='navigation'&&<NavigationSettings pages={commands.pages} prefs={prefs} setPrefs={setPrefs}/>}
-      {tab==='advanced'&&<TranslationSettings api={api} onError={onError}/>}
+      {tab==='advanced'&&<section className="settings-translation-panel"><TranslationSettings api={api} onError={onError}/></section>}
       {tab==='help'&&<Suspense fallback={<p role="status">正在读取…</p>}><DataHelpSettings api={api} onTutorial={onTutorial} onError={onError}/></Suspense>}
       {tab==='training'&&<ShortcutSettings prefs={prefs} setPrefs={setPrefs}/>}
-      {tab==='updates'&&<section className="settings-updates" aria-label="更新设置"><div className="settings-page-description"><h2>更新</h2><Tooltip text="消息通知"><button className="icon-button" aria-label="查看更新通知" onClick={onMessages}><Bell size={18}/></button></Tooltip></div><SoftwareUpdatePanel update={softwareUpdate}/><UpdatePanel softwareState={softwareUpdate.state} showNotifications={false} hub={hub} api={api} onContent={onContent} onChanged={onHubChanged} onError={onError}/></section>}
+      {tab==='updates'&&<section className="settings-updates" aria-label="更新设置"><div className="settings-page-description"><h2>更新</h2></div><SoftwareUpdatePanel update={softwareUpdate}/><UpdatePanel softwareState={softwareUpdate.state} showNotifications={false} hub={hub} api={api} onContent={onContent} onChanged={onHubChanged} onError={onError}/></section>}
     </div>
   </div>;
 }

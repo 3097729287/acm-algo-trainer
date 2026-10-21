@@ -1,8 +1,16 @@
 import {useLayoutEffect,useState} from 'react';
 import {createPortal} from 'react-dom';
 
-export default function PageSearch({children}) {
+function PagePortal({children,id,fallbackClass}) {
   const [host,setHost]=useState(null);
-  useLayoutEffect(()=>setHost(document.getElementById('tb-page-search')),[]);
-  return host ? createPortal(<div className="page-search-controls">{children}</div>,host) : <div className="page-search-controls page-search-fallback">{children}</div>;
+  useLayoutEffect(()=>setHost(document.getElementById(id)),[id]);
+  return host ? createPortal(children,host) : <div className={fallbackClass}>{children}</div>;
+}
+
+export function PageLocation({children}) {
+  return <PagePortal id="tb-page-location" fallbackClass="page-location-fallback">{children}</PagePortal>;
+}
+
+export default function PageSearch({children}) {
+  return <PagePortal id="tb-page-search" fallbackClass="page-search-fallback"><div className="page-search-controls">{children}</div></PagePortal>;
 }

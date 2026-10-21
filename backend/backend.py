@@ -405,9 +405,9 @@ class Handler(BaseHTTPRequestHandler):
                     raise APIError(503, "浏览器提交服务尚未连接")
                 with self.server.training.lock:
                     session = self.server.official_sessions.get(identity)
-                    if not session:
+                    if not session or session.get('_training') is not self.server.training:
                         raise APIError(404, "没有找到本次原站提交会话")
-                    self.server.training.assert_solution_unlocked(session["id"])
+                    self.server.training.assert_official_allowed(session["id"], session.get('contestId'), receipt=True)
                 receipt = self.server.official_status(identity)
                 self.server.record_official_receipt(identity, receipt)
                 self.send_json(200, receipt)

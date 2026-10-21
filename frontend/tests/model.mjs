@@ -1,6 +1,16 @@
 import assert from 'node:assert/strict';
 import {matches,organizeCategories,categoryStats} from '../src/models/model.js';
 import {briefSolution} from '../src/lib/practiceMetadata.js';
+import {combineKnowledgeEvidence} from '../src/lib/knowledgeMastery.js';
+import {defaultTrainingDuration} from '../src/lib/trainingDuration.js';
+const evidence=new Map(Array.from({length:5},(_,id)=>[id,{id,weight:1,score:80,solved:true,rated:true}]));
+assert.equal(combineKnowledgeEvidence([0,1,2,3,0,1],evidence).value,null,'duplicate topic membership cannot inflate a four-question sample');
+assert.equal(combineKnowledgeEvidence([0,1,2,3,4,0,1],evidence).value,80,'parents pool distinct evidence');
+assert.equal(combineKnowledgeEvidence([0,1,2,3,4],new Map([...evidence].map(([id,item])=>[id,{...item,rated:false}]))).value,null);
+assert.equal(defaultTrainingDuration({mode:'single',max:1400}),30);
+assert.equal(defaultTrainingDuration({mode:'single',max:2000}),60);
+assert.equal(defaultTrainingDuration({mode:'topic',count:4,max:1400}),90);
+assert.equal(defaultTrainingDuration({mode:'comprehensive',count:8,max:1400}),240);
 const easy='### 题意\n\n统计总和。\n\n### 思路\n\n累加每个数。\n\n#### 正确性\n\n完整证明保留。\n\n### 参考代码\n\n```cpp\nint main(){}\n// ### not a heading\n```\n\n### 复杂度\n\n线性。';
 assert.match(briefSolution(easy,800),/累加每个数/);
 assert.match(briefSolution(easy,800),/int main\(\)\{\}\n\/\/ ### not a heading/);

@@ -6,20 +6,35 @@ const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',h
 page.on('pageerror',issue=>errors.push(issue.message));
 try{
  await page.goto('http://127.0.0.1:18832/tests/revision-fixture.html');
- for(const [label,min,max] of [['简单',1000,1400],['普通',1300,1700],['困难',1600,2000],['极难',1900,2200]]){
+ for(const [label,min,max,duration] of [['简单',1000,1400,120],['普通',1300,1700,150],['困难',1600,2000,180],['极难',1900,2200,210]]){
   await page.getByRole('radio',{name:new RegExp('^'+label)}).click();await page.getByRole('button',{name:'生成试卷',exact:true}).click();
-  const body=await page.evaluate(()=>revisionFixture.calls.filter(item=>item.path==='contests/preview').at(-1).body);assert.equal(body.min,min);assert.equal(body.max,max);
+  const body=await page.evaluate(()=>revisionFixture.calls.filter(item=>item.path==='contests/preview').at(-1).body);assert.equal(body.min,min);assert.equal(body.max,max);assert.equal(body.duration,duration);
  }
  await page.getByRole('radio',{name:/^简单/}).click();
  for(const [mode,label] of [['comprehensive','综合训练'],['topic','专项训练'],['single','随机单题'],['replay','重现赛']]){
   await page.getByRole('button',{name:label,exact:true}).click();
-  if(mode==='topic'){await page.getByRole('combobox',{name:'专项训练知识点'}).click();await page.getByRole('listbox').getByRole('option',{name:'基础技巧 / 前缀和',exact:true}).click();}
-  if(mode==='replay'){await page.getByLabel('搜索重现赛比赛',{exact:true}).fill('区域');await page.getByRole('combobox',{name:'重现赛比赛'}).click();await page.getByRole('listbox').getByRole('option',{name:'区域赛测试 · 2 题',exact:true}).click();}
+  if(mode==='topic'){
+   const picker=page.getByRole('combobox',{name:'专项训练知识点'});
+   await picker.click();assert.equal(await page.getByRole('listbox').getByText(/\//).count(),0);await page.getByRole('listbox').getByRole('option',{name:'基础技巧',exact:true}).click();
+   await page.getByRole('listbox').getByRole('option',{name:'选择「基础技巧」',exact:true}).click();await page.getByRole('button',{name:'生成试卷',exact:true}).click();
+   const broad=await page.evaluate(()=>revisionFixture.calls.filter(item=>item.path==='contests/preview').at(-1).body);assert.equal(broad.tags.length,33);assert(broad.tags.includes('前缀和'));assert(broad.tags.includes('二分查找'));
+   await picker.click();await page.getByRole('listbox').getByRole('option',{name:'基础技巧',exact:true}).click();await page.getByRole('listbox').getByRole('option',{name:'前缀和',exact:true}).click();
+  }
+  if(mode==='replay'){
+   await page.getByLabel('搜索重现赛比赛',{exact:true}).fill('区域');await page.getByRole('combobox',{name:'重现赛比赛'}).click();
+   for(const name of ['ACM','CCPC','2025年','CCPC 2025 郑州区域赛','正赛 · 2 题'])await page.getByRole('listbox').getByRole('option',{name,exact:true}).click();
+  }
   assert.equal(await page.getByRole('button',{name:'生成试卷',exact:true}).count(),1);
   await page.getByRole('button',{name:'生成试卷',exact:true}).click();await page.getByRole('button',{name:'开始训练',exact:true}).click();
   assert.equal(await page.evaluate(()=>revisionFixture.started.at(-1).previewId),'preview-'+mode);
+  assert.equal(await page.evaluate(()=>revisionFixture.started.at(-1).duration),{comprehensive:120,topic:90,single:30,replay:300}[mode]);
  }
- const topic=await page.evaluate(()=>revisionFixture.calls.find(item=>item.path==='contests/preview'&&item.body.mode==='topic').body);assert.deepEqual(topic.tags,['前缀和']);
+ await page.getByRole('button',{name:'随机单题',exact:true}).click();
+ await page.getByRole('radio',{name:/^困难/}).click();
+ await page.getByRole('button',{name:'训练筛选',exact:true}).click();await page.getByLabel('模拟赛时长',{exact:true}).fill('50');await page.keyboard.press('Escape');
+ await page.getByRole('button',{name:'综合训练',exact:true}).click();await page.getByRole('button',{name:'随机单题',exact:true}).click();
+ await page.getByRole('button',{name:'生成试卷',exact:true}).click();assert.equal(await page.evaluate(()=>revisionFixture.calls.filter(item=>item.path==='contests/preview').at(-1).body.duration),50);
+ const topic=await page.evaluate(()=>revisionFixture.calls.findLast(item=>item.path==='contests/preview'&&item.body.mode==='topic').body);assert.deepEqual(topic.tags,['前缀和']);
  await page.getByRole('button',{name:'账号测试',exact:true}).click();
  await page.getByText('快速账号',{exact:true}).waitFor({timeout:1000});assert.equal(await page.evaluate(()=>revisionFixture.profileReady),false);
  await page.evaluate(()=>revisionFixture.resolveProfile());

@@ -116,12 +116,12 @@ try {
   const joined = (await (await page.request.get(frontendUrl + '/api/workspace')).json()).training;
   assert.ok(assigned.length && assigned.every(problem => joined.some(row => row.id === problem.id)), 'Daily recommendations join real training automatically.');
   await page.getByRole('button', {name: '每日任务', exact: true}).click();
-  await page.locator('.daily-goal-row').first().waitFor();
-  assert.ok(await page.locator('.daily-goal-row').count() >= assigned.length);
+  assert.equal(await page.locator('.daily-goal-row').count(),0);
   await page.keyboard.press('Escape');
   await page.keyboard.press('Control+1');
   await page.locator('.queue-heading').filter({hasText:'今日目标'}).waitFor();
-  assert.equal(await page.locator('.page-identity h1').textContent(), '我的训练');
+  for(const problem of assigned)assert.equal(await page.locator('.problem-table tr[data-id]').evaluateAll((rows,id)=>rows.some(row=>row.dataset.id===id),problem.id),true);
+  assert.equal(await page.locator('.workspace-area').getAttribute('data-page'), 'mine');
   assert.equal(await page.getByRole('tab', { name: '今日待办', exact: true }).count(), 0);
   await page.keyboard.press('Control+1');
   await page.getByRole('button',{name:'筛选题目',exact:true}).click();await page.getByLabel('清空我的训练').click();

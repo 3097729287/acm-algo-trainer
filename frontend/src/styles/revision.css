@@ -1,25 +1,34 @@
 /* Shared measured columns; all alpha values come from the current page. */
-html .app-shell .sidebar {width:174px;flex:0 0 174px;padding:10px 9px}
+html .app-shell {--statusbar-height:34px}
+html .app-shell .sidebar {width:max(128px,calc(var(--ui-font-size,15px)*5 + 48px));flex:0 0 max(128px,calc(var(--ui-font-size,15px)*5 + 48px));padding:6px 6px 0}
 html .sidebar nav {flex:1;min-height:0;max-height:none!important;overflow:auto;gap:5px!important;padding:0}
-html .sidebar .nav-item {width:100%;justify-content:flex-start;gap:10px;white-space:nowrap;padding:9px;min-height:40px}
-html .sidebar .brand {margin:0 5px 18px;gap:8px;min-height:47px}
-html .sidebar .brand small {font-size:.65rem}
-html .sidebar-bottom {flex:0 0 auto;margin-top:auto;padding:6px 0 0;min-height:44px;background:transparent}
-html .sidebar-bottom .nav-item {display:flex;gap:9px}
+html .sidebar .nav-item {width:100%;justify-content:flex-start;gap:8px;white-space:nowrap;padding:8px;min-height:38px}
+html .sidebar .brand {margin:0 6px 10px;gap:8px;min-height:48px}
+html .sidebar .brand-mark {flex:none;font-family:inherit;font-size:calc(var(--ui-font-size,15px) + 1px);letter-spacing:-.8px;padding:0}
+html .sidebar-bottom {display:flex;align-items:center;flex:0 0 var(--statusbar-height);height:var(--statusbar-height);margin-top:auto;padding:0;min-height:0;background:transparent}
+html .sidebar .sidebar-bottom .nav-item {display:flex;gap:8px;min-height:28px;height:28px;padding-block:3px}
+html .app-statusbar {flex:0 0 var(--statusbar-height);height:var(--statusbar-height);min-height:0;padding:2px 12px}
 .nav-development {font-size:.65em;color:var(--muted);padding-left:3px}
 html .sidebar-collapsed .sidebar {width:58px;flex-basis:58px}
 html .sidebar-collapsed .brand {margin-inline:0;justify-content:center}
 html .sidebar-collapsed .nav-item {justify-content:center;padding-inline:5px}
-html .topbar {display:flex;align-items:center;gap:18px;padding:10px 20px;min-height:66px;flex-wrap:nowrap}
-html .page-identity {flex:0 0 auto;display:flex;align-items:center;gap:9px;max-width:34%;min-width:0}
-html .page-identity h1 {font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-html .page-identity .breadcrumb {font-size:.8rem;gap:7px;white-space:nowrap}
-.settings-breadcrumb {padding:0;color:var(--accent);font-size:.94rem;white-space:nowrap}
+html .topbar {display:flex;align-items:center;gap:12px;padding:4px 12px;min-height:54px;flex-wrap:nowrap}
+.page-location-slot {display:flex;align-items:center;flex:none}
+.page-location-slot:empty {display:none}
+.competition-view-toggle {display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;color:var(--muted)}
+.competition-view-toggle:hover,.competition-view-toggle[aria-pressed=true] {color:var(--accent);background:var(--accent-soft)}
 html .topbar-search-slot {flex:1 1 240px;min-width:70px;max-width:none}
 .page-search-controls {display:flex;align-items:center;gap:8px;min-width:0;width:100%}
 .page-search-controls .search-box {display:flex;flex:1;gap:8px;align-items:center;min-width:0;padding:6px 10px;border:0;background:color-mix(in srgb,var(--text) 5%,transparent);border-radius:8px;color:var(--muted);min-height:35px}
 .page-search-controls .search-box input {min-width:0;width:100%;border:0;background:transparent;box-shadow:none;padding:2px;color:var(--text)}
 .page-search-controls .filter-menu {flex:none}
+.page-search-controls>.tooltip-anchor {flex:none}
+html .sort-direction {width:30px;height:30px;min-height:30px;padding:5px;color:var(--accent)}
+html .sort-direction:hover {background:var(--accent-soft);border-radius:6px}
+.active-knowledge-filter {display:inline-flex;align-items:center;flex:none;gap:6px;max-width:200px;padding:3px 5px 3px 9px;border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));border-radius:6px;background:var(--accent-soft);color:var(--accent);font-size:.82rem}
+.active-knowledge-filter>span {min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.active-knowledge-filter>button {display:grid;place-items:center;flex:none;width:22px;height:22px;padding:0;border-radius:4px;color:inherit}
+.active-knowledge-filter>button:hover {background:color-mix(in srgb,var(--accent) 16%,transparent)}
 .page-search-controls .filter-popover {font-size:.9rem}
 .page-search-fallback {margin-bottom:12px}
 html .topbar-actions {display:flex;align-items:center;gap:16px;flex:0 0 auto;min-width:0;flex-wrap:nowrap}
@@ -31,17 +40,26 @@ html .topbar-actions .profile-avatar-button {width:46px;height:46px;min-width:46
 html .topbar-actions .profile-avatar-face {width:29px;height:29px}
 html .profile-badge-compact .profile-nickname {font-size:.9rem;max-width:100px}
 .avatar-rank-frame {position:absolute;inset:-10%;width:120%;height:120%;color:var(--tier-color);pointer-events:none;overflow:visible}
-html .profile-badge .profile-xp-ring {inset:12%;width:76%;height:76%}
+html .profile-badge .profile-xp-ring {inset:6%;width:88%;height:88%}
 html .profile-badge .profile-xp-ring circle {stroke-width:1.5}
 html .profile-level-number {bottom:-1px}
 html .topbar-status-chip {height:34px;display:inline-flex;align-items:center;gap:4px;padding:0;white-space:nowrap;font-variant-numeric:tabular-nums}
-html .topbar-daily-ac {color:var(--success)}
-.topbar-daily-ac em {font-style:normal;color:var(--success);padding:0;margin:0}
-html .practice-streak {gap:5px;min-width:0;white-space:nowrap;color:#d6a16d}
-html .sketch-flame,html .sketch-flame * {animation:none!important;filter:none!important}
-html .sketch-medal {filter:none}
-html .workspace-area {--glass-panel:var(--panel);--glass-raised:var(--panel-2);padding:16px 20px;gap:16px}
-html .workspace-area :is(.list-page,.records-page,.competition-page,.mock-create,.lectures-layout,.settings-home-grid) {background:var(--panel);border-color:transparent;box-shadow:none}
+html .topbar .topbar-daily-ac,html .topbar .topbar-daily-ac b {color:var(--success)}
+html .topbar .topbar-daily-ac b {display:inline}
+html .topbar .topbar-daily-ac em {font-style:normal;color:var(--accent);padding:0;margin:0}
+html .topbar .topbar-status-chip b {font-size:1rem;font-weight:650}
+html .topbar .topbar-love-count b {color:var(--text)}
+html .topbar .topbar-love-count svg {width:18px;height:18px}
+html .practice-streak {gap:5px;min-width:0;white-space:nowrap;color:var(--accent)}
+html .practice-streak b {font-size:.9rem}
+html .practice-streak .streak-flame {width:20px;height:20px;animation:none;filter:none;transform:none}
+html .practice-streak.flame-inactive {color:var(--muted)}
+.medal-emblem {color:var(--tier-color);filter:none}
+html .workspace-area {--glass-panel:var(--panel);--glass-raised:var(--panel-2);padding:8px 10px 0;gap:12px}
+html .workspace-area :is(.list-page,.records-page) {background:var(--panel);border-color:transparent;box-shadow:none}
+html .workspace-area :is(.competition-page,.mock-create) {background:transparent;border:0;box-shadow:none}
+html .workspace-area .lectures-layout,html .workspace-area .settings-page .settings-home-grid {background:transparent;border:0;box-shadow:none}
+html .workspace-area :is(.list-page,.records-page,.progress-section,.settings-column>section,.competition-card,.mock-config,.paper-preview,.goal-card) {overflow:clip;background-clip:padding-box}
 html .workspace-area :is(.submission-day-heading,.record-summary,.activity-day-detail,.competition-problem-token,.paper-slot) {background:var(--panel-2)}
 html .workspace-area :is(.problem-table thead,.problem-table th) {background:var(--panel-2)}
 html .workspace-area :is(.progress-section,.settings-column>section,.competition-card,.mock-config,.paper-preview,.lectures-list,.lectures-detail,.goal-card) {background-color:var(--panel);box-shadow:none}
@@ -53,12 +71,23 @@ html .list-page .list-footer {min-height:32px;justify-content:space-between;padd
 html .list-page .list-footer>.footer-hint {display:none}
 html .problem-table :is(th,td):nth-child(1) {padding-left:16px}
 html .problem-table :is(th,td) {padding-block:12px}
-html .problem-table :is(th,td):nth-child(3) {width:90px;text-align:center}
-html .problem-table :is(th,td):nth-child(4) {width:105px;text-align:center}
-html .problem-table :is(th,td):nth-child(5) {width:140px;text-align:center}
-html .problem-table :is(th,td):last-child {width:110px;text-align:right;padding-right:16px}
+html .problem-table :is(th,td:not([colspan])):nth-child(3) {width:90px;text-align:center}
+html .problem-table :is(th,td:not([colspan])):nth-child(4) {width:105px;text-align:center}
+html .problem-table :is(th,td:not([colspan])):nth-child(5) {width:140px;text-align:center}
+html .problem-table :is(th,td:not([colspan])):last-child {width:110px;text-align:right;padding-right:16px}
+html .problem-table .queue-heading td {width:auto;text-align:left}
+html[data-panel-style=outlined] .problem-table {border-collapse:separate;border-spacing:0 6px;padding-inline:6px}
+html[data-panel-style=outlined] .workspace-area .problem-table tbody tr:not(.queue-heading)>td {border-block:1px solid color-mix(in srgb,var(--accent) 35%,var(--line))}
+html[data-panel-style=outlined] .workspace-area .problem-table tbody tr:not(.queue-heading)>td:first-child {border-left:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));border-radius:9px 0 0 9px}
+html[data-panel-style=outlined] .workspace-area .problem-table tbody tr:not(.queue-heading)>td:last-child {border-right:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));border-radius:0 9px 9px 0}
+html[data-panel-style=outlined] .competition-question {border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));border-radius:9px;margin-bottom:6px}
 html .competition-list {display:grid;gap:10px}
-html .competition-card {min-height:72px;padding:16px;border:0}
+html .competition-card {min-height:72px;padding:12px 16px;border:0;overflow:hidden}
+html .competition-page {padding:0;scrollbar-gutter:stable}
+html .competition-list {padding:0 4px 4px 0}
+html .competition-page .catalog-explorer {flex:0 0 auto;overflow:visible;min-height:0;background:transparent}
+html .competition-page .catalog-path {background:var(--panel);border:0;border-radius:8px}
+html .competition-page .catalog-folder-row {background:var(--panel);margin-bottom:8px}
 html .competition-card-open {align-items:center;gap:18px}
 html .competition-problem-tokens {margin-left:auto;justify-content:flex-end;max-width:65%;gap:6px}
 html .competition-start {margin-left:10px;min-width:100px;white-space:nowrap}
@@ -72,11 +101,21 @@ html .competition-start {margin-left:10px;min-width:100px;white-space:nowrap}
 .tb-popconfirm .danger {color:var(--danger)}
 .tb-popconfirm p {margin-top:8px;color:var(--danger);font-size:.85rem}
 /* Four modes keep the same grid and a single generate action. */
-html .mock-create {width:100%;max-width:none;margin:0;flex:1;padding:0;min-height:100%}
-html .create-main {display:flex;flex-direction:column;min-height:100%;gap:16px}
+html .mock-page {overflow:auto;gap:12px;padding-bottom:4px}
+html .mock-create {width:100%;max-width:none;margin:0;flex:none;padding:0;min-height:0;overflow:visible}
+html .create-main {display:flex;flex-direction:column;min-height:0;gap:12px}
 html .mock-create .mock-config {display:flex;flex-direction:column;gap:26px;padding:clamp(22px,3vw,48px);border:0;min-height:clamp(260px,38vh,420px);margin:0}
 html .mock-create .mock-mode-options {grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-html .mock-mode-options>button {min-height:76px;justify-content:center;align-items:center;padding:14px;font-size:1.14rem;text-align:center}
+html .mock-mode-options>button {min-height:68px;justify-content:center;align-items:center;padding:14px;font-size:1.05rem;text-align:center;border:1px solid var(--line);background:var(--panel-2)}
+html .mock-mode-options>button.active {border-color:var(--accent);background:var(--accent-soft)}
+html .mock-mode-options>button:hover {border-color:var(--accent)}
+html .mock-page .mock-history {flex:1 0 auto;min-height:200px;border-radius:12px;overflow:clip}
+html .mock-history .table-toolbar {justify-content:space-between;min-height:52px;padding:10px 16px}
+.mock-history h2 {display:flex;align-items:center;gap:10px;margin:0;font-size:1rem}
+.mock-history h2 small {font-size:.78rem;font-weight:400;color:var(--muted)}
+html .mock-history .records-list {flex:none;overflow:visible}
+html .mock-history .empty {min-height:150px;padding:28px}
+.mock-resume-row {display:flex;justify-content:flex-end}
 html .mock-difficulty-row {display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin:0}
 .difficulty-presets {gap:4px;flex-wrap:wrap}
 .difficulty-presets button {padding:10px;gap:7px;font-size:1rem}
@@ -129,28 +168,40 @@ html .account-hero-rank {display:flex;flex-direction:column;align-items:center;j
 .account-hero-statistics b {font-size:clamp(1.7rem,2.5vw,3rem);font-weight:600;color:var(--text)}
 .account-hero-statistics span {font-size:.8rem;white-space:nowrap}
 .account-hero-titles {display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.account-hero-titles:empty {display:none}
+.account-hero-goals {margin-top:auto;padding-top:18px;border-top:1px solid var(--soft-line)}
+.account-hero-goals .goal-management-bar {gap:12px}
+.account-hero-goals .goal-management-bar>div {gap:4px}
+.progress-achievement>.achievement-icon {flex:none;color:var(--accent);padding:3px;opacity:.8}
+.progress-achievement>.achievement-icon-difficulty {color:var(--warning)}
+.progress-achievement>.achievement-icon-independent {color:var(--blue)}
+.progress-achievement>.achievement-icon-missions {color:var(--success)}
+.progress-achievement.progress-unlocked>.achievement-icon {opacity:1}
 /* Ranking uses the full content width and aligned columns. */
 html .rankings-page {width:100%;max-width:none;padding:0;margin:0;min-height:100%;display:flex;flex-direction:column}
-html .rankings-page>.progress-section {max-width:none;width:100%;min-height:100%;display:flex;flex-direction:column;padding:24px}
+html .rankings-page>.progress-section {max-width:none;width:100%;min-height:100%;display:flex;flex-direction:column;padding:16px}
 html .ranking-header {display:flex;align-items:center;gap:14px;margin-bottom:20px}
 html .ranking-board-summary {margin-left:auto;display:flex;align-items:center;gap:18px}
-html .ranking-table {width:100%;min-width:0;table-layout:fixed;border-spacing:0 12px}
-html .ranking-table tbody td {padding:20px!important;font-size:1rem;vertical-align:middle}
-html .ranking-table :is(td,th):first-child {width:68px;text-align:center}
+html .ranking-table {width:100%;min-width:0;table-layout:fixed;border-spacing:0 8px}
+html .ranking-table col.ranking-column-place {width:44px}
+html .ranking-table col.ranking-column-count {width:70px}
+html .ranking-table col.ranking-column-social {width:130px}
+html .ranking-table col.ranking-column-admin {width:40px}
+html .ranking-table tbody td {padding:12px 8px!important;font-size:1rem;vertical-align:middle}
+html .ranking-table :is(td,th):first-child {width:auto;text-align:center}
 html .ranking-table :is(td,th):nth-child(2) {width:auto;min-width:0;text-align:left}
-html .ranking-table :is(td,th).ranking-count {width:110px;text-align:right}
-html .ranking-table :is(td,th).ranking-social-cell {width:180px;text-align:right}
-html .ranking-table :is(td,th).ranking-admin-cell {width:60px;text-align:center}
-html .ranking-table .ranking-place .ranking-medal {width:37px;height:43px;margin:auto}
+html .ranking-table :is(td,th).ranking-count,html .ranking-table :is(td,th).ranking-social-cell {width:auto;text-align:right}
+html .ranking-table :is(td,th).ranking-admin-cell {width:auto;text-align:center}
+html .ranking-table .ranking-place .ranking-medal {width:29px;height:34px;margin:auto}
 html .ranking-identity {display:flex;align-items:center;gap:12px;min-width:0}
-html .ranking-identity .profile-badge {border:0;padding:0;background:transparent;gap:16px;max-width:100%}
+html .ranking-identity .profile-badge {border:0;padding:0;background:transparent;gap:9px;max-width:100%}
 html .ranking-identity .profile-avatar-button {width:58px;height:58px;min-width:58px}
 html .ranking-identity .profile-avatar-face {width:38px;height:38px}
-html .ranking-identity .profile-nickname {font-size:1.2rem;max-width:100%;overflow-wrap:anywhere}
+html .ranking-identity .profile-nickname {font-size:1.05rem;max-width:100%;overflow-wrap:anywhere}
 html .ranking-identity .profile-overview {max-width:none}
-html .ranking-table td.ranking-count>b {font-size:1.9rem}
-html .ranking-social {gap:12px;justify-content:flex-end}
-html .ranking-social .like-burst {min-height:40px;min-width:72px;font-size:1rem}
+html .ranking-table td.ranking-count>b {font-size:1.5rem}
+html .ranking-social {gap:8px;justify-content:flex-end}
+html .ranking-social .like-burst {min-height:34px;min-width:62px;font-size:.95rem}
 .ranking-title-list {display:flex;gap:8px;flex-wrap:wrap}
 html .social-activity {display:block;width:100%;min-height:90px;margin-top:26px;padding:24px 0 0;border-top:1px solid var(--line)}
 html .social-activity>div {display:flex;gap:18px;align-items:center;justify-content:space-between;padding:12px 0;font-size:.94rem}
@@ -176,8 +227,13 @@ html .settings-tile>button:hover {background-color:color-mix(in srgb,var(--accen
 html .settings-hidden-nav {display:none}
 html .settings-column>section {padding:24px;max-width:none;width:100%}
 html .acknowledgements {display:flex!important;flex:1;flex-direction:column;align-items:center;justify-content:space-evenly;min-height:calc(100dvh - 132px);text-align:center;padding:30px}
-html .acknowledgements h2 {font-size:1.2rem;color:var(--accent)}
+html .acknowledgements h2 {font-size:clamp(2rem,3vw,3.4rem);color:var(--accent);margin:0;font-weight:650;letter-spacing:.12em}
 html .acknowledgements p {padding:14px;margin:0;font-size:clamp(1.6rem,2.5vw,3rem);line-height:1.5;letter-spacing:.05em}
+html .acknowledgements p:nth-of-type(5n+1) {color:var(--accent)}
+html .acknowledgements p:nth-of-type(5n+2) {color:light-dark(#416eb7,#8fb5f0)}
+html .acknowledgements p:nth-of-type(5n+3) {color:light-dark(#9d6e2b,#d8b376)}
+html .acknowledgements p:nth-of-type(5n+4) {color:light-dark(#ad5b7c,#dd9db7)}
+html .acknowledgements p:nth-of-type(5n) {color:light-dark(#805db5,#b9a1df)}
 html .navigation-editor-heading,html .navigation-editor-row {display:grid;grid-template-columns:minmax(140px,1fr) minmax(120px,1fr) 82px;gap:16px;align-items:center}
 .navigation-editor-row>label {display:flex;align-items:center;gap:10px;min-width:0}
 .navigation-editor-row input {min-width:0;width:100%}
@@ -191,33 +247,10 @@ html .navigation-editor-heading,html .navigation-editor-row {display:grid;grid-t
 .shortcut-list input {width:160px;text-align:center;font-size:.86rem;cursor:pointer;flex:none}
 .sync-complete-toast {position:static!important;inset:auto!important;transform:none!important;border:0!important;box-shadow:none!important;background:transparent!important;padding:0!important;color:var(--success);margin-left:auto}
 html .sync-status-icon {display:inline-flex;align-items:center;margin-left:auto}
-/* Motion stays inside each scene; no luminous blur or clipped large paths. */
-html .scene-dino,html .scene-cloud,html .scene-bulb {animation:none;transform:none}
-.dino-traveler {animation:dino-travel 12s linear infinite;transform-origin:center;transform-box:fill-box}
-html .dino-traveler .scene-dino {animation:dino-face 12s steps(1,end) infinite;transform-origin:center;transform-box:fill-box}
-.dino-leg {animation:dino-steps .45s steps(2) infinite}
-.cloud-0 {animation:cloud-roam-a 23s ease-in-out infinite!important;transform-box:fill-box}
-.cloud-1 {animation:cloud-roam-b 29s ease-in-out infinite!important;transform-box:fill-box}
-.cloud-2 {animation:cloud-roam-a 33s ease-in-out infinite reverse!important;transform-box:fill-box}
-.bulb-rays {animation:gentle-light 6s ease-in-out infinite}
-.bulb-halo {animation:gentle-light 6s ease-in-out infinite;filter:none!important}
-.globe-turn {transform-origin:90px 73px;animation:earth-rotation 12s linear infinite}
-.globe-building {transform-origin:90px 40px;animation:earth-building 12s ease-out infinite;opacity:0}
-.globe-cycle {transform-origin:90px 73px;animation:earth-cycle 12s ease-in-out infinite}
-.globe-burst {animation:earth-burst 12s linear infinite;opacity:0}
-.scene-star {animation:gentle-light 6s ease-in-out infinite}
-@keyframes dino-travel {0%,100%{transform:translateX(-25px)}50%{transform:translateX(36px)}}
-@keyframes dino-face {0%,49%{transform:scaleX(1)}50%,99%{transform:scaleX(-1)}100%{transform:scaleX(1)}}
-@keyframes cloud-roam-a {0%,100%{translate:0 0}25%{translate:12px -7px}55%{translate:18px 8px}80%{translate:-5px 5px}}
-@keyframes cloud-roam-b {0%,100%{translate:0 0}30%{translate:-10px 8px}65%{translate:9px -10px}}
-@keyframes gentle-light {0%,100%{opacity:.25}50%{opacity:.8}}
-@keyframes earth-rotation {to{transform:rotate(360deg)}}
-@keyframes earth-building {0%,2%{opacity:0;transform:scaleY(.1)}7%,76%{opacity:1;transform:scaleY(1)}82%,100%{opacity:0;transform:scaleY(.1)}}
-@keyframes earth-cycle {0%,81%,100%{transform:scale(1)}86%{transform:scale(1.07)}92%{transform:scale(.15)}95%{transform:scale(.15);opacity:0}97%{opacity:1}}
-@keyframes earth-burst {0%,81%,97%,100%{opacity:0}85%{opacity:1}93%{opacity:0}}
 /* The workbench occupies the entire client area. */
 html .practice-focus .sidebar,html .practice-focus .topbar,html .practice-focus .app-statusbar {display:none!important}
 html .practice-focus .main-area {width:100%;max-width:none;padding:0;margin:0;min-height:0}
+html .practice-focus .mock-page {padding:0;overflow:hidden}
 html .practice-focus .workspace-area {padding:0;gap:0;border:0;width:100%;height:100%;max-width:none;flex:1}
 html .practice-focus :is(.tb-workbench,.wb-body,.wb-statement-pane,.wb-code-pane) {border:0;border-radius:0;margin:0;box-shadow:none}
 html .practice-focus .tb-workbench {height:100%;width:100%;flex:1;padding:0;max-width:none}
@@ -227,32 +260,26 @@ html .wb-editor-actions {align-items:center;gap:6px;flex-wrap:nowrap;flex-shrink
 html .wb-editor-actions :is(.wb-solution-button,.wb-next-button) {font-size:.8rem;padding:5px 8px;white-space:nowrap}
 .app-recovery {min-height:100dvh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:22px;padding:32px;background:var(--bg);color:var(--text)}
 .app-recovery button {padding:12px 24px;background:var(--accent);color:var(--bg);border-radius:8px}
-@media(min-width:1700px) {html{font-size:calc(var(--ui-font-size,15px) + 1px)}html .workspace-area{padding:20px 24px}.profile-badge-compact .profile-nickname{font-size:.95rem}html .topbar-actions{gap:20px}html .ranking-table tbody td{padding:25px 22px!important}html .settings-subpage-tabs.settings-home-grid{min-height:calc(100dvh - 146px)}}
-@media(max-width:1100px) {html .topbar{gap:10px;padding-inline:12px}html .topbar-actions{gap:10px}html .topbar .breadcrumb{display:none}html .topbar-actions .profile-badge{gap:3px}html .growth-dashboard .progress-growth-columns{grid-template-columns:1fr}html .growth-account-hero{min-height:500px}.shortcut-list{grid-template-columns:1fr}}
-@media(max-width:800px) {html .app-shell .sidebar{width:54px;flex-basis:54px;padding-inline:5px}html .sidebar .brand>div:not(.brand-mark),html .sidebar .nav-item>span,html .sidebar .nav-item>small{display:none}html .sidebar .nav-item{justify-content:center;padding:8px}html .topbar .profile-nickname,html .page-identity .breadcrumb{display:none}html .page-identity{max-width:20%}html .topbar-actions{gap:7px}html .topbar-actions .profile-avatar-button{width:38px;height:38px;min-width:38px}html .settings-subpage-tabs.settings-home-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:none;grid-auto-rows:160px}html .settings-home-grid>.settings-tile:nth-child(n){grid-column:auto;grid-row:auto}html .settings-home-grid>.settings-tile:last-child:nth-child(odd){grid-column:1/-1}html .ranking-table tbody td{padding:12px 8px!important}html .ranking-table :is(td,th).ranking-social-cell{width:120px}html .ranking-table :is(td,th).ranking-count{width:65px}html .ranking-identity .profile-nickname{font-size:1rem}html .ranking-social{gap:6px}html .ranking-table :is(td,th).ranking-admin-cell{width:35px}html .ranking-table :is(td,th):first-child{width:40px}html .ranking-identity .profile-avatar-button{width:42px;height:42px;min-width:42px}.radar-detail-heading,.radar-detail-row{gap:6px;grid-template-columns:minmax(95px,1.6fr) .6fr 1fr .5fr .5fr}html .mock-create .mock-mode-options{gap:4px}html .mock-mode-options>button{font-size:.9rem;padding:9px 4px;min-height:56px}.difficulty-presets button{font-size:.85rem}.training-specific-fields{flex-basis:100%}html .mock-create .mock-config{padding:18px}.navigation-editor-heading,.navigation-editor-row{gap:6px!important;grid-template-columns:minmax(90px,1fr) minmax(90px,1fr) 64px!important}.shortcut-list input{width:130px}}
+@media(min-width:1700px) {html{font-size:calc(var(--ui-font-size,15px) + 1px)}html .workspace-area{padding:8px 10px 0}.profile-badge-compact .profile-nickname{font-size:.95rem}html .topbar-actions{gap:20px}html .ranking-table tbody td{padding:12px 8px!important}html .settings-subpage-tabs.settings-home-grid{min-height:calc(100dvh - 146px)}}
+@media(max-width:1100px) {html .topbar{gap:10px;padding-inline:10px}html .topbar-actions{gap:10px}html .topbar-actions .profile-badge{gap:3px}html .growth-dashboard .progress-growth-columns{grid-template-columns:1fr}html .growth-account-hero{min-height:500px}.shortcut-list{grid-template-columns:1fr}}
+@media(max-width:800px) {html .app-shell .sidebar{width:54px;flex-basis:54px;padding-inline:5px}html .sidebar .brand>div:not(.brand-mark),html .sidebar .nav-item>span,html .sidebar .nav-item>small{display:none}html .sidebar .nav-item{justify-content:center;padding:8px}html .topbar .profile-nickname{display:none}html .topbar-actions{gap:7px}html .topbar-actions .profile-avatar-button{width:38px;height:38px;min-width:38px}html .settings-subpage-tabs.settings-home-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:none;grid-auto-rows:160px}html .settings-home-grid>.settings-tile:nth-child(n){grid-column:auto;grid-row:auto}html .settings-home-grid>.settings-tile:last-child:nth-child(odd){grid-column:1/-1}html .ranking-table tbody td{padding:12px 8px!important}html .ranking-table col.ranking-column-social{width:110px}html .ranking-table col.ranking-column-count{width:58px}html .ranking-identity .profile-nickname{font-size:1rem}html .ranking-social{gap:6px}html .ranking-table col.ranking-column-admin{width:36px}html .ranking-table col.ranking-column-place{width:36px}html .ranking-identity .profile-avatar-button{width:42px;height:42px;min-width:42px}.radar-detail-heading,.radar-detail-row{gap:6px;grid-template-columns:minmax(95px,1.6fr) .6fr 1fr .5fr .5fr}html .mock-create .mock-mode-options{gap:4px}html .mock-mode-options>button{font-size:.9rem;padding:9px 4px;min-height:56px}.difficulty-presets button{font-size:.85rem}.training-specific-fields{flex-basis:100%}html .mock-create .mock-config{padding:18px}.navigation-editor-heading,.navigation-editor-row{gap:6px!important;grid-template-columns:minmax(90px,1fr) minmax(90px,1fr) 64px!important}.shortcut-list input{width:130px}}
 @media(prefers-reduced-motion:reduce) {html .settings-scene *{animation:none!important}}
 html[data-motion=off] .settings-scene *{animation:none!important}
 
-.globe-building-0 {animation-name:earth-building-0}
-@keyframes earth-building-0 {0%,5%{opacity:0;transform:scaleY(.1)}9%,81%{opacity:1;transform:scaleY(1)}84%,100%{opacity:0;transform:scaleY(.1)}}
-
-.globe-building-1 {animation-name:earth-building-1}
-@keyframes earth-building-1 {0%,13%{opacity:0;transform:scaleY(.1)}17%,81%{opacity:1;transform:scaleY(1)}84%,100%{opacity:0;transform:scaleY(.1)}}
-
-.globe-building-2 {animation-name:earth-building-2}
-@keyframes earth-building-2 {0%,21%{opacity:0;transform:scaleY(.1)}25%,81%{opacity:1;transform:scaleY(1)}84%,100%{opacity:0;transform:scaleY(.1)}}
-
-.globe-building-3 {animation-name:earth-building-3}
-@keyframes earth-building-3 {0%,29%{opacity:0;transform:scaleY(.1)}33%,81%{opacity:1;transform:scaleY(1)}84%,100%{opacity:0;transform:scaleY(.1)}}
-
-.globe-building-4 {animation-name:earth-building-4}
-@keyframes earth-building-4 {0%,37%{opacity:0;transform:scaleY(.1)}41%,81%{opacity:1;transform:scaleY(1)}84%,100%{opacity:0;transform:scaleY(.1)}}
-
-.globe-building-5 {animation-name:earth-building-5}
-@keyframes earth-building-5 {0%,45%{opacity:0;transform:scaleY(.1)}49%,81%{opacity:1;transform:scaleY(1)}84%,100%{opacity:0;transform:scaleY(.1)}}
-
-.globe-building-6 {animation-name:earth-building-6}
-@keyframes earth-building-6 {0%,53%{opacity:0;transform:scaleY(.1)}57%,81%{opacity:1;transform:scaleY(1)}84%,100%{opacity:0;transform:scaleY(.1)}}
-
-.globe-building-7 {animation-name:earth-building-7}
-@keyframes earth-building-7 {0%,61%{opacity:0;transform:scaleY(.1)}65%,81%{opacity:1;transform:scaleY(1)}84%,100%{opacity:0;transform:scaleY(.1)}}
+html .radar-node[data-unknown=true] {stroke-dasharray:3 3;opacity:.65}
+html .radar-detail-row b[data-unknown=true] {color:var(--muted)}
+html .radar-partial {fill:none}
+html .training-duration-summary {display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:.8rem;white-space:nowrap}
+html .wb-context-actions {display:flex;align-items:center;gap:8px;flex-shrink:0}
+html .wb-context-actions .mock-timer {margin-left:0}
+@media(max-width:650px) {html .wb-editor-header:has(.wb-context-actions) .wb-save-state {display:none}html .wb-context-actions {gap:4px;margin-left:auto}}
+html .settings-subpage-controls {position:sticky;top:0;display:flex;justify-content:flex-end;height:0;margin-bottom:-18px;z-index:8;pointer-events:none}
+html .settings-return-button {pointer-events:auto;margin:10px 10px 0 0;background:var(--panel);color:var(--muted);flex-shrink:0;width:32px;height:32px}
+html .settings-return-button:hover {color:var(--accent)}
+html .settings-translation-panel {min-height:calc(100dvh - 98px)}
+html .settings-translation-panel .progress-section-heading,html .settings-column>section>.settings-page-description:first-child {padding-right:42px}
+html .account-sync-status {display:inline-flex;align-items:center;justify-content:center;flex:0 0 18px;width:18px;height:18px;margin-left:auto;line-height:1}
+html .account-sync-status .tooltip-anchor {display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px}
+html .account-sync-status :is(.sync-status-icon,.sync-complete-toast) {width:18px;height:18px;min-height:0;margin:0;animation:none!important;opacity:1!important}
+html .settings-column :is(h2,h3)>.tooltip-anchor {margin-left:8px;vertical-align:middle;font-size:1rem}
+html .translation-fields label>span>.tooltip-anchor {margin-left:6px;vertical-align:middle}

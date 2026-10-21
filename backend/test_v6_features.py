@@ -122,7 +122,7 @@ class FeatureTests(unittest.TestCase):
         # Penalty needs a solved slot with full local cases. Unbiased random
         # papers may otherwise choose H, whose public samples never prove AC.
         self.library.rows=[row for row in self.library.rows if self.assets.problem(row['id'])['judge']['scope']=='local']
-        plan=self.service.preview_contest({'mode':'single','rules':'xcpc','wrongPenalty':30})['plan']
+        plan=self.service.preview_contest({'mode':'single','rules':'xcpc','wrongPenalty':30,'duration':300})['plan']
         self.assertEqual(plan['duration'],300)
         with self.assertRaises(ServiceError):self.service.start_contest({'ids':[plan['slots'][0]['id']],'duration':300,'wrongPenalty':10})
         contest=self.service.start_contest({'ids':[plan['slots'][0]['id']],'duration':300})['contest'];identity=plan['slots'][0]['id']

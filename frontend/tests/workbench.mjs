@@ -21,6 +21,8 @@ try {
   const editor = page.getByRole('textbox', { name: 'C++ 代码' });
   await editor.waitFor({ state: 'visible' });
   await page.waitForFunction(() => document.querySelector('.cm-content')?.getAttribute('contenteditable') === 'true');
+  await editor.focus();
+  assert.equal(await page.locator('.cm-editor').evaluate(node=>getComputedStyle(node).outlineStyle),'none');
   assert.ok(await page.locator('.wb-statement .katex').count() >= 3);
   const fontSize = page.getByRole('spinbutton', { name: '题面字号', exact: true });
   const setReadingSize = async value => { await fontSize.fill(value); await fontSize.press('Tab'); };
@@ -262,11 +264,17 @@ try {
   await page.waitForFunction(() => document.querySelector('.wb-letter')?.textContent === 'A' && document.querySelector('.cm-content')?.getAttribute('contenteditable') === 'true');
   assert.equal(await fontSize.inputValue(), '24', 'mock practice uses the saved reading size');
   assert.equal(await page.getByRole('button', { name: '题解', exact: true }).count(), 0, 'mock never offers solutions while running');
-  assert.equal(await page.getByRole('button', { name: '官方提交', exact: true }).count(), 0, 'mock never opens official submission');
+  assert.equal(await page.getByRole('button', { name: '导入代码', exact: true }).count(), 0);
+  assert.equal(await page.getByRole('button', { name: '保存草稿', exact: true }).count(), 0);
+  assert.equal(await page.getByRole('button', { name: '赛内提交', exact: true }).count(), 0);
   assert.notEqual(await page.evaluate(() => window.workbenchFixture.readCode()), 'reopened A final code', 'mock draft is separate from solo draft');
   await editor.fill('contest draft');
   await editor.press('Control+s');
   await page.waitForFunction(() => window.workbenchFixture.drafts['mock1:A'] === 'contest draft');
+  await page.getByRole('button', {name:'提交',exact:true}).click();
+  await page.waitForFunction(()=>window.workbenchFixture.calls.filter(call=>call.path==='official/submit').at(-1)?.body.contestId==='mock1');
+  assert.equal(await page.evaluate(()=>window.workbenchFixture.calls.filter(call=>call.path==='official/submit').at(-1).body.code),'contest draft');
+  assert.equal(await page.evaluate(()=>window.workbenchFixture.calls.filter(call=>call.path==='submissions'&&call.body?.mode==='submit'&&call.body?.contestId==='mock1').length),0);
   await page.evaluate(() => window.workbenchFixture.changeContest({ id: 'mock1', status: 'finished', slots: [{ id: 'A', letter: 'A' }] }));
   await page.waitForFunction(() => document.querySelector('.cm-content')?.getAttribute('aria-readonly') === 'true');
   assert.equal(await editor.getAttribute('aria-readonly'), 'true');

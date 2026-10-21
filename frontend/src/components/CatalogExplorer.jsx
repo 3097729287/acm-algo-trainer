@@ -47,7 +47,7 @@ export default function CatalogExplorer({ rows, scope, onChange, onContest, rend
   const entries = [...groups].sort(([a], [b]) => a.localeCompare(b, 'zh-CN', { numeric: true }));
   return <section className="catalog-explorer" aria-label={onContest ? '比赛层级浏览' : '题库层级浏览'}>
     {!onContest && <button className="catalog-folder-row" onClick={() => onChange({ ...scope, stage: 'problems' })}><FileText size={19}/><strong>全部题目</strong><span>{selected.length}</span><ChevronRight size={16}/></button>}
-    {entries.map(([name, items]) => renderContest && new Set(items.map(row=>row.groupKey)).size===1 ? <div className="catalog-contest-entry" key={name}>{renderContest(items[0])}</div> : <button className="catalog-folder-row" key={name} onClick={() => {
+    {entries.map(([name, items]) => renderContest && items.every(row=>catalogSegments(row).length===path.length+1) && new Set(items.map(row=>row.groupKey)).size===1 ? <div className="catalog-contest-entry" key={name}>{renderContest(items[0])}</div> : <button className="catalog-folder-row" key={name} onClick={() => {
       const next = [...path, name], leaf = items.every(row => catalogSegments(row).length === next.length);
       if (leaf && onContest) onContest(items[0]);
       else onChange({ path: next, stage: leaf ? 'problems' : 'contests' });

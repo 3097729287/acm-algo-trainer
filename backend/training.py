@@ -856,10 +856,10 @@ class TrainingService:
                 raise ServiceError(403, "模拟赛进行中，这道题的题解已锁定。交卷后可以复盘。")
 
     def assert_official_allowed(self, identity, contest_id=None, receipt=False):
-        """Replay uses native OJ forms; blind mock exams retain their lock."""
+        """All timed modes use native OJ forms in their validated contest context."""
         with self.lock:
             contest = self._context(identity, contest_id, writing=not receipt) if contest_id else None
-            if contest and json.loads(contest['config'] or '{}').get('strategy') == 'replay':
+            if contest:
                 return contest
             active = self.connection.execute("SELECT * FROM contests WHERE status='running'").fetchone()
             if not contest and active and json.loads(active['config'] or '{}').get('strategy') == 'replay':
@@ -1266,7 +1266,7 @@ class TrainingService:
                 raise ServiceError(400, "专项知识点无效")
             if topic.strip():
                 tags = [topic.strip()] if not tags else tags
-        if not isinstance(tags, list) or len(tags) > 20 or not all(isinstance(tag, str) and 0 < len(tag.strip()) <= 80 for tag in tags):
+        if not isinstance(tags, list) or len(tags) > 256 or not all(isinstance(tag, str) and 0 < len(tag.strip()) <= 80 for tag in tags):
             raise ServiceError(400, "请选择有效的专项知识点")
         tags = sorted(set(tag.strip() for tag in tags))
         if strategy == "topic" and not tags:
@@ -1324,8 +1324,13 @@ class TrainingService:
         options = self._contest_options(body)
         try:
             count = 1 if options["strategy"] == "single" else int(body.get("count", 6))
-            duration = int(body.get("duration", 300 if options['rules']=='xcpc' else 120))
             lower, upper = int(body.get("min", 0)), int(body.get("max", 10000))
+            band = 0 if upper <= 1400 else 1 if upper <= 1700 else 2 if upper <= 2000 else 3
+            base = ([90, 120, 150, 180] if options['strategy'] == 'topic' else [120, 150, 180, 210])[band]
+            default_duration = [30, 45, 60, 75][band] if options['strategy'] == 'single' else max(30, min(480, (base * count + 59) // 60 * 15))
+            if 'mode' not in body:  # Preserve legacy clients' untyped preview contract.
+                default_duration = 300 if options['rules'] == 'xcpc' else 120
+            duration = int(body.get("duration", default_duration))
         except (ValueError, TypeError, AttributeError):
             raise ServiceError(400, "模拟赛参数无效")
         if not 1 <= count <= 20 or not 1 <= duration <= 1440 or not 0 <= lower <= upper <= 10000:
@@ -1556,7 +1561,7 @@ class TrainingService:
     def _contest(self, record):
         records = self.connection.execute("SELECT * FROM submissions WHERE contest_id=? AND mode='submit' ORDER BY submitted_at,rowid", (record["id"],)).fetchall()
         config = json.loads(record['config'] or '{}')
-        aliases = self._identity_map() if config.get('strategy') == 'replay' else {}
+        aliases = self._identity_map()
         by_problem = {}
         for submission in records:
             by_problem.setdefault(aliases.get(submission['problem_id'], submission['problem_id']), []).append(submission)

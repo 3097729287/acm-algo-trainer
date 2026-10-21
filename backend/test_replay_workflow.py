@@ -40,11 +40,23 @@ class ReplayWorkflowTests(unittest.TestCase):
         self.assertFalse(training['mock_due'])
         self.assertTrue(training['accepted_at'])
 
-    def test_blind_mock_still_refuses_browser_submission(self):
+    def test_all_timed_modes_allow_browser_receipts_in_their_own_context(self):
         contest = self.start(replay=False)
+        identity = contest['slots'][0]['id']
+        self.service.assert_official_allowed(identity, contest['id'])
         with self.assertRaises(ServiceError) as issue:
-            self.service.assert_official_allowed(contest['slots'][0]['id'], contest['id'])
+            self.service.assert_official_allowed(identity)  # No side-practice escape.
         self.assertEqual(issue.exception.status, 403)
+        with self.assertRaises(ServiceError):
+            self.service.assert_solution_unlocked(identity)
+        self.receipt(contest, 'WA')
+        self.clock.advance(minutes=5)
+        self.receipt(contest, number='88002')
+        current = self.service.contest(contest['id'])['contest']
+        self.assertEqual(current['accepted'], 1)
+        self.assertEqual(current['penalty'], 25)
+        self.service.finish_contest(contest['id'])
+        self.assertFalse(self.service.connection.execute('SELECT mock_due FROM training WHERE id=?', (identity,)).fetchone()[0])
 
     def test_replay_cannot_queue_the_legacy_local_submit(self):
         contest=self.start()

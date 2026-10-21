@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import './SoftwareUpdates.css';
+import Tooltip from '@/components/Tooltip.jsx';
 
 const saveBeforeUpdate = async () => (await import('../app/Workbench.jsx')).saveBeforeUpdate();
 
@@ -69,12 +70,10 @@ export function SoftwareUpdatePanel({ update }) {
   const { state, error, busy, action } = update;
   if (!state) return <section className="software-update"><h3>软件版本更新</h3><p>正在读取软件更新状态…</p></section>;
   return <section className="software-update" aria-label="软件版本更新">
-    <h3>软件版本更新</h3>
+    <h3>软件版本更新<Tooltip label="软件更新说明" text="每次启动检查新版，发现更新后自动下载、校验并安装。只下载变化的程序文件；替换前保存草稿并备份个人数据，完成后重新打开 TB。"/></h3>
     <p>当前版本 v{state.currentVersion}{state.latestVersion ? ` · 新版本 v${state.latestVersion}` : state.status === 'current' ? ' · 已是最新正式版' : ''}</p>
-    <p>每次启动强制检查新版，发现更新后自动下载、校验并安装，无需确认。</p>
-    <label><input type="checkbox" checked={state.autoCheck} onChange={event => action('settings', { autoCheck: event.target.checked })} disabled={busy} />运行期间每天额外检查一次（不影响启动时检查）</label>
+    <label><input type="checkbox" checked={state.autoCheck} onChange={event => action('settings', { autoCheck: event.target.checked })} disabled={busy} />每天检查一次<Tooltip label="每日检查说明" text="运行期间每天额外检查一次；不影响启动时检查。"/></label>
     <div className="software-update-actions"><button disabled={busy || ['checking', 'downloading', 'installing'].includes(state.status)} onClick={() => action('check')}>{state.status === 'checking' ? '正在检查…' : '检查软件更新'}</button><UpdateAction update={update} /></div>
-    {state.latestVersion && <p>更新只下载变化的程序文件。替换前保存草稿并备份个人数据，完成后自动重新打开 TB。</p>}
     {(error || state.error) && <p className="software-update-error" role="alert">{error || state.error}</p>}
     {state.notes && <details><summary>本次更新内容</summary><pre>{state.notes}</pre></details>}
     <a href={state.releaseUrl} target="_blank" rel="noreferrer">在 GitHub 查看正式发布</a>
