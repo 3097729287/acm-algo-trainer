@@ -2,6 +2,8 @@
 
 ## 1.3.0 构建与验证
 
+1.3.0 已正式发布，固定构建提交 `8922ffbc144402adf01b6367a9f68775e1461b77`。[交付与验证](releases/1.3.0.md) · [GitHub CI](https://github.com/3097729287/acm-algo-trainer/actions/runs/39622874758)。GitHub CI 的全部测试步骤成功；Windows runner 仍在收尾，工作流汇总状态以链接为准。随包双语言、管理员隔离、原生窗口、全新安装/卸载、完整升级、更新助手和 1.2.1 实际增量均通过；本机 8 个数据库已在线备份并验证表与 schema 保留。后续发布状态文档可领先构建提交，程序与标签身份保持不变。
+
 新功能回归为 `python -m unittest discover -s backend -p test_v130.py`、`node tests/ui-v130.mjs` 和 `node tests/account-sync-status.mjs`；其余前后端回归继续执行。测试使用临时 SQLite 与合成回执，不向真实账号提交。
 
 先运行 `python scripts/fetch_python_runtime.py <空目录>`，校验官方 CPython 3.13.16 的固定 SHA-256，再向 `scripts/build_release.py assemble` 传入 `--python-source <目录>`。运行时安装到 `_internal/python3`，本次 C++ 工具链不变，增量包显式包含新增 Python 字节与许可证。`--package-check` 同时验证随包 C++ 与 Python 样例。
@@ -88,7 +90,7 @@ $env:TB_STATE_DIR = "$PWD/.backups/desktop-dev-state"
 python desktop/launch.py
 ```
 
-API 的可选参数见 `python backend/backend.py --help`。历史 [v1.1.0](releases/1.1.0.md) 的源码标签、`BUILD-INFO.json` 与已发布资产均指向 `474d347b34fbd3815072d78ceed41c6abec18f72`；该版 `005` 账号同步与 `006` 公开成长迁移已完成。当前公开下载为 v1.1.5；v1.2.0 的实际构建、本机交付与服务核验见本页首节。
+API 的可选参数见 `python backend/backend.py --help`。历史 [v1.1.0](releases/1.1.0.md) 的源码标签、`BUILD-INFO.json` 与已发布资产均指向 `474d347b34fbd3815072d78ceed41c6abec18f72`；该版 `005` 账号同步与 `006` 公开成长迁移已完成。当前公开下载为 v1.3.0；本次构建和交付见本页首节，以下版本章节为历史记录。
 
 ```powershell
 python scripts/check.py
@@ -206,7 +208,7 @@ npm run test:mysql
 
 发布包不含个人数据，但运行时账号同步会上传个人代码；不要沿用“只上传成绩摘要”的整体隐私描述。Cookie、翻译密钥、DPAPI 密文和机器设置仍不上传。数据库备份须按个人数据保护，首次合并前保留本机 SQLite 在线备份和冲突记录。
 
-2026-10-16 的 1.0.20 服务先行迁移已完成在线备份、原 MySQL 卷增量升级及 API/Caddy 更新。健康检查确认账号协议 1 与单设备会话；账号、官方 AC、奖励、快照和会话前后核对一致。隔离安装与本机替换核对程序文件及个人数据库保留；具体生产统计、备份和本机入口保留在私有记录。后续 v1.2.0 的独立构建和部署验证见本页首节，公开资产仍待正式发布。
+2026-10-16 的 1.0.20 服务先行迁移已完成在线备份、原 MySQL 卷增量升级及 API/Caddy 更新。健康检查确认账号协议 1 与单设备会话；账号、官方 AC、奖励、快照和会话前后核对一致。隔离安装与本机替换核对程序文件及个人数据库保留；具体生产统计、备份和本机入口保留在私有记录。后续版本的独立构建和交付状态见本页首节；本段仅记录当时的服务迁移。
 
 ## 1.1.0 发布检查
 
