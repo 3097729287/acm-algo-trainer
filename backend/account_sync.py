@@ -480,7 +480,14 @@ class AccountStateSync:
             # metadata in the background after authentication, not on the
             # startup critical path. First migrations still capture everything.
             local, local_changes = self._capture(import_original=imported, refresh_facts=not bool(self.meta))
-            cached_revision = self.meta.get('revision') if self.meta and digest(local) == self.meta.get('syncedHash') else None
+            local_matches = bool(self.meta and digest(local) == self.meta.get('syncedHash'))
+            # A matching remote revision authenticates the saved credential and
+            # proves the last applied snapshot is still current. Pending local
+            # edits need an upload, not another download of that same snapshot.
+            cached_revision = self.meta.get('revision') if self.meta and self.meta.get('syncedHash') else None
+            if type(cached_revision) is not int or cached_revision <= 0:
+                cached_revision = None
+            upload_pending = False
             try:
                 answer = self._call('GET', '/v1/accounts/state', cached_revision=cached_revision)
             except ServiceError as issue:
@@ -490,17 +497,18 @@ class AccountStateSync:
             if answer.get('unchanged') is True:
                 if cached_revision is None or answer.get('revision') != cached_revision:
                     raise ServiceError(503, '云端同步版本不一致，请重试；本机数据已保留')
+                upload_pending = not local_matches
                 answer = {'revision': cached_revision, 'state': local}
             if type(answer.get('revision')) is not int or 'state' not in answer:
                 raise ServiceError(503, '账号同步服务需要升级，请稍后重试')
             self.revision = answer['revision']
-            if answer['state'] is not None and self.meta and digest(local) == self.meta.get('syncedHash'):
+            if answer['state'] is not None and local_matches:
                 state = answer['state']
             else:
                 state = merge_states(answer['state'], local, self.meta.get('baseline'))
             # Complete the first upload before exposing authentication. A failure
             # leaves the local workspace and session gate untouched.
-            if answer['state'] != state:
+            if upload_pending or answer['state'] != state:
                 saved = self._call('PUT', '/v1/accounts/state', {'revision': self.revision, 'state': state})
                 self.revision = saved['revision']
                 self.last_synced = saved['savedAt']
