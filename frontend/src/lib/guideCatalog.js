@@ -1,0 +1,136 @@
+const step=(target,title,text)=>({target,title,text});
+const page=(id,items,tab)=>items.map(item=>({...item,page:id,...(tab?{tab}:{})}));
+
+export const GUIDE_LABELS={mine:'我的训练',library:'题库',competitions:'比赛',mock:'模拟赛',growth:'成长与能力',rankings:'排行榜',records:'提交记录',activity:'活动记录',lectures:'从零讲',paths:'题单',practice:'做题工作台',settings:'设置首页','settings:appearance':'外观设置','settings:interaction':'交互与导航','settings:training':'快捷键','settings:accounts':'账号与身份','settings:advanced':'翻译 API','settings:updates':'更新','settings:help':'数据与帮助','settings:thanks':'鸣谢'};
+
+export const PAGE_GUIDES={
+ mine:page('mine',[
+  step('.sidebar [aria-label="我的训练"]','今日训练从这里继续','这里汇总今天安排的目标题、待攻克题目和继续练习的内容。昨天的代码和记录会保留，跨日不会删除。'),
+  step('.queue-heading','分组与每日目标','“今日目标”来自目标计划；待攻克、待验证、间隔复习会按当前进度出现。分组中的数量是题目数，同题不会因为多次提交而重复计数。'),
+  step('.problem-table','读懂每道题','一行展示题名和来源、知识点、难度、最新正式结果与最近练习时间。AC 代表原站确认通过；样例通过只是一次运行结果。'),
+  step('.problem-table .problem-title','继续编写代码','点击题名进入工作台。草稿按题目保存，再次打开可以接着写；在模拟赛中写的代码也按考场隔离。'),
+  step('.page-search-controls','搜索和筛选','搜索可组合题名、比赛、题号和难度范围。上下箭头切换顺序，筛选按钮设置知识点、结果和比赛类型；知识点标签上的 × 只取消该知识点。'),
+  step('.row-actions','收藏、题解与移出','星标用于收藏，书本打开题解，移出按钮从当前训练中移除题目。查看题解会留下辅助完成的证据，后续可安排独立重写。'),
+  step('.daily-task-top-button','领取每日任务奖励','底部日历打开每日任务。完成条件后点击领取，经验会保存；目标题目直接在训练列表里练习。'),
+ ]),
+ library:page('library',[
+  step('.page-search-controls','按目标选题','搜索题名、比赛、题号或知识点，组合条件缩小范围；例如输入比赛名和题号，也可以用 1200-1600 指定难度范围。'),
+  step('.filter-menu','选择知识范围','在筛选中选择大知识点或子知识点，并设置平台、难度、收藏和提交结果。题库标签、筛选菜单与知识雷达共用名称。'),
+  step('.active-knowledge-filter,.page-search-controls','取消某个筛选','选中的知识点会显示在搜索旁，点 × 取消它；搜索文字和其他条件继续保留。筛选中的重置会恢复本页条件。'),
+  step('.problem-table','题目与难度','难度采用题库统一训练尺度，跨站换算值可悬停查看来源。未定级表示证据不足；没有题解的题仍可练习原站题面。'),
+  step('.problem-table .problem-title','打开题目','点击题名开始练习。星标保存收藏，书本查看已有题解；正式通过只认原站回执。'),
+  step('.library-pagination','分页与每页题数','底部一行显示当前范围、总题数、页码与保存状态。“每页题数”在设置的“交互与导航”中调整并保存。'),
+ ]),
+ competitions:page('competitions',[
+  step('.competition-view-toggle','列表与文件夹浏览','顶部目录按钮切换文件夹浏览。列表适合搜索，文件夹适合按平台、赛事类别和年份逐层查找。'),
+  step('.catalog-path,.competition-breadcrumb,.competition-page','赛事分类','ACM 汇总 ICPC、CCPC、网络预选赛、邀请赛等，归类不受镜像来源站影响。蓝桥杯 B 组独立为一级目录。'),
+  step('.catalog-explorer,.competition-list','按时间找比赛','同一目录中的比赛默认最新在上，年份也从新到旧。空目录会标注暂未收录，不会编造题单。'),
+  step('.competition-card,.competition-row','查看题目','展开比赛可查看每题的难度、练习状态和正式通过情况。题目可以单独练习，也可以使用开始比赛重现整场。'),
+  step('.competition-start','开始一场比赛','确认题单与时长后才启动计时。题面或题单不完整时会先提示补全，避免静默漏题。'),
+ ]),
+ mock:page('mock',[
+  step('.mock-mode-options','四种训练方式','综合训练覆盖多种方法；专项训练围绕选定知识点；随机单题专注一道题；重现赛按已收录的原场题单练习。'),
+  step('.difficulty-presets,.mock-mode-options','难度与默认时长','单题随难度默认 30、45、60 或 75 分钟；综合与专项随题数调整。筛选里可手动改时长，手动值会保留。'),
+  step('.training-specific-fields','知识点与重现赛目录','专项知识点可选大类或子类；重现赛通过平台、赛事类型和年份逐层选择，整场比赛不受单题难度预设隐藏。'),
+  step('.filter-menu','训练条件','筛选里可调整题数、排除已通过、本地完整评测、计分规则、罚时和试卷名称。重现赛优先使用原场公开时长。'),
+  step('.create-buttons','先生成，再开始','生成试卷只创建预览；点击开始训练才计时。综合、专项和随机卷保持盲选，不在预览提前泄露考点。'),
+  step('.mock-history,.mock-page','训练记录','历史记录直接显示在配置下方，最新在前。进行中的比赛可以继续，结束后可查看题目、提交和结果。'),
+  step('.mock-mode-options','赛中操作','工作台左上选题，右上查看倒计时或结束比赛。“提交”打开原站浏览器；运行样例不会获得正式 AC，题解在比赛中保持锁定。'),
+ ]),
+ growth:page('growth',[
+  step('.account-hero-identity .profile-avatar-button,.topbar .profile-avatar-button','更换头像','点击头像打开图片设置，选择 PNG、JPEG 或 WebP 图片后自动压缩并保存，也可以恢复默认头像。外圈显示本级经验，底部数字是经验等级。'),
+  step('.account-hero-level','经验与等级','经验条展示本级已获得经验和升级所需经验，Lv 数字是当前等级。头像经验环从底部顺时针增长；任务、成就和已确认的学习活动可带来经验。'),
+  step('.account-hero-rank','能力段位','能力段位衡量有效独立解题的难度，和经验等级分别成长。5 级解锁定级；至少需要 5 道不同原题的独立首次官方 AC，并有已知难度。'),
+  step('.account-hero-rank','定级与进阶','能力分取最高 5 道有效题难度的中位数。持续独立解决更难题目会影响段位；重复刷同一题、样例通过或看题解后复现不会补成独立首次 AC。'),
+  step('.knowledge-radar svg','一级雷达可以点击','每个圆点代表一个大知识领域。点击圆点或下方对应名称，会进入该领域的二级知识雷达。'),
+  step('.knowledge-radar','二级雷达与返回','二级雷达展示该领域的子知识点；点击子知识点会进入题库并应用对应筛选。点击左上返回箭头或按 Esc 返回一级。'),
+  step('.radar-knowledge-details','掌握程度如何估计','掌握度结合不同题目数量、难度、解决率、独立性和提交稳定性。大领域还要求各子知识点都有足够作答证据，几道简单题不会得到很高估计。'),
+  step('.radar-knowledge-details b','为什么显示 ?%','子知识点至少需要约 5 道有效作答，其中至少 3 道已定级。大领域的每个子项都需满足门槛，且需要足够不同题目；悬停问号可查看缺少的证据。'),
+  step('.radar-detail-row','作答、可用与待练','作答是不同有效题目数，可用是当前题库中对应题目数；可用题量不作为掌握度百分比的分母。待练入口可继续相应练习。'),
+  step('.account-hero-statistics','理解训练统计','图标分别对应总 AC、正式提交、活跃天数、连续练习和完成比赛。悬停或键盘聚焦图标可查看名称。'),
+  step('#growth-goals','设置目标计划','新建目标选择目标方向；调整目标可以修改已有计划。安排的目标题会进入“我的训练”，完成情况随正式结果更新。'),
+  step('.achievement-top-button:not(.daily-task-top-button)','成就、勋章与称号','底部奖章打开成就列表，查看条件、进度和奖励。不同图形对应不同成就含义；达成后的经验与永久称号分别标明，获得的称号会展示在账号资料中。'),
+  step('.topbar .profile-avatar-button','头像框、段位与排行榜','头像框和段位勋章展示成长；排行榜按官方首次 AC 题数排名。可以分别查看自己的能力段位、学习经验和各周期榜单。'),
+ ]),
+ rankings:page('rankings',[
+  step('.ranking-tabs','每日、本周与累计','按北京时间切换统计周期，排名依据不同题目的首次官方 AC；重复提交同一题不会重复增加题数。'),
+  step('.ranking-board-summary','榜单统计','上方图标显示当前榜单人数、通过总数和本人的过题数。悬停图标查看含义。'),
+  step('.ranking-identity','头像框与排名徽章','条目展示用户头像、等级与公开成长信息。周期前三名使用对应排名徽章，奖励规则可以悬停标题旁说明图标查看。'),
+  step('.ranking-social','爱心与留言','可以给其他用户点爱心，旁边显示收到的爱心数；留言按钮发送留言。本人收到的爱心与其他人保持同列显示。'),
+  step('.social-activity','爱心动态与通知','这里展示公开爱心动态。私密留言和通知从顶部铃铛查看，公开动态不会展示私密正文。'),
+  step('.ranking-controls','同步与刷新','刷新读取最新榜单。网络暂时不可用时会说明状态并保留已有内容；普通用户版没有清空榜单或删除他人成绩入口。'),
+ ]),
+ records:page('records',[
+  step('.submission-log','正式提交按日期保存','这里保存正式提交历史，并按日期分组；运行样例的结果留在做题工作台中。'),
+  step('.submission-log','结果缩写','AC 为正式通过；WA、TLE、MLE、RE、CE 分别表示答案错误、超时、超内存、运行错误与编译错误。未知结果不会伪装成通过。'),
+  step('.submission-log','查看当次代码','点击记录查看该次提交的代码和结果。历史代码和当前草稿分别保存，查看历史不会直接替换草稿。'),
+  step('.page-search-controls','查找历史','通过顶部搜索和筛选按题目、比赛或结果查找记录，可切换时间顺序；加载更多会接续已有日期分组。'),
+ ]),
+ activity:page('activity',[
+  step('.activity-page,.progress-page','查看学习活动','活动视图按日期展示已保存的学习活动和活跃情况，便于回顾最近的训练节奏。'),
+  step('.activity-calendar','理解活跃与 AC','活跃天数表示有学习活动的日期，正式 AC 表示原站确认的不同题目；运行和重复提交不会变成额外正式通过。'),
+  step('.activity-year,.activity-calendar','查看与筛选','切换年份查看记录，点击日历中的日期查看当日详情。修改显示范围不会删除历史数据。'),
+ ]),
+ lectures:page('lectures',[
+  step('.lectures-page','先选一个知识点','这里列出已有讲义，点选后进入阅读。可按标题、知识点和分类查找。'),
+  step('.page-search-controls','搜索与筛选讲义','顶部搜索定位内容，筛选缩小知识范围；上下箭头切换列表顺序。'),
+  step('.lectures-page','阅读公式与示例','讲义包含概念、图例、推导和示例代码。点击讲义标题阅读，公式会按数学排版显示。'),
+  step('.lectures-page','联系实际题目','结合讲义涉及的知识点回到题库练习。阅读材料帮助理解，掌握度仍依据真实作答证据估计。'),
+ ]),
+ paths:page('paths',[
+  step('.learning-paths-page','题单当前范围','题单仍在开发，已保留学习框架和现有内容。可以查看已有专题，不把尚未完成的内容当作完整课程。'),
+  step('.learning-paths-page','从概念到练习','已有题单按基础理解、典型方法和迁移练习组织。阅读标记与题目的正式通过状态分别记录。'),
+ ]),
+ settings:page('settings',[
+  step('.settings-home-grid','按分类进入设置','外观、交互与导航、更新、快捷键、数据与帮助、翻译 API、账号与身份和鸣谢各自成页。'),
+  step('.settings-home-grid','返回与保存','二级设置右上角返回箭头或 Esc 回到设置首页；开关和输入项按各自操作保存，返回时保留浏览位置。'),
+  step('.settings-home-grid','重新查看指引','进入“数据与帮助”，打开“新手指引”，可重看入门总览或选择各页详细指引。'),
+ ]),
+ 'settings:appearance':page('settings',[
+  step('.visual-preferences','主题、颜色与字号','选择深浅主题、强调色与界面字号，按钮和阅读区域会随设置更新。'),
+  step('.appearance-studio','背景与面板','选择背景和面板样式。线框主题会为每道题绘制边框，圆角内容限制在边界内。'),
+  step('.page-opacity-settings,.appearance-studio','按页面调整透明度','可单独调整不同页面、题面、编辑区与题解的不透明度，适应背景和阅读习惯。'),
+ ],'appearance'),
+ 'settings:interaction':page('settings',[
+  step('[aria-label="交互设置"]','开关与每页题数','这里调整全屏、紧凑列表、界面动效、侧栏、平台图标与底部时钟；题库每页题数也在这里设置。'),
+  step('.settings-navigation','定制导航','可以修改页面名称、排序和组合。组合后的页面可在同一区域切换，不会合并或删除训练数据。'),
+  step('.brand-mark','侧栏快捷切换','点击左上 TB 标识收起或展开侧栏，也可以用 Ctrl+B。悬停标识可查看当前操作。'),
+ ],'interaction'),
+ 'settings:training':page('settings',[
+  step('.shortcut-list','查看和修改快捷键','选择某项后录入新的组合键，按提示保存；可恢复默认设置。'),
+  step('.shortcut-list','常用键盘操作','题目列表可使用方向键、Enter 和现有快捷键；工作台可快捷运行、提交和切换区域。具体绑定以这里当前设置为准。'),
+ ],'training'),
+ 'settings:accounts':page('settings',[
+  step('.profile-settings','TB 账号','TB 登录号用于登录，昵称用于公开展示；头像、偏好和学习记录随当前账号保存。'),
+  step('.profile-edit','修改账号信息','展开管理账号可修改昵称和密码；退出前会保存工作。不要将原站密码填入 TB 登录或公开账号字段。'),
+  step('.growth-account-panel','绑定原站公开账号','展开“公开账号与评分”，填写自己的竞赛账号，让软件读取可核对的公开成绩。公开 AC 可以证明通过，独立完成还需要相应提交证据。'),
+  step('.growth-account-panel,.settings-page','原站浏览器登录','实际提交在 TB 专用浏览器中登录原站，保留原站的验证和提交步骤。TB 的登录与各原站登录分别管理。'),
+ ],'accounts'),
+ 'settings:advanced':page('settings',[
+  step('.translation-settings','预置中文与自行翻译','已有预置中文的英文题面默认显示中文，可随时切回原文。尚无译文的题目可通过配置的翻译服务请求中文。'),
+  step('.translation-fields','填写服务配置','选择服务，填写对应模型、接口地址和 API Key。配置用于公开题面翻译，编辑器草稿不会作为翻译内容发送。'),
+  step('.translation-settings','保存和测试','保存配置后测试连接；失败时保留原题面，检查服务、模型和密钥。必要说明可悬停字段旁的提示查看。'),
+ ],'advanced'),
+ 'settings:updates':page('settings',[
+  step('.software-update-panel,.settings-updates','软件版本更新','这里查看当前版本、更新状态和发布链接。安装前会保存工作并保全个人数据。'),
+  step('.settings-updates','题库更新','可设置已结束比赛的检查间隔和新题范围，再手动检查或使用自动检查。题库更新不会覆盖个人代码和训练记录。'),
+ ],'updates'),
+ 'settings:help':page('settings',[
+  step('.settings-data-help','导出学习数据','导出当前账号的训练、代码、记录、目标和偏好为 JSON，适合自行备份。密码、Cookie 和 API Key 不随这份数据导出。'),
+  step('[aria-label="新手指引"]','总览与各页指引','首次使用建议完成入门总览；各页指引用来深入了解某个页面。指引目录集中在这里，各页面保持简洁。'),
+ ],'help'),
+ 'settings:thanks':page('settings',[step('.acknowledgements','鸣谢','这里展示参与支持软件的朋友，包括 NiuXyn。昵称各自配色，可从右上箭头或 Esc 返回设置首页。')],'thanks'),
+ practice:[
+  {...step('.problem-table tbody tr[data-id] .problem-title','打开一道练习题','点击高亮题名进入工作台，接下来会介绍题面、编辑器和原站提交。'),page:'library',action:'open',nextIndex:1},
+  ...[
+   step('.wb-statement-pane','阅读题面','左侧展示原题描述、限制和样例。先理解输入输出；可调整题面字号，中文与原文切换保留同一份代码。'),
+   step('.wb-language-toggle,.wb-font-controls','中文、原文与原站','有预置译文时默认显示中文，原文按钮随时切回；未预置的题面可用已配置服务翻译。原题链接打开来源站。'),
+   step('.cm-editor','编写代码与自动保存','右侧选择 C++17 或 Python 3 后编写，草稿自动保存。上方状态会提示保存中、已保存或异常，切题时按题目保留草稿。'),
+   step('.wb-run-toolbar','运行官方样例','可运行全部样例或选定样例，并对比实际与预期输出。样例通过表示这些样例符合预期，不等同于原站 AC。'),
+   step('.wb-console-tabs,.wb-result-summary','查看运行详情','结果区域展示输出、错误和用例详情。切换输入、结果和记录可查看历史操作；运行不会增加正式过题数。'),
+   step('.wb-run-actions','到浏览器提交','提交会打开原站浏览器，按原站要求登录、验证并确认提交。取得最终回执后结果保存到 TB；异常时保留提示供继续处理。'),
+   step('.wb-history,.wb-console-tabs','历史代码与当前草稿','历史提交保留当次代码，查看记录不会直接覆盖草稿。需要替换代码时核对来源，并使用可用的撤销载入操作。'),
+   step('.wb-next-button,.wb-toolbar','切题、退出与考场','下一题切换练习，左上返回列表。考场中通过选题菜单切换，右上显示计时与结束；比赛期间题解和考点保持锁定。'),
+  ].map(item=>({...item,practice:true})),
+ ],
+};

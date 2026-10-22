@@ -12,7 +12,16 @@ from integrations import atomic,load,VERSION
 from training import ServiceError
 from translation_config import DEFAULT_DEEPSEEK_MODEL
 
-TRANSLATION_FORMAT='complete-prose-v3'
+TRANSLATION_FORMAT='complete-prose-v4'
+
+
+def english_prose(text):
+    # Remove headings while line breaks are still present. protect() turns
+    # newlines into markers, so stripping headings afterwards can swallow an
+    # entire statement that starts with a Markdown title or archive banner.
+    body=re.sub(r'(?m)^#+[^\n]*(?:\n|$)','',text)
+    shielded,_=protect(body)
+    return re.sub(r'TBPROTECT[A-F0-9]{8}\d{4}TOKEN',' ',shielded)
 
 
 class TranslationTruncated(ServiceError):
@@ -44,14 +53,53 @@ def validate_translation(original,translated):
     source=prose(original);output=prose(translated)
     words=lambda text:re.findall(r'[A-Za-z]+',text.lower())
     before=words(source);after=words(output)
-    meaningful=[word for word in before if len(word)>=3]
+    # Unformatted archive formulas still contain identifiers and LaTeX command
+    # names. A run of mathematical tokens is not an untranslated sentence.
+    math_words=set('sum prod min max le ge lt gt cdot ldots dots xrightarrow mathtt mathcal mathit text texttt underline operatorname sgn pmod mod xor gcd lcm log frac sqrt left right begin end aligned mathrm limits infty bmod hash ans bmatrix pmatrix array quad lbrace rbrace dir and or not'.split())
+    meaningful=[word for word in before if len(word)>=3 and word not in math_words]
     if len(meaningful)<5:return
-    kept=sum((Counter(meaningful)&Counter(word for word in after if len(word)>=3)).values())
-    original_ngrams={tuple(before[index:index+8]) for index in range(len(before)-7)}
-    unchanged_sentence=any(tuple(after[index:index+8]) in original_ngrams for index in range(len(after)-7))
+    prose_words=set('a an the is are was were be been being of to for in on at by as from with without you your we they it its that this these those which who if then else each every given print output input contains integer integers can will should must not there and or'.split())
+    # Formula-only fragments and lists of literal strings have no English
+    # sentence structure. Do not send them through the prose-completeness gate.
+    if sum(word in prose_words for word in before)<2:return
+    kept=sum((Counter(meaningful)&Counter(word for word in after if len(word)>=3 and word not in math_words)).values())
+    def sentences(text):
+        for segment in re.split(r'[\u3400-\u9fff]',text):
+            tokens=words(segment)
+            for index in range(len(tokens)-7):
+                part=tokens[index:index+8]
+                if sum(len(word)>=3 and word not in math_words for word in part)>=3 and len({word for word in part if word in prose_words})>=2:
+                    yield tuple(part)
+    original_ngrams=set(sentences(source))
+    unchanged_sentence=any(part in original_ngrams for part in sentences(output))
     added_chinese=len(re.findall(r'[\u3400-\u9fff]',output))-len(re.findall(r'[\u3400-\u9fff]',source))
     if kept>=max(6,len(meaningful)*.5) or unchanged_sentence or added_chinese<max(2,min(32,len(meaningful)//2)):
         raise TranslationIncomplete()
+
+
+def bundled_translation(problem):
+    """Accept only complete prebuilt text tied to this exact original."""
+    value=problem.get('translation')
+    if not isinstance(value,dict) or value.get('kind')!='bundled':return None
+    original=problem.get('markdown') or '';translated=value.get('markdown')
+    if not isinstance(translated,str) or not translated.strip() or value.get('format')!=TRANSLATION_FORMAT:return None
+    if value.get('sourceHash')!=hashlib.sha256(original.encode()).hexdigest():return None
+    if value.get('sourceLanguage')!='en' or value.get('targetLanguage')!='zh-CN':return None
+    # Consume every original immutable span, longest first so a number inside a
+    # formula or sample cannot stand in for a missing number elsewhere. New
+    # formatting around prose (e.g. turning an unformatted K into $K$) must not
+    # make an otherwise complete translation fail this check.
+    remaining=translated
+    for span,count in sorted(Counter(protect(original)[1].values()).items(),key=lambda item:-len(item[0])):
+        # Chinese prose may remove the space in e.g. "lowbit 6". Reject a
+        # changed numeric value (6 versus 16), without requiring English spacing.
+        pattern=(r'(?<![0-9])'+re.escape(span)+r'(?![0-9])') if re.fullmatch(r'\d+(?:\.\d+)?',span) else re.escape(span)
+        for _ in range(count):
+            remaining,found=re.subn(pattern,' ',remaining,count=1)
+            if not found:return None
+    try:validate_translation(original,translated)
+    except TranslationIncomplete:return None
+    return {key:value[key] for key in ('kind','markdown','provider','format','sourceHash','sourceLanguage','targetLanguage','notice') if key in value}
 
 
 class _NoRedirect(HTTPRedirectHandler):
@@ -147,8 +195,49 @@ def translation_chunks(text, maximum=3500):
     return chunks or [text]
 
 
+def sample_spans(text):
+    """Data sections in both legacy plain-text statement export formats."""
+    headers=list(re.finditer(r'(?m)^---\s*样例\s*\d+\s*(输入|输出|说明)\s*---[^\n]*(?:\n|$)',text))
+    spans=[]
+    for index,header in enumerate(headers):
+        if header[1] in ('输入','输出'):
+            end=headers[index+1].start() if index+1<len(headers) else len(text)
+            spans.append((header.start(),end))
+    boundaries=list(re.finditer(r'(?m)^(?:输入|输出|示例\s*\d+|备注|说明)[：:]?[ \t]*(?:\n|$)',text))
+    for index,header in enumerate(boundaries):
+        if re.fullmatch(r'(?:输入|输出)[：:]?[ \t]*\n?',header[0]):
+            end=boundaries[index+1].start() if index+1<len(boundaries) else len(text)
+            spans.append((header.start(),end))
+    return spans
+
+
 def protect(text):
     spans=[];offset=0;on=None;start=0
+    # Legacy imported statements store samples as plain text rather than fenced
+    # code. Their tokens are input/output data, never translatable prose.
+    spans.extend(sample_spans(text))
+    # Older archive exports sometimes insert spaces between display-math dollar
+    # signs. The LaTeX inside remains a formula, not untranslated English prose.
+    for display in re.finditer(r'(?<![A-Za-z0-9_\\})\]])\$[ \t]+\$[ \t]*[^$\n]+?(?<!\\)\$[ \t]+\$',text):
+        if not any(a<=display.start()<b for a,b in spans):spans.append(display.span())
+    # Some CF exports contain unfenced pseudocode. Its executable identifiers
+    # and control flow must remain code rather than be translated as prose.
+    for code in re.finditer(r'(?m)^[ \t]*(?:function|procedure) [A-Za-z_]\w*\([^\n]*\):[^\n]*\n(?:(?![ \t]*\n)[^\n]*(?:\n|$))+',text):
+        if not any(a<=code.start()<b for a,b in spans):spans.append(code.span())
+    for code in re.finditer(r'(?m)^[ \t]*def [A-Za-z_]\w*\([^\n]*\)[^\n]*:[ \t]*\n(?:(?![ \t]*\n)[^\n]*(?:\n|$))+',text):
+        if not any(a<=code.start()<b for a,b in spans):spans.append(code.span())
+    for code in re.finditer(r'(?ms)^[ \t]*#include[ \t]+[<"][^\n]+[>"][^\n]*\n.*?^[ \t]*}[ \t]*;?[ \t]*(?:\n|$)',text):
+        if not any(a<=code.start()<b for a,b in spans):spans.append(code.span())
+    for code in re.finditer(r'(?m)^[ \t]*(?:(?:inline|static|const|unsigned|long)\s+)*(?:void|int|bool|double|float|signed|auto|long)\s+[A-Za-z_]\w*\([^;\n]*\)[ \t]*(?:\n[ \t]*)?{',text):
+        depth=1;start=code.end()-1
+        # Braces inside strings and comments do not terminate a C++ function.
+        for token in re.finditer(r'"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'|//[^\n]*|/\*[\s\S]*?\*/|[{}]',text[start+1:]):
+            if token[0]=='{':depth+=1
+            elif token[0]=='}':
+                depth-=1
+                if not depth:spans.append((code.start(),start+1+token.end()));break
+    for tag in re.finditer(r'<!--[\s\S]*?-->|</?[A-Za-z][^>\n]*>',text):
+        if not any(a<=tag.start()<b for a,b in spans):spans.append(tag.span())
     for line in text.splitlines(keepends=True):
         fence=re.match(r'^\s*(`{3,}|~{3,})',line)
         if fence:
@@ -156,10 +245,14 @@ def protect(text):
             elif fence[1][0]==on[0] and len(fence[1])>=len(on):spans.append((start,offset+len(line)));on=None
         offset+=len(line)
     if on:spans.append((start,len(text)))
-    pattern=r'`+[^`\n]*`+|(?<!\\)\$\$[\s\S]*?(?<!\\)\$\$|(?<!\\)\$(?!\$)[^\n]*?(?<!\\)\$|\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]|https?://[^\s<>\)]+|\b\d+(?:\.\d+)?\b|(?m:^[ \t]*(?:#{1,6} |[-*+] |\d+\. ))|\n+'
+    pattern=r'`+[^`\n]*`+|(?<!\\)\$\$[\s\S]*?(?<!\\)\$\$|(?<!\\)\$(?!\$)[^\n]*?(?<!\\)\$|\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]|https?://[^\s<>\)]+|(?<![A-Za-z0-9_])\d+(?:\.\d+)?(?:(?=(?:st|nd|rd|th)\b)|(?![A-Za-z0-9_]))|(?m:^[ \t]*(?:#{1,6} |[-*+] |\d+\. ))|\n+'
     for match in re.finditer(pattern,text):
         if not any(a<=match.start()<b for a,b in spans):spans.append(match.span())
-    spans.sort();result=[];tokens={};position=0
+    spans.sort();merged=[]
+    for start,end in spans:
+        if merged and start<merged[-1][1]:merged[-1]=(merged[-1][0],max(end,merged[-1][1]))
+        else:merged.append((start,end))
+    spans=merged;result=[];tokens={};position=0
     prefix='TBPROTECT'+hashlib.sha256(text.encode()).hexdigest()[:8].upper()
     for start,end in spans:
         if start<position:continue
@@ -229,8 +322,7 @@ class TranslationService:
             return dict(localized,id=identity,sourceLanguage='en',targetLanguage='zh-CN',cached=True)
         if len(original)>24000:raise ServiceError(422,'题面过长，本次不自动发送翻译；请阅读原文')
         # Only translation of actual English prose counts as translation.
-        shielded,tokens=protect(original)
-        prose=re.sub(r'(?m)^#+[^\n]*','',re.sub(r'TBPROTECT[A-F0-9]{8}\d{4}TOKEN','',shielded))
+        prose=english_prose(original)
         if len(re.findall(r'\b[A-Za-z]{3,}\b',prose))<5 and re.search(r'[\u3400-\u9fff]',prose):
             return {'id':identity,'markdown':original,'sourceLanguage':'zh-CN','targetLanguage':'zh-CN','provider':'原站中文题面','kind':'original','cached':True}
         if len(re.findall(r'\b[A-Za-z]{3,}\b',prose))<5:raise ServiceError(422,'当前题面没有足够英文正文，无需翻译')

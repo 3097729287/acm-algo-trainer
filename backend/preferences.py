@@ -7,7 +7,7 @@ import re
 from training import ServiceError, iso
 
 ALLOWED = frozenset(('panelStyle', 'backdrop', 'panelOpacity', 'pageOpacities', 'widgets', 'theme', 'accent', 'motion', 'compact', 'collapsed', 'favorites', 'views',
-                     'readerWidth', 'fontSize', 'navOrder', 'navLabels', 'navGroups', 'seenAchievements', 'showPlatforms', 'onboardingCompleted', 'avatarData', 'navSchema', 'learningPaths', 'shortcuts'))
+                     'readerWidth', 'fontSize', 'libraryPageSize', 'navOrder', 'navLabels', 'navGroups', 'seenAchievements', 'showPlatforms', 'onboardingCompleted', 'avatarData', 'navSchema', 'learningPaths', 'shortcuts'))
 AVATAR_DATA_MAX_BYTES = 48 * 1024
 
 
@@ -98,6 +98,8 @@ def save_preferences(training, body):
         raise ServiceError(400, '面板不透明度须为 0–100')
     if 'fontSize' in value and (type(value['fontSize']) is not int or not 13 <= value['fontSize'] <= 22):
         raise ServiceError(400, '界面字号须为 13–22')
+    if 'libraryPageSize' in value and (type(value['libraryPageSize']) is not int or not 10 <= value['libraryPageSize'] <= 200):
+        raise ServiceError(400, '题库每页题数须为 10–200')
     if 'pageOpacities' in value:
         opacities = value['pageOpacities']
         if (not isinstance(opacities, dict) or set(opacities) - {'mine','library','competitions','mock','rankings','growth','records','activity','lectures','settings','statement','editor','solution','paths'}

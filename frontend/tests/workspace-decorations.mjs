@@ -33,6 +33,7 @@ try{
   else if(path==='profile')value={profile:{userId:owner,nickname:'我的训练'},leaderboard:{configured:true}};
   else if(path==='social')value={available:false,totalLikes:0,unreadCount:0,notifications:[]};
   else if(path==='browser-preparation')value={available:false};
+  else if(path==='translation/settings')value={provider:'custom',providerName:'自定义 OpenAI 兼容 API',model:'fixture-model',baseUrl:'http://127.0.0.1:8788/v1',configured:false,providers:[{id:'custom',name:'自定义 OpenAI 兼容 API'}]};
   else if(path==='preferences'){if(route.request().method()==='POST')savedPreferences=route.request().postDataJSON().preferences;value={preferences:savedPreferences};}
   else if(path==='data/export')value={format:'tb-learning-export',formatVersion:1,tables:{drafts:[{code:'// 中文代码\nint main(){}'}]}};
   else if(path==='desktop/fullscreen')value={available:false,fullscreen:false};
@@ -128,10 +129,20 @@ try{
  await openSettings(page,'数据与帮助');
  const downloaded=page.waitForEvent('download');await page.getByRole('button',{name:/导出数据/}).click();const download=await downloaded;
  assert.ok(download.suggestedFilename().endsWith('.json'));const data=JSON.parse(await readFile(await download.path(),'utf8'));assert.equal(data.tables.drafts[0].code,'// 中文代码\nint main(){}');
- await page.getByRole('button',{name:/新手指引/}).click();await page.getByRole('heading',{name:'连接账号',exact:true}).waitFor();
+ await page.getByRole('button',{name:/新手指引/}).click();
+ const directory=page.getByRole('dialog',{name:'新手指引目录',exact:true});await directory.waitFor();
+ await directory.getByRole('button',{name:/成长与能力/}).click();
+ await page.getByRole('heading',{name:'更换头像',exact:true}).waitFor();
+ const guideNext=page.getByRole('dialog',{name:'新手指引',exact:true}).getByRole('button',{name:'下一步',exact:true});
+ for(const title of ['经验与等级','能力段位','定级与进阶','一级雷达可以点击','二级雷达与返回','掌握程度如何估计','为什么显示 ?%','作答、可用与待练','理解训练统计','设置目标计划','成就、勋章与称号','头像框、段位与排行榜']){await guideNext.click();await page.getByRole('heading',{name:title,exact:true}).waitFor();}
+ await page.keyboard.press('Escape');
+ assert.notEqual(JSON.parse(await page.evaluate(()=>localStorage.getItem('tb.preferences.v2.10000000-0000-4000-8000-000000000001')))?.onboardingCompleted,true,'Page guide does not complete the introductory overview');
+ assert.equal(await page.locator('.topbar').getByRole('button',{name:/指引/}).count(),0,'Page guide entry stays in Settings');
+ await openSettings(page,'数据与帮助');await page.getByRole('button',{name:/新手指引/}).click();await directory.waitFor();
+ await directory.getByRole('button',{name:/入门总览/}).click();await page.getByRole('heading',{name:'连接账号',exact:true}).waitFor();
  await page.keyboard.press('Escape');
  await page.waitForFunction(()=>JSON.parse(localStorage.getItem('tb.preferences.v2.10000000-0000-4000-8000-000000000001')).onboardingCompleted===true);
- await openSettings(page,'数据与帮助');await page.getByRole('button',{name:/新手指引/}).click();await page.getByRole('dialog',{name:'新手指引',exact:true}).waitFor();await page.keyboard.press('Escape');
+ await openSettings(page,'数据与帮助');await page.getByRole('button',{name:/新手指引/}).click();await directory.waitFor();await directory.getByRole('button',{name:/翻译 API/}).click();await page.getByRole('heading',{name:'预置中文与自行翻译',exact:true}).waitFor();await page.locator('.translation-settings').waitFor();await page.keyboard.press('Escape');
  await page.close();registrationMode=true;savedPreferences=null;
  const fresh=await browser.newPage({viewport:{width:1024,height:760}});await fresh.route('**/api/**',routes);await fresh.goto(vite.resolvedUrls.local[0]);
  await fresh.getByRole('tab',{name:'注册',exact:true}).click();

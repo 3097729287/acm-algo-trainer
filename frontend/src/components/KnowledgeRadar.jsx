@@ -1,30 +1,36 @@
-import {useMemo,useState} from 'react';
+import {useEffect,useMemo,useState} from 'react';
 import {ArrowLeft,Network,Search} from 'lucide-react';
 import PageSearch from './PageSearch.jsx';
 import FilterMenu from './FilterMenu.jsx';
-import {canonicalKnowledgeName,knowledgeAliases} from '@/lib/knowledgeNames.js';
+import {canonicalKnowledgeName,knowledgeAliases,matchesKnowledge} from '@/lib/knowledgeNames.js';
 import {combineKnowledgeEvidence} from '@/lib/knowledgeMastery.js';
 export const KNOWLEDGE_DOMAINS = [
   { name: '基础技巧', topics: [['前缀和',900],['差分',1100],['二分查找',1300],['双指针',1300],['位运算',1200],['离散化',1400],['倍增',1800]] },
   { name: '数据结构', topics: [['栈',900],['队列',900],['单调栈',1500],['单调队列',1700],['并查集',1500],['堆',1400],['树状数组',1800],['线段树',2100]] },
-  { name: '图论', topics: [['图的存储',1100],['深度优先搜索',1300],['广度优先搜索',1300],['拓扑排序',1700],['最短路径',1900],['最小生成树',1900],['二分图',2000],['最近公共祖先',2100]] },
-  { name: '动态规划', topics: [['线性 DP',1500],['背包 DP',1700],['区间 DP',2000],['树形 DP',2100],['DAG DP',2000]] },
-  { name: '搜索', topics: [['枚举',900],['递归',1100],['回溯',1400],['深度优先搜索',1300],['广度优先搜索',1300],['剪枝',1800],['折半枚举',2000]] },
-  { name: '数学', topics: [['数论基础',1300],['快速幂',1300],['素数筛',1500],['组合计数',1800],['取模与同余',1500],['最大公约数',1000],['容斥原理',2000]] },
-  { name: '字符串', topics: [['字符串基础',900],['字符串哈希',1700],['KMP 字符串匹配',1900],['Trie 字典树',1800]] },
-  { name: '思维与策略', topics: [['模拟',800],['排序',900],['贪心',1400],['构造',1700],['递推',1300]] },
+  { name: '图论', topics: [['拓扑排序',1700],['最短路',1900],['生成树',1900],['二分图判定',2000],['LCA',2100],['树的直径',1700],['DFS 序',1800]] },
+  { name: '动态规划', topics: [['线性 DP',1500],['背包 DP',1700],['区间 DP',2000],['树形 DP',2100],['状压 DP',2100],['记忆化搜索',1600]] },
+  { name: '搜索', topics: [['DFS',1300],['BFS',1300]] },
+  { name: '数学与计数', topics: [['快速幂',1300],['素数',1500],['组合计数',1800],['取模与同余',1500],['最大公约数',1000],['容斥',2000]] },
+  { name: '字符串', topics: [['KMP',1900],['字典树',1800],['Z 函数',1900],['Manacher',2100]] },
+  { name: '思维与策略', topics: [['模拟',800],['枚举',900],['排序',900],['贪心',1400],['构造',1700],['折半枚举',2000]] },
+  { name: '计算几何', topics: [['计算几何',1800],['扫描线',2100]] },
 ];
 
 export function topicTags(name){return knowledgeAliases(name);}
-export function estimatedDifficulty(name){const found=KNOWLEDGE_DOMAINS.flatMap(domain=>domain.topics).filter(([topic])=>topicTags(topic).some(tag=>String(name).toLowerCase().includes(tag.toLowerCase())));if(found.length)return Math.max(...found.map(([,value])=>value));if(/流|后缀|自动机|多项式|FFT|NTT|生成函数|分治优化|可持久化|莫队/.test(name))return 2400;return /图|树|DP|动态规划|几何/.test(name)?2100:1600;}
-export default function KnowledgeRadar({knowledge=[],knowledgeEvidence=[],knowledgeModel={},onTopic,onTrain}) {
+export function estimatedDifficulty(name){if(/流|后缀|自动机|多项式|FFT|NTT|生成函数|分治优化|可持久化|可撤销|莫队|莫比乌斯|杜教|Pólya|斯特林|虚树/.test(name))return 2400;const found=KNOWLEDGE_DOMAINS.flatMap(domain=>domain.topics).filter(([topic])=>topicTags(topic).some(tag=>String(name).toLowerCase().includes(tag.toLowerCase())));if(found.length)return Math.max(...found.map(([,value])=>value));return /图|树|DP|动态规划|几何/.test(name)?2100:1600;}
+export default function KnowledgeRadar({knowledge=[],knowledgeEvidence=[],knowledgeModel={},categories=[],rows=[],onTopic,onTrain}) {
  const [domain,setDomain]=useState(null),[query,setQuery]=useState(''),[gaps,setGaps]=useState(false);
- const evidence=names=>{const tags=new Set(names.flatMap(topicTags));return knowledge.filter(item=>tags.has(item.name));};
- const facts=names=>{const entries=evidence(names),maximum=key=>Math.max(0,...entries.map(item=>Number(item[key])||0)),pool=new Map(knowledgeEvidence.map(item=>[item.id,item]));return {...combineKnowledgeEvidence(entries.flatMap(item=>item.evidenceIds||[]),pool,knowledgeModel),available:maximum('available'),due:entries.some(item=>item.dueIds)?new Set(entries.flatMap(item=>item.dueIds||[])).size:maximum('due'),failures:maximum('failures'),suggested:entries.flatMap(item=>item.suggestedIds||[])[0]};};
- const nodes=useMemo(()=>domain?domain.topics.map(([name,difficulty])=>({name:canonicalKnowledgeName(name),difficulty,...facts([name])})):KNOWLEDGE_DOMAINS.map(item=>({...item,...facts(item.topics.map(([name])=>name))})),[domain,knowledge,knowledgeEvidence,knowledgeModel]);
+ const domains=useMemo(()=>{
+   const leaves=node=>node.children?.length?node.children.flatMap(leaves):[node.name];
+   return categories.length?categories.map(node=>({name:node.name,topics:[...new Set(leaves(node))].map(name=>[canonicalKnowledgeName(name),estimatedDifficulty(name)]).filter(([,difficulty])=>difficulty<2200)})).filter(node=>node.topics.length):KNOWLEDGE_DOMAINS.map(node=>({...node,topics:node.topics.map(([name,difficulty])=>[canonicalKnowledgeName(name),difficulty])}));
+ },[categories]);
+ useEffect(()=>{if(!domain)return;const back=event=>{if(event.key!=='Escape'||event.defaultPrevented||document.querySelector('dialog[open],.tb-select-menu,.filter-popover,.tooltip-popover'))return;event.preventDefault();setDomain(null);setQuery('');};document.addEventListener('keydown',back);return()=>document.removeEventListener('keydown',back);},[domain]);
+ const evidence=names=>{const tags=new Set(names.map(canonicalKnowledgeName));return knowledge.filter(item=>tags.has(canonicalKnowledgeName(item.name)));};
+ const facts=(names,parent=false)=>{const entries=evidence(names),maximum=key=>Math.max(0,...entries.map(item=>Number(item[key])||0)),pool=new Map(knowledgeEvidence.map(item=>[item.id,item])),children=parent?names.map(name=>({name,ids:evidence([name]).flatMap(item=>item.evidenceIds||[])})):[];return {...combineKnowledgeEvidence(entries.flatMap(item=>item.evidenceIds||[]),pool,knowledgeModel,children),available:rows.length?new Set(rows.filter(row=>matchesKnowledge(row,names)).map(row=>row.url||row.id)).size:maximum('available'),due:entries.some(item=>item.dueIds)?new Set(entries.flatMap(item=>item.dueIds||[])).size:maximum('due'),failures:maximum('failures'),suggested:entries.flatMap(item=>item.suggestedIds||[])[0]};};
+ const nodes=useMemo(()=>domain?domain.topics.map(([name,difficulty])=>({name,difficulty,...facts([name])})):domains.map(item=>({...item,...facts(item.topics.map(([name])=>name),true)})),[domain,domains,knowledge,knowledgeEvidence,knowledgeModel,rows]);
  const position=(index,radius)=>{const angle=-Math.PI/2+index*Math.PI*2/nodes.length;return [340+Math.cos(angle)*radius,245+Math.sin(angle)*radius];};
  const polygon=radius=>nodes.map((_,i)=>position(i,radius).join(',')).join(' ');
- const select=node=>{if(domain)onTopic?.({name:node.name,tags:topicTags(node.name)});else setDomain(KNOWLEDGE_DOMAINS.find(item=>item.name===node.name));};
+ const select=node=>{if(domain)onTopic?.({name:node.name,tags:topicTags(node.name)});else setDomain(domains.find(item=>item.name===node.name));};
  const shown=nodes.filter(node=>(!gaps||node.due>0||node.failures>0||node.value===null||node.value<50)&&topicTags(node.name).some(tag=>tag.toLowerCase().includes(query.trim().toLowerCase())));
  const valueText=node=>node.value===null?'?%':`${node.value}%`;
  const allKnown=nodes.every(node=>node.value!==null);

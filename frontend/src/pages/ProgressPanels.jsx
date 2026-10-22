@@ -97,16 +97,16 @@ export function GrowthAccountPanel({ api, hub, account, profile, profileSnapshot
   </section>;
 }
 
-export function GrowthPage({avatarData,onAvatar,goalOverview,api,onGoalsChanged,insights,account,profile,onTopic,onTrain,onAccounts,onAchievements}) {
+export function GrowthPage({avatarData,onAvatar,goalOverview,api,onGoalsChanged,insights,categories=[],rows=[],account,profile,onTopic,onTrain,onAccounts,onAchievements}) {
  if(!insights)return <Loading/>;
  const summary=insights.summary||{},growth=insights.growth||{},rank=growth.ranked||{},nickname=profile?.nickname||account?.nickname||insights.profile?.nickname||'练习者';
  const stats=[[Check,summary.totalSolved??summary.officialSolved,'总 AC'],[Code2,summary.submissions,'提交'],[CalendarDays,summary.activeDays,'活跃天数'],[Flame,summary.streak,'连续练习'],[Flag,summary.completedContests,'完成比赛']];
  const rankName=Number(growth.level)<5?'未定级':rank.qualified===false?'定级中':rank.tier||'定级中';
  return <div className="progress-page growth-dashboard" aria-label="成长与能力"><div className="progress-growth-columns">
- <KnowledgeRadar knowledge={insights.knowledge||[]} knowledgeEvidence={insights.knowledgeEvidence||[]} knowledgeModel={insights.knowledgeModel||{}} onTopic={onTopic} onTrain={onTrain}/>
+ <KnowledgeRadar rows={rows} categories={categories} knowledge={insights.knowledge||[]} knowledgeEvidence={insights.knowledgeEvidence||[]} knowledgeModel={insights.knowledgeModel||{}} onTopic={onTopic} onTrain={onTrain}/>
  <section className="progress-section growth-account-hero" aria-label="账号成长统计"><div className="account-hero-identity"><ProfileBadge compact={false} growth={growth} avatar={avatarData} nickname={nickname} onAvatarClick={onAvatar} onClick={onAccounts}/><div className="account-hero-rank"><TierIcon badge={rank.badge||'tier-0'} size={180}/><strong>{rankName}</strong>{rank.abilityScore!=null&&<span>{number(rank.abilityScore)}</span>}</div></div>
  <div className="account-hero-level"><span>Lv.{growth.level??'—'}</span><div><Meter value={growth.nextLevelXp?Number(growth.currentLevelXp||0)/growth.nextLevelXp*100:0} label="等级经验"/><span>{number(growth.currentLevelXp||0)} / {number(growth.nextLevelXp||0)} XP</span></div></div>
- <div className="account-hero-statistics">{stats.map(([Icon,value,label])=><div key={label}><Icon size={21}/><b>{number(value)}</b><span>{label}</span></div>)}</div><div className="account-hero-titles"><TitleMedals titles={insights.equippedTitles||growth.equippedTitles||[]}/></div><div id="growth-goals" className="account-hero-goals">{api&&<GoalsPanel api={api} overview={goalOverview} onChanged={onGoalsChanged}/>}</div>
+ <div className="account-hero-statistics">{stats.map(([Icon,value,label])=><div key={label} aria-label={`${label} ${number(value)}`}><Tooltip text={label}><span className="account-stat-icon" tabIndex={0} aria-label={label}><Icon size={30}/></span></Tooltip><b>{number(value)}</b></div>)}</div><div className="account-hero-titles"><TitleMedals titles={insights.equippedTitles||growth.equippedTitles||[]}/></div><div id="growth-goals" className="account-hero-goals">{api&&<GoalsPanel api={api} overview={goalOverview} onChanged={onGoalsChanged}/>}</div>
  </section></div></div>;
 }
 

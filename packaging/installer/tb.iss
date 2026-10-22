@@ -1,5 +1,20 @@
 #ifndef AppId
-  #define AppId "{{0F82D178-AC2B-4696-96C1-1A210F72B509}"
+  #ifdef AdminEdition
+    #define AppId "{{57B14903-A111-4A35-98F4-FF1CD9F860CC}"
+  #else
+    #define AppId "{{0F82D178-AC2B-4696-96C1-1A210F72B509}"
+  #endif
+#endif
+#ifdef AdminEdition
+  #define ProductName "TB 管理员工作台"
+  #define ProductDir "TB-Admin"
+  #define ProductExe "TB管理员版.exe"
+  #define SetupPrefix "TB-Admin-Setup-"
+#else
+  #define ProductName "TB 训练工作台"
+  #define ProductDir "TB"
+  #define ProductExe "TB新版.exe"
+  #define SetupPrefix "TB-Setup-"
 #endif
 #ifndef AppVersion
   #define AppVersion "1.3.3"
@@ -16,24 +31,24 @@
 
 [Setup]
 AppId={#AppId}
-AppName=TB 训练工作台
+AppName={#ProductName}
 AppVersion={#AppVersion}
 AppPublisher=TB contributors
 AppPublisherURL=https://github.com/3097729287/acm-algo-trainer
 AppSupportURL=https://github.com/3097729287/acm-algo-trainer/issues
 AppUpdatesURL=https://github.com/3097729287/acm-algo-trainer/releases
-DefaultDirName={localappdata}\Programs\TB
-DefaultGroupName=TB 训练工作台
+DefaultDirName={localappdata}\Programs\{#ProductDir}
+DefaultGroupName={#ProductName}
 DisableProgramGroupPage=yes
 PrivilegesRequired=lowest
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 MinVersion=10.0
 OutputDir={#OutputDir}
-OutputBaseFilename=TB-Setup-{#AppVersion}-win64
+OutputBaseFilename={#SetupPrefix}{#AppVersion}-win64
 SetupIconFile={#PackageDir}\tb.ico
 UninstallDisplayIcon={app}\tb.ico
-UninstallDisplayName=TB 训练工作台
+UninstallDisplayName={#ProductName}
 Compression=lzma2
 SolidCompression=yes
 LZMANumBlockThreads=2
@@ -49,7 +64,9 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "创建桌面快捷方式"; GroupDescription: "快捷方式："; Flags: unchecked
+#ifndef AdminEdition
 Name: "importlegacy"; Description: "导入此电脑原 TB 的训练、提交、草稿及配置"; GroupDescription: "已有记录："; Flags: unchecked; Check: LegacyDatabaseExists
+#endif
 
 [Files]
 Source: "{#PackageDir}\*"; DestDir: "{app}"; Excludes: "data\*,state\*,cache\*,backups\*,logs\*,*.log"; Flags: ignoreversion recursesubdirs createallsubdirs
@@ -57,12 +74,16 @@ Source: "{#PackageDir}\data\library.sqlite3"; DestDir: "{app}\data"; Flags: igno
 Source: "{#WebViewInstaller}"; DestName: "WebView2-offline-x64.exe"; Flags: dontcopy nocompression
 
 [Icons]
-Name: "{group}\TB 管理员工作台"; Filename: "{app}\TB新版.exe"; Parameters: "--admin"; WorkingDir: "{app}"; IconFilename: "{app}\tb.ico"
-Name: "{group}\TB 训练工作台"; Filename: "{app}\TB新版.exe"; WorkingDir: "{app}"; IconFilename: "{app}\tb.ico"
-Name: "{autodesktop}\TB 训练工作台"; Filename: "{app}\TB新版.exe"; WorkingDir: "{app}"; IconFilename: "{app}\tb.ico"; Tasks: desktopicon
+Name: "{group}\{#ProductName}"; Filename: "{app}\{#ProductExe}"; WorkingDir: "{app}"; IconFilename: "{app}\tb.ico"
+Name: "{autodesktop}\{#ProductName}"; Filename: "{app}\{#ProductExe}"; WorkingDir: "{app}"; IconFilename: "{app}\tb.ico"; Tasks: desktopicon
 
 [Run]
-Filename: "{app}\TB新版.exe"; Description: "打开 TB 训练工作台"; WorkingDir: "{app}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\{#ProductExe}"; Description: "打开 {#ProductName}"; WorkingDir: "{app}"; Flags: nowait postinstall skipifsilent
+
+#ifndef AdminEdition
+[InstallDelete]
+Type: files; Name: "{group}\TB 管理员工作台.lnk"
+#endif
 
 [Code]
 function LegacyDatabaseExists: Boolean;
@@ -100,6 +121,7 @@ procedure CurStepChanged(CurStep: TSetupStep);
 var
   ExitCode: Integer;
 begin
+#ifndef AdminEdition
   if (CurStep = ssPostInstall) and WizardIsTaskSelected('importlegacy') then
   begin
     if not Exec(ExpandConstant('{app}\TB新版.exe'), '--migrate-local', ExpandConstant('{app}'), SW_HIDE, ewWaitUntilTerminated, ExitCode) then
@@ -107,6 +129,7 @@ begin
     else if ExitCode <> 0 then
       MsgBox('旧记录尚未完整迁入；原数据已保留。请关闭旧软件后重新运行安装程序。', mbError, MB_OK);
   end;
+#endif
 end;
 
 // Generated state/cache/backups are never registered as installed files.

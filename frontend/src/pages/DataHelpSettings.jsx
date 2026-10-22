@@ -23,7 +23,7 @@ export default function DataHelpSettings({ api, onTutorial, onError }) {
       <Tooltip text="导出当前账号的训练、代码、记录、目标和偏好为 JSON；不含密码、Cookie 或 API 密钥。"><button className="help-action" aria-label="导出数据 · JSON" onClick={download} disabled={busy}>
         {busy ? <LoaderCircle size={22} className="spin"/> : <Download size={22}/>}
       </button></Tooltip>
-      <Tooltip text="新手指引：从选题到原站提交。"><button className="help-action" aria-label="新手指引" onClick={onTutorial}><GraduationCap size={22}/></button></Tooltip>
+      <Tooltip text="新手指引：入门总览与各页操作指南。"><button className="help-action" aria-label="新手指引" onClick={onTutorial}><GraduationCap size={22}/></button></Tooltip>
     </div>
   </section>;
 }

@@ -3,8 +3,9 @@ from __future__ import annotations
 
 import math
 
-MODEL = {'version': 2, 'minEvidence': 5, 'minRatedEvidence': 3,
-         'weights': {'solving': 50, 'independence': 20, 'stability': 15, 'difficulty': 15}}
+MODEL = {'version': 3, 'minEvidence': 5, 'minRatedEvidence': 3,
+         'quantityReference': 12, 'smallSampleFloor': .5,
+         'weights': {'solving': 50, 'independence': 25, 'stability': 25}}
 JUDGED_FAILURES = {'WA', 'TLE', 'MLE', 'RE', 'OLE'}
 
 
@@ -34,10 +35,9 @@ def problem_evidence(library, grouped, official):
         independent = (0.25 if first_ac.get('solution_seen') else 1.0 if str(first_ac.get('code') or '').strip() else .65) if first_ac else .65
         solving = 1.0 if solved else 0.0
         stability = 1 / (1 + min(8, failures)) if solved else 0.0
-        strength = min(1.0, max(0.0, (difficulty - 400) / 1800)) if solved and rated else 0.0
-        score = (50 * solving + 20 * independent * solving + 15 * stability + 15 * strength)
-        if not rated:
-            score *= 100 / 85  # Unknown difficulty receives no invented rating.
+        quality = .5 * solving + .25 * independent * solving + .25 * stability
+        difficulty_factor = .3 + .7 * min(1.0, max(0.0, (difficulty - 600) / 1800)) if rated else 1.0
+        score = 100 * quality * difficulty_factor
         result[identity] = {'id': identity, 'weight': round(weight, 8), 'score': round(score, 8),
                             'solved': solved, 'rated': rated, 'difficulty': difficulty if rated else None,
                             'independence': independent * solving, 'stability': stability}
@@ -50,13 +50,14 @@ def summarize(evidence):
     count, rated = len(items), sum(item['rated'] for item in items)
     enough = count >= MODEL['minEvidence'] and rated >= MODEL['minRatedEvidence']
     weight = sum(item['weight'] for item in items)
-    mastery = math.floor(sum(item['score'] * item['weight'] for item in items) / weight + .5) if enough and weight else None
+    quantity = MODEL['smallSampleFloor'] + (1 - MODEL['smallSampleFloor']) * (1 - math.exp(-count / MODEL['quantityReference']))
+    mastery = math.floor(sum(item['score'] * item['weight'] for item in items) / weight * quantity + .5) if enough and weight else None
     confidence = 'none' if not count else 'low' if not enough else 'medium' if count < 10 else 'high'
     if count < MODEL['minEvidence']:
         reason = f"有效作答 {count} 题，至少需要 {MODEL['minEvidence']} 道不同题目才能判断掌握程度"
     elif rated < MODEL['minRatedEvidence']:
         reason = f"已有难度的有效作答 {rated} 题，至少需要 {MODEL['minRatedEvidence']} 道才能判断难度表现"
     else:
-        reason = '按已作答题目的解决率、独立完成、提交稳定性和难度加权；不以题库总数作为分母'
+        reason = '按不同题目的作答数量、难度、解决率、独立完成和提交稳定性加权；少量简单题不会得到高掌握程度'
     return {'mastery': mastery, 'confidence': confidence, 'evidenceCount': count,
             'ratedEvidenceCount': rated, 'masteryReason': reason}

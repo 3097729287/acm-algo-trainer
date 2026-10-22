@@ -71,6 +71,16 @@ class KnowledgeMasteryTests(unittest.TestCase):
         value=self.estimate(rows,records)
         self.assertTrue(all(item['independence']<1 for item in value['knowledgeEvidence']))
 
+    def test_quantity_and_difficulty_prevent_inflated_small_sample_scores(self):
+        small=self.rows(5,800)
+        five=self.topic(self.estimate(small,[self.record(row['id']) for row in small]))['mastery']
+        self.assertLess(five,40)
+        large=self.rows(25,800)
+        twenty_five=self.topic(self.estimate(large,[self.record(row['id']) for row in large]))['mastery']
+        self.assertGreater(twenty_five,five)
+        difficult=self.rows(25,2200)
+        self.assertGreater(self.topic(self.estimate(difficult,[self.record(row['id']) for row in difficult]))['mastery'],twenty_five)
+
 
 if __name__=='__main__':
     unittest.main()

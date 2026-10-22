@@ -80,7 +80,7 @@ class OfficialRankingTests(unittest.TestCase):
         from training import ServiceError
         with self.assertRaises(ServiceError) as caught:
             self.service.leaderboard.admin_delete({'userId': None, 'period': 'daily', 'confirmation': 'delete', 'isAdmin': True})
-        self.assertEqual(caught.exception.status, 400)
+        self.assertEqual(caught.exception.status, 403)
 
     def ranking_answers(self, failed_period=None, failed_rewards=False):
         def answer(profile, method, path, data=None):

@@ -4,7 +4,7 @@ TB combines a problem library, illustrated editorials, a C++ / Python editor, lo
 
 <!-- release-status:start -->
 **[1.3.2 is released](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.2).** [Changes, upgrade checks and SHA-256](docs/releases/1.3.2.md).
-The source is **1.3.3, not yet released**. Search controls and equal page spacing are under validation; downloads still point to 1.3.2. [Upcoming changes](docs/releases/1.3.3.md).
+The source is **1.3.3, not yet released**. Prebuilt Chinese statements, taxonomy and mastery, the separate admin edition and page guides are under validation; downloads still point to 1.3.2. [Upcoming changes](docs/releases/1.3.3.md).
 <!-- release-status:end -->
 
 [Website](https://3097729287.github.io/acm-algo-trainer/) · [Usage](docs/usage.md) · [Development](docs/development.md) · [中文](README.md)
@@ -21,6 +21,12 @@ Save drafts and exit TB before installing into the existing directory. Personal 
 
 - Search bars place the direction toggle before filters, with matching default colors. Changing direction alone does not show a filter indicator.
 - Uniform spacing on all four workspace edges also applies to large windows. Settings tiles, credits and translation panels fit the available height and preserve their bottom corners.
+- 1,262 existing English statements default to Chinese: 1,260 new prebuilt translations and two retained original-site Chinese texts. Formulas, pseudocode, samples and limits are preserved, with an original-language toggle and no translation API request during reading.
+- Radar, library and filters share canonical topic names and categories. Enumeration belongs to reasoning and strategies, and Escape returns from the secondary radar. Mastery accounts for quantity and difficulty; parent domains require sufficient evidence for each child instead of reporting high confidence from a few easy problems.
+- Contest folders and replay selectors default to newest first. ARC, AGC, CCPC and online qualifiers remain discoverable, empty series are identified, and Lanqiao B is independent of the hosting platform. Replays hide header search and ignore single-problem difficulty presets when selecting whole contests.
+- One-line list footers move page size into interaction settings. Level and XP align, larger statistic icons expose tooltip labels, hearts share a column, and switches have circular pill shapes.
+- User and admin editions have separate installers, data and shortcuts. User APIs refuse ranking deletion. Public management requires the fixed `admin` login and a verified server role; local test progression is never uploaded as public results.
+- New accounts automatically receive the introductory walkthrough. Settings → Data and Help → New User Guide contains detailed page guides for avatars, radar, tiers, achievements, goals and practice, without additional page buttons. Credits add NiuXyn.
 
 ## Changes in 1.3.2
 

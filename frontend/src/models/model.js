@@ -1,3 +1,4 @@
+import {canonicalKnowledgeName,matchesKnowledge} from '../lib/knowledgeNames.js';
 export const STATES = ["未做", "不会", "待重写", "复现AC", "独立AC", "巩固"];
 export const STATE_CLASS = [
   "new",
@@ -74,7 +75,7 @@ export function filteredRows(
         matches(r, query) &&
         (!status || r.status === status) &&
         (!platform || r.platform === platform) &&
-        (!tags || r.tags.some((t) => tags.includes(t))) &&
+        (!tags || matchesKnowledge(r,tags)) &&
         (min === "" || (r.difficulty != null && r.difficulty >= Number(min))) &&
         (max === "" || (r.difficulty != null && r.difficulty <= Number(max))),
     )
@@ -94,7 +95,7 @@ export function filteredRows(
 }
 export function categoryStats(node, rows) {
   const tags = node.tags || [node.name];
-  const matched = rows.filter((r) => r.tags.some((t) => tags.includes(t)));
+  const matched = rows.filter((r) => matchesKnowledge(r,tags));
   return {
     total: matched.length,
     passed: matched.filter(passed).length,
@@ -103,13 +104,14 @@ export function categoryStats(node, rows) {
 }
 // Display groups keep the dictionary's standard tags and existing branches intact.
 export function organizeCategories(source) {
-  const pending=new Map(source.map(node=>[node.name,node]));
+  const normalize=node=>({...node,name:node.children?.length?node.name:canonicalKnowledgeName(node.name),tags:[...new Set((node.tags||[]).map(canonicalKnowledgeName))],children:(node.children||[]).map(normalize)});
+  const pending=new Map(source.map(normalize).map(node=>[node.name,node]));
   const take=names=>names.map(name=>{const node=pending.get(name);pending.delete(name);return node}).filter(Boolean);
   const group=(name,children)=>({name,children,tags:[...new Set(children.flatMap(n=>n.tags||[n.name]))]});
   const nodes=[];
-  const add=(name,names)=>{const children=take(names);if(children.length)nodes.push(group(name,children))};
+  const add=(name,names)=>{const existing=take([name])[0],children=[...(existing?.children||[]),...take(names.filter(label=>label!==name))];if(existing||children.length)nodes.push({...group(name,children),tags:[...new Set([...(existing?.tags||[]),...children.flatMap(node=>node.tags||[])])]})};
   add('思维与策略',['模拟','枚举','贪心','构造','排序','折半枚举']);
-  const dp=take(['线性 DP','DP']);if(dp.length)nodes.push({...dp[0],name:'动态规划'});
+  const dp=take(['动态规划','线性 DP','DP']);if(dp.length)nodes.push({...dp[0],name:'动态规划'});
   add('基础技巧',['前缀和与差分','二分','双指针','位运算','离散化','连续段','递推','倍增']);
   const structures=take(['数据结构']);if(structures.length){const extra=take(['莫队']);nodes.push(group('数据结构',[...structures[0].children,...extra]))}
   const graphs=take(['图论']);nodes.push(...graphs);

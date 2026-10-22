@@ -153,6 +153,18 @@ class LibraryDatabase:
                         remember(table, identity, checksum)
                     elif existing == checksum:
                         remember(table, identity, checksum)
+                    elif table == 'statements':
+                        # Add a prebuilt translation to an identical fetched
+                        # original without replacing local statement metadata.
+                        from translation import bundled_translation
+                        incoming=bundled_translation(json.loads(row['content']))
+                        saved=json.loads(current['content'])
+                        translated=saved.get('translation')
+                        original=saved.get('markdown') or ''
+                        if (incoming and hashlib.sha256(original.encode()).hexdigest()==incoming['sourceHash']
+                                and (not translated or isinstance(translated,dict) and translated.get('kind')=='bundled')):
+                            saved['translation']=incoming
+                            db.execute('UPDATE statements SET content=? WHERE problem_id=?', (json.dumps(saved,ensure_ascii=False),identity))
             for identity, content in links.items():
                 checksum = digest(content)
                 current = [tuple(row) for row in db.execute('SELECT * FROM problem_lectures WHERE problem_id=? ORDER BY position', (identity,))]
@@ -262,6 +274,13 @@ class LibraryDatabase:
         value=dict(value,statementAvailable=bool(value.get('markdown')))
         value.setdefault('limits',{'timeMs':2000,'memoryMb':256})
         with self.connection() as db:
+            if not value.get('translation'):
+                previous=db.execute('SELECT content FROM statements WHERE problem_id=?',(identity,)).fetchone()
+                if previous:
+                    from translation import bundled_translation
+                    saved=json.loads(previous[0])
+                    prepared=bundled_translation(dict(value,translation=saved.get('translation')))
+                    if prepared:value['translation']=prepared
             db.execute('INSERT INTO statements VALUES (?,?) ON CONFLICT(problem_id) DO UPDATE SET content=excluded.content',
                        (identity, json.dumps(value, ensure_ascii=False)))
 

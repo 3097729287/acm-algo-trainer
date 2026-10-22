@@ -268,23 +268,12 @@ class LeaderboardClient:
         value = dict(cached[1]) if cached else {"period": period, "date": date, "entries": [], "self": None}
         value.update(state)
         value['hasSnapshot'] = cached is not None
+        value['isAdmin'] = False  # User edition never exposes management authority.
         return value
 
     def admin_delete(self, body):
         from training import ServiceError
-        if set(body) != {"userId", "period", "confirmation"} or body.get("period") not in {"daily", "weekly", "total"} or body.get("confirmation") != "delete":
-            raise ServiceError(400, "删除范围或确认无效")
-        profile = self.training._ranking_profile()
-        if not profile["endpoint"]:
-            raise ServiceError(409, "请先连接排行榜服务")
-        try:
-            value = self._request(profile, "POST", "/v1/admin/leaderboard/delete", body)
-        except RankingRequestError as error:
-            raise ServiceError(error.status, str(error)) from None
-        except RuntimeError as error:
-            raise ServiceError(503, str(error)) from None
-        self.invalidate()
-        return value
+        raise ServiceError(403,'排行榜管理仅在独立管理员版中提供')
 
     def social(self, body=None, action=None):
         """Protocol boundary: an older service remains usable without social tables."""

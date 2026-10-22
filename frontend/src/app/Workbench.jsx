@@ -337,6 +337,9 @@ export default function Workbench({shortcuts={}, problemId, contest = null, api,
         }
         setCode(record.code);
         setProblem(answer);
+        const prepared=(answer.translation?.targetLanguage==='zh-CN'||answer.translation?.kind==='site') && answer.translation.markdown ? answer.translation : null;
+        setTranslation(prepared);
+        setLanguage(prepared ? 'zh' : 'original');
         const history = (answer.submissions || []).slice().sort((a, b) => String(b.submittedAt || '').localeCompare(String(a.submittedAt || '')));
         setSubmissions(history);
         setResultId(history[0]?.id || null);

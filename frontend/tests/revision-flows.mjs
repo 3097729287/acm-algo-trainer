@@ -21,7 +21,7 @@ try{
    await picker.click();await page.getByRole('listbox').getByRole('option',{name:'基础技巧',exact:true}).click();await page.getByRole('listbox').getByRole('option',{name:'前缀和',exact:true}).click();
   }
   if(mode==='replay'){
-   await page.getByLabel('搜索重现赛比赛',{exact:true}).fill('区域');await page.getByRole('combobox',{name:'重现赛比赛'}).click();
+   assert.equal(await page.getByLabel('搜索重现赛比赛',{exact:true}).count(),0);await page.getByRole('combobox',{name:'重现赛比赛'}).click();
    for(const name of ['ACM','CCPC','2025年','CCPC 2025 郑州区域赛','正赛 · 2 题'])await page.getByRole('listbox').getByRole('option',{name,exact:true}).click();
   }
   assert.equal(await page.getByRole('button',{name:'生成试卷',exact:true}).count(),1);

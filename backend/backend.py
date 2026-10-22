@@ -126,7 +126,7 @@ class Handler(BaseHTTPRequestHandler):
                 raise APIError(404, "没有找到这个页面")
             store = self.server.store
             if path == '/api/account' and not writing:
-                self.send_json(200, accounts.snapshot() if accounts else {'required': False, 'authenticated': True, 'token': store.token, 'admin': self.server.admin_mode, 'account': {'userId':'local-admin','nickname':'管理员','loginId':'admin-local'} if self.server.admin_mode else None})
+                self.send_json(200, accounts.snapshot() if accounts else {'required': False, 'authenticated': True, 'token': store.token, 'admin': self.server.admin_mode, 'account': {'userId':'local-admin','nickname':'admin','loginId':'admin'} if self.server.admin_mode else None})
                 return
             # Software updates also run on the login screen. Local origin and
             # session-token guards above still protect every mutation.
@@ -202,6 +202,9 @@ class Handler(BaseHTTPRequestHandler):
                     value = training.start_practice_set(body.get("contest"))
                 elif path == "/api/draft":
                     value = training.save_draft(body.get("id"), body.get("code"), body.get("contestId"), body.get("language", "cpp17"))
+                elif path in ('/api/admin/session','/api/admin/logout'):
+                    if not self.server.admin_mode:raise APIError(404,'没有找到这个接口')
+                    value=self.server.admin_rankings.logout() if path.endswith('/logout') else self.server.admin_rankings.login(body)
                 elif path == '/api/admin':
                     from admin import controls
                     value = controls(training, body)
@@ -232,9 +235,10 @@ class Handler(BaseHTTPRequestHandler):
                     else:
                         value = training.configure_profile(body)
                 elif path in ("/api/leaderboard/sync", "/api/rankings/sync"):
-                    value = training.leaderboard.queue_sync(force=True)
+                    value = {'queued':False} if self.server.admin_mode else training.leaderboard.queue_sync(force=True)
                 elif path == "/api/leaderboard/admin/delete":
-                    value = training.leaderboard.admin_delete(body)
+                    if not self.server.admin_mode:raise APIError(403,'排行榜管理仅在独立管理员版中提供')
+                    value = self.server.admin_rankings.delete(body)
                 elif path in ('/api/social/likes', '/api/social/comments', '/api/social/read'):
                     value = training.leaderboard.social(body, path.rsplit('/', 1)[-1])
                 elif path == "/api/hub/configure":
@@ -341,6 +345,9 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_json(200, self.server.software_updates.snapshot())
             elif path == "/api/workspace":
                 self.send_json(200, self.server.training.workspace())
+            elif path == '/api/admin/session':
+                if not self.server.admin_mode:raise APIError(404,'没有找到这个接口')
+                self.send_json(200,self.server.admin_rankings.snapshot())
             elif path == '/api/admin':
                 from admin import controls
                 self.send_json(200, controls(self.server.training))
@@ -369,10 +376,12 @@ class Handler(BaseHTTPRequestHandler):
             elif path == "/api/contests/events":
                 self.send_json(200, self.server.training.replay_events())
             elif path in ("/api/profile", "/api/identity"):
-                self.send_json(200, self.server.training.profile())
+                value=self.server.training.profile()
+                if self.server.admin_mode:value['profile'].update(nickname='admin',loginId='admin')
+                self.send_json(200,value)
             elif path in ("/api/leaderboard", "/api/rankings"):
                 period = parse_qs(target.query).get("period", ["daily"])[0]
-                self.send_json(200, self.server.training.leaderboard.rankings(period))
+                self.send_json(200, self.server.admin_rankings.rankings(period) if self.server.admin_mode else self.server.training.leaderboard.rankings(period))
             elif path == '/api/social':
                 self.send_json(200, self.server.training.leaderboard.social())
             elif path == "/api/problem":
@@ -704,6 +713,9 @@ def create_server(port=0, data_file=None, data_root=None, dist_dir=None, history
         server.translation = translation
         server.translation_lock = threading.RLock()
         server.admin_mode = admin_mode
+        if admin_mode:
+            from admin_ranking import AdminRanking
+            server.admin_rankings=AdminRanking(server.state_dir,endpoint=account_endpoint)
         server.accounts = None
         def account_credentials(owner):
             return server.accounts.credentials(owner) if server.accounts is not None else None

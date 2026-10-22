@@ -90,7 +90,7 @@ try {
   } finally { releaseStale(); }
   await completed;
   await page.waitForTimeout(200);
-  assert.ok(await page.locator('.nav-item').count(), 'A stale account poll cannot undo a successful login');
+  assert.ok(await page.locator('.nav-item').count(), 'A stale account poll cannot undo a successful login: '+await page.locator('body').innerText()+' '+JSON.stringify(errors));
   await page.unroute('**/api/account', staleAccount);
   const guide = page.getByRole('dialog', { name: '新手指引', exact: true });
   await guide.waitFor();
@@ -130,7 +130,7 @@ try {
   await page.getByLabel('登录号', { exact: true }).fill('ui_account_b');
   await page.getByLabel('密码', { exact: true }).fill('fixture-password');
   await page.getByRole('button', { name: '登录', exact: true }).click();
-  await page.locator('.nav-item').first().waitFor();
+  await page.locator('.nav-item').first().waitFor().catch(async issue=>{console.error('Account B fixture UI:',await page.locator('body').innerText(),errors);throw issue;});
   assert.equal((await get('workspace')).summary.total, 0);
   await post('training/start', { id: problemId });
   await page.reload();

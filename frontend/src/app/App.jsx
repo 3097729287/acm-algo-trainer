@@ -137,6 +137,7 @@ const DEFAULTS = {
   accent: "violet",
   motion: true,
   compact: true,
+  libraryPageSize: 50,
   collapsed: false,
   showPlatforms: true,
   onboardingCompleted: false,
@@ -533,8 +534,8 @@ export default function App() {
       library: blankFilters(),
       mine: blankFilters(),
     });
-  const [libraryPage, setLibraryPage] = useState(1),
-    [libraryPageSize, setLibraryPageSize] = useState(50);
+  const [libraryPage, setLibraryPage] = useState(1);
+  const libraryPageSize = Number.isInteger(prefs.libraryPageSize) && prefs.libraryPageSize >= 10 && prefs.libraryPageSize <= 200 ? prefs.libraryPageSize : 50;
   const [selected, setSelected] = useState(null),
     [practiceId, setPracticeId] = useState(null),
     [mockSlot, setMockSlot] = useState(null),
@@ -549,6 +550,8 @@ export default function App() {
   const [keyboardSelection, setKeyboardSelection] = useState(false), [listOrder, setListOrder] = useState(null);
   const restoreList = useRef(null);
   const [tourOpen,setTourOpen]=useState(false);
+  const [tourContext,setTourContext]=useState('overview');
+  const automaticTourStarted=useRef(false);
   const pointerPosition = useRef(null);
   const [hoveredRow, setHoveredRow] = useState(null);
   const [dialog, setDialog] = useState(null),
@@ -591,11 +594,13 @@ export default function App() {
   const preferencesBaseline = useRef(prefs);
   const [preferencesRevision, setPreferencesRevision] = useState(0);
   useEffect(() => {
-    if (!loading && preferencesLoaded.current && window.__tbNewAccount && !prefs.onboardingCompleted && !dialog)
-      setTourOpen(true);
-  }, [loading, preferencesRevision, prefs.onboardingCompleted, dialog]);
-  function finishOnboarding() {
+    if (!loading && preferencesLoaded.current && !window.__tbAdmin && (window.__tbNewAccount || account?.createdAt) && !prefs.onboardingCompleted && !dialog && !automaticTourStarted.current) {
+      automaticTourStarted.current=true;setTourContext('overview');setTourOpen(true);
+    }
+  }, [loading, preferencesRevision, prefs.onboardingCompleted, dialog,account?.createdAt]);
+  function finishOnboarding(overviewCompleted=true) {
     setTourOpen(false);
+    if(!overviewCompleted)return;
     window.__tbNewAccount = false;
     try { sessionStorage.removeItem(`tb.onboarding.pending.${(window.__tbAccount?.loginId || '').toLowerCase()}`); } catch { /* Optional device hint. */ }
     setPrefs(previous => ({ ...previous, onboardingCompleted: true }));
@@ -1755,26 +1760,15 @@ export default function App() {
       <div className="list-page">
         {toolbar()}
         {renderTable(displayedRows)}
-        {page === "library" && (
-          <nav className="library-pagination" aria-label="题库分页">
-            <label>每页
-              <BoundedNumber aria-label="题库每页题数" min={10} max={200} value={libraryPageSize} required onChange={event=>{setLibraryPageSize(Number(event.target.value));setLibraryPage(1);}}/>
-            </label>
-            <span role="status">{visible.length ? `${libraryStart + 1}–${Math.min(libraryStart + libraryPageSize, visible.length)}` : "0"} / {visible.length} 题</span>
+        <div className="list-footer">
+          <span role="status">{page === "library" ? `${visible.length ? `${libraryStart + 1}–${Math.min(libraryStart + libraryPageSize, visible.length)}` : '0'} / ${visible.length} 题` : `今日训练 · ${visible.length} 题`}</span>
+          {page === "library" && <nav className="library-pagination" aria-label="题库分页">
             <div className="pagination-actions">
               <button aria-label="题库上一页" disabled={currentLibraryPage === 1} onClick={() => setLibraryPage(currentLibraryPage - 1)}><ChevronLeft size={15} />上一页</button>
               <span>第 {currentLibraryPage} / {libraryPages} 页</span>
               <button aria-label="题库下一页" disabled={currentLibraryPage === libraryPages} onClick={() => setLibraryPage(currentLibraryPage + 1)}>下一页<ChevronRight size={15} /></button>
             </div>
-          </nav>
-        )}
-        <div className="list-footer">
-          <span>
-            {page === "library"
-              ? "题库用于选题"
-              : "今日训练"}{" "}
-            · {visible.length} 题
-          </span>
+          </nav>}
           <span className="autosave-dot">本地保存</span>
         </div>
       </div>
@@ -1848,7 +1842,7 @@ export default function App() {
     );
   }
   function settingsPage() {
-    return <PreferencesPage tab={settingsTab} onTab={setSettingsTab} prefs={prefs} setPrefs={setPrefs} display={display} onFullscreen={applyFullscreen} api={api} softwareUpdate={softwareUpdate} hub={hub} account={account} accountFocus={accountFocus} profileSnapshot={profileSnapshot} onProfileChanged={profileChanged} onRefresh={()=>refreshBackground(true)} onHubChanged={setHub} onError={message=>notice(message, "error")} onContent={openUpdate} onMessages={()=>setDialog("updates")} onTutorial={()=>setTourOpen(true)} onKeyboard={()=>{setPage("settings");setSettingsTab("training");}} commands={{pages:PAGES,items:commands}}/>;
+    return <PreferencesPage tab={settingsTab} onTab={setSettingsTab} prefs={prefs} setPrefs={setPrefs} display={display} onFullscreen={applyFullscreen} api={api} softwareUpdate={softwareUpdate} hub={hub} account={account} accountFocus={accountFocus} profileSnapshot={profileSnapshot} onProfileChanged={profileChanged} onRefresh={()=>refreshBackground(true)} onHubChanged={setHub} onError={message=>notice(message, "error")} onContent={openUpdate} onMessages={()=>setDialog("updates")} onTutorial={()=>{setTourContext('catalog');setTourOpen(true)}} onKeyboard={()=>{setPage("settings");setSettingsTab("training");}} commands={{pages:PAGES,items:commands}}/>;
   }
 
   const navigationPages = orderedPages(PAGES, prefs);
@@ -1977,14 +1971,9 @@ export default function App() {
       <SoftwareUpdateNotice update={softwareUpdate} onDetails={() => { setPage('settings'); setSettingsTab('updates'); }} />
       <aside className="sidebar">
         <div className="brand">
-          <button type="button" className="brand-mark" aria-label={prefs.collapsed?"展开侧边栏":"收起侧边栏"} aria-expanded={!prefs.collapsed} onClick={()=>setPrefs(previous=>({...previous,collapsed:!previous.collapsed}))}>
+          <Tooltip text={prefs.collapsed?"展开侧边栏":"收起侧边栏"}><button type="button" className="brand-mark" aria-label={prefs.collapsed?"展开侧边栏":"收起侧边栏"} aria-expanded={!prefs.collapsed} onClick={()=>setPrefs(previous=>({...previous,collapsed:!previous.collapsed}))}>
             TB
-          </button>
-          {!prefs.collapsed && (
-            <div>
-              <strong>TB</strong>
-            </div>
-          )}
+          </button></Tooltip>
 
         </div>
         <nav aria-label="主导航">
@@ -2165,6 +2154,8 @@ export default function App() {
             />
           ) : page === "growth" ? (
             <GrowthPage
+              categories={categories}
+              rows={data?.rows||[]}
               avatarData={prefs.avatarData}
               onAvatar={()=>setDialog('avatar')}
               onRankings={() => go("rankings")}
@@ -2199,7 +2190,7 @@ export default function App() {
           ) : page === "lectures" ? (
             <LecturesPanel api={api} initialLecture={lectureId} onTrain={openPractice} onError={(message) => notice(message, "error")} />
           ) : page === "rankings" ? (
-            <RankingsPage socialState={social} avatarData={prefs.avatarData} api={api} onConfigure={() => openAccounts()} onError={(message) => notice(message, "error")} />
+            <RankingsPage socialState={social} avatarData={prefs.avatarData} api={api} onConfigure={() => {if(window.__tbAdmin){setPage('settings');setSettingsTab('admin')}else openAccounts()}} onError={(message) => notice(message, "error")} />
           ) : (
             settingsPage()
           )}
@@ -2224,7 +2215,7 @@ export default function App() {
       )}
       {dialog === "daily-tasks" && <Modal title="每日任务" onClose={() => setDialog(null)} wide><DailyTasks dailyTasks={insights?.dailyTasks} onClaim={async (id, date) => { try { const result = await api("daily-tasks/claim", { id, date }); backgroundSeq.current++; setInsights(previous => ({ ...previous, dailyTasks: result.dailyTasks })); notice("经验已领取", "success"); void refreshBackground(true); } catch (issue) { notice(issue.message, "error"); throw issue; } }} /></Modal>}
       {dialog === "avatar" && <Modal title="修改头像" onClose={()=>setDialog(null)}><Suspense fallback={<p role="status">正在读取…</p>}><AvatarSettings prefs={prefs} setPrefs={setPrefs} onError={message=>notice(message,"error")}/></Suspense></Modal>}
-      {tourOpen && <Suspense fallback={null}><Onboarding practiceId={practiceId} onComplete={finishOnboarding} onNavigate={target=>{go(target);if(target==="settings")setSettingsTab("home");}}/></Suspense>}
+      {tourOpen && <Suspense fallback={null}><Onboarding initialGuide={tourContext} practiceId={practiceId||(mockFocus?currentMockSlot?.id:null)} onComplete={finishOnboarding} onNavigate={(target,tab)=>{go(target);if(target==="settings")setSettingsTab(tab||"home");}}/></Suspense>}
       {dialog === "achievements" && <Modal title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => setDialog(null)} wide><AchievementPanel achievements={achievements} newIds={unseenAchievements.map(item => item.id)} onSeen={markAchievementSeen} /></Modal>}
       {dialog === "submission" && selectedSubmission && <Modal title={selectedSubmission.title + " · 历史提交"} onClose={() => setDialog(null)} wide footer={<button className="primary" onClick={() => { setDialog(null); openPractice(selectedSubmission.problemId); }}><Play size={14} />继续练习</button>}><div className="submission-detail-meta"><Verdict value={selectedSubmission.verdict} /><span>{formatDate(selectedSubmission.submittedAt)}</span><span>{selectedSubmission.contestName}</span><button className="secondary" disabled={!selectedSubmission.code} onClick={() => copy(selectedSubmission.code)}><Copy size={14} />复制本次代码</button></div><pre className="submission-source"><code>{selectedSubmission.code || "这条记录没有保存代码。"}</code></pre>{selectedSubmission.message && <p className="submission-message">{selectedSubmission.message}</p>}</Modal>}
       {dialog === "updates" && (

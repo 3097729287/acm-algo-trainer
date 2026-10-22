@@ -114,16 +114,54 @@ def installer(args):
                     '/DAppVersion=' + VERSION, str(ROOT / 'packaging' / 'installer' / 'tb.iss')], check=True)
 
 
+def admin_assemble(args):
+    """Independent admin edition, with no user state or shared login copied in."""
+    stage=args.stage.resolve()
+    original=stage/'release'/PACKAGE
+    target=stage/'release'/('TB-Admin-'+VERSION+'-win64')
+    if target.exists() or not (original/'TB新版.exe').is_file():
+        raise RuntimeError('Build the user package first; use a fresh admin destination')
+    original_files=manifest(original)
+    if any(name.split('/')[0] in ('state','cache','logs','backups','admin-workspace') for name in original_files):
+        raise RuntimeError('Only a clean distributed package may create the admin edition')
+    shutil.copytree(original,target)
+    (target/'TB新版.exe').rename(target/'TB管理员版.exe')
+    for name in ('BUILD-INFO.json','resources/BUILD-INFO.json'):
+        path=target/name
+        if path.is_file():
+            value=json.loads(path.read_text(encoding='utf8'))
+            value['edition']='admin'
+            path.write_text(json.dumps(value,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
+    files=manifest(target)
+    (stage/'admin-release-manifest.json').write_text(json.dumps(files,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
+    shutil.copy2(stage/'admin-release-manifest.json',stage/'release/ADMIN-RELEASE-MANIFEST.json')
+    destination=target.parent/(target.name+'.zip')
+    with zipfile.ZipFile(destination,'x',zipfile.ZIP_DEFLATED,compresslevel=6) as output:
+        for name in files:output.write(target/name,target.name+'/'+name)
+    with zipfile.ZipFile(destination) as archive:
+        if archive.testzip():raise RuntimeError('Corrupt admin portable archive')
+    print(json.dumps({'adminPackage':str(target),'files':len(files),'zipBytes':destination.stat().st_size}))
+
+
+def admin_installer(args):
+    if not args.inno or not args.webview2:
+        raise RuntimeError('--inno and --webview2 are required')
+    subprocess.run([str(args.inno),'/DAdminEdition=1',
+                    '/DPackageDir='+str(args.stage.resolve()/'release'/('TB-Admin-'+VERSION+'-win64')),
+                    '/DOutputDir='+str(args.stage.resolve()/'release'),'/DWebViewInstaller='+str(args.webview2),
+                    '/DAppVersion='+VERSION,str(ROOT/'packaging/installer/tb.iss')],check=True)
+
+
 def main():
     parser = argparse.ArgumentParser(description='Build TB without patching production sources')
-    parser.add_argument('action', choices=['build', 'assemble', 'installer'])
+    parser.add_argument('action', choices=['build', 'assemble', 'installer', 'admin-assemble', 'admin-installer'])
     parser.add_argument('--stage', type=Path, required=True)
     parser.add_argument('--compiler-source', type=Path)
     parser.add_argument('--python-source', type=Path)
     parser.add_argument('--inno', type=Path)
     parser.add_argument('--webview2', type=Path)
     args = parser.parse_args()
-    globals()[args.action](args)
+    globals()[args.action.replace('-','_')](args)
 
 
 if __name__ == '__main__':

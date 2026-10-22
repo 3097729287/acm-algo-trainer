@@ -116,6 +116,17 @@ try {
   await page.getByRole('button', { name: '原文', exact: true }).click();
   assert.ok(await page.locator('.wb-statement').textContent().then(text => text.includes('给出两个整数')));
 
+  const translationCalls=await page.evaluate(()=>window.workbenchFixture.calls.filter(call=>call.path==='problem/translate').length);
+  await page.evaluate(()=>{window.workbenchFixture.problemOverrides.E={title:'离线预置翻译',markdown:'Given a positive integer, print twice its value.',translation:{kind:'bundled',targetLanguage:'zh-CN',markdown:'给定一个正整数，输出它的两倍。',provider:'预置中文译文'}};window.workbenchFixture.changeProblem('E');});
+  await page.waitForFunction(()=>document.querySelector('.wb-statement')?.textContent.includes('给定一个正整数，输出它的两倍。'));
+  await page.getByRole('button',{name:'原文',exact:true}).click();
+  assert.match(await page.locator('.wb-statement').textContent(),/Given a positive integer/);
+  await page.getByRole('button',{name:'中文',exact:true}).click();
+  assert.equal(await page.evaluate(()=>window.workbenchFixture.calls.filter(call=>call.path==='problem/translate').length),translationCalls,'prebuilt text needs no provider request');
+  await page.evaluate(()=>window.workbenchFixture.changeProblem('A'));
+  await page.waitForFunction(()=>document.querySelector('.wb-heading strong').textContent==='两数之和');
+  assert.equal(await page.evaluate(()=>window.workbenchFixture.readCode()),'reopened A final code');
+
   await editor.press('Control+r');
   await page.waitForFunction(() => document.querySelector('.wb-result-summary')?.textContent.includes('样例通过'));
   assert.equal(await page.locator('.wb-case').count(), 2, 'all official samples are compared');

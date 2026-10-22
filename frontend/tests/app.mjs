@@ -384,9 +384,8 @@ try {
   await page.getByRole('button',{name:'训练筛选',exact:true}).click();
   await page.getByLabel('重现赛比赛', {exact:true}).selectOption('测试比赛');
   assert.equal(await page.getByLabel('模拟赛时长').inputValue(), '120');
-  await page.getByLabel('搜索重现赛比赛').fill('不存在的比赛');
-  assert.equal(await page.getByLabel('重现赛比赛', {exact:true}).locator('option').count(),2,'keep selected contest while filtering');
-  await page.getByLabel('搜索重现赛比赛').fill('测试');
+  assert.equal(await page.getByLabel('搜索重现赛比赛').count(),0,'replay uses the folder picker without a redundant search');
+  assert.equal(await page.getByLabel('重现赛比赛', {exact:true}).locator('option').count(),2,'the selected contest remains available without training difficulty filtering');
   await page.keyboard.press('Escape');
   await page.getByRole('button', {name:'生成试卷',exact:true}).click();
   await page.getByLabel('训练试卷预览').waitFor();

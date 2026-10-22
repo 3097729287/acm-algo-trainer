@@ -75,6 +75,27 @@ def dictionary():
         for alias in entry.get('aliases',[]):result['aliases'][_key(alias)]=name
         children=result['groups'].setdefault(group,[])
         if name not in children:children.append(name)
+    # One teaching home per technique, retaining every registered technique.
+    groups=result['groups']
+    def move(name, target):
+        for parent, children in groups.items():
+            if parent != target and name in children:children.remove(name)
+        children=groups.setdefault(target,[])
+        if name not in children:children.append(name)
+    for name in ('模拟','枚举','贪心','构造','排序','折半枚举','势能分析','根号分治','摊还分析'):
+        move(name,'思维与策略')
+    for name in ('前缀和与差分','二分','双指针','位运算','离散化','连续段','递推','倍增'):
+        move(name,'基础技巧')
+    move('字典树','字符串')
+    move('哈希','数据结构')
+    move('DFS 序','树')
+    move('记忆化搜索','动态规划')
+    if '线性 DP' in groups:
+        for name in groups.pop('线性 DP'):move(name,'动态规划')
+    move('扫描线','计算几何')
+    if '计算几何' not in groups['计算几何']:groups['计算几何'].insert(0,'计算几何')
+    for parent, children in groups.items():
+        groups[parent]=list(dict.fromkeys(children))
     return result
 
 
@@ -287,7 +308,11 @@ def enrich_row(row, statement=None, official_tags=None, algorithm_evidence=None)
         result['tags']=list(dict.fromkeys(result['tags']+kept))
         result['knowledge']=' + '.join(result['tags'])
         obsolete={category_path(t) for t in result['supersededTags']}
-        kept_categories=[c for c in previous.get('categories',[]) if c not in obsolete or c in result['categories']]
+        # Rebuild old paths from canonical tags after teaching groups change.
+        # Preserve genuinely broad official subjects, never stale leaf paths.
+        old_leaves=set(previous.get('tags',[]))
+        kept_categories=[c for c in previous.get('categories',[]) if (c not in obsolete or c in result['categories']) and not any(part in old_leaves for part in c.split(' / '))]
+        kept_categories += [category_path(tag) for tag in kept]
         result['categories']=list(dict.fromkeys(result['categories']+kept_categories))
         result['evidence']+= [e for e in previous.get('evidence',[]) if e.get('source','').startswith('statement-') or e.get('source')=='algorithm-explicit']
         if result['tags']:result['status']='classified'

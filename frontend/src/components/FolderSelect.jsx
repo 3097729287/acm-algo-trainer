@@ -24,7 +24,7 @@ export default function FolderSelect({options=[],value='',onChange,disabled=fals
  function close(){setOpen(false);control.current?.focus({preventScroll:true});}
  function back(){setPath(previous=>previous.slice(0,-1));setActive(0);}
  function choose(index){const row=rows[index];if(!row||row.disabled)return;
-  if(row.children?.length){const childIndex=children.indexOf(row);setPath(previous=>[...previous,childIndex]);setActive(0);return;}
+  if(Array.isArray(row.children)){const childIndex=children.indexOf(row);setPath(previous=>[...previous,childIndex]);setActive(0);return;}
   const native=control.current;native.value=row.value;native.dispatchEvent(new Event('change',{bubbles:true}));close();
  }
  function move(direction){for(let offset=1;offset<=rows.length;offset++){const next=(active+direction*offset+rows.length)%rows.length;if(!rows[next].disabled){setActive(next);break;}}}
@@ -49,7 +49,7 @@ export default function FolderSelect({options=[],value='',onChange,disabled=fals
    if(event.key==='Escape'&&open){event.preventDefault();event.stopPropagation();close();return;}
    if(['ArrowDown','ArrowUp','ArrowRight','ArrowLeft','Home','End','Enter',' '].includes(event.key)){
     event.preventDefault();event.stopPropagation();if(!open){show();return;}
-    if(event.key==='Enter'||event.key===' '||event.key==='ArrowRight'){if(event.key!=='ArrowRight'||rows[active]?.children?.length)choose(active);return;}
+    if(event.key==='Enter'||event.key===' '||event.key==='ArrowRight'){if(event.key!=='ArrowRight'||Array.isArray(rows[active]?.children))choose(active);return;}
     if(event.key==='ArrowLeft'){if(path.length)back();return;}
     if(event.key==='Home'){setActive(0);return;}if(event.key==='End'){setActive(rows.length-1);return;}move(event.key==='ArrowDown'?1:-1);return;
    }
@@ -58,9 +58,9 @@ export default function FolderSelect({options=[],value='',onChange,disabled=fals
   {open&&createPortal(<div ref={menu} id={id} className="tb-select-menu folder-select-menu" role="listbox" aria-label={label} style={position} onPointerDown={event=>event.preventDefault()}>
    <header>{path.length?<button type="button" aria-label="返回上一级" onClick={back}><ArrowLeft size={15}/></button>:<Folder size={16}/>}<strong>{current?.label||placeholder}</strong></header>
    {rows.map((row,index)=><button type="button" key={`${row.value||row.label}:${index}`} role="option" id={`${id}-${index}`} data-index={index} data-active={active===index} aria-selected={row.value!==undefined&&value===row.value} disabled={row.disabled} tabIndex={-1} onPointerMove={()=>setActive(index)} onClick={()=>choose(index)}>
-    {row.children?.length?<Folder size={16}/>:row.value?<FileText size={15}/>:null}<span>{row.label}</span>{row.children?.length?<ChevronRight size={15}/>:value===row.value?<Check size={14}/>:null}
+    {Array.isArray(row.children)?<Folder size={16}/>:row.value?<FileText size={15}/>:null}<span>{row.label}</span>{Array.isArray(row.children)?<ChevronRight size={15}/>:value===row.value?<Check size={14}/>:null}
    </button>)}
-   {!rows.length&&<p>没有匹配的项目</p>}
+   {!rows.length&&<p>此分类暂未收录比赛</p>}
   </div>,control.current?.closest('dialog')||document.body)}
  </>;
 }

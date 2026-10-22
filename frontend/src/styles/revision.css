@@ -2,9 +2,18 @@
 html .app-shell {--statusbar-height:34px}
 html .app-shell .sidebar {width:max(128px,calc(var(--ui-font-size,15px)*5 + 48px));flex:0 0 max(128px,calc(var(--ui-font-size,15px)*5 + 48px));padding:6px 6px 0}
 html .sidebar nav {flex:1;min-height:0;max-height:none!important;overflow:auto;gap:5px!important;padding:0}
-html .sidebar .nav-item {width:100%;justify-content:flex-start;gap:8px;white-space:nowrap;padding:8px;min-height:38px}
-html .sidebar .brand {margin:0 6px 10px;gap:8px;min-height:48px}
-html .sidebar .brand-mark {flex:none;font-family:inherit;font-size:calc(var(--ui-font-size,15px) + 1px);letter-spacing:-.8px;padding:0}
+html .sidebar .nav-item {width:100%;justify-content:flex-start;gap:8px;white-space:nowrap;padding:8px 3px 8px 13px;min-height:38px}
+html .sidebar .brand {margin:0 0 16px;gap:0;min-height:42px;justify-content:flex-start}
+html .sidebar .brand-mark {flex:none;width:42px;height:42px;font-family:inherit;font-size:calc(var(--ui-font-size,15px) + 6px);letter-spacing:-.8px;padding:0;border-radius:12px}
+html .sidebar .brand>.tooltip-anchor {display:flex;align-items:center;justify-content:center}
+html .tour-card {right:auto;bottom:auto;max-height:calc(100vh - 36px);overflow:auto}
+html .tour-card h3:focus {outline:0}
+html .tour-catalog {position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(720px,calc(100vw - 36px))}
+.tour-guide-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.tour-guide-grid>button,.tour-overview-button {display:flex;flex-direction:column;gap:6px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:9px;text-align:left;background:var(--hover);color:var(--text)}
+.tour-overview-button {width:100%;border-color:var(--accent);margin-block:12px}
+.tour-overview-button>span,.tour-guide-grid small {font-size:.8rem;color:var(--muted)}
+.tour-directory-button {display:block;margin-block:16px 4px;padding:3px 0;color:var(--accent);background:transparent;font-size:.85rem}
 html .sidebar-bottom {display:flex;align-items:center;flex:0 0 var(--statusbar-height);height:var(--statusbar-height);margin-top:auto;padding:0;min-height:0;background:transparent}
 html .sidebar .sidebar-bottom .nav-item {display:flex;gap:8px;min-height:28px;height:28px;padding-block:3px}
 html .app-statusbar {flex:0 0 var(--statusbar-height);height:var(--statusbar-height);min-height:0;padding:2px 12px}
@@ -159,12 +168,13 @@ html .account-hero-rank {display:flex;flex-direction:column;align-items:center;j
 .account-hero-rank .medal-emblem {width:clamp(120px,12vw,230px);height:auto}
 .account-hero-rank strong {font-size:1.35rem}
 .account-hero-rank>span {font-size:.9rem;color:var(--muted)}
-.account-hero-level {display:flex;align-items:center;gap:18px}
-.account-hero-level>span {font-size:1.25rem;color:var(--accent)}
-.account-hero-level>div {flex:1;display:flex;flex-direction:column;gap:8px;text-align:right;color:var(--muted);font-size:.8rem}
+.account-hero-level {display:flex;align-items:flex-start;gap:18px}
+.account-hero-level>span {font-size:1.25rem;color:var(--accent);line-height:24px}
+.account-hero-level>div {flex:1;display:flex;flex-direction:column;gap:8px;text-align:right;color:var(--muted);font-size:.8rem;padding-top:9px}
 .account-hero-statistics {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 20px;margin-block:auto}
 .account-hero-statistics>div {display:flex;align-items:center;flex-direction:column;gap:9px;color:var(--muted)}
 .account-hero-statistics svg {color:var(--accent)}
+.account-stat-icon {display:grid;place-items:center;min-height:38px;min-width:38px}
 .account-hero-statistics b {font-size:clamp(1.7rem,2.5vw,3rem);font-weight:600;color:var(--text)}
 .account-hero-statistics span {font-size:.8rem;white-space:nowrap}
 .account-hero-titles {display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
@@ -200,8 +210,15 @@ html .ranking-identity .profile-avatar-face {width:38px;height:38px}
 html .ranking-identity .profile-nickname {font-size:1.05rem;max-width:100%;overflow-wrap:anywhere}
 html .ranking-identity .profile-overview {max-width:none}
 html .ranking-table td.ranking-count>b {font-size:1.5rem}
-html .ranking-social {gap:8px;justify-content:flex-end}
+html .ranking-social {display:grid;grid-template-columns:62px 38px;gap:8px;justify-content:end;align-items:center}
 html .ranking-social .like-burst {min-height:34px;min-width:62px;font-size:.95rem}
+html .ranking-social .ranking-message {padding:6px;min-width:0;width:38px}
+html .settings-page input.toggle {width:36px;height:22px;border-radius:999px!important;flex:none}
+html .settings-page input.toggle:after {width:16px;height:16px;top:2px;left:2px;border-radius:50%!important}
+html .settings-page input.toggle:checked:after {transform:translateX(14px)}
+html .list-footer {display:flex;align-items:center;gap:16px;min-height:38px;padding:6px 12px;flex:none;white-space:nowrap}
+html .list-footer>.library-pagination {margin-left:auto;display:flex;align-items:center;flex:none;padding:0;border:0;min-height:0}
+html .list-footer>.autosave-dot {margin-left:auto}
 .ranking-title-list {display:flex;gap:8px;flex-wrap:wrap}
 html .social-activity {display:block;width:100%;min-height:90px;margin-top:26px;padding:24px 0 0;border-top:1px solid var(--line)}
 html .social-activity>div {display:flex;gap:18px;align-items:center;justify-content:space-between;padding:12px 0;font-size:.94rem}
@@ -229,11 +246,12 @@ html .settings-column>section {padding:24px;max-width:none;width:100%}
 html .acknowledgements {display:flex!important;flex:1;flex-direction:column;align-items:center;justify-content:space-evenly;min-height:100%;text-align:center;padding:30px}
 html .acknowledgements h2 {font-size:clamp(2rem,3vw,3.4rem);color:var(--accent);margin:0;font-weight:650;letter-spacing:.12em}
 html .acknowledgements p {padding:14px;margin:0;font-size:clamp(1.6rem,2.5vw,3rem);line-height:1.5;letter-spacing:.05em}
-html .acknowledgements p:nth-of-type(5n+1) {color:var(--accent)}
-html .acknowledgements p:nth-of-type(5n+2) {color:light-dark(#416eb7,#8fb5f0)}
-html .acknowledgements p:nth-of-type(5n+3) {color:light-dark(#9d6e2b,#d8b376)}
-html .acknowledgements p:nth-of-type(5n+4) {color:light-dark(#ad5b7c,#dd9db7)}
-html .acknowledgements p:nth-of-type(5n) {color:light-dark(#805db5,#b9a1df)}
+html .acknowledgements p:nth-of-type(6n+1) {color:var(--accent)}
+html .acknowledgements p:nth-of-type(6n+2) {color:light-dark(#416eb7,#8fb5f0)}
+html .acknowledgements p:nth-of-type(6n+3) {color:light-dark(#9d6e2b,#d8b376)}
+html .acknowledgements p:nth-of-type(6n+4) {color:light-dark(#ad5b7c,#dd9db7)}
+html .acknowledgements p:nth-of-type(6n+5) {color:light-dark(#805db5,#b9a1df)}
+html .acknowledgements p:nth-of-type(6n) {color:light-dark(#447c96,#89c5dc)}
 html .navigation-editor-heading,html .navigation-editor-row {display:grid;grid-template-columns:minmax(140px,1fr) minmax(120px,1fr) 82px;gap:16px;align-items:center}
 .navigation-editor-row>label {display:flex;align-items:center;gap:10px;min-width:0}
 .navigation-editor-row input {min-width:0;width:100%}

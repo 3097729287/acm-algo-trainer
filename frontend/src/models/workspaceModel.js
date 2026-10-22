@@ -1,4 +1,5 @@
 import { matches } from "./model.js";
+import { matchesKnowledge } from '../lib/knowledgeNames.js';
 import { compareContestNewest } from "@/lib/practiceMetadata.js";
 import { trainingDay } from "@/lib/trainingDate.js";
 import { contestKind, matchesShelf } from "@/lib/contestShelves.js";
@@ -137,7 +138,7 @@ export function filterRows(rows, filters = {}) {
         (!platform || row.platform === platform) &&
         matchesShelf(row, shelf) &&
         (!kind || contestKind(row) === kind) &&
-        (!category || row.tags.some((tag) => category.tags.includes(tag))) &&
+        (!category || matchesKnowledge(row,category.tags||[category.name])) &&
         (min === "" || row.difficulty == null && Number(min) === 0 ||
           (row.difficulty != null && row.difficulty >= Number(min))) &&
         (max === "" || row.difficulty == null && Number(max) === 10000 ||
@@ -194,7 +195,7 @@ export function groupContests(rows) {
   }));
 }
 export function categoryCounts(node, rows, training) {
-  const has = (row) => row.tags.some((tag) => node.tags.includes(tag));
+  const has = (row) => matchesKnowledge(row,node.tags||[node.name]);
   const active = training.filter(has);
   return {
     available: rows.filter(row => !row.catalogHidden && has(row)).length,

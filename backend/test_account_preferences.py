@@ -50,6 +50,13 @@ class AccountPreferencesTests(unittest.TestCase):
             backup.assert_not_called()
         self.assertEqual(self.service.connection.total_changes, changes)
 
+    def test_library_page_size_is_persistent_and_bounded(self):
+        self.assertEqual(save_preferences(self.service,{'preferences':{'libraryPageSize':100}})['preferences']['libraryPageSize'],100)
+        for invalid in (True,9,201,50.5,'50'):
+            with self.subTest(value=invalid),self.assertRaises(ServiceError):
+                save_preferences(self.service,{'preferences':{'libraryPageSize':invalid}})
+        self.assertEqual(read_preferences(self.service)['preferences']['libraryPageSize'],100)
+
     def test_device_credentials_and_invalid_preference_data_are_rejected(self):
         for value in ({'apiKey': 'private'}, {'fullscreen': True}, {'favorites': 'wrong'},
                       {'navLabels': []}, {'readerWidth': float('nan')}, {'favorites': ['x'*140000]}):

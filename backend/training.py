@@ -1468,6 +1468,9 @@ class TrainingService:
                 item['difficulty']=levels[len(levels)//2] if levels else None
                 item['platform']=event_rows[0].get('platform','')
                 item['series']=event_rows[0].get('series','')
+                for key in ('contestDate','startedAt','endedAt','eventYear','examYear','examGroup','examStage','contestFullName'):
+                    value=next((row.get(key) for row in event_rows if row.get(key) is not None),None)
+                    if value is not None:item[key]=value
             return {'events':sorted(result, key=lambda item: natural_key(item['displayName']))}
 
     def preview_replay(self, body):
