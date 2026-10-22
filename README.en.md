@@ -3,10 +3,10 @@
 TB combines a problem library, illustrated editorials, a C++ / Python editor, local judging and training records for Codeforces, AtCoder, Nowcoder and Luogu. SQLite preserves local work; the account service synchronizes learning data between computers.
 
 <!-- release-status:start -->
-**Latest stable: [TB 1.3.5](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.5).** [Changes and validation](docs/releases/1.3.5.md).
+**Latest stable: [TB 1.4.0](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.0).** [Changes and validation](docs/releases/1.4.0.md).
 <!-- release-status:end -->
 
-**1.4.0 is being validated for this formal delivery and is not yet released.** Download links still point to published 1.3.5; the current local application is 1.3.6. This release widens Algorithm Lab, moves navigation to the right, adds folder filters, resumes unsent submissions after original-site login and reduces repeated content loading. [Release notes](docs/releases/1.4.0.md).
+**1.4.0 is released and delivered locally.** Algorithm Lab now uses wider lessons, a separate right navigation rail and guided practice after the final lesson. Contest and lecture filters use folders. Original-site login resumes the current unsent submission automatically; repeated reads and account restore recognition are faster. Personal data is preserved. [Release notes](docs/releases/1.4.0.md).
 
 Individual editorial refinement and reading review continue separately; this software release does not mark that review complete. [Authoring workflow](docs/algorithm-lab-authoring.md).
 
@@ -16,9 +16,17 @@ Individual editorial refinement and reading review continue separately; this sof
 
 ## Install and upgrade
 
-Windows 10/11 x64. The [user installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.5/TB-Setup-1.3.5-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.5/TB-1.3.5-win64.zip) before running it. GitHub distributes only the user edition. The administrator program is reserved for the owner’s local use. Release assets include checksums and incremental updates from 1.3.4.
+Windows 10/11 x64. The [user installer](https://47.82.84.74/updates/assets/1.4.0/TB-Setup-1.4.0-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.4.0/TB-1.4.0-win64.zip) before running it. GitHub distributes only the user edition. The administrator program is reserved for the owner’s local use. Release assets include checksums and incremental updates from 1.3.4, 1.3.5 and 1.3.6.
 
 Save drafts and exit TB before installing into the existing directory. Personal databases, source code and imported content are preserved. The updater saves work, takes online SQLite backups and verifies SHA-256 before replacement. Keep the same TB version on your computers. Original-site login uses TB's dedicated browser profile; no extension is required.
+
+## Changes in 1.4.0
+
+- Wider C++ knapsack lessons, right-side navigation and a final-lesson handoff to five guided problems. Navigation surfaces follow page opacity.
+- Folder filters for contests and lectures, aligned counters and controls, and a spaced heart “and” comment heading.
+- Direct original-site login with automatic continuation of the current unsent submission; native verification and single-send protection remain.
+- Cached repeated workspace/analytics reads and compressed catalogs; faster recognition after account validation completes.
+- 603 backend checks, complete frontend/CI, native browsers, fresh install, upgrades and three actual incremental paths passed. [CI](https://github.com/3097729287/acm-algo-trainer/actions/runs/39849264029).
 
 ## Changes in 1.3.4
 
@@ -62,7 +70,7 @@ Save drafts and exit TB before installing into the existing directory. Personal 
 
 ## Library and progression
 
-The public seed retains **5,819 original problem entries, 2,422 statements, 1,302 default editorials, 1,302 detailed editorials and 400 lectures**. The UI deduplicates original tasks while preserving aliases, content and work. Uncached statements require connectivity. New editorial work is limited to verified problem difficulty at most 2200, including 2200. [Editorial policy](docs/editorial-policy.md).
+The public seed retains **5,824 original problem entries, 2,427 statements, 1,307 default editorials, 1,307 detailed editorials and 443 lectures**. The UI deduplicates original tasks while preserving aliases, content and work. Uncached statements require connectivity. New editorial work is limited to verified problem difficulty at most 2200, including 2200. [Editorial policy](docs/editorial-policy.md).
 
 XP levels and skill tiers are independent. Level 5 unlocks placement; at least five distinct, verified, independent first official ACs are required. Ability is the median difficulty of the strongest five. Iron through King starts at **0, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2100 and 2200**. This is a training estimate, not a direct copy of an original-site account rating. [Progression rules](docs/progression.md).
 

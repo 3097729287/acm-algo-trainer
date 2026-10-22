@@ -3,10 +3,10 @@
 TB 将题库、图文题解、C++ / Python 编辑、本地评测和训练记录放在同一个工作台，支持 Codeforces、AtCoder、牛客和洛谷。本机 SQLite 保存代码与待同步记录，账号服务支持跨电脑恢复。
 
 <!-- release-status:start -->
-**最新正式版：[TB 1.3.5](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.5)。** [变化与验证](docs/releases/1.3.5.md)。
+**最新正式版：[TB 1.4.0](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.0)。** [变化与验证](docs/releases/1.4.0.md)。
 <!-- release-status:end -->
 
-**1.4.0 为本轮首个正式交付目标，正在完成发布验证，尚未正式发布。** 上方与下方下载入口暂保持已发布的 1.3.5；本机当前程序仍为 1.3.6。新版本加宽算法实验室、使用右侧导航与文件夹筛选，登录原站后自动继续未发送的提交，并优化账号恢复和重复内容读取。[本版说明](docs/releases/1.4.0.md)。
+**1.4.0 已正式发布并完成本机升级。** 算法实验室使用宽屏正文、独立右侧导航与末课跟做入口；比赛和讲解改为文件夹浏览。原站登录后自动继续本次未发送的提交，优化账号恢复识别与重复内容读取，保留个人代码和记录。[本版说明](docs/releases/1.4.0.md)。
 
 全库逐篇题解精修与阅读复核继续独立进行，不将本次软件发行视为全库复核完成。[算法实验室创作规范](docs/algorithm-lab-authoring.md)。
 
@@ -16,9 +16,17 @@ TB 将题库、图文题解、C++ / Python 编辑、本地评测和训练记录�
 
 ## 安装与更新
 
-Windows 10/11 x64。[用户版安装包](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.5/TB-Setup-1.3.5-win64.exe)包含 C++ 编译器、Python 3 运行时和离线 WebView2；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.5/TB-1.3.5-win64.zip)需要完整解压。GitHub 仅公开用户版；管理员程序仅供维护者本机自用。发布页提供校验清单及从 1.3.4 升级的增量包。
+Windows 10/11 x64。[用户版安装包](https://47.82.84.74/updates/assets/1.4.0/TB-Setup-1.4.0-win64.exe)包含 C++ 编译器、Python 3 运行时和离线 WebView2；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.4.0/TB-1.4.0-win64.zip)需要完整解压。GitHub 仅公开用户版；管理员程序仅供维护者本机自用。发布页提供校验清单及从 1.3.4、1.3.5、1.3.6 升级的增量包。
 
 保存草稿并退出 TB 后安装到原目录，个人数据库、代码和导入内容保留。自动更新会先保存草稿、在线备份 SQLite、验证 SHA-256，再替换程序。跨电脑使用同一账号时，各电脑应升级到同一版本。原站登录保存在 TB 专用浏览器中，无需扩展。
+
+## 1.4.0 的变化
+
+- 背包 DP 正文加宽，右侧翻页与目录独立；标题随正文滚动，末课进入五题跟做。按钮和目录随页面透明度变化。
+- 比赛、讲解分类采用文件夹浏览，统一计数与控件对齐；爱心与留言标题补“和”字。
+- 直接打开原站浏览器登录，成功后继续本次未发送的提交；原站验证与单次发送保护保留。
+- 缓存重复工作区与成长统计读取，压缩大题库响应；认证完成后及时进入账号工作区。
+- 603 项后端、完整前端与 CI、原生浏览器、新装升级及三条实际增量检查通过。[CI](https://github.com/3097729287/acm-algo-trainer/actions/runs/39849264029)。
 
 ## 1.3.4 的变化
 
@@ -62,7 +70,7 @@ Windows 10/11 x64。[用户版安装包](https://github.com/3097729287/acm-algo-
 
 ## 题库与成长
 
-公共种子保留 **5819 条原始题目、2422 份题面、1302 份默认题解、1302 份详细题解、400 篇讲义**；界面按原题去重，旧编号、内容和作答关联保留。未缓存的题面仍需联网读取。新增题解只限题目难度小于等于 2200（含 2200），未知难度先核验。[题解政策](docs/editorial-policy.md)。
+公共种子保留 **5824 条原始题目、2427 份题面、1307 份默认题解、1307 份详细题解、443 篇讲义**；界面按原题去重，旧编号、内容和作答关联保留。未缓存的题面仍需联网读取。新增题解只限题目难度小于等于 2200（含 2200），未知难度先核验。[题解政策](docs/editorial-policy.md)。
 
 经验等级和能力段位分别成长。5 级解锁段位，至少 5 道已验证独立首次官方 AC 后，取最高 5 题难度的中位数作为能力分。门槛依次为 **0、800、1000、1200、1400、1600、1800、2000、2100、2200**，对应黑铁至王者。这是题库训练尺度上的参考值，非直接使用原站账号 rating。[完整规则](docs/progression.md)。
 
@@ -80,4 +88,4 @@ npm ci
 npm run dev
 ```
 
-[账号与同步](docs/accounts.md) · [架构](docs/architecture.md) · [构建和发布检查](docs/development.md) · [1.3.4 发布记录](docs/releases/1.3.4.md) · [历史发布](https://github.com/3097729287/acm-algo-trainer/releases)
+[账号与同步](docs/accounts.md) · [架构](docs/architecture.md) · [构建和发布检查](docs/development.md) · [1.4.0 发布记录](docs/releases/1.4.0.md) · [历史发布](https://github.com/3097729287/acm-algo-trainer/releases)
