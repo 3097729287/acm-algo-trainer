@@ -18,7 +18,7 @@ from release_assets import is_admin_asset, public_release_files
 class ReleaseAssetTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix='tb-release-boundary-')
-        self.stage = Path(self.temp.name)
+        self.stage = Path(self.temp.name).resolve()
         self.public = self.stage / 'release'
         self.public.mkdir()
 

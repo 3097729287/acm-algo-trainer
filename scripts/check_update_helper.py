@@ -10,7 +10,7 @@ import subprocess
 import sys
 import time
 
-from check_release import ROOT, API, environment
+from check_release import ROOT, environment, OPENER
 from check_current_release import personal_rows
 
 sys.path.insert(0, str(ROOT / 'desktop'))
@@ -38,15 +38,24 @@ def main():
     deadline, api = time.monotonic() + 120, None
     while time.monotonic() < deadline:
         try:
-            api = API('http://127.0.0.1:' + str(port)); break
+            base = 'http://127.0.0.1:' + str(port)
+            with OPENER.open(base + '/api/account', timeout=10) as response:
+                account = json.load(response)
+            with OPENER.open(base + '/api/software-update', timeout=10) as response:
+                update = json.load(response)
+            if not update.get('canInstall'):
+                time.sleep(.2)
+                continue
+            api = {'account': account, 'update': update}
+            break
         except Exception:
             if helper.poll() not in (None, 0):
                 raise RuntimeError('Update helper failed; inspect updater-launch.log')
             time.sleep(.5)
     assert api is not None, 'Update helper did not restart isolated TB'
-    assert api.get('software-update')['currentVersion'] == report['version']
-    assert api.get('software-update')['canInstall'] is True
-    assert api.get('profile')['profile']['nickname'] == '隔离升级验证'
+    assert api['account'].get('required') and not api['account'].get('authenticated')
+    assert api['update']['currentVersion'] == report['version']
+    assert api['update']['canInstall'] is True
     assert (app / 'cache/updates/install-result.txt').read_text(encoding='utf-8-sig').strip() == 'ok'
     # Wait for the actual visible desktop window, then close it normally.
     literal = str(app / 'TB新版.exe').replace("'", "''")
