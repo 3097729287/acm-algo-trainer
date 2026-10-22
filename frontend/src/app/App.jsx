@@ -2046,7 +2046,7 @@ export default function App() {
                 {timerText(remainingSeconds(active, now))}
               </button>
             )}
-            <button className="text-button topbar-daily-ac topbar-status-chip" aria-label={`AC：历史 ${beforeTodayAc}，今日 ${todayAc}`} onClick={()=>go('mine')}><b>AC:{beforeTodayAc}{todayAc>0&&<em>+{todayAc}</em>}</b></button>
+            <button className="text-button topbar-daily-ac topbar-status-chip" aria-label={`AC：历史 ${beforeTodayAc}，今日 ${todayAc}`} onClick={()=>go('mine')}><b>AC:{beforeTodayAc}{todayAc>0&&<span className="topbar-ac-today">+{todayAc}</span>}</b></button>
             {social.snapshot?.available && <button className="text-button topbar-love-count topbar-status-chip" aria-label={`今日获得爱心 ${social.snapshot.todayLikes ?? "—"}`} onClick={() => setDialog('updates')}><Heart size={18} fill="currentColor"/><span>:</span><b>{social.snapshot.todayLikes ?? "—"}</b></button>}
             <ProfileBadge growth={growth} avatar={prefs.avatarData} nickname={account?.nickname || profileSnapshot?.profile?.nickname} onClick={()=>setDialog('summary')} onAvatarClick={()=>setDialog('avatar')}/>
             <IconButton

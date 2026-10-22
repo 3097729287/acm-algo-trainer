@@ -52,14 +52,14 @@ html .profile-badge-compact .profile-nickname {font-size:.9rem;max-width:100px}
 html .profile-badge .profile-xp-ring {inset:6%;width:88%;height:88%}
 html .profile-badge .profile-xp-ring circle {stroke-width:1.5}
 html .profile-level-number {bottom:-1px}
-html .topbar-status-chip {height:40px;display:inline-flex;align-items:center;gap:6px;padding:0;white-space:nowrap;font-variant-numeric:tabular-nums}
+html .topbar-status-chip {height:40px;display:inline-flex;align-items:center;gap:6px;padding:0;white-space:nowrap;font-variant-numeric:tabular-nums;line-height:1}
 html .topbar .topbar-daily-ac,html .topbar .topbar-daily-ac b {color:var(--success)}
-html .topbar .topbar-daily-ac b {display:inline}
-html .topbar .topbar-daily-ac em {font-style:normal;color:var(--accent);padding:0;margin:0}
-html .topbar .topbar-status-chip b {font-size:1rem;font-weight:650}
+html .topbar .topbar-daily-ac b {display:block}
+html .topbar .topbar-daily-ac .topbar-ac-today {display:inline;font:inherit;line-height:inherit;vertical-align:baseline;color:var(--accent);padding:0;margin:0}
+html .topbar .topbar-status-chip b {font-size:1rem;font-weight:650;line-height:1}
 html .topbar .topbar-love-count b {color:var(--text)}
 html .topbar .topbar-love-count svg {width:18px;height:18px}
-html .practice-streak {gap:5px;min-width:0;white-space:nowrap;color:var(--accent)}
+html .practice-streak {gap:5px;min-width:0;white-space:nowrap;color:var(--accent);line-height:1}
 html .practice-streak b {font-size:.9rem}
 html .practice-streak .streak-flame {width:20px;height:20px;animation:none;filter:none;transform:none}
 html .practice-streak.flame-inactive {color:var(--muted)}
@@ -304,6 +304,8 @@ html .wb-context-actions .mock-timer {margin-left:0}
 html .settings-subpage-controls {position:sticky;top:0;display:flex;justify-content:flex-end;height:0;margin-bottom:-18px;z-index:8;pointer-events:none}
 html .settings-return-button {pointer-events:auto;margin:10px 10px 0 0;background:var(--panel);color:var(--muted);flex-shrink:0;width:32px;height:32px}
 html .settings-return-button:hover {color:var(--accent)}
+html .shortcut-settings>.progress-section-heading {justify-content:flex-start;gap:12px;padding-right:48px}
+html .shortcut-settings>.progress-section-heading h2 {margin:0}
 html .settings-translation-panel {min-height:100%}
 html .settings-translation-panel .progress-section-heading,html .settings-column>section>.settings-page-description:first-child {padding-right:42px}
 html .account-sync-status {display:inline-flex;align-items:center;justify-content:center;flex:0 0 18px;width:18px;height:18px;margin-left:auto;line-height:1}
