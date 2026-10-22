@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
 import { createServer } from 'vite';
 import { mkdir } from 'node:fs/promises';
+import { openSettings } from './settings-navigation.mjs';
 
 const server = await createServer({ server: { host: '127.0.0.1', port: 0 } });
 await server.listen();
@@ -45,7 +46,14 @@ await page.route('**/api/**', async route => {
 const tableRows = page.locator('.problem-table tbody tr[data-id]');
 const pagination = page.getByRole('navigation', { name: '题库分页' });
 async function status(text) {
-  await page.waitForFunction(expected => document.querySelector('.library-pagination [role="status"]')?.textContent === expected, text);
+  await page.waitForFunction(expected => document.querySelector('.list-footer [role="status"]')?.textContent === expected, text);
+}
+async function pageSize(value) {
+  assert.equal(await page.getByLabel('题库每页题数').count(),0,'Page size belongs to settings');
+  await openSettings(page,'交互与导航');
+  await page.getByLabel('题库每页题数',{exact:true}).fill(String(value));
+  await page.getByLabel('题库每页题数',{exact:true}).press('Tab');
+  await page.locator('.sidebar').getByRole('button',{name:'题库',exact:true}).click();
 }
 async function selected(id) {
   await page.waitForFunction(expected => document.querySelector('.problem-table tr[data-selected="true"]')?.dataset.id === expected, id);
@@ -96,12 +104,10 @@ try {
   await status('1–50 / 10037 题');
   assert.equal(await page.locator('.problem-table tr[data-selected="true"]').count(), 0, 'returning from practice clears special row marks');
   assert.ok(Math.abs(await page.locator('.table-scroll').evaluate(node => node.scrollTop) - priorScroll) < 2, 'returning restores the original list scroll position');
-  await page.getByLabel('题库每页题数').fill('25');
-  await page.getByLabel('题库每页题数').press('Tab');
+  await pageSize(25);
   await status('1–25 / 10037 题');
   assert.equal(await tableRows.count(), 25);
-  await page.getByLabel('题库每页题数').fill('100');
-  await page.getByLabel('题库每页题数').press('Tab');
+  await pageSize(100);
   await status('1–100 / 10037 题');
   assert.equal(await tableRows.count(), 100);
   await page.getByLabel('题库下一页').click();

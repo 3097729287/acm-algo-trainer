@@ -11,6 +11,9 @@ await server.listen();
 const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
 const page=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];
 page.on('pageerror',error=>errors.push(error.message));
+// Management scenarios run in the separate admin edition. User-edition
+// rejection, including a stale admin role response, is covered by ui-v131.
+await page.addInitScript(()=>{window.__tbAdmin=true;});
 try {
  await page.goto('http://127.0.0.1:18776/tests/rankings-fixture.html');
  await page.getByRole('button',{name:'清空当前榜单'}).waitFor();
