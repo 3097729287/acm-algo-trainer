@@ -175,7 +175,7 @@ try{
  await nav('从零讲').click();await page.locator('.lectures-layout').waitFor();await header();assert.equal(await page.locator('.workspace-area h2').filter({hasText:'从零讲'}).count(),0);
  assert.equal(await page.locator('.lectures-layout').evaluate(node=>getComputedStyle(node).backgroundColor),'rgba(0, 0, 0, 0)');assert.equal((await page.locator('.lecture-difficulty').first().innerText()).includes('≈'),false);await shot('lectures');
  await nav('提交记录').click();await page.locator('.submission-log-row').first().waitFor();assert.equal(await page.locator('.submission-log-row>svg').count(),0);assert.equal(await page.locator('.submission-runtime').count(),1);assert.equal(await page.locator('.submission-runtime').innerText(),'15 ms');
- await nav('算法实验室').click();assert.equal(await page.getByText('算法题单',{exact:true}).count(),0);await nav('题库').click();
+ await nav('题单').click();assert.equal(await page.getByText('算法题单',{exact:true}).count(),0);await nav('题库').click();
  await page.locator('.problem-table tr[data-id] .problem-title').first().click();await page.locator('.cm-editor').waitFor();
  assert.equal(await page.locator('.sidebar').isVisible(),false);assert.equal(await page.locator('.topbar').isVisible(),false);
  const box=await page.locator('.tb-workbench').boundingBox();assert.deepEqual({x:box.x,y:box.y,width:box.width,height:box.height},{x:0,y:0,width:2048,height:1000});
