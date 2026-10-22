@@ -3,10 +3,10 @@
 TB 将题库、图文题解、C++ / Python 编辑、本地评测和训练记录放在同一个工作台，支持 Codeforces、AtCoder、牛客和洛谷。本机 SQLite 保存代码与待同步记录，账号服务支持跨电脑恢复。
 
 <!-- release-status:start -->
-**源码 1.3.4，尚未正式发布；正式下载仍为 [1.3.3](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.3)。** [1.3.4 变化与验证](docs/releases/1.3.4.md)。
+**最新正式版：[TB 1.3.4](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.4)。** [变化与验证](docs/releases/1.3.4.md)。
 <!-- release-status:end -->
 
-开发源码另含尚未正式发布的“算法实验室”：首课用装包实验、状态推导、可回退的执行器、C++17 模板构造、找错与迁移自测学习背包 DP。正式下载仍为 1.3.3。[课程设计与复用约定](docs/algorithm-lab-design.md)。
+开发源码另含尚未正式发布的“算法实验室”：首课用装包实验、状态推导、可回退的执行器、C++17 模板构造、找错与迁移自测学习背包 DP。正式版 1.3.4 保留现有题单。[课程设计与复用约定](docs/algorithm-lab-design.md)。
 
 [项目主页](https://3097729287.github.io/acm-algo-trainer/) · [使用说明](docs/usage.md) · [开发与构建](docs/development.md) · [English](README.en.md)
 
@@ -14,11 +14,11 @@ TB 将题库、图文题解、C++ / Python 编辑、本地评测和训练记录�
 
 ## 安装与更新
 
-Windows 10/11 x64。[用户版安装包](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.3/TB-Setup-1.3.3-win64.exe)包含 C++ 编译器、Python 3 运行时和离线 WebView2；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.3/TB-1.3.3-win64.zip)需要完整解压。管理员使用[独立安装包](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.3/TB-Admin-Setup-1.3.3-win64.exe)，登录名为 `admin`，公共管理需要服务端授权。发布页提供校验清单及从 1.3.1 / 1.3.2 升级的增量包。
+Windows 10/11 x64。[用户版安装包](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.4/TB-Setup-1.3.4-win64.exe)包含 C++ 编译器、Python 3 运行时和离线 WebView2；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.4/TB-1.3.4-win64.zip)需要完整解压。管理员使用[独立安装包](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.4/TB-Admin-Setup-1.3.4-win64.exe)，登录名为 `admin`，公共管理需要服务端授权。发布页提供校验清单及从 1.3.3 升级的增量包。
 
 保存草稿并退出 TB 后安装到原目录，个人数据库、代码和导入内容保留。自动更新会先保存草稿、在线备份 SQLite、验证 SHA-256，再替换程序。跨电脑使用同一账号时，各电脑应升级到同一版本。原站登录保存在 TB 专用浏览器中，无需扩展。
 
-## 1.3.4 源码更新（尚未正式发布）
+## 1.3.4 的变化
 
 - 动态复习：官方 AC 次日空白重写，之后按难度和重做表现调整间隔；简单题可免长期复习，任务较多时减少新题，原代码和历史保留。[规则](docs/adaptive-reviews.md)。
 - 底栏比赛日历弹窗汇总四站基础赛程，使用北京时间、后台更新和离线缓存；雷达按知识点建立索引，切换不再重复扫描全库。
@@ -78,4 +78,4 @@ npm ci
 npm run dev
 ```
 
-[账号与同步](docs/accounts.md) · [架构](docs/architecture.md) · [构建和发布检查](docs/development.md) · [1.3.3 发布记录](docs/releases/1.3.3.md) · [历史发布](https://github.com/3097729287/acm-algo-trainer/releases)
+[账号与同步](docs/accounts.md) · [架构](docs/architecture.md) · [构建和发布检查](docs/development.md) · [1.3.4 发布记录](docs/releases/1.3.4.md) · [历史发布](https://github.com/3097729287/acm-algo-trainer/releases)

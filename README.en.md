@@ -3,10 +3,10 @@
 TB combines a problem library, illustrated editorials, a C++ / Python editor, local judging and training records for Codeforces, AtCoder, Nowcoder and Luogu. SQLite preserves local work; the account service synchronizes learning data between computers.
 
 <!-- release-status:start -->
-**Source 1.3.4 is not released yet; the stable download remains [1.3.3](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.3).** [1.3.4 changes and validation](docs/releases/1.3.4.md).
+**Latest stable: [TB 1.3.4](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.4).** [Changes and validation](docs/releases/1.3.4.md).
 <!-- release-status:end -->
 
-The development source also includes an **unreleased Algorithm Lab**: a first knapsack DP course with hands-on packing, state derivation, a reversible execution visualizer, C++17 template construction, debugging, and transfer checks. Published downloads remain at 1.3.3. See the [course design and authoring guide](docs/algorithm-lab-design.md) (Chinese).
+The development source also includes an **unreleased Algorithm Lab**: a first knapsack DP course with hands-on packing, state derivation, a reversible execution visualizer, C++17 template construction, debugging, and transfer checks. Stable 1.3.4 retains the existing learning paths. See the [course design and authoring guide](docs/algorithm-lab-design.md) (Chinese).
 
 [Website](https://3097729287.github.io/acm-algo-trainer/) · [Usage](docs/usage.md) · [Development](docs/development.md) · [中文](README.md)
 
@@ -14,11 +14,11 @@ The development source also includes an **unreleased Algorithm Lab**: a first kn
 
 ## Install and upgrade
 
-Windows 10/11 x64. The [user installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.3/TB-Setup-1.3.3-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.3/TB-1.3.3-win64.zip) before running it. Administrators use the [separate installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.3/TB-Admin-Setup-1.3.3-win64.exe), with login name `admin` and server authorization for public management. Release assets include checksums and incremental updates from 1.3.1 / 1.3.2.
+Windows 10/11 x64. The [user installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.4/TB-Setup-1.3.4-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.4/TB-1.3.4-win64.zip) before running it. Administrators use the [separate installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.4/TB-Admin-Setup-1.3.4-win64.exe), with login name `admin` and server authorization for public management. Release assets include checksums and incremental updates from 1.3.3.
 
 Save drafts and exit TB before installing into the existing directory. Personal databases, source code and imported content are preserved. The updater saves work, takes online SQLite backups and verifies SHA-256 before replacement. Keep the same TB version on your computers. Original-site login uses TB's dedicated browser profile; no extension is required.
 
-## Source changes in 1.3.4 (not released yet)
+## Changes in 1.3.4
 
 - Adaptive reviews start the day after an official AC with an isolated blank draft, then adjust intervals to difficulty, independent success and failures. Easy tasks can leave long-term review; heavy review days reduce new work. Original code and history remain intact. [Rules](docs/adaptive-reviews.md).
 - A footer calendar dialog shows upcoming basic contests from four official platforms in Beijing time, with background refresh and cached offline access. Indexed radar summaries avoid repeated full-library scans.
