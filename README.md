@@ -6,7 +6,9 @@ TB 将题库、图文题解、C++ / Python 编辑、本地评测和训练记录�
 **最新正式版：[TB 1.3.5](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.5)。** [变化与验证](docs/releases/1.3.5.md)。
 <!-- release-status:end -->
 
-**主程序 1.3.6 已完成本机交付与验证，尚未公开发布。** 正常桌面程序包含背包 DP 七节交互课、五道跟做题、顶栏 AC 字号与基线修复、独立的快捷键重置位置；同步 1.3.5 已完成的软件修复。本次兼容洛谷新版语言下拉菜单、编辑器延迟加载与 CodeMirror 填码，保留原站提交按钮。个人数据与原启动入口保留。构建分支为 `release/1.3.6-lab`，准确来源见程序 `BUILD-INFO.json` 的 `sourceCommit`；全库逐篇题解复核继续独立进行。[本机交付与验证](docs/releases/1.3.6.md)。
+**1.4.0 为本轮首个正式交付目标，正在完成发布验证，尚未正式发布。** 上方与下方下载入口暂保持已发布的 1.3.5；本机当前程序仍为 1.3.6。新版本加宽算法实验室、使用右侧导航与文件夹筛选，登录原站后自动继续未发送的提交，并优化账号恢复和重复内容读取。[本版说明](docs/releases/1.4.0.md)。
+
+全库逐篇题解精修与阅读复核继续独立进行，不将本次软件发行视为全库复核完成。[算法实验室创作规范](docs/algorithm-lab-authoring.md)。
 
 [项目主页](https://3097729287.github.io/acm-algo-trainer/) · [使用说明](docs/usage.md) · [开发与构建](docs/development.md) · [English](README.en.md)
 

@@ -3,10 +3,10 @@ import AchievementIcon from '@/components/AchievementIcon.jsx';
 import SortDirection from '@/components/SortDirection.jsx';
 import KnowledgeRadar from '@/components/KnowledgeRadar.jsx';
 import FilterMenu from '@/components/FilterMenu.jsx';
-import { CONTEST_SHELVES } from '@/components/ContestTabs.jsx';
-import { CONTEST_KINDS, contestKind } from '@/lib/contestShelves.js';
+import FolderSelect from '@/components/FolderSelect.jsx';
+import { contestFilterOptions } from '@/lib/contestCatalog.js';
 import { ArrowDown, ArrowUp, FolderTree } from 'lucide-react';
-import CatalogExplorer, { CatalogPath } from '../components/CatalogExplorer.jsx';
+import CatalogExplorer, { CatalogPath, catalogMatches } from '../components/CatalogExplorer.jsx';
 import Tooltip from '@/components/Tooltip.jsx';
 import ProfileBadge from '@/components/ProfileBadge.jsx';
 import { Info, Code2, Flame } from 'lucide-react';
@@ -20,7 +20,7 @@ import { compareContestNewest, contestTime, difficultyBand, difficultyLabel, dif
 import './ProgressPanels.css';
 import GoalsPanel from './GoalsPanel.jsx';
 import TierIcon from '@/components/TierIcon.jsx';
-import ContestTabs, { isXcpc, matchesShelf } from '@/components/ContestTabs.jsx';
+import { isXcpc } from '@/components/ContestTabs.jsx';
 import { knowledgeLabels } from '@/lib/knowledgeLabels.js';
 import { ProfileSettings } from './CommunityPanel.jsx';
 import { MiniLeaderboard } from '../components/WorkspaceDecorations.jsx';
@@ -203,8 +203,9 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
   const groups = useMemo(() => contestGroups(list(rows).filter(row => !row.catalogHidden)), [rows]);
   const [query, setQuery] = useState(''), [filter, setFilter] = useState('all');
   const deferredQuery = useDeferredValue(query);
-  const [shelf, setShelf] = useState('all'), [examYear, setExamYear] = useState(''), [examStage, setExamStage] = useState('');
-  const [folder,setFolder]=useState(null), [kind,setKind]=useState(''), [descending,setDescending]=useState(true);
+  const [catalogPath, setCatalogPath] = useState([]), [examYear, setExamYear] = useState('');
+  const [folder,setFolder]=useState(null), [descending,setDescending]=useState(true);
+  const classificationOptions = useMemo(() => contestFilterOptions(rows || []), [rows]);
   const [sort, setSort] = useState('newest');
   const [page, setPage] = useState(1);
   const [selected, setSelected] = useState(null), [joining, setJoining] = useState(false), [joinError, setJoinError] = useState(''), [starting, setStarting] = useState(null);
@@ -218,13 +219,13 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
   const acceptedCount = group => counts.get(group.key)?.accepted || 0;
   const filtered = useMemo(() => {
     const search = deferredQuery.trim().toLowerCase();
-    return groups.filter(group => matchesShelf(group, shelf)
-      && (!kind || contestKind(group)===kind) && (!examYear || String(group.examYear) === examYear) && (!examStage || group.examStage === examStage)
+    return groups.filter(group => (!catalogPath.length || group.rows.some(row => catalogMatches(row, {path:catalogPath})))
+      && (!examYear || String(group.examYear) === examYear)
       && (!search || `${group.name} ${group.platform} ${group.rows.map(row => `${row.title} ${row.problem} ${lockedIds.has(row.id) ? '' : list(row.tags).join(' ')}`).join(' ')}`.toLowerCase().includes(search))
       && (filter === 'all' || filter === 'joined' ? filter === 'all' || counts.get(group.key).active > 0 : filter === 'available' ? counts.get(group.key).active === 0 : counts.get(group.key).accepted < group.rows.length))
       .sort((a,b) => (sort === 'name' ? a.name.localeCompare(b.name, 'zh-CN', {numeric:true}) : -compareContestNewest(a,b)) * (descending ? -1 : 1));
-  }, [groups, shelf, examYear, examStage, deferredQuery, lockedIds, filter, counts, sort, kind, descending]);
-  useEffect(() => { setPage(1); }, [deferredQuery, shelf, examYear, examStage, filter, sort, kind, descending]);
+  }, [groups, catalogPath, examYear, deferredQuery, lockedIds, filter, counts, sort, descending]);
+  useEffect(() => { setPage(1); }, [deferredQuery, catalogPath, examYear, filter, sort, descending]);
   const pageSize = 40, pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
   const currentPage = Math.min(page, pageCount), first = (currentPage - 1) * pageSize;
   const visibleGroups = filtered.slice(first, first + pageSize);
@@ -253,11 +254,11 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
     </div>;
   }
   const renderCard = group => <article className="competition-card" key={group.key}><button type="button" className="competition-card-open" onClick={() => setSelected(group.key)} aria-label={`查看 ${group.platform} ${group.name}，${group.rows.length} 道题`}><span className="competition-card-title"><strong>{group.name}</strong></span><span className="competition-problem-tokens">{group.rows.map(row => <span className={`competition-problem-token${progress.get(row.id)?.accepted ? ' competition-token-accepted' : ''}`} key={row.id}><b>{row.problem}{typeof row.difficulty==='number' && !lockedIds.has(row.id) ? ':' : ''}</b>{typeof row.difficulty==='number' && !lockedIds.has(row.id) && <Difficulty row={row}/>}</span>)}</span><ChevronRight size={16}/></button>{startButton(group)}</article>;
-  const reset = () => {setShelf('all');setKind('');setExamYear('');setExamStage('');setFilter('all');};
+  const reset = () => {setCatalogPath([]);setExamYear('');setFilter('all');};
   return <div className="competition-page" aria-label="比赛列表">
     <PageSearch><label className="search-box"><Search size={17}/><input value={query} onChange={event=>setQuery(event.target.value)} aria-label="搜索比赛"/></label>
-    <SortDirection label="切换比赛排序方向" descending={descending} normalDescending={sort==='newest'} onChange={setDescending}/><FilterMenu label="筛选比赛" active={shelf!=='all'||!!kind||!!examYear||filter!=='all'} onReset={reset}>
-      <details className="filter-submenu" open><summary>比赛分类</summary><div className="filter-choice-grid">{CONTEST_SHELVES.map(([id,label])=><button type="button" key={id} aria-pressed={shelf===id} onClick={()=>{setShelf(id);setFolder(null);setExamYear('');setExamStage('');}}>{label}</button>)}</div><div className="filter-choice-grid">{CONTEST_KINDS.map(([id,label])=><button type="button" key={id} aria-pressed={kind===id} onClick={()=>{setKind(kind===id?'':id);setFolder(null);}}>{label}</button>)}</div></details>
+    <SortDirection label="切换比赛排序方向" descending={descending} normalDescending={sort==='newest'} onChange={setDescending}/><FilterMenu label="筛选比赛" active={!!catalogPath.length||!!examYear||filter!=='all'} onReset={reset}>
+      <label className="filter-field"><span>比赛分类</span><FolderSelect label="筛选比赛分类" placeholder="全部比赛" options={classificationOptions} value={catalogPath.length?JSON.stringify(catalogPath):''} onChange={event=>{setCatalogPath(event.target.value?JSON.parse(event.target.value):[]);setFolder(null);setExamYear('');}}/></label>
       <label className="filter-field"><span>年份</span><ThemedSelect aria-label="比赛年份" value={examYear} onChange={event=>setExamYear(event.target.value)}><option value="">全部年份</option>{[...new Set(groups.map(group=>group.examYear).filter(Boolean))].sort((a,b)=>b-a).map(year=><option key={year}>{year}</option>)}</ThemedSelect></label>
       <label className="filter-field"><span>训练情况</span><ThemedSelect value={filter} onChange={event=>setFilter(event.target.value)} aria-label="比赛训练情况"><option value="all">全部比赛</option><option value="joined">已加入训练</option><option value="available">尚未加入</option><option value="unfinished">尚未全部通过</option></ThemedSelect></label>
       <label className="filter-field"><span>排序</span><ThemedSelect aria-label="比赛排序" value={sort} onChange={event=>setSort(event.target.value)}><option value="newest">比赛时间</option><option value="name">名称</option></ThemedSelect></label>

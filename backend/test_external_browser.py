@@ -28,6 +28,26 @@ class VisibleTransportTests(unittest.TestCase):
         self.assertFalse(self.bridge.sessions['fixture']['attempted'])
         self.assertFalse(self.bridge.sessions['fixture']['intent'])
 
+    def test_unsent_intent_survives_login_and_verification(self):
+        session = self.bridge.sessions['fixture']
+        session.update(status='loading', attempted=False, intent=True)
+        for status in ('needs_login', 'needs_verification', 'ready'):
+            self.bridge._update('fixture', {'status':status, 'attempted':False}, inspection=True)
+            self.assertTrue(session['intent'])
+        self.assertTrue(session['awaitingLogin'])
+
+    def test_sent_or_rejected_intent_cannot_resume_on_later_login(self):
+        session = self.bridge.sessions['fixture']
+        session.update(status='loading', attempted=False, intent=False, dispatched=True)
+        for status in ('needs_verification', 'needs_login', 'ready'):
+            self.bridge._update('fixture', {'status':status, 'attempted':False}, inspection=True)
+            self.assertFalse(session['intent'])
+
+    def test_internal_login_controls_are_not_exposed(self):
+        self.bridge.sessions['fixture'].update(awaitingLogin=True, dispatched=True)
+        self.assertNotIn('awaitingLogin', self.bridge.status('fixture'))
+        self.assertNotIn('dispatched', self.bridge.status('fixture'))
+
     def test_final_receipt_is_saved_once_despite_a_late_inspection(self):
         receipts=[]
         self.bridge.on_receipt=lambda identity,value:receipts.append(value) or True

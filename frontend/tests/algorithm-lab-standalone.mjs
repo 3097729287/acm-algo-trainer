@@ -11,7 +11,7 @@ import { GUIDED_PROBLEMS } from '../src/pages/algorithm-lab/guidedProblems.js';
 process.env.TB_OFFLINE = '1';
 const repo = fileURLToPath(new URL('../../', import.meta.url));
 const output = path.join(repo, '.backups/algorithm-lab-standalone-20261022/ui');
-const installed = path.resolve(repo, '../../版本/算法实验室体验版');
+const installed = path.resolve(process.env.TB_LAB_INSTALLED || path.resolve(repo, '../../版本/算法实验室体验版'));
 const archive = path.resolve(installed, '../背包DP-独立体验版.zip');
 const fresh = path.join(output, 'fresh-install');
 await mkdir(fresh, { recursive: true });
@@ -71,7 +71,8 @@ try {
   await page.getByRole('heading', { name: /把大问题拆小/ }).waitFor();
   await page.evaluate(() => scrollTo(0, document.body.scrollHeight));
   const nextPage = await page.getByRole('button', { name: '下一页', exact: true }).boundingBox();
-  assert.ok(nextPage.y >= 0 && nextPage.y < 100, 'page navigation remains at the top when reading the bottom');
+  const lessonBox = await page.locator('.lab-lesson').boundingBox();
+  assert.ok(nextPage.y >= 0 && nextPage.y < 1000 && nextPage.x >= lessonBox.x + lessonBox.width, 'page navigation remains visible beside the lesson when reading the bottom');
   await page.getByRole('button', { name: '上一页', exact: true }).click();
   assert.equal(await page.locator('progress,.lab-sidebar,.lab-check-label').count(), 0);
   assert.ok(!/从一次选择|课堂检验|本节|任务 001|装备 A/.test(await page.locator('body').innerText()));
@@ -344,6 +345,7 @@ try {
   assert.match(await limited.locator('.lab-bag-top').innerText(), /4 \/ 5 格/);
   await blockedStorage.close();
 
+  await chapter('独立练习');
   await page.getByRole('button', { name: '进入跟着做题', exact: true }).click();
   for (let index = 0; index < GUIDED_PROBLEMS.length; index++) {
     const p = GUIDED_PROBLEMS[index];

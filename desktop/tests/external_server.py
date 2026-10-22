@@ -17,6 +17,10 @@ prepared = queue.Queue()
 
 
 class FixtureBrowser(BrowserProcess):
+    def __init__(self, profile):
+        super().__init__(profile)
+        self.profile = self.root  # The intercepted Playwright browser owns this explicit fixture profile.
+
     def new_page(self, *args, **kwargs):
         # Playwright creates and fully guards the blank tab first. Only then
         # may the real Python CDP transport navigate it to a fixture hostname.

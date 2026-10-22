@@ -66,11 +66,12 @@ export function TransferWorkshop(props) {
 }
 
 export function PracticeWorkshop(props) {
-  const { rows = [], onTrain, passed } = props;
+  const { rows = [], onTrain, onGuided, passed } = props;
   const capstone = rows.find(row => !row.catalogHidden && (row.id === '入门赛 50::F' || row.url?.replace(/\/$/, '') === 'https://www.luogu.com.cn/problem/P17162'));
   return <><div className="lab-story"><h2>换三道题，自己试一次。</h2><p>先独立作答，需要时再打开提示。随后可以用前面的 C++ 模板，在自己的编译器中实现。</p></div>
     {MISSIONS.map(mission => <div className="lab-mission" key={mission.id}><NumberCheck {...mission} prompt={mission.text} explanation={mission.takeaway} {...props}/></div>)}
     <details className="lab-formula-details lab-capstone"><summary>拓展题：神奇的背包 · 洛谷入门赛 50 F</summary><div className="lab-formula-content"><p>有的物品只有一件，有的有无限件；无限物品只能选其中一种。先完成上面的练习，再试这个额外限制。</p><Hints id="capstone" items={['先只处理每种只有一件的物品，算出每个容量上限下的最大价值。', '每次只考虑一种无限物品，避免混用多种。', '枚举无限种类 (w,v)，再枚举给单件物品的容量 c。比较 f[c]+((W-c)/w)*v（整数除法），并保留完全不用无限物品的 f[W]。']} {...props}/><div className="lab-capstone-actions">{capstone && onTrain ? <button type="button" className="lab-button" onClick={() => onTrain(capstone.id)}>开始练习<ArrowRight size={16}/></button> : <a className="lab-button" href="https://www.luogu.com.cn/problem/P17162" target="_blank" rel="noreferrer">打开原题<ArrowRight size={16}/></a>}</div></div></details>
     {MISSIONS.every(item => passed[item.id]) && <p className="lab-completed"><Check size={17}/>三道练习已完成。</p>}
+    {onGuided && <section className="lab-panel"><h3>接下来，把方法用到真实题目</h3><p>用五道题练习识别条件、推导状态和查错，再进入工作台独立实现。</p><button type="button" className="lab-button" onClick={onGuided}>进入跟着做题<ArrowRight size={16}/></button></section>}
   </>;
 }

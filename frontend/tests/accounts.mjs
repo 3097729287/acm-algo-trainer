@@ -105,7 +105,18 @@ try {
   const library = await get('data'), problemId = library.rows[0].id;
   await post('training/start', { id: problemId });
   await page.evaluate(id => localStorage.setItem(`tb.draft.v2.solo.${encodeURIComponent(id)}`, JSON.stringify({ code: 'old private browser draft', dirty: true, version: 1, owner: 'legacy', modifiedAt: Date.now() })), problemId);
+  let restoreReadyAt=0, restoreRecognitionMs=null;
+  const pendingRestore = async route => {
+    if(!restoreReadyAt)restoreReadyAt=Date.now()+650;
+    if(Date.now()<restoreReadyAt)return route.fulfill({json:{token:'restoring-fixture',authenticated:false,restoring:true}});
+    restoreRecognitionMs??=Date.now()-restoreReadyAt;
+    return route.continue();
+  };
+  await page.route(/\/api\/account(?:\?.*)?$/,pendingRestore);
   await page.reload();
+  await page.locator('.nav-item').first().waitFor();
+  await page.unroute(/\/api\/account(?:\?.*)?$/,pendingRestore);
+  assert(restoreRecognitionMs!==null&&restoreRecognitionMs<1200,'Completed restore is shown promptly: '+restoreRecognitionMs);
   await page.locator('tr[data-id] .problem-title').first().click();
   const editor = page.getByRole('textbox', { name: 'C++ 代码', exact: true });
   await editor.waitFor();
@@ -155,7 +166,7 @@ try {
   await page.screenshot({ path: path.join(state, 'login-mobile.png'), fullPage: true });
   assert.deepEqual(errors, []);
   console.log(JSON.stringify({ ok: true, frozen: Boolean(probe.frozen), wholeAppLogin: true, registration: true,
-    onboarding: true, passwordChange: true, accountIsolation: true, legacyBrowserDrafts: true, mobile: true, state }));
+    onboarding: true, passwordChange: true, accountIsolation: true, legacyBrowserDrafts: true, restoreRecognitionMs, mobile: true, state }));
 } finally {
   await browser?.close();
   if (processHandle && processHandle.exitCode == null) {

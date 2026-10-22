@@ -11,6 +11,7 @@ import json
 import logging
 import os
 from pathlib import Path
+import socket
 import subprocess
 import threading
 import time
@@ -37,7 +38,10 @@ class BrowserProcess:
         self.preferred = load_document(self.preference, 'edge')
         if self.preferred not in ('edge', 'chrome'):
             self.preferred = 'edge'
-        self.profile = self.root if self.preferred == 'edge' else self.root / 'chrome'
+        # Retain legacy profile files. A new interactive profile avoids
+        # reattaching to a still-open browser launched with the old port-zero
+        # flags; existing encrypted first-party login memory is restored below.
+        self.profile = self.root / ('interactive-' + self.preferred)
         self.lock = threading.Lock()
         self.process = None
         self.port = None
@@ -87,7 +91,7 @@ class BrowserProcess:
             browser = browser or self.preferred
             if browser != self.preferred:
                 self.preferred, self.port = browser, None
-                self.profile = self.root if browser == 'edge' else self.root / 'chrome'
+                self.profile = self.root / ('interactive-' + browser)
             if self.port:
                 try:
                     version = self._active(self.profile / 'DevToolsActivePort')
@@ -100,7 +104,7 @@ class BrowserProcess:
                 available = [(name, path) for name, path in browsers().items() if path]
                 if available:
                     self.preferred, executable = available[0]
-                    self.profile = self.root if self.preferred == 'edge' else self.root / 'chrome'
+                    self.profile = self.root / ('interactive-' + self.preferred)
             if not executable:
                 raise ServiceError(503, '未找到 Microsoft Edge 或 Google Chrome，请安装后重试')
             self.profile.mkdir(parents=True, exist_ok=True)
@@ -116,23 +120,40 @@ class BrowserProcess:
                 except (OSError, ValueError, IndexError):
                     self.port = None
                     active.unlink(missing_ok=True)
+            # Port zero enables Chromium's automation mode. Use an ordinary
+            # visible browser with a loopback port and verify its process
+            # before saving the endpoint for later profile-owned reattachment.
+            with socket.socket() as reservation:
+                reservation.bind(('127.0.0.1', 0))
+                self.port = reservation.getsockname()[1]
             startup = ['--no-startup-window'] if background else ['--new-window', 'about:blank']
             self.process = subprocess.Popen([str(executable), '--user-data-dir=' + str(self.profile),
-                '--remote-debugging-port=0', '--remote-debugging-address=127.0.0.1',
+                '--remote-debugging-port=' + str(self.port), '--remote-debugging-address=127.0.0.1',
                 '--no-first-run', '--no-default-browser-check', '--disable-background-mode', *startup],
                 creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0),
                 stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             deadline = time.monotonic() + 12
             while time.monotonic() < deadline:
-                if active.is_file():
+                try:
+                    version = self.request('/json/version')
+                    endpoint = urlsplit(version['webSocketDebuggerUrl'])
+                    if endpoint.hostname not in ('127.0.0.1', 'localhost') or endpoint.port != self.port:
+                        raise ValueError('Browser endpoint is not owned by this launch')
+                    inspector = DevToolsPage(version['webSocketDebuggerUrl'], lambda *_:None)
                     try:
-                        version = self._active(active)
+                        owned = any(item.get('type') == 'browser' and item.get('id') == self.process.pid
+                                    for item in inspector.call('SystemInfo.getProcessInfo')['processInfo'])
+                    finally:
+                        inspector.close()
+                    if owned:
+                        active.write_text(str(self.port) + '\n' + endpoint.path, encoding='utf-8')
                         self._memory(version, restore=True)
-                        self.bootstrap_targets={item['id'] for item in self.request('/json/list') if item.get('type')=='page' and item.get('url')=='about:blank'}
+                        self.bootstrap_targets = {item['id'] for item in self.request('/json/list') if item.get('type') == 'page' and item.get('url') == 'about:blank'}
                         return
-                    except (OSError, ValueError, IndexError):
-                        self.port = None
+                except (OSError, ValueError, IndexError):
+                    pass
                 time.sleep(.1)
+            self.port = None
             raise ServiceError(503, '浏览器尚未启动，请检查弹出的浏览器窗口后重试')
 
     def close_page(self, identity):
@@ -227,8 +248,9 @@ class ExternalBrowserBridge:
             # Never replay an attempt merely because a request/focus repeats.
             for session in self.sessions.values():
                 if session['originalUrl'] == url and session['code'] == code and session.get('language','cpp17') == language and session['status'] not in self.terminal:
-                    if intent and not session.get('attempted'):
+                    if intent and not session.get('attempted') and not session.get('dispatching'):
                         session['intent'] = True
+                        session['dispatched'] = False
                         session['autoClose'] = True
                     session['focus'] = True
                     return self.status(session['sessionId'])
@@ -256,7 +278,7 @@ class ExternalBrowserBridge:
             if not session:
                 raise ServiceError(404, '没有找到本次浏览器提交')
             return {key: value for key, value in session.items() if key not in
-                    {'code', 'title', 'intent', 'created', 'focus', 'originalUrl', 'target', 'dispatching'}}
+                    {'code', 'title', 'intent', 'created', 'focus', 'originalUrl', 'target', 'dispatching', 'dispatched', 'awaitingLogin'}}
 
     def _update(self, identity, value, inspection=False):
         if not isinstance(value, dict):
@@ -285,8 +307,11 @@ class ExternalBrowserBridge:
             session['updatedAt'] = dt.datetime.now(dt.timezone.utc).isoformat()
             if session.get('attempted'):
                 session.setdefault('acceptedAt', session['updatedAt'])
-            if status in ('needs_login', 'needs_verification', 'error'):
+            if status == 'needs_login' and session.get('intent') and not session.get('dispatched'):
+                session['awaitingLogin'] = True
+            if status == 'error' or status in ('needs_login', 'needs_verification') and (session.get('attempted') or session.get('dispatched')):
                 session['intent'] = False
+            if status in ('needs_login', 'needs_verification', 'error'):
                 session['dispatching'] = False
             snapshot = dict(session)
         if snapshot.get('submissionId') and self.on_pending:
@@ -322,6 +347,7 @@ class ExternalBrowserBridge:
         context = {key: session.get(key) for key in ('sessionId', 'platform', 'problem', 'code', 'language',
                    'originalUrl', 'attempted', 'baseline', 'baselineKnown', 'baselineOwner', 'submissionId')}
         context['nativeFormOnly'] = True
+        context['resumeAfterLogin'] = bool(session.get('intent') and not session.get('dispatched'))
         callback = """value => new Promise(resolve => {
           const n = (window.__tbAckSeq = (window.__tbAckSeq || 0) + 1);
           (window.__tbAcks ||= {})[n] = () => { delete window.__tbAcks[n]; resolve(); };
@@ -370,10 +396,16 @@ class ExternalBrowserBridge:
                     self._update(identity, state, inspection=True)
                     with self.lock:
                         live = self.sessions[identity]
-                        dispatch = live.get('intent') and live['status'] == 'ready' and not live.get('attempted') and not live.get('dispatching')
+                        resume = live.get('awaitingLogin') and live.get('intent') and not live.get('dispatched') and isinstance(state, dict) and state.get('loggedIn')
+                        if resume:
+                            live.update(awaitingLogin=False, status='loading', message='登录成功，正在返回本题并填入代码…')
+                        dispatch = live.get('intent') and live['status'] == 'ready' and not live.get('attempted') and not live.get('dispatching') and not live.get('dispatched')
                         if dispatch:
-                            live.update(dispatching=True, intent=False)
+                            live.update(dispatching=True, dispatched=True, intent=False)
                             session = dict(live)
+                    if resume:
+                        page.call('Page.navigate', {'url': session['url']})
+                        continue
                     if dispatch:
                         if self.guard:
                             self.guard(session['originalUrl'])

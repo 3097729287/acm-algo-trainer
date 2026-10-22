@@ -1,10 +1,12 @@
 """Current HTTP boundaries and explicit SQL imports; no personal/live state touched."""
 import http.client
+import gzip
 import json
 from pathlib import Path
 import tempfile
 import threading
 import unittest
+from unittest.mock import patch
 from urllib.parse import quote
 
 import backend
@@ -48,6 +50,21 @@ class BackendTests(unittest.TestCase):
         self.assertEqual(data['rows'][0]['id'], 'fixture::A')
         self.assertEqual(self.request('/api/solution?id=' + quote('fixture::A'))[1]['markdown'], record()[2]['markdown'])
         self.assertEqual(self.request('/')[0], 404)
+
+    def test_large_json_gzip_is_negotiated_without_changing_the_payload(self):
+        payload = json.dumps({'rows':[{'title':'公开教学内容' * 2000}], 'token':'fixture'}).encode()
+        for encoding, compressed in [('gzip, deflate',True), ('gzip;q=0',False), ('gzip;q=invalid',False), ('identity',False)]:
+            with patch.object(self.server.store, 'data_response_bytes', return_value=payload):
+                connection = http.client.HTTPConnection('127.0.0.1', self.server.server_port, timeout=5)
+                connection.request('GET','/api/data',headers={'Accept-Encoding':encoding})
+                response = connection.getresponse()
+                raw = response.read()
+                self.assertEqual(response.status,200)
+                self.assertEqual(response.getheader('Content-Encoding') == 'gzip',compressed)
+                self.assertEqual(int(response.getheader('Content-Length')),len(raw))
+                self.assertEqual(gzip.decompress(raw) if compressed else raw,payload)
+                self.assertEqual(response.getheader('Cache-Control'),'no-store')
+                connection.close()
 
     def test_runtime_editorial_import_entry_is_removed(self):
         self.assertEqual(self.request('/api/inbox')[0], 404)

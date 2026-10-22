@@ -480,8 +480,7 @@ class TrainingService:
         return result
 
     def insights(self, hub=None):
-        from insights import build_insights
-        with self.lock, self._library_view():
+        with self.lock:
             # UI polls and the leaderboard share this read. Writes, library
             # changes, account switches and the Beijing date invalidate it.
             from copy import deepcopy
@@ -491,6 +490,12 @@ class TrainingService:
                 result = deepcopy(cache[2])
                 result['growth']['newAchievementXp'] = 0
                 return result
+            return self._compute_insights(hub)
+
+    def _compute_insights(self, hub=None):
+        from copy import deepcopy
+        from insights import build_insights
+        with self.lock, self._library_view():
             workspace = self.workspace()
             records = [dict(record) for record in self.connection.execute("SELECT * FROM submissions WHERE mode='submit' AND finished_at IS NOT NULL ORDER BY submitted_at,rowid")]
             history = [dict(record) for record in self.connection.execute("SELECT * FROM training")]
@@ -570,6 +575,8 @@ class TrainingService:
         if not callable(getattr(library, 'content_signature', None)):
             return None
         content = self.store._content_signature() if callable(getattr(self.store, '_content_signature', None)) else library.content_signature()
+        if content is None:
+            return None
         analysis = self.store._analysis_signature() if callable(getattr(self.store, '_analysis_signature', None)) else {}
         expired = self.connection.execute("SELECT 1 FROM contests WHERE status='running' AND deadline<=? LIMIT 1", (iso(self._now()),)).fetchone() is not None
         return id(self.connection), self._public_progress_signature(hub or {}), content, tuple(sorted(analysis.items())), expired
@@ -1752,6 +1759,27 @@ class TrainingService:
             return {'cancelled': True, 'workspace': self.workspace()}
 
     def workspace(self):
+        from copy import deepcopy
+        with self.lock:
+            signature = self._insights_signature(None)
+            cached = getattr(self, '_workspace_cache', None)
+            if signature is not None and cached and time.monotonic() - cached[0] < 3 and cached[1] == signature:
+                result = deepcopy(cached[2])
+                now = self._now()
+                result['now'] = iso(now)
+                for contest in result['contests']:
+                    if contest['status'] == 'running':
+                        contest['elapsedSeconds'] = max(0, int((min(now, parse_time(contest['deadline'])) - parse_time(contest['startedAt'])).total_seconds()))
+                if result['activeContest']:
+                    result['activeContest'] = next(item for item in result['contests'] if item['id'] == result['activeContest']['id'])
+                return result
+            result = self._build_workspace()
+            signature = self._insights_signature(None)
+            if signature is not None:
+                self._workspace_cache = (time.monotonic(), signature, deepcopy(result))
+            return result
+
+    def _build_workspace(self):
         with self.lock, self._library_view():
             self._expire()
             review_plan = self.review_plan()

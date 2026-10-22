@@ -16,6 +16,7 @@ let browser,server;
 const counts={cf:0,ac:0,nc:0,lg:0}, reads={cf:0,ac:0};
 const cfHeader='<header id="header"><a href="/profile/fixture">fixture</a></header>';
 const acHeader='<nav class="navbar"><a href="/users/fixture">fixture</a></nav>';
+let acAuthenticated=false;
 const row=(key,id,verdict)=>`<table class="status-frame-datatable"><tr><th>Submission</th><th>Status</th></tr><tr><td><a href="${key==='cf'?'/contest/123/submission/':'/contests/abc100/submissions/'}${id}">${id}</a><a href="${key==='cf'?'/contest/123/problem/A':'/contests/abc100/tasks/abc100_a'}">A</a><a href="${key==='cf'?'/profile/fixture':'/users/fixture'}">fixture</a><span class="${key==='cf'?'submissionVerdictWrapper':'label'}">${verdict}</span></td></tr></table>`;
 async function until(read,accept,timeout=30000){const deadline=Date.now()+timeout;let last;while(Date.now()<deadline){last=await read();if(accept(last))return last;await new Promise(r=>setTimeout(r,150));}throw new Error('Condition timed out: '+JSON.stringify(last));}
 try{
@@ -24,6 +25,8 @@ try{
   const request=route.request(),url=new URL(request.url());
   const key=url.hostname==='codeforces.com'?'cf':url.hostname==='atcoder.jp'?'ac':url.hostname==='ac.nowcoder.com'?'nc':url.hostname==='www.luogu.com.cn'?'lg':null;
   if(!key)return route.fulfill({status:503,body:'Fixture denies external network'});
+  if(key==='ac'&&!acAuthenticated)return route.fulfill({contentType:'text/html',body:'<h1>Sign In</h1><form><input name="username"><input type="password" name="password"></form><button onclick="location.href=\'/\'">Fixture login complete</button>'});
+  if(key==='ac'&&url.pathname==='/')return route.fulfill({contentType:'text/html',body:acHeader+'<h1>Home after login</h1>'});
   if(request.method()==='POST'){
    counts[key]++;
    const body=request.postData();assert.ok(body.includes('int+main')||body.includes('int main')||body.includes('int%20main'));
@@ -53,6 +56,14 @@ try{
   await fetch(base+'/prepare?'+new URLSearchParams({id:targetInfo.targetId}));
   const value=await(await fetch(base+'/create?'+new URLSearchParams({url}))).json();assert.equal(value.transport,'external');
   const repeated=await(await fetch(base+'/create?'+new URLSearchParams({url}))).json();assert.equal(repeated.sessionId,value.sessionId,'An in-flight request reuses the same intent');
+  if(key==='ac'){
+   await until(async()=>(await(await fetch(base+'/status')).json()).find(item=>item.sessionId===value.sessionId),item=>item?.status==='needs_login');
+   assert.equal(counts.ac,0,'Login must not send source code');
+   acAuthenticated=true;
+   await tab.getByRole('button',{name:'Fixture login complete'}).click().catch(async error=>{
+    console.error('Login fixture:',tab.url(),await tab.locator('body').innerText(),await(await fetch(base+'/status')).json(),stderr);throw error;
+   });
+  }
   const saved=await until(async()=>({saved:await(await fetch(base+'/saved')).json(),status:await(await fetch(base+'/status')).json(),diagnostic:stderr,counts}),v=>v.saved.some(item=>item.sessionId===value.sessionId));
   assert.equal(saved.saved.find(item=>item.sessionId===value.sessionId).verdict,'AC');assert.equal(counts[key],1,'one native click per TB intent');
   assert.equal(tab.isClosed(),false,'result window stays open before display acknowledgment');
@@ -62,5 +73,5 @@ try{
 
  }
  assert.equal(browser.serviceWorkers().length,0,'No browser extension is installed');
- console.log(JSON.stringify({ok:true,nativeFormPosts:counts,receiptSavedForAllFour:true,browserExtension:false,realAccountSubmission:false}));
+ console.log(JSON.stringify({ok:true,nativeFormPosts:counts,receiptSavedForAllFour:true,loginHomeRedirectResumesSameIntent:true,browserExtension:false,realAccountSubmission:false}));
 }finally{server?.kill();await browser?.close();assert.ok(path.basename(profile).startsWith('tb-external-fixture-'));await rm(profile,{recursive:true,force:true});}

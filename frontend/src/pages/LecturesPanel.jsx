@@ -2,9 +2,10 @@ import PageSearch from '@/components/PageSearch.jsx';
 import FilterMenu from '@/components/FilterMenu.jsx';
 import { estimatedDifficulty } from '@/components/KnowledgeRadar.jsx';
 import Tooltip from '@/components/Tooltip.jsx';
-import ThemedSelect from '@/components/ThemedSelect.jsx';
+import FolderSelect from '@/components/FolderSelect.jsx';
+import { lectureFolderOptions, lectureMatchesFolder } from '@/lib/lectureFolders.js';
 import SortDirection from '@/components/SortDirection.jsx';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import ReadingImage, { readingUrlTransform } from '@/components/ReadingImage.jsx';
 import InlineTitle from '@/components/InlineTitle.jsx';
@@ -65,11 +66,12 @@ export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError 
     return () => { seq.current++; };
   }, [selected, api]);
   const entries = Array.isArray(snapshot) ? snapshot : snapshot?.lectures || [];
-  const classifications = [...new Set(entries.map(item => item.category || item.categories?.[0]).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'zh-CN'));
-  const filtered = entries.filter(item => (!classification || item.category === classification || item.categories?.includes(classification)) && `${item.concept} ${item.displayTitle || ''} ${item.originalTitle || item.title} ${(item.tags || []).join(' ')} ${item.category || ''} ${item.sourceContest} ${item.sourceTitle}`.toLowerCase().includes(query.trim().toLowerCase()));
+  const classifications = useMemo(() => lectureFolderOptions(entries), [snapshot]);
+  const categoryPath = classification ? JSON.parse(classification) : [];
+  const filtered = entries.filter(item => lectureMatchesFolder(item, categoryPath) && `${item.concept} ${item.displayTitle || ''} ${item.originalTitle || item.title} ${(item.tags || []).join(' ')} ${item.category || ''} ${item.sourceContest} ${item.sourceTitle}`.toLowerCase().includes(query.trim().toLowerCase()));
   if(descending)filtered.reverse();
   return <div className="lectures-page" aria-label="从零讲知识总结">
-    <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索从零讲知识" value={query} onChange={event=>setQuery(event.target.value)}/></label><SortDirection label="切换讲解排序方向" descending={descending} onChange={setDescending}/><FilterMenu label="筛选讲解" active={!!classification}><label className="filter-field"><span>分类</span><ThemedSelect aria-label="从零讲知识分类" value={classification} onChange={event=>setClassification(event.target.value)}><option value="">全部知识分类</option>{classifications.map(item=><option key={item}>{item}</option>)}</ThemedSelect></label><button type="button" className="text-button" onClick={()=>setRefresh(value=>value+1)}>刷新讲解</button><span className="filter-result-count">{entries.length} 篇</span></FilterMenu></PageSearch>
+    <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索从零讲知识" value={query} onChange={event=>setQuery(event.target.value)}/></label><SortDirection label="切换讲解排序方向" descending={descending} onChange={setDescending}/><FilterMenu label="筛选讲解" active={!!classification} onReset={()=>setClassification('')}><label className="filter-field"><span>分类</span><FolderSelect label="从零讲知识分类" placeholder="全部知识分类" options={classifications} value={classification} onChange={event=>setClassification(event.target.value)}/></label><button type="button" className="text-button" onClick={()=>setRefresh(value=>value+1)}>刷新讲解</button><span className="filter-result-count">{filtered.length} 篇</span></FilterMenu></PageSearch>
     <div className={'lectures-layout' + (selected ? ' has-selection' : '')}>
       <nav className="lectures-list" aria-label="完整知识讲解">{filtered.map(item => <button key={item.id} className={selected === item.id ? 'selected' : ''} onClick={() => setSelected(item.id)}><strong><LessonTitle>{item.displayTitle || item.concept || item.title}</LessonTitle></strong>{item.category && <span className="lecture-category">{item.category}</span>}<span>{(item.tags || []).join(' / ')}</span><Tooltip text="知识点难度估计，非原题难度"><b className="lecture-difficulty">{estimatedDifficulty(`${item.concept || item.title} ${(item.tags || []).join(' ')}`)}</b></Tooltip></button>)}{snapshot && !filtered.length && <p>没有匹配的完整讲解。仅有指针的段落会链接已有讲解。</p>}</nav>
       <article className="lectures-detail" tabIndex={0} aria-label="知识讲解正文">

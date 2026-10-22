@@ -45,9 +45,14 @@ export default function AccountGate({ children }) {
     window.addEventListener('tb:account-change', changed);
     window.addEventListener('focus', refresh);
     document.addEventListener('visibilitychange', visible);
-    const interval = setInterval(() => { if (!document.hidden) refresh(); }, 3000);
-    return () => { mounted.current = false; clearInterval(interval); window.removeEventListener('tb:account-change', changed); window.removeEventListener('focus', refresh); document.removeEventListener('visibilitychange', visible); };
+    return () => { mounted.current = false; window.removeEventListener('tb:account-change', changed); window.removeEventListener('focus', refresh); document.removeEventListener('visibilitychange', visible); };
   }, [refresh]);
+  useEffect(() => {
+    // Saved-session validation runs in the backend. Show its completed result
+    // promptly; steady signed-in polling keeps the original lower frequency.
+    const interval = setInterval(() => { if (!document.hidden) refresh(); }, session?.restoring ? 250 : 3000);
+    return () => clearInterval(interval);
+  }, [refresh, session?.restoring]);
   async function submit(event) {
     event.preventDefault(); if (busy) return;
     setError(''); setMessage('');

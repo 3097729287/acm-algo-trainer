@@ -6,9 +6,9 @@ TB combines a problem library, illustrated editorials, a C++ / Python editor, lo
 **Latest stable: [TB 1.3.5](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.5).** [Changes and validation](docs/releases/1.3.5.md).
 <!-- release-status:end -->
 
-**TB 1.3.6 has been delivered and validated locally; it is not publicly released.** The normal desktop app includes seven knapsack lessons, five guided problems, aligned daily AC counts and separated shortcut controls. Completed 1.3.5 software fixes are retained. This update supports Luogu's current custom language dropdown, delayed editor mounting and CodeMirror model while preserving its native submit button. Personal data and existing launch shortcuts were preserved. Builds use `release/1.3.6-lab`; the exact source is recorded as `sourceCommit` in the app's `BUILD-INFO.json`. Ongoing editorial review remains separate. [Delivery and validation](docs/releases/1.3.6.md).
+**1.4.0 is being validated for this formal delivery and is not yet released.** Download links still point to published 1.3.5; the current local application is 1.3.6. This release widens Algorithm Lab, moves navigation to the right, adds folder filters, resumes unsent submissions after original-site login and reduces repeated content loading. [Release notes](docs/releases/1.4.0.md).
 
-Individual editorial refinement and reading review remain unfinished. The local 1.3.6 delivery includes the completed course and preserves that separate authoring work. [Authoring workflow](docs/algorithm-lab-authoring.md).
+Individual editorial refinement and reading review continue separately; this software release does not mark that review complete. [Authoring workflow](docs/algorithm-lab-authoring.md).
 
 [Website](https://3097729287.github.io/acm-algo-trainer/) · [Usage](docs/usage.md) · [Development](docs/development.md) · [中文](README.md)
 

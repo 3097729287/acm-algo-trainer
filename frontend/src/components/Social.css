@@ -41,3 +41,6 @@ html[data-motion=off] :is(.like-burst svg,.like-burst i,.like-count-roll) { anim
 html[data-motion=off] .like-burst-icon > i { display:none; }
 html[data-motion=off] .like-count-roll { transform:translateY(-50%); }
 @media(prefers-reduced-motion:reduce) { .like-burst[data-burst=true] svg,.like-burst i,.like-count-roll { animation:none!important; }.like-burst-icon > i{display:none}.like-count-roll{transform:translateY(-50%)} }
+.social-notifications-title { display:inline-flex; align-items:center; gap:10px; margin:0; line-height:1; }
+.social-notifications-title > .tooltip-anchor { display:inline-flex; align-items:center; }
+.social-notifications-title > span:not(.tooltip-anchor) { font-size:.85rem; font-weight:400; color:var(--muted); }

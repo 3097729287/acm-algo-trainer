@@ -84,7 +84,6 @@ import { organizeCategories } from "@/models/model.js";
 import NavigationSettings, { orderedPages } from "@/pages/NavigationSettings.jsx";
 import { AppearanceSettings, TopbarClock } from "@/components/WorkspaceDecorations.jsx";
 import GoalsPanel from '@/pages/GoalsPanel.jsx';
-import BrowserPreparation from '@/pages/BrowserPreparation.jsx';
 import { trainingDay, trainingDateLabel } from "@/lib/trainingDate.js";
 import {
   QUEUES,
@@ -2081,7 +2080,6 @@ export default function App() {
           </div>
         )}
         {!practiceId && mergedPages.length > 1 && <div className="merged-page-tabs" role="tablist" aria-label={`组合页面 ${currentPage?.group}`}>{mergedPages.map(item => <button key={item.id} role="tab" aria-selected={page === item.id} className={page === item.id ? "active" : ""} onClick={() => go(item.id)}><item.icon size={15} />{item.label}{item.id === "mine" && dueCount > 0 && <i className="training-tab-dot" role="img" aria-label="有未完成训练待办" />}</button>)}</div>}
-        <BrowserPreparation api={api} enabled={Boolean(data)} />
         <div data-page={practiceId ? "practice" : page} className={"workspace-area " + (practiceId ? "practicing" : "")} style={{ '--page-opacity': `var(--opacity-${practiceId ? 'mock' : page}, var(--panel-opacity))` }}>
           <Suspense fallback={<div className="loading-screen" role="status"><LoaderCircle size={27} className="spin" /><p>正在载入</p></div>}>
           {loading ? (

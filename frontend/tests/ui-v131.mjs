@@ -50,7 +50,7 @@ await page.route('**/api/**',async route=>{
   else if(path==='/api/contest')value={contest:mockRecords.find(item=>item.id===url.searchParams.get('id'))};
   else if(path==='/api/contests/delete'){mockRecords=body.all?[]:mockRecords.filter(item=>item.id!==body.id);value={workspace:workspace(),deleted:1};}
   else if(path==='/api/submissions')value={submissions:rows.slice(0,3).map((row,index)=>({id:`submission-${index}`,problemId:row.id,submittedAt:timestamp,mode:'submit',verdict:'AC',timeMs:index===2?15:null})),total:3,hasMore:false};
-  else if(path==='/api/lectures')value={lectures:[{id:'lesson',title:'二分查找',category:'基础技巧',tags:['二分']} ]};
+  else if(path==='/api/lectures')value={lectures:[{id:'lesson',title:'二分查找',category:'基础技巧',tags:['二分']},{id:'linear',title:'线性状态',category:'动态规划 / 线性 DP',tags:['线性 DP']},{id:'bag',title:'背包选择',category:'动态规划 / 背包 DP',tags:['背包 DP']} ]};
   else if(path==='/api/desktop/fullscreen')value={available:false,fullscreen:false};
   else if(path==='/api/training/start'){if(trainingDelay)await new Promise(resolve=>setTimeout(resolve,trainingDelay));value={workspace:workspace(),reviewTask:reviewId?{id:reviewId}:null};}
   else if(path==='/api/problem')value={id:url.searchParams.get('id'),title:rows.find(row=>row.id===url.searchParams.get('id')).title,markdown:'## 题目描述\n\n测试题面。\n\n## 样例\n\n```text\n1 2\n```',samples:[{input:'1\n',output:'2\n'}],limits:{timeMs:2000,memoryMb:256},judge:{scope:'samples',cases:1},statementAvailable:true,draft:'int main() { return 0; }',submissions:[]};
@@ -131,6 +131,11 @@ try{
  await nav('比赛').click();await page.locator('.competition-card').first().waitFor();await header();
  assert.equal(await page.locator('.competition-page').evaluate(node=>getComputedStyle(node).backgroundColor),'rgba(0, 0, 0, 0)');
  await shot('competitions');
+ await page.getByRole('button',{name:'筛选比赛',exact:true}).click();await page.getByRole('combobox',{name:'筛选比赛分类'}).press('Space');
+ const contestFolders=page.getByRole('listbox',{name:'筛选比赛分类'});
+ await contestFolders.getByRole('option',{name:'ACM',exact:true}).click();await contestFolders.getByRole('option',{name:'CCPC',exact:true}).click();await shot('competition-filter-folders');
+ await contestFolders.getByRole('option',{name:'选择「CCPC」',exact:true}).click();assert.equal(await page.locator('.competition-card').count(),2);
+ await page.getByRole('dialog',{name:'筛选比赛'}).getByRole('button',{name:'重置',exact:true}).click();assert.equal(await page.locator('.competition-card').count(),3);await page.getByRole('button',{name:'关闭筛选',exact:true}).click();
  await page.getByRole('button',{name:'比赛文件夹浏览',exact:true}).click();await page.locator('.catalog-explorer').waitFor();
  await page.locator('.catalog-folder-row').filter({hasText:'ACM'}).click();await page.locator('.catalog-folder-row').filter({hasText:'CCPC'}).click();await page.locator('.catalog-folder-row').filter({hasText:'2025年'}).click();
  await page.locator('.catalog-folder-row').filter({hasText:'CCPC 2025 郑州区域赛'}).click();
@@ -175,13 +180,27 @@ try{
  await page.getByRole('tab',{name:'交互与导航',exact:true}).click();assert.equal(await page.locator('.navigation-editor-row').count(),10);assert.equal(await page.getByText('自定义顺序',{exact:true}).count(),0);await page.keyboard.press('Escape');
  await nav('从零讲').click();await page.locator('.lectures-layout').waitFor();await header();assert.equal(await page.locator('.workspace-area h2').filter({hasText:'从零讲'}).count(),0);
  assert.equal(await page.locator('.lectures-layout').evaluate(node=>getComputedStyle(node).backgroundColor),'rgba(0, 0, 0, 0)');assert.equal((await page.locator('.lecture-difficulty').first().innerText()).includes('≈'),false);await shot('lectures');
+ await page.getByRole('button',{name:'筛选讲解',exact:true}).click();await page.getByRole('combobox',{name:'从零讲知识分类'}).press('Space');
+ const knowledgeFolders=page.getByRole('listbox',{name:'从零讲知识分类'});
+ await knowledgeFolders.getByRole('option',{name:'动态规划',exact:true}).click();await shot('lecture-folders');
+ await knowledgeFolders.getByRole('option',{name:'选择「动态规划」',exact:true}).click();assert.equal(await page.locator('.lectures-list>button').count(),2);
+ await page.getByRole('combobox',{name:'从零讲知识分类'}).press('Space');await knowledgeFolders.getByRole('option',{name:'动态规划',exact:true}).click();await knowledgeFolders.getByRole('option',{name:'线性 DP',exact:true}).click();assert.equal(await page.locator('.lectures-list>button').count(),1);
+ await page.getByRole('dialog',{name:'筛选讲解'}).getByRole('button',{name:'重置',exact:true}).click();assert.equal(await page.locator('.lectures-list>button').count(),3);await page.getByRole('button',{name:'关闭筛选',exact:true}).click();
  await nav('提交记录').click();await page.locator('.submission-log-row').first().waitFor();assert.equal(await page.locator('.submission-log-row>svg').count(),0);assert.equal(await page.locator('.submission-runtime').count(),1);assert.equal(await page.locator('.submission-runtime').innerText(),'15 ms');
  await nav('算法实验室').click();assert.equal(await page.getByText('算法题单',{exact:true}).count(),0);
  await page.locator('.lab-only-course>.lab-panel').waitFor();assert.equal(await page.locator('.lab-only-course>.lab-panel').count(),1);
  await page.getByRole('button',{name:'学算法',exact:true}).click();await page.locator('.algorithm-lab .lab-course-header').waitFor();assert.equal(await page.locator('.lab-lesson-footer').count(),0);
  await page.getByRole('button',{name:'下一页',exact:true}).click();await page.getByRole('heading',{name:/把大问题拆小/}).waitFor();
  await page.locator('.learning-paths-page').evaluate(node=>{node.scrollTop=node.scrollHeight;});
- const labNext=await page.getByRole('button',{name:'下一页',exact:true}).boundingBox();assert(labNext.y>=0&&labNext.y<180,'fixed navigation in application scroll container');
+ const labNext=await page.getByRole('button',{name:'下一页',exact:true}).boundingBox(), lessonBox=await page.locator('.lab-lesson').boundingBox();assert(labNext.y>=80&&labNext.y<900&&labNext.x>=lessonBox.x+lessonBox.width,'navigation stays in its own right column while scrolling');
+ assert.equal(await page.locator('.lab-course-header').getByRole('button',{name:'进入跟着做题',exact:true}).count(),0);
+ for(const width of [2048,1280]){await page.setViewportSize({width,height:1000});await page.locator('.learning-paths-page').evaluate(node=>node.scrollTop=0);const body=await page.locator('.lab-lesson').boundingBox(),area=await page.locator('.learning-paths-page').boundingBox();assert(body.width>area.width*.72,'course uses the available page width');await shot('algorithm-lab-wide-'+width);}
+ await page.locator('.learning-paths-page').evaluate(node=>{node.style.setProperty('--page-opacity','30%');node.style.backgroundImage='linear-gradient(135deg,#24566a,#31354d)';});
+ const railColors=await page.locator('.lab-course-tools button').evaluateAll(buttons=>buttons.map(button=>({background:getComputedStyle(button).backgroundColor,opacity:getComputedStyle(button).opacity})));
+ const lessonColor=await page.locator('.lab-panel').first().evaluate(node=>getComputedStyle(node).backgroundColor);
+ assert(railColors.every(item=>item.background===lessonColor&&/\/\s*0\.\d+\)/.test(item.background)&&item.opacity==='1'),JSON.stringify({railColors,lessonColor}));await shot('algorithm-lab-translucent-controls');
+ await page.locator('.learning-paths-page').evaluate(node=>{node.style.removeProperty('--page-opacity');node.style.removeProperty('background-image');});
+ await page.setViewportSize({width:2048,height:1000});await page.getByRole('button',{name:'目录',exact:true}).click();await page.getByRole('navigation',{name:'课程章节'}).getByRole('button',{name:/独立练习/}).click();
  await page.getByRole('button',{name:'进入跟着做题',exact:true}).click();await page.getByRole('heading',{name:'采药',exact:true}).waitFor();
  const guidanceSaved=page.waitForResponse(response=>response.url().endsWith('/api/preferences')&&response.request().method()==='POST'&&response.request().postData().includes('"assisted":true'));
  await page.getByRole('button',{name:'3 推到代码',exact:true}).click();await page.getByRole('form',{name:'补出关键转移'}).waitFor();await guidanceSaved;
@@ -207,7 +226,16 @@ try{
  await page.getByRole('button',{name:'下一题',exact:true}).click();await page.waitForFunction(title=>{const node=document.querySelector('.wb-heading strong');return node&&node.textContent!==title&&!node.textContent.includes('载入');},oldTitle);assert.equal(await page.evaluate(()=>{window.nextWatch=false;return window.chromeFlash;}),false);trainingDelay=0;
  const heldTitle=await page.locator('.wb-heading strong').innerText();failDraft=true;await page.locator('.cm-content').click();await page.keyboard.type('// unsaved review code');await page.getByRole('button',{name:'下一题',exact:true}).click();await page.waitForTimeout(150);assert.equal(await page.locator('.wb-heading strong').innerText(),heldTitle,'save failure keeps current editor');failDraft=false;await page.locator('.cm-content').click();await page.keyboard.press('Control+S');
  await page.locator('.cm-content').click();await page.keyboard.press('Escape');await page.locator('.problem-table').waitFor();assert.equal(await page.locator('.sidebar').isVisible(),true);
- await page.getByRole('button',{name:'消息通知',exact:true}).click();assert.equal(await page.getByText('题库与版本更新',{exact:true}).count(),0);await page.keyboard.press('Escape');
+ await page.getByRole('button',{name:'消息通知',exact:true}).click();assert.equal(await page.getByText('题库与版本更新',{exact:true}).count(),0);
+ const messageTitle=page.locator('.social-notifications-title');assert.equal(await messageTitle.innerText(),'和');
+ const titleParts=await messageTitle.locator(':scope > span').evaluateAll(nodes=>nodes.map(node=>{const r=node.getBoundingClientRect();return {x:r.x,right:r.right,center:r.y+r.height/2};}));
+ assert(titleParts.every(part=>Math.abs(part.center-titleParts[0].center)<1));assert(titleParts.slice(1).every((part,index)=>part.x>titleParts[index].right));await shot('social-title-aligned');await page.keyboard.press('Escape');
+ await page.evaluate(()=>window.dispatchEvent(new CustomEvent('tb:browser-preparation',{detail:{status:'needs_login'}})));assert.equal(await page.getByRole('dialog',{name:'浏览器原站提交'}).count(),0);
+ for(const width of [1280,2048])for(const name of ['我的训练','题库','比赛','模拟赛','算法实验室','排行榜','成长与能力','提交记录','活动记录','从零讲']){
+  await page.setViewportSize({width,height:1000});await nav(name).click();await page.waitForTimeout(75);
+  assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'page overflow: '+name+' '+width);
+  const area=await page.locator('.workspace-area').boundingBox();assert(area.x>=0&&area.x+area.width<=width+1,name);await shot('audit-'+name+'-'+width);
+ }
  await page.goto('http://127.0.0.1:18831/tests/ui-feedback-fixture.html');await page.locator('.tier-preview').last().waitFor();
  assert.equal(await page.locator('.profile-xp-ring').first().evaluate(node=>getComputedStyle(node).transform),'matrix(0, 1, -1, 0, 0, 0)');
  const symmetry=await page.locator('.tier-preview>.medal-rank').evaluateAll(async medals=>{

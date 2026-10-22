@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import gzip
 import json
 import mimetypes
 import os
@@ -36,8 +37,27 @@ class Handler(BaseHTTPRequestHandler):
 
     def send_json(self, status, value):
         raw = value if isinstance(value, bytes) else json.dumps(value, ensure_ascii=False).encode("utf-8")
+        compressed = False
+        # Large catalogs and lecture lists cost less to transfer into WebView.
+        # Keep every API body and origin/token guard unchanged.
+        for coding in self.headers.get('Accept-Encoding', '').lower().split(','):
+            name, *parameters = coding.strip().split(';')
+            if name != 'gzip':
+                continue
+            try:
+                quality = next((float(part.strip()[2:]) for part in parameters if part.strip().startswith('q=')), 1)
+            except ValueError:
+                quality = 0
+            if len(raw) >= 16384 and quality > 0:
+                packed = gzip.compress(raw, compresslevel=1, mtime=0)
+                if len(packed) < len(raw):
+                    raw, compressed = packed, True
+            break
         self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header('Vary', 'Accept-Encoding')
+        if compressed:
+            self.send_header('Content-Encoding', 'gzip')
         self.send_header("Content-Length", str(len(raw)))
         self.send_header("Cache-Control", "no-store")
         self.send_header("X-Content-Type-Options", "nosniff")

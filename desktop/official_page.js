@@ -30,7 +30,7 @@ const form=acSubmitForm(),widget=form?.querySelector('.cf-challenge,.cf-turnstil
 if(!widget&&!token||token?.value.trim()){delete work.verifyingAt;return null;}
 if(ctx.attempted)return {status:'unconfirmed',message:'原站要求提交验证，尚未确认本次代码受理；请在浏览器核对记录。'};
 work.verifyingAt??=Date.now();
-return Date.now()-work.verifyingAt<30000?{status:'loading',attempted:false,message:'正在等待 AtCoder 完成提交验证，尚未发送代码。'}:{status:'needs_verification',attempted:false,message:'AtCoder 仍在等待原站验证。点击“完成原站验证”打开本次提交页，完成后回到 TB 点击提交。'};
+return Date.now()-work.verifyingAt<30000?{status:'loading',attempted:false,message:'正在等待 AtCoder 完成提交验证，尚未发送代码。'}:{status:'needs_verification',attempted:false,message:ctx.resumeAfterLogin?'请在弹出的浏览器完成 AtCoder 验证，完成后会继续本次提交。':'请在浏览器完成 AtCoder 验证，核对后再提交。'};
 }
 function luoguLoggedOut(){
 if(ctx.platform!=='洛谷')return false;
@@ -113,8 +113,15 @@ return work.preparing;
 }
 function receiptValue(receipt){return {status:receipt.verdict==='JUDGING'?'judging':'finished',submissionId:receipt.id,...(receipt.verdict==='JUDGING'?{}:{verdict:receipt.verdict}),message:receipt.verdict==='JUDGING'?'原站已接收，正在评测。':'本次提交结果：'+receipt.verdict};}
 function inspect(){
-if(login()||cfLoggedOut()||luoguLoggedOut()||lgReceipt?.loggedOut()||(ctx.platform==='牛客'&&window.globalInfo?.ownerId!=null&&Number(window.globalInfo.ownerId)<=0))return {status:'needs_login',...(!ctx.attempted?{attempted:false}:{}),message:'请在浏览器登录原站，完成后回到 TB 点击提交。'};
-if(verification())return {status:'needs_verification',...(!ctx.attempted?{attempted:false}:{}),message:'请在浏览器完成原站验证，然后回到 TB 查看状态。'};
+if(login()||cfLoggedOut()||luoguLoggedOut()||lgReceipt?.loggedOut()||(ctx.platform==='牛客'&&window.globalInfo?.ownerId!=null&&Number(window.globalInfo.ownerId)<=0))return {status:'needs_login',...(!ctx.attempted?{attempted:false}:{}),message:ctx.resumeAfterLogin?'请在弹出的浏览器登录原站，登录后会自动填码并继续本次提交。':'请在浏览器登录原站，然后核对本次提交状态。'};
+if(verification())return {status:'needs_verification',...(!ctx.attempted?{attempted:false}:{}),message:ctx.resumeAfterLogin?'请在弹出的浏览器完成原站验证，完成后会继续本次提交。':'请在浏览器完成原站验证，然后回到 TB 查看状态。'};
+// Some native logins return to the site home page instead of the submit URL.
+// Only a positive account marker may resume this unsent submission there.
+if(ctx.resumeAfterLogin&&!ctx.attempted&&!hasEditor()){
+let luoguOwner=null;try{luoguOwner=JSON.parse(document.querySelector('#lentille-context')?.textContent||'null')?.user?.uid;}catch{}
+const loggedIn=ctx.platform==='AtCoder'?!!acOwner():ctx.platform==='Codeforces'?!!cfOwner():ctx.platform==='牛客'?Number(window.globalInfo?.ownerId)>0:ctx.platform==='洛谷'&&Number(luoguOwner||window._feInjection?.currentUser?.uid)>0;
+if(loggedIn)return {status:'loading',loggedIn:true,message:'登录成功，正在返回本题提交页。'};
+}
 if(ctx.platform==='AtCoder'&&new URL(ctx.originalUrl).pathname.replace(/\/tasks\/[^/]+$/,'/submit')===location.pathname){
 const errors=[...document.querySelectorAll('.alert-danger,.has-error .help-block,.error-message')].filter(visible).map(e=>e.textContent.trim()).filter(Boolean);
 if(errors.length)return {status:'error',attempted:false,message:'AtCoder 未受理代码：'+errors.join('；').slice(0,200)};
