@@ -16,7 +16,7 @@ const page = await context.newPage();
 page.setDefaultTimeout(12000);
 page.on('pageerror', error => errors.push(error.message));
 await context.route('**/*', route => new URL(route.request().url()).origin === origin ? route.continue() : (unexpected.push(route.request().url()), route.abort()));
-const chapter = title => page.getByRole('navigation', { name: '课程章节', exact: true }).getByRole('button').filter({ hasText: title });
+const chapter = title => ({async click(){if(!(await page.getByRole('navigation',{name:'课程章节',exact:true}).isVisible()))await page.locator('.lab-menu-toggle').click();await page.getByRole('navigation',{name:'课程章节',exact:true}).getByRole('button').filter({hasText:title}).click();}});
 const passed = () => page.evaluate(() => window.algorithmLabFixture.prefs.learningPaths.knapsack.labV1?.passed || {});
 async function checkChoice(title, answer) {
   const form = page.getByRole('form', { name: title, exact: true });
