@@ -277,6 +277,15 @@ def run_desktop() -> int:
             loaded = threading.Event()
             window.events.loaded += loaded.set
             start_legacy_cleanup(APP_DIR, lambda: loaded.is_set() and bool(server.accounts.session))
+            def warm_submission_browser():
+                while not official.stopping.wait(.5):
+                    if loaded.is_set() and server.accounts.session:
+                        try:
+                            official.browser.ensure(background=True)
+                        except Exception as issue:
+                            LOG.info('Browser warmup deferred: %s', type(issue).__name__)
+                        return
+            threading.Thread(target=warm_submission_browser, name='tb-browser-warmup', daemon=True).start()
         webview.start(
             gui="edgechromium", private_mode=False, storage_path=str(PROFILE_DIR),
             icon=str(APP_DIR / "tb.ico"), debug=False,

@@ -78,7 +78,8 @@ def run(action, output):
         assert all(section in text for section in ('### 题意', '### 思路', '### 参考代码', '```cpp'))
         assert solution['images'] and all(value.startswith('data:image/') for value in solution['images'].values())
         assert {'周赛 163::A', 'ABC 469::A', 'Div.3 1125::A'} <= {row['id'] for row in rows}
-        assert len(server.lectures.for_problem(xterfusion['id'])) == 1
+        assert any(lesson.get('referenceKind') == 'own'
+                   for lesson in server.lectures.for_problem(xterfusion['id']))
         report.update(ok=True, root=str(ROOT), state=str(STATE), frozen=bool(getattr(__import__('sys'), 'frozen', False)),
                       initialTrainingEmpty=workspace['summary']['total']==0, problems=len(data['rows']), solutions=len(rows),
                       lectures=len(server.lectures.snapshot()['lectures']), xterfusionCharacters=len(text),

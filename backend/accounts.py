@@ -396,3 +396,8 @@ class Accounts:
         if not self.session or current is None or current.session['token'] != self.session['token']:
             return {'status': 'offline', 'pending': False, 'error': '', 'lastSyncedAt': None}
         return current.flush(wait=wait)
+
+    def queue_sync(self):
+        current, session = self.state_sync, self.session
+        if current and session and current.session['token'] == session['token']:
+            current.notify_write()

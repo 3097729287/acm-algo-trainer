@@ -532,6 +532,13 @@ class AccountStateSync:
         self.wake.set()
         return self.snapshot()
 
+    def notify_write(self):
+        # A completed API write already committed its SQLite transaction. Do
+        # not re-enter training/catalog locks before sending its response.
+        with self.status_lock:
+            self.pending = True
+        self.wake.set()
+
     def flush(self, wait=True):
         if not wait:
             return self.mark_pending()

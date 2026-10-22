@@ -132,6 +132,8 @@ try {
   await page.getByLabel('密码', { exact: true }).fill('fixture-password');
   await page.getByRole('button', { name: '登录', exact: true }).click();
   await page.locator('.nav-item').first().waitFor().catch(async issue=>{console.error('Account B fixture UI:',await page.locator('body').innerText(),errors);throw issue;});
+  await guide.waitFor(); await page.keyboard.press('Escape'); await guide.waitFor({ state: 'hidden' });
+  for (let i = 0; i < 100 && !(await get('preferences')).preferences?.onboardingCompleted; i++) await wait(50);
   assert.equal((await get('workspace')).summary.total, 0);
   await post('training/start', { id: problemId });
   await page.reload();

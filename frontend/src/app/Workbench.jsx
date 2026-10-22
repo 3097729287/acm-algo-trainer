@@ -612,6 +612,7 @@ export default function Workbench({shortcuts={}, problemId, contest = null, revi
     if (path === 'official/submit') primeAcceptedSound();
     record.officialBusy = true;
     setOpeningOfficial(true); setActionError(''); setOfficialPollError('');
+    setConsoleOpen(true); setConsoleTab('result');
     saveRecord(record);
     try {
       const answer = await apiRef.current(path, requestBody(record, { code: record.code }));
@@ -707,10 +708,6 @@ export default function Workbench({shortcuts={}, problemId, contest = null, revi
   return <section className={`tb-workbench wb-pane-${pane}`} ref={sectionRef} onKeyDown={handleKeys} aria-label="代码训练工作台" data-problem-id={problemId}>
 
     {sidePracticeLocked && !endedContest && <div className="wb-notice">这题正在模拟赛中，请进入考场运行与提交。</div>}
-    {officialSession && <div className="wb-official-status" aria-label="原站提交状态"><div role="status"><strong>{OFFICIAL_STATES[officialSession.status] || '原站提交'}</strong><span>{officialSession.message}</span>{officialSession.submissionId && <span>提交 #{officialSession.submissionId}</span>}{officialSession.verdict && <b className={`wb-verdict-${officialSession.verdict.toLowerCase()}${officialSession.verdict === 'AC' ? ' wb-receipt-ac' : ''}`}>{verdictLabel(officialSession.verdict)}</b>}</div><div className="wb-official-actions">
-      {['needs_browser', 'needs_login', 'needs_verification', 'unconfirmed', 'error'].includes(officialSession.status) && <button type="button" className="wb-button" disabled={unavailable || openingOfficial} onClick={() => openOfficial('official/open')}>{officialSession.status === 'needs_browser' ? '连接浏览器' : officialSession.status === 'needs_verification' ? '完成原站验证' : '在浏览器查看'}</button>}
-      {['finished', 'closed'].includes(officialSession.status) && <button type="button" className="wb-icon-button" aria-label="收起提交状态" onClick={() => setOfficialSession(null)}><ChevronUp size={14} /></button>}
-    </div>{officialPollError && <p className="wb-poll-error" role="alert">{officialPollError}</p>}</div>}
     {actionError && <div className="wb-error-strip" role="alert"><span>{actionError}</span><button type="button" onClick={() => setActionError('')}>知道了</button></div>}
 
     <div className="wb-body">
@@ -802,6 +799,11 @@ export default function Workbench({shortcuts={}, problemId, contest = null, revi
               <button type="button" className="wb-history-load" disabled={unavailable || !row.code} onClick={() => loadOwnCode(row.code)} title="将这次自己的代码载入编辑器">载入代码</button>
             </div>) : <div className="wb-empty"><History size={21} /><span>运行或提交后，记录会保存在这里。</span></div>}
           </div> : <div className="wb-result">
+            {officialSession && !['finished', 'closed'].includes(officialSession.status) && <div className="wb-official-status" aria-label="原站提交状态">
+              <div role="status"><strong>{OFFICIAL_STATES[officialSession.status] || '原站提交'}</strong><span>{officialSession.message}</span></div>
+              {['needs_browser', 'needs_login', 'needs_verification', 'unconfirmed', 'error'].includes(officialSession.status) && <button type="button" className="wb-button" disabled={unavailable || openingOfficial} onClick={() => openOfficial('official/open')}>{officialSession.status === 'needs_verification' ? '完成原站验证' : '在浏览器查看'}</button>}
+              {officialPollError && <p className="wb-poll-error" role="alert">{officialPollError}</p>}
+            </div>}
             {creating && !pending ? <div className="wb-empty"><LoaderCircle size={20} className="wb-spinner" /><span>正在开始评测</span></div> : result ? <>
               <div className="wb-result-summary" aria-live="polite"><Verdict submission={result} />
                 {result.timeMs != null && <span>{elapsedText(result.timeMs)}</span>}
