@@ -20,6 +20,8 @@ from version import VERSION
 REPOSITORY = "3097729287/acm-algo-trainer"
 RELEASES = "https://github.com/" + REPOSITORY + "/releases"
 FEED = "https://api.github.com/repos/" + REPOSITORY + "/releases/latest"
+DOMESTIC_ROOT = "https://47.82.84.74/updates"
+DOMESTIC_FEED = DOMESTIC_ROOT + "/stable/manifest-v1.json"
 MAX_INSTALLER = 2 * 1024 * 1024 * 1024
 
 
@@ -31,21 +33,74 @@ def version_tuple(value):
 
 
 def trusted_url(url):
-    parsed = urlsplit(url)
-    if parsed.scheme != "https" or parsed.username or parsed.password or parsed.port not in (None, 443):
+    try:
+        parsed = urlsplit(url)
+        port = parsed.port
+    except (ValueError, TypeError):
         return False
+    if parsed.scheme != "https" or parsed.username or parsed.password or port not in (None, 443) or parsed.fragment or '\\' in url:
+        return False
+    if parsed.hostname == '47.82.84.74':
+        return url == DOMESTIC_FEED or bool(re.fullmatch(r'/updates/(?:assets/\d+\.\d+\.\d+/TB-(?:Update-[\d.]+-to-[\d.]+-win64\.zip|Setup-[\d.]+-win64\.exe)|stable/(?:index\.html|release-[\d.]+\.html))', parsed.path) and not parsed.query)
     return parsed.hostname in {"api.github.com", "github.com", "release-assets.githubusercontent.com", "objects.githubusercontent.com"}
 
 
 class ReleaseRedirect(HTTPRedirectHandler):
     def redirect_request(self, req, fp, code, msg, headers, newurl):
-        if not trusted_url(newurl):
+        if not trusted_url(newurl) or req.full_url.startswith(DOMESTIC_ROOT + '/') and not newurl.startswith(DOMESTIC_ROOT + '/'):
             raise ValueError("更新下载跳转到了不受信任的地址")
         return super().redirect_request(req, fp, code, msg, headers, newurl)
 
 
 class MissingDelta(ValueError):
     pass
+
+
+def domestic_release_info(payload, current):
+    """Owned HTTPS metadata and assets; no GitHub requests or public proxy."""
+    if not isinstance(payload, dict) or payload.get('schema') != 1 or payload.get('channel') != 'stable':
+        raise ValueError('国内更新清单格式无效')
+    records = payload.get('releases')
+    if not isinstance(records, list) or len(records) > 100:
+        raise ValueError('国内更新版本列表无效')
+    candidates = []
+    for record in records:
+        if not isinstance(record, dict):
+            raise ValueError('国内更新版本无效')
+        version = record.get('version')
+        latest = version_tuple(version)
+        if version != '.'.join(map(str, latest)):
+            raise ValueError('国内更新版本无效')
+        if latest <= version_tuple(current):
+            continue
+        assets = record.get('assets')
+        if not isinstance(assets, list) or len(assets) > 100:
+            raise ValueError('国内更新资产无效')
+        delta = f'TB-Update-{current}-to-{version}-win64.zip'
+        installer = f'TB-Setup-{version}-win64.exe'
+        # A complete verified installer repairs an installation whose original
+        # baseline is unavailable; prefer a matching delta whenever published.
+        available = {item.get('name'): item for item in assets if isinstance(item, dict)}
+        if len(available) != len(assets):
+            raise ValueError('国内更新资产重复或无效')
+        name = delta if delta in available else installer
+        asset = available.get(name)
+        if asset is None:
+            continue
+        size, sha = asset.get('size'), asset.get('sha256')
+        expected = f'{DOMESTIC_ROOT}/assets/{version}/{name}'
+        if (type(size) is not int or not 0 < size <= MAX_INSTALLER or
+                not isinstance(sha, str) or not re.fullmatch('[a-f0-9]{64}', sha) or
+                asset.get('url') != expected or not trusted_url(expected)):
+            raise ValueError('国内更新包地址、大小或 SHA-256 校验值无效')
+        candidates.append({'kind': 'delta' if name == delta else 'installer', 'version': version,
+                           'name': name, 'url': expected, 'size': size, 'sha256': sha,
+                           'notes': str(record.get('notes') or '')[:12000],
+                           'releaseUrl': f'{DOMESTIC_ROOT}/stable/release-{version}.html'})
+    newer = any(version_tuple(row['version']) > version_tuple(current) for row in records)
+    if not candidates and newer:
+        raise MissingDelta('国内更新包尚未发布完整，请稍后重试')
+    return max(candidates, key=lambda row: version_tuple(row['version'])) if candidates else None
 
 
 def release_info(payload, current):
@@ -95,14 +150,17 @@ def backup_databases(state, destination):
 
 
 class SoftwareUpdates:
-    def __init__(self, state, *, current=VERSION, opener=None, offline=None):
+    def __init__(self, state, *, current=VERSION, opener=None, offline=None, feed=DOMESTIC_FEED):
         self.state_dir = Path(state).resolve()
         self.settings_path = self.state_dir / "software-updates.json"
         settings = load_document(self.settings_path, {"autoCheck": True})
         self.auto_check = settings.get("autoCheck", True) is not False
         self.current = current
+        if feed not in {DOMESTIC_FEED, FEED}:
+            raise ValueError('更新渠道无效')
+        self.feed = feed
         self.offline = os.environ.get("TB_OFFLINE") == "1" if offline is None else offline
-        self.opener = opener or build_opener(ReleaseRedirect())
+        self.opener = opener or build_opener(*([ProxyHandler({})] if feed == DOMESTIC_FEED else []), ReleaseRedirect())
         self.direct_opener = None if opener is not None else build_opener(ProxyHandler({}), ReleaseRedirect())
         self.lock = threading.RLock()
         self.stop = threading.Event()
@@ -120,10 +178,11 @@ class SoftwareUpdates:
         with self.lock:
             return {"currentVersion": self.current, "status": self.status, "autoCheck": self.auto_check,
                     "startupCheckRequired": True, "automatic": self.automatic,
+                    "channel": "domestic" if self.feed == DOMESTIC_FEED else "github",
                     "lastCheckedAt": self.checked_at, "error": self.error, "canInstall": self.launcher is not None,
                     "latestVersion": self.release["version"] if self.release else None,
                     "updateKind": self.release.get("kind") if self.release else "delta",
-                    "releaseUrl": self.release["releaseUrl"] if self.release else RELEASES,
+                    "releaseUrl": self.release["releaseUrl"] if self.release else DOMESTIC_ROOT + '/stable/index.html' if self.feed == DOMESTIC_FEED else RELEASES,
                     "notes": self.release["notes"] if self.release else "",
                     "downloadedBytes": self.downloaded, "totalBytes": self.release["size"] if self.release else 0}
 
@@ -168,7 +227,7 @@ class SoftwareUpdates:
         request = Request(url, headers={"User-Agent": "TB/" + self.current + " updater",
                                         "Accept": "application/vnd.github+json" if url == FEED else "application/octet-stream"})
         try:
-            return self.opener.open(request, timeout=30)
+            return self.opener.open(request, timeout=12 if url == DOMESTIC_FEED else 30)
         except HTTPError as error:
             # A Windows system proxy may share GitHub's anonymous API quota with
             # many users. Try one verified HTTPS direct request for this public
@@ -192,13 +251,15 @@ class SoftwareUpdates:
 
     def _check(self):
         try:
-            with self._open(FEED) as response:
+            with self._open(self.feed) as response:
                 raw = response.read(2 * 1024 * 1024 + 1)
             if len(raw) > 2 * 1024 * 1024:
                 raise ValueError("更新信息过大")
             try:
-                release = release_info(json.loads(raw), self.current)
+                release = domestic_release_info(json.loads(raw), self.current) if self.feed == DOMESTIC_FEED else release_info(json.loads(raw), self.current)
             except MissingDelta:
+                if self.feed == DOMESTIC_FEED:
+                    raise
                 # An installation that skipped releases follows verified deltas
                 # through an intermediate version, without a full installer fallback.
                 with self._open(FEED.rsplit('/', 1)[0] + '?per_page=100') as response:
@@ -233,7 +294,7 @@ class SoftwareUpdates:
         except Exception as error:
             with self.lock:
                 self.status = "error"
-                self.error = str(error) if isinstance(error, ValueError) else "无法连接 GitHub 检查更新，请稍后重试"
+                self.error = str(error) if isinstance(error, ValueError) else "无法连接更新服务，稍后将自动重试"
 
     def download(self):
         from training import ServiceError

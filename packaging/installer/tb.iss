@@ -17,7 +17,7 @@
   #define SetupPrefix "TB-Setup-"
 #endif
 #ifndef AppVersion
-  #define AppVersion "1.3.3"
+  #define AppVersion "1.3.5"
 #endif
 #ifndef PackageDir
   #error PackageDir is required
@@ -36,7 +36,7 @@ AppVersion={#AppVersion}
 AppPublisher=TB contributors
 AppPublisherURL=https://github.com/3097729287/acm-algo-trainer
 AppSupportURL=https://github.com/3097729287/acm-algo-trainer/issues
-AppUpdatesURL=https://github.com/3097729287/acm-algo-trainer/releases
+AppUpdatesURL=https://47.82.84.74/updates/stable/index.html
 DefaultDirName={localappdata}\Programs\{#ProductDir}
 DefaultGroupName={#ProductName}
 DisableProgramGroupPage=yes

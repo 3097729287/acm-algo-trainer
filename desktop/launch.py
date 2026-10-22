@@ -200,6 +200,12 @@ def run_desktop() -> int:
                 return 1
             return 0
         check_dependencies()
+        if getattr(sys, 'frozen', False) and not ADMIN_MODE and os.environ.get('TB_OFFLINE') != '1':
+            from legacy_cleanup import prepare
+            try:
+                prepare(APP_DIR)
+            except Exception as issue:
+                LOG.warning('Legacy migration deferred; original data retained: %s', type(issue).__name__)
         import webview
         from backend import start_server
 
@@ -266,6 +272,20 @@ def run_desktop() -> int:
             server.software_updates.guard = update_guard
             server.software_updates.launcher = install_update
         server.software_updates.start()
+        if getattr(sys, 'frozen', False) and not ADMIN_MODE and os.environ.get('TB_OFFLINE') != '1':
+            from legacy_cleanup import start as start_legacy_cleanup
+            loaded = threading.Event()
+            window.events.loaded += loaded.set
+            start_legacy_cleanup(APP_DIR, lambda: loaded.is_set() and bool(server.accounts.session))
+            def warm_submission_browser():
+                while not official.stopping.wait(.5):
+                    if loaded.is_set() and server.accounts.session:
+                        try:
+                            official.browser.ensure(background=True)
+                        except Exception as issue:
+                            LOG.info('Browser warmup deferred: %s', type(issue).__name__)
+                        return
+            threading.Thread(target=warm_submission_browser, name='tb-browser-warmup', daemon=True).start()
         webview.start(
             gui="edgechromium", private_mode=False, storage_path=str(PROFILE_DIR),
             icon=str(APP_DIR / "tb.ico"), debug=False,

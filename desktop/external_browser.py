@@ -32,7 +32,7 @@ def browsers():
 class BrowserProcess:
     def __init__(self, profile):
         from persistence import load_document
-        self.root = Path(profile)
+        self.root = Path(profile).resolve()
         self.preference = self.root.parent / 'managed-browser.json'
         self.preferred = load_document(self.preference, 'edge')
         if self.preferred not in ('edge', 'chrome'):
@@ -82,7 +82,7 @@ class BrowserProcess:
             raise ValueError('Browser profile no longer owns this endpoint')
         return version
 
-    def ensure(self, browser=None):
+    def ensure(self, browser=None, *, background=False):
         with self.lock:
             browser = browser or self.preferred
             if browser != self.preferred:
@@ -116,9 +116,10 @@ class BrowserProcess:
                 except (OSError, ValueError, IndexError):
                     self.port = None
                     active.unlink(missing_ok=True)
+            startup = ['--no-startup-window'] if background else ['--new-window', 'about:blank']
             self.process = subprocess.Popen([str(executable), '--user-data-dir=' + str(self.profile),
                 '--remote-debugging-port=0', '--remote-debugging-address=127.0.0.1',
-                '--no-first-run', '--no-default-browser-check', '--disable-background-mode', '--new-window', 'about:blank'],
+                '--no-first-run', '--no-default-browser-check', '--disable-background-mode', *startup],
                 creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0),
                 stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             deadline = time.monotonic() + 12
@@ -144,11 +145,11 @@ class BrowserProcess:
 
     def new_submission_page(self):
         # Each submission owns one window; never close a login or unrelated tab.
-        self.ensure()
+        self.ensure(background=True)
         version=self.request('/json/version')
         page=DevToolsPage(version['webSocketDebuggerUrl'],lambda *_:None)
         try:
-            target=page.call('Target.createTarget',{'url':'about:blank','newWindow':True})['targetId']
+            target=page.call('Target.createTarget',{'url':'about:blank','newWindow':True,'background':True})['targetId']
             for blank in self.bootstrap_targets:
                 page.call('Target.closeTarget',{'targetId':blank})
             self.bootstrap_targets.clear()
@@ -238,7 +239,7 @@ class ExternalBrowserBridge:
             identity = uuid.uuid4().hex
             session = dict(target, sessionId=identity, code=code, title=title, language=language, intent=intent, autoClose=bool(intent),
                            status='loading', attempted=False, created=time.monotonic(),
-                           transport='external', message='正在打开浏览器原站提交页…', focus=True)
+                           transport='external', message='正在后台打开原站提交页…' if intent else '正在打开浏览器原站提交页…', focus=not intent)
             self.sessions[identity] = session
         threading.Thread(target=self._run, args=(identity,), name='tb-visible-submit', daemon=True).start()
         return self.status(identity)
@@ -273,6 +274,8 @@ class ExternalBrowserBridge:
                 return
             if session.get('submissionId') and status == 'submitted':
                 return
+            if status in ('needs_login', 'needs_verification') and session.get('status') != status:
+                session['focus'] = True
             for key in ('status', 'message', 'submissionId', 'verdict', 'attempted',
                         'baseline', 'baselineKnown', 'baselineOwner', 'compiler', 'acceptedAt'):
                 if key in value:
@@ -341,7 +344,8 @@ class ExternalBrowserBridge:
                 self.sessions[identity]['target'] = target['id']
                 url = self.sessions[identity]['url']
             page.call('Page.navigate', {'url': url})
-            page.call('Page.bringToFront')
+            # Submit keeps TB in front. Explicit inspection/login requests and
+            # verification transitions can reveal this session's own window.
             while not self.stopping.is_set():
                 with self.lock:
                     session = dict(self.sessions[identity])

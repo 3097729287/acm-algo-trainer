@@ -76,7 +76,7 @@ export function SoftwareUpdatePanel({ update }) {
     <div className="software-update-actions"><button disabled={busy || ['checking', 'downloading', 'installing'].includes(state.status)} onClick={() => action('check')}>{state.status === 'checking' ? '正在检查…' : '检查软件更新'}</button><UpdateAction update={update} /></div>
     {(error || state.error) && <p className="software-update-error" role="alert">{error || state.error}</p>}
     {state.notes && <details><summary>本次更新内容</summary><pre>{state.notes}</pre></details>}
-    <a href={state.releaseUrl} target="_blank" rel="noreferrer">在 GitHub 查看正式发布</a>
+    <a href={state.releaseUrl} target="_blank" rel="noreferrer">查看正式发布与更新说明</a>
   </section>;
 }
 

@@ -3,22 +3,24 @@
 TB combines a problem library, illustrated editorials, a C++ / Python editor, local judging and training records for Codeforces, AtCoder, Nowcoder and Luogu. SQLite preserves local work; the account service synchronizes learning data between computers.
 
 <!-- release-status:start -->
-**Latest stable: [TB 1.3.4](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.4).** [Changes and validation](docs/releases/1.3.4.md).
+**Latest stable: [TB 1.3.5](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.5).** [Changes and validation](docs/releases/1.3.5.md).
 <!-- release-status:end -->
 
-The development source also includes an **unreleased Algorithm Lab**: a first knapsack DP course with hands-on packing, state derivation, a reversible execution visualizer, C++17 template construction, debugging, and transfer checks. Stable 1.3.4 retains the existing learning paths. See the [course design and authoring guide](docs/algorithm-lab-design.md) (Chinese).
+The development source also includes an **unreleased Algorithm Lab**: a first knapsack DP course with hands-on packing, state derivation, a reversible execution visualizer, C++17 template construction, debugging, and transfer checks. Stable 1.3.5 retains the existing learning paths. See the [course design and authoring guide](docs/algorithm-lab-design.md) (Chinese).
 
 [Website](https://3097729287.github.io/acm-algo-trainer/) · [Usage](docs/usage.md) · [Development](docs/development.md) · [中文](README.md)
 
 ![TB workbench](docs/assets/workbench.png)
 
+This release adds responsive login recovery, an owned HTTPS update channel, faster durable reward claims and a prewarmed submission browser that keeps TB in front. The duplicate top result strip is removed. The 43 completed foundation lessons are included; individual editorial refinement and reading review continue separately.
+
 ## Install and upgrade
 
-Windows 10/11 x64. The [user installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.4/TB-Setup-1.3.4-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.4/TB-1.3.4-win64.zip) before running it. Administrators use the [separate installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.4/TB-Admin-Setup-1.3.4-win64.exe), with login name `admin` and server authorization for public management. Release assets include checksums and incremental updates from 1.3.3.
+Windows 10/11 x64. The [user installer](https://47.82.84.74/updates/assets/1.3.5/TB-Setup-1.3.5-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.5/TB-1.3.5-win64.zip) before running it. The administrator program is reserved for the owner’s local use and is not publicly distributed. Release assets include checksums and incremental updates from 1.3.4.
 
 Save drafts and exit TB before installing into the existing directory. Personal databases, source code and imported content are preserved. The updater saves work, takes online SQLite backups and verifies SHA-256 before replacement. Keep the same TB version on your computers. Original-site login uses TB's dedicated browser profile; no extension is required.
 
-## Changes in 1.3.4
+## Changes in 1.3.5
 
 - Adaptive reviews start the day after an official AC with an isolated blank draft, then adjust intervals to difficulty, independent success and failures. Easy tasks can leave long-term review; heavy review days reduce new work. Original code and history remain intact. [Rules](docs/adaptive-reviews.md).
 - A footer calendar dialog shows upcoming basic contests from four official platforms in Beijing time, with background refresh and cached offline access. Indexed radar summaries avoid repeated full-library scans.
@@ -60,7 +62,7 @@ Save drafts and exit TB before installing into the existing directory. Personal 
 
 ## Library and progression
 
-The public seed retains **5,819 original problem entries, 2,422 statements, 1,302 default editorials, 1,302 detailed editorials and 400 lectures**. The UI deduplicates original tasks while preserving aliases, content and work. Uncached statements require connectivity. New editorial work is limited to verified problem difficulty at most 2200, including 2200. [Editorial policy](docs/editorial-policy.md).
+The public seed retains **5,819 original problem entries, 2,422 statements, 1,302 default editorials, 1,302 detailed editorials and 443 lectures**. The UI deduplicates original tasks while preserving aliases, content and work. Uncached statements require connectivity. New editorial work is limited to verified problem difficulty at most 2200, including 2200. [Editorial policy](docs/editorial-policy.md).
 
 XP levels and skill tiers are independent. Level 5 unlocks placement; at least five distinct, verified, independent first official ACs are required. Ability is the median difficulty of the strongest five. Iron through King starts at **0, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2100 and 2200**. This is a training estimate, not a direct copy of an original-site account rating. [Progression rules](docs/progression.md).
 

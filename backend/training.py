@@ -626,7 +626,7 @@ class TrainingService:
                     connection.execute('INSERT INTO official_xp_state VALUES(1,?)', (iso(self._now()),))
         return total
 
-    def _evidence(self, day=None):
+    def _evidence(self, day=None, *, hub=None):
         """Unique official ACs; daily rewards deduplicate within the requested day."""
         from progression import official_reward_evidence, local_date
         rows = self._library()
@@ -640,9 +640,8 @@ class TrainingService:
                 except Exception as error:
                     if getattr(error, "status", None) != 404:
                         raise
-        hub = None
         extensions = getattr(self.store, "extensions", None)
-        if extensions is not None:
+        if hub is None and extensions is not None:
             snapshot = getattr(extensions, "snapshot", None)
             if callable(snapshot):
                 hub = snapshot()
@@ -650,7 +649,19 @@ class TrainingService:
             records = [record for record in records if str(local_date(record['submitted_at'])) == day]
         return official_reward_evidence(rows, records, hub)
 
-    def daily_tasks(self, goal_tasks=None):
+    def _daily_evidence(self, day):
+        from copy import deepcopy
+        extensions = getattr(self.store, 'extensions', None)
+        hub = extensions.snapshot() if callable(getattr(extensions, 'snapshot', None)) else {}
+        signature = self._insights_signature(hub)
+        cached = getattr(self, '_daily_evidence_cache', None)
+        if signature is not None and cached and cached[1:3] == (day, signature) and time.monotonic()-cached[0] < 5:
+            return deepcopy(cached[3])
+        evidence = self._evidence(day, hub=hub)
+        self._daily_evidence_cache = (time.monotonic(), day, signature, deepcopy(evidence))
+        return evidence
+
+    def daily_tasks(self, goal_tasks=None, *, _evidence_snapshot=None):
         from progression import TASKS, SHANGHAI, task_progress
         with self.lock:
             day = self._now().astimezone(SHANGHAI).date().isoformat()
@@ -667,7 +678,7 @@ class TrainingService:
                             connection.execute("INSERT OR IGNORE INTO daily_missions(day,id,definition) VALUES(?,?,?)", (day, task["id"], current[task["id"]]))
                         else:
                             connection.execute("UPDATE daily_missions SET definition=? WHERE day=? AND id=?", (current[task["id"]], day, task["id"]))
-            evidence = self._evidence(day)
+            evidence = self._daily_evidence(day) if _evidence_snapshot is None else _evidence_snapshot
             tasks = []
             for record in self.connection.execute("SELECT * FROM daily_missions WHERE day=? ORDER BY rowid", (day,)):
                 task = json.loads(record["definition"])
@@ -685,7 +696,9 @@ class TrainingService:
         if not isinstance(identity, str) or not identity or len(identity) > 64:
             raise ServiceError(400, "每日任务编号无效")
         with self.lock:
-            tasks = self.daily_tasks(goal_tasks=[])
+            day = self._now().astimezone(TRAINING_ZONE).date().isoformat()
+            evidence_snapshot = self._daily_evidence(day)
+            tasks = self.daily_tasks(goal_tasks=[], _evidence_snapshot=evidence_snapshot)
             if date is not None and date != tasks["date"]:
                 raise ServiceError(409, "每日任务已刷新，请重新打开任务列表")
             record = self.connection.execute("SELECT * FROM daily_missions WHERE day=? AND id=?", (tasks["date"], identity)).fetchone()
@@ -695,7 +708,7 @@ class TrainingService:
             if not already:
                 with self._write() as connection:
                     task = json.loads(record["definition"])
-                    progress, evidence = task_progress(task, self._evidence(tasks["date"]), tasks["date"])
+                    progress, evidence = task_progress(task, evidence_snapshot, tasks["date"])
                     if progress < task["target"]:
                         raise ServiceError(409, "这项任务尚未完成")
                     connection.execute("UPDATE daily_missions SET claimed_at=?,awarded_xp=?,evidence=? WHERE day=? AND id=? AND claimed_at IS NULL",
