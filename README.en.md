@@ -3,10 +3,10 @@
 TB combines a problem library, illustrated editorials, a C++ / Python editor, local judging and training records for Codeforces, AtCoder, Nowcoder and Luogu. SQLite preserves local work; the account service synchronizes learning data between computers.
 
 <!-- release-status:start -->
-**Latest stable: [TB 1.3.4](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.4).** [Changes and validation](docs/releases/1.3.4.md).
+**Latest stable: [TB 1.3.5](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.5).** [Changes and validation](docs/releases/1.3.5.md).
 <!-- release-status:end -->
 
-The development source is based on 1.3.4; **this update is not released**. The knapsack lab has seven lessons, sticky navigation and five interactive guided problems; offline preview 0.4.0 opens from the extracted HTML. The other session added 43 reusable foundations and rewrote Xiaoyue’s Corridor, but individual editorial refinement and reading review remain unfinished. Stable downloads stay at 1.3.4. [Current status](docs/algorithm-lab-status.md) · [Authoring workflow](docs/algorithm-lab-authoring.md) · [Preview build](docs/algorithm-lab-design.md).
+Stable 1.3.5 delivers the login and domestic-update hotfix independently. **The combined lab and editorial refinement update is not publicly released**. The knapsack lab has seven lessons, sticky navigation and five interactive guided problems; offline preview 0.4.0 opens from the extracted HTML. The other session added 43 reusable foundations and rewrote Xiaoyue’s Corridor, but individual editorial refinement and reading review remain unfinished. Stable downloads use 1.3.5; the separate 1.3.6 lab delivery is being validated. [Current status](docs/algorithm-lab-status.md) · [Authoring workflow](docs/algorithm-lab-authoring.md) · [Preview build](docs/algorithm-lab-design.md).
 
 [Website](https://3097729287.github.io/acm-algo-trainer/) · [Usage](docs/usage.md) · [Development](docs/development.md) · [中文](README.md)
 
@@ -14,9 +14,18 @@ The development source is based on 1.3.4; **this update is not released**. The k
 
 ## Install and upgrade
 
-Windows 10/11 x64. The [user installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.4/TB-Setup-1.3.4-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.4/TB-1.3.4-win64.zip) before running it. GitHub distributes only the user edition. The administrator program is reserved for the owner’s local use. Release assets include checksums and incremental updates from 1.3.3.
+Windows 10/11 x64. The [user installer](https://47.82.84.74/updates/assets/1.3.5/TB-Setup-1.3.5-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.5/TB-1.3.5-win64.zip) before running it. GitHub distributes only the user edition. The administrator program is reserved for the owner’s local use. Release assets include checksums and incremental updates from 1.3.4.
 
 Save drafts and exit TB before installing into the existing directory. Personal databases, source code and imported content are preserved. The updater saves work, takes online SQLite backups and verifies SHA-256 before replacement. Keep the same TB version on your computers. Original-site login uses TB's dedicated browser profile; no extension is required.
+
+## Changes in 1.3.5
+
+- Restore saved login in the background and keep startup responsive, including concurrent page loads.
+- Check and download updates from the owned HTTPS service without GitHub access; retain SHA-256 checks, SQLite backups and automatic restart.
+- Back up personal data before retiring recognized legacy user binaries; preserve running, modified and unknown files.
+- Reuse verified daily-task evidence and acknowledge durable claims before background cloud synchronization.
+- Prewarm the dedicated submission browser and keep automatic submission windows behind TB; reveal login and verification when needed.
+- Remove the duplicate verdict strip above the editor. Preserve the existing result panel and 43 reusable foundation lessons.
 
 ## Changes in 1.3.4
 
@@ -60,7 +69,7 @@ Save drafts and exit TB before installing into the existing directory. Personal 
 
 ## Library and progression
 
-The public seed retains **5,819 original problem entries, 2,422 statements, 1,302 default editorials, 1,302 detailed editorials and 400 lectures**. The UI deduplicates original tasks while preserving aliases, content and work. Uncached statements require connectivity. New editorial work is limited to verified problem difficulty at most 2200, including 2200. [Editorial policy](docs/editorial-policy.md).
+The public seed retains **5,819 original problem entries, 2,422 statements, 1,302 default editorials, 1,302 detailed editorials and 443 lectures**. The UI deduplicates original tasks while preserving aliases, content and work. Uncached statements require connectivity. New editorial work is limited to verified problem difficulty at most 2200, including 2200. [Editorial policy](docs/editorial-policy.md).
 
 XP levels and skill tiers are independent. Level 5 unlocks placement; at least five distinct, verified, independent first official ACs are required. Ability is the median difficulty of the strongest five. Iron through King starts at **0, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2100 and 2200**. This is a training estimate, not a direct copy of an original-site account rating. [Progression rules](docs/progression.md).
 
