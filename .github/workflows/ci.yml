@@ -47,6 +47,7 @@ jobs:
           python desktop/tests/official_native.py
           python desktop/tests/silent_native.py
           python desktop/tests/managed_login.py
+          python desktop/tests/interactive_browser.py
           python desktop/tests/webview_resources_native.py --rounds 0
       - name: Browser sessions and intercepted native submissions
         working-directory: frontend
