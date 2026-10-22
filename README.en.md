@@ -6,6 +6,8 @@ TB combines a problem library, illustrated editorials, a C++ / Python editor, lo
 **Latest stable: [TB 1.3.4](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.4).** [Changes and validation](docs/releases/1.3.4.md).
 <!-- release-status:end -->
 
+**Desktop 1.3.6 is being packaged for local delivery; it is not publicly released.** The complete knapsack course, five guided exercises and workbench handoff are built from the fixed `release/1.3.6-lab` branch. Ongoing uncommitted editorial refinement remains separate. Public downloads remain at 1.3.4. [Delivery and validation](docs/releases/1.3.6.md).
+
 The development source is based on 1.3.4; **this update is not released**. The knapsack lab has seven lessons, sticky navigation and five interactive guided problems; offline preview 0.4.0 opens from the extracted HTML. The other session added 43 reusable foundations and rewrote Xiaoyue’s Corridor, but individual editorial refinement and reading review remain unfinished. Stable downloads stay at 1.3.4. [Current status](docs/algorithm-lab-status.md) · [Authoring workflow](docs/algorithm-lab-authoring.md) · [Preview build](docs/algorithm-lab-design.md).
 
 [Website](https://3097729287.github.io/acm-algo-trainer/) · [Usage](docs/usage.md) · [Development](docs/development.md) · [中文](README.md)

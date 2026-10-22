@@ -6,7 +6,7 @@ TB 将题库、图文题解、C++ / Python 编辑、本地评测和训练记录�
 **最新正式版：[TB 1.3.4](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.4)。** [变化与验证](docs/releases/1.3.4.md)。
 <!-- release-status:end -->
 
-开发源码基于 1.3.4，**本轮尚未正式发布**。算法实验室已完成背包 DP 七节课、固定翻页与五道交互跟做题；0.4.0 独立体验包可解压后打开 HTML。另一会话已补齐 43 篇通用基础课并重写《小月的长廊》，但全库逐篇精修与阅读复核仍未完成，因此保留正式下载 1.3.4。[当前状态](docs/algorithm-lab-status.md) · [创作流程](docs/algorithm-lab-authoring.md) · [体验包构建](docs/algorithm-lab-design.md)。
+**主程序 1.3.6 本机打包中，尚未公开发布。** 本次按用户明确的“打包进正式程序”要求，将已完成的背包 DP 七节交互课、五道跟做题、工作台交接和已提交的软件更新打入正常桌面主程序。源代码固定在 `release/1.3.6-lab`；另一会话的未提交题解精修继续独立进行，不宣称全库已逐篇验收。公开下载保持 1.3.4。[本机交付与验证](docs/releases/1.3.6.md)。
 
 [项目主页](https://3097729287.github.io/acm-algo-trainer/) · [使用说明](docs/usage.md) · [开发与构建](docs/development.md) · [English](README.en.md)
 
