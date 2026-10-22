@@ -46,7 +46,8 @@ await page.route('**/api/**', async route => {
 const tableRows = page.locator('.problem-table tbody tr[data-id]');
 const pagination = page.getByRole('navigation', { name: '题库分页' });
 async function status(text) {
-  await page.waitForFunction(expected => document.querySelector('.list-footer [role="status"]')?.textContent === expected, text);
+  const total=Number(text.match(/\/ (\d+) 题$/)[1]),range=text.split(' / ')[0].split('–').map(Number),count=total?range[1]-range[0]+1:0;
+  await page.waitForFunction(expected => document.querySelector('.list-footer [role="status"]')?.textContent===`共 ${expected.total} 题`&&document.querySelectorAll('.problem-table tbody tr[data-id]').length===expected.count,{total,count});
 }
 async function pageSize(value) {
   assert.equal(await page.getByLabel('题库每页题数').count(),0,'Page size belongs to settings');
