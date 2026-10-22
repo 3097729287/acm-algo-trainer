@@ -1,17 +1,26 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, Check, ChevronDown, List } from 'lucide-react';
 import { CHAPTERS, CHECK_IDS } from './knapsackCourse.js';
-import { PackingExperiment, TraceExperiment } from './KnapsackExperiments.jsx';
+import { EXPEDITION_REVISION } from './knapsackModel.js';
+import PackingExperiment from './PackingExperiment.jsx';
+import { TraceExperiment } from './KnapsackExperiments.jsx';
 import StateExperiment from './StateExperiment.jsx';
 import { DebugWorkshop, PracticeWorkshop, TemplateWorkshop, TransferWorkshop } from './KnapsackChallenges.jsx';
 import './algorithmLab.css';
 
 export function labProgress(prefs) {
   const saved = prefs?.learningPaths?.knapsack?.labV1;
-  if (!saved || typeof saved !== 'object') return { chapter: 'pack', passed: {}, drafts: {} };
+  if (!saved || typeof saved !== 'object') return { chapter: 'pack', passed: {}, drafts: {}, exampleRevision: EXPEDITION_REVISION };
+  const passed = saved.passed && typeof saved.passed === 'object' ? Object.fromEntries(CHECK_IDS.filter(id => saved.passed[id] === true).map(id => [id, true])) : {};
+  const drafts = saved.drafts && typeof saved.drafts === 'object' && !Array.isArray(saved.drafts) ? { ...saved.drafts } : {};
+  if (saved.exampleRevision !== EXPEDITION_REVISION) {
+    delete passed.transition;
+    delete drafts.transition;
+    const old = drafts.traceConfig;
+    if (old?.capacity === 4 && Array.isArray(old.items) && old.items.map(item => `${item.id}:${item.weight}:${item.value}`).join(',') === 'A:3:5,B:2:3,C:2:3') delete drafts.traceConfig;
+  }
   return { chapter: CHAPTERS.some(item => item.id === saved.chapter) ? saved.chapter : 'pack',
-    passed: saved.passed && typeof saved.passed === 'object' ? Object.fromEntries(CHECK_IDS.filter(id => saved.passed[id] === true).map(id => [id, true])) : {},
-    drafts: saved.drafts && typeof saved.drafts === 'object' && !Array.isArray(saved.drafts) ? saved.drafts : {} };
+    passed, drafts, exampleRevision: EXPEDITION_REVISION };
 }
 
 const CONTENT = { pack: PackingExperiment, state: StateExperiment, trace: TraceExperiment, code: TemplateWorkshop, debug: DebugWorkshop, transfer: TransferWorkshop, practice: PracticeWorkshop };
@@ -35,18 +44,16 @@ export default function KnapsackLab({ prefs, setPrefs, rows = [], onTrain, heade
     document.addEventListener('keydown', escape);
     return () => { document.removeEventListener('pointerdown', outside); document.removeEventListener('keydown', escape); };
   }, [menuOpen]);
-  const recommended = CHAPTERS.find(item => item.checks.some(id => !saved.passed[id]));
   return <div className="algorithm-lab" aria-label="背包 DP">
     <header className="lab-course-header">
       <h1>背包 DP</h1><span className="lab-position">{chapterIndex + 1} / {CHAPTERS.length}</span>
-      <div className="lab-header-actions"><div className="lab-menu" ref={menu}>
+      <div className="lab-header-actions"><nav className="lab-page-navigation" aria-label="章节翻页"><button type="button" className="lab-icon-button" aria-label="上一页" title={chapterIndex ? `上一页：${CHAPTERS[chapterIndex - 1].title}` : '已经是第一页'} disabled={!chapterIndex} onClick={() => navigate(CHAPTERS[chapterIndex - 1].id)}><ArrowLeft size={18}/></button><button type="button" className="lab-icon-button" aria-label="下一页" title={chapterIndex < CHAPTERS.length - 1 ? `下一页：${CHAPTERS[chapterIndex + 1].title}` : '已经是最后一页'} disabled={chapterIndex === CHAPTERS.length - 1} onClick={() => navigate(CHAPTERS[chapterIndex + 1].id)}><ArrowRight size={18}/></button></nav><div className="lab-menu" ref={menu}>
         <button type="button" ref={menuButton} className="lab-menu-toggle" aria-expanded={menuOpen} aria-controls="lab-chapters" onClick={() => setMenuOpen(value => !value)}><List size={17}/>目录<ChevronDown size={14}/></button>
         {menuOpen && <nav id="lab-chapters" aria-label="课程章节">{CHAPTERS.map((item, i) => <button type="button" key={item.id} aria-current={item.id === chapter.id ? 'step' : undefined} onClick={() => navigate(item.id)}><span>{String(i + 1).padStart(2, '0')}</span><b>{item.title}</b>{item.checks.every(id => saved.passed[id]) && <Check size={14} aria-label="已完成"/>}</button>)}</nav>}
       </div>{headerActions}</div>
     </header>
     <main className="lab-lesson" ref={heading} tabIndex={-1} aria-label={chapter.title}>
       <Content key={chapter.id} drafts={saved.drafts} passed={saved.passed} onPass={onPass} updateDraft={updateDraft} rows={rows} onTrain={onTrain}/>
-      <footer className="lab-lesson-footer"><button type="button" className="lab-text-button" disabled={chapterIndex === 0} onClick={() => navigate(CHAPTERS[chapterIndex - 1].id)}><ArrowLeft size={15}/>上一节</button>{chapterIndex < CHAPTERS.length - 1 ? <button type="button" className="lab-button" onClick={() => navigate(CHAPTERS[chapterIndex + 1].id)}>下一节：{CHAPTERS[chapterIndex + 1].title}<ArrowRight size={16}/></button> : recommended ? <button type="button" className="lab-button" onClick={() => navigate(recommended.id)}>继续未完成的练习<ArrowRight size={16}/></button> : <span className="lab-completed"><Check size={17}/>练习已完成</span>}</footer>
     </main>
   </div>;
 }

@@ -6,7 +6,7 @@ TB combines a problem library, illustrated editorials, a C++ / Python editor, lo
 **Latest stable: [TB 1.3.4](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.4).** [Changes and validation](docs/releases/1.3.4.md).
 <!-- release-status:end -->
 
-The development source also includes an **unreleased Algorithm Lab**: a first knapsack DP course with hands-on packing, state derivation, a reversible execution visualizer, C++17 template construction, debugging, and transfer checks. Stable 1.3.4 retains the existing learning paths. See the [course design and authoring guide](docs/algorithm-lab-design.md) (Chinese).
+The development source is based on 1.3.4; **this update is not released**. The knapsack lab has seven lessons, sticky navigation and five interactive guided problems; offline preview 0.4.0 opens from the extracted HTML. The other session added 43 reusable foundations and rewrote Xiaoyue’s Corridor, but individual editorial refinement and reading review remain unfinished. Stable downloads stay at 1.3.4. [Current status](docs/algorithm-lab-status.md) · [Authoring workflow](docs/algorithm-lab-authoring.md) · [Preview build](docs/algorithm-lab-design.md).
 
 [Website](https://3097729287.github.io/acm-algo-trainer/) · [Usage](docs/usage.md) · [Development](docs/development.md) · [中文](README.md)
 
@@ -23,7 +23,7 @@ Save drafts and exit TB before installing into the existing directory. Personal 
 - Adaptive reviews start the day after an official AC with an isolated blank draft, then adjust intervals to difficulty, independent success and failures. Easy tasks can leave long-term review; heavy review days reduce new work. Original code and history remain intact. [Rules](docs/adaptive-reviews.md).
 - A footer calendar dialog shows upcoming basic contests from four official platforms in Beijing time, with background refresh and cached offline access. Indexed radar summaries avoid repeated full-library scans.
 - Canonical original-task deduplication retains aliases, drafts and receipts. Next-problem navigation saves before switching; the editorial button toggles its stable-width reader. Folder filters, tables, headers and confirmations align consistently.
-- Cancelling a contest produces no completion or make-up tasks and retains code and genuine receipts. Extract 24 linked foundations, bringing lessons to 400. The knapsack course remains separate from this installer.
+- Cancelling a contest produces no completion or make-up tasks and retains code and genuine receipts. Extract 24 linked foundations, bringing lessons to 400. The knapsack DP course is distributed as a separate preview and is not integrated into the application.
 
 ## Changes in 1.3.3
 

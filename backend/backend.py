@@ -187,7 +187,7 @@ class Handler(BaseHTTPRequestHandler):
                         training.assert_solution_unlocked(body.get("id"))
                         value = store.update(body)
                 elif path == "/api/training/start":
-                    value = training.start_training(body.get("id"))
+                    value = training.start_training(body.get("id"), assisted=body.get("assisted") is True)
                 elif path == "/api/training/remove":
                     value = training.remove_training(body.get("id"))
                 elif path == "/api/training/clear":

@@ -49,7 +49,10 @@ class LibraryTests(unittest.TestCase):
                                  'available' if row['id'] in available_ids else 'missing', row['id'])
             row = next(row for row in data['rows'] if row['title'] == 'Xterfusion')
             self.assertIn('e2', server.store.solution(row['id'])['markdown'])
-            self.assertEqual(len(server.lectures.for_problem(row['id'])), 1)
+            lessons = server.lectures.for_problem(row['id'])
+            self.assertTrue(any(item['referenceKind'] == 'own' for item in lessons),
+                            'Keep the original lesson when adding reusable foundations')
+            self.assertTrue(any(item['id'].startswith('lecture:foundation-') for item in lessons))
             self.assertEqual(server.training.workspace()['summary']['total'], 0)
             self.assertTrue(server.store.library.path.parent.samefile(self.root))
             self.assertEqual(server.store.library.check()['solutions'], self.seed_counts['solutions'])

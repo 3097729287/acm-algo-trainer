@@ -3,10 +3,10 @@ import { execFileSync } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { EXPEDITION, TEMPLATE_CASES, cppTemplate, enumerate01, solveExactly, table01, templateResults, traceKnapsack } from '../src/pages/algorithm-lab/knapsackModel.js';
+import { EXPEDITION, EXPEDITION_CAPACITY, EXPEDITION_OPTIMUM, TEMPLATE_CASES, cppTemplate, enumerate01, packingPlan, solveExactly, table01, templateResults, traceKnapsack } from '../src/pages/algorithm-lab/knapsackModel.js';
 
 process.env.TB_OFFLINE = '1';
-const output = fileURLToPath(new URL('../../.backups/algorithm-lab-20261022/model/', import.meta.url));
+const output = fileURLToPath(new URL('../../.backups/algorithm-lab-standalone-20261022/model/', import.meta.url));
 await mkdir(output, { recursive: true });
 let seed = 0x507ac1, comparisons = 0;
 const random = max => { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; return seed % max; };
@@ -28,7 +28,11 @@ for (let test = 0; test < 600; test++) {
     assert.equal(down.values[c], expected);
     assert.equal(solveExactly(items, c), enumerate01(items, c, true));
     assert.equal(up.values[c], enumerateUnlimited(items, c));
-    comparisons += 4;
+    const packing = packingPlan(items, c);
+    assert.equal(packing.reduce((sum, item) => sum + item.value, 0), expected);
+    assert.ok(packing.reduce((sum, item) => sum + item.weight, 0) <= c);
+    assert.equal(new Set(packing).size, packing.length);
+    comparisons += 7;
   }
   for (const frame of down.frames) {
     assert.equal(frame.sourceFresh, false);
@@ -41,7 +45,22 @@ for (let test = 0; test < 600; test++) {
   randomCases.push({ name: `generated ${test}`, capacity, items });
 }
 
-assert.equal(table01(EXPEDITION, 4).at(-1)[4], 6);
+assert.equal(EXPEDITION_OPTIMUM, 8);
+assert.deepEqual(table01(EXPEDITION, EXPEDITION_CAPACITY), [
+  [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 7, 7], [0, 0, 0, 5, 7, 7], [0, 0, 3, 5, 7, 8],
+]);
+for (const order of [EXPEDITION, [...EXPEDITION].reverse(), [EXPEDITION[1], EXPEDITION[2], EXPEDITION[0]]]) {
+  assert.equal(table01(order, EXPEDITION_CAPACITY).at(-1)[EXPEDITION_CAPACITY], 8);
+  assert.deepEqual(packingPlan(order, EXPEDITION_CAPACITY).map(item => item.id).sort(), ['B', 'C']);
+}
+const classTrace = traceKnapsack(EXPEDITION, EXPEDITION_CAPACITY);
+const beforeC = classTrace.frames.find(frame => frame.i === 2 && frame.c === 5);
+assert.deepEqual(beforeC.before, [0, 0, 0, 5, 7, 7]);
+assert.deepEqual(beforeC.skipChoices, [0], 'the old capacity-5 solution uses A');
+assert.deepEqual(beforeC.sourceChoices, [1], 'the independent capacity-3 solution uses B');
+assert.deepEqual(beforeC.choices[5], [1, 2], 'replace A with B+C, rather than add C to A');
+assert.equal(beforeC.take, 8);
+assert.equal(beforeC.result, 8);
 const counterexample = traceKnapsack([{ id: 'A', weight: 2, value: 3 }], 4, 'up');
 assert.equal(counterexample.values[4], 6);
 assert.equal(counterexample.frames.at(-1).repeated, true);

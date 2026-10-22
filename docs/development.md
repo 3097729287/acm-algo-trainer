@@ -195,6 +195,8 @@ python scripts/check_current_release.py --stage "build/$tbVersion" --legacy-pack
 
 前端 `radar-performance.mjs` 使用 6000 题、500 条证据测量首屏和连续二级切换；`ui-v131.mjs` 同时验证首次题解宽度、直接下一题和保存失败屏障、比赛日历与用户/管理员入口。工作台、模拟赛和引导回归同时通过；后续算法实验室在独立开发分支验证。每个依赖 Vite 预构建缓存的浏览器回归顺序运行，避免改版本时多个开发服务器同时重写缓存。
 
+算法实验室已接入开发主应用，仅保留背包 DP；课程与跟做检查已完成。另一会话的基础补齐已完成，全库逐篇精修和阅读复核尚未完成，联合发布继续等待；不能以 task_complete 或最终答复替代需求完成核对。`frontend/npm run build:lab` 仍生成内联 JS/CSS 的 HTML 和可分享 ZIP；`npm run test:lab` 检验核心模型、五题的原题样例与独立枚举、实际 C++17，以及解压后断网的 `file://` 应用。`ui-v131.mjs` 检验主应用单课入口、固定翻页及跟做进入真实工作台流程。入口为 `frontend/standalone/`，共享课程在 `src/pages/algorithm-lab/`；独立输出到 `TB/版本/算法实验室体验版`。详见[教学创作流程](algorithm-lab-authoring.md)。
+
 ## 发布同步检查
 
 每次发布都必须把实际源码和文档作为同一版本交付，不能只上传发布包。

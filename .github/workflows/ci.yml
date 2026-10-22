@@ -56,6 +56,7 @@ jobs:
           npm ci --ignore-scripts
           npx playwright install chromium
           npm run build
+          node tests/algorithm-lab-guided-model.mjs
           node tests/accounts.mjs
           node tests/external-browser.mjs
           node tests/hybrid-cf.mjs
@@ -110,6 +111,7 @@ jobs:
       - run: npm run test:workbench
       - run: npm run test:e2e
       - run: node tests/detailed-solutions.mjs
+      - run: node tests/editorial-teaching.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

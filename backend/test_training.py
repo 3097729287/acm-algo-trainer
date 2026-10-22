@@ -146,6 +146,22 @@ class ServiceTests(unittest.TestCase):
         self.assertIsNone(row["queue"])
         self.assertEqual(self.library.rows[0]["status"], "独立AC")
 
+    def test_guided_handoff_records_assistance_without_creating_acceptance(self):
+        self.service.start_training('fixture::A')
+        self.accept('fixture::A')
+        original = self.service.connection.execute('SELECT id, solution_seen FROM submissions').fetchall()
+        result = self.service.start_training('fixture::B', assisted=True)
+        guided = next(row for row in result['workspace']['training'] if row['id'] == 'fixture::B')
+        self.assertTrue(guided['solutionSeen'])
+        self.assertFalse(guided['accepted'])
+        self.assertEqual(guided['attempts'], 0)
+        self.clock.advance(minutes=1)
+        self.accept('fixture::B')
+        receipt = self.service.connection.execute('SELECT solution_seen FROM submissions WHERE problem_id=?', ('fixture::B',)).fetchone()
+        self.assertTrue(receipt['solution_seen'])
+        preserved = self.service.connection.execute('SELECT id, solution_seen FROM submissions WHERE problem_id=?', ('fixture::A',)).fetchall()
+        self.assertEqual([tuple(row) for row in original], [tuple(row) for row in preserved])
+
     def test_header_ac_keeps_before_today_baseline_and_counts_current_beijing_day(self):
         self.clock.value = dt.datetime(2026, 10, 12, 15, 59, 50, tzinfo=UTC)
         self.accept("fixture::A")

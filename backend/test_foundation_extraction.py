@@ -31,7 +31,10 @@ class FoundationExtractionTests(unittest.TestCase):
             body = lesson['sourceMarkdown'].split('\n', 1)[1].strip()
             self.assertIn(body, lesson['markdown'])
             self.assertEqual(hashlib.sha256(lesson['sourceMarkdown'].encode()).hexdigest(), lesson['sourceHash'])
-            self.assertEqual(lesson['images'], editorial['images'])
+            # The source editorial can later gain additional teaching figures;
+            # every image originally used by this extracted lesson must survive.
+            for target, image in lesson['images'].items():
+                self.assertEqual(image, editorial['images'][target])
             own = [row for row in relationships if row['lecture_id'] == lesson['id']]
             self.assertEqual([(row['problem_id'], row['kind']) for row in own], [(problem, 'own')])
 

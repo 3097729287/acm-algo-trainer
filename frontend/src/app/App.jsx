@@ -1082,7 +1082,7 @@ export default function App() {
   function focusList() {
     requestAnimationFrame(() => listRef.current?.focus({ preventScroll: true }));
   }
-  async function openPractice(id) {
+  async function openPractice(id, { assisted = false } = {}) {
     if (!id || busy) return;
     if (active?.slots.some((s) => s.id === id)) {
       setReaderId(null);
@@ -1106,7 +1106,7 @@ export default function App() {
     setHoveredRow(null);
     setKeyboardSelection(false);
     try {
-      const result = await api("training/start", { id });
+      const result = await api("training/start", { id, ...(assisted ? { assisted: true } : {}) });
       applyWorkspace(result.workspace);
       contextRef.current = context;
       advanceRef.current = null;
@@ -2207,7 +2207,7 @@ export default function App() {
           ) : page === "activity" ? (
             <ActivityPage insights={insights} onTrain={openPractice} />
           ) : page === "paths" ? (
-            <LearningPathsPage rows={rows} api={api} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice}/>
+            <LearningPathsPage rows={rows} api={api} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} lockedProblems={active?.slots || []}/>
           ) : page === "lectures" ? (
             <LecturesPanel api={api} initialLecture={lectureId} onTrain={openPractice} onError={(message) => notice(message, "error")} />
           ) : page === "rankings" ? (

@@ -44057,6 +44057,456 @@
     "url": "https://codeforces.com/contest/2044/problem/H"
   },
   {
+    "id": "lab:luogu:P1048",
+    "url": "https://www.luogu.com.cn/problem/P1048",
+    "raw": {
+      "场次": "背包 DP 精选",
+      "题号": "P1048",
+      "题名": "[NOIP 2005 普及组] 采药",
+      "知识点": "背包 DP",
+      "难度": "1150",
+      "状态": "未做",
+      "日期": "",
+      "_id": "lab:luogu:P1048",
+      "_url": "https://www.luogu.com.cn/problem/P1048",
+      "_platform": "洛谷",
+      "_series": "算法实验室"
+    },
+    "encoded": {
+      "id": "lab:luogu:P1048",
+      "contest": "背包 DP 精选",
+      "problem": "P1048",
+      "title": "[NOIP 2005 普及组] 采药",
+      "tags": [
+        "背包 DP"
+      ],
+      "knowledge": "背包 DP",
+      "difficulty": 1150,
+      "difficultySource": "洛谷官方难度档 / CF-EQ",
+      "status": "未做",
+      "date": "",
+      "platform": "洛谷",
+      "series": "算法实验室",
+      "queue": null,
+      "url": "https://www.luogu.com.cn/problem/P1048",
+      "source": "algorithm-lab-curation",
+      "solutionAvailable": true,
+      "solutionState": "ready",
+      "startedAt": null,
+      "endedAt": null,
+      "contestDate": null,
+      "contestFullName": "背包 DP 精选",
+      "contestFamily": "算法实验室",
+      "originalTitle": "[NOIP 2005 普及组] 采药",
+      "sourceTags": [
+        "背包 DP"
+      ],
+      "knowledgeCategories": [
+        "动态规划"
+      ],
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "背包 DP"
+        ],
+        "knowledge": "背包 DP",
+        "categories": [
+          "动态规划"
+        ],
+        "status": "classified",
+        "source": "official-tags",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "official-tags",
+            "value": "背包 DP",
+            "tag": "背包 DP"
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "c2e1bff7c713b33a13b348bf95db0a277046b679ce60870030a1e9f1da52d4cb",
+        "sourceTags": [
+          "背包 DP"
+        ],
+        "supersededTags": []
+      },
+      "collectionSource": "https://www.luogu.com.cn/problem/P1048",
+      "nativeDifficulty": 2,
+      "difficultyEstimated": true,
+      "difficultyConfidence": "LOW",
+      "difficultyEvidence": [
+        "洛谷官方难度档 2（普及-）→ 区间 [1000, 1300]、代表值 1150（§3：代表值仅供排序/粗调度）"
+      ],
+      "detailedSolutionAvailable": true,
+      "algorithmLab": {
+        "topic": "knapsack",
+        "guided": true,
+        "revision": 1
+      }
+    }
+  },
+  {
+    "id": "lab:luogu:P1049",
+    "url": "https://www.luogu.com.cn/problem/P1049",
+    "raw": {
+      "场次": "背包 DP 精选",
+      "题号": "P1049",
+      "题名": "[NOIP 2001 普及组] 装箱问题",
+      "知识点": "背包 DP",
+      "难度": "1150",
+      "状态": "未做",
+      "日期": "",
+      "_id": "lab:luogu:P1049",
+      "_url": "https://www.luogu.com.cn/problem/P1049",
+      "_platform": "洛谷",
+      "_series": "算法实验室"
+    },
+    "encoded": {
+      "id": "lab:luogu:P1049",
+      "contest": "背包 DP 精选",
+      "problem": "P1049",
+      "title": "[NOIP 2001 普及组] 装箱问题",
+      "tags": [
+        "背包 DP"
+      ],
+      "knowledge": "背包 DP",
+      "difficulty": 1150,
+      "difficultySource": "洛谷官方难度档 / CF-EQ",
+      "status": "未做",
+      "date": "",
+      "platform": "洛谷",
+      "series": "算法实验室",
+      "queue": null,
+      "url": "https://www.luogu.com.cn/problem/P1049",
+      "source": "algorithm-lab-curation",
+      "solutionAvailable": true,
+      "solutionState": "ready",
+      "startedAt": null,
+      "endedAt": null,
+      "contestDate": null,
+      "contestFullName": "背包 DP 精选",
+      "contestFamily": "算法实验室",
+      "originalTitle": "[NOIP 2001 普及组] 装箱问题",
+      "sourceTags": [
+        "背包 DP"
+      ],
+      "knowledgeCategories": [
+        "动态规划"
+      ],
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "背包 DP"
+        ],
+        "knowledge": "背包 DP",
+        "categories": [
+          "动态规划"
+        ],
+        "status": "classified",
+        "source": "official-tags",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "official-tags",
+            "value": "背包 DP",
+            "tag": "背包 DP"
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "c2e1bff7c713b33a13b348bf95db0a277046b679ce60870030a1e9f1da52d4cb",
+        "sourceTags": [
+          "背包 DP"
+        ],
+        "supersededTags": []
+      },
+      "collectionSource": "https://www.luogu.com.cn/problem/P1049",
+      "nativeDifficulty": 2,
+      "difficultyEstimated": true,
+      "difficultyConfidence": "LOW",
+      "difficultyEvidence": [
+        "洛谷官方难度档 2（普及-）→ 区间 [1000, 1300]、代表值 1150（§3：代表值仅供排序/粗调度）"
+      ],
+      "detailedSolutionAvailable": true,
+      "algorithmLab": {
+        "topic": "knapsack",
+        "guided": true,
+        "revision": 1
+      }
+    }
+  },
+  {
+    "id": "lab:luogu:P1060",
+    "url": "https://www.luogu.com.cn/problem/P1060",
+    "raw": {
+      "场次": "背包 DP 精选",
+      "题号": "P1060",
+      "题名": "[NOIP 2006 普及组] 开心的金明",
+      "知识点": "背包 DP",
+      "难度": "1150",
+      "状态": "未做",
+      "日期": "",
+      "_id": "lab:luogu:P1060",
+      "_url": "https://www.luogu.com.cn/problem/P1060",
+      "_platform": "洛谷",
+      "_series": "算法实验室"
+    },
+    "encoded": {
+      "id": "lab:luogu:P1060",
+      "contest": "背包 DP 精选",
+      "problem": "P1060",
+      "title": "[NOIP 2006 普及组] 开心的金明",
+      "tags": [
+        "背包 DP"
+      ],
+      "knowledge": "背包 DP",
+      "difficulty": 1150,
+      "difficultySource": "洛谷官方难度档 / CF-EQ",
+      "status": "未做",
+      "date": "",
+      "platform": "洛谷",
+      "series": "算法实验室",
+      "queue": null,
+      "url": "https://www.luogu.com.cn/problem/P1060",
+      "source": "algorithm-lab-curation",
+      "solutionAvailable": true,
+      "solutionState": "ready",
+      "startedAt": null,
+      "endedAt": null,
+      "contestDate": null,
+      "contestFullName": "背包 DP 精选",
+      "contestFamily": "算法实验室",
+      "originalTitle": "[NOIP 2006 普及组] 开心的金明",
+      "sourceTags": [
+        "背包 DP"
+      ],
+      "knowledgeCategories": [
+        "动态规划"
+      ],
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "背包 DP"
+        ],
+        "knowledge": "背包 DP",
+        "categories": [
+          "动态规划"
+        ],
+        "status": "classified",
+        "source": "official-tags",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "official-tags",
+            "value": "背包 DP",
+            "tag": "背包 DP"
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "c2e1bff7c713b33a13b348bf95db0a277046b679ce60870030a1e9f1da52d4cb",
+        "sourceTags": [
+          "背包 DP"
+        ],
+        "supersededTags": []
+      },
+      "collectionSource": "https://www.luogu.com.cn/problem/P1060",
+      "nativeDifficulty": 2,
+      "difficultyEstimated": true,
+      "difficultyConfidence": "LOW",
+      "difficultyEvidence": [
+        "洛谷官方难度档 2（普及-）→ 区间 [1000, 1300]、代表值 1150（§3：代表值仅供排序/粗调度）"
+      ],
+      "detailedSolutionAvailable": true,
+      "algorithmLab": {
+        "topic": "knapsack",
+        "guided": true,
+        "revision": 1
+      }
+    }
+  },
+  {
+    "id": "lab:luogu:P1507",
+    "url": "https://www.luogu.com.cn/problem/P1507",
+    "raw": {
+      "场次": "背包 DP 精选",
+      "题号": "P1507",
+      "题名": "NASA的食物计划",
+      "知识点": "背包 DP",
+      "难度": "1150",
+      "状态": "未做",
+      "日期": "",
+      "_id": "lab:luogu:P1507",
+      "_url": "https://www.luogu.com.cn/problem/P1507",
+      "_platform": "洛谷",
+      "_series": "算法实验室"
+    },
+    "encoded": {
+      "id": "lab:luogu:P1507",
+      "contest": "背包 DP 精选",
+      "problem": "P1507",
+      "title": "NASA的食物计划",
+      "tags": [
+        "背包 DP"
+      ],
+      "knowledge": "背包 DP",
+      "difficulty": 1150,
+      "difficultySource": "洛谷官方难度档 / CF-EQ",
+      "status": "未做",
+      "date": "",
+      "platform": "洛谷",
+      "series": "算法实验室",
+      "queue": null,
+      "url": "https://www.luogu.com.cn/problem/P1507",
+      "source": "algorithm-lab-curation",
+      "solutionAvailable": true,
+      "solutionState": "ready",
+      "startedAt": null,
+      "endedAt": null,
+      "contestDate": null,
+      "contestFullName": "背包 DP 精选",
+      "contestFamily": "算法实验室",
+      "originalTitle": "NASA的食物计划",
+      "sourceTags": [
+        "背包 DP"
+      ],
+      "knowledgeCategories": [
+        "动态规划"
+      ],
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "背包 DP"
+        ],
+        "knowledge": "背包 DP",
+        "categories": [
+          "动态规划"
+        ],
+        "status": "classified",
+        "source": "official-tags",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "official-tags",
+            "value": "背包 DP",
+            "tag": "背包 DP"
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "c2e1bff7c713b33a13b348bf95db0a277046b679ce60870030a1e9f1da52d4cb",
+        "sourceTags": [
+          "背包 DP"
+        ],
+        "supersededTags": []
+      },
+      "collectionSource": "https://www.luogu.com.cn/problem/P1507",
+      "nativeDifficulty": 2,
+      "difficultyEstimated": true,
+      "difficultyConfidence": "LOW",
+      "difficultyEvidence": [
+        "洛谷官方难度档 2（普及-）→ 区间 [1000, 1300]、代表值 1150（§3：代表值仅供排序/粗调度）"
+      ],
+      "detailedSolutionAvailable": true,
+      "algorithmLab": {
+        "topic": "knapsack",
+        "guided": true,
+        "revision": 1
+      }
+    }
+  },
+  {
+    "id": "lab:luogu:P2392",
+    "url": "https://www.luogu.com.cn/problem/P2392",
+    "raw": {
+      "场次": "背包 DP 精选",
+      "题号": "P2392",
+      "题名": "kkksc03 考前临时抱佛脚",
+      "知识点": "背包 DP",
+      "难度": "1150",
+      "状态": "未做",
+      "日期": "",
+      "_id": "lab:luogu:P2392",
+      "_url": "https://www.luogu.com.cn/problem/P2392",
+      "_platform": "洛谷",
+      "_series": "算法实验室"
+    },
+    "encoded": {
+      "id": "lab:luogu:P2392",
+      "contest": "背包 DP 精选",
+      "problem": "P2392",
+      "title": "kkksc03 考前临时抱佛脚",
+      "tags": [
+        "背包 DP"
+      ],
+      "knowledge": "背包 DP",
+      "difficulty": 1150,
+      "difficultySource": "洛谷官方难度档 / CF-EQ",
+      "status": "未做",
+      "date": "",
+      "platform": "洛谷",
+      "series": "算法实验室",
+      "queue": null,
+      "url": "https://www.luogu.com.cn/problem/P2392",
+      "source": "algorithm-lab-curation",
+      "solutionAvailable": true,
+      "solutionState": "ready",
+      "startedAt": null,
+      "endedAt": null,
+      "contestDate": null,
+      "contestFullName": "背包 DP 精选",
+      "contestFamily": "算法实验室",
+      "originalTitle": "kkksc03 考前临时抱佛脚",
+      "sourceTags": [
+        "背包 DP"
+      ],
+      "knowledgeCategories": [
+        "动态规划"
+      ],
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "背包 DP"
+        ],
+        "knowledge": "背包 DP",
+        "categories": [
+          "动态规划"
+        ],
+        "status": "classified",
+        "source": "official-tags",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "official-tags",
+            "value": "背包 DP",
+            "tag": "背包 DP"
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "c2e1bff7c713b33a13b348bf95db0a277046b679ce60870030a1e9f1da52d4cb",
+        "sourceTags": [
+          "背包 DP"
+        ],
+        "supersededTags": []
+      },
+      "collectionSource": "https://www.luogu.com.cn/problem/P2392",
+      "nativeDifficulty": 2,
+      "difficultyEstimated": true,
+      "difficultyConfidence": "LOW",
+      "difficultyEvidence": [
+        "洛谷官方难度档 2（普及-）→ 区间 [1000, 1300]、代表值 1150（§3：代表值仅供排序/粗调度）"
+      ],
+      "detailedSolutionAvailable": true,
+      "algorithmLab": {
+        "topic": "knapsack",
+        "guided": true,
+        "revision": 1
+      }
+    }
+  },
+  {
     "encoded": {
       "collectionNotice": "按洛谷原题标题核对；填空题可能合并在一道 OJ 题中，题单不代表原卷题数或题序。",
       "collectionSource": "https://www.luogu.com.cn/problem/P8606",

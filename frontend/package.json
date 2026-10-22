@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
+    "build:lab": "node scripts/build-algorithm-lab.mjs",
+    "test:lab": "node tests/algorithm-lab-model.mjs && node tests/algorithm-lab-guided-model.mjs && node tests/algorithm-lab.mjs",
     "test:ui": "node tests/app.mjs",
     "test:compilers": "node tests/compilers.mjs",
     "test:e2e": "node tests/e2e.mjs",

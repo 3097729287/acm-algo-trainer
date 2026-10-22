@@ -317,12 +317,16 @@ class TrainingService:
         canonical = aliases.get(identity, identity)
         return sorted({identity} | {other for other, target in aliases.items() if target == canonical})
 
-    def start_training(self, identity):
+    def start_training(self, identity, *, assisted=False):
         with self.lock:
             self._row(identity)
+            if assisted:
+                self.assert_solution_unlocked(identity)
             with self._write() as connection:
                 self._claim_training(connection, identity)
                 self._activate(connection, identity, iso(self._now()))
+            if assisted:
+                self.mark_solution_seen(identity)
             workspace = self.workspace()
             canonical = self._identity_map().get(identity, identity)
             task = next((row.get('reviewTask') for row in workspace['training'] if row['id'] == canonical), None)

@@ -1,10 +1,12 @@
 // Small, deterministic teaching models. These execute the displayed transitions,
 // not arbitrary C++; official training continues through the existing workbench.
 export const EXPEDITION = [
-  { id: 'A', name: '对讲机', weight: 3, value: 5 },
-  { id: 'B', name: '照明灯', weight: 2, value: 3 },
+  { id: 'A', name: '对讲机', weight: 4, value: 7 },
+  { id: 'B', name: '照明灯', weight: 3, value: 5 },
   { id: 'C', name: '急救包', weight: 2, value: 3 },
 ];
+export const EXPEDITION_CAPACITY = 5;
+export const EXPEDITION_REVISION = 2;
 
 export function table01(items, capacity) {
   const table = [Array(capacity + 1).fill(0)];
@@ -14,6 +16,7 @@ export function table01(items, capacity) {
   }
   return table;
 }
+export const EXPEDITION_OPTIMUM = table01(EXPEDITION, EXPEDITION_CAPACITY).at(-1)[EXPEDITION_CAPACITY];
 
 // Recover an actual packing so a table value always has a concrete meaning.
 export function packingPlan(items, capacity) {
@@ -34,11 +37,11 @@ export function traceKnapsack(items, capacity, direction = 'down') {
     const capacities = Array.from({ length: Math.max(0, capacity - item.weight + 1) }, (_, c) => c + item.weight);
     if (direction === 'down') capacities.reverse();
     for (const c of capacities) {
-      const source = c - item.weight, before = [...values], sourceChoices = [...choices[source]], skip = values[c], take = values[source] + item.value;
+      const source = c - item.weight, before = [...values], skipChoices = [...choices[c]], sourceChoices = [...choices[source]], skip = values[c], take = values[source] + item.value;
       const improved = take > skip, repeated = sourceChoices.includes(i), sourceFresh = versions[source] === i;
       if (improved) { values[c] = take; choices[c] = [...sourceChoices, i]; }
       versions[c] = i;
-      frames.push({ i, item, c, source, before, after: [...values], skip, take, improved, repeated, sourceFresh, sourceChoices,
+      frames.push({ i, item, c, source, before, after: [...values], skip, take, improved, repeated, sourceFresh, skipChoices, sourceChoices,
         choices: choices.map(picks => [...picks]), result: values[c] });
     }
   });
@@ -67,7 +70,7 @@ export const TEMPLATE_CASES = [
   { name: '一件物品不能用两次', capacity: 4, items: [{ weight: 2, value: 3 }] },
   { name: '装不下时可以什么都不拿', capacity: 3, items: [{ weight: 5, value: 9 }] },
   { name: '容量正好相等也要更新', capacity: 2, items: [{ weight: 2, value: 7 }] },
-  { name: '最优解需要组合', capacity: 4, items: EXPEDITION },
+  { name: '最优解需要组合', capacity: EXPEDITION_CAPACITY, items: EXPEDITION },
   { name: '价值可能超过 int', capacity: 4, items: [{ weight: 2, value: 2000000000 }, { weight: 2, value: 2000000000 }] },
 ];
 
