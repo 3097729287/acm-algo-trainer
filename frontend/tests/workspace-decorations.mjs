@@ -139,7 +139,7 @@ try{
  assert.notEqual(JSON.parse(await page.evaluate(()=>localStorage.getItem('tb.preferences.v2.10000000-0000-4000-8000-000000000001')))?.onboardingCompleted,true,'Page guide does not complete the introductory overview');
  assert.equal(await page.locator('.topbar').getByRole('button',{name:/指引/}).count(),0,'Page guide entry stays in Settings');
  await openSettings(page,'数据与帮助');await page.getByRole('button',{name:/新手指引/}).click();await directory.waitFor();
- await directory.getByRole('button',{name:/入门总览/}).click();await page.getByRole('heading',{name:'连接账号',exact:true}).waitFor();
+ await directory.getByRole('button',{name:/入门总览/}).click();await page.getByRole('heading',{name:'收起与展开侧边栏',exact:true}).waitFor();
  await page.keyboard.press('Escape');
  await page.waitForFunction(()=>JSON.parse(localStorage.getItem('tb.preferences.v2.10000000-0000-4000-8000-000000000001')).onboardingCompleted===true);
  await openSettings(page,'数据与帮助');await page.getByRole('button',{name:/新手指引/}).click();await directory.waitFor();await directory.getByRole('button',{name:/翻译 API/}).click();await page.getByRole('heading',{name:'预置中文与自行翻译',exact:true}).waitFor();await page.locator('.translation-settings').waitFor();await page.keyboard.press('Escape');

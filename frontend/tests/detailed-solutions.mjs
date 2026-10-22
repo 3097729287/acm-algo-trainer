@@ -59,7 +59,9 @@ try {
   const detailedButton = panel.getByRole('button', { name: '详细题解', exact: true });
   assert.equal(await defaultButton.getAttribute('aria-pressed'), 'true');
   assert.equal(await panel.getByText('1. 左秩、右秩到底是什么？', { exact: true }).count(), 0);
+  await panel.locator('.reader-content .markdown').first().waitFor();
   const defaultText = await panel.locator('.reader-content').innerText();
+  assert(defaultText.trim(),'the default editorial has finished loading before comparison');
   await detailedButton.focus();
   await page.keyboard.press('Enter');
   await panel.getByRole('heading', { name: '1. 左秩、右秩到底是什么？', exact: true }).waitFor();

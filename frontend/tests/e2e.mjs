@@ -38,7 +38,10 @@ try {
   page.on('pageerror', error => errors.push(error.message));
   const catalog = await (await page.request.get(frontendUrl + '/api/data')).json();
   assert.ok(catalog.rows.length >= 607);
-  assert.equal(catalog.rows.filter(row => row.solutionAvailable).length, seededSolutions.length, 'all bundled solutions reach the API');
+  const editorialIds=new Set(seededSolutions.map(row=>row.problem_id));
+  const reachableEditorials=new Set(catalog.rows.filter(row=>row.solutionAvailable).flatMap(row=>row.aliasIds||[row.id]));
+  assert([...editorialIds].every(id=>reachableEditorials.has(id)),'all bundled editorials remain reachable after original-task deduplication');
+  assert(catalog.rows.filter(row=>row.solutionAvailable).every(row=>(row.aliasIds||[row.id]).some(id=>editorialIds.has(id))),'every displayed editorial has a real public source');
   const problem = catalog.rows.find(row => row.title === 'Xterfusion');
   const solution = await (await page.request.get(frontendUrl + '/api/solution?id=' + encodeURIComponent(problem.id))).json();
   assert.equal(solution.markdown, seededSolutions.find(record => record.problem_id === problem.id).markdown, 'the complete bundled solution reaches the API');
