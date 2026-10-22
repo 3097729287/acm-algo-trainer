@@ -38,6 +38,7 @@ class LoginBootstrapTests(unittest.TestCase):
                 for _ in range(3):
                     self.assertTrue(self.call('/api/account?background=1')[1]['restoring'])
                     self.assertEqual(self.call('/api/software-update')[0], 200)
+                    self.assertEqual(self.call('/')[0], 404)
                 self.assertLess(time.monotonic() - begin, 2)
                 self.assertEqual(len(calls), 1)
                 self.assertIsNone(self.server.accounts.session)

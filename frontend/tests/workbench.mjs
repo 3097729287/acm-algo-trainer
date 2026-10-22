@@ -261,6 +261,8 @@ try {
   await editor.press('Control+Enter');
   await page.evaluate(() => { window.workbenchFixture.officialStatus = 'finished'; });
   await page.waitForFunction(() => document.querySelector('.wb-result-summary')?.textContent.includes('AC'));
+  assert.equal(await page.locator('.tb-workbench > .wb-official-status').count(), 0, 'Submission status never adds a top strip');
+  assert.equal(await page.getByLabel('原站提交状态').count(), 0, 'A final verdict appears only in the result panel');
   await page.waitForFunction(() => window.workbenchFixture.progress.length === 2);
   assert.equal(await page.evaluate(() => window.workbenchFixture.progress.at(-1).summary.accepted), 1);
   await editor.fill('unsaved edit before restoring history');

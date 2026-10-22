@@ -100,7 +100,8 @@ class Handler(BaseHTTPRequestHandler):
             path = unquote(urlsplit(self.path).path)
             bootstrap = not writing and path == '/api/account' and parse_qs(urlsplit(self.path).query).get('background') == ['1']
             update_status = path in {'/api/software-update', '/api/software-update/check', '/api/software-update/settings', '/api/software-update/download'}
-            if bootstrap or update_status:
+            static_asset = not writing and not path.startswith('/api/')
+            if bootstrap or update_status or static_asset:
                 # Read-only bootstrap remains responsive while the restore
                 # worker holds the account switch barrier. Local checks still
                 # run in _dispatch; training endpoints retain their barrier.
@@ -330,7 +331,7 @@ class Handler(BaseHTTPRequestHandler):
                 else:
                     raise APIError(404, "没有找到这个接口")
                 if accounts is not None and accounts.session and path not in ('/api/account/sync', '/api/software-update/install'):
-                    accounts.sync_pending(wait=False)
+                    accounts.queue_sync()
                 self.send_json(200, value)
             elif path == "/api/data":
                 self.send_json(200, store.data_response_bytes(compact=parse_qs(target.query).get('compact', ['0'])[0]=='1'))
@@ -549,6 +550,10 @@ class Handler(BaseHTTPRequestHandler):
 
 
 class LocalServer(ThreadingHTTPServer):
+    # A login mounts the workbench and loads several chunks/API reads together.
+    # The TCPServer default of five connections can reject those bursts on
+    # Windows, poisoning a lazy module import until the page is reloaded.
+    request_queue_size = 128
     # On Windows, SO_REUSEADDR permits two live listeners on the same port and
     # arbitrarily routes requests between versions. Keep the desktop endpoint
     # exclusive; repeated launches must never receive another app's session.
