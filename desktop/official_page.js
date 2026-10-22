@@ -9,6 +9,10 @@ const lgReceipt=installLuoguReceipts(ctx, send);
 const visible=e=>e&&e.getClientRects().length>0;
 const editors=()=>[...document.querySelectorAll('textarea')].filter(e=>/source|code|editor/i.test((e.name||'')+' '+(e.id||'')));
 const hasEditor=()=>editors().length||document.querySelector('.CodeMirror,.cm-editor,.ace_editor,.monaco-editor');
+// CodeMirror 6 now attaches cmTile; older versions expose cmView. Change the
+// actual view document so the site's native submit handler sees the same code.
+const codeMirrorView=e=>e.cmView?.view||e.cmTile?.root?.view;
+const hasReadyEditor=()=>editors().some(visible)||[...document.querySelectorAll('.CodeMirror,.ace_editor,.monaco-editor')].some(visible)||[...document.querySelectorAll('.cm-editor .cm-content')].some(e=>{const view=codeMirrorView(e);return visible(e)&&view?.state?.doc&&typeof view.dispatch==='function';});
 const login=()=>[...document.querySelectorAll('input[type=password]')].some(visible)||/\/login|\/enter(?:\/|$)|\/auth\/login/i.test(location.pathname);
 const pageKey=ctx.sessionId+':'+ctx.originalUrl;
 const host=typeof window==='undefined'?globalThis:window;
@@ -130,11 +134,12 @@ if(errors.length)return {status:'error',attempted:false,message:'Codeforces 未�
 if(ctx.attempted&&ctx.baselineKnown){const baseline=new Set(ctx.baseline||[]);const receipt=receipts().find(r=>newerReceipt(r.id,baseline)&&(!ctx.submissionId||r.id===ctx.submissionId));if(receipt?.verdict)return receiptValue(receipt);}
 if(!ctx.attempted&&document.readyState==='loading')return {status:'loading',message:'正在加载原站提交表单。'};
 if(!ctx.attempted&&hasEditor()&&['Codeforces','AtCoder'].includes(ctx.platform))prepare();
-return (ctx.platform==='洛谷'?lgReceipt?.hasSubmitApi():hasEditor())?{status:ctx.attempted?'submitted':'ready',message:ctx.attempted?'已发送原站提交请求，正在等待受理编号。':'后台连接已就绪。'}:{status:ctx.attempted?'submitted':'loading',message:ctx.attempted?'尚未收到原站受理编号，正在后台查询。':'正在准备原站提交接口。'};
+return (ctx.platform==='洛谷'?(ctx.nativeFormOnly?hasReadyEditor():lgReceipt?.hasSubmitApi()):hasEditor())?{status:ctx.attempted?'submitted':'ready',message:ctx.attempted?'已发送原站提交请求，正在等待受理编号。':'后台连接已就绪。'}:{status:ctx.attempted?'submitted':'loading',message:ctx.attempted?'尚未收到原站受理编号，正在后台查询。':ctx.platform==='洛谷'&&ctx.nativeFormOnly?'正在等待洛谷代码编辑器加载，尚未发送代码。':'正在准备原站提交接口。'};
 }
 async function submit(manual=false){
 if(manual&&work.manualFilled)return send({status:'awaiting_submit',message:'代码已填入浏览器，请在官网点击提交。结果会自动同步到 TB。'});
 const state=inspect();if(state.status==='needs_login'||!manual&&(['needs_verification'].includes(state.status)||ctx.platform==='AtCoder'&&['loading','error'].includes(state.status)))return send(state);
+if(!manual&&ctx.nativeFormOnly&&ctx.platform==='洛谷'&&state.status==='loading')return send(state);
 const checkpoint=value=>postMessage({tbOfficial:true,sessionId:ctx.sessionId,...value});
 if(!manual&&!ctx.nativeFormOnly&&lgReceipt?.hasSubmitApi())return lgReceipt.submitApi(checkpoint);
 if(!hasEditor())return send({status:manual?'awaiting_submit':'error',attempted:false,message:manual?'请在浏览器完成验证并打开提交编辑器，TB 会继续尝试填入代码。':'没有找到原站代码编辑器，请进入本题提交页；不会点击其它表单。'});
@@ -147,7 +152,7 @@ if(!compiler)return send({status:'error',attempted:false,message:ctx.language===
 if(!manual&&!ctx.nativeFormOnly&&ctx.language!=='python3'&&ncReceipt?.hasLegacyApi())return ncReceipt.submitLegacy(compiler,checkpoint);
 editors().forEach(e=>{Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,'value').set.call(e,ctx.code);e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));filled++;});
 document.querySelectorAll('.CodeMirror').forEach(e=>{if(e.CodeMirror){e.CodeMirror.setValue(ctx.code);filled++;}});document.querySelectorAll('.ace_editor').forEach(e=>{try{if(window.ace){window.ace.edit(e).setValue(ctx.code,-1);filled++;}}catch{}});try{window.monaco?.editor?.getModels?.().filter(m=>!m.isDisposed()&&/cpp|c\+\+/.test(m.getLanguageId?.()||'')).forEach(m=>{m.setValue(ctx.code);filled++;});}catch{}
-document.querySelectorAll('.cm-editor .cm-content').forEach(e=>{const view=e.cmView?.view;if(view?.state?.doc&&view?.dispatch){view.dispatch({changes:{from:0,to:view.state.doc.length,insert:ctx.code}});filled++;}});
+document.querySelectorAll('.cm-editor .cm-content').forEach(e=>{const view=codeMirrorView(e);if(view?.state?.doc&&typeof view.dispatch==='function'){view.dispatch({changes:{from:0,to:view.state.doc.length,insert:ctx.code}});filled++;}});
 if(!filled)return send({status:'error',attempted:false,message:'编辑器接口不可用，请手动粘贴并提交；未发出自动提交。'});
 if(manual){
 work.manualFilled=true;

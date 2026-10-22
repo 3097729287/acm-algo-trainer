@@ -6,7 +6,7 @@ TB combines a problem library, illustrated editorials, a C++ / Python editor, lo
 **Latest stable: [TB 1.3.5](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.5).** [Changes and validation](docs/releases/1.3.5.md).
 <!-- release-status:end -->
 
-**TB 1.3.6 has been delivered and validated locally; it is not publicly released.** The normal desktop app includes seven knapsack lessons, five guided problems, aligned daily AC counts and separated shortcut controls. Completed 1.3.5 software fixes are retained. Personal data and existing launch shortcuts were preserved. Build source: `0a30d001aaa9eaba6ce2f9368e047e5c574a2556` on `release/1.3.6-lab`. Ongoing editorial review remains separate. [Delivery and validation](docs/releases/1.3.6.md).
+**TB 1.3.6 has been delivered and validated locally; it is not publicly released.** The normal desktop app includes seven knapsack lessons, five guided problems, aligned daily AC counts and separated shortcut controls. Completed 1.3.5 software fixes are retained. This update handles delayed Luogu editor mounting and the current CodeMirror model while preserving native form submission. Personal data and existing launch shortcuts were preserved. Builds use `release/1.3.6-lab`; the exact source is recorded as `sourceCommit` in the app's `BUILD-INFO.json`. Ongoing editorial review remains separate. [Delivery and validation](docs/releases/1.3.6.md).
 
 Individual editorial refinement and reading review remain unfinished. The local 1.3.6 delivery includes the completed course and preserves that separate authoring work. [Authoring workflow](docs/algorithm-lab-authoring.md).
 
