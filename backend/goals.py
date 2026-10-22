@@ -64,6 +64,15 @@ def shared_contest_plan(goals, rows=(), accepted_keys=()):
 class Goals:
     def __init__(self,training):self.training=training
 
+    def _activate_recommendation(self, db, identity, stamp):
+        ids = self.training._equivalent_ids(identity)
+        placeholders = ','.join('?' for _ in ids)
+        today = self.training._now().astimezone(SHANGHAI).date()
+        removed = db.execute(f'SELECT removed_at FROM training WHERE id IN ({placeholders}) AND active=0 AND removed_at IS NOT NULL', ids).fetchall()
+        if any(parse_time(r['removed_at']).astimezone(SHANGHAI).date() >= today for r in removed):
+            return
+        self.training._activate(db, identity, stamp)
+
     def save(self,body):
         if not isinstance(body,dict):raise ServiceError(422,'目标参数无效')
         title=body.get('title','').strip() if isinstance(body.get('title',''),str) else ''
@@ -120,6 +129,7 @@ class Goals:
         t=self.training
         with t.lock:
             now=t._now();today=now.astimezone(SHANGHAI).date()
+            review_plan = t.review_plan()
             rows=t._library();metadata={row['id']:row for row in rows}
             # A bundled roster can replace the visible remote row for the same
             # URL. Keep persisted selections and receipts attached to that task.
@@ -180,6 +190,8 @@ class Goals:
                 contest_plan=[{'contest':name,'target':amount,'problems':ranges[i]} for i,((name,_),amount) in enumerate(zip(families,amounts))]
                 before_today=max(0,total-done+all_today_done)
                 task_target=min(8,before_today,max(daily,math.ceil(before_today/max(1,left)))) if left else 0
+                if review_plan['minutes']:
+                    task_target = min(task_target, review_plan['newMinutes'] // goal['minutesPerProblem'])
                 # One persisted selection per goal/day: refreshes and restarts cannot
                 # change the assignments or undo a user's removal on the same day.
                 saved=assignments.get(record['id'])
@@ -192,20 +204,26 @@ class Goals:
                     if key in seen or owners.get(key)!=record['id']:continue
                     seen.add(key);selected.append(row)
                 if saved and saved['target'] is not None:task_target=saved['target']
+                if review_plan['reviewOnly']:
+                    task_target = 0
+                    selected = []
+                elif review_plan['minutes']:
+                    task_target = min(task_target, review_plan['newMinutes'] // goal['minutesPerProblem'])
+                    selected = selected[:task_target]
                 repairing=not saved or saved['target'] is None or len(selected)!=len(original_ids)
-                if repairing:
+                if repairing and not review_plan['reviewOnly']:
                     for row in candidates:
                         if len(selected)>=task_target:break
                         key=problem_key(row)
                         if key in seen or key in owners:continue
                         owners[key]=record['id']
                         seen.add(key);selected.append(row)
-                    if assign:
+                    if assign and not (saved and review_plan['minutes']):
                         with t._write() as db:
                             db.execute('INSERT INTO goal_daily_assignments(goal_id,day,ids,target) VALUES(?,?,?,?) ON CONFLICT(goal_id,day) DO UPDATE SET ids=excluded.ids,target=excluded.target',
                                        (record['id'],today.isoformat(),json.dumps([row['id'] for row in selected],ensure_ascii=False),task_target))
                             for row in selected:
-                                if row['id'] not in original_ids:t._activate(db,row['id'],iso(now))
+                                if row['id'] not in original_ids:self._activate_recommendation(db,row['id'],iso(now))
                 today_done=sum(1 for row in selected if (item:=accepted.get(problem_key(row)))
                                and start<item['at']<=now and item['at'].astimezone(SHANGHAI).date()==today)
                 daily_selections[record['id']]=selected
@@ -224,12 +242,17 @@ class Goals:
         A persisted selection never reactivates a task the user removed.
         """
         t=self.training;now=t._now();recent=now-dt.timedelta(days=7)
+        review_plan = t.review_plan()
+        if review_plan['reviewOnly'] or (review_plan['minutes'] and review_plan['newMinutes'] < min((g.get('minutesPerProblem',45) for g in goals), default=45)):
+            return []
         key=lambda row:canonical_url(row.get('url')) or row['id']
         plans={goal['id']:goal for goal in goals if not goal['workloadCompleted']}
         tasks={}
+        maximum = review_plan['newMinutes'] // min((g.get('minutesPerProblem',45) for g in goals), default=45) if review_plan['minutes'] else None
         def include(row,goal,source):
             if row['id'] in locked:return
             identity=key(row)
+            if maximum is not None and identity not in tasks and len(tasks) >= maximum:return
             task=tasks.setdefault(identity,{**{field:row.get(field) for field in ('id','title','contest','problem','platform','difficulty','difficultyEstimated')},
                 'accepted':identity in accepted,'goalTitles':[],'sources':[]})
             if goal['title'] not in task['goalTitles']:task['goalTitles'].append(goal['title'])
@@ -256,6 +279,7 @@ class Goals:
                 for identity in json.loads(record['ids']):
                     if identity in metadata:include(metadata[identity],goal,'比赛目标')
             for requirement in goal.get('contestPlan',[]):
+                if review_plan['minutes']:continue
                 if requirement['target']<=0:continue
                 platform,pattern=families[requirement['contest']]
                 matches=[]
@@ -289,6 +313,6 @@ class Goals:
                             db.execute('INSERT INTO practice_sets(id,name,ids,created_at) VALUES(?,?,?,?) ON CONFLICT(id) DO UPDATE SET ids=excluded.ids',
                                 (group_id,name,json.dumps(ids,ensure_ascii=False),iso(now)))
                             for row in selected:
-                                if row['id'] not in old_ids:t._activate(db,row['id'],iso(now))
+                                if row['id'] not in old_ids:self._activate_recommendation(db,row['id'],iso(now))
                     for row in selected:include(row,goal,'比赛目标')
         return sorted(tasks.values(),key=lambda task:(task['accepted'],task['contest'] or '',str(task['problem'] or '')))

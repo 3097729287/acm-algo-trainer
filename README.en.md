@@ -3,9 +3,10 @@
 TB combines a problem library, illustrated editorials, a C++ / Python editor, local judging and training records for Codeforces, AtCoder, Nowcoder and Luogu. SQLite preserves local work; the account service synchronizes learning data between computers.
 
 <!-- release-status:start -->
-**[1.3.3 is released](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.3).** [Changes, upgrade checks and SHA-256](docs/releases/1.3.3.md).
-Prebuilt Chinese statements, taxonomy and mastery v3, the separate admin edition and detailed page guides are included. Source, installers and local delivery are synchronized.
+**Source 1.3.4 is not released yet; the stable download remains [1.3.3](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.3).** [1.3.4 changes and validation](docs/releases/1.3.4.md).
 <!-- release-status:end -->
+
+The development source also includes an **unreleased Algorithm Lab**: a first knapsack DP course with hands-on packing, state derivation, a reversible execution visualizer, C++17 template construction, debugging, and transfer checks. Published downloads remain at 1.3.3. See the [course design and authoring guide](docs/algorithm-lab-design.md) (Chinese).
 
 [Website](https://3097729287.github.io/acm-algo-trainer/) · [Usage](docs/usage.md) · [Development](docs/development.md) · [中文](README.md)
 
@@ -16,6 +17,13 @@ Prebuilt Chinese statements, taxonomy and mastery v3, the separate admin edition
 Windows 10/11 x64. The [user installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.3/TB-Setup-1.3.3-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.3/TB-1.3.3-win64.zip) before running it. Administrators use the [separate installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.3/TB-Admin-Setup-1.3.3-win64.exe), with login name `admin` and server authorization for public management. Release assets include checksums and incremental updates from 1.3.1 / 1.3.2.
 
 Save drafts and exit TB before installing into the existing directory. Personal databases, source code and imported content are preserved. The updater saves work, takes online SQLite backups and verifies SHA-256 before replacement. Keep the same TB version on your computers. Original-site login uses TB's dedicated browser profile; no extension is required.
+
+## Source changes in 1.3.4 (not released yet)
+
+- Adaptive reviews start the day after an official AC with an isolated blank draft, then adjust intervals to difficulty, independent success and failures. Easy tasks can leave long-term review; heavy review days reduce new work. Original code and history remain intact. [Rules](docs/adaptive-reviews.md).
+- A footer calendar dialog shows upcoming basic contests from four official platforms in Beijing time, with background refresh and cached offline access. Indexed radar summaries avoid repeated full-library scans.
+- Canonical original-task deduplication retains aliases, drafts and receipts. Next-problem navigation saves before switching; the editorial button toggles its stable-width reader. Folder filters, tables, headers and confirmations align consistently.
+- Cancelling a contest produces no completion or make-up tasks and retains code and genuine receipts. Extract 24 linked foundations, bringing lessons to 400. The algorithm lab includes an interactive knapsack DP lesson.
 
 ## Changes in 1.3.3
 
@@ -52,7 +60,7 @@ Save drafts and exit TB before installing into the existing directory. Personal 
 
 ## Library and progression
 
-The public seed contains **5,819 problems (5,646 visible, 173 hidden), 2,422 statements, 1,302 default editorials, 1,302 detailed editorials and 376 lectures**. Uncached statements require connectivity. All existing content remains available; new editorial work is limited to known difficulty strictly below 2200. [Editorial policy](docs/editorial-policy.md).
+The public seed retains **5,819 original problem entries, 2,422 statements, 1,302 default editorials, 1,302 detailed editorials and 400 lectures**. The UI deduplicates original tasks while preserving aliases, content and work. Uncached statements require connectivity. New editorial work is limited to verified problem difficulty at most 2200, including 2200. [Editorial policy](docs/editorial-policy.md).
 
 XP levels and skill tiers are independent. Level 5 unlocks placement; at least five distinct, verified, independent first official ACs are required. Ability is the median difficulty of the strongest five. Iron through King starts at **0, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2100 and 2200**. This is a training estimate, not a direct copy of an original-site account rating. [Progression rules](docs/progression.md).
 

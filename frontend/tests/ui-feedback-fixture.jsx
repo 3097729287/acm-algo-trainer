@@ -5,7 +5,7 @@ import MedalEmblem from '../src/components/MedalEmblem.jsx';
 import {TIER_NAMES} from '../src/components/TierIcon.jsx';
 import PracticeStreak from '../src/components/PracticeStreak.jsx';
 import {AchievementPanel} from '../src/pages/ProgressPanels.jsx';
-import KnowledgeRadar from '../src/components/KnowledgeRadar.jsx';
+import KnowledgeRadar,{KNOWLEDGE_DOMAINS} from '../src/components/KnowledgeRadar.jsx';
 import '../src/styles/workspace.css';
 import '../src/styles/polish.css';
 import '../src/styles/unified.css';
@@ -22,7 +22,16 @@ const achievements=[
  ['streak-180','连续训练 180 天'],['streak-365','连续训练 365 天'],['streak-730','连续训练 2 年'],['platforms-2','跨平台练习'],
  ['missions-1','领取每日奖励'],['missions-10','任务积累'],['missions-50','日积月累'],
 ].map(([id,name])=>({id,name,description:name,target:100,progress:12,unlocked:false,rewardXp:40}));
-if(view==='radar')createRoot(document.getElementById('root')).render(<main style={{padding:24,maxWidth:960}}><KnowledgeRadar knowledge={[{name:'KMP',evidenceIds:[0,1,2,3,4],available:200},{name:'字典树',evidenceIds:[0,1,2],available:100}]} knowledgeEvidence={Array.from({length:5},(_,id)=>({id,rated:true,score:80,weight:1,solved:true}))}/></main>);
+if(view==='radar-performance'){
+ const topics=KNOWLEDGE_DOMAINS.flatMap(domain=>domain.topics.map(([name])=>name));
+ const rows=Array.from({length:6000},(_,id)=>({id:String(id),url:`https://example.com/${id}`,tags:[topics[id%topics.length],topics[(id+7)%topics.length]],knowledgeCategories:[]}));
+ const knowledge=topics.map((name,index)=>({name,evidenceIds:Array.from({length:60},(_,id)=>(index*13+id)%500)}));
+ const evidence=Array.from({length:500},(_,id)=>({id,rated:true,score:70,weight:1,solved:true}));
+ window.radarStarted=performance.now();
+ function MeasuredRadar(){React.useEffect(()=>{window.radarReady=performance.now();},[]);return <main style={{padding:24,maxWidth:1000}}><KnowledgeRadar rows={rows} knowledge={knowledge} knowledgeEvidence={evidence}/></main>;}
+ createRoot(document.getElementById('root')).render(<MeasuredRadar/>);
+}
+else if(view==='radar')createRoot(document.getElementById('root')).render(<main style={{padding:24,maxWidth:960}}><KnowledgeRadar knowledge={[{name:'KMP',evidenceIds:[0,1,2,3,4],available:200},{name:'字典树',evidenceIds:[0,1,2],available:100}]} knowledgeEvidence={Array.from({length:5},(_,id)=>({id,rated:true,score:80,weight:1,solved:true}))}/></main>);
 else if(view==='achievements')createRoot(document.getElementById('root')).render(<main style={{padding:28}}><AchievementPanel achievements={achievements}/></main>);
 else
 createRoot(document.getElementById('root')).render(<main className="tier-preview-grid" style={{display:'grid',gridTemplateColumns:'repeat(5,minmax(0,1fr))',gap:20,padding:28}}>

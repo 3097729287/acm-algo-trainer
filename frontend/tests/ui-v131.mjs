@@ -8,6 +8,7 @@ await vite.listen();
 const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
 const page=await browser.newPage({viewport:{width:1600,height:1000}}),errors=[],writes=[];
 page.on('pageerror',error=>errors.push(error.message));
+page.on('console',message=>{if(message.type()==='error'&&/ReferenceError|TypeError|TB render failure/.test(message.text()))errors.push(message.text());});
 page.setDefaultTimeout(12000);
 const timestamp=new Date().toISOString(),date=new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Shanghai'});
 const self={userId:'11111111-1111-4111-8111-111111111111',nickname:'训练者甲'},other={userId:'22222222-2222-4222-8222-222222222222',nickname:'训练者乙'};
@@ -17,6 +18,7 @@ rows[118]={...rows[118],contest:'CCPC 2025 郑州区域赛（热身赛）',serie
 rows[119]={...rows[119],contest:'CCPC 2025 郑州区域赛',series:'XCPC'};
 let mockRecords=[1,3,2].map(day=>({id:`mock-${day}`,name:`训练记录 ${day}`,status:'finished',startedAt:`2026-10-${String(day).padStart(2,'0')}T10:00:00Z`,duration:120,total:4,accepted:day,slots:rows.slice(0,4).map((row,index)=>({...row,letter:String.fromCharCode(65+index),accepted:index<day,attempts:1}))}));
 const training=rows.filter(row=>row.id!==rows[119].id).map(row=>({id:row.id,activeAt:timestamp,lastActivityAt:timestamp,today:true,accepted:false,verdict:null,attempts:0}));
+let adminMode=false,calendarReads=0,trainingDelay=0,failDraft=false,reviewId=null;
 let preferences=null,likes={total:4,likedToday:false},failLike=true,boardDay=date,notifications=[{id:'33333333-3333-4333-8333-333333333333',kind:'comment',actor:other,recipient:self,text:'一起加油 <script>window.untrusted=true</script>',createdAt:timestamp,read:false}];
 notifications.push(...Array.from({length:100},(_,index)=>({id:`55555555-5555-4555-8555-${String(index).padStart(12,'0')}`,kind:'like',actor:other,recipient:self,createdAt:timestamp,read:false})));
 const workspace=()=>({training,sets:[],contests:mockRecords,activeContest:null,goals:{goals:[]},goalTasks:[...rows.slice(0,2),{...rows[119],accepted:true}],summary:{total:120,accepted:training.filter(row=>row.accepted).length,todayAccepted:2,beforeTodayAccepted:82,historicalAccepted:84,attempts:0,due:0,pending:0,streak:12},now:timestamp});
@@ -31,7 +33,7 @@ await page.route('**/api/**',async route=>{
   const body=request.method()==='POST'?request.postDataJSON():null;
   if(body)writes.push({path,body});
   let value;
-  if(path==='/api/account')value={required:false,authenticated:true,usesOriginalWorkspace:true,token:'fixture',account:self};
+  if(path==='/api/account')value={required:false,authenticated:true,usesOriginalWorkspace:true,token:'fixture',account:self,admin:adminMode};
   else if(path==='/api/preferences'){if(body)preferences=body.preferences;value={preferences,updatedAt:timestamp};}
   else if(path==='/api/software-update')value={currentVersion:'1.1.5',status:'current',autoCheck:false,canInstall:false};
   else if(path==='/api/browser-preparation')value={available:false};
@@ -41,15 +43,17 @@ await page.route('**/api/**',async route=>{
   else if(path==='/api/insights')value={summary:{officialSolved:0,submissions:0,activeDays:1,streak:1},growth:{...progress,totalXp:6265,currentLevelXp:665,nextLevelXp:1600,ranked},knowledge:[],achievements:[],activity:[],recommendations:[],assessment:{platforms:[]},dailyTasks:{tasks:[]}};
   else if(path==='/api/profile')value={profile:self,leaderboard:{configured:true,status:'ready'}};
   else if(path==='/api/goals')value={goals:[]};
+  else if(path==='/api/contest-calendar'){calendarReads++;value={refreshing:false,providers:['Codeforces','AtCoder','牛客','洛谷'].map(label=>({platform:label,label,status:'ready'})),contests:[{id:'abc-fixture',title:'ABC 481',platform:'atcoder',startAt:'2026-10-24T12:00:00Z',endAt:'2026-10-24T13:40:00Z',url:'https://atcoder.jp/contests/abc481'},{id:'cf-fixture',title:'Codeforces Round (Div. 2)',platform:'codeforces',startAt:'2026-10-24T14:35:00Z',endAt:'2026-10-24T16:35:00Z',url:'https://codeforces.com/contest/2100'}]};}
+  else if(path==='/api/solution')value={id:url.searchParams.get('id'),title:'Fixture editorial',markdown:'## 思路\n\n先分析边界，再计算答案。\n\n$$a^2+b^2=c^2$$',images:{},lectures:[]};
   else if(path==='/api/contests/events')value={events:[]};
   else if(path==='/api/contest')value={contest:mockRecords.find(item=>item.id===url.searchParams.get('id'))};
   else if(path==='/api/contests/delete'){mockRecords=body.all?[]:mockRecords.filter(item=>item.id!==body.id);value={workspace:workspace(),deleted:1};}
   else if(path==='/api/submissions')value={submissions:rows.slice(0,3).map((row,index)=>({id:`submission-${index}`,problemId:row.id,submittedAt:timestamp,mode:'submit',verdict:'AC',timeMs:index===2?15:null})),total:3,hasMore:false};
   else if(path==='/api/lectures')value={lectures:[{id:'lesson',title:'二分查找',category:'基础技巧',tags:['二分']} ]};
   else if(path==='/api/desktop/fullscreen')value={available:false,fullscreen:false};
-  else if(path==='/api/training/start')value={workspace:workspace()};
+  else if(path==='/api/training/start'){if(trainingDelay)await new Promise(resolve=>setTimeout(resolve,trainingDelay));value={workspace:workspace(),reviewTask:reviewId?{id:reviewId}:null};}
   else if(path==='/api/problem')value={id:url.searchParams.get('id'),title:rows.find(row=>row.id===url.searchParams.get('id')).title,markdown:'## 题目描述\n\n测试题面。\n\n## 样例\n\n```text\n1 2\n```',samples:[{input:'1\n',output:'2\n'}],limits:{timeMs:2000,memoryMb:256},judge:{scope:'samples',cases:1},statementAvailable:true,draft:'int main() { return 0; }',submissions:[]};
-  else if(path==='/api/draft')value={savedAt:timestamp};
+  else if(path==='/api/draft'){if(failDraft){await route.fulfill({status:503,json:{error:'fixture draft unavailable'}});return;}value={savedAt:timestamp};}
   else if(path==='/api/translation/settings')value={provider:'custom',providerName:'自定义',model:'fixture',configured:false,keyStored:false,providers:[]};
   else if(path==='/api/leaderboard')value={period:url.searchParams.get('period')||'daily',date:boardDay,configured:true,status:'ready',hasSnapshot:true,socialAvailable:true,socialProtocol:1,isAdmin:true,entries:[{...self,rank:1,count:2,likes:{total:9,likedToday:false},publicProgress:progress},{...other,rank:2,count:1,likes,publicProgress:progress}],self};
   else if(path==='/api/leaderboard/sync')value={queued:true};
@@ -72,7 +76,7 @@ async function header(){const value=await page.locator('.topbar').evaluate(node=
 async function chrome(){
  assert.equal(await page.locator('.page-identity,.breadcrumb,.settings-breadcrumb').count(),0);
  const result=await page.evaluate(()=>{const rect=selector=>document.querySelector(selector).getBoundingClientRect(),footer=rect('.app-statusbar'),settings=rect('.sidebar-bottom .nav-item'),workspace=rect('.workspace-area'),bar=rect('.topbar');return {center:Math.abs(settings.y+settings.height/2-footer.y-footer.height/2),bar:bar.height,bottom:workspace.bottom-footer.top};});
- assert(result.center<=1,JSON.stringify(result));assert(result.bar<=58);assert.equal(result.bottom,0);await header();
+ assert(result.center<=1,JSON.stringify(result));assert(result.bar>=64&&result.bar<=70,JSON.stringify(result));assert.equal(result.bottom,0);await header();
 }
 async function radarNames(){
  const result=await page.locator('.knowledge-radar').evaluate(section=>{const labels=[...section.querySelectorAll('svg text')],nodes=[...section.querySelectorAll('.radar-node')],rows=[...section.querySelectorAll('.radar-detail-row>button')];return {names:labels.map(label=>label.textContent),rows:rows.map(row=>row.childNodes[0].textContent),overlaps:labels.map((label,index)=>{const a=label.getBoundingClientRect(),b=nodes[index].getBoundingClientRect();return a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top;})};});
@@ -94,6 +98,8 @@ try{
  const edges=await page.locator('.problem-table tr[data-id]').first().evaluate(row=>[getComputedStyle(row.firstElementChild).borderTopWidth,getComputedStyle(row.firstElementChild).borderLeftWidth,getComputedStyle(row.lastElementChild).borderRightWidth]);assert.deepEqual(edges,['1px','1px','1px']);
  const archivedGoal=page.locator(`.problem-table tr[data-id="${rows[119].id}"]`);assert.equal(await archivedGoal.locator('.verdict').innerText(),'AC');assert.equal(await archivedGoal.locator('.remove-training').count(),0);
  await page.getByRole('button',{name:'每日任务',exact:true}).click();await page.getByRole('dialog',{name:'每日任务',exact:true}).waitFor();assert.equal(await page.locator('.daily-goal-tasks').count(),0);await page.keyboard.press('Escape');
+ assert.equal(calendarReads,0,'calendar does not block startup with provider requests');
+ await page.getByRole('button',{name:'比赛日历',exact:true}).click();await page.getByRole('dialog',{name:'比赛日历',exact:true}).waitFor();await page.getByRole('link',{name:/ABC 481/}).waitFor();assert.equal((await page.locator('.contest-calendar-row time').allTextContents()).join(','),'20:00,22:35');assert.equal(await page.locator('.contest-calendar-provider-error').count(),0);await checkOverflow();await shot('calendar');await page.keyboard.press('Escape');
  const status=await page.locator('.topbar').evaluate(node=>{const ac=node.querySelector('.topbar-daily-ac'),heart=node.querySelector('.topbar-love-count b'),flame=node.querySelector('.streak-flame');return {ac:getComputedStyle(ac).color,muted:getComputedStyle(node).getPropertyValue('--muted').trim(),size:parseFloat(getComputedStyle(heart).fontSize),flame:flame.getBoundingClientRect().height,animation:getComputedStyle(flame).animationName};});
  assert(status.size>=16);assert.equal(status.flame,20);assert.equal(status.animation,'none');
  assert.equal(await page.locator('.footer-hint').count(),0);
@@ -155,7 +161,7 @@ try{
  assert(ranking.left<65,JSON.stringify(ranking));assert.equal(ranking.gap,0);assert(ranking.social<=135);assert(ranking.right<=1);
  await page.locator('.social-activity').waitFor();assert.equal(await page.locator('.social-activity>div').count(),1);assert.equal(await page.locator('.social-activity').getByText('昨日用户').count(),0);
  await shot('rankings');await nav('题库').click();await nav('排行榜').click();assert.equal(await page.locator('.social-activity').count(),1);
- await page.evaluate(()=>window.__tbAdmin=true);await nav('题库').click();await nav('排行榜').click();await page.getByRole('button',{name:'清空当前榜单',exact:true}).waitFor();assert.equal(await page.locator('.ranking-admin-cell').count(),2);await page.evaluate(()=>window.__tbAdmin=false);
+ adminMode=true;await page.reload();await nav('排行榜').click();await page.getByRole('button',{name:'清空当前榜单',exact:true}).waitFor();assert.equal(await page.locator('.ranking-admin-cell').count(),2);adminMode=false;await page.reload();await page.locator('.problem-table').waitFor();
  await settings();for(const width of [1280,1600,2048]){await page.setViewportSize({width,height:1000});await chrome();const grid=await page.locator('.settings-home-grid').boundingBox();assert(grid.width>width*.7);assert(grid.height>700);}
  const sceneChecks=await page.locator('.settings-home-grid').evaluate(grid=>{
   const sample=(selector,time)=>{const node=grid.querySelector(selector),animation=node.getAnimations()[0];animation.pause();animation.currentTime=time;const box=node.getBoundingClientRect(),css=getComputedStyle(node);return {x:box.x,right:box.right,fill:Number(css.fillOpacity),opacity:Number(css.opacity),transform:css.transform};};
@@ -169,11 +175,18 @@ try{
  await nav('从零讲').click();await page.locator('.lectures-layout').waitFor();await header();assert.equal(await page.locator('.workspace-area h2').filter({hasText:'从零讲'}).count(),0);
  assert.equal(await page.locator('.lectures-layout').evaluate(node=>getComputedStyle(node).backgroundColor),'rgba(0, 0, 0, 0)');assert.equal((await page.locator('.lecture-difficulty').first().innerText()).includes('≈'),false);await shot('lectures');
  await nav('提交记录').click();await page.locator('.submission-log-row').first().waitFor();assert.equal(await page.locator('.submission-log-row>svg').count(),0);assert.equal(await page.locator('.submission-runtime').count(),1);assert.equal(await page.locator('.submission-runtime').innerText(),'15 ms');
- await nav('题单').click();assert.equal(await page.getByText('算法题单',{exact:true}).count(),0);await nav('题库').click();
+ await nav('算法实验室').click();assert.equal(await page.getByText('算法题单',{exact:true}).count(),0);await nav('题库').click();
  await page.locator('.problem-table tr[data-id] .problem-title').first().click();await page.locator('.cm-editor').waitFor();
  assert.equal(await page.locator('.sidebar').isVisible(),false);assert.equal(await page.locator('.topbar').isVisible(),false);
  const box=await page.locator('.tb-workbench').boundingBox();assert.deepEqual({x:box.x,y:box.y,width:box.width,height:box.height},{x:0,y:0,width:2048,height:1000});
  assert.equal(await page.locator('.wb-editor-actions .wb-solution-button').count(),1);await shot('workbench');
+ await page.route('**/src/components/SolutionMarkdown.jsx*',async route=>{await new Promise(resolve=>setTimeout(resolve,600));await route.continue();});
+ await page.evaluate(()=>{window.readerWidths=[];window.readerWatch=true;function sample(){const panel=document.querySelector('.reader-panel');if(panel)window.readerWidths.push(panel.getBoundingClientRect().width);if(window.readerWatch)requestAnimationFrame(sample);}sample();});
+ await page.locator('.wb-solution-button').click();await page.locator('.reader-panel .markdown').waitFor();await page.waitForTimeout(150);const widths=await page.evaluate(()=>{window.readerWatch=false;return window.readerWidths;});assert(widths.length>2);assert(Math.max(...widths)-Math.min(...widths)<2,JSON.stringify(widths));await page.locator('.wb-solution-button').click();await page.locator('.reader-panel').waitFor({state:'hidden'});
+ const oldTitle=await page.locator('.wb-heading strong').innerText();trainingDelay=450;
+ await page.evaluate(()=>{window.chromeFlash=false;window.nextWatch=true;function sample(){if(!document.querySelector('.practice-focus')||!document.querySelector('.tb-workbench'))window.chromeFlash=true;if(window.nextWatch)requestAnimationFrame(sample);}sample();});
+ await page.getByRole('button',{name:'下一题',exact:true}).click();await page.waitForFunction(title=>{const node=document.querySelector('.wb-heading strong');return node&&node.textContent!==title&&!node.textContent.includes('载入');},oldTitle);assert.equal(await page.evaluate(()=>{window.nextWatch=false;return window.chromeFlash;}),false);trainingDelay=0;
+ const heldTitle=await page.locator('.wb-heading strong').innerText();failDraft=true;await page.locator('.cm-content').click();await page.keyboard.type('// unsaved review code');await page.getByRole('button',{name:'下一题',exact:true}).click();await page.waitForTimeout(150);assert.equal(await page.locator('.wb-heading strong').innerText(),heldTitle,'save failure keeps current editor');failDraft=false;await page.locator('.cm-content').click();await page.keyboard.press('Control+S');
  await page.locator('.cm-content').click();await page.keyboard.press('Escape');await page.locator('.problem-table').waitFor();assert.equal(await page.locator('.sidebar').isVisible(),true);
  await page.getByRole('button',{name:'消息通知',exact:true}).click();assert.equal(await page.getByText('题库与版本更新',{exact:true}).count(),0);await page.keyboard.press('Escape');
  await page.goto('http://127.0.0.1:18831/tests/ui-feedback-fixture.html');await page.locator('.tier-preview').last().waitFor();

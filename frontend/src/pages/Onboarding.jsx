@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import {GUIDE_LABELS,PAGE_GUIDES} from '@/lib/guideCatalog.js';
 
 const STEPS = [
+  { page: 'mine', target: '.brand-mark', title: '收起与展开侧边栏', text: '点击左上角 TB 标识收起或展开侧边栏。收起后仍可点击导航图标，给题目和图表留出更多空间。' },
   { page: 'settings', target: '[aria-label="账号与身份"]', title: '连接账号', text: '打开“账号与身份”，展开“公开账号与评分”，填写你的竞赛账号。已有公开 AC 会自动同步；TB 账号负责保存训练数据。可以稍后绑定。' },
   { page: 'library', target: '.topbar .search-box', title: '找到想练的题', text: '输入题名、比赛或知识点；筛选按钮汇总比赛分类、知识点和难度。上下箭头切换顺序，选中的知识点可单独取消。下一步会指引你打开一道题。' },
   { page: 'library', target: '.problem-table tbody tr[data-id] .problem-title', title: '进入练习', text: '点击高亮题名，实际打开一道题。进入工作台后，指引会继续介绍题面、代码和运行。', action: 'open' },
@@ -12,6 +13,7 @@ const STEPS = [
   { page: 'records', target: '.submission-log', title: '查看提交结果', text: '正式提交后，这里会按日期保存结果。点击记录可以查看当次代码；样例运行结果留在工作台中。' },
   { page: 'mock', target: '.mock-mode-options', title: '组成一场训练', text: '选择综合、专项、随机单题或重现赛，设置题数和时长，再生成预览。确认试卷后才开始计时，结束后复盘。' },
   { page: 'growth', target: '.progress-growth-columns', title: '安排下一次练习', text: '点击一级雷达圆点进入子知识点，Esc 返回；二级知识点可筛选题目。?% 表示作答证据不足。目标计划安排后续练习，日历和奖章打开每日任务与成就。经验等级与能力段位分别成长。' },
+  { page: 'mine', target: '.contest-calendar-button', title: '查看比赛日历', text: '底部时钟日历图标打开即将开始的基础比赛。赛程按北京时间排列，点击一场比赛前往原站。旁边的日历用于领取每日任务。' },
   { page: 'settings', target: '.settings-home-grid', title: '完成入门', text: '点击头像可以更换图片。设置中可调整外观、导航、每页题数与快捷键；数据与帮助中的新手指引包含入门总览和各页详细指南，可继续了解雷达、段位、勋章和更多操作。' },
 ];
 
@@ -28,8 +30,8 @@ export default function Onboarding({ onComplete, onNavigate, practiceId,initialG
     return () => document.removeEventListener('keydown', escape, true);
   }, []);
   useEffect(() => {
-    if (current?.action === 'open' && practiceId) setStep(current.nextIndex??3);
-    if (current?.action === 'return' && !practiceId) setStep(current.nextIndex??7);
+    if (current?.action === 'open' && practiceId) setStep(current.nextIndex??step+1);
+    if (current?.action === 'return' && !practiceId) setStep(current.nextIndex??step+1);
   }, [step, practiceId,guide]);
   useLayoutEffect(() => {
     if(!current){setRect(null);return;}
@@ -68,9 +70,9 @@ export default function Onboarding({ onComplete, onNavigate, practiceId,initialG
     <section ref={card} className="tour-card" style={position} role="dialog" aria-label="新手指引" aria-modal="false">
       <button className="tour-close" onClick={finish}>结束指引 ×</button>
       <small>{guide==='overview'?'入门总览':GUIDE_LABELS[guide]} · {step + 1} / {steps.length}</small><h3 tabIndex={-1}>{current.title}</h3><p>{current.text}</p>
-      {missingPractice ? <button onClick={() => setStep(guide==='overview'?2:0)}>重新选择练习题</button> : current.action === 'open' && !rect ? <p role="status">没有匹配题目，请清除搜索或筛选。</p> : current.action && <small role="status">请点击高亮的{current.action === 'open' ? '题名' : '返回按钮'}继续</small>}
+      {missingPractice ? <button onClick={() => setStep(guide==='overview'?STEPS.findIndex(item=>item.action==='open'):0)}>重新选择练习题</button> : current.action === 'open' && !rect ? <p role="status">没有匹配题目，请清除搜索或筛选。</p> : current.action && <small role="status">请点击高亮的{current.action === 'open' ? '题名' : '返回按钮'}继续</small>}
       <button className="tour-directory-button" onClick={()=>{setGuide('catalog');setStep(0)}}>各页指引目录</button>
-      <footer><button disabled={!step} onClick={() => setStep(value => guide==='overview'&&(value === 7 || value === 3) ? 1 : value - 1)}>上一步</button>
+      <footer><button disabled={!step} onClick={() => setStep(value => {let previous=value-1;while(previous>0&&((steps[previous].practice&&!practiceId)||(steps[previous].action==='return'&&!practiceId)||(steps[previous].action==='open'&&practiceId)))previous--;return Math.max(0,previous);})}>上一步</button>
         <button className="primary" disabled={!!current.action || missingPractice} onClick={() => step === steps.length - 1 ? finish() : setStep(value => value + 1)}>{step === steps.length - 1 ? '完成' : '下一步'}</button></footer>
     </section>
   </div>;

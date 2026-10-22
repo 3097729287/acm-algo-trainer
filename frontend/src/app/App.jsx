@@ -1,4 +1,5 @@
 import SortDirection from '@/components/SortDirection.jsx';
+import PopConfirm from '@/components/PopConfirm.jsx';
 import {matchesShortcut} from '@/lib/shortcuts.js';
 import PageSearch from '@/components/PageSearch.jsx';
 import Tooltip from '@/components/Tooltip.jsx';
@@ -68,6 +69,7 @@ import {
   Heart,
   ChartNoAxesCombined,
   CalendarDays,
+  CalendarClock,
   Activity,
   MinusCircle,
   Award,
@@ -110,6 +112,7 @@ const MockSetup = lazy(() => import('@/app/MockSetup.jsx'));
 const SubmissionRecords = lazy(() => import('@/pages/SubmissionRecords.jsx'));
 const MockHistory = lazy(() => import('@/pages/SubmissionRecords.jsx').then(module => ({ default: module.MockHistory })));
 const AvatarSettings = lazy(() => import('@/components/AvatarSettings.jsx'));
+const ContestCalendar = lazy(() => import('@/pages/ContestCalendar.jsx'));
 const Onboarding = lazy(() => import('@/pages/Onboarding.jsx'));
 const LearningPathsPage = lazy(() => import('@/pages/LearningPathsPage.jsx'));
 const PreferencesPage = lazy(() => import('@/pages/PreferencesPage.jsx'));
@@ -123,7 +126,7 @@ const PAGES = [
   { id: "growth", label: "成长与能力", icon: ChartNoAxesCombined, key: "7" },
   { id: "activity", label: "活动记录", icon: Activity, key: "8" },
   { id: "lectures", label: "从零讲", icon: BookOpen, key: "9" },
-  { id: "paths", label: "题单", icon: NotebookPen, key: "3" },
+  { id: "paths", label: "算法实验室", icon: NotebookPen, key: "3" },
   { id: "rankings", label: "排行榜", icon: ListOrdered, key: "" },
 ];
 const DEFAULTS = {
@@ -522,6 +525,7 @@ function KnowledgeTree({
 }
 
 export default function App() {
+  const [finishAnchor,setFinishAnchor] = useState(null);
   const [prefs, setPrefs] = useState(readPreferences),
     [data, setData] = useState(null),
     [workspace, setWorkspace] = useState(emptyWorkspace),
@@ -538,6 +542,7 @@ export default function App() {
   const libraryPageSize = Number.isInteger(prefs.libraryPageSize) && prefs.libraryPageSize >= 10 && prefs.libraryPageSize <= 200 ? prefs.libraryPageSize : 50;
   const [selected, setSelected] = useState(null),
     [practiceId, setPracticeId] = useState(null),
+    [practiceReview, setPracticeReview] = useState(null),
     [mockSlot, setMockSlot] = useState(null),
     [record, setRecord] = useState(null),
     [recordOnlyPending, setRecordOnlyPending] = useState(false),
@@ -1106,6 +1111,7 @@ export default function App() {
       contextRef.current = context;
       advanceRef.current = null;
       setPracticeId(id);
+      setPracticeReview(result.reviewTask || null);
       setReaderId(null);
       setReaderFull(false);
     } catch (e) {
@@ -1154,7 +1160,7 @@ export default function App() {
     if (id) {
       const previous = workspace.training.find((r) => r.id === id),
         next = value.training.find((r) => r.id === id);
-      if (next?.accepted && !previous?.accepted) advanceRef.current = id;
+      if (next?.accepted && (!previous?.accepted || (previous.reviewTask && !next.reviewTask))) advanceRef.current = id;
     }
     applyWorkspace(value);
   }
@@ -1180,7 +1186,6 @@ export default function App() {
     const index = ids.indexOf(practiceId);
     const next = ids[index + 1];
     if (next) {
-      setPracticeId(null);
       await openPractice(next);
     } else {
       exitPractice();
@@ -1246,18 +1251,23 @@ export default function App() {
     setMockSlot(result.contest.slots[0]?.id);
     notice("计时已开始，祝你专注", "success");
   }
-  async function finishMock() {
-    if (!active) return;
+  async function finishMock(cancelled=false) {
+    if (!active || busy) return;
     setBusy(true);
     try {
-      const result = await api("contests/finish", { contestId: active.id });
+      const {saveBeforeUpdate}=await import('./Workbench.jsx');
+      await saveBeforeUpdate('草稿尚未保存，请保存成功后再结束或取消比赛。');
+      const result = await api(cancelled?"contests/cancel":"contests/finish", { contestId: active.id });
       applyWorkspace(result.workspace);
-      setRecord(result.contest);
+      setRecord(cancelled?null:result.contest);
       setPage("mock");
-      setMockTab("history");
+      setMockTab(cancelled?"create":"history");
       setDialog(null);
       setReaderId(null);
-      notice("比赛已结束，可以开始复盘");
+      setPracticeId(null);
+      setMockFocus(false);
+      setFinishAnchor(null);
+      notice(cancelled?"比赛已取消":"比赛已结束，可以开始复盘");
     } catch (e) {
       notice(e.message, "error");
     } finally {
@@ -1278,12 +1288,20 @@ export default function App() {
   }
   async function openSolution(id) {
     if (!id) return;
+    if (readerId === id) {
+      readerSeq.current++;
+      setReaderId(null);
+      setReader(null);
+      setReaderFull(false);
+      return;
+    }
     if (active?.slots.some((slot) => slot.id === id)) {
       notice("比赛进行中，结束后可查看题解", "error");
       return;
     }
     const sequence = ++readerSeq.current;
     setReaderId(id);
+    setReaderFull(false);
     setReader(null);
     setReaderVariant("default");
     setReaderError("");
@@ -1638,7 +1656,7 @@ export default function App() {
           <Difficulty value={row.difficulty} row={row} />
         </td>
         <td>
-          <Verdict scope={row.scope} value={row.verdict} accepted={row.accepted} />
+          {row.reviewTask ? <Tooltip text="使用独立草稿复习，原有代码与记录保留"><span className="status-badge sample">待复习</span></Tooltip> : <Verdict scope={row.scope} value={row.verdict} accepted={row.accepted} />}
         </td>
         <td className="last-date">
           {row.lastActivityAt || row.lastSubmittedAt
@@ -1735,7 +1753,7 @@ export default function App() {
     );
   }
   function toolbar() {
-    return <PageSearch><label className="search-box"><Search size={17}/><input ref={searchRef} aria-label="搜索题目" value={currentFilters.query} onChange={event=>setFilter({query:event.target.value})} onKeyDown={event=>{if(['ArrowDown','Enter'].includes(event.key)){event.preventDefault();focusList();}}}/></label><SortDirection label="切换题目排序方向" descending={currentFilters.desc} onChange={desc=>setFilter({desc})}/><ProblemFilters categories={categories} views={prefs.views||[]} onDeleteView={id=>setPrefs(previous=>({...previous,views:previous.views.filter(view=>view.id!==id)}))} value={currentFilters} onChange={setFilter} onReset={resetFilters} onSave={()=>{setViewName('');setDialog('saveView');}} onClear={page==='mine'?()=>setDialog('clear-training'):undefined} clearDisabled={busy||!mine.length||!!active||!!workspace.summary.pending}/>{currentFilters.category&&<span className="active-knowledge-filter" role="group" aria-label="当前知识点筛选"><span>{currentFilters.category.name}</span><button type="button" aria-label={`清除知识点筛选 ${currentFilters.category.name}`} onClick={()=>setFilter({category:null})}><X size={13}/></button></span>}</PageSearch>;
+    return <PageSearch><label className="search-box"><Search size={17}/><input ref={searchRef} aria-label="搜索题目" value={currentFilters.query} onChange={event=>setFilter({query:event.target.value})} onKeyDown={event=>{if(['ArrowDown','Enter'].includes(event.key)){event.preventDefault();focusList();}}}/></label><SortDirection label="切换题目排序方向" descending={currentFilters.desc} onChange={desc=>setFilter({desc})}/><ProblemFilters rows={data?.rows || []} categories={categories} views={prefs.views||[]} onDeleteView={id=>setPrefs(previous=>({...previous,views:previous.views.filter(view=>view.id!==id)}))} value={currentFilters} onChange={setFilter} onReset={resetFilters} onSave={()=>{setViewName('');setDialog('saveView');}} onClear={page==='mine'?()=>setDialog('clear-training'):undefined} clearDisabled={busy||!mine.length||!!active||!!workspace.summary.pending}/>{currentFilters.category&&<span className="active-knowledge-filter" role="group" aria-label="当前知识点筛选"><span>{currentFilters.category.name}</span><button type="button" aria-label={`清除知识点筛选 ${currentFilters.category.name}`} onClick={()=>setFilter({category:null})}><X size={13}/></button></span>}</PageSearch>;
   }
 
   function renderListPage() {
@@ -1761,7 +1779,7 @@ export default function App() {
         {toolbar()}
         {renderTable(displayedRows)}
         <div className="list-footer">
-          <span role="status">{page === "library" ? `${visible.length ? `${libraryStart + 1}–${Math.min(libraryStart + libraryPageSize, visible.length)}` : '0'} / ${visible.length} 题` : `今日训练 · ${visible.length} 题`}</span>
+          <span role="status">共 {visible.length} 题</span>
           {page === "library" && <nav className="library-pagination" aria-label="题库分页">
             <div className="pagination-actions">
               <button aria-label="题库上一页" disabled={currentLibraryPage === 1} onClick={() => setLibraryPage(currentLibraryPage - 1)}><ChevronLeft size={15} />上一页</button>
@@ -1769,7 +1787,6 @@ export default function App() {
               <button aria-label="题库下一页" disabled={currentLibraryPage === libraryPages} onClick={() => setLibraryPage(currentLibraryPage + 1)}>下一页<ChevronRight size={15} /></button>
             </div>
           </nav>}
-          <span className="autosave-dot">本地保存</span>
         </div>
       </div>
     );
@@ -1935,6 +1952,7 @@ export default function App() {
         <button type="button" aria-label="详细题解" aria-pressed={readerVariant === "detailed"} onClick={() => setReaderVariant("detailed")}>详细题解{!reader.detailedSolution && <small aria-hidden="true">待补充</small>}</button>
       </div>}
       <div className="reader-content" key={`${readerId}:${readerVariant}`}>
+        <Suspense fallback={<div className="loading-small" role="status"><LoaderCircle className="spin" size={20} /></div>}>
         {reader ? (
           readerVariant === "detailed" ? (
             reader.detailedSolution ? <Markdown text={reader.detailedSolution.markdown} images={reader.detailedSolution.images} onCopy={copy} /> : <div className="reader-missing-detailed"><Empty title="详细题解待补充" description="这道题尚未收录详细版，可以先阅读默认题解。" /><button type="button" className="text-button" onClick={() => setReaderVariant("default")}>返回默认题解</button></div>
@@ -1951,6 +1969,7 @@ export default function App() {
             正在读取题解
           </div>
         )}
+        </Suspense>
       </div>
       {reader?.url && (
         <footer>
@@ -1971,9 +1990,9 @@ export default function App() {
       <SoftwareUpdateNotice update={softwareUpdate} onDetails={() => { setPage('settings'); setSettingsTab('updates'); }} />
       <aside className="sidebar">
         <div className="brand">
-          <Tooltip text={prefs.collapsed?"展开侧边栏":"收起侧边栏"}><button type="button" className="brand-mark" aria-label={prefs.collapsed?"展开侧边栏":"收起侧边栏"} aria-expanded={!prefs.collapsed} onClick={()=>setPrefs(previous=>({...previous,collapsed:!previous.collapsed}))}>
+          <button type="button" className="brand-mark" aria-label={prefs.collapsed?"展开侧边栏":"收起侧边栏"} aria-expanded={!prefs.collapsed} onClick={()=>setPrefs(previous=>({...previous,collapsed:!previous.collapsed}))}>
             TB
-          </button></Tooltip>
+          </button>
 
         </div>
         <nav aria-label="主导航">
@@ -1990,7 +2009,7 @@ export default function App() {
               <p.icon size={18} />
               {!prefs.collapsed && (
                 <>
-                  <span>{p.label}{p.id === "paths" && <small className="nav-development">（待开发）</small>}</span>
+                  <span>{p.label}</span>
                   {p.id === "mock" && active && <span className="live-dot" />}
                 </>
               )}
@@ -2052,7 +2071,7 @@ export default function App() {
 
           </div>
         </header>
-        <footer className={"app-statusbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}>             <button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><small>{(insights?.dailyTasks?.tasks || []).filter(task => task.claimed).length}/{insights?.dailyTasks?.tasks?.length || 6}</small>{(insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed)) && <i className="notification-dot" />}</button>
+        <footer className={"app-statusbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}> <Tooltip text="比赛日历"><button className="achievement-top-button contest-calendar-button" aria-label="比赛日历" onClick={()=>setDialog('contest-calendar')}><CalendarClock size={18}/></button></Tooltip><button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><small>{(insights?.dailyTasks?.tasks || []).filter(task => task.claimed).length}/{insights?.dailyTasks?.tasks?.length || 6}</small>{(insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed)) && <i className="notification-dot" />}</button>
             <button className="achievement-top-button" aria-label="成就" onClick={openAchievements}><Medal size={17} /><small>{unlockedAchievements.length}/{achievements.length}</small>{unseenAchievements.length > 0 && <i className="notification-dot" />}</button>
 {prefs.widgets && <TopbarClock />}</footer>
         {error && (
@@ -2075,11 +2094,13 @@ export default function App() {
               key={"practice:" + practiceId}
               shortcuts={prefs.shortcuts}
               problemId={practiceId}
+              reviewTask={practiceReview}
               contest={null}
               api={api}
               onProgress={progressChanged}
               onExit={exitPractice}
               onSolution={openSolution}
+              solutionOpen={readerId === practiceId}
               onNext={nextPractice}
             />
           ) : ["mine", "library"].includes(page) ? (
@@ -2115,7 +2136,7 @@ export default function App() {
                         <Clock size={14} aria-hidden="true" />
                         {timerText(remainingSeconds(active, now))}
                       </span>
-                      <button type="button" className="wb-button finish-contest" onClick={() => setDialog("finish")}>
+                      <button type="button" className="wb-button finish-contest" onClick={event => setFinishAnchor(event.currentTarget)}>
                         结束比赛
                       </button>
                     </>}
@@ -2214,6 +2235,7 @@ export default function App() {
         </div>
       )}
       {dialog === "daily-tasks" && <Modal title="每日任务" onClose={() => setDialog(null)} wide><DailyTasks dailyTasks={insights?.dailyTasks} onClaim={async (id, date) => { try { const result = await api("daily-tasks/claim", { id, date }); backgroundSeq.current++; setInsights(previous => ({ ...previous, dailyTasks: result.dailyTasks })); notice("经验已领取", "success"); void refreshBackground(true); } catch (issue) { notice(issue.message, "error"); throw issue; } }} /></Modal>}
+      {dialog === 'contest-calendar' && <Modal title="比赛日历" onClose={()=>setDialog(null)} wide><ContestCalendar api={api}/></Modal>}
       {dialog === "avatar" && <Modal title="修改头像" onClose={()=>setDialog(null)}><Suspense fallback={<p role="status">正在读取…</p>}><AvatarSettings prefs={prefs} setPrefs={setPrefs} onError={message=>notice(message,"error")}/></Suspense></Modal>}
       {tourOpen && <Suspense fallback={null}><Onboarding initialGuide={tourContext} practiceId={practiceId||(mockFocus?currentMockSlot?.id:null)} onComplete={finishOnboarding} onNavigate={(target,tab)=>{go(target);if(target==="settings")setSettingsTab(tab||"home");}}/></Suspense>}
       {dialog === "achievements" && <Modal title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => setDialog(null)} wide><AchievementPanel achievements={achievements} newIds={unseenAchievements.map(item => item.id)} onSeen={markAchievementSeen} /></Modal>}
@@ -2415,36 +2437,7 @@ export default function App() {
           </label>
         </Modal>
       )}
-      {dialog === "finish" && (
-        <Modal
-          title="结束这场模拟赛"
-          onClose={() => !busy && setDialog(null)}
-          footer={
-            <>
-              <button
-                className="secondary"
-                onClick={() => setDialog(null)}
-                disabled={busy}
-              >
-                继续比赛
-              </button>
-              <button className="primary" onClick={finishMock} disabled={busy}>
-                {busy ? (
-                  <LoaderCircle size={15} className="spin" />
-                ) : (
-                  <Check size={15} />
-                )}
-                结束并复盘
-              </button>
-            </>
-          }
-        >
-          <p>
-            已通过 {active?.accepted} / {active?.total}{" "}
-            题。结束后可查看题解，未完成的题会进入今日待办。
-          </p>
-        </Modal>
-      )}
+      {finishAnchor && active && <PopConfirm anchor={finishAnchor} title="结束这场比赛？" label="结束比赛确认" busy={busy} cancelLabel="继续比赛" confirmLabel="结束并复盘" busyLabel="正在处理…" confirmTone="primary" onCancel={()=>setFinishAnchor(null)} onConfirm={()=>finishMock(false)} extraActions={<Tooltip text="撤销本场训练安排，保留草稿及真实原站提交"><button type="button" className="danger" disabled={busy} onClick={()=>finishMock(true)}>取消比赛</button></Tooltip>}/>}
 
     </div>
   );

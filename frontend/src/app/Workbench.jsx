@@ -20,6 +20,7 @@ import InlineTitle from '@/components/InlineTitle.jsx';
 import './Workbench.css';
 
 const TEMPLATE = '#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    \n    return 0;\n}\n';
+const PYTHON_TEMPLATE = 'import sys\n\ndef solve():\n    pass\n\nif __name__ == "__main__":\n    solve()\n';
 const MAX_BYTES = 64 * 1024;
 const byteLength = value => new TextEncoder().encode(value).byteLength;
 const STATEMENT_FONT_KEY = 'tb.statement-font-size';
@@ -127,11 +128,11 @@ function elapsedText(timeMs) {
   if (timeMs == null) return null;
   return timeMs < 1000 ? `${Math.round(timeMs)} ms` : `${(timeMs / 1000).toFixed(2)} s`;
 }
-function queryPath(path, id, contestId) {
-  return `${path}?id=${encodeURIComponent(id)}${contestId ? `&contestId=${encodeURIComponent(contestId)}` : ''}`;
+function queryPath(path, id, contestId, reviewId) {
+  return `${path}?id=${encodeURIComponent(id)}${contestId ? `&contestId=${encodeURIComponent(contestId)}` : ''}${reviewId ? `&reviewId=${encodeURIComponent(reviewId)}` : ''}`;
 }
 function requestBody(record, extra = {}) {
-  return { id: record.id, language:record.language || "cpp17", ...(record.contestId ? { contestId: record.contestId } : {}), ...extra };
+  return { id: record.id, language:record.language || "cpp17", ...(record.contestId ? { contestId: record.contestId } : {}), ...(record.reviewId ? {reviewId:record.reviewId} : {}), ...extra };
 }
 
 function Verdict({ submission }) {
@@ -180,11 +181,12 @@ function CaseResults({ cases }) {
   })}</div>;
 }
 
-export default function Workbench({shortcuts={}, problemId, contest = null, api, onProgress, onExit, onSolution, onNext, headerStart, headerEnd }) {
+export default function Workbench({shortcuts={}, problemId, contest = null, reviewTask = null, api, onProgress, onExit, onSolution, solutionOpen=false, onNext, headerStart, headerEnd }) {
   const contestId = contest?.id || null;
   const runningContest = contest?.status === 'running';
   const endedContest = Boolean(contest && !runningContest);
-  const contextKey = draftKey(problemId, contestId);
+  const reviewId = contestId ? null : reviewTask?.id;
+  const contextKey = draftKey(problemId, reviewId ? `review:${reviewId}` : contestId);
   const apiRef = useRef(api);
   const callbacks = useRef({ onProgress, onExit, onSolution, onNext });
   apiRef.current = api;
@@ -280,7 +282,7 @@ export default function Workbench({shortcuts={}, problemId, contest = null, api,
   useEffect(() => {
     let alive = true;
     const record = {
-      key: contextKey, id: problemId, contestId, owner: `${Date.now()}-${Math.random()}`,
+      key: contextKey, id: problemId, contestId, reviewId, owner: `${Date.now()}-${Math.random()}`,
       code: '', version: 0, savedVersion: 0, loaded: false, closed: endedContest,
       timer: null, saving: null,
     };
@@ -314,7 +316,7 @@ export default function Workbench({shortcuts={}, problemId, contest = null, api,
     setInput('');
     (async () => {
       try {
-        const answer = await apiRef.current(`${queryPath('problem', problemId, contestId)}&background=1${loadAttempt ? '&refresh=1' : ''}`);
+        const answer = await apiRef.current(`${queryPath('problem', problemId, contestId, reviewId)}&background=1${loadAttempt ? '&refresh=1' : ''}`);
         if (!alive || !isActive(record)) return;
         const backup = readDraft(record.key);
         record.locked = Boolean(answer.locked && !contestId);
@@ -322,7 +324,7 @@ export default function Workbench({shortcuts={}, problemId, contest = null, api,
         const useLocal = backup?.dirty && (!answer.draftSavedAt || Number(backup.modifiedAt || 0) >= Date.parse(answer.draftSavedAt));
         record.language = useLocal ? backup.language || 'cpp17' : answer.draftLanguage || 'cpp17';
         setCodeLanguage(record.language);
-        record.code = useLocal ? backup.code : (answer.draftSavedAt ? answer.draft : (answer.draft || TEMPLATE));
+        record.code = useLocal ? backup.code : (answer.draftSavedAt ? answer.draft : (answer.draft || (record.language==='python3' ? PYTHON_TEMPLATE : TEMPLATE)));
         if (backup?.dirty && !useLocal && backup.code !== record.code) {
           // A newer draft restored from another computer wins. Keep this
           // device's unsent version separately, never silently overwrite it.
@@ -376,7 +378,7 @@ export default function Workbench({shortcuts={}, problemId, contest = null, api,
     // api and callback references may change with workspace polling. A draft
     // belongs to its identity, so those renders must not reload the editor.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contextKey, problemId, contestId, loadAttempt, saveRecord]);
+  }, [contextKey, problemId, contestId, reviewId, loadAttempt, saveRecord]);
 
   useEffect(() => {
     if (!problem?.statementLoading) return;
@@ -384,7 +386,7 @@ export default function Workbench({shortcuts={}, problemId, contest = null, api,
     const record = activeRecord.current;
     const poll = async () => {
       try {
-        const answer = await apiRef.current(`${queryPath('problem', problemId, contestId)}&background=1`);
+        const answer = await apiRef.current(`${queryPath('problem', problemId, contestId, reviewId)}&background=1`);
         if (!alive || !isActive(record)) return;
         // A late statement response must never reset an editor or its draft.
         setProblem(answer);
@@ -395,14 +397,14 @@ export default function Workbench({shortcuts={}, problemId, contest = null, api,
     };
     timer = setTimeout(poll, 450);
     return () => { alive = false; clearTimeout(timer); };
-  }, [problemId, contestId, problem?.statementLoading]);
+  }, [problemId, contestId, reviewId, problem?.statementLoading]);
 
   async function retryStatement() {
     const record = activeRecord.current;
     if (!record?.loaded) return;
     setProblem(previous => ({ ...previous, statementLoading: true, statementError: '' }));
     try {
-      const answer = await apiRef.current(`${queryPath('problem', record.id, record.contestId)}&background=1&refresh=1`);
+      const answer = await apiRef.current(`${queryPath('problem', record.id, record.contestId, record.reviewId)}&background=1&refresh=1`);
       if (isActive(record)) setProblem(answer);
     } catch (error) {
       if (isActive(record)) setProblem(previous => ({ ...previous, statementLoading: false, statementError: error.message }));
@@ -475,7 +477,7 @@ export default function Workbench({shortcuts={}, problemId, contest = null, api,
       // 官方回执已入库，但当前工作台的提交历史/结果栏还是旧的——拉回本题记录并合并，
       // 让官方 AC 当场出现在历史里，不必退出重进。
       if (isActive(record)) {
-        const answer = await apiRef.current(`${queryPath('problem', record.id, record.contestId)}&background=1`);
+        const answer = await apiRef.current(`${queryPath('problem', record.id, record.contestId, record.reviewId)}&background=1`);
         if (isActive(record) && Array.isArray(answer?.submissions)) {
           const history = answer.submissions.slice().sort((a, b) => String(b.submittedAt || '').localeCompare(String(a.submittedAt || '')));
           setSubmissions(history);
@@ -545,7 +547,7 @@ export default function Workbench({shortcuts={}, problemId, contest = null, api,
   const changeCodeLanguage = event => {
     const record=activeRecord.current;if(!record?.loaded||record.closed)return;
     const next=event.target.value;if(next===record.language)return;
-    const newTemplate=next==='python3' ? 'import sys\n\ndef solve():\n    pass\n\nif __name__ == "__main__":\n    solve()\n' : TEMPLATE;
+    const newTemplate=next==='python3' ? PYTHON_TEMPLATE : TEMPLATE;
     // Each language keeps an independent editor buffer for this problem.
     try {localStorage.setItem(`${record.key}.language.${record.language||'cpp17'}`,record.code);}catch{}
     let remembered;try{remembered=localStorage.getItem(`${record.key}.language.${next}`);}catch{}
@@ -737,7 +739,6 @@ export default function Workbench({shortcuts={}, problemId, contest = null, api,
         </div></div>
         {translationBusy && <p className="wb-translation-note" role="status"><LoaderCircle size={12} className="wb-spinner" />正在翻译公开题面，原文仍可阅读。</p>}
         {translationError && <div className="wb-translation-note wb-translation-error" role="alert"><span>{translationError}</span><button type="button" onClick={translateStatement}>重试</button></div>}
-        {language === 'zh' && translation && <p className="wb-translation-note">{!['site', 'original'].includes(translation.kind) && '机器翻译 · '}{translation.provider}{translation.cached && translation.kind !== 'original' ? ' · 已缓存' : ''}{translation.notice ? ` · ${translation.notice}` : ''}</p>}
         <article className="wb-statement" ref={statementRef} tabIndex={0} aria-label="题面内容" style={{ '--statement-font-size': `${statementFontSize}px` }}>
           {loading ? <div className="wb-empty"><LoaderCircle className="wb-spinner" size={22} /><span>正在载入题面</span></div>
             : loadError ? <div className="wb-empty"><span>{loadError}</span><button type="button" className="wb-button" onClick={() => setLoadAttempt(value => value + 1)}><RotateCcw size={14} />重新载入</button></div>
@@ -752,8 +753,8 @@ export default function Workbench({shortcuts={}, problemId, contest = null, api,
           <span><Code2 size={14}/><ThemedSelect aria-label="编程语言" value={codeLanguage} disabled={unavailable||busy||officialBusy} onChange={changeCodeLanguage}><option value="cpp17">C++17</option><option value="python3">Python 3</option></ThemedSelect></span>
           <span className={`wb-save-state wb-save-${saveState.kind}`} title={saveState.message || '草稿自动保存；Ctrl+S 立即保存'} aria-live="polite">{saveState.kind === 'saving' ? <LoaderCircle size={11} className="wb-spinner" /> : saveState.kind === 'saved' ? <Check size={11} /> : null}{saveLabel}</span>
           <div className="wb-editor-actions">
-            {onSolution && !runningContest && !problem?.locked && <button type="button" className="wb-button wb-solution-button" disabled={!problem} onClick={() => callbacks.current.onSolution?.(problemId)}><BookOpen size={14} />题解</button>}
-            {onNext && <button type="button" className="wb-button wb-next-button" onClick={() => { saveRecord(activeRecord.current); callbacks.current.onNext?.(); }}>下一题<ArrowRight size={14} /></button>}
+            {onSolution && !runningContest && !problem?.locked && <button type="button" className="wb-button wb-solution-button" aria-pressed={solutionOpen} disabled={!problem} onClick={() => callbacks.current.onSolution?.(problemId)}><BookOpen size={14} />题解</button>}
+            {onNext && <button type="button" className="wb-button wb-next-button" onClick={async () => { if(await saveRecord(activeRecord.current)) callbacks.current.onNext?.(); }}>下一题<ArrowRight size={14} /></button>}
             {localDraftRecovery !== null && <button type="button" className="wb-button" disabled={unavailable} title="当前为更新的同步版本；可恢复本机未上传的旧草稿" onClick={() => {
               undoReplace.current = code;
               updateCode(localDraftRecovery);

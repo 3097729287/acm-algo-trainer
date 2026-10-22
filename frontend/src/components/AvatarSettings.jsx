@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { ImagePlus, LoaderCircle, Trash2, UserRound } from 'lucide-react';
-import { SettingRow } from './SettingsControls.jsx';
 import Tooltip from './Tooltip.jsx';
 import { isAvatarData, MAX_AVATAR_DATA_LENGTH } from './ProfileBadge.jsx';
 import './ProfileBadge.css';
@@ -62,14 +61,14 @@ export default function AvatarSettings({ prefs, setPrefs, onError }) {
   }
 
   return <section className="avatar-settings" aria-label="头像设置">
-    <SettingRow title="头像" hint="头像显示在等级经验环内。PNG、JPEG 或 WebP，最大 12 MB；自动缩小至 96 像素以内并压缩。">
+    <div className="avatar-settings-content">
       <span className="avatar-settings-preview" role="img" aria-label={image ? '当前头像' : '默认头像'}>{image ? <img src={image} alt="" /> : <UserRound size={28} aria-hidden="true" />}</span>
       <div className="avatar-settings-actions">
         <input ref={input} type="file" hidden accept="image/png,image/jpeg,image/webp" aria-label="头像图片文件" onChange={selected} />
         <Tooltip text="选择头像图片"><button type="button" aria-label="选择头像图片" aria-busy={busy} disabled={busy} onClick={() => input.current?.click()}>{busy ? <LoaderCircle size={18} className="spin" /> : <ImagePlus size={18} />}<span>选择图片</span></button></Tooltip>
         <Tooltip text="恢复默认头像"><button type="button" aria-label="删除头像" disabled={!image || busy} onClick={clear}><Trash2 size={17} /><span>删除图片</span></button></Tooltip>
       </div>
-    </SettingRow>
+    </div>
     {error && <p role="alert" className="avatar-settings-error">{error}</p>}
     <span role="status" className="avatar-settings-status">{status}</span>
   </section>;

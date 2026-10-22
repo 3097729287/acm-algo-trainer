@@ -109,7 +109,8 @@ try {
   await page.evaluate(() => { window.workbenchFixture.draftDelay = 15; });
 
   await page.getByRole('button', { name: '中文', exact: true }).click();
-  await page.getByText('机器翻译 · Fixture provider', { exact: true }).waitFor();
+  await page.waitForFunction(()=>document.querySelector('.wb-statement')?.textContent.includes('A 的中文题面'));
+  assert.equal(await page.locator('.wb-translation-note').count(),0,'successful translations have no redundant status line');
   assert.ok(await page.locator('.wb-statement').textContent().then(text => text.includes('A 的中文题面')));
   assert.equal(await page.locator('.wb-statement p').first().evaluate(node => parseFloat(getComputedStyle(node).fontSize)), 24, 'Chinese uses the same reading size');
   assert.equal(await page.evaluate(() => 'code' in window.workbenchFixture.calls.filter(call => call.path === 'problem/translate').at(-1).body), false, 'translation sends only problem identity');
@@ -230,14 +231,14 @@ try {
   assert.ok(await page.locator('.wb-statement').textContent().then(text => text.includes('给出两个整数')));
   await page.evaluate(() => { window.workbenchFixture.translationError = ''; });
   await page.locator('.wb-translation-error').getByRole('button', { name: '重试', exact: true }).click();
-  await page.getByText('机器翻译 · Fixture provider', { exact: true }).waitFor();
+  await page.waitForFunction(()=>document.querySelector('.wb-statement')?.textContent.includes('C 的中文题面'));
 
-  // Site translations have an honest label; missing statements can recover
+  // Site translations remain readable; missing statements can recover
   // without losing an unsaved draft, including a legitimate empty input.
   await page.evaluate(() => { window.workbenchFixture.translationKind = 'site'; window.workbenchFixture.changeProblem('D'); });
   await page.waitForFunction(() => document.querySelector('.tb-workbench').dataset.problemId === 'D' && document.querySelector('.cm-content')?.getAttribute('contenteditable') === 'true');
   await page.getByRole('button', { name: '中文', exact: true }).click();
-  await page.getByText('Fixture provider', { exact: true }).waitFor();
+  await page.waitForFunction(()=>document.querySelector('.wb-statement')?.textContent.includes('D 的中文题面'));
   assert.equal(await page.getByText('机器翻译 · Fixture provider', { exact: true }).count(), 0);
   await page.evaluate(() => { window.workbenchFixture.problemOverrides.E = { markdown: '', statementAvailable: false, statementError: 'Temporary fixture failure', samples: [] }; window.workbenchFixture.changeProblem('E'); });
   await page.getByText('题面暂时未能加载', { exact: true }).waitFor();

@@ -1,0 +1,16 @@
+.contest-calendar{min-height:220px;display:flex;flex-direction:column;gap:16px}
+.contest-calendar-toolbar{display:flex;align-items:center;gap:12px;min-height:34px}
+.contest-calendar-providers{display:flex;align-items:center;flex-wrap:wrap;gap:14px;flex:1}
+.calendar-provider{display:inline-flex;align-items:center;gap:5px;font-size:.82rem;color:var(--muted)}
+.calendar-provider.ready{color:var(--accent)}
+.calendar-provider.error{color:var(--warning,#d6ad65)}
+.contest-calendar-zone{color:var(--muted);font-size:.8rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.contest-calendar-day h3{margin:0 0 8px;color:var(--muted);font-size:.84rem;font-weight:500}
+.contest-calendar-row{display:grid;grid-template-columns:55px minmax(0,1fr) 82px 20px 16px;align-items:center;gap:12px;padding:13px 12px;border-bottom:1px solid var(--line);color:var(--text);text-decoration:none}
+.contest-calendar-row:nth-child(even){background:var(--panel-2);border-radius:8px}
+.contest-calendar-row:hover{background:var(--panel-2)}
+.contest-calendar-row time{color:var(--accent);font-variant-numeric:tabular-nums}
+.contest-calendar-row strong{font-size:.94rem;font-weight:600}
+.contest-calendar-row>span,.contest-calendar-row>svg{color:var(--muted);font-size:.8rem}
+.contest-calendar-empty{display:flex;flex:1;min-height:150px;align-items:center;justify-content:center;gap:12px;color:var(--muted);font-size:.9rem}
+@media(max-width:600px){.contest-calendar-row{grid-template-columns:48px minmax(0,1fr) 18px;gap:8px}.contest-calendar-row>span,.contest-calendar-row>.tooltip-wrap{display:none}.contest-calendar-providers{gap:8px}}

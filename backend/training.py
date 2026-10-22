@@ -305,6 +305,9 @@ class TrainingService:
             if key and (key not in preferred or preferred[key].get("source") == "remote" and row.get("source") != "remote"):
                 preferred[key] = row
         aliases = {row["id"]: preferred[keys[row['id']]]["id"] if keys[row['id']] else row["id"] for row in rows}
+        for row in rows:
+            for alias in row.get('aliasIds', []):
+                aliases[alias] = aliases[row['id']]
         if scoped is not None:
             scoped['aliases'] = aliases
         return aliases
@@ -320,7 +323,18 @@ class TrainingService:
             with self._write() as connection:
                 self._claim_training(connection, identity)
                 self._activate(connection, identity, iso(self._now()))
-            return {"workspace": self.workspace()}
+            workspace = self.workspace()
+            canonical = self._identity_map().get(identity, identity)
+            task = next((row.get('reviewTask') for row in workspace['training'] if row['id'] == canonical), None)
+            return {"workspace": workspace, "reviewTask": task}
+
+    def review_plan(self):
+        from reviews import ReviewScheduler
+        return ReviewScheduler(self).plan()
+
+    def review_task(self, identity, review_id, contest_id=None, open_task=False):
+        from reviews import ReviewScheduler
+        return ReviewScheduler(self).task(identity, review_id, contest_id, open_task)
 
     def remove_training(self, identity):
         with self.lock:
@@ -405,6 +419,10 @@ class TrainingService:
             return None
         with self.lock:
             row=self._row(session['id'])
+            from reviews import ReviewScheduler
+            reviews = ReviewScheduler(self)
+            review_id = session.get('reviewId') or reviews.read('review-session:' + str(session.get('sessionId', '')))
+            review = self.review_task(row['id'], review_id, session.get('contestId')) if review_id else None
             key=canonical_url(session['url'])
             if not key or canonical_url(row.get('url') or self._asset_library().problem(row['id']).get('url'))!=key:
                 raise ServiceError(409,"官方回执与本题不一致")
@@ -429,6 +447,12 @@ class TrainingService:
                     with self._write() as connection:
                         connection.execute('UPDATE submissions SET contest_id=? WHERE id=? AND contest_id IS NULL', (contest_id, identity))
                         self._recompute_progress(connection, row['id'])
+                if review:
+                    with self._write() as connection:
+                        reviews.bind(connection, identity, review_id)
+                        if review.get('openedAt') and existing['submitted_at'] >= review['openedAt']:
+                            connection.execute('UPDATE submissions SET solution_seen=? WHERE id=?', (int(reviews.assisted(row['id'], review, existing['submitted_at'])), identity))
+                            self._recompute_progress(connection, row['id'])
                 return self._submission(self.connection.execute('SELECT * FROM submissions WHERE id=?', (identity,)).fetchone())
             finished = iso(self._now())
             with self._write() as connection:
@@ -440,8 +464,11 @@ class TrainingService:
                 seen_row=connection.execute('SELECT solution_seen_at FROM training WHERE id=?',(row['id'],)).fetchone()
                 seen_at=seen_row[0] if seen_row else None
                 seen=bool(seen_at and seen_at<submitted)
+                if review:
+                    seen = reviews.assisted(row['id'], review, submitted)
                 connection.execute("INSERT INTO submissions(id,problem_id,contest_id,mode,code,submitted_at,finished_at,verdict,scope,message,solution_seen) VALUES(?,?,?,'submit',?,?,?,?, 'official',?,?)",
                     (identity,row['id'],contest_id,self._code(session['code']),submitted,finished,verdict,'原站确认提交 #'+remote+(' · 官网同步（未取得源码）' if session.get('external') else ''),int(seen)))
+                reviews.bind(connection, identity, review_id)
                 self._recompute_progress(connection,row['id'])
             result = self._submission(self.connection.execute('SELECT * FROM submissions WHERE id=?',(identity,)).fetchone())
         if verdict == 'AC':
@@ -456,7 +483,7 @@ class TrainingService:
             from copy import deepcopy
             signature = self._insights_signature(hub)
             cache = getattr(self, '_insights_cache', None)
-            if signature is not None and cache and time.monotonic() - cache[0] < 3 and cache[1] == signature:
+            if signature is not None and cache and time.monotonic() - cache[0] < 30 and cache[1] == signature:
                 result = deepcopy(cache[2])
                 result['growth']['newAchievementXp'] = 0
                 return result
@@ -538,7 +565,10 @@ class TrainingService:
         library = getattr(self.store, 'library', None)
         if not callable(getattr(library, 'content_signature', None)):
             return None
-        return id(self.connection), self._public_progress_signature(hub or {}), library.content_signature()
+        content = self.store._content_signature() if callable(getattr(self.store, '_content_signature', None)) else library.content_signature()
+        analysis = self.store._analysis_signature() if callable(getattr(self.store, '_analysis_signature', None)) else {}
+        expired = self.connection.execute("SELECT 1 FROM contests WHERE status='running' AND deadline<=? LIMIT 1", (iso(self._now()),)).fetchone() is not None
+        return id(self.connection), self._public_progress_signature(hub or {}), content, tuple(sorted(analysis.items())), expired
 
     def _public_progress_signature(self, hub):
         profiles = hashlib.sha256(json.dumps(hub.get('accounts', []), ensure_ascii=False, sort_keys=True).encode()).digest()
@@ -937,15 +967,16 @@ class TrainingService:
             self.assert_solution_unlocked(identity)
         return None
 
-    def problem(self, identity, contest_id=None, background=False, refresh=False):
+    def problem(self, identity, contest_id=None, background=False, refresh=False, review_id=None):
         with self._library_view():
-            return self._problem(identity, contest_id, background=background, refresh=refresh)
+            return self._problem(identity, contest_id, background=background, refresh=refresh, review_id=review_id)
 
-    def _problem(self, identity, contest_id=None, background=False, refresh=False):
+    def _problem(self, identity, contest_id=None, background=False, refresh=False, review_id=None):
         with self.lock:
             row = self._row(identity)
             self._context(identity, contest_id)
             self._history_visible(identity, contest_id)
+            review = self.review_task(identity, review_id, contest_id, open_task=True)
         try:
             assets = self._asset_library()
             deferred = getattr(assets, 'background_problem', None)
@@ -975,13 +1006,22 @@ class TrainingService:
                     raise
                 problem["locked"] = True
             context = contest_id or ""
+            if review:
+                from reviews import task_context
+                context = task_context(review_id)
             ids = self._equivalent_ids(identity)
             placeholders = ",".join("?" for _ in ids)
-            draft = self.connection.execute(f"SELECT problem_id,code,saved_at FROM drafts WHERE problem_id IN ({placeholders}) AND context=? ORDER BY saved_at DESC LIMIT 1", ids + [context]).fetchone()
+            draft = self.connection.execute(f"SELECT problem_id,code,saved_at,context FROM drafts WHERE problem_id IN ({placeholders}) AND context=? ORDER BY saved_at DESC LIMIT 1", ids + [context]).fetchone()
+            if draft is None and not context:
+                draft = self.connection.execute(f"SELECT problem_id,code,saved_at,context FROM drafts WHERE problem_id IN ({placeholders}) AND context IN (SELECT id FROM contests WHERE status='cancelled') ORDER BY saved_at DESC LIMIT 1", ids).fetchone()
             problem["draft"] = draft["code"] if draft else ""
-            problem["draftLanguage"] = self._read_language(self._draft_language_key(draft["problem_id"] if draft else identity,context))
+            problem["draftLanguage"] = self._read_language(self._draft_language_key(draft["problem_id"] if draft else identity,draft['context'] if draft else context))
+            if review and not draft:
+                problem['draftLanguage'] = self._read_language(self._draft_language_key(identity, ''))
             problem["draftSavedAt"] = draft["saved_at"] if draft else None
-            problem["submissions"] = self.submissions(identity, contest_id, exact_context=True)["submissions"]
+            problem["submissions"] = self.submissions(identity, contest_id, exact_context=True, review_id=review_id)["submissions"]
+            if review:
+                problem['reviewTask'] = review
             if not problem["locked"]:
                 from knowledge import enrich_row
                 cache = getattr(self.store, "knowledge_analysis", None)
@@ -1015,25 +1055,28 @@ class TrainingService:
         if language!='cpp17' or previous:
             connection.execute('INSERT INTO account_preferences VALUES(?,?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at', (key,language,iso(self._now())))
 
-    def save_draft(self, identity, code, contest_id=None, language='cpp17'):
+    def save_draft(self, identity, code, contest_id=None, language='cpp17', review_id=None):
         self._code(code)
         self._language(language)
         with self.lock:
             self._row(identity)
             self._context(identity, contest_id, writing=True)
             context = contest_id or ""
+            if self.review_task(identity, review_id, contest_id, open_task=True):
+                from reviews import task_context
+                context = task_context(review_id)
             existing = self.connection.execute("SELECT code,saved_at FROM drafts WHERE problem_id=? AND context=?", (identity, context)).fetchone()
             if existing and existing["code"] == code and self._read_language(self._draft_language_key(identity,context)) == language:
                 return {"savedAt": existing["saved_at"]}
             saved_at = iso(self._now())
             with self._write() as connection:
                 self._save_language(connection,self._draft_language_key(identity,context),language)
-                if not contest_id and code.strip():
+                if not contest_id and not review_id and code.strip():
                     self._claim_training(connection, identity)
                 connection.execute("INSERT INTO drafts VALUES(?,?,?,?) ON CONFLICT(problem_id,context) DO UPDATE SET code=excluded.code,saved_at=excluded.saved_at", (identity, context, code, saved_at))
             return {"savedAt": saved_at}
 
-    def submit(self, identity, code, mode="submit", input_text="", contest_id=None, sample_run=None, language='cpp17'):
+    def submit(self, identity, code, mode="submit", input_text="", contest_id=None, sample_run=None, language='cpp17', review_id=None):
         self._code(code)
         self._language(language)
         if mode not in ("run", "submit"):
@@ -1048,6 +1091,7 @@ class TrainingService:
         with self.lock:
             self._row(identity)
             contest = self._context(identity, contest_id, writing=True)
+            review = self.review_task(identity, review_id, contest_id, open_task=True)
             if mode == 'submit' and contest and json.loads(contest['config'] or '{}').get('strategy') == 'replay':
                 raise ServiceError(409, '重现赛请使用原站提交')
             if self.closed:
@@ -1076,9 +1120,14 @@ class TrainingService:
             placeholders = ",".join("?" for _ in ids)
             training = self.connection.execute(f"SELECT MAX(solution_pending) AS solution_pending FROM training WHERE id IN ({placeholders})", ids).fetchone()
             seen_solution = int(bool(training and training["solution_pending"]))
+            if review:
+                from reviews import ReviewScheduler
+                seen_solution = int(ReviewScheduler(self).assisted(identity, review, timestamp))
             with self._write() as connection:
                 connection.execute("INSERT INTO submissions(id,problem_id,contest_id,mode,code,submitted_at,verdict,scope,custom_input,solution_seen,sample_run) VALUES(?,?,?,?,?,?,'QUEUED',?,?,?,?)", (submission_id, identity, contest_id or None, mode, code, timestamp, scope, input_text, seen_solution, int(sample_run)))
                 self._save_language(connection, "submission-language:"+submission_id, language)
+                if review:
+                    ReviewScheduler(self).bind(connection, submission_id, review_id)
                 if mode == "submit":
                     self._activate(connection, identity, timestamp)
             self._enqueue(submission_id)
@@ -1213,7 +1262,7 @@ class TrainingService:
                 result["workspace"] = self.workspace()
             return result
 
-    def submissions(self, identity=None, contest_id=None, exact_context=False, limit=100, offset=0, results_only=False):
+    def submissions(self, identity=None, contest_id=None, exact_context=False, limit=100, offset=0, results_only=False, review_id=None):
         try:
             limit, offset = int(limit), int(offset)
         except (ValueError, TypeError):
@@ -1227,6 +1276,12 @@ class TrainingService:
             if identity:
                 self._history_visible(identity, contest_id)
             clauses, values = [], []
+            if review_id:
+                if not identity:
+                    raise ServiceError(400, '复习记录缺少题目编号')
+                self.review_task(identity, review_id, contest_id)
+                clauses.append("id IN (SELECT substr(key,16) FROM account_preferences WHERE key LIKE 'review-receipt:%' AND value=?)")
+                values.append(json.dumps(review_id))
             if results_only:
                 clauses.append("mode='submit' AND sample_run=0 AND verdict!='SAMPLE_PASS' AND (scope='official' OR scope='local')")
             if identity:
@@ -1555,6 +1610,9 @@ class TrainingService:
                          if json.loads(prior['config'] or '{}').get('strategy') == 'replay' for slot in json.loads(prior['slots']) if slot.get('trainingAdded')}
                 slots = [dict(slot, trainingAdded=bool(set(self._equivalent_ids(slot['id'])) & owned) or not any(connection.execute('SELECT 1 FROM training WHERE id=? AND active=1', (other,)).fetchone()
                          for other in self._equivalent_ids(slot['id']))) for slot in preview['slots']]
+                for slot in slots:
+                    before = connection.execute('SELECT active,active_at,removed_at FROM training WHERE id=?', (slot['id'],)).fetchone()
+                    slot['trainingBefore'] = dict(before) if before else None
                 connection.execute("INSERT INTO contests(id,name,status,started_at,deadline,finished_at,duration,slots,config) VALUES(?,?,'running',?,?,NULL,?,?,?)", (identity, name, timestamp, deadline, duration, json.dumps(slots, ensure_ascii=False), json.dumps(options, ensure_ascii=False)))
                 for problem_id in ids:
                     self._activate(connection, problem_id, timestamp)
@@ -1646,9 +1704,41 @@ class TrainingService:
                         removed.add(slot['id'])
             return {'deleted': len(rows), 'removedTraining': len(removed), 'workspace': self.workspace()}
 
+    def cancel_contest(self, identity):
+        """Withdraw this arrangement without finishing or discarding real work."""
+        if not isinstance(identity, str) or not identity or len(identity) > 512:
+            raise ServiceError(400, '比赛编号无效')
+        with self.lock, self._library_view():
+            record = self.connection.execute('SELECT * FROM contests WHERE id=?', (identity,)).fetchone()
+            if record is None:
+                raise ServiceError(404, '没有找到这场模拟赛')
+            if record['status'] == 'cancelled':
+                return {'cancelled': True, 'workspace': self.workspace()}
+            if record['status'] != 'running':
+                raise ServiceError(409, '比赛已经结束，不能再取消')
+            now = iso(self._now())
+            with self._write() as connection:
+                connection.execute("UPDATE contests SET status='cancelled',deleted_at=? WHERE id=?", (now, identity))
+                referenced = {slot['id'] for other in connection.execute('SELECT slots FROM contests WHERE deleted_at IS NULL') for slot in json.loads(other['slots'])}
+                referenced.update(item for other in connection.execute('SELECT ids FROM practice_sets') for item in json.loads(other['ids']))
+                for slot in json.loads(record['slots']):
+                    equivalents = self._equivalent_ids(slot['id'])
+                    if set(equivalents) & referenced:
+                        continue
+                    previous = slot.get('trainingBefore')
+                    if previous is not None:
+                        connection.execute('UPDATE training SET active=?,active_at=?,removed_at=? WHERE id=?',
+                                           (previous['active'],previous['active_at'],previous['removed_at'],slot['id']))
+                    elif slot.get('trainingAdded'):
+                        connection.execute('UPDATE training SET active=0,removed_at=? WHERE id=?', (now,slot['id']))
+                    connection.execute('UPDATE training SET mock_due=0,mock_due_at=NULL,mock_due_context=NULL WHERE id=? AND mock_due_context=?', (slot['id'],identity))
+            return {'cancelled': True, 'workspace': self.workspace()}
+
     def workspace(self):
         with self.lock, self._library_view():
             self._expire()
+            review_plan = self.review_plan()
+            review_tasks = {item['problemId']: item for item in review_plan['tasks']}
             from goals import Goals
             goal_overview = Goals(self).list(assign=True)
             goal_tasks = goal_overview.get('goalTasks', [])
@@ -1682,11 +1772,8 @@ class TrainingService:
                         queue = "fill"
                     elif latest and latest["verdict"] == "SAMPLE_PASS" and not accepted:
                         queue = "verify"
-                    elif accepted and record["review_count"]:
-                        if (now - parse_time(record["last_review_at"])).total_seconds() >= 30 * 86400:
-                            queue = "check"
-                    elif accepted and (now - parse_time(accepted_at)).total_seconds() >= 7 * 86400:
-                        queue = "review"
+                    if canonical in review_tasks:
+                        queue = 'check' if review_tasks[canonical]['stage'] >= 2 else 'review'
                 source = library.get(canonical)
                 if source is None:
                     try:
@@ -1700,6 +1787,12 @@ class TrainingService:
                 item.update({"id": canonical, "accepted": accepted, "verdict": last_attempt["verdict"] if last_attempt else None, "scope": accepted_scope if accepted else last_attempt["scope"] if last_attempt else None, "attempts": len(attempts), "acceptedAt": accepted_at, "lastSubmittedAt": attempts[-1]["submitted_at"] if attempts else None, "queue": queue, "reviewCount": record["review_count"], "solutionSeen": bool(record["solution_pending"] or record["rewrite_due"]), "activeAt": record["active_at"]})
                 last_activity = max(activity.get(canonical, ""), record["active_at"], record["solution_seen_at"] or "")
                 item.update(lastActivityAt=last_activity, today=bool(queue or canonical in locked or parse_time(last_activity).astimezone(TRAINING_ZONE).date() == today))
+                if canonical in review_tasks and canonical not in locked:
+                    item['reviewTask'] = review_tasks[canonical]
+                elif review_plan['reviewOnly'] and canonical not in locked:
+                    item['today'] = bool(latest and parse_time(latest['submitted_at']).astimezone(TRAINING_ZONE).date() == today)
+                    if not item['today']:
+                        item['queue'] = None
                 if canonical in locked:
                     item.update({"difficulty": None, "tags": [], "knowledge": ""})
                 training.append(item)
@@ -1743,7 +1836,7 @@ class TrainingService:
             today_ac = {aliases.get(r['problem_id'], r['problem_id']) for r in official_ac if parse_time(r['submitted_at']).astimezone(TRAINING_ZONE).date() == today}
             before_today_ac = {aliases.get(r['problem_id'], r['problem_id']) for r in official_ac if parse_time(r['submitted_at']).astimezone(TRAINING_ZONE).date() < today}
             pending = self.connection.execute("SELECT COUNT(*) FROM submissions WHERE finished_at IS NULL").fetchone()[0]
-            return {"training": training, "sets": sets, "contests": contests, "goals": goal_overview, "goalTasks": goal_tasks, "activeContest": next((contest for contest in contests if contest["status"] == "running"), None), "summary": {"todayAccepted": len(today_ac), "historicalAccepted": len(historical_ac), "beforeTodayAccepted": len(before_today_ac), "total": len(training), "accepted": sum(item["accepted"] for item in training), "samplePassed": sum(item["verdict"] == "SAMPLE_PASS" and not item["accepted"] for item in training), "attempts": len(records), "due": sum(item["queue"] is not None for item in training), "streak": streak, "pending": pending}, "now": iso(now)}
+            return {"training": training, "sets": sets, "contests": contests, "reviews": review_plan, "goals": goal_overview, "goalTasks": goal_tasks, "activeContest": next((contest for contest in contests if contest["status"] == "running"), None), "summary": {"todayAccepted": len(today_ac), "historicalAccepted": len(historical_ac), "beforeTodayAccepted": len(before_today_ac), "total": len(training), "accepted": sum(item["accepted"] for item in training), "samplePassed": sum(item["verdict"] == "SAMPLE_PASS" and not item["accepted"] for item in training), "attempts": len(records), "due": sum(item["queue"] is not None for item in training), "streak": streak, "pending": pending}, "now": iso(now)}
 
     def close(self):
         with self.lock:

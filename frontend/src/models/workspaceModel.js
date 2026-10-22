@@ -3,6 +3,7 @@ import { matchesKnowledge } from '../lib/knowledgeNames.js';
 import { compareContestNewest } from "@/lib/practiceMetadata.js";
 import { trainingDay } from "@/lib/trainingDate.js";
 import { contestKind, matchesShelf } from "@/lib/contestShelves.js";
+import {catalogSegments} from '../lib/contestCatalog.js';
 
 export const QUEUES = [
   {
@@ -20,13 +21,13 @@ export const QUEUES = [
   {
     id: "review",
     name: "间隔复习",
-    description: "首次通过 7 天后，再独立写一次",
+    description: "根据难度与重做表现安排，使用独立草稿重写",
     color: "blue",
   },
   {
     id: "check",
     name: "巩固抽检",
-    description: "复习通过 30 天后，检查掌握",
+    description: "连续独立通过后逐渐拉长间隔",
     color: "green",
   },
 ];
@@ -100,8 +101,10 @@ export function shareWorkspace(previous, next) {
   return equal ? previous : result;
 }
 export function progressRows(library, workspace) {
-  const states = progressMap(workspace);
-  const locked = new Set((workspace?.activeContest?.slots || []).map(s=>s.id));
+  const aliases=new Map(library.flatMap(row=>[row.id,...(row.aliasIds||[])].map(id=>[id,row.id])));
+  const states=new Map();
+  for(const row of workspace?.training||[]){const id=aliases.get(row.id)||row.id,previous=states.get(id);states.set(id,{...previous,...row,id,accepted:!!(previous?.accepted||row.accepted),queue:previous?.queue||row.queue});}
+  const locked = new Set((workspace?.activeContest?.slots || []).map(s=>aliases.get(s.id)||s.id));
   const known = new Set(library.map(row => row.id));
   const rows = library.concat([...states.values()].filter(row => !known.has(row.id)));
   return rows.map((row) => ({
@@ -119,6 +122,7 @@ export function filterRows(rows, filters = {}) {
     platform = "",
     shelf = 'all',
     kind = '',
+    catalogPath = [],
     category = null,
     min = "",
     max = "",
@@ -138,13 +142,14 @@ export function filterRows(rows, filters = {}) {
         (!platform || row.platform === platform) &&
         matchesShelf(row, shelf) &&
         (!kind || contestKind(row) === kind) &&
+        (!catalogPath.length || catalogPath.every((part,index)=>catalogSegments(row)[index]===part)) &&
         (!category || matchesKnowledge(row,category.tags||[category.name])) &&
         (min === "" || row.difficulty == null && Number(min) === 0 ||
           (row.difficulty != null && row.difficulty >= Number(min))) &&
         (max === "" || row.difficulty == null && Number(max) === 10000 ||
           (row.difficulty != null && row.difficulty <= Number(max))) &&
         (!contest || row.contest === contest) &&
-        (!favoritesOnly || favorites.includes(row.id)) &&
+        (!favoritesOnly || favorites.includes(row.id) || (row.aliasIds||[]).some(id=>favorites.includes(id))) &&
         (!result ||
           (result === "accepted"
             ? row.accepted

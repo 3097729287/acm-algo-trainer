@@ -38,9 +38,12 @@ class LibraryTests(unittest.TestCase):
         try:
             data = server.store.data()
             self.assertGreaterEqual(len(data['rows']), 607)
-            self.assertEqual(sum(row['solutionAvailable'] for row in data['rows']), self.seed_counts['solutions'])
             with server.store.library.connection() as db:
                 available_ids = {row[0] for row in db.execute('SELECT problem_id FROM solutions')}
+                from insights import canonical_url
+                unique_solutions = {canonical_url(row[0]) or row[1] for row in db.execute('SELECT p.url,p.id FROM problems p JOIN solutions s ON s.problem_id=p.id')}
+            self.assertEqual(sum(row['solutionAvailable'] for row in data['rows']), len(unique_solutions))
+            self.assertTrue(available_ids.issubset({identity for row in data['rows'] for identity in row.get('aliasIds', [row['id']])}), 'Every stored editorial remains reachable through an original task')
             for row in data['rows']:
                 self.assertEqual(row['solutionState'],
                                  'available' if row['id'] in available_ids else 'missing', row['id'])
@@ -63,9 +66,11 @@ class LibraryTests(unittest.TestCase):
                 catalog = server.store.data()
             self.assertGreaterEqual(len(catalog['rows']), 607)
             self.assertLessEqual(connections.call_count, 4, 'A list refresh must not open connections per problem')
+            before = sum(row['solutionAvailable'] for row in catalog['rows'])
             database.import_records([record('custom::A')], {}, {})
             self.assertIn('custom::A', {row['id'] for row in server.store.data()['rows']})
-            self.assertEqual(sum(row['solutionAvailable'] for row in server.store.data()['rows']), self.seed_counts['solutions'] + 1)
+            self.assertEqual(sum(row['solutionAvailable'] for row in server.store.data()['rows']), before + 1)
+            self.assertEqual(database.check()['solutions'], self.seed_counts['solutions'] + 1)
         finally:
             server.server_close()
 

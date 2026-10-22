@@ -79,8 +79,13 @@
 .activity-year-total { display: inline-flex; align-items: baseline; gap: 9px; }
 .activity-year-total b { font-size: 1.65rem; letter-spacing: -.04em; }
 .activity-year-total > span { color: var(--muted); font-size: .9rem; }
-.activity-details table { table-layout: fixed; max-width: 880px; }
-.activity-details th:first-child { width: 55%; }
+.activity-details table { table-layout: fixed; width:100%; max-width:none; border-collapse:separate; border-spacing:0; }
+.activity-details :is(th,td):first-child { width:60%; text-align:left; }
+.activity-details :is(th,td):last-child { text-align:right; }
+.activity-details tbody tr:nth-child(odd) { background:var(--panel-2); }
+.activity-details tbody td { font-size:1.08rem; padding:14px 12px; border-bottom:1px solid var(--soft-line); }
+.activity-details .progress-text-button { font-size:inherit; }
+.activity-details td:last-child .activity-pass-count { justify-content:flex-end; }
 .activity-day-detail .activity-pass-count { font-size: 1.1rem; }
 .update-notification-heading > .progress-text-button { margin-left: auto; margin-right: 12px; }
 .daily-task-top-button { white-space: nowrap; }

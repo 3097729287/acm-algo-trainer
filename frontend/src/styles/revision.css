@@ -3,7 +3,7 @@ html .app-shell {--statusbar-height:34px}
 html .app-shell .sidebar {width:max(128px,calc(var(--ui-font-size,15px)*5 + 48px));flex:0 0 max(128px,calc(var(--ui-font-size,15px)*5 + 48px));padding:6px 6px 0}
 html .sidebar nav {flex:1;min-height:0;max-height:none!important;overflow:auto;gap:5px!important;padding:0}
 html .sidebar .nav-item {width:100%;justify-content:flex-start;gap:8px;white-space:nowrap;padding:8px 3px 8px 13px;min-height:38px}
-html .sidebar .brand {margin:0 0 16px;gap:0;min-height:42px;justify-content:flex-start}
+html .sidebar .brand {margin:0 0 16px;gap:0;min-height:54px;justify-content:flex-start;align-items:center}
 html .sidebar .brand-mark {flex:none;width:42px;height:42px;font-family:inherit;font-size:calc(var(--ui-font-size,15px) + 6px);letter-spacing:-.8px;padding:0;border-radius:12px}
 html .sidebar .brand>.tooltip-anchor {display:flex;align-items:center;justify-content:center}
 html .tour-card {right:auto;bottom:auto;max-height:calc(100vh - 36px);overflow:auto}
@@ -21,14 +21,14 @@ html .app-statusbar {flex:0 0 var(--statusbar-height);height:var(--statusbar-hei
 html .sidebar-collapsed .sidebar {width:58px;flex-basis:58px}
 html .sidebar-collapsed .brand {margin-inline:0;justify-content:center}
 html .sidebar-collapsed .nav-item {justify-content:center;padding-inline:5px}
-html .topbar {display:flex;align-items:center;gap:12px;padding:4px 12px;min-height:54px;flex-wrap:nowrap}
+html .topbar {display:flex;align-items:center;gap:12px;padding:6px 12px;min-height:66px;flex-wrap:nowrap}
 .page-location-slot {display:flex;align-items:center;flex:none}
 .page-location-slot:empty {display:none}
 .competition-view-toggle {display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;color:var(--muted)}
 .competition-view-toggle:hover,.competition-view-toggle[aria-pressed=true] {color:var(--accent);background:var(--accent-soft)}
 html .topbar-search-slot {flex:1 1 240px;min-width:70px;max-width:none}
 .page-search-controls {display:flex;align-items:center;gap:8px;min-width:0;width:100%}
-.page-search-controls .search-box {display:flex;flex:1;gap:8px;align-items:center;min-width:0;padding:6px 10px;border:0;background:color-mix(in srgb,var(--text) 5%,transparent);border-radius:8px;color:var(--muted);min-height:35px}
+.page-search-controls .search-box {display:flex;flex:1;gap:8px;align-items:center;min-width:0;padding:7px 12px;border:0;background:color-mix(in srgb,var(--text) 5%,transparent);border-radius:9px;color:var(--muted);min-height:40px}
 .page-search-controls .search-box input {min-width:0;width:100%;border:0;background:transparent;box-shadow:none;padding:2px;color:var(--text)}
 .page-search-controls .filter-menu {flex:none}
 .page-search-controls>.tooltip-anchor {flex:none}
@@ -43,16 +43,16 @@ html .sort-direction:hover {background:var(--accent-soft);border-radius:6px}
 html .topbar-actions {display:flex;align-items:center;gap:16px;flex:0 0 auto;min-width:0;flex-wrap:nowrap}
 html .topbar-actions>.icon-button {width:30px;height:34px}
 html .topbar-actions>.topbar-titles:empty {display:none}
-html .topbar-actions .profile-badge {order:5;gap:8px;padding:0;min-height:46px}
+html .topbar-actions .profile-badge {order:5;gap:9px;padding:0;min-height:54px;align-items:center}
 html .topbar-actions>.profile-badge {margin-inline:0;transform:none}
-html .topbar-actions .profile-avatar-button {width:46px;height:46px;min-width:46px}
-html .topbar-actions .profile-avatar-face {width:29px;height:29px}
+html .topbar-actions .profile-avatar-button {width:54px;height:54px;min-width:54px}
+html .topbar-actions .profile-avatar-face {width:35px;height:35px}
 html .profile-badge-compact .profile-nickname {font-size:.9rem;max-width:100px}
 .avatar-rank-frame {position:absolute;inset:-10%;width:120%;height:120%;color:var(--tier-color);pointer-events:none;overflow:visible}
 html .profile-badge .profile-xp-ring {inset:6%;width:88%;height:88%}
 html .profile-badge .profile-xp-ring circle {stroke-width:1.5}
 html .profile-level-number {bottom:-1px}
-html .topbar-status-chip {height:34px;display:inline-flex;align-items:center;gap:4px;padding:0;white-space:nowrap;font-variant-numeric:tabular-nums}
+html .topbar-status-chip {height:40px;display:inline-flex;align-items:center;gap:6px;padding:0;white-space:nowrap;font-variant-numeric:tabular-nums}
 html .topbar .topbar-daily-ac,html .topbar .topbar-daily-ac b {color:var(--success)}
 html .topbar .topbar-daily-ac b {display:inline}
 html .topbar .topbar-daily-ac em {font-style:normal;color:var(--accent);padding:0;margin:0}
@@ -104,8 +104,8 @@ html .competition-start {margin-left:10px;min-width:100px;white-space:nowrap}
 .filter-popover :is(button,summary,label) {line-height:1.5}
 .tb-tooltip {width:max-content;max-width:min(340px,calc(100vw - 24px));white-space:normal;word-break:normal;overflow-wrap:break-word}
 .tb-popconfirm {z-index:10060;padding:18px;background:var(--panel-base);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);color:var(--text)}
-.tb-popconfirm>strong {display:block;line-height:1.6;overflow-wrap:anywhere}
-.tb-popconfirm>div {display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
+.tb-popconfirm>strong {display:block;line-height:1.6;overflow-wrap:anywhere;text-align:center}
+.tb-popconfirm>div {display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:16px}
 .tb-popconfirm button {padding:7px 14px;border:1px solid var(--line);border-radius:6px}
 .tb-popconfirm .danger {color:var(--danger)}
 .tb-popconfirm p {margin-top:8px;color:var(--danger);font-size:.85rem}
@@ -125,17 +125,17 @@ html .mock-history .table-toolbar {justify-content:space-between;min-height:52px
 html .mock-history .records-list {flex:none;overflow:visible}
 html .mock-history .empty {min-height:150px;padding:28px}
 .mock-resume-row {display:flex;justify-content:flex-end}
-html .mock-difficulty-row {display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin:0}
+html .mock-difficulty-row {display:flex;justify-content:center;gap:18px;align-items:center;flex-wrap:wrap;margin:0}
 .difficulty-presets {gap:4px;flex-wrap:wrap}
 .difficulty-presets button {padding:10px;gap:7px;font-size:1rem}
 .difficulty-presets small {font-size:.66em;opacity:.8;white-space:nowrap}
 .difficulty-expert {color:#bc9adb}
-.training-specific-fields {display:flex;align-items:center;flex:1 1 260px;gap:10px;min-width:0;justify-content:flex-end}
-.training-specific-fields:empty {flex-basis:0}
+.training-specific-fields {display:flex;align-items:center;flex:0 1 360px;gap:10px;min-width:0;justify-content:center}
+.training-specific-fields:empty {display:none}
 .training-specific-fields .tb-select-wrap {flex:1 1 180px;max-width:400px;min-width:140px}
 .replay-event-search {display:flex;align-items:center;gap:7px;min-width:100px;flex:1 1 150px;border:1px solid var(--line);border-radius:7px;padding:6px 9px;color:var(--muted)}
 .replay-event-search input {border:0;background:transparent;width:100%;padding:3px}
-html .mock-config .create-buttons {margin-top:auto;display:flex;justify-content:flex-end;gap:12px;padding-top:12px}
+html .mock-config .create-buttons {margin-top:auto;display:flex;justify-content:center;align-items:center;gap:12px;padding-top:12px}
 html .mock-config .create-buttons button {min-width:144px;min-height:43px}
 html .paper-preview {flex:1;min-height:180px;margin:0;padding:24px}
 .paper-slots {display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-top:22px}
@@ -144,7 +144,7 @@ html .paper-slot {display:flex;align-items:center;gap:20px;padding:20px;border:0
 .paper-slot>span {font-size:.85rem;color:var(--muted)}
 /* Growth details share the radar; account statistics occupy the second column. */
 html .growth-dashboard {max-width:none;width:100%;padding:0}
-html .growth-dashboard .progress-growth-columns {display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;align-items:stretch}
+html .growth-dashboard .progress-growth-columns {display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;align-items:start}
 html .knowledge-radar {min-width:0;padding:22px}
 html .knowledge-radar>svg {display:block;width:100%;max-width:none;height:clamp(290px,43vh,600px);overflow:visible}
 html .knowledge-radar>svg text {font-size:14px;fill:var(--muted)}
@@ -157,7 +157,7 @@ html .knowledge-radar>svg .radar-node {fill:var(--panel);stroke:var(--accent);st
 .radar-detail-row small {color:var(--muted);font-size:.7rem}
 .radar-detail-heading>span:first-child {text-align:left}
 .radar-detail-row>b,.radar-detail-row>span:last-child button {color:var(--accent)}
-html .growth-account-hero {padding:clamp(22px,3vw,44px);display:flex;flex-direction:column;gap:28px;min-height:620px}
+html .growth-account-hero {padding:clamp(22px,3vw,44px);display:flex;flex-direction:column;gap:28px;min-height:clamp(560px,calc(100dvh - 130px),900px)}
 .account-hero-identity {display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:22px;min-height:220px;flex:1}
 html .account-hero-identity .profile-badge {flex-direction:column;gap:20px;padding:0;background:transparent;border:0;width:100%}
 html .account-hero-identity .profile-avatar-button {width:clamp(120px,10vw,190px);height:clamp(120px,10vw,190px)}
@@ -190,8 +190,10 @@ html .account-hero-rank {display:flex;flex-direction:column;align-items:center;j
 /* Ranking uses the full content width and aligned columns. */
 html .rankings-page {width:100%;max-width:none;padding:0;margin:0;min-height:100%;display:flex;flex-direction:column}
 html .rankings-page>.progress-section {max-width:none;width:100%;min-height:100%;display:flex;flex-direction:column;padding:16px}
-html .ranking-header {display:flex;align-items:center;gap:14px;margin-bottom:20px}
-html .ranking-board-summary {margin-left:auto;display:flex;align-items:center;gap:18px}
+html .ranking-header {display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:14px;margin-bottom:20px}
+.ranking-period-controls {grid-column:2;display:flex;align-items:center;justify-content:center;gap:14px}
+.ranking-overview-controls {grid-column:3;display:flex;align-items:center;justify-content:flex-end;gap:18px}
+html .ranking-board-summary {margin:0;display:flex;align-items:center;gap:18px}
 html .ranking-table {width:100%;min-width:0;table-layout:fixed;border-spacing:0 8px}
 html .ranking-table col.ranking-column-place {width:44px}
 html .ranking-table col.ranking-column-count {width:70px}
@@ -219,6 +221,14 @@ html .settings-page input.toggle:checked:after {transform:translateX(14px)}
 html .list-footer {display:flex;align-items:center;gap:16px;min-height:38px;padding:6px 12px;flex:none;white-space:nowrap}
 html .list-footer>.library-pagination {margin-left:auto;display:flex;align-items:center;flex:none;padding:0;border:0;min-height:0}
 html .list-footer>.autosave-dot {margin-left:auto}
+.avatar-settings-content {display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding-block:16px}
+.avatar-settings-content .avatar-settings-actions {justify-content:center}
+.avatar-settings-status {display:block;text-align:center}
+.social-notifications .social-heart {color:#ee6b81!important}
+.social-notification>div {display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px 16px}
+.social-notification>div>p {grid-row:2;grid-column:1/-1}
+.social-notification time {text-align:right;white-space:nowrap}
+@media(max-width:900px){html .ranking-header{grid-template-columns:1fr}.ranking-period-controls,.ranking-overview-controls{grid-column:1;justify-content:center}.social-notification>div{grid-template-columns:1fr}.social-notification time{text-align:left}}
 .ranking-title-list {display:flex;gap:8px;flex-wrap:wrap}
 html .social-activity {display:block;width:100%;min-height:90px;margin-top:26px;padding:24px 0 0;border-top:1px solid var(--line)}
 html .social-activity>div {display:flex;gap:18px;align-items:center;justify-content:space-between;padding:12px 0;font-size:.94rem}

@@ -131,7 +131,7 @@ class Store:
                 assets.append((stat.st_mtime_ns, stat.st_size))
             except FileNotFoundError:
                 assets.append(None)
-        return ('catalog-20261015-v3', VERSION, self.library.content_signature(),
+        return ('catalog-20261022-v4-unique', VERSION, self.library.content_signature(),
                 signature() if signature else None, tuple(assets))
 
     def _analysis_signature(self):
@@ -243,7 +243,8 @@ class Store:
             seen_ids.add(row['id'])
             if key:
                 seen_urls.add(key)
-        return encoded
+        from catalog_identity import unique_catalog_rows
+        return unique_catalog_rows(encoded)
 
     def solution(self, identity):
         row = self.row(identity)

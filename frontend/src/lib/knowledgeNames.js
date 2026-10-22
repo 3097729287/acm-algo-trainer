@@ -9,6 +9,14 @@ const ALIASES={
  '线性 DP':['线性DP'],'树形 DP':['树形DP'],'区间 DP':['区间DP'],'状压 DP':['状态压缩DP','状态压缩 DP']
 };
 const key = name => String(name || '').replace(/\s+/g,'').toLowerCase();
-export function canonicalKnowledgeName(name){return Object.entries(ALIASES).find(([standard,values])=>[standard,...values].some(value=>key(value)===key(name)))?.[0]||String(name||'').trim();}
+const CANONICAL = new Map(Object.entries(ALIASES).flatMap(([standard,values])=>[standard,...values].map(value=>[key(value),standard])));
+export function canonicalKnowledgeName(name){return CANONICAL.get(key(name))||String(name||'').trim();}
 export function knowledgeAliases(name){const standard=canonicalKnowledgeName(name);return [standard,...(ALIASES[standard]||[])];}
-export function matchesKnowledge(row,tags=[]){const wanted=new Set(tags.map(canonicalKnowledgeName));if((row.tags||[]).some(tag=>wanted.has(canonicalKnowledgeName(tag))))return true;const broad=new Set(['字符串','图论','动态规划','数据结构','数学','数论','搜索','计算几何']);return (row.knowledgeCategories||[]).some(path=>path.split(/\s*\/\s*/).some(name=>broad.has(name)&&wanted.has(name)));}
+const BROAD = new Set(['字符串','图论','动态规划','数据结构','数学','数论','搜索','计算几何']);
+export function rowKnowledgeNames(row){return new Set([...(row.tags||[]).map(canonicalKnowledgeName),...(row.knowledgeCategories||[]).flatMap(path=>path.split(/\s*\/\s*/).filter(name=>BROAD.has(name)))]);}
+export function matchesKnowledge(row,tags=[]){const wanted=new Set(tags.map(canonicalKnowledgeName));return [...rowKnowledgeNames(row)].some(name=>wanted.has(name));}
+export function indexKnowledgeRows(rows){
+ const index=new Map();
+ for(const row of rows){const identity=row.url||row.id;for(const name of rowKnowledgeNames(row)){if(!index.has(name))index.set(name,new Set());index.get(name).add(identity);}}
+ return index;
+}

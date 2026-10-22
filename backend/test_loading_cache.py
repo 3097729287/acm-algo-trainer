@@ -52,7 +52,9 @@ class LoadingCacheTests(unittest.TestCase):
 
     def test_import_and_external_wal_commit_invalidate_immediately(self):
         self.store.data()
-        self.library.import_records([record('custom::A', 'Imported')], {}, {})
+        imported = record('custom::A', 'Imported')
+        imported[1]['url'] = 'https://codeforces.com/contest/2/problem/A'
+        self.library.import_records([imported], {}, {})
         self.assertEqual(len(self.store.data()['rows']), 2)
         with closing(sqlite3.connect(self.library.path)) as writer:
             writer.execute('PRAGMA journal_mode=WAL')
@@ -90,7 +92,9 @@ class LoadingCacheTests(unittest.TestCase):
         self.assertLessEqual(connections.call_count, 3)
 
     def test_new_statement_evidence_refreshes_only_the_changed_problem(self):
-        self.library.import_records([record('custom::A')], {}, {})
+        imported = record('custom::A')
+        imported[1]['url'] = 'https://codeforces.com/contest/2/problem/A'
+        self.library.import_records([imported], {}, {})
         self.store.knowledge_analysis = KnowledgeAnalysisCache(self.root / 'analysis.json')
         before = self.store.data()
         self.store.knowledge_analysis.enrich(before['rows'][0], algorithm_evidence={'tags': ['前缀和'], 'source': 'fixture'})

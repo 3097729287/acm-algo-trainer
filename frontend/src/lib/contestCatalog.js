@@ -41,3 +41,13 @@ export function contestOptions(events,{descending=true,shelf=''}={}) {
   const sort=nodes=>{nodes.sort((a,b)=>a.event&&b.event?compareContestNewest(a.event,b.event)*(descending?1:-1):/^20\d{2}年$/.test(a.label)&&/^20\d{2}年$/.test(b.label)?b.label.localeCompare(a.label)*(descending?1:-1):a.label.localeCompare(b.label,'zh-CN',{numeric:true}));nodes.forEach(node=>node.children&&sort(node.children));};
   sort(roots);return roots;
 }
+
+export function contestFilterOptions(rows) {
+ const roots=[];
+ const ensure=path=>{let nodes=roots,node;for(let i=0;i<path.length;i++){const label=path[i];node=nodes.find(item=>item.label===label);if(!node){node={label,value:JSON.stringify(path.slice(0,i+1)),children:[]};nodes.push(node);}nodes=node.children;}return node;};
+ for(const name of catalogFolders())ensure([name]);
+ for(const row of rows)if(!row.catalogHidden)ensure(catalogSegments(row));
+ for(const root of roots)for(const name of catalogFolders([root.label]))ensure([root.label,name]);
+ const finish=nodes=>nodes.sort((a,b)=>a.label.localeCompare(b.label,'zh-CN',{numeric:true})).map(node=>{const children=finish(node.children);return {...node,...(children.length?{children}:{children:undefined})};});
+ return finish(roots);
+}

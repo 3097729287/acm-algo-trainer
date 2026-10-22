@@ -181,10 +181,10 @@ try {
   await page.screenshot({ path: resolve(output, 'mock-picker-light-1050.png'), animations: 'disabled' });
   await page.keyboard.press('Escape');
   await page.getByRole('button', { name: '结束比赛', exact: true }).click();
-  await page.getByRole('dialog').getByRole('button', { name: '继续比赛', exact: true }).click();
+  await page.getByRole('alertdialog',{name:'结束比赛确认'}).getByRole('button', { name: '继续比赛', exact: true }).click();
   assert.equal(contest.status, 'running');
   await page.getByRole('button', { name: '结束比赛', exact: true }).click();
-  await page.getByRole('dialog').getByRole('button', { name: '结束并复盘', exact: true }).click();
+  await page.getByRole('alertdialog',{name:'结束比赛确认'}).getByRole('button', { name: '结束并复盘', exact: true }).click();
   await page.locator('.record-detail').waitFor();
   assert.equal(await page.locator('.sidebar').isVisible(), true);
   assert.equal(await page.locator('.topbar').isVisible(), true);

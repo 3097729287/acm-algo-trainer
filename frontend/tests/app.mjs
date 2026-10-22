@@ -172,8 +172,9 @@ try {
   await page.keyboard.press('Escape');
   await page.keyboard.press('Control+2');
   await page.getByRole('button',{name:'筛选题目',exact:true}).click();
-  await page.locator('.filter-popover').getByText('比赛分类',{exact:true}).click();
-  await page.locator('.filter-popover').getByRole('button',{name:'AC',exact:true}).click();
+  await page.getByRole('combobox',{name:'筛选比赛分类',exact:true}).click();
+  await page.getByRole('listbox',{name:'筛选比赛分类',exact:true}).getByRole('option',{name:'AtCoder',exact:true}).click();
+  await page.getByRole('listbox',{name:'筛选比赛分类',exact:true}).getByRole('option',{name:'选择「AtCoder」',exact:true}).click();
   await page.keyboard.press('Escape');
   assert.equal(await page.getByLabel('平台筛选', { exact: true }).count(), 0);
   assert.equal(await page.locator('.problem-table tbody tr[data-id]').count(), 3);
@@ -281,7 +282,7 @@ try {
   assert.equal(writes.findLast(item => item.path === '/api/contests/preview').body.count, 1);
   await page.getByRole('button', { name: '开始训练' }).click();
   await page.getByRole('button', { name: '结束比赛', exact: true }).click();
-  await page.getByRole('dialog').getByRole('button', { name: '结束并复盘', exact: true }).click();
+  await page.getByRole('alertdialog',{name:'结束比赛确认'}).getByRole('button', { name: '结束并复盘', exact: true }).click();
   await page.locator('.record-detail').waitFor();
   assert.equal(await page.locator('.workspace-area').getAttribute('data-page'), 'mock');
 

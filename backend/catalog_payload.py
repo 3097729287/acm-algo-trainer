@@ -8,7 +8,7 @@ HTTP caller opts in to a smaller list response after reading the normal view.
 # contestShelves and the competition groups. Keep evidence used by difficulty
 # tooltips, while omitting the much larger algorithm-analysis derivations.
 ROW_FIELDS = frozenset('''
-    id title name contest problem platform series url source status date queue
+    id aliasIds title name contest problem platform series url source status date queue
     tags knowledge knowledgeCategories difficulty difficultySource difficultyBand
     difficultyConfidence difficultyEvidence difficultyEstimated
     solutionAvailable solutionState detailedSolutionAvailable statementAvailable

@@ -1,17 +1,19 @@
 const step=(target,title,text)=>({target,title,text});
 const page=(id,items,tab)=>items.map(item=>({...item,page:id,...(tab?{tab}:{})}));
 
-export const GUIDE_LABELS={mine:'我的训练',library:'题库',competitions:'比赛',mock:'模拟赛',growth:'成长与能力',rankings:'排行榜',records:'提交记录',activity:'活动记录',lectures:'从零讲',paths:'题单',practice:'做题工作台',settings:'设置首页','settings:appearance':'外观设置','settings:interaction':'交互与导航','settings:training':'快捷键','settings:accounts':'账号与身份','settings:advanced':'翻译 API','settings:updates':'更新','settings:help':'数据与帮助','settings:thanks':'鸣谢'};
+export const GUIDE_LABELS={mine:'我的训练',library:'题库',competitions:'比赛',mock:'模拟赛',growth:'成长与能力',rankings:'排行榜',records:'提交记录',activity:'活动记录',lectures:'从零讲',paths:'算法实验室',practice:'做题工作台',settings:'设置首页','settings:appearance':'外观设置','settings:interaction':'交互与导航','settings:training':'快捷键','settings:accounts':'账号与身份','settings:advanced':'翻译 API','settings:updates':'更新','settings:help':'数据与帮助','settings:thanks':'鸣谢'};
 
 export const PAGE_GUIDES={
  mine:page('mine',[
+  step('.brand-mark','收起与展开侧边栏','点击左上角 TB 标识可收起或展开侧边栏；收起后仍可通过图标访问各页。'),
   step('.sidebar [aria-label="我的训练"]','今日训练从这里继续','这里汇总今天安排的目标题、待攻克题目和继续练习的内容。昨天的代码和记录会保留，跨日不会删除。'),
-  step('.queue-heading','分组与每日目标','“今日目标”来自目标计划；待攻克、待验证、间隔复习会按当前进度出现。分组中的数量是题目数，同题不会因为多次提交而重复计数。'),
+  step('.queue-heading','动态复习与每日目标','官方 AC 次日安排首次复习，并使用独立草稿从头重写，原代码仍可在历史中查看。之后按题目相对能力分的难度、独立通过与失败情况调整间隔；复习多时减少新题。简单题完成首次独立复习后免长期重写，不固定周日或月末。'),
   step('.problem-table','读懂每道题','一行展示题名和来源、知识点、难度、最新正式结果与最近练习时间。AC 代表原站确认通过；样例通过只是一次运行结果。'),
   step('.problem-table .problem-title','继续编写代码','点击题名进入工作台。草稿按题目保存，再次打开可以接着写；在模拟赛中写的代码也按考场隔离。'),
   step('.page-search-controls','搜索和筛选','搜索可组合题名、比赛、题号和难度范围。上下箭头切换顺序，筛选按钮设置知识点、结果和比赛类型；知识点标签上的 × 只取消该知识点。'),
   step('.row-actions','收藏、题解与移出','星标用于收藏，书本打开题解，移出按钮从当前训练中移除题目。查看题解会留下辅助完成的证据，后续可安排独立重写。'),
   step('.daily-task-top-button','领取每日任务奖励','底部日历打开每日任务。完成条件后点击领取，经验会保存；目标题目直接在训练列表里练习。'),
+  step('.contest-calendar-button','安排比赛时间','底部时钟日历打开即将开始的基础赛事，按北京时间显示。点击比赛行前往对应原站，刷新按钮更新赛程。'),
  ]),
  library:page('library',[
   step('.page-search-controls','按目标选题','搜索题名、比赛、题号或知识点，组合条件缩小范围；例如输入比赛名和题号，也可以用 1200-1600 指定难度范围。'),
@@ -19,7 +21,7 @@ export const PAGE_GUIDES={
   step('.active-knowledge-filter,.page-search-controls','取消某个筛选','选中的知识点会显示在搜索旁，点 × 取消它；搜索文字和其他条件继续保留。筛选中的重置会恢复本页条件。'),
   step('.problem-table','题目与难度','难度采用题库统一训练尺度，跨站换算值可悬停查看来源。未定级表示证据不足；没有题解的题仍可练习原站题面。'),
   step('.problem-table .problem-title','打开题目','点击题名开始练习。星标保存收藏，书本查看已有题解；正式通过只认原站回执。'),
-  step('.library-pagination','分页与每页题数','底部一行显示当前范围、总题数、页码与保存状态。“每页题数”在设置的“交互与导航”中调整并保存。'),
+  step('.library-pagination','分页与每页题数','底部显示总题数和页码。“每页题数”在设置的“交互与导航”中调整并保存。'),
  ]),
  competitions:page('competitions',[
   step('.competition-view-toggle','列表与文件夹浏览','顶部目录按钮切换文件夹浏览。列表适合搜索，文件夹适合按平台、赛事类别和年份逐层查找。'),
@@ -78,8 +80,8 @@ export const PAGE_GUIDES={
   step('.lectures-page','联系实际题目','结合讲义涉及的知识点回到题库练习。阅读材料帮助理解，掌握度仍依据真实作答证据估计。'),
  ]),
  paths:page('paths',[
-  step('.learning-paths-page','题单当前范围','题单仍在开发，已保留学习框架和现有内容。可以查看已有专题，不把尚未完成的内容当作完整课程。'),
-  step('.learning-paths-page','从概念到练习','已有题单按基础理解、典型方法和迁移练习组织。阅读标记与题目的正式通过状态分别记录。'),
+  step('.learning-paths-page','算法实验室','专题按参考难度升序排列。背包 DP 已提供实验课程：亲手装包、推导状态、逐步运行 C++ 转移逻辑、找错、辨认新模型和迁移练习；其他专题仍在筹备。'),
+  step('.learning-paths-page','用作答检验理解','按左侧章节学习，也可自由跳转。课堂检验由正确作答产生，进度与输入自动保存；提示可逐层展开。真实题目的原站通过独立记录。'),
  ]),
  settings:page('settings',[
   step('.settings-home-grid','按分类进入设置','外观、交互与导航、更新、快捷键、数据与帮助、翻译 API、账号与身份和鸣谢各自成页。'),

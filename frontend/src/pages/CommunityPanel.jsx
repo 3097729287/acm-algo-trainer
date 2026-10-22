@@ -125,11 +125,14 @@ export default function RankingsPage({ api, onConfigure, onError, socialState, a
   }
   return <div className="rankings-page scroll-panel" aria-label="用户过题排行榜"><section className="progress-section">
     <div className="ranking-header">
+      <div className="ranking-period-controls">
       <Tooltip text="按不同题目的首次官方 AC 数排名，同分按完成时间排序。"><Trophy size={20} aria-label="过题排行榜"/></Tooltip>
       <div className="ranking-tabs" role="tablist" aria-label="排行榜时间范围">{periods.map(([value,title])=><button role="tab" disabled={deleting} aria-selected={period===value} className={period===value?'active':''} key={value} onClick={()=>setPeriod(value)}>{title.replace('过题','')}</button>)}</div>
       <Tooltip text={`${period==='total'?'累计榜前三名佩戴专属冠饰徽章。':`前三名奖励 ${awards.join(' / ')} XP，按北京时间结算，自动到账。`}统计日期：${snapshot?.date || '读取中'}`}><button className="hint-icon" aria-label="排名与奖励说明"><Sparkles size={16}/></button></Tooltip>
+      </div><div className="ranking-overview-controls">
       {snapshot&&<div className="ranking-board-summary"><Tooltip text="本榜训练者"><span><UsersRound size={18}/><b>{entries.length}</b></span></Tooltip><Tooltip text="本榜通过"><span><CircleCheckBig size={18}/><b>{entries.reduce((sum,item)=>sum+Number(item.count||0),0)}</b></span></Tooltip><Tooltip text="我的过题"><span><UserRoundCheck size={18}/><b>{entries.find(item=>item.userId===snapshot.self?.userId)?.count ?? snapshot.self?.count ?? 0}</b></span></Tooltip></div>}
       <div className="ranking-controls">{canManage&&<Tooltip text="清空当前榜单"><button aria-label="清空当前榜单" className="progress-button ranking-delete-button" onClick={event=>askDelete(null,event.currentTarget)} disabled={busy||deleting||!ready||!entries.length}><Trash2 size={16}/></button></Tooltip>}<Tooltip text="同步与刷新"><button aria-label="同步与刷新" className="progress-button" onClick={snapshot?.configured?sync:load} disabled={busy||deleting}><RefreshCw size={16} className={busy?'spin':''}/></button></Tooltip></div>
+      </div>
     </div>
     {message && <p className="ranking-operation-message" role="status">{message}</p>}
     {error && <p className="connection-error" role="alert">{error}</p>}

@@ -51,8 +51,9 @@ class GoalReceiptTests(unittest.TestCase):
         self.assertEqual(sync.once()['imported'], 0)
         workspace = self.service.workspace()
         self.assertEqual((workspace['summary']['historicalAccepted'], workspace['summary']['todayAccepted']), (3, 0))
-        task = {r['problem']: r for r in workspace['goalTasks'] if r['contest'] == '周赛 166'}
-        self.assertEqual({k: v['accepted'] for k, v in task.items()}, {'A': True, 'B': True, 'C': True, 'D': False})
+        task = {r['problem']: r for r in workspace['training'] if r['contest'] == '周赛 166' and r.get('reviewTask')}
+        self.assertEqual({k: v['accepted'] for k, v in task.items()}, {'A': True, 'B': True, 'C': True})
+        self.assertEqual(workspace['goalTasks'], [], 'due reviews take priority over new automatic recommendations')
         self.assertEqual(self.service.submissions()['total'], 3)
         self.assertTrue(all(r['submittedAt'].startswith('2026-10-18') for r in self.service.submissions()['submissions']))
         self.assertEqual(workspace['goals']['goals'][0]['progress'], 3)
@@ -60,13 +61,15 @@ class GoalReceiptTests(unittest.TestCase):
         self.assertFalse(any(s['id'].startswith('goal-contest:') for s in workspace['sets']))
 
     def test_frozen_contest_tasks_survive_restart_and_manual_clear(self):
-        sync, _ = self.prepare(); sync.once()
-        before = {p['id']: p['accepted'] for p in self.service.workspace()['goalTasks']}
+        sync, _ = self.prepare()
+        self.service.workspace() # freeze the new contest before its ACs arrive
+        frozen = [tuple(r) for r in self.service.connection.execute('SELECT * FROM practice_sets ORDER BY id')]
+        sync.once()
         self.service.clear_training()
         self.assertEqual(self.service.workspace()['training'], [])
         self.service.close()
         self.service = TrainingService(self.library, self.db, self.assets, self.judge, self.clock, self.root / 'backups')
-        self.assertEqual({p['id']: p['accepted'] for p in self.service.workspace()['goalTasks']}, before)
+        self.assertEqual([tuple(r) for r in self.service.connection.execute('SELECT * FROM practice_sets ORDER BY id')], frozen)
         self.assertEqual(self.service.workspace()['training'], [])
 
     def test_matching_all_four_families_ignores_unrelated_old_and_future_events(self):

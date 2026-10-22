@@ -120,14 +120,14 @@ class ServiceTests(unittest.TestCase):
         custom=self.service.preview_contest({'mode':'single','duration':50,'min':0,'max':1400})['plan']
         self.assertEqual(custom['duration'],50)
 
-    def accept(self, identity="fixture::A", verdict="AC", submission_id=None, code="AC"):
+    def accept(self, identity="fixture::A", verdict="AC", submission_id=None, code="AC", review_id=None):
         """2026-10-10：官方 AC 只能来自原站回执。测试用 record_official 造官方通过。"""
         # 用题目在库中的真实 URL，兼容测试里改过 URL（别名/远端）的情况。
         rows = [row for row in self.library.rows if row["id"] == identity]
         url = rows[0].get("url") if rows else None
         if not url:
             url = self.assets.problem(identity)["url"]
-        session = {"id": identity, "url": url, "code": code}
+        session = {"id": identity, "url": url, "code": code, 'reviewId': review_id}
         receipt = {"status": "finished", "submissionId": str(submission_id or _next_official_id()), "verdict": verdict}
         return self.service.record_official(session, receipt)
 
@@ -167,7 +167,10 @@ class ServiceTests(unittest.TestCase):
         self.service.start_training("fixture::B")
         self.assertTrue(all(row["today"] for row in self.service.workspace()["training"]))
         self.clock.advance(seconds=20)
-        self.assertFalse(any(row["today"] for row in self.service.workspace()["training"]))
+        daily = {row['id']: row for row in self.service.workspace()['training']}
+        self.assertTrue(daily['fixture::A']['today'])
+        self.assertIsNotNone(daily['fixture::A']['reviewTask'])
+        self.assertFalse(daily['fixture::B']['today'])
         self.assertEqual(self.service.workspace()["summary"]["accepted"], 1)
         self.assertEqual(self.service.submissions()["total"], 1)
         self.service.save_draft("fixture::B", "// today's draft")
@@ -181,30 +184,39 @@ class ServiceTests(unittest.TestCase):
     def test_rejoining_an_old_problem_adds_it_to_today_once(self):
         self.accept()
         self.clock.advance(days=1)
+        task = self.service.workspace()['training'][0]['reviewTask']
+        self.service.problem('fixture::A', review_id=task['id'])
+        self.clock.advance(minutes=10)
+        self.accept(review_id=task['id'])
+        self.service.workspace()
+        self.clock.advance(days=1)
         self.assertFalse(self.service.workspace()["training"][0]["today"])
         for _ in range(2):
             self.service.start_training("fixture::A")
         self.assertEqual(len(self.service.workspace()["training"]), 1)
         self.assertTrue(self.service.workspace()["training"][0]["today"])
-        self.assertEqual(self.service.submissions()["total"], 1)
+        self.assertEqual(self.service.submissions()["total"], 2)
 
-    def test_daily_queue_carries_failures_and_schedules_seven_then_thirty_day_review(self):
+    def test_daily_queue_carries_failures_and_adaptive_reviews(self):
         self.accept("fixture::A")
         self.accept("fixture::B", verdict="WA")
         self.service.start_training("fixture::C")
         self.service.mark_solution_seen("fixture::C")
         self.accept("fixture::C", verdict="WA")
-        self.clock.advance(days=7)
+        self.clock.advance(days=1)
         rows = {row["id"]: row for row in self.service.workspace()["training"]}
         self.assertEqual([rows[f"fixture::{key}"]["queue"] for key in "ABC"], ["review", "fill", "fill"])
         self.assertTrue(all(row["today"] for row in rows.values()))
-        self.accept("fixture::A")
+        task = rows['fixture::A']['reviewTask']
+        self.service.problem('fixture::A', review_id=task['id'])
+        self.clock.advance(minutes=10)
+        self.accept("fixture::A", review_id=task['id'])
         self.clock.advance(days=1)
         row = next(row for row in self.service.workspace()["training"] if row["id"] == "fixture::A")
         self.assertFalse(row["today"])
         self.clock.advance(days=29)
         row = next(row for row in self.service.workspace()["training"] if row["id"] == "fixture::A")
-        self.assertEqual(row["queue"], "check")
+        self.assertEqual(row["queue"], "review")
         self.assertTrue(row["today"])
 
     def test_open_draft_and_run_are_not_participation(self):
@@ -270,25 +282,27 @@ class ServiceTests(unittest.TestCase):
         self.assertTrue(self.service.workspace()["training"][0]["solutionSeen"])
         self.assertIsNone(self.service.workspace()["training"][0]["queue"])
 
-    def test_independent_acceptance_schedules_review_at_seven_days(self):
+    def test_independent_acceptance_schedules_review_next_day(self):
         self.service.start_training("fixture::A")
-        # 未看题解的独立官方 AC → 7 天后进入复习队列。
+        # 首次官方 AC 次日进入复习队列。
         self.accept()
         self.assertFalse(self.service.workspace()["training"][0]["solutionSeen"])
-        self.clock.advance(days=6, hours=23)
+        self.clock.advance(hours=3)
         self.assertEqual(self.service.workspace()["summary"]["due"], 0)
-        self.clock.advance(hours=1)
+        self.clock.advance(hours=2)
         self.assertEqual(self.service.workspace()["training"][0]["queue"], "review")
         # 隔天再独立官方 AC → 计 1 次复习。
+        task = self.service.workspace()['training'][0]['reviewTask']
+        self.service.problem('fixture::A', review_id=task['id'])
         self.clock.advance(days=1)
-        self.accept(submission_id=9099)
+        self.accept(submission_id=9099, review_id=task['id'])
         self.assertEqual(self.service.workspace()["training"][0]["reviewCount"], 1)
 
-    def test_first_acceptance_due_at_seven_days_not_before(self):
+    def test_first_acceptance_is_due_after_local_midnight(self):
         self.accept()
-        self.clock.advance(days=6, hours=23)
+        self.clock.advance(hours=3)
         self.assertEqual(self.service.workspace()["summary"]["due"], 0)
-        self.clock.advance(hours=1)
+        self.clock.advance(hours=2)
         self.assertEqual(self.service.workspace()["training"][0]["queue"], "review")
         # 隔天再独立官方 AC（同题、不同提交）→ 计 1 次复习。
         self.clock.advance(days=1)

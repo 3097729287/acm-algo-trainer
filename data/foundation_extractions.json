@@ -1,0 +1,30 @@
+{
+  "version": "2026-10-22",
+  "sourceVariant": "detailed_solutions",
+  "lessons": [
+    {"problemId": "ABC 479::C", "knowledgeName": "枚举", "topic": "递归枚举子集与容量剪枝"},
+    {"problemId": "ABC 479::E", "knowledgeName": "差分", "topic": "子树加法、补集加法与向下累加"},
+    {"problemId": "ABC 479::F", "knowledgeName": "树状数组", "topic": "相邻交换与逆序对计数"},
+    {"problemId": "周赛 164::C", "knowledgeName": "素数", "topic": "质因数指数与最大公约数构造"},
+    {"problemId": "周赛 164::F", "knowledgeName": "组合计数", "topic": "保序交错与树上删除顺序"},
+    {"problemId": "周赛 164::G", "knowledgeName": "树形 DP", "topic": "相邻换根与计数公式的局部更新"},
+    {"problemId": "周赛 165::C", "knowledgeName": "递推", "topic": "前后缀合法性与区间反转边界"},
+    {"problemId": "周赛 165::D", "knowledgeName": "前缀和", "topic": "交替和与删除后的下标奇偶"},
+    {"problemId": "周赛 165::E", "knowledgeName": "并查集", "topic": "同色连通块缩点与加权点对计数"},
+    {"problemId": "周赛 165::F", "knowledgeName": "二分答案", "topic": "可达区间传播与山峰拼接"},
+    {"problemId": "小白月赛 137::F", "knowledgeName": "双连通分量", "topic": "桥、无桥连通块与边不重复的迹"},
+    {"problemId": "挑战赛 92::C", "knowledgeName": "树形 DP", "topic": "换根时的边方向与可撤销状态"},
+    {"problemId": "入门赛 50::E", "knowledgeName": "素数", "topic": "线性筛、最小质因子与集合对称差"},
+    {"problemId": "月赛 310::B", "knowledgeName": "贪心", "topic": "区间翻转的边界下界与成对构造"},
+    {"problemId": "lanqiao:2023:国:::P9422", "knowledgeName": "前缀和", "topic": "公共切分点与有序前缀和求交"},
+    {"problemId": "lanqiao:2023:国:::P9424", "knowledgeName": "双连通分量", "topic": "DFS 时间戳、low 值与桥判定"},
+    {"problemId": "lanqiao:2023:国:::P9425", "knowledgeName": "BFS", "topic": "扩展状态与无权图最短路"},
+    {"problemId": "周赛 162::C", "knowledgeName": "取模与同余", "topic": "位权分桶、回绕修正与余数计算"},
+    {"problemId": "周赛 158::D", "knowledgeName": "双指针", "topic": "维护相同数对的滑动窗口"},
+    {"problemId": "周赛 153::E", "knowledgeName": "计算几何", "topic": "叉积符号与直线两侧判定"},
+    {"problemId": "小白月赛 132::F", "knowledgeName": "DFS 序", "topic": "子树连续区间与区间外最大值"},
+    {"problemId": "挑战赛 89::C", "knowledgeName": "线段树", "topic": "单调栈区间更新与分段 DP"},
+    {"problemId": "月赛 304::B", "knowledgeName": "线性 DP", "topic": "按位进位状态与最优性合并"},
+    {"problemId": "练习赛 157::D", "knowledgeName": "线性 DP", "topic": "按末段分类转移与前缀和优化"}
+  ]
+}

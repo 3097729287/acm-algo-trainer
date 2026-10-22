@@ -201,7 +201,7 @@ class Handler(BaseHTTPRequestHandler):
                 elif path == "/api/training/contest":
                     value = training.start_practice_set(body.get("contest"))
                 elif path == "/api/draft":
-                    value = training.save_draft(body.get("id"), body.get("code"), body.get("contestId"), body.get("language", "cpp17"))
+                    value = training.save_draft(body.get("id"), body.get("code"), body.get("contestId"), body.get("language", "cpp17"), review_id=body.get('reviewId'))
                 elif path in ('/api/admin/session','/api/admin/logout'):
                     if not self.server.admin_mode:raise APIError(404,'没有找到这个接口')
                     value=self.server.admin_rankings.logout() if path.endswith('/logout') else self.server.admin_rankings.login(body)
@@ -212,7 +212,7 @@ class Handler(BaseHTTPRequestHandler):
                     from preferences import save_preferences
                     value = save_preferences(training, body)
                 elif path == "/api/submissions":
-                    value = training.submit(body.get("id"), body.get("code"), body.get("mode", "submit"), body.get("input", ""), body.get("contestId"), body.get("sampleRun"), body.get("language", "cpp17"))
+                    value = training.submit(body.get("id"), body.get("code"), body.get("mode", "submit"), body.get("input", ""), body.get("contestId"), body.get("sampleRun"), body.get("language", "cpp17"), review_id=body.get('reviewId'))
                 elif path == "/api/contests/preview":
                     value = training.preview_contest(body)
                 elif path == "/api/contests/delete":
@@ -223,6 +223,8 @@ class Handler(BaseHTTPRequestHandler):
                     value = training.start_contest(body)
                     if callable(self.server.official_closer):
                         self.server.official_closer(None)
+                elif path == '/api/contests/cancel':
+                    value = training.cancel_contest(body.get('contestId'))
                 elif path == "/api/contests/finish":
                     value = training.finish_contest(body.get("contestId"))
                 elif path == "/api/daily-tasks/claim":
@@ -260,6 +262,7 @@ class Handler(BaseHTTPRequestHandler):
                     with training.lock:
                         row = training._row(identity)
                         training.assert_official_allowed(identity, body.get("contestId"))
+                        training.review_task(identity, body.get('reviewId'), body.get('contestId'), open_task=True)
                     opener = self.server.official_submitter if path.endswith("/submit") else self.server.official_opener
                     if not callable(opener):
                         raise APIError(503, "请在 TB 桌面版连接浏览器提交")
@@ -284,7 +287,7 @@ class Handler(BaseHTTPRequestHandler):
                     value = opened if isinstance(opened, dict) else {"sessionId": opened, "platform": row.get("platform"), "url": url, "status": "opened"}
                     if not isinstance(value.get("sessionId"), str):
                         raise APIError(503, "浏览器连接没有返回有效会话")
-                    self.server.register_official_session(value["sessionId"], {"id": identity, "contestId": body.get("contestId"), "url": url, "code": code, "language":language}, value)
+                    self.server.register_official_session(value["sessionId"], {"id": identity, "contestId": body.get("contestId"), "reviewId": body.get('reviewId'), "sessionId": value['sessionId'], "url": url, "code": code, "language":language}, value)
                 elif path == '/api/official/ack':
                     acknowledge=getattr(self.server,'official_acknowledger',None)
                     identity=body.get('sessionId')
@@ -370,6 +373,8 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_json(200, self.server.training.insights(store.extensions.snapshot()))
             elif path == "/api/daily-tasks":
                 self.send_json(200, self.server.training.daily_tasks())
+            elif path == '/api/contest-calendar':
+                self.send_json(200, self.server.calendar_service().snapshot(refresh=parse_qs(target.query).get('refresh', ['0'])[0] == '1'))
             elif path == "/api/goals":
                 from goals import Goals
                 self.send_json(200, Goals(self.server.training).list())
@@ -388,7 +393,7 @@ class Handler(BaseHTTPRequestHandler):
                 query = parse_qs(target.query)
                 self.send_json(200, self.server.training.problem(query.get("id", [None])[0], query.get("contestId", [None])[0],
                                                                background=query.get('background', ['0'])[0]=='1',
-                                                               refresh=query.get('refresh', ['0'])[0]=='1'))
+                                                               refresh=query.get('refresh', ['0'])[0]=='1', review_id=query.get('reviewId', [None])[0]))
             elif path == "/api/problem/translate":
                 query = parse_qs(target.query)
                 self.send_json(200, self.server.translate_problem(query.get("id", [None])[0], query.get("contestId", [None])[0]))
@@ -547,6 +552,15 @@ class LocalServer(ThreadingHTTPServer):
         super().server_bind()
 
     def register_official_session(self, identity, session, receipt):
+        from reviews import ReviewScheduler
+        with self.training.lock:
+            if session.get('reviewId'):
+                self.training.review_task(session['id'], session['reviewId'], session.get('contestId'))
+                with self.training._write() as db:
+                    ReviewScheduler(self.training).session(db, identity, session['reviewId'])
+            else:
+                session['reviewId'] = ReviewScheduler(self.training).read('review-session:' + identity)
+            session['sessionId'] = identity
         with self.official_session_lock:
             session['_training'] = self.training
             self.official_sessions.setdefault(identity, session)
@@ -618,6 +632,13 @@ class LocalServer(ThreadingHTTPServer):
                 self.translation = TranslationService(self.training._asset_library(), self.state_dir)
             return self.translation
 
+    def calendar_service(self):
+        with self.calendar_lock:
+            if self.contest_calendar is None:
+                from contest_calendar import ContestCalendar
+                self.contest_calendar = ContestCalendar(self.state_dir)
+            return self.contest_calendar
+
     def validate_official_url(self, url):
         if getattr(self, 'accounts', None) is not None:
             self.accounts.require()
@@ -644,6 +665,9 @@ class LocalServer(ThreadingHTTPServer):
         return value
 
     def server_close(self):
+        calendar = getattr(self, 'contest_calendar', None)
+        if calendar is not None:
+            calendar.close()
         sync = getattr(self, 'official_sync', None)
         if sync is not None:
             sync.close()
@@ -706,6 +730,8 @@ def create_server(port=0, data_file=None, data_root=None, dist_dir=None, history
         server.desktop_state = None
         server.desktop_fullscreen = None
         server.state_dir = Path(training_file).parent
+        server.contest_calendar = None
+        server.calendar_lock = threading.RLock()
         from software_updates import SoftwareUpdates
         server.software_updates = SoftwareUpdates(server.state_dir, offline=True if admin_mode else None)
         from knowledge import KnowledgeAnalysisCache
