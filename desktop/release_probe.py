@@ -78,7 +78,11 @@ def run(action, output):
         assert all(section in text for section in ('### 题意', '### 思路', '### 参考代码', '```cpp'))
         assert solution['images'] and all(value.startswith('data:image/') for value in solution['images'].values())
         assert {'周赛 163::A', 'ABC 469::A', 'Div.3 1125::A'} <= {row['id'] for row in rows}
-        assert len(server.lectures.for_problem(xterfusion['id'])) == 1
+        linked_lectures = server.lectures.for_problem(xterfusion['id'])
+        assert linked_lectures, 'Existing editorial lost its linked foundation lesson'
+        assert len({item['id'] for item in linked_lectures}) == len(linked_lectures)
+        assert all(server.lectures.get(item['id'])['markdown'].strip() for item in linked_lectures)
+        report['linkedLecturesChecked'] = len(linked_lectures)
         report.update(ok=True, root=str(ROOT), state=str(STATE), frozen=bool(getattr(__import__('sys'), 'frozen', False)),
                       initialTrainingEmpty=workspace['summary']['total']==0, problems=len(data['rows']), solutions=len(rows),
                       lectures=len(server.lectures.snapshot()['lectures']), xterfusionCharacters=len(text),
@@ -198,6 +202,16 @@ def run(action, output):
                     try:
                         wait_js("!!document.querySelector('.nav-item')")
                         report['nativeLoaded'] = True
+                        window.evaluate_js("document.querySelector('.nav-item[aria-label=\"算法实验室\"]').click()")
+                        wait_js("!!document.querySelector('.lab-course-options')")
+                        window.evaluate_js("document.querySelector('.lab-course-options button').click()")
+                        wait_js("!!document.querySelector('.algorithm-lab .lab-course-header h1')")
+                        assert window.evaluate_js("document.querySelector('.algorithm-lab .lab-course-header h1').textContent") == '背包 DP'
+                        report['nativeAlgorithmLab'] = True
+                        window.evaluate_js("document.querySelector('.lab-mode-switch').click()")
+                        wait_js("!!document.querySelector('.lab-guided')")
+                        assert window.evaluate_js("document.querySelector('.lab-guided .lab-position').textContent") == '1 / 5'
+                        report['nativeGuidedProblems'] = True
                         window.evaluate_js("document.querySelector('[aria-label=\"设置\"]').click()")
                         wait_js("!!document.querySelector('[role=tab][aria-label=\"交互与导航\"]')")
                         window.evaluate_js("document.querySelector('[role=tab][aria-label=\"交互与导航\"]').click()")
