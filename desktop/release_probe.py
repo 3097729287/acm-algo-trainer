@@ -208,10 +208,18 @@ def run(action, output):
                         wait_js("!!document.querySelector('.algorithm-lab .lab-course-header h1')")
                         assert window.evaluate_js("document.querySelector('.algorithm-lab .lab-course-header h1').textContent") == '背包 DP'
                         report['nativeAlgorithmLab'] = True
-                        window.evaluate_js("document.querySelector('.lab-mode-switch').click()")
+                        assert window.evaluate_js("!document.querySelector('.lab-course-header .lab-mode-switch')")
+                        assert window.evaluate_js("document.querySelector('.lab-course-tools').getBoundingClientRect().left >= document.querySelector('.lab-lesson').getBoundingClientRect().right")
+                        report['nativeRightNavigation'] = True
+                        window.evaluate_js("document.querySelector('.lab-menu-toggle').click()")
+                        wait_js("!!document.querySelector('[aria-label=\"课程章节\"]')")
+                        window.evaluate_js("document.querySelector('[aria-label=\"课程章节\"] button:last-child').click()")
+                        wait_js("[...document.querySelectorAll('.lab-lesson button')].some(button=>button.textContent.trim()==='进入跟着做题')")
+                        window.evaluate_js("[...document.querySelectorAll('.lab-lesson button')].find(button=>button.textContent.trim()==='进入跟着做题').click()")
                         wait_js("!!document.querySelector('.lab-guided')")
                         assert window.evaluate_js("document.querySelector('.lab-guided .lab-position').textContent") == '1 / 5'
                         report['nativeGuidedProblems'] = True
+                        report['nativeFinalLessonHandoff'] = True
                         window.evaluate_js("document.querySelector('[aria-label=\"设置\"]').click()")
                         wait_js("!!document.querySelector('[role=tab][aria-label=\"交互与导航\"]')")
                         window.evaluate_js("document.querySelector('[role=tab][aria-label=\"交互与导航\"]').click()")

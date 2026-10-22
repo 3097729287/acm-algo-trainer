@@ -13,8 +13,19 @@ try {
   await page.goto('http://127.0.0.1:18778/tests/catalog-activity-fixture.html');
   await page.getByRole('button',{name:'筛选比赛',exact:true}).click();
   const filters=page.locator('.filter-popover');
-  assert.deepEqual(await filters.locator('.filter-choice-grid').first().getByRole('button').allTextContents(),['全部比赛','牛客','洛谷','CF','AC','ACM','蓝桥杯']);
-  const shelf=async name=>{await filters.getByRole('button',{name,exact:true}).click();};
+  const classification=filters.getByRole('combobox',{name:'筛选比赛分类'}),folders=page.getByRole('listbox',{name:'筛选比赛分类'});
+  await classification.press('Space');
+  const rootNames=await folders.getByRole('option').allTextContents();
+  for(const name of ['全部比赛','牛客','洛谷','Codeforces','AtCoder','ACM','蓝桥杯 B 组'])assert(rootNames.includes(name),name);
+  await page.keyboard.press('Escape');
+  const shelf=async name=>{
+    if(!await filters.isVisible())await page.getByRole('button',{name:'筛选比赛',exact:true}).click();
+    await classification.press('Space');
+    while(await folders.getByRole('button',{name:'返回上一级',exact:true}).count())await folders.getByRole('button',{name:'返回上一级',exact:true}).click();
+    const label={CF:'Codeforces',AC:'AtCoder'}[name]||name;
+    await folders.getByRole('option',{name:label,exact:true}).click();
+    if(label!=='全部比赛')await folders.getByRole('option',{name:`选择「${label}」`,exact:true}).click();
+  };
   await shelf('牛客');assert.deepEqual(await page.locator('.competition-card-title strong').allTextContents(),['周赛 10','周赛 2']);
   await shelf('CF');assert.equal(await page.locator('.competition-card').count(),1,'ACM mirror is exclusive to ACM');
   await shelf('ACM');assert.equal(await page.locator('.competition-card').count(),1);
@@ -40,5 +51,5 @@ try {
   await page.setViewportSize({ width: 800, height: 900 });
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false);
   assert.deepEqual(errors, []);
-  console.log('Catalog/activity passed: natural order, seven shelves, no platform selector, official passes only, five count styles.');
+  console.log('Catalog/activity passed: natural order, folder categories and parent selection, official passes only, five count styles.');
 } finally { await browser.close(); await vite.close(); }
