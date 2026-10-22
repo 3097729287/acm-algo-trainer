@@ -25,3 +25,5 @@ TB is the primary product. Active code belongs in `frontend/`, `backend/`, `desk
 - Keep the example, visual state, formulas and explanations synchronized. Review likely novice misreadings explicitly; correct output and UI tests alone do not establish clarity. Concision removes repetition, not necessary reasoning steps.
 
 - Editorial teaching revision (user feedback 2026-10-22): apply `docs/editorial-teaching-standard.md` to all existing and future editorials. Explain language/library tools as independent, reusable from-zero lessons; include boundary-function implementation/complexity and lambda capture/lifetime guidance. Draw the actual mathematical objects when explaining spatial or set-subtraction formulas. Preserve verified reference programs and all existing educational content.
+
+- 用户发行要求（2026-10-22）：管理员版本仅供维护者本机自用，禁止上传 GitHub（含草稿、正式版、便携包、安装包、管理员清单及公开校验索引）。公开发布只含用户版；管理员产物必须位于 `stage/private-admin`，与公开 `stage/release` 分离，上传前使用 `scripts/release_assets.py` 校验。保留本机管理员程序及个人数据。

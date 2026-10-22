@@ -14,7 +14,7 @@ The development source is based on 1.3.4; **this update is not released**. The k
 
 ## Install and upgrade
 
-Windows 10/11 x64. The [user installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.4/TB-Setup-1.3.4-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.4/TB-1.3.4-win64.zip) before running it. Administrators use the [separate installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.4/TB-Admin-Setup-1.3.4-win64.exe), with login name `admin` and server authorization for public management. Release assets include checksums and incremental updates from 1.3.3.
+Windows 10/11 x64. The [user installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.4/TB-Setup-1.3.4-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.4/TB-1.3.4-win64.zip) before running it. GitHub distributes only the user edition. The administrator program is reserved for the owner’s local use. Release assets include checksums and incremental updates from 1.3.3.
 
 Save drafts and exit TB before installing into the existing directory. Personal databases, source code and imported content are preserved. The updater saves work, takes online SQLite backups and verifies SHA-256 before replacement. Keep the same TB version on your computers. Original-site login uses TB's dedicated browser profile; no extension is required.
 
@@ -33,7 +33,7 @@ Save drafts and exit TB before installing into the existing directory. Personal 
 - Radar, library and filters share canonical topic names and categories. Enumeration belongs to reasoning and strategies, and Escape returns from the secondary radar. Mastery accounts for quantity and difficulty; parent domains require sufficient evidence for each child instead of reporting high confidence from a few easy problems.
 - Contest folders and replay selectors default to newest first. ARC, AGC, CCPC and online qualifiers remain discoverable, empty series are identified, and Lanqiao B is independent of the hosting platform. Replays hide header search and ignore single-problem difficulty presets when selecting whole contests.
 - One-line list footers move page size into interaction settings. Level and XP align, larger statistic icons expose tooltip labels, hearts share a column, and switches have circular pill shapes.
-- User and admin editions have separate installers, data and shortcuts. User APIs refuse ranking deletion. Public management requires the fixed `admin` login and a verified server role; local test progression is never uploaded as public results.
+- User APIs refuse ranking deletion. The owner’s local administrator tool has separate data and identity, requires server authorization for public management and never uploads test progression. It is not publicly distributed.
 - New accounts automatically receive the introductory walkthrough. Settings → Data and Help → New User Guide contains detailed page guides for avatars, radar, tiers, achievements, goals and practice, without additional page buttons. Credits add NiuXyn.
 
 ## Changes in 1.3.2

@@ -115,10 +115,10 @@ def installer(args):
 
 
 def admin_assemble(args):
-    """Independent admin edition, with no user state or shared login copied in."""
+    """Owner-only build, outside the directory uploaded to GitHub releases."""
     stage=args.stage.resolve()
     original=stage/'release'/PACKAGE
-    target=stage/'release'/('TB-Admin-'+VERSION+'-win64')
+    target=stage/'private-admin'/('TB-Admin-'+VERSION+'-win64')
     if target.exists() or not (original/'TB新版.exe').is_file():
         raise RuntimeError('Build the user package first; use a fresh admin destination')
     original_files=manifest(original)
@@ -134,7 +134,7 @@ def admin_assemble(args):
             path.write_text(json.dumps(value,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
     files=manifest(target)
     (stage/'admin-release-manifest.json').write_text(json.dumps(files,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
-    shutil.copy2(stage/'admin-release-manifest.json',stage/'release/ADMIN-RELEASE-MANIFEST.json')
+    shutil.copy2(stage/'admin-release-manifest.json',target.parent/'ADMIN-RELEASE-MANIFEST.json')
     destination=target.parent/(target.name+'.zip')
     with zipfile.ZipFile(destination,'x',zipfile.ZIP_DEFLATED,compresslevel=6) as output:
         for name in files:output.write(target/name,target.name+'/'+name)
@@ -147,8 +147,8 @@ def admin_installer(args):
     if not args.inno or not args.webview2:
         raise RuntimeError('--inno and --webview2 are required')
     subprocess.run([str(args.inno),'/DAdminEdition=1',
-                    '/DPackageDir='+str(args.stage.resolve()/'release'/('TB-Admin-'+VERSION+'-win64')),
-                    '/DOutputDir='+str(args.stage.resolve()/'release'),'/DWebViewInstaller='+str(args.webview2),
+                    '/DPackageDir='+str(args.stage.resolve()/'private-admin'/('TB-Admin-'+VERSION+'-win64')),
+                    '/DOutputDir='+str(args.stage.resolve()/'private-admin'),'/DWebViewInstaller='+str(args.webview2),
                     '/DAppVersion='+VERSION,str(ROOT/'packaging/installer/tb.iss')],check=True)
 
 

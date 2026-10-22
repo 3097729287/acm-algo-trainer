@@ -12,7 +12,7 @@
 
 验证覆盖题量折减、父子知识点覆盖、别名筛选、分类保全、预置译文绑定与不可变内容、管理员角色及普通版接口拒绝；前端包含账号隔离、首次注册总览、各页目录、雷达到题库、工作台中文切换、四种训练、叶子选题和五窗口布局。所有测试使用隔离状态，不发送真实原站代码。完整后端、最终安装与增量结果在发布说明记录；共享服务协议和数据库不变。
 
-普通包使用既有 `build/assemble/installer`；先完成其构建来源信息，再执行 `python scripts/build_release.py admin-assemble --stage <同一stage>` 与 `admin-installer`，后者使用相同的 `--inno`、`--webview2` 参数。管理员 EXE 为 `TB管理员版.exe`，Inno AppId、安装目录、快捷方式与普通版分开。两版分别验证新装/卸载、隔离状态及普通版拒绝管理接口，再发布同一源码提交的资产。管理员包不含预设密码或学习进度。
+普通版使用 `build/assemble/installer`，公开资产仅从 `stage/release` 选取。维护者自用的 `admin-assemble` 与 `admin-installer` 统一输出到 `stage/private-admin`，安装器、便携包和管理员文件清单均不上传 GitHub，也不写入公开 SHA256SUMS。两种本机模式仍验证数据隔离，管理员程序不含预设密码或学习进度。
 
 ## 1.3.2 构建与验证
 
@@ -197,6 +197,14 @@ python scripts/check_current_release.py --stage "build/$tbVersion" --legacy-pack
 
 算法实验室已接入开发主应用，仅保留背包 DP；课程与跟做检查已完成。另一会话的基础补齐已完成，全库逐篇精修和阅读复核尚未完成，联合发布继续等待；不能以 task_complete 或最终答复替代需求完成核对。`frontend/npm run build:lab` 仍生成内联 JS/CSS 的 HTML 和可分享 ZIP；`npm run test:lab` 检验核心模型、五题的原题样例与独立枚举、实际 C++17，以及解压后断网的 `file://` 应用。`ui-v131.mjs` 检验主应用单课入口、固定翻页及跟做进入真实工作台流程。入口为 `frontend/standalone/`，共享课程在 `src/pages/algorithm-lab/`；独立输出到 `TB/版本/算法实验室体验版`。详见[教学创作流程](algorithm-lab-authoring.md)。
 
+## 公开发行范围
+
+2026-10-22 用户明确：GitHub 仅分发用户版，管理员版只供维护者本机自用。该规则覆盖草稿、正式版、旧版本资产、校验清单和下载入口，优先于下文历史交付记录。
+
+用户版产物在 `stage/release`；管理员版全部产物在并列的 `stage/private-admin`。上传前必须运行 `python scripts/release_assets.py --directory <stage/release>`；发布脚本须使用 `public_release_files()` 返回的文件，不得遍历整个 stage 上传。管理员命名的资产、管理员构建元数据及管理员校验条目会使检查失败。
+
+从旧发布撤下管理员资产时，只更新相关发布说明和校验索引，不替换用户二进制、原标签或 BUILD-INFO。保留维护者本机程序及个人数据。未完成的算法实验室联合发布仍按其原有条件等待，本次发行范围修正不创建新软件版本。
+
 ## 发布同步检查
 
 每次发布都必须把实际源码和文档作为同一版本交付，不能只上传发布包。
@@ -204,7 +212,7 @@ python scripts/check_current_release.py --stage "build/$tbVersion" --legacy-pack
 1. 统一 `VERSION`、`frontend/package.json`、`frontend/package-lock.json` 和 `desktop/browser_extension/manifest.json` 的版本；核对安装程序与扩展构建使用该版本。
 2. 同步 `README.md`、`README.en.md`、相关使用/架构说明、`docs/index.html` 和 `docs/releases/<版本>.md`。逐项核对真实功能、题库统计、下载文件名、源码标签、升级方式和已知限制。源码领先正式版时明确标注源码版本及“尚未正式发布”，保留已发布版本的下载链接；正式发布时再一起更新正式版入口。
 3. 运行相关后端、前端、浏览器与共享服务检查；将发布源码、公共题库文本源和文档一起提交并推送到 GitHub。检查提交内容不含个人状态、凭据、Cookie、恢复备份或本机绝对路径。
-4. 从确认过的提交构建安装版、便携版，生成 `RELEASE-MANIFEST.json`、`SHA256SUMS.txt` 与记录准确提交的 `BUILD-INFO.json`。现行可见浏览器入口不分发扩展包，保留扩展源码仅供历史 fixture。根据上一正式版文件清单生成增量包，并在隔离状态完成新安装、升级、个人数据保留及增量替换验证。构建后源码若有改动，重新提交并构建受影响资产。
+4. 仅为用户版准备公开安装包和便携包；管理员包保留在 `private-admin`。从确认过的提交生成 `RELEASE-MANIFEST.json`、`SHA256SUMS.txt` 与记录准确提交的 `BUILD-INFO.json`。现行可见浏览器入口不分发扩展包，保留扩展源码仅供历史 fixture。根据上一正式版文件清单生成增量包，并在隔离状态完成新安装、升级、个人数据保留及增量替换验证。构建后源码若有改动，重新提交并构建受影响资产。
 5. 发布标签指向构建提交，发布说明与 README 描述同一版本；核对 GitHub 上的源码、版本号、下载链接和资产哈希后完成发布。不要移动已有正式版标签或把尚未发布的版本写成最新正式版。
 6. 更新指定本地项目目录的当前记录，写清源码提交、GitHub 同步结果、已发布/未发布状态、检查结果和实际启动入口。仅更新源码或文档时，明确说明本次未重新打包。
 
