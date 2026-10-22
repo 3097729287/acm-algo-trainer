@@ -4,6 +4,7 @@ TB 将题库、图文题解、C++ / Python 编辑、本地评测和训练记录�
 
 <!-- release-status:start -->
 **[1.3.2 已正式发布](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.2)。** [变化、升级验证与 SHA-256](docs/releases/1.3.2.md)。
+当前源码为 **1.3.3，尚未正式发布**；正在验证排序按钮与四边留白修订，下载暂保留 1.3.2。[本批变化](docs/releases/1.3.3.md)。
 <!-- release-status:end -->
 
 [项目主页](https://3097729287.github.io/acm-algo-trainer/) · [使用说明](docs/usage.md) · [开发与构建](docs/development.md) · [English](README.en.md)
@@ -15,6 +16,11 @@ TB 将题库、图文题解、C++ / Python 编辑、本地评测和训练记录�
 Windows 10/11 x64。[安装包](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.2/TB-Setup-1.3.2-win64.exe)包含 C++ 编译器、Python 3 运行时和离线 WebView2；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.2/TB-1.3.2-win64.zip)需要完整解压。发布页提供校验清单和对应版本的增量包。
 
 保存草稿并退出 TB 后安装到原目录，个人数据库、代码和导入内容保留。自动更新会先保存草稿、在线备份 SQLite、验证 SHA-256，再替换程序。跨电脑使用同一账号时，各电脑应升级到同一版本。原站登录保存在 TB 专用浏览器中，无需扩展。
+
+## 1.3.3 的变化
+
+- 搜索栏按“搜索、正倒序、筛选”排列，排序按钮默认使用与筛选相同的颜色；仅切换方向不会显示筛选提示点。
+- 工作区四边统一留白，大屏不再覆盖底部间距；设置首页、鸣谢和翻译面板按可用高度布局，完整保留底部圆角。
 
 ## 1.3.2 的变化
 

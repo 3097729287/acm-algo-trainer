@@ -256,13 +256,13 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
   const reset = () => {setShelf('all');setKind('');setExamYear('');setExamStage('');setFilter('all');};
   return <div className="competition-page" aria-label="比赛列表">
     <PageSearch><label className="search-box"><Search size={17}/><input value={query} onChange={event=>setQuery(event.target.value)} aria-label="搜索比赛"/></label>
-    <FilterMenu label="筛选比赛" active={shelf!=='all'||!!kind||!!examYear||filter!=='all'} onReset={reset}>
+    <SortDirection label="切换比赛排序方向" descending={descending} onChange={setDescending}/><FilterMenu label="筛选比赛" active={shelf!=='all'||!!kind||!!examYear||filter!=='all'} onReset={reset}>
       <details className="filter-submenu" open><summary>比赛分类</summary><div className="filter-choice-grid">{CONTEST_SHELVES.map(([id,label])=><button type="button" key={id} aria-pressed={shelf===id} onClick={()=>{setShelf(id);setFolder(null);setExamYear('');setExamStage('');}}>{label}</button>)}</div><div className="filter-choice-grid">{CONTEST_KINDS.map(([id,label])=><button type="button" key={id} aria-pressed={kind===id} onClick={()=>{setKind(kind===id?'':id);setFolder(null);}}>{label}</button>)}</div></details>
       <label className="filter-field"><span>年份</span><ThemedSelect aria-label="比赛年份" value={examYear} onChange={event=>setExamYear(event.target.value)}><option value="">全部年份</option>{[...new Set(groups.map(group=>group.examYear).filter(Boolean))].sort((a,b)=>b-a).map(year=><option key={year}>{year}</option>)}</ThemedSelect></label>
       <label className="filter-field"><span>训练情况</span><ThemedSelect value={filter} onChange={event=>setFilter(event.target.value)} aria-label="比赛训练情况"><option value="all">全部比赛</option><option value="joined">已加入训练</option><option value="available">尚未加入</option><option value="unfinished">尚未全部通过</option></ThemedSelect></label>
       <label className="filter-field"><span>排序</span><ThemedSelect aria-label="比赛排序" value={sort} onChange={event=>setSort(event.target.value)}><option value="newest">比赛时间</option><option value="name">名称</option></ThemedSelect></label>
       <span className="filter-result-count">{filtered.length} 场</span>
-    </FilterMenu><SortDirection label="切换比赛排序方向" descending={descending} onChange={setDescending}/></PageSearch>
+    </FilterMenu></PageSearch>
     <PageLocation><Tooltip text={folder?'切换到比赛列表':'按平台、系列、年份和场次逐级浏览'}><button type="button" className="competition-view-toggle" aria-label="比赛文件夹浏览" aria-pressed={!!folder} onClick={()=>setFolder(folder?null:{stage:'platforms',path:[]})}><FolderTree size={17}/></button></Tooltip></PageLocation>
     {joinError&&<p className="connection-error" role="alert">{joinError}</p>}
     {folder?<><CatalogPath scope={folder} onChange={setFolder}/><CatalogExplorer rows={filtered.flatMap(group=>group.rows.map(row=>({...row,groupKey:group.key})))} scope={folder} onChange={setFolder} onContest={row=>setSelected(row.groupKey)} renderContest={row=>renderCard(groups.find(group=>group.key===row.groupKey))}/></>:<div className="competition-list">{visibleGroups.map(renderCard)}</div>}

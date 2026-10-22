@@ -2,7 +2,7 @@
   #define AppId "{{0F82D178-AC2B-4696-96C1-1A210F72B509}"
 #endif
 #ifndef AppVersion
-  #define AppVersion "1.3.2"
+  #define AppVersion "1.3.3"
 #endif
 #ifndef PackageDir
   #error PackageDir is required

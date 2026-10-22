@@ -4,6 +4,7 @@ TB combines a problem library, illustrated editorials, a C++ / Python editor, lo
 
 <!-- release-status:start -->
 **[1.3.2 is released](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.2).** [Changes, upgrade checks and SHA-256](docs/releases/1.3.2.md).
+The source is **1.3.3, not yet released**. Search controls and equal page spacing are under validation; downloads still point to 1.3.2. [Upcoming changes](docs/releases/1.3.3.md).
 <!-- release-status:end -->
 
 [Website](https://3097729287.github.io/acm-algo-trainer/) · [Usage](docs/usage.md) · [Development](docs/development.md) · [中文](README.md)
@@ -15,6 +16,11 @@ TB combines a problem library, illustrated editorials, a C++ / Python editor, lo
 Windows 10/11 x64. The [installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.2/TB-Setup-1.3.2-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.2/TB-1.3.2-win64.zip) before running it. Release pages include checksums and supported incremental updates.
 
 Save drafts and exit TB before installing into the existing directory. Personal databases, source code and imported content are preserved. The updater saves work, takes online SQLite backups and verifies SHA-256 before replacement. Keep the same TB version on your computers. Original-site login uses TB's dedicated browser profile; no extension is required.
+
+## Changes in 1.3.3
+
+- Search bars place the direction toggle before filters, with matching default colors. Changing direction alone does not show a filter indicator.
+- Uniform spacing on all four workspace edges also applies to large windows. Settings tiles, credits and translation panels fit the available height and preserve their bottom corners.
 
 ## Changes in 1.3.2
 

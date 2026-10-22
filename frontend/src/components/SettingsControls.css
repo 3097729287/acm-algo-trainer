@@ -33,7 +33,6 @@ html .navigation-editor-row input { width:100%; min-width:0; }
 html .navigation-settings-content { padding:0; }
 html .settings-navigation { width:100%; }
 html .settings-page .settings-column { display:contents; }
-html .workspace-area .settings-page { gap:24px; padding-bottom:24px!important; }
 html .settings-page :is(.visual-preferences,.appearance-studio) { display:block; }
 html .settings-page .appearance-studio .style-preset-grid { display:flex; gap:8px; margin:12px 0; }
 html .style-preset-grid > .tooltip-anchor { flex:1; }
