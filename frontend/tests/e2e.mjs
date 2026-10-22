@@ -94,7 +94,9 @@ try {
     return {left:left.height,right:right.height};
   });
   assert.ok(heights.left>250&&heights.right>200,JSON.stringify(heights));
-  assert.equal(await page.locator('.knowledge-radar .radar-node').count(),8);
+  assert.deepEqual(await page.locator('.knowledge-radar .radar-node').evaluateAll(nodes => nodes.map(node => node.getAttribute('aria-label').split('，')[0])),
+    ['思维与策略', '动态规划', '基础技巧', '数据结构', '图论', '数学与计数', '字符串', '搜索', '计算几何', '专题方法'],
+    'radar renders all organized domains from the real library taxonomy');
   await page.screenshot({path: 'tests/screenshots/growth-real.png', animations: 'disabled'});
   assert.equal(await page.locator('.knowledge-drawer-toggle').count(),0);
   assert.equal(await page.getByRole('tab', {name: '目标计划', exact: true}).count(),0);
@@ -146,10 +148,12 @@ try {
   await page.screenshot({path: 'tests/screenshots/lanqiao-history.png', animations: 'disabled'});
   await page.keyboard.press('Control+5');
   await page.getByRole('button', {name: '重现赛', exact: true}).click();
+  assert.equal(await page.getByRole('textbox', {name: '搜索题目', exact: true}).count(),0,'replay has no irrelevant search box');
   const collected = catalog.rows.filter(row => row.contest === '入门赛 49');
   await page.getByRole('button',{name:'训练筛选',exact:true}).click();
-  await page.getByLabel('模拟赛最低难度',{exact:true}).fill('0');await page.getByLabel('模拟赛最高难度',{exact:true}).fill('10000');await page.getByRole('combobox',{name:'重现赛比赛',exact:true}).selectOption('入门赛 49');
+  assert.equal(await page.getByLabel('模拟赛最低难度',{exact:true}).count(),0,'replay keeps every problem in the event regardless of difficulty');
   await page.keyboard.press('Escape');
+  await page.getByRole('combobox',{name:'重现赛比赛',exact:true}).selectOption('入门赛 49');
   const previewResponse=page.waitForResponse(response=>response.url().endsWith('/api/contests/preview')&&response.request().method()==='POST');
   await page.getByRole('button', {name:'生成试卷',exact:true}).click();
   const replay = (await (await previewResponse).json()).plan;
