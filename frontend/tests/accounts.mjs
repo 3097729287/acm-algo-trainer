@@ -44,6 +44,7 @@ try {
   browser = await chromium.launch({ channel: process.env.CI ? undefined : 'msedge', headless: true });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
   const errors = []; page.on('pageerror', issue => errors.push(issue.message)); page.setDefaultTimeout(15000);
+  page.on('console', entry => { if (entry.type() === 'error') console.error('Browser error:', entry.text()); });
   const get = async name => { const result = await page.request.get(base + '/api/' + name); assert.equal(result.status(), 200); return result.json(); };
   const post = async (name, body) => { const auth = await get('account'); const result = await page.request.post(base + '/api/' + name, { data: body, headers: { 'X-TB-Token': auth.token } }); assert.equal(result.status(), 200, await result.text()); return result.json(); };
   await page.goto(base);
@@ -81,7 +82,7 @@ try {
     await route.fulfill({ response });
     staleDone();
   };
-  await page.route('**/api/account', staleAccount);
+  await page.route(/\/api\/account(?:\?.*)?$/, staleAccount);
   try {
     await page.evaluate(() => window.dispatchEvent(new Event('focus')));
     await captured;
@@ -91,7 +92,7 @@ try {
   await completed;
   await page.waitForTimeout(200);
   assert.ok(await page.locator('.nav-item').count(), 'A stale account poll cannot undo a successful login: '+await page.locator('body').innerText()+' '+JSON.stringify(errors));
-  await page.unroute('**/api/account', staleAccount);
+  await page.unroute(/\/api\/account(?:\?.*)?$/, staleAccount);
   const guide = page.getByRole('dialog', { name: '新手指引', exact: true });
   await guide.waitFor();
   await page.keyboard.press('Escape');

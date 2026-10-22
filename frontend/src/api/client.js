@@ -20,10 +20,19 @@ export function request(path, body, token) {
 
 async function load(path, body, token) {
   const base = (import.meta.env.VITE_API_BASE_URL || '/api').replace(/\/$/, '');
-  const response = await fetch(`${base}/${path}`, body === undefined
-    ? { cache: 'no-store' }
-    : { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-TB-Token': token }, body: JSON.stringify(body) });
-  const text = await response.text();
+  const accountRequest = /^account(?:[/?]|$)/.test(path);
+  const controller = accountRequest ? new AbortController() : null;
+  const timeout = controller ? setTimeout(() => controller.abort(), body === undefined ? 12000 : 60000) : null;
+  let response, text;
+  try {
+    response = await fetch(`${base}/${path}`, body === undefined
+      ? { cache: 'no-store', ...(controller ? { signal: controller.signal } : {}) }
+      : { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-TB-Token': token }, body: JSON.stringify(body), ...(controller ? { signal: controller.signal } : {}) });
+    text = await response.text();
+  } catch (issue) {
+    if (controller?.signal.aborted) throw new Error('登录服务响应超时，本机学习记录已保留，请重试连接');
+    throw issue;
+  } finally { if (timeout) clearTimeout(timeout); }
   let result;
   try { result = JSON.parse(text); }
   catch { throw new Error('TB 服务没有返回有效数据，请检查服务连接'); }

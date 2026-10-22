@@ -106,7 +106,7 @@ class PatchTests(unittest.TestCase):
         name='TB-Update-1.0.13-to-1.0.14-win64.zip'
         middle={'tag_name':'v1.0.14','assets':[{'name':name,'state':'uploaded','size':100,'digest':'sha256:'+'a'*64,'browser_download_url':RELEASES+'/download/v1.0.14/'+name}]}
         opener=Mock();opener.open.side_effect=[io.BytesIO(json.dumps(latest).encode()),io.BytesIO(json.dumps([latest,middle]).encode())]
-        service=SoftwareUpdates(self.root/'state',current='1.0.13',opener=opener,offline=False)
+        service=SoftwareUpdates(self.root/'state',current='1.0.13',opener=opener,offline=False,feed='https://api.github.com/repos/3097729287/acm-algo-trainer/releases/latest')
         try:
             service.check();result=idle(service)
             self.assertEqual(result['latestVersion'],'1.0.14')

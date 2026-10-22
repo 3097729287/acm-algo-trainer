@@ -98,6 +98,14 @@ class Handler(BaseHTTPRequestHandler):
         accounts = getattr(self.server, 'accounts', None)
         if accounts is not None:
             path = unquote(urlsplit(self.path).path)
+            bootstrap = not writing and path == '/api/account' and parse_qs(urlsplit(self.path).query).get('background') == ['1']
+            update_status = path in {'/api/software-update', '/api/software-update/check', '/api/software-update/settings', '/api/software-update/download'}
+            if bootstrap or update_status:
+                # Read-only bootstrap remains responsive while the restore
+                # worker holds the account switch barrier. Local checks still
+                # run in _dispatch; training endpoints retain their barrier.
+                self._dispatch(writing)
+                return
             changing = (writing and (path.startswith('/api/account/') and path != '/api/account/sync' or path in ('/api/profile', '/api/identity'))
                         or path == '/api/account' and accounts.saved is not None)
             # Normal requests share the current workspace. Account mutations
@@ -126,7 +134,8 @@ class Handler(BaseHTTPRequestHandler):
                 raise APIError(404, "没有找到这个页面")
             store = self.server.store
             if path == '/api/account' and not writing:
-                self.send_json(200, accounts.snapshot() if accounts else {'required': False, 'authenticated': True, 'token': store.token, 'admin': self.server.admin_mode, 'account': {'userId':'local-admin','nickname':'admin','loginId':'admin'} if self.server.admin_mode else None})
+                query = parse_qs(target.query)
+                self.send_json(200, accounts.snapshot(background=query.get('background') == ['1'], retry=query.get('retry') == ['1']) if accounts else {'required': False, 'authenticated': True, 'token': store.token, 'admin': self.server.admin_mode, 'account': {'userId':'local-admin','nickname':'admin','loginId':'admin'} if self.server.admin_mode else None})
                 return
             # Software updates also run on the login screen. Local origin and
             # session-token guards above still protect every mutation.

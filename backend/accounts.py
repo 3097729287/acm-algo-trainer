@@ -45,6 +45,10 @@ class Accounts:
         self.state_sync = None
         self.saved = None
         self.closed = False
+        self.closing = False
+        self.restore_lock = threading.Lock()
+        self.restore_worker = None
+        self.restore_retry_at = 0
         self.error = ''
         self.last_login = load_document(self.root / 'account-login.json', '')
         encoded = load_document(self.session_path, '')
@@ -156,7 +160,19 @@ class Accounts:
             self.error = '登录已失效或账号已在另一台电脑登录，请重新登录'
             self.server.store.token = secrets.token_urlsafe(32)
 
-    def snapshot(self):
+    def snapshot(self, *, background=False, retry=False):
+        if background:
+            # The login screen must never wait behind cloud I/O or an account
+            # writer. Only a fully activated session can expose a workspace.
+            with self.restore_lock:
+                if (not self.closed and not self.closing and
+                        (not self.session and self.saved or self.session and self.session['expiresAt'] <= time.time()) and
+                        not (self.restore_worker and self.restore_worker.is_alive()) and
+                        (retry or time.monotonic() >= self.restore_retry_at)):
+                    self.restore_worker = threading.Thread(target=self._restore, name='tb-account-restore', daemon=True)
+                    self.restore_worker.start()
+                restoring = bool(self.restore_worker and self.restore_worker.is_alive())
+            return self._status(restoring=restoring)
         with self.lock:
             if self.session and self.session['expiresAt'] <= time.time():
                 self.invalidate()
@@ -171,11 +187,29 @@ class Accounts:
                     self.error = issue.message
                     if issue.status == 401:
                         self.invalidate()
-            return {'required': True, 'authenticated': bool(self.session), 'token': self.server.store.token,
-                    'account': self.session['account'] if self.session else None,
-                    'usesOriginalWorkspace': bool(self.session) and self.server.training.db_path == self.original_db_path,
-                    'lastLoginId': self.last_login, 'error': self.error if not self.session else '',
-                    'sync': self.state_sync.snapshot() if self.session and self.state_sync else None}
+            return self._status()
+
+    def _status(self, *, restoring=False):
+        current = self.session
+        authenticated = bool(current and current['expiresAt'] > time.time() and not self.closed)
+        return {'required': True, 'authenticated': authenticated, 'token': self.server.store.token,
+                'account': current['account'] if authenticated else None,
+                'usesOriginalWorkspace': authenticated and self.server.training.db_path == self.original_db_path,
+                'lastLoginId': self.last_login, 'error': self.error if not authenticated else '',
+                'restoring': restoring and not authenticated,
+                'sync': self.state_sync.snapshot() if authenticated and self.state_sync else None}
+
+    def _restore(self):
+        try:
+            with self.request_context(changing=True):
+                if not self.closed:
+                    self.snapshot()
+        except Exception as issue:
+            # Do not expose remote payloads, credentials or private paths.
+            logging.getLogger('tb.accounts').warning('Saved account restoration failed: %s', type(issue).__name__)
+            self.error = '登录恢复未完成，本机数据已保留，请重试或使用账号密码登录'
+        finally:
+            self.restore_retry_at = time.monotonic() + 30
 
     def _assert_idle(self):
         current = self.server.training
@@ -213,6 +247,8 @@ class Accounts:
         return self.root / 'accounts' / owner / 'tb-personal.sqlite3'
 
     def _activate(self, value, rotate=True):
+        if self.closed or self.closing:
+            raise ServiceError(503, 'TB 正在关闭')
         account = value.get('account', {})
         owner = account.get('userId')
         if not isinstance(owner, str) or not isinstance(value.get('token'), str) or not re.fullmatch(r'[A-Za-z0-9_-]{32,200}', value['token']):
@@ -235,9 +271,10 @@ class Accounts:
         else:
             state_sync = AccountStateSync(self, service, candidate)
             state_sync.initialize()
+        if self.closed or self.closing:
+            raise ServiceError(503, 'TB 正在关闭')
         service.bind_account(account, self.endpoint)
         self.server.training = service
-        self.session = candidate
         self.state_sync = state_sync
         self.registry['activeOwner'] = owner
         save_document(self.registry_path, self.registry)
@@ -248,6 +285,8 @@ class Accounts:
         if rotate:
             self.server.store.token = secrets.token_urlsafe(32)
         self.error = ''
+        # Publish authentication only after state merging and persistence.
+        self.session = candidate
         service.leaderboard.invalidate()
         state_sync.start()
         if old_sync and old_sync is not state_sync:
@@ -327,7 +366,15 @@ class Accounts:
         return self.server.training.profile()
 
     def close(self):
+        self.closing = True
+        worker = self.restore_worker
+        if worker and worker is not threading.current_thread():
+            worker.join(timeout=22)
         self._drain_retired()
+        # Drain late ranking writes before the final account journal upload.
+        # Otherwise a restored login can needlessly re-upload on the next boot.
+        for service in tuple(self.services.values()):
+            service.leaderboard.close()
         state_sync = self.state_sync
         if state_sync:
             try:

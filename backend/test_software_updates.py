@@ -10,7 +10,7 @@ import unittest
 from unittest.mock import Mock
 from urllib.error import HTTPError
 
-from software_updates import SoftwareUpdates, RELEASES, release_info, version_tuple, trusted_url
+from software_updates import SoftwareUpdates, FEED, RELEASES, release_info, version_tuple, trusted_url
 from training import ServiceError
 
 
@@ -49,7 +49,7 @@ class UpdateTests(unittest.TestCase):
         self.state = Path(self.temp.name) / 'state'
         self.state.mkdir()
         self.opener = Mock()
-        self.service = SoftwareUpdates(self.state, current='0.9.3', opener=self.opener, offline=False)
+        self.service = SoftwareUpdates(self.state, current='0.9.3', opener=self.opener, offline=False, feed=FEED)
         self.service.launcher = Mock()
 
     def tearDown(self):
