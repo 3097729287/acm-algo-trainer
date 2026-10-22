@@ -3,8 +3,8 @@
 TB 将题库、图文题解、C++ / Python 编辑、本地评测和训练记录放在同一个工作台，支持 Codeforces、AtCoder、牛客和洛谷。本机 SQLite 保存代码与待同步记录，账号服务支持跨电脑恢复。
 
 <!-- release-status:start -->
-**[1.3.2 已正式发布](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.2)。** [变化、升级验证与 SHA-256](docs/releases/1.3.2.md)。
-当前源码为 **1.3.3，尚未正式发布**；正在验证预置中文题面、知识分类与掌握度、独立管理员版及各页指引，下载暂保留 1.3.2。[本批变化](docs/releases/1.3.3.md)。
+**[1.3.3 已正式发布](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.3)。** [变化、升级验证与 SHA-256](docs/releases/1.3.3.md)。
+包含预置中文题面、知识分类与掌握度 v3、独立管理员版及各页详细指引。源码、安装包与本机交付已同步。
 <!-- release-status:end -->
 
 [项目主页](https://3097729287.github.io/acm-algo-trainer/) · [使用说明](docs/usage.md) · [开发与构建](docs/development.md) · [English](README.en.md)
@@ -13,7 +13,7 @@ TB 将题库、图文题解、C++ / Python 编辑、本地评测和训练记录�
 
 ## 安装与更新
 
-Windows 10/11 x64。[安装包](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.2/TB-Setup-1.3.2-win64.exe)包含 C++ 编译器、Python 3 运行时和离线 WebView2；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.2/TB-1.3.2-win64.zip)需要完整解压。发布页提供校验清单和对应版本的增量包。
+Windows 10/11 x64。[用户版安装包](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.3/TB-Setup-1.3.3-win64.exe)包含 C++ 编译器、Python 3 运行时和离线 WebView2；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.3/TB-1.3.3-win64.zip)需要完整解压。管理员使用[独立安装包](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.3/TB-Admin-Setup-1.3.3-win64.exe)，登录名为 `admin`，公共管理需要服务端授权。发布页提供校验清单及从 1.3.1 / 1.3.2 升级的增量包。
 
 保存草稿并退出 TB 后安装到原目录，个人数据库、代码和导入内容保留。自动更新会先保存草稿、在线备份 SQLite、验证 SHA-256，再替换程序。跨电脑使用同一账号时，各电脑应升级到同一版本。原站登录保存在 TB 专用浏览器中，无需扩展。
 
@@ -70,4 +70,4 @@ npm ci
 npm run dev
 ```
 
-[账号与同步](docs/accounts.md) · [架构](docs/architecture.md) · [构建和发布检查](docs/development.md) · [1.3.2 发布记录](docs/releases/1.3.2.md) · [历史发布](https://github.com/3097729287/acm-algo-trainer/releases)
+[账号与同步](docs/accounts.md) · [架构](docs/architecture.md) · [构建和发布检查](docs/development.md) · [1.3.3 发布记录](docs/releases/1.3.3.md) · [历史发布](https://github.com/3097729287/acm-algo-trainer/releases)
