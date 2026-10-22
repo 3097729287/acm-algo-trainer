@@ -3,12 +3,12 @@
 TB combines a problem library, illustrated editorials, a C++ / Python editor, local judging and training records for Codeforces, AtCoder, Nowcoder and Luogu. SQLite preserves local work; the account service synchronizes learning data between computers.
 
 <!-- release-status:start -->
-**Latest stable: [TB 1.3.4](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.4).** [Changes and validation](docs/releases/1.3.4.md).
+**Latest stable: [TB 1.3.5](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.5).** [Changes and validation](docs/releases/1.3.5.md).
 <!-- release-status:end -->
 
-**Desktop 1.3.6 is being packaged for local delivery; it is not publicly released.** The complete knapsack course, five guided exercises and workbench handoff are built from the fixed `release/1.3.6-lab` branch. Ongoing uncommitted editorial refinement remains separate. Public downloads remain at 1.3.4. [Delivery and validation](docs/releases/1.3.6.md).
+**TB 1.3.6 has been delivered and validated locally; it is not publicly released.** The normal desktop app includes seven knapsack lessons, five guided problems, aligned daily AC counts and separated shortcut controls. Completed 1.3.5 software fixes are retained. Personal data and existing launch shortcuts were preserved. Build source: `0a30d001aaa9eaba6ce2f9368e047e5c574a2556` on `release/1.3.6-lab`. Ongoing editorial review remains separate. [Delivery and validation](docs/releases/1.3.6.md).
 
-The development source is based on 1.3.4; **this update is not released**. The knapsack lab has seven lessons, sticky navigation and five interactive guided problems; offline preview 0.4.0 opens from the extracted HTML. The other session added 43 reusable foundations and rewrote Xiaoyue’s Corridor, but individual editorial refinement and reading review remain unfinished. Stable downloads stay at 1.3.4. [Current status](docs/algorithm-lab-status.md) · [Authoring workflow](docs/algorithm-lab-authoring.md) · [Preview build](docs/algorithm-lab-design.md).
+Individual editorial refinement and reading review remain unfinished. The local 1.3.6 delivery includes the completed course and preserves that separate authoring work. [Authoring workflow](docs/algorithm-lab-authoring.md).
 
 [Website](https://3097729287.github.io/acm-algo-trainer/) · [Usage](docs/usage.md) · [Development](docs/development.md) · [中文](README.md)
 
@@ -16,7 +16,7 @@ The development source is based on 1.3.4; **this update is not released**. The k
 
 ## Install and upgrade
 
-Windows 10/11 x64. The [user installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.4/TB-Setup-1.3.4-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.4/TB-1.3.4-win64.zip) before running it. GitHub distributes only the user edition. The administrator program is reserved for the owner’s local use. Release assets include checksums and incremental updates from 1.3.3.
+Windows 10/11 x64. The [user installer](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.5/TB-Setup-1.3.5-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.5/TB-1.3.5-win64.zip) before running it. GitHub distributes only the user edition. The administrator program is reserved for the owner’s local use. Release assets include checksums and incremental updates from 1.3.4.
 
 Save drafts and exit TB before installing into the existing directory. Personal databases, source code and imported content are preserved. The updater saves work, takes online SQLite backups and verifies SHA-256 before replacement. Keep the same TB version on your computers. Original-site login uses TB's dedicated browser profile; no extension is required.
 

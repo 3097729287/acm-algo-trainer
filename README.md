@@ -3,10 +3,10 @@
 TB 将题库、图文题解、C++ / Python 编辑、本地评测和训练记录放在同一个工作台，支持 Codeforces、AtCoder、牛客和洛谷。本机 SQLite 保存代码与待同步记录，账号服务支持跨电脑恢复。
 
 <!-- release-status:start -->
-**最新正式版：[TB 1.3.4](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.4)。** [变化与验证](docs/releases/1.3.4.md)。
+**最新正式版：[TB 1.3.5](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.3.5)。** [变化与验证](docs/releases/1.3.5.md)。
 <!-- release-status:end -->
 
-**主程序 1.3.6 本机打包中，尚未公开发布。** 本次按用户明确的“打包进正式程序”要求，将已完成的背包 DP 七节交互课、五道跟做题、工作台交接和已提交的软件更新打入正常桌面主程序。源代码固定在 `release/1.3.6-lab`；另一会话的未提交题解精修继续独立进行，不宣称全库已逐篇验收。公开下载保持 1.3.4。[本机交付与验证](docs/releases/1.3.6.md)。
+**主程序 1.3.6 已完成本机交付与验证，尚未公开发布。** 正常桌面程序包含背包 DP 七节交互课、五道跟做题、顶栏 AC 字号与基线修复、独立的快捷键重置位置；同步 1.3.5 已完成的软件修复。个人数据与原启动入口保留。构建来源为 `release/1.3.6-lab` 的 `0a30d001aaa9eaba6ce2f9368e047e5c574a2556`；全库逐篇题解复核继续独立进行。[本机交付与验证](docs/releases/1.3.6.md)。
 
 [项目主页](https://3097729287.github.io/acm-algo-trainer/) · [使用说明](docs/usage.md) · [开发与构建](docs/development.md) · [English](README.en.md)
 
@@ -14,7 +14,7 @@ TB 将题库、图文题解、C++ / Python 编辑、本地评测和训练记录�
 
 ## 安装与更新
 
-Windows 10/11 x64。[用户版安装包](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.4/TB-Setup-1.3.4-win64.exe)包含 C++ 编译器、Python 3 运行时和离线 WebView2；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.4/TB-1.3.4-win64.zip)需要完整解压。GitHub 仅公开用户版；管理员程序仅供维护者本机自用。发布页提供校验清单及从 1.3.3 升级的增量包。
+Windows 10/11 x64。[用户版安装包](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.5/TB-Setup-1.3.5-win64.exe)包含 C++ 编译器、Python 3 运行时和离线 WebView2；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.3.5/TB-1.3.5-win64.zip)需要完整解压。GitHub 仅公开用户版；管理员程序仅供维护者本机自用。发布页提供校验清单及从 1.3.4 升级的增量包。
 
 保存草稿并退出 TB 后安装到原目录，个人数据库、代码和导入内容保留。自动更新会先保存草稿、在线备份 SQLite、验证 SHA-256，再替换程序。跨电脑使用同一账号时，各电脑应升级到同一版本。原站登录保存在 TB 专用浏览器中，无需扩展。
 
