@@ -126,7 +126,7 @@ const PAGES = [
   { id: "growth", label: "成长与能力", icon: ChartNoAxesCombined, key: "7" },
   { id: "activity", label: "活动记录", icon: Activity, key: "8" },
   { id: "lectures", label: "从零讲", icon: BookOpen, key: "9" },
-  { id: "paths", label: "算法实验室", icon: NotebookPen, key: "3" },
+  { id: "paths", label: "题单", icon: NotebookPen, key: "3" },
   { id: "rankings", label: "排行榜", icon: ListOrdered, key: "" },
 ];
 const DEFAULTS = {
