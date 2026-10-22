@@ -29,7 +29,7 @@ function Fixture() {
 if (location.search.includes('login')) {
   window.fetch = async (url, options) => {
     const path = String(url).split('/api/')[1];
-    const result = path === 'account' ? { token: 'fixture-only', authenticated: false } : await api(path, options?.body ? JSON.parse(options.body) : undefined);
+    const result = path.split('?')[0] === 'account' ? { token: 'fixture-only', authenticated: false } : await api(path, options?.body ? JSON.parse(options.body) : undefined);
     return { ok: true, text: async () => JSON.stringify(result) };
   };
   createRoot(document.getElementById('root')).render(<AccountGate><p>Authenticated content</p></AccountGate>);

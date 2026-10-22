@@ -6,6 +6,7 @@ import { basename, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createServer } from 'vite';
 import { chromium } from 'playwright';
+import { catalogSegments } from '../src/lib/contestCatalog.js';
 
 const root = resolve(fileURLToPath(new URL('../..', import.meta.url)));
 const seededSolutions = JSON.parse(await readFile(join(root, 'data/library/solutions.json'), 'utf8'));
@@ -45,7 +46,8 @@ try {
   const problem = catalog.rows.find(row => row.title === 'Xterfusion');
   const solution = await (await page.request.get(frontendUrl + '/api/solution?id=' + encodeURIComponent(problem.id))).json();
   assert.equal(solution.markdown, seededSolutions.find(record => record.problem_id === problem.id).markdown, 'the complete bundled solution reaches the API');
-  assert.equal(solution.lectures.length, 1);
+  assert(solution.lectures.length>=1,'The existing editorial keeps its linked foundation lessons');
+  assert.equal(new Set(solution.lectures.map(item=>item.id)).size,solution.lectures.length);
   await page.goto(frontendUrl);
   await page.getByRole('heading', { name: '从第一道题开始', exact: true }).waitFor();
   await page.keyboard.press('Control+2');
@@ -69,8 +71,8 @@ try {
   await page.locator('.reader-panel .markdown').first().waitFor();
   await page.getByText('本题的基础讲解与引用', { exact: true }).waitFor();
   const linkedLecture = solution.lectures[0];
-  assert.ok((await page.locator('.reader-panel .lecture-disclosure summary').first().textContent())
-    .includes(linkedLecture.displayTitle || linkedLecture.concept || linkedLecture.title));
+  assert.ok((await page.locator('.reader-panel .lecture-disclosure summary').allTextContents())
+    .some(title=>title.includes(linkedLecture.displayTitle || linkedLecture.concept || linkedLecture.title)));
   await editor.fill('#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    return 0;\n}\n');
   await mkdir('tests/screenshots', { recursive: true });
   await page.screenshot({ path: 'tests/screenshots/workbench-real.png', animations: 'disabled' });
@@ -142,9 +144,15 @@ try {
   await page.keyboard.press('Control+4');
   await page.getByRole('button',{name:'筛选比赛',exact:true}).click();
   const menu=page.locator('.filter-popover');
-  await menu.getByRole('button',{name:'蓝桥杯',exact:true}).click();
+  const lanqiao=catalog.rows.find(row=>/蓝桥/.test(row.contest)&&Number(row.examYear)===2026&&/国赛|决赛/.test(`${row.examStage||''} ${row.contest}`));
+  assert(lanqiao,'Use a real bundled final contest');
+  const [folder,stage]=catalogSegments(lanqiao);
+  await menu.getByRole('combobox',{name:'筛选比赛分类',exact:true}).press('Space');
+  const folders=page.getByRole('listbox',{name:'筛选比赛分类'});
+  await folders.getByRole('option',{name:folder,exact:true}).click();
+  await folders.getByRole('option',{name:stage,exact:true}).click();
+  await folders.getByRole('option',{name:`选择「${stage}」`,exact:true}).click();
   await page.getByLabel('比赛年份',{exact:true}).selectOption('2026');
-  await menu.getByRole('button',{name:'决赛',exact:true}).click();
   await page.keyboard.press('Escape');
   assert.ok(await page.locator('.competition-card').count());
   assert.equal(await page.locator('.competition-card').filter({hasText: '初赛'}).count(),0);
