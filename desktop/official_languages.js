@@ -10,8 +10,9 @@ function compilerCandidate(text, code = '', platform = '', language = 'cpp17') {
   if (!/(?:c\+\+|g\+\+|gnu\+\+|clang\+\+)/i.test(value) || /(?:c#|objective)/i.test(value)) return null;
   let required = /(?:std::(?:print|println|expected)|#\s*include\s*<\s*(?:print|expected)\s*>)/.test(code) ? 23
     : /(?:std::(?:ranges|span)|#\s*include\s*<\s*(?:ranges|span|concepts|coroutine)\s*>|\b(?:concept|co_await|co_return|requires)\b)/.test(code) ? 20 : 17;
-  let explicit = value.match(/\b(?:c\+\+|g\+\+|gnu\+\+)\s*(?:std\s*)?(11|14|17|20|23|26|0x|1y|1z|2a|2b|2c)\b(?!\.\d)/i);
+  let explicit = value.match(/\b(?:c\+\+|g\+\+|gnu\+\+)\s*(?:std\s*)?(98|03|11|14|17|20|23|26|0x|1y|1z|2a|2b|2c)\b(?!\.\d)/i);
   if (explicit && /g\+\+/i.test(explicit[0]) && value.lastIndexOf('(', explicit.index) > value.lastIndexOf(')', explicit.index)) explicit = null;
+  if (explicit && ['98','03'].includes(explicit[1])) return null;
   const aliases = {'0x':11,'1y':14,'1z':17,'2a':20,'2b':23,'2c':26};
   let standard = explicit ? (aliases[explicit[1].toLowerCase()] || Number(explicit[1])) : null;
   const compiler = value.match(/(?:gcc|g\+\+|clang(?:\+\+)?)\s*[-:]?\s*(\d{1,2})(?:\.\d+)?/i);
@@ -33,7 +34,7 @@ function compilerCandidate(text, code = '', platform = '', language = 'cpp17') {
 async function selectOfficialCompiler(code, platform = '', language = 'cpp17') {
   const site = {
     '牛客': { selected: '.btn-language .el-input__inner,.language-select .el-input__inner,.nc-select .nc-select-label,.nc-select .selected-value,.select-language,.language-select .selected,.lang-select .selected-text', options: '.nc-select-item,.nc-select-option,.select-language-menu li,.language-list li' },
-    '洛谷': { selected: '.language-select .selected,.select-language .selected,.el-input__inner', options: '.language-list li,.el-select-dropdown__item' },
+    '洛谷': { selected: '.language-select .selected,.select-language .selected,.el-input__inner,.combo-wrapper.lang-select > .text', options: '.language-list li,.el-select-dropdown__item,.dropdown > ul > li' },
     'AtCoder': { selected: '#select-lang + .select2-container .select2-selection__rendered', options: '.select2-results__option' },
     'Codeforces': { selected: '', options: '' },
   }[platform] || { selected: '', options: '' };
@@ -65,10 +66,19 @@ async function selectOfficialCompiler(code, platform = '', language = 'cpp17') {
     const parent = control.closest('.ivu-select,.el-select,.ant-select,.language-select,.lang-select,.nc-select,.select-language,.select2-container') || control;
     const hint = [parent.className, parent.getAttribute('aria-label'), parent.getAttribute('data-field'), parent.id].join(' ');
     if (!/language|compiler|lang-select|select-lang|programtype|nc-select/i.test(hint) && selected.length > 1) continue;
+    // Luogu teleports the menu outside the control. Match the newly opened
+    // popup, or the component's own Vue scope when it was already open.
+    const luoguCombo = platform === '洛谷' && parent.matches('.combo-wrapper.lang-select');
+    const openPopups = luoguCombo ? new Set([...document.querySelectorAll('.dropdown')].filter(visible)) : null;
     control.click();
     for (let attempt = 0; attempt < 6; attempt++) {
       await new Promise(resolve => setTimeout(resolve,50));
-      const options = [...document.querySelectorAll('[role=option],.ivu-select-item,.el-select-dropdown__item,.ant-select-item-option' + (site.options ? ',' + site.options : ''))].filter(visible);
+      const options = [...document.querySelectorAll('[role=option],.ivu-select-item,.el-select-dropdown__item,.ant-select-item-option' + (site.options ? ',' + site.options : ''))].filter(node => {
+        if (!visible(node)) return false;
+        if (!luoguCombo) return true;
+        const popup = node.closest('.dropdown');
+        return popup && (!openPopups.has(popup) || [...parent.attributes].some(attribute => attribute.name.startsWith('data-v-') && popup.hasAttribute(attribute.name)));
+      });
       const chosen = candidates(options)[0];
       if (!chosen) continue;
       chosen.node.click();

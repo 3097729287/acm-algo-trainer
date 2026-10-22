@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { luoguComboFixture } from './luogu-combo-fixture.mjs';
 
 const source = await readFile(new URL('../../desktop/official_languages.js', import.meta.url), 'utf8');
 const browser = await chromium.launch({ channel: process.env.CI ? undefined : 'msedge', headless: true });
@@ -21,6 +22,24 @@ try {
     assert.ok(result, platform);
     assert.equal(await page.locator('select').inputValue(), expected, platform);
   }
+  // Actual Luogu 2026 DOM has no select/combobox role; options are teleported.
+  for(const current of ['C++23','Java 21','C++98']){
+    const combo=luoguComboFixture(current);
+    await page.setContent(combo.html);
+    await page.addScriptTag({content:combo.script});await page.addScriptTag({content:source});
+    const result=await page.evaluate(()=>selectOfficialCompiler('int main(){}','洛谷'));
+    assert.ok(result,'Luogu actual ComboBox must be recognized: '+current);
+    assert.equal(await page.evaluate(()=>fixtureLang),current==='C++23'?28:12);
+    assert.equal(await page.evaluate(()=>fixtureLanguageClicks),current==='C++23'?0:1);
+  }
+  const pythonCombo=luoguComboFixture();
+  await page.setContent(pythonCombo.html);await page.addScriptTag({content:pythonCombo.script});await page.addScriptTag({content:source});
+  assert.equal((await page.evaluate(()=>selectOfficialCompiler('print(42)','洛谷','python3'))).language,'python3');
+  assert.equal(await page.evaluate(()=>fixtureLang),7);
+  const legacyCombo=luoguComboFixture('C++98',['C++98','C++14']);
+  await page.setContent(legacyCombo.html+'<div class="dropdown"><ul><li>C++23</li></ul></div>');
+  await page.addScriptTag({content:legacyCombo.script});await page.addScriptTag({content:source});
+  assert.equal(await page.evaluate(()=>selectOfficialCompiler('int main(){}','洛谷')),null,'Legacy-only language menu and unrelated open dropdown must not be accepted');
   // Custom controls dispatch ordinary clicks and confirm the visible selection.
   for (const label of ['Java 17', 'C++(g++ 13)']) {
     await page.setContent(`<div class="nc-select language-select"><button class="nc-select-label">${label}</button><ul hidden><li class="nc-select-item">C++(g++ 4.8)</li><li class="nc-select-item">C++(g++ 13)</li><li class="nc-select-item">Java 17</li></ul></div>`);
