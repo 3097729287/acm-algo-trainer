@@ -2,7 +2,7 @@ export const TIER_NAMES=['黑铁','青铜','白银','黄金','翡翠','钻石','
 export const RANK_THRESHOLDS=[0,800,1000,1200,1600,1800,2000,2100,2200];
 
 export function rankIndex(rank={}) {
- const name=typeof rank==='string'?rank:rank.tier||rank.rankTier;
+ const name=typeof rank==='string'?rank:rank.rankTier||rank.tier;
  const named=TIER_NAMES.indexOf(name);
  if(named>=0)return named;
  // Old public snapshots remain readable without rewriting anyone's history.

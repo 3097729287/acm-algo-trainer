@@ -19,7 +19,7 @@ notifications.push(...Array.from({length:100},(_,index)=>({id:`55555555-5555-455
 const workspace=()=>({training,sets:[],contests:[],activeContest:null,goals:{goals:[]},goalTasks:[],summary:{total:120,accepted:training.filter(row=>row.accepted).length,todayAccepted:0,attempts:0,due:0,pending:0,streak:1},now:timestamp});
 const progress={badge:'tier-7',level:8,tier:'大师',rankTier:'大师',rankScore:2000,titles:[]};
 const ranked={badge:'tier-7',tier:'大师',qualified:true,abilityScore:2000,nextAbilityScore:2100,evidenceCount:8,minimumEvidence:5,levelGate:5};
-ranked.tierRequirements=['黑铁','青铜','白银','黄金','铂金','翡翠','钻石','大师','宗师','王者'].map((tier,index)=>({tier,badge:`tier-${index}`,minAbilityScore:[0,800,1000,1200,1400,1600,1800,2000,2100,2200][index]}));
+ranked.tierRequirements=['黑铁','青铜','白银','黄金','翡翠','钻石','大师','宗师','王者'].map((tier,index)=>({tier,badge:`tier-${index}`,minAbilityScore:[0,800,1000,1200,1600,1800,2000,2100,2200][index]}));
 const hub={settings:{githubRepo:'3097729287/acm-algo-trainer',accounts:{},autoSync:false,intervalHours:6,minDifficulty:0,maxDifficulty:2199},sync:{busy:false},updates:{currentVersion:'1.1.5'},accounts:[],notifications:[]};
 await page.addInitScript(()=>localStorage.setItem('tb.preferences',JSON.stringify({theme:'dark',accent:'teal',backdrop:'aurora',panelOpacity:35,widgets:true,fontSize:16,navOrder:['mine','library','competitions','mock','rankings','growth','records','activity','lectures'],views:[]})));
 await page.route('**/api/**',async route=>{
@@ -168,7 +168,7 @@ try {
   await page.getByRole('tooltip').filter({hasText:'经验值:665/1,600'}).waitFor();
   await page.getByRole('button',{name:'训练概览',exact:true}).click();
   await page.getByText('段位要求',{exact:true}).click();
-  assert.equal(await page.getByRole('table',{name:'段位能力分要求',exact:true}).locator('tbody tr').count(),10);
+  assert.equal(await page.getByRole('table',{name:'段位能力分要求',exact:true}).locator('tbody tr').count(),9);
   await page.keyboard.press('Escape');
   await page.getByRole('button',{name:'设置头像',exact:true}).click();
   await page.getByRole('region',{name:'头像设置',exact:true}).waitFor();

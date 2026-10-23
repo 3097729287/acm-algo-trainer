@@ -221,7 +221,6 @@ button.update-notification-main:hover strong { color: var(--accent); }
 .knowledge-chevron { margin-left:auto; transition:transform .15s; }
 .knowledge-details[open] > summary .knowledge-chevron { transform:rotate(90deg); }
 
-.tier-0 { --tier-color:#9c9ca5; } .tier-1 { --tier-color:#c48a60; } .tier-2 { --tier-color:#c7d0df; } .tier-3 { --tier-color:#efc35e; } .tier-4 { --tier-color:#68c9d0; } .tier-5 { --tier-color:#55cf98; } .tier-6 { --tier-color:#74b5ff; } .tier-7 { --tier-color:#bc8aff; } .tier-8 { --tier-color:#f18ba8; } .tier-9 { --tier-color:#ffb54f; }
 .progress-level-badge[class*="tier-"] { color:var(--tier-color); border:2px solid var(--tier-color); background:color-mix(in srgb,var(--tier-color) 12%,var(--panel)); box-shadow:0 0 14px color-mix(in srgb,var(--tier-color) 18%,transparent); }
 .topbar-overview[class*="tier-"] { color:var(--tier-color); border-color:var(--tier-color); }
 .progress-level-badge small { font-size:.68rem; } .profile-edit > summary { cursor:pointer; color:var(--accent); margin-top:12px; } .rank-rules summary { cursor:pointer; } .topbar-daily-ac { white-space:nowrap; }
