@@ -27,11 +27,17 @@ def release(version='0.10.0'):
 
 def idle(service):
     deadline = time.monotonic() + 5
-    while service.snapshot()['status'] in {'checking', 'downloading'}:
+    while True:
+        snapshot = service.snapshot()
+        # Automatic checks briefly expose "available" before starting the
+        # download. It is terminal only for a manual check.
+        pending = snapshot['status'] in {'checking', 'downloading'} or (
+            snapshot['status'] == 'available' and service.automatic and not service.stop.is_set())
+        if not pending:
+            return snapshot
         if time.monotonic() > deadline:
             raise AssertionError('Updater fixture timed out')
         time.sleep(.01)
-    return service.snapshot()
 
 
 def wait_for(service, status):

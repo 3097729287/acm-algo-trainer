@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, Pause, Play, RotateCcw } from 'lucide-react';
 import { EXPEDITION, EXPEDITION_CAPACITY, traceKnapsack } from './knapsackModel.js';
 import { ChoiceCheck, Feedback, NumberCheck } from './LabParts.jsx';
 import { RowReuseDemo } from './KnapsackFoundations.jsx';
+import { KnapsackReadWriteMotion } from './KnapsackMotion.jsx';
 
 function TracePlayer({ items, capacity, direction }) {
   const model = useMemo(() => traceKnapsack(items, capacity, direction), [items, capacity, direction]);
@@ -33,6 +34,7 @@ function TracePlayer({ items, capacity, direction }) {
     <div className="lab-trace-items">{items.map((item, i) => <div key={item.id} data-current={frame?.i === i}><b>{item.id}</b><span>重量 <code>w[{i + 1}] = {item.weight}</code></span><span className="lab-item-value" data-active={frame?.i === i}>价值 <code>v[{i + 1}] = {item.value}</code>{frame?.i === i && <small>参与本步比较</small>}</span></div>)}</div>
     <p className="lab-caption">每个格子对应一个容量上限，各自保存最大价值。数字下方附上对应的一种装法。</p>
     <div className="lab-array-scroll" ref={array}><div className="lab-array" style={{ '--lab-cells': capacity + 1 }}>{values.map((value, c) => <div className="lab-array-cell" key={c} data-capacity={c} data-focus={frame?.c === c ? 'target' : frame?.source === c ? 'source' : ''}><small>dp[{c}]</small><strong>{value}</strong><span className="lab-array-plan">{frame ? planName(frame.choices[c]) : '空背包'}</span><span>{frame?.c === c ? '写入比较结果' : frame?.source === c ? '读取来源答案' : '\u00a0'}</span><em>{!frame ? '未处理物品' : c >= frame.item.weight && (direction === 'down' ? c >= frame.c : c <= frame.c) ? '本轮已更新' : '仍是上一轮'}</em></div>)}</div></div>
+    <KnapsackReadWriteMotion frame={frame} speed={speed}/>
     <div className="lab-trace-explanation" aria-live="polite">{!frame ? <p>dp 起初存的是第 0 行：还没有处理任何物品，所有容量的最大价值都是 0。点“下一步”，读取第 1 条物品数据。</p> : <>
       <div className="lab-trace-equation"><code><span className="lab-term-target">dp[{frame.c}]</span> ← max(dp[{frame.c}], <span className="lab-term-source">dp[{frame.source}]</span> + <span className="lab-term-value">v[{frame.i + 1}]</span>)</code></div>
       <div className="lab-trace-candidates" aria-label="写入前比较的两个价值">

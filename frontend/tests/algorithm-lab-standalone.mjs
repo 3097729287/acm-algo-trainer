@@ -12,7 +12,7 @@ process.env.TB_OFFLINE = '1';
 const repo = fileURLToPath(new URL('../../', import.meta.url));
 const output = path.join(repo, '.backups/algorithm-lab-standalone-20261022/ui');
 const installed = path.resolve(process.env.TB_LAB_INSTALLED || path.resolve(repo, '../../版本/算法实验室体验版'));
-const archive = path.resolve(installed, '../背包DP-独立体验版.zip');
+const archive = path.resolve(installed, '../算法实验室-独立体验版.zip');
 const fresh = path.join(output, 'fresh-install');
 await mkdir(fresh, { recursive: true });
 execFileSync('powershell.exe', ['-NoProfile', '-Command', 'Expand-Archive -LiteralPath $env:TB_LAB_PACKAGE_ZIP -DestinationPath $env:TB_LAB_FRESH_DIR -Force'], {
@@ -62,6 +62,7 @@ const cell = (items, capacity) => page.getByRole('button', { name: new RegExp(`^
 
 try {
   await page.goto(pathToFileURL(entry).href);
+  await page.getByRole('region', { name: '背包 DP', exact: true }).getByRole('button', { name: '学算法', exact: true }).click();
   await page.getByRole('heading', { name: /背包只有 5 格/ }).waitFor();
   assert.deepEqual(await passed(), {}, 'fresh package starts with no progress');
   assert.equal(await page.getByRole('navigation', { name: '课程章节' }).count(), 0, 'menu starts collapsed');
@@ -69,10 +70,10 @@ try {
   assert.equal(await page.getByRole('button', { name: '上一页', exact: true }).isDisabled(), true);
   await page.getByRole('button', { name: '下一页', exact: true }).click();
   await page.getByRole('heading', { name: /把大问题拆小/ }).waitFor();
-  await page.evaluate(() => scrollTo(0, document.body.scrollHeight));
+  await page.locator('.lab-lesson').evaluate(node => { node.scrollTop = node.scrollHeight; });
   const nextPage = await page.getByRole('button', { name: '下一页', exact: true }).boundingBox();
   const lessonBox = await page.locator('.lab-lesson').boundingBox();
-  assert.ok(nextPage.y >= 0 && nextPage.y < 1000 && nextPage.x >= lessonBox.x + lessonBox.width, 'page navigation remains visible beside the lesson when reading the bottom');
+  assert.ok(nextPage.y >= 0 && nextPage.y + nextPage.height <= lessonBox.y + 1, 'top navigation remains visible above the independently scrolling lesson');
   await page.getByRole('button', { name: '上一页', exact: true }).click();
   assert.equal(await page.locator('progress,.lab-sidebar,.lab-check-label').count(), 0);
   assert.ok(!/从一次选择|课堂检验|本节|任务 001|装备 A/.test(await page.locator('body').innerText()));
@@ -341,6 +342,7 @@ try {
   const limited = await blockedStorage.newPage();
   await limited.goto(pathToFileURL(entry).href);
   await limited.getByText('浏览器禁止保存，关闭页面后本次进度会丢失。', { exact: true }).waitFor();
+  await limited.getByRole('region', { name: '背包 DP', exact: true }).getByRole('button', { name: '学算法', exact: true }).click();
   await limited.getByRole('button', { name: /^A 对讲机/ }).click();
   assert.match(await limited.locator('.lab-bag-top').innerText(), /4 \/ 5 格/);
   await blockedStorage.close();

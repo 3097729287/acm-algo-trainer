@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ArrowRight, Backpack, Check, Flashlight, HeartPulse, Radio } from 'lucide-react';
 import { EXPEDITION, EXPEDITION_CAPACITY as CAPACITY, EXPEDITION_OPTIMUM } from './knapsackModel.js';
 import { BagSlots, ChoiceCheck, Feedback, Hints } from './LabParts.jsx';
+import { KnapsackChoiceFilm } from './KnapsackMotion.jsx';
 
 export default function PackingExperiment(props) {
   const { drafts, updateDraft, onPass } = props;
@@ -19,6 +20,7 @@ export default function PackingExperiment(props) {
       { id: 'combination', label: '整件选择会占住容量，要比较组合', feedback: '对。只拿 A 得到 7，拿 B 和 C 得到 8。需要把“拿”和“不拿”两种选择都考虑到。' },
       { id: 'small', label: '以后总选重量最小的就行', feedback: '若容量 3，两件物品分别是（重量 1，价值 1）和（重量 3，价值 100），先拿小件也会错。' },
     ]} answer="combination" {...props}/>
+    <KnapsackChoiceFilm/>
     <p className="lab-caption">每件只能“不拿”或“拿一次”，所以叫 <b>0/1 背包</b>。物品一多，试遍所有组合就很慢。下一节，把小背包的答案记下来重复使用。</p>
   </>;
 }

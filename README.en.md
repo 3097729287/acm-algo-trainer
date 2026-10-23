@@ -10,6 +10,8 @@ TB combines a problem library, illustrated editorials, a C++ / Python editor, lo
 
 Individual editorial refinement and reading review are tracked separately and remain incomplete; this software release does not mark that review complete. [Authoring workflow](docs/algorithm-lab-authoring.md).
 
+**Local desktop 1.4.2 update, not publicly released:** Algorithm Lab adds prefix sums with difference arrays and two pointers, seven lessons and five guided problems each. Knapsack DP adds animated choice comparisons and synchronized read/write flows. The normal desktop program contains 21 lessons and 15 guided problems, preserving progress. Future validated feature and teaching updates are packaged directly; standalone previews are not the default delivery. [Content and validation](docs/algorithm-lab-sequences.md).
+
 [Website](https://3097729287.github.io/acm-algo-trainer/) · [Usage](docs/usage.md) · [Development](docs/development.md) · [中文](README.md)
 
 ![TB workbench](docs/assets/workbench.png)
@@ -81,7 +83,7 @@ Save drafts and exit TB before installing into the existing directory. Personal 
 
 ## Library and progression
 
-The public seed retains **5,824 original problem entries, 2,427 statements, 1,307 default editorials, 1,307 detailed editorials and 443 lectures**. The UI deduplicates original tasks while preserving aliases, content and work. Uncached statements require connectivity. New editorial work is limited to verified problem difficulty at most 2200, including 2200. [Editorial policy](docs/editorial-policy.md).
+The local 1.4.2 public seed retains **5,834 original problem entries, 2,437 statements, 1,317 default editorials, 1,317 detailed editorials and 445 lectures**. This adds ten curated lab problems and their material to stable 1.4.1 and remains unpublished. The UI deduplicates original tasks while preserving aliases, content and work. Uncached statements require connectivity. New editorial work is limited to verified problem difficulty at most 2200, including 2200. [Editorial policy](docs/editorial-policy.md).
 
 XP levels and skill tiers are independent. Level 5 unlocks placement; at least five distinct, verified, independent first official ACs are required. Ability is the median difficulty of the strongest five. Iron through King starts at **0, 800, 1000, 1200, 1600, 1800, 2000, 2100 and 2200**. This is a training estimate, not a direct copy of an original-site account rating. [Progression rules](docs/progression.md).
 

@@ -2,13 +2,13 @@ import { build } from 'vite';
 import react from '@vitejs/plugin-react';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const frontend = fileURLToPath(new URL('../', import.meta.url)), repo = path.resolve(frontend, '..');
 const output = path.resolve(process.argv[2] || path.join(repo, '../../版本/算法实验室体验版'));
-const archive = path.join(path.dirname(output), '背包DP-独立体验版.zip');
+const archive = path.join(path.dirname(output), '算法实验室-独立体验版.zip');
 const result = await build({
   configFile: false, root: frontend, plugins: [react()], define: { 'process.env.NODE_ENV': JSON.stringify('production') },
   build: { target: 'es2022', write: false, sourcemap: false, minify: true, cssCodeSplit: false,
@@ -19,23 +19,24 @@ const chunks = (Array.isArray(result) ? result : [result]).flatMap(part => part.
 const script = chunks.filter(part => part.type === 'chunk').map(part => part.code).join('\n');
 const css = chunks.filter(part => part.type === 'asset' && part.fileName.endsWith('.css')).map(part => String(part.source)).join('\n');
 if (!script || !css || chunks.some(part => part.type === 'chunk' && (part.imports.length || part.dynamicImports.length))) throw Error('Expected one self-contained app with inline styles.');
-const html = `<!doctype html>\n<html lang="zh-CN" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark light"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'"><title>背包 DP · 互动课</title><style>${css.replace(/<\/style/gi, '<\\/style')}</style></head><body><div id="root"></div><noscript>请启用浏览器 JavaScript 后打开互动课。</noscript><script>${script.replace(/<\/script/gi, '<\\/script')}</script></body></html>\n`;
+const html = `<!doctype html>\n<html lang="zh-CN" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark light"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'"><title>算法实验室 · 互动课</title><style>${css.replace(/<\/style/gi, '<\\/style')}</style></head><body><div id="root"></div><noscript>请启用浏览器 JavaScript 后打开互动课。</noscript><script>${script.replace(/<\/script/gi, '<\\/script')}</script></body></html>\n`;
 const sourcePaths = [
   'frontend/standalone/main.jsx', 'frontend/standalone/KnapsackApp.jsx', 'frontend/standalone/labShell.css',
-  ...['KnapsackCourse.jsx', 'KnapsackLab.jsx', 'PackingExperiment.jsx', 'StateExperiment.jsx', 'KnapsackFoundations.jsx', 'KnapsackExperiments.jsx', 'KnapsackChallenges.jsx', 'GuidedWorkshop.jsx', 'guidedProblems.js', 'LabParts.jsx', 'knapsackModel.js', 'knapsackCourse.js', 'algorithmLab.css'].map(name => `frontend/src/pages/algorithm-lab/${name}`),
+  'frontend/src/pages/LearningPathsPage.jsx', 'frontend/src/components/PageSearch.jsx',
+  ...(await readdir(path.join(frontend, 'src/pages/algorithm-lab'))).filter(name => /\.(jsx?|css)$/.test(name)).map(name => `frontend/src/pages/algorithm-lab/${name}`),
   'frontend/scripts/build-algorithm-lab.mjs',
 ];
 const sha256 = content => createHash('sha256').update(content).digest('hex');
 const sources = await Promise.all(sourcePaths.map(async file => ({ path: file, sha256: sha256(await readFile(path.join(repo, file))) })));
 let sourceBaseline = 'unavailable';
 try { sourceBaseline = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: repo, encoding: 'utf8', windowsHide: true }).trim(); } catch { /* A source export may have no .git directory. */ }
-const VERSION = '0.4.1';
-const info = { product: '背包 DP · 独立互动课', version: VERSION, status: 'standalone preview; not a TB release', builtAt: new Date().toISOString(), sourceBaseline, sourceIdentity: 'SHA-256 manifest of the working sources below', sources, files: { '开始体验.html': sha256(html) } };
+const VERSION = '0.5.0';
+const info = { product: '算法实验室 · 独立互动课', version: VERSION, courses: ['前缀和与差分', '双指针算法', '背包 DP'], lessons: 21, guidedProblems: 15, status: 'standalone preview; not a TB release', builtAt: new Date().toISOString(), sourceBaseline, sourceIdentity: 'SHA-256 manifest of the working sources below', sources, files: { '开始体验.html': sha256(html) } };
 const licenses = await Promise.all(['react', 'react-dom', 'lucide-react'].map(async name => `${name}\n${await readFile(path.join(frontend, 'node_modules', name, 'LICENSE'), 'utf8')}`));
 const files = {
   '开始体验.html': html,
-  '使用说明.txt': `背包 DP · 独立互动课 ${VERSION}\r\n\r\n解压整个压缩包后，双击“开始体验.html”，用 Edge 或 Chrome 打开。\r\n无需安装、联网或启动服务器。顶部“目录”可切换七节课程。最后一课结束后可进入五道精选跟做题。\r\n输入、提示和练习进度保存在当前浏览器中；关闭再开可以继续。\r\n换浏览器、移动文件位置或清除浏览器数据后，原进度可能无法继续。\r\n“打开原题”需要联网；C++ 完整程序请在自己的编译器中运行。\r\n\r\n这是可单独使用的体验包；TB 主应用另提供进入工作台实现的入口。\r\n`,
-  'README.en.txt': `Knapsack DP — standalone interactive course ${VERSION}\r\n\r\nExtract the ZIP and open 开始体验.html in Edge or Chrome.\r\nNo installation, network access or server is required for the course.\r\nThe top menu switches between seven lessons. At the end of the final lesson, continue to five selected guided problems. Progress stays in this browser.\r\nChanging browser or file location, or clearing browser data, may reset access to saved progress.\r\nThe optional original-problem link requires internet access. Run full C++ programs in your own compiler.\r\nThis preview is separate from the TB desktop application.\r\n`,
+  '使用说明.txt': `算法实验室 · 独立互动课 ${VERSION}\r\n\r\n解压后双击“开始体验.html”，用 Edge 或 Chrome 打开，无需安装、联网或启动服务器。\r\n目录有“前缀和与差分”“双指针算法”“背包 DP”，各七节互动课与五道精选跟做题。\r\n可以改数据、单步推演、移动边界、预测、修错，再独立实现 C++。方向键翻页；输入框内方向键仍供编辑使用。\r\n每个专题独立保存进度，关闭后可继续；旧背包进度沿用。换浏览器、文件位置或清空浏览器数据后，原进度可能无法继续。\r\n“打开原题”需要联网；完整 C++ 程序请在自己的编译器运行。课堂核对不产生正式 AC。\r\n\r\n这是独立体验包，不是 TB 主程序更新包。主应用源码已接入；是否已经打包安装请看本机“当前更新”。\r\n`,
+  'README.en.txt': `Algorithm Lab ${VERSION}\r\n\r\nExtract and open 开始体验.html in Edge or Chrome. No installation, network or server required.\r\nThree independent courses: prefix sums and difference arrays, two pointers, knapsack DP. Each has seven lessons and five guided problems.\r\nChange inputs, step through executions, move boundaries, predict results and repair counterexamples. Arrow keys navigate lessons outside editable controls.\r\nProgress stays in this browser. Existing knapsack progress is preserved. Changing browser or file location, or clearing browser data, may prevent restoring progress.\r\nOriginal-problem links require internet. Compile complete C++ programs in your own environment. Classroom checks do not count as official accepted submissions.\r\nThis standalone preview is separate from the TB desktop release.\r\n`,
   'LICENSES.txt': licenses.join('\n\n'),
   'BUILD-INFO.json': JSON.stringify(info, null, 2) + '\n',
 };

@@ -7,6 +7,7 @@ import { TraceExperiment } from './KnapsackExperiments.jsx';
 import StateExperiment from './StateExperiment.jsx';
 import { DebugWorkshop, PracticeWorkshop, TemplateWorkshop, TransferWorkshop } from './KnapsackChallenges.jsx';
 import './algorithmLab.css';
+import useCourseKeys from './useCourseKeys.js';
 
 export function labProgress(prefs) {
   const saved = prefs?.learningPaths?.knapsack?.labV1;
@@ -31,10 +32,11 @@ export default function KnapsackLab({ prefs, setPrefs, rows = [], onTrain, onGui
   const [menuOpen, setMenuOpen] = useState(false);
   const patch = update => setPrefs(previous => { const current = labProgress(previous), next = update(current); return { ...previous, learningPaths: { ...previous.learningPaths, knapsack: { ...previous.learningPaths?.knapsack, labV1: { ...next, version: 1 } } } }; });
   const navigate = id => { patch(current => ({ ...current, chapter: id })); setMenuOpen(false); };
+  useCourseKeys({index:chapterIndex,count:CHAPTERS.length,navigate:index=>navigate(CHAPTERS[index].id),menuOpen});
   const onPass = id => { if (CHECK_IDS.includes(id)) patch(current => current.passed[id] ? current : { ...current, passed: { ...current.passed, [id]: true } }); };
   const updateDraft = (id, value) => patch(current => ({ ...current, drafts: { ...current.drafts, [id]: value } }));
   useEffect(() => {
-    if (previousChapter.current !== chapter.id) { heading.current?.scrollIntoView({ block: 'start' }); heading.current?.focus({ preventScroll: true }); previousChapter.current = chapter.id; }
+    if (previousChapter.current !== chapter.id) { if(heading.current)heading.current.scrollTop=0; heading.current?.focus({ preventScroll: true }); previousChapter.current = chapter.id; }
   }, [chapter.id]);
   useEffect(() => {
     if (!menuOpen) return;
@@ -45,12 +47,12 @@ export default function KnapsackLab({ prefs, setPrefs, rows = [], onTrain, onGui
     return () => { document.removeEventListener('pointerdown', outside); document.removeEventListener('keydown', escape); };
   }, [menuOpen]);
   return <div className="algorithm-lab" aria-label="背包 DP">
-    <header className="lab-course-header">
+    <header className="lab-course-header"><div className="lab-header-actions">{headerActions}</div>
       <h1>背包 DP</h1><span className="lab-position">{chapterIndex + 1} / {CHAPTERS.length}</span>
     <aside className="lab-course-tools" aria-label="课程导航"><nav className="lab-page-navigation" aria-label="章节翻页"><button type="button" className="lab-icon-button" aria-label="上一页" title={chapterIndex ? `上一页：${CHAPTERS[chapterIndex - 1].title}` : '已经是第一页'} disabled={!chapterIndex} onClick={() => navigate(CHAPTERS[chapterIndex - 1].id)}><ArrowLeft size={18}/></button><button type="button" className="lab-icon-button" aria-label="下一页" title={chapterIndex < CHAPTERS.length - 1 ? `下一页：${CHAPTERS[chapterIndex + 1].title}` : '已经是最后一页'} disabled={chapterIndex === CHAPTERS.length - 1} onClick={() => navigate(CHAPTERS[chapterIndex + 1].id)}><ArrowRight size={18}/></button></nav><div className="lab-menu" ref={menu}>
         <button type="button" ref={menuButton} className="lab-menu-toggle" aria-label="目录" title="课程目录" aria-expanded={menuOpen} aria-controls="lab-chapters" onClick={() => setMenuOpen(value => !value)}><List size={17}/><span>目录</span></button>
         {menuOpen && <nav id="lab-chapters" aria-label="课程章节">{CHAPTERS.map((item, i) => <button type="button" key={item.id} aria-current={item.id === chapter.id ? 'step' : undefined} onClick={() => navigate(item.id)}><span>{String(i + 1).padStart(2, '0')}</span><b>{item.title}</b>{item.checks.every(id => saved.passed[id]) && <Check size={14} aria-label="已完成"/>}</button>)}</nav>}
-      </div></aside><div className="lab-header-actions">{headerActions}</div></header>
+      </div></aside></header>
     <main className="lab-lesson" ref={heading} tabIndex={-1} aria-label={chapter.title}>
       <Content key={chapter.id} drafts={saved.drafts} passed={saved.passed} onPass={onPass} updateDraft={updateDraft} rows={rows} onTrain={onTrain} onGuided={onGuided}/>
     </main>

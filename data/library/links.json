@@ -32224,5 +32224,149 @@
     "lecture_id": "lecture:foundation-integer",
     "position": 4,
     "problem_id": "练习赛 157::F"
+  },
+  {
+    "problem_id": "lab:codeforces:363B",
+    "lecture_id": "lecture:foundation-vector",
+    "kind": "explicit",
+    "position": "2"
+  },
+  {
+    "problem_id": "lab:codeforces:363B",
+    "lecture_id": "lecture:sequence-prefix-difference",
+    "kind": "explicit",
+    "position": "1"
+  },
+  {
+    "problem_id": "lab:codeforces:433B",
+    "lecture_id": "lecture:foundation-vector",
+    "kind": "explicit",
+    "position": "2"
+  },
+  {
+    "problem_id": "lab:codeforces:433B",
+    "lecture_id": "lecture:foundation-sort",
+    "kind": "explicit",
+    "position": "3"
+  },
+  {
+    "problem_id": "lab:codeforces:433B",
+    "lecture_id": "lecture:sequence-prefix-difference",
+    "kind": "explicit",
+    "position": "1"
+  },
+  {
+    "problem_id": "lab:codeforces:816B",
+    "lecture_id": "lecture:foundation-vector",
+    "kind": "explicit",
+    "position": "2"
+  },
+  {
+    "problem_id": "lab:codeforces:816B",
+    "lecture_id": "lecture:sequence-prefix-difference",
+    "kind": "explicit",
+    "position": "1"
+  },
+  {
+    "problem_id": "lab:codeforces:295A",
+    "lecture_id": "lecture:foundation-vector",
+    "kind": "explicit",
+    "position": "2"
+  },
+  {
+    "problem_id": "lab:codeforces:295A",
+    "lecture_id": "lecture:sequence-prefix-difference",
+    "kind": "explicit",
+    "position": "1"
+  },
+  {
+    "problem_id": "lab:codeforces:276C",
+    "lecture_id": "lecture:foundation-vector",
+    "kind": "explicit",
+    "position": "2"
+  },
+  {
+    "problem_id": "lab:codeforces:276C",
+    "lecture_id": "lecture:foundation-sort",
+    "kind": "explicit",
+    "position": "3"
+  },
+  {
+    "problem_id": "lab:codeforces:276C",
+    "lecture_id": "lecture:sequence-prefix-difference",
+    "kind": "explicit",
+    "position": "1"
+  },
+  {
+    "problem_id": "lab:codeforces:381A",
+    "lecture_id": "lecture:foundation-vector",
+    "kind": "explicit",
+    "position": "2"
+  },
+  {
+    "problem_id": "lab:codeforces:381A",
+    "lecture_id": "lecture:sequence-two-pointers",
+    "kind": "explicit",
+    "position": "1"
+  },
+  {
+    "problem_id": "lab:codeforces:1538C",
+    "lecture_id": "lecture:foundation-vector",
+    "kind": "explicit",
+    "position": "2"
+  },
+  {
+    "problem_id": "lab:codeforces:1538C",
+    "lecture_id": "lecture:foundation-sort",
+    "kind": "explicit",
+    "position": "3"
+  },
+  {
+    "problem_id": "lab:codeforces:1538C",
+    "lecture_id": "lecture:sequence-two-pointers",
+    "kind": "explicit",
+    "position": "1"
+  },
+  {
+    "problem_id": "lab:codeforces:279B",
+    "lecture_id": "lecture:foundation-vector",
+    "kind": "explicit",
+    "position": "2"
+  },
+  {
+    "problem_id": "lab:codeforces:279B",
+    "lecture_id": "lecture:sequence-two-pointers",
+    "kind": "explicit",
+    "position": "1"
+  },
+  {
+    "problem_id": "lab:codeforces:580B",
+    "lecture_id": "lecture:foundation-vector",
+    "kind": "explicit",
+    "position": "2"
+  },
+  {
+    "problem_id": "lab:codeforces:580B",
+    "lecture_id": "lecture:foundation-sort",
+    "kind": "explicit",
+    "position": "3"
+  },
+  {
+    "problem_id": "lab:codeforces:580B",
+    "lecture_id": "lecture:sequence-two-pointers",
+    "kind": "explicit",
+    "position": "1"
+  },
+  {
+    "problem_id": "lab:codeforces:701C",
+    "lecture_id": "lecture:foundation-vector",
+    "kind": "explicit",
+    "position": "2"
+  },
+  {
+    "problem_id": "lab:codeforces:701C",
+    "lecture_id": "lecture:sequence-two-pointers",
+    "kind": "explicit",
+    "position": "1"
   }
 ]

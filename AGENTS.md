@@ -2,6 +2,8 @@
 
 TB is the primary product. Active code belongs in `frontend/`, `backend/`, `desktop/`, and `server/leaderboard/`.
 
+- Delivery preference (user instruction 2026-10-24): after validating TB features or teaching updates, package them into the normal desktop program and deliver the local upgrade directly. Do not default to a standalone preview, ask the user to experiment first, or stop with unpackaged source. Do not ask again whether to package. Preserve isolated install/upgrade checks and personal-data backups. This authorizes local delivery, not automatic public publication or service deployment; interactive teaching experiments remain part of Algorithm Lab.
+
 - Read `docs/architecture.md` before changing storage, API boundaries, or packaging.
 - Back up existing files before editing. Keep backups outside source directories, in `.backups/`. Verify moved source files by SHA-256.
 - Keep the original educational archive and users' live installations read-only during development. Use temporary state for every test. Set `TB_OFFLINE=1` unless a test supplies its own local service.

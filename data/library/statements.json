@@ -69705,5 +69705,346 @@
       "url": "https://ac.nowcoder.com/acm/contest/140236/F"
     },
     "problem_id": "练习赛 157::F"
+  },
+  {
+    "problem_id": "lab:codeforces:363B",
+    "content": {
+      "id": "lab:codeforces:363B",
+      "title": "Fence",
+      "url": "https://codeforces.com/problemset/problem/363/B",
+      "markdown": "# Fence\n\n原题：[Codeforces 363B](https://codeforces.com/problemset/problem/363/B)。以下为保留全部算法条件的中文简述；情节文字从简。\n\n## 题目\n\nn 块木板从左到右排列，第 i 块高 h[i]。恰好拆掉连续 k 块，让高度之和最小，输出这一段的起点；有多个答案可以输出任意一个。\n\n## 输入、输出与数据范围\n\n1≤k≤n≤150000，1≤h[i]≤100。输入 n k，然后 n 个高度；输出一个从 1 开始的下标。\n",
+      "samples": [
+        {
+          "name": "原站样例 1",
+          "input": "7 3\n1 2 6 1 1 7 1\n",
+          "output": "3"
+        }
+      ],
+      "limits": {
+        "timeMs": 1000,
+        "memoryMb": 256
+      },
+      "statementAvailable": true,
+      "statementVersion": 3,
+      "officialTags": [
+        "brute force",
+        "dp"
+      ],
+      "sourceCheckedAt": "2026-10-23",
+      "restatement": true
+    }
+  },
+  {
+    "problem_id": "lab:codeforces:433B",
+    "content": {
+      "id": "lab:codeforces:433B",
+      "title": "Kuriyama Mirai's Stones",
+      "url": "https://codeforces.com/problemset/problem/433/B",
+      "markdown": "# Kuriyama Mirai's Stones\n\n原题：[Codeforces 433B](https://codeforces.com/problemset/problem/433/B)。以下为保留全部算法条件的中文简述；情节文字从简。\n\n## 题目\n\n给 n 块石头的价值。询问 type=1 时求原顺序第 l～r 块之和；type=2 时求按价值非递减排序后第 l～r 块之和。数组不会修改。\n\n## 输入、输出与数据范围\n\nn,m≤100000，1≤v[i]≤10⁹。输入 n、n 个价值、m，再输入 m 行 type l r。每问输出一个和。\n",
+      "samples": [
+        {
+          "name": "原站样例 1",
+          "input": "6\n6 4 2 7 2 7\n3\n2 3 6\n1 3 4\n1 1 6\n",
+          "output": "24\n9\n28"
+        },
+        {
+          "name": "原站样例 2",
+          "input": "4\n5 5 2 3\n10\n1 2 4\n2 1 4\n1 1 1\n2 1 4\n2 1 2\n1 1 1\n1 3 3\n1 1 3\n1 4 4\n1 2 2\n",
+          "output": "10\n15\n5\n15\n5\n5\n2\n12\n3\n5"
+        }
+      ],
+      "limits": {
+        "timeMs": 2000,
+        "memoryMb": 256
+      },
+      "statementAvailable": true,
+      "statementVersion": 3,
+      "officialTags": [
+        "dp",
+        "implementation",
+        "sortings"
+      ],
+      "sourceCheckedAt": "2026-10-23",
+      "restatement": true
+    }
+  },
+  {
+    "problem_id": "lab:codeforces:816B",
+    "content": {
+      "id": "lab:codeforces:816B",
+      "title": "Karen and Coffee",
+      "url": "https://codeforces.com/problemset/problem/816/B",
+      "markdown": "# Karen and Coffee\n\n原题：[Codeforces 816B](https://codeforces.com/problemset/problem/816/B)。以下为保留全部算法条件的中文简述；情节文字从简。\n\n## 题目\n\nn 份配方各推荐一个包含端点的整数温度区间 [l,r]。一个温度若被至少 k 份配方推荐就合格。q 次询问 [a,b] 内有多少个合格整数温度。\n\n## 输入、输出与数据范围\n\n1≤k≤n≤200000，q≤200000；配方端点及询问端点都在 1～200000。输入 n k q、n 个配方区间，再输入 q 个查询区间。\n",
+      "samples": [
+        {
+          "name": "原站样例 1",
+          "input": "3 2 4\n91 94\n92 97\n97 99\n92 94\n93 97\n95 96\n90 100\n",
+          "output": "3\n3\n0\n4"
+        },
+        {
+          "name": "原站样例 2",
+          "input": "2 1 1\n1 1\n200000 200000\n90 100\n",
+          "output": "0"
+        }
+      ],
+      "limits": {
+        "timeMs": 2500,
+        "memoryMb": 512
+      },
+      "statementAvailable": true,
+      "statementVersion": 3,
+      "officialTags": [
+        "binary search",
+        "data structures",
+        "implementation"
+      ],
+      "sourceCheckedAt": "2026-10-23",
+      "restatement": true
+    }
+  },
+  {
+    "problem_id": "lab:codeforces:295A",
+    "content": {
+      "id": "lab:codeforces:295A",
+      "title": "Greg and Array",
+      "url": "https://codeforces.com/problemset/problem/295/A",
+      "markdown": "# Greg and Array\n\n原题：[Codeforces 295A](https://codeforces.com/problemset/problem/295/A)。以下为保留全部算法条件的中文简述；情节文字从简。\n\n## 题目\n\n给 n 个初值和 m 个操作。操作 i 会给数组 [l[i],r[i]] 加 d[i]。再给 k 条指令，每条 [x,y] 要执行操作编号 x～y 各一次。输出所有指令执行后的数组。\n\n## 输入、输出与数据范围\n\nn,m,k≤100000，0≤a[i],d[i]≤100000；操作区间在 1～n，指令区间在 1～m。输入 n m k、数组、m 个 l r d，再输入 k 个 x y。\n",
+      "samples": [
+        {
+          "name": "原站样例 1",
+          "input": "3 3 3\n1 2 3\n1 2 1\n1 3 2\n2 3 4\n1 2\n1 3\n2 3\n",
+          "output": "9 18 17"
+        },
+        {
+          "name": "原站样例 2",
+          "input": "1 1 1\n1\n1 1 1\n1 1\n",
+          "output": "2"
+        },
+        {
+          "name": "原站样例 3",
+          "input": "4 3 6\n1 2 3 4\n1 2 1\n2 3 2\n3 4 4\n1 2\n1 3\n2 3\n1 2\n1 3\n2 3\n",
+          "output": "5 18 31 20"
+        }
+      ],
+      "limits": {
+        "timeMs": 1500,
+        "memoryMb": 256
+      },
+      "statementAvailable": true,
+      "statementVersion": 3,
+      "officialTags": [
+        "data structures",
+        "implementation"
+      ],
+      "sourceCheckedAt": "2026-10-23",
+      "restatement": true
+    }
+  },
+  {
+    "problem_id": "lab:codeforces:276C",
+    "content": {
+      "id": "lab:codeforces:276C",
+      "title": "Little Girl and Maximum Sum",
+      "url": "https://codeforces.com/problemset/problem/276/C",
+      "markdown": "# Little Girl and Maximum Sum\n\n原题：[Codeforces 276C](https://codeforces.com/problemset/problem/276/C)。以下为保留全部算法条件的中文简述；情节文字从简。\n\n## 题目\n\n给 n 个数和 q 个区间求和询问。可以在回答前任意重排原数组一次，目标是让所有询问答案的总和最大。只输出这个最大总和。\n\n## 输入、输出与数据范围\n\nn,q≤200000，1≤a[i]≤200000。输入 n q、n 个数，再输入 q 行 l r。\n",
+      "samples": [
+        {
+          "name": "原站样例 1",
+          "input": "3 3\n5 3 2\n1 2\n2 3\n1 3\n",
+          "output": "25"
+        },
+        {
+          "name": "原站样例 2",
+          "input": "5 3\n5 2 4 1 3\n1 5\n2 3\n2 3\n",
+          "output": "33"
+        }
+      ],
+      "limits": {
+        "timeMs": 1000,
+        "memoryMb": 256
+      },
+      "statementAvailable": true,
+      "statementVersion": 3,
+      "officialTags": [
+        "data structures",
+        "greedy",
+        "implementation",
+        "sortings"
+      ],
+      "sourceCheckedAt": "2026-10-23",
+      "restatement": true
+    }
+  },
+  {
+    "problem_id": "lab:codeforces:381A",
+    "content": {
+      "id": "lab:codeforces:381A",
+      "title": "Sereja and Dima",
+      "url": "https://codeforces.com/problemset/problem/381/A",
+      "markdown": "# Sereja and Dima\n\n原题：[Codeforces 381A](https://codeforces.com/problemset/problem/381/A)。以下为保留全部算法条件的中文简述；情节文字从简。\n\n## 题目\n\n一排牌的数值互不相同。Sereja 先手，两人交替从当前最左或最右取一张，并且每次都取两端中数值较大的牌。输出两人的最终得分。\n\n## 输入、输出与数据范围\n\n1≤n≤1000，牌值是 1～1000 的互不相同整数。输入 n 和牌序列；输出先手与后手得分。\n",
+      "samples": [
+        {
+          "name": "原站样例 1",
+          "input": "4\n4 1 2 10\n",
+          "output": "12 5"
+        },
+        {
+          "name": "原站样例 2",
+          "input": "7\n1 2 3 4 5 6 7\n",
+          "output": "16 12"
+        }
+      ],
+      "limits": {
+        "timeMs": 1000,
+        "memoryMb": 256
+      },
+      "statementAvailable": true,
+      "statementVersion": 3,
+      "officialTags": [
+        "greedy",
+        "implementation",
+        "two pointers"
+      ],
+      "sourceCheckedAt": "2026-10-23",
+      "restatement": true
+    }
+  },
+  {
+    "problem_id": "lab:codeforces:1538C",
+    "content": {
+      "id": "lab:codeforces:1538C",
+      "title": "Number of Pairs",
+      "url": "https://codeforces.com/problemset/problem/1538/C",
+      "markdown": "# Number of Pairs\n\n原题：[Codeforces 1538C](https://codeforces.com/problemset/problem/1538/C)。以下为保留全部算法条件的中文简述；情节文字从简。\n\n## 题目\n\n多组数据，每组给 n 个整数和闭区间 [L,R]。数有多少对不同位置 i<j，满足 L≤a[i]+a[j]≤R。相同数值的不同位置仍是不同对。\n\n## 输入、输出与数据范围\n\nt≤10000，所有组 n 之和≤200000；n≤200000，1≤a[i]≤10⁹，1≤L≤R≤10⁹。每组输出一个对数。\n",
+      "samples": [
+        {
+          "name": "原站样例 1",
+          "input": "4\n3 4 7\n5 1 2\n5 5 8\n5 1 2 4 3\n4 100 1000\n1 1 1 1\n5 9 13\n2 5 5 1 1\n",
+          "output": "2\n7\n0\n1"
+        }
+      ],
+      "limits": {
+        "timeMs": 2000,
+        "memoryMb": 256
+      },
+      "statementAvailable": true,
+      "statementVersion": 3,
+      "officialTags": [
+        "binary search",
+        "data structures",
+        "math",
+        "two pointers"
+      ],
+      "sourceCheckedAt": "2026-10-23",
+      "restatement": true
+    }
+  },
+  {
+    "problem_id": "lab:codeforces:279B",
+    "content": {
+      "id": "lab:codeforces:279B",
+      "title": "Books",
+      "url": "https://codeforces.com/problemset/problem/279/B",
+      "markdown": "# Books\n\n原题：[Codeforces 279B](https://codeforces.com/problemset/problem/279/B)。以下为保留全部算法条件的中文简述；情节文字从简。\n\n## 题目\n\nn 本书按给定顺序排列，第 i 本读完需 a[i] 分钟。任选起点，之后连续往右读，每本都要读完。可用时间 t，最多能读几本？\n\n## 输入、输出与数据范围\n\n1≤n≤100000，1≤t≤10⁹，1≤a[i]≤10000。输入 n t、n 个阅读时间，输出最大本数。\n",
+      "samples": [
+        {
+          "name": "原站样例 1",
+          "input": "4 5\n3 1 2 1\n",
+          "output": "3"
+        },
+        {
+          "name": "原站样例 2",
+          "input": "3 3\n2 2 3\n",
+          "output": "1"
+        }
+      ],
+      "limits": {
+        "timeMs": 2000,
+        "memoryMb": 256
+      },
+      "statementAvailable": true,
+      "statementVersion": 3,
+      "officialTags": [
+        "binary search",
+        "brute force",
+        "implementation",
+        "two pointers"
+      ],
+      "sourceCheckedAt": "2026-10-23",
+      "restatement": true
+    }
+  },
+  {
+    "problem_id": "lab:codeforces:580B",
+    "content": {
+      "id": "lab:codeforces:580B",
+      "title": "Kefa and Company",
+      "url": "https://codeforces.com/problemset/problem/580/B",
+      "markdown": "# Kefa and Company\n\n原题：[Codeforces 580B](https://codeforces.com/problemset/problem/580/B)。以下为保留全部算法条件的中文简述；情节文字从简。\n\n## 题目\n\n每位朋友有财富 m[i] 和友谊值 s[i]。选一些朋友，任何两人的财富差都必须严格小于 d，让友谊值总和最大。Kefa 自己不参与财富比较。\n\n## 输入、输出与数据范围\n\n1≤n≤100000，1≤d≤10⁹；0≤m[i],s[i]≤10⁹。输入 n d，再输入 n 行 m s，输出最大友谊值总和。\n",
+      "samples": [
+        {
+          "name": "原站样例 1",
+          "input": "4 5\n75 5\n0 100\n150 20\n75 1\n",
+          "output": "100"
+        },
+        {
+          "name": "原站样例 2",
+          "input": "5 100\n0 7\n11 32\n99 10\n46 8\n87 54\n",
+          "output": "111"
+        }
+      ],
+      "limits": {
+        "timeMs": 2000,
+        "memoryMb": 256
+      },
+      "statementAvailable": true,
+      "statementVersion": 3,
+      "officialTags": [
+        "binary search",
+        "sortings",
+        "two pointers"
+      ],
+      "sourceCheckedAt": "2026-10-23",
+      "restatement": true
+    }
+  },
+  {
+    "problem_id": "lab:codeforces:701C",
+    "content": {
+      "id": "lab:codeforces:701C",
+      "title": "They Are Everywhere",
+      "url": "https://codeforces.com/problemset/problem/701/C",
+      "markdown": "# They Are Everywhere\n\n原题：[Codeforces 701C](https://codeforces.com/problemset/problem/701/C)。以下为保留全部算法条件的中文简述；情节文字从简。\n\n## 题目\n\nn 间房排成一列，每间有一种宝可梦，以英文字母表示，大小写区分种类。选择一段连续房间，收集房子中出现过的所有种类，求最少经过几间。\n\n## 输入、输出与数据范围\n\n1≤n≤100000。输入 n 与长度为 n 的大小写英文字母串，输出最短长度。\n",
+      "samples": [
+        {
+          "name": "原站样例 1",
+          "input": "3\nAaA\n",
+          "output": "2"
+        },
+        {
+          "name": "原站样例 2",
+          "input": "7\nbcAAcbc\n",
+          "output": "3"
+        },
+        {
+          "name": "原站样例 3",
+          "input": "6\naaBCCe\n",
+          "output": "5"
+        }
+      ],
+      "limits": {
+        "timeMs": 2000,
+        "memoryMb": 256
+      },
+      "statementAvailable": true,
+      "statementVersion": 3,
+      "officialTags": [
+        "binary search",
+        "strings",
+        "two pointers"
+      ],
+      "sourceCheckedAt": "2026-10-23",
+      "restatement": true
+    }
   }
 ]

@@ -411,3 +411,12 @@ html[data-motion=off] :is(.algorithm-lab *, .lab-catalog *) { animation:none!imp
  .lab-mission>.lab-check {height:100%;margin:0}
 }
 @media(max-width:700px) {.algorithm-lab {padding-inline:14px}.algorithm-lab .lab-course-header {gap:7px;margin-bottom:20px}.algorithm-lab .lab-course-header h1 {font-size:1rem}.lab-course-header .lab-header-actions {margin-left:0}.lab-course-header .lab-course-tools,.lab-course-header .lab-page-navigation {gap:5px}.algorithm-lab .lab-course-header .lab-icon-button,.algorithm-lab .lab-course-header .lab-menu-toggle {width:34px;height:36px;min-height:36px}.lab-course-header .lab-position {font-size:.76rem}.algorithm-lab .lab-panel,.algorithm-lab .lab-check {padding:18px}.algorithm-lab .lab-story>p,.algorithm-lab .lab-check>p {font-size:.96rem}}
+/* The header owns a separate row; only lesson content scrolls. */
+html .lab-focus .learning-paths-page {display:flex;flex-direction:column;overflow:hidden!important}
+html .algorithm-lab {display:flex;flex-direction:column;flex:1;min-height:0;height:100%;padding:0}
+html .algorithm-lab .lab-course-header {position:relative;top:auto;z-index:30;flex:none;min-height:64px;margin:0;padding:10px clamp(16px,2.5vw,48px);background:var(--panel-base);border-bottom:1px solid var(--line);backdrop-filter:none}
+html .algorithm-lab .lab-header-actions {position:static;margin:0;flex:none;display:flex;align-items:center;gap:7px}
+html .algorithm-lab .lab-course-tools {margin-left:auto;flex:none}
+html .algorithm-lab .lab-menu {order:-1}
+html .algorithm-lab .lab-lesson {flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:24px clamp(16px,2.5vw,48px) 36px;outline:0}
+html .algorithm-lab .lab-course-header .lab-menu nav {max-height:calc(100dvh - 100px);overflow:auto}

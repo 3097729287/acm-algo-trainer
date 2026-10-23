@@ -1,5 +1,11 @@
 # TB 架构
 
+## 1.4.2 本机主程序的算法实验室
+
+`LearningPathsPage` 提供三专题目录与搜索，背包继续用原 `KnapsackCourse`。新 `SequenceCourse` 共享课程导航与跟做交接，不共享算法的演示状态；`SequenceExperiments` 提供实际交互，纯模型在 `sequenceModel.js`。账号私有偏好分别使用 `ui.learningPaths.prefix-difference` 和 `ui.learningPaths.two-pointers`，沿用原偏好文档，无新表、API 或账号协议。专题之间切换保留草稿，不创建 AC 或经验。
+
+十道 CF 题以规范原题 URL 匹配已有身份及考场别名；代码/查错指导后交接复用 `assisted`，直接进入实现不补造辅助证据。公开题库从 `data/library` 构建，旧记录保留；新增题面为完整算法条件的中文简述及原站样例。独立包沿用旧本地存储键恢复背包进度，SHA-256 清单包含全部课程模块与导航依赖。[教学与验证](algorithm-lab-sequences.md)。课程作为 1.4.2 正常桌面程序在本机交付；公开下载仍为 1.4.1。本轮不部署共享服务。
+
 ## 1.4.1 范围、使用统计与界面
 
 知识目录为题库、雷达、讲解和组题的单一来源；父范围包含原题分类路径，不能把大类证据凭空归入某个叶子。`knowledge_topic_review.json` 记录 67 条规范原题 URL、来源及正文哈希，补充精确标签，保留全部正文与身份。几何拆分子项；过滤和可用数按规范原题去重。

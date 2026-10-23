@@ -2,6 +2,7 @@ import { useMemo, useRef, useState } from 'react';
 import { EXPEDITION, EXPEDITION_CAPACITY as CAPACITY, EXPEDITION_OPTIMUM, packingPlan, table01 } from './knapsackModel.js';
 import { BagSlots, ChoiceCheck, CodeBlock, NumberCheck } from './LabParts.jsx';
 import { InitializationDemo } from './KnapsackFoundations.jsx';
+import { KnapsackChoiceFilm } from './KnapsackMotion.jsx';
 
 export function ExampleBrief() {
   return <div className="lab-example" aria-label="沿用上一节的例子">
@@ -81,6 +82,7 @@ export default function StateExperiment(props) {
       { id: 'weight', label: '必须把 A 和 B 都拿走', feedback: '允许使用不代表必须使用。而且 A、B 总重量 4 + 3 = 7，超过 5 格。' },
     ]} answer="prefix" {...props}/>
     <NumberCheck id="transition" title="补上「A、B、C / 5 格」" prompt="不拿第 3 件时，A、B 里最好只拿 A，价值 7。拿第 3 件时，它占 2 格，余下 3 格可拿 B，价值 5 + 3。最大价值是多少？" answer={EXPEDITION_OPTIMUM} explanation="最大价值是 8，装法为 B + C。这里比较的是装法的价值，输入顺序没有规定拿取先后。" wrong="比较不拿时的 7，与拿时的 5 + 3，保留较大的。" {...props} onPass={id => { props.onPass(id); setCell([3, CAPACITY]); }}/>
+    {i > 0 && <KnapsackChoiceFilm key={`${i}:${c}:${unknown}`} capacity={c} focusIndex={i} conceal={unknown}/>}
     <StateFormula i={i} c={c} available={available} earlier={earlier} item={item} remaining={remaining} skip={skip} take={take} sourceValue={remaining >= 0 ? table[i - 1][remaining] : null} answer={table[i][c]} unknown={unknown}/>
   </>;
 }

@@ -19,6 +19,11 @@ button { cursor:pointer; }
 button:disabled { cursor:default; }
 button:focus-visible,summary:focus-visible,a:focus-visible { outline:2px solid var(--accent); outline-offset:4px; }
 .lab-standalone-shell { padding:24px 28px 48px; }
+.lab-standalone-shell { display:flex; flex-direction:column; height:100dvh; overflow:hidden; padding-bottom:12px; }
+.lab-standalone-shell>.learning-paths-page { flex:1; min-height:0; display:flex; flex-direction:column; overflow:hidden; }
+.lab-standalone-shell .lab-catalog { flex:1; min-height:0; overflow:auto; }
+.lab-standalone-shell .algorithm-lab { width:100%; align-items:stretch; }
+.lab-standalone-shell .seq-standalone-tools { width:100%; flex:none; }
 .lab-theme-toggle { display:flex; align-items:center; justify-content:center; padding:8px; border:0; border-radius:7px; background:transparent; color:var(--muted); }
 .lab-theme-toggle:hover { color:var(--accent); background:var(--accent-soft); }
 .lab-storage-notice { max-width:1020px; margin:0 auto 20px; color:var(--warning); font-size:.8rem; }

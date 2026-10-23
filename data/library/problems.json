@@ -534192,5 +534192,976 @@
       "题名": "单向地铁"
     },
     "url": "https://ac.nowcoder.com/acm/contest/140236/F"
+  },
+  {
+    "id": "lab:codeforces:363B",
+    "url": "https://codeforces.com/problemset/problem/363/B",
+    "raw": {
+      "_id": "lab:codeforces:363B",
+      "_url": "https://codeforces.com/problemset/problem/363/B",
+      "_platform": "Codeforces",
+      "_series": "算法实验室",
+      "场次": "前缀和与差分 精选",
+      "题号": "363B",
+      "题名": "Fence",
+      "知识点": "前缀和",
+      "难度": "1100",
+      "状态": "未做",
+      "日期": ""
+    },
+    "encoded": {
+      "id": "lab:codeforces:363B",
+      "contest": "前缀和与差分 精选",
+      "problem": "363B",
+      "title": "Fence",
+      "originalTitle": "Fence",
+      "url": "https://codeforces.com/problemset/problem/363/B",
+      "platform": "Codeforces",
+      "series": "算法实验室",
+      "contestFamily": "算法实验室",
+      "contestFullName": "前缀和与差分 精选",
+      "status": "未做",
+      "date": "",
+      "difficulty": 1100,
+      "difficultySource": "Codeforces 官方 rating",
+      "nativeDifficulty": 1100,
+      "difficultyEstimated": false,
+      "difficultyCheckedAt": "2026-10-23",
+      "difficultyEvidence": [
+        "https://codeforces.com/api/problemset.problems"
+      ],
+      "tags": [
+        "前缀和"
+      ],
+      "sourceTags": [
+        "前缀和"
+      ],
+      "knowledge": "前缀和",
+      "knowledgeCategories": [
+        "基础技巧 / 前缀和与差分"
+      ],
+      "source": "algorithm-lab-curation",
+      "queue": null,
+      "startedAt": null,
+      "endedAt": null,
+      "contestDate": null,
+      "solutionAvailable": true,
+      "detailedSolutionAvailable": true,
+      "solutionState": "ready",
+      "algorithmLab": {
+        "topic": "prefix-difference",
+        "guided": true,
+        "revision": 1
+      },
+      "collectionSource": "https://codeforces.com/problemset/problem/363/B",
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "前缀和"
+        ],
+        "knowledge": "前缀和",
+        "categories": [
+          "基础技巧 / 前缀和与差分"
+        ],
+        "status": "classified",
+        "source": "archive-catalog",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "archive-catalog",
+            "value": "前缀和",
+            "tag": "前缀和"
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "66378531300e92a5bba00f5217eb9027b542dc5e08bd75406a7a0eeeea5604ba",
+        "sourceTags": [
+          "前缀和"
+        ],
+        "supersededTags": []
+      }
+    }
+  },
+  {
+    "id": "lab:codeforces:433B",
+    "url": "https://codeforces.com/problemset/problem/433/B",
+    "raw": {
+      "_id": "lab:codeforces:433B",
+      "_url": "https://codeforces.com/problemset/problem/433/B",
+      "_platform": "Codeforces",
+      "_series": "算法实验室",
+      "场次": "前缀和与差分 精选",
+      "题号": "433B",
+      "题名": "Kuriyama Mirai's Stones",
+      "知识点": "前缀和 + 排序",
+      "难度": "1200",
+      "状态": "未做",
+      "日期": ""
+    },
+    "encoded": {
+      "id": "lab:codeforces:433B",
+      "contest": "前缀和与差分 精选",
+      "problem": "433B",
+      "title": "Kuriyama Mirai's Stones",
+      "originalTitle": "Kuriyama Mirai's Stones",
+      "url": "https://codeforces.com/problemset/problem/433/B",
+      "platform": "Codeforces",
+      "series": "算法实验室",
+      "contestFamily": "算法实验室",
+      "contestFullName": "前缀和与差分 精选",
+      "status": "未做",
+      "date": "",
+      "difficulty": 1200,
+      "difficultySource": "Codeforces 官方 rating",
+      "nativeDifficulty": 1200,
+      "difficultyEstimated": false,
+      "difficultyCheckedAt": "2026-10-23",
+      "difficultyEvidence": [
+        "https://codeforces.com/api/problemset.problems"
+      ],
+      "tags": [
+        "前缀和",
+        "排序"
+      ],
+      "sourceTags": [
+        "前缀和",
+        "排序"
+      ],
+      "knowledge": "前缀和 + 排序",
+      "knowledgeCategories": [
+        "基础技巧 / 前缀和与差分",
+        "思维与策略"
+      ],
+      "source": "algorithm-lab-curation",
+      "queue": null,
+      "startedAt": null,
+      "endedAt": null,
+      "contestDate": null,
+      "solutionAvailable": true,
+      "detailedSolutionAvailable": true,
+      "solutionState": "ready",
+      "algorithmLab": {
+        "topic": "prefix-difference",
+        "guided": true,
+        "revision": 1
+      },
+      "collectionSource": "https://codeforces.com/problemset/problem/433/B",
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "前缀和",
+          "排序"
+        ],
+        "knowledge": "前缀和 + 排序",
+        "categories": [
+          "基础技巧 / 前缀和与差分",
+          "思维与策略"
+        ],
+        "status": "classified",
+        "source": "archive-catalog",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "archive-catalog",
+            "value": "前缀和",
+            "tag": "前缀和"
+          },
+          {
+            "source": "archive-catalog",
+            "value": "排序",
+            "tag": "排序"
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "00c369dee3d8781fde1957b2112906689c25df2ed9ab958ddee46824f9862dba",
+        "sourceTags": [
+          "前缀和",
+          "排序"
+        ],
+        "supersededTags": []
+      }
+    }
+  },
+  {
+    "id": "lab:codeforces:816B",
+    "url": "https://codeforces.com/problemset/problem/816/B",
+    "raw": {
+      "_id": "lab:codeforces:816B",
+      "_url": "https://codeforces.com/problemset/problem/816/B",
+      "_platform": "Codeforces",
+      "_series": "算法实验室",
+      "场次": "前缀和与差分 精选",
+      "题号": "816B",
+      "题名": "Karen and Coffee",
+      "知识点": "前缀和 + 差分",
+      "难度": "1400",
+      "状态": "未做",
+      "日期": ""
+    },
+    "encoded": {
+      "id": "lab:codeforces:816B",
+      "contest": "前缀和与差分 精选",
+      "problem": "816B",
+      "title": "Karen and Coffee",
+      "originalTitle": "Karen and Coffee",
+      "url": "https://codeforces.com/problemset/problem/816/B",
+      "platform": "Codeforces",
+      "series": "算法实验室",
+      "contestFamily": "算法实验室",
+      "contestFullName": "前缀和与差分 精选",
+      "status": "未做",
+      "date": "",
+      "difficulty": 1400,
+      "difficultySource": "Codeforces 官方 rating",
+      "nativeDifficulty": 1400,
+      "difficultyEstimated": false,
+      "difficultyCheckedAt": "2026-10-23",
+      "difficultyEvidence": [
+        "https://codeforces.com/api/problemset.problems"
+      ],
+      "tags": [
+        "前缀和",
+        "差分"
+      ],
+      "sourceTags": [
+        "前缀和",
+        "差分"
+      ],
+      "knowledge": "前缀和 + 差分",
+      "knowledgeCategories": [
+        "基础技巧 / 前缀和与差分"
+      ],
+      "source": "algorithm-lab-curation",
+      "queue": null,
+      "startedAt": null,
+      "endedAt": null,
+      "contestDate": null,
+      "solutionAvailable": true,
+      "detailedSolutionAvailable": true,
+      "solutionState": "ready",
+      "algorithmLab": {
+        "topic": "prefix-difference",
+        "guided": true,
+        "revision": 1
+      },
+      "collectionSource": "https://codeforces.com/problemset/problem/816/B",
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "前缀和",
+          "差分"
+        ],
+        "knowledge": "前缀和 + 差分",
+        "categories": [
+          "基础技巧 / 前缀和与差分"
+        ],
+        "status": "classified",
+        "source": "archive-catalog",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "archive-catalog",
+            "value": "前缀和",
+            "tag": "前缀和"
+          },
+          {
+            "source": "archive-catalog",
+            "value": "差分",
+            "tag": "差分"
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "17e73846d0a6c28f22272deab7fcd67d38afc3a4735c7f15a64a55aaae5c30e0",
+        "sourceTags": [
+          "前缀和",
+          "差分"
+        ],
+        "supersededTags": []
+      }
+    }
+  },
+  {
+    "id": "lab:codeforces:295A",
+    "url": "https://codeforces.com/problemset/problem/295/A",
+    "raw": {
+      "_id": "lab:codeforces:295A",
+      "_url": "https://codeforces.com/problemset/problem/295/A",
+      "_platform": "Codeforces",
+      "_series": "算法实验室",
+      "场次": "前缀和与差分 精选",
+      "题号": "295A",
+      "题名": "Greg and Array",
+      "知识点": "前缀和 + 差分",
+      "难度": "1400",
+      "状态": "未做",
+      "日期": ""
+    },
+    "encoded": {
+      "id": "lab:codeforces:295A",
+      "contest": "前缀和与差分 精选",
+      "problem": "295A",
+      "title": "Greg and Array",
+      "originalTitle": "Greg and Array",
+      "url": "https://codeforces.com/problemset/problem/295/A",
+      "platform": "Codeforces",
+      "series": "算法实验室",
+      "contestFamily": "算法实验室",
+      "contestFullName": "前缀和与差分 精选",
+      "status": "未做",
+      "date": "",
+      "difficulty": 1400,
+      "difficultySource": "Codeforces 官方 rating",
+      "nativeDifficulty": 1400,
+      "difficultyEstimated": false,
+      "difficultyCheckedAt": "2026-10-23",
+      "difficultyEvidence": [
+        "https://codeforces.com/api/problemset.problems"
+      ],
+      "tags": [
+        "前缀和",
+        "差分"
+      ],
+      "sourceTags": [
+        "前缀和",
+        "差分"
+      ],
+      "knowledge": "前缀和 + 差分",
+      "knowledgeCategories": [
+        "基础技巧 / 前缀和与差分"
+      ],
+      "source": "algorithm-lab-curation",
+      "queue": null,
+      "startedAt": null,
+      "endedAt": null,
+      "contestDate": null,
+      "solutionAvailable": true,
+      "detailedSolutionAvailable": true,
+      "solutionState": "ready",
+      "algorithmLab": {
+        "topic": "prefix-difference",
+        "guided": true,
+        "revision": 1
+      },
+      "collectionSource": "https://codeforces.com/problemset/problem/295/A",
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "前缀和",
+          "差分"
+        ],
+        "knowledge": "前缀和 + 差分",
+        "categories": [
+          "基础技巧 / 前缀和与差分"
+        ],
+        "status": "classified",
+        "source": "archive-catalog",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "archive-catalog",
+            "value": "前缀和",
+            "tag": "前缀和"
+          },
+          {
+            "source": "archive-catalog",
+            "value": "差分",
+            "tag": "差分"
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "17e73846d0a6c28f22272deab7fcd67d38afc3a4735c7f15a64a55aaae5c30e0",
+        "sourceTags": [
+          "前缀和",
+          "差分"
+        ],
+        "supersededTags": []
+      }
+    }
+  },
+  {
+    "id": "lab:codeforces:276C",
+    "url": "https://codeforces.com/problemset/problem/276/C",
+    "raw": {
+      "_id": "lab:codeforces:276C",
+      "_url": "https://codeforces.com/problemset/problem/276/C",
+      "_platform": "Codeforces",
+      "_series": "算法实验室",
+      "场次": "前缀和与差分 精选",
+      "题号": "276C",
+      "题名": "Little Girl and Maximum Sum",
+      "知识点": "前缀和 + 差分 + 排序",
+      "难度": "1500",
+      "状态": "未做",
+      "日期": ""
+    },
+    "encoded": {
+      "id": "lab:codeforces:276C",
+      "contest": "前缀和与差分 精选",
+      "problem": "276C",
+      "title": "Little Girl and Maximum Sum",
+      "originalTitle": "Little Girl and Maximum Sum",
+      "url": "https://codeforces.com/problemset/problem/276/C",
+      "platform": "Codeforces",
+      "series": "算法实验室",
+      "contestFamily": "算法实验室",
+      "contestFullName": "前缀和与差分 精选",
+      "status": "未做",
+      "date": "",
+      "difficulty": 1500,
+      "difficultySource": "Codeforces 官方 rating",
+      "nativeDifficulty": 1500,
+      "difficultyEstimated": false,
+      "difficultyCheckedAt": "2026-10-23",
+      "difficultyEvidence": [
+        "https://codeforces.com/api/problemset.problems"
+      ],
+      "tags": [
+        "前缀和",
+        "差分",
+        "排序"
+      ],
+      "sourceTags": [
+        "前缀和",
+        "差分",
+        "排序"
+      ],
+      "knowledge": "前缀和 + 差分 + 排序",
+      "knowledgeCategories": [
+        "基础技巧 / 前缀和与差分",
+        "思维与策略"
+      ],
+      "source": "algorithm-lab-curation",
+      "queue": null,
+      "startedAt": null,
+      "endedAt": null,
+      "contestDate": null,
+      "solutionAvailable": true,
+      "detailedSolutionAvailable": true,
+      "solutionState": "ready",
+      "algorithmLab": {
+        "topic": "prefix-difference",
+        "guided": true,
+        "revision": 1
+      },
+      "collectionSource": "https://codeforces.com/problemset/problem/276/C",
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "前缀和",
+          "差分",
+          "排序"
+        ],
+        "knowledge": "前缀和 + 差分 + 排序",
+        "categories": [
+          "基础技巧 / 前缀和与差分",
+          "思维与策略"
+        ],
+        "status": "classified",
+        "source": "archive-catalog",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "archive-catalog",
+            "value": "前缀和",
+            "tag": "前缀和"
+          },
+          {
+            "source": "archive-catalog",
+            "value": "差分",
+            "tag": "差分"
+          },
+          {
+            "source": "archive-catalog",
+            "value": "排序",
+            "tag": "排序"
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "0b42a02aa48d9a54a56730e8464eea7d7b3e471324649fbc80063fb3ac342b36",
+        "sourceTags": [
+          "前缀和",
+          "差分",
+          "排序"
+        ],
+        "supersededTags": []
+      }
+    }
+  },
+  {
+    "id": "lab:codeforces:381A",
+    "url": "https://codeforces.com/problemset/problem/381/A",
+    "raw": {
+      "_id": "lab:codeforces:381A",
+      "_url": "https://codeforces.com/problemset/problem/381/A",
+      "_platform": "Codeforces",
+      "_series": "算法实验室",
+      "场次": "双指针 精选",
+      "题号": "381A",
+      "题名": "Sereja and Dima",
+      "知识点": "双指针",
+      "难度": "800",
+      "状态": "未做",
+      "日期": ""
+    },
+    "encoded": {
+      "id": "lab:codeforces:381A",
+      "contest": "双指针 精选",
+      "problem": "381A",
+      "title": "Sereja and Dima",
+      "originalTitle": "Sereja and Dima",
+      "url": "https://codeforces.com/problemset/problem/381/A",
+      "platform": "Codeforces",
+      "series": "算法实验室",
+      "contestFamily": "算法实验室",
+      "contestFullName": "双指针 精选",
+      "status": "未做",
+      "date": "",
+      "difficulty": 800,
+      "difficultySource": "Codeforces 官方 rating",
+      "nativeDifficulty": 800,
+      "difficultyEstimated": false,
+      "difficultyCheckedAt": "2026-10-23",
+      "difficultyEvidence": [
+        "https://codeforces.com/api/problemset.problems"
+      ],
+      "tags": [
+        "双指针"
+      ],
+      "sourceTags": [
+        "双指针"
+      ],
+      "knowledge": "双指针",
+      "knowledgeCategories": [
+        "基础技巧"
+      ],
+      "source": "algorithm-lab-curation",
+      "queue": null,
+      "startedAt": null,
+      "endedAt": null,
+      "contestDate": null,
+      "solutionAvailable": true,
+      "detailedSolutionAvailable": true,
+      "solutionState": "ready",
+      "algorithmLab": {
+        "topic": "two-pointers",
+        "guided": true,
+        "revision": 1
+      },
+      "collectionSource": "https://codeforces.com/problemset/problem/381/A",
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "双指针"
+        ],
+        "knowledge": "双指针",
+        "categories": [
+          "基础技巧"
+        ],
+        "status": "classified",
+        "source": "archive-catalog",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "archive-catalog",
+            "value": "双指针",
+            "tag": "双指针"
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "c96ba757e1a36d7b14a26b7e26b05a159a1614d8f8a70cfd889d6a6b40b8400f",
+        "sourceTags": [
+          "双指针"
+        ],
+        "supersededTags": []
+      }
+    }
+  },
+  {
+    "id": "lab:codeforces:1538C",
+    "url": "https://codeforces.com/problemset/problem/1538/C",
+    "raw": {
+      "_id": "lab:codeforces:1538C",
+      "_url": "https://codeforces.com/problemset/problem/1538/C",
+      "_platform": "Codeforces",
+      "_series": "算法实验室",
+      "场次": "双指针 精选",
+      "题号": "1538C",
+      "题名": "Number of Pairs",
+      "知识点": "双指针 + 排序",
+      "难度": "1300",
+      "状态": "未做",
+      "日期": ""
+    },
+    "encoded": {
+      "id": "lab:codeforces:1538C",
+      "contest": "双指针 精选",
+      "problem": "1538C",
+      "title": "Number of Pairs",
+      "originalTitle": "Number of Pairs",
+      "url": "https://codeforces.com/problemset/problem/1538/C",
+      "platform": "Codeforces",
+      "series": "算法实验室",
+      "contestFamily": "算法实验室",
+      "contestFullName": "双指针 精选",
+      "status": "未做",
+      "date": "",
+      "difficulty": 1300,
+      "difficultySource": "Codeforces 官方 rating",
+      "nativeDifficulty": 1300,
+      "difficultyEstimated": false,
+      "difficultyCheckedAt": "2026-10-23",
+      "difficultyEvidence": [
+        "https://codeforces.com/api/problemset.problems"
+      ],
+      "tags": [
+        "双指针",
+        "排序"
+      ],
+      "sourceTags": [
+        "双指针",
+        "排序"
+      ],
+      "knowledge": "双指针 + 排序",
+      "knowledgeCategories": [
+        "基础技巧",
+        "思维与策略"
+      ],
+      "source": "algorithm-lab-curation",
+      "queue": null,
+      "startedAt": null,
+      "endedAt": null,
+      "contestDate": null,
+      "solutionAvailable": true,
+      "detailedSolutionAvailable": true,
+      "solutionState": "ready",
+      "algorithmLab": {
+        "topic": "two-pointers",
+        "guided": true,
+        "revision": 1
+      },
+      "collectionSource": "https://codeforces.com/problemset/problem/1538/C",
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "双指针",
+          "排序"
+        ],
+        "knowledge": "双指针 + 排序",
+        "categories": [
+          "基础技巧",
+          "思维与策略"
+        ],
+        "status": "classified",
+        "source": "archive-catalog",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "archive-catalog",
+            "value": "双指针",
+            "tag": "双指针"
+          },
+          {
+            "source": "archive-catalog",
+            "value": "排序",
+            "tag": "排序"
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "6de092698a6b3d9ea4f3f7d42732eb21b47f8552fda2db1ce2cb521ebaf463fb",
+        "sourceTags": [
+          "双指针",
+          "排序"
+        ],
+        "supersededTags": []
+      }
+    }
+  },
+  {
+    "id": "lab:codeforces:279B",
+    "url": "https://codeforces.com/problemset/problem/279/B",
+    "raw": {
+      "_id": "lab:codeforces:279B",
+      "_url": "https://codeforces.com/problemset/problem/279/B",
+      "_platform": "Codeforces",
+      "_series": "算法实验室",
+      "场次": "双指针 精选",
+      "题号": "279B",
+      "题名": "Books",
+      "知识点": "双指针",
+      "难度": "1400",
+      "状态": "未做",
+      "日期": ""
+    },
+    "encoded": {
+      "id": "lab:codeforces:279B",
+      "contest": "双指针 精选",
+      "problem": "279B",
+      "title": "Books",
+      "originalTitle": "Books",
+      "url": "https://codeforces.com/problemset/problem/279/B",
+      "platform": "Codeforces",
+      "series": "算法实验室",
+      "contestFamily": "算法实验室",
+      "contestFullName": "双指针 精选",
+      "status": "未做",
+      "date": "",
+      "difficulty": 1400,
+      "difficultySource": "Codeforces 官方 rating",
+      "nativeDifficulty": 1400,
+      "difficultyEstimated": false,
+      "difficultyCheckedAt": "2026-10-23",
+      "difficultyEvidence": [
+        "https://codeforces.com/api/problemset.problems"
+      ],
+      "tags": [
+        "双指针"
+      ],
+      "sourceTags": [
+        "双指针"
+      ],
+      "knowledge": "双指针",
+      "knowledgeCategories": [
+        "基础技巧"
+      ],
+      "source": "algorithm-lab-curation",
+      "queue": null,
+      "startedAt": null,
+      "endedAt": null,
+      "contestDate": null,
+      "solutionAvailable": true,
+      "detailedSolutionAvailable": true,
+      "solutionState": "ready",
+      "algorithmLab": {
+        "topic": "two-pointers",
+        "guided": true,
+        "revision": 1
+      },
+      "collectionSource": "https://codeforces.com/problemset/problem/279/B",
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "双指针"
+        ],
+        "knowledge": "双指针",
+        "categories": [
+          "基础技巧"
+        ],
+        "status": "classified",
+        "source": "archive-catalog",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "archive-catalog",
+            "value": "双指针",
+            "tag": "双指针"
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "c96ba757e1a36d7b14a26b7e26b05a159a1614d8f8a70cfd889d6a6b40b8400f",
+        "sourceTags": [
+          "双指针"
+        ],
+        "supersededTags": []
+      }
+    }
+  },
+  {
+    "id": "lab:codeforces:580B",
+    "url": "https://codeforces.com/problemset/problem/580/B",
+    "raw": {
+      "_id": "lab:codeforces:580B",
+      "_url": "https://codeforces.com/problemset/problem/580/B",
+      "_platform": "Codeforces",
+      "_series": "算法实验室",
+      "场次": "双指针 精选",
+      "题号": "580B",
+      "题名": "Kefa and Company",
+      "知识点": "双指针 + 排序",
+      "难度": "1500",
+      "状态": "未做",
+      "日期": ""
+    },
+    "encoded": {
+      "id": "lab:codeforces:580B",
+      "contest": "双指针 精选",
+      "problem": "580B",
+      "title": "Kefa and Company",
+      "originalTitle": "Kefa and Company",
+      "url": "https://codeforces.com/problemset/problem/580/B",
+      "platform": "Codeforces",
+      "series": "算法实验室",
+      "contestFamily": "算法实验室",
+      "contestFullName": "双指针 精选",
+      "status": "未做",
+      "date": "",
+      "difficulty": 1500,
+      "difficultySource": "Codeforces 官方 rating",
+      "nativeDifficulty": 1500,
+      "difficultyEstimated": false,
+      "difficultyCheckedAt": "2026-10-23",
+      "difficultyEvidence": [
+        "https://codeforces.com/api/problemset.problems"
+      ],
+      "tags": [
+        "双指针",
+        "排序"
+      ],
+      "sourceTags": [
+        "双指针",
+        "排序"
+      ],
+      "knowledge": "双指针 + 排序",
+      "knowledgeCategories": [
+        "基础技巧",
+        "思维与策略"
+      ],
+      "source": "algorithm-lab-curation",
+      "queue": null,
+      "startedAt": null,
+      "endedAt": null,
+      "contestDate": null,
+      "solutionAvailable": true,
+      "detailedSolutionAvailable": true,
+      "solutionState": "ready",
+      "algorithmLab": {
+        "topic": "two-pointers",
+        "guided": true,
+        "revision": 1
+      },
+      "collectionSource": "https://codeforces.com/problemset/problem/580/B",
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "双指针",
+          "排序"
+        ],
+        "knowledge": "双指针 + 排序",
+        "categories": [
+          "基础技巧",
+          "思维与策略"
+        ],
+        "status": "classified",
+        "source": "archive-catalog",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "archive-catalog",
+            "value": "双指针",
+            "tag": "双指针"
+          },
+          {
+            "source": "archive-catalog",
+            "value": "排序",
+            "tag": "排序"
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "6de092698a6b3d9ea4f3f7d42732eb21b47f8552fda2db1ce2cb521ebaf463fb",
+        "sourceTags": [
+          "双指针",
+          "排序"
+        ],
+        "supersededTags": []
+      }
+    }
+  },
+  {
+    "id": "lab:codeforces:701C",
+    "url": "https://codeforces.com/problemset/problem/701/C",
+    "raw": {
+      "_id": "lab:codeforces:701C",
+      "_url": "https://codeforces.com/problemset/problem/701/C",
+      "_platform": "Codeforces",
+      "_series": "算法实验室",
+      "场次": "双指针 精选",
+      "题号": "701C",
+      "题名": "They Are Everywhere",
+      "知识点": "双指针",
+      "难度": "1500",
+      "状态": "未做",
+      "日期": ""
+    },
+    "encoded": {
+      "id": "lab:codeforces:701C",
+      "contest": "双指针 精选",
+      "problem": "701C",
+      "title": "They Are Everywhere",
+      "originalTitle": "They Are Everywhere",
+      "url": "https://codeforces.com/problemset/problem/701/C",
+      "platform": "Codeforces",
+      "series": "算法实验室",
+      "contestFamily": "算法实验室",
+      "contestFullName": "双指针 精选",
+      "status": "未做",
+      "date": "",
+      "difficulty": 1500,
+      "difficultySource": "Codeforces 官方 rating",
+      "nativeDifficulty": 1500,
+      "difficultyEstimated": false,
+      "difficultyCheckedAt": "2026-10-23",
+      "difficultyEvidence": [
+        "https://codeforces.com/api/problemset.problems"
+      ],
+      "tags": [
+        "双指针"
+      ],
+      "sourceTags": [
+        "双指针"
+      ],
+      "knowledge": "双指针",
+      "knowledgeCategories": [
+        "基础技巧"
+      ],
+      "source": "algorithm-lab-curation",
+      "queue": null,
+      "startedAt": null,
+      "endedAt": null,
+      "contestDate": null,
+      "solutionAvailable": true,
+      "detailedSolutionAvailable": true,
+      "solutionState": "ready",
+      "algorithmLab": {
+        "topic": "two-pointers",
+        "guided": true,
+        "revision": 1
+      },
+      "collectionSource": "https://codeforces.com/problemset/problem/701/C",
+      "knowledgeAnalysis": {
+        "version": "knowledge-v1.0",
+        "tags": [
+          "双指针"
+        ],
+        "knowledge": "双指针",
+        "categories": [
+          "基础技巧"
+        ],
+        "status": "classified",
+        "source": "archive-catalog",
+        "confidence": "high",
+        "evidence": [
+          {
+            "source": "archive-catalog",
+            "value": "双指针",
+            "tag": "双指针"
+          }
+        ],
+        "unknown": [],
+        "pendingCategories": [],
+        "inputHash": "c96ba757e1a36d7b14a26b7e26b05a159a1614d8f8a70cfd889d6a6b40b8400f",
+        "sourceTags": [
+          "双指针"
+        ],
+        "supersededTags": []
+      }
+    }
   }
 ]
