@@ -3,12 +3,12 @@
 TB 将题库、图文题解、C++ / Python 编辑、本地评测和训练记录放在同一个工作台，支持 Codeforces、AtCoder、牛客和洛谷。本机 SQLite 保存代码与待同步记录，账号服务支持跨电脑恢复。
 
 <!-- release-status:start -->
-**最新正式版：[TB 1.4.0](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.0)。** [变化与验证](docs/releases/1.4.0.md)。
+**最新正式版：[TB 1.4.1](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.1)。** [变化与验证](docs/releases/1.4.1.md)。
 <!-- release-status:end -->
 
-**1.4.1 源码已更新，尚未正式发布。** 正在完成安装升级与发布验证；当前正式版和下载仍为 1.4.0。[本次修订](docs/releases/1.4.1.md)。
+**1.4.1 已正式发布并完成本机升级。** 统一难度范围、单月日历、知识统计、讲解目录和沉浸式教学，修复启动与安装弹窗。[本版说明](docs/releases/1.4.1.md)。
 
-全库逐篇题解精修与阅读复核继续独立进行，不将本次软件发行视为全库复核完成。[算法实验室创作规范](docs/algorithm-lab-authoring.md)。
+全库逐篇题解精修与阅读复核独立记录，尚未全部完成；本次软件发行不代表全库复核完成。[算法实验室创作规范](docs/algorithm-lab-authoring.md)。
 
 [项目主页](https://3097729287.github.io/acm-algo-trainer/) · [使用说明](docs/usage.md) · [开发与构建](docs/development.md) · [English](README.en.md)
 
@@ -16,11 +16,11 @@ TB 将题库、图文题解、C++ / Python 编辑、本地评测和训练记录�
 
 ## 安装与更新
 
-Windows 10/11 x64。[用户版安装包](https://47.82.84.74/updates/assets/1.4.0/TB-Setup-1.4.0-win64.exe)包含 C++ 编译器、Python 3 运行时和离线 WebView2；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.4.0/TB-1.4.0-win64.zip)需要完整解压。GitHub 仅公开用户版；管理员程序仅供维护者本机自用。发布页提供校验清单及从 1.3.4、1.3.5、1.3.6 升级的增量包。
+Windows 10/11 x64。[用户版安装包](https://47.82.84.74/updates/assets/1.4.0/TB-Setup-1.4.0-win64.exe)包含 C++ 编译器、Python 3 运行时和离线 WebView2；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.4.0/TB-1.4.0-win64.zip)需要完整解压。GitHub 仅公开用户版；管理员程序仅供维护者本机自用。发布页提供校验清单及从 1.4.0 升级的增量包；更旧版本可使用完整 Setup。管理员只保留维护者本机程序和快捷方式。
 
 保存草稿并退出 TB 后安装到原目录，个人数据库、代码和导入内容保留。自动更新会先保存草稿、在线备份 SQLite、验证 SHA-256，再替换程序。跨电脑使用同一账号时，各电脑应升级到同一版本。原站登录保存在 TB 专用浏览器中，无需扩展。
 
-## 1.4.1 的变化（源码已更新，尚未正式发布）
+## 1.4.1 的变化
 
 - 算法实验室进入沉浸式教学，正文适度放大，翻页、目录与退出集中到顶部；短暂离开恢复位置，离开满三分钟回课程入口，输入与草稿保留。
 - 所有难度范围共用双滑块与精确数值输入。题库新增骰子按钮，从全部符合当前筛选的题目中等概率抽一道，允许再次抽中；移除模拟赛重复的随机单题入口。
@@ -29,7 +29,7 @@ Windows 10/11 x64。[用户版安装包](https://47.82.84.74/updates/assets/1.4.
 - 从零讲默认按难度升序，只显示主要知识点；次要知识点在正文开头提供讲解跳转，顶部知识图标直接打开目录选择。
 - 九档原创段位图案、暖色连续训练火焰、紧凑比赛与提交记录、四种风格适配、统一顶栏格式和视觉对齐。提交记录补齐题号。
 - 设置二级页、更新按钮、恐龙与行星环动画统一调整；猫猫头教主单列特别鸣谢。账号恢复先显示独立加载页，修复 Setup 检查旧记录时的内部错误弹窗。
-- 管理员仅生成本机程序与快捷方式，不制作管理员 Setup 或便携压缩包。新版本正在进行最终构建、安装升级和发布验证；公开下载暂仍为 1.4.0。
+- 管理员仅生成本机程序与快捷方式，无管理员 Setup 或便携包。612 项后端、完整前端 CI、原生窗口、新装/卸载、1.4.0 升级及实际增量验证通过。[CI](https://github.com/3097729287/acm-algo-trainer/actions/runs/39919816597)。
 
 ## 1.4.0 的变化
 
@@ -99,4 +99,4 @@ npm ci
 npm run dev
 ```
 
-[账号与同步](docs/accounts.md) · [架构](docs/architecture.md) · [构建和发布检查](docs/development.md) · [1.4.0 发布记录](docs/releases/1.4.0.md) · [历史发布](https://github.com/3097729287/acm-algo-trainer/releases)
+[账号与同步](docs/accounts.md) · [架构](docs/architecture.md) · [构建和发布检查](docs/development.md) · [1.4.1 发布记录](docs/releases/1.4.1.md) · [历史发布](https://github.com/3097729287/acm-algo-trainer/releases)

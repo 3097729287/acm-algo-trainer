@@ -3,12 +3,12 @@
 TB combines a problem library, illustrated editorials, a C++ / Python editor, local judging and training records for Codeforces, AtCoder, Nowcoder and Luogu. SQLite preserves local work; the account service synchronizes learning data between computers.
 
 <!-- release-status:start -->
-**Latest stable: [TB 1.4.0](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.0).** [Changes and validation](docs/releases/1.4.0.md).
+**Latest stable: [TB 1.4.1](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.1).** [Changes and validation](docs/releases/1.4.1.md).
 <!-- release-status:end -->
 
-**1.4.1 source is updated but not yet released.** Final installation and publication checks are in progress. Stable downloads remain at 1.4.0. [This revision](docs/releases/1.4.1.md).
+**1.4.1 is released and delivered locally.** Shared difficulty controls, a monthly calendar, corrected topic statistics, foundation folders and immersive lessons, plus startup and installer fixes. [Release notes](docs/releases/1.4.1.md).
 
-Individual editorial refinement and reading review continue separately; this software release does not mark that review complete. [Authoring workflow](docs/algorithm-lab-authoring.md).
+Individual editorial refinement and reading review are tracked separately and remain incomplete; this software release does not mark that review complete. [Authoring workflow](docs/algorithm-lab-authoring.md).
 
 [Website](https://3097729287.github.io/acm-algo-trainer/) · [Usage](docs/usage.md) · [Development](docs/development.md) · [中文](README.md)
 
@@ -16,11 +16,11 @@ Individual editorial refinement and reading review continue separately; this sof
 
 ## Install and upgrade
 
-Windows 10/11 x64. The [user installer](https://47.82.84.74/updates/assets/1.4.0/TB-Setup-1.4.0-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.4.0/TB-1.4.0-win64.zip) before running it. GitHub distributes only the user edition. The administrator program is reserved for the owner’s local use. Release assets include checksums and incremental updates from 1.3.4, 1.3.5 and 1.3.6.
+Windows 10/11 x64. The [user installer](https://47.82.84.74/updates/assets/1.4.1/TB-Setup-1.4.1-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.4.1/TB-1.4.1-win64.zip) before running it. GitHub distributes only the user edition. The administrator program is reserved for the owner’s local use. Release assets include checksums and an incremental update from 1.4.0. Older versions can use the full Setup. The administrator edition is a local program and shortcut only.
 
 Save drafts and exit TB before installing into the existing directory. Personal databases, source code and imported content are preserved. The updater saves work, takes online SQLite backups and verifies SHA-256 before replacement. Keep the same TB version on your computers. Original-site login uses TB's dedicated browser profile; no extension is required.
 
-## Changes in 1.4.1 (source updated; not released yet)
+## Changes in 1.4.1
 
 - Immersive Algorithm Lab with larger, consistent text and compact top navigation. Short absences restore position; three minutes away returns to the course entry while preserving drafts.
 - Shared dual-thumb difficulty ranges with exact values. The library dice selects uniformly from every filtered match, allows repeats and ignores pagination. Remove the duplicate random mock mode.
@@ -29,7 +29,7 @@ Save drafts and exit TB before installing into the existing directory. Personal 
 - Foundations default to ascending difficulty, show the primary topic only and link secondary foundations at the beginning of the reader. A topic icon opens the folder picker directly.
 - Nine original rank designs, warm practice flames, compact contests, indexed submission records, all four visual styles, aligned metrics and period-specific received hearts.
 - Consistent settings pages, a visible update button, refined dinosaur/orbit animation and special thanks. Saved-login restoration uses a loading screen. Fix the Setup internal error during legacy-record detection.
-- The owner receives a local administrator program and shortcut, without an administrator installer or archive. Final builds, upgrade validation and publication are in progress; public downloads remain at 1.4.0.
+- The owner receives a local administrator program and shortcut, without an administrator installer or archive. 612 backend checks, full frontend CI, native windows, fresh install/uninstall, a 1.4.0 upgrade and actual incremental application passed. [CI](https://github.com/3097729287/acm-algo-trainer/actions/runs/39919816597).
 
 ## Changes in 1.4.0
 
