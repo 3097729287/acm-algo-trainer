@@ -16,7 +16,7 @@ TB 将题库、图文题解、C++ / Python 编辑、本地评测和训练记录�
 
 ## 安装与更新
 
-Windows 10/11 x64。[用户版安装包](https://47.82.84.74/updates/assets/1.4.0/TB-Setup-1.4.0-win64.exe)包含 C++ 编译器、Python 3 运行时和离线 WebView2；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.4.0/TB-1.4.0-win64.zip)需要完整解压。GitHub 仅公开用户版；管理员程序仅供维护者本机自用。发布页提供校验清单及从 1.4.0 升级的增量包；更旧版本可使用完整 Setup。管理员只保留维护者本机程序和快捷方式。
+Windows 10/11 x64。[用户版安装包](https://47.82.84.74/updates/assets/1.4.1/TB-Setup-1.4.1-win64.exe)包含 C++ 编译器、Python 3 运行时和离线 WebView2；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.4.1/TB-1.4.1-win64.zip)需要完整解压。GitHub 仅公开用户版；管理员程序仅供维护者本机自用。发布页提供校验清单及从 1.4.0 升级的增量包；更旧版本可使用完整 Setup。管理员只保留维护者本机程序和快捷方式。
 
 保存草稿并退出 TB 后安装到原目录，个人数据库、代码和导入内容保留。自动更新会先保存草稿、在线备份 SQLite、验证 SHA-256，再替换程序。跨电脑使用同一账号时，各电脑应升级到同一版本。原站登录保存在 TB 专用浏览器中，无需扩展。
 
