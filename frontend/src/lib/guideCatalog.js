@@ -1,7 +1,7 @@
 const step=(target,title,text)=>({target,title,text});
 const page=(id,items,tab)=>items.map(item=>({...item,page:id,...(tab?{tab}:{})}));
 
-export const GUIDE_LABELS={mine:'我的训练',library:'题库',competitions:'比赛',mock:'模拟赛',growth:'成长与能力',rankings:'排行榜',records:'提交记录',activity:'活动记录',lectures:'从零讲',paths:'算法实验室',practice:'做题工作台',settings:'设置首页','settings:appearance':'外观设置','settings:interaction':'交互与导航','settings:training':'快捷键','settings:accounts':'账号与身份','settings:advanced':'翻译 API','settings:updates':'更新','settings:help':'数据与帮助','settings:thanks':'鸣谢'};
+export const GUIDE_LABELS={mine:'我的训练',library:'题库',competitions:'比赛',mock:'模拟赛',growth:'成长与能力',rankings:'排行榜',records:'提交记录',activity:'活动记录',lectures:'从零讲',paths:'算法实验室',practice:'做题工作台',settings:'设置首页','settings:appearance':'外观设置','settings:interaction':'交互与导航','settings:training':'快捷键','settings:accounts':'账号与身份','settings:advanced':'翻译 API','settings:updates':'更新','settings:help':'数据统计','settings:thanks':'鸣谢'};
 
 export const PAGE_GUIDES={
  mine:page('mine',[
@@ -45,7 +45,7 @@ export const PAGE_GUIDES={
   step('.account-hero-rank','能力段位','能力段位衡量有效独立解题的难度，和经验等级分别成长。5 级解锁定级；至少需要 5 道不同原题的独立首次官方 AC，并有已知难度。'),
   step('.account-hero-rank','定级与进阶','能力分取最高 5 道有效题难度的中位数。持续独立解决更难题目会影响段位；重复刷同一题、样例通过或看题解后复现不会补成独立首次 AC。'),
   step('.knowledge-radar svg','一级雷达可以点击','每个圆点代表一个大知识领域。点击圆点或下方对应名称，会进入该领域的二级知识雷达。'),
-  step('.knowledge-radar','二级雷达与返回','二级雷达展示该领域的子知识点；点击子知识点会进入题库并应用对应筛选。点击左上返回箭头或按 Esc 返回一级。'),
+  step('.knowledge-radar','二级雷达与返回','二级雷达展示该领域的子知识点；点击子知识点会进入题库并应用对应筛选。点击右上返回箭头或按 Esc 返回一级。'),
   step('.radar-knowledge-details','掌握程度如何估计','掌握度结合不同题目数量、难度、解决率、独立性和提交稳定性。大领域还要求各子知识点都有足够作答证据，几道简单题不会得到很高估计。'),
   step('.radar-knowledge-details b','为什么显示 ?%','子知识点至少需要约 5 道有效作答，其中至少 3 道已定级。大领域的每个子项都需满足门槛，且需要足够不同题目；悬停问号可查看缺少的证据。'),
   step('.radar-detail-row','作答、可用与待练','作答是不同有效题目数，可用是当前题库中对应题目数；可用题量不作为掌握度百分比的分母。待练入口可继续相应练习。'),
@@ -70,8 +70,8 @@ export const PAGE_GUIDES={
  ]),
  activity:page('activity',[
   step('.activity-page,.progress-page','查看学习活动','活动视图按日期展示已保存的学习活动和活跃情况，便于回顾最近的训练节奏。'),
-  step('.activity-calendar','理解活跃与 AC','活跃天数表示有学习活动的日期，正式 AC 表示原站确认的不同题目；运行和重复提交不会变成额外正式通过。'),
-  step('.activity-year,.activity-calendar','查看与筛选','切换年份查看记录，点击日历中的日期查看当日详情。修改显示范围不会删除历史数据。'),
+  step('.activity-month-grid','理解活跃与 AC','活跃天数表示有学习活动的日期，正式 AC 表示原站确认的不同题目；运行和重复提交不会变成额外正式通过。'),
+  step('.activity-month-picker,.activity-month-grid','查看与筛选','选择年月查看一个月的格子；点击或按方向键直接切换日期，明细按剩余高度分页。修改显示范围不会删除历史数据。'),
  ]),
  lectures:page('lectures',[
   step('.lectures-page','先选一个知识点','这里列出已有讲义，点选后进入阅读。可按标题、知识点和分类查找。'),
@@ -81,12 +81,12 @@ export const PAGE_GUIDES={
  ]),
  paths:page('paths',[
   step('.learning-paths-page','算法实验室','当前提供背包 DP。“学算法”通过装包、状态和执行过程理解算法；“跟着做题”带你分析五道精选题，再进入工作台独立实现。顶部箭头随时翻页。'),
-  step('.learning-paths-page','用作答检验理解','按左侧章节学习，也可自由跳转。课堂检验由正确作答产生，进度与输入自动保存；提示可逐层展开。真实题目的原站通过独立记录。'),
+  step('.learning-paths-page','用作答检验理解','通过顶部目录切换章节，也可自由跳转。课堂检验由正确作答产生，进度与输入自动保存；提示可逐层展开。真实题目的原站通过独立记录。'),
  ]),
  settings:page('settings',[
-  step('.settings-home-grid','按分类进入设置','外观、交互与导航、更新、快捷键、数据与帮助、翻译 API、账号与身份和鸣谢各自成页。'),
+  step('.settings-home-grid','按分类进入设置','外观、交互与导航、更新、快捷键、数据统计、翻译 API、账号与身份和鸣谢各自成页。'),
   step('.settings-home-grid','返回与保存','二级设置右上角返回箭头或 Esc 回到设置首页；开关和输入项按各自操作保存，返回时保留浏览位置。'),
-  step('.settings-home-grid','重新查看指引','进入“数据与帮助”，打开“新手指引”，可重看入门总览或选择各页详细指引。'),
+  step('.settings-home-grid','重新查看指引','进入“数据统计”，打开“新手指引”，可重看入门总览或选择各页详细指引。'),
  ]),
  'settings:appearance':page('settings',[
   step('.visual-preferences','主题、颜色与字号','选择深浅主题、强调色与界面字号，按钮和阅读区域会随设置更新。'),
@@ -105,7 +105,7 @@ export const PAGE_GUIDES={
  'settings:accounts':page('settings',[
   step('.profile-settings','TB 账号','TB 登录号用于登录，昵称用于公开展示；头像、偏好和学习记录随当前账号保存。'),
   step('.profile-edit','修改账号信息','展开管理账号可修改昵称和密码；退出前会保存工作。不要将原站密码填入 TB 登录或公开账号字段。'),
-  step('.growth-account-panel','绑定原站公开账号','展开“公开账号与评分”，填写自己的竞赛账号，让软件读取可核对的公开成绩。公开 AC 可以证明通过，独立完成还需要相应提交证据。'),
+  step('.growth-account-panel','绑定原站公开账号','填写自己的竞赛账号，让软件读取可核对的公开成绩。公开 AC 可以证明通过，独立完成还需要相应提交证据。'),
   step('.growth-account-panel,.settings-page','原站浏览器登录','实际提交在 TB 专用浏览器中登录原站，保留原站的验证和提交步骤。TB 的登录与各原站登录分别管理。'),
  ],'accounts'),
  'settings:advanced':page('settings',[

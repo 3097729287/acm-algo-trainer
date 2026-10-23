@@ -40,6 +40,7 @@ await page.route('**/api/**', async route => {
     judge: { scope: 'samples', cases: 0 }, statementAvailable: true, draft: '', submissions: [] };
   else if (path === '/api/solution') value = { id: url.searchParams.get('id'), markdown, lectures: [] };
   else if (path === '/api/draft') value = { savedAt: now() };
+  else if(path==='/api/usage'||path==='usage') value={days:[],totalSeconds:0,maxDailySeconds:0,maxDailyDate:null};
   else throw new Error(`Unhandled fixture: ${path}`);
   await route.fulfill({ json: value });
 });

@@ -1,0 +1,15 @@
+.startup-screen { --startup-bg:var(--bg,#101217); --startup-text:var(--text,#e7eaf1); --startup-muted:var(--muted,#9da5b8); --startup-accent:var(--accent,#aa9af6); position:fixed; inset:0; display:grid; place-items:center; box-sizing:border-box; padding:28px; background:radial-gradient(ellipse at 50% 42%,color-mix(in srgb,var(--startup-accent) 7%,transparent),transparent 58%),var(--startup-bg); color:var(--startup-text); font-family:"Segoe UI","Microsoft YaHei UI","Microsoft YaHei",sans-serif; }
+:root[data-theme="light"] .startup-screen { --startup-bg:var(--bg,#f4f6f9); --startup-text:var(--text,#252c3b); --startup-muted:var(--muted,#68748a); --startup-accent:var(--accent,#7662c8); }
+.startup-content { display:flex; flex-direction:column; align-items:center; text-align:center; width:min(100%,360px); }
+.startup-logo { display:grid; place-items:center; width:76px; height:76px; border:1px solid color-mix(in srgb,var(--startup-accent) 32%,transparent); border-radius:22px; background:color-mix(in srgb,var(--startup-accent) 10%,transparent); color:var(--startup-accent); font-size:30px; font-weight:750; letter-spacing:-1px; box-shadow:0 8px 36px color-mix(in srgb,var(--startup-accent) 8%,transparent); }
+.startup-content h1 { margin:25px 0 8px; font-size:22px; line-height:1.5; font-weight:600; letter-spacing:.02em; }
+.startup-content>p { margin:0; color:var(--startup-muted); font-size:14px; line-height:1.7; }
+.startup-progress { width:152px; height:3px; overflow:hidden; border-radius:3px; background:color-mix(in srgb,var(--startup-accent) 15%,transparent); margin-top:27px; }
+.startup-progress span { display:block; width:45%; height:100%; border-radius:inherit; background:var(--startup-accent); animation:tb-startup-progress 1.45s ease-in-out infinite; }
+.startup-issue { margin-top:22px; font-size:14px; line-height:1.7; }
+.startup-issue p { color:var(--startup-muted); overflow-wrap:anywhere; }
+.startup-issue button { margin-top:8px; padding:10px 22px; border:1px solid var(--startup-accent); border-radius:8px; background:color-mix(in srgb,var(--startup-accent) 12%,transparent); color:var(--startup-accent); font:inherit; font-weight:600; cursor:pointer; }
+.startup-issue button:hover { background:color-mix(in srgb,var(--startup-accent) 20%,transparent); }
+.startup-issue button:focus-visible { outline:2px solid var(--startup-accent); outline-offset:4px; }
+@keyframes tb-startup-progress { from { transform:translateX(-110%); } to { transform:translateX(340%); } }
+@media(prefers-reduced-motion:reduce) { .startup-progress span { animation:none; width:100%; opacity:.65; } }

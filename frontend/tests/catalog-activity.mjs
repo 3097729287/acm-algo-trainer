@@ -35,7 +35,7 @@ try {
   await shelf('全部比赛');assert.equal(await page.locator('.competition-card').count(),7);
   await page.keyboard.press('Escape');
   const activity = page.getByLabel('训练活动', { exact: true });
-  assert.deepEqual(await activity.locator('thead th').allTextContents(), ['日期', '通过题数']);
+  assert.deepEqual(await activity.locator('thead th').allTextContents(), ['日期', 'AC']);
   assert.equal((await activity.innerText()).includes('次提交'), false);
   assert.equal((await activity.innerText()).includes('本地通过'), false);
   const today = '2026-10-15';
@@ -44,7 +44,7 @@ try {
     const cell = activity.getByRole('gridcell', { name: `${key}，${amount} 题通过`, exact: true });
     assert.match(await cell.getAttribute('class'), new RegExp(`activity-level-${index}(?:\\s|$)`));
     await cell.click();
-    assert.match(await activity.locator('.activity-day-detail .activity-pass-count').getAttribute('class'), new RegExp(`activity-pass-${index}(?:\\s|$)`));
+    assert.equal(await activity.locator('.activity-selected-count b').innerText(),String(amount));
   }
   await mkdir('tests/screenshots', { recursive: true });
   await page.screenshot({ path: 'tests/screenshots/catalog-activity-v17.png', fullPage: true });

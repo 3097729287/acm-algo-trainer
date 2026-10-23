@@ -89,6 +89,7 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run build
       - run: npm run test:model
+      - run: node tests/uniform-random.mjs
       - run: npm run test:math
       - run: npm run test:compilers
       - run: node tests/official-sites.mjs

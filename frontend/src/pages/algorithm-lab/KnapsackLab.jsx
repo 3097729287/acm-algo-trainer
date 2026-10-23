@@ -39,7 +39,7 @@ export default function KnapsackLab({ prefs, setPrefs, rows = [], onTrain, onGui
   useEffect(() => {
     if (!menuOpen) return;
     const outside = event => { if (!menu.current?.contains(event.target)) setMenuOpen(false); };
-    const escape = event => { if (event.key === 'Escape') { setMenuOpen(false); menuButton.current?.focus(); } };
+    const escape = event => { if (event.key === 'Escape') { event.preventDefault();setMenuOpen(false); menuButton.current?.focus(); } };
     document.addEventListener('pointerdown', outside);
     document.addEventListener('keydown', escape);
     return () => { document.removeEventListener('pointerdown', outside); document.removeEventListener('keydown', escape); };
@@ -47,12 +47,10 @@ export default function KnapsackLab({ prefs, setPrefs, rows = [], onTrain, onGui
   return <div className="algorithm-lab" aria-label="背包 DP">
     <header className="lab-course-header">
       <h1>背包 DP</h1><span className="lab-position">{chapterIndex + 1} / {CHAPTERS.length}</span>
-      <div className="lab-header-actions">{headerActions}</div>
-    </header>
     <aside className="lab-course-tools" aria-label="课程导航"><nav className="lab-page-navigation" aria-label="章节翻页"><button type="button" className="lab-icon-button" aria-label="上一页" title={chapterIndex ? `上一页：${CHAPTERS[chapterIndex - 1].title}` : '已经是第一页'} disabled={!chapterIndex} onClick={() => navigate(CHAPTERS[chapterIndex - 1].id)}><ArrowLeft size={18}/></button><button type="button" className="lab-icon-button" aria-label="下一页" title={chapterIndex < CHAPTERS.length - 1 ? `下一页：${CHAPTERS[chapterIndex + 1].title}` : '已经是最后一页'} disabled={chapterIndex === CHAPTERS.length - 1} onClick={() => navigate(CHAPTERS[chapterIndex + 1].id)}><ArrowRight size={18}/></button></nav><div className="lab-menu" ref={menu}>
-        <button type="button" ref={menuButton} className="lab-menu-toggle" aria-expanded={menuOpen} aria-controls="lab-chapters" onClick={() => setMenuOpen(value => !value)}><List size={17}/><span>目录</span></button>
+        <button type="button" ref={menuButton} className="lab-menu-toggle" aria-label="目录" title="课程目录" aria-expanded={menuOpen} aria-controls="lab-chapters" onClick={() => setMenuOpen(value => !value)}><List size={17}/><span>目录</span></button>
         {menuOpen && <nav id="lab-chapters" aria-label="课程章节">{CHAPTERS.map((item, i) => <button type="button" key={item.id} aria-current={item.id === chapter.id ? 'step' : undefined} onClick={() => navigate(item.id)}><span>{String(i + 1).padStart(2, '0')}</span><b>{item.title}</b>{item.checks.every(id => saved.passed[id]) && <Check size={14} aria-label="已完成"/>}</button>)}</nav>}
-      </div></aside>
+      </div></aside><div className="lab-header-actions">{headerActions}</div></header>
     <main className="lab-lesson" ref={heading} tabIndex={-1} aria-label={chapter.title}>
       <Content key={chapter.id} drafts={saved.drafts} passed={saved.passed} onPass={onPass} updateDraft={updateDraft} rows={rows} onTrain={onTrain} onGuided={onGuided}/>
     </main>

@@ -125,7 +125,7 @@ class Store:
             return None
         from knowledge import asset_path
         assets = []
-        for name in ('problem_knowledge.json', 'public-knowledge.json'):
+        for name in ('problem_knowledge.json', 'public-knowledge.json','knowledge_catalog.json','knowledge_extensions.json','knowledge_topic_review.json'):
             try:
                 stat = asset_path(name).stat()
                 assets.append((stat.st_mtime_ns, stat.st_size))

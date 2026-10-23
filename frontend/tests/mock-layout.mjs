@@ -64,7 +64,8 @@ await page.route('**/api/**', async route => {
     assert.equal(body.contestId, contest.id);
     contest = { ...contest, status: 'finished' };
     value = { contest, workspace: workspace() };
-  } else throw new Error('Unhandled fixture request: ' + path);
+  } else if(path==='/api/usage'||path==='usage') value={days:[],totalSeconds:0,maxDailySeconds:0,maxDailyDate:null};
+  else throw new Error('Unhandled fixture request: ' + path);
   await route.fulfill({ json: value });
 });
 const output = resolve(process.env.SCREENSHOT_DIR || 'tests/screenshots');

@@ -52,6 +52,7 @@ await page.route('**/*',async route=>{
   else if(path==='/api/software-update')value={currentVersion:'1.1.0',status:'current',automatic:false,canInstall:false};
   else if(path==='/api/browser-preparation')value={available:false};
   else if(path==='/api/desktop/fullscreen')value={available:false,fullscreen:false};
+  else if(path==='/api/usage'||path==='usage') value={days:[],totalSeconds:0,maxDailySeconds:0,maxDailyDate:null};
   else {unexpected.push(path);value={error:'Unexpected fixture API'};}
   try{await route.fulfill({json:value});}finally{inFlight--;}
 });

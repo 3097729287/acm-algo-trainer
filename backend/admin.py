@@ -2,25 +2,30 @@
 import json
 from training import ServiceError, iso
 
-DEFAULTS = {'level': 100, 'tier': 9, 'allAchievements': False}
+DEFAULTS = {'level': 100, 'tier': 8, 'allAchievements': False}
 
 def controls(service, body=None):
     if not getattr(service, 'admin_mode', False):
         raise ServiceError(404, '没有找到这个接口')
     with service.lock:
         row = service.connection.execute("SELECT value FROM account_preferences WHERE key='admin-controls'").fetchone()
-        value = {**DEFAULTS, **(json.loads(row['value']) if row else {})}
+        stored = json.loads(row['value']) if row else {}
+        value = {key: stored.get(key, default) for key, default in DEFAULTS.items()}
+        if row and stored.get('rankLadderVersion', 1) < 2:
+            # The previous ten-tier ladder included platinum at index 4.
+            previous = max(0, min(9, int(value['tier'])))
+            value['tier'] = previous - 1 if previous >= 4 else previous
         if body is not None:
             if (not isinstance(body, dict) or set(body) != set(DEFAULTS)
                     or type(body['level']) is not int or not 1 <= body['level'] <= 100
-                    or type(body['tier']) is not int or not 0 <= body['tier'] <= 9
+                    or type(body['tier']) is not int or not 0 <= body['tier'] <= 8
                     or type(body['allAchievements']) is not bool):
                 raise ServiceError(400, '管理员等级、段位或成就选项无效')
             value = dict(body)
             with service._write() as connection:
                 if value['allAchievements']:
                     connection.execute("INSERT OR IGNORE INTO account_preferences VALUES('admin-granted-at',?,?)",(iso(service._now()),iso(service._now())))
-                connection.execute("INSERT INTO account_preferences VALUES('admin-controls',?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at", (json.dumps(value), iso(service._now())))
+                connection.execute("INSERT INTO account_preferences VALUES('admin-controls',?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at", (json.dumps({**value, 'rankLadderVersion': 2}), iso(service._now())))
         return value
 
 def decorate(service, value):

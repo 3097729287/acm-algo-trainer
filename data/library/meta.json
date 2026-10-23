@@ -14,5 +14,6 @@
   "teachingRevision": "2026-10-22-foundations-v1",
   "url_index_version": "1",
   "xcpc_codeforces_source": "https://codeforces.com/gyms",
-  "xcpc_source": "https://www.luogu.com.cn/problem/list"
+  "xcpc_source": "https://www.luogu.com.cn/problem/list",
+  "knowledge_revision": "2026-10-23-topic-audit-1"
 }

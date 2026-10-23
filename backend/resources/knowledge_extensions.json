@@ -2,37 +2,434 @@
   "version": "knowledge-v1.0",
   "description": "由现有归档明确教学内容登记的正式技术；旧目录标签仅作为来源，不冒充同一种算法。",
   "concepts": [
-    {"name":"二分图判定","category":"图论","aliases":["二染色","二着色"],"sources":["ABC 472::E","ARC 226::A"]},
-    {"name":"网络流","category":"图论","aliases":[],"sources":["ABC 472::G"]},
-    {"name":"最小割","category":"图论","aliases":[],"sources":["ABC 472::G"]},
-    {"name":"Z 函数","category":"字符串","aliases":["Z algorithm","Z-function"],"sources":["月赛 303::C"]},
-    {"name":"后缀自动机","category":"字符串","aliases":["suffix automaton","SAM"],"sources":["练习赛 152::G"]},
-    {"name":"Manacher","category":"字符串","aliases":["马拉车"],"sources":["Div.3 1096::D"]},
-    {"name":"单调队列","category":"数据结构","aliases":[],"sources":["Div.3 1103::E"]},
-    {"name":"矩阵运算","category":"数学","aliases":[],"sources":["挑战赛 88::D","练习赛 149::G"]},
-    {"name":"莫比乌斯反演","category":"数论","aliases":["Möbius inversion","Mobius inversion"],"sources":["练习赛 148::F"]},
-    {"name":"杜教筛","category":"数论","aliases":[],"sources":["练习赛 148::F"]},
-    {"name":"鸽巢原理","category":"数学","aliases":["抽屉原理"],"sources":["挑战赛 90::A"]},
-    {"name":"势能分析","category":"思维与策略","aliases":["势能函数"],"sources":["ARC 229::A"]},
-    {"name":"整数平方根","category":"数学","aliases":[],"sources":["ARC 224::B"]},
-    {"name":"分治优化 DP","category":"线性 DP","aliases":["分治 DP 优化"],"sources":["挑战赛 90::D"]},
-    {"name":"可持久化线段树","category":"数据结构","aliases":["主席树"],"sources":["小白月赛 136::F"]},
-    {"name":"可撤销并查集","category":"数据结构","aliases":["rollback DSU"],"sources":["练习赛 153::F"]},
-    {"name":"根号分治","category":"思维与策略","aliases":[],"sources":["月赛 310::C"]},
-    {"name":"摊还分析","category":"思维与策略","aliases":["amortized analysis"],"sources":["小白月赛 129::F"]},
-    {"name":"FFT","category":"数学","aliases":["快速傅里叶变换"],"sources":["原站官方 fft 标签"]},
-    {"name":"最大公约数","category":"数论","aliases":["gcd","最大公约数 gcd"],"sources":["洛谷公开题目算法标签"]},
-    {"name":"最小公倍数","category":"数论","aliases":["lcm","最小公倍数 lcm"],"sources":["洛谷公开题目算法标签"]},
-    {"name":"队列","category":"数据结构","aliases":[],"sources":["洛谷公开题目算法标签"]},
-    {"name":"堆","category":"数据结构","aliases":["优先队列"],"sources":["洛谷公开题目算法标签"]},
-    {"name":"链表","category":"数据结构","aliases":[],"sources":["洛谷公开题目算法标签"]},
-    {"name":"高斯消元","category":"数学","aliases":[],"sources":["洛谷公开题目算法标签"]},
-    {"name":"基环树","category":"图论","aliases":[],"sources":["洛谷公开题目算法标签"]},
-    {"name":"双连通分量","category":"图论","aliases":[],"sources":["洛谷公开题目算法标签"]},
-    {"name":"整除分块","category":"数论","aliases":[],"sources":["洛谷公开题目算法标签"]},
-    {"name":"欧拉函数","category":"数论","aliases":[],"sources":["洛谷公开题目算法标签"]},
-    {"name":"bitset","category":"数据结构","aliases":[],"sources":["洛谷公开题目算法标签"]},
-    {"name":"生成函数","category":"数学","aliases":[],"sources":["洛谷公开题目算法标签"]},
-    {"name":"Pólya 定理","category":"数学","aliases":[],"sources":["洛谷公开题目算法标签"]}
+    {
+      "name": "二分图判定",
+      "category": "图论",
+      "aliases": [
+        "二染色",
+        "二着色"
+      ],
+      "sources": [
+        "ABC 472::E",
+        "ARC 226::A"
+      ]
+    },
+    {
+      "name": "网络流",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "ABC 472::G"
+      ]
+    },
+    {
+      "name": "最小割",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "ABC 472::G"
+      ]
+    },
+    {
+      "name": "Z 函数",
+      "category": "字符串",
+      "aliases": [
+        "Z algorithm",
+        "Z-function"
+      ],
+      "sources": [
+        "月赛 303::C"
+      ]
+    },
+    {
+      "name": "后缀自动机",
+      "category": "字符串",
+      "aliases": [
+        "suffix automaton",
+        "SAM"
+      ],
+      "sources": [
+        "练习赛 152::G"
+      ]
+    },
+    {
+      "name": "Manacher",
+      "category": "字符串",
+      "aliases": [
+        "马拉车"
+      ],
+      "sources": [
+        "Div.3 1096::D"
+      ]
+    },
+    {
+      "name": "单调队列",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "Div.3 1103::E"
+      ]
+    },
+    {
+      "name": "矩阵运算",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "挑战赛 88::D",
+        "练习赛 149::G"
+      ]
+    },
+    {
+      "name": "莫比乌斯反演",
+      "category": "数论",
+      "aliases": [
+        "Möbius inversion",
+        "Mobius inversion"
+      ],
+      "sources": [
+        "练习赛 148::F"
+      ]
+    },
+    {
+      "name": "杜教筛",
+      "category": "数论",
+      "aliases": [],
+      "sources": [
+        "练习赛 148::F"
+      ]
+    },
+    {
+      "name": "鸽巢原理",
+      "category": "数学",
+      "aliases": [
+        "抽屉原理"
+      ],
+      "sources": [
+        "挑战赛 90::A"
+      ]
+    },
+    {
+      "name": "势能分析",
+      "category": "思维与策略",
+      "aliases": [
+        "势能函数"
+      ],
+      "sources": [
+        "ARC 229::A"
+      ]
+    },
+    {
+      "name": "整数平方根",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "ARC 224::B"
+      ]
+    },
+    {
+      "name": "分治优化 DP",
+      "category": "线性 DP",
+      "aliases": [
+        "分治 DP 优化"
+      ],
+      "sources": [
+        "挑战赛 90::D"
+      ]
+    },
+    {
+      "name": "可持久化线段树",
+      "category": "数据结构",
+      "aliases": [
+        "主席树"
+      ],
+      "sources": [
+        "小白月赛 136::F"
+      ]
+    },
+    {
+      "name": "可撤销并查集",
+      "category": "数据结构",
+      "aliases": [
+        "rollback DSU"
+      ],
+      "sources": [
+        "练习赛 153::F"
+      ]
+    },
+    {
+      "name": "根号分治",
+      "category": "思维与策略",
+      "aliases": [],
+      "sources": [
+        "月赛 310::C"
+      ]
+    },
+    {
+      "name": "摊还分析",
+      "category": "思维与策略",
+      "aliases": [
+        "amortized analysis"
+      ],
+      "sources": [
+        "小白月赛 129::F"
+      ]
+    },
+    {
+      "name": "FFT",
+      "category": "数学",
+      "aliases": [
+        "快速傅里叶变换"
+      ],
+      "sources": [
+        "原站官方 fft 标签"
+      ]
+    },
+    {
+      "name": "最大公约数",
+      "category": "数论",
+      "aliases": [
+        "gcd",
+        "最大公约数 gcd"
+      ],
+      "sources": [
+        "洛谷公开题目算法标签"
+      ]
+    },
+    {
+      "name": "最小公倍数",
+      "category": "数论",
+      "aliases": [
+        "lcm",
+        "最小公倍数 lcm",
+        "least common multiple"
+      ],
+      "sources": [
+        "洛谷公开题目算法标签"
+      ]
+    },
+    {
+      "name": "队列",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "洛谷公开题目算法标签"
+      ]
+    },
+    {
+      "name": "堆",
+      "category": "数据结构",
+      "aliases": [
+        "优先队列"
+      ],
+      "sources": [
+        "洛谷公开题目算法标签"
+      ]
+    },
+    {
+      "name": "链表",
+      "category": "数据结构",
+      "aliases": [
+        "linked list",
+        "双向链表",
+        "静态链表"
+      ],
+      "sources": [
+        "洛谷公开题目算法标签"
+      ]
+    },
+    {
+      "name": "高斯消元",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "洛谷公开题目算法标签"
+      ]
+    },
+    {
+      "name": "基环树",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "洛谷公开题目算法标签"
+      ]
+    },
+    {
+      "name": "双连通分量",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "洛谷公开题目算法标签"
+      ]
+    },
+    {
+      "name": "整除分块",
+      "category": "数论",
+      "aliases": [],
+      "sources": [
+        "洛谷公开题目算法标签"
+      ]
+    },
+    {
+      "name": "欧拉函数",
+      "category": "数论",
+      "aliases": [],
+      "sources": [
+        "洛谷公开题目算法标签"
+      ]
+    },
+    {
+      "name": "bitset",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "洛谷公开题目算法标签"
+      ]
+    },
+    {
+      "name": "生成函数",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "洛谷公开题目算法标签"
+      ]
+    },
+    {
+      "name": "Pólya 定理",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "洛谷公开题目算法标签"
+      ]
+    },
+    {
+      "name": "平面向量",
+      "category": "向量与度量",
+      "aliases": [],
+      "sources": [
+        "本地已有题面与题解中的明确几何对象；2026-10-23 分类审阅"
+      ]
+    },
+    {
+      "name": "点积与叉积",
+      "category": "向量与度量",
+      "aliases": [
+        "点积",
+        "叉积",
+        "向量叉积"
+      ],
+      "sources": [
+        "本地已有题面与题解中的明确几何对象；2026-10-23 分类审阅"
+      ]
+    },
+    {
+      "name": "距离与投影",
+      "category": "向量与度量",
+      "aliases": [
+        "欧氏距离",
+        "曼哈顿距离",
+        "切比雪夫距离"
+      ],
+      "sources": [
+        "本地已有题面与题解中的明确几何对象；2026-10-23 分类审阅"
+      ]
+    },
+    {
+      "name": "点线关系",
+      "category": "点线与圆",
+      "aliases": [],
+      "sources": [
+        "本地已有题面与题解中的明确几何对象；2026-10-23 分类审阅"
+      ]
+    },
+    {
+      "name": "线段相交",
+      "category": "点线与圆",
+      "aliases": [],
+      "sources": [
+        "本地已有题面与题解中的明确几何对象；2026-10-23 分类审阅"
+      ]
+    },
+    {
+      "name": "圆与切线",
+      "category": "点线与圆",
+      "aliases": [],
+      "sources": [
+        "本地已有题面与题解中的明确几何对象；2026-10-23 分类审阅"
+      ]
+    },
+    {
+      "name": "多边形面积",
+      "category": "多边形",
+      "aliases": [
+        "鞋带公式"
+      ],
+      "sources": [
+        "本地已有题面与题解中的明确几何对象；2026-10-23 分类审阅"
+      ]
+    },
+    {
+      "name": "几何重心",
+      "category": "多边形",
+      "aliases": [],
+      "sources": [
+        "本地已有题面与题解中的明确几何对象；2026-10-23 分类审阅"
+      ]
+    },
+    {
+      "name": "凸包",
+      "category": "多边形",
+      "aliases": [],
+      "sources": [
+        "本地已有题面与题解中的明确几何对象；2026-10-23 分类审阅"
+      ]
+    },
+    {
+      "name": "点在多边形内",
+      "category": "多边形",
+      "aliases": [],
+      "sources": [
+        "本地已有题面与题解中的明确几何对象；2026-10-23 分类审阅"
+      ]
+    },
+    {
+      "name": "旋转卡壳",
+      "category": "多边形",
+      "aliases": [],
+      "sources": [
+        "本地已有题面与题解中的明确几何对象；2026-10-23 分类审阅"
+      ]
+    },
+    {
+      "name": "半平面交",
+      "category": "多边形",
+      "aliases": [],
+      "sources": [
+        "本地已有题面与题解中的明确几何对象；2026-10-23 分类审阅"
+      ]
+    },
+    {
+      "name": "几何构造",
+      "category": "计算几何",
+      "aliases": [],
+      "sources": [
+        "本地已有题面与题解中的明确几何对象；2026-10-23 分类审阅"
+      ]
+    },
+    {
+      "name": "解析几何",
+      "category": "计算几何",
+      "aliases": [],
+      "sources": [
+        "本地已有题面与题解中的明确几何对象；2026-10-23 分类审阅"
+      ]
+    },
+    {
+      "name": "三维几何",
+      "category": "计算几何",
+      "aliases": [],
+      "sources": [
+        "本地已有题面与题解中的明确几何对象；2026-10-23 分类审阅"
+      ]
+    }
   ]
 }

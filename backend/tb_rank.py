@@ -8,14 +8,16 @@ import datetime as dt
 import math
 from progression import SHANGHAI, parse_time
 
-TIERS = ('黑铁', '青铜', '白银', '黄金', '铂金', '翡翠', '钻石', '大师', '宗师', '王者')
-TITLES = ('编程入门', '基础研习', '算法实践', '结构分析', '状态建模', '构造与证明', '复杂度掌控', '算法设计', '竞赛研究', '算法专家')
+TIERS = ('黑铁', '青铜', '白银', '黄金', '翡翠', '钻石', '大师', '宗师', '王者')
+TITLES = ('编程入门', '基础研习', '算法实践', '结构分析', '构造与证明', '复杂度掌控', '算法设计', '竞赛研究', '算法专家')
+LEGACY_TIERS = ('黑铁', '青铜', '白银', '黄金', '铂金', '翡翠', '钻石', '大师', '宗师', '王者')
+LEGACY_TITLES = ('编程入门', '基础研习', '算法实践', '结构分析', '状态建模', '构造与证明', '复杂度掌控', '算法设计', '竞赛研究', '算法专家')
 LEVEL_CAP = 100  # Public progress protocol 1 accepts levels 1 through 100.
 LEVEL_COSTS = tuple(200 * level for level in range(1, LEVEL_CAP))
 RANK_UNLOCK_LEVEL = 5
 RANK_UNLOCK_XP = sum(LEVEL_COSTS[:RANK_UNLOCK_LEVEL - 1])
 MIN_RANK_EVIDENCE = 5
-RANK_THRESHOLDS = (0, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2100, 2200)
+RANK_THRESHOLDS = (0, 800, 1000, 1200, 1600, 1800, 2000, 2100, 2200)
 LEGACY_RANK_THRESHOLDS = (0, 300, 700, 1200, 1800, 2500, 3300, 4200, 5300, 6500)
 
 
@@ -94,8 +96,8 @@ def legacy_ranked_points(evidence, daily_evidence, unlocked_at, now):
         day += dt.timedelta(days=1)
     index = rank_index(score, LEGACY_RANK_THRESHOLDS)
     division = min(3, (score - LEGACY_RANK_THRESHOLDS[index]) // 100)
-    title = TITLES[index] + (' · ' + str(division + 1) + ' 星' if index < 9 else f' · {1 + (score - 6500) // 500} 星')
-    return {'score': score, 'tier': TIERS[index], 'badge': f'tier-{index}', 'title': title,
+    title = LEGACY_TITLES[index] + (' · ' + str(division + 1) + ' 星' if index < 9 else f' · {1 + (score - 6500) // 500} 星')
+    return {'score': score, 'tier': LEGACY_TIERS[index], 'badge': f'tier-{index}', 'title': title,
             'nextScore': LEGACY_RANK_THRESHOLDS[index + 1] if index < 9 else 6500 + (1 + (score - 6500) // 500) * 500,
             'minDifficulty': min(3000, 800 + 250 * index), 'dailyRequired': int(index >= 5),
             'dailyQualified': today_qualified, 'todayPoints': today_gain, 'earnedPoints': gained,

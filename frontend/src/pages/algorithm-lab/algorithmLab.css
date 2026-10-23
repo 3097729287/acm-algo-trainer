@@ -383,3 +383,31 @@ html[data-motion=off] :is(.algorithm-lab *, .lab-catalog *) { animation:none!imp
   .lab-formula-content { padding-inline:16px; }
   .lab-story h2 { font-size:1.5rem; }
 }
+
+/* The lesson owns a compact top toolbar in both the desktop and standalone app. */
+.algorithm-lab {display:block;max-width:none;padding:0 clamp(18px,2.5vw,50px) 32px;font-family:'Segoe UI','Microsoft YaHei UI',system-ui,sans-serif;font-size:1rem}
+.algorithm-lab .lab-course-header {position:sticky;top:0;z-index:20;min-height:64px;gap:12px;padding:12px 0;margin:0 0 28px;background:var(--lab-paper);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.lab-course-header .lab-course-tools {display:flex;flex-direction:row;align-items:center;justify-content:flex-end;position:static;padding:0;gap:8px;margin-left:auto}
+.lab-course-header .lab-page-navigation {flex-direction:row;gap:8px}
+.lab-course-header .lab-header-actions {display:flex;align-items:center;margin:0 0 0 5px;gap:8px}
+.algorithm-lab .lab-course-header .lab-icon-button,.algorithm-lab .lab-course-header .lab-menu-toggle {display:inline-flex;align-items:center;justify-content:center;flex-direction:row;width:40px;height:40px;min-height:40px;padding:0;border:1px solid var(--line);border-radius:7px;background:var(--lab-paper);font-size:.84rem}
+.lab-course-header .lab-menu-toggle>span {display:none}
+.algorithm-lab .lab-course-header .lab-menu nav {top:calc(100% + 10px);right:0;left:auto;max-height:min(70dvh,480px);max-width:calc(100vw - 40px);overflow:auto}
+.algorithm-lab .lab-course-header h1 {font-size:1.15rem;line-height:1.5;font-weight:650;letter-spacing:0}
+.lab-lesson {width:100%;margin-inline:auto;outline:0;scroll-margin-top:84px}
+.lab-story {max-width:none;margin-bottom:26px}
+.algorithm-lab .lab-story>h2 {font-size:clamp(1.6rem,2vw,2.25rem);line-height:1.5;font-weight:650;letter-spacing:0}
+.algorithm-lab .lab-story>p {max-width:100ch;font-size:1.02rem;line-height:1.9}
+.algorithm-lab :is(.lab-check>p,.lab-panel>p,.lab-formula-content p,.lab-row-reuse>p,.lab-table-help,.lab-packing-breakdown>p,.lab-input-order) {font-size:1rem;line-height:1.9}
+.algorithm-lab :is(.lab-check h3,.lab-panel h3) {font-size:1.08rem;line-height:1.6}
+.algorithm-lab :is(.lab-item>span>span,.lab-choice,.lab-hints p,.lab-note,.lab-guided-plan,.lab-recall,.lab-implementation li label) {font-size:.96rem;line-height:1.85}
+.algorithm-lab .lab-button,.algorithm-lab .lab-answer-row input {font-size:.94rem;min-height:43px}
+.algorithm-lab .lab-text-button {font-size:.92rem}
+.algorithm-lab .lab-answer-row label {max-width:360px}
+.algorithm-lab :is(code,pre,textarea) {font-family:Consolas,'Cascadia Mono','Microsoft YaHei',monospace}
+@media(min-width:1400px) {
+ .lab-lesson:has(>.lab-mission) {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;align-items:stretch}
+ .lab-lesson:has(>.lab-mission)>:not(.lab-mission) {grid-column:1/-1}
+ .lab-mission>.lab-check {height:100%;margin:0}
+}
+@media(max-width:700px) {.algorithm-lab {padding-inline:14px}.algorithm-lab .lab-course-header {gap:7px;margin-bottom:20px}.algorithm-lab .lab-course-header h1 {font-size:1rem}.lab-course-header .lab-header-actions {margin-left:0}.lab-course-header .lab-course-tools,.lab-course-header .lab-page-navigation {gap:5px}.algorithm-lab .lab-course-header .lab-icon-button,.algorithm-lab .lab-course-header .lab-menu-toggle {width:34px;height:36px;min-height:36px}.lab-course-header .lab-position {font-size:.76rem}.algorithm-lab .lab-panel,.algorithm-lab .lab-check {padding:18px}.algorithm-lab .lab-story>p,.algorithm-lab .lab-check>p {font-size:.96rem}}

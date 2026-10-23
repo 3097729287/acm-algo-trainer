@@ -19,10 +19,10 @@ rows[118]={...rows[118],contest:'CCPC 2025 郑州区域赛（热身赛）',serie
 rows[119]={...rows[119],contest:'CCPC 2025 郑州区域赛',series:'XCPC'};
 let mockRecords=[1,3,2].map(day=>({id:`mock-${day}`,name:`训练记录 ${day}`,status:'finished',startedAt:`2026-10-${String(day).padStart(2,'0')}T10:00:00Z`,duration:120,total:4,accepted:day,slots:rows.slice(0,4).map((row,index)=>({...row,letter:String.fromCharCode(65+index),accepted:index<day,attempts:1}))}));
 const training=rows.filter(row=>row.id!==rows[119].id).map(row=>({id:row.id,activeAt:timestamp,lastActivityAt:timestamp,today:true,accepted:false,verdict:null,attempts:0}));
-let adminMode=false,calendarReads=0,trainingDelay=0,failDraft=false,reviewId=null,mockActive=null;
+let adminMode=false,calendarReads=0,trainingDelay=0,failDraft=false,reviewId=null,mockActive=null,todayCount=2,rankingOnlySelf=false,richFixture=false;
 let preferences=null,likes={total:4,likedToday:false},failLike=true,boardDay=date,notifications=[{id:'33333333-3333-4333-8333-333333333333',kind:'comment',actor:other,recipient:self,text:'一起加油 <script>window.untrusted=true</script>',createdAt:timestamp,read:false}];
 notifications.push(...Array.from({length:100},(_,index)=>({id:`55555555-5555-4555-8555-${String(index).padStart(12,'0')}`,kind:'like',actor:other,recipient:self,createdAt:timestamp,read:false})));
-const workspace=()=>({training,sets:[],contests:mockRecords,activeContest:mockActive,goals:{goals:[]},goalTasks:[...rows.slice(0,2),{...rows[119],accepted:true}],summary:{total:120,accepted:training.filter(row=>row.accepted).length,todayAccepted:2,beforeTodayAccepted:82,historicalAccepted:84,attempts:0,due:0,pending:0,streak:12},now:timestamp});
+const workspace=()=>({training,sets:[],contests:mockRecords,activeContest:mockActive,goals:{goals:[]},goalTasks:[...rows.slice(0,2),{...rows[119],accepted:true}],summary:{total:120,accepted:training.filter(row=>row.accepted).length,todayAccepted:todayCount,beforeTodayAccepted:82,historicalAccepted:82+todayCount,attempts:0,due:0,pending:0,streak:12},now:timestamp});
 const progress={badge:'tier-7',level:8,tier:'大师',rankTier:'大师',rankScore:2000,titles:[]};
 const ranked={badge:'tier-7',tier:'大师',qualified:true,abilityScore:2000,nextAbilityScore:2100,evidenceCount:8,minimumEvidence:5,levelGate:5};
 ranked.tierRequirements=['黑铁','青铜','白银','黄金','铂金','翡翠','钻石','大师','宗师','王者'].map((tier,index)=>({tier,badge:`tier-${index}`,minAbilityScore:[0,800,1000,1200,1400,1600,1800,2000,2100,2200][index]}));
@@ -34,29 +34,31 @@ await page.route('**/api/**',async route=>{
   const body=request.method()==='POST'?request.postDataJSON():null;
   if(body)writes.push({path,body});
   let value;
-  if(path==='/api/account')value={required:false,authenticated:true,usesOriginalWorkspace:true,token:'fixture',account:self,admin:adminMode};
+  if(path==='/api/account')value={required:false,authenticated:true,usesOriginalWorkspace:true,token:'fixture',account:{...self,createdAt:'2026-10-01T00:00:00Z'},admin:adminMode};
   else if(path==='/api/preferences'){if(body)preferences=body.preferences;value={preferences,updatedAt:timestamp};}
   else if(path==='/api/software-update')value={currentVersion:'1.1.5',status:'current',autoCheck:false,canInstall:false};
   else if(path==='/api/browser-preparation')value={available:false};
-  else if(path==='/api/data')value={rows,categories:[{name:'数据结构',tags:['栈','单调栈'],children:[{name:'单调栈',tags:['单调栈']}]},{name:'数学',tags:['素数','取模与同余'],children:[{name:'素数',tags:['素数']},{name:'取模与同余',tags:['取模与同余']}]},{name:'字符串',tags:['KMP','字典树'],children:[{name:'KMP',tags:['KMP']},{name:'字典树',tags:['字典树']}]}],token:'fixture',today:date,revision:'ui-social'};
+  else if(path==='/api/data')value={rows,categories:richFixture?[{name:'基础技巧',tags:['二分查找','线性 DP'],children:[{name:'二分查找',tags:['二分查找']}]},{name:'动态规划',tags:['线性 DP','背包 DP'],children:[{name:'线性 DP',tags:['线性 DP']},{name:'背包 DP',tags:['背包 DP']}]},{name:'数学',tags:Array.from({length:40},(_,i)=>'专题'+i),children:Array.from({length:40},(_,i)=>({name:'专题'+i,tags:['专题'+i]}))}]:[{name:'数据结构',tags:['栈','单调栈'],children:[{name:'单调栈',tags:['单调栈']}]},{name:'数学',tags:['素数','取模与同余'],children:[{name:'素数',tags:['素数']},{name:'取模与同余',tags:['取模与同余']}]},{name:'字符串',tags:['KMP','字典树'],children:[{name:'KMP',tags:['KMP']},{name:'字典树',tags:['字典树']}]}],token:'fixture',today:date,revision:'ui-social'};
   else if(path==='/api/workspace')value=workspace();
   else if(path==='/api/hub')value=hub;
-  else if(path==='/api/insights')value={summary:{officialSolved:0,submissions:0,activeDays:1,streak:1},growth:{...progress,totalXp:6265,currentLevelXp:665,nextLevelXp:1600,ranked},knowledge:[],achievements:[],activity:[],recommendations:[],assessment:{platforms:[]},dailyTasks:{tasks:[]}};
+  else if(path==='/api/insights')value={summary:{officialSolved:0,submissions:0,activeDays:1,streak:1},growth:{...progress,totalXp:6265,currentLevelXp:665,nextLevelXp:1600,ranked},knowledge:[],achievements:[],personalStatistics:{longestAcStreak:7,maxDailyAc:8,maxDailyAcDate:date,hardestSolved:{...rows[20]}},activity:richFixture?Array.from({length:Number(date.slice(-2))},(_,i)=>({date:date.slice(0,8)+String(i+1).padStart(2,'0'),officialAccepted:i%8,submissions:1})):[],recommendations:[],assessment:{platforms:[]},dailyTasks:{tasks:[]}};
   else if(path==='/api/profile')value={profile:self,leaderboard:{configured:true,status:'ready'}};
   else if(path==='/api/goals')value={goals:[]};
+  else if(path==='/api/usage')value=body?{saved:true}:{days:[],totalSeconds:7200,maxDailySeconds:3600,maxDailyDate:date};
   else if(path==='/api/contest-calendar'){calendarReads++;value={refreshing:false,providers:['Codeforces','AtCoder','牛客','洛谷'].map(label=>({platform:label,label,status:'ready'})),contests:[{id:'abc-fixture',title:'ABC 481',platform:'atcoder',startAt:'2026-10-24T12:00:00Z',endAt:'2026-10-24T13:40:00Z',url:'https://atcoder.jp/contests/abc481'},{id:'cf-fixture',title:'Codeforces Round (Div. 2)',platform:'codeforces',startAt:'2026-10-24T14:35:00Z',endAt:'2026-10-24T16:35:00Z',url:'https://codeforces.com/contest/2100'}]};}
   else if(path==='/api/solution')value={id:url.searchParams.get('id'),title:'Fixture editorial',markdown:'## 思路\n\n先分析边界，再计算答案。\n\n$$a^2+b^2=c^2$$',images:{},lectures:[]};
   else if(path==='/api/contests/events')value={events:[]};
   else if(path==='/api/contest')value={contest:mockRecords.find(item=>item.id===url.searchParams.get('id'))};
   else if(path==='/api/contests/delete'){mockRecords=body.all?[]:mockRecords.filter(item=>item.id!==body.id);value={workspace:workspace(),deleted:1};}
   else if(path==='/api/submissions')value={submissions:rows.slice(0,3).map((row,index)=>({id:`submission-${index}`,problemId:row.id,submittedAt:timestamp,mode:'submit',verdict:'AC',timeMs:index===2?15:null})),total:3,hasMore:false};
-  else if(path==='/api/lectures')value={lectures:[{id:'lesson',title:'二分查找',category:'基础技巧',tags:['二分']},{id:'linear',title:'线性状态',category:'动态规划 / 线性 DP',tags:['线性 DP']},{id:'bag',title:'背包选择',category:'动态规划 / 背包 DP',tags:['背包 DP']} ]};
+  else if(path==='/api/lectures')value={lectures:[{id:'lesson',title:'二分查找',category:'基础技巧',tags:richFixture?['二分','线性 DP']:['二分']},{id:'linear',title:'线性状态',category:'动态规划 / 线性 DP',tags:['线性 DP']},{id:'bag',title:'背包选择',category:'动态规划 / 背包 DP',tags:['背包 DP']} ]};
+  else if(path==='/api/lecture')value={id:url.searchParams.get('id'),title:'知识正文',tags:['二分','线性 DP'],markdown:'## 先说明状态\n\n独立复用基础知识。'};
   else if(path==='/api/desktop/fullscreen')value={available:false,fullscreen:false};
   else if(path==='/api/training/start'){if(trainingDelay)await new Promise(resolve=>setTimeout(resolve,trainingDelay));value={workspace:workspace(),reviewTask:reviewId?{id:reviewId}:null};}
   else if(path==='/api/problem')value={id:url.searchParams.get('id'),title:rows.find(row=>row.id===url.searchParams.get('id')).title,markdown:'## 题目描述\n\n测试题面。\n\n## 样例\n\n```text\n1 2\n```',samples:[{input:'1\n',output:'2\n'}],limits:{timeMs:2000,memoryMb:256},judge:{scope:'samples',cases:1},statementAvailable:true,draft:'int main() { return 0; }',submissions:[]};
   else if(path==='/api/draft'){if(failDraft){await route.fulfill({status:503,json:{error:'fixture draft unavailable'}});return;}value={savedAt:timestamp};}
   else if(path==='/api/translation/settings')value={provider:'custom',providerName:'自定义',model:'fixture',configured:false,keyStored:false,providers:[]};
-  else if(path==='/api/leaderboard')value={period:url.searchParams.get('period')||'daily',date:boardDay,configured:true,status:'ready',hasSnapshot:true,socialAvailable:true,socialProtocol:1,isAdmin:true,entries:[{...self,rank:1,count:2,likes:{total:9,likedToday:false},publicProgress:progress},{...other,rank:2,count:1,likes,publicProgress:progress}],self};
+  else if(path==='/api/leaderboard')value={period:url.searchParams.get('period')||'daily',date:boardDay,configured:true,status:'ready',hasSnapshot:true,socialAvailable:true,socialProtocol:1,isAdmin:true,entries:[{...self,rank:1,count:2,likes:{total:9,likedToday:false},publicProgress:progress},...rankingOnlySelf?[]:[{...other,rank:2,count:1,likes,publicProgress:progress}]],self};
   else if(path==='/api/leaderboard/sync')value={queued:true};
   else if(path==='/api/social')value={available:true,protocol:1,totalLikes:9,todayLikes:3,unreadCount:notifications.filter(row=>!row.read).length,notifications:notifications.slice(0,100),activity:[{id:'today',kind:'like',actor:self,recipient:other,createdAt:timestamp},{id:'yesterday',kind:'like',actor:{nickname:'昨日用户'},recipient:other,createdAt:new Date(Date.now()-86400000).toISOString()}]};
   else if(path==='/api/social/likes'){
@@ -86,7 +88,17 @@ async function radarNames(){
 try{
  await mkdir('tests/screenshots',{recursive:true});
  await page.goto('http://127.0.0.1:18831');await page.locator('.problem-table tr[data-id]').first().waitFor();
- assert.equal(await page.locator('.topbar-daily-ac').innerText(),'AC:82+2');
+ assert.equal((await page.locator('.topbar-daily-ac').innerText()).replace(/\s/g,''),'AC:82+2');
+ assert.equal(await page.locator('.practice-streak').getAttribute('data-lit'),'true');
+ const flameBefore=await page.locator('.practice-streak').boundingBox();
+ todayCount=0;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));
+ await page.waitForFunction(()=>document.querySelector('.practice-streak')?.dataset.lit==='false');
+ assert.equal(await page.locator('.practice-streak .flame-shell').evaluate(node=>getComputedStyle(node).fill),'none');
+ assert.equal(await page.locator('.practice-streak .flame-body').count(),0);
+ todayCount=2;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));
+ await page.waitForFunction(()=>document.querySelector('.practice-streak')?.dataset.lit==='true');
+ assert.equal(await page.locator('.practice-streak .flame-shell').evaluate(node=>getComputedStyle(node).fill),'rgb(236, 81, 44)');
+ assert.deepEqual(await page.locator('.practice-streak').boundingBox(),flameBefore,'today completion fills the flame without shifting header status');
  assert.equal(await page.locator('.topbar-love-count svg').getAttribute('fill'),'currentColor');
  const settingsGeometry=()=>page.locator('.sidebar-bottom .nav-item').evaluate(node=>{const box=node.getBoundingClientRect(),label=node.querySelector('span').getBoundingClientRect();return {x:box.x,y:box.y,width:box.width,height:box.height,labelX:label.x,labelY:label.y};});
  const fixedSettings=await settingsGeometry();
@@ -102,7 +114,7 @@ try{
  assert.equal(calendarReads,0,'calendar does not block startup with provider requests');
  await page.getByRole('button',{name:'比赛日历',exact:true}).click();await page.getByRole('dialog',{name:'比赛日历',exact:true}).waitFor();await page.getByRole('link',{name:/ABC 481/}).waitFor();assert.equal((await page.locator('.contest-calendar-row time').allTextContents()).join(','),'20:00,22:35');assert.equal(await page.locator('.contest-calendar-provider-error').count(),0);await checkOverflow();await shot('calendar');await page.keyboard.press('Escape');
  const status=await page.locator('.topbar').evaluate(node=>{const ac=node.querySelector('.topbar-daily-ac'),heart=node.querySelector('.topbar-love-count b'),flame=node.querySelector('.streak-flame');return {ac:getComputedStyle(ac).color,muted:getComputedStyle(node).getPropertyValue('--muted').trim(),size:parseFloat(getComputedStyle(heart).fontSize),flame:flame.getBoundingClientRect().height,animation:getComputedStyle(flame).animationName};});
- assert(status.size>=16);assert.equal(status.flame,20);assert.equal(status.animation,'none');
+ assert(status.size>=16);assert.equal(status.flame,24);assert.equal(status.animation,'none');
  assert.equal(await page.locator('.footer-hint').count(),0);
  await header();
  await page.getByRole('button',{name:'筛选题目',exact:true}).click();
@@ -154,6 +166,10 @@ try{
  await page.getByLabel('账号成长统计',{exact:true}).waitFor();assert.equal(await page.getByText('下一步练什么',{exact:true}).count(),0);assert.equal(await page.getByText('今日同行',{exact:true}).count(),0);
  assert.equal(await page.locator('.radar-data-dot').count(),0);assert.equal(await page.locator('.radar-value').count(),0);
  await page.getByRole('button',{name:'数学与计数，掌握 ?%，进入二级雷达',exact:true}).click();await page.getByRole('button',{name:'素数，掌握 ?%，筛选题目',exact:true}).waitFor();await page.getByRole('button',{name:'取模与同余，掌握 ?%，筛选题目',exact:true}).waitFor();
+ const backAlignment=await page.locator('.knowledge-radar>.progress-section-heading').evaluate(node=>{const h=node.querySelector('h2').getBoundingClientRect(),b=node.querySelector('.radar-back').getBoundingClientRect(),r=node.getBoundingClientRect();return {right:r.right-b.right,centers:Math.abs(h.y+h.height/2-b.y-b.height/2),gap:b.left-h.right};});
+ assert(backAlignment.right<1&&backAlignment.centers<1&&backAlignment.gap>0,JSON.stringify(backAlignment));
+ await page.getByRole('button',{name:'返回一级雷达',exact:true}).click();await page.getByRole('group',{name:'一级知识雷达',exact:true}).waitFor();
+ await page.getByRole('button',{name:'数学与计数，掌握 ?%，进入二级雷达',exact:true}).click();
  await radarNames();await page.keyboard.press('Escape');await page.getByRole('group',{name:'一级知识雷达',exact:true}).waitFor();await page.getByRole('button',{name:'字符串，掌握 ?%，进入二级雷达',exact:true}).click();await radarNames();
  await shot('growth');
  await page.getByRole('button',{name:'KMP，掌握 ?%，筛选题目',exact:true}).click();await page.getByRole('group',{name:'当前知识点筛选',exact:true}).waitFor();
@@ -161,10 +177,12 @@ try{
  await page.getByRole('button',{name:'清除知识点筛选 KMP',exact:true}).click();assert.equal(await page.locator('.active-knowledge-filter').count(),0);assert.equal(await page.getByLabel('搜索题目',{exact:true}).inputValue(),'列表定位');assert(await page.locator('.problem-table tr[data-id]').count()>1);await shot('knowledge-filter-cleared');
  await nav('排行榜').click();await page.locator('.ranking-self').waitFor();
  const own=page.locator('.ranking-self');assert.equal(await own.locator('.like-burst').getAttribute('data-liked'),'true');assert.equal(await own.locator('.ranking-message').count(),0);assert.equal(await own.locator('.avatar-rank-frame').count(),1);
- assert(Math.abs((await own.locator('.like-burst').boundingBox()).x-(await page.locator('.ranking-table tbody tr').nth(1).locator('.like-burst').boundingBox()).x)<1,'own and other hearts align vertically');
+ const ownHeart=await own.locator('.like-burst').boundingBox(),otherLast=await page.locator('.ranking-table tbody tr').nth(1).locator('.ranking-message').boundingBox();
+ assert(Math.abs(ownHeart.x+ownHeart.width-otherLast.x-otherLast.width)<1,'the last available action aligns with the right edge without a missing-message gap');
  assert.equal(await page.getByRole('button',{name:'清空当前榜单',exact:true}).count(),0,'user edition hides management even when an old service returns isAdmin');assert.equal(await page.locator('.ranking-admin-cell').count(),0);
  const ranking=await own.evaluate(row=>{const bounds=selector=>row.querySelector(selector).getBoundingClientRect(),self=row.getBoundingClientRect(),identity=bounds('.ranking-identity'),place=bounds('.ranking-place'),count=bounds('.ranking-count'),social=bounds('.ranking-social-cell');return {left:identity.left-self.left,place:place.width,right:self.right-social.right,gap:social.left-count.right,social:social.width};});
- assert(ranking.left<65,JSON.stringify(ranking));assert.equal(ranking.gap,0);assert(ranking.social<=135);assert(ranking.right<=1);
+ assert(ranking.left<=ranking.place+10,JSON.stringify(ranking));assert.equal(ranking.gap,0);assert(ranking.social<=135);assert(ranking.right<=1);
+ assert.equal((await own.locator('.profile-avatar-button').boundingBox()).width,76);assert.equal((await own.locator('.ranking-medal').boundingBox()).height,52);
  await page.locator('.social-activity').waitFor();assert.equal(await page.locator('.social-activity>div').count(),1);assert.equal(await page.locator('.social-activity').getByText('昨日用户').count(),0);
  await shot('rankings');await nav('题库').click();await nav('排行榜').click();assert.equal(await page.locator('.social-activity').count(),1);
  adminMode=true;await page.reload();await nav('排行榜').click();await page.getByRole('button',{name:'清空当前榜单',exact:true}).waitFor();assert.equal(await page.locator('.ranking-admin-cell').count(),2);adminMode=false;await page.reload();await page.locator('.problem-table').waitFor();
@@ -180,21 +198,21 @@ try{
  await page.getByRole('tab',{name:'交互与导航',exact:true}).click();assert.equal(await page.locator('.navigation-editor-row').count(),10);assert.equal(await page.getByText('自定义顺序',{exact:true}).count(),0);await page.keyboard.press('Escape');
  await nav('从零讲').click();await page.locator('.lectures-layout').waitFor();await header();assert.equal(await page.locator('.workspace-area h2').filter({hasText:'从零讲'}).count(),0);
  assert.equal(await page.locator('.lectures-layout').evaluate(node=>getComputedStyle(node).backgroundColor),'rgba(0, 0, 0, 0)');assert.equal((await page.locator('.lecture-difficulty').first().innerText()).includes('≈'),false);await shot('lectures');
- await page.getByRole('button',{name:'筛选讲解',exact:true}).click();await page.getByRole('combobox',{name:'从零讲知识分类'}).press('Space');
+ await page.getByRole('combobox',{name:'从零讲知识分类'}).press('Space');
  const knowledgeFolders=page.getByRole('listbox',{name:'从零讲知识分类'});
  await knowledgeFolders.getByRole('option',{name:'动态规划',exact:true}).click();await shot('lecture-folders');
  await knowledgeFolders.getByRole('option',{name:'选择「动态规划」',exact:true}).click();assert.equal(await page.locator('.lectures-list>button').count(),2);
  await page.getByRole('combobox',{name:'从零讲知识分类'}).press('Space');await knowledgeFolders.getByRole('option',{name:'动态规划',exact:true}).click();await knowledgeFolders.getByRole('option',{name:'线性 DP',exact:true}).click();assert.equal(await page.locator('.lectures-list>button').count(),1);
- await page.getByRole('dialog',{name:'筛选讲解'}).getByRole('button',{name:'重置',exact:true}).click();assert.equal(await page.locator('.lectures-list>button').count(),3);await page.getByRole('button',{name:'关闭筛选',exact:true}).click();
+ await page.getByRole('combobox',{name:'从零讲知识分类'}).press('Space');await knowledgeFolders.getByRole('button',{name:'返回上一级',exact:true}).click();await knowledgeFolders.getByRole('option',{name:'全部知识分类',exact:true}).click();assert.equal(await page.locator('.lectures-list>button').count(),3);
  await nav('提交记录').click();await page.locator('.submission-log-row').first().waitFor();assert.equal(await page.locator('.submission-log-row>svg').count(),0);assert.equal(await page.locator('.submission-runtime').count(),1);assert.equal(await page.locator('.submission-runtime').innerText(),'15 ms');
  await nav('算法实验室').click();assert.equal(await page.getByText('算法题单',{exact:true}).count(),0);
  await page.locator('.lab-only-course>.lab-panel').waitFor();assert.equal(await page.locator('.lab-only-course>.lab-panel').count(),1);
  await page.getByRole('button',{name:'学算法',exact:true}).click();await page.locator('.algorithm-lab .lab-course-header').waitFor();assert.equal(await page.locator('.lab-lesson-footer').count(),0);
  await page.getByRole('button',{name:'下一页',exact:true}).click();await page.getByRole('heading',{name:/把大问题拆小/}).waitFor();
  await page.locator('.learning-paths-page').evaluate(node=>{node.scrollTop=node.scrollHeight;});
- const labNext=await page.getByRole('button',{name:'下一页',exact:true}).boundingBox(), lessonBox=await page.locator('.lab-lesson').boundingBox();assert(labNext.y>=80&&labNext.y<900&&labNext.x>=lessonBox.x+lessonBox.width,'navigation stays in its own right column while scrolling');
+ const labNext=await page.getByRole('button',{name:'下一页',exact:true}).boundingBox(), lessonBox=await page.locator('.lab-lesson').boundingBox();assert(labNext.y>=0&&labNext.y<90,'navigation stays in the compact immersive header while scrolling');assert.equal(await page.locator('.sidebar').isVisible(),false);assert.equal(await page.locator('.topbar').isVisible(),false);
  assert.equal(await page.locator('.lab-course-header').getByRole('button',{name:'进入跟着做题',exact:true}).count(),0);
- for(const width of [2048,1280]){await page.setViewportSize({width,height:1000});await page.locator('.learning-paths-page').evaluate(node=>node.scrollTop=0);const body=await page.locator('.lab-lesson').boundingBox(),area=await page.locator('.learning-paths-page').boundingBox();assert(body.width>area.width*.72,'course uses the available page width');await shot('algorithm-lab-wide-'+width);}
+ for(const width of [2048,1280]){await page.setViewportSize({width,height:1000});await page.locator('.learning-paths-page').evaluate(node=>node.scrollTop=0);const body=await page.locator('.lab-lesson').boundingBox(),area=await page.locator('.learning-paths-page').boundingBox();assert(body.width>area.width*.9,'immersive course uses the available page width');await shot('algorithm-lab-wide-'+width);}
  await page.locator('.learning-paths-page').evaluate(node=>{node.style.setProperty('--page-opacity','30%');node.style.backgroundImage='linear-gradient(135deg,#24566a,#31354d)';});
  const railColors=await page.locator('.lab-course-tools button').evaluateAll(buttons=>buttons.map(button=>({background:getComputedStyle(button).backgroundColor,opacity:getComputedStyle(button).opacity})));
  const lessonColor=await page.locator('.lab-panel').first().evaluate(node=>getComputedStyle(node).backgroundColor);
@@ -205,10 +223,10 @@ try{
  const guidanceSaved=page.waitForResponse(response=>response.url().endsWith('/api/preferences')&&response.request().method()==='POST'&&response.request().postData().includes('"assisted":true'));
  await page.getByRole('button',{name:'3 推到代码',exact:true}).click();await page.getByRole('form',{name:'补出关键转移'}).waitFor();await guidanceSaved;
  mockActive={id:'lab-lock',name:'隔离考场',status:'running',startedAt:timestamp,endsAt:new Date(Date.now()+3600000).toISOString(),duration:60,total:1,remainingSeconds:3600,slots:[{...rows[117],id:'fixture:alias:P1048',letter:'A'}]};
- await page.reload();await nav('算法实验室').click();await page.getByRole('region',{name:'跟做指导已锁定',exact:true}).waitFor();
+ await page.reload();await nav('算法实验室').click();await page.getByRole('button',{name:'继续做题',exact:true}).click();await page.getByRole('region',{name:'跟做指导已锁定',exact:true}).waitFor();
  assert.equal(await page.getByRole('form',{name:'补出关键转移'}).count(),0,'guided source obeys the active original-task lock, including aliases');
  assert.equal(await page.getByRole('navigation',{name:'解题过程'}).count(),0);await shot('algorithm-lab-locked');
- mockActive=null;await page.reload();await nav('算法实验室').click();await page.getByRole('form',{name:'补出关键转移'}).waitFor();
+ mockActive=null;await page.reload();await nav('算法实验室').click();await page.getByRole('button',{name:'继续做题',exact:true}).click();await page.getByRole('form',{name:'补出关键转移'}).waitFor();
  await page.getByRole('button',{name:'5 自行实现',exact:true}).click();
  const labCheck=await page.locator('.lab-implementation input[type=checkbox]').first().boundingBox();assert(labCheck.width<=20&&labCheck.height<=20);await shot('algorithm-lab-guided');
  await page.getByRole('button',{name:'进入工作台实现',exact:true}).click();await page.locator('.cm-editor').waitFor();
@@ -235,6 +253,73 @@ try{
   await page.setViewportSize({width,height:1000});await nav(name).click();await page.waitForTimeout(75);
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'page overflow: '+name+' '+width);
   const area=await page.locator('.workspace-area').boundingBox();assert(area.x>=0&&area.x+area.width<=width+1,name);await shot('audit-'+name+'-'+width);
+ }
+
+ // The new layout uses real filtered pools, bounded month grids and all surface presets.
+ richFixture=true;await page.reload();await nav('题库').click();await page.locator('.problem-table').waitFor();
+ const firstPageIds=await page.locator('.problem-table tr[data-id]').evaluateAll(nodes=>nodes.map(node=>node.dataset.id));
+ await page.evaluate(()=>{window.savedRandom=crypto.getRandomValues.bind(crypto);crypto.getRandomValues=array=>{array[0]=119;return array;};});
+ await page.getByRole('button',{name:'随机单题',exact:true}).click();await page.locator('.cm-editor').waitFor();
+ const randomId=writes.filter(item=>item.path==='/api/training/start').at(-1).body.id;
+ assert(!firstPageIds.includes(randomId),'random selection spans all pages');
+ await page.keyboard.press('Escape');await page.getByRole('button',{name:'随机单题',exact:true}).click();await page.locator('.cm-editor').waitFor();
+ assert.equal(writes.filter(item=>item.path==='/api/training/start').at(-1).body.id,randomId,'pure random permits repeat draws');await page.keyboard.press('Escape');
+ await page.getByLabel('搜索题目',{exact:true}).fill('KMP');await page.waitForFunction(()=>document.querySelectorAll('.problem-table tr[data-id]').length===1);
+ await page.getByRole('button',{name:'随机单题',exact:true}).click();await page.locator('.cm-editor').waitFor();
+ assert.equal(writes.filter(item=>item.path==='/api/training/start').at(-1).body.id,rows[20].id,'random draw honors the current search filter');await page.keyboard.press('Escape');
+ await page.evaluate(()=>{crypto.getRandomValues=window.savedRandom;});
+ await page.getByRole('button',{name:'筛选题目',exact:true}).click();
+ const minimum=page.getByLabel('最低难度滑块',{exact:true});await minimum.focus();await page.keyboard.press('ArrowRight');assert.equal(await page.getByLabel('最低难度',{exact:true}).inputValue(),'100');
+ const track=await page.locator('.filter-popover .difficulty-range-track').boundingBox();await page.mouse.move(track.x+track.width*.01,track.y+16);await page.mouse.down();await page.mouse.move(track.x+track.width*.2,track.y+16,{steps:6});await page.mouse.up();
+ assert(Number(await page.getByLabel('最低难度',{exact:true}).inputValue())>=1500,'lower thumb can be dragged');await page.keyboard.press('Escape');
+ await nav('活动记录').click();await page.locator('.activity-month-grid').waitFor();
+ assert.equal(await page.locator('.activity-month-grid [role=gridcell]').count(),new Date(Number(date.slice(0,4)),Number(date.slice(5,7)),0).getDate());
+ const beforeDay=await page.locator('.activity-month-heading time').getAttribute('dateTime');await page.keyboard.press('ArrowLeft');
+ assert.notEqual(await page.locator('.activity-month-heading time').getAttribute('dateTime'),beforeDay,'arrow keys select immediately without Enter');
+ for(const height of [1000,720,600]){
+  await page.setViewportSize({width:1600,height});await page.waitForTimeout(80);
+  const geometry=await page.locator('.activity-month-page').evaluate(node=>({height:node.clientHeight,scroll:node.scrollHeight,rows:node.querySelectorAll('tbody tr').length,overflow:node.querySelector('.activity-detail-table').scrollHeight>node.querySelector('.activity-detail-table').clientHeight+1}));
+  assert(geometry.scroll<=geometry.height+1&&!geometry.overflow,JSON.stringify(geometry));
+  assert(geometry.rows>0,'remaining viewport gets visible detail rows');await shot('monthly-activity-'+height);
+ }
+ if(await page.getByRole('button',{name:'下一页日期明细',exact:true}).isEnabled()){
+  const first=await page.locator('.activity-detail-table tbody tr').first().innerText();await page.getByRole('button',{name:'下一页日期明细',exact:true}).click();assert.notEqual(await page.locator('.activity-detail-table tbody tr').first().innerText(),first);
+ }
+ await page.getByLabel('活动时间',{exact:true}).fill(date.slice(0,4)+'-02');assert.equal(await page.locator('.activity-month-grid [role=gridcell]').count(),new Date(Number(date.slice(0,4)),2,0).getDate());
+ await page.getByLabel('活动时间',{exact:true}).fill(date.slice(0,7));await page.setViewportSize({width:1600,height:1000});
+ await nav('成长与能力').click();await page.getByRole('button',{name:'数学与计数，掌握 ?%，进入二级雷达',exact:true}).click();
+ const panels=await page.locator('.progress-growth-columns').evaluate(node=>{const [left,right]=[...node.children].map(item=>item.getBoundingClientRect()),list=node.querySelector('.radar-knowledge-details');return {top:Math.abs(left.top-right.top),bottom:Math.abs(left.bottom-right.bottom),overflow:list.scrollHeight>list.clientHeight+5};});
+ assert(panels.top<1&&panels.bottom<1&&panels.overflow,JSON.stringify(panels));
+ await page.locator('.radar-knowledge-details').evaluate(node=>node.scrollTop=node.scrollHeight);assert(await page.locator('.radar-knowledge-details').evaluate(node=>node.scrollTop>0));await shot('bounded-radar');
+ await nav('从零讲').click();const ratings=(await page.locator('.lecture-difficulty').allTextContents()).map(Number);assert.deepEqual(ratings,[...ratings].sort((a,b)=>a-b));assert.equal(await page.getByRole('button',{name:'筛选讲解',exact:true}).count(),0);
+ await page.locator('.lectures-list>button').filter({hasText:'二分查找'}).click();await page.getByRole('navigation',{name:'相关知识从零讲'}).waitFor();await page.getByRole('button',{name:'从零讲：线性 DP',exact:false}).click();await page.getByRole('article',{name:'知识讲解正文'}).getByText('独立复用基础知识。').waitFor();
+ await nav('算法实验室').click();await page.getByRole('button',{name:'学算法',exact:true}).click();await page.getByRole('button',{name:'下一页',exact:true}).click();
+ await page.clock.install({time:Date.now()});await page.keyboard.press('Control+2');await page.locator('.problem-table').waitFor();await page.clock.fastForward(179000);await page.keyboard.press('Control+3');await page.getByRole('heading',{name:/把大问题拆小/}).waitFor();
+ await page.keyboard.press('Control+2');await page.clock.fastForward(180000);await page.keyboard.press('Control+3');await page.getByRole('button',{name:'学算法',exact:true}).waitFor();await page.clock.resume();
+ await settings('数据统计');await page.getByRole('region',{name:'个人数据统计',exact:true}).waitFor();assert.equal(await page.locator('.personal-stat').count(),8);await shot('personal-statistics');
+ await page.getByRole('button',{name:'返回设置首页',exact:true}).click();await page.getByRole('tab',{name:'更新',exact:true}).click();
+ assert.equal(await page.getByLabel('自动检查间隔',{exact:true}).count(),0);assert.equal(await page.getByLabel('自动收录最低难度',{exact:true}).count(),0);assert.equal(await page.locator('.update-status').count(),0);
+ const clickable=await page.getByRole('button',{name:'检查软件更新',exact:true}).evaluate(node=>{const s=getComputedStyle(node);return {background:s.backgroundColor,border:s.borderTopWidth};});assert.notEqual(clickable.background,'rgba(0, 0, 0, 0)');assert.equal(clickable.border,'1px');await shot('settings-updates');
+ for(const theme of ['dark','light'])for(const style of ['minimal','outlined','aurora','blueprint'])for(const name of ['题库','比赛','模拟赛','成长与能力','提交记录','活动记录','从零讲']){
+  await nav(name).click();await page.waitForTimeout(30);await page.evaluate(({theme,style})=>{document.documentElement.dataset.theme=theme;document.documentElement.dataset.panelStyle=style;},{theme,style});
+  const appearance=await page.locator('.workspace-area').evaluate(node=>{const panels=[...node.querySelectorAll('.list-page,.records-page,.competition-card,.mock-config,.progress-section,.lectures-list,.lectures-detail')];return panels.map(panel=>({image:getComputedStyle(panel).backgroundImage,radius:getComputedStyle(panel).borderTopLeftRadius,rect:panel.getBoundingClientRect().width}));});
+  assert(appearance.length>0,name);assert(appearance.every(panel=>style==='minimal'||style==='outlined'?panel.image==='none':style==='blueprint'?panel.image.includes('linear-gradient'):panel.image.includes('radial-gradient')),JSON.stringify({name,style,appearance}));
+  await checkOverflow();if(theme==='dark'&&style==='blueprint'&&['提交记录','活动记录','成长与能力'].includes(name))await shot('blueprint-'+name);
+ }
+ await page.evaluate(()=>{document.documentElement.dataset.theme='dark';document.documentElement.dataset.panelStyle='outlined';});
+
+ rankingOnlySelf=true;await page.reload();await nav('排行榜').click();await page.locator('.ranking-self').waitFor();
+ for(const width of [2048,1280,800]){
+  await page.setViewportSize({width,height:1000});
+  const aligned=await page.locator('.ranking-self').evaluate(row=>{const a=row.querySelector('.profile-avatar-button').getBoundingClientRect(),m=row.querySelector('.ranking-medal').getBoundingClientRect(),c=row.querySelector('.ranking-count b').getBoundingClientRect(),l=row.querySelector('.like-burst').getBoundingClientRect(),r=row.getBoundingClientRect();return {right:r.right-l.right,countGap:l.left-c.right,centerGap:Math.abs(a.y+a.height/2-m.y-m.height/2),avatar:a.width,medal:m.height};});
+  assert(aligned.right<=10&&aligned.right>=0,JSON.stringify(aligned));assert(aligned.countGap<35&&aligned.countGap>8,JSON.stringify(aligned));assert(aligned.centerGap<1,JSON.stringify(aligned));assert(aligned.avatar>=(width>800?76:58)&&aligned.medal>=(width>800?52:42));
+  await shot('ranking-self-right-'+width);
+ }
+ await page.goto('http://127.0.0.1:18831/tests/ui-feedback-fixture.html?view=streak');await page.locator('.streak-preview .practice-streak').last().waitFor();
+ const flameShapes=await page.locator('.streak-preview .flame-lit .flame-shell').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('d')));assert.equal(new Set(flameShapes).size,7);
+ for(const theme of ['dark','light']){
+  await page.evaluate(theme=>document.documentElement.dataset.theme=theme,theme);await shot('streak-shapes-'+theme);
+  const dims=await page.locator('.streak-preview .streak-flame').evaluateAll(nodes=>nodes.map(node=>{const r=node.getBoundingClientRect();return [r.width,r.height];}));assert(dims.every(([w,h])=>w===24&&h===24));
  }
  await page.goto('http://127.0.0.1:18831/tests/ui-feedback-fixture.html');await page.locator('.tier-preview').last().waitFor();
  assert.equal(await page.locator('.profile-xp-ring').first().evaluate(node=>getComputedStyle(node).transform),'matrix(0, 1, -1, 0, 0, 0)');

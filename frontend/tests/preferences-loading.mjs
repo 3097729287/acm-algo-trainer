@@ -61,6 +61,7 @@ async function scenario(mode) {
     else if (path === '/api/social') value = { available:false, activity:[], notifications:[] };
     else if (path === '/api/browser-preparation') value = { available: false };
     else if (path === '/api/desktop/fullscreen') value = { available: false, fullscreen: false };
+  else if(path==='/api/usage'||path==='usage') value={days:[],totalSeconds:0,maxDailySeconds:0,maxDailyDate:null};
     else { unexpected.push(path); value = { error: 'Unexpected fixture request' }; }
     await route.fulfill({ json: value });
   });

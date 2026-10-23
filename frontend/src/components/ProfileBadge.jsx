@@ -2,6 +2,7 @@ import { LoaderCircle, LockKeyhole, UserRound } from 'lucide-react';
 import AvatarFrame from './AvatarFrame.jsx';
 import Tooltip from './Tooltip.jsx';
 import TierIcon from './TierIcon.jsx';
+import {rankIndex} from '@/lib/rankTiers.js';
 import './ProfileBadge.css';
 
 export const MAX_AVATAR_DATA_LENGTH = 48 * 1024;
@@ -28,7 +29,7 @@ export default function ProfileBadge({ growth, avatar, nickname, onClick, onAvat
   const unlockLevel = finite(rank?.levelGate ?? growth?.rankUnlockLevel ?? growth?.levelGate, 5);
   const unlocked = ready && level >= unlockLevel;
   const qualified = unlocked && Boolean(rank) && rank.qualified !== false;
-  const badge = qualified && /^tier-[0-9]$/.test(rank?.badge || '') ? rank.badge : 'tier-0';
+  const badge = `tier-${qualified?rankIndex(rank):0}`;
   const currentXp = Math.max(0, finite(growth?.currentLevelXp));
   const nextXp = Math.max(0, finite(growth?.nextLevelXp));
   const maximumLevel = ready && nextXp === 0 && level >= finite(growth?.levelCap ?? growth?.maxLevel, 100);

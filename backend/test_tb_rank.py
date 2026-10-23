@@ -157,7 +157,7 @@ class RankIntegrationTests(unittest.TestCase):
         result=self.service.insights()
         rank=result['growth']['ranked']
         self.assertEqual((rank['abilityScore'],rank['tier'],rank['evidenceCount']),(1800,'钻石',5))
-        self.assertEqual(result['growth']['badge'],'tier-6')
+        self.assertEqual(result['growth']['badge'],'tier-5')
         claims=[tuple(item) for item in self.service.connection.execute('SELECT * FROM achievement_xp_claims ORDER BY achievement_id')]
         awards=[tuple(item) for item in self.service.connection.execute('SELECT * FROM official_first_xp_awards ORDER BY problem_key')]
         records=[tuple(item) for item in self.service.connection.execute('SELECT * FROM submissions ORDER BY id')]

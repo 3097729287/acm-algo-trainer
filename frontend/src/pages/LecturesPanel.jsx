@@ -1,9 +1,9 @@
 import PageSearch from '@/components/PageSearch.jsx';
-import FilterMenu from '@/components/FilterMenu.jsx';
 import { estimatedDifficulty } from '@/components/KnowledgeRadar.jsx';
 import Tooltip from '@/components/Tooltip.jsx';
 import FolderSelect from '@/components/FolderSelect.jsx';
-import { lectureFolderOptions, lectureMatchesFolder } from '@/lib/lectureFolders.js';
+import { lectureFolderOptions, lectureMatchesFolder,primaryLectureTopic } from '@/lib/lectureFolders.js';
+import {canonicalKnowledgeName} from '@/lib/knowledgeNames.js';
 import SortDirection from '@/components/SortDirection.jsx';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
@@ -47,35 +47,44 @@ export function LectureDisclosure({ lecture = {}, inlineMarkdown, images, api, o
   </details>;
 }
 
-export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError }) {
+const EMPTY_CATEGORIES=[];
+export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError,categories=EMPTY_CATEGORIES }) {
   const [snapshot, setSnapshot] = useState(lectures || null), [query, setQuery] = useState(''), [selected, setSelected] = useState(initialLecture || null);
   const [classification, setClassification] = useState(''),[descending,setDescending]=useState(false);
-  const [lesson, setLesson] = useState(null), [error, setError] = useState(''), [refresh, setRefresh] = useState(0);
-  const seq = useRef(0);
+  const [lesson, setLesson] = useState(null), [error, setError] = useState('');
+  const seq = useRef(0),detail=useRef(null);
   useEffect(() => { if (initialLecture) setSelected(initialLecture); }, [initialLecture]);
   useEffect(() => {
     if (lectures) { setSnapshot(lectures); return; }
     let cancelled = false;
     api('lectures').then(value => { if (!cancelled) { setSnapshot(value); setError(''); } }).catch(issue => { if (!cancelled) { setError(issue.message); onError?.(issue.message); } });
     return () => { cancelled = true; };
-  }, [api, lectures, refresh]);
+  }, [api, lectures]);
   useEffect(() => {
     if (!selected) { setLesson(null); return; }
+    if(detail.current)detail.current.scrollTop=0;
     const current = ++seq.current; setLesson(null); setError('');
     api('lecture?id=' + encodeURIComponent(selected)).then(value => { if (seq.current === current) setLesson(value); }).catch(issue => { if (seq.current === current) setError(issue.message); });
     return () => { seq.current++; };
   }, [selected, api]);
   const entries = Array.isArray(snapshot) ? snapshot : snapshot?.lectures || [];
-  const classifications = useMemo(() => lectureFolderOptions(entries), [snapshot]);
+  const classifications = useMemo(() => lectureFolderOptions(entries,categories), [snapshot,categories]);
+  const sorted=useMemo(()=>entries.map((item,index)=>({...item,listIndex:index,displayDifficulty:estimatedDifficulty(`${item.concept||item.title} ${(item.tags||[]).join(' ')}`)})).sort((a,b)=>a.displayDifficulty-b.displayDifficulty||a.listIndex-b.listIndex),[snapshot]);
   const categoryPath = classification ? JSON.parse(classification) : [];
-  const filtered = entries.filter(item => lectureMatchesFolder(item, categoryPath) && `${item.concept} ${item.displayTitle || ''} ${item.originalTitle || item.title} ${(item.tags || []).join(' ')} ${item.category || ''} ${item.sourceContest} ${item.sourceTitle}`.toLowerCase().includes(query.trim().toLowerCase()));
+  const filtered = sorted.filter(item => lectureMatchesFolder(item, categoryPath,categories) && `${item.concept} ${item.displayTitle || ''} ${item.originalTitle || item.title} ${(item.tags || []).join(' ')} ${item.category || ''} ${item.sourceContest} ${item.sourceTitle}`.toLowerCase().includes(query.trim().toLowerCase()));
   if(descending)filtered.reverse();
+  const current=entries.find(item=>item.id===selected)||lesson;
+  const prerequisites=useMemo(()=>{
+    if(!current)return [];
+    const primary=primaryLectureTopic(current),seen=new Set([primary]);
+    return (current.tags||[]).map(canonicalKnowledgeName).filter(tag=>{if(seen.has(tag))return false;seen.add(tag);return true;}).map(tag=>({tag,target:sorted.find(item=>item.id!==selected&&primaryLectureTopic(item)===tag)})).filter(item=>item.target);
+  },[current,sorted,selected]);
   return <div className="lectures-page" aria-label="从零讲知识总结">
-    <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索从零讲知识" value={query} onChange={event=>setQuery(event.target.value)}/></label><SortDirection label="切换讲解排序方向" descending={descending} onChange={setDescending}/><FilterMenu label="筛选讲解" active={!!classification} onReset={()=>setClassification('')}><label className="filter-field"><span>分类</span><FolderSelect label="从零讲知识分类" placeholder="全部知识分类" options={classifications} value={classification} onChange={event=>setClassification(event.target.value)}/></label><button type="button" className="text-button" onClick={()=>setRefresh(value=>value+1)}>刷新讲解</button><span className="filter-result-count">{filtered.length} 篇</span></FilterMenu></PageSearch>
+    <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索从零讲知识" value={query} onChange={event=>setQuery(event.target.value)}/></label><SortDirection label="切换讲解排序方向" descending={descending} onChange={setDescending}/><FolderSelect iconOnly label="从零讲知识分类" placeholder="全部知识分类" options={classifications} value={classification} onChange={event=>setClassification(event.target.value)}/></PageSearch>
     <div className={'lectures-layout' + (selected ? ' has-selection' : '')}>
-      <nav className="lectures-list" aria-label="完整知识讲解">{filtered.map(item => <button key={item.id} className={selected === item.id ? 'selected' : ''} onClick={() => setSelected(item.id)}><strong><LessonTitle>{item.displayTitle || item.concept || item.title}</LessonTitle></strong>{item.category && <span className="lecture-category">{item.category}</span>}<span>{(item.tags || []).join(' / ')}</span><Tooltip text="知识点难度估计，非原题难度"><b className="lecture-difficulty">{estimatedDifficulty(`${item.concept || item.title} ${(item.tags || []).join(' ')}`)}</b></Tooltip></button>)}{snapshot && !filtered.length && <p>没有匹配的完整讲解。仅有指针的段落会链接已有讲解。</p>}</nav>
-      <article className="lectures-detail" tabIndex={0} aria-label="知识讲解正文">
-        {selected ? <><div className="lectures-detail-bar"><button onClick={() => setSelected(null)}><ArrowLeft size={14} />全部讲解</button>{lesson && onTrain && lesson.sourceProblemIds?.[0] && <button onClick={() => onTrain(lesson.sourceProblemIds[0])}>练习来源题<ArrowRight size={14} /></button>}</div>{lesson ? <><p className="lecture-source">{lesson.sourceContest} · {lesson.sourceProblem} <InlineTitle>{lesson.sourceTitle}</InlineTitle></p>{lesson.originalTitle && lesson.originalTitle !== lesson.concept && <p className="lecture-original-title">原题应用：<LessonTitle>{lesson.originalTitle}</LessonTitle></p>}<LessonMarkdown lesson={lesson} /></> : error ? <p role="alert">{error}</p> : <p role="status">正在读取完整讲解…</p>}</> : <div className="lectures-intro"><BookOpen size={25} /><h3>选一个知识点开始阅读</h3>{entries.length > 0 && <button onClick={() => setSelected(filtered[0]?.id || entries[0].id)}>阅读第一篇<ArrowRight size={14} /></button>}{error && <p role="alert">{error}</p>}</div>}
+      <nav className="lectures-list" aria-label="完整知识讲解">{filtered.map(item => <button key={item.id} className={selected === item.id ? 'selected' : ''} onClick={() => setSelected(item.id)}><strong><LessonTitle>{item.displayTitle || item.concept || item.title}</LessonTitle></strong><span className="lecture-category">{primaryLectureTopic(item)}</span><Tooltip text="知识点难度估计，非原题难度"><b className="lecture-difficulty">{item.displayDifficulty}</b></Tooltip></button>)}{snapshot && !filtered.length && <p>没有匹配的完整讲解。仅有指针的段落会链接已有讲解。</p>}</nav>
+      <article ref={detail} className="lectures-detail" tabIndex={0} aria-label="知识讲解正文">
+        {selected ? <><div className="lectures-detail-bar"><button onClick={() => setSelected(null)}><ArrowLeft size={14} />全部讲解</button>{lesson && onTrain && lesson.sourceProblemIds?.[0] && <button onClick={() => onTrain(lesson.sourceProblemIds[0])}>练习来源题<ArrowRight size={14} /></button>}</div>{lesson ? <><p className="lecture-source">{lesson.sourceContest} · {lesson.sourceProblem} <InlineTitle>{lesson.sourceTitle}</InlineTitle></p>{lesson.originalTitle && lesson.originalTitle !== lesson.concept && <p className="lecture-original-title">原题应用：<LessonTitle>{lesson.originalTitle}</LessonTitle></p>}{prerequisites.length>0&&<nav className="lecture-prerequisites" aria-label="相关知识从零讲"><span>用到的其他知识</span>{prerequisites.map(({tag,target})=><button type="button" key={tag} onClick={()=>setSelected(target.id)}><BookOpen size={14}/>从零讲：{tag}<ArrowRight size={13}/></button>)}</nav>}<LessonMarkdown lesson={lesson} /></> : error ? <p role="alert">{error}</p> : <p role="status">正在读取完整讲解…</p>}</> : <div className="lectures-intro"><BookOpen size={25} /><h3>选一个知识点开始阅读</h3>{entries.length > 0 && <button onClick={() => setSelected(filtered[0]?.id || entries[0].id)}>阅读第一篇<ArrowRight size={14} /></button>}{error && <p role="alert">{error}</p>}</div>}
       </article>
     </div>
   </div>;

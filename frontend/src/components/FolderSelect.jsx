@@ -1,6 +1,6 @@
 import {useEffect,useId,useLayoutEffect,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
-import {ArrowLeft,Check,ChevronDown,ChevronRight,FileText,Folder} from 'lucide-react';
+import {ArrowLeft,Check,ChevronDown,ChevronRight,FileText,Folder,FolderTree} from 'lucide-react';
 import './ThemedSelect.css';
 import './FolderSelect.css';
 
@@ -13,7 +13,7 @@ function selectedPath(nodes,value,path=[]){
  return null;
 }
 
-export default function FolderSelect({options=[],value='',onChange,disabled=false,placeholder='请选择',label='选择项目',selectedLabel}){
+export default function FolderSelect({options=[],value='',onChange,disabled=false,placeholder='请选择',label='选择项目',selectedLabel,iconOnly=false}){
  const control=useRef(null),menu=useRef(null),search=useRef({text:'',at:0}),id=useId();
  const [open,setOpen]=useState(false),[path,setPath]=useState([]),[active,setActive]=useState(0),[position,setPosition]=useState({});
  let current=null,children=options;
@@ -38,7 +38,7 @@ export default function FolderSelect({options=[],value='',onChange,disabled=fals
  },[open,path.length,rows.length]);
  useLayoutEffect(()=>{if(open)menu.current?.querySelector(`[data-index="${active}"]`)?.scrollIntoView({block:'nearest'});},[open,active]);
  useEffect(()=>{if(disabled)setOpen(false);},[disabled]);
- return <><span className="tb-select-wrap"><select ref={control} className="tb-select folder-select" aria-label={label} value={value} disabled={disabled} aria-expanded={open} aria-controls={open?id:undefined} aria-activedescendant={open?`${id}-${active}`:undefined}
+ return <><span className={`tb-select-wrap${iconOnly?' folder-icon-control':''}`} data-active={Boolean(value)}><select ref={control} className="tb-select folder-select" title={iconOnly?label:undefined} aria-label={label} value={value} disabled={disabled} aria-expanded={open} aria-controls={open?id:undefined} aria-activedescendant={open?`${id}-${active}`:undefined}
   onChange={event=>{setOpen(false);onChange?.(event);}}
   onPointerDown={event=>{if(disabled)return;event.preventDefault();control.current.focus({preventScroll:true});if(open)setOpen(false);else show();}}
   onClick={event=>event.preventDefault()}
@@ -54,7 +54,7 @@ export default function FolderSelect({options=[],value='',onChange,disabled=fals
     if(event.key==='Home'){setActive(0);return;}if(event.key==='End'){setActive(rows.length-1);return;}move(event.key==='ArrowDown'?1:-1);return;
    }
    if(event.key.length===1){event.preventDefault();if(!open)show();const now=Date.now();search.current={text:(now-search.current.at<700?search.current.text:'')+event.key.toLocaleLowerCase(),at:now};const found=rows.findIndex(row=>row.label.toLocaleLowerCase().startsWith(search.current.text));if(found>=0)setActive(found);}
-  }}><option value="">{placeholder}</option>{value&&!flatten(options).some(node=>node.value===value)&&<option value={value}>{selectedLabel||value}</option>}{flatten(options).map((node,index)=><option key={`${node.value}:${index}`} value={node.value}>{node.selectionLabel||node.label}</option>)}</select><ChevronDown className="tb-select-chevron" size={14} aria-hidden="true"/></span>
+  }}><option value="">{placeholder}</option>{value&&!flatten(options).some(node=>node.value===value)&&<option value={value}>{selectedLabel||value}</option>}{flatten(options).map((node,index)=><option key={`${node.value}:${index}`} value={node.value}>{node.selectionLabel||node.label}</option>)}</select>{iconOnly?<FolderTree className="folder-control-symbol" size={18} aria-hidden="true"/>:<ChevronDown className="tb-select-chevron" size={14} aria-hidden="true"/>}</span>
   {open&&createPortal(<div ref={menu} id={id} className="tb-select-menu folder-select-menu" role="listbox" aria-label={label} style={position} onPointerDown={event=>event.preventDefault()}>
    <header>{path.length?<button type="button" aria-label="返回上一级" onClick={back}><ArrowLeft size={15}/></button>:<Folder size={16}/>}<strong>{current?.label||placeholder}</strong></header>
    {rows.map((row,index)=><button type="button" key={`${row.value||row.label}:${index}`} role="option" id={`${id}-${index}`} data-index={index} data-active={active===index} aria-selected={row.value!==undefined&&value===row.value} disabled={row.disabled} tabIndex={-1} onPointerMove={()=>setActive(index)} onClick={()=>choose(index)}>

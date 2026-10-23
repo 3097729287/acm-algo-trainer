@@ -22,7 +22,17 @@ const achievements=[
  ['streak-180','连续训练 180 天'],['streak-365','连续训练 365 天'],['streak-730','连续训练 2 年'],['platforms-2','跨平台练习'],
  ['missions-1','领取每日奖励'],['missions-10','任务积累'],['missions-50','日积月累'],
 ].map(([id,name])=>({id,name,description:name,target:100,progress:12,unlocked:false,rewardXp:40}));
-if(view==='radar-performance'){
+if(view==='streak'){
+ createRoot(document.getElementById('root')).render(<main style={{padding:28,color:'var(--text)',background:'var(--bg)',minHeight:'100vh'}}>
+  <h1 style={{fontSize:20}}>连续练习火焰</h1>
+  <div className="streak-preview" style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(110px,1fr))',gap:18,maxWidth:1100}}>
+   {[1,2,4,7,15,30,60].map(days=><section key={days} style={{display:'grid',gap:16,justifyItems:'center',padding:20,border:'1px solid var(--line)',borderRadius:12,background:'var(--panel)'}}>
+    <span>{days} 天起</span><PracticeStreak days={days}/><PracticeStreak days={days} completedToday/>
+   </section>)}
+  </div>
+ </main>);
+}
+else if(view==='radar-performance'){
  const topics=KNOWLEDGE_DOMAINS.flatMap(domain=>domain.topics.map(([name])=>name));
  const rows=Array.from({length:6000},(_,id)=>({id:String(id),url:`https://example.com/${id}`,tags:[topics[id%topics.length],topics[(id+7)%topics.length]],knowledgeCategories:[]}));
  const knowledge=topics.map((name,index)=>({name,evidenceIds:Array.from({length:60},(_,id)=>(index*13+id)%500)}));

@@ -1391,7 +1391,9 @@ class TrainingService:
         from contest_categories import matches_shelf
         if platform and not matches_shelf(row,platform):
             return False
-        if options["tags"] and not set(options["tags"]) & set(row.get("tags", [])):
+        scope=set(row.get('tags',[]))
+        scope.update(part.strip() for path in row.get('knowledgeCategories',[]) for part in path.split(' / ') if part.strip())
+        if options["tags"] and not set(options["tags"]) & scope:
             return False
         if options["excludeSolved"] and (canonical_url(row.get("url")) or row["id"]) in solved:
             return False

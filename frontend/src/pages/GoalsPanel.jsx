@@ -1,4 +1,5 @@
 import BoundedNumber from '@/components/BoundedNumber.jsx';
+import {DifficultySlider} from '@/components/DifficultyRange.jsx';
 import ThemedSelect from '@/components/ThemedSelect.jsx';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Plus, Settings2, Target, X } from 'lucide-react';
@@ -52,8 +53,8 @@ export default function GoalsPanel({api, overview, onChanged}) {
         <label>目标类型<ThemedSelect aria-label="目标类型" value={form.kind} onChange={event=>{const kind=event.target.value;change({kind,title:{cf:'CF 2200',xcpc:'区域赛银牌',lanqiao:'蓝桥杯国一',custom:''}[kind],targetRating:{cf:2200,xcpc:2000,lanqiao:1800,custom:1800}[kind]});}}><option value="cf">Codeforces 评级</option><option value="xcpc">XCPC 区域赛</option><option value="lanqiao">蓝桥杯</option><option value="custom">自定义目标</option></ThemedSelect></label>
         <label>目标名称<input aria-label="具体目标" value={form.title} onChange={event=>change({title:event.target.value})} maxLength={160} required/></label>
         <label>截止日期<input aria-label="目标截止日期" type="date" value={form.deadline} onChange={event=>change({deadline:event.target.value})} required/></label>
-        <label>当前练习难度<BoundedNumber aria-label="当前练习难度" type="number" min={0} max={4000} value={form.currentRating} onChange={event=>change({currentRating:event.target.value})} required/></label>
-        {form.kind==='custom'?<label>新题总数<BoundedNumber aria-label="目标新题总数" type="number" min={1} max={10000} value={form.totalProblems} onChange={event=>change({totalProblems:event.target.value})} required/></label>:<label>目标参考值<BoundedNumber aria-label="目标练习难度" type="number" min={200} max={4000} value={form.targetRating} onChange={event=>change({targetRating:event.target.value})} required/></label>}
+        <label>当前练习难度<DifficultySlider label="当前练习难度" value={form.currentRating} onChange={event=>change({currentRating:event.target.value})}/></label>
+        {form.kind==='custom'?<label>新题总数<BoundedNumber aria-label="目标新题总数" type="number" min={1} max={10000} value={form.totalProblems} onChange={event=>change({totalProblems:event.target.value})} required/></label>:<label>目标参考值<DifficultySlider label="目标练习难度" min={200} value={form.targetRating} onChange={event=>change({targetRating:event.target.value})}/></label>}
         <label>每日时间（分钟）<BoundedNumber aria-label="每日可用分钟" type="number" min={15} max={720} value={form.dailyMinutes} onChange={event=>change({dailyMinutes:event.target.value})} required/></label>
         <p className="goal-editor-note">题目会加入“我的训练”的“今日目标”。新比赛按目标要求补充，已确认 AC 自动完成。</p>
         {error&&<p className="inline-error" role="alert">{error}</p>}

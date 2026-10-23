@@ -16,7 +16,7 @@ export default function SubmissionRecords({ submissions = [], total = submission
   const logs = submissions.filter(submission => {
     if (submission.mode === 'run' || submission.verdict === 'SAMPLE_PASS') return false;
     const row = rowMap.get(submission.problemId);
-    return (!result || submission.verdict === result) && `${row?.title || submission.problemId} ${row?.contest || ''} ${verdictLabel(submission.verdict)}`.toLowerCase().includes(query.trim().toLowerCase());
+    return (!result || submission.verdict === result) && `${row?.title || submission.problemId} ${row?.problem || submission.problem || ''} ${row?.contest || ''} ${verdictLabel(submission.verdict)}`.toLowerCase().includes(query.trim().toLowerCase());
   });
   const grouped = groupSubmissionsByDay(logs);
   const days = descending?grouped:[...grouped].reverse().map(day=>({...day,submissions:[...day.submissions].reverse()}));
@@ -30,7 +30,7 @@ export default function SubmissionRecords({ submissions = [], total = submission
         {group.submissions.map(submission => {
           const row = rowMap.get(submission.problemId);
           return <button className="submission-log-row" key={submission.id} onClick={() => onSelect({ ...submission, title: row?.title || submission.problemId, contestName: row?.contest })}>
-            <span><strong><InlineTitle>{row?.title || submission.problemId}</InlineTitle></strong><small>{trainingTime(submission.submittedAt)}{row?.contest ? ` · ${row.contest}` : ''}</small></span>
+            <span><strong><InlineTitle>{row?.title || submission.problemId}</InlineTitle></strong><small className="submission-record-meta"><time dateTime={submission.submittedAt}>{trainingTime(submission.submittedAt)}</time>{(row?.problem||submission.problem)&&<><span aria-hidden="true">·</span><b className="submission-problem-index">{row?.problem||submission.problem}</b></>}{row?.contest&&<><span aria-hidden="true">·</span><span className="submission-contest-name">{row.contest}</span></>}</small></span>
             <span className={'verdict ' + verdictTone(submission.verdict)}><span />{verdictLabel(submission.verdict)}</span>
             {submission.timeMs != null && <span className="submission-runtime">{submission.timeMs} ms</span>}
           </button>;

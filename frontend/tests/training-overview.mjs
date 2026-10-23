@@ -42,6 +42,7 @@ await page.route('**/api/**', async route => {
   else if (path==='/api/hub') value=null;
   else if (path==='/api/insights') { await waitInsights; value=insights; }
   else if (path==='/api/desktop/fullscreen') value={available:false,fullscreen:false};
+  else if(path==='/api/usage'||path==='usage') value={days:[],totalSeconds:0,maxDailySeconds:0,maxDailyDate:null};
   else throw new Error(`Unexpected fixture request: ${path}`);
   await route.fulfill({json:value});
 });

@@ -6,7 +6,7 @@ import { validateState, guardStateJson, STATE_LIMIT } from './account-state.mjs'
 import { publicId, storedPublicProgress, validatePublicProgress } from './public-progress.mjs';
 import { socialSnapshot, socialWrite, rankingSocial } from './social.mjs';
 
-const VERSION = '1.2.1';
+const VERSION = '1.2.2';
 const NOTICE = '排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const hashPattern = /^[a-f0-9]{64}$/;
@@ -95,7 +95,7 @@ async function leaderboard(user, env, period, now) {
   const range = bounds(period, now);
   const { rows, own } = await env.STORE.rankings(user.user_id, period === 'total' ? null : range, range.day);
   const entries=rows.map(rankingRow), self=own ? rankingRow(own) : { ...rankingRow(user),rank:null,count:0 };
-  const socialAvailable=await rankingSocial(env.STORE,user.user_id,[...entries,self],range.day);
+  const socialAvailable=await rankingSocial(env.STORE,user.user_id,[...entries,self],period,now);
   return { period, date: range.day, timezone: 'Asia/Shanghai', startDate: period === 'total' ? null : range.start,
     endDate: period === 'total' ? null : range.end, entries, isAdmin: Boolean(user.is_admin), rewardPolicy: REWARD_POLICY,
     self, socialAvailable, socialProtocol:1, notice: NOTICE };

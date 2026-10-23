@@ -5,3 +5,10 @@
 .folder-select-menu [role=option]>span {flex:1;min-width:0;overflow-wrap:anywhere}
 .folder-select-menu [role=option]>svg {color:var(--accent)}
 .folder-select-menu>p {margin:14px 10px;color:var(--muted);font-size:.85em}
+.folder-icon-control {position:relative;display:inline-flex;flex:none;width:36px;height:36px;color:var(--muted)}
+html .folder-icon-control>select {width:36px;min-width:36px;height:36px;padding:0;border:1px solid transparent;background:transparent;color:transparent;font-size:0;cursor:pointer;border-radius:6px}
+html .folder-icon-control>select:hover {background:var(--hover)}
+html .folder-icon-control>select:focus-visible {outline:2px solid var(--accent);outline-offset:2px}
+.folder-control-symbol {position:absolute;left:9px;top:9px;pointer-events:none}
+.folder-icon-control[data-active=true] {color:var(--accent)}
+.folder-icon-control[data-active=true]::after {content:'';position:absolute;top:4px;right:3px;width:5px;height:5px;border-radius:50%;background:var(--accent);pointer-events:none}

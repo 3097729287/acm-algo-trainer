@@ -29,13 +29,13 @@ const sha256 = content => createHash('sha256').update(content).digest('hex');
 const sources = await Promise.all(sourcePaths.map(async file => ({ path: file, sha256: sha256(await readFile(path.join(repo, file))) })));
 let sourceBaseline = 'unavailable';
 try { sourceBaseline = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: repo, encoding: 'utf8', windowsHide: true }).trim(); } catch { /* A source export may have no .git directory. */ }
-const VERSION = '0.4.0';
+const VERSION = '0.4.1';
 const info = { product: '背包 DP · 独立互动课', version: VERSION, status: 'standalone preview; not a TB release', builtAt: new Date().toISOString(), sourceBaseline, sourceIdentity: 'SHA-256 manifest of the working sources below', sources, files: { '开始体验.html': sha256(html) } };
 const licenses = await Promise.all(['react', 'react-dom', 'lucide-react'].map(async name => `${name}\n${await readFile(path.join(frontend, 'node_modules', name, 'LICENSE'), 'utf8')}`));
 const files = {
   '开始体验.html': html,
-  '使用说明.txt': `背包 DP · 独立互动课 ${VERSION}\r\n\r\n解压整个压缩包后，双击“开始体验.html”，用 Edge 或 Chrome 打开。\r\n无需安装、联网或启动服务器。右侧“目录”可切换七节课程。最后一课结束后可进入五道精选跟做题。\r\n输入、提示和练习进度保存在当前浏览器中；关闭再开可以继续。\r\n换浏览器、移动文件位置或清除浏览器数据后，原进度可能无法继续。\r\n“打开原题”需要联网；C++ 完整程序请在自己的编译器中运行。\r\n\r\n这是可单独使用的体验包；TB 主应用另提供进入工作台实现的入口。\r\n`,
-  'README.en.txt': `Knapsack DP — standalone interactive course ${VERSION}\r\n\r\nExtract the ZIP and open 开始体验.html in Edge or Chrome.\r\nNo installation, network access or server is required for the course.\r\nThe right-side menu switches between seven lessons. At the end of the final lesson, continue to five selected guided problems. Progress stays in this browser.\r\nChanging browser or file location, or clearing browser data, may reset access to saved progress.\r\nThe optional original-problem link requires internet access. Run full C++ programs in your own compiler.\r\nThis preview is separate from the TB desktop application.\r\n`,
+  '使用说明.txt': `背包 DP · 独立互动课 ${VERSION}\r\n\r\n解压整个压缩包后，双击“开始体验.html”，用 Edge 或 Chrome 打开。\r\n无需安装、联网或启动服务器。顶部“目录”可切换七节课程。最后一课结束后可进入五道精选跟做题。\r\n输入、提示和练习进度保存在当前浏览器中；关闭再开可以继续。\r\n换浏览器、移动文件位置或清除浏览器数据后，原进度可能无法继续。\r\n“打开原题”需要联网；C++ 完整程序请在自己的编译器中运行。\r\n\r\n这是可单独使用的体验包；TB 主应用另提供进入工作台实现的入口。\r\n`,
+  'README.en.txt': `Knapsack DP — standalone interactive course ${VERSION}\r\n\r\nExtract the ZIP and open 开始体验.html in Edge or Chrome.\r\nNo installation, network access or server is required for the course.\r\nThe top menu switches between seven lessons. At the end of the final lesson, continue to five selected guided problems. Progress stays in this browser.\r\nChanging browser or file location, or clearing browser data, may reset access to saved progress.\r\nThe optional original-problem link requires internet access. Run full C++ programs in your own compiler.\r\nThis preview is separate from the TB desktop application.\r\n`,
   'LICENSES.txt': licenses.join('\n\n'),
   'BUILD-INFO.json': JSON.stringify(info, null, 2) + '\n',
 };

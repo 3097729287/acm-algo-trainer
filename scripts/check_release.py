@@ -88,6 +88,8 @@ def install(setup, app, log):
     run([setup, '/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART', '/SP-', '/NOICONS',
          '/MERGETASKS=!desktopicon,!importlegacy', '/DIR=' + str(app), '/LOG=' + str(log)],
         log.with_suffix('.process.log'), timeout=300)
+    installer_log = log.read_text(encoding='utf-8-sig', errors='replace')
+    assert not any(message in installer_log for message in ('Exception message:', '内部错误：', 'Internal error:')), 'Installer suppressed an error dialog; inspect ' + str(log)
     assert (app / 'TB新版.exe').is_file()
 
 

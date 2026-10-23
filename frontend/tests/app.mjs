@@ -221,7 +221,7 @@ try {
   assert.ok(!(await page.getByRole('dialog').innerText()).includes('不计入'));
   await page.keyboard.press('Escape');
   await page.keyboard.press('Control+8');
-  assert.equal(await page.locator('.activity-details').getAttribute('open'), '');
+  await page.getByRole('region',{name:'日期明细',exact:true}).waitFor();assert.equal(await page.locator('.activity-month-page details').count(),0);
   await page.keyboard.press('Control+9');
   await page.locator('.lectures-list .katex').waitFor();
   await page.locator('.lectures-list button').first().click();
@@ -246,7 +246,7 @@ try {
   await page.getByRole('button', { name: '加载更早提交' }).click();
   await page.waitForFunction(() => document.querySelectorAll('.submission-log-row').length === 101);
   assert.deepEqual(await page.locator('.submission-day').evaluateAll(nodes => nodes.map(node => node.dataset.day)), ['2026-10-13', '2026-10-12']);
-  assert.equal(await page.locator('.submission-day[data-day="2026-10-12"] .submission-log-row small').textContent(), '23:59 · 测试比赛');
+  assert.deepEqual(await page.locator('.submission-day[data-day="2026-10-12"] .submission-record-meta').locator(':scope > :not([aria-hidden])').allTextContents(), ['23:59', 'D', '测试比赛']);
   await page.screenshot({ path: 'tests/screenshots/submissions-by-day-light-2048.png', animations: 'disabled' });
   await page.getByRole('button',{name:'筛选提交',exact:true}).click();
   await page.getByLabel('历史提交结果').selectOption('CE');
@@ -276,7 +276,8 @@ try {
   assert.equal(writes.findLast(item => item.path === '/api/contests/preview').body.platform, 'AtCoder');
   assert.equal(writes.findLast(item => item.path === '/api/contests/preview').body.reviewedOnly, true);
   await page.screenshot({ path: 'tests/screenshots/v5-mock-light-2048.png', animations: 'disabled' });
-  await page.getByRole('button', { name: /^随机单题$/ }).click();
+  await page.getByRole('button', { name: /^综合训练$/ }).click();
+  await page.getByRole('button',{name:'训练筛选',exact:true}).click();await page.getByLabel('模拟赛题目数',{exact:true}).fill('1');await page.keyboard.press('Escape');
   await page.getByRole('button', { name: '生成试卷', exact: true }).click();
   await page.getByRole('button', { name: '开始训练' }).waitFor();
   assert.equal(writes.findLast(item => item.path === '/api/contests/preview').body.count, 1);
@@ -353,8 +354,8 @@ try {
     await page.locator('.mock-mode-options').waitFor();
     await noOverflow('.mock-create');
     const modes = await page.getByRole('group', { name: '组题方式', exact: true }).getByRole('button').evaluateAll(nodes => nodes.map(node => { const box = node.getBoundingClientRect(); return { x: box.x, y: box.y, width: box.width, height: box.height }; }));
-    assert.equal(modes.length, 4);
-    assert.equal(new Set(modes.map(box => box.y)).size, 1, 'four training modes share one row');
+    assert.equal(modes.length, 3);
+    assert.equal(new Set(modes.map(box => box.y)).size, 1, 'three training modes share one row');
     assert.ok(Math.max(...modes.map(box => box.width)) - Math.min(...modes.map(box => box.width)) < 1);
     await page.screenshot({ path: `tests/screenshots/v5-mock-light-${width}.png`, animations: 'disabled' });
     await page.keyboard.press('Control+7');
@@ -434,7 +435,7 @@ try {
   await page.keyboard.press('Control+8');
   await page.getByRole('button', { name: '活动记录', exact: true }).waitFor();
   assert.equal(await page.getByRole('tab', { name: '活动记录', exact: true }).count(),0);
-  await page.locator('.activity-details').waitFor();
+  await page.locator('.activity-month-details').waitFor();
   await page.keyboard.press('Control+6');
   assert.equal(await page.locator('.workspace-area').getAttribute('data-page'), 'records', 'fixed keyboard shortcut survives reorder/rename/group');
   await noOverflow('.records-page');
@@ -444,10 +445,10 @@ try {
   await page.reload();
   await page.locator('.topbar').waitFor();
   await page.keyboard.press('Control+7');
-  await page.locator('.topbar .avatar-rank-frame.tier-9').waitFor();
+  await page.locator('.topbar .avatar-rank-frame.tier-8').waitFor();
   await page.getByLabel('训练概览',{exact:true}).hover();
   await page.getByRole('tooltip').getByText(/王者 · 能力分 3,100/).waitFor();
-  assert.equal(await page.locator('.topbar .profile-badge.tier-9').count(),1,'rank uses its own tier style');
+  assert.equal(await page.locator('.topbar .profile-badge.tier-8').count(),1,'rank uses its own tier style');
   assert.equal(await page.locator('.progress-level-strip').count(),0);
   await page.mouse.move(0,0);
   await page.screenshot({ path: 'tests/screenshots/ranked-v16.png', animations: 'disabled' });

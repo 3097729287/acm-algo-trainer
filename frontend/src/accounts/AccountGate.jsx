@@ -2,6 +2,7 @@ import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { Eye, EyeOff, LoaderCircle, LockKeyhole, LogIn, UserRoundPlus } from 'lucide-react';
 import { request } from '../api/client.js';
 import { SoftwareUpdateNotice, useSoftwareUpdates } from '../pages/SoftwareUpdates.jsx';
+import StartupScreen from './StartupScreen.jsx';
 import './Accounts.css';
 
 export default function AccountGate({ children }) {
@@ -17,7 +18,7 @@ export default function AccountGate({ children }) {
   const seeded = useRef(false);
   const registeredLogin = useRef('');
   const updateApi = useCallback((path, body) => request(path, body, session?.token), [session?.token]);
-  const softwareUpdate = useSoftwareUpdates(updateApi, Boolean(session?.token && !session.authenticated));
+  const softwareUpdate = useSoftwareUpdates(updateApi, Boolean(session?.token && !session.authenticated && !session.restoring && !booting));
   const refresh = useCallback(async (retry = false) => {
     if (submitting.current || refreshing.current) return;
     refreshing.current = true;
@@ -40,7 +41,7 @@ export default function AccountGate({ children }) {
   useEffect(() => {
     mounted.current = true;
     refresh();
-    const changed = () => { generation.current++; setSession(null); seeded.current = false; setPassword(''); setConfirmation(''); setMode('login'); refresh(); };
+    const changed = () => { generation.current++; setSession(null); setBooting(true); setError(''); seeded.current = false; setPassword(''); setConfirmation(''); setMode('login'); refresh(); };
     const visible = () => { if (!document.hidden) refresh(); };
     window.addEventListener('tb:account-change', changed);
     window.addEventListener('focus', refresh);
@@ -99,15 +100,14 @@ export default function AccountGate({ children }) {
   if (session?.authenticated) return <Fragment key={`${session.account?.userId || 'fixture'}:${session.token}`}>{children}
     {session.sync?.status === 'error' && <aside className="account-sync-alert" role="status"><span>{session.sync.error || '云端同步暂未完成，本机数据已保留。'}</span><button type="button" onClick={retrySync} disabled={syncBusy}>{syncBusy ? '正在同步…' : '重试同步'}</button></aside>}
   </Fragment>;
+  if (booting || session?.restoring) return <StartupScreen restoring={session?.restoring} error={error} onRetry={() => refresh(true)}/>;
   const registering = mode === 'register';
   return <main className="account-screen">
     <div className="account-brand"><span className="account-logo">tb</span><span>TB <small>训练工作台</small></span></div>
     <section className="account-card" aria-label="TB 账号登录">
       <div className="account-symbol"><LockKeyhole size={24}/></div>
-      <h1>{booting ? '正在读取登录状态' : session?.restoring ? '正在恢复登录' : registering ? '创建你的 TB 账号' : '登录 TB'}</h1>
+      <h1>{registering ? '创建你的 TB 账号' : '登录 TB'}</h1>
       <p className="account-intro">{registering ? '注册账号，记录训练进步，参与过题排行榜。' : '登录后继续训练，排行榜使用你的昵称。'}</p>
-      {booting ? <p className="account-loading" role="status"><LoaderCircle className="spin" size={20}/>正在连接…</p> : <>
-        {session?.restoring && <p className="account-loading" role="status"><LoaderCircle className="spin" size={20}/>正在验证已有登录并恢复学习记录…</p>}
         <div className="account-tabs" role="tablist" aria-label="账号操作">
           <button type="button" role="tab" aria-selected={!registering} disabled={busy} onClick={() => changeMode('login')}>登录</button>
           <button type="button" role="tab" aria-selected={registering} disabled={busy} onClick={() => changeMode('register')}>注册</button>
@@ -122,7 +122,6 @@ export default function AccountGate({ children }) {
           <button type="submit" className="account-submit" disabled={busy || session?.restoring || !session?.token}>{busy ? <LoaderCircle className="spin" size={18}/> : registering ? <UserRoundPlus size={18}/> : <LogIn size={18}/>} {busy ? registering ? '正在注册…' : '正在登录并同步数据…' : registering ? '注册账号' : '登录'}</button>
         </form>
         {(!session?.token || error && !session?.restoring) && <button className="account-retry" onClick={() => refresh(true)}>重新连接</button>}
-      </>}
     </section>
     <p className="account-footer">TB · 每一步训练，都留下进步</p>
     <SoftwareUpdateNotice update={softwareUpdate} onDetails={() => window.open(softwareUpdate.state.releaseUrl, '_blank', 'noopener,noreferrer')} />

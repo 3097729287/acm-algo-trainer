@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { CompetitionPage, ActivityPage } from '../src/pages/ProgressPanels.jsx';
 import '../src/styles/workspace.css';
 import '../src/styles/unified.css';
+import '../src/styles/revision.css';
 document.documentElement.dataset.theme = 'dark';
 const rows = [
   ['周赛 2', '牛客', '牛客周赛'], ['周赛 10', '牛客', '牛客周赛'],
@@ -19,5 +20,5 @@ const activity = [0, 1, 2, 4, 7].map((officialAccepted, index) => ({
 }));
 createRoot(document.getElementById('root')).render(<main style={{ padding: 20, height: '100vh', overflow: 'auto' }}>
   <CompetitionPage rows={rows} workspace={{ training: [] }} />
-  <ActivityPage insights={{ activity, summary: {} }} />
+  <div style={{height:700,display:'flex'}}><ActivityPage insights={{ activity, summary: {} }} /></div>
 </main>);

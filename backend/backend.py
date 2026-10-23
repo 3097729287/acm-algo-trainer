@@ -241,6 +241,9 @@ class Handler(BaseHTTPRequestHandler):
                 elif path == '/api/preferences':
                     from preferences import save_preferences
                     value = save_preferences(training, body)
+                elif path == '/api/usage':
+                    from usage import record
+                    value = record(training, body)
                 elif path == "/api/submissions":
                     value = training.submit(body.get("id"), body.get("code"), body.get("mode", "submit"), body.get("input", ""), body.get("contestId"), body.get("sampleRun"), body.get("language", "cpp17"), review_id=body.get('reviewId'))
                 elif path == "/api/contests/preview":
@@ -387,6 +390,9 @@ class Handler(BaseHTTPRequestHandler):
             elif path == '/api/preferences':
                 from preferences import read_preferences
                 self.send_json(200, read_preferences(self.server.training))
+            elif path == '/api/usage':
+                from usage import snapshot
+                self.send_json(200, snapshot(self.server.training))
             elif path == '/api/data/export':
                 from data_export import export_data
                 self.send_json(200, export_data(self.server.training))

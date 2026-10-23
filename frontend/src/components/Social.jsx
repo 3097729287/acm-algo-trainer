@@ -30,10 +30,11 @@ export function useSocial(api, enabled) {
 }
 
 const particles=[['0px','-30px','#f97083'],['23px','-23px','#f5bd63'],['32px','0px','#8f8cf0'],['23px','23px','#6ccbb1'],['0px','31px','#68b8f4'],['-23px','23px','#e18ce8'],['-32px','0px','#f5bd63'],['-23px','-23px','#6ccbb1']];
-export function LikeBurst({ targetId,nickname,likes,disabled,self=false,api,onLiked,onError }) {
-  const [value,setValue]=useState(likes || {total:0,likedToday:false}), [burst,setBurst]=useState(false), [oldCount,setOldCount]=useState(0);
+export function LikeBurst({ targetId,nickname,likes,disabled,self=false,api,onLiked,onError,period='total' }) {
+  const count=likes?.counts?.[period]??likes?.total??0;
+  const [value,setValue]=useState({...likes,total:count,likedToday:!!likes?.likedToday}), [burst,setBurst]=useState(false), [oldCount,setOldCount]=useState(0);
   const inFlight=useRef(false), acknowledged=useRef(false), timer=useRef(null);
-  useEffect(()=>{setValue(previous=>acknowledged.current ? {total:Math.max(previous.total,likes?.total || 0),likedToday:true} : likes || {total:0,likedToday:false});},[likes?.total,likes?.likedToday]);
+  useEffect(()=>{setValue(previous=>acknowledged.current ? {total:Math.max(previous.total,count),likedToday:true} : {total:count,likedToday:!!likes?.likedToday});},[count,likes?.likedToday]);
   useEffect(()=>()=>clearTimeout(timer.current),[]);
   async function like(){
     if(disabled || value.likedToday || inFlight.current)return;
@@ -42,7 +43,8 @@ export function LikeBurst({ targetId,nickname,likes,disabled,self=false,api,onLi
     timer.current=setTimeout(()=>setBurst(false),600);
     try {
       const result=await api('social/likes',{targetId});
-      acknowledged.current=true;setValue(result.likes);onLiked?.(result);
+      const received={...result.likes,counts:result.counts};
+      acknowledged.current=true;setValue({total:result.counts?.[period]??result.likes.total,likedToday:result.likes.likedToday});onLiked?.({...result,likes:received});
       window.dispatchEvent(new CustomEvent('tb:social-change',{detail:result}));
     } catch(issue){setValue(before);setBurst(false);onError?.(issue.message);}
     finally{inFlight.current=false;}

@@ -35,12 +35,11 @@ class ReleaseAssetTests(unittest.TestCase):
         with redirect_stdout(io.StringIO()):
             build_release.admin_assemble(SimpleNamespace(stage=self.stage))
         private = self.stage / 'private-admin'
-        packages = list(private.glob('TB-Admin-*-win64.zip'))
-        self.assertEqual(len(packages), 1)
-        with zipfile.ZipFile(packages[0]) as package:
-            info = next(name for name in package.namelist() if name.endswith('/BUILD-INFO.json'))
-            self.assertEqual(json.loads(package.read(info))['edition'], 'admin')
-            self.assertTrue(any(name.endswith('/TB管理员版.exe') for name in package.namelist()))
+        self.assertEqual(list(private.glob('*.zip')), [])
+        self.assertEqual(list(private.glob('*.exe')), [])
+        program = private / ('TB-Admin-' + build_release.VERSION + '-win64')
+        self.assertEqual(json.loads((program / 'BUILD-INFO.json').read_text(encoding='utf8'))['edition'], 'admin')
+        self.assertTrue((program / 'TB管理员版.exe').is_file())
         self.assertEqual(build_release.manifest(user), original)
         self.assertFalse(any(is_admin_asset(path.name) for path in self.public.iterdir()))
         self.assertTrue((private / 'ADMIN-RELEASE-MANIFEST.json').is_file())

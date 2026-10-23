@@ -37,6 +37,7 @@ try{
   else if(path==='preferences'){if(route.request().method()==='POST')savedPreferences=route.request().postDataJSON().preferences;value={preferences:savedPreferences};}
   else if(path==='data/export')value={format:'tb-learning-export',formatVersion:1,tables:{drafts:[{code:'// 中文代码\nint main(){}'}]}};
   else if(path==='desktop/fullscreen')value={available:false,fullscreen:false};
+  else if(path==='/api/usage'||path==='usage') value={days:[],totalSeconds:0,maxDailySeconds:0,maxDailyDate:null};
   else throw new Error('Unhandled fixture '+path);
   await route.fulfill({contentType:'application/json',body:JSON.stringify(value)});
  };await page.route('**/api/**',routes);
@@ -106,7 +107,7 @@ try{
  await page.screenshot({path:'tests/screenshots/v113-growth-glass.png'});
  await page.locator('.sidebar').getByRole('button',{name:'设置',exact:true}).click();
  await openSettings(page, '更新');
- await page.getByText('公开版本：',{exact:false}).waitFor();assert.equal(await page.getByText('v0.1.0',{exact:true}).count(),0,'Stale catalog cache cannot show an old public release');
+ await page.getByRole('button',{name:'检查软件更新',exact:true}).waitFor();assert.equal(await page.getByText('公开版本：',{exact:false}).count(),0,'Redundant catalog release status is removed');assert.equal(await page.getByText('v0.1.0',{exact:true}).count(),0,'Stale catalog cache cannot show an old public release');
  await page.locator('.sidebar').getByRole('button',{name:'成长与能力',exact:false}).click();
  assert.equal(await page.getByRole('region',{name:'今日排行榜速览'}).count(),0);
  await page.locator('.sidebar').getByRole('button',{name:'排行榜',exact:true}).click();
@@ -115,8 +116,9 @@ try{
  assert.equal(await page.locator('.ranking-table .avatar-rank-frame').count(),2);
  await page.screenshot({path:'tests/screenshots/v112-rankings-glass.png'});
  await page.locator('.sidebar').getByRole('button',{name:'活动记录',exact:false}).click();
- await page.locator('.activity-stats>span>b').first().waitFor();
- const values=await page.locator('.activity-stats>span>b').evaluateAll(nodes=>nodes.map(n=>n.getBoundingClientRect().y));assert.ok(Math.abs(values[0]-values[1])<1,'Calendar summary numbers align');
+ await page.locator('.activity-month-grid').waitFor();
+ assert.equal(await page.locator('.activity-stats').count(),0,'Duplicate streak/AC cards are removed');
+ assert.match(await page.getByLabel('活动时间',{exact:true}).inputValue(),/^\d{4}-\d{2}$/);
  await mkdir('tests/screenshots',{recursive:true});
  for(const [width,height]of[[2048,1152],[1440,900],[1280,720],[1024,760]]){await page.setViewportSize({width,height});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));const clock=await page.getByLabel('北京时间',{exact:true}).boundingBox();assert.ok(clock.y>height-100&&clock.x+clock.width<=width,'Clock stays within the bottom status bar');await page.screenshot({path:`tests/screenshots/v113-activity-${width}.png`});}
  await page.locator('.sidebar').getByRole('button',{name:'我的训练',exact:true}).click();
@@ -126,7 +128,7 @@ try{
  await page.locator('.sidebar').getByRole('button',{name:'设置',exact:true}).click();
  await openSettings(page,'鸣谢');
  await page.getByText('InkStarry',{exact:true}).waitFor();await page.getByText('蒟蒻',{exact:true}).waitFor();await page.getByText('她不爱吃酸',{exact:true}).waitFor();assert.equal(await page.getByText('自渡',{exact:true}).count(),0);
- await openSettings(page,'数据与帮助');
+ await openSettings(page,'数据统计');
  const downloaded=page.waitForEvent('download');await page.getByRole('button',{name:/导出数据/}).click();const download=await downloaded;
  assert.ok(download.suggestedFilename().endsWith('.json'));const data=JSON.parse(await readFile(await download.path(),'utf8'));assert.equal(data.tables.drafts[0].code,'// 中文代码\nint main(){}');
  await page.getByRole('button',{name:/新手指引/}).click();
@@ -138,11 +140,11 @@ try{
  await page.keyboard.press('Escape');
  assert.notEqual(JSON.parse(await page.evaluate(()=>localStorage.getItem('tb.preferences.v2.10000000-0000-4000-8000-000000000001')))?.onboardingCompleted,true,'Page guide does not complete the introductory overview');
  assert.equal(await page.locator('.topbar').getByRole('button',{name:/指引/}).count(),0,'Page guide entry stays in Settings');
- await openSettings(page,'数据与帮助');await page.getByRole('button',{name:/新手指引/}).click();await directory.waitFor();
+ await openSettings(page,'数据统计');await page.getByRole('button',{name:/新手指引/}).click();await directory.waitFor();
  await directory.getByRole('button',{name:/入门总览/}).click();await page.getByRole('heading',{name:'收起与展开侧边栏',exact:true}).waitFor();
  await page.keyboard.press('Escape');
  await page.waitForFunction(()=>JSON.parse(localStorage.getItem('tb.preferences.v2.10000000-0000-4000-8000-000000000001')).onboardingCompleted===true);
- await openSettings(page,'数据与帮助');await page.getByRole('button',{name:/新手指引/}).click();await directory.waitFor();await directory.getByRole('button',{name:/翻译 API/}).click();await page.getByRole('heading',{name:'预置中文与自行翻译',exact:true}).waitFor();await page.locator('.translation-settings').waitFor();await page.keyboard.press('Escape');
+ await openSettings(page,'数据统计');await page.getByRole('button',{name:/新手指引/}).click();await directory.waitFor();await directory.getByRole('button',{name:/翻译 API/}).click();await page.getByRole('heading',{name:'预置中文与自行翻译',exact:true}).waitFor();await page.locator('.translation-settings').waitFor();await page.keyboard.press('Escape');
  await page.close();registrationMode=true;savedPreferences=null;
  const fresh=await browser.newPage({viewport:{width:1024,height:760}});await fresh.route('**/api/**',routes);await fresh.goto(vite.resolvedUrls.local[0]);
  await fresh.getByRole('tab',{name:'注册',exact:true}).click();

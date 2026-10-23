@@ -19,10 +19,11 @@ export async function socialSnapshot(store,user,now) {
   ]);
   return { available:true,protocol:1,totalLikes:summary.get(user.user_id).total,todayLikes:summary.get(user.user_id).today,unreadCount:inbox.unreadCount,notifications:inbox.rows.map(socialEvent),activity:activity.map(socialActivity) };
 }
-export async function rankingSocial(store,viewer,rows,day) {
+export async function rankingSocial(store,viewer,rows,period,now) {
   if (!store.social || !await store.social.available()) return false;
-  const values = await store.social.summary(viewer,rows.map(row => row.userId),day);
-  for (const row of rows) { const value=values.get(row.userId);row.likes={total:value?.total || 0,likedToday:value?.likedToday || false}; }
+  const week=bounds('weekly',now);
+  const values = await store.social.summary(viewer,rows.map(row => row.userId),week.day,week);
+  for (const row of rows) { const value=values.get(row.userId);row.likes={total:(period==='daily'?value?.today:period==='weekly'?value?.period:value?.total)||0,likedToday:value?.likedToday || false}; }
   return true;
 }
 export async function socialWrite(store,user,token,path,value,now) {
@@ -38,8 +39,8 @@ export async function socialWrite(store,user,token,path,value,now) {
   if (!await store.findUser(value.targetId)) throw new AccountError(404,'用户不存在');
   if (path === '/v1/social/likes') {
     const result=await store.social.like(user.user_id,hash,seconds,value.targetId,bounds('daily',now).day,timestamp);
-    const counts=await store.social.summary(user.user_id,[value.targetId],bounds('daily',now).day);
-    return { ...result,targetId:value.targetId,likes:{total:counts.get(value.targetId).total,likedToday:counts.get(value.targetId).likedToday} };
+    const week=bounds('weekly',now),summaries=await store.social.summary(user.user_id,[value.targetId],week.day,week),counts=summaries.get(value.targetId);
+    return { ...result,targetId:value.targetId,likes:{total:counts.total,likedToday:counts.likedToday},counts:{daily:counts.today,weekly:counts.period,total:counts.total} };
   }
   if (typeof value.text !== 'string' || /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/u.test(value.text) || !value.text.trim() || [...value.text.trim()].length>500 || !uuid.test(value.requestId || '')) throw new AccountError(400,'留言须为 1–500 字');
   return store.social.comment(user.user_id,hash,seconds,value.targetId,value.text.trim(),value.requestId,timestamp);

@@ -87,8 +87,11 @@ Type: files; Name: "{group}\TB 管理员工作台.lnk"
 
 [Code]
 function LegacyDatabaseExists: Boolean;
+var
+  ProfileDir: String;
 begin
-  Result := FileExists(ExpandConstant('{userprofile}\.dsh\state\tb-personal.sqlite3'));
+  ProfileDir := GetEnv('USERPROFILE');
+  Result := (ProfileDir <> '') and FileExists(AddBackslash(ProfileDir) + '.dsh\state\tb-personal.sqlite3');
 end;
 
 function WebViewPresent: Boolean;

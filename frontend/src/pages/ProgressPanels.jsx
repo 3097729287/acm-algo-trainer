@@ -80,11 +80,9 @@ export function DailyTasks({ dailyTasks, onClaim }) {
 export function GrowthAccountPanel({ api, hub, account, profile, profileSnapshot: suppliedSnapshot, onProfileChanged, onHubChanged, onError, accountFocus }) {
   const panelRef = useRef(null);
   const profileSnapshot = useMemo(() => suppliedSnapshot || (profile ? { profile } : undefined), [profile, suppliedSnapshot]);
-  const [publicOpen, setPublicOpen] = useState(false);
   const focusSection = typeof accountFocus === 'string' ? accountFocus : accountFocus?.section;
   useEffect(() => {
     if (!focusSection) return;
-    if (focusSection === 'connections' || focusSection === 'public') setPublicOpen(true);
     const frame = requestAnimationFrame(() => {
       const target = panelRef.current;
       target?.scrollIntoView({ block: 'start' });
@@ -93,7 +91,7 @@ export function GrowthAccountPanel({ api, hub, account, profile, profileSnapshot
   }, [accountFocus, focusSection]);
   return <section ref={panelRef} id="growth-accounts" className="progress-section growth-account-panel" aria-label="账号与身份">
     <ProfileSettings api={api} initialAccount={account} initialProfileSnapshot={profileSnapshot} onChanged={onProfileChanged} onError={onError} />
-    <details className="growth-account-section" open={publicOpen} onToggle={event => setPublicOpen(event.currentTarget.open)}><summary><UserRound size={16} />公开账号与评分<ChevronRight size={15} /></summary>{publicOpen && <ConnectionsPanel hub={hub} api={api} onChanged={onHubChanged} onError={onError} includeTranslation={false} />}</details>
+    <div className="growth-account-section"><ConnectionsPanel hub={hub} api={api} onChanged={onHubChanged} onError={onError} includeTranslation={false}/></div>
   </section>;
 }
 
@@ -104,81 +102,13 @@ export function GrowthPage({avatarData,onAvatar,goalOverview,api,onGoalsChanged,
  const rankName=Number(growth.level)<5?'未定级':rank.qualified===false?'定级中':rank.tier||'定级中';
  return <div className="progress-page growth-dashboard" aria-label="成长与能力"><div className="progress-growth-columns">
  <KnowledgeRadar rows={rows} categories={categories} knowledge={insights.knowledge||[]} knowledgeEvidence={insights.knowledgeEvidence||[]} knowledgeModel={insights.knowledgeModel||{}} onTopic={onTopic} onTrain={onTrain}/>
- <section className="progress-section growth-account-hero" aria-label="账号成长统计"><div className="account-hero-identity"><ProfileBadge compact={false} growth={growth} avatar={avatarData} nickname={nickname} onAvatarClick={onAvatar} onClick={onAccounts}/><div className="account-hero-rank"><TierIcon badge={rank.badge||'tier-0'} size={180}/><strong>{rankName}</strong>{rank.abilityScore!=null&&<span>{number(rank.abilityScore)}</span>}</div></div>
+ <section className="progress-section growth-account-hero" aria-label="账号成长统计"><div className="account-hero-identity"><ProfileBadge compact={false} growth={growth} avatar={avatarData} nickname={nickname} onAvatarClick={onAvatar} onClick={onAccounts}/><div className="account-hero-rank"><TierIcon badge={rank.badge||'tier-0'} tier={rank.tier} size={180}/><strong>{rankName}</strong>{rank.abilityScore!=null&&<span>{number(rank.abilityScore)}</span>}</div></div>
  <div className="account-hero-level"><span>Lv.{growth.level??'—'}</span><div><Meter value={growth.nextLevelXp?Number(growth.currentLevelXp||0)/growth.nextLevelXp*100:0} label="等级经验"/><span>{number(growth.currentLevelXp||0)} / {number(growth.nextLevelXp||0)} XP</span></div></div>
  <div className="account-hero-statistics">{stats.map(([Icon,value,label])=><div key={label} aria-label={`${label} ${number(value)}`}><Tooltip text={label}><span className="account-stat-icon" tabIndex={0} aria-label={label}><Icon size={30}/></span></Tooltip><b>{number(value)}</b></div>)}</div><div className="account-hero-titles"><TitleMedals titles={insights.equippedTitles||growth.equippedTitles||[]}/></div><div id="growth-goals" className="account-hero-goals">{api&&<GoalsPanel api={api} overview={goalOverview} onChanged={onGoalsChanged}/>}</div>
  </section></div></div>;
 }
 
-const dayKey = date => date.toISOString().slice(0, 10);
-const activityLevel = amount => amount <= 0 ? 0 : amount === 1 ? 1 : amount <= 3 ? 2 : amount <= 6 ? 3 : 4;
-function PassCount({ count = 0 }) {
-  return <span className={`activity-pass-count activity-pass-${activityLevel(count)}`} aria-label={`${number(count)} 题通过`}><b>{number(count)}</b><span>题</span><i aria-hidden="true"><em style={{ width: `${Math.min(100, count / 7 * 100)}%` }} /></i></span>;
-}
-export function ActivityPage({ insights, onTrain }) {
-  const todayKey = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
-  const currentYear = Number(todayKey.slice(0, 4));
-  const [year, setYear] = useState(currentYear);
-  const [selected, setSelected] = useState(todayKey);
-  const [focused, setFocused] = useState(todayKey);
-  const focusRef = useRef(todayKey), buttons = useRef(new Map());
-  const activity = useMemo(() => new Map(list(insights?.activity).map(item => [item.date, item])), [insights?.activity]);
-  const days = useMemo(() => {
-    const result = [], begin = new Date(Date.UTC(year, 0, 1)), stop = new Date(Date.UTC(year + 1, 0, 1));
-    for (let date = begin; date < stop && dayKey(date) <= todayKey; date = new Date(+date + 86400000)) result.push(dayKey(date));
-    return result;
-  }, [year, todayKey]);
-  const years = [...new Set([currentYear, ...list(insights?.activity).map(item => Number(String(item.date).slice(0, 4))).filter(value => Number.isFinite(value) && value <= currentYear)])].sort((a, b) => b - a).slice(0, 6);
-  const offset = (new Date(Date.UTC(year, 0, 1)).getUTCDay() + 6) % 7;
-  useEffect(() => {
-    const next = days.includes(selected) ? selected : days[days.length - 1];
-    setSelected(next); setFocused(next); focusRef.current = next;
-  }, [year, days]);
-  if (!insights) return <Loading />;
-  const selectedData = activity.get(selected) || { date: selected, submissions: 0, accepted: 0, officialAccepted: 0 };
-  const focusedData = activity.get(focused) || { submissions: 0, accepted: 0, officialAccepted: 0 };
-  const selectedDays = days.filter(key => activity.has(key));
-  const totals = days.reduce((value, key) => {
-    const passed = activity.get(key)?.officialAccepted || 0;
-    value.official += passed;
-    value.current = passed > 0 ? value.current + 1 : 0;
-    value.longest = Math.max(value.longest, value.current);
-    return value;
-  }, { official: 0, current: 0, longest: 0 });
-  const focusDay = key => { focusRef.current = key; setFocused(key); buttons.current.get(key)?.focus(); };
-  const handleKey = event => {
-    const index = days.indexOf(focusRef.current);
-    let next;
-    if (event.key === 'ArrowLeft') next = index - 7;
-    else if (event.key === 'ArrowRight') next = index + 7;
-    else if (event.key === 'ArrowUp') next = index - 1;
-    else if (event.key === 'ArrowDown') next = index + 1;
-    else if (event.key === 'Home') next = event.ctrlKey ? 0 : index - ((index + offset) % 7);
-    else if (event.key === 'End') next = event.ctrlKey ? days.length - 1 : index + 6 - ((index + offset) % 7);
-    if (next != null) { event.preventDefault(); event.stopPropagation(); focusDay(days[clamp(next, days.length - 1)]); }
-  };
-  return <div className="activity-page" aria-label="训练活动">
-    <section className="progress-section"><div className="progress-section-heading"><h2><CalendarDays size={17} /><Tooltip label="训练日历说明" text="按北京时间统计原站 AC，同题同日计一次；颜色依次对应 0、1、2–3、4–6、7+ 题。方向键移动，Enter 查看当天。"/></h2><label className="activity-year">年份<ThemedSelect aria-label="活动年份" value={year} onChange={event => setYear(Number(event.target.value))}>{years.map(value => <option key={value}>{value}</option>)}</ThemedSelect></label></div>
-      <div className="progress-stat-line activity-stats"><span className="activity-year-total"><b>{number(totals.official)}</b><span>题次通过</span></span><span className="activity-year-streak"><b>{number(totals.longest)}</b><span>天最长连续通过</span></span></div>
-      <div className="activity-calendar-scroll"><div className="activity-calendar" role="grid" aria-label={`${year}年训练热力图，方向键移动，Enter查看日期`} onKeyDown={handleKey}>
-        {Array.from({ length: offset }, (_, index) => <span className="activity-day activity-padding" role="presentation" key={'pad' + index} />)}
-        {days.map(key => {
-          const amount = activity.get(key)?.officialAccepted || 0;
-          const level = activityLevel(amount);
-          const description = `${key}，${amount} 题通过`;
-          return <button type="button" role="gridcell" className={`activity-day activity-level-${level}${selected === key ? ' activity-selected' : ''}`} key={key} ref={node => { if (node) buttons.current.set(key, node); else buttons.current.delete(key); }}
-            tabIndex={focused === key ? 0 : -1} aria-label={description} aria-selected={selected === key} title={description} onFocus={() => { focusRef.current = key; setFocused(key); }} onClick={() => { focusRef.current = key; setFocused(key); setSelected(key); }} />;
-        })}
-      </div></div>
-      <div className="activity-calendar-caption"><Tooltip text="0 / 1 / 2–3 / 4–6 / 7+ 题"><span className="activity-legend" tabIndex={0} aria-label="热力图图例">{[0,1,2,3,4].map(level=><i key={level} className={`activity-level-${level}`}/>)}</span></Tooltip></div>
-    </section>
-    <section className="progress-section activity-day-detail"><div className="progress-section-heading"><h2>{selected || '日期详情'}</h2></div>
-    <PassCount count={selectedData.officialAccepted || 0} /></section>
-    <section className="progress-section"><details className="activity-details" open><summary>查看日期明细（{selectedDays.length} 天）</summary>{selectedDays.length ? <div className="progress-table-scroll"><table><thead><tr><th>日期</th><th>通过题数</th></tr></thead><tbody>{selectedDays.slice().reverse().map(key => { const item = activity.get(key); return <tr key={key}><td><button type="button" className="progress-text-button" onClick={() => { setSelected(key); focusDay(key); }}>{key}</button></td><td><PassCount count={item.officialAccepted || 0} /></td></tr>; })}</tbody></table></div> : <p className="progress-muted">这一年还没有记录。完成正式提交后会自动记录。</p>}</details>
-      {insights.recommendations?.[0]?.ids?.[0] && onTrain && <button type="button" className="progress-button" onClick={() => onTrain(insights.recommendations[0].ids[0])}>继续练习<ArrowRight size={13} /></button>}
-    </section>
-  </div>;
-}
+export {default as ActivityPage} from './ActivityPage.jsx';
 
 function contestGroups(rows) {
   const map = new Map();
@@ -362,13 +292,10 @@ export function UpdatePanel({ softwareState, hub, api, onChanged, onError, onCon
   return <section className="update-panel" aria-label="题库与版本更新">{!notificationsOnly&&<><div className="progress-section-heading"><h2><Github size={17} />题库与版本更新</h2><span>当前 {__TB_VERSION__}</span></div>
     <div className="update-project-source"><a href={PROJECT_URL} target="_blank" rel="noreferrer">acm-algo-trainer<ExternalLink size={12} /></a>{updates.sourceNotice&&<Tooltip label="更新来源说明" text={updates.sourceNotice}/>}</div>
     <form onSubmit={event => { event.preventDefault(); request('hub/configure', { ...draft, intervalHours: Number(draft.intervalHours), minDifficulty: Number(draft.minDifficulty), maxDifficulty: Number(draft.maxDifficulty) }); }}>
-      <div className="update-options"><label className="progress-check"><input type="checkbox" checked={draft.autoSync} onChange={event => change('autoSync', event.target.checked)} />自动检查已结束的比赛</label><label>检查间隔<BoundedNumber value={draft.intervalHours} min={1} max={24} required unit="h" onChange={event=>change('intervalHours',event.target.value)} aria-label="自动检查间隔"/></label></div>
-      <div className="update-difficulty-range"><span>新题难度范围</span><label><span className="update-sr-only">最低难度</span><BoundedNumber type="number" min="0" max="10000" step="1" value={draft.minDifficulty} onChange={event => change('minDifficulty', event.target.value)} aria-label="自动收录最低难度" required /></label><span>至</span><label><span className="update-sr-only">最高难度</span><BoundedNumber type="number" min={Math.max(0, Number(draft.minDifficulty) || 0)} max="10000" step="1" value={draft.maxDifficulty} onChange={event => change('maxDifficulty', event.target.value)} aria-label="自动收录最高难度" required /></label></div>
+      <div className="update-options"><label className="progress-check"><input type="checkbox" checked={draft.autoSync} onChange={event => change('autoSync', event.target.checked)} />自动检查已结束的比赛</label></div>
       <div className="progress-actions"><button type="submit" className="progress-button progress-primary" disabled={busy || !api}><Check size={14} />保存更新偏好</button><button type="button" className="progress-button" disabled={busy || sync.busy || !api} onClick={() => request('hub/sync', {})}>{sync.busy ? <LoaderCircle size={14} className="progress-spin" /> : <RefreshCw size={14} />}现在检查</button></div>
     </form>
     {error && <p className="connection-error" role="alert">{error}</p>}{message && <p className="connection-message" role="status">{message}</p>}
-    <div className="update-status"><span>上次检查：{dateLabel(sync.lastCheckedAt || updates.checkedAt)}</span><span>下次检查：{dateLabel(sync.nextCheckAt)}</span>{updates.latestVersion && <span>公开版本：{updates.url ? <a href={updates.url} target="_blank" rel="noreferrer">{updates.latestVersion}<ExternalLink size={12} /></a> : updates.latestVersion}</span>}</div>
-    {sync.message && <p className="progress-small">{sync.message}</p>}{updates.error && <p className="connection-error">{updates.error}</p>}
     {list(sync.providers).length > 0 && <div className="update-providers">{list(sync.providers).map(item => <div key={item.platform}><strong>{LABELS[item.platform] || item.platform}</strong><span>{item.message&&<Tooltip label={`${LABELS[item.platform] || item.platform}检查详情`} text={item.message}/>}</span><small>新增 {number(item.added)} · 待定级 {number(item.pending)}</small></div>)}</div>}
     {updates.notes && <details className="update-release-notes"><summary>版本说明</summary><p>{updates.notes}</p></details>}
 </>}

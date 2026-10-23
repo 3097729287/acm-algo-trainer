@@ -31,7 +31,6 @@ BROAD = {
     '数论':'数学 / 数论', 'strings':'字符串', '字符串':'字符串', 'trees':'图论 / 树',
     '树':'图论 / 树', 'data structures':'数据结构', '数据结构':'数据结构',
     '动态规划 DP':'动态规划', '搜索':'搜索', '群论':'数学 / 群论', '微积分':'数学 / 微积分', '导数':'数学 / 微积分',
-    '交互题':'交互题',
 }
 OFFICIAL = {
     'binary search':'二分查找', 'brute force':'枚举', 'combinatorics':'组合计数',
@@ -43,6 +42,7 @@ OFFICIAL = {
     '二分':'二分查找', '概率论':'期望与概率', '期望':'期望与概率', '前缀和与差分':'前缀和',
     '字符串哈希':'哈希', '状态压缩':'状压 DP', '树状数组 bit':'树状数组',
     '最大公约数 gcd':'最大公约数', '最小公倍数 lcm':'最小公倍数',
+    'interactive':'交互题', 'coordinate compression':'离散化', 'linked list':'链表',
     '组合数学':'组合计数', '双指针 two-pointer':'双指针', '哈希 hashing':'哈希', 'kmp 算法':'KMP',
     '分类讨论':'枚举', '素数判断':'素数', '线性筛法':'素数', '字典树 trie':'字典树',
     '连通块':'连通块计数', '线性递推':'递推', '进制':'取模与同余', '随机游走 markov chain':'期望与概率',
@@ -94,6 +94,8 @@ def dictionary():
         for name in groups.pop('线性 DP'):move(name,'动态规划')
     move('扫描线','计算几何')
     if '计算几何' not in groups['计算几何']:groups['计算几何'].insert(0,'计算几何')
+    for name in ('向量与度量','点线与圆','多边形'):
+        move(name,'计算几何')
     for parent, children in groups.items():
         groups[parent]=list(dict.fromkeys(children))
     return result
@@ -180,6 +182,24 @@ def _curated_problem(row):
     return None
 
 
+@lru_cache(maxsize=4)
+def _load_topic_review(path, stamp, size):
+    try:
+        return json.loads(Path(path).read_text(encoding='utf-8')).get('problems',{})
+    except (OSError,ValueError):
+        return {}
+
+
+def _reviewed_topics(row):
+    path=asset_path('knowledge_topic_review.json')
+    try:stat=path.stat()
+    except OSError:return None
+    original=str(row.get('url') or row.get('_url') or '')
+    parsed=urlsplit(original)
+    key=(parsed.hostname or '').removeprefix('www.').lower()+parsed.path.rstrip('/')
+    return _load_topic_review(str(path),stat.st_mtime_ns,stat.st_size).get(key)
+
+
 # Explicit named techniques are evidence; merely containing “array” is not DP.
 _NAMED = (
     ('BFS',r'\bBFS\b|\bbreadth.first search\b|广度优先搜索'),
@@ -204,6 +224,9 @@ _NAMED = (
     ('拓扑排序',r'\btopological sort\b|拓扑排序'),
     ('乘法逆元',r'\bmodular (?:multiplicative )?inverse\b|乘法逆元'),
     ('素数',r'\bprime factor(?:ization|isation)s?\b|质因数分解|素因子分解|\bis prime\b|是否.*(?:素数|质数)'),
+    ('最小公倍数',r'least common multiple|最小公倍数'),
+    ('链表',r'\blinked list\b|双向链表'),
+    ('交互题',r'\bthis is an? interactive (?:problem|task)\b|这是(?:一道|一个)?交互(?:式)?(?:题|问题)|本题(?:是一道|是一个|为|是)交互'),
 )
 
 
@@ -285,12 +308,22 @@ def analyze_problem(row=None, statement=None, official_tags=None, algorithm_evid
         for tag in extra['tags']:
             evidence.append({'source':'algorithm-explicit','tag':tag,'reference':str(algorithm_evidence['source'])[:500],
                              'verified':algorithm_evidence.get('verified') is True})
+    reviewed=_reviewed_topics(row)
+    if reviewed:
+        removed=list(dict.fromkeys(removed+normalize_tags(reviewed.get('removeTags',[]))['tags']))
+        extra=normalize_tags(reviewed.get('tags',[]))
+        tags=[tag for tag in tags if tag not in removed]+extra['tags']
+        obsolete={category_path(tag) for tag in removed}
+        categories=[category for category in categories if category not in obsolete]+extra['categories']
+        for source in reviewed['sources']:
+            evidence.append({'source':'reviewed-topic','tags':extra['tags'],'reference':source['reference'],
+                             'sourceHash':source['sha256'],'reason':'；'.join(source['reasons']),'verified':False})
     tags=list(dict.fromkeys(t for t in tags if canonical_tag(t)==t));categories=list(dict.fromkeys(categories))
     official=any(e['source']=='official-tags' and e.get('tag') in tags for e in evidence)
     local=any(e['source']=='archive-catalog' and e.get('tag') in tags for e in evidence)
-    confidence='high' if curated or official or local else 'medium' if tags or public else 'pending'
-    source='archive-lesson' if curated else 'archive-catalog' if local else 'official-tags' if official else 'public-reviewed' if public else 'algorithm-evidence' if algorithm_evidence else 'statement-analysis' if text else 'pending-evidence'
-    digest=hashlib.sha256(json.dumps({'tags':inputs,'statement':text,'algorithm':algorithm_evidence,'curated':curated},ensure_ascii=False,sort_keys=True,default=str).encode()).hexdigest()
+    confidence='high' if reviewed or curated or official or local else 'medium' if tags or public else 'pending'
+    source='reviewed-topic' if reviewed else 'archive-lesson' if curated else 'archive-catalog' if local else 'official-tags' if official else 'public-reviewed' if public else 'algorithm-evidence' if algorithm_evidence else 'statement-analysis' if text else 'pending-evidence'
+    digest=hashlib.sha256(json.dumps({'tags':inputs,'statement':text,'algorithm':algorithm_evidence,'curated':curated,'reviewed':reviewed},ensure_ascii=False,sort_keys=True,default=str).encode()).hexdigest()
     return {'version':VERSION,'tags':tags,'knowledge':' + '.join(tags),'categories':categories,
             'status':'classified' if tags else 'pending','source':source,'confidence':confidence,
             'evidence':evidence,'unknown':list(dict.fromkeys(unknown)),

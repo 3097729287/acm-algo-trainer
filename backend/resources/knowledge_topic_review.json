@@ -1,0 +1,1418 @@
+{
+  "version": "topic-review-20261023",
+  "scope": "仅修正知识标签，不改题解正文、程序、难度或个人记录",
+  "reviewedProblems": 67,
+  "problems": {
+    "codeforces.com/contest/2258/problem/E": {
+      "problemIds": [
+        "Div.2 1118::E"
+      ],
+      "url": "https://codeforces.com/contest/2258/problem/E",
+      "tags": [
+        "最小公倍数"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "Div.2 1118::E",
+          "reference": "data/library/solutions.json#Div.2 1118::E",
+          "sha256": "5ad1f766a6e8eec45233d608c6a3e8be48a2e214dbe9f250d8313fcfbc072cf9",
+          "reasons": [
+            "题解具体使用最小公倍数的质因数指数、周期或与 gcd 的关系。"
+          ]
+        }
+      ]
+    },
+    "codeforces.com/contest/2236/problem/F1": {
+      "problemIds": [
+        "Div.3 1103::F1"
+      ],
+      "url": "https://codeforces.com/contest/2236/problem/F1",
+      "tags": [
+        "最小公倍数"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "Div.3 1103::F1",
+          "reference": "data/library/solutions.json#Div.3 1103::F1",
+          "sha256": "bd6c00dd6d547821dbcef5f3aaa2bd234d428999c1db05d875412339d4dda169",
+          "reasons": [
+            "题解具体使用最小公倍数的质因数指数、周期或与 gcd 的关系。"
+          ]
+        }
+      ]
+    },
+    "codeforces.com/contest/2236/problem/F2": {
+      "problemIds": [
+        "Div.3 1103::F2"
+      ],
+      "url": "https://codeforces.com/contest/2236/problem/F2",
+      "tags": [
+        "最小公倍数"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "Div.3 1103::F2",
+          "reference": "data/library/solutions.json#Div.3 1103::F2",
+          "sha256": "63c952a7e5bd817864c83c6cfb8a98ac31ed6140a055234fd1d722bc8daae4bb",
+          "reasons": [
+            "题解具体使用最小公倍数的质因数指数、周期或与 gcd 的关系。"
+          ]
+        }
+      ]
+    },
+    "codeforces.com/contest/2065/problem/G": {
+      "problemIds": [
+        "Div.4 1003::G"
+      ],
+      "url": "https://codeforces.com/contest/2065/problem/G",
+      "tags": [
+        "最小公倍数"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "Div.4 1003::G",
+          "reference": "data/library/solutions.json#Div.4 1003::G",
+          "sha256": "075f0d086fab90404e84071ba0396ade9ef79f39b3f7f17ad5dfd83373f1e4f7",
+          "reasons": [
+            "题解具体使用最小公倍数的质因数指数、周期或与 gcd 的关系。"
+          ]
+        }
+      ]
+    },
+    "luogu.com.cn/problem/P10426": {
+      "problemIds": [
+        "lanqiao:2024:省:::P10426"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P10426",
+      "tags": [
+        "最小公倍数"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "lanqiao:2024:省:::P10426",
+          "reference": "data/library/solutions.json#lanqiao:2024:省:::P10426",
+          "sha256": "05b737da91a85fd7eebd21cf6a164d01328125c5a994fd18fe9b60b39052b612",
+          "reasons": [
+            "题解具体使用最小公倍数的质因数指数、周期或与 gcd 的关系。"
+          ]
+        }
+      ]
+    },
+    "luogu.com.cn/problem/P12830": {
+      "problemIds": [
+        "lanqiao:2025:国:::P12830"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P12830",
+      "tags": [
+        "最小公倍数"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "lanqiao:2025:国:::P12830",
+          "reference": "data/library/solutions.json#lanqiao:2025:国:::P12830",
+          "sha256": "478795f11dbe5c54b590d23005b13eadc225ad335be5e3660783c56b8c232be2",
+          "reasons": [
+            "题解具体使用最小公倍数的质因数指数、周期或与 gcd 的关系。"
+          ]
+        }
+      ]
+    },
+    "codeforces.com/gym/104768/problem/C": {
+      "problemIds": [
+        "remote:codeforces:104768::C"
+      ],
+      "url": "https://codeforces.com/gym/104768/problem/C",
+      "tags": [
+        "最小公倍数"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104768::C",
+          "reference": "data/library/solutions.json#remote:codeforces:104768::C",
+          "sha256": "cd73474f3a993805edec81c22afce8d8091a8fe1cf047ec2f617e9bb9f18da72",
+          "reasons": [
+            "题解具体使用最小公倍数的质因数指数、周期或与 gcd 的关系。"
+          ]
+        }
+      ]
+    },
+    "luogu.com.cn/problem/P17690": {
+      "problemIds": [
+        "remote:luogu:359211::A"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P17690",
+      "tags": [
+        "最小公倍数"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:luogu:359211::A",
+          "reference": "data/library/solutions.json#remote:luogu:359211::A",
+          "sha256": "aefb8bb4194a6d073eb5c050d35d16d7825811ede42219f50521f2858b5dca80",
+          "reasons": [
+            "题解具体使用最小公倍数的质因数指数、周期或与 gcd 的关系。"
+          ]
+        }
+      ]
+    },
+    "luogu.com.cn/problem/P17313": {
+      "problemIds": [
+        "入门赛 51::F"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P17313",
+      "tags": [
+        "最小公倍数"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "入门赛 51::F",
+          "reference": "data/library/solutions.json#入门赛 51::F",
+          "sha256": "81c88c65bda0fe18ca0f44b38eb95a754ccd324c570467c79a255df1f23d9710",
+          "reasons": [
+            "题解具体使用最小公倍数的质因数指数、周期或与 gcd 的关系。"
+          ]
+        }
+      ]
+    },
+    "ac.nowcoder.com/acm/contest/135365/D": {
+      "problemIds": [
+        "小白月赛 133::D"
+      ],
+      "url": "https://ac.nowcoder.com/acm/contest/135365/D",
+      "tags": [
+        "最小公倍数"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "小白月赛 133::D",
+          "reference": "data/library/solutions.json#小白月赛 133::D",
+          "sha256": "e72d09a7c1240eecfb5b13d1254b1a35f2c9e9c51b79982378c7f7482029cab2",
+          "reasons": [
+            "题解具体使用最小公倍数的质因数指数、周期或与 gcd 的关系。"
+          ]
+        }
+      ]
+    },
+    "ac.nowcoder.com/acm/contest/126635/A": {
+      "problemIds": [
+        "挑战赛 85::A"
+      ],
+      "url": "https://ac.nowcoder.com/acm/contest/126635/A",
+      "tags": [
+        "最小公倍数"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "挑战赛 85::A",
+          "reference": "data/library/solutions.json#挑战赛 85::A",
+          "sha256": "a2d1bc44cfc9817bfdf657fe6d7d877123e957a8bb866704252642c977e014c1",
+          "reasons": [
+            "题解具体使用最小公倍数的质因数指数、周期或与 gcd 的关系。"
+          ]
+        }
+      ]
+    },
+    "ac.nowcoder.com/acm/contest/127263/A": {
+      "problemIds": [
+        "练习赛 148::A"
+      ],
+      "url": "https://ac.nowcoder.com/acm/contest/127263/A",
+      "tags": [
+        "最小公倍数"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "练习赛 148::A",
+          "reference": "data/library/solutions.json#练习赛 148::A",
+          "sha256": "b25a9d87ab8551a55a659fa8fa56d5ff09df1dde45cc00154afce440575b070d",
+          "reasons": [
+            "题解具体使用最小公倍数的质因数指数、周期或与 gcd 的关系。"
+          ]
+        }
+      ]
+    },
+    "atcoder.jp/contests/abc473/tasks/abc473_e": {
+      "problemIds": [
+        "ABC 473::E"
+      ],
+      "url": "https://atcoder.jp/contests/abc473/tasks/abc473_e",
+      "tags": [
+        "离散化"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "ABC 473::E",
+          "reference": "data/library/solutions.json#ABC 473::E",
+          "sha256": "6f39989b5b4a8d1cec77a8b3134939252744e548d8901eb886b6fb22c186e8c0",
+          "reasons": [
+            "实际将出现的数值排序去重并映射到小下标，用于计数或状态数组。",
+            "已核对排序去重、lower_bound 映射及压缩后状态/树状数组的使用。"
+          ]
+        }
+      ]
+    },
+    "codeforces.com/contest/2227/problem/G": {
+      "problemIds": [
+        "Div.3 1096::G"
+      ],
+      "url": "https://codeforces.com/contest/2227/problem/G",
+      "tags": [
+        "离散化"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "Div.3 1096::G",
+          "reference": "data/library/solutions.json#Div.3 1096::G",
+          "sha256": "4179b7e2b543f0e41c2f4ecafa8c99d1b4056fac439ef78b651eae00aca91007",
+          "reasons": [
+            "实际将出现的数值排序去重并映射到小下标，用于计数或状态数组。",
+            "已核对排序去重、lower_bound 映射及压缩后状态/树状数组的使用。"
+          ]
+        }
+      ]
+    },
+    "codeforces.com/contest/2185/problem/E": {
+      "problemIds": [
+        "Div.4 1074::E"
+      ],
+      "url": "https://codeforces.com/contest/2185/problem/E",
+      "tags": [
+        "离散化"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "Div.4 1074::E",
+          "reference": "data/library/solutions.json#Div.4 1074::E",
+          "sha256": "e869246c8a8b8a5a6ade42c2f5bf4038b0e13439ce8730c855289ecdb3f51a4d",
+          "reasons": [
+            "实际将出现的数值排序去重并映射到小下标，用于计数或状态数组。",
+            "已核对排序去重、lower_bound 映射及压缩后状态/树状数组的使用。"
+          ]
+        }
+      ]
+    },
+    "codeforces.com/gym/104768/problem/I": {
+      "problemIds": [
+        "remote:codeforces:104768::I"
+      ],
+      "url": "https://codeforces.com/gym/104768/problem/I",
+      "tags": [
+        "离散化"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104768::I",
+          "reference": "data/library/solutions.json#remote:codeforces:104768::I",
+          "sha256": "c79771c3e936748e46f0e7ee5acce86d6b88d6ae89eb7729683506f4c48e3e29",
+          "reasons": [
+            "实际将出现的数值排序去重并映射到小下标，用于计数或状态数组。",
+            "已核对排序去重、lower_bound 映射及压缩后状态/树状数组的使用。"
+          ]
+        }
+      ]
+    },
+    "codeforces.com/gym/104869/problem/K": {
+      "problemIds": [
+        "remote:codeforces:104869::K"
+      ],
+      "url": "https://codeforces.com/gym/104869/problem/K",
+      "tags": [
+        "离散化"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104869::K",
+          "reference": "data/library/solutions.json#remote:codeforces:104869::K",
+          "sha256": "e838b9c0207027c7891334954ceb62237884c3bc301d79098e9c5f886af35da1",
+          "reasons": [
+            "实际将出现的数值排序去重并映射到小下标，用于计数或状态数组。",
+            "已核对排序去重、lower_bound 映射及压缩后状态/树状数组的使用。"
+          ]
+        }
+      ]
+    },
+    "ac.nowcoder.com/acm/contest/136706/B": {
+      "problemIds": [
+        "挑战赛 89::B"
+      ],
+      "url": "https://ac.nowcoder.com/acm/contest/136706/B",
+      "tags": [
+        "离散化"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "挑战赛 89::B",
+          "reference": "data/library/solutions.json#挑战赛 89::B",
+          "sha256": "ace9dc3df13a255b6b4787b7f6d375ad69783c54639ad7ecd812d555ddc52c57",
+          "reasons": [
+            "实际将出现的数值排序去重并映射到小下标，用于计数或状态数组。"
+          ]
+        }
+      ]
+    },
+    "luogu.com.cn/problem/P10914": {
+      "problemIds": [
+        "lanqiao:2024:国:::P10914"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P10914",
+      "tags": [
+        "离散化"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "lanqiao:2024:国:::P10914",
+          "reference": "data/library/solutions.json#lanqiao:2024:国:::P10914",
+          "sha256": "3b578522f78586727831898c836ad4809f758a990e9d9996c1abc04e6b03be73",
+          "reasons": [
+            "已核对排序去重、lower_bound 映射及压缩后状态/树状数组的使用。"
+          ]
+        }
+      ]
+    },
+    "luogu.com.cn/problem/P12839": {
+      "problemIds": [
+        "lanqiao:2025:国:::P12839"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P12839",
+      "tags": [
+        "离散化"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "lanqiao:2025:国:::P12839",
+          "reference": "data/library/solutions.json#lanqiao:2025:国:::P12839",
+          "sha256": "7cb139e66d64d36b3b853937f782e41b1849d0c0be889950a3956ee9c995cfd7",
+          "reasons": [
+            "已核对排序去重、lower_bound 映射及压缩后状态/树状数组的使用。"
+          ]
+        }
+      ]
+    },
+    "ac.nowcoder.com/acm/contest/134814/C": {
+      "problemIds": [
+        "挑战赛 88::C"
+      ],
+      "url": "https://ac.nowcoder.com/acm/contest/134814/C",
+      "tags": [
+        "离散化"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "挑战赛 88::C",
+          "reference": "data/library/solutions.json#挑战赛 88::C",
+          "sha256": "a08ae6eaea7ea1c8cb1d0b05e09f513f46e10bb4f43b72140b3e613eb7a05bb7",
+          "reasons": [
+            "已核对排序去重、lower_bound 映射及压缩后状态/树状数组的使用。"
+          ]
+        }
+      ]
+    },
+    "ac.nowcoder.com/acm/contest/132152/F": {
+      "problemIds": [
+        "练习赛 151::F"
+      ],
+      "url": "https://ac.nowcoder.com/acm/contest/132152/F",
+      "tags": [
+        "离散化"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "练习赛 151::F",
+          "reference": "data/library/solutions.json#练习赛 151::F",
+          "sha256": "5fd4fdb282b645c0d88ae133d2812f1dee4f2c500c01fa520b9cb1ef582e9baa",
+          "reasons": [
+            "已核对排序去重、lower_bound 映射及压缩后状态/树状数组的使用。"
+          ]
+        }
+      ]
+    },
+    "atcoder.jp/contests/abc477/tasks/abc477_d": {
+      "problemIds": [
+        "ABC 477::D"
+      ],
+      "url": "https://atcoder.jp/contests/abc477/tasks/abc477_d",
+      "tags": [
+        "链表"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "ABC 477::D",
+          "reference": "data/library/solutions.json#ABC 477::D",
+          "sha256": "25996a03ac8c0cbb2a0fc5a5df675cd6b6c529a9062b9a3e6c7e22d02f8b5033",
+          "reasons": [
+            "维护剩余元素顺序并进行删除、转移或邻接修改；不是仅用邻接表存图。"
+          ]
+        }
+      ]
+    },
+    "ac.nowcoder.com/acm/contest/135884/F": {
+      "problemIds": [
+        "练习赛 154::F"
+      ],
+      "url": "https://ac.nowcoder.com/acm/contest/135884/F",
+      "tags": [
+        "链表"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "练习赛 154::F",
+          "reference": "data/library/solutions.json#练习赛 154::F",
+          "sha256": "130c3e661270f3b4bd4ed653bc41b36f6de53a6716ceb394ce1fc67278711e90",
+          "reasons": [
+            "维护剩余元素顺序并进行删除、转移或邻接修改；不是仅用邻接表存图。"
+          ]
+        }
+      ]
+    },
+    "codeforces.com/contest/2258/problem/C": {
+      "problemIds": [
+        "Div.2 1118::C"
+      ],
+      "url": "https://codeforces.com/contest/2258/problem/C",
+      "tags": [
+        "交互题"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "Div.2 1118::C",
+          "reference": "data/library/solutions.json#Div.2 1118::C",
+          "sha256": "2ddaff8f2f60aa06ebf53abe5ebaa06ac6815ff1c8bf9b9fda7e02ac805bbe9e",
+          "reasons": [
+            "已核对程序先发出询问、刷新输出、再读取交互器回复及询问预算。"
+          ]
+        }
+      ]
+    },
+    "codeforces.com/contest/2193/problem/G": {
+      "problemIds": [
+        "Div.3 1076::G"
+      ],
+      "url": "https://codeforces.com/contest/2193/problem/G",
+      "tags": [
+        "交互题"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "Div.3 1076::G",
+          "reference": "data/library/solutions.json#Div.3 1076::G",
+          "sha256": "fd17b36ab58fa12072d0429b197a074bc09c12bb1942e12e60407f01f44f9487",
+          "reasons": [
+            "已核对程序先发出询问、刷新输出、再读取交互器回复及询问预算。"
+          ]
+        }
+      ]
+    },
+    "codeforces.com/contest/1999/problem/G1": {
+      "problemIds": [
+        "Div.4 964::G1"
+      ],
+      "url": "https://codeforces.com/contest/1999/problem/G1",
+      "tags": [
+        "交互题"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "Div.4 964::G1",
+          "reference": "data/library/solutions.json#Div.4 964::G1",
+          "sha256": "7a78b934c69dc2f25debd7c76157d80a6782ba2576b958fd694a1558fa3a5cdc",
+          "reasons": [
+            "已核对程序先发出询问、刷新输出、再读取交互器回复及询问预算。"
+          ]
+        }
+      ]
+    },
+    "codeforces.com/contest/1999/problem/G2": {
+      "problemIds": [
+        "Div.4 964::G2"
+      ],
+      "url": "https://codeforces.com/contest/1999/problem/G2",
+      "tags": [
+        "交互题"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "Div.4 964::G2",
+          "reference": "data/library/solutions.json#Div.4 964::G2",
+          "sha256": "4c14f8c0c50933222b43b22c70d5abaff061d023e3df9b1cdf17539d8f74f76c",
+          "reasons": [
+            "已核对程序先发出询问、刷新输出、再读取交互器回复及询问预算。"
+          ]
+        }
+      ]
+    },
+    "codeforces.com/gym/104976/problem/J": {
+      "problemIds": [
+        "remote:codeforces:104976::J"
+      ],
+      "url": "https://codeforces.com/gym/104976/problem/J",
+      "tags": [
+        "交互题"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104976::J",
+          "reference": "data/library/solutions.json#remote:codeforces:104976::J",
+          "sha256": "7117b929ba397efa954c44c1b5f57a4965884b81a2a31ae843703f6558a25a3b",
+          "reasons": [
+            "已核对程序先发出询问、刷新输出、再读取交互器回复及询问预算。"
+          ]
+        }
+      ]
+    },
+    "codeforces.com/gym/105143/problem/F": {
+      "problemIds": [
+        "remote:codeforces:105143::F"
+      ],
+      "url": "https://codeforces.com/gym/105143/problem/F",
+      "tags": [
+        "交互题"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105143::F",
+          "reference": "data/library/solutions.json#remote:codeforces:105143::F",
+          "sha256": "272d246774f878be10d0960494fb7e613c138f1c173bcaaf3b6a78581290e001",
+          "reasons": [
+            "已核对程序先发出询问、刷新输出、再读取交互器回复及询问预算。"
+          ]
+        }
+      ]
+    },
+    "codeforces.com/gym/105484/problem/G": {
+      "problemIds": [
+        "remote:codeforces:105484::G"
+      ],
+      "url": "https://codeforces.com/gym/105484/problem/G",
+      "tags": [
+        "交互题"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105484::G",
+          "reference": "data/library/solutions.json#remote:codeforces:105484::G",
+          "sha256": "491d03fcf60bcbbe29f21adfa00609385c3fc3b7d4420fb82bd5610a22975b19",
+          "reasons": [
+            "已核对程序先发出询问、刷新输出、再读取交互器回复及询问预算。"
+          ]
+        }
+      ]
+    },
+    "codeforces.com/gym/105578/problem/G": {
+      "problemIds": [
+        "remote:codeforces:105578::G"
+      ],
+      "url": "https://codeforces.com/gym/105578/problem/G",
+      "tags": [
+        "交互题",
+        "多边形面积",
+        "点线关系"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105578::G",
+          "reference": "data/library/solutions.json#remote:codeforces:105578::G",
+          "sha256": "602704667ca85fb6dcefb28cd46a6198ddc33b9c0f16b9230ccd6d2f9f342567",
+          "reasons": [
+            "已核对程序先发出询问、刷新输出、再读取交互器回复及询问预算。",
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "luogu.com.cn/problem/P17595": {
+      "problemIds": [
+        "月赛 304::C"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P17595",
+      "tags": [
+        "交互题"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "月赛 304::C",
+          "reference": "data/library/solutions.json#月赛 304::C",
+          "sha256": "a4b128be8b8b59192dde1092a2ef10b0559ec2665fe5a9ce0f536c5d25d2ed14",
+          "reasons": [
+            "已核对程序先发出询问、刷新输出、再读取交互器回复及询问预算。"
+          ]
+        }
+      ]
+    },
+    "atcoder.jp/contests/abc472/tasks/abc472_f": {
+      "problemIds": [
+        "ABC 472::F"
+      ],
+      "url": "https://atcoder.jp/contests/abc472/tasks/abc472_f",
+      "tags": [
+        "多边形面积",
+        "几何重心",
+        "点积与叉积"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "ABC 472::F",
+          "reference": "data/library/solutions.json#ABC 472::F",
+          "sha256": "9ab5d5ae72c1f8a0f43df008b509dc2b445166d54dd2156a19b0d6c39556875e",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "atcoder.jp/contests/abc476/tasks/abc476_f": {
+      "problemIds": [
+        "ABC 476::F"
+      ],
+      "url": "https://atcoder.jp/contests/abc476/tasks/abc476_f",
+      "tags": [
+        "距离与投影",
+        "平面向量"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "ABC 476::F",
+          "reference": "data/library/solutions.json#ABC 476::F",
+          "sha256": "b02050264ee5a8a3ee9a2ac350c62251f45b3be9a89ece408dfb5a782f92c956",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "codeforces.com/contest/2195/problem/F": {
+      "problemIds": [
+        "Div.3 1080::F"
+      ],
+      "url": "https://codeforces.com/contest/2195/problem/F",
+      "tags": [
+        "解析几何"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "Div.3 1080::F",
+          "reference": "data/library/solutions.json#Div.3 1080::F",
+          "sha256": "9f4f12fb773c69a3b0d49c46e058a4ce33d2d4eff13d630ac6b687945a06621e",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "codeforces.com/contest/2195/problem/H": {
+      "problemIds": [
+        "Div.3 1080::H"
+      ],
+      "url": "https://codeforces.com/contest/2195/problem/H",
+      "tags": [
+        "多边形面积",
+        "点积与叉积",
+        "几何构造"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "Div.3 1080::H",
+          "reference": "data/library/solutions.json#Div.3 1080::H",
+          "sha256": "119a324bf88489aed51c6df1d69ba71744a372e608c8b8b4cce1a66300589c75",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "codeforces.com/contest/2009/problem/D": {
+      "problemIds": [
+        "Div.4 971::D"
+      ],
+      "url": "https://codeforces.com/contest/2009/problem/D",
+      "tags": [
+        "点积与叉积",
+        "点线关系"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "Div.4 971::D",
+          "reference": "data/library/solutions.json#Div.4 971::D",
+          "sha256": "2e7bdefa5b141d64c051c2f9686ec9b9a3a343daed707ad14b30a276198a123f",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "luogu.com.cn/problem/P8785": {
+      "problemIds": [
+        "lanqiao:2022:省:::P8785"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P8785",
+      "tags": [
+        "距离与投影",
+        "圆与切线"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "lanqiao:2022:省:::P8785",
+          "reference": "data/library/solutions.json#lanqiao:2022:省:::P8785",
+          "sha256": "ad2281f42f8812408254a32a8d31888ccba1dac3efdab3fec9161b2284aef8d6",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "codeforces.com/gym/104417/problem/M": {
+      "problemIds": [
+        "remote:codeforces:104417::M"
+      ],
+      "url": "https://codeforces.com/gym/104417/problem/M",
+      "tags": [
+        "多边形面积",
+        "旋转卡壳",
+        "点积与叉积"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104417::M",
+          "reference": "data/library/solutions.json#remote:codeforces:104417::M",
+          "sha256": "e150a0f07afff2d3776d8a7a582f20cd01f18ae35a786497333cad86f03f2eb3",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "codeforces.com/gym/104901/problem/M": {
+      "problemIds": [
+        "remote:codeforces:104901::M"
+      ],
+      "url": "https://codeforces.com/gym/104901/problem/M",
+      "tags": [
+        "凸包",
+        "点在多边形内",
+        "点积与叉积"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:104901::M",
+          "reference": "data/library/solutions.json#remote:codeforces:104901::M",
+          "sha256": "8dbb9c8cf19cdc90faa87660452e920f53bfa748f37f48512cfda00571cfa911",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "codeforces.com/gym/105386/problem/M": {
+      "problemIds": [
+        "remote:codeforces:105386::M"
+      ],
+      "url": "https://codeforces.com/gym/105386/problem/M",
+      "tags": [
+        "多边形面积",
+        "圆与切线",
+        "点积与叉积"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105386::M",
+          "reference": "data/library/solutions.json#remote:codeforces:105386::M",
+          "sha256": "a1e01d11793831acb65214eac8825fb3fb6e8baecfef13a0727f1952efbc7c71",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "codeforces.com/gym/105901/problem/M": {
+      "problemIds": [
+        "remote:codeforces:105901::M"
+      ],
+      "url": "https://codeforces.com/gym/105901/problem/M",
+      "tags": [
+        "三维几何",
+        "距离与投影",
+        "点积与叉积"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:codeforces:105901::M",
+          "reference": "data/library/solutions.json#remote:codeforces:105901::M",
+          "sha256": "f24bdc574227858036516ddb01da2823f44076ecd955964f2b9cdf449e101c8b",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "ac.nowcoder.com/acm/contest/136164/E": {
+      "problemIds": [
+        "remote:nowcoder:136164::E"
+      ],
+      "url": "https://ac.nowcoder.com/acm/contest/136164/E",
+      "tags": [
+        "点线关系",
+        "平面向量"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:nowcoder:136164::E",
+          "reference": "data/library/solutions.json#remote:nowcoder:136164::E",
+          "sha256": "fd3da50d950ae892926dc4515ef532927e7b67def3be35c8ce606b6d3ce6d8ff",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "ac.nowcoder.com/acm/contest/136164/K": {
+      "problemIds": [
+        "remote:nowcoder:136164::K"
+      ],
+      "url": "https://ac.nowcoder.com/acm/contest/136164/K",
+      "tags": [
+        "多边形面积",
+        "旋转卡壳",
+        "点积与叉积"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:nowcoder:136164::K",
+          "reference": "data/library/solutions.json#remote:nowcoder:136164::K",
+          "sha256": "e32bcc4054e4b8c5b671614f31ad89753d3ce7798324ecf8c615bb4513491f00",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "ac.nowcoder.com/acm/contest/141876/B": {
+      "problemIds": [
+        "remote:nowcoder:141876::B"
+      ],
+      "url": "https://ac.nowcoder.com/acm/contest/141876/B",
+      "tags": [
+        "距离与投影"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:nowcoder:141876::B",
+          "reference": "data/library/solutions.json#remote:nowcoder:141876::B",
+          "sha256": "0d63e91e02a103e238434c63d5b1fa3078ccaef5f1d7cf25585411b8dd68c606",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "ac.nowcoder.com/acm/contest/34332/D": {
+      "problemIds": [
+        "remote:nowcoder:34332::D"
+      ],
+      "url": "https://ac.nowcoder.com/acm/contest/34332/D",
+      "tags": [
+        "圆与切线",
+        "点积与叉积"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:nowcoder:34332::D",
+          "reference": "data/library/solutions.json#remote:nowcoder:34332::D",
+          "sha256": "7845f080d6a2fdc89c8340d4508305b1d1ae140f84a3139fadab188899b6ad11",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "ac.nowcoder.com/acm/contest/43937/K": {
+      "problemIds": [
+        "remote:nowcoder:43937::K"
+      ],
+      "url": "https://ac.nowcoder.com/acm/contest/43937/K",
+      "tags": [
+        "几何构造",
+        "多边形面积"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "remote:nowcoder:43937::K",
+          "reference": "data/library/solutions.json#remote:nowcoder:43937::K",
+          "sha256": "5daef6d9a07eb9009158404365fb209cd9231de779b6aa86fb7c4451137db647",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "luogu.com.cn/problem/P15553": {
+      "problemIds": [
+        "xcpc-luogu::P15553"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P15553",
+      "tags": [
+        "平面向量",
+        "点线关系"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "xcpc-luogu::P15553",
+          "reference": "data/library/solutions.json#xcpc-luogu::P15553",
+          "sha256": "a4b7250d99310affb5e5a459b8176c8ad8723c9a095f59c5f3c80f113248b657",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "luogu.com.cn/problem/P15560": {
+      "problemIds": [
+        "xcpc-luogu::P15560"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P15560",
+      "tags": [
+        "平面向量",
+        "几何构造"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "xcpc-luogu::P15560",
+          "reference": "data/library/solutions.json#xcpc-luogu::P15560",
+          "sha256": "b9b12f1dcbdf4499419ab570a0079ffeb913ee5cdf45e06dfcb8f55f11e0bcc5",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "luogu.com.cn/problem/P17500": {
+      "problemIds": [
+        "xcpc-luogu::P17500"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P17500",
+      "tags": [
+        "多边形面积"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "xcpc-luogu::P17500",
+          "reference": "data/library/solutions.json#xcpc-luogu::P17500",
+          "sha256": "3dfccd58d8e998db485ca6c23aa1ac4495a4048e026d3a2460c1e4bc07c3f743",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "luogu.com.cn/problem/P9568": {
+      "problemIds": [
+        "xcpc-luogu::P9568"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P9568",
+      "tags": [
+        "多边形面积",
+        "旋转卡壳",
+        "点积与叉积"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "xcpc-luogu::P9568",
+          "reference": "data/library/solutions.json#xcpc-luogu::P9568",
+          "sha256": "e150a0f07afff2d3776d8a7a582f20cd01f18ae35a786497333cad86f03f2eb3",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "luogu.com.cn/problem/P9702": {
+      "problemIds": [
+        "xcpc-luogu::P9702"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P9702",
+      "tags": [
+        "凸包",
+        "距离与投影"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "xcpc-luogu::P9702",
+          "reference": "data/library/solutions.json#xcpc-luogu::P9702",
+          "sha256": "cb597973a6f2abc0cf3aa59f57aa12088e2057e5048382a22ffdf601333e440e",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "luogu.com.cn/problem/P17508": {
+      "problemIds": [
+        "入门赛 52::C"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P17508",
+      "tags": [
+        "圆与切线",
+        "距离与投影"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "入门赛 52::C",
+          "reference": "data/library/solutions.json#入门赛 52::C",
+          "sha256": "630d204c165275eb64eab90c2995d621c00bc4f809b7676bfcd4f0d4953314aa",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "ac.nowcoder.com/acm/contest/126120/B": {
+      "problemIds": [
+        "周赛 124::B"
+      ],
+      "url": "https://ac.nowcoder.com/acm/contest/126120/B",
+      "tags": [
+        "圆与切线",
+        "距离与投影"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "周赛 124::B",
+          "reference": "data/library/solutions.json#周赛 124::B",
+          "sha256": "ea50eaaa8facf188bab6cecea2293cddfea3e2c5dbb1aa7e0d290187f0341bd7",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "ac.nowcoder.com/acm/contest/135882/C": {
+      "problemIds": [
+        "周赛 146::C"
+      ],
+      "url": "https://ac.nowcoder.com/acm/contest/135882/C",
+      "tags": [
+        "点线关系"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "周赛 146::C",
+          "reference": "data/library/solutions.json#周赛 146::C",
+          "sha256": "57061eff609bbf3b574ba359ee887ff5c6325a19fd8282d93cd50b0c76d25ba7",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "ac.nowcoder.com/acm/contest/137073/D": {
+      "problemIds": [
+        "周赛 150::D"
+      ],
+      "url": "https://ac.nowcoder.com/acm/contest/137073/D",
+      "tags": [
+        "线段相交",
+        "点线关系"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "周赛 150::D",
+          "reference": "data/library/solutions.json#周赛 150::D",
+          "sha256": "21926cc252a2ce30bd6a1b76d1ac0e66fc512f4e2b188f5d588e82285e2bdac8",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "ac.nowcoder.com/acm/contest/137267/E": {
+      "problemIds": [
+        "周赛 151::E"
+      ],
+      "url": "https://ac.nowcoder.com/acm/contest/137267/E",
+      "tags": [
+        "几何重心"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "周赛 151::E",
+          "reference": "data/library/solutions.json#周赛 151::E",
+          "sha256": "9c9f9db45635545dcfafd74183e89d2ad9176417b87026ae4958d7538bf2e883",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "ac.nowcoder.com/acm/contest/137448/D": {
+      "problemIds": [
+        "周赛 152::D"
+      ],
+      "url": "https://ac.nowcoder.com/acm/contest/137448/D",
+      "tags": [
+        "多边形面积",
+        "平面向量"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "周赛 152::D",
+          "reference": "data/library/solutions.json#周赛 152::D",
+          "sha256": "24d275bb539c9b0da92986527a0a2e8f41943e9bac3f7195a83b3c59719d1d89",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "ac.nowcoder.com/acm/contest/137561/E": {
+      "problemIds": [
+        "周赛 153::E"
+      ],
+      "url": "https://ac.nowcoder.com/acm/contest/137561/E",
+      "tags": [
+        "点积与叉积",
+        "点线关系"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "周赛 153::E",
+          "reference": "data/library/solutions.json#周赛 153::E",
+          "sha256": "ba4144f7647d3d2084d4021c0a2f895175bb883ef21aa8f1a173fb3ea6191411",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "ac.nowcoder.com/acm/contest/138240/B": {
+      "problemIds": [
+        "周赛 155::B"
+      ],
+      "url": "https://ac.nowcoder.com/acm/contest/138240/B",
+      "tags": [
+        "三维几何",
+        "点线关系"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "周赛 155::B",
+          "reference": "data/library/solutions.json#周赛 155::B",
+          "sha256": "5c2ba839d0b4cc4993b6754052c33f2352020f712ec4dc4bbcf0d2eedc73ffe3",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "ac.nowcoder.com/acm/contest/140737/E": {
+      "problemIds": [
+        "周赛 163::E"
+      ],
+      "url": "https://ac.nowcoder.com/acm/contest/140737/E",
+      "tags": [
+        "线段相交",
+        "点积与叉积"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "周赛 163::E",
+          "reference": "data/library/solutions.json#周赛 163::E",
+          "sha256": "b08242fe5e454992fb3af0512efba6a721aa41ce9c0e64684024426e5282387c",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "luogu.com.cn/problem/P16955": {
+      "problemIds": [
+        "基础赛 36::C"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P16955",
+      "tags": [
+        "平面向量",
+        "点线关系"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "基础赛 36::C",
+          "reference": "data/library/solutions.json#基础赛 36::C",
+          "sha256": "4edb80f3bbff213fc959ad2f33636793348e98e92e0c77e64fba39c2ff014651",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "ac.nowcoder.com/acm/contest/139208/C": {
+      "problemIds": [
+        "小白月赛 136::C"
+      ],
+      "url": "https://ac.nowcoder.com/acm/contest/139208/C",
+      "tags": [
+        "平面向量",
+        "距离与投影",
+        "点积与叉积"
+      ],
+      "removeTags": [],
+      "sources": [
+        {
+          "problemId": "小白月赛 136::C",
+          "reference": "data/library/solutions.json#小白月赛 136::C",
+          "sha256": "a5e30702ce37a9fbbed72da8bfe7f9961531df9fb75379b0e79882b035ae8751",
+          "reasons": [
+            "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
+          ]
+        }
+      ]
+    },
+    "luogu.com.cn/problem/P12340": {
+      "problemIds": [
+        "lanqiao:2025:省:/Python B 第二场::P12340"
+      ],
+      "url": "https://www.luogu.com.cn/problem/P12340",
+      "tags": [
+        "模拟",
+        "枚举",
+        "取模与同余"
+      ],
+      "removeTags": [
+        "计算几何"
+      ],
+      "sources": [
+        {
+          "problemId": "lanqiao:2025:省:/Python B 第二场::P12340",
+          "reference": "data/library/solutions.json#lanqiao:2025:省:/Python B 第二场::P12340",
+          "sha256": "568b440ebd7d7b6d6d598adf4d9d5e48ed28d1c0dabeb8b1b345f14854506cb7",
+          "reasons": [
+            "本题按 (i+j) mod 7 统计字符，不涉及几何计算。"
+          ]
+        }
+      ]
+    },
+    "ac.nowcoder.com/acm/contest/136164/H": {
+      "problemIds": [
+        "remote:nowcoder:136164::H"
+      ],
+      "url": "https://ac.nowcoder.com/acm/contest/136164/H",
+      "tags": [
+        "线性 DP",
+        "组合计数",
+        "乘法逆元"
+      ],
+      "removeTags": [
+        "计算几何"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:nowcoder:136164::H",
+          "reference": "data/library/solutions.json#remote:nowcoder:136164::H",
+          "sha256": "fc33e425cad597f8d2d9f56f5104c182f0cd4db6e3ca2d44d3b00b8b5ca80f49",
+          "reasons": [
+            "按高度 DP 及隔板组合数计数，矩形地图不是几何算法证据。"
+          ]
+        }
+      ]
+    },
+    "ac.nowcoder.com/acm/contest/34332/G": {
+      "problemIds": [
+        "remote:nowcoder:34332::G"
+      ],
+      "url": "https://ac.nowcoder.com/acm/contest/34332/G",
+      "tags": [
+        "背包 DP"
+      ],
+      "removeTags": [
+        "计算几何"
+      ],
+      "sources": [
+        {
+          "problemId": "remote:nowcoder:34332::G",
+          "reference": "data/library/solutions.json#remote:nowcoder:34332::G",
+          "sha256": "b35c2d9ae0ea385bb92f6ab73053d334d6d5cb4e67bbe3af854c8cf849e4d5e1",
+          "reasons": [
+            "将可删除权重转成不超过 n 的可达重量，采用背包可达性。"
+          ]
+        }
+      ]
+    }
+  },
+  "excludedKeywordMatches": [
+    {
+      "id": "基础赛 38::C",
+      "reason": "普通 mex 区间问题，不能因题名标成交互题"
+    },
+    {
+      "id": "xcpc-luogu::P15552",
+      "reason": "只按 gcd 约分，无需计算 lcm"
+    },
+    {
+      "id": "挑战赛 87::D",
+      "reason": "孩子邻接链不是本题主要的链表操作知识"
+    },
+    {
+      "id": "remote:codeforces:105578::D",
+      "reason": "排列点积博弈不等于平面向量几何"
+    }
+  ]
+}

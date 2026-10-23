@@ -193,7 +193,9 @@ def build_insights(rows, submissions, history, workspace, hub, now):
     for identity, row in library.items():
         canonical = aliases.get(identity, identity)
         row = library.get(canonical, row)
-        for tag in row.get("tags", []):
+        names=set(row.get('tags',[]))
+        names.update(part.strip() for path in row.get('knowledgeCategories',[]) for part in path.split(' / ') if part.strip())
+        for tag in names:
             tag_ids[tag].add(canonical)
     mastery_evidence = problem_evidence(library, grouped, official)
     knowledge = []
@@ -237,7 +239,18 @@ def build_insights(rows, submissions, history, workspace, hub, now):
     before_today_solved = {key for key in total_solved if not solved_dates[key] or any(day < today for day in solved_dates[key])}
     today_solved = {key for key in total_solved if today in solved_dates[key]}
     summary = {"beforeTodaySolved": len(before_today_solved), "todaySolved": len(today_solved), "active": len(active), "accepted": sum(bool(row.get("accepted")) for row in active.values()), "submissions": len(records), "activeDays": len(days), "streak": streak, "longestStreak": longest, "completedContests": len(completed_contests), "officialSolved": len(official), "totalSolved": len(total_solved), "localAccepted": len(personal), "samplePassed": len(samples)}
-    return {"summary": summary, "growth": growth, "activity": activity, "knowledge": knowledge, "knowledgeEvidence": list(mastery_evidence.values()), "knowledgeModel": dict(KNOWLEDGE_MODEL), "recommendations": recommendations, "achievements": achievements, "assessment": assessment}
+    ac_days=sorted(day for day,value in per_day.items() if value['officialAccepted'] and day<=today)
+    longest_ac=current_ac=0;previous_ac=None
+    for day in ac_days:
+        current_ac=current_ac+1 if previous_ac and day==previous_ac+dt.timedelta(days=1) else 1
+        longest_ac=max(longest_ac,current_ac);previous_ac=day
+    best_day=max(ac_days,key=lambda day:len(per_day[day]['officialAccepted']),default=None)
+    hardest=max((library[identity] for identity in official if identity in library and type(library[identity].get('difficulty')) in (int,float)),
+                key=lambda row:(row['difficulty'],row['id']),default=None)
+    personal_statistics={'longestAcStreak':longest_ac,'maxDailyAc':len(per_day[best_day]['officialAccepted']) if best_day else 0,
+                         'maxDailyAcDate':best_day.isoformat() if best_day else None,
+                         'hardestSolved':{key:hardest.get(key) for key in ('id','title','contest','problem','difficulty')} if hardest else None}
+    return {"summary": summary, "personalStatistics":personal_statistics, "growth": growth, "activity": activity, "knowledge": knowledge, "knowledgeEvidence": list(mastery_evidence.values()), "knowledgeModel": dict(KNOWLEDGE_MODEL), "recommendations": recommendations, "achievements": achievements, "assessment": assessment}
 
 
 def recommend_problems(library, active, independent, personal, official, hub):

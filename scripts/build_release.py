@@ -135,12 +135,7 @@ def admin_assemble(args):
     files=manifest(target)
     (stage/'admin-release-manifest.json').write_text(json.dumps(files,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
     shutil.copy2(stage/'admin-release-manifest.json',target.parent/'ADMIN-RELEASE-MANIFEST.json')
-    destination=target.parent/(target.name+'.zip')
-    with zipfile.ZipFile(destination,'x',zipfile.ZIP_DEFLATED,compresslevel=6) as output:
-        for name in files:output.write(target/name,target.name+'/'+name)
-    with zipfile.ZipFile(destination) as archive:
-        if archive.testzip():raise RuntimeError('Corrupt admin portable archive')
-    print(json.dumps({'adminPackage':str(target),'files':len(files),'zipBytes':destination.stat().st_size}))
+    print(json.dumps({'adminProgram':str(target),'files':len(files),'localOnly':True,'archiveCreated':False}))
 
 
 def admin_installer(args):
