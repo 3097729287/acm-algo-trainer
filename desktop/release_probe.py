@@ -204,9 +204,21 @@ def run(action, output):
                         report['nativeLoaded'] = True
                         window.evaluate_js("document.querySelector('.nav-item[aria-label=\"算法实验室\"]').click()")
                         wait_js("!!document.querySelector('.lab-course-options')")
-                        window.evaluate_js("document.querySelector('.lab-course-options button').click()")
+                        report['nativeAlgorithmCourses'] = []
+                        for course_title in ('前缀和与差分', '双指针算法'):
+                            selector = 'section[aria-label="' + course_title + '"] .lab-course-options button'
+                            window.evaluate_js('document.querySelector(' + json.dumps(selector) + ').click()')
+                            wait_js("document.querySelector('.lab-course-header h1')?.textContent === " + json.dumps(course_title))
+                            report['nativeAlgorithmCourses'].append(course_title)
+                            window.evaluate_js("document.querySelector('[aria-label=\"返回算法实验室\"]').click()")
+                            wait_js("!!document.querySelector('.lab-course-options')")
+                        window.evaluate_js("document.querySelector('section[aria-label=\"背包 DP\"] .lab-course-options button').click()")
                         wait_js("!!document.querySelector('.algorithm-lab .lab-course-header h1')")
                         assert window.evaluate_js("document.querySelector('.algorithm-lab .lab-course-header h1').textContent") == '背包 DP'
+                        report['nativeAlgorithmCourses'].append('背包 DP')
+                        window.evaluate_js("document.querySelector('.kn-motion-track button:last-child').click()")
+                        wait_js("document.querySelector('.kn-motion-result')?.textContent.includes('最大价值 8')")
+                        report['nativeKnapsackAnimation'] = True
                         report['nativeAlgorithmLab'] = True
                         assert window.evaluate_js("!document.querySelector('.lab-course-header .lab-mode-switch')")
                         assert window.evaluate_js("(() => {const header=document.querySelector('.lab-course-header').getBoundingClientRect(),tools=document.querySelector('.lab-course-tools').getBoundingClientRect();return tools.top>=header.top&&tools.bottom<=header.bottom&&tools.right<=header.right;})()")
