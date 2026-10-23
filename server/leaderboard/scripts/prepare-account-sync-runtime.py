@@ -39,6 +39,10 @@ def main():
         if (source / name).is_symlink() or any(path.is_symlink() for path in (source / name).rglob('*')):
             raise SystemExit('Runtime source directories must not contain symbolic links.')
         shutil.copytree(source / name, folder / name, ignore=shutil.ignore_patterns('__pycache__', '*.pyc'))
+    # Windows worktrees may have CRLF. Runtime shell scripts execute on Linux;
+    # normalize text before hashing the staged runtime, never the working source.
+    for script in (folder / 'scripts').rglob('*.sh'):
+        script.write_text(script.read_text(encoding='utf-8-sig'), encoding='utf-8', newline='\n')
     for name in ('package.json', 'package-lock.json', 'Caddyfile'):
         if (source / name).is_symlink():
             raise SystemExit('Runtime source files must not be symbolic links.')

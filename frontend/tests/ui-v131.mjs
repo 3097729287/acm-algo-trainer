@@ -269,7 +269,7 @@ try{
  assert.equal(writes.filter(item=>item.path==='/api/training/start').at(-1).body.id,rows[20].id,'random draw honors the current search filter');await page.keyboard.press('Escape');
  await page.evaluate(()=>{crypto.getRandomValues=window.savedRandom;});
  await page.getByRole('button',{name:'筛选题目',exact:true}).click();
- const minimum=page.getByLabel('最低难度滑块',{exact:true});await minimum.focus();await page.keyboard.press('ArrowRight');assert.equal(await page.getByLabel('最低难度',{exact:true}).inputValue(),'100');
+ const minimum=page.getByLabel('最低难度滑块',{exact:true});await minimum.focus();await page.keyboard.press('ArrowRight');await page.waitForFunction(()=>document.querySelector('input[aria-label="最低难度"]')?.value==='100');assert.equal(await page.getByLabel('最低难度',{exact:true}).inputValue(),'100');
  const track=await page.locator('.filter-popover .difficulty-range-track').boundingBox();await page.mouse.move(track.x+track.width*.01,track.y+16);await page.mouse.down();await page.mouse.move(track.x+track.width*.2,track.y+16,{steps:6});await page.mouse.up();
  assert(Number(await page.getByLabel('最低难度',{exact:true}).inputValue())>=1500,'lower thumb can be dragged');await page.keyboard.press('Escape');
  await nav('活动记录').click();await page.locator('.activity-month-grid').waitFor();

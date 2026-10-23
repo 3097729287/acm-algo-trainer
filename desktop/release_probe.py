@@ -209,8 +209,9 @@ def run(action, output):
                         assert window.evaluate_js("document.querySelector('.algorithm-lab .lab-course-header h1').textContent") == '背包 DP'
                         report['nativeAlgorithmLab'] = True
                         assert window.evaluate_js("!document.querySelector('.lab-course-header .lab-mode-switch')")
-                        assert window.evaluate_js("document.querySelector('.lab-course-tools').getBoundingClientRect().left >= document.querySelector('.lab-lesson').getBoundingClientRect().right")
-                        report['nativeRightNavigation'] = True
+                        assert window.evaluate_js("(() => {const header=document.querySelector('.lab-course-header').getBoundingClientRect(),tools=document.querySelector('.lab-course-tools').getBoundingClientRect();return tools.top>=header.top&&tools.bottom<=header.bottom&&tools.right<=header.right;})()")
+                        assert window.evaluate_js("getComputedStyle(document.querySelector('.sidebar')).display==='none'&&getComputedStyle(document.querySelector('.topbar')).display==='none'")
+                        report['nativeTopNavigation'] = True
                         window.evaluate_js("document.querySelector('.lab-menu-toggle').click()")
                         wait_js("!!document.querySelector('[aria-label=\"课程章节\"]')")
                         window.evaluate_js("document.querySelector('[aria-label=\"课程章节\"] button:last-child').click()")
@@ -220,6 +221,8 @@ def run(action, output):
                         assert window.evaluate_js("document.querySelector('.lab-guided .lab-position').textContent") == '1 / 5'
                         report['nativeGuidedProblems'] = True
                         report['nativeFinalLessonHandoff'] = True
+                        window.evaluate_js("document.querySelector('.lab-guided [aria-label=\"返回算法实验室\"]').click()")
+                        wait_js("!!document.querySelector('.lab-course-options') && getComputedStyle(document.querySelector('.sidebar')).display!=='none'")
                         window.evaluate_js("document.querySelector('[aria-label=\"设置\"]').click()")
                         wait_js("!!document.querySelector('[role=tab][aria-label=\"交互与导航\"]')")
                         window.evaluate_js("document.querySelector('[role=tab][aria-label=\"交互与导航\"]').click()")
@@ -282,7 +285,7 @@ def run(action, output):
                             wait_js("!!document.querySelector('.settings-subpage-tabs')")
                             window.evaluate_js("document.querySelector('.settings-return-button')?.click()")
                             wait_js("!!document.querySelector('.settings-home-grid')")
-                            window.evaluate_js("document.querySelector('[role=tab][aria-label=\"数据与帮助\"]').click()")
+                            window.evaluate_js("document.querySelector('[role=tab][aria-label=\"数据统计\"]').click()")
                             wait_js("!!document.querySelector('.help-action')")
                             window.evaluate_js("document.querySelector('.help-action').click()")
                             deadline=time.monotonic()+20
