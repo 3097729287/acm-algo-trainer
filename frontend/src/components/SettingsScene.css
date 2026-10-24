@@ -88,3 +88,7 @@ html[data-motion=off] .settings-scene * {animation:none!important}
 @media(prefers-reduced-motion:reduce) {.dipper-star,.dipper-lines,.volcano-steam {animation:none!important;opacity:1}.dipper-lines{stroke-dashoffset:0}}
 html[data-motion=off] .dipper-star,html[data-motion=off] .dipper-lines,html[data-motion=off] .volcano-steam {animation:none!important;opacity:1}
 html[data-motion=off] .dipper-lines {stroke-dashoffset:0}
+.orbit-planet-surface {animation:planet-surface-spin 9s linear infinite}
+@keyframes planet-surface-spin {to{transform:translateX(-50px)}}
+.settings-home-grid .settings-tile>button>.scene-balloon-stage {top:60px;bottom:12px}
+.dino-traveler {aspect-ratio:140/128}

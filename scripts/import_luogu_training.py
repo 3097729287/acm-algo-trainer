@@ -21,6 +21,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path[:0] = [str(ROOT / 'backend'), str(ROOT / 'backend/common')]
 from insights import canonical_url
 import cf_eq
+from difficulty import normalize_practice_difficulty
 
 BASE = 'https://www.luogu.com.cn'
 LINK = re.compile(r'(?<![\w/.:])(?P<url>(?:https?://(?:www\.)?luogu\.(?:com\.cn|org))?/(?P<kind>problem|training)/(?P<id>[A-Za-z0-9_]+))(?![A-Za-z0-9_])')
@@ -197,10 +198,10 @@ def collect(client, output):
 def difficulty_metadata(level, url):
     value = cf_eq.cf_eq_luogu(level)
     known = value['cf_eq_rating'] is not None
-    return {'difficulty': value['cf_eq_rating'], 'difficultyEstimated': True,
+    return normalize_practice_difficulty({'difficulty': value['cf_eq_rating'], 'difficultyEstimated': True,
             'difficultySource': 'CF-EQ / 洛谷官方难度档' if known else '洛谷暂无评定（未知难度）',
             'difficultyConfidence': 'LOW' if known else 'UNKNOWN', 'difficultyBand': value['cf_eq_band'],
-            'difficultyEvidence': [url, *value['difficulty_evidence']]}
+            'difficultyEvidence': [url, *value['difficulty_evidence']]})
 
 
 def apply(collection, source, backup):
@@ -229,7 +230,7 @@ def apply(collection, source, backup):
             unresolved.append(pid)
             continue
         identity = 'luogu-training-' + resolved_pid
-        difficulty = cf_eq.cf_eq_luogu(metadata.get('difficulty'))['cf_eq_rating']
+        difficulty = difficulty_metadata(metadata.get('difficulty'), url)['difficulty']
         tags = [collection['tags'][str(t)] for t in metadata.get('tags') or [] if str(t) in collection['tags']]
         encoded = {'id': identity, 'url': url, 'title': metadata['name'], 'problem': resolved_pid,
                    'platform': '洛谷', 'contest': '洛谷专题练习', 'series': '洛谷题单',

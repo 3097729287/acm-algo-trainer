@@ -132,7 +132,7 @@ try {
 
   await page.keyboard.press('Control+6');
   await page.getByLabel('搜索历史提交').waitFor();
-  await page.locator('.submission-log-row').first().click();
+  await page.locator('.submission-log-row').first().getByRole('button',{name:'查看提交代码',exact:true}).click();
   const source = page.getByRole('dialog').locator('.submission-source');
   await source.waitFor();
   assert.equal((await source.textContent()).trim(), solution.trim());

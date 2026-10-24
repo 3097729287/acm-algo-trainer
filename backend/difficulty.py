@@ -4,6 +4,36 @@ import re
 
 VERSION = '1.0.17'
 
+OYSTER_URL = 'https://codeforces.com/gym/106695/problem/J'
+OYSTER_REVIEW = {
+    'difficulty': 1000,
+    'difficultySource': 'TB 题面与算法复核估算',
+    'difficultyEstimated': True, 'difficultyConfidence': 'MEDIUM',
+    'difficultyBand': [800, 1200],
+    'difficultyEvidence': [OYSTER_URL,
+        '每家比较 B 与 12A：整打划算时尽量买整打、余款单买，否则全部单买；线性扫描并保留最小编号，O(N)，64 位整数。',
+        '原团队赛通过率不能直接当作个人 CF rating；1000 为 TB 复核估计，不是 Codeforces 官方评级。'],
+    'metadataVersion': '1.4.4',
+}
+
+
+def normalize_practice_difficulty(row):
+    """One hundred-point scale for display, selection and mastery; keep evidence."""
+    value = dict(row)
+    from urllib.parse import urlsplit
+    url = urlsplit(str(value.get('url') or ''))
+    if url.hostname in ('codeforces.com', 'www.codeforces.com') and url.path.rstrip('/') == '/gym/106695/problem/J':
+        if value.get('difficultyEstimated') is not False or not value.get('difficultySource'):
+            value.update(OYSTER_REVIEW)
+    rating = value.get('difficulty')
+    if isinstance(rating, (int, float)) and not isinstance(rating, bool) and math.isfinite(rating) and rating > 0:
+        rounded = int(math.floor(rating / 100 + .5)) * 100
+        if rounded != rating:
+            value.setdefault('difficultyBeforeRounding', rating)
+            value['difficulty'] = rounded
+            value['difficultyRounding'] = 'nearest-100-half-up'
+    return value
+
 # Reviewed against the public statements: these tasks need a specific algorithm,
 # rather than the exponential rating inferred from a small absolute solve count.
 WEEKLY_165 = {

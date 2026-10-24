@@ -16,6 +16,8 @@ Individual editorial refinement and reading review are tracked separately and re
 
 **Local 1.4.5 training lists (unpublished):** Browse algorithm and original Luogu categories as folders, including chapters, search, completion filters and return-to-list navigation. The 420 publicly readable lists add 7,289 unique problems and reuse 54 existing problems with their records. Another 143 unavailable lists retain source links and are not claimed as complete. [Scope and validation](docs/releases/1.4.5.md).
 
+**Local desktop 1.4.6 candidate (validation in progress; unpublished):** Four compact calendar months, deliberate hundred-point difficulty drags, problem navigation from submission rows with separate historical-code buttons, and collapsed contest folders. The mastery index uses a CF2300 reference and weighted child coverage. Rounded dinosaur art, longer balloon ascent, spinning planet surfaces and responsive statement tools retain the existing style. [Scope](docs/releases/1.4.6.md) · [Model and sources](docs/knowledge-mastery.md).
+
 [Website](https://3097729287.github.io/acm-algo-trainer/) · [Usage](docs/usage.md) · [Development](docs/development.md) · [中文](README.md)
 
 ![TB workbench](docs/assets/workbench.png)
@@ -87,7 +89,7 @@ Save drafts and exit TB before installing into the existing directory. Personal 
 
 ## Library and progression
 
-The 1.4.5 public seed contains **13,123 original problem entries, 2,437 statements, 1,317 default editorials, 1,317 detailed editorials and 445 lectures**, plus 563 training-list directory entries (420 readable). Existing statements, both editorial versions and courses remain intact. Newly collected problems use original-site metadata; this version is not publicly released. The UI deduplicates original tasks while preserving aliases, content and work. Uncached statements require connectivity. New editorial work is limited to verified problem difficulty at most 2200, including 2200. [Editorial policy](docs/editorial-policy.md).
+The 1.4.6 public seed contains **13,123 original problem entries, 2,437 statements, 1,317 default editorials, 1,317 detailed editorials and 445 lectures**, plus 563 training-list directory entries (420 readable). Existing statements, both editorial versions and courses remain intact. Newly collected problems use original-site metadata; this version is not publicly released. The UI deduplicates original tasks while preserving aliases, content and work. Uncached statements require connectivity. New editorial work is limited to verified problem difficulty at most 2200, including 2200. [Editorial policy](docs/editorial-policy.md).
 
 XP levels and skill tiers are independent. Level 5 unlocks placement; at least five distinct, verified, independent first official ACs are required. Ability is the median difficulty of the strongest five. Iron through King starts at **0, 800, 1000, 1200, 1600, 1800, 2000, 2100 and 2200**. This is a training estimate, not a direct copy of an original-site account rating. [Progression rules](docs/progression.md).
 

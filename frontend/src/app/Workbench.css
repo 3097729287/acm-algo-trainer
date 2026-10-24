@@ -839,3 +839,13 @@
 .wb-case-input > summary, .wb-sample-list summary { cursor: pointer; }
 .wb-case-input pre { margin-top: 5px; }
 @media (max-width: 800px) { .wb-case-outputs { grid-template-columns: minmax(0, 1fr); } .wb-run-toolbar select { width: 115px; } }
+/* Text actions keep their words intact even in a narrow split pane. */
+.wb-language-toggle,.wb-language-toggle button,.wb-statement-actions>a {flex-shrink:0;white-space:nowrap;word-break:keep-all;overflow-wrap:normal}
+.wb-statement-actions {flex-basis:max-content}
+.wb-statement-actions>a {display:inline-flex;align-items:center;gap:4px}
+.wb-statement-pane {container-type:inline-size;container-name:statement-pane}
+@container statement-pane (max-width:680px) {
+ .wb-statement-pane>.wb-pane-header {flex-wrap:wrap;height:auto}
+ .wb-statement-pane > .wb-pane-header > .wb-toolbar {width:100%;min-width:0}
+ .wb-statement-actions {flex:0 0 100%;flex-wrap:wrap;justify-content:flex-end;min-width:0}
+}
