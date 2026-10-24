@@ -1,45 +1,52 @@
 import PageSearch from '@/components/PageSearch.jsx';
-import FilterMenu from '@/components/FilterMenu.jsx';
+import FolderSelect from '@/components/FolderSelect.jsx';
 import PopConfirm from '@/components/PopConfirm.jsx';
-import ThemedSelect from '@/components/ThemedSelect.jsx';
 import SortDirection from '@/components/SortDirection.jsx';
-import { useState } from 'react';
+import {useEffect,useMemo,useRef,useState} from 'react';
 import InlineTitle from '@/components/InlineTitle.jsx';
-import { ChevronRight, Code2, Flag, Search, Trash2 } from 'lucide-react';
-import { groupSubmissionsByDay, verdictLabel, verdictTone } from '@/models/workspaceModel.js';
-import { trainingDateLabel, trainingTime } from '@/lib/trainingDate.js';
+import {ChevronLeft,ChevronRight,Code2,Flag,Search,Trash2} from 'lucide-react';
+import {groupSubmissionsByDay,verdictLabel,verdictTone} from '@/models/workspaceModel.js';
+import {trainingDateLabel,trainingTime} from '@/lib/trainingDate.js';
 
-const dateText = value => value ? new Date(value).toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) : '—';
-export default function SubmissionRecords({ submissions = [], total = submissions.length, hasMore = false, loading = false, onLoadMore, rows, onSelect }) {
-  const [query, setQuery] = useState(''), [result, setResult] = useState(''),[descending,setDescending]=useState(true);
-  const rowMap = new Map(rows.map(row => [row.id, row]));
-  const logs = submissions.filter(submission => {
-    if (submission.mode === 'run' || submission.verdict === 'SAMPLE_PASS') return false;
-    const row = rowMap.get(submission.problemId);
-    return (!result || submission.verdict === result) && `${row?.title || submission.problemId} ${row?.problem || submission.problem || ''} ${row?.contest || ''} ${verdictLabel(submission.verdict)}`.toLowerCase().includes(query.trim().toLowerCase());
-  });
-  const grouped = groupSubmissionsByDay(logs);
-  const days = descending?grouped:[...grouped].reverse().map(day=>({...day,submissions:[...day.submissions].reverse()}));
-  return <div className="records-page" data-noselect="true">
-    <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索历史提交" value={query} onChange={event=>setQuery(event.target.value)}/></label><SortDirection label="切换提交排序方向" descending={descending} onChange={setDescending}/><FilterMenu label="筛选提交" active={!!result}><label className="filter-field"><span>结果</span><ThemedSelect aria-label="历史提交结果" value={result} onChange={event=>setResult(event.target.value)}><option value="">全部结果</option>{['AC','WA','CE','TLE','MLE','RE','OLE','ERROR'].map(value=><option key={value} value={value}>{verdictLabel(value)}</option>)}</ThemedSelect></label><span className="filter-result-count">{logs.length} 条</span></FilterMenu></PageSearch>
-    <div className="submission-log scroll-panel">
-      {days.map(group => <section className="submission-day" key={group.day} data-day={group.day} aria-label={`${trainingDateLabel(group.day)}提交`}>
-        <header className="submission-day-heading">
-          <h2><time dateTime={group.day || undefined}>{trainingDateLabel(group.day)}</time></h2>
-        </header>
-        {group.submissions.map(submission => {
-          const row = rowMap.get(submission.problemId);
-          return <button className="submission-log-row" key={submission.id} onClick={() => onSelect({ ...submission, title: row?.title || submission.problemId, contestName: row?.contest })}>
-            <span><strong><InlineTitle>{row?.title || submission.problemId}</InlineTitle></strong><small className="submission-record-meta"><time dateTime={submission.submittedAt}>{trainingTime(submission.submittedAt)}</time>{(row?.problem||submission.problem)&&<><span aria-hidden="true">·</span><b className="submission-problem-index">{row?.problem||submission.problem}</b></>}{row?.contest&&<><span aria-hidden="true">·</span><span className="submission-contest-name">{row.contest}</span></>}</small></span>
-            <span className={'verdict ' + verdictTone(submission.verdict)}><span />{verdictLabel(submission.verdict)}</span>
-            {submission.timeMs != null && <span className="submission-runtime">{submission.timeMs} ms</span>}
-          </button>;
-        })}
-      </section>)}
-      {!logs.length && !loading && <div className="empty"><Code2 size={26} /><h2>{submissions.length ? '没有匹配的提交' : '还没有提交记录'}</h2><p>{submissions.length ? '试试调整搜索或结果筛选。' : '写好代码后提交，每次结果与代码都会保存在这里。'}</p></div>}
-      {(hasMore || loading) && <div className="submission-pagination"><span>{hasMore ? '搜索、筛选与每日统计针对已读取的记录；加载更早提交可补全当天和此前的记录。' : '正在读取提交记录…'}</span>{hasMore && <button className="secondary" onClick={onLoadMore} disabled={loading}>{loading ? '正在读取…' : '加载更早提交'}</button>}</div>}
-    </div>
-  </div>;
+const dateText=value=>value?new Date(value).toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'—';
+const RESULT_OPTIONS=['AC','WA','CE','TLE','MLE','RE','OLE','ERROR','QUEUED','RUNNING'].map(value=>({value,label:verdictLabel(value)}));
+export default function SubmissionRecords({api,revision,rows=[],onSelect}) {
+ const [query,setQuery]=useState(''),[search,setSearch]=useState(''),[result,setResult]=useState(''),[descending,setDescending]=useState(true);
+ const [page,setPage]=useState(1),[pageSize,setPageSize]=useState(20),[snapshot,setSnapshot]=useState(null),[loading,setLoading]=useState(true),[error,setError]=useState(''),[attempt,setAttempt]=useState(0);
+ const requestId=useRef(0);
+ const requestKey=new URLSearchParams({resultsOnly:'1',limit:String(pageSize),offset:String((page-1)*pageSize),q:search,verdict:result,order:descending?'desc':'asc'}).toString();
+ const pending=loading||!error&&snapshot?.requestKey!==requestKey;
+ useEffect(()=>{if(query===search)return;const timer=setTimeout(()=>{setSearch(query);setPage(1);},200);return()=>clearTimeout(timer);},[query,search]);
+ useEffect(()=>{
+  const seq=++requestId.current;
+  setLoading(true);setError('');
+  api('submissions?'+requestKey).then(value=>{if(seq!==requestId.current)return;setSnapshot({...value,requestKey});const pages=Math.max(1,Math.ceil(value.total/pageSize));if(page>pages)setPage(pages);}).catch(issue=>{if(seq===requestId.current)setError(issue.message||'读取提交记录失败');}).finally(()=>{if(seq===requestId.current)setLoading(false);});
+  return()=>{requestId.current++;};
+ },[api,revision,page,pageSize,search,result,descending,attempt]);
+ const rowMap=useMemo(()=>{const map=new Map();for(const row of rows)for(const id of [row.id,...row.aliasIds||[]])map.set(id,row);return map;},[rows]);
+ const logs=snapshot?.submissions||[],grouped=groupSubmissionsByDay(logs);
+ const days=descending?grouped:[...grouped].reverse().map(group=>({...group,submissions:[...group.submissions].reverse()}));
+ const total=snapshot?.total||0,pages=Math.max(1,Math.ceil(total/pageSize));
+ return <div className="records-page records-paged" data-noselect="true">
+  <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索历史提交" maxLength={120} value={query} onChange={event=>setQuery(event.target.value)}/></label><SortDirection label="切换提交排序方向" descending={descending} normalDescending onChange={value=>{setDescending(value);setPage(1);}}/><FolderSelect iconOnly label="提交结果分类" placeholder="全部结果" options={RESULT_OPTIONS} value={result} onChange={event=>{setResult(event.target.value);setPage(1);}}/></PageSearch>
+  {error&&<p role="alert" className="connection-error">{error} <button type="button" className="text-button" onClick={()=>setAttempt(value=>value+1)}>重新读取</button></p>}
+  <div className="submission-log scroll-panel" aria-busy={pending} data-offset={snapshot?.offset??0}>
+   {days.map(group=><section className="submission-day" key={group.day} data-day={group.day} aria-label={`${trainingDateLabel(group.day)}提交`}>
+    <header className="submission-day-heading"><h2><time dateTime={group.day||undefined}>{trainingDateLabel(group.day)}</time></h2></header>
+    {group.submissions.map(submission=>{
+     const row=rowMap.get(submission.problemId);
+     return <button type="button" className="submission-log-row" key={submission.id} onClick={()=>onSelect({...submission,title:row?.title||submission.problemId,contestName:row?.contest})}>
+      <span><strong><InlineTitle>{row?.title||submission.problemId}</InlineTitle></strong><small className="submission-record-meta"><time dateTime={submission.submittedAt}>{trainingTime(submission.submittedAt)}</time>{(row?.problem||submission.problem)&&<><span aria-hidden="true">·</span><b className="submission-problem-index">{row?.problem||submission.problem}</b></>}{row?.contest&&<><span aria-hidden="true">·</span><span className="submission-contest-name">{row.contest}</span></>}</small></span>
+      <span className={'verdict '+verdictTone(submission.verdict)}><span/>{verdictLabel(submission.verdict)}</span>
+      {submission.timeMs!=null&&<span className="submission-runtime">{submission.timeMs} ms</span>}
+     </button>;
+    })}
+   </section>)}
+   {!logs.length&&!loading&&<div className="empty"><Code2 size={26}/><h2>{search||result?'没有匹配的提交':'还没有提交记录'}</h2></div>}
+   {loading&&!snapshot&&<p role="status" className="progress-muted">正在读取提交记录…</p>}
+  </div>
+  <footer className="submission-page-controls"><span>共 {total} 条</span><label>每页 <select aria-label="每页提交数" value={pageSize} onChange={event=>{setPageSize(Number(event.target.value));setPage(1);}}>{[10,20,50,100].map(value=><option key={value} value={value}>{value}</option>)}</select> 条</label><button type="button" className="icon-button" aria-label="上一页提交" disabled={pending||page<=1} onClick={()=>setPage(value=>value-1)}><ChevronLeft size={16}/></button><span>{page} / {pages}</span><button type="button" className="icon-button" aria-label="下一页提交" disabled={pending||page>=pages} onClick={()=>setPage(value=>value+1)}><ChevronRight size={16}/></button></footer>
+ </div>;
 }
 
 export function MockHistory({contests=[],onSelect,onResume,onCreate,onDelete,embedded=false}) {

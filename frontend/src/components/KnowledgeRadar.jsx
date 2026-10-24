@@ -1,7 +1,6 @@
 import {useEffect,useMemo,useState} from 'react';
 import {ArrowLeft,Network,Search} from 'lucide-react';
 import PageSearch from './PageSearch.jsx';
-import FilterMenu from './FilterMenu.jsx';
 import {canonicalKnowledgeName,knowledgeAliases,indexKnowledgeRows,knowledgeFilterNames} from '@/lib/knowledgeNames.js';
 import {combineKnowledgeEvidence} from '@/lib/knowledgeMastery.js';
 const EMPTY_LIST=[],EMPTY_MODEL={};
@@ -20,7 +19,7 @@ export const KNOWLEDGE_DOMAINS = [
 export function topicTags(name){return knowledgeAliases(name);}
 export function estimatedDifficulty(name){if(/流|后缀|自动机|多项式|FFT|NTT|生成函数|分治优化|可持久化|可撤销|莫队|莫比乌斯|杜教|Pólya|斯特林|虚树/.test(name))return 2400;const found=KNOWLEDGE_DOMAINS.flatMap(domain=>domain.topics).filter(([topic])=>topicTags(topic).some(tag=>String(name).toLowerCase().includes(tag.toLowerCase())));if(found.length)return Math.max(...found.map(([,value])=>value));return /图|树|DP|动态规划|几何/.test(name)?2100:1600;}
 export default function KnowledgeRadar({knowledge=EMPTY_LIST,knowledgeEvidence=EMPTY_LIST,knowledgeModel=EMPTY_MODEL,categories=EMPTY_LIST,rows=EMPTY_LIST,onTopic,onTrain}) {
- const [domain,setDomain]=useState(null),[query,setQuery]=useState(''),[gaps,setGaps]=useState(false);
+ const [domain,setDomain]=useState(null),[query,setQuery]=useState('');
  const domains=useMemo(()=>{
    const leaves=node=>node.children?.length?node.children.flatMap(leaves):[node.name];
    return categories.length?categories.map(node=>({name:node.name,scope:knowledgeFilterNames(node),topics:[...new Set(leaves(node))].map(name=>[canonicalKnowledgeName(name),estimatedDifficulty(name)])})).filter(node=>node.topics.length):KNOWLEDGE_DOMAINS.map(node=>({...node,topics:node.topics.map(([name,difficulty])=>[canonicalKnowledgeName(name),difficulty])}));
@@ -31,18 +30,18 @@ export default function KnowledgeRadar({knowledge=EMPTY_LIST,knowledgeEvidence=E
    const byName=new Map(),pool=new Map(knowledgeEvidence.map(item=>[item.id,item]));
    for(const item of knowledge){const name=canonicalKnowledgeName(item.name);if(!byName.has(name))byName.set(name,[]);byName.get(name).push(item);}
    const evidence=names=>names.flatMap(name=>byName.get(canonicalKnowledgeName(name))||[]);
-   const facts=(names,parent=false,scope=names)=>{const entries=evidence(parent?scope:names),maximum=key=>Math.max(0,...entries.map(item=>Number(item[key])||0)),children=parent?names.map(name=>({name,ids:evidence([name]).flatMap(item=>item.evidenceIds||[])})):[];return {...combineKnowledgeEvidence(entries.flatMap(item=>item.evidenceIds||[]),pool,knowledgeModel,children),available:rows.length?new Set(scope.flatMap(name=>[...(availableIndex.get(canonicalKnowledgeName(name))||[])])).size:maximum('available'),due:entries.some(item=>item.dueIds)?new Set(entries.flatMap(item=>item.dueIds||[])).size:maximum('due'),failures:maximum('failures'),suggested:entries.flatMap(item=>item.suggestedIds||[])[0]};};
+   const facts=(names,parent=false,scope=names)=>{const entries=evidence(parent?scope:names),maximum=key=>Math.max(0,...entries.map(item=>Number(item[key])||0)),children=parent?names.map(name=>({name,ids:evidence([name]).flatMap(item=>item.evidenceIds||[]),availableIds:[...(availableIndex.get(canonicalKnowledgeName(name))||[])]})):[];return {...combineKnowledgeEvidence(entries.flatMap(item=>item.evidenceIds||[]),pool,knowledgeModel,children),available:rows.length?new Set(scope.flatMap(name=>[...(availableIndex.get(canonicalKnowledgeName(name))||[])])).size:maximum('available'),due:entries.some(item=>item.dueIds)?new Set(entries.flatMap(item=>item.dueIds||[])).size:maximum('due'),failures:maximum('failures'),suggested:entries.flatMap(item=>item.suggestedIds||[])[0]};};
    return domains.map(item=>({...item,...facts(item.topics.map(([name])=>name),true,item.scope||item.topics.map(([name])=>name)),nodes:item.topics.map(([name,difficulty])=>({name,difficulty,...facts([name])}))}));
  },[domains,knowledge,knowledgeEvidence,knowledgeModel,availableIndex,rows.length]);
  const nodes=domain?summaries.find(item=>item.name===domain.name)?.nodes||[]:summaries;
  const position=(index,radius)=>{const angle=-Math.PI/2+index*Math.PI*2/nodes.length;return [340+Math.cos(angle)*radius,245+Math.sin(angle)*radius];};
  const polygon=radius=>nodes.map((_,i)=>position(i,radius).join(',')).join(' ');
  const select=node=>{if(domain)onTopic?.({name:node.name,tags:topicTags(node.name)});else setDomain(domains.find(item=>item.name===node.name));};
- const shown=nodes.filter(node=>(!gaps||node.due>0||node.failures>0||node.value===null||node.value<50)&&topicTags(node.name).some(tag=>tag.toLowerCase().includes(query.trim().toLowerCase())));
+ const shown=nodes.filter(node=>topicTags(node.name).some(tag=>tag.toLowerCase().includes(query.trim().toLowerCase())));
  const valueText=node=>node.value===null?'?%':`${node.value}%`;
  const allKnown=nodes.every(node=>node.value!==null);
  return <section className="progress-section knowledge-radar" aria-label="知识点雷达图">
- <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索知识点" value={query} onChange={event=>setQuery(event.target.value)}/></label><FilterMenu label="雷达筛选" active={gaps}><label className="filter-field"><span>只看待加强</span><input type="checkbox" checked={gaps} onChange={event=>setGaps(event.target.checked)}/></label></FilterMenu></PageSearch>
+ <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索知识点" value={query} onChange={event=>setQuery(event.target.value)}/></label></PageSearch>
  <header className="progress-section-heading"><h2>{!domain&&<Network size={19}/>} {domain?.name||'知识点雷达'}</h2>{domain&&<button type="button" className="icon-button radar-back" aria-label="返回一级雷达" onClick={()=>{setDomain(null);setQuery('');}}><ArrowLeft size={18}/></button>}</header>
  <svg viewBox="0 0 680 500" role="group" aria-label={domain?`${domain.name}二级雷达`:'一级知识雷达'}>
  {[.25,.5,.75,1].map(ratio=><polygon key={ratio} className="radar-grid" points={polygon(163*ratio)}/>)}
@@ -51,6 +50,7 @@ export default function KnowledgeRadar({knowledge=EMPTY_LIST,knowledgeEvidence=E
  {!allKnown&&nodes.map((node,i)=>{const next=nodes[(i+1)%nodes.length];return node.value!==null&&next.value!==null?<path key={node.name} className="radar-value radar-partial" d={`M${position(i,163*node.value/100).join(' ')}L${position((i+1)%nodes.length,163*next.value/100).join(' ')}`}/>:null;})}
  {nodes.map((node,i)=>{const [x,y]=position(i,163),[mx,my]=position(i,163*(node.value??0)/100);return <g key={node.name}>{node.value!==null&&<circle className="radar-data-dot" cx={mx} cy={my} r={3}/>}<circle className="radar-node" data-unknown={node.value===null} cx={x} cy={y} r={8} tabIndex={0} role="button" aria-label={`${node.name}，掌握 ${valueText(node)}，${domain?'筛选题目':'进入二级雷达'}`} onClick={()=>select(node)} onKeyDown={event=>{if(['Enter',' '].includes(event.key)){event.preventDefault();select(node);}}}><title>{node.reason}</title></circle></g>;})}
  </svg>
- <div className="radar-knowledge-details" role="region" tabIndex={0} aria-label="雷达知识掌握与缺口"><div className="radar-detail-heading"><span>知识点</span><span>掌握</span><span>作答 / 可用</span><span>AC</span><span>待练</span></div>{shown.map(node=><div className="radar-detail-row" key={node.name}><button type="button" onClick={()=>select(node)}>{node.name}{domain&&<small>{node.difficulty}</small>}</button><b title={node.reason} data-unknown={node.value===null}>{valueText(node)}</b><span>{node.participated} / {node.available}</span><span>{node.officialAccepted}</span><span>{node.suggested&&onTrain?<button type="button" onClick={()=>onTrain(node.suggested)}>{node.due||'练习'}</button>:node.due}</span></div>)}</div>
+ <p className="mastery-model-note">Rasch 估计指数 · 区间越宽，证据越少</p>
+ <div className="radar-knowledge-details" role="region" tabIndex={0} aria-label="雷达知识掌握与缺口"><div className="radar-detail-heading"><span>知识点</span><span>掌握指数</span><span>作答 / 可用</span><span>AC</span><span>待练</span></div>{shown.map(node=><div className="radar-detail-row" key={node.name}><button type="button" onClick={()=>select(node)}>{node.name}{domain&&<small>{node.difficulty}</small>}</button><span className="mastery-estimate" title={node.reason}><b data-unknown={node.value===null}>{valueText(node)}</b>{node.interval&&<small aria-label="95%模型区间">{node.interval[0]}–{node.interval[1]}</small>}</span><span>{node.participated} / {node.available}</span><span>{node.officialAccepted}</span><span>{node.suggested&&onTrain?<button type="button" onClick={()=>onTrain(node.suggested)}>{node.due||'练习'}</button>:node.due}</span></div>)}</div>
  </section>;
 }

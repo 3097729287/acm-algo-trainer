@@ -36,6 +36,11 @@ const insights = { summary: { localAccepted: 1, officialSolved: 4, submissions: 
 const notice = { id: 'update-1', type: 'content', title: '新题已加入', body: '新增测试题目', createdAt: now(), read: false, count: 1, problemIds: [rows[4].id] };
 const hub = { version: '0.5.0', settings: { githubRepo: '3097729287/acm-algo-trainer', autoSync: true, intervalHours: 6, minDifficulty: 1000, maxDifficulty: 2199, accounts: { codeforces: 'tester', atcoder: 'tester', nowcoder: '', luogu: '' } }, accounts: [{ platform: 'codeforces', handle: 'tester', rating: 415, maxRating: 500, solvedCount: 22, submissionCount: 67, updatedAt: now(), status: 'ready' }, { platform: 'atcoder', handle: 'tester', rating: 98, maxRating: 101, solvedCount: 14, submissionCount: 38, updatedAt: now(), status: 'ready' }], sync: { busy: false, message: '同步完成', providers: [] }, updates: { configured: true, currentVersion: '0.5.0', latestVersion: '0.5.0', repository: '3097729287/acm-algo-trainer' }, notifications: [notice] };
 const lecture = { id: 'lesson-1', concept: '位运算：$v \\oplus (v-1)$', displayTitle: '位运算：$v \\oplus (v-1)$', title: '原题旧标题', originalTitle: '旧题应用标题', category: '基础技巧 / 位运算', categories: ['基础技巧 / 位运算'], tags: ['位运算'], sourceContest: '测试比赛', sourceProblem: 'B', sourceTitle: rows[1].title, sourceProblemIds: [rows[1].id], markdown: '## 位运算\n\n一个可手算的例子：$4 \\oplus 3 = 7$。\n\n```cpp\nint value = 4 ^ 3;\n```', images: {} };
+const relatedLectures=[
+ {id:'chain-root',title:'线段树测试起点',concept:'线段树测试起点',tags:['线段树','双指针'],markdown:'## 线段树测试正文\n\n'+('这是测试讲解中的独立段落。\n\n'.repeat(160)),images:{}},
+ {id:'chain-two',title:'双指针测试中篇',concept:'双指针测试中篇',tags:['双指针','枚举'],markdown:'## 双指针测试正文\n\n'+('这一段用于核对阅读返回位置。\n\n'.repeat(140)),images:{}},
+ {id:'chain-last',title:'枚举测试末篇',concept:'枚举测试末篇',tags:['枚举'],markdown:'## 枚举测试正文\n\n阅读栈的最后一篇。',images:{}}
+];
 const profile = { userId: 'TB-fixture-00001', nickname: '测试用户', displayName: '测试用户#TB-fixture-00001', createdAt: now() };
 let rankingPolls = 0;
 const connection = { configured: false, endpoint: '', status: 'not_configured', notice: '共享排行榜尚未配置。' };
@@ -77,9 +82,15 @@ await page.route('**/api/**', async route => {
   else if (path === '/api/inbox') value = { pending: 0, errors: [] };
   else if (path === '/api/hub') value = hub;
   else if (path === '/api/insights') value = insights;
-  else if (path === '/api/submissions') { assert.equal(url.searchParams.get('resultsOnly'),'1'); const offset = Number(url.searchParams.get('offset') || 0), limit = Number(url.searchParams.get('limit') || 100); value = { submissions: submissions.slice(offset, offset + limit), total: submissions.length, offset, limit, hasMore: offset + limit < submissions.length }; }
-  else if (path === '/api/lectures') value = { lectures: [lecture] };
-  else if (path === '/api/lecture') value = lecture;
+  else if (path === '/api/submissions') {
+    assert.equal(url.searchParams.get('resultsOnly'),'1');
+    const offset=Number(url.searchParams.get('offset')||0),limit=Number(url.searchParams.get('limit')||100),verdict=url.searchParams.get('verdict'),query=(url.searchParams.get('q')||'').toLowerCase();
+    let found=submissions.filter(item=>(!verdict||item.verdict===verdict)&&(!query||[item.verdict,...rows.filter(row=>row.id===item.problemId).flatMap(row=>[row.title,row.contest,row.problem])].join(' ').toLowerCase().includes(query)));
+    if(url.searchParams.get('order')==='asc')found=[...found].reverse();
+    value={submissions:found.slice(offset,offset+limit),total:found.length,offset,limit,hasMore:offset+limit<found.length};
+  }
+  else if (path === '/api/lectures') value = { lectures: [lecture,...relatedLectures] };
+  else if (path === '/api/lecture') value = [lecture,...relatedLectures].find(item=>item.id===url.searchParams.get('id'))||lecture;
   else if (path === '/api/profile') { if (body) { profile.nickname = body.nickname; profile.displayName = profile.nickname; connection.endpoint = body.endpoint || connection.endpoint; connection.configured = !!connection.endpoint; connection.status = connection.configured ? 'syncing' : 'not_configured'; connection.notice = connection.configured ? '已连接测试排行榜' : '共享排行榜尚未配置。'; } value = { profile, leaderboard: connection }; }
   else if (path === '/api/social') value = { available: false, totalLikes: 0, unreadCount: 0, notifications: [] };
   else if (path === '/api/leaderboard') { if (connection.configured && ++rankingPolls > 1) connection.status = 'ready'; value = { period: url.searchParams.get('period'), date, ...connection, entries: connection.status === 'ready' ? [{ rank: 1, userId: profile.userId, nickname: profile.nickname, count: 1 }] : [], self: connection.configured ? profile : null }; }
@@ -222,9 +233,24 @@ try {
   await page.keyboard.press('Escape');
   await page.keyboard.press('Control+8');
   await page.getByRole('region',{name:'日期明细',exact:true}).waitFor();assert.equal(await page.locator('.activity-month-page details').count(),0);
+  await page.getByLabel('搜索活动日期',{exact:true}).waitFor();
+  assert.equal(await page.getByLabel('搜索活动日期',{exact:true}).getAttribute('placeholder'),null);
+  const squares=await page.locator('.activity-day').evaluateAll(nodes=>nodes.map(node=>{const r=node.getBoundingClientRect();return [r.width,r.height,node.textContent];}));
+  assert.ok(squares.every(([width,height,text])=>Math.abs(width-height)<1&&text===''),'calendar cells are true squares without text');
+  assert.equal(await page.locator('.activity-selected-summary .activity-progress-segment').count(),5);
+  for(const input of ['2026:04:13','2026 4 13','26 04 13','26-04-13']){
+    await page.getByLabel('搜索活动日期',{exact:true}).fill(input);
+    await page.waitForFunction(()=>document.querySelector('.activity-selected-summary time')?.getAttribute('datetime')==='2026-04-13');
+  }
+  await page.getByLabel('搜索活动日期',{exact:true}).fill('2026-02-30');
+  assert.equal(await page.getByLabel('搜索活动日期',{exact:true}).getAttribute('aria-invalid'),'true');
+  await page.getByLabel('搜索活动日期',{exact:true}).fill('');
+  await page.getByLabel('活动时间',{exact:true}).fill(date.slice(0,7));
+  await page.screenshot({path:'tests/screenshots/activity-square-light-2048.png',animations:'disabled'});
+
   await page.keyboard.press('Control+9');
   await page.locator('.lectures-list .katex').waitFor();
-  await page.locator('.lectures-list button').first().click();
+  await page.locator('.lectures-list button').filter({hasText:'位运算'}).first().click();
   await page.locator('.lecture-markdown .katex').waitFor();
   assert.equal(await page.locator('.lecture-markdown').evaluate(node => getComputedStyle(node).userSelect), 'text');
   await page.screenshot({ path: 'tests/screenshots/v5-lectures-light-2048.png', animations: 'disabled' });
@@ -238,22 +264,30 @@ try {
   await page.getByRole('dialog').locator('.submission-source').getByText('#include <iostream>', { exact: false }).waitFor();
   assert.ok(await page.getByRole('dialog').locator('header .katex').count() > 0);
   await page.keyboard.press('Escape');
-  assert.equal(await page.locator('.submission-log-row').count(), 100);
+  assert.equal(await page.locator('.submission-log-row').count(), 20);
   assert.equal(await page.locator('.submission-day').count(), 1);
   assert.equal(await page.locator('.submission-day-heading > span').count(), 0);
   assert.equal(await page.locator('.submission-log-row .verdict').nth(1).textContent(), 'WA');
   assert.equal(await page.locator('.submission-log-row .verdict.wrong').first().evaluate(node => getComputedStyle(node).color), 'rgb(182, 67, 88)');
-  await page.getByRole('button', { name: '加载更早提交' }).click();
-  await page.waitForFunction(() => document.querySelectorAll('.submission-log-row').length === 101);
-  assert.deepEqual(await page.locator('.submission-day').evaluateAll(nodes => nodes.map(node => node.dataset.day)), ['2026-10-13', '2026-10-12']);
-  assert.deepEqual(await page.locator('.submission-day[data-day="2026-10-12"] .submission-record-meta').locator(':scope > :not([aria-hidden])').allTextContents(), ['23:59', 'D', '测试比赛']);
-  await page.screenshot({ path: 'tests/screenshots/submissions-by-day-light-2048.png', animations: 'disabled' });
-  await page.getByRole('button',{name:'筛选提交',exact:true}).click();
-  await page.getByLabel('历史提交结果').selectOption('CE');
-  assert.equal(await page.locator('.submission-log-row').count(), 1);
-  assert.equal(await page.locator('.submission-day').count(), 1);
-  assert.equal(await page.locator('.submission-day-heading > span').count(), 0);
-  await page.getByLabel('历史提交结果').selectOption('');await page.keyboard.press('Escape');
+  for(let index=0;index<5;index++){
+    const response=page.waitForResponse(response=>response.url().includes('/api/submissions?')&&new URL(response.url()).searchParams.get('offset')===String((index+1)*20));
+    await page.getByRole('button',{name:'下一页提交',exact:true}).click();
+    await response;
+    await page.waitForFunction(offset=>document.querySelector('.submission-log')?.getAttribute('aria-busy')==='false'&&document.querySelector('.submission-log')?.dataset.offset===String(offset),(index+1)*20);
+  }
+  assert.equal(await page.locator('.submission-log-row').count(),1);
+  assert.deepEqual(await page.locator('.submission-day').evaluateAll(nodes=>nodes.map(node=>node.dataset.day)),['2026-10-12']);
+  assert.deepEqual(await page.locator('.submission-record-meta').locator(':scope > :not([aria-hidden])').allTextContents(),['23:59','D','测试比赛']);
+  await page.getByRole('button',{name:'上一页提交',exact:true}).click();
+  await page.waitForFunction(()=>document.querySelector('.submission-log')?.getAttribute('aria-busy')==='false');
+  await page.screenshot({path:'tests/screenshots/submissions-by-day-light-2048.png',animations:'disabled'});
+  assert.equal(await page.getByRole('button',{name:'筛选提交',exact:true}).count(),0,'single-condition filtering uses folders');
+  await page.getByLabel('提交结果分类',{exact:true}).selectOption('CE');
+  await page.waitForFunction(()=>document.querySelector('.submission-log')?.getAttribute('aria-busy')==='false'&&document.querySelectorAll('.submission-log-row').length===1);
+  assert.equal(await page.locator('.submission-log-row .verdict').textContent(),'CE');
+  assert.equal(await page.locator('.submission-day-heading > span').count(),0);
+  await page.getByLabel('提交结果分类',{exact:true}).selectOption('');
+  await page.waitForFunction(()=>document.querySelectorAll('.submission-log-row').length===20);
   await page.keyboard.press('Control+5');
   assert.equal(await page.locator('.mock-followup').count(), 0);
   await page.locator('.mock-history').waitFor();
@@ -447,12 +481,131 @@ try {
   await page.keyboard.press('Control+7');
   await page.locator('.topbar .avatar-rank-frame.tier-8').waitFor();
   await page.getByLabel('训练概览',{exact:true}).hover();
-  await page.getByRole('tooltip').getByText(/王者 · 能力分 3,100/).waitFor();
+  const nativeOverview = await page.getByLabel('训练概览',{exact:true}).evaluate(node=>node.closest('[title]')?.getAttribute('title')||'');
+  if(nativeOverview) assert.match(nativeOverview,/王者 · 能力分 3,100/);
+  else await page.getByRole('tooltip').getByText(/王者 · 能力分 3,100/).waitFor();
   assert.equal(await page.locator('.topbar .profile-badge.tier-8').count(),1,'rank uses its own tier style');
   assert.equal(await page.locator('.progress-level-strip').count(),0);
   await page.mouse.move(0,0);
   await page.screenshot({ path: 'tests/screenshots/ranked-v16.png', animations: 'disabled' });
   insights.growth = beforeRank;
+  // Revision checks exercise the real page composition at several sizes.
+  await page.setViewportSize({width:2048,height:1152});
+  await page.keyboard.press('Control+7');
+  await page.locator('.account-hero-statistics>div').first().waitFor();
+  assert.equal(await page.locator('.account-hero-statistics>div').count(),6);
+  assert.equal(await page.getByRole('button',{name:'雷达筛选',exact:true}).count(),0);
+  const statCenters=await page.locator('.account-hero-statistics>div').evaluateAll(nodes=>nodes.map(node=>{const icon=node.querySelector('.account-stat-icon').getBoundingClientRect(),value=node.querySelector('b').getBoundingClientRect();return {x:icon.x+icon.width/2,y:icon.y,valueX:value.x+value.width/2,valueY:value.y};}));
+  await page.screenshot({path:'tests/screenshots/growth-aligned-2048.png',animations:'disabled'});
+  assert.ok(statCenters.every(item=>Math.abs(item.x-item.valueX)<1),JSON.stringify(statCenters));
+  assert.ok(statCenters.slice(0,3).every(item=>Math.abs(item.y-statCenters[0].y)<1)&&statCenters.slice(3).every(item=>Math.abs(item.y-statCenters[3].y)<1));
+  const profileRings=await page.locator('.topbar .profile-avatar-button').evaluate(node=>{
+    const frame=node.querySelector('.avatar-rank-frame'),xp=node.querySelector('.profile-xp-ring'),f=frame.getBoundingClientRect(),x=xp.getBoundingClientRect();
+    return {frameInner:f.width*33/120,xpOuter:x.width*20.25/44,masked:!!frame.querySelector('mask circle')};
+  });
+  assert.ok(profileRings.masked&&profileRings.frameInner>=profileRings.xpOuter-1,'frame surrounds the XP ring without wings crossing it');
+  await page.screenshot({path:'tests/screenshots/growth-aligned-2048.png',animations:'disabled'});
+  await page.keyboard.press('Control+1');
+  await page.getByLabel('我的训练分类',{exact:true}).selectOption('goals');
+  assert.equal(await page.locator('.queue-heading').count(),1);
+  assert.ok((await page.locator('.queue-heading').textContent()).includes('今日目标'));
+  await page.getByLabel('我的训练分类',{exact:true}).selectOption('');
+  const board=async route=>route.fulfill({json:{configured:true,status:'ready',hasSnapshot:true,period:new URL(route.request().url()).searchParams.get('period'),date,socialAvailable:true,self:{userId:profile.userId,count:1},entries:[{rank:1,userId:profile.userId,nickname:profile.nickname,count:3,likes:{total:4}},{rank:2,userId:'other-two',nickname:'星河Alice',count:2,likes:{total:6}},{rank:3,userId:'other-three',nickname:'海边Bob',count:1,likes:{total:2}}]}});
+  await page.route('**/api/leaderboard?**',board);
+  await page.locator('.sidebar').getByRole('button',{name:'排行榜',exact:true}).click();
+  await page.waitForFunction(()=>document.querySelectorAll('.ranking-table tbody tr').length===3);
+  const rankingLayout=await page.locator('.ranking-table tbody tr').evaluateAll(nodes=>nodes.map(node=>{
+    const message=node.querySelector('.ranking-message,.ranking-message-slot'),heart=node.querySelector('.like-burst'),count=node.querySelector('.ranking-count'),m=message.getBoundingClientRect(),h=heart.getBoundingClientRect(),c=count.getBoundingClientRect();
+    return {messageX:m.x,heartX:h.x,countX:c.x,border:getComputedStyle(message).borderTopWidth};
+  }));
+  assert.ok(rankingLayout.every(item=>item.messageX<item.heartX&&item.heartX<item.countX&&item.border==='0px'));
+  assert.ok(rankingLayout.every(item=>Math.abs(item.heartX-rankingLayout[0].heartX)<1&&Math.abs(item.countX-rankingLayout[0].countX)<1));
+  await page.getByLabel('搜索排行榜用户昵称',{exact:true}).fill('ALICE');
+  assert.equal(await page.locator('.ranking-table tbody tr').count(),1);
+  assert.equal(await page.locator('.ranking-place .ranking-medal').getAttribute('data-rank'),'2');
+  await page.getByLabel('搜索排行榜用户昵称',{exact:true}).fill('');
+  await page.screenshot({path:'tests/screenshots/rankings-aligned-2048.png',animations:'disabled'});
+  await page.unroute('**/api/leaderboard?**',board);
+  for(const [width,height] of [[2048,1152],[1440,900],[1050,760]]) {
+    await page.setViewportSize({width,height});
+    for(const theme of ['dark','light']) {
+      await openSettings(page);
+      await page.evaluate(theme=>document.documentElement.dataset.theme=theme,theme);
+      await noOverflow('.settings-home-grid');
+      const tiles=await page.locator('.settings-tile>button').evaluateAll(nodes=>nodes.map(node=>{const r=node.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height};}));
+      for(let i=0;i<tiles.length;i++)for(let j=i+1;j<tiles.length;j++)assert.ok(Math.min(tiles[i].x+tiles[i].width,tiles[j].x+tiles[j].width)<=Math.max(tiles[i].x,tiles[j].x)+1||Math.min(tiles[i].y+tiles[i].height,tiles[j].y+tiles[j].height)<=Math.max(tiles[i].y,tiles[j].y)+1,'settings tiles never overlap');
+      assert.equal(await page.locator('.dipper-star').count(),7);
+      assert.equal(await page.locator('.volcano-steam').count(),3);
+      await page.screenshot({path:'tests/screenshots/settings-tangram-'+width+'-'+theme+'.png',animations:'disabled'});
+      await page.keyboard.press('Control+8');
+      await page.locator('.activity-day').first().waitFor();
+      const cells=await page.locator('.activity-day').evaluateAll(nodes=>nodes.map(node=>{const r=node.getBoundingClientRect();return [r.width,r.height];}));
+      assert.ok(cells.every(([w,h])=>Math.abs(w-h)<1));
+      const detail=await page.locator('.activity-detail-table').evaluate(node=>({height:node.clientHeight,overflow:node.scrollHeight-node.clientHeight}));
+      assert.ok(detail.overflow<2);
+      await page.screenshot({path:'tests/screenshots/activity-square-'+width+'-'+theme+'.png',animations:'disabled'});
+    }
+  }
+  await openSettings(page,'鸣谢');
+  await page.getByText('感谢给予的资金支持以及信任',{exact:true}).waitFor();
+  assert.match(await page.locator('.special-thanks-cat').evaluate(node=>getComputedStyle(node).backgroundImage),/linear-gradient/);
+  assert.match(await page.locator('.special-thanks-lt').evaluate(node=>getComputedStyle(node).backgroundImage),/linear-gradient/);
+  await page.screenshot({path:'tests/screenshots/special-thanks.png',animations:'disabled'});
+  await page.setViewportSize({width:2048,height:1152});
+  await page.keyboard.press('Control+2');
+  await page.getByRole('button',{name:'筛选题目',exact:true}).click();
+  const lowSlider=page.getByLabel('最低难度滑块',{exact:true}),highSlider=page.getByLabel('最高难度滑块',{exact:true});
+  assert.equal(await highSlider.getAttribute('max'),'2000');
+  await lowSlider.focus();
+  const lowBefore=Number(await lowSlider.inputValue());await lowSlider.press('ArrowRight');
+  assert.equal(Number(await lowSlider.inputValue()),lowBefore+10);
+  await lowSlider.press('Alt+ArrowRight');assert.equal(Number(await lowSlider.inputValue()),lowBefore+11);
+  const thumb=await lowSlider.evaluate(node=>({size:getComputedStyle(node,'::-webkit-slider-thumb').width,height:node.getBoundingClientRect().height}));
+  await page.screenshot({path:'tests/screenshots/difficulty-refined.png',animations:'disabled'});
+  assert.ok(thumb.height<32);
+  await page.keyboard.press('Escape');
+  await page.keyboard.press('Control+7');
+  await page.keyboard.press('Control+9');
+  await page.locator('.lectures-list button').filter({hasText:'线段树测试起点'}).click();
+  await page.getByRole('heading',{name:'线段树测试正文',exact:true}).waitFor();
+  await page.locator('.lectures-detail').evaluate(node=>{node.scrollTop=1200;});
+  await page.locator('.lecture-prerequisites button').filter({hasText:'双指针'}).dispatchEvent('click');
+  await page.getByRole('heading',{name:'双指针测试正文',exact:true}).waitFor();
+  await page.locator('.lectures-detail').evaluate(node=>{node.scrollTop=800;});
+  await page.locator('.lecture-prerequisites button').filter({hasText:'枚举'}).dispatchEvent('click');
+  await page.getByRole('heading',{name:'枚举测试正文',exact:true}).waitFor();
+  await page.getByRole('button',{name:'返回上篇',exact:true}).click();
+  await page.getByRole('heading',{name:'双指针测试正文',exact:true}).waitFor();
+  await page.waitForFunction(()=>document.querySelector('.lectures-detail').scrollTop>=790);
+  await page.getByRole('button',{name:'返回上篇',exact:true}).click();
+  await page.getByRole('heading',{name:'线段树测试正文',exact:true}).waitFor();
+  await page.waitForFunction(()=>document.querySelector('.lectures-detail').scrollTop>=1190);
+  assert.ok(await page.getByRole('button',{name:'返回上篇',exact:true}).isDisabled());
+  await page.keyboard.press('Control+3');
+  await page.getByLabel('搜索算法',{exact:true}).fill('knapsack');
+  assert.equal(await page.locator('.lab-catalog .lab-panel').count(),1);
+  await page.getByRole('button',{name:'学算法',exact:true}).click();
+  await page.locator('.lab-lesson').waitFor();
+  const navigation=await page.locator('.lab-course-header').evaluate(node=>({
+    back:node.querySelector('[aria-label="返回算法实验室"]').getBoundingClientRect().x,
+    title:node.querySelector('h1').getBoundingClientRect().x,
+    directory:node.querySelector('[aria-label="目录"]').getBoundingClientRect().x,
+    previous:node.querySelector('[aria-label="上一页"]').getBoundingClientRect().x,
+    position:getComputedStyle(node).position,
+  }));
+  assert.ok(navigation.back<navigation.title&&navigation.directory<navigation.previous&&navigation.position!=='sticky');
+  await page.locator('.lab-lesson').focus();
+  await page.keyboard.press('ArrowRight');
+  await page.waitForFunction(()=>document.querySelector('.lab-position')?.textContent.trim()==='2 / 7');
+  await page.keyboard.press('ArrowLeft');
+  await page.waitForFunction(()=>document.querySelector('.lab-position')?.textContent.trim()==='1 / 7');
+  const beforeScroll=await page.locator('.lab-course-header').boundingBox();
+  await page.locator('.lab-lesson').evaluate(node=>{node.scrollTop=700;});
+  const afterScroll=await page.locator('.lab-course-header').boundingBox();
+  assert.ok(Math.abs(beforeScroll.y-afterScroll.y)<1,'only the lesson scrolls');
+  await page.screenshot({path:'tests/screenshots/course-header-navigation.png',animations:'disabled'});
+  await page.getByRole('button',{name:'返回算法实验室',exact:true}).click();
+  await page.keyboard.press('Control+7');
   // A slow analytics response must not let the 3-second busy poll pile up work.
   hub.sync.busy = true;
   await page.reload();

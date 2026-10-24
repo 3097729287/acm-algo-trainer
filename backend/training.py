@@ -1286,13 +1286,17 @@ class TrainingService:
                 result["workspace"] = self.workspace()
             return result
 
-    def submissions(self, identity=None, contest_id=None, exact_context=False, limit=100, offset=0, results_only=False, review_id=None):
+    def submissions(self, identity=None, contest_id=None, exact_context=False, limit=100, offset=0, results_only=False, review_id=None, query='', verdict='', order='desc'):
         try:
             limit, offset = int(limit), int(offset)
         except (ValueError, TypeError):
             raise ServiceError(400, "提交记录分页参数无效")
         if not 1 <= limit <= 100 or offset < 0:
             raise ServiceError(400, "每页提交记录须为 1–100 条，偏移量不能为负")
+        if not isinstance(query, str) or len(query) > 120 or order not in ('asc', 'desc'):
+            raise ServiceError(400, '提交记录查询参数无效')
+        if verdict not in ('', 'AC', 'WA', 'CE', 'TLE', 'MLE', 'RE', 'OLE', 'ERROR', 'QUEUED', 'RUNNING'):
+            raise ServiceError(400, '提交结果筛选无效')
         with self.lock:
             self._expire()
             active = self.connection.execute("SELECT id,slots FROM contests WHERE status='running'").fetchone()
@@ -1300,6 +1304,21 @@ class TrainingService:
             if identity:
                 self._history_visible(identity, contest_id)
             clauses, values = [], []
+            if verdict:
+                clauses.append('verdict=?')
+                values.append(verdict)
+            if query.strip():
+                catalog = self._library()
+                for token in query.casefold().split():
+                    ids = set()
+                    for row in catalog:
+                        text = ' '.join(str(row.get(key) or '') for key in ('id', 'title', 'contest', 'problem')).casefold()
+                        if token in text:
+                            ids.update([row['id'], *row.get('aliasIds', [])])
+                    candidates = sorted(ids)
+                    match = ('problem_id IN (' + ','.join('?' for _ in candidates) + ') OR ') if candidates else ''
+                    clauses.append('(' + match + 'instr(lower(verdict),?)>0 OR instr(lower(problem_id),?)>0)')
+                    values.extend([*candidates, token, token])
             if review_id:
                 if not identity:
                     raise ServiceError(400, '复习记录缺少题目编号')
@@ -1324,7 +1343,8 @@ class TrainingService:
                 values.append(active["id"])
             where = " WHERE " + " AND ".join(clauses) if clauses else ""
             total = self.connection.execute("SELECT COUNT(*) FROM submissions" + where, values).fetchone()[0]
-            records = self.connection.execute("SELECT * FROM submissions" + where + " ORDER BY submitted_at DESC,rowid DESC LIMIT ? OFFSET ?", values + [limit, offset]).fetchall()
+            direction = 'ASC' if order == 'asc' else 'DESC'
+            records = self.connection.execute("SELECT * FROM submissions" + where + f" ORDER BY submitted_at {direction},rowid {direction} LIMIT ? OFFSET ?", values + [limit, offset]).fetchall()
             return {"submissions": [self._submission(record) for record in records], "total": total, "offset": offset, "limit": limit, "hasMore": offset + len(records) < total}
 
     def _history_visible(self, identity, context):

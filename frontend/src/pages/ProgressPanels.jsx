@@ -98,7 +98,7 @@ export function GrowthAccountPanel({ api, hub, account, profile, profileSnapshot
 export function GrowthPage({avatarData,onAvatar,goalOverview,api,onGoalsChanged,insights,categories=[],rows=[],account,profile,onTopic,onTrain,onAccounts,onAchievements}) {
  if(!insights)return <Loading/>;
  const summary=insights.summary||{},growth=insights.growth||{},rank=growth.ranked||{},nickname=profile?.nickname||account?.nickname||insights.profile?.nickname||'练习者';
- const stats=[[Check,summary.totalSolved??summary.officialSolved,'总 AC'],[Code2,summary.submissions,'提交'],[CalendarDays,summary.activeDays,'活跃天数'],[Flame,summary.streak,'连续练习'],[Flag,summary.completedContests,'完成比赛']];
+ const stats=[[Check,summary.totalSolved??summary.officialSolved,'总 AC'],[Code2,summary.submissions,'提交'],[CalendarDays,summary.activeDays,'活跃天数'],[Flame,summary.streak,'连续练习'],[Flag,summary.completedContests,'完成比赛'],[TrendingUp,summary.longestStreak??0,'最长连续练习']];
  const rankName=Number(growth.level)<5?'未定级':rank.qualified===false?'定级中':rank.tier||'定级中';
  return <div className="progress-page growth-dashboard" aria-label="成长与能力"><div className="progress-growth-columns">
  <KnowledgeRadar rows={rows} categories={categories} knowledge={insights.knowledge||[]} knowledgeEvidence={insights.knowledgeEvidence||[]} knowledgeModel={insights.knowledgeModel||{}} onTopic={onTopic} onTrain={onTrain}/>
@@ -193,8 +193,7 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
       <label className="filter-field"><span>训练情况</span><ThemedSelect value={filter} onChange={event=>setFilter(event.target.value)} aria-label="比赛训练情况"><option value="all">全部比赛</option><option value="joined">已加入训练</option><option value="available">尚未加入</option><option value="unfinished">尚未全部通过</option></ThemedSelect></label>
       <label className="filter-field"><span>排序</span><ThemedSelect aria-label="比赛排序" value={sort} onChange={event=>setSort(event.target.value)}><option value="newest">比赛时间</option><option value="name">名称</option></ThemedSelect></label>
       <span className="filter-result-count">{filtered.length} 场</span>
-    </FilterMenu></PageSearch>
-    <PageLocation><Tooltip text={folder?'切换到比赛列表':'按平台、系列、年份和场次逐级浏览'}><button type="button" className="competition-view-toggle" aria-label="比赛文件夹浏览" aria-pressed={!!folder} onClick={()=>setFolder(folder?null:{stage:'platforms',path:[]})}><FolderTree size={17}/></button></Tooltip></PageLocation>
+    </FilterMenu><Tooltip text={folder?'切换到比赛列表':'按平台、系列、年份和场次逐级浏览'}><button type="button" className="competition-view-toggle" aria-label="比赛文件夹浏览" aria-pressed={!!folder} onClick={()=>setFolder(folder?null:{stage:'platforms',path:[]})}><FolderTree size={17}/></button></Tooltip></PageSearch>
     {joinError&&<p className="connection-error" role="alert">{joinError}</p>}
     {folder?<><CatalogPath scope={folder} onChange={setFolder}/><CatalogExplorer rows={filtered.flatMap(group=>group.rows.map(row=>({...row,groupKey:group.key})))} scope={folder} onChange={setFolder} onContest={row=>setSelected(row.groupKey)} renderContest={row=>renderCard(groups.find(group=>group.key===row.groupKey))}/></>:<div className="competition-list">{visibleGroups.map(renderCard)}</div>}
     {!folder&&filtered.length>pageSize&&<nav className="competition-pagination" aria-label="比赛分页"><span>{first+1}–{Math.min(first+pageSize,filtered.length)} / {filtered.length} 场</span><button type="button" className="progress-button" disabled={currentPage===1} onClick={()=>setPage(currentPage-1)}>上一页</button><span>第 {currentPage} / {pageCount} 页</span><button type="button" className="progress-button" disabled={currentPage===pageCount} onClick={()=>setPage(currentPage+1)}>下一页</button></nav>}

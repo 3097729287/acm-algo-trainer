@@ -466,7 +466,7 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_json(200, self.server.training.submission(identity))
             elif path == "/api/submissions":
                 query = parse_qs(target.query)
-                self.send_json(200, self.server.training.submissions(query.get("id", [None])[0], query.get("contestId", [None])[0], limit=query.get("limit", [100])[0], offset=query.get("offset", [0])[0], results_only=query.get('resultsOnly', ['0'])[0] == '1'))
+                self.send_json(200, self.server.training.submissions(query.get("id", [None])[0], query.get("contestId", [None])[0], limit=query.get("limit", [100])[0], offset=query.get("offset", [0])[0], results_only=query.get('resultsOnly', ['0'])[0] == '1', query=query.get('q', [''])[0], verdict=query.get('verdict', [''])[0], order=query.get('order', ['desc'])[0]))
             elif path == "/api/contest":
                 identity = parse_qs(target.query).get("id", [None])[0]
                 self.send_json(200, self.server.training.contest(identity))

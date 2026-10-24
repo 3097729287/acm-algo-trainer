@@ -1,5 +1,13 @@
 # TB 架构
 
+## 1.4.3 界面与掌握指数
+
+`knowledge_mastery.py` 与前端共用 Rasch/EAP 的确定性积分，唯一规范原题只计一次；辅助通过和试错降低证据强度。无已定级作答保持未知，父项不再要求所有子项达标；模型区间与题库频率覆盖分开显示。[假设、公式与来源](knowledge-mastery.md)。
+
+`GET /api/submissions` 增加可选 `q`、`verdict` 和 `order`，在完整历史中筛选后按稳定时间/rowid 排序、计总数并分页。沿用令牌、来源、账号和考场题目锁定，无新表或共享服务协议。活动日期解析在浏览器严格验证，两位年份映射 2000–2099；搜索与派生指数均不改写个人记录。
+
+本机 1.4.3 从已交付的 1.4.2 固定源码继续构建，保留三专题课程和全部公共内容，不混入另一工作副本的未完成题解复核。本轮不部署共享服务或发布公开资产。
+
 ## 1.4.2 本机主程序的算法实验室
 
 `LearningPathsPage` 提供三专题目录与搜索，背包继续用原 `KnapsackCourse`。新 `SequenceCourse` 共享课程导航与跟做交接，不共享算法的演示状态；`SequenceExperiments` 提供实际交互，纯模型在 `sequenceModel.js`。账号私有偏好分别使用 `ui.learningPaths.prefix-difference` 和 `ui.learningPaths.two-pointers`，沿用原偏好文档，无新表、API 或账号协议。专题之间切换保留草稿，不创建 AC 或经验。

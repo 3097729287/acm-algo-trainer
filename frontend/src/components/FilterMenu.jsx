@@ -23,7 +23,7 @@ export default function FilterMenu({ children, active = false, label = '筛选',
     return () => { document.removeEventListener('pointerdown', outside); node?.removeEventListener('keydown', escape); };
   }, [open]);
   return <div className="filter-menu" ref={host}>
-    <button ref={trigger} type="button" className={`icon-button filter-trigger${active ? ' active' : ''}`} aria-label={label} aria-expanded={open} aria-controls={id} aria-haspopup="dialog" onClick={() => setOpen(value => !value)}><SlidersHorizontal size={17}/>{active && <i className="filter-active-dot"/>}</button>
+    <button ref={trigger} type="button" className={`icon-button filter-trigger${active ? ' active' : ''}`} aria-label={label} title={label} aria-expanded={open} aria-controls={id} aria-haspopup="dialog" onClick={() => setOpen(value => !value)}><SlidersHorizontal size={17}/>{active && <i className="filter-active-dot"/>}</button>
     {open && <div style={position} onClick={event=>{if(event.target.closest('[data-close-filter]'))setOpen(false);}} id={id} className="filter-popover" role="dialog" aria-label={label}><header><strong>{label}</strong><span/>{onReset && <button type="button" className="text-button" onClick={onReset}>重置</button>}<button type="button" className="icon-button" aria-label="关闭筛选" onClick={() => { setOpen(false); trigger.current?.focus(); }}><X size={16}/></button></header>{children}</div>}
   </div>;
 }

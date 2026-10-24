@@ -4,8 +4,10 @@ import useUsage from '@/lib/useUsage.js';
 import PopConfirm from '@/components/PopConfirm.jsx';
 import {matchesShortcut} from '@/lib/shortcuts.js';
 import PageSearch from '@/components/PageSearch.jsx';
+import FolderSelect from '@/components/FolderSelect.jsx';
 import Tooltip from '@/components/Tooltip.jsx';
 import PracticeStreak from '@/components/PracticeStreak.jsx';
+import {DifficultyBoundsProvider} from '@/components/DifficultyRange.jsx';
 import ProfileBadge from '@/components/ProfileBadge.jsx';
 import BoundedNumber from '@/components/BoundedNumber.jsx';
 import ThemedSelect from '@/components/ThemedSelect.jsx';
@@ -103,6 +105,7 @@ import {
   emptyWorkspace,
   isTodayTraining,
   trainingPriority,
+  trainingGroup,
 } from "@/models/workspaceModel.js";
 
 const Workbench = lazy(() => import("./Workbench.jsx"));
@@ -126,7 +129,7 @@ const PAGES = [
   { id: "mock", label: "模拟赛", icon: Clock, key: "5" },
   { id: "records", label: "提交记录", icon: History, key: "6" },
   { id: "growth", label: "成长与能力", icon: ChartNoAxesCombined, key: "7" },
-  { id: "activity", label: "活动记录", icon: Activity, key: "8" },
+  { id: "activity", label: "活动记录", icon: CalendarDays, key: "8" },
   { id: "lectures", label: "从零讲", icon: BookOpen, key: "9" },
   { id: "paths", label: "算法实验室", icon: FlaskConical, key: "3" },
   { id: "rankings", label: "排行榜", icon: ListOrdered, key: "" },
@@ -541,6 +544,8 @@ export default function App() {
       mine: blankFilters(),
     });
   const [libraryPage, setLibraryPage] = useState(1);
+  const [mineFolder,setMineFolder]=useState("");
+  const mineFolders=useMemo(()=>[{value:"goals",label:"今日目标"},...QUEUES.map(({id,name})=>({value:id,label:name})),{value:"practice",label:"继续练习"},{value:"accepted",label:"已 AC"}],[]);
   const libraryPageSize = Number.isInteger(prefs.libraryPageSize) && prefs.libraryPageSize >= 10 && prefs.libraryPageSize <= 200 ? prefs.libraryPageSize : 50;
   const [selected, setSelected] = useState(null),
     [practiceId, setPracticeId] = useState(null),
@@ -550,10 +555,7 @@ export default function App() {
     [recordOnlyPending, setRecordOnlyPending] = useState(false),
     [mockTab, setMockTab] = useState("create"),
     [selectedSubmission, setSelectedSubmission] = useState(null),
-    [settingsTab, setSettingsTab] = useState(()=>{try{const value=JSON.parse(sessionStorage.getItem(`tb.settings.location.${window.__tbAccount?.userId || window.__tbAccount?.loginId || 'local'}`)||'{}').tab;return ['appearance','interaction','updates','training','help','advanced','accounts','thanks','admin'].includes(value)?value:'home';}catch{return 'home';}}),
-    [submissionLog, setSubmissionLog] = useState([]),
-    [submissionPage, setSubmissionPage] = useState({ total: 0, nextOffset: 0, hasMore: false }),
-    [submissionLoading, setSubmissionLoading] = useState(false);
+    [settingsTab, setSettingsTab] = useState(()=>{try{const value=JSON.parse(sessionStorage.getItem(`tb.settings.location.${window.__tbAccount?.userId || window.__tbAccount?.loginId || 'local'}`)||'{}').tab;return ['appearance','interaction','updates','training','help','advanced','accounts','thanks','admin'].includes(value)?value:'home';}catch{return 'home';}});
   const [keyboardSelection, setKeyboardSelection] = useState(false), [listOrder, setListOrder] = useState(null);
   const restoreList = useRef(null);
   const labVisit = useRef({leftAt:null,scrollTop:0});
@@ -581,7 +583,6 @@ export default function App() {
     listRef = useRef(null),
     toastTimer = useRef(null),
     readerSeq = useRef(0),
-    submissionSeq = useRef(0),
     contextRef = useRef(null),
     advanceRef = useRef(null),
     visibleRef = useRef([]),
@@ -876,33 +877,6 @@ export default function App() {
     applyWorkspace,
   ]);
   useEffect(() => {
-    const seq = ++submissionSeq.current;
-    if (page !== "records") return;
-    setSubmissionLoading(true);
-    api("submissions?resultsOnly=1&limit=100&offset=0")
-      .then((value) => {
-        if (seq !== submissionSeq.current) return;
-        const logs = value.submissions || [];
-        setSubmissionLog(logs);
-        setSubmissionPage({ total: value.total ?? logs.length, nextOffset: (value.offset || 0) + logs.length, hasMore: !!value.hasMore });
-      })
-      .catch((e) => { if (seq === submissionSeq.current) notice(e.message, "error"); })
-      .finally(() => { if (seq === submissionSeq.current) setSubmissionLoading(false); });
-  }, [page, workspace.summary?.attempts, api, notice]);
-  async function loadMoreSubmissions() {
-    if (submissionLoading || !submissionPage.hasMore) return;
-    const seq = submissionSeq.current;
-    setSubmissionLoading(true);
-    try {
-      const value = await api(`submissions?resultsOnly=1&limit=100&offset=${submissionPage.nextOffset}`);
-      if (seq !== submissionSeq.current) return;
-      const logs = value.submissions || [];
-      setSubmissionLog((previous) => { const known = new Set(previous.map(item => item.id)); return [...previous, ...logs.filter(item => !known.has(item.id))]; });
-      setSubmissionPage({ total: value.total ?? submissionPage.total, nextOffset: (value.offset ?? submissionPage.nextOffset) + logs.length, hasMore: !!value.hasMore && logs.length > 0 });
-    } catch (e) { if (seq === submissionSeq.current) notice(e.message, "error"); }
-    finally { if (seq === submissionSeq.current) setSubmissionLoading(false); }
-  }
-  useEffect(() => {
     if (!data) return;
     const version = [workspace.summary?.attempts, workspace.summary?.total, workspace.summary?.accepted].join(":");
     const changed = backgroundVersion.current !== null && version !== backgroundVersion.current;
@@ -957,6 +931,7 @@ export default function App() {
     const base = page === "mine" ? todayMine : rows.filter(row => !row.catalogHidden),
       params = { ...currentFilters, query, favorites: prefs.favorites };
     let filtered = filterRows(base, params);
+    if(page==="mine"&&mineFolder){const goals=new Set((workspace.goalTasks||[]).map(task=>task.id)),frozen=listOrder?.page===page&&listOrder.filters===currentFilters&&listOrder.query===query?listOrder.groups:null;filtered=filtered.filter(row=>trainingGroup(row,goals,frozen)===mineFolder);}
     if (page === "mine" && params.setId === "@single") {
       const grouped = new Set([...workspace.sets.flatMap(set => set.ids || []), ...workspace.contests.flatMap(contest => contest.slots?.map(slot => slot.id) || [])]);
       filtered = filtered.filter(row => !grouped.has(row.id));
@@ -979,6 +954,8 @@ export default function App() {
     page,
     todayMine,
     rows,
+    mineFolder,
+    workspace.goalTasks,
     currentFilters,
     query,
     prefs.favorites,
@@ -1019,7 +996,7 @@ export default function App() {
   }, [practiceId, page, displayedRows]);
   const active = workspace.activeContest,
     summary = workspace.summary || emptyWorkspace.summary;
-  const labFocus=page==='paths'&&prefs.learningPaths?.activePath==='knapsack'&&!practiceId;
+  const labFocus=page==='paths'&&Boolean(prefs.learningPaths?.activePath)&&!practiceId;
   const mockFocus = page === "mock" && active && mockTab === "create" && !record && !practiceId;
   const lastWorkspacePage = useRef("mine");
   useEffect(()=>{if(page!=="settings")lastWorkspacePage.current=page;},[page]);
@@ -1714,10 +1691,9 @@ export default function App() {
     ));
   }
   function renderTable(items) {
-    const knownQueues = new Set(QUEUES.map(queue => queue.id));
     const goalIds = new Set((workspace.goalTasks || []).map(task => task.id));
     const frozenGroups=listOrder?.page===page && listOrder.filters===currentFilters && listOrder.query===query ? listOrder.groups : null;
-    const groupOf=row=>frozenGroups?.[row.id] || (goalIds.has(row.id)?'goals':knownQueues.has(row.queue)?row.queue:row.accepted?'accepted':'practice');
+    const groupOf=row=>trainingGroup(row,goalIds,frozenGroups);
     const groups = page === "mine" ? [
       { id: "goals", name: "今日目标", color: "accent", rows: items.filter(row => groupOf(row)==='goals') },
       ...QUEUES.map(queue => ({ ...queue, rows: items.filter(row => groupOf(row)===queue.id) })),
@@ -1758,7 +1734,7 @@ export default function App() {
     );
   }
   function toolbar() {
-    return <PageSearch><label className="search-box"><Search size={17}/><input ref={searchRef} aria-label="搜索题目" value={currentFilters.query} onChange={event=>setFilter({query:event.target.value})} onKeyDown={event=>{if(['ArrowDown','Enter'].includes(event.key)){event.preventDefault();focusList();}}}/></label><SortDirection label="切换题目排序方向" descending={currentFilters.desc} onChange={desc=>setFilter({desc})}/><ProblemFilters rows={data?.rows || []} categories={categories} views={prefs.views||[]} onDeleteView={id=>setPrefs(previous=>({...previous,views:previous.views.filter(view=>view.id!==id)}))} value={currentFilters} onChange={setFilter} onReset={resetFilters} onSave={()=>{setViewName('');setDialog('saveView');}} onClear={page==='mine'?()=>setDialog('clear-training'):undefined} clearDisabled={busy||!mine.length||!!active||!!workspace.summary.pending}/>{page==='library'&&<Tooltip text={`随机单题 · 当前筛选 ${visible.length} 题，每题等概率`}><button type="button" className="icon-button catalog-random" aria-label="随机单题" disabled={busy||!visible.length||query!==currentFilters.query} onClick={()=>{try{openPractice(visible[uniformIndex(visible.length)].id);}catch(error){notice(error.message,'error');}}}><Dices size={18}/></button></Tooltip>}{currentFilters.category&&<span className="active-knowledge-filter" role="group" aria-label="当前知识点筛选"><span>{currentFilters.category.name}</span><button type="button" aria-label={`清除知识点筛选 ${currentFilters.category.name}`} onClick={()=>setFilter({category:null})}><X size={13}/></button></span>}</PageSearch>;
+    return <PageSearch><label className="search-box"><Search size={17}/><input ref={searchRef} aria-label="搜索题目" value={currentFilters.query} onChange={event=>setFilter({query:event.target.value})} onKeyDown={event=>{if(['ArrowDown','Enter'].includes(event.key)){event.preventDefault();focusList();}}}/></label><SortDirection label="切换题目排序方向" descending={currentFilters.desc} onChange={desc=>setFilter({desc})}/><ProblemFilters rows={data?.rows || []} categories={categories} views={prefs.views||[]} onDeleteView={id=>setPrefs(previous=>({...previous,views:previous.views.filter(view=>view.id!==id)}))} value={currentFilters} onChange={setFilter} onReset={resetFilters} onSave={()=>{setViewName('');setDialog('saveView');}} onClear={page==='mine'?()=>setDialog('clear-training'):undefined} clearDisabled={busy||!mine.length||!!active||!!workspace.summary.pending}/>{page==='mine'&&<FolderSelect iconOnly label="我的训练分类" placeholder="全部训练状态" options={mineFolders} value={mineFolder} onChange={event=>setMineFolder(event.target.value)}/>}{page==='library'&&<Tooltip text={`随机单题 · 当前筛选 ${visible.length} 题，每题等概率`}><button type="button" className="icon-button catalog-random" aria-label="随机单题" disabled={busy||!visible.length||query!==currentFilters.query} onClick={()=>{try{openPractice(visible[uniformIndex(visible.length)].id);}catch(error){notice(error.message,'error');}}}><Dices size={18}/></button></Tooltip>}{currentFilters.category&&<span className="active-knowledge-filter" role="group" aria-label="当前知识点筛选"><span>{currentFilters.category.name}</span><button type="button" aria-label={`清除知识点筛选 ${currentFilters.category.name}`} onClick={()=>setFilter({category:null})}><X size={13}/></button></span>}</PageSearch>;
   }
 
   function renderListPage() {
@@ -1989,7 +1965,7 @@ export default function App() {
   const beforeTodayAc = insights?.summary?.beforeTodaySolved ?? Math.max(summary.beforeTodayAccepted || 0, (insights?.summary?.totalSolved ?? summary.historicalAccepted ?? 0) - (summary.todayAccepted || 0));
   const todayAc = insights?.summary?.todaySolved ?? summary.todayAccepted ?? 0;
   return (
-    <div
+    <DifficultyBoundsProvider rows={data?.rows||[]}><div
       className={"app-shell " + (prefs.collapsed ? "sidebar-collapsed " : "") + (practiceId || mockFocus ? "mock-focus practice-focus" : labFocus?"lab-focus":"")}
     >
       <SoftwareUpdateNotice update={softwareUpdate} onDetails={() => { setPage('settings'); setSettingsTab('updates'); }} />
@@ -2167,7 +2143,7 @@ export default function App() {
               />
             )}<MockHistory embedded contests={workspace.contests} onDelete={async body => { const answer = await api("contests/delete", body); applyWorkspace(answer.workspace); notice(`已删除 ${answer.deleted} 场模拟赛记录`); }} onSelect={openRecord} onResume={contest=>{setMockTab("create");setMockSlot(contest.slots[0]?.id);}} onCreate={()=>{setMockTab("create");document.querySelector('.mock-create')?.scrollIntoView({block:'start'});}}/></>}</>}</div>
           ) : page === "records" ? (
-            <SubmissionRecords submissions={submissionLog} total={submissionPage.total} hasMore={submissionPage.hasMore} loading={submissionLoading} onLoadMore={loadMoreSubmissions} rows={rows} onSelect={(submission) => { setSelectedSubmission(submission); setDialog("submission"); }} />
+            <SubmissionRecords api={api} revision={workspace.summary?.attempts} rows={rows} onSelect={(submission) => { setSelectedSubmission(submission); setDialog("submission"); }} />
           ) : page === "competitions" ? (
             <CompetitionPage
               rows={rows}
@@ -2443,7 +2419,7 @@ export default function App() {
       )}
       {finishAnchor && active && <PopConfirm anchor={finishAnchor} title="结束这场比赛？" label="结束比赛确认" busy={busy} cancelLabel="继续比赛" confirmLabel="结束并复盘" busyLabel="正在处理…" confirmTone="primary" onCancel={()=>setFinishAnchor(null)} onConfirm={()=>finishMock(false)} extraActions={<Tooltip text="撤销本场训练安排，保留草稿及真实原站提交"><button type="button" className="danger" disabled={busy} onClick={()=>finishMock(true)}>取消比赛</button></Tooltip>}/>}
 
-    </div>
+    </div></DifficultyBoundsProvider>
   );
 
 }

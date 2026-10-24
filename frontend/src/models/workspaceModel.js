@@ -31,6 +31,9 @@ export const QUEUES = [
     color: "green",
   },
 ];
+export function trainingGroup(row,goalIds=new Set(),frozen=null) {
+ return frozen?.[row.id]||(goalIds.has(row.id)?'goals':QUEUES.some(queue=>queue.id===row.queue)?row.queue:row.accepted?'accepted':'practice');
+}
 export const VERDICTS = {
   AC: "AC",
   SAMPLE_PASS: "样例通过",

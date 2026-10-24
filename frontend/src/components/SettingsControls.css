@@ -1,7 +1,7 @@
 .tooltip-anchor { display:inline-flex; vertical-align:middle; align-items:center; min-width:0; }
 .hint-icon { display:inline-flex; align-items:center; justify-content:center; color:var(--muted); background:transparent; border:0; padding:4px; border-radius:4px; min-height:24px; min-width:24px; }
 .hint-icon:hover,.hint-icon:focus-visible { color:var(--accent); background:var(--hover); }
-.tb-tooltip { z-index:10050; padding:10px 12px; border:1px solid var(--line); border-radius:6px; background:var(--panel-raised-base); color:var(--text); font-size:13px; line-height:1.7; box-shadow:0 4px 14px #0002; pointer-events:none; overflow-wrap:anywhere; }
+.tb-tooltip { z-index:10050; padding:10px 12px; border:1px solid var(--line); border-radius:6px; background:var(--panel-raised-base); color:var(--text); font-size:13px; line-height:1.7; box-shadow:0 4px 14px #0002; pointer-events:none; overflow-wrap:anywhere; user-select:none; -webkit-user-select:none; }
 .bounded-number { display:inline-flex; align-items:center; position:relative; min-width:0; width:100px; max-width:100%; }
 .bounded-number > input { width:100%; min-width:0; min-height:34px; padding:6px 28px 6px 9px; border:1px solid var(--line); border-radius:5px; background:var(--panel-2); color:var(--text); font:inherit; font-variant-numeric:tabular-nums; }
 .bounded-number > input::-webkit-inner-spin-button { opacity:.5; }

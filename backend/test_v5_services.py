@@ -303,6 +303,15 @@ class HTTPContractTests(unittest.TestCase):
         self.assertFalse(last["hasMore"])
         self.assertEqual(len({row["id"] for page in (first, second, last) for row in page["submissions"]}), 7)
         self.assertEqual(self.request("GET", "/api/submissions?limit=101")[0], 400)
+        oldest = self.request('GET', '/api/submissions?limit=2&order=asc')[1]
+        self.assertEqual([row['id'] for row in oldest['submissions']], [row['id'] for row in last['submissions'] + second['submissions'][-1:]])
+        matched = self.request('GET', '/api/submissions?q=164&limit=2')[1]
+        self.assertEqual(matched['total'], 7)
+        self.assertEqual(len(matched['submissions']), 2)
+        self.assertEqual(self.request('GET', '/api/submissions?verdict=WA')[1]['total'], 0)
+        self.assertEqual(self.request('GET', '/api/submissions?q=not-a-problem')[1]['total'], 0)
+        self.assertEqual(self.request('GET', '/api/submissions?order=invalid')[0], 400)
+        self.assertEqual(self.request('GET', '/api/submissions?verdict=INVALID')[0], 400)
 
 
 if __name__ == "__main__": unittest.main()

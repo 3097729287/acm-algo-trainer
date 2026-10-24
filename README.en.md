@@ -12,6 +12,8 @@ Individual editorial refinement and reading review are tracked separately and re
 
 **Local desktop 1.4.2 update, not publicly released:** Algorithm Lab adds prefix sums with difference arrays and two pointers, seven lessons and five guided problems each. Knapsack DP adds animated choice comparisons and synchronized read/write flows. The normal desktop program contains 21 lessons and 15 guided problems, preserving progress. Future validated feature and teaching updates are packaged directly; standalone previews are not the default delivery. [Content and validation](docs/algorithm-lab-sequences.md).
 
+**Local desktop 1.4.3 candidate (validation in progress; unpublished):** Unified nickname/date/algorithm search, full-history submission pagination, training-state folders, segmented activity bars, Rasch practice estimates with uncertainty, finer difficulty controls, aligned statistics and settings animations. Existing courses and personal records are retained. [Scope](docs/releases/1.4.3.md) · [Model and sources](docs/knowledge-mastery.md).
+
 [Website](https://3097729287.github.io/acm-algo-trainer/) · [Usage](docs/usage.md) · [Development](docs/development.md) · [中文](README.md)
 
 ![TB workbench](docs/assets/workbench.png)

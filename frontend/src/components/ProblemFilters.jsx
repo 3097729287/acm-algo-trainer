@@ -3,14 +3,15 @@ import {useMemo} from 'react';
 import FolderSelect from './FolderSelect.jsx';
 import {canonicalKnowledgeName} from '@/lib/knowledgeNames.js';
 import {contestFilterOptions} from '@/lib/contestCatalog.js';
-import DifficultyRange from './DifficultyRange.jsx';
+import DifficultyRange,{useDifficultyBounds} from './DifficultyRange.jsx';
 import ThemedSelect from './ThemedSelect.jsx';
 import FilterMenu from './FilterMenu.jsx';
 export default function ProblemFilters({ value, onChange, onReset, onSave, rows=[], categories = [], views = [], onClear, clearDisabled, onDeleteView }) {
+  const difficultyBounds=useDifficultyBounds();
   const walk = nodes => nodes.flatMap(node => [node, ...walk(node.children || [])]);
   const knowledgeOptions=useMemo(()=>{const build=nodes=>nodes.map(node=>{const children=build(node.children||[]);return {label:canonicalKnowledgeName(node.name),value:node.name,...(children.length?{children}:{})};});return build(categories);},[categories]);
   const contestOptions=useMemo(()=>contestFilterOptions(rows),[rows]);
-  return <FilterMenu label="筛选题目" active={!!value.favoritesOnly || value.sort!=='contestDate' || value.shelf !== 'all' || !!value.kind || !!value.catalogPath?.length || !!value.category || !!value.result || value.min !== 0 || value.max !== 10000} onReset={onReset}>
+  return <FilterMenu label="筛选题目" active={!!value.favoritesOnly || value.sort!=='contestDate' || value.shelf !== 'all' || !!value.kind || !!value.catalogPath?.length || !!value.category || !!value.result || value.min > 0 || value.max < difficultyBounds.max} onReset={onReset}>
     <label className="filter-field"><span>收藏</span><input type="checkbox" aria-label="收藏题目筛选" checked={!!value.favoritesOnly} onChange={event=>onChange({favoritesOnly:event.target.checked})}/></label>
     <label className="filter-field"><span>排序</span><ThemedSelect aria-label="排序方式" value={value.sort} onChange={event=>onChange({sort:event.target.value})}><option value="contestDate">比赛时间</option><option value="contest">场次</option><option value="difficulty">难度</option><option value="date">最近练习</option><option value="title">题名</option></ThemedSelect></label>
     <label className="filter-field"><span>比赛分类</span><FolderSelect label="筛选比赛分类" placeholder="全部比赛" options={contestOptions} value={value.catalogPath?.length?JSON.stringify(value.catalogPath):''} onChange={event=>onChange({catalogPath:event.target.value?JSON.parse(event.target.value):[],shelf:'all',kind:'',platform:'',contest:''})}/></label>

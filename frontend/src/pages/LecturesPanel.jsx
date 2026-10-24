@@ -50,10 +50,13 @@ export function LectureDisclosure({ lecture = {}, inlineMarkdown, images, api, o
 const EMPTY_CATEGORIES=[];
 export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError,categories=EMPTY_CATEGORIES }) {
   const [snapshot, setSnapshot] = useState(lectures || null), [query, setQuery] = useState(''), [selected, setSelected] = useState(initialLecture || null);
+  const [history,setHistory]=useState([]),restoreScroll=useRef(null);
+  const openLecture=(id,root=false)=>{if(root)setHistory([]);else if(selected&&id!==selected)setHistory(old=>[...old,{id:selected,scrollTop:detail.current?.scrollTop||0}]);restoreScroll.current=0;setSelected(id);};
+  const backLecture=()=>{const previous=history.at(-1);if(!previous)return;setHistory(old=>old.slice(0,-1));restoreScroll.current=previous.scrollTop;setSelected(previous.id);};
   const [classification, setClassification] = useState(''),[descending,setDescending]=useState(false);
   const [lesson, setLesson] = useState(null), [error, setError] = useState('');
   const seq = useRef(0),detail=useRef(null);
-  useEffect(() => { if (initialLecture) setSelected(initialLecture); }, [initialLecture]);
+  useEffect(() => { if (initialLecture) {setHistory([]);restoreScroll.current=0;setSelected(initialLecture);} }, [initialLecture]);
   useEffect(() => {
     if (lectures) { setSnapshot(lectures); return; }
     let cancelled = false;
@@ -67,6 +70,7 @@ export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError,
     api('lecture?id=' + encodeURIComponent(selected)).then(value => { if (seq.current === current) setLesson(value); }).catch(issue => { if (seq.current === current) setError(issue.message); });
     return () => { seq.current++; };
   }, [selected, api]);
+  useEffect(()=>{if(lesson&&detail.current){detail.current.scrollTop=restoreScroll.current??0;restoreScroll.current=null;}},[lesson]);
   const entries = Array.isArray(snapshot) ? snapshot : snapshot?.lectures || [];
   const classifications = useMemo(() => lectureFolderOptions(entries,categories), [snapshot,categories]);
   const sorted=useMemo(()=>entries.map((item,index)=>({...item,listIndex:index,displayDifficulty:estimatedDifficulty(`${item.concept||item.title} ${(item.tags||[]).join(' ')}`)})).sort((a,b)=>a.displayDifficulty-b.displayDifficulty||a.listIndex-b.listIndex),[snapshot]);
@@ -82,9 +86,9 @@ export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError,
   return <div className="lectures-page" aria-label="从零讲知识总结">
     <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索从零讲知识" value={query} onChange={event=>setQuery(event.target.value)}/></label><SortDirection label="切换讲解排序方向" descending={descending} onChange={setDescending}/><FolderSelect iconOnly label="从零讲知识分类" placeholder="全部知识分类" options={classifications} value={classification} onChange={event=>setClassification(event.target.value)}/></PageSearch>
     <div className={'lectures-layout' + (selected ? ' has-selection' : '')}>
-      <nav className="lectures-list" aria-label="完整知识讲解">{filtered.map(item => <button key={item.id} className={selected === item.id ? 'selected' : ''} onClick={() => setSelected(item.id)}><strong><LessonTitle>{item.displayTitle || item.concept || item.title}</LessonTitle></strong><span className="lecture-category">{primaryLectureTopic(item)}</span><Tooltip text="知识点难度估计，非原题难度"><b className="lecture-difficulty">{item.displayDifficulty}</b></Tooltip></button>)}{snapshot && !filtered.length && <p>没有匹配的完整讲解。仅有指针的段落会链接已有讲解。</p>}</nav>
+      <nav className="lectures-list" aria-label="完整知识讲解">{filtered.map(item => <button key={item.id} className={selected === item.id ? 'selected' : ''} onClick={() => openLecture(item.id,true)}><strong><LessonTitle>{item.displayTitle || item.concept || item.title}</LessonTitle></strong><span className="lecture-category">{primaryLectureTopic(item)}</span><Tooltip text="知识点难度估计，非原题难度"><b className="lecture-difficulty">{item.displayDifficulty}</b></Tooltip></button>)}{snapshot && !filtered.length && <p>没有匹配的完整讲解。仅有指针的段落会链接已有讲解。</p>}</nav>
       <article ref={detail} className="lectures-detail" tabIndex={0} aria-label="知识讲解正文">
-        {selected ? <><div className="lectures-detail-bar"><button onClick={() => setSelected(null)}><ArrowLeft size={14} />全部讲解</button>{lesson && onTrain && lesson.sourceProblemIds?.[0] && <button onClick={() => onTrain(lesson.sourceProblemIds[0])}>练习来源题<ArrowRight size={14} /></button>}</div>{lesson ? <><p className="lecture-source">{lesson.sourceContest} · {lesson.sourceProblem} <InlineTitle>{lesson.sourceTitle}</InlineTitle></p>{lesson.originalTitle && lesson.originalTitle !== lesson.concept && <p className="lecture-original-title">原题应用：<LessonTitle>{lesson.originalTitle}</LessonTitle></p>}{prerequisites.length>0&&<nav className="lecture-prerequisites" aria-label="相关知识从零讲"><span>用到的其他知识</span>{prerequisites.map(({tag,target})=><button type="button" key={tag} onClick={()=>setSelected(target.id)}><BookOpen size={14}/>从零讲：{tag}<ArrowRight size={13}/></button>)}</nav>}<LessonMarkdown lesson={lesson} /></> : error ? <p role="alert">{error}</p> : <p role="status">正在读取完整讲解…</p>}</> : <div className="lectures-intro"><BookOpen size={25} /><h3>选一个知识点开始阅读</h3>{entries.length > 0 && <button onClick={() => setSelected(filtered[0]?.id || entries[0].id)}>阅读第一篇<ArrowRight size={14} /></button>}{error && <p role="alert">{error}</p>}</div>}
+        {selected ? <><div className="lectures-detail-bar"><button type="button" onClick={backLecture} disabled={!history.length} title={history.length?"返回上篇讲解":"已到起始讲解"}><ArrowLeft size={14} />返回上篇</button>{lesson && onTrain && lesson.sourceProblemIds?.[0] && <button onClick={() => onTrain(lesson.sourceProblemIds[0])}>练习来源题<ArrowRight size={14} /></button>}</div>{lesson ? <><p className="lecture-source">{lesson.sourceContest} · {lesson.sourceProblem} <InlineTitle>{lesson.sourceTitle}</InlineTitle></p>{lesson.originalTitle && lesson.originalTitle !== lesson.concept && <p className="lecture-original-title">原题应用：<LessonTitle>{lesson.originalTitle}</LessonTitle></p>}{prerequisites.length>0&&<nav className="lecture-prerequisites" aria-label="相关知识从零讲"><span>用到的其他知识</span>{prerequisites.map(({tag,target})=><button type="button" key={tag} onClick={()=>openLecture(target.id)}><BookOpen size={14}/>从零讲：{tag}<ArrowRight size={13}/></button>)}</nav>}<LessonMarkdown lesson={lesson} /></> : error ? <p role="alert">{error}</p> : <p role="status">正在读取完整讲解…</p>}</> : <div className="lectures-intro"><BookOpen size={25} /><h3>选一个知识点开始阅读</h3>{entries.length > 0 && <button onClick={() => openLecture(filtered[0]?.id || entries[0].id,true)}>阅读第一篇<ArrowRight size={14} /></button>}{error && <p role="alert">{error}</p>}</div>}
       </article>
     </div>
   </div>;

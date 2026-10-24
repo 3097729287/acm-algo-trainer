@@ -11,7 +11,7 @@
 .cloud-flight-1 {top:58%;width:96px;height:60px;animation-duration:29s;animation-direction:reverse;animation-delay:-18s;opacity:.55}
 .balloon-flight {position:absolute;left:calc(50% - 38px);width:76px;height:140px;animation:balloon-ascent 22s linear infinite;animation-delay:-5s}
 .coffee-steam {animation:steam-rise 4s ease-in-out infinite}
-.scene-orbit {transform-origin:90px 70px;animation:planet-drift 14s ease-in-out infinite}
+.orbit-system {transform-origin:90px 70px;animation:planet-drift 14s ease-in-out infinite}
 .orbit-ring-drift {animation:ring-drift 10s linear infinite}
 .orbit-satellite {offset-path:path('M25 70a65 23 0 1 0 130 0a65 23 0 1 0-130 0');animation:ring-lap 12s linear infinite}
 .orbit-planet-lines {transform-origin:90px 70px;animation:planet-lines 18s ease-in-out infinite}
@@ -56,3 +56,35 @@
 @keyframes dino-across-small {0%,100%{left:5px}50%{left:calc(100% - 93px)}}
 @media(prefers-reduced-motion:reduce) {.settings-scene * {animation:none!important}.dino-traveler{left:calc(50% - 60px)}.balloon-flight{bottom:5%}.cloud-flight{left:12%}.cloud-flight-1{left:60%}.globe-building{opacity:1}}
 html[data-motion=off] .settings-scene * {animation:none!important}
+
+/* Keep animations inside their layout box; the root SVG never animates position. */
+.settings-home-grid .settings-tile>button>.scene-orbit {animation:none;max-width:calc(100% - 30px);max-height:calc(100% - 72px);top:calc(50% + 18px)}
+.dino-landscape {position:absolute;inset:0;width:100%;height:100%;opacity:.32}
+.dino-traveler {width:136px;height:132px;bottom:11px}
+.volcano-steam {animation:volcano-steam 4s ease-out infinite;transform-origin:center;opacity:0}
+@keyframes volcano-steam {0%{opacity:0;transform:translateY(9px)}25%{opacity:.65}100%{opacity:0;transform:translateY(-20px)}}
+.globe-turn {animation-duration:12s}.globe-planet {animation-duration:12s}.globe-building {animation-duration:12s}.globe-burst,.globe-shockwave,.globe-fragment {animation-duration:12s}
+@keyframes planet-cycle {0%,62%{transform:scale(1);opacity:1}64%{transform:scale(.93);opacity:1}66%{transform:scale(1.12);opacity:1}68%,95%{transform:scale(1.2);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes planet-burst {0%,64%,92%,100%{opacity:0}66%,77%{opacity:1}86%{opacity:0}}
+@keyframes shockwave-spread {0%,64%{transform:scale(.65);opacity:0}65%{transform:scale(.8);opacity:.85}73%{transform:scale(2.5);opacity:0}100%{transform:scale(2.5);opacity:0}}
+@keyframes fragment-flight {0%,64%{transform:translateY(0) rotate(0);opacity:0}65%{opacity:1}76%{transform:translateY(calc(var(--fragment-distance)*3.1)) rotate(var(--fragment-turn));opacity:0}100%{transform:translateY(calc(var(--fragment-distance)*3.1));opacity:0}}
+.dipper-lines {stroke-dasharray:1;stroke-dashoffset:1;animation:dipper-lines 8s linear infinite}
+.dipper-star {opacity:0;animation-duration:8s;animation-timing-function:ease;animation-iteration-count:infinite}
+@keyframes dipper-lines {0%,48%{stroke-dashoffset:1;opacity:0}51%{opacity:.65}71%,84%{stroke-dashoffset:0;opacity:.65}95%,100%{stroke-dashoffset:0;opacity:0}}
+.dipper-star-0 {animation-name:dipper-star-0}
+@keyframes dipper-star-0 {0%,4%{opacity:0}8%,84%{opacity:1}95%,100%{opacity:0}}
+.dipper-star-1 {animation-name:dipper-star-1}
+@keyframes dipper-star-1 {0%,10%{opacity:0}14%,84%{opacity:1}95%,100%{opacity:0}}
+.dipper-star-2 {animation-name:dipper-star-2}
+@keyframes dipper-star-2 {0%,16%{opacity:0}20%,84%{opacity:1}95%,100%{opacity:0}}
+.dipper-star-3 {animation-name:dipper-star-3}
+@keyframes dipper-star-3 {0%,22%{opacity:0}26%,84%{opacity:1}95%,100%{opacity:0}}
+.dipper-star-4 {animation-name:dipper-star-4}
+@keyframes dipper-star-4 {0%,28%{opacity:0}32%,84%{opacity:1}95%,100%{opacity:0}}
+.dipper-star-5 {animation-name:dipper-star-5}
+@keyframes dipper-star-5 {0%,34%{opacity:0}38%,84%{opacity:1}95%,100%{opacity:0}}
+.dipper-star-6 {animation-name:dipper-star-6}
+@keyframes dipper-star-6 {0%,40%{opacity:0}44%,84%{opacity:1}95%,100%{opacity:0}}
+@media(prefers-reduced-motion:reduce) {.dipper-star,.dipper-lines,.volcano-steam {animation:none!important;opacity:1}.dipper-lines{stroke-dashoffset:0}}
+html[data-motion=off] .dipper-star,html[data-motion=off] .dipper-lines,html[data-motion=off] .volcano-steam {animation:none!important;opacity:1}
+html[data-motion=off] .dipper-lines {stroke-dashoffset:0}

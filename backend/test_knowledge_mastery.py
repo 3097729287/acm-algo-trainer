@@ -32,10 +32,11 @@ class KnowledgeMasteryTests(unittest.TestCase):
         self.assertEqual(before['evidenceCount'],5)
         self.assertGreater(after['available'],before['available'])
 
-    def test_low_or_unrated_samples_are_unknown_not_zero(self):
+    def test_sparse_rated_samples_are_estimated_with_uncertainty(self):
         rows=self.rows(4)
         low=self.topic(self.estimate(rows,[self.record(row['id']) for row in rows]))
-        self.assertIsNone(low['mastery'])
+        self.assertIsNotNone(low['mastery'])
+        self.assertGreater(low['masteryInterval'][1]-low['masteryInterval'][0], 25)
         rows=self.rows(5,None)
         low=self.topic(self.estimate(rows,[self.record(row['id']) for row in rows]))
         self.assertIsNone(low['mastery'])
@@ -62,7 +63,7 @@ class KnowledgeMasteryTests(unittest.TestCase):
         records += [dict(self.record('p4'),mode='run'),dict(self.record('p5'),scope='samples'),self.record('p6','CE')]
         value=self.estimate(rows,records)
         self.assertEqual(self.topic(value)['evidenceCount'],4)
-        self.assertIsNone(self.topic(value)['mastery'])
+        self.assertIsNotNone(self.topic(value)['mastery'])
         self.assertEqual(len(value['knowledgeEvidence']),4)
 
     def test_public_receipts_do_not_claim_independent_source(self):
@@ -74,12 +75,30 @@ class KnowledgeMasteryTests(unittest.TestCase):
     def test_quantity_and_difficulty_prevent_inflated_small_sample_scores(self):
         small=self.rows(5,800)
         five=self.topic(self.estimate(small,[self.record(row['id']) for row in small]))['mastery']
-        self.assertLess(five,40)
+        self.assertLess(five,70)
         large=self.rows(25,800)
         twenty_five=self.topic(self.estimate(large,[self.record(row['id']) for row in large]))['mastery']
         self.assertGreater(twenty_five,five)
         difficult=self.rows(25,2200)
         self.assertGreater(self.topic(self.estimate(difficult,[self.record(row['id']) for row in difficult]))['mastery'],twenty_five)
+
+    def test_one_question_is_an_estimate_and_duplicates_add_no_certainty(self):
+        from knowledge_mastery import estimate
+        item = {'id': 'one', 'difficulty': 1600, 'rated': True, 'weight': 1, 'solved': True}
+        single = estimate([item])
+        self.assertIsNotNone(single['value'])
+        self.assertGreater(single['interval'][1]-single['interval'][0], 50)
+        self.assertEqual(single, estimate([item]*100))
+        many = estimate([dict(item,id=f'p{i}') for i in range(30)])
+        self.assertLess(many['interval'][1]-many['interval'][0], single['interval'][1]-single['interval'][0])
+
+    def test_same_problem_difficulty_and_outcome_have_expected_directions(self):
+        from knowledge_mastery import estimate
+        item = {'id': 'one', 'difficulty': 1600, 'rated': True, 'weight': 1, 'solved': True}
+        self.assertGreater(estimate([item])['value'], estimate([dict(item,solved=False)])['value'])
+        self.assertGreater(estimate([dict(item,difficulty=2200)])['value'], estimate([dict(item,difficulty=800)])['value'])
+        self.assertIsNone(estimate([dict(item,difficulty=None,rated=False)])['value'])
+        self.assertIsNone(estimate([])['value'])
 
 
 if __name__=='__main__':

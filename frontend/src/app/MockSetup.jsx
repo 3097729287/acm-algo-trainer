@@ -47,6 +47,7 @@ export default function MockSetup({api,onStarted,onError,activeContest,onResume,
  {activeContest&&<div className="active-notice"><Clock size={17}/><button className="primary" onClick={onResume}>继续比赛</button></div>}
  <div className="mock-config">
  <div className="mock-mode-options" role="group" aria-label="组题方式">{MODES.map(([mode,label])=><button key={mode} type="button" aria-pressed={config.mode===mode} className={config.mode===mode?'active':''} disabled={busy} onClick={()=>change({mode})}><strong>{label}</strong></button>)}</div>
+ {!replay&&<div className="difficulty-presets" role="radiogroup" aria-label="默认训练难度">{TRAINING_DIFFICULTIES.map(([title,low,high,tone])=><button key={title} type="button" role="radio" className={`preset-${tone}`} aria-checked={Number(config.min)===low&&Number(config.max)===high} disabled={busy} onClick={()=>change({min:low,max:high})}><i aria-hidden="true"/><span>{title}</span><small>{low}–{high}</small></button>)}</div>}
  <div className="mock-difficulty-row">{!replay&&<><span>难度</span><DifficultyRange value={config} onChange={change} disabled={busy} label="训练难度" minLabel="训练最低难度" maxLabel="训练最高难度"/></>}
  <div className="training-specific-fields">
  {config.mode==='topic'&&<FolderSelect label="专项训练知识点" placeholder="选择知识点" options={topicOptions} value={topic} disabled={busy} onChange={event=>{setTopic(event.target.value);change({tags:topics.find(item=>item.value===event.target.value)?.tags||[]});}}/>}
