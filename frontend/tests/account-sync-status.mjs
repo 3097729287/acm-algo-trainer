@@ -33,15 +33,16 @@ try {
   await page.getByLabel('账号数据同步中',{exact:true}).waitFor();
   assert.equal(await page.getByLabel('账号数据同步中',{exact:true}).innerText(),'');
   await page.getByLabel('账号数据同步中',{exact:true}).hover();
-  await page.getByRole('tooltip').getByText('同步中',{exact:true}).waitFor();
+  assert.equal(await page.getByLabel('账号数据同步中',{exact:true}).evaluate(node=>node.closest('.tooltip-anchor').title),'同步中');
   await page.evaluate(()=>window.accountSyncStatusFixture.update({status:'ready',pending:false}));
   await page.getByLabel('账号数据已同步',{exact:true}).waitFor();
+  assert.equal(await page.getByLabel('账号数据已同步',{exact:true}).locator('svg.lucide-circle-check').count(),1);
   await page.getByLabel('账号数据已同步',{exact:true}).waitFor({state:'hidden',timeout:5000});
   await page.evaluate(()=>window.accountSyncStatusFixture.update({status:'error',pending:true,error:'事件模拟：连接已中断'}));
   await page.getByLabel('账号数据待同步',{exact:true}).waitFor();
   assert.equal(await page.getByLabel('账号数据同步中',{exact:true}).count(),0);
   await page.getByLabel('账号数据待同步',{exact:true}).hover();
-  await page.getByRole('tooltip').getByText('事件模拟：连接已中断',{exact:true}).waitFor();
+  assert.equal(await page.getByLabel('账号数据待同步',{exact:true}).evaluate(node=>node.closest('.tooltip-anchor').title),'事件模拟：连接已中断');
   await page.evaluate(()=>window.accountSyncStatusFixture.update(undefined));
   assert.equal(await page.locator('.sync-status-icon').count(),0);
   report('PASS: spinner + hover tooltip, durable error precedence, completion icon toast and automatic disappearance.');

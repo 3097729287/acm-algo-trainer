@@ -1780,6 +1780,17 @@ class TrainingService:
                     connection.execute('UPDATE training SET mock_due=0,mock_due_at=NULL,mock_due_context=NULL WHERE id=? AND mock_due_context=?', (slot['id'],identity))
             return {'cancelled': True, 'workspace': self.workspace()}
 
+    def _completed_replay_contests(self):
+        """Derive reveal eligibility from actual finished replays, including tombstones."""
+        from contest_names import contest_name
+        names = set()
+        for record in self.connection.execute("SELECT config FROM contests WHERE status='finished'"):
+            config = json.loads(record['config'] or '{}')
+            original = config.get('contest')
+            if config.get('strategy') == 'replay' and isinstance(original, str) and original.strip():
+                names.add(contest_name(original))
+        return sorted(names)
+
     def workspace(self):
         from copy import deepcopy
         with self.lock:
@@ -1903,7 +1914,7 @@ class TrainingService:
             today_ac = {aliases.get(r['problem_id'], r['problem_id']) for r in official_ac if parse_time(r['submitted_at']).astimezone(TRAINING_ZONE).date() == today}
             before_today_ac = {aliases.get(r['problem_id'], r['problem_id']) for r in official_ac if parse_time(r['submitted_at']).astimezone(TRAINING_ZONE).date() < today}
             pending = self.connection.execute("SELECT COUNT(*) FROM submissions WHERE finished_at IS NULL").fetchone()[0]
-            return {"training": training, "sets": sets, "contests": contests, "reviews": review_plan, "goals": goal_overview, "goalTasks": goal_tasks, "activeContest": next((contest for contest in contests if contest["status"] == "running"), None), "summary": {"todayAccepted": len(today_ac), "historicalAccepted": len(historical_ac), "beforeTodayAccepted": len(before_today_ac), "total": len(training), "accepted": sum(item["accepted"] for item in training), "samplePassed": sum(item["verdict"] == "SAMPLE_PASS" and not item["accepted"] for item in training), "attempts": len(records), "due": sum(item["queue"] is not None for item in training), "streak": streak, "pending": pending}, "now": iso(now)}
+            return {"training": training, "sets": sets, "contests": contests, "completedReplayContests": self._completed_replay_contests(), "reviews": review_plan, "goals": goal_overview, "goalTasks": goal_tasks, "activeContest": next((contest for contest in contests if contest["status"] == "running"), None), "summary": {"todayAccepted": len(today_ac), "historicalAccepted": len(historical_ac), "beforeTodayAccepted": len(before_today_ac), "total": len(training), "accepted": sum(item["accepted"] for item in training), "samplePassed": sum(item["verdict"] == "SAMPLE_PASS" and not item["accepted"] for item in training), "attempts": len(records), "due": sum(item["queue"] is not None for item in training), "streak": streak, "pending": pending}, "now": iso(now)}
 
     def close(self):
         with self.lock:

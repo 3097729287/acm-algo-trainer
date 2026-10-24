@@ -1,0 +1,563 @@
+{
+  "batch": "editorials_arrays_round2",
+  "problems": [
+    {
+      "problemId": "ABC 469::A",
+      "variants": {
+        "solutions": {
+          "beforeMarkdownSha256": "dcb89985c065bb060fbb4eec1d498e310ce5db597af2d725e64afe029ca6734e",
+          "markdown": "## A. Train Car\n\n### 题意\n\n一列火车有 $N$ 节，求从前数第 $K$ 节是从后数第几节。\n\n<!-- reusable-foundations:start -->\n\n### 从零讲：枚举与模拟：让代码和允许的动作一一对应\n\n枚举是系统地检查所有候选；模拟是按题目规则推进状态。先写清一个候选是什么、有哪些动作、执行后哪些量改变，再决定循环边界。\n\n例如从集合 $\\{1,2,3\\}$ 中选两个不同数：有序选择可枚举 $(i,j)$ 且 $i\\ne j$，共六项；如果只关心无序的一对，就规定 $i<j$，得到 $(1,2)$、$(1,3)$、$(2,3)$，避免重复计数。同一个双循环，边界表达的是不同对象。\n\n```cxx\nfor (int i = 0; i < n; ++i)\n    for (int j = i + 1; j < n; ++j) {\n        // 每一对不同位置恰好出现一次\n    }\n```\n\n模拟例如计数器初始为零，依次读动作“加二、减一、加二”，状态为 $0\\to2\\to1\\to3$。每一步都只读取该时刻允许的信息；若规则要求同时更新多个量，应先用旧状态算全部新量，不能让后一个更新误读前一个新值。\n\n时间要数实际候选数和每个候选的工作。双循环可能是 $O(n^2)$，枚举长度为 $k$ 的二进制选择是 $O(2^k)$；候选少但每次又扫描全数组，也要乘上扫描成本。空间取决于是否需要保存历史。\n\n全枚举的优势是思路直接，容易作为独立校验程序。剪枝必须证明被略去的分支不可能合法或更优，不能只因一个小例子没遇到答案就删候选。若直接枚举超时，先找重复工作、对称性、可维护的量或单调边界，再选择优化方法。\n\n<!-- reusable-foundations:end -->\n\n### 思路\n\n这节后面有 $N-K$ 节，再把它自己算上，答案为 $N-K+1$。例如 $N=5,K=2$ 时从后数第四。时间与空间均为 $O(1)$。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nint n,k; cin>>n>>k;\n    cout<<n-k+1<<'\\n';\n}\n```\n\n### 易错点\n\n编号从 $1$ 开始，不能漏掉最后的加一。",
+          "images": {}
+        },
+        "detailed_solutions": {
+          "beforeMarkdownSha256": "0368348df7b00ed21dc564cbd68fe7a4bc391819713a3ca05a06afa723f848c0",
+          "markdown": "## A. Train Car\n\n### 题意\n\n一列火车有 $N$ 节，求从前数第 $K$ 节是从后数第几节。\n\n<!-- reusable-foundations:start -->\n\n### 从零讲：枚举与模拟：让代码和允许的动作一一对应\n\n枚举是系统地检查所有候选；模拟是按题目规则推进状态。先写清一个候选是什么、有哪些动作、执行后哪些量改变，再决定循环边界。\n\n例如从集合 $\\{1,2,3\\}$ 中选两个不同数：有序选择可枚举 $(i,j)$ 且 $i\\ne j$，共六项；如果只关心无序的一对，就规定 $i<j$，得到 $(1,2)$、$(1,3)$、$(2,3)$，避免重复计数。同一个双循环，边界表达的是不同对象。\n\n```cxx\nfor (int i = 0; i < n; ++i)\n    for (int j = i + 1; j < n; ++j) {\n        // 每一对不同位置恰好出现一次\n    }\n```\n\n模拟例如计数器初始为零，依次读动作“加二、减一、加二”，状态为 $0\\to2\\to1\\to3$。每一步都只读取该时刻允许的信息；若规则要求同时更新多个量，应先用旧状态算全部新量，不能让后一个更新误读前一个新值。\n\n时间要数实际候选数和每个候选的工作。双循环可能是 $O(n^2)$，枚举长度为 $k$ 的二进制选择是 $O(2^k)$；候选少但每次又扫描全数组，也要乘上扫描成本。空间取决于是否需要保存历史。\n\n全枚举的优势是思路直接，容易作为独立校验程序。剪枝必须证明被略去的分支不可能合法或更优，不能只因一个小例子没遇到答案就删候选。若直接枚举超时，先找重复工作、对称性、可维护的量或单调边界，再选择优化方法。\n\n<!-- reusable-foundations:end -->\n\n### 思路\n\n把五节车厢从前到后写成 $1,2,3,4,5$，从后开始数时，它们对应 $5,4,3,2,1$。例如前面第 $2$ 节，后面有第 $3,4,5$ 节，越过这三节后才数到它，所以是第 $4$ 节。\n\n一般地，第 $K$ 节后面恰有 $N-K$ 节车厢。名次还要把目标车厢自己计入，因此答案是 $N-K+1$。代码直接输出这个表达式。前端 $K=1$ 得到 $N$，后端 $K=N$ 得到 $1$；当整列只有一节时，这两个边界重合，仍然得到 $1$。不需要实际存储或倒转车厢序列。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nint n,k; cin>>n>>k;\n    cout<<n-k+1<<'\\n';\n}\n```\n\n### 易错点\n\n编号从 $1$ 开始，不能漏掉最后的加一。\n\n",
+          "images": {}
+        }
+      },
+      "reviewNotes": [
+        "审阅已足够：两版均保持 markdown/images 完全不变。默认版已将 N-K 对应目标车厢后方数量，将 +1 对应目标自己，并手算 N=5,K=2 得四。",
+        "详细版已把五节的前向/后向编号逐项对齐，并解释 K=1、K=N、N=1；实际代码只有 n-k+1，所有项已有对象与边界来源。无需为这一直接计数另加位置图。"
+      ],
+      "validation": {
+        "compiledOriginalCpp": true,
+        "identicalCppInBothVariants": true,
+        "cppSha256": "21afb4532e940d6878d2f3994a85c817ccd5929a0c0915a3347870baf2349c45",
+        "officialSamples": 3,
+        "distinctBoundaryCases": 5,
+        "distinctSeededRandomCases": 39,
+        "actualProgramRuns": 47,
+        "allTestInputsSatisfyOriginalConstraints": true,
+        "independentModelCases": 5050,
+        "reviewDisposition": "already_sufficient",
+        "changedVariants": [],
+        "originalReferenceProgramsAndImagesPreserved": true,
+        "originalFoundationBlocksUnchanged": true,
+        "evidenceDirectory": ".backups/editorial-reasoning-20261022/editorials_arrays_round2",
+        "render": {
+          "variantPages": 8,
+          "widths": [
+            1440,
+            390
+          ],
+          "themes": [
+            "light",
+            "dark"
+          ],
+          "foundationsInitiallyCollapsed": true,
+          "noKatexErrorsMissingImagesOrPageOverflow": true,
+          "batchEvidence": {
+            "pages": 80,
+            "disclosures": 104,
+            "preservedFoundationImageLoads": 8,
+            "screenshots": 44,
+            "errors": []
+          }
+        }
+      }
+    },
+    {
+      "problemId": "ABC 470::A",
+      "variants": {
+        "solutions": {
+          "beforeMarkdownSha256": "5c557873522b2943644b66238eb3d1759467cc4b7d2b2b964703c8e2f8845fdc",
+          "markdown": "## A. Fizz\n\n### 题意\n\n依次输出 $1$ 到 $N$，其中 $3$ 的倍数替换为 Fizz，每项一行。\n\n<!-- reusable-foundations:start -->\n\n### 从零讲：枚举与模拟：让代码和允许的动作一一对应\n\n枚举是系统地检查所有候选；模拟是按题目规则推进状态。先写清一个候选是什么、有哪些动作、执行后哪些量改变，再决定循环边界。\n\n例如从集合 $\\{1,2,3\\}$ 中选两个不同数：有序选择可枚举 $(i,j)$ 且 $i\\ne j$，共六项；如果只关心无序的一对，就规定 $i<j$，得到 $(1,2)$、$(1,3)$、$(2,3)$，避免重复计数。同一个双循环，边界表达的是不同对象。\n\n```cxx\nfor (int i = 0; i < n; ++i)\n    for (int j = i + 1; j < n; ++j) {\n        // 每一对不同位置恰好出现一次\n    }\n```\n\n模拟例如计数器初始为零，依次读动作“加二、减一、加二”，状态为 $0\\to2\\to1\\to3$。每一步都只读取该时刻允许的信息；若规则要求同时更新多个量，应先用旧状态算全部新量，不能让后一个更新误读前一个新值。\n\n时间要数实际候选数和每个候选的工作。双循环可能是 $O(n^2)$，枚举长度为 $k$ 的二进制选择是 $O(2^k)$；候选少但每次又扫描全数组，也要乘上扫描成本。空间取决于是否需要保存历史。\n\n全枚举的优势是思路直接，容易作为独立校验程序。剪枝必须证明被略去的分支不可能合法或更优，不能只因一个小例子没遇到答案就删候选。若直接枚举超时，先找重复工作、对称性、可维护的量或单调边界，再选择优化方法。\n\n<!-- reusable-foundations:end -->\n\n### 思路\n\n按顺序枚举整数 $i$，余数 $i\\bmod3$ 为零就输出 Fizz，否则输出 $i$。例如到 $4$ 为止输出 $1,2,\\texttt{Fizz},4$。时间 $O(N)$，额外空间 $O(1)$。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nint n; cin>>n;\n    for(int i=1;i<=n;i++) {\n        if(i%3==0) cout<<\"Fizz\\n\";\n        else cout<<i<<'\\n';\n    }\n}\n```\n\n### 易错点\n\n从 $1$ 开始枚举，结束位置 $N$ 也要输出。",
+          "images": {}
+        },
+        "detailed_solutions": {
+          "beforeMarkdownSha256": "e83180a5043d820625555e2f30458a69bad1a0a08c9827fd836d8250e7f797ca",
+          "markdown": "## A. Fizz\n\n### 题意\n\n依次输出 $1$ 到 $N$，其中 $3$ 的倍数替换为 Fizz，每项一行。\n\n<!-- reusable-foundations:start -->\n\n### 从零讲：枚举与模拟：让代码和允许的动作一一对应\n\n枚举是系统地检查所有候选；模拟是按题目规则推进状态。先写清一个候选是什么、有哪些动作、执行后哪些量改变，再决定循环边界。\n\n例如从集合 $\\{1,2,3\\}$ 中选两个不同数：有序选择可枚举 $(i,j)$ 且 $i\\ne j$，共六项；如果只关心无序的一对，就规定 $i<j$，得到 $(1,2)$、$(1,3)$、$(2,3)$，避免重复计数。同一个双循环，边界表达的是不同对象。\n\n```cxx\nfor (int i = 0; i < n; ++i)\n    for (int j = i + 1; j < n; ++j) {\n        // 每一对不同位置恰好出现一次\n    }\n```\n\n模拟例如计数器初始为零，依次读动作“加二、减一、加二”，状态为 $0\\to2\\to1\\to3$。每一步都只读取该时刻允许的信息；若规则要求同时更新多个量，应先用旧状态算全部新量，不能让后一个更新误读前一个新值。\n\n时间要数实际候选数和每个候选的工作。双循环可能是 $O(n^2)$，枚举长度为 $k$ 的二进制选择是 $O(2^k)$；候选少但每次又扫描全数组，也要乘上扫描成本。空间取决于是否需要保存历史。\n\n全枚举的优势是思路直接，容易作为独立校验程序。剪枝必须证明被略去的分支不可能合法或更优，不能只因一个小例子没遇到答案就删候选。若直接枚举超时，先找重复工作、对称性、可维护的量或单调边界，再选择优化方法。\n\n<!-- reusable-foundations:end -->\n\n### 思路\n\n当 $N=7$ 时，各行对应的整数依次是 $1,2,3,4,5,6,7$，其中只有 $3$ 和 $6$ 要替换成 Fizz。输出中的行号始终对应原整数，替换不会改变后面的编号。\n\n整数 $i$ 是 $3$ 的倍数，当且仅当整除后余数为零，所以循环从 $i=1$ 到 $i=N$，检查 $i\\bmod3=0$。成立时输出固定字符串，否则输出当前整数。每次循环都输出一个换行，恰好得到题目要求的 $N$ 行。两种分支互斥且覆盖全部整数，无需提前构造答案数组。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nint n; cin>>n;\n    for(int i=1;i<=n;i++) {\n        if(i%3==0) cout<<\"Fizz\\n\";\n        else cout<<i<<'\\n';\n    }\n}\n```\n\n### 易错点\n\n从 $1$ 开始枚举，结束位置 $N$ 也要输出。\n\n",
+          "images": {}
+        }
+      },
+      "reviewNotes": [
+        "审阅已足够：两版均保持不变。默认版的 i%3==0 与三的倍数等价，示例 1,2,Fizz,4 已包含成立和不成立的分支。",
+        "详细版另有 N=7 的三、六两次替换、每轮恰好输出一行以及互斥覆盖证明；实际程序从一到 N，原编号不因替换改变。"
+      ],
+      "validation": {
+        "compiledOriginalCpp": true,
+        "identicalCppInBothVariants": true,
+        "cppSha256": "96a6b9a6b91460361e288263a62e129a9a86a8082918e77ecedc2121d0d4c6dc",
+        "officialSamples": 2,
+        "distinctBoundaryCases": 6,
+        "distinctSeededRandomCases": 31,
+        "actualProgramRuns": 39,
+        "allTestInputsSatisfyOriginalConstraints": true,
+        "independentModelCases": 100,
+        "reviewDisposition": "already_sufficient",
+        "changedVariants": [],
+        "originalReferenceProgramsAndImagesPreserved": true,
+        "originalFoundationBlocksUnchanged": true,
+        "evidenceDirectory": ".backups/editorial-reasoning-20261022/editorials_arrays_round2",
+        "render": {
+          "variantPages": 8,
+          "widths": [
+            1440,
+            390
+          ],
+          "themes": [
+            "light",
+            "dark"
+          ],
+          "foundationsInitiallyCollapsed": true,
+          "noKatexErrorsMissingImagesOrPageOverflow": true,
+          "batchEvidence": {
+            "pages": 80,
+            "disclosures": 104,
+            "preservedFoundationImageLoads": 8,
+            "screenshots": 44,
+            "errors": []
+          }
+        }
+      }
+    },
+    {
+      "problemId": "ABC 471::A",
+      "variants": {
+        "solutions": {
+          "beforeMarkdownSha256": "f0c8145e1dc9dae407596a27525e56a4a3c4c38129e6b739f9e6731cb92130f6",
+          "markdown": "## A. Nine or Nein\n\n### 题意\n\n给定正整数 $A,B$，若 $A+B,A-B,AB,A/B$ 中至少一个恰好为 $9$，输出 Nine，否则输出 Nein。\n\n<!-- reusable-foundations:start -->\n\n### 从零讲：枚举与模拟：让代码和允许的动作一一对应\n\n枚举是系统地检查所有候选；模拟是按题目规则推进状态。先写清一个候选是什么、有哪些动作、执行后哪些量改变，再决定循环边界。\n\n例如从集合 $\\{1,2,3\\}$ 中选两个不同数：有序选择可枚举 $(i,j)$ 且 $i\\ne j$，共六项；如果只关心无序的一对，就规定 $i<j$，得到 $(1,2)$、$(1,3)$、$(2,3)$，避免重复计数。同一个双循环，边界表达的是不同对象。\n\n```cxx\nfor (int i = 0; i < n; ++i)\n    for (int j = i + 1; j < n; ++j) {\n        // 每一对不同位置恰好出现一次\n    }\n```\n\n模拟例如计数器初始为零，依次读动作“加二、减一、加二”，状态为 $0\\to2\\to1\\to3$。每一步都只读取该时刻允许的信息；若规则要求同时更新多个量，应先用旧状态算全部新量，不能让后一个更新误读前一个新值。\n\n时间要数实际候选数和每个候选的工作。双循环可能是 $O(n^2)$，枚举长度为 $k$ 的二进制选择是 $O(2^k)$；候选少但每次又扫描全数组，也要乘上扫描成本。空间取决于是否需要保存历史。\n\n全枚举的优势是思路直接，容易作为独立校验程序。剪枝必须证明被略去的分支不可能合法或更优，不能只因一个小例子没遇到答案就删候选。若直接枚举超时，先找重复工作、对称性、可维护的量或单调边界，再选择优化方法。\n\n<!-- reusable-foundations:end -->\n\n### 思路\n\n直接检查四个条件。除法等于 $9$ 可改写为 $A=9B$，这样避免整数除法将小数部分截去。例如 $A=19,B=2$ 的商为 $9.5$，不能算作 $9$。时间、空间均为 $O(1)$。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nint a,b; cin>>a>>b;\n    bool ok=a+b==9 || a-b==9 || a*b==9 || a==9*b;\n    cout<<(ok?\"Nine\":\"Nein\")<<'\\n';\n}\n```\n\n### 易错点\n\n减法与除法有顺序，只检查题目给出的 $A-B$ 与 $A/B$。",
+          "images": {}
+        },
+        "detailed_solutions": {
+          "beforeMarkdownSha256": "6308e636052a0cfbb1494374318301014356a1d588d5588b64311332b2c4cf38",
+          "markdown": "## A. Nine or Nein\n\n### 题意\n\n给定正整数 $A,B$，若 $A+B,A-B,AB,A/B$ 中至少一个恰好为 $9$，输出 Nine，否则输出 Nein。\n\n<!-- reusable-foundations:start -->\n\n### 从零讲：枚举与模拟：让代码和允许的动作一一对应\n\n枚举是系统地检查所有候选；模拟是按题目规则推进状态。先写清一个候选是什么、有哪些动作、执行后哪些量改变，再决定循环边界。\n\n例如从集合 $\\{1,2,3\\}$ 中选两个不同数：有序选择可枚举 $(i,j)$ 且 $i\\ne j$，共六项；如果只关心无序的一对，就规定 $i<j$，得到 $(1,2)$、$(1,3)$、$(2,3)$，避免重复计数。同一个双循环，边界表达的是不同对象。\n\n```cxx\nfor (int i = 0; i < n; ++i)\n    for (int j = i + 1; j < n; ++j) {\n        // 每一对不同位置恰好出现一次\n    }\n```\n\n模拟例如计数器初始为零，依次读动作“加二、减一、加二”，状态为 $0\\to2\\to1\\to3$。每一步都只读取该时刻允许的信息；若规则要求同时更新多个量，应先用旧状态算全部新量，不能让后一个更新误读前一个新值。\n\n时间要数实际候选数和每个候选的工作。双循环可能是 $O(n^2)$，枚举长度为 $k$ 的二进制选择是 $O(2^k)$；候选少但每次又扫描全数组，也要乘上扫描成本。空间取决于是否需要保存历史。\n\n全枚举的优势是思路直接，容易作为独立校验程序。剪枝必须证明被略去的分支不可能合法或更优，不能只因一个小例子没遇到答案就删候选。若直接枚举超时，先找重复工作、对称性、可维护的量或单调边界，再选择优化方法。\n\n<!-- reusable-foundations:end -->\n\n### 思路\n\n取 $A=19,B=2$，四种运算依次得到 $21,17,38,9.5$，应该输出 Nein；若直接用整数除法判断，$19/2$ 会被截断成 $9$，从而误判。\n\n加法、减法和乘法都能直接比较结果是否为 $9$。除法则利用 $B>0$，将 $A/B=9$ 等价改写为 $A=9B$，这样既不受整数截断影响，也没有浮点误差。四个判断用逻辑或连接，只要任意一个成立就输出 Nine，否则输出 Nein。\n\n这里每个操作只按给定次序作用一次。例如 $A=2,B=11$ 时，虽然反过来相减能得到 $9$，但题目只允许 $A-B$，不能额外检查 $B-A$。输入范围很小，所有乘法都在整数类型范围内。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nint a,b; cin>>a>>b;\n    bool ok=a+b==9 || a-b==9 || a*b==9 || a==9*b;\n    cout<<(ok?\"Nine\":\"Nein\")<<'\\n';\n}\n```\n\n### 易错点\n\n减法与除法有顺序，只检查题目给出的 $A-B$ 与 $A/B$。\n\n",
+          "images": {}
+        }
+      },
+      "reviewNotes": [
+        "审阅已足够：两版均保持不变。默认版已将精确商等于九改写为 A=9B，并以 19/2=9.5 排除整数除法误判。",
+        "详细版逐项手算 19,2 的四个结果，明确 B>0 的等价条件、逻辑或表示至少一个，以及 2,11 不能倒过来减。真实代码四个候选覆盖题面且整数乘法不溢出。"
+      ],
+      "validation": {
+        "compiledOriginalCpp": true,
+        "identicalCppInBothVariants": true,
+        "cppSha256": "f2f4aba1e185bbaacfc3b0de4b567d2e7671cca5886fb8002c89c9b75167945a",
+        "officialSamples": 4,
+        "distinctBoundaryCases": 10,
+        "distinctSeededRandomCases": 40,
+        "actualProgramRuns": 54,
+        "allTestInputsSatisfyOriginalConstraints": true,
+        "independentModelCases": 10000,
+        "reviewDisposition": "already_sufficient",
+        "changedVariants": [],
+        "originalReferenceProgramsAndImagesPreserved": true,
+        "originalFoundationBlocksUnchanged": true,
+        "evidenceDirectory": ".backups/editorial-reasoning-20261022/editorials_arrays_round2",
+        "render": {
+          "variantPages": 8,
+          "widths": [
+            1440,
+            390
+          ],
+          "themes": [
+            "light",
+            "dark"
+          ],
+          "foundationsInitiallyCollapsed": true,
+          "noKatexErrorsMissingImagesOrPageOverflow": true,
+          "batchEvidence": {
+            "pages": 80,
+            "disclosures": 104,
+            "preservedFoundationImageLoads": 8,
+            "screenshots": 44,
+            "errors": []
+          }
+        }
+      }
+    },
+    {
+      "problemId": "ABC 472::A",
+      "variants": {
+        "solutions": {
+          "beforeMarkdownSha256": "bcc2f6e75f22b99a8c86d9e1d7fa4d2609d4288dff544f663107f24106c42d74",
+          "markdown": "## A. A\n\n### 题意\n\n保留大写字符串中的 A，将其他字符全部替换为句点。\n\n<!-- reusable-foundations:start -->\n\n### 从零讲：枚举与模拟：让代码和允许的动作一一对应\n\n枚举是系统地检查所有候选；模拟是按题目规则推进状态。先写清一个候选是什么、有哪些动作、执行后哪些量改变，再决定循环边界。\n\n例如从集合 $\\{1,2,3\\}$ 中选两个不同数：有序选择可枚举 $(i,j)$ 且 $i\\ne j$，共六项；如果只关心无序的一对，就规定 $i<j$，得到 $(1,2)$、$(1,3)$、$(2,3)$，避免重复计数。同一个双循环，边界表达的是不同对象。\n\n```cxx\nfor (int i = 0; i < n; ++i)\n    for (int j = i + 1; j < n; ++j) {\n        // 每一对不同位置恰好出现一次\n    }\n```\n\n模拟例如计数器初始为零，依次读动作“加二、减一、加二”，状态为 $0\\to2\\to1\\to3$。每一步都只读取该时刻允许的信息；若规则要求同时更新多个量，应先用旧状态算全部新量，不能让后一个更新误读前一个新值。\n\n时间要数实际候选数和每个候选的工作。双循环可能是 $O(n^2)$，枚举长度为 $k$ 的二进制选择是 $O(2^k)$；候选少但每次又扫描全数组，也要乘上扫描成本。空间取决于是否需要保存历史。\n\n全枚举的优势是思路直接，容易作为独立校验程序。剪枝必须证明被略去的分支不可能合法或更优，不能只因一个小例子没遇到答案就删候选。若直接枚举超时，先找重复工作、对称性、可维护的量或单调边界，再选择优化方法。\n\n### 从零讲：string：字符、下标与子串\n\n`string` 保存字符序列。`string s=\"abca\";` 的长度为四，下标从零开始，`s[0]=='a'`、`s[3]=='a'`。字符用单引号，字符串用双引号；二者类型不同。需要 `<string>`。\n\n`cin >> s` 读到空白停止；整行含空格时使用 `getline`，并留意前一次格式化输入残留的换行。`s.size()` 是字符单元数量，不一定等于 UTF-8 中文字数；竞赛英文小写字母题通常一个字符对应一个单元。\n\n```cxx\nstring s = \"abca\";\nstring middle = s.substr(1, 2); // 从下标 1 开始取 2 个字符，得到 bc\nsize_t pos = s.find('c');       // 得到 2；找不到是 string::npos\nif (pos != string::npos) cout << s[pos];\n```\n\n`substr(start,length)` 的第二项是长度，不是右端点。普通下标访问为 $O(1)$；复制长为 $k$ 的子串需要 $O(k)$ 时间和空间，循环里反复截取可能累积成平方成本。字符串比较按第一个不同字符决定字典序，公共前缀可能需要线性比较。\n\n常见字符转数字是 `c-'0'`，前提 `c` 在 `'0'` 到 `'9'`。修改原串可用 `for(char& c:s)`，只读使用 `char c`。`reverse(s.begin(),s.end())` 原地翻转；若还需要原串，应先复制。空串不能访问首尾，尾后位置不能当普通字符读取。\n\n<!-- reusable-foundations:end -->\n\n### 思路\n\n逐字符扫描，遇到 A 原样保留，否则改为字符 .。替换不改变字符串长度，时间 $O(|S|)$，空间 $O(|S|)$。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nstring s; cin>>s; for(char &c:s) if(c!='A') c='.';\n    cout<<s<<'\\n';\n}\n```\n\n### 易错点\n\n每个非 A 字符只替换成一个句点。",
+          "images": {}
+        },
+        "detailed_solutions": {
+          "beforeMarkdownSha256": "d4f897d155de98b4bd6d3ccdf75fd34212b70414c3ecc7d5ef94eeb790084fdc",
+          "markdown": "## A. A\n\n### 题意\n\n保留大写字符串中的 A，将其他字符全部替换为句点。\n\n<!-- reusable-foundations:start -->\n\n### 从零讲：枚举与模拟：让代码和允许的动作一一对应\n\n枚举是系统地检查所有候选；模拟是按题目规则推进状态。先写清一个候选是什么、有哪些动作、执行后哪些量改变，再决定循环边界。\n\n例如从集合 $\\{1,2,3\\}$ 中选两个不同数：有序选择可枚举 $(i,j)$ 且 $i\\ne j$，共六项；如果只关心无序的一对，就规定 $i<j$，得到 $(1,2)$、$(1,3)$、$(2,3)$，避免重复计数。同一个双循环，边界表达的是不同对象。\n\n```cxx\nfor (int i = 0; i < n; ++i)\n    for (int j = i + 1; j < n; ++j) {\n        // 每一对不同位置恰好出现一次\n    }\n```\n\n模拟例如计数器初始为零，依次读动作“加二、减一、加二”，状态为 $0\\to2\\to1\\to3$。每一步都只读取该时刻允许的信息；若规则要求同时更新多个量，应先用旧状态算全部新量，不能让后一个更新误读前一个新值。\n\n时间要数实际候选数和每个候选的工作。双循环可能是 $O(n^2)$，枚举长度为 $k$ 的二进制选择是 $O(2^k)$；候选少但每次又扫描全数组，也要乘上扫描成本。空间取决于是否需要保存历史。\n\n全枚举的优势是思路直接，容易作为独立校验程序。剪枝必须证明被略去的分支不可能合法或更优，不能只因一个小例子没遇到答案就删候选。若直接枚举超时，先找重复工作、对称性、可维护的量或单调边界，再选择优化方法。\n\n### 从零讲：string：字符、下标与子串\n\n`string` 保存字符序列。`string s=\"abca\";` 的长度为四，下标从零开始，`s[0]=='a'`、`s[3]=='a'`。字符用单引号，字符串用双引号；二者类型不同。需要 `<string>`。\n\n`cin >> s` 读到空白停止；整行含空格时使用 `getline`，并留意前一次格式化输入残留的换行。`s.size()` 是字符单元数量，不一定等于 UTF-8 中文字数；竞赛英文小写字母题通常一个字符对应一个单元。\n\n```cxx\nstring s = \"abca\";\nstring middle = s.substr(1, 2); // 从下标 1 开始取 2 个字符，得到 bc\nsize_t pos = s.find('c');       // 得到 2；找不到是 string::npos\nif (pos != string::npos) cout << s[pos];\n```\n\n`substr(start,length)` 的第二项是长度，不是右端点。普通下标访问为 $O(1)$；复制长为 $k$ 的子串需要 $O(k)$ 时间和空间，循环里反复截取可能累积成平方成本。字符串比较按第一个不同字符决定字典序，公共前缀可能需要线性比较。\n\n常见字符转数字是 `c-'0'`，前提 `c` 在 `'0'` 到 `'9'`。修改原串可用 `for(char& c:s)`，只读使用 `char c`。`reverse(s.begin(),s.end())` 原地翻转；若还需要原串，应先复制。空串不能访问首尾，尾后位置不能当普通字符读取。\n\n<!-- reusable-foundations:end -->\n\n### 思路\n\n例如 ABACA 应变成 A.A.A：每个 A 保留在原位置，其余位置各放一个句点。字符之间没有相互影响，因此不需要先统计 A 的数量，也不应删除其它字符导致位置移动。\n\n从左到右访问每个字符，若不等于 A，就把该字符直接改成句点；等于 A 则不做修改。代码使用字符引用进行原地替换，所以遍历结束后输出原字符串容器即可。循环处理过的前缀已经满足输出规则，尚未处理的后缀保留原值，直到所有位置处理完毕，整个字符串便是答案。全是 A 时原样输出，没有 A 时输出等长的句点串。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nstring s; cin>>s; for(char &c:s) if(c!='A') c='.';\n    cout<<s<<'\\n';\n}\n```\n\n### 易错点\n\n每个非 A 字符只替换成一个句点。\n\n",
+          "images": {}
+        }
+      },
+      "reviewNotes": [
+        "审阅已足够：两版均保持不变。默认版就是独立逐字符规则：A 保持、其他写一个句点，且明确长度不变；没有额外的抽象选择。",
+        "详细版已有 ABACA 到 A.A.A 的完整手算、字符引用实际写回原串的解释、已处理前缀不变量和全 A/无 A 边界。基础课也已解释 for(char& c:s) 与只读值的区别。"
+      ],
+      "validation": {
+        "compiledOriginalCpp": true,
+        "identicalCppInBothVariants": true,
+        "cppSha256": "4d519a154cd84d5d731b5ea51e1fe6fc54afbc750a0fcefb6ae83f3487659f2a",
+        "officialSamples": 3,
+        "distinctBoundaryCases": 9,
+        "distinctSeededRandomCases": 40,
+        "actualProgramRuns": 52,
+        "allTestInputsSatisfyOriginalConstraints": true,
+        "independentModelCases": 1092,
+        "reviewDisposition": "already_sufficient",
+        "changedVariants": [],
+        "originalReferenceProgramsAndImagesPreserved": true,
+        "originalFoundationBlocksUnchanged": true,
+        "evidenceDirectory": ".backups/editorial-reasoning-20261022/editorials_arrays_round2",
+        "render": {
+          "variantPages": 8,
+          "widths": [
+            1440,
+            390
+          ],
+          "themes": [
+            "light",
+            "dark"
+          ],
+          "foundationsInitiallyCollapsed": true,
+          "noKatexErrorsMissingImagesOrPageOverflow": true,
+          "batchEvidence": {
+            "pages": 80,
+            "disclosures": 104,
+            "preservedFoundationImageLoads": 8,
+            "screenshots": 44,
+            "errors": []
+          }
+        }
+      }
+    },
+    {
+      "problemId": "ABC 473::A",
+      "variants": {
+        "solutions": {
+          "beforeMarkdownSha256": "a8c43c2c9589a19de8eeb3170377133c3e15db851c9fe85d32a9fc2ab4881519",
+          "markdown": "## A. Second Half Sum\n\n### 题意\n\n数组长度 $N$ 为偶数，求后半段 $A_{N/2+1},\\ldots,A_N$ 的和。\n\n<!-- reusable-foundations:start -->\n\n### 从零讲：枚举与模拟：让代码和允许的动作一一对应\n\n枚举是系统地检查所有候选；模拟是按题目规则推进状态。先写清一个候选是什么、有哪些动作、执行后哪些量改变，再决定循环边界。\n\n例如从集合 $\\{1,2,3\\}$ 中选两个不同数：有序选择可枚举 $(i,j)$ 且 $i\\ne j$，共六项；如果只关心无序的一对，就规定 $i<j$，得到 $(1,2)$、$(1,3)$、$(2,3)$，避免重复计数。同一个双循环，边界表达的是不同对象。\n\n```cxx\nfor (int i = 0; i < n; ++i)\n    for (int j = i + 1; j < n; ++j) {\n        // 每一对不同位置恰好出现一次\n    }\n```\n\n模拟例如计数器初始为零，依次读动作“加二、减一、加二”，状态为 $0\\to2\\to1\\to3$。每一步都只读取该时刻允许的信息；若规则要求同时更新多个量，应先用旧状态算全部新量，不能让后一个更新误读前一个新值。\n\n时间要数实际候选数和每个候选的工作。双循环可能是 $O(n^2)$，枚举长度为 $k$ 的二进制选择是 $O(2^k)$；候选少但每次又扫描全数组，也要乘上扫描成本。空间取决于是否需要保存历史。\n\n全枚举的优势是思路直接，容易作为独立校验程序。剪枝必须证明被略去的分支不可能合法或更优，不能只因一个小例子没遇到答案就删候选。若直接枚举超时，先找重复工作、对称性、可维护的量或单调边界，再选择优化方法。\n\n<!-- reusable-foundations:end -->\n\n### 思路\n\n依次读入，使用 0 起下标时只累加 $i\\ge N/2$ 的数。例如四个数的后半段是第三、第四个。时间 $O(N)$，额外空间 $O(1)$。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nint n;cin>>n;int ans=0;\n    for(int i=0,x;i<n;i++){cin>>x;if(i>=n/2)ans+=x;}\n    cout<<ans<<'\\n';\n}\n```\n\n### 易错点\n\n分界右侧的第一个元素必须计入，前半段正好有 $N/2$ 个。",
+          "images": {}
+        },
+        "detailed_solutions": {
+          "beforeMarkdownSha256": "bd59e3c8f4851e470e99b665255b022d3482a75d0e8da420cd8a1b8114559915",
+          "markdown": "## A. Second Half Sum\n\n### 题意\n\n数组长度 $N$ 为偶数，求后半段 $A_{N/2+1},\\ldots,A_N$ 的和。\n\n<!-- reusable-foundations:start -->\n\n### 从零讲：枚举与模拟：让代码和允许的动作一一对应\n\n枚举是系统地检查所有候选；模拟是按题目规则推进状态。先写清一个候选是什么、有哪些动作、执行后哪些量改变，再决定循环边界。\n\n例如从集合 $\\{1,2,3\\}$ 中选两个不同数：有序选择可枚举 $(i,j)$ 且 $i\\ne j$，共六项；如果只关心无序的一对，就规定 $i<j$，得到 $(1,2)$、$(1,3)$、$(2,3)$，避免重复计数。同一个双循环，边界表达的是不同对象。\n\n```cxx\nfor (int i = 0; i < n; ++i)\n    for (int j = i + 1; j < n; ++j) {\n        // 每一对不同位置恰好出现一次\n    }\n```\n\n模拟例如计数器初始为零，依次读动作“加二、减一、加二”，状态为 $0\\to2\\to1\\to3$。每一步都只读取该时刻允许的信息；若规则要求同时更新多个量，应先用旧状态算全部新量，不能让后一个更新误读前一个新值。\n\n时间要数实际候选数和每个候选的工作。双循环可能是 $O(n^2)$，枚举长度为 $k$ 的二进制选择是 $O(2^k)$；候选少但每次又扫描全数组，也要乘上扫描成本。空间取决于是否需要保存历史。\n\n全枚举的优势是思路直接，容易作为独立校验程序。剪枝必须证明被略去的分支不可能合法或更优，不能只因一个小例子没遇到答案就删候选。若直接枚举超时，先找重复工作、对称性、可维护的量或单调边界，再选择优化方法。\n\n<!-- reusable-foundations:end -->\n\n### 思路\n\n长度为六的数组，前半段是第 $1,2,3$ 项，后半段是第 $4,5,6$ 项。代码使用从零开始的下标，后半段对应 $3,4,5$，所以判断条件是 $i\\ge N/2$。\n\n从头到尾读入所有 $N$ 个数，只有满足该下标条件的数才累加到答案。不能跳过前半段的输入，否则输入位置会错乱；但前半段读完即可丢弃，后半段也只需累计，不需要存储整个数组。因为 $N$ 保证为偶数，两部分都恰好有 $N/2$ 项，不存在中间元素归属的问题。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nint n;cin>>n;int ans=0;\n    for(int i=0,x;i<n;i++){cin>>x;if(i>=n/2)ans+=x;}\n    cout<<ans<<'\\n';\n}\n```\n\n### 易错点\n\n分界右侧的第一个元素必须计入，前半段正好有 $N/2$ 个。\n\n",
+          "images": {}
+        }
+      },
+      "reviewNotes": [
+        "审阅已足够：两版均保持不变。默认版已将四项的后半段具体定位为第三、第四项，结合零下标 i>=N/2，边界对象明确。",
+        "详细版将六项的一编号 4/5/6 与零编号 3/4/5 逐项对齐，并解释全部输入必须读取、只有后半累计、偶数保证恰好各 N/2 项；每个目标元素在唯一一轮 ans+=x 中出现，不必机械追加同义证明。"
+      ],
+      "validation": {
+        "compiledOriginalCpp": true,
+        "identicalCppInBothVariants": true,
+        "cppSha256": "d4487cca902b2f68838fde576b4189e9809ca63a2609f3716e4ed30d87ae6386",
+        "officialSamples": 3,
+        "distinctBoundaryCases": 6,
+        "distinctSeededRandomCases": 40,
+        "actualProgramRuns": 49,
+        "allTestInputsSatisfyOriginalConstraints": true,
+        "independentModelCases": 7380,
+        "reviewDisposition": "already_sufficient",
+        "changedVariants": [],
+        "originalReferenceProgramsAndImagesPreserved": true,
+        "originalFoundationBlocksUnchanged": true,
+        "evidenceDirectory": ".backups/editorial-reasoning-20261022/editorials_arrays_round2",
+        "render": {
+          "variantPages": 8,
+          "widths": [
+            1440,
+            390
+          ],
+          "themes": [
+            "light",
+            "dark"
+          ],
+          "foundationsInitiallyCollapsed": true,
+          "noKatexErrorsMissingImagesOrPageOverflow": true,
+          "batchEvidence": {
+            "pages": 80,
+            "disclosures": 104,
+            "preservedFoundationImageLoads": 8,
+            "screenshots": 44,
+            "errors": []
+          }
+        }
+      }
+    },
+    {
+      "problemId": "ABC 474::A",
+      "variants": {
+        "solutions": {
+          "beforeMarkdownSha256": "14de17e19c583c7f4b5111ef6bf59bc986526e7a0374f9d643a19afddea2af0d",
+          "markdown": "## A. Not X\n\n### 题意\n\n给出 $X\\in\\{1,2,3\\}$，输出这个集合中任意一个与 $X$ 不同的整数。\n\n<!-- reusable-foundations:start -->\n\n### 从零讲：构造：找到一份合法对象，并解释它为何总能生成\n\n构造题允许输出任意满足要求的对象。先区分“只需合法”与“还要求最小、最多或字典序最小”，不要额外发明优化目标。\n\n例如要把从一到 $2k$ 的数字配成 $k$ 对，使每对和相同，可以配 $(1,2k),(2,2k-1),\\ldots,(k,k+1)$，每对都为 $2k+1$。数字不重复，因为两半各用一次；也没有漏数。这个一般描述能直接转成循环。\n\n![两端相向配对，每个数恰被使用一次且每对和相同](assets/foundations/construction.svg)\n\n如果还要求最大化某项，先给任何方案都不能超越的上界，再展示构造确实达到上界；没有最优性要求时只证明合法和能完成即可。\n\n一个完整构造应能回答：什么时候无解；输出对象是什么；每次允许的动作如何执行；后续所需的条件有没有被前面的动作破坏；数量、范围和边界是否满足。操作题还要区分目标排列和真正输出的操作序列。\n\n验证构造不能只和另一程序逐字比较，因为合法答案可有多份。应将结果代回题目条件：检查长度、元素多重集合、限制、每步前后状态及目标。复杂度按生成和校验成本计算，输出本身有 $k$ 项就至少需要 $O(k)$ 时间。\n\n<!-- reusable-foundations:end -->\n\n### 思路\n\n若 $X=1$ 就输出 $2$，其他情况输出 $1$。两种分支都保证范围正确且不等于输入，时间与空间均为 $O(1)$。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nint x;cin>>x;cout<<(x==1?2:1)<<'\\n';\n}\n```\n\n### 易错点\n\n答案不唯一，不需要与样例输出完全相同。",
+          "images": {
+            "assets/foundations/construction.svg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3NjAiIGhlaWdodD0iMzMwIiB2aWV3Qm94PSIwIDAgNzYwIDMzMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9InRpdGxlIj48dGl0bGUgaWQ9InRpdGxlIj7kuKTnq6/phY3lr7nvvJrmr4/kuKrnvJblj7fmgbDnlKjkuIDmrKE8L3RpdGxlPg0KPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgcng9IjEyIiBmaWxsPSIjZmZmIi8+DQo8ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLCBOb3RvIFNhbnMgQ0pLIFNDLCBzYW5zLXNlcmlmIiBmaWxsPSIjMjQzNDQ5Ij4NCjx0ZXh0IHg9IjI4IiB5PSIzNiIgZmlsbD0iIzI0MzQ0OSIgZm9udC1zaXplPSIyMyIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iYm9sZCI+5Lik56uv6YWN5a+577ya5q+P5Liq57yW5Y+35oGw55So5LiA5qyhPC90ZXh0Pg0KPHJlY3QgeD0iOTAiIHk9IjIyMCIgd2lkdGg9Ijk3IiBoZWlnaHQ9IjQ4IiByeD0iNyIgZmlsbD0iI2VkZjVmZiIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjIiLz4NCjx0ZXh0IHg9IjEzOC41IiB5PSIyNTEuMCIgZmlsbD0iIzIzNjVhYiIgZm9udC1zaXplPSIyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+MTwvdGV4dD4NCjxyZWN0IHg9IjE5MCIgeT0iMjIwIiB3aWR0aD0iOTciIGhlaWdodD0iNDgiIHJ4PSI3IiBmaWxsPSIjZWRmNWZmIiBzdHJva2U9IiMyMzY1YWIiIHN0cm9rZS13aWR0aD0iMiIvPg0KPHRleHQgeD0iMjM4LjUiIHk9IjI1MS4wIiBmaWxsPSIjMjM2NWFiIiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj4yPC90ZXh0Pg0KPHJlY3QgeD0iMjkwIiB5PSIyMjAiIHdpZHRoPSI5NyIgaGVpZ2h0PSI0OCIgcng9IjciIGZpbGw9IiNlZGY1ZmYiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIyIi8+DQo8dGV4dCB4PSIzMzguNSIgeT0iMjUxLjAiIGZpbGw9IiMyMzY1YWIiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPjM8L3RleHQ+DQo8cmVjdCB4PSIzOTAiIHk9IjIyMCIgd2lkdGg9Ijk3IiBoZWlnaHQ9IjQ4IiByeD0iNyIgZmlsbD0iI2VkZjVmZiIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjIiLz4NCjx0ZXh0IHg9IjQzOC41IiB5PSIyNTEuMCIgZmlsbD0iIzIzNjVhYiIgZm9udC1zaXplPSIyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+NDwvdGV4dD4NCjxyZWN0IHg9IjQ5MCIgeT0iMjIwIiB3aWR0aD0iOTciIGhlaWdodD0iNDgiIHJ4PSI3IiBmaWxsPSIjZWRmNWZmIiBzdHJva2U9IiMyMzY1YWIiIHN0cm9rZS13aWR0aD0iMiIvPg0KPHRleHQgeD0iNTM4LjUiIHk9IjI1MS4wIiBmaWxsPSIjMjM2NWFiIiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj41PC90ZXh0Pg0KPHJlY3QgeD0iNTkwIiB5PSIyMjAiIHdpZHRoPSI5NyIgaGVpZ2h0PSI0OCIgcng9IjciIGZpbGw9IiNlZGY1ZmYiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIyIi8+DQo8dGV4dCB4PSI2MzguNSIgeT0iMjUxLjAiIGZpbGw9IiMyMzY1YWIiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPjY8L3RleHQ+DQo8bGluZSB4MT0iMTM4IiB5MT0iMjIwIiB4Mj0iMTM4IiB5Mj0iODUiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIzIi8+DQo8bGluZSB4MT0iMTM4IiB5MT0iODUiIHgyPSI2MzgiIHkyPSI4NSIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjMiLz4NCjxsaW5lIHgxPSI2MzgiIHkxPSI4NSIgeDI9IjYzOCIgeTI9IjIyMCIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjMiLz4NCjx0ZXh0IHg9IjM4OC4wIiB5PSI3NSIgZmlsbD0iIzEyODA1YyIgZm9udC1zaXplPSIxOSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+5ZKM5Li6IDc8L3RleHQ+DQo8bGluZSB4MT0iMjM4IiB5MT0iMjIwIiB4Mj0iMjM4IiB5Mj0iMTMzIiBzdHJva2U9IiMyMzY1YWIiIHN0cm9rZS13aWR0aD0iMyIvPg0KPGxpbmUgeDE9IjIzOCIgeTE9IjEzMyIgeDI9IjUzOCIgeTI9IjEzMyIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjMiLz4NCjxsaW5lIHgxPSI1MzgiIHkxPSIxMzMiIHgyPSI1MzgiIHkyPSIyMjAiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIzIi8+DQo8dGV4dCB4PSIzODguMCIgeT0iMTIzIiBmaWxsPSIjMTI4MDVjIiBmb250LXNpemU9IjE5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj7lkozkuLogNzwvdGV4dD4NCjxsaW5lIHgxPSIzMzgiIHkxPSIyMjAiIHgyPSIzMzgiIHkyPSIxODEiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIzIi8+DQo8bGluZSB4MT0iMzM4IiB5MT0iMTgxIiB4Mj0iNDM4IiB5Mj0iMTgxIiBzdHJva2U9IiMyMzY1YWIiIHN0cm9rZS13aWR0aD0iMyIvPg0KPGxpbmUgeDE9IjQzOCIgeTE9IjE4MSIgeDI9IjQzOCIgeTI9IjIyMCIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjMiLz4NCjx0ZXh0IHg9IjM4OC4wIiB5PSIxNzEiIGZpbGw9IiMxMjgwNWMiIGZvbnQtc2l6ZT0iMTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPuWSjOS4uiA3PC90ZXh0Pg0KPC9nPjwvc3ZnPg0K"
+          }
+        },
+        "detailed_solutions": {
+          "beforeMarkdownSha256": "45f8faf480c0bdbcee8e08440d2bc2ed7195a5ae8d9dfa8b9f3fd726b963a140",
+          "markdown": "## A. Not X\n\n### 题意\n\n给出 $X\\in\\{1,2,3\\}$，输出这个集合中任意一个与 $X$ 不同的整数。\n\n<!-- reusable-foundations:start -->\n\n### 从零讲：构造：找到一份合法对象，并解释它为何总能生成\n\n构造题允许输出任意满足要求的对象。先区分“只需合法”与“还要求最小、最多或字典序最小”，不要额外发明优化目标。\n\n例如要把从一到 $2k$ 的数字配成 $k$ 对，使每对和相同，可以配 $(1,2k),(2,2k-1),\\ldots,(k,k+1)$，每对都为 $2k+1$。数字不重复，因为两半各用一次；也没有漏数。这个一般描述能直接转成循环。\n\n![两端相向配对，每个数恰被使用一次且每对和相同](assets/foundations/construction.svg)\n\n如果还要求最大化某项，先给任何方案都不能超越的上界，再展示构造确实达到上界；没有最优性要求时只证明合法和能完成即可。\n\n一个完整构造应能回答：什么时候无解；输出对象是什么；每次允许的动作如何执行；后续所需的条件有没有被前面的动作破坏；数量、范围和边界是否满足。操作题还要区分目标排列和真正输出的操作序列。\n\n验证构造不能只和另一程序逐字比较，因为合法答案可有多份。应将结果代回题目条件：检查长度、元素多重集合、限制、每步前后状态及目标。复杂度按生成和校验成本计算，输出本身有 $k$ 项就至少需要 $O(k)$ 时间。\n\n<!-- reusable-foundations:end -->\n\n### 思路\n\n输入为 $1$ 时，可以输出 $2$ 或 $3$；输入为 $2$ 或 $3$ 时，输出 $1$ 都合法。因此只需预先选定一种稳定的构造，不必列出所有可选答案。\n\n代码判断输入是否等于 $1$：是则输出 $2$，否则输出 $1$。第一种分支显然与输入不同；第二种分支已知输入不是 $1$，也保证不同。两个输出都属于允许集合 $\\{1,2,3\\}$，所以范围和不相等两个要求同时满足。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nint x;cin>>x;cout<<(x==1?2:1)<<'\\n';\n}\n```\n\n### 易错点\n\n答案不唯一，不需要与样例输出完全相同。\n\n",
+          "images": {
+            "assets/foundations/construction.svg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3NjAiIGhlaWdodD0iMzMwIiB2aWV3Qm94PSIwIDAgNzYwIDMzMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9InRpdGxlIj48dGl0bGUgaWQ9InRpdGxlIj7kuKTnq6/phY3lr7nvvJrmr4/kuKrnvJblj7fmgbDnlKjkuIDmrKE8L3RpdGxlPg0KPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgcng9IjEyIiBmaWxsPSIjZmZmIi8+DQo8ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLCBOb3RvIFNhbnMgQ0pLIFNDLCBzYW5zLXNlcmlmIiBmaWxsPSIjMjQzNDQ5Ij4NCjx0ZXh0IHg9IjI4IiB5PSIzNiIgZmlsbD0iIzI0MzQ0OSIgZm9udC1zaXplPSIyMyIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iYm9sZCI+5Lik56uv6YWN5a+577ya5q+P5Liq57yW5Y+35oGw55So5LiA5qyhPC90ZXh0Pg0KPHJlY3QgeD0iOTAiIHk9IjIyMCIgd2lkdGg9Ijk3IiBoZWlnaHQ9IjQ4IiByeD0iNyIgZmlsbD0iI2VkZjVmZiIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjIiLz4NCjx0ZXh0IHg9IjEzOC41IiB5PSIyNTEuMCIgZmlsbD0iIzIzNjVhYiIgZm9udC1zaXplPSIyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+MTwvdGV4dD4NCjxyZWN0IHg9IjE5MCIgeT0iMjIwIiB3aWR0aD0iOTciIGhlaWdodD0iNDgiIHJ4PSI3IiBmaWxsPSIjZWRmNWZmIiBzdHJva2U9IiMyMzY1YWIiIHN0cm9rZS13aWR0aD0iMiIvPg0KPHRleHQgeD0iMjM4LjUiIHk9IjI1MS4wIiBmaWxsPSIjMjM2NWFiIiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj4yPC90ZXh0Pg0KPHJlY3QgeD0iMjkwIiB5PSIyMjAiIHdpZHRoPSI5NyIgaGVpZ2h0PSI0OCIgcng9IjciIGZpbGw9IiNlZGY1ZmYiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIyIi8+DQo8dGV4dCB4PSIzMzguNSIgeT0iMjUxLjAiIGZpbGw9IiMyMzY1YWIiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPjM8L3RleHQ+DQo8cmVjdCB4PSIzOTAiIHk9IjIyMCIgd2lkdGg9Ijk3IiBoZWlnaHQ9IjQ4IiByeD0iNyIgZmlsbD0iI2VkZjVmZiIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjIiLz4NCjx0ZXh0IHg9IjQzOC41IiB5PSIyNTEuMCIgZmlsbD0iIzIzNjVhYiIgZm9udC1zaXplPSIyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+NDwvdGV4dD4NCjxyZWN0IHg9IjQ5MCIgeT0iMjIwIiB3aWR0aD0iOTciIGhlaWdodD0iNDgiIHJ4PSI3IiBmaWxsPSIjZWRmNWZmIiBzdHJva2U9IiMyMzY1YWIiIHN0cm9rZS13aWR0aD0iMiIvPg0KPHRleHQgeD0iNTM4LjUiIHk9IjI1MS4wIiBmaWxsPSIjMjM2NWFiIiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj41PC90ZXh0Pg0KPHJlY3QgeD0iNTkwIiB5PSIyMjAiIHdpZHRoPSI5NyIgaGVpZ2h0PSI0OCIgcng9IjciIGZpbGw9IiNlZGY1ZmYiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIyIi8+DQo8dGV4dCB4PSI2MzguNSIgeT0iMjUxLjAiIGZpbGw9IiMyMzY1YWIiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPjY8L3RleHQ+DQo8bGluZSB4MT0iMTM4IiB5MT0iMjIwIiB4Mj0iMTM4IiB5Mj0iODUiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIzIi8+DQo8bGluZSB4MT0iMTM4IiB5MT0iODUiIHgyPSI2MzgiIHkyPSI4NSIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjMiLz4NCjxsaW5lIHgxPSI2MzgiIHkxPSI4NSIgeDI9IjYzOCIgeTI9IjIyMCIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjMiLz4NCjx0ZXh0IHg9IjM4OC4wIiB5PSI3NSIgZmlsbD0iIzEyODA1YyIgZm9udC1zaXplPSIxOSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+5ZKM5Li6IDc8L3RleHQ+DQo8bGluZSB4MT0iMjM4IiB5MT0iMjIwIiB4Mj0iMjM4IiB5Mj0iMTMzIiBzdHJva2U9IiMyMzY1YWIiIHN0cm9rZS13aWR0aD0iMyIvPg0KPGxpbmUgeDE9IjIzOCIgeTE9IjEzMyIgeDI9IjUzOCIgeTI9IjEzMyIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjMiLz4NCjxsaW5lIHgxPSI1MzgiIHkxPSIxMzMiIHgyPSI1MzgiIHkyPSIyMjAiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIzIi8+DQo8dGV4dCB4PSIzODguMCIgeT0iMTIzIiBmaWxsPSIjMTI4MDVjIiBmb250LXNpemU9IjE5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj7lkozkuLogNzwvdGV4dD4NCjxsaW5lIHgxPSIzMzgiIHkxPSIyMjAiIHgyPSIzMzgiIHkyPSIxODEiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIzIi8+DQo8bGluZSB4MT0iMzM4IiB5MT0iMTgxIiB4Mj0iNDM4IiB5Mj0iMTgxIiBzdHJva2U9IiMyMzY1YWIiIHN0cm9rZS13aWR0aD0iMyIvPg0KPGxpbmUgeDE9IjQzOCIgeTE9IjE4MSIgeDI9IjQzOCIgeTI9IjIyMCIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjMiLz4NCjx0ZXh0IHg9IjM4OC4wIiB5PSIxNzEiIGZpbGw9IiMxMjgwNWMiIGZvbnQtc2l6ZT0iMTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPuWSjOS4uiA3PC90ZXh0Pg0KPC9nPjwvc3ZnPg0K"
+          }
+        }
+      },
+      "reviewNotes": [
+        "审阅已足够：两版均保持不变。默认版给出 X=1 输出二、其他输出一，并明确同时满足范围和不相等，无优化目标。",
+        "详细版已列出输入一时可选二/三、输入二/三时选一，解释第二分支已有 X!=1 的前提；有限三种输入完整覆盖，样例不要求逐字相同。"
+      ],
+      "validation": {
+        "compiledOriginalCpp": true,
+        "identicalCppInBothVariants": true,
+        "cppSha256": "668b6f2410f30dc28360412222d8f06b459b576595b3d39132a1db6eed1e6177",
+        "officialSamples": 3,
+        "distinctBoundaryCases": 0,
+        "distinctSeededRandomCases": 0,
+        "actualProgramRuns": 3,
+        "allTestInputsSatisfyOriginalConstraints": true,
+        "entireAllowedInputDomainRun": true,
+        "independentModelCases": 3,
+        "reviewDisposition": "already_sufficient",
+        "changedVariants": [],
+        "originalReferenceProgramsAndImagesPreserved": true,
+        "originalFoundationBlocksUnchanged": true,
+        "evidenceDirectory": ".backups/editorial-reasoning-20261022/editorials_arrays_round2",
+        "render": {
+          "variantPages": 8,
+          "widths": [
+            1440,
+            390
+          ],
+          "themes": [
+            "light",
+            "dark"
+          ],
+          "foundationsInitiallyCollapsed": true,
+          "noKatexErrorsMissingImagesOrPageOverflow": true,
+          "batchEvidence": {
+            "pages": 80,
+            "disclosures": 104,
+            "preservedFoundationImageLoads": 8,
+            "screenshots": 44,
+            "errors": []
+          }
+        }
+      }
+    },
+    {
+      "problemId": "ABC 475::A",
+      "variants": {
+        "solutions": {
+          "beforeMarkdownSha256": "585ecbdecce2388eaef7ed1c00ca7dc41f74dc707fc9bd2a5bdf9be3ec147f24",
+          "markdown": "## A. mnclr\n\n### 题意\n\n在小写字符串的每对相邻字符之间插入一个 $o$。\n\n<!-- reusable-foundations:start -->\n\n### 从零讲：枚举与模拟：让代码和允许的动作一一对应\n\n枚举是系统地检查所有候选；模拟是按题目规则推进状态。先写清一个候选是什么、有哪些动作、执行后哪些量改变，再决定循环边界。\n\n例如从集合 $\\{1,2,3\\}$ 中选两个不同数：有序选择可枚举 $(i,j)$ 且 $i\\ne j$，共六项；如果只关心无序的一对，就规定 $i<j$，得到 $(1,2)$、$(1,3)$、$(2,3)$，避免重复计数。同一个双循环，边界表达的是不同对象。\n\n```cxx\nfor (int i = 0; i < n; ++i)\n    for (int j = i + 1; j < n; ++j) {\n        // 每一对不同位置恰好出现一次\n    }\n```\n\n模拟例如计数器初始为零，依次读动作“加二、减一、加二”，状态为 $0\\to2\\to1\\to3$。每一步都只读取该时刻允许的信息；若规则要求同时更新多个量，应先用旧状态算全部新量，不能让后一个更新误读前一个新值。\n\n时间要数实际候选数和每个候选的工作。双循环可能是 $O(n^2)$，枚举长度为 $k$ 的二进制选择是 $O(2^k)$；候选少但每次又扫描全数组，也要乘上扫描成本。空间取决于是否需要保存历史。\n\n全枚举的优势是思路直接，容易作为独立校验程序。剪枝必须证明被略去的分支不可能合法或更优，不能只因一个小例子没遇到答案就删候选。若直接枚举超时，先找重复工作、对称性、可维护的量或单调边界，再选择优化方法。\n\n### 从零讲：string：字符、下标与子串\n\n`string` 保存字符序列。`string s=\"abca\";` 的长度为四，下标从零开始，`s[0]=='a'`、`s[3]=='a'`。字符用单引号，字符串用双引号；二者类型不同。需要 `<string>`。\n\n`cin >> s` 读到空白停止；整行含空格时使用 `getline`，并留意前一次格式化输入残留的换行。`s.size()` 是字符单元数量，不一定等于 UTF-8 中文字数；竞赛英文小写字母题通常一个字符对应一个单元。\n\n```cxx\nstring s = \"abca\";\nstring middle = s.substr(1, 2); // 从下标 1 开始取 2 个字符，得到 bc\nsize_t pos = s.find('c');       // 得到 2；找不到是 string::npos\nif (pos != string::npos) cout << s[pos];\n```\n\n`substr(start,length)` 的第二项是长度，不是右端点。普通下标访问为 $O(1)$；复制长为 $k$ 的子串需要 $O(k)$ 时间和空间，循环里反复截取可能累积成平方成本。字符串比较按第一个不同字符决定字典序，公共前缀可能需要线性比较。\n\n常见字符转数字是 `c-'0'`，前提 `c` 在 `'0'` 到 `'9'`。修改原串可用 `for(char& c:s)`，只读使用 `char c`。`reverse(s.begin(),s.end())` 原地翻转；若还需要原串，应先复制。空串不能访问首尾，尾后位置不能当普通字符读取。\n\n<!-- reusable-foundations:end -->\n\n### 思路\n\n按顺序输出字符，从第二个字符开始，在它前面先输出 $o$。例如 abc 变为 aoboc。原来有 $n-1$ 个间隙，所以结果长度为 $2n-1$。时间 $O(n)$，额外空间 $O(1)$。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nstring s;cin>>s;\n    for(int i=0;i<(int)s.size();i++){if(i)cout<<'o';cout<<s[i];}cout<<'\\n';\n}\n```\n\n### 易错点\n\n首字符之前、末字符之后都不添加 $o$。",
+          "images": {}
+        },
+        "detailed_solutions": {
+          "beforeMarkdownSha256": "0cf4961d9a988208918efbf6190a546dbefdb2094bf42d535abd9df48de15f69",
+          "markdown": "## A. mnclr\n\n### 题意\n\n在小写字符串的每对相邻字符之间插入一个 $o$。\n\n<!-- reusable-foundations:start -->\n\n### 从零讲：枚举与模拟：让代码和允许的动作一一对应\n\n枚举是系统地检查所有候选；模拟是按题目规则推进状态。先写清一个候选是什么、有哪些动作、执行后哪些量改变，再决定循环边界。\n\n例如从集合 $\\{1,2,3\\}$ 中选两个不同数：有序选择可枚举 $(i,j)$ 且 $i\\ne j$，共六项；如果只关心无序的一对，就规定 $i<j$，得到 $(1,2)$、$(1,3)$、$(2,3)$，避免重复计数。同一个双循环，边界表达的是不同对象。\n\n```cxx\nfor (int i = 0; i < n; ++i)\n    for (int j = i + 1; j < n; ++j) {\n        // 每一对不同位置恰好出现一次\n    }\n```\n\n模拟例如计数器初始为零，依次读动作“加二、减一、加二”，状态为 $0\\to2\\to1\\to3$。每一步都只读取该时刻允许的信息；若规则要求同时更新多个量，应先用旧状态算全部新量，不能让后一个更新误读前一个新值。\n\n时间要数实际候选数和每个候选的工作。双循环可能是 $O(n^2)$，枚举长度为 $k$ 的二进制选择是 $O(2^k)$；候选少但每次又扫描全数组，也要乘上扫描成本。空间取决于是否需要保存历史。\n\n全枚举的优势是思路直接，容易作为独立校验程序。剪枝必须证明被略去的分支不可能合法或更优，不能只因一个小例子没遇到答案就删候选。若直接枚举超时，先找重复工作、对称性、可维护的量或单调边界，再选择优化方法。\n\n### 从零讲：string：字符、下标与子串\n\n`string` 保存字符序列。`string s=\"abca\";` 的长度为四，下标从零开始，`s[0]=='a'`、`s[3]=='a'`。字符用单引号，字符串用双引号；二者类型不同。需要 `<string>`。\n\n`cin >> s` 读到空白停止；整行含空格时使用 `getline`，并留意前一次格式化输入残留的换行。`s.size()` 是字符单元数量，不一定等于 UTF-8 中文字数；竞赛英文小写字母题通常一个字符对应一个单元。\n\n```cxx\nstring s = \"abca\";\nstring middle = s.substr(1, 2); // 从下标 1 开始取 2 个字符，得到 bc\nsize_t pos = s.find('c');       // 得到 2；找不到是 string::npos\nif (pos != string::npos) cout << s[pos];\n```\n\n`substr(start,length)` 的第二项是长度，不是右端点。普通下标访问为 $O(1)$；复制长为 $k$ 的子串需要 $O(k)$ 时间和空间，循环里反复截取可能累积成平方成本。字符串比较按第一个不同字符决定字典序，公共前缀可能需要线性比较。\n\n常见字符转数字是 `c-'0'`，前提 `c` 在 `'0'` 到 `'9'`。修改原串可用 `for(char& c:s)`，只读使用 `char c`。`reverse(s.begin(),s.end())` 原地翻转；若还需要原串，应先复制。空串不能访问首尾，尾后位置不能当普通字符读取。\n\n<!-- reusable-foundations:end -->\n\n### 思路\n\n字符串 abc 的两个相邻间隙分别在 $a$ 与 $b$、$b$ 与 $c$ 之间，因此答案为 aoboc。要避免在开头或结尾多加字符，可以把每个间隙都交给它右侧的字符负责输出。\n\n依次输出原串字符，从第二个字符开始，先输出一个 $o$，再输出当前字符；第一个字符直接输出。代码中的条件是下标不为零。这样每个内部间隙恰好插入一次，首尾没有额外字符，原字符顺序也完全保留。若原字符本身就是 $o$，仍按同样规则处理，新增的 $o$ 与原来的 $o$ 都应保留，结果长度恒为 $2|S|-1$。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nstring s;cin>>s;\n    for(int i=0;i<(int)s.size();i++){if(i)cout<<'o';cout<<s[i];}cout<<'\\n';\n}\n```\n\n### 易错点\n\n首字符之前、末字符之后都不添加 $o$。\n\n",
+          "images": {}
+        }
+      },
+      "reviewNotes": [
+        "审阅已足够：两版均保持不变。默认版已用 abc 到 aoboc 手算，解释第二字符起先输出 o、原有 n-1 个间隙与结果长度。",
+        "详细版把每个间隙唯一交给右侧字符负责，已证明不漏不重、无首尾多余字符及保留原顺序；实际 if(i) 正对应下标非零，不会按原字符是否为 o 去重。"
+      ],
+      "validation": {
+        "compiledOriginalCpp": true,
+        "identicalCppInBothVariants": true,
+        "cppSha256": "afb7bdfbd18dc2e855282ffd052c88d83fc0b2da273670a09afdcaa028ca4300",
+        "officialSamples": 3,
+        "distinctBoundaryCases": 6,
+        "distinctSeededRandomCases": 38,
+        "actualProgramRuns": 47,
+        "allTestInputsSatisfyOriginalConstraints": true,
+        "independentModelCases": 1089,
+        "reviewDisposition": "already_sufficient",
+        "changedVariants": [],
+        "originalReferenceProgramsAndImagesPreserved": true,
+        "originalFoundationBlocksUnchanged": true,
+        "evidenceDirectory": ".backups/editorial-reasoning-20261022/editorials_arrays_round2",
+        "render": {
+          "variantPages": 8,
+          "widths": [
+            1440,
+            390
+          ],
+          "themes": [
+            "light",
+            "dark"
+          ],
+          "foundationsInitiallyCollapsed": true,
+          "noKatexErrorsMissingImagesOrPageOverflow": true,
+          "batchEvidence": {
+            "pages": 80,
+            "disclosures": 104,
+            "preservedFoundationImageLoads": 8,
+            "screenshots": 44,
+            "errors": []
+          }
+        }
+      }
+    },
+    {
+      "problemId": "ABC 476::A",
+      "variants": {
+        "solutions": {
+          "beforeMarkdownSha256": "cd6cbf60a5fb2b9b6d88fd4162625d55871bea1dbf0f4ce4e117c03a09890a4d",
+          "markdown": "## A. Appender\n\n### 题意\n\n字符串若以 $e$ 结尾，就追加 $r$；否则追加 er，输出结果。\n\n<!-- reusable-foundations:start -->\n\n### 从零讲：枚举与模拟：让代码和允许的动作一一对应\n\n枚举是系统地检查所有候选；模拟是按题目规则推进状态。先写清一个候选是什么、有哪些动作、执行后哪些量改变，再决定循环边界。\n\n例如从集合 $\\{1,2,3\\}$ 中选两个不同数：有序选择可枚举 $(i,j)$ 且 $i\\ne j$，共六项；如果只关心无序的一对，就规定 $i<j$，得到 $(1,2)$、$(1,3)$、$(2,3)$，避免重复计数。同一个双循环，边界表达的是不同对象。\n\n```cxx\nfor (int i = 0; i < n; ++i)\n    for (int j = i + 1; j < n; ++j) {\n        // 每一对不同位置恰好出现一次\n    }\n```\n\n模拟例如计数器初始为零，依次读动作“加二、减一、加二”，状态为 $0\\to2\\to1\\to3$。每一步都只读取该时刻允许的信息；若规则要求同时更新多个量，应先用旧状态算全部新量，不能让后一个更新误读前一个新值。\n\n时间要数实际候选数和每个候选的工作。双循环可能是 $O(n^2)$，枚举长度为 $k$ 的二进制选择是 $O(2^k)$；候选少但每次又扫描全数组，也要乘上扫描成本。空间取决于是否需要保存历史。\n\n全枚举的优势是思路直接，容易作为独立校验程序。剪枝必须证明被略去的分支不可能合法或更优，不能只因一个小例子没遇到答案就删候选。若直接枚举超时，先找重复工作、对称性、可维护的量或单调边界，再选择优化方法。\n\n### 从零讲：string：字符、下标与子串\n\n`string` 保存字符序列。`string s=\"abca\";` 的长度为四，下标从零开始，`s[0]=='a'`、`s[3]=='a'`。字符用单引号，字符串用双引号；二者类型不同。需要 `<string>`。\n\n`cin >> s` 读到空白停止；整行含空格时使用 `getline`，并留意前一次格式化输入残留的换行。`s.size()` 是字符单元数量，不一定等于 UTF-8 中文字数；竞赛英文小写字母题通常一个字符对应一个单元。\n\n```cxx\nstring s = \"abca\";\nstring middle = s.substr(1, 2); // 从下标 1 开始取 2 个字符，得到 bc\nsize_t pos = s.find('c');       // 得到 2；找不到是 string::npos\nif (pos != string::npos) cout << s[pos];\n```\n\n`substr(start,length)` 的第二项是长度，不是右端点。普通下标访问为 $O(1)$；复制长为 $k$ 的子串需要 $O(k)$ 时间和空间，循环里反复截取可能累积成平方成本。字符串比较按第一个不同字符决定字典序，公共前缀可能需要线性比较。\n\n常见字符转数字是 `c-'0'`，前提 `c` 在 `'0'` 到 `'9'`。修改原串可用 `for(char& c:s)`，只读使用 `char c`。`reverse(s.begin(),s.end())` 原地翻转；若还需要原串，应先复制。空串不能访问首尾，尾后位置不能当普通字符读取。\n\n<!-- reusable-foundations:end -->\n\n### 思路\n\n输入非空，直接检查最后一个字符，根据条件拼接对应后缀。例如 take 变为 taker，work 变为 worker。时间与空间 $O(|S|)$。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nstring s;cin>>s;cout<<s<<(s.back()=='e'?\"r\":\"er\")<<'\\n';\n}\n```\n\n### 易错点\n\n检查末字符，不是判断字符串中是否出现过 $e$。",
+          "images": {}
+        },
+        "detailed_solutions": {
+          "beforeMarkdownSha256": "4911b38a1173f387db5c6734898c7822ce8cae09d853da585b5b71018438199d",
+          "markdown": "## A. Appender\n\n### 题意\n\n字符串若以 $e$ 结尾，就追加 $r$；否则追加 er，输出结果。\n\n<!-- reusable-foundations:start -->\n\n### 从零讲：枚举与模拟：让代码和允许的动作一一对应\n\n枚举是系统地检查所有候选；模拟是按题目规则推进状态。先写清一个候选是什么、有哪些动作、执行后哪些量改变，再决定循环边界。\n\n例如从集合 $\\{1,2,3\\}$ 中选两个不同数：有序选择可枚举 $(i,j)$ 且 $i\\ne j$，共六项；如果只关心无序的一对，就规定 $i<j$，得到 $(1,2)$、$(1,3)$、$(2,3)$，避免重复计数。同一个双循环，边界表达的是不同对象。\n\n```cxx\nfor (int i = 0; i < n; ++i)\n    for (int j = i + 1; j < n; ++j) {\n        // 每一对不同位置恰好出现一次\n    }\n```\n\n模拟例如计数器初始为零，依次读动作“加二、减一、加二”，状态为 $0\\to2\\to1\\to3$。每一步都只读取该时刻允许的信息；若规则要求同时更新多个量，应先用旧状态算全部新量，不能让后一个更新误读前一个新值。\n\n时间要数实际候选数和每个候选的工作。双循环可能是 $O(n^2)$，枚举长度为 $k$ 的二进制选择是 $O(2^k)$；候选少但每次又扫描全数组，也要乘上扫描成本。空间取决于是否需要保存历史。\n\n全枚举的优势是思路直接，容易作为独立校验程序。剪枝必须证明被略去的分支不可能合法或更优，不能只因一个小例子没遇到答案就删候选。若直接枚举超时，先找重复工作、对称性、可维护的量或单调边界，再选择优化方法。\n\n### 从零讲：string：字符、下标与子串\n\n`string` 保存字符序列。`string s=\"abca\";` 的长度为四，下标从零开始，`s[0]=='a'`、`s[3]=='a'`。字符用单引号，字符串用双引号；二者类型不同。需要 `<string>`。\n\n`cin >> s` 读到空白停止；整行含空格时使用 `getline`，并留意前一次格式化输入残留的换行。`s.size()` 是字符单元数量，不一定等于 UTF-8 中文字数；竞赛英文小写字母题通常一个字符对应一个单元。\n\n```cxx\nstring s = \"abca\";\nstring middle = s.substr(1, 2); // 从下标 1 开始取 2 个字符，得到 bc\nsize_t pos = s.find('c');       // 得到 2；找不到是 string::npos\nif (pos != string::npos) cout << s[pos];\n```\n\n`substr(start,length)` 的第二项是长度，不是右端点。普通下标访问为 $O(1)$；复制长为 $k$ 的子串需要 $O(k)$ 时间和空间，循环里反复截取可能累积成平方成本。字符串比较按第一个不同字符决定字典序，公共前缀可能需要线性比较。\n\n常见字符转数字是 `c-'0'`，前提 `c` 在 `'0'` 到 `'9'`。修改原串可用 `for(char& c:s)`，只读使用 `char c`。`reverse(s.begin(),s.end())` 原地翻转；若还需要原串，应先复制。空串不能访问首尾，尾后位置不能当普通字符读取。\n\n<!-- reusable-foundations:end -->\n\n### 思路\n\ntake 末尾已经是 $e$，只需追加 $r$ 得到 taker；work 末尾不是 $e$，追加 er 得到 worker。是否在其它位置含有 $e$ 不影响规则，例如 seek 仍需追加 er。\n\n输入保证非空，所以可以安全地读取最后一个字符。代码先输出整个原串，再根据末字符选择输出 $r$ 或 er。这样原串内容保持不变，新增部分恰好符合对应分支。也可以先在字符串后面拼接再输出，但本题只需结果，直接顺序输出两部分即可。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nstring s;cin>>s;cout<<s<<(s.back()=='e'?\"r\":\"er\")<<'\\n';\n}\n```\n\n### 易错点\n\n检查末字符，不是判断字符串中是否出现过 $e$。\n\n",
+          "images": {}
+        }
+      },
+      "reviewNotes": [
+        "审阅已足够：两版均保持不变。默认版明确输入非空、检查末字符，并用 take/taker 与 work/worker 覆盖两分支。",
+        "详细版另用 seek 排除只要含 e 就走第一支的误读；代码先输出原串再输出后缀，正文已区分直接输出和真正修改字符串，s.back() 的访问前提也明确。"
+      ],
+      "validation": {
+        "compiledOriginalCpp": true,
+        "identicalCppInBothVariants": true,
+        "cppSha256": "2bfd08cc2dd660894e5e7dd979df64f0e53df5fddd7de6dafaad082a94525d03",
+        "officialSamples": 3,
+        "distinctBoundaryCases": 7,
+        "distinctSeededRandomCases": 34,
+        "actualProgramRuns": 44,
+        "allTestInputsSatisfyOriginalConstraints": true,
+        "independentModelCases": 363,
+        "reviewDisposition": "already_sufficient",
+        "changedVariants": [],
+        "originalReferenceProgramsAndImagesPreserved": true,
+        "originalFoundationBlocksUnchanged": true,
+        "evidenceDirectory": ".backups/editorial-reasoning-20261022/editorials_arrays_round2",
+        "render": {
+          "variantPages": 8,
+          "widths": [
+            1440,
+            390
+          ],
+          "themes": [
+            "light",
+            "dark"
+          ],
+          "foundationsInitiallyCollapsed": true,
+          "noKatexErrorsMissingImagesOrPageOverflow": true,
+          "batchEvidence": {
+            "pages": 80,
+            "disclosures": 104,
+            "preservedFoundationImageLoads": 8,
+            "screenshots": 44,
+            "errors": []
+          }
+        }
+      }
+    },
+    {
+      "problemId": "ABC 477::A",
+      "variants": {
+        "solutions": {
+          "beforeMarkdownSha256": "e85d16822fcf0f5d874942d1e3e8456bde224f63a69b0b7a6d83be832d8cc2e8",
+          "markdown": "## A. Traffic Light\n\n### 题意\n\n信号灯按 B、Y、R 循环变化，给当前颜色，输出下一种。\n\n<!-- reusable-foundations:start -->\n\n### 从零讲：枚举与模拟：让代码和允许的动作一一对应\n\n枚举是系统地检查所有候选；模拟是按题目规则推进状态。先写清一个候选是什么、有哪些动作、执行后哪些量改变，再决定循环边界。\n\n例如从集合 $\\{1,2,3\\}$ 中选两个不同数：有序选择可枚举 $(i,j)$ 且 $i\\ne j$，共六项；如果只关心无序的一对，就规定 $i<j$，得到 $(1,2)$、$(1,3)$、$(2,3)$，避免重复计数。同一个双循环，边界表达的是不同对象。\n\n```cxx\nfor (int i = 0; i < n; ++i)\n    for (int j = i + 1; j < n; ++j) {\n        // 每一对不同位置恰好出现一次\n    }\n```\n\n模拟例如计数器初始为零，依次读动作“加二、减一、加二”，状态为 $0\\to2\\to1\\to3$。每一步都只读取该时刻允许的信息；若规则要求同时更新多个量，应先用旧状态算全部新量，不能让后一个更新误读前一个新值。\n\n时间要数实际候选数和每个候选的工作。双循环可能是 $O(n^2)$，枚举长度为 $k$ 的二进制选择是 $O(2^k)$；候选少但每次又扫描全数组，也要乘上扫描成本。空间取决于是否需要保存历史。\n\n全枚举的优势是思路直接，容易作为独立校验程序。剪枝必须证明被略去的分支不可能合法或更优，不能只因一个小例子没遇到答案就删候选。若直接枚举超时，先找重复工作、对称性、可维护的量或单调边界，再选择优化方法。\n\n<!-- reusable-foundations:end -->\n\n### 思路\n\n直接按三个分支对应：B 变 Y，Y 变 R，R 变 B。时间与空间均为 $O(1)$。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nchar c;cin>>c;cout<<(c=='B'?'Y':c=='Y'?'R':'B')<<'\\n';\n}\n```\n\n### 易错点\n\n最后的 R 要回到 B，构成循环。",
+          "images": {}
+        },
+        "detailed_solutions": {
+          "beforeMarkdownSha256": "a6d7e675543f78de10aa3fad5be2a39890ae870f421d8d6d67d9f0e74bb4288b",
+          "markdown": "## A. Traffic Light\n\n### 题意\n\n信号灯按 B、Y、R 循环变化，给当前颜色，输出下一种。\n\n<!-- reusable-foundations:start -->\n\n### 从零讲：枚举与模拟：让代码和允许的动作一一对应\n\n枚举是系统地检查所有候选；模拟是按题目规则推进状态。先写清一个候选是什么、有哪些动作、执行后哪些量改变，再决定循环边界。\n\n例如从集合 $\\{1,2,3\\}$ 中选两个不同数：有序选择可枚举 $(i,j)$ 且 $i\\ne j$，共六项；如果只关心无序的一对，就规定 $i<j$，得到 $(1,2)$、$(1,3)$、$(2,3)$，避免重复计数。同一个双循环，边界表达的是不同对象。\n\n```cxx\nfor (int i = 0; i < n; ++i)\n    for (int j = i + 1; j < n; ++j) {\n        // 每一对不同位置恰好出现一次\n    }\n```\n\n模拟例如计数器初始为零，依次读动作“加二、减一、加二”，状态为 $0\\to2\\to1\\to3$。每一步都只读取该时刻允许的信息；若规则要求同时更新多个量，应先用旧状态算全部新量，不能让后一个更新误读前一个新值。\n\n时间要数实际候选数和每个候选的工作。双循环可能是 $O(n^2)$，枚举长度为 $k$ 的二进制选择是 $O(2^k)$；候选少但每次又扫描全数组，也要乘上扫描成本。空间取决于是否需要保存历史。\n\n全枚举的优势是思路直接，容易作为独立校验程序。剪枝必须证明被略去的分支不可能合法或更优，不能只因一个小例子没遇到答案就删候选。若直接枚举超时，先找重复工作、对称性、可维护的量或单调边界，再选择优化方法。\n\n<!-- reusable-foundations:end -->\n\n### 思路\n\n变化顺序可以写成 B 到 Y、Y 到 R、R 再到 B。例如当前为 R，下一步是新一轮的 B，而不是继续寻找第四种颜色。\n\n输入只可能为这三种字符，直接按当前颜色分类即可。代码先检查是否为 B，是则输出 Y；否则检查是否为 Y，是则输出 R；剩下必定是 R，输出 B。三个分支覆盖全部允许输入，且每个分支恰好对应循环中的一条转移，不需要模拟之前经过了多少次变化。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nchar c;cin>>c;cout<<(c=='B'?'Y':c=='Y'?'R':'B')<<'\\n';\n}\n```\n\n### 易错点\n\n最后的 R 要回到 B，构成循环。\n\n",
+          "images": {}
+        }
+      },
+      "reviewNotes": [
+        "审阅已足够：两版均保持不变。默认版列出 B->Y、Y->R、R->B，已经完整枚举所有允许输入和一步转移。",
+        "详细版以 R 到 B 说明绕回，解释两个判断都失败时只剩 R、三个分支互斥且覆盖全部输入；没有漏掉需要模拟的历史状态。"
+      ],
+      "validation": {
+        "compiledOriginalCpp": true,
+        "identicalCppInBothVariants": true,
+        "cppSha256": "c238a9681f5b059ba4db2678edbb789f9814c1c2b88be5e7cd2da69b009364bd",
+        "officialSamples": 3,
+        "distinctBoundaryCases": 0,
+        "distinctSeededRandomCases": 0,
+        "actualProgramRuns": 3,
+        "allTestInputsSatisfyOriginalConstraints": true,
+        "entireAllowedInputDomainRun": true,
+        "independentModelCases": 3,
+        "reviewDisposition": "already_sufficient",
+        "changedVariants": [],
+        "originalReferenceProgramsAndImagesPreserved": true,
+        "originalFoundationBlocksUnchanged": true,
+        "evidenceDirectory": ".backups/editorial-reasoning-20261022/editorials_arrays_round2",
+        "render": {
+          "variantPages": 8,
+          "widths": [
+            1440,
+            390
+          ],
+          "themes": [
+            "light",
+            "dark"
+          ],
+          "foundationsInitiallyCollapsed": true,
+          "noKatexErrorsMissingImagesOrPageOverflow": true,
+          "batchEvidence": {
+            "pages": 80,
+            "disclosures": 104,
+            "preservedFoundationImageLoads": 8,
+            "screenshots": 44,
+            "errors": []
+          }
+        }
+      }
+    },
+    {
+      "problemId": "ABC 478::A",
+      "variants": {
+        "solutions": {
+          "beforeMarkdownSha256": "3ee0f58400dbb8b8e6932e8bcc35a2cd9492a9dcd487253ce313cafee6dee477",
+          "markdown": "## A. Grapes\n\n### 题意\n\n将 $M$ 颗葡萄按编号 $1$ 到 $N$ 循环分发，每次一颗，求每人最终收到多少颗。\n\n<!-- reusable-foundations:start -->\n\n### 从零讲：枚举与模拟：让代码和允许的动作一一对应\n\n枚举是系统地检查所有候选；模拟是按题目规则推进状态。先写清一个候选是什么、有哪些动作、执行后哪些量改变，再决定循环边界。\n\n例如从集合 $\\{1,2,3\\}$ 中选两个不同数：有序选择可枚举 $(i,j)$ 且 $i\\ne j$，共六项；如果只关心无序的一对，就规定 $i<j$，得到 $(1,2)$、$(1,3)$、$(2,3)$，避免重复计数。同一个双循环，边界表达的是不同对象。\n\n```cxx\nfor (int i = 0; i < n; ++i)\n    for (int j = i + 1; j < n; ++j) {\n        // 每一对不同位置恰好出现一次\n    }\n```\n\n模拟例如计数器初始为零，依次读动作“加二、减一、加二”，状态为 $0\\to2\\to1\\to3$。每一步都只读取该时刻允许的信息；若规则要求同时更新多个量，应先用旧状态算全部新量，不能让后一个更新误读前一个新值。\n\n时间要数实际候选数和每个候选的工作。双循环可能是 $O(n^2)$，枚举长度为 $k$ 的二进制选择是 $O(2^k)$；候选少但每次又扫描全数组，也要乘上扫描成本。空间取决于是否需要保存历史。\n\n全枚举的优势是思路直接，容易作为独立校验程序。剪枝必须证明被略去的分支不可能合法或更优，不能只因一个小例子没遇到答案就删候选。若直接枚举超时，先找重复工作、对称性、可维护的量或单调边界，再选择优化方法。\n\n<!-- reusable-foundations:end -->\n\n### 思路\n\n完整轮数为 $q=M\\div N$，每人至少得 $q$ 颗；余下 $r=M\\bmod N$ 颗分给前 $r$ 人。因此第 $i$ 人得到 $q+[i\\le r]$。时间 $O(N)$，额外空间 $O(1)$。\n\n例如 $N=3,M=5$，完整一轮将葡萄依次给一、二、三号，每人先得一颗；剩下两颗再给一、二号，最终为 $[2,2,1]$。这里 $q=1,r=2$，公式里的 $[i\\le r]$ 表示：条件成立取一，否则取零。在代码中，`i<=m%n` 的布尔结果参与加法时也恰好是这一或零；这一项数的是**当前这个人多领的那一颗**，而非剩余葡萄的总数。\n\n完整轮发掉 $qN$ 颗，尾轮只覆盖前 $r$ 个不同的人，所以每颗葡萄都被计算一次，合计仍为 $qN+r=M$。当 $r=0$，所有人的编号都大于零，没有人得到额外的一颗。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nint n,m;cin>>n>>m;for(int i=1;i<=n;i++)cout<<m/n+(i<=m%n)<<'\\n';\n}\n```\n\n### 易错点\n\n多拿一颗的是前 $r$ 人；整除时所有人相同。",
+          "images": {}
+        },
+        "detailed_solutions": {
+          "beforeMarkdownSha256": "07e82cc3954bd46b39fe0fa1ba699c0896cb56dc9075830dc9e56e3aac950374",
+          "markdown": "## A. Grapes\n\n### 题意\n\n将 $M$ 颗葡萄按编号 $1$ 到 $N$ 循环分发，每次一颗，求每人最终收到多少颗。\n\n<!-- reusable-foundations:start -->\n\n### 从零讲：枚举与模拟：让代码和允许的动作一一对应\n\n枚举是系统地检查所有候选；模拟是按题目规则推进状态。先写清一个候选是什么、有哪些动作、执行后哪些量改变，再决定循环边界。\n\n例如从集合 $\\{1,2,3\\}$ 中选两个不同数：有序选择可枚举 $(i,j)$ 且 $i\\ne j$，共六项；如果只关心无序的一对，就规定 $i<j$，得到 $(1,2)$、$(1,3)$、$(2,3)$，避免重复计数。同一个双循环，边界表达的是不同对象。\n\n```cxx\nfor (int i = 0; i < n; ++i)\n    for (int j = i + 1; j < n; ++j) {\n        // 每一对不同位置恰好出现一次\n    }\n```\n\n模拟例如计数器初始为零，依次读动作“加二、减一、加二”，状态为 $0\\to2\\to1\\to3$。每一步都只读取该时刻允许的信息；若规则要求同时更新多个量，应先用旧状态算全部新量，不能让后一个更新误读前一个新值。\n\n时间要数实际候选数和每个候选的工作。双循环可能是 $O(n^2)$，枚举长度为 $k$ 的二进制选择是 $O(2^k)$；候选少但每次又扫描全数组，也要乘上扫描成本。空间取决于是否需要保存历史。\n\n全枚举的优势是思路直接，容易作为独立校验程序。剪枝必须证明被略去的分支不可能合法或更优，不能只因一个小例子没遇到答案就删候选。若直接枚举超时，先找重复工作、对称性、可维护的量或单调边界，再选择优化方法。\n\n<!-- reusable-foundations:end -->\n\n### 思路\n\n把八颗葡萄分给三人：前两轮每人各得到两颗，用掉六颗；剩余两颗按顺序给第一、第二人，所以人数结果为 $3,3,2$。与其逐颗模拟，可以把分配过程按完整轮拆开。\n\n一次完整轮需要 $N$ 颗，故完整轮数是 $q=\\lfloor M/N\\rfloor$，每人先得到 $q$ 颗。余数 $r=M\\bmod N$ 小于人数，这最后一轮只走到第 $r$ 人，因此编号不超过 $r$ 的人再多得一颗。代码对每人输出 $q+[i\\le r]$，布尔条件成立时贡献一，否则贡献零。\n\n若葡萄不足一轮，$q=0$，只有前 $M$ 人得一颗；若正好整除，$r=0$，没有人额外领取；只有一个人时，所有葡萄也都会计入他的完整轮份额。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nint n,m;cin>>n>>m;for(int i=1;i<=n;i++)cout<<m/n+(i<=m%n)<<'\\n';\n}\n```\n\n### 易错点\n\n多拿一颗的是前 $r$ 人；整除时所有人相同。\n\n",
+          "images": {}
+        }
+      },
+      "reviewNotes": [
+        "补充后完成：仅默认版补一段 N=3,M=5 的逐轮手算，解释 [i<=r] 和真实布尔加法的一或零对应当前人额外的一颗，并核对总数 qN+r=M。",
+        "详细版审阅已足够，保持 markdown/images 完全不变：已有八颗给三人的 3/3/2 手算、完整轮与尾轮分开、布尔贡献解释，以及不足一轮/恰整除/只有一人的边界。无需强加配图或重复补写。"
+      ],
+      "validation": {
+        "compiledOriginalCpp": true,
+        "identicalCppInBothVariants": true,
+        "cppSha256": "625ff520e6ef992fb28a42cb460edc78204a956d0efcc18c137069a83c7bbc51",
+        "officialSamples": 3,
+        "distinctBoundaryCases": 9,
+        "distinctSeededRandomCases": 40,
+        "actualProgramRuns": 52,
+        "allTestInputsSatisfyOriginalConstraints": true,
+        "independentModelCases": 2400,
+        "reviewDisposition": "completed_with_supplement",
+        "changedVariants": [
+          "solutions"
+        ],
+        "originalReferenceProgramsAndImagesPreserved": true,
+        "originalFoundationBlocksUnchanged": true,
+        "evidenceDirectory": ".backups/editorial-reasoning-20261022/editorials_arrays_round2",
+        "render": {
+          "variantPages": 8,
+          "widths": [
+            1440,
+            390
+          ],
+          "themes": [
+            "light",
+            "dark"
+          ],
+          "foundationsInitiallyCollapsed": true,
+          "noKatexErrorsMissingImagesOrPageOverflow": true,
+          "batchEvidence": {
+            "pages": 80,
+            "disclosures": 104,
+            "preservedFoundationImageLoads": 8,
+            "screenshots": 44,
+            "errors": []
+          }
+        }
+      }
+    }
+  ]
+}

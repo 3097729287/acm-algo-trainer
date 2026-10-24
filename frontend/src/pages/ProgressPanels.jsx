@@ -16,7 +16,8 @@ import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
 import InlineTitle from '@/components/InlineTitle.jsx';
 import TitleMedals from '../components/TitleMedals.jsx';
 import { ArrowLeft, ArrowRight, Award, BookOpen, CalendarDays, Check, CheckCheck, Circle, ChevronRight, ExternalLink, Flag, Github, LoaderCircle, Play, RefreshCw, Search, Target, TrendingUp, Trophy, UserRound } from 'lucide-react';
-import { compareContestNewest, contestTime, difficultyBand, difficultyLabel, difficultyDescription } from '@/lib/practiceMetadata.js';
+import { compareContestNewest, difficultyBand, difficultyLabel, difficultyDescription } from '@/lib/practiceMetadata.js';
+import {completedReplayContests, hidesContestDifficulty} from '@/lib/difficultyVisibility.js';
 import './ProgressPanels.css';
 import GoalsPanel from './GoalsPanel.jsx';
 import TierIcon from '@/components/TierIcon.jsx';
@@ -38,11 +39,6 @@ const achievementText = value => acText(value).replace(/[；;]\s*(?:样例通过
 const confidence = value => ({ none: '证据不足', low: '证据较少', medium: '中等可信', high: '证据充分' }[value] || '证据不足');
 const STAGES = { foundation: '基础起步', consolidate: '巩固练习', stretch: '逐步挑战', retry: '复习与补题' };
 const PROJECT_URL = 'https://github.com/3097729287/acm-algo-trainer';
-const contestDateLabel = row => {
-  const time = contestTime(row);
-  const year = row.eventYear || row.examYear || row.xcpcYear || row.rows?.[0]?.eventYear || row.rows?.[0]?.xcpcYear;
-  return time == null ? (year ? `${year} 年 · 日期待核实` : '日期待同步') : new Date(time).toLocaleDateString('zh-CN', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit' });
-};
 const dateLabel = value => {
   if (!value) return '尚未更新';
   const date = new Date(value);
@@ -120,15 +116,6 @@ function contestGroups(rows) {
   return [...map.values()].map(group => ({ ...group, rows: group.rows.sort((a, b) => String(a.problem).localeCompare(String(b.problem), 'en', { numeric: true })) })).sort(compareContestNewest);
 }
 function Difficulty({ row, locked = false }) { return <span className={`competition-difficulty competition-difficulty-${locked ? 'unknown' : difficultyBand(row.difficulty)}${locked ? ' competition-hidden-difficulty' : ''}`} title={locked ? '比赛进行中，赛后显示难度' : difficultyDescription(row)}>{locked ? '赛中隐藏' : difficultyLabel(row)}</span>; }
-function ContestGrade({ group, locked = false }) {
-  if (locked) return null;
-  const gym = group.rows.find(row => Number.isInteger(row.contestDifficulty) && row.contestDifficulty >= 1 && row.contestDifficulty <= 5);
-  if (gym) return <span className="contest-grade" title={gym.contestDifficultySource}>整场 {gym.contestDifficulty}/5 · {['基础', '进阶', '较难', '困难', '高难'][gym.contestDifficulty - 1]}</span>;
-  const ratings = group.rows.map(row => row.difficulty).filter(value => typeof value === 'number').sort((a, b) => a - b);
-  if (ratings.length < group.rows.length / 2) return <span className="contest-grade">已定级 {ratings.length}/{group.rows.length} 题</span>;
-  const median = ratings[Math.floor(ratings.length / 2)];
-  return <span className="contest-grade" title={`已评级 ${ratings.length}/${group.rows.length} 题的难度中位数，仅供训练参考`}>参考 {median}</span>;
-}
 export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStartReproduction, initialContest, onBack }) {
   const groups = useMemo(() => contestGroups(list(rows).filter(row => !row.catalogHidden && row.source !== 'luogu-training')), [rows]);
   const [query, setQuery] = useState(''), [filter, setFilter] = useState('all');
@@ -140,13 +127,14 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
   const [page, setPage] = useState(1);
   const [selected, setSelected] = useState(null), [joining, setJoining] = useState(false), [joinError, setJoinError] = useState(''), [starting, setStarting] = useState(null);
   const progress = useMemo(() => new Map(list(workspace?.training).map(row => [row.id, row])), [workspace?.training]);
+  const completedReplays = useMemo(() => completedReplayContests(workspace), [workspace?.completedReplayContests, workspace?.contests]);
   const lockedIds = useMemo(() => new Set(workspace?.activeContest?.status === 'running' ? list(workspace.activeContest.slots).map(row => row.id) : []), [workspace?.activeContest]);
   const counts = useMemo(() => new Map(groups.map(group => [group.key, {
     active: group.rows.filter(row => progress.has(row.id)).length,
     accepted: group.rows.filter(row => progress.get(row.id)?.accepted).length,
   }])), [groups, progress]);
   const activeCount = group => counts.get(group.key)?.active || 0;
-  const acceptedCount = group => counts.get(group.key)?.accepted || 0;
+  const showDifficulty = row => !lockedIds.has(row.id) && !hidesContestDifficulty(row, completedReplays);
   const filtered = useMemo(() => {
     const search = deferredQuery.trim().toLowerCase();
     return groups.filter(group => (!catalogPath.length || group.rows.some(row => catalogMatches(row, {path:catalogPath})))
@@ -172,18 +160,17 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
   const startButton = group => onStartReproduction && <button type="button" className="progress-button progress-primary competition-start" disabled={!!starting} onClick={() => start(group)} aria-label={`开始比赛 ${group.name}`}>{starting === group.key ? <LoaderCircle size={14} className="progress-spin" /> : <Play size={14} />}{starting === group.key ? '正在开始' : '开始比赛'}</button>;
   if (current) {
     const inMock = current.rows.some(row => lockedIds.has(row.id));
-    return <div className="competition-page competition-detail" aria-label={`${current.name}比赛详情`}>
-      <div className="competition-detail-heading"><button type="button" className="progress-button" onClick={() => { setSelected(null); if (initialContest) onBack?.(); }}><ArrowLeft size={14} />全部比赛</button><div><h2>{current.name}</h2><span>{current.platform} · {contestDateLabel(current)} · {current.rows.length} 题 · 已通过 {acceptedCount(current)} 题 <ContestGrade group={current} locked={inMock} /></span></div>{onJoin && <button type="button" className="progress-button" disabled={joining || inMock || activeCount(current) === current.rows.length} onClick={() => join(current)}>{joining ? <LoaderCircle size={14} className="progress-spin" /> : <Flag size={14} />}{activeCount(current) === current.rows.length ? '已加入训练' : activeCount(current) ? '加入剩余题目' : '加入我的训练'}</button>}{startButton(current)}</div>
+    return <div className="competition-page competition-detail" tabIndex={0} aria-label={`${current.name}比赛详情`}>
+      <div className="competition-detail-heading"><button type="button" className="progress-button" onClick={() => { setSelected(null); if (initialContest) onBack?.(); }}><ArrowLeft size={14} />全部比赛</button><div><h2>{current.name}</h2></div>{onJoin && <button type="button" className="progress-button" disabled={joining || inMock || activeCount(current) === current.rows.length} onClick={() => join(current)}>{joining ? <LoaderCircle size={14} className="progress-spin" /> : <Flag size={14} />}{activeCount(current) === current.rows.length ? '已加入训练' : activeCount(current) ? '加入剩余题目' : '加入我的训练'}</button>}{startButton(current)}</div>
       {inMock && <div className="competition-notice">本场部分题目正在模拟赛中，难度和知识点将在赛后显示。请从模拟赛页继续。</div>}
-      {current.notice && <div className="competition-notice">{current.notice}题面可直接练习，题解逐步补充。</div>}
       {joinError && <p className="connection-error" role="alert">{joinError}</p>}
       <div className="competition-question-list">{current.rows.map(row => {
         const state = progress.get(row.id), locked = lockedIds.has(row.id);
-        return <button type="button" className="competition-question" key={row.id} disabled={!onTrain || locked} onClick={() => onTrain?.(row.id)} aria-label={`练习 ${row.problem} ${row.title}`}><span className="competition-letter">{row.problem}</span><div className="competition-question-main"><strong><InlineTitle>{row.title}</InlineTitle></strong><div className="competition-question-meta">{locked ? <span>模拟赛进行中</span> : knowledgeLabels(row).map(tag => <span className="competition-tag" key={tag}>{tag}</span>)}<span>{row.solutionAvailable === false ? '题解未生成' : row.solutionAvailable === true ? '有题解' : '题解状态未知'}</span></div></div><Difficulty row={row} locked={locked} /><span className={`competition-result${state?.accepted ? ' competition-accepted' : ''}`}>{locked ? '考场中' : state?.accepted ? (state.scope === 'official' ? '官方通过' : '本地通过') : state?.verdict === 'SAMPLE_PASS' ? '样例通过' : state ? '已加入' : '未加入'}</span><ChevronRight size={15} aria-hidden="true" /></button>;
+        return <button type="button" className="competition-question" key={row.id} disabled={!onTrain || locked} onClick={() => onTrain?.(row.id)} aria-label={`练习 ${row.problem} ${row.title}`}><span className="competition-letter">{row.problem}</span><div className="competition-question-main"><strong><InlineTitle>{row.title}</InlineTitle></strong><div className="competition-question-meta">{locked ? <span>模拟赛进行中</span> : knowledgeLabels(row).map(tag => <span className="competition-tag" key={tag}>{tag}</span>)}<span>{row.solutionAvailable === false ? '题解未生成' : row.solutionAvailable === true ? '有题解' : '题解状态未知'}</span></div></div>{showDifficulty(row) && <Difficulty row={row} />}<span className={`competition-result${state?.accepted ? ' competition-accepted' : ''}`}>{locked ? '考场中' : state?.accepted ? (state.scope === 'official' ? '官方通过' : '本地通过') : state?.verdict === 'SAMPLE_PASS' ? '样例通过' : state ? '已加入' : '未加入'}</span><ChevronRight size={15} aria-hidden="true" /></button>;
       })}</div>
     </div>;
   }
-  const renderCard = group => <article className="competition-card" key={group.key}><button type="button" className="competition-card-open" onClick={() => setSelected(group.key)} aria-label={`查看 ${group.platform} ${group.name}，${group.rows.length} 道题`}><span className="competition-card-title"><strong>{group.name}</strong></span><span className="competition-problem-tokens">{group.rows.map(row => <span className={`competition-problem-token${progress.get(row.id)?.accepted ? ' competition-token-accepted' : ''}`} key={row.id}><b>{row.problem}{typeof row.difficulty==='number' && !lockedIds.has(row.id) ? ':' : ''}</b>{typeof row.difficulty==='number' && !lockedIds.has(row.id) && <Difficulty row={row}/>}</span>)}</span><ChevronRight size={16}/></button>{startButton(group)}</article>;
+  const renderCard = group => <article className="competition-card" key={group.key}><button type="button" className="competition-card-open" onClick={() => setSelected(group.key)} aria-label={`查看 ${group.platform} ${group.name}，${group.rows.length} 道题`}><span className="competition-card-title"><strong>{group.name}</strong></span><span className="competition-problem-tokens">{group.rows.map(row => <span className={`competition-problem-token${progress.get(row.id)?.accepted ? ' competition-token-accepted' : ''}`} key={row.id}><b>{row.problem}{typeof row.difficulty==='number' && showDifficulty(row) ? ':' : ''}</b>{typeof row.difficulty==='number' && showDifficulty(row) && <Difficulty row={row}/>}</span>)}</span><ChevronRight size={16}/></button>{startButton(group)}</article>;
   const reset = () => {setCatalogPath([]);setExamYear('');setFilter('all');};
   return <div className="competition-page" aria-label="比赛列表">
     <PageSearch><label className="search-box"><Search size={17}/><input value={query} onChange={event=>setQuery(event.target.value)} aria-label="搜索比赛"/></label>
@@ -302,7 +289,7 @@ export function UpdatePanel({ softwareState, hub, api, onChanged, onError, onCon
     <div className="update-notifications">{notifications.length ? notifications.map(item => {
       const targets = [...list(item.problemIds), ...list(item.solutionIds), ...list(item.problemUrls)];
       const clickable = targets.length > 0 && Boolean(onContent), Main = clickable ? 'button' : 'div';
-      return <div className={`update-notification${item.read ? ' update-read' : ''}`} key={item.id}><span className="update-notification-kind">{({ release: '版本', content: '内容', catalog: '题库' })[item.type] || '更新'}</span><div><Main className="update-notification-main" type={clickable ? 'button' : undefined} onClick={clickable ? () => onContent(item) : undefined}><strong>{item.title}</strong><span className="update-notification-body">{item.body}</span><small>{dateLabel(item.createdAt)}{item.count != null ? ` · ${number(item.count)} 项` : ''}</small></Main><div className="update-notification-actions">{clickable && <button type="button" className="progress-text-button" onClick={() => onContent(item)}>查看新增内容<ArrowRight size={12} /></button>}{item.url && <a href={item.url} target="_blank" rel="noreferrer">{targets.length ? '查看来源' : '在仓库查看'}<ExternalLink size={12} /></a>}{!item.read && <button type="button" className="progress-text-button" disabled={busy || !api} onClick={() => request('hub/dismiss', { id: item.id })}><Check size={12} />标为已读</button>}</div></div></div>;
+      return <div className={`update-notification${item.read ? ' update-read' : ''}`} key={item.id}><span className="update-notification-kind">{({ release: '版本', content: '内容', catalog: '题库' })[item.type] || '更新'}</span><div><Main className="update-notification-main" type={clickable ? 'button' : undefined} onClick={clickable ? () => onContent(item) : undefined}><strong>{item.title}</strong><small>{dateLabel(item.createdAt)}{item.count != null ? ` · ${number(item.count)} 项` : ''}</small></Main><div className="update-notification-actions">{clickable && <button type="button" className="progress-text-button" onClick={() => onContent(item)}>查看新增内容<ArrowRight size={12} /></button>}{item.url && <a href={item.url} target="_blank" rel="noreferrer">{targets.length ? '查看来源' : '在仓库查看'}<ExternalLink size={12} /></a>}{!item.read && <button type="button" className="progress-text-button" disabled={busy || !api} onClick={() => request('hub/dismiss', { id: item.id })}><Check size={12} />标为已读</button>}</div></div></div>;
     }) : <p className="progress-muted">{unreadOnly ? '没有未读通知。' : '新题入库或版本发布后，通知会显示在这里。'}</p>}</div></>}
   </section>;
 }

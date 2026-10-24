@@ -127,7 +127,7 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
       })}
       {active && problems.length > 0 && <table className="problem-table training-list-table"><thead><tr><th>题目</th><th>难度</th><th>训练状态</th></tr></thead><tbody>{problems.slice(start, start + size).map((item, offset) => <tr key={item.row?.id || item.pid} data-id={item.row?.id}>
         <td><div className="training-list-title"><span className="training-list-number">{start + offset + 1}</span><div><button className="problem-title" disabled={!item.row || busy} onClick={() => onTrain(item.row.id, { problemIds })}><InlineTitle>{item.row?.title || item.pid}</InlineTitle></button><small>{item.pid}{item.row?.platform && item.row.platform !== '洛谷' ? ` · ${item.row.platform}` : ''}</small></div></div></td>
-        <td><span className={'difficulty band-' + difficultyBand(item.row?.difficulty)} title={item.row ? difficultyDescription(item.row) : ''}>{item.row ? difficultyLabel(item.row) : '—'}</span></td>
+        <td><span className={'difficulty band-' + difficultyBand(item.row?.difficultyHidden ? null : item.row?.difficulty)} title={item.row ? difficultyDescription(item.row) : ''}>{item.row ? difficultyLabel(item.row) : '—'}</span></td>
         <td><span className={'verdict ' + (item.row?.accepted ? 'success' : item.row?.active ? 'pending' : '')}>{!item.row ? '暂不可用' : item.row.accepted ? '已通过' : item.row.active ? '练习中' : '未开始'}</span></td>
       </tr>)}</tbody></table>}
       {lists && !displayedEntries.length && !problems.length && <div className="empty"><Search size={26}/><h3>{searchingProblems ? '没有匹配的题单或题目' : active ? '此目录暂无可用题目' : '暂无题单'}</h3>{searchingProblems && <button className="secondary" onClick={clear}>清除筛选</button>}</div>}

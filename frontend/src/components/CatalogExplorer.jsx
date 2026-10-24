@@ -5,6 +5,12 @@ import { ChevronRight, FileText, Folder, House } from 'lucide-react';
 import './CatalogExplorer.css';
 
 const pathOf = scope => scope.path || (scope.platform ? [scope.platform] : []);
+const contestKey = row => row.groupKey || `${row.platform || ''}::${row.contest}`;
+const cardLevel = (row, path) => {
+  const parts = catalogSegments(row);
+  return parts.length === path.length + 1 || (parts[0] === 'ACM'
+    && parts.length === path.length + 2 && ['正赛', '热身赛'].includes(parts.at(-1)));
+};
 export function catalogMatches(row, scope) {
   const path = pathOf(scope), parts = catalogSegments(row);
   return path.every((part, index) => parts[index] === part);
@@ -27,14 +33,14 @@ export default function CatalogExplorer({ rows, scope, onChange, onContest, rend
   for(const name of catalogFolders(path))if(!groups.has(name))groups.set(name,[]);
   const entries = [...groups].sort(([a,left], [b,right]) => {
     if(!left.length||!right.length)return a.localeCompare(b,'zh-CN',{numeric:true});
-    if (left.every(row=>catalogSegments(row).length===path.length+1)&&right.every(row=>catalogSegments(row).length===path.length+1)) return compareContestNewest({...left[0],rows:left},{...right[0],rows:right});
+    if (left.every(row=>cardLevel(row,path))&&right.every(row=>cardLevel(row,path))) return compareContestNewest({...left[0],rows:left},{...right[0],rows:right});
     if (/^20\d{2}年$/.test(a)&&/^20\d{2}年$/.test(b)) return b.localeCompare(a);
     return a.localeCompare(b, 'zh-CN', { numeric: true });
   });
   return <section className="catalog-explorer" aria-label={onContest ? '比赛层级浏览' : '题库层级浏览'}>
     {!onContest && <button className="catalog-folder-row" onClick={() => onChange({ ...scope, stage: 'problems' })}><FileText size={19}/><strong>全部题目</strong><span>{selected.length}</span><ChevronRight size={16}/></button>}
     {!entries.length&&<p className="catalog-empty" role="status">此分类暂未收录比赛</p>}
-    {entries.map(([name, items]) => renderContest && items.length>0 && items.every(row=>catalogSegments(row).length===path.length+1) && new Set(items.map(row=>row.groupKey)).size===1 ? <div className="catalog-contest-entry" key={name}>{renderContest(items[0])}</div> : <button className="catalog-folder-row" key={name} onClick={() => {
+    {entries.map(([name, items]) => renderContest && items.length>0 && items.every(row=>cardLevel(row,path)) ? <div className="catalog-contest-entry" key={name}>{[...new Map(items.map(row=>[contestKey(row),row])).values()].map(row=><div key={contestKey(row)}>{renderContest(row)}</div>)}</div> : <button className="catalog-folder-row" key={name} onClick={() => {
       const next = [...path, name], leaf = items.length>0&&items.every(row => catalogSegments(row).length === next.length);
       if (leaf && onContest) onContest(items[0]);
       else onChange({ path: next, stage: leaf ? 'problems' : 'contests' });

@@ -13,7 +13,7 @@ import { TranslationSettings, UpdatePanel } from './ProgressPanels.jsx';
 const DataHelpSettings=lazy(()=>import('./DataHelpSettings.jsx'));
 
 
-export default function PreferencesPage({insights,onTrain,tab,onTab,prefs,setPrefs,display,onFullscreen,api,softwareUpdate,hub,account,accountFocus,profileSnapshot,onProfileChanged,onRefresh,onHubChanged,onError,onContent,onMessages,onTutorial,onKeyboard,commands}) {
+export default function PreferencesPage({insights,onTrain,rows,tab,onTab,prefs,setPrefs,display,onFullscreen,api,softwareUpdate,hub,account,accountFocus,profileSnapshot,onProfileChanged,onRefresh,onHubChanged,onError,onContent,onMessages,onTutorial,onKeyboard,commands}) {
   const panel=useRef(null),restoring=useRef(false);
   const locationKey=`tb.settings.location.${window.__tbAccount?.userId || window.__tbAccount?.loginId || 'local'}`;
   const positions=useRef((()=>{try{return JSON.parse(sessionStorage.getItem(locationKey)||'{}').scroll || {};}catch{return {};}})());
@@ -36,7 +36,7 @@ export default function PreferencesPage({insights,onTrain,tab,onTab,prefs,setPre
       {tab==='interaction'&&<><InteractionSettings prefs={prefs} setPrefs={setPrefs} display={display} onFullscreen={onFullscreen}/><NavigationSettings pages={commands.pages} prefs={prefs} setPrefs={setPrefs}/></>}
       {tab==='navigation'&&<NavigationSettings pages={commands.pages} prefs={prefs} setPrefs={setPrefs}/>}
       {tab==='advanced'&&<section className="settings-translation-panel"><TranslationSettings api={api} onError={onError}/></section>}
-      {tab==='help'&&<Suspense fallback={<p role="status">正在读取…</p>}><DataHelpSettings api={api} insights={insights} account={account} onTrain={onTrain} onTutorial={onTutorial} onError={onError}/></Suspense>}
+      {tab==='help'&&<Suspense fallback={<p role="status">正在读取…</p>}><DataHelpSettings api={api} rows={rows} insights={insights} account={account} onTrain={onTrain} onTutorial={onTutorial} onError={onError}/></Suspense>}
       {tab==='training'&&<ShortcutSettings prefs={prefs} setPrefs={setPrefs}/>}
       {tab==='updates'&&<><SoftwareUpdatePanel update={softwareUpdate}/><UpdatePanel softwareState={softwareUpdate.state} showNotifications={false} hub={hub} api={api} onContent={onContent} onChanged={onHubChanged} onError={onError}/></>}
     </div>

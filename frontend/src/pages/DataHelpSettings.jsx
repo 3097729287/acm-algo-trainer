@@ -3,7 +3,7 @@ import { Download, GraduationCap, Heart, LoaderCircle } from 'lucide-react';
 import Tooltip from '../components/Tooltip.jsx';
 import PersonalStatistics from './PersonalStatistics.jsx';
 
-export default function DataHelpSettings({ api, onTutorial, onError, insights, account, onTrain }) {
+export default function DataHelpSettings({ api, onTutorial, onError, insights, account, onTrain, rows }) {
   const [busy, setBusy] = useState(false);
   async function download() {
     if (busy) return;
@@ -18,7 +18,7 @@ export default function DataHelpSettings({ api, onTutorial, onError, insights, a
     } catch (error) { onError(error.message); }
     finally { setBusy(false); }
   }
-  return <><PersonalStatistics api={api} insights={insights} account={account} onTrain={onTrain}/><section className="settings-data-help" aria-label="数据与帮助">
+  return <><PersonalStatistics rows={rows} api={api} insights={insights} account={account} onTrain={onTrain}/><section className="settings-data-help" aria-label="数据与帮助">
     <h2>数据与帮助</h2>
     <div className="help-action-grid">
       <Tooltip text="导出当前账号的训练、代码、记录、目标和偏好为 JSON；不含密码、Cookie 或 API 密钥。"><button className="help-action" aria-label="导出数据 · JSON" onClick={download} disabled={busy}>

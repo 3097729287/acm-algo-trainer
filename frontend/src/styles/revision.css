@@ -6,6 +6,9 @@ html .sidebar .nav-item {width:100%;justify-content:flex-start;gap:8px;white-spa
 html .sidebar .brand {margin:0 0 16px;gap:0;min-height:54px;justify-content:flex-start;align-items:center}
 html .sidebar .brand-mark {flex:none;width:42px;height:42px;font-family:inherit;font-size:calc(var(--ui-font-size,15px) + 6px);letter-spacing:-.8px;padding:0;border-radius:12px}
 html .sidebar .brand>.tooltip-anchor {display:flex;align-items:center;justify-content:center}
+/* Menu inset 13px + half its 18px icon; the brand is 42px wide. */
+@media(min-width:801px) {html .app-shell:not(.sidebar-collapsed) .sidebar .brand {padding-inline-start:1px}}
+html .update-notification-main small {display:block;margin-top:4px}
 html .tour-card {right:auto;bottom:auto;max-height:calc(100vh - 36px);overflow:auto}
 html .tour-card h3:focus {outline:0}
 html .tour-catalog {position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(720px,calc(100vw - 36px))}
