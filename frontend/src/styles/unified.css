@@ -87,7 +87,7 @@ html .acknowledgements p {display:block;margin:0;padding:12px 0;line-height:1.6}
 @keyframes sync-done {0%{opacity:0;translate:0 5px}15%,80%{opacity:1;translate:0 0}100%{opacity:0;translate:0 -4px}}
 .practice-streak {display:inline-flex;align-items:center;gap:5px;height:40px;color:#f6a24b;font-variant-numeric:tabular-nums;line-height:1}
 .practice-streak b {font-size:.9rem;min-width:12px}
-.streak-flame {flex:none;width:24px;height:24px;overflow:visible}
+.streak-flame {display:block;flex:none;width:20px;height:20px;overflow:visible}
 .flame-shell {fill:#ec512c;stroke:#e5572a;stroke-width:1.3;stroke-linejoin:round}
 .flame-body {fill:#ff9c28}
 .flame-core {fill:#ffe67c}

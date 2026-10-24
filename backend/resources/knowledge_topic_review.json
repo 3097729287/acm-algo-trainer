@@ -36,10 +36,12 @@
         {
           "problemId": "Div.3 1103::F1",
           "reference": "data/library/solutions.json#Div.3 1103::F1",
-          "sha256": "bd6c00dd6d547821dbcef5f3aaa2bd234d428999c1db05d875412339d4dda169",
+          "sha256": "fd3011b9f0d23287c712b83ead1e976cc96607ac79362695408f6d6a08042491",
           "reasons": [
             "题解具体使用最小公倍数的质因数指数、周期或与 gcd 的关系。"
-          ]
+          ],
+          "previousSha256": "bd6c00dd6d547821dbcef5f3aaa2bd234d428999c1db05d875412339d4dda169",
+          "revisionEvidence": "data/editorial-reasoning-review.json#Div.3 1103::F1"
         }
       ]
     },
@@ -56,10 +58,12 @@
         {
           "problemId": "Div.3 1103::F2",
           "reference": "data/library/solutions.json#Div.3 1103::F2",
-          "sha256": "63c952a7e5bd817864c83c6cfb8a98ac31ed6140a055234fd1d722bc8daae4bb",
+          "sha256": "6111d6f35ab87df237fb67030fdc52c83f29fccf1789122489c8955e55d9b1ad",
           "reasons": [
             "题解具体使用最小公倍数的质因数指数、周期或与 gcd 的关系。"
-          ]
+          ],
+          "previousSha256": "63c952a7e5bd817864c83c6cfb8a98ac31ed6140a055234fd1d722bc8daae4bb",
+          "revisionEvidence": "data/editorial-reasoning-review.json#Div.3 1103::F2"
         }
       ]
     },
@@ -76,10 +80,12 @@
         {
           "problemId": "Div.4 1003::G",
           "reference": "data/library/solutions.json#Div.4 1003::G",
-          "sha256": "075f0d086fab90404e84071ba0396ade9ef79f39b3f7f17ad5dfd83373f1e4f7",
+          "sha256": "c8d7134912b31de64f9f19a5d7813c69d9ee6d782fe95ecfe556650905294a94",
           "reasons": [
             "题解具体使用最小公倍数的质因数指数、周期或与 gcd 的关系。"
-          ]
+          ],
+          "previousSha256": "075f0d086fab90404e84071ba0396ade9ef79f39b3f7f17ad5dfd83373f1e4f7",
+          "revisionEvidence": "data/editorial-reasoning-review.json#Div.4 1003::G"
         }
       ]
     },
@@ -96,10 +102,12 @@
         {
           "problemId": "lanqiao:2024:省:::P10426",
           "reference": "data/library/solutions.json#lanqiao:2024:省:::P10426",
-          "sha256": "05b737da91a85fd7eebd21cf6a164d01328125c5a994fd18fe9b60b39052b612",
+          "sha256": "029e46b86353c9ad2d0ef1560756f69493c0452cd0448a040c54c1cef4aab83b",
           "reasons": [
             "题解具体使用最小公倍数的质因数指数、周期或与 gcd 的关系。"
-          ]
+          ],
+          "previousSha256": "05b737da91a85fd7eebd21cf6a164d01328125c5a994fd18fe9b60b39052b612",
+          "revisionEvidence": "data/editorial-reasoning-review.json#lanqiao:2024:省:::P10426"
         }
       ]
     },
@@ -116,10 +124,12 @@
         {
           "problemId": "lanqiao:2025:国:::P12830",
           "reference": "data/library/solutions.json#lanqiao:2025:国:::P12830",
-          "sha256": "478795f11dbe5c54b590d23005b13eadc225ad335be5e3660783c56b8c232be2",
+          "sha256": "43e5fd448ecd376fb906189e2644d37013c46e768daf235cced6b60536a1641f",
           "reasons": [
             "题解具体使用最小公倍数的质因数指数、周期或与 gcd 的关系。"
-          ]
+          ],
+          "previousSha256": "478795f11dbe5c54b590d23005b13eadc225ad335be5e3660783c56b8c232be2",
+          "revisionEvidence": "data/editorial-reasoning-review.json#lanqiao:2025:国:::P12830"
         }
       ]
     },
@@ -176,10 +186,12 @@
         {
           "problemId": "入门赛 51::F",
           "reference": "data/library/solutions.json#入门赛 51::F",
-          "sha256": "81c88c65bda0fe18ca0f44b38eb95a754ccd324c570467c79a255df1f23d9710",
+          "sha256": "9359e30c785fee2a22072bcd74f6735118ceaf51095e51890e8e8d556f7b4692",
           "reasons": [
             "题解具体使用最小公倍数的质因数指数、周期或与 gcd 的关系。"
-          ]
+          ],
+          "previousSha256": "81c88c65bda0fe18ca0f44b38eb95a754ccd324c570467c79a255df1f23d9710",
+          "revisionEvidence": "data/editorial-reasoning-review.json#入门赛 51::F"
         }
       ]
     },
@@ -256,11 +268,13 @@
         {
           "problemId": "ABC 473::E",
           "reference": "data/library/solutions.json#ABC 473::E",
-          "sha256": "6f39989b5b4a8d1cec77a8b3134939252744e548d8901eb886b6fb22c186e8c0",
+          "sha256": "34302a78398839e4e99816bdd3e2625a8135ba0b23a82bdc90c0781685ce030f",
           "reasons": [
             "实际将出现的数值排序去重并映射到小下标，用于计数或状态数组。",
             "已核对排序去重、lower_bound 映射及压缩后状态/树状数组的使用。"
-          ]
+          ],
+          "previousSha256": "6f39989b5b4a8d1cec77a8b3134939252744e548d8901eb886b6fb22c186e8c0",
+          "revisionEvidence": "data/editorial-reasoning-review.json#ABC 473::E"
         }
       ]
     },
@@ -277,11 +291,13 @@
         {
           "problemId": "Div.3 1096::G",
           "reference": "data/library/solutions.json#Div.3 1096::G",
-          "sha256": "4179b7e2b543f0e41c2f4ecafa8c99d1b4056fac439ef78b651eae00aca91007",
+          "sha256": "86b3524f379b896f0174d9a7515fff1155b09303d159ece10d74d172b3c5346e",
           "reasons": [
             "实际将出现的数值排序去重并映射到小下标，用于计数或状态数组。",
             "已核对排序去重、lower_bound 映射及压缩后状态/树状数组的使用。"
-          ]
+          ],
+          "previousSha256": "4179b7e2b543f0e41c2f4ecafa8c99d1b4056fac439ef78b651eae00aca91007",
+          "revisionEvidence": "data/editorial-reasoning-review.json#Div.3 1096::G"
         }
       ]
     },
@@ -298,11 +314,13 @@
         {
           "problemId": "Div.4 1074::E",
           "reference": "data/library/solutions.json#Div.4 1074::E",
-          "sha256": "e869246c8a8b8a5a6ade42c2f5bf4038b0e13439ce8730c855289ecdb3f51a4d",
+          "sha256": "ad9cffb35f2eea1fa1ac574c498e599a385edef57885755bcbf4fb9ec9e7cdd7",
           "reasons": [
             "实际将出现的数值排序去重并映射到小下标，用于计数或状态数组。",
             "已核对排序去重、lower_bound 映射及压缩后状态/树状数组的使用。"
-          ]
+          ],
+          "previousSha256": "e869246c8a8b8a5a6ade42c2f5bf4038b0e13439ce8730c855289ecdb3f51a4d",
+          "revisionEvidence": "data/editorial-reasoning-review.json#Div.4 1074::E"
         }
       ]
     },
@@ -381,10 +399,12 @@
         {
           "problemId": "lanqiao:2024:国:::P10914",
           "reference": "data/library/solutions.json#lanqiao:2024:国:::P10914",
-          "sha256": "3b578522f78586727831898c836ad4809f758a990e9d9996c1abc04e6b03be73",
+          "sha256": "03d3c7ad9fe0a2fd5e95c0ee137bd9d10775521aaa3338c69b040e17f32eba8e",
           "reasons": [
             "已核对排序去重、lower_bound 映射及压缩后状态/树状数组的使用。"
-          ]
+          ],
+          "previousSha256": "3b578522f78586727831898c836ad4809f758a990e9d9996c1abc04e6b03be73",
+          "revisionEvidence": "data/editorial-reasoning-review.json#lanqiao:2024:国:::P10914"
         }
       ]
     },
@@ -401,10 +421,12 @@
         {
           "problemId": "lanqiao:2025:国:::P12839",
           "reference": "data/library/solutions.json#lanqiao:2025:国:::P12839",
-          "sha256": "7cb139e66d64d36b3b853937f782e41b1849d0c0be889950a3956ee9c995cfd7",
+          "sha256": "4f15ff6743c58ceacd93571a092a91ccd3f06048621e19c8e51ab69e898540eb",
           "reasons": [
             "已核对排序去重、lower_bound 映射及压缩后状态/树状数组的使用。"
-          ]
+          ],
+          "previousSha256": "7cb139e66d64d36b3b853937f782e41b1849d0c0be889950a3956ee9c995cfd7",
+          "revisionEvidence": "data/editorial-reasoning-review.json#lanqiao:2025:国:::P12839"
         }
       ]
     },
@@ -461,10 +483,12 @@
         {
           "problemId": "ABC 477::D",
           "reference": "data/library/solutions.json#ABC 477::D",
-          "sha256": "25996a03ac8c0cbb2a0fc5a5df675cd6b6c529a9062b9a3e6c7e22d02f8b5033",
+          "sha256": "761ea6a1de371512a32e2d19cac122f43e82b4f7c26ed546ea37d0b0f6979b5f",
           "reasons": [
             "维护剩余元素顺序并进行删除、转移或邻接修改；不是仅用邻接表存图。"
-          ]
+          ],
+          "previousSha256": "25996a03ac8c0cbb2a0fc5a5df675cd6b6c529a9062b9a3e6c7e22d02f8b5033",
+          "revisionEvidence": "data/editorial-reasoning-review.json#ABC 477::D"
         }
       ]
     },
@@ -501,10 +525,12 @@
         {
           "problemId": "Div.2 1118::C",
           "reference": "data/library/solutions.json#Div.2 1118::C",
-          "sha256": "2ddaff8f2f60aa06ebf53abe5ebaa06ac6815ff1c8bf9b9fda7e02ac805bbe9e",
+          "sha256": "65fd93ec58bb6e6ce066e6f93ff733df79bb26f22049f15154d1f78a875cd67f",
           "reasons": [
             "已核对程序先发出询问、刷新输出、再读取交互器回复及询问预算。"
-          ]
+          ],
+          "previousSha256": "2ddaff8f2f60aa06ebf53abe5ebaa06ac6815ff1c8bf9b9fda7e02ac805bbe9e",
+          "revisionEvidence": "data/editorial-reasoning-review.json#Div.2 1118::C"
         }
       ]
     },
@@ -521,10 +547,12 @@
         {
           "problemId": "Div.3 1076::G",
           "reference": "data/library/solutions.json#Div.3 1076::G",
-          "sha256": "fd17b36ab58fa12072d0429b197a074bc09c12bb1942e12e60407f01f44f9487",
+          "sha256": "5b345a7164e0ab85b69b168bf549eebb3e3f3bfa5d6d86992100fa0d4de410df",
           "reasons": [
             "已核对程序先发出询问、刷新输出、再读取交互器回复及询问预算。"
-          ]
+          ],
+          "previousSha256": "fd17b36ab58fa12072d0429b197a074bc09c12bb1942e12e60407f01f44f9487",
+          "revisionEvidence": "data/editorial-reasoning-review.json#Div.3 1076::G"
         }
       ]
     },
@@ -541,10 +569,12 @@
         {
           "problemId": "Div.4 964::G1",
           "reference": "data/library/solutions.json#Div.4 964::G1",
-          "sha256": "7a78b934c69dc2f25debd7c76157d80a6782ba2576b958fd694a1558fa3a5cdc",
+          "sha256": "4029bc54a16312945b7f85c31143ffbff637fe4debfd9fe9b6422ea2c6e1d082",
           "reasons": [
             "已核对程序先发出询问、刷新输出、再读取交互器回复及询问预算。"
-          ]
+          ],
+          "previousSha256": "7a78b934c69dc2f25debd7c76157d80a6782ba2576b958fd694a1558fa3a5cdc",
+          "revisionEvidence": "data/editorial-reasoning-review.json#Div.4 964::G1"
         }
       ]
     },
@@ -561,10 +591,12 @@
         {
           "problemId": "Div.4 964::G2",
           "reference": "data/library/solutions.json#Div.4 964::G2",
-          "sha256": "4c14f8c0c50933222b43b22c70d5abaff061d023e3df9b1cdf17539d8f74f76c",
+          "sha256": "c399201694f3b8f3bc5286c30d84a3be32b863fa88909691127f88fdf9dca29a",
           "reasons": [
             "已核对程序先发出询问、刷新输出、再读取交互器回复及询问预算。"
-          ]
+          ],
+          "previousSha256": "4c14f8c0c50933222b43b22c70d5abaff061d023e3df9b1cdf17539d8f74f76c",
+          "revisionEvidence": "data/editorial-reasoning-review.json#Div.4 964::G2"
         }
       ]
     },
@@ -686,10 +718,12 @@
         {
           "problemId": "ABC 472::F",
           "reference": "data/library/solutions.json#ABC 472::F",
-          "sha256": "9ab5d5ae72c1f8a0f43df008b509dc2b445166d54dd2156a19b0d6c39556875e",
+          "sha256": "7200a000ecb4cc167636c2042af43e7843b6ed1ebd36e40ee0cd414b5c368160",
           "reasons": [
             "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
-          ]
+          ],
+          "previousSha256": "9ab5d5ae72c1f8a0f43df008b509dc2b445166d54dd2156a19b0d6c39556875e",
+          "revisionEvidence": "data/editorial-reasoning-review.json#ABC 472::F"
         }
       ]
     },
@@ -707,10 +741,12 @@
         {
           "problemId": "ABC 476::F",
           "reference": "data/library/solutions.json#ABC 476::F",
-          "sha256": "b02050264ee5a8a3ee9a2ac350c62251f45b3be9a89ece408dfb5a782f92c956",
+          "sha256": "a113dae160309e085e28ff8f57cc162ff031b137def7c6431e1ced4a565ce667",
           "reasons": [
             "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
-          ]
+          ],
+          "previousSha256": "b02050264ee5a8a3ee9a2ac350c62251f45b3be9a89ece408dfb5a782f92c956",
+          "revisionEvidence": "data/editorial-reasoning-review.json#ABC 476::F"
         }
       ]
     },
@@ -727,10 +763,12 @@
         {
           "problemId": "Div.3 1080::F",
           "reference": "data/library/solutions.json#Div.3 1080::F",
-          "sha256": "9f4f12fb773c69a3b0d49c46e058a4ce33d2d4eff13d630ac6b687945a06621e",
+          "sha256": "c0c2a076cd7d67f995afb4fcbc85797d555589ab19bda1c5309b7e64dd076171",
           "reasons": [
             "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
-          ]
+          ],
+          "previousSha256": "9f4f12fb773c69a3b0d49c46e058a4ce33d2d4eff13d630ac6b687945a06621e",
+          "revisionEvidence": "data/editorial-reasoning-review.json#Div.3 1080::F"
         }
       ]
     },
@@ -770,10 +808,12 @@
         {
           "problemId": "Div.4 971::D",
           "reference": "data/library/solutions.json#Div.4 971::D",
-          "sha256": "2e7bdefa5b141d64c051c2f9686ec9b9a3a343daed707ad14b30a276198a123f",
+          "sha256": "a8a58e5b0fda7346e1e955a985ee1b010ccaebe1fef029987d3a065217e1d6c7",
           "reasons": [
             "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
-          ]
+          ],
+          "previousSha256": "2e7bdefa5b141d64c051c2f9686ec9b9a3a343daed707ad14b30a276198a123f",
+          "revisionEvidence": "data/editorial-reasoning-review.json#Div.4 971::D"
         }
       ]
     },
@@ -791,10 +831,12 @@
         {
           "problemId": "lanqiao:2022:省:::P8785",
           "reference": "data/library/solutions.json#lanqiao:2022:省:::P8785",
-          "sha256": "ad2281f42f8812408254a32a8d31888ccba1dac3efdab3fec9161b2284aef8d6",
+          "sha256": "6b73c56e41b763a746718ef7828180ec1aad25738914d296b3d2d02ada67c147",
           "reasons": [
             "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
-          ]
+          ],
+          "previousSha256": "ad2281f42f8812408254a32a8d31888ccba1dac3efdab3fec9161b2284aef8d6",
+          "revisionEvidence": "data/editorial-reasoning-review.json#lanqiao:2022:省:::P8785"
         }
       ]
     },
@@ -1110,10 +1152,12 @@
         {
           "problemId": "入门赛 52::C",
           "reference": "data/library/solutions.json#入门赛 52::C",
-          "sha256": "630d204c165275eb64eab90c2995d621c00bc4f809b7676bfcd4f0d4953314aa",
+          "sha256": "d1d2bbbc3ec5feca4c3315e522ce886c60fdb69a87ee27505d8de10d21e71d8b",
           "reasons": [
             "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
-          ]
+          ],
+          "previousSha256": "630d204c165275eb64eab90c2995d621c00bc4f809b7676bfcd4f0d4953314aa",
+          "revisionEvidence": "data/editorial-reasoning-review.json#入门赛 52::C"
         }
       ]
     },
@@ -1255,10 +1299,12 @@
         {
           "problemId": "周赛 155::B",
           "reference": "data/library/solutions.json#周赛 155::B",
-          "sha256": "5c2ba839d0b4cc4993b6754052c33f2352020f712ec4dc4bbcf0d2eedc73ffe3",
+          "sha256": "121d6d799572ea151d27874e5cfa61aa9dce220d6ca5ebddde0e1be1fb65c3b0",
           "reasons": [
             "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
-          ]
+          ],
+          "previousSha256": "5c2ba839d0b4cc4993b6754052c33f2352020f712ec4dc4bbcf0d2eedc73ffe3",
+          "revisionEvidence": "data/editorial-reasoning-review.json#周赛 155::B"
         }
       ]
     },
@@ -1297,10 +1343,12 @@
         {
           "problemId": "基础赛 36::C",
           "reference": "data/library/solutions.json#基础赛 36::C",
-          "sha256": "4edb80f3bbff213fc959ad2f33636793348e98e92e0c77e64fba39c2ff014651",
+          "sha256": "d7c1232f0058e1003dbc4704f1d2e0bde811dc368b0f457b2f56c5ba824228bd",
           "reasons": [
             "已阅读本题解中的实际几何对象、判定公式及实现，将粗略几何标签细分。"
-          ]
+          ],
+          "previousSha256": "4edb80f3bbff213fc959ad2f33636793348e98e92e0c77e64fba39c2ff014651",
+          "revisionEvidence": "data/editorial-reasoning-review.json#基础赛 36::C"
         }
       ]
     },
@@ -1343,10 +1391,12 @@
         {
           "problemId": "lanqiao:2025:省:/Python B 第二场::P12340",
           "reference": "data/library/solutions.json#lanqiao:2025:省:/Python B 第二场::P12340",
-          "sha256": "568b440ebd7d7b6d6d598adf4d9d5e48ed28d1c0dabeb8b1b345f14854506cb7",
+          "sha256": "fecaf208b1667404581fd454b69f9b56242d78ae577841922174a9cdafee96bd",
           "reasons": [
             "本题按 (i+j) mod 7 统计字符，不涉及几何计算。"
-          ]
+          ],
+          "previousSha256": "568b440ebd7d7b6d6d598adf4d9d5e48ed28d1c0dabeb8b1b345f14854506cb7",
+          "revisionEvidence": "data/editorial-reasoning-review.json#lanqiao:2025:省:/Python B 第二场::P12340"
         }
       ]
     },

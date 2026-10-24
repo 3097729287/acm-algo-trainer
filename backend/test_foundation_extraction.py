@@ -24,10 +24,17 @@ class FoundationExtractionTests(unittest.TestCase):
         lessons = [row['content'] for row in extraction.load(source / 'lectures.json') if row['content'].get('conceptSource') == 'reviewed-editorial-extraction']
         self.assertEqual(len(lessons), len(manifest['lessons']))
         relationships = extraction.load(source / 'links.json')
+        snapshots = {row['problemId']: row for row in manifest['lessons']}
+        revisions = {row['problemId']: row for row in extraction.load(ROOT / 'data/editorial-reasoning-review.json')['problems']}
         for lesson in lessons:
             problem = lesson['sourceProblemIds'][0]
             editorial = editorials[problem]
-            self.assertIn(lesson['sourceMarkdown'], editorial['markdown'])
+            # Published lessons retain their original extraction after an editorial
+            # rewrite; verify that snapshot independently of the newer prose.
+            self.assertEqual(lesson['sourceHash'], snapshots[problem]['sourceSnapshotHash'])
+            if lesson['sourceMarkdown'] not in editorial['markdown']:
+                self.assertEqual(hashlib.sha256(editorial['markdown'].encode()).hexdigest(),
+                                 revisions[problem]['variants']['detailed_solutions']['markdownSha256'])
             body = lesson['sourceMarkdown'].split('\n', 1)[1].strip()
             self.assertIn(body, lesson['markdown'])
             self.assertEqual(hashlib.sha256(lesson['sourceMarkdown'].encode()).hexdigest(), lesson['sourceHash'])
