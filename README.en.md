@@ -12,7 +12,7 @@ Individual editorial refinement and reading review are tracked separately and re
 
 **Local desktop 1.4.2 update, not publicly released:** Algorithm Lab adds prefix sums with difference arrays and two pointers, seven lessons and five guided problems each. Knapsack DP adds animated choice comparisons and synchronized read/write flows. The normal desktop program contains 21 lessons and 15 guided problems, preserving progress. Future validated feature and teaching updates are packaged directly; standalone previews are not the default delivery. [Content and validation](docs/algorithm-lab-sequences.md).
 
-**Local desktop 1.4.3 candidate (validation in progress; unpublished):** Unified nickname/date/algorithm search, full-history submission pagination, training-state folders, segmented activity bars, Rasch practice estimates with uncertainty, finer difficulty controls, aligned statistics and settings animations. Existing courses and personal records are retained. [Scope](docs/releases/1.4.3.md) · [Model and sources](docs/knowledge-mastery.md).
+**Local desktop 1.4.3 validated and delivered (unpublished):** Unified nickname/date/algorithm search, full-history submission pagination, training-state folders, segmented activity bars, Rasch practice estimates with uncertainty, finer difficulty controls, aligned statistics and settings animations. Existing courses and personal records are retained. [Scope](docs/releases/1.4.3.md) · [Model and sources](docs/knowledge-mastery.md).
 
 [Website](https://3097729287.github.io/acm-algo-trainer/) · [Usage](docs/usage.md) · [Development](docs/development.md) · [中文](README.md)
 
@@ -85,7 +85,7 @@ Save drafts and exit TB before installing into the existing directory. Personal 
 
 ## Library and progression
 
-The local 1.4.2 public seed retains **5,834 original problem entries, 2,437 statements, 1,317 default editorials, 1,317 detailed editorials and 445 lectures**. This adds ten curated lab problems and their material to stable 1.4.1 and remains unpublished. The UI deduplicates original tasks while preserving aliases, content and work. Uncached statements require connectivity. New editorial work is limited to verified problem difficulty at most 2200, including 2200. [Editorial policy](docs/editorial-policy.md).
+The local 1.4.3 public seed retains **5,834 original problem entries, 2,437 statements, 1,317 default editorials, 1,317 detailed editorials and 445 lectures**. This adds ten curated lab problems and their material to stable 1.4.1 and remains unpublished. The UI deduplicates original tasks while preserving aliases, content and work. Uncached statements require connectivity. New editorial work is limited to verified problem difficulty at most 2200, including 2200. [Editorial policy](docs/editorial-policy.md).
 
 XP levels and skill tiers are independent. Level 5 unlocks placement; at least five distinct, verified, independent first official ACs are required. Ability is the median difficulty of the strongest five. Iron through King starts at **0, 800, 1000, 1200, 1600, 1800, 2000, 2100 and 2200**. This is a training estimate, not a direct copy of an original-site account rating. [Progression rules](docs/progression.md).
 
