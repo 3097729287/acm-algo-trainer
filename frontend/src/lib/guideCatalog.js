@@ -1,9 +1,15 @@
 const step=(target,title,text)=>({target,title,text});
 const page=(id,items,tab)=>items.map(item=>({...item,page:id,...(tab?{tab}:{})}));
 
-export const GUIDE_LABELS={mine:'我的训练',library:'题库',competitions:'比赛',mock:'模拟赛',growth:'成长与能力',rankings:'排行榜',records:'提交记录',activity:'活动记录',lectures:'从零讲',paths:'算法实验室',practice:'做题工作台',settings:'设置首页','settings:appearance':'外观设置','settings:interaction':'交互与导航','settings:training':'快捷键','settings:accounts':'账号与身份','settings:advanced':'翻译 API','settings:updates':'更新','settings:help':'数据统计','settings:thanks':'鸣谢'};
+export const GUIDE_LABELS={mine:'我的训练',library:'题库','training-lists':'题单',competitions:'比赛',mock:'模拟赛',growth:'成长与能力',rankings:'排行榜',records:'提交记录',activity:'活动记录',lectures:'从零讲',paths:'算法实验室',practice:'做题工作台',settings:'设置首页','settings:appearance':'外观设置','settings:interaction':'交互与导航','settings:training':'快捷键','settings:accounts':'账号与身份','settings:advanced':'翻译 API','settings:updates':'更新','settings:help':'数据统计','settings:thanks':'鸣谢'};
 
 export const PAGE_GUIDES={
+ 'training-lists':page('training-lists',[
+  step('.page-search-controls','搜索题单和题目','输入算法、题单名称、题号或题名。按算法查看训练专题，按来源查看洛谷原有系列；通过状态筛选会使用题库中同一道题的真实进度。'),
+  step('.training-list-content','逐层打开文件夹','点击算法、系列或题单文件夹继续进入。正文中的章节与关联子题单也保留目录；全部题目汇总当前题单及其子题单中的不同题目。'),
+  step('.training-list-path','逐级返回','点击面包屑或返回箭头回到上一级，也可以按 Esc。进入工作台后返回，会恢复目录、搜索、分页和滚动位置。'),
+  step('.training-list-heading','共用题库与进度','同一道题可以属于多个题单，代码和通过记录共用。题单目录随安装包保存；尚未缓存的题面在打开题目时从原站读取。右上角可查看原题单。'),
+ ]),
  mine:page('mine',[
   step('.brand-mark','收起与展开侧边栏','点击左上角 TB 标识可收起或展开侧边栏；收起后仍可通过图标访问各页。'),
   step('.sidebar [aria-label="我的训练"]','今日训练从这里继续','这里汇总今天安排的目标题、待攻克题目和继续练习的内容。昨天的代码和记录会保留，跨日不会删除。'),

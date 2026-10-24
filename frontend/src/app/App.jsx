@@ -33,6 +33,7 @@ import {
   BookOpen,
   FlaskConical,
   Library,
+  FolderOpen,
   Flag,
   History,
   Network,
@@ -120,11 +121,13 @@ const AvatarSettings = lazy(() => import('@/components/AvatarSettings.jsx'));
 const ContestCalendar = lazy(() => import('@/pages/ContestCalendar.jsx'));
 const Onboarding = lazy(() => import('@/pages/Onboarding.jsx'));
 const LearningPathsPage = lazy(() => import('@/pages/LearningPathsPage.jsx'));
+const TrainingListsPage = lazy(() => import('@/pages/TrainingListsPage.jsx'));
 const PreferencesPage = lazy(() => import('@/pages/PreferencesPage.jsx'));
 
 const PAGES = [
   { id: "mine", label: "我的训练", icon: Target, key: "1" },
   { id: "library", label: "题库", icon: Library, key: "2" },
+  { id: "training-lists", label: "题单", icon: FolderOpen, key: "" },
   { id: "competitions", label: "比赛", icon: Flag, key: "4" },
   { id: "mock", label: "模拟赛", icon: Clock, key: "5" },
   { id: "records", label: "提交记录", icon: History, key: "6" },
@@ -153,7 +156,7 @@ const DEFAULTS = {
   views: [],
   readerWidth: 520,
   fontSize: 15,
-  navOrder: ["mine", "library", "competitions", "mock", "paths", "rankings", "growth", "records", "activity", "lectures"],
+  navOrder: ["mine", "library", "training-lists", "competitions", "mock", "paths", "rankings", "growth", "records", "activity", "lectures"],
   learningPaths: {},
   shortcuts: {},
   navSchema: 2,
@@ -172,6 +175,10 @@ function normalizePreferences(saved) {
     };
     preferences.navOrder = (Array.isArray(preferences.navOrder) ? preferences.navOrder : DEFAULTS.navOrder).filter(id => id !== "today");
     if (!saved?.navSchema) preferences.navOrder = [...DEFAULTS.navOrder];
+    if (!preferences.navOrder.includes('training-lists')) {
+      const libraryIndex = preferences.navOrder.indexOf('library');
+      preferences.navOrder.splice(libraryIndex < 0 ? preferences.navOrder.length : libraryIndex + 1, 0, 'training-lists');
+    }
     preferences.navSchema = 2;
     preferences.navGroups = { ...preferences.navGroups };
     preferences.navLabels = { ...preferences.navLabels };
@@ -559,6 +566,7 @@ export default function App() {
   const [keyboardSelection, setKeyboardSelection] = useState(false), [listOrder, setListOrder] = useState(null);
   const restoreList = useRef(null);
   const labVisit = useRef({leftAt:null,scrollTop:0});
+  const trainingListsVisit = useRef({});
   const [tourOpen,setTourOpen]=useState(false);
   const [tourContext,setTourContext]=useState('overview');
   const automaticTourStarted=useRef(false);
@@ -1064,7 +1072,7 @@ export default function App() {
   function focusList() {
     requestAnimationFrame(() => listRef.current?.focus({ preventScroll: true }));
   }
-  async function openPractice(id, { assisted = false } = {}) {
+  async function openPractice(id, { assisted = false, problemIds = null } = {}) {
     if (!id || busy) return;
     if (active?.slots.some((s) => s.id === id)) {
       setReaderId(null);
@@ -1076,7 +1084,7 @@ export default function App() {
     setBusy(true);
     const list = listRef.current;
     const context = contextRef.current && practiceId ? contextRef.current : {
-      page, ids: visibleRef.current.map(row => row.id), id, libraryPage: currentLibraryPage,
+      page, ids: problemIds || visibleRef.current.map(row => row.id), id, libraryPage: currentLibraryPage,
       scrollTop: list?.scrollTop || 0, scrollLeft: list?.scrollLeft || 0,
     };
     if (list) {
@@ -2186,6 +2194,8 @@ export default function App() {
             <GoalsPanel api={api} overview={workspace.goals} onChanged={() => reload()} />
           ) : page === "activity" ? (
             <ActivityPage insights={insights} onTrain={openPractice} />
+          ) : page === "training-lists" ? (
+            <TrainingListsPage rows={rows} api={api} onTrain={openPractice} visit={trainingListsVisit.current} pageSize={prefs.libraryPageSize} busy={busy}/>
           ) : page === "paths" ? (
             <LearningPathsPage rows={rows} api={api} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} lockedProblems={active?.slots || []} visit={labVisit.current}/>
           ) : page === "lectures" ? (

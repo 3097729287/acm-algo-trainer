@@ -1,0 +1,772 @@
+{
+  "addedProblems": 7289,
+  "categories": 13,
+  "collectedAt": "2026-10-24T12:07:13.081031+00:00",
+  "errors": [
+    {
+      "error": "Public GET failed: 22",
+      "id": "luogu-560",
+      "kind": "training"
+    },
+    {
+      "error": "Public GET failed: 22",
+      "id": "luogu-561",
+      "kind": "training"
+    },
+    {
+      "error": "Public GET failed: 22",
+      "id": "luogu-562",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-563",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-564",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-565",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-505362",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-503750",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-506746",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-504516",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-506754",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-504581",
+      "kind": "training"
+    },
+    {
+      "error": "Public GET failed: 22",
+      "id": "luogu-506768",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-504623",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-506779",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-504649",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-506816",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-505327",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-506837",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-505477",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-735856",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-735866",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-735868",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-735873",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-735883",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-735886",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-735890",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-1016020",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-1016021",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-1016022",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-1016023",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-1016024",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-1016090",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-1016091",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-1016092",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-1016093",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-1016094",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-1016590",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-1016593",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-1016595",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-1016599",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-410",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-411",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-412",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-413",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-414",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-415",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-416",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-417",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-9349",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-9374",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-9376",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-9350",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-9352",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-9372",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-9373",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-9377",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-9378",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-9379",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-9380",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-9381",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-9382",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-9383",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-9384",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-9385",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-9386",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-9387",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-9388",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-13993",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-13994",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-14005",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-14006",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-511300",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-44326",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-9714",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-862943",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-3043",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-18506",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-18508",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-18509",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-18938",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-206995",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-209337",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-214621",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-221804",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-239450",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-206977",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-181995",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-181342",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-755575",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-747972",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-748106",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-780605",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-780826",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-747431",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-745619",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-745636",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-749493",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-745555",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-745609",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-745551",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-745544",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-769067",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-177093",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-79158",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-568306",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-626676",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-537913",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-598814",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-584719",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-140652",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-145463",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-471061",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-241374",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-100192",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-584740",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-13245",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-174991",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-46574",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-4972",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-147992",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-3120",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-57464",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-36057",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-1095179",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-950483",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-950489",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-950514",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-950579",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-950588",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-950595",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-950596",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-950598",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-950602",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-950605",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-950615",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-950621",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-951035",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-951040",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-951046",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-951063",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-951071",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "luogu-959907",
+      "kind": "training"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "P5898",
+      "kind": "problem"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "P4680",
+      "kind": "problem"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "P2384",
+      "kind": "problem"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "CF802O",
+      "kind": "problem"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "P7388",
+      "kind": "problem"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "P7332",
+      "kind": "problem"
+    },
+    {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "id": "T501207",
+      "kind": "problem"
+    }
+  ],
+  "indexedLists": 469,
+  "lists": 563,
+  "reusedProblems": 60,
+  "source": "https://www.luogu.com.cn/training/list",
+  "totalLibraryProblems": 13123,
+  "uniqueProblems": 7356,
+  "unresolvedProblems": [
+    "P5898",
+    "P4680",
+    "P2384",
+    "CF802O",
+    "P7388",
+    "P7332",
+    "T501207"
+  ]
+}

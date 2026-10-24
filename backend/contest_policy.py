@@ -78,6 +78,10 @@ def content_ready(statement):
 
 
 def apply_visibility(row):
+    if row.get('trainingListMember'):
+        # Explicitly collected training lists extend catalogue scope. Stored
+        # contest identities/content and all personal progress stay untouched.
+        return {key: value for key, value in row.items() if key not in ('catalogHidden', 'catalogNotice', 'catalogVisibilityPolicy')}
     if retired(row):
         return {**row, 'catalogHidden': True, 'catalogNotice': '已退出自动收录范围；个人训练与历史记录保留'}
     if row.get('source') in AUTO_SOURCES and not preserved_collection(row):

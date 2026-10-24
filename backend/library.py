@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS detailed_solutions(
  markdown TEXT NOT NULL, source_path TEXT NOT NULL, images TEXT NOT NULL, digest TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS statements(problem_id TEXT PRIMARY KEY, content TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS lectures(id TEXT PRIMARY KEY, content TEXT NOT NULL, digest TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS training_lists(id TEXT PRIMARY KEY, content TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS problem_lectures(
  problem_id TEXT NOT NULL REFERENCES problems(id) ON DELETE CASCADE,
  lecture_id TEXT NOT NULL REFERENCES lectures(id) ON DELETE CASCADE,
@@ -63,11 +64,11 @@ class LibraryDatabase:
             with self.connection() as db:
                 exists = db.execute("SELECT 1 FROM sqlite_master WHERE name='library_meta'").fetchone()
                 version = db.execute("SELECT value FROM library_meta WHERE key='schema'").fetchone() if exists else None
-            if version and int(version[0]) < 4:
+            if version and int(version[0]) < 5:
                 self.backup('schema-migration')
         with self.connection() as db:
             db.executescript(SCHEMA)
-            db.execute("INSERT INTO library_meta VALUES ('schema', '4') ON CONFLICT(key) DO UPDATE SET value='4' WHERE value!='4'")
+            db.execute("INSERT INTO library_meta VALUES ('schema', '5') ON CONFLICT(key) DO UPDATE SET value='5' WHERE value!='5'")
             db.execute("INSERT OR IGNORE INTO library_meta VALUES ('revision', '0')")
             indexed = db.execute("SELECT value FROM library_meta WHERE key='url_index_version'").fetchone()
             if not indexed or indexed[0] != '1':
@@ -121,6 +122,8 @@ class LibraryDatabase:
             # Older distributions have only default solutions. They remain valid seeds.
             if seed.execute("SELECT 1 FROM sqlite_master WHERE name='detailed_solutions'").fetchone():
                 tables['detailed_solutions'] = ('problem_id', ['problem_id', 'markdown', 'source_path', 'images', 'digest'])
+            if seed.execute("SELECT 1 FROM sqlite_master WHERE name='training_lists'").fetchone():
+                tables['training_lists'] = ('id', ['id', 'content'])
             rows = {name: list(seed.execute('SELECT * FROM ' + name)) for name in tables}
             links = {}
             for row in seed.execute('SELECT * FROM problem_lectures ORDER BY problem_id,position'):
@@ -304,6 +307,12 @@ class LibraryDatabase:
         with self.connection() as db:
             return dict(db.execute('SELECT key,value FROM library_meta'))
 
+    def training_lists(self):
+        with self.connection() as db:
+            if not db.execute("SELECT 1 FROM sqlite_master WHERE name='training_lists'").fetchone():
+                return []
+            return [json.loads(row[0]) for row in db.execute('SELECT content FROM training_lists ORDER BY rowid')]
+
     def import_records(self, records, lectures, references, metadata=None):
         # All content and relations commit together. A failed import leaves the old library readable.
         dumps = lambda value: json.dumps(value, ensure_ascii=False)
@@ -378,6 +387,7 @@ class LibraryDatabase:
         dump('statements.json', statements)
         dump('lectures.json', lectures)
         dump('links.json', links)
+        dump('training_lists.json', self.training_lists())
         return directory
 
     @classmethod
@@ -394,6 +404,7 @@ class LibraryDatabase:
         lectures = load('lectures.json')
         links = load('links.json')
         meta = load('meta.json')
+        training_lists = load('training_lists.json') if (directory / 'training_lists.json').is_file() else []
         database = cls(path)
         with database.connection() as db:
             db.execute('BEGIN IMMEDIATE')
@@ -413,7 +424,9 @@ class LibraryDatabase:
                              hashlib.sha256(lecture['content']['markdown'].encode()).hexdigest()) for lecture in lectures])
             db.executemany('INSERT OR REPLACE INTO problem_lectures (problem_id,lecture_id,kind,position) VALUES (?,?,?,?)',
                            [(link['problem_id'], link['lecture_id'], link['kind'], link['position']) for link in links])
-            for key, value in {**meta, 'schema': '4'}.items():
+            db.executemany('INSERT OR REPLACE INTO training_lists (id,content) VALUES (?,?)',
+                           [(item['id'], json.dumps(item, ensure_ascii=False)) for item in training_lists])
+            for key, value in {**meta, 'schema': '5'}.items():
                 db.execute('INSERT INTO library_meta VALUES (?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value', (key, value))
             cls._rebuild_urls(db)
             if db.execute('PRAGMA foreign_key_check').fetchall():

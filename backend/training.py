@@ -1559,7 +1559,7 @@ class TrainingService:
         with self.lock:
             groups={}
             for row in self._library():
-                if not row.get('catalogHidden'):groups.setdefault(row['contest'],[]).append(row)
+                if not row.get('catalogHidden') and row.get('source') != 'luogu-training':groups.setdefault(row['contest'],[]).append(row)
             result=[event_info(name,rows) for name,rows in groups.items()]
             from contest_names import contest_name, natural_key
             for item in result:
@@ -1580,7 +1580,7 @@ class TrainingService:
         name=body.get('contest')
         if not isinstance(name,str) or not name:raise ServiceError(400,'请选择已收录比赛')
         with self.lock:
-            rows=[row for row in self._library() if row['contest']==name]
+            rows=[row for row in self._library() if row['contest']==name and row.get('source') != 'luogu-training']
             if not rows:raise ServiceError(404,'这场比赛尚未收录')
             info=event_info(name,rows)
             if info['complete'] is False:raise ServiceError(422,'这场比赛题单尚不完整，请先收录剩余赛题')

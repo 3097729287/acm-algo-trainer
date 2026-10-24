@@ -49,6 +49,12 @@ class Store:
         self.history_file = Path(history_file or STATE / 'history.jsonl')
         from contestmeta import ContestDates
         self.contest_dates = ContestDates(self)
+        self._refresh_training_membership()
+
+    def _refresh_training_membership(self):
+        entries = [item for training in self.library.training_lists() for item in training.get('problems', [])]
+        self._training_problem_ids = {item.get('problemId') for item in entries if item.get('problemId')}
+        self._training_problem_urls = {canonical_url(item.get('url')) for item in entries if item.get('url')}
 
     def raw_rows(self):
         return self.library.rows(raw=True)
@@ -96,6 +102,8 @@ class Store:
             value['catalogContentReady'] = bool(found['content_ready'])
         if url:
             value['url'] = url
+        if identity in self._training_problem_ids or canonical_url(value.get('url')) in self._training_problem_urls:
+            value['trainingListMember'] = True
         metadata = getattr(self.extensions, 'problem_metadata', None)
         if callable(metadata):
             patch = metadata(row, value.get('url'))
@@ -222,6 +230,7 @@ class Store:
             return raw[:-1] + b', ' + suffix[1:]
 
     def _catalog_rows(self):
+        self._refresh_training_membership()
         records = self.library.catalog()
         by_id = {record['id']: record for record in records}
         by_url = {}

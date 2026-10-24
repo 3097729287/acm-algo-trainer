@@ -130,7 +130,7 @@ function ContestGrade({ group, locked = false }) {
   return <span className="contest-grade" title={`已评级 ${ratings.length}/${group.rows.length} 题的难度中位数，仅供训练参考`}>参考 {median}</span>;
 }
 export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStartReproduction, initialContest, onBack }) {
-  const groups = useMemo(() => contestGroups(list(rows).filter(row => !row.catalogHidden)), [rows]);
+  const groups = useMemo(() => contestGroups(list(rows).filter(row => !row.catalogHidden && row.source !== 'luogu-training')), [rows]);
   const [query, setQuery] = useState(''), [filter, setFilter] = useState('all');
   const deferredQuery = useDeferredValue(query);
   const [catalogPath, setCatalogPath] = useState([]), [examYear, setExamYear] = useState('');

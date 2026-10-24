@@ -1,5 +1,13 @@
 # TB 开发与构建
 
+## 1.4.5 本机题单交付
+
+分支 `feature/luogu-training` 从已交付 1.4.3 的源码继续，避开另一个正在准备的 1.4.4 工作副本。版本 1.4.5 只在本机交付，公开下载仍为 1.4.1，管理员只生成本机程序。题单目录和 7289 道去重新题来自匿名公开读取；143 个目录暂不可读取、7 个题号未解析，记录在 `data/luogu-training-coverage.json`，不得写成全量收录成功。
+
+收集：`python scripts/import_luogu_training.py --collection .backups/luogu-training/collection.json`；审查后使用 `--apply --backup <新的备份目录>`，再运行 `python scripts/library_seed.py build`。重新抓取时指定新的 collection 路径与缓存目录。脚本不读取浏览器 Cookie 或本机登录，失败项保留。已有题目按原站 URL 复用，题解正文不在本次采集范围。
+
+验证运行 `python scripts/check.py`、前端 `npm run build` 和 `npm run test:training-lists`，另以真实公共种子启动隔离 API，验证新增题在目录与题库中仅一份、草稿落库与返回位置。打包须固定已推送源码、核对完整公共种子，使用临时状态做冻结程序、新装/卸载和从 1.4.3 升级检查，再在线备份本机个人库并正常退出原程序后安装。实际构建与本机验收以 BUILD-INFO.json 和本地交付记录为准，不发送真实原站提交。
+
 ## 1.4.3 本机交付
 
 分支 `release/1.4.3` 从已交付 1.4.2 继续，验证界面、完整历史分页与掌握指数后固定源码并打包；新装、升级和原生检查使用隔离状态。管理员仅本机程序，个人库在线备份；不公开发布或部署服务。

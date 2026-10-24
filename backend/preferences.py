@@ -74,7 +74,7 @@ def save_preferences(training, body):
         shortcuts = value['shortcuts']
         allowed = {'commands','sidebar','settings','search','refresh','regions','help','practice','solution','favorite','listSearch',
                    'run','submit','official','save','pane-0','pane-1','pane-2',
-                   'page-mine','page-library','page-paths','page-competitions','page-mock','page-records','page-growth','page-activity','page-lectures'}
+                   'page-mine','page-library','page-training-lists','page-paths','page-competitions','page-mock','page-records','page-growth','page-activity','page-lectures'}
         if (not isinstance(shortcuts, dict) or set(shortcuts) - allowed or any(
                 not isinstance(binding, str) or len(binding) > 64 or any(ord(char) < 32 for char in binding)
                 for binding in shortcuts.values())):
@@ -102,7 +102,7 @@ def save_preferences(training, body):
         raise ServiceError(400, '题库每页题数须为 10–200')
     if 'pageOpacities' in value:
         opacities = value['pageOpacities']
-        if (not isinstance(opacities, dict) or set(opacities) - {'mine','library','competitions','mock','rankings','growth','records','activity','lectures','settings','statement','editor','solution','paths'}
+        if (not isinstance(opacities, dict) or set(opacities) - {'mine','library','training-lists','competitions','mock','rankings','growth','records','activity','lectures','settings','statement','editor','solution','paths'}
                 or any(type(opacity) is not int or not 0 <= opacity <= 100 for opacity in opacities.values())):
             raise ServiceError(400, '界面不透明度须为 0–100')
     try:

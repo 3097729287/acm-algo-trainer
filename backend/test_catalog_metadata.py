@@ -18,7 +18,10 @@ class CatalogMetadataTests(unittest.TestCase):
                 self.assertIsInstance(row['difficulty'], int, row['id'])
                 self.assertTrue(row.get('difficultySource'), row['id'])
                 self.assertIn('difficultyEstimated', row, row['id'])
-            if row.get('source') != 'xcpc-codeforces':
+            if row.get('source') == 'luogu-training' and not row.get('tags'):
+                self.assertTrue(row.get('knowledgeReviewRequired'), row['id'])
+                self.assertEqual(row.get('knowledgeCategories'), [], 'missing original tags must not invent an algorithm')
+            elif row.get('source') != 'xcpc-codeforces':
                 self.assertTrue(row.get('tags') or row.get('knowledgeCategories'),row['id'])
             self.assertEqual((entry['raw']['状态'],entry['raw']['日期']),('未做',''))
 

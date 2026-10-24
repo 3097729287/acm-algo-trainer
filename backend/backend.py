@@ -358,6 +358,8 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_json(200, value)
             elif path == "/api/data":
                 self.send_json(200, store.data_response_bytes(compact=parse_qs(target.query).get('compact', ['0'])[0]=='1'))
+            elif path == "/api/training-lists":
+                self.send_json(200, {'lists': store.library.training_lists()})
             elif path == "/api/solution":
                 identity = parse_qs(target.query).get("id", [None])[0]
                 if not identity:
