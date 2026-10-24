@@ -9,6 +9,7 @@ import { normalizeMarkdown } from '@/lib/normalizeMarkdown.js';
 
 export default memo(function SolutionMarkdown({ text, onCopy, images = {} }) {
   return <div className="markdown"><ReactMarkdown
+    skipHtml
     urlTransform={readingUrlTransform}
     remarkPlugins={[remarkGfm, remarkMath]}
     rehypePlugins={[[rehypeKatex, { throwOnError: false, strict: 'ignore' }]]}

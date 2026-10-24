@@ -141,7 +141,9 @@
 .competition-detail-heading h2 { font-size: 1.2rem; margin: 0 0 4px; }
 .competition-detail-heading > div > span { color: var(--muted); font-size: .91rem; }
 .competition-notice { padding: 10px 13px; color: var(--muted); background: var(--accent-soft); border: 1px solid var(--line); border-radius: 7px; font-size: .94rem; }
-.competition-question-list { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--panel); }
+.competition-question-list { flex: 0 0 auto; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--panel); }
+.competition-detail-heading, .competition-detail > .competition-notice { flex-shrink: 0; }
+.catalog-contest-entry > div + div { margin-top: 10px; }
 .competition-question { display: flex; align-items: center; gap: 13px; padding: 14px 16px; border-bottom: 1px solid var(--line); }
 .competition-question:last-child { border-bottom: 0; }
 .competition-letter { display: grid; place-items: center; min-width: 34px; height: 32px; padding: 0 5px; background: var(--accent-soft); color: var(--accent); border-radius: 6px; font-weight: 650; }

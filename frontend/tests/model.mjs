@@ -45,10 +45,13 @@ assert.equal(catalogSegments({contest:'CCPC 2025 网络预选赛',platform:'牛�
 const folders=contestOptions([{name:'周赛 123',platform:'牛客',series:'周赛',count:6},{name:'周赛 166',platform:'牛客',series:'周赛',count:6},{name:'ARC 230',platform:'AtCoder',series:'ARC',count:6}]);
 assert.deepEqual(folders.find(node=>node.label==='AtCoder').children.map(node=>node.label),['ABC','AGC','ARC']);
 assert.deepEqual(folders.find(node=>node.label==='牛客').children[0].children.map(node=>node.value),['周赛 166','周赛 123']);
-const easy='### 题意\n\n统计总和。\n\n### 思路\n\n累加每个数。\n\n#### 正确性\n\n完整证明保留。\n\n### 参考代码\n\n```cpp\nint main(){}\n// ### not a heading\n```\n\n### 复杂度\n\n线性。';
+const easy='### 题意\n\n统计总和。\n\n### 思路\n\n累加每个数。\n\n### 参考代码\n\n```cpp\nint main(){}\n// ### not a heading\n```\n\n### 复杂度\n\n线性。';
 assert.match(briefSolution(easy,800),/累加每个数/);
 assert.match(briefSolution(easy,800),/int main\(\)\{\}\n\/\/ ### not a heading/);
-assert.equal(briefSolution(easy,800).includes('完整证明'),false);
+assert.equal(briefSolution(easy.replace('### 参考代码','#### 正确性\n\n完整证明必须可见。\n\n### 参考代码'),800),null);
+assert.equal(briefSolution(easy.replace('### 参考代码','### 为什么可以加一\n\n关键条件必须可见。\n\n### 参考代码'),800),null);
+assert.equal(briefSolution(easy.replace('累加每个数。','累加每个数。\n\n第二步推导。'),800),null);
+assert.equal(briefSolution(easy.replace('累加每个数。','![关键图](diagram.svg)'),800),null);
 assert.equal(briefSolution(easy,2000),null);
 assert.equal(briefSolution(easy,null),null);
 assert.equal(briefSolution('### 思路\n\n无完整代码',800),null);

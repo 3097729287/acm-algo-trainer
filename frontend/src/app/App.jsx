@@ -262,6 +262,7 @@ function Verdict({ value, accepted = false, scope }) {
   );
 }
 function Difficulty({ value, row }) {
+  if (row?.difficultyHidden) return <span className="difficulty band-unknown" title={difficultyDescription(row)}>—</span>;
   return <span className={"difficulty band-" + difficultyBand(value)} title={row ? difficultyDescription(row) : undefined}>{row ? difficultyLabel(row) : value ?? "—"}</span>;
 }
 function IconButton({ label, icon: Icon, onClick, children, ...props }) {
@@ -648,6 +649,7 @@ export default function App() {
     return pending;
   }, [api]);
   const readerBlocks = useMemo(() => reader ? solutionBlocks(reader.markdown, reader.lectures || []) : [], [reader]);
+  const detailedReaderBlocks = useMemo(() => reader?.detailedSolution ? solutionBlocks(reader.detailedSolution.markdown, reader.lectures || []) : [], [reader]);
   const readerReferences = useMemo(() => {
     const inline = new Set(readerBlocks.map(block => block.lecture?.id).filter(Boolean));
     return (reader?.lectures || []).filter(item => !inline.has(item.id));
@@ -917,7 +919,7 @@ export default function App() {
   }, [hub?.sync?.lastSuccessAt, api, applyWorkspace]);
   const rows = useMemo(
       () => progressRows(data?.rows || [], workspace),
-      [data?.rows, workspace.training, workspace.activeContest],
+      [data?.rows, workspace.training, workspace.activeContest, workspace.contests, workspace.completedReplayContests],
     );
   const mine = useMemo(()=>{
     const result=new Map(rows.filter(row=>row.active).map(row=>[row.id,row])),catalog=new Map(rows.map(row=>[row.id,row]));
@@ -1384,7 +1386,7 @@ export default function App() {
       if (e.key==='Escape' && (document.querySelector('.filter-popover') || document.querySelector('.tb-select-menu') || document.querySelector('[data-popconfirm]'))) return;
       if (e.key==='Escape' && e.target.closest?.('.tooltip-anchor') && document.querySelector('[role="tooltip"]')) return;
       const shortcut=id=>matchesShortcut(e,id,prefs.shortcuts);
-      if (document.querySelector('[aria-modal="true"]')) return;
+      if (document.querySelector('dialog[open],[aria-modal="true"]')) return;
       const control = e.ctrlKey || e.metaKey,
         typing = isTyping(e.target),
         button =
@@ -1819,7 +1821,7 @@ export default function App() {
                   <strong><InlineTitle>{slot.title}</InlineTitle></strong>
                   {record.status !== "running" && <small>{slot.tags?.join(" / ")}</small>}
                 </div>
-                {record.status !== "running" && <Difficulty value={slot.difficulty} />}
+                {record.status !== "running" && <Difficulty value={slot.difficulty} row={{difficulty:slot.difficulty,difficultyHidden:rows.find(row=>row.id===slot.id || row.aliasIds?.includes(slot.id))?.difficultyHidden}} />}
                 <Verdict value={slot.verdict} accepted={slot.accepted} />
                 <span>{slot.attempts || 0} 次提交</span>
                 <button
@@ -1848,7 +1850,7 @@ export default function App() {
     );
   }
   function settingsPage() {
-    return <PreferencesPage insights={insights} onTrain={openPractice} tab={settingsTab} onTab={setSettingsTab} prefs={prefs} setPrefs={setPrefs} display={display} onFullscreen={applyFullscreen} api={api} softwareUpdate={softwareUpdate} hub={hub} account={account} accountFocus={accountFocus} profileSnapshot={profileSnapshot} onProfileChanged={profileChanged} onRefresh={()=>refreshBackground(true)} onHubChanged={setHub} onError={message=>notice(message, "error")} onContent={openUpdate} onMessages={()=>setDialog("updates")} onTutorial={()=>{setTourContext('catalog');setTourOpen(true)}} onKeyboard={()=>{setPage("settings");setSettingsTab("training");}} commands={{pages:PAGES,items:commands}}/>;
+    return <PreferencesPage rows={rows} insights={insights} onTrain={openPractice} tab={settingsTab} onTab={setSettingsTab} prefs={prefs} setPrefs={setPrefs} display={display} onFullscreen={applyFullscreen} api={api} softwareUpdate={softwareUpdate} hub={hub} account={account} accountFocus={accountFocus} profileSnapshot={profileSnapshot} onProfileChanged={profileChanged} onRefresh={()=>refreshBackground(true)} onHubChanged={setHub} onError={message=>notice(message, "error")} onContent={openUpdate} onMessages={()=>setDialog("updates")} onTutorial={()=>{setTourContext('catalog');setTourOpen(true)}} onKeyboard={()=>{setPage("settings");setSettingsTab("training");}} commands={{pages:PAGES,items:commands}}/>;
   }
 
   const navigationPages = orderedPages(PAGES, prefs);
@@ -1944,7 +1946,7 @@ export default function App() {
         <Suspense fallback={<div className="loading-small" role="status"><LoaderCircle className="spin" size={20} /></div>}>
         {reader ? (
           readerVariant === "detailed" ? (
-            reader.detailedSolution ? <Markdown text={reader.detailedSolution.markdown} images={reader.detailedSolution.images} onCopy={copy} /> : <div className="reader-missing-detailed"><Empty title="详细题解待补充" description="这道题尚未收录详细版，可以先阅读默认题解。" /><button type="button" className="text-button" onClick={() => setReaderVariant("default")}>返回默认题解</button></div>
+            reader.detailedSolution ? detailedReaderBlocks.map((block, index) => block.type === "lecture" ? <LectureDisclosure key={index} lecture={block.lecture || {title: block.heading}} inlineMarkdown={block.markdown} images={reader.detailedSolution.images} api={api} onTrain={openPractice} onError={(message) => notice(message, "error")} /> : <Markdown key={index} text={block.markdown} images={reader.detailedSolution.images} onCopy={copy} />) : <div className="reader-missing-detailed"><Empty title="详细题解待补充" description="这道题尚未收录详细版，可以先阅读默认题解。" /><button type="button" className="text-button" onClick={() => setReaderVariant("default")}>返回默认题解</button></div>
           ) : !reader.markdown ? <div className="reader-missing-detailed"><Empty title="默认题解尚未收录" description="这道题已有详细版，可以切换阅读。" /><button type="button" className="text-button" onClick={() => setReaderVariant("detailed")}>阅读详细题解</button></div> : <>
             {conciseSolution && <div className="concise-solution"><p className="progress-small">入门题简明阅读 · 思路提要与完整代码</p><Markdown text={conciseSolution} images={reader.images} onCopy={copy} /></div>}
             <details className="solution-full" open={!conciseSolution} key={readerId}><summary style={conciseSolution ? undefined : {display: 'none'}}>查看完整题解与推导</summary>{readerBlocks.map((block, index) => block.type === "lecture" ? <LectureDisclosure key={index} lecture={block.lecture || {title: block.heading}} inlineMarkdown={block.markdown} images={reader.images} api={api} onTrain={openPractice} onError={(message) => notice(message, "error")} /> : <Markdown key={index} text={block.markdown} images={reader.images} onCopy={copy} />)}</details>

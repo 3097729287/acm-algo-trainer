@@ -70,6 +70,10 @@ try {
   assert((await panel.locator('pre').count())>=4,'Original code and added foundation examples remain available');
   assert.equal(await panel.locator('.solution-full').count(), 0, 'Detailed content must not be automatically summarized');
   await panel.getByRole('heading',{name:'把推导对应到代码',exact:true}).waitFor();
+  assert.equal(await panel.locator('.markdown h3').count(), 5, 'Problem-specific reasoning and reference code remain outside the foundation disclosures');
+  assert.equal(await panel.locator('.lecture-disclosure').count(), 3);
+  assert.equal(await panel.locator('.lecture-disclosure[open]').count(), 0, 'Detailed foundations start collapsed');
+  assert.ok(!(await panel.innerText()).includes('reusable-foundations'), 'Authoring comments never appear as prose');
   await defaultButton.click();
   assert.equal(await panel.locator('.reader-content').innerText(), defaultText);
   await detailedButton.click();
@@ -108,6 +112,53 @@ try {
   await page.locator('.reader-full').waitFor();
   assert.equal(await detailedButton.getAttribute('aria-pressed'), 'true');
   await page.screenshot({ path: join(screenshots, 'detailed-solutions-full.png'), animations: 'disabled' });
+  await panel.getByRole('button', { name: '退出题解全屏', exact: true }).click();
+  await panel.getByRole('button', { name: '收起题解', exact: true }).click();
+  await open('小月的回声');
+  for (const variant of ['default','detailed']) {
+    await (variant==='default'?defaultButton:detailedButton).click();
+    await panel.getByRole('heading',{name:variant==='default'?'三个条件为什么足够让答案加一':'先用一个真实区间写出要检查的等式',exact:true}).waitFor();
+    assert.equal(await panel.locator('.lecture-disclosure[open]').count(),0,'Each variant starts with closed foundation lessons');
+    assert.ok(!(await panel.innerText()).includes('reusable-foundations'));
+    assert.ok((await panel.innerText()).includes('重复确认'),'The redundant length check is explained honestly');
+    assert.ok((await panel.innerText()).includes('a[l] == v'),'The guessed value is checked against the actual array');
+    const expected=(variant==='default'?defaults:details).find(row=>row.problem_id==='remote:nowcoder:141877::D').markdown.match(/^```cpp\s*\n([\s\S]*?)^```/m)[1];
+    assert.equal((await panel.locator('.markdown pre code').last().textContent()).trimEnd(),expected.trimEnd(),'The original reference program remains visible and exact');
+    for (const [theme,width] of [['light',1480],['dark',1050],['light',390]]) {
+      await page.setViewportSize({width,height:920});
+      await page.evaluate(theme=>{document.documentElement.dataset.theme=theme;},theme);
+      const figures=panel.locator('.markdown .reading-image-open');
+      assert.equal(await figures.count(),variant==='default'?1:3,'Problem diagrams stay outside closed lessons');
+      for (let index=0;index<await figures.count();index++) {
+        await figures.nth(index).scrollIntoViewIfNeeded();
+        await figures.nth(index).locator('img').evaluate(img=>img.decode());
+        await figures.nth(index).screenshot({path:join(screenshots,`echo-${variant}-${theme}-${width}-${index}.png`)});
+      }
+      assert.equal(await panel.locator('.katex-error,.reading-image-missing').count(),0);
+      assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+    }
+    const imageTrigger=panel.locator('.markdown .reading-image-open').first();
+    await imageTrigger.click();
+    const imageDialog=page.locator('.reading-image-dialog[open]');
+    await imageDialog.waitFor({state:'visible'});
+    await page.keyboard.press('Escape');
+    await imageDialog.waitFor({state:'hidden'});
+    assert.ok(await panel.isVisible(),'Escape closes the topmost native image dialog without closing its reader');
+    assert.ok(await imageTrigger.evaluate(node=>document.activeElement===node),'Closing the image restores focus to its trigger');
+    const foundation=panel.locator('.lecture-disclosure').filter({hasText:'前缀和'}).first();
+    await foundation.locator('summary').click();
+    await foundation.locator('.lecture-disclosure-body').waitFor();
+    assert.ok(!(await foundation.innerText()).includes('reusable-foundations'));
+    await foundation.locator('summary').click();
+  }
+  await page.setViewportSize({width:1480,height:920});
+  await page.keyboard.press('Escape');
+  await panel.waitFor({state:'hidden'});
+  await open('Range Search Query');
+  await panel.getByRole('heading',{name:'为什么检查一个起点就足够回答 Yes 或 No',exact:true}).waitFor();
+  assert.equal(await panel.locator('.concise-solution').count(),0,'A low-rating default editorial does not hide its worked proof and diagram');
+  assert.equal(await panel.locator('.lecture-disclosure[open]').count(),0);
+  assert.ok(await panel.locator('.markdown img').count()>0,'Its diagram is part of the visible main article');
 
   // The real API protects the combined response, including the new detailed body.
   const catalog = await get('data');
@@ -126,7 +177,7 @@ try {
   assert.equal(locked.status(), 403);
   assert.ok(!(await locked.text()).includes('第三个样例'));
   assert.deepEqual(errors, []);
-  console.log('Detailed solutions passed: exact SQLite bodies, switching, keyboard, default reset, missing state, light/dark/narrow/fullscreen and contest lock.');
+  console.log('Detailed solutions passed: exact SQLite bodies, switching, collapsed foundations in both variants, hidden author markers, Echo diagrams/proof, keyboard, default reset, missing state, light/dark/narrow/fullscreen and contest lock.');
 } catch (error) {
   console.error('Browser errors:', errors, 'API stderr:', stderr);
   if (page) {

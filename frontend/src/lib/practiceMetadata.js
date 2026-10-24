@@ -7,10 +7,12 @@ export function difficultyBand(value) {
 }
 
 export function difficultyLabel(row = {}) {
+  if (row.difficultyHidden) return '—';
   return row.difficulty == null ? '未定级' : String(row.difficulty);
 }
 
 export function difficultyDescription(row = {}) {
+  if (row.difficultyHidden) return row.locked ? '比赛进行中，赛后显示难度' : '完成本场重现赛后显示难度';
   const band = row.difficultyBand;
   return [row.difficultySource || '难度待复核',
     Array.isArray(band) ? `参考区间 ${band[0]}–${band[1] ?? '∞'}` : '',
@@ -56,7 +58,11 @@ export function briefSolution(markdown, difficulty) {
     const first = text.split(/\n\s*\n/)[0];
     return (first.match(/(?<!\\)\$/g) || []).length % 2 ? '' : first;
   };
-  const intent = paragraph(section(/^题意/)), idea = paragraph(section(/^(?:思路|做法|算法)/));
+  // Keep complete authored reasoning and diagrams visible in both variants.
+  const fullIdea = section(/^(?:思路|做法|算法)/);
+  const extraReasoning = headings.some(item => item.level === 3 && !/^(?:题意|思路|做法|算法|从零讲|参考代码|代码实现|代码$|复杂度|易错点)/.test(item.title));
+  const intent = paragraph(section(/^题意/)), idea = paragraph(fullIdea);
+  if (extraReasoning || fullIdea !== idea || /!\[/.test(fullIdea)) return null;
   const code = section(/(?:参考代码|代码实现|^代码)/).match(/(```(?:cpp|c\+\+|cxx)[^\n]*\n[\s\S]*?\n```)/i)?.[1];
   if (!intent || !idea || !code || intent.length + idea.length > 1200) return null;
   return `### 题意\n\n${intent}\n\n### 思路提要\n\n${idea}\n\n### 参考代码\n\n${code}` + referenceDefinitions(markdown);
@@ -106,11 +112,20 @@ export function solutionBlocks(markdown = "", lectures = []) {
     buffered = [];
   };
   for (const line of lines) {
-    const code = line.match(/^\s*(`{3,}|~{3,})/);
-    if (code) {
-      if (!fence) fence = code[1][0];
-      else if (fence === code[1][0]) fence = null;
+    const code = line.match(/^ {0,3}(`{3,}|~{3,})(.*)$/);
+    if (fence) {
       buffered.push(line);
+      if (code && code[1][0] === fence[0] && code[1].length >= fence.length && !code[2].trim()) fence = null;
+      continue;
+    }
+    if (code) {
+      fence = code[1];
+      buffered.push(line);
+      continue;
+    }
+    if (/^\s*<!--\s*reusable-foundations:(?:start|end)\s*-->\s*$/.test(line)) {
+      flush();
+      lesson = null;
       continue;
     }
     const heading = !fence && line.match(/^(#{1,6})\s+(.+)$/);

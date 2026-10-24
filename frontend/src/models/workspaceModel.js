@@ -4,6 +4,7 @@ import { compareContestNewest } from "@/lib/practiceMetadata.js";
 import { trainingDay } from "@/lib/trainingDate.js";
 import { contestKind, matchesShelf } from "@/lib/contestShelves.js";
 import {catalogSegments} from '../lib/contestCatalog.js';
+import {completedReplayContests, hidesContestDifficulty} from '../lib/difficultyVisibility.js';
 
 export const QUEUES = [
   {
@@ -104,6 +105,7 @@ export function shareWorkspace(previous, next) {
   return equal ? previous : result;
 }
 export function progressRows(library, workspace) {
+  const completedReplays = completedReplayContests(workspace);
   const aliases=new Map(library.flatMap(row=>[row.id,...(row.aliasIds||[])].map(id=>[id,row.id])));
   const states=new Map();
   for(const row of workspace?.training||[]){const id=aliases.get(row.id)||row.id,previous=states.get(id);states.set(id,{...previous,...row,id,accepted:!!(previous?.accepted||row.accepted),queue:previous?.queue||row.queue});}
@@ -116,6 +118,7 @@ export function progressRows(library, workspace) {
     active: states.has(row.id),
     verdict: states.get(row.id)?.verdict || null,
     accepted: !!states.get(row.id)?.accepted,
+    difficultyHidden: locked.has(row.id) || hidesContestDifficulty(row, completedReplays),
     ...(locked.has(row.id) ? {difficulty:null,tags:[],knowledge:"",locked:true} : {}),
   }));
 }

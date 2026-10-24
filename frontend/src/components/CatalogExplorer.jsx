@@ -4,6 +4,12 @@ import { ChevronRight, FileText, Folder, House } from 'lucide-react';
 import './CatalogExplorer.css';
 
 const pathOf = scope => scope.path || (scope.platform ? [scope.platform] : []);
+const contestKey = row => row.groupKey || `${row.platform || ''}::${row.contest}`;
+const cardLevel = (row, path) => {
+  const parts = catalogSegments(row);
+  return parts.length === path.length + 1 || (parts[0] === 'ACM'
+    && parts.length === path.length + 2 && ['正赛', '热身赛'].includes(parts.at(-1)));
+};
 export function catalogMatches(row, scope) {
   const path = pathOf(scope), parts = catalogSegments(row);
   return path.every((part, index) => parts[index] === part);
@@ -21,7 +27,7 @@ export default function CatalogExplorer({ rows, scope, onChange, onContest, rend
   return <section className="catalog-explorer" aria-label={onContest ? '比赛层级浏览' : '题库层级浏览'}>
     {!onContest && <button className="catalog-folder-row" onClick={() => onChange({ ...scope, stage: 'problems' })}><FileText size={19}/><strong>全部题目</strong><span>{selected.length}</span><ChevronRight size={16}/></button>}
     {!entries.length&&<p className="catalog-empty" role="status">此分类暂未收录比赛</p>}
-    {entries.map(({label:name, items, path:next, leaf}) => renderContest && leaf && new Set(items.map(row=>row.groupKey||`${row.platform}:${row.contest}`)).size===1 ? <div className="catalog-contest-entry" key={JSON.stringify(next)}>{renderContest(items[0])}</div> : <button className="catalog-folder-row" key={JSON.stringify(next)} onClick={() => {
+    {entries.map(({label:name, items, path:next, leaf}) => renderContest && items.length>0 && (leaf || items.every(row=>cardLevel(row,path))) ? <div className="catalog-contest-entry" key={JSON.stringify(next)}>{[...new Map(items.map(row=>[contestKey(row),row])).values()].map(row=><div key={contestKey(row)}>{renderContest(row)}</div>)}</div> : <button className="catalog-folder-row" key={JSON.stringify(next)} onClick={() => {
       if (leaf && onContest) onContest(items[0]);
       else onChange({ path: next, stage: leaf ? 'problems' : 'contests' });
     }}><Folder size={20}/><strong>{name}</strong><span>{onContest ? new Set(items.map(row => row.groupKey || `${row.platform}:${row.contest}`)).size : items.length}</span><ChevronRight size={16}/></button>)}
