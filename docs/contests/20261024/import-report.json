@@ -1,0 +1,110 @@
+{
+  "created": [
+    {
+      "id": "ABC 481::A",
+      "url": "https://atcoder.jp/contests/abc481/tasks/abc481_a",
+      "ratingEvidence": 800,
+      "displayRating": 800,
+      "knowledge": "模拟",
+      "hashes": {
+        "solutions": "957e1a35b2431f18cc4d6aadd85bf753943da629c07b576647968ab5e9c8d3e9",
+        "detailed_solutions": "601bb22f2ee4792271002f7eab379af437c2cef9c7b80ea5c866d19fbf0d303e"
+      }
+    },
+    {
+      "id": "ABC 481::B",
+      "url": "https://atcoder.jp/contests/abc481/tasks/abc481_b",
+      "ratingEvidence": 800,
+      "displayRating": 800,
+      "knowledge": "计算几何",
+      "hashes": {
+        "solutions": "3389be8ecf6fd125d2b07278c872c7b6b7a2fa10f50f0b252128392685436685",
+        "detailed_solutions": "5cf4d9e5479a90725ea5114afdf0e567eb85518309d0a3282259607cbfaf1170"
+      }
+    },
+    {
+      "id": "ABC 481::C",
+      "url": "https://atcoder.jp/contests/abc481/tasks/abc481_c",
+      "ratingEvidence": 800,
+      "displayRating": 800,
+      "knowledge": "模拟",
+      "hashes": {
+        "solutions": "1ff3162ef92019ece0705044cda8e3ce078499c8db7e9ecc9b5f91dca4b52e9c",
+        "detailed_solutions": "b8e3aeeafabf72955c4b5045f1083a6900ecd642af2516a72b19122599fa787c"
+      }
+    },
+    {
+      "id": "ABC 481::D",
+      "url": "https://atcoder.jp/contests/abc481/tasks/abc481_d",
+      "ratingEvidence": 1000,
+      "displayRating": 1000,
+      "knowledge": "最短路",
+      "hashes": {
+        "solutions": "7c23fcccdf4a336834c5b434becaa16fa3f2956b4e86b7fcea462afb4311ee23",
+        "detailed_solutions": "07a65befffcb5235dcd809a27460fba4ac72290527f03c79474eb67e1e000d26"
+      }
+    },
+    {
+      "id": "ABC 481::E",
+      "url": "https://atcoder.jp/contests/abc481/tasks/abc481_e",
+      "ratingEvidence": 1500,
+      "displayRating": 1500,
+      "knowledge": "计算几何[主] + 双指针 + 排序",
+      "hashes": {
+        "solutions": "d6cb2be3496bf3b707815b32c849f6949ee5460f072b1d1d8f5f65475c8a946b",
+        "detailed_solutions": "e1a5846adc2050195d696f22ad27e8649c68cbd9202110bf05b2132363769772"
+      }
+    },
+    {
+      "id": "ABC 481::F",
+      "url": "https://atcoder.jp/contests/abc481/tasks/abc481_f",
+      "ratingEvidence": 1700,
+      "displayRating": 1700,
+      "knowledge": "BFS[主] + 贪心",
+      "hashes": {
+        "solutions": "fab5d0ffad5cf026e96a60f033fd9d73401b90975177d80931b90ce64845afde",
+        "detailed_solutions": "8000fb2c9b5628ae58d4931ad8a6d10702f7b24fc4c5c6bc7f63fdfb74e3d7cc"
+      }
+    },
+    {
+      "id": "月赛 311::A",
+      "url": "https://www.luogu.com.cn/problem/P17764",
+      "ratingEvidence": 1150,
+      "displayRating": 1200,
+      "knowledge": "构造",
+      "hashes": {
+        "solutions": "7b39036cd25e3c00c55d82a893e498170e858de2041bebe8cd89d8a8cd4dbe42",
+        "detailed_solutions": "43741f59d6a685b037993b25d94424da1d5199de6fe142c9873f01062109dd53"
+      }
+    },
+    {
+      "id": "月赛 311::C",
+      "url": "https://www.luogu.com.cn/problem/P17766",
+      "ratingEvidence": 2050,
+      "displayRating": 2100,
+      "knowledge": "位运算[主] + 贪心 + 快速幂",
+      "hashes": {
+        "solutions": "d4af790d0d986d0c89d820fe1692cd8b84ec4ee5fa36b62535c4d3c2ff8b721d",
+        "detailed_solutions": "47f8fdd784f57e2f67882b9fdf7fffe8fbcc267621b0eddfe5edc1631ecab966"
+      }
+    }
+  ],
+  "oldCounts": {
+    "problems": 13123,
+    "statements": 2437,
+    "solutions": 1317,
+    "detailed_solutions": 1317
+  },
+  "newCounts": {
+    "problems": 13131,
+    "statements": 2445,
+    "solutions": 1325,
+    "detailed_solutions": 1325
+  },
+  "allExistingEntriesUnchanged": true,
+  "unknownDifficultyDeferred": true,
+  "over2200Excluded": [
+    "ABC 481::G"
+  ],
+  "officialSubmissionsSent": 0
+}

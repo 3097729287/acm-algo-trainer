@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
+import fs from 'node:fs';
 import { chromium } from 'playwright';
 import { createServer } from 'vite';
 
 const out = '../.backups/luogu-training/ui';
 await mkdir(out, { recursive: true });
-const vite = await createServer({ server: { host: '127.0.0.1', port: 0 } });
+const vite = await createServer({ server: { host: '127.0.0.1', port: 0, fs: { allow: [process.cwd(), fs.realpathSync('node_modules')] } } });
 await vite.listen();
 const browser = await chromium.launch({ channel: process.env.CI ? undefined : 'msedge', headless: true });
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });

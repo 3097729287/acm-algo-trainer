@@ -1,7 +1,7 @@
 {
   "name": "tb-workbench",
   "private": true,
-  "version": "1.4.7",
+  "version": "1.4.8",
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
@@ -21,7 +21,7 @@
     "test:official-sites": "node tests/official-sites.mjs",
     "test:hybrid-cf": "node tests/hybrid-cf.mjs",
     "test:hybrid-atcoder": "node tests/hybrid-cf.mjs --atcoder",
-    "test:training-lists": "node tests/training-lists-model.mjs && node tests/training-lists.mjs"
+    "test:training-lists": "node tests/training-lists-model.mjs && node tests/training-lists.mjs && node tests/training-catalog.mjs"
   },
   "dependencies": {
     "@codemirror/lang-cpp": "^6.0.3",

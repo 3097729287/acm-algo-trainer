@@ -19,3 +19,7 @@ compiler/
 *.exe
 *.zip
 *.sqlite*
+
+.vite/
+docs/contests/**/_work/logs/
+docs/contests/**/_work/md_full/

@@ -5,7 +5,8 @@ import FolderSelect from '@/components/FolderSelect.jsx';
 import ThemedSelect from '@/components/ThemedSelect.jsx';
 import InlineTitle from '@/components/InlineTitle.jsx';
 import { difficultyBand, difficultyDescription, difficultyLabel } from '@/lib/practiceMetadata.js';
-import { algorithmPath, matchesTrainingProblem, startsWithPath, trainingIndex } from '@/lib/trainingLists.js';
+import { matchesTrainingProblem, startsWithPath, trainingIndex } from '@/lib/trainingLists.js';
+import { organizeTrainingLists, compareTrainingLists, compareCategoryNames } from '@/lib/trainingListCatalog.js';
 import '@/components/CatalogExplorer.css';
 import './TrainingListsPage.css';
 
@@ -54,7 +55,8 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
     return () => window.removeEventListener('keydown', key);
   }, [state, canBack]);
 
-  const index = useMemo(() => trainingIndex(lists || [], rows), [lists, rows]);
+  const organized = useMemo(() => organizeTrainingLists(lists || []), [lists]);
+  const index = useMemo(() => trainingIndex(organized, rows), [organized, rows]);
   const active = index.byList.get(state.trail.at(-1));
   const search = state.query.trim().toLocaleLowerCase();
   const size = Math.max(10, Math.min(200, Number(pageSize) || 50));
@@ -67,48 +69,51 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
   const problems = (showAll ? state.sections.length ? scoped : all : scoped.filter(item => (item.sections || []).length === state.sections.length)).filter(item => matchesTrainingProblem(item, state.query, state.status));
 
   const folders = new Map(), entries = [];
-  let scopeLists = lists || [];
+  let scopeLists = organized;
   if (!active) {
-    const base = (lists || []).filter(list => state.mode !== 'source' || (list.categories || []).some(category => !state.folder.length || category.id === state.folder[0]));
-    const selected = base.filter(list => state.mode !== 'algorithm' || startsWithPath(algorithmPath(list.title), state.folder));
+    const base = organized.filter(list => state.mode !== 'source' || (list.categories || []).some(category => !state.folder.length || category.id === state.folder[0]));
+    const selected = base.filter(list => state.mode !== 'algorithm' || startsWithPath(list.topicPath, state.folder));
     scopeLists = selected;
     for (const list of selected) {
-      const titleMatches = search && search.split(/\s+/).every(word => list.title.toLocaleLowerCase().includes(word));
+      const searchableTitle = [list.title, list.displayTitle, list.sourceLabel, ...list.topicPath].join(' ').toLocaleLowerCase();
+      const titleMatches = search && search.split(/\s+/).every(word => searchableTitle.includes(word));
       const items = index.all(list.id);
       if ((search || state.status) && !items.some(item => matchesTrainingProblem(item, titleMatches ? '' : state.query, state.status)) && !(titleMatches && !state.status)) continue;
-      const next = state.mode === 'algorithm' ? algorithmPath(list.title)[state.folder.length] : !state.folder.length ? list.categories?.[0]?.id : null;
+      const next = state.mode === 'algorithm' ? list.topicPath[state.folder.length] : !state.folder.length ? list.categories?.[0]?.id : null;
       if (next && !search && !state.status) {
         const paths = state.mode === 'source' ? list.categories.map(category => category.id) : [next];
         for (const key of paths) { if (!folders.has(key)) folders.set(key, []); folders.get(key).push(list.id); }
       } else entries.push(list);
     }
     if (state.mode === 'source' && state.folder.length) entries.sort((a, b) => (a.categories.find(c => c.id === state.folder[0])?.position || 0) - (b.categories.find(c => c.id === state.folder[0])?.position || 0));
+    else entries.sort(compareTrainingLists);
   }
   const open = list => patch({ trail: [...state.trail, list.id], sections: [], flat: false, query: '' });
   const listStats = index.stats(active ? [active.id] : scopeLists.map(list => list.id));
   const readableLists = scopeLists.filter(list => list.available).length;
   const children = active && !showAll && !state.sections.length ? (active.children || []).filter(id => !state.trail.includes(id)).map(id => index.byList.get(id)).filter(Boolean) : [];
   const folderRows = active ? (showAll ? [] : sectionNames.map(name => ({ id: name, title: name, count: scoped.filter(item => item.sections?.[state.sections.length] === name).length, action: () => patch({ sections: [...state.sections, name] }) }))) : [...folders].map(([id, ids]) => ({ id, title: state.mode === 'source' ? index.categories.find(c => c.id === id)?.name || id : id, count: ids.length, unit: '个题单', action: () => patch({ folder: [...state.folder, id] }) }));
+  if (!active && state.mode === 'algorithm') folderRows.sort((a, b) => compareCategoryNames(a.title, b.title, state.folder[0]));
   const listEntries = active ? children : entries;
   const count = active ? problems.length : folderRows.length + listEntries.length;
   const pages = Math.max(1, Math.ceil(count / size)), page = Math.min(state.page, pages), start = (page - 1) * size;
   const directoryEntries = [...folderRows.map(folder => ({ folder })), ...listEntries.map(list => ({ list }))];
   const displayedEntries = active ? directoryEntries : directoryEntries.slice(start, start + size);
   const problemIds = problems.filter(item => item.row).map(item => item.row.id);
-  const title = active?.title || (state.mode === 'source' ? index.categories.find(c => c.id === state.folder.at(-1))?.name : state.folder.at(-1)) || '题单';
+  const title = active?.displayTitle || (state.mode === 'source' ? index.categories.find(c => c.id === state.folder.at(-1))?.name : state.folder.at(-1)) || '题单';
   const clear = () => patch({ query: '', status: '' });
 
   return <section className="training-lists-page" aria-label="题单训练">
     <PageSearch>
       <label className="search-box"><Search size={17}/><input aria-label="搜索题单或题目" value={state.query} maxLength={120} onChange={event => patch({ query: event.target.value })}/>{state.query && <button className="icon-button" aria-label="清空题单搜索" onClick={() => patch({ query: '' })}><X size={14}/></button>}</label>
-      <ThemedSelect aria-label="题单目录方式" value={state.mode} onChange={event => patch({ ...INITIAL, mode: event.target.value })}><option value="algorithm">按算法</option><option value="source">按来源</option></ThemedSelect>
+      <ThemedSelect aria-label="题单目录方式" value={state.mode} onChange={event => patch({ ...INITIAL, mode: event.target.value })}><option value="algorithm">按类别</option><option value="source">按来源</option></ThemedSelect>
       <FolderSelect iconOnly label="题单通过状态" placeholder="全部题目" value={state.status} onChange={event => patch({ status: event.target.value })} options={[{ value: 'pending', label: '未通过' }, { value: 'accepted', label: '已通过' }]}/>
     </PageSearch>
     <nav className="catalog-path training-list-path" aria-label="题单浏览路径">
       <button className="icon-button" aria-label="返回上一级题单目录" disabled={!canBack} onClick={back}><ArrowLeft size={16}/></button>
       <button aria-label="全部题单" onClick={() => patch({ folder: [], trail: [], sections: [], flat: false, query: '' })}><House size={16}/><span>题单</span></button>
       {state.folder.map((part, i) => <span key={part}><ChevronRight size={13}/><button onClick={() => patch({ folder: state.folder.slice(0, i + 1), trail: [], sections: [], flat: false, query: '' })}>{state.mode === 'source' ? index.categories.find(c => c.id === part)?.name || part : part}</button></span>)}
-      {state.trail.map((id, i) => <span key={id}><ChevronRight size={13}/><button onClick={() => patch({ trail: state.trail.slice(0, i + 1), sections: [], flat: false, query: '' })}>{index.byList.get(id)?.title || '题单'}</button></span>)}
+      {state.trail.map((id, i) => <span key={id}><ChevronRight size={13}/><button onClick={() => patch({ trail: state.trail.slice(0, i + 1), sections: [], flat: false, query: '' })}>{index.byList.get(id)?.displayTitle || '题单'}</button></span>)}
       {state.sections.map((part, i) => <span key={i}><ChevronRight size={13}/><button onClick={() => patch({ sections: state.sections.slice(0, i + 1), flat: false })}>{part}</button></span>)}
       {state.flat && <span aria-current="page">全部题目</span>}
     </nav>
@@ -121,7 +126,7 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
       {displayedEntries.map(({ folder, list }) => {
         const stats = list ? index.stats([list.id]) : null;
         return <button className="catalog-folder-row" key={folder ? 'folder:' + folder.id : list.id} onClick={folder ? folder.action : () => open(list)}>
-          <Folder size={20}/><strong>{folder?.title || list.title}{list && search && <small>{list.categories?.map(c => c.name).join(' · ') || '关联题单'}</small>}</strong>
+          <Folder size={20}/><strong title={list?.originalTitle}>{folder?.title || list.displayTitle}{list && <small>{list.sourceLabel}{search ? ` · ${list.topicPath.join(' / ')}` : ''}</small>}</strong>
           <span>{folder ? `${folder.count} ${folder.unit || '题'}` : list.available ? `${stats.accepted} / ${stats.total} 题` : '暂不可用'}</span><ChevronRight size={16}/>
         </button>;
       })}

@@ -5,7 +5,7 @@ export const GUIDE_LABELS={mine:'我的训练',library:'题库','training-lists'
 
 export const PAGE_GUIDES={
  'training-lists':page('training-lists',[
-  step('.page-search-controls','搜索题单和题目','输入算法、题单名称、题号或题名。按算法查看训练专题，按来源查看洛谷原有系列；通过状态筛选会使用题库中同一道题的真实进度。'),
+  step('.page-search-controls','搜索题单和题目','输入算法、题单名称、题号或题名。按类别逐层查看训练专题，规范名称和原名称均可搜索，按来源查看洛谷原有系列；通过状态筛选会使用题库中同一道题的真实进度。'),
   step('.training-list-content','逐层打开文件夹','点击算法、系列或题单文件夹继续进入。正文中的章节与关联子题单也保留目录；全部题目汇总当前题单及其子题单中的不同题目。'),
   step('.training-list-path','逐级返回','点击面包屑或返回箭头回到上一级，也可以按 Esc。进入工作台后返回，会恢复目录、搜索、分页和滚动位置。'),
   step('.training-list-heading','共用题库与进度','同一道题可以属于多个题单，代码和通过记录共用。题单目录随安装包保存；尚未缓存的题面在打开题目时从原站读取。右上角可查看原题单。'),
