@@ -22,3 +22,28 @@ export function fitActivityGrid(width,height,count=31,gap=7) {
  return {columns:best.columns,size:Math.max(1,Math.floor(best.size))};
 }
 export const activitySegmentSize=maximum=>Math.max(5,Math.ceil((Number(maximum)||0)/25)*5);
+
+export function monthDays(month) {
+ if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(month))return [];
+ const [year,index]=month.split('-').map(Number),count=new Date(Date.UTC(year,index,0)).getUTCDate();
+ return Array.from({length:count},(_,i)=>`${month}-${String(i+1).padStart(2,'0')}`);
+}
+export function activityMonths(endingMonth) {
+ if(!monthDays(endingMonth).length)return [];
+ const [year,month]=endingMonth.split('-').map(Number);
+ return Array.from({length:4},(_,i)=>{
+  const date=new Date(Date.UTC(year,month-4+i,1));
+  return `${date.getUTCFullYear()}-${String(date.getUTCMonth()+1).padStart(2,'0')}`;
+ });
+}
+export function monthCells(month) {
+ const days=monthDays(month);if(!days.length)return [];
+ const start=(new Date(`${month}-01T00:00:00Z`).getUTCDay()+6)%7;
+ return Array.from({length:42},(_,index)=>days[index-start]||null);
+}
+export function fitActivityMonths(width,height) {
+ const columns=width>=760?4:2,rows=4/columns,gap=16;
+ const monthWidth=(width-gap*(columns-1))/columns;
+ const monthHeight=(height-gap*(rows-1))/rows;
+ return {columns,size:Math.max(1,Math.min(48,Math.floor(Math.min((monthWidth-6*5)/7,(monthHeight-26-5*5)/6))))};
+}

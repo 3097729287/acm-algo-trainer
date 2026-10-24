@@ -6,6 +6,13 @@ from insights import build_insights
 
 
 class KnowledgeMasteryTests(unittest.TestCase):
+    def test_cf2300_reference_and_low_difficulty_evidence(self):
+        from mastery_scale import benchmark_score, estimate
+        self.assertEqual(benchmark_score(2300), 100)
+        self.assertLess(benchmark_score(1400), 50)
+        simple = [dict(id=str(i), rated=True, difficulty=900, solved=True, weight=1) for i in range(5)]
+        self.assertLess(estimate(simple)['value'], 50)
+
     def rows(self, count=5, difficulty=1400):
         return [dict(id=f'p{i}', title=f'Problem {i}', tags=['sorting', 'greedy'], difficulty=difficulty,
                      url=f'https://codeforces.com/contest/123/problem/{chr(65+i)}') for i in range(count)]

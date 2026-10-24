@@ -1,6 +1,5 @@
-import {catalogSegments,catalogFolders} from '@/lib/contestCatalog.js';
+import {catalogSegments,catalogEntries} from '@/lib/contestCatalog.js';
 export {catalogSegments} from '@/lib/contestCatalog.js';
-import { compareContestNewest } from '@/lib/practiceMetadata.js';
 import { ChevronRight, FileText, Folder, House } from 'lucide-react';
 import './CatalogExplorer.css';
 
@@ -17,25 +16,12 @@ export function CatalogPath({ scope, onChange }) {
   </nav>;
 }
 export default function CatalogExplorer({ rows, scope, onChange, onContest, renderContest }) {
-  const path = pathOf(scope), selected = rows.filter(row => catalogMatches(row, scope)), groups = new Map();
-  for (const row of selected) {
-    const name = catalogSegments(row)[path.length];
-    if (!name) continue;
-    if (!groups.has(name)) groups.set(name, []);
-    groups.get(name).push(row);
-  }
-  for(const name of catalogFolders(path))if(!groups.has(name))groups.set(name,[]);
-  const entries = [...groups].sort(([a,left], [b,right]) => {
-    if(!left.length||!right.length)return a.localeCompare(b,'zh-CN',{numeric:true});
-    if (left.every(row=>catalogSegments(row).length===path.length+1)&&right.every(row=>catalogSegments(row).length===path.length+1)) return compareContestNewest({...left[0],rows:left},{...right[0],rows:right});
-    if (/^20\d{2}年$/.test(a)&&/^20\d{2}年$/.test(b)) return b.localeCompare(a);
-    return a.localeCompare(b, 'zh-CN', { numeric: true });
-  });
+  const path = pathOf(scope), selected = rows.filter(row => catalogMatches(row, scope));
+  const entries = catalogEntries(rows, path);
   return <section className="catalog-explorer" aria-label={onContest ? '比赛层级浏览' : '题库层级浏览'}>
     {!onContest && <button className="catalog-folder-row" onClick={() => onChange({ ...scope, stage: 'problems' })}><FileText size={19}/><strong>全部题目</strong><span>{selected.length}</span><ChevronRight size={16}/></button>}
     {!entries.length&&<p className="catalog-empty" role="status">此分类暂未收录比赛</p>}
-    {entries.map(([name, items]) => renderContest && items.length>0 && items.every(row=>catalogSegments(row).length===path.length+1) && new Set(items.map(row=>row.groupKey)).size===1 ? <div className="catalog-contest-entry" key={name}>{renderContest(items[0])}</div> : <button className="catalog-folder-row" key={name} onClick={() => {
-      const next = [...path, name], leaf = items.length>0&&items.every(row => catalogSegments(row).length === next.length);
+    {entries.map(({label:name, items, path:next, leaf}) => renderContest && leaf && new Set(items.map(row=>row.groupKey||`${row.platform}:${row.contest}`)).size===1 ? <div className="catalog-contest-entry" key={JSON.stringify(next)}>{renderContest(items[0])}</div> : <button className="catalog-folder-row" key={JSON.stringify(next)} onClick={() => {
       if (leaf && onContest) onContest(items[0]);
       else onChange({ path: next, stage: leaf ? 'problems' : 'contests' });
     }}><Folder size={20}/><strong>{name}</strong><span>{onContest ? new Set(items.map(row => row.groupKey || `${row.platform}:${row.contest}`)).size : items.length}</span><ChevronRight size={16}/></button>)}

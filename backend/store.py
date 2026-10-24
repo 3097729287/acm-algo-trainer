@@ -111,7 +111,8 @@ class Store:
         value.update(self.contest_metadata(dated_row, value.get('url')))
         from contest_names import normalize_row
         from contest_policy import apply_visibility
-        return self._enrich_knowledge(apply_visibility(normalize_row(value)))
+        from difficulty import normalize_practice_difficulty
+        return self._enrich_knowledge(apply_visibility(normalize_row(normalize_practice_difficulty(value))))
 
     def _archive_info(self, row):
         found = self.library.find(row.get('_id') or row['场次'] + '::' + row['题号'], canonical_url(row.get('_url')))

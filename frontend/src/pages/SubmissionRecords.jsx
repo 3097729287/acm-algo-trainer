@@ -10,7 +10,7 @@ import {trainingDateLabel,trainingTime} from '@/lib/trainingDate.js';
 
 const dateText=value=>value?new Date(value).toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'—';
 const RESULT_OPTIONS=['AC','WA','CE','TLE','MLE','RE','OLE','ERROR','QUEUED','RUNNING'].map(value=>({value,label:verdictLabel(value)}));
-export default function SubmissionRecords({api,revision,rows=[],onSelect}) {
+export default function SubmissionRecords({api,revision,rows=[],onSelect,onOpenProblem}) {
  const [query,setQuery]=useState(''),[search,setSearch]=useState(''),[result,setResult]=useState(''),[descending,setDescending]=useState(true);
  const [page,setPage]=useState(1),[pageSize,setPageSize]=useState(20),[snapshot,setSnapshot]=useState(null),[loading,setLoading]=useState(true),[error,setError]=useState(''),[attempt,setAttempt]=useState(0);
  const requestId=useRef(0);
@@ -35,11 +35,11 @@ export default function SubmissionRecords({api,revision,rows=[],onSelect}) {
     <header className="submission-day-heading"><h2><time dateTime={group.day||undefined}>{trainingDateLabel(group.day)}</time></h2></header>
     {group.submissions.map(submission=>{
      const row=rowMap.get(submission.problemId);
-     return <button type="button" className="submission-log-row" key={submission.id} onClick={()=>onSelect({...submission,title:row?.title||submission.problemId,contestName:row?.contest})}>
-      <span><strong><InlineTitle>{row?.title||submission.problemId}</InlineTitle></strong><small className="submission-record-meta"><time dateTime={submission.submittedAt}>{trainingTime(submission.submittedAt)}</time>{(row?.problem||submission.problem)&&<><span aria-hidden="true">·</span><b className="submission-problem-index">{row?.problem||submission.problem}</b></>}{row?.contest&&<><span aria-hidden="true">·</span><span className="submission-contest-name">{row.contest}</span></>}</small></span>
-      <span className={'verdict '+verdictTone(submission.verdict)}><span/>{verdictLabel(submission.verdict)}</span>
-      {submission.timeMs!=null&&<span className="submission-runtime">{submission.timeMs} ms</span>}
-     </button>;
+     const openProblem=()=>onOpenProblem?.(row?.id||submission.problemId);
+     return <div className="submission-log-row" key={submission.id} onClick={openProblem}>
+      <button type="button" className="submission-problem-link" onClick={event=>{event.stopPropagation();openProblem();}}><strong><InlineTitle>{row?.title||submission.problemId}</InlineTitle></strong><small className="submission-record-meta"><time dateTime={submission.submittedAt}>{trainingTime(submission.submittedAt)}</time>{(row?.problem||submission.problem)&&<><span aria-hidden="true">·</span><b className="submission-problem-index">{row?.problem||submission.problem}</b></>}{row?.contest&&<><span aria-hidden="true">·</span><span className="submission-contest-name">{row.contest}</span></>}</small></button>
+      <div className="submission-record-actions"><button type="button" className="icon-button submission-code-button" aria-label="查看提交代码" title="查看本次提交代码" onClick={event=>{event.stopPropagation();onSelect({...submission,title:row?.title||submission.problemId,contestName:row?.contest});}}><Code2 size={18}/></button><span className={'verdict '+verdictTone(submission.verdict)}><span/>{verdictLabel(submission.verdict)}</span>{submission.timeMs!=null&&<span className="submission-runtime">{submission.timeMs} ms</span>}</div>
+     </div>;
     })}
    </section>)}
    {!logs.length&&!loading&&<div className="empty"><Code2 size={26}/><h2>{search||result?'没有匹配的提交':'还没有提交记录'}</h2></div>}

@@ -25,3 +25,4 @@ html .difficulty-range-values .bounded-number input {width:100%;padding:4px 1px;
 .difficulty-single input[type=range] {flex:1;min-width:60px;height:4px;accent-color:var(--accent);padding:0}
 .difficulty-single>.bounded-number {width:76px;flex:none}
 @media(max-width:450px) {.difficulty-range {gap:5px;grid-template-columns:minmax(80px,1fr) auto}.difficulty-range-values {gap:0}html .difficulty-range-values .bounded-number {width:52px}}
+.difficulty-range-track input[type=range] {touch-action:none;user-select:none}

@@ -2143,7 +2143,7 @@ export default function App() {
               />
             )}<MockHistory embedded contests={workspace.contests} onDelete={async body => { const answer = await api("contests/delete", body); applyWorkspace(answer.workspace); notice(`已删除 ${answer.deleted} 场模拟赛记录`); }} onSelect={openRecord} onResume={contest=>{setMockTab("create");setMockSlot(contest.slots[0]?.id);}} onCreate={()=>{setMockTab("create");document.querySelector('.mock-create')?.scrollIntoView({block:'start'});}}/></>}</>}</div>
           ) : page === "records" ? (
-            <SubmissionRecords api={api} revision={workspace.summary?.attempts} rows={rows} onSelect={(submission) => { setSelectedSubmission(submission); setDialog("submission"); }} />
+            <SubmissionRecords api={api} revision={workspace.summary?.attempts} rows={rows} onOpenProblem={openPractice} onSelect={(submission) => { setSelectedSubmission(submission); setDialog("submission"); }} />
           ) : page === "competitions" ? (
             <CompetitionPage
               rows={rows}
