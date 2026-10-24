@@ -66,10 +66,10 @@ html .topbar .metric-separator {display:inline-block;color:inherit}
 html .topbar .topbar-love-count,html .topbar .topbar-love-count b {color:var(--text)}
 html .topbar .topbar-love-count svg {color:#ee6b81}
 html .topbar .topbar-love-count[data-positive=true] :is(b,.metric-separator) {color:#ee6b81}
-html .topbar .topbar-love-count svg {width:18px;height:18px}
+html .topbar .topbar-love-count svg {display:block;flex:none;width:20px;height:20px}
 html .practice-streak {gap:5px;min-width:0;white-space:nowrap;line-height:1}
 html .practice-streak b {font-size:.9rem}
-html .practice-streak .streak-flame {width:24px;height:24px;animation:none;filter:none;transform:none}
+html .practice-streak .streak-flame {width:20px;height:20px;animation:none;filter:none;transform:none}
 .medal-emblem {color:var(--tier-color);filter:none}
 html .workspace-area {--glass-panel:var(--panel);--glass-raised:var(--panel-2);padding:12px;gap:12px}
 html .workspace-area :is(.list-page,.records-page) {background:var(--panel);border-color:transparent;box-shadow:none}

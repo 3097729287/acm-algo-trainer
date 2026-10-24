@@ -2,29 +2,197 @@
   "version": "2026-10-22",
   "sourceVariant": "detailed_solutions",
   "lessons": [
-    {"problemId": "ABC 479::C", "knowledgeName": "枚举", "topic": "递归枚举子集与容量剪枝"},
-    {"problemId": "ABC 479::E", "knowledgeName": "差分", "topic": "子树加法、补集加法与向下累加"},
-    {"problemId": "ABC 479::F", "knowledgeName": "树状数组", "topic": "相邻交换与逆序对计数"},
-    {"problemId": "周赛 164::C", "knowledgeName": "素数", "topic": "质因数指数与最大公约数构造"},
-    {"problemId": "周赛 164::F", "knowledgeName": "组合计数", "topic": "保序交错与树上删除顺序"},
-    {"problemId": "周赛 164::G", "knowledgeName": "树形 DP", "topic": "相邻换根与计数公式的局部更新"},
-    {"problemId": "周赛 165::C", "knowledgeName": "递推", "topic": "前后缀合法性与区间反转边界"},
-    {"problemId": "周赛 165::D", "knowledgeName": "前缀和", "topic": "交替和与删除后的下标奇偶"},
-    {"problemId": "周赛 165::E", "knowledgeName": "并查集", "topic": "同色连通块缩点与加权点对计数"},
-    {"problemId": "周赛 165::F", "knowledgeName": "二分答案", "topic": "可达区间传播与山峰拼接"},
-    {"problemId": "小白月赛 137::F", "knowledgeName": "双连通分量", "topic": "桥、无桥连通块与边不重复的迹"},
-    {"problemId": "挑战赛 92::C", "knowledgeName": "树形 DP", "topic": "换根时的边方向与可撤销状态"},
-    {"problemId": "入门赛 50::E", "knowledgeName": "素数", "topic": "线性筛、最小质因子与集合对称差"},
-    {"problemId": "月赛 310::B", "knowledgeName": "贪心", "topic": "区间翻转的边界下界与成对构造"},
-    {"problemId": "lanqiao:2023:国:::P9422", "knowledgeName": "前缀和", "topic": "公共切分点与有序前缀和求交"},
-    {"problemId": "lanqiao:2023:国:::P9424", "knowledgeName": "双连通分量", "topic": "DFS 时间戳、low 值与桥判定"},
-    {"problemId": "lanqiao:2023:国:::P9425", "knowledgeName": "BFS", "topic": "扩展状态与无权图最短路"},
-    {"problemId": "周赛 162::C", "knowledgeName": "取模与同余", "topic": "位权分桶、回绕修正与余数计算"},
-    {"problemId": "周赛 158::D", "knowledgeName": "双指针", "topic": "维护相同数对的滑动窗口"},
-    {"problemId": "周赛 153::E", "knowledgeName": "计算几何", "topic": "叉积符号与直线两侧判定"},
-    {"problemId": "小白月赛 132::F", "knowledgeName": "DFS 序", "topic": "子树连续区间与区间外最大值"},
-    {"problemId": "挑战赛 89::C", "knowledgeName": "线段树", "topic": "单调栈区间更新与分段 DP"},
-    {"problemId": "月赛 304::B", "knowledgeName": "线性 DP", "topic": "按位进位状态与最优性合并"},
-    {"problemId": "练习赛 157::D", "knowledgeName": "线性 DP", "topic": "按末段分类转移与前缀和优化"}
+    {
+      "problemId": "ABC 479::C",
+      "knowledgeName": "枚举",
+      "topic": "递归枚举子集与容量剪枝",
+      "sourceSnapshotHash": "9a2eece15ead4f4333458709b210d34ea26cde9f69eafeed0000c2295d63f9e5",
+      "sourceEditorialHash": "504f0164b911df1b12682bfdc412f110b00a55add3f8a907fd8aa763a3167d3e",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    },
+    {
+      "problemId": "ABC 479::E",
+      "knowledgeName": "差分",
+      "topic": "子树加法、补集加法与向下累加",
+      "sourceSnapshotHash": "2ea4becafd7e17637476add9be33636645a620f3a05ccd461bdbbcba3882cb3e",
+      "sourceEditorialHash": "e0e076cfdabf1093fd1fb406498a5235b0d66bcaa4390a9b9b9cb2810a75df1f",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    },
+    {
+      "problemId": "ABC 479::F",
+      "knowledgeName": "树状数组",
+      "topic": "相邻交换与逆序对计数",
+      "sourceSnapshotHash": "2fa139c9ba35b634a858c97232c6de43c3561359d3ebada74e3c0b3e1da156fb",
+      "sourceEditorialHash": "f00b7e41d1532da739bdc48daf781e0669e5acc46ddb8ac16b00f6e4334f2d18",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    },
+    {
+      "problemId": "周赛 164::C",
+      "knowledgeName": "素数",
+      "topic": "质因数指数与最大公约数构造",
+      "sourceSnapshotHash": "8174b22e86bce25689668df8ce39804cfb0cf36fa33ce83e4b9a940cd8458494",
+      "sourceEditorialHash": "5d96c4b643ee8b7c81c4d1ec43083d5b9e7dd225116478fa762f197146a60c42",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    },
+    {
+      "problemId": "周赛 164::F",
+      "knowledgeName": "组合计数",
+      "topic": "保序交错与树上删除顺序",
+      "sourceSnapshotHash": "2122ddcd7390f4187e015674ff25d223fdf655a641b170dab80802697ce9fad1",
+      "sourceEditorialHash": "bef3fb302cb1d8aa0ac97c4afe4cd795bfc6afff6576d7b4fe2301260212d10b",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    },
+    {
+      "problemId": "周赛 164::G",
+      "knowledgeName": "树形 DP",
+      "topic": "相邻换根与计数公式的局部更新",
+      "sourceSnapshotHash": "13e9c97636cb1f4a0eeb7c3e50ff948eaa37e43777bb3912e284ddf8f60ca3ec",
+      "sourceEditorialHash": "c86ea11e6cbb8ab023e738a86d04ea976b24560c82dc5393cb41fd6e3c63af6f",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    },
+    {
+      "problemId": "周赛 165::C",
+      "knowledgeName": "递推",
+      "topic": "前后缀合法性与区间反转边界",
+      "sourceSnapshotHash": "c677b2f2853eedc8b7f7c8a14202501242fa4ca46669a5259b29d6aab37a42d5",
+      "sourceEditorialHash": "3aa58493a2b701cb6d8e3fa7917612a6ba7329626e8515bca6620caf83c83824",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    },
+    {
+      "problemId": "周赛 165::D",
+      "knowledgeName": "前缀和",
+      "topic": "交替和与删除后的下标奇偶",
+      "sourceSnapshotHash": "637394e9957294c0f2037821f0f0081daa284e557cbf1475cb00cab39b100494",
+      "sourceEditorialHash": "a5c4ad1a80e005279f4a0e2fca5e276a1554b43acac178211442dfa9b4613597",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    },
+    {
+      "problemId": "周赛 165::E",
+      "knowledgeName": "并查集",
+      "topic": "同色连通块缩点与加权点对计数",
+      "sourceSnapshotHash": "7bcb94963d60676de8b6b033a2f44d6046db9e80200d94cc2d42413cda24bfc5",
+      "sourceEditorialHash": "1b5da42c6bd2aafdb513aee0ab46927d9a1413b03231cc9aa54a6a143232cc91",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    },
+    {
+      "problemId": "周赛 165::F",
+      "knowledgeName": "二分答案",
+      "topic": "可达区间传播与山峰拼接",
+      "sourceSnapshotHash": "412700b19d3c891649d5ae8f753aee69ef8d769a9b1a6bb784c4a9fa00e31eef",
+      "sourceEditorialHash": "5c8fe15c26b1d4319cba642ac8984ddf0b573e513629ed40a633ef66a891d116",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    },
+    {
+      "problemId": "小白月赛 137::F",
+      "knowledgeName": "双连通分量",
+      "topic": "桥、无桥连通块与边不重复的迹",
+      "sourceSnapshotHash": "a9ef03bcce40f892aae2c27556debadcc11da3948db51e81a6e32451f9480f41",
+      "sourceEditorialHash": "f71fe93e95688d689a2255a42a13d4489c05f6665d33d23cd7155285eafe37f1",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    },
+    {
+      "problemId": "挑战赛 92::C",
+      "knowledgeName": "树形 DP",
+      "topic": "换根时的边方向与可撤销状态",
+      "sourceSnapshotHash": "76debc46984031a8207960aff5850931c28f78eaa09c542f5952d793c6779544",
+      "sourceEditorialHash": "0a901630c02678401ee12764ef3a465eef5e721b24a1ad8fd228bdb088b6d355",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    },
+    {
+      "problemId": "入门赛 50::E",
+      "knowledgeName": "素数",
+      "topic": "线性筛、最小质因子与集合对称差",
+      "sourceSnapshotHash": "cffa0b702dec34e33a76ced6ef9f10a39e93a36d5745770e8bcc1d733271124b",
+      "sourceEditorialHash": "d6ba8433a773c43b566d0c60ec5be5f455acb5600c9fc7d4701d3be789478eef",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    },
+    {
+      "problemId": "月赛 310::B",
+      "knowledgeName": "贪心",
+      "topic": "区间翻转的边界下界与成对构造",
+      "sourceSnapshotHash": "2ad64f23b31e235c687749c0e50aca377ec7e6d579e964f54f1dcc8d7da24d28",
+      "sourceEditorialHash": "ddc6aeeb40d59f9d06594a3a3a75b4c11e4c3988b64c3bf2c18e6e0372f4e4eb",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    },
+    {
+      "problemId": "lanqiao:2023:国:::P9422",
+      "knowledgeName": "前缀和",
+      "topic": "公共切分点与有序前缀和求交",
+      "sourceSnapshotHash": "28dd17360be5e99c0d54176535ca2f5a6a14acbfb0f74f499185340cfba05714",
+      "sourceEditorialHash": "eb095cdb21e700d3d258500d5177682cf905c63de74d77c4d694cb03dee961f2",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    },
+    {
+      "problemId": "lanqiao:2023:国:::P9424",
+      "knowledgeName": "双连通分量",
+      "topic": "DFS 时间戳、low 值与桥判定",
+      "sourceSnapshotHash": "64c174593169e2308457b3bd2bb214ffe744d6a5ab0f71219e14b74552409bbd",
+      "sourceEditorialHash": "f8d44cca4d95df821f2285761fd161900b317f498fcb1370d88a8036bd5c690e",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    },
+    {
+      "problemId": "lanqiao:2023:国:::P9425",
+      "knowledgeName": "BFS",
+      "topic": "扩展状态与无权图最短路",
+      "sourceSnapshotHash": "83074b892c7fb2a9dd85c36514f15022b918cb867e1f0252852bdfadfdf2fe9e",
+      "sourceEditorialHash": "de5519891a40974fa28b569664ef37bba46e1b7a4479dd18ba78972ff33b132f",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    },
+    {
+      "problemId": "周赛 162::C",
+      "knowledgeName": "取模与同余",
+      "topic": "位权分桶、回绕修正与余数计算",
+      "sourceSnapshotHash": "bdb627946276df187fe527f588aed2be09aa70cb3ee43bc1f6d538c0a9d4f960",
+      "sourceEditorialHash": "1362af94a3c8b3ff8864adcb28c48b30e1f99d92c9fbf25db59de43c11021dac",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    },
+    {
+      "problemId": "周赛 158::D",
+      "knowledgeName": "双指针",
+      "topic": "维护相同数对的滑动窗口",
+      "sourceSnapshotHash": "90ce73c1faed138e080d86b015503b17888a203329ac3ce0d90180957e2e2361",
+      "sourceEditorialHash": "ee3e1aaf92b2c20f5cb4124a2be9840ad06d28c9535c609dd436bcad755c0a00",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    },
+    {
+      "problemId": "周赛 153::E",
+      "knowledgeName": "计算几何",
+      "topic": "叉积符号与直线两侧判定",
+      "sourceSnapshotHash": "95f1d8899a87e481aee694fb07c14ea2c487037aa5ec88aa2c2cbccf77dbd15e",
+      "sourceEditorialHash": "31a8c1a5319015245174eeb4d8fbb978dad5d6c67f0752e70078ad7b8d802774",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    },
+    {
+      "problemId": "小白月赛 132::F",
+      "knowledgeName": "DFS 序",
+      "topic": "子树连续区间与区间外最大值",
+      "sourceSnapshotHash": "ed556401e1de1d28d820f18fb206c19d6007ecd8debf5f9c8d5feb6393ebf0da",
+      "sourceEditorialHash": "a672b49ad5d9d756c7ade162f287f1d34e9951527adb6aa054b4001186b9902d",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    },
+    {
+      "problemId": "挑战赛 89::C",
+      "knowledgeName": "线段树",
+      "topic": "单调栈区间更新与分段 DP",
+      "sourceSnapshotHash": "ac20186deea0f16cc679ffbf22b1526f88bd2401a9cb37a55f4bd178e96ac472",
+      "sourceEditorialHash": "32d71fd8e32e35c6c88326a4ce979098f070620012c9770cd70a7c77dd2dd37e",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    },
+    {
+      "problemId": "月赛 304::B",
+      "knowledgeName": "线性 DP",
+      "topic": "按位进位状态与最优性合并",
+      "sourceSnapshotHash": "f4fa9758e46086aa03ea34ac025f3ab74ec2fbc5baaefb0b0f8de9a2f2f1bf78",
+      "sourceEditorialHash": "9347f4fa902183c0484cb26738f12c00016f7e0fce81b0ea4c029ffc48a2e349",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    },
+    {
+      "problemId": "练习赛 157::D",
+      "knowledgeName": "线性 DP",
+      "topic": "按末段分类转移与前缀和优化",
+      "sourceSnapshotHash": "fa8433f5f84e69a3358426807b57f712d66288ccb2276b6198b6800bb548719e",
+      "sourceEditorialHash": "051dd6de9c6255ec984d691e0f5345353c0e296ed6872008df6dac5dd1b341d1",
+      "sourceSnapshotCommit": "10ee8a04cfec7bb15e115c32e685ef34c89c0ea5"
+    }
   ]
 }
