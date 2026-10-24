@@ -137,6 +137,14 @@ try {
       assert.equal(await panel.locator('.katex-error,.reading-image-missing').count(),0);
       assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
     }
+    const imageTrigger=panel.locator('.markdown .reading-image-open').first();
+    await imageTrigger.click();
+    const imageDialog=page.locator('.reading-image-dialog[open]');
+    await imageDialog.waitFor({state:'visible'});
+    await page.keyboard.press('Escape');
+    await imageDialog.waitFor({state:'hidden'});
+    assert.ok(await panel.isVisible(),'Escape closes the topmost native image dialog without closing its reader');
+    assert.ok(await imageTrigger.evaluate(node=>document.activeElement===node),'Closing the image restores focus to its trigger');
     const foundation=panel.locator('.lecture-disclosure').filter({hasText:'前缀和'}).first();
     await foundation.locator('summary').click();
     await foundation.locator('.lecture-disclosure-body').waitFor();
@@ -144,7 +152,8 @@ try {
     await foundation.locator('summary').click();
   }
   await page.setViewportSize({width:1480,height:920});
-  await panel.getByRole('button',{name:'收起题解',exact:true}).click();
+  await page.keyboard.press('Escape');
+  await panel.waitFor({state:'hidden'});
   await open('Range Search Query');
   await panel.getByRole('heading',{name:'为什么检查一个起点就足够回答 Yes 或 No',exact:true}).waitFor();
   assert.equal(await panel.locator('.concise-solution').count(),0,'A low-rating default editorial does not hide its worked proof and diagram');

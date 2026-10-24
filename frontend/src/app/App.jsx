@@ -1386,7 +1386,7 @@ export default function App() {
       if (e.key==='Escape' && (document.querySelector('.filter-popover') || document.querySelector('.tb-select-menu') || document.querySelector('[data-popconfirm]'))) return;
       if (e.key==='Escape' && e.target.closest?.('.tooltip-anchor') && document.querySelector('[role="tooltip"]')) return;
       const shortcut=id=>matchesShortcut(e,id,prefs.shortcuts);
-      if (document.querySelector('[aria-modal="true"]')) return;
+      if (document.querySelector('dialog[open],[aria-modal="true"]')) return;
       const control = e.ctrlKey || e.metaKey,
         typing = isTyping(e.target),
         button =
