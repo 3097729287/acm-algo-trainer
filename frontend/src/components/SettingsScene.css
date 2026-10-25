@@ -89,6 +89,12 @@ html[data-motion=off] .dipper-lines {stroke-dashoffset:0}
 @media(prefers-reduced-motion:reduce){.dino-traveler{left:calc(50% - var(--dino-width)/2)}}
 
 
-.dino-traveler {position:absolute;--dino-width:154px;width:var(--dino-width);height:auto;aspect-ratio:1;bottom:5%;animation:dino-stroll 18s linear infinite}
-.dino-model {display:block;width:100%;height:100%;object-fit:contain;animation:dino-direction 18s steps(1,end) infinite;filter:drop-shadow(0 5px 3px #0002)}
+.dino-traveler {position:absolute;--dino-width:154px;width:var(--dino-width);height:auto;aspect-ratio:1;bottom:3%;animation:dino-stroll 18s linear infinite}
+.dino-model {display:block;width:100%;height:100%;overflow:visible;animation:dino-direction 18s steps(1,end) infinite}
+.dino-body {animation:dino-bob .8s ease-in-out infinite}
+.dino-foot {transform-box:fill-box;transform-origin:50% 0;animation:dino-step .8s ease-in-out infinite}
+.dino-foot-back {animation-delay:-.4s}
+@keyframes dino-bob {0%,100%{transform:translateY(0)}50%{transform:translateY(-1px)}}
+@keyframes dino-step {0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
+@media(prefers-reduced-motion:reduce){.dino-model,.dino-body,.dino-foot{animation:none}}
 @media(max-width:800px){.dino-traveler{--dino-width:114px}}

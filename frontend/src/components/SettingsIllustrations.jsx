@@ -1,5 +1,4 @@
 import {useId} from 'react';
-import dinosaur from '@/assets/noto-dinosaur.svg';
 
 function AncientTree({x,y,scale=1}) {
  return <g transform={`translate(${x} ${y}) scale(${scale})`}>
@@ -25,7 +24,20 @@ export function RoundedDinosaur() {
    <path d="M8 289H632" opacity=".65"/>
    <g opacity=".6"><path d="M26 288Q21 275 15 272M26 288Q27 274 35 271M24 282L16 279M29 280L35 277M204 289Q201 277 194 274M204 289Q207 275 213 273M556 290Q549 278 542 278M556 290Q558 280 566 275"/><path d="M91 289q4-8 10-7q7 0 11 7M241 289q8-12 17-1M469 288q6-9 12 0"/></g>
   </svg>
-  <div className="dino-traveler"><img className="dino-model" src={dinosaur} alt="" draggable={false}/></div>
+  <div className="dino-traveler"><svg className="dino-model" viewBox="0 0 160 160" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
+   <g className="dino-body">
+    <path className="dino-foot dino-foot-back" d="M91 119v16q0 5 5 5h9q4-1 1-5l-6-4v-14" fill="var(--panel-base)" opacity=".6"/>
+    <path d="M43 92q-8-9-11 1l-1 7M58 80q-7-13-12-3l-2 13M78 77q-1-13-10-8l-4 9M88 64q-8-9-12 0l2 12" fill="currentColor" fillOpacity=".16"/>
+    <path className="dino-outline" d="M43 92C34 101 23 103 12 97C20 113 33 119 48 113C54 123 65 128 78 128C97 128 110 117 112 101L114 84H128C142 84 150 75 148 63C146 49 133 42 120 42C104 42 91 51 88 64L82 80C70 75 53 78 43 92Z" fill="var(--panel-base)"/>
+    <path d="M43 92C34 101 23 103 12 97C20 113 33 119 48 113C54 123 65 128 78 128C97 128 110 117 112 101L114 84H128C142 84 150 75 148 63C146 49 133 42 120 42C104 42 91 51 88 64L82 80C70 75 53 78 43 92Z" fill="currentColor" fillOpacity=".09" stroke="none"/>
+    <path className="dino-foot dino-foot-front" d="M67 118v17q0 6 6 6h12q4-1 1-5l-8-4v-10" fill="var(--panel-base)"/>
+    <path d="M105 95q-2 9-10 11q-5 1-5-4l3-4"/>
+    <circle className="dino-eye" cx="116" cy="59" r="2.9" fill="currentColor" stroke="none"/>
+    <circle cx="138" cy="65" r="1.2" fill="currentColor" stroke="none" opacity=".65"/>
+    <path d="M126 74q8 5 14-1" strokeWidth="1.8"/>
+    <ellipse cx="116" cy="72" rx="4" ry="2.5" fill="currentColor" fillOpacity=".19" stroke="none"/>
+   </g>
+  </svg></div>
  </div>;
 }
 
