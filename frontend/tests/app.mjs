@@ -236,7 +236,11 @@ try {
   await page.getByLabel('搜索活动日期',{exact:true}).waitFor();
   assert.equal(await page.getByLabel('搜索活动日期',{exact:true}).getAttribute('placeholder'),null);
   const squares=await page.locator('.activity-day').evaluateAll(nodes=>nodes.map(node=>{const r=node.getBoundingClientRect();return [r.width,r.height,node.textContent];}));
-  assert.equal(await page.locator('.activity-mini-month').count(),4);
+  assert.equal(await page.locator('.activity-month-grid').count(),1);
+  assert.equal(await page.locator('.activity-square-viewport h3,.activity-day-blank').count(),0);
+  const calendarDates=await page.locator('.activity-day').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('aria-label').slice(0,10)));
+  assert.ok(calendarDates.length>=120&&calendarDates.length<=123);
+  assert.ok(calendarDates.slice(1).every((day,index)=>Date.parse(day)-Date.parse(calendarDates[index])===86400000),'dates remain consecutive across all month boundaries');
   assert.ok(squares.every(([width,height,text])=>width<=48&&Math.abs(width-height)<1&&text===''),'calendar cells are true squares without text');
   assert.equal(await page.locator('.activity-selected-summary .activity-progress-segment').count(),5);
   for(const input of ['2026:04:13','2026 4 13','26 04 13','26-04-13']){

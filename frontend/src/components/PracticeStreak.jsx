@@ -1,10 +1,10 @@
 import Tooltip from './Tooltip.jsx';
 export const FLAME_STAGES=[1,2,4,7,15,30,60];
-// Mirror every control point about x=16, including the rounded lower bowl.
+// Natural, uneven tongues above a lower bowl mirrored exactly about x=16.
 // Stages grow in breadth while keeping the same height and optical center.
 const FLAME_SHAPES=FLAME_STAGES.map((_,stage)=>{
  const width=9+stage*.65,peak=width-3,notch=3+stage*.15,tipY=14-stage;
- return `M16 2C22 8 21 13 ${16+notch} 18C${16+peak} 17 ${16+peak+1} ${tipY+3} ${16+peak} ${tipY}C${16+width} 16 ${16+width} 19 ${16+width} 22C${16+width} 29 ${16+width*.55} 34 16 34C${16-width*.55} 34 ${16-width} 29 ${16-width} 22C${16-width} 19 ${16-width} 16 ${16-peak} ${tipY}C${16-peak-1} ${tipY+3} ${16-peak} 17 ${16-notch} 18C11 13 10 8 16 2Z`;
+ return `M17 2C22 7 22 12 ${16+notch} 18C${16+peak} 17 ${16+peak+1} ${tipY+3} ${16+peak} ${tipY}C${16+width} 16 ${16+width} 19 ${16+width} 22C${16+width} 29 ${16+width*.55} 34 16 34C${16-width*.55} 34 ${16-width} 29 ${16-width} 22C${16-width} 19 ${17-width} 16 ${19-width} 12C${18-width} 17 12 18 12 15C11 10 15 8 17 2Z`;
 });
 
 export default function PracticeStreak({days=0,completedToday=false}) {

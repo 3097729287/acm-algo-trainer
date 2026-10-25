@@ -541,14 +541,10 @@ html .records-paged>.submission-log {flex:1;min-height:0;overflow:auto}
 html[data-theme=light] .acknowledgements .special-thanks .special-thanks-cat {background-image:linear-gradient(110deg,#647c88 3%,#43858e 28%,#238b95 53%,#6a97a3 72%,#aa6f84 98%);filter:none}
 html[data-theme=light] .acknowledgements .special-thanks .special-thanks-lt {background-image:linear-gradient(155deg,#bd8d28 8%,#a4771e 37%,#947032 65%,#8a5e28 94%);filter:none}
 @media(max-width:600px) {.activity-selected-summary {gap:8px;font-size:.8rem}.activity-selected-summary>.activity-progress {width:38%;gap:2px}.activity-detail-progress {padding-left:0;gap:7px}.activity-detail-table th:first-child {width:42%}.activity-month-picker input {max-width:132px}.submission-page-controls {gap:6px;padding-inline:8px}}
-/* Compact four-month overview; cell dimensions are capped independently of text zoom. */
-html .activity-square-viewport {padding:2px;align-items:center}
-.activity-four-months {display:grid;gap:16px;width:100%;min-width:0;align-content:center}
-.activity-mini-month {display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0}
-.activity-mini-month h3 {font-size:12px;line-height:18px;font-weight:500;margin:0;color:var(--muted)}
-html .activity-four-months .activity-month-grid {gap:5px}
-html .activity-four-months .activity-day {border-radius:4px}
-.activity-day-blank {pointer-events:none}
+/* Four consecutive months form one centered grid with equal spacing across month boundaries. */
+html .activity-square-viewport {padding:2px clamp(8px,3vw,56px);align-items:center}
+html .activity-month-grid.activity-continuous-grid {gap:5px}
+html .activity-continuous-grid .activity-day {border-radius:4px}
 html .submission-log-row {cursor:pointer}
 html .submission-problem-link {flex:1;min-width:0;padding:0;border:0;border-radius:0;background:transparent;text-align:left;align-self:stretch;color:inherit}
 .submission-record-actions {display:flex;flex:none;align-items:center;gap:12px}
