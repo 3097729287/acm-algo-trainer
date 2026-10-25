@@ -2,9 +2,11 @@
 .training-list-path > span { display:inline-flex; align-items:center; gap:4px; min-width:0; }
 .training-list-path button { gap:6px; text-align:left; overflow-wrap:anywhere; }
 .training-list-path button:disabled { opacity:.35; cursor:default; }
-.training-list-heading { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 26px 12px; border-bottom:1px solid var(--soft-line); }
-.training-list-heading h2 { font-size:1.05rem; font-weight:600; margin:0 0 5px; overflow-wrap:anywhere; }
-.training-list-heading p { color:var(--muted); font-size:.83rem; margin:0; }
+.training-list-directory {display:flex;align-items:center;flex-wrap:wrap;gap:4px 16px;background:var(--panel);border-radius:8px;padding:0 14px;margin-bottom:8px;}
+.training-list-directory .catalog-path {flex:1;min-width:0;border:0;padding-inline:0;background:transparent;}
+.training-list-summary {display:flex;align-items:center;justify-content:flex-end;gap:16px;max-width:100%;margin-left:auto;padding-block:10px;color:var(--muted);font-size:.83rem;}
+.training-list-stats {min-width:0;overflow-wrap:anywhere;}
+.training-list-mode {display:inline-flex;align-items:center;gap:8px;flex-shrink:0;white-space:nowrap;}
 .training-list-source { display:inline-flex; align-items:center; gap:6px; flex-shrink:0; font-size:.83rem; }
 .training-list-content { min-width:0; padding-top:4px; }
 .training-list-content .catalog-folder-row > span { flex-shrink:0; }
@@ -21,7 +23,7 @@ html .training-lists-page .training-list-table :is(th,td):nth-child(3) { width:1
 .training-list-number { min-width:20px; flex-shrink:0; font-size:.8rem; color:var(--muted); font-variant-numeric:tabular-nums; }
 .training-lists-page > .library-pagination { display:flex; justify-content:space-between; gap:10px; flex-shrink:0; }
 @media(max-width:700px) {
-  .training-list-heading { padding:12px 14px; align-items:flex-start; }
+  .training-list-summary {gap:8px;font-size:.75rem;padding-top:0;}
   .training-list-source span { display:none; }
   html .training-lists-page .training-list-table :is(th,td):nth-child(2) { width:60px; padding-inline:4px; }
   html .training-lists-page .training-list-table :is(th,td):nth-child(3) { width:70px; padding-inline:4px; }

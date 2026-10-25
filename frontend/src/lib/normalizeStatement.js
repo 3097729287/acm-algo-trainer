@@ -1,3 +1,4 @@
+import {inputFormatMarkdown} from './inputFormat.js';
 // Presentation only: keep archive bytes and mathematical content unchanged.
 // The fetch tool's comment banner is metadata already shown by the workbench.
 export function normalizeStatement(markdown, samples = [], title = '') {
@@ -51,5 +52,5 @@ export function normalizeStatement(markdown, samples = [], title = '') {
       return `### 样例 ${index + 1}\n\n输入\n\n${block(values[0])}\n\n输出\n\n${block(values[1])}${sample.explanation ? '\n\n' + sample.explanation : ''}`;
     }).join('\n\n') + suffix;
   }
-  return text.trim();
+  return inputFormatMarkdown(text.trim());
 }

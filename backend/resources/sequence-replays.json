@@ -1,0 +1,77 @@
+[
+  {
+    "title": "前缀和与差分",
+    "problems": [
+      {
+        "pid": "363B",
+        "url": "https://codeforces.com/problemset/problem/363/B"
+      },
+      {
+        "pid": "433B",
+        "url": "https://codeforces.com/problemset/problem/433/B"
+      },
+      {
+        "pid": "816B",
+        "url": "https://codeforces.com/problemset/problem/816/B"
+      },
+      {
+        "pid": "295A",
+        "url": "https://codeforces.com/problemset/problem/295/A"
+      },
+      {
+        "pid": "276C",
+        "url": "https://codeforces.com/problemset/problem/276/C"
+      }
+    ]
+  },
+  {
+    "title": "双指针算法",
+    "problems": [
+      {
+        "pid": "381A",
+        "url": "https://codeforces.com/problemset/problem/381/A"
+      },
+      {
+        "pid": "1538C",
+        "url": "https://codeforces.com/problemset/problem/1538/C"
+      },
+      {
+        "pid": "279B",
+        "url": "https://codeforces.com/problemset/problem/279/B"
+      },
+      {
+        "pid": "580B",
+        "url": "https://codeforces.com/problemset/problem/580/B"
+      },
+      {
+        "pid": "701C",
+        "url": "https://codeforces.com/problemset/problem/701/C"
+      }
+    ]
+  },
+  {
+    "title": "背包 DP",
+    "problems": [
+      {
+        "pid": "P1048",
+        "url": "https://www.luogu.com.cn/problem/P1048"
+      },
+      {
+        "pid": "P1049",
+        "url": "https://www.luogu.com.cn/problem/P1049"
+      },
+      {
+        "pid": "P1060",
+        "url": "https://www.luogu.com.cn/problem/P1060"
+      },
+      {
+        "pid": "P2392",
+        "url": "https://www.luogu.com.cn/problem/P2392"
+      },
+      {
+        "pid": "P1507",
+        "url": "https://www.luogu.com.cn/problem/P1507"
+      }
+    ]
+  }
+]

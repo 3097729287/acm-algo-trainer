@@ -117,7 +117,7 @@ class PublicClient:
     def __init__(self,state_dir,stop=None,transport=None,spacing=2):
         self.directory=Path(state_dir)/'http';self.stop=stop or threading.Event();self.transport=transport;self.spacing=spacing
         self.lock=threading.RLock();self.pacing={};self.backoff={};self.request_locks={};self.opener=build_opener(_Redirect())
-    def _get(self,url,headers=None,public_fields=None,owner_filter=None):
+    def _get(self,url,headers=None,public_fields=None,owner_filter=None,max_age=300):
         safe_url(url);host=urlsplit(url).hostname
         cache_key=url+('\0contest-metadata' if public_fields else '')
         if owner_filter:cache_key+='\0owner-receipts-v1:'+owner_filter[0]
@@ -127,7 +127,7 @@ class PublicClient:
         with self.lock:request_lock=self.request_locks.setdefault(url,threading.Lock())
         with request_lock:
             saved=load(path,{})
-            if saved and time.time()-saved.get('at',0)<300:return saved['text']
+            if saved and time.time()-saved.get('at',0)<max_age:return saved['text']
             if self.stop.is_set():raise RuntimeError('同步已停止')
             with self.lock:
                 if time.monotonic()<self.backoff.get(host,(0,0))[0]:raise RuntimeError('原站暂不可用，正在退避等待')
@@ -169,7 +169,8 @@ class PublicClient:
                 raise RuntimeError(str(error)[:250]) from error
     def text(self,url,headers=None):return self._get(url,headers)
     def json(self,url,headers=None):return json.loads(self._get(url,headers))
-    def owner_json(self,url,owner,parse,headers=None):return json.loads(self._get(url,headers,owner_filter=(owner,parse)))
+    def fresh_json(self,url,headers=None):return json.loads(self._get(url,headers,max_age=0))
+    def owner_json(self,url,owner,parse,headers=None):return json.loads(self._get(url,headers,owner_filter=(owner,parse),max_age=0))
     def contest_problems(self,identity):
         if not str(identity).isdigit():raise ValueError('比赛编号必须是数字')
         return json.loads(self._get('https://codeforces.com/api/contest.standings?contestId='+str(identity),public_fields=('contest','problems')))

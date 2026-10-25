@@ -91,7 +91,7 @@ class PublicReceiptSource:
             cursor=int((dt.datetime.now(dt.timezone.utc)-dt.timedelta(days=30)).timestamp());result=[];seen=set()
             for _ in range(6):
                 url='https://kenkoooo.com/atcoder/atcoder-api/v3/user/submissions?user='+quote(owner,safe='')+'&from_second='+str(cursor)
-                payload=self.client.json(url)
+                payload=getattr(self.client,'fresh_json',self.client.json)(url)
                 result.extend(row for row in atcoder_receipts(payload,owner) if row['submissionId'] not in seen)
                 seen.update(row['submissionId'] for row in result)
                 if len(payload)<500:break

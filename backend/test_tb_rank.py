@@ -152,7 +152,7 @@ class RankIntegrationTests(unittest.TestCase):
     def test_real_official_evidence_places_without_changing_claims_or_code(self):
         self.service.connection.execute("INSERT INTO tb_rank_profile VALUES(1,'2026-10-09T00:00:00Z')")
         for row in self.library.rows[:5]:
-            row['difficulty']=1800
+            row.update(difficulty=1800, platform='Codeforces', difficultySource='Codeforces 官方 rating', difficultyEstimated=False)
             self.accept(row['id'],code='// Preserve this exact official code')
         result=self.service.insights()
         rank=result['growth']['ranked']

@@ -122,7 +122,7 @@ def _skill_evidence(evidence, now):
         stamp = parse_time(item.get('acceptedAt'))
         if not isinstance(identity, str) or not identity.strip() or not stamp or stamp > now:
             continue
-        difficulty = item.get('difficulty')
+        difficulty = item.get('abilityDifficulty', item.get('difficulty'))
         known = (type(difficulty) in (int, float) and 0 < difficulty <= 1_000_000
                  and math.isfinite(difficulty))
         independent = item.get('independent') is True and item.get('independentKnown') is True
@@ -160,5 +160,6 @@ def ranked(evidence, daily_evidence, unlocked_at, now):
             'topDifficulties': difficulties[:MIN_RANK_EVIDENCE],
             'levelGate': RANK_UNLOCK_LEVEL, 'tierRequirements': requirements, 'thresholds': requirements,
             'unlockedAt': unlocked_at, 'date': now.astimezone(SHANGHAI).date().isoformat(),
-            'rules': '5 级解锁段位。至少需要 5 道不同原题的独立首次官方 AC，且难度和独立完成情况已知；取最高 5 题难度的中位数作为能力分。解锁前的真实记录同样有效。能力分 2200 达到王者。段位按能力分门槛确定，不随经验、刷简单题或缺勤改变；题库难度修订后按证据重新计算。',
+            'scoreScale': 'CF 参考能力', 'estimated': any(item.get('difficultyKind') == 'estimated-cf-band' for item in evidence),
+            'rules': '5 级解锁段位。非 CF 官方难度使用宽区间的保守下界参与定级；这是训练证据参考分，不是 CF 账号比赛 rating。至少需要 5 道不同原题的独立首次官方 AC，且难度和独立完成情况已知；取最高 5 题难度的中位数作为能力分。解锁前的真实记录同样有效。能力分 2200 达到王者。段位按能力分门槛确定，不随经验、刷简单题或缺勤改变；题库难度修订后按证据重新计算。',
             'legacyPoints': legacy_ranked_points(evidence, daily_evidence, unlocked_at, now)}

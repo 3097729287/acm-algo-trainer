@@ -277,3 +277,15 @@ button.competition-question:disabled { opacity:1; cursor:default; }
 .progress-stat-line>span>b{line-height:1.2;font-variant-numeric:tabular-nums;margin:0}
 .activity-stats{gap:14px 28px;margin:12px 0 18px}.activity-stats>span{padding:9px 12px;border:1px solid var(--line);border-radius:7px;background:var(--panel-2)}.activity-stats>span>b{font-size:1.55rem}.activity-stats>span>span{font-size:.88rem}
 .progress-section-heading :is(button,label,a){align-items:center}.progress-section-heading svg,.progress-button svg,.progress-text-button svg{flex:none}
+
+/* Stable row geometry lets pagination fill the viewport without clipping rows. */
+.competition-page:not(.competition-detail) {overflow:hidden;padding-bottom:0}
+.competition-list {flex:1;min-height:0;overflow:hidden}
+.competition-list .competition-card {flex:0 0 auto;height:calc(2.8em + 28px);min-height:64px;overflow:hidden}
+.competition-list .competition-card-open {height:100%;flex-wrap:nowrap;overflow:hidden}
+.competition-list .competition-card-title {min-width:0}
+.competition-list .competition-card-title strong {overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.competition-list .competition-problem-tokens {max-height:2.8em;overflow:hidden}
+.competition-pagination {flex-shrink:0}
+@media(max-width:1100px){.competition-list .competition-card{height:calc(4.8em + 28px)}.competition-list .competition-card-open{flex-wrap:wrap}.competition-list .competition-problem-tokens{flex-basis:100%}}
+@media(max-width:650px){.competition-list .competition-card{height:calc(7.6em + 28px)}.competition-list .competition-card-open{height:auto}.competition-list .competition-start{margin:0 8px 5px auto}}

@@ -29387,7 +29387,21 @@
         "练习赛 150::C",
         "练习赛 150::F",
         "练习赛 151::F",
-        "练习赛 155::C"
+        "练习赛 155::C",
+        "lab:codeforces:580B",
+        "lab:codeforces:242C",
+        "lab:codeforces:59E",
+        "lab:codeforces:796D",
+        "lab:codeforces:115A",
+        "lab:codeforces:580C",
+        "lab:codeforces:377A",
+        "lab:codeforces:510B",
+        "lab:codeforces:25D",
+        "lab:codeforces:20C",
+        "lab:codeforces:1076D",
+        "lab:codeforces:545E",
+        "lab:codeforces:449B",
+        "lab:codeforces:938D"
       ],
       "sourceTags": [],
       "sourceTitle": "独立基础课",
@@ -29753,7 +29767,27 @@
         "练习赛 155::E",
         "练习赛 155::F",
         "练习赛 156::D",
-        "练习赛 156::F"
+        "练习赛 156::F",
+        "lab:codeforces:520B",
+        "lab:codeforces:242C",
+        "lab:codeforces:601A",
+        "lab:codeforces:59E",
+        "lab:codeforces:796D",
+        "lab:codeforces:115A",
+        "lab:codeforces:580C",
+        "lab:codeforces:377A",
+        "lab:codeforces:510B",
+        "lab:codeforces:1592C",
+        "lab:codeforces:217A",
+        "lab:codeforces:277A",
+        "lab:codeforces:1167C",
+        "lab:codeforces:722C",
+        "lab:codeforces:25D",
+        "lab:codeforces:20C",
+        "lab:codeforces:1076D",
+        "lab:codeforces:545E",
+        "lab:codeforces:449B",
+        "lab:codeforces:938D"
       ],
       "sourceTags": [],
       "sourceTitle": "独立基础课",
@@ -30406,7 +30440,10 @@
         "周赛 163::G",
         "小白月赛 134::F",
         "挑战赛 87::B",
-        "月赛 293::D"
+        "月赛 293::D",
+        "lab:codeforces:816B",
+        "lab:codeforces:295A",
+        "lab:codeforces:276C"
       ],
       "sourceTags": [],
       "sourceTitle": "独立基础课",
@@ -30624,7 +30661,12 @@
         "周赛 165::E",
         "基础赛 37::C",
         "月赛 302::C",
-        "练习赛 153::F"
+        "练习赛 153::F",
+        "lab:codeforces:217A",
+        "lab:codeforces:277A",
+        "lab:codeforces:1167C",
+        "lab:codeforces:722C",
+        "lab:codeforces:25D"
       ],
       "sourceTags": [],
       "sourceTitle": "独立基础课",
@@ -31474,7 +31516,17 @@
         "练习赛 151::F",
         "练习赛 155::F",
         "练习赛 156::C",
-        "练习赛 157::F"
+        "练习赛 157::F",
+        "lab:codeforces:520B",
+        "lab:codeforces:242C",
+        "lab:codeforces:601A",
+        "lab:codeforces:59E",
+        "lab:codeforces:796D",
+        "lab:codeforces:115A",
+        "lab:codeforces:580C",
+        "lab:codeforces:377A",
+        "lab:codeforces:510B",
+        "lab:codeforces:1592C"
       ],
       "sourceTags": [],
       "sourceTitle": "独立基础课",
@@ -31799,7 +31851,12 @@
         "基础赛 32::C",
         "挑战赛 86::D",
         "月赛 301::A",
-        "练习赛 151::F"
+        "练习赛 151::F",
+        "lab:codeforces:20C",
+        "lab:codeforces:1076D",
+        "lab:codeforces:545E",
+        "lab:codeforces:449B",
+        "lab:codeforces:938D"
       ],
       "sourceTags": [],
       "sourceTitle": "独立基础课",
@@ -32671,7 +32728,37 @@
         "练习赛 157::B",
         "练习赛 157::D",
         "练习赛 157::E",
-        "练习赛 157::F"
+        "练习赛 157::F",
+        "lab:codeforces:363B",
+        "lab:codeforces:433B",
+        "lab:codeforces:816B",
+        "lab:codeforces:295A",
+        "lab:codeforces:276C",
+        "lab:codeforces:381A",
+        "lab:codeforces:1538C",
+        "lab:codeforces:279B",
+        "lab:codeforces:580B",
+        "lab:codeforces:701C",
+        "lab:codeforces:520B",
+        "lab:codeforces:242C",
+        "lab:codeforces:601A",
+        "lab:codeforces:59E",
+        "lab:codeforces:796D",
+        "lab:codeforces:115A",
+        "lab:codeforces:580C",
+        "lab:codeforces:377A",
+        "lab:codeforces:510B",
+        "lab:codeforces:1592C",
+        "lab:codeforces:217A",
+        "lab:codeforces:277A",
+        "lab:codeforces:1167C",
+        "lab:codeforces:722C",
+        "lab:codeforces:25D",
+        "lab:codeforces:20C",
+        "lab:codeforces:1076D",
+        "lab:codeforces:545E",
+        "lab:codeforces:449B",
+        "lab:codeforces:938D"
       ],
       "sourceTags": [],
       "sourceTitle": "独立基础课",
@@ -33116,7 +33203,12 @@
         "练习赛 156::C",
         "练习赛 156::E",
         "练习赛 157::C",
-        "练习赛 157::E"
+        "练习赛 157::E",
+        "lab:codeforces:433B",
+        "lab:codeforces:276C",
+        "lab:codeforces:1538C",
+        "lab:codeforces:580B",
+        "lab:codeforces:59E"
       ],
       "sourceTags": [],
       "sourceTitle": "独立基础课",
@@ -33607,7 +33699,12 @@
         "练习赛 154::F",
         "练习赛 155::D",
         "练习赛 156::D",
-        "练习赛 156::E"
+        "练习赛 156::E",
+        "lab:codeforces:217A",
+        "lab:codeforces:277A",
+        "lab:codeforces:1167C",
+        "lab:codeforces:722C",
+        "lab:codeforces:25D"
       ],
       "sourceTags": [],
       "sourceTitle": "独立基础课",
@@ -33814,7 +33911,12 @@
         "练习赛 156::F",
         "练习赛 157::C",
         "练习赛 157::D",
-        "练习赛 157::E"
+        "练习赛 157::E",
+        "lab:codeforces:363B",
+        "lab:codeforces:433B",
+        "lab:codeforces:816B",
+        "lab:codeforces:295A",
+        "lab:codeforces:276C"
       ],
       "sourceTags": [],
       "sourceTitle": "独立基础课",
@@ -33971,7 +34073,12 @@
         "挑战赛 83::B",
         "挑战赛 89::C",
         "月赛 293::A",
-        "练习赛 149::C"
+        "练习赛 149::C",
+        "lab:codeforces:520B",
+        "lab:codeforces:242C",
+        "lab:codeforces:601A",
+        "lab:codeforces:59E",
+        "lab:codeforces:796D"
       ],
       "sourceTags": [],
       "sourceTitle": "独立基础课",
@@ -34174,7 +34281,9 @@
         "基础赛 38::D",
         "小白月赛 129::F",
         "挑战赛 83::A",
-        "挑战赛 92::D"
+        "挑战赛 92::D",
+        "lab:codeforces:242C",
+        "lab:codeforces:59E"
       ],
       "sourceTags": [],
       "sourceTitle": "独立基础课",
@@ -34228,7 +34337,12 @@
         "周赛 161::E",
         "基础赛 37::D",
         "挑战赛 86::D",
-        "练习赛 149::C"
+        "练习赛 149::C",
+        "lab:codeforces:20C",
+        "lab:codeforces:1076D",
+        "lab:codeforces:545E",
+        "lab:codeforces:449B",
+        "lab:codeforces:938D"
       ],
       "sourceTags": [],
       "sourceTitle": "独立基础课",
@@ -34851,7 +34965,10 @@
         "练习赛 155::F",
         "练习赛 156::A",
         "练习赛 156::B",
-        "练习赛 156::F"
+        "练习赛 156::F",
+        "lab:codeforces:701C",
+        "lab:codeforces:377A",
+        "lab:codeforces:510B"
       ],
       "sourceTags": [],
       "sourceTitle": "独立基础课",
@@ -35190,7 +35307,12 @@
         "周赛 158::D",
         "基础赛 31::D",
         "挑战赛 90::D",
-        "月赛 298::B"
+        "月赛 298::B",
+        "lab:codeforces:381A",
+        "lab:codeforces:1538C",
+        "lab:codeforces:279B",
+        "lab:codeforces:580B",
+        "lab:codeforces:701C"
       ],
       "sourceTags": [],
       "sourceTitle": "独立基础课",
@@ -36092,7 +36214,26 @@
         "练习赛 157::B",
         "练习赛 157::C",
         "练习赛 157::D",
-        "练习赛 157::E"
+        "练习赛 157::E",
+        "lab:codeforces:520B",
+        "lab:codeforces:601A",
+        "lab:codeforces:59E",
+        "lab:codeforces:796D",
+        "lab:codeforces:115A",
+        "lab:codeforces:580C",
+        "lab:codeforces:377A",
+        "lab:codeforces:510B",
+        "lab:codeforces:1592C",
+        "lab:codeforces:217A",
+        "lab:codeforces:277A",
+        "lab:codeforces:1167C",
+        "lab:codeforces:722C",
+        "lab:codeforces:25D",
+        "lab:codeforces:20C",
+        "lab:codeforces:1076D",
+        "lab:codeforces:545E",
+        "lab:codeforces:449B",
+        "lab:codeforces:938D"
       ],
       "sourceTags": [],
       "sourceTitle": "独立基础课",
@@ -36103,26 +36244,26 @@
     "id": "lecture:foundation-vector"
   },
   {
-    "id": "lecture:sequence-prefix-difference",
     "content": {
-      "id": "lecture:sequence-prefix-difference",
       "available": true,
-      "title": "从零讲：前缀和与差分：累计量与变化量",
-      "displayTitle": "前缀和与差分：累计量与变化量",
-      "topic": "前缀和与差分：累计量与变化量",
-      "concept": "前缀和与差分：累计量与变化量",
-      "knowledgeName": "前缀和",
-      "category": "基础技巧 / 前缀和与差分",
+      "catalogTags": [],
       "categories": [
         "基础技巧 / 前缀和与差分"
       ],
-      "tags": [
-        "前缀和"
-      ],
-      "sourceTags": [
-        "前缀和"
-      ],
-      "catalogTags": [],
+      "category": "基础技巧 / 前缀和与差分",
+      "concept": "前缀和与差分：累计量与变化量",
+      "conceptSource": "independent-foundation",
+      "curationVersion": "lectures-v1.1",
+      "displayTitle": "前缀和与差分：累计量与变化量",
+      "editorialVersion": "2026-10-24-sequence-lab-v1",
+      "excerpt": "只需知道数组、加减与循环。给数组 `[3,1,4]`，反复询问某个连续区间的和。每次从头加到尾，会重复计算相同部分。",
+      "id": "lecture:sequence-prefix-difference",
+      "images": {},
+      "knowledgeName": "前缀和",
+      "markdown": "# 前缀和与差分：累计量与变化量\n\n只需知道数组、加减与循环。给数组 `[3,1,4]`，反复询问某个连续区间的和。每次从头加到尾，会重复计算相同部分。\n\n从 1 开始编号，定义 `P[i]` 为前 i 个数之和，`P[0]=0` 是空前缀。这个例子得到 `[0,3,4,8]`。第 2～3 项之和为 `P[3]−P[1]=8−3=5`：前 3 项减去前 1 项，恰好留下目标。一般闭区间 `[l,r]` 的和为 `P[r]−P[l−1]`。建表 O(n)，每次查询 O(1)；负数不影响加减相消。数组修改后，旧前缀需要维护或重建。\n\n差分换一个问题：每格比前一格变了多少？约定 `a[0]=0`，令 `d[i]=a[i]−a[i−1]`，例子是 `[3,−2,3]`。从左累计得到 `[3,1,4]`。内部的相邻项一正一负抵消，所以对差分求前缀能还原原数组；对前缀相邻相减，也能还原原数组。必须保留起点，只有内部相邻差时，无法区分整体平移的数组。\n\n若所有修改都是区间统一加、最后才需要结果，可以令增量事件 `delta` 初始全 0。`[l,r]` 加 k 只记 `delta[l]+=k`、`delta[r+1]−=k`。累计事件时，l 前是 0，l～r 为 k，r 之后又变回 0；最后将累计增量加回原值。n+1 哨兵存储末尾区间的停止事件。每次记事件 O(1)，最后还原 O(n)，总 O(n+m)。\n\n```cpp\nvector<long long> delta(n + 2, 0);\n// 对每次闭区间 [l,r] 加 k：\ndelta[l] += k;\ndelta[r + 1] -= k;\n// 全部操作结束后：\nlong long add = 0;\nfor (int i = 1; i <= n; ++i) {\n    add += delta[i];\n    a[i] += add;\n}\n```\n\n也可以先对原数组建差分，在它上面修改，最后累计直接得到最终值。此时不再加回原值；不能混用两种表示。前缀可独立回答静态区间和，差分可独立描述相邻变化；批量区间加才将边界记录与累计还原组合起来。\n\n二维前缀 `P[x][y]` 是左上角前 x 行、前 y 列的矩形和。查询先取右下角大矩形，减上方、减左方，再加回它们被减两次的交集。二维差分则在左上、右下之外两个边界与其交点写四个正负事件，沿两个方向累计。算法实验室提供实际矩形与四角的交互图。\n\n相消依赖可逆的加减，不能把前缀最小值直接相减来求区间最小。交替修改与立刻查询时，也不能只记简单差分就宣称每次都 O(1)。累计和、覆盖加权与计数应按范围选择 64 位整数。\n",
+      "sourceHash": "01ca0d1893f4896bc66f947917202a19b6b7a187d3e40fbbb1bbfcb41cd6b0b7",
+      "sourceHeading": "前缀和与差分：累计量与变化量",
+      "sourceMarkdown": "# 前缀和与差分：累计量与变化量\n\n只需知道数组、加减与循环。给数组 `[3,1,4]`，反复询问某个连续区间的和。每次从头加到尾，会重复计算相同部分。\n\n从 1 开始编号，定义 `P[i]` 为前 i 个数之和，`P[0]=0` 是空前缀。这个例子得到 `[0,3,4,8]`。第 2～3 项之和为 `P[3]−P[1]=8−3=5`：前 3 项减去前 1 项，恰好留下目标。一般闭区间 `[l,r]` 的和为 `P[r]−P[l−1]`。建表 O(n)，每次查询 O(1)；负数不影响加减相消。数组修改后，旧前缀需要维护或重建。\n\n差分换一个问题：每格比前一格变了多少？约定 `a[0]=0`，令 `d[i]=a[i]−a[i−1]`，例子是 `[3,−2,3]`。从左累计得到 `[3,1,4]`。内部的相邻项一正一负抵消，所以对差分求前缀能还原原数组；对前缀相邻相减，也能还原原数组。必须保留起点，只有内部相邻差时，无法区分整体平移的数组。\n\n若所有修改都是区间统一加、最后才需要结果，可以令增量事件 `delta` 初始全 0。`[l,r]` 加 k 只记 `delta[l]+=k`、`delta[r+1]−=k`。累计事件时，l 前是 0，l～r 为 k，r 之后又变回 0；最后将累计增量加回原值。n+1 哨兵存储末尾区间的停止事件。每次记事件 O(1)，最后还原 O(n)，总 O(n+m)。\n\n```cpp\nvector<long long> delta(n + 2, 0);\n// 对每次闭区间 [l,r] 加 k：\ndelta[l] += k;\ndelta[r + 1] -= k;\n// 全部操作结束后：\nlong long add = 0;\nfor (int i = 1; i <= n; ++i) {\n    add += delta[i];\n    a[i] += add;\n}\n```\n\n也可以先对原数组建差分，在它上面修改，最后累计直接得到最终值。此时不再加回原值；不能混用两种表示。前缀可独立回答静态区间和，差分可独立描述相邻变化；批量区间加才将边界记录与累计还原组合起来。\n\n二维前缀 `P[x][y]` 是左上角前 x 行、前 y 列的矩形和。查询先取右下角大矩形，减上方、减左方，再加回它们被减两次的交集。二维差分则在左上、右下之外两个边界与其交点写四个正负事件，沿两个方向累计。算法实验室提供实际矩形与四角的交互图。\n\n相消依赖可逆的加减，不能把前缀最小值直接相减来求区间最小。交替修改与立刻查询时，也不能只记简单差分就宣称每次都 O(1)。累计和、覆盖加权与计数应按范围选择 64 位整数。\n",
       "sourcePath": "docs/foundations/prefix-difference.md",
       "sourceProblemIds": [
         "lab:codeforces:363B",
@@ -36131,38 +36272,38 @@
         "lab:codeforces:295A",
         "lab:codeforces:276C"
       ],
-      "sourceHeading": "前缀和与差分：累计量与变化量",
-      "conceptSource": "independent-foundation",
-      "sourceMarkdown": "# 前缀和与差分：累计量与变化量\n\n只需知道数组、加减与循环。给数组 `[3,1,4]`，反复询问某个连续区间的和。每次从头加到尾，会重复计算相同部分。\n\n从 1 开始编号，定义 `P[i]` 为前 i 个数之和，`P[0]=0` 是空前缀。这个例子得到 `[0,3,4,8]`。第 2～3 项之和为 `P[3]−P[1]=8−3=5`：前 3 项减去前 1 项，恰好留下目标。一般闭区间 `[l,r]` 的和为 `P[r]−P[l−1]`。建表 O(n)，每次查询 O(1)；负数不影响加减相消。数组修改后，旧前缀需要维护或重建。\n\n差分换一个问题：每格比前一格变了多少？约定 `a[0]=0`，令 `d[i]=a[i]−a[i−1]`，例子是 `[3,−2,3]`。从左累计得到 `[3,1,4]`。内部的相邻项一正一负抵消，所以对差分求前缀能还原原数组；对前缀相邻相减，也能还原原数组。必须保留起点，只有内部相邻差时，无法区分整体平移的数组。\n\n若所有修改都是区间统一加、最后才需要结果，可以令增量事件 `delta` 初始全 0。`[l,r]` 加 k 只记 `delta[l]+=k`、`delta[r+1]−=k`。累计事件时，l 前是 0，l～r 为 k，r 之后又变回 0；最后将累计增量加回原值。n+1 哨兵存储末尾区间的停止事件。每次记事件 O(1)，最后还原 O(n)，总 O(n+m)。\n\n```cpp\nvector<long long> delta(n + 2, 0);\n// 对每次闭区间 [l,r] 加 k：\ndelta[l] += k;\ndelta[r + 1] -= k;\n// 全部操作结束后：\nlong long add = 0;\nfor (int i = 1; i <= n; ++i) {\n    add += delta[i];\n    a[i] += add;\n}\n```\n\n也可以先对原数组建差分，在它上面修改，最后累计直接得到最终值。此时不再加回原值；不能混用两种表示。前缀可独立回答静态区间和，差分可独立描述相邻变化；批量区间加才将边界记录与累计还原组合起来。\n\n二维前缀 `P[x][y]` 是左上角前 x 行、前 y 列的矩形和。查询先取右下角大矩形，减上方、减左方，再加回它们被减两次的交集。二维差分则在左上、右下之外两个边界与其交点写四个正负事件，沿两个方向累计。算法实验室提供实际矩形与四角的交互图。\n\n相消依赖可逆的加减，不能把前缀最小值直接相减来求区间最小。交替修改与立刻查询时，也不能只记简单差分就宣称每次都 O(1)。累计和、覆盖加权与计数应按范围选择 64 位整数。\n",
-      "markdown": "# 前缀和与差分：累计量与变化量\n\n只需知道数组、加减与循环。给数组 `[3,1,4]`，反复询问某个连续区间的和。每次从头加到尾，会重复计算相同部分。\n\n从 1 开始编号，定义 `P[i]` 为前 i 个数之和，`P[0]=0` 是空前缀。这个例子得到 `[0,3,4,8]`。第 2～3 项之和为 `P[3]−P[1]=8−3=5`：前 3 项减去前 1 项，恰好留下目标。一般闭区间 `[l,r]` 的和为 `P[r]−P[l−1]`。建表 O(n)，每次查询 O(1)；负数不影响加减相消。数组修改后，旧前缀需要维护或重建。\n\n差分换一个问题：每格比前一格变了多少？约定 `a[0]=0`，令 `d[i]=a[i]−a[i−1]`，例子是 `[3,−2,3]`。从左累计得到 `[3,1,4]`。内部的相邻项一正一负抵消，所以对差分求前缀能还原原数组；对前缀相邻相减，也能还原原数组。必须保留起点，只有内部相邻差时，无法区分整体平移的数组。\n\n若所有修改都是区间统一加、最后才需要结果，可以令增量事件 `delta` 初始全 0。`[l,r]` 加 k 只记 `delta[l]+=k`、`delta[r+1]−=k`。累计事件时，l 前是 0，l～r 为 k，r 之后又变回 0；最后将累计增量加回原值。n+1 哨兵存储末尾区间的停止事件。每次记事件 O(1)，最后还原 O(n)，总 O(n+m)。\n\n```cpp\nvector<long long> delta(n + 2, 0);\n// 对每次闭区间 [l,r] 加 k：\ndelta[l] += k;\ndelta[r + 1] -= k;\n// 全部操作结束后：\nlong long add = 0;\nfor (int i = 1; i <= n; ++i) {\n    add += delta[i];\n    a[i] += add;\n}\n```\n\n也可以先对原数组建差分，在它上面修改，最后累计直接得到最终值。此时不再加回原值；不能混用两种表示。前缀可独立回答静态区间和，差分可独立描述相邻变化；批量区间加才将边界记录与累计还原组合起来。\n\n二维前缀 `P[x][y]` 是左上角前 x 行、前 y 列的矩形和。查询先取右下角大矩形，减上方、减左方，再加回它们被减两次的交集。二维差分则在左上、右下之外两个边界与其交点写四个正负事件，沿两个方向累计。算法实验室提供实际矩形与四角的交互图。\n\n相消依赖可逆的加减，不能把前缀最小值直接相减来求区间最小。交替修改与立刻查询时，也不能只记简单差分就宣称每次都 O(1)。累计和、覆盖加权与计数应按范围选择 64 位整数。\n",
-      "sourceHash": "01ca0d1893f4896bc66f947917202a19b6b7a187d3e40fbbb1bbfcb41cd6b0b7",
-      "excerpt": "只需知道数组、加减与循环。给数组 `[3,1,4]`，反复询问某个连续区间的和。每次从头加到尾，会重复计算相同部分。",
-      "images": {},
-      "editorialVersion": "2026-10-24-sequence-lab-v1",
-      "curationVersion": "lectures-v1.1"
-    }
+      "sourceTags": [
+        "前缀和"
+      ],
+      "tags": [
+        "前缀和"
+      ],
+      "title": "从零讲：前缀和与差分：累计量与变化量",
+      "topic": "前缀和与差分：累计量与变化量"
+    },
+    "id": "lecture:sequence-prefix-difference"
   },
   {
-    "id": "lecture:sequence-two-pointers",
     "content": {
-      "id": "lecture:sequence-two-pointers",
       "available": true,
-      "title": "从零讲：双指针：每次移动都要有依据",
-      "displayTitle": "双指针：每次移动都要有依据",
-      "topic": "双指针：每次移动都要有依据",
-      "concept": "双指针：每次移动都要有依据",
-      "knowledgeName": "双指针",
-      "category": "基础技巧",
+      "catalogTags": [],
       "categories": [
         "基础技巧"
       ],
-      "tags": [
-        "双指针"
-      ],
-      "sourceTags": [
-        "双指针"
-      ],
-      "catalogTags": [],
+      "category": "基础技巧",
+      "concept": "双指针：每次移动都要有依据",
+      "conceptSource": "independent-foundation",
+      "curationVersion": "lectures-v1.1",
+      "displayTitle": "双指针：每次移动都要有依据",
+      "editorialVersion": "2026-10-24-sequence-lab-v1",
+      "excerpt": "双指针用两个位置描述候选范围、连续窗口，或已经读过与已经写好的部分。看见两个变量不意味着有优化；关键是证明可以丢掉哪些候选，并让位置总共只移动线性次数。",
+      "id": "lecture:sequence-two-pointers",
+      "images": {},
+      "knowledgeName": "双指针",
+      "markdown": "# 双指针：每次移动都要有依据\n\n双指针用两个位置描述候选范围、连续窗口，或已经读过与已经写好的部分。看见两个变量不意味着有优化；关键是证明可以丢掉哪些候选，并让位置总共只移动线性次数。\n\n**相向。** 非递减数组 `[1,2,4,7]` 中找两个不同位置的和等于 6。开始看两端 1+7=8；固定 7，其他搭档只会更大，全部超出 6，因此放弃右端。随后 1+4=5 太小，1 已与当前最大搭档配过，更小搭档也不够，因此放弃左端。最后 2+4=6。这依赖有序性，与数字是否为正无关。若需连续段，排序会改变对象，不能直接这样处理。\n\n**同向窗口。** 在非负数组中求和至少 S>0 的最短非空段。右扩加入一个数，和不减；左缩移走一个数，和不增。每次达标先记录长度，再尽量缩小。一旦不够，继续缩也不能达标。已丢弃左端点曾产生过记录过的合法长度，此后右扩只会使它对应的段更长，不会改善最短答案。\n\n```cpp\nint l = 0, answer = n + 1;\nlong long sum = 0;\nfor (int r = 0; r < n; ++r) {\n    sum += a[r];\n    while (sum >= S) {\n        answer = min(answer, r - l + 1);\n        sum -= a[l++];\n    }\n}\n```\n\n两个端点各至多前进 n 次，for 内虽有 while，总移动仍至多 2n，时间 O(n)。若每轮把右端重新设回左端，可能重复扫描成 O(n²)。如果窗口维护本身每步还扫描全段，也不能声称 O(n)。\n\n负数破坏上面的单调理由：`[1,−1,5]`、S=5，原策略记录整段长度 3，移走 1 后和为 4 就停；但再移走 −1，和回升到 5，存在长度 1 的答案。因此原策略失效，前缀和的相消关系仍成立。若改问和恰好 K 的段数，可用前缀值频次匹配更早的 `P[r]−K`；这不等于已解决含负数的最短至少问题。\n\n窗口还可以维护字符频次。求最长无重复段时，遇到重复就移走左端直到冲突消失，合法后记录最长；求最短全种类覆盖时，种类齐全后先记录最短，再移走左端。目标与合法条件不同，答案更新的时机就不同。\n\n**快慢读写。** 原地去除 0，read 扫描原数，write 指向下一写入位置。保持 `[0,write)` 是 `[0,read)` 中所有非零数、顺序不变。write≤read，写回不会覆盖尚未读取的位置；结果只是 write 之前的部分，尾部旧值不算结果。O(n) 时间、O(1) 额外空间。\n\n实现前先回答：指针描述什么？移动放弃什么、为什么安全？指针共走多少次？最后再检查 `l<r` 还是 `l<=r`、相等是否算合法、重复值按数值还是按位置计数。查找任意一对、数所有对、最长段与最短段，不共用一条未经证明的移动规则。\n",
+      "sourceHash": "29f6b143985533d5efe8c7ded17521684ad32d7823371bc8825a7b6bf0bd4b1d",
+      "sourceHeading": "双指针：每次移动都要有依据",
+      "sourceMarkdown": "# 双指针：每次移动都要有依据\n\n双指针用两个位置描述候选范围、连续窗口，或已经读过与已经写好的部分。看见两个变量不意味着有优化；关键是证明可以丢掉哪些候选，并让位置总共只移动线性次数。\n\n**相向。** 非递减数组 `[1,2,4,7]` 中找两个不同位置的和等于 6。开始看两端 1+7=8；固定 7，其他搭档只会更大，全部超出 6，因此放弃右端。随后 1+4=5 太小，1 已与当前最大搭档配过，更小搭档也不够，因此放弃左端。最后 2+4=6。这依赖有序性，与数字是否为正无关。若需连续段，排序会改变对象，不能直接这样处理。\n\n**同向窗口。** 在非负数组中求和至少 S>0 的最短非空段。右扩加入一个数，和不减；左缩移走一个数，和不增。每次达标先记录长度，再尽量缩小。一旦不够，继续缩也不能达标。已丢弃左端点曾产生过记录过的合法长度，此后右扩只会使它对应的段更长，不会改善最短答案。\n\n```cpp\nint l = 0, answer = n + 1;\nlong long sum = 0;\nfor (int r = 0; r < n; ++r) {\n    sum += a[r];\n    while (sum >= S) {\n        answer = min(answer, r - l + 1);\n        sum -= a[l++];\n    }\n}\n```\n\n两个端点各至多前进 n 次，for 内虽有 while，总移动仍至多 2n，时间 O(n)。若每轮把右端重新设回左端，可能重复扫描成 O(n²)。如果窗口维护本身每步还扫描全段，也不能声称 O(n)。\n\n负数破坏上面的单调理由：`[1,−1,5]`、S=5，原策略记录整段长度 3，移走 1 后和为 4 就停；但再移走 −1，和回升到 5，存在长度 1 的答案。因此原策略失效，前缀和的相消关系仍成立。若改问和恰好 K 的段数，可用前缀值频次匹配更早的 `P[r]−K`；这不等于已解决含负数的最短至少问题。\n\n窗口还可以维护字符频次。求最长无重复段时，遇到重复就移走左端直到冲突消失，合法后记录最长；求最短全种类覆盖时，种类齐全后先记录最短，再移走左端。目标与合法条件不同，答案更新的时机就不同。\n\n**快慢读写。** 原地去除 0，read 扫描原数，write 指向下一写入位置。保持 `[0,write)` 是 `[0,read)` 中所有非零数、顺序不变。write≤read，写回不会覆盖尚未读取的位置；结果只是 write 之前的部分，尾部旧值不算结果。O(n) 时间、O(1) 额外空间。\n\n实现前先回答：指针描述什么？移动放弃什么、为什么安全？指针共走多少次？最后再检查 `l<r` 还是 `l<=r`、相等是否算合法、重复值按数值还是按位置计数。查找任意一对、数所有对、最长段与最短段，不共用一条未经证明的移动规则。\n",
       "sourcePath": "docs/foundations/two-pointers-lab.md",
       "sourceProblemIds": [
         "lab:codeforces:381A",
@@ -36171,15 +36312,15 @@
         "lab:codeforces:580B",
         "lab:codeforces:701C"
       ],
-      "sourceHeading": "双指针：每次移动都要有依据",
-      "conceptSource": "independent-foundation",
-      "sourceMarkdown": "# 双指针：每次移动都要有依据\n\n双指针用两个位置描述候选范围、连续窗口，或已经读过与已经写好的部分。看见两个变量不意味着有优化；关键是证明可以丢掉哪些候选，并让位置总共只移动线性次数。\n\n**相向。** 非递减数组 `[1,2,4,7]` 中找两个不同位置的和等于 6。开始看两端 1+7=8；固定 7，其他搭档只会更大，全部超出 6，因此放弃右端。随后 1+4=5 太小，1 已与当前最大搭档配过，更小搭档也不够，因此放弃左端。最后 2+4=6。这依赖有序性，与数字是否为正无关。若需连续段，排序会改变对象，不能直接这样处理。\n\n**同向窗口。** 在非负数组中求和至少 S>0 的最短非空段。右扩加入一个数，和不减；左缩移走一个数，和不增。每次达标先记录长度，再尽量缩小。一旦不够，继续缩也不能达标。已丢弃左端点曾产生过记录过的合法长度，此后右扩只会使它对应的段更长，不会改善最短答案。\n\n```cpp\nint l = 0, answer = n + 1;\nlong long sum = 0;\nfor (int r = 0; r < n; ++r) {\n    sum += a[r];\n    while (sum >= S) {\n        answer = min(answer, r - l + 1);\n        sum -= a[l++];\n    }\n}\n```\n\n两个端点各至多前进 n 次，for 内虽有 while，总移动仍至多 2n，时间 O(n)。若每轮把右端重新设回左端，可能重复扫描成 O(n²)。如果窗口维护本身每步还扫描全段，也不能声称 O(n)。\n\n负数破坏上面的单调理由：`[1,−1,5]`、S=5，原策略记录整段长度 3，移走 1 后和为 4 就停；但再移走 −1，和回升到 5，存在长度 1 的答案。因此原策略失效，前缀和的相消关系仍成立。若改问和恰好 K 的段数，可用前缀值频次匹配更早的 `P[r]−K`；这不等于已解决含负数的最短至少问题。\n\n窗口还可以维护字符频次。求最长无重复段时，遇到重复就移走左端直到冲突消失，合法后记录最长；求最短全种类覆盖时，种类齐全后先记录最短，再移走左端。目标与合法条件不同，答案更新的时机就不同。\n\n**快慢读写。** 原地去除 0，read 扫描原数，write 指向下一写入位置。保持 `[0,write)` 是 `[0,read)` 中所有非零数、顺序不变。write≤read，写回不会覆盖尚未读取的位置；结果只是 write 之前的部分，尾部旧值不算结果。O(n) 时间、O(1) 额外空间。\n\n实现前先回答：指针描述什么？移动放弃什么、为什么安全？指针共走多少次？最后再检查 `l<r` 还是 `l<=r`、相等是否算合法、重复值按数值还是按位置计数。查找任意一对、数所有对、最长段与最短段，不共用一条未经证明的移动规则。\n",
-      "markdown": "# 双指针：每次移动都要有依据\n\n双指针用两个位置描述候选范围、连续窗口，或已经读过与已经写好的部分。看见两个变量不意味着有优化；关键是证明可以丢掉哪些候选，并让位置总共只移动线性次数。\n\n**相向。** 非递减数组 `[1,2,4,7]` 中找两个不同位置的和等于 6。开始看两端 1+7=8；固定 7，其他搭档只会更大，全部超出 6，因此放弃右端。随后 1+4=5 太小，1 已与当前最大搭档配过，更小搭档也不够，因此放弃左端。最后 2+4=6。这依赖有序性，与数字是否为正无关。若需连续段，排序会改变对象，不能直接这样处理。\n\n**同向窗口。** 在非负数组中求和至少 S>0 的最短非空段。右扩加入一个数，和不减；左缩移走一个数，和不增。每次达标先记录长度，再尽量缩小。一旦不够，继续缩也不能达标。已丢弃左端点曾产生过记录过的合法长度，此后右扩只会使它对应的段更长，不会改善最短答案。\n\n```cpp\nint l = 0, answer = n + 1;\nlong long sum = 0;\nfor (int r = 0; r < n; ++r) {\n    sum += a[r];\n    while (sum >= S) {\n        answer = min(answer, r - l + 1);\n        sum -= a[l++];\n    }\n}\n```\n\n两个端点各至多前进 n 次，for 内虽有 while，总移动仍至多 2n，时间 O(n)。若每轮把右端重新设回左端，可能重复扫描成 O(n²)。如果窗口维护本身每步还扫描全段，也不能声称 O(n)。\n\n负数破坏上面的单调理由：`[1,−1,5]`、S=5，原策略记录整段长度 3，移走 1 后和为 4 就停；但再移走 −1，和回升到 5，存在长度 1 的答案。因此原策略失效，前缀和的相消关系仍成立。若改问和恰好 K 的段数，可用前缀值频次匹配更早的 `P[r]−K`；这不等于已解决含负数的最短至少问题。\n\n窗口还可以维护字符频次。求最长无重复段时，遇到重复就移走左端直到冲突消失，合法后记录最长；求最短全种类覆盖时，种类齐全后先记录最短，再移走左端。目标与合法条件不同，答案更新的时机就不同。\n\n**快慢读写。** 原地去除 0，read 扫描原数，write 指向下一写入位置。保持 `[0,write)` 是 `[0,read)` 中所有非零数、顺序不变。write≤read，写回不会覆盖尚未读取的位置；结果只是 write 之前的部分，尾部旧值不算结果。O(n) 时间、O(1) 额外空间。\n\n实现前先回答：指针描述什么？移动放弃什么、为什么安全？指针共走多少次？最后再检查 `l<r` 还是 `l<=r`、相等是否算合法、重复值按数值还是按位置计数。查找任意一对、数所有对、最长段与最短段，不共用一条未经证明的移动规则。\n",
-      "sourceHash": "29f6b143985533d5efe8c7ded17521684ad32d7823371bc8825a7b6bf0bd4b1d",
-      "excerpt": "双指针用两个位置描述候选范围、连续窗口，或已经读过与已经写好的部分。看见两个变量不意味着有优化；关键是证明可以丢掉哪些候选，并让位置总共只移动线性次数。",
-      "images": {},
-      "editorialVersion": "2026-10-24-sequence-lab-v1",
-      "curationVersion": "lectures-v1.1"
-    }
+      "sourceTags": [
+        "双指针"
+      ],
+      "tags": [
+        "双指针"
+      ],
+      "title": "从零讲：双指针：每次移动都要有依据",
+      "topic": "双指针：每次移动都要有依据"
+    },
+    "id": "lecture:sequence-two-pointers"
   }
 ]

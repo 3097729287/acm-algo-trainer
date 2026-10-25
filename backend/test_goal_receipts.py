@@ -141,7 +141,7 @@ class PublicReceiptTests(unittest.TestCase):
             client = PublicClient(root, spacing=0, transport=lambda *_: (calls.append(1) or json.dumps(value).encode(), None))
             def read(owner): return client.owner_json(url, owner, lambda payload: nowcoder_receipts(payload, owner, '166'))
             self.assertEqual(len(read('42')), 3); read('42')
-            self.assertEqual(len(calls), 1)
+            self.assertEqual(len(calls), 2)
             self.assertEqual(len(read('99')), 1)
             for owner in ('42', '99'):
                 cache = client.directory / (hashlib.sha256((url + '\0owner-receipts-v1:' + owner).encode()).hexdigest() + '.json')

@@ -3,6 +3,7 @@ import {ArrowLeft,Network,Search} from 'lucide-react';
 import PageSearch from './PageSearch.jsx';
 import {canonicalKnowledgeName,knowledgeAliases,indexKnowledgeRows,knowledgeFilterNames} from '@/lib/knowledgeNames.js';
 import {combineKnowledgeEvidence} from '@/lib/knowledgeMastery.js';
+import {radarLabels} from '@/lib/radarLabels.js';
 const EMPTY_LIST=[],EMPTY_MODEL={};
 export const KNOWLEDGE_DOMAINS = [
   { name: '基础技巧', topics: [['前缀和',900],['差分',1100],['二分查找',1300],['双指针',1300],['位运算',1200],['离散化',1400],['倍增',1800]] },
@@ -22,7 +23,7 @@ export default function KnowledgeRadar({knowledge=EMPTY_LIST,knowledgeEvidence=E
  const [domain,setDomain]=useState(null),[query,setQuery]=useState('');
  const domains=useMemo(()=>{
    const leaves=node=>node.children?.length?node.children.flatMap(leaves):[node.name];
-   return categories.length?categories.map(node=>({name:node.name,scope:knowledgeFilterNames(node),topics:[...new Set(leaves(node))].map(name=>[canonicalKnowledgeName(name),estimatedDifficulty(name)])})).filter(node=>node.topics.length):KNOWLEDGE_DOMAINS.map(node=>({...node,topics:node.topics.map(([name,difficulty])=>[canonicalKnowledgeName(name),difficulty])}));
+   return categories.length?categories.map(node=>({name:node.name,scope:knowledgeFilterNames(node),topics:[...new Set(leaves(node).map(canonicalKnowledgeName))].map(name=>[name,estimatedDifficulty(name)])})).filter(node=>node.topics.length):KNOWLEDGE_DOMAINS.map(node=>({...node,topics:node.topics.map(([name,difficulty])=>[canonicalKnowledgeName(name),difficulty])}));
  },[categories]);
  useEffect(()=>{if(!domain)return;const back=event=>{if(event.key!=='Escape'||event.defaultPrevented||document.querySelector('dialog[open],.tb-select-menu,.filter-popover,.tooltip-popover'))return;event.preventDefault();setDomain(null);setQuery('');};document.addEventListener('keydown',back);return()=>document.removeEventListener('keydown',back);},[domain]);
  const availableIndex=useMemo(()=>indexKnowledgeRows(rows),[rows]);
@@ -41,17 +42,17 @@ export default function KnowledgeRadar({knowledge=EMPTY_LIST,knowledgeEvidence=E
  const shown=nodes.filter(node=>topicTags(node.name).some(tag=>tag.toLowerCase().includes(query.trim().toLowerCase())));
  const valueText=node=>node.value===null?'?%':`${node.value}%`;
  const allKnown=nodes.every(node=>node.value!==null);
+ const labels=radarLabels(nodes.map(node=>node.name));
  return <section className="progress-section knowledge-radar" aria-label="知识点雷达图">
  <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索知识点" value={query} onChange={event=>setQuery(event.target.value)}/></label></PageSearch>
  <header className="progress-section-heading"><h2>{!domain&&<Network size={19}/>} {domain?.name||'知识点雷达'}</h2>{domain&&<button type="button" className="icon-button radar-back" aria-label="返回一级雷达" onClick={()=>{setDomain(null);setQuery('');}}><ArrowLeft size={18}/></button>}</header>
  <svg viewBox="0 0 680 500" role="group" aria-label={domain?`${domain.name}二级雷达`:'一级知识雷达'}>
  {[.25,.5,.75,1].map(ratio=><polygon key={ratio} className="radar-grid" points={polygon(163*ratio)}/>)}
- {nodes.map((node,i)=>{const [x,y]=position(i,163),dx=(x-340)/163,dy=(y-245)/163,horizontal=Math.abs(dx)>.25;return <g key={node.name}><path className="radar-axis" d={`M340 245L${x} ${y}`}/><text x={x+(horizontal?Math.sign(dx)*20:0)} y={y+(horizontal?dy*16:Math.sign(dy)*30)} textAnchor={horizontal?(dx>0?'start':'end'):'middle'} dominantBaseline="middle" data-knowledge-name={node.name}>{node.name}</text></g>;})}
+ {labels.map(label=>{const [x,y]=label.axis;return <g key={label.name}><path className="radar-axis" d={`M340 245L${x} ${y}`}/><path className="radar-label-guide" d={`M${x} ${y}L${label.x-label.side*12} ${label.y}`}/><text x={label.x} y={label.y} textAnchor={label.side===0?'middle':label.side>0?'start':'end'} dominantBaseline="middle" data-knowledge-name={label.name}>{label.lines.map((line,i)=><tspan key={i} x={label.x} y={label.y+(i-(label.lines.length-1)/2)*18}>{line}</tspan>)}</text></g>;})}
  {allKnown&&<polygon className="radar-value" points={nodes.map((node,i)=>position(i,163*node.value/100).join(',')).join(' ')}/>}
  {!allKnown&&nodes.map((node,i)=>{const next=nodes[(i+1)%nodes.length];return node.value!==null&&next.value!==null?<path key={node.name} className="radar-value radar-partial" d={`M${position(i,163*node.value/100).join(' ')}L${position((i+1)%nodes.length,163*next.value/100).join(' ')}`}/>:null;})}
  {nodes.map((node,i)=>{const [x,y]=position(i,163),[mx,my]=position(i,163*(node.value??0)/100);return <g key={node.name}>{node.value!==null&&<circle className="radar-data-dot" cx={mx} cy={my} r={3}/>}<circle className="radar-node" data-unknown={node.value===null} cx={x} cy={y} r={8} tabIndex={0} role="button" aria-label={`${node.name}，掌握 ${valueText(node)}，${domain?'筛选题目':'进入二级雷达'}`} onClick={()=>select(node)} onKeyDown={event=>{if(['Enter',' '].includes(event.key)){event.preventDefault();select(node);}}}><title>{node.reason}</title></circle></g>;})}
  </svg>
- <p className="mastery-model-note">CF 2300 为 100% 基准 · 未练部分不计已掌握</p>
  <div className="radar-knowledge-details" role="region" tabIndex={0} aria-label="雷达知识掌握与缺口"><div className="radar-detail-heading"><span>知识点</span><span>掌握指数</span><span>作答 / 可用</span><span>AC</span><span>待练</span></div>{shown.map(node=><div className="radar-detail-row" key={node.name}><button type="button" onClick={()=>select(node)}>{node.name}{domain&&<small>{node.difficulty}</small>}</button><span className="mastery-estimate" title={node.reason}><b data-unknown={node.value===null}>{valueText(node)}</b>{node.interval&&<small aria-label={node.intervalKind==='coverage'?'含未练部分的参考范围':'95%模型区间'}>{node.interval[0]}–{node.interval[1]}</small>}</span><span>{node.participated} / {node.available}</span><span>{node.officialAccepted}</span><span>{node.suggested&&onTrain?<button type="button" onClick={()=>onTrain(node.suggested)}>{node.due||'练习'}</button>:node.due}</span></div>)}</div>
  </section>;
 }

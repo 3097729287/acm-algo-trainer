@@ -306,7 +306,8 @@ class TrainingService:
                 preferred[key] = row
         aliases = {row["id"]: preferred[keys[row['id']]]["id"] if keys[row['id']] else row["id"] for row in rows}
         for row in rows:
-            for alias in row.get('aliasIds', []):
+            from catalog_identity import remote_aliases
+            for alias in [*row.get('aliasIds', []), *remote_aliases(row)]:
                 aliases[alias] = aliases[row['id']]
         if scoped is not None:
             scoped['aliases'] = aliases
@@ -1345,7 +1346,16 @@ class TrainingService:
             total = self.connection.execute("SELECT COUNT(*) FROM submissions" + where, values).fetchone()[0]
             direction = 'ASC' if order == 'asc' else 'DESC'
             records = self.connection.execute("SELECT * FROM submissions" + where + f" ORDER BY submitted_at {direction},rowid {direction} LIMIT ? OFFSET ?", values + [limit, offset]).fetchall()
-            return {"submissions": [self._submission(record) for record in records], "total": total, "offset": offset, "limit": limit, "hasMore": offset + len(records) < total}
+            catalog={row['id']:row for row in self._library()}
+            aliases=self._identity_map(list(catalog.values()))
+            submissions=[]
+            for record in records:
+                value=self._submission(record)
+                canonical=aliases.get(value['problemId'],value['problemId'])
+                row=catalog.get(canonical)
+                if row:value.update(canonicalProblemId=canonical,title=row.get('title'),contestName=row.get('contest'),problem=row.get('problem'))
+                submissions.append(value)
+            return {"submissions": submissions, "total": total, "offset": offset, "limit": limit, "hasMore": offset + len(records) < total}
 
     def _history_visible(self, identity, context):
         active = self.connection.execute("SELECT id,slots FROM contests WHERE status='running'").fetchone()
@@ -1569,9 +1579,11 @@ class TrainingService:
                 item['difficulty']=levels[len(levels)//2] if levels else None
                 item['platform']=event_rows[0].get('platform','')
                 item['series']=event_rows[0].get('series','')
-                for key in ('contestDate','startedAt','endedAt','eventYear','examYear','examGroup','examStage','contestFullName'):
+                for key in ('contestDate','startedAt','endedAt','eventYear','examYear','examGroup','examStage','contestFullName','schoolTraining'):
                     value=next((row.get(key) for row in event_rows if row.get(key) is not None),None)
                     if value is not None:item[key]=value
+            from graph_lab import replay_events
+            result.extend(replay_events(self._library()))
             return {'events':sorted(result, key=lambda item: natural_key(item['displayName']))}
 
     def preview_replay(self, body):
@@ -1580,13 +1592,16 @@ class TrainingService:
         name=body.get('contest')
         if not isinstance(name,str) or not name:raise ServiceError(400,'请选择已收录比赛')
         with self.lock:
-            rows=[row for row in self._library() if row['contest']==name and row.get('source') != 'luogu-training']
+            from graph_lab import replay_rows
+            lab = replay_rows(name, self._library())
+            rows=lab if lab is not None else [row for row in self._library() if row['contest']==name and row.get('source') != 'luogu-training']
             if not rows:raise ServiceError(404,'这场比赛尚未收录')
             info=event_info(name,rows)
+            if lab is not None: info.update(complete=True, expectedCount=5, labTopic=name.split(' · ',1)[-1])
             if info['complete'] is False:raise ServiceError(422,'这场比赛题单尚不完整，请先收录剩余赛题')
             def order(row):
                 return tuple((0,int(piece)) if piece.isdecimal() else (1,piece.upper()) for piece in re.findall(r'\d+|\D+',row['problem']))
-            rows.sort(key=order)
+            if lab is None: rows.sort(key=order)
         # Load missing public statements before freezing; never silently omit a slot.
         for row in rows:self._asset_library().problem(row['id'])
         available={row['id']:row for row in self._asset_library().candidates(rows)}
@@ -1596,7 +1611,7 @@ class TrainingService:
         except (ValueError,TypeError):raise ServiceError(400,'重现赛时长无效')
         if not 1<=duration<=1440:raise ServiceError(400,'时长须为 1–1440 分钟')
         options={'strategy':'replay','contest':name,'tags':[],'platform':'','excludeSolved':False,'reviewedOnly':False,**rules({'rules':info['rules'],**body})}
-        slots=[{'letter':row['problem'],'id':row['id'],'title':row['title'],'difficulty':row.get('difficulty'),'tags':row.get('tags',[]),'judgeScope':available[row['id']]['judgeScope']} for row in rows]
+        slots=[{'letter':chr(65+position) if lab is not None else row['problem'],'id':row['id'],'title':row['title'],'difficulty':row.get('difficulty'),'tags':row.get('tags',[]),'judgeScope':available[row['id']]['judgeScope']} for position,row in enumerate(rows)]
         plan={'previewId':uuid.uuid4().hex,'name':'重现赛 · '+name,'slots':[{key:slot[key] for key in ('letter','id','title','judgeScope')} for slot in slots],
               'duration':duration,'min':0,'max':10000,'strategy':'replay','constraints':options,'event':info}
         with self.lock:self.previews[tuple(slot['id'] for slot in slots)]={'plan':plan,'slots':slots,'at':self._now()}

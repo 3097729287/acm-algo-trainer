@@ -1,0 +1,21 @@
+import {useState} from 'react';
+import {GRAPH_EDGES,GRAPH_NODES,graphTrace} from './graphModel.js';
+import {Feedback} from './LabParts.jsx';
+
+const POINTS=[[55,95],[185,35],[185,155],[325,35],[325,155],[455,95]];
+export default function GraphExperiment({kind}){
+ const [step,setStep]=useState(0),[start,setStart]=useState(0),[weight,setWeight]=useState(4),[isolated,setIsolated]=useState(false),[answer,setAnswer]=useState(''),[checked,setChecked]=useState(false);
+ const edges=GRAPH_EDGES.filter(e=>!isolated||e[0]!==5&&e[1]!==5).map((e,i)=>i===0?[e[0],e[1],weight]:e);
+ const frames=graphTrace(kind,edges,start),frame=frames[Math.min(step,frames.length-1)],next=frames[Math.min(step+1,frames.length-1)];
+ const components=kind==='dsu'?new Set(frame.roots).size:0;
+ const expected=kind==='dsu'?String(new Set(next.roots).size):next.active<0?'结束':GRAPH_NODES[next.active];
+ const change=fn=>{fn();setStep(0);setAnswer('');setChecked(false);};
+ return <section className="lab-panel graph-experiment" aria-label={`${kind} 交互实验`}><h3>{kind==='dsu'?'连一条边，观察集合是否合并':'让图上的每一步有据可查'}</h3>
+ <div className="seq-controls">{kind!=='dsu'&&<label>起点 <select aria-label="图的起点" value={start} onChange={e=>change(()=>setStart(Number(e.target.value)))}>{GRAPH_NODES.map((n,i)=><option value={i} key={n}>{n}</option>)}</select></label>}{kind==='dijkstra'&&<label>A—B 权值 <input aria-label="A B 边权" type="number" min="0" max="12" value={weight} onChange={e=>change(()=>setWeight(Math.max(0,Math.min(12,Number(e.target.value)))))} /></label>}<label><input type="checkbox" checked={isolated} onChange={e=>change(()=>setIsolated(e.target.checked))}/>断开 E—F，检查孤立点</label></div>
+ <svg viewBox="0 0 510 200" className="graph-board" role="img" aria-label="六个点的无向图，表格同步给出状态"><title>{kind==='dsu'?`${components} 个连通集合`:`当前处理 ${frame.active<0?'尚未开始':GRAPH_NODES[frame.active]}`}</title>{edges.map(([a,b,w])=><g key={`${a}-${b}`}><line x1={POINTS[a][0]} y1={POINTS[a][1]} x2={POINTS[b][0]} y2={POINTS[b][1]} className={frame.parent[a]===b||frame.parent[b]===a?'graph-tree-edge':''}/>{kind==='dijkstra'&&<text x={(POINTS[a][0]+POINTS[b][0])/2} y={(POINTS[a][1]+POINTS[b][1])/2-8}>{w}</text>}</g>)}{POINTS.map(([x,y],i)=><g key={i} data-active={frame.active===i} data-seen={frame.seen.includes(i)} style={kind==='dsu'?{'--node-color':`hsl(${(frame.roots[i]*67+155)%360} 44% 55%)`}:undefined}><circle cx={x} cy={y} r="19"/><text x={x} y={y+5}>{GRAPH_NODES[i]}</text></g>)}</svg>
+ <div className="graph-state"><p role="status">{frame.note}</p>{kind==='dsu'?<p>当前 {components} 个集合；同色表示属于同一集合。parent 是结构指针，不是原图的一条道路。</p>:<p>{kind==='dfs'?'递归栈（左侧是底）':kind==='bfs'?'队列（左侧先出）':'优先队列（按候选距离排序，允许旧记录）'}：{frame.frontier.map(i=>GRAPH_NODES[i]).join(' → ')||'空'}</p>}</div>
+ <div className="graph-table-wrap"><table className="graph-table"><thead><tr><th>点</th>{GRAPH_NODES.map(n=><th key={n}>{n}</th>)}</tr></thead><tbody><tr><th>{kind==='dsu'?'父指针':'父节点'}</th>{frame.parent.map((p,i)=><td key={i}>{p<0?'—':GRAPH_NODES[p]}</td>)}</tr><tr><th>{kind==='dsu'?'所属集合大小':kind==='dfs'?'DFS 树深度':kind==='bfs'?'最少边数':'暂定最短距离'}</th>{GRAPH_NODES.map((_,i)=><td key={i}>{kind==='dsu'?frame.size[frame.roots[i]]:Number.isFinite(frame.dist[i])?frame.dist[i]:'∞'}</td>)}</tr></tbody></table></div>
+ <div className="seq-controls"><button className="lab-button lab-button-quiet" disabled={step===0} onClick={()=>{setStep(s=>s-1);setChecked(false);setAnswer('');}}>上一步</button><button className="lab-button" disabled={step>=frames.length-1} onClick={()=>{setStep(s=>s+1);setChecked(false);setAnswer('');}}>执行一步</button><button className="lab-text-button" onClick={()=>change(()=>{})}>重置</button><span>{Math.min(step,frames.length-1)} / {frames.length-1}</span></div>
+ {step<frames.length-1&&<form className="lab-check" onSubmit={e=>{e.preventDefault();setChecked(true);}}><label>{kind==='dsu'?'下一条边处理完，会剩几个集合？':'下一步处理哪个点？（DFS 返回也算一步）'}<input aria-label="预测图的下一步" maxLength={8} value={answer} onChange={e=>{setAnswer(e.target.value);setChecked(false);}}/></label><button className="lab-button lab-button-quiet" disabled={!answer.trim()}>检查预测</button>{checked&&<Feedback good={answer.trim().toUpperCase()===expected}>{answer.trim().toUpperCase()===expected?'预测正确。执行一步，对照状态变化。':kind==='dsu'?'先看两端是否同根；已经连通的边不会减少集合数。':'先检查容器中下一项与已经处理的状态，再判断前进还是返回。'}</Feedback>}</form>}
+ </section>;
+}

@@ -1,3 +1,4 @@
+import {difficultyPresentation} from './difficultyPresentation.js';
 // Shared display bands and chronology. Personal submission dates are never
 // substituted for the date of the original contest.
 export function difficultyBand(value) {
@@ -8,13 +9,13 @@ export function difficultyBand(value) {
 
 export function difficultyLabel(row = {}) {
   if (row.difficultyHidden) return '—';
-  return row.difficulty == null ? '未定级' : String(row.difficulty);
+  return difficultyPresentation(row).label;
 }
 
 export function difficultyDescription(row = {}) {
   if (row.difficultyHidden) return row.locked ? '比赛进行中，赛后显示难度' : '完成本场重现赛后显示难度';
   const band = row.difficultyBand;
-  return [row.difficultySource || '难度待复核',
+  return [difficultyPresentation(row).kind==='estimate'?'CF 尺度粗略分档，非官方定级':'', row.difficultySource || '难度待复核',
     Array.isArray(band) ? `参考区间 ${band[0]}–${band[1] ?? '∞'}` : '',
     ...(Array.isArray(row.difficultyEvidence) ? row.difficultyEvidence : [])].filter(Boolean).join(' · ');
 }

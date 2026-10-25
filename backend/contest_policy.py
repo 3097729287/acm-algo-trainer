@@ -45,6 +45,8 @@ def preserved_collection(row):
 
 
 def authorized(row, platform=None):
+    if row.get('schoolTraining') and row.get('url', '').startswith(('https://codeforces.com/gym/726517/', 'https://ac.nowcoder.com/acm/contest/142622/')):
+        return True
     if preserved_collection(row):
         return True
     from contest_names import regular_contest

@@ -1,7 +1,7 @@
 """Upcoming basic contests from anonymous, first-party public GET requests.
 
-Nothing starts during application startup. Opening the calendar returns the
-previous snapshot immediately and refreshes each provider in its own worker.
+Cached schedules return immediately. A bounded background worker imports
+announced tasks when the contest starts; unavailable sources retry later.
 """
 import copy
 import datetime as dt
@@ -36,7 +36,7 @@ def codeforces(client):
         # Educational and combined Div.1+Div.2 are basic-series rounds too.
         basic = bool(re.search(r'Div\.\s*[234]\b|Div\.\s*1\s*\+\s*(?:Div\.\s*)?2\b|Educational Codeforces', name, re.I))
         start, duration, identity = row.get('startTimeSeconds'), row.get('durationSeconds'), row.get('id')
-        if not basic or row.get('phase') != 'BEFORE' or any(integer(value) is None for value in (start, duration, identity)):
+        if not basic or row.get('phase') not in ('BEFORE', 'CODING') or any(integer(value) is None for value in (start, duration, identity)):
             continue
         result.append(event('codeforces', identity, contest_name(name), start, start + duration, f'https://codeforces.com/contest/{identity}'))
     return [row for row in result if row]
@@ -44,10 +44,10 @@ def codeforces(client):
 
 def atcoder(client):
     page = client.text('https://atcoder.jp/contests/?lang=en')
-    upcoming = re.search(r'id=["\']contest-table-upcoming["\']', page)
+    upcoming = re.search(r'id=["\']contest-table-(?:upcoming|active)["\']', page)
     if not upcoming:
         raise ValueError('无法识别 AtCoder 即将开始的比赛')
-    table = page[upcoming.end():].split('</tbody>', 1)[0]
+    table = '\n'.join(page[match.end():].split('</tbody>', 1)[0] for match in re.finditer(r'id=["\']contest-table-(?:upcoming|active)["\']', page))
     result = []
     for block in re.findall(r'<tr\b[^>]*>.*?</tr>', table, re.S):
         identity = re.search(r'href=["\']/contests/((?:abc|arc)\d+)["\']', block)
@@ -108,7 +108,7 @@ ADAPTERS = {'codeforces': codeforces, 'atcoder': atcoder, 'nowcoder': nowcoder, 
 
 
 class ContestCalendar:
-    def __init__(self, state_dir, *, client=None, clock=None, offline=None):
+    def __init__(self, state_dir, *, client=None, clock=None, offline=None, importer=None):
         from pathlib import Path
         self.path = Path(state_dir) / 'contest-calendar.json'
         self.stop = threading.Event()
@@ -123,6 +123,65 @@ class ContestCalendar:
         self.providers = {key: saved.get(key, {}) for key in PLATFORMS}
         self.running = set()
         self.attempted = {}
+        self.importer = importer
+        self.import_path = Path(state_dir) / 'contest-imports.json'
+        self.imports = load_document(self.import_path, {})
+        self.import_running = set()
+        self.scheduler = None
+
+    def start(self):
+        if self.offline or self.scheduler is not None:
+            return
+        self.scheduler = threading.Thread(target=self._schedule, name='TB-contest-start', daemon=True)
+        self.scheduler.start()
+
+    def _schedule(self):
+        while not self.stop.is_set():
+            self.snapshot()
+            self.import_due()
+            self.stop.wait(15)
+
+    def import_due(self):
+        if self.offline or self.stop.is_set() or self.importer is None:
+            return
+        from contest_imports import SCHOOL_CONTESTS
+        now = self.clock()
+        with self.lock:
+            events = {row['id']: row for provider in self.providers.values() for row in provider.get('contests', [])}
+            events.update({row['id']: dict(row) for row in SCHOOL_CONTESTS})
+            for identity, row in events.items():
+                if row.get('startAt') and dt.datetime.fromisoformat(row['startAt']).timestamp() > now:
+                    continue
+                # Stale schedules are not a request to crawl the entire archive.
+                if row.get('endAt') and dt.datetime.fromisoformat(row['endAt']).timestamp() + 86400 < now:
+                    continue
+                old = self.imports.get(identity, {})
+                if old.get('status') == 'ready' or identity in self.import_running or now < old.get('retryAt', 0):
+                    continue
+                # One source operation at a time; rate limiting is also shared with sync.
+                if self.import_running:
+                    break
+                self.import_running.add(identity)
+                threading.Thread(target=self._import, args=(copy.deepcopy(row),), name='TB-contest-import', daemon=True).start()
+
+    def _import(self, event):
+        identity = event['id']
+        try:
+            result = self.importer(event)
+        except (OSError, ValueError, RuntimeError, KeyError, TypeError) as issue:
+            result = {'status': 'error', 'error': str(issue)[:350]}
+        with self.lock:
+            attempts = self.imports.get(identity, {}).get('attempts', 0) + 1
+            result.update(id=identity, url=event['url'], title=result.get('title') or event['title'],
+                          checkedAt=self.clock(), retryAt=self.clock() + min(3600, 60 * 2 ** min(attempts, 6)), attempts=attempts)
+            try:
+                if not self.stop.is_set():
+                    self.imports[identity] = result
+                    save_document(self.import_path, self.imports)
+            except (OSError, RuntimeError, ValueError):
+                result['error'] = '导入结果暂时无法保存，重启后将重新核验'
+            finally:
+                self.import_running.discard(identity)
 
     def snapshot(self, refresh=False):
         now = self.clock()
@@ -141,17 +200,23 @@ class ContestCalendar:
             for key, label in PLATFORMS.items():
                 cached = self.providers[key]
                 for row in cached.get('contests', []):
-                    if row['startAt'] > timestamp:
-                        contests[row['id']] = row
+                    if row['endAt'] > timestamp:
+                        contests[row['id']] = dict(row)
+                        if row['id'] in self.imports:
+                            contests[row['id']]['import'] = self.imports[row['id']]
                 statuses.append({'platform': key, 'label': label, 'status': 'refreshing' if key in self.running else 'offline' if self.offline else cached.get('status', 'pending'),
                                  'checkedAt': cached.get('checkedAt'), 'error': cached.get('error', '')})
             return copy.deepcopy({'contests': sorted(contests.values(), key=lambda row: (row['startAt'], row['id'])), 'providers': statuses,
+                                  'imports': list(self.imports.values()), 'importing': bool(self.import_running),
                                   'refreshing': bool(self.running), 'offline': self.offline})
 
     def _refresh(self, key):
         try:
             contests = ADAPTERS[key](self.client)
-            update = {'contests': contests, 'checkedAt': self.clock(), 'status': 'ready', 'error': ''}
+            with self.lock:
+                retained = {row['id']: row for row in self.providers[key].get('contests', []) if dt.datetime.fromisoformat(row['endAt']).timestamp() + 86400 > self.clock()}
+            retained.update({row['id']: row for row in contests})
+            update = {'contests': list(retained.values()), 'checkedAt': self.clock(), 'status': 'ready', 'error': ''}
         except (OSError, RuntimeError, ValueError, KeyError, TypeError) as issue:
             update = {'status': 'error', 'error': str(issue)[:180]}
         with self.lock:

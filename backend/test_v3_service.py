@@ -208,7 +208,8 @@ class RemovalInsightsTests(unittest.TestCase):
         self.accept("fixture::F", submission_id=6402)
         assessment = self.service.insights()["assessment"]
         self.assertEqual(assessment["evidenceCount"], 5)
-        self.assertEqual(assessment["rating"], 1300)
+        # Fixture difficulties have no official source: use their conservative lower bound.
+        self.assertEqual(assessment["rating"], 900)
 
 
 class HubFixture:

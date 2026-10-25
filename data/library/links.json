@@ -32226,147 +32226,993 @@
     "problem_id": "练习赛 157::F"
   },
   {
-    "problem_id": "lab:codeforces:363B",
-    "lecture_id": "lecture:foundation-vector",
     "kind": "explicit",
-    "position": "2"
+    "lecture_id": "lecture:foundation-vector",
+    "position": "2",
+    "problem_id": "lab:codeforces:363B"
   },
   {
-    "problem_id": "lab:codeforces:363B",
+    "kind": "explicit",
     "lecture_id": "lecture:sequence-prefix-difference",
-    "kind": "explicit",
-    "position": "1"
+    "position": "1",
+    "problem_id": "lab:codeforces:363B"
   },
   {
-    "problem_id": "lab:codeforces:433B",
+    "kind": "explicit",
     "lecture_id": "lecture:foundation-vector",
-    "kind": "explicit",
-    "position": "2"
+    "position": "2",
+    "problem_id": "lab:codeforces:433B"
   },
   {
-    "problem_id": "lab:codeforces:433B",
+    "kind": "explicit",
     "lecture_id": "lecture:foundation-sort",
-    "kind": "explicit",
-    "position": "3"
+    "position": "3",
+    "problem_id": "lab:codeforces:433B"
   },
   {
-    "problem_id": "lab:codeforces:433B",
+    "kind": "explicit",
     "lecture_id": "lecture:sequence-prefix-difference",
-    "kind": "explicit",
-    "position": "1"
+    "position": "1",
+    "problem_id": "lab:codeforces:433B"
   },
   {
-    "problem_id": "lab:codeforces:816B",
+    "kind": "explicit",
     "lecture_id": "lecture:foundation-vector",
-    "kind": "explicit",
-    "position": "2"
+    "position": "2",
+    "problem_id": "lab:codeforces:816B"
   },
   {
-    "problem_id": "lab:codeforces:816B",
+    "kind": "explicit",
     "lecture_id": "lecture:sequence-prefix-difference",
-    "kind": "explicit",
-    "position": "1"
+    "position": "1",
+    "problem_id": "lab:codeforces:816B"
   },
   {
-    "problem_id": "lab:codeforces:295A",
+    "kind": "explicit",
     "lecture_id": "lecture:foundation-vector",
-    "kind": "explicit",
-    "position": "2"
+    "position": "2",
+    "problem_id": "lab:codeforces:295A"
   },
   {
-    "problem_id": "lab:codeforces:295A",
+    "kind": "explicit",
     "lecture_id": "lecture:sequence-prefix-difference",
-    "kind": "explicit",
-    "position": "1"
+    "position": "1",
+    "problem_id": "lab:codeforces:295A"
   },
   {
-    "problem_id": "lab:codeforces:276C",
+    "kind": "explicit",
     "lecture_id": "lecture:foundation-vector",
-    "kind": "explicit",
-    "position": "2"
+    "position": "2",
+    "problem_id": "lab:codeforces:276C"
   },
   {
-    "problem_id": "lab:codeforces:276C",
+    "kind": "explicit",
     "lecture_id": "lecture:foundation-sort",
-    "kind": "explicit",
-    "position": "3"
+    "position": "3",
+    "problem_id": "lab:codeforces:276C"
   },
   {
-    "problem_id": "lab:codeforces:276C",
+    "kind": "explicit",
     "lecture_id": "lecture:sequence-prefix-difference",
-    "kind": "explicit",
-    "position": "1"
+    "position": "1",
+    "problem_id": "lab:codeforces:276C"
   },
   {
-    "problem_id": "lab:codeforces:381A",
+    "kind": "explicit",
     "lecture_id": "lecture:foundation-vector",
-    "kind": "explicit",
-    "position": "2"
+    "position": "2",
+    "problem_id": "lab:codeforces:381A"
   },
   {
-    "problem_id": "lab:codeforces:381A",
+    "kind": "explicit",
     "lecture_id": "lecture:sequence-two-pointers",
-    "kind": "explicit",
-    "position": "1"
+    "position": "1",
+    "problem_id": "lab:codeforces:381A"
   },
   {
-    "problem_id": "lab:codeforces:1538C",
+    "kind": "explicit",
     "lecture_id": "lecture:foundation-vector",
-    "kind": "explicit",
-    "position": "2"
+    "position": "2",
+    "problem_id": "lab:codeforces:1538C"
   },
   {
-    "problem_id": "lab:codeforces:1538C",
+    "kind": "explicit",
     "lecture_id": "lecture:foundation-sort",
-    "kind": "explicit",
-    "position": "3"
+    "position": "3",
+    "problem_id": "lab:codeforces:1538C"
   },
   {
-    "problem_id": "lab:codeforces:1538C",
+    "kind": "explicit",
     "lecture_id": "lecture:sequence-two-pointers",
-    "kind": "explicit",
-    "position": "1"
+    "position": "1",
+    "problem_id": "lab:codeforces:1538C"
   },
   {
-    "problem_id": "lab:codeforces:279B",
+    "kind": "explicit",
     "lecture_id": "lecture:foundation-vector",
-    "kind": "explicit",
-    "position": "2"
+    "position": "2",
+    "problem_id": "lab:codeforces:279B"
   },
   {
-    "problem_id": "lab:codeforces:279B",
+    "kind": "explicit",
     "lecture_id": "lecture:sequence-two-pointers",
-    "kind": "explicit",
-    "position": "1"
+    "position": "1",
+    "problem_id": "lab:codeforces:279B"
   },
   {
-    "problem_id": "lab:codeforces:580B",
+    "kind": "explicit",
     "lecture_id": "lecture:foundation-vector",
-    "kind": "explicit",
-    "position": "2"
+    "position": "2",
+    "problem_id": "lab:codeforces:580B"
   },
   {
-    "problem_id": "lab:codeforces:580B",
+    "kind": "explicit",
     "lecture_id": "lecture:foundation-sort",
-    "kind": "explicit",
-    "position": "3"
+    "position": "3",
+    "problem_id": "lab:codeforces:580B"
   },
   {
-    "problem_id": "lab:codeforces:580B",
+    "kind": "explicit",
     "lecture_id": "lecture:sequence-two-pointers",
-    "kind": "explicit",
-    "position": "1"
+    "position": "1",
+    "problem_id": "lab:codeforces:580B"
   },
   {
-    "problem_id": "lab:codeforces:701C",
+    "kind": "explicit",
     "lecture_id": "lecture:foundation-vector",
-    "kind": "explicit",
-    "position": "2"
+    "position": "2",
+    "problem_id": "lab:codeforces:701C"
   },
   {
-    "problem_id": "lab:codeforces:701C",
-    "lecture_id": "lecture:sequence-two-pointers",
     "kind": "explicit",
-    "position": "1"
+    "lecture_id": "lecture:sequence-two-pointers",
+    "position": "1",
+    "problem_id": "lab:codeforces:701C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-prefix",
+    "position": 0,
+    "problem_id": "lab:codeforces:363B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 2,
+    "problem_id": "lab:codeforces:363B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-prefix",
+    "position": 0,
+    "problem_id": "lab:codeforces:433B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-lambda",
+    "position": 2,
+    "problem_id": "lab:codeforces:433B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lab:codeforces:433B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-prefix",
+    "position": 0,
+    "problem_id": "lab:codeforces:816B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-difference",
+    "position": 1,
+    "problem_id": "lab:codeforces:816B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 3,
+    "problem_id": "lab:codeforces:816B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-prefix",
+    "position": 0,
+    "problem_id": "lab:codeforces:295A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-difference",
+    "position": 1,
+    "problem_id": "lab:codeforces:295A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 3,
+    "problem_id": "lab:codeforces:295A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-prefix",
+    "position": 0,
+    "problem_id": "lab:codeforces:276C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-difference",
+    "position": 1,
+    "problem_id": "lab:codeforces:276C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-lambda",
+    "position": 3,
+    "problem_id": "lab:codeforces:276C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 5,
+    "problem_id": "lab:codeforces:276C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-two-pointers",
+    "position": 0,
+    "problem_id": "lab:codeforces:381A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 2,
+    "problem_id": "lab:codeforces:381A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-two-pointers",
+    "position": 0,
+    "problem_id": "lab:codeforces:1538C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-lambda",
+    "position": 2,
+    "problem_id": "lab:codeforces:1538C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lab:codeforces:1538C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-two-pointers",
+    "position": 0,
+    "problem_id": "lab:codeforces:279B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 2,
+    "problem_id": "lab:codeforces:279B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-two-pointers",
+    "position": 0,
+    "problem_id": "lab:codeforces:580B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-lambda",
+    "position": 2,
+    "problem_id": "lab:codeforces:580B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 4,
+    "problem_id": "lab:codeforces:580B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 5,
+    "problem_id": "lab:codeforces:580B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-two-pointers",
+    "position": 0,
+    "problem_id": "lab:codeforces:701C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 2,
+    "problem_id": "lab:codeforces:701C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 3,
+    "problem_id": "lab:codeforces:701C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-graphs",
+    "position": 0,
+    "problem_id": "lab:codeforces:520B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lab:codeforces:520B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-queue-stack",
+    "position": 2,
+    "problem_id": "lab:codeforces:520B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 3,
+    "problem_id": "lab:codeforces:520B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 4,
+    "problem_id": "lab:codeforces:520B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-graphs",
+    "position": 0,
+    "problem_id": "lab:codeforces:242C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 1,
+    "problem_id": "lab:codeforces:242C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-sets",
+    "position": 2,
+    "problem_id": "lab:codeforces:242C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-queue-stack",
+    "position": 3,
+    "problem_id": "lab:codeforces:242C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lab:codeforces:242C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 5,
+    "problem_id": "lab:codeforces:242C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-graphs",
+    "position": 0,
+    "problem_id": "lab:codeforces:601A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lab:codeforces:601A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-queue-stack",
+    "position": 2,
+    "problem_id": "lab:codeforces:601A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 3,
+    "problem_id": "lab:codeforces:601A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 4,
+    "problem_id": "lab:codeforces:601A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-graphs",
+    "position": 0,
+    "problem_id": "lab:codeforces:59E"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-lambda",
+    "position": 1,
+    "problem_id": "lab:codeforces:59E"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "lab:codeforces:59E"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 3,
+    "problem_id": "lab:codeforces:59E"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-sets",
+    "position": 4,
+    "problem_id": "lab:codeforces:59E"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-queue-stack",
+    "position": 5,
+    "problem_id": "lab:codeforces:59E"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 6,
+    "problem_id": "lab:codeforces:59E"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 7,
+    "problem_id": "lab:codeforces:59E"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-graphs",
+    "position": 0,
+    "problem_id": "lab:codeforces:796D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lab:codeforces:796D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 2,
+    "problem_id": "lab:codeforces:796D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-queue-stack",
+    "position": 3,
+    "problem_id": "lab:codeforces:796D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lab:codeforces:796D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 5,
+    "problem_id": "lab:codeforces:796D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-graphs",
+    "position": 0,
+    "problem_id": "lab:codeforces:115A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lab:codeforces:115A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 2,
+    "problem_id": "lab:codeforces:115A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 3,
+    "problem_id": "lab:codeforces:115A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 4,
+    "problem_id": "lab:codeforces:115A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-graphs",
+    "position": 0,
+    "problem_id": "lab:codeforces:580C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lab:codeforces:580C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 2,
+    "problem_id": "lab:codeforces:580C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 3,
+    "problem_id": "lab:codeforces:580C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 4,
+    "problem_id": "lab:codeforces:580C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-graphs",
+    "position": 0,
+    "problem_id": "lab:codeforces:377A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lab:codeforces:377A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 2,
+    "problem_id": "lab:codeforces:377A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 3,
+    "problem_id": "lab:codeforces:377A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lab:codeforces:377A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 5,
+    "problem_id": "lab:codeforces:377A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-graphs",
+    "position": 0,
+    "problem_id": "lab:codeforces:510B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lab:codeforces:510B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 2,
+    "problem_id": "lab:codeforces:510B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 3,
+    "problem_id": "lab:codeforces:510B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lab:codeforces:510B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 5,
+    "problem_id": "lab:codeforces:510B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-graphs",
+    "position": 0,
+    "problem_id": "lab:codeforces:1592C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lab:codeforces:1592C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 2,
+    "problem_id": "lab:codeforces:1592C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 3,
+    "problem_id": "lab:codeforces:1592C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-dsu",
+    "position": 0,
+    "problem_id": "lab:codeforces:217A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lab:codeforces:217A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-numeric-tools",
+    "position": 2,
+    "problem_id": "lab:codeforces:217A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 3,
+    "problem_id": "lab:codeforces:217A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 4,
+    "problem_id": "lab:codeforces:217A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-dsu",
+    "position": 0,
+    "problem_id": "lab:codeforces:277A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lab:codeforces:277A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-numeric-tools",
+    "position": 2,
+    "problem_id": "lab:codeforces:277A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 3,
+    "problem_id": "lab:codeforces:277A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 4,
+    "problem_id": "lab:codeforces:277A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-dsu",
+    "position": 0,
+    "problem_id": "lab:codeforces:1167C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lab:codeforces:1167C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-numeric-tools",
+    "position": 2,
+    "problem_id": "lab:codeforces:1167C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 3,
+    "problem_id": "lab:codeforces:1167C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 4,
+    "problem_id": "lab:codeforces:1167C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-dsu",
+    "position": 0,
+    "problem_id": "lab:codeforces:722C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lab:codeforces:722C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-numeric-tools",
+    "position": 2,
+    "problem_id": "lab:codeforces:722C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 3,
+    "problem_id": "lab:codeforces:722C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 4,
+    "problem_id": "lab:codeforces:722C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-dsu",
+    "position": 0,
+    "problem_id": "lab:codeforces:25D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lab:codeforces:25D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 2,
+    "problem_id": "lab:codeforces:25D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-numeric-tools",
+    "position": 3,
+    "problem_id": "lab:codeforces:25D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lab:codeforces:25D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 5,
+    "problem_id": "lab:codeforces:25D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-shortest-path",
+    "position": 0,
+    "problem_id": "lab:codeforces:20C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lab:codeforces:20C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 2,
+    "problem_id": "lab:codeforces:20C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-heap",
+    "position": 3,
+    "problem_id": "lab:codeforces:20C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lab:codeforces:20C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 5,
+    "problem_id": "lab:codeforces:20C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-shortest-path",
+    "position": 0,
+    "problem_id": "lab:codeforces:1076D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lab:codeforces:1076D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 2,
+    "problem_id": "lab:codeforces:1076D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-heap",
+    "position": 3,
+    "problem_id": "lab:codeforces:1076D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lab:codeforces:1076D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 5,
+    "problem_id": "lab:codeforces:1076D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-shortest-path",
+    "position": 0,
+    "problem_id": "lab:codeforces:545E"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lab:codeforces:545E"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 2,
+    "problem_id": "lab:codeforces:545E"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-heap",
+    "position": 3,
+    "problem_id": "lab:codeforces:545E"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lab:codeforces:545E"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 5,
+    "problem_id": "lab:codeforces:545E"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-shortest-path",
+    "position": 0,
+    "problem_id": "lab:codeforces:449B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lab:codeforces:449B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 2,
+    "problem_id": "lab:codeforces:449B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-heap",
+    "position": 3,
+    "problem_id": "lab:codeforces:449B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lab:codeforces:449B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 5,
+    "problem_id": "lab:codeforces:449B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-shortest-path",
+    "position": 0,
+    "problem_id": "lab:codeforces:938D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lab:codeforces:938D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 2,
+    "problem_id": "lab:codeforces:938D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-heap",
+    "position": 3,
+    "problem_id": "lab:codeforces:938D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lab:codeforces:938D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 5,
+    "problem_id": "lab:codeforces:938D"
   }
 ]

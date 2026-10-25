@@ -1,5 +1,18 @@
 """One visible row per original task; stored aliases and personal work survive."""
 from insights import canonical_url
+import re
+
+
+def remote_aliases(row):
+    """Stable historic discovery IDs, derived only from the original task URL."""
+    url=str(row.get('url') or '').split('?')[0].rstrip('/')
+    patterns=(('atcoder',r'https://atcoder\.jp/contests/([\w-]+)/tasks/[\w-]+_([a-zA-Z]\d?)'),
+              ('codeforces',r'https://(?:www\.)?codeforces\.com/(?:contest|gym)/(\d+)/problem/([a-zA-Z]\d?)'),
+              ('nowcoder',r'https://ac\.nowcoder\.com/acm/contest/(\d+)/([a-zA-Z]\d?)'))
+    for platform,pattern in patterns:
+        match=re.fullmatch(pattern,url)
+        if match:return [f'remote:{platform}:{match[1]}::{match[2].upper()}']
+    return []
 
 
 def unique_catalog_rows(rows):
@@ -15,7 +28,7 @@ def unique_catalog_rows(rows):
         ))
         item = dict(preferred)
         aliases = list(dict.fromkeys(identity for row in entries
-                                   for identity in [row['id'], *row.get('aliasIds', [])]))
+                                   for identity in [row['id'], *row.get('aliasIds', []), *remote_aliases(row)]))
         if len(aliases) > 1:
             item['aliasIds'] = aliases
         for field in ('tags', 'knowledgeCategories'):

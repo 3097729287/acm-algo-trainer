@@ -245,7 +245,7 @@ def protect(text):
             elif fence[1][0]==on[0] and len(fence[1])>=len(on):spans.append((start,offset+len(line)));on=None
         offset+=len(line)
     if on:spans.append((start,len(text)))
-    pattern=r'`+[^`\n]*`+|(?<!\\)\$\$[\s\S]*?(?<!\\)\$\$|(?<!\\)\$(?!\$)[^\n]*?(?<!\\)\$|\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]|https?://[^\s<>\)]+|(?<![A-Za-z0-9_])\d+(?:\.\d+)?(?:(?=(?:st|nd|rd|th)\b)|(?![A-Za-z0-9_]))|(?m:^[ \t]*(?:#{1,6} |[-*+] |\d+\. ))|\n+'
+    pattern=r'`+[^`\n]*`+|(?<![\\$])\$\$\$(?!\$)[\s\S]*?(?<!\\)\$\$\$(?!\$)|(?<!\\)\$\$[\s\S]*?(?<!\\)\$\$|(?<!\\)\$(?!\$)[^\n]*?(?<!\\)\$|\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]|https?://[^\s<>\)]+|(?<![A-Za-z0-9_])\d+(?:\.\d+)?(?:(?=(?:st|nd|rd|th)\b)|(?![A-Za-z0-9_]))|(?m:^[ \t]*(?:#{1,6} |[-*+] |\d+\. ))|\n+'
     for match in re.finditer(pattern,text):
         if not any(a<=match.start()<b for a,b in spans):spans.append(match.span())
     spans.sort();merged=[]

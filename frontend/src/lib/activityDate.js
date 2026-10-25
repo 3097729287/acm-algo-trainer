@@ -21,6 +21,11 @@ export function fitActivityGrid(width,height,count=31,gap=7) {
  }
  return {columns:best.columns,size:Math.max(1,Math.floor(best.size))};
 }
+export function fitCompactActivityGrid(width,height,count) {
+ const previous=fitActivityGrid(width,height,count,5);
+ const rows=Math.ceil(count/previous.columns),columns=Math.ceil(count/rows);
+ return {columns,rows,size:Math.max(1,Math.floor(Math.min(48,previous.size)/2))};
+}
 export const activitySegmentSize=maximum=>Math.max(5,Math.ceil((Number(maximum)||0)/25)*5);
 
 export function monthDays(month) {

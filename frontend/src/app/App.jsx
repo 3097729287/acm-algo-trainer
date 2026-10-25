@@ -1,3 +1,4 @@
+import {useFittedPageSize} from '@/lib/useFittedPageSize.js';
 import SortDirection from '@/components/SortDirection.jsx';
 import {uniformIndex} from '@/lib/uniformRandom.js';
 import useUsage from '@/lib/useUsage.js';
@@ -551,10 +552,9 @@ export default function App() {
       library: blankFilters(),
       mine: blankFilters(),
     });
+  const [calendarContest,setCalendarContest]=useState(null);
   const [libraryPage, setLibraryPage] = useState(1);
-  const [mineFolder,setMineFolder]=useState("");
-  const mineFolders=useMemo(()=>[{value:"goals",label:"今日目标"},...QUEUES.map(({id,name})=>({value:id,label:name})),{value:"practice",label:"继续练习"},{value:"accepted",label:"已 AC"}],[]);
-  const libraryPageSize = Number.isInteger(prefs.libraryPageSize) && prefs.libraryPageSize >= 10 && prefs.libraryPageSize <= 200 ? prefs.libraryPageSize : 50;
+  const [mockHistoryQuery,setMockHistoryQuery]=useState("");
   const [selected, setSelected] = useState(null),
     [practiceId, setPracticeId] = useState(null),
     [practiceReview, setPracticeReview] = useState(null),
@@ -941,7 +941,6 @@ export default function App() {
     const base = page === "mine" ? todayMine : rows.filter(row => !row.catalogHidden),
       params = { ...currentFilters, query, favorites: prefs.favorites };
     let filtered = filterRows(base, params);
-    if(page==="mine"&&mineFolder){const goals=new Set((workspace.goalTasks||[]).map(task=>task.id)),frozen=listOrder?.page===page&&listOrder.filters===currentFilters&&listOrder.query===query?listOrder.groups:null;filtered=filtered.filter(row=>trainingGroup(row,goals,frozen)===mineFolder);}
     if (page === "mine" && params.setId === "@single") {
       const grouped = new Set([...workspace.sets.flatMap(set => set.ids || []), ...workspace.contests.flatMap(contest => contest.slots?.map(slot => slot.id) || [])]);
       filtered = filtered.filter(row => !grouped.has(row.id));
@@ -964,7 +963,6 @@ export default function App() {
     page,
     todayMine,
     rows,
-    mineFolder,
     workspace.goalTasks,
     currentFilters,
     query,
@@ -973,6 +971,7 @@ export default function App() {
     workspace.contests,
     listOrder,
   ]);
+  const libraryPageSize=useFittedPageSize(listRef,`${page}:${Boolean(data)}:${Boolean(practiceId)}`,"tbody tr[data-id]");
   const libraryPages = Math.max(1, Math.ceil(visible.length / libraryPageSize)),
     currentLibraryPage = Math.min(libraryPage, libraryPages),
     libraryStart = (currentLibraryPage - 1) * libraryPageSize;
@@ -1648,7 +1647,7 @@ export default function App() {
           <Difficulty value={row.difficulty} row={row} />
         </td>
         <td>
-          {row.reviewTask ? <Tooltip text="使用独立草稿复习，原有代码与记录保留"><span className="status-badge sample">待复习</span></Tooltip> : <Verdict scope={row.scope} value={row.verdict} accepted={row.accepted} />}
+          <Verdict scope={row.scope} value={row.accepted ? "AC" : row.verdict} accepted={row.accepted} />{row.reviewTask&&<Tooltip text="使用独立草稿复习，原有代码与记录保留"><span className="review-status-note">待复习</span></Tooltip>}
         </td>
         <td className="last-date">
           {row.lastActivityAt || row.lastSubmittedAt
@@ -1744,7 +1743,7 @@ export default function App() {
     );
   }
   function toolbar() {
-    return <PageSearch><label className="search-box"><Search size={17}/><input ref={searchRef} aria-label="搜索题目" value={currentFilters.query} onChange={event=>setFilter({query:event.target.value})} onKeyDown={event=>{if(['ArrowDown','Enter'].includes(event.key)){event.preventDefault();focusList();}}}/></label><SortDirection label="切换题目排序方向" descending={currentFilters.desc} onChange={desc=>setFilter({desc})}/><ProblemFilters rows={data?.rows || []} categories={categories} views={prefs.views||[]} onDeleteView={id=>setPrefs(previous=>({...previous,views:previous.views.filter(view=>view.id!==id)}))} value={currentFilters} onChange={setFilter} onReset={resetFilters} onSave={()=>{setViewName('');setDialog('saveView');}} onClear={page==='mine'?()=>setDialog('clear-training'):undefined} clearDisabled={busy||!mine.length||!!active||!!workspace.summary.pending}/>{page==='mine'&&<FolderSelect iconOnly label="我的训练分类" placeholder="全部训练状态" options={mineFolders} value={mineFolder} onChange={event=>setMineFolder(event.target.value)}/>}{page==='library'&&<Tooltip text={`随机单题 · 当前筛选 ${visible.length} 题，每题等概率`}><button type="button" className="icon-button catalog-random" aria-label="随机单题" disabled={busy||!visible.length||query!==currentFilters.query} onClick={()=>{try{openPractice(visible[uniformIndex(visible.length)].id);}catch(error){notice(error.message,'error');}}}><Dices size={18}/></button></Tooltip>}{currentFilters.category&&<span className="active-knowledge-filter" role="group" aria-label="当前知识点筛选"><span>{currentFilters.category.name}</span><button type="button" aria-label={`清除知识点筛选 ${currentFilters.category.name}`} onClick={()=>setFilter({category:null})}><X size={13}/></button></span>}</PageSearch>;
+    return <PageSearch><label className="search-box"><Search size={17}/><input ref={searchRef} aria-label="搜索题目" value={currentFilters.query} onChange={event=>setFilter({query:event.target.value})} onKeyDown={event=>{if(['ArrowDown','Enter'].includes(event.key)){event.preventDefault();focusList();}}}/></label><SortDirection label="切换题目排序方向" descending={currentFilters.desc} onChange={desc=>setFilter({desc})}/><ProblemFilters rows={data?.rows || []} categories={categories} views={prefs.views||[]} onDeleteView={id=>setPrefs(previous=>({...previous,views:previous.views.filter(view=>view.id!==id)}))} value={currentFilters} onChange={setFilter} onReset={resetFilters} onSave={()=>{setViewName('');setDialog('saveView');}} onClear={page==='mine'?()=>setDialog('clear-training'):undefined} clearDisabled={busy||!mine.length||!!active||!!workspace.summary.pending}/>{page==='library'&&<Tooltip text={`随机单题 · 当前筛选 ${visible.length} 题，每题等概率`}><button type="button" className="icon-button catalog-random" aria-label="随机单题" disabled={busy||!visible.length||query!==currentFilters.query} onClick={()=>{try{openPractice(visible[uniformIndex(visible.length)].id);}catch(error){notice(error.message,'error');}}}><Dices size={18}/></button></Tooltip>}{currentFilters.category&&<span className="active-knowledge-filter" role="group" aria-label="当前知识点筛选"><span>{currentFilters.category.name}</span><button type="button" aria-label={`清除知识点筛选 ${currentFilters.category.name}`} onClick={()=>setFilter({category:null})}><X size={13}/></button></span>}</PageSearch>;
   }
 
   function renderListPage() {
@@ -2039,7 +2038,7 @@ export default function App() {
             )}
             <button className="text-button topbar-daily-ac topbar-status-chip" aria-label={`AC：历史 ${beforeTodayAc}，今日 ${todayAc}`} onClick={()=>go('mine')}><span className="metric-label">AC</span><span className="metric-separator" aria-hidden="true">:</span><b>{beforeTodayAc}{todayAc>0&&<span className="topbar-ac-today">+{todayAc}</span>}</b></button>
             {social.snapshot?.available && <button className="text-button topbar-love-count topbar-status-chip" data-positive={Number(social.snapshot.todayLikes)>=1} aria-label={`今日获得爱心 ${social.snapshot.todayLikes ?? "—"}`} onClick={() => setDialog('updates')}><Heart size={18} fill="currentColor"/><span className="metric-separator" aria-hidden="true">:</span><b>{social.snapshot.todayLikes ?? "—"}</b></button>}
-            <ProfileBadge growth={growth} avatar={prefs.avatarData} nickname={account?.nickname || profileSnapshot?.profile?.nickname} onClick={()=>setDialog('summary')} onAvatarClick={()=>setDialog('avatar')}/>
+            <ProfileBadge growth={growth} avatar={prefs.avatarData} nickname={account?.nickname || profileSnapshot?.profile?.nickname} onClick={()=>openAccounts('profile')} onAvatarClick={()=>setDialog('avatar')}/>
             <IconButton
               label="消息通知"
               icon={Bell}
@@ -2143,6 +2142,8 @@ export default function App() {
               </div>
             ) : <>{active ? <div className="mock-resume-row"><button className="secondary" onClick={()=>setMockTab("create")}><Play size={15}/>继续比赛</button></div> : (
               <MockSetup
+                historyQuery={mockHistoryQuery}
+                onHistoryQuery={setMockHistoryQuery}
                 api={api}
                 activeContest={active}
                 onResume={() => go("mock")}
@@ -2151,7 +2152,7 @@ export default function App() {
                 onStarted={startedMock}
                 onError={notice}
               />
-            )}<MockHistory embedded contests={workspace.contests} onDelete={async body => { const answer = await api("contests/delete", body); applyWorkspace(answer.workspace); notice(`已删除 ${answer.deleted} 场模拟赛记录`); }} onSelect={openRecord} onResume={contest=>{setMockTab("create");setMockSlot(contest.slots[0]?.id);}} onCreate={()=>{setMockTab("create");document.querySelector('.mock-create')?.scrollIntoView({block:'start'});}}/></>}</>}</div>
+            )}<MockHistory embedded query={mockHistoryQuery} contests={workspace.contests} onDelete={async body => { const answer = await api("contests/delete", body); applyWorkspace(answer.workspace); notice(`已删除 ${answer.deleted} 场模拟赛记录`); }} onSelect={openRecord} onResume={contest=>{setMockTab("create");setMockSlot(contest.slots[0]?.id);}} onCreate={()=>{setMockTab("create");document.querySelector('.mock-create')?.scrollIntoView({block:'start'});}}/></>}</>}</div>
           ) : page === "records" ? (
             <SubmissionRecords api={api} revision={workspace.summary?.attempts} rows={rows} onOpenProblem={openPractice} onSelect={(submission) => { setSelectedSubmission(submission); setDialog("submission"); }} />
           ) : page === "competitions" ? (
@@ -2160,6 +2161,8 @@ export default function App() {
               workspace={workspace}
               hub={hub}
               onTrain={openPractice}
+              initialContest={calendarContest}
+              onBack={()=>setCalendarContest(null)}
               onJoin={startOriginalContest}
               onStartReproduction={startReproduction}
             />
@@ -2227,7 +2230,7 @@ export default function App() {
         </div>
       )}
       {dialog === "daily-tasks" && <Modal title="每日任务" onClose={() => setDialog(null)} wide><DailyTasks dailyTasks={insights?.dailyTasks} onClaim={async (id, date) => { try { const result = await api("daily-tasks/claim", { id, date }); backgroundSeq.current++; setInsights(previous => ({ ...previous, dailyTasks: result.dailyTasks })); notice("经验已领取", "success"); void refreshBackground(true); } catch (issue) { notice(issue.message, "error"); throw issue; } }} /></Modal>}
-      {dialog === 'contest-calendar' && <Modal title="比赛日历" onClose={()=>setDialog(null)} wide><ContestCalendar api={api}/></Modal>}
+      {dialog === 'contest-calendar' && <Modal title="比赛日历" onClose={()=>setDialog(null)} wide><ContestCalendar api={api} onOpen={async contest=>{await reload();setCalendarContest(contest.import?.title||contest.title);setDialog(null);go("competitions");}}/></Modal>}
       {dialog === "avatar" && <Modal title="修改头像" onClose={()=>setDialog(null)}><Suspense fallback={<p role="status">正在读取…</p>}><AvatarSettings prefs={prefs} setPrefs={setPrefs} onError={message=>notice(message,"error")}/></Suspense></Modal>}
       {tourOpen && <Suspense fallback={null}><Onboarding initialGuide={tourContext} practiceId={practiceId||(mockFocus?currentMockSlot?.id:null)} onComplete={finishOnboarding} onNavigate={(target,tab)=>{go(target);if(target==="settings")setSettingsTab(tab||"home");}}/></Suspense>}
       {dialog === "achievements" && <Modal title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => setDialog(null)} wide><AchievementPanel achievements={achievements} newIds={unseenAchievements.map(item => item.id)} onSeen={markAchievementSeen} /></Modal>}

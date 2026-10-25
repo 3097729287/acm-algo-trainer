@@ -289,6 +289,9 @@ class Accounts:
         self.session = candidate
         service.leaderboard.invalidate()
         state_sync.start()
+        receipts=getattr(self.server,'official_sync',None)
+        if receipts is not None:
+            receipts.request_refresh()
         if old_sync and old_sync is not state_sync:
             old_sync.stop.set()
             old_sync.wake.set()

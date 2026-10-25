@@ -1,3 +1,4 @@
+import {useFittedPageSize} from '@/lib/useFittedPageSize.js';
 import PageSearch, {PageLocation} from '@/components/PageSearch.jsx';
 import AchievementIcon from '@/components/AchievementIcon.jsx';
 import SortDirection from '@/components/SortDirection.jsx';
@@ -98,7 +99,7 @@ export function GrowthPage({avatarData,onAvatar,goalOverview,api,onGoalsChanged,
  const rankName=Number(growth.level)<5?'未定级':rank.qualified===false?'定级中':rank.tier||'定级中';
  return <div className="progress-page growth-dashboard" aria-label="成长与能力"><div className="progress-growth-columns">
  <KnowledgeRadar rows={rows} categories={categories} knowledge={insights.knowledge||[]} knowledgeEvidence={insights.knowledgeEvidence||[]} knowledgeModel={insights.knowledgeModel||{}} onTopic={onTopic} onTrain={onTrain}/>
- <section className="progress-section growth-account-hero" aria-label="账号成长统计"><div className="account-hero-identity"><ProfileBadge compact={false} growth={growth} avatar={avatarData} nickname={nickname} onAvatarClick={onAvatar} onClick={onAccounts}/><div className="account-hero-rank"><TierIcon badge={rank.badge||'tier-0'} tier={rank.tier} size={180}/><strong>{rankName}</strong>{rank.abilityScore!=null&&<span>{number(rank.abilityScore)}</span>}</div></div>
+ <section className="progress-section growth-account-hero" aria-label="账号成长统计"><div className="account-hero-identity"><ProfileBadge compact={false} growth={growth} avatar={avatarData} nickname={nickname} onAvatarClick={onAvatar} onClick={onAccounts}/><div className="account-hero-rank"><TierIcon badge={rank.badge||'tier-0'} tier={rank.tier} size={180}/><strong>{rankName}</strong>{rank.abilityScore!=null&&<span title="根据独立通过记录估计的 CF 参考能力，不是 Codeforces 官方等级分">{rank.estimated?"约 ":""}{number(rank.abilityScore)} · CF 参考</span>}</div></div>
  <div className="account-hero-level"><span>Lv.{growth.level??'—'}</span><div><Meter value={growth.nextLevelXp?Number(growth.currentLevelXp||0)/growth.nextLevelXp*100:0} label="等级经验"/><span>{number(growth.currentLevelXp||0)} / {number(growth.nextLevelXp||0)} XP</span></div></div>
  <div className="account-hero-statistics">{stats.map(([Icon,value,label])=><div key={label} aria-label={`${label} ${number(value)}`}><Tooltip text={label}><span className="account-stat-icon" tabIndex={0} aria-label={label}><Icon size={30}/></span></Tooltip><b>{number(value)}</b></div>)}</div><div className="account-hero-titles"><TitleMedals titles={insights.equippedTitles||growth.equippedTitles||[]}/></div><div id="growth-goals" className="account-hero-goals">{api&&<GoalsPanel api={api} overview={goalOverview} onChanged={onGoalsChanged}/>}</div>
  </section></div></div>;
@@ -117,7 +118,7 @@ function contestGroups(rows) {
 }
 function Difficulty({ row, locked = false }) { return <span className={`competition-difficulty competition-difficulty-${locked ? 'unknown' : difficultyBand(row.difficulty)}${locked ? ' competition-hidden-difficulty' : ''}`} title={locked ? '比赛进行中，赛后显示难度' : difficultyDescription(row)}>{locked ? '赛中隐藏' : difficultyLabel(row)}</span>; }
 export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStartReproduction, initialContest, onBack }) {
-  const groups = useMemo(() => contestGroups(list(rows).filter(row => !row.catalogHidden && row.source !== 'luogu-training')), [rows]);
+  const groups = useMemo(() => contestGroups(list(rows).filter(row => !row.catalogHidden && row.source !== 'luogu-training' && row.source !== 'algorithm-lab')), [rows]);
   const [query, setQuery] = useState(''), [filter, setFilter] = useState('all');
   const deferredQuery = useDeferredValue(query);
   const [catalogPath, setCatalogPath] = useState([]), [examYear, setExamYear] = useState('');
@@ -144,7 +145,8 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
       .sort((a,b) => (sort === 'name' ? a.name.localeCompare(b.name, 'zh-CN', {numeric:true}) : -compareContestNewest(a,b)) * (descending ? -1 : 1));
   }, [groups, catalogPath, examYear, deferredQuery, lockedIds, filter, counts, sort, descending]);
   useEffect(() => { setPage(1); }, [deferredQuery, catalogPath, examYear, filter, sort, descending]);
-  const pageSize = 40, pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
+  const listRef=useRef(null);
+  const pageSize=useFittedPageSize(listRef,`${!!folder}:${selected||''}:${filtered.length>0}`), pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
   const currentPage = Math.min(page, pageCount), first = (currentPage - 1) * pageSize;
   const visibleGroups = filtered.slice(first, first + pageSize);
   useEffect(() => {
@@ -182,8 +184,8 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
       <span className="filter-result-count">{filtered.length} 场</span>
     </FilterMenu><Tooltip text={folder?'切换到比赛列表':'按平台、系列、年份和场次逐级浏览'}><button type="button" className="competition-view-toggle" aria-label="比赛文件夹浏览" aria-pressed={!!folder} onClick={()=>setFolder(folder?null:{stage:'platforms',path:[]})}><FolderTree size={17}/></button></Tooltip></PageSearch>
     {joinError&&<p className="connection-error" role="alert">{joinError}</p>}
-    {folder?<><CatalogPath scope={folder} onChange={setFolder}/><CatalogExplorer rows={filtered.flatMap(group=>group.rows.map(row=>({...row,groupKey:group.key})))} scope={folder} onChange={setFolder} onContest={row=>setSelected(row.groupKey)} renderContest={row=>renderCard(groups.find(group=>group.key===row.groupKey))}/></>:<div className="competition-list">{visibleGroups.map(renderCard)}</div>}
-    {!folder&&filtered.length>pageSize&&<nav className="competition-pagination" aria-label="比赛分页"><span>{first+1}–{Math.min(first+pageSize,filtered.length)} / {filtered.length} 场</span><button type="button" className="progress-button" disabled={currentPage===1} onClick={()=>setPage(currentPage-1)}>上一页</button><span>第 {currentPage} / {pageCount} 页</span><button type="button" className="progress-button" disabled={currentPage===pageCount} onClick={()=>setPage(currentPage+1)}>下一页</button></nav>}
+    {folder?<><CatalogPath scope={folder} onChange={setFolder}/><CatalogExplorer paginate rows={filtered.flatMap(group=>group.rows.map(row=>({...row,groupKey:group.key})))} scope={folder} onChange={setFolder} onContest={row=>setSelected(row.groupKey)} renderContest={row=>renderCard(groups.find(group=>group.key===row.groupKey))}/></>:<div ref={listRef} className="competition-list">{visibleGroups.map(renderCard)}</div>}
+    {!folder&&filtered.length>0&&<nav className="competition-pagination" aria-label="比赛分页"><span>{first+1}–{Math.min(first+pageSize,filtered.length)} / {filtered.length} 场</span><button type="button" className="progress-button" disabled={currentPage===1} onClick={()=>setPage(currentPage-1)}>上一页</button><span>第 {currentPage} / {pageCount} 页</span><button type="button" className="progress-button" disabled={currentPage===pageCount} onClick={()=>setPage(currentPage+1)}>下一页</button></nav>}
     {!filtered.length&&<Empty><Flag size={24}/><span>没有匹配的比赛</span></Empty>}
   </div>;
 }

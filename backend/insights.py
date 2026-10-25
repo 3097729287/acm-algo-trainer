@@ -9,6 +9,7 @@ import re
 import statistics
 from urllib.parse import urlsplit, unquote
 from progression import SHANGHAI, qualified_contests
+from rating_evidence import evidence as rating_evidence
 from knowledge_mastery import MODEL as KNOWLEDGE_MODEL, problem_evidence, summarize as summarize_mastery
 
 FAILURES = {"WA", "TLE", "MLE", "RE", "CE", "OLE", "ERROR"}
@@ -122,7 +123,9 @@ def build_insights(rows, submissions, history, workspace, hub, now):
         credited_codes.add(code_key)
         difficulty = library.get(identity, {}).get("difficulty")
         if not record.get("solution_seen") and code_key not in viewed_codes and isinstance(difficulty, (int, float)) and not isinstance(difficulty, bool):
-            independent.setdefault(identity, (difficulty, record.get("submitted_at")))
+            evidence = rating_evidence(library.get(identity, {}))
+            if evidence["known"]:
+                independent.setdefault(identity, (evidence["lower"], record.get("submitted_at")))
 
     official = set()
     official_dates = {}
@@ -221,19 +224,19 @@ def build_insights(rows, submissions, history, workspace, hub, now):
     achievements.append({"id": "contest-1", "name": "完成模拟赛", "description": "完成一场至少训练一分钟并实际提交的计时模拟赛", "unlocked": bool(completed_contests), "unlockedAt": min((item.get("finishedAt") for item in completed_contests if item.get("finishedAt")), default=None), "progress": min(1, len(completed_contests)), "target": 1})
     evidence_count = len(independent)
     enough = evidence_count >= 5
-    rating = int(round(statistics.median(value[0] for value in independent.values()) / 50) * 50) if enough else None
+    rating = int(round(statistics.median(value[0] for value in independent.values()) / 100) * 100) if enough else None
     trend = []
     seen_values = []
     for difficulty, timestamp in sorted(independent.values(), key=lambda value: value[1] or ""):
         seen_values.append(difficulty)
         day = _date(timestamp)
         if len(seen_values) >= 5 and day:
-            point = {"date": day.isoformat(), "value": int(round(statistics.median(seen_values) / 50) * 50)}
+            point = {"date": day.isoformat(), "value": int(round(statistics.median(seen_values) / 100) * 100)}
             if trend and trend[-1]["date"] == point["date"]:
                 trend[-1] = point
             else:
                 trend.append(point)
-    assessment = {"rating": rating, "band": "insufficient" if not enough else "low" if evidence_count < 10 else "medium" if evidence_count < 30 else "high", "label": "训练难度估算" if enough else "独立通过证据不足", "confidence": "none" if not enough else "low" if evidence_count < 10 else "medium" if evidence_count < 30 else "high", "evidenceCount": evidence_count, "explanation": "取至少五道独立官方 AC 题目的难度中位数，仅描述已验证训练范围，不是官方等级分；查看题解后的提交、运行和样例通过不计入。", "platforms": platforms, "trend": trend[-365:]}
+    assessment = {"rating": rating, "band": "insufficient" if not enough else "low" if evidence_count < 10 else "medium" if evidence_count < 30 else "high", "label": "训练难度估算" if enough else "独立通过证据不足", "confidence": "none" if not enough else "low" if evidence_count < 10 else "medium" if evidence_count < 30 else "high", "evidenceCount": evidence_count, "explanation": "取至少五道独立官方 AC 题目的难度中位数，非 CF 官方难度采用保守区间下界，仅描述已验证训练范围，不是官方等级分；查看题解后的提交、运行和样例通过不计入。", "platforms": platforms, "trend": trend[-365:]}
     recommendations, level, basis = recommend_problems(library, active, independent, personal, official, hub)
     assessment.update(recommendationLevel=level, recommendationBasis=basis)
     before_today_solved = {key for key in total_solved if not solved_dates[key] or any(day < today for day in solved_dates[key])}
@@ -259,13 +262,13 @@ def recommend_problems(library, active, independent, personal, official, hub):
     cf = [account.get('rating') for account in hub.get('accounts', []) if account.get('platform') == 'codeforces' and account.get('status') == 'ready' and isinstance(account.get('rating'), (int, float)) and not isinstance(account.get('rating'), bool)]
     public = [library[identity]['difficulty'] for identity in official if identity in library and isinstance(library[identity].get('difficulty'), (int, float))]
     if len(values) >= 3:
-        level = round(statistics.median(values) / 50) * 50
+        level = round(statistics.median(values) / 100) * 100
         basis = f'根据 {len(values)} 道独立官方 AC 题的难度选择邻近训练带；这不是官方等级分'
     elif cf:
-        level = round((cf[0] - 100) / 50) * 50
+        level = round((cf[0] - 100) / 100) * 100
         basis = '使用已绑定 Codeforces 官方等级分保守选择训练带；其它平台分数不混算'
     elif len(public) >= 5:
-        level = round(statistics.median(public) / 50) * 50
+        level = round(statistics.median(public) / 100) * 100
         basis = '根据原站通过与题库精确匹配的题目难度选择训练带，独立完成情况未知'
     else:
         level = 1100

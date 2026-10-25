@@ -188,7 +188,10 @@ def accepted_evidence(rows, submissions):
         difficulty = row.get("difficulty")
         if not isinstance(difficulty, (int, float)) or isinstance(difficulty, bool):
             difficulty = None
-        result[key] = {"key": key, "problemKey": hashlib.sha256(key.encode("utf-8")).hexdigest(), "problemId": record["problem_id"],
+        from rating_evidence import evidence as difficulty_evidence
+        rating = difficulty_evidence(row)
+        result[key] = {"abilityDifficulty": rating["lower"], "difficultyKind": rating["kind"], "abilityBand": [rating["lower"],rating["upper"]],
+                       "key": key, "problemKey": hashlib.sha256(key.encode("utf-8")).hexdigest(), "problemId": record["problem_id"],
                        "timestamp": timestamp, "acceptedAt": timestamp.astimezone(dt.timezone.utc).isoformat(timespec="microseconds").replace("+00:00", "Z"),
                        "day": local_date(timestamp).isoformat(), "difficulty": difficulty, "independent": not bool(record.get("solution_seen")),
                        "platform": row.get("platform"), "tags": row.get("tags", [])}
@@ -230,7 +233,10 @@ def official_reward_evidence(rows, submissions, hub=None):
         difficulty = row.get("difficulty")
         if not isinstance(difficulty, (int, float)) or isinstance(difficulty, bool):
             difficulty = None
-        result[key] = {"key": key, "problemKey": hashlib.sha256(key.encode("utf-8")).hexdigest(), "problemId": record["problem_id"],
+        from rating_evidence import evidence as difficulty_evidence
+        rating = difficulty_evidence(row)
+        result[key] = {"abilityDifficulty": rating["lower"], "difficultyKind": rating["kind"], "abilityBand": [rating["lower"],rating["upper"]],
+                       "key": key, "problemKey": hashlib.sha256(key.encode("utf-8")).hexdigest(), "problemId": record["problem_id"],
                        "timestamp": timestamp, "acceptedAt": timestamp.astimezone(dt.timezone.utc).isoformat(timespec="microseconds").replace("+00:00", "Z"),
                        "day": local_date(timestamp).isoformat(), "difficulty": difficulty,
                        "independent": not bool(record.get("solution_seen")), "independentKnown": True,

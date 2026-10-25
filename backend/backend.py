@@ -411,6 +411,8 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_json(200, self.server.training.insights(store.extensions.snapshot()))
             elif path == "/api/daily-tasks":
                 self.send_json(200, self.server.training.daily_tasks())
+            elif path == '/api/statement-backfill':
+                self.send_json(200, self.server.statement_backfill.snapshot())
             elif path == '/api/contest-calendar':
                 self.send_json(200, self.server.calendar_service().snapshot(refresh=parse_qs(target.query).get('refresh', ['0'])[0] == '1'))
             elif path == "/api/goals":
@@ -678,7 +680,9 @@ class LocalServer(ThreadingHTTPServer):
         with self.calendar_lock:
             if self.contest_calendar is None:
                 from contest_calendar import ContestCalendar
-                self.contest_calendar = ContestCalendar(self.state_dir)
+                from contest_imports import import_contest
+                self.contest_calendar = ContestCalendar(self.state_dir, importer=lambda event: import_contest(self.store.extensions, event))
+                self.contest_calendar.start()
             return self.contest_calendar
 
     def validate_official_url(self, url):
@@ -707,6 +711,9 @@ class LocalServer(ThreadingHTTPServer):
         return value
 
     def server_close(self):
+        backfill = getattr(self, 'statement_backfill', None)
+        if backfill is not None:
+            backfill.close()
         calendar = getattr(self, 'contest_calendar', None)
         if calendar is not None:
             calendar.close()
@@ -772,6 +779,8 @@ def create_server(port=0, data_file=None, data_root=None, dist_dir=None, history
         server.desktop_state = None
         server.desktop_fullscreen = None
         server.state_dir = Path(training_file).parent
+        from statement_backfill import StatementBackfill
+        server.statement_backfill = StatementBackfill(server.store, server.state_dir)
         server.contest_calendar = None
         server.calendar_lock = threading.RLock()
         from software_updates import SoftwareUpdates
@@ -805,6 +814,9 @@ def create_server(port=0, data_file=None, data_root=None, dist_dir=None, history
         server.official_sync = OfficialSync(server)
         if integration_auto_start:
             server.official_sync.start()
+            if not admin_mode:
+                server.calendar_service()
+                server.statement_backfill.start()
     except Exception:
         server.server_close()
         raise

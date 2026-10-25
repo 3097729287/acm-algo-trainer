@@ -17,7 +17,7 @@ class CatalogIdentityTests(unittest.TestCase):
         result = unique_catalog_rows(rows)
         self.assertEqual(len(result), 2)
         self.assertEqual(result[0]['id'], 'archive:A')
-        self.assertEqual(set(result[0]['aliasIds']), {'remote:A', 'archive:A'})
+        self.assertEqual(set(result[0]['aliasIds']), {'remote:A', 'archive:A', 'remote:codeforces:123::A'})
         self.assertEqual(result[0]['tags'], ['模拟', '枚举'])
         self.assertNotIn('aliasIds', rows[1], 'Caller metadata is immutable')
         self.assertEqual(len(unique_catalog_rows([{'id': 'A', 'title': 'Same'}, {'id': 'B', 'title': 'Same'}])), 2)
@@ -30,7 +30,7 @@ class CatalogIdentityTests(unittest.TestCase):
             store = Store(data_file=root / 'absent.md', library_file=library.path)
             row = store.data()['rows'][0]
             self.assertEqual(len(store.data()['rows']), 1)
-            self.assertEqual(set(row['aliasIds']), {'original::A', 'remote::A'})
+            self.assertEqual(set(row['aliasIds']), {'original::A', 'remote::A', 'remote:codeforces:1::A'})
             self.assertEqual(library.check()['problems'], 2)
             self.assertEqual(library.solution('original::A')['markdown'], 'Original text.')
             self.assertEqual(library.solution('remote::A')['markdown'], 'Other imported text.')

@@ -205,7 +205,7 @@ def run(action, output):
                         window.evaluate_js("document.querySelector('.nav-item[aria-label=\"算法实验室\"]').click()")
                         wait_js("!!document.querySelector('.lab-course-options')")
                         report['nativeAlgorithmCourses'] = []
-                        for course_title in ('前缀和与差分', '双指针算法'):
+                        for course_title in ('Dijkstra 最短路', '并查集', 'DFS 深度优先搜索', 'BFS 广度优先搜索', '前缀和与差分', '双指针算法'):
                             selector = 'section[aria-label="' + course_title + '"] .lab-course-options button'
                             window.evaluate_js('document.querySelector(' + json.dumps(selector) + ').click()')
                             wait_js("document.querySelector('.lab-course-header h1')?.textContent === " + json.dumps(course_title))

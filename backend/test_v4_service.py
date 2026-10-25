@@ -74,7 +74,7 @@ class SampleRunTests(unittest.TestCase):
         self.assertLessEqual(len(result),100)
 
 class RecommendationTests(unittest.TestCase):
-    def row(self,identity,difficulty,tags):return {'id':identity,'title':'题目 '+identity,'difficulty':difficulty,'tags':tags,'platform':'测试','contest':'fixture','source':'archive'}
+    def row(self,identity,difficulty,tags):return {'id':identity,'title':'题目 '+identity,'difficulty':difficulty,'tags':tags,'platform':'Codeforces','difficultySource':'Codeforces 官方 rating','contest':'fixture','source':'archive'}
     def insights(self,rows,records=None,hub=None,training=None):
         workspace={'training':training or [],'contests':[]}
         return build_insights(rows,records or [],[],workspace,hub or {},dt.datetime(2026,10,8,12,tzinfo=UTC))
@@ -97,7 +97,7 @@ class RecommendationTests(unittest.TestCase):
         value=self.insights(rows,hub={'accounts':[{'platform':'atcoder','status':'ready','rating':2000,'solved':[]}]})
         self.assertEqual(value['assessment']['recommendationLevel'],1100)
         value=self.insights(rows,hub={'accounts':[{'platform':'codeforces','status':'ready','rating':1550,'solved':[]}]})
-        self.assertEqual(value['assessment']['recommendationLevel'],1450);self.assertIsNone(value['assessment']['rating'])
+        self.assertEqual(value['assessment']['recommendationLevel'],1400);self.assertIsNone(value['assessment']['rating'])
 
 class LectureFixture:
     def snapshot(self):return {'lectures':[{'id':'lesson','sourceProblemIds':['remote:codeforces:123::A'],'title':'从零讲排序'}],'revision':'fixture'}

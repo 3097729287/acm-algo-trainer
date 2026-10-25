@@ -85,6 +85,13 @@ def markdown(node, base='', prose_pre=False):
     if tag == 'var':
         return '$' + plain(node).strip() + '$'
     if tag == 'pre' and not prose_pre:
+        if any(node.find(lambda child: child.tag=='var')):
+            def formatted(child):
+                if isinstance(child,str):return child
+                if child.tag=='var':return '$'+plain(child).strip()+'$'
+                if child.tag=='br':return '\n'
+                return ''.join(formatted(item) for item in child.children)
+            return fence(formatted(node)).replace('text\n','input-format\n',1)
         return fence(plain(node))
     if tag == 'table':
         rows = []
@@ -125,7 +132,7 @@ def markdown(node, base='', prose_pre=False):
 def html_markdown(html, base='', prose_pre=False):
     text = markdown(Tree(html).root, base, prose_pre)
     # Protect preformatted code while removing HTML indentation elsewhere.
-    parts = re.split(r'(`{3,}text\n.*?\n`{3,})', text, flags=re.S)
+    parts = re.split(r'(`{3,}(?:text|input-format)\n.*?\n`{3,})', text, flags=re.S)
     for index in range(0, len(parts), 2):
         parts[index] = re.sub(r'\n{3,}', '\n\n', re.sub(r'[ \t]+\n', '\n', parts[index]))
         parts[index] = re.sub(r'\n[ \t]+', '\n', parts[index])

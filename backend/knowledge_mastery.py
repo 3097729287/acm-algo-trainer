@@ -40,8 +40,13 @@ def problem_evidence(library, grouped, official):
         # Power likelihood: assisted/retried AC is weaker evidence. Retries do
         # not become independent questions. This is a TB-specific adaptation.
         strength = independent * math.sqrt(stability) if solved else 1.0
-        difficulty = row.get('difficulty')
-        rated = is_rated(difficulty)
+        from rating_evidence import evidence as difficulty_evidence
+        rating = difficulty_evidence(row)
+        # For uncertain scales, a solve supports the lower bound; a failure
+        # is judged against the upper bound. Neither becomes false precision.
+        difficulty = rating['lower'] if solved else rating['upper']
+        strength *= rating['weight']
+        rated = rating['known']
         result[identity] = {'id': identity, 'weight': strength, 'solved': solved,
                             'rated': rated, 'difficulty': difficulty if rated else None,
                             'independence': independent if solved else 0.0,

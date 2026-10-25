@@ -1,0 +1,26 @@
+import React,{useState} from 'react';
+import {createRoot} from 'react-dom/client';
+import SubmissionRecords from '../src/pages/SubmissionRecords.jsx';
+import LearningPathsPage from '../src/pages/LearningPathsPage.jsx';
+import PreferencesPage from '../src/pages/PreferencesPage.jsx';
+import ActivityPage from '../src/pages/ActivityPage.jsx';
+import DifficultyRange from '../src/components/DifficultyRange.jsx';
+import KnowledgeRadar from '../src/components/KnowledgeRadar.jsx';
+import SolutionMarkdown from '../src/components/SolutionMarkdown.jsx';
+import {inputFormatMarkdown} from '../src/lib/inputFormat.js';
+import 'katex/dist/katex.min.css';
+import Graphs from '../../backend/resources/graph-lab.json';
+import '../src/styles/workspace.css';
+import '../src/styles/refinements.css';
+import '../src/styles/polish.css';
+import '../src/styles/unified.css';
+import '../src/styles/revision.css';
+const mode=new URLSearchParams(location.search).get('view')||'records';
+const rows=Object.values(Graphs).flatMap(c=>c.problems).map(p=>({id:p.pid,title:p.title,url:p.url,aliasIds:['remote:'+p.pid],contest:'CF 原题',problem:p.pid}));
+const all=Array.from({length:60},(_,i)=>({id:'submission-'+i,problemId:i?'20C':'remote:20C',title:'remote:id',submittedAt:new Date(Date.UTC(2026,9,25-Math.floor(i/3),10,i%3)).toISOString(),verdict:i%2?'WA':'AC'}));
+const mathNames=['取模与同余','素数','快速幂','乘法逆元','莫比乌斯反演','杜教筛','最大公约数','最小公倍数','整除分块','欧拉函数','高精度','期望与概率','NTT','组合计数','容斥','斯特林数','矩阵运算','鸽巢原理','整数平方根','FFT','高斯消元','生成函数','Pólya 定理','置换环'];
+const format='## Input\n\n```text\nN K\nA_1 A_2 \\ldots A_N\n```\n\n## Sample\n\n```text\nA_1 \\ldots\n```';
+const api=async path=>{const q=new URLSearchParams(path.split('?')[1]);const offset=Number(q.get('offset'));return {total:all.length,offset,submissions:all.slice(offset,offset+Number(q.get('limit')))};};
+function Fixture(){const[prefs,setPrefs]=useState({learningPaths:{}}),[locked,setLocked]=useState([]),[range,setRange]=useState({min:1000,max:2400});window.fixture={prefs,seed:setPrefs,lock:setLocked,range};return <><div id="tb-page-search" style={{height:60,display:'flex',alignItems:'center',gap:12}}/><main className="workspace-area" style={{height:'calc(100dvh - 80px)',padding:12}}>{mode==='records'?<SubmissionRecords api={api} rows={rows} onSelect={s=>window.codeOpened=s.id} onOpenProblem={id=>window.problemOpened=id}/>:mode==='lab'?<LearningPathsPage standalone prefs={prefs} setPrefs={setPrefs} rows={rows} lockedProblems={locked} onTrain={(id,options)=>window.trained={id,options}}/>:mode==='settings'?<PreferencesPage tab="home" prefs={prefs} setPrefs={setPrefs} onTab={()=>{}}/>:mode==='activity'?<ActivityPage insights={{activity:[{date:'2026-10-24',officialAccepted:4}]}}/>:<div style={{width:'min(650px,90%)',margin:'80px auto'}}><DifficultyRange value={range} max={4000} onChange={patch=>setRange(old=>({...old,...patch}))}/></div>}</main></>;}
+document.documentElement.dataset.theme='dark';
+createRoot(document.getElementById('root')).render(mode==='radar'?<KnowledgeRadar categories={[{name:'数学与计数',children:mathNames.map(name=>({name,tags:[name]}))}]}/>:mode==='format'?<SolutionMarkdown text={inputFormatMarkdown(format)}/>:<Fixture/>);

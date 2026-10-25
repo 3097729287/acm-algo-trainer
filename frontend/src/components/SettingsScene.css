@@ -92,3 +92,13 @@ html[data-motion=off] .dipper-lines {stroke-dashoffset:0}
 @keyframes planet-surface-spin {to{transform:translateX(-50px)}}
 .settings-home-grid .settings-tile>button>.scene-balloon-stage {top:60px;bottom:12px}
 .dino-traveler {aspect-ratio:140/128}
+
+/* Landscape geometry stays proportional; feet and scenery share the baseline. */
+.dino-landscape {opacity:.5}
+.dino-traveler {--dino-width:154px;width:var(--dino-width);height:auto;aspect-ratio:164/140;bottom:5%;animation-name:dino-stroll}
+.dino-model {display:block;overflow:visible}
+.dino-eye {transform-origin:105px 37px;animation:dino-blink 6s ease-in-out infinite}
+@keyframes dino-stroll {0%,100%{left:4%}50%{left:calc(96% - var(--dino-width))}}
+@keyframes dino-blink {0%,43%,47%,100%{transform:scaleY(1)}45%{transform:scaleY(.12)}}
+@media(max-width:800px){.dino-traveler{--dino-width:114px;animation-name:dino-stroll}}
+@media(prefers-reduced-motion:reduce){.dino-traveler{left:calc(50% - var(--dino-width)/2)}}

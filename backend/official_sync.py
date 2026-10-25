@@ -51,6 +51,7 @@ class OfficialSync:
             from site_receipts import PublicReceiptSource
             self.site_fetch = PublicReceiptSource(client).fetch
         self.stop = threading.Event()
+        self.wake = threading.Event()
         self.lock = threading.Lock()
         self.thread = None
         self.status = {'lastSuccessAt': None, 'imported': 0, 'message': '等待同步官网提交'}
@@ -67,6 +68,11 @@ class OfficialSync:
             return
         self.thread = threading.Thread(target=self._loop, name='tb-official-sync', daemon=True)
         self.thread.start()
+
+    def request_refresh(self):
+        """Wake after a login/binding change; never block authentication on a site."""
+        self.wake.set()
+        self.start()
 
     def _context(self):
         accounts = getattr(self.server, 'accounts', None)
@@ -198,8 +204,10 @@ class OfficialSync:
 
     def _loop(self):
         while not self.stop.is_set():
+            self.wake.clear()
             self.once()
-            self.stop.wait(15)
+            self.wake.wait(60)
 
     def close(self):
         self.stop.set()
+        self.wake.set()
