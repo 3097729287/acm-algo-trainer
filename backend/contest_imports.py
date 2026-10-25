@@ -12,7 +12,7 @@ from persistence import load_document, save_document
 
 
 SCHOOL_CONTESTS = (
-    {'id': 'codeforces:726517', 'platform': 'codeforces', 'title': '校队训练 · Gym 726517',
+    {'id': 'codeforces:726517', 'platform': 'codeforces', 'title': '1025 Graph Theory Assessment',
      'url': 'https://codeforces.com/gym/726517', 'schoolTraining': True},
     {'id': 'nowcoder:142622', 'platform': 'nowcoder', 'title': '1024数学专场考核',
      'url': 'https://ac.nowcoder.com/acm/contest/142622', 'schoolTraining': True},

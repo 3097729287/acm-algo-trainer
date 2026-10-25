@@ -2,7 +2,7 @@ import {useRef,useState,useEffect} from 'react';
 import {useFittedPageSize} from '@/lib/useFittedPageSize.js';
 import {catalogSegments,catalogEntries} from '@/lib/contestCatalog.js';
 export {catalogSegments} from '@/lib/contestCatalog.js';
-import { ChevronRight, FileText, Folder, House } from 'lucide-react';
+import { ChevronLeft, ChevronRight, FileText, Folder, House } from 'lucide-react';
 import './CatalogExplorer.css';
 
 const pathOf = scope => scope.path || (scope.platform ? [scope.platform] : []);
@@ -20,6 +20,7 @@ export function catalogMatches(row, scope) {
 export function CatalogPath({ scope, onChange }) {
   const path = pathOf(scope);
   return <nav className="catalog-path" aria-label="题目浏览路径">
+    <button type="button" data-folder-up aria-label="返回上一级文件夹" title="返回上一级 · Backspace" disabled={!path.length} onClick={()=>onChange({stage:path.length>1?'contests':'platforms',path:path.slice(0,-1)})}><ChevronLeft size={17}/></button>
     <button aria-label="全部平台" onClick={() => onChange({ stage: 'platforms', path: [] })}><House size={16}/></button>
     {path.map((part, index) => <span key={index}><ChevronRight size={13}/><button aria-current={index === path.length - 1 ? 'page' : undefined} onClick={() => onChange({ stage: index === path.length - 1 ? scope.stage : 'contests', path: path.slice(0, index + 1) })}>{part}</button></span>)}
   </nav>;

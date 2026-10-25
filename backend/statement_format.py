@@ -64,6 +64,19 @@ def markdown(node, base='', prose_pre=False):
     if isinstance(node, str):
         return re.sub(r'\s+', ' ', node.replace('\xa0', ' '))
     tag, names = node.tag, classes(node)
+    # Saved browser pages contain both a rendered copy and the original TeX.
+    # Keep one source formula, including KaTeX's hidden MathML annotation.
+    if tag == 'script' and node.attrs.get('type', '').startswith('math/tex'):
+        delimiter = '$$' if 'mode=display' in node.attrs['type'] else '$'
+        return delimiter + plain(node).strip() + delimiter
+    if names & {'katex', 'katex-display'} or tag in {'math', 'mjx-container'}:
+        formula = next(node.find(lambda item: item.tag == 'annotation' and
+                                  item.attrs.get('encoding') in ('application/x-tex', 'TeX')), None)
+        if formula is not None:
+            delimiter = '$$' if 'katex-display' in names or node.attrs.get('display') in ('block', 'true') else '$'
+            return delimiter + plain(formula).strip() + delimiter
+    if names & {'MathJax', 'MathJax_Preview', 'MathJax_Display', 'MathJax_SVG', 'MathJax_CHTML'}:
+        return ''
     if 'part' in names and any(re.match(r'Sample (?:Input|Output)\b', plain(heading).strip(), re.I)
                                for heading in node.find(lambda item: item.tag == 'h3')):
         return ''
@@ -119,7 +132,7 @@ def markdown(node, base='', prose_pre=False):
         return '`' + plain(node).strip() + '`'
     if tag == 'a':
         href = urljoin(base, node.attrs.get('href') or '')
-        return '[' + content.strip() + '](' + href.replace(')', '%29') + ')' if content.strip() and urlsplit(href).scheme in ('http', 'https') else ''
+        return '[' + content.strip() + '](' + href.replace('(', '%28').replace(')', '%29') + ')' if content.strip() and urlsplit(href).scheme in ('http', 'https') else ''
     if tag == 'sub':
         return '$_{' + plain(node).strip() + '}$'
     if tag == 'sup':
@@ -169,3 +182,29 @@ def nowcoder_explanations(page, base):
         match = re.search(r'<h2>\s*说明\s*</h2>\s*<div class="question-oi-cont">(.*?)</div>', block, re.S)
         results.append(html_markdown(match[1], base, prose_pre=True) if match else '')
     return results
+
+
+def codeforces_samples(page):
+    """Read original and browser-saved samples, independent of pre attributes."""
+    root = Tree(page).root
+    statement = next(root.find(lambda node: 'problem-statement' in classes(node)), None)
+    if statement is None:
+        return []
+    def contents(node):
+        if isinstance(node, str):
+            return node
+        if node.tag == 'br':
+            return '\n'
+        result = ''.join(contents(child) for child in node.children)
+        return result + ('\n' if node.tag == 'div' and not result.endswith('\n') else '')
+    values = {'input': [], 'output': []}
+    for kind in values:
+        for block in statement.find(lambda node: kind in classes(node)):
+            pre = next(block.find(lambda node: node.tag == 'pre'), None)
+            if pre is None:
+                raise ValueError('Codeforces 样例缺少完整输入或输出')
+            values[kind].append(contents(pre).strip('\n'))
+    if len(values['input']) != len(values['output']):
+        raise ValueError('Codeforces 样例输入输出数量不一致')
+    return [{'name': '样例 ' + str(i + 1), 'input': a, 'output': b}
+            for i, (a, b) in enumerate(zip(values['input'], values['output']))]

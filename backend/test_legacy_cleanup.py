@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from legacy_cleanup import identify, prepare, retire
+from legacy_cleanup import identify, prepare, retire, finish_install
 
 
 class LegacyCleanupTests(unittest.TestCase):
@@ -73,3 +73,24 @@ class LegacyCleanupTests(unittest.TestCase):
             original = (self.app/'state/tb-personal.sqlite3').read_bytes()
             prepare(self.app)
             self.assertEqual((self.app/'state/tb-personal.sqlite3').read_bytes(), original)
+
+    def test_installer_retirement_migrates_before_removing_old_entry(self):
+        state = self.old/'state'; state.mkdir()
+        with closing(sqlite3.connect(state/'tb-personal.sqlite3')) as db:
+            db.execute('CREATE TABLE drafts (code TEXT)')
+            db.execute("INSERT INTO drafts VALUES ('unsynced')"); db.commit()
+        with patch('legacy_cleanup.load_catalog', return_value=self.catalog), patch('legacy_cleanup.discover', return_value=([self.old], [], {})):
+            result = finish_install(self.app)
+        self.assertEqual(result[0]['status'], 'retired')
+        self.assertFalse((self.old/'TB新版.exe').exists())
+        with closing(sqlite3.connect(self.app/'state/tb-personal.sqlite3')) as db:
+            self.assertEqual(db.execute('SELECT code FROM drafts').fetchone()[0], 'unsynced')
+        self.assertTrue((state/'tb-personal.sqlite3').exists())
+
+    def test_installer_migration_failure_and_running_old_program_are_safe(self):
+        with patch('legacy_cleanup.prepare', side_effect=OSError('busy')):
+            with self.assertRaises(OSError): finish_install(self.app)
+        self.assertTrue((self.old/'TB新版.exe').exists())
+        with patch('legacy_cleanup.load_catalog', return_value=self.catalog), patch('legacy_cleanup.discover', return_value=([self.old], [self.old/'TB新版.exe'], {})):
+            self.assertEqual(finish_install(self.app)[0]['status'], 'running')
+        self.assertTrue((self.old/'TB新版.exe').exists())

@@ -42,8 +42,8 @@ class Release1410Tests(unittest.TestCase):
             for path in Path(directory).rglob('*.json'):
                 self.assertNotIn('private',path.read_text())
 
-    def test_seven_replay_groups_preserve_five_original_identities(self):
-        self.assertEqual(len(courses()),7)
+    def test_replay_groups_preserve_five_original_identities(self):
+        self.assertEqual(set(courses()), {'sequence-0','sequence-1','sequence-2','bfs','dfs','dsu','dijkstra','sorting-basics','divide-sort','bucket-sort'})
         rows=[dict(id=p['url'],url=p['url']) for c in courses().values() for p in c['problems']]
         self.assertTrue(all(event['complete'] for event in replay_events(rows)))
         for course in courses().values():

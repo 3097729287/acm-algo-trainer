@@ -6,6 +6,8 @@ TB combines a problem library, illustrated editorials, a C++ / Python editor, lo
 **Latest stable: [TB 1.4.1](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.1).** [Changes and validation](docs/releases/1.4.1.md).
 <!-- release-status:end -->
 
+**Local 1.4.11 update (unpublished):** Both requested team contests now include all 18 statements and editorial pairs, with Chinese translations for English tasks. Three sorting courses add 15 guided problems. This update also adds a CF 2300 learning route, a full-year activity grid, keyboard navigation and 1,707 cached complete statements. Public downloads remain 1.4.1. [Release notes](docs/releases/1.4.11.md).
+
 **Local 1.4.10 update (unpublished):** Four graph courses, 20 verified practice problems with original statements, Chinese translations and two editorial variants; resumable statement supplementation, live contest imports, account receipts, evidence-aware difficulty and responsive navigation. [Release notes](docs/releases/1.4.10.md).
 
 **Local 1.4.9 interface update (unpublished):** Four months now form one centered, continuous grid, without month headings or padding between months. Compact cells retain space on both sides. The streak flame has natural asymmetric tips and an exactly mirrored lower bowl, with unchanged icon size and alignment. All 1.4.8 training lists, editorials and personal records are preserved. Public downloads remain 1.4.1. [Scope](docs/releases/1.4.9.md).

@@ -1,4 +1,5 @@
 import {useId} from 'react';
+import dinosaur from '@/assets/noto-dinosaur.svg';
 
 function AncientTree({x,y,scale=1}) {
  return <g transform={`translate(${x} ${y}) scale(${scale})`}>
@@ -24,24 +25,7 @@ export function RoundedDinosaur() {
    <path d="M8 289H632" opacity=".65"/>
    <g opacity=".6"><path d="M26 288Q21 275 15 272M26 288Q27 274 35 271M24 282L16 279M29 280L35 277M204 289Q201 277 194 274M204 289Q207 275 213 273M556 290Q549 278 542 278M556 290Q558 280 566 275"/><path d="M91 289q4-8 10-7q7 0 11 7M241 289q8-12 17-1M469 288q6-9 12 0"/></g>
   </svg>
-  <div className="dino-traveler"><svg className="dino-model" viewBox="0 0 164 140" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
-   <ellipse cx="82" cy="133" rx="47" ry="3" fill="currentColor" fillOpacity=".07" stroke="none"/>
-   <g className="dino-body">
-    <path className="dino-leg dino-leg-back" d="M72 107Q68 116 72 128Q76 132 91 129Q94 125 86 123L86 111" fill="var(--panel-base)" opacity=".65"/>
-    <path d="M40 89Q29 80 25 86Q21 91 36 98M48 72Q34 62 32 70Q30 77 43 80M63 55Q51 42 47 50Q42 57 55 62M79 36Q71 21 65 30L65 44" fill="currentColor" fillOpacity=".18"/>
-    <path d="M53 74C54 57 63 51 69 40C70 22 87 15 103 19C119 20 122 30 124 34C144 31 154 40 151 52C148 66 129 66 117 63L112 79C123 89 124 103 113 113C97 128 64 124 49 112C32 115 17 108 10 98Q7 93 12 95C30 101 46 99 53 74Z" fill="var(--panel-base)"/>
-    <path d="M53 74C54 57 63 51 69 40C70 22 87 15 103 19C119 20 122 30 124 34C144 31 154 40 151 52C148 66 129 66 117 63L112 79C123 89 124 103 113 113C97 128 64 124 49 112C32 115 17 108 10 98Q7 93 12 95C30 101 46 99 53 74Z" fill="currentColor" fillOpacity=".13"/>
-    <path d="M105 78C91 82 83 94 88 107Q91 114 104 115" fill="currentColor" fillOpacity=".06" strokeOpacity=".35"/>
-    <path d="M120 53Q132 59 143 52"/>
-    <ellipse className="dino-eye" cx="105" cy="37" rx="3.5" ry="4.5" fill="currentColor" stroke="none"/>
-    <circle cx="106" cy="35.5" r="1.1" fill="var(--panel-base)" stroke="none"/>
-    <circle cx="142" cy="44" r="1.6" fill="currentColor" stroke="none" opacity=".7"/>
-    <ellipse cx="115" cy="50" rx="4.5" ry="2.5" fill="currentColor" fillOpacity=".18" stroke="none"/>
-    <path d="M111 77Q126 77 125 85Q123 91 116 86M122 85L119 82" fill="var(--panel-base)"/>
-    <path className="dino-leg dino-leg-front" d="M87 108Q80 117 83 129Q87 133 102 131Q107 127 97 124L100 113M89 127V130M94 128V131" fill="var(--panel-base)"/>
-    <g fill="currentColor" fillOpacity=".2" stroke="none"><ellipse cx="65" cy="76" rx="3" ry="4"/><ellipse cx="60" cy="88" rx="2.6" ry="3.6"/><ellipse cx="56" cy="99" rx="2" ry="2.8"/></g>
-   </g>
-  </svg></div>
+  <div className="dino-traveler"><img className="dino-model" src={dinosaur} alt="" draggable={false}/></div>
  </div>;
 }
 

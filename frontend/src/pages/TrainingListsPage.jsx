@@ -1,6 +1,9 @@
 import {useFittedPageSize} from '@/lib/useFittedPageSize.js';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { ArrowLeftRight, ChevronLeft, ChevronRight, ExternalLink, FileText, Folder, House, Search, X } from 'lucide-react';
+import {buildTrainingCurriculum} from '@/lib/trainingCurriculum.js';
+import SortDirection from '@/components/SortDirection.jsx';
+import {compareProblemDifficulty} from '@/lib/problemOrder.js';
 import PageSearch from '@/components/PageSearch.jsx';
 import InlineTitle from '@/components/InlineTitle.jsx';
 import { difficultyBand, difficultyDescription, difficultyLabel } from '@/lib/practiceMetadata.js';
@@ -9,12 +12,12 @@ import { organizeTrainingLists, compareTrainingLists, compareCategoryNames } fro
 import '@/components/CatalogExplorer.css';
 import './TrainingListsPage.css';
 
-const INITIAL = { mode: 'algorithm', folder: [], trail: [], sections: [], flat: false, query: '', status: '', page: 1 };
+const INITIAL = { curriculumVersion:1, mode: 'algorithm', folder: [], trail: [], sections: [], flat: false, query: '', status: '', descending: false, page: 1 };
 const source = 'https://www.luogu.com.cn/training/list';
 
 export default function TrainingListsPage({ api, rows = [], onTrain, visit, pageSize = 50, busy = false }) {
   const fallback = useRef({}), session = visit || fallback.current;
-  const [state, setState] = useState(() => ({ ...INITIAL, ...session.state, status: '' }));
+  const [state, setState] = useState(() => ({ ...INITIAL, ...(session.state?.curriculumVersion===1?session.state:{}), status: '' }));
   const [lists, setLists] = useState(session.lists || null), [error, setError] = useState(''), [attempt, setAttempt] = useState(0);
   const panel = useRef(null), navigation = useRef(null);
   const patch = value => setState(previous => ({ ...previous, page: 1, ...value }));
@@ -54,7 +57,7 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
     return () => window.removeEventListener('keydown', key);
   }, [state, canBack]);
 
-  const organized = useMemo(() => organizeTrainingLists(lists || []), [lists]);
+  const organized = useMemo(() => {const original=organizeTrainingLists(lists || []);return state.mode==='source'?original:buildTrainingCurriculum(original,rows);}, [lists, rows, state.mode]);
   const index = useMemo(() => trainingIndex(organized, rows), [organized, rows]);
   const active = index.byList.get(state.trail.at(-1));
   const search = state.query.trim().toLocaleLowerCase();
@@ -65,7 +68,7 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
   const sectionNames = [...new Set(scoped.map(item => item.sections?.[state.sections.length]).filter(Boolean))];
   const searchingProblems = Boolean(search || state.status);
   const showAll = state.flat || searchingProblems;
-  const problems = (showAll ? state.sections.length ? scoped : all : scoped.filter(item => (item.sections || []).length === state.sections.length)).filter(item => matchesTrainingProblem(item, state.query, state.status));
+  const problems = (showAll ? state.sections.length ? scoped : all : scoped.filter(item => (item.sections || []).length === state.sections.length)).filter(item => matchesTrainingProblem(item, state.query, state.status)).sort((a,b)=>compareProblemDifficulty(a.row,b.row,state.descending));
 
   const folders = new Map(), entries = [];
   let scopeLists = organized;
@@ -106,16 +109,18 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
   return <section className="training-lists-page" aria-label="题单训练">
     <PageSearch>
       <label className="search-box"><Search size={17}/><input aria-label="搜索题单或题目" value={state.query} maxLength={120} onChange={event => patch({ query: event.target.value })}/>{state.query && <button className="icon-button" aria-label="清空题单搜索" onClick={() => patch({ query: '' })}><X size={14}/></button>}</label>
-      <button type="button" className="training-list-mode" aria-label="题单目录方式" data-mode={state.mode} title={state.mode === 'source' ? '点击切换为按类别' : '点击切换为按来源'} onClick={() => patch({ ...INITIAL, mode: state.mode === 'source' ? 'algorithm' : 'source' })}><ArrowLeftRight size={16}/>{state.mode === 'source' ? '按来源' : '按类别'}</button>
+      {active&&!browsingFolders&&<SortDirection label="切换题单难度排序方向" descending={state.descending} onChange={descending=>patch({descending})}/>}
+      <button type="button" className="icon-button training-list-mode" aria-label="题单目录方式" data-mode={state.mode} title={state.mode === 'source' ? '点击切换为按类别' : '点击切换为按来源'} onClick={() => patch({ ...INITIAL, mode: state.mode === 'source' ? 'algorithm' : 'source' })}><ArrowLeftRight size={16}/></button>
     </PageSearch>
     <div className="training-list-directory"><nav className="catalog-path training-list-path" aria-label="题单浏览路径">
+      <button type="button" data-folder-up aria-label="返回上一级文件夹" title="返回上一级 · Backspace" disabled={!canBack} onClick={back}><ChevronLeft size={17}/></button>
       <button aria-label="全部题单" onClick={() => patch({ folder: [], trail: [], sections: [], flat: false, query: '' })}><House size={16}/></button>
       {state.folder.map((part, i) => <span key={part}><ChevronRight size={13}/><button onClick={() => patch({ folder: state.folder.slice(0, i + 1), trail: [], sections: [], flat: false, query: '' })}>{state.mode === 'source' ? index.categories.find(c => c.id === part)?.name || part : part}</button></span>)}
       {state.trail.map((id, i) => <span key={id}><ChevronRight size={13}/><button onClick={() => patch({ trail: state.trail.slice(0, i + 1), sections: [], flat: false, query: '' })}>{index.byList.get(id)?.displayTitle || '题单'}</button></span>)}
       {state.sections.map((part, i) => <span key={i}><ChevronRight size={13}/><button onClick={() => patch({ sections: state.sections.slice(0, i + 1), flat: false })}>{part}</button></span>)}
       {state.flat && <span aria-current="page">全部题目</span>}
     </nav>
-    <div className="training-list-summary"><span className="training-list-stats">{active ? `${listStats.accepted} / ${listStats.total} 题已通过` : `${scopeLists.length} 个题单${readableLists < scopeLists.length ? `（${readableLists} 个可读取）` : ''} · ${listStats.total} 道题 · ${listStats.accepted} 题已通过`}</span><a className="text-button training-list-source" href={active?.url || source} target="_blank" rel="noreferrer"><ExternalLink size={15}/><span>洛谷原题单</span></a></div></div>
+    <div className="training-list-summary"><span className="training-list-stats">{active ? `${listStats.accepted} / ${listStats.total} 题已通过` : `${scopeLists.length} 个题单${readableLists < scopeLists.length ? `（${readableLists} 个可读取）` : ''} · ${listStats.total} 道题 · ${listStats.accepted} 题已通过`}</span>{state.mode==='source'&&<a className="text-button training-list-source" href={active?.url || source} target="_blank" rel="noreferrer"><ExternalLink size={15}/><span>洛谷原题单</span></a>}</div></div>
     {error && <p role="alert" className="connection-error">{error} <button className="text-button" onClick={() => setAttempt(value => value + 1)}>重新读取</button></p>}
     <div className="catalog-explorer training-list-content" ref={panel} onScroll={event => { session.scrollTop = event.currentTarget.scrollTop; }} aria-busy={!lists && !error}>
       {!lists && !error && <p className="progress-muted" role="status">正在读取题单…</p>}
@@ -128,7 +133,7 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
           <span>{folder ? `${folder.count} ${folder.unit || '题'}` : list.available ? `${stats.accepted} / ${stats.total} 题` : '暂不可用'}</span><ChevronRight size={16}/>
         </button>;
       })}
-      {active && !browsingFolders && problems.length > 0 && <table className="problem-table training-list-table"><thead><tr><th>题目</th><th>难度</th><th>训练状态</th></tr></thead><tbody>{problems.slice(start, start + size).map((item, offset) => <tr key={item.row?.id || item.pid} data-id={item.row?.id}>
+      {active && !browsingFolders && problems.length > 0 && <table className="problem-table training-list-table"><thead><tr><th>题目</th><th>难度</th><th>训练状态</th></tr></thead><tbody>{problems.slice(start, start + size).map((item, offset) => <tr key={item.row?.id || item.pid} data-id={item.row?.id} className="training-problem-row" aria-disabled={!item.row||busy} onClick={event=>{if(item.row&&!busy&&!event.target.closest('button,a,input,select'))onTrain(item.row.id,{problemIds});}}>
         <td><div className="training-list-title"><span className="training-list-number">{start + offset + 1}</span><div><button className="problem-title" disabled={!item.row || busy} onClick={() => onTrain(item.row.id, { problemIds })}><InlineTitle>{item.row?.title || item.pid}</InlineTitle></button><small>{item.pid}{item.row?.platform && item.row.platform !== '洛谷' ? ` · ${item.row.platform}` : ''}</small></div></div></td>
         <td><span className={'difficulty band-' + difficultyBand(item.row?.difficultyHidden ? null : item.row?.difficulty)} title={item.row ? difficultyDescription(item.row) : ''}>{item.row ? difficultyLabel(item.row) : '—'}</span></td>
         <td><span className={'verdict ' + (item.row?.accepted ? 'success' : item.row?.active ? 'pending' : '')}>{!item.row ? '暂不可用' : item.row.accepted ? '已通过' : item.row.active ? '练习中' : '未开始'}</span></td>

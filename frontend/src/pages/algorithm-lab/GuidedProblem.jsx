@@ -1,0 +1,19 @@
+import {useState} from 'react';
+import {ArrowRight,ExternalLink} from 'lucide-react';
+import {matchesGraphProblem} from './graphModel.js';
+import {CodeBlock,Feedback} from './LabParts.jsx';
+
+function Prediction({label,answer,explanation,saved,onChange}){
+ const [checked,setChecked]=useState(false),value=saved||'',correct=value.trim()===String(answer);
+ return <form className="lab-check" onSubmit={e=>{e.preventDefault();setChecked(true);}}><label>{label}<input aria-label={label} value={value} maxLength={80} onChange={e=>{setChecked(false);onChange(e.target.value);}}/></label><button className="lab-button" disabled={!value.trim()}>核对推演</button>{checked&&<Feedback good={correct}>{correct?explanation:'暂不一致。先在纸上逐步执行题目规则，区分题目答案和错误写法的输出，再检查一次。'}</Feedback>}</form>;
+}
+export default function GuidedProblem({problem:p,draft,update,rows,lockedProblems,onTrain,experiment}){
+ const step=Math.max(0,Math.min(4,Number(draft.step)||0)),steps=['读条件与建模','推演小例','连接代码','反例与迁移','自行实现'];
+ const locked=lockedProblems.find(r=>matchesGraphProblem(r,p)),row=rows.find(r=>matchesGraphProblem(r,p));
+ return <><h2>{p.pid} · {p.title}</h2><p className="lab-caption">CF 官方 {p.rating} · <a href={p.url} target="_blank" rel="noreferrer">原题<ExternalLink size={12}/></a></p>{locked?<section className="lab-panel"><h3>跟做指导已锁定</h3><p>本题或同源别名正在模拟赛中，交卷后可查看指导。</p><button className="lab-button" onClick={()=>onTrain?.(locked.id)}>返回考场</button></section>:<><nav className="lab-guided-steps" aria-label="解题过程">{steps.map((name,i)=><button key={name} aria-current={step===i?'step':undefined} onClick={()=>update(old=>({...old,step:i,assisted:old.assisted||i===2||i===3}))}>{i+1} {name}</button>)}</nav>
+ {step===0&&<><section className="lab-panel"><h3>先把允许的操作与目标说清</h3><p>{p.statement}</p><p className="lab-caption">{p.ranges}</p><label className="seq-code-input">这个问题需要保留哪些状态？<textarea aria-label="我的建模说明" rows={3} value={draft.model||''} onChange={e=>update(old=>({...old,model:e.target.value}))}/></label><p>{p.insight}</p></section></>}
+ {step===1&&<><section className="lab-panel"><h3>先算本题的小例</h3><Prediction key={p.pid+'example'} label={p.question} answer={p.answer} explanation={p.calculation} saved={draft.answer} onChange={answer=>update(old=>({...old,answer}))}/></section>{experiment}</>}
+ {step===2&&<section className="lab-panel"><h3>把关键变化写成一行</h3><p>{p.lineReason}</p><label className="seq-code-input">写出你会使用的关键 C++ 语句<textarea aria-label="关键 C++ 语句" rows={3} value={draft.code||''} onChange={e=>update(old=>({...old,code:e.target.value}))}/></label><button className="lab-button lab-button-quiet" onClick={()=>update(old=>({...old,reference:!old.reference}))}>{draft.reference?'收起参考':'对照参考行'}</button>{draft.reference&&<CodeBlock code={p.line}/>}<p className="lab-caption">这里是教学对照，不是编译评测。等价写法请在工作台运行验证。</p></section>}
+ {step===3&&<section className="lab-panel"><h3>执行错误写法，找出第一次偏离</h3><Prediction key={p.pid+'bug'} label={p.bug} answer={p.bugAnswer} explanation={p.bugWhy} saved={draft.bugAnswer} onChange={bugAnswer=>update(old=>({...old,bugAnswer}))}/><label className="seq-code-input">修复依据是什么？哪些条件变化后方法会失效？<textarea rows={3} value={draft.recall||''} onChange={e=>update(old=>({...old,recall:e.target.value}))}/></label></section>}
+ {step===4&&<section className="lab-panel"><h3>由你实现完整程序</h3><p>{p.complexity}</p><ul className="seq-checklist">{p.tests.map((item,i)=><li key={item}><label><input type="checkbox" checked={(draft.tested||[]).includes(i)} onChange={()=>update(old=>({...old,tested:(old.tested||[]).includes(i)?old.tested.filter(x=>x!==i):[...(old.tested||[]),i]}))}/>{item}</label></li>)}</ul>{row?<button className="lab-button" onClick={()=>onTrain?.(row.id,{assisted:!!draft.assisted})}>进入工作台自行实现<ArrowRight size={16}/></button>:<a className="lab-button" href={p.url} target="_blank" rel="noreferrer">打开原题实现</a>}<p className="lab-caption">课堂预测与自检不产生 AC。进入代码或查错指导后会保留辅助标记；直接跳去实现不补造辅助记录。</p></section>}</>}</>;
+}

@@ -15,6 +15,15 @@ class CatalogViewTests(unittest.TestCase):
     setUp = fixtures.ServiceTests.setUp
     tearDown = fixtures.ServiceTests.tearDown
 
+    def test_opening_a_problem_decodes_catalog_once_and_next_open_sees_changes(self):
+        with patch.object(self.library, 'data', wraps=self.library.data) as read:
+            result = self.service.start_training('fixture::A')
+            self.assertEqual(read.call_count, 1)
+            self.library.rows[0]['title'] = 'Updated between opens'
+            result = self.service.start_training('fixture::A')
+            self.assertEqual(read.call_count, 2)
+            self.assertEqual(self.service._row('fixture::A')['title'], 'Updated between opens')
+
     def test_insights_reads_one_catalog_and_the_next_request_is_fresh(self):
         with patch.object(self.library, 'data', wraps=self.library.data) as read:
             self.service.insights()

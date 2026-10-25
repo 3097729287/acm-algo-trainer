@@ -334,7 +334,7 @@ DISCOVERY_ADAPTERS={'codeforces':discover_curated_cf,'luogu':discover_lg,'atcode
 
 def statement(client,identity,title,url):
     import fetch_problem as adapter
-    from statement_format import html_markdown, nowcoder_statement, nowcoder_explanations
+    from statement_format import html_markdown, nowcoder_statement, nowcoder_explanations, codeforces_samples
     parsed=urlsplit(url);host=parsed.hostname;limits={'timeMs':2000,'memoryMb':256};body='';samples=[];official_tags=None;translation=None
     if host=='www.luogu.com.cn':
         pid=parsed.path.rsplit('/',1)[-1];p=lg_data(client.json(url,headers={'x-lentille-request':'content-only'})).get('problem') or {}
@@ -367,7 +367,7 @@ def statement(client,identity,title,url):
         if tl:limits['timeMs']=round(float(tl[1])*1000)
         if ml:limits['memoryMb']=int(ml[1])
     elif host=='codeforces.com':
-        page=client.text(url);_,body,raw=adapter.cf_statement(page);samples=[{'name':x['name'],'input':x['in'],'output':x['out']} for x in raw]
+        page=client.text(url);_,body,_=adapter.cf_statement(page);samples=codeforces_samples(page)
         tl=re.search(r'Time limit:\s*([\d.]+)\s*seconds?',body,re.I);ml=re.search(r'Memory limit:\s*(\d+)\s*megabytes',body,re.I)
         if tl:limits['timeMs']=round(float(tl[1])*1000)
         if ml:limits['memoryMb']=int(ml[1])

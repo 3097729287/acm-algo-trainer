@@ -1,4 +1,4 @@
-// The thumb follows the physical rail. Only the committed difficulty is rounded.
+// Convert physical rail coordinates before snapping both the thumb and value.
 export function difficultyPointerValue(clientX, {left,width,min=0,max=4000}) {
   const fraction=Math.max(0,Math.min(1,(clientX-left-6)/Math.max(1,width-12)));
   return min+fraction*(max-min);

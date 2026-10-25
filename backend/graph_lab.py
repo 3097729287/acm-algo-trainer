@@ -8,6 +8,7 @@ from integrations import canonical
 @lru_cache(maxsize=1)
 def courses():
     result = json.loads(resource('graph-lab.json').read_text(encoding='utf-8'))
+    result.update(json.loads(resource('sorting-lab.json').read_text(encoding='utf-8')))
     for index, course in enumerate(json.loads(resource('sequence-replays.json').read_text(encoding='utf-8'))):
         result['sequence-' + str(index)] = course
     return result

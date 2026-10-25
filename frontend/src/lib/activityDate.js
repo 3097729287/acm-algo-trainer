@@ -22,9 +22,9 @@ export function fitActivityGrid(width,height,count=31,gap=7) {
  return {columns:best.columns,size:Math.max(1,Math.floor(best.size))};
 }
 export function fitCompactActivityGrid(width,height,count) {
- const previous=fitActivityGrid(width,height,count,5);
+ const previous=fitActivityGrid(width,height,count,3);
  const rows=Math.ceil(count/previous.columns),columns=Math.ceil(count/rows);
- return {columns,rows,size:Math.max(1,Math.floor(Math.min(48,previous.size)/2))};
+ return {columns,rows,size:Math.max(1,Math.floor(previous.size))};
 }
 export const activitySegmentSize=maximum=>Math.max(5,Math.ceil((Number(maximum)||0)/25)*5);
 
@@ -36,8 +36,8 @@ export function monthDays(month) {
 export function activityMonths(endingMonth) {
  if(!monthDays(endingMonth).length)return [];
  const [year,month]=endingMonth.split('-').map(Number);
- return Array.from({length:4},(_,i)=>{
-  const date=new Date(Date.UTC(year,month-4+i,1));
+ return Array.from({length:12},(_,i)=>{
+  const date=new Date(Date.UTC(year,month-12+i,1));
   return `${date.getUTCFullYear()}-${String(date.getUTCMonth()+1).padStart(2,'0')}`;
  });
 }

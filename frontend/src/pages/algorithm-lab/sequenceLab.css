@@ -72,10 +72,10 @@
 .seq-checklist { padding-left:0; list-style:none; }
 .seq-checklist label { display:flex; align-items:start; gap:10px; line-height:1.9; margin:12px 0; font-size:.83rem; }
 .seq-next { border-color:color-mix(in srgb,var(--accent) 45%,var(--line)); }
-.lab-multi-catalog { display:grid; gap:18px; padding:20px clamp(8px,2vw,26px) 50px; }
+.lab-multi-catalog { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr)); max-width:none; gap:18px; align-items:stretch; padding:20px clamp(8px,2vw,26px) 50px; }
 .lab-multi-catalog>h2 { font-size:1.65rem; margin:0 0 4px; }
 .lab-multi-catalog>p { color:var(--muted); margin:0 0 7px; font-size:.87rem; line-height:1.8; }
-.lab-multi-catalog .lab-panel { margin:0; border-radius:15px; background:var(--panel); }
+.lab-multi-catalog .lab-panel { display:flex; flex-direction:column; margin:0; border-radius:15px; background:var(--panel); }
 .lab-multi-catalog .seq-catalog-description { color:var(--muted); font-size:.86rem; line-height:1.9; max-width:730px; }
 .seq-catalog-number { color:var(--accent); font:.71rem Consolas,monospace; display:block; margin-bottom:12px; }
 .seq-catalog-meta { color:var(--muted); font-size:.73rem; margin:14px 0; }
@@ -90,3 +90,6 @@
 @media(max-width:480px) { .seq-course .lab-course-header { flex-wrap:wrap; gap:7px; } .seq-course .lab-course-tools { margin-left:0; } .seq-course .lab-course-header h1 { font-size:.98rem; } }
 @media(max-width:650px) { .seq-panel { padding:18px 14px; } .seq-metrics { grid-template-columns:repeat(2,minmax(0,1fr)); } .seq-candidates { gap:2px; } .seq-candidates span { font-size:.58rem; padding:9px 0; } .seq-course .lab-course-header h1 { font-size:1.1rem; } .seq-timeline .lab-button { padding:9px 11px; } }
 @media(prefers-reduced-motion:reduce) { .seq-cell { transition:none; } }
+
+.lab-multi-catalog .lab-course-options {margin-top:auto;padding-top:16px}
+.lab-multi-catalog>.page-search {grid-column:1/-1}

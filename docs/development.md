@@ -1,5 +1,11 @@
 # TB 开发与构建
 
+## 1.4.11 本机发行准备
+
+运行 `python scripts/library_seed.py build`、`python scripts/check.py`、前端构建，以及 `node tests/navigation-1411-model.mjs`、`node tests/sorting-model.mjs`、`node tests/release-1411.mjs`。新增 33 份参考程序通过 553 次样例和独立对照执行；排序步骤模型覆盖 954 条轨迹。界面检查覆盖三种窗口、导航、确认框和 56 份原文/译文渲染。旧 1.4.10 截图脚本的四个月/七课程断言只适用于历史版本。
+
+固定干净的本地提交后构建普通 Setup 与私有管理员程序；在 D 盘隔离目录验证冻结运行时、十门课程、新装/升级/卸载、更新助手及增量应用。实际通过结果、提交、SHA-256 和个人数据库在线备份记录在本机当前更新与随包 BUILD-INFO。按照本次用户要求不推送 GitHub、不发布资产、不部署服务，`sourcePushed` 必须如实为 false。公共 feed 仍停留在已发布版，不能把本机安装完成写成所有用户已收到更新。
+
 ## 1.4.10 本机验收
 
 `python scripts/check.py` 检查隔离数据库与后端；`npm run build` 构建前端；`node tests/release-1410.mjs` 覆盖三种窗口、自动分页、滑块位置、日期顺序和课程入口。新增 20 道参考程序通过官方样例与 1500 组独立随机对拍，详见本机交付记录。打包必须来自干净本地提交，冻结程序、新装、升级、卸载独立验证。没有向原站发送验证提交，没有部署服务或推送 GitHub。

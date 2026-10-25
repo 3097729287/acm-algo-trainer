@@ -155,7 +155,7 @@ def main():
         new_output.mkdir(); old_output.mkdir()
         run([args.inno, '/DAppId=' + identity, '/DPackageDir=' + str(package),
              '/DOutputDir=' + str(new_output), '/DWebViewInstaller=' + str(args.webview2),
-             '/DAppVersion=' + version, ROOT / 'packaging/installer/tb.iss'], work / 'compile-new.log')
+             '/DAppVersion=' + version, '/DSkipLegacyRetirement=1', ROOT / 'packaging/installer/tb.iss'], work / 'compile-new.log')
         old_source = args.legacy_iss.read_text(encoding='utf-8-sig')
         original_id = 'AppId={{0F82D178-AC2B-4696-96C1-1A210F72B509}'
         assert original_id in old_source

@@ -33,7 +33,7 @@ export default function ActivityPage({insights}) {
  useEffect(()=>{
   const move=event=>{
    if(event.defaultPrevented||event.altKey||event.ctrlKey||event.metaKey||!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key)||event.target.closest?.('input,textarea,select,[contenteditable=true],dialog,.tb-select-menu'))return;
-   if(!available.length)return;
+   if(!available.length||!event.target.closest?.('.activity-continuous-grid'))return;
    const index=Math.max(0,available.indexOf(selected)),delta={ArrowLeft:-grid.rows,ArrowRight:grid.rows,ArrowUp:-1,ArrowDown:1}[event.key];
    event.preventDefault();pick(available[Math.max(0,Math.min(available.length-1,index+delta))]);
   };
@@ -62,9 +62,9 @@ export default function ActivityPage({insights}) {
  const count=activity.get(selected)?.officialAccepted||0;
  return <div className="activity-page activity-month-page" aria-label="训练活动">
   <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索活动日期" value={query} aria-invalid={invalid||undefined} onChange={event=>setQuery(event.target.value)}/></label></PageSearch>
-  <section className="progress-section activity-month-panel" aria-label="四个月训练日历">
-   <header className="activity-month-heading"><h2><CalendarDays size={18}/>训练日历<Tooltip label="训练日历说明" text="所选月份及之前三个月按日期连续排列。按北京时间统计原站 AC，同题同日计一次。悬停或点击查看当天，上下键切换相邻日期，左右键切换相邻列；下方明细随所选日期切换月份。"/></h2><label className="activity-month-picker"><span>截至</span><input type="month" aria-label="活动时间" value={endingMonth} max={today.slice(0,7)} onChange={event=>changeMonth(event.target.value)}/></label></header>
-   <div ref={gridRef} className="activity-square-viewport"><div className="activity-month-grid activity-continuous-grid" role="grid" aria-colcount={grid.columns} aria-rowcount={grid.rows} aria-label="四个月连续训练日历，方向键切换日期" style={{gridTemplateColumns:`repeat(${grid.columns},${grid.size}px)`,gridTemplateRows:`repeat(${grid.rows},${grid.size}px)`,gridAutoFlow:'column'}}>
+  <section className="progress-section activity-month-panel" aria-label="全年训练日历">
+   <header className="activity-month-heading"><h2><CalendarDays size={18}/>训练日历<Tooltip label="训练日历说明" text="截至所选月份的十二个月，日期从上到下、再向右排列。按北京时间统计原站 AC，同题同日计一次。悬停或点击查看当天，上下键切换相邻日期，左右键切换相邻列；下方明细随所选日期切换月份。"/></h2><label className="activity-month-picker"><span>截至</span><input type="month" aria-label="活动时间" value={endingMonth} max={today.slice(0,7)} onChange={event=>changeMonth(event.target.value)}/></label></header>
+   <div ref={gridRef} className="activity-square-viewport"><div className="activity-month-grid activity-continuous-grid" role="grid" aria-colcount={grid.columns} aria-rowcount={grid.rows} aria-label="全年连续训练日历，方向键切换日期" style={{gridTemplateColumns:`repeat(${grid.columns},${grid.size}px)`,gridTemplateRows:`repeat(${grid.rows},${grid.size}px)`,gridAutoFlow:'column'}}>
     {allDays.map(day=>{const amount=activity.get(day)?.officialAccepted||0;return <button type="button" role="gridcell" key={day} ref={node=>{if(node)buttons.current.set(day,node);else buttons.current.delete(day);}} className={`activity-day activity-level-${levelOf(amount)}${selected===day?' activity-selected':''}`} disabled={day>today} tabIndex={day===selected?0:-1} aria-label={`${day}，${amount} 题通过`} aria-selected={day===selected} title={`${day} · AC : ${amount}`} onFocus={()=>setSelected(day)} onClick={()=>pick(day)}/>;})}
    </div></div>
    <div className="activity-selected-summary"><time dateTime={selected}>{selected.replaceAll('-','/')}</time><span className="activity-selected-count">AC<span className="metric-separator">:</span><b>{count}</b></span><ActivityProgress count={count} step={step}/></div>
@@ -72,7 +72,7 @@ export default function ActivityPage({insights}) {
   <section className="progress-section activity-month-details" aria-label="日期明细">
    <header className="activity-detail-heading"><h2>日期明细</h2><span>{invalid?'日期格式无效':`${monthLabel(month)} · ${records.length} 天`}</span></header>
    <div ref={tableRef} className="activity-detail-table" data-full={visible.length===pageSize}><table style={{'--activity-row-count':Math.max(1,visible.length)}}><thead><tr><th>日期</th><th>AC</th></tr></thead><tbody>{visible.map(day=><tr key={day} data-selected={day===selected}><td><button type="button" className="progress-text-button" onClick={()=>pick(day)}>{day.replaceAll('-','/')}</button></td><td><span className="activity-detail-progress"><ActivityProgress count={activity.get(day)?.officialAccepted||0} step={step}/><b>{activity.get(day)?.officialAccepted||0}</b></span></td></tr>)}</tbody></table>{!records.length&&<p className="progress-muted">{searchedDate?'这一天没有已保存的活动记录。':'本月还没有活动记录。'}</p>}</div>
-   <footer className="activity-pagination"><span>共 {records.length} 天 · 每页 {pageSize} 行</span><button type="button" className="icon-button" aria-label="上一页日期明细" disabled={currentPage<=1} onClick={()=>setPage(value=>value-1)}><ChevronLeft size={16}/></button><span>{currentPage} / {pages}</span><button type="button" className="icon-button" aria-label="下一页日期明细" disabled={currentPage>=pages} onClick={()=>setPage(value=>value+1)}><ChevronRight size={16}/></button></footer>
+   <nav className="library-pagination" aria-label="日期明细分页"><span>共 {records.length} 天</span><div className="pagination-actions"><button type="button" aria-label="上一页日期明细" disabled={currentPage<=1} onClick={()=>setPage(value=>value-1)}><ChevronLeft size={15}/>上一页</button><span>第 {currentPage} / {pages} 页</span><button type="button" aria-label="下一页日期明细" disabled={currentPage>=pages} onClick={()=>setPage(value=>value+1)}>下一页<ChevronRight size={15}/></button></div></nav>
   </section>
  </div>;
 }

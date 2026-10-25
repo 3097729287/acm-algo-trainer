@@ -274,6 +274,7 @@ function level(list) {
   return 2;
 }
 export function compareTrainingLists(a, b) {
+  if(Number.isFinite(a.curriculumOrder)&&Number.isFinite(b.curriculumOrder))return a.curriculumOrder-b.curriculumOrder;
   return level(a) - level(b) || collator.compare(a.displayTitle, b.displayTitle) || collator.compare(a.id, b.id);
 }
 export function compareCategoryNames(a, b, parent = '') {

@@ -14,3 +14,7 @@
 .catalog-view-toggle[aria-pressed=true] { color:var(--accent); border-color:var(--accent); }
 
 .catalog-paged{overflow:hidden;display:flex;flex-direction:column;gap:7px;padding-block:0}.catalog-paged>.catalog-folder-row{height:59px;min-height:59px;flex:none}.catalog-paged>.catalog-contest-entry{flex:none}.catalog-paged .competition-card{height:80px;overflow:hidden}.catalog-paged .competition-problem-tokens{max-height:3em;overflow:hidden}
+
+.catalog-folder-row strong {font-size:1.08rem;line-height:1.55}
+.catalog-folder-row {min-height:50px}
+.catalog-path button:disabled {opacity:.35;cursor:default}

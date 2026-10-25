@@ -2298,5 +2298,13 @@
       "origin": "https://www.python.org/downloads/release/python-31316/",
       "sha256": "59688d8633ce27b1d8220f223b9520c4e039e4ba6ccceb345793a74fd5c155b9"
     }
+  ],
+  "artwork": [
+    {
+      "name": "Noto Emoji T-Rex",
+      "revision": "2113860cf5fcae91201a765bd1888ac4c54b9464",
+      "license": "Apache-2.0",
+      "licenseFile": "frontend/dist/licenses/noto-emoji/LICENSE.txt"
+    }
   ]
 }

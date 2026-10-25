@@ -37,13 +37,13 @@ export default function DifficultyRange({ value, onChange, min = 0, max: maximum
     const key=current.overlap?(distance<0?'min':'max'):current.key;
     const raw=difficultyPointerValue(event.clientX,{...current,min,max});
     const visual=key==='min'?Math.min(raw,current.high):Math.max(raw,current.low);
-    setPointer({key,value:visual});
+    setPointer({key,value:snapDifficulty(visual,{min,max,step})});
     slide(key,visual);
   };
   const endDrag=event=>{if(drag.current?.pointerId===event.pointerId){drag.current=null;setPointer(null);if(event.currentTarget.hasPointerCapture(event.pointerId))event.currentTarget.releasePointerCapture(event.pointerId);}};
   const pointerProps={onPointerMove:moveDrag,onPointerUp:endDrag,onPointerCancel:endDrag,onLostPointerCapture:()=>{drag.current=null;setPointer(null);}};
   // Keep native range semantics for keyboard and assistive technology. Pointer
-  // movement is continuous; releasing snaps the handle to the displayed value.
+  // movement and the visible thumb share the same 100-point steps.
   const visualLow=!disabled&&pointer?.key==='min'?pointer.value:low;
   const visualHigh=!disabled&&pointer?.key==='max'?pointer.value:high;
   const nativeStep='any';

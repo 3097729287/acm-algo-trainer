@@ -34,3 +34,6 @@ html .training-lists-page .training-list-table :is(th,td):nth-child(3) { width:1
   .training-list-content .catalog-folder-row > span { font-size:.75rem; }
   .training-lists-page > .library-pagination { flex-wrap:wrap; }
 }
+
+.training-problem-row:not([aria-disabled=true]) {cursor:pointer}
+.training-problem-row:not([aria-disabled=true]):hover {background:var(--hover)}

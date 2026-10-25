@@ -319,7 +319,9 @@ class TrainingService:
         return sorted({identity} | {other for other, target in aliases.items() if target == canonical})
 
     def start_training(self, identity, *, assisted=False):
-        with self.lock:
+        # One catalog snapshot for activation, aliases, review scheduling and the
+        # returned workspace; repeated full catalog decoding delays single tasks.
+        with self.lock, self._library_view():
             self._row(identity)
             if assisted:
                 self.assert_solution_unlocked(identity)

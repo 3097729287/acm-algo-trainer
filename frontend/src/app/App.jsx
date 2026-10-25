@@ -1,6 +1,7 @@
 import {useFittedPageSize} from '@/lib/useFittedPageSize.js';
 import SortDirection from '@/components/SortDirection.jsx';
-import {uniformIndex} from '@/lib/uniformRandom.js';
+import RandomProblem from '@/components/RandomProblem.jsx';
+import useNavigationKeys from '@/lib/useNavigationKeys.js';
 import useUsage from '@/lib/useUsage.js';
 import PopConfirm from '@/components/PopConfirm.jsx';
 import {matchesShortcut} from '@/lib/shortcuts.js';
@@ -30,7 +31,6 @@ import {
   Suspense,
 } from "react";
 import {
-  Dices,
   BookOpen,
   FlaskConical,
   Library,
@@ -110,7 +110,8 @@ import {
   trainingGroup,
 } from "@/models/workspaceModel.js";
 
-const Workbench = lazy(() => import("./Workbench.jsx"));
+const loadWorkbench = () => import("./Workbench.jsx");
+const Workbench = lazy(loadWorkbench);
 const progressPanel = name => lazy(() => import('@/pages/ProgressPanels.jsx').then(module => ({ default: module[name] })));
 const GrowthPage = progressPanel('GrowthPage'), ActivityPage = progressPanel('ActivityPage'), CompetitionPage = progressPanel('CompetitionPage');
 const UpdatePanel = progressPanel('UpdatePanel'), AchievementPanel = progressPanel('AchievementPanel'), DailyTasks = progressPanel('DailyTasks');
@@ -539,6 +540,7 @@ function KnowledgeTree({
 }
 
 export default function App() {
+  useNavigationKeys();
   const [finishAnchor,setFinishAnchor] = useState(null);
   const [prefs, setPrefs] = useState(readPreferences),
     [data, setData] = useState(null),
@@ -1083,6 +1085,7 @@ export default function App() {
       return;
     }
     setBusy(true);
+    void loadWorkbench().catch(()=>{});
     const list = listRef.current;
     const context = contextRef.current && practiceId ? contextRef.current : {
       page, ids: problemIds || visibleRef.current.map(row => row.id), id, libraryPage: currentLibraryPage,
@@ -1647,7 +1650,7 @@ export default function App() {
           <Difficulty value={row.difficulty} row={row} />
         </td>
         <td>
-          <Verdict scope={row.scope} value={row.accepted ? "AC" : row.verdict} accepted={row.accepted} />{row.reviewTask&&<Tooltip text="使用独立草稿复习，原有代码与记录保留"><span className="review-status-note">待复习</span></Tooltip>}
+          <Verdict scope={row.scope} value={row.accepted ? "AC" : row.verdict} accepted={row.accepted} />
         </td>
         <td className="last-date">
           {row.lastActivityAt || row.lastSubmittedAt
@@ -1730,7 +1733,7 @@ export default function App() {
             <th>提交结果</th><th>最近练习</th><th><span className="sr-only">操作</span></th>
           </tr></thead>
           <tbody>{groups ? groups.filter(group => group.rows.length).map(group => (
-            <FragmentRows key={group.id} header={<tr className={"queue-heading " + group.color}><td colSpan={6}><strong>{group.name}</strong><span>{group.rows.length} 题</span>{group.description && <small>{group.description}</small>}</td></tr>}>
+            <FragmentRows key={group.id} header={<tr className={"queue-heading " + group.color}><td colSpan={6}><strong>{group.name}</strong><span>{group.rows.length} 题</span></td></tr>}>
               {renderRows(group.rows)}
             </FragmentRows>
           )) : renderRows(items)}</tbody>
@@ -1743,7 +1746,7 @@ export default function App() {
     );
   }
   function toolbar() {
-    return <PageSearch><label className="search-box"><Search size={17}/><input ref={searchRef} aria-label="搜索题目" value={currentFilters.query} onChange={event=>setFilter({query:event.target.value})} onKeyDown={event=>{if(['ArrowDown','Enter'].includes(event.key)){event.preventDefault();focusList();}}}/></label><SortDirection label="切换题目排序方向" descending={currentFilters.desc} onChange={desc=>setFilter({desc})}/><ProblemFilters rows={data?.rows || []} categories={categories} views={prefs.views||[]} onDeleteView={id=>setPrefs(previous=>({...previous,views:previous.views.filter(view=>view.id!==id)}))} value={currentFilters} onChange={setFilter} onReset={resetFilters} onSave={()=>{setViewName('');setDialog('saveView');}} onClear={page==='mine'?()=>setDialog('clear-training'):undefined} clearDisabled={busy||!mine.length||!!active||!!workspace.summary.pending}/>{page==='library'&&<Tooltip text={`随机单题 · 当前筛选 ${visible.length} 题，每题等概率`}><button type="button" className="icon-button catalog-random" aria-label="随机单题" disabled={busy||!visible.length||query!==currentFilters.query} onClick={()=>{try{openPractice(visible[uniformIndex(visible.length)].id);}catch(error){notice(error.message,'error');}}}><Dices size={18}/></button></Tooltip>}{currentFilters.category&&<span className="active-knowledge-filter" role="group" aria-label="当前知识点筛选"><span>{currentFilters.category.name}</span><button type="button" aria-label={`清除知识点筛选 ${currentFilters.category.name}`} onClick={()=>setFilter({category:null})}><X size={13}/></button></span>}</PageSearch>;
+    return <PageSearch><label className="search-box"><Search size={17}/><input ref={searchRef} aria-label="搜索题目" value={currentFilters.query} onChange={event=>setFilter({query:event.target.value})} onKeyDown={event=>{if(['ArrowDown','Enter'].includes(event.key)){event.preventDefault();focusList();}}}/></label><SortDirection label="切换题目排序方向" descending={currentFilters.desc} onChange={desc=>setFilter({desc})}/><ProblemFilters rows={data?.rows || []} categories={categories} views={prefs.views||[]} onDeleteView={id=>setPrefs(previous=>({...previous,views:previous.views.filter(view=>view.id!==id)}))} value={currentFilters} onChange={setFilter} onReset={resetFilters} onSave={()=>{setViewName('');setDialog('saveView');}} onClear={page==='mine'?()=>setDialog('clear-training'):undefined} clearDisabled={busy||!mine.length||!!active||!!workspace.summary.pending}/>{page==='library'&&<RandomProblem rows={visible} disabled={busy||query!==currentFilters.query} onChoose={openPractice} onError={error=>notice(error.message,'error')}/>}{currentFilters.category&&<span className="active-knowledge-filter" role="group" aria-label="当前知识点筛选"><span>{currentFilters.category.name}</span><button type="button" aria-label={`清除知识点筛选 ${currentFilters.category.name}`} onClick={()=>setFilter({category:null})}><X size={13}/></button></span>}</PageSearch>;
   }
 
   function renderListPage() {

@@ -206,6 +206,18 @@ def prepare(app):
         if (recovery/name).exists(): shutil.copytree(recovery/name, app/name, dirs_exist_ok=True)
 
 
+def redirect_shortcuts(links, old, app):
+    selected = [path for path, target in links.items() if Path(target).parent.resolve() == old.resolve()]
+    if not selected:
+        return
+    def literal(value):
+        return "'" + str(value).replace("'", "''") + "'"
+    script = '$w=New-Object -ComObject WScript.Shell;'
+    for path in selected:
+        script += f'$s=$w.CreateShortcut({literal(path)});$s.TargetPath={literal(app/"TB新版.exe")};$s.WorkingDirectory={literal(app)};$s.IconLocation={literal(app/"tb.ico")};$s.Save();'
+    powershell(script + '@{}|ConvertTo-Json')
+
+
 def start(app, ready):
     app = Path(app).resolve()
     def work():
@@ -223,16 +235,36 @@ def start(app, ready):
                     result = retire(candidate, app, catalog, running=running)
                     if result['status'] != 'retired': continue
                     completed.add(str(root))
-                    selected = {path: target for path, target in links.items() if Path(target).parent.resolve() == root.resolve()}
-                    if selected:
-                        q = lambda value: "'"+str(value).replace("'", "''")+"'"
-                        script = '$w=New-Object -ComObject WScript.Shell;'
-                        for path in selected:
-                            script += f'$s=$w.CreateShortcut({q(path)});$s.TargetPath={q(app/"TB新版.exe")};$s.WorkingDirectory={q(app)};$s.IconLocation={q(app/"tb.ico")};$s.Save();'
-                        powershell(script+'@{}|ConvertTo-Json')
+                    redirect_shortcuts(links, root, app)
                     report = app/'state/legacy-cleanup.json'
                     report.write_text(json.dumps({'last': str(root), **result}, ensure_ascii=False), encoding='utf8')
             except Exception as issue:
                 logging.getLogger('tb.legacy').warning('Legacy cleanup deferred: %s', type(issue).__name__)
             time.sleep(60)
     threading.Thread(target=work, name='tb-legacy-cleanup', daemon=True).start()
+
+
+def finish_install(app):
+    """Run without opening a window or waiting for cloud-account sign-in."""
+    app = Path(app).resolve()
+    # A failed migration must stop retirement before any program is removed.
+    prepare(app)
+    catalog = load_catalog()
+    roots, running, links = discover(app)
+    results = []
+    for root in roots:
+        candidate = identify(root, app, catalog)
+        if not candidate:
+            continue
+        try:
+            result = retire(candidate, app, catalog, running=running)
+            if result['status'] == 'retired':
+                redirect_shortcuts(links, root, app)
+            results.append({'source': str(root), **result})
+        except (OSError, ValueError, TimeoutError, subprocess.SubprocessError) as error:
+            # Preserve other workspaces even when one is busy or modified.
+            results.append({'source': str(root), 'status': 'deferred', 'error': type(error).__name__})
+    report = app/'state/legacy-install-cleanup.json'
+    report.parent.mkdir(parents=True, exist_ok=True)
+    report.write_text(json.dumps({'results': results}, ensure_ascii=False), encoding='utf8')
+    return results

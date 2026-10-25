@@ -36,7 +36,7 @@ AppVersion={#AppVersion}
 AppPublisher=TB contributors
 AppPublisherURL=https://github.com/3097729287/acm-algo-trainer
 AppSupportURL=https://github.com/3097729287/acm-algo-trainer/issues
-AppUpdatesURL=https://github.com/3097729287/acm-algo-trainer/releases
+AppUpdatesURL=https://47.82.84.74/updates/stable/manifest-v1.json
 DefaultDirName={localappdata}\Programs\{#ProductDir}
 DefaultGroupName={#ProductName}
 DisableProgramGroupPage=yes
@@ -132,6 +132,15 @@ begin
     else if ExitCode <> 0 then
       MsgBox('旧记录尚未完整迁入；原数据已保留。请关闭旧软件后重新运行安装程序。', mbError, MB_OK);
   end;
+#ifndef SkipLegacyRetirement
+  if CurStep = ssPostInstall then
+  begin
+    if not Exec(ExpandConstant('{app}\TB新版.exe'), '--retire-legacy', ExpandConstant('{app}'), SW_HIDE, ewWaitUntilTerminated, ExitCode) then
+      Log('Legacy-program migration deferred; originals preserved.')
+    else if ExitCode <> 0 then
+      Log('Legacy-program migration not completed; originals preserved for retry.');
+  end;
+#endif
 #endif
 end;
 

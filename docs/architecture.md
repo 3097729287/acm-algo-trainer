@@ -1,5 +1,15 @@
 # TB 架构
 
+## 1.4.11 学习路线、排序与交付
+
+`trainingCurriculum.js` 在展示层把原题单映射到九个学习阶段，按规范题目身份去重；`problemOrder.js` 统一深层题目排序。原来源目录、题目身份及个人训练记录不迁移。`useNavigationKeys.js` 只操作唯一可见分页/返回入口，避让输入、编辑器、网格及弹窗。
+
+排序教学数据在 `backend/resources/sorting-lab.json`，纯步骤模型在 `sortingModel.js`，实验视图在 `SortingExperiment`；`GuidedProblem` 复用原图论跟做、考场锁定及工作台交接。`graph_lab.py` 提供同一原题身份的重现赛题组。
+
+保存网页的公式清理由 `statement_format.py` 处理，保留数学源而排除 KaTeX 重复视觉文字；题面图片沿用离线图片映射与阅读器。公共 JSON 生成独立 SQLite 种子，增量合并不替换个人数据库。
+
+安装收尾只退休已核实清单且缺国内更新能力的旧 TB 版本；先在线备份 SQLite 和迁移数据，排除源码、管理员、当前目录及未识别修改。运行中的旧版延期处理。隔离安装验证通过 `SkipLegacyRetirement` 禁用真实机器发现，退休逻辑另用临时目录验证。
+
 ## 1.4.10 模块边界
 
 - `contest_imports.py` 读取公开题单和题面，`contest_calendar.py` 管理开赛时刻、重试和状态；前端只显示导入状态与进入入口。

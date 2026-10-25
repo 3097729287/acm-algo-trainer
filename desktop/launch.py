@@ -340,4 +340,8 @@ if __name__ == "__main__":
         from migration import migrate_legacy
         result = migrate_legacy(APP_DIR)
         raise SystemExit(0 if result.get('ok') else 1)
+    if len(sys.argv) == 2 and sys.argv[1] == "--retire-legacy":
+        from legacy_cleanup import finish_install
+        finish_install(APP_DIR)
+        raise SystemExit(0)
     raise SystemExit(main())

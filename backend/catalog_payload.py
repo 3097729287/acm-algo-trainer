@@ -14,7 +14,7 @@ ROW_FIELDS = frozenset('''
     solutionAvailable solutionState detailedSolutionAvailable statementAvailable
     catalogHidden catalogNotice catalogVisibilityPolicy catalogContentReady
     contestDate startedAt endedAt contestDateSource contestDatePrecision
-    contestFullName contestId contestFamily contestRoster contestProblemCount
+    contestFullName contestId contestLetter contestFamily contestRoster contestProblemCount
     contestVariant contestDifficulty contestDifficultySource contestPhase
     collectionNotice collectionSource eventYear xcpcYear xcpcKind xcpcPlace
     examYear examStage examGroup region category phase shelf

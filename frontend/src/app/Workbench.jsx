@@ -17,6 +17,7 @@ import { primeAcceptedSound, playAcceptedSound } from '@/lib/acceptedSound.js';
 import { verdictLabel } from '@/models/workspaceModel.js';
 import CodeEditor from '@/components/CodeEditor.jsx';
 import InlineTitle from '@/components/InlineTitle.jsx';
+import ReadingImage, {readingUrlTransform} from '@/components/ReadingImage.jsx';
 import './Workbench.css';
 
 const TEMPLATE = '#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    \n    return 0;\n}\n';
@@ -152,9 +153,9 @@ function StatementPre({ children }) {
   const value = String(children?.props?.children ?? '');
   return <div className="wb-statement-code"><button className="wb-statement-copy" aria-label={copied ? '已复制' : '复制样例或代码'} onClick={async () => { try { await navigator.clipboard.writeText(value); setCopied(true); } catch { setCopied(false); } }}>{copied ? <Check size={14}/> : <Copy size={14}/>}</button><pre tabIndex={0}>{children}</pre></div>;
 }
-const StatementMarkdown = memo(function StatementMarkdown({ markdown, samples, title }) {
+const StatementMarkdown = memo(function StatementMarkdown({ markdown, samples, title, images }) {
   return <ReactMarkdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[[rehypeKatex, { throwOnError: false, strict: false, trust: false }]]}
-    components={{ pre: StatementPre, a: ({ node, ...props }) => <a {...props} target="_blank" rel="noreferrer" /> }}>{normalizeMarkdown(normalizeStatement(markdown, samples, title))}</ReactMarkdown>;
+    urlTransform={readingUrlTransform} components={{ pre: StatementPre, img: ({node,...props})=><ReadingImage {...props} images={images}/>, a: ({ node, ...props }) => <a {...props} target="_blank" rel="noreferrer" /> }}>{normalizeMarkdown(normalizeStatement(markdown, samples, title))}</ReactMarkdown>;
 });
 
 function CaseResults({ cases }) {
@@ -728,7 +729,7 @@ export default function Workbench({shortcuts={}, problemId, contest = null, revi
         <article className="wb-statement" ref={statementRef} tabIndex={0} aria-label="题面内容" style={{ '--statement-font-size': `${statementFontSize}px` }}>
           {loading ? <div className="wb-empty"><LoaderCircle className="wb-spinner" size={22} /><span>正在载入题面</span></div>
             : loadError ? <div className="wb-empty"><span>{loadError}</span><button type="button" className="wb-button" onClick={() => setLoadAttempt(value => value + 1)}><RotateCcw size={14} />重新载入</button></div>
-            : problem?.markdown ? <StatementMarkdown markdown={language === 'zh' && translation ? translation.markdown : problem.markdown} samples={problem.samples} title={problem.title} />
+            : problem?.markdown ? <StatementMarkdown markdown={language === 'zh' && translation ? translation.markdown : problem.markdown} samples={problem.samples} title={problem.title} images={problem.images} />
             : problem?.statementLoading ? <div className="wb-empty" role="status"><LoaderCircle className="wb-spinner" size={22}/><strong>正在读取原站题面</strong><span>代码和草稿已就绪，可以先编辑。</span>{problem?.url && <a className="wb-button" href={problem.url} target="_blank" rel="noreferrer">打开原题<ExternalLink size={14}/></a>}</div>
             : <div className="wb-empty"><BookOpen size={24} /><strong>题面暂时未能加载</strong><span>{problem?.statementError || '请重试读取原站题面。'}</span><button type="button" className="wb-button" onClick={retryStatement}><RotateCcw size={14} />重新载入</button>{problem?.url && <a className="wb-button" href={problem.url} target="_blank" rel="noreferrer">打开原题<ExternalLink size={14} /></a>}</div>}
         </article>
