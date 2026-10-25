@@ -107,8 +107,6 @@ def build_insights(rows, submissions, history, workspace, hub, now):
             credited_codes.add(code_key)
         if record.get("verdict") != "AC" or record.get("scope") != "official":
             continue
-        if day:
-            per_day[day]["officialAccepted"].add(identity)
         code_key = (identity, hashlib.sha256(record.get("code", "").encode()).hexdigest())
         if record.get("solution_seen"):
             viewed_codes.add(code_key)
@@ -128,12 +126,9 @@ def build_insights(rows, submissions, history, workspace, hub, now):
                 independent.setdefault(identity, (evidence["lower"], record.get("submitted_at")))
 
     official = set()
-    official_dates = {}
     for record in records:
         if record.get('mode')=='submit' and record.get('verdict')=='AC' and record.get('scope')=='official' and record.get('finished_at'):
             identity=aliases.get(record['problem_id'],record['problem_id']);official.add(identity)
-            day=_date(record.get('submitted_at'))
-            if day:official_dates[identity]=min(day,official_dates.get(identity,day))
     # Total solved includes verified public ACs outside the current library;
     # the knowledge/ability model below still uses known problem metadata.
     total_solved = {canonical_url(library.get(i, {}).get('url')) or 'local-id:'+i for i in official}
@@ -156,19 +151,16 @@ def build_insights(rows, submissions, history, workspace, hub, now):
                 if accepted_day:
                     solved_dates[key].add(accepted_day)
             row = by_url.get(canonical_url(solved.get("url")))
-            day = _date(solved.get("acceptedAt"))
-            if day and canonical_url(solved.get('url')):
-                per_day[day]["officialAccepted"].add(row['id'] if row else 'public:' + canonical_url(solved['url']))
             if not row:
                 continue
             identity = row["id"]
             official.add(identity)
-            day = _date(solved.get("acceptedAt"))
-            if day:
-                previous = official_dates.get(identity)
-                official_dates[identity] = min(day, previous) if previous else day
-    for identity, day in official_dates.items():
-        per_day[day]["officialAccepted"].add(identity)
+    # Attribute each canonical problem to its earliest verified AC across all
+    # receipts and public account evidence, before filtering the visible dates.
+    # Repeated attempts still count as activity/submissions, never as new solves.
+    first_solved_days = {key: min(dates) for key, dates in solved_dates.items() if dates}
+    for key, day in first_solved_days.items():
+        per_day[day]["officialAccepted"].add(key)
 
     active = {aliases.get(row["id"], row["id"]): row for row in workspace.get("training", [])}
     reviewed = {aliases.get(row["id"], row["id"]) for row in history if row.get("review_count", 0)}
@@ -189,8 +181,7 @@ def build_insights(rows, submissions, history, workspace, hub, now):
         current = current + 1 if previous and day == previous + dt.timedelta(days=1) else 1
         longest = max(longest, current)
         previous = day
-    start = today - dt.timedelta(days=1095)
-    activity = [{"date": day.isoformat(), "submissions": value["submissions"], "accepted": len(value["accepted"]), "officialAccepted": len(value["officialAccepted"])} for day, value in sorted(per_day.items()) if start <= day <= today]
+    activity = [{"date": day.isoformat(), "submissions": value["submissions"], "accepted": len(value["accepted"]), "officialAccepted": len(value["officialAccepted"])} for day, value in sorted(per_day.items()) if day <= today]
 
     tag_ids = defaultdict(set)
     for identity, row in library.items():
@@ -240,7 +231,7 @@ def build_insights(rows, submissions, history, workspace, hub, now):
     recommendations, level, basis = recommend_problems(library, active, independent, personal, official, hub)
     assessment.update(recommendationLevel=level, recommendationBasis=basis)
     before_today_solved = {key for key in total_solved if not solved_dates[key] or any(day < today for day in solved_dates[key])}
-    today_solved = {key for key in total_solved if today in solved_dates[key]}
+    today_solved = {key for key in total_solved if first_solved_days.get(key) == today}
     summary = {"beforeTodaySolved": len(before_today_solved), "todaySolved": len(today_solved), "active": len(active), "accepted": sum(bool(row.get("accepted")) for row in active.values()), "submissions": len(records), "activeDays": len(days), "streak": streak, "longestStreak": longest, "completedContests": len(completed_contests), "officialSolved": len(official), "totalSolved": len(total_solved), "localAccepted": len(personal), "samplePassed": len(samples)}
     ac_days=sorted(day for day,value in per_day.items() if value['officialAccepted'] and day<=today)
     longest_ac=current_ac=0;previous_ac=None

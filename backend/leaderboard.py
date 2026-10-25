@@ -4,6 +4,8 @@ from __future__ import annotations
 from concurrent.futures import ThreadPoolExecutor
 import datetime as dt
 import json
+import hashlib
+import re
 import logging
 import os
 from pathlib import Path
@@ -98,6 +100,7 @@ class LeaderboardClient:
         self.last_attempt = 0
         self.retry_timer = None
         self.last_public_progress = None
+        self.avatar_cache = {}
 
     def _request(self, profile, method, path, data=None):
         if getattr(self.training, "admin_mode", False):
@@ -181,12 +184,15 @@ class LeaderboardClient:
             if registered.get("userId") != profile["user_id"]:
                 raise RuntimeError("排行榜身份响应不匹配")
             if registered.get("publicProgressProtocol") == 1:
-                progress = self.training.public_progress()
-                signature = (profile["endpoint"], profile["user_id"], profile["auth_token"], progress)
+                payload = self.training.public_profile() if registered.get("publicAppearanceProtocol") == 1 else {"publicProgress": self.training.public_progress()}
+                progress = payload["publicProgress"]
+                signature = (profile["endpoint"], profile["user_id"], profile["auth_token"], payload)
                 if self.last_public_progress != signature:
-                    published = self._request(profile, "PUT", "/v1/profile", {"publicProgress": progress})
+                    published = self._request(profile, "PUT", "/v1/profile", payload)
                     if published.get("userId") != profile["user_id"] or published.get("publicProgress") != progress:
                         raise RuntimeError("排行榜成长资料响应不匹配")
+                    if "avatarData" in payload and published.get("avatarHash") != (hashlib.sha256(payload["avatarData"].encode()).hexdigest() if payload["avatarData"] else None):
+                        raise RuntimeError("排行榜头像响应不匹配")
                     self.last_public_progress = signature
             events = self.training._ranking_events(profile["endpoint"])
             for offset in range(0, len(events), 100):
@@ -270,6 +276,38 @@ class LeaderboardClient:
         value['hasSnapshot'] = cached is not None
         value['isAdmin'] = False  # User edition never exposes management authority.
         return value
+
+    def avatar(self, user_id, expected_hash):
+        from training import ServiceError
+        from preferences import validate_avatar
+        if not isinstance(user_id, str) or not re.fullmatch(r'[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}', user_id) or not isinstance(expected_hash, str) or not re.fullmatch(r'[0-9a-f]{64}', expected_hash):
+            raise ServiceError(400, '头像查询参数无效')
+        profile = self.training._ranking_profile()
+        if not profile.get('endpoint') or not profile.get('auth_token'):
+            raise ServiceError(401, '请先登录账号')
+        key = (profile['endpoint'], profile['user_id'], profile['auth_token'], user_id, expected_hash)
+        with self.lock:
+            if key in self.avatar_cache:
+                return dict(self.avatar_cache[key])
+        try:
+            value = self._request(profile, 'GET', '/v1/avatars/' + user_id)
+        except (RankingRequestError, RuntimeError):
+            raise ServiceError(503, '头像暂时无法读取') from None
+        validate_avatar(value.get('avatarData'))
+        digest = hashlib.sha256(value['avatarData'].encode()).hexdigest() if value['avatarData'] else None
+        if value.get('avatarHash') != digest:
+            raise ServiceError(502, '头像校验失败')
+        # A changed/deleted avatar is fetched under its new board hash next time.
+        value = {'avatarData': value['avatarData'], 'avatarHash': digest}
+        current = self.training._ranking_profile()
+        if (current.get('user_id'), current.get('auth_token')) != (profile['user_id'], profile['auth_token']):
+            raise ServiceError(401, '账号已切换')
+        if digest == expected_hash:
+            with self.lock:
+                if len(self.avatar_cache) >= 100:
+                    self.avatar_cache.pop(next(iter(self.avatar_cache)))
+                self.avatar_cache[key] = value
+        return dict(value)
 
     def admin_delete(self, body):
         from training import ServiceError

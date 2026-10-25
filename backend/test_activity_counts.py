@@ -30,7 +30,7 @@ class ActivityCountsTests(unittest.TestCase):
                 fetch.assert_called_once()
                 store.extensions.statement.assert_not_called()
 
-    def test_daily_official_unique_passes_include_repeated_days_and_exclude_samples(self):
+    def test_daily_first_passes_exclude_repeated_days_and_samples(self):
         rows = [{'id': 'p', 'url': 'https://codeforces.com/gym/123456/problem/A',
                  'tags': [], 'difficulty': 1200}]
         def record(time, scope='official', verdict='AC', identity='p'):
@@ -48,9 +48,39 @@ class ActivityCountsTests(unittest.TestCase):
                                dt.datetime(2026, 10, 15, 12, tzinfo=dt.timezone.utc))
         days = {entry['date']: entry for entry in value['activity']}
         self.assertEqual(days['2026-10-13']['officialAccepted'], 1)
-        self.assertEqual(days['2026-10-14']['officialAccepted'], 2)
+        self.assertEqual(days['2026-10-14']['officialAccepted'], 1)
         self.assertEqual(days['2026-10-15']['officialAccepted'], 0)
         self.assertEqual(value['summary']['totalSolved'], 2)
+
+
+class FirstAcRegressionTests(unittest.TestCase):
+    def test_unsorted_receipts_aliases_public_evidence_and_beijing_midnight(self):
+        rows=[{'id': 'p', 'url': 'https://codeforces.com/contest/9/problem/A', 'tags': [], 'difficulty': 1200},
+              {'id': 'alias', 'url': 'https://codeforces.com/problemset/problem/9/A', 'tags': [], 'difficulty': 1200}]
+        def record(pid, time):
+            return dict(problem_id=pid,mode='submit',scope='official',verdict='AC',code='x',submitted_at=time,finished_at=time)
+        records=[record('p','2026-10-26T01:00:00Z'),record('alias','2026-10-25T15:59:00Z'),record('p','2026-10-25T16:00:00Z')]
+        hub={'accounts':[{'solved':[{'url':rows[0]['url'],'acceptedAt':'2026-01-01T10:00:00Z'},
+                                    {'url':'https://atcoder.jp/contests/abc481/tasks/abc481_b','acceptedAt':'2026-10-25T16:00:00Z'}]},
+                         {'solved':[{'url':rows[1]['url'],'acceptedAt':'2026-10-26T02:00:00Z'}]}]}
+        result=build_insights(rows,records,[],{},hub,dt.datetime(2026,10,26,12,tzinfo=dt.timezone.utc))
+        days={row['date']:row for row in result['activity']}
+        self.assertEqual(days['2026-01-01']['officialAccepted'],1)
+        self.assertEqual(days['2026-10-25']['officialAccepted'],0)
+        self.assertEqual(days['2026-10-26']['officialAccepted'],1)
+        self.assertEqual(days['2026-10-26']['submissions'],2)
+        self.assertEqual((result['summary']['beforeTodaySolved'],result['summary']['todaySolved'],result['summary']['totalSolved']),(1,1,2))
+
+    def test_first_ac_outside_calendar_window_never_moves_to_repeat_date(self):
+        row={'id':'p','url':'https://atcoder.jp/contests/abc100/tasks/abc100_a','tags':[],'difficulty':800}
+        records=[dict(problem_id='p',mode='submit',scope='official',verdict='AC',code='x',submitted_at=date,finished_at=date)
+                 for date in ['2020-01-01T00:00:00Z','2026-10-26T00:00:00Z']]
+        result=build_insights([row],records,[],{}, {},dt.datetime(2026,10,26,12,tzinfo=dt.timezone.utc))
+        days={day['date']:day for day in result['activity']}
+        self.assertEqual(days['2020-01-01']['officialAccepted'],1)
+        self.assertEqual(days['2026-10-26']['officialAccepted'],0)
+        self.assertEqual(result['summary']['todaySolved'],0)
+        self.assertEqual(result['summary']['totalSolved'],1)
 
 
 if __name__ == '__main__':

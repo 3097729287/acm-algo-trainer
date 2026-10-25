@@ -31,6 +31,7 @@ export class MySQLStore {
     await this.pool.execute('SELECT 1 FROM account_state LIMIT 0');
     await this.pool.execute('SELECT 1 FROM account_login_days LIMIT 0');
     await this.pool.execute('SELECT 1 FROM account_public_progress LIMIT 0');
+    await this.pool.execute('SELECT 1 FROM account_public_avatars LIMIT 0');
     await this.pool.execute('SELECT 1 FROM account_nicknames LIMIT 0');
   }
   async findUser(id) {
@@ -48,7 +49,11 @@ export class MySQLStore {
     const [rows] = await this.pool.execute('SELECT payload FROM account_public_progress WHERE user_id=?', [id]);
     return storedPublicProgress(rows[0]?.payload);
   }
-  savePublicProfile(id, hash, now, name, progress, timestamp) {
+  async publicAvatar(id) {
+    const [rows]=await this.pool.execute('SELECT data,hash FROM account_public_avatars WHERE user_id=?',[id]);
+    return rows[0]||{data:'',hash:null};
+  }
+  savePublicProfile(id, hash, now, name, progress, timestamp, avatar) {
     return this.transaction(async connection => {
       // Serialize with login so an authenticated-but-delayed old device cannot
       // overwrite the current device's public medals after session takeover.
@@ -58,6 +63,14 @@ export class MySQLStore {
       if (name !== null) {
         await claimNickname(connection, id, name);
         await connection.execute('UPDATE users SET nickname=?,updated_at=? WHERE user_id=?', [name, timestamp, id]);
+      }
+      if (progress !== null) {
+        const [old]=await connection.execute('SELECT payload FROM account_public_progress WHERE user_id=?',[id]);
+        progress={...(storedPublicProgress(old[0]?.payload)||{}),...progress};
+      }
+      if (avatar !== undefined) {
+        if(avatar.hash)await connection.execute('INSERT INTO account_public_avatars(user_id,data,hash,updated_at) VALUES(?,?,?,?) ON DUPLICATE KEY UPDATE data=VALUES(data),hash=VALUES(hash),updated_at=VALUES(updated_at)',[id,avatar.data,avatar.hash,timestamp]);
+        else await connection.execute('DELETE FROM account_public_avatars WHERE user_id=?',[id]);
       }
       if (progress !== null) await connection.execute('INSERT INTO account_public_progress(user_id,payload,updated_at) VALUES(?,?,?) ON DUPLICATE KEY UPDATE payload=VALUES(payload),updated_at=VALUES(updated_at)',
         [id, JSON.stringify(progress), timestamp]);
@@ -141,7 +154,7 @@ export class MySQLStore {
   }
   async rankings(id, range, loginDay) {
     const { sql, values } = rankingQuery(range, loginDay);
-    const enriched = ' SELECT ranked.*,p.payload AS public_progress FROM ranked LEFT JOIN account_public_progress p ON p.user_id=ranked.user_id';
+    const enriched = ' SELECT ranked.*,p.payload AS public_progress,a.hash AS avatar_hash FROM ranked LEFT JOIN account_public_progress p ON p.user_id=ranked.user_id LEFT JOIN account_public_avatars a ON a.user_id=ranked.user_id';
     // Rank the event history once for both the visible page and the caller's
     // own row. The result stays bounded at 101 rows even for a large board.
     const [found] = await this.pool.execute(sql + enriched + ' WHERE ranked.position<=100 OR ranked.user_id=? ORDER BY position', [...values, id]);

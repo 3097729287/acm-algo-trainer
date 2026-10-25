@@ -60,7 +60,7 @@ export default function AvatarSettings({ prefs, setPrefs, onError }) {
     setPrefs(previous => ({ ...previous, avatarData: '' }));
   }
 
-  return <section className="avatar-settings" aria-label="头像设置">
+  return <section className="avatar-settings" aria-label="头像设置"><p className="progress-muted">头像会在排行榜中向其他用户显示。</p>
     <div className="avatar-settings-content">
       <span className="avatar-settings-preview" role="img" aria-label={image ? '当前头像' : '默认头像'}>{image ? <img src={image} alt="" /> : <UserRound size={28} aria-hidden="true" />}</span>
       <div className="avatar-settings-actions">

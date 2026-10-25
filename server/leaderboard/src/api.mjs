@@ -1,3 +1,4 @@
+import {validateAvatar} from './public-avatar.mjs';
 import { EventConflict } from './errors.mjs';
 import { bounds, REWARD_POLICY } from './ranking-rules.mjs';
 import { AccountError, loginId, password, verifyPassword, hashPassword, tokenHash,
@@ -6,7 +7,7 @@ import { validateState, guardStateJson, STATE_LIMIT } from './account-state.mjs'
 import { publicId, storedPublicProgress, validatePublicProgress } from './public-progress.mjs';
 import { socialSnapshot, socialWrite, rankingSocial } from './social.mjs';
 
-const VERSION = '1.2.2';
+const VERSION = '1.2.3';
 const NOTICE = '排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const hashPattern = /^[a-f0-9]{64}$/;
@@ -87,7 +88,7 @@ async function limit(env, bucket, maximum, windowSeconds, now) {
 
 function rankingRow(row) {
   return { rank: row.rank, userId: row.user_id, publicId: publicId(row.user_id), nickname: row.nickname,
-    displayName: row.nickname, count: row.count, publicProgress: storedPublicProgress(row.public_progress) };
+    displayName: row.nickname, count: row.count, avatarHash: row.avatar_hash||null, publicProgress: storedPublicProgress(row.public_progress) };
 }
 
 async function leaderboard(user, env, period, now) {
@@ -123,7 +124,7 @@ export async function handle(request, env) {
     const timestamp = new Date(now).toISOString();
     if (path === '/v1/health' && request.method === 'GET') {
       await env.STORE.health();
-      return json({ ok: true, version: VERSION, eventScope: 'official', accountStateProtocol: 1, singleSession: true, publicProgressProtocol: 1, nicknameUnique: true, stateResumeProtocol: 1, socialProtocol:env.STORE.social && await env.STORE.social.available() ? 1 : 0 });
+      return json({ ok: true, version: VERSION, eventScope: 'official', accountStateProtocol: 1, singleSession: true, publicProgressProtocol: 1, publicAppearanceProtocol: 1, nicknameUnique: true, stateResumeProtocol: 1, socialProtocol:env.STORE.social && await env.STORE.social.available() ? 1 : 0 });
     }
     if (path === '/v1/profile/register') throw new ApiError(410, '请升级 TB 并注册账号后登录');
     if (['/v1/accounts/register', '/v1/accounts/login'].includes(path) && request.method === 'POST') {
@@ -199,7 +200,7 @@ export async function handle(request, env) {
       return json({ account: publicAccount(user), token: issued.token, expiresAt: issued.expiresAt });
     }
     if (env.READ_ONLY !== '1') await env.STORE.settleRewards(now);
-    if (path === '/v1/profile' && request.method === 'GET') return json({ ...publicAccount(user), publicId: publicId(user.user_id), publicProgressProtocol: 1,
+    if (path === '/v1/profile' && request.method === 'GET') return json({ ...publicAccount(user), publicId: publicId(user.user_id), publicProgressProtocol: 1, publicAppearanceProtocol: 1,
       publicProgress: await env.STORE.publicProgress(user.user_id) });
     if (path === '/v1/rewards' && request.method === 'GET') return json(await env.STORE.rewards(user.user_id));
     if (path === '/v1/admin/leaderboard/delete' && request.method === 'POST') {
@@ -212,13 +213,20 @@ export async function handle(request, env) {
         value.period === 'total' ? null : bounds(value.period, now), timestamp));
     }
     if (path === '/v1/profile' && request.method === 'PUT') {
-      const value = await body(request, ['nickname', 'publicProgress']);
+      const value = await body(request, ['nickname', 'publicProgress', 'avatarData']);
       if (!Object.keys(value).length) throw new ApiError(400, '缺少要更新的资料');
       const name = Object.hasOwn(value, 'nickname') ? nickname(value.nickname) : null;
       const progress = Object.hasOwn(value, 'publicProgress') ? validatePublicProgress(value.publicProgress) : null;
-      await env.STORE.savePublicProfile(user.user_id, tokenHash(credentials(request).token), Math.floor(now / 1000), name, progress, timestamp);
+      const avatar=Object.hasOwn(value,'avatarData')?validateAvatar(value.avatarData):undefined;
+      await env.STORE.savePublicProfile(user.user_id, tokenHash(credentials(request).token), Math.floor(now / 1000), name, progress, timestamp, avatar);
       return json({ userId: user.user_id, publicId: publicId(user.user_id), nickname: name ?? user.nickname,
-        displayName: name ?? user.nickname, ...(progress ? { publicProgress: progress } : {}) });
+        displayName: name ?? user.nickname, ...(avatar!==undefined?{avatarHash:avatar.hash}:{}), ...(progress ? { publicProgress: progress } : {}) });
+    }
+    if (path.startsWith('/v1/avatars/') && request.method === 'GET') {
+      const id=path.slice('/v1/avatars/'.length);
+      if(!uuid.test(id))throw new ApiError(400,'用户编号无效');
+      const avatar=await env.STORE.publicAvatar(id);
+      return json({avatarData:avatar.data,avatarHash:avatar.hash});
     }
     if (path === '/v1/events' && request.method === 'POST') {
       const value = await body(request, ['events']);

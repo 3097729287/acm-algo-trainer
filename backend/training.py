@@ -606,6 +606,17 @@ class TrainingService:
             self.insights(hub)
             return deepcopy(self._public_progress_cache[2])
 
+    def public_profile(self):
+        """Only the avatar and current level progress join the public card."""
+        from preferences import read_preferences, validate_avatar
+        with self.lock:
+            progress = self.public_progress()
+            growth = self._insights_cache[2]['growth']
+            progress.update(currentLevelXp=growth['currentLevelXp'], nextLevelXp=growth['nextLevelXp'])
+            avatar = (read_preferences(self)['preferences'] or {}).get('avatarData', '')
+            validate_avatar(avatar)
+            return {'publicProgress': progress, 'avatarData': avatar}
+
     def _first_acceptance_xp(self, library, records):
         """Freeze earned awards; later difficulty corrections never subtract XP."""
         from progression import official_reward_evidence, official_first_xp, legacy_first_xp
@@ -995,6 +1006,18 @@ class TrainingService:
         return None
 
     def problem(self, identity, contest_id=None, background=False, refresh=False, review_id=None):
+        if not isinstance(identity,str) or not identity or len(identity)>512:
+            raise ServiceError(400, '题目编号无效')
+        reader = getattr(self.store, 'problem_catalog', None)
+        # Contest finalization and review scheduling retain the full view.
+        with self.lock:
+            fast = callable(reader) and not contest_id and not review_id and not self.connection.execute("SELECT 1 FROM contests WHERE status='running'").fetchone()
+        if fast:
+            token = _LIBRARY_VIEW.set((self, reader(identity), {}))
+            try:
+                return self._problem(identity, contest_id, background=background, refresh=refresh, review_id=review_id)
+            finally:
+                _LIBRARY_VIEW.reset(token)
         with self._library_view():
             return self._problem(identity, contest_id, background=background, refresh=refresh, review_id=review_id)
 

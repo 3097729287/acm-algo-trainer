@@ -46,13 +46,21 @@ export class SQLiteStore {
   async publicProgress(id) {
     return storedPublicProgress(this.database.prepare('SELECT payload FROM account_public_progress WHERE user_id=?').get(id)?.payload);
   }
-  async savePublicProfile(id, hash, now, name, progress, timestamp) {
+  async publicAvatar(id) {
+    return this.database.prepare('SELECT data,hash FROM account_public_avatars WHERE user_id=?').get(id)||{data:'',hash:null};
+  }
+  async savePublicProfile(id, hash, now, name, progress, timestamp, avatar) {
     return this.transaction(() => {
       if (!this.database.prepare('SELECT 1 FROM account_sessions WHERE user_id=? AND token_hash=? AND expires_at>?').get(id, hash, now))
         throw new AccountError(401, '账号已在另一台设备登录，请重新登录');
       if (name !== null) {
         this.claimNickname(id, name);
         this.database.prepare('UPDATE users SET nickname=?,updated_at=? WHERE user_id=?').run(name, timestamp, id);
+      }
+      if (progress !== null)progress={...(storedPublicProgress(this.database.prepare('SELECT payload FROM account_public_progress WHERE user_id=?').get(id)?.payload)||{}),...progress};
+      if(avatar!==undefined){
+        if(avatar.hash)this.database.prepare('INSERT INTO account_public_avatars VALUES(?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET data=excluded.data,hash=excluded.hash,updated_at=excluded.updated_at').run(id,avatar.data,avatar.hash,timestamp);
+        else this.database.prepare('DELETE FROM account_public_avatars WHERE user_id=?').run(id);
       }
       if (progress !== null) this.database.prepare('INSERT INTO account_public_progress VALUES(?,?,?) ON CONFLICT(user_id) DO UPDATE SET payload=excluded.payload,updated_at=excluded.updated_at')
         .run(id, JSON.stringify(progress), timestamp);
@@ -123,7 +131,7 @@ export class SQLiteStore {
   }
   async rankings(id, range, loginDay) {
     const { sql, values } = rankingQuery(range, loginDay);
-    const enriched = ' SELECT ranked.*,p.payload AS public_progress FROM ranked LEFT JOIN account_public_progress p ON p.user_id=ranked.user_id';
+    const enriched = ' SELECT ranked.*,p.payload AS public_progress,a.hash AS avatar_hash FROM ranked LEFT JOIN account_public_progress p ON p.user_id=ranked.user_id LEFT JOIN account_public_avatars a ON a.user_id=ranked.user_id';
     const rows = this.database.prepare(sql + enriched + ' WHERE ranked.position<=100 OR ranked.user_id=? ORDER BY position').all(...values, id).map(normalizeRank);
     return { rows: rows.filter(row => row.rank <= 100), own: rows.find(row => row.user_id === id) || null };
   }

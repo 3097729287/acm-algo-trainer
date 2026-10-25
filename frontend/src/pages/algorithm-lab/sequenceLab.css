@@ -93,3 +93,5 @@
 
 .lab-multi-catalog .lab-course-options {margin-top:auto;padding-top:16px}
 .lab-multi-catalog>.page-search {grid-column:1/-1}
+
+.lab-multi-catalog>.lab-catalog-group {grid-column:1/-1;font-size:1rem;margin:4px 0 0;padding-bottom:8px;border-bottom:1px solid var(--soft-line);font-weight:600}

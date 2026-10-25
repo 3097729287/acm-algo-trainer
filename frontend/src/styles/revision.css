@@ -110,10 +110,10 @@ html .competition-start {margin-left:10px;min-width:100px;white-space:nowrap}
 .filter-result-count {display:block;color:var(--muted);font-size:.8rem;padding:10px 0 0}
 .filter-popover :is(button,summary,label) {line-height:1.5}
 .tb-tooltip {width:max-content;max-width:min(340px,calc(100vw - 24px));white-space:normal;word-break:normal;overflow-wrap:break-word}
-.tb-popconfirm {z-index:10060;padding:18px;background:var(--panel-base);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);color:var(--text)}
-.tb-popconfirm>strong {display:block;line-height:1.6;overflow-wrap:anywhere;text-align:center}
-.tb-popconfirm>div {display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:16px}
-.tb-popconfirm button {padding:7px 14px;border:1px solid var(--line);border-radius:6px}
+.tb-popconfirm {box-sizing:border-box;width:max-content;max-width:min(290px,calc(100vw - 24px));font-size:.86rem;z-index:10060;padding:12px 14px;background:var(--panel-base);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);color:var(--text)}
+.tb-popconfirm>strong {display:block;font-weight:600;line-height:1.5;overflow-wrap:anywhere;text-align:center}
+.tb-popconfirm>div {display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:10px}
+.tb-popconfirm button {display:inline-flex;align-items:center;justify-content:center;min-height:30px;margin:0;padding:4px 10px;line-height:20px;font:inherit;border:1px solid var(--line);border-radius:5px}
 .tb-popconfirm .danger {color:var(--danger)}
 .tb-popconfirm p {margin-top:8px;color:var(--danger);font-size:.85rem}
 /* Four modes keep the same grid and a single generate action. */
@@ -582,3 +582,38 @@ html .submission-problem-link {flex:1;min-width:0;padding:0;border:0;border-radi
 /* Paged contest folders must measure the available viewport, not their first row. */
 html .competition-page .catalog-explorer.catalog-paged{flex:1;min-height:0;overflow:hidden}
 html .competition-page .catalog-paged>.catalog-folder-row{margin-bottom:0}
+
+/* Identical difficulty geometry in comprehensive and topic training. */
+html .mock-difficulty-row {width:min(510px,100%);display:flex;flex-direction:column;gap:2px;min-height:0;margin-inline:auto}
+html .mock-difficulty-row>span {font-size:.85rem;color:var(--muted)}
+html .mock-difficulty-row>.difficulty-range {width:100%;max-width:480px;flex:none;display:grid;grid-template-columns:1fr;gap:4px}
+html .mock-difficulty-row .difficulty-range-values {grid-row:1;justify-content:center;gap:6px}
+html .mock-difficulty-row .difficulty-range-track {grid-row:2}
+html .mock-config .training-specific-fields {display:flex;flex:none;justify-content:center;gap:8px;width:min(360px,100%);margin:12px auto 0}
+html .mock-config .training-specific-fields:empty {display:none}
+html .mock-config .training-specific-fields>.folder-select {width:100%;max-width:100%}
+html .mock-config .create-buttons {display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px;margin-top:18px}
+html .mock-config .training-duration-summary {display:flex;align-items:center;justify-content:center;gap:5px;flex-basis:100%;order:2;line-height:20px;margin:0;color:var(--muted)}
+html .mock-config[data-mode=replay] .mock-difficulty-row:empty {display:none}
+
+/* Shared contiguous list treatment, matching the problem library. */
+html .competition-list,html .catalog-paged {gap:0;align-content:start;padding:0}
+html .competition-page .catalog-folder-row,html .catalog-all-problems {margin:0}
+html .catalog-explorer {padding-inline:0}
+html :is(.competition-card,.competition-question,.catalog-folder-row,.record-row,.submission-log-row,.lectures-list>button),
+html[data-panel-style] .workspace-area :is(.competition-card,.competition-question,.catalog-folder-row,.record-row,.submission-log-row,.lectures-list>button) {border:0;border-bottom:1px solid var(--soft-line);border-radius:0;margin-block:0;box-shadow:none;background:transparent;transform:none}
+html :is(.competition-card,.competition-question,.catalog-folder-row,.record-row,.submission-log-row,.lectures-list>button):is(:hover,:focus-visible,:focus-within),
+html[data-panel-style] .workspace-area :is(.competition-card,.competition-question,.catalog-folder-row,.record-row,.submission-log-row,.lectures-list>button):is(:hover,:focus-visible,:focus-within) {background:var(--accent-soft);box-shadow:inset 2px 0 var(--accent);border-color:var(--soft-line);transform:none}
+html .competition-card {padding:0 16px;gap:8px}
+html .competition-card-open {padding:12px 0;align-self:stretch}
+html .competition-card-open:hover {background:transparent}
+html .competition-question-list {gap:0}
+html .ranking-table,html[data-panel-style] .workspace-area .problem-table {border-collapse:separate!important;border-spacing:0;padding-inline:0}
+html .ranking-table tbody td,html[data-panel-style] .workspace-area .problem-table tbody tr:not(.queue-heading)>td {border:0!important;border-bottom:1px solid var(--soft-line)!important;border-radius:0!important;background:transparent}
+html .ranking-table tbody tr.ranking-self {background:var(--accent-soft)}
+html .ranking-table tbody tr:is(:hover,:focus-within) {background:var(--accent-soft)}
+html .ranking-table tbody tr:is(:hover,:focus-within)>td:first-child {box-shadow:inset 2px 0 var(--accent)}
+html .workspace-area .problem-table tbody tr.training-problem-row:not([aria-disabled=true]):is(:hover,:focus-visible,:focus-within) {background:var(--accent-soft);outline:none}
+html .workspace-area .problem-table tbody tr.training-problem-row:not([aria-disabled=true]):is(:hover,:focus-visible,:focus-within)>td:first-child {box-shadow:inset 2px 0 var(--accent)}
+html .activity-detail-table tbody tr:is(:hover,:focus-within) {background:var(--accent-soft)}
+html .activity-detail-table tbody tr:is(:hover,:focus-within)>td:first-child {box-shadow:inset 2px 0 var(--accent)}

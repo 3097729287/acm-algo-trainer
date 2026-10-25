@@ -1,3 +1,4 @@
+import PagePagination from '@/components/PagePagination.jsx';
 import {useFittedPageSize} from '@/lib/useFittedPageSize.js';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { ArrowLeftRight, ChevronLeft, ChevronRight, ExternalLink, FileText, Folder, House, Search, X } from 'lucide-react';
@@ -129,17 +130,17 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
         if(allEntry)return <button key="all" className="catalog-folder-row" onClick={() => patch({ flat: true, sections: [] })}><FileText size={20}/><strong>全部题目</strong><span>{all.length} 题</span><ChevronRight size={16}/></button>;
         const stats = list ? index.stats([list.id]) : null;
         return <button className="catalog-folder-row" key={folder ? 'folder:' + folder.id : list.id} onClick={folder ? folder.action : () => open(list)}>
-          <Folder size={20}/><strong title={list?.originalTitle}>{folder?.title || list.displayTitle}{list && <small>{list.sourceLabel}{search ? ` · ${list.topicPath.join(' / ')}` : ''}</small>}</strong>
+          <Folder size={20}/><strong title={list?.originalTitle}>{folder?.title || list.displayTitle}{list && (list.sourceLabel || search) && <small>{[list.sourceLabel,search ? list.topicPath.join(' / ') : ''].filter(Boolean).join(' · ')}</small>}</strong>
           <span>{folder ? `${folder.count} ${folder.unit || '题'}` : list.available ? `${stats.accepted} / ${stats.total} 题` : '暂不可用'}</span><ChevronRight size={16}/>
         </button>;
       })}
-      {active && !browsingFolders && problems.length > 0 && <table className="problem-table training-list-table"><thead><tr><th>题目</th><th>难度</th><th>训练状态</th></tr></thead><tbody>{problems.slice(start, start + size).map((item, offset) => <tr key={item.row?.id || item.pid} data-id={item.row?.id} className="training-problem-row" aria-disabled={!item.row||busy} onClick={event=>{if(item.row&&!busy&&!event.target.closest('button,a,input,select'))onTrain(item.row.id,{problemIds});}}>
+      {active && !browsingFolders && problems.length > 0 && <table className="problem-table training-list-table"><thead><tr><th>题目</th><th>难度</th><th>训练状态</th></tr></thead><tbody>{problems.slice(start, start + size).map((item, offset) => <tr key={item.row?.id || item.pid} data-id={item.row?.id} className="training-problem-row" tabIndex={item.row&&!busy?0:undefined} aria-label={item.row?`进入题目：${item.row.title}`:undefined} onKeyDown={event=>{if(event.target===event.currentTarget && item.row&&!busy&&['Enter',' '].includes(event.key)){event.preventDefault();onTrain(item.row.id,{problemIds});}}} aria-disabled={!item.row||busy} onClick={event=>{if(item.row&&!busy&&!event.target.closest('button,a,input,select'))onTrain(item.row.id,{problemIds});}}>
         <td><div className="training-list-title"><span className="training-list-number">{start + offset + 1}</span><div><button className="problem-title" disabled={!item.row || busy} onClick={() => onTrain(item.row.id, { problemIds })}><InlineTitle>{item.row?.title || item.pid}</InlineTitle></button><small>{item.pid}{item.row?.platform && item.row.platform !== '洛谷' ? ` · ${item.row.platform}` : ''}</small></div></div></td>
         <td><span className={'difficulty band-' + difficultyBand(item.row?.difficultyHidden ? null : item.row?.difficulty)} title={item.row ? difficultyDescription(item.row) : ''}>{item.row ? difficultyLabel(item.row) : '—'}</span></td>
         <td><span className={'verdict ' + (item.row?.accepted ? 'success' : item.row?.active ? 'pending' : '')}>{!item.row ? '暂不可用' : item.row.accepted ? '已通过' : item.row.active ? '练习中' : '未开始'}</span></td>
       </tr>)}</tbody></table>}
       {lists && !displayedEntries.length && !problems.length && <div className="empty"><Search size={26}/><h3>{searchingProblems ? '没有匹配的题单或题目' : active ? '此目录暂无可用题目' : '暂无题单'}</h3>{searchingProblems && <button className="secondary" onClick={clear}>清除筛选</button>}</div>}
     </div>
-    {lists && count > 0 && <nav className="library-pagination" aria-label="题单分页"><span>{active ? `${problems.length} 道题` : `${count} 项`}</span><div className="pagination-actions"><button aria-label="题单上一页" disabled={page <= 1} onClick={() => patch({ page: page - 1 })}><ChevronLeft size={15}/>上一页</button><span>第 {page} / {pages} 页</span><button aria-label="题单下一页" disabled={page >= pages} onClick={() => patch({ page: page + 1 })}>下一页<ChevronRight size={15}/></button></div></nav>}
+    {lists && count > 0 && <PagePagination label="题单分页" count={active?`${problems.length} 道题`:`${count} 项`} page={page} pages={pages} previousLabel="题单上一页" nextLabel="题单下一页" onPrevious={()=>patch({page:page-1})} onNext={()=>patch({page:page+1})}/>}
   </section>;
 }

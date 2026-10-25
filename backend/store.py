@@ -143,6 +143,25 @@ class Store:
         return ('catalog-20261022-v4-unique', VERSION, self.library.content_signature(),
                 signature() if signature else None, tuple(assets))
 
+    def problem_catalog(self, identity):
+        """Single-task reads do not rebuild the classified full catalogue.
+
+        Preserve complete stored rows for aliases/contest guards; enrich only
+        the requested row. Ordinary catalogue/workspace APIs keep data().
+        """
+        rows = self.library.rows()
+        if self.extensions:
+            identities = getattr(self.extensions, 'identity_rows', None)
+            rows += identities() if callable(identities) else self.extensions.rows()
+        try:
+            selected = self.encode_row(self.row(identity))
+            selected['id'] = identity
+            rows = [row for row in rows if row['id'] != identity] + [selected]
+        except Exception as error:
+            if getattr(error, 'status', None) != 404:
+                raise
+        return rows
+
     def _analysis_signature(self):
         analysis = getattr(self, 'knowledge_analysis', None)
         return analysis.catalog_signature() if analysis else {}

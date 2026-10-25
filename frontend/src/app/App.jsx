@@ -1,3 +1,4 @@
+import PagePagination from '@/components/PagePagination.jsx';
 import {useFittedPageSize} from '@/lib/useFittedPageSize.js';
 import SortDirection from '@/components/SortDirection.jsx';
 import RandomProblem from '@/components/RandomProblem.jsx';
@@ -208,7 +209,7 @@ const blankFilters = () => ({
   platform: "",
   shelf: "all",
   category: null,
-  min: 0,
+  min: 800,
   max: 10000,
   kind: "",
   result: "",
@@ -1086,6 +1087,8 @@ export default function App() {
     }
     setBusy(true);
     void loadWorkbench().catch(()=>{});
+    // Start the bounded statement fetch while training activation is persisted.
+    void api(`problem?id=${encodeURIComponent(id)}&background=1`).catch(()=>{});
     const list = listRef.current;
     const context = contextRef.current && practiceId ? contextRef.current : {
       page, ids: problemIds || visibleRef.current.map(row => row.id), id, libraryPage: currentLibraryPage,
@@ -1623,9 +1626,6 @@ export default function App() {
             </button>
             <span className="problem-source">
               {row.contest} · {row.problem}
-              {row.solutionAvailable === false && (
-                <em className="missing-solution"> · 题解未生成</em>
-              )}
             </span>
           </div>
         </td>
@@ -1771,16 +1771,7 @@ export default function App() {
       <div className="list-page">
         {toolbar()}
         {renderTable(displayedRows)}
-        <div className="list-footer">
-          <span role="status">共 {visible.length} 题</span>
-          {page === "library" && <nav className="library-pagination" aria-label="题库分页">
-            <div className="pagination-actions">
-              <button aria-label="题库上一页" disabled={currentLibraryPage === 1} onClick={() => setLibraryPage(currentLibraryPage - 1)}><ChevronLeft size={15} />上一页</button>
-              <span>第 {currentLibraryPage} / {libraryPages} 页</span>
-              <button aria-label="题库下一页" disabled={currentLibraryPage === libraryPages} onClick={() => setLibraryPage(currentLibraryPage + 1)}>下一页<ChevronRight size={15} /></button>
-            </div>
-          </nav>}
-        </div>
+        {page === "library" ? <PagePagination label="题库分页" count={`共 ${visible.length} 题`} page={currentLibraryPage} pages={libraryPages} previousLabel="题库上一页" nextLabel="题库下一页" onPrevious={()=>setLibraryPage(currentLibraryPage-1)} onNext={()=>setLibraryPage(currentLibraryPage+1)}/> : <div className="list-footer"><span role="status">共 {visible.length} 题</span></div>}
       </div>
     );
   }
@@ -2209,7 +2200,7 @@ export default function App() {
           ) : page === "lectures" ? (
             <LecturesPanel api={api} initialLecture={lectureId} categories={categories} onTrain={openPractice} onError={(message) => notice(message, "error")} />
           ) : page === "rankings" ? (
-            <RankingsPage socialState={social} avatarData={prefs.avatarData} api={api} onConfigure={() => {if(window.__tbAdmin){setPage('settings');setSettingsTab('admin')}else openAccounts()}} onError={(message) => notice(message, "error")} />
+            <RankingsPage socialState={social} avatarData={prefs.avatarData} ownGrowth={growth} api={api} onConfigure={() => {if(window.__tbAdmin){setPage('settings');setSettingsTab('admin')}else openAccounts()}} onError={(message) => notice(message, "error")} />
           ) : (
             settingsPage()
           )}

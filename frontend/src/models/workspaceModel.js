@@ -150,10 +150,10 @@ export function filterRows(rows, filters = {}) {
         (!kind || contestKind(row) === kind) &&
         (!catalogPath.length || catalogPath.every((part,index)=>catalogSegments(row)[index]===part)) &&
         (!category || matchesKnowledge(row,knowledgeFilterNames(category))) &&
-        (min === "" || row.difficulty == null && Number(min) === 0 ||
-          (row.difficulty != null && row.difficulty >= Number(min))) &&
+        (min === "" || row.difficulty == null && Number(min) <= 800 ||
+          (row.difficulty != null && row.difficulty >= Math.max(800,Number(min)))) &&
         (max === "" || row.difficulty == null && Number(max) === 10000 ||
-          (row.difficulty != null && row.difficulty <= Number(max))) &&
+          (row.difficulty != null && row.difficulty <= Math.max(800,Number(max)))) &&
         (!contest || row.contest === contest) &&
         (!favoritesOnly || favorites.includes(row.id) || (row.aliasIds||[]).some(id=>favorites.includes(id))) &&
         (!result ||

@@ -70,3 +70,5 @@ CREATE TABLE social_likes (actor_id TEXT NOT NULL REFERENCES users(user_id),reci
 CREATE INDEX social_like_recipient ON social_likes(recipient_id,liked_day);
 CREATE TABLE social_notifications (id TEXT PRIMARY KEY,kind TEXT NOT NULL,actor_id TEXT NOT NULL REFERENCES users(user_id),recipient_id TEXT NOT NULL REFERENCES users(user_id),body TEXT NOT NULL DEFAULT '',created_at TEXT NOT NULL,read_at TEXT);
 CREATE INDEX social_inbox ON social_notifications(recipient_id,created_at);
+
+CREATE TABLE account_public_avatars (user_id TEXT PRIMARY KEY REFERENCES accounts(user_id),data TEXT NOT NULL,hash TEXT NOT NULL,updated_at TEXT NOT NULL);

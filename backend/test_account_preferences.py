@@ -81,8 +81,13 @@ class AccountPreferencesTests(unittest.TestCase):
         self.service=TrainingService(self.library,self.db,self.assets,self.judge,self.clock,self.root/'backups')
         self.assertEqual(read_preferences(self.service),result)
         self.assertNotIn('avatarData',json.dumps(self.service.public_progress()))
+        shared=self.service.public_profile()
+        self.assertEqual(shared['avatarData'],self.avatar())
+        self.assertNotIn('theme',json.dumps(shared))
+        self.assertEqual(shared['publicProgress']['nextLevelXp'],self.service.insights()['growth']['nextLevelXp'])
         cleared=save_preferences(self.service,{'preferences':{'avatarData':''}})
         self.assertEqual(cleared['preferences']['avatarData'],'')
+        self.assertEqual(self.service.public_profile()['avatarData'],'')
 
     def test_avatar_rejects_remote_paths_svg_wrong_signatures_and_excessive_size(self):
         png=self.avatar()

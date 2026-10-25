@@ -2,7 +2,7 @@
   "name": "tb-shared-leaderboard",
   "private": true,
   "type": "module",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "scripts": {
     "test": "node --test tests/api.test.mjs tests/server.test.mjs",
     "test:mysql": "node --test tests/mysql.test.mjs",

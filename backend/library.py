@@ -271,10 +271,12 @@ class LibraryDatabase:
     def statement(self, identity):
         with self.connection() as db:
             row = db.execute('SELECT content FROM statements WHERE problem_id=?', (identity,)).fetchone()
-            return json.loads(row[0]) if row else None
+            from statement_cleanup import clean_statement
+            return clean_statement(json.loads(row[0])) if row else None
 
     def save_statement(self, identity, value):
-        value=dict(value,statementAvailable=bool(value.get('markdown')))
+        from statement_cleanup import clean_statement
+        value=clean_statement(dict(value,statementAvailable=bool(value.get('markdown'))))
         value.setdefault('limits',{'timeMs':2000,'memoryMb':256})
         with self.connection() as db:
             if not value.get('translation'):

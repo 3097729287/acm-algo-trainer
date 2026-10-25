@@ -97,7 +97,7 @@ export function buildTrainingCurriculum(lists,rows) {
   grouped[value.unit].push(value);
  }
  const result=[];
- const make=(id,title,path,values,order)=>({id,title,displayTitle:title,originalTitle:title,topicPath:path,sourceLabel:'学习路线',curriculumOrder:order,available:true,aggregateChildren:false,children:[],categories:[],problems:values.map(v=>v.item),url:null});
+ const make=(id,title,path,values,order)=>({id,title,displayTitle:title,originalTitle:title,topicPath:path,sourceLabel:'',curriculumOrder:order,available:true,aggregateChildren:false,children:[],categories:[],problems:values.map(v=>v.item),url:null});
  grouped.forEach((values,index)=>{
   values.sort((a,b)=>problemDifficulty(a.row)-problemDifficulty(b.row)||String(a.row.id).localeCompare(String(b.row.id),'en',{numeric:true}));
   // Sample across the available range; a large source should not drown the route.

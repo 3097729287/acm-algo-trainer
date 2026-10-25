@@ -1,3 +1,4 @@
+import PagePagination from '@/components/PagePagination.jsx';
 import {withContestLetters,contestLetterTitle} from '@/lib/contestLetters.js';
 import {useFittedPageSize} from '@/lib/useFittedPageSize.js';
 import PageSearch, {PageLocation} from '@/components/PageSearch.jsx';
@@ -169,7 +170,7 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
       {joinError && <p className="connection-error" role="alert">{joinError}</p>}
       <div className="competition-question-list">{current.rows.map(row => {
         const state = progress.get(row.id), locked = lockedIds.has(row.id);
-        return <button type="button" className="competition-question" key={row.id} disabled={!onTrain || locked} onClick={() => onTrain?.(row.id)} aria-label={`练习 ${row.displayLetter} ${row.title}`}><span className="competition-letter" title={contestLetterTitle(row)}>{row.displayLetter}</span><div className="competition-question-main"><strong><InlineTitle>{row.title}</InlineTitle></strong><div className="competition-question-meta">{locked ? <span>模拟赛进行中</span> : knowledgeLabels(row).map(tag => <span className="competition-tag" key={tag}>{tag}</span>)}<span>{row.solutionAvailable === false ? '题解未生成' : row.solutionAvailable === true ? '有题解' : '题解状态未知'}</span></div></div>{showDifficulty(row) && <Difficulty row={row} />}<span className={`competition-result${state?.accepted ? ' competition-accepted' : ''}`}>{locked ? '考场中' : state?.accepted ? (state.scope === 'official' ? '官方通过' : '本地通过') : state?.verdict === 'SAMPLE_PASS' ? '样例通过' : state ? '已加入' : '未加入'}</span><ChevronRight size={15} aria-hidden="true" /></button>;
+        return <button type="button" className="competition-question" key={row.id} disabled={!onTrain || locked} onClick={() => onTrain?.(row.id)} aria-label={`练习 ${row.displayLetter} ${row.title}`}><span className="competition-letter" title={contestLetterTitle(row)}>{row.displayLetter}</span><div className="competition-question-main"><strong><InlineTitle>{row.title}</InlineTitle></strong><div className="competition-question-meta">{locked ? <span>模拟赛进行中</span> : knowledgeLabels(row).map(tag => <span className="competition-tag" key={tag}>{tag}</span>)}</div></div>{showDifficulty(row) && <Difficulty row={row} />}<span className={`competition-result${state?.accepted ? ' competition-accepted' : ''}`}>{locked ? '考场中' : state?.accepted ? (state.scope === 'official' ? '官方通过' : '本地通过') : state?.verdict === 'SAMPLE_PASS' ? '样例通过' : state ? '已加入' : '未加入'}</span><ChevronRight size={15} aria-hidden="true" /></button>;
       })}</div>
     </div>;
   }
@@ -182,11 +183,10 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
       <label className="filter-field"><span>年份</span><ThemedSelect aria-label="比赛年份" value={examYear} onChange={event=>setExamYear(event.target.value)}><option value="">全部年份</option>{[...new Set(groups.map(group=>group.examYear).filter(Boolean))].sort((a,b)=>b-a).map(year=><option key={year}>{year}</option>)}</ThemedSelect></label>
       <label className="filter-field"><span>训练情况</span><ThemedSelect value={filter} onChange={event=>setFilter(event.target.value)} aria-label="比赛训练情况"><option value="all">全部比赛</option><option value="joined">已加入训练</option><option value="available">尚未加入</option><option value="unfinished">尚未全部通过</option></ThemedSelect></label>
       <label className="filter-field"><span>排序</span><ThemedSelect aria-label="比赛排序" value={sort} onChange={event=>setSort(event.target.value)}><option value="newest">比赛时间</option><option value="name">名称</option></ThemedSelect></label>
-      <span className="filter-result-count">{filtered.length} 场</span>
     </FilterMenu><Tooltip text={folder?'切换到比赛列表':'按平台、系列、年份和场次逐级浏览'}><button type="button" className="competition-view-toggle" aria-label="比赛文件夹浏览" aria-pressed={!!folder} onClick={()=>setFolder(folder?null:{stage:'platforms',path:[]})}><FolderTree size={17}/></button></Tooltip></PageSearch>
     {joinError&&<p className="connection-error" role="alert">{joinError}</p>}
     {folder?<><CatalogPath scope={folder} onChange={setFolder}/><CatalogExplorer paginate rows={filtered.flatMap(group=>group.rows.map(row=>({...row,groupKey:group.key})))} scope={folder} onChange={setFolder} onContest={row=>setSelected(row.groupKey)} renderContest={row=>renderCard(groups.find(group=>group.key===row.groupKey))}/></>:<div ref={listRef} className="competition-list">{visibleGroups.map(renderCard)}</div>}
-    {!folder&&filtered.length>0&&<nav className="competition-pagination" aria-label="比赛分页"><span>{first+1}–{Math.min(first+pageSize,filtered.length)} / {filtered.length} 场</span><button type="button" className="progress-button" disabled={currentPage===1} onClick={()=>setPage(currentPage-1)}>上一页</button><span>第 {currentPage} / {pageCount} 页</span><button type="button" className="progress-button" disabled={currentPage===pageCount} onClick={()=>setPage(currentPage+1)}>下一页</button></nav>}
+    {!folder&&filtered.length>0&&<PagePagination label="比赛分页" count={`共 ${filtered.length} 场`} page={currentPage} pages={pageCount} onPrevious={()=>setPage(currentPage-1)} onNext={()=>setPage(currentPage+1)}/>}
     {!filtered.length&&<Empty><Flag size={24}/><span>没有匹配的比赛</span></Empty>}
   </div>;
 }

@@ -4,19 +4,19 @@ import {difficultyPointerValue,snapDifficulty} from '@/lib/difficultyDrag.js';
 import './DifficultyRange.css';
 
 const bounded = (value, min, max) => Math.max(min, Math.min(max, Number(value) || 0));
-const DifficultyBounds=createContext({min:0,max:4000});
+const DifficultyBounds=createContext({min:800,max:4000});
 export function DifficultyBoundsProvider({rows=[],children}) {
-  const bounds=useMemo(()=>({min:0,max:Math.max(1,...rows.map(row=>Number(row.difficulty)).filter(value=>Number.isFinite(value)&&value>0))}),[rows]);
-  return <DifficultyBounds.Provider value={rows.length?bounds:{min:0,max:4000}}>{children}</DifficultyBounds.Provider>;
+  const bounds=useMemo(()=>({min:800,max:Math.max(900,...rows.map(row=>Number(row.difficulty)).filter(value=>Number.isFinite(value)&&value>0))}),[rows]);
+  return <DifficultyBounds.Provider value={rows.length?bounds:{min:800,max:4000}}>{children}</DifficultyBounds.Provider>;
 }
 export function useDifficultyBounds(){return useContext(DifficultyBounds);}
 
-export default function DifficultyRange({ value, onChange, min = 0, max: maximum, step = 100, disabled = false, label = '难度范围', minLabel = '最低难度', maxLabel = '最高难度' }) {
+export default function DifficultyRange({ value, onChange, min = 800, max: maximum, step = 100, disabled = false, label = '难度范围', minLabel = '最低难度', maxLabel = '最高难度' }) {
   const drag=useRef(null),[pointer,setPointer]=useState(null);
   const bounds=useDifficultyBounds(),max=Math.max(min+1,Number(maximum??bounds.max)||4000);
   const low = bounded(value.min, min, max), high = Math.max(low, bounded(value.max, min, max));
   const percent = number => (number - min) / (max - min);
-  const change = (key, next) => onChange(key === 'min' ? { min: Math.min(bounded(next, min, max), high) } : { max: Math.max(bounded(next, min, max), low) });
+  const change = (key, next) => onChange(key === 'min' ? { min: Math.min(bounded(next, min, max), high),max:high } : { min:low,max: Math.max(bounded(next, min, max), low) });
   const slide=(key,value)=>change(key,snapDifficulty(bounded(value,min,max),{min,max,step}));
   const keys=(key,value,event)=>{
     if(event.ctrlKey||event.metaKey)return;
@@ -57,6 +57,6 @@ export default function DifficultyRange({ value, onChange, min = 0, max: maximum
   </div>;
 }
 
-export function DifficultySlider({ value, onChange, min = 0, max = 4000, step = 50, label, disabled = false }) {
+export function DifficultySlider({ value, onChange, min = 800, max = 4000, step = 50, label, disabled = false }) {
   return <span className="difficulty-single"><input type="range" min={min} max={max} step={step} value={bounded(value, min, max)} aria-label={`${label}滑块`} disabled={disabled} onChange={onChange}/><BoundedNumber aria-label={label} min={min} max={max} value={value} disabled={disabled} required onChange={onChange}/></span>;
 }

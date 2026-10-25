@@ -341,11 +341,10 @@ def statement(client,identity,title,url):
         if p.get('pid')!=pid:raise ValueError('原题编号不匹配或题面尚未公开')
         if p.get('tags'):
             try:
-                names=getattr(client,'_tb_luogu_tags',None)
-                if not names:
-                    names={tag['id']:tag['name'] for tag in client.json('https://www.luogu.com.cn/_lfe/tags').get('tags',[]) if 'id' in tag and 'name' in tag}
-                    client._tb_luogu_tags=names
-                official_tags=[names[i] for i in p['tags'] if i in names]
+                # Metadata discovery warms this optional dictionary. Reading a
+                # task must not wait for another paced network request.
+                names=getattr(client,'_tb_luogu_tags',None) or {}
+                if names:official_tags=[names[i] for i in p['tags'] if i in names]
             except (OSError,ValueError,RuntimeError,KeyError,TypeError):pass
         content=p.get('content') or p.get('contenu') or {};body='\n\n'.join('## '+label+'\n\n'+content[key] for key,label in adapter.LG_SECTIONS if content.get(key))
         localized=p.get('contenu') or {}
@@ -382,4 +381,7 @@ def statement(client,identity,title,url):
     # Empty standard input is valid (e.g. print-only problems). Some public
     # statements have no examples at all; their text is still readable.
     if not body.strip() or not all(isinstance(x.get('input'),str) and isinstance(x.get('output'),str) for x in samples):raise ValueError('原站未返回完整公开题面')
+    from statement_cleanup import clean_statement_markdown
+    body=clean_statement_markdown(body)
+    if translation:translation['markdown']=clean_statement_markdown(translation['markdown'])
     return {'id':identity,'title':title,'url':url,'markdown':'# '+title+'\n\n'+body,'samples':samples,'limits':limits,'statementAvailable':True,'statementVersion':3, **({'officialTags':official_tags} if official_tags is not None else {}), **({'translation':translation} if translation else {})}

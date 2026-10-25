@@ -52,3 +52,22 @@ export function fitActivityMonths(width,height) {
  const monthHeight=(height-gap*(rows-1))/rows;
  return {columns,size:Math.max(1,Math.min(48,Math.floor(Math.min((monthWidth-6*5)/7,(monthHeight-26-5*5)/6))))};
 }
+
+export function yearDays(year) {
+ if(!/^\d{4}$/.test(String(year))||Number(year)<1900||Number(year)>2199)return [];
+ return Array.from({length:12},(_,i)=>monthDays(`${year}-${String(i+1).padStart(2,'0')}`)).flat();
+}
+// Keep January 1 in the top-left and December 31 in the bottom-right.
+// A short final column is bottom-aligned without inserting fictitious dates.
+export function activityYearCells(days,rows) {
+ const remainder=days.length%rows;
+ if(!remainder)return days;
+ const start=days.length-remainder;
+ return [...days.slice(0,start),...Array(rows-remainder).fill(null),...days.slice(start)];
+}
+export function activityTone(count,step=5) {
+ const amount=Math.max(0,Number(count)||0),size=Math.max(1,Number(step)||5);
+ if(!amount)return {band:0,shade:0};
+ const band=Math.min(5,Math.ceil(amount/size));
+ return {band,shade:Math.min(5,Math.max(1,Math.ceil((amount-(band-1)*size)/size*5)))};
+}

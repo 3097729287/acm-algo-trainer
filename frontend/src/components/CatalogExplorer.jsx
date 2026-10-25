@@ -1,3 +1,4 @@
+import PagePagination from '@/components/PagePagination.jsx';
 import {useRef,useState,useEffect} from 'react';
 import {useFittedPageSize} from '@/lib/useFittedPageSize.js';
 import {catalogSegments,catalogEntries} from '@/lib/contestCatalog.js';
@@ -41,5 +42,5 @@ export default function CatalogExplorer({ rows, scope, onChange, onContest, rend
       if (leaf && onContest) onContest(items[0]);
       else onChange({ path: next, stage: leaf ? 'problems' : 'contests' });
     }}><Folder size={20}/><strong>{name}</strong><span>{onContest ? new Set(items.map(row => row.groupKey || `${row.platform}:${row.contest}`)).size : items.length}</span><ChevronRight size={16}/></button>)}
-  </section>{paginate&&entries.length>0&&<nav className="competition-pagination" aria-label="目录分页"><span>{entries.length} 项</span><button className="progress-button" disabled={current===1} onClick={()=>setPage(current-1)}>上一页</button><span>{current} / {pages}</span><button className="progress-button" disabled={current===pages} onClick={()=>setPage(current+1)}>下一页</button></nav>}</>;
+  </section>{paginate&&entries.length>0&&<PagePagination label="目录分页" count={`${entries.length} 项`} page={current} pages={pages} onPrevious={()=>setPage(current-1)} onNext={()=>setPage(current+1)}/>}</>;
 }

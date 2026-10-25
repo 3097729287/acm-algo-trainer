@@ -62,11 +62,12 @@ class AssetLibrary:
 
     def problem(self,identity,fetch=True):
         with self.lock:
-            value=dict(self._cached(identity))
+            from statement_cleanup import clean_statement
+            value=clean_statement(self._cached(identity))
         if fetch and not value['statementAvailable'] and value['url']:
             fetched=self._fetch_statement(identity,value)
             with self.lock:
-                value=dict(self._cached(identity))
+                value=clean_statement(self._cached(identity))
                 if fetched and fetched.get('statementError'):value['statementError']=fetched['statementError']
         if isinstance(value.get('translation'),dict) and value['translation'].get('kind')=='bundled':
             from translation import bundled_translation

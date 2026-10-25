@@ -383,7 +383,7 @@ export default function Workbench({shortcuts={}, problemId, contest = null, revi
         if (!alive || !isActive(record)) return;
         // A late statement response must never reset an editor or its draft.
         setProblem(answer);
-        if (answer.statementLoading) timer = setTimeout(poll, 1200);
+        if (answer.statementLoading) timer = setTimeout(poll, 500);
       } catch (error) {
         if (alive && isActive(record)) setProblem(previous => ({ ...previous, statementLoading: false, statementError: error.message }));
       }
@@ -730,7 +730,7 @@ export default function Workbench({shortcuts={}, problemId, contest = null, revi
           {loading ? <div className="wb-empty"><LoaderCircle className="wb-spinner" size={22} /><span>正在载入题面</span></div>
             : loadError ? <div className="wb-empty"><span>{loadError}</span><button type="button" className="wb-button" onClick={() => setLoadAttempt(value => value + 1)}><RotateCcw size={14} />重新载入</button></div>
             : problem?.markdown ? <StatementMarkdown markdown={language === 'zh' && translation ? translation.markdown : problem.markdown} samples={problem.samples} title={problem.title} images={problem.images} />
-            : problem?.statementLoading ? <div className="wb-empty" role="status"><LoaderCircle className="wb-spinner" size={22}/><strong>正在读取原站题面</strong><span>代码和草稿已就绪，可以先编辑。</span>{problem?.url && <a className="wb-button" href={problem.url} target="_blank" rel="noreferrer">打开原题<ExternalLink size={14}/></a>}</div>
+            : problem?.statementLoading ? <div className="wb-empty" role="status"><LoaderCircle className="wb-spinner" size={22}/><strong>正在读取原站题面</strong>{problem?.url && <a className="wb-button" href={problem.url} target="_blank" rel="noreferrer">打开原题<ExternalLink size={14}/></a>}</div>
             : <div className="wb-empty"><BookOpen size={24} /><strong>题面暂时未能加载</strong><span>{problem?.statementError || '请重试读取原站题面。'}</span><button type="button" className="wb-button" onClick={retryStatement}><RotateCcw size={14} />重新载入</button>{problem?.url && <a className="wb-button" href={problem.url} target="_blank" rel="noreferrer">打开原题<ExternalLink size={14} /></a>}</div>}
         </article>
       </div>

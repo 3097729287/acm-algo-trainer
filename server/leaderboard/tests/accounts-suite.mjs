@@ -13,6 +13,33 @@ const signup = { nickname: '星河', loginId: 'star_user', password: 'a-long-fix
 const credential = result => ({ userId: result.value.account.userId, token: result.value.token });
 
 export function accountsSuite(startFixture) {
+  test('public avatars are shared by hash, XP is bounded and private state stays private', async()=>{
+    const f=await startFixture();
+    const avatar='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jPqEAAAAASUVORK5CYII=';
+    try {
+      await call(f,'/v1/accounts/register',signup);
+      await call(f,'/v1/accounts/register',{...signup,loginId:'another_user',nickname:'另一个人'});
+      const a=credential(await call(f,'/v1/accounts/login',{loginId:signup.loginId,password:signup.password}));
+      const b=credential(await call(f,'/v1/accounts/login',{loginId:'another_user',password:signup.password}));
+      const progress={level:9,tier:'黑铁',rankTier:null,rankScore:null,titles:[],currentLevelXp:75,nextLevelXp:200};
+      const saved=await call(f,'/v1/profile',{publicProgress:progress,avatarData:avatar},a,'PUT');
+      assert.equal(saved.status,200);assert.match(saved.value.avatarHash,/^[a-f0-9]{64}$/);
+      const board=await call(f,'/v1/leaderboard?period=total',undefined,b);
+      const user=board.value.entries.find(item=>item.userId===a.userId);
+      assert.equal(user.avatarHash,saved.value.avatarHash);assert.deepEqual(user.publicProgress,progress);
+      assert(!JSON.stringify(board).includes(avatar),'images do not bloat ranking payloads');
+      assert.equal((await call(f,'/v1/avatars/'+a.userId,undefined,b)).value.avatarData,avatar);
+      assert.equal((await call(f,'/v1/avatars/'+a.userId)).status,401);
+      const {currentLevelXp,nextLevelXp,...legacy}=progress;
+      await call(f,'/v1/profile',{publicProgress:legacy},a,'PUT');
+      assert.equal((await call(f,'/v1/profile',undefined,a)).value.publicProgress.currentLevelXp,75);
+      for(const bad of ['https://example.com/a.png','data:image/svg+xml;base64,PHN2Zy8+',avatar.replace('image/png','image/jpeg'),'x'.repeat(49*1024)])assert.equal((await call(f,'/v1/profile',{avatarData:bad},a,'PUT')).status,400);
+      assert.equal((await call(f,'/v1/profile',{publicProgress:{...progress,currentLevelXp:201}},a,'PUT')).status,400);
+      await call(f,'/v1/profile',{avatarData:''},a,'PUT');
+      assert.deepEqual((await call(f,'/v1/avatars/'+a.userId,undefined,b)).value,{avatarData:'',avatarHash:null});
+      assert.equal((await call(f,'/v1/avatars/'+b.userId,undefined,a)).value.avatarData,'');
+    } finally {await f.close();}
+  });
   test('one ranking query returns at most 100 visible rows while preserving a caller outside that page', async () => {
     const f = await startFixture();
     try {

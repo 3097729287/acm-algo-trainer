@@ -241,6 +241,8 @@ class Handler(BaseHTTPRequestHandler):
                 elif path == '/api/preferences':
                     from preferences import save_preferences
                     value = save_preferences(training, body)
+                    if 'avatarData' in body.get('preferences', {}) and not self.server.admin_mode:
+                        training.leaderboard.queue_sync(force=True)
                 elif path == '/api/usage':
                     from usage import record
                     value = record(training, body)
@@ -427,6 +429,9 @@ class Handler(BaseHTTPRequestHandler):
             elif path in ("/api/leaderboard", "/api/rankings"):
                 period = parse_qs(target.query).get("period", ["daily"])[0]
                 self.send_json(200, self.server.admin_rankings.rankings(period) if self.server.admin_mode else self.server.training.leaderboard.rankings(period))
+            elif path == '/api/leaderboard/avatar':
+                query = parse_qs(target.query)
+                self.send_json(200, self.server.training.leaderboard.avatar(query.get('userId', [''])[0], query.get('hash', [''])[0]))
             elif path == '/api/social':
                 self.send_json(200, self.server.training.leaderboard.social())
             elif path == "/api/problem":

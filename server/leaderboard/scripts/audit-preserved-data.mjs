@@ -9,6 +9,7 @@ const coreTables = ['users','accounts','account_state','account_sessions','accou
   'account_nicknames','account_login_days','ac_events','official_ac_events','ranking_admins',
   'ranking_exclusions','ranking_schedule','ranking_cycles','ranking_rewards','ranking_admin_actions'];
 const socialTables = ['social_likes','social_notifications'];
+const appearanceTables=['account_public_avatars'];
 const identifier = name => '`' + name.replaceAll('`','``') + '`';
 
 export async function preservedData(pool) {
@@ -22,7 +23,7 @@ export async function preservedData(pool) {
   try {
     await connection.query('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ');
     await connection.query('START TRANSACTION WITH CONSISTENT SNAPSHOT, READ ONLY');
-    for (const table of [...coreTables,...socialTables].sort()) {
+    for (const table of [...coreTables,...socialTables,...appearanceTables].sort()) {
       if (!present.has(table)) continue;
       const [columns] = await connection.execute('SELECT COLUMN_NAME AS name FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME=? ORDER BY ORDINAL_POSITION',[table]);
       const names = columns.map(row=>row.name);
@@ -39,14 +40,14 @@ export async function preservedData(pool) {
   finally { connection.release(); }
 }
 
-export function assertPreserved(before,after) {
+export function assertPreserved(before,after,{requireAvatar=false}={}) {
   if (before?.format!=='tb-preserved-data-v1' || after?.format!==before.format ||
       !isDeepStrictEqual(before.totals,after.totals)) throw new Error('Preserved data totals differ.');
   for (const table of coreTables) {
     if (!before.tables?.[table] || !isDeepStrictEqual(before.tables[table],after.tables?.[table]))
       throw new Error('Preserved account data differs: '+table);
   }
-  for (const table of socialTables) {
+  for (const table of [...socialTables,...appearanceTables.filter(name=>requireAvatar||before.tables?.[name]||after.tables?.[name])]) {
     if (!after.tables?.[table]) throw new Error('Social migration is incomplete.');
     if (before.tables?.[table] ? !isDeepStrictEqual(before.tables[table],after.tables[table]) : after.tables[table].rows!==0)
       throw new Error('Existing social data differs: '+table);
@@ -66,13 +67,13 @@ async function main() {
     const input=Buffer.concat(chunks).toString('utf8');
     const lines=input.trim().split('\n');
     if (lines.length!==2) throw new Error('Provide exactly two fingerprint documents.');
-    assertPreserved(...lines.map(line=>JSON.parse(line)));
+    assertPreserved(...lines.map(line=>JSON.parse(line)),{requireAvatar:true});
     process.stdout.write('Preserved account, snapshot, receipt and XP fingerprints match.\n');
     return;
   }
   if (mode==='--stage') {
     const value=JSON.parse(await readFile(new URL('../BUILD-INFO.json',import.meta.url),'utf8'));
-    if (value.format!=='tb-account-runtime-v1' || value.version!=='1.2.2' ||
+    if (value.format!=='tb-account-runtime-v1' || value.version!=='1.2.3' ||
         !/^[0-9a-f]{40}$/.test(value.sourceCommit) || value.sourceCommit!==process.argv[3])
       throw new Error('Staged source identity does not match the reviewed commit.');
     process.stdout.write('Staged source identity verified.\n');

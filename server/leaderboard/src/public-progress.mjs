@@ -11,7 +11,11 @@ const objectWithFields = (value, allowed) => value && typeof value === 'object' 
 // snapshot. Rankings never deserialize the private account_state payload.
 export function validatePublicProgress(value) {
   const reject = () => { throw new AccountError(400, '公开成长资料无效'); };
-  if (!objectWithFields(value, fields) || !Number.isSafeInteger(value.level) || value.level < 1 || value.level > 100 ||
+  const optional=['currentLevelXp','nextLevelXp'];
+  const validFields=value&&typeof value==='object'&&!Array.isArray(value)&&fields.every(key=>Object.hasOwn(value,key))&&Object.keys(value).every(key=>[...fields,...optional].includes(key));
+  const hasXp=Object.hasOwn(value||{},'currentLevelXp')||Object.hasOwn(value||{},'nextLevelXp');
+  if(hasXp&&(!optional.every(key=>Number.isSafeInteger(value[key])&&value[key]>=0&&value[key]<=1000000000)||value.currentLevelXp>value.nextLevelXp))reject();
+  if (!validFields || !Number.isSafeInteger(value.level) || value.level < 1 || value.level > 100 ||
       !displayText(value.tier, 24) || !(value.rankTier === null || displayText(value.rankTier, 24)) ||
       !(value.rankScore === null || Number.isSafeInteger(value.rankScore) && value.rankScore >= 0 && value.rankScore <= 1000000) ||
       (value.rankTier === null) !== (value.rankScore === null) ||
@@ -24,7 +28,7 @@ export function validatePublicProgress(value) {
     categories.add(item.category);
     return { id: item.id, name: item.name, category: item.category, target: item.target };
   });
-  return { level: value.level, tier: value.tier, rankTier: value.rankTier, rankScore: value.rankScore, titles };
+  return { level: value.level, tier: value.tier, rankTier: value.rankTier, rankScore: value.rankScore, titles, ...(hasXp?{currentLevelXp:value.currentLevelXp,nextLevelXp:value.nextLevelXp}:{}) };
 }
 
 export function storedPublicProgress(payload) {

@@ -1,0 +1,15 @@
+/* Every paged surface owns one full-width footer with the same inset. */
+html .page-pagination[data-pagination] {display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;flex:0 0 auto;gap:12px;width:100%;min-height:44px;box-sizing:border-box;margin:0;margin-top:auto;padding:7px 12px;border:0;background:transparent;color:var(--muted);font-size:calc(var(--ui-font-size,15px) - 2px);line-height:20px;font-variant-numeric:tabular-nums;white-space:nowrap}
+html .page-pagination .pagination-total {min-width:0;overflow:hidden;text-overflow:ellipsis}
+html .page-pagination .pagination-actions {display:flex;align-items:center;flex:none;gap:4px;margin-left:auto}
+html .page-pagination .pagination-actions button {display:inline-flex;align-items:center;justify-content:center;flex:none;gap:5px;height:30px;min-height:30px;margin:0;padding:0 7px;border:0;border-radius:5px;background:transparent;color:inherit;font:inherit;line-height:20px;box-sizing:border-box}
+html .page-pagination .pagination-actions button>span {display:block;line-height:20px}
+html .page-pagination .pagination-actions svg {display:block;flex:none;width:15px;height:15px;margin:0}
+html .page-pagination .pagination-position {display:flex;align-items:center;justify-content:center;min-width:8ch;height:30px;padding-inline:2px;line-height:20px}
+html .page-pagination .pagination-actions button:not(:disabled):hover {background:var(--accent-soft);color:var(--accent)}
+html .page-pagination .pagination-actions button:disabled {opacity:.35;cursor:default}
+html .activity-month-page>.activity-month-details {padding:0}
+html .activity-month-details .activity-detail-heading {margin:12px 20px 0}
+html .activity-month-details .activity-detail-table {margin-inline:20px}
+html .competition-page:not(.competition-detail) {scrollbar-gutter:auto}
+@media(max-width:600px) {html .page-pagination[data-pagination] {gap:4px;padding-inline:8px}html .page-pagination .pagination-actions {gap:2px}html .page-pagination .pagination-actions button {padding-inline:4px}html .activity-month-details .activity-detail-heading {margin-inline:12px}html .activity-month-details .activity-detail-table {margin-inline:12px}}

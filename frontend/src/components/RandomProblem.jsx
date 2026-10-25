@@ -12,5 +12,5 @@ export default function RandomProblem({rows,disabled,onChoose,onError}) {
     catch(error){onError?.(error);}
     finally{pending.current=false;setOpening(false);}
   }
-  return <><Tooltip text="随机单题"><button type="button" className="icon-button catalog-random" aria-label="随机单题" disabled={disabled||opening||!rows.length} onClick={event=>setAnchor(event.currentTarget)}>{opening?<LoaderCircle className="spin" size={18}/>:<Dices size={18}/>}</button></Tooltip>{anchor&&<PopConfirm anchor={anchor} label="随机单题确认" title={`从当前 ${rows.length} 道题中随机选择一道？`} busy={opening} onCancel={()=>{setAnchor(null);anchor.focus();}} onConfirm={confirm} confirmLabel="确认" busyLabel="正在打开…" confirmTone="primary"/>}</>;
+  return <><Tooltip text="随机单题"><button type="button" className="icon-button catalog-random" aria-label="随机单题" disabled={disabled||opening||!rows.length} onClick={event=>setAnchor(event.currentTarget)}>{opening?<LoaderCircle className="spin" size={18}/>:<Dices size={18}/>}</button></Tooltip>{anchor&&<PopConfirm anchor={anchor} label="随机单题确认" title="随机选择一道题？" busy={opening} onCancel={()=>{setAnchor(null);anchor.focus();}} onConfirm={confirm} confirmLabel="确认" busyLabel="正在打开…" confirmTone="primary"/>}</>;
 }
