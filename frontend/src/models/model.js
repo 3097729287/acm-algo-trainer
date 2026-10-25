@@ -35,6 +35,7 @@ export const passed = (row) =>
 export function matches(row, query) {
   const words = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
   if (!words.length) return true;
+  const title = String(row.title || "").toLowerCase();
   return words.every((word) => {
     const range = word.match(/^(\d+)\s*[-~～]\s*(\d+)$/);
     if (range)
@@ -46,15 +47,23 @@ export function matches(row, query) {
     if (/^\d+$/.test(word))
       return (
         String(row.difficulty ?? "") === word ||
-        row.contest.toLowerCase().includes(word)
+        String(row.contest || "").toLowerCase().includes(word) ||
+        (words.length > 1 && title.includes(word))
       );
-    if (/^[a-z]\d?$/.test(word)) return row.problem.toLowerCase() === word;
+    if (/^[a-z]\d?$/.test(word))
+      return String(row.problem || "").toLowerCase() === word || (words.length > 1 && title.includes(word));
     return [row.contest, row.title, row.knowledge, row.status, row.platform]
       .join(" ")
       .toLowerCase()
       .replaceAll(" ", "")
       .includes(word.replaceAll(" ", ""));
   });
+}
+export function compareSearchRelevance(a, b, query) {
+  const phrase = query.trim().toLocaleLowerCase();
+  if (!phrase) return 0;
+  return Number(String(b.title || "").toLocaleLowerCase() === phrase) -
+    Number(String(a.title || "").toLocaleLowerCase() === phrase);
 }
 export function filteredRows(
   rows,
@@ -80,6 +89,8 @@ export function filteredRows(
         (max === "" || (r.difficulty != null && r.difficulty <= Number(max))),
     )
     .sort((a, b) => {
+      const relevance = compareSearchRelevance(a, b, query);
+      if (relevance) return relevance;
       let result;
       if (sort === "difficulty")
         result = (a.difficulty ?? -1) - (b.difficulty ?? -1);

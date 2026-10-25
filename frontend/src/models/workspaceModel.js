@@ -1,4 +1,4 @@
-import { matches } from "./model.js";
+import { matches, compareSearchRelevance } from "./model.js";
 import { matchesKnowledge,knowledgeFilterNames } from '../lib/knowledgeNames.js';
 import { compareContestNewest } from "@/lib/practiceMetadata.js";
 import { trainingDay } from "@/lib/trainingDate.js";
@@ -166,6 +166,8 @@ export function filterRows(rows, filters = {}) {
                 : row.verdict === result)),
     )
     .sort((a, b) => {
+      const relevance = compareSearchRelevance(a, b, query);
+      if (relevance) return relevance;
       let order = 0;
       if (sort === "contestDate")
         order = compareContestNewest(a, b) || String(a.problem).localeCompare(String(b.problem), "en", { numeric: true });
