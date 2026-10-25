@@ -578,3 +578,7 @@ html .submission-problem-link {flex:1;min-width:0;padding:0;border:0;border-radi
 .table-scroll:has(.problem-table):not(:has(.queue-heading)){overflow-y:hidden}.training-list-table .problem-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 
 .submission-fitted{overflow:hidden!important}.submission-page-controls>span:nth-child(2){margin-left:auto}
+
+/* Paged contest folders must measure the available viewport, not their first row. */
+html .competition-page .catalog-explorer.catalog-paged{flex:1;min-height:0;overflow:hidden}
+html .competition-page .catalog-paged>.catalog-folder-row{margin-bottom:0}
