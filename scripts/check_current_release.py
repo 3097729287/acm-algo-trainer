@@ -33,7 +33,7 @@ def main():
         output = work / 'setup'; output.mkdir()
         run([args.inno, '/DAppId=TB.Validation.' + work.name, '/DPackageDir=' + str(package),
              '/DOutputDir=' + str(output), '/DWebViewInstaller=' + str(args.webview2),
-             '/DAppVersion=' + version, '/DSkipLegacyRetirement=1', ROOT / 'packaging/installer/tb.iss'], work / 'compile.log')
+             '/DAppVersion=' + version, '/DSkipLegacyRetirement=1', '/DValidationSetup=1', ROOT / 'packaging/installer/tb.iss'], work / 'compile.log')
         setup = output / ('ToBe-Setup-' + version + '-win64.exe')
         fresh = work / 'fresh'
         install(setup, fresh, work / 'fresh-install.log')

@@ -4,7 +4,7 @@
 
 `BrandWordmark` 统一侧栏、登录及启动标识，To/Be 共用字号、字重及基线；颜色从原图标采样为 `#9b8afb` / `#efedf8`。原生 ICO 由 GDI 字形轮廓的联合包围框居中生成，浏览器图标使用对应字形。没有个人存储或共享协议变化。
 
-`check_update_helper.py` 在隔离升级和自动重启检查完成后，核对安装路径并删除本次 `TB.Validation.release-check-current-*` 登记，避免在 Windows 应用列表残留测试版本。实际安装使用原 AppId，管理员登记与当前 EXE 元数据同步。
+`check_update_helper.py` 在隔离升级和自动重启检查完成后，核对安装路径并删除本次 `TB.Validation.release-check-current-*` 登记，避免在 Windows 应用列表残留测试版本。隔离安装器通过 `ValidationSetup` 编译开关禁用快捷方式，避免覆盖正常程序入口。实际安装使用原 AppId 和新的 ToBe 开始菜单目录，管理员登记与当前 EXE 元数据同步。
 
 ## 1.4.14 ToBe 名称与兼容升级
 

@@ -41,6 +41,7 @@ AppSupportURL=https://github.com/3097729287/acm-algo-trainer/issues
 AppUpdatesURL=https://47.82.84.74/updates/stable/manifest-v1.json
 DefaultDirName={localappdata}\Programs\{#ProductDir}
 DefaultGroupName={#ProductName}
+UsePreviousGroup=no
 DisableProgramGroupPage=yes
 PrivilegesRequired=lowest
 ArchitecturesAllowed=x64compatible
@@ -75,9 +76,11 @@ Source: "{#PackageDir}\*"; DestDir: "{app}"; Excludes: "data\*,state\*,cache\*,b
 Source: "{#PackageDir}\data\library.sqlite3"; DestDir: "{app}\data"; Flags: ignoreversion
 Source: "{#WebViewInstaller}"; DestName: "WebView2-offline-x64.exe"; Flags: dontcopy nocompression
 
+#ifndef ValidationSetup
 [Icons]
 Name: "{group}\{#ProductName}"; Filename: "{app}\{#ProductExe}"; WorkingDir: "{app}"; IconFilename: "{app}\tb.ico"
 Name: "{autodesktop}\{#ProductName}"; Filename: "{app}\{#ProductExe}"; WorkingDir: "{app}"; IconFilename: "{app}\tb.ico"; Tasks: desktopicon
+#endif
 
 [Run]
 Filename: "{app}\{#ProductExe}"; Description: "打开 {#ProductName}"; WorkingDir: "{app}"; Flags: nowait postinstall skipifsilent
