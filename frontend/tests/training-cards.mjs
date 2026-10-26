@@ -1,0 +1,36 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {createServer} from 'vite';
+import {chromium} from 'playwright';
+const vite=await createServer({server:{host:'127.0.0.1',port:0,fs:{allow:[process.cwd(),fs.realpathSync('node_modules')]}}});await vite.listen();
+const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
+const page=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];page.on('pageerror',error=>errors.push(error.message));
+try {
+  await page.goto(`http://127.0.0.1:${vite.httpServer.address().port}/tests/training-cards-fixture.html`);
+  const card=page.locator('.training-list-card');await card.waitFor();
+  assert.equal(await card.locator('strong').innerText(),'搜索');assert.doesNotMatch(await card.innerText(),/洛谷|#112|算法1-7/);
+  assert.match(await card.innerText(),/周末/);assert.equal(await card.locator('svg circle').count(),2);
+  await card.locator('.like-burst:not([disabled])').click();assert.equal(await card.locator('.like-burst').getAttribute('data-burst'),'true');
+  await page.waitForFunction(()=>document.querySelector('.like-burst-count')?.textContent==='8');
+  assert.equal(await card.locator('.like-burst').isDisabled(),true);
+  await card.getByRole('button',{name:'打开题单：搜索'}).click();
+  await page.locator('.training-list-table').waitFor();
+  assert.equal(await page.locator('.training-active-tags').evaluate(el=>el.closest('.training-list-directory')!==null),true);
+  assert.match(await page.locator('.training-problem-knowledge').first().innerText(),/DFS/);
+  for(const status of ['AC','WA','TLE','MLE'])assert((await page.locator('.verdict').allTextContents()).includes(status));
+  await page.evaluate(()=>{trainingFixture.delay=2000;trainingFixture.remount();});
+  assert.equal(await page.getByText('正在读取题单…',{exact:true}).count(),0);await page.locator('.training-list-table').waitFor();
+  await page.getByRole('button',{name:'新建题单',exact:true}).click();
+  const dialog=page.getByRole('dialog');await dialog.getByLabel('题单名称').fill('我的搜索练习');
+  await dialog.getByRole('button',{name:'P1000 · 练习 1',exact:true}).click();await dialog.getByRole('button',{name:'P1001 · 练习 2',exact:true}).click();
+  await dialog.getByRole('button',{name:'上移第 2 题'}).click();await dialog.getByRole('button',{name:'保存',exact:true}).click();
+  await dialog.waitFor({state:'detached'});
+  await page.waitForFunction(()=>document.querySelector('.training-problem-row')?.dataset.id==='p1');
+  assert.deepEqual(await page.locator('.training-problem-row').evaluateAll(rows=>rows.map(row=>row.dataset.id)),['p1','p0']);
+  await page.getByRole('button',{name:'编辑题单',exact:true}).click();await page.getByRole('dialog').getByRole('button',{name:'移除第 1 题'}).click();await page.getByRole('dialog').getByRole('button',{name:'保存',exact:true}).click();
+  await page.waitForFunction(()=>document.querySelectorAll('.training-problem-row').length===1);
+  await page.setViewportSize({width:720,height:600});
+  await page.screenshot({path:'../.backups/local-1418/training-detail.png'});
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+  assert.deepEqual(errors,[]);console.log('PASS: list cards, shared-heart interaction, inline tags, knowledge/verdicts, cached navigation, custom creation/order/edit and responsive layout.');
+}finally{await browser.close();await vite.close();}

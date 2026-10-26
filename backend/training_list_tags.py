@@ -2,6 +2,8 @@
 import json
 import re
 import unicodedata
+import sqlite3
+from contextlib import closing
 from training import ServiceError, iso
 
 PREFIX = 'training-list-tags:'
@@ -27,7 +29,24 @@ def _index(training):
     training._list_tag_signature = records
 
 
-def read_tags(training, tag=None):
+def read_tags(training, tag=None, *, independent=False):
+    if independent:
+        # A committed read-only snapshot avoids waiting for long statistics or
+        # judging work holding the shared personal connection. The HTTP account
+        # barrier still binds this file to the authenticated user.
+        with closing(sqlite3.connect(training.db_path.resolve().as_uri() + '?mode=ro', uri=True, timeout=5)) as db:
+            records = db.execute('SELECT key,value FROM account_preferences WHERE key LIKE ? ORDER BY key', (PREFIX + '%',)).fetchall()
+        result = {}
+        for key, raw in records:
+            try:
+                labels = json.loads(raw)
+            except (ValueError, TypeError):
+                continue
+            if isinstance(labels, list):
+                labels = sorted({label for label in labels if isinstance(label, str) and 0 < len(label) <= 24})
+                if labels:
+                    result[key[len(PREFIX):]] = labels
+        return {'tags': result, **({'listIds': [identity for identity, labels in result.items() if tag in labels]} if tag is not None else {})}
     with training.lock:
         _index(training)
         result = {}

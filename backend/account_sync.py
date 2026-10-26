@@ -373,6 +373,13 @@ class AccountStateSync:
                                        if isinstance(item, str) or isinstance(item, dict) and isinstance(item.get('id'), str))
                     except (TypeError, ValueError):
                         continue
+            for record in db.execute("SELECT value FROM account_preferences WHERE key LIKE 'custom-training-list:%'"):
+                try:
+                    value = json.loads(record[0])
+                    if not value.get('deleted'):
+                        tracked.update(item['problemId'] for item in value.get('problems', []) if isinstance(item.get('problemId'), str))
+                except (ValueError, TypeError, AttributeError):
+                    continue
             tracked = frozenset(tracked)
             if signature == self.last_facts_signature and tracked == self.facts_ids:
                 return

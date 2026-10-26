@@ -248,6 +248,13 @@ class IntegrationService:
                      self.dates.public, self.dates.by_url]
             return hashlib.sha256(json.dumps(value, ensure_ascii=False, sort_keys=True).encode()).digest()
 
+    def accepted_records(self):
+        """Goal allocation only needs acceptance identities and timestamps."""
+        with self.lock:
+            return [{'url':item.get('url'),'acceptedAt':item.get('acceptedAt')}
+                    for account in self.state.get('accounts',{}).values()
+                    for item in (account or {}).get('solved',[])]
+
     def contest_metadata(self,raw,url=None):
         return self.dates.for_row(raw,url)
 

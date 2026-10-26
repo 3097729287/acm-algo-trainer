@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import datetime as dt
 import json
+import queue
 import logging
 import os
 from pathlib import Path
@@ -194,44 +195,109 @@ class DevToolsPage:
                                                    http_no_proxy=['127.0.0.1', 'localhost'])
         self.sequence = 0
         self.on_event = on_event
+        self.lock = threading.Lock()
+        self.pending = {}
+        self.events = queue.Queue()
+        self.closed = threading.Event()
+        self.wake = threading.Event()
+        threading.Thread(target=self._receive, name='tb-devtools-reader', daemon=True).start()
+        threading.Thread(target=self._events, name='tb-devtools-events', daemon=True).start()
+
+    def _receive(self):
+        from websocket import WebSocketTimeoutException
+        try:
+            while not self.closed.is_set():
+                try:
+                    value = json.loads(self.socket.recv())
+                except (TimeoutError, WebSocketTimeoutException):
+                    continue
+                if value.get('method') == 'Runtime.bindingCalled':
+                    self.events.put(value.get('params', {}))
+                    self.wake.set()
+                elif value.get('method') in ('Page.domContentEventFired', 'Page.frameNavigated', 'Runtime.executionContextsCleared'):
+                    self.wake.set()
+                elif 'id' in value:
+                    with self.lock:
+                        waiter = self.pending.get(value['id'])
+                        if waiter:
+                            waiter[1].append(value)
+                            waiter[0].set()
+        except Exception:
+            pass  # Navigation/closure wakes callers below instead of hanging.
+        finally:
+            self.closed.set()
+            self.wake.set()
+            with self.lock:
+                for ready, _ in self.pending.values():
+                    ready.set()
+            self.events.put(None)
+
+    def _events(self):
+        while True:
+            event = self.events.get()
+            if event is None:
+                return
+            try:
+                self.on_event(event, self)
+            except Exception:
+                logging.getLogger('tb.visible-submit').exception('Browser event delivery failed')
 
     def send(self, method, params=None):
-        self.sequence += 1
-        self.socket.send(json.dumps({'id': self.sequence, 'method': method, 'params': params or {}}))
-        return self.sequence
+        with self.lock:
+            if self.closed.is_set():
+                raise OSError('Browser connection closed')
+            self.sequence += 1
+            self.socket.send(json.dumps({'id': self.sequence, 'method': method, 'params': params or {}}))
+            return self.sequence
 
     def call(self, method, params=None, timeout=8):
-        from websocket import WebSocketTimeoutException
-        identity = self.send(method, params)
-        deadline = time.monotonic() + timeout
-        while time.monotonic() < deadline:
+        ready, replies = threading.Event(), []
+        with self.lock:
+            if self.closed.is_set():
+                raise OSError('Browser connection closed')
+            self.sequence += 1
+            identity = self.sequence
+            self.pending[identity] = (ready, replies)
             try:
-                value = json.loads(self.socket.recv())
-            except (TimeoutError, WebSocketTimeoutException):
-                continue
-            if value.get('method') == 'Runtime.bindingCalled':
-                self.on_event(value.get('params', {}), self)
-            if value.get('id') == identity:
-                if 'error' in value:
-                    raise RuntimeError(value['error'].get('message', 'Browser command failed'))
-                return value.get('result', {})
-        raise TimeoutError('Browser response timed out')
+                self.socket.send(json.dumps({'id': identity, 'method': method, 'params': params or {}}))
+            except Exception:
+                self.pending.pop(identity, None)
+                raise
+        try:
+            if not ready.wait(timeout):
+                raise TimeoutError('Browser response timed out')
+            if not replies:
+                raise OSError('Browser connection closed')
+            value = replies[0]
+            if 'error' in value:
+                raise RuntimeError(value['error'].get('message', 'Browser command failed'))
+            return value.get('result', {})
+        finally:
+            with self.lock:
+                self.pending.pop(identity, None)
 
     def evaluate(self, expression):
         result = self.call('Runtime.evaluate', {'expression': expression, 'returnByValue': True})
         return result.get('result', {}).get('value')
 
     def close(self):
+        self.closed.set()
+        self.wake.set()
         self.socket.close()
+        with self.lock:
+            for ready, _ in self.pending.values():
+                ready.set()
+        self.events.put(None)
 
 
 class ExternalBrowserBridge:
     transport = 'external'
     terminal = {'finished', 'closed', 'error', 'unconfirmed'}
 
-    def __init__(self, profile, guard=None, on_receipt=None, on_pending=None, browser_process=None):
+    def __init__(self, profile, guard=None, on_receipt=None, on_pending=None, browser_process=None, on_status=None):
         self.browser = browser_process or BrowserProcess(profile)
         self.guard, self.on_receipt, self.on_pending = guard, on_receipt, on_pending
+        self.on_status = on_status
         self.lock = threading.RLock()
         self.sessions, self.clients = {}, {}
         self.stopping = threading.Event()
@@ -277,8 +343,11 @@ class ExternalBrowserBridge:
             session = self.sessions.get(identity)
             if not session:
                 raise ServiceError(404, '没有找到本次浏览器提交')
-            return {key: value for key, value in session.items() if key not in
+            result = {key: value for key, value in session.items() if key not in
                     {'code', 'title', 'intent', 'created', 'focus', 'originalUrl', 'target', 'dispatching', 'dispatched', 'awaitingLogin'}}
+            if result['status'] == 'finished' and self.on_receipt and not result.get('receiptSaved'):
+                result['status'] = 'judging'
+            return result
 
     def _update(self, identity, value, inspection=False):
         if not isinstance(value, dict):
@@ -296,6 +365,8 @@ class ExternalBrowserBridge:
                 return
             if session.get('submissionId') and status == 'submitted':
                 return
+            changed = any(session.get(key) != value[key] for key in
+                          ('status', 'message', 'submissionId', 'verdict', 'attempted') if key in value)
             if status in ('needs_login', 'needs_verification') and session.get('status') != status:
                 session['focus'] = True
             for key in ('status', 'message', 'submissionId', 'verdict', 'attempted',
@@ -327,6 +398,13 @@ class ExternalBrowserBridge:
             else:
                 with self.lock:
                     session['receiptSaved']=True
+                    if isinstance(saved, dict):
+                        session['submission'] = saved.get('submission', saved)
+        if self.on_status and changed:
+            try:
+                self.on_status(self.status(identity))
+            except Exception:
+                logging.getLogger('tb.visible-submit').debug('Desktop status push unavailable', exc_info=True)
 
     def _event(self, identity, event, page):
         if event.get('name') != '__tbReceipt':
@@ -373,6 +451,7 @@ class ExternalBrowserBridge:
             # Submit keeps TB in front. Explicit inspection/login requests and
             # verification transitions can reveal this session's own window.
             while not self.stopping.is_set():
+                page.wake.clear()
                 with self.lock:
                     session = dict(self.sessions[identity])
                     if session['status'] in self.terminal:
@@ -388,7 +467,7 @@ class ExternalBrowserBridge:
                     if host not in LOGIN_HOSTS[session['platform']]:
                         if current not in ('about:blank', None):
                             self._update(identity, {'status':'error', 'message':'页面已离开支持的原站，自动操作已停止。'})
-                        self.stopping.wait(.4)
+                        page.wake.wait(.4)
                         continue
                     if focus:
                         page.call('Page.bringToFront')
@@ -423,7 +502,7 @@ class ExternalBrowserBridge:
                         self._update(identity, {'status':'unconfirmed' if session.get('attempted') else 'error',
                                                'message':'浏览器连接已断开，请核对原站记录后重试。'})
                         return
-                self.stopping.wait(1.5 if session.get('attempted') else (.15 if time.monotonic() - session['created'] < 30 else .6))
+                page.wake.wait(1.5 if session.get('attempted') else (.15 if time.monotonic() - session['created'] < 30 else .6))
         except Exception:
             logging.getLogger('tb.visible-submit').exception('Visible browser session failed')
             self._update(identity, {'status':'error', 'message':'浏览器未能连接，请重新打开提交页；代码已保留。'})

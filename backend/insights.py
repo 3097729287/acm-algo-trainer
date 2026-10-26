@@ -76,6 +76,8 @@ def build_insights(rows, submissions, history, workspace, hub, now):
     for row in rows:
         key = canonical_url(row.get("url"))
         aliases[row["id"]] = by_url[key]["id"] if key else row["id"]
+        for alias in row.get('aliasIds', []):
+            aliases[alias] = aliases[row['id']]
     records = [record for record in submissions if record.get("mode") == "submit" and record.get("finished_at")]
     personal = set()      # 2026-10-10 起不再使用：本地通过不算 AC，见下方说明
     samples = set()
@@ -186,7 +188,6 @@ def build_insights(rows, submissions, history, workspace, hub, now):
     tag_ids = defaultdict(set)
     for identity, row in library.items():
         canonical = aliases.get(identity, identity)
-        row = library.get(canonical, row)
         names=set(row.get('tags',[]))
         names.update(part.strip() for path in row.get('knowledgeCategories',[]) for part in path.split(' / ') if part.strip())
         for tag in names:

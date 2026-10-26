@@ -1,6 +1,6 @@
 # ToBe · Training Workbench
 
-**ToBe 1.4.17** reduces catalogue cache memory and first-read work. Activity includes Monday-to-Sunday AC totals. Training lists support browsable and private custom tags. Saved source translations repair placeholder statements. Rankings show synchronized public avatars and XP bars. Course navigation sits at the two header edges without button borders.
+**ToBe 1.4.18 (local delivery in preparation; unpublished)** adds relative contest dates and read indicators, leaf training-list cards, private custom lists, question knowledge labels and verdicts. Rankings use the avatar XP ring; topbar hearts show previous + today. Persistent browser events reduce receipt latency; local reads and update guards address stalls. Shared public-list hearts require service 1.2.4, whose deployment needs separate authorization. [Scope and validation](docs/releases/1.4.18.md).
 
 Includes the ten algorithm topics, training lists, illustrated editorials and interface fixes previously delivered locally in 1.4.2–1.4.16. The public seed retains 13,184 problem records, 9,652 statement archives, 1,378 default/detailed editorial pairs, 445 lectures and 563 lists. Archived statements are not all complete or readable; see the [audit and release scope](docs/releases/1.4.17.md). The separate full editorial review remains incomplete.
 

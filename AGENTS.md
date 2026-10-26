@@ -2,6 +2,8 @@
 
 TB is the primary product. Active code belongs in `frontend/`, `backend/`, `desktop/`, and `server/leaderboard/`.
 
+- 用户界面文案约束（2026-10-26）：未经用户明确要求，不得自行增加界面文字、标签或说明。实现功能时复用既有文案。用户最新要求保留题单标签，目录中合理排布，题单内标签合并到顶部导航同一行，不再单独占一行。
+
 - Delivery preference (user instruction 2026-10-24): after validating TB features or teaching updates, package them into the normal desktop program and deliver the local upgrade directly. Do not default to a standalone preview, ask the user to experiment first, or stop with unpackaged source. Do not ask again whether to package. Preserve isolated install/upgrade checks and personal-data backups. This authorizes local delivery, not automatic public publication or service deployment; interactive teaching experiments remain part of Algorithm Lab.
 
 - Read `docs/architecture.md` before changing storage, API boundaries, or packaging.

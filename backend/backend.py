@@ -14,6 +14,7 @@ import secrets
 import socket
 import sys
 import threading
+from contextlib import nullcontext
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, unquote, urlsplit
 
@@ -109,6 +110,12 @@ class Handler(BaseHTTPRequestHandler):
                 raise APIError(403, "会话已失效，请刷新")
 
     def dispatch(self, writing=False):
+        path = unquote(urlsplit(self.path).path)
+        starting = writing and path in {'/api/submissions', '/api/official/open', '/api/official/submit', '/api/contests/start', '/api/software-update/install'}
+        with self.server.work_start_lock if starting else nullcontext():
+            self._account_dispatch(writing)
+
+    def _account_dispatch(self, writing=False):
         accounts = getattr(self.server, 'accounts', None)
         if accounts is not None:
             path = unquote(urlsplit(self.path).path)
@@ -175,6 +182,8 @@ class Handler(BaseHTTPRequestHandler):
                     raise APIError(400, "JSON 格式无效")
                 if not isinstance(body, dict):
                     raise APIError(400, "请求必须是 JSON 对象")
+                if path in {'/api/submissions', '/api/official/open', '/api/official/submit', '/api/contests/start'} and self.server.software_updates.status == 'installing':
+                    raise APIError(409, '正在安装更新，请等待程序重新启动')
                 training = self.server.training
                 if path.startswith('/api/account/'):
                     if accounts is None:
@@ -202,16 +211,17 @@ class Handler(BaseHTTPRequestHandler):
                     value = self.server.software_updates.download()
                 elif path == "/api/software-update/install":
                     if accounts is not None and accounts.session:
-                        sync = accounts.sync_pending(wait=True)
-                        if sync.get('pending'):
-                            raise APIError(409, '云端数据尚未同步，本机草稿已保留；同步完成后继续更新。')
+                        # The local SQLite journal and online upgrade backup
+                        # preserve unsent changes. A slow cloud upload must not
+                        # hold an installation request/account barrier open.
+                        accounts.queue_sync()
                     value = self.server.software_updates.install()
                 elif path == "/api/status":
                     with training.lock:
                         training.assert_solution_unlocked(body.get("id"))
                         value = store.update(body)
                 elif path == "/api/training/start":
-                    value = training.start_training(body.get("id"), assisted=body.get("assisted") is True)
+                    value = training.start_training(body.get("id"), assisted=body.get("assisted") is True, defer_workspace=body.get('deferWorkspace') is True)
                 elif path == "/api/training/remove":
                     value = training.remove_training(body.get("id"))
                 elif path == "/api/training/clear":
@@ -242,7 +252,13 @@ class Handler(BaseHTTPRequestHandler):
                     value = record(training, body)
                 elif path == '/api/training-list-tags':
                     from training_list_tags import save_tags
-                    value = save_tags(training, body, {item['id'] for item in store.library.training_lists()})
+                    from custom_training_lists import read_lists
+                    value = save_tags(training, body, {item['id'] for item in store.library.training_lists() + read_lists(training)})
+                elif path == '/api/training-lists/save':
+                    from custom_training_lists import save_list
+                    value = save_list(training, body)
+                elif path == '/api/training-list-likes':
+                    value = training.leaderboard.list_likes(body=body)
                 elif path == "/api/submissions":
                     value = training.submit(body.get("id"), body.get("code"), body.get("mode", "submit"), body.get("input", ""), body.get("contestId"), body.get("sampleRun"), body.get("language", "cpp17"), review_id=body.get('reviewId'))
                 elif path == "/api/contests/preview":
@@ -360,7 +376,10 @@ class Handler(BaseHTTPRequestHandler):
                                                             compressed=accepts_gzip(self.headers.get('Accept-Encoding', ''))))
             elif path == "/api/training-lists":
                 from training_list_tags import read_tags
-                self.send_json(200, {'lists': store.library.training_lists(), **read_tags(self.server.training)})
+                from custom_training_lists import read_lists
+                self.send_json(200, {'lists': store.library.training_lists() + read_lists(self.server.training), **read_tags(self.server.training, independent=True)})
+            elif path == '/api/training-list-likes':
+                self.send_json(200, self.server.training.leaderboard.list_likes(ids=parse_qs(target.query).get('id', [])))
             elif path == '/api/training-list-tags':
                 from training_list_tags import read_tags
                 self.send_json(200, read_tags(self.server.training, parse_qs(target.query).get('tag', [None])[0]))
@@ -470,7 +489,9 @@ class Handler(BaseHTTPRequestHandler):
                         raise APIError(404, "没有找到本次原站提交会话")
                     self.server.training.assert_official_allowed(session["id"], session.get('contestId'), receipt=True)
                 receipt = self.server.official_status(identity)
-                self.server.record_official_receipt(identity, receipt)
+                saved = self.server.record_official_receipt(identity, receipt)
+                if isinstance(saved, dict):
+                    receipt = {**receipt, 'submission': saved.get('submission', saved)}
                 self.send_json(200, receipt)
             elif path == "/api/submission":
                 identity = parse_qs(target.query).get("id", [None])[0]
@@ -599,6 +620,18 @@ class Handler(BaseHTTPRequestHandler):
 
 
 class LocalServer(ThreadingHTTPServer):
+    def assert_update_ready(self):
+        bridge = getattr(self, 'browser_bridge', None)
+        if bridge is not None:
+            with bridge.lock:
+                if any(item['status'] in {'loading', 'submitted', 'judging', 'unconfirmed'} for item in bridge.sessions.values()):
+                    raise ServiceError(409, '请等待当前官方提交取得结果后再安装更新')
+        if self.training.active_contest():
+            raise ServiceError(409, '请先结束当前模拟赛，再安装更新')
+        with self.training.lock:
+            if self.training.connection.execute('SELECT 1 FROM submissions WHERE finished_at IS NULL LIMIT 1').fetchone():
+                raise ServiceError(409, '请等待当前评测完成后再安装更新')
+
     # A login mounts the workbench and loads several chunks/API reads together.
     # The TCPServer default of five connections can reject those bursts on
     # Windows, poisoning a lazy module import until the page is reloaded.
@@ -709,7 +742,8 @@ class LocalServer(ThreadingHTTPServer):
             self.accounts.require()
         with self.training.lock:
             key = canonical_url(url)
-            ids = {row["id"] for row in self.store.data()["rows"] if key and canonical_url(row.get("url")) == key}
+            rows = self.store.identity_rows() if callable(getattr(self.store, 'identity_rows', None)) else self.store.data()['rows']
+            ids = {row["id"] for row in rows if key and canonical_url(row.get("url")) == key}
             with self.official_session_lock:
                 sessions = list(self.official_sessions.values())
             ids.update(session["id"] for session in sessions if key and canonical_url(session["url"]) == key)
@@ -772,6 +806,7 @@ def create_server(port=0, data_file=None, data_root=None, dist_dir=None, history
             training_file = (STATE if ADMIN_MODE else ROOT / 'admin-workspace' / 'state') / 'tb-personal.sqlite3'
     explicit_training = training_file is not None
     server = LocalServer(("127.0.0.1", port), Handler)
+    server.work_start_lock = threading.RLock()
     server.daemon_threads = True
     from response_cache import CompressedResponses
     server.catalogue_compression=CompressedResponses()
@@ -808,6 +843,7 @@ def create_server(port=0, data_file=None, data_root=None, dist_dir=None, history
         server.calendar_lock = threading.RLock()
         from software_updates import SoftwareUpdates
         server.software_updates = SoftwareUpdates(server.state_dir, offline=True if admin_mode else None)
+        server.software_updates.guard = server.assert_update_ready
         from knowledge import KnowledgeAnalysisCache
         server.store.knowledge_analysis = KnowledgeAnalysisCache(server.state_dir / "tb-knowledge-analysis.json")
         server.translation = translation
@@ -820,8 +856,14 @@ def create_server(port=0, data_file=None, data_root=None, dist_dir=None, history
         def account_credentials(owner):
             return server.accounts.credentials(owner) if server.accounts is not None else None
         def personal_service(path):
-            return TrainingService(server.store, path, assets=assets, judge=judge, clock=clock, backup_dir=backup_dir, rng=rng, admin_mode=admin_mode,
-                                   account_provider=account_credentials if require_account else None)
+            service = TrainingService(server.store, path, assets=assets, judge=judge, clock=clock, backup_dir=backup_dir, rng=rng, admin_mode=admin_mode,
+                                      account_provider=account_credentials if require_account else None)
+            def changed(value):
+                listener = getattr(server, 'submission_listener', None)
+                if callable(listener) and getattr(server, 'training', None) is service:
+                    listener(value)
+            service.on_submission = changed
+            return service
         server.training = personal_service(training_file)
         if require_account:
             from accounts import Accounts

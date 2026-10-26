@@ -5,6 +5,7 @@ import SortDirection from '@/components/SortDirection.jsx';
 import RandomProblem from '@/components/RandomProblem.jsx';
 import useNavigationKeys from '@/lib/useNavigationKeys.js';
 import useUsage from '@/lib/useUsage.js';
+import useContestCalendar from '@/lib/useContestCalendar.js';
 import PopConfirm from '@/components/PopConfirm.jsx';
 import {matchesShortcut} from '@/lib/shortcuts.js';
 import PageSearch from '@/components/PageSearch.jsx';
@@ -568,6 +569,7 @@ export default function App() {
     [settingsTab, setSettingsTab] = useState(()=>{try{const value=JSON.parse(sessionStorage.getItem(`tb.settings.location.${window.__tbAccount?.userId || window.__tbAccount?.loginId || 'local'}`)||'{}').tab;return ['appearance','interaction','updates','training','help','advanced','accounts','thanks','guide','animation','admin'].includes(value)?value:'home';}catch{return 'home';}});
   const [keyboardSelection, setKeyboardSelection] = useState(false), [listOrder, setListOrder] = useState(null);
   const restoreList = useRef(null);
+  const practicePrefetch = useRef(null);
   const labVisit = useRef({leftAt:null,scrollTop:0});
   const trainingListsVisit = useRef({});
   const [tourOpen,setTourOpen]=useState(false);
@@ -601,6 +603,7 @@ export default function App() {
     serverOffset = useRef(0),
     previousActive = useRef(null);
   const api = useCallback((path, body) => request(path, body, token.current), []);
+  const calendar = useContestCalendar(api, Boolean(data), dialog === 'contest-calendar', now);
   const [account, setAccount] = useState(() => window.__tbAccount || null);
   const social = useSocial(api, Boolean(data && account?.userId));
   useUsage(api,data&&account?.userId);
@@ -1087,23 +1090,23 @@ export default function App() {
     setBusy(true);
     void loadWorkbench().catch(()=>{});
     // Start the bounded statement fetch while training activation is persisted.
-    void api(`problem?id=${encodeURIComponent(id)}&background=1`).catch(()=>{});
+    const prepared = api(`problem?id=${encodeURIComponent(id)}&background=1`).catch(()=>null);
     const list = listRef.current;
     const context = contextRef.current && practiceId ? contextRef.current : {
       page, ids: problemIds || visibleRef.current.map(row => row.id), id, libraryPage: currentLibraryPage,
       scrollTop: list?.scrollTop || 0, scrollLeft: list?.scrollLeft || 0,
     };
     if (list) {
-      const goals=new Set((workspace.goalTasks || []).map(task=>task.id)), queues=new Set(QUEUES.map(item=>item.id));
-      const groups=Object.fromEntries(visibleRef.current.map(row=>[row.id,goals.has(row.id)?'goals':queues.has(row.queue)?row.queue:row.accepted?'accepted':'practice']));
-      setListOrder({ page, filters: currentFilters, query, ids: context.ids, groups });
+      setListOrder({ page, filters: currentFilters, query, ids: context.ids });
     }
     pointerPosition.current = null;
     setHoveredRow(null);
     setKeyboardSelection(false);
     try {
-      const result = await api("training/start", { id, ...(assisted ? { assisted: true } : {}) });
-      applyWorkspace(result.workspace);
+      const result = await api("training/start", { id, deferWorkspace:true, ...(assisted ? { assisted: true } : {}) });
+      if (result.workspace) applyWorkspace(result.workspace);
+      else void api('workspace').then(applyWorkspace).catch(()=>{});
+      practicePrefetch.current = !result.reviewTask && !result.workspace?.activeContest ? {id,promise:prepared} : null;
       contextRef.current = context;
       advanceRef.current = null;
       setPracticeId(id);
@@ -1703,8 +1706,7 @@ export default function App() {
   }
   function renderTable(items) {
     const goalIds = new Set((workspace.goalTasks || []).map(task => task.id));
-    const frozenGroups=listOrder?.page===page && listOrder.filters===currentFilters && listOrder.query===query ? listOrder.groups : null;
-    const groupOf=row=>trainingGroup(row,goalIds,frozenGroups);
+    const groupOf=row=>trainingGroup(row,goalIds);
     const groups = page === "mine" ? [
       { id: "goals", name: "今日目标", color: "accent", rows: items.filter(row => groupOf(row)==='goals') },
       ...QUEUES.map(queue => ({ ...queue, rows: items.filter(row => groupOf(row)===queue.id) })),
@@ -2030,7 +2032,7 @@ export default function App() {
               </button>
             )}
             <button className="text-button topbar-daily-ac topbar-status-chip" aria-label={`AC：历史 ${beforeTodayAc}，今日 ${todayAc}`} onClick={()=>go('mine')}><span className="metric-label">AC</span><span className="metric-separator" aria-hidden="true">:</span><b>{beforeTodayAc}{todayAc>0&&<span className="topbar-ac-today">+{todayAc}</span>}</b></button>
-            {social.snapshot?.available && <button className="text-button topbar-love-count topbar-status-chip" data-positive={Number(social.snapshot.todayLikes)>=1} aria-label={`今日获得爱心 ${social.snapshot.todayLikes ?? "—"}`} onClick={() => setDialog('updates')}><Heart size={18} fill="currentColor"/><span className="metric-separator" aria-hidden="true">:</span><b>{social.snapshot.todayLikes ?? "—"}</b></button>}
+            {social.snapshot?.available && <button className="text-button topbar-love-count topbar-status-chip" data-positive={Number(social.snapshot.todayLikes)>=1} aria-label={`爱心：历史 ${Math.max(0,(social.snapshot.totalLikes||0)-(social.snapshot.todayLikes||0))}，今日 ${social.snapshot.todayLikes||0}`} onClick={() => setDialog('updates')}><Heart size={18} fill="currentColor"/><span className="metric-separator" aria-hidden="true">:</span><b>{Math.max(0,(social.snapshot.totalLikes||0)-(social.snapshot.todayLikes||0))}{social.snapshot.todayLikes>0&&<span className="topbar-ac-today">+{social.snapshot.todayLikes}</span>}</b></button>}
             <ProfileBadge growth={growth} avatar={prefs.avatarData} nickname={account?.nickname || profileSnapshot?.profile?.nickname} onClick={()=>openAccounts('profile')} onAvatarClick={()=>setDialog('avatar')}/>
             <IconButton
               label="消息通知"
@@ -2044,7 +2046,7 @@ export default function App() {
 
           </div>
         </header>
-        <footer className={"app-statusbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}> <Tooltip text="比赛日历"><button className="achievement-top-button contest-calendar-button" aria-label="比赛日历" onClick={()=>setDialog('contest-calendar')}><CalendarClock size={18}/></button></Tooltip><button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><small>{(insights?.dailyTasks?.tasks || []).filter(task => task.claimed).length}/{insights?.dailyTasks?.tasks?.length || 6}</small>{(insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed)) && <i className="notification-dot" />}</button>
+        <footer className={"app-statusbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}> <Tooltip text="比赛日历"><button className="achievement-top-button contest-calendar-button" aria-label="比赛日历" onClick={()=>setDialog('contest-calendar')}><CalendarClock size={18}/>{calendar.hasUnreadToday&&<i className="notification-dot" aria-hidden="true"/>}</button></Tooltip><button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><small>{(insights?.dailyTasks?.tasks || []).filter(task => task.claimed).length}/{insights?.dailyTasks?.tasks?.length || 6}</small>{(insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed)) && <i className="notification-dot" />}</button>
             <button className="achievement-top-button" aria-label="成就" onClick={openAchievements}><Medal size={17} /><small>{unlockedAchievements.length}/{achievements.length}</small>{unseenAchievements.length > 0 && <i className="notification-dot" />}</button>
 {prefs.widgets && <TopbarClock />}</footer>
         {error && (
@@ -2066,6 +2068,7 @@ export default function App() {
               key={"practice:" + practiceId}
               shortcuts={prefs.shortcuts}
               problemId={practiceId}
+              preparedProblem={practicePrefetch.current?.id===practiceId?practicePrefetch.current.promise:null}
               reviewTask={practiceReview}
               contest={null}
               api={api}
@@ -2213,7 +2216,7 @@ export default function App() {
         </div>
       )}
       {dialog === "daily-tasks" && <Modal title="每日任务" onClose={() => setDialog(null)} wide><DailyTasks dailyTasks={insights?.dailyTasks} onClaim={async (id, date) => { try { const result = await api("daily-tasks/claim", { id, date }); backgroundSeq.current++; setInsights(previous => ({ ...previous, dailyTasks: result.dailyTasks })); notice("经验已领取", "success"); void refreshBackground(true); } catch (issue) { notice(issue.message, "error"); throw issue; } }} /></Modal>}
-      {dialog === 'contest-calendar' && <Modal title="比赛日历" onClose={()=>setDialog(null)} wide><ContestCalendar api={api} onOpen={async contest=>{await reload();setCalendarContest(contest.import?.title||contest.title);setDialog(null);go("competitions");}}/></Modal>}
+      {dialog === 'contest-calendar' && <Modal title="比赛日历" onClose={()=>setDialog(null)} wide><ContestCalendar calendar={calendar} onOpen={async contest=>{await reload();setCalendarContest(contest.import?.title||contest.title);setDialog(null);go("competitions");}}/></Modal>}
       {dialog === "avatar" && <Modal title="修改头像" onClose={()=>setDialog(null)}><Suspense fallback={<p role="status">正在读取…</p>}><AvatarSettings prefs={prefs} setPrefs={setPrefs} onError={message=>notice(message,"error")}/></Suspense></Modal>}
       {tourOpen && <Suspense fallback={null}><Onboarding initialGuide={tourContext} practiceId={practiceId||(mockFocus?currentMockSlot?.id:null)} onComplete={finishOnboarding} onNavigate={(target,tab)=>{go(target);if(target==="settings")setSettingsTab(tab||"home");}}/></Suspense>}
       {dialog === "achievements" && <Modal title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => setDialog(null)} wide><AchievementPanel achievements={achievements} newIds={unseenAchievements.map(item => item.id)} onSeen={markAchievementSeen} /></Modal>}

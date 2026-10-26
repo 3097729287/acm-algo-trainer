@@ -238,12 +238,22 @@ def run_desktop() -> int:
         bind_resources(window)
         # 桌面全屏：受本机写接口保护，通过 pywebview 原生 toggle_fullscreen 实现。
         bind_desktop_fullscreen(server, window)
+        def push_status(name, value):
+            window.evaluate_js('window.dispatchEvent(new CustomEvent(' + json.dumps(name) +
+                               ',{detail:' + json.dumps(value, ensure_ascii=True) + '}))')
+        server.submission_listener = lambda value: push_status('tb:submission-status', value)
+        def push_official(value):
+            with server.official_session_lock:
+                session = server.official_sessions.get(value.get('sessionId'))
+            if session and session.get('_training') is server.training:
+                push_status('tb:official-status', value)
         from external_browser import ExternalBrowserBridge, ExternalBrowserPreparation
         official = ExternalBrowserBridge(
             STATE.parent / 'cache' / 'tb-submission-browser',
             guard=server.validate_official_url,
             on_receipt=server.record_official_receipt,
             on_pending=server.record_official_pending,
+            on_status=push_official,
         )
         server.browser_bridge = official
         server.browser_preparation = ExternalBrowserPreparation(official)
@@ -256,12 +266,6 @@ def run_desktop() -> int:
         if getattr(sys, 'frozen', False):
             from update_installer import launch_installer
             from training import ServiceError
-            def update_guard():
-                with official.lock:
-                    if any(session['status'] in {'loading', 'submitted', 'judging', 'unconfirmed'} for session in official.sessions.values()):
-                        raise ServiceError(409, '请等待当前官方提交取得结果后再安装更新')
-                if server.training.active_contest():
-                    raise ServiceError(409, '请先结束当前模拟赛，再安装更新')
             def install_update(path, digest, version):
                 if path.suffix.lower() == ".zip":
                     from update_patch import launch_patch
@@ -269,7 +273,6 @@ def run_desktop() -> int:
                 else:
                     launch_installer(path, digest, version, APP_DIR)
                 threading.Timer(1, window.destroy).start()
-            server.software_updates.guard = update_guard
             server.software_updates.launcher = install_update
         server.software_updates.start()
         if getattr(sys, 'frozen', False) and not ADMIN_MODE and os.environ.get('TB_OFFLINE') != '1':

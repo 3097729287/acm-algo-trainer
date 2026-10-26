@@ -6,8 +6,9 @@ import { AccountError, loginId, password, verifyPassword, hashPassword, tokenHas
 import { validateState, guardStateJson, STATE_LIMIT } from './account-state.mjs';
 import { publicId, storedPublicProgress, validatePublicProgress } from './public-progress.mjs';
 import { socialSnapshot, socialWrite, rankingSocial } from './social.mjs';
+import {trainingListLikes} from './training-list-likes.mjs';
 
-const VERSION = '1.2.3';
+const VERSION = '1.2.4';
 const NOTICE = '排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const hashPattern = /^[a-f0-9]{64}$/;
@@ -124,7 +125,7 @@ export async function handle(request, env) {
     const timestamp = new Date(now).toISOString();
     if (path === '/v1/health' && request.method === 'GET') {
       await env.STORE.health();
-      return json({ ok: true, version: VERSION, eventScope: 'official', accountStateProtocol: 1, singleSession: true, publicProgressProtocol: 1, publicAppearanceProtocol: 1, nicknameUnique: true, stateResumeProtocol: 1, socialProtocol:env.STORE.social && await env.STORE.social.available() ? 1 : 0 });
+      return json({ ok: true, version: VERSION, eventScope: 'official', accountStateProtocol: 1, singleSession: true, publicProgressProtocol: 1, publicAppearanceProtocol: 1, nicknameUnique: true, stateResumeProtocol: 1, socialProtocol:env.STORE.social && await env.STORE.social.available() ? 1 : 0, trainingListLikesProtocol:env.STORE.social && await env.STORE.social.listAvailable() ? 1 : 0 });
     }
     if (path === '/v1/profile/register') throw new ApiError(410, '请升级 TB 并注册账号后登录');
     if (['/v1/accounts/register', '/v1/accounts/login'].includes(path) && request.method === 'POST') {
@@ -160,6 +161,12 @@ export async function handle(request, env) {
     const user = await authenticate(request, env, now);
     await limit(env, 'user:' + user.user_id, Math.min(600, Math.max(10, Number(env.REQUESTS_PER_USER_MINUTE) || 120)), 60, Math.floor(now / 1000));
     if (path === '/v1/social' && request.method === 'GET') return json(await socialSnapshot(env.STORE,user,now));
+    if(path==='/v1/training-list-likes' && request.method==='GET')return json(await trainingListLikes(env.STORE,user,null,url.searchParams.getAll('id'),false,now));
+    if(path==='/v1/training-list-likes' && request.method==='POST') {
+      const value=await body(request,['listId'],1024);
+      await limit(env,'training-list-like:'+user.user_id,60,60,Math.floor(now/1000));
+      return json(await trainingListLikes(env.STORE,user,credentials(request).token,[value.listId],true,now));
+    }
     if (['/v1/social/likes','/v1/social/comments','/v1/social/read'].includes(path) && request.method === 'POST') {
       const fields=path.endsWith('/likes') ? ['targetId'] : path.endsWith('/comments') ? ['targetId','text','requestId'] : ['ids','all'];
       const value=await body(request,fields,8192);

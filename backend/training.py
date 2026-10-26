@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from concurrent.futures import ThreadPoolExecutor
-from contextlib import contextmanager
+from contextlib import contextmanager, nullcontext
 from contextvars import ContextVar
 import datetime as dt
 import hashlib
@@ -205,7 +205,8 @@ class TrainingService:
         snapshot = _LIBRARY_VIEW.get()
         if snapshot is not None and snapshot[0] is self:
             return list(snapshot[1])
-        return self.store.data()["rows"]
+        reader = getattr(self.store, 'training_data', None) or self.store.data
+        return reader()["rows"]
 
     @contextmanager
     def _library_view(self):
@@ -223,7 +224,11 @@ class TrainingService:
     def _row(self, identity):
         if not isinstance(identity, str) or not identity or len(identity) > 512:
             raise ServiceError(400, "题目编号无效")
-        rows = [row for row in self._library() if row["id"] == identity]
+        snapshot = _LIBRARY_VIEW.get()
+        scoped = snapshot is not None and snapshot[0] is self
+        # Direct SQLite lookup avoids decoding the full library while holding
+        # the personal-state lock on every draft save and Submit click.
+        rows = [row for row in self._library() if row["id"] == identity] if scoped or not hasattr(self.store, 'row') else []
         if not rows and hasattr(self.store, "row"):
             try:
                 raw = self.store.row(identity)
@@ -280,9 +285,22 @@ class TrainingService:
         scoped = snapshot[2] if snapshot is not None and snapshot[0] is self else None
         if scoped is not None and 'aliases' in scoped:
             return scoped['aliases']
-        rows = list(library if library is not None else self._library())
+        reader = getattr(self.store, 'identity_rows', None)
+        projected = library is None and callable(reader)
+        rows = reader() if projected else list(library if library is not None else self._library())
+        signature = None
+        if projected:
+            signature = (tuple((row['id'], row.get('url'), row.get('source'), tuple(row.get('aliasIds') or [])) for row in rows),
+                         tuple(row[0] for row in self.connection.execute('SELECT id FROM training')),
+                         tuple(tuple(row) for row in self.connection.execute('SELECT problem_id,updated_at FROM account_problem_facts')))
+            cached = getattr(self, '_alias_cache', None)
+            if cached and cached[0] == signature:
+                if scoped is not None:
+                    scoped['aliases'] = cached[1]
+                return cached[1]
+        rows = list(rows)
         extensions = getattr(self.store, "extensions", None)
-        if extensions is not None:
+        if extensions is not None and not projected:
             identities = getattr(extensions, 'identity_rows', None)
             rows += identities() if callable(identities) else extensions.rows()
         known = {row["id"] for row in rows}
@@ -311,6 +329,8 @@ class TrainingService:
                 aliases[alias] = aliases[row['id']]
         if scoped is not None:
             scoped['aliases'] = aliases
+        if signature is not None:
+            self._alias_cache = (signature, aliases)
         return aliases
 
     def _equivalent_ids(self, identity):
@@ -318,10 +338,10 @@ class TrainingService:
         canonical = aliases.get(identity, identity)
         return sorted({identity} | {other for other, target in aliases.items() if target == canonical})
 
-    def start_training(self, identity, *, assisted=False):
+    def start_training(self, identity, *, assisted=False, defer_workspace=False):
         # One catalog snapshot for activation, aliases, review scheduling and the
         # returned workspace; repeated full catalog decoding delays single tasks.
-        with self.lock, self._library_view():
+        with (nullcontext() if defer_workspace else self._library_view()), self.lock:
             self._row(identity)
             if assisted:
                 self.assert_solution_unlocked(identity)
@@ -330,6 +350,11 @@ class TrainingService:
                 self._activate(connection, identity, iso(self._now()))
             if assisted:
                 self.mark_solution_seen(identity)
+            if defer_workspace and not assisted:
+                ids = self._equivalent_ids(identity)
+                placeholders = ','.join('?' for _ in ids)
+                if not self.connection.execute(f'SELECT 1 FROM training WHERE id IN ({placeholders}) AND accepted_at IS NOT NULL', ids).fetchone():
+                    return {'reviewTask': None}
             workspace = self.workspace()
             canonical = self._identity_map().get(identity, identity)
             task = next((row.get('reviewTask') for row in workspace['training'] if row['id'] == canonical), None)
@@ -493,6 +518,10 @@ class TrainingService:
                 result = deepcopy(cache[2])
                 result['growth']['newAchievementXp'] = 0
                 return result
+        # Catalogue decoding is independent of personal transactions. Keep it
+        # outside the judge/draft lock so background statistics cannot stall a
+        # freshly queued local run or a browser receipt.
+        with self._library_view():
             return self._compute_insights(hub)
 
     def _compute_insights(self, hub=None):
@@ -1155,7 +1184,10 @@ class TrainingService:
             pending = self.connection.execute("SELECT COUNT(*) FROM submissions WHERE finished_at IS NULL").fetchone()[0]
             if pending >= 16:
                 raise ServiceError(429, "待判题任务较多，请等待已有提交完成")
-        metadata = self._asset_library().problem(identity)
+        assets = self._asset_library()
+        # The workbench already loads statements in the background. Starting a
+        # local run must never wait for an original-site HTTP request.
+        metadata = assets.problem(identity, fetch=False) if 'fetch' in inspect.signature(assets.problem).parameters else assets.problem(identity)
         with self.lock:
             if self.closed:
                 raise ServiceError(503, "判题服务正在关闭，请稍后重试")
@@ -1202,6 +1234,7 @@ class TrainingService:
                     return
                 with self._write() as connection:
                     connection.execute("UPDATE submissions SET verdict='RUNNING' WHERE id=?", (identity,))
+            self._notify_submission(identity)
             try:
                 execute = self._judge().execute
                 options = {"mode": record["mode"], "input_text": record["custom_input"], "cancel": cancel}
@@ -1233,17 +1266,32 @@ class TrainingService:
                     if record["mode"] == "submit" and (verdict == "AC" or record["contest_id"]):
                         self._recompute_progress(connection, record["problem_id"])
                 self._expire()
+            self._notify_submission(identity)
         except Exception:
             logging.exception("TB submission persistence failed")
             # Persist an explicit terminal failure where possible; never leave a poller hanging.
             try:
                 with self._write() as connection:
                     connection.execute("UPDATE submissions SET verdict='ERROR',finished_at=?,message=? WHERE id=? AND finished_at IS NULL", (iso(self._now()), "判题记录未能完整保存，请重试", identity))
+                self._notify_submission(identity)
             except Exception:
                 logging.exception("TB could not persist terminal failure")
         finally:
             with self.lock:
                 self.cancellations.pop(identity, None)
+
+    def _notify_submission(self, identity):
+        listener = getattr(self, 'on_submission', None)
+        if not callable(listener):
+            return
+        try:
+            with self.lock:
+                row = self.connection.execute('SELECT * FROM submissions WHERE id=?', (identity,)).fetchone()
+                value = {'submission': self._submission(row)} if row else None
+            if value:
+                listener(value)
+        except Exception:
+            logging.debug('Desktop submission push unavailable', exc_info=True)
 
     def _recompute_progress(self, connection, identity):
         """Replay immutable received submissions, so asynchronous completion order is harmless.
@@ -1314,7 +1362,7 @@ class TrainingService:
                 raise ServiceError(404, "没有找到这次提交")
             self._history_visible(record["problem_id"], record["contest_id"])
             result = {"submission": self._submission(record)}
-            if record["finished_at"]:
+            if record["finished_at"] and record["mode"] != 'run':
                 result["workspace"] = self.workspace()
             return result
 
@@ -1852,6 +1900,7 @@ class TrainingService:
                 if result['activeContest']:
                     result['activeContest'] = next(item for item in result['contests'] if item['id'] == result['activeContest']['id'])
                 return result
+        with self._library_view(), self.lock:
             result = self._build_workspace()
             signature = self._insights_signature(None)
             if signature is not None:

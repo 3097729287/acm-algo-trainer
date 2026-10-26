@@ -7,8 +7,11 @@ import re
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
+from contextvars import ContextVar
 from urllib.parse import urlsplit
 import reviewed_cases
+
+_CANDIDATE_ROWS = ContextVar('asset_candidate_rows', default=None)
 
 class AssetLibrary:
     def __init__(self,store,cache_dir=None,portable=None):
@@ -25,7 +28,8 @@ class AssetLibrary:
         self.portable=portable
 
     def _row(self,identity):
-        row=(self._candidate_rows or {}).get(identity)
+        snapshot = _CANDIDATE_ROWS.get()
+        row = snapshot[1].get(identity) if snapshot is not None and snapshot[0] is self else None
         if row is not None:return row
         try:return self.store.row(identity)
         except Exception as error:
@@ -61,14 +65,14 @@ class AssetLibrary:
                 'limits':{'timeMs':2000,'memoryMb':256},'statementAvailable':False}
 
     def problem(self,identity,fetch=True):
-        with self.lock:
-            from statement_cleanup import clean_statement
-            value=clean_statement(self._cached(identity))
+        from statement_cleanup import clean_statement
+        # _cached may consult account facts under the training lock. Never hold
+        # the asset lock across that callback (the inverse order is also used).
+        value=clean_statement(self._cached(identity))
         if fetch and not value['statementAvailable'] and value['url']:
             fetched=self._fetch_statement(identity,value)
-            with self.lock:
-                value=clean_statement(self._cached(identity))
-                if fetched and fetched.get('statementError'):value['statementError']=fetched['statementError']
+            value=clean_statement(self._cached(identity))
+            if fetched and fetched.get('statementError'):value['statementError']=fetched['statementError']
         if isinstance(value.get('translation'),dict) and value['translation'].get('kind')=='bundled':
             from translation import bundled_translation
             prepared=bundled_translation(value)
@@ -119,11 +123,10 @@ class AssetLibrary:
             fetched=self._fetch_statement(identity,value)
             if fetched and fetched.get('statementError'):
                 return fetched['statementError']
-            with self.lock:
-                saved = self._cached(identity)
-                if saved.get('statementAvailable'):
-                    if urlsplit(saved.get('url') or '').hostname != 'ac.nowcoder.com' or saved.get('statementVersion', 0) >= 3:
-                        return None
+            saved = self._cached(identity)
+            if saved.get('statementAvailable'):
+                if urlsplit(saved.get('url') or '').hostname != 'ac.nowcoder.com' or saved.get('statementVersion', 0) >= 3:
+                    return None
             return '原站暂未返回可用题面，请稍后重试。'
         except (OSError,ValueError,RuntimeError) as error:
             return str(error)[:250]
@@ -171,8 +174,7 @@ class AssetLibrary:
             except (OSError,ValueError,RuntimeError) as error:return {'statementError':str(error)[:250]}
     def localized_statement(self,identity):
         """On demand, refresh old Luogu caches that predate site translations."""
-        with self.lock:
-            value=dict(self._cached(identity))
+        value=dict(self._cached(identity))
         if isinstance(value.get('translation'),dict) and value['translation'].get('kind')=='bundled':
             from translation import bundled_translation
             return bundled_translation(value)
@@ -183,8 +185,7 @@ class AssetLibrary:
                 with self.lock:
                     self._cached.cache_clear();self.bundle.cache_clear()
             else:self._fetch_missing(identity,value)
-            with self.lock:
-                value=dict(self._cached(identity))
+            value=dict(self._cached(identity))
         return value.get('translation')
 
     @lru_cache(maxsize=32)
@@ -204,21 +205,20 @@ class AssetLibrary:
     def candidates(self,rows):
         # One request-scoped snapshot avoids re-parsing the full table per problem.
         # It is discarded after scanning, so later requests still read current rows.
-        with self.lock:
-            result=[]
-            if hasattr(self.store,'raw_rows'):
-                self._candidate_rows={r['场次']+'::'+r['题号']:r for r in self.store.raw_rows()}
-                extensions=getattr(self.store,'extensions',None)
-                if extensions:
-                    for row in rows:
-                        if row['id'].startswith('remote:'):
-                            remote=extensions.row(row['id'])
-                            if remote:self._candidate_rows[row['id']]=remote
-            try:
-                for row in rows:
-                    try:base=self._cached(row['id'])
-                    except (OSError,ValueError,SyntaxError):continue
-                    if base['statementAvailable'] and base['samples']:
-                        result.append(dict(row,judgeScope='local' if row['id'] in reviewed_cases.PROFILES else 'samples'))
-                return result
-            finally:self._candidate_rows=None
+        result=[]
+        candidates={r.get('_id') or r['场次']+'::'+r['题号']:r for r in self.store.raw_rows()} if hasattr(self.store,'raw_rows') else {}
+        extensions=getattr(self.store,'extensions',None)
+        if extensions:
+            for row in rows:
+                if row['id'].startswith('remote:'):
+                    remote=extensions.row(row['id'])
+                    if remote:candidates[row['id']]=remote
+        token = _CANDIDATE_ROWS.set((self, candidates))
+        try:
+            for row in rows:
+                try:base=self._cached(row['id'])
+                except (OSError,ValueError,SyntaxError):continue
+                if base['statementAvailable'] and base['samples']:
+                    result.append(dict(row,judgeScope='local' if row['id'] in reviewed_cases.PROFILES else 'samples'))
+            return result
+        finally:_CANDIDATE_ROWS.reset(token)

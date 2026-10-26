@@ -30,7 +30,7 @@ export function useSocial(api, enabled) {
 }
 
 const particles=[['0px','-30px','#f97083'],['23px','-23px','#f5bd63'],['32px','0px','#8f8cf0'],['23px','23px','#6ccbb1'],['0px','31px','#68b8f4'],['-23px','23px','#e18ce8'],['-32px','0px','#f5bd63'],['-23px','-23px','#6ccbb1']];
-export function LikeBurst({ targetId,nickname,likes,disabled,self=false,api,onLiked,onError,period='total' }) {
+export function LikeBurst({ targetId,nickname,likes,disabled,self=false,api,onLiked,onError,period='total',eventName='tb:social-change' }) {
   const count=likes?.counts?.[period]??likes?.total??0;
   const [value,setValue]=useState({...likes,total:count,likedToday:!!likes?.likedToday}), [burst,setBurst]=useState(false), [oldCount,setOldCount]=useState(0);
   const inFlight=useRef(false), acknowledged=useRef(false), timer=useRef(null);
@@ -45,7 +45,7 @@ export function LikeBurst({ targetId,nickname,likes,disabled,self=false,api,onLi
       const result=await api('social/likes',{targetId});
       const received={...result.likes,counts:result.counts};
       acknowledged.current=true;setValue({total:result.counts?.[period]??result.likes.total,likedToday:result.likes.likedToday});onLiked?.({...result,likes:received});
-      window.dispatchEvent(new CustomEvent('tb:social-change',{detail:result}));
+      window.dispatchEvent(new CustomEvent(eventName,{detail:result}));
     } catch(issue){setValue(before);setBurst(false);onError?.(issue.message);}
     finally{inFlight.current=false;}
   }

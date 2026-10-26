@@ -109,6 +109,8 @@ function submissionPending(submission) {
   return !submission.finishedAt && ['QUEUED', 'RUNNING'].includes(submission.verdict);
 }
 function mergeSubmission(rows, submission) {
+  const previous = rows.find(row => row.id === submission.id);
+  if (previous && (previous.finishedAt && !submission.finishedAt || previous.verdict === 'RUNNING' && submission.verdict === 'QUEUED')) return rows;
   return [submission, ...rows.filter(row => row.id !== submission.id)]
     .sort((a, b) => String(b.submittedAt || '').localeCompare(String(a.submittedAt || '')));
 }
@@ -182,7 +184,7 @@ function CaseResults({ cases }) {
   })}</div>;
 }
 
-export default function Workbench({shortcuts={}, problemId, contest = null, reviewTask = null, api, onProgress, onExit, onSolution, solutionOpen=false, onNext, headerStart, headerEnd }) {
+export default function Workbench({shortcuts={}, problemId, preparedProblem=null, contest = null, reviewTask = null, api, onProgress, onExit, onSolution, solutionOpen=false, onNext, headerStart, headerEnd }) {
   const contestId = contest?.id || null;
   const runningContest = contest?.status === 'running';
   const endedContest = Boolean(contest && !runningContest);
@@ -309,7 +311,8 @@ export default function Workbench({shortcuts={}, problemId, contest = null, revi
     setInput('');
     (async () => {
       try {
-        const answer = await apiRef.current(`${queryPath('problem', problemId, contestId, reviewId)}&background=1${loadAttempt ? '&refresh=1' : ''}`);
+        const prefetched = !loadAttempt && !contestId && !reviewId && preparedProblem ? await preparedProblem : null;
+        const answer = prefetched || await apiRef.current(`${queryPath('problem', problemId, contestId, reviewId)}&background=1${loadAttempt ? '&refresh=1' : ''}`);
         if (!alive || !isActive(record)) return;
         const backup = readDraft(record.key);
         record.locked = Boolean(answer.locked && !contestId);
@@ -436,6 +439,19 @@ export default function Workbench({shortcuts={}, problemId, contest = null, revi
   }, []);
 
   useEffect(() => {
+    const receive = event => {
+      const submission = event.detail?.submission, record = activeRecord.current;
+      if (!submission || !record || submission.problemId !== record.id || (submission.contestId || null) !== record.contestId) return;
+      // A very fast result can precede the HTTP response assigning its ID.
+      if (record.localEvents && record.localEvents.size < 16) record.localEvents.set(submission.id, submission);
+      setSubmissions(rows => rows.some(row => row.id === submission.id) ? mergeSubmission(rows, submission) : rows);
+      if (submission.finishedAt && submission.id === record.localSubmissionId) announceCompletion({submission});
+    };
+    window.addEventListener('tb:submission-status', receive);
+    return () => window.removeEventListener('tb:submission-status', receive);
+  }, [announceCompletion]);
+
+  useEffect(() => {
     if (!pending) return;
     let alive = true;
     let timer;
@@ -464,9 +480,18 @@ export default function Workbench({shortcuts={}, problemId, contest = null, revi
     if (session.status !== 'finished' || !session.verdict || !session.submissionId || officialReported.current.has(session.sessionId)) return;
     officialReported.current.add(session.sessionId);
     if (session.verdict === 'AC') playAcceptedSound(`${session.platform || record.id}:${session.submissionId}`);
-    try {
-      const workspace = await apiRef.current('workspace');
+    if (session.submission && isActive(record)) {
+      setSubmissions(rows => mergeSubmission(rows, session.submission));
+      setResultId(session.submission.id);
+      setConsoleOpen(true); setConsoleTab('result');
+    }
+    // Refresh progress independently; displaying the persisted receipt never
+    // waits for a full workspace/statement round trip.
+    apiRef.current('workspace').then(workspace => {
       if (isActive(record)) callbacks.current.onProgress?.(workspace);
+    }).catch(() => undefined);
+    if (session.submission) return;
+    try {
       // 官方回执已入库，但当前工作台的提交历史/结果栏还是旧的——拉回本题记录并合并，
       // 让官方 AC 当场出现在历史里，不必退出重进。
       if (isActive(record)) {
@@ -483,13 +508,33 @@ export default function Workbench({shortcuts={}, problemId, contest = null, revi
   }, []);
 
   useEffect(() => {
+    const receive = event => {
+      const session = event.detail, current = officialRef.current;
+      if (!session || !current || current.id !== session.sessionId || !isActive(current.record)) return;
+      current.pushed = (current.pushed || 0) + 1;
+      current.status = session.status;
+      setOfficialSession(session);
+      setOfficialPollError('');
+      announceOfficialCompletion(session, current.record);
+    };
+    window.addEventListener('tb:official-status', receive);
+    return () => window.removeEventListener('tb:official-status', receive);
+  }, [announceOfficialCompletion]);
+
+  useEffect(() => {
     if (!officialSession?.sessionId || OFFICIAL_TERMINAL.has(officialSession.status)) return;
     let alive = true, timer;
     const record = activeRecord.current, sessionId = officialSession.sessionId;
     const poll = async () => {
+      const pushed = officialRef.current?.pushed || 0;
       try {
         const answer = await apiRef.current(`official/status?sessionId=${encodeURIComponent(sessionId)}`);
         if (!alive || !isActive(record) || officialRef.current?.id !== sessionId) return;
+        if ((officialRef.current.pushed || 0) !== pushed) {
+          if (!OFFICIAL_TERMINAL.has(officialRef.current.status)) timer = setTimeout(poll, 900);
+          return;
+        }
+        officialRef.current.status = answer.status;
         setOfficialSession({ ...answer, sessionId });
         setOfficialPollError('');
         await announceOfficialCompletion({ ...answer, sessionId }, record);
@@ -510,9 +555,10 @@ export default function Workbench({shortcuts={}, problemId, contest = null, revi
     // This effect runs after React commits the result to the visible workbench.
     let cancelled=false,timer;
     const acknowledge=async(attempt=0)=>{try{const result=await apiRef.current('official/ack',{sessionId:officialSession.sessionId});if(!cancelled&&!result.closed&&attempt<4)timer=setTimeout(()=>acknowledge(attempt+1),700);}catch{if(!cancelled&&attempt<4)timer=setTimeout(()=>acknowledge(attempt+1),1000);}};
-    timer=setTimeout(()=>acknowledge(),500);
-    return()=>{cancelled=true;clearTimeout(timer);};
-  },[officialSession?.sessionId,officialSession?.status]);
+    if (!officialSession.submission && !submissions.some(row => row.scope === 'official' && row.message?.includes(`#${officialSession.submissionId}`))) return;
+    const frame=requestAnimationFrame(()=>acknowledge());
+    return()=>{cancelled=true;cancelAnimationFrame(frame);clearTimeout(timer);};
+  },[officialSession?.sessionId,officialSession?.status,officialSession?.submission,submissions]);
   const updateCode = useCallback(value => {
     const record = activeRecord.current;
     if (!record?.loaded || record.closed) return;
@@ -570,6 +616,7 @@ export default function Workbench({shortcuts={}, problemId, contest = null, revi
       return;
     }
     setCreating(true);
+    record.localEvents = new Map();
     setActionError('');
     setConsoleOpen(true);
     setConsoleTab('result');
@@ -581,12 +628,16 @@ export default function Workbench({shortcuts={}, problemId, contest = null, revi
         code: record.code, mode, ...(mode === 'run' ? { input: sample === 'custom' ? input : '', sampleRun: sample !== 'custom' } : {}),
       }));
       if (!isActive(record)) return;
+      record.localSubmissionId = answer.submission.id;
+      const latest = record.localEvents?.get(answer.submission.id);
+      if (latest) answer.submission = latest;
       setSubmissions(rows => mergeSubmission(rows, answer.submission));
       setResultId(answer.submission.id);
       await announceCompletion(answer);
     } catch (error) {
       if (isActive(record)) setActionError(error.message || '未能开始评测，请重试。');
     } finally {
+      record.localEvents = null;
       if (isActive(record)) setCreating(false);
     }
   };
@@ -613,7 +664,7 @@ export default function Workbench({shortcuts={}, problemId, contest = null, revi
         apiRef.current('official/close', { sessionId: answer.sessionId }).catch(() => undefined);
         return;
       }
-      officialRef.current = { id: answer.sessionId, record };
+      officialRef.current = { id: answer.sessionId, record, status: answer.status };
       setOfficialSession(answer);
       await announceOfficialCompletion(answer, record);
     } catch (error) {

@@ -10,6 +10,24 @@ import { snapshotFromSQL } from '../scripts/export-sqlite.mjs';
 import { importSnapshot } from '../scripts/import-snapshot.mjs';
 import { readFile } from 'node:fs/promises';
 import { tokenHash } from '../src/accounts.mjs';
+import {preservedData,assertPreserved} from '../scripts/audit-preserved-data.mjs';
+
+test('training-list migration preserves existing rows and can be safely repeated',async()=>{
+  const f=await startMySQLFixture();
+  try {
+    const actor=randomUUID(),timestamp=new Date().toISOString();
+    await f.STORE.createUser(actor,'保留原资料','a'.repeat(64),timestamp);
+    await f.STORE.pool.query('DROP TABLE training_list_likes');
+    const before=await preservedData(f.STORE.pool);
+    const migration=await readFile(new URL('../mysql/010_training_list_likes.sql',import.meta.url),'utf8');
+    await f.STORE.pool.query(migration);
+    assertPreserved(before,await preservedData(f.STORE.pool),{requireAvatar:true,requireLists:true});
+    await f.STORE.pool.execute('INSERT INTO training_list_likes VALUES(?,?,?,?)',[actor,'curriculum:0','2026-10-26',timestamp]);
+    const populated=await preservedData(f.STORE.pool);
+    await f.STORE.pool.query(migration);
+    assertPreserved(populated,await preservedData(f.STORE.pool),{requireAvatar:true,requireLists:true});
+  }finally{await f.close();}
+});
 
 protocolSuite(startMySQLFixture);
 accountsSuite(startMySQLFixture);

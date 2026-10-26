@@ -43,6 +43,7 @@ async function api(path, body) {
   if (url.pathname === '/official/status') {
     const sessionId = url.searchParams.get('sessionId'), session = fixture.officialSessions[sessionId];
     const status = session.status === 'closed' ? 'closed' : fixture.officialStatus;
+    await sleep(fixture.officialPollDelay || 0);
     if (status === 'finished' && !session.saved) {
       session.saved = true;
       fixture.submissions.push({ id: sessionId, problemId: session.id, contestId: null, mode: 'submit', code: session.code, scope: 'official', verdict: fixture.officialVerdict || 'AC', finishedAt: new Date().toISOString(), submittedAt: new Date().toISOString(), message: '原站确认提交 #101' });
@@ -52,6 +53,10 @@ async function api(path, body) {
   if (path === 'official/close') {
     fixture.officialSessions[body.sessionId].status = 'closed';
     return { sessionId: body.sessionId, status: 'closed', message: '已关闭原站面板，返回训练。' };
+  }
+  if (path === 'official/ack') {
+    fixture.ackVisible = document.querySelector('.wb-result-summary')?.textContent.includes(fixture.officialVerdict || 'AC');
+    return {closed:true};
   }
   if (url.pathname === '/problem') {
     const id = url.searchParams.get('id');
@@ -82,7 +87,7 @@ async function api(path, body) {
       : [{ name: '自定义输入', input: row.input, expected: null, actual: '3\n', verdict: 'RUN_OK', timeMs: 12, exitCode: 0 }];
     return { submission: { ...row }, workspace: { summary: { total: 1, accepted: row.target === 'AC' ? 1 : 0 } } };
   }
-  if (path === 'workspace') return { summary: { total: 1, accepted: fixture.submissions.some(row => row.verdict === 'AC' && row.scope === 'official') ? 1 : 0 } };
+  if (path === 'workspace') { await sleep(fixture.workspaceDelay || 0); return { summary: { total: 1, accepted: fixture.submissions.some(row => row.verdict === 'AC' && row.scope === 'official') ? 1 : 0 } }; }
   throw new Error('Unknown fixture call ' + path);
 }
 function Fixture() {

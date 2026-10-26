@@ -28,6 +28,8 @@ class Store:
         self._compact_json = None
         self._response_key = None
         self._response_bytes = None
+        self._identity_snapshot = None
+        self._identity_lock = threading.RLock()
         self.token = __import__('secrets').token_urlsafe(32)
         self.data_root = str(Path(data_root or os.environ.get('TB_ARCHIVE_ROOT') or STATE / 'imports').resolve())
         self.extensions = None
@@ -146,17 +148,36 @@ class Store:
         return ('catalog-20261022-v4-unique', VERSION, self.library.content_signature(),
                 signature() if signature else None, tuple(assets))
 
+    def identity_rows(self):
+        # Keep only compact identity fields. Never retain a second decoded full
+        # catalogue just to look up aliases while saving/running a single task.
+        reader = getattr(self.library, 'identity_rows', None) or self.library.rows
+        signature_reader = getattr(self.library, 'content_signature', None)
+        if not callable(signature_reader):
+            rows = reader()
+        else:
+            with self._identity_lock:
+                signature = signature_reader()
+                snapshot = self._identity_snapshot
+                if snapshot is None or snapshot[0] != signature:
+                    rows = reader()
+                    snapshot = (signature, rows)
+                    self._identity_snapshot = snapshot
+                rows = snapshot[1]
+        if self.extensions:
+            reader = getattr(self.extensions, 'identity_rows', None)
+            extra = reader() if callable(reader) else self.extensions.rows()
+            if extra:
+                return rows + extra
+        return rows
+
     def problem_catalog(self, identity):
         """Single-task reads do not rebuild the classified full catalogue.
 
         Preserve identity and title fields for aliases; enrich only the
         requested row. Contest/workspace APIs retain the complete data() view.
         """
-        identities = getattr(self.library, 'identity_rows', None)
-        rows = identities() if callable(identities) else self.library.rows()
-        if self.extensions:
-            identities = getattr(self.extensions, 'identity_rows', None)
-            rows += identities() if callable(identities) else self.extensions.rows()
+        rows = self.identity_rows()
         try:
             selected = self.encode_row(self.row(identity))
             selected['id'] = identity
@@ -274,6 +295,29 @@ class Store:
         from knowledge import catalogue_context
         with catalogue_context():
             return self._build_catalog_rows()
+
+    def training_data(self):
+        # Scheduling/progress need the same list metadata as the UI, not the
+        # per-problem algorithm-analysis tree. Full evidence remains available
+        # through data() and the problem API; share the existing compact cache.
+        with self.lock:
+            public = self._content_signature()
+            if public is not None and self._compact_json is not None and self._compact_signature and self._compact_signature[0] == public:
+                # Opening a new problem adds analysis for that task. Scheduling
+                # must not rebuild/hash/compress the entire full catalogue for
+                # this one-row change while the user starts another run.
+                result = json.loads(catalog_snapshot.unpack(self._compact_json))
+                analysis = self._analysis_signature()
+                previous = dict(self._compact_signature[1])
+                from catalog_payload import ROW_FIELDS
+                for index, row in enumerate(result['rows']):
+                    if previous.get(row['id']) != analysis.get(row['id']):
+                        record = self.library.find(row['id'])
+                        raw = record['raw'] if record else self.row(row['id'])
+                        fresh = self._encode_record(raw, record, row['solutionAvailable'], row.get('url'))
+                        result['rows'][index] = {key: value for key, value in fresh.items() if key in ROW_FIELDS}
+                return result
+            return json.loads(self.data_response_bytes(compact=True))
 
     def _build_catalog_rows(self):
         self._refresh_training_membership()

@@ -1,5 +1,11 @@
 # TB 排行榜服务
 
+## 1.2.4 公共题单点赞（准备中，未部署）
+
+`GET /v1/training-list-likes?id=...` 批量返回不超过 100 份公共题单的共享累计数和当前用户 `likedToday`；`POST` 接受 `{listId}`。编号来自随源码保存的 `src/training-list-ids.json`。按北京时间每人每天一次、不可取消，数据库主键负责并发与重试去重，事务内再次检查账号会话。个人题单保持私有，不写入公共点赞表，也不制造用户爱心通知。迁移缺失时返回不可用，不影响旧版登录、提交、同步与排行。
+
+部署运行包使用现有准备器，新增迁移 `mysql/010_training_list_likes.sql`，执行 `scripts/deploy-training-list-likes.sh`。脚本先在线备份、停止 API 并核对原表指纹，再增量建表并切换；保留原配置、数据库、会话和依赖卷。`trainingListLikesProtocol: 1` 表示表已就绪。生产仍为 1.2.3，必须获得部署授权后才能执行切换。
+
 ## 1.2.3 公开头像与经验进度（已部署）
 
 迁移 `mysql/009_public_avatars.sql` 新增公开头像表；`publicAppearanceProtocol: 1` 表示支持此能力。`PUT /v1/profile` 接受有界的 `avatarData` 和公开经验进度；榜单仅附头像 SHA-256，已登录用户通过 `GET /v1/avatars/:userId` 获取图片。删除头像提交空字符串，旧客户端不带新字段时保留原公开数据。私有账号快照继续隔离。

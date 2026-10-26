@@ -1,5 +1,11 @@
 # ToBe 开发与构建
 
+## 1.4.18 本机更新准备中
+
+新增检查：`test_submission_latency`、`test_custom_training_lists`、`test_knowledge_mastery`，前端 `calendar.mjs`、`workbench-events.mjs`、`training-cards.mjs` 和 `revision-1417.mjs`。修改后台后运行完整 `scripts/check.py`，浏览器适配使用本地四站原生表单夹具，不向真实账号提交。共享服务 1.2.4 增量迁移 010 独立保存公共题单点赞，SQLite 和隔离 MySQL 覆盖跨用户计数、并发重试、午夜、失效会话。新接口仅接受随源码固定的公共题单编号；用户自建题单写入个人账号偏好日志并同步所引用的私人题目事实。
+
+测量使用个人库的 SQLite 在线备份副本、离线模式、20 次连续题目与样例操作，分别记录 Python 和原生 WebView 进程组。禁止清空工作集掩盖占用。本机交付须完成新装、升级和数据保留检查；源码与桌面 1.4.18 尚未公开发布，共享服务生产升级需单独授权。
+
 ## 1.4.17 内存、题面与周汇总
 
 `python scripts/check.py`、`node tests/activity-weeks.mjs`、`node tests/revision-1417.mjs` 和前端构建覆盖新增行为。测量首次题面、首次目录和 WebView 进程树时使用同一公开种子、新建临时状态、同一窗口大小，并分别报告 Python 和整个进程组；不调用工作集清空伪造内存下降。固定并推送源码后构建用户 Setup，隔离验证后发布国内清单（最后更新清单）并用旧客户端解析实际响应。管理员产物继续只在本机。

@@ -38,12 +38,12 @@ def shared_contest_plan(goals, rows=(), accepted_keys=()):
         lower,upper=('C','F') if item['problems']=='C–F' else ('A','D')
         candidates=[]
         for row in rows:
-            identity=canonical_url(row.get('url')) or row['id']
-            if identity in chosen or row.get('catalogHidden'):continue
             platform={'Codeforces Div.3':'Codeforces','AtCoder ABC':'AtCoder','牛客周赛':'牛客','洛谷基础赛 / 月赛':'洛谷'}[item['contest']]
-            if row.get('platform')!=platform:continue
+            if row.get('platform')!=platform or row.get('catalogHidden'):continue
             name=(row.get('contestFullName') or '')+' '+row.get('contest','')
             if not re.search(patterns[item['contest']],name,re.I):continue
+            identity=canonical_url(row.get('url')) or row['id']
+            if identity in chosen:continue
             letter=str(row.get('problem',''))
             if len(letter)==1 and not lower<=letter<=upper:continue
             candidates.append(row)
@@ -143,10 +143,11 @@ class Goals:
                 accepted.setdefault(key,{'id':record['problem_id'],'at':parse_time(record['submitted_at'])})
             extension=getattr(t.store,'extensions',None)
             if extension:
-                for account in extension.snapshot().get('accounts',[]):
-                    for item in account.get('solved',[]):
-                        stamp=parse_time(item.get('acceptedAt'));key=canonical_url(item.get('url'))
-                        if key and stamp and (key not in accepted or stamp<accepted[key]['at']):accepted[key]={'id':None,'at':stamp}
+                read=getattr(extension,'accepted_records',None)
+                solved=read() if callable(read) else [item for account in extension.snapshot().get('accounts',[]) for item in account.get('solved',[])]
+                for item in solved:
+                    stamp=parse_time(item.get('acceptedAt'));key=canonical_url(item.get('url'))
+                    if key and stamp and (key not in accepted or stamp<accepted[key]['at']):accepted[key]={'id':None,'at':stamp}
             locked=set(t._locked_ids(t.connection.execute("SELECT * FROM contests WHERE status='running'").fetchone())) if t.active_contest() else set()
             records=t.connection.execute('SELECT * FROM goals WHERE archived=0 ORDER BY created_at,id').fetchall()
             assignments={row['goal_id']:row for row in t.connection.execute('SELECT * FROM goal_daily_assignments WHERE day=?',(today.isoformat(),))}
@@ -178,8 +179,6 @@ class Goals:
                     preferred=(goal['kind']=='lanqiao' and '蓝桥' in row['contest']) or (goal['kind']=='cf' and row.get('platform')=='Codeforces') or (goal['kind']=='xcpc' and re.search(r'(?i)(ICPC|CCPC)',row['contest']))
                     difficulty=row.get('difficulty');fit=abs(difficulty-goal['currentRating']-150) if isinstance(difficulty,(int,float)) else 500
                     return (not preferred,fit,row['id'])
-                candidates=[row for row in rows if not row.get('catalogHidden') and row['id'] not in locked and (canonical_url(row.get('url')) or row['id']) not in accepted]
-                candidates.sort(key=score)
                 families=[('Codeforces Div.3',4),('AtCoder ABC',3),('牛客周赛',2),('洛谷基础赛 / 月赛',1)]
                 if goal['kind']=='xcpc':families=[('Codeforces Div.3',2),('AtCoder ABC',2),('牛客周赛',4),('洛谷基础赛 / 月赛',2)]
                 amounts=[1 if weekly>=4 else 0 for _ in families]
@@ -212,6 +211,8 @@ class Goals:
                     selected = selected[:task_target]
                 repairing=not saved or saved['target'] is None or len(selected)!=len(original_ids)
                 if repairing and not review_plan['reviewOnly']:
+                    candidates=[row for row in rows if not row.get('catalogHidden') and row['id'] not in locked and (canonical_url(row.get('url')) or row['id']) not in accepted]
+                    candidates.sort(key=score)
                     for row in candidates:
                         if len(selected)>=task_target:break
                         key=problem_key(row)

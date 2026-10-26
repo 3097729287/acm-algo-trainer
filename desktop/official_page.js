@@ -16,6 +16,7 @@ const hasReadyEditor=()=>editors().some(visible)||[...document.querySelectorAll(
 const login=()=>[...document.querySelectorAll('input[type=password]')].some(visible)||/\/login|\/enter(?:\/|$)|\/auth\/login/i.test(location.pathname);
 const pageKey=ctx.sessionId+':'+ctx.originalUrl;
 const host=typeof window==='undefined'?globalThis:window;
+if(host.__tbSubmissionWork?.key!==pageKey)host.__tbSubmissionWork?.observer?.disconnect();
 const work=host.__tbSubmissionWork?.key===pageKey?host.__tbSubmissionWork:(host.__tbSubmissionWork={key:pageKey,preparing:null,snapshot:null,polling:false,nextPoll:0});
 if(work.retry!==(ctx.retry||0)){
 work.retry=ctx.retry||0;
@@ -203,6 +204,20 @@ if(lgReceipt){lgReceipt.armed=true;lgReceipt.pending=null;lgReceipt.receipt=null
 // Persist the pre-submit snapshot before a native form can navigate away.
 // Browser transport acknowledges this checkpoint; WebView transport is immediate.
 await postMessage({tbOfficial:true,sessionId:ctx.sessionId,status:'submitted',message:'已选择 '+compiler.label+'，正在操作原站表单，尚未确认受理。',compiler:compiler.label,baseline,baselineKnown,baselineOwner,attempted:true});button.click();return {status:'submitted'};
+}
+// Native verdict cells update independently of our fallback inspection timer.
+// Observe only document changes and retain the newest validated context.
+work.readReceipt=()=>{
+  if(!ctx.attempted||!ctx.baselineKnown||!['Codeforces','AtCoder'].includes(ctx.platform))return;
+  const state=inspect();
+  if(!state.submissionId||!['judging','finished'].includes(state.status))return;
+  const key=state.submissionId+':'+state.status+':'+(state.verdict||'');
+  if(work.lastReceipt===key)return;
+  work.lastReceipt=key;send(state);
+};
+if(typeof MutationObserver!=='undefined'&&!work.observer&&document.documentElement){
+  work.observer=new MutationObserver(()=>work.readReceipt?.());
+  work.observer.observe(document.documentElement,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['class','data-verdict']});
 }
 if(action==='observe')return null;
 if(action==='prepare'){if(!work.filling){work.filling=true;submit(true).catch(e=>send({status:'awaiting_submit',message:'请在官网检查代码并提交；'+String(e).slice(0,120)})).finally(()=>{work.filling=false});}return null;}

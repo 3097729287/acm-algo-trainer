@@ -34,6 +34,32 @@ export class SocialStore {
     for (const row of rows) result.set(row.recipient_id,{ total:Number(row.total), today:Number(row.received_today), period:Number(row.received_period), likedToday:Boolean(Number(row.liked_today)) });
     return result;
   }
+  async listAvailable() {
+    try {
+      await this.database.execute('SELECT list_id FROM training_list_likes LIMIT 0');
+      return true;
+    } catch(error) {
+      if (error.code==='ER_NO_SUCH_TABLE' || /no such table/i.test(error.message||'')) return false;
+      throw error;
+    }
+  }
+  async listSummary(viewer, ids, day) {
+    const result=Object.fromEntries(ids.map(id=>[id,{total:0,likedToday:false}]));
+    if(!ids.length)return result;
+    const [rows]=await this.database.execute(`SELECT list_id,COUNT(*) AS total,
+      SUM(CASE WHEN actor_id=? AND liked_day=? THEN 1 ELSE 0 END) AS liked_today
+      FROM training_list_likes WHERE list_id IN (${ids.map(()=>'?').join(',')}) GROUP BY list_id`,[viewer,day,...ids]);
+    for(const row of rows)result[row.list_id]={total:Number(row.total),likedToday:Boolean(Number(row.liked_today))};
+    return result;
+  }
+  async likeList(actor, hash, now, identity, day, timestamp) {
+    return this.database.transaction(async connection=>{
+      await this.assertSession(connection,actor,hash,now);
+      const insert=this.dialect==='mysql'?'INSERT IGNORE':'INSERT OR IGNORE';
+      const [result]=await connection.execute(`${insert} INTO training_list_likes(actor_id,list_id,liked_day,created_at) VALUES(?,?,?,?)`,[actor,identity,day,timestamp]);
+      return {created:result.affectedRows===1};
+    });
+  }
   async inbox(id) {
     const [rows] = await this.database.execute(`SELECT n.id,n.kind,n.actor_id,n.recipient_id,n.body,n.created_at,n.read_at,
       a.nickname AS actor_name,r.nickname AS recipient_name FROM social_notifications n

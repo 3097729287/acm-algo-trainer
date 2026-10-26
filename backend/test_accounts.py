@@ -21,6 +21,25 @@ from persistence import location
 
 
 class AccountTests(unittest.TestCase):
+    def test_update_queues_cloud_sync_without_waiting_and_blocks_new_runs(self):
+        self.assertEqual(self.signup()[0], 200)
+        self.assertEqual(self.login()[0], 200)
+        self.assertEqual(self.call('/api/draft', {'id':'fixture::A','code':'unsynced local draft'})[0], 200)
+        updates = self.server.software_updates
+        def install():
+            self.server.assert_update_ready()
+            updates.status = 'installing'
+            return {'status':'installing'}
+        with patch.object(self.server.accounts, 'sync_pending', side_effect=AssertionError('update waited for cloud')), \
+             patch.object(self.server.accounts, 'queue_sync') as queued, \
+             patch.object(updates, 'install', side_effect=install):
+            self.assertEqual(self.call('/api/software-update/install', {})[0], 200)
+            queued.assert_called()
+            self.assertEqual(self.call('/api/submissions', {'id':'fixture::A','code':'AC','mode':'run'})[0], 409)
+            self.assertEqual(self.call('/api/official/submit', {'id':'fixture::A','code':'AC'})[0], 409)
+        with self.server.training.lock:
+            self.assertEqual(self.server.training.connection.execute('SELECT code FROM drafts WHERE problem_id=?', ('fixture::A',)).fetchone()[0], 'unsynced local draft')
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix='tb-accounts-')
         self.root = Path(self.temp.name)

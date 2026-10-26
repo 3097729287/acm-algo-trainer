@@ -47,8 +47,8 @@ def main():
         if (source / name).is_symlink():
             raise SystemExit('Runtime source files must not be symbolic links.')
         shutil.copy2(source / name, folder / name)
-    if not all((folder / 'mysql' / name).is_file() for name in ('006_public_progress.sql', '007_unique_nicknames.sql', '008_social.sql', '009_public_avatars.sql')):
-        raise SystemExit('Migrations 006–009 are required for this runtime.')
+    if not all((folder / 'mysql' / name).is_file() for name in ('006_public_progress.sql', '007_unique_nicknames.sql', '008_social.sql', '009_public_avatars.sql', '010_training_list_likes.sql')):
+        raise SystemExit('Migrations 006–010 are required for this runtime.')
     (folder / 'BUILD-INFO.json').write_text(json.dumps({'format': 'tb-account-runtime-v1', 'version': version,
                                                       'sourceCommit': expected}, indent=2) + '\n', encoding='utf-8')
     npm = shutil.which('npm.cmd' if sys.platform == 'win32' else 'npm')

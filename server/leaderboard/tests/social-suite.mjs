@@ -14,6 +14,27 @@ async function login(f,name) {
   return {userId:response.value.account.userId,token:response.value.token};
 }
 export function socialSuite(startFixture) {
+  test('training list hearts share counts, deduplicate retries, reset daily and stay separate from user hearts',async()=>{
+    const f=await startFixture({now:Date.parse('2026-10-20T15:59:00Z')});
+    try {
+      const a=await login(f,'list_actor'),b=await login(f,'list_other');
+      const path='/v1/training-list-likes',listId='curriculum:0';
+      assert.equal((await call(f,path,{listId})).status,401);
+      const attempts=await Promise.all(Array.from({length:8},()=>call(f,path,{listId},a)));
+      assert(attempts.every(value=>value.status===200));assert.equal(attempts.filter(value=>value.value.created).length,1);
+      let summary=(await call(f,path+'?id='+listId,undefined,b)).value;
+      assert.deepEqual(summary.likes[listId],{total:1,likedToday:false});
+      assert.deepEqual((await call(f,path,{listId},b)).value.likes,{total:2,likedToday:true});
+      assert.equal((await call(f,'/v1/social',undefined,a)).value.totalLikes,0);
+      for(const invalid of ['custom:abc','curriculum:999','__proto__','luogu-no-such-list'])assert.equal((await call(f,path,{listId:invalid},a)).status,400);
+      f.env.TEST_NOW=Date.parse('2026-10-20T16:01:00Z');
+      summary=(await call(f,path+'?id='+listId,undefined,a)).value;
+      assert.deepEqual(summary.likes[listId],{total:2,likedToday:false});
+      assert.deepEqual((await call(f,path,{listId},a)).value.likes,{total:3,likedToday:true});
+      await call(f,'/v1/accounts/login',{loginId:'list_actor',password:'social-fixture-password'});
+      assert.equal((await call(f,path,{listId},a)).status,401);
+    }finally{await f.close();}
+  });
   test('daily hearts are atomic, irrevocable, shared across periods and reset at Beijing midnight',async()=>{
     const f=await startFixture({now:Date.parse('2026-10-20T15:59:00Z')});
     try {

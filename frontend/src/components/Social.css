@@ -24,7 +24,8 @@
 .social-comment-footer small { color:var(--muted); font-size:.78rem; }
 .social-notifications { margin-bottom:20px; }
 .social-notification { display:flex; gap:12px; padding:15px 3px; align-items:start; border-bottom:1px solid var(--line); }
-.social-notification > svg { margin-top:3px; color:#ee6b81; flex-shrink:0; }
+.social-notification > svg { margin-top:3px; color:var(--muted); flex-shrink:0; }
+.social-notification > .social-heart { color:#ee6b81; }
 .social-notification > div { flex:1; min-width:0; }
 .social-notification strong { font-size:.9rem; }
 .social-notification p { white-space:pre-wrap; overflow-wrap:anywhere; margin:8px 0; line-height:1.7; font-size:.91rem; }

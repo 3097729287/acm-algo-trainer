@@ -79,6 +79,21 @@ class KnowledgeMasteryTests(unittest.TestCase):
         value=self.estimate(rows,records)
         self.assertTrue(all(item['independence']<1 for item in value['knowledgeEvidence']))
 
+    def test_training_list_aliases_keep_knowledge_and_count_official_receipts_once(self):
+        row=dict(self.rows(1)[0],tags=['输入输出'],trainingListMember=True,
+                 url='https://www.luogu.com.cn/problem/B2002',aliasIds=['old-training::B2002'])
+        alias=dict(row,id='list-copy',tags=['顺序结构'],source='remote',aliasIds=[])
+        records=[self.record('old-training::B2002'),self.record('list-copy')]
+        result=self.estimate([row,alias],records)
+        for name in ('输入输出','顺序结构'):
+            knowledge=next(item for item in result['knowledge'] if item['name']==name)
+            self.assertEqual(knowledge['evidenceCount'],1)
+            self.assertEqual(knowledge['officialAccepted'],1)
+            self.assertIsNotNone(knowledge['mastery'])
+        self.assertEqual(len(result['knowledgeEvidence']),1)
+        samples=self.estimate([row], [dict(self.record(row['id']),scope='samples',verdict='SAMPLE_PASS')])
+        self.assertEqual(samples['knowledgeEvidence'],[])
+
     def test_quantity_and_difficulty_prevent_inflated_small_sample_scores(self):
         small=self.rows(5,800)
         five=self.topic(self.estimate(small,[self.record(row['id']) for row in small]))['mastery']

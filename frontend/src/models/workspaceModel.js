@@ -35,8 +35,9 @@ export const QUEUES = [
     color: "green",
   },
 ];
-export function trainingGroup(row,goalIds=new Set(),frozen=null) {
- return frozen?.[row.id]||(goalIds.has(row.id)?'goals':QUEUES.some(queue=>queue.id===row.queue)?row.queue:row.accepted?'accepted':'practice');
+export function trainingGroup(row,goalIds=new Set()) {
+ // Preserve row order separately; result groups must follow current evidence.
+ return goalIds.has(row.id)?'goals':QUEUES.some(queue=>queue.id===row.queue)?row.queue:row.accepted?'accepted':'practice';
 }
 export const VERDICTS = {
   AC: "AC",

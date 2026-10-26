@@ -347,6 +347,36 @@ class LeaderboardClient:
                 self.cache.clear()
         return value
 
+    def list_likes(self, ids=None, body=None):
+        from training import ServiceError
+        from urllib.parse import urlencode
+        profile = self.training._ranking_profile()
+        empty = {'available': False, 'likes': {}}
+        if body is not None and (not isinstance(body, dict) or set(body) != {'listId'}):
+            raise ServiceError(400, '题单点赞格式无效')
+        if ids is not None and (len(ids) > 100 or any(not isinstance(item, str) or len(item) > 160 for item in ids)):
+            raise ServiceError(400, '题单编号无效')
+        if not profile.get('endpoint') or not profile.get('auth_token'):
+            if body is not None:
+                raise ServiceError(409, '请先登录账号')
+            return empty
+        path = '/v1/training-list-likes'
+        if body is None:
+            path += '?' + urlencode([('id', item) for item in ids or []])
+        try:
+            return self._request(profile, 'POST' if body is not None else 'GET', path, body)
+        except RankingRequestError as error:
+            if body is None and error.status in (404, 405, 501):
+                return empty
+            if error.status == 401:
+                owner = getattr(self.training.account_provider, '__self__', None)
+                if owner is not None:
+                    owner.invalidate(profile.get('auth_token'))
+            raise ServiceError(error.status if error.status not in (404,405,501) else 503,
+                               '题单点赞暂不可用，请稍后重试') from None
+        except RuntimeError as error:
+            raise ServiceError(503, str(error)) from None
+
     def close(self):
         with self.lock:
             self.closed = True
