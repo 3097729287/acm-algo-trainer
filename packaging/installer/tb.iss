@@ -74,6 +74,11 @@ Name: "importlegacy"; Description: "导入此电脑原 TB 的训练、提交、�
 [Files]
 Source: "{#PackageDir}\*"; DestDir: "{app}"; Excludes: "data\*,state\*,cache\*,backups\*,logs\*,*.log"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "{#PackageDir}\data\library.sqlite3"; DestDir: "{app}\data"; Flags: ignoreversion
+#ifndef AdminEdition
+; Earlier automatic updaters reopen this filename after Setup returns.
+; Only an upgrade from that executable needs the compatibility copy.
+Source: "{#PackageDir}\ToBe.exe"; DestDir: "{app}"; DestName: "TB新版.exe"; Flags: ignoreversion; Check: NeedsLegacyRestartName
+#endif
 Source: "{#WebViewInstaller}"; DestName: "WebView2-offline-x64.exe"; Flags: dontcopy nocompression
 
 #ifndef ValidationSetup
@@ -92,6 +97,14 @@ Type: files; Name: "{group}\TB 管理员工作台.lnk"
 #endif
 
 [Code]
+var
+  LegacyRestartRequired: Boolean;
+
+function NeedsLegacyRestartName: Boolean;
+begin
+  Result := LegacyRestartRequired;
+end;
+
 function LegacyDatabaseExists: Boolean;
 var
   ProfileDir: String;
@@ -116,6 +129,7 @@ var
   ExitCode: Integer;
 begin
   Result := '';
+  LegacyRestartRequired := FileExists(ExpandConstant('{app}\TB新版.exe'));
   if not WebViewPresent then
   begin
     ExtractTemporaryFile('WebView2-offline-x64.exe');
