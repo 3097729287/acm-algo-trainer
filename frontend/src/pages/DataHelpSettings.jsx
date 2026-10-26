@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Download, GraduationCap, Heart, LoaderCircle } from 'lucide-react';
+import { Download, LoaderCircle } from 'lucide-react';
 import Tooltip from '../components/Tooltip.jsx';
 import PersonalStatistics from './PersonalStatistics.jsx';
 import SolutionMarkdown from '../components/SolutionMarkdown.jsx';
@@ -28,7 +28,7 @@ export default function DataHelpSettings({ api, onTutorial, onError, insights, a
       <Tooltip text="导出当前账号的训练、代码、记录、目标和偏好为 JSON；不含密码、Cookie 或 API 密钥。"><button className="help-action" aria-label="导出数据 · JSON" onClick={download} disabled={busy}>
         {busy ? <LoaderCircle size={22} className="spin"/> : <Download size={22}/>}<span><strong>导出我的数据</strong><small>训练、代码、目标与偏好 · JSON</small></span>
       </button></Tooltip>
-      <Tooltip text="新手指引：入门总览与各页操作指南。"><button className="help-action" aria-label="新手指引" onClick={onTutorial}><GraduationCap size={22}/><span><strong>新手指引</strong><small>入门总览与各页面操作说明</small></span></button></Tooltip>
+
     </div>
   </section><details className="mastery-method"><summary>掌握指数计算方法</summary><SolutionMarkdown text={masteryMethod}/></details></>;
 }

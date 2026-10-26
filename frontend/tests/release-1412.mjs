@@ -31,9 +31,9 @@ try{
   assert.match(await page.getByRole('gridcell').first().getAttribute('aria-label'),/^2026-01-01/);
   assert.match(await page.getByRole('gridcell').last().getAttribute('aria-label'),/^2026-12-31/);
   assert(Math.abs(first.x-grid.x)<1&&Math.abs(first.y-grid.y)<1);
-  assert(Math.abs(last.right-grid.right)<1&&Math.abs(last.bottom-grid.bottom)<1);
+  assert(Math.abs(last.right-grid.right)<1);const finalColumn=page.getByRole('gridcell').filter({hasNot:page.locator('span.never')});const tops=await finalColumn.evaluateAll(nodes=>nodes.map(node=>node.getBoundingClientRect()).filter(r=>Math.abs(r.right-nodes.at(-1).getBoundingClientRect().right)<1).map(r=>r.y));assert(Math.abs(Math.min(...tops)-grid.y)<1);
   assert.equal(await page.locator('.activity-month-marker').count(),12);
-  assert.deepEqual(await page.locator('.activity-month-marker').allTextContents(),Array.from({length:12},(_,i)=>`${i+1}月`));
+  assert.deepEqual(await page.locator('.activity-month-marker').allTextContents(),Array.from({length:12},(_,i)=>String(i+1)));
   for(const theme of ['dark','light']){
    await page.evaluate(theme=>document.documentElement.dataset.theme=theme,theme);
    const colors=[];
@@ -55,7 +55,7 @@ try{
   for(const mode of ['综合训练','专项训练']){
    await page.getByRole('button',{name:mode,exact:true}).click();const slider=page.getByRole('slider',{name:'训练最低难度滑块'}),rail=await rect(slider),values=await rect(page.locator('.difficulty-range-values'));
    assert.equal(await slider.getAttribute('min'),'800');assert(rail.width<=480&&rail.width>=220);assert(values.bottom<=rail.y+1);assert(Math.abs(values.cx-rail.cx)<1);geometries.push(rail);
-   if(mode==='专项训练'){const topic=await rect(page.getByRole('combobox',{name:'专项训练知识点'}));assert(topic.y>=rail.bottom);}
+   if(mode==='专项训练'){const topic=await rect(page.getByRole('combobox',{name:'专项训练知识点'}));assert(topic.bottom<rail.y);assert.equal(await page.locator('.mock-config .folder-icon-control').count(),0);}
    const button=await rect(page.getByRole('button',{name:'生成试卷',exact:true})),duration=await rect(page.locator('.training-duration-summary'));assert(duration.y>=button.bottom);assert(Math.abs(button.cx-duration.cx)<1);assert(duration.bottom<viewport.height,'generate controls stay visible');
    await page.screenshot({path:`${out}/mock-${mode}-${viewport.width}.png`});
   }

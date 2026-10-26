@@ -98,3 +98,4 @@ html[data-motion=off] .dipper-lines {stroke-dashoffset:0}
 @keyframes dino-step {0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
 @media(prefers-reduced-motion:reduce){.dino-model,.dino-body,.dino-foot{animation:none}}
 @media(max-width:800px){.dino-traveler{--dino-width:114px}}
+.dino-traveler {max-height:92%}

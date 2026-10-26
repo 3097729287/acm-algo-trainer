@@ -14,6 +14,6 @@ export function VisualPreferences({prefs,setPrefs}){
   </section>;
 }
 export function InteractionSettings({prefs,setPrefs,display,onFullscreen}){
-  const switches=[['compact','紧凑列表','在同一屏显示更多题目。'],['motion','界面动效','遵循系统减少动态效果设置。'],['collapsed','收起左侧栏','保留导航图标；Ctrl+B 可随时切换。'],['showPlatforms','显示比赛平台','仅控制题库单题前的平台图标。'],['widgets','底部时钟','在右下角状态栏显示北京时间。']];
+  const switches=[['compact','紧凑列表','在同一屏显示更多题目。'],['collapsed','收起左侧栏','保留导航图标；Ctrl+B 可随时切换。'],['showPlatforms','显示比赛平台','仅控制题库单题前的平台图标。'],['widgets','底部时钟','在右下角状态栏显示北京时间。']];
   return <section aria-label="交互设置"><h2>交互设置</h2><SettingRow title="全屏" hint={display.available?'按 F11 或使用此开关。':'仅桌面版可用。'}><input className="toggle" aria-label="全屏" type="checkbox" checked={display.fullscreen} disabled={!display.available} onChange={event=>onFullscreen(event.target.checked)}/></SettingRow>{switches.map(([id,title,hint])=><SettingRow title={title} hint={hint} key={id}><input className="toggle" aria-label={title} type="checkbox" checked={prefs[id]} onChange={event=>setPrefs(previous=>({...previous,[id]:event.target.checked}))}/></SettingRow>)}<SettingRow title="题库每页题数"><BoundedNumber aria-label="题库每页题数" min={10} max={200} value={prefs.libraryPageSize??50} required onChange={event=>setPrefs(previous=>({...previous,libraryPageSize:Number(event.target.value)}))}/></SettingRow></section>;
 }

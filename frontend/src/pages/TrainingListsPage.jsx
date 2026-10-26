@@ -107,7 +107,7 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
   const title = active?.displayTitle || (state.mode === 'source' ? index.categories.find(c => c.id === state.folder.at(-1))?.name : state.folder.at(-1)) || '题单';
   const clear = () => patch({ query: '', status: '' });
 
-  return <section className="training-lists-page" aria-label="题单训练">
+  return <section className="list-page training-lists-page" aria-label="题单训练">
     <PageSearch>
       <label className="search-box"><Search size={17}/><input aria-label="搜索题单或题目" value={state.query} maxLength={120} onChange={event => patch({ query: event.target.value })}/>{state.query && <button className="icon-button" aria-label="清空题单搜索" onClick={() => patch({ query: '' })}><X size={14}/></button>}</label>
       {active&&!browsingFolders&&<SortDirection label="切换题单难度排序方向" descending={state.descending} onChange={descending=>patch({descending})}/>}

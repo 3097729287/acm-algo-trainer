@@ -1,5 +1,7 @@
 # TB · Training Workbench
 
+**Local 1.4.13 update (unpublished):** Shared themed surfaces and opacity for training lists, contests and the complete Algorithm Lab; matching catalog/header heights and equal growth columns. Centered numeric month markers and a top-aligned final calendar column. Stable mock-creation height, a topic toolbar button and replay sorting inside the picker. Separate Guide and Animation settings, a reference-based dinosaur, automatic problem-prefix and statement-ad cleanup. Shared service 1.2.3 was deployed on 2026-10-26 with preserved data, configuration and verified backups; public avatars become available as upgraded clients synchronize. All 13,184 problems, 9,652 statements and 1,378 editorial pairs remain. Public downloads stay at 1.4.1. [Release notes](docs/releases/1.4.13.md).
+
 TB combines a problem library, illustrated editorials, a C++ / Python editor, local judging and training records for Codeforces, AtCoder, Nowcoder and Luogu. SQLite preserves local work; the account service synchronizes learning data between computers.
 
 <!-- release-status:start -->

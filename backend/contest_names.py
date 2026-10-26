@@ -2,6 +2,7 @@
 import re
 from functools import lru_cache
 import json
+from problem_titles import problem_title
 
 
 @lru_cache(maxsize=1)
@@ -172,7 +173,7 @@ def normalize_row(value):
                 value[key] = event[key]
     if value.get('title'):
         value.setdefault('originalTitle', value['title'])
-        value['title'] = re.sub(r'^(?:\[(?:ICPC|CCPC|[A-Z]{2,8}CPC)\s*[^\]]+\]\s*)+', '', value['title'], flags=re.I)
+        value['title'] = problem_title(value['title'])
     if re.match(r'^Div\.[1-4](?:\+Div\.[1-4])? \d+$', value['contest']):
         value['series'] = value['contest'].rsplit(' ', 1)[0]
         value['contestFamily'] = value['series']

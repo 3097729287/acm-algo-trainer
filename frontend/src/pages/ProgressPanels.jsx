@@ -164,7 +164,7 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
   const startButton = group => onStartReproduction && <button type="button" className="progress-button progress-primary competition-start" disabled={!!starting} onClick={() => start(group)} aria-label={`开始比赛 ${group.name}`}>{starting === group.key ? <LoaderCircle size={14} className="progress-spin" /> : <Play size={14} />}{starting === group.key ? '正在开始' : '开始比赛'}</button>;
   if (current) {
     const inMock = current.rows.some(row => lockedIds.has(row.id));
-    return <div className="competition-page competition-detail" tabIndex={0} aria-label={`${current.name}比赛详情`}>
+    return <div className="list-page competition-page competition-detail" tabIndex={0} aria-label={`${current.name}比赛详情`}>
       <div className="competition-detail-heading"><button type="button" className="progress-button" onClick={() => { setSelected(null); if (initialContest) onBack?.(); }}><ArrowLeft size={14} />全部比赛</button><div><h2>{current.name}</h2></div>{onJoin && <button type="button" className="progress-button" disabled={joining || inMock || activeCount(current) === current.rows.length} onClick={() => join(current)}>{joining ? <LoaderCircle size={14} className="progress-spin" /> : <Flag size={14} />}{activeCount(current) === current.rows.length ? '已加入训练' : activeCount(current) ? '加入剩余题目' : '加入我的训练'}</button>}{startButton(current)}</div>
       {inMock && <div className="competition-notice">本场部分题目正在模拟赛中，难度和知识点将在赛后显示。请从模拟赛页继续。</div>}
       {joinError && <p className="connection-error" role="alert">{joinError}</p>}
@@ -176,7 +176,7 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
   }
   const renderCard = group => <article className="competition-card" key={group.key}><button type="button" className="competition-card-open" onClick={() => setSelected(group.key)} aria-label={`查看 ${group.platform} ${group.name}，${group.rows.length} 道题`}><span className="competition-card-title"><strong>{group.name}</strong></span><span className="competition-problem-tokens">{group.rows.map(row => <span className={`competition-problem-token${progress.get(row.id)?.accepted ? ' competition-token-accepted' : ''}`} key={row.id} title={contestLetterTitle(row)}><b>{row.displayLetter}{typeof row.difficulty==='number' && showDifficulty(row) ? ':' : ''}</b>{typeof row.difficulty==='number' && showDifficulty(row) && <Difficulty row={row}/>}</span>)}</span><ChevronRight size={16}/></button>{startButton(group)}</article>;
   const reset = () => {setCatalogPath([]);setExamYear('');setFilter('all');};
-  return <div className="competition-page" aria-label="比赛列表">
+  return <div className="list-page competition-page" aria-label="比赛列表">
     <PageSearch><label className="search-box"><Search size={17}/><input value={query} onChange={event=>setQuery(event.target.value)} aria-label="搜索比赛"/></label>
     <SortDirection label="切换比赛排序方向" descending={descending} normalDescending={sort==='newest'} onChange={setDescending}/><FilterMenu label="筛选比赛" active={!!catalogPath.length||!!examYear||filter!=='all'} onReset={reset}>
       <label className="filter-field"><span>比赛分类</span><FolderSelect label="筛选比赛分类" placeholder="全部比赛" options={classificationOptions} value={catalogPath.length?JSON.stringify(catalogPath):''} onChange={event=>{setCatalogPath(event.target.value?JSON.parse(event.target.value):[]);setFolder(null);setExamYear('');}}/></label>
@@ -185,7 +185,8 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
       <label className="filter-field"><span>排序</span><ThemedSelect aria-label="比赛排序" value={sort} onChange={event=>setSort(event.target.value)}><option value="newest">比赛时间</option><option value="name">名称</option></ThemedSelect></label>
     </FilterMenu><Tooltip text={folder?'切换到比赛列表':'按平台、系列、年份和场次逐级浏览'}><button type="button" className="competition-view-toggle" aria-label="比赛文件夹浏览" aria-pressed={!!folder} onClick={()=>setFolder(folder?null:{stage:'platforms',path:[]})}><FolderTree size={17}/></button></Tooltip></PageSearch>
     {joinError&&<p className="connection-error" role="alert">{joinError}</p>}
-    {folder?<><CatalogPath scope={folder} onChange={setFolder}/><CatalogExplorer paginate rows={filtered.flatMap(group=>group.rows.map(row=>({...row,groupKey:group.key})))} scope={folder} onChange={setFolder} onContest={row=>setSelected(row.groupKey)} renderContest={row=>renderCard(groups.find(group=>group.key===row.groupKey))}/></>:<div ref={listRef} className="competition-list">{visibleGroups.map(renderCard)}</div>}
+    {folder&&<CatalogPath scope={folder} onChange={setFolder}/>}<div className="catalog-list-heading" aria-label="比赛表头"><span>比赛 / 来源</span><span className="competition-heading-problems">题目</span>{onStartReproduction&&<span className="competition-heading-action" aria-hidden="true"/>}</div>
+    {folder?<><CatalogExplorer paginate rows={filtered.flatMap(group=>group.rows.map(row=>({...row,groupKey:group.key})))} scope={folder} onChange={setFolder} onContest={row=>setSelected(row.groupKey)} renderContest={row=>renderCard(groups.find(group=>group.key===row.groupKey))}/></>:<div ref={listRef} className="competition-list">{visibleGroups.map(renderCard)}</div>}
     {!folder&&filtered.length>0&&<PagePagination label="比赛分页" count={`共 ${filtered.length} 场`} page={currentPage} pages={pageCount} onPrevious={()=>setPage(currentPage-1)} onNext={()=>setPage(currentPage+1)}/>}
     {!filtered.length&&<Empty><Flag size={24}/><span>没有匹配的比赛</span></Empty>}
   </div>;

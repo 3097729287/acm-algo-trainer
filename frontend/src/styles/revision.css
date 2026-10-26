@@ -73,7 +73,7 @@ html .practice-streak .streak-flame {width:20px;height:20px;animation:none;filte
 .medal-emblem {color:var(--tier-color);filter:none}
 html .workspace-area {--glass-panel:var(--panel);--glass-raised:var(--panel-2);padding:12px;gap:12px}
 html .workspace-area :is(.list-page,.records-page) {background:var(--panel);border-color:transparent;box-shadow:none}
-html .workspace-area :is(.competition-page,.mock-create) {background:transparent;border:0;box-shadow:none}
+html .workspace-area .mock-create {background:transparent;border:0;box-shadow:none}
 html .workspace-area .lectures-layout,html .workspace-area .settings-page .settings-home-grid {background:transparent;border:0;box-shadow:none}
 html .workspace-area :is(.list-page,.records-page,.progress-section,.settings-column>section,.competition-card,.mock-config,.paper-preview,.goal-card) {overflow:clip;background-clip:padding-box}
 html .workspace-area :is(.submission-day-heading,.record-summary,.activity-day-detail,.competition-problem-token,.paper-slot) {background:var(--panel-2)}
@@ -337,7 +337,7 @@ html[data-panel-style=minimal] {--surface-image:none;--surface-border:transparen
 html[data-panel-style=outlined] {--surface-image:none;--surface-border:color-mix(in srgb,var(--accent) 60%,var(--line));--surface-line:solid;--surface-radius:18px;--surface-grid:auto}
 html[data-panel-style=aurora] {--surface-image:radial-gradient(ellipse at top left,color-mix(in srgb,var(--accent) 20%,transparent),transparent 65%);--surface-border:color-mix(in srgb,var(--accent) 30%,var(--line));--surface-line:solid;--surface-radius:22px;--surface-grid:auto}
 html[data-panel-style=blueprint] {--surface-image:linear-gradient(color-mix(in srgb,var(--accent) 9%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--accent) 9%,transparent) 1px,transparent 1px);--surface-border:color-mix(in srgb,var(--accent) 60%,var(--line));--surface-line:dashed;--surface-radius:3px;--surface-grid:22px 22px}
-html[data-panel-style] .workspace-area :is(.progress-section,.list-page,.records-page,.competition-card,.settings-column>section,.settings-home-grid,.mock-config,.paper-preview,.lectures-list,.lectures-detail,.lab-panel,.goal-card,.catalog-explorer) {
+html[data-panel-style] .workspace-area :is(.progress-section,.list-page,.records-page,.competition-card,.settings-column>section,.settings-home-grid,.mock-config,.paper-preview,.lectures-list,.lectures-detail,.lab-panel,.goal-card,.catalog-explorer,.lab-page-surface) {
  background-image:var(--surface-image,none);background-size:var(--surface-grid,auto);border:1px var(--surface-line,solid) var(--surface-border,var(--line));border-radius:var(--surface-radius,10px);box-shadow:none
 }
 
@@ -617,3 +617,69 @@ html .workspace-area .problem-table tbody tr.training-problem-row:not([aria-disa
 html .workspace-area .problem-table tbody tr.training-problem-row:not([aria-disabled=true]):is(:hover,:focus-visible,:focus-within)>td:first-child {box-shadow:inset 2px 0 var(--accent)}
 html .activity-detail-table tbody tr:is(:hover,:focus-within) {background:var(--accent-soft)}
 html .activity-detail-table tbody tr:is(:hover,:focus-within)>td:first-child {box-shadow:inset 2px 0 var(--accent)}
+
+/* Each catalog has one themed surface, including its footer. */
+html .workspace-area :is(.training-lists-page,.competition-page) {gap:0}
+html .workspace-area :is(.training-lists-page,.competition-page) :is(.catalog-explorer,.training-list-directory,.catalog-path,.competition-question-list) {background:transparent;background-image:none;border:0;border-radius:0;box-shadow:none}
+html .workspace-area .training-list-directory {margin:0;border-bottom:1px solid var(--soft-line)}
+html .workspace-area .competition-detail-heading {padding:12px 16px;border-bottom:1px solid var(--soft-line)}
+/* A stable creation area prevents the history panel from jumping by mode. */
+html .mock-create .mock-config {box-sizing:border-box;height:clamp(350px,48dvh,510px);min-height:350px;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:18px;padding:24px clamp(18px,3vw,46px)}
+html .mock-config .mock-selection-area {min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px}
+html .mock-selection-area .difficulty-presets {margin:0;flex:none}
+html .mock-selection-area .training-specific-fields {margin:0;flex:none}
+html .mock-config .create-buttons {margin:0;padding:0;align-self:end}
+@media(max-width:800px) {html .mock-create .mock-config {height:350px;padding:18px;gap:12px}html .mock-config .mock-selection-area {gap:14px}}
+
+html {--catalog-heading-height:44px}
+html .workspace-area .lab-page-surface {background-color:var(--panel);background-clip:padding-box}
+html .workspace-area .lab-page-surface .lab-panel {background:transparent}
+html .workspace-area .training-lists-page {--directory-row-height:var(--catalog-heading-height)}
+html .training-lists-page .training-list-directory {height:var(--directory-row-height);min-height:var(--directory-row-height);flex:none;flex-wrap:nowrap;padding-block:0}
+html .training-list-directory .catalog-path {height:100%;min-height:0;flex-wrap:nowrap;overflow:hidden}
+html .training-list-directory .training-list-summary {min-width:0;max-width:55%;padding-block:0;white-space:nowrap;overflow:hidden}
+html .training-list-summary .training-list-stats {overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html .training-list-content>.catalog-folder-row {height:var(--directory-row-height);min-height:var(--directory-row-height);max-height:var(--directory-row-height);padding:0 14px;gap:12px;box-sizing:border-box}
+html .training-list-content>.catalog-folder-row>strong {font-size:.95rem;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html .training-list-content>.catalog-folder-row>strong small {display:none}
+html .catalog-list-heading {height:var(--catalog-heading-height);min-height:var(--catalog-heading-height);flex:none;display:flex;align-items:center;gap:12px;padding:0 16px;background:var(--panel-2);border-bottom:1px solid var(--soft-line);color:var(--muted);font-size:.9rem}
+html .competition-heading-problems {margin-left:auto}
+html .competition-heading-action {width:132px;flex:none}
+html .workspace-area :is(.problem-table,.ranking-table,.activity-detail-table) thead :is(tr,th),html .workspace-area .submission-day-heading {height:var(--catalog-heading-height);min-height:var(--catalog-heading-height);box-sizing:border-box}
+html .workspace-area .competition-detail-heading {height:var(--catalog-heading-height);min-height:var(--catalog-heading-height);padding-block:4px}
+@media(min-width:1001px) {html .growth-dashboard .progress-growth-columns {grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}}
+.animation-settings>h2,.settings-guide>h2 {display:flex;align-items:center;gap:8px}
+.animation-preview {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:24px}
+.animation-preview>div {position:relative;min-height:200px;overflow:hidden;color:var(--accent);border:1px solid var(--line);border-radius:var(--surface-radius,10px)}
+.animation-preview .settings-scene {position:absolute;width:100%;height:100%;inset:0;opacity:.8}
+.animation-preview .scene-dino-stage {top:0}
+.animation-preview .dino-traveler {--dino-width:100px}
+.settings-data-help .help-action-grid {grid-template-columns:minmax(0,1fr)}
+@media(min-width:1001px) {
+ html .settings-subpage-tabs.settings-home-grid {grid-template-rows:repeat(10,minmax(0,1fr))}
+ html .settings-home-grid>.settings-tile[data-section=appearance] {grid-column:1/7;grid-row:1/7}
+ html .settings-home-grid>.settings-tile[data-section=interaction] {grid-column:7/11;grid-row:1/5}
+ html .settings-home-grid>.settings-tile[data-section=updates] {grid-column:11/13;grid-row:1/7}
+ html .settings-home-grid>.settings-tile[data-section=training] {grid-column:1/5;grid-row:7/11}
+ html .settings-home-grid>.settings-tile[data-section=accounts] {grid-column:5/7;grid-row:7/11}
+ html .settings-home-grid>.settings-tile[data-section=help] {grid-column:7/9;grid-row:5/8}
+ html .settings-home-grid>.settings-tile[data-section=advanced] {grid-column:9/11;grid-row:5/8}
+ html .settings-home-grid>.settings-tile[data-section=thanks] {grid-column:11/13;grid-row:7/11}
+ html .settings-home-grid>.settings-tile[data-section=guide] {grid-column:7/9;grid-row:8/11}
+ html .settings-home-grid>.settings-tile[data-section=animation] {grid-column:9/11;grid-row:8/11}
+ html .settings-home-grid:has([data-section=admin]) {grid-template-rows:repeat(12,minmax(0,1fr))}
+ html .settings-home-grid>.settings-tile[data-section=admin] {grid-column:1/-1;grid-row:11/13}
+}
+@media(min-width:1001px) and (max-width:1300px) {
+ html .settings-home-grid>.settings-tile[data-section=appearance] {grid-column:1/5;grid-row:1/5}
+ html .settings-home-grid>.settings-tile[data-section=interaction] {grid-column:5/7;grid-row:1/3}
+ html .settings-home-grid>.settings-tile[data-section=accounts] {grid-column:5/7;grid-row:3/5}
+ html .settings-home-grid>.settings-tile[data-section=training] {grid-column:1/4;grid-row:5/7}
+ html .settings-home-grid>.settings-tile[data-section=help] {grid-column:4/7;grid-row:5/7}
+ html .settings-home-grid>.settings-tile[data-section=advanced] {grid-column:1/4;grid-row:7/9}
+ html .settings-home-grid>.settings-tile[data-section=guide] {grid-column:4/7;grid-row:7/9}
+ html .settings-home-grid>.settings-tile[data-section=animation] {grid-column:1/4;grid-row:9/11}
+ html .settings-home-grid>.settings-tile[data-section=thanks] {grid-column:4/7;grid-row:9/11}
+ html .settings-home-grid>.settings-tile[data-section=updates] {grid-column:7/9;grid-row:1/11}
+}
+@media(max-width:800px) {.animation-preview {grid-template-columns:minmax(0,1fr)}}

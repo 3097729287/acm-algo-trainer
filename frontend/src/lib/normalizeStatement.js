@@ -1,4 +1,5 @@
 import {inputFormatMarkdown} from './inputFormat.js';
+import {problemTitle} from './problemTitle.js';
 // Presentation only: keep archive bytes and mathematical content unchanged.
 // The fetch tool's comment banner is metadata already shown by the workbench.
 export function normalizeStatement(markdown, samples = [], title = '') {
@@ -13,6 +14,7 @@ export function normalizeStatement(markdown, samples = [], title = '') {
     const prefix = text.match(/^# [^\n]+\n\s*原题[:：]\s*https?:\/\/[^\n]+\n\s*/);
     if (prefix) text = text.slice(prefix[0].length);
   }
+  text = text.replace(/^# ([^\n]+)$/m, (_, heading) => '# ' + problemTitle(heading));
   // Platform automation notices do not change the task's inputs, outputs or constraints.
   text = text.replace(/::anti-ai\[[^\]]*\]/g, '');
   // Promote legacy plain section labels without touching code or formulae.

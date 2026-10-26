@@ -1,7 +1,7 @@
 const step=(target,title,text)=>({target,title,text});
 const page=(id,items,tab)=>items.map(item=>({...item,page:id,...(tab?{tab}:{})}));
 
-export const GUIDE_LABELS={mine:'我的训练',library:'题库','training-lists':'题单',competitions:'比赛',mock:'模拟赛',growth:'成长与能力',rankings:'排行榜',records:'提交记录',activity:'活动记录',lectures:'从零讲',paths:'算法实验室',practice:'做题工作台',settings:'设置首页','settings:appearance':'外观设置','settings:interaction':'交互与导航','settings:training':'快捷键','settings:accounts':'账号与身份','settings:advanced':'翻译 API','settings:updates':'更新','settings:help':'数据统计','settings:thanks':'鸣谢'};
+export const GUIDE_LABELS={mine:'我的训练',library:'题库','training-lists':'题单',competitions:'比赛',mock:'模拟赛',growth:'成长与能力',rankings:'排行榜',records:'提交记录',activity:'活动记录',lectures:'从零讲',paths:'算法实验室',practice:'做题工作台',settings:'设置首页','settings:appearance':'外观设置','settings:interaction':'交互与导航','settings:training':'快捷键','settings:accounts':'账号与身份','settings:advanced':'翻译 API','settings:updates':'更新','settings:help':'数据统计','settings:thanks':'鸣谢','settings:guide':'新手指引','settings:animation':'动画'};
 
 export const PAGE_GUIDES={
  'training-lists':page('training-lists',[
@@ -108,7 +108,7 @@ export const PAGE_GUIDES={
   step('.page-opacity-settings,.appearance-studio','按页面调整透明度','可单独调整不同页面、题面、编辑区与题解的不透明度，适应背景和阅读习惯。'),
  ],'appearance'),
  'settings:interaction':page('settings',[
-  step('[aria-label="交互设置"]','开关与每页题数','这里调整全屏、紧凑列表、界面动效、侧栏、平台图标与底部时钟；题库每页题数也在这里设置。'),
+  step('[aria-label="交互设置"]','开关与每页题数','这里调整全屏、紧凑列表、侧栏、平台图标与底部时钟；题库每页题数也在这里设置。'),
   step('.settings-navigation','定制导航','可以修改页面名称、排序和组合。组合后的页面可在同一区域切换，不会合并或删除训练数据。'),
   step('.brand-mark','侧栏快捷切换','点击左上 TB 标识收起或展开侧栏，也可以用 Ctrl+B。悬停标识可查看当前操作。'),
  ],'interaction'),

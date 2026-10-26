@@ -24,18 +24,14 @@ export function RoundedDinosaur() {
    <path d="M8 289H632" opacity=".65"/>
    <g opacity=".6"><path d="M26 288Q21 275 15 272M26 288Q27 274 35 271M24 282L16 279M29 280L35 277M204 289Q201 277 194 274M204 289Q207 275 213 273M556 290Q549 278 542 278M556 290Q558 280 566 275"/><path d="M91 289q4-8 10-7q7 0 11 7M241 289q8-12 17-1M469 288q6-9 12 0"/></g>
   </svg>
-  <div className="dino-traveler"><svg className="dino-model" viewBox="0 0 160 160" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
+  <div className="dino-traveler"><svg className="dino-model" viewBox="0 0 370 330" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
    <g className="dino-body">
-    <path className="dino-foot dino-foot-back" d="M91 119v16q0 5 5 5h9q4-1 1-5l-6-4v-14" fill="var(--panel-base)" opacity=".6"/>
-    <path d="M43 92q-8-9-11 1l-1 7M58 80q-7-13-12-3l-2 13M78 77q-1-13-10-8l-4 9M88 64q-8-9-12 0l2 12" fill="currentColor" fillOpacity=".16"/>
-    <path className="dino-outline" d="M43 92C34 101 23 103 12 97C20 113 33 119 48 113C54 123 65 128 78 128C97 128 110 117 112 101L114 84H128C142 84 150 75 148 63C146 49 133 42 120 42C104 42 91 51 88 64L82 80C70 75 53 78 43 92Z" fill="var(--panel-base)"/>
-    <path d="M43 92C34 101 23 103 12 97C20 113 33 119 48 113C54 123 65 128 78 128C97 128 110 117 112 101L114 84H128C142 84 150 75 148 63C146 49 133 42 120 42C104 42 91 51 88 64L82 80C70 75 53 78 43 92Z" fill="currentColor" fillOpacity=".09" stroke="none"/>
-    <path className="dino-foot dino-foot-front" d="M67 118v17q0 6 6 6h12q4-1 1-5l-8-4v-10" fill="var(--panel-base)"/>
-    <path d="M105 95q-2 9-10 11q-5 1-5-4l3-4"/>
-    <circle className="dino-eye" cx="116" cy="59" r="2.9" fill="currentColor" stroke="none"/>
-    <circle cx="138" cy="65" r="1.2" fill="currentColor" stroke="none" opacity=".65"/>
-    <path d="M126 74q8 5 14-1" strokeWidth="1.8"/>
-    <ellipse cx="116" cy="72" rx="4" ry="2.5" fill="currentColor" fillOpacity=".19" stroke="none"/>
+    <path className="dino-spines" d="m33 205 10-15 11 22m4 2 11-15 10 21m9 2 12-16 11 20m7 1 12-17 12 19m7-1 13-19 12 16m5-4 10-22 13 12m1-8-17-14 22-7m1-5-18-15 21-6m1-4-16-17 20-3m1-5-17-16 22-4m2-4-16-17 24-3m4-5-14-17 26-5m6-3-10-20 25 6" fill="currentColor" fillOpacity=".09"/>
+    <path className="dino-outline" d="M17 199C52 219 122 234 167 222C199 214 204 179 207 137C210 99 216 65 239 42C266 15 309 29 347 58L273 79C295 88 321 97 336 108C338 119 305 119 286 119L289 222C289 252 279 271 253 281C220 294 185 283 155 275C92 259 40 243 17 199Z" fill="var(--panel-base)"/>
+    <path className="dino-arm" d="M288 150q17 1 23-11m-10 9 12 4m-11-4 10-6M274 172q22 5 36-2m-8 1 11-8m-11 9 11 7" strokeWidth="7"/>
+    <path className="dino-foot dino-foot-back" d="M244 279l-4 25m0-9-10 17m11-10 10 11m-11-10 0 11" strokeWidth="7"/>
+    <path className="dino-foot dino-foot-front" d="M192 275l-9 27m3-9-18 13m17-7 1 13m0-13 15 6" strokeWidth="7"/>
+    <g className="dino-eyes"><circle cx="253" cy="53" r="12" fill="var(--panel-raised-base)"/><circle cx="283" cy="47" r="11" fill="var(--panel-raised-base)"/><circle cx="254" cy="54" r="5.5" fill="var(--text)" stroke="none"/><circle cx="284" cy="48" r="5" fill="var(--text)" stroke="none"/><circle cx="256" cy="52" r="1.7" fill="var(--panel-raised-base)" stroke="none"/><circle cx="286" cy="46" r="1.5" fill="var(--panel-raised-base)" stroke="none"/></g>
    </g>
   </svg></div>
  </div>;

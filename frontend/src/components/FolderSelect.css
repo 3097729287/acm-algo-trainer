@@ -12,3 +12,7 @@ html .folder-icon-control>select:focus-visible {outline:2px solid var(--accent);
 .folder-control-symbol {position:absolute;left:9px;top:9px;pointer-events:none}
 .folder-icon-control[data-active=true] {color:var(--accent)}
 .folder-icon-control[data-active=true]::after {content:'';position:absolute;top:4px;right:3px;width:5px;height:5px;border-radius:50%;background:var(--accent);pointer-events:none}
+
+.folder-select-menu>header>strong {flex:1;min-width:0}
+.folder-menu-actions {display:flex;align-items:center;margin-left:auto;flex:none}
+.folder-menu-actions .sort-direction {width:28px;height:28px;min-height:28px;padding:4px}

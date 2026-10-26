@@ -5,6 +5,13 @@ import json
 from pathlib import Path
 import sqlite3
 import datetime as dt
+from problem_titles import problem_record
+
+
+def _decoded_problem(row):
+    value = dict(row)
+    value['raw'], value['encoded'] = problem_record(json.loads(row['raw']), json.loads(row['encoded']))
+    return value
 
 SCHEMA = '''
 CREATE TABLE IF NOT EXISTS library_meta(key TEXT PRIMARY KEY, value TEXT NOT NULL);
@@ -245,8 +252,7 @@ class LibraryDatabase:
             rows = db.execute('SELECT p.*, ' + _CONTENT_READY_SQL + ' AS content_ready, (EXISTS(SELECT 1 FROM solutions s WHERE s.problem_id=p.id) '
                               'OR EXISTS(SELECT 1 FROM detailed_solutions s WHERE s.problem_id=p.id)) AS available '
                               'FROM problems p ORDER BY p.rowid')
-            return [{**dict(row), 'raw': json.loads(row['raw']), 'encoded': json.loads(row['encoded'])}
-                    for row in rows]
+            return [_decoded_problem(row) for row in rows]
 
     def find(self, identity=None, url=None):
         with self.connection() as db:
@@ -255,7 +261,7 @@ class LibraryDatabase:
                 from insights import canonical_url
                 key = canonical_url(url) if '://' in url else url
                 row = db.execute('SELECT p.*, ' + _CONTENT_READY_SQL + ' AS content_ready FROM problems p JOIN problem_urls u ON u.problem_id=p.id WHERE u.url_key=?', (key,)).fetchone()
-            return {**dict(row), 'raw': json.loads(row['raw']), 'encoded': json.loads(row['encoded'])} if row else None
+            return _decoded_problem(row) if row else None
 
     def solution(self, identity, variant='default'):
         table = {'default': 'solutions', 'detailed': 'detailed_solutions'}[variant]
@@ -320,6 +326,7 @@ class LibraryDatabase:
         dumps = lambda value: json.dumps(value, ensure_ascii=False)
         with self.connection() as db:
             for raw, encoded, solution, statement in records:
+                raw, encoded = problem_record(raw, encoded)
                 identity = encoded['id']
                 db.execute('INSERT INTO problems VALUES (?,?,?,?) ON CONFLICT(id) DO UPDATE SET url=excluded.url,raw=excluded.raw,encoded=excluded.encoded',
                            (identity, encoded.get('url'), dumps(raw), dumps(encoded)))

@@ -1,7 +1,7 @@
 {
   "name": "tb-workbench",
   "private": true,
-  "version": "1.4.12",
+  "version": "1.4.13",
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
