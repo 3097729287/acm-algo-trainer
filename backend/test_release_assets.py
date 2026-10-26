@@ -28,7 +28,7 @@ class ReleaseAssetTests(unittest.TestCase):
     def test_admin_build_is_private_and_leaves_public_user_package_unchanged(self):
         user = self.public / build_release.PACKAGE
         (user / 'resources').mkdir(parents=True)
-        (user / 'TB新版.exe').write_bytes(b'fixture executable')
+        (user / 'ToBe.exe').write_bytes(b'fixture executable')
         for name in ['BUILD-INFO.json', 'resources/BUILD-INFO.json']:
             (user / name).write_text('{"edition":"user"}', encoding='utf8')
         original = build_release.manifest(user)
@@ -37,9 +37,9 @@ class ReleaseAssetTests(unittest.TestCase):
         private = self.stage / 'private-admin'
         self.assertEqual(list(private.glob('*.zip')), [])
         self.assertEqual(list(private.glob('*.exe')), [])
-        program = private / ('TB-Admin-' + build_release.VERSION + '-win64')
+        program = private / ('ToBe-Admin-' + build_release.VERSION + '-win64')
         self.assertEqual(json.loads((program / 'BUILD-INFO.json').read_text(encoding='utf8'))['edition'], 'admin')
-        self.assertTrue((program / 'TB管理员版.exe').is_file())
+        self.assertTrue((program / 'ToBe管理员版.exe').is_file())
         self.assertEqual(build_release.manifest(user), original)
         self.assertFalse(any(is_admin_asset(path.name) for path in self.public.iterdir()))
         self.assertTrue((private / 'ADMIN-RELEASE-MANIFEST.json').is_file())
@@ -72,7 +72,7 @@ class ReleaseAssetTests(unittest.TestCase):
             public_release_files(self.public)
 
     def test_admin_matching_covers_manifests_paths_and_localized_names(self):
-        for name in ['ADMIN-RELEASE-MANIFEST.json', 'TB-Admin-Setup-1.3.4-win64.exe', 'folder/TB-Admin-1.3.4-win64.zip', 'TB管理员版.exe']:
+        for name in ['ADMIN-RELEASE-MANIFEST.json', 'TB-Admin-Setup-1.3.4-win64.exe', 'folder/TB-Admin-1.3.4-win64.zip', 'ToBe管理员版.exe']:
             self.assertTrue(is_admin_asset(name), name)
         self.assertFalse(is_admin_asset('TB-Setup-1.3.4-win64.exe'))
 

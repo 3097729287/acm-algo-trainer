@@ -103,10 +103,10 @@ export default function AccountGate({ children }) {
   if (booting || session?.restoring) return <StartupScreen restoring={session?.restoring} error={error} onRetry={() => refresh(true)}/>;
   const registering = mode === 'register';
   return <main className="account-screen">
-    <div className="account-brand"><span className="account-logo">tb</span><span>TB <small>训练工作台</small></span></div>
-    <section className="account-card" aria-label="TB 账号登录">
+    <div className="account-brand"><span className="account-logo">ToBe</span><span>ToBe <small>训练工作台</small></span></div>
+    <section className="account-card" aria-label="ToBe 账号登录">
       <div className="account-symbol"><LockKeyhole size={24}/></div>
-      <h1>{registering ? '创建你的 TB 账号' : '登录 TB'}</h1>
+      <h1>{registering ? '创建你的 ToBe 账号' : '登录 ToBe'}</h1>
       <p className="account-intro">{registering ? '注册账号，记录训练进步，参与过题排行榜。' : '登录后继续训练，排行榜使用你的昵称。'}</p>
         <div className="account-tabs" role="tablist" aria-label="账号操作">
           <button type="button" role="tab" aria-selected={!registering} disabled={busy} onClick={() => changeMode('login')}>登录</button>
@@ -123,7 +123,7 @@ export default function AccountGate({ children }) {
         </form>
         {(!session?.token || error && !session?.restoring) && <button className="account-retry" onClick={() => refresh(true)}>重新连接</button>}
     </section>
-    <p className="account-footer">TB · 每一步训练，都留下进步</p>
+    <p className="account-footer">ToBe · 每一步训练，都留下进步</p>
     <SoftwareUpdateNotice update={softwareUpdate} onDetails={() => window.open(softwareUpdate.state.releaseUrl, '_blank', 'noopener,noreferrer')} />
   </main>;
 }

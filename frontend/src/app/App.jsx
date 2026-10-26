@@ -1975,7 +1975,7 @@ export default function App() {
       <aside className="sidebar">
         <div className="brand">
           <button type="button" className="brand-mark" aria-label={prefs.collapsed?"展开侧边栏":"收起侧边栏"} aria-expanded={!prefs.collapsed} onClick={()=>setPrefs(previous=>({...previous,collapsed:!previous.collapsed}))}>
-            TB
+            ToBe
           </button>
 
         </div>

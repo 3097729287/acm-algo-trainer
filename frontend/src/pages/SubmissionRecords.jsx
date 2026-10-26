@@ -10,7 +10,7 @@ import {groupSubmissionsByDay,verdictLabel,verdictTone} from '@/models/workspace
 import {trainingDateLabel,trainingTime} from '@/lib/trainingDate.js';
 
 const dateText=value=>value?new Date(value).toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'—';
-const RESULT_OPTIONS=['AC','WA','CE','TLE','MLE','RE','OLE','ERROR','QUEUED','RUNNING'].map(value=>({value,label:verdictLabel(value)}));
+const RESULT_OPTIONS=['AC','WA','CE','TLE','MLE','RE','OLE','ERROR'].map(value=>({value,label:verdictLabel(value)}));
 export default function SubmissionRecords({api,revision,rows=[],onSelect,onOpenProblem}) {
  const [query,setQuery]=useState(''),[search,setSearch]=useState(''),[result,setResult]=useState(''),[descending,setDescending]=useState(true);
  const [offsets,setOffsets]=useState([0]),[visibleCount,setVisibleCount]=useState(1),[snapshot,setSnapshot]=useState(null),[loading,setLoading]=useState(true),[error,setError]=useState(''),[attempt,setAttempt]=useState(0);

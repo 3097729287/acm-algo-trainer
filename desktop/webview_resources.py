@@ -119,7 +119,7 @@ class MainViewResources:
             panel.ForeColor = Color.FromArgb(225, 229, 235)
             label = Label()
             label.AutoSize = True
-            label.Text = '界面进程意外退出，请恢复界面。' if retry else '界面进程意外退出，请关闭并重新打开 TB。'
+            label.Text = '界面进程意外退出，请恢复界面。' if retry else '界面进程意外退出，请关闭并重新打开 ToBe。'
             panel.Controls.Add(label)
             if retry:
                 button = Button()

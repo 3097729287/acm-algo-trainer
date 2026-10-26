@@ -150,7 +150,7 @@ def run(action, output):
                             ");Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(e," + json.dumps(value) +
                             ");e.dispatchEvent(new Event('input',{bubbles:true}));})()")
                     try:
-                        wait_js("document.querySelector('.account-card h1')?.textContent==='登录 TB'")
+                        wait_js("document.querySelector('.account-card h1')?.textContent==='登录 ToBe'")
                         assert not server.accounts.snapshot()['authenticated']
                         report['nativeLoginGate'] = True
                         window.evaluate_js("document.querySelectorAll('.account-tabs button')[1].click()")

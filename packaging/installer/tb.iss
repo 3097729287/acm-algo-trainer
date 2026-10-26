@@ -6,15 +6,17 @@
   #endif
 #endif
 #ifdef AdminEdition
-  #define ProductName "TB 管理员工作台"
+  #define ProductName "ToBe 管理员"
   #define ProductDir "TB-Admin"
-  #define ProductExe "TB管理员版.exe"
-  #define SetupPrefix "TB-Admin-Setup-"
+  #define ProductExe "ToBe管理员版.exe"
+  #define LegacyExe "TB管理员版.exe"
+  #define SetupPrefix "ToBe-Admin-Setup-"
 #else
-  #define ProductName "TB 训练工作台"
+  #define ProductName "ToBe"
   #define ProductDir "TB"
-  #define ProductExe "TB新版.exe"
-  #define SetupPrefix "TB-Setup-"
+  #define ProductExe "ToBe.exe"
+  #define LegacyExe "TB新版.exe"
+  #define SetupPrefix "ToBe-Setup-"
 #endif
 #ifndef AppVersion
   #define AppVersion "1.3.3"
@@ -33,7 +35,7 @@
 AppId={#AppId}
 AppName={#ProductName}
 AppVersion={#AppVersion}
-AppPublisher=TB contributors
+AppPublisher=ToBe contributors
 AppPublisherURL=https://github.com/3097729287/acm-algo-trainer
 AppSupportURL=https://github.com/3097729287/acm-algo-trainer/issues
 AppUpdatesURL=https://47.82.84.74/updates/stable/manifest-v1.json
@@ -80,8 +82,9 @@ Name: "{autodesktop}\{#ProductName}"; Filename: "{app}\{#ProductExe}"; WorkingDi
 [Run]
 Filename: "{app}\{#ProductExe}"; Description: "打开 {#ProductName}"; WorkingDir: "{app}"; Flags: nowait postinstall skipifsilent
 
-#ifndef AdminEdition
 [InstallDelete]
+Type: files; Name: "{app}\{#LegacyExe}"
+#ifndef AdminEdition
 Type: files; Name: "{group}\TB 管理员工作台.lnk"
 #endif
 
@@ -127,7 +130,7 @@ begin
 #ifndef AdminEdition
   if (CurStep = ssPostInstall) and WizardIsTaskSelected('importlegacy') then
   begin
-    if not Exec(ExpandConstant('{app}\TB新版.exe'), '--migrate-local', ExpandConstant('{app}'), SW_HIDE, ewWaitUntilTerminated, ExitCode) then
+    if not Exec(ExpandConstant('{app}\{#ProductExe}'), '--migrate-local', ExpandConstant('{app}'), SW_HIDE, ewWaitUntilTerminated, ExitCode) then
       MsgBox('旧记录未能迁入；原软件数据已保留。请关闭旧软件后重新运行安装程序。', mbError, MB_OK)
     else if ExitCode <> 0 then
       MsgBox('旧记录尚未完整迁入；原数据已保留。请关闭旧软件后重新运行安装程序。', mbError, MB_OK);
@@ -135,7 +138,7 @@ begin
 #ifndef SkipLegacyRetirement
   if CurStep = ssPostInstall then
   begin
-    if not Exec(ExpandConstant('{app}\TB新版.exe'), '--retire-legacy', ExpandConstant('{app}'), SW_HIDE, ewWaitUntilTerminated, ExitCode) then
+    if not Exec(ExpandConstant('{app}\{#ProductExe}'), '--retire-legacy', ExpandConstant('{app}'), SW_HIDE, ewWaitUntilTerminated, ExitCode) then
       Log('Legacy-program migration deferred; originals preserved.')
     else if ExitCode <> 0 then
       Log('Legacy-program migration not completed; originals preserved for retry.');

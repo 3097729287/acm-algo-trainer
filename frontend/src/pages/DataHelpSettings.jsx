@@ -15,7 +15,7 @@ export default function DataHelpSettings({ api, onTutorial, onError, insights, a
       const value = await api('data/export');
       const url = URL.createObjectURL(new Blob([JSON.stringify(value, null, 2) + '\n'], { type: 'application/json;charset=utf-8' }));
       const link = document.createElement('a');
-      link.href = url; link.download = `TB-data-${new Date().toISOString().slice(0, 10)}.json`;
+      link.href = url; link.download = `ToBe-data-${new Date().toISOString().slice(0, 10)}.json`;
       document.body.append(link); link.click(); link.remove();
       setTimeout(() => URL.revokeObjectURL(url), 60000);
     } catch (error) { onError(error.message); }

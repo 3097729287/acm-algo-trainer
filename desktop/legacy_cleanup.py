@@ -42,7 +42,7 @@ def identify(root, app, catalog):
     root, app = root.resolve(), Path(app).resolve()
     if (root == app or app.is_relative_to(root) or root.is_relative_to(app) or linked(Path(root)) or
             (root/'.git').exists() or (root/'backend').is_dir() or (root/'admin-workspace').exists() or
-            (root/'TB管理员版.exe').exists()): return None
+            (root/'TB管理员版.exe').exists() or (root/'ToBe管理员版.exe').exists()): return None
     known = {}
     for version, executables in catalog['versions'].items():
         for name, digest in executables.items():
@@ -214,7 +214,7 @@ def redirect_shortcuts(links, old, app):
         return "'" + str(value).replace("'", "''") + "'"
     script = '$w=New-Object -ComObject WScript.Shell;'
     for path in selected:
-        script += f'$s=$w.CreateShortcut({literal(path)});$s.TargetPath={literal(app/"TB新版.exe")};$s.WorkingDirectory={literal(app)};$s.IconLocation={literal(app/"tb.ico")};$s.Save();'
+        script += f'$s=$w.CreateShortcut({literal(path)});$s.TargetPath={literal(app/"ToBe.exe")};$s.WorkingDirectory={literal(app)};$s.IconLocation={literal(app/"tb.ico")};$s.Save();'
     powershell(script + '@{}|ConvertTo-Json')
 
 

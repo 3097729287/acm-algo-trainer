@@ -11,8 +11,8 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parent.parent
 VERSION = (ROOT / 'VERSION').read_text().strip()
-NAME = 'TB新版'
-PACKAGE = 'TB-' + VERSION + '-win64'
+NAME = 'ToBe'
+PACKAGE = 'ToBe-' + VERSION + '-win64'
 
 
 def manifest(directory):
@@ -25,10 +25,20 @@ def build(args):
     if (stage / 'dist').exists():
         raise RuntimeError('Use a new stage; existing builds are never overwritten')
     stage.mkdir(parents=True, exist_ok=True)
+    numbers = tuple(map(int, VERSION.split('.'))) + (0,)
+    version_file = stage / 'windows-version-info.txt'
+    strings = {'CompanyName': 'ToBe contributors', 'FileDescription': 'ToBe',
+               'FileVersion': VERSION, 'InternalName': NAME, 'OriginalFilename': NAME + '.exe',
+               'ProductName': 'ToBe', 'ProductVersion': VERSION}
+    entries = ','.join('StringStruct(' + repr(key) + ',' + repr(value) + ')' for key, value in strings.items())
+    version_file.write_text('VSVersionInfo(ffi=FixedFileInfo(filevers=' + repr(numbers) +
+                           ',prodvers=' + repr(numbers) + ',mask=0x3f,flags=0,OS=0x40004,fileType=1,subtype=0,date=(0,0)),'
+                           'kids=[StringFileInfo([StringTable("040904B0",[' + entries + '])]),'
+                           'VarFileInfo([VarStruct("Translation",[1033,1200])])])', encoding='utf8')
     paths = [ROOT / 'backend', ROOT / 'backend' / 'common', ROOT / 'desktop']
     command = [sys.executable, '-m', 'PyInstaller', '--noconfirm', '--clean', '--onedir', '--windowed',
                '--name', NAME, '--distpath', str(stage / 'dist'), '--workpath', str(stage / 'build'),
-               '--specpath', str(stage), '--icon', str(ROOT / 'desktop' / 'tb.ico')]
+               '--specpath', str(stage), '--version-file', str(version_file), '--icon', str(ROOT / 'desktop' / 'tb.ico')]
     modules = []
     for directory in paths:
         command += ['--paths', str(directory)]
@@ -118,14 +128,14 @@ def admin_assemble(args):
     """Owner-only build, outside the directory uploaded to GitHub releases."""
     stage=args.stage.resolve()
     original=stage/'release'/PACKAGE
-    target=stage/'private-admin'/('TB-Admin-'+VERSION+'-win64')
-    if target.exists() or not (original/'TB新版.exe').is_file():
+    target=stage/'private-admin'/('ToBe-Admin-'+VERSION+'-win64')
+    if target.exists() or not (original/'ToBe.exe').is_file():
         raise RuntimeError('Build the user package first; use a fresh admin destination')
     original_files=manifest(original)
     if any(name.split('/')[0] in ('state','cache','logs','backups','admin-workspace') for name in original_files):
         raise RuntimeError('Only a clean distributed package may create the admin edition')
     shutil.copytree(original,target)
-    (target/'TB新版.exe').rename(target/'TB管理员版.exe')
+    (target/'ToBe.exe').rename(target/'ToBe管理员版.exe')
     for name in ('BUILD-INFO.json','resources/BUILD-INFO.json'):
         path=target/name
         if path.is_file():
@@ -142,7 +152,7 @@ def admin_installer(args):
     if not args.inno or not args.webview2:
         raise RuntimeError('--inno and --webview2 are required')
     subprocess.run([str(args.inno),'/DAdminEdition=1',
-                    '/DPackageDir='+str(args.stage.resolve()/'private-admin'/('TB-Admin-'+VERSION+'-win64')),
+                    '/DPackageDir='+str(args.stage.resolve()/'private-admin'/('ToBe-Admin-'+VERSION+'-win64')),
                     '/DOutputDir='+str(args.stage.resolve()/'private-admin'),'/DWebViewInstaller='+str(args.webview2),
                     '/DAppVersion='+VERSION,str(ROOT/'packaging/installer/tb.iss')],check=True)
 

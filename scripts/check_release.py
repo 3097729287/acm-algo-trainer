@@ -63,7 +63,7 @@ def serving(app, report):
     report.unlink(missing_ok=True)
     stop = report.with_suffix('.stop')
     stop.unlink(missing_ok=True)
-    process = subprocess.Popen([str(app / 'TB新版.exe'), '--serve-check', str(report)],
+    process = subprocess.Popen([str(app / ('ToBe.exe' if (app / 'ToBe.exe').exists() else 'TB新版.exe')), '--serve-check', str(report)],
                                env=environment(app), cwd=app, creationflags=NO_WINDOW)
     try:
         deadline = time.monotonic() + 60
@@ -90,7 +90,7 @@ def install(setup, app, log):
         log.with_suffix('.process.log'), timeout=300)
     installer_log = log.read_text(encoding='utf-8-sig', errors='replace')
     assert not any(message in installer_log for message in ('Exception message:', '内部错误：', 'Internal error:')), 'Installer suppressed an error dialog; inspect ' + str(log)
-    assert (app / 'TB新版.exe').is_file()
+    assert (app / 'ToBe.exe').is_file() or (app / 'TB新版.exe').is_file()
 
 
 def state_hashes(app):
@@ -146,7 +146,7 @@ def main():
     print('Disposable release validation: ' + str(work), flush=True)
     try:
         version = (ROOT / 'VERSION').read_text().strip()
-        package = args.stage.resolve() / 'release' / ('TB-' + version + '-win64')
+        package = args.stage.resolve() / 'release' / ('ToBe-' + version + '-win64')
         with sqlite3.connect((package / 'data/library.sqlite3').as_uri() + '?mode=ro', uri=True) as seed:
             bundled_problems = seed.execute('SELECT COUNT(*) FROM problems').fetchone()[0]
             bundled_solutions = seed.execute('SELECT COUNT(*) FROM solutions').fetchone()[0]
@@ -164,7 +164,7 @@ def main():
         shutil.copy2(args.legacy_iss.parent / 'ChineseSimplified.isl', old_output)
         run([args.inno, '/DPackageDir=' + str(args.legacy_package), '/DOutputDir=' + str(old_output),
              '/DWebViewInstaller=' + str(args.webview2), '/DAppVersion=0.5.0', old_iss], work / 'compile-old.log')
-        new_setup = new_output / ('TB-Setup-' + version + '-win64.exe')
+        new_setup = new_output / ('ToBe-Setup-' + version + '-win64.exe')
         old_setup = old_output / 'TB-Setup-0.5.0-win64.exe'
 
         result['phase'] = 'fresh install'

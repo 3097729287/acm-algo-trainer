@@ -219,11 +219,11 @@ class OfficialBridge:
         bar.ColumnStyles.Add(Forms.ColumnStyle(Forms.SizeType.Absolute, 190))
         bar.ColumnStyles.Add(Forms.ColumnStyle(Forms.SizeType.Percent, 100))
         back = Forms.Button()
-        back.Text, back.Dock = '完成授权 / 返回 TB (&B)', Forms.DockStyle.Fill
+        back.Text, back.Dock = '完成授权 / 返回 ToBe (&B)', Forms.DockStyle.Fill
         back.BackColor, back.ForeColor = Color.White, Color.FromArgb(34, 48, 65)
         back.Click += lambda *_: self.close(identity)
         label = Forms.Label()
-        label.Text = session['platform'] + ' · 请使用官方账号登录，完成后返回 TB 点击提交。'
+        label.Text = session['platform'] + ' · 请使用官方账号登录，完成后返回 ToBe 点击提交。'
         label.Dock, label.TextAlign = Forms.DockStyle.Fill, ContentAlignment.MiddleLeft
         label.ForeColor, label.AutoEllipsis = back.ForeColor, True
         bar.Controls.Add(back, 0, 0)
@@ -387,7 +387,7 @@ class OfficialBridge:
             raise ServiceError(404, '没有找到本次官方提交会话')
         if self.current and (identity is None or identity == self.current):
             self._ui(self._hide_current)
-        return self.status(identity, inspect=False) if identity else {'status': 'ready', 'message': '已返回 TB。'}
+        return self.status(identity, inspect=False) if identity else {'status': 'ready', 'message': '已返回 ToBe。'}
 
     def release(self, identity):
         def dispose():

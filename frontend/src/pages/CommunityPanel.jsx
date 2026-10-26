@@ -39,7 +39,7 @@ export function ProfileSettings({ api, onError, onChanged, initialAccount, initi
     try { await saveBeforeLogout(); await api('account/logout', {}); window.dispatchEvent(new Event('tb:account-change')); }
     catch (issue) { setError(issue.message); setBusy(false); }
   }
-  return <section className="profile-settings" aria-label="TB 账号设置"><div className="progress-section-heading"><h2><UserRound size={18} />我的账号</h2><span/></div>
+  return <section className="profile-settings" aria-label="ToBe 账号设置"><div className="progress-section-heading"><h2><UserRound size={18} />我的账号</h2><span/></div>
     {!snapshot && !error && <p className="progress-muted" role="status">正在读取已同步的账号信息…</p>}
     {snapshot?.profile && <div className="profile-identity"><strong>{snapshot.profile.nickname || '用户'}</strong>{account && <span>登录号：{account.loginId}</span>}</div>}
     <details className="profile-edit"><summary>管理账号</summary>

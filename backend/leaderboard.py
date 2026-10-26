@@ -18,7 +18,7 @@ from urllib.request import Request, build_opener, HTTPRedirectHandler, ProxyHand
 
 from progression import SHANGHAI
 
-NOTICE = "排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。"
+NOTICE = "排行统计 ToBe 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。"
 
 
 class RankingRequestError(RuntimeError):

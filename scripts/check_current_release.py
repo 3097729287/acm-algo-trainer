@@ -25,7 +25,7 @@ def main():
     parser.add_argument('--webview2', type=Path, required=True)
     args = parser.parse_args()
     version = (ROOT / 'VERSION').read_text().strip()
-    package = args.stage.resolve() / 'release' / ('TB-' + version + '-win64')
+    package = args.stage.resolve() / 'release' / ('ToBe-' + version + '-win64')
     work = ROOT / 'build' / ('release-check-current-' + uuid.uuid4().hex[:10])
     work.mkdir(parents=True)
     result = {'ok': False, 'version': version, 'work': str(work)}
@@ -34,7 +34,7 @@ def main():
         run([args.inno, '/DAppId=TB.Validation.' + work.name, '/DPackageDir=' + str(package),
              '/DOutputDir=' + str(output), '/DWebViewInstaller=' + str(args.webview2),
              '/DAppVersion=' + version, '/DSkipLegacyRetirement=1', ROOT / 'packaging/installer/tb.iss'], work / 'compile.log')
-        setup = output / ('TB-Setup-' + version + '-win64.exe')
+        setup = output / ('ToBe-Setup-' + version + '-win64.exe')
         fresh = work / 'fresh'
         install(setup, fresh, work / 'fresh-install.log')
         assert not (fresh / 'state').exists()

@@ -2,8 +2,8 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import {GUIDE_LABELS,PAGE_GUIDES} from '@/lib/guideCatalog.js';
 
 const STEPS = [
-  { page: 'mine', target: '.brand-mark', title: '收起与展开侧边栏', text: '点击左上角 TB 标识收起或展开侧边栏。收起后仍可点击导航图标，给题目和图表留出更多空间。' },
-  { page: 'settings', target: '[aria-label="账号与身份"]', title: '连接账号', text: '打开“账号与身份”，展开“公开账号与评分”，填写你的竞赛账号。已有公开 AC 会自动同步；TB 账号负责保存训练数据。可以稍后绑定。' },
+  { page: 'mine', target: '.brand-mark', title: '收起与展开侧边栏', text: '点击左上角 ToBe 标识收起或展开侧边栏。收起后仍可点击导航图标，给题目和图表留出更多空间。' },
+  { page: 'settings', target: '[aria-label="账号与身份"]', title: '连接账号', text: '打开“账号与身份”，展开“公开账号与评分”，填写你的竞赛账号。已有公开 AC 会自动同步；ToBe 账号负责保存训练数据。可以稍后绑定。' },
   { page: 'library', target: '.topbar .search-box', title: '找到想练的题', text: '输入题名、比赛或知识点；筛选按钮汇总比赛分类、知识点和难度。上下箭头切换顺序，选中的知识点可单独取消。下一步会指引你打开一道题。' },
   { page: 'library', target: '.problem-table tbody tr[data-id] .problem-title', title: '进入练习', text: '点击高亮题名，实际打开一道题。进入工作台后，指引会继续介绍题面、代码和运行。', action: 'open' },
   { practice: true, target: '.wb-statement-pane', title: '阅读题面', text: '先确认题意、输入输出和样例。这里可以切换原文与中文，也可以调整题面字号。' },

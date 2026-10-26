@@ -14,7 +14,7 @@ def public_asset_name(name):
         return False
     version = r'\d+\.\d+\.\d+'
     return name in {'BUILD-INFO.json', 'SOURCE-MANIFEST.json', 'RELEASE-MANIFEST.json', 'SHA256SUMS.txt'} or bool(re.fullmatch(
-        rf'TB-(?:Setup-{version}-win64\.exe|{version}-win64\.zip|Update-{version}-to-{version}-win64\.zip|Algorithm-Lab-{version}\.zip|Toolchain-Sources-{version}\.zip)', name))
+        rf'(?:ToBe|TB)-(?:Setup-{version}-win64\.exe|{version}-win64\.zip|Update-{version}-to-{version}-win64\.zip|Algorithm-Lab-{version}\.zip|Toolchain-Sources-{version}\.zip)', name))
 
 
 def public_release_files(directory):

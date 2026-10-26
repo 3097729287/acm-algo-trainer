@@ -9,7 +9,9 @@ import subprocess
 import uuid
 import zipfile
 
-ROOT_FILES = {'TB新版.exe', 'VERSION', 'BUILD-INFO.json', 'SOURCE-MANIFEST.json', 'tb.ico', 'official_languages.js', 'official_nowcoder.js', 'official_luogu.js', 'official_page.js', 'LICENSE', 'THIRDPARTY.md', 'TOOLCHAIN-SOURCES.md', 'third-party-inventory.json', '使用说明.md', 'accounts.md', 'browser-preparation.md'}
+from app_brand import executable
+
+ROOT_FILES = {'ToBe.exe', 'TB新版.exe', 'VERSION', 'BUILD-INFO.json', 'SOURCE-MANIFEST.json', 'tb.ico', 'official_languages.js', 'official_nowcoder.js', 'official_luogu.js', 'official_page.js', 'LICENSE', 'THIRDPARTY.md', 'TOOLCHAIN-SOURCES.md', 'third-party-inventory.json', '使用说明.md', 'accounts.md', 'browser-preparation.md'}
 PREFIXES = ('_internal/', 'frontend/dist/', 'resources/', 'browser-extension/', 'licenses/')
 
 
@@ -123,9 +125,10 @@ def launch_patch(package, sha, version, app_dir):
         inspect_patch(archive, app_dir, version)
     helper = package.parent / ('helper-' + uuid.uuid4().hex)
     helper.mkdir()
-    shutil.copy2(app_dir / 'TB新版.exe', helper / 'TB新版.exe')
+    helper_exe = helper / executable(app_dir).name
+    shutil.copy2(executable(app_dir), helper_exe)
     shutil.copytree(app_dir / '_internal', helper / '_internal')
-    return subprocess.Popen([str(helper / 'TB新版.exe'), '--apply-update-patch', str(package), sha, version, str(app_dir), str(os.getpid())],
+    return subprocess.Popen([str(helper_exe), '--apply-update-patch', str(package), sha, version, str(app_dir), str(os.getpid())],
                             creationflags=subprocess.CREATE_NO_WINDOW | subprocess.CREATE_NEW_PROCESS_GROUP,
                             stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
@@ -145,17 +148,17 @@ def helper_main(args):
         if handle:
             try:
                 if kernel.WaitForSingleObject(handle, 180000) != 0:
-                    raise RuntimeError('TB 未正常关闭，已取消更新')
+                    raise RuntimeError('ToBe 未正常关闭，已取消更新')
             finally:
                 kernel.CloseHandle(handle)
         apply_patch_file(package, sha, version, target)
         log.write_text('ok', encoding='utf-8')
-        command = [str(Path(target) / 'TB新版.exe')]
+        command = [str(executable(target))]
         if os.environ.get('TB_OFFLINE') == '1' and os.environ.get('TB_UPDATE_TEST_REPORT'):
             command += ['--serve-check', os.environ['TB_UPDATE_TEST_REPORT']]
         subprocess.Popen(command, cwd=target)
         return 0
     except Exception as error:
         log.write_text(str(error), encoding='utf-8')
-        ctypes.windll.user32.MessageBoxW(None, 'TB 更新未完成，个人数据保留，恢复文件位于更新缓存。\n' + str(error), 'TB 更新', 0x10)
+        ctypes.windll.user32.MessageBoxW(None, 'ToBe 更新未完成，个人数据保留，恢复文件位于更新缓存。\n' + str(error), 'ToBe 更新', 0x10)
         return 1

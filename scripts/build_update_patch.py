@@ -28,7 +28,7 @@ def build(package, baseline, from_version, output):
     changed = sorted(name for name in files if files[name] != base.get(name))
     manifest = {'schema': 1, 'version': version, 'fromVersion': from_version, 'base': base, 'files': files, 'changed': changed}
     output.mkdir(parents=True, exist_ok=True)
-    path = output / f'TB-Update-{from_version}-to-{version}-win64.zip'
+    path = output / f'ToBe-Update-{from_version}-to-{version}-win64.zip'
     with zipfile.ZipFile(path, 'x', zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         archive.writestr('update.json', json.dumps(manifest, ensure_ascii=False))
         for name in changed: archive.write(package / name, 'files/' + name)

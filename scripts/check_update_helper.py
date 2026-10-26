@@ -58,7 +58,7 @@ def main():
     assert api['update']['canInstall'] is True
     assert (app / 'cache/updates/install-result.txt').read_text(encoding='utf-8-sig').strip() == 'ok'
     # Wait for the actual visible desktop window, then close it normally.
-    literal = str(app / 'TB新版.exe').replace("'", "''")
+    literal = str(app / 'ToBe.exe').replace("'", "''")
     command = "$deadline=(Get-Date).AddSeconds(40); do { $p=Get-Process | Where-Object {$_.Path -eq '" + literal + "' -and $_.MainWindowHandle -ne 0}; if($p){break}; Start-Sleep -Milliseconds 200 } while((Get-Date) -lt $deadline); if(-not $p){throw 'Updated desktop window did not become visible'}; foreach($item in $p){if(-not $item.CloseMainWindow()){throw 'Could not close updated TB normally'}; if(-not $item.WaitForExit(20000)){throw 'TB did not exit normally'}}"
     subprocess.run(['powershell', '-NoProfile', '-Command', command], check=True, timeout=70, creationflags=subprocess.CREATE_NO_WINDOW)
     assert helper.wait(timeout=20) == 0

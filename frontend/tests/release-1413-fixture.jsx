@@ -1,5 +1,8 @@
 import React,{useState,useEffect} from 'react';
 import {createRoot} from 'react-dom/client';
+import {LecturesPanel} from '../src/pages/LecturesPanel.jsx';
+import AccountGate from '../src/accounts/AccountGate.jsx';
+import StartupScreen from '../src/accounts/StartupScreen.jsx';
 import ActivityPage from '../src/pages/ActivityPage.jsx';
 import PagePagination from '../src/components/PagePagination.jsx';
 import SubmissionRecords from '../src/pages/SubmissionRecords.jsx';
@@ -31,7 +34,7 @@ async function api(path,body){window.fixture.calls.push({path,body});const q=new
  return {};
 }
 function Fixture(){useNavigationKeys();const [page,setPage]=useState(1),[prefs,setPrefs]=useState({learningPaths:{},motion:true,theme:'dark',panelStyle:'minimal',panelOpacity:76}),[tab,setTab]=useState('home');useEffect(()=>{document.documentElement.dataset.motion=prefs.motion?'on':'off';},[prefs.motion]);return <><div id="tb-page-search" style={{height:60,display:'flex',gap:12,alignItems:'center',paddingLeft:30}}/><main className="workspace-area" style={{height:'calc(100dvh - 80px)',padding:12}}>
- {mode==='activity'?<ActivityPage insights={{activity:Array.from({length:25},(_,i)=>({date:`2026-10-${String(i+1).padStart(2,'0')}`,officialAccepted:i+1}))}}/>:
+ {mode==='lectures'?<LecturesPanel api={api} lectures={[{id:'one',concept:'计算几何：多边形的重心（鞋带公式的面积矩）',tags:['计算几何']},{id:'two',concept:'并查集：交换能生成什么，以及「恰好偶数次」意味着什么，继续验证较长标题的换行与右侧层次标签',tags:['并查集']}]}/>:mode==='login'?<AccountGate/>:mode==='startup'?<StartupScreen/>:mode==='activity'?<ActivityPage insights={{activity:Array.from({length:25},(_,i)=>({date:`2026-10-${String(i+1).padStart(2,'0')}`,officialAccepted:i+1}))}}/>:
  mode==='records'?<SubmissionRecords api={api} rows={rows}/>:
  ['lists','list-problems'].includes(mode)?<TrainingListsPage rows={rows} api={api} visit={mode==='list-problems'?{state:{curriculumVersion:1,mode:'source',trail:['test']}}:undefined} onTrain={id=>window.fixture.calls.push({train:id})}/>:
  mode==='competitions'?<CompetitionPage rows={rows} workspace={{training:[],contests:[]}} hub={{}} onStartReproduction={()=>{}}/>:

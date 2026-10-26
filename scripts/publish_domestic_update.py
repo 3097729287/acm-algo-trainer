@@ -35,7 +35,7 @@ def publish(args):
     if (not re.fullmatch(r'\d+\.\d+\.\d+', version or '') or not re.fullmatch('[a-f0-9]{40}', commit or '') or
             not info.get('sourcePushed') or info.get('workingTreeDirty') is not False):
         raise ValueError('Only a release from fixed, pushed source can be published')
-    assets = [path for path in public if re.fullmatch(r'TB-(?:Setup-'+re.escape(version)+r'-win64\.exe|Update-[\d.]+-to-'+re.escape(version)+r'-win64\.zip)', path.name)]
+    assets = [path for path in public if re.fullmatch(r'(?:ToBe|TB)-(?:Setup-'+re.escape(version)+r'-win64\.exe|Update-[\d.]+-to-'+re.escape(version)+r'-win64\.zip)', path.name)]
     if not any(path.suffix == '.exe' for path in assets): raise ValueError('The complete user installer is required')
     checksums = {}
     for line in (args.directory/'SHA256SUMS.txt').read_text(encoding='utf8').splitlines():
@@ -55,7 +55,7 @@ def publish(args):
     metadata.write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+'\n', encoding='utf8')
     setup = next(asset for asset in record['assets'] if asset['name'].endswith('.exe'))
     page = args.work/f'release-{version}.html'
-    page.write_text('<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TB '+version+'</title><style>body{font:17px/1.8 system-ui;background:#101116;color:#eee;max-width:850px;margin:7vh auto;padding:24px}a{color:#a99bff}pre{white-space:pre-wrap;font:inherit}code{word-break:break-all}</style><h1>TB '+version+'</h1><p><a href="'+setup['url']+'">下载 Windows 安装版</a></p><p>安装后自动检查、下载并安装后续版本。学习记录和草稿会保留。</p><pre>'+html.escape(record['notes'])+'</pre><p>SHA-256：<code>'+setup['sha256']+'</code></p></html>', encoding='utf8')
+    page.write_text('<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ToBe '+version+'</title><style>body{font:17px/1.8 system-ui;background:#101116;color:#eee;max-width:850px;margin:7vh auto;padding:24px}a{color:#a99bff}pre{white-space:pre-wrap;font:inherit}code{word-break:break-all}</style><h1>ToBe '+version+'</h1><p><a href="'+setup['url']+'">下载 Windows 安装版</a></p><p>安装后自动检查、下载并安装后续版本。学习记录和草稿会保留。</p><pre>'+html.escape(record['notes'])+'</pre><p>SHA-256：<code>'+setup['sha256']+'</code></p></html>', encoding='utf8')
     remote(f'mkdir -p {REMOTE}/assets/{version} {REMOTE}/stable')
     for path in assets:
         target = f'{REMOTE}/assets/{version}/{path.name}'

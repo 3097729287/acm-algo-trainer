@@ -4,7 +4,7 @@ html .app-shell .sidebar {width:max(128px,calc(var(--ui-font-size,15px)*5 + 48px
 html .sidebar nav {flex:1;min-height:0;max-height:none!important;overflow:auto;gap:5px!important;padding:0}
 html .sidebar .nav-item {width:100%;justify-content:flex-start;gap:8px;white-space:nowrap;padding:8px 3px 8px 13px;min-height:38px}
 html .sidebar .brand {margin:0 0 16px;gap:0;min-height:54px;justify-content:flex-start;align-items:center}
-html .sidebar .brand-mark {flex:none;width:42px;height:42px;font-family:inherit;font-size:calc(var(--ui-font-size,15px) + 6px);letter-spacing:-.8px;padding:0;border-radius:12px}
+html .sidebar .brand-mark {flex:none;width:42px;height:42px;font-family:inherit;font-size:calc(var(--ui-font-size,15px) - 1px);letter-spacing:-.7px;padding:0;border-radius:12px}
 html .sidebar .brand>.tooltip-anchor {display:flex;align-items:center;justify-content:center}
 /* Menu inset 13px + half its 18px icon; the brand is 42px wide. */
 @media(min-width:801px) {html .app-shell:not(.sidebar-collapsed) .sidebar .brand {padding-inline-start:1px}}
@@ -622,6 +622,8 @@ html .activity-detail-table tbody tr:is(:hover,:focus-within)>td:first-child {bo
 html .workspace-area :is(.training-lists-page,.competition-page) {gap:0}
 html .workspace-area :is(.training-lists-page,.competition-page) :is(.catalog-explorer,.training-list-directory,.catalog-path,.competition-question-list) {background:transparent;background-image:none;border:0;border-radius:0;box-shadow:none}
 html .workspace-area .training-list-directory {margin:0;border-bottom:1px solid var(--soft-line)}
+/* Match the library header's thead and cell backing layers. */
+html .workspace-area .training-lists-page .training-list-directory {background:linear-gradient(var(--panel-2),var(--panel-2)) var(--panel-2)}
 html .workspace-area .competition-detail-heading {padding:12px 16px;border-bottom:1px solid var(--soft-line)}
 /* A stable creation area prevents the history panel from jumping by mode. */
 html .mock-create .mock-config {box-sizing:border-box;height:clamp(350px,48dvh,510px);min-height:350px;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:18px;padding:24px clamp(18px,3vw,46px)}
@@ -683,3 +685,10 @@ html .workspace-area .competition-detail-heading {height:var(--catalog-heading-h
  html .settings-home-grid>.settings-tile[data-section=updates] {grid-column:7/9;grid-row:1/11}
 }
 @media(max-width:800px) {.animation-preview {grid-template-columns:minmax(0,1fr)}}
+
+/* The learning level shares the title's line box, including wrapped titles. */
+html .lectures-list>button {padding-right:18px}
+html .lectures-list button>.lecture-item-heading {display:flex;align-items:center;gap:16px;width:100%;color:var(--text);font-size:inherit}
+.lecture-item-heading>strong {flex:1;min-width:0}
+.lecture-item-heading>.tooltip-anchor {flex:none;align-self:center}
+.lecture-item-heading .lecture-difficulty {position:static;display:block;line-height:1.5}

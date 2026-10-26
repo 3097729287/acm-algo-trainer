@@ -25,8 +25,8 @@ def bootstrap(session):
       const report=value=>{
         for(const k of ['attempted','baseline','baselineKnown','baselineOwner','submissionId'])if(k in value)ctx[k]=value[k];
         if(value.status==='submitted'&&value.attempted)return new Promise((resolve,reject)=>{
-          const id=crypto.randomUUID(),timer=setTimeout(()=>{pending.delete(id);reject(new Error('TB 未确认提交，尚未发送代码。'))},10000);
-          pending.set(id,ok=>{clearTimeout(timer);pending.delete(id);ok?resolve():reject(new Error('TB 连接中断，尚未发送代码。'))});
+          const id=crypto.randomUUID(),timer=setTimeout(()=>{pending.delete(id);reject(new Error('ToBe 未确认提交，尚未发送代码。'))},10000);
+          pending.set(id,ok=>{clearTimeout(timer);pending.delete(id);ok?resolve():reject(new Error('ToBe 连接中断，尚未发送代码。'))});
           chrome.webview.postMessage(JSON.stringify({value,requestId:id}));
         });
         chrome.webview.postMessage(JSON.stringify({value}));
@@ -87,7 +87,7 @@ class SilentSubmitter(OfficialBridge):
                 return
             if snapshot is None:
                 self._event(identity, {'status': 'needs_browser', 'attempted': False,
-                    'message': '未收到本平台的登录会话，尚未发送代码。请在浏览器确认已启用最新版 TB 连接扩展，重新检测后再提交。'})
+                    'message': '未收到本平台的登录会话，尚未发送代码。请在浏览器确认已启用最新版 ToBe 连接扩展，重新检测后再提交。'})
                 return
             self._ui(lambda: self._attach_silent(identity, snapshot))
             next_inspect = 0

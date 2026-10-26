@@ -142,7 +142,7 @@ class Handler(BaseHTTPRequestHandler):
             accounts = getattr(self.server, 'accounts', None)
             if urlsplit(self.path).path.startswith('/api/browser/'):
                 if getattr(getattr(self.server, 'browser_bridge', None), 'transport', None) == 'external':
-                    self.send_json(410, {'error': '新版使用可见浏览器原站提交，无需浏览器扩展；可停用旧版 TB 扩展'})
+                    self.send_json(410, {'error': '新版使用可见浏览器原站提交，无需浏览器扩展；可停用旧版 ToBe 扩展'})
                     return
                 if accounts is not None:
                     accounts.require()
@@ -300,7 +300,7 @@ class Handler(BaseHTTPRequestHandler):
                         training.review_task(identity, body.get('reviewId'), body.get('contestId'), open_task=True)
                     opener = self.server.official_submitter if path.endswith("/submit") else self.server.official_opener
                     if not callable(opener):
-                        raise APIError(503, "请在 TB 桌面版连接浏览器提交")
+                        raise APIError(503, "请在 ToBe 桌面版连接浏览器提交")
                     url = row.get("url")
                     if not url:
                         url = training._asset_library().problem(identity).get("url")
@@ -338,7 +338,7 @@ class Handler(BaseHTTPRequestHandler):
                 elif path == '/api/browser-preparation':
                     preparation = getattr(self.server, 'browser_preparation', None)
                     if preparation is None:
-                        raise APIError(503, '请在 TB 桌面版准备浏览器连接')
+                        raise APIError(503, '请在 ToBe 桌面版准备浏览器连接')
                     value = preparation.action(body)
                 elif path == "/api/desktop/fullscreen":
                     if not callable(getattr(self.server, "desktop_fullscreen", None)):
@@ -516,15 +516,15 @@ class Handler(BaseHTTPRequestHandler):
         origin = self.headers.get('Origin')
         if origin not in (None, EXTENSION_ORIGIN) or self.headers.get('X-TB-Browser-Client') != EXTENSION_ID:
             self.close_connection = True
-            raise APIError(403, '只接受 TB 浏览器连接扩展')
+            raise APIError(403, '只接受 ToBe 浏览器连接扩展')
         if path != '/api/browser/exchange' and origin != EXTENSION_ORIGIN:
             self.close_connection = True
-            raise APIError(403, '后台连接必须来自 TB 扩展')
+            raise APIError(403, '后台连接必须来自 ToBe 扩展')
         self._browser_origin = origin
         bridge = getattr(self.server, 'browser_bridge', None)
         if bridge is None:
             self.close_connection = True
-            raise APIError(503, '请在 TB 桌面版连接浏览器')
+            raise APIError(503, '请在 ToBe 桌面版连接浏览器')
         try:
             size = int(self.headers.get('Content-Length', '0'))
         except ValueError:

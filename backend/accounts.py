@@ -103,7 +103,7 @@ class Accounts:
 
     def _remote(self, method, path, body=None, session=None, *, invalidate=True, maximum=262144, timeout=8, state_revision=None):
         if self.closed:
-            raise ServiceError(503, 'TB 正在关闭')
+            raise ServiceError(503, 'ToBe 正在关闭')
         if not self.endpoint:
             raise ServiceError(503, '账号服务尚未配置，请连接账号服务后重试')
         headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'User-Agent': 'TB/1.0.20', 'X-TB-State-Protocol': '1'}
@@ -248,7 +248,7 @@ class Accounts:
 
     def _activate(self, value, rotate=True):
         if self.closed or self.closing:
-            raise ServiceError(503, 'TB 正在关闭')
+            raise ServiceError(503, 'ToBe 正在关闭')
         account = value.get('account', {})
         owner = account.get('userId')
         if not isinstance(owner, str) or not isinstance(value.get('token'), str) or not re.fullmatch(r'[A-Za-z0-9_-]{32,200}', value['token']):
@@ -272,7 +272,7 @@ class Accounts:
             state_sync = AccountStateSync(self, service, candidate)
             state_sync.initialize()
         if self.closed or self.closing:
-            raise ServiceError(503, 'TB 正在关闭')
+            raise ServiceError(503, 'ToBe 正在关闭')
         service.bind_account(account, self.endpoint)
         self.server.training = service
         self.state_sync = state_sync

@@ -41,7 +41,7 @@ def trusted_url(url):
     if parsed.scheme != "https" or parsed.username or parsed.password or port not in (None, 443) or parsed.fragment or '\\' in url:
         return False
     if parsed.hostname == '47.82.84.74':
-        return url == DOMESTIC_FEED or bool(re.fullmatch(r'/updates/(?:assets/\d+\.\d+\.\d+/TB-(?:Update-[\d.]+-to-[\d.]+-win64\.zip|Setup-[\d.]+-win64\.exe)|stable/(?:index\.html|release-[\d.]+\.html))', parsed.path) and not parsed.query)
+        return url == DOMESTIC_FEED or bool(re.fullmatch(r'/updates/(?:assets/\d+\.\d+\.\d+/(?:ToBe|TB)-(?:Update-[\d.]+-to-[\d.]+-win64\.zip|Setup-[\d.]+-win64\.exe)|stable/(?:index\.html|release-[\d.]+\.html))', parsed.path) and not parsed.query)
     return parsed.hostname in {"api.github.com", "github.com", "release-assets.githubusercontent.com", "objects.githubusercontent.com"}
 
 
@@ -76,14 +76,14 @@ def domestic_release_info(payload, current):
         assets = record.get('assets')
         if not isinstance(assets, list) or len(assets) > 100:
             raise ValueError('国内更新资产无效')
-        delta = f'TB-Update-{current}-to-{version}-win64.zip'
-        installer = f'TB-Setup-{version}-win64.exe'
+        deltas = [f'{brand}-Update-{current}-to-{version}-win64.zip' for brand in ('ToBe', 'TB')]
+        installers = [f'{brand}-Setup-{version}-win64.exe' for brand in ('ToBe', 'TB')]
         # A complete verified installer repairs an installation whose original
         # baseline is unavailable; prefer a matching delta whenever published.
         available = {item.get('name'): item for item in assets if isinstance(item, dict)}
         if len(available) != len(assets):
             raise ValueError('国内更新资产重复或无效')
-        name = delta if delta in available else installer
+        name = next((name for name in deltas + installers if name in available), None)
         asset = available.get(name)
         if asset is None:
             continue
@@ -93,7 +93,7 @@ def domestic_release_info(payload, current):
                 not isinstance(sha, str) or not re.fullmatch('[a-f0-9]{64}', sha) or
                 asset.get('url') != expected or not trusted_url(expected)):
             raise ValueError('国内更新包地址、大小或 SHA-256 校验值无效')
-        candidates.append({'kind': 'delta' if name == delta else 'installer', 'version': version,
+        candidates.append({'kind': 'delta' if name in deltas else 'installer', 'version': version,
                            'name': name, 'url': expected, 'size': size, 'sha256': sha,
                            'notes': str(record.get('notes') or '')[:12000],
                            'releaseUrl': f'{DOMESTIC_ROOT}/stable/release-{version}.html'})
@@ -112,8 +112,10 @@ def release_info(payload, current):
         return None
     version = ".".join(map(str, latest))
     incremental = version_tuple(current) >= (1, 0, 13)
-    name = ("TB-Update-" + current + "-to-" + version + "-win64.zip") if incremental else "TB-Setup-" + version + "-win64.exe"
-    assets = [asset for asset in payload.get("assets", []) if asset.get("name") == name and asset.get("state") == "uploaded"]
+    names = [(brand + "-Update-" + current + "-to-" + version + "-win64.zip") if incremental else brand + "-Setup-" + version + "-win64.exe" for brand in ("ToBe", "TB")]
+    uploaded = [asset for asset in payload.get("assets", []) if asset.get("state") == "uploaded"]
+    name = next((name for name in names if any(asset.get("name") == name for asset in uploaded)), names[0])
+    assets = [asset for asset in uploaded if asset.get("name") == name]
     if len(assets) != 1:
         if incremental:
             raise MissingDelta("此版本的增量更新尚未发布完整，请稍后重试")

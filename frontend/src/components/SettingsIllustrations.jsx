@@ -27,7 +27,7 @@ export function RoundedDinosaur() {
   <div className="dino-traveler"><svg className="dino-model" viewBox="0 0 370 330" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
    <g className="dino-body">
     <path className="dino-spines" d="m33 205 10-15 11 22m4 2 11-15 10 21m9 2 12-16 11 20m7 1 12-17 12 19m7-1 13-19 12 16m5-4 10-22 13 12m1-8-17-14 22-7m1-5-18-15 21-6m1-4-16-17 20-3m1-5-17-16 22-4m2-4-16-17 24-3m4-5-14-17 26-5m6-3-10-20 25 6" fill="currentColor" fillOpacity=".09"/>
-    <path className="dino-outline" d="M17 199C52 219 122 234 167 222C199 214 204 179 207 137C210 99 216 65 239 42C266 15 309 29 347 58L273 79C295 88 321 97 336 108C338 119 305 119 286 119L289 222C289 252 279 271 253 281C220 294 185 283 155 275C92 259 40 243 17 199Z" fill="var(--panel-base)"/>
+    <path className="dino-outline" d="M17 199C52 219 122 234 167 222C199 214 204 179 207 137C210 99 216 65 239 42C266 15 309 29 347 58L273 79C295 88 321 97 336 108C338 119 305 119 286 119L289 222C289 252 279 271 253 281C220 294 185 283 155 275C92 259 40 243 17 199Z" fill="currentColor" fillOpacity=".06"/>
     <path className="dino-arm" d="M288 150q17 1 23-11m-10 9 12 4m-11-4 10-6M274 172q22 5 36-2m-8 1 11-8m-11 9 11 7" strokeWidth="7"/>
     <path className="dino-foot dino-foot-back" d="M244 279l-4 25m0-9-10 17m11-10 10 11m-11-10 0 11" strokeWidth="7"/>
     <path className="dino-foot dino-foot-front" d="M192 275l-9 27m3-9-18 13m17-7 1 13m0-13 15 6" strokeWidth="7"/>

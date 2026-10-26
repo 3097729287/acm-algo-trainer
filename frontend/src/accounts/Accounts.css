@@ -1,7 +1,7 @@
 .account-screen { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:28px; background:radial-gradient(ellipse at 50% 10%,#27233a 0,transparent 56%),#111319; color:#e6e5ef; padding:36px 20px; box-sizing:border-box; }
 .account-brand { display:flex; align-items:center; gap:12px; font-size:25px; font-weight:700; }
 .account-brand small { font-size:15px; font-weight:400; margin-left:6px; color:#a5a4b9; }
-.account-logo { font:bold 29px Georgia,serif; color:#b6a2ff; background:#292338; border:1px solid #4c4268; border-radius:12px; width:45px; height:45px; display:grid; place-items:center; }
+.account-logo { font:700 14px "Segoe UI",sans-serif; color:#b6a2ff; background:#292338; border:1px solid #4c4268; border-radius:12px; width:45px; height:45px; display:grid; place-items:center; }
 .account-card { width:100%; max-width:440px; box-sizing:border-box; padding:32px; border:1px solid #353240; border-radius:18px; background:#1b1d26; box-shadow:0 20px 65px #0004; }
 .account-symbol { width:46px; height:46px; border-radius:13px; display:grid; place-items:center; background:#302943; color:#bdadfc; margin-bottom:16px; }
 .account-card h1 { font-size:25px; margin:0 0 10px; }

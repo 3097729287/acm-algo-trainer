@@ -48,13 +48,13 @@ def show_error(message: str) -> None:
     """pythonw 没有控制台，启动失败必须让用户看见。"""
     text = f"{message}\n\n详细记录：{LOG_FILE}"
     if os.name == "nt":
-        ctypes.windll.user32.MessageBoxW(None, text, "TB 启动失败", 0x10)
+        ctypes.windll.user32.MessageBoxW(None, text, "ToBe 启动失败", 0x10)
     elif sys.stderr is not None:
         print(text, file=sys.stderr)
 
 
 class SingleInstance:
-    """持有命名互斥锁；重复打开只聚焦同一进程的 TB 窗口。"""
+    """持有命名互斥锁；重复打开只聚焦同一进程的 ToBe 窗口。"""
 
     def __init__(self) -> None:
         self.handle = None
@@ -98,7 +98,7 @@ class SingleInstance:
                 if pid.value == expected_pid and user.IsWindowVisible(hwnd):
                     title = ctypes.create_unicode_buffer(256)
                     user.GetWindowTextW(hwnd, title, len(title))
-                    if title.value == "TB":
+                    if title.value in {"TB", "ToBe", "TB 管理员", "ToBe 管理员"}:
                         matches.append(hwnd)
                         return False
                 return True
@@ -150,11 +150,11 @@ def check_dependencies() -> dict:
                     except (OSError, ValueError):
                         continue
         if runtime_version is None:
-            raise RuntimeError("缺少 Microsoft Edge WebView2 运行组件，请安装后再打开 TB。")
+            raise RuntimeError("缺少 Microsoft Edge WebView2 运行组件，请安装后再打开 ToBe。")
     from backend import start_server
 
     if not callable(start_server):
-        raise RuntimeError("TB 本地服务入口不可用。")
+        raise RuntimeError("ToBe 本地服务入口不可用。")
     return {
         "python": sys.executable,
         "pywebview": importlib.metadata.version("pywebview"),
@@ -196,7 +196,7 @@ def run_desktop() -> int:
     try:
         if instance.existing:
             if not instance.focus_existing():
-                show_error("TB 已经在运行，但暂时未找到它的窗口。请稍等后再打开，或先关闭现有 TB。")
+                show_error("ToBe 已经在运行，但暂时未找到它的窗口。请稍等后再打开，或先关闭现有 ToBe。")
                 return 1
             return 0
         check_dependencies()
@@ -228,11 +228,11 @@ def run_desktop() -> int:
         memory_path = STATE / 'desktop-window.json'
         bounds = remembered(memory_path)
         window = webview.create_window(
-            "TB 管理员" if ADMIN_MODE else "TB", url, **bounds, min_size=(1050, 700),
+            "ToBe 管理员" if ADMIN_MODE else "ToBe", url, **bounds, min_size=(1050, 700),
             background_color="#101116", text_select=True, zoomable=False,
         )
         if window is None:
-            raise RuntimeError("无法创建 TB 窗口。")
+            raise RuntimeError("无法创建 ToBe 窗口。")
         bind(window, memory_path)
         from webview_resources import bind as bind_resources
         bind_resources(window)

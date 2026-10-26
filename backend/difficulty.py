@@ -7,12 +7,12 @@ VERSION = '1.0.17'
 OYSTER_URL = 'https://codeforces.com/gym/106695/problem/J'
 OYSTER_REVIEW = {
     'difficulty': 1000,
-    'difficultySource': 'TB 题面与算法复核估算',
+    'difficultySource': 'ToBe 题面与算法复核估算',
     'difficultyEstimated': True, 'difficultyConfidence': 'MEDIUM',
     'difficultyBand': [800, 1200],
     'difficultyEvidence': [OYSTER_URL,
         '每家比较 B 与 12A：整打划算时尽量买整打、余款单买，否则全部单买；线性扫描并保留最小编号，O(N)，64 位整数。',
-        '原团队赛通过率不能直接当作个人 CF rating；1000 为 TB 复核估计，不是 Codeforces 官方评级。'],
+        '原团队赛通过率不能直接当作个人 CF rating；1000 为 ToBe 复核估计，不是 Codeforces 官方评级。'],
     'metadataVersion': '1.4.4',
 }
 
@@ -57,7 +57,7 @@ def nowcoder(row, statistics=None, max_accepted=None):
     match = re.search(r'/acm/contest/141721/([A-F])$', url)
     if match:
         rating, reason = WEEKLY_165[match[1]]
-        return {'difficulty': rating, 'difficultySource': 'TB 题面与算法复核估算',
+        return {'difficulty': rating, 'difficultySource': 'ToBe 题面与算法复核估算',
                 'difficultyEstimated': True, 'difficultyConfidence': 'MEDIUM',
                 'difficultyBand': [max(800, rating - 200), rating + 200],
                 'difficultyEvidence': [url, reason, '非牛客官方分数，也非 Codeforces 官方 rating'],
@@ -73,7 +73,7 @@ def nowcoder(row, statistics=None, max_accepted=None):
     base, slope = (800, 250) if beginner else (1100, 300)
     raw = base + slope * math.log2(max(1, (max_accepted + 20) / (accepted + 20)))
     rating = max(800, min(2800, int(math.floor(raw / 100 + .5)) * 100))
-    return {'difficulty': rating, 'difficultySource': 'TB 同场统计粗估（非官方）',
+    return {'difficulty': rating, 'difficultySource': 'ToBe 同场统计粗估（非官方）',
             'difficultyEstimated': True, 'difficultyConfidence': 'LOW',
             'difficultyBand': [max(800, rating - 400), rating + 400],
             'difficultyEvidence': [url, f'公开通过人数 {accepted}，同场最高 {max_accepted}',

@@ -237,7 +237,7 @@ class IntegrationService:
             result={key:copy.deepcopy(self.state[key]) for key in ('settings','sync','updates','notifications')};result['version']=VERSION
             result['accounts']=[copy.deepcopy(self.state['accounts'].get(p) or P.profile(p,self.state['settings']['accounts'][p])) for p in P.LABELS]
             result['updates']['configured']=bool(result['settings']['githubRepo']);result['updates']['currentVersion']=VERSION
-            result['updates']['sourceNotice']='项目源代码与 TB 安装包；版本与下载入口以 GitHub Releases 为准。' if result['settings']['githubRepo']==KNOWN_REPO else '自定义公开来源；仅通知，不自动安装。'
+            result['updates']['sourceNotice']='项目源代码与 ToBe 安装包；版本与下载入口以 GitHub Releases 为准。' if result['settings']['githubRepo']==KNOWN_REPO else '自定义公开来源；仅通知，不自动安装。'
             return result
 
     def catalog_signature(self):
@@ -681,7 +681,7 @@ class IntegrationService:
                 numeric=version_number(version);current=version_number(VERSION)
                 if numeric and current and numeric>current:
                     with self.lock:
-                        if self.state['settings']['githubRepo']==repo:self._notice('release:'+repo+':'+str(release['id']),'release','TB 有新版本 '+version,'查看发布说明并手动更新；不会自动下载或执行。',link)
+                        if self.state['settings']['githubRepo']==repo:self._notice('release:'+repo+':'+str(release['id']),'release','ToBe 有新版本 '+version,'查看发布说明并手动更新；不会自动下载或执行。',link)
             try:manifest=self.client.json('https://api.github.com/repos/'+repo+'/contents/tb-update.json')
             except RuntimeError as error:
                 if 'HTTP 404' not in str(error):raise
