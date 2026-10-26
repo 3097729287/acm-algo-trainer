@@ -384,7 +384,7 @@ def statement(client,identity,title,url):
     from statement_cleanup import clean_statement_markdown, clean_statement
     body=clean_statement_markdown(body)
     if translation:translation['markdown']=clean_statement_markdown(translation['markdown'])
-    value=clean_statement({'id':identity,'title':title,'url':url,'markdown':'# '+title+'\n\n'+body,'samples':samples,'limits':limits,'statementAvailable':True,'statementVersion':4, **({'officialTags':official_tags} if official_tags is not None else {}), **({'translation':translation} if translation else {})})
+    value=clean_statement({'id':identity,'title':title,'url':url,'markdown':'# '+title+'\n\n'+body,'samples':samples,'limits':limits,'statementAvailable':True,'statementVersion':5, **({'officialTags':official_tags} if official_tags is not None else {}), **({'translation':translation} if translation else {})})
     if not value['statementAvailable']:
         raise ValueError(value['statementError'])
     return value

@@ -114,6 +114,7 @@ return work.preparing;
 }
 function receiptValue(receipt){return {status:receipt.verdict==='JUDGING'?'judging':'finished',submissionId:receipt.id,...(receipt.verdict==='JUDGING'?{}:{verdict:receipt.verdict}),message:receipt.verdict==='JUDGING'?'原站已接收，正在评测。':'本次提交结果：'+receipt.verdict};}
 function inspect(){
+lgReceipt?.inspectRejection?.();
 if(login()||cfLoggedOut()||luoguLoggedOut()||lgReceipt?.loggedOut()||(ctx.platform==='牛客'&&window.globalInfo?.ownerId!=null&&Number(window.globalInfo.ownerId)<=0))return {status:'needs_login',...(!ctx.attempted?{attempted:false}:{}),message:ctx.resumeAfterLogin?'请在弹出的浏览器登录原站，登录后会自动填码并继续本次提交。':'请在浏览器登录原站，然后核对本次提交状态。'};
 if(verification())return {status:'needs_verification',...(!ctx.attempted?{attempted:false}:{}),message:ctx.resumeAfterLogin?'请在弹出的浏览器完成原站验证，完成后会继续本次提交。':'请在浏览器完成原站验证，然后回到 TB 查看状态。'};
 // Some native logins return to the site home page instead of the submit URL.

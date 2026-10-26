@@ -84,3 +84,17 @@ class Release1410Tests(unittest.TestCase):
             with patch('public_platforms.statement',return_value={'markdown':'login'}) as fetch:
                 self.assertTrue(worker.once());self.assertFalse(worker.once());self.assertEqual(fetch.call_count,1)
                 self.assertGreater(worker.failures['new'],100)
+
+    def test_backfill_repairs_old_atcoder_without_dropping_original_on_failure(self):
+        from statement_backfill import StatementBackfill
+        old={'url':'https://atcoder.jp/contests/abc481/tasks/abc481_b','statementVersion':4,'markdown':'Original prose','samples':[{'input':'1','output':'2'}]}
+        repaired=dict(old,statementVersion=5,markdown='Original prose\n\n![diagram](https://img.atcoder.jp/diagram.png)')
+        saved={'p':old};library=SimpleNamespace(statement=saved.get,save_statement=lambda key,value:saved.update({key:value}))
+        with tempfile.TemporaryDirectory() as directory:
+            worker=StatementBackfill(SimpleNamespace(library=library),Path(directory),client=object(),clock=lambda:100)
+            worker.pending=lambda:[('p',old['url'],'Polyline')]
+            with patch('public_platforms.statement',side_effect=OSError('offline')):
+                worker.once();self.assertEqual(saved['p'],old)
+            worker.failures.clear();worker.host_retry.clear()
+            with patch('public_platforms.statement',return_value=repaired):
+                worker.once();self.assertEqual(saved['p'],repaired)

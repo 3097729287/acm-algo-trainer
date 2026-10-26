@@ -13,6 +13,7 @@ let adapter = await readFile(new URL('../../desktop/official_page.js',import.met
 for(const [marker,name] of [['COMPILER_SELECTION','official_languages.js'],['NOWCODER_RECEIPTS','official_nowcoder.js'],['LUOGU_RECEIPTS','official_luogu.js']])adapter=adapter.replace(marker,await readFile(new URL('../../desktop/'+name,import.meta.url),'utf8'));
 const browser = await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
 const page = await browser.newPage(),posts=[];
+let rejectNext=false;
 const code = '#include <iostream>\nint main() { std::cout << 42 << "\\n"; }\n';
 const combo=luoguComboFixture();
 try {
@@ -21,6 +22,7 @@ try {
     if(request.method()==='POST'){
       assert.equal(url.pathname,'/fe/api/problem/submit/P17727');
       posts.push(request.postDataJSON());
+      if(rejectNext){rejectNext=false;return route.fulfill({status:400,json:{code:300,message:'unpass error',data:{errorMessage:'Failed to verify captcha.'}}});}
       return route.fulfill({json:{rid:44001}});
     }
     if(url.pathname.startsWith('/record/'))return route.fulfill({json:{data:{record:{id:44001,problem:{pid:'P17727'},user:{uid:123},status:12}}}});
@@ -51,6 +53,17 @@ try {
   assert.equal(await page.locator('form,select,[role=combobox]').count(),0,'Use actual Luogu custom controls and a button outside any form');
   await page.evaluate(()=>{for(let index=0;index<25;index++)tbOfficialPage(ctx,'inspect',report)});
   await page.waitForTimeout(40);assert.equal(posts.length,1,'receipt inspection must not click twice');
+  // A native captcha rejection is not a pending judge or a successful attempt.
+  await page.evaluate(()=>{ctx.sessionId='captcha-retry';ctx.attempted=false;delete ctx.submissionId;ctx.retry=1;});rejectNext=true;
+  await page.evaluate(()=>tbOfficialPage(ctx,'submit',report));
+  await page.waitForFunction(()=>messages.at(-1)?.status==='needs_verification');
+  assert.equal(await page.evaluate(()=>ctx.attempted),false);assert.equal(posts.length,2);
+  await page.evaluate(()=>{for(let i=0;i<15;i++)tbOfficialPage(ctx,'inspect',report)});
+  await page.waitForTimeout(50);assert.equal(posts.length,2,'verification and polling must not repeat a rejected submission');
+  await page.evaluate(()=>{ctx.retry++;return tbOfficialPage(ctx,'submit',report)});
+  await page.waitForFunction(()=>messages.at(-1)?.status==='judging');
+  assert.equal(posts.length,3,'one explicit retry sends exactly one native request');
+  assert.equal(await page.evaluate(()=>ctx.submissionId),'44001');
   console.log(JSON.stringify({ok:true,delayedMountWaits:true,currentCodeMirrorModelFilled:true,actualLuoguComboBox:true,nativeButtonOutsideForm:true,nativeFormPosts:posts.length,realAccountSubmission:false}));
 } catch(error) {
   console.error(JSON.stringify(await page.evaluate(()=>({messages:window.messages,clicks:window.nativeClicks,language:window.fixtureLang,handler:typeof document.querySelector('#native-submit')?.onclick}))));

@@ -1,5 +1,13 @@
 # ToBe 开发与构建
 
+## 1.4.19 本机交付
+
+后端运行完整 `scripts/check.py`；前端构建及 `library-list-workflows.mjs`、`training-cards.mjs`、`statement-translation.mjs`、`workbench.mjs`、`luogu-native.mjs` 覆盖题库批量加入、右键删除、模拟赛、通知竞态、图文翻译和洛谷原生验证码失败/明确重试。真实账号不用于提交测试。
+
+AtCoder 题面版本升级为 5，保留样例后解释与插图；旧格式在后台修复，获取失败保留旧内容。捆绑中文与原文摘要绑定，公式、数字、代码与图片 URL 必须通过完整性检查。个人翻译配置和密钥只留本机。共享服务 1.2.4 已获授权部署，旧表指纹和私有数据库备份已核验。
+
+提交源码后重建公共种子，分别验证冻结程序、原生窗口、新装、1.4.18 升级、更新器及私人管理员隔离。新版本只做本机交付，公开下载仍为 1.4.17。
+
 ## 1.4.18 本机更新准备中
 
 新增检查：`test_submission_latency`、`test_custom_training_lists`、`test_knowledge_mastery`，前端 `calendar.mjs`、`workbench-events.mjs`、`training-cards.mjs` 和 `revision-1417.mjs`。修改后台后运行完整 `scripts/check.py`，浏览器适配使用本地四站原生表单夹具，不向真实账号提交。共享服务 1.2.4 增量迁移 010 独立保存公共题单点赞，SQLite 和隔离 MySQL 覆盖跨用户计数、并发重试、午夜、失效会话。新接口仅接受随源码固定的公共题单编号；用户自建题单写入个人账号偏好日志并同步所引用的私人题目事实。

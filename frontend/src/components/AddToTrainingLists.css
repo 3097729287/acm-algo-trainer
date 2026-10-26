@@ -1,0 +1,10 @@
+html .add-training-lists {width:min(460px,95vw);max-height:85dvh;}
+.add-training-list-summary {margin-bottom:12px;color:var(--muted);font-size:.85rem;}
+.add-training-lists .search-box {width:100%;}
+.add-training-list-options {max-height:45dvh;overflow:auto;margin-top:10px;}
+.add-training-list-options label {display:flex;align-items:center;gap:10px;padding:12px 4px;cursor:pointer;border-bottom:1px solid var(--soft-line);}
+.add-training-list-options label:hover {background:var(--hover);}
+.add-training-list-options input {flex:none;accent-color:var(--accent);}
+.add-training-list-options span {min-width:0;flex:1;overflow-wrap:anywhere;}
+.add-training-list-options small {flex:none;color:var(--muted);}
+.add-training-lists footer {display:flex;justify-content:flex-end;gap:12px;margin-top:18px;}

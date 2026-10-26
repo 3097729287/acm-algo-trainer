@@ -2950,9 +2950,9 @@ kbd {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *:before,
-  *:after {
+  html:not([data-motion=on]) *,
+  html:not([data-motion=on]) *:before,
+  html:not([data-motion=on]) *:after {
     animation: none !important;
     transition: none !important;
     scroll-behavior: auto !important;

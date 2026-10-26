@@ -14,7 +14,6 @@ const lists=[{id:'list',title:'排序专项',available:true,children:[],tags:['�
 let labels={},avatarCalls=0;
 const api=async(path,body)=>{
  if(path==='training-lists')return {lists,tags:labels};
- if(path==='training-list-tags'){labels={...labels,[body.listId]:body.tags};return {tags:labels};}
  if(path.startsWith('leaderboard/avatar')){window.avatarCalls=++avatarCalls;if(avatarCalls===1)throw new Error('temporary');return {avatarData:image};}
  if(path.startsWith('leaderboard?'))return {configured:true,status:'ready',period:'daily',self:{userId:'self'},date:'2026-10-26',entries:[{userId:'self',nickname:'自己',count:10,publicProgress:{level:9,currentLevelXp:680,nextLevelXp:1800}},{userId:'other',nickname:'有头像的用户',count:5,avatarHash:'fixture',publicProgress:{level:3,currentLevelXp:100,nextLevelXp:400}},{userId:'old',nickname:'旧版用户',count:2,publicProgress:{level:2}}]};
  return {};

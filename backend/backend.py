@@ -170,7 +170,8 @@ class Handler(BaseHTTPRequestHandler):
                     size = int(self.headers.get("Content-Length", "0"))
                 except ValueError:
                     raise APIError(400, "请求长度无效")
-                if size <= 0 or size > 262144:
+                maximum = 32 * 1024 * 1024 if path in ('/api/training-lists/add', '/api/training-lists/save') else 262144
+                if size <= 0 or size > maximum:
                     raise APIError(400, "请求数据大小无效")
                 if self.headers.get("Content-Type", "").split(";", 1)[0].strip().lower() != "application/json":
                     raise APIError(415, "请求必须使用 application/json")
@@ -250,10 +251,9 @@ class Handler(BaseHTTPRequestHandler):
                 elif path == '/api/usage':
                     from usage import record
                     value = record(training, body)
-                elif path == '/api/training-list-tags':
-                    from training_list_tags import save_tags
-                    from custom_training_lists import read_lists
-                    value = save_tags(training, body, {item['id'] for item in store.library.training_lists() + read_lists(training)})
+                elif path == '/api/training-lists/add':
+                    from custom_training_lists import add_problems
+                    value = add_problems(training, body)
                 elif path == '/api/training-lists/save':
                     from custom_training_lists import save_list
                     value = save_list(training, body)
@@ -375,14 +375,11 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_json(200, store.data_response_bytes(compact=parse_qs(target.query).get('compact', ['0'])[0]=='1',
                                                             compressed=accepts_gzip(self.headers.get('Accept-Encoding', ''))))
             elif path == "/api/training-lists":
-                from training_list_tags import read_tags
                 from custom_training_lists import read_lists
-                self.send_json(200, {'lists': store.library.training_lists() + read_lists(self.server.training), **read_tags(self.server.training, independent=True)})
+                custom = read_lists(self.server.training)
+                self.send_json(200, {'lists': custom if parse_qs(target.query).get('custom') == ['1'] else store.library.training_lists() + custom})
             elif path == '/api/training-list-likes':
                 self.send_json(200, self.server.training.leaderboard.list_likes(ids=parse_qs(target.query).get('id', [])))
-            elif path == '/api/training-list-tags':
-                from training_list_tags import read_tags
-                self.send_json(200, read_tags(self.server.training, parse_qs(target.query).get('tag', [None])[0]))
             elif path == "/api/solution":
                 identity = parse_qs(target.query).get("id", [None])[0]
                 if not identity:

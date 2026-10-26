@@ -107,19 +107,19 @@ class LocalRunTests(unittest.TestCase):
     setUp = fixtures.ServiceTests.setUp
     tearDown = fixtures.ServiceTests.tearDown
 
-    def test_training_list_tags_read_committed_snapshot_during_busy_work(self):
-        from training_list_tags import read_tags, save_tags
-        save_tags(self.service, {'listId':'list','tags':['数组','考前']}, {'list'})
+    def test_custom_training_lists_read_committed_snapshot_during_busy_work(self):
+        from custom_training_lists import read_lists, save_list
+        save_list(self.service, {'title':'考前练习'})
         result, complete = [], threading.Event()
         def read():
-            result.append(read_tags(self.service, independent=True))
+            result.append(read_lists(self.service))
             complete.set()
         with self.service.lock:
             worker = threading.Thread(target=read)
             worker.start()
             self.assertTrue(complete.wait(.5), 'list loading waited for the judge/statistics lock')
         worker.join(1)
-        self.assertEqual(result[0], read_tags(self.service))
+        self.assertEqual(result[0], read_lists(self.service))
 
     def test_twenty_runs_finish_with_push_without_network_or_workspace(self):
         original = self.assets.problem

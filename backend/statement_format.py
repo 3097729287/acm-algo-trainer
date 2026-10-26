@@ -77,15 +77,13 @@ def markdown(node, base='', prose_pre=False):
             return delimiter + plain(formula).strip() + delimiter
     if names & {'MathJax', 'MathJax_Preview', 'MathJax_Display', 'MathJax_SVG', 'MathJax_CHTML'}:
         return ''
-    if 'part' in names and any(re.match(r'Sample (?:Input|Output)\b', plain(heading).strip(), re.I)
-                               for heading in node.find(lambda item: item.tag == 'h3')):
-        return ''
     if tag in {'script', 'style', 'button', 'textarea', 'svg'} or names & {'code-copy-btn', 'js-clipboard', 'sample-tests', 'sample-test', 'question-oi', 'header'}:
         return ''
     if tag == 'br':
         return '\n'
     if tag == 'img':
-        src = node.attrs.get('src') or ''
+        src = node.attrs.get('src') or node.attrs.get('data-src') or node.attrs.get('data-original') or ''
+        if not src:return ''
         parsed = urlsplit(urljoin(base, src))
         formula = parse_qs(parsed.query).get('tex', [''])[0]
         if formula:
@@ -140,6 +138,14 @@ def markdown(node, base='', prose_pre=False):
     if tag in ('p', 'div', 'section', 'pre', 'ul', 'ol', 'blockquote'):
         return '\n\n' + content.strip() + '\n\n'
     return content
+
+
+def needs_statement_refresh(value):
+    """Older remote parsers dropped sample explanations and their figures."""
+    if not isinstance(value,dict):return False
+    host=urlsplit(value.get('url') or '').hostname
+    version=value.get('statementVersion') or 0
+    return (host=='atcoder.jp' and version<5) or (host=='ac.nowcoder.com' and version<3)
 
 
 def html_markdown(html, base='', prose_pre=False):

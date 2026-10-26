@@ -48,6 +48,18 @@ class VisibleTransportTests(unittest.TestCase):
         self.assertNotIn('awaitingLogin', self.bridge.status('fixture'))
         self.assertNotIn('dispatched', self.bridge.status('fixture'))
 
+    def test_explicit_retry_clears_only_the_rejected_generation(self):
+        session=self.bridge.sessions['fixture']
+        session.update(originalUrl='https://www.luogu.com.cn/problem/B2025',code='int main(){}',status='needs_verification',attempted=False,dispatched=True,retry=1,platform='洛谷')
+        self.bridge.open(session['originalUrl'],session['code'],'Fixture')
+        self.assertEqual(session['retry'],1)
+        self.assertFalse(session['intent'])
+        self.bridge.submit(session['originalUrl'],session['code'],'Fixture')
+        self.assertEqual(session['retry'],2)
+        self.assertTrue(session['intent'])
+        self.assertFalse(session['dispatched'])
+        self.assertIn('"retry": 2',self.bridge._script(session,'inspect'))
+
     def test_final_receipt_is_saved_once_despite_a_late_inspection(self):
         receipts=[]
         self.bridge.on_receipt=lambda identity,value:receipts.append(value) or True

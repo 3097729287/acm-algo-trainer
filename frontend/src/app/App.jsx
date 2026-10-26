@@ -1,8 +1,10 @@
+import {ProblemCells,ProblemTableHead,Difficulty,Verdict} from '@/components/ProblemTableParts.jsx';
 import BrandWordmark from '../components/BrandWordmark.jsx';
 import PagePagination from '@/components/PagePagination.jsx';
 import {useFittedPageSize} from '@/lib/useFittedPageSize.js';
 import SortDirection from '@/components/SortDirection.jsx';
 import RandomProblem from '@/components/RandomProblem.jsx';
+import AddToTrainingLists from '@/components/AddToTrainingLists.jsx';
 import useNavigationKeys from '@/lib/useNavigationKeys.js';
 import useUsage from '@/lib/useUsage.js';
 import useContestCalendar from '@/lib/useContestCalendar.js';
@@ -66,6 +68,7 @@ import {
   Trophy,
   Medal,
   ListOrdered,
+  ListPlus,
   RefreshCw,
   Target,
   Code2,
@@ -182,6 +185,7 @@ function normalizePreferences(saved) {
       const libraryIndex = preferences.navOrder.indexOf('library');
       preferences.navOrder.splice(libraryIndex < 0 ? preferences.navOrder.length : libraryIndex + 1, 0, 'training-lists');
     }
+    preferences.motion = true;
     preferences.navSchema = 2;
     preferences.navGroups = { ...preferences.navGroups };
     preferences.navLabels = { ...preferences.navLabels };
@@ -246,27 +250,6 @@ function Empty({ icon: Icon = Search, title, description, children }) {
       {children && <div className="empty-actions">{children}</div>}
     </div>
   );
-}
-function Verdict({ value, accepted = false, scope }) {
-  const current = value || (accepted ? "AC" : null);
-  return (
-    <span className={"verdict " + verdictTone(current)}>
-      <span />
-      {current ? verdictLabel(current) : <span className="sr-only">未提交</span>}
-      {accepted && current !== "AC" && (
-        <Check
-          size={11}
-          style={{ color: "var(--success)" }}
-          aria-label="曾 AC"
-          title="曾 AC"
-        />
-      )}
-    </span>
-  );
-}
-function Difficulty({ value, row }) {
-  if (row?.difficultyHidden) return <span className="difficulty band-unknown" title={difficultyDescription(row)}>—</span>;
-  return <span className={"difficulty band-" + difficultyBand(value)} title={row ? difficultyDescription(row) : undefined}>{row ? difficultyLabel(row) : value ?? "—"}</span>;
 }
 function IconButton({ label, icon: Icon, onClick, children, ...props }) {
   return (
@@ -557,7 +540,7 @@ export default function App() {
     });
   const [calendarContest,setCalendarContest]=useState(null);
   const [libraryPage, setLibraryPage] = useState(1);
-  const [mockHistoryQuery,setMockHistoryQuery]=useState("");
+  const [mockHistoryQuery,setMockHistoryQuery]=useState(""),[mockPreview,setMockPreview]=useState(false);
   const [selected, setSelected] = useState(null),
     [practiceId, setPracticeId] = useState(null),
     [practiceReview, setPracticeReview] = useState(null),
@@ -566,12 +549,13 @@ export default function App() {
     [recordOnlyPending, setRecordOnlyPending] = useState(false),
     [mockTab, setMockTab] = useState("create"),
     [selectedSubmission, setSelectedSubmission] = useState(null),
-    [settingsTab, setSettingsTab] = useState(()=>{try{const value=JSON.parse(sessionStorage.getItem(`tb.settings.location.${window.__tbAccount?.userId || window.__tbAccount?.loginId || 'local'}`)||'{}').tab;return ['appearance','interaction','updates','training','help','advanced','accounts','thanks','guide','animation','admin'].includes(value)?value:'home';}catch{return 'home';}});
+    [settingsTab, setSettingsTab] = useState(()=>{try{const value=JSON.parse(sessionStorage.getItem(`tb.settings.location.${window.__tbAccount?.userId || window.__tbAccount?.loginId || 'local'}`)||'{}').tab;return ['appearance','interaction','updates','training','help','advanced','accounts','thanks','guide','admin'].includes(value)?value:'home';}catch{return 'home';}});
   const [keyboardSelection, setKeyboardSelection] = useState(false), [listOrder, setListOrder] = useState(null);
   const restoreList = useRef(null);
   const practicePrefetch = useRef(null);
   const labVisit = useRef({leftAt:null,scrollTop:0});
   const trainingListsVisit = useRef({});
+  const [listProblemIds,setListProblemIds]=useState(null);
   const [tourOpen,setTourOpen]=useState(false);
   const [tourContext,setTourContext]=useState('overview');
   const automaticTourStarted=useRef(false);
@@ -795,7 +779,7 @@ export default function App() {
       if (prefs.pageOpacities?.[key] == null) root.style.removeProperty(`--opacity-${key}`);
     root.dataset.theme = prefs.theme;
     root.dataset.accent = prefs.accent;
-    root.dataset.motion = prefs.motion ? "on" : "off";
+    root.dataset.motion = "on";
     root.dataset.density = prefs.compact ? "compact" : "comfortable";
     root.style.setProperty(
       "--ui-font-size",
@@ -1603,104 +1587,7 @@ export default function App() {
           }
         }}
       >
-        <td className="title-cell">
-          <span
-            hidden={!prefs.showPlatforms} className={"platform-symbol " + row.platform}
-            title={row.platform}
-          >
-            {row.platform === "牛客"
-              ? "牛"
-              : row.platform === "洛谷"
-                ? "洛"
-                : row.platform === "AtCoder"
-                  ? "At"
-                  : "CF"}
-          </span>
-          <div>
-            <button
-              className="problem-title"
-              onClick={() => {
-                setSelected(row.id);
-                openPractice(row.id);
-              }}
-            >
-              <InlineTitle>{row.title}</InlineTitle>
-            </button>
-            <span className="problem-source">
-              {row.contest} · {row.problem}
-            </span>
-          </div>
-        </td>
-        <td className="tags-cell">
-          {!row.tags.length && !row.locked && (row.knowledgeCategories || []).slice(0,3).map(topic => <span className="tag" key={topic}>{topic}</span>)}
-          {row.tags.slice(0, 3).map((tag) => (
-            <button
-              key={tag}
-              className="tag"
-              onClick={() => filterCategory({ name: tag, tags: [tag] })}
-            >
-              {tag}
-            </button>
-          ))}
-          {row.tags.length > 3 && (
-            <span className="more-tags" title={row.tags.slice(3).join(" / ")}>
-              +{row.tags.length - 3}
-            </span>
-          )}
-        </td>
-        <td>
-          <Difficulty value={row.difficulty} row={row} />
-        </td>
-        <td>
-          <Verdict scope={row.scope} value={row.accepted ? "AC" : row.verdict} accepted={row.accepted} />
-        </td>
-        <td className="last-date">
-          {row.lastActivityAt || row.lastSubmittedAt
-            ? formatDate(row.lastActivityAt || row.lastSubmittedAt)
-            : row.active
-              ? "已加入训练"
-              : "—"}
-        </td>
-        <td className="row-actions">
-          <button
-            aria-label={
-              (prefs.favorites.includes(row.id) ? "取消收藏 " : "收藏 ") +
-              row.title
-            }
-            className={
-              "row-icon " +
-              (prefs.favorites.includes(row.id) ? "favorited" : "")
-            }
-            onClick={() => toggleFavorite(row.id)}
-          >
-            <Star
-              size={15}
-              fill={prefs.favorites.includes(row.id) ? "currentColor" : "none"}
-            />
-          </button>
-          <button
-            className="row-icon"
-            aria-label={"题解 " + row.title}
-            onClick={() => openSolution(row.id)}
-            disabled={
-              row.solutionAvailable === false ||
-              !!active?.slots.some((s) => s.id === row.id)
-            }
-          >
-            <BookOpen size={15} />
-          </button>
-          {row.active && (
-            <button
-              className="row-icon remove-training"
-              aria-label={"取消训练 " + row.title}
-              onClick={() => removeTraining(row.id)}
-              disabled={busy || !!active?.slots.some((s) => s.id === row.id)}
-              title="取消训练，保留代码与历史记录（列表 Delete）"
-            >
-              <MinusCircle size={15} />
-            </button>
-          )}
-        </td>
+        <ProblemCells row={row} favorites={prefs.favorites} showPlatforms={prefs.showPlatforms} busy={busy} onTrain={id=>{setSelected(id);openPractice(id);}} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={id=>setListProblemIds([id])} onRemove={removeTraining}/>
       </tr>
     ));
   }
@@ -1728,11 +1615,7 @@ export default function App() {
           setHoveredRow(row && listRef.current?.contains(row) ? row.dataset.id : null);
         }}>
         <table className="problem-table">
-          <thead><tr>
-            <th className="title-head">题目 / 来源</th><th>知识点</th>
-            <th><button onClick={() => setFilter({ sort: "difficulty", desc: currentFilters.sort === "difficulty" ? !currentFilters.desc : false })}>难度{currentFilters.sort === "difficulty" && (currentFilters.desc ? <ArrowDown size={12} /> : <ArrowUp size={12} />)}</button></th>
-            <th>提交结果</th><th>最近练习</th><th><span className="sr-only">操作</span></th>
-          </tr></thead>
+          <ProblemTableHead onSort={()=>setFilter({sort:'difficulty',desc:currentFilters.sort==='difficulty'?!currentFilters.desc:false})} sorted={currentFilters.sort==='difficulty'} descending={currentFilters.desc}/>
           <tbody>{groups ? groups.filter(group => group.rows.length).map(group => (
             <FragmentRows key={group.id} header={<tr className={"queue-heading " + group.color}><td colSpan={6}><strong>{group.name}</strong><span>{group.rows.length} 题</span></td></tr>}>
               {renderRows(group.rows)}
@@ -1747,7 +1630,7 @@ export default function App() {
     );
   }
   function toolbar() {
-    return <PageSearch><label className="search-box"><Search size={17}/><input ref={searchRef} aria-label="搜索题目" value={currentFilters.query} onChange={event=>setFilter({query:event.target.value})} onKeyDown={event=>{if(['ArrowDown','Enter'].includes(event.key)){event.preventDefault();focusList();}}}/></label><SortDirection label="切换题目排序方向" descending={currentFilters.desc} onChange={desc=>setFilter({desc})}/><ProblemFilters rows={data?.rows || []} categories={categories} views={prefs.views||[]} onDeleteView={id=>setPrefs(previous=>({...previous,views:previous.views.filter(view=>view.id!==id)}))} value={currentFilters} onChange={setFilter} onReset={resetFilters} onSave={()=>{setViewName('');setDialog('saveView');}} onClear={page==='mine'?()=>setDialog('clear-training'):undefined} clearDisabled={busy||!mine.length||!!active||!!workspace.summary.pending}/>{page==='library'&&<RandomProblem rows={visible} disabled={busy||query!==currentFilters.query} onChoose={openPractice} onError={error=>notice(error.message,'error')}/>}{currentFilters.category&&<span className="active-knowledge-filter" role="group" aria-label="当前知识点筛选"><span>{currentFilters.category.name}</span><button type="button" aria-label={`清除知识点筛选 ${currentFilters.category.name}`} onClick={()=>setFilter({category:null})}><X size={13}/></button></span>}</PageSearch>;
+    return <PageSearch><label className="search-box"><Search size={17}/><input ref={searchRef} aria-label="搜索题目" value={currentFilters.query} onChange={event=>setFilter({query:event.target.value})} onKeyDown={event=>{if(['ArrowDown','Enter'].includes(event.key)){event.preventDefault();focusList();}}}/></label><SortDirection label="切换题目排序方向" descending={currentFilters.desc} onChange={desc=>setFilter({desc})}/><ProblemFilters rows={data?.rows || []} categories={categories} views={prefs.views||[]} onDeleteView={id=>setPrefs(previous=>({...previous,views:previous.views.filter(view=>view.id!==id)}))} value={currentFilters} onChange={setFilter} onReset={resetFilters} onSave={()=>{setViewName('');setDialog('saveView');}} onClear={page==='mine'?()=>setDialog('clear-training'):undefined} clearDisabled={busy||!mine.length||!!active||!!workspace.summary.pending}/>{page==='library'&&<RandomProblem rows={visible} disabled={busy||query!==currentFilters.query} onChoose={openPractice} onError={error=>notice(error.message,'error')}/>}{page==='library'&&<Tooltip text={Boolean(currentFilters.query||currentFilters.category||currentFilters.result||currentFilters.catalogPath?.length)?`将筛选结果加入题单（${visible.length} 道题）`:`加入题单（${visible.length} 道题）`}><button type="button" className="icon-button" aria-label="将筛选结果加入题单" disabled={busy||!visible.length||query!==currentFilters.query} onClick={()=>setListProblemIds(visible.map(row=>row.id))}><ListPlus size={17}/></button></Tooltip>}{currentFilters.category&&<span className="active-knowledge-filter" role="group" aria-label="当前知识点筛选"><span>{currentFilters.category.name}</span><button type="button" aria-label={`清除知识点筛选 ${currentFilters.category.name}`} onClick={()=>setFilter({category:null})}><X size={13}/></button></span>}</PageSearch>;
   }
 
   function renderListPage() {
@@ -2130,6 +2013,7 @@ export default function App() {
               <MockSetup
                 historyQuery={mockHistoryQuery}
                 onHistoryQuery={setMockHistoryQuery}
+                onPreviewChange={setMockPreview}
                 api={api}
                 activeContest={active}
                 onResume={() => go("mock")}
@@ -2138,7 +2022,7 @@ export default function App() {
                 onStarted={startedMock}
                 onError={notice}
               />
-            )}<MockHistory embedded query={mockHistoryQuery} contests={workspace.contests} onDelete={async body => { const answer = await api("contests/delete", body); applyWorkspace(answer.workspace); notice(`已删除 ${answer.deleted} 场模拟赛记录`); }} onSelect={openRecord} onResume={contest=>{setMockTab("create");setMockSlot(contest.slots[0]?.id);}} onCreate={()=>{setMockTab("create");document.querySelector('.mock-create')?.scrollIntoView({block:'start'});}}/></>}</>}</div>
+            )}{!mockPreview&&<MockHistory embedded query={mockHistoryQuery} contests={workspace.contests} onDelete={async body => { const answer = await api("contests/delete", body); applyWorkspace(answer.workspace); notice(`已删除 ${answer.deleted} 场模拟赛记录`); }} onSelect={openRecord} onResume={contest=>{setMockTab("create");setMockSlot(contest.slots[0]?.id);}} onCreate={()=>{setMockTab("create");document.querySelector('.mock-create')?.scrollIntoView({block:'start'});}}/>}</>}</>}</div>
           ) : page === "records" ? (
             <SubmissionRecords api={api} revision={workspace.summary?.attempts} rows={rows} onOpenProblem={openPractice} onSelect={(submission) => { setSelectedSubmission(submission); setDialog("submission"); }} />
           ) : page === "competitions" ? (
@@ -2186,7 +2070,7 @@ export default function App() {
           ) : page === "activity" ? (
             <ActivityPage insights={insights} onTrain={openPractice} />
           ) : page === "training-lists" ? (
-            <TrainingListsPage rows={rows} api={api} onTrain={openPractice} visit={trainingListsVisit.current} pageSize={prefs.libraryPageSize} busy={busy}/>
+            <TrainingListsPage rows={rows} api={api} onTrain={openPractice} visit={trainingListsVisit.current} pageSize={prefs.libraryPageSize} busy={busy} prefs={prefs} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={id=>setListProblemIds([id])} onRemove={removeTraining}/>
           ) : page === "paths" ? (
             <LearningPathsPage rows={rows} api={api} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} lockedProblems={active?.slots || []} visit={labVisit.current}/>
           ) : page === "lectures" ? (
@@ -2229,7 +2113,7 @@ export default function App() {
             onContent={openUpdate}
             hub={hub}
             api={api}
-            onChanged={setHub}
+            onChanged={value=>{backgroundSeq.current++;setHub(value);}}
             onError={(message) => notice(message, "error")}
           />
         </Modal>
@@ -2418,6 +2302,7 @@ export default function App() {
           </label>
         </Modal>
       )}
+      {listProblemIds&&<AddToTrainingLists problemIds={listProblemIds} api={api} onClose={()=>setListProblemIds(null)} onSave={()=>{delete trainingListsVisit.current.content;setListProblemIds(null);notice("已加入题单","success");}}/>}
       {finishAnchor && active && <PopConfirm anchor={finishAnchor} title="结束这场比赛？" label="结束比赛确认" busy={busy} cancelLabel="继续比赛" confirmLabel="结束并复盘" busyLabel="正在处理…" confirmTone="primary" onCancel={()=>setFinishAnchor(null)} onConfirm={()=>finishMock(false)} extraActions={<Tooltip text="撤销本场训练安排，保留草稿及真实原站提交"><button type="button" className="danger" disabled={busy} onClick={()=>finishMock(true)}>取消比赛</button></Tooltip>}/>}
 
     </div></DifficultyBoundsProvider>

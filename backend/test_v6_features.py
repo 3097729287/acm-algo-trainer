@@ -118,6 +118,17 @@ class FeatureTests(unittest.TestCase):
         with patch.object(self.assets,'candidates',return_value=[]),self.assertRaisesRegex(ServiceError,'尚缺完整题面'):
             self.service.preview_contest({'mode':'replay','contest':'fixture'})
 
+    def test_replay_uses_paper_letters_without_changing_original_problem_ids(self):
+        original=[row['id'] for row in self.library.rows]
+        for position,row in enumerate(self.library.rows):row['problem']='P'+str(16000+position)
+        plan=self.service.preview_contest({'mode':'replay','contest':'fixture'})['plan']
+        self.assertEqual([slot['letter'] for slot in plan['slots']],list('ABCDEFGH'))
+        self.assertEqual([slot['id'] for slot in plan['slots']],original)
+        contest=self.service.start_contest({'ids':original,'duration':plan['duration'],'previewId':plan['previewId'],'name':'自定模拟赛'})['contest']
+        self.assertEqual(contest['name'],'自定模拟赛')
+        self.assertEqual([slot['letter'] for slot in contest['slots']],list('ABCDEFGH'))
+        self.assertEqual([slot['id'] for slot in contest['slots']],original)
+
     def test_xcpc_custom_penalty_freezes_and_ce_does_not_penalize_by_default(self):
         # Penalty needs a solved slot with full local cases. Unbiased random
         # papers may otherwise choose H, whose public samples never prove AC.

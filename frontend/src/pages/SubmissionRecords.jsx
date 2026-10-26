@@ -5,7 +5,7 @@ import PopConfirm from '@/components/PopConfirm.jsx';
 import SortDirection from '@/components/SortDirection.jsx';
 import {useEffect,useLayoutEffect,useMemo,useRef,useState} from 'react';
 import InlineTitle from '@/components/InlineTitle.jsx';
-import {ChevronLeft,ChevronRight,Code2,Flag,Search,Trash2} from 'lucide-react';
+import {ChevronLeft,ChevronRight,Code2,Flag,Search,Trash2,X} from 'lucide-react';
 import {groupSubmissionsByDay,verdictLabel,verdictTone} from '@/models/workspaceModel.js';
 import {trainingDateLabel,trainingTime} from '@/lib/trainingDate.js';
 
@@ -67,12 +67,11 @@ export default function SubmissionRecords({api,revision,rows=[],onSelect,onOpenP
 
 export function MockHistory({contests=[],onSelect,onResume,onCreate,onDelete,embedded=false,query=''}) {
  const [target,setTarget]=useState(null),[busy,setBusy]=useState(false),[error,setError]=useState('');
- const finished=contests.filter(item=>item.status!=='running');
  const tokens=query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
  const matches=contests.filter(contest=>tokens.every(token=>`${contest.name} ${dateText(contest.startedAt)} ${contest.status==='running'?'进行中':'已结束'} ${(contest.slots||[]).map(slot=>slot.title||'').join(' ')}`.toLocaleLowerCase().includes(token)));
  const sorted=[...matches].sort((a,b)=>(Date.parse(b.startedAt)||0)-(Date.parse(a.startedAt)||0));
- async function remove(){if(busy)return;setBusy(true);setError('');try{await onDelete(target.value==='all'?{all:true}:{id:target.value.id});setTarget(null);}catch(issue){setError(issue.message||'删除失败');}finally{setBusy(false);}}
- return <section className={`records-page${embedded?' mock-history':''}`} aria-label="模拟赛记录" data-noselect="true"><header className="table-toolbar"><h2 id="mock-history-heading" tabIndex={-1}>模拟赛记录 <small>{query.trim()?`${matches.length} / ${contests.length}`:contests.length} 场</small></h2><button type="button" className="icon-button" aria-label="删除全部记录" disabled={!finished.length||busy} onClick={event=>setTarget({value:'all',anchor:event.currentTarget})}><Trash2 size={17}/></button></header>
- {target&&<PopConfirm anchor={target.anchor} title={target.value==='all'?`删除全部 ${finished.length} 场记录？`:`删除“${target.value.name}”？`} error={error} busy={busy} onCancel={()=>setTarget(null)} onConfirm={remove}/>}
+ async function remove(){if(busy)return;setBusy(true);setError('');try{await onDelete({id:target.value.id});setTarget(null);}catch(issue){setError(issue.message||'删除失败');}finally{setBusy(false);}}
+ return <section className={`records-page${embedded?' mock-history':''}`} aria-label="模拟赛记录" data-noselect="true"><header className="table-toolbar"><h2 id="mock-history-heading" tabIndex={-1}>模拟赛记录 <small>{query.trim()?`${matches.length} / ${contests.length}`:contests.length} 场</small></h2></header>
+ {target&&<PopConfirm anchor={target.anchor} title={`删除“${target.value.name}”？`} error={error} busy={busy} cancelLabel={<X size={15}/>} confirmLabel={<Trash2 size={15}/>} busyLabel={<Trash2 size={15}/>} cancelAriaLabel="取消" confirmAriaLabel="删除" onCancel={()=>setTarget(null)} onConfirm={remove}/>}
  <div className="records-list scroll-panel">{sorted.map(contest=><div className="mock-record" key={contest.id}><button type="button" className="record-row" onClick={()=>contest.status==='running'?onResume(contest):onSelect(contest)}><span className="record-symbol"><Flag size={21}/></span><div><strong>{contest.name}</strong><small>{dateText(contest.startedAt)} · {contest.duration} 分钟 · {contest.total} 题</small></div><span className="record-score">{contest.accepted}<small> / {contest.total}</small></span><ChevronRight size={18}/></button><button type="button" className="mock-record-delete icon-button" aria-label={`删除模拟赛 ${contest.name}`} disabled={contest.status==='running'||busy} onClick={event=>setTarget({value:contest,anchor:event.currentTarget})}><Trash2 size={17}/></button></div>)}{!sorted.length&&<div className="empty"><Flag size={27}/>{query.trim()?<p>没有匹配的模拟赛记录</p>:embedded?<p>暂无模拟赛记录</p>:<button className="primary" onClick={onCreate}>创建模拟赛</button>}</div>}</div></section>;
 }

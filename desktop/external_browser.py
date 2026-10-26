@@ -318,6 +318,7 @@ class ExternalBrowserBridge:
                         session['intent'] = True
                         session['dispatched'] = False
                         session['autoClose'] = True
+                        session['retry'] = session.get('retry', 0) + 1
                     session['focus'] = True
                     return self.status(session['sessionId'])
             if sum(item['status'] not in self.terminal for item in self.sessions.values()) >= 8:
@@ -326,7 +327,7 @@ class ExternalBrowserBridge:
                 raise ServiceError(409, '本题已有提交正在等待回执，请先核对该次结果')
             identity = uuid.uuid4().hex
             session = dict(target, sessionId=identity, code=code, title=title, language=language, intent=intent, autoClose=bool(intent),
-                           status='loading', attempted=False, created=time.monotonic(),
+                           status='loading', attempted=False, retry=1 if intent else 0, created=time.monotonic(),
                            transport='external', message='正在后台打开原站提交页…' if intent else '正在打开浏览器原站提交页…', focus=not intent)
             self.sessions[identity] = session
         threading.Thread(target=self._run, args=(identity,), name='tb-visible-submit', daemon=True).start()
@@ -423,7 +424,7 @@ class ExternalBrowserBridge:
 
     def _script(self, session, action, install=True):
         context = {key: session.get(key) for key in ('sessionId', 'platform', 'problem', 'code', 'language',
-                   'originalUrl', 'attempted', 'baseline', 'baselineKnown', 'baselineOwner', 'submissionId')}
+                   'originalUrl', 'attempted', 'baseline', 'baselineKnown', 'baselineOwner', 'submissionId', 'retry')}
         context['nativeFormOnly'] = True
         context['resumeAfterLogin'] = bool(session.get('intent') and not session.get('dispatched'))
         callback = """value => new Promise(resolve => {

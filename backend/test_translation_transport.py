@@ -13,6 +13,34 @@ from translation_config import ProviderSettings
 
 
 class TransportTests(unittest.TestCase):
+    def test_default_chinese_detection_keeps_chinese_and_existing_translations(self):
+        from translation import needs_translation
+        english={'statementAvailable':True,'markdown':'# 中文标题\n\nGiven a positive integer $n$, print the answer for each query.'}
+        self.assertTrue(needs_translation(english))
+        self.assertFalse(needs_translation(dict(english,translation={'markdown':'中文译文'})))
+        self.assertFalse(needs_translation(dict(english,statementAvailable=False)))
+        self.assertFalse(needs_translation({'statementAvailable':True,'markdown':'给定整数 $n$，求最小值。\n```cpp\nreturn min(n, 20);\n```'}))
+
+    def test_stopped_local_proxy_retries_same_https_endpoint_without_redirects(self):
+        from unittest.mock import Mock
+        from urllib.error import URLError,HTTPError
+        from urllib.request import Request
+        provider=DeepSeekProvider();provider.opener=Mock()
+        request=Request('https://api.example.com/v1/chat/completions',data=b'public-prose',headers={'Authorization':'Bearer fixture'})
+        provider.opener.open.side_effect=URLError(ConnectionRefusedError())
+        direct=Mock()
+        with patch('translation.getproxies',return_value={'https':'http://127.0.0.1:9'}),patch('translation.build_opener',return_value=direct) as build:
+            self.assertIs(provider._open(request),direct.open.return_value)
+            direct.open.assert_called_once_with(request,timeout=60)
+            self.assertTrue(any(type(handler).__name__=='_NoRedirect' for handler in build.call_args.args))
+            direct.reset_mock();provider.opener.open.side_effect=HTTPError(request.full_url,401,'Unauthorized',{},None)
+            with self.assertRaises(HTTPError):provider._open(request)
+            direct.open.assert_not_called()
+        provider.opener.open.side_effect=URLError(ConnectionRefusedError())
+        with patch('translation.getproxies',return_value={'https':'http://proxy.example:8080'}),patch('translation.build_opener') as build:
+            with self.assertRaises(URLError):provider._open(request)
+            build.assert_not_called()
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix='tb-translation-transport-')
         self.root = Path(self.temp.name)
@@ -67,6 +95,27 @@ class TransportTests(unittest.TestCase):
         self.assertFalse((self.root / 'translation-settings.json').exists())
         self.assertTrue(service.status()['verified'])
         self.assertTrue(service.translate('p')['cached'])
+
+    def test_chunk_edge_whitespace_and_list_prefix_do_not_depend_on_model(self):
+        original='\n\n- Given a positive integer $n$, find the answer and print its value.\n\n- '
+        service=self.service(original)
+        result=service._translate_chunk(original)
+        self.assertTrue(result.startswith('\n\n- 给定一个正整数'))
+        self.assertTrue(result.endswith('\n\n- '))
+        self.assertIn('$n$',result)
+
+    def test_dropped_short_title_retries_without_discarding_original_spans(self):
+        original='# Change\n\nScore : $200$ points\n\n### Problem Statement'
+        service=self.service(original)
+        def reply(payload):
+            text=payload['messages'][1]['content']
+            if text.startswith('Change') and 'Score' in text:
+                text=text[text.index('Score'):]
+            text=text.replace('Change','变更').replace('Score','得分').replace('points','分').replace('Problem Statement','题目描述')
+            return {'choices':[{'message':{'content':text}}]}
+        self.reply=reply
+        self.assertEqual(service._translate_chunk(original),'# 变更\n\n得分 : $200$ 分\n\n### 题目描述')
+        self.assertGreater(len(self.requests),1)
 
     def test_truncation_and_http_errors_never_cache_a_partial_result(self):
         service = self.service('Given a positive integer $n$, find the answer and print its value.')

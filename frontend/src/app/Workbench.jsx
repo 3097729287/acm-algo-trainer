@@ -703,6 +703,18 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
       if (isActive(record)) { setTranslationError(error.message || '暂时无法翻译，已保留原文。'); setLanguage('original'); }
     } finally { record.translationBusy = false; if (isActive(record)) setTranslationBusy(false); }
   };
+  useEffect(() => {
+    const record=activeRecord.current;
+    if (!record?.loaded || loading || problem?.statementLoading || !problem?.markdown || record.languageChosen) return;
+    const prepared=problem.translation;
+    if (prepared?.markdown && (prepared.targetLanguage==='zh-CN'||prepared.kind==='site')) {
+      setTranslation(prepared);setLanguage('zh');return;
+    }
+    if (problem.autoTranslate && record.autoTranslationSource!==problem.markdown) {
+      record.autoTranslationSource=problem.markdown;
+      translateStatement();
+    }
+  },[loading,problem?.markdown,problem?.statementLoading,problem?.autoTranslate,problem?.translation]);
   const editorCommand = command => {
     if (command === 'official') openOfficial();
     else if (command === 'submit') openOfficial();
@@ -772,7 +784,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
             <BoundedNumber aria-label="题面字号" min={14} max={32} unit="px" value={statementFontSize} required onChange={event => changeStatementFontSize(Number(event.target.value))}/>
             <button type="button" aria-label="放大题面字号" title="放大题面字号" disabled={statementFontSize >= 32} onClick={() => changeStatementFontSize(Math.min(32,statementFontSize + 1))}>A+</button>
           </div>
-          <div className="wb-language-toggle" role="group" aria-label="题面语言"><button type="button" aria-pressed={language === 'original'} onClick={() => { setLanguage('original'); setTranslationError(''); }}>原文</button><button type="button" aria-pressed={language === 'zh'} disabled={loading || !problem?.markdown || translationBusy} onClick={translateStatement}>{translationBusy ? '翻译中…' : '中文'}</button></div>
+          <div className="wb-language-toggle" role="group" aria-label="题面语言"><button type="button" aria-pressed={language === 'original'} onClick={() => { if(activeRecord.current)activeRecord.current.languageChosen=true;setLanguage('original'); setTranslationError(''); }}>原文</button><button type="button" aria-pressed={language === 'zh'} disabled={loading || !problem?.markdown || translationBusy} onClick={() => {if(activeRecord.current)activeRecord.current.languageChosen=true;translateStatement();}}>{translationBusy ? '翻译中…' : '中文'}</button></div>
           {problem?.url && <a href={problem.url} target="_blank" rel="noreferrer" title="在浏览器打开原题">原题<ExternalLink size={12} /></a>}
         </div></div>
         {translationBusy && <p className="wb-translation-note" role="status"><LoaderCircle size={12} className="wb-spinner" />正在翻译公开题面，原文仍可阅读。</p>}

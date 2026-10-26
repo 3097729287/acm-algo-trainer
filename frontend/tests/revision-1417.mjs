@@ -20,12 +20,7 @@ try{
  await open('lists');await page.getByRole('button',{name:'题单目录方式',exact:true}).click();
  await page.getByRole('textbox',{name:'搜索题单或题目'}).fill('排序专项');
  await page.locator('.training-card-open').filter({hasText:'排序专项'}).click();
- await page.getByRole('button',{name:'编辑标签',exact:true}).click();await page.getByRole('textbox',{name:'自定义题单标签'}).fill('考前复习，重点');await page.getByRole('button',{name:'保存标签',exact:true}).click();
- await page.locator('.training-active-tags').getByText('考前复习',{exact:true}).waitFor();
- await page.getByRole('button',{name:'全部题单',exact:true}).click();await page.getByRole('button',{name:'浏览题单标签',exact:true}).click();
- await page.getByRole('textbox',{name:'搜索题单标签'}).fill('考前复习');await page.locator('.training-tag-options button').filter({hasText:'考前复习'}).click();
- assert.equal(await page.locator('.training-card-open').count(),1);assert.match(await page.locator('.training-card-open').innerText(),/排序专项/);
- await page.screenshot({path:out+'/list-tags.png'});
+ assert.equal(await page.locator('.training-tag-browser,.training-active-tags,.training-list-tags').count(),0);
  await open('rankings');await page.locator('.ranking-identity').first().waitFor();await page.clock.runFor(3100);
  const other=page.locator('.ranking-identity').filter({hasText:'有头像的用户'});await other.locator('.profile-avatar-face img').waitFor();
  assert.equal(await other.locator('.profile-xp-ring').getAttribute('aria-valuenow'),'25');
@@ -46,6 +41,6 @@ try{
   }
  }
  await page.screenshot({path:out+'/course-header.png'});
- assert.deepEqual(errors,[]);await writeFile(out+'/report.json',JSON.stringify({ok:true,weeklyTotals:true,tagEditAndFilter:true,publicAvatarRetry:true,publicXp:true,headerEdges:true,viewports:3},null,2));
- console.log('PASS: weekly totals, list tags, avatar retry, XP and course header');
+ assert.deepEqual(errors,[]);await writeFile(out+'/report.json',JSON.stringify({ok:true,weeklyTotals:true,listTagsRemoved:true,publicAvatarRetry:true,publicXp:true,headerEdges:true,viewports:3},null,2));
+ console.log('PASS: weekly totals, removed list tags, avatar retry, XP and course header');
 }catch(error){await page.screenshot({path:out+'/failure.png'});console.error(errors);throw error;}finally{await browser.close();await server.close();}

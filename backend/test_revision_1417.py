@@ -1,4 +1,4 @@
-"""Cold catalogue, readable statements and private list labels use disposable state."""
+"""Cold catalogue, readable statements and contest isolation use disposable state."""
 from contextlib import closing
 import gzip
 import json
@@ -15,7 +15,6 @@ from store import Store
 from test_nonblocking_loading import record
 from test_training import Library, Assets, Judge, Clock
 from training import TrainingService, ServiceError, _LIBRARY_VIEW
-from training_list_tags import read_tags, save_tags, PREFIX
 from response_cache import GzipJSON
 
 
@@ -79,29 +78,11 @@ class Catalogue1417Tests(unittest.TestCase):
             self.assertNotIn('knowledgeAnalysis',identities[0])
 
 
-class PrivateTagTests(unittest.TestCase):
+class ContestIsolationTests(unittest.TestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.path=Path(self.temp.name);self.library=Library()
         self.service=TrainingService(self.library,self.path/'personal.sqlite3',Assets(self.library),Judge(),Clock(),self.path/'backups')
     def tearDown(self):self.service.close();self.temp.cleanup()
-
-    def test_labels_roundtrip_reverse_index_external_changes_and_deletions(self):
-        save_tags(self.service,{'listId':'list','tags':[' 复习 ','数组','数组']},{'list'})
-        self.assertEqual(read_tags(self.service,'数组')['listIds'],['list'])
-        with closing(sqlite3.connect(self.path/'personal.sqlite3')) as writer:
-            writer.execute('UPDATE account_preferences SET value=? WHERE key=?',(json.dumps(['考前']),PREFIX+'list'));writer.commit()
-        self.assertEqual(read_tags(self.service,'数组')['listIds'],[])
-        self.assertEqual(read_tags(self.service)['tags'],{'list':['考前']})
-        save_tags(self.service,{'listId':'list','tags':[]},{'list'})
-        self.assertEqual(read_tags(self.service)['tags'],{})
-        self.assertEqual(self.service.connection.execute('SELECT value FROM account_preferences WHERE key=?',(PREFIX+'list',)).fetchone()[0],'[]')
-        other=TrainingService(self.library,self.path/'other.sqlite3',Assets(self.library),Judge(),Clock(),self.path/'other-backups')
-        try:self.assertEqual(read_tags(other)['tags'],{})
-        finally:other.close()
-
-    def test_invalid_list_and_tags_are_rejected(self):
-        for body in [{'listId':'unknown','tags':['x']},{'listId':'list','tags':['x'*25]},{'listId':'list','tags':['bad\nlabel']}]:
-            with self.assertRaises(ServiceError):save_tags(self.service,body,{'list'})
 
     def test_contest_start_during_problem_read_promotes_to_complete_catalogue(self):
         plan=self.service.preview_contest({'count':2,'duration':120,'min':1000,'max':2100})['plan']

@@ -6,8 +6,9 @@ from pathlib import Path
 import re
 import threading
 from collections import Counter
-from urllib.error import HTTPError
-from urllib.request import Request,build_opener,HTTPRedirectHandler
+from urllib.error import HTTPError,URLError
+from urllib.parse import urlsplit
+from urllib.request import Request,build_opener,HTTPRedirectHandler,ProxyHandler,getproxies
 from integrations import atomic,load,VERSION
 from training import ServiceError
 from translation_config import DEFAULT_DEEPSEEK_MODEL
@@ -24,6 +25,15 @@ def english_prose(text):
     return re.sub(r'TBPROTECT[A-F0-9]{8}\d{4}TOKEN',' ',shielded)
 
 
+def needs_translation(problem):
+    if not problem.get('statementAvailable') or (problem.get('translation') or {}).get('markdown'):return False
+    prose=english_prose(problem.get('markdown') or '')
+    words=re.findall(r'[A-Za-z]+',prose.lower())
+    common=set('the is are of to for in on at by as from with you your given print output input contains integer integers each can will should must not there and or'.split())
+    return (sum(len(word)>=3 for word in words)>=5 and sum(word in common for word in words)>=2
+            and sum(map(len,words))>2*len(re.findall(r'[\u3400-\u9fff]',prose)))
+
+
 class TranslationTruncated(ServiceError):
     def __init__(self):
         super().__init__(503,'翻译输出达到长度上限；已尝试分段，服务仍未返回完整正文，请检查模型输出额度')
@@ -32,6 +42,11 @@ class TranslationTruncated(ServiceError):
 class TranslationIncomplete(ServiceError):
     def __init__(self):
         super().__init__(503,'服务仍保留了未翻译的英文正文或省略了正文，已拒绝将其显示为中文；请重试或更换模型')
+
+
+class TranslationIntegrityError(ServiceError):
+    def __init__(self):
+        super().__init__(503,'译文改变了公式或代码标记，已拒绝缓存；原题面保持不变')
 
 
 def nonthinking_options(endpoint,model):
@@ -127,6 +142,20 @@ def _local_key(home=None):
 
 class DeepSeekProvider:
     def __init__(self,home=None,transport=None,settings=None):self.home=home;self.transport=transport;self.settings=settings;self.opener=build_opener(_NoRedirect())
+    def _open(self,request):
+        try:return self.opener.open(request,timeout=60)
+        except HTTPError:raise
+        except (URLError,OSError) as error:
+            # A stopped desktop proxy must not disable a reachable HTTPS API.
+            # Retry only a broken loopback proxy connection, to the SAME URL;
+            # keep redirects disabled and never retry auth/billing responses.
+            import ssl
+            proxy=getproxies().get(urlsplit(request.full_url).scheme,'')
+            local=urlsplit(proxy if '://' in proxy else 'http://'+proxy).hostname in ('127.0.0.1','localhost','::1')
+            reason=getattr(error,'reason',error)
+            disconnected=isinstance(reason,(ConnectionRefusedError,ConnectionResetError,ssl.SSLEOFError))
+            if not local or not disconnected or urlsplit(request.full_url).scheme!='https':raise
+            return build_opener(ProxyHandler({}),_NoRedirect()).open(request,timeout=60)
     @property
     def name(self):
         if not self.settings:return 'DeepSeek · 本机已有配置'
@@ -144,7 +173,7 @@ class DeepSeekProvider:
                 if key:headers['Authorization']='Bearer '+key
                 request=Request(endpoint,data=json.dumps(payload).encode(),headers=headers,method='POST')
                 try:
-                    response=self.opener.open(request,timeout=60)
+                    response=self._open(request)
                 except HTTPError as error:
                     # Some compatible gateways reject vendor-specific switches.
                     # Retry only that explicit parameter error, never auth/billing.
@@ -152,7 +181,7 @@ class DeepSeekProvider:
                     unsupported=any(field in diagnostic for field in options) and any(term in diagnostic for term in ('unsupported','unknown','unrecognized','unexpected','not permitted','not allowed','extra inputs','不支持','未知'))
                     if not unsupported:raise
                     payload={key:value for key,value in payload.items() if key not in options}
-                    response=self.opener.open(Request(endpoint,data=json.dumps(payload).encode(),headers=headers,method='POST'),timeout=60)
+                    response=self._open(Request(endpoint,data=json.dumps(payload).encode(),headers=headers,method='POST'))
                 with response:
                     raw=response.read(2*1024*1024+1)
                     if len(raw)>2*1024*1024:raise ServiceError(503,'翻译响应超过大小限制')
@@ -175,21 +204,29 @@ class DeepSeekProvider:
 def translation_chunks(text, maximum=3500):
     """Bound API input while keeping code, math, URLs and formatting spans whole."""
     shielded, markers = protect(text)
-    units = re.findall(r'TBPROTECT[A-F0-9]{8}\d{4}TOKEN|\s+|[^\s]+', shielded)
+    units = [part for part in re.split(r'(TBPROTECT[A-F0-9]{8}\d{4}TOKEN|\s+)', shielded) if part]
+    # Prefer whole sentences/paragraphs. A dangling tail such as "down." at
+    # the start of a request encourages models to discard the following layout.
+    groups,group=[],[]
+    for unit in units:
+        group.append(unit)
+        if unit in markers and '\n' in markers[unit] or unit not in markers and re.search(r'[.!?:]$',unit):
+            groups.append(group);group=[]
+    if group:groups.append(group)
     chunks, current, size = [], [], 0
     def unshield(value):
         for marker in re.findall(r'TBPROTECT[A-F0-9]{8}\d{4}TOKEN', value):
             value = value.replace(marker, markers[marker])
         return value
-    for unit in units:
-        if current and size + len(unit) > maximum:
+    for group in groups:
+        length=sum(map(len,group))
+        if current and size+length>maximum:
             chunks.append(unshield(''.join(current)))
             current, size = [], 0
-        current.append(unit)
-        size += len(unit)
-        if unit in markers and '\n\n' in markers[unit] and size >= maximum * .7:
-            chunks.append(unshield(''.join(current)))
-            current, size = [], 0
+        for unit in group:
+            if current and size+len(unit)>maximum:
+                chunks.append(unshield(''.join(current)));current,size=[],0
+            current.append(unit);size+=len(unit)
     if current:
         chunks.append(unshield(''.join(current)))
     return chunks or [text]
@@ -261,7 +298,7 @@ def protect(text):
     result.append(text[position:]);return ''.join(result),tokens
 
 
-def restore(translated,tokens):
+def restore(translated,tokens,require_chinese=True):
     expected=list(tokens);found=re.findall(r'TBPROTECT[A-F0-9]{8}\d{4}TOKEN',translated)
     # Chinese word order can move an intact formula within the same paragraph.
     # Layout/code markers still delimit immutable groups; no span may be lost,
@@ -273,9 +310,9 @@ def restore(translated,tokens):
             if key in boundaries:result.append((Counter(current),key));current=[]
             else:current.append(key)
         return result+[(Counter(current),None)]
-    if Counter(found)!=Counter(expected) or groups(found)!=groups(expected):raise ServiceError(503,'译文改变了公式或代码标记，已拒绝缓存；原题面保持不变')
+    if Counter(found)!=Counter(expected) or groups(found)!=groups(expected):raise TranslationIntegrityError()
     for token,original in tokens.items():translated=translated.replace(token,original)
-    if not re.search(r'[\u3400-\u9fff]',translated):raise ServiceError(503,'服务未返回中文正文，原题面保持不变')
+    if require_chinese and not re.search(r'[\u3400-\u9fff]',translated):raise TranslationIncomplete()
     return translated
 
 
@@ -298,14 +335,28 @@ class TranslationService:
         protected,markers=protect(chunk)
         if not re.search(r'\b[A-Za-z]{3,}\b',re.sub(r'TBPROTECT[A-F0-9]{8}\d{4}TOKEN','',protected)):
             return chunk
+        # Keep edge whitespace/list prefixes outside the model. Models often
+        # trim them from a chunk; they are formatting, not translatable prose.
+        prefix,suffix='',''
+        def edge(token):return re.fullmatch(r'\s+|#{1,6} |[-*+] |\d+\. ',markers[token])
+        while markers:
+            token=next(iter(markers))
+            if not protected.startswith(token) or not edge(token):break
+            prefix+=markers.pop(token);protected=protected[len(token):]
+        while markers:
+            token=next(reversed(markers))
+            if not protected.endswith(token) or not edge(token):break
+            suffix=markers.pop(token)+suffix;protected=protected[:-len(token)]
         try:
             translated=self.provider(protected)
             if not isinstance(translated,str):raise ServiceError(503,'翻译服务未返回正文')
-            result=restore(translated,markers)
+            # A heading/name-only chunk may legitimately remain English; the
+            # actual prose and the complete document still require translation.
+            result=prefix+restore(translated,markers,require_chinese=False)+suffix
             validate_translation(chunk,result)
             return result
-        except (TranslationTruncated,TranslationIncomplete):
-            pieces=translation_chunks(chunk,maximum=max(400,len(protected)//2))
+        except (TranslationTruncated,TranslationIncomplete,TranslationIntegrityError):
+            pieces=translation_chunks(chunk,maximum=max(64,len(protected)//2))
             if depth>=2 or len(pieces)<2:raise
             return ''.join(self._translate_chunk(piece,depth+1) for piece in pieces)
 

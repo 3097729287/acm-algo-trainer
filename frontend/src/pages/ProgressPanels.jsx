@@ -104,7 +104,7 @@ export function GrowthPage({avatarData,onAvatar,goalOverview,api,onGoalsChanged,
  <KnowledgeRadar rows={rows} categories={categories} knowledge={insights.knowledge||[]} knowledgeEvidence={insights.knowledgeEvidence||[]} knowledgeModel={insights.knowledgeModel||{}} onTopic={onTopic} onTrain={onTrain}/>
  <section className="progress-section growth-account-hero" aria-label="账号成长统计"><div className="account-hero-identity"><ProfileBadge compact={false} growth={growth} avatar={avatarData} nickname={nickname} onAvatarClick={onAvatar} onClick={onAccounts}/><div className="account-hero-rank"><TierIcon badge={rank.badge||'tier-0'} tier={rank.tier} size={180}/><strong>{rankName}</strong>{rank.abilityScore!=null&&<span title="根据独立通过记录估计的 CF 参考能力，不是 Codeforces 官方等级分">{rank.estimated?"约 ":""}{number(rank.abilityScore)} · CF 参考</span>}</div></div>
  <div className="account-hero-level"><span>Lv.{growth.level??'—'}</span><div><Meter value={growth.nextLevelXp?Number(growth.currentLevelXp||0)/growth.nextLevelXp*100:0} label="等级经验"/><span>{number(growth.currentLevelXp||0)} / {number(growth.nextLevelXp||0)} XP</span></div></div>
- <div className="account-hero-statistics">{stats.map(([Icon,value,label])=><div key={label} aria-label={`${label} ${number(value)}`}><Tooltip text={label}><span className="account-stat-icon" tabIndex={0} aria-label={label}><Icon size={30}/></span></Tooltip><b>{number(value)}</b></div>)}</div><div className="account-hero-titles"><TitleMedals titles={insights.equippedTitles||growth.equippedTitles||[]}/></div><div id="growth-goals" className="account-hero-goals">{api&&<GoalsPanel api={api} overview={goalOverview} onChanged={onGoalsChanged}/>}</div>
+ <div className="account-hero-statistics">{stats.map(([Icon,value,label])=><div key={label} aria-label={`${label} ${number(value)}`}><Tooltip text={label}><span className="account-stat-icon" tabIndex={0} aria-label={label}><Icon size={30} fill={Icon===Flame||Icon===Flag?'currentColor':'none'}/></span></Tooltip><b>{number(value)}</b></div>)}</div><div className="account-hero-titles"><TitleMedals titles={insights.equippedTitles||growth.equippedTitles||[]}/></div><div id="growth-goals" className="account-hero-goals">{api&&<GoalsPanel api={api} overview={goalOverview} onChanged={onGoalsChanged}/>}</div>
  </section></div></div>;
 }
 
@@ -126,8 +126,7 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
   const deferredQuery = useDeferredValue(query);
   const [catalogPath, setCatalogPath] = useState([]), [examYear, setExamYear] = useState('');
   const [folder,setFolder]=useState(null), [descending,setDescending]=useState(true);
-  const classificationOptions = useMemo(() => contestFilterOptions(rows || []), [rows]);
-  const [sort, setSort] = useState('newest');
+  const sort = 'newest';
   const [page, setPage] = useState(1);
   const [selected, setSelected] = useState(null), [joining, setJoining] = useState(false), [joinError, setJoinError] = useState(''), [starting, setStarting] = useState(null);
   const progress = useMemo(() => new Map(list(workspace?.training).map(row => [row.id, row])), [workspace?.training]);
@@ -181,10 +180,8 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
   return <div className="list-page competition-page" aria-label="比赛列表">
     <PageSearch><label className="search-box"><Search size={17}/><input value={query} onChange={event=>setQuery(event.target.value)} aria-label="搜索比赛"/></label>
     <SortDirection label="切换比赛排序方向" descending={descending} normalDescending={sort==='newest'} onChange={setDescending}/><FilterMenu label="筛选比赛" active={!!catalogPath.length||!!examYear||filter!=='all'} onReset={reset}>
-      <label className="filter-field"><span>比赛分类</span><FolderSelect label="筛选比赛分类" placeholder="全部比赛" options={classificationOptions} value={catalogPath.length?JSON.stringify(catalogPath):''} onChange={event=>{setCatalogPath(event.target.value?JSON.parse(event.target.value):[]);setFolder(null);setExamYear('');}}/></label>
       <label className="filter-field"><span>年份</span><ThemedSelect aria-label="比赛年份" value={examYear} onChange={event=>setExamYear(event.target.value)}><option value="">全部年份</option>{[...new Set(groups.map(group=>group.examYear).filter(Boolean))].sort((a,b)=>b-a).map(year=><option key={year}>{year}</option>)}</ThemedSelect></label>
       <label className="filter-field"><span>训练情况</span><ThemedSelect value={filter} onChange={event=>setFilter(event.target.value)} aria-label="比赛训练情况"><option value="all">全部比赛</option><option value="joined">已加入训练</option><option value="available">尚未加入</option><option value="unfinished">尚未全部通过</option></ThemedSelect></label>
-      <label className="filter-field"><span>排序</span><ThemedSelect aria-label="比赛排序" value={sort} onChange={event=>setSort(event.target.value)}><option value="newest">比赛时间</option><option value="name">名称</option></ThemedSelect></label>
     </FilterMenu><Tooltip text={folder?'切换到比赛列表':'按平台、系列、年份和场次逐级浏览'}><button type="button" className="competition-view-toggle" aria-label="比赛文件夹浏览" aria-pressed={!!folder} onClick={()=>setFolder(folder?null:{stage:'platforms',path:[]})}><FolderTree size={17}/></button></Tooltip></PageSearch>
     {joinError&&<p className="connection-error" role="alert">{joinError}</p>}
     {folder&&<CatalogPath scope={folder} onChange={setFolder}/>}<div className="catalog-list-heading" aria-label="比赛表头"><span>比赛 / 来源</span><span className="competition-heading-problems">题目</span>{onStartReproduction&&<span className="competition-heading-action" aria-hidden="true"/>}</div>
@@ -268,6 +265,19 @@ function updateDraft(hub) { return { autoSync: hub?.settings?.autoSync ?? true, 
 export function UpdatePanel({ softwareState, hub, api, onChanged, onError, onContent, showNotifications = true, notificationsOnly = false }) {
   const [draft, setDraft] = useState(() => updateDraft(hub)), [busy, setBusy] = useState(false), [message, setMessage] = useState(''), [error, setError] = useState(''), [unreadOnly, setUnreadOnly] = useState(false);
   const dirty = useRef(false), editRevision = useRef(0);
+  const seen=useRef(new Set()),reading=useRef(false),[readRevision,setReadRevision]=useState(0);
+  const unreadIds=JSON.stringify(list(hub?.notifications).filter(item=>!item.read).map(item=>item.id));
+  useEffect(()=>{
+    if(!notificationsOnly||!api||reading.current)return;
+    const ids=JSON.parse(unreadIds).filter(id=>!seen.current.has(id));
+    if(!ids.length)return;
+    ids.forEach(id=>seen.current.add(id));reading.current=true;
+    (async()=>{
+      try{for(const id of ids){const value=await api('hub/dismiss',{id});onChanged?.(value);}}
+      catch(issue){setError(issue.message);onError?.(issue.message);}
+      finally{reading.current=false;setReadRevision(value=>value+1);}
+    })();
+  },[notificationsOnly,api,unreadIds,readRevision]);
   useEffect(() => { if (!dirty.current) setDraft(updateDraft(hub)); }, [hub?.settings]);
   const change = (key, value) => { dirty.current = true; editRevision.current += 1; setDraft(previous => ({ ...previous, [key]: value })); };
   const request = async (path, body) => {

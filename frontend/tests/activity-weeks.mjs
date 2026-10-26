@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict';
 import {activityWeek,activityWeekTotal,activityDetailPages,activityTone} from '../src/lib/activityDate.js';
-import {trainingTagIndex} from '../src/lib/trainingListTags.js';
 assert.deepEqual(activityWeek('2026-10-26'),{start:'2026-10-26',end:'2026-11-01',year:2026,number:43});
 assert.equal(activityWeek('2026-01-05').number,1);
 assert.equal(activityWeek('2026-01-04').year,2025);
@@ -18,6 +17,4 @@ for(const capacity of [2,3,5,8,20]){
  assert.deepEqual(pages.flat().filter(x=>x.type==='day').map(x=>x.day),days);
  for(const page of pages){assert(page.length<=capacity);assert.equal(page[0].type,'week');assert.equal(page.at(-1).type,'day');}
 }
-const tags=trainingTagIndex([{id:'a',topicPath:['01 基础','排序'],tags:['数组']},{id:'b',topicPath:['02 进阶','排序']}],{a:['复习']});
-assert.deepEqual([...tags.byTag.get('排序')],['a','b']);assert(tags.matches('a',['排序','复习']));assert(!tags.matches('b',['排序','复习']));
-console.log('PASS: week boundaries, partial weeks, cross-month totals, pagination and tag intersections');
+console.log('PASS: week boundaries, partial weeks, cross-month totals, pagination');

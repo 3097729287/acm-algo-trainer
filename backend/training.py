@@ -1690,9 +1690,11 @@ class TrainingService:
         except (ValueError,TypeError):raise ServiceError(400,'重现赛时长无效')
         if not 1<=duration<=1440:raise ServiceError(400,'时长须为 1–1440 分钟')
         options={'strategy':'replay','contest':name,'tags':[],'platform':'','excludeSolved':False,'reviewedOnly':False,**rules({'rules':info['rules'],**body})}
-        slots=[{'letter':chr(65+position) if lab is not None else row['problem'],'id':row['id'],'title':row['title'],'difficulty':row.get('difficulty'),'tags':row.get('tags',[]),'judgeScope':available[row['id']]['judgeScope']} for position,row in enumerate(rows)]
+        slots=[{'letter':chr(65+position),'id':row['id'],'title':row['title'],'difficulty':row.get('difficulty'),'tags':row.get('tags',[]),'judgeScope':available[row['id']]['judgeScope']} for position,row in enumerate(rows)]
+        rated=[row['difficulty'] for row in rows if isinstance(row.get('difficulty'),(int,float))]
         plan={'previewId':uuid.uuid4().hex,'name':'重现赛 · '+name,'slots':[{key:slot[key] for key in ('letter','id','title','judgeScope')} for slot in slots],
-              'duration':duration,'min':0,'max':10000,'strategy':'replay','constraints':options,'event':info}
+              'duration':duration,'min':0,'max':10000,'strategy':'replay','constraints':options,'event':info,
+              'difficultyRange':{'min':min(rated,default=None),'max':max(rated,default=None)}}
         with self.lock:self.previews[tuple(slot['id'] for slot in slots)]={'plan':plan,'slots':slots,'at':self._now()}
         return {'plan':plan,'available':len(slots)}
 

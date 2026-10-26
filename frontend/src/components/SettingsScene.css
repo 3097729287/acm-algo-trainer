@@ -45,7 +45,6 @@
 @keyframes shockwave-spread {0%,69%{transform:scale(.9);opacity:0}73%{opacity:.8}87%,100%{transform:scale(2);opacity:0}}
 @keyframes fragment-flight {0%,70%{transform:translateY(0) rotate(0)}88%,100%{transform:translateY(var(--fragment-distance)) rotate(var(--fragment-turn))}}
 @media(max-width:800px) {.settings-home-grid .settings-tile>button>.settings-scene {width:150px;height:110px;top:calc(50% + 15px)}.balloon-flight {width:52px;height:100px;left:calc(50% - 26px)}.cloud-flight {width:80px;height:50px}.cloud-flight-1{top:55%}.settings-home-grid .settings-tile>button>.scene-globe{width:150px;height:116px}}
-@media(prefers-reduced-motion:reduce) {.settings-scene * {animation:none!important}.balloon-flight{bottom:5%}.cloud-flight{left:12%}.cloud-flight-1{left:60%}.globe-building{opacity:1}}
 html[data-motion=off] .settings-scene * {animation:none!important}
 
 /* Keep animations inside their layout box; the root SVG never animates position. */
@@ -75,7 +74,6 @@ html[data-motion=off] .settings-scene * {animation:none!important}
 @keyframes dipper-star-5 {0%,34%{opacity:0}38%,84%{opacity:1}95%,100%{opacity:0}}
 .dipper-star-6 {animation-name:dipper-star-6}
 @keyframes dipper-star-6 {0%,40%{opacity:0}44%,84%{opacity:1}95%,100%{opacity:0}}
-@media(prefers-reduced-motion:reduce) {.dipper-star,.dipper-lines,.volcano-steam {animation:none!important;opacity:1}.dipper-lines{stroke-dashoffset:0}}
 html[data-motion=off] .dipper-star,html[data-motion=off] .dipper-lines,html[data-motion=off] .volcano-steam {animation:none!important;opacity:1}
 html[data-motion=off] .dipper-lines {stroke-dashoffset:0}
 .orbit-planet-surface {animation:planet-surface-spin 9s linear infinite}
@@ -86,7 +84,6 @@ html[data-motion=off] .dipper-lines {stroke-dashoffset:0}
 .dino-landscape {opacity:.5}
 @keyframes dino-stroll {0%,100%{left:4%}50%{left:calc(96% - var(--dino-width))}}
 @media(max-width:800px){.dino-traveler{--dino-width:114px;animation-name:dino-stroll}}
-@media(prefers-reduced-motion:reduce){.dino-traveler{left:calc(50% - var(--dino-width)/2)}}
 
 
 .dino-traveler {position:absolute;--dino-width:154px;width:var(--dino-width);height:auto;aspect-ratio:1;bottom:3%;animation:dino-stroll 18s linear infinite}
@@ -96,6 +93,5 @@ html[data-motion=off] .dipper-lines {stroke-dashoffset:0}
 .dino-foot-back {animation-delay:-.4s}
 @keyframes dino-bob {0%,100%{transform:translateY(0)}50%{transform:translateY(-1px)}}
 @keyframes dino-step {0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
-@media(prefers-reduced-motion:reduce){.dino-model,.dino-body,.dino-foot{animation:none}}
 @media(max-width:800px){.dino-traveler{--dino-width:114px}}
 .dino-traveler {max-height:92%}

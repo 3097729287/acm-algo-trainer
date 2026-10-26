@@ -26,7 +26,21 @@ export function useSocial(api, enabled) {
     window.addEventListener('tb:social-change',visible);document.addEventListener('visibilitychange',visible);
     return()=>{generation.current++;clearInterval(timer);window.removeEventListener('tb:social-change',visible);document.removeEventListener('visibilitychange',visible);};
   },[enabled,refresh]);
-  return {snapshot,error,refresh};
+  const markRead=useCallback(async selection=>{
+    const request=generation.current;
+    await api('social/read',selection);
+    if(request!==generation.current)return;
+    generation.current++;pending.current=null;
+    setSnapshot(previous=>{
+      if(!previous)return previous;
+      const ids=new Set(selection.ids||[]),matches=item=>selection.all||ids.has(item.id);
+      const count=previous.notifications.filter(item=>!item.read&&matches(item)).length;
+      const value={...previous,notifications:previous.notifications.map(item=>matches(item)?{...item,read:true}:item),unreadCount:selection.all?0:Math.max(0,previous.unreadCount-count)};
+      socialCache.set(api,value);return value;
+    });
+    await refresh();
+  },[api,refresh]);
+  return {snapshot,error,refresh,markRead};
 }
 
 const particles=[['0px','-30px','#f97083'],['23px','-23px','#f5bd63'],['32px','0px','#8f8cf0'],['23px','23px','#6ccbb1'],['0px','31px','#68b8f4'],['-23px','23px','#e18ce8'],['-32px','0px','#f5bd63'],['-23px','-23px','#6ccbb1']];
@@ -75,10 +89,19 @@ export function CommentDialog({ target,api,onClose,onSent }) {
 export function SocialNotifications({ social,api }) {
   const [busy,setBusy]=useState(false),[error,setError]=useState('');
   const value=social.snapshot;
+  const attempted=useRef(new Set());
+  const unread=JSON.stringify((value?.notifications||[]).filter(item=>!item.read).map(item=>item.id));
+  useEffect(()=>{
+    if(busy||!social.markRead)return;
+    const ids=JSON.parse(unread).filter(id=>!attempted.current.has(id)).slice(0,100);
+    if(!ids.length)return;
+    ids.forEach(id=>attempted.current.add(id));
+    void read({ids});
+  },[unread,social.markRead,busy]);
   if(!value?.available)return social.error ? <p className="connection-error" role="status">消息暂时无法刷新。{social.error}</p> : null;
   async function read(selection){
     if(busy)return;setBusy(true);setError('');
-    try{await api('social/read',selection);await social.refresh();}catch(issue){setError(issue.message);}finally{setBusy(false);}
+    try{if(social.markRead)await social.markRead(selection);else{await api('social/read',selection);await social.refresh();}}catch(issue){setError(issue.message);}finally{setBusy(false);}
   }
   return <section className="social-notifications" aria-label="爱心与留言"><div className="progress-section-heading"><h2 className="social-notifications-title" aria-label="爱心与留言"><Tooltip text="爱心"><Heart size={22} className="social-heart" fill="currentColor"/></Tooltip><span>和</span><Tooltip text="留言"><MessageCircle size={22}/></Tooltip></h2><button type="button" className="text-button" disabled={busy || !value.unreadCount} onClick={()=>read({all:true})}><Check size={14}/>全部已读</button></div>
     <p className="progress-small">共收到 {value.totalLikes} 个爱心 · {value.unreadCount} 条未读消息</p>

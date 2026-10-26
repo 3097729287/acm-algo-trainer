@@ -25,6 +25,20 @@ class SavedStatements(unittest.TestCase):
         with self.assertRaises(ValueError):
             codeforces_samples('<div class="problem-statement"><div class="input"><pre>1</pre></div></div>')
 
+    def test_atcoder_sample_output_keeps_explanation_formula_and_figure(self):
+        html='<div class="part"><section><h3>Sample Input 1</h3><pre>5 3\n1 3 1 5 1</pre></section></div><div class="part"><section><h3>Sample Output 1</h3><pre>3</pre><p>As shown below, count <var>(2,3)</var> once.</p><img src="//img.atcoder.jp/abc481/figure.png"/></section></div>'
+        text=html_markdown(html,'https://atcoder.jp/contests/abc481/tasks/abc481_b')
+        self.assertIn('Sample Input 1',text)
+        self.assertIn('5 3\n1 3 1 5 1',text)
+        self.assertIn('count $(2,3)$ once.',text)
+        self.assertIn('![](https://img.atcoder.jp/abc481/figure.png)',text)
+
+    def test_lazy_picture_source_and_old_atcoder_cache_migration(self):
+        from statement_format import needs_statement_refresh
+        self.assertIn('https://img.atcoder.jp/a.png',html_markdown('<img data-src="https://img.atcoder.jp/a.png"/>'))
+        self.assertTrue(needs_statement_refresh({'url':'https://atcoder.jp/contests/abc481/tasks/abc481_b','statementVersion':4}))
+        self.assertFalse(needs_statement_refresh({'url':'https://atcoder.jp/contests/abc481/tasks/abc481_b','statementVersion':5}))
+
 
 if __name__ == '__main__':
     unittest.main()

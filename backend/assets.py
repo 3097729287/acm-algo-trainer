@@ -78,6 +78,8 @@ class AssetLibrary:
             prepared=bundled_translation(value)
             if prepared:value['translation']=dict(prepared,cached=True)
             else:value.pop('translation',None)
+        from translation import needs_translation
+        value['autoTranslate']=needs_translation(value)
         bundle=self.bundle(identity)
         value.update(judge={'scope':bundle['scope'],'label':'本地审核测试' if bundle['scope']=='local' else '仅官方样例', 'cases':len(bundle['cases'])},locked=False,draft='',submissions=[])
         return value
@@ -95,8 +97,8 @@ class AssetLibrary:
     def background_problem(self,identity,refresh=False):
         """Return cached content/draft immediately; bound slow public fetching."""
         value=self.problem(identity,fetch=False)
-        format_refresh = (urlsplit(value.get('url') or '').hostname == 'ac.nowcoder.com'
-                          and value.get('statementVersion', 0) < 3)
+        from statement_format import needs_statement_refresh
+        format_refresh = needs_statement_refresh(value)
         if (value['statementAvailable'] and not refresh and not format_refresh) or not value.get('url'):
             return value
         with self.lock:
@@ -125,7 +127,8 @@ class AssetLibrary:
                 return fetched['statementError']
             saved = self._cached(identity)
             if saved.get('statementAvailable'):
-                if urlsplit(saved.get('url') or '').hostname != 'ac.nowcoder.com' or saved.get('statementVersion', 0) >= 3:
+                from statement_format import needs_statement_refresh
+                if not needs_statement_refresh(saved):
                     return None
             return '原站暂未返回可用题面，请稍后重试。'
         except (OSError,ValueError,RuntimeError) as error:

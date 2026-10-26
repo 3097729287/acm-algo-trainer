@@ -46,7 +46,7 @@ export function compileSearch(query) {
       );
     if (/^[a-z]\d?$/.test(word))
       return (row,title) => String(row.problem || "").toLowerCase() === word || (words.length > 1 && title.includes(word));
-    return (row,title,status) => [row.contest, row.title, row.knowledge, status, row.platform]
+    return (row,title,status) => [row.contest, row.title, row.knowledge, ...(row.locked?[]:row.tags||[]), status, row.platform]
       .join(" ")
       .toLowerCase()
       .replaceAll(" ", "")

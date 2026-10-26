@@ -108,7 +108,7 @@
 .topbar .goal-reminder {color:var(--warning,#d4ad68)}
 .topbar .topbar-daily-ac {color:var(--muted)}
 .topbar .topbar-daily-ac svg {color:var(--accent)}
-.problem-table th:nth-child(6) {width:108px}
+.problem-table th:nth-child(6) {width:136px}
 .problem-table .row-actions {padding:0 8px!important;text-overflow:clip}
 .row-actions .row-icon {width:27px;height:29px}
 .row-actions .remove-training {opacity:.65}
@@ -131,13 +131,13 @@
 .ranking-board-summary>div::after {content:"";position:absolute;width:48px;height:48px;right:-12px;bottom:-20px;transform:rotate(30deg);border:1px solid color-mix(in srgb,var(--accent) 20%,transparent);border-radius:9px;pointer-events:none}
 .ranking-reward-rule {line-height:1.5}
 @container workspace (max-width:950px) {
-  .problem-table th:nth-child(6) {width:104px}
+  .problem-table th:nth-child(6) {width:136px}
   .problem-table .row-actions {padding-inline:7px!important}
   .row-actions .row-icon {width:27px}
   .compact-search-toolbar .search-box {flex-basis:100%}
 }
 @container workspace (max-width:650px) {
-  .problem-table th:nth-child(6) {width:100px}
+  .problem-table th:nth-child(6) {width:132px}
   .compact-search-toolbar .sort-select {flex:1;min-width:125px}
   .record-slot {display:grid;grid-template-columns:max-content minmax(0,1fr) auto;padding:12px;gap:8px}
   .record-slot>div {grid-column:2/-1}

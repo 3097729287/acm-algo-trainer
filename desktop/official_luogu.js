@@ -40,17 +40,29 @@ function installLuoguReceipts(ctx, report) {
   };
   const observeSubmit = (request, value) => {
     if (!request) return;
+    const diagnostic = [value?.errorType,value?.errorMessage,value?.message,value?.msg,
+      value?.data?.errorType,value?.data?.errorMessage,value?.data?.message].filter(item=>typeof item==='string').join(' ');
+    const rejected = value?.errorType || (typeof value?.code==='number' && ![0,200].includes(value.code));
     const remoteId = numericId(typeof value === 'object' ? value?.rid ?? value?.data?.rid ?? value?.data : value);
-    if (value?.errorType || !remoteId) {
-      if (value?.errorType) {
-        const verification = /Captcha|验证|验证码/i.test(value.errorType + ' ' + (value.errorMessage || ''));
+    if (rejected || !remoteId) {
+      if (rejected || /captcha|unpass\s*error|验证/i.test(diagnostic)) {
+        const verification = /captcha|unpass\s*error|验证/i.test(diagnostic);
         notify({ status: verification ? 'needs_verification' : 'error', attempted: false,
-          message: verification ? '洛谷要求验证，请打开原站完成验证后再提交。' : '洛谷未受理代码：' + String(value.errorMessage || '请检查原站提交要求。').slice(0,160) });
+          message: verification ? '洛谷验证码未通过，本次代码未受理。请在原站完成验证后再提交。' : '洛谷未受理代码：' + (diagnostic || '请检查原站提交要求。').slice(0,160) });
       }
       return;
     }
     state.pending = { id: remoteId, owner: request.owner, acceptedAt: new Date().toISOString() };
     notify({ status: 'judging', submissionId: remoteId, attempted:true, ...(ctx.manual ? {submittedCode:request.code} : {}), acceptedAt: state.pending.acceptedAt, message: '洛谷已接收本次提交 #' + remoteId + '，正在评测。' });
+  };
+  state.inspectRejection = () => {
+    if (!state.armed || state.pending || state.receipt || !document.querySelectorAll) return;
+    // SweetAlert may render a rejected request whose non-JSON response cannot
+    // be decoded by the observer. Read only visible native rejection dialogs.
+    const text=[...document.querySelectorAll('.swal-modal,.swal2-popup,[role="alertdialog"],.lg-modal,.lui-modal')]
+      .filter(node=>node.getClientRects().length).map(node=>node.innerText||node.textContent||'').join(' ');
+    if (/提交失败|submit.{0,12}fail/i.test(text) && /captcha|unpass\s*error|验证/i.test(text))
+      notify({status:'needs_verification',attempted:false,message:'洛谷验证码未通过，本次代码未受理。请在原站完成验证后再提交。'});
   };
   const inspectRecord = payload => {
     const record = payload?.data?.record || payload?.currentData?.record || payload?.record;
@@ -123,7 +135,7 @@ function installLuoguReceipts(ctx, report) {
       typeof resource?.clone === 'function' && method.toUpperCase() === 'POST' ? resource.clone().text().then(body => requestInfo(url, method, body)).catch(() => null) : Promise.resolve(null);
     const answer = originalFetch.apply(this, arguments);
     answer.then(response => {
-      if (response.ok && parseUrl(response.url || url)?.origin === location.origin) {
+      if (parseUrl(response.url || url)?.origin === location.origin) {
         // Clone immediately, before the site's own .json() consumes the body.
         const copy = response.clone();
         info.then(request => { if (request) copy.json().then(value => observeSubmit(request, value)).catch(() => {}); }).catch(() => {});
@@ -137,7 +149,7 @@ function installLuoguReceipts(ctx, report) {
     proto.send = function(body) {
       const meta = this.__tbLuoguRequest, request = meta && requestInfo(meta.url, meta.method, body);
       if (request) this.addEventListener('load', () => {
-        if (this.status < 200 || this.status >= 300 || parseUrl(this.responseURL || meta.url)?.origin !== location.origin) return;
+        if (!this.status || parseUrl(this.responseURL || meta.url)?.origin !== location.origin) return;
         try { observeSubmit(request, this.responseType === 'json' ? this.response : JSON.parse(this.responseText)); } catch {}
       }, { once: true });
       return send.apply(this, arguments);

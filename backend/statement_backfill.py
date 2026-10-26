@@ -10,6 +10,7 @@ from contest_policy import content_ready
 from integrations import PublicClient
 from persistence import load_document, save_document
 import public_platforms
+from statement_format import needs_statement_refresh
 
 LOG = logging.getLogger('tb.statements')
 
@@ -30,9 +31,9 @@ class StatementBackfill:
 
     def pending(self):
         with self.store.library.connection() as db:
-            # Existing valid statements/translations are never replaced.
+            # Repair the old AtCoder parser that omitted sample diagrams.
             from library import _CONTENT_READY_SQL
-            rows = db.execute('SELECT p.id,p.url,p.encoded FROM problems p WHERE NOT (' + _CONTENT_READY_SQL + ')').fetchall()
+            rows = db.execute('SELECT p.id,p.url,p.encoded FROM problems p WHERE NOT (' + _CONTENT_READY_SQL + ") OR EXISTS (SELECT 1 FROM statements s WHERE s.problem_id=p.id AND json_extract(s.content,'$.url') LIKE 'https://atcoder.jp/%' AND COALESCE(json_extract(s.content,'$.statementVersion'),0)<5)").fetchall()
         return [(row['id'], row['url'], json.loads(row['encoded']).get('title') or row['id'])
                 for row in rows if row['url'] and urlsplit(row['url']).hostname in
                 {'codeforces.com', 'atcoder.jp', 'www.luogu.com.cn', 'luogu.com.cn', 'ac.nowcoder.com'}]
@@ -51,7 +52,7 @@ class StatementBackfill:
                 continue
             try:
                 value = self.store.library.statement(identity)
-                if not content_ready(value):
+                if not content_ready(value) or needs_statement_refresh(value):
                     value = public_platforms.statement(self.client, identity, title, url)
                 if not content_ready(value):
                     raise ValueError('原站尚未返回完整题面与样例')
