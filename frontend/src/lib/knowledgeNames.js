@@ -19,7 +19,8 @@ export function canonicalKnowledgeName(name){return CANONICAL.get(key(name))||St
 export function knowledgeAliases(name){const standard=canonicalKnowledgeName(name);return [standard,...(ALIASES[standard]||[]),...(SCOPE_ALIASES[standard]||[])];}
 export function knowledgeFilterNames(node){return [...new Set([...knowledgeAliases(node.name),...(node.tags||[]),...(node.children||[]).flatMap(knowledgeFilterNames)])];}
 export function rowKnowledgeNames(row){return new Set([...(row.tags||[]),...String(row.knowledge||'').split(/\s*\+\s*|[;,，；]/),...(row.knowledgeCategories||[]).flatMap(path=>path.split(/\s*\/\s*/))].filter(Boolean).map(canonicalKnowledgeName));}
-export function matchesKnowledge(row,tags=[]){const wanted=new Set(tags.map(canonicalKnowledgeName));return [...rowKnowledgeNames(row)].some(name=>wanted.has(name));}
+export function compileKnowledge(tags=[]){const wanted=new Set(tags.map(canonicalKnowledgeName));return row=>{for(const name of rowKnowledgeNames(row))if(wanted.has(name))return true;return false;};}
+export function matchesKnowledge(row,tags=[]){return compileKnowledge(tags)(row);}
 export function indexKnowledgeRows(rows){
  const index=new Map();
  for(const row of rows){const identity=row.url||row.id;for(const name of rowKnowledgeNames(row)){if(!index.has(name))index.set(name,new Set());index.get(name).add(identity);}}

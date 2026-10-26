@@ -48,8 +48,6 @@ import {
   ChevronLeft,
   PanelLeftClose,
   PanelLeftOpen,
-  Sun,
-  Moon,
   Command,
   Plus,
   X,
@@ -2043,16 +2041,6 @@ export default function App() {
                 <span className="notification-dot" />
               )}
             </IconButton>
-            <IconButton
-              label="切换主题"
-              icon={prefs.theme === "dark" ? Sun : Moon}
-              onClick={() =>
-                setPrefs((p) => ({
-                  ...p,
-                  theme: p.theme === "dark" ? "light" : "dark",
-                }))
-              }
-            />
 
           </div>
         </header>

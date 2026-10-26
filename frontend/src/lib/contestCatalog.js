@@ -1,4 +1,5 @@
-import {compareContestNewest} from './practiceMetadata.js';
+import {createContestComparator} from './practiceMetadata.js';
+const folderOrder=new Intl.Collator('zh-CN',{numeric:true});
 
 export function catalogSegments(row) {
   const name=row.contest||row.name||'其他题目',fullName=`${name} ${row.contestFullName||''}`;
@@ -50,30 +51,37 @@ export function compactCatalogOptions(nodes, parent = []) {
 }
 
 export function catalogEntries(rows, path = []) {
-  const selected = rows.filter(row => path.every((part, i) => catalogSegments(row)[i] === part));
+  return catalogEntriesFor(rows,path,new WeakMap());
+}
+function catalogEntriesFor(rows,path,cache){
+  const segments=row=>{if(!cache.has(row))cache.set(row,catalogSegments(row));return cache.get(row);};
+  const selected = rows.filter(row => path.every((part, i) => segments(row)[i] === part));
   const groups = new Map(catalogFolders(path).map(label => [label, []]));
   for (const row of selected) {
-    const label = catalogSegments(row)[path.length];
+    const label = segments(row)[path.length];
     if (!label) continue;
     if (!groups.has(label)) groups.set(label, []);
     groups.get(label).push(row);
   }
-  return [...groups].flatMap(([name, items]) => {
+  const result=[...groups].flatMap(([name, items]) => {
     let next = [...path, name];
-    if (path[0]?.startsWith('蓝桥杯') && isYear(name)) return catalogEntries(items, next);
+    if (path[0]?.startsWith('蓝桥杯') && isYear(name)) return catalogEntriesFor(items,next,cache);
     if (items.length && !preserveFolder(path, name)) {
       while (true) {
-        const children = new Set(items.map(row => catalogSegments(row)[next.length]).filter(Boolean));
-        if (children.size !== 1 || items.some(row => catalogSegments(row).length === next.length)) break;
+        const children = new Set(items.map(row => segments(row)[next.length]).filter(Boolean));
+        if (children.size !== 1 || items.some(row => segments(row).length === next.length)) break;
         next = [...next, [...children][0]];
       }
     }
-    const leaf = items.length > 0 && items.every(row => catalogSegments(row).length === next.length);
+    const leaf = items.length > 0 && items.every(row => segments(row).length === next.length);
     return [{label: leaf ? items[0].contest || items[0].name || name : next.at(-1), path: next, items, leaf}];
-  }).sort((a, b) => a.leaf && b.leaf
-    ? compareContestNewest({...a.items[0], rows: a.items}, {...b.items[0], rows: b.items})
+  });
+  const comparable=new Map(result.filter(item=>item.leaf).map(item=>[item,{...item.items[0],rows:item.items}]));
+  const compareNewest=createContestComparator();
+  return result.sort((a, b) => a.leaf && b.leaf
+    ? compareNewest(comparable.get(a),comparable.get(b))
     : isYear(a.label) && isYear(b.label) ? b.label.localeCompare(a.label)
-    : a.label.localeCompare(b.label, 'zh-CN', {numeric: true}));
+    : folderOrder.compare(a.label,b.label));
 }
 
 export function contestOptions(events,{descending=true,shelf=''}={}) {
@@ -83,7 +91,8 @@ export function contestOptions(events,{descending=true,shelf=''}={}) {
   if(events.some(item=>item.labTopic))ensure(['算法实验室']);
   for(const item of events){const parts=catalogSegments({...item,contest:item.displayName||item.name}),nodes=ensure(parts.slice(0,-1));nodes.push({label:`${parts.at(-1)} · ${item.count} 题`,selectionLabel:`${item.displayName||item.name} · ${item.count} 题`,value:item.name,event:item});}
   for(const root of roots)for(const name of catalogFolders([root.label]))ensure([root.label,name]);
-  const sort=nodes=>{nodes.sort((a,b)=>a.event&&b.event?compareContestNewest(a.event,b.event)*(descending?1:-1):/^20\d{2}年$/.test(a.label)&&/^20\d{2}年$/.test(b.label)?b.label.localeCompare(a.label)*(descending?1:-1):a.label.localeCompare(b.label,'zh-CN',{numeric:true}));nodes.forEach(node=>node.children&&sort(node.children));};
+  const compareNewest=createContestComparator();
+  const sort=nodes=>{nodes.sort((a,b)=>a.event&&b.event?compareNewest(a.event,b.event)*(descending?1:-1):/^20\d{2}年$/.test(a.label)&&/^20\d{2}年$/.test(b.label)?b.label.localeCompare(a.label)*(descending?1:-1):folderOrder.compare(a.label,b.label));nodes.forEach(node=>node.children&&sort(node.children));};
   sort(roots);return compactCatalogOptions(roots);
 }
 
@@ -93,6 +102,6 @@ export function contestFilterOptions(rows) {
  for(const name of catalogFolders())ensure([name]);
  for(const row of rows)if(!row.catalogHidden){const leaf=ensure(catalogSegments(row));leaf.selectionLabel=row.contest||row.name||leaf.label;}
  for(const root of roots)for(const name of catalogFolders([root.label]))ensure([root.label,name]);
- const finish=nodes=>nodes.sort((a,b)=>a.label.localeCompare(b.label,'zh-CN',{numeric:true})).map(node=>{const children=finish(node.children);return {...node,...(children.length?{children}:{children:undefined})};});
+ const finish=nodes=>nodes.sort((a,b)=>folderOrder.compare(a.label,b.label)).map(node=>{const children=finish(node.children);return {...node,...(children.length?{children}:{children:undefined})};});
  return compactCatalogOptions(finish(roots));
 }

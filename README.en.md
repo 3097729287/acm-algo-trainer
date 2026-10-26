@@ -1,5 +1,9 @@
 # ToBe · Training Workbench
 
+**ToBe 1.4.16 local update (unpublished):** Radar labels stay near their vertices without leader lines or overlaps. Contest results share verdict abbreviations such as AC, WA and TLE. Theme selection lives in Settings; header metrics and notifications share aligned geometry. Public downloads remain TB 1.4.1. [Release notes](docs/releases/1.4.16.md).
+
+This update also reduces repeated search, sorting, favourite and catalogue work, reuses serialized and compressed responses, removes startup table decodes used only for existence checks, and caches statement cleanup and static assets. Search order and teaching content are preserved; offline measurements distinguish remaining first-open and network costs.
+
 **ToBe 1.4.15 local update (unpublished):** Horizontal ToBe wordmarks use the original purple T color for To and pale B color for Be, with shared sizing and alignment across icons and UI. Obsolete Windows validation registrations are removed, administrator metadata is corrected, and future installation checks remove their own registration. Public downloads remain TB 1.4.1. [Release notes](docs/releases/1.4.15.md).
 
 **ToBe 1.4.14 local update (unpublished):** ToBe branding across the window, navigation, sign-in, executable, installer and shortcuts, with a lettered icon. Lighter dinosaur styling, matching training-list headers, a trimmed result menu, and aligned lecture-level labels. Existing accounts, drafts, records and preferences remain in place. Public downloads remain TB 1.4.1. [Release notes](docs/releases/1.4.14.md).

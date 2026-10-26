@@ -139,7 +139,7 @@ class LibraryDatabase:
                 links.setdefault(row['id'], [])
         finally:
             seed.close()
-        if self.rows():
+        if self.has_problems():
             self.backup()
         digest = lambda value: hashlib.sha256(json.dumps(value, ensure_ascii=False, sort_keys=True).encode()).hexdigest()
         with self.connection() as db:
@@ -218,6 +218,10 @@ class LibraryDatabase:
         column = 'raw' if raw else 'encoded'
         with self.connection() as db:
             return [json.loads(row[0]) for row in db.execute(f'SELECT {column} FROM problems ORDER BY rowid')]
+
+    def has_problems(self):
+        with self.connection() as db:
+            return db.execute('SELECT 1 FROM problems LIMIT 1').fetchone() is not None
 
     def content_signature(self):
         """Detect commits from this process and other SQLite writers, including WAL."""

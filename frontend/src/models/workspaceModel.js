@@ -1,10 +1,13 @@
-import { matches, compareSearchRelevance } from "./model.js";
-import { matchesKnowledge,knowledgeFilterNames } from '../lib/knowledgeNames.js';
-import { compareContestNewest } from "@/lib/practiceMetadata.js";
+import { compileSearch } from "./model.js";
+import { compileKnowledge,knowledgeFilterNames } from '../lib/knowledgeNames.js';
+import { createContestComparator } from "@/lib/practiceMetadata.js";
 import { trainingDay } from "@/lib/trainingDate.js";
 import { contestKind, matchesShelf } from "@/lib/contestShelves.js";
 import {catalogSegments} from '../lib/contestCatalog.js';
 import {completedReplayContests, hidesContestDifficulty} from '../lib/difficultyVisibility.js';
+const numericProblemOrder=new Intl.Collator('en',{numeric:true});
+const numericContestOrder=new Intl.Collator('zh-CN',{numeric:true});
+const titleOrder=new Intl.Collator('zh-CN');
 
 export const QUEUES = [
   {
@@ -140,22 +143,26 @@ export function filterRows(rows, filters = {}) {
     ids = null,
     desc = false,
   } = filters;
-  return rows
+  const search=compileSearch(query),wantedIds=ids?new Set(ids):null,favoriteIds=favoritesOnly?new Set(favorites):null;
+  const knowledgeMatch=category?compileKnowledge(knowledgeFilterNames(category)):null;
+  const compareContests=createContestComparator();
+  const phrase=query.trim().toLocaleLowerCase();
+  const selected=rows
     .filter(
       (row) =>
-        (!ids || ids.includes(row.id)) &&
-        matches({ ...row, status: verdictLabel(row.verdict) }, query) &&
+        (!wantedIds || wantedIds.has(row.id)) &&
+        search(row,verdictLabel(row.verdict)) &&
         (!platform || row.platform === platform) &&
         matchesShelf(row, shelf) &&
         (!kind || contestKind(row) === kind) &&
-        (!catalogPath.length || catalogPath.every((part,index)=>catalogSegments(row)[index]===part)) &&
-        (!category || matchesKnowledge(row,knowledgeFilterNames(category))) &&
+        (!catalogPath.length || (()=>{const parts=catalogSegments(row);return catalogPath.every((part,index)=>parts[index]===part);})()) &&
+        (!knowledgeMatch || knowledgeMatch(row)) &&
         (min === "" || row.difficulty == null && Number(min) <= 800 ||
           (row.difficulty != null && row.difficulty >= Math.max(800,Number(min)))) &&
         (max === "" || row.difficulty == null && Number(max) === 10000 ||
           (row.difficulty != null && row.difficulty <= Math.max(800,Number(max)))) &&
         (!contest || row.contest === contest) &&
-        (!favoritesOnly || favorites.includes(row.id) || (row.aliasIds||[]).some(id=>favorites.includes(id))) &&
+        (!favoriteIds || favoriteIds.has(row.id) || (row.aliasIds||[]).some(id=>favoriteIds.has(id))) &&
         (!result ||
           (result === "accepted"
             ? row.accepted
@@ -164,13 +171,14 @@ export function filterRows(rows, filters = {}) {
               : result === "sample"
                 ? row.verdict === "SAMPLE_PASS"
                 : row.verdict === result)),
-    )
-    .sort((a, b) => {
-      const relevance = compareSearchRelevance(a, b, query);
+    );
+  const exactTitles=phrase?new Map(selected.map(row=>[row,String(row.title||'').toLocaleLowerCase()===phrase])):null;
+  return selected.sort((a, b) => {
+      const relevance = exactTitles?Number(exactTitles.get(b))-Number(exactTitles.get(a)):0;
       if (relevance) return relevance;
       let order = 0;
       if (sort === "contestDate")
-        order = compareContestNewest(a, b) || String(a.problem).localeCompare(String(b.problem), "en", { numeric: true });
+        order = compareContests(a,b) || numericProblemOrder.compare(String(a.problem),String(b.problem));
       else if (sort === "difficulty")
         order = (a.difficulty ?? 9999) - (b.difficulty ?? 9999);
       else if (sort === "date")
@@ -178,11 +186,11 @@ export function filterRows(rows, filters = {}) {
           b.lastSubmittedAt || b.activeAt || "",
         );
       else if (sort === "title")
-        order = a.title.localeCompare(b.title, "zh-CN");
+        order = titleOrder.compare(a.title,b.title);
       else
         order =
-          a.contest.localeCompare(b.contest, "zh-CN", { numeric: true }) ||
-          a.problem.localeCompare(b.problem, "en", { numeric: true });
+          numericContestOrder.compare(a.contest,b.contest) ||
+          numericProblemOrder.compare(a.problem,b.problem);
       return desc ? -order : order;
     });
 }
@@ -208,7 +216,7 @@ export function groupContests(rows) {
   }));
 }
 export function categoryCounts(node, rows, training) {
-  const has = (row) => matchesKnowledge(row,knowledgeFilterNames(node));
+  const has = compileKnowledge(knowledgeFilterNames(node));
   const active = training.filter(has);
   return {
     available: rows.filter(row => !row.catalogHidden && has(row)).length,

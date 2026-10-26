@@ -1,4 +1,4 @@
-import {canonicalKnowledgeName,matchesKnowledge} from '../lib/knowledgeNames.js';
+import {canonicalKnowledgeName,matchesKnowledge,compileKnowledge} from '../lib/knowledgeNames.js';
 export const STATES = ["未做", "不会", "待重写", "复现AC", "独立AC", "巩固"];
 export const STATE_CLASS = [
   "new",
@@ -32,32 +32,30 @@ export const QUEUES = [
 export const mastered = (row) => ["独立AC", "巩固"].includes(row.status);
 export const passed = (row) =>
   ["复现AC", "独立AC", "巩固"].includes(row.status);
-export function matches(row, query) {
+export function compileSearch(query) {
   const words = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
-  if (!words.length) return true;
-  const title = String(row.title || "").toLowerCase();
-  return words.every((word) => {
+  if (!words.length) return () => true;
+  const predicates=words.map(word=>{
     const range = word.match(/^(\d+)\s*[-~～]\s*(\d+)$/);
-    if (range)
-      return (
-        row.difficulty != null &&
-        row.difficulty >= Number(range[1]) &&
-        row.difficulty <= Number(range[2])
-      );
+    if (range) {const low=Number(range[1]),high=Number(range[2]);return row=>row.difficulty!=null&&row.difficulty>=low&&row.difficulty<=high;}
     if (/^\d+$/.test(word))
-      return (
+      return (row,title) => (
         String(row.difficulty ?? "") === word ||
         String(row.contest || "").toLowerCase().includes(word) ||
         (words.length > 1 && title.includes(word))
       );
     if (/^[a-z]\d?$/.test(word))
-      return String(row.problem || "").toLowerCase() === word || (words.length > 1 && title.includes(word));
-    return [row.contest, row.title, row.knowledge, row.status, row.platform]
+      return (row,title) => String(row.problem || "").toLowerCase() === word || (words.length > 1 && title.includes(word));
+    return (row,title,status) => [row.contest, row.title, row.knowledge, status, row.platform]
       .join(" ")
       .toLowerCase()
       .replaceAll(" ", "")
       .includes(word.replaceAll(" ", ""));
   });
+  return (row,status=row.status) => {const title=String(row.title||'').toLowerCase();return predicates.every(test=>test(row,title,status));};
+}
+export function matches(row, query) {
+  return compileSearch(query)(row);
 }
 export function compareSearchRelevance(a, b, query) {
   const phrase = query.trim().toLocaleLowerCase();
@@ -106,7 +104,7 @@ export function filteredRows(
 }
 export function categoryStats(node, rows) {
   const tags = node.tags || [node.name];
-  const matched = rows.filter((r) => matchesKnowledge(r,tags));
+  const matched = rows.filter(compileKnowledge(tags));
   return {
     total: matched.length,
     passed: matched.filter(passed).length,

@@ -1,5 +1,6 @@
 """Remove recognized site notices, never algorithmic background or examples."""
 import re
+from functools import lru_cache
 from problem_titles import problem_title
 
 _AD_HEADING = re.compile(r'^(?:广告|广告时间|广告位|推广|商业推广|赞助商推荐|Advertisement|Advertisements|Sponsored)\s*[:：]?$', re.I)
@@ -36,6 +37,17 @@ def _without_ad_sections(value):
 def clean_statement_markdown(value):
     if not isinstance(value, str) or not value:
         return value
+    # Strings are immutable; identical original/translated statements need not
+    # repeat the same prose/fence scan. Large documents bypass the bounded LRU.
+    return _cached_markdown(value) if len(value)<=65536 else _clean_markdown(value)
+
+
+@lru_cache(maxsize=64)
+def _cached_markdown(value):
+    return _clean_markdown(value)
+
+
+def _clean_markdown(value):
     original = value
     value = _without_ad_sections(value)
     value = re.sub(r'\A(\ufeff?[ \t]*# )([^\r\n]+)', lambda match: match[1] + problem_title(match[2]), value)

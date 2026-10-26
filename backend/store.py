@@ -25,6 +25,8 @@ class Store:
         self._data_analysis = {}
         self._compact_signature = None
         self._compact_json = None
+        self._response_key = None
+        self._response_bytes = None
         self.token = __import__('secrets').token_urlsafe(32)
         self.data_root = str(Path(data_root or os.environ.get('TB_ARCHIVE_ROOT') or STATE / 'imports').resolve())
         self.extensions = None
@@ -41,10 +43,10 @@ class Store:
         if data_file is None and LIBRARY_SEED.is_file() and target != LIBRARY_SEED.resolve():
             fingerprint = source_fingerprint(LIBRARY_SOURCE) if LIBRARY_SOURCE.is_dir() else None
             self.library.merge_seed(LIBRARY_SEED, fingerprint=fingerprint)
-        if not self.library.rows() and self.data_file.is_file():
+        if not self.library.has_problems() and self.data_file.is_file():
             from archive_import import import_archive
             import_archive(self.library, self.data_root, self.data_file)
-        if data_file is None and not self.library.rows():
+        if data_file is None and not self.library.has_problems():
             raise APIError(503, '内置题库缺失或为空，请重新完整安装 TB')
         self.history_file = Path(history_file or STATE / 'history.jsonl')
         from contestmeta import ContestDates
@@ -239,6 +241,10 @@ class Store:
                     from catalog_payload import catalogue_payload
                     value = catalogue_payload(value)
                 return json.dumps(value, ensure_ascii=False).encode('utf-8')
+            today=dt.date.today().isoformat()
+            response_key=(self._data_signature,compact,today,self.token)
+            if response_key==self._response_key and self._response_bytes is not None:
+                return self._response_bytes
             raw = self._data_json
             if compact:
                 if self._compact_signature != self._data_signature or self._compact_json is None:
@@ -246,8 +252,10 @@ class Store:
                     self._compact_json = json.dumps(catalogue_payload(json.loads(raw)), ensure_ascii=False).encode('utf-8')
                     self._compact_signature = self._data_signature
                 raw = self._compact_json
-            suffix = json.dumps({'today': dt.date.today().isoformat(), 'token': self.token}, ensure_ascii=False).encode('utf-8')
-            return raw[:-1] + b', ' + suffix[1:]
+            suffix = json.dumps({'today':today, 'token':self.token}, ensure_ascii=False).encode('utf-8')
+            self._response_bytes=raw[:-1] + b', ' + suffix[1:]
+            self._response_key=response_key
+            return self._response_bytes
 
     def _catalog_rows(self):
         self._refresh_training_membership()

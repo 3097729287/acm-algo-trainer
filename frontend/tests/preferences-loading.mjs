@@ -1,3 +1,4 @@
+import { openSettings } from './settings-navigation.mjs';
 // Real App + AccountGate with isolated, delayed API fixtures. No live state.
 import assert from 'node:assert/strict';
 import { createServer } from 'vite';
@@ -76,7 +77,8 @@ async function scenario(mode) {
     await hovered.hover();
     assert.ok(!(await hovered.getAttribute('class')).includes('progress-achievement-new'));
     await page.keyboard.press('Escape');
-    await page.getByRole('button', { name: '切换主题', exact: true }).click();
+    await openSettings(page, '外观');
+    await page.getByRole('button', { name: '云白浅色', exact: true }).click();
     assert.equal(await page.locator('html').getAttribute('data-theme'), 'light');
     assert.equal(writes.length, 0, 'never upload a local default before successfully reading remote preferences');
     if (mode === 'timer') {

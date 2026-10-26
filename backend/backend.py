@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import gzip
+import hashlib
 import json
 import mimetypes
 import os
@@ -49,7 +50,8 @@ class Handler(BaseHTTPRequestHandler):
             except ValueError:
                 quality = 0
             if len(raw) >= 16384 and quality > 0:
-                packed = gzip.compress(raw, compresslevel=1, mtime=0)
+                cache=getattr(self.server,'catalogue_compression',None) if isinstance(value,bytes) else None
+                packed = cache.compress(raw) if cache is not None else gzip.compress(raw, compresslevel=1, mtime=0)
                 if len(packed) < len(raw):
                     raw, compressed = packed, True
             break
@@ -568,11 +570,23 @@ class Handler(BaseHTTPRequestHandler):
         if not source.is_relative_to(root) or not source.is_file():
             raise APIError(404, "没有找到这个页面")
         raw = source.read_bytes()
+        etag='"'+hashlib.sha256(raw).hexdigest()+'"'
+        immutable=source.parent.name=='assets' and bool(re.search(r'-[\w-]{8,}\.[\w.]+$',source.name))
+        cache_control='public, max-age=31536000, immutable' if immutable else 'no-cache'
+        validators=[value.strip().removeprefix('W/') for value in self.headers.get('If-None-Match','').split(',')]
+        if etag in validators or '*' in validators:
+            self.send_response(304)
+            self.send_header('ETag',etag)
+            self.send_header('Cache-Control',cache_control)
+            self.send_header('X-Content-Type-Options','nosniff')
+            self.end_headers()
+            return
         mime = mimetypes.guess_type(str(source))[0] or "application/octet-stream"
         self.send_response(200)
         self.send_header("Content-Type", mime + ("; charset=utf-8" if mime.startswith("text/") or mime == "application/javascript" else ""))
         self.send_header("Content-Length", str(len(raw)))
-        self.send_header("Cache-Control", "no-cache")
+        self.send_header('ETag',etag)
+        self.send_header('Cache-Control',cache_control)
         self.send_header("X-Content-Type-Options", "nosniff")
         self.end_headers()
         self.wfile.write(raw)
@@ -716,6 +730,8 @@ class LocalServer(ThreadingHTTPServer):
         return value
 
     def server_close(self):
+        cache=getattr(self,'catalogue_compression',None)
+        if cache is not None:cache.clear()
         backfill = getattr(self, 'statement_backfill', None)
         if backfill is not None:
             backfill.close()
@@ -757,6 +773,8 @@ def create_server(port=0, data_file=None, data_root=None, dist_dir=None, history
     explicit_training = training_file is not None
     server = LocalServer(("127.0.0.1", port), Handler)
     server.daemon_threads = True
+    from response_cache import CompressedResponses
+    server.catalogue_compression=CompressedResponses()
     server.frontend_origins = frozenset(frontend_origins or os.environ.get("TB_FRONTEND_ORIGINS", "").split(",")) - {""}
     server.dist_dir = Path(dist_dir).resolve() if dist_dir else None
     if training_file is None:

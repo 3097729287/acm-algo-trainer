@@ -101,7 +101,7 @@ try {
   assert.equal(await page.getByRole('tab',{name:'账号与身份',exact:true}).count(),1);
   await openSettings(page, '快捷键');
   assert.equal(await page.locator('.settings-commands').count(),0);
-  await page.getByRole('button',{name:'切换主题',exact:true}).click();
+  await openSettings(page, '外观');await page.getByRole('button',{name:'云白浅色',exact:true}).click();
   await overview.click();
   await page.screenshot({path:'tests/screenshots/training-overview/overview-light.png',animations:'disabled'});
   assert.deepEqual(errors,[]);

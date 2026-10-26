@@ -28,6 +28,7 @@ import { isXcpc } from '@/components/ContestTabs.jsx';
 import { knowledgeLabels } from '@/lib/knowledgeLabels.js';
 import { ProfileSettings } from './CommunityPanel.jsx';
 import { MiniLeaderboard } from '../components/WorkspaceDecorations.jsx';
+import {verdictLabel,verdictTone} from '@/models/workspaceModel.js';
 
 const PLATFORMS = [
   ['codeforces', 'Codeforces', 'Handle'], ['atcoder', 'AtCoder', '用户名'],
@@ -170,7 +171,8 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
       {joinError && <p className="connection-error" role="alert">{joinError}</p>}
       <div className="competition-question-list">{current.rows.map(row => {
         const state = progress.get(row.id), locked = lockedIds.has(row.id);
-        return <button type="button" className="competition-question" key={row.id} disabled={!onTrain || locked} onClick={() => onTrain?.(row.id)} aria-label={`练习 ${row.displayLetter} ${row.title}`}><span className="competition-letter" title={contestLetterTitle(row)}>{row.displayLetter}</span><div className="competition-question-main"><strong><InlineTitle>{row.title}</InlineTitle></strong><div className="competition-question-meta">{locked ? <span>模拟赛进行中</span> : knowledgeLabels(row).map(tag => <span className="competition-tag" key={tag}>{tag}</span>)}</div></div>{showDifficulty(row) && <Difficulty row={row} />}<span className={`competition-result${state?.accepted ? ' competition-accepted' : ''}`}>{locked ? '考场中' : state?.accepted ? (state.scope === 'official' ? '官方通过' : '本地通过') : state?.verdict === 'SAMPLE_PASS' ? '样例通过' : state ? '已加入' : '未加入'}</span><ChevronRight size={15} aria-hidden="true" /></button>;
+        const verdict=state?.accepted?'AC':state?.verdict;
+        return <button type="button" className="competition-question" key={row.id} disabled={!onTrain || locked} onClick={() => onTrain?.(row.id)} aria-label={`练习 ${row.displayLetter} ${row.title}`}><span className="competition-letter" title={contestLetterTitle(row)}>{row.displayLetter}</span><div className="competition-question-main"><strong><InlineTitle>{row.title}</InlineTitle></strong><div className="competition-question-meta">{locked ? <span>模拟赛进行中</span> : knowledgeLabels(row).map(tag => <span className="competition-tag" key={tag}>{tag}</span>)}</div></div>{showDifficulty(row) && <Difficulty row={row} />}<span className={`competition-result verdict-${verdictTone(verdict)}${state?.accepted ? ' competition-accepted' : ''}`}>{locked ? '考场中' : verdict ? verdictLabel(verdict) : state ? '已加入' : '未加入'}</span><ChevronRight size={15} aria-hidden="true" /></button>;
       })}</div>
     </div>;
   }

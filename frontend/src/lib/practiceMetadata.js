@@ -88,17 +88,28 @@ function roundInfo(row) {
   return { name, family, number, platform: String(row?.platform || "") };
 }
 
-export function compareContestNewest(a, b) {
-  const left = contestTime(a), right = contestTime(b);
+const chronologicalText=new Intl.Collator('zh-CN');
+const chronologicalNames=new Intl.Collator('zh-CN',{numeric:true});
+function contestOrderKey(row) {
+  const time=contestTime(row);
   const eventYear = (row, time) => time != null ? new Date(time).getUTCFullYear() : Number(row.eventYear || row.xcpcYear || row.examYear || row.rows?.find(item => item.eventYear || item.xcpcYear || item.examYear)?.eventYear || row.rows?.[0]?.xcpcYear || row.rows?.[0]?.examYear || 0);
-  const leftYear = eventYear(a, left), rightYear = eventYear(b, right);
+  return {time,year:eventYear(row,time),round:roundInfo(row)};
+}
+function compareContestKeys(a,b){
+  const left=a.time,right=b.time,leftYear=a.year,rightYear=b.year;
   if (leftYear && rightYear && leftYear !== rightYear) return rightYear - leftYear;
   if (left != null && right != null && left !== right) return right - left;
   if (left != null && right == null) return -1;
   if (left == null && right != null) return 1;
-  const x = roundInfo(a), y = roundInfo(b);
+  const x = a.round, y = b.round;
   if (x.platform === y.platform && x.family === y.family && x.number !== y.number) return y.number - x.number;
-  return x.platform.localeCompare(y.platform, "zh-CN") || x.family.localeCompare(y.family, "zh-CN") || y.number - x.number || y.name.localeCompare(x.name, "zh-CN", { numeric: true });
+  return chronologicalText.compare(x.platform,y.platform) || chronologicalText.compare(x.family,y.family) || y.number-x.number || chronologicalNames.compare(y.name,x.name);
+}
+export function compareContestNewest(a,b){return compareContestKeys(contestOrderKey(a),contestOrderKey(b));}
+export function createContestComparator(){
+ const keys=new WeakMap();
+ const key=row=>{if(!keys.has(row))keys.set(row,contestOrderKey(row));return keys.get(row);};
+ return (a,b)=>compareContestKeys(key(a),key(b));
 }
 
 // Collapse teaching sections in the display layer; the source Markdown stays
