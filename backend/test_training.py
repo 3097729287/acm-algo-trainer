@@ -615,6 +615,22 @@ class HTTPTests(unittest.TestCase):
         self.assertEqual(result["workspace"]["summary"]["accepted"], 0)
         self.assertEqual(self.request("GET", "/api/submissions?id=" + quote("周赛 164::A"))[1]["submissions"][0]["code"], "AC")
 
+    def test_problem_http_keeps_public_images_translation_and_automatic_language_flag(self):
+        identity='周赛 164::A'
+        raw=Assets(None).problem(identity)
+        raw.update(statementVersion=5,images={'https://img.atcoder.jp/diagram.png':'data:image/png;base64,cHVibGlj'},
+                   translation={'kind':'bundled','targetLanguage':'zh-CN','markdown':'## 原题面\n输入两个整数，输出其和。'},autoTranslate=False)
+        with patch.object(self.server.training._asset_library(),'problem',return_value=raw):
+            status,problem=self.request('GET','/api/problem?id='+quote(identity)+'&background=1')
+            self.assertEqual(status,200)
+            for field in ('images','translation','autoTranslate','statementVersion'):
+                self.assertEqual(problem[field],raw[field])
+            self.assertNotIn('referenceCode',problem)
+            raw.pop('translation');raw['autoTranslate']=True
+            status,problem=self.request('GET','/api/problem?id='+quote(identity)+'&background=1')
+            self.assertTrue(problem['autoTranslate'])
+            self.assertNotIn('translation',problem)
+
     def test_direct_solution_and_legacy_status_lock_and_contest_end(self):
         plan = self.request("POST", "/api/contests/preview", {"count": 6, "duration": 1})[1]["plan"]
         status, response = self.request("POST", "/api/contests/start", {"ids": [slot["id"] for slot in plan["slots"]], "duration": 1, "deadline": "2099-01-01T00:00:00Z"})

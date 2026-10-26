@@ -1073,7 +1073,8 @@ class TrainingService:
                 raise ServiceError(503, "服务正在关闭，请稍后重试")
             self._context(identity, contest_id)
             self._history_visible(identity, contest_id)
-            allowed = {"id", "title", "markdown", "url", "samples", "limits", "judge", "statementAvailable", "statementError", "statementLoading"}
+            allowed = {"id", "title", "markdown", "url", "samples", "limits", "judge", "statementAvailable", "statementError", "statementLoading",
+                       "statementVersion", "images", "translation", "autoTranslate"}
             problem = {key: raw[key] for key in allowed if key in raw}
             problem.setdefault("id", identity)
             problem.setdefault("title", row["title"])
