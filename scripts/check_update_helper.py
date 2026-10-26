@@ -63,8 +63,20 @@ def main():
     subprocess.run(['powershell', '-NoProfile', '-Command', command], check=True, timeout=70, creationflags=subprocess.CREATE_NO_WINDOW)
     assert helper.wait(timeout=20) == 0
     assert personal_rows(app) == before
+    # This isolated registration must not appear as an old application after tests.
+    import winreg
+    key_name = 'TB.Validation.' + Path(report['work']).name + '_is1'
+    assert key_name.startswith('TB.Validation.release-check-current-')
+    registration = chr(92).join(('Software', 'Microsoft', 'Windows', 'CurrentVersion', 'Uninstall', key_name))
+    try:
+        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, registration) as key:
+            installed_path = Path(winreg.QueryValueEx(key, 'InstallLocation')[0]).resolve()
+            assert installed_path == app, 'Validation registration points to another installation'
+        winreg.DeleteKey(winreg.HKEY_CURRENT_USER, registration)
+    except FileNotFoundError:
+        pass
     result = {'ok': True, 'waitedForOldProcess': True, 'verifiedInstallerHash': True, 'installedAndRestarted': True,
-              'visibleWindowClosedNormally': True, 'personalTablesPreserved': True, 'desktopCanInstallUpdates': True}
+              'visibleWindowClosedNormally': True, 'personalTablesPreserved': True, 'desktopCanInstallUpdates': True, 'validationRegistrationRemoved': True}
     args.validation_report.with_name('update-helper.json').write_text(json.dumps(result, indent=2), encoding='utf8')
     print(json.dumps(result), flush=True)
 

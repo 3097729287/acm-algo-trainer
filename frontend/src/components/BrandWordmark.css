@@ -1,0 +1,7 @@
+/* Both groups share one type size and baseline; colors match the original TB icon. */
+.brand-wordmark {display:inline-flex;align-items:baseline;justify-content:center;gap:0;white-space:nowrap;line-height:1;letter-spacing:-.04em;font-family:"Segoe UI",sans-serif;font-weight:750}
+.brand-wordmark>span {display:inline;font:inherit;line-height:inherit;letter-spacing:inherit}
+.brand-wordmark>.brand-to {color:#9b8afb}
+.brand-wordmark>.brand-be {color:#efedf8}
+html .brand-mark .brand-wordmark,html .brand-mark .brand-wordmark>span {position:static;width:auto;height:auto;border-radius:0;background:transparent;padding:0;flex:none}
+html .sidebar .brand-mark:has(.brand-wordmark),.account-logo:has(.brand-wordmark),.startup-logo:has(.brand-wordmark) {background:#191923;border-color:#45405c}

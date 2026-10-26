@@ -1,3 +1,4 @@
+import BrandWordmark from '../components/BrandWordmark.jsx';
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { Eye, EyeOff, LoaderCircle, LockKeyhole, LogIn, UserRoundPlus } from 'lucide-react';
 import { request } from '../api/client.js';
@@ -103,7 +104,7 @@ export default function AccountGate({ children }) {
   if (booting || session?.restoring) return <StartupScreen restoring={session?.restoring} error={error} onRetry={() => refresh(true)}/>;
   const registering = mode === 'register';
   return <main className="account-screen">
-    <div className="account-brand"><span className="account-logo">ToBe</span><span>ToBe <small>训练工作台</small></span></div>
+    <div className="account-brand"><span className="account-logo"><BrandWordmark/></span><span>ToBe <small>训练工作台</small></span></div>
     <section className="account-card" aria-label="ToBe 账号登录">
       <div className="account-symbol"><LockKeyhole size={24}/></div>
       <h1>{registering ? '创建你的 ToBe 账号' : '登录 ToBe'}</h1>
