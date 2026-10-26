@@ -37,3 +37,17 @@ html .training-lists-page .training-list-table :is(th,td):nth-child(3) { width:1
 
 .training-problem-row:not([aria-disabled=true]) {cursor:pointer}
 .training-problem-row:not([aria-disabled=true]):hover {background:var(--hover)}
+.training-tag-browser {flex:none;padding:8px 14px;border-bottom:1px solid var(--soft-line);}
+.training-tag-search {display:flex;align-items:center;gap:8px;max-width:300px;margin-bottom:8px;}
+.training-tag-search input {min-width:0;width:100%;}
+.training-tag-options {display:flex;flex-wrap:wrap;gap:6px;max-height:148px;overflow:auto;}
+.training-tag-options button,.training-selected-tags>button:not(.text-button),.training-list-tags>span {display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border:1px solid var(--soft-line);border-radius:5px;background:var(--panel-2);font-size:.76rem;font-weight:400;line-height:1.4;color:var(--muted);}
+.training-tag-options button[aria-pressed=true] {color:var(--accent);border-color:var(--accent);background:var(--accent-soft);}
+.training-tag-options small {opacity:.7;}
+.training-selected-tags,.training-active-tags {display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin-top:8px;font-size:.8rem;}
+.training-active-tags {padding:0 14px 8px;justify-content:space-between;}
+.training-list-tags {display:flex;flex-wrap:wrap;gap:5px;margin-top:5px;}
+.training-tag-editor {display:flex;align-items:flex-end;gap:10px;padding:8px 14px;flex:none;}
+.training-tag-editor label {display:flex;flex-direction:column;gap:6px;flex:1;font-size:.82rem;}
+.training-tag-editor input {min-width:0;width:100%;}
+.training-list-mode:has(span) {width:auto;padding-inline:8px;font-size:.8rem;}

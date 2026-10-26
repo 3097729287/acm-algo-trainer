@@ -993,6 +993,12 @@ class TrainingService:
                     connection.execute("INSERT INTO training(id,active_at,active,solution_pending,solution_seen_at) VALUES(?,?,0,1,?)", (identity, timestamp, timestamp))
 
     def _context(self, identity, contest_id, writing=False):
+        snapshot = _LIBRARY_VIEW.get()
+        if (snapshot is not None and snapshot[0] is self and snapshot[2].get('problemOnly')
+                and self.connection.execute("SELECT 1 FROM contests WHERE status='running'").fetchone()):
+            # A contest may start while a public statement fetch releases the
+            # lock. Finalization and lock checks must then see complete rows.
+            _LIBRARY_VIEW.set((self, self.store.data()['rows'], {}))
         self._expire()
         if contest_id:
             contest = self._contest_record(contest_id)
@@ -1013,7 +1019,7 @@ class TrainingService:
         with self.lock:
             fast = callable(reader) and not contest_id and not review_id and not self.connection.execute("SELECT 1 FROM contests WHERE status='running'").fetchone()
         if fast:
-            token = _LIBRARY_VIEW.set((self, reader(identity), {}))
+            token = _LIBRARY_VIEW.set((self, reader(identity), {'problemOnly': True}))
             try:
                 return self._problem(identity, contest_id, background=background, refresh=refresh, review_id=review_id)
             finally:

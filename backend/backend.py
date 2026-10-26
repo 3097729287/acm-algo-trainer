@@ -28,6 +28,7 @@ from insights import canonical_url
 
 from errors import APIError
 from store import Store
+from response_cache import GzipJSON, accepts_gzip
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -38,23 +39,14 @@ class Handler(BaseHTTPRequestHandler):
 
     def send_json(self, status, value):
         raw = value if isinstance(value, bytes) else json.dumps(value, ensure_ascii=False).encode("utf-8")
-        compressed = False
+        compressed = isinstance(value, GzipJSON)
         # Large catalogs and lecture lists cost less to transfer into WebView.
         # Keep every API body and origin/token guard unchanged.
-        for coding in self.headers.get('Accept-Encoding', '').lower().split(','):
-            name, *parameters = coding.strip().split(';')
-            if name != 'gzip':
-                continue
-            try:
-                quality = next((float(part.strip()[2:]) for part in parameters if part.strip().startswith('q=')), 1)
-            except ValueError:
-                quality = 0
-            if len(raw) >= 16384 and quality > 0:
-                cache=getattr(self.server,'catalogue_compression',None) if isinstance(value,bytes) else None
-                packed = cache.compress(raw) if cache is not None else gzip.compress(raw, compresslevel=1, mtime=0)
-                if len(packed) < len(raw):
-                    raw, compressed = packed, True
-            break
+        if not compressed and len(raw) >= 16384 and accepts_gzip(self.headers.get('Accept-Encoding', '')):
+            cache=getattr(self.server,'catalogue_compression',None) if isinstance(value,bytes) else None
+            packed = cache.compress(raw) if cache is not None else gzip.compress(raw, compresslevel=1, mtime=0)
+            if len(packed) < len(raw):
+                raw, compressed = packed, True
         self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header('Vary', 'Accept-Encoding')
@@ -248,6 +240,9 @@ class Handler(BaseHTTPRequestHandler):
                 elif path == '/api/usage':
                     from usage import record
                     value = record(training, body)
+                elif path == '/api/training-list-tags':
+                    from training_list_tags import save_tags
+                    value = save_tags(training, body, {item['id'] for item in store.library.training_lists()})
                 elif path == "/api/submissions":
                     value = training.submit(body.get("id"), body.get("code"), body.get("mode", "submit"), body.get("input", ""), body.get("contestId"), body.get("sampleRun"), body.get("language", "cpp17"), review_id=body.get('reviewId'))
                 elif path == "/api/contests/preview":
@@ -361,9 +356,14 @@ class Handler(BaseHTTPRequestHandler):
                     accounts.queue_sync()
                 self.send_json(200, value)
             elif path == "/api/data":
-                self.send_json(200, store.data_response_bytes(compact=parse_qs(target.query).get('compact', ['0'])[0]=='1'))
+                self.send_json(200, store.data_response_bytes(compact=parse_qs(target.query).get('compact', ['0'])[0]=='1',
+                                                            compressed=accepts_gzip(self.headers.get('Accept-Encoding', ''))))
             elif path == "/api/training-lists":
-                self.send_json(200, {'lists': store.library.training_lists()})
+                from training_list_tags import read_tags
+                self.send_json(200, {'lists': store.library.training_lists(), **read_tags(self.server.training)})
+            elif path == '/api/training-list-tags':
+                from training_list_tags import read_tags
+                self.send_json(200, read_tags(self.server.training, parse_qs(target.query).get('tag', [None])[0]))
             elif path == "/api/solution":
                 identity = parse_qs(target.query).get("id", [None])[0]
                 if not identity:

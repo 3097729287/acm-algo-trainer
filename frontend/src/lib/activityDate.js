@@ -67,3 +67,38 @@ export function activityTone(count,step=5) {
  const band=Math.min(5,Math.ceil(amount/size));
  return {band,shade:Math.min(5,Math.max(1,Math.ceil((amount-(band-1)*size)/size*5)))};
 }
+
+// Week 1 starts on the first Monday. The days before it continue the previous
+// year's final week, rather than inventing a partial week 1 or using ISO weeks.
+export function activityWeek(day) {
+ const date=parseActivityDate(day);if(!date)return null;
+ const start=new Date(`${date}T00:00:00Z`);
+ start.setUTCDate(start.getUTCDate()-(start.getUTCDay()+6)%7);
+ const year=start.getUTCFullYear(),first=new Date(Date.UTC(year,0,1));
+ first.setUTCDate(1+(8-first.getUTCDay())%7);
+ const end=new Date(start);end.setUTCDate(start.getUTCDate()+6);
+ return {start:start.toISOString().slice(0,10),end:end.toISOString().slice(0,10),year,number:1+Math.round((start-first)/604800000)};
+}
+
+export function activityWeekTotal(week,activity,today) {
+ let total=0;
+ for(let index=0;index<7;index++){
+  const date=new Date(`${week.start}T00:00:00Z`);date.setUTCDate(date.getUTCDate()+index);
+  const day=date.toISOString().slice(0,10);
+  if(day<=today)total+=Math.max(0,Number(activity.get(day)?.officialAccepted)||0);
+ }
+ return total;
+}
+
+export function activityDetailPages(days,capacity) {
+ const limit=Math.max(2,capacity),pages=[];let page=[],previous=null;
+ for(const day of days){
+  const week=activityWeek(day);if(!week)continue;
+  const needed=previous===week.start?1:2;
+  if(page.length+needed>limit){pages.push(page);page=[];previous=null;}
+  if(previous!==week.start){page.push({type:'week',week});previous=week.start;}
+  page.push({type:'day',day});
+ }
+ if(page.length)pages.push(page);
+ return pages.length?pages:[[]];
+}

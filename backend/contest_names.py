@@ -16,6 +16,7 @@ def natural_key(value):
     return tuple((0, int(p)) if p.isdecimal() else (1, p.casefold()) for p in re.split(r'(\d+)', value))
 
 
+@lru_cache(maxsize=2048)
 def regular_contest(value):
     """Return the registered series/number only when the source says which one.
 

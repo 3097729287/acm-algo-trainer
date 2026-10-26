@@ -62,7 +62,7 @@ const periods = [['daily', '每日过题'], ['weekly', '本周过题'], ['total'
 function RankingIdentity({item,self,avatarData,ownGrowth,api}) {
  const sharedAvatar=usePublicAvatar(api,item.userId,self?null:item.avatarHash);
  const progress=item.publicProgress||{},index=rankIndex(progress),growth=self&&ownGrowth?ownGrowth:{level:progress.level,currentLevelXp:progress.currentLevelXp,nextLevelXp:progress.nextLevelXp,ranked:{tier:TIER_NAMES[index],badge:`tier-${index}`,qualified:progress.rankTier!=null,abilityScore:progress.rankScore}};
- return <div className="ranking-identity"><ProfileBadge compact={false} showXp={Number.isFinite(growth.nextLevelXp)} avatar={self?avatarData:sharedAvatar} growth={growth} nickname={item.nickname||item.displayName||'用户'}/><div className="ranking-title-list">{progress.titles?.map(title=><span className="ranking-title-badge" key={title.id}><MedalEmblem size={20} index={titleMedalIndex(title)} variant={title.category==='streak'?'streak':'ac'}/>{title.name}</span>)}</div></div>;
+ return <div className="ranking-identity"><ProfileBadge compact={false} showXpBar showXp={Number.isFinite(growth.currentLevelXp)&&Number.isFinite(growth.nextLevelXp)} avatar={self?avatarData:sharedAvatar} growth={growth} nickname={item.nickname||item.displayName||'用户'}/><div className="ranking-title-list">{progress.titles?.map(title=><span className="ranking-title-badge" key={title.id}><MedalEmblem size={20} index={titleMedalIndex(title)} variant={title.category==='streak'?'streak':'ac'}/>{title.name}</span>)}</div></div>;
 }
 
 function DeleteConfirmation({ target, busy, onCancel, onConfirm }) {

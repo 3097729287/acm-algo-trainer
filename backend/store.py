@@ -15,6 +15,7 @@ from version import VERSION
 import toolutil
 import knowledge_dict as KD
 import status_report as SR
+import catalog_snapshot
 
 class Store:
     def __init__(self, data_file=None, data_root=None, history_file=None, library_file=None):
@@ -39,7 +40,7 @@ class Store:
         self.library = LibraryDatabase(target)
         from progression import official_first_xp
         self.previous_first_xp = {canonical_url(row.get('url')) or row['id']:official_first_xp(row.get('difficulty'))
-                                  for row in self.library.rows()}
+                                  for row in self.library.projected_rows(('id', 'url', 'difficulty'))}
         if data_file is None and LIBRARY_SEED.is_file() and target != LIBRARY_SEED.resolve():
             fingerprint = source_fingerprint(LIBRARY_SOURCE) if LIBRARY_SOURCE.is_dir() else None
             self.library.merge_seed(LIBRARY_SEED, fingerprint=fingerprint)
@@ -77,7 +78,7 @@ class Store:
     def _enrich_knowledge(self, row):
         from knowledge import enrich_row
         cache = getattr(self, 'knowledge_analysis', None)
-        return cache.apply(row) if cache else enrich_row(row)
+        return cache.apply(row, owned=True) if cache else enrich_row(row, owned=True)
 
     def encode_row(self, row, today=None):
         identity = row.get('_id') or row['场次'] + '::' + row['题号']
@@ -148,10 +149,11 @@ class Store:
     def problem_catalog(self, identity):
         """Single-task reads do not rebuild the classified full catalogue.
 
-        Preserve complete stored rows for aliases/contest guards; enrich only
-        the requested row. Ordinary catalogue/workspace APIs keep data().
+        Preserve identity and title fields for aliases; enrich only the
+        requested row. Contest/workspace APIs retain the complete data() view.
         """
-        rows = self.library.rows()
+        identities = getattr(self.library, 'identity_rows', None)
+        rows = identities() if callable(identities) else self.library.rows()
         if self.extensions:
             identities = getattr(self.extensions, 'identity_rows', None)
             rows += identities() if callable(identities) else self.extensions.rows()
@@ -176,15 +178,18 @@ class Store:
             cache_key = hashlib.sha256(repr(signature).encode()).hexdigest() if signature is not None else None
             base_key = hashlib.sha256(repr(public_signature).encode()).hexdigest() if signature is not None else None
             cache_path = self.library.path.with_name('tb-catalog-cache.json')
+            loaded = None
             if cache_key and self._data_json is None:
                 from persistence import load_document
                 try:
                     cached = load_document(cache_path, {})
-                    if cached.get('baseSignature') == base_key and isinstance(cached.get('catalog'), str):
-                        value = json.loads(cached['catalog'])
+                    if cached.get('baseSignature') == base_key and any(isinstance(cached.get(key), str) for key in ('catalog', 'catalogGzip')):
+                        snapshot = catalog_snapshot.from_document(cached)
+                        value = json.loads(catalog_snapshot.unpack(snapshot))
                         if (isinstance(value.get('rows'), list) and isinstance(value.get('categories'), list)
                                 and isinstance(cached.get('analysis'), dict)):
-                            self._data_json, self._data_base_key = cached['catalog'].encode('utf-8'), base_key
+                            self._data_json, self._data_base_key = (snapshot if snapshot.startswith(b'\x1f\x8b') else catalog_snapshot.pack(snapshot)), base_key
+                            loaded = value
                             self._data_analysis = cached.get('analysis', {})
                             if cached.get('signature') == cache_key:
                                 self._data_signature = signature
@@ -194,13 +199,13 @@ class Store:
                 # JSON decoding is much cheaper than reclassifying thousands of rows.
                 # Every caller owns its result; personal/consumer mutations cannot
                 # contaminate the shared public snapshot or another account.
-                result = json.loads(self._data_json)
+                result = loaded if loaded is not None else json.loads(catalog_snapshot.unpack(self._data_json))
                 result.update(today=dt.date.today().isoformat(), token=self.token)
                 return result
             if base_key and self._data_base_key == base_key and self._data_json is not None:
                 # Opening one statement can add knowledge evidence for one task.
                 # Refresh only affected rows, rather than reclassifying the library.
-                encoded = json.loads(self._data_json)['rows']
+                encoded = (loaded if loaded is not None else json.loads(catalog_snapshot.unpack(self._data_json)))['rows']
                 for i, row in enumerate(encoded):
                     identity = row['id']
                     if self._data_analysis.get(identity) != analysis.get(identity):
@@ -213,17 +218,18 @@ class Store:
             result = {'rows': encoded, 'statuses': list(SR.STATES), 'categories': self.categories(),
                       'revision': revision, 'today': dt.date.today().isoformat(), 'token': self.token}
             if signature is not None and public_signature == self._content_signature() and analysis == self._analysis_signature():
-                self._data_json = json.dumps({key: value for key, value in result.items() if key not in ('token', 'today')}, ensure_ascii=False).encode('utf-8')
+                self._data_json = catalog_snapshot.pack(json.dumps({key: value for key, value in result.items() if key not in ('token', 'today')}, ensure_ascii=False).encode('utf-8'))
                 self._data_signature, self._data_base_key, self._data_analysis = signature, base_key, analysis
+                self._compact_signature = self._compact_json = self._response_key = self._response_bytes = None
                 from persistence import save_document
                 try:
                     save_document(cache_path, {'signature': cache_key, 'baseSignature': base_key,
-                                               'analysis': analysis, 'catalog': self._data_json.decode('utf-8')})
+                                               'analysis': analysis, **catalog_snapshot.document(self._data_json)})
                 except (OSError, sqlite3.Error):
                     pass
             return result
 
-    def data_response_bytes(self, compact=False):
+    def data_response_bytes(self, compact=False, compressed=False):
         """Serve a warm public snapshot without another large object graph.
 
         Invalidation is identical to data(); a response always appends the
@@ -240,37 +246,54 @@ class Store:
                 if compact:
                     from catalog_payload import catalogue_payload
                     value = catalogue_payload(value)
-                return json.dumps(value, ensure_ascii=False).encode('utf-8')
+                if signature is None or signature != self._data_signature or self._data_json is None:
+                    raw = json.dumps(value, ensure_ascii=False).encode('utf-8')
+                    return catalog_snapshot.response(catalog_snapshot.pack(raw), compressed)
+                if compact:
+                    self._compact_json = catalog_snapshot.pack(json.dumps({key: row for key, row in value.items() if key not in ('today', 'token')}, ensure_ascii=False).encode('utf-8'))
+                    self._compact_signature = self._data_signature
+                del value
             today=dt.date.today().isoformat()
             response_key=(self._data_signature,compact,today,self.token)
             if response_key==self._response_key and self._response_bytes is not None:
-                return self._response_bytes
+                return catalog_snapshot.response(self._response_bytes, compressed)
             raw = self._data_json
             if compact:
                 if self._compact_signature != self._data_signature or self._compact_json is None:
                     from catalog_payload import catalogue_payload
-                    self._compact_json = json.dumps(catalogue_payload(json.loads(raw)), ensure_ascii=False).encode('utf-8')
+                    self._compact_json = catalog_snapshot.pack(json.dumps(catalogue_payload(json.loads(catalog_snapshot.unpack(raw))), ensure_ascii=False).encode('utf-8'))
                     self._compact_signature = self._data_signature
                 raw = self._compact_json
+            raw = catalog_snapshot.unpack(raw)
             suffix = json.dumps({'today':today, 'token':self.token}, ensure_ascii=False).encode('utf-8')
-            self._response_bytes=raw[:-1] + b', ' + suffix[1:]
+            self._response_bytes=catalog_snapshot.pack(raw[:-1] + b', ' + suffix[1:])
             self._response_key=response_key
-            return self._response_bytes
+            return catalog_snapshot.response(self._response_bytes, compressed)
 
     def _catalog_rows(self):
+        from knowledge import catalogue_context
+        with catalogue_context():
+            return self._build_catalog_rows()
+
+    def _build_catalog_rows(self):
         self._refresh_training_membership()
-        records = self.library.catalog()
-        by_id = {record['id']: record for record in records}
+        remote = self.extensions.rows() if self.extensions else []
+        remote_ids = {row['id'] for row in remote}
+        remote_urls = {canonical_url(row.get('url')) for row in remote}
+        by_id = {}
         by_url = {}
-        for record in records:
+        encoded = []
+        for record in self.library.iter_catalog():
             key = canonical_url(record['url'])
-            if key:
+            # Only extension candidates can need a stored source record later.
+            if record['id'] in remote_ids:
+                by_id[record['id']] = record
+            if key and key in remote_urls:
                 by_url.setdefault(key, record)
-        encoded = [self._encode_record(record['raw'], record, bool(record['available']), record['url'])
-                   for record in records]
+            encoded.append(self._encode_record(record['raw'], record, bool(record['available']), record['url']))
         seen_urls = {canonical_url(row.get('url')) for row in encoded if row.get('url')}
         seen_ids = {row['id'] for row in encoded}
-        for row in self.extensions.rows() if self.extensions else []:
+        for row in remote:
             key = canonical_url(row.get('url'))
             if row['id'] in seen_ids or key and key in seen_urls:
                 continue

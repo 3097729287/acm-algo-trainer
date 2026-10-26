@@ -18,3 +18,7 @@ html .activity-page .activity-day[data-future] {border-style:dashed}
 html .activity-page .activity-month-start::before {content:'';position:absolute;top:-3px;left:0;right:0;height:2px;border-radius:1px;background:var(--muted);pointer-events:none}
 html .activity-page .activity-day>.activity-month-marker {position:absolute;inset:0;display:grid;place-items:center;font-size:min(13px,calc(var(--activity-cell-size)*.48));line-height:1;font-weight:600;font-variant-numeric:tabular-nums;color:var(--text);pointer-events:none}
 html .activity-month-picker .tb-select {min-width:104px;height:34px;padding:4px 30px 4px 10px;font-size:.86rem;background:transparent;color:var(--text);border:1px solid var(--line);border-radius:6px}
+html .activity-detail-table .activity-week-summary {background:var(--panel-2);font-size:.84rem;}
+html .activity-detail-table .activity-week-summary th {font-weight:650;color:var(--text);}
+html .activity-detail-table .activity-week-summary .activity-detail-progress>b {font-weight:650;}
+html .activity-detail-table .activity-week-summary + tr {border-top-color:transparent;}

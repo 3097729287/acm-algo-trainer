@@ -219,6 +219,26 @@ class LibraryDatabase:
         with self.connection() as db:
             return [json.loads(row[0]) for row in db.execute(f'SELECT {column} FROM problems ORDER BY rowid')]
 
+    def projected_rows(self, fields):
+        """Read just the requested stored fields, without decoding every record.
+
+        Fields are internal identifiers, never SQL supplied by an API caller.
+        SQLite evaluates all projections in the same committed snapshot.
+        """
+        allowed = {'id', 'url', 'source', 'aliasIds', 'title', 'contest', 'problem', 'difficulty'}
+        if not fields or not set(fields) <= allowed:
+            raise ValueError('Unsupported problem projection')
+        columns = ','.join("json_extract(encoded,'$." + key + "') AS " + key for key in fields)
+        with self.connection() as db:
+            for row in db.execute('SELECT ' + columns + ' FROM problems ORDER BY rowid'):
+                value = dict(row)
+                if 'aliasIds' in value:
+                    value['aliasIds'] = json.loads(value['aliasIds']) if value['aliasIds'] else []
+                yield value
+
+    def identity_rows(self):
+        return list(self.projected_rows(('id', 'url', 'source', 'aliasIds', 'title', 'contest', 'problem')))
+
     def has_problems(self):
         with self.connection() as db:
             return db.execute('SELECT 1 FROM problems LIMIT 1').fetchone() is not None
@@ -252,11 +272,16 @@ class LibraryDatabase:
         Catalog requests never need to load every solution body or open a
         connection for each problem. Content readers use solution() separately.
         """
+        return list(self.iter_catalog())
+
+    def iter_catalog(self):
+        """Release each raw record after encoding rather than retaining two trees."""
         with self.connection() as db:
             rows = db.execute('SELECT p.*, ' + _CONTENT_READY_SQL + ' AS content_ready, (EXISTS(SELECT 1 FROM solutions s WHERE s.problem_id=p.id) '
                               'OR EXISTS(SELECT 1 FROM detailed_solutions s WHERE s.problem_id=p.id)) AS available '
                               'FROM problems p ORDER BY p.rowid')
-            return [_decoded_problem(row) for row in rows]
+            for row in rows:
+                yield _decoded_problem(row)
 
     def find(self, identity=None, url=None):
         with self.connection() as db:

@@ -414,8 +414,10 @@ html[data-motion=off] :is(.algorithm-lab *, .lab-catalog *) { animation:none!imp
 /* The header owns a separate row; only lesson content scrolls. */
 html .lab-focus .learning-paths-page {display:flex;flex-direction:column;overflow:hidden!important}
 html .algorithm-lab {display:flex;flex-direction:column;flex:1;min-height:0;height:100%;padding:0}
-html .algorithm-lab .lab-course-header {position:relative;top:auto;z-index:30;flex:none;min-height:64px;margin:0;padding:10px clamp(16px,2.5vw,48px);background:var(--panel-base);border-bottom:1px solid var(--line);backdrop-filter:none}
-html .algorithm-lab .lab-header-actions {position:static;margin:0;flex:none;display:flex;align-items:center;gap:7px}
+html .algorithm-lab .lab-course-header {position:relative;top:auto;z-index:30;flex:none;align-self:stretch;width:100%;box-sizing:border-box;min-height:64px;margin:0;padding:10px 0;background:var(--panel-base);border-bottom:1px solid var(--line);backdrop-filter:none}
+html .algorithm-lab .lab-course-header :is(.lab-icon-button,.lab-menu-toggle) {border:0;background:transparent;box-shadow:none;}
+html .algorithm-lab .lab-course-header .lab-header-actions {margin-left:0;}
+html .algorithm-lab .lab-header-actions {position:static;margin:0;flex:none;display:flex;align-items:center;gap:7px;order:-1}
 html .algorithm-lab .lab-course-tools {margin-left:auto;flex:none}
 html .algorithm-lab .lab-menu {order:-1}
 html .algorithm-lab .lab-lesson {flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:24px clamp(16px,2.5vw,48px) 36px;outline:0}

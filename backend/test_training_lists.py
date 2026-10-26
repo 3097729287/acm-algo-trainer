@@ -111,7 +111,7 @@ class TrainingListTests(unittest.TestCase):
             connection.request('GET', '/api/training-lists')
             response = connection.getresponse()
             self.assertEqual(response.status, 200)
-            self.assertEqual(json.loads(response.read()), {'lists': values})
+            self.assertEqual(json.loads(response.read()), {'lists': values, 'tags': {}})
             connection.close()
             connection = http.client.HTTPConnection('127.0.0.1', server.server_port, timeout=5)
             connection.request('GET', '/api/training-lists', headers={'Origin': 'https://example.com'})

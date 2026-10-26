@@ -5,6 +5,8 @@ claim that a statement-derived tag is a verified algorithm. Call ``enrich_row``
 when a public row is discovered and again when its original statement arrives.
 """
 import copy
+from contextlib import contextmanager
+from contextvars import ContextVar
 from functools import lru_cache
 import hashlib
 import json
@@ -17,6 +19,26 @@ import knowledge_dict as KD
 import toolutil
 
 VERSION = 'knowledge-v1.0'
+_CATALOGUE = ContextVar('tb_knowledge_catalogue', default=None)
+
+
+@contextmanager
+def catalogue_context():
+    """Reuse file snapshots and dictionary indexes only within this read."""
+    token = _CATALOGUE.set({})
+    try:
+        yield
+    finally:
+        _CATALOGUE.reset(token)
+
+
+def _read_once(key, read):
+    snapshot = _CATALOGUE.get()
+    if snapshot is None:
+        return read()
+    if key not in snapshot:
+        snapshot[key] = read()
+    return snapshot[key]
 def asset_path(name):
     from paths import resource
     return resource(name)
@@ -119,15 +141,15 @@ def _category_parents(groups):
 
 def canonical_tag(value):
     table = dictionary()
-    lookup = _canonical_names(tuple(table['names']))
+    lookup = _read_once('canonical-names', lambda: _canonical_names(tuple(table['names'])))
     key = _key(value)
     return lookup.get(key) or table['aliases'].get(key)
 
 
 def category_path(name):
     """Keep the dictionary's complete parent chain, including self-named buckets."""
-    parents = _category_parents(tuple((parent, tuple(children))
-                                     for parent, children in dictionary()['groups'].items()))
+    parents = _read_once('category-parents', lambda: _category_parents(tuple((parent, tuple(children))
+                                     for parent, children in dictionary()['groups'].items())))
     path = [name]; seen = {name}
     while path[0] in parents and parents[path[0]] not in seen:
         parent = parents[path[0]]; path.insert(0,parent); seen.add(parent)
@@ -164,10 +186,12 @@ def _load_problem_knowledge(path,stamp,size):
 
 def _curated_problem(row):
     """Only exact archive identities or original URLs can share reviewed evidence."""
-    path=asset_path('problem_knowledge.json')
-    try:stat=path.stat()
-    except OSError:return None
-    data=_load_problem_knowledge(str(path),stat.st_mtime_ns,stat.st_size)
+    def read():
+        path=asset_path('problem_knowledge.json')
+        try:stat=path.stat()
+        except OSError:return {}
+        return _load_problem_knowledge(str(path),stat.st_mtime_ns,stat.st_size)
+    data=_read_once('curated-problems', read)
     identities=[str(row.get('id') or row.get('_id') or '')]
     contest=row.get('contest',row.get('场次',''));problem=row.get('problem',row.get('题号',''))
     if contest and problem:identities.append(str(contest)+'::'+str(problem))
@@ -191,13 +215,16 @@ def _load_topic_review(path, stamp, size):
 
 
 def _reviewed_topics(row):
-    path=asset_path('knowledge_topic_review.json')
-    try:stat=path.stat()
-    except OSError:return None
+    def read():
+        path=asset_path('knowledge_topic_review.json')
+        try:stat=path.stat()
+        except OSError:return {}
+        return _load_topic_review(str(path),stat.st_mtime_ns,stat.st_size)
+    data=_read_once('reviewed-topics', read)
     original=str(row.get('url') or row.get('_url') or '')
     parsed=urlsplit(original)
     key=(parsed.hostname or '').removeprefix('www.').lower()+parsed.path.rstrip('/')
-    return _load_topic_review(str(path),stat.st_mtime_ns,stat.st_size).get(key)
+    return data.get(key)
 
 
 # Explicit named techniques are evidence; merely containing “array” is not DP.
@@ -331,8 +358,10 @@ def analyze_problem(row=None, statement=None, official_tags=None, algorithm_evid
             'inputHash':digest,'sourceTags':original,'supersededTags':removed}
 
 
-def enrich_row(row, statement=None, official_tags=None, algorithm_evidence=None):
-    value=copy.deepcopy(row)
+def enrich_row(row, statement=None, official_tags=None, algorithm_evidence=None, *, owned=False):
+    # Store passes freshly decoded records it owns. External callers retain
+    # independent nested data, including all previously stored evidence.
+    value=dict(row) if owned else copy.deepcopy(row)
     result=analyze_problem(value,statement,official_tags,algorithm_evidence)
     # A new snapshot should retain previous statement evidence when only re-encoding.
     previous=value.get('knowledgeAnalysis')
@@ -380,9 +409,9 @@ class KnowledgeAnalysisCache:
                 save_document(self.path,self.state)
             return value
 
-    def apply(self,row):
+    def apply(self,row,*,owned=False):
         """Read a stored analysis without creating files or baseline snapshots."""
         with self.lock:
             identity=str(row.get('id') or row.get('_id') or '')
             previous=self.state.get(identity)
-            return enrich_row(dict(row,**({'knowledgeAnalysis':copy.deepcopy(previous)} if previous else {})))
+            return enrich_row(dict(row,**({'knowledgeAnalysis':copy.deepcopy(previous)} if previous else {})),owned=owned)

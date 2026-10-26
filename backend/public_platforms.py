@@ -381,7 +381,10 @@ def statement(client,identity,title,url):
     # Empty standard input is valid (e.g. print-only problems). Some public
     # statements have no examples at all; their text is still readable.
     if not body.strip() or not all(isinstance(x.get('input'),str) and isinstance(x.get('output'),str) for x in samples):raise ValueError('原站未返回完整公开题面')
-    from statement_cleanup import clean_statement_markdown
+    from statement_cleanup import clean_statement_markdown, clean_statement
     body=clean_statement_markdown(body)
     if translation:translation['markdown']=clean_statement_markdown(translation['markdown'])
-    return {'id':identity,'title':title,'url':url,'markdown':'# '+title+'\n\n'+body,'samples':samples,'limits':limits,'statementAvailable':True,'statementVersion':3, **({'officialTags':official_tags} if official_tags is not None else {}), **({'translation':translation} if translation else {})}
+    value=clean_statement({'id':identity,'title':title,'url':url,'markdown':'# '+title+'\n\n'+body,'samples':samples,'limits':limits,'statementAvailable':True,'statementVersion':4, **({'officialTags':official_tags} if official_tags is not None else {}), **({'translation':translation} if translation else {})})
+    if not value['statementAvailable']:
+        raise ValueError(value['statementError'])
+    return value

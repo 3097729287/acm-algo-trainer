@@ -99,4 +99,5 @@ def clean_statement(value):
         result['translation'] = dict(translation, markdown=clean_statement_markdown(translation.get('markdown')))
         # A bundled translation must retain the original digest if its source
         # was untouched. Cleaned Chinese notices do not change English sources.
-    return result
+    from statement_quality import readable_statement
+    return readable_statement(result)

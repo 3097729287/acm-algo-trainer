@@ -22,7 +22,7 @@ function number(value) {
 }
 
 /** XP belongs to the avatar ring; rank belongs to the separate skill emblem. */
-export default function ProfileBadge({ growth, avatar, nickname, onClick, onAvatarClick, compact = true, showXp = true }) {
+export default function ProfileBadge({ growth, avatar, nickname, onClick, onAvatarClick, compact = true, showXp = true, showXpBar = false }) {
   const ready = Number.isFinite(growth?.level);
   const level = ready ? Math.max(1, Math.floor(growth.level)) : null;
   const rank = growth?.ranked;
@@ -66,9 +66,9 @@ export default function ProfileBadge({ growth, avatar, nickname, onClick, onAvat
       </AvatarControl>
     </Tooltip>
     <Tooltip text={rankText}>
-      <OverviewControl className="profile-overview" {...(onClick ? { type: 'button', onClick, 'aria-label': '训练概览', 'aria-haspopup': 'dialog', 'aria-busy': !ready } : { tabIndex: 0, 'aria-label': rankText })}>
+      <OverviewControl className={`profile-overview${showXpBar ? ' profile-overview-with-xp' : ''}`} {...(onClick ? { type: 'button', onClick, 'aria-label': '训练概览', 'aria-haspopup': 'dialog', 'aria-busy': !ready } : { tabIndex: 0, 'aria-label': rankText })}>
         {nickname && <strong className="profile-nickname">{nickname}</strong>}
-
+        {showXpBar && (showXp ? <span className="profile-xp-details"><span className="profile-xp-bar" role="meter" aria-label={`${nickname || '用户'}的本级经验`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress)} aria-valuetext={xpText}><i style={{width:`${progress}%`}}/></span><small>{maximumLevel ? '已满级' : `${number(currentXp)} / ${number(nextXp)} XP`}</small></span> : <small className="profile-xp-pending">经验待同步</small>)}
       </OverviewControl>
     </Tooltip>
   </div>;

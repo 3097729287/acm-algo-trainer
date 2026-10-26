@@ -3,11 +3,12 @@ import {useEffect,useLayoutEffect,useMemo,useRef,useState} from 'react';
 import {CalendarDays,Search} from 'lucide-react';
 import Tooltip from '@/components/Tooltip.jsx';
 import ThemedSelect from '@/components/ThemedSelect.jsx';
+import './ProgressPanels.css';
 import './ActivityPage.css';
 import PageSearch from '@/components/PageSearch.jsx';
 import ActivityProgress from '@/components/ActivityProgress.jsx';
 import {trainingDay} from '@/lib/trainingDate.js';
-import {parseActivityDate,monthDays,yearDays,activityYearCells,activityTone,fitCompactActivityGrid,activitySegmentSize} from '@/lib/activityDate.js';
+import {parseActivityDate,monthDays,yearDays,activityYearCells,activityTone,fitCompactActivityGrid,activitySegmentSize,activityWeekTotal,activityDetailPages} from '@/lib/activityDate.js';
 
 export {monthDays} from '@/lib/activityDate.js';
 const monthLabel=month=>`${month.slice(0,4)}年${Number(month.slice(5))}月`;
@@ -23,9 +24,10 @@ export default function ActivityPage({insights}) {
  const years=useMemo(()=>[...new Set([year,...Array.from({length:6},(_,i)=>String(Number(today.slice(0,4))-i)),...[...activity.keys()].map(day=>day.slice(0,4))])].sort().reverse(),[year,today,activity]);
  const month=selected.slice(0,7),days=useMemo(()=>monthDays(month),[month]);
  const searchedDate=parseActivityDate(query),invalid=Boolean(query.trim())&&!searchedDate;
- const records=useMemo(()=>days.filter(day=>activity.has(day)&&day<=today&&(!searchedDate||day===searchedDate)).reverse(),[days,activity,today,searchedDate]);
+ const records=useMemo(()=>days.filter(day=>(activity.has(day)||day===today)&&day<=today&&(!searchedDate||day===searchedDate)).reverse(),[days,activity,today,searchedDate]);
  const step=activitySegmentSize(Math.max(0,...allDays.map(day=>activity.get(day)?.officialAccepted||0)));
- const pages=Math.max(1,Math.ceil(records.length/pageSize)),currentPage=Math.min(page,pages),visible=records.slice((currentPage-1)*pageSize,currentPage*pageSize);
+ const detailPages=useMemo(()=>activityDetailPages(records,pageSize),[records,pageSize]);
+ const pages=detailPages.length,currentPage=Math.min(page,pages),visible=detailPages[currentPage-1];
  const pick=(day,focus=true)=>{setQuery('');setSelected(day);if(focus)requestAnimationFrame(()=>buttons.current.get(day)?.focus({preventScroll:true}));};
  useEffect(()=>{
   if(!searchedDate)return;
@@ -52,7 +54,7 @@ export default function ActivityPage({insights}) {
    const next=fitCompactActivityGrid(width,height,allDays.length);
    setGrid(old=>old.columns===next.columns&&old.rows===next.rows&&old.size===next.size?old:next);
    const head=tableRef.current.querySelector('thead')?.getBoundingClientRect().height||30,fontSize=parseFloat(getComputedStyle(tableRef.current).fontSize)||14;
-   setPageSize(Math.max(1,Math.floor((tableRef.current.clientHeight-head)/Math.max(42,fontSize*3))));
+   setPageSize(Math.max(2,Math.floor((tableRef.current.clientHeight-head)/Math.max(42,fontSize*3))));
   };
   const observer=new ResizeObserver(resize);observer.observe(gridRef.current);observer.observe(tableRef.current);resize();
   return()=>observer.disconnect();
@@ -75,7 +77,13 @@ export default function ActivityPage({insights}) {
   </section>
   <section className="progress-section activity-month-details" aria-label="日期明细">
    <header className="activity-detail-heading"><h2>日期明细</h2><span>{invalid?'日期格式无效':monthLabel(month)}</span></header>
-   <div ref={tableRef} className="activity-detail-table" data-full={visible.length===pageSize}><table style={{'--activity-row-count':Math.max(1,visible.length)}}><thead><tr><th>日期</th><th>AC</th></tr></thead><tbody>{visible.map(day=><tr key={day} data-selected={day===selected}><td><button type="button" className="progress-text-button" onClick={()=>pick(day)}>{day.replaceAll('-','/')}</button></td><td><span className="activity-detail-progress"><ActivityProgress count={activity.get(day)?.officialAccepted||0} step={step}/><b>{activity.get(day)?.officialAccepted||0}</b></span></td></tr>)}</tbody></table>{!records.length&&<p className="progress-muted">{searchedDate?'这一天没有已保存的活动记录。':'本月还没有活动记录。'}</p>}</div>
+   <div ref={tableRef} className="activity-detail-table" data-full={visible.length===pageSize}><table style={{'--activity-row-count':Math.max(1,visible.length)}}><thead><tr><th>日期</th><th>AC</th></tr></thead><tbody>{visible.map(item=>{
+    if(item.type==='week'){
+     const {week}=item,total=activityWeekTotal(week,activity,today),label=`${String(week.year)===year?'':week.year+'年'}第${week.number}周`;
+     return <tr className="activity-week-summary" key={'week:'+week.start} data-week={week.start}><th scope="row"><span title={`${week.start} 至 ${week.end} · 周一到周日`}>{label}</span></th><td><span className="activity-detail-progress"><ActivityProgress count={total} step={35} label={`${week.year}年第${week.number}周首次 AC`}/><b>{total}</b></span></td></tr>;
+    }
+    const day=item.day;return <tr key={day} data-selected={day===selected}><td><button type="button" className="progress-text-button" onClick={()=>pick(day)}>{day.replaceAll('-','/')}</button></td><td><span className="activity-detail-progress"><ActivityProgress count={activity.get(day)?.officialAccepted||0} step={step}/><b>{activity.get(day)?.officialAccepted||0}</b></span></td></tr>;
+   })}</tbody></table>{!records.length&&<p className="progress-muted">{searchedDate?'这一天没有已保存的活动记录。':'本月还没有活动记录。'}</p>}</div>
    <PagePagination label="日期明细分页" count={`共 ${records.length} 天`} page={currentPage} pages={pages} previousLabel="上一页日期明细" nextLabel="下一页日期明细" onPrevious={()=>setPage(currentPage-1)} onNext={()=>setPage(currentPage+1)}/>
   </section>
  </div>;
