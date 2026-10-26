@@ -7,10 +7,12 @@ import { handle, authenticate } from './api.mjs';
 import { openStore, secret } from './mysql-store.mjs';
 import { STATE_LIMIT } from './account-state.mjs';
 
-export function createApiServer(env, { trustProxy = false } = {}) {
+export function createApiServer(env, { trustProxy = false, bodyTimeoutMs = 15000, stateBodyTimeoutMs = 120000 } = {}) {
   let activeStateRequests = 0;
   const server = createServer(async (request, response) => {
     let ownsStateSlot = false;
+    let bodyDeadline = setTimeout(() => request.destroy(), bodyTimeoutMs);
+    bodyDeadline.unref();
     try {
       const path = new URL(request.url, 'http://localhost').pathname;
       const stateRequest = path === '/v1/accounts/state' && ['GET', 'PUT'].includes(request.method);
@@ -26,6 +28,7 @@ export function createApiServer(env, { trustProxy = false } = {}) {
           response.end(JSON.stringify({error: status === 401 ? '请先登录账号' : '账号同步服务暂时不可用'}));
           return;
         }
+        if (request.destroyed) return;
         if (activeStateRequests) {
           response.writeHead(429, { 'Content-Type': 'application/json', 'Retry-After': '1', Connection: 'close' });
           response.end(JSON.stringify({ error: '账号同步正在处理，稍后自动重试' }));
@@ -33,6 +36,13 @@ export function createApiServer(env, { trustProxy = false } = {}) {
         }
         activeStateRequests++;
         ownsStateSlot = true;
+        if (request.method === 'PUT') {
+          // Only authenticated, bounded snapshot uploads receive extra time.
+          // Ordinary requests retain their shorter body/idle limits.
+          clearTimeout(bodyDeadline);
+          bodyDeadline = setTimeout(() => request.destroy(), stateBodyTimeoutMs);
+          bodyDeadline.unref();
+        }
       }
       // Only the Docker-internal Caddy proxy may supply the real client address.
       // Replace the internal client-address header supplied by public callers.
@@ -61,6 +71,7 @@ export function createApiServer(env, { trustProxy = false } = {}) {
         }
         chunks.push(chunk);
       }
+      clearTimeout(bodyDeadline);
       const init = { method: request.method, headers };
       if (!['GET', 'HEAD'].includes(request.method)) init.body = Buffer.concat(chunks);
       const result = await handle(new Request('http://localhost' + request.url, init), env);
@@ -76,10 +87,11 @@ export function createApiServer(env, { trustProxy = false } = {}) {
       if (!response.headersSent) response.writeHead(503, { 'Content-Type': 'application/json' });
       response.end(JSON.stringify({ error: '排行榜服务暂时无法完成请求' }));
     } finally {
+      clearTimeout(bodyDeadline);
       if (ownsStateSlot) activeStateRequests--;
     }
   });
-  server.requestTimeout = 15000;
+  server.requestTimeout = stateBodyTimeoutMs;
   server.headersTimeout = 10000;
   server.setTimeout(15000, socket => socket.destroy());
   return server;

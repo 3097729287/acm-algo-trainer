@@ -221,7 +221,12 @@ class AccountStateSync:
             raise ServiceError(409, '个人工作区所属账号不一致，请保留本地数据并检查账号设置')
 
     def _call(self, method, path, body=None, cached_revision=None):
+        timeout = 20
         if method == 'PUT' and path == '/v1/accounts/state':
+            # HTTPS sendall applies its timeout to the entire compressed upload.
+            # A valid multi-megabyte journal can take longer than 20 seconds on
+            # a slow uplink. Keep ordinary reads/heartbeats on their short limit.
+            timeout = 150
             raw = encoded(body['state']).encode('utf-8')
             if len(raw) > 64 * 1024 * 1024:
                 raise ServiceError(413, '账号学习记录超过同步容量，本机记录已保留，请先联系维护者扩容')
@@ -234,14 +239,14 @@ class AccountStateSync:
         options = {'state_revision': cached_revision} if cached_revision is not None else {}
         try:
             value = self.accounts._remote(method, path, body, session, invalidate=False,
-                                          maximum=4 * 1024 * 1024, timeout=20, **options)
+                                          maximum=4 * 1024 * 1024, timeout=timeout, **options)
         except ServiceError as issue:
             # Password changes rotate the token while a heartbeat can be in
             # flight. A late rejection of that old token must not log out the
             # replacement session. Its rejected request is safe to retry once.
             if issue.status == 401 and session['token'] != self.session['token']:
                 value = self.accounts._remote(method, path, body, self.session, invalidate=False,
-                                               maximum=4 * 1024 * 1024, timeout=20, **options)
+                                               maximum=4 * 1024 * 1024, timeout=timeout, **options)
             else:
                 raise
         if path == '/v1/accounts/state' and isinstance(value.get('state'), dict) and value['state'].get('format') == 'tb-account-state-gzip-v1':

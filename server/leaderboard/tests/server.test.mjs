@@ -15,13 +15,42 @@ async function fixture(options) {
     async close() { await new Promise(resolve => server.close(resolve)); await STORE.close(); } };
 }
 
+test('slow authenticated snapshot uploads finish while an abandoned upload releases its slot', async () => {
+  const f = await fixture({bodyTimeoutMs:100, stateBodyTimeoutMs:800});
+  try {
+    const signup={loginId:'slow_state_user',nickname:'slow',password:'fixture-password'};
+    await fetch(f.endpoint+'/v1/accounts/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(signup)}).then(r=>r.text());
+    const login=await fetch(f.endpoint+'/v1/accounts/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({loginId:signup.loginId,password:signup.password})}).then(r=>r.json());
+    const headers={'X-TB-User':login.account.userId,Authorization:'Bearer '+login.token,'Content-Type':'application/json'};
+    const body=JSON.stringify({revision:0,state:{format:'tb-account-state-v1',tables:{drafts:[{problem_id:'slow',context:'',code:'preserved draft',saved_at:new Date(f.env.TEST_NOW).toISOString()}]},publicAccounts:{}}});
+    const status=await new Promise((resolve,reject)=>{
+      const request=httpRequest(f.endpoint+'/v1/accounts/state',{method:'PUT',headers:{...headers,'Content-Length':Buffer.byteLength(body)}},response=>{
+        response.resume();response.on('end',()=>resolve(response.statusCode));
+      });
+      request.on('error',reject);request.write(body.slice(0,20));
+      setTimeout(()=>request.end(body.slice(20)),250);
+    });
+    assert.equal(status,200,'an authenticated upload outlives the ordinary body deadline');
+    const saved=await fetch(f.endpoint+'/v1/accounts/state',{headers}).then(r=>r.json());
+    assert.equal(saved.state.tables.drafts[0].code,'preserved draft');
+    await new Promise((resolve,reject)=>{
+      const request=httpRequest(f.endpoint+'/v1/accounts/state',{method:'PUT',headers:{...headers,'Content-Length':1000}});
+      request.on('error',error=>error.code==='ECONNRESET'?resolve():reject(error));
+      request.write('{');
+    });
+    const available=await fetch(f.endpoint+'/v1/accounts/state',{headers});
+    assert.equal(available.status,200,'an abandoned authenticated body cannot reserve the snapshot slot indefinitely');
+    await available.text();
+  } finally {await f.close();}
+});
+
 test('health reflects database availability', async () => {
   const f = await fixture();
   try {
     const ready = await fetch(f.endpoint + '/v1/health');
     assert.equal(ready.status, 200);
     const health = await ready.json();
-    assert.equal(health.version, '1.2.4');
+    assert.equal(health.version, '1.2.5');
     assert.equal(health.socialProtocol, 1);
     f.env.STORE = { async health() { throw new Error('private database details'); } };
     const response = await fetch(f.endpoint + '/v1/health');
