@@ -1,8 +1,19 @@
 """Evidence-labelled practice estimates; never manufacture official ratings."""
 import math
 import re
+from functools import lru_cache
 
-VERSION = '1.0.17'
+VERSION = '1.4.20'
+
+TRIVIAL_LUOGU = {'P1000','P1001','B2002','B2005','B2025','B2029','P1421','P1425','P3954','P5703','P17727'}
+REVIEWED = {
+    ('atcoder.jp','/contests/abc480/tasks/abc480_b'):(1200,[1000,1400],
+        '精确匹配优先；否则长度相同且汉明距离恰为 1 的候选人必须唯一，O(NM|S|)。不能将该实现复杂度与纯输入输出等同。'),
+    ('atcoder.jp','/contests/abc481/tasks/abc481_b'):(1000,[800,1200],
+        '相邻线段与水平线相交计数，需处理共享端点去重，O(N)。'),
+    ('ac.nowcoder.com','/acm/contest/141877/C'):(1600,[1400,1800],
+        '闭区间端点覆盖数，分别排序左右端点，用 upper_bound(left,x)-lower_bound(right,x) 求覆盖，O(N log N)，注意等号。'),
+}
 
 OYSTER_URL = 'https://codeforces.com/gym/106695/problem/J'
 OYSTER_REVIEW = {
@@ -22,6 +33,16 @@ def normalize_practice_difficulty(row):
     value = dict(row)
     from urllib.parse import urlsplit
     url = urlsplit(str(value.get('url') or ''))
+    host=(url.hostname or '').removeprefix('www.')
+    path=url.path.rstrip('/')
+    if host=='luogu.com.cn' and path.removeprefix('/problem/') in TRIVIAL_LUOGU:
+        value['reviewTrivial']=True
+    reviewed=REVIEWED.get((host,path))
+    if reviewed:
+        rating,band,reason=reviewed
+        value.update(difficulty=rating,difficultyBand=list(band),difficultyEstimated=True,
+            difficultySource='ToBe 题面与算法复核估算',difficultyConfidence='MEDIUM',
+            difficultyEvidence=[value.get('url'),reason,'训练参考估计，非原站官方定级；原平台模型分保留。'],metadataVersion=VERSION)
     if url.hostname in ('codeforces.com', 'www.codeforces.com') and url.path.rstrip('/') == '/gym/106695/problem/J':
         if value.get('difficultyEstimated') is not False or not value.get('difficultySource'):
             value.update(OYSTER_REVIEW)

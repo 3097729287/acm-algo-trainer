@@ -14,8 +14,8 @@ const fixture=window.trainingFixture={calls:[],lists,likes:{'luogu-112':{total:7
 const api=async(path,body)=>{
   fixture.calls.push({path,body});
   if(path==='training-lists'){if(fixture.delay)await new Promise(resolve=>setTimeout(resolve,fixture.delay));return {lists:fixture.lists,tags:{'luogu-112':['周末']}};}
-  if(path.startsWith('training-list-likes?'))return {available:true,likes:fixture.likes,day:'2026-10-26'};
-  if(path==='training-list-likes'){if(fixture.failLike)throw Error('测试失败');fixture.likes[body.listId]={total:fixture.likes[body.listId].total+1,likedToday:true};return {likes:fixture.likes[body.listId]};}
+  if(path==='training-list-likes'&&!body||path.startsWith('training-list-likes?'))return {available:true,likes:fixture.likes,day:'2026-10-26'};
+  if(path==='training-list-likes'){if(fixture.failLike)throw Error('测试失败');fixture.likes[body.listId]={total:fixture.likes[body.listId].total+(body.liked===false?-1:1),likedToday:body.liked!==false};return {likes:fixture.likes[body.listId]};}
   if(path==='training-lists/save'){
     if(body.deleted){if(fixture.failDelete)throw Error('删除失败');fixture.lists=fixture.lists.filter(list=>list.id!==body.id);return {customLists:fixture.lists.filter(list=>list.custom)};}
     const value={id:body.id||'custom:'+crypto.randomUUID(),title:body.title,custom:true,available:true,children:[],aggregateChildren:false,topicPath:['我的题单'],categories:[{id:'personal',name:'我的题单',order:-1,position:0}],problems:body.problemIds.map(id=>({problemId:id,pid:rows.find(row=>row.id===id).problem,sections:[]}))};

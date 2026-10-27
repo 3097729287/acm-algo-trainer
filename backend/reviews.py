@@ -152,6 +152,10 @@ class ReviewScheduler:
                     if getattr(issue, 'status', None) != 404:
                         raise
                     continue
+            # Preserve all receipts, draft contexts and prior review tasks. Pure
+            # I/O/elementary language exercises simply leave the automatic queue.
+            if row.get('reviewTrivial'):
+                continue
             difficulty = row.get('difficulty')
             if type(difficulty) not in (int, float) or not math.isfinite(difficulty) or difficulty <= 0:
                 difficulty = None

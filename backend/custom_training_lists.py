@@ -27,7 +27,7 @@ def _problems(training, ids):
         key = canonical_url(row.get('url')) or row['id']
         if key not in seen:
             seen.add(key)
-            result.append({'problemId': row['id'], 'pid': row.get('problem') or row['id'], 'url': row.get('url'), 'sections': []})
+            result.append({'problemId': row['id'], 'pid': row.get('problem') or row['id'], 'url': row.get('url'), 'sections': [],'addedAt':iso(training._now())})
     return result
 
 
@@ -108,6 +108,12 @@ def save_list(training, body):
         if not existing and len(read_lists(training)) >= 100:
             raise ServiceError(400, '最多创建 100 份题单')
         problems = _problems(training, ids) if ids else []
+        if existing:
+            previous={item['problemId']:item for item in existing['problems']}
+            for item in problems:
+                if item['problemId'] in previous:
+                    if previous[item['problemId']].get('addedAt'):item['addedAt']=previous[item['problemId']]['addedAt']
+                    else:item.pop('addedAt',None)
         value = {'id':identity,'title':title.strip(),'custom':True,'available':True,'aggregateChildren':False,
                  'children':[],'problems':problems,'categories':[{'id':'personal','name':'我的题单','order':-1,'position':0}],
                  'topicPath':['我的题单'],'deleted':bool(body.get('deleted'))}

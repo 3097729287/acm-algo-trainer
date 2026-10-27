@@ -44,6 +44,22 @@ def encoded(value):
     return json.dumps(value, ensure_ascii=False, separators=(',', ':'), sort_keys=True)
 
 
+def snapshot_payload(state):
+    """Compress incrementally instead of retaining another full private journal."""
+    buffer=io.BytesIO();checksum=hashlib.sha256();size=0
+    encoder=json.JSONEncoder(ensure_ascii=False,separators=(',',':'),sort_keys=True)
+    with gzip.GzipFile(fileobj=buffer,mode='wb',compresslevel=3,mtime=0) as stream:
+        for text in encoder.iterencode(state):
+            part=text.encode('utf-8');size+=len(part)
+            if size>64*1024*1024:
+                raise ServiceError(413,'账号学习记录超过同步容量，本机记录已保留，请先联系维护者扩容')
+            checksum.update(part);stream.write(part)
+    payload=base64.b64encode(buffer.getvalue()).decode('ascii')
+    if len(payload)>4*1024*1024-2048:
+        raise ServiceError(413,'账号学习记录超过同步容量，本机记录已保留，请先联系维护者扩容')
+    return {'format':'tb-account-state-gzip-v1','payload':payload,'sha256':checksum.hexdigest(),'uncompressedBytes':size}
+
+
 def digest(value):
     return hashlib.sha256(encoded(value).encode('utf-8')).hexdigest()
 
@@ -227,14 +243,7 @@ class AccountStateSync:
             # A valid multi-megabyte journal can take longer than 20 seconds on
             # a slow uplink. Keep ordinary reads/heartbeats on their short limit.
             timeout = 150
-            raw = encoded(body['state']).encode('utf-8')
-            if len(raw) > 64 * 1024 * 1024:
-                raise ServiceError(413, '账号学习记录超过同步容量，本机记录已保留，请先联系维护者扩容')
-            payload = base64.b64encode(gzip.compress(raw, compresslevel=3, mtime=0)).decode('ascii')
-            if len(payload) > 4 * 1024 * 1024 - 2048:
-                raise ServiceError(413, '账号学习记录超过同步容量，本机记录已保留，请先联系维护者扩容')
-            body = {'revision': body['revision'], 'state': {'format': 'tb-account-state-gzip-v1',
-                    'payload': payload, 'sha256': hashlib.sha256(raw).hexdigest(), 'uncompressedBytes': len(raw)}}
+            body = {'revision':body['revision'],'state':snapshot_payload(body['state'])}
         session = self.session
         options = {'state_revision': cached_revision} if cached_revision is not None else {}
         try:

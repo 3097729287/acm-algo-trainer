@@ -145,7 +145,8 @@ class Store:
                 assets.append((stat.st_mtime_ns, stat.st_size))
             except FileNotFoundError:
                 assets.append(None)
-        return ('catalog-20261022-v4-unique', VERSION, self.library.content_signature(),
+        from difficulty import VERSION as difficulty_version
+        return ('catalog-20261027-v5-calibration', VERSION, difficulty_version, self.library.content_signature(),
                 signature() if signature else None, tuple(assets))
 
     def identity_rows(self):

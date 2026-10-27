@@ -8,7 +8,7 @@ import { publicId, storedPublicProgress, validatePublicProgress } from './public
 import { socialSnapshot, socialWrite, rankingSocial } from './social.mjs';
 import {trainingListLikes} from './training-list-likes.mjs';
 
-const VERSION = '1.2.5';
+const VERSION = '1.2.6';
 const NOTICE = '排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const hashPattern = /^[a-f0-9]{64}$/;
@@ -163,9 +163,10 @@ export async function handle(request, env) {
     if (path === '/v1/social' && request.method === 'GET') return json(await socialSnapshot(env.STORE,user,now));
     if(path==='/v1/training-list-likes' && request.method==='GET')return json(await trainingListLikes(env.STORE,user,null,url.searchParams.getAll('id'),false,now));
     if(path==='/v1/training-list-likes' && request.method==='POST') {
-      const value=await body(request,['listId'],1024);
+      const value=await body(request,['listId','liked'],1024);
+      if(Object.hasOwn(value,'liked')&&typeof value.liked!=='boolean')throw new ApiError(400,'题单点赞格式无效');
       await limit(env,'training-list-like:'+user.user_id,60,60,Math.floor(now/1000));
-      return json(await trainingListLikes(env.STORE,user,credentials(request).token,[value.listId],true,now));
+      return json(await trainingListLikes(env.STORE,user,credentials(request).token,[value.listId],true,now,value.liked!==false));
     }
     if (['/v1/social/likes','/v1/social/comments','/v1/social/read'].includes(path) && request.method === 'POST') {
       const fields=path.endsWith('/likes') ? ['targetId'] : path.endsWith('/comments') ? ['targetId','text','requestId'] : ['ids','all'];

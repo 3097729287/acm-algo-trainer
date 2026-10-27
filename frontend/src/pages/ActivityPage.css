@@ -22,3 +22,14 @@ html .activity-detail-table .activity-week-summary {background:var(--panel-2);fo
 html .activity-detail-table .activity-week-summary th {font-weight:650;color:var(--text);}
 html .activity-detail-table .activity-week-summary .activity-detail-progress>b {font-weight:650;}
 html .activity-detail-table .activity-week-summary + tr {border-top-color:transparent;}
+
+/* One accent family with seven consistent daily levels. */
+html .activity-page [data-band],html .activity-progress [data-band] {--activity-color:var(--accent)}
+.activity-day[data-shade="1"] {--activity-strength:20%}
+.activity-day[data-shade="2"] {--activity-strength:32%}
+.activity-day[data-shade="3"] {--activity-strength:44%}
+.activity-day[data-shade="4"] {--activity-strength:56%}
+.activity-day[data-shade="5"] {--activity-strength:68%}
+.activity-day[data-shade="6"] {--activity-strength:82%}
+.activity-day[data-shade="7"] {--activity-strength:100%}
+.activity-progress {grid-template-columns:repeat(7,minmax(0,1fr))}

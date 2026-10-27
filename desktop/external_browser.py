@@ -87,6 +87,25 @@ class BrowserProcess:
             raise ValueError('Browser profile no longer owns this endpoint')
         return version
 
+    def _recover(self, executable, active):
+        from browser_endpoint import candidates
+        for pid, port in candidates(self.profile, executable):
+            try:
+                self.port=port
+                version=self.request('/json/version')
+                endpoint=urlsplit(version['webSocketDebuggerUrl'])
+                if endpoint.hostname not in ('127.0.0.1','localhost') or endpoint.port!=port:continue
+                page=DevToolsPage(version['webSocketDebuggerUrl'],lambda *_:None)
+                try:owned=any(item.get('type')=='browser' and item.get('id')==pid for item in page.call('SystemInfo.getProcessInfo')['processInfo'])
+                finally:page.close()
+                if not owned:continue
+                active.write_text(str(port)+'\n'+endpoint.path,encoding='utf-8')
+                self._memory(version)
+                return True
+            except (OSError,ValueError,KeyError,IndexError):pass
+        self.port=None
+        return False
+
     def ensure(self, browser=None, *, background=False):
         with self.lock:
             browser = browser or self.preferred
@@ -121,6 +140,8 @@ class BrowserProcess:
                 except (OSError, ValueError, IndexError):
                     self.port = None
                     active.unlink(missing_ok=True)
+            if self._recover(executable,active):
+                return
             # Port zero enables Chromium's automation mode. Use an ordinary
             # visible browser with a loopback port and verify its process
             # before saving the endpoint for later profile-owned reattachment.
@@ -134,7 +155,11 @@ class BrowserProcess:
                 creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0),
                 stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             deadline = time.monotonic() + 12
+            recovered_launcher=False
             while time.monotonic() < deadline:
+                if not recovered_launcher and self.process.poll() is not None:
+                    recovered_launcher=True
+                    if self._recover(executable,active):return
                 try:
                     version = self.request('/json/version')
                     endpoint = urlsplit(version['webSocketDebuggerUrl'])

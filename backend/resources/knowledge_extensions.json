@@ -430,6 +430,18 @@
       "sources": [
         "本地已有题面与题解中的明确几何对象；2026-10-23 分类审阅"
       ]
+    },
+    {
+      "name": "分治",
+      "category": "基础技巧",
+      "aliases": [
+        "divide and conquer",
+        "divide-and-conquer"
+      ],
+      "sources": [
+        "https://www.luogu.com.cn/problem/P1228",
+        "https://www.luogu.com.cn/problem/P3612"
+      ]
     }
   ]
 }

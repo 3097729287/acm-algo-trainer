@@ -23,6 +23,7 @@ import AccountSyncStatus from '@/components/AccountSyncStatus.jsx';
 import { useSocial, SocialNotifications } from '@/components/Social.jsx';
 import TierIcon from '@/components/TierIcon.jsx';
 import ProblemFilters from '@/components/ProblemFilters.jsx';
+import {prefetchTrainingLikes} from '@/lib/trainingLikeCache.js';
 import {
   useState,
   useEffect,
@@ -587,6 +588,7 @@ export default function App() {
     serverOffset = useRef(0),
     previousActive = useRef(null);
   const api = useCallback((path, body) => request(path, body, token.current), []);
+  useEffect(()=>{const owner=window.__tbAccountUserId;if(owner)prefetchTrainingLikes(owner,api).catch(()=>{});},[api]);
   const calendar = useContestCalendar(api, Boolean(data), dialog === 'contest-calendar', now);
   const [account, setAccount] = useState(() => window.__tbAccount || null);
   const social = useSocial(api, Boolean(data && account?.userId));
@@ -1587,7 +1589,7 @@ export default function App() {
           }
         }}
       >
-        <ProblemCells row={row} favorites={prefs.favorites} showPlatforms={prefs.showPlatforms} busy={busy} onTrain={id=>{setSelected(id);openPractice(id);}} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={id=>setListProblemIds([id])} onRemove={removeTraining}/>
+        <ProblemCells row={row} favorites={prefs.favorites} showPlatforms={prefs.showPlatforms} busy={busy} onTrain={id=>{setSelected(id);openPractice(id);}} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={id=>setListProblemIds(Array.isArray(id)?id:[id])} onRemove={removeTraining}/>
       </tr>
     ));
   }
@@ -2070,7 +2072,7 @@ export default function App() {
           ) : page === "activity" ? (
             <ActivityPage insights={insights} onTrain={openPractice} />
           ) : page === "training-lists" ? (
-            <TrainingListsPage rows={rows} api={api} onTrain={openPractice} visit={trainingListsVisit.current} pageSize={prefs.libraryPageSize} busy={busy} prefs={prefs} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={id=>setListProblemIds([id])} onRemove={removeTraining}/>
+            <TrainingListsPage rows={rows} api={api} onTrain={openPractice} visit={trainingListsVisit.current} pageSize={prefs.libraryPageSize} busy={busy} prefs={prefs} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={id=>setListProblemIds(Array.isArray(id)?id:[id])} onRemove={removeTraining}/>
           ) : page === "paths" ? (
             <LearningPathsPage rows={rows} api={api} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} lockedProblems={active?.slots || []} visit={labVisit.current}/>
           ) : page === "lectures" ? (

@@ -46,15 +46,18 @@ export class SocialStore {
   async listSummary(viewer, ids, day) {
     const result=Object.fromEntries(ids.map(id=>[id,{total:0,likedToday:false}]));
     if(!ids.length)return result;
-    const [rows]=await this.database.execute(`SELECT list_id,COUNT(*) AS total,
-      SUM(CASE WHEN actor_id=? AND liked_day=? THEN 1 ELSE 0 END) AS liked_today
-      FROM training_list_likes WHERE list_id IN (${ids.map(()=>'?').join(',')}) GROUP BY list_id`,[viewer,day,...ids]);
+    const [rows]=await this.database.execute(`SELECT list_id,COUNT(DISTINCT actor_id) AS total,
+      MAX(CASE WHEN actor_id=? THEN 1 ELSE 0 END) AS liked_today
+      FROM training_list_likes WHERE list_id IN (${ids.map(()=>'?').join(',')}) GROUP BY list_id`,[viewer,...ids]);
     for(const row of rows)result[row.list_id]={total:Number(row.total),likedToday:Boolean(Number(row.liked_today))};
     return result;
   }
-  async likeList(actor, hash, now, identity, day, timestamp) {
+  async likeList(actor, hash, now, identity, day, timestamp, liked=true) {
     return this.database.transaction(async connection=>{
       await this.assertSession(connection,actor,hash,now);
+      if(!liked){const [removed]=await connection.execute('DELETE FROM training_list_likes WHERE actor_id=? AND list_id=?',[actor,identity]);return {created:false,removed:removed.affectedRows>0};}
+      const [existing]=await connection.execute('SELECT list_id FROM training_list_likes WHERE actor_id=? AND list_id=? LIMIT 1',[actor,identity]);
+      if(existing.length)return {created:false};
       const insert=this.dialect==='mysql'?'INSERT IGNORE':'INSERT OR IGNORE';
       const [result]=await connection.execute(`${insert} INTO training_list_likes(actor_id,list_id,liked_day,created_at) VALUES(?,?,?,?)`,[actor,identity,day,timestamp]);
       return {created:result.affectedRows===1};

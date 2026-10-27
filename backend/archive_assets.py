@@ -2,7 +2,7 @@
 import ast
 import hashlib
 import json
-from functools import lru_cache
+from bounded_cache import bounded_cache
 from pathlib import Path
 import re
 import threading
@@ -33,7 +33,7 @@ class LegacyAssetLibrary:
         directory,_=toolutil.contest_paths(self.store.data_root,series,number)
         return row,Path(directory) if directory else None
 
-    @lru_cache(maxsize=256)
+    @bounded_cache(maxsize=24,maxbytes=8*1024*1024)
     def _cached(self,identity):
         row,directory=self._paths(identity)
         if row.get('_remote'):

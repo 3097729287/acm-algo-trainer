@@ -14,7 +14,8 @@ export function difficultyPresentation(row={}) {
     if(Number.isInteger(level)&&LUOGU_LEVELS[level])return {label:LUOGU_LEVELS[level],kind:'native',scale:'洛谷'};
   }
   if(!known)return {label:'待评估',kind:'unknown'};
-  return {label:value<1400?'简单':value<2000?'中等':'困难',kind:'estimate',scale:'CF 参考'};
+  const level=value<1000?'入门':value<1400?'基础':value<1800?'进阶':value<2200?'困难':'高难';
+  return {label:`${level} · ${Math.round(value/100)*100}`,kind:'estimate',scale:'训练参考'};
 }
 
 export function lessonLevel(lesson={}) {

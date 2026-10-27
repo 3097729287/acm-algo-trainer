@@ -1,11 +1,13 @@
 import {useEffect,useRef,useState} from 'react';
-import {Check,RotateCw,Search,X} from 'lucide-react';
+import {Check,Plus,RotateCw,Search,X} from 'lucide-react';
 import './AddToTrainingLists.css';
 
 export default function AddToTrainingLists({problemIds,api,onClose,onSave}) {
   const dialog=useRef(null),submit=useRef(false);
   const [lists,setLists]=useState(null),[selected,setSelected]=useState([]),[query,setQuery]=useState('');
   const [busy,setBusy]=useState(false),[error,setError]=useState(''),[attempt,setAttempt]=useState(0);
+  const [creating,setCreating]=useState(false),[name,setName]=useState('');
+  const creatingRef=useRef(false);
   useEffect(()=>{const node=dialog.current;node.showModal();return()=>node.close();},[]);
   useEffect(()=>{
     let alive=true;setError('');
@@ -18,10 +20,21 @@ export default function AddToTrainingLists({problemIds,api,onClose,onSave}) {
     try{onSave(await api('training-lists/add',{listIds:selected,problemIds}));}
     catch(issue){setError(issue.message||'添加失败');submit.current=false;setBusy(false);}
   }
+  async function create(){
+    if(busy||creatingRef.current||!name.trim())return;
+    creatingRef.current=true;setBusy(true);setError('');
+    try{
+      const result=await api('training-lists/save',{title:name.trim()});
+      setLists(result.customLists);setSelected(previous=>[...previous,result.list.id]);setQuery('');setName('');setCreating(false);
+      window.dispatchEvent(new Event('tb:training-lists-changed'));
+    }catch(issue){setError(issue.message||'新建失败');}
+    finally{creatingRef.current=false;setBusy(false);}
+  }
   return <dialog ref={dialog} className="social-comment-dialog add-training-lists" aria-labelledby="add-training-lists-title" onCancel={event=>{event.preventDefault();if(!busy)onClose();}}>
     <header><h3 id="add-training-lists-title">加入题单</h3><button type="button" aria-label="关闭加入题单" disabled={busy} onClick={onClose}><X size={18}/></button></header>
     <form onSubmit={save}>
       <div className="add-training-list-summary">{problemIds.length} 道题</div>
+      <div className="add-training-list-create">{creating?<><input autoFocus aria-label="新题单名称" maxLength={80} value={name} disabled={busy} onChange={event=>setName(event.target.value)} onKeyDown={event=>{if(event.key==='Enter'){event.preventDefault();create();}if(event.key==='Escape'){event.preventDefault();event.stopPropagation();setCreating(false);}}}/><button type="button" className="icon-button" aria-label="保存新题单" disabled={busy||!name.trim()} onClick={create}><Check size={18}/></button><button type="button" className="icon-button" aria-label="取消新建题单" disabled={busy} onClick={()=>setCreating(false)}><X size={18}/></button></>:<button type="button" className="icon-button" aria-label="新建题单" title="新建题单" disabled={busy} onClick={()=>setCreating(true)}><Plus size={18}/></button>}</div>
       {lists?.length>0&&<label className="search-box"><Search size={16}/><input aria-label="搜索自建题单" value={query} disabled={busy} onChange={event=>setQuery(event.target.value)}/></label>}
       <div className="add-training-list-options" aria-label="自建题单" aria-busy={!lists&&!error}>
         {!lists&&!error&&<p role="status">正在读取题单…</p>}

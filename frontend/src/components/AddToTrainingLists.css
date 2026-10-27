@@ -8,3 +8,5 @@ html .add-training-lists {width:min(460px,95vw);max-height:85dvh;}
 .add-training-list-options span {min-width:0;flex:1;overflow-wrap:anywhere;}
 .add-training-list-options small {flex:none;color:var(--muted);}
 .add-training-lists footer {display:flex;justify-content:flex-end;gap:12px;margin-top:18px;}
+
+.add-training-list-create{display:flex;align-items:center;gap:8px;margin-block:10px}.add-training-list-create input{flex:1;min-width:0}

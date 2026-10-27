@@ -352,7 +352,8 @@ class LeaderboardClient:
         from urllib.parse import urlencode
         profile = self.training._ranking_profile()
         empty = {'available': False, 'likes': {}}
-        if body is not None and (not isinstance(body, dict) or set(body) != {'listId'}):
+        if body is not None and (not isinstance(body, dict) or not {'listId'} <= set(body) <= {'listId','liked'} or
+                                 'liked' in body and type(body['liked']) is not bool):
             raise ServiceError(400, '题单点赞格式无效')
         if ids is not None and (len(ids) > 100 or any(not isinstance(item, str) or len(item) > 160 for item in ids)):
             raise ServiceError(400, '题单编号无效')

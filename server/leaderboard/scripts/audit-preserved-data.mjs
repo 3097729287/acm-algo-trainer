@@ -74,7 +74,7 @@ async function main() {
   }
   if (mode==='--stage') {
     const value=JSON.parse(await readFile(new URL('../BUILD-INFO.json',import.meta.url),'utf8'));
-    if (value.format!=='tb-account-runtime-v1' || value.version!=='1.2.5' ||
+    if (value.format!=='tb-account-runtime-v1' || value.version!=='1.2.6' ||
         !/^[0-9a-f]{40}$/.test(value.sourceCommit) || value.sourceCommit!==process.argv[3])
       throw new Error('Staged source identity does not match the reviewed commit.');
     process.stdout.write('Staged source identity verified.\n');

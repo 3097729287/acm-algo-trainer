@@ -19,13 +19,14 @@ try {
   assert.equal(await card.locator('.like-burst').isDisabled(),false);assert.match(await card.locator('.like-burst').innerText(),/7/);
   await page.evaluate(()=>{trainingFixture.failLike=false;});
   await card.locator('.like-burst').click();await page.waitForFunction(()=>document.querySelector('.like-burst-count')?.textContent==='8');
-  assert.equal(await card.locator('.like-burst').isDisabled(),true);
+  assert.equal(await card.locator('.like-burst').isDisabled(),false);await card.locator('.like-burst').click();await page.waitForFunction(()=>document.querySelector('.like-burst-count')?.textContent==='7');
   await card.getByRole('button',{name:'打开题单：搜索'}).click();await page.locator('.training-list-table').waitFor();
   assert.match(await page.locator('.training-list-table .tags-cell').first().innerText(),/DFS/);
   for(const status of ['AC','WA','TLE','MLE'])assert((await page.locator('.verdict').allTextContents()).includes(status));
   await page.evaluate(()=>{trainingFixture.delay=2000;trainingFixture.remount();});
   assert.equal(await page.getByText('正在读取题单…',{exact:true}).count(),0);await page.locator('.training-list-table').waitFor();
   for(const title of ['我的搜索练习','123']){
+    await page.getByRole('button',{name:'全部题单',exact:true}).click();
     await page.getByRole('button',{name:'新建题单',exact:true}).click();
     const dialog=page.getByRole('dialog');await dialog.getByLabel('题单名称').fill(title);
     assert.equal(await dialog.locator('input').count(),1);assert.equal(await dialog.locator('.training-list-editor-columns').count(),0);

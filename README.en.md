@@ -1,6 +1,6 @@
 # ToBe · Training Workbench
 
-**ToBe 1.4.19 (local update; unpublished)** adds single/batch filtered problem insertion into multiple personal lists, name-only creation, confirmed deletion and shared problem tables with AC progress. Mock papers use topbar filters, inline renaming and letters with problem titles. It fixes stale notification dots, always-on settings animation, missing AtCoder sample diagrams, default Chinese for new English statements and Luogu captcha rejection/retry handling. The shared service includes list likes and a bounded timeout fix for large account uploads; deployment status is recorded in the local delivery report. [Release scope](docs/releases/1.4.19.md).
+**ToBe 1.4.20 (local update; unpublished)** repairs shared browser connection recovery, refines difficulty estimates and excludes elementary exercises from automatic review. It adds list filters, insertion ordering, a favorite-problems list, cached reversible likes and inline creation, single-column mock papers, accent-based activity levels and bounded statement/streamed sync memory. [Release scope](docs/releases/1.4.20.md).
 
 Includes the ten algorithm topics, training lists, illustrated editorials and interface fixes previously delivered locally in 1.4.2–1.4.16. The public seed retains 13,184 problem records, 9,652 statement archives, 1,378 default/detailed editorial pairs, 445 lectures and 563 lists. Archived statements are not all complete or readable; see the [audit and release scope](docs/releases/1.4.17.md). The separate full editorial review remains incomplete.
 

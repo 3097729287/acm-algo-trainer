@@ -1,7 +1,7 @@
 """Read-only original statements and AST samples; explicit reviewed local profiles."""
 import hashlib
 import json
-from functools import lru_cache
+from bounded_cache import bounded_cache
 from pathlib import Path
 import re
 import threading
@@ -49,7 +49,7 @@ class AssetLibrary:
         directory,_=toolutil.contest_paths(self.store.data_root,series,number)
         return row,Path(directory) if directory else None
 
-    @lru_cache(maxsize=256)
+    @bounded_cache(maxsize=32,maxbytes=8*1024*1024)
     def _cached(self,identity):
         value=self.store.library.statement(identity)
         if value:return value
@@ -191,7 +191,7 @@ class AssetLibrary:
             value=dict(self._cached(identity))
         return value.get('translation')
 
-    @lru_cache(maxsize=32)
+    @bounded_cache(maxsize=8,maxbytes=2*1024*1024)
     def bundle(self,identity):
         base=self._cached(identity)
         cases=list(base['samples']);checker=None

@@ -1,5 +1,7 @@
 # ToBe 开发与构建
 
+1.4.20 为本机更新，尚未公开发布；正式下载仍为 1.4.17。提交浏览器恢复、难度复核与简单题复习排除、题单筛选/收藏/可取消点赞、单列试卷和强调色日历，以及有界缓存和流式同步压缩，见 [本次说明](releases/1.4.20.md)。
+
 ## 1.4.19 本机交付
 
 后端运行完整 `scripts/check.py`；前端构建及 `library-list-workflows.mjs`、`training-cards.mjs`、`statement-translation.mjs`、`workbench.mjs`、`luogu-native.mjs` 覆盖题库批量加入、右键删除、模拟赛、通知竞态、图文翻译和洛谷原生验证码失败/明确重试。真实账号不用于提交测试。

@@ -44,26 +44,28 @@ export function useSocial(api, enabled) {
 }
 
 const particles=[['0px','-30px','#f97083'],['23px','-23px','#f5bd63'],['32px','0px','#8f8cf0'],['23px','23px','#6ccbb1'],['0px','31px','#68b8f4'],['-23px','23px','#e18ce8'],['-32px','0px','#f5bd63'],['-23px','-23px','#6ccbb1']];
-export function LikeBurst({ targetId,nickname,likes,disabled,self=false,api,onLiked,onError,period='total',eventName='tb:social-change' }) {
+export function LikeBurst({ targetId,nickname,likes,disabled,self=false,api,onLiked,onError,period='total',eventName='tb:social-change',toggle=false }) {
   const count=likes?.counts?.[period]??likes?.total??0;
   const [value,setValue]=useState({...likes,total:count,likedToday:!!likes?.likedToday}), [burst,setBurst]=useState(false), [oldCount,setOldCount]=useState(0);
-  const inFlight=useRef(false), acknowledged=useRef(false), timer=useRef(null);
-  useEffect(()=>{setValue(previous=>acknowledged.current ? {total:Math.max(previous.total,count),likedToday:true} : {total:count,likedToday:!!likes?.likedToday});},[count,likes?.likedToday]);
-  useEffect(()=>()=>clearTimeout(timer.current),[]);
+  const inFlight=useRef(false), acknowledged=useRef(false), timer=useRef(null),queued=useRef(false),latestLike=useRef(null);
+  useEffect(()=>{if(!inFlight.current)setValue(previous=>!toggle&&acknowledged.current ? {total:Math.max(previous.total,count),likedToday:true} : {total:count,likedToday:!!likes?.likedToday});},[count,likes?.likedToday,toggle]);
+  useEffect(()=>()=>{clearTimeout(timer.current);latestLike.current=null;},[]);
   async function like(){
-    if(disabled || value.likedToday || inFlight.current)return;
+    if(disabled || !toggle&&value.likedToday)return;
+    if(inFlight.current){if(toggle)queued.current=!queued.current;return;}
     inFlight.current=true;
-    const before=value;setOldCount(before.total);setValue({total:before.total+1,likedToday:true});setBurst(true);
+    const before=value,liked=toggle?!before.likedToday:true;setOldCount(before.total);setValue({total:Math.max(0,before.total+(liked?1:-1)),likedToday:liked});setBurst(liked);
     timer.current=setTimeout(()=>setBurst(false),600);
     try {
-      const result=await api('social/likes',{targetId});
+      const result=await api('social/likes',{targetId,...(toggle?{liked}:{})});
       const received={...result.likes,counts:result.counts};
       acknowledged.current=true;setValue({total:result.counts?.[period]??result.likes.total,likedToday:result.likes.likedToday});onLiked?.({...result,likes:received});
       window.dispatchEvent(new CustomEvent(eventName,{detail:result}));
     } catch(issue){setValue(before);setBurst(false);onError?.(issue.message);}
-    finally{inFlight.current=false;}
+    finally{inFlight.current=false;if(toggle&&queued.current){queued.current=false;requestAnimationFrame(()=>latestLike.current?.());}}
   }
-  return <button type="button" className="like-burst" data-liked={value.likedToday||self} data-self={self} data-burst={burst} disabled={disabled || value.likedToday} aria-label={`${value.likedToday ? '今天已给' : '给'} ${nickname} 点爱心，${value.total} 个爱心`} aria-pressed={value.likedToday} title={value.likedToday ? '今天已点爱心，明天可以再点' : disabled ? '收到的爱心' : '点爱心，今天不能取消'} onClick={like}>
+  latestLike.current=like;
+  return <button type="button" className="like-burst" data-liked={value.likedToday||self} data-self={self} data-burst={burst} disabled={disabled || !toggle&&value.likedToday} aria-label={toggle?`${value.likedToday?'取消':'给'} ${nickname} 点爱心，${value.total} 个爱心`:`${value.likedToday ? '今天已给' : '给'} ${nickname} 点爱心，${value.total} 个爱心`} aria-pressed={value.likedToday} title={toggle?(value.likedToday?'取消点赞':'点赞'):value.likedToday ? '今天已点爱心，明天可以再点' : disabled ? '收到的爱心' : '点爱心，今天不能取消'} onClick={like}>
     <span className="like-burst-icon"><Heart size={19} fill={value.likedToday||self?'currentColor':'none'}/>{burst && particles.map(([x,y,color],index)=><i key={index} style={{'--dx':x,'--dy':y,'--particle-color':color}} aria-hidden="true"/>)}</span>
     <span className="like-burst-count" aria-live="polite"><span key={burst ? 'roll' : 'still'} className={burst?'like-count-roll':''}>{burst && <span aria-hidden="true">{oldCount}</span>}<span>{value.total}</span></span></span>
   </button>;
