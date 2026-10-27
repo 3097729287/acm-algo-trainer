@@ -11,6 +11,20 @@ from external_browser import BrowserProcess
 from knowledge import normalize_tags
 
 class Revision1420Tests(unittest.TestCase):
+    def test_paper_eligibility_uses_fresh_catalog_without_loading_statement_images(self):
+        from assets import AssetLibrary
+        rows=[{'id':'ready','catalogContentReady':True},{'id':'absent','catalogContentReady':False}]
+        store=SimpleNamespace(raw_rows=lambda:self.fail('Known catalog rows must not reload the raw library'))
+        library=AssetLibrary(store)
+        with patch.object(library,'_cached',side_effect=AssertionError('Paper preview must not decode Markdown/images')):
+            self.assertEqual(library.candidates(rows),[dict(rows[0],judgeScope='samples')])
+        # An older or imported row without indexed metadata still uses its own
+        # saved statement, while preserving the order of the incoming catalog.
+        legacy={'id':'legacy'}
+        with patch.object(store,'raw_rows',return_value=[]),patch.object(library,'_cached',return_value={'statementAvailable':True,'samples':[{'input':'','output':'1'}]}) as reader:
+            self.assertEqual([row['id'] for row in library.candidates([legacy,*rows])],['legacy','ready'])
+            reader.assert_called_once_with('legacy')
+
     def test_nontrivial_atcoder_retains_native_evidence_and_distinct_reference_level(self):
         row=normalize_practice_difficulty({'url':'https://atcoder.jp/contests/abc480/tasks/abc480_b','difficulty':800,'nativeDifficulty':124,'platform':'AtCoder'})
         self.assertEqual((row['difficulty'],row['nativeDifficulty']),(1200,124))

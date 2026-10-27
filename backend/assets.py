@@ -206,22 +206,28 @@ class AssetLibrary:
                 'coverage':reviewed_cases.PROFILES.get(identity) if local else '仅样例，不代表完整评测'}
 
     def candidates(self,rows):
+        # The fresh catalog already checks statement/sample presence in SQLite.
+        # Do not decode thousands of Markdown/image bodies merely to choose a
+        # paper, or fill the reader cache with tasks the user has never opened.
+        pending=[row for row in rows if not isinstance(row.get('catalogContentReady'),bool)]
+        ready={row['id'] for row in rows if row.get('catalogContentReady') is True}
+        if not pending:
+            return [dict(row,judgeScope='local' if row['id'] in reviewed_cases.PROFILES else 'samples') for row in rows if row['id'] in ready]
         # One request-scoped snapshot avoids re-parsing the full table per problem.
         # It is discarded after scanning, so later requests still read current rows.
-        result=[]
         candidates={r.get('_id') or r['场次']+'::'+r['题号']:r for r in self.store.raw_rows()} if hasattr(self.store,'raw_rows') else {}
         extensions=getattr(self.store,'extensions',None)
         if extensions:
-            for row in rows:
+            for row in pending:
                 if row['id'].startswith('remote:'):
                     remote=extensions.row(row['id'])
                     if remote:candidates[row['id']]=remote
         token = _CANDIDATE_ROWS.set((self, candidates))
         try:
-            for row in rows:
+            for row in pending:
                 try:base=self._cached(row['id'])
                 except (OSError,ValueError,SyntaxError):continue
                 if base['statementAvailable'] and base['samples']:
-                    result.append(dict(row,judgeScope='local' if row['id'] in reviewed_cases.PROFILES else 'samples'))
-            return result
+                    ready.add(row['id'])
+            return [dict(row,judgeScope='local' if row['id'] in reviewed_cases.PROFILES else 'samples') for row in rows if row['id'] in ready]
         finally:_CANDIDATE_ROWS.reset(token)
