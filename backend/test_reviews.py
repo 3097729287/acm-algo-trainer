@@ -30,6 +30,19 @@ class ReviewTests(unittest.TestCase):
     def state(self, identity='fixture::A'):
         return next(json.loads(r[0]) for r in self.service.connection.execute("SELECT value FROM account_preferences WHERE key LIKE 'review-state:%'") if json.loads(r[0])['key'] == identity)
 
+    def test_elementary_url_is_excluded_with_compact_metadata_and_receipts_preserved(self):
+        row=self.library.rows[0]
+        row['url']='https://www.luogu.com.cn/problem/P1001'
+        self.assertNotIn('reviewTrivial',row)
+        problem=dict(self.assets.problem(row['id']),url=row['url'])
+        with patch.object(self.assets,'problem',return_value=problem):
+            receipt=self.receipt()
+        self.service.save_draft(row['id'],'saved accepted code')
+        self.clock.advance(days=7)
+        self.assertEqual(self.service.review_plan()['tasks'],[])
+        self.assertEqual(self.service.problem(row['id'])['draft'],'saved accepted code')
+        self.assertEqual(self.service.connection.execute('SELECT code FROM submissions WHERE id=?',(receipt['id'],)).fetchone()[0],'independent rewrite')
+
     def test_first_review_uses_next_beijing_day_not_fixed_week_or_24_hours(self):
         self.clock.value = dt.datetime(2026,10,8,15,58,tzinfo=UTC)
         self.receipt()

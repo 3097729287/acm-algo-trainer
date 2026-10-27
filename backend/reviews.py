@@ -154,7 +154,11 @@ class ReviewScheduler:
                     continue
             # Preserve all receipts, draft contexts and prior review tasks. Pure
             # I/O/elementary language exercises simply leave the automatic queue.
-            if row.get('reviewTrivial'):
+            # Scheduling receives compact catalog rows, which intentionally
+            # omit the display-only normalization flag. Re-evaluate the stable
+            # original URL here so elementary tasks leave the real queue too.
+            from difficulty import normalize_practice_difficulty
+            if normalize_practice_difficulty(row).get('reviewTrivial'):
                 continue
             difficulty = row.get('difficulty')
             if type(difficulty) not in (int, float) or not math.isfinite(difficulty) or difficulty <= 0:
