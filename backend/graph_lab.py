@@ -32,4 +32,4 @@ def replay_events(rows):
              'labTopic': course['title'], 'count': 5, 'expectedCount': 5,
              'complete': all(canonical(p['url']) in urls for p in course['problems']),
              'duration': 180, 'durationSource': '可调整的专题训练默认值', 'rules': 'acm',
-             'platform': 'Codeforces', 'series': '算法实验室'} for course in courses().values()]
+             'platform': '算法实验室', 'series': '算法实验室'} for course in courses().values()]

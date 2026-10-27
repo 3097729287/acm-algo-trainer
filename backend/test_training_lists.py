@@ -62,7 +62,7 @@ class TrainingListTests(unittest.TestCase):
         live.merge_seed(old.path)
         self.assertEqual(live.training_lists(), [])
         migrated = LibraryDatabase(old.path)
-        self.assertEqual(migrated.metadata()['schema'], '5')
+        self.assertEqual(migrated.metadata()['schema'], '6')
         self.assertEqual(migrated.rows()[0]['id'], 'fixture::A')
         self.assertTrue(list((self.root / 'backups').glob('*schema-migration*.sqlite3')))
 

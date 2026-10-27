@@ -21,6 +21,8 @@ def rules(body):
 
 
 def event_info(name,rows):
+    from replay_catalog import unique_replay_rows
+    rows=unique_replay_rows(rows)
     xcpc=any(is_xcpc(row) for row in rows)
     duration=None;source='时长待核对，使用可调整的训练默认值'
     from training import parse_time

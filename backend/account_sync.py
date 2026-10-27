@@ -48,7 +48,7 @@ def snapshot_payload(state):
     """Compress incrementally instead of retaining another full private journal."""
     buffer=io.BytesIO();checksum=hashlib.sha256();size=0
     encoder=json.JSONEncoder(ensure_ascii=False,separators=(',',':'),sort_keys=True)
-    with gzip.GzipFile(fileobj=buffer,mode='wb',compresslevel=3,mtime=0) as stream:
+    with gzip.GzipFile(fileobj=buffer,mode='wb',compresslevel=6,mtime=0) as stream:
         for text in encoder.iterencode(state):
             part=text.encode('utf-8');size+=len(part)
             if size>64*1024*1024:

@@ -55,6 +55,7 @@ BROAD = {
     '动态规划 DP':'动态规划', '搜索':'搜索', '群论':'数学 / 群论', '微积分':'数学 / 微积分', '导数':'数学 / 微积分',
 }
 OFFICIAL = {
+    'games':'博弈论', 'probabilities':'期望与概率', 'divide and conquer':'分治',
     'binary search':'二分查找', 'brute force':'枚举', 'combinatorics':'组合计数',
     'constructive algorithms':'构造', 'dfs and similar':'DFS', 'dsu':'并查集',
     'geometry':'计算几何', 'graph matchings':'二分图匹配', 'graphs':'图论',

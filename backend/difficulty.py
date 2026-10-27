@@ -3,7 +3,7 @@ import math
 import re
 from functools import lru_cache
 
-VERSION = '1.4.20'
+VERSION = '1.4.22'
 
 TRIVIAL_LUOGU = {'P1000','P1001','B2002','B2005','B2025','B2029','P1421','P1425','P3954','P5703','P17727'}
 REVIEWED = {
@@ -11,8 +11,8 @@ REVIEWED = {
         '精确匹配优先；否则长度相同且汉明距离恰为 1 的候选人必须唯一，O(NM|S|)。不能将该实现复杂度与纯输入输出等同。'),
     ('atcoder.jp','/contests/abc481/tasks/abc481_b'):(1000,[800,1200],
         '相邻线段与水平线相交计数，需处理共享端点去重，O(N)。'),
-    ('ac.nowcoder.com','/acm/contest/141877/C'):(1600,[1400,1800],
-        '闭区间端点覆盖数，分别排序左右端点，用 upper_bound(left,x)-lower_bound(right,x) 求覆盖，O(N log N)，注意等号。'),
+    ('ac.nowcoder.com','/acm/contest/141877/C'):(1400,[1200,1600],
+        '常规直观解法：收集端点离散化，对每个闭区间做差分，前缀和得到端点覆盖数，O(N log N)。另有排序左右端点后二分计数；按直观常规解法标定，特殊技巧不计入。'),
 }
 
 OYSTER_URL = 'https://codeforces.com/gym/106695/problem/J'

@@ -1,0 +1,355 @@
+{
+  "version": 1,
+  "templates": [
+    {
+      "id": "builtin:dsu",
+      "title": "并查集：路径压缩与按大小合并",
+      "category": "数据结构",
+      "summary": "连通性、集合大小、合并是否成功和连通块数量。",
+      "tags": [
+        "并查集"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\n// 顶点编号 [0,n)，路径压缩 + 按集合大小合并。\nstruct DSU {\n    vector<int> parent, size;\n    int components;\n    explicit DSU(int n) : parent(n), size(n, 1), components(n) {\n        iota(parent.begin(), parent.end(), 0);\n    }\n    int find(int vertex) {\n        int root = vertex;\n        while (root != parent[root]) root = parent[root];\n        while (vertex != root) {\n            int next = parent[vertex];\n            parent[vertex] = root;\n            vertex = next;\n        }\n        return root;\n    }\n    bool same(int a, int b) { return find(a) == find(b); }\n    int component_size(int vertex) { return size[find(vertex)]; }\n    bool unite(int a, int b) {\n        a = find(a); b = find(b);\n        if (a == b) return false;\n        if (size[a] < size[b]) swap(a, b);\n        parent[b] = a;\n        size[a] += size[b];\n        --components;\n        return true;\n    }\n};\n",
+      "notes": "编号从 0 开始。初始化 O(n)，m 次操作总计 O((n+m)α(n))，空间 O(n)。size 仅根节点有效，通过 component_size 查询；此版本不支持撤销或拆分。",
+      "example": "int main() {\n    DSU sets(5);\n    sets.unite(0, 1); sets.unite(1, 2);\n    assert(sets.same(0, 2) && sets.component_size(1) == 3);\n    assert(!sets.unite(2, 0) && sets.components == 3);\n}\n",
+      "builtin": true
+    },
+    {
+      "id": "builtin:dijkstra",
+      "title": "Dijkstra：非负权最短路与路径还原",
+      "category": "图论",
+      "summary": "邻接表与小根堆，跳过过期状态，保留前驱。",
+      "tags": [
+        "最短路",
+        "堆"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\nstruct WeightedEdge { int to; long long weight; };\nconstexpr long long DIST_INF = numeric_limits<long long>::max() / 4;\nstruct ShortestPaths {\n    vector<long long> distance;\n    vector<int> parent;\n    vector<int> path_to(int target) const {\n        if (distance[target] == DIST_INF) return {};\n        vector<int> path;\n        for (int v = target; v != -1; v = parent[v]) path.push_back(v);\n        reverse(path.begin(), path.end());\n        return path;\n    }\n};\nShortestPaths dijkstra(const vector<vector<WeightedEdge>>& graph, int source) {\n    int n = graph.size();\n    ShortestPaths result{vector<long long>(n, DIST_INF), vector<int>(n, -1)};\n    priority_queue<pair<long long,int>, vector<pair<long long,int>>,\n                   greater<pair<long long,int>>> pending;\n    result.distance[source] = 0;\n    pending.push({0, source});\n    while (!pending.empty()) {\n        auto [current, vertex] = pending.top(); pending.pop();\n        if (current != result.distance[vertex]) continue;\n        for (auto edge : graph[vertex]) {\n            assert(edge.weight >= 0);\n            if (edge.weight > DIST_INF - current) continue;\n            long long candidate = current + edge.weight;\n            if (candidate >= result.distance[edge.to]) continue;\n            result.distance[edge.to] = candidate;\n            result.parent[edge.to] = vertex;\n            pending.push({candidate, edge.to});\n        }\n    }\n    return result;\n}\n",
+      "notes": "所有边权必须非负，有限最短路须严格小于 DIST_INF。允许重边、自环、零权边和不连通图；无向边须添加两个方向。堆实现 O((n+m)log(n+m))，空间 O(n+m)，重边很多时堆中也可能保留 O(m) 个候选。",
+      "example": "int main() {\n    vector<vector<WeightedEdge>> graph(4);\n    graph[0] = {{1, 7}, {2, 2}}; graph[2] = {{1, 1}};\n    auto result = dijkstra(graph, 0);\n    assert(result.distance[1] == 3 && result.path_to(1) == vector<int>({0,2,1}));\n    assert(result.path_to(3).empty());\n}\n",
+      "builtin": true
+    },
+    {
+      "id": "builtin:kruskal",
+      "title": "Kruskal + 并查集：最小生成树",
+      "category": "图论",
+      "summary": "输出最小生成森林、选中边编号和连通性。",
+      "tags": [
+        "最小生成树",
+        "并查集",
+        "排序"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\n// 顶点编号 [0,n)，路径压缩 + 按集合大小合并。\nstruct DSU {\n    vector<int> parent, size;\n    int components;\n    explicit DSU(int n) : parent(n), size(n, 1), components(n) {\n        iota(parent.begin(), parent.end(), 0);\n    }\n    int find(int vertex) {\n        int root = vertex;\n        while (root != parent[root]) root = parent[root];\n        while (vertex != root) {\n            int next = parent[vertex];\n            parent[vertex] = root;\n            vertex = next;\n        }\n        return root;\n    }\n    bool same(int a, int b) { return find(a) == find(b); }\n    int component_size(int vertex) { return size[find(vertex)]; }\n    bool unite(int a, int b) {\n        a = find(a); b = find(b);\n        if (a == b) return false;\n        if (size[a] < size[b]) swap(a, b);\n        parent[b] = a;\n        size[a] += size[b];\n        --components;\n        return true;\n    }\n};\n\nstruct MSTEdge { int from, to; long long weight; int id; };\nstruct MSTResult {\n    long long weight = 0;\n    vector<int> edge_ids;\n    int components = 0;\n    bool connected() const { return components <= 1; }\n};\nMSTResult kruskal(int n, vector<MSTEdge> edges) {\n    sort(edges.begin(), edges.end(), [](const MSTEdge& a, const MSTEdge& b) {\n        return tie(a.weight, a.id) < tie(b.weight, b.id);\n    });\n    DSU sets(n);\n    MSTResult result;\n    for (const auto& edge : edges) {\n        if (!sets.unite(edge.from, edge.to)) continue;\n        result.weight += edge.weight;\n        result.edge_ids.push_back(edge.id);\n        if (sets.components == 1) break;\n    }\n    result.components = sets.components;\n    return result;\n}\n",
+      "notes": "无向图，每条边只需放入一次；允许负权、重边、自环。O(m log m)，空间 O(n+m)。不连通时得到最小生成森林，connected() 为 false，不能把森林权重当生成树答案；总权重须在 long long 范围内。已包含完整 DSU，无额外模板依赖。",
+      "example": "int main() {\n    vector<MSTEdge> edges = {{0,1,3,0}, {1,2,-1,1}, {0,2,5,2}, {1,1,-9,3}};\n    auto result = kruskal(3, edges);\n    assert(result.connected() && result.weight == 2 && result.edge_ids.size() == 2);\n    assert(!kruskal(4, edges).connected());\n}\n",
+      "builtin": true
+    },
+    {
+      "id": "builtin:bfs",
+      "title": "BFS：多源无权最短路",
+      "category": "搜索",
+      "summary": "队列分层、距离和前驱；单源是多源的特例。",
+      "tags": [
+        "BFS"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\nstruct BFSResult { vector<int> distance, parent; };\nBFSResult bfs(const vector<vector<int>>& graph, const vector<int>& sources) {\n    int n = graph.size();\n    BFSResult result{vector<int>(n, -1), vector<int>(n, -1)};\n    queue<int> pending;\n    for (int source : sources) {\n        if (result.distance[source] != -1) continue;\n        result.distance[source] = 0; pending.push(source);\n    }\n    while (!pending.empty()) {\n        int vertex = pending.front(); pending.pop();\n        for (int next : graph[vertex]) {\n            if (result.distance[next] != -1) continue;\n            result.distance[next] = result.distance[vertex] + 1;\n            result.parent[next] = vertex;\n            pending.push(next);\n        }\n    }\n    return result;\n}\n",
+      "notes": "编号 [0,n)，所有边花费相同。距离 -1 表示不可达，多源同时从第 0 层出发。O(n+m)，额外空间 O(n)。在入队时标记，防止重复入队。",
+      "example": "int main() {\n    vector<vector<int>> graph = {{1}, {2}, {}, {2}, {}};\n    auto result = bfs(graph, {0,3,0});\n    assert(result.distance == vector<int>({0,1,1,0,-1}));\n}\n",
+      "builtin": true
+    },
+    {
+      "id": "builtin:zero-one-bfs",
+      "title": "0–1 BFS：双端队列最短路",
+      "category": "图论",
+      "summary": "权为 0 的边放队首，权为 1 的边放队尾。",
+      "tags": [
+        "BFS",
+        "最短路"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\nvector<int> zero_one_bfs(const vector<vector<pair<int,int>>>& graph, int source) {\n    int n = graph.size();\n    const int INF = numeric_limits<int>::max() / 2;\n    vector<int> distance(n, INF);\n    deque<pair<int,int>> pending;\n    distance[source] = 0; pending.push_front({0,source});\n    while (!pending.empty()) {\n        auto [current, vertex] = pending.front(); pending.pop_front();\n        if (current != distance[vertex]) continue;\n        for (auto [next, weight] : graph[vertex]) {\n            assert(weight == 0 || weight == 1);\n            if (current + weight >= distance[next]) continue;\n            distance[next] = current + weight;\n            if (weight == 0) pending.push_front({distance[next], next});\n            else pending.push_back({distance[next], next});\n        }\n    }\n    return distance;\n}\n",
+      "notes": "仅适用于权值恰为 0 或 1 的图。O(n+m)，空间 O(n+m)，INF=INT_MAX/2 表示不可达；一般非负权使用 Dijkstra。",
+      "example": "int main() {\n    vector<vector<pair<int,int>>> graph = {{{1,1},{2,0}}, {}, {{1,0}}};\n    assert(zero_one_bfs(graph,0)[1] == 0);\n}\n",
+      "builtin": true
+    },
+    {
+      "id": "builtin:bellman-ford",
+      "title": "Bellman–Ford：负权与负环影响",
+      "category": "图论",
+      "summary": "区分不可达、有限最短路和可达负环影响的顶点。",
+      "tags": [
+        "最短路"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\nstruct BFEdge { int from, to; long long weight; };\nstruct BFResult { vector<long long> distance; vector<bool> negative; };\nBFResult bellman_ford(int n, const vector<BFEdge>& edges, int source) {\n    constexpr long long INF = numeric_limits<long long>::max() / 4;\n    vector<__int128> distance(n, (__int128)INF);\n    vector<vector<int>> graph(n);\n    for (auto edge : edges) graph[edge.from].push_back(edge.to);\n    distance[source] = 0;\n    vector<bool> negative(n, false);\n    queue<int> pending;\n    for (int round = 0; round < n; ++round) {\n        bool changed = false;\n        for (auto edge : edges) {\n            if (distance[edge.from] == INF) continue;\n            __int128 candidate = distance[edge.from] + edge.weight;\n            if (candidate >= distance[edge.to]) continue;\n            distance[edge.to] = candidate;\n            changed = true;\n            if (round == n-1 && !negative[edge.to]) {\n                negative[edge.to] = true; pending.push(edge.to);\n            }\n        }\n        if (!changed) break;\n    }\n    while (!pending.empty()) {\n        int vertex = pending.front(); pending.pop();\n        for (int next : graph[vertex]) if (!negative[next]) {\n            negative[next] = true; pending.push(next);\n        }\n    }\n    BFResult result{vector<long long>(n, INF), negative};\n    for (int v=0; v<n; ++v) if (!negative[v] && distance[v] != INF) {\n        assert(-(__int128)INF < distance[v] && distance[v] < INF);\n        result.distance[v] = (long long)distance[v];\n    }\n    return result;\n}\n",
+      "notes": "O(nm+n+m)，额外空间 O(n+m)。支持负边。只标记从 source 能到达的负环及其后继；negative[v] 为真时最短路无下界，不读取 distance[v]。有限最短路须在 (-INF,INF) 内；__int128 避免负环松弛时 long long 中间溢出。",
+      "example": "int main() {\n    auto finite = bellman_ford(3, {{0,1,4},{1,2,-2}}, 0);\n    assert(finite.distance[2] == 2 && !finite.negative[2]);\n    auto cycle = bellman_ford(4, {{0,1,1},{1,2,-2},{2,1,1}}, 0);\n    assert(cycle.negative[1] && cycle.negative[2] && !cycle.negative[3]);\n}\n",
+      "builtin": true
+    },
+    {
+      "id": "builtin:topological",
+      "title": "拓扑排序：DAG 顺序与环检测",
+      "category": "图论",
+      "summary": "Kahn 入度法；仅当全部顶点出队时图无环。",
+      "tags": [
+        "拓扑排序"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\noptional<vector<int>> topological_sort(const vector<vector<int>>& graph) {\n    int n = graph.size();\n    vector<int> indegree(n, 0), order;\n    for (const auto& edges : graph) for (int next : edges) ++indegree[next];\n    queue<int> ready;\n    for (int v=0; v<n; ++v) if (indegree[v] == 0) ready.push(v);\n    while (!ready.empty()) {\n        int vertex = ready.front(); ready.pop(); order.push_back(vertex);\n        for (int next : graph[vertex]) if (--indegree[next] == 0) ready.push(next);\n    }\n    if ((int)order.size() != n) return nullopt;\n    return order;\n}\n",
+      "notes": "有向图，O(n+m)，额外空间 O(n)。有环返回 nullopt；没有承诺字典序最小，如有要求将 queue 改为小根堆，复杂度变为 O((n+m)log n)。重边的入度逐条计数与消除。",
+      "example": "int main() {\n    assert(topological_sort({{1,2},{2},{}}).value() == vector<int>({0,1,2}));\n    assert(!topological_sort({{1},{0}}));\n}\n",
+      "builtin": true
+    },
+    {
+      "id": "builtin:scc",
+      "title": "强连通分量：迭代 Kosaraju 与缩点",
+      "category": "图论",
+      "summary": "两次迭代遍历，分量编号和去重后的缩点 DAG。",
+      "tags": [
+        "强连通分量",
+        "DFS"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\nstruct SCCResult { vector<int> component; vector<vector<int>> groups, dag; };\nSCCResult strongly_connected_components(const vector<vector<int>>& graph) {\n    int n = graph.size();\n    vector<vector<int>> reverse_graph(n);\n    for (int v=0; v<n; ++v) for (int next : graph[v]) reverse_graph[next].push_back(v);\n    vector<bool> visited(n, false);\n    vector<int> order;\n    for (int start=0; start<n; ++start) if (!visited[start]) {\n        vector<pair<int,size_t>> stack{{start,0}}; visited[start] = true;\n        while (!stack.empty()) {\n            int vertex = stack.back().first;\n            size_t& edge_index = stack.back().second;\n            if (edge_index == graph[vertex].size()) {\n                order.push_back(vertex); stack.pop_back(); continue;\n            }\n            int next = graph[vertex][edge_index++];\n            if (!visited[next]) { visited[next] = true; stack.push_back({next,0}); }\n        }\n    }\n    SCCResult result{vector<int>(n,-1), {}, {}};\n    reverse(order.begin(), order.end());\n    for (int start : order) if (result.component[start] == -1) {\n        int id = result.groups.size(); result.groups.push_back({});\n        vector<int> stack{start}; result.component[start] = id;\n        while (!stack.empty()) {\n            int vertex = stack.back(); stack.pop_back(); result.groups[id].push_back(vertex);\n            for (int next : reverse_graph[vertex]) if (result.component[next] == -1) {\n                result.component[next] = id; stack.push_back(next);\n            }\n        }\n    }\n    result.dag.resize(result.groups.size());\n    for (int v=0; v<n; ++v) for (int next : graph[v])\n        if (result.component[v] != result.component[next])\n            result.dag[result.component[v]].push_back(result.component[next]);\n    for (auto& edges : result.dag) {\n        sort(edges.begin(), edges.end());\n        edges.erase(unique(edges.begin(), edges.end()), edges.end());\n    }\n    return result;\n}\n",
+      "notes": "有向图，分量编号从 0 开始。两次遍历 O(n+m)，缩点边排序去重另需 O(m log m) 上界，空间 O(n+m)。不递归，适用于长链；同一分量内两点互相可达。",
+      "example": "int main() {\n    auto result = strongly_connected_components({{1},{0,2},{3},{2},{}});\n    assert(result.groups.size() == 3);\n    assert(result.component[0] == result.component[1]);\n    assert(result.component[0] != result.component[2]);\n}\n",
+      "builtin": true
+    },
+    {
+      "id": "builtin:lca",
+      "title": "LCA：倍增、祖先与树上距离",
+      "category": "图论",
+      "summary": "支持森林，迭代建表，跨树查询返回 -1。",
+      "tags": [
+        "LCA",
+        "倍增"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\nstruct LCA {\n    int levels = 1;\n    vector<vector<int>> ancestor;\n    vector<int> depth, component;\n    explicit LCA(const vector<vector<int>>& forest) {\n        int n = forest.size();\n        while ((1LL << levels) <= max(1,n)) ++levels;\n        ancestor.assign(levels, vector<int>(n,-1));\n        depth.assign(n,0); component.assign(n,-1);\n        for (int root=0; root<n; ++root) if (component[root] == -1) {\n            queue<int> pending; pending.push(root); component[root] = root;\n            while (!pending.empty()) {\n                int vertex = pending.front(); pending.pop();\n                for (int next : forest[vertex]) if (component[next] == -1) {\n                    component[next] = root; depth[next] = depth[vertex]+1;\n                    ancestor[0][next] = vertex; pending.push(next);\n                }\n            }\n        }\n        for (int level=1; level<levels; ++level) for (int v=0; v<n; ++v) {\n            int middle = ancestor[level-1][v];\n            if (middle != -1) ancestor[level][v] = ancestor[level-1][middle];\n        }\n    }\n    int kth_ancestor(int vertex, long long steps) const {\n        if (steps < 0 || steps > depth[vertex]) return -1;\n        for (int level=0; level<levels; ++level)\n            if ((steps >> level) & 1LL) vertex = ancestor[level][vertex];\n        return vertex;\n    }\n    int query(int a, int b) const {\n        if (component[a] != component[b]) return -1;\n        if (depth[a] < depth[b]) swap(a,b);\n        a = kth_ancestor(a,depth[a]-depth[b]);\n        if (a == b) return a;\n        for (int level=levels-1; level>=0; --level) if (ancestor[level][a] != ancestor[level][b]) {\n            a = ancestor[level][a]; b = ancestor[level][b];\n        }\n        return ancestor[0][a];\n    }\n    int distance(int a,int b) const {\n        int common = query(a,b);\n        return common == -1 ? -1 : depth[a]+depth[b]-2*depth[common];\n    }\n};\n",
+      "notes": "输入必须是无向森林，每个连通块以编号最小的顶点为根；有向子树或一般含环图不能直接套用。建表 O(n log n)，查询 O(log n)，空间 O(n log n)。distance 为边数；带权距离需另存根路径权重和。",
+      "example": "int main() {\n    LCA tree({{1,2},{0,3},{0},{1},{}});\n    assert(tree.query(3,2) == 0 && tree.distance(3,2) == 3);\n    assert(tree.kth_ancestor(3,2) == 0 && tree.kth_ancestor(3,3) == -1);\n    assert(tree.query(3,4) == -1);\n}\n",
+      "builtin": true
+    },
+    {
+      "id": "builtin:fenwick",
+      "title": "树状数组：单点加、区间和与第 k 小",
+      "category": "数据结构",
+      "summary": "外部统一 0 下标和左闭右开区间。",
+      "tags": [
+        "树状数组"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\nstruct Fenwick {\n    int n;\n    vector<long long> tree;\n    explicit Fenwick(int n) : n(n), tree(n+1,0) {}\n    void add(int index, long long delta) {\n        assert(0 <= index && index < n);\n        for (++index; index<=n; index+=index&-index) tree[index] += delta;\n    }\n    // [0,end)\n    long long prefix_sum(int end) const {\n        assert(0 <= end && end <= n);\n        long long sum = 0;\n        for (; end>0; end-=end&-end) sum += tree[end];\n        return sum;\n    }\n    long long range_sum(int left,int right) const {\n        assert(0 <= left && left <= right && right <= n);\n        return prefix_sum(right)-prefix_sum(left);\n    }\n    // 各位置计数非负时，返回第 k 个元素的位置；不存在返回 n。\n    int kth(long long k) const {\n        if (k <= 0) return n;\n        int index = 0, step = 1;\n        while (step <= n/2) step <<= 1;\n        for (; step>0; step>>=1) {\n            int next = index+step;\n            if (next <= n && tree[next] < k) { index=next; k-=tree[next]; }\n        }\n        return index; // 已跳过 index 个位置，即答案的 0 下标。\n    }\n};\n",
+      "notes": "add/prefix_sum/range_sum/kth 均 O(log n)，空间 O(n)。普通求和可含负值；kth 依赖所有位置的当前计数非负。k 从 1 开始，不存在返回 n。所有累加结果须在 long long 范围内。",
+      "example": "int main() {\n    Fenwick counts(5); counts.add(1,2); counts.add(3,1);\n    assert(counts.range_sum(1,4) == 3);\n    assert(counts.kth(2) == 1 && counts.kth(3) == 3 && counts.kth(4) == 5);\n}\n",
+      "builtin": true
+    },
+    {
+      "id": "builtin:segment-tree",
+      "title": "懒标记线段树：区间加与区间和",
+      "category": "数据结构",
+      "summary": "0 下标、左闭右开，空区间可直接查询或修改。",
+      "tags": [
+        "线段树"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\nstruct RangeAddSum {\n    int n;\n    vector<long long> sum, lazy;\n    explicit RangeAddSum(const vector<long long>& values) : n(values.size()),\n        sum(4*max(1,n),0), lazy(4*max(1,n),0) { if (n) build(1,0,n,values); }\n    void build(int node,int left,int right,const vector<long long>& values) {\n        if (right-left == 1) { sum[node]=values[left]; return; }\n        int middle=left+(right-left)/2;\n        build(node*2,left,middle,values); build(node*2+1,middle,right,values);\n        pull(node);\n    }\n    void pull(int node) { sum[node]=sum[node*2]+sum[node*2+1]; }\n    void apply(int node,int length,long long delta) {\n        sum[node]+=delta*length; lazy[node]+=delta;\n    }\n    void push(int node,int left,int middle,int right) {\n        apply(node*2,middle-left,lazy[node]);\n        apply(node*2+1,right-middle,lazy[node]); lazy[node]=0;\n    }\n    void update(int node,int left,int right,int from,int to,long long delta) {\n        if (to<=left || right<=from) return;\n        if (from<=left && right<=to) { apply(node,right-left,delta); return; }\n        int middle=left+(right-left)/2; push(node,left,middle,right);\n        update(node*2,left,middle,from,to,delta);\n        update(node*2+1,middle,right,from,to,delta); pull(node);\n    }\n    long long query(int node,int left,int right,int from,int to) {\n        if (to<=left || right<=from) return 0;\n        if (from<=left && right<=to) return sum[node];\n        int middle=left+(right-left)/2; push(node,left,middle,right);\n        return query(node*2,left,middle,from,to)+query(node*2+1,middle,right,from,to);\n    }\n    void add(int left,int right,long long delta) {\n        assert(0<=left && left<=right && right<=n);\n        if (left<right) update(1,0,n,left,right,delta);\n    }\n    long long range_sum(int left,int right) {\n        assert(0<=left && left<=right && right<=n);\n        return left==right ? 0 : query(1,0,n,left,right);\n    }\n};\n",
+      "notes": "初始化 O(n)，区间加/区间和 O(log n)，空间 O(n)。所有区间为 [left,right)。乘积 delta×区间长度、lazy 和 sum 均须在 long long 范围内。这个标记只代表加法；区间赋值需单独设计覆盖标记，不能直接复用。",
+      "example": "int main() {\n    RangeAddSum values({1,2,3,4}); values.add(1,4,5);\n    assert(values.range_sum(0,4) == 25 && values.range_sum(2,3) == 8);\n    values.add(0,2,-2); assert(values.range_sum(0,2) == 4);\n    RangeAddSum empty({}); assert(empty.range_sum(0,0) == 0);\n}\n",
+      "builtin": true
+    },
+    {
+      "id": "builtin:sparse-table",
+      "title": "ST 表：静态区间最小值",
+      "category": "数据结构",
+      "summary": "预处理后 O(1) 查询，适合不会修改的数组。",
+      "tags": [
+        "稀疏表"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\nstruct SparseMin {\n    vector<int> logarithm;\n    vector<vector<long long>> table;\n    explicit SparseMin(const vector<long long>& values) {\n        int n=values.size(); logarithm.assign(n+1,0);\n        for (int i=2; i<=n; ++i) logarithm[i]=logarithm[i/2]+1;\n        if (!n) return;\n        table.assign(logarithm[n]+1,vector<long long>(n)); table[0]=values;\n        for (int level=1; level<(int)table.size(); ++level)\n            for (int left=0; left+(1<<level)<=n; ++left)\n                table[level][left]=min(table[level-1][left],table[level-1][left+(1<<(level-1))]);\n    }\n    long long query(int left,int right) const { // [left,right)，非空\n        assert(0<=left && left<right && right<(int)logarithm.size());\n        int level=logarithm[right-left];\n        return min(table[level][left],table[level][right-(1<<level)]);\n    }\n};\n",
+      "notes": "预处理与空间 O(n log n)，查询 O(1)。区间 [left,right) 必须非空。两段可能重叠，依赖 min 的幂等性；可改 max/gcd，不能直接改成求和。",
+      "example": "int main() { SparseMin values({5,2,7,-1}); assert(values.query(1,4) == -1); }\n",
+      "builtin": true
+    },
+    {
+      "id": "builtin:compression",
+      "title": "离散化：排序、去重与原值还原",
+      "category": "基础算法",
+      "summary": "保持大小与相等关系，提供精确下标和边界位置。",
+      "tags": [
+        "离散化",
+        "排序",
+        "二分查找"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\ntemplate<class T> struct Compression {\n    vector<T> values;\n    explicit Compression(vector<T> input) : values(move(input)) {\n        sort(values.begin(),values.end());\n        values.erase(unique(values.begin(),values.end()),values.end());\n    }\n    int lower(const T& value) const {\n        return lower_bound(values.begin(),values.end(),value)-values.begin();\n    }\n    int upper(const T& value) const {\n        return upper_bound(values.begin(),values.end(),value)-values.begin();\n    }\n    int index(const T& value) const { // 必须已收集该原值\n        int position=lower(value);\n        assert(position<(int)values.size() && values[position]==value);\n        return position;\n    }\n    const T& original(int index) const { return values.at(index); }\n    int size() const { return values.size(); }\n};\n",
+      "notes": "先收集全部需要精确查询的坐标。构建 O(n log n)，查询 O(log n)，空间 O(n)。压缩只保持顺序与相等性，不保持距离；处理线段长度时使用 original(i+1)-original(i)。闭区间差分的右端应在压缩后下标 r+1 处减，注意预留哨兵。",
+      "example": "int main() {\n    Compression<long long> coordinates({1000000000, -3, 7, -3});\n    assert(coordinates.size()==3 && coordinates.index(7)==1);\n    assert(coordinates.lower(0)==1 && coordinates.original(2)==1000000000);\n}\n",
+      "builtin": true
+    },
+    {
+      "id": "builtin:prefix-difference",
+      "title": "一维前缀和与差分",
+      "category": "基础算法",
+      "summary": "统一 [left,right)；静态区间和与离线区间加。",
+      "tags": [
+        "前缀和",
+        "差分"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\nstruct PrefixSum {\n    vector<long long> prefix;\n    explicit PrefixSum(const vector<long long>& values) : prefix(values.size()+1,0) {\n        for (int i=0; i<(int)values.size(); ++i) prefix[i+1]=prefix[i]+values[i];\n    }\n    long long query(int left,int right) const {\n        assert(0<=left && left<=right && right<(int)prefix.size());\n        return prefix[right]-prefix[left];\n    }\n};\nstruct Difference {\n    vector<long long> difference;\n    explicit Difference(int n) : difference(n+1,0) {}\n    void add(int left,int right,long long delta) { // [left,right)\n        assert(0<=left && left<=right && right<(int)difference.size());\n        difference[left]+=delta; difference[right]-=delta;\n    }\n    vector<long long> materialize() const {\n        vector<long long> result(difference.size()-1);\n        long long current=0;\n        for (int i=0; i<(int)result.size(); ++i) result[i]=(current+=difference[i]);\n        return result;\n    }\n};\n",
+      "notes": "前缀和构建 O(n)、查询 O(1)；差分每次区间加 O(1)，最后还原 O(n)，空间 O(n)。Difference 表示在全零数组上累加的增量，要叠加原数组请在还原后相加。在线混合修改与查询使用树状数组或线段树。",
+      "example": "int main() {\n    PrefixSum values({2,-1,4}); assert(values.query(1,3)==3);\n    Difference updates(4); updates.add(1,4,2); updates.add(2,3,-1);\n    assert(updates.materialize()==vector<long long>({0,2,1,2}));\n}\n",
+      "builtin": true
+    },
+    {
+      "id": "builtin:window-extrema",
+      "title": "单调队列：滑动窗口最值",
+      "category": "基础算法",
+      "summary": "下标入队；先移出过期元素，再维护单调性。",
+      "tags": [
+        "单调队列",
+        "双指针"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\nvector<long long> sliding_minimum(const vector<long long>& values,int width) {\n    int n=values.size();\n    if (width<=0 || width>n) return {};\n    deque<int> pending; vector<long long> result;\n    for (int right=0; right<n; ++right) {\n        while (!pending.empty() && pending.front()<=right-width) pending.pop_front();\n        while (!pending.empty() && values[pending.back()]>=values[right]) pending.pop_back();\n        pending.push_back(right);\n        if (right+1>=width) result.push_back(values[pending.front()]);\n    }\n    return result;\n}\n",
+      "notes": "长度为 width 的全部连续窗口最小值，O(n)，队列额外空间 O(width)。求最大值将维护队尾的 >= 改为 <=。存下标才能判断过期；等值时保留更晚的下标。非法窗口长度返回空数组。",
+      "example": "int main() {\n    assert(sliding_minimum({3,1,1,5,-2},3)==vector<long long>({1,1,-2}));\n    assert(sliding_minimum({},1).empty());\n}\n",
+      "builtin": true
+    },
+    {
+      "id": "builtin:binary-search",
+      "title": "整数二分：第一个满足条件的位置",
+      "category": "基础算法",
+      "summary": "左闭右开区间；未找到返回 right，支持负边界。",
+      "tags": [
+        "二分查找"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\ntemplate<class Predicate>\nlong long first_true(long long left,long long right,Predicate feasible) {\n    assert(left<=right); // [left,right) 内 false 在前、true 在后。\n    while (left<right) {\n        long long middle=(long long)((__int128)left+((__int128)right-left)/2);\n        if (feasible(middle)) right=middle;\n        else left=middle+1;\n    }\n    return left;\n}\n",
+      "notes": "前提是判定单调：false…false,true…true。空区间或没有 true 返回输入的 right；right 自身不被判定。O(log(区间长度)) 次判定。用 __int128 计算中点避免 long long 极端边界溢出，不直接使用可能溢出的 (left+right)/2。",
+      "example": "int main() {\n    assert(first_true(-10,11,[](long long x){return x>=3;})==3);\n    assert(first_true(0,9,[](long long){return false;})==9);\n    assert(first_true(0,9,[](long long){return true;})==0);\n}\n",
+      "builtin": true
+    },
+    {
+      "id": "builtin:kmp",
+      "title": "KMP：前缀函数与全部匹配位置",
+      "category": "字符串",
+      "summary": "线性匹配，保留重叠出现，空模式有明确语义。",
+      "tags": [
+        "KMP"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\nvector<int> prefix_function(const string& pattern) {\n    int n=pattern.size(); vector<int> prefix(n,0);\n    for (int i=1; i<n; ++i) {\n        int length=prefix[i-1];\n        while (length>0 && pattern[i]!=pattern[length]) length=prefix[length-1];\n        if (pattern[i]==pattern[length]) ++length;\n        prefix[i]=length;\n    }\n    return prefix;\n}\nvector<int> kmp_matches(const string& text,const string& pattern) {\n    vector<int> result;\n    if (pattern.empty()) {\n        result.resize(text.size()+1); iota(result.begin(),result.end(),0); return result;\n    }\n    auto prefix=prefix_function(pattern); int matched=0;\n    for (int i=0; i<(int)text.size(); ++i) {\n        while (matched>0 && text[i]!=pattern[matched]) matched=prefix[matched-1];\n        if (text[i]==pattern[matched]) ++matched;\n        if (matched==(int)pattern.size()) {\n            result.push_back(i-matched+1); matched=prefix[matched-1];\n        }\n    }\n    return result;\n}\n",
+      "notes": "O(|text|+|pattern|)，额外空间 O(|pattern|+匹配数)。返回从 0 开始的位置，包含重叠匹配；空模式视为在 text 的每个间隙匹配。std::string 按字节比较，中文逐字匹配需先转换字符序列。",
+      "example": "int main() {\n    assert(kmp_matches(\"aaaaa\",\"aaa\")==vector<int>({0,1,2}));\n    assert(kmp_matches(\"ab\",\"\")==vector<int>({0,1,2}));\n}\n",
+      "builtin": true
+    },
+    {
+      "id": "builtin:z-function",
+      "title": "Z 函数：与整串前缀的最长公共长度",
+      "category": "字符串",
+      "summary": "维护最右匹配区间，z[0] 明确定义为字符串长度。",
+      "tags": [
+        "Z 函数"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\nvector<int> z_function(const string& text) {\n    int n=text.size(); vector<int> z(n,0);\n    if (n) z[0]=n;\n    for (int i=1,left=0,right=0; i<n; ++i) { // 已知区间 [left,right)\n        if (i<right) z[i]=min(right-i,z[i-left]);\n        while (i+z[i]<n && text[z[i]]==text[i+z[i]]) ++z[i];\n        if (i+z[i]>right) {left=i; right=i+z[i];}\n    }\n    return z;\n}\n",
+      "notes": "O(n) 时间与空间。z[i] 是 text[i…] 与整串前缀的 LCP。拼接 pattern + 分隔符 + text 时，分隔符必须不在原字符集中。空串返回空数组，不访问 z[0]。",
+      "example": "int main() { assert(z_function(\"aaaa\")==vector<int>({4,3,2,1})); assert(z_function(\"\").empty()); }\n",
+      "builtin": true
+    },
+    {
+      "id": "builtin:trie",
+      "title": "Trie：插入、计数、前缀与删除",
+      "category": "字符串",
+      "summary": "小写英文字母字典树，支持重复词和空字符串。",
+      "tags": [
+        "字典树"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\nstruct Trie {\n    struct Node {\n        array<int,26> next;\n        int passing=0, ending=0;\n        Node() {next.fill(-1);}\n    };\n    vector<Node> nodes{Node()};\n    static bool valid(const string& word) {\n        return all_of(word.begin(),word.end(),[](char c){return 'a'<=c && c<='z';});\n    }\n    bool insert(const string& word) {\n        if (!valid(word)) return false;\n        int vertex=0; ++nodes[0].passing;\n        for (char c : word) {\n            int letter=c-'a';\n            if (nodes[vertex].next[letter]==-1) {\n                int next=nodes.size(); nodes.emplace_back();\n                nodes[vertex].next[letter]=next;\n            }\n            vertex=nodes[vertex].next[letter]; ++nodes[vertex].passing;\n        }\n        ++nodes[vertex].ending; return true;\n    }\n    int locate(const string& word) const {\n        if (!valid(word)) return -1;\n        int vertex=0;\n        for (char c : word) {\n            vertex=nodes[vertex].next[c-'a']; if (vertex==-1) return -1;\n        }\n        return vertex;\n    }\n    int count(const string& word) const {\n        int vertex=locate(word); return vertex==-1 ? 0 : nodes[vertex].ending;\n    }\n    int prefix_count(const string& prefix) const {\n        int vertex=locate(prefix); return vertex==-1 ? 0 : nodes[vertex].passing;\n    }\n    bool erase(const string& word) {\n        if (!count(word)) return false;\n        int vertex=0; --nodes[0].passing;\n        for (char c : word) {vertex=nodes[vertex].next[c-'a']; --nodes[vertex].passing;}\n        --nodes[vertex].ending; return true;\n    }\n};\n",
+      "notes": "每次 O(字符串长度)，节点空间 O(26×历史插入总长度)。删除一个副本，不回收节点，后续可复用路径。计数含重复词；prefix_count(\"\") 为全部词的总个数。用下标访问 nodes，避免 vector 扩容后持有失效引用。",
+      "example": "int main() {\n    Trie dictionary; dictionary.insert(\"ab\"); dictionary.insert(\"ab\"); dictionary.insert(\"abc\");\n    assert(dictionary.count(\"ab\")==2 && dictionary.prefix_count(\"ab\")==3);\n    assert(dictionary.erase(\"ab\") && dictionary.count(\"ab\")==1);\n    assert(!dictionary.insert(\"A\") && !dictionary.erase(\"x\"));\n}\n",
+      "builtin": true
+    },
+    {
+      "id": "builtin:mod-combination",
+      "title": "模运算：快速幂、逆元与组合数",
+      "category": "数学",
+      "summary": "素数模数，预处理阶乘与逆阶乘。",
+      "tags": [
+        "快速幂",
+        "乘法逆元",
+        "组合计数"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\nconstexpr long long MOD=1000000007; // 必须为素数，且 MOD>1。\nlong long modular_power(long long base,long long exponent) {\n    assert(exponent>=0);\n    base=(base%MOD+MOD)%MOD; long long result=1;\n    while (exponent>0) {\n        if (exponent&1) result=(__int128)result*base%MOD;\n        base=(__int128)base*base%MOD; exponent>>=1;\n    }\n    return result;\n}\nlong long modular_inverse(long long value) {\n    value=(value%MOD+MOD)%MOD; assert(value!=0);\n    return modular_power(value,MOD-2);\n}\nstruct Combinations {\n    vector<long long> factorial,inverse_factorial;\n    explicit Combinations(int limit) : factorial(limit+1,1),inverse_factorial(limit+1,1) {\n        assert(limit>=0 && limit<MOD);\n        for (int i=1; i<=limit; ++i) factorial[i]=factorial[i-1]*i%MOD;\n        inverse_factorial[limit]=modular_inverse(factorial[limit]);\n        for (int i=limit; i>0; --i) inverse_factorial[i-1]=inverse_factorial[i]*i%MOD;\n    }\n    long long choose(int n,int k) const {\n        if (n<0 || k<0 || k>n) return 0;\n        assert(n<(int)factorial.size());\n        return factorial[n]*inverse_factorial[k]%MOD*inverse_factorial[n-k]%MOD;\n    }\n};\n",
+      "notes": "默认 MOD=1e9+7，换模数时保持为不超过 2^31-1 的素数。逆元仅对非零余数存在。组合数要求 0≤n≤预处理上限<MOD；大 n 或合数模数不能直接套此版本。预处理 O(limit+log MOD)，C(n,k) O(1)，快速幂 O(log exponent)，空间 O(limit)。",
+      "example": "int main() {\n    Combinations combinations(10); assert(combinations.choose(5,2)==10);\n    assert(combinations.choose(5,6)==0 && modular_power(-2,3)==MOD-8);\n    assert(2*modular_inverse(2)%MOD==1);\n}\n",
+      "builtin": true
+    },
+    {
+      "id": "builtin:linear-sieve",
+      "title": "线性筛：素数、最小质因子与分解",
+      "category": "数学",
+      "summary": "每个合数由最小质因子筛出一次。",
+      "tags": [
+        "素数"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\nstruct LinearSieve {\n    vector<int> primes, smallest_prime;\n    explicit LinearSieve(int limit) : smallest_prime(limit+1,0) {\n        assert(limit>=0);\n        for (int value=2; value<=limit; ++value) {\n            if (!smallest_prime[value]) {smallest_prime[value]=value; primes.push_back(value);}\n            for (int prime : primes) {\n                if (prime>smallest_prime[value] || 1LL*value*prime>limit) break;\n                smallest_prime[value*prime]=prime;\n            }\n        }\n    }\n    bool is_prime(int value) const {\n        return 2<=value && value<(int)smallest_prime.size() && smallest_prime[value]==value;\n    }\n    vector<pair<int,int>> factorize(int value) const {\n        assert(1<=value && value<(int)smallest_prime.size());\n        vector<pair<int,int>> factors;\n        while (value>1) {\n            int prime=smallest_prime[value],exponent=0;\n            do {value/=prime; ++exponent;} while (value%prime==0);\n            factors.push_back({prime,exponent});\n        }\n        return factors;\n    }\n};\n",
+      "notes": "筛到 limit 的时间和空间 O(limit)。factorize 只接收 [1,limit] 的整数，按质因子个数 O(log value)；1 返回空分解，0 没有此类分解。更大整数不能直接索引此表，需要另用试除或专门分解算法。",
+      "example": "int main() {\n    LinearSieve sieve(100); assert(sieve.is_prime(97) && !sieve.is_prime(1));\n    assert((sieve.factorize(72)==vector<pair<int,int>>({{2,3},{3,2}})));\n}\n",
+      "builtin": true
+    },
+    {
+      "id": "builtin:extended-gcd",
+      "title": "扩展欧几里得：裴蜀系数与一般逆元",
+      "category": "数学",
+      "summary": "正模数下检测互质，合数模数也可求逆。",
+      "tags": [
+        "最大公约数",
+        "乘法逆元"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\nstruct Bezout { long long gcd; __int128 x,y; };\nBezout extended_gcd(long long a,long long b) {\n    assert(a>=0 && b>=0);\n    if (b==0) return {a,1,0};\n    auto next=extended_gcd(b,a%b);\n    return {next.gcd,next.y,next.x-(__int128)(a/b)*next.y};\n}\noptional<long long> inverse_mod(long long value,long long modulus) {\n    assert(modulus>1);\n    value%=modulus; if (value<0) value+=modulus;\n    auto result=extended_gcd(value,modulus);\n    if (result.gcd!=1) return nullopt;\n    __int128 inverse=result.x%modulus;\n    if (inverse<0) inverse+=modulus;\n    return (long long)inverse;\n}\n",
+      "notes": "extended_gcd 接收非负 a,b，返回 gcd 和满足 ax+by=gcd 的系数；(0,0) 的 gcd 约定为 0。inverse_mod 要求 modulus>1，仅当 gcd(value,modulus)=1 时有逆元，否则返回 nullopt。时间 O(log max(a,b))，系数用 __int128 防止中间运算溢出。",
+      "example": "int main() {\n    auto result=extended_gcd(30,18);\n    assert(result.gcd==6 && 30*result.x+18*result.y==6);\n    assert(inverse_mod(3,10).value()==7 && !inverse_mod(2,10));\n}\n",
+      "builtin": true
+    },
+    {
+      "id": "builtin:knapsack",
+      "title": "背包：0/1 与完全背包",
+      "category": "动态规划",
+      "summary": "明确容量上界与恰好装满，区分倒序和正序。",
+      "tags": [
+        "背包 DP"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\nconstexpr long long KNAPSACK_NEG_INF=numeric_limits<long long>::lowest()/4;\nstruct Item { int weight; long long value; };\nvector<long long> knapsack(int capacity,const vector<Item>& items,\n                           bool unlimited=false,bool exact=false) {\n    assert(capacity>=0);\n    vector<long long> best(capacity+1,exact ? KNAPSACK_NEG_INF : 0);\n    best[0]=0;\n    for (auto item : items) {\n        assert(item.weight>0); // 零重量的完全背包可能导致无界最优值。\n        auto relax=[&](int current) {\n            if (best[current-item.weight]!=KNAPSACK_NEG_INF)\n                best[current]=max(best[current],best[current-item.weight]+item.value);\n        };\n        if (unlimited) for (int current=item.weight; current<=capacity; ++current) relax(current);\n        else for (int current=capacity; current>=item.weight; --current) relax(current);\n    }\n    return best;\n}\n",
+      "notes": "O(物品数×容量)，空间 O(容量)。默认 best[c] 为总重量不超过 c 的最大价值；exact=true 时要求重量恰为 c，不可达为 KNAPSACK_NEG_INF。unlimited=false 每件至多一次、容量倒序；true 可重复、容量正序。物品重量须为正，总价值与不可达哨兵应有足够间隔。",
+      "example": "int main() {\n    vector<Item> items={{2,3},{3,4}};\n    assert(knapsack(4,items)[4]==4 && knapsack(4,items,true)[4]==6);\n    assert(knapsack(1,items,false,true)[1]==KNAPSACK_NEG_INF);\n}\n",
+      "builtin": true
+    },
+    {
+      "id": "builtin:lis",
+      "title": "最长上升子序列：长度与路径还原",
+      "category": "动态规划",
+      "summary": "严格递增与非递减均可，返回原数组下标。",
+      "tags": [
+        "线性 DP",
+        "二分查找"
+      ],
+      "language": "cpp17",
+      "code": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n\nvector<int> longest_increasing_subsequence(const vector<long long>& values,bool strict=true) {\n    vector<long long> tails;\n    vector<int> last_index,parent(values.size(),-1);\n    for (int i=0; i<(int)values.size(); ++i) {\n        int length=(strict ? lower_bound(tails.begin(),tails.end(),values[i])\n                           : upper_bound(tails.begin(),tails.end(),values[i]))-tails.begin();\n        if (length>0) parent[i]=last_index[length-1];\n        if (length==(int)tails.size()) {tails.push_back(values[i]); last_index.push_back(i);}\n        else {tails[length]=values[i]; last_index[length]=i;}\n    }\n    vector<int> indices;\n    for (int i=last_index.empty() ? -1 : last_index.back(); i!=-1; i=parent[i]) indices.push_back(i);\n    reverse(indices.begin(),indices.end());\n    return indices;\n}\n",
+      "notes": "O(n log n)，空间 O(n)。strict=true 为严格递增，使用 lower_bound；false 为非递减，使用 upper_bound。tails 自身不一定是原数组中的一条子序列，通过 parent 还原；返回任意一条最优解，不承诺字典序最小。",
+      "example": "int main() {\n    auto indices=longest_increasing_subsequence({3,1,2,2,4});\n    assert(indices.size()==3);\n    assert(longest_increasing_subsequence({2,2,2},false).size()==3);\n}\n",
+      "builtin": true
+    }
+  ]
+}

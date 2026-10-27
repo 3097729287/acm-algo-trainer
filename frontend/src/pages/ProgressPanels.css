@@ -289,3 +289,12 @@ button.competition-question:disabled { opacity:1; cursor:default; }
 .competition-pagination {flex-shrink:0}
 @media(max-width:1100px){.competition-list .competition-card{height:calc(4.8em + 28px)}.competition-list .competition-card-open{flex-wrap:wrap}.competition-list .competition-problem-tokens{flex-basis:100%}}
 @media(max-width:650px){.competition-list .competition-card{height:calc(7.6em + 28px)}.competition-list .competition-card-open{height:auto}.competition-list .competition-start{margin:0 8px 5px auto}}
+
+html .competition-question {display:grid;grid-template-columns:38px minmax(150px,1.1fr) minmax(150px,1fr) 110px 85px 16px;align-items:center;gap:14px}
+html .competition-question .competition-letter {grid-column:1}
+html .competition-question .competition-question-main {grid-column:2;min-width:0}
+html .competition-question .competition-question-meta {grid-column:3;display:flex;align-items:center;justify-content:flex-start;gap:6px;flex-wrap:wrap;margin:0}
+html .competition-question .competition-difficulty {grid-column:4}
+html .competition-question .competition-result {grid-column:5}
+html .competition-question>svg:last-child {grid-column:6}
+@media(max-width:850px){html .competition-question {grid-template-columns:28px minmax(95px,1fr) minmax(95px,1fr) 65px 62px 12px;gap:8px}}

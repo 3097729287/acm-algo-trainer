@@ -36322,5 +36322,67 @@
       "topic": "双指针：每次移动都要有依据"
     },
     "id": "lecture:sequence-two-pointers"
+  },
+  {
+    "content": {
+      "available": true,
+      "categories": [
+        "基础技巧"
+      ],
+      "category": "基础技巧",
+      "concept": "离散化：保留顺序，不保留距离",
+      "displayTitle": "离散化：保留顺序，不保留距离",
+      "excerpt": "需要维护的位置很大、实际用到的位置很少时，可以只给用到的位置编号。例如坐标 $10,1000,1000000$ 编号为 $0,1,2$，原数的大小顺序不变。",
+      "id": "foundation:coordinate-compression-v1",
+      "images": {},
+      "knowledgeName": "离散化",
+      "markdown": "# 离散化：保留顺序，不保留距离\n\n需要维护的位置很大、实际用到的位置很少时，可以只给用到的位置编号。例如坐标 $10,1000,1000000$ 编号为 $0,1,2$，原数的大小顺序不变。\n\n先收集未来会查询、更新的位置；排序；去重；用二分找到每个原数的编号。`sort` 排序，`unique` 返回去重后的逻辑末尾，`erase` 删除后面多余元素。\n\n```cpp\nvector<int> xs = {1000, 10, 1000, 1000000};\nsort(xs.begin(), xs.end());\nxs.erase(unique(xs.begin(), xs.end()), xs.end()); // {10,1000,1000000}\nint k = lower_bound(xs.begin(), xs.end(), 1000) - xs.begin(); // 1\n```\n\n编号只描述顺序。原坐标间距为 $990$，编号间距却是 $1$，所以求长度、面积或路程时必须回到原坐标。做区间覆盖的点查询则只关心一个点位于端点之间的哪一段，顺序已经足够。\n\n若某个查询点没有预先收集，不能把 `lower_bound` 的位置直接当这个点的编号；必须加入它，或明确用边界二分查询所在的区间。\n\n收集 $m$ 个位置时，排序去重 $O(m\\log m)$，每次查编号 $O(\\log m)$，空间 $O(m)$。\n",
+      "sourceContest": "独立基础课",
+      "sourceHash": "da429ca390adb0df32ebd87da87c77d76f78bf758b69b78d818322c153d8d0f5",
+      "sourceMarkdown": "# 离散化：保留顺序，不保留距离\n\n需要维护的位置很大、实际用到的位置很少时，可以只给用到的位置编号。例如坐标 $10,1000,1000000$ 编号为 $0,1,2$，原数的大小顺序不变。\n\n先收集未来会查询、更新的位置；排序；去重；用二分找到每个原数的编号。`sort` 排序，`unique` 返回去重后的逻辑末尾，`erase` 删除后面多余元素。\n\n```cpp\nvector<int> xs = {1000, 10, 1000, 1000000};\nsort(xs.begin(), xs.end());\nxs.erase(unique(xs.begin(), xs.end()), xs.end()); // {10,1000,1000000}\nint k = lower_bound(xs.begin(), xs.end(), 1000) - xs.begin(); // 1\n```\n\n编号只描述顺序。原坐标间距为 $990$，编号间距却是 $1$，所以求长度、面积或路程时必须回到原坐标。做区间覆盖的点查询则只关心一个点位于端点之间的哪一段，顺序已经足够。\n\n若某个查询点没有预先收集，不能把 `lower_bound` 的位置直接当这个点的编号；必须加入它，或明确用边界二分查询所在的区间。\n\n收集 $m$ 个位置时，排序去重 $O(m\\log m)$，每次查编号 $O(\\log m)$，空间 $O(m)$。\n",
+      "sourcePath": "authored/1.4.22/coordinate-compression-v1.md",
+      "sourceProblem": "",
+      "sourceProblemIds": [
+        "remote:nowcoder:141877::C"
+      ],
+      "sourceTitle": "",
+      "tags": [
+        "离散化"
+      ],
+      "title": "离散化：保留顺序，不保留距离",
+      "topic": "离散化"
+    },
+    "id": "foundation:coordinate-compression-v1"
+  },
+  {
+    "content": {
+      "available": true,
+      "categories": [
+        "基础技巧"
+      ],
+      "category": "基础技巧",
+      "concept": "差分与前缀和：把一段的变化记在两端",
+      "displayTitle": "差分与前缀和：把一段的变化记在两端",
+      "excerpt": "给一段连续位置都增加一个数，直接逐项修改会重复工作。差分只记“从这里开始多了多少”。设原数组为 $a$，差分为 $b_i=a_i-a_{i-1}$；从左向右累加 $b$，就能恢复 $a$。",
+      "id": "foundation:difference-prefix-v1",
+      "images": {},
+      "knowledgeName": "差分",
+      "markdown": "# 差分与前缀和：把一段的变化记在两端\n\n给一段连续位置都增加一个数，直接逐项修改会重复工作。差分只记“从这里开始多了多少”。设原数组为 $a$，差分为 $b_i=a_i-a_{i-1}$；从左向右累加 $b$，就能恢复 $a$。\n\n例如五个位置最初都是零，把闭区间下标 $[1,3]$ 都加一（从零编号），只需 `b[1]++`、`b[4]--`。累加后得到 $0,1,1,1,0$：开始处加入贡献，结束后的第一格撤销贡献。\n\n```cpp\nvector<int> diff(n + 1, 0); // 预留结束标记\ndiff[l] += value;\ndiff[r + 1] -= value;\nfor (int i = 1; i < n; ++i) diff[i] += diff[i - 1];\n```\n\n结束标记放在 `r+1`，不是 `r`，因为右端点也属于闭区间。多段更新可以先全部写入差分，最后只做一次前缀和。\n\n如果数组下标来自坐标压缩，这里的下一格是“下一个保留的位置”，不是原坐标数值加一。离散化不保留真实距离；只有原问题能转成连续编号区间的更新时，这样做才成立。\n\n共 $q$ 次区间更新、最后查询整个数组，时间 $O(q+n)$，空间 $O(n)$。若更新与查询交错到来，需要额外的数据结构，不能直接靠一次最终前缀和回答。\n",
+      "sourceContest": "独立基础课",
+      "sourceHash": "070637949dd737c762e36754c2451fdd21ce0c7a170abd463b071404e4866592",
+      "sourceMarkdown": "# 差分与前缀和：把一段的变化记在两端\n\n给一段连续位置都增加一个数，直接逐项修改会重复工作。差分只记“从这里开始多了多少”。设原数组为 $a$，差分为 $b_i=a_i-a_{i-1}$；从左向右累加 $b$，就能恢复 $a$。\n\n例如五个位置最初都是零，把闭区间下标 $[1,3]$ 都加一（从零编号），只需 `b[1]++`、`b[4]--`。累加后得到 $0,1,1,1,0$：开始处加入贡献，结束后的第一格撤销贡献。\n\n```cpp\nvector<int> diff(n + 1, 0); // 预留结束标记\ndiff[l] += value;\ndiff[r + 1] -= value;\nfor (int i = 1; i < n; ++i) diff[i] += diff[i - 1];\n```\n\n结束标记放在 `r+1`，不是 `r`，因为右端点也属于闭区间。多段更新可以先全部写入差分，最后只做一次前缀和。\n\n如果数组下标来自坐标压缩，这里的下一格是“下一个保留的位置”，不是原坐标数值加一。离散化不保留真实距离；只有原问题能转成连续编号区间的更新时，这样做才成立。\n\n共 $q$ 次区间更新、最后查询整个数组，时间 $O(q+n)$，空间 $O(n)$。若更新与查询交错到来，需要额外的数据结构，不能直接靠一次最终前缀和回答。\n",
+      "sourcePath": "authored/1.4.22/difference-prefix-v1.md",
+      "sourceProblem": "",
+      "sourceProblemIds": [
+        "remote:nowcoder:141877::C"
+      ],
+      "sourceTitle": "",
+      "tags": [
+        "差分"
+      ],
+      "title": "差分与前缀和：把一段的变化记在两端",
+      "topic": "差分"
+    },
+    "id": "foundation:difference-prefix-v1"
   }
 ]

@@ -286,7 +286,7 @@ def discover_at(client,now):
         start=re.search(r'<time[^>]*>([^<]+)</time>',block)
         duration=re.findall(r'<td[^>]*>\s*(\d+):(\d\d)\s*</td>',block)
         if not cid or not start or not duration:continue
-        if not re.fullmatch(r'(abc|arc)\d+',cid[1]):continue
+        if not re.fullmatch(r'(abc|arc|agc)\d+',cid[1]):continue
         try:started=dt.datetime.strptime(start[1],'%Y-%m-%d %H:%M:%S%z');ended=started+dt.timedelta(hours=int(duration[0][0]),minutes=int(duration[0][1]))
         except ValueError:continue
         if ended>now:continue
@@ -304,7 +304,7 @@ def discover_at(client,now):
             value['nativeDifficulty']=native;value['difficultyEvidence']=evaluation['difficulty_evidence']
             value['contestProblemCount']=len(matches)
             rows.append(value)
-    return rows,pending,'官方已结束 ABC/ARC；按既有 CF-EQ 换算 AtCoder Problems 模型估算，模型未出则待定'
+    return rows,pending,'官方已结束 ABC/ARC/AGC；按既有 CF-EQ 换算 AtCoder Problems 模型估算，模型未出则待定'
 
 def discover_nc(client,now):
     from contest_policy import authorized

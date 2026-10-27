@@ -11,3 +11,12 @@
 .lecture-difficulty.lecture-level-0 {color:var(--success)}
 .lecture-difficulty.lecture-level-1 {color:var(--info,#79aee8)}
 .lecture-difficulty.lecture-level-2 {color:var(--warning,#d7a45e)}
+
+html .lectures-layout {grid-template-columns:minmax(240px,25%) minmax(0,1fr)}
+html .lectures-detail-bar {justify-content:flex-start;align-items:center}
+html .lectures-detail-bar .lecture-fullscreen-toggle {margin-left:auto;flex:none}
+html .lectures-layout.lecture-reading-full {grid-template-columns:minmax(0,1fr)}
+html .lecture-reading-full>.lectures-list {display:none}
+html .lecture-reading-full>.lectures-detail {width:100%;padding-inline:clamp(20px,4vw,84px)}
+@container workspace (max-width:850px){html .lectures-layout {grid-template-columns:minmax(190px,29%) minmax(0,1fr)}}
+@container workspace (max-width:650px){html .lectures-layout {grid-template-columns:1fr}}

@@ -28,6 +28,7 @@ ACHIEVEMENT_DEFINITIONS = {
     **{f'streak-{target}': {'target': target, 'rewardXp': xp}
        for target, xp in ((3, 20), (7, 40), (30, 0), (90, 0), (180, 0), (365, 0), (730, 0))},
     'platforms-2': {'target': 2, 'rewardXp': 40},
+    **{key:{'target':target,'rewardXp':xp} for key,target,xp in [('collection-10',10,25),('curation-1',1,25),('curation-5',5,60),('appearance-1',1,10),('lessons-1',1,15),('lessons-10',10,60),('topics-5',5,50),('platforms-3',3,70),('recovery-3',3,60),('new-ten-day',10,80),('daily-leader-1',1,80)]},
     **{f'missions-{target}': {'target': target, 'rewardXp': xp} for target, xp in ((1, 15), (10, 40), (50, 80))},
 }
 
@@ -277,10 +278,26 @@ def official_reward_evidence(rows, submissions, hub=None):
 
 
 def task_progress(task, evidence, date):
-    eligible = [item for item in evidence if item.get("day") == date
-                and (not task.get("minDifficulty") or item.get("difficulty") is not None and item["difficulty"] >= task["minDifficulty"])
-                and (task.get("kind") != "independent" or item.get("independent"))]
-    return min(task["target"], len(eligible)), [item["problemKey"] for item in eligible]
+    if task.get('kind')=='action':
+        events=[item for item in evidence if item.get('_activityEvent') and item.get('day')==date and item.get('kind')==task.get('event')]
+        return min(task['target'],len(events)),[item['eventKey'] for item in events]
+    eligible=[item for item in evidence if not item.get('_activityEvent') and item.get('day')==date
+        and (not task.get('newOnly') or item.get('newProblem'))
+        and (not task.get('minDifficulty') or item.get('difficulty') is not None and item['difficulty']>=task['minDifficulty'])
+        and (task.get('kind')!='independent' or item.get('independent'))]
+    kind=task.get('kind')
+    if kind in {'morning','evening'}:
+        low,high=(6,11) if kind=='morning' else (18,22)
+        eligible=[item for item in eligible if (stamp:=parse_time(item.get('acceptedAt'))) and low<=stamp.astimezone(SHANGHAI).hour<high]
+    if kind=='personal-list':eligible=[item for item in eligible if item.get('personalList')]
+    if kind=='platforms':amount=len({item['platform'] for item in eligible if item.get('platform')})
+    elif kind=='topics':amount=len({tag for item in eligible for tag in item.get('tags',[])})
+    elif kind=='topic-pair':
+        from collections import Counter
+        counts=Counter(tag for item in eligible for tag in set(item.get('tags',[])))
+        amount=max(counts.values(),default=0)
+    else:amount=len(eligible)
+    return min(task['target'],amount),[item['problemKey'] for item in eligible]
 
 
 def qualified_contests(contests, submissions):

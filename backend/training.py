@@ -549,6 +549,8 @@ class TrainingService:
             completed = qualified_contests(workspace["contests"], records)
             claimed_dates = [item["claimed_at"] for item in self.connection.execute("SELECT claimed_at FROM daily_missions WHERE claimed_at IS NOT NULL ORDER BY claimed_at,rowid")]
             value["achievements"].extend(extra_achievements(evidence, records, completed, value["summary"]["longestStreak"], claimed_dates))
+            from daily_rotation import action_achievements
+            value["achievements"].extend(action_achievements(self,evidence))
             from achievement_rewards import award_achievement_xp
             from progression import ACHIEVEMENT_DEFINITIONS, earned_titles
             awarded = {item[0] for item in self.connection.execute('SELECT achievement_id FROM achievement_xp_claims')}
@@ -699,9 +701,14 @@ class TrainingService:
             snapshot = getattr(extensions, "snapshot", None)
             if callable(snapshot):
                 hub = snapshot()
+        first=None
         if day is not None:
+            first={item['problemKey']:item for item in official_reward_evidence(rows,records,hub)}
             records = [record for record in records if str(local_date(record['submitted_at'])) == day]
-        return official_reward_evidence(rows, records, hub)
+        result=official_reward_evidence(rows, records, hub)
+        if first is not None:
+            for item in result:item['newProblem']=bool(first.get(item['problemKey'],{}).get('day')==day)
+        return result
 
     def _daily_evidence(self, day):
         from copy import deepcopy
@@ -712,13 +719,17 @@ class TrainingService:
         if signature is not None and cached and cached[1:3] == (day, signature) and time.monotonic()-cached[0] < 5:
             return deepcopy(cached[3])
         evidence = self._evidence(day, hub=hub)
+        from daily_rotation import annotate
+        evidence=annotate(self,day,evidence)
         self._daily_evidence_cache = (time.monotonic(), day, signature, deepcopy(evidence))
         return evidence
 
     def daily_tasks(self, goal_tasks=None, *, _evidence_snapshot=None):
-        from progression import TASKS, SHANGHAI, task_progress
+        from progression import SHANGHAI, task_progress
+        from daily_rotation import tasks_for
         with self.lock:
             day = self._now().astimezone(SHANGHAI).date().isoformat()
+            TASKS=tasks_for(day,self._ranking_profile()["user_id"])
             current = {task["id"]: json.dumps(task, ensure_ascii=False) for task in TASKS}
             existing = {record["id"]: record for record in self.connection.execute("SELECT * FROM daily_missions WHERE day=?", (day,))}
             changes = [task for task in TASKS if task['id'] not in existing or
@@ -735,6 +746,7 @@ class TrainingService:
             evidence = self._daily_evidence(day) if _evidence_snapshot is None else _evidence_snapshot
             tasks = []
             for record in self.connection.execute("SELECT * FROM daily_missions WHERE day=? ORDER BY rowid", (day,)):
+                if record["id"] not in current:continue
                 task = json.loads(record["definition"])
                 progress, _ = task_progress(task, evidence, day)
                 task.update(progress=progress, completed=progress >= task["target"], claimed=bool(record["claimed_at"]), claimedAt=record["claimed_at"])
@@ -743,7 +755,7 @@ class TrainingService:
                 from goals import Goals
                 goal_tasks = Goals(self).list(assign=True).get('goalTasks', [])
             return {"date": day, "timezone": "Asia/Shanghai", "tasks": tasks, "goalTasks": goal_tasks, "goalPending": sum(not task['accepted'] for task in goal_tasks), "claimable": sum(task["completed"] and not task["claimed"] for task in tasks),
-                    "totalClaimedXp": sum(task["xp"] for task in tasks if task["claimed"]), "notice": "每日按北京时间刷新，统计当天官方 AC 的不同题目；旧题重新 AC 可计入，同题当天只算一次，样例通过和仅打开题目不计入。"}
+                    "totalClaimedXp": sum(task["xp"] for task in tasks if task["claimed"]), "notice": "每日按北京时间刷新，统计当天官方 AC 的不同题目；基础三项可计入旧题重练；轮换挑战仅计此前未 AC 的新题。收藏、外观与学习任务按实际操作计入。"}
 
     def claim_daily_task(self, identity, date=None):
         from progression import task_progress
@@ -758,6 +770,8 @@ class TrainingService:
             record = self.connection.execute("SELECT * FROM daily_missions WHERE day=? AND id=?", (tasks["date"], identity)).fetchone()
             if not record:
                 raise ServiceError(404, "没有找到这项每日任务")
+            if identity not in {task["id"] for task in tasks["tasks"]} and not record["claimed_at"]:
+                raise ServiceError(404,"没有找到这项每日任务")
             already = bool(record["claimed_at"])
             if not already:
                 with self._write() as connection:
@@ -1091,6 +1105,8 @@ class TrainingService:
                 if error.status != 403:
                     raise
                 problem["locked"] = True
+            summary=getattr(self.store,'solution_summary',None)
+            problem['solutionMethods']=summary(identity) if callable(summary) and not problem['locked'] else []
             context = contest_id or ""
             if review:
                 from reviews import task_context
@@ -1649,7 +1665,9 @@ class TrainingService:
         with self.lock:
             groups={}
             for row in self._library():
-                if not row.get('catalogHidden') and row.get('source') != 'luogu-training':groups.setdefault(row['contest'],[]).append(row)
+                if not row.get('catalogHidden') and row.get('source') not in {'luogu-training','algorithm-lab','algorithm-lab-curation'} and not row.get('labTopic'):groups.setdefault(row['contest'],[]).append(row)
+            from replay_catalog import unique_replay_rows
+            groups={name:unique_replay_rows(rows) for name,rows in groups.items()}
             result=[event_info(name,rows) for name,rows in groups.items()]
             from contest_names import contest_name, natural_key
             for item in result:
@@ -1673,8 +1691,9 @@ class TrainingService:
         if not isinstance(name,str) or not name:raise ServiceError(400,'请选择已收录比赛')
         with self.lock:
             from graph_lab import replay_rows
+            from replay_catalog import unique_replay_rows
             lab = replay_rows(name, self._library())
-            rows=lab if lab is not None else [row for row in self._library() if row['contest']==name and row.get('source') != 'luogu-training']
+            rows=lab if lab is not None else unique_replay_rows([row for row in self._library() if row['contest']==name and row.get('source') not in {'luogu-training','algorithm-lab','algorithm-lab-curation'} and not row.get('labTopic')])
             if not rows:raise ServiceError(404,'这场比赛尚未收录')
             info=event_info(name,rows)
             if lab is not None: info.update(complete=True, expectedCount=5, labTopic=name.split(' · ',1)[-1])
@@ -1999,7 +2018,7 @@ class TrainingService:
                 if ids:
                     sets.append({"id": record["id"], "name": record["name"], "type": "practice", "ids": ids, "createdAt": record["created_at"], "accepted": len(set(ids) & accepted_ids), "total": len(set(ids))})
             contests = [self._contest(record) for record in self.connection.execute("SELECT * FROM contests WHERE deleted_at IS NULL ORDER BY started_at DESC,rowid DESC")]
-            days = {parse_time(record["submitted_at"]).astimezone(TRAINING_ZONE).date() for record in records if record["finished_at"] and (record["code"].strip() or record["scope"]=="official")}
+            days = {parse_time(record["submitted_at"]).astimezone(TRAINING_ZONE).date() for record in records if record["finished_at"] and record["scope"]=="official" and record["verdict"]=="AC"}
             day = now.astimezone(TRAINING_ZONE).date()
             if day not in days:
                 day -= dt.timedelta(days=1)

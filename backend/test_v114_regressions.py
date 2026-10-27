@@ -34,7 +34,8 @@ class JournalTests(unittest.TestCase):
 
     def test_claim_finishes_without_computing_insights_or_assigning_goals(self):
         self.accept()
-        with patch.object(self.service,'insights',side_effect=AssertionError('heavy read on claim')), \
+        with patch('daily_rotation.tasks_for',return_value=[dict(task) for task in __import__('progression').TASKS[:3]]), \
+             patch.object(self.service,'insights',side_effect=AssertionError('heavy read on claim')), \
              patch('goals.Goals.list',side_effect=AssertionError('goal assignment on claim')):
             value=self.service.claim_daily_task('solve-1')
         self.assertEqual(value['awardedXp'],25)

@@ -91,7 +91,7 @@ import {
 import InlineTitle from "@/components/InlineTitle.jsx";
 import { useSoftwareUpdates, SoftwareUpdatePanel, SoftwareUpdateNotice } from '@/pages/SoftwareUpdates.jsx';
 import MockProblemPicker from "./MockProblemPicker.jsx";
-import { difficultyBand, difficultyLabel, difficultyDescription, solutionBlocks, briefSolution } from "@/lib/practiceMetadata.js";
+import { difficultyBand, difficultyLabel, difficultyDescription, briefSolution } from "@/lib/practiceMetadata.js";
 import TitleMedals from '@/components/TitleMedals.jsx';
 import { organizeCategories } from "@/models/model.js";
 import NavigationSettings, { orderedPages } from "@/pages/NavigationSettings.jsx";
@@ -129,6 +129,7 @@ const AvatarSettings = lazy(() => import('@/components/AvatarSettings.jsx'));
 const ContestCalendar = lazy(() => import('@/pages/ContestCalendar.jsx'));
 const Onboarding = lazy(() => import('@/pages/Onboarding.jsx'));
 const LearningPathsPage = lazy(() => import('@/pages/LearningPathsPage.jsx'));
+const TemplatesPage=lazy(()=>import('@/pages/TemplatesPage.jsx'));
 const TrainingListsPage = lazy(() => import('@/pages/TrainingListsPage.jsx'));
 const PreferencesPage = lazy(() => import('@/pages/PreferencesPage.jsx'));
 
@@ -142,6 +143,7 @@ const PAGES = [
   { id: "growth", label: "成长与能力", icon: ChartNoAxesCombined, key: "7" },
   { id: "activity", label: "活动记录", icon: CalendarDays, key: "8" },
   { id: "lectures", label: "从零讲", icon: BookOpen, key: "9" },
+  { id: "templates", label: "模板", icon: Code2, key: "" },
   { id: "paths", label: "算法实验室", icon: FlaskConical, key: "3" },
   { id: "rankings", label: "排行榜", icon: ListOrdered, key: "" },
 ];
@@ -165,7 +167,8 @@ const DEFAULTS = {
   readerWidth: 520,
   fontSize: 15,
   difficultyDisplay: 'number',
-  navOrder: ["mine", "library", "training-lists", "competitions", "mock", "paths", "rankings", "growth", "records", "activity", "lectures"],
+  learnedLectures: [],
+  navOrder: ["mine", "library", "training-lists", "competitions", "mock", "paths", "templates", "rankings", "growth", "records", "activity", "lectures"],
   learningPaths: {},
   shortcuts: {},
   navSchema: 2,
@@ -188,6 +191,7 @@ function normalizePreferences(saved) {
       const libraryIndex = preferences.navOrder.indexOf('library');
       preferences.navOrder.splice(libraryIndex < 0 ? preferences.navOrder.length : libraryIndex + 1, 0, 'training-lists');
     }
+    preferences.learnedLectures=Array.isArray(preferences.learnedLectures)?[...new Set(preferences.learnedLectures.filter(value=>typeof value==='string'))]:[];
     preferences.difficultyDisplay=preferences.difficultyDisplay==='text'?'text':'number';
     preferences.motion = true;
     preferences.navSchema = 2;
@@ -338,6 +342,7 @@ function Modal({ title, onClose, children, wide = false, footer }) {
     </div>
   );
 }
+const SolutionReader=lazy(()=>import('@/components/SolutionReader.jsx'));
 const Markdown = lazy(() => import('@/components/SolutionMarkdown.jsx'));
 const LecturesPanel = lazy(() => import('@/pages/LecturesPanel.jsx').then(module => ({ default: module.LecturesPanel })));
 const LectureDisclosure = lazy(() => import('@/pages/LecturesPanel.jsx').then(module => ({ default: module.LectureDisclosure })));
@@ -558,6 +563,7 @@ export default function App() {
   const restoreList = useRef(null);
   const practicePrefetch = useRef(null);
   const labVisit = useRef({leftAt:null,scrollTop:0});
+  const templatesVisit=useRef({});
   const trainingListsVisit = useRef({});
   const lecturesVisit = useRef({});
   const [listProblemIds,setListProblemIds]=useState(null);
@@ -574,6 +580,7 @@ export default function App() {
   const [readerId, setReaderId] = useState(null),
     [reader, setReader] = useState(null),
     [readerVariant, setReaderVariant] = useState("default"),
+    [readerMethod,setReaderMethod]=useState(null),
     [readerError, setReaderError] = useState(""),
     [readerFull, setReaderFull] = useState(false),
     [lectureId, setLectureId] = useState(null),
@@ -643,12 +650,6 @@ export default function App() {
     backgroundRequest.current = pending;
     return pending;
   }, [api]);
-  const readerBlocks = useMemo(() => reader ? solutionBlocks(reader.markdown, reader.lectures || []) : [], [reader]);
-  const detailedReaderBlocks = useMemo(() => reader?.detailedSolution ? solutionBlocks(reader.detailedSolution.markdown, reader.lectures || []) : [], [reader]);
-  const readerReferences = useMemo(() => {
-    const inline = new Set(readerBlocks.map(block => block.lecture?.id).filter(Boolean));
-    return (reader?.lectures || []).filter(item => !inline.has(item.id));
-  }, [reader, readerBlocks]);
   const softwareUpdate = useSoftwareUpdates(api, Boolean(data));
   const notice = useCallback((message, type = "info", action = null) => {
     clearTimeout(toastTimer.current);
@@ -781,7 +782,7 @@ export default function App() {
     root.style.setProperty('--panel-opacity', `${Math.min(100, Math.max(0, Number(prefs.panelOpacity ?? 76)))}%`);
     for (const [key, value] of Object.entries(prefs.pageOpacities || {}))
       root.style.setProperty(`--opacity-${key}`, `${Math.min(100, Math.max(0, Number(value) || 0))}%`);
-    for (const key of ['mine','library','competitions','mock','paths','rankings','growth','records','activity','lectures','settings','statement','editor','solution'])
+    for (const key of ['mine','library','competitions','mock','paths','templates','rankings','growth','records','activity','lectures','settings','statement','editor','solution'])
       if (prefs.pageOpacities?.[key] == null) root.style.removeProperty(`--opacity-${key}`);
     root.dataset.theme = prefs.theme;
     root.dataset.accent = prefs.accent;
@@ -1275,16 +1276,10 @@ export default function App() {
       notice(e.message, "error");
     }
   }
-  async function openSolution(id) {
+  async function openSolution(id,methodId) {
     if (!id) return;
     if (practiceId !== id) { await openPractice(id); return; }
-    if (readerId === id) {
-      readerSeq.current++;
-      setReaderId(null);
-      setReader(null);
-      setReaderFull(false);
-      return;
-    }
+    if(readerId===id){if(methodId)setReaderMethod(methodId);return;}
     if (active?.slots.some((slot) => slot.id === id)) {
       notice("比赛进行中，结束后可查看题解", "error");
       return;
@@ -1294,6 +1289,7 @@ export default function App() {
     setReaderFull(false);
     setReader(null);
     setReaderVariant("default");
+    setReaderMethod(methodId||null);
     setReaderError("");
     try {
       const result = await api("solution?id=" + encodeURIComponent(id));
@@ -1637,7 +1633,7 @@ export default function App() {
     );
   }
   function toolbar() {
-    return <PageSearch><label className="search-box"><Search size={17}/><input ref={searchRef} aria-label="搜索题目" value={currentFilters.query} onChange={event=>setFilter({query:event.target.value})} onKeyDown={event=>{if(['ArrowDown','Enter'].includes(event.key)){event.preventDefault();focusList();}}}/></label><SortDirection label="切换题目排序方向" descending={currentFilters.desc} onChange={desc=>setFilter({desc})}/><ProblemFilters rows={data?.rows || []} categories={categories} views={prefs.views||[]} onDeleteView={id=>setPrefs(previous=>({...previous,views:previous.views.filter(view=>view.id!==id)}))} value={currentFilters} onChange={setFilter} onReset={resetFilters} onSave={()=>{setViewName('');setDialog('saveView');}} onClear={page==='mine'?()=>setDialog('clear-training'):undefined} clearDisabled={busy||!mine.length||!!active||!!workspace.summary.pending}/>{page==='library'&&<RandomProblem rows={visible} disabled={busy||query!==currentFilters.query} onChoose={openPractice} onError={error=>notice(error.message,'error')}/>}{page==='library'&&<Tooltip text={Boolean(currentFilters.query||currentFilters.category||currentFilters.result||currentFilters.catalogPath?.length)?`将筛选结果加入题单（${visible.length} 道题）`:`加入题单（${visible.length} 道题）`}><button type="button" className="icon-button" aria-label="将筛选结果加入题单" disabled={busy||!visible.length||query!==currentFilters.query} onClick={()=>setListProblemIds(visible.map(row=>row.id))}><ListPlus size={17}/></button></Tooltip>}{currentFilters.category&&<span className="active-knowledge-filter" role="group" aria-label="当前知识点筛选"><span>{currentFilters.category.name}</span><button type="button" aria-label={`清除知识点筛选 ${currentFilters.category.name}`} onClick={()=>setFilter({category:null})}><X size={13}/></button></span>}</PageSearch>;
+    return <PageSearch><label className="search-box"><Search size={17}/><input ref={searchRef} aria-label="搜索题目" value={currentFilters.query} onChange={event=>setFilter({query:event.target.value})} onKeyDown={event=>{if(['ArrowDown','Enter'].includes(event.key)){event.preventDefault();focusList();}}}/></label><SortDirection label="切换题目排序方向" descending={currentFilters.desc} onChange={desc=>setFilter({desc})}/><ProblemFilters rows={data?.rows || []} categories={categories} views={prefs.views||[]} onDeleteView={id=>setPrefs(previous=>({...previous,views:previous.views.filter(view=>view.id!==id)}))} value={currentFilters} onChange={setFilter} onReset={resetFilters} onSave={()=>{setViewName('');setDialog('saveView');}} onClear={page==='mine'?()=>setDialog('clear-training'):undefined} clearDisabled={busy||!mine.length||!!active||!!workspace.summary.pending}/>{page==='library'&&<Tooltip text={Boolean(currentFilters.query||currentFilters.category||currentFilters.result||currentFilters.catalogPath?.length)?`将筛选结果加入题单（${visible.length} 道题）`:`加入题单（${visible.length} 道题）`}><button type="button" className="icon-button" aria-label="将筛选结果加入题单" disabled={busy||!visible.length||query!==currentFilters.query} onClick={()=>setListProblemIds(visible.map(row=>row.id))}><ListPlus size={17}/></button></Tooltip>}{page==='library'&&<RandomProblem rows={visible} disabled={busy||query!==currentFilters.query} onChoose={openPractice} onError={error=>notice(error.message,'error')}/>}{currentFilters.category&&<span className="active-knowledge-filter" role="group" aria-label="当前知识点筛选"><span>{currentFilters.category.name}</span><button type="button" aria-label={`清除知识点筛选 ${currentFilters.category.name}`} onClick={()=>setFilter({category:null})}><X size={13}/></button></span>}</PageSearch>;
   }
 
   function renderListPage() {
@@ -1799,61 +1795,7 @@ export default function App() {
           }
         }}
       />
-      <header>
-        <BookOpen size={17} />
-        <strong>
-          <InlineTitle>{reader?.title ||
-            rows.find((r) => r.id === readerId)?.title ||
-            "题解"}</InlineTitle>
-        </strong>
-        <IconButton
-          label={readerFull ? "退出题解全屏" : "题解全屏"}
-          icon={readerFull ? Minimize2 : Maximize2}
-          onClick={() => setReaderFull(!readerFull)}
-        />
-        <IconButton
-          label="收起题解"
-          icon={X}
-          onClick={() => {
-            readerSeq.current++;
-            setReaderId(null);
-            setReaderFull(false);
-            focusList();
-          }}
-        />
-      </header>
-      {reader && <div className="reader-versions" role="group" aria-label="题解版本">
-        <button type="button" aria-pressed={readerVariant === "default"} onClick={() => setReaderVariant("default")}>默认题解</button>
-        <button type="button" aria-label="详细题解" aria-pressed={readerVariant === "detailed"} onClick={() => setReaderVariant("detailed")}>详细题解{!reader.detailedSolution && <small aria-hidden="true">待补充</small>}</button>
-      </div>}
-      <div className="reader-content" key={`${readerId}:${readerVariant}`}>
-        <Suspense fallback={<div className="loading-small" role="status"><LoaderCircle className="spin" size={20} /></div>}>
-        {reader ? (
-          readerVariant === "detailed" ? (
-            reader.detailedSolution ? detailedReaderBlocks.map((block, index) => block.type === "lecture" ? <LectureDisclosure key={index} lecture={block.lecture || {title: block.heading}} inlineMarkdown={block.markdown} images={reader.detailedSolution.images} api={api} onTrain={openPractice} onError={(message) => notice(message, "error")} /> : <Markdown key={index} text={block.markdown} images={reader.detailedSolution.images} onCopy={copy} />) : <div className="reader-missing-detailed"><Empty title="详细题解待补充" description="这道题尚未收录详细版，可以先阅读默认题解。" /><button type="button" className="text-button" onClick={() => setReaderVariant("default")}>返回默认题解</button></div>
-          ) : !reader.markdown ? <div className="reader-missing-detailed"><Empty title="默认题解尚未收录" description="这道题已有详细版，可以切换阅读。" /><button type="button" className="text-button" onClick={() => setReaderVariant("detailed")}>阅读详细题解</button></div> : <>
-            {conciseSolution && <div className="concise-solution"><p className="progress-small">入门题简明阅读 · 思路提要与完整代码</p><Markdown text={conciseSolution} images={reader.images} onCopy={copy} /></div>}
-            <details className="solution-full" open={!conciseSolution} key={readerId}><summary style={conciseSolution ? undefined : {display: 'none'}}>查看完整题解与推导</summary>{readerBlocks.map((block, index) => block.type === "lecture" ? <LectureDisclosure key={index} lecture={block.lecture || {title: block.heading}} inlineMarkdown={block.markdown} images={reader.images} api={api} onTrain={openPractice} onError={(message) => notice(message, "error")} /> : <Markdown key={index} text={block.markdown} images={reader.images} onCopy={copy} />)}</details>
-            {!!reader.lectures?.length && <div className="reader-lecture-references"><h3>本题的基础讲解与引用</h3>{readerReferences.map(item => <LectureDisclosure key={item.id} lecture={item} api={api} onTrain={openPractice} onError={(message) => notice(message, "error")} />)}<button className="text-button" onClick={() => go("lectures")}>查看全部知识讲解 <ArrowUpRight size={13} /></button></div>}
-          </>
-        ) : readerError ? (
-          <Empty title="暂时无法读取题解" description={readerError} />
-        ) : (
-          <div className="loading-small">
-            <LoaderCircle size={22} className="spin" />
-            正在读取题解
-          </div>
-        )}
-        </Suspense>
-      </div>
-      {reader?.url && (
-        <footer>
-          <a href={reader.url} target="_blank" rel="noreferrer">
-            原题链接 <ArrowUpRight size={12} />
-          </a>
-          <span>题解仅在比赛结束后可用</span>
-        </footer>
-      )}
+      <Suspense fallback={<div className="reader-content" role="status"><LoaderCircle className="spin" size={20}/></div>}><SolutionReader key={readerId} reader={reader} error={readerError} api={api} methodId={readerMethod} onMethodChange={setReaderMethod} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} fullscreen={readerFull} onFullscreen={()=>setReaderFull(!readerFull)} onClose={()=>{readerSeq.current++;setReaderId(null);setReader(null);setReaderFull(false);focusList();}}/></Suspense>
     </aside>
   );
   const beforeTodayAc = insights?.summary?.beforeTodaySolved ?? Math.max(summary.beforeTodayAccepted || 0, (insights?.summary?.totalSolved ?? summary.historicalAccepted ?? 0) - (summary.todayAccepted || 0));
@@ -1966,6 +1908,7 @@ export default function App() {
               onExit={exitPractice}
               onSolution={openSolution}
               solutionOpen={readerId === practiceId}
+              solutionMethodId={readerMethod||reader?.primaryMethod||reader?.methods?.[0]?.id}
               onNext={nextPractice}
             />
           ) : ["mine", "library"].includes(page) ? (
@@ -2078,10 +2021,12 @@ export default function App() {
             <ActivityPage insights={insights} onTrain={openPractice} />
           ) : page === "training-lists" ? (
             <TrainingListsPage rows={rows} api={api} onTrain={openPractice} visit={trainingListsVisit.current} pageSize={prefs.libraryPageSize} busy={busy} prefs={prefs} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={id=>setListProblemIds(Array.isArray(id)?id:[id])} onRemove={removeTraining}/>
+          ) : page === "templates" ? (
+            <TemplatesPage api={api} shortcuts={prefs.shortcuts} visit={templatesVisit.current}/>
           ) : page === "paths" ? (
             <LearningPathsPage rows={rows} api={api} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} lockedProblems={active?.slots || []} visit={labVisit.current}/>
           ) : page === "lectures" ? (
-            <LecturesPanel api={api} visit={lecturesVisit.current} initialLecture={lectureId} categories={categories} onTrain={openPractice} onError={(message) => notice(message, "error")} />
+            <LecturesPanel prefs={prefs} setPrefs={setPrefs} api={api} visit={lecturesVisit.current} initialLecture={lectureId} categories={categories} onTrain={openPractice} onError={(message) => notice(message, "error")} />
           ) : page === "rankings" ? (
             <RankingsPage socialState={social} avatarData={prefs.avatarData} ownGrowth={growth} api={api} onConfigure={() => {if(window.__tbAdmin){setPage('settings');setSettingsTab('admin')}else openAccounts()}} onError={(message) => notice(message, "error")} />
           ) : (

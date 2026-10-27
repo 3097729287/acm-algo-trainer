@@ -45,6 +45,10 @@ def _write_lists(training, values):
     if not values:
         return
     with training._write() as db:
+        from daily_rotation import record_action
+        for value in values:
+            if not value.get('deleted') and not db.execute('SELECT 1 FROM account_preferences WHERE key=?',(PREFIX+value['id'],)).fetchone():
+                record_action(db,'create-list',iso(training._now()),value['id'])
         db.executemany('INSERT INTO account_preferences VALUES(?,?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at',
                        [(PREFIX + value['id'], json.dumps(value, ensure_ascii=False), iso(training._now())) for value in values])
 

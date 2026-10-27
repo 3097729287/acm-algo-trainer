@@ -172,14 +172,15 @@ def build_insights(rows, submissions, history, workspace, hub, now):
     growth = build_growth(xp)
     today = now.astimezone(SHANGHAI).date()
     days = {day for day, value in per_day.items() if value["submissions"]}
-    day = today if today in days else today - dt.timedelta(days=1)
+    ac_days = {date for dates in solved_dates.values() for date in dates if date <= today}
+    day = today if today in ac_days else today - dt.timedelta(days=1)
     streak = 0
-    while day in days:
+    while day in ac_days:
         streak += 1
         day -= dt.timedelta(days=1)
     longest = current = 0
     previous = None
-    for day in sorted(days):
+    for day in sorted(ac_days):
         current = current + 1 if previous and day == previous + dt.timedelta(days=1) else 1
         longest = max(longest, current)
         previous = day

@@ -62,7 +62,7 @@ class WorkbenchUpdateTests(unittest.TestCase):
         self.assertEqual(self.user.workspace()['summary']['streak'],0)
         with self.user._write() as db:
             for index,(at,mode) in enumerate([('2026-10-20T15:59:59Z','submit'),('2026-10-20T16:00:00Z','submit'),('2026-10-21T16:00:00Z','run')]):
-                db.execute("INSERT INTO submissions(id,problem_id,mode,code,submitted_at,finished_at,verdict,scope) VALUES(?,?,?,?,?,?,'WA','samples')",(str(index),identity,mode,'code',at,at))
+                db.execute("INSERT INTO submissions(id,problem_id,mode,code,submitted_at,finished_at,verdict,scope) VALUES(?,?,?,?,?,?,'AC','official')",(str(index),identity,mode,'code',at,at))
         self.assertEqual(self.user.workspace()['summary']['streak'],2)
         self.clock+=dt.timedelta(days=1)
         self.assertEqual(self.user.workspace()['summary']['streak'],0)

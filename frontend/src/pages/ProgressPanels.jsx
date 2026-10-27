@@ -122,7 +122,7 @@ function contestGroups(rows) {
 }
 function Difficulty({ row, locked = false }) { const mode=useDifficultyDisplay();return <span className={`competition-difficulty competition-difficulty-${locked ? 'unknown' : difficultyBand(row.difficulty)}${locked ? ' competition-hidden-difficulty' : ''}`} title={locked ? '比赛进行中，赛后显示难度' : difficultyDescription(row)}>{locked ? '赛中隐藏' : difficultyLabel(row,mode)}</span>; }
 export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStartReproduction, initialContest, onBack }) {
-  const groups = useMemo(() => contestGroups(list(rows).filter(row => !row.catalogHidden && row.source !== 'luogu-training' && row.source !== 'algorithm-lab')), [rows]);
+  const groups = useMemo(() => contestGroups(list(rows).filter(row => !row.catalogHidden && row.source !== 'luogu-training' && row.source !== 'algorithm-lab' && row.source !== 'algorithm-lab-curation')), [rows]);
   const [query, setQuery] = useState(''), [filter, setFilter] = useState('all');
   const deferredQuery = useDeferredValue(query);
   const [catalogPath, setCatalogPath] = useState([]), [examYear, setExamYear] = useState('');
@@ -172,7 +172,7 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
       <div className="competition-question-list">{current.rows.map(row => {
         const state = progress.get(row.id), locked = lockedIds.has(row.id);
         const verdict=state?.accepted?'AC':state?.verdict;
-        return <button type="button" className="competition-question" key={row.id} disabled={!onTrain || locked} onClick={() => onTrain?.(row.id)} aria-label={`练习 ${row.displayLetter} ${row.title}`}><span className="competition-letter" title={contestLetterTitle(row)}>{row.displayLetter}</span><div className="competition-question-main"><strong><InlineTitle>{row.title}</InlineTitle></strong><div className="competition-question-meta">{locked ? <span>模拟赛进行中</span> : knowledgeLabels(row).map(tag => <span className="competition-tag" key={tag}>{tag}</span>)}</div></div>{showDifficulty(row) && <Difficulty row={row} />}<span className={`competition-result verdict-${verdictTone(verdict)}${state?.accepted ? ' competition-accepted' : ''}`}>{locked ? '考场中' : verdict ? verdictLabel(verdict) : state ? '已加入' : '未加入'}</span><ChevronRight size={15} aria-hidden="true" /></button>;
+        return <button type="button" className="competition-question" key={row.id} disabled={!onTrain || locked} onClick={() => onTrain?.(row.id)} aria-label={`练习 ${row.displayLetter} ${row.title}`}><span className="competition-letter" title={contestLetterTitle(row)}>{row.displayLetter}</span><div className="competition-question-main"><strong><InlineTitle>{row.title}</InlineTitle></strong></div><div className="competition-question-meta">{locked ? <span>模拟赛进行中</span> : knowledgeLabels(row).map(tag => <span className="competition-tag" key={tag}>{tag}</span>)}</div>{showDifficulty(row) && <Difficulty row={row} />}<span className={`competition-result verdict-${verdictTone(verdict)}${state?.accepted ? ' competition-accepted' : ''}`}>{locked ? '考场中' : verdict ? verdictLabel(verdict) : state ? '已加入' : '未加入'}</span><ChevronRight size={15} aria-hidden="true" /></button>;
       })}</div>
     </div>;
   }

@@ -849,3 +849,12 @@
  .wb-statement-pane > .wb-pane-header > .wb-toolbar {width:100%;min-width:0}
  .wb-statement-actions {flex:0 0 100%;flex-wrap:wrap;justify-content:flex-end;min-width:0}
 }
+
+.wb-templates-overlay {z-index:180}.wb-templates-modal {width:min(1200px,94vw);height:86vh;max-width:none;position:relative;display:flex;flex-direction:column;padding:0}.wb-templates-close {position:absolute;top:8px;right:10px;z-index:2}.wb-templates-modal .template-heading {padding-right:28px}.wb-templates-modal .template-tools {padding-right:28px}
+
+.wb-solution-methods {display:flex;align-items:center;gap:4px}
+.wb-solution-methods .wb-solution-button:nth-child(4n+1) {color:var(--success)}
+.wb-solution-methods .wb-solution-button:nth-child(4n+2) {color:var(--info,#79aee8)}
+.wb-solution-methods .wb-solution-button:nth-child(4n+3) {color:#ad92e9}
+.wb-solution-methods .wb-solution-button:nth-child(4n+4) {color:var(--warning,#d7a45e)}
+.wb-solution-methods .wb-solution-button[aria-pressed=true] {border-color:currentColor;background:var(--accent-soft)}

@@ -8,6 +8,8 @@ import subprocess
 import tempfile
 import time
 import unittest
+from unittest.mock import patch
+from progression import TASKS
 from urllib.request import Request, urlopen
 
 import test_training as fixtures
@@ -56,6 +58,7 @@ class DailyMissionTests(unittest.TestCase):
         self.assertTrue(self.service.claim_daily_task('solve-1')['alreadyClaimed'])
         self.assertEqual([tuple(row) for row in self.service.connection.execute('SELECT * FROM achievement_xp_claims ORDER BY achievement_id')],claims)
 
+    @patch('daily_rotation.tasks_for',lambda *_:[dict(task,newOnly=index>=3) for index,task in enumerate(TASKS)])
     def test_harder_tasks_award_more_and_next_day_ac_counts_once_without_base_xp_replay(self):
         self.library.rows[0]["difficulty"] = 2100
         self.service.start_training("fixture::A")
@@ -74,7 +77,8 @@ class DailyMissionTests(unittest.TestCase):
         self.clock.advance(days=1)
         self.accept(submission_id=7777)
         self.accept(submission_id=7778)
-        self.assertTrue(all(task["progress"] == 1 for task in self.service.daily_tasks()["tasks"]))
+        self.assertTrue(all(task["progress"] == 1 for task in self.service.daily_tasks()["tasks"][:3]))
+        self.assertTrue(all(task["progress"] == 0 for task in self.service.daily_tasks()["tasks"][3:]))
         repeated = self.service.insights()['growth']
         self.assertEqual(repeated['xp']-repeated['missionXp']-repeated['achievementXp']-repeated['rankingXp'],base_xp)
         self.assertEqual(repeated['achievementXp'],220)

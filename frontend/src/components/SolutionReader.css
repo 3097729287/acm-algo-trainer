@@ -1,0 +1,7 @@
+.solution-reader-header {gap:8px;min-height:45px}
+.solution-reader-header strong {flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.solution-reader-header .icon-button {flex:none}
+.lesson-reader-link {display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:7px;margin:9px 0;padding:4px 8px}
+.lesson-reader-link>button:first-child {display:flex;align-items:center;gap:9px;flex:1;min-width:0;text-align:left;padding:10px 4px;color:var(--accent);background:transparent;border:0}
+.lesson-reader-link>button:first-child>svg {flex:none}
+.lesson-reader-link>button:first-child>span {min-width:0}

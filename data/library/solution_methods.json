@@ -1,0 +1,45 @@
+[
+  {
+    "content": {
+      "difficultyPolicy": "以最直观的常规解法标定；特殊技巧仅供思路补充",
+      "methods": [
+        {
+          "detailedSolution": {
+            "images": {
+              "corridor-difference.svg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4NjAiIGhlaWdodD0iMzUwIiB2aWV3Qm94PSIwIDAgODYwIDM1MCI+PHJlY3Qgd2lkdGg9Ijg2MCIgaGVpZ2h0PSIzNTAiIHJ4PSIxMiIgZmlsbD0iI2ZmZmZmZiIvPjxzdHlsZT50ZXh0e2ZvbnQtZmFtaWx5OkFyaWFsLCdNaWNyb3NvZnQgWWFIZWknLHNhbnMtc2VyaWY7ZmlsbDojMWYyOTM3O2ZvbnQtc2l6ZToxN3B4fS5saW5le3N0cm9rZTojMjc5YTgxO3N0cm9rZS13aWR0aDo1O3N0cm9rZS1saW5lY2FwOnJvdW5kfS5kb3R7ZmlsbDojMjc5YTgxfS5heGlze3N0cm9rZTojNzU4MjkzO3N0cm9rZS13aWR0aDoxLjV9PC9zdHlsZT48dGV4dCB4PSIyNCIgeT0iMzAiPumXreWMuumXtOimhueblu+8muWcqOWPs+err+eCueiuoeWFpe+8jOWIsOS4i+S4gOS4quiiq+afpeivouerr+eCueaJjeaSpOmUgDwvdGV4dD48cGF0aCBjbGFzcz0iYXhpcyIgZD0iTTc1IDI3M0g4MTAiLz48cGF0aCBjbGFzcz0ibGluZSIgZD0iTTkwIDY1SDQ1ME0yMTAgMTAxSDQ1ME00NTAgMTM3SDc3NU0zMzAgMTczSDY2NU00NTAgMjA5SDU1NSIvPjxnIGNsYXNzPSJkb3QiPjxjaXJjbGUgY3g9IjkwIiBjeT0iNjUiIHI9IjUiLz48Y2lyY2xlIGN4PSI0NTAiIGN5PSI2NSIgcj0iNSIvPjxjaXJjbGUgY3g9IjIxMCIgY3k9IjEwMSIgcj0iNSIvPjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjEwMSIgcj0iNSIvPjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjEzNyIgcj0iNSIvPjxjaXJjbGUgY3g9Ijc3NSIgY3k9IjEzNyIgcj0iNSIvPjxjaXJjbGUgY3g9IjMzMCIgY3k9IjE3MyIgcj0iNSIvPjxjaXJjbGUgY3g9IjY2NSIgY3k9IjE3MyIgcj0iNSIvPjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjIwOSIgcj0iNSIvPjxjaXJjbGUgY3g9IjU1NSIgY3k9IjIwOSIgcj0iNSIvPjwvZz48cGF0aCBkPSJNNDUwIDQ2VjI3OCIgc3Ryb2tlPSIjZGY3NjUyIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjUgNSIvPjx0ZXh0IHg9IjQ2NSIgeT0iNTciPnggPSA177yaNSDmnaHpg73opobnm5Y8L3RleHQ+PGcgdGV4dC1hbmNob3I9Im1pZGRsZSI+PHRleHQgeD0iOTAiIHk9IjI5NyI+MTwvdGV4dD48dGV4dCB4PSIyMTAiIHk9IjI5NyI+MjwvdGV4dD48dGV4dCB4PSIzMzAiIHk9IjI5NyI+MzwvdGV4dD48dGV4dCB4PSI0NTAiIHk9IjI5NyI+NTwvdGV4dD48dGV4dCB4PSI1NTUiIHk9IjI5NyI+NjwvdGV4dD48dGV4dCB4PSI2NjUiIHk9IjI5NyI+NzwvdGV4dD48dGV4dCB4PSI3NzUiIHk9IjI5NyI+ODwvdGV4dD48dGV4dCB4PSI5MCIgeT0iMzI4Ij7opobnm5YgMTwvdGV4dD48dGV4dCB4PSIyMTAiIHk9IjMyOCI+MjwvdGV4dD48dGV4dCB4PSIzMzAiIHk9IjMyOCI+MzwvdGV4dD48dGV4dCB4PSI0NTAiIHk9IjMyOCI+NTwvdGV4dD48dGV4dCB4PSI1NTUiIHk9IjMyOCI+MzwvdGV4dD48dGV4dCB4PSI2NjUiIHk9IjMyOCI+MjwvdGV4dD48dGV4dCB4PSI3NzUiIHk9IjMyOCI+MTwvdGV4dD48L2c+PC9zdmc+"
+            },
+            "markdown": "# 小月的长廊：离散化、差分与前缀和\n\n### 从“每个区间查两个端点”确定处理对象\n\n题目没有要求输出整条数轴的覆盖图，只询问每个结界的左、右端点。共有 $n$ 个结界，因此至多有 $2n$ 个需要查询的位置。\n\n先列出全部端点，排序并删除重复值。第 $k$ 个数只是第 $k$ 个需要查询的位置；相邻编号之间可能隔了很多整数。我们保留顺序，不拿编号差当真实距离。\n\n### 一条结界对这些查询位置做了什么\n\n考虑闭区间 $[2,5]$，需要查询的位置是 $1,2,3,5,6,7,8$。它对位置 $2,3,5$ 的覆盖数各贡献 $1$，对 $6$ 已经没有贡献。压缩后这三个查询位置仍连续，因此等价于给编号区间整体加一。\n\n不逐个修改区间中的编号，而是记录贡献从何处开始、在何处结束：在左端点的编号 `L` 加一，在右端点之后的编号 `R+1` 减一。若右端点已是最后一个查询点，减一落到预留的哨兵槽，不需要查询该槽。\n\n**不能在编号 `R` 处减一**：那会漏掉右端点。在原坐标上算 `r+1`，与在压缩编号上算 `R+1`，也是两种不同的操作；本解采用后者。\n\n![样例中的闭区间和端点](corridor-difference.svg)\n\n### 为什么前缀和恰好等于覆盖数\n\n从左向右累加差分时，一条区间在走到 `L` 时贡献加入，在走到 `R+1` 时撤销。因此只有当当前编号位于 $[L,R]$ 内时，这条区间的贡献仍然存在。所有区间的贡献相加，就是当前位置被多少个区间覆盖。\n\n区间端点重复时，所有开始与结束的贡献都累加到同一个编号。不是去重区间，而是去重查询坐标：两条完全相同的结界仍然各贡献一份覆盖。\n\n### 按样例逐条核对\n\n端点表为 $1,2,3,5,6,7,8$，最终覆盖数为 $1,2,3,5,3,2,1$。$[1,5]$ 两端差 $4$；$[2,5]$ 差 $3$；$[5,8]$ 差 $4$；$[3,7]$ 差 $1$；$[5,6]$ 差 $2$。阈值为 $2$ 时恰有四条合格。\n\n阈值 $p=0$ 时每条结界都合格，代码使用 `>=` 自然覆盖这个边界。单点区间 $[x,x]$ 左右查同一个覆盖数，差为零。\n\n### 代码与复杂度\n\n`sort` 后调用 `unique` 只把不重复的值挪到前面，返回新的逻辑末尾；`erase` 才真正缩短数组。`lower_bound` 在有序数组中找到端点所在位置，减去 `begin()` 得到从零开始的编号。原坐标一定提前加入过 `xs`，所以这里不会查不到。\n\n差分数组长度为 `m+1`，最后一格专门留给结束标记。前缀和只计算前 `m` 格，随后按每个结界已经保存的两个编号做查询。\n\n总时间 $O(n\\log n)$、额外空间 $O(n)$。与排序端点后二分计数的方法同阶，区别在于本解显式构造所有查询位置的覆盖数，更直接对应区间加和点查询。\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n    int n, p;\n    cin >> n >> p;\n    vector<pair<int, int>> seg(n);\n    vector<int> xs;\n    for (auto &[l, r] : seg) {\n        cin >> l >> r;\n        xs.push_back(l);\n        xs.push_back(r);\n    }\n    sort(xs.begin(), xs.end());\n    xs.erase(unique(xs.begin(), xs.end()), xs.end());\n    int m = xs.size();\n    vector<int> diff(m + 1, 0);\n    vector<pair<int, int>> index(n);\n    for (int i = 0; i < n; ++i) {\n        int l = lower_bound(xs.begin(), xs.end(), seg[i].first) - xs.begin();\n        int r = lower_bound(xs.begin(), xs.end(), seg[i].second) - xs.begin();\n        index[i] = {l, r};\n        ++diff[l];\n        --diff[r + 1];\n    }\n    for (int i = 1; i < m; ++i) diff[i] += diff[i - 1];\n    int answer = 0;\n    for (auto [l, r] : index) answer += abs(diff[l] - diff[r]) >= p;\n    cout << answer << '\\n';\n}\n```\n"
+          },
+          "difficultyRelevant": true,
+          "id": "difference",
+          "images": {
+            "corridor-difference.svg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4NjAiIGhlaWdodD0iMzUwIiB2aWV3Qm94PSIwIDAgODYwIDM1MCI+PHJlY3Qgd2lkdGg9Ijg2MCIgaGVpZ2h0PSIzNTAiIHJ4PSIxMiIgZmlsbD0iI2ZmZmZmZiIvPjxzdHlsZT50ZXh0e2ZvbnQtZmFtaWx5OkFyaWFsLCdNaWNyb3NvZnQgWWFIZWknLHNhbnMtc2VyaWY7ZmlsbDojMWYyOTM3O2ZvbnQtc2l6ZToxN3B4fS5saW5le3N0cm9rZTojMjc5YTgxO3N0cm9rZS13aWR0aDo1O3N0cm9rZS1saW5lY2FwOnJvdW5kfS5kb3R7ZmlsbDojMjc5YTgxfS5heGlze3N0cm9rZTojNzU4MjkzO3N0cm9rZS13aWR0aDoxLjV9PC9zdHlsZT48dGV4dCB4PSIyNCIgeT0iMzAiPumXreWMuumXtOimhueblu+8muWcqOWPs+err+eCueiuoeWFpe+8jOWIsOS4i+S4gOS4quiiq+afpeivouerr+eCueaJjeaSpOmUgDwvdGV4dD48cGF0aCBjbGFzcz0iYXhpcyIgZD0iTTc1IDI3M0g4MTAiLz48cGF0aCBjbGFzcz0ibGluZSIgZD0iTTkwIDY1SDQ1ME0yMTAgMTAxSDQ1ME00NTAgMTM3SDc3NU0zMzAgMTczSDY2NU00NTAgMjA5SDU1NSIvPjxnIGNsYXNzPSJkb3QiPjxjaXJjbGUgY3g9IjkwIiBjeT0iNjUiIHI9IjUiLz48Y2lyY2xlIGN4PSI0NTAiIGN5PSI2NSIgcj0iNSIvPjxjaXJjbGUgY3g9IjIxMCIgY3k9IjEwMSIgcj0iNSIvPjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjEwMSIgcj0iNSIvPjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjEzNyIgcj0iNSIvPjxjaXJjbGUgY3g9Ijc3NSIgY3k9IjEzNyIgcj0iNSIvPjxjaXJjbGUgY3g9IjMzMCIgY3k9IjE3MyIgcj0iNSIvPjxjaXJjbGUgY3g9IjY2NSIgY3k9IjE3MyIgcj0iNSIvPjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjIwOSIgcj0iNSIvPjxjaXJjbGUgY3g9IjU1NSIgY3k9IjIwOSIgcj0iNSIvPjwvZz48cGF0aCBkPSJNNDUwIDQ2VjI3OCIgc3Ryb2tlPSIjZGY3NjUyIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjUgNSIvPjx0ZXh0IHg9IjQ2NSIgeT0iNTciPnggPSA177yaNSDmnaHpg73opobnm5Y8L3RleHQ+PGcgdGV4dC1hbmNob3I9Im1pZGRsZSI+PHRleHQgeD0iOTAiIHk9IjI5NyI+MTwvdGV4dD48dGV4dCB4PSIyMTAiIHk9IjI5NyI+MjwvdGV4dD48dGV4dCB4PSIzMzAiIHk9IjI5NyI+MzwvdGV4dD48dGV4dCB4PSI0NTAiIHk9IjI5NyI+NTwvdGV4dD48dGV4dCB4PSI1NTUiIHk9IjI5NyI+NjwvdGV4dD48dGV4dCB4PSI2NjUiIHk9IjI5NyI+NzwvdGV4dD48dGV4dCB4PSI3NzUiIHk9IjI5NyI+ODwvdGV4dD48dGV4dCB4PSI5MCIgeT0iMzI4Ij7opobnm5YgMTwvdGV4dD48dGV4dCB4PSIyMTAiIHk9IjMyOCI+MjwvdGV4dD48dGV4dCB4PSIzMzAiIHk9IjMyOCI+MzwvdGV4dD48dGV4dCB4PSI0NTAiIHk9IjMyOCI+NTwvdGV4dD48dGV4dCB4PSI1NTUiIHk9IjMyOCI+MzwvdGV4dD48dGV4dCB4PSI2NjUiIHk9IjMyOCI+MjwvdGV4dD48dGV4dCB4PSI3NzUiIHk9IjMyOCI+MTwvdGV4dD48L2c+PC9zdmc+"
+          },
+          "lectureIds": [
+            "foundation:coordinate-compression-v1",
+            "foundation:difference-prefix-v1"
+          ],
+          "markdown": "# 小月的长廊\n\n### 题意\n\n每个结界覆盖一个闭区间。只需知道每个结界两个端点的覆盖数，再统计左右覆盖数之差的绝对值至少为 $p$ 的结界。\n\n### 思路\n\n端点最大到 $10^9$，不能开同样大的数组。把所有左右端点排序去重，按顺序编号；我们只在这些位置查询覆盖数，位置之间的实际距离不影响答案。\n\n一个区间的左右端点编号为 $L,R$，就给这段编号整体加一。用差分记录：`diff[L]++`，`diff[R+1]--`。前缀和后，`diff[k]` 就是第 $k$ 个端点的覆盖数。**这里的 `R+1` 是下一个查询位置的编号，不是原坐标加一；右端点自身仍被覆盖。**\n\n![闭区间及端点覆盖数](corridor-difference.svg)\n\n样例中的端点 $1,2,3,5,6,7,8$ 的覆盖数依次为 $1,2,3,5,3,2,1$。当 $p=2$，五个结界的两端差依次为 $4,3,4,1,2$，因此答案为 $4$。\n\n### 复杂度\n\n排序及端点查找共 $O(n\\log n)$，前缀和和最终统计为 $O(n)$，空间 $O(n)$。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n    int n, p;\n    cin >> n >> p;\n    vector<pair<int, int>> seg(n);\n    vector<int> xs;\n    for (auto &[l, r] : seg) {\n        cin >> l >> r;\n        xs.push_back(l);\n        xs.push_back(r);\n    }\n    sort(xs.begin(), xs.end());\n    xs.erase(unique(xs.begin(), xs.end()), xs.end());\n    int m = xs.size();\n    vector<int> diff(m + 1, 0);\n    vector<pair<int, int>> index(n);\n    for (int i = 0; i < n; ++i) {\n        int l = lower_bound(xs.begin(), xs.end(), seg[i].first) - xs.begin();\n        int r = lower_bound(xs.begin(), xs.end(), seg[i].second) - xs.begin();\n        index[i] = {l, r};\n        ++diff[l];\n        --diff[r + 1];\n    }\n    for (int i = 1; i < m; ++i) diff[i] += diff[i - 1];\n    int answer = 0;\n    for (auto [l, r] : index) answer += abs(diff[l] - diff[r]) >= p;\n    cout << answer << '\\n';\n}\n```\n",
+          "tags": [
+            "离散化",
+            "差分",
+            "前缀和"
+          ],
+          "title": "离散化、差分与前缀和"
+        },
+        {
+          "difficultyRelevant": true,
+          "id": "binary",
+          "legacy": true,
+          "tags": [
+            "排序",
+            "二分查找"
+          ],
+          "title": "排序端点与二分计数"
+        }
+      ],
+      "primaryMethod": "difference"
+    },
+    "problem_id": "remote:nowcoder:141877::C"
+  }
+]

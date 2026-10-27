@@ -3,7 +3,7 @@ const folderOrder=new Intl.Collator('zh-CN',{numeric:true});
 
 export function catalogSegments(row) {
   const name=row.contest||row.name||'其他题目',fullName=`${name} ${row.contestFullName||''}`;
-  if (row.labTopic) return ['算法实验室', row.labTopic, name];
+  if (row.labTopic || row.source==='algorithm-lab' || row.series==='算法实验室') return ['算法实验室', row.labTopic||name.replace(/^算法实验室\s*·\s*/,''), name];
   if (row.schoolTraining || /^https:\/\/(?:codeforces.com\/gym\/726517|ac.nowcoder.com\/acm\/contest\/142622)\//.test(row.url || '')) return ['校队训练', name];
   if (/蓝桥/.test(`${fullName} ${row.series||''}`)) {
     const group=/(?:B\s*组|大学B(?:\s|$)|组\s*B)/i.test(`${fullName} ${row.examGroup||''}`)?'蓝桥杯 B 组':'蓝桥杯';
@@ -28,7 +28,8 @@ export function catalogSegments(row) {
 // Known series remain discoverable even when none of their contests is bundled.
 // Entering an empty folder states that explicitly; it never invents a contest.
 export function catalogFolders(path=[]) {
-  if (!path.length)return ['Codeforces','AtCoder','牛客','洛谷','ACM','蓝桥杯 B 组','校队训练'];
+  if (!path.length)return ['算法实验室','Codeforces','AtCoder','牛客','洛谷','ACM','蓝桥杯 B 组','校队训练'];
+  if (path.length===1&&path[0]==='Codeforces')return ['教育赛','Div.1','Div.2','Div.3','Div.4'];
   if (path.length===1&&path[0]==='AtCoder')return ['ABC','ARC','AGC'];
   if (path.length===1&&path[0]==='ACM')return ['ICPC','CCPC','网络预选赛','省赛','邀请赛','总决赛','分区赛'];
   if (path.length===1&&path[0].startsWith('蓝桥杯'))return ['省赛','国赛'];
@@ -37,7 +38,7 @@ export function catalogFolders(path=[]) {
 
 // Collapse navigation-only nodes while keeping their original paths for saved filters.
 const isYear = label => /^20\d{2}年$/.test(label) || label === '年份待核实';
-const preserveFolder = (parent, label) => catalogFolders(parent).includes(label) || (!parent.length && label === '算法实验室');
+const preserveFolder = (parent, label) => isYear(label) || catalogFolders(parent).includes(label) || (!parent.length && label === '算法实验室');
 export function compactCatalogOptions(nodes, parent = []) {
   return nodes.flatMap(node => {
     const path = [...parent, node.label];
@@ -89,7 +90,7 @@ export function contestOptions(events,{descending=true,shelf=''}={}) {
   const ensure=(parts)=>{let nodes=roots;for(const label of parts){let folder=nodes.find(node=>node.value===undefined&&node.label===label);if(!folder){folder={label,children:[]};nodes.push(folder);}nodes=folder.children;}return nodes;};
   if(!shelf)for(const name of catalogFolders())ensure([name]);
   if(events.some(item=>item.labTopic))ensure(['算法实验室']);
-  for(const item of events){const parts=catalogSegments({...item,contest:item.displayName||item.name}),nodes=ensure(parts.slice(0,-1));nodes.push({label:`${parts.at(-1)} · ${item.count} 题`,selectionLabel:`${item.displayName||item.name} · ${item.count} 题`,value:item.name,event:item});}
+  for(const item of events){const parts=catalogSegments({...item,contest:item.displayName||item.name}),nodes=ensure(parts.slice(0,-1));nodes.push({label:`${parts.at(-1)} · ${item.expectedCount||item.count} 题`,selectionLabel:`${item.displayName||item.name} · ${item.expectedCount||item.count} 题`,value:item.name,event:item});}
   for(const root of roots)for(const name of catalogFolders([root.label]))ensure([root.label,name]);
   const compareNewest=createContestComparator();
   const sort=nodes=>{nodes.sort((a,b)=>a.event&&b.event?compareNewest(a.event,b.event)*(descending?1:-1):/^20\d{2}年$/.test(a.label)&&/^20\d{2}年$/.test(b.label)?b.label.localeCompare(a.label)*(descending?1:-1):folderOrder.compare(a.label,b.label));nodes.forEach(node=>node.children&&sort(node.children));};

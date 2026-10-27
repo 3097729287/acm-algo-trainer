@@ -7,7 +7,7 @@ import re
 from training import ServiceError, iso
 
 ALLOWED = frozenset(('panelStyle', 'backdrop', 'panelOpacity', 'pageOpacities', 'widgets', 'theme', 'accent', 'motion', 'compact', 'collapsed', 'favorites', 'views',
-                     'readerWidth', 'fontSize', 'difficultyDisplay', 'libraryPageSize', 'navOrder', 'navLabels', 'navGroups', 'seenAchievements', 'showPlatforms', 'onboardingCompleted', 'avatarData', 'navSchema', 'learningPaths', 'shortcuts'))
+                     'readerWidth', 'fontSize', 'difficultyDisplay', 'learnedLectures', 'libraryPageSize', 'navOrder', 'navLabels', 'navGroups', 'seenAchievements', 'showPlatforms', 'onboardingCompleted', 'avatarData', 'navSchema', 'learningPaths', 'shortcuts'))
 AVATAR_DATA_MAX_BYTES = 48 * 1024
 
 
@@ -70,11 +70,13 @@ def save_preferences(training, body):
     value = dict(body['preferences'])
     if set(value) - ALLOWED:
         raise ServiceError(400, '偏好设置包含不支持的字段')
+    if 'learnedLectures' in value and (not isinstance(value['learnedLectures'],list) or len(value['learnedLectures'])>2048 or any(not isinstance(key,str) or not key or len(key)>240 for key in value['learnedLectures'])):
+        raise ServiceError(400,'已学会的知识点格式无效')
     if 'shortcuts' in value:
         shortcuts = value['shortcuts']
         allowed = {'commands','sidebar','settings','search','refresh','regions','help','practice','solution','favorite','listSearch',
                    'run','submit','official','save','pane-0','pane-1','pane-2',
-                   'page-mine','page-library','page-training-lists','page-paths','page-competitions','page-mock','page-records','page-growth','page-activity','page-lectures'}
+                   'page-mine','page-library','page-training-lists','page-templates','page-paths','page-competitions','page-mock','page-records','page-growth','page-activity','page-lectures'}
         if (not isinstance(shortcuts, dict) or set(shortcuts) - allowed or any(
                 not isinstance(binding, str) or len(binding) > 64 or any(ord(char) < 32 for char in binding)
                 for binding in shortcuts.values())):
@@ -103,7 +105,7 @@ def save_preferences(training, body):
         raise ServiceError(400, '题库每页题数须为 10–200')
     if 'pageOpacities' in value:
         opacities = value['pageOpacities']
-        if (not isinstance(opacities, dict) or set(opacities) - {'mine','library','training-lists','competitions','mock','rankings','growth','records','activity','lectures','settings','statement','editor','solution','paths'}
+        if (not isinstance(opacities, dict) or set(opacities) - {'mine','library','training-lists','competitions','mock','rankings','growth','records','activity','lectures','settings','statement','editor','solution','paths','templates'}
                 or any(type(opacity) is not int or not 0 <= opacity <= 100 for opacity in opacities.values())):
             raise ServiceError(400, '界面不透明度须为 0–100')
     try:
@@ -137,6 +139,18 @@ def save_preferences(training, body):
             with training._write() as connection:
                 connection.execute("INSERT INTO account_preferences VALUES('ui',?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at",
                                    (text, iso(training._now())))
+                from daily_rotation import record_action
+                stamp=iso(training._now())
+                if any(previous.get(key,default)!=value.get(key,default) for key,default in [('theme','dark'),('accent','violet')]):
+                    record_action(connection,'appearance',stamp,str(value.get('theme','dark'))+'/'+str(value.get('accent','violet')))
+                for identity in set(value.get('favorites',[]))-set(previous.get('favorites',[])):
+                    try:row=training._row(identity)
+                    except Exception as error:
+                        if getattr(error,'status',None)==404:continue
+                        raise
+                    record_action(connection,'favorite',stamp,row.get('url') or identity)
+                for identity in set(value.get('learnedLectures',[]))-set(previous.get('learnedLectures',[])):
+                    record_action(connection,'learn',stamp,identity)
         return read_preferences(training)
 
 

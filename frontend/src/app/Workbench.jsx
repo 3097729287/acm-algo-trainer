@@ -1,7 +1,7 @@
 import {matchesShortcut} from '@/lib/shortcuts.js';
 import ThemedSelect from '@/components/ThemedSelect.jsx';
 import BoundedNumber from '@/components/BoundedNumber.jsx';
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { memo, lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
@@ -20,6 +20,7 @@ import InlineTitle from '@/components/InlineTitle.jsx';
 import ReadingImage, {readingUrlTransform} from '@/components/ReadingImage.jsx';
 import './Workbench.css';
 
+const TemplatesPage=lazy(()=>import('@/pages/TemplatesPage.jsx'));
 const TEMPLATE = '#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    \n    return 0;\n}\n';
 const PYTHON_TEMPLATE = 'import sys\n\ndef solve():\n    pass\n\nif __name__ == "__main__":\n    solve()\n';
 const MAX_BYTES = 64 * 1024;
@@ -184,7 +185,7 @@ function CaseResults({ cases }) {
   })}</div>;
 }
 
-export default function Workbench({shortcuts={}, problemId, preparedProblem=null, contest = null, reviewTask = null, api, onProgress, onExit, onSolution, solutionOpen=false, onNext, headerStart, headerEnd }) {
+export default function Workbench({shortcuts={}, problemId, preparedProblem=null, contest = null, reviewTask = null, api, onProgress, onExit, onSolution, solutionOpen=false, solutionMethodId=null, onNext, headerStart, headerEnd }) {
   const contestId = contest?.id || null;
   const runningContest = contest?.status === 'running';
   const endedContest = Boolean(contest && !runningContest);
@@ -208,6 +209,9 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const [loadError, setLoadError] = useState('');
   const [loadAttempt, setLoadAttempt] = useState(0);
   const [code, setCode] = useState('');
+  const [templatesOpen,setTemplatesOpen]=useState(false);
+  const templatesVisit=useRef({});
+  useEffect(()=>{if(!templatesOpen)return;const escape=event=>{if(event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();setTemplatesOpen(false);requestAnimationFrame(()=>editorRef.current?.focus());}};window.addEventListener('keydown',escape,true);return()=>window.removeEventListener('keydown',escape,true);},[templatesOpen]);
   const [codeLanguage,setCodeLanguage]=useState('cpp17');
   const [saveState, setSaveState] = useState({ kind: 'automatic' });
   const [pane, setPane] = useState('both');
@@ -760,6 +764,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
 
   return <section className={`tb-workbench wb-pane-${pane}`} ref={sectionRef} onKeyDown={handleKeys} aria-label="代码训练工作台" data-problem-id={problemId}>
 
+    {templatesOpen&&<div className="modal-overlay wb-templates-overlay" onClick={event=>{if(event.target===event.currentTarget)setTemplatesOpen(false);}}><section role="dialog" aria-modal="true" aria-label="模板" className="modal wb-templates-modal"><button type="button" className="icon-button wb-templates-close" aria-label="关闭模板" onClick={()=>setTemplatesOpen(false)}>×</button><Suspense fallback={<LoaderCircle className="spin"/>}><TemplatesPage embedded api={api} language={codeLanguage} shortcuts={shortcuts} visit={templatesVisit.current} onUse={template=>{updateCode(template.code+'\n'+(editorRef.current?.value||code));setTemplatesOpen(false);requestAnimationFrame(()=>editorRef.current?.focus());}}/></Suspense></section></div>}
     {sidePracticeLocked && !endedContest && <div className="wb-notice">这题正在模拟赛中，请进入考场运行与提交。</div>}
     {actionError && <div className="wb-error-strip" role="alert"><span>{actionError}</span><button type="button" onClick={() => setActionError('')}>知道了</button></div>}
 
@@ -803,7 +808,8 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
           <span><Code2 size={14}/><ThemedSelect aria-label="编程语言" value={codeLanguage} disabled={unavailable||busy||officialBusy} onChange={changeCodeLanguage}><option value="cpp17">C++17</option><option value="python3">Python 3</option></ThemedSelect></span>
           <span className={`wb-save-state wb-save-${saveState.kind}`} title={saveState.message || '草稿自动保存；Ctrl+S 立即保存'} aria-live="polite">{saveState.kind === 'saving' ? <LoaderCircle size={11} className="wb-spinner" /> : saveState.kind === 'saved' ? <Check size={11} /> : null}{saveLabel}</span>
           <div className="wb-editor-actions">
-            {onSolution && !runningContest && !problem?.locked && <button type="button" className="wb-button wb-solution-button" aria-label="题解" title="题解" aria-pressed={solutionOpen} disabled={!problem} onClick={() => callbacks.current.onSolution?.(problemId)}><BookOpen size={14} /></button>}
+            <button type="button" className="wb-button" aria-label="打开模板" title="打开模板" disabled={loading||!problem||unavailable} onClick={()=>setTemplatesOpen(true)}><Code2 size={14}/></button>
+            {onSolution && !runningContest && !problem?.locked && <span className="wb-solution-methods">{(problem?.solutionMethods??(problem?[{id:'original',title:'题解'}]:[])).map((method,index,methods)=><button key={method.id} type="button" className="wb-button wb-solution-button" aria-label={methods.length===1?'题解':`题解${index+1}`} title={method.title||`题解${index+1}`} aria-pressed={solutionOpen&&(solutionMethodId===method.id||!solutionMethodId&&index===0)} onClick={()=>callbacks.current.onSolution?.(problemId,method.id)}><BookOpen size={14}/></button>)}</span>}
             {onNext && <button type="button" className="wb-button wb-next-button" onClick={async () => { if(await saveRecord(activeRecord.current)) callbacks.current.onNext?.(); }}>下一题<ArrowRight size={14} /></button>}
             {localDraftRecovery !== null && <button type="button" className="wb-button" disabled={unavailable} title="当前为更新的同步版本；可恢复本机未上传的旧草稿" onClick={() => {
               undoReplace.current = code;

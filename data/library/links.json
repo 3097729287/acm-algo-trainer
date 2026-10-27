@@ -33214,5 +33214,17 @@
     "lecture_id": "lecture:foundation-bitwise",
     "position": 5,
     "problem_id": "lab:codeforces:938D"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "foundation:coordinate-compression-v1",
+    "position": 5636,
+    "problem_id": "remote:nowcoder:141877::C"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "foundation:difference-prefix-v1",
+    "position": 5637,
+    "problem_id": "remote:nowcoder:141877::C"
   }
 ]

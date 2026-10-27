@@ -1,10 +1,10 @@
 # ToBe · Training Workbench
 
-**ToBe 1.4.21 (local update; unpublished)** shows numeric difficulty by default, with an exclusive text option. Daily activity fills at 10 problems in five brighter accent shades, two problems per step, without colored-cell borders.
+**ToBe 1.4.22 (local update; unpublished)** adds 24 C++17 templates and private custom templates, separate solution methods, nested and fullscreen lessons, learned-topic filtering, rotating daily tasks, AC streaks and smaller lossless account snapshots.
 
 **ToBe 1.4.20 (local update; unpublished)** repairs shared browser connection recovery, refines difficulty estimates and excludes elementary exercises from automatic review. It adds list filters, insertion ordering, a favorite-problems list, cached reversible likes and inline creation, single-column mock papers, accent-based activity levels and bounded statement/streamed sync memory. [Release scope](docs/releases/1.4.20.md).
 
-Includes the ten algorithm topics, training lists, illustrated editorials and interface fixes previously delivered locally in 1.4.2–1.4.16. The public seed retains 13,184 problem records, 9,652 statement archives, 1,378 default/detailed editorial pairs, 445 lectures and 563 lists. Archived statements are not all complete or readable; see the [audit and release scope](docs/releases/1.4.17.md). The separate full editorial review remains incomplete.
+Includes the ten algorithm topics, training lists, illustrated editorials and interface fixes previously delivered locally in 1.4.2–1.4.16. The public seed retains 14,877 problem records, 11,289 statement archives, 1,379 default/detailed editorial pairs, 447 lectures and 563 lists. Archived statements are not all complete or readable; see the [audit and release scope](docs/releases/1.4.17.md). The separate full editorial review remains incomplete.
 
 <!-- release-status:start -->
 **Stable release: [ToBe 1.4.17](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.17).** [Changes, audit and validation](docs/releases/1.4.17.md).
@@ -81,7 +81,7 @@ Save drafts and exit TB before installing into the existing directory. Personal 
 
 ## Library and progression
 
-The 1.4.5 public-seed baseline retained for 1.4.6 contains **13,123 original problem entries, 2,437 statements, 1,317 default editorials, 1,317 detailed editorials, 445 lectures and 5,395 lecture associations**, plus 563 training-list directory entries (420 readable and 143 unavailable), with seven unresolved problem references. Existing statements, both editorial versions and courses remain intact. Newly collected problems use original-site metadata; this version is not publicly released. The UI deduplicates original tasks while preserving aliases, content and work. Uncached statements require connectivity. New editorial work is limited to verified problem difficulty at most 2200, including 2200. [Editorial policy](docs/editorial-policy.md).
+The 1.4.5 public-seed baseline retained for 1.4.6 contains **13,123 original problem entries, 2,437 statements, 1,317 default editorials, 1,317 detailed editorials, 447 lectures and 5,395 lecture associations**, plus 563 training-list directory entries (420 readable and 143 unavailable), with seven unresolved problem references. Existing statements, both editorial versions and courses remain intact. Newly collected problems use original-site metadata; this version is not publicly released. The UI deduplicates original tasks while preserving aliases, content and work. Uncached statements require connectivity. New editorial work is limited to verified problem difficulty at most 2200, including 2200. [Editorial policy](docs/editorial-policy.md).
 
 XP levels and skill tiers are independent. Level 5 unlocks placement; at least five distinct, verified, independent first official ACs are required. Ability is the median difficulty of the strongest five. Iron through King starts at **0, 800, 1000, 1200, 1600, 1800, 2000, 2100 and 2200**. This is a training estimate, not a direct copy of an original-site account rating. [Progression rules](docs/progression.md).
 

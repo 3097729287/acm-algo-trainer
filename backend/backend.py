@@ -243,6 +243,9 @@ class Handler(BaseHTTPRequestHandler):
                 elif path == '/api/admin':
                     from admin import controls
                     value = controls(training, body)
+                elif path == '/api/templates/save':
+                    from code_templates import save
+                    value = save(training, body)
                 elif path == '/api/preferences':
                     from preferences import save_preferences
                     value = save_preferences(training, body)
@@ -409,6 +412,9 @@ class Handler(BaseHTTPRequestHandler):
             elif path == '/api/admin':
                 from admin import controls
                 self.send_json(200, controls(self.server.training))
+            elif path == '/api/templates':
+                from code_templates import catalog
+                self.send_json(200, catalog(self.server.training))
             elif path == '/api/preferences':
                 from preferences import read_preferences
                 self.send_json(200, read_preferences(self.server.training))

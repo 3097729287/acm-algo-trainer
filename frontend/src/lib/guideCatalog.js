@@ -1,7 +1,7 @@
 const step=(target,title,text)=>({target,title,text});
 const page=(id,items,tab)=>items.map(item=>({...item,page:id,...(tab?{tab}:{})}));
 
-export const GUIDE_LABELS={mine:'我的训练',library:'题库','training-lists':'题单',competitions:'比赛',mock:'模拟赛',growth:'成长与能力',rankings:'排行榜',records:'提交记录',activity:'活动记录',lectures:'从零讲',paths:'算法实验室',practice:'做题工作台',settings:'设置首页','settings:appearance':'外观设置','settings:interaction':'交互与导航','settings:training':'快捷键','settings:accounts':'账号与身份','settings:advanced':'翻译 API','settings:updates':'更新','settings:help':'数据统计','settings:thanks':'鸣谢','settings:guide':'新手指引','settings:animation':'动画'};
+export const GUIDE_LABELS={mine:'我的训练',library:'题库','training-lists':'题单',competitions:'比赛',mock:'模拟赛',growth:'成长与能力',rankings:'排行榜',records:'提交记录',activity:'活动记录',lectures:'从零讲',templates:'模板',paths:'算法实验室',practice:'做题工作台',settings:'设置首页','settings:appearance':'外观设置','settings:interaction':'交互与导航','settings:training':'快捷键','settings:accounts':'账号与身份','settings:advanced':'翻译 API','settings:updates':'更新','settings:help':'数据统计','settings:thanks':'鸣谢','settings:guide':'新手指引','settings:animation':'动画'};
 
 export const PAGE_GUIDES={
  'training-lists':page('training-lists',[

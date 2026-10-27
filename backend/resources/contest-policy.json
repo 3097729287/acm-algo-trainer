@@ -1,12 +1,30 @@
 {
-  "version": "1.0.20",
+  "version": "1.4.22",
   "minimumXcpcYear": 2017,
   "discoverAuthorizedSeries": true,
   "authorizedSeries": {
-    "codeforces": ["Div.2", "Div.3", "Div.4"],
-    "atcoder": ["ABC", "ARC"],
-    "nowcoder": ["周赛", "小白月赛", "练习赛", "挑战赛"],
-    "luogu": ["入门赛", "基础赛", "月赛"]
+    "codeforces": [
+      "Div.2",
+      "Div.3",
+      "Div.4",
+      "教育赛"
+    ],
+    "atcoder": [
+      "ABC",
+      "ARC",
+      "AGC"
+    ],
+    "nowcoder": [
+      "周赛",
+      "小白月赛",
+      "练习赛",
+      "挑战赛"
+    ],
+    "luogu": [
+      "入门赛",
+      "基础赛",
+      "月赛"
+    ]
   },
   "curatedCodeforcesContests": [
     1985,

@@ -36,8 +36,7 @@ class ScopeTests(unittest.TestCase):
         self.assertEqual(contest_name('Codeforces Round 1127'),'Codeforces Round 1127')
 
     def test_unrequested_series_and_empty_tasks_hide_without_deleting_identity(self):
-        for name in ('Educational Codeforces Round 195 (Rated for Div. 2)',
-                     'Codeforces Round 1127 (Div. 1)',
+        for name in ('Codeforces Round 1127 (Div. 1)',
                      'DeepInfra Round 1 (Codeforces Round 1126, Div. 1 + Div. 2)'):
             value={**candidate(name=name),'catalogContentReady':True}
             self.assertFalse(authorized(value))
@@ -73,7 +72,7 @@ class ScopeTests(unittest.TestCase):
                        'https://codeforces.com/api/problemset.problems':{'status':'OK','result':{
                            'problems':[{'contestId':contest['id'],'index':'A','name':'Task'} for contest in contests]}}})
         rows,_,_=P.discover_cf(client,NOW,{2271,2273,2274,2276})
-        self.assertEqual([(row['contestId'],row['contest']) for row in rows],[('2274','Div.2 1127')])
+        self.assertEqual([(row['contestId'],row['contest']) for row in rows],[('2274','Div.2 1127'),('2276','教育赛 195')])
 
     def test_split_division_roster_preserves_exact_original_task_letters(self):
         contest={'id':2274,'name':'Codeforces Round 1127 (Div. 2)','phase':'FINISHED','startTimeSeconds':1,'durationSeconds':2}

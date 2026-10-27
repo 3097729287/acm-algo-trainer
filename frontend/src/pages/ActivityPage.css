@@ -21,3 +21,5 @@ html .activity-page [data-band],html .activity-progress [data-band] {--activity-
 .activity-day[data-shade="3"] {--activity-strength:74%}
 .activity-day[data-shade="4"] {--activity-strength:87%}
 .activity-day[data-shade="5"] {--activity-strength:100%}
+
+html .activity-page .activity-day>.activity-month-marker {font-size:clamp(14px,calc(var(--activity-cell-size)*.56),20px);font-weight:750;line-height:1;letter-spacing:-.025em;display:flex;align-items:center;justify-content:center;padding:0;transform:translateY(-.02em)}

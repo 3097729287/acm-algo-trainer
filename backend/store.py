@@ -57,6 +57,8 @@ class Store:
         self._refresh_training_membership()
 
     def _refresh_training_membership(self):
+        reader=getattr(self.library,'solution_methods',None)
+        self._solution_methods=reader() if callable(reader) else {}
         entries = [item for training in self.library.training_lists() for item in training.get('problems', [])]
         self._training_problem_ids = {item.get('problemId') for item in entries if item.get('problemId')}
         self._training_problem_urls = {canonical_url(item.get('url')) for item in entries if item.get('url')}
@@ -122,10 +124,17 @@ class Store:
                 value.update({key: patch[key] for key in ('officialTags', 'officialTagsCheckedAt') if key in patch})
         dated_row = dict(row, _library_metadata=found['encoded']) if found else row
         value.update(self.contest_metadata(dated_row, value.get('url')))
+        methods=getattr(self,'_solution_methods',{}).get(found['id'] if found else identity,{})
+        extra=[tag for method in methods.get('methods',[]) for tag in method.get('tags',[])]
+        if extra:value['tags']=list(dict.fromkeys([*value.get('tags',[]),*extra]))
         from contest_names import normalize_row
         from contest_policy import apply_visibility
         from difficulty import normalize_practice_difficulty
-        return self._enrich_knowledge(apply_visibility(normalize_row(normalize_practice_difficulty(value))))
+        result=self._enrich_knowledge(apply_visibility(normalize_row(normalize_practice_difficulty(value))))
+        if extra:
+            from knowledge import enrich_row
+            result=enrich_row(result,algorithm_evidence={'source':'authored-solution-methods','tags':list(dict.fromkeys([*result.get('tags',[]),*extra])),'verified':True})
+        return result
 
     def _archive_info(self, row):
         found = self.library.find(row.get('_id') or row['场次'] + '::' + row['题号'], canonical_url(row.get('_url')))
@@ -359,8 +368,27 @@ class Store:
         if not value and not detailed:
             raise APIError(404, '这道题尚未收录题解')
         value = value or {'markdown': '', 'path': '', 'images': {}, 'digest': ''}
-        return {**value, 'title': found['encoded']['title'], 'url': found['url'],
-                'detailedSolution': detailed}
+        result={**value, 'title': found['encoded']['title'], 'url': found['url'], 'detailedSolution': detailed}
+        catalog=self.library.solution_methods(found['id']) or {}
+        methods=[]
+        for entry in catalog.get('methods',[]):
+            method=dict(entry)
+            if method.pop('legacy',False):method={**result,**method}
+            method.setdefault('images',{})
+            methods.append(method)
+        result['methods']=methods or [dict(result,id='original',title='题解1')]
+        result['primaryMethod']=catalog.get('primaryMethod') or result['methods'][0]['id']
+        return result
+
+    def solution_summary(self, identity):
+        try:row=self.row(identity)
+        except APIError as error:
+            if error.status==404:return []
+            raise
+        found=self.library.find(identity,canonical_url(row.get('_url')))
+        if not found or not self.library.has_solution(found['id']):return []
+        catalog=self.library.solution_methods(found['id']) or {}
+        return [{key:entry[key] for key in ('id','title','supplemental') if key in entry} for entry in catalog.get('methods',[])] or [{'id':'original','title':'题解1'}]
 
     def update(self, body):
         raise APIError(410, '训练进度由提交记录产生，请使用运行或提交')
