@@ -7,9 +7,9 @@ export function difficultyBand(value) {
   return rating < 1200 ? "intro" : rating < 1500 ? "basic" : rating < 1800 ? "intermediate" : rating < 2100 ? "challenge" : "advanced";
 }
 
-export function difficultyLabel(row = {}) {
+export function difficultyLabel(row = {},mode='number') {
   if (row.difficultyHidden) return '—';
-  return difficultyPresentation(row).label;
+  return difficultyPresentation(row,mode).label;
 }
 
 export function difficultyDescription(row = {}) {

@@ -7,7 +7,7 @@ import re
 from training import ServiceError, iso
 
 ALLOWED = frozenset(('panelStyle', 'backdrop', 'panelOpacity', 'pageOpacities', 'widgets', 'theme', 'accent', 'motion', 'compact', 'collapsed', 'favorites', 'views',
-                     'readerWidth', 'fontSize', 'libraryPageSize', 'navOrder', 'navLabels', 'navGroups', 'seenAchievements', 'showPlatforms', 'onboardingCompleted', 'avatarData', 'navSchema', 'learningPaths', 'shortcuts'))
+                     'readerWidth', 'fontSize', 'difficultyDisplay', 'libraryPageSize', 'navOrder', 'navLabels', 'navGroups', 'seenAchievements', 'showPlatforms', 'onboardingCompleted', 'avatarData', 'navSchema', 'learningPaths', 'shortcuts'))
 AVATAR_DATA_MAX_BYTES = 48 * 1024
 
 
@@ -85,7 +85,8 @@ def save_preferences(training, body):
         raise ServiceError(400, '导航版本无效')
     if 'avatarData' in value:
         validate_avatar(value['avatarData'])
-    for name, allowed in (('panelStyle', {'minimal', 'outlined', 'aurora', 'blueprint'}),
+    for name, allowed in (('difficultyDisplay', {'number', 'text'}),
+                          ('panelStyle', {'minimal', 'outlined', 'aurora', 'blueprint'}),
                           ('backdrop', {'none', 'aurora', 'grid', 'sunset', 'custom'})):
         if name in value and (not isinstance(value[name], str) or value[name] not in allowed):
             raise ServiceError(400, '外观选项无效')

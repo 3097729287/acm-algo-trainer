@@ -26,7 +26,7 @@ export function fitCompactActivityGrid(width,height,count) {
  const rows=Math.ceil(count/previous.columns),columns=Math.ceil(count/rows);
  return {columns,rows,size:Math.max(1,Math.floor(previous.size))};
 }
-export const activitySegmentSize=()=>3;
+export const activitySegmentSize=()=>2;
 
 export function monthDays(month) {
  if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(month))return [];
@@ -61,10 +61,10 @@ export function yearDays(year) {
 export function activityYearCells(days,rows) {
  return [...days,...Array((rows-days.length%rows)%rows).fill(null)];
 }
-export function activityTone(count,step=3) {
- const amount=Math.max(0,Number(count)||0),size=Math.max(1,Number(step)||3);
+export function activityTone(count,step=2) {
+ const amount=Math.max(0,Number(count)||0),size=Math.max(1,Number(step)||2);
  if(!amount)return {band:0,shade:0};
- return {band:1,shade:Math.min(7,Math.ceil(amount/size))};
+ return {band:1,shade:Math.min(5,Math.ceil(amount/size))};
 }
 
 // Week 1 starts on the first Monday. The days before it continue the previous

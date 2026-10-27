@@ -1,3 +1,4 @@
+import {useDifficultyDisplay} from './DifficultyDisplay.jsx';
 import {ArrowDown,ArrowUp,BookOpen,Check,ListPlus,MinusCircle,Star} from 'lucide-react';
 import InlineTitle from './InlineTitle.jsx';
 import {difficultyBand,difficultyDescription,difficultyLabel} from '@/lib/practiceMetadata.js';
@@ -9,8 +10,9 @@ export function Verdict({value,accepted=false}) {
   return <span className={'verdict '+verdictTone(current)}><span/>{current?verdictLabel(current):<span className="sr-only">未提交</span>}{accepted&&current!=='AC'&&<Check size={11} style={{color:'var(--success)'}} aria-label="曾 AC" title="曾 AC"/>}</span>;
 }
 export function Difficulty({value,row}) {
+  const mode=useDifficultyDisplay();
   if(row?.difficultyHidden)return <span className="difficulty band-unknown" title={difficultyDescription(row)}>—</span>;
-  return <span className={'difficulty band-'+difficultyBand(value)} title={row?difficultyDescription(row):undefined}>{row?difficultyLabel(row):value??'—'}</span>;
+  return <span className={'difficulty band-'+difficultyBand(value)} title={row?difficultyDescription(row):undefined}>{row?difficultyLabel(row,mode):value??'—'}</span>;
 }
 export function ProblemTableHead({onSort,sorted=false,descending=false}) {
   return <thead><tr><th className="title-head">题目 / 来源</th><th>知识点</th><th>{onSort?<button onClick={onSort}>难度{sorted&&(descending?<ArrowDown size={12}/>:<ArrowUp size={12}/>)}</button>:'难度'}</th><th>提交结果</th><th>最近练习</th><th><span className="sr-only">操作</span></th></tr></thead>;
@@ -26,7 +28,6 @@ export function ProblemCells({row,favorites=[],showPlatforms=true,busy=false,onT
     <td className="row-actions">
       <button className="row-icon" aria-label={'加入题单 '+row.title} title="加入题单" disabled={disabled||!onAddToList} onClick={()=>onAddToList(row.id)}><ListPlus size={15}/></button>
       <button className={'row-icon '+(favorites.includes(row.id)?'favorited':'')} aria-label={(favorites.includes(row.id)?'取消收藏 ':'收藏 ')+row.title} disabled={unavailable||!onFavorite} onClick={()=>onFavorite(row.id)}><Star size={15} fill={favorites.includes(row.id)?'currentColor':'none'}/></button>
-      <button className="row-icon" aria-label={'题解 '+row.title} disabled={unavailable||!onSolution||row.solutionAvailable===false||row.locked} onClick={()=>onSolution(row.id)}><BookOpen size={15}/></button>
       {row.active&&onRemove&&<button className="row-icon remove-training" aria-label={'取消训练 '+row.title} disabled={disabled||row.locked} onClick={()=>onRemove(row.id)}><MinusCircle size={15}/></button>}
     </td>
   </>;

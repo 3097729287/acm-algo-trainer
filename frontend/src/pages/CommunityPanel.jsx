@@ -1,3 +1,4 @@
+import {dialogPointerDown,dialogBackdropClick} from '@/lib/dialogBackdrop.js';
 import usePublicAvatar from '@/lib/usePublicAvatar.js';
 import ProfileBadge from '@/components/ProfileBadge.jsx';
 import PageSearch from '@/components/PageSearch.jsx';
@@ -72,7 +73,7 @@ function DeleteConfirmation({ target, busy, onCancel, onConfirm }) {
     element.showModal(); cancel.current.focus();
     return () => element.close();
   }, []);
-  return <dialog ref={dialog} className="ranking-confirm" aria-labelledby="ranking-delete-title" onCancel={event => { event.preventDefault(); if (!busy) onCancel(); }}>
+  return <dialog onPointerDown={dialogPointerDown} onClick={dialogBackdropClick} ref={dialog} className="ranking-confirm" aria-labelledby="ranking-delete-title" onCancel={event => { event.preventDefault(); if (!busy) onCancel(); }}>
     <h3 id="ranking-delete-title">{target.userId ? `删除 ${target.nickname} 的${target.label}成绩？` : `清空${target.label}成绩？`}</h3>
     <p>{target.userId ? `用户 ID：${target.userId}` : '将删除当前统计周期内所有用户的排行榜成绩。'}</p>
     <p>对应题目的日榜、周榜和总榜计数都会更新，再次同步也不会恢复这些成绩。已发放的经验保留，本机训练记录和代码保留。</p>

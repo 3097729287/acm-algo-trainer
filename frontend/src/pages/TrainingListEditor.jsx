@@ -1,3 +1,4 @@
+import {dialogPointerDown,dialogBackdropClick} from '@/lib/dialogBackdrop.js';
 import {useEffect,useMemo,useRef,useState} from 'react';
 import {ArrowDown,ArrowUp,Check,Plus,Search,X} from 'lucide-react';
 
@@ -21,7 +22,7 @@ export default function TrainingListEditor({list,rows,api,onSave,onClose}) {
     try{const result=await api('training-lists/save',{...(list?{id:list.id}:{}),title:title.trim(),problemIds:ids});onSave(result);}
     catch(issue){setError(issue.message);setBusy(false);}
   }
-  return <dialog ref={dialog} className={"social-comment-dialog training-list-editor"+(list?'':' training-list-name-dialog')} aria-labelledby="training-list-editor-title" onCancel={event=>{event.preventDefault();if(!busy)onClose();}}>
+  return <dialog onPointerDown={dialogPointerDown} onClick={dialogBackdropClick} ref={dialog} className={"social-comment-dialog training-list-editor"+(list?'':' training-list-name-dialog')} aria-labelledby="training-list-editor-title" onCancel={event=>{event.preventDefault();if(!busy)onClose();}}>
     <header><h3 id="training-list-editor-title">{list?'编辑题单':'新建题单'}</h3><button type="button" aria-label="关闭题单编辑" disabled={busy} onClick={onClose}><X size={18}/></button></header>
     <form onSubmit={save}>
       <label>题单名称<input ref={name} value={title} onChange={event=>setTitle(event.target.value)} maxLength={80} required disabled={busy}/></label>

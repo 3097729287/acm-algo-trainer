@@ -25,9 +25,9 @@ try{
  await page.evaluate(()=>fixture.screen('mock'));await page.getByRole('button',{name:'生成试卷',exact:true}).click();await page.locator('.paper-slot').nth(12).waitFor();
  const boxes=await page.locator('.paper-slot').evaluateAll(nodes=>nodes.map(n=>{const r=n.getBoundingClientRect();return {x:r.x,y:r.y,height:r.height};}));assert(boxes.every(r=>Math.abs(r.height-56)<1));assert(boxes.every(r=>r.x===boxes[0].x));assert(await page.locator('.paper-slots').evaluate(n=>n.scrollHeight>n.clientHeight));
  await page.locator('.paper-slots').hover();await page.mouse.wheel(0,600);await page.waitForTimeout(100);assert(await page.locator('.paper-slots').evaluate(n=>n.scrollTop>0));await page.screenshot({path:out+'/mock-rows.png'});
- await page.evaluate(()=>fixture.screen('activity'));await page.getByRole('gridcell').first().waitFor();assert.deepEqual(await page.locator('.activity-month-marker').allTextContents(),['+3']);
- assert.equal(await page.locator('.activity-day[data-shade="7"]').count(),2);
+ await page.evaluate(()=>fixture.screen('activity'));await page.getByRole('gridcell').first().waitFor();assert.deepEqual(await page.locator('.activity-month-marker').allTextContents(),['+14','+9','+6','+3']);
+ assert.equal(await page.locator('.activity-day[data-shade="5"]').count(),5);
  for(const color of ['#9b8afb','#65a4e5','#64c6b0','#d4aa65']){await page.evaluate(value=>document.documentElement.style.setProperty('--accent',value),color);assert.equal(await page.locator('.activity-progress-segment').first().evaluate(n=>getComputedStyle(n).getPropertyValue('--activity-color').trim()),color);}
- assert.equal(await page.locator('.activity-selected-summary [role="meter"]').getAttribute('aria-valuemax'),'21');
+ assert.equal(await page.locator('.activity-selected-summary [role="meter"]').getAttribute('aria-valuemax'),'10');
  await page.screenshot({path:out+'/calendar.png'});assert.deepEqual(errors,[]);console.log('PASS revision 1.4.20: cached toggle likes, favorites, create-and-add, ordering/filtering, equal scroll rows and accent calendar.');
 }finally{await browser.close();await vite.close();}

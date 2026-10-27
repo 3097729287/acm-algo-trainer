@@ -1,3 +1,6 @@
+import {VisualPreferences} from '../src/components/SettingsControls.jsx';
+import {Difficulty} from '../src/components/ProblemTableParts.jsx';
+import {DifficultyDisplayProvider} from '../src/components/DifficultyDisplay.jsx';
 import React,{useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import TrainingListsPage from '../src/pages/TrainingListsPage.jsx';
@@ -25,9 +28,10 @@ const api=async(path,body)=>{
  throw Error('Unexpected fixture API '+path);
 };
 function Fixture(){
- const [screen,setScreen]=useState('lists'),[adding,setAdding]=useState(null);
+ const [screen,setScreen]=useState('lists'),[adding,setAdding]=useState(null),[prefs,updatePrefs]=useState(()=>JSON.parse(localStorage.getItem('revision1421-preferences')||'{}'));
+ const setPrefs=update=>updatePrefs(previous=>{const next=typeof update==='function'?update(previous):update;localStorage.setItem('revision1421-preferences',JSON.stringify(next));return next;});
  fixture.screen=setScreen;fixture.add=setAdding;
  const today=new Date().toLocaleDateString('sv-SE'),days=[0,1,4,7,10,13,16,19,24].map((n,i)=>{const date=new Date(today+'T00:00:00Z');date.setUTCDate(date.getUTCDate()-i);return {date:date.toISOString().slice(0,10),officialAccepted:n};});
- return <div className="workspace-area" style={{height:'100dvh',padding:16,display:'flex',flexDirection:'column'}}>{screen==='lists'?<TrainingListsPage rows={rows} api={api} visit={visit} prefs={{favorites:['p1']}} onAddToList={ids=>setAdding(Array.isArray(ids)?ids:[ids])}/>:screen==='activity'?<ActivityPage insights={{activity:days}}/>:<MockSetup api={api} rows={rows} onError={console.error}/>} {adding&&<AddToTrainingLists problemIds={adding} api={api} onSave={()=>setAdding(null)} onClose={()=>setAdding(null)}/>}</div>;
+ return <div className="workspace-area" style={{height:'100dvh',padding:16,display:'flex',flexDirection:'column'}}>{screen==='difficulty'?<DifficultyDisplayProvider mode={prefs.difficultyDisplay}><VisualPreferences prefs={prefs} setPrefs={setPrefs}/><div data-testid="difficulty-preview"><Difficulty row={{difficulty:900,difficultyEstimated:true,platform:'洛谷'}} value={900}/><Difficulty row={{difficulty:1200,difficultyEstimated:true,platform:'AtCoder'}} value={1200}/></div></DifficultyDisplayProvider>:screen==='lists'?<TrainingListsPage rows={rows} api={api} visit={visit} prefs={{favorites:['p1']}} onAddToList={ids=>setAdding(Array.isArray(ids)?ids:[ids])}/>:screen==='activity'?<ActivityPage insights={{activity:days}}/>:<MockSetup api={api} rows={rows} onError={console.error}/>} {adding&&<AddToTrainingLists problemIds={adding} api={api} onSave={()=>setAdding(null)} onClose={()=>setAdding(null)}/>}</div>;
 }
 createRoot(document.getElementById('root')).render(<Fixture/>);

@@ -1,3 +1,4 @@
+import {useDifficultyDisplay} from '@/components/DifficultyDisplay.jsx';
 import PagePagination from '@/components/PagePagination.jsx';
 import {withContestLetters,contestLetterTitle} from '@/lib/contestLetters.js';
 import {useFittedPageSize} from '@/lib/useFittedPageSize.js';
@@ -104,7 +105,7 @@ export function GrowthPage({avatarData,onAvatar,goalOverview,api,onGoalsChanged,
  <KnowledgeRadar rows={rows} categories={categories} knowledge={insights.knowledge||[]} knowledgeEvidence={insights.knowledgeEvidence||[]} knowledgeModel={insights.knowledgeModel||{}} onTopic={onTopic} onTrain={onTrain}/>
  <section className="progress-section growth-account-hero" aria-label="账号成长统计"><div className="account-hero-identity"><ProfileBadge compact={false} growth={growth} avatar={avatarData} nickname={nickname} onAvatarClick={onAvatar} onClick={onAccounts}/><div className="account-hero-rank"><TierIcon badge={rank.badge||'tier-0'} tier={rank.tier} size={180}/><strong>{rankName}</strong>{rank.abilityScore!=null&&<span title="根据独立通过记录估计的 CF 参考能力，不是 Codeforces 官方等级分">{rank.estimated?"约 ":""}{number(rank.abilityScore)} · CF 参考</span>}</div></div>
  <div className="account-hero-level"><span>Lv.{growth.level??'—'}</span><div><Meter value={growth.nextLevelXp?Number(growth.currentLevelXp||0)/growth.nextLevelXp*100:0} label="等级经验"/><span>{number(growth.currentLevelXp||0)} / {number(growth.nextLevelXp||0)} XP</span></div></div>
- <div className="account-hero-statistics">{stats.map(([Icon,value,label])=><div key={label} aria-label={`${label} ${number(value)}`}><Tooltip text={label}><span className="account-stat-icon" tabIndex={0} aria-label={label}><Icon size={30} fill={Icon===Flame||Icon===Flag?'currentColor':'none'}/></span></Tooltip><b>{number(value)}</b></div>)}</div><div className="account-hero-titles"><TitleMedals titles={insights.equippedTitles||growth.equippedTitles||[]}/></div><div id="growth-goals" className="account-hero-goals">{api&&<GoalsPanel api={api} overview={goalOverview} onChanged={onGoalsChanged}/>}</div>
+ <div className="account-hero-statistics">{stats.map(([Icon,value,label])=><div key={label} aria-label={`${label} ${number(value)}`}><Tooltip text={label}><span className="account-stat-icon" tabIndex={0} aria-label={label}>{Icon===Flag?<svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 3v18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/><path d="M6 4c4-2 7 2 13 0v8c-6 2-9-2-13 0Z" fill="currentColor"/></svg>:<Icon size={30} fill={Icon===Flame?'currentColor':'none'}/>}</span></Tooltip><b>{number(value)}</b></div>)}</div><div className="account-hero-titles"><TitleMedals titles={insights.equippedTitles||growth.equippedTitles||[]}/></div><div id="growth-goals" className="account-hero-goals">{api&&<GoalsPanel api={api} overview={goalOverview} onChanged={onGoalsChanged}/>}</div>
  </section></div></div>;
 }
 
@@ -119,7 +120,7 @@ function contestGroups(rows) {
   }
   return [...map.values()].map(group => ({ ...group, rows: withContestLetters(group.rows.sort((a, b) => String(a.problem).localeCompare(String(b.problem), 'en', { numeric: true }))) })).sort(compareContestNewest);
 }
-function Difficulty({ row, locked = false }) { return <span className={`competition-difficulty competition-difficulty-${locked ? 'unknown' : difficultyBand(row.difficulty)}${locked ? ' competition-hidden-difficulty' : ''}`} title={locked ? '比赛进行中，赛后显示难度' : difficultyDescription(row)}>{locked ? '赛中隐藏' : difficultyLabel(row)}</span>; }
+function Difficulty({ row, locked = false }) { const mode=useDifficultyDisplay();return <span className={`competition-difficulty competition-difficulty-${locked ? 'unknown' : difficultyBand(row.difficulty)}${locked ? ' competition-hidden-difficulty' : ''}`} title={locked ? '比赛进行中，赛后显示难度' : difficultyDescription(row)}>{locked ? '赛中隐藏' : difficultyLabel(row,mode)}</span>; }
 export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStartReproduction, initialContest, onBack }) {
   const groups = useMemo(() => contestGroups(list(rows).filter(row => !row.catalogHidden && row.source !== 'luogu-training' && row.source !== 'algorithm-lab')), [rows]);
   const [query, setQuery] = useState(''), [filter, setFilter] = useState('all');

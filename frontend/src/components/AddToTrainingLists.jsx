@@ -1,3 +1,4 @@
+import {dialogPointerDown,dialogBackdropClick} from '@/lib/dialogBackdrop.js';
 import {useEffect,useRef,useState} from 'react';
 import {Check,Plus,RotateCw,Search,X} from 'lucide-react';
 import './AddToTrainingLists.css';
@@ -30,7 +31,7 @@ export default function AddToTrainingLists({problemIds,api,onClose,onSave}) {
     }catch(issue){setError(issue.message||'新建失败');}
     finally{creatingRef.current=false;setBusy(false);}
   }
-  return <dialog ref={dialog} className="social-comment-dialog add-training-lists" aria-labelledby="add-training-lists-title" onCancel={event=>{event.preventDefault();if(!busy)onClose();}}>
+  return <dialog onPointerDown={dialogPointerDown} onClick={dialogBackdropClick} ref={dialog} className="social-comment-dialog add-training-lists" aria-labelledby="add-training-lists-title" onCancel={event=>{event.preventDefault();if(!busy)onClose();}}>
     <header><h3 id="add-training-lists-title">加入题单</h3><button type="button" aria-label="关闭加入题单" disabled={busy} onClick={onClose}><X size={18}/></button></header>
     <form onSubmit={save}>
       <div className="add-training-list-summary">{problemIds.length} 道题</div>

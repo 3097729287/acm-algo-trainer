@@ -1,18 +1,8 @@
 html {--activity-green:#73c8b5;--activity-blue:#72b7d6;--activity-purple:#a399d7;--activity-gold:#d4ad6c;--activity-pink:#d28ea6}
 html[data-theme=light] {--activity-green:#328d7c;--activity-blue:#428ead;--activity-purple:#8575bc;--activity-gold:#ad8238;--activity-pink:#b46b88}
-.activity-page [data-band="1"],.activity-progress [data-band="1"] {--activity-color:var(--activity-green)}
-.activity-page [data-band="2"],.activity-progress [data-band="2"] {--activity-color:var(--activity-blue)}
-.activity-page [data-band="3"],.activity-progress [data-band="3"] {--activity-color:var(--activity-purple)}
-.activity-page [data-band="4"],.activity-progress [data-band="4"] {--activity-color:var(--activity-gold)}
-.activity-page [data-band="5"],.activity-progress [data-band="5"] {--activity-color:var(--activity-pink)}
 html .activity-progress .activity-progress-segment[data-band] i {background:var(--activity-color)}
 html .activity-page .activity-day {position:relative;background:var(--panel-2);border:1px solid var(--soft-line);transition:none}
-.activity-day[data-shade="1"] {--activity-strength:28%}
-.activity-day[data-shade="2"] {--activity-strength:44%}
-.activity-day[data-shade="3"] {--activity-strength:60%}
-.activity-day[data-shade="4"] {--activity-strength:78%}
-.activity-day[data-shade="5"] {--activity-strength:100%}
-html .activity-page .activity-day[data-band]:not([data-band="0"]) {background:color-mix(in srgb,var(--activity-color) var(--activity-strength),var(--panel-base));border-color:color-mix(in srgb,var(--activity-color) 35%,var(--line))}
+html .activity-page .activity-day[data-band]:not([data-band="0"]) {background:color-mix(in srgb,var(--activity-color) var(--activity-strength),var(--panel-base));border:0}
 html .activity-page .activity-day.activity-selected {outline:1px solid var(--text);outline-offset:1px}
 html .activity-page .activity-day[data-future] {border-style:dashed}
 html .activity-page .activity-month-start::before {content:'';position:absolute;top:-3px;left:0;right:0;height:2px;border-radius:1px;background:var(--muted);pointer-events:none}
@@ -23,13 +13,11 @@ html .activity-detail-table .activity-week-summary th {font-weight:650;color:var
 html .activity-detail-table .activity-week-summary .activity-detail-progress>b {font-weight:650;}
 html .activity-detail-table .activity-week-summary + tr {border-top-color:transparent;}
 
-/* One accent family with seven consistent daily levels. */
+/* Five visible levels in the chosen accent family; no colored-cell border. */
 html .activity-page [data-band],html .activity-progress [data-band] {--activity-color:var(--accent)}
-.activity-day[data-shade="1"] {--activity-strength:20%}
-.activity-day[data-shade="2"] {--activity-strength:32%}
-.activity-day[data-shade="3"] {--activity-strength:44%}
-.activity-day[data-shade="4"] {--activity-strength:56%}
-.activity-day[data-shade="5"] {--activity-strength:68%}
-.activity-day[data-shade="6"] {--activity-strength:82%}
-.activity-day[data-shade="7"] {--activity-strength:100%}
-.activity-progress {grid-template-columns:repeat(7,minmax(0,1fr))}
+.activity-progress {grid-template-columns:repeat(5,minmax(0,1fr))}
+.activity-day[data-shade="1"] {--activity-strength:48%}
+.activity-day[data-shade="2"] {--activity-strength:61%}
+.activity-day[data-shade="3"] {--activity-strength:74%}
+.activity-day[data-shade="4"] {--activity-strength:87%}
+.activity-day[data-shade="5"] {--activity-strength:100%}

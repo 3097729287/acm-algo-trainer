@@ -803,7 +803,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
           <span><Code2 size={14}/><ThemedSelect aria-label="编程语言" value={codeLanguage} disabled={unavailable||busy||officialBusy} onChange={changeCodeLanguage}><option value="cpp17">C++17</option><option value="python3">Python 3</option></ThemedSelect></span>
           <span className={`wb-save-state wb-save-${saveState.kind}`} title={saveState.message || '草稿自动保存；Ctrl+S 立即保存'} aria-live="polite">{saveState.kind === 'saving' ? <LoaderCircle size={11} className="wb-spinner" /> : saveState.kind === 'saved' ? <Check size={11} /> : null}{saveLabel}</span>
           <div className="wb-editor-actions">
-            {onSolution && !runningContest && !problem?.locked && <button type="button" className="wb-button wb-solution-button" aria-pressed={solutionOpen} disabled={!problem} onClick={() => callbacks.current.onSolution?.(problemId)}><BookOpen size={14} />题解</button>}
+            {onSolution && !runningContest && !problem?.locked && <button type="button" className="wb-button wb-solution-button" aria-label="题解" title="题解" aria-pressed={solutionOpen} disabled={!problem} onClick={() => callbacks.current.onSolution?.(problemId)}><BookOpen size={14} /></button>}
             {onNext && <button type="button" className="wb-button wb-next-button" onClick={async () => { if(await saveRecord(activeRecord.current)) callbacks.current.onNext?.(); }}>下一题<ArrowRight size={14} /></button>}
             {localDraftRecovery !== null && <button type="button" className="wb-button" disabled={unavailable} title="当前为更新的同步版本；可恢复本机未上传的旧草稿" onClick={() => {
               undoReplace.current = code;

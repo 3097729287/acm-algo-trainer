@@ -7,3 +7,7 @@
 @container workspace (max-width:850px){.lectures-layout{grid-template-columns:minmax(220px,1fr) minmax(0,2fr)}.lectures-detail{padding:16px}}
 @container workspace (max-width:650px){.lectures-layout{grid-template-columns:1fr}.lectures-layout.has-selection .lectures-list{display:none}.lectures-layout:not(.has-selection) .lectures-detail{display:none}.lectures-header{gap:12px;align-items:flex-start}.lectures-header>span{font-size:calc(var(--ui-font-size) - 4px)}.lecture-source{flex-wrap:wrap}.lectures-toolbar{gap:6px}}
 .inline-lesson-markdown{min-width:0;overflow-wrap:anywhere}.inline-lesson-markdown .katex{font-size:1em}.inline-lesson-markdown .katex-display{margin:.2em 0;overflow-x:auto}.lectures-list strong{line-height:1.55;max-width:100%}.lectures-list .lecture-category{color:var(--accent);font-size:.8rem}.lectures-toolbar{flex-wrap:wrap;align-items:center}.lectures-toolbar label{flex:1 1 240px}.lectures-toolbar select{min-width:180px;max-width:350px;flex:0 1 30%;min-height:38px}.lectures-toolbar>button{white-space:nowrap}.lecture-original-title{color:var(--muted);font-size:.88rem;margin:12px 0}
+
+.lecture-difficulty.lecture-level-0 {color:var(--success)}
+.lecture-difficulty.lecture-level-1 {color:var(--info,#79aee8)}
+.lecture-difficulty.lecture-level-2 {color:var(--warning,#d7a45e)}

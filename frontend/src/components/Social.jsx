@@ -1,3 +1,4 @@
+import {dialogPointerDown,dialogBackdropClick} from '@/lib/dialogBackdrop.js';
 import {trainingDay} from '@/lib/trainingDate.js';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Check, Heart, MessageCircle, Send, X } from 'lucide-react';
@@ -82,7 +83,7 @@ export function CommentDialog({ target,api,onClose,onSent }) {
     try{await api('social/comments',{targetId:target.userId,...submission.current});window.dispatchEvent(new Event('tb:social-change'));onSent?.();onClose();}
     catch(issue){setError(issue.message);setBusy(false);}
   }
-  return <dialog ref={dialog} className="social-comment-dialog" aria-labelledby="social-comment-title" onCancel={event=>{event.preventDefault();if(!busy)onClose();}}>
+  return <dialog onPointerDown={dialogPointerDown} onClick={dialogBackdropClick} ref={dialog} className="social-comment-dialog" aria-labelledby="social-comment-title" onCancel={event=>{event.preventDefault();if(!busy)onClose();}}>
     <header><h3 id="social-comment-title"><MessageCircle size={18}/>给 {target.nickname || '训练者'} 留言</h3><button type="button" aria-label="关闭留言" disabled={busy} onClick={onClose}><X size={18}/></button></header>
     <form onSubmit={send}><label htmlFor="social-comment-text">留言内容</label><textarea ref={textarea} id="social-comment-text" value={text} onChange={event=>setText(event.target.value)} maxLength={500} rows={5} required disabled={busy} placeholder="送上一句鼓励…"/><div className="social-comment-footer"><small>{Array.from(text).length}/500 · 对方会在消息通知中收到</small><button className="primary" disabled={busy || !text.trim()}><Send size={15}/>{busy?'正在发送…':'发送留言'}</button></div>{error && <p className="connection-error" role="alert">{error}</p>}</form>
   </dialog>;

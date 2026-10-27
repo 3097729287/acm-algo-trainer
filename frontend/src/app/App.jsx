@@ -1,3 +1,4 @@
+import {DifficultyDisplayProvider} from '@/components/DifficultyDisplay.jsx';
 import {ProblemCells,ProblemTableHead,Difficulty,Verdict} from '@/components/ProblemTableParts.jsx';
 import BrandWordmark from '../components/BrandWordmark.jsx';
 import PagePagination from '@/components/PagePagination.jsx';
@@ -163,6 +164,7 @@ const DEFAULTS = {
   views: [],
   readerWidth: 520,
   fontSize: 15,
+  difficultyDisplay: 'number',
   navOrder: ["mine", "library", "training-lists", "competitions", "mock", "paths", "rankings", "growth", "records", "activity", "lectures"],
   learningPaths: {},
   shortcuts: {},
@@ -186,6 +188,7 @@ function normalizePreferences(saved) {
       const libraryIndex = preferences.navOrder.indexOf('library');
       preferences.navOrder.splice(libraryIndex < 0 ? preferences.navOrder.length : libraryIndex + 1, 0, 'training-lists');
     }
+    preferences.difficultyDisplay=preferences.difficultyDisplay==='text'?'text':'number';
     preferences.motion = true;
     preferences.navSchema = 2;
     preferences.navGroups = { ...preferences.navGroups };
@@ -556,6 +559,7 @@ export default function App() {
   const practicePrefetch = useRef(null);
   const labVisit = useRef({leftAt:null,scrollTop:0});
   const trainingListsVisit = useRef({});
+  const lecturesVisit = useRef({});
   const [listProblemIds,setListProblemIds]=useState(null);
   const [tourOpen,setTourOpen]=useState(false);
   const [tourContext,setTourContext]=useState('overview');
@@ -1273,6 +1277,7 @@ export default function App() {
   }
   async function openSolution(id) {
     if (!id) return;
+    if (practiceId !== id) { await openPractice(id); return; }
     if (readerId === id) {
       readerSeq.current++;
       setReaderId(null);
@@ -1854,7 +1859,7 @@ export default function App() {
   const beforeTodayAc = insights?.summary?.beforeTodaySolved ?? Math.max(summary.beforeTodayAccepted || 0, (insights?.summary?.totalSolved ?? summary.historicalAccepted ?? 0) - (summary.todayAccepted || 0));
   const todayAc = insights?.summary?.todaySolved ?? summary.todayAccepted ?? 0;
   return (
-    <DifficultyBoundsProvider rows={data?.rows||[]}><div
+    <DifficultyDisplayProvider mode={prefs.difficultyDisplay}><DifficultyBoundsProvider rows={data?.rows||[]}><div
       className={"app-shell " + (prefs.collapsed ? "sidebar-collapsed " : "") + (practiceId || mockFocus ? "mock-focus practice-focus" : labFocus?"lab-focus":"")}
     >
       <SoftwareUpdateNotice update={softwareUpdate} onDetails={() => { setPage('settings'); setSettingsTab('updates'); }} />
@@ -2076,7 +2081,7 @@ export default function App() {
           ) : page === "paths" ? (
             <LearningPathsPage rows={rows} api={api} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} lockedProblems={active?.slots || []} visit={labVisit.current}/>
           ) : page === "lectures" ? (
-            <LecturesPanel api={api} initialLecture={lectureId} categories={categories} onTrain={openPractice} onError={(message) => notice(message, "error")} />
+            <LecturesPanel api={api} visit={lecturesVisit.current} initialLecture={lectureId} categories={categories} onTrain={openPractice} onError={(message) => notice(message, "error")} />
           ) : page === "rankings" ? (
             <RankingsPage socialState={social} avatarData={prefs.avatarData} ownGrowth={growth} api={api} onConfigure={() => {if(window.__tbAdmin){setPage('settings');setSettingsTab('admin')}else openAccounts()}} onError={(message) => notice(message, "error")} />
           ) : (
@@ -2307,7 +2312,7 @@ export default function App() {
       {listProblemIds&&<AddToTrainingLists problemIds={listProblemIds} api={api} onClose={()=>setListProblemIds(null)} onSave={()=>{delete trainingListsVisit.current.content;setListProblemIds(null);notice("已加入题单","success");}}/>}
       {finishAnchor && active && <PopConfirm anchor={finishAnchor} title="结束这场比赛？" label="结束比赛确认" busy={busy} cancelLabel="继续比赛" confirmLabel="结束并复盘" busyLabel="正在处理…" confirmTone="primary" onCancel={()=>setFinishAnchor(null)} onConfirm={()=>finishMock(false)} extraActions={<Tooltip text="撤销本场训练安排，保留草稿及真实原站提交"><button type="button" className="danger" disabled={busy} onClick={()=>finishMock(true)}>取消比赛</button></Tooltip>}/>}
 
-    </div></DifficultyBoundsProvider>
+    </div></DifficultyBoundsProvider></DifficultyDisplayProvider>
   );
 
 }
