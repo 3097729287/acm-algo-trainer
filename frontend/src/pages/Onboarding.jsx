@@ -14,7 +14,7 @@ const STEPS = [
   { page: 'mock', target: '.mock-mode-options', title: '组成一场训练', text: '选择综合、专项、随机单题或重现赛，设置题数和时长，再生成预览。确认试卷后才开始计时，结束后复盘。' },
   { page: 'growth', target: '.progress-growth-columns', title: '安排下一次练习', text: '点击一级雷达圆点进入子知识点，Esc 返回；二级知识点可筛选题目。?% 表示作答证据不足。目标计划安排后续练习，日历和奖章打开每日任务与成就。经验等级与能力段位分别成长。' },
   { page: 'mine', target: '.contest-calendar-button', title: '查看比赛日历', text: '底部时钟日历图标打开即将开始的基础比赛。赛程按北京时间排列，点击一场比赛前往原站。旁边的日历用于领取每日任务。' },
-  { page: 'settings', target: '.settings-home-grid', title: '完成入门', text: '点击头像可以更换图片。设置中可调整外观、导航、每页题数与快捷键；数据与帮助中的新手指引包含入门总览和各页详细指南，可继续了解雷达、段位、勋章和更多操作。' },
+  { page: 'settings', target: '.settings-home-grid', title: '完成入门', text: '点击头像可以更换图片。设置中可调整外观、导航、每页题数与快捷键；新手指引直接列出入门总览和各页图标，点击对应图标可继续了解雷达、段位、勋章和更多操作。' },
 ];
 
 export default function Onboarding({ onComplete, onNavigate, onDirectory, practiceId,initialGuide='overview' }) {

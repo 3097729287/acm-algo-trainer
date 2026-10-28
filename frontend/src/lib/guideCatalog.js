@@ -91,6 +91,11 @@ export const PAGE_GUIDES={
   step('.lectures-page','阅读公式与示例','讲义包含概念、图例、推导和示例代码。点击讲义标题阅读，公式会按数学排版显示。'),
   step('.lectures-page','联系实际题目','结合讲义涉及的知识点回到题库练习。阅读材料帮助理解，掌握度仍依据真实作答证据估计。'),
  ]),
+ templates:page('templates',[
+  step('[aria-label="搜索模板"]','查找算法模板','输入名称查找模板，也可按分类浏览卡片。点击模板卡片进入详情；右上加号用于新建自己的模板。'),
+  step('.templates-page','讲解版与竞赛版','内置模板提供讲解版和竞赛版。打开详情后用顶部图标切换练习、复制或另存；模板代码独立滚动，最小调用示例保留在下方。'),
+  step('.templates-page','复制与操作练习','右键模板卡片会弹出复制确认。详情中的练习图标打开对应操作题，在软件内运行与评测；算法模板与设置中的初始代码模板分别管理。'),
+ ]),
  paths:page('paths',[
   step('.page-search-controls','搜索算法专题','顶部搜索算法名称、别名或英文名称，输入后只显示对应专题；搜索框与其他页面保持相同样式，清空恢复全部专题。'),
   step('.lab-course-header','课程导航与快捷键','返回在最左侧，目录在上一页、下一页之前。也可按键盘左右方向键翻页；输入框、编辑器、滑块正在操作时，方向键优先用于当前控件。顶部导航与正文各占独立区域，只有正文滚动。'),
@@ -100,7 +105,7 @@ export const PAGE_GUIDES={
  settings:page('settings',[
   step('.settings-home-grid','按分类进入设置','外观、交互与导航、更新、快捷键、数据统计、翻译 API、初始代码模板和鸣谢各自成页；账号信息通过右上角昵称打开。'),
   step('.settings-home-grid','返回与保存','二级设置右上角面包屑目录或 Esc 回到设置首页；开关和输入项按各自操作保存，返回时保留浏览位置。'),
-  step('.settings-home-grid','重新查看指引','进入“数据统计”，打开“新手指引”，可重看入门总览或选择各页详细指引。'),
+  step('.settings-home-grid','重新查看指引','在设置首页进入“新手指引”，直接选择入门总览或各页指引。点击对应板块图标即可开始。'),
  ]),
  'settings:appearance':page('settings',[
   step('.visual-preferences','主题、颜色与字号','选择深浅主题、强调色与界面字号，按钮和阅读区域会随设置更新。'),
@@ -135,6 +140,14 @@ export const PAGE_GUIDES={
   step('[aria-label="新手指引"]','总览与各页指引','首次使用建议完成入门总览；各页指引用来深入了解某个页面。指引目录集中在这里，各页面保持简洁。'),
  ],'help'),
  'settings:thanks':page('settings',[step('.acknowledgements','鸣谢','这里展示参与支持软件的朋友，包括 NiuXyn。昵称各自配色，可从右上箭头或 Esc 返回设置首页。')],'thanks'),
+ 'settings:guide':page('settings',[
+  step('.tour-overview-button','入门总览','点击入门总览的图标，从选题、编写代码到运行与原站提交依次了解基本流程。'),
+  step('.settings-guide .tour-guide-grid','选择各页指引','点击对应板块图标直接开始指引。“各页指引目录”会回到这个平铺页面，Esc 可以结束当前指引。'),
+ ],'guide'),
+ 'settings:animation':page('settings',[
+  step('[aria-label="页面背景"]','背景与动图','使用已有图标切换页面背景；图片按钮可选择本机图片或 GIF，背景文件只保存在本机。'),
+  step('.style-preset-grid','统一页面风格','清简、线框、极光和蓝图使用同一套界面设置。切换风格后，各板块的背景、卡片和强调色保持一致。'),
+ ],'appearance'),
  practice:[
   {...step('.problem-table tbody tr[data-id] .problem-title','打开一道练习题','点击高亮题名进入工作台，接下来会介绍题面、编辑器和原站提交。'),page:'library',action:'open',nextIndex:1},
   ...[
