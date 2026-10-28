@@ -17,14 +17,14 @@ const DataHelpSettings=lazy(()=>import('./DataHelpSettings.jsx'));
 export default function PreferencesPage({insights,onTrain,rows,tab,onTab,prefs,setPrefs,display,onFullscreen,api,softwareUpdate,hub,account,accountFocus,profileSnapshot,onProfileChanged,onRefresh,onHubChanged,onError,onContent,onMessages,onTutorial,onKeyboard,commands}) {
   const panel=useRef(null),restoring=useRef(false);
   const locationKey=`tb.settings.location.${window.__tbAccount?.userId || window.__tbAccount?.loginId || 'local'}`;
-  const positions=useRef((()=>{try{return JSON.parse(sessionStorage.getItem(locationKey)||'{}').scroll || {};}catch{return {};}})());
-  const savePosition=()=>{if(restoring.current||!panel.current)return;positions.current[tab]=panel.current.scrollTop;try{sessionStorage.setItem(locationKey,JSON.stringify({tab,scroll:positions.current}));}catch{}};
+  const positions=useRef((()=>{try{return {appearance:JSON.parse(sessionStorage.getItem(locationKey)||'{}').scroll?.appearance||0};}catch{return {};}})());
+  const savePosition=()=>{if(restoring.current||!panel.current||tab!=='appearance')return;positions.current.appearance=panel.current.scrollTop;try{sessionStorage.setItem(locationKey,JSON.stringify({tab:'appearance',scroll:positions.current}));}catch{}};
   useLayoutEffect(()=>{
-    const element=panel.current,target=positions.current[tab] || 0;restoring.current=true;
+    const element=panel.current,target=tab==='appearance'?positions.current.appearance||0:0;restoring.current=true;
     const restore=()=>{element.scrollTop=target;};restore();
     const observer=new ResizeObserver(restore);Array.from(element.children).forEach(child=>observer.observe(child));
     const timer=setTimeout(()=>{restore();observer.disconnect();restoring.current=false;},250);
-    try{sessionStorage.setItem(locationKey,JSON.stringify({tab,scroll:positions.current}));}catch{}
+    try{sessionStorage.setItem(locationKey,JSON.stringify({tab:tab==='appearance'?'appearance':'home',scroll:positions.current}));}catch{}
     return()=>{clearTimeout(timer);observer.disconnect();restoring.current=false;};
   },[tab]);
   const tabs=[['appearance','外观',Palette],['interaction','交互与导航',SlidersHorizontal],['updates','更新',RefreshCw],['training','快捷键',Keyboard],['help','数据统计',Download],['advanced','翻译 API',Settings2],['accounts','初始代码模板',Command],['thanks','鸣谢',Heart],['guide','新手指引',GraduationCap],...(window.__tbAdmin?[['admin','管理员',ShieldCheck]]:[])];

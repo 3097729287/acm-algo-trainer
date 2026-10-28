@@ -73,8 +73,9 @@ export function AchievementPanel({ achievements = [], newIds = [], onSeen }) {
 }
 export function DailyTasks({ dailyTasks, onClaim }) {
   const [claiming, setClaiming] = useState(null), [error, setError] = useState('');
+  const claimPending=useRef(false);
   const tasks = list(dailyTasks?.tasks);
-  async function claim(task) { if (claiming || !task.completed || task.claimed) return; setClaiming(task.id); setError(''); try { await onClaim?.(task.id, dailyTasks.date); } catch (issue) { setError(issue.message); } finally { setClaiming(null); } }
+  async function claim(task) { if (claimPending.current || !task.completed || task.claimed) return; claimPending.current=true;setClaiming(task.id); setError(''); try { await onClaim?.(task.id, dailyTasks.date); } catch (issue) { setError(issue.message); } finally { claimPending.current=false;setClaiming(null); } }
   return <section className="progress-section daily-tasks" aria-label="每日任务"><div className="progress-section-heading"><h2><CalendarDays size={18}/>每日任务</h2><span>{dailyTasks?.date||'每日更新'} · {dailyTasks?.policyVersion===3?`已领取 ${dailyTasks.completedCount||0}`:`${tasks.filter(task=>task.claimed).length}/${tasks.length}`}</span></div>
     <div className="daily-task-grid">{tasks.map(task=><article className={`daily-task${task.claimed?' daily-task-claimed':''}`} key={task.slot??task.id} data-slot={task.slot} data-lane={task.lane}>
       <div className="daily-task-main"><div><strong>{task.title}</strong><span className="daily-task-xp">+{number(task.xp)} XP</span></div><p>{acText(task.description)}</p><div className="daily-task-progress"><Meter value={task.target?task.progress/task.target*100:0} label={`${task.title}任务进度`}/><span>{number(task.progress)}/{number(task.target)}{task.unit||''}</span></div></div>

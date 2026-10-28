@@ -1,5 +1,7 @@
 # ToBe · Training Workbench
 
+**ToBe 1.4.28 (release preparation)** adds page-wide calendar arrow navigation with automatic detail-row positioning, removes empty contest folders, expands lecture reading to the full app, accelerates daily reward claims, and remembers only Appearance settings position. Stable downloads remain 1.4.27. [Release scope](docs/releases/1.4.28.md).
+
 **ToBe 1.4.27** shows aligned guide cards with existing page icons. New and existing accounts automatically see the guide on first sign-in; registration signs in automatically, and a per-account acknowledgement prevents repeats. [Release notes](docs/releases/1.4.27.md).
 
 **ToBe 1.4.26** repairs updates before login and old saved-session recovery, removes missed foreign contests, and aligns the template, laboratory, submission and growth views. [Changes and validation](docs/releases/1.4.26.md).

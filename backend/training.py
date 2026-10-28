@@ -723,7 +723,10 @@ class TrainingService:
         hub = extensions.snapshot() if callable(getattr(extensions, 'snapshot', None)) else {}
         signature = self._insights_signature(hub)
         cached = getattr(self, '_daily_evidence_cache', None)
-        if signature is not None and cached and cached[1:3] == (day, signature) and time.monotonic()-cached[0] < 5:
+        # The signature covers personal writes, external SQLite writes, library
+        # metadata, accounts and the Beijing date; elapsed time alone does not
+        # invalidate already verified receipts while a task list is open.
+        if signature is not None and cached and cached[1:3] == (day, signature):
             return deepcopy(cached[3])
         evidence = self._evidence(day, hub=hub)
         from daily_rotation import annotate

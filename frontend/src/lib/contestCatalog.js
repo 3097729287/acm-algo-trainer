@@ -47,8 +47,7 @@ export function catalogPaths(row) {
 const begins=(parts,path)=>path.every((part,index)=>parts[index]===part);
 export const catalogPathMatches=(row,path)=>catalogPaths(row).some(parts=>begins(parts,path));
 
-// Known series remain discoverable even when none of their contests is bundled.
-// Entering an empty folder states that explicitly; it never invents a contest.
+// Preserve these familiar grouping levels when they contain actual contests.
 export function catalogFolders(path=[]) {
   if (!path.length)return ['算法实验室','Codeforces','AtCoder','牛客','洛谷','ACM','蓝桥杯 B 组','校队训练'];
   if (path.length===1&&path[0]==='Codeforces')return ['教育赛','Div.1','Div.2','Div.3','Div.4'];
@@ -80,7 +79,7 @@ function catalogEntriesFor(rows,path,cache){
   const paths=row=>{if(!cache.has(row))cache.set(row,catalogPaths(row));return cache.get(row);};
   const matching=(row,prefix)=>paths(row).filter(parts=>begins(parts,prefix));
   const selected = rows.filter(row => matching(row,path).length);
-  const groups = new Map(catalogFolders(path).map(label => [label, []]));
+  const groups = new Map();
   for (const row of selected) {
     for(const label of new Set(matching(row,path).map(parts=>parts[path.length]).filter(Boolean))){
       if (!groups.has(label)) groups.set(label, []);
@@ -112,10 +111,7 @@ function catalogEntriesFor(rows,path,cache){
 export function contestOptions(events,{descending=true,shelf=''}={}) {
   const roots=[];
   const ensure=(parts)=>{let nodes=roots;for(const label of parts){let folder=nodes.find(node=>node.value===undefined&&node.label===label);if(!folder){folder={label,children:[]};nodes.push(folder);}nodes=folder.children;}return nodes;};
-  if(!shelf)for(const name of catalogFolders())ensure([name]);
-  if(events.some(item=>item.labTopic))ensure(['算法实验室']);
   for(const item of events)for(const parts of catalogPaths({...item,contest:item.displayName||item.name})){const nodes=ensure(parts.slice(0,-1));nodes.push({label:`${parts.at(-1)} · ${item.expectedCount||item.count} 题`,selectionLabel:`${item.displayName||item.name} · ${item.expectedCount||item.count} 题`,value:item.name,event:item});}
-  for(const root of roots)for(const name of catalogFolders([root.label]))ensure([root.label,name]);
   const compareNewest=createContestComparator();
   const sort=nodes=>{nodes.sort((a,b)=>a.event&&b.event?compareNewest(a.event,b.event)*(descending?1:-1):/^20\d{2}年$/.test(a.label)&&/^20\d{2}年$/.test(b.label)?b.label.localeCompare(a.label)*(descending?1:-1):folderOrder.compare(a.label,b.label));nodes.forEach(node=>node.children&&sort(node.children));};
   sort(roots);return compactCatalogOptions(roots);
@@ -124,9 +120,7 @@ export function contestOptions(events,{descending=true,shelf=''}={}) {
 export function contestFilterOptions(rows) {
  const roots=[];
  const ensure=path=>{let nodes=roots,node;for(let i=0;i<path.length;i++){const label=path[i];node=nodes.find(item=>item.label===label);if(!node){node={label,value:JSON.stringify(path.slice(0,i+1)),children:[]};nodes.push(node);}nodes=node.children;}return node;};
- for(const name of catalogFolders())ensure([name]);
  for(const row of rows)if(!row.catalogHidden)for(const parts of catalogPaths(row)){const leaf=ensure(parts);leaf.selectionLabel=row.contest||row.name||leaf.label;}
- for(const root of roots)for(const name of catalogFolders([root.label]))ensure([root.label,name]);
  const finish=nodes=>nodes.sort((a,b)=>folderOrder.compare(a.label,b.label)).map(node=>{const children=finish(node.children);return {...node,...(children.length?{children}:{children:undefined})};});
  return compactCatalogOptions(finish(roots));
 }

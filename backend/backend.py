@@ -446,7 +446,8 @@ class Handler(BaseHTTPRequestHandler):
             elif path == "/api/insights":
                 self.send_json(200, self.server.training.insights(store.extensions.snapshot()))
             elif path == "/api/daily-tasks":
-                self.send_json(200, self.server.training.daily_tasks())
+                compact = parse_qs(target.query).get('compact') == ['1']
+                self.send_json(200, self.server.training.daily_tasks(goal_tasks=[] if compact else None))
             elif path == '/api/statement-backfill':
                 self.send_json(200, self.server.statement_backfill.snapshot())
             elif path == '/api/contest-calendar':

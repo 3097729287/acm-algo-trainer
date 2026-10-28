@@ -7,6 +7,7 @@ import SortDirection from '@/components/SortDirection.jsx';
 import RandomProblem from '@/components/RandomProblem.jsx';
 import AddToTrainingLists from '@/components/AddToTrainingLists.jsx';
 import useNavigationKeys from '@/lib/useNavigationKeys.js';
+import {applyDailyTaskReward} from '@/lib/dailyTaskReward.js';
 import useUsage from '@/lib/useUsage.js';
 import usePlatformLogins from '@/lib/usePlatformLogins.js';
 import useContestCalendar from '@/lib/useContestCalendar.js';
@@ -564,7 +565,7 @@ export default function App() {
     [recordOnlyPending, setRecordOnlyPending] = useState(false),
     [mockTab, setMockTab] = useState("create"),
     [selectedSubmission, setSelectedSubmission] = useState(null),
-    [settingsTab, setSettingsTab] = useState(()=>{try{const value=JSON.parse(sessionStorage.getItem(`tb.settings.location.${window.__tbAccount?.userId || window.__tbAccount?.loginId || 'local'}`)||'{}').tab;return ['appearance','interaction','updates','training','help','advanced','accounts','thanks','guide','admin'].includes(value)?value:'home';}catch{return 'home';}});
+    [settingsTab, setSettingsTab] = useState(()=>{try{return JSON.parse(sessionStorage.getItem(`tb.settings.location.${window.__tbAccount?.userId || window.__tbAccount?.loginId || 'local'}`)||'{}').tab==='appearance'?'appearance':'home';}catch{return 'home';}});
   const [keyboardSelection, setKeyboardSelection] = useState(false), [listOrder, setListOrder] = useState(null);
   const restoreList = useRef(null);
   const practicePrefetch = useRef(null);
@@ -573,6 +574,7 @@ export default function App() {
   const [templateActive,setTemplateActive]=useState(false);
   const trainingListsVisit = useRef({});
   const lecturesVisit = useRef({});
+  const [lectureFull,setLectureFull]=useState(false);
   const [listProblemIds,setListProblemIds]=useState(null);
   const [tourOpen,setTourOpen]=useState(false);
   const [tourContext,setTourContext]=useState('overview');
@@ -613,6 +615,8 @@ export default function App() {
   useUsage(api,data&&account?.userId,Boolean((!dialog||['lecture','solution'].includes(dialog))&&(practiceId||readerId||page==='mock'&&mockSlot&&workspace.activeContest||['lectures','paths','templates'].includes(page)||page==='settings'&&settingsTab==='accounts')));
   usePlatformLogins(api,Boolean(data&&account?.userId));
   const [profileSnapshot, setProfileSnapshot] = useState(null), [accountFocus, setAccountFocus] = useState(null);
+  const dailyClaimPending=useRef(false),dailyRefreshTimer=useRef(null);
+  useEffect(()=>()=>clearTimeout(dailyRefreshTimer.current),[]);
   useEffect(() => {
     const changed = event => setAccount(previous => shareWorkspace(previous, event.detail));
     window.addEventListener('tb:account-state', changed);
@@ -620,8 +624,9 @@ export default function App() {
   }, []);
   useEffect(()=>{
     if(dialog!=='daily-tasks')return;
+    clearTimeout(dailyRefreshTimer.current);
     let alive=true;
-    const poll=async()=>{const sequence=backgroundSeq.current;try{const value=await api('daily-tasks');if(alive&&sequence===backgroundSeq.current)setInsights(previous=>({...previous,dailyTasks:value}));}catch{}};
+    const poll=async()=>{if(dailyClaimPending.current)return;const sequence=backgroundSeq.current;try{const value=await api('daily-tasks?compact=1');if(alive&&!dailyClaimPending.current&&sequence===backgroundSeq.current)setInsights(previous=>({...previous,dailyTasks:value}));}catch{}};
     const first=setTimeout(poll,350),timer=setInterval(poll,15000);
     return()=>{alive=false;clearTimeout(first);clearInterval(timer);};
   },[dialog,api]);
@@ -656,8 +661,10 @@ export default function App() {
   }
   const backgroundRequest = useRef(null), backgroundAgain = useRef(false),
     backgroundSeq = useRef(0), backgroundVersion = useRef(null);
+  const backgroundDialog=useRef(dialog);backgroundDialog.current=dialog;
   const refreshBackground = useCallback(function refresh(force = false) {
     if (document.hidden && !force) return Promise.resolve();
+    if(backgroundDialog.current==='daily-tasks')return Promise.resolve();
     if (backgroundRequest.current) {
       if (force) backgroundAgain.current = true;
       return backgroundRequest.current;
@@ -1033,7 +1040,7 @@ export default function App() {
   const labFocus=page==='paths'&&Boolean(prefs.learningPaths?.activePath)&&!practiceId;
   const mockFocus = page === "mock" && active && mockTab === "create" && !record && !practiceId;
   const lastWorkspacePage = useRef("mine");
-  useEffect(()=>{if(page!=="settings")lastWorkspacePage.current=page;},[page]);
+  useEffect(()=>{if(page!=="settings"){lastWorkspacePage.current=page;setSettingsTab(previous=>previous==='appearance'?previous:'home');}},[page]);
   const passedCount = mine.filter((r) => r.accepted).length,
     totalCount = mine.length,
     dueCount = mine.filter((r) => r.queue).length;
@@ -1830,7 +1837,7 @@ export default function App() {
   const todayAc = insights?.summary?.todaySolved ?? summary.todayAccepted ?? 0;
   return (
     <DifficultyDisplayProvider mode={prefs.difficultyDisplay}><DifficultyBoundsProvider rows={data?.rows||[]}><div
-      className={"app-shell " + (prefs.collapsed ? "sidebar-collapsed " : "") + (practiceId || mockFocus ? "mock-focus practice-focus" : labFocus?"lab-focus":templateFocus?"template-focus practice-focus":"")}
+      className={"app-shell " + (prefs.collapsed ? "sidebar-collapsed " : "") + (practiceId || mockFocus ? "mock-focus practice-focus" : labFocus?"lab-focus":templateFocus?"template-focus practice-focus":page==='lectures'&&lectureFull?"lecture-focus practice-focus":"")}
     >
       <SoftwareUpdateNotice update={softwareUpdate} onDetails={() => { setPage('settings'); setSettingsTab('updates'); }} />
       <aside className="sidebar">
@@ -2054,7 +2061,7 @@ export default function App() {
           ) : page === "paths" ? (
             <LearningPathsPage rows={rows} api={api} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} lockedProblems={active?.slots || []} visit={labVisit.current}/>
           ) : page === "lectures" ? (
-            <LecturesPanel prefs={prefs} setPrefs={setPrefs} api={api} visit={lecturesVisit.current} initialLecture={lectureId} categories={categories} onTrain={openPractice} onError={(message) => notice(message, "error")} />
+            <LecturesPanel prefs={prefs} setPrefs={setPrefs} api={api} visit={lecturesVisit.current} initialLecture={lectureId} categories={categories} onFullscreenChange={setLectureFull} onTrain={openPractice} onError={(message) => notice(message, "error")} />
           ) : page === "rankings" ? (
             <RankingsPage socialState={social} avatarData={prefs.avatarData} ownGrowth={growth} api={api} onConfigure={() => {if(window.__tbAdmin){setPage('settings');setSettingsTab('admin')}else openAccounts()}} onError={(message) => notice(message, "error")} />
           ) : (
@@ -2080,7 +2087,7 @@ export default function App() {
         </div>
       )}
       {dialog === 'accounts'&&<Modal title="账号与身份" className="compact-account-modal" onClose={()=>setDialog(null)}><AccountPanel api={api} account={account} profileSnapshot={profileSnapshot} hub={hub} onProfileChanged={profileChanged} onHubChanged={setHub}/></Modal>}
-      {dialog === "daily-tasks" && <Modal title="每日任务" onClose={() => setDialog(null)} wide><DailyTasks dailyTasks={insights?.dailyTasks} onClaim={async (id, date) => { try { const result = await api("daily-tasks/claim", { id, date }); backgroundSeq.current++; setInsights(previous => ({ ...previous, dailyTasks: result.dailyTasks })); notice("经验已领取", "success"); void refreshBackground(true); } catch (issue) { notice(issue.message, "error"); throw issue; } }} /></Modal>}
+      {dialog === "daily-tasks" && <Modal title="每日任务" onClose={() => {setDialog(null);backgroundDialog.current=null;clearTimeout(dailyRefreshTimer.current);dailyRefreshTimer.current=setTimeout(()=>void refreshBackground(true),300);}} wide><DailyTasks dailyTasks={insights?.dailyTasks} onClaim={async (id, date) => { dailyClaimPending.current=true;backgroundSeq.current++;try { const result = await api("daily-tasks/claim", { id, date }); backgroundSeq.current++; setInsights(previous => applyDailyTaskReward(previous,result)); notice("经验已领取", "success"); } catch (issue) { notice(issue.message, "error"); throw issue; } finally {dailyClaimPending.current=false;} }} /></Modal>}
       {dialog === 'contest-calendar' && <Modal title="比赛日历" onClose={()=>setDialog(null)} wide><ContestCalendar calendar={calendar} onOpen={async contest=>{await reload();setCalendarContest(contest.import?.title||contest.title);setDialog(null);go("competitions");}}/></Modal>}
       {dialog === "avatar" && <Modal title="修改头像" onClose={()=>setDialog(null)}><Suspense fallback={<p role="status">正在读取…</p>}><AvatarSettings prefs={prefs} setPrefs={setPrefs} onError={message=>notice(message,"error")}/></Suspense></Modal>}
       {tourOpen && <Suspense fallback={null}><Onboarding key={tourContext} initialGuide={tourContext} practiceId={practiceId||(mockFocus?currentMockSlot?.id:null)} onShown={markGuideShown} onComplete={finishOnboarding} onDirectory={()=>openGuide('catalog')} onNavigate={(target,tab)=>{go(target);if(target==="settings")setSettingsTab(tab||"home");}}/></Suspense>}

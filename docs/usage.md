@@ -1,5 +1,7 @@
 # 使用 ToBe
 
+1.4.28 正在准备统一更新：活动日历方向键与日期行联动、隐藏无比赛目录、从零讲独立全屏、每日任务快速领取，以及仅记住外观位置。正式下载暂为 1.4.27。[本批说明](releases/1.4.28.md)。
+
 1.4.27 已完成本机更新，并在 [GitHub](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.27) 与[国内更新源](https://47.82.84.74/updates/stable/index.html)统一发布。新手指引直接平铺，点击图标开始对应板块指引；共享服务保持 1.2.8。[交付记录](local-delivery-1.4.27.md)。
 
 1.4.26 已完成本机更新，并在 [GitHub](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.26) 与[国内更新源](https://47.82.84.74/updates/stable/index.html)统一发布。配套服务 1.2.8 已上线；无需先登录即可更新，个人资料保留。[交付结果](local-delivery-1.4.26.md)。

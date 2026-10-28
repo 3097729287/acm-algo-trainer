@@ -34,7 +34,7 @@ export const PAGE_GUIDES={
  competitions:page('competitions',[
   step('.competition-view-toggle','列表与文件夹浏览','顶部目录按钮切换文件夹浏览。列表适合搜索，文件夹适合按平台、赛事类别和年份逐层查找。'),
   step('.catalog-path,.competition-breadcrumb,.competition-page','赛事分类','ACM 汇总 ICPC、CCPC、网络预选赛、邀请赛等，归类不受镜像来源站影响。蓝桥杯 B 组独立为一级目录。'),
-  step('.catalog-explorer,.competition-list','按时间找比赛','同一目录中的比赛默认最新在上，年份也从新到旧。空目录会标注暂未收录，不会编造题单。'),
+  step('.catalog-explorer,.competition-list','按时间找比赛','同一目录中的比赛默认最新在上，年份也从新到旧。目录只显示已收录比赛的分类。'),
   step('.competition-card,.competition-row','查看题目','展开比赛可查看每题的难度、练习状态和正式通过情况。题目可以单独练习，也可以使用开始比赛重现整场。'),
   step('.competition-start','开始一场比赛','确认题单与时长后才启动计时。题面或题单不完整时会先提示补全，避免静默漏题。'),
  ]),
@@ -79,16 +79,16 @@ export const PAGE_GUIDES={
  ]),
  activity:page('activity',[
   step('.page-search-controls','搜索某一天','输入完整日期即可定位并筛选明细。支持 2026:04:13、2026 4 13、26 04 13、26-04-13，以及斜杠、点号、年月日和紧凑数字；两位年份按 2000–2099 解释。不存在的日期不会跳到其他日。清空恢复本月明细。'),
-  step('.activity-selected-summary,.activity-detail-progress','读懂五段进度','上方同时显示截至所选月份的连续四个月，小方格可点击，方向键也能选择日期；下方明细跟随所选日期所在月份。五种颜色各占独立一段，填满一段后再填下一段。默认每段五题，特别活跃的月份会统一扩大每段题量；悬停查看具体题数和每段尺度，颜色不叠加。'),
+  step('.activity-selected-summary,.activity-detail-progress','读懂五段进度','每天 10 题满格，每 2 题加深一档，共 5 档，同一强调色系；超过 10 题在格内显示超额题数。选中日期后，下方明细自动翻到当天并突出显示对应行。'),
   step('.activity-page,.progress-page','查看学习活动','活动视图按日期展示已保存的学习活动和活跃情况，便于回顾最近的训练节奏。'),
   step('.activity-month-grid','理解活跃与 AC','活跃天数表示有学习活动的日期，正式 AC 表示原站确认的不同题目；运行和重复提交不会变成额外正式通过。'),
-  step('.activity-month-picker,.activity-month-grid','查看与筛选','选择截至月份，四个月的日期从左到右连续排列，跨月不分组。悬停或点击格子查看日期与 AC；左右键切换相邻日期，上下键切换相邻行。明细按所选月份和剩余高度分页，修改显示范围不会删除历史数据。'),
+  step('.activity-month-picker,.activity-month-grid','查看与筛选','选择年份，全年日期从上到下、再向右排列。在活动记录页按上下左右键，始终移动到对应方向的格子，焦点回到格子；点击格子也会自动定位下方对应日期。没有活动的日期显示 0，不会新增历史记录。'),
  ]),
  lectures:page('lectures',[
   step('.lectures-detail-bar','逐级返回关联讲解','从线段树进入双指针，再进入枚举时，左上返回会依次回到双指针、线段树，并恢复阅读位置。起始篇的返回按钮禁用；在左侧重新选择一篇，会重新建立起始位置。'),
   step('.lectures-page','先选一个知识点','这里列出已有讲义，点选后进入阅读。可按标题、知识点和分类查找。'),
   step('.page-search-controls','搜索与筛选讲义','顶部搜索定位内容，筛选缩小知识范围；上下箭头切换列表顺序。'),
-  step('.lectures-page','阅读公式与示例','讲义包含概念、图例、推导和示例代码。点击讲义标题阅读，公式会按数学排版显示。'),
+  step('.lectures-page','阅读公式与示例','讲义包含概念、图例、推导和示例代码。右上全屏图标进入与单题页一致的独立阅读布局，隐藏顶部、侧栏和底栏；再次点击或按 Esc 恢复。'),
   step('.lectures-page','联系实际题目','结合讲义涉及的知识点回到题库练习。阅读材料帮助理解，掌握度仍依据真实作答证据估计。'),
  ]),
  templates:page('templates',[

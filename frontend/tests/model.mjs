@@ -7,6 +7,13 @@ import {catalogSegments,contestOptions,catalogEntries,contestFilterOptions} from
 import {matchesKnowledge,knowledgeFilterNames} from '../src/lib/knowledgeNames.js';
 import {rankIndex} from '../src/lib/rankTiers.js';
 import {benchmarkScore} from '../src/lib/masteryScale.js';
+import {applyDailyTaskReward} from '../src/lib/dailyTaskReward.js';
+const rewardBase={growth:{xp:90,missionXp:0,levelCosts:[100,200],levelCap:3,rankUnlockLevel:2,rankedEligible:false,ranked:{tier:'黄金'}}};
+const rewarded=applyDailyTaskReward(rewardBase,{awardedXp:25,dailyTasks:{tasks:[]}});
+assert.equal(rewarded.growth.level,2);assert.equal(rewarded.growth.currentLevelXp,15);assert.equal(rewarded.growth.nextLevelXp,200);
+assert.equal(rewarded.growth.ranked.tier,'黄金');assert.equal(rewarded.growth.rankedEligible,true);
+assert.equal(applyDailyTaskReward(rewarded,{awardedXp:0,dailyTasks:{tasks:[]}}).growth.xp,115,'idempotent claim acknowledgements do not add XP twice');
+assert.equal(applyDailyTaskReward(rewarded,{awardedXp:200,dailyTasks:{tasks:[]}}).growth.nextLevelXp,0,'level cap has no extra cost');
 assert.equal(benchmarkScore(2300),100);
 assert.ok(benchmarkScore(1400)<50&&benchmarkScore(1800)>benchmarkScore(1400));
 const lanqiao=[2025,2026].map(year=>({contest:`蓝桥杯 ${year} C/C++大学B组 国赛`,platform:'洛谷',groupKey:String(year)}));
@@ -43,7 +50,11 @@ assert(!matchesKnowledge({tags:[],knowledgeCategories:['字符串']},['KMP']),'a
 assert.equal(catalogSegments({contest:'蓝桥杯 2025 C/C++大学B组 决赛',platform:'洛谷'})[0],'蓝桥杯 B 组');
 assert.equal(catalogSegments({contest:'CCPC 2025 网络预选赛',platform:'牛客'})[1],'网络预选赛');
 const folders=contestOptions([{name:'周赛 123',platform:'牛客',series:'周赛',count:6},{name:'周赛 166',platform:'牛客',series:'周赛',count:6},{name:'ARC 230',platform:'AtCoder',series:'ARC',count:6}]);
-assert.deepEqual(folders.find(node=>node.label==='AtCoder').children.map(node=>node.label),['ABC','AGC','ARC']);
+assert.deepEqual(folders.find(node=>node.label==='AtCoder').children.map(node=>node.label),['ARC']);
+assert.deepEqual(contestOptions([]),[]);
+assert.deepEqual(catalogEntries([]),[]);
+assert.deepEqual(contestFilterOptions([]),[]);
+assert.deepEqual(catalogEntries([{contest:'ICPC 2026 杭州区域赛',series:'XCPC'}],['ACM']).map(node=>node.label),['ICPC']);
 assert.deepEqual(folders.find(node=>node.label==='牛客').children[0].children.map(node=>node.value),['周赛 166','周赛 123']);
 const easy='### 题意\n\n统计总和。\n\n### 思路\n\n累加每个数。\n\n### 参考代码\n\n```cpp\nint main(){}\n// ### not a heading\n```\n\n### 复杂度\n\n线性。';
 assert.match(briefSolution(easy,800),/累加每个数/);

@@ -129,14 +129,14 @@ def _random(training, day, owner, step, fixed, evidence, records):
     return task
 
 
-def snapshot(training, goal_tasks=None, evidence=None):
-    with training.lock:
+def snapshot(training, goal_tasks=None, evidence=None, *, completed=None):
+    with training._library_view(), training.lock:
         day = training._now().astimezone(SHANGHAI).date().isoformat()
         owner = training._ranking_profile()['user_id']
         evidence = training._daily_evidence(day) if evidence is None else evidence
         before_changes = training.connection.total_changes
         records = {row['id']: row for row in training.connection.execute('SELECT * FROM daily_missions WHERE day=?', (day,))}
-        completed = _completed_reviews(training, day)
+        completed = _completed_reviews(training, day) if completed is None else completed
         limit = _review_limit(training, day, completed)
         fixed = [{**task, 'lane': 'fixed', 'slot': i + 3} for i, task in enumerate(tasks_for(day, owner)[3:])]
         ac_step = _next_step(records, 'ac')
@@ -193,19 +193,20 @@ def snapshot(training, goal_tasks=None, evidence=None):
 def claim(training, identity, date=None):
     if not isinstance(identity, str) or not identity or len(identity) > 64:
         raise ServiceError(400, '每日任务编号无效')
-    with training.lock:
+    with training._library_view(), training.lock:
         day = training._now().astimezone(SHANGHAI).date().isoformat()
         if date is not None and date != day:
             raise ServiceError(409, '每日任务已刷新，请重新打开任务列表')
         evidence = training._daily_evidence(day)
-        current = snapshot(training, goal_tasks=[], evidence=evidence)
+        completed = _completed_reviews(training, day)
+        current = snapshot(training, goal_tasks=[], evidence=evidence, completed=completed)
         row = training.connection.execute('SELECT * FROM daily_missions WHERE day=? AND id=?', (day, identity)).fetchone()
         if row is None or not row['claimed_at'] and identity not in {task['id'] for task in current['tasks']}:
             raise ServiceError(404, '没有找到这项每日任务')
         already = bool(row['claimed_at'])
         task = json.loads(row['definition'])
         if not already:
-            amount, proof = progress(training, task, evidence, day)
+            amount, proof = progress(training, task, evidence, day, completed)
             if amount < task['target']:
                 raise ServiceError(409, '这项任务尚未完成')
             before_changes = training.connection.total_changes
@@ -214,5 +215,5 @@ def claim(training, identity, date=None):
                            (iso(training._now()), task['xp'], json.dumps(proof), day, identity))
             _advance_read_caches(training, day, before_changes)
         # Compute the next tier only after the claim is durably committed.
-        return {'dailyTasks': snapshot(training, goal_tasks=[], evidence=evidence),
+        return {'dailyTasks': snapshot(training, goal_tasks=[], evidence=evidence, completed=completed),
                 'awardedXp': 0 if already else task['xp'], 'alreadyClaimed': already}
