@@ -11,20 +11,21 @@ page.on('pageerror', e => errors.push(e.message));
 try {
   await page.clock.install({ time: new Date('2026-10-15T04:00:00Z') });
   await page.goto('http://127.0.0.1:18778/tests/catalog-activity-fixture.html');
-  await page.getByRole('button',{name:'筛选比赛',exact:true}).click();
-  const filters=page.locator('.filter-popover');
-  const classification=filters.getByRole('combobox',{name:'筛选比赛分类'}),folders=page.getByRole('listbox',{name:'筛选比赛分类'});
-  await classification.press('Space');
-  const rootNames=await folders.getByRole('option').allTextContents();
-  for(const name of ['全部比赛','牛客','洛谷','Codeforces','AtCoder','ACM','蓝桥杯 B 组'])assert(rootNames.includes(name),name);
-  await page.keyboard.press('Escape');
+  await page.getByRole('button',{name:'比赛文件夹浏览',exact:true}).click();
+  const folders=page.getByRole('region',{name:'比赛层级浏览'});
+  const rootNames=await folders.locator('.catalog-folder-row strong').allTextContents();
+  for(const name of ['牛客','洛谷','Codeforces','AtCoder','ACM','蓝桥杯 B 组'])assert(rootNames.includes(name),name);
   const shelf=async name=>{
-    if(!await filters.isVisible())await page.getByRole('button',{name:'筛选比赛',exact:true}).click();
-    await classification.press('Space');
-    while(await folders.getByRole('button',{name:'返回上一级',exact:true}).count())await folders.getByRole('button',{name:'返回上一级',exact:true}).click();
-    const label={CF:'Codeforces',AC:'AtCoder'}[name]||name;
-    await folders.getByRole('option',{name:label,exact:true}).click();
-    if(label!=='全部比赛')await folders.getByRole('option',{name:`选择「${label}」`,exact:true}).click();
+    if(name==='全部比赛'){await page.getByRole('button',{name:'比赛文件夹浏览',exact:true}).click();return;}
+    await page.getByRole('button',{name:'全部平台',exact:true}).click();
+    const root={CF:'Codeforces',ACM:'ACM',蓝桥杯:'蓝桥杯 B 组'}[name]||name;
+    await folders.locator('.catalog-folder-row').filter({has:page.getByText(root,{exact:true})}).click();
+    for(let depth=0;await page.locator('.competition-card').count()===0;depth++){
+      assert(depth<6,'nonempty shelf must lead to actual contests');
+      const label=await folders.locator('.catalog-folder-row').evaluateAll(nodes=>nodes.find(node=>Number(node.querySelector('span')?.textContent)>0)?.querySelector('strong')?.textContent);
+      assert(label,'expected a nonempty child folder');
+      await folders.locator('.catalog-folder-row').filter({has:page.getByText(label,{exact:true})}).click();
+    }
   };
   await shelf('牛客');assert.deepEqual(await page.locator('.competition-card-title strong').allTextContents(),['周赛 10','周赛 2']);
   await shelf('CF');assert.equal(await page.locator('.competition-card').count(),1,'ACM mirror is exclusive to ACM');

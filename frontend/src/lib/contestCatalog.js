@@ -8,7 +8,7 @@ export function contestYear(row) {
 }
 
 export function catalogSegments(row) {
-  const name=row.contest||row.name||'其他题目',fullName=`${name} ${row.contestFullName||''} ${row.examStage||''} ${row.xcpcKind||''}`;
+  const name=row.contest||row.name||'其他题目',fullName=`${name} ${row.contestFullName||''}`;
   if (row.labTopic || row.source==='algorithm-lab' || row.series==='算法实验室') return ['算法实验室', row.labTopic||name.replace(/^算法实验室\s*·\s*/,''), name];
   if (row.schoolTraining || /^https:\/\/(?:codeforces.com\/gym\/726517|ac.nowcoder.com\/acm\/contest\/142622)\//.test(row.url || '')) return ['校队训练', name];
   if (/蓝桥/.test(`${fullName} ${row.series||''}`)) {
@@ -17,15 +17,16 @@ export function catalogSegments(row) {
     return [group,/国赛|决赛/.test(`${fullName} ${row.examStage||''}`)?'国赛':'省赛',year?`${year}年`:'年份待核实',name];
   }
   if (row.series==='XCPC'||/ICPC|CCPC|XCPC|ACM|区域赛|邀请赛|省赛|网络.*赛/i.test(fullName)) {
-    const type=/网络|预选|online|qualification/i.test(fullName)?'网络预选赛'
-      :/省赛|省(?:第[一二三四五六七八九十\d]+届)?(?:ICPC|CCPC|大学生|程序)|\bprovincial\b/i.test(fullName)?'省赛'
-      :/邀请|invitational/i.test(fullName)?'邀请赛'
-      :/总决赛|world finals/i.test(fullName)?'总决赛'
-      :/分区赛|subregional/i.test(fullName)?'分区赛'
+    const eventType=`${fullName} ${row.examStage||''} ${row.xcpcKind||''}`;
+    const type=/网络|预选|online|qualification/i.test(eventType)?'网络预选赛'
+      :/省赛|省(?:第[一二三四五六七八九十\d]+届)?(?:ICPC|CCPC|大学生|程序)|\bprovincial\b/i.test(eventType)?'省赛'
+      :/邀请|invitational/i.test(eventType)?'邀请赛'
+      :/总决赛|world finals/i.test(eventType)?'总决赛'
+      :/分区赛|subregional/i.test(eventType)?'分区赛'
       :/CCPC/i.test(fullName)?'CCPC':/ICPC/i.test(fullName)?'ICPC':'其他赛事';
     const year=contestYear(row);
     const event=name.replace(/[（(]\s*(?:热身赛?|正式赛|正赛|warm.?up)\s*[）)]/gi,'').trim();
-    return ['ACM',type,year?`${year}年`:'年份待核实',event,/热身|warm.?up/i.test(fullName)?'热身赛':'正赛'];
+    return ['ACM',type,year?`${year}年`:'年份待核实',event,/热身|warm.?up/i.test(eventType)?'热身赛':'正赛'];
   }
   const series=row.series&&row.series!==row.platform?row.series:name.match(/练习赛|小白月赛|周赛|月赛|挑战赛|入门赛|基础赛|教育赛|ABC|ARC|AGC|Div\.?\s*[1-4](?:\s*\+\s*Div\.?\s*[1-4])?/i)?.[0]||'其他比赛';
   return [row.platform||'其他平台',series,name];

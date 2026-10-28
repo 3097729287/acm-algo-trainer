@@ -6,6 +6,7 @@ const mixed={id:'mixed',contest:'CCPC 2026 福建邀请赛',contestFullName:'202
 const metadataYear={id:'year',contest:'ICPC 区域赛',series:'XCPC',platform:'牛客',xcpcYear:2027};
 assert.equal(contestYear(metadataYear),'2027');
 assert.equal(contestYear({contest:'2025-2026 赛季',eventYear:2026}),'2026');
+assert.equal(catalogSegments({contest:'周赛 10',platform:'牛客',series:'牛客周赛',examStage:'区域赛'})[0],'牛客','generic stage metadata must not turn an ordinary round into XCPC');
 assert.deepEqual(catalogPaths(provincial).map(parts=>parts[1]),['省赛','CCPC']);
 for(const type of ['CCPC','省赛','邀请赛'])assert(catalogPathMatches(mixed,['ACM',type,'2026年']));
 assert(catalogEntries([provincial,mixed],['ACM','CCPC']).some(e=>e.label==='2026年'&&e.items.length===2));
