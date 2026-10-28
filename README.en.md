@@ -1,13 +1,13 @@
 # ToBe · Training Workbench
 
-**ToBe 1.4.25 (release preparation)** adds direct page-number navigation and complete contest routes by ICPC/CCPC series and provincial/invitational type. Years follow the available contest records, including 2026. Earlier templates, review rewards, chunked sync and catalogue scope remain available.
+**ToBe 1.4.25** adds direct page-number navigation and complete contest routes by ICPC/CCPC series and provincial/invitational type. Years follow the available contest records, including 2026. Earlier templates, review rewards, chunked sync and catalogue scope remain available.
 
-**ToBe 1.4.20 (local update; unpublished)** repairs shared browser connection recovery, refines difficulty estimates and excludes elementary exercises from automatic review. It adds list filters, insertion ordering, a favorite-problems list, cached reversible likes and inline creation, single-column mock papers, accent-based activity levels and bounded statement/streamed sync memory. [Release scope](docs/releases/1.4.20.md).
+**ToBe 1.4.20 (included in the current release)** repairs shared browser connection recovery, refines difficulty estimates and excludes elementary exercises from automatic review. It adds list filters, insertion ordering, a favorite-problems list, cached reversible likes and inline creation, single-column mock papers, accent-based activity levels and bounded statement/streamed sync memory. [Release scope](docs/releases/1.4.20.md).
 
-Includes the ten algorithm topics, training lists, illustrated editorials and interface fixes previously delivered locally in 1.4.2–1.4.16. The public seed retains 12,231 problem records, 9,243 statement archives, 1,379 default/detailed editorial pairs, 447 lectures and 563 lists. Archived statements are not all complete or readable; see the [audit and release scope](docs/releases/1.4.17.md). The separate full editorial review remains incomplete.
+Includes algorithm topics, training lists, illustrated editorials and interface fixes previously delivered locally in 1.4.2–1.4.24. The public seed retains 12,231 problem records, 9,243 statement archives, 1,379 default/detailed editorial pairs, 447 lectures and 563 lists. Archived statements are not all complete or readable; see the [current release scope](docs/releases/1.4.25.md) and [earlier statement audit](docs/releases/1.4.17.md). The separate full editorial review remains incomplete.
 
 <!-- release-status:start -->
-**Stable release: [ToBe 1.4.17](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.17).** [Changes, audit and validation](docs/releases/1.4.17.md).
+**Stable release: [ToBe 1.4.25](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.25).** GitHub and the [domestic update feed](https://47.82.84.74/updates/stable/index.html) carry the same verified build. [Changes and validation](docs/releases/1.4.25.md).
 <!-- release-status:end -->
 
 [Website](https://3097729287.github.io/acm-algo-trainer/) · [Usage](docs/usage.md) · [Development](docs/development.md) · [中文](README.md)
@@ -16,9 +16,17 @@ Includes the ten algorithm topics, training lists, illustrated editorials and in
 
 ## Install and upgrade
 
-Windows 10/11 x64. The [user installer](https://47.82.84.74/updates/assets/1.4.17/ToBe-Setup-1.4.17-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.4.17/ToBe-1.4.17-win64.zip) before running it. GitHub distributes only the user edition. The administrator program is reserved for the owner’s local use. Release assets include checksums and an incremental update from 1.4.16. Older versions can use the full Setup. The administrator edition is a local program and shortcut only.
+Windows 10/11 x64. The [user installer](https://47.82.84.74/updates/assets/1.4.25/ToBe-Setup-1.4.25-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.4.25/ToBe-1.4.25-win64.zip) before running it. GitHub distributes only the user edition. The administrator program is reserved for the owner’s local use. Release assets include checksums and incremental updates from 1.4.17 and 1.4.24. Older versions can use the full Setup. The administrator edition is a local program and shortcut only.
 
 Save drafts and exit TB before installing into the existing directory. Personal databases, source code and imported content are preserved. The updater saves work, takes online SQLite backups and verifies SHA-256 before replacement. Keep the same TB version on your computers. Original-site login uses TB's dedicated browser profile; no extension is required.
+
+## Changes in 1.4.25
+
+- Enter a page number and press Enter to jump. Contest folders expose existing 2026 records through ICPC/CCPC and provincial/invitational routes.
+- Twenty-four templates include explained and short competition versions, plus 48 operation exercises judged inside the app. Initial code is customizable through a preview picker; account settings open from the nickname.
+- Official WA schedules next-day review; eligible completion earns 20 XP. Daily AC, review and study-time task chains advance after claiming rewards.
+- Chunked synchronization and on-demand historical code loading preserve local code and drafts. All devices on migrated accounts must upgrade.
+- Calendar, template and laboratory layouts, source cleanup, XCPC scope and list difficulty limits include the preceding local updates. Difficulty review and knowledge completion remain paused.
 
 ## Changes in 1.4.1
 
