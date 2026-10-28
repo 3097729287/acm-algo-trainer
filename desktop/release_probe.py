@@ -203,16 +203,16 @@ def run(action, output):
                         wait_js("!!document.querySelector('.nav-item')")
                         report['nativeLoaded'] = True
                         window.evaluate_js("document.querySelector('.nav-item[aria-label=\"算法实验室\"]').click()")
-                        wait_js("!!document.querySelector('.lab-course-options')")
+                        wait_js("!!document.querySelector('.catalog-card-open')")
                         report['nativeAlgorithmCourses'] = []
                         for course_title in ('排序基础', '分治与随机化', '桶与按位处理', 'Dijkstra 最短路', '并查集', 'DFS 深度优先搜索', 'BFS 广度优先搜索', '前缀和与差分', '双指针算法'):
-                            selector = 'section[aria-label="' + course_title + '"] .lab-course-options button'
+                            selector = 'section[aria-label="' + course_title + '"] .catalog-card-open'
                             window.evaluate_js('document.querySelector(' + json.dumps(selector) + ').click()')
                             wait_js("document.querySelector('.lab-course-header h1')?.textContent === " + json.dumps(course_title))
                             report['nativeAlgorithmCourses'].append(course_title)
                             window.evaluate_js("document.querySelector('[aria-label=\"返回算法实验室\"]').click()")
-                            wait_js("!!document.querySelector('.lab-course-options')")
-                        window.evaluate_js("document.querySelector('section[aria-label=\"背包 DP\"] .lab-course-options button').click()")
+                            wait_js("!!document.querySelector('.catalog-card-open')")
+                        window.evaluate_js("document.querySelector('section[aria-label=\"背包 DP\"] .catalog-card-open').click()")
                         wait_js("!!document.querySelector('.algorithm-lab .lab-course-header h1')")
                         assert window.evaluate_js("document.querySelector('.algorithm-lab .lab-course-header h1').textContent") == '背包 DP'
                         report['nativeAlgorithmCourses'].append('背包 DP')
@@ -234,7 +234,7 @@ def run(action, output):
                         report['nativeGuidedProblems'] = True
                         report['nativeFinalLessonHandoff'] = True
                         window.evaluate_js("document.querySelector('.lab-guided [aria-label=\"返回算法实验室\"]').click()")
-                        wait_js("!!document.querySelector('.lab-course-options') && getComputedStyle(document.querySelector('.sidebar')).display!=='none'")
+                        wait_js("!!document.querySelector('.catalog-card-open') && getComputedStyle(document.querySelector('.sidebar')).display!=='none'")
                         window.evaluate_js("document.querySelector('[aria-label=\"设置\"]').click()")
                         wait_js("!!document.querySelector('[role=tab][aria-label=\"交互与导航\"]')")
                         window.evaluate_js("document.querySelector('[role=tab][aria-label=\"交互与导航\"]').click()")
@@ -273,7 +273,11 @@ def run(action, output):
                         assert submission['total'] > 0 and submission['passed'] == submission['total']
                         assert server.training.workspace()['summary']['accepted'] == 0
                         assert server.training.insights(server.store.extensions.snapshot())['growth']['totalXp'] == 0
-                        assert all(not task['completed'] and task['scope'] == 'official' and task['version'] == 2 for task in server.training.daily_tasks()['tasks'])
+                        daily = server.training.daily_tasks()
+                        assert daily['policyVersion'] == 3 and daily['totalClaimedXp'] == 0
+                        ac_task = next(task for task in daily['tasks'] if task['lane'] == 'ac')
+                        assert ac_task['progress'] == 0 and not ac_task['completed'] and not ac_task['claimed']
+                        assert not any(task['claimed'] for task in daily['tasks'])
                         report['localSubmission'] = {name: submission[name] for name in ('verdict', 'scope', 'passed', 'total')}
                         report['localAwardsNothing'] = True
                         report['officialSubmissionSent'] = False
