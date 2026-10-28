@@ -298,3 +298,5 @@ html .competition-question .competition-difficulty {grid-column:4}
 html .competition-question .competition-result {grid-column:5}
 html .competition-question>svg:last-child {grid-column:6}
 @media(max-width:850px){html .competition-question {grid-template-columns:28px minmax(95px,1fr) minmax(95px,1fr) 65px 62px 12px;gap:8px}}
+
+html .workspace-area .competition-page.competition-detail {overflow:auto}

@@ -1,7 +1,7 @@
 import PagePagination from '@/components/PagePagination.jsx';
 import {useRef,useState,useEffect} from 'react';
 import {useFittedPageSize} from '@/lib/useFittedPageSize.js';
-import {catalogSegments,catalogEntries} from '@/lib/contestCatalog.js';
+import {catalogPaths,catalogPathMatches,catalogEntries} from '@/lib/contestCatalog.js';
 export {catalogSegments} from '@/lib/contestCatalog.js';
 import { ChevronLeft, ChevronRight, FileText, Folder, House } from 'lucide-react';
 import './CatalogExplorer.css';
@@ -10,13 +10,11 @@ const pathOf = scope => scope.path || (scope.platform ? [scope.platform] : []);
 const contestKey = row => row.groupKey || `${row.platform || ''}::${row.contest}`;
 const schoolSources = [{label:'Gym 726517',url:'https://codeforces.com/gym/726517'}, {label:'1024数学专场考核',url:'https://ac.nowcoder.com/acm/contest/142622'}];
 const cardLevel = (row, path) => {
-  const parts = catalogSegments(row);
-  return parts.length === path.length + 1 || (parts[0] === 'ACM'
-    && parts.length === path.length + 2 && ['正赛', '热身赛'].includes(parts.at(-1)));
+  return catalogPaths(row).some(parts=>path.every((part,index)=>parts[index]===part)&&(parts.length === path.length + 1 || (parts[0] === 'ACM'
+    && parts.length === path.length + 2 && ['正赛', '热身赛'].includes(parts.at(-1)))));
 };
 export function catalogMatches(row, scope) {
-  const path = pathOf(scope), parts = catalogSegments(row);
-  return path.every((part, index) => parts[index] === part);
+  return catalogPathMatches(row,pathOf(scope));
 }
 export function CatalogPath({ scope, onChange }) {
   const path = pathOf(scope);
@@ -42,5 +40,5 @@ export default function CatalogExplorer({ rows, scope, onChange, onContest, rend
       if (leaf && onContest) onContest(items[0]);
       else onChange({ path: next, stage: leaf ? 'problems' : 'contests' });
     }}><Folder size={20}/><strong>{name}</strong><span>{onContest ? new Set(items.map(row => row.groupKey || `${row.platform}:${row.contest}`)).size : items.length}</span><ChevronRight size={16}/></button>)}
-  </section>{paginate&&entries.length>0&&<PagePagination label="目录分页" count={`${entries.length} 项`} page={current} pages={pages} onPrevious={()=>setPage(current-1)} onNext={()=>setPage(current+1)}/>}</>;
+  </section>{paginate&&entries.length>0&&<PagePagination label="目录分页" count={`${entries.length} 项`} page={current} pages={pages} onPageChange={setPage} onPrevious={()=>setPage(current-1)} onNext={()=>setPage(current+1)}/>}</>;
 }

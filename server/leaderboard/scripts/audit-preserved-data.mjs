@@ -33,9 +33,12 @@ export async function preservedData(pool) {
       // rather than attempting to decode arbitrary binary as UTF-8 text.
       const values=columns.map(row=>/blob|binary/i.test(row.kind)?`HEX(${identifier(row.name)})`:identifier(row.name));
       const hash = `SHA2(CAST(JSON_ARRAY(${values.join(',')}) AS CHAR CHARACTER SET utf8mb4),256)`;
-      const parts = [1,17,33,49].map((offset,index)=>`LPAD(HEX(COALESCE(BIT_XOR(CAST(CONV(SUBSTRING(h,${offset},16),16,10) AS UNSIGNED)),0)),16,'0') AS h${index}`);
+      // Keep each lane within the signed 64-bit range. Some MySQL expression
+      // combinations clamp an unsigned 64-bit BIT_XOR through COALESCE/HEX;
+      // eight 32-bit lanes preserve all 256 SHA bits without that conversion.
+      const parts = [1,9,17,25,33,41,49,57].map((offset,index)=>`LPAD(HEX(COALESCE(BIT_XOR(CAST(CONV(SUBSTRING(h,${offset},8),16,10) AS UNSIGNED)),0)),8,'0') AS h${index}`);
       const [[row]] = await connection.query(`SELECT COUNT(*) AS n,${parts.join(',')} FROM (SELECT ${hash} AS h FROM ${identifier(table)}) AS fingerprints`);
-      tables[table] = {rows:Number(row.n),columns:names,xorSha256:[row.h0,row.h1,row.h2,row.h3].join('').toLowerCase()};
+      tables[table] = {rows:Number(row.n),columns:names,xorSha256:Array.from({length:8},(_,index)=>row['h'+index]).join('').toLowerCase()};
     }
     const [[rewards]] = await connection.query('SELECT COALESCE(SUM(xp),0) AS xp FROM ranking_rewards');
     const [[state]] = await connection.query('SELECT COALESCE(SUM(OCTET_LENGTH(payload)),0) AS bytes,COALESCE(SUM(revision),0) AS revisions FROM account_state');

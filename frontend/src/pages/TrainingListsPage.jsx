@@ -196,7 +196,7 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
       </tr>)}</tbody></table>}
       {lists && !displayedEntries.length && !problems.length && <div className="empty"><Search size={26}/><h3>{searchingProblems ? '没有匹配的题单或题目' : active ? '此目录暂无可用题目' : '暂无题单'}</h3>{searchingProblems && <button className="icon-button" aria-label="清除筛选" onClick={clear}><X size={16}/></button>}</div>}
     </div>
-    {lists && count > 0 && <PagePagination label="题单分页" count={active?`${problems.length} 道题`:`${count} 项`} page={page} pages={pages} previousLabel="题单上一页" nextLabel="题单下一页" onPrevious={()=>patch({page:page-1})} onNext={()=>patch({page:page+1})}/>}
+    {lists && count > 0 && <PagePagination label="题单分页" count={active?`${problems.length} 道题`:`${count} 项`} page={page} pages={pages} onPageChange={value=>patch({page:value})} previousLabel="题单上一页" nextLabel="题单下一页" onPrevious={()=>patch({page:page-1})} onNext={()=>patch({page:page+1})}/>}
     {deletion&&<PopConfirm anchor={deletion.anchor} title={`删除题单“${deletion.list.title}”？`} label="删除题单确认" busy={deleting} error={deleteError} cancelLabel={<X size={16}/>} cancelAriaLabel="取消" confirmLabel={<Trash2 size={16}/>} confirmAriaLabel="确认删除" busyLabel={<Trash2 size={16}/>} onCancel={()=>setDeletion(null)} onConfirm={deleteList}/>}
     {editor&&<TrainingListEditor list={editor.id?editor:null} rows={rows} api={api} onClose={()=>setEditor(null)} onSave={value=>{contentVersion.current++;setLists(previous=>[...(previous||[]).filter(list=>!list.custom),...value.customLists]);setEditor(null);patch({folder:state.mode==='source'?['personal']:['我的题单'],trail:[value.list.id],sections:[],flat:false,query:''});}}/>}
   </section>;

@@ -39,10 +39,11 @@ try {
   assert.equal((await activity.innerText()).includes('次提交'), false);
   assert.equal((await activity.innerText()).includes('本地通过'), false);
   const today = '2026-10-15';
-  for (const [index, amount] of [0, 1, 2, 4, 7].entries()) {
+  for (const [index, amount] of [0, 2, 4, 6, 8, 10].entries()) {
     const key = today.slice(0, 8) + String(index + 1).padStart(2, '0');
     const cell = activity.getByRole('gridcell', { name: `${key}，${amount} 题通过`, exact: true });
-    assert.match(await cell.getAttribute('class'), new RegExp(`activity-level-${index}(?:\\s|$)`));
+    assert.equal(await cell.getAttribute('data-band'),index===0?'0':'1');
+    assert.equal(await cell.getAttribute('data-shade'),String(index));
     await cell.click();
     assert.equal(await activity.locator('.activity-selected-count b').innerText(),String(amount));
   }

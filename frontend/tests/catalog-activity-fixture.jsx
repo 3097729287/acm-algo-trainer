@@ -14,11 +14,11 @@ const rows = [
   series, title: '题目 ' + index, problem: 'A', difficulty: index === 5 ? null : 1100,
   difficultyEstimated: platform !== 'Codeforces', examYear: 2025, examStage: '区域赛' }));
 const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Shanghai' }).format(new Date());
-const activity = [0, 1, 2, 4, 7].map((officialAccepted, index) => ({
+const activity = [0, 2, 4, 6, 8, 10].map((officialAccepted, index) => ({
   date: today.slice(0, 8) + String(index + 1).padStart(2, '0'),
   officialAccepted, submissions: 50, accepted: 30,
 }));
 createRoot(document.getElementById('root')).render(<main style={{ padding: 20, height: '100vh', overflow: 'auto' }}>
-  <CompetitionPage rows={rows} workspace={{ training: [] }} />
+  <div style={{height:1000,display:'flex'}}><CompetitionPage rows={rows} workspace={{ training: [] }} /></div>
   <div style={{height:700,display:'flex'}}><ActivityPage insights={{ activity, summary: {} }} /></div>
 </main>);

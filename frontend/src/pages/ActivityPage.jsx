@@ -87,7 +87,7 @@ export default function ActivityPage({insights}) {
     }
     const day=item.day;return <tr key={day} data-selected={day===selected}><td><button type="button" className="progress-text-button" onClick={()=>pick(day)}>{day.replaceAll('-','/')}</button></td><td><span className="activity-detail-progress"><ActivityProgress count={activity.get(day)?.officialAccepted||0} step={step}/><b>{activity.get(day)?.officialAccepted||0}</b></span></td></tr>;
    })}</tbody></table>{!records.length&&<p className="progress-muted">{searchedDate?'这一天没有已保存的活动记录。':'本月还没有活动记录。'}</p>}</div>
-   <PagePagination label="日期明细分页" count={`共 ${records.length} 天`} page={currentPage} pages={pages} previousLabel="上一页日期明细" nextLabel="下一页日期明细" onPrevious={()=>setPage(currentPage-1)} onNext={()=>setPage(currentPage+1)}/>
+   <PagePagination label="日期明细分页" count={`共 ${records.length} 天`} page={currentPage} pages={pages} onPageChange={setPage} previousLabel="上一页日期明细" nextLabel="下一页日期明细" onPrevious={()=>setPage(currentPage-1)} onNext={()=>setPage(currentPage+1)}/>
   </section>
  </div>;
 }

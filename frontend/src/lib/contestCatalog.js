@@ -1,29 +1,50 @@
 import {createContestComparator} from './practiceMetadata.js';
 const folderOrder=new Intl.Collator('zh-CN',{numeric:true});
 
+export function contestYear(row) {
+  for(const value of [row.eventYear,row.examYear,row.xcpcYear])if(/^20\d{2}$/.test(String(value||'')))return String(value);
+  return `${row.contest||row.name||''} ${row.contestFullName||''}`.match(/20\d{2}/)?.[0]
+    ||String(row.contestDate||row.startedAt||row.endedAt||'').match(/^20\d{2}/)?.[0];
+}
+
 export function catalogSegments(row) {
-  const name=row.contest||row.name||'其他题目',fullName=`${name} ${row.contestFullName||''}`;
+  const name=row.contest||row.name||'其他题目',fullName=`${name} ${row.contestFullName||''} ${row.examStage||''} ${row.xcpcKind||''}`;
   if (row.labTopic || row.source==='algorithm-lab' || row.series==='算法实验室') return ['算法实验室', row.labTopic||name.replace(/^算法实验室\s*·\s*/,''), name];
   if (row.schoolTraining || /^https:\/\/(?:codeforces.com\/gym\/726517|ac.nowcoder.com\/acm\/contest\/142622)\//.test(row.url || '')) return ['校队训练', name];
   if (/蓝桥/.test(`${fullName} ${row.series||''}`)) {
     const group=/(?:B\s*组|大学B(?:\s|$)|组\s*B)/i.test(`${fullName} ${row.examGroup||''}`)?'蓝桥杯 B 组':'蓝桥杯';
-    const year=fullName.match(/20\d{2}/)?.[0]||row.examYear;
+    const year=contestYear(row);
     return [group,/国赛|决赛/.test(`${fullName} ${row.examStage||''}`)?'国赛':'省赛',year?`${year}年`:'年份待核实',name];
   }
   if (row.series==='XCPC'||/ICPC|CCPC|XCPC|ACM|区域赛|邀请赛|省赛|网络.*赛/i.test(fullName)) {
     const type=/网络|预选|online|qualification/i.test(fullName)?'网络预选赛'
-      :/省赛|省(?:第[一二三四五六七八九十\d]+届)?(?:ICPC|CCPC|大学生|程序)/i.test(fullName)?'省赛'
+      :/省赛|省(?:第[一二三四五六七八九十\d]+届)?(?:ICPC|CCPC|大学生|程序)|\bprovincial\b/i.test(fullName)?'省赛'
       :/邀请|invitational/i.test(fullName)?'邀请赛'
       :/总决赛|world finals/i.test(fullName)?'总决赛'
       :/分区赛|subregional/i.test(fullName)?'分区赛'
       :/CCPC/i.test(fullName)?'CCPC':/ICPC/i.test(fullName)?'ICPC':'其他赛事';
-    const year=fullName.match(/20\d{2}/)?.[0]||String(row.contestDate||row.startedAt||'').match(/^20\d{2}/)?.[0];
+    const year=contestYear(row);
     const event=name.replace(/[（(]\s*(?:热身赛?|正式赛|正赛|warm.?up)\s*[）)]/gi,'').trim();
     return ['ACM',type,year?`${year}年`:'年份待核实',event,/热身|warm.?up/i.test(fullName)?'热身赛':'正赛'];
   }
   const series=row.series&&row.series!==row.platform?row.series:name.match(/练习赛|小白月赛|周赛|月赛|挑战赛|入门赛|基础赛|教育赛|ABC|ARC|AGC|Div\.?\s*[1-4](?:\s*\+\s*Div\.?\s*[1-4])?/i)?.[0]||'其他比赛';
   return [row.platform||'其他平台',series,name];
 }
+
+// An ICPC/CCPC provincial or invitational belongs to both its series and its
+// event type. These are alternate navigation paths for the same original row.
+export function catalogPaths(row) {
+  const primary=catalogSegments(row),name=`${row.contest||row.name||''} ${row.contestFullName||''} ${row.examStage||''} ${row.xcpcKind||''}`;
+  if(primary[0]!=='ACM')return [primary];
+  const types=new Set([primary[1]]);
+  if(/\bCCPC\b|CCPC(?=\d)/i.test(name))types.add('CCPC');
+  if(/\bICPC\b|ICPC(?=\d)/i.test(name))types.add('ICPC');
+  if(/省赛|省(?:第[一二三四五六七八九十\d]+届)?(?:ICPC|CCPC|大学生|程序)|\bprovincial\b/i.test(name))types.add('省赛');
+  if(/邀请|\binvitational\b/i.test(name))types.add('邀请赛');
+  return [...types].map(type=>[primary[0],type,...primary.slice(2)]);
+}
+const begins=(parts,path)=>path.every((part,index)=>parts[index]===part);
+export const catalogPathMatches=(row,path)=>catalogPaths(row).some(parts=>begins(parts,path));
 
 // Known series remain discoverable even when none of their contests is bundled.
 // Entering an empty folder states that explicitly; it never invents a contest.
@@ -55,26 +76,28 @@ export function catalogEntries(rows, path = []) {
   return catalogEntriesFor(rows,path,new WeakMap());
 }
 function catalogEntriesFor(rows,path,cache){
-  const segments=row=>{if(!cache.has(row))cache.set(row,catalogSegments(row));return cache.get(row);};
-  const selected = rows.filter(row => path.every((part, i) => segments(row)[i] === part));
+  const paths=row=>{if(!cache.has(row))cache.set(row,catalogPaths(row));return cache.get(row);};
+  const matching=(row,prefix)=>paths(row).filter(parts=>begins(parts,prefix));
+  const selected = rows.filter(row => matching(row,path).length);
   const groups = new Map(catalogFolders(path).map(label => [label, []]));
   for (const row of selected) {
-    const label = segments(row)[path.length];
-    if (!label) continue;
-    if (!groups.has(label)) groups.set(label, []);
-    groups.get(label).push(row);
+    for(const label of new Set(matching(row,path).map(parts=>parts[path.length]).filter(Boolean))){
+      if (!groups.has(label)) groups.set(label, []);
+      groups.get(label).push(row);
+    }
   }
   const result=[...groups].flatMap(([name, items]) => {
     let next = [...path, name];
     if (path[0]?.startsWith('蓝桥杯') && isYear(name)) return catalogEntriesFor(items,next,cache);
     if (items.length && !preserveFolder(path, name)) {
       while (true) {
-        const children = new Set(items.map(row => segments(row)[next.length]).filter(Boolean));
-        if (children.size !== 1 || items.some(row => segments(row).length === next.length)) break;
+        const branches=items.flatMap(row=>matching(row,next));
+        const children = new Set(branches.map(parts=>parts[next.length]).filter(Boolean));
+        if (children.size !== 1 || branches.some(parts=>parts.length===next.length)) break;
         next = [...next, [...children][0]];
       }
     }
-    const leaf = items.length > 0 && items.every(row => segments(row).length === next.length);
+    const leaf = items.length > 0 && items.every(row => matching(row,next).some(parts=>parts.length===next.length));
     return [{label: leaf ? items[0].contest || items[0].name || name : next.at(-1), path: next, items, leaf}];
   });
   const comparable=new Map(result.filter(item=>item.leaf).map(item=>[item,{...item.items[0],rows:item.items}]));
@@ -90,7 +113,7 @@ export function contestOptions(events,{descending=true,shelf=''}={}) {
   const ensure=(parts)=>{let nodes=roots;for(const label of parts){let folder=nodes.find(node=>node.value===undefined&&node.label===label);if(!folder){folder={label,children:[]};nodes.push(folder);}nodes=folder.children;}return nodes;};
   if(!shelf)for(const name of catalogFolders())ensure([name]);
   if(events.some(item=>item.labTopic))ensure(['算法实验室']);
-  for(const item of events){const parts=catalogSegments({...item,contest:item.displayName||item.name}),nodes=ensure(parts.slice(0,-1));nodes.push({label:`${parts.at(-1)} · ${item.expectedCount||item.count} 题`,selectionLabel:`${item.displayName||item.name} · ${item.expectedCount||item.count} 题`,value:item.name,event:item});}
+  for(const item of events)for(const parts of catalogPaths({...item,contest:item.displayName||item.name})){const nodes=ensure(parts.slice(0,-1));nodes.push({label:`${parts.at(-1)} · ${item.expectedCount||item.count} 题`,selectionLabel:`${item.displayName||item.name} · ${item.expectedCount||item.count} 题`,value:item.name,event:item});}
   for(const root of roots)for(const name of catalogFolders([root.label]))ensure([root.label,name]);
   const compareNewest=createContestComparator();
   const sort=nodes=>{nodes.sort((a,b)=>a.event&&b.event?compareNewest(a.event,b.event)*(descending?1:-1):/^20\d{2}年$/.test(a.label)&&/^20\d{2}年$/.test(b.label)?b.label.localeCompare(a.label)*(descending?1:-1):folderOrder.compare(a.label,b.label));nodes.forEach(node=>node.children&&sort(node.children));};
@@ -101,7 +124,7 @@ export function contestFilterOptions(rows) {
  const roots=[];
  const ensure=path=>{let nodes=roots,node;for(let i=0;i<path.length;i++){const label=path[i];node=nodes.find(item=>item.label===label);if(!node){node={label,value:JSON.stringify(path.slice(0,i+1)),children:[]};nodes.push(node);}nodes=node.children;}return node;};
  for(const name of catalogFolders())ensure([name]);
- for(const row of rows)if(!row.catalogHidden){const leaf=ensure(catalogSegments(row));leaf.selectionLabel=row.contest||row.name||leaf.label;}
+ for(const row of rows)if(!row.catalogHidden)for(const parts of catalogPaths(row)){const leaf=ensure(parts);leaf.selectionLabel=row.contest||row.name||leaf.label;}
  for(const root of roots)for(const name of catalogFolders([root.label]))ensure([root.label,name]);
  const finish=nodes=>nodes.sort((a,b)=>folderOrder.compare(a.label,b.label)).map(node=>{const children=finish(node.children);return {...node,...(children.length?{children}:{children:undefined})};});
  return compactCatalogOptions(finish(roots));

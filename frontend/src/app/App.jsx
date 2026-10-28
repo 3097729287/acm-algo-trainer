@@ -1673,7 +1673,7 @@ export default function App() {
       <div className="list-page">
         {toolbar()}
         {renderTable(displayedRows)}
-        {page === "library" ? <PagePagination label="题库分页" count={`共 ${visible.length} 题`} page={currentLibraryPage} pages={libraryPages} previousLabel="题库上一页" nextLabel="题库下一页" onPrevious={()=>setLibraryPage(currentLibraryPage-1)} onNext={()=>setLibraryPage(currentLibraryPage+1)}/> : <div className="list-footer"><span role="status">共 {visible.length} 题</span></div>}
+        {page === "library" ? <PagePagination label="题库分页" count={`共 ${visible.length} 题`} page={currentLibraryPage} pages={libraryPages} onPageChange={setLibraryPage} previousLabel="题库上一页" nextLabel="题库下一页" onPrevious={()=>setLibraryPage(currentLibraryPage-1)} onNext={()=>setLibraryPage(currentLibraryPage+1)}/> : <div className="list-footer"><span role="status">共 {visible.length} 题</span></div>}
       </div>
     );
   }

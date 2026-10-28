@@ -8,7 +8,7 @@ import SortDirection from '@/components/SortDirection.jsx';
 import KnowledgeRadar from '@/components/KnowledgeRadar.jsx';
 import FilterMenu from '@/components/FilterMenu.jsx';
 import FolderSelect from '@/components/FolderSelect.jsx';
-import { contestFilterOptions } from '@/lib/contestCatalog.js';
+import { contestFilterOptions,contestYear } from '@/lib/contestCatalog.js';
 import { ArrowDown, ArrowUp, FolderTree } from 'lucide-react';
 import CatalogExplorer, { CatalogPath, catalogMatches } from '../components/CatalogExplorer.jsx';
 import Tooltip from '@/components/Tooltip.jsx';
@@ -120,7 +120,7 @@ function contestGroups(rows) {
   const map = new Map();
   for (const row of list(rows)) {
     const key = `${row.platform || ''}::${row.contest}`;
-    if (!map.has(key)) map.set(key, { key, name: row.contest, platform: row.platform, series: row.series, examYear: row.examYear ?? row.xcpcYear, examStage: row.examStage ?? row.xcpcKind, xcpc: isXcpc(row), notice: row.collectionNotice, rows: [] });
+    if (!map.has(key)) map.set(key, { key, name: row.contest, platform: row.platform, series: row.series, examYear: contestYear(row), examStage: row.examStage ?? row.xcpcKind, xcpc: isXcpc(row), notice: row.collectionNotice, rows: [] });
     map.get(key).rows.push(row);
   }
   return [...map.values()].map(group => ({ ...group, rows: withContestLetters(group.rows.sort((a, b) => String(a.problem).localeCompare(String(b.problem), 'en', { numeric: true }))) })).sort(compareContestNewest);
@@ -192,7 +192,7 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
     {joinError&&<p className="connection-error" role="alert">{joinError}</p>}
     {folder&&<CatalogPath scope={folder} onChange={setFolder}/>}<div className="catalog-list-heading" aria-label="比赛表头"><span>比赛 / 来源</span><span className="competition-heading-problems">题目</span>{onStartReproduction&&<span className="competition-heading-action" aria-hidden="true"/>}</div>
     {folder?<><CatalogExplorer paginate rows={filtered.flatMap(group=>group.rows.map(row=>({...row,groupKey:group.key})))} scope={folder} onChange={setFolder} onContest={row=>setSelected(row.groupKey)} renderContest={row=>renderCard(groups.find(group=>group.key===row.groupKey))}/></>:<div ref={listRef} className="competition-list">{visibleGroups.map(renderCard)}</div>}
-    {!folder&&filtered.length>0&&<PagePagination label="比赛分页" count={`共 ${filtered.length} 场`} page={currentPage} pages={pageCount} onPrevious={()=>setPage(currentPage-1)} onNext={()=>setPage(currentPage+1)}/>}
+    {!folder&&filtered.length>0&&<PagePagination label="比赛分页" count={`共 ${filtered.length} 场`} page={currentPage} pages={pageCount} onPageChange={setPage} onPrevious={()=>setPage(currentPage-1)} onNext={()=>setPage(currentPage+1)}/>}
     {!filtered.length&&<Empty><Flag size={24}/><span>没有匹配的比赛</span></Empty>}
   </div>;
 }

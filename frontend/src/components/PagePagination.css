@@ -6,6 +6,9 @@ html .page-pagination .pagination-actions button {display:inline-flex;align-item
 html .page-pagination .pagination-actions button>span {display:block;line-height:20px}
 html .page-pagination .pagination-actions svg {display:block;flex:none;width:15px;height:15px;margin:0}
 html .page-pagination .pagination-position {display:flex;align-items:center;justify-content:center;min-width:8ch;height:30px;padding-inline:2px;line-height:20px}
+html .page-pagination .pagination-page-input {box-sizing:content-box;min-width:2ch;height:24px;margin:0 4px;padding:0 5px;border:1px solid var(--line);border-radius:4px;background:var(--panel-2);color:var(--text);font:inherit;line-height:24px;text-align:center;user-select:text}
+html .page-pagination .pagination-page-input:focus {outline:1px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+html .page-pagination .pagination-page-input:disabled {opacity:.65}
 html .page-pagination .pagination-actions button:not(:disabled):hover {background:var(--accent-soft);color:var(--accent)}
 html .page-pagination .pagination-actions button:disabled {opacity:.35;cursor:default}
 html .activity-month-page>.activity-month-details {padding:0}

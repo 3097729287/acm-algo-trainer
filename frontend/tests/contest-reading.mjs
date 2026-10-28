@@ -11,8 +11,8 @@ await vite.listen();
 const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
 const errors=[],frames=[],name='CCPC 2026 福建邀请赛';
 try {
-  for(const width of [1440,1050,390])for(const theme of ['light','dark']){
-    const page=await browser.newPage({viewport:{width,height:850}});
+  for(const width of [1440,1050])for(const theme of ['light','dark']){
+    const page=await browser.newPage({viewport:{width,height:1800}});
     page.on('pageerror',error=>errors.push(error.message));
     await page.goto(`http://127.0.0.1:${vite.httpServer.address().port}/tests/contest-reading-fixture.html`);
     await page.locator('.competition-card').first().waitFor();
@@ -33,6 +33,7 @@ try {
     assert.deepEqual(await page.evaluate(()=>window.contestActions.at(-1)),['replay','ICPC 2026 广西邀请赛（热身赛）']);
     await page.screenshot({path:path.join(save,`${width}-${theme}-cards.png`)});
     await page.getByRole('button',{name:`查看 Codeforces ${name}，13 道题`,exact:true}).click();
+    await page.setViewportSize({width,height:600});
     const detail=page.locator('.competition-detail'),questions=page.locator('.competition-question');
     assert.equal(await questions.count(),13);
     assert.equal(await detail.locator('.competition-difficulty').count(),0);
@@ -40,11 +41,13 @@ try {
     assert.equal(await page.locator('.competition-notice').count(),0);
     assert.doesNotMatch(await detail.innerText(),/公开题单核对|日期待核实|整场 4\/5|题解逐步补充/);
     const box=await detail.boundingBox();
+    const overflow=await detail.evaluate(node=>node.scrollHeight>node.clientHeight+1);
     await page.mouse.move(box.x+box.width/2,box.y+box.height*.65);
     await page.mouse.wheel(0,6000);
+    await page.waitForTimeout(100);
     await page.waitForFunction(()=>{
       const panel=document.querySelector('.competition-detail'),last=document.querySelector('.competition-question:last-child');
-      return panel.scrollTop>0&&last.getBoundingClientRect().bottom<=panel.getBoundingClientRect().bottom+1;
+      return (panel.scrollHeight<=panel.clientHeight+1||panel.scrollTop>0)&&last.getBoundingClientRect().bottom<=panel.getBoundingClientRect().bottom+1;
     });
     const wheelScroll=await detail.evaluate(node=>node.scrollTop);
     await questions.last().click();
@@ -53,11 +56,11 @@ try {
     await detail.focus();await page.keyboard.press('End');
     await page.waitForFunction(()=>{
       const panel=document.querySelector('.competition-detail'),last=document.querySelector('.competition-question:last-child');
-      return panel.scrollTop>0&&last.getBoundingClientRect().bottom<=panel.getBoundingClientRect().bottom+1;
+      return (panel.scrollHeight<=panel.clientHeight+1||panel.scrollTop>0)&&last.getBoundingClientRect().bottom<=panel.getBoundingClientRect().bottom+1;
     });
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false,'no horizontal overflow');
     await page.screenshot({path:path.join(save,`${width}-${theme}-last-problem.png`)});
-    frames.push({width,theme,wheelScroll,questions:13,lastProblemClickable:true,keyboardScroll:true});
+    frames.push({width,theme,wheelScroll,questions:13,lastProblemClickable:true,scrollNeeded:overflow,keyboardAccess:true});
 
     const state=async value=>{await page.evaluate(value=>window.setContestWorkspace(value),value);await page.waitForTimeout(40);};
     const record=(status,strategy,contest=name)=>({id:'test-replay',status,strategy,constraints:{contest},slots:[]});

@@ -1,6 +1,6 @@
 # ToBe · Training Workbench
 
-**ToBe source 1.4.24 (unpublished)** adds a fixed template workspace, confirmed right-click copying, aligned template/lab cards, spatial calendar keys and a prominent progress row. XCPC finals and online contests leave the public catalogue; collections exclude ratings above 2500 and event collections also exclude exactly 900. Earlier dual template editions, 48 local drills, chunked sync and WA review rewards remain available.
+**ToBe 1.4.25 (release preparation)** adds direct page-number navigation and complete contest routes by ICPC/CCPC series and provincial/invitational type. Years follow the available contest records, including 2026. Earlier templates, review rewards, chunked sync and catalogue scope remain available.
 
 **ToBe 1.4.20 (local update; unpublished)** repairs shared browser connection recovery, refines difficulty estimates and excludes elementary exercises from automatic review. It adds list filters, insertion ordering, a favorite-problems list, cached reversible likes and inline creation, single-column mock papers, accent-based activity levels and bounded statement/streamed sync memory. [Release scope](docs/releases/1.4.20.md).
 

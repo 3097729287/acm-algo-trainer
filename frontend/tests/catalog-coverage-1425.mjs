@@ -1,0 +1,35 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {catalogSegments,catalogPaths,catalogEntries,catalogPathMatches,contestYear,contestOptions,contestFilterOptions} from '../src/lib/contestCatalog.js';
+const provincial={id:'province',contest:'CCPC 2026 黑龙江区域赛',contestFullName:'CCPC2026黑龙江省大学生程序设计竞赛',series:'XCPC',platform:'Codeforces',eventYear:2026};
+const mixed={id:'mixed',contest:'CCPC 2026 福建邀请赛',contestFullName:'2026 National Invitational of CCPC and Fujian Provincial Contest',series:'XCPC',platform:'Codeforces',examYear:2026};
+const metadataYear={id:'year',contest:'ICPC 区域赛',series:'XCPC',platform:'牛客',xcpcYear:2027};
+assert.equal(contestYear(metadataYear),'2027');
+assert.equal(contestYear({contest:'2025-2026 赛季',eventYear:2026}),'2026');
+assert.deepEqual(catalogPaths(provincial).map(parts=>parts[1]),['省赛','CCPC']);
+for(const type of ['CCPC','省赛','邀请赛'])assert(catalogPathMatches(mixed,['ACM',type,'2026年']));
+assert(catalogEntries([provincial,mixed],['ACM','CCPC']).some(e=>e.label==='2026年'&&e.items.length===2));
+assert.equal(catalogEntries([provincial,mixed],[]).find(e=>e.label==='ACM').items.length,2,'alternate entries must not duplicate root rows');
+const snapshot=JSON.stringify(provincial);catalogPaths(provincial);assert.equal(JSON.stringify(provincial),snapshot);
+const source=JSON.parse(fs.readFileSync(new URL('../../data/library/problems.json',import.meta.url),'utf8')).map(p=>p.encoded);
+const actual=source.filter(row=>!row.catalogHidden&&!['luogu-training','algorithm-lab','algorithm-lab-curation'].includes(row.source));
+const byParent=new Map();let memberships=0;
+for(const row of actual)for(const path of catalogPaths(row)){
+ assert(catalogPathMatches(row,path));
+ const parent=path.slice(0,-1),key=JSON.stringify(parent);
+ if(!byParent.has(key))byParent.set(key,catalogEntries(actual,parent));
+ assert(byParent.get(key).some(e=>e.items.some(p=>p.id===row.id)),`${row.id} missing under ${key}`);
+ memberships++;
+}
+const representatives=[...new Map(actual.map(row=>[row.contest,row])).values()];
+const events=representatives.map(row=>({...row,name:row.contest,count:source.filter(r=>r.contest===row.contest).length}));
+const values=nodes=>nodes.flatMap(node=>node.children?values(node.children):[node.value]);
+const options=new Set(values(contestOptions(events)));
+for(const row of representatives)assert(options.has(row.contest),`replay selector missing ${row.contest}`);
+const filters=new Set(values(contestFilterOptions(actual)));
+for(const row of actual)for(const path of catalogPaths(row))assert(filters.has(JSON.stringify(path)),`${row.id} filter missing`);
+const summary={passed:true,eligibleRows:actual.length,events:representatives.length,pathsChecked:memberships,ccpc2026:catalogEntries(actual,['ACM','CCPC','2026年']).flatMap(e=>e.items.map(r=>r.contest))};
+summary.ccpc2026=[...new Set(summary.ccpc2026)];
+assert(summary.ccpc2026.some(name=>name.includes('黑龙江')));
+fs.mkdirSync('../.backups/local-1425',{recursive:true});fs.writeFileSync('../.backups/local-1425/catalog-coverage.json',JSON.stringify(summary,null,2));
+console.log(JSON.stringify(summary));
