@@ -150,6 +150,7 @@ const PAGES = [
   { id: "paths", label: "算法实验室", icon: FlaskConical, key: "3" },
   { id: "rankings", label: "排行榜", icon: ListOrdered, key: "" },
 ];
+const GUIDE_VERSION = 1;
 const DEFAULTS = {
   panelStyle: "outlined",
   backdrop: "none",
@@ -165,6 +166,7 @@ const DEFAULTS = {
   collapsed: false,
   showPlatforms: true,
   onboardingCompleted: false,
+  onboardingGuideVersion: 0,
   favorites: [],
   views: [],
   readerWidth: 520,
@@ -196,6 +198,7 @@ function normalizePreferences(saved) {
     }
     preferences.learnedLectures=Array.isArray(preferences.learnedLectures)?[...new Set(preferences.learnedLectures.filter(value=>typeof value==='string'))]:[];
     preferences.difficultyDisplay=preferences.difficultyDisplay==='text'?'text':'number';
+    preferences.onboardingGuideVersion=Number.isSafeInteger(preferences.onboardingGuideVersion)&&preferences.onboardingGuideVersion>=0&&preferences.onboardingGuideVersion<=1000?preferences.onboardingGuideVersion:0;
     preferences.motion = true;
     preferences.navSchema = 2;
     preferences.navGroups = { ...preferences.navGroups };
@@ -630,16 +633,19 @@ export default function App() {
   const preferencesBaseline = useRef(prefs);
   const [preferencesRevision, setPreferencesRevision] = useState(0);
   useEffect(() => {
-    if (!loading && preferencesLoaded.current && !window.__tbAdmin && (window.__tbNewAccount || account?.createdAt) && !prefs.onboardingCompleted && !dialog && !automaticTourStarted.current) {
+    if (!loading && preferencesLoaded.current && account?.userId && prefs.onboardingGuideVersion<GUIDE_VERSION && !dialog && !automaticTourStarted.current) {
       automaticTourStarted.current=true;setTourContext('overview');setTourOpen(true);
     }
-  }, [loading, preferencesRevision, prefs.onboardingCompleted, dialog,account?.createdAt]);
+  }, [loading, preferencesRevision, prefs.onboardingGuideVersion, dialog,account?.userId]);
+  function markGuideShown() {
+    setPrefs(previous=>previous.onboardingGuideVersion>=GUIDE_VERSION?previous:{...previous,onboardingGuideVersion:GUIDE_VERSION});
+  }
   function finishOnboarding(overviewCompleted=true) {
     setTourOpen(false);
     if(!overviewCompleted)return;
     window.__tbNewAccount = false;
     try { sessionStorage.removeItem(`tb.onboarding.pending.${(window.__tbAccount?.loginId || '').toLowerCase()}`); } catch { /* Optional device hint. */ }
-    setPrefs(previous => ({ ...previous, onboardingCompleted: true }));
+    setPrefs(previous => ({ ...previous, onboardingCompleted: true, onboardingGuideVersion:Math.max(previous.onboardingGuideVersion,GUIDE_VERSION) }));
     setDialog(null);
   }
   function openGuide(guide='catalog') {
@@ -704,6 +710,7 @@ export default function App() {
                 ...(Array.isArray(loaded.seenAchievements) ? loaded.seenAchievements : []),
                 ...(Array.isArray(previous.seenAchievements) ? previous.seenAchievements : []),
               ])];
+              merged.onboardingGuideVersion=Math.max(loaded.onboardingGuideVersion,previous.onboardingGuideVersion);
               return merged;
             });
           }
@@ -2076,7 +2083,7 @@ export default function App() {
       {dialog === "daily-tasks" && <Modal title="每日任务" onClose={() => setDialog(null)} wide><DailyTasks dailyTasks={insights?.dailyTasks} onClaim={async (id, date) => { try { const result = await api("daily-tasks/claim", { id, date }); backgroundSeq.current++; setInsights(previous => ({ ...previous, dailyTasks: result.dailyTasks })); notice("经验已领取", "success"); void refreshBackground(true); } catch (issue) { notice(issue.message, "error"); throw issue; } }} /></Modal>}
       {dialog === 'contest-calendar' && <Modal title="比赛日历" onClose={()=>setDialog(null)} wide><ContestCalendar calendar={calendar} onOpen={async contest=>{await reload();setCalendarContest(contest.import?.title||contest.title);setDialog(null);go("competitions");}}/></Modal>}
       {dialog === "avatar" && <Modal title="修改头像" onClose={()=>setDialog(null)}><Suspense fallback={<p role="status">正在读取…</p>}><AvatarSettings prefs={prefs} setPrefs={setPrefs} onError={message=>notice(message,"error")}/></Suspense></Modal>}
-      {tourOpen && <Suspense fallback={null}><Onboarding key={tourContext} initialGuide={tourContext} practiceId={practiceId||(mockFocus?currentMockSlot?.id:null)} onComplete={finishOnboarding} onDirectory={()=>openGuide('catalog')} onNavigate={(target,tab)=>{go(target);if(target==="settings")setSettingsTab(tab||"home");}}/></Suspense>}
+      {tourOpen && <Suspense fallback={null}><Onboarding key={tourContext} initialGuide={tourContext} practiceId={practiceId||(mockFocus?currentMockSlot?.id:null)} onShown={markGuideShown} onComplete={finishOnboarding} onDirectory={()=>openGuide('catalog')} onNavigate={(target,tab)=>{go(target);if(target==="settings")setSettingsTab(tab||"home");}}/></Suspense>}
       {dialog === "achievements" && <Modal title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => setDialog(null)} wide><AchievementPanel achievements={achievements} newIds={unseenAchievements.map(item => item.id)} onSeen={markAchievementSeen} /></Modal>}
       {dialog === "submission" && selectedSubmission && <Modal title={selectedSubmission.title + " · 历史提交"} onClose={() => setDialog(null)} wide footer={<button className="primary" onClick={() => { setDialog(null); openPractice(selectedSubmission.problemId); }}><Play size={14} />继续练习</button>}><div className="submission-detail-meta"><Verdict value={selectedSubmission.verdict} /><span>{formatDate(selectedSubmission.submittedAt)}</span><span>{selectedSubmission.contestName}</span></div><HistoricalCode submission={selectedSubmission} api={api}/>{selectedSubmission.message && <p className="submission-message">{selectedSubmission.message}</p>}</Modal>}
       {dialog === "updates" && (

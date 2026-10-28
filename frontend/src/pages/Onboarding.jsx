@@ -17,11 +17,12 @@ const STEPS = [
   { page: 'settings', target: '.settings-home-grid', title: '完成入门', text: '点击头像可以更换图片。设置中可调整外观、导航、每页题数与快捷键；新手指引直接列出入门总览和各页图标，点击对应图标可继续了解雷达、段位、勋章和更多操作。' },
 ];
 
-export default function Onboarding({ onComplete, onNavigate, onDirectory, practiceId,initialGuide='overview' }) {
+export default function Onboarding({ onComplete, onNavigate, onDirectory, onShown, practiceId,initialGuide='overview' }) {
   const [guide]=useState(initialGuide);
   const [step, setStep] = useState(0), [rect, setRect] = useState(null), [position, setPosition] = useState({});
   const steps=guide==='overview'?STEPS:PAGE_GUIDES[guide]||[],current=steps[step],card = useRef(null), callbacks = useRef({ onNavigate, onComplete });
-  callbacks.current = { onNavigate, onComplete,guide };
+  callbacks.current = { onNavigate, onComplete,onShown,guide };
+  useEffect(()=>{callbacks.current.onShown?.();},[]);
   const finish=()=>onComplete(guide==='overview');
   useEffect(() => { if (current?.page) callbacks.current.onNavigate(current.page,current.tab);card.current?.querySelector('h3')?.focus({preventScroll:true}); }, [step,guide]);
   useEffect(() => {

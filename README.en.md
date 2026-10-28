@@ -1,6 +1,6 @@
 # ToBe · Training Workbench
 
-**ToBe 1.4.27 (release preparation)** shows the guide directory directly in Settings, using matching page icons and aligned cards. Stable downloads remain 1.4.26 until publication. [Release scope](docs/releases/1.4.27.md).
+**ToBe 1.4.27 (release preparation)** shows an aligned guide directory with existing page icons. New and existing accounts automatically see the guide on their first sign-in after this update; registration signs in automatically. A per-account acknowledgement prevents repeat displays. Stable downloads remain 1.4.26 until publication. [Release scope](docs/releases/1.4.27.md).
 
 **ToBe 1.4.26** repairs updates before login and old saved-session recovery, removes missed foreign contests, and aligns the template, laboratory, submission and growth views. [Changes and validation](docs/releases/1.4.26.md).
 

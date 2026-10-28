@@ -70,6 +70,9 @@ export default function AccountGate({ children }) {
         try { sessionStorage.setItem(`tb.onboarding.pending.${registeredLogin.current}`, '1'); } catch { /* Optional device hint. */ }
         setLoginId(result.loginId); setMode('login'); setPassword(''); setConfirmation(''); setVisible(false);
         setMessage('注册成功，请用登录号和密码登录。');
+        const authenticated = await request('account/login', { loginId: result.loginId, password }, session.token);
+        window.__tbNewAccount = true;
+        setMessage(''); setSession(authenticated);
       } else {
         const result = await request('account/login', { loginId: loginId.trim(), password }, session.token);
         window.__tbNewAccount = registeredLogin.current === loginId.trim().toLowerCase();

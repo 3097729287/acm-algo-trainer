@@ -157,7 +157,7 @@ def merge_states(remote, local, baseline=None):
             elif table == 'ranking_reward_totals':
                 winner['total_xp'] = max(old['total_xp'], row['total_xp'])
             elif table == 'account_preferences' and winner.get('key') == 'ui':
-                from preferences import merge_seen_achievements
+                from preferences import merge_onboarding_versions, merge_seen_achievements
                 try:
                     left, right = json.loads(old['value']), json.loads(row['value'])
                 except (ValueError, TypeError):
@@ -168,6 +168,8 @@ def merge_states(remote, local, baseline=None):
                         preferences['seenAchievements'] = merge_seen_achievements(left.get('seenAchievements'), right.get('seenAchievements'))
                     if left.get('onboardingCompleted') is True or right.get('onboardingCompleted') is True:
                         preferences['onboardingCompleted'] = True
+                    if 'onboardingGuideVersion' in left or 'onboardingGuideVersion' in right:
+                        preferences['onboardingGuideVersion'] = merge_onboarding_versions(left.get('onboardingGuideVersion'), right.get('onboardingGuideVersion'))
                     winner['value'] = encoded(preferences)
             rows[key] = winner
         result['tables'][table] = list(rows.values())

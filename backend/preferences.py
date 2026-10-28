@@ -7,7 +7,7 @@ import re
 from training import ServiceError, iso
 
 ALLOWED = frozenset(('panelStyle', 'backdrop', 'panelOpacity', 'pageOpacities', 'widgets', 'theme', 'accent', 'motion', 'compact', 'collapsed', 'favorites', 'views',
-                     'readerWidth', 'fontSize', 'difficultyDisplay', 'learnedLectures', 'libraryPageSize', 'navOrder', 'navLabels', 'navGroups', 'seenAchievements', 'showPlatforms', 'onboardingCompleted', 'avatarData', 'navSchema', 'learningPaths', 'shortcuts'))
+                     'readerWidth', 'fontSize', 'difficultyDisplay', 'learnedLectures', 'libraryPageSize', 'navOrder', 'navLabels', 'navGroups', 'seenAchievements', 'showPlatforms', 'onboardingCompleted', 'onboardingGuideVersion', 'avatarData', 'navSchema', 'learningPaths', 'shortcuts'))
 AVATAR_DATA_MAX_BYTES = 48 * 1024
 
 
@@ -97,6 +97,8 @@ def save_preferences(training, body):
     for name in ('showPlatforms', 'onboardingCompleted'):
         if name in value and type(value[name]) is not bool:
             raise ServiceError(400, '界面选项格式无效')
+    if 'onboardingGuideVersion' in value and (type(value['onboardingGuideVersion']) is not int or not 0 <= value['onboardingGuideVersion'] <= 1000):
+        raise ServiceError(400, '界面选项格式无效')
     if 'panelOpacity' in value and (type(value['panelOpacity']) is not int or not 0 <= value['panelOpacity'] <= 100):
         raise ServiceError(400, '面板不透明度须为 0–100')
     if 'fontSize' in value and (type(value['fontSize']) is not int or not 13 <= value['fontSize'] <= 22):
@@ -132,6 +134,9 @@ def save_preferences(training, body):
         if previous.get('onboardingCompleted'):
             value['onboardingCompleted'] = True
             text = json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False)
+        if 'onboardingGuideVersion' in previous or 'onboardingGuideVersion' in value:
+            value['onboardingGuideVersion'] = merge_onboarding_versions(previous.get('onboardingGuideVersion'), value.get('onboardingGuideVersion'))
+            text = json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False)
         if 'seenAchievements' in previous or 'seenAchievements' in value:
             value['seenAchievements'] = merge_seen_achievements(previous.get('seenAchievements'), value.get('seenAchievements'))
             text = json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False)
@@ -152,6 +157,10 @@ def save_preferences(training, body):
                 for identity in set(value.get('learnedLectures',[]))-set(previous.get('learnedLectures',[])):
                     record_action(connection,'learn',stamp,identity)
         return read_preferences(training)
+
+
+def merge_onboarding_versions(*values):
+    return max((value for value in values if type(value) is int and 0 <= value <= 1000), default=0)
 
 
 def merge_seen_achievements(*values):

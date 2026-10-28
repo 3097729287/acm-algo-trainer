@@ -28,6 +28,37 @@ class AccountPreferencesTests(unittest.TestCase):
         self.service = TrainingService(self.library, self.db, self.assets, self.judge, self.clock, self.root/'backups')
         self.assertEqual(read_preferences(self.service), result)
 
+    def test_guide_rollout_version_survives_restart_and_stale_older_client_saves(self):
+        save_preferences(self.service, {'preferences': {'onboardingCompleted': True}})
+        self.assertNotIn('onboardingGuideVersion', read_preferences(self.service)['preferences'])
+        save_preferences(self.service, {'preferences': {'onboardingGuideVersion': 1}})
+        self.service.close()
+        from training import TrainingService
+        self.service = TrainingService(self.library, self.db, self.assets, self.judge, self.clock, self.root/'backups')
+        self.assertEqual(read_preferences(self.service)['preferences']['onboardingGuideVersion'], 1)
+        for stale in ({'theme': 'light'}, {'onboardingGuideVersion': 0}):
+            self.assertEqual(save_preferences(self.service, {'preferences': stale})['preferences']['onboardingGuideVersion'], 1)
+        self.assertEqual(save_preferences(self.service, {'preferences': {'onboardingGuideVersion': 2}})['preferences']['onboardingGuideVersion'], 2)
+
+    def test_guide_rollout_version_rejects_invalid_values_without_writing(self):
+        for invalid in (True, False, -1, 1001, 1.0, '1', None, {}, []):
+            with self.subTest(value=invalid), self.assertRaises(ServiceError):
+                save_preferences(self.service, {'preferences': {'onboardingGuideVersion': invalid}})
+        self.assertIsNone(read_preferences(self.service)['preferences'])
+
+    def test_guide_rollout_version_merge_does_not_reset_when_other_computer_is_older(self):
+        from account_sync import baselines, merge_states
+        def state(value, stamp):
+            return {'tables': {'account_preferences': [{'key': 'ui', 'value': json.dumps(value), 'updated_at': stamp}]}, 'publicAccounts': {}}
+        original = state({'onboardingCompleted': True}, '2026-10-28T00:00:00Z')
+        seen = state({'onboardingGuideVersion': 1, 'theme': 'dark'}, '2026-10-29T00:00:00Z')
+        stale = state({'onboardingCompleted': True, 'theme': 'light'}, '2026-10-29T01:00:00Z')
+        for left, right in ((seen, stale), (stale, seen)):
+            merged = merge_states(left, right, baselines(original))
+            value = json.loads(merged['tables']['account_preferences'][0]['value'])
+            self.assertEqual(value['onboardingGuideVersion'], 1)
+            self.assertEqual(value['theme'], 'light')
+
     def test_editable_shortcuts_survive_restart_and_reject_invalid_maps(self):
         value = {'shortcuts': {'search': 'Ctrl+G', 'solution': '', 'save': 'Ctrl+Shift+S'}, 'panelOpacity': 100}
         result = save_preferences(self.service, {'preferences': value})
