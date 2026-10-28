@@ -1,16 +1,20 @@
 .templates-page {min-width:0;min-height:0;flex:1}
-.templates-page .template-detail {padding:16px 22px;max-width:1400px;margin:auto}
-.template-heading {display:flex;align-items:center;gap:10px;margin-bottom:18px}
-.template-heading h2 {flex:1;margin:0;min-width:0;overflow-wrap:anywhere}
+.templates-page.template-detail-open {display:flex;flex-direction:column;height:100%;overflow:hidden;padding:0}
+.templates-page .template-detail {display:flex;flex-direction:column;flex:1;min-height:0;box-sizing:border-box;width:100%;height:100%;padding:18px 24px;overflow:hidden}
+.template-heading {display:flex;flex:none;align-items:center;gap:10px;margin:0;min-width:0}
+.template-heading h2 {flex:1;min-width:0;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.template-heading>.icon-button,.template-language {flex:none}
 .template-language {font-size:.85em;color:var(--muted);white-space:nowrap}
-.template-fields {display:grid;grid-template-columns:2fr 1fr 110px;gap:12px;margin:12px 0}
+.template-fields {display:grid;flex:none;grid-template-columns:2fr 1fr 110px;gap:12px;margin:12px 0}
 .template-fields>input {min-width:0;width:100%}
-.template-notes {line-height:1.8;color:var(--muted);margin:12px 0 20px}
-.template-detail>textarea {box-sizing:border-box;width:100%;min-height:72px;resize:vertical;margin:0 0 16px}
-.template-code {height:clamp(320px,58vh,800px);min-height:240px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--panel)}
+.template-notes {flex:none;line-height:1.65;color:var(--muted);margin:12px 0 16px}
+.template-detail>textarea {flex:none;box-sizing:border-box;width:100%;height:72px;max-height:25dvh;resize:vertical;margin:12px 0 16px}
+.template-code {flex:1;min-height:0;height:auto;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--panel)}
+.template-example {flex:none;min-width:0;margin-top:12px}
+.template-example>.markdown,.template-example .code-block {margin:0}
+.template-example .code-block pre {max-height:none;overflow-x:auto;overflow-y:hidden;font-size:.85rem;line-height:1.5}
 .template-symbol {color:var(--accent)}
 .template-catalog .lab-panel {min-width:0}
-.template-catalog .lab-course-options {margin-top:auto;gap:10px}
 .template-catalog h3 {overflow-wrap:anywhere}
 .template-tools {grid-column:1/-1;display:flex;align-items:center;gap:10px}
 .templates-embedded {height:100%;max-height:100%;padding:0}
@@ -18,6 +22,6 @@
 .templates-embedded .template-catalog {grid-template-columns:repeat(auto-fit,minmax(225px,1fr));padding:16px}
 @media(max-width:750px){.templates-page .template-detail{padding:12px}.template-fields{grid-template-columns:1fr}.template-heading{gap:5px}.template-heading h2{font-size:1.05em}.template-language{display:none}}
 
-html .template-focus .workspace-area {padding:0}html .template-focus .templates-page {padding:0}html .template-focus .template-detail {max-width:none;width:100%;padding:18px 24px}html .template-focus .template-code {height:calc(100dvh - 180px);min-height:360px}
+html .template-focus .workspace-area {padding:0}
 
-.template-editions{display:flex;align-items:center;gap:8px;margin:8px 0 12px}.template-editions>button[aria-pressed=true]{color:var(--accent);border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent)}.template-editions .icon-button{display:inline-flex;align-items:center;gap:3px}.template-editions small{font-size:11px}.template-focus .template-code{height:calc(100dvh - 215px)}
+.template-editions{display:flex;flex:none;align-items:center;gap:8px;margin:0}.template-editions>button[aria-pressed=true]{color:var(--accent);border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent)}.template-editions .icon-button{display:inline-flex;align-items:center;gap:3px}.template-editions small{font-size:11px}

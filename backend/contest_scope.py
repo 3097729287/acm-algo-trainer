@@ -7,9 +7,11 @@ import re
 import json
 from functools import lru_cache
 
-VERSION = 'china-xcpc-20261028-v1'
+VERSION = 'china-xcpc-20261028-v2'
 _XCPC = re.compile(r'\b(?:ICPC|CCPC|XCPC|ACM|N[WE]ERC|S[WE]ERC|SEERC|NCPC|GCPC|NAC|ECNA|CERC|NEERC)\b|Collegiate Programming|大学生.*程序设计', re.I)
 _WORLD = re.compile(r'World\s*Finals?|全球总决赛|\bWF\b', re.I)
+_FINALS = re.compile(r'决赛|\bFinals?\b', re.I)
+_ONLINE = re.compile(r'网络(?:预选|资格|选拔)?赛|\bOnline\b', re.I)
 _FOREIGN = re.compile(
     r'东南欧|西南欧|西北欧|中欧|北欧|北美|南美|拉丁美洲|东西伯利亚|俄罗斯|乌拉尔|莫斯科|'
     r'德国|瑞士|希腊|哥伦比亚|墨西哥|巴西|玻利维亚|吉尔吉斯斯坦|叙利亚|'
@@ -42,4 +44,5 @@ def excluded(row):
     # Mirror prefixes may be preceded by another source label, e.g. HNOI/WF.
     events += re.findall(r'\[([^\]\n]+)\]|【([^】\n]+)】', title)
     text = ' '.join(' '.join(value) if isinstance(value, tuple) else value for value in events)
-    return bool(_XCPC.search(text) and (_WORLD.search(text) or _FOREIGN.search(text)))
+    return bool(_XCPC.search(text) and (_WORLD.search(text) or _FOREIGN.search(text)
+                                      or _FINALS.search(text) or _ONLINE.search(text)))

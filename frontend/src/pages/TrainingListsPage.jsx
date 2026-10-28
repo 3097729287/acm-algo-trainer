@@ -12,7 +12,7 @@ import {ListPlus} from 'lucide-react';
 import {LikeBurst} from '@/components/Social.jsx';
 import TrainingListEditor from './TrainingListEditor.jsx';
 import PopConfirm from '@/components/PopConfirm.jsx';
-import {buildTrainingCurriculum} from '@/lib/trainingCurriculum.js';
+import {buildTrainingCurriculum,filterTrainingListsScope} from '@/lib/trainingCurriculum.js';
 import SortDirection from '@/components/SortDirection.jsx';
 import {compareProblemDifficulty} from '@/lib/problemOrder.js';
 import PageSearch from '@/components/PageSearch.jsx';
@@ -76,7 +76,7 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
   }, [state, canBack]);
 
   useEffect(()=>{const changed=()=>setAttempt(value=>value+1);window.addEventListener('tb:training-lists-changed',changed);return()=>window.removeEventListener('tb:training-lists-changed',changed);},[]);
-  const organized = useMemo(() => {const original=organizeTrainingLists((lists || []).filter(list=>!list.custom));const favorites=new Set(prefs.favorites||[]);const favorite={id:'personal:favorites',title:'我的收藏题单',displayTitle:'我的收藏题单',virtual:true,available:true,aggregateChildren:false,children:[],categories:[{id:'personal',name:'我的题单',order:-1}],topicPath:[],problems:rows.filter(row=>[row.id,...row.aliasIds||[]].some(id=>favorites.has(id))).map(row=>({problemId:row.id,pid:row.problem,url:row.url,sections:[]}))};return [...(state.mode==='source'?original:buildTrainingCurriculum(original,rows)),favorite,...(lists||[]).filter(list=>list.custom).map(list=>({...list,displayTitle:list.title,sourceLabel:'',topicPath:['我的题单']}))];}, [lists, rows, state.mode,prefs.favorites]);
+  const organized = useMemo(() => {const original=filterTrainingListsScope(organizeTrainingLists((lists || []).filter(list=>!list.custom)),rows);const favorites=new Set(prefs.favorites||[]);const favorite={id:'personal:favorites',title:'我的收藏',displayTitle:'我的收藏',virtual:true,available:true,aggregateChildren:false,children:[],categories:[{id:'personal',name:'我的题单',order:-1}],topicPath:[],problems:rows.filter(row=>[row.id,...row.aliasIds||[]].some(id=>favorites.has(id))).map(row=>({problemId:row.id,pid:row.problem,url:row.url,sections:[]}))};return [...filterTrainingListsScope([...(state.mode==='source'?original:buildTrainingCurriculum(original,rows)),...(lists||[]).filter(list=>list.custom).map(list=>({...list,displayTitle:list.title,sourceLabel:'',topicPath:['我的题单']})),favorite],rows)];}, [lists, rows, state.mode,prefs.favorites]);
   const index = useMemo(() => trainingIndex(organized, rows), [organized, rows]);
   const active = index.byList.get(state.trail.at(-1));
   const search = state.query.trim().toLocaleLowerCase();

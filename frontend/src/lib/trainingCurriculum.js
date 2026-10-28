@@ -44,6 +44,21 @@ const UNITS=[
 ];
 const ADVANCED=/后缀结构|后缀与回文综合|后缀自动机|后缀数组|\bSAM\b|多项式|生成函数|FFT|NTT|莫比乌斯|杜教筛|洲阁筛|Min_25|动态树|可持久化|主席树|圆方树|点分治|点分树|虚树|轮廓线|Slope Trick|wqs|李超树|线性基|半平面交|网络流与匹配|网络流|费用流|最大流/i;
 const keyOf=(item,row)=>row?.id||item.problemId||item.url||item.pid;
+// Scope is limited to collections; the public library and private evidence stay
+// intact. Resolve original IDs, aliases and URL entries before reading ratings.
+export function filterTrainingListsScope(lists,rows) {
+ const byId=new Map(),byUrl=new Map();
+ for(const row of rows){for(const id of [row.id,...row.aliasIds||[]])byId.set(id,row);if(row.url)byUrl.set(row.url.replace(/\/$/,''),row);}
+ return lists.map(list=>{
+  const event=list.topicPath?.includes('赛事真题')||list.displayTitle==='赛事真题'||list.title==='赛事真题';
+  const problems=(list.problems||[]).filter(item=>{
+   const row=byId.get(item.problemId)||byUrl.get(item.url?.replace(/\/$/,''));
+   const rating=row?problemDifficulty(row):null;
+   return rating==null||rating<=2500&&(!event||rating!==900);
+  });
+  return {...list,problems,problemCount:problems.length};
+ });
+}
 // Classify the source topic first. Substring matching alone sends 树状数组 to
 // 数组, 拓扑排序 to 排序, and BFS to the generic 搜索/DFS unit.
 function classify(list,row) {

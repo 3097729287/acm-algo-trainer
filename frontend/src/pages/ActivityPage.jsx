@@ -34,17 +34,20 @@ export default function ActivityPage({insights}) {
   setYear(searchedDate.slice(0,4));
   setSelected(searchedDate);setPage(1);
  },[searchedDate]);
- useEffect(()=>{
-  const move=event=>{
-   if(event.defaultPrevented||event.altKey||event.ctrlKey||event.metaKey||!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key)||event.target.closest?.('input,textarea,select,[contenteditable=true],dialog,.tb-select-menu'))return;
-   if(!allDays.length||!event.target.closest?.('.activity-continuous-grid'))return;
-   const index=cells.indexOf(selected),delta={ArrowLeft:-grid.rows,ArrowRight:grid.rows,ArrowUp:-1,ArrowDown:1}[event.key];
-   let next=Math.max(0,Math.min(cells.length-1,index+delta));
-   while(!cells[next]&&next>=0&&next<cells.length)next+=Math.sign(delta);
-   event.preventDefault();pick(cells[next]||allDays.at(-1));
-  };
-  window.addEventListener('keydown',move);return()=>window.removeEventListener('keydown',move);
- },[allDays,cells,selected,grid.rows]);
+ const moveCell=event=>{
+  const direction={ArrowLeft:[0,-1],ArrowRight:[0,1],ArrowUp:[-1,0],ArrowDown:[1,0]}[event.key];
+  if(!direction||event.defaultPrevented||event.altKey||event.ctrlKey||event.metaKey)return;
+  event.preventDefault();event.stopPropagation();
+  const focused=event.target.closest?.('[role=gridcell]'),day=focused?.getAttribute('data-date')||selected,index=cells.indexOf(day);
+  if(index<0)return;
+  const [dr,dc]=direction,columns=Math.ceil(cells.length/grid.rows);
+  let row=index%grid.rows+dr,column=Math.floor(index/grid.rows)+dc;
+  while(row>=0&&row<grid.rows&&column>=0&&column<columns){
+   const next=cells[column*grid.rows+row];
+   if(next){pick(next);return;}
+   row+=dr;column+=dc;
+  }
+ };
  useLayoutEffect(()=>{
   if(!gridRef.current||!tableRef.current)return;
   const resize=()=>{
@@ -70,8 +73,8 @@ export default function ActivityPage({insights}) {
   <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索活动日期" value={query} aria-invalid={invalid||undefined} onChange={event=>setQuery(event.target.value)}/></label></PageSearch>
   <section className="progress-section activity-month-panel" aria-label="全年训练日历">
    <header className="activity-month-heading"><h2><CalendarDays size={18}/>训练日历<Tooltip label="训练日历说明" text="所选年份的 1 月 1 日至 12 月 31 日，日期从上到下、再向右排列。月初以短线标记。按北京时间统计每道题第一次原站 AC，重做不增加过题数。每天 10 题满格，每 2 题加深一档，共 5 档，同一强调色系；超过 10 题在格内显示超额题数。点击查看当天，方向键切换日期；下方明细随所选日期切换月份。"/></h2><label className="activity-month-picker"><span>年份</span><ThemedSelect aria-label="活动年份" value={year} onChange={event=>changeYear(event.target.value)}>{years.map(value=><option key={value} value={value}>{value}年</option>)}</ThemedSelect></label></header>
-   <div ref={gridRef} className="activity-square-viewport"><div className="activity-month-grid activity-continuous-grid" role="grid" aria-colcount={grid.columns} aria-rowcount={grid.rows} aria-label="全年连续训练日历，方向键切换日期" style={{gridTemplateColumns:`repeat(${grid.columns},${grid.size}px)`,gridTemplateRows:`repeat(${grid.rows},${grid.size}px)`,gridAutoFlow:'column','--activity-cell-size':`${grid.size}px`}}>
-    {cells.map((day,index)=>{if(!day)return <span key={`gap-${index}`} aria-hidden="true"/>;const amount=activity.get(day)?.officialAccepted||0,{band,shade}=activityTone(amount,step),monthStart=day.endsWith('-01');return <button type="button" role="gridcell" key={day} ref={node=>{if(node)buttons.current.set(day,node);else buttons.current.delete(day);}} className={`activity-day${selected===day?' activity-selected':''}${monthStart?' activity-month-start':''}`} data-band={band} data-shade={shade} data-future={day>today||undefined} tabIndex={day===selected?0:-1} aria-rowindex={index%grid.rows+1} aria-colindex={Math.floor(index/grid.rows)+1} aria-label={`${day}，${amount} 题通过`} aria-selected={day===selected} title={`${day} · 首次 AC : ${amount}`} onFocus={()=>setSelected(day)} onClick={()=>pick(day)}>{amount>10&&<span className="activity-month-marker" aria-hidden="true">+{amount-10}</span>}</button>;})}
+   <div ref={gridRef} className="activity-square-viewport"><div className="activity-month-grid activity-continuous-grid" role="grid" onKeyDown={moveCell} aria-colcount={grid.columns} aria-rowcount={grid.rows} aria-label="全年连续训练日历，方向键切换日期" style={{gridTemplateColumns:`repeat(${grid.columns},${grid.size}px)`,gridTemplateRows:`repeat(${grid.rows},${grid.size}px)`,gridAutoFlow:'column','--activity-cell-size':`${grid.size}px`}}>
+    {cells.map((day,index)=>{if(!day)return <span key={`gap-${index}`} aria-hidden="true"/>;const amount=activity.get(day)?.officialAccepted||0,{band,shade}=activityTone(amount,step),monthStart=day.endsWith('-01');return <button type="button" role="gridcell" key={day} ref={node=>{if(node)buttons.current.set(day,node);else buttons.current.delete(day);}} className={`activity-day${selected===day?' activity-selected':''}${monthStart?' activity-month-start':''}`} data-date={day} data-band={band} data-shade={shade} data-future={day>today||undefined} tabIndex={day===selected?0:-1} aria-rowindex={index%grid.rows+1} aria-colindex={Math.floor(index/grid.rows)+1} aria-label={`${day}，${amount} 题通过`} aria-selected={day===selected} title={`${day} · 首次 AC : ${amount}`} onFocus={()=>setSelected(day)} onClick={()=>pick(day)}>{amount>10&&<span className="activity-month-marker" aria-hidden="true">+{amount-10}</span>}</button>;})}
    </div></div>
    <div className="activity-selected-summary"><time dateTime={selected}>{selected.replaceAll('-','/')}</time><span className="activity-selected-count">AC<span className="metric-separator">:</span><b>{count}</b></span><ActivityProgress count={count} step={step}/></div>
   </section>

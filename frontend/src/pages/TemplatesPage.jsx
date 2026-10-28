@@ -1,5 +1,5 @@
 import {Fragment,useEffect,useRef,useState} from 'react';
-import {ArrowLeft,BookOpen,Check,Code2,Copy,FilePlus2,LoaderCircle,Plus,Save,Search,Trash2,NotebookPen} from 'lucide-react';
+import {ArrowLeft,Check,Code2,Copy,FilePlus2,LoaderCircle,Plus,Save,Search,Trash2,NotebookPen,X} from 'lucide-react';
 import CatalogCard from '@/components/CatalogCard.jsx';
 import PageSearch from '@/components/PageSearch.jsx';
 import CodeEditor from '@/components/CodeEditor.jsx';
@@ -17,6 +17,7 @@ export default function TemplatesPage({api,shortcuts={},visit,embedded=false,onU
  const fallback=useRef({}),session=visit||fallback.current;
  const [templates,setTemplates]=useState([]),[query,setQuery]=useState(session.query||''),[selected,setSelected]=useState(session.selected||null),[draft,setDraft]=useState(session.draft||null);
  const [loading,setLoading]=useState(true),[busy,setBusy]=useState(false),[error,setError]=useState(''),[copied,setCopied]=useState(false),[deleting,setDeleting]=useState(null),[edition,setEdition]=useState(session.edition||'teaching');
+ const [copyTarget,setCopyTarget]=useState(null),[copyBusy,setCopyBusy]=useState(false),[copyError,setCopyError]=useState('');
  const editor=useRef(null),panel=useRef(null),copyTimer=useRef(null),live=useRef(true);
  useEffect(()=>{live.current=true;api('templates').then(value=>{if(live.current)setTemplates(value.templates||[]);}).catch(issue=>{if(live.current)setError(issue.message);}).finally(()=>{if(live.current)setLoading(false);});return()=>{live.current=false;clearTimeout(copyTimer.current);};},[api]);
  useEffect(()=>{Object.assign(session,{query,selected,draft,edition});},[query,selected,draft,edition,session]);
@@ -25,11 +26,13 @@ export default function TemplatesPage({api,shortcuts={},visit,embedded=false,onU
  useEffect(()=>{if(!selected||embedded)return;const key=event=>{if(event.key==='Escape'&&!document.querySelector('dialog[open],[aria-modal=true],[data-popconfirm]')){event.preventDefault();event.stopImmediatePropagation();back();}};window.addEventListener('keydown',key,true);return()=>window.removeEventListener('keydown',key,true);},[selected,embedded]);
  const matching=templates.filter(item=>(!language||item.language===language)&&`${item.title} ${item.category} ${item.summary} ${(item.tags||[]).join(' ')}`.toLowerCase().includes(query.trim().toLowerCase()));
  const groups=[...GROUPS,...templates.map(item=>item.category)].filter((name,index,all)=>all.indexOf(name)===index&&matching.some(item=>item.category===name));
- const open=item=>{setError('');setSelected(item.id);setDraft(item.builtin?null:{...item});if(panel.current)panel.current.scrollTop=0;};
+ const open=item=>{setError('');setCopyTarget(null);setSelected(item.id);setDraft(item.builtin?null:{...item});if(panel.current)panel.current.scrollTop=0;};
  const back=()=>{setSelected(null);setDraft(null);setError('');};
  const create=source=>{setSelected('new');setDraft(source?{...source,id:null,title:source.title,builtin:false,revision:undefined}:{...emptyTemplate(),language:language||'cpp17'});setError('');};
  const update=(key,value)=>setDraft(previous=>({...previous,[key]:value}));
- const copy=async code=>{try{await navigator.clipboard.writeText(code);setCopied(true);clearTimeout(copyTimer.current);copyTimer.current=setTimeout(()=>setCopied(false),1800);}catch{setError('复制未完成，请选中代码后复制');}};
+ const copy=async (code,onError=setError)=>{try{await navigator.clipboard.writeText(code);if(live.current){setCopied(true);clearTimeout(copyTimer.current);copyTimer.current=setTimeout(()=>{if(live.current)setCopied(false);},1800);}return true;}catch{if(live.current)onError('复制未完成，请选中代码后复制');return false;}};
+ const requestCopy=(event,item)=>{event.preventDefault();event.stopPropagation();if(copyBusy)return;setCopyError('');setCopyTarget({anchor:event.currentTarget,code:item.contestCode||item.code});};
+ const confirmCopy=async()=>{if(copyBusy||!copyTarget)return;setCopyBusy(true);setCopyError('');const done=await copy(copyTarget.code,setCopyError);if(live.current){setCopyBusy(false);if(done)setCopyTarget(null);}};
  const save=async remove=>{
   if(busy)return;setBusy(true);setError('');
   try {
@@ -43,23 +46,25 @@ export default function TemplatesPage({api,shortcuts={},visit,embedded=false,onU
  const displayedExample=current?.builtin&&edition==='contest'?current.contestExample||current.example:current?.example;
  const using=item=>({...item,code:item.builtin?(edition==='contest'?item.contestCode||item.code:item.code):item.code});
  const tools=<><label className="search-box"><Search size={17}/><input aria-label="搜索模板" value={query} onChange={event=>setQuery(event.target.value)}/></label><Button label="新建模板" onClick={()=>create()}><Plus size={17}/></Button></>;
- return <div ref={panel} className={`templates-page learning-paths-page scroll-panel lab-page-surface ${embedded?'templates-embedded':''}`} aria-label="模板">
+ return <div ref={panel} className={`templates-page learning-paths-page scroll-panel lab-page-surface ${embedded?'templates-embedded':''} ${selected&&current?'template-detail-open':''}`} aria-label="模板">
   {error&&<p role="alert">{error}</p>}
   {selected&&current?<div className="template-detail">
-   <header className="template-heading"><Button label="返回模板" data-folder-up onClick={back}><ArrowLeft size={18}/></Button><h2>{current.title||'新建模板'}</h2><span className="template-language">{current.language==='python3'?'Python 3':'C++17'}</span>
+   <header className="template-heading"><Button label="返回模板" data-folder-up onClick={back}><ArrowLeft size={18}/></Button><h2 title={current.title||'新建模板'}>{current.title||'新建模板'}</h2>
+    {current.builtin&&<nav className="template-editions" aria-label="模板版本"><button type="button" aria-pressed={edition==='teaching'} onClick={()=>setEdition('teaching')}>讲解版</button><button type="button" aria-pressed={edition==='contest'} onClick={()=>setEdition('contest')}>竞赛版</button>{onTrain&&(current.practiceIds||[]).map((id,index)=><Button key={id} label={`模板练习 ${index+1}`} onClick={()=>onTrain(id)}>{current.practicePassed?.[index]?<Check size={17}/>:<NotebookPen size={17}/>}<small>{index+1}</small></Button>)}</nav>}
+    <span className="template-language">{current.language==='python3'?'Python 3':'C++17'}</span>
     <Button label="复制模板" onClick={()=>copy(displayedCode)}>{copied?<Check size={17}/>:<Copy size={17}/>}</Button>
     {current.builtin?<Button label="另存为我的模板" onClick={()=>create(using(current))}><FilePlus2 size={17}/></Button>:<><Button label="保存模板" disabled={busy||!current.title.trim()||!current.code.trim()} onClick={()=>save(false)}>{busy?<LoaderCircle className="spin" size={17}/>:<Save size={17}/>}</Button>{current.id&&<Button label="删除模板" disabled={busy} onClick={event=>setDeleting(event.currentTarget)}><Trash2 size={17}/></Button>}</>}
     {onUse&&<Button label="插入到文件开头" disabled={!current.code.trim()||Boolean(language&&language!==current.language)} onClick={()=>onUse(using(current))}><Plus size={17}/></Button>}
    </header>
-   {current.builtin&&<nav className="template-editions" aria-label="模板版本"><button type="button" aria-pressed={edition==='teaching'} onClick={()=>setEdition('teaching')}>讲解版</button><button type="button" aria-pressed={edition==='contest'} onClick={()=>setEdition('contest')}>竞赛版</button>{onTrain&&(current.practiceIds||[]).map((id,index)=><Button key={id} label={`模板练习 ${index+1}`} onClick={()=>onTrain(id)}>{current.practicePassed?.[index]?<Check size={17}/>:<NotebookPen size={17}/>}<small>{index+1}</small></Button>)}</nav>}
    {own&&<div className="template-fields"><input aria-label="模板名称" maxLength={120} value={current.title} onChange={event=>update('title',event.target.value)} placeholder="模板名称"/><input aria-label="模板分类" maxLength={40} value={current.category} onChange={event=>update('category',event.target.value)} placeholder="模板分类"/><ThemedSelect aria-label="模板语言" value={current.language} onChange={event=>update('language',event.target.value)}><option value="cpp17">C++17</option><option value="python3">Python 3</option></ThemedSelect></div>}
    {current.builtin?<p className="template-notes">{edition==='contest'?current.contestNotes||current.notes:current.notes}</p>:<textarea aria-label="模板说明" maxLength={16384} value={current.notes} onChange={event=>update('notes',event.target.value)} placeholder="适用条件与复杂度"/>}
    <div className="template-code"><CodeEditor ref={editor} value={displayedCode} docKey={`${selected}:${current.language}:${edition}`} language={current.language} readOnly={current.builtin} shortcuts={shortcuts} onChange={value=>update('code',value)} onCommand={command=>{if(command==='save'&&own)save(false);}} ariaLabel="模板代码"/></div>
-   {displayedExample&&<Markdown text={'```cpp\n'+displayedExample+'\n```'} onCopy={copy}/>}
+   {displayedExample&&<section className="template-example" aria-label="最小调用示例"><Markdown text={'```cpp\n'+displayedExample+'\n```'} onCopy={code=>copy(code)}/></section>}
   </div>:<div className="lab-catalog lab-multi-catalog template-catalog">
    {embedded?<div className="template-tools">{tools}</div>:<PageSearch>{tools}</PageSearch>}
-   {loading?<LoaderCircle className="spin" role="status" aria-label="正在读取模板"/>:groups.map(group=><Fragment key={group}><h2 className="lab-catalog-group">{group}</h2>{matching.filter(item=>item.category===group).map(item=><CatalogCard key={item.id} title={item.title} icon={<Code2 size={18}/>} label={`打开模板 ${item.title}`} onOpen={()=>open(item)}><Button label={`复制模板 ${item.title}`} onClick={()=>copy(item.contestCode||item.code)}><Copy size={18}/></Button>{onUse&&<Button label={`插入模板 ${item.title}`} onClick={()=>onUse({...item,code:item.contestCode||item.code})}><Plus size={18}/></Button>}</CatalogCard>)}</Fragment>)}
+   {loading?<LoaderCircle className="spin" role="status" aria-label="正在读取模板"/>:groups.map(group=><Fragment key={group}><h2 className="lab-catalog-group">{group}</h2>{matching.filter(item=>item.category===group).map(item=><CatalogCard key={item.id} title={item.title} icon={<Code2 size={18}/>} label={`打开模板 ${item.title}`} onOpen={()=>open(item)} onContextMenu={event=>requestCopy(event,item)}>{onUse&&<Button label={`插入模板 ${item.title}`} onClick={()=>onUse({...item,code:item.contestCode||item.code})}><Plus size={18}/></Button>}</CatalogCard>)}</Fragment>)}
   </div>}
   {deleting&&<PopConfirm anchor={deleting} title="删除这个模板？" busy={busy} onCancel={()=>setDeleting(null)} onConfirm={()=>save(true)} error={error}/>}
+  {copyTarget&&<PopConfirm anchor={copyTarget.anchor} label="复制模板确认" title="确认复制模板？" busy={copyBusy} error={copyError} onCancel={()=>setCopyTarget(null)} onConfirm={confirmCopy} confirmTone="primary" cancelLabel={<X size={15}/>} confirmLabel={<Copy size={15}/>} busyLabel={<LoaderCircle className="spin" size={15}/>} cancelAriaLabel="取消复制" confirmAriaLabel="确认复制"/>}
  </div>;
 }

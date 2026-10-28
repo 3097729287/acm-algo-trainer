@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {filterTrainingListsScope,buildTrainingCurriculum} from '../src/lib/trainingCurriculum.js';
+const rows=[900,1000,2500,2501,2600,null].map((difficulty,i)=>({id:'p'+i,aliasIds:['alias'+i],url:'https://example.test/'+i,difficulty,title:'T'+i,knowledge:'模拟'}));
+const entries=rows.map(row=>({problemId:row.aliasIds[0],url:row.url}));
+entries.push({url:'https://example.test/4/'},{problemId:'unknown'});
+const lists=[{id:'event',topicPath:['赛事真题','其他公开赛'],problems:entries,available:true},{id:'basic',topicPath:['基础算法','模拟与枚举'],problems:entries,available:true},{id:'own',custom:true,problems:entries}];
+const before=JSON.stringify(lists),result=filterTrainingListsScope(lists,rows);
+assert.deepEqual(result[0].problems.map(p=>p.problemId),['alias1','alias2','alias5','unknown']);
+for(const list of result.slice(1))assert.deepEqual(list.problems.map(p=>p.problemId),['alias0','alias1','alias2','alias5','unknown']);
+assert.equal(JSON.stringify(lists),before,'stored public and custom entries must stay untouched');
+const curriculum=buildTrainingCurriculum(result,rows);
+assert(!curriculum.some(list=>list.problems.some(p=>['alias3','alias4'].includes(p.problemId))));
+const derived=filterTrainingListsScope([{title:'赛事真题',topicPath:['08 专题加练'],problems:entries}],rows);
+assert.deepEqual(derived[0].problems,result[0].problems);
+console.log('PASS collection scope: exact 900 event exclusion, >2500 all lists, 2500/unknown retained, aliases and URLs, original records intact.');

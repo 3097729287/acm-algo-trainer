@@ -1,8 +1,8 @@
-html .lab-panel.catalog-card {position:relative;min-height:112px;gap:12px;padding:24px;justify-content:center}
-.catalog-card-heading {display:flex;align-items:center;gap:10px;margin:0;pointer-events:none}
-.catalog-card-heading>svg {flex:none;color:var(--accent)}
+html .lab-panel.catalog-card {position:relative;min-height:112px;gap:12px;padding:24px;justify-content:flex-start}
+.catalog-card-heading {display:flex;align-items:flex-start;gap:10px;margin:0;line-height:1.5;pointer-events:none}
+.catalog-card-heading>svg {flex:none;color:var(--accent);margin-top:.2em}
 .catalog-card-heading>span {min-width:0;overflow-wrap:anywhere}
 html .catalog-card>.catalog-card-open {position:absolute;inset:0;width:100%;height:100%;padding:0;margin:0;background:transparent;border:0;border-radius:inherit;cursor:pointer;z-index:1}
 .catalog-card-open:focus-visible {outline:2px solid var(--accent);outline-offset:-4px}
-.catalog-card-actions {position:relative;z-index:2;display:flex;align-items:center;gap:10px;align-self:flex-start}
+.catalog-card-actions {position:relative;z-index:2;display:flex;align-items:center;gap:10px;align-self:flex-start;margin-top:auto}
 .catalog-card:hover {background:var(--accent-soft)}

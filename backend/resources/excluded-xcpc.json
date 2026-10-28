@@ -1,6 +1,6 @@
 {
   "date": "2026-10-28",
-  "policy": "exclude-world-finals-and-foreign-xcpc",
+  "policy": "china-xcpc-20261028-v2",
   "problems": [
     {
       "contest": "ICPC 2017 哥伦比亚国立大学程序设计竞赛",
@@ -14245,6 +14245,2160 @@
       "id": "luogu-training-P7123",
       "originalTitle": "[NEERC 2016] Indiana Jones and the Uniform Cave",
       "url": "https://www.luogu.com.cn/problem/P7123"
+    },
+    {
+      "contest": "ICPC 2017 亚洲东区决赛",
+      "id": "remote:codeforces:101775::A",
+      "originalTitle": "World Cup",
+      "url": "https://codeforces.com/gym/101775/problem/A"
+    },
+    {
+      "contest": "ICPC 2017 亚洲东区决赛",
+      "id": "remote:codeforces:101775::B",
+      "originalTitle": "Scapegoat",
+      "url": "https://codeforces.com/gym/101775/problem/B"
+    },
+    {
+      "contest": "ICPC 2017 亚洲东区决赛",
+      "id": "remote:codeforces:101775::C",
+      "originalTitle": "Traffic Light",
+      "url": "https://codeforces.com/gym/101775/problem/C"
+    },
+    {
+      "contest": "ICPC 2017 亚洲东区决赛",
+      "id": "remote:codeforces:101775::D",
+      "originalTitle": "Mr. Panda and Geometric Sequence",
+      "url": "https://codeforces.com/gym/101775/problem/D"
+    },
+    {
+      "contest": "ICPC 2017 亚洲东区决赛",
+      "id": "remote:codeforces:101775::E",
+      "originalTitle": "Snakebird",
+      "url": "https://codeforces.com/gym/101775/problem/E"
+    },
+    {
+      "contest": "ICPC 2017 亚洲东区决赛",
+      "id": "remote:codeforces:101775::F",
+      "originalTitle": "Good Number",
+      "url": "https://codeforces.com/gym/101775/problem/F"
+    },
+    {
+      "contest": "ICPC 2017 亚洲东区决赛",
+      "id": "remote:codeforces:101775::G",
+      "originalTitle": "Image Recognition",
+      "url": "https://codeforces.com/gym/101775/problem/G"
+    },
+    {
+      "contest": "ICPC 2017 亚洲东区决赛",
+      "id": "remote:codeforces:101775::H",
+      "originalTitle": "Mr. Panda and Birthday Song",
+      "url": "https://codeforces.com/gym/101775/problem/H"
+    },
+    {
+      "contest": "ICPC 2017 亚洲东区决赛",
+      "id": "remote:codeforces:101775::I",
+      "originalTitle": "PLAYERUNKNOWN'S BATTLEGROUNDS",
+      "url": "https://codeforces.com/gym/101775/problem/I"
+    },
+    {
+      "contest": "ICPC 2017 亚洲东区决赛",
+      "id": "remote:codeforces:101775::J",
+      "originalTitle": "Straight Master",
+      "url": "https://codeforces.com/gym/101775/problem/J"
+    },
+    {
+      "contest": "ICPC 2017 亚洲东区决赛",
+      "id": "remote:codeforces:101775::K",
+      "originalTitle": "Downgrade",
+      "url": "https://codeforces.com/gym/101775/problem/K"
+    },
+    {
+      "contest": "ICPC 2017 亚洲东区决赛",
+      "id": "remote:codeforces:101775::L",
+      "originalTitle": "SOS",
+      "url": "https://codeforces.com/gym/101775/problem/L"
+    },
+    {
+      "contest": "ICPC 2017 亚洲东区决赛",
+      "id": "remote:codeforces:101775::M",
+      "originalTitle": "Chat Group",
+      "url": "https://codeforces.com/gym/101775/problem/M"
+    },
+    {
+      "contest": "CCPC 2018 总决赛",
+      "id": "remote:codeforces:102055::A",
+      "originalTitle": "Mischievous Problem Setter",
+      "url": "https://codeforces.com/gym/102055/problem/A"
+    },
+    {
+      "contest": "CCPC 2018 总决赛",
+      "id": "remote:codeforces:102055::B",
+      "originalTitle": "Balance of the Force",
+      "url": "https://codeforces.com/gym/102055/problem/B"
+    },
+    {
+      "contest": "CCPC 2018 总决赛",
+      "id": "remote:codeforces:102055::C",
+      "originalTitle": "GCD Land",
+      "url": "https://codeforces.com/gym/102055/problem/C"
+    },
+    {
+      "contest": "CCPC 2018 总决赛",
+      "id": "remote:codeforces:102055::D",
+      "originalTitle": "Cube",
+      "url": "https://codeforces.com/gym/102055/problem/D"
+    },
+    {
+      "contest": "CCPC 2018 总决赛",
+      "id": "remote:codeforces:102055::E",
+      "originalTitle": "Mr. Panda and Cactus",
+      "url": "https://codeforces.com/gym/102055/problem/E"
+    },
+    {
+      "contest": "CCPC 2018 总决赛",
+      "id": "remote:codeforces:102055::F",
+      "originalTitle": "Cones",
+      "url": "https://codeforces.com/gym/102055/problem/F"
+    },
+    {
+      "contest": "CCPC 2018 总决赛",
+      "id": "remote:codeforces:102055::G",
+      "originalTitle": "Pastoral Life in Stardew Valley",
+      "url": "https://codeforces.com/gym/102055/problem/G"
+    },
+    {
+      "contest": "CCPC 2018 总决赛",
+      "id": "remote:codeforces:102055::H",
+      "originalTitle": "Game on the Tree",
+      "url": "https://codeforces.com/gym/102055/problem/H"
+    },
+    {
+      "contest": "CCPC 2018 总决赛",
+      "id": "remote:codeforces:102055::I",
+      "originalTitle": "Cockroaches",
+      "url": "https://codeforces.com/gym/102055/problem/I"
+    },
+    {
+      "contest": "CCPC 2018 总决赛",
+      "id": "remote:codeforces:102055::J",
+      "originalTitle": "Mr. Panda and Sequence Puzzle",
+      "url": "https://codeforces.com/gym/102055/problem/J"
+    },
+    {
+      "contest": "CCPC 2018 总决赛",
+      "id": "remote:codeforces:102055::K",
+      "originalTitle": "Mr. Panda and Kakin",
+      "url": "https://codeforces.com/gym/102055/problem/K"
+    },
+    {
+      "contest": "CCPC 2018 总决赛",
+      "id": "remote:codeforces:102055::L",
+      "originalTitle": "Ultra Weak Goldbach's Conjecture",
+      "url": "https://codeforces.com/gym/102055/problem/L"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:codeforces:102056::A",
+      "originalTitle": "Exotic … Ancient City",
+      "url": "https://codeforces.com/gym/102056/problem/A"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:codeforces:102056::B",
+      "originalTitle": "Mysterious … Host",
+      "url": "https://codeforces.com/gym/102056/problem/B"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:codeforces:102056::C",
+      "originalTitle": "Heretical … Möbius",
+      "url": "https://codeforces.com/gym/102056/problem/C"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:codeforces:102056::D",
+      "originalTitle": "Deja vu of … Go Players",
+      "url": "https://codeforces.com/gym/102056/problem/D"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:codeforces:102056::E",
+      "originalTitle": "Immortal … Universe",
+      "url": "https://codeforces.com/gym/102056/problem/E"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:codeforces:102056::F",
+      "originalTitle": "Interstellar … Fantasy",
+      "url": "https://codeforces.com/gym/102056/problem/F"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:codeforces:102056::G",
+      "originalTitle": "Omnipotent … Garland",
+      "url": "https://codeforces.com/gym/102056/problem/G"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:codeforces:102056::H",
+      "originalTitle": "Saintly … Coins",
+      "url": "https://codeforces.com/gym/102056/problem/H"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:codeforces:102056::I",
+      "originalTitle": "Misunderstood … Missing",
+      "url": "https://codeforces.com/gym/102056/problem/I"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:codeforces:102056::J",
+      "originalTitle": "Philosophical … Balance",
+      "url": "https://codeforces.com/gym/102056/problem/J"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:codeforces:102056::K",
+      "originalTitle": "Desperate … Fire Survive",
+      "url": "https://codeforces.com/gym/102056/problem/K"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:codeforces:102056::L",
+      "originalTitle": "Eventual … Journey",
+      "url": "https://codeforces.com/gym/102056/problem/L"
+    },
+    {
+      "contest": "CCPC 2019 总决赛",
+      "id": "remote:codeforces:102431::A",
+      "originalTitle": "Kick Start",
+      "url": "https://codeforces.com/gym/102431/problem/A"
+    },
+    {
+      "contest": "CCPC 2019 总决赛",
+      "id": "remote:codeforces:102431::B",
+      "originalTitle": "Infimum of Paths",
+      "url": "https://codeforces.com/gym/102431/problem/B"
+    },
+    {
+      "contest": "CCPC 2019 总决赛",
+      "id": "remote:codeforces:102431::C",
+      "originalTitle": "Mr. Panda and Typewriter",
+      "url": "https://codeforces.com/gym/102431/problem/C"
+    },
+    {
+      "contest": "CCPC 2019 总决赛",
+      "id": "remote:codeforces:102431::D",
+      "originalTitle": "Pulse Nova",
+      "url": "https://codeforces.com/gym/102431/problem/D"
+    },
+    {
+      "contest": "CCPC 2019 总决赛",
+      "id": "remote:codeforces:102431::E",
+      "originalTitle": "Non-Maximum Suppression",
+      "url": "https://codeforces.com/gym/102431/problem/E"
+    },
+    {
+      "contest": "CCPC 2019 总决赛",
+      "id": "remote:codeforces:102431::F",
+      "originalTitle": "Ferry",
+      "url": "https://codeforces.com/gym/102431/problem/F"
+    },
+    {
+      "contest": "CCPC 2019 总决赛",
+      "id": "remote:codeforces:102431::G",
+      "originalTitle": "Game on the Tree",
+      "url": "https://codeforces.com/gym/102431/problem/G"
+    },
+    {
+      "contest": "CCPC 2019 总决赛",
+      "id": "remote:codeforces:102431::H",
+      "originalTitle": "Mr. Panda and SAD",
+      "url": "https://codeforces.com/gym/102431/problem/H"
+    },
+    {
+      "contest": "CCPC 2019 总决赛",
+      "id": "remote:codeforces:102431::I",
+      "originalTitle": "Mr. Panda and Blocks",
+      "url": "https://codeforces.com/gym/102431/problem/I"
+    },
+    {
+      "contest": "CCPC 2019 总决赛",
+      "id": "remote:codeforces:102431::J",
+      "originalTitle": "Wire-compatible Protocol buffer",
+      "url": "https://codeforces.com/gym/102431/problem/J"
+    },
+    {
+      "contest": "CCPC 2019 总决赛",
+      "id": "remote:codeforces:102431::K",
+      "originalTitle": "Russian Dolls on the Christmas Tree",
+      "url": "https://codeforces.com/gym/102431/problem/K"
+    },
+    {
+      "contest": "CCPC 2019 总决赛",
+      "id": "remote:codeforces:102431::L",
+      "originalTitle": "Spiral Matrix",
+      "url": "https://codeforces.com/gym/102431/problem/L"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:codeforces:102471::A",
+      "originalTitle": "City",
+      "url": "https://codeforces.com/gym/102471/problem/A"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:codeforces:102471::B",
+      "originalTitle": "Black and White",
+      "url": "https://codeforces.com/gym/102471/problem/B"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:codeforces:102471::C",
+      "originalTitle": "Dirichlet $k$-th root",
+      "url": "https://codeforces.com/gym/102471/problem/C"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:codeforces:102471::D",
+      "originalTitle": "Fire",
+      "url": "https://codeforces.com/gym/102471/problem/D"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:codeforces:102471::E",
+      "originalTitle": "Flow",
+      "url": "https://codeforces.com/gym/102471/problem/E"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:codeforces:102471::F",
+      "originalTitle": "Game",
+      "url": "https://codeforces.com/gym/102471/problem/F"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:codeforces:102471::G",
+      "originalTitle": "Happiness",
+      "url": "https://codeforces.com/gym/102471/problem/G"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:codeforces:102471::H",
+      "originalTitle": "King",
+      "url": "https://codeforces.com/gym/102471/problem/H"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:codeforces:102471::I",
+      "originalTitle": "Moon",
+      "url": "https://codeforces.com/gym/102471/problem/I"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:codeforces:102471::J",
+      "originalTitle": "Permutation",
+      "url": "https://codeforces.com/gym/102471/problem/J"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:codeforces:102471::K",
+      "originalTitle": "All Pair Maximum Flow",
+      "url": "https://codeforces.com/gym/102471/problem/K"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:codeforces:102471::L",
+      "originalTitle": "Travel",
+      "url": "https://codeforces.com/gym/102471/problem/L"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:codeforces:102471::M",
+      "originalTitle": "Value",
+      "url": "https://codeforces.com/gym/102471/problem/M"
+    },
+    {
+      "contest": "ICPC 2020 亚洲东区决赛",
+      "id": "remote:codeforces:103069::A",
+      "originalTitle": "Namomo Subsequence",
+      "url": "https://codeforces.com/gym/103069/problem/A"
+    },
+    {
+      "contest": "ICPC 2020 亚洲东区决赛",
+      "id": "remote:codeforces:103069::B",
+      "originalTitle": "Rectangle Flip 2",
+      "url": "https://codeforces.com/gym/103069/problem/B"
+    },
+    {
+      "contest": "ICPC 2020 亚洲东区决赛",
+      "id": "remote:codeforces:103069::C",
+      "originalTitle": "Random Shuffle",
+      "url": "https://codeforces.com/gym/103069/problem/C"
+    },
+    {
+      "contest": "ICPC 2020 亚洲东区决赛",
+      "id": "remote:codeforces:103069::D",
+      "originalTitle": "City Brain",
+      "url": "https://codeforces.com/gym/103069/problem/D"
+    },
+    {
+      "contest": "ICPC 2020 亚洲东区决赛",
+      "id": "remote:codeforces:103069::E",
+      "originalTitle": "Tube Master III",
+      "url": "https://codeforces.com/gym/103069/problem/E"
+    },
+    {
+      "contest": "ICPC 2020 亚洲东区决赛",
+      "id": "remote:codeforces:103069::F",
+      "originalTitle": "Rooks",
+      "url": "https://codeforces.com/gym/103069/problem/F"
+    },
+    {
+      "contest": "ICPC 2020 亚洲东区决赛",
+      "id": "remote:codeforces:103069::G",
+      "originalTitle": "Prof. Pang's sequence",
+      "url": "https://codeforces.com/gym/103069/problem/G"
+    },
+    {
+      "contest": "ICPC 2020 亚洲东区决赛",
+      "id": "remote:codeforces:103069::H",
+      "originalTitle": "Prof. Pang Earning Aus",
+      "url": "https://codeforces.com/gym/103069/problem/H"
+    },
+    {
+      "contest": "ICPC 2020 亚洲东区决赛",
+      "id": "remote:codeforces:103069::I",
+      "originalTitle": "Plants vs Zombies",
+      "url": "https://codeforces.com/gym/103069/problem/I"
+    },
+    {
+      "contest": "ICPC 2020 亚洲东区决赛",
+      "id": "remote:codeforces:103069::J",
+      "originalTitle": "Circle",
+      "url": "https://codeforces.com/gym/103069/problem/J"
+    },
+    {
+      "contest": "ICPC 2020 亚洲东区决赛",
+      "id": "remote:codeforces:103069::K",
+      "originalTitle": "Allin",
+      "url": "https://codeforces.com/gym/103069/problem/K"
+    },
+    {
+      "contest": "ICPC 2020 亚洲东区决赛",
+      "id": "remote:codeforces:103069::L",
+      "originalTitle": "Square",
+      "url": "https://codeforces.com/gym/103069/problem/L"
+    },
+    {
+      "contest": "ICPC 2020 亚洲东区决赛",
+      "id": "remote:codeforces:103069::M",
+      "originalTitle": "Fillomino",
+      "url": "https://codeforces.com/gym/103069/problem/M"
+    },
+    {
+      "contest": "ICPC 2021 台湾网络赛",
+      "id": "remote:codeforces:103373::A",
+      "originalTitle": "Olympic Ranking",
+      "url": "https://codeforces.com/gym/103373/problem/A"
+    },
+    {
+      "contest": "ICPC 2021 台湾网络赛",
+      "id": "remote:codeforces:103373::B",
+      "originalTitle": "Aliquot Sum",
+      "url": "https://codeforces.com/gym/103373/problem/B"
+    },
+    {
+      "contest": "ICPC 2021 台湾网络赛",
+      "id": "remote:codeforces:103373::C",
+      "originalTitle": "A Sorting Problem",
+      "url": "https://codeforces.com/gym/103373/problem/C"
+    },
+    {
+      "contest": "ICPC 2021 台湾网络赛",
+      "id": "remote:codeforces:103373::D",
+      "originalTitle": "Drunk Passenger",
+      "url": "https://codeforces.com/gym/103373/problem/D"
+    },
+    {
+      "contest": "ICPC 2021 台湾网络赛",
+      "id": "remote:codeforces:103373::E",
+      "originalTitle": "Eatcoin",
+      "url": "https://codeforces.com/gym/103373/problem/E"
+    },
+    {
+      "contest": "ICPC 2021 台湾网络赛",
+      "id": "remote:codeforces:103373::F",
+      "originalTitle": "Flip",
+      "url": "https://codeforces.com/gym/103373/problem/F"
+    },
+    {
+      "contest": "ICPC 2021 台湾网络赛",
+      "id": "remote:codeforces:103373::G",
+      "originalTitle": "Garden Park",
+      "url": "https://codeforces.com/gym/103373/problem/G"
+    },
+    {
+      "contest": "ICPC 2021 台湾网络赛",
+      "id": "remote:codeforces:103373::H",
+      "originalTitle": "A Hard Problem",
+      "url": "https://codeforces.com/gym/103373/problem/H"
+    },
+    {
+      "contest": "ICPC 2021 台湾网络赛",
+      "id": "remote:codeforces:103373::I",
+      "originalTitle": "ICPC Kingdom",
+      "url": "https://codeforces.com/gym/103373/problem/I"
+    },
+    {
+      "contest": "ICPC 2021 台湾网络赛",
+      "id": "remote:codeforces:103373::J",
+      "originalTitle": "JavaScript",
+      "url": "https://codeforces.com/gym/103373/problem/J"
+    },
+    {
+      "contest": "CCPC 2021 总决赛",
+      "id": "remote:codeforces:103860::A",
+      "originalTitle": "Mash",
+      "url": "https://codeforces.com/gym/103860/problem/A"
+    },
+    {
+      "contest": "CCPC 2021 总决赛",
+      "id": "remote:codeforces:103860::B",
+      "originalTitle": "Shuttle Bus",
+      "url": "https://codeforces.com/gym/103860/problem/B"
+    },
+    {
+      "contest": "CCPC 2021 总决赛",
+      "id": "remote:codeforces:103860::C",
+      "originalTitle": "Selection Sort Count",
+      "url": "https://codeforces.com/gym/103860/problem/C"
+    },
+    {
+      "contest": "CCPC 2021 总决赛",
+      "id": "remote:codeforces:103860::D",
+      "originalTitle": "Tree Partition",
+      "url": "https://codeforces.com/gym/103860/problem/D"
+    },
+    {
+      "contest": "CCPC 2021 总决赛",
+      "id": "remote:codeforces:103860::E",
+      "originalTitle": "Elegant Tetris",
+      "url": "https://codeforces.com/gym/103860/problem/E"
+    },
+    {
+      "contest": "CCPC 2021 总决赛",
+      "id": "remote:codeforces:103860::F",
+      "originalTitle": "Modulo",
+      "url": "https://codeforces.com/gym/103860/problem/F"
+    },
+    {
+      "contest": "CCPC 2021 总决赛",
+      "id": "remote:codeforces:103860::G",
+      "originalTitle": "Integer Game",
+      "url": "https://codeforces.com/gym/103860/problem/G"
+    },
+    {
+      "contest": "CCPC 2021 总决赛",
+      "id": "remote:codeforces:103860::H",
+      "originalTitle": "Harie Programming Contest",
+      "url": "https://codeforces.com/gym/103860/problem/H"
+    },
+    {
+      "contest": "CCPC 2021 总决赛",
+      "id": "remote:codeforces:103860::I",
+      "originalTitle": "Reverse LIS",
+      "url": "https://codeforces.com/gym/103860/problem/I"
+    },
+    {
+      "contest": "CCPC 2021 总决赛",
+      "id": "remote:codeforces:103860::J",
+      "originalTitle": "jwfw.harie.edu",
+      "url": "https://codeforces.com/gym/103860/problem/J"
+    },
+    {
+      "contest": "CCPC 2021 总决赛",
+      "id": "remote:codeforces:103860::K",
+      "originalTitle": "Security Plan",
+      "url": "https://codeforces.com/gym/103860/problem/K"
+    },
+    {
+      "contest": "CCPC 2021 总决赛",
+      "id": "remote:codeforces:103860::L",
+      "originalTitle": "Paid Leave",
+      "url": "https://codeforces.com/gym/103860/problem/L"
+    },
+    {
+      "contest": "ICPC 2021 亚洲东区决赛",
+      "id": "remote:codeforces:103861::A",
+      "originalTitle": "DFS Order",
+      "url": "https://codeforces.com/gym/103861/problem/A"
+    },
+    {
+      "contest": "ICPC 2021 亚洲东区决赛",
+      "id": "remote:codeforces:103861::B",
+      "originalTitle": "Beautiful String",
+      "url": "https://codeforces.com/gym/103861/problem/B"
+    },
+    {
+      "contest": "ICPC 2021 亚洲东区决赛",
+      "id": "remote:codeforces:103861::C",
+      "originalTitle": "String-dle Count",
+      "url": "https://codeforces.com/gym/103861/problem/C"
+    },
+    {
+      "contest": "ICPC 2021 亚洲东区决赛",
+      "id": "remote:codeforces:103861::D",
+      "originalTitle": "Two Walls",
+      "url": "https://codeforces.com/gym/103861/problem/D"
+    },
+    {
+      "contest": "ICPC 2021 亚洲东区决赛",
+      "id": "remote:codeforces:103861::E",
+      "originalTitle": "Prof. Pang and Poker",
+      "url": "https://codeforces.com/gym/103861/problem/E"
+    },
+    {
+      "contest": "ICPC 2021 亚洲东区决赛",
+      "id": "remote:codeforces:103861::F",
+      "originalTitle": "Vacation",
+      "url": "https://codeforces.com/gym/103861/problem/F"
+    },
+    {
+      "contest": "ICPC 2021 亚洲东区决赛",
+      "id": "remote:codeforces:103861::G",
+      "originalTitle": "Check Pattern is Bad",
+      "url": "https://codeforces.com/gym/103861/problem/G"
+    },
+    {
+      "contest": "ICPC 2021 亚洲东区决赛",
+      "id": "remote:codeforces:103861::H",
+      "originalTitle": "Check Pattern is Good",
+      "url": "https://codeforces.com/gym/103861/problem/H"
+    },
+    {
+      "contest": "ICPC 2021 亚洲东区决赛",
+      "id": "remote:codeforces:103861::I",
+      "originalTitle": "Future Coder",
+      "url": "https://codeforces.com/gym/103861/problem/I"
+    },
+    {
+      "contest": "ICPC 2021 亚洲东区决赛",
+      "id": "remote:codeforces:103861::J",
+      "originalTitle": "Elden Ring",
+      "url": "https://codeforces.com/gym/103861/problem/J"
+    },
+    {
+      "contest": "ICPC 2021 亚洲东区决赛",
+      "id": "remote:codeforces:103861::K",
+      "originalTitle": "Vision Test",
+      "url": "https://codeforces.com/gym/103861/problem/K"
+    },
+    {
+      "contest": "ICPC 2021 亚洲东区决赛",
+      "id": "remote:codeforces:103861::L",
+      "originalTitle": "Fenwick Tree",
+      "url": "https://codeforces.com/gym/103861/problem/L"
+    },
+    {
+      "contest": "ICPC 2021 亚洲东区决赛",
+      "id": "remote:codeforces:103861::M",
+      "originalTitle": "Prof. Pang and Ants",
+      "url": "https://codeforces.com/gym/103861/problem/M"
+    },
+    {
+      "contest": "ICPC 2022 台湾网络赛",
+      "id": "remote:codeforces:103990::A",
+      "originalTitle": "AibohphobiA",
+      "url": "https://codeforces.com/gym/103990/problem/A"
+    },
+    {
+      "contest": "ICPC 2022 台湾网络赛",
+      "id": "remote:codeforces:103990::B",
+      "originalTitle": "Balanced Seesaw Array",
+      "url": "https://codeforces.com/gym/103990/problem/B"
+    },
+    {
+      "contest": "ICPC 2022 台湾网络赛",
+      "id": "remote:codeforces:103990::C",
+      "originalTitle": "Correct",
+      "url": "https://codeforces.com/gym/103990/problem/C"
+    },
+    {
+      "contest": "ICPC 2022 台湾网络赛",
+      "id": "remote:codeforces:103990::D",
+      "originalTitle": "Distance and Tree",
+      "url": "https://codeforces.com/gym/103990/problem/D"
+    },
+    {
+      "contest": "ICPC 2022 台湾网络赛",
+      "id": "remote:codeforces:103990::E",
+      "originalTitle": "Etched Emerald Orbs",
+      "url": "https://codeforces.com/gym/103990/problem/E"
+    },
+    {
+      "contest": "ICPC 2022 台湾网络赛",
+      "id": "remote:codeforces:103990::F",
+      "originalTitle": "Finalists",
+      "url": "https://codeforces.com/gym/103990/problem/F"
+    },
+    {
+      "contest": "ICPC 2022 台湾网络赛",
+      "id": "remote:codeforces:103990::G",
+      "originalTitle": "Geekflix",
+      "url": "https://codeforces.com/gym/103990/problem/G"
+    },
+    {
+      "contest": "ICPC 2022 台湾网络赛",
+      "id": "remote:codeforces:103990::H",
+      "originalTitle": "Heximal",
+      "url": "https://codeforces.com/gym/103990/problem/H"
+    },
+    {
+      "contest": "ICPC 2022 台湾网络赛",
+      "id": "remote:codeforces:103990::I",
+      "originalTitle": "Invitation",
+      "url": "https://codeforces.com/gym/103990/problem/I"
+    },
+    {
+      "contest": "CCPC 2017 总决赛",
+      "id": "remote:codeforces:104207::A",
+      "originalTitle": "Dogs and Cages",
+      "url": "https://codeforces.com/gym/104207/problem/A"
+    },
+    {
+      "contest": "CCPC 2017 总决赛",
+      "id": "remote:codeforces:104207::B",
+      "originalTitle": "Same Digit",
+      "url": "https://codeforces.com/gym/104207/problem/B"
+    },
+    {
+      "contest": "CCPC 2017 总决赛",
+      "id": "remote:codeforces:104207::C",
+      "originalTitle": "Rich Game",
+      "url": "https://codeforces.com/gym/104207/problem/C"
+    },
+    {
+      "contest": "CCPC 2017 总决赛",
+      "id": "remote:codeforces:104207::D",
+      "originalTitle": "Mr. Panda and Circles",
+      "url": "https://codeforces.com/gym/104207/problem/D"
+    },
+    {
+      "contest": "CCPC 2017 总决赛",
+      "id": "remote:codeforces:104207::E",
+      "originalTitle": "Evil Forest",
+      "url": "https://codeforces.com/gym/104207/problem/E"
+    },
+    {
+      "contest": "CCPC 2017 总决赛",
+      "id": "remote:codeforces:104207::F",
+      "originalTitle": "Fair Lottery",
+      "url": "https://codeforces.com/gym/104207/problem/F"
+    },
+    {
+      "contest": "CCPC 2017 总决赛",
+      "id": "remote:codeforces:104207::G",
+      "originalTitle": "Alice's Stamps",
+      "url": "https://codeforces.com/gym/104207/problem/G"
+    },
+    {
+      "contest": "CCPC 2017 总决赛",
+      "id": "remote:codeforces:104207::H",
+      "originalTitle": "Equidistance",
+      "url": "https://codeforces.com/gym/104207/problem/H"
+    },
+    {
+      "contest": "CCPC 2017 总决赛",
+      "id": "remote:codeforces:104207::I",
+      "originalTitle": "Inkopolis",
+      "url": "https://codeforces.com/gym/104207/problem/I"
+    },
+    {
+      "contest": "CCPC 2017 总决赛",
+      "id": "remote:codeforces:104207::J",
+      "originalTitle": "Subway Chasing",
+      "url": "https://codeforces.com/gym/104207/problem/J"
+    },
+    {
+      "contest": "CCPC 2017 总决赛",
+      "id": "remote:codeforces:104207::K",
+      "originalTitle": "Knightmare",
+      "url": "https://codeforces.com/gym/104207/problem/K"
+    },
+    {
+      "contest": "ICPC 2018 青岛网络赛",
+      "id": "remote:codeforces:104566::A",
+      "originalTitle": "Live Love",
+      "url": "https://codeforces.com/gym/104566/problem/A"
+    },
+    {
+      "contest": "ICPC 2018 青岛网络赛",
+      "id": "remote:codeforces:104566::B",
+      "originalTitle": "Red Black Tree",
+      "url": "https://codeforces.com/gym/104566/problem/B"
+    },
+    {
+      "contest": "ICPC 2018 青岛网络赛",
+      "id": "remote:codeforces:104566::C",
+      "originalTitle": "Halting Problem",
+      "url": "https://codeforces.com/gym/104566/problem/C"
+    },
+    {
+      "contest": "ICPC 2018 青岛网络赛",
+      "id": "remote:codeforces:104566::D",
+      "originalTitle": "Pixel Art",
+      "url": "https://codeforces.com/gym/104566/problem/D"
+    },
+    {
+      "contest": "ICPC 2018 青岛网络赛",
+      "id": "remote:codeforces:104566::E",
+      "originalTitle": "Infinite Parenthesis Sequence",
+      "url": "https://codeforces.com/gym/104566/problem/E"
+    },
+    {
+      "contest": "ICPC 2018 青岛网络赛",
+      "id": "remote:codeforces:104566::F",
+      "originalTitle": "Chaleur",
+      "url": "https://codeforces.com/gym/104566/problem/F"
+    },
+    {
+      "contest": "ICPC 2018 青岛网络赛",
+      "id": "remote:codeforces:104566::G",
+      "originalTitle": "Couleur",
+      "url": "https://codeforces.com/gym/104566/problem/G"
+    },
+    {
+      "contest": "ICPC 2018 青岛网络赛",
+      "id": "remote:codeforces:104566::H",
+      "originalTitle": "Traveling on the Axis",
+      "url": "https://codeforces.com/gym/104566/problem/H"
+    },
+    {
+      "contest": "ICPC 2018 青岛网络赛",
+      "id": "remote:codeforces:104566::I",
+      "originalTitle": "Kuririn MIRACLE",
+      "url": "https://codeforces.com/gym/104566/problem/I"
+    },
+    {
+      "contest": "ICPC 2018 青岛网络赛",
+      "id": "remote:codeforces:104566::J",
+      "originalTitle": "Press the Button",
+      "url": "https://codeforces.com/gym/104566/problem/J"
+    },
+    {
+      "contest": "ICPC 2018 青岛网络赛",
+      "id": "remote:codeforces:104566::K",
+      "originalTitle": "XOR Clique",
+      "url": "https://codeforces.com/gym/104566/problem/K"
+    },
+    {
+      "contest": "ICPC 2023 台湾网络赛",
+      "id": "remote:codeforces:104619::A",
+      "originalTitle": "Advance to Taoyuan Regional",
+      "url": "https://codeforces.com/gym/104619/problem/A"
+    },
+    {
+      "contest": "ICPC 2023 台湾网络赛",
+      "id": "remote:codeforces:104619::B",
+      "originalTitle": "Better Chance",
+      "url": "https://codeforces.com/gym/104619/problem/B"
+    },
+    {
+      "contest": "ICPC 2023 台湾网络赛",
+      "id": "remote:codeforces:104619::C",
+      "originalTitle": "Cutting into Monotone Increasing Sequence",
+      "url": "https://codeforces.com/gym/104619/problem/C"
+    },
+    {
+      "contest": "ICPC 2023 台湾网络赛",
+      "id": "remote:codeforces:104619::D",
+      "originalTitle": "Divide a Convex",
+      "url": "https://codeforces.com/gym/104619/problem/D"
+    },
+    {
+      "contest": "ICPC 2023 台湾网络赛",
+      "id": "remote:codeforces:104619::E",
+      "originalTitle": "Exponentiation",
+      "url": "https://codeforces.com/gym/104619/problem/E"
+    },
+    {
+      "contest": "ICPC 2023 台湾网络赛",
+      "id": "remote:codeforces:104619::F",
+      "originalTitle": "Finding Bridges",
+      "url": "https://codeforces.com/gym/104619/problem/F"
+    },
+    {
+      "contest": "ICPC 2023 台湾网络赛",
+      "id": "remote:codeforces:104619::G",
+      "originalTitle": "Gadget Construction",
+      "url": "https://codeforces.com/gym/104619/problem/G"
+    },
+    {
+      "contest": "ICPC 2023 台湾网络赛",
+      "id": "remote:codeforces:104619::H",
+      "originalTitle": "Heap Structure",
+      "url": "https://codeforces.com/gym/104619/problem/H"
+    },
+    {
+      "contest": "ICPC 2023 台湾网络赛",
+      "id": "remote:codeforces:104619::I",
+      "originalTitle": "Introversion",
+      "url": "https://codeforces.com/gym/104619/problem/I"
+    },
+    {
+      "contest": "ICPC 2023 台湾网络赛",
+      "id": "remote:codeforces:104619::J",
+      "originalTitle": "Java Warriors",
+      "url": "https://codeforces.com/gym/104619/problem/J"
+    },
+    {
+      "contest": "ICPC 2023 台湾网络赛",
+      "id": "remote:codeforces:104619::K",
+      "originalTitle": "Kick",
+      "url": "https://codeforces.com/gym/104619/problem/K"
+    },
+    {
+      "contest": "ICPC 2023 台湾网络赛",
+      "id": "remote:codeforces:104619::L",
+      "originalTitle": "Location, Location, Location",
+      "url": "https://codeforces.com/gym/104619/problem/L"
+    },
+    {
+      "contest": "ICPC 2023 亚洲东区网络预选赛（第 1 场）",
+      "id": "remote:codeforces:104639::A",
+      "originalTitle": "Qualifiers Ranking Rules",
+      "url": "https://codeforces.com/gym/104639/problem/A"
+    },
+    {
+      "contest": "ICPC 2023 亚洲东区网络预选赛（第 1 场）",
+      "id": "remote:codeforces:104639::B",
+      "originalTitle": "String",
+      "url": "https://codeforces.com/gym/104639/problem/B"
+    },
+    {
+      "contest": "ICPC 2023 亚洲东区网络预选赛（第 1 场）",
+      "id": "remote:codeforces:104639::C",
+      "originalTitle": "Multiply Then Plus",
+      "url": "https://codeforces.com/gym/104639/problem/C"
+    },
+    {
+      "contest": "ICPC 2023 亚洲东区网络预选赛（第 1 场）",
+      "id": "remote:codeforces:104639::D",
+      "originalTitle": "Transitivity",
+      "url": "https://codeforces.com/gym/104639/problem/D"
+    },
+    {
+      "contest": "ICPC 2023 亚洲东区网络预选赛（第 1 场）",
+      "id": "remote:codeforces:104639::E",
+      "originalTitle": "Magical Pair",
+      "url": "https://codeforces.com/gym/104639/problem/E"
+    },
+    {
+      "contest": "ICPC 2023 亚洲东区网络预选赛（第 1 场）",
+      "id": "remote:codeforces:104639::F",
+      "originalTitle": "Alice and Bob",
+      "url": "https://codeforces.com/gym/104639/problem/F"
+    },
+    {
+      "contest": "ICPC 2023 亚洲东区网络预选赛（第 1 场）",
+      "id": "remote:codeforces:104639::G",
+      "originalTitle": "Spanning Tree",
+      "url": "https://codeforces.com/gym/104639/problem/G"
+    },
+    {
+      "contest": "ICPC 2023 亚洲东区网络预选赛（第 1 场）",
+      "id": "remote:codeforces:104639::H",
+      "originalTitle": "Range Periodicity Query",
+      "url": "https://codeforces.com/gym/104639/problem/H"
+    },
+    {
+      "contest": "ICPC 2023 亚洲东区网络预选赛（第 1 场）",
+      "id": "remote:codeforces:104639::I",
+      "originalTitle": "Pa?sWorD",
+      "url": "https://codeforces.com/gym/104639/problem/I"
+    },
+    {
+      "contest": "ICPC 2023 亚洲东区网络预选赛（第 1 场）",
+      "id": "remote:codeforces:104639::J",
+      "originalTitle": "Minimum Manhattan Distance",
+      "url": "https://codeforces.com/gym/104639/problem/J"
+    },
+    {
+      "contest": "ICPC 2023 亚洲东区网络预选赛（第 1 场）",
+      "id": "remote:codeforces:104639::K",
+      "originalTitle": "Minimum Euclidean Distance",
+      "url": "https://codeforces.com/gym/104639/problem/K"
+    },
+    {
+      "contest": "ICPC 2023 亚洲东区网络预选赛（第 1 场）",
+      "id": "remote:codeforces:104639::L",
+      "originalTitle": "KaChang!",
+      "url": "https://codeforces.com/gym/104639/problem/L"
+    },
+    {
+      "contest": "CCPC 2023 网络赛",
+      "id": "remote:codeforces:104651::A",
+      "originalTitle": "Almost Prefix Concatenation",
+      "url": "https://codeforces.com/gym/104651/problem/A"
+    },
+    {
+      "contest": "CCPC 2023 网络赛",
+      "id": "remote:codeforces:104651::B",
+      "originalTitle": "Palindromic Beads",
+      "url": "https://codeforces.com/gym/104651/problem/B"
+    },
+    {
+      "contest": "CCPC 2023 网络赛",
+      "id": "remote:codeforces:104651::C",
+      "originalTitle": "Clique Challenge",
+      "url": "https://codeforces.com/gym/104651/problem/C"
+    },
+    {
+      "contest": "CCPC 2023 网络赛",
+      "id": "remote:codeforces:104651::D",
+      "originalTitle": "Discrete Fourier Transform",
+      "url": "https://codeforces.com/gym/104651/problem/D"
+    },
+    {
+      "contest": "CCPC 2023 网络赛",
+      "id": "remote:codeforces:104651::E",
+      "originalTitle": "Robot Experiment",
+      "url": "https://codeforces.com/gym/104651/problem/E"
+    },
+    {
+      "contest": "CCPC 2023 网络赛",
+      "id": "remote:codeforces:104651::F",
+      "originalTitle": "Flying Ship Story",
+      "url": "https://codeforces.com/gym/104651/problem/F"
+    },
+    {
+      "contest": "CCPC 2023 网络赛",
+      "id": "remote:codeforces:104651::G",
+      "originalTitle": "GCD of Pattern Matching",
+      "url": "https://codeforces.com/gym/104651/problem/G"
+    },
+    {
+      "contest": "CCPC 2023 网络赛",
+      "id": "remote:codeforces:104651::H",
+      "originalTitle": "Hurricane",
+      "url": "https://codeforces.com/gym/104651/problem/H"
+    },
+    {
+      "contest": "CCPC 2023 网络赛",
+      "id": "remote:codeforces:104651::I",
+      "originalTitle": "Monster Generator",
+      "url": "https://codeforces.com/gym/104651/problem/I"
+    },
+    {
+      "contest": "CCPC 2023 网络赛",
+      "id": "remote:codeforces:104651::J",
+      "originalTitle": "Find the Gap",
+      "url": "https://codeforces.com/gym/104651/problem/J"
+    },
+    {
+      "contest": "CCPC 2023 网络赛",
+      "id": "remote:codeforces:104651::K",
+      "originalTitle": "Sequence Shift",
+      "url": "https://codeforces.com/gym/104651/problem/K"
+    },
+    {
+      "contest": "CCPC 2023 网络赛",
+      "id": "remote:codeforces:104651::L",
+      "originalTitle": "Partially Free Meal",
+      "url": "https://codeforces.com/gym/104651/problem/L"
+    },
+    {
+      "contest": "CCPC 2024 网络赛",
+      "id": "remote:codeforces:105336::A",
+      "originalTitle": "军训 I",
+      "url": "https://codeforces.com/gym/105336/problem/A"
+    },
+    {
+      "contest": "CCPC 2024 网络赛",
+      "id": "remote:codeforces:105336::B",
+      "originalTitle": "军训 II",
+      "url": "https://codeforces.com/gym/105336/problem/B"
+    },
+    {
+      "contest": "CCPC 2024 网络赛",
+      "id": "remote:codeforces:105336::C",
+      "originalTitle": "种树",
+      "url": "https://codeforces.com/gym/105336/problem/C"
+    },
+    {
+      "contest": "CCPC 2024 网络赛",
+      "id": "remote:codeforces:105336::D",
+      "originalTitle": "编码器-解码器",
+      "url": "https://codeforces.com/gym/105336/problem/D"
+    },
+    {
+      "contest": "CCPC 2024 网络赛",
+      "id": "remote:codeforces:105336::E",
+      "originalTitle": "随机过程",
+      "url": "https://codeforces.com/gym/105336/problem/E"
+    },
+    {
+      "contest": "CCPC 2024 网络赛",
+      "id": "remote:codeforces:105336::F",
+      "originalTitle": "包子鸡蛋 III",
+      "url": "https://codeforces.com/gym/105336/problem/F"
+    },
+    {
+      "contest": "CCPC 2024 网络赛",
+      "id": "remote:codeforces:105336::G",
+      "originalTitle": "疯狂星期六",
+      "url": "https://codeforces.com/gym/105336/problem/G"
+    },
+    {
+      "contest": "CCPC 2024 网络赛",
+      "id": "remote:codeforces:105336::H",
+      "originalTitle": "另一个游戏",
+      "url": "https://codeforces.com/gym/105336/problem/H"
+    },
+    {
+      "contest": "CCPC 2024 网络赛",
+      "id": "remote:codeforces:105336::I",
+      "originalTitle": "找行李",
+      "url": "https://codeforces.com/gym/105336/problem/I"
+    },
+    {
+      "contest": "CCPC 2024 网络赛",
+      "id": "remote:codeforces:105336::J",
+      "originalTitle": "找最小",
+      "url": "https://codeforces.com/gym/105336/problem/J"
+    },
+    {
+      "contest": "CCPC 2024 网络赛",
+      "id": "remote:codeforces:105336::K",
+      "originalTitle": "取沙子游戏",
+      "url": "https://codeforces.com/gym/105336/problem/K"
+    },
+    {
+      "contest": "CCPC 2024 网络赛",
+      "id": "remote:codeforces:105336::L",
+      "originalTitle": "网络预选赛",
+      "url": "https://codeforces.com/gym/105336/problem/L"
+    },
+    {
+      "contest": "ICPC 2024 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:105358::A",
+      "originalTitle": "Gambling on Choosing Regionals",
+      "url": "https://codeforces.com/gym/105358/problem/A"
+    },
+    {
+      "contest": "ICPC 2024 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:105358::B",
+      "originalTitle": "Mountain Booking",
+      "url": "https://codeforces.com/gym/105358/problem/B"
+    },
+    {
+      "contest": "ICPC 2024 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:105358::C",
+      "originalTitle": "Prefix of Suffixes",
+      "url": "https://codeforces.com/gym/105358/problem/C"
+    },
+    {
+      "contest": "ICPC 2024 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:105358::D",
+      "originalTitle": "Query on Tree",
+      "url": "https://codeforces.com/gym/105358/problem/D"
+    },
+    {
+      "contest": "ICPC 2024 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:105358::E",
+      "originalTitle": "Escape",
+      "url": "https://codeforces.com/gym/105358/problem/E"
+    },
+    {
+      "contest": "ICPC 2024 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:105358::F",
+      "originalTitle": "Tourist",
+      "url": "https://codeforces.com/gym/105358/problem/F"
+    },
+    {
+      "contest": "ICPC 2024 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:105358::G",
+      "originalTitle": "Game",
+      "url": "https://codeforces.com/gym/105358/problem/G"
+    },
+    {
+      "contest": "ICPC 2024 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:105358::H",
+      "originalTitle": "Points Selection",
+      "url": "https://codeforces.com/gym/105358/problem/H"
+    },
+    {
+      "contest": "ICPC 2024 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:105358::I",
+      "originalTitle": "Strange Binary",
+      "url": "https://codeforces.com/gym/105358/problem/I"
+    },
+    {
+      "contest": "ICPC 2024 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:105358::J",
+      "originalTitle": "Stacking of Goods",
+      "url": "https://codeforces.com/gym/105358/problem/J"
+    },
+    {
+      "contest": "ICPC 2024 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:105358::K",
+      "originalTitle": "Match",
+      "url": "https://codeforces.com/gym/105358/problem/K"
+    },
+    {
+      "contest": "ICPC 2024 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:105358::L",
+      "originalTitle": "502 Bad Gateway",
+      "url": "https://codeforces.com/gym/105358/problem/L"
+    },
+    {
+      "contest": "ICPC 2024 台湾网络赛",
+      "id": "remote:codeforces:105383::A",
+      "originalTitle": "Animal Farm",
+      "url": "https://codeforces.com/gym/105383/problem/A"
+    },
+    {
+      "contest": "ICPC 2024 台湾网络赛",
+      "id": "remote:codeforces:105383::B",
+      "originalTitle": "Business Magic",
+      "url": "https://codeforces.com/gym/105383/problem/B"
+    },
+    {
+      "contest": "ICPC 2024 台湾网络赛",
+      "id": "remote:codeforces:105383::C",
+      "originalTitle": "Cards",
+      "url": "https://codeforces.com/gym/105383/problem/C"
+    },
+    {
+      "contest": "ICPC 2024 台湾网络赛",
+      "id": "remote:codeforces:105383::D",
+      "originalTitle": "Disbursement on Quarantine Policy",
+      "url": "https://codeforces.com/gym/105383/problem/D"
+    },
+    {
+      "contest": "ICPC 2024 台湾网络赛",
+      "id": "remote:codeforces:105383::E",
+      "originalTitle": "Efficient Slabstones Rearrangement",
+      "url": "https://codeforces.com/gym/105383/problem/E"
+    },
+    {
+      "contest": "ICPC 2024 台湾网络赛",
+      "id": "remote:codeforces:105383::F",
+      "originalTitle": "Fibonacci Lucky Numbers",
+      "url": "https://codeforces.com/gym/105383/problem/F"
+    },
+    {
+      "contest": "ICPC 2024 台湾网络赛",
+      "id": "remote:codeforces:105383::G",
+      "originalTitle": "Game of Rounding",
+      "url": "https://codeforces.com/gym/105383/problem/G"
+    },
+    {
+      "contest": "ICPC 2024 台湾网络赛",
+      "id": "remote:codeforces:105383::H",
+      "originalTitle": "Harmonious Passage of Magicians",
+      "url": "https://codeforces.com/gym/105383/problem/H"
+    },
+    {
+      "contest": "ICPC 2024 台湾网络赛",
+      "id": "remote:codeforces:105383::I",
+      "originalTitle": "In Search of the Lost Array",
+      "url": "https://codeforces.com/gym/105383/problem/I"
+    },
+    {
+      "contest": "ICPC 2024 台湾网络赛",
+      "id": "remote:codeforces:105383::J",
+      "originalTitle": "Just Round Down",
+      "url": "https://codeforces.com/gym/105383/problem/J"
+    },
+    {
+      "contest": "ICPC 2024 台湾网络赛",
+      "id": "remote:codeforces:105383::K",
+      "originalTitle": "Kingdom's Development Plan",
+      "url": "https://codeforces.com/gym/105383/problem/K"
+    },
+    {
+      "contest": "ICPC 2024 台湾网络赛",
+      "id": "remote:codeforces:105383::L",
+      "originalTitle": "Lexicopolis",
+      "url": "https://codeforces.com/gym/105383/problem/L"
+    },
+    {
+      "contest": "ICPC 2025 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106072::A",
+      "originalTitle": "Angry Birds",
+      "url": "https://codeforces.com/gym/106072/problem/A"
+    },
+    {
+      "contest": "ICPC 2025 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106072::B",
+      "originalTitle": "Rectangular Wooden Block",
+      "url": "https://codeforces.com/gym/106072/problem/B"
+    },
+    {
+      "contest": "ICPC 2025 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106072::C",
+      "originalTitle": "Jiaxun!",
+      "url": "https://codeforces.com/gym/106072/problem/C"
+    },
+    {
+      "contest": "ICPC 2025 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106072::D",
+      "originalTitle": "Arcane Behemoths",
+      "url": "https://codeforces.com/gym/106072/problem/D"
+    },
+    {
+      "contest": "ICPC 2025 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106072::E",
+      "originalTitle": "Zero",
+      "url": "https://codeforces.com/gym/106072/problem/E"
+    },
+    {
+      "contest": "ICPC 2025 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106072::F",
+      "originalTitle": "Square Permutation I",
+      "url": "https://codeforces.com/gym/106072/problem/F"
+    },
+    {
+      "contest": "ICPC 2025 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106072::G",
+      "originalTitle": "Square Permutation II",
+      "url": "https://codeforces.com/gym/106072/problem/G"
+    },
+    {
+      "contest": "ICPC 2025 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106072::H",
+      "originalTitle": "Tree Shuffling",
+      "url": "https://codeforces.com/gym/106072/problem/H"
+    },
+    {
+      "contest": "ICPC 2025 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106072::I",
+      "originalTitle": "DAG Query",
+      "url": "https://codeforces.com/gym/106072/problem/I"
+    },
+    {
+      "contest": "ICPC 2025 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106072::J",
+      "originalTitle": "Reconstruct the tree",
+      "url": "https://codeforces.com/gym/106072/problem/J"
+    },
+    {
+      "contest": "ICPC 2025 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106072::K",
+      "originalTitle": "The Only Heart",
+      "url": "https://codeforces.com/gym/106072/problem/K"
+    },
+    {
+      "contest": "ICPC 2025 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106072::L",
+      "originalTitle": "Xor Mirror",
+      "url": "https://codeforces.com/gym/106072/problem/L"
+    },
+    {
+      "contest": "ICPC 2025 台湾网络赛",
+      "id": "remote:codeforces:106084::A",
+      "originalTitle": "Take It or Double It",
+      "url": "https://codeforces.com/gym/106084/problem/A"
+    },
+    {
+      "contest": "ICPC 2025 台湾网络赛",
+      "id": "remote:codeforces:106084::B",
+      "originalTitle": "Twin Guardians",
+      "url": "https://codeforces.com/gym/106084/problem/B"
+    },
+    {
+      "contest": "ICPC 2025 台湾网络赛",
+      "id": "remote:codeforces:106084::C",
+      "originalTitle": "One-Way Abyss",
+      "url": "https://codeforces.com/gym/106084/problem/C"
+    },
+    {
+      "contest": "ICPC 2025 台湾网络赛",
+      "id": "remote:codeforces:106084::D",
+      "originalTitle": "Palindromic Distance",
+      "url": "https://codeforces.com/gym/106084/problem/D"
+    },
+    {
+      "contest": "ICPC 2025 台湾网络赛",
+      "id": "remote:codeforces:106084::E",
+      "originalTitle": "Explosive Slabstones Rearrangement",
+      "url": "https://codeforces.com/gym/106084/problem/E"
+    },
+    {
+      "contest": "ICPC 2025 台湾网络赛",
+      "id": "remote:codeforces:106084::F",
+      "originalTitle": "Fruitful Compression",
+      "url": "https://codeforces.com/gym/106084/problem/F"
+    },
+    {
+      "contest": "ICPC 2025 台湾网络赛",
+      "id": "remote:codeforces:106084::G",
+      "originalTitle": "Gamer Bafuko",
+      "url": "https://codeforces.com/gym/106084/problem/G"
+    },
+    {
+      "contest": "ICPC 2025 台湾网络赛",
+      "id": "remote:codeforces:106084::H",
+      "originalTitle": "Chopsticks",
+      "url": "https://codeforces.com/gym/106084/problem/H"
+    },
+    {
+      "contest": "ICPC 2025 台湾网络赛",
+      "id": "remote:codeforces:106084::I",
+      "originalTitle": "Reactor",
+      "url": "https://codeforces.com/gym/106084/problem/I"
+    },
+    {
+      "contest": "ICPC 2025 台湾网络赛",
+      "id": "remote:codeforces:106084::J",
+      "originalTitle": "Gas Station",
+      "url": "https://codeforces.com/gym/106084/problem/J"
+    },
+    {
+      "contest": "ICPC 2025 台湾网络赛",
+      "id": "remote:codeforces:106084::K",
+      "originalTitle": "Move Stone",
+      "url": "https://codeforces.com/gym/106084/problem/K"
+    },
+    {
+      "contest": "ICPC 2025 台湾网络赛",
+      "id": "remote:codeforces:106084::L",
+      "originalTitle": "Stapler",
+      "url": "https://codeforces.com/gym/106084/problem/L"
+    },
+    {
+      "contest": "ICPC 2026 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106701::A",
+      "originalTitle": "All Closed",
+      "url": "https://codeforces.com/gym/106701/problem/A"
+    },
+    {
+      "contest": "ICPC 2026 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106701::B",
+      "originalTitle": "Bread",
+      "url": "https://codeforces.com/gym/106701/problem/B"
+    },
+    {
+      "contest": "ICPC 2026 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106701::C",
+      "originalTitle": "Cut Tree",
+      "url": "https://codeforces.com/gym/106701/problem/C"
+    },
+    {
+      "contest": "ICPC 2026 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106701::D",
+      "originalTitle": "Divide and Conquer",
+      "url": "https://codeforces.com/gym/106701/problem/D"
+    },
+    {
+      "contest": "ICPC 2026 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106701::E",
+      "originalTitle": "Exponent",
+      "url": "https://codeforces.com/gym/106701/problem/E"
+    },
+    {
+      "contest": "ICPC 2026 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106701::F",
+      "originalTitle": "Folding Game of Ohto Ai",
+      "url": "https://codeforces.com/gym/106701/problem/F"
+    },
+    {
+      "contest": "ICPC 2026 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106701::G",
+      "originalTitle": "Ghost of Tsushima",
+      "url": "https://codeforces.com/gym/106701/problem/G"
+    },
+    {
+      "contest": "ICPC 2026 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106701::H",
+      "originalTitle": "Hidden Track (Easy Version)",
+      "url": "https://codeforces.com/gym/106701/problem/H"
+    },
+    {
+      "contest": "ICPC 2026 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106701::I",
+      "originalTitle": "Island",
+      "url": "https://codeforces.com/gym/106701/problem/I"
+    },
+    {
+      "contest": "ICPC 2026 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106701::J",
+      "originalTitle": "Joker or Judger",
+      "url": "https://codeforces.com/gym/106701/problem/J"
+    },
+    {
+      "contest": "ICPC 2026 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106701::K",
+      "originalTitle": "K-MEX",
+      "url": "https://codeforces.com/gym/106701/problem/K"
+    },
+    {
+      "contest": "ICPC 2026 亚洲东区网络预选赛（第 2 场）",
+      "id": "remote:codeforces:106701::L",
+      "originalTitle": "Loop",
+      "url": "https://codeforces.com/gym/106701/problem/L"
+    },
+    {
+      "contest": "CCPC 2026 网络赛",
+      "id": "remote:codeforces:106725::A",
+      "originalTitle": "All the Trades Are the Best",
+      "url": "https://codeforces.com/gym/106725/problem/A"
+    },
+    {
+      "contest": "CCPC 2026 网络赛",
+      "id": "remote:codeforces:106725::B",
+      "originalTitle": "Better Die",
+      "url": "https://codeforces.com/gym/106725/problem/B"
+    },
+    {
+      "contest": "CCPC 2026 网络赛",
+      "id": "remote:codeforces:106725::C",
+      "originalTitle": "Cross the Road",
+      "url": "https://codeforces.com/gym/106725/problem/C"
+    },
+    {
+      "contest": "CCPC 2026 网络赛",
+      "id": "remote:codeforces:106725::D",
+      "originalTitle": "Dodge the Car",
+      "url": "https://codeforces.com/gym/106725/problem/D"
+    },
+    {
+      "contest": "CCPC 2026 网络赛",
+      "id": "remote:codeforces:106725::E",
+      "originalTitle": "EPS.AC",
+      "url": "https://codeforces.com/gym/106725/problem/E"
+    },
+    {
+      "contest": "CCPC 2026 网络赛",
+      "id": "remote:codeforces:106725::F",
+      "originalTitle": "Flight of the Night Butterfly",
+      "url": "https://codeforces.com/gym/106725/problem/F"
+    },
+    {
+      "contest": "CCPC 2026 网络赛",
+      "id": "remote:codeforces:106725::G",
+      "originalTitle": "Growing Prefix Span",
+      "url": "https://codeforces.com/gym/106725/problem/G"
+    },
+    {
+      "contest": "CCPC 2026 网络赛",
+      "id": "remote:codeforces:106725::H",
+      "originalTitle": "Hidden Permutation",
+      "url": "https://codeforces.com/gym/106725/problem/H"
+    },
+    {
+      "contest": "CCPC 2026 网络赛",
+      "id": "remote:codeforces:106725::I",
+      "originalTitle": "Integer Triple",
+      "url": "https://codeforces.com/gym/106725/problem/I"
+    },
+    {
+      "contest": "CCPC 2026 网络赛",
+      "id": "remote:codeforces:106725::J",
+      "originalTitle": "Jobs through Pipelines",
+      "url": "https://codeforces.com/gym/106725/problem/J"
+    },
+    {
+      "contest": "CCPC 2026 网络赛",
+      "id": "remote:codeforces:106725::K",
+      "originalTitle": "Keep on the Right Track",
+      "url": "https://codeforces.com/gym/106725/problem/K"
+    },
+    {
+      "contest": "CCPC 2026 网络赛",
+      "id": "remote:codeforces:106725::L",
+      "originalTitle": "Logging Compression",
+      "url": "https://codeforces.com/gym/106725/problem/L"
+    },
+    {
+      "contest": "CCPC 2026 网络赛",
+      "id": "remote:codeforces:106725::M",
+      "originalTitle": "Median Equals X",
+      "url": "https://codeforces.com/gym/106725/problem/M"
+    },
+    {
+      "contest": "CCPC 2026 网络赛",
+      "id": "remote:codeforces:106725::N",
+      "originalTitle": "New CCPC Rule",
+      "url": "https://codeforces.com/gym/106725/problem/N"
+    },
+    {
+      "contest": "ICPC 2026 台湾网络赛",
+      "id": "remote:codeforces:106728::A",
+      "originalTitle": "TOPC Crit",
+      "url": "https://codeforces.com/gym/106728/problem/A"
+    },
+    {
+      "contest": "ICPC 2026 台湾网络赛",
+      "id": "remote:codeforces:106728::B",
+      "originalTitle": "The Secret of Fats",
+      "url": "https://codeforces.com/gym/106728/problem/B"
+    },
+    {
+      "contest": "ICPC 2026 台湾网络赛",
+      "id": "remote:codeforces:106728::C",
+      "originalTitle": "Magical Girl and White Rabbits",
+      "url": "https://codeforces.com/gym/106728/problem/C"
+    },
+    {
+      "contest": "ICPC 2026 台湾网络赛",
+      "id": "remote:codeforces:106728::D",
+      "originalTitle": "Listen to the Music",
+      "url": "https://codeforces.com/gym/106728/problem/D"
+    },
+    {
+      "contest": "ICPC 2026 台湾网络赛",
+      "id": "remote:codeforces:106728::E",
+      "originalTitle": "Elegant Slabstones Rearrangement",
+      "url": "https://codeforces.com/gym/106728/problem/E"
+    },
+    {
+      "contest": "ICPC 2026 台湾网络赛",
+      "id": "remote:codeforces:106728::F",
+      "originalTitle": "Escape Route",
+      "url": "https://codeforces.com/gym/106728/problem/F"
+    },
+    {
+      "contest": "ICPC 2026 台湾网络赛",
+      "id": "remote:codeforces:106728::G",
+      "originalTitle": "The Graduation Photo Lineup",
+      "url": "https://codeforces.com/gym/106728/problem/G"
+    },
+    {
+      "contest": "ICPC 2026 台湾网络赛",
+      "id": "remote:codeforces:106728::H",
+      "originalTitle": "Fridgeberg's Challenge",
+      "url": "https://codeforces.com/gym/106728/problem/H"
+    },
+    {
+      "contest": "ICPC 2026 台湾网络赛",
+      "id": "remote:codeforces:106728::I",
+      "originalTitle": "Marks",
+      "url": "https://codeforces.com/gym/106728/problem/I"
+    },
+    {
+      "contest": "ICPC 2026 台湾网络赛",
+      "id": "remote:codeforces:106728::J",
+      "originalTitle": "Crystal Combination",
+      "url": "https://codeforces.com/gym/106728/problem/J"
+    },
+    {
+      "contest": "ICPC 2026 台湾网络赛",
+      "id": "remote:codeforces:106728::K",
+      "originalTitle": "Subwords",
+      "url": "https://codeforces.com/gym/106728/problem/K"
+    },
+    {
+      "contest": "ICPC 2026 台湾网络赛",
+      "id": "remote:codeforces:106728::L",
+      "originalTitle": "Park of Three",
+      "url": "https://codeforces.com/gym/106728/problem/L"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:nowcoder:366::A",
+      "originalTitle": "Exotic &hellip; Ancient City",
+      "url": "https://ac.nowcoder.com/acm/contest/366/A"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:nowcoder:366::B",
+      "originalTitle": "Mysterious &hellip; Host",
+      "url": "https://ac.nowcoder.com/acm/contest/366/B"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:nowcoder:366::C",
+      "originalTitle": "Heretical &hellip; M&ouml;bius",
+      "url": "https://ac.nowcoder.com/acm/contest/366/C"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:nowcoder:366::D",
+      "originalTitle": "Deja vu of &hellip; Go Players",
+      "url": "https://ac.nowcoder.com/acm/contest/366/D"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:nowcoder:366::E",
+      "originalTitle": "Immortal &hellip; Universe",
+      "url": "https://ac.nowcoder.com/acm/contest/366/E"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:nowcoder:366::F",
+      "originalTitle": "Interstellar &hellip; Fantasy",
+      "url": "https://ac.nowcoder.com/acm/contest/366/F"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:nowcoder:366::G",
+      "originalTitle": "Omnipotent &hellip; Garland",
+      "url": "https://ac.nowcoder.com/acm/contest/366/G"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:nowcoder:366::H",
+      "originalTitle": "Saintly &hellip; Coins",
+      "url": "https://ac.nowcoder.com/acm/contest/366/H"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:nowcoder:366::I",
+      "originalTitle": "Misunderstood &hellip; Missing",
+      "url": "https://ac.nowcoder.com/acm/contest/366/I"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:nowcoder:366::J",
+      "originalTitle": "Philosophical &hellip; Balance",
+      "url": "https://ac.nowcoder.com/acm/contest/366/J"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:nowcoder:366::K",
+      "originalTitle": "Desperate &hellip; Fire Survive",
+      "url": "https://ac.nowcoder.com/acm/contest/366/K"
+    },
+    {
+      "contest": "ICPC 2018 亚洲东区决赛",
+      "id": "remote:nowcoder:366::L",
+      "originalTitle": "Eventual &hellip; Journey",
+      "url": "https://ac.nowcoder.com/acm/contest/366/L"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:nowcoder:3732::A",
+      "originalTitle": "City",
+      "url": "https://ac.nowcoder.com/acm/contest/3732/A"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:nowcoder:3732::B",
+      "originalTitle": "Black and White",
+      "url": "https://ac.nowcoder.com/acm/contest/3732/B"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:nowcoder:3732::C",
+      "originalTitle": "Dirichlet  k -th root",
+      "url": "https://ac.nowcoder.com/acm/contest/3732/C"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:nowcoder:3732::D",
+      "originalTitle": "Fire",
+      "url": "https://ac.nowcoder.com/acm/contest/3732/D"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:nowcoder:3732::E",
+      "originalTitle": "Flow",
+      "url": "https://ac.nowcoder.com/acm/contest/3732/E"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:nowcoder:3732::F",
+      "originalTitle": "Game",
+      "url": "https://ac.nowcoder.com/acm/contest/3732/F"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:nowcoder:3732::G",
+      "originalTitle": "Happiness",
+      "url": "https://ac.nowcoder.com/acm/contest/3732/G"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:nowcoder:3732::H",
+      "originalTitle": "king",
+      "url": "https://ac.nowcoder.com/acm/contest/3732/H"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:nowcoder:3732::I",
+      "originalTitle": "Moon",
+      "url": "https://ac.nowcoder.com/acm/contest/3732/I"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:nowcoder:3732::J",
+      "originalTitle": "Permutation",
+      "url": "https://ac.nowcoder.com/acm/contest/3732/J"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:nowcoder:3732::K",
+      "originalTitle": "All Pair Maximum Flow",
+      "url": "https://ac.nowcoder.com/acm/contest/3732/K"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:nowcoder:3732::L",
+      "originalTitle": "Travel",
+      "url": "https://ac.nowcoder.com/acm/contest/3732/L"
+    },
+    {
+      "contest": "ICPC 2019 亚洲东区决赛",
+      "id": "remote:nowcoder:3732::M",
+      "originalTitle": "value",
+      "url": "https://ac.nowcoder.com/acm/contest/3732/M"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（第 1 场）",
+      "id": "remote:nowcoder:7501::A",
+      "originalTitle": "Intelligent Warehouse",
+      "url": "https://ac.nowcoder.com/acm/contest/7501/A"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（第 1 场）",
+      "id": "remote:nowcoder:7501::B",
+      "originalTitle": "Intelligent Robot",
+      "url": "https://ac.nowcoder.com/acm/contest/7501/B"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（第 1 场）",
+      "id": "remote:nowcoder:7501::C",
+      "originalTitle": "Smart Browser",
+      "url": "https://ac.nowcoder.com/acm/contest/7501/C"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（第 1 场）",
+      "id": "remote:nowcoder:7501::D",
+      "originalTitle": "Router Mesh",
+      "url": "https://ac.nowcoder.com/acm/contest/7501/D"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（第 1 场）",
+      "id": "remote:nowcoder:7501::E",
+      "originalTitle": "Phone Network",
+      "url": "https://ac.nowcoder.com/acm/contest/7501/E"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（第 1 场）",
+      "id": "remote:nowcoder:7501::F",
+      "originalTitle": "Design Problemset",
+      "url": "https://ac.nowcoder.com/acm/contest/7501/F"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（第 1 场）",
+      "id": "remote:nowcoder:7501::G",
+      "originalTitle": "Tree Projection",
+      "url": "https://ac.nowcoder.com/acm/contest/7501/G"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（第 1 场）",
+      "id": "remote:nowcoder:7501::H",
+      "originalTitle": "Grouping",
+      "url": "https://ac.nowcoder.com/acm/contest/7501/H"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（第 1 场）",
+      "id": "remote:nowcoder:7501::I",
+      "originalTitle": "Walking Machine",
+      "url": "https://ac.nowcoder.com/acm/contest/7501/I"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（第 1 场）",
+      "id": "remote:nowcoder:7501::J",
+      "originalTitle": "Matrix Subtraction",
+      "url": "https://ac.nowcoder.com/acm/contest/7501/J"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（第 1 场）",
+      "id": "remote:nowcoder:7501::K",
+      "originalTitle": "Sqrt Approaching",
+      "url": "https://ac.nowcoder.com/acm/contest/7501/K"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（第 2 场）",
+      "id": "remote:nowcoder:7502::A",
+      "originalTitle": "2020",
+      "url": "https://ac.nowcoder.com/acm/contest/7502/A"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（第 2 场）",
+      "id": "remote:nowcoder:7502::B",
+      "originalTitle": "Bounding Box",
+      "url": "https://ac.nowcoder.com/acm/contest/7502/B"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（第 2 场）",
+      "id": "remote:nowcoder:7502::C",
+      "originalTitle": "Data Structure Problem",
+      "url": "https://ac.nowcoder.com/acm/contest/7502/C"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（第 2 场）",
+      "id": "remote:nowcoder:7502::D",
+      "originalTitle": "Determinant",
+      "url": "https://ac.nowcoder.com/acm/contest/7502/D"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（第 2 场）",
+      "id": "remote:nowcoder:7502::E",
+      "originalTitle": "Query of Square",
+      "url": "https://ac.nowcoder.com/acm/contest/7502/E"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（第 2 场）",
+      "id": "remote:nowcoder:7502::F",
+      "originalTitle": "Modulo Nine",
+      "url": "https://ac.nowcoder.com/acm/contest/7502/F"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（第 2 场）",
+      "id": "remote:nowcoder:7502::G",
+      "originalTitle": "Shift and Reverse",
+      "url": "https://ac.nowcoder.com/acm/contest/7502/G"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（第 2 场）",
+      "id": "remote:nowcoder:7502::H",
+      "originalTitle": "Knapsack",
+      "url": "https://ac.nowcoder.com/acm/contest/7502/H"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（第 2 场）",
+      "id": "remote:nowcoder:7502::I",
+      "originalTitle": "Subsequence Pair",
+      "url": "https://ac.nowcoder.com/acm/contest/7502/I"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（第 2 场）",
+      "id": "remote:nowcoder:7502::J",
+      "originalTitle": "Hamming Distance",
+      "url": "https://ac.nowcoder.com/acm/contest/7502/J"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（第 2 场）",
+      "id": "remote:nowcoder:7502::K",
+      "originalTitle": "Suffix Array for Fibonacci",
+      "url": "https://ac.nowcoder.com/acm/contest/7502/K"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（热身赛）",
+      "id": "remote:nowcoder:8409::A",
+      "originalTitle": "ABBA",
+      "url": "https://ac.nowcoder.com/acm/contest/8409/A"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（热身赛）",
+      "id": "remote:nowcoder:8409::B",
+      "originalTitle": "Beauty Values",
+      "url": "https://ac.nowcoder.com/acm/contest/8409/B"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（热身赛）",
+      "id": "remote:nowcoder:8409::C",
+      "originalTitle": "CDMA",
+      "url": "https://ac.nowcoder.com/acm/contest/8409/C"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（热身赛）",
+      "id": "remote:nowcoder:8409::D",
+      "originalTitle": "All-one Matrices",
+      "url": "https://ac.nowcoder.com/acm/contest/8409/D"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（热身赛）",
+      "id": "remote:nowcoder:8409::E",
+      "originalTitle": "Explorer",
+      "url": "https://ac.nowcoder.com/acm/contest/8409/E"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（热身赛）",
+      "id": "remote:nowcoder:8409::F",
+      "originalTitle": "Fraction Comparision",
+      "url": "https://ac.nowcoder.com/acm/contest/8409/F"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（热身赛）",
+      "id": "remote:nowcoder:8409::G",
+      "originalTitle": "Gemstones",
+      "url": "https://ac.nowcoder.com/acm/contest/8409/G"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（热身赛）",
+      "id": "remote:nowcoder:8409::H",
+      "originalTitle": "Equivalent Prefixes",
+      "url": "https://ac.nowcoder.com/acm/contest/8409/H"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（热身赛）",
+      "id": "remote:nowcoder:8409::I",
+      "originalTitle": "Integration",
+      "url": "https://ac.nowcoder.com/acm/contest/8409/I"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（热身赛）",
+      "id": "remote:nowcoder:8409::J",
+      "originalTitle": "XOR",
+      "url": "https://ac.nowcoder.com/acm/contest/8409/J"
+    },
+    {
+      "contest": "ICPC 2020 小米网络选拔赛（热身赛）",
+      "id": "remote:nowcoder:8409::K",
+      "originalTitle": "Random Point in Triangle",
+      "url": "https://ac.nowcoder.com/acm/contest/8409/K"
+    },
+    {
+      "contest": "ICPC 2020 亚洲网络赛（模拟赛）",
+      "id": "remote:nowcoder:8688::A",
+      "originalTitle": "Easy Equation",
+      "url": "https://ac.nowcoder.com/acm/contest/8688/A"
+    },
+    {
+      "contest": "ICPC 2020 亚洲网络赛（模拟赛）",
+      "id": "remote:nowcoder:8688::B",
+      "originalTitle": "XTL's Chessboard",
+      "url": "https://ac.nowcoder.com/acm/contest/8688/B"
+    },
+    {
+      "contest": "ICPC 2020 亚洲网络赛（模拟赛）",
+      "id": "remote:nowcoder:8688::C",
+      "originalTitle": "XTL's Chessboard（Continuation）",
+      "url": "https://ac.nowcoder.com/acm/contest/8688/C"
+    },
+    {
+      "contest": "ICPC 2020 亚洲网络赛（模拟赛）",
+      "id": "remote:nowcoder:8688::D",
+      "originalTitle": "Pokemon Ultra Sun",
+      "url": "https://ac.nowcoder.com/acm/contest/8688/D"
+    },
+    {
+      "contest": "ICPC 2020 亚洲网络赛（模拟赛）",
+      "id": "remote:nowcoder:8688::E",
+      "originalTitle": "Eat Walnuts",
+      "url": "https://ac.nowcoder.com/acm/contest/8688/E"
+    },
+    {
+      "contest": "ICPC 2020 亚洲网络赛（模拟赛）",
+      "id": "remote:nowcoder:8688::F",
+      "originalTitle": "wrestling on road",
+      "url": "https://ac.nowcoder.com/acm/contest/8688/F"
+    },
+    {
+      "contest": "ICPC 2020 亚洲网络赛（模拟赛）",
+      "id": "remote:nowcoder:8688::G",
+      "originalTitle": "Ghost Reporting",
+      "url": "https://ac.nowcoder.com/acm/contest/8688/G"
+    },
+    {
+      "contest": "ICPC 2020 亚洲网络赛（模拟赛）",
+      "id": "remote:nowcoder:8688::H",
+      "originalTitle": "Nuclear launch detected",
+      "url": "https://ac.nowcoder.com/acm/contest/8688/H"
+    },
+    {
+      "contest": "ICPC 2020 亚洲网络赛（模拟赛）",
+      "id": "remote:nowcoder:8688::I",
+      "originalTitle": "Character Wheels",
+      "url": "https://ac.nowcoder.com/acm/contest/8688/I"
+    },
+    {
+      "contest": "ICPC 2020 亚洲网络赛（模拟赛）",
+      "id": "remote:nowcoder:8688::J",
+      "originalTitle": "K-th route",
+      "url": "https://ac.nowcoder.com/acm/contest/8688/J"
+    },
+    {
+      "contest": "ICPC 2020 小米邀请赛决赛（热身赛）",
+      "id": "remote:nowcoder:9327::A",
+      "originalTitle": "Rikka with Nickname",
+      "url": "https://ac.nowcoder.com/acm/contest/9327/A"
+    },
+    {
+      "contest": "ICPC 2020 小米邀请赛决赛（热身赛）",
+      "id": "remote:nowcoder:9327::B",
+      "originalTitle": "Rikka with Lowbit",
+      "url": "https://ac.nowcoder.com/acm/contest/9327/B"
+    },
+    {
+      "contest": "ICPC 2020 小米邀请赛决赛（热身赛）",
+      "id": "remote:nowcoder:9327::C",
+      "originalTitle": "Rikka with Prefix Sum",
+      "url": "https://ac.nowcoder.com/acm/contest/9327/C"
+    },
+    {
+      "contest": "ICPC 2020 小米邀请赛决赛",
+      "id": "remote:nowcoder:9328::A",
+      "originalTitle": "Rikka with Game",
+      "url": "https://ac.nowcoder.com/acm/contest/9328/A"
+    },
+    {
+      "contest": "ICPC 2020 小米邀请赛决赛",
+      "id": "remote:nowcoder:9328::B",
+      "originalTitle": "Rikka with Maximum Segment Sum",
+      "url": "https://ac.nowcoder.com/acm/contest/9328/B"
+    },
+    {
+      "contest": "ICPC 2020 小米邀请赛决赛",
+      "id": "remote:nowcoder:9328::C",
+      "originalTitle": "Rikka with Random Tree",
+      "url": "https://ac.nowcoder.com/acm/contest/9328/C"
+    },
+    {
+      "contest": "ICPC 2020 小米邀请赛决赛",
+      "id": "remote:nowcoder:9328::D",
+      "originalTitle": "Rikka with New Year's Party",
+      "url": "https://ac.nowcoder.com/acm/contest/9328/D"
+    },
+    {
+      "contest": "ICPC 2020 小米邀请赛决赛",
+      "id": "remote:nowcoder:9328::E",
+      "originalTitle": "Rikka with Subsequence",
+      "url": "https://ac.nowcoder.com/acm/contest/9328/E"
+    },
+    {
+      "contest": "ICPC 2020 小米邀请赛决赛",
+      "id": "remote:nowcoder:9328::F",
+      "originalTitle": "Rikka with Lake",
+      "url": "https://ac.nowcoder.com/acm/contest/9328/F"
+    },
+    {
+      "contest": "ICPC 2020 小米邀请赛决赛",
+      "id": "remote:nowcoder:9328::G",
+      "originalTitle": "Rikka with Game Theory",
+      "url": "https://ac.nowcoder.com/acm/contest/9328/G"
+    },
+    {
+      "contest": "ICPC 2020 小米邀请赛决赛",
+      "id": "remote:nowcoder:9328::H",
+      "originalTitle": "Rikka with Storehouse",
+      "url": "https://ac.nowcoder.com/acm/contest/9328/H"
+    },
+    {
+      "contest": "ICPC 2020 小米邀请赛决赛",
+      "id": "remote:nowcoder:9328::I",
+      "originalTitle": "Rikka with RCPC",
+      "url": "https://ac.nowcoder.com/acm/contest/9328/I"
+    },
+    {
+      "contest": "ICPC 2020 小米邀请赛决赛",
+      "id": "remote:nowcoder:9328::J",
+      "originalTitle": "Rikka with Book",
+      "url": "https://ac.nowcoder.com/acm/contest/9328/J"
+    },
+    {
+      "contest": "ICPC 2020 小米邀请赛决赛",
+      "id": "remote:nowcoder:9328::K",
+      "originalTitle": "Rikka with Composite Number",
+      "url": "https://ac.nowcoder.com/acm/contest/9328/K"
+    },
+    {
+      "contest": "ICPC 2020 小米邀请赛决赛",
+      "id": "remote:nowcoder:9328::L",
+      "originalTitle": "Rikka with Generals",
+      "url": "https://ac.nowcoder.com/acm/contest/9328/L"
+    },
+    {
+      "contest": "ICPC 2020 小米邀请赛决赛",
+      "id": "remote:nowcoder:9328::M",
+      "originalTitle": "Rikka with Employees",
+      "url": "https://ac.nowcoder.com/acm/contest/9328/M"
     }
   ]
 }
