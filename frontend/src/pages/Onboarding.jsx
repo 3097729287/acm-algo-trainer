@@ -17,8 +17,8 @@ const STEPS = [
   { page: 'settings', target: '.settings-home-grid', title: '完成入门', text: '点击头像可以更换图片。设置中可调整外观、导航、每页题数与快捷键；数据与帮助中的新手指引包含入门总览和各页详细指南，可继续了解雷达、段位、勋章和更多操作。' },
 ];
 
-export default function Onboarding({ onComplete, onNavigate, practiceId,initialGuide='overview' }) {
-  const [guide,setGuide]=useState(initialGuide);
+export default function Onboarding({ onComplete, onNavigate, onDirectory, practiceId,initialGuide='overview' }) {
+  const [guide]=useState(initialGuide);
   const [step, setStep] = useState(0), [rect, setRect] = useState(null), [position, setPosition] = useState({});
   const steps=guide==='overview'?STEPS:PAGE_GUIDES[guide]||[],current=steps[step],card = useRef(null), callbacks = useRef({ onNavigate, onComplete });
   callbacks.current = { onNavigate, onComplete,guide };
@@ -63,7 +63,6 @@ export default function Onboarding({ onComplete, onNavigate, practiceId,initialG
     }
     setPosition({ left: Math.max(gap, Math.min(left, innerWidth - width - gap)), top: Math.max(gap, Math.min(top, innerHeight - height - gap)) });
   }, [rect, step,guide]);
-  if(guide==='catalog')return <div className="guided-tour" aria-label="新手指引目录覆盖层"><section ref={card} className="tour-card tour-catalog" role="dialog" aria-label="新手指引目录" aria-modal="false"><button className="tour-close" onClick={finish}>结束指引 ×</button><h3 tabIndex={-1}>新手指引</h3><button className="tour-overview-button" onClick={()=>{setGuide('overview');setStep(0)}}><strong>入门总览</strong><span>从连接账号、选题到运行与原站提交</span></button><h4>各页指引</h4><div className="tour-guide-grid">{Object.entries(GUIDE_LABELS).map(([id,label])=><button key={id} onClick={()=>{setGuide(id);setStep(0)}}><strong>{label}</strong><small>{PAGE_GUIDES[id]?.length||0} 项操作说明</small></button>)}</div></section></div>;
   const missingPractice = current?.practice && !practiceId;
   return <div className="guided-tour" aria-label="新手指引覆盖层">
     {rect && <div className="tour-highlight" style={{ left: rect.left - 5, top: rect.top - 5, width: rect.width + 10, height: rect.height + 10 }} />}
@@ -71,7 +70,7 @@ export default function Onboarding({ onComplete, onNavigate, practiceId,initialG
       <button className="tour-close" onClick={finish}>结束指引 ×</button>
       <small>{guide==='overview'?'入门总览':GUIDE_LABELS[guide]} · {step + 1} / {steps.length}</small><h3 tabIndex={-1}>{current.title}</h3><p>{current.text}</p>
       {missingPractice ? <button onClick={() => setStep(guide==='overview'?STEPS.findIndex(item=>item.action==='open'):0)}>重新选择练习题</button> : current.action === 'open' && !rect ? <p role="status">没有匹配题目，请清除搜索或筛选。</p> : current.action && <small role="status">请点击高亮的{current.action === 'open' ? '题名' : '返回按钮'}继续</small>}
-      <button className="tour-directory-button" onClick={()=>{setGuide('catalog');setStep(0)}}>各页指引目录</button>
+      <button className="tour-directory-button" onClick={onDirectory}>各页指引目录</button>
       <footer><button disabled={!step} onClick={() => setStep(value => {let previous=value-1;while(previous>0&&((steps[previous].practice&&!practiceId)||(steps[previous].action==='return'&&!practiceId)||(steps[previous].action==='open'&&practiceId)))previous--;return Math.max(0,previous);})}>上一步</button>
         <button className="primary" disabled={!!current.action || missingPractice} onClick={() => step === steps.length - 1 ? finish() : setStep(value => value + 1)}>{step === steps.length - 1 ? '完成' : '下一步'}</button></footer>
     </section>

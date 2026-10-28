@@ -11,11 +11,19 @@ html .sidebar .brand>.tooltip-anchor {display:flex;align-items:center;justify-co
 html .update-notification-main small {display:block;margin-top:4px}
 html .tour-card {right:auto;bottom:auto;max-height:calc(100vh - 36px);overflow:auto}
 html .tour-card h3:focus {outline:0}
-html .tour-catalog {position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(720px,calc(100vw - 36px))}
 .tour-guide-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
 .tour-guide-grid>button,.tour-overview-button {display:flex;flex-direction:column;gap:6px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:9px;text-align:left;background:var(--hover);color:var(--text)}
 .tour-overview-button {width:100%;border-color:var(--accent);margin-block:12px}
 .tour-overview-button>span,.tour-guide-grid small {font-size:.8rem;color:var(--muted)}
+html .settings-guide .tour-guide-grid {grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px}
+html .settings-guide .tour-guide-grid>button {min-height:96px;flex-direction:row;align-items:center;justify-content:flex-start;gap:14px;padding:16px 18px}
+html .settings-guide>h3 {margin:20px 0 12px}
+html .settings-guide .tour-overview-button {min-height:84px;flex-direction:row;align-items:center;justify-content:flex-start;gap:14px;padding:16px 18px}
+html .settings-guide :is(.tour-guide-grid>button,.tour-overview-button)>svg {flex:none;color:var(--accent)}
+html .settings-guide .guide-entry-copy {display:flex;flex-direction:column;gap:6px;min-width:0;color:var(--text)}
+html .settings-guide .guide-entry-copy>strong {font-size:1rem;line-height:1.5}
+html .settings-guide .guide-entry-copy>small {font-size:.8rem;line-height:1.5;color:var(--muted)}
+html .workspace-area .settings-page .settings-guide :is(.tour-guide-grid>button,.tour-overview-button):not(:disabled):is(:hover,:focus-visible) {background:var(--accent-soft);border-color:var(--accent)}
 .tour-directory-button {display:block;margin-block:16px 4px;padding:3px 0;color:var(--accent);background:transparent;font-size:.85rem}
 html .sidebar-bottom {display:flex;align-items:center;flex:0 0 var(--statusbar-height);height:var(--statusbar-height);margin-top:auto;padding:0;min-height:0;background:transparent}
 html .sidebar .sidebar-bottom .nav-item {display:flex;gap:8px;min-height:28px;height:28px;padding-block:3px}

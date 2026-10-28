@@ -1,5 +1,7 @@
 # ToBe · Training Workbench
 
+**ToBe 1.4.27 (release preparation)** shows the guide directory directly in Settings, using matching page icons and aligned cards. Stable downloads remain 1.4.26 until publication. [Release scope](docs/releases/1.4.27.md).
+
 **ToBe 1.4.26** repairs updates before login and old saved-session recovery, removes missed foreign contests, and aligns the template, laboratory, submission and growth views. [Changes and validation](docs/releases/1.4.26.md).
 
 **ToBe 1.4.25** adds direct page-number navigation and complete contest routes by ICPC/CCPC series and provincial/invitational type. Years follow the available contest records, including 2026. Earlier templates, review rewards, chunked sync and catalogue scope remain available.
