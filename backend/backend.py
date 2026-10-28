@@ -122,7 +122,8 @@ class Handler(BaseHTTPRequestHandler):
             bootstrap = not writing and path == '/api/account' and parse_qs(urlsplit(self.path).query).get('background') == ['1']
             update_status = path in {'/api/software-update', '/api/software-update/check', '/api/software-update/settings', '/api/software-update/download'}
             static_asset = not writing and not path.startswith('/api/')
-            if bootstrap or update_status or static_asset:
+            login_update = path == '/api/software-update/install' and accounts.session is None
+            if bootstrap or update_status or static_asset or login_update:
                 # Read-only bootstrap remains responsive while the restore
                 # worker holds the account switch barrier. Local checks still
                 # run in _dispatch; training endpoints retain their barrier.
@@ -672,7 +673,10 @@ class LocalServer(ThreadingHTTPServer):
             with bridge.lock:
                 if any(item['status'] in {'loading', 'submitted', 'judging', 'unconfirmed'} for item in bridge.sessions.values()):
                     raise ServiceError(409, '请等待当前官方提交取得结果后再安装更新')
-        if self.training.active_contest():
+        # Before authentication a saved contest is dormant. Its durable record
+        # survives the update and must not require login just to end it first.
+        accounts = getattr(self, 'accounts', None)
+        if (accounts is None or accounts.session is not None) and self.training.active_contest():
             raise ServiceError(409, '请先结束当前模拟赛，再安装更新')
         with self.training.lock:
             if self.training.connection.execute('SELECT 1 FROM submissions WHERE finished_at IS NULL LIMIT 1').fetchone():

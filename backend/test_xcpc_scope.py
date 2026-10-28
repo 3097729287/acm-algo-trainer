@@ -29,6 +29,14 @@ class XcpcScopeTests(unittest.TestCase):
         self.assertFalse(excluded({'contest':'Div.2 1000','title':'World Finals in Moscow',
                                    'knowledge':'德国','statement':'ICPC World Finals'}))
 
+    def test_foreign_event_adjectives_and_original_cyrillic_are_filtered(self):
+        for name in ('ICPC 2018 UFBA Practice Session for Brazilian Regionals',
+                     '2018 ACM-ICPC Brazilian Regional Contest',
+                     'ICPC 2017 Окружной этап Всероссийской олимпиады школьников по информатике - , Самара, II тур (правила)',
+                     'ICPC 2017 Samara Regional Contest'):
+            self.assertTrue(excluded({'contest':name}),name)
+        self.assertFalse(excluded({'contest':'Codeforces Round 123','title':'Brazilian Samara'}))
+
     def test_domestic_finals_and_online_contests_are_also_retired(self):
         for name in ('CCPC 2021 总决赛','ICPC 2024 亚洲东区决赛','ICPC 2019 亚洲决赛',
                      'ICPC 2020 亚洲网络赛（模拟赛）','ICPC 2023 亚洲东区网络预选赛（第 1 场）',

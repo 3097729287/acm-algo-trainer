@@ -1,5 +1,7 @@
 # ToBe · Training Workbench
 
+**ToBe 1.4.26 (release preparation)** repairs pre-login updates and saved-session restore loops, completes foreign contest filtering after normalization, and aligns the catalog, submission and growth views. Stable downloads remain 1.4.25 until publication. [Release scope](docs/releases/1.4.26.md).
+
 **ToBe 1.4.25** adds direct page-number navigation and complete contest routes by ICPC/CCPC series and provincial/invitational type. Years follow the available contest records, including 2026. Earlier templates, review rewards, chunked sync and catalogue scope remain available.
 
 **ToBe 1.4.20 (included in the current release)** repairs shared browser connection recovery, refines difficulty estimates and excludes elementary exercises from automatic review. It adds list filters, insertion ordering, a favorite-problems list, cached reversible likes and inline creation, single-column mock papers, accent-based activity levels and bounded statement/streamed sync memory. [Release scope](docs/releases/1.4.20.md).

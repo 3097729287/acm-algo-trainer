@@ -55,6 +55,10 @@ export function chunksSuite(startFixture) {
    assert.deepEqual((await call(f,b,'/v2/accounts/state/missing',{hashes:[leaf.hash]})).value.missing,[leaf.hash]);
    assert.equal((await commit(f,b,root.hash,0)).status,409);
    assert.equal((await call(f,a,'/v1/accounts/state')).status,426,'old client must not read a stale legacy snapshot');
+   const legacyRestore=await call(f,a,'/v1/accounts/state',undefined,'GET',{'X-TB-Chunk-Protocol':''});
+   assert.equal(legacyRestore.status,401,'legacy saved restore must return to its login-screen updater');
+   assert.match(legacyRestore.value.error,/updates\/stable\/index\.html/);
+   assert.equal((await call(f,a,'/v2/accounts/state')).value.root,root.hash,'rejecting legacy restore must not revoke the modern session or change its root');
    assert.equal((await call(f,a,'/v1/accounts/state',{revision:1,state:{format:'tb-account-state-v1',tables:{},publicAccounts:{}}},'PUT')).status,426);
    const broken={...leaf,value:{...leaf.value,data:root.value.data}};
    assert.equal((await put(f,a,broken)).status,400);

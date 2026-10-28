@@ -50,7 +50,7 @@ test('health reflects database availability', async () => {
     const ready = await fetch(f.endpoint + '/v1/health');
     assert.equal(ready.status, 200);
     const health = await ready.json();
-    assert.equal(health.version, '1.2.7');
+    assert.equal(health.version, '1.2.8');
     assert.equal(health.socialProtocol, 1);
     f.env.STORE = { async health() { throw new Error('private database details'); } };
     const response = await fetch(f.endpoint + '/v1/health');

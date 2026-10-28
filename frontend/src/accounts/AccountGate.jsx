@@ -19,7 +19,7 @@ export default function AccountGate({ children }) {
   const seeded = useRef(false);
   const registeredLogin = useRef('');
   const updateApi = useCallback((path, body) => request(path, body, session?.token), [session?.token]);
-  const softwareUpdate = useSoftwareUpdates(updateApi, Boolean(session?.token && !session.authenticated && !session.restoring && !booting));
+  const softwareUpdate = useSoftwareUpdates(updateApi, Boolean(session?.token && !session.authenticated));
   const refresh = useCallback(async (retry = false) => {
     if (submitting.current || refreshing.current) return;
     refreshing.current = true;
@@ -102,7 +102,7 @@ export default function AccountGate({ children }) {
     {session.sync?.status === 'error' && <aside className="account-sync-alert" role="status"><span>{session.sync.error || '云端同步暂未完成，本机数据已保留。'}</span><button type="button" onClick={retrySync} disabled={syncBusy}>{syncBusy ? '正在同步…' : '重试同步'}</button></aside>}
     <div className="account-session-content">{children}</div>
   </div>;
-  if (booting || session?.restoring) return <StartupScreen restoring={session?.restoring} error={error} onRetry={() => refresh(true)}/>;
+  if (booting || session?.restoring) return <><StartupScreen restoring={session?.restoring} error={error} onRetry={() => refresh(true)}/><SoftwareUpdateNotice update={softwareUpdate} onDetails={() => window.open(softwareUpdate.state.releaseUrl, '_blank', 'noopener,noreferrer')}/></>;
   const registering = mode === 'register';
   return <main className="account-screen">
     <div className="account-brand"><span className="account-logo"><BrandWordmark/></span><span>ToBe <small>训练工作台</small></span></div>

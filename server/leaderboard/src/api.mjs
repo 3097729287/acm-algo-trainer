@@ -9,7 +9,7 @@ import { publicId, storedPublicProgress, validatePublicProgress } from './public
 import { socialSnapshot, socialWrite, rankingSocial } from './social.mjs';
 import {trainingListLikes} from './training-list-likes.mjs';
 
-const VERSION = '1.2.7';
+const VERSION = '1.2.8';
 const NOTICE = '排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const hashPattern = /^[a-f0-9]{64}$/;
@@ -218,7 +218,13 @@ export async function handle(request, env) {
       }
       throw new ApiError(404,'没有找到这个同步接口');
     }
-    if(path==='/v1/accounts/state'&&env.STORE.chunks&&await env.STORE.chunks.available()&&await env.STORE.chunks.active(user.user_id))throw new ApiError(426,'此账号已使用分块同步，请升级客户端后登录');
+    if(path==='/v1/accounts/state'&&env.STORE.chunks&&await env.STORE.chunks.available()&&await env.STORE.chunks.active(user.user_id)) {
+      // Older clients keep retrying a saved-session restore on 426 and hide
+      // their login-screen updater. Expire only that local restore with 401;
+      // never issue an old session or expose/write the retained v1 snapshot.
+      const legacyRestore=request.method==='GET'&&request.headers.get('X-TB-Chunk-Protocol')!=='2';
+      throw new ApiError(legacyRestore?401:426,'此版本需要更新，请等待登录页自动更新，或从 https://47.82.84.74/updates/stable/index.html 安装新版');
+    }
     if (path === '/v1/accounts/state' && request.method === 'GET') {
       const cached = request.headers.get('X-TB-State-Revision');
       if (/^[1-9]\d{0,14}$/.test(cached || '')) {

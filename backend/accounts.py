@@ -166,6 +166,7 @@ class Accounts:
             # writer. Only a fully activated session can expose a workspace.
             with self.restore_lock:
                 if (not self.closed and not self.closing and
+                        self.server.software_updates.status not in {'ready', 'installing'} and
                         (not self.session and self.saved or self.session and self.session['expiresAt'] <= time.time()) and
                         not (self.restore_worker and self.restore_worker.is_alive()) and
                         (retry or time.monotonic() >= self.restore_retry_at)):
@@ -247,7 +248,7 @@ class Accounts:
         return self.root / 'accounts' / owner / 'tb-personal.sqlite3'
 
     def _activate(self, value, rotate=True):
-        if self.closed or self.closing:
+        if self.closed or self.closing or self.server.software_updates.status == 'installing':
             raise ServiceError(503, 'ToBe 正在关闭')
         account = value.get('account', {})
         owner = account.get('userId')
@@ -271,7 +272,7 @@ class Accounts:
         else:
             state_sync = AccountStateSync(self, service, candidate)
             state_sync.initialize()
-        if self.closed or self.closing:
+        if self.closed or self.closing or self.server.software_updates.status == 'installing':
             raise ServiceError(503, 'ToBe 正在关闭')
         service.bind_account(account, self.endpoint)
         self.server.training = service

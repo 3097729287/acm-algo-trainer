@@ -181,7 +181,7 @@ html .account-hero-rank {display:flex;flex-direction:column;align-items:center;j
 .account-hero-level {display:flex;align-items:flex-start;gap:18px}
 .account-hero-level>span {font-size:1.25rem;color:var(--accent);line-height:24px}
 .account-hero-level>div {flex:1;display:flex;flex-direction:column;gap:8px;text-align:right;color:var(--muted);font-size:.8rem;padding-top:9px}
-.account-hero-statistics {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 20px;margin-block:auto}
+.account-hero-statistics {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 20px;margin-block:0;flex:none}
 .account-hero-statistics>div {display:flex;align-items:center;flex-direction:column;gap:9px;color:var(--muted)}
 .account-hero-statistics svg {color:var(--accent)}
 .account-stat-icon {display:grid;place-items:center;min-height:38px;min-width:38px}
@@ -189,7 +189,7 @@ html .account-hero-rank {display:flex;flex-direction:column;align-items:center;j
 .account-hero-statistics span {font-size:.8rem;white-space:nowrap}
 .account-hero-titles {display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 .account-hero-titles:empty {display:none}
-.account-hero-goals {margin-top:auto;padding-top:18px;border-top:1px solid var(--soft-line)}
+.account-hero-goals {margin-top:0;padding-top:18px;border-top:1px solid var(--soft-line)}
 .account-hero-goals .goal-management-bar {gap:12px}
 .account-hero-goals .goal-management-bar>div {gap:4px}
 .progress-achievement>.achievement-icon {flex:none;color:var(--accent);padding:3px;opacity:.8}
@@ -348,7 +348,7 @@ html .growth-dashboard .knowledge-radar>svg {flex:none;height:clamp(190px,38dvh,
 html .growth-dashboard .radar-knowledge-details {flex:1;min-height:96px;overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable;padding-right:5px}
 html .growth-dashboard .radar-detail-heading {position:sticky;top:0;z-index:1;background:var(--panel-raised-base);min-height:36px}
 html .growth-dashboard .growth-account-hero {height:100%;min-height:0;overflow:auto;overscroll-behavior:contain;gap:clamp(16px,2.5dvh,28px)}
-html .growth-dashboard .account-hero-identity {min-height:190px}
+html .growth-dashboard .account-hero-identity {min-height:190px;flex:1;align-items:center}
 html .submission-record-meta {display:flex;align-items:center;gap:7px;min-width:0;font-variant-numeric:tabular-nums}
 .submission-record-meta time,.submission-problem-index {flex:none}
 .submission-record-meta .submission-problem-index {font-weight:600;color:var(--muted)}
@@ -511,8 +511,8 @@ html .account-hero-rank {display:grid;grid-template-rows:clamp(145px,13vw,230px)
 html .account-hero-rank .medal-emblem {width:clamp(150px,14vw,245px);height:clamp(145px,13vw,230px);object-fit:contain;transform:translateY(-10px)}
 html .account-hero-rank strong {line-height:38px;font-size:1.35rem}
 html .account-hero-rank>span {margin-top:-8px}
-.account-hero-statistics {grid-template-rows:repeat(2,minmax(90px,1fr));gap:24px 18px}
-.account-hero-statistics>div {display:grid;grid-template-rows:36px 1fr;align-items:center;justify-items:center;gap:8px;min-width:0}
+.account-hero-statistics {grid-template-rows:repeat(2,minmax(clamp(88px,10dvh,110px),max-content));align-content:start;gap:24px 18px}
+.account-hero-statistics>div {display:grid;grid-template-rows:36px auto;align-content:center;align-items:center;justify-items:center;gap:8px;min-width:0}
 .account-hero-statistics .tooltip-anchor {display:grid;place-items:center;width:36px;height:36px}
 .account-hero-statistics .account-stat-icon {display:grid;place-items:center;width:36px;height:36px;min-width:0;min-height:0}
 .account-hero-statistics b {line-height:1.15;font-variant-numeric:tabular-nums;text-align:center;align-self:start}

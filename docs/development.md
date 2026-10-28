@@ -1,5 +1,7 @@
 # ToBe 开发与构建
 
+1.4.26 ????????????????????????????????????????????????????? 1.4.25?[????](releases/1.4.26.md)?
+
 1.4.25 已完成普通版和私有管理员版本机安装，并按用户授权在 GitHub 与国内源同步公开用户版。构建及标签固定为 `1dcf1d8d1bd0d212f118a924bbb7191de70784c6`；两处文件大小和 SHA-256 一致。[当前交付记录](local-delivery-1.4.25.md)。共享服务保持 1.2.7，本轮不重部署服务。
 
 新增检查：`python scripts/check_template_programs.py --compiler <g++路径> --report <临时报告路径>` 编译讲解/竞赛示例及完整模板练习；`python scripts/check_chunk_capacity.py --report <临时报告路径>` 仅用合成数据做两年对象用量模拟。前端检查增加 `node tests/history-code.mjs` 和真实临时后端下的 `node tests/revision-1423-live.mjs`。共享服务普通测试包含分块套件，隔离 MySQL 测试也执行同一套件。不得把 50 个小账号并发与两年用量模拟合称为 50 个两年账号压测。

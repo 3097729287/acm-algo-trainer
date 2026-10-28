@@ -7,7 +7,7 @@ import re
 import json
 from functools import lru_cache
 
-VERSION = 'china-xcpc-20261028-v2'
+VERSION = 'china-xcpc-20261028-v3'
 _XCPC = re.compile(r'\b(?:ICPC|CCPC|XCPC|ACM|N[WE]ERC|S[WE]ERC|SEERC|NCPC|GCPC|NAC|ECNA|CERC|NEERC)\b|Collegiate Programming|大学生.*程序设计', re.I)
 _WORLD = re.compile(r'World\s*Finals?|全球总决赛|\bWF\b', re.I)
 _FINALS = re.compile(r'决赛|\bFinals?\b', re.I)
@@ -19,9 +19,10 @@ _FOREIGN = re.compile(
     r'印度|阿姆里塔普里|坎普尔|克勒格布尔|瓜廖尔|金奈|哥印拜陀|喀布尔|河内|岘港|胡志明|泰国|马来西亚|'
     r'\b(?:NAC|NWERC|SWERC|SEERC|NCPC|GCPC|ECNA|CERC|NEERC|NERC)\b|'
     r'\b(?:Europe(?:an)?|Eurasia|America(?:n)?|Nordic|German|Swiss|Greek|Greece|Russia(?:n)?|Siberia(?:n)?|Moscow|Ural|'
-    r'Colombia|Columbia University|Mexico|Brazil|Bolivia|Kyrgyzstan|Syri(?:a|an)|HIAST|'
+    r'Colombia|Columbia University|Mexico|Brazil(?:ian)?|UFBA|Bolivia|Kyrgyzstan|Syri(?:a|an)|HIAST|Samara|'
     r'Japan|Yokohama|Tsukuba|Tokyo|Taejon|Daejeon|Seoul|Korea|Jakarta|Manila|Bangkok|Nakhon Pathom|Dhaka|Tehran|'
-    r'India|Amritapuri|Kanpur|Kharagpur|Gwalior|Chennai|Coimbatore|Kabul|Hanoi|Danang|Ho Chi Minh|Thailand|Malaysia)\b', re.I)
+    r'India|Amritapuri|Kanpur|Kharagpur|Gwalior|Chennai|Coimbatore|Kabul|Hanoi|Danang|Ho Chi Minh|Thailand|Malaysia)\b|'
+    r'Самар[а-яё]*|Всероссийск[а-яё]*', re.I)
 
 
 @lru_cache(maxsize=1)

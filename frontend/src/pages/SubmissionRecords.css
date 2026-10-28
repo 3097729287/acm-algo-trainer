@@ -1,7 +1,7 @@
-.submission-log .submission-record-actions{display:grid;grid-template-columns:32px 4.5em;align-items:center;column-gap:10px;flex:none;margin-left:auto}
-.submission-log:has(.submission-runtime) .submission-record-actions{grid-template-columns:5.5em 32px 4.5em}
+.submission-log .submission-record-actions{display:grid;grid-template-columns:32px 3.2em;align-items:center;column-gap:4px;flex:none;margin-left:auto}
+.submission-log:has(.submission-runtime) .submission-record-actions{grid-template-columns:5.5em 32px 3.2em}
 .submission-log .submission-record-actions>.submission-code-button{grid-column:1;grid-row:1;display:inline-flex;align-items:center;justify-content:center;justify-self:center;padding:7px;width:32px;height:32px}
-.submission-log .submission-record-actions>.verdict{grid-column:2;grid-row:1;justify-self:end;white-space:nowrap}
+.submission-log .submission-record-actions>.verdict{grid-column:2;grid-row:1;justify-self:start;white-space:nowrap}
 .submission-log:has(.submission-runtime) .submission-code-button{grid-column:2}
 .submission-log:has(.submission-runtime) .verdict{grid-column:3}
 .submission-log .submission-record-actions>.submission-runtime{grid-column:1;grid-row:1;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}

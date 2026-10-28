@@ -1,6 +1,6 @@
 {
   "date": "2026-10-28",
-  "policy": "china-xcpc-20261028-v2",
+  "policy": "china-xcpc-20261028-v3",
   "problems": [
     {
       "contest": "ICPC 2017 哥伦比亚国立大学程序设计竞赛",
@@ -16399,6 +16399,1314 @@
       "id": "remote:nowcoder:9328::M",
       "originalTitle": "Rikka with Employees",
       "url": "https://ac.nowcoder.com/acm/contest/9328/M"
+    },
+    {
+      "contest": "2012, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100090::A",
+      "originalTitle": "After Two Hares",
+      "url": "https://codeforces.com/gym/100090/problem/A"
+    },
+    {
+      "contest": "2012, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100090::B",
+      "originalTitle": "Birthday Cake",
+      "url": "https://codeforces.com/gym/100090/problem/B"
+    },
+    {
+      "contest": "2012, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100090::C",
+      "originalTitle": "Graph Restoration",
+      "url": "https://codeforces.com/gym/100090/problem/C"
+    },
+    {
+      "contest": "2012, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100090::D",
+      "originalTitle": "Insomnia",
+      "url": "https://codeforces.com/gym/100090/problem/D"
+    },
+    {
+      "contest": "2012, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100090::E",
+      "originalTitle": "Counterfeiters",
+      "url": "https://codeforces.com/gym/100090/problem/E"
+    },
+    {
+      "contest": "2012, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100090::F",
+      "originalTitle": "Asperger Syndrome",
+      "url": "https://codeforces.com/gym/100090/problem/F"
+    },
+    {
+      "contest": "2012, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100090::G",
+      "originalTitle": "The Last Wish",
+      "url": "https://codeforces.com/gym/100090/problem/G"
+    },
+    {
+      "contest": "2012, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100090::H",
+      "originalTitle": "Game with the Stones",
+      "url": "https://codeforces.com/gym/100090/problem/H"
+    },
+    {
+      "contest": "2012, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100090::I",
+      "originalTitle": "Retakes",
+      "url": "https://codeforces.com/gym/100090/problem/I"
+    },
+    {
+      "contest": "2012, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100090::J",
+      "originalTitle": "Product Innovation",
+      "url": "https://codeforces.com/gym/100090/problem/J"
+    },
+    {
+      "contest": "2012, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100090::K",
+      "originalTitle": "Bracket Sequence",
+      "url": "https://codeforces.com/gym/100090/problem/K"
+    },
+    {
+      "contest": "2012, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100090::L",
+      "originalTitle": "Hard Problem",
+      "url": "https://codeforces.com/gym/100090/problem/L"
+    },
+    {
+      "contest": "2012, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100090::M",
+      "originalTitle": "Jumping along the Hummocks",
+      "url": "https://codeforces.com/gym/100090/problem/M"
+    },
+    {
+      "contest": "2011-2012 ACM ICPC Northern Subregional Contest",
+      "id": "remote:codeforces:100095::A",
+      "originalTitle": "Automated Telephone Exchange",
+      "url": "https://codeforces.com/gym/100095/problem/A"
+    },
+    {
+      "contest": "2011-2012 ACM ICPC Northern Subregional Contest",
+      "id": "remote:codeforces:100095::B",
+      "originalTitle": "Black Square",
+      "url": "https://codeforces.com/gym/100095/problem/B"
+    },
+    {
+      "contest": "2011-2012 ACM ICPC Northern Subregional Contest",
+      "id": "remote:codeforces:100095::C",
+      "originalTitle": "Cube Coloring",
+      "url": "https://codeforces.com/gym/100095/problem/C"
+    },
+    {
+      "contest": "2011-2012 ACM ICPC Northern Subregional Contest",
+      "id": "remote:codeforces:100095::D",
+      "originalTitle": "Dice",
+      "url": "https://codeforces.com/gym/100095/problem/D"
+    },
+    {
+      "contest": "2011-2012 ACM ICPC Northern Subregional Contest",
+      "id": "remote:codeforces:100095::E",
+      "originalTitle": "Electriﬁcation",
+      "url": "https://codeforces.com/gym/100095/problem/E"
+    },
+    {
+      "contest": "2011-2012 ACM ICPC Northern Subregional Contest",
+      "id": "remote:codeforces:100095::F",
+      "originalTitle": "Flat",
+      "url": "https://codeforces.com/gym/100095/problem/F"
+    },
+    {
+      "contest": "2011-2012 ACM ICPC Northern Subregional Contest",
+      "id": "remote:codeforces:100095::G",
+      "originalTitle": "Galaxy Interconnection",
+      "url": "https://codeforces.com/gym/100095/problem/G"
+    },
+    {
+      "contest": "2011-2012 ACM ICPC Northern Subregional Contest",
+      "id": "remote:codeforces:100095::H",
+      "originalTitle": "High security",
+      "url": "https://codeforces.com/gym/100095/problem/H"
+    },
+    {
+      "contest": "2011-2012 ACM ICPC Northern Subregional Contest",
+      "id": "remote:codeforces:100095::I",
+      "originalTitle": "Immediate Delivery",
+      "url": "https://codeforces.com/gym/100095/problem/I"
+    },
+    {
+      "contest": "2011-2012 ACM ICPC Northern Subregional Contest",
+      "id": "remote:codeforces:100095::J",
+      "originalTitle": "John's Inversions",
+      "url": "https://codeforces.com/gym/100095/problem/J"
+    },
+    {
+      "contest": "2011-2012 ACM ICPC Northern Subregional Contest",
+      "id": "remote:codeforces:100095::K",
+      "originalTitle": "Kids Like Cakes",
+      "url": "https://codeforces.com/gym/100095/problem/K"
+    },
+    {
+      "contest": "2013, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100247::A",
+      "originalTitle": "The Power of the Dark Side",
+      "url": "https://codeforces.com/gym/100247/problem/A"
+    },
+    {
+      "contest": "2013, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100247::B",
+      "originalTitle": "Similar Strings",
+      "url": "https://codeforces.com/gym/100247/problem/B"
+    },
+    {
+      "contest": "2013, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100247::C",
+      "originalTitle": "Victor's Research",
+      "url": "https://codeforces.com/gym/100247/problem/C"
+    },
+    {
+      "contest": "2013, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100247::D",
+      "originalTitle": "Hamming Distance",
+      "url": "https://codeforces.com/gym/100247/problem/D"
+    },
+    {
+      "contest": "2013, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100247::E",
+      "originalTitle": "Of Groups and Rights",
+      "url": "https://codeforces.com/gym/100247/problem/E"
+    },
+    {
+      "contest": "2013, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100247::F",
+      "originalTitle": "Battle Fury",
+      "url": "https://codeforces.com/gym/100247/problem/F"
+    },
+    {
+      "contest": "2013, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100247::G",
+      "originalTitle": "City Square",
+      "url": "https://codeforces.com/gym/100247/problem/G"
+    },
+    {
+      "contest": "2013, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100247::H",
+      "originalTitle": "Secret Information",
+      "url": "https://codeforces.com/gym/100247/problem/H"
+    },
+    {
+      "contest": "2013, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100247::I",
+      "originalTitle": "Meteor Flow",
+      "url": "https://codeforces.com/gym/100247/problem/I"
+    },
+    {
+      "contest": "2013, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100247::J",
+      "originalTitle": "The Best Statement",
+      "url": "https://codeforces.com/gym/100247/problem/J"
+    },
+    {
+      "contest": "2013, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100247::K",
+      "originalTitle": "Three Contests",
+      "url": "https://codeforces.com/gym/100247/problem/K"
+    },
+    {
+      "contest": "2013, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100247::L",
+      "originalTitle": "For the Honest Election",
+      "url": "https://codeforces.com/gym/100247/problem/L"
+    },
+    {
+      "contest": "2014, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100488::A",
+      "originalTitle": "Yet Another Goat in the Garden",
+      "url": "https://codeforces.com/gym/100488/problem/A"
+    },
+    {
+      "contest": "2014, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100488::B",
+      "originalTitle": "Impossible to Guess",
+      "url": "https://codeforces.com/gym/100488/problem/B"
+    },
+    {
+      "contest": "2014, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100488::C",
+      "originalTitle": "Lost Temple",
+      "url": "https://codeforces.com/gym/100488/problem/C"
+    },
+    {
+      "contest": "2014, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100488::D",
+      "originalTitle": "Toy Soldiers",
+      "url": "https://codeforces.com/gym/100488/problem/D"
+    },
+    {
+      "contest": "2014, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100488::E",
+      "originalTitle": "Just Change a Word",
+      "url": "https://codeforces.com/gym/100488/problem/E"
+    },
+    {
+      "contest": "2014, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100488::F",
+      "originalTitle": "Two Envelopes",
+      "url": "https://codeforces.com/gym/100488/problem/F"
+    },
+    {
+      "contest": "2014, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100488::G",
+      "originalTitle": "Change-making Problem",
+      "url": "https://codeforces.com/gym/100488/problem/G"
+    },
+    {
+      "contest": "2014, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100488::H",
+      "originalTitle": "Tony Hawk's Pro Skater",
+      "url": "https://codeforces.com/gym/100488/problem/H"
+    },
+    {
+      "contest": "2014, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100488::I",
+      "originalTitle": "Map Coloring",
+      "url": "https://codeforces.com/gym/100488/problem/I"
+    },
+    {
+      "contest": "2014, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100488::J",
+      "originalTitle": "Hyperdromes Strike Back",
+      "url": "https://codeforces.com/gym/100488/problem/J"
+    },
+    {
+      "contest": "2014, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100488::K",
+      "originalTitle": "Two Pirates",
+      "url": "https://codeforces.com/gym/100488/problem/K"
+    },
+    {
+      "contest": "2014, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100488::L",
+      "originalTitle": "Two Heads Are Better",
+      "url": "https://codeforces.com/gym/100488/problem/L"
+    },
+    {
+      "contest": "2014, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100488::M",
+      "originalTitle": "Construct a Permutation",
+      "url": "https://codeforces.com/gym/100488/problem/M"
+    },
+    {
+      "contest": "2015, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100812::A",
+      "originalTitle": "Tale of Debt",
+      "url": "https://codeforces.com/gym/100812/problem/A"
+    },
+    {
+      "contest": "2015, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100812::B",
+      "originalTitle": "Set of Tasks",
+      "url": "https://codeforces.com/gym/100812/problem/B"
+    },
+    {
+      "contest": "2015, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100812::C",
+      "originalTitle": "Story of Princess",
+      "url": "https://codeforces.com/gym/100812/problem/C"
+    },
+    {
+      "contest": "2015, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100812::D",
+      "originalTitle": "Dream of Sum",
+      "url": "https://codeforces.com/gym/100812/problem/D"
+    },
+    {
+      "contest": "2015, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100812::E",
+      "originalTitle": "World of Knights",
+      "url": "https://codeforces.com/gym/100812/problem/E"
+    },
+    {
+      "contest": "2015, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100812::F",
+      "originalTitle": "Graveyard of Bandits",
+      "url": "https://codeforces.com/gym/100812/problem/F"
+    },
+    {
+      "contest": "2015, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100812::G",
+      "originalTitle": "Short Path",
+      "url": "https://codeforces.com/gym/100812/problem/G"
+    },
+    {
+      "contest": "2015, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100812::H",
+      "originalTitle": "Sheep in the Garden",
+      "url": "https://codeforces.com/gym/100812/problem/H"
+    },
+    {
+      "contest": "2015, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100812::I",
+      "originalTitle": "Dragon Delivers",
+      "url": "https://codeforces.com/gym/100812/problem/I"
+    },
+    {
+      "contest": "2015, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100812::J",
+      "originalTitle": "Feeling of Comradeship",
+      "url": "https://codeforces.com/gym/100812/problem/J"
+    },
+    {
+      "contest": "2015, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100812::K",
+      "originalTitle": "Might and Magic",
+      "url": "https://codeforces.com/gym/100812/problem/K"
+    },
+    {
+      "contest": "2015, Samara SAU ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:100812::L",
+      "originalTitle": "Knights without Fear and Reproach",
+      "url": "https://codeforces.com/gym/100812/problem/L"
+    },
+    {
+      "contest": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:100819::L",
+      "originalTitle": "Millionaire",
+      "url": "https://codeforces.com/gym/100819/problem/L"
+    },
+    {
+      "contest": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:100819::M",
+      "originalTitle": "Magic Trick",
+      "url": "https://codeforces.com/gym/100819/problem/M"
+    },
+    {
+      "contest": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:100819::N",
+      "originalTitle": "Egg Drop",
+      "url": "https://codeforces.com/gym/100819/problem/N"
+    },
+    {
+      "contest": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:100819::O",
+      "originalTitle": "Grid",
+      "url": "https://codeforces.com/gym/100819/problem/O"
+    },
+    {
+      "contest": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:100819::P",
+      "originalTitle": "Complexity",
+      "url": "https://codeforces.com/gym/100819/problem/P"
+    },
+    {
+      "contest": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:100819::Q",
+      "originalTitle": "Excellence",
+      "url": "https://codeforces.com/gym/100819/problem/Q"
+    },
+    {
+      "contest": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:100819::R",
+      "originalTitle": "Class Time",
+      "url": "https://codeforces.com/gym/100819/problem/R"
+    },
+    {
+      "contest": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:100819::S",
+      "originalTitle": "Surf",
+      "url": "https://codeforces.com/gym/100819/problem/S"
+    },
+    {
+      "contest": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:100819::T",
+      "originalTitle": "Triangle",
+      "url": "https://codeforces.com/gym/100819/problem/T"
+    },
+    {
+      "contest": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:100819::U",
+      "originalTitle": "Blur",
+      "url": "https://codeforces.com/gym/100819/problem/U"
+    },
+    {
+      "contest": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:100819::V",
+      "originalTitle": "Gears",
+      "url": "https://codeforces.com/gym/100819/problem/V"
+    },
+    {
+      "contest": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:100820::A",
+      "originalTitle": "Airports",
+      "url": "https://codeforces.com/gym/100820/problem/A"
+    },
+    {
+      "contest": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:100820::B",
+      "originalTitle": "Butterfly Effect",
+      "url": "https://codeforces.com/gym/100820/problem/B"
+    },
+    {
+      "contest": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:100820::C",
+      "originalTitle": "Classy",
+      "url": "https://codeforces.com/gym/100820/problem/C"
+    },
+    {
+      "contest": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:100820::D",
+      "originalTitle": "Triangle",
+      "url": "https://codeforces.com/gym/100820/problem/D"
+    },
+    {
+      "contest": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:100820::E",
+      "originalTitle": "Excellence",
+      "url": "https://codeforces.com/gym/100820/problem/E"
+    },
+    {
+      "contest": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:100820::F",
+      "originalTitle": "Falling Blocks",
+      "url": "https://codeforces.com/gym/100820/problem/F"
+    },
+    {
+      "contest": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:100820::G",
+      "originalTitle": "Racing Gems",
+      "url": "https://codeforces.com/gym/100820/problem/G"
+    },
+    {
+      "contest": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:100820::H",
+      "originalTitle": "Hilbert Sort",
+      "url": "https://codeforces.com/gym/100820/problem/H"
+    },
+    {
+      "contest": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:100820::I",
+      "originalTitle": "Coverage",
+      "url": "https://codeforces.com/gym/100820/problem/I"
+    },
+    {
+      "contest": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:100820::J",
+      "originalTitle": "Olympics",
+      "url": "https://codeforces.com/gym/100820/problem/J"
+    },
+    {
+      "contest": "2015-2016 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:100820::K",
+      "originalTitle": "Checkers",
+      "url": "https://codeforces.com/gym/100820/problem/K"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:100827::A",
+      "originalTitle": "Runes",
+      "url": "https://codeforces.com/gym/100827/problem/A"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:100827::B",
+      "originalTitle": "Alchemy",
+      "url": "https://codeforces.com/gym/100827/problem/B"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:100827::C",
+      "originalTitle": "Containment",
+      "url": "https://codeforces.com/gym/100827/problem/C"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:100827::D",
+      "originalTitle": "Function",
+      "url": "https://codeforces.com/gym/100827/problem/D"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:100827::E",
+      "originalTitle": "Hill Number",
+      "url": "https://codeforces.com/gym/100827/problem/E"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:100827::F",
+      "originalTitle": "Knights",
+      "url": "https://codeforces.com/gym/100827/problem/F"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:100827::G",
+      "originalTitle": "Number Game",
+      "url": "https://codeforces.com/gym/100827/problem/G"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:100827::H",
+      "originalTitle": "Pushups",
+      "url": "https://codeforces.com/gym/100827/problem/H"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:100827::I",
+      "originalTitle": "Salary Inequity",
+      "url": "https://codeforces.com/gym/100827/problem/I"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:100827::J",
+      "originalTitle": "Stamp Stamp",
+      "url": "https://codeforces.com/gym/100827/problem/J"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:100827::K",
+      "originalTitle": "Towers",
+      "url": "https://codeforces.com/gym/100827/problem/K"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:100827::L",
+      "originalTitle": "Wormhole",
+      "url": "https://codeforces.com/gym/100827/problem/L"
+    },
+    {
+      "contest": "2016, Samara University ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:101149::A",
+      "originalTitle": "Balls in Urn",
+      "url": "https://codeforces.com/gym/101149/problem/A"
+    },
+    {
+      "contest": "2016, Samara University ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:101149::B",
+      "originalTitle": "No Time for Dragons",
+      "url": "https://codeforces.com/gym/101149/problem/B"
+    },
+    {
+      "contest": "2016, Samara University ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:101149::C",
+      "originalTitle": "Mathematical Field of Experiments",
+      "url": "https://codeforces.com/gym/101149/problem/C"
+    },
+    {
+      "contest": "2016, Samara University ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:101149::D",
+      "originalTitle": "Behind the Wall",
+      "url": "https://codeforces.com/gym/101149/problem/D"
+    },
+    {
+      "contest": "2016, Samara University ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:101149::E",
+      "originalTitle": "The Best among Equals",
+      "url": "https://codeforces.com/gym/101149/problem/E"
+    },
+    {
+      "contest": "2016, Samara University ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:101149::F",
+      "originalTitle": "The Weakest Sith",
+      "url": "https://codeforces.com/gym/101149/problem/F"
+    },
+    {
+      "contest": "2016, Samara University ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:101149::G",
+      "originalTitle": "Of Zorcs and Axes",
+      "url": "https://codeforces.com/gym/101149/problem/G"
+    },
+    {
+      "contest": "2016, Samara University ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:101149::H",
+      "originalTitle": "Streets of Working Lanterns",
+      "url": "https://codeforces.com/gym/101149/problem/H"
+    },
+    {
+      "contest": "2016, Samara University ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:101149::I",
+      "originalTitle": "It's the Police",
+      "url": "https://codeforces.com/gym/101149/problem/I"
+    },
+    {
+      "contest": "2016, Samara University ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:101149::J",
+      "originalTitle": "Panoramic Photography",
+      "url": "https://codeforces.com/gym/101149/problem/J"
+    },
+    {
+      "contest": "2016, Samara University ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:101149::K",
+      "originalTitle": "Revenge of the Dragon",
+      "url": "https://codeforces.com/gym/101149/problem/K"
+    },
+    {
+      "contest": "2016, Samara University ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:101149::L",
+      "originalTitle": "Right Build",
+      "url": "https://codeforces.com/gym/101149/problem/L"
+    },
+    {
+      "contest": "2016, Samara University ACM ICPC Quarterfinal Qualification Contest",
+      "id": "remote:codeforces:101149::M",
+      "originalTitle": "Ex Machina",
+      "url": "https://codeforces.com/gym/101149/problem/M"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:101201::A",
+      "originalTitle": "Alphabet",
+      "url": "https://codeforces.com/gym/101201/problem/A"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:101201::B",
+      "originalTitle": "Buggy Robot",
+      "url": "https://codeforces.com/gym/101201/problem/B"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:101201::C",
+      "originalTitle": "Cameras",
+      "url": "https://codeforces.com/gym/101201/problem/C"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:101201::D",
+      "originalTitle": "Contest Strategy",
+      "url": "https://codeforces.com/gym/101201/problem/D"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:101201::E",
+      "originalTitle": "Enclosure",
+      "url": "https://codeforces.com/gym/101201/problem/E"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:101201::F",
+      "originalTitle": "Illumination",
+      "url": "https://codeforces.com/gym/101201/problem/F"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:101201::G",
+      "originalTitle": "Maximum Islands",
+      "url": "https://codeforces.com/gym/101201/problem/G"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:101201::H",
+      "originalTitle": "Paint",
+      "url": "https://codeforces.com/gym/101201/problem/H"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:101201::I",
+      "originalTitle": "Postman",
+      "url": "https://codeforces.com/gym/101201/problem/I"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:101201::J",
+      "originalTitle": "Shopping",
+      "url": "https://codeforces.com/gym/101201/problem/J"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:101201::K",
+      "originalTitle": "Tournament Wins",
+      "url": "https://codeforces.com/gym/101201/problem/K"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 1)",
+      "id": "remote:codeforces:101201::L",
+      "originalTitle": "Windy Path",
+      "url": "https://codeforces.com/gym/101201/problem/L"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101291::A",
+      "originalTitle": "Alphabet",
+      "url": "https://codeforces.com/gym/101291/problem/A"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101291::B",
+      "originalTitle": "Barbells",
+      "url": "https://codeforces.com/gym/101291/problem/B"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101291::C",
+      "originalTitle": "Buggy Robot",
+      "url": "https://codeforces.com/gym/101291/problem/C"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101291::D",
+      "originalTitle": "Cameras",
+      "url": "https://codeforces.com/gym/101291/problem/D"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101291::E",
+      "originalTitle": "Contest Score",
+      "url": "https://codeforces.com/gym/101291/problem/E"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101291::F",
+      "originalTitle": "Equality",
+      "url": "https://codeforces.com/gym/101291/problem/F"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101291::G",
+      "originalTitle": "Gravity",
+      "url": "https://codeforces.com/gym/101291/problem/G"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101291::H",
+      "originalTitle": "Islands",
+      "url": "https://codeforces.com/gym/101291/problem/H"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101291::I",
+      "originalTitle": "Mismatched Socks",
+      "url": "https://codeforces.com/gym/101291/problem/I"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101291::J",
+      "originalTitle": "Postman",
+      "url": "https://codeforces.com/gym/101291/problem/J"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101291::K",
+      "originalTitle": "Six Sides",
+      "url": "https://codeforces.com/gym/101291/problem/K"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101291::L",
+      "originalTitle": "Three Square",
+      "url": "https://codeforces.com/gym/101291/problem/L"
+    },
+    {
+      "contest": "2016-2017 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101291::M",
+      "originalTitle": "Zigzag",
+      "url": "https://codeforces.com/gym/101291/problem/M"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101653::M",
+      "originalTitle": "Polyhedra",
+      "url": "https://codeforces.com/gym/101653/problem/M"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101653::N",
+      "originalTitle": "Majority",
+      "url": "https://codeforces.com/gym/101653/problem/N"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101653::O",
+      "originalTitle": "Diamonds",
+      "url": "https://codeforces.com/gym/101653/problem/O"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101653::P",
+      "originalTitle": "Gold Leaf",
+      "url": "https://codeforces.com/gym/101653/problem/P"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101653::Q",
+      "originalTitle": "Number Game",
+      "url": "https://codeforces.com/gym/101653/problem/Q"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101653::R",
+      "originalTitle": "Ramp Number",
+      "url": "https://codeforces.com/gym/101653/problem/R"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101653::S",
+      "originalTitle": "Ranked Choice",
+      "url": "https://codeforces.com/gym/101653/problem/S"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101653::T",
+      "originalTitle": "Runes",
+      "url": "https://codeforces.com/gym/101653/problem/T"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101653::U",
+      "originalTitle": "Top 25",
+      "url": "https://codeforces.com/gym/101653/problem/U"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101653::V",
+      "originalTitle": "Towers",
+      "url": "https://codeforces.com/gym/101653/problem/V"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101653::W",
+      "originalTitle": "Wormhole",
+      "url": "https://codeforces.com/gym/101653/problem/W"
+    },
+    {
+      "contest": "2014-2015 ACM-ICPC Pacific Northwest Regional Contest (Div. 2)",
+      "id": "remote:codeforces:101653::X",
+      "originalTitle": "Wrench",
+      "url": "https://codeforces.com/gym/101653/problem/X"
+    },
+    {
+      "contest": "2013-2014 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101655::A",
+      "originalTitle": "Assignments",
+      "url": "https://codeforces.com/gym/101655/problem/A"
+    },
+    {
+      "contest": "2013-2014 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101655::B",
+      "originalTitle": "Bones’s Battery",
+      "url": "https://codeforces.com/gym/101655/problem/B"
+    },
+    {
+      "contest": "2013-2014 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101655::C",
+      "originalTitle": "Crusher’s Code",
+      "url": "https://codeforces.com/gym/101655/problem/C"
+    },
+    {
+      "contest": "2013-2014 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101655::D",
+      "originalTitle": "Delta Quadrant",
+      "url": "https://codeforces.com/gym/101655/problem/D"
+    },
+    {
+      "contest": "2013-2014 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101655::E",
+      "originalTitle": "Enterprising Escape",
+      "url": "https://codeforces.com/gym/101655/problem/E"
+    },
+    {
+      "contest": "2013-2014 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101655::F",
+      "originalTitle": "Federation Favorites",
+      "url": "https://codeforces.com/gym/101655/problem/F"
+    },
+    {
+      "contest": "2013-2014 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101655::G",
+      "originalTitle": "Generations of Tribbles",
+      "url": "https://codeforces.com/gym/101655/problem/G"
+    },
+    {
+      "contest": "2013-2014 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101655::H",
+      "originalTitle": "Holodeck Hacking",
+      "url": "https://codeforces.com/gym/101655/problem/H"
+    },
+    {
+      "contest": "2013-2014 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101655::I",
+      "originalTitle": "Interstellar Trade",
+      "url": "https://codeforces.com/gym/101655/problem/I"
+    },
+    {
+      "contest": "2013-2014 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101655::J",
+      "originalTitle": "Janeway’s Journey",
+      "url": "https://codeforces.com/gym/101655/problem/J"
+    },
+    {
+      "contest": "2013-2014 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101655::K",
+      "originalTitle": "Klingon Warfare",
+      "url": "https://codeforces.com/gym/101655/problem/K"
+    },
+    {
+      "contest": "2013-2014 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101655::L",
+      "originalTitle": "Languages",
+      "url": "https://codeforces.com/gym/101655/problem/L"
+    },
+    {
+      "contest": "2013-2014 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101655::M",
+      "originalTitle": "Mass Production",
+      "url": "https://codeforces.com/gym/101655/problem/M"
+    },
+    {
+      "contest": "2012-2013 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101656::A",
+      "originalTitle": "Good Versus Evil",
+      "url": "https://codeforces.com/gym/101656/problem/A"
+    },
+    {
+      "contest": "2012-2013 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101656::B",
+      "originalTitle": "Magic Multiple",
+      "url": "https://codeforces.com/gym/101656/problem/B"
+    },
+    {
+      "contest": "2012-2013 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101656::C",
+      "originalTitle": "Painted Cube",
+      "url": "https://codeforces.com/gym/101656/problem/C"
+    },
+    {
+      "contest": "2012-2013 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101656::D",
+      "originalTitle": "Partition",
+      "url": "https://codeforces.com/gym/101656/problem/D"
+    },
+    {
+      "contest": "2012-2013 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101656::E",
+      "originalTitle": "Rings and Runes",
+      "url": "https://codeforces.com/gym/101656/problem/E"
+    },
+    {
+      "contest": "2012-2013 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101656::F",
+      "originalTitle": "Ritual Circle",
+      "url": "https://codeforces.com/gym/101656/problem/F"
+    },
+    {
+      "contest": "2012-2013 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101656::G",
+      "originalTitle": "Saruman’s Level Up",
+      "url": "https://codeforces.com/gym/101656/problem/G"
+    },
+    {
+      "contest": "2012-2013 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101656::H",
+      "originalTitle": "Seating Chart",
+      "url": "https://codeforces.com/gym/101656/problem/H"
+    },
+    {
+      "contest": "2012-2013 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101656::I",
+      "originalTitle": "Spellcasting",
+      "url": "https://codeforces.com/gym/101656/problem/I"
+    },
+    {
+      "contest": "2012-2013 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101656::J",
+      "originalTitle": "Temple Build",
+      "url": "https://codeforces.com/gym/101656/problem/J"
+    },
+    {
+      "contest": "2012-2013 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101656::K",
+      "originalTitle": "Tile Cut",
+      "url": "https://codeforces.com/gym/101656/problem/K"
+    },
+    {
+      "contest": "2012-2013 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101656::L",
+      "originalTitle": "Tongues",
+      "url": "https://codeforces.com/gym/101656/problem/L"
+    },
+    {
+      "contest": "2011-2012 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101657::A",
+      "originalTitle": "Good or Bad?",
+      "url": "https://codeforces.com/gym/101657/problem/A"
+    },
+    {
+      "contest": "2011-2012 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101657::B",
+      "originalTitle": "Bracelets",
+      "url": "https://codeforces.com/gym/101657/problem/B"
+    },
+    {
+      "contest": "2011-2012 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101657::C",
+      "originalTitle": "A Classic Myth: Flatland Superhero",
+      "url": "https://codeforces.com/gym/101657/problem/C"
+    },
+    {
+      "contest": "2011-2012 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101657::D",
+      "originalTitle": "Collateral Cleanup",
+      "url": "https://codeforces.com/gym/101657/problem/D"
+    },
+    {
+      "contest": "2011-2012 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101657::E",
+      "originalTitle": "LatticeLand",
+      "url": "https://codeforces.com/gym/101657/problem/E"
+    },
+    {
+      "contest": "2011-2012 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101657::F",
+      "originalTitle": "Lightning Lessons",
+      "url": "https://codeforces.com/gym/101657/problem/F"
+    },
+    {
+      "contest": "2011-2012 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101657::G",
+      "originalTitle": "Locksmith",
+      "url": "https://codeforces.com/gym/101657/problem/G"
+    },
+    {
+      "contest": "2011-2012 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101657::H",
+      "originalTitle": "Speed Racer",
+      "url": "https://codeforces.com/gym/101657/problem/H"
+    },
+    {
+      "contest": "2011-2012 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101657::I",
+      "originalTitle": "The Status is Not Quo",
+      "url": "https://codeforces.com/gym/101657/problem/I"
+    },
+    {
+      "contest": "2011-2012 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101657::J",
+      "originalTitle": "Stupendous Man",
+      "url": "https://codeforces.com/gym/101657/problem/J"
+    },
+    {
+      "contest": "2011-2012 ACM-ICPC Pacific Northwest Regional Contest",
+      "id": "remote:codeforces:101657::K",
+      "originalTitle": "Tree Count",
+      "url": "https://codeforces.com/gym/101657/problem/K"
+    },
+    {
+      "contest": "Brazilian ICPC Summer School 2026 problems",
+      "id": "remote:codeforces:106331::A",
+      "originalTitle": "Fortuna",
+      "url": "https://codeforces.com/gym/106331/problem/A"
+    },
+    {
+      "contest": "Brazilian ICPC Summer School 2026 problems",
+      "id": "remote:codeforces:106331::B",
+      "originalTitle": "Kaskata",
+      "url": "https://codeforces.com/gym/106331/problem/B"
+    },
+    {
+      "contest": "Brazilian ICPC Summer School 2026 problems",
+      "id": "remote:codeforces:106331::C",
+      "originalTitle": "Tabela",
+      "url": "https://codeforces.com/gym/106331/problem/C"
+    },
+    {
+      "contest": "Brazilian ICPC Summer School 2026 problems",
+      "id": "remote:codeforces:106331::D",
+      "originalTitle": "Enzo, o Mágico",
+      "url": "https://codeforces.com/gym/106331/problem/D"
+    },
+    {
+      "contest": "Brazilian ICPC Summer School 2026 problems",
+      "id": "remote:codeforces:106331::F",
+      "originalTitle": "Karate",
+      "url": "https://codeforces.com/gym/106331/problem/F"
+    },
+    {
+      "contest": "Combinatorics Contest - Brazilian ICPC Summer School 2025",
+      "id": "remote:codeforces:105669::A",
+      "originalTitle": "Retirement",
+      "url": "https://codeforces.com/gym/105669/problem/A"
+    },
+    {
+      "contest": "Combinatorics Contest - Brazilian ICPC Summer School 2025",
+      "id": "remote:codeforces:105669::B",
+      "originalTitle": "Modular Arithmetic",
+      "url": "https://codeforces.com/gym/105669/problem/B"
+    },
+    {
+      "contest": "Combinatorics Contest - Brazilian ICPC Summer School 2025",
+      "id": "remote:codeforces:105669::C1",
+      "originalTitle": "Cycles (Medium)",
+      "url": "https://codeforces.com/gym/105669/problem/C1"
+    },
+    {
+      "contest": "Combinatorics Contest - Brazilian ICPC Summer School 2025",
+      "id": "remote:codeforces:105669::C2",
+      "originalTitle": "Cycles (Difficult)",
+      "url": "https://codeforces.com/gym/105669/problem/C2"
+    },
+    {
+      "contest": "Combinatorics Contest - Brazilian ICPC Summer School 2025",
+      "id": "remote:codeforces:105669::D1",
+      "originalTitle": "Sweets (medium)",
+      "url": "https://codeforces.com/gym/105669/problem/D1"
+    },
+    {
+      "contest": "Combinatorics Contest - Brazilian ICPC Summer School 2025",
+      "id": "remote:codeforces:105669::D2",
+      "originalTitle": "Sweets (Difficult)",
+      "url": "https://codeforces.com/gym/105669/problem/D2"
+    },
+    {
+      "contest": "Combinatorics Contest - Brazilian ICPC Summer School 2025",
+      "id": "remote:codeforces:105669::E",
+      "originalTitle": "Introverted Dinner",
+      "url": "https://codeforces.com/gym/105669/problem/E"
+    },
+    {
+      "contest": "Combinatorics Contest - Brazilian ICPC Summer School 2025",
+      "id": "remote:codeforces:105669::F",
+      "originalTitle": "Secret Santa",
+      "url": "https://codeforces.com/gym/105669/problem/F"
+    },
+    {
+      "contest": "Combinatorics Contest - Brazilian ICPC Summer School 2025",
+      "id": "remote:codeforces:105669::G",
+      "originalTitle": "Cars and Dirty Socks",
+      "url": "https://codeforces.com/gym/105669/problem/G"
+    },
+    {
+      "contest": "Combinatorics Contest - Brazilian ICPC Summer School 2025",
+      "id": "remote:codeforces:105669::H",
+      "originalTitle": "Roulette",
+      "url": "https://codeforces.com/gym/105669/problem/H"
+    },
+    {
+      "contest": "Combinatorics Contest - Brazilian ICPC Summer School 2025",
+      "id": "remote:codeforces:105669::I",
+      "originalTitle": "Partition",
+      "url": "https://codeforces.com/gym/105669/problem/I"
+    },
+    {
+      "contest": "UFBA Practice Session for Brazilian ICPC Regionals - 2018",
+      "id": "remote:codeforces:101962::A",
+      "originalTitle": "Multiset Machine",
+      "url": "https://codeforces.com/gym/101962/problem/A"
+    },
+    {
+      "contest": "UFBA Practice Session for Brazilian ICPC Regionals - 2018",
+      "id": "remote:codeforces:101962::B",
+      "originalTitle": "Color Changing Sofa",
+      "url": "https://codeforces.com/gym/101962/problem/B"
+    },
+    {
+      "contest": "UFBA Practice Session for Brazilian ICPC Regionals - 2018",
+      "id": "remote:codeforces:101962::C",
+      "originalTitle": "Renan and Cirque du Soleil",
+      "url": "https://codeforces.com/gym/101962/problem/C"
+    },
+    {
+      "contest": "UFBA Practice Session for Brazilian ICPC Regionals - 2018",
+      "id": "remote:codeforces:101962::D",
+      "originalTitle": "Carnival",
+      "url": "https://codeforces.com/gym/101962/problem/D"
+    },
+    {
+      "contest": "UFBA Practice Session for Brazilian ICPC Regionals - 2018",
+      "id": "remote:codeforces:101962::E",
+      "originalTitle": "Hat-Xor",
+      "url": "https://codeforces.com/gym/101962/problem/E"
+    },
+    {
+      "contest": "UFBA Practice Session for Brazilian ICPC Regionals - 2018",
+      "id": "remote:codeforces:101962::F",
+      "originalTitle": "Renanzinho and His Toys",
+      "url": "https://codeforces.com/gym/101962/problem/F"
+    },
+    {
+      "contest": "UFBA Practice Session for Brazilian ICPC Regionals - 2018",
+      "id": "remote:codeforces:101962::G",
+      "originalTitle": "Barra Lighthouse",
+      "url": "https://codeforces.com/gym/101962/problem/G"
+    },
+    {
+      "contest": "UFBA Practice Session for Brazilian ICPC Regionals - 2018",
+      "id": "remote:codeforces:101962::H",
+      "originalTitle": "All-In",
+      "url": "https://codeforces.com/gym/101962/problem/H"
+    },
+    {
+      "contest": "UFBA Practice Session for Brazilian ICPC Regionals - 2018",
+      "id": "remote:codeforces:101962::I",
+      "originalTitle": "Colonial Mansions",
+      "url": "https://codeforces.com/gym/101962/problem/I"
+    },
+    {
+      "contest": "UFBA Practice Session for Brazilian ICPC Regionals - 2018",
+      "id": "remote:codeforces:101962::J",
+      "originalTitle": "Soteros",
+      "url": "https://codeforces.com/gym/101962/problem/J"
+    },
+    {
+      "contest": "UFBA Practice Session for Brazilian ICPC Regionals - 2018",
+      "id": "remote:codeforces:101962::K",
+      "originalTitle": "Rei do Cangaço",
+      "url": "https://codeforces.com/gym/101962/problem/K"
+    },
+    {
+      "contest": "UFBA Practice Session for Brazilian ICPC Regionals - 2018",
+      "id": "remote:codeforces:101962::L",
+      "originalTitle": "Code Name Hummingbird",
+      "url": "https://codeforces.com/gym/101962/problem/L"
+    },
+    {
+      "contest": "UFBA Practice Session for Brazilian ICPC Regionals - 2018",
+      "id": "remote:codeforces:101962::M",
+      "originalTitle": "Sorting Machine",
+      "url": "https://codeforces.com/gym/101962/problem/M"
+    },
+    {
+      "contest": "Окружной этап Всероссийской олимпиады школьников по информатике - 2017-2018, Самара, II тур (ACM ICPC правила)",
+      "id": "remote:codeforces:101639::A",
+      "originalTitle": "Фасады",
+      "url": "https://codeforces.com/gym/101639/problem/A"
+    },
+    {
+      "contest": "Окружной этап Всероссийской олимпиады школьников по информатике - 2017-2018, Самара, II тур (ACM ICPC правила)",
+      "id": "remote:codeforces:101639::B",
+      "originalTitle": "И о погоде",
+      "url": "https://codeforces.com/gym/101639/problem/B"
+    },
+    {
+      "contest": "Окружной этап Всероссийской олимпиады школьников по информатике - 2017-2018, Самара, II тур (ACM ICPC правила)",
+      "id": "remote:codeforces:101639::C",
+      "originalTitle": "Монтаж",
+      "url": "https://codeforces.com/gym/101639/problem/C"
+    },
+    {
+      "contest": "Окружной этап Всероссийской олимпиады школьников по информатике - 2017-2018, Самара, II тур (ACM ICPC правила)",
+      "id": "remote:codeforces:101639::D",
+      "originalTitle": "Оптом дешевле",
+      "url": "https://codeforces.com/gym/101639/problem/D"
+    },
+    {
+      "contest": "Окружной этап Всероссийской олимпиады школьников по информатике - 2017-2018, Самара, I тур (правила ACM ICPC)",
+      "id": "remote:codeforces:101638::A",
+      "originalTitle": "Символы",
+      "url": "https://codeforces.com/gym/101638/problem/A"
+    },
+    {
+      "contest": "Окружной этап Всероссийской олимпиады школьников по информатике - 2017-2018, Самара, I тур (правила ACM ICPC)",
+      "id": "remote:codeforces:101638::B",
+      "originalTitle": "Точка на карте",
+      "url": "https://codeforces.com/gym/101638/problem/B"
+    },
+    {
+      "contest": "Окружной этап Всероссийской олимпиады школьников по информатике - 2017-2018, Самара, I тур (правила ACM ICPC)",
+      "id": "remote:codeforces:101638::C",
+      "originalTitle": "Очень скоростной трамвай",
+      "url": "https://codeforces.com/gym/101638/problem/C"
+    },
+    {
+      "contest": "Окружной этап Всероссийской олимпиады школьников по информатике - 2017-2018, Самара, I тур (правила ACM ICPC)",
+      "id": "remote:codeforces:101638::D",
+      "originalTitle": "Постепенность",
+      "url": "https://codeforces.com/gym/101638/problem/D"
     }
   ]
 }

@@ -385,7 +385,9 @@ class Store:
             if key:
                 seen_urls.add(key)
         from catalog_identity import unique_catalog_rows
-        return unique_catalog_rows(encoded)
+        # Source adapters may resolve a full event name, canonical ID or URL
+        # only while encoding. Enforce the same scope on what is actually shown.
+        return unique_catalog_rows([row for row in encoded if not excluded(row)])
 
     def solution(self, identity):
         row = self.row(identity)
