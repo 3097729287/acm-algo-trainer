@@ -1,6 +1,6 @@
 # 浏览器原站提交 · 1.4.0
 
-1.4.26 正在准备统一更新：修复登录前更新与旧登录恢复循环，补上最终目录范围检查和界面对齐。正式下载暂为 1.4.25。[本批说明](releases/1.4.26.md)。
+1.4.26 已完成本机更新，并在 [GitHub](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.26) 与[国内更新源](https://47.82.84.74/updates/stable/index.html)统一发布。配套服务 1.2.8 已上线；无需先登录即可更新，个人资料保留。[交付结果](local-delivery-1.4.26.md)。
 
 1.4.25 已完成本机安装，并在 [GitHub](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.25) 与[国内更新源](https://47.82.84.74/updates/stable/index.html)统一发布，两边安装包和增量包校验一致。[本次功能与验证](releases/1.4.25.md) · [交付结果](local-delivery-1.4.25.md)。
 

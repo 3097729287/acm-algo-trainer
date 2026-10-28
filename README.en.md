@@ -1,15 +1,15 @@
 # ToBe · Training Workbench
 
-**ToBe 1.4.26 (release preparation)** repairs pre-login updates and saved-session restore loops, completes foreign contest filtering after normalization, and aligns the catalog, submission and growth views. Stable downloads remain 1.4.25 until publication. [Release scope](docs/releases/1.4.26.md).
+**ToBe 1.4.26** repairs updates before login and old saved-session recovery, removes missed foreign contests, and aligns the template, laboratory, submission and growth views. [Changes and validation](docs/releases/1.4.26.md).
 
 **ToBe 1.4.25** adds direct page-number navigation and complete contest routes by ICPC/CCPC series and provincial/invitational type. Years follow the available contest records, including 2026. Earlier templates, review rewards, chunked sync and catalogue scope remain available.
 
 **ToBe 1.4.20 (included in the current release)** repairs shared browser connection recovery, refines difficulty estimates and excludes elementary exercises from automatic review. It adds list filters, insertion ordering, a favorite-problems list, cached reversible likes and inline creation, single-column mock papers, accent-based activity levels and bounded statement/streamed sync memory. [Release scope](docs/releases/1.4.20.md).
 
-Includes algorithm topics, training lists, illustrated editorials and interface fixes previously delivered locally in 1.4.2–1.4.24. The public seed retains 12,231 problem records, 9,243 statement archives, 1,379 default/detailed editorial pairs, 447 lectures and 563 lists. Archived statements are not all complete or readable; see the [current release scope](docs/releases/1.4.25.md) and [earlier statement audit](docs/releases/1.4.17.md). The separate full editorial review remains incomplete.
+Includes algorithm topics, training lists, illustrated editorials and interface fixes previously delivered locally in 1.4.2–1.4.24. The public seed retains 12,231 problem records, 9,243 statement archives, 1,379 default/detailed editorial pairs, 447 lectures and 563 lists. Archived statements are not all complete or readable; see the [current release scope](docs/releases/1.4.26.md) and [earlier statement audit](docs/releases/1.4.17.md). The separate full editorial review remains incomplete.
 
 <!-- release-status:start -->
-**Stable release: [ToBe 1.4.25](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.25).** GitHub and the [domestic update feed](https://47.82.84.74/updates/stable/index.html) carry the same verified build. [Changes and validation](docs/releases/1.4.25.md).
+**Stable release: [ToBe 1.4.26](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.26).** GitHub and the [domestic update feed](https://47.82.84.74/updates/stable/index.html) distribute the same verified user build. [Delivery evidence](docs/local-delivery-1.4.26.md).
 <!-- release-status:end -->
 
 [Website](https://3097729287.github.io/acm-algo-trainer/) · [Usage](docs/usage.md) · [Development](docs/development.md) · [中文](README.md)
@@ -18,9 +18,15 @@ Includes algorithm topics, training lists, illustrated editorials and interface 
 
 ## Install and upgrade
 
-Windows 10/11 x64. The [user installer](https://47.82.84.74/updates/assets/1.4.25/ToBe-Setup-1.4.25-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.4.25/ToBe-1.4.25-win64.zip) before running it. GitHub distributes only the user edition. The administrator program is reserved for the owner’s local use. Release assets include checksums and incremental updates from 1.4.17 and 1.4.24. Older versions can use the full Setup. The administrator edition is a local program and shortcut only.
+Windows 10/11 x64. The [user installer](https://47.82.84.74/updates/assets/1.4.26/ToBe-Setup-1.4.26-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.4.26/ToBe-1.4.26-win64.zip) before running it. GitHub distributes only the user edition. The administrator program is reserved for the owner’s local use. Release assets include checksums and an incremental update from 1.4.25. Older versions can use the full Setup. The administrator edition is a local program and shortcut only.
 
 Save drafts and exit TB before installing into the existing directory. Personal databases, source code and imported content are preserved. The updater saves work, takes online SQLite backups and verifies SHA-256 before replacement. Keep the same TB version on your computers. Original-site login uses TB's dedicated browser profile; no extension is required.
+
+## Changes in 1.4.26
+
+- Updates remain available while a saved login is restoring. Service 1.2.8 lets old clients leave incompatible restore loops and use their existing updater before login. Private state is preserved.
+- Samara, Brazilian/UFBA and other missed foreign XCPC entries are excluded after final source normalization. Submission history and code remain available.
+- Template and laboratory cards share centered headings and hover/focus highlighting; submission code icons sit beside verdicts; the growth panel uses its height more evenly.
 
 ## Changes in 1.4.25
 

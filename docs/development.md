@@ -1,8 +1,8 @@
 # ToBe 开发与构建
 
-1.4.26 正在准备统一更新：修复登录前更新与旧登录恢复循环，补上最终目录范围检查和界面对齐。正式下载暂为 1.4.25。[本批说明](releases/1.4.26.md)。
+1.4.26 已完成本机更新，并在 [GitHub](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.26) 与[国内更新源](https://47.82.84.74/updates/stable/index.html)统一发布。配套服务 1.2.8 已上线；无需先登录即可更新，个人资料保留。[交付结果](local-delivery-1.4.26.md)。
 
-1.4.25 已完成普通版和私有管理员版本机安装，并按用户授权在 GitHub 与国内源同步公开用户版。构建及标签固定为 `1dcf1d8d1bd0d212f118a924bbb7191de70784c6`；两处文件大小和 SHA-256 一致。[当前交付记录](local-delivery-1.4.25.md)。共享服务保持 1.2.7，本轮不重部署服务。
+上一版 1.4.25 已完成普通版和私有管理员版本机安装，并按用户授权在 GitHub 与国内源同步公开用户版。构建及标签固定为 `1dcf1d8d1bd0d212f118a924bbb7191de70784c6`；两处文件大小和 SHA-256 一致。[上一版交付记录](local-delivery-1.4.25.md)。共享服务保持 1.2.7，本轮不重部署服务。
 
 新增检查：`python scripts/check_template_programs.py --compiler <g++路径> --report <临时报告路径>` 编译讲解/竞赛示例及完整模板练习；`python scripts/check_chunk_capacity.py --report <临时报告路径>` 仅用合成数据做两年对象用量模拟。前端检查增加 `node tests/history-code.mjs` 和真实临时后端下的 `node tests/revision-1423-live.mjs`。共享服务普通测试包含分块套件，隔离 MySQL 测试也执行同一套件。不得把 50 个小账号并发与两年用量模拟合称为 50 个两年账号压测。
 
@@ -445,3 +445,8 @@ node tests/ranking-public-progress.mjs
 
 
 本版实际验证：本机后端 783 项、服务 HTTP/SQLite 41 项、隔离 MySQL 43 项、分页/分类实际 API/UI、冻结 App、原生窗口、安装与原 1.4.17/1.4.24 EXE 增量升级通过。远端 CI 并非全绿：通用 UI fixture 缺少赛程接口，Windows runner 两项静态资源 fixture 返回 404；不能将本机验证写成全部远端 CI 通过。发布后的文档提交只更新入口和交付记录，不改变标签或 BUILD-INFO。
+
+
+## 1.4.26 实际交付
+
+构建及标签 `v1.4.26` 固定为 `2d883c7a82e8559759068ae1258c5b754526cc36`。本机后端 786 项、HTTP/SQLite 41 项、隔离 MySQL 43 项，上一版实际编译界面的登录恢复/登录页安装、新版恢复中更新及六组尺寸/主题布局检查通过。冻结 C++/Python、十门原生课程、导出/全屏、用户/管理员隔离、新装/覆盖升级、更新助手和原 1.4.25 EXE 增量通过。服务 1.2.8 只切换 API 运行时，在线备份及停写前后指纹相同，现有 schema、环境、依赖、卷与 Caddy 配置保留。远端 CI 状态与本机验证分别记录，详见本版发布说明。发布后的文档提交不改变源标签或 BUILD-INFO。
