@@ -53,6 +53,23 @@ test('training-list migration preserves existing rows and can be safely repeated
   }finally{await f.close();}
 });
 
+test('MySQL preservation audit retains all SHA-256 bits including unsigned high halves',async()=>{
+  const f=await startMySQLFixture();
+  try{
+    const id=randomUUID(),stamp='2026-10-28T00:00:00.000Z';
+    await f.STORE.createUser(id,'audit fixture','a'.repeat(64),stamp);
+    let expected;
+    for(let index=0;index<128;index++){
+      await f.STORE.pool.execute('UPDATE users SET nickname=? WHERE user_id=?',['audit high bits '+index,id]);
+      const [rows]=await f.STORE.pool.query('SELECT SHA2(CAST(JSON_ARRAY(user_id,nickname,token_hash,created_at,updated_at) AS CHAR CHARACTER SET utf8mb4),256) AS h FROM users');
+      assert.equal(rows.length,1);
+      if(BigInt('0x'+rows[0].h.slice(0,16))>0x7fffffffffffffffn){expected=rows[0].h;break;}
+    }
+    assert(expected,'Fixture must include a hash above the signed 64-bit range');
+    assert.equal((await preservedData(f.STORE.pool)).tables.users.xorSha256,expected);
+  }finally{await f.close();}
+});
+
 protocolSuite(startMySQLFixture);
 accountsSuite(startMySQLFixture);
 socialSuite(startMySQLFixture);
