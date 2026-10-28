@@ -5,17 +5,19 @@ import { resolve } from 'node:path';
 import { once } from 'node:events';
 import { handle, authenticate } from './api.mjs';
 import { openStore, secret } from './mysql-store.mjs';
+import {CHUNK_LIMIT} from './account-chunks.mjs';
 import { STATE_LIMIT } from './account-state.mjs';
 
 export function createApiServer(env, { trustProxy = false, bodyTimeoutMs = 15000, stateBodyTimeoutMs = 120000 } = {}) {
-  let activeStateRequests = 0;
+  let activeStateRequests = 0, activeChunkRequests = 0;
   const server = createServer(async (request, response) => {
-    let ownsStateSlot = false;
+    let ownsStateSlot = false, ownsChunkSlot = false;
     let bodyDeadline = setTimeout(() => request.destroy(), bodyTimeoutMs);
     bodyDeadline.unref();
     try {
       const path = new URL(request.url, 'http://localhost').pathname;
-      const stateRequest = path === '/v1/accounts/state' && ['GET', 'PUT'].includes(request.method);
+      const chunkRequest=path.startsWith('/v2/accounts/state');
+      const stateRequest = chunkRequest || path === '/v1/accounts/state' && ['GET', 'PUT'].includes(request.method);
       if (stateRequest) {
         // Authenticate before accepting a large body or reserving its bounded
         // processing slot. Unauthenticated slow uploads cannot occupy it.
@@ -29,13 +31,13 @@ export function createApiServer(env, { trustProxy = false, bodyTimeoutMs = 15000
           return;
         }
         if (request.destroyed) return;
-        if (activeStateRequests) {
+        if (activeStateRequests || (chunkRequest ? activeChunkRequests >= 4 : activeChunkRequests > 0)) {
           response.writeHead(429, { 'Content-Type': 'application/json', 'Retry-After': '1', Connection: 'close' });
           response.end(JSON.stringify({ error: '账号同步正在处理，稍后自动重试' }));
           return;
         }
-        activeStateRequests++;
-        ownsStateSlot = true;
+        if (chunkRequest) { activeChunkRequests++; ownsChunkSlot = true; }
+        else { activeStateRequests++; ownsStateSlot = true; }
         if (request.method === 'PUT') {
           // Only authenticated, bounded snapshot uploads receive extra time.
           // Ordinary requests retain their shorter body/idle limits.
@@ -54,7 +56,7 @@ export function createApiServer(env, { trustProxy = false, bodyTimeoutMs = 15000
       const candidate = typeof forwarded === 'string' ? forwarded.split(',').at(-1).trim() : '';
       const address = trustProxy && isIP(candidate) ? candidate : request.socket.remoteAddress || 'unknown';
       headers.set('X-TB-Client-IP', address);
-      const maximum = request.method === 'PUT' && path === '/v1/accounts/state' ? STATE_LIMIT : 65536;
+      const maximum = request.method === 'PUT' && path === '/v1/accounts/state' ? STATE_LIMIT : chunkRequest ? CHUNK_LIMIT : 65536;
       const length = Number(headers.get('content-length') || 0);
       if (!Number.isFinite(length) || length > maximum) {
         response.writeHead(413, { 'Content-Type': 'application/json', Connection: 'close' });
@@ -77,7 +79,7 @@ export function createApiServer(env, { trustProxy = false, bodyTimeoutMs = 15000
       const result = await handle(new Request('http://localhost' + request.url, init), env);
       response.writeHead(result.status, Object.fromEntries(result.headers));
       response.end(Buffer.from(await result.arrayBuffer()));
-      if (ownsStateSlot && !response.writableFinished && !response.destroyed) {
+      if ((ownsStateSlot || ownsChunkSlot) && !response.writableFinished && !response.destroyed) {
         await new Promise(resolveDone => {
           const done = () => { response.off('finish', done); response.off('close', done); resolveDone(); };
           response.once('finish', done); response.once('close', done);
@@ -89,6 +91,7 @@ export function createApiServer(env, { trustProxy = false, bodyTimeoutMs = 15000
     } finally {
       clearTimeout(bodyDeadline);
       if (ownsStateSlot) activeStateRequests--;
+      if (ownsChunkSlot) activeChunkRequests--;
     }
   });
   server.requestTimeout = stateBodyTimeoutMs;
@@ -115,7 +118,7 @@ export async function start(env = process.env) {
     await STORE.close();
     throw error;
   }
-  const cleanup = setInterval(() => STORE.cleanup(Math.floor(Date.now() / 1000)).catch(() => {
+  const cleanup = setInterval(() => Promise.resolve().then(async()=>{await STORE.cleanup(Math.floor(Date.now()/1000));if(env.READ_ONLY!=='1')await STORE.chunks?.maintain();}).catch(() => {
     process.stderr.write('Rate-limit cleanup failed\n');
   }), 60 * 60 * 1000);
   cleanup.unref();

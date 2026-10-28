@@ -3,11 +3,11 @@ import {GUIDE_LABELS,PAGE_GUIDES} from '@/lib/guideCatalog.js';
 
 const STEPS = [
   { page: 'mine', target: '.brand-mark', title: '收起与展开侧边栏', text: '点击左上角 ToBe 标识收起或展开侧边栏。收起后仍可点击导航图标，给题目和图表留出更多空间。' },
-  { page: 'settings', target: '[aria-label="账号与身份"]', title: '连接账号', text: '打开“账号与身份”，展开“公开账号与评分”，填写你的竞赛账号。已有公开 AC 会自动同步；ToBe 账号负责保存训练数据。可以稍后绑定。' },
+  { page: 'mine', target: '.topbar .profile-overview', title: '连接账号', text: '点击右上角昵称打开账号弹窗，可以修改昵称、密码和四个平台账号。专用浏览器会识别已登录的账号；缺少登录时依次打开各站登录页。' },
   { page: 'library', target: '.topbar .search-box', title: '找到想练的题', text: '输入题名、比赛或知识点；筛选按钮汇总比赛分类、知识点和难度。上下箭头切换顺序，选中的知识点可单独取消。下一步会指引你打开一道题。' },
   { page: 'library', target: '.problem-table tbody tr[data-id] .problem-title', title: '进入练习', text: '点击高亮题名，实际打开一道题。进入工作台后，指引会继续介绍题面、代码和运行。', action: 'open' },
   { practice: true, target: '.wb-statement-pane', title: '阅读题面', text: '先确认题意、输入输出和样例。这里可以切换原文与中文，也可以调整题面字号。' },
-  { practice: true, target: '.cm-editor', title: '编写代码', text: '选择 C++17 或 Python 3 后编写代码，草稿会自动保存。上方的保存状态会告诉你是否保存成功。' },
+  { practice: true, target: '.cm-editor', title: '编写代码', text: '选择 C++17 或 Python 3 后编写代码。语言旁的模板选择器可切换初始代码，默认项显示“默认”；自定义初始代码在设置中保存。草稿自动保存，已有草稿再次打开时会保留。' },
   { practice: true, target: '.wb-run-actions', title: '运行与提交', text: '先用“运行”检查样例，再用“提交”进入原站。首次提交需在浏览器登录并确认；结果显示后自动关闭本次提交窗口，原站 AC 才计入通过数。你可以稍后完成这道题。' },
   { practice: true, target: '.wb-toolbar button[aria-label="返回列表"]', title: '回到题库', text: '点击高亮的返回按钮。草稿会保留，下次打开这道题可以接着写。', action: 'return' },
   { page: 'records', target: '.submission-log', title: '查看提交结果', text: '正式提交后，这里会按日期保存结果。点击记录可以查看当次代码；样例运行结果留在工作台中。' },

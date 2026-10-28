@@ -1,5 +1,9 @@
 # ToBe 开发与构建
 
+下一批分支尚未发行，执行用户“全部完成后再更新”的要求。当前进展及缺项见 [pending-1.4.23.md](pending-1.4.23.md)，不能把源码能力写成已安装或已部署。
+
+新增检查：`python scripts/check_template_programs.py --compiler <g++路径> --report <临时报告路径>` 编译讲解/竞赛示例及完整模板练习；`python scripts/check_chunk_capacity.py --report <临时报告路径>` 仅用合成数据做两年对象用量模拟。前端检查增加 `node tests/history-code.mjs` 和真实临时后端下的 `node tests/revision-1423-live.mjs`。共享服务普通测试包含分块套件，隔离 MySQL 测试也执行同一套件。不得把 50 个小账号并发与两年用量模拟合称为 50 个两年账号压测。
+
 1.4.22 为本机更新，尚未公开发布；公开稳定版仍为 1.4.17。模板、题解导航、任务和同步修复见 [本版说明](releases/1.4.22.md)。
 
 1.4.20 为本机更新，尚未公开发布；正式下载仍为 1.4.17。提交浏览器恢复、难度复核与简单题复习排除、题单筛选/收藏/可取消点赞、单列试卷和强调色日历，以及有界缓存和流式同步压缩，见 [本次说明](releases/1.4.20.md)。
@@ -413,3 +417,14 @@ node tests/ranking-public-progress.mjs
 
 
 1.4.19 的追加同步回归覆盖慢速已认证快照上传、未完成正文超时释放处理槽、普通请求短超时，以及会话轮换后的预算保留。生产观察只核对正常启动与自然同步结果，不创建生产测试账号；服务 1.2.5 使用 `deploy-state-upload.sh` 进行在线备份、原表指纹对比和 API 切换，无数据库迁移。
+
+
+## 1.4.23 验证入口
+
+`scripts/library_seed.py build` 在独立临时文件重建公共种子，在线备份旧公共库后原子替换；拒绝包含个人表的目标。`scripts/check.py` 核对 SQLite 与文本源的题目 ID 完全一致，防止从旧种子合并后遗留已移除题目。个人库升级继续使用 `merge_seed`。
+
+新增界面回归为 `frontend/tests/latest-steering.mjs`，只使用一次性离线后端，覆盖紧凑账号弹窗、初始代码选择/撤销/空草稿、学习页面时长、任务递进、提交按钮列和同步提示占位。原站契约回归为 `official-sites.mjs`、`luogu-native.mjs`、`qoj-native.mjs`，不会向真实网站登录或提交。
+
+最终源码检查为后端 782 项、服务 SQLite/HTTP 41 项及隔离 MySQL 42 项通过。`qoj-archive.mjs` 另在真实 App 与隔离 API 验证三场完整重现赛、39 道题的样例权限、离线 PDF、放大及不可翻译状态；真实 QOJ 登录后提交页面尚未用于账号实测。
+
+服务 1.2.7 的 `scripts/deploy-account-chunks.sh` 要求固定源码身份、完整 SQL 在线备份、停写后的原表指纹和新增表核对，才切换运行时。只增加迁移 011 和 v2 路由的 128 KiB 代理预算，其余环境、依赖与卷不变；若已有 v2 根，失败后拒绝自动回退 v1 写入。部署和本机安装记录单独保存在实际交付记录中，不把源码/fixture 通过等同于生产已验证。

@@ -485,6 +485,8 @@ class TrainingService:
                         if review.get('openedAt') and existing['submitted_at'] >= review['openedAt']:
                             connection.execute('UPDATE submissions SET solution_seen=? WHERE id=?', (int(reviews.assisted(row['id'], review, existing['submitted_at'])), identity))
                             self._recompute_progress(connection, row['id'])
+                    if verdict == 'AC':
+                        reviews.plan()
                 return self._submission(self.connection.execute('SELECT * FROM submissions WHERE id=?', (identity,)).fetchone())
             finished = iso(self._now())
             with self._write() as connection:
@@ -502,6 +504,8 @@ class TrainingService:
                     (identity,row['id'],contest_id,self._code(session['code']),submitted,finished,verdict,'原站确认提交 #'+remote+(' · 官网同步（未取得源码）' if session.get('external') else ''),int(seen)))
                 reviews.bind(connection, identity, review_id)
                 self._recompute_progress(connection,row['id'])
+            if review and verdict == 'AC':
+                reviews.plan()
             result = self._submission(self.connection.execute('SELECT * FROM submissions WHERE id=?',(identity,)).fetchone())
         if verdict == 'AC':
             self.leaderboard.invalidate()
@@ -542,8 +546,8 @@ class TrainingService:
                             raise
             value = build_insights(library, records, history, workspace, hub or {}, self._now())
             tasks = self.daily_tasks(goal_tasks=workspace.get('goalTasks', []))
-            # 只累加版本 2（官方口径）任务的经验；旧本地任务领取保留在库里但不再计入成长。
-            claimed = self.connection.execute("SELECT COALESCE(SUM(awarded_xp),0) AS xp,COUNT(*) AS count,MAX(claimed_at) AS latest FROM daily_missions WHERE claimed_at IS NOT NULL AND definition LIKE '%\"version\": 2%'").fetchone()
+            # 保留版本 2 的正式任务经验，并累加版本 3 的递进任务；旧本地领取仍留在库里。
+            claimed = self.connection.execute("SELECT COALESCE(SUM(awarded_xp),0) AS xp,COUNT(*) AS count,MAX(claimed_at) AS latest FROM daily_missions WHERE claimed_at IS NOT NULL AND CASE WHEN json_valid(definition) THEN json_extract(definition,'$.version') END IN (2,3)").fetchone()
             from progression import official_reward_evidence, extra_achievements, qualified_contests
             evidence = official_reward_evidence(library, records, hub or {})
             completed = qualified_contests(workspace["contests"], records)
@@ -566,10 +570,13 @@ class TrainingService:
             ranking_reward = self.connection.execute("SELECT total_xp FROM ranking_reward_totals WHERE endpoint=? AND user_id=?",
                                                      (ranking_profile["endpoint"], ranking_profile["user_id"])).fetchone()
             ranking_xp = ranking_reward["total_xp"] if ranking_reward else 0
-            xp = self._first_acceptance_xp(library, records) + claimed["xp"] + ranking_xp + achievement_rewards['xp']
+            from reviews import reward_totals
+            review_rewards = reward_totals(self)
+            xp = self._first_acceptance_xp(library, records) + claimed["xp"] + ranking_xp + achievement_rewards['xp'] + review_rewards['xp']
             from tb_rank import growth, ranked
             value['growth'] = dict(growth(xp), missionXp=claimed['xp'], rankingXp=ranking_xp,
-                                   achievementXp=achievement_rewards['xp'], newAchievementXp=achievement_rewards['newXp'])
+                                   achievementXp=achievement_rewards['xp'], newAchievementXp=achievement_rewards['newXp'],
+                                   reviewXp=review_rewards['xp'], rewardedReviews=review_rewards['count'])
             titles, equipped_titles = earned_titles(achievement_rewards['claims'])
             value.update(titles=titles, equippedTitles=equipped_titles)
             value['growth'].update(titles=titles, equippedTitles=equipped_titles)
@@ -725,71 +732,12 @@ class TrainingService:
         return evidence
 
     def daily_tasks(self, goal_tasks=None, *, _evidence_snapshot=None):
-        from progression import SHANGHAI, task_progress
-        from daily_rotation import tasks_for
-        with self.lock:
-            day = self._now().astimezone(SHANGHAI).date().isoformat()
-            TASKS=tasks_for(day,self._ranking_profile()["user_id"])
-            current = {task["id"]: json.dumps(task, ensure_ascii=False) for task in TASKS}
-            existing = {record["id"]: record for record in self.connection.execute("SELECT * FROM daily_missions WHERE day=?", (day,))}
-            changes = [task for task in TASKS if task['id'] not in existing or
-                       existing[task['id']]['claimed_at'] is None and existing[task['id']]['definition'] != current[task['id']]]
-            if changes:
-                # Reading a settled daily task list must not make another full
-                # database backup or open a write transaction on each poll.
-                with self._write() as connection:
-                    for task in changes:
-                        if task["id"] not in existing:
-                            connection.execute("INSERT OR IGNORE INTO daily_missions(day,id,definition) VALUES(?,?,?)", (day, task["id"], current[task["id"]]))
-                        else:
-                            connection.execute("UPDATE daily_missions SET definition=? WHERE day=? AND id=?", (current[task["id"]], day, task["id"]))
-            evidence = self._daily_evidence(day) if _evidence_snapshot is None else _evidence_snapshot
-            tasks = []
-            for record in self.connection.execute("SELECT * FROM daily_missions WHERE day=? ORDER BY rowid", (day,)):
-                if record["id"] not in current:continue
-                task = json.loads(record["definition"])
-                progress, _ = task_progress(task, evidence, day)
-                task.update(progress=progress, completed=progress >= task["target"], claimed=bool(record["claimed_at"]), claimedAt=record["claimed_at"])
-                tasks.append(task)
-            if goal_tasks is None:
-                from goals import Goals
-                goal_tasks = Goals(self).list(assign=True).get('goalTasks', [])
-            return {"date": day, "timezone": "Asia/Shanghai", "tasks": tasks, "goalTasks": goal_tasks, "goalPending": sum(not task['accepted'] for task in goal_tasks), "claimable": sum(task["completed"] and not task["claimed"] for task in tasks),
-                    "totalClaimedXp": sum(task["xp"] for task in tasks if task["claimed"]), "notice": "每日按北京时间刷新，统计当天官方 AC 的不同题目；基础三项可计入旧题重练；轮换挑战仅计此前未 AC 的新题。收藏、外观与学习任务按实际操作计入。"}
+        from daily_chains import snapshot
+        return snapshot(self, goal_tasks=goal_tasks, evidence=_evidence_snapshot)
 
     def claim_daily_task(self, identity, date=None):
-        from progression import task_progress
-        if not isinstance(identity, str) or not identity or len(identity) > 64:
-            raise ServiceError(400, "每日任务编号无效")
-        with self.lock:
-            day = self._now().astimezone(TRAINING_ZONE).date().isoformat()
-            evidence_snapshot = self._daily_evidence(day)
-            tasks = self.daily_tasks(goal_tasks=[], _evidence_snapshot=evidence_snapshot)
-            if date is not None and date != tasks["date"]:
-                raise ServiceError(409, "每日任务已刷新，请重新打开任务列表")
-            record = self.connection.execute("SELECT * FROM daily_missions WHERE day=? AND id=?", (tasks["date"], identity)).fetchone()
-            if not record:
-                raise ServiceError(404, "没有找到这项每日任务")
-            if identity not in {task["id"] for task in tasks["tasks"]} and not record["claimed_at"]:
-                raise ServiceError(404,"没有找到这项每日任务")
-            already = bool(record["claimed_at"])
-            if not already:
-                with self._write() as connection:
-                    task = json.loads(record["definition"])
-                    progress, evidence = task_progress(task, evidence_snapshot, tasks["date"])
-                    if progress < task["target"]:
-                        raise ServiceError(409, "这项任务尚未完成")
-                    connection.execute("UPDATE daily_missions SET claimed_at=?,awarded_xp=?,evidence=? WHERE day=? AND id=? AND claimed_at IS NULL",
-                                       (iso(self._now()), task["xp"], json.dumps(evidence), tasks["date"], identity))
-            # The durable claim is the response barrier. Heavy growth and
-            # achievement calculations happen on the next background read.
-            if not already:
-                for item in tasks['tasks']:
-                    if item['id'] == identity:
-                        item.update(claimed=True, claimedAt=iso(self._now()))
-                tasks['claimable'] = sum(item['completed'] and not item['claimed'] for item in tasks['tasks'])
-                tasks['totalClaimedXp'] = sum(item['xp'] for item in tasks['tasks'] if item['claimed'])
-            return {"dailyTasks": tasks, "awardedXp": 0 if already else task['xp'], "alreadyClaimed": already}
+        from daily_chains import claim
+        return claim(self, identity, date)
 
     def _ranking_profile(self):
         with self.lock:
@@ -1088,7 +1036,7 @@ class TrainingService:
             self._context(identity, contest_id)
             self._history_visible(identity, contest_id)
             allowed = {"id", "title", "markdown", "url", "samples", "limits", "judge", "statementAvailable", "statementError", "statementLoading",
-                       "statementVersion", "images", "translation", "autoTranslate"}
+                       "statementVersion", "images", "translation", "translationAvailable", "autoTranslate", "templatePractice"}
             problem = {key: raw[key] for key in allowed if key in raw}
             problem.setdefault("id", identity)
             problem.setdefault("title", row["title"])
@@ -1121,6 +1069,8 @@ class TrainingService:
             if review and not draft:
                 problem['draftLanguage'] = self._read_language(self._draft_language_key(identity, ''))
             problem["draftSavedAt"] = draft["saved_at"] if draft else None
+            from initial_code import selected
+            problem['initialCode'] = selected(self)
             problem["submissions"] = self.submissions(identity, contest_id, exact_context=True, review_id=review_id)["submissions"]
             if review:
                 problem['reviewTask'] = review
@@ -1212,7 +1162,8 @@ class TrainingService:
             if pending >= 16:
                 raise ServiceError(429, "待判题任务较多，请等待已有提交完成")
             scope = metadata.get("judge", {}).get("scope", "samples")
-            if scope not in ("local", "samples"):
+            from template_drills import is_drill
+            if scope not in ("local", "samples") and not (scope=="template" and is_drill(identity)):
                 scope = "samples"
             submission_id = "submission-" + uuid.uuid4().hex
             # Asset lookups may take time; check the immutable server deadline again at receipt.
@@ -1267,12 +1218,14 @@ class TrainingService:
                 result = {"verdict": "ERROR", "scope": record["scope"], "message": "判题结果格式无效"}
             verdict = result.get("verdict", "ERROR")
             scope = result.get("scope", record["scope"])
-            if scope not in ("local", "samples"):
+            from template_drills import is_drill,bundle as drill_bundle
+            template_ok=(scope=="template" and record["scope"]=="template" and is_drill(record["problem_id"]))
+            if scope not in ("local", "samples") and not template_ok:
                 scope = "samples"
             if verdict not in VERDICTS or verdict in ("QUEUED", "RUNNING"):
                 verdict = "ERROR"
-            # 2026-10-10：本地判题永不产生 AC；AC 只能来自 record_official（原站回执）。
-            if verdict == "AC":
+            # 原站题只接受正式回执 AC；原创模板题通过独立完整测试后记 scope=template，不发原站首次 AC 经验。
+            if verdict == "AC" and not (template_ok and record["mode"]=="submit" and result.get("passed")==result.get("total")==len(drill_bundle(record["problem_id"])["cases"])):
                 verdict = "RUN_OK" if record["mode"] == "run" and not record["sample_run"] else "SAMPLE_PASS"
             case_results = self._case_results(result.get("caseResults", []))
             finished = iso(self._now())
@@ -1369,9 +1322,18 @@ class TrainingService:
         return results
 
     def _submission(self, record):
-        return {"language":self._read_language("submission-language:"+record["id"]), "id": record["id"], "problemId": record["problem_id"], "contestId": record["contest_id"], "mode": record["mode"], "verdict": record["verdict"], "scope": record["scope"], "code": record["code"], "submittedAt": record["submitted_at"], "finishedAt": record["finished_at"], "timeMs": record["time_ms"], "memoryKb": record["memory_kb"], "passed": record["passed"], "total": record["total"], "output": record["output"], "stderr": record["stderr"], "message": record["message"], "sampleRun": bool(record["sample_run"]), "caseResults": json.loads(record["case_results"])}
+        from reviews import receipt_reward
+        cold=not record['code'] and getattr(self,'history_code_loader',None) and self.connection.execute('SELECT 1 FROM account_sync_code_refs WHERE submission_id=?',(record['id'],)).fetchone()
+        return {"reviewRewardXp":receipt_reward(self,record['id']) if record['scope']=='official' and record['verdict']=='AC' else 0,"codePending":bool(cold),"language":self._read_language("submission-language:"+record["id"]), "id": record["id"], "problemId": record["problem_id"], "contestId": record["contest_id"], "mode": record["mode"], "verdict": record["verdict"], "scope": record["scope"], "code": record["code"], "submittedAt": record["submitted_at"], "finishedAt": record["finished_at"], "timeMs": record["time_ms"], "memoryKb": record["memory_kb"], "passed": record["passed"], "total": record["total"], "output": record["output"], "stderr": record["stderr"], "message": record["message"], "sampleRun": bool(record["sample_run"]), "caseResults": json.loads(record["case_results"])}
 
     def submission(self, identity):
+        loader=getattr(self,'history_code_loader',None)
+        if loader:
+            with self.lock:
+                self._expire()
+                header=self.connection.execute('SELECT problem_id,contest_id FROM submissions WHERE id=?',(identity,)).fetchone()
+                if header:self._history_visible(header['problem_id'],header['contest_id'])
+            loader(identity)
         with self.lock:
             self._expire()
             record = self.connection.execute("SELECT * FROM submissions WHERE id=?", (identity,)).fetchone()

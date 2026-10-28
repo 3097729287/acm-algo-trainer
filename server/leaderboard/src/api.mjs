@@ -1,3 +1,4 @@
+import {CHUNK_LIMIT,validateChunk,validateHashes} from './account-chunks.mjs';
 import {validateAvatar} from './public-avatar.mjs';
 import { EventConflict } from './errors.mjs';
 import { bounds, REWARD_POLICY } from './ranking-rules.mjs';
@@ -8,7 +9,7 @@ import { publicId, storedPublicProgress, validatePublicProgress } from './public
 import { socialSnapshot, socialWrite, rankingSocial } from './social.mjs';
 import {trainingListLikes} from './training-list-likes.mjs';
 
-const VERSION = '1.2.6';
+const VERSION = '1.2.7';
 const NOTICE = '排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const hashPattern = /^[a-f0-9]{64}$/;
@@ -42,7 +43,7 @@ function nickname(value) {
   return result;
 }
 
-async function body(request, allowed, maximum = 65536) {
+async function body(request, allowed, maximum = 65536, shallowEnvelope = true) {
   if (!request.headers.get('Content-Type')?.toLowerCase().startsWith('application/json')) throw new ApiError(415, '请求须使用 application/json');
   const declared = Number(request.headers.get('Content-Length') || 0);
   if (!Number.isFinite(declared) || declared > maximum) throw new ApiError(413, '请求内容过大');
@@ -58,7 +59,7 @@ async function body(request, allowed, maximum = 65536) {
   }
   const bytes = new Uint8Array(size); let offset = 0;
   for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.length; }
-  if (maximum > 65536 && size > 65536) guardStateJson(bytes);
+  if (shallowEnvelope && maximum > 65536 && size > 65536) guardStateJson(bytes);
   let value;
   try { value = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes)); }
   catch { throw new ApiError(400, 'JSON 请求无效'); }
@@ -125,7 +126,7 @@ export async function handle(request, env) {
     const timestamp = new Date(now).toISOString();
     if (path === '/v1/health' && request.method === 'GET') {
       await env.STORE.health();
-      return json({ ok: true, version: VERSION, eventScope: 'official', accountStateProtocol: 1, singleSession: true, publicProgressProtocol: 1, publicAppearanceProtocol: 1, nicknameUnique: true, stateResumeProtocol: 1, socialProtocol:env.STORE.social && await env.STORE.social.available() ? 1 : 0, trainingListLikesProtocol:env.STORE.social && await env.STORE.social.listAvailable() ? 1 : 0 });
+      return json({ ok: true, version: VERSION, eventScope: 'official', accountStateProtocol: 1, accountChunkProtocol:env.STORE.chunks&&await env.STORE.chunks.available()?2:0, singleSession: true, publicProgressProtocol: 1, publicAppearanceProtocol: 1, nicknameUnique: true, stateResumeProtocol: 1, socialProtocol:env.STORE.social && await env.STORE.social.available() ? 1 : 0, trainingListLikesProtocol:env.STORE.social && await env.STORE.social.listAvailable() ? 1 : 0 });
     }
     if (path === '/v1/profile/register') throw new ApiError(410, '请升级 TB 并注册账号后登录');
     if (['/v1/accounts/register', '/v1/accounts/login'].includes(path) && request.method === 'POST') {
@@ -154,12 +155,13 @@ export async function handle(request, env) {
       if (!await verifyPassword(secret, user?.password_hash)) throw new ApiError(401, '登录号或密码错误');
       if (request.headers.get('X-TB-State-Protocol') !== '1' && await env.STORE.stateRevision(user.user_id) > 0)
         throw new ApiError(426, '该账号已启用跨电脑同步，请升级 TB 至 1.0.20 或更新版本后登录');
+      if(env.STORE.chunks&&await env.STORE.chunks.available()&&await env.STORE.chunks.active(user.user_id)&&request.headers.get('X-TB-Chunk-Protocol')!=='2')throw new ApiError(426,'此账号已使用分块同步，请升级客户端后登录');
       const issued = session(now);
-      await env.STORE.createSession(user, issued, timestamp, request.headers.get('X-TB-State-Protocol') === '1');
+      await env.STORE.createSession(user, issued, timestamp, request.headers.get('X-TB-State-Protocol') === '1',request.headers.get('X-TB-Chunk-Protocol')==='2');
       return json({ account: publicAccount(user), token: issued.token, expiresAt: issued.expiresAt });
     }
     const user = await authenticate(request, env, now);
-    await limit(env, 'user:' + user.user_id, Math.min(600, Math.max(10, Number(env.REQUESTS_PER_USER_MINUTE) || 120)), 60, Math.floor(now / 1000));
+    if(!path.startsWith('/v2/accounts/state'))await limit(env, 'user:' + user.user_id, Math.min(600, Math.max(10, Number(env.REQUESTS_PER_USER_MINUTE) || 120)), 60, Math.floor(now / 1000));
     if (path === '/v1/social' && request.method === 'GET') return json(await socialSnapshot(env.STORE,user,now));
     if(path==='/v1/training-list-likes' && request.method==='GET')return json(await trainingListLikes(env.STORE,user,null,url.searchParams.getAll('id'),false,now));
     if(path==='/v1/training-list-likes' && request.method==='POST') {
@@ -178,6 +180,45 @@ export async function handle(request, env) {
       if (env.READ_ONLY !== '1') await env.STORE.recordLogin(user.user_id, bounds('daily', now).day, timestamp);
       return json({ account: publicAccount(user), stateRevision: await env.STORE.stateRevision(user.user_id), singleSession: true });
     }
+    if(path.startsWith('/v2/accounts/state')) {
+      if(!env.STORE.chunks||!await env.STORE.chunks.available())throw new ApiError(404,'分块同步暂不可用');
+      await limit(env,'chunk:'+user.user_id,2000,60,Math.floor(now/1000));
+      const chunks=env.STORE.chunks,hash=tokenHash(credentials(request).token),seconds=Math.floor(now/1000);
+      if(path==='/v2/accounts/state'&&request.method==='GET') {
+        const cached=Number(request.headers.get('X-TB-State-Revision'))||null;
+        return json(await chunks.head(user.user_id,cached));
+      }
+      if(path==='/v2/accounts/state/missing'&&request.method==='POST') {
+        const value=await body(request,['hashes'],16384);
+        return json({missing:await chunks.missing(user.user_id,validateHashes(value.hashes),timestamp)});
+      }
+      if(path==='/v2/accounts/state/objects'&&request.method==='POST') {
+        const value=await body(request,['objects'],CHUNK_LIMIT,false);
+        if(!Array.isArray(value.objects)||!value.objects.length||value.objects.length>64)throw new ApiError(400,'同步分块批次无效');
+        const validated=value.objects.map(item=>{
+          if(!item||typeof item!=='object'||Array.isArray(item))throw new ApiError(400,'同步分块批次无效');
+          const {hash:identity,...content}=item;
+          return {identity,value:validateChunk(identity,content)};
+        });
+        if(new Set(validated.map(item=>item.identity)).size!==validated.length)throw new ApiError(400,'同步分块批次重复');
+        // Objects remain private and immutable. A failed batch is retry safe;
+        // only the later root CAS publishes a complete account version.
+        for(const item of validated)await chunks.put(user.user_id,hash,seconds,item.identity,item.value,timestamp);
+        return json({uploaded:validated.map(item=>item.identity)});
+      }
+      if(path==='/v2/accounts/state'&&request.method==='PUT') {
+        const value=await body(request,['revision','root'],1024);
+        return json(await chunks.commit(user.user_id,hash,seconds,value.revision,value.root,timestamp));
+      }
+      const object=/^\/v2\/accounts\/state\/objects\/([a-f0-9]{64})$/.exec(path);
+      if(object&&request.method==='GET')return json(await chunks.get(user.user_id,object[1]));
+      if(object&&request.method==='PUT') {
+        const value=validateChunk(object[1],await body(request,['kind','data','children'],CHUNK_LIMIT,false));
+        return json(await chunks.put(user.user_id,hash,seconds,object[1],value,timestamp));
+      }
+      throw new ApiError(404,'没有找到这个同步接口');
+    }
+    if(path==='/v1/accounts/state'&&env.STORE.chunks&&await env.STORE.chunks.available()&&await env.STORE.chunks.active(user.user_id))throw new ApiError(426,'此账号已使用分块同步，请升级客户端后登录');
     if (path === '/v1/accounts/state' && request.method === 'GET') {
       const cached = request.headers.get('X-TB-State-Revision');
       if (/^[1-9]\d{0,14}$/.test(cached || '')) {

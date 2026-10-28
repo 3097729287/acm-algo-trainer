@@ -8,7 +8,7 @@ from pathlib import Path
 from persistence import load_document, save_document
 from translation_config import _crypt
 
-ROOTS = ('codeforces.com', 'atcoder.jp', 'nowcoder.com', 'luogu.com.cn')
+ROOTS = ('codeforces.com', 'atcoder.jp', 'nowcoder.com', 'luogu.com.cn', 'qoj.ac')
 FIELDS = ('name', 'value', 'domain', 'path', 'secure', 'httpOnly', 'sameSite', 'expires', 'partitionKey')
 
 

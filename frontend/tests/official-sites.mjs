@@ -5,7 +5,7 @@ import {readFile} from 'node:fs/promises';
 import {chromium} from 'playwright';
 
 let source=await readFile(new URL('../../desktop/official_page.js',import.meta.url),'utf8');
-for(const [marker,file] of [['COMPILER_SELECTION','official_languages.js'],['NOWCODER_RECEIPTS','official_nowcoder.js'],['LUOGU_RECEIPTS','official_luogu.js']])source=source.replace(marker,await readFile(new URL('../../desktop/'+file,import.meta.url),'utf8'));
+for(const [marker,file] of [['COMPILER_SELECTION','official_languages.js'],['NOWCODER_RECEIPTS','official_nowcoder.js'],['LUOGU_RECEIPTS','official_luogu.js'],['QOJ_ADAPTER','official_qoj.js']])source=source.replace(marker,await readFile(new URL('../../desktop/'+file,import.meta.url),'utf8'));
 const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
 const account='<nav class="navbar"><a href="/users/fixture">fixture</a></nav>';
 const empty='<title>My Submissions - Contest</title>'+account+'<div class="panel-body">No Submissions</div>';

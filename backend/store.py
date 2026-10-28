@@ -155,7 +155,8 @@ class Store:
             except FileNotFoundError:
                 assets.append(None)
         from difficulty import VERSION as difficulty_version
-        return ('catalog-20261027-v5-calibration', VERSION, difficulty_version, self.library.content_signature(),
+        from contest_scope import VERSION as scope_version
+        return ('catalog-20261027-v5-calibration', VERSION, difficulty_version, scope_version, self.library.content_signature(),
                 signature() if signature else None, tuple(assets))
 
     def identity_rows(self):
@@ -306,6 +307,27 @@ class Store:
         with catalogue_context():
             return self._build_catalog_rows()
 
+    def public_training_lists(self):
+        """Remove retired catalogue entries from bundled lists, retaining unknowns.
+
+        Older installations keep their original public rows for private history.
+        Custom user lists are stored separately and are not changed here.
+        """
+        rows = self.training_data()['rows']
+        allowed_ids = {row['id'] for row in rows}
+        allowed_urls = {canonical_url(row.get('url')) for row in rows if row.get('url')}
+        known = self.identity_rows()
+        retired_ids = {row['id'] for row in known} - allowed_ids
+        retired_urls = {canonical_url(row.get('url')) for row in known if row.get('url')} - allowed_urls
+        result = self.library.training_lists()
+        for training in result:
+            entries = training.get('problems', [])
+            training['problems'] = [entry for entry in entries if entry.get('problemId') not in retired_ids
+                                    and canonical_url(entry.get('url')) not in retired_urls]
+            if len(entries) != len(training['problems']):
+                training['problemCount'] = len(training['problems'])
+        return result
+
     def training_data(self):
         # Scheduling/progress need the same list metadata as the UI, not the
         # per-problem algorithm-analysis tree. Full evidence remains available
@@ -330,6 +352,7 @@ class Store:
             return json.loads(self.data_response_bytes(compact=True))
 
     def _build_catalog_rows(self):
+        from contest_scope import excluded
         self._refresh_training_membership()
         remote = self.extensions.rows() if self.extensions else []
         remote_ids = {row['id'] for row in remote}
@@ -338,6 +361,8 @@ class Store:
         by_url = {}
         encoded = []
         for record in self.library.iter_catalog():
+            if excluded(record):
+                continue
             key = canonical_url(record['url'])
             # Only extension candidates can need a stored source record later.
             if record['id'] in remote_ids:
@@ -348,6 +373,8 @@ class Store:
         seen_urls = {canonical_url(row.get('url')) for row in encoded if row.get('url')}
         seen_ids = {row['id'] for row in encoded}
         for row in remote:
+            if excluded(row):
+                continue
             key = canonical_url(row.get('url'))
             if row['id'] in seen_ids or key and key in seen_urls:
                 continue

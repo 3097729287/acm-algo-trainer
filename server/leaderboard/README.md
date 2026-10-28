@@ -1,5 +1,13 @@
 # TB 排行榜服务
 
+## 1.2.7 分块同步
+
+配套迁移 `011_account_chunks.sql` 与 v2 私有对象接口为：`GET/PUT /v2/accounts/state`、`POST /v2/accounts/state/missing`、`GET/PUT /v2/accounts/state/objects/:hash`、有界批量 `POST /v2/accounts/state/objects`。只在根 CAS 成功后激活完整版本；旧账号快照不删除。服务只存有界压缩字节，不展开用户整个学习记录。
+
+运行状态以 `/v1/health` 的版本与 `accountChunkProtocol` 为准。`deploy-account-chunks.sh` 先保存在线 SQL 备份，再停写核对原表及二进制对象指纹，只增加 011 与 v2 代理路由的 128 KiB 上限；已有 v2 根时不自动降回旧写入器。
+
+普通测试与 `npm run test:mysql` 均覆盖分块、旧快照保留、撤销会话、重复与失败续传、图回收、50 个小账号并发。迁移前仍须在线完整 SQL 备份与原表核对，保留环境和数据卷；完成客户端及整个用户任务批次之后才统一部署。不可仅因源码测试通过就把 `accountChunkProtocol: 2` 写成线上能力。
+
 ## 1.2.6 题单点赞可取消
 
 公共题单每位用户计一次有效爱心；POST 接受明确的 liked 布尔状态，重试保持幂等，false 仅移除该用户对该题单的记录。旧客户端缺省为 true；人际爱心规则不变。GET 无编号时返回公共题单完整摘要用于预取。使用现有表和索引，无数据迁移；API 切换使用 deploy-training-list-toggle.sh，先在线备份并核对原表指纹。实际部署状态见本机交付记录与健康接口。

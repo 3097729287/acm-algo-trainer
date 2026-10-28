@@ -74,3 +74,8 @@ CREATE INDEX social_inbox ON social_notifications(recipient_id,created_at);
 CREATE TABLE account_public_avatars (user_id TEXT PRIMARY KEY REFERENCES accounts(user_id),data TEXT NOT NULL,hash TEXT NOT NULL,updated_at TEXT NOT NULL);
 CREATE TABLE training_list_likes (actor_id TEXT NOT NULL REFERENCES users(user_id),list_id TEXT NOT NULL,liked_day TEXT NOT NULL,created_at TEXT NOT NULL,PRIMARY KEY(actor_id,list_id,liked_day));
 CREATE INDEX training_list_totals ON training_list_likes(list_id,liked_day);
+
+CREATE TABLE IF NOT EXISTS account_chunk_heads(user_id TEXT PRIMARY KEY REFERENCES accounts(user_id),revision INTEGER NOT NULL,root_hash TEXT NOT NULL,previous_root TEXT,updated_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS account_chunks(user_id TEXT NOT NULL REFERENCES accounts(user_id),hash TEXT NOT NULL,kind TEXT NOT NULL,payload BLOB NOT NULL,children TEXT NOT NULL,byte_count INTEGER NOT NULL,created_at TEXT NOT NULL,seen_at TEXT NOT NULL,PRIMARY KEY(user_id,hash));
+
+CREATE TABLE IF NOT EXISTS account_chunk_usage(user_id TEXT PRIMARY KEY REFERENCES accounts(user_id),byte_count INTEGER NOT NULL DEFAULT 0,object_count INTEGER NOT NULL DEFAULT 0,last_gc_at TEXT NOT NULL DEFAULT '');

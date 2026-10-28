@@ -168,7 +168,8 @@
       "name": "摊还分析",
       "category": "思维与策略",
       "aliases": [
-        "amortized analysis"
+        "amortized analysis",
+        "均摊分析"
       ],
       "sources": [
         "小白月赛 129::F"
@@ -441,6 +442,1733 @@
       "sources": [
         "https://www.luogu.com.cn/problem/P1228",
         "https://www.luogu.com.cn/problem/P3612"
+      ]
+    },
+    {
+      "name": "CDQ 分治",
+      "category": "基础技巧",
+      "aliases": [
+        "CDQ分治"
+      ],
+      "sources": [
+        "挑战赛 90::D"
+      ]
+    },
+    {
+      "name": "动态开点线段树",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "练习赛 150::E"
+      ]
+    },
+    {
+      "name": "分块",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "练习赛 151::F",
+        "练习赛 152::G"
+      ]
+    },
+    {
+      "name": "线段树分治",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "练习赛 153::F"
+      ]
+    },
+    {
+      "name": "离线算法",
+      "category": "思维与策略",
+      "aliases": [],
+      "sources": [
+        "练习赛 153::F"
+      ]
+    },
+    {
+      "name": "平衡树",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "练习赛 154::E"
+      ]
+    },
+    {
+      "name": "逆序对",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "练习赛 154::F"
+      ]
+    },
+    {
+      "name": "ST 表",
+      "category": "数据结构",
+      "aliases": [
+        "ST表"
+      ],
+      "sources": [
+        "练习赛 156::F"
+      ]
+    },
+    {
+      "name": "Floyd",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://atcoder.jp/contests/agc072/editorial/12733"
+      ]
+    },
+    {
+      "name": "LIS",
+      "category": "动态规划",
+      "aliases": [
+        "最长递增子序列"
+      ],
+      "sources": [
+        "https://atcoder.jp/contests/agc059/editorial/5326"
+      ]
+    },
+    {
+      "name": "中国剩余定理",
+      "category": "数学",
+      "aliases": [
+        "CRT"
+      ],
+      "sources": [
+        "https://atcoder.jp/contests/agc050/editorial/462"
+      ]
+    },
+    {
+      "name": "功能图",
+      "category": "图论",
+      "aliases": [
+        "函数图"
+      ],
+      "sources": [
+        "https://atcoder.jp/contests/agc062/editorial/6174"
+      ]
+    },
+    {
+      "name": "动态DP",
+      "category": "动态规划",
+      "aliases": [],
+      "sources": [
+        "https://atcoder.jp/contests/agc073/editorial/14072"
+      ]
+    },
+    {
+      "name": "卡特兰数",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://img.atcoder.jp/agc040/editorial.pdf",
+        "https://atcoder.jp/contests/agc053/editorial/1058"
+      ]
+    },
+    {
+      "name": "多项式复合",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://atcoder.jp/contests/agc070/editorial/11680"
+      ]
+    },
+    {
+      "name": "多项式对数",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://atcoder.jp/contests/agc070/editorial/11680"
+      ]
+    },
+    {
+      "name": "多项式插值",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://atcoder.jp/contests/agc075/editorial/14890"
+      ]
+    },
+    {
+      "name": "多项式求逆",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://atcoder.jp/contests/agc064/editorial/6954"
+      ]
+    },
+    {
+      "name": "奇偶性",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://img.atcoder.jp/agc001/editorial.pdf"
+      ]
+    },
+    {
+      "name": "强连通分量",
+      "category": "图论",
+      "aliases": [
+        "SCC"
+      ],
+      "sources": [
+        "https://img.atcoder.jp/agc045/editorial.pdf"
+      ]
+    },
+    {
+      "name": "树的中心",
+      "category": "树",
+      "aliases": [],
+      "sources": [
+        "https://img.atcoder.jp/agc001/editorial.pdf"
+      ]
+    },
+    {
+      "name": "矩阵树定理",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://atcoder.jp/contests/agc060/editorial/5414"
+      ]
+    },
+    {
+      "name": "费用流",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://atcoder.jp/contests/agc073/editorial/14072",
+        "https://atcoder.jp/contests/agc077/editorial/18048"
+      ]
+    },
+    {
+      "name": "隔板法",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://img.atcoder.jp/agc040/editorial.pdf"
+      ]
+    },
+    {
+      "name": "AC自动机",
+      "category": "字符串",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2019/finals2019solutions.pdf"
+      ]
+    },
+    {
+      "name": "Voronoi图",
+      "category": "计算几何",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2018/finals2018solutions.pdf"
+      ]
+    },
+    {
+      "name": "凸函数优化",
+      "category": "动态规划",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2018/finals2018solutions.pdf"
+      ]
+    },
+    {
+      "name": "剪枝",
+      "category": "搜索",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2019/finals2019solutions.pdf"
+      ]
+    },
+    {
+      "name": "启发式合并",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2018/finals2018solutions.pdf"
+      ]
+    },
+    {
+      "name": "回溯",
+      "category": "搜索",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2019/finals2019solutions.pdf"
+      ]
+    },
+    {
+      "name": "插头DP",
+      "category": "动态规划",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2018/finals2018solutions.pdf"
+      ]
+    },
+    {
+      "name": "状态压缩",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2018/finals2018solutions.pdf"
+      ]
+    },
+    {
+      "name": "语法分析",
+      "category": "字符串",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2019/finals2019solutions.pdf"
+      ]
+    },
+    {
+      "name": "逆向思维",
+      "category": "思维与策略",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2017/icpc-solutions2017.pdf"
+      ]
+    },
+    {
+      "name": "预处理",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2019/finals2019solutions.pdf"
+      ]
+    },
+    {
+      "name": "后缀数组",
+      "category": "字符串",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E6%A1%82%E6%9E%97%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf"
+      ]
+    },
+    {
+      "name": "后缀树",
+      "category": "字符串",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E6%A1%82%E6%9E%97%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf"
+      ]
+    },
+    {
+      "name": "多项式运算",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E5%B9%BF%E5%B7%9E%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf"
+      ]
+    },
+    {
+      "name": "李超线段树",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E5%B9%BF%E5%B7%9E%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf"
+      ]
+    },
+    {
+      "name": "点分治",
+      "category": "树",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2019/19ICPCHKEditorial-V1.pdf"
+      ]
+    },
+    {
+      "name": "进制转换",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2019/19ICPCHKEditorial-V1.pdf"
+      ]
+    },
+    {
+      "name": "2-SAT",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2020/2020icpc-macau-analyze.pdf"
+      ]
+    },
+    {
+      "name": "最小生成树",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2020/2020icpc-macau-analyze.pdf"
+      ]
+    },
+    {
+      "name": "树链剖分",
+      "category": "树",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2020/2020icpc-macau-analyze.pdf"
+      ]
+    },
+    {
+      "name": "狄利克雷卷积",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2020/2020ICPC%E6%B5%8E%E5%8D%97%E8%B5%9B%E5%8C%BA%E9%A2%98%E8%A7%A3.pdf"
+      ]
+    },
+    {
+      "name": "线性基",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/2020/2020ICPC%E6%B5%8E%E5%8D%97%E8%B5%9B%E5%8C%BA%E9%A2%98%E8%A7%A3.pdf"
+      ]
+    },
+    {
+      "name": "Kruskal",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021-macau-editorial.pdf"
+      ]
+    },
+    {
+      "name": "Dilworth定理",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E5%A8%81%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf"
+      ]
+    },
+    {
+      "name": "Min25筛",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E5%A8%81%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf"
+      ]
+    },
+    {
+      "name": "二次剩余",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E5%A8%81%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf"
+      ]
+    },
+    {
+      "name": "偏序",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E5%A8%81%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf"
+      ]
+    },
+    {
+      "name": "原根",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/ccpc/7th/2021CCPC%E5%A8%81%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf"
+      ]
+    },
+    {
+      "name": "KD树",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021ICPC%E6%B2%88%E9%98%B3%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf"
+      ]
+    },
+    {
+      "name": "分层图",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021ICPC%E6%B2%88%E9%98%B3%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf"
+      ]
+    },
+    {
+      "name": "复数",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021ICPC%E6%B2%88%E9%98%B3%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf"
+      ]
+    },
+    {
+      "name": "桥",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021ICPC%E6%B2%88%E9%98%B3%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf"
+      ]
+    },
+    {
+      "name": "Kruskal重构树",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021ICPC%E4%B8%8A%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf"
+      ]
+    },
+    {
+      "name": "一般图匹配",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021ICPC%E4%B8%8A%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf"
+      ]
+    },
+    {
+      "name": "决策单调性",
+      "category": "动态规划",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/provincial-contest/2021/2021ICPC%E6%B1%9F%E8%A5%BF%E7%9C%81%E8%B5%9B%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf"
+      ]
+    },
+    {
+      "name": "分段函数",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021ICPC%E4%B8%8A%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf"
+      ]
+    },
+    {
+      "name": "带花树",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/46th/2021ICPC%E4%B8%8A%E6%B5%B7%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf"
+      ]
+    },
+    {
+      "name": "扩展欧几里得",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/icpc/49th/2024_wuhan_tutorial_final.pdf"
+      ]
+    },
+    {
+      "name": "滚动数组",
+      "category": "动态规划",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/provincial-contest/2021/2021ICPC%E6%B1%9F%E8%A5%BF%E7%9C%81%E8%B5%9B%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf"
+      ]
+    },
+    {
+      "name": "递归",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/xcpcio/upload-file/main/upload-file/provincial-contest/2021/2021ICPC%E6%B1%9F%E8%A5%BF%E7%9C%81%E8%B5%9B%E6%AD%A3%E5%BC%8F%E8%B5%9B%E9%A2%98%E8%A7%A3.pdf"
+      ]
+    },
+    {
+      "name": "Link-Cut Tree",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/103430/attachments/download/34711/2021-2022-ICPC-Northern-Eurasia-Southern-Editorial.pdf"
+      ]
+    },
+    {
+      "name": "三分查找",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104011/attachments/download/17675/tutorial.pdf"
+      ]
+    },
+    {
+      "name": "计数排序",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/103430/attachments/download/34711/2021-2022-ICPC-Northern-Eurasia-Southern-Editorial.pdf"
+      ]
+    },
+    {
+      "name": "随机算法",
+      "category": "思维与策略",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104011/attachments/download/17675/tutorial.pdf"
+      ]
+    },
+    {
+      "name": "欧拉路径",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104013/attachments/download/17679/tutorials.pdf"
+      ]
+    },
+    {
+      "name": "平面图",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104059/attachments/download/17917/solutions.pdf"
+      ]
+    },
+    {
+      "name": "斯坦纳树",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/106129/attachments/download/33895/gcpc-25-solutions.pdf"
+      ]
+    },
+    {
+      "name": "零一原理",
+      "category": "思维与策略",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104875/attachments/download/23453/solutions.pdf"
+      ]
+    },
+    {
+      "name": "KM 算法",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://swerc.eu/2017/theme/slides/problemanalysis.pdf"
+      ]
+    },
+    {
+      "name": "Rope",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "https://swerc.eu/2018/theme/slides/problemanalysis.pdf"
+      ]
+    },
+    {
+      "name": "有限自动机",
+      "category": "字符串",
+      "aliases": [],
+      "sources": [
+        "https://swerc.eu/2017/theme/slides/problemanalysis.pdf"
+      ]
+    },
+    {
+      "name": "稳定匹配",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://swerc.eu/2020/theme/problems/swerc.zip#swerc/restaurants/submissions/accepted/silviu-rank.py"
+      ]
+    },
+    {
+      "name": "树的重心",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104030/attachments/download/17787/ncpc22slides.pdf"
+      ]
+    },
+    {
+      "name": "数值求根",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://github.com/icpc/ncpc-web/releases/download/ncpc2018-data/ncpc18slides.pdf"
+      ]
+    },
+    {
+      "name": "最大流",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://github.com/icpc/ncpc-web/releases/download/ncpc2017-data/ncpc17slides.pdf"
+      ]
+    },
+    {
+      "name": "边染色",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://github.com/icpc/ncpc-web/releases/download/ncpc2018-data/ncpc18slides.pdf"
+      ]
+    },
+    {
+      "name": "Bellman-Ford",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://2017.gcpc.nwerc.eu/solution_2017.pdf"
+      ]
+    },
+    {
+      "name": "Burnside 引理",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://2017.gcpc.nwerc.eu/solution_2017.pdf"
+      ]
+    },
+    {
+      "name": "Pick 定理",
+      "category": "计算几何",
+      "aliases": [],
+      "sources": [
+        "https://2017.gcpc.nwerc.eu/solution_2017.pdf"
+      ]
+    },
+    {
+      "name": "有向最小生成树",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://archive.algo.is/icpc/nwerc/2018/nwerc2018slides-handout.pdf"
+      ]
+    },
+    {
+      "name": "回文树",
+      "category": "字符串",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104666/attachments/download/22393/presentation.pdf"
+      ]
+    },
+    {
+      "name": "浮点数",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104686/attachments/download/22495/CERC2022-SolutionPresentation.pdf"
+      ]
+    },
+    {
+      "name": "子集和变换",
+      "category": "数学",
+      "aliases": [],
+      "sources": [
+        "https://drive.google.com/uc?export=download&id=13WApgof_TR5W-pokndhBQiqdny9wggVw"
+      ]
+    },
+    {
+      "name": "归并排序",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/105465/attachments/download/27986/tutorials-seerc-2023.pdf"
+      ]
+    },
+    {
+      "name": "最小包围圆",
+      "category": "计算几何",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/105465/attachments/download/27986/tutorials-seerc-2023.pdf"
+      ]
+    },
+    {
+      "name": "闵可夫斯基和",
+      "category": "计算几何",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/105465/attachments/download/27986/tutorials-seerc-2023.pdf"
+      ]
+    },
+    {
+      "name": "BSGS",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104090/attachments/download/18136/2022ICPCHangzhouTutorial.pdf"
+      ]
+    },
+    {
+      "name": "周期性",
+      "category": "字符串",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104065/attachments/download/17935/CCPC_2022_Mianyang_Tutorial.pdf"
+      ]
+    },
+    {
+      "name": "哈希表",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104090/attachments/download/18136/2022ICPCHangzhouTutorial.pdf"
+      ]
+    },
+    {
+      "name": "摊还分析",
+      "category": "专题方法",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104065/attachments/download/17935/CCPC_2022_Mianyang_Tutorial.pdf"
+      ]
+    },
+    {
+      "name": "拟阵",
+      "category": "专题方法",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104090/attachments/download/18136/2022ICPCHangzhouTutorial.pdf"
+      ]
+    },
+    {
+      "name": "最长公共前缀",
+      "category": "字符串",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104090/attachments/download/18136/2022ICPCHangzhouTutorial.pdf"
+      ]
+    },
+    {
+      "name": "树哈希",
+      "category": "字符串",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104090/attachments/download/18136/2022ICPCHangzhouTutorial.pdf"
+      ]
+    },
+    {
+      "name": "等比数列",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104090/attachments/download/18136/2022ICPCHangzhouTutorial.pdf"
+      ]
+    },
+    {
+      "name": "约数枚举",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104065/attachments/download/17935/CCPC_2022_Mianyang_Tutorial.pdf"
+      ]
+    },
+    {
+      "name": "编辑距离",
+      "category": "动态规划",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104090/attachments/download/18136/2022ICPCHangzhouTutorial.pdf"
+      ]
+    },
+    {
+      "name": "三元环计数",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104053/attachments/download/17869/2022CCPC%E5%B9%BF%E5%B7%9E%E9%A2%98%E8%A7%A3.pptx"
+      ]
+    },
+    {
+      "name": "反射原理",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104053/attachments/download/17869/2022CCPC%E5%B9%BF%E5%B7%9E%E9%A2%98%E8%A7%A3.pptx"
+      ]
+    },
+    {
+      "name": "四元环计数",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104053/attachments/download/17869/2022CCPC%E5%B9%BF%E5%B7%9E%E9%A2%98%E8%A7%A3.pptx"
+      ]
+    },
+    {
+      "name": "度数定向",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104053/attachments/download/17869/2022CCPC%E5%B9%BF%E5%B7%9E%E9%A2%98%E8%A7%A3.pptx"
+      ]
+    },
+    {
+      "name": "懒标记",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104023/attachments/download/17758/CCPC2022_Weihai___Tutorial.pdf"
+      ]
+    },
+    {
+      "name": "等差数列",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104053/attachments/download/17869/2022CCPC%E5%B9%BF%E5%B7%9E%E9%A2%98%E8%A7%A3.pptx"
+      ]
+    },
+    {
+      "name": "线性规划",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104053/attachments/download/17869/2022CCPC%E5%B9%BF%E5%B7%9E%E9%A2%98%E8%A7%A3.pptx"
+      ]
+    },
+    {
+      "name": "计数",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104023/attachments/download/17758/CCPC2022_Weihai___Tutorial.pdf"
+      ]
+    },
+    {
+      "name": "阶乘",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104053/attachments/download/17869/2022CCPC%E5%B9%BF%E5%B7%9E%E9%A2%98%E8%A7%A3.pptx"
+      ]
+    },
+    {
+      "name": "FWT",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104160/attachments/download/18879/shenyang_2022_editorial.pdf"
+      ]
+    },
+    {
+      "name": "Splay",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104128/attachments/download/18363/nanjing_2022_editorial.pdf"
+      ]
+    },
+    {
+      "name": "de Bruijn 序列",
+      "category": "字符串",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104160/attachments/download/18879/shenyang_2022_editorial.pdf"
+      ]
+    },
+    {
+      "name": "三角数",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104160/attachments/download/18879/shenyang_2022_editorial.pdf"
+      ]
+    },
+    {
+      "name": "前后缀分解",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104128/attachments/download/18363/nanjing_2022_editorial.pdf"
+      ]
+    },
+    {
+      "name": "反悔贪心",
+      "category": "思维与策略",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104128/attachments/download/18363/nanjing_2022_editorial.pdf"
+      ]
+    },
+    {
+      "name": "启发式分裂",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104128/attachments/download/18363/nanjing_2022_editorial.pdf"
+      ]
+    },
+    {
+      "name": "坐标变换",
+      "category": "计算几何",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104128/attachments/download/18363/nanjing_2022_editorial.pdf"
+      ]
+    },
+    {
+      "name": "极角排序",
+      "category": "计算几何",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104160/attachments/download/18879/shenyang_2022_editorial.pdf"
+      ]
+    },
+    {
+      "name": "正交补",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104160/attachments/download/18879/shenyang_2022_editorial.pdf"
+      ]
+    },
+    {
+      "name": "积分",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104160/attachments/download/18879/shenyang_2022_editorial.pdf"
+      ]
+    },
+    {
+      "name": "置换群",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104160/attachments/download/18879/shenyang_2022_editorial.pdf"
+      ]
+    },
+    {
+      "name": "边双连通分量",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104160/attachments/download/18879/shenyang_2022_editorial.pdf"
+      ]
+    },
+    {
+      "name": "事件驱动模拟",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "https://icpc-ecna.ysu.edu/PastResults/2021/growingsomeoobleck.zip#growingsomeoobleck/submissions/accepted/Oobleck_John.java"
+      ]
+    },
+    {
+      "name": "分数运算",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://icpc-ecna.ysu.edu/PastResults/2021/gamblinggame.zip#gamblinggame/submissions/accepted/gambling-bobk.py"
+      ]
+    },
+    {
+      "name": "圆反演",
+      "category": "计算几何",
+      "aliases": [],
+      "sources": [
+        "https://icpc-ecna.ysu.edu/PastResults/2021/downsizing.zip#downsizing/submissions/accepted/Downsizing_John.java"
+      ]
+    },
+    {
+      "name": "子集枚举",
+      "category": "思维与策略",
+      "aliases": [],
+      "sources": [
+        "https://icpc-ecna.ysu.edu/PastResults/2021/numble.zip#numble/submissions/accepted/numble-bobk.py"
+      ]
+    },
+    {
+      "name": "对角线",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "https://icpc-ecna.ysu.edu/PastResults/2021/statues.zip#statues/submissions/accepted/statues-bobk.py"
+      ]
+    },
+    {
+      "name": "整数溢出",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "https://icpc-ecna.ysu.edu/PastResults/2021/noonerizedspumbers.zip#noonerizedspumbers/submissions/accepted/noonerized_john.cpp"
+      ]
+    },
+    {
+      "name": "最大矩形",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "https://icpc-ecna.ysu.edu/PastResults/2021/recycling.zip#recycling/submissions/accepted/recycling_john.cpp"
+      ]
+    },
+    {
+      "name": "有向图",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://icpc-ecna.ysu.edu/PastResults/2021/stabletable.zip#stabletable/submissions/accepted/table-bobk.py"
+      ]
+    },
+    {
+      "name": "有限状态自动机",
+      "category": "字符串",
+      "aliases": [],
+      "sources": [
+        "https://icpc-ecna.ysu.edu/PastResults/2021/tombhater.zip#tombhater/submissions/accepted/tomb-bobk.cpp"
+      ]
+    },
+    {
+      "name": "Pollard Rho",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/102861/attachments/download/12362/editorial-en.pdf"
+      ]
+    },
+    {
+      "name": "三角函数",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/102861/attachments/download/12362/editorial-en.pdf"
+      ]
+    },
+    {
+      "name": "二维数组",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/102861/attachments/download/12362/editorial-en.pdf"
+      ]
+    },
+    {
+      "name": "区间树",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/102861/attachments/download/12362/editorial-en.pdf"
+      ]
+    },
+    {
+      "name": "滑动窗口",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/102861/attachments/download/12362/editorial-en.pdf"
+      ]
+    },
+    {
+      "name": "矩阵快速幂",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/102861/attachments/download/12362/editorial-en.pdf"
+      ]
+    },
+    {
+      "name": "线性代数",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/102861/attachments/download/12362/editorial-en.pdf"
+      ]
+    },
+    {
+      "name": "Dinic",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/Diego1149/ICPC-Latam-2020/80c06207d5df7bcf55f53284201796307565983b/H/Source.cpp"
+      ]
+    },
+    {
+      "name": "加法链",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/Diego1149/ICPC-Latam-2020/80c06207d5df7bcf55f53284201796307565983b/A/Source.cpp"
+      ]
+    },
+    {
+      "name": "单调栈优化 DP",
+      "category": "动态规划",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/Diego1149/ICPC-Latam-2020/80c06207d5df7bcf55f53284201796307565983b/F/Source.cpp"
+      ]
+    },
+    {
+      "name": "可回滚数据结构",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/Diego1149/ICPC-Latam-2020/80c06207d5df7bcf55f53284201796307565983b/M/Source.cpp"
+      ]
+    },
+    {
+      "name": "多维前缀和",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/Diego1149/ICPC-Latam-2020/80c06207d5df7bcf55f53284201796307565983b/J/Source.cpp"
+      ]
+    },
+    {
+      "name": "拆点",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/Diego1149/ICPC-Latam-2020/80c06207d5df7bcf55f53284201796307565983b/H/Source.cpp"
+      ]
+    },
+    {
+      "name": "筛法",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/Diego1149/ICPC-Latam-2020/80c06207d5df7bcf55f53284201796307565983b/B/Source.cpp"
+      ]
+    },
+    {
+      "name": "迭代加深搜索",
+      "category": "搜索",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/Diego1149/ICPC-Latam-2020/80c06207d5df7bcf55f53284201796307565983b/A/Source.cpp"
+      ]
+    },
+    {
+      "name": "分类讨论",
+      "category": "思维与策略",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/sukhoeing/aoapc-bac2nd-keys/edd03c3cf9932bcc0edd497e5e46e9756d377a39/ch10/UVa12520.cc"
+      ]
+    },
+    {
+      "name": "字典序",
+      "category": "字符串",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/sukhoeing/aoapc-bac2nd-keys/edd03c3cf9932bcc0edd497e5e46e9756d377a39/ch12/UVa12566.cc"
+      ]
+    },
+    {
+      "name": "有序集合",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/sukhoeing/aoapc-bac2nd-keys/edd03c3cf9932bcc0edd497e5e46e9756d377a39/ch12/UVa12306.cc"
+      ]
+    },
+    {
+      "name": "树的重构",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/sukhoeing/aoapc-bac2nd-keys/edd03c3cf9932bcc0edd497e5e46e9756d377a39/ch11/UVa1667.cc"
+      ]
+    },
+    {
+      "name": "树距离",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/sukhoeing/aoapc-bac2nd-keys/edd03c3cf9932bcc0edd497e5e46e9756d377a39/ch11/UVa1667.cc"
+      ]
+    },
+    {
+      "name": "表达式树",
+      "category": "字符串",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/sukhoeing/aoapc-bac2nd-keys/edd03c3cf9932bcc0edd497e5e46e9756d377a39/ch11/UVa1662.cc"
+      ]
+    },
+    {
+      "name": "计数 DP",
+      "category": "动态规划",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/sukhoeing/aoapc-bac2nd-keys/edd03c3cf9932bcc0edd497e5e46e9756d377a39/ch10/UVa11982.cc"
+      ]
+    },
+    {
+      "name": "路径恢复",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/sukhoeing/aoapc-bac2nd-keys/edd03c3cf9932bcc0edd497e5e46e9756d377a39/ch12/UVa12566.cc"
+      ]
+    },
+    {
+      "name": "递归下降",
+      "category": "字符串",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/sukhoeing/aoapc-bac2nd-keys/edd03c3cf9932bcc0edd497e5e46e9756d377a39/03_regional/UVa10757.cc"
+      ]
+    },
+    {
+      "name": "Hopcroft-Karp",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/blog/entry/114211"
+      ]
+    },
+    {
+      "name": "位集",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/blog/entry/114211"
+      ]
+    },
+    {
+      "name": "凸包优化",
+      "category": "专题方法",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/blog/entry/114211"
+      ]
+    },
+    {
+      "name": "凸多边形包含",
+      "category": "计算几何",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/blog/entry/114211"
+      ]
+    },
+    {
+      "name": "反向建图",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/blog/entry/114211"
+      ]
+    },
+    {
+      "name": "可达性",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/blog/entry/114211"
+      ]
+    },
+    {
+      "name": "循环数组",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/blog/entry/114211"
+      ]
+    },
+    {
+      "name": "树同构",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/blog/entry/114211"
+      ]
+    },
+    {
+      "name": "状态建模",
+      "category": "思维与策略",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/blog/entry/114211"
+      ]
+    },
+    {
+      "name": "离线查询",
+      "category": "专题方法",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/blog/entry/114211"
+      ]
+    },
+    {
+      "name": "约束建模",
+      "category": "思维与策略",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/blog/entry/114211"
+      ]
+    },
+    {
+      "name": "网格图",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/blog/entry/114211"
+      ]
+    },
+    {
+      "name": "连通性",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/blog/entry/114211"
+      ]
+    },
+    {
+      "name": "中心对称",
+      "category": "计算几何",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/101597/problem/G"
+      ]
+    },
+    {
+      "name": "凸多边形",
+      "category": "计算几何",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/101597/problem/G"
+      ]
+    },
+    {
+      "name": "去重",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/101597/problem/E"
+      ]
+    },
+    {
+      "name": "向量",
+      "category": "计算几何",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/101597/problem/G"
+      ]
+    },
+    {
+      "name": "整除",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/101597/problem/C"
+      ]
+    },
+    {
+      "name": "极值",
+      "category": "思维与策略",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/101597/problem/B"
+      ]
+    },
+    {
+      "name": "集合",
+      "category": "数据结构",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/101597/problem/E"
+      ]
+    },
+    {
+      "name": "前缀最小值",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/blog/entry/101550"
+      ]
+    },
+    {
+      "name": "卷积",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/blog/entry/101550"
+      ]
+    },
+    {
+      "name": "最小费用匹配",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/blog/entry/101550"
+      ]
+    },
+    {
+      "name": "极小极大",
+      "category": "思维与策略",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/blog/entry/101550"
+      ]
+    },
+    {
+      "name": "多项式快速幂",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/103960/problem/K"
+      ]
+    },
+    {
+      "name": "整体二分",
+      "category": "专题方法",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/103960/problem/M"
+      ]
+    },
+    {
+      "name": "线性递推",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/103960/problem/K"
+      ]
+    },
+    {
+      "name": "缩点",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/103960/problem/H"
+      ]
+    },
+    {
+      "name": "莫比乌斯函数",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/103960/problem/M"
+      ]
+    },
+    {
+      "name": "Delaunay三角剖分",
+      "category": "计算几何",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104555/problem/J"
+      ]
+    },
+    {
+      "name": "多源最短路",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104555/problem/D"
+      ]
+    },
+    {
+      "name": "排列",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/iagorrr/competitive-programming-solutions/f0979af77af00556da9cdd4f5b7a38c3dfacd5b4/submissions/ICPC/2023-2024%20ICPC%20Brazil%20Subregional%20Programming%20Contest/Best%20Fair%20Shuffles.cpp"
+      ]
+    },
+    {
+      "name": "二次扩域",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104412/problem/F"
+      ]
+    },
+    {
+      "name": "入度出度",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104412/problem/G"
+      ]
+    },
+    {
+      "name": "数位分析",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104412/problem/A"
+      ]
+    },
+    {
+      "name": "日期处理",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "https://codeforces.com/gym/104412/problem/E"
+      ]
+    },
+    {
+      "name": "不定方程",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://icpc-ecna.ysu.edu/PastResults/2020/oreperationsresearch.zip#oreperationsresearch/submissions/accepted/ore_john.cpp"
+      ]
+    },
+    {
+      "name": "数组操作",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "https://icpc-ecna.ysu.edu/PastResults/2020/rankproblem.zip#rankproblem/submissions/accepted/rank-bobk.py"
+      ]
+    },
+    {
+      "name": "环检测",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://icpc-ecna.ysu.edu/PastResults/2020/mathtrade.zip#mathtrade/submissions/accepted/math-sean.cpp"
+      ]
+    },
+    {
+      "name": "约束传播",
+      "category": "专题方法",
+      "aliases": [],
+      "sources": [
+        "https://icpc-ecna.ysu.edu/PastResults/2020/simplysudoku.zip#simplysudoku/submissions/accepted/simplysudoku_bobk.py"
+      ]
+    },
+    {
+      "name": "调度",
+      "category": "思维与策略",
+      "aliases": [],
+      "sources": [
+        "https://icpc-ecna.ysu.edu/PastResults/2020/restroommonitor.zip#restroommonitor/submissions/accepted/restroom-bobk.py"
+      ]
+    },
+    {
+      "name": "单纯形法",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://icpc-ecna.ysu.edu/PastResults/2019/cheeseifyouplease.zip#cheeseifyouplease/submissions/accepted/cheese_bobk.py"
+      ]
+    },
+    {
+      "name": "约瑟夫环",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://icpc-ecna.ysu.edu/PastResults/2019/musicalchairs.zip#musicalchairs/submissions/accepted/musical_bobk.py"
+      ]
+    },
+    {
+      "name": "子树大小",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://icpc-ecna.ysu.edu/PastResults/2017/ontrack.zip#ontrack/submissions/accepted/tracks.cpp"
+      ]
+    },
+    {
+      "name": "回文判定",
+      "category": "字符串",
+      "aliases": [],
+      "sources": [
+        "https://pnw.na.icpc.global/wp-content/uploads/2024/10/2017alled.pdf"
+      ]
+    },
+    {
+      "name": "垂直平分线",
+      "category": "计算几何",
+      "aliases": [],
+      "sources": [
+        "https://pnw.na.icpc.global/wp-content/uploads/2024/10/2017alled.pdf"
+      ]
+    },
+    {
+      "name": "最大子段和",
+      "category": "动态规划",
+      "aliases": [],
+      "sources": [
+        "https://pnw.na.icpc.global/wp-content/uploads/2024/10/2017alled.pdf"
+      ]
+    },
+    {
+      "name": "有理数运算",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://pnw.na.icpc.global/wp-content/uploads/2024/10/2017alled.pdf"
+      ]
+    },
+    {
+      "name": "约数和",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://pnw.na.icpc.global/wp-content/uploads/2024/10/2017alled.pdf"
+      ]
+    },
+    {
+      "name": "分形",
+      "category": "专题方法",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/icpc/na-ecna-archive/a6e190a1be63971cc5137b39188a9e5cae39f565/2022-2023/hilbertshedgemaze.zip#hilbertshedgemaze/submissions/accepted/HilbertHedge_John.java"
+      ]
+    },
+    {
+      "name": "形式语言",
+      "category": "专题方法",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/icpc/na-ecna-archive/a6e190a1be63971cc5137b39188a9e5cae39f565/2023-2024/impartialstrings.zip#impartialstrings/submissions/accepted/theorem_python_in.py"
+      ]
+    },
+    {
+      "name": "整数运算",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/icpc/na-ecna-archive/a6e190a1be63971cc5137b39188a9e5cae39f565/2023-2024/cornhusker.zip#cornhusker/submissions/accepted/corn_tmt.cpp"
+      ]
+    },
+    {
+      "name": "最小二乘",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/icpc/na-ecna-archive/a6e190a1be63971cc5137b39188a9e5cae39f565/2023-2024/broadband.zip#broadband/submissions/accepted/broadband_tmt_n2k.cpp"
+      ]
+    },
+    {
+      "name": "格点计数",
+      "category": "计算几何",
+      "aliases": [],
+      "sources": [
+        "https://raw.githubusercontent.com/icpc/na-ecna-archive/a6e190a1be63971cc5137b39188a9e5cae39f565/2023-2024/convexhullextension.zip#convexhullextension/submissions/accepted/convex_tmt.cpp"
+      ]
+    },
+    {
+      "name": "二次函数",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://pnw.na.icpc.global/wp-content/uploads/2024/10/2018editorial.pdf"
+      ]
+    },
+    {
+      "name": "向上取整",
+      "category": "基础技巧",
+      "aliases": [],
+      "sources": [
+        "https://pnw.na.icpc.global/wp-content/uploads/2024/10/2018editorial.pdf"
+      ]
+    },
+    {
+      "name": "距离计算",
+      "category": "计算几何",
+      "aliases": [],
+      "sources": [
+        "https://pnw.na.icpc.global/wp-content/uploads/2024/10/2018editorial.pdf"
+      ]
+    },
+    {
+      "name": "乘法原理",
+      "category": "数学与计数",
+      "aliases": [],
+      "sources": [
+        "https://acmicpc-pacnw.org/ProblemSet/2019/editorial.zip#editorial/editorials.pdf"
+      ]
+    },
+    {
+      "name": "最大独立集",
+      "category": "图论",
+      "aliases": [],
+      "sources": [
+        "https://acmicpc-pacnw.org/ProblemSet/2019/editorial.zip#editorial/editorials.pdf"
       ]
     }
   ]

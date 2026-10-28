@@ -1,4 +1,5 @@
 import mysql from 'mysql2/promise';
+import {AccountChunks} from './account-chunks.mjs';
 import { SocialStore } from './social-store.mjs';
 import { readFile } from 'node:fs/promises';
 import { EventConflict } from './errors.mjs';
@@ -23,7 +24,7 @@ export async function openStore(env = process.env) {
 }
 
 export class MySQLStore {
-  constructor(pool) { this.pool = pool; this.social = new SocialStore({ execute:(...args)=>pool.execute(...args), transaction:action=>this.transaction(action) }); }
+  constructor(pool) { this.chunks=new AccountChunks({execute:(...args)=>pool.execute(...args),transaction:action=>this.transaction(action)}); this.pool = pool; this.social = new SocialStore({ execute:(...args)=>pool.execute(...args), transaction:action=>this.transaction(action) }); }
   async health() {
     await this.pool.execute('SELECT 1 FROM official_ac_events LIMIT 0');
     await this.pool.execute('SELECT 1 FROM accounts LIMIT 0');
@@ -110,10 +111,11 @@ export class MySQLStore {
       throw error;
     }
   }
-  createSession(user, session, timestamp, stateProtocol = false) {
+  createSession(user, session, timestamp, stateProtocol = false,chunkProtocol=false) {
     return this.transaction(async connection => {
       const [rows] = await connection.execute('SELECT password_hash,password_version FROM accounts WHERE user_id=? FOR UPDATE', [user.user_id]);
       if (rows[0]?.password_hash !== user.password_hash) throw new AccountError(401, '账号密码已变更，请重新登录');
+      if(!chunkProtocol&&await this.chunks.available()){const [heads]=await connection.execute('SELECT 1 FROM account_chunk_heads WHERE user_id=?',[user.user_id]);if(heads.length)throw new AccountError(426,'此账号已使用分块同步，请升级客户端后登录');}
       const [state] = await connection.execute('SELECT revision FROM account_state WHERE user_id=?', [user.user_id]);
       if (!stateProtocol && Number(state[0]?.revision || 0) > 0)
         throw new AccountError(426, '该账号已启用跨电脑同步，请升级 TB 至 1.0.20 或更新版本后登录');
@@ -165,6 +167,7 @@ export class MySQLStore {
     await this.pool.execute('INSERT IGNORE INTO account_login_days(user_id,day,first_seen_at) VALUES(?,?,?)', [id, day, timestamp]);
   }
   async stateRevision(id) {
+    if(await this.chunks.available()){const revision=await this.chunks.active(id);if(revision)return revision;}
     const [rows] = await this.pool.execute('SELECT revision FROM account_state WHERE user_id=?', [id]);
     return Number(rows[0]?.revision || 0);
   }
@@ -179,6 +182,7 @@ export class MySQLStore {
       await connection.execute('SELECT user_id FROM accounts WHERE user_id=? FOR UPDATE', [id]);
       const [sessions] = await connection.execute('SELECT token_hash FROM account_sessions WHERE user_id=? AND token_hash=? AND expires_at>?', [id, hash, now]);
       if (!sessions.length) throw new AccountError(401, '账号已在另一台设备登录，请重新登录');
+      if(await this.chunks.available()){const [heads]=await connection.execute('SELECT revision FROM account_chunk_heads WHERE user_id=?',[id]);if(heads.length)throw new AccountError(426,'此账号已使用分块同步，请升级客户端后登录');}
       const [rows] = await connection.execute('SELECT revision FROM account_state WHERE user_id=?', [id]);
       if (Number(rows[0]?.revision || 0) !== revision) throw new AccountError(409, '账号数据已更新，请重新同步');
       await connection.execute('INSERT INTO account_state(user_id,revision,payload,updated_at) VALUES(?,?,?,?) ON DUPLICATE KEY UPDATE revision=VALUES(revision),payload=VALUES(payload),updated_at=VALUES(updated_at)',

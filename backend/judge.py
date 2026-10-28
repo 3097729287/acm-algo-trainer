@@ -252,8 +252,10 @@ class Judge:
                     if ran['verdict'] or failed and mode=='submit':
                         result.update(verdict=failed,message=message or f'测试 {index+1}/{len(cases)}：{failed}');return result
                 custom=mode=='run' and not sample_run
-                result.update(verdict=failed or ('RUN_OK' if custom else 'SAMPLE_PASS'),
-                  message='部分样例输出与期望不符' if failed else '自定义输入运行完成；没有期望输出，不判断正确性' if custom else '全部测试通过；本地测试不等于 AC，官方 AC 需提交到原站')
+                from template_drills import is_drill
+                template_pass=bundle['scope']=='template' and is_drill(identity) and mode=='submit' and not failed
+                result.update(verdict='AC' if template_pass else failed or ('RUN_OK' if custom else 'SAMPLE_PASS'),
+                  message='全部测试通过' if template_pass else '部分样例输出与期望不符' if failed else '自定义输入运行完成；没有期望输出，不判断正确性' if custom else '全部测试通过；本地测试不等于 AC，官方 AC 需提交到原站')
                 return result
         except Exception as error:
             result.update(verdict='ERROR',message=str(error));return result

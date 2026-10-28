@@ -69,6 +69,15 @@ class Judge:
 
 
 class ServiceTests(unittest.TestCase):
+    def test_pdf_statement_keeps_translation_capability_in_workbench_response(self):
+        raw = self.assets.problem('fixture::A')
+        raw.update(translationAvailable=False, autoTranslate=False)
+        with patch.object(self.assets, 'problem', return_value=raw):
+            problem = self.service.problem('fixture::A')
+        self.assertIs(problem['translationAvailable'], False)
+        self.assertIs(problem['autoTranslate'], False)
+        self.assertNotIn('referenceCode', problem)
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix="tb-personal-test-")
         self.root = Path(self.temp.name)
@@ -184,8 +193,8 @@ class ServiceTests(unittest.TestCase):
         self.assertTrue(all(row["today"] for row in self.service.workspace()["training"]))
         self.clock.advance(seconds=20)
         daily = {row['id']: row for row in self.service.workspace()['training']}
-        self.assertTrue(daily['fixture::A']['today'])
-        self.assertIsNotNone(daily['fixture::A']['reviewTask'])
+        self.assertFalse(daily['fixture::A']['today'])
+        self.assertNotIn('reviewTask',daily['fixture::A'])
         self.assertFalse(daily['fixture::B']['today'])
         self.assertEqual(self.service.workspace()["summary"]["accepted"], 1)
         self.assertEqual(self.service.submissions()["total"], 1)
@@ -198,6 +207,7 @@ class ServiceTests(unittest.TestCase):
         self.assertEqual(self.service.submissions()["total"], 2)
 
     def test_rejoining_an_old_problem_adds_it_to_today_once(self):
+        self.accept(verdict='WA')
         self.accept()
         self.clock.advance(days=1)
         task = self.service.workspace()['training'][0]['reviewTask']
@@ -211,9 +221,10 @@ class ServiceTests(unittest.TestCase):
             self.service.start_training("fixture::A")
         self.assertEqual(len(self.service.workspace()["training"]), 1)
         self.assertTrue(self.service.workspace()["training"][0]["today"])
-        self.assertEqual(self.service.submissions()["total"], 2)
+        self.assertEqual(self.service.submissions()["total"], 3)
 
     def test_daily_queue_carries_failures_and_adaptive_reviews(self):
+        self.accept("fixture::A",verdict='WA')
         self.accept("fixture::A")
         self.accept("fixture::B", verdict="WA")
         self.service.start_training("fixture::C")
@@ -221,7 +232,7 @@ class ServiceTests(unittest.TestCase):
         self.accept("fixture::C", verdict="WA")
         self.clock.advance(days=1)
         rows = {row["id"]: row for row in self.service.workspace()["training"]}
-        self.assertEqual([rows[f"fixture::{key}"]["queue"] for key in "ABC"], ["review", "fill", "fill"])
+        self.assertEqual([rows[f"fixture::{key}"]["queue"] for key in "ABC"], ["review", "review", "review"])
         self.assertTrue(all(row["today"] for row in rows.values()))
         task = rows['fixture::A']['reviewTask']
         self.service.problem('fixture::A', review_id=task['id'])
@@ -298,9 +309,10 @@ class ServiceTests(unittest.TestCase):
         self.assertTrue(self.service.workspace()["training"][0]["solutionSeen"])
         self.assertIsNone(self.service.workspace()["training"][0]["queue"])
 
-    def test_independent_acceptance_schedules_review_next_day(self):
+    def test_wrong_answer_then_acceptance_schedules_review_next_day(self):
         self.service.start_training("fixture::A")
-        # 首次官方 AC 次日进入复习队列。
+        # 正式 WA 后次日进入复习队列，一遍通过不安排。
+        self.accept(verdict='WA')
         self.accept()
         self.assertFalse(self.service.workspace()["training"][0]["solutionSeen"])
         self.clock.advance(hours=3)
@@ -314,7 +326,8 @@ class ServiceTests(unittest.TestCase):
         self.accept(submission_id=9099, review_id=task['id'])
         self.assertEqual(self.service.workspace()["training"][0]["reviewCount"], 1)
 
-    def test_first_acceptance_is_due_after_local_midnight(self):
+    def test_wrong_answer_is_due_after_local_midnight(self):
+        self.accept(verdict='WA')
         self.accept()
         self.clock.advance(hours=3)
         self.assertEqual(self.service.workspace()["summary"]["due"], 0)

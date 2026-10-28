@@ -7,13 +7,30 @@ import math
 import re
 
 
+def cf_reference(row):
+    """Only the explicit Luogu CF namespace identifies an original CF task.
+
+    P/T/U problems and similarly named Gym tasks need separate mirror reviews.
+    A typed reference must name the very same contest/index and official API.
+    """
+    match = re.fullmatch(r'https://www\.luogu\.com\.cn/problem/CF([1-9][0-9]*)([A-Z][0-9]?)', str(row.get('url') or ''))
+    if not match:
+        return False
+    reference = row.get('difficultyOfficialReference')
+    return isinstance(reference, dict) and reference == {
+        'contestId': int(match[1]), 'index': match[2],
+        'source': f'https://codeforces.com/contest/{match[1]}/problem/{match[2]}',
+        'metadataSource': 'https://codeforces.com/api/problemset.problems',
+    }
+
+
 def evidence(row):
     value = row.get('difficulty')
     if type(value) not in (int, float) or not math.isfinite(value) or value <= 0:
         return {'known': False, 'lower': None, 'upper': None, 'weight': 0, 'kind': 'unknown'}
     value = round(value / 100) * 100
     source = str(row.get('difficultySource') or '')
-    official = (row.get('platform') in ('Codeforces', 'codeforces') and not row.get('difficultyEstimated')
+    official = ((row.get('platform') in ('Codeforces', 'codeforces') or cf_reference(row)) and not row.get('difficultyEstimated')
                 and bool(re.search(r'官方|official', source, re.I)) and not re.search(r'未提供|无官方', source))
     if official:
         return {'known': True, 'lower': value, 'upper': value, 'weight': 1.0, 'kind': 'official-cf'}

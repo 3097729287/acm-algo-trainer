@@ -106,7 +106,7 @@ class Accounts:
             raise ServiceError(503, 'ToBe 正在关闭')
         if not self.endpoint:
             raise ServiceError(503, '账号服务尚未配置，请连接账号服务后重试')
-        headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'User-Agent': 'TB/1.0.20', 'X-TB-State-Protocol': '1'}
+        headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'User-Agent': 'TB/1.0.20', 'X-TB-State-Protocol': '1', 'X-TB-Chunk-Protocol': '2'}
         if session:
             headers.update({'X-TB-User': session['userId'], 'Authorization': 'Bearer ' + session['token']})
         if type(state_revision) is int and state_revision > 0:

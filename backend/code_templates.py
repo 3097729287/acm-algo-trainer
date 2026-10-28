@@ -22,7 +22,8 @@ def _owned(training):
 
 def catalog(training):
     with training.lock:
-        return {'templates':[*builtins(),*_owned(training)]}
+        passed={row[0] for row in training.connection.execute("SELECT DISTINCT problem_id FROM submissions WHERE scope='template' AND verdict='AC' AND mode='submit' AND finished_at IS NOT NULL")}
+        return {'templates':[{**item,'practicePassed':[identity in passed for identity in item.get('practiceIds',[])]} for item in builtins()]+_owned(training)}
 
 def save(training,body):
     if not isinstance(body,dict) or set(body)-{'id','title','category','language','code','notes','summary','revision','delete'}:

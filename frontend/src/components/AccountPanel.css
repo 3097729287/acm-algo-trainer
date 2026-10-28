@@ -1,0 +1,22 @@
+.modal.compact-account-modal{width:min(680px,calc(100vw - 32px));height:auto;max-height:calc(100dvh - 48px)}
+.compact-account-modal .modal-body{padding:18px;overflow:auto}
+.account-panel{display:flex;flex-direction:column;gap:18px;min-width:0}
+.account-panel-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:start}
+.account-nickname{display:grid;grid-template-columns:auto minmax(100px,1fr) 34px;align-items:center;gap:8px}
+.account-panel input{width:100%;min-width:0;min-height:36px;height:36px;padding:6px 9px;border:1px solid var(--line);border-radius:6px;background:var(--panel-2);color:var(--text)}
+.account-panel label,.account-password-edit summary{font-size:.9rem}
+.account-password-edit summary{display:flex;align-items:center;gap:6px;cursor:pointer;min-height:36px;color:var(--muted);list-style:none}
+.account-password-edit summary:hover,.account-password-edit[open] summary{color:var(--accent)}
+.account-password-edit[open]{grid-column:1/-1;grid-row:2}
+.account-password-edit[open] summary{margin-bottom:8px}
+.account-password-edit form{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) 34px;align-items:end;gap:10px}
+.account-password-edit label{display:flex;flex-direction:column;gap:6px;color:var(--muted);font-size:.8rem}
+.account-platform-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 20px}
+.account-platform-grid>label{display:flex;flex-direction:column;gap:7px;min-width:0}
+.account-platform-grid>label>div{display:flex;align-items:center;gap:6px}
+.account-panel .icon-button{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:34px;height:34px;min-height:34px;padding:7px;border-radius:6px}
+.account-panel-actions{display:flex;align-items:center;gap:8px;margin-top:16px}
+.account-panel-saved{display:flex;color:var(--success);min-width:18px}
+.account-panel .account-panel-logout{margin-left:auto;color:var(--muted)}
+.account-panel .connection-error{margin:0;font-size:.86rem;line-height:1.5;overflow-wrap:anywhere}
+@media(max-width:540px){.account-panel-top{gap:10px}.account-nickname{grid-template-columns:minmax(0,1fr) 34px}.account-nickname>label{grid-column:1/-1}.account-platform-grid{grid-template-columns:1fr}.account-password-edit form{grid-template-columns:1fr}.account-password-edit form>button{justify-self:end}.account-password-edit summary{margin-top:24px}}

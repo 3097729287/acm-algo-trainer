@@ -66,6 +66,7 @@ class AssetLibrary:
 
     def problem(self,identity,fetch=True):
         from statement_cleanup import clean_statement
+        from template_drills import is_drill
         # _cached may consult account facts under the training lock. Never hold
         # the asset lock across that callback (the inverse order is also used).
         value=clean_statement(self._cached(identity))
@@ -81,7 +82,7 @@ class AssetLibrary:
         from translation import needs_translation
         value['autoTranslate']=needs_translation(value)
         bundle=self.bundle(identity)
-        value.update(judge={'scope':bundle['scope'],'label':'本地审核测试' if bundle['scope']=='local' else '仅官方样例', 'cases':len(bundle['cases'])},locked=False,draft='',submissions=[])
+        value.update(templatePractice=is_drill(identity),judge={'scope':bundle['scope'],'label':'模板评测' if bundle['scope']=='template' else '本地审核测试' if bundle['scope']=='local' else '仅官方样例', 'cases':len(bundle['cases'])},locked=False,draft='',submissions=[])
         return value
 
     def _fetch_statement(self,identity,value):
@@ -193,6 +194,8 @@ class AssetLibrary:
 
     @bounded_cache(maxsize=8,maxbytes=2*1024*1024)
     def bundle(self,identity):
+        from template_drills import is_drill,bundle as drill_bundle
+        if is_drill(identity):return drill_bundle(identity)
         base=self._cached(identity)
         cases=list(base['samples']);checker=None
         local=False

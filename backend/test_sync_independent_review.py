@@ -36,6 +36,7 @@ class SyncIndependentReviewTests(unittest.TestCase):
         sync = object.__new__(AccountStateSync)
         sync.session = {'userId': OWNER, 'token': 'old', 'endpoint': 'https://fixture.example'}
         sync.accounts = SimpleNamespace(_remote=lambda *args, **kwargs: copy.deepcopy(response))
+        sync.chunks = SimpleNamespace(enabled=False)
         return sync
 
     def test_sync_schema_accepts_earned_ac_milestones_without_known_date(self):

@@ -1,0 +1,292 @@
+{
+  "problems": [
+    {
+      "id": "template-drill:dsu:1",
+      "templateKey": "dsu",
+      "variant": 1,
+      "title": "并查集 · 集合操作台"
+    },
+    {
+      "id": "template-drill:dsu:2",
+      "templateKey": "dsu",
+      "variant": 2,
+      "title": "并查集 · 连边日志"
+    },
+    {
+      "id": "template-drill:dijkstra:1",
+      "templateKey": "dijkstra",
+      "variant": 1,
+      "title": "Dijkstra · 非负权最短距离"
+    },
+    {
+      "id": "template-drill:dijkstra:2",
+      "templateKey": "dijkstra",
+      "variant": 2,
+      "title": "Dijkstra · 还原最短路线"
+    },
+    {
+      "id": "template-drill:kruskal:1",
+      "templateKey": "kruskal",
+      "variant": 1,
+      "title": "Kruskal + 并查集 · 最小生成森林"
+    },
+    {
+      "id": "template-drill:kruskal:2",
+      "templateKey": "kruskal",
+      "variant": 2,
+      "title": "Kruskal + 并查集 · 生成森林的选边"
+    },
+    {
+      "id": "template-drill:bfs:1",
+      "templateKey": "bfs",
+      "variant": 1,
+      "title": "BFS · 最近出发点"
+    },
+    {
+      "id": "template-drill:bfs:2",
+      "templateKey": "bfs",
+      "variant": 2,
+      "title": "BFS · 多源路径还原"
+    },
+    {
+      "id": "template-drill:zero-one-bfs:1",
+      "templateKey": "zero-one-bfs",
+      "variant": 1,
+      "title": "0–1 BFS · 零一费用路线"
+    },
+    {
+      "id": "template-drill:zero-one-bfs:2",
+      "templateKey": "zero-one-bfs",
+      "variant": 2,
+      "title": "0–1 BFS · 返回同一终点"
+    },
+    {
+      "id": "template-drill:bellman-ford:1",
+      "templateKey": "bellman-ford",
+      "variant": 1,
+      "title": "Bellman–Ford · 负权路径的三种状态"
+    },
+    {
+      "id": "template-drill:bellman-ford:2",
+      "templateKey": "bellman-ford",
+      "variant": 2,
+      "title": "Bellman–Ford · 多源负环影响统计"
+    },
+    {
+      "id": "template-drill:topological:1",
+      "templateKey": "topological",
+      "variant": 1,
+      "title": "拓扑排序 · 依赖执行顺序"
+    },
+    {
+      "id": "template-drill:topological:2",
+      "templateKey": "topological",
+      "variant": 2,
+      "title": "拓扑排序 · 取消依赖后的可执行性"
+    },
+    {
+      "id": "template-drill:scc:1",
+      "templateKey": "scc",
+      "variant": 1,
+      "title": "强连通分量 · 互相可达查询"
+    },
+    {
+      "id": "template-drill:scc:2",
+      "templateKey": "scc",
+      "variant": 2,
+      "title": "强连通分量 · 缩点后的连接情况"
+    },
+    {
+      "id": "template-drill:lca:1",
+      "templateKey": "lca",
+      "variant": 1,
+      "title": "LCA · 树上的公共祖先和距离"
+    },
+    {
+      "id": "template-drill:lca:2",
+      "templateKey": "lca",
+      "variant": 2,
+      "title": "LCA · 森林祖先查询台"
+    },
+    {
+      "id": "template-drill:fenwick:1",
+      "templateKey": "fenwick",
+      "variant": 1,
+      "title": "树状数组 · 单点加与区间和"
+    },
+    {
+      "id": "template-drill:fenwick:2",
+      "templateKey": "fenwick",
+      "variant": 2,
+      "title": "树状数组 · 动态频率与第 k 个元素"
+    },
+    {
+      "id": "template-drill:segment-tree:1",
+      "templateKey": "segment-tree",
+      "variant": 1,
+      "title": "懒标记线段树 · 区间增加与总和"
+    },
+    {
+      "id": "template-drill:segment-tree:2",
+      "templateKey": "segment-tree",
+      "variant": 2,
+      "title": "懒标记线段树 · 赋值与区间增量混合"
+    },
+    {
+      "id": "template-drill:sparse-table:1",
+      "templateKey": "sparse-table",
+      "variant": 1,
+      "title": "ST 表 · 静态区间最小值"
+    },
+    {
+      "id": "template-drill:sparse-table:2",
+      "templateKey": "sparse-table",
+      "variant": 2,
+      "title": "ST 表 · 静态区间极差"
+    },
+    {
+      "id": "template-drill:compression:1",
+      "templateKey": "compression",
+      "variant": 1,
+      "title": "离散化 · 离散坐标操作台"
+    },
+    {
+      "id": "template-drill:compression:2",
+      "templateKey": "compression",
+      "variant": 2,
+      "title": "离散化 · 压缩后再还原"
+    },
+    {
+      "id": "template-drill:prefix-difference:1",
+      "templateKey": "prefix-difference",
+      "variant": 1,
+      "title": "一维前缀和与差分 · 静态区间求和"
+    },
+    {
+      "id": "template-drill:prefix-difference:2",
+      "templateKey": "prefix-difference",
+      "variant": 2,
+      "title": "一维前缀和与差分 · 批量增量后查询"
+    },
+    {
+      "id": "template-drill:window-extrema:1",
+      "templateKey": "window-extrema",
+      "variant": 1,
+      "title": "单调队列 · 滑动最小值"
+    },
+    {
+      "id": "template-drill:window-extrema:2",
+      "templateKey": "window-extrema",
+      "variant": 2,
+      "title": "单调队列 · 滑动最小值与最大值"
+    },
+    {
+      "id": "template-drill:binary-search:1",
+      "templateKey": "binary-search",
+      "variant": 1,
+      "title": "整数二分 · 有序数组边界"
+    },
+    {
+      "id": "template-drill:binary-search:2",
+      "templateKey": "binary-search",
+      "variant": 2,
+      "title": "整数二分 · 整数平方边界"
+    },
+    {
+      "id": "template-drill:kmp:1",
+      "templateKey": "kmp",
+      "variant": 1,
+      "title": "KMP · 全部子串匹配"
+    },
+    {
+      "id": "template-drill:kmp:2",
+      "templateKey": "kmp",
+      "variant": 2,
+      "title": "KMP · 前缀函数与最小周期"
+    },
+    {
+      "id": "template-drill:z-function:1",
+      "templateKey": "z-function",
+      "variant": 1,
+      "title": "Z 函数 · 整串前缀的匹配长度"
+    },
+    {
+      "id": "template-drill:z-function:2",
+      "templateKey": "z-function",
+      "variant": 2,
+      "title": "Z 函数 · 全部边界长度"
+    },
+    {
+      "id": "template-drill:trie:1",
+      "templateKey": "trie",
+      "variant": 1,
+      "title": "Trie · 多重词库操作台"
+    },
+    {
+      "id": "template-drill:trie:2",
+      "templateKey": "trie",
+      "variant": 2,
+      "title": "Trie · 删词后的前缀统计"
+    },
+    {
+      "id": "template-drill:mod-combination:1",
+      "templateKey": "mod-combination",
+      "variant": 1,
+      "title": "模运算 · 快速幂和素数模逆元"
+    },
+    {
+      "id": "template-drill:mod-combination:2",
+      "templateKey": "mod-combination",
+      "variant": 2,
+      "title": "模运算 · 批量组合数"
+    },
+    {
+      "id": "template-drill:linear-sieve:1",
+      "templateKey": "linear-sieve",
+      "variant": 1,
+      "title": "线性筛 · 素数与分解操作台"
+    },
+    {
+      "id": "template-drill:linear-sieve:2",
+      "templateKey": "linear-sieve",
+      "variant": 2,
+      "title": "线性筛 · 从分解得到约数数与欧拉函数"
+    },
+    {
+      "id": "template-drill:extended-gcd:1",
+      "templateKey": "extended-gcd",
+      "variant": 1,
+      "title": "扩展欧几里得 · 裴蜀系数"
+    },
+    {
+      "id": "template-drill:extended-gcd:2",
+      "templateKey": "extended-gcd",
+      "variant": 2,
+      "title": "扩展欧几里得 · 一般模数逆元"
+    },
+    {
+      "id": "template-drill:knapsack:1",
+      "templateKey": "knapsack",
+      "variant": 1,
+      "title": "背包 · 每件最多一次"
+    },
+    {
+      "id": "template-drill:knapsack:2",
+      "templateKey": "knapsack",
+      "variant": 2,
+      "title": "背包 · 每种无限多件"
+    },
+    {
+      "id": "template-drill:lis:1",
+      "templateKey": "lis",
+      "variant": 1,
+      "title": "最长上升子序列 · 还原严格上升子序列"
+    },
+    {
+      "id": "template-drill:lis:2",
+      "templateKey": "lis",
+      "variant": 2,
+      "title": "最长上升子序列 · 严格上升与非降"
+    }
+  ]
+}

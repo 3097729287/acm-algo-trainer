@@ -1,7 +1,7 @@
 const step=(target,title,text)=>({target,title,text});
 const page=(id,items,tab)=>items.map(item=>({...item,page:id,...(tab?{tab}:{})}));
 
-export const GUIDE_LABELS={mine:'我的训练',library:'题库','training-lists':'题单',competitions:'比赛',mock:'模拟赛',growth:'成长与能力',rankings:'排行榜',records:'提交记录',activity:'活动记录',lectures:'从零讲',templates:'模板',paths:'算法实验室',practice:'做题工作台',settings:'设置首页','settings:appearance':'外观设置','settings:interaction':'交互与导航','settings:training':'快捷键','settings:accounts':'账号与身份','settings:advanced':'翻译 API','settings:updates':'更新','settings:help':'数据统计','settings:thanks':'鸣谢','settings:guide':'新手指引','settings:animation':'动画'};
+export const GUIDE_LABELS={mine:'我的训练',library:'题库','training-lists':'题单',competitions:'比赛',mock:'模拟赛',growth:'成长与能力',rankings:'排行榜',records:'提交记录',activity:'活动记录',lectures:'从零讲',templates:'模板',paths:'算法实验室',practice:'做题工作台',settings:'设置首页','settings:appearance':'外观设置','settings:interaction':'交互与导航','settings:training':'快捷键','settings:accounts':'初始代码模板','settings:advanced':'翻译 API','settings:updates':'更新','settings:help':'数据统计','settings:thanks':'鸣谢','settings:guide':'新手指引','settings:animation':'动画'};
 
 export const PAGE_GUIDES={
  'training-lists':page('training-lists',[
@@ -13,13 +13,13 @@ export const PAGE_GUIDES={
  mine:page('mine',[
   step('.brand-mark','收起与展开侧边栏','点击左上角 ToBe 标识可收起或展开侧边栏；收起后仍可通过图标访问各页。'),
   step('.sidebar [aria-label="我的训练"]','今日训练从这里继续','这里汇总今天安排的目标题、待攻克题目和继续练习的内容。昨天的代码和记录会保留，跨日不会删除。'),
-  step('.queue-heading','动态复习与每日目标','官方 AC 次日安排首次复习，并使用独立草稿从头重写，原代码仍可在历史中查看。之后按题目相对能力分的难度、独立通过与失败情况调整间隔；复习多时减少新题。简单题完成首次独立复习后免长期重写，不固定周日或月末。'),
+  step('.queue-heading','动态复习与每日目标','正式提交出现 WA 后，次日安排复习；一遍通过的题不安排。复习使用独立草稿，原代码仍可在历史中查看；完成符合条件的隔天复习获得 20 XP。同题同日只奖励一次，之后按复习结果调整间隔。'),
   step('.problem-table','读懂每道题','一行展示题名和来源、知识点、难度、最新正式结果与最近练习时间。AC 代表原站确认通过；样例通过只是一次运行结果。'),
   step('.problem-table .problem-title','继续编写代码','点击题名进入工作台。草稿按题目保存，再次打开可以接着写；在模拟赛中写的代码也按考场隔离。'),
   step('.page-search-controls','搜索和筛选','搜索可组合题名、比赛、题号和难度范围。上下箭头切换顺序，筛选按钮设置知识点、结果和比赛类型；知识点标签上的 × 只取消该知识点。'),
   step('.folder-icon-control','按训练状态浏览','搜索、排序、筛选后面的文件夹按钮按今日目标、待攻克、待验证、间隔复习、巩固抽检、继续练习和已 AC 分类。分类与当前搜索、筛选共同生效；选择全部训练状态恢复完整列表。'),
-  step('.row-actions','收藏、题解与移出','星标用于收藏，书本打开题解，移出按钮从当前训练中移除题目。查看题解会留下辅助完成的证据，后续可安排独立重写。'),
-  step('.daily-task-top-button','领取每日任务奖励','底部日历打开每日任务。完成条件后点击领取，经验会保存；目标题目直接在训练列表里练习。'),
+  step('.row-actions','收藏与移出','星标用于收藏，移出按钮从当前训练中移除题目。点击题名进入工作台后查看题解；查看题解会留下辅助完成的证据。'),
+  step('.daily-task-top-button','领取每日任务奖励','底部日历打开每日任务。上排 AC、复习和学习时长在领取后进入下一档；完成当天全部复习后接续随机任务。下排三个任务领取后保持完成。学习时长只累计前台学习页面，切到其它页面或后台不累计。'),
   step('.contest-calendar-button','安排比赛时间','底部时钟日历打开即将开始的基础赛事，按北京时间显示。点击比赛行前往对应原站，刷新按钮更新赛程。'),
  ]),
  library:page('library',[
@@ -98,7 +98,7 @@ export const PAGE_GUIDES={
   step('.learning-paths-page','用作答检验理解','通过顶部目录切换章节，也可自由跳转。课堂检验由正确作答产生，进度与输入自动保存；提示可逐层展开。真实题目的原站通过独立记录。'),
  ]),
  settings:page('settings',[
-  step('.settings-home-grid','按分类进入设置','外观、交互与导航、更新、快捷键、数据统计、翻译 API、账号与身份和鸣谢各自成页。'),
+  step('.settings-home-grid','按分类进入设置','外观、交互与导航、更新、快捷键、数据统计、翻译 API、初始代码模板和鸣谢各自成页；账号信息通过右上角昵称打开。'),
   step('.settings-home-grid','返回与保存','二级设置右上角面包屑目录或 Esc 回到设置首页；开关和输入项按各自操作保存，返回时保留浏览位置。'),
   step('.settings-home-grid','重新查看指引','进入“数据统计”，打开“新手指引”，可重看入门总览或选择各页详细指引。'),
  ]),
@@ -117,10 +117,9 @@ export const PAGE_GUIDES={
   step('.shortcut-list','常用键盘操作','题目列表可使用方向键、Enter 和现有快捷键；工作台可快捷运行、提交和切换区域。具体绑定以这里当前设置为准。'),
  ],'training'),
  'settings:accounts':page('settings',[
-  step('.profile-settings','ToBe 账号','ToBe 登录号用于登录，昵称用于公开展示；头像、偏好和学习记录随当前账号保存。'),
-  step('.profile-edit','修改账号信息','展开管理账号可修改昵称和密码；退出前会保存工作。不要将原站密码填入 ToBe 登录或公开账号字段。'),
-  step('.growth-account-panel','绑定原站公开账号','填写自己的竞赛账号，让软件读取可核对的公开成绩。公开 AC 可以证明通过，独立完成还需要相应提交证据。'),
-  step('.growth-account-panel,.settings-page','原站浏览器登录','实际提交在 ToBe 专用浏览器中登录原站，保留原站的验证和提交步骤。ToBe 的登录与各原站登录分别管理。'),
+  step('.initial-code-settings-toolbar','选择初始代码模板','按语言选择初始代码。“默认”保留原有起步代码，点击选择框打开带代码预览的选择器。'),
+  step('.initial-code-settings-actions','新建、另存与保存','加号新建模板，复制图标另存当前模板；填写名称和代码后保存。保存的模板用于之后的新题，已有草稿保持原样。'),
+  step('.initial-code-settings-editor','编辑起步代码','在这里输入头文件、类型别名和常用宏等初始化代码。Ctrl+S 保存，Ctrl+Tab 离开编辑器；算法模板仍从“模板”板块插入。'),
  ],'accounts'),
  'settings:advanced':page('settings',[
   step('.translation-settings','预置中文与自行翻译','已有预置中文的英文题面默认显示中文，可随时切回原文。尚无译文的题目可通过配置的翻译服务请求中文。'),

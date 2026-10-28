@@ -38,6 +38,7 @@ class RemovalInsightsTests(unittest.TestCase):
     def test_remove_retains_code_evidence_and_rejoin(self):
         self.service.save_draft("fixture::A", "my draft")
         self.service.start_training("fixture::A")
+        self.accept(verdict='WA')
         evidence = self.accept(code="AC")
         job_id = evidence["id"]
         self.clock.advance(days=8)

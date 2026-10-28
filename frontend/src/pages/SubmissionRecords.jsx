@@ -8,6 +8,7 @@ import InlineTitle from '@/components/InlineTitle.jsx';
 import {ChevronLeft,ChevronRight,Code2,Flag,Search,Trash2,X} from 'lucide-react';
 import {groupSubmissionsByDay,verdictLabel,verdictTone} from '@/models/workspaceModel.js';
 import {trainingDateLabel,trainingTime} from '@/lib/trainingDate.js';
+import './SubmissionRecords.css';
 
 const dateText=value=>value?new Date(value).toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'—';
 const RESULT_OPTIONS=['AC','WA','CE','TLE','MLE','RE','OLE','ERROR'].map(value=>({value,label:verdictLabel(value)}));

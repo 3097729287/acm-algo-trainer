@@ -247,6 +247,7 @@ class CloudStateTests(unittest.TestCase):
         self.assertEqual(self.login()[0], 200)
         self.assertEqual(extensions.snapshot()['settings']['accounts']['codeforces'], 'account_a_handle')
 
+    @patch('account_chunks.ChunkTransport.negotiate',lambda self:None)
     def test_large_source_history_is_compressed_and_recovered_without_server_inflation(self):
         self.signup(); self.login()
         service = self.server.training

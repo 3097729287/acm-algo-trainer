@@ -256,7 +256,9 @@ def run_desktop() -> int:
             on_status=push_official,
         )
         server.browser_bridge = official
-        server.browser_preparation = ExternalBrowserPreparation(official)
+        from platform_login import PlatformLogins
+        logins = PlatformLogins(official, server.browser_account_context, server.bind_browser_account)
+        server.browser_preparation = ExternalBrowserPreparation(official, logins)
         server.official_opener = official.open
         server.official_acknowledger = official.acknowledge
         server.official_submitter = official.submit

@@ -246,6 +246,12 @@ class Handler(BaseHTTPRequestHandler):
                 elif path == '/api/templates/save':
                     from code_templates import save
                     value = save(training, body)
+                elif path == '/api/initial-code/save':
+                    from initial_code import save
+                    value = save(training, body)
+                elif path == '/api/initial-code/select':
+                    from initial_code import choose
+                    value = choose(training, body)
                 elif path == '/api/preferences':
                     from preferences import save_preferences
                     value = save_preferences(training, body)
@@ -380,7 +386,7 @@ class Handler(BaseHTTPRequestHandler):
             elif path == "/api/training-lists":
                 from custom_training_lists import read_lists
                 custom = read_lists(self.server.training)
-                self.send_json(200, {'lists': custom if parse_qs(target.query).get('custom') == ['1'] else store.library.training_lists() + custom})
+                self.send_json(200, {'lists': custom if parse_qs(target.query).get('custom') == ['1'] else store.public_training_lists() + custom})
             elif path == '/api/training-list-likes':
                 self.send_json(200, self.server.training.leaderboard.list_likes(ids=parse_qs(target.query).get('id', [])))
             elif path == "/api/solution":
@@ -414,6 +420,9 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_json(200, controls(self.server.training))
             elif path == '/api/templates':
                 from code_templates import catalog
+                self.send_json(200, catalog(self.server.training))
+            elif path == '/api/initial-code':
+                from initial_code import catalog
                 self.send_json(200, catalog(self.server.training))
             elif path == '/api/preferences':
                 from preferences import read_preferences
@@ -623,6 +632,40 @@ class Handler(BaseHTTPRequestHandler):
 
 
 class LocalServer(ThreadingHTTPServer):
+    def browser_account_context(self):
+        accounts = getattr(self, 'accounts', None)
+        if accounts is not None:
+            with accounts.request_context():
+                accounts.require()
+                return self.training
+        return self.training
+
+    def bind_browser_account(self, expected_training, platform, owner):
+        """Only a desktop-read authenticated owner can auto-fill an empty binding."""
+        import contextlib
+        from platform_login import SITES
+        from preferences import save_receipt_bindings
+        site = SITES.get(platform)
+        pattern = r'[1-9]\d{0,19}' if platform in ('牛客', '洛谷') else r'[A-Za-z0-9_.-]{1,64}'
+        if site is None or not isinstance(owner, str) or not re.fullmatch(pattern, owner):
+            return False
+        accounts = getattr(self, 'accounts', None)
+        with accounts.request_context() if accounts is not None else contextlib.nullcontext():
+            if accounts is not None:
+                accounts.require()
+            if self.training is not expected_training:
+                return False
+            extensions = self.store.extensions
+            current = extensions.snapshot().get('settings', {}).get('accounts', {}).get(site[0], '')
+            if current:
+                return current.casefold() == owner.casefold()
+            value = extensions.configure({'accounts': {site[0]: owner}})
+            save_receipt_bindings(expected_training, value['settings']['accounts'])
+            sync = getattr(self, 'official_sync', None)
+            if sync is not None:
+                sync.request_refresh()
+            return True
+
     def assert_update_ready(self):
         bridge = getattr(self, 'browser_bridge', None)
         if bridge is not None:

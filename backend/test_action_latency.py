@@ -19,17 +19,17 @@ class ClaimLatencyTests(unittest.TestCase):
         self.library.library = SimpleNamespace(content_signature=lambda: 1)
         with patch.object(self.service, '_evidence', wraps=self.service._evidence) as evidence:
             self.service.daily_tasks(goal_tasks=[])
-            result = self.service.claim_daily_task('solve-1')
+            result = self.service.claim_daily_task('ac-chain:0')
             self.assertEqual(evidence.call_count, 1)
         self.assertEqual(result['awardedXp'], 25)
-        self.assertEqual(self.service.claim_daily_task('solve-1')['awardedXp'], 0)
-        self.assertEqual(self.service.connection.execute("SELECT awarded_xp FROM daily_missions WHERE id='solve-1'").fetchone()[0], 25)
+        self.assertEqual(self.service.claim_daily_task('ac-chain:0')['awardedXp'], 0)
+        self.assertEqual(self.service.connection.execute("SELECT awarded_xp FROM daily_missions WHERE id='ac-chain:0'").fetchone()[0], 25)
 
     def test_new_official_receipts_invalidate_evidence_immediately(self):
         self.library.library = SimpleNamespace(content_signature=lambda: 1)
         self.assertEqual(self.service.daily_tasks(goal_tasks=[])['claimable'], 0)
         self.accept()
-        self.assertEqual(self.service.claim_daily_task('solve-1')['awardedXp'], 25)
+        self.assertEqual(self.service.claim_daily_task('ac-chain:0')['awardedXp'], 25)
 
     def test_post_commit_notification_never_waits_on_training_or_catalog_locks(self):
         sync = AccountStateSync.__new__(AccountStateSync)

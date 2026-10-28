@@ -52,8 +52,8 @@ class GoalReceiptTests(unittest.TestCase):
         workspace = self.service.workspace()
         self.assertEqual((workspace['summary']['historicalAccepted'], workspace['summary']['todayAccepted']), (3, 0))
         task = {r['problem']: r for r in workspace['training'] if r['contest'] == '周赛 166' and r.get('reviewTask')}
-        self.assertEqual({k: v['accepted'] for k, v in task.items()}, {'A': True, 'B': True, 'C': True})
-        self.assertEqual(workspace['goalTasks'], [], 'due reviews take priority over new automatic recommendations')
+        self.assertEqual(task, {}, 'Imported clean accepts do not invent a prior WA or a next-day review')
+        self.assertEqual(workspace['reviews']['dueCount'],0)
         self.assertEqual(self.service.submissions()['total'], 3)
         self.assertTrue(all(r['submittedAt'].startswith('2026-10-18') for r in self.service.submissions()['submissions']))
         self.assertEqual(workspace['goals']['goals'][0]['progress'], 3)

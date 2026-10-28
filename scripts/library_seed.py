@@ -5,9 +5,12 @@ source under `data/library/` is. First startup and release assembly rebuild the
 SQLite file automatically when it is missing.
 """
 import argparse
+from contextlib import closing
 import json
 from pathlib import Path
 import sys
+import sqlite3
+import uuid
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'backend'))
 sys.path.insert(0, str(ROOT / 'backend' / 'common'))
@@ -21,9 +24,22 @@ def export(args):
 
 
 def build(args):
-    database = LibraryDatabase.from_source(args.source, args.output)
+    destination = args.output.resolve()
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    if destination.is_file():
+        with closing(sqlite3.connect(destination.as_uri() + '?mode=ro', uri=True)) as connection:
+            tables = {row[0] for row in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+        if tables.intersection({'accounts','submissions','drafts','training','documents','account_preferences'}):
+            raise ValueError('Refusing to rebuild a personal database; use merge_seed for upgrades')
+    staged = destination.with_name(destination.name + '.rebuild-' + uuid.uuid4().hex)
+    database = LibraryDatabase.from_source(args.source, staged)
+    counts = database.check()
+    if destination.is_file():
+        LibraryDatabase(destination, readonly=True).backup('before-seed-rebuild')
+    staged.replace(destination)
+    database = LibraryDatabase(destination, readonly=True)
     print(json.dumps({'built': str(database.path), 'fingerprint': source_fingerprint(args.source),
-                      'rows': database.check()}, ensure_ascii=False))
+                      'rows': counts}, ensure_ascii=False))
 
 
 def main():

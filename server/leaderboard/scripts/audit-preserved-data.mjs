@@ -11,6 +11,7 @@ const coreTables = ['users','accounts','account_state','account_sessions','accou
 const socialTables = ['social_likes','social_notifications'];
 const appearanceTables=['account_public_avatars'];
 const listTables=['training_list_likes'];
+const chunkTables=['account_chunk_heads','account_chunk_usage','account_chunks'];
 const identifier = name => '`' + name.replaceAll('`','``') + '`';
 
 export async function preservedData(pool) {
@@ -24,11 +25,14 @@ export async function preservedData(pool) {
   try {
     await connection.query('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ');
     await connection.query('START TRANSACTION WITH CONSISTENT SNAPSHOT, READ ONLY');
-    for (const table of [...coreTables,...socialTables,...appearanceTables,...listTables].sort()) {
+    for (const table of [...coreTables,...socialTables,...appearanceTables,...listTables,...chunkTables].sort()) {
       if (!present.has(table)) continue;
-      const [columns] = await connection.execute('SELECT COLUMN_NAME AS name FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME=? ORDER BY ORDINAL_POSITION',[table]);
+      const [columns] = await connection.execute('SELECT COLUMN_NAME AS name,DATA_TYPE AS kind FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME=? ORDER BY ORDINAL_POSITION',[table]);
       const names = columns.map(row=>row.name);
-      const hash = `SHA2(CAST(JSON_ARRAY(${names.map(identifier).join(',')}) AS CHAR CHARACTER SET utf8mb4),256)`;
+      // Chunk payloads are gzip bytes. JSON must receive their lossless hex,
+      // rather than attempting to decode arbitrary binary as UTF-8 text.
+      const values=columns.map(row=>/blob|binary/i.test(row.kind)?`HEX(${identifier(row.name)})`:identifier(row.name));
+      const hash = `SHA2(CAST(JSON_ARRAY(${values.join(',')}) AS CHAR CHARACTER SET utf8mb4),256)`;
       const parts = [1,17,33,49].map((offset,index)=>`LPAD(HEX(COALESCE(BIT_XOR(CAST(CONV(SUBSTRING(h,${offset},16),16,10) AS UNSIGNED)),0)),16,'0') AS h${index}`);
       const [[row]] = await connection.query(`SELECT COUNT(*) AS n,${parts.join(',')} FROM (SELECT ${hash} AS h FROM ${identifier(table)}) AS fingerprints`);
       tables[table] = {rows:Number(row.n),columns:names,xorSha256:[row.h0,row.h1,row.h2,row.h3].join('').toLowerCase()};
@@ -41,15 +45,15 @@ export async function preservedData(pool) {
   finally { connection.release(); }
 }
 
-export function assertPreserved(before,after,{requireAvatar=false,requireLists=false}={}) {
+export function assertPreserved(before,after,{requireAvatar=false,requireLists=false,requireChunks=false}={}) {
   if (before?.format!=='tb-preserved-data-v1' || after?.format!==before.format ||
       !isDeepStrictEqual(before.totals,after.totals)) throw new Error('Preserved data totals differ.');
   for (const table of coreTables) {
     if (!before.tables?.[table] || !isDeepStrictEqual(before.tables[table],after.tables?.[table]))
       throw new Error('Preserved account data differs: '+table);
   }
-  for (const table of [...socialTables,...appearanceTables.filter(name=>requireAvatar||before.tables?.[name]||after.tables?.[name]),...listTables.filter(name=>requireLists||before.tables?.[name]||after.tables?.[name])]) {
-    if (!after.tables?.[table]) throw new Error('Social migration is incomplete.');
+  for (const table of [...socialTables,...appearanceTables.filter(name=>requireAvatar||before.tables?.[name]||after.tables?.[name]),...listTables.filter(name=>requireLists||before.tables?.[name]||after.tables?.[name]),...chunkTables.filter(name=>requireChunks||before.tables?.[name]||after.tables?.[name])]) {
+    if (!after.tables?.[table]) throw new Error('Additive migration is incomplete.');
     if (before.tables?.[table] ? !isDeepStrictEqual(before.tables[table],after.tables[table]) : after.tables[table].rows!==0)
       throw new Error('Existing social data differs: '+table);
   }
@@ -57,7 +61,7 @@ export function assertPreserved(before,after,{requireAvatar=false,requireLists=f
 
 async function main() {
   const mode=process.argv[2];
-  if (mode==='--compare') {
+  if (mode==='--compare'||mode==='--compare-chunks') {
     const chunks=[];
     let bytes=0;
     for await (const chunk of process.stdin) {
@@ -68,13 +72,13 @@ async function main() {
     const input=Buffer.concat(chunks).toString('utf8');
     const lines=input.trim().split('\n');
     if (lines.length!==2) throw new Error('Provide exactly two fingerprint documents.');
-    assertPreserved(...lines.map(line=>JSON.parse(line)),{requireAvatar:true,requireLists:true});
+    assertPreserved(...lines.map(line=>JSON.parse(line)),{requireAvatar:true,requireLists:true,requireChunks:mode==='--compare-chunks'});
     process.stdout.write('Preserved account, snapshot, receipt and XP fingerprints match.\n');
     return;
   }
   if (mode==='--stage') {
     const value=JSON.parse(await readFile(new URL('../BUILD-INFO.json',import.meta.url),'utf8'));
-    if (value.format!=='tb-account-runtime-v1' || value.version!=='1.2.6' ||
+    if (value.format!=='tb-account-runtime-v1' || value.version!=='1.2.7' ||
         !/^[0-9a-f]{40}$/.test(value.sourceCommit) || value.sourceCommit!==process.argv[3])
       throw new Error('Staged source identity does not match the reviewed commit.');
     process.stdout.write('Staged source identity verified.\n');

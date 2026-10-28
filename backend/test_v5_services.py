@@ -27,7 +27,7 @@ class DailyMissionTests(unittest.TestCase):
         self.completed("fixture::H")
         self.completed(code="WA")
         self.assertTrue(all(task["progress"] == 0 for task in self.service.daily_tasks()["tasks"]))
-        with self.assertRaises(ServiceError): self.service.claim_daily_task("solve-1")
+        with self.assertRaises(ServiceError): self.service.claim_daily_task("ac-chain:0")
         self.service.start_training("fixture::A")
         self.accept()
         before = self.service.insights()['growth']
@@ -35,7 +35,7 @@ class DailyMissionTests(unittest.TestCase):
         self.assertEqual(before['achievementXp'],25)
         self.assertEqual(before['missionXp'],0)
         with ThreadPoolExecutor(max_workers=8) as workers:
-            results = list(workers.map(lambda _: self.service.claim_daily_task("solve-1"), range(8)))
+            results = list(workers.map(lambda _: self.service.claim_daily_task("ac-chain:0"), range(8)))
         self.assertEqual(sum(not result["alreadyClaimed"] for result in results), 1)
         after = self.service.insights()['growth']
         self.assertEqual(after['xp'],before['xp'] + 25 + 15)
@@ -49,25 +49,26 @@ class DailyMissionTests(unittest.TestCase):
         self.assertEqual({row[0]:row[2] for row in claims},{'official-1':25,'missions-1':15})
         self.service.close()
         self.service = TrainingService(self.library, self.db, self.assets, self.judge, self.clock, self.root / "backups")
-        self.assertTrue(self.service.daily_tasks()["tasks"][0]["claimed"])
+        self.assertEqual(self.service.daily_tasks()["tasks"][0]["target"],2)
+        self.assertFalse(self.service.daily_tasks()["tasks"][0]["claimed"])
         restored = self.service.insights()['growth']
         self.assertEqual(restored['xp'],after['xp'])
         self.assertEqual(restored['missionXp'],25)
         self.assertEqual(restored['achievementXp'],40)
         self.assertEqual(restored['newAchievementXp'],0)
-        self.assertTrue(self.service.claim_daily_task('solve-1')['alreadyClaimed'])
+        self.assertTrue(self.service.claim_daily_task('ac-chain:0')['alreadyClaimed'])
         self.assertEqual([tuple(row) for row in self.service.connection.execute('SELECT * FROM achievement_xp_claims ORDER BY achievement_id')],claims)
 
-    @patch('daily_rotation.tasks_for',lambda *_:[dict(task,newOnly=index>=3) for index,task in enumerate(TASKS)])
+    @patch('daily_chains.tasks_for',lambda *_:[dict(task,newOnly=index>=3) for index,task in enumerate(TASKS)])
     def test_harder_tasks_award_more_and_next_day_ac_counts_once_without_base_xp_replay(self):
         self.library.rows[0]["difficulty"] = 2100
         self.service.start_training("fixture::A")
         self.accept()
         tasks = {task["id"]: task for task in self.service.daily_tasks()["tasks"]}
-        self.assertLess(tasks["solve-1"]["xp"], tasks["hard-1500"]["xp"])
+        self.assertLess(tasks["ac-chain:0"]["xp"], tasks["hard-1500"]["xp"])
         self.assertLess(tasks["hard-1500"]["xp"], tasks["hard-1800"]["xp"])
         self.assertLess(tasks["hard-1800"]["xp"], tasks["hard-2100"]["xp"])
-        for identity in ("solve-1", "hard-1500", "hard-1800", "hard-2100"):
+        for identity in ("ac-chain:0", "hard-1500", "hard-1800", "hard-2100"):
             self.service.claim_daily_task(identity)
         growth = self.service.insights()['growth']
         self.assertEqual(growth['missionXp'],435)
@@ -77,24 +78,27 @@ class DailyMissionTests(unittest.TestCase):
         self.clock.advance(days=1)
         self.accept(submission_id=7777)
         self.accept(submission_id=7778)
-        self.assertTrue(all(task["progress"] == 1 for task in self.service.daily_tasks()["tasks"][:3]))
+        self.assertEqual(self.service.daily_tasks()["tasks"][0]["progress"],1)
+        self.assertEqual(self.service.daily_tasks()["tasks"][2]["progress"],0)
         self.assertTrue(all(task["progress"] == 0 for task in self.service.daily_tasks()["tasks"][3:]))
         repeated = self.service.insights()['growth']
         self.assertEqual(repeated['xp']-repeated['missionXp']-repeated['achievementXp']-repeated['rankingXp'],base_xp)
         self.assertEqual(repeated['achievementXp'],220)
         self.assertEqual(repeated['newAchievementXp'],0)
         self.assertEqual(repeated['missionXp'],435)
-        with self.assertRaises(ServiceError): self.service.claim_daily_task("solve-1", "2026-10-08")
+        with self.assertRaises(ServiceError): self.service.claim_daily_task("ac-chain:0", "2026-10-08")
 
     def test_three_different_today_acs_include_repractice_but_not_opened_old_acs(self):
         self.accept('fixture::A');self.accept('fixture::D')
         self.clock.advance(days=1)
         self.service.start_training('fixture::D')
-        self.assertEqual(self.service.daily_tasks()['tasks'][1]['progress'],0)
+        self.assertEqual(self.service.daily_tasks()['tasks'][0]['progress'],0)
         self.accept('fixture::A');self.accept('fixture::B');self.accept('fixture::C')
-        self.assertEqual(self.service.daily_tasks()['tasks'][1]['progress'],3)
-        self.service.claim_daily_task('solve-3')
-        self.assertEqual(self.service.insights()['growth']['missionXp'],60)
+        for step,target in enumerate((1,2,3)):
+            task=self.service.daily_tasks()['tasks'][0]
+            self.assertEqual((task['target'],task['progress']),(target,target))
+            self.service.claim_daily_task(task['id'])
+        self.assertEqual(self.service.insights()['growth']['missionXp'],90)
 
     def test_aliases_removals_and_beijing_midnight(self):
         url = "https://codeforces.com/contest/123/problem/A"
@@ -106,7 +110,7 @@ class DailyMissionTests(unittest.TestCase):
         self.service.start_training("fixture::B")
         self.accept("fixture::B", submission_id=7901)
         self.service.remove_training("fixture::A")
-        self.assertEqual(self.service.daily_tasks()["tasks"][1]["progress"], 1)
+        self.assertEqual(self.service.daily_tasks()["tasks"][0]["progress"], 1)
         # 同题别名和移出训练都不改变官方首次 AC 的去重结果。
         events = self.service._ranking_events("fixture")
         self.assertEqual(len(events), 1)
@@ -130,7 +134,9 @@ class DailyMissionTests(unittest.TestCase):
         self.completed()
         value = self.service.insights()
         self.assertEqual(value["assessment"]["evidenceCount"], 0)
-        self.assertEqual(next(task for task in value["dailyTasks"]["tasks"] if task["id"] == "independent-2")["progress"], 0)
+        from progression import task_progress
+        day=value['dailyTasks']['date']
+        self.assertEqual(task_progress(TASKS[2],self.service._daily_evidence(day),day)[0],0)
 
     def test_v4_sqlite_upgrade_preserves_all_original_values_and_running_deadline(self):
         self.completed(code="AC original code 你好")
@@ -289,7 +295,7 @@ class HTTPContractTests(unittest.TestCase):
         self.assertEqual(self.request("GET", "/api/leaderboard?period=total")[1]["entries"], [])
         self.assertEqual(self.request("GET", "/api/leaderboard?period=bad")[0], 400)
         day = self.request("GET", "/api/daily-tasks")[1]["date"]
-        self.assertEqual(self.request("POST", "/api/daily-tasks/claim", {"id": "solve-1", "date": day})[0], 409)
+        self.assertEqual(self.request("POST", "/api/daily-tasks/claim", {"id": "ac-chain:0", "date": day})[0], 409)
         self.assertEqual(self.request("POST", "/api/profile", {"nickname": "bad"}, token=False)[0], 403)
 
     def test_history_page_bounds_and_complete_total(self):

@@ -17,3 +17,7 @@
 .templates-embedded .template-detail {padding:12px 16px}
 .templates-embedded .template-catalog {grid-template-columns:repeat(auto-fit,minmax(225px,1fr));padding:16px}
 @media(max-width:750px){.templates-page .template-detail{padding:12px}.template-fields{grid-template-columns:1fr}.template-heading{gap:5px}.template-heading h2{font-size:1.05em}.template-language{display:none}}
+
+html .template-focus .workspace-area {padding:0}html .template-focus .templates-page {padding:0}html .template-focus .template-detail {max-width:none;width:100%;padding:18px 24px}html .template-focus .template-code {height:calc(100dvh - 180px);min-height:360px}
+
+.template-editions{display:flex;align-items:center;gap:8px;margin:8px 0 12px}.template-editions>button[aria-pressed=true]{color:var(--accent);border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent)}.template-editions .icon-button{display:inline-flex;align-items:center;gap:3px}.template-editions small{font-size:11px}.template-focus .template-code{height:calc(100dvh - 215px)}

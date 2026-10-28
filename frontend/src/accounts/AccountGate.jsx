@@ -1,5 +1,5 @@
 import BrandWordmark from '../components/BrandWordmark.jsx';
-import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Eye, EyeOff, LoaderCircle, LockKeyhole, LogIn, UserRoundPlus } from 'lucide-react';
 import { request } from '../api/client.js';
 import { SoftwareUpdateNotice, useSoftwareUpdates } from '../pages/SoftwareUpdates.jsx';
@@ -98,9 +98,10 @@ export default function AccountGate({ children }) {
     catch (issue) { setError(issue.message); }
     finally { setSyncBusy(false); refresh(); }
   }
-  if (session?.authenticated) return <Fragment key={`${session.account?.userId || 'fixture'}:${session.token}`}>{children}
+  if (session?.authenticated) return <div className="account-session" key={`${session.account?.userId || 'fixture'}:${session.token}`}>
     {session.sync?.status === 'error' && <aside className="account-sync-alert" role="status"><span>{session.sync.error || '云端同步暂未完成，本机数据已保留。'}</span><button type="button" onClick={retrySync} disabled={syncBusy}>{syncBusy ? '正在同步…' : '重试同步'}</button></aside>}
-  </Fragment>;
+    <div className="account-session-content">{children}</div>
+  </div>;
   if (booting || session?.restoring) return <StartupScreen restoring={session?.restoring} error={error} onRetry={() => refresh(true)}/>;
   const registering = mode === 'register';
   return <main className="account-screen">

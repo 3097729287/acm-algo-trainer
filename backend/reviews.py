@@ -12,6 +12,30 @@ import math
 from insights import canonical_url
 from progression import SHANGHAI, parse_time
 
+REVIEW_XP = 20
+
+
+def reward_totals(training):
+    claims = []
+    for row in training.connection.execute("SELECT value FROM account_preferences WHERE key LIKE 'review-reward:%'"):
+        try:
+            value = json.loads(row['value'])
+        except (ValueError, TypeError):
+            continue
+        if isinstance(value, dict) and value.get('version') == 1 and value.get('xp') == REVIEW_XP and value.get('receiptId'):
+            claims.append(value)
+    return {'xp': sum(item['xp'] for item in claims), 'count': len(claims)}
+
+
+def receipt_reward(training, submission_id):
+    scheduler = ReviewScheduler(training)
+    task_id = scheduler.read('review-receipt:' + submission_id)
+    task = scheduler.read('review-task:' + task_id, {}) if isinstance(task_id, str) else {}
+    if not isinstance(task, dict) or task.get('rewardReceiptId') != submission_id:
+        return 0
+    claim = scheduler.read(task.get('rewardClaim', ''), {})
+    return REVIEW_XP if isinstance(claim, dict) and claim.get('receiptId') == submission_id and claim.get('xp') == REVIEW_XP else 0
+
 
 def encoded(value):
     return json.dumps(value, ensure_ascii=False, separators=(',', ':'), sort_keys=True)
@@ -134,16 +158,23 @@ class ReviewScheduler:
             key = 'review-task:' + task_id
             if key not in preferences:
                 preferences[key] = {'id': task_id, 'problemId': identity, 'problemKey': state['key'],
-                                    'due': due, 'openedAt': None, 'completedAt': None, 'failures': [], 'processed': []}
+                                    'due': due, 'openedAt': None, 'completedAt': None, 'failures': [], 'processed': [],
+                                    'triggerDay': state.get('triggerDay')}
                 updates[key] = preferences[key]
 
         candidates = []
         for identity, receipts in facts.items():
             if identity not in active:
                 continue
-            accepted = [r for r in receipts if r['verdict'] == 'AC']
-            if not accepted:
+            # Only an actual wrong answer earns a next-day rewrite. Sample
+            # runs, compiler/runtime failures and clean first accepts do not.
+            # Re-evaluate old plans from receipts so upgrading also removes
+            # previously suggested clean accepts without deleting their work.
+            wrong = [r for r in receipts if r['verdict'] == 'WA']
+            if not wrong:
                 continue
+            last_wrong = wrong[-1]
+            wrong_day = parse_time(last_wrong['submitted_at']).astimezone(SHANGHAI).date()
             row = metadata.get(identity)
             if not row:
                 try:
@@ -152,14 +183,8 @@ class ReviewScheduler:
                     if getattr(issue, 'status', None) != 404:
                         raise
                     continue
-            # Preserve all receipts, draft contexts and prior review tasks. Pure
-            # I/O/elementary language exercises simply leave the automatic queue.
-            # Scheduling receives compact catalog rows, which intentionally
-            # omit the display-only normalization flag. Re-evaluate the stable
-            # original URL here so elementary tasks leave the real queue too.
-            from difficulty import normalize_practice_difficulty
-            if normalize_practice_difficulty(row).get('reviewTrivial'):
-                continue
+            # A real WA is sufficient even on a basic language exercise. Clean
+            # accepts were already excluded above, without relying on ratings.
             difficulty = row.get('difficulty')
             if type(difficulty) not in (int, float) or not math.isfinite(difficulty) or difficulty <= 0:
                 difficulty = None
@@ -167,17 +192,19 @@ class ReviewScheduler:
             state_key = 'review-state:' + hashlib.sha256(problem_key.encode()).hexdigest()
             state = preferences.get(state_key)
             before = encoded(state)
-            if not isinstance(state, dict) or state.get('version') != 1:
-                # Existing official redos are respected during migration. This
-                # introduces overdue history gradually through the daily budget.
-                seed = accepted[-1]
+            if not isinstance(state, dict) or state.get('version') not in (1, 2) or (state.get('version') == 1 and not state.get('successes')):
+                # The WA's Beijing date is the anchor, including an unsolved
+                # attempt. An AC arriving later must not postpone that review.
+                seed = last_wrong
                 due = (parse_time(seed['submitted_at']).astimezone(SHANGHAI).date() + dt.timedelta(days=1)).isoformat()
-                state = {'version': 1, 'key': problem_key, 'stability': 1., 'successes': 0,
-                         'lapses': 0, 'lastAt': seed['submitted_at'], 'parked': False}
+                state = {'version': 2, 'key': problem_key, 'stability': 1., 'successes': 0,
+                         'lapses': 0, 'lastAt': seed['submitted_at'], 'parked': False, 'triggerId': seed['id'], 'triggerDay': wrong_day.isoformat()}
                 create_task(state, seed['id'], due, identity)
+            elif state.get('version') == 1:
+                state.update(version=2, triggerId=last_wrong['id'], triggerDay=wrong_day.isoformat())
             task = preferences.get('review-task:' + state.get('taskId', ''))
             if not isinstance(task, dict):
-                create_task(state, state.get('anchor', accepted[-1]['id']), state.get('due') or day, identity)
+                create_task(state, state.get('anchor', last_wrong['id']), state.get('due') or day, identity)
                 task = preferences['review-task:' + state['taskId']]
             task_before = encoded(task)
             if task.get('openedAt') and not task.get('completedAt'):
@@ -200,6 +227,28 @@ class ReviewScheduler:
                         state['successes'] = 0 if assisted else state['successes'] + 1
                         state['lastAt'] = receipt['submitted_at']
                         task.update(completedAt=receipt['finished_at'], independent=not assisted)
+                        pass_day = parse_time(receipt['submitted_at']).astimezone(SHANGHAI).date()
+                        trigger_day = task.get('triggerDay')
+                        if trigger_day and task['due'] == (dt.date.fromisoformat(trigger_day) + dt.timedelta(days=1)).isoformat():
+                            # One problem/day ledger key survives duplicated
+                            # receipts, aliases, restarts and cloud merges.
+                            reward_key = 'review-reward:' + hashlib.sha256((problem_key + '\0' + pass_day.isoformat()).encode()).hexdigest()
+                            claim = preferences.get(reward_key)
+                            if claim is None:
+                                claim = {'version': 1, 'xp': REVIEW_XP, 'problemKey': problem_key,
+                                         'day': pass_day.isoformat(), 'taskId': task['id'],
+                                         'receiptId': receipt['id'], 'awardedAt': iso(now)}
+                                preferences[reward_key] = updates[reward_key] = claim
+                            if isinstance(claim, dict) and claim.get('receiptId') == receipt['id']:
+                                task.update(rewardClaim=reward_key, rewardReceiptId=receipt['id'], rewardXp=REVIEW_XP)
+                        # A failed rewrite is due tomorrow. A clean rewrite
+                        # retains adaptive spacing, including assisted passes,
+                        # but is never made a next-day task without today's WA.
+                        wa_today = any(parse_time(r['submitted_at']).astimezone(SHANGHAI).date() == pass_day
+                                       and r['submitted_at'] <= receipt['submitted_at'] for r in wrong)
+                        interval = 1 if wa_today else max(2, interval)
+                        state['triggerId'] = last_wrong['id']
+                        state['triggerDay'] = wrong_day.isoformat()
                         easy = difficulty is not None and ability is not None and difficulty <= ability - 200
                         state['parked'] = bool(easy and not assisted and not failures)
                         state['due'] = None if state['parked'] else (parse_time(receipt['submitted_at']).astimezone(SHANGHAI).date() + dt.timedelta(days=interval)).isoformat()
@@ -208,12 +257,13 @@ class ReviewScheduler:
                         break
             if encoded(task) != task_before:
                 updates['review-task:' + task['id']] = task
-            if state.get('parked'):
-                failure = next((r for r in reversed(receipts) if r['submitted_at'] > state['lastAt'] and r['verdict'] in {'WA','TLE','MLE','RE','OLE'}), None)
-                if failure:
-                    state['parked'] = False
-                    state['stability'] = 1.
-                    create_task(state, failure['id'], (parse_time(failure['submitted_at']).astimezone(SHANGHAI).date() + dt.timedelta(days=1)).isoformat(), identity)
+            # A new ordinary WA also restarts a parked or future plan. An
+            # already-open rewrite keeps its own draft and receipt binding.
+            current = preferences.get('review-task:' + state.get('taskId', ''), {})
+            if (last_wrong['submitted_at'] > state['lastAt'] and last_wrong['id'] != state.get('triggerId')
+                    and not (current.get('openedAt') and not current.get('completedAt'))):
+                state.update(parked=False, stability=1., lastAt=last_wrong['submitted_at'], triggerId=last_wrong['id'], triggerDay=wrong_day.isoformat())
+                create_task(state, last_wrong['id'], (wrong_day + dt.timedelta(days=1)).isoformat(), identity)
             if encoded(state) != before:
                 updates[state_key] = state
             current = preferences.get('review-task:' + state['taskId'])
@@ -269,7 +319,7 @@ class ReviewScheduler:
         result = {'date': day, 'tasks': [{k:v for k,v in r.items() if k != 'priority'} for r in selected],
                   'dueCount': len(candidates), 'deferredCount': len(candidates) - len(selected),
                   'minutes': spent, 'dailyMinutes': minutes, 'newMinutes': max(0, minutes - spent),
-                  'reviewOnly': pause, 'abilityScore': ability, 'policyVersion': 1}
+                  'reviewOnly': pause, 'abilityScore': ability, 'policyVersion': 2}
         if updates:
             with t._write() as db:
                 for key, value in updates.items():

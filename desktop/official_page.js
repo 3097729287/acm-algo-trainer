@@ -1,5 +1,7 @@
 function tbOfficialPage(ctx, action, postMessage) {
-if(typeof window!=='undefined'&&(window!==window.top||!['codeforces.com','www.codeforces.com','atcoder.jp','ac.nowcoder.com','www.luogu.com.cn','luogu.com.cn'].includes(location.hostname)))return null;
+if(typeof window!=='undefined'&&(window!==window.top||!['codeforces.com','www.codeforces.com','atcoder.jp','ac.nowcoder.com','www.luogu.com.cn','luogu.com.cn','qoj.ac'].includes(location.hostname)))return null;
+QOJ_ADAPTER
+if(ctx.platform==='QOJ')return tbQojPage(ctx,action,postMessage);
 COMPILER_SELECTION
 NOWCODER_RECEIPTS
 LUOGU_RECEIPTS

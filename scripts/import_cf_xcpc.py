@@ -24,6 +24,9 @@ def historical_contest(contest):
     name = contest.get('name', '')
     if contest.get('phase') != 'FINISHED' or not re.search(r'ICPC|CCPC', name, re.I):
         return False
+    from contest_scope import excluded
+    if excluded({'contestFullName': name}):
+        return False
     year = re.search(r'(?:19|20)\d{2}', name)
     if not year or int(year[0]) < 2017:
         return False

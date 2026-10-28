@@ -1,4 +1,5 @@
 // Test-only SQLite store for exercising the production API protocol offline.
+import {AccountChunks} from '../src/account-chunks.mjs';
 import { DatabaseSync } from 'node:sqlite';
 import { SocialStore } from '../src/social-store.mjs';
 import { readFileSync } from 'node:fs';
@@ -21,6 +22,8 @@ export class SQLiteStore {
       const value=statement.run(...params);return [{affectedRows:Number(value.changes)}];
     };
     let writes=Promise.resolve();
+    const chunkTransaction=action=>{const next=writes.then(async()=>{this.database.exec('BEGIN IMMEDIATE');try{const result=await action({execute});this.database.exec('COMMIT');return result;}catch(error){this.database.exec('ROLLBACK');throw error;}});writes=next.catch(()=>{});return next;};
+    this.chunks=new AccountChunks({execute,transaction:chunkTransaction},'sqlite');
     this.social=new SocialStore({execute,transaction:action=>{
       const next=writes.then(async()=>{this.database.exec('BEGIN IMMEDIATE');try {const result=await action({execute});this.database.exec('COMMIT');return result;} catch(error){this.database.exec('ROLLBACK');throw error;}});
       writes=next.catch(()=>{});return next;
@@ -101,10 +104,11 @@ export class SQLiteStore {
       throw error;
     }
   }
-  async createSession(user, session, timestamp, stateProtocol = false) {
+  async createSession(user, session, timestamp, stateProtocol = false,chunkProtocol=false) {
     this.transaction(() => {
       const row = this.database.prepare('SELECT password_hash,password_version FROM accounts WHERE user_id=?').get(user.user_id);
       if (row?.password_hash !== user.password_hash) throw new AccountError(401, '账号密码已变更，请重新登录');
+      if(!chunkProtocol&&this.database.prepare('SELECT 1 FROM account_chunk_heads WHERE user_id=?').get(user.user_id))throw new AccountError(426,'此账号已使用分块同步，请升级客户端后登录');
       const state = this.database.prepare('SELECT revision FROM account_state WHERE user_id=?').get(user.user_id);
       if (!stateProtocol && Number(state?.revision || 0) > 0)
         throw new AccountError(426, '该账号已启用跨电脑同步，请升级 TB 至 1.0.20 或更新版本后登录');
@@ -138,7 +142,7 @@ export class SQLiteStore {
   async recordLogin(id, day, timestamp) {
     this.database.prepare('INSERT OR IGNORE INTO account_login_days VALUES(?,?,?)').run(id, day, timestamp);
   }
-  async stateRevision(id) { return this.database.prepare('SELECT revision FROM account_state WHERE user_id=?').get(id)?.revision || 0; }
+  async stateRevision(id) { const revision=await this.chunks.active(id);if(revision)return revision; return this.database.prepare('SELECT revision FROM account_state WHERE user_id=?').get(id)?.revision || 0; }
   async accountState(id) {
     const row = this.database.prepare('SELECT revision,payload FROM account_state WHERE user_id=?').get(id);
     return { revision: row?.revision || 0, state: row ? JSON.parse(row.payload) : null };
@@ -147,6 +151,7 @@ export class SQLiteStore {
     return this.transaction(() => {
       if (!this.database.prepare('SELECT 1 FROM account_sessions WHERE user_id=? AND token_hash=? AND expires_at>?').get(id, hash, now))
         throw new AccountError(401, '账号已在另一台设备登录，请重新登录');
+      if(this.database.prepare('SELECT 1 FROM account_chunk_heads WHERE user_id=?').get(id))throw new AccountError(426,'此账号已使用分块同步，请升级客户端后登录');
       const previous = this.database.prepare('SELECT revision FROM account_state WHERE user_id=?').get(id)?.revision || 0;
       if (previous !== revision) throw new AccountError(409, '账号数据已更新，请重新同步');
       this.database.prepare('INSERT INTO account_state VALUES(?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET revision=excluded.revision,payload=excluded.payload,updated_at=excluded.updated_at')

@@ -92,6 +92,7 @@ def assemble(args):
     shutil.copy2(ROOT / 'desktop' / 'official_nowcoder.js', package / 'official_nowcoder.js')
     shutil.copy2(ROOT / 'desktop' / 'official_luogu.js', package / 'official_luogu.js')
     shutil.copy2(ROOT / 'desktop' / 'official_page.js', package / 'official_page.js')
+    shutil.copy2(ROOT / 'desktop' / 'official_qoj.js', package / 'resources' / 'official_qoj.js')
     # Visible Edge/Chrome submission uses the local adapter directly. No
     # browser extension, cookie transport or extension installation is bundled.
     shutil.copy2(ROOT / 'desktop' / 'tb.ico', package / 'tb.ico')

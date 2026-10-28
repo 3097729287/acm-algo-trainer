@@ -14,6 +14,7 @@ class AccountUploadTransportTests(unittest.TestCase):
     def sync(self, remote):
         sync = object.__new__(AccountStateSync)
         sync.accounts = SimpleNamespace(_remote=remote)
+        sync.chunks = SimpleNamespace(enabled=False)
         sync.session = {'token': 'original'}
         return sync
 

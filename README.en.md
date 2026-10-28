@@ -1,10 +1,10 @@
 # ToBe · Training Workbench
 
-**ToBe 1.4.22 (local update; unpublished)** adds 24 C++17 templates and private custom templates, separate solution methods, nested and fullscreen lessons, learned-topic filtering, rotating daily tasks, AC streaks and smaller lossless account snapshots.
+**ToBe source 1.4.23 (unpublished)** adds annotated/contest template editions, 48 locally judged template drills, saved initial-code pickers, compact account settings, WA-triggered reviews with XP, progressive daily tasks, chunked incremental sync and lazy old-code retrieval. It adds three complete 2025 CCPC rosters and removes World Finals and foreign XCPC tasks from the public catalogue.
 
 **ToBe 1.4.20 (local update; unpublished)** repairs shared browser connection recovery, refines difficulty estimates and excludes elementary exercises from automatic review. It adds list filters, insertion ordering, a favorite-problems list, cached reversible likes and inline creation, single-column mock papers, accent-based activity levels and bounded statement/streamed sync memory. [Release scope](docs/releases/1.4.20.md).
 
-Includes the ten algorithm topics, training lists, illustrated editorials and interface fixes previously delivered locally in 1.4.2–1.4.16. The public seed retains 14,877 problem records, 11,289 statement archives, 1,379 default/detailed editorial pairs, 447 lectures and 563 lists. Archived statements are not all complete or readable; see the [audit and release scope](docs/releases/1.4.17.md). The separate full editorial review remains incomplete.
+Includes the ten algorithm topics, training lists, illustrated editorials and interface fixes previously delivered locally in 1.4.2–1.4.16. The public seed retains 12,590 problem records, 9,566 statement archives, 1,379 default/detailed editorial pairs, 447 lectures and 563 lists. Archived statements are not all complete or readable; see the [audit and release scope](docs/releases/1.4.17.md). The separate full editorial review remains incomplete.
 
 <!-- release-status:start -->
 **Stable release: [ToBe 1.4.17](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.17).** [Changes, audit and validation](docs/releases/1.4.17.md).

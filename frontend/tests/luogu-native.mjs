@@ -10,7 +10,7 @@ const bundled = await build({configFile:false,root:fileURLToPath(new URL('../',i
 const outputs = Array.isArray(bundled) ? bundled.flatMap(result=>result.output) : bundled.output;
 const editorSource = outputs.find(item=>item.type==='chunk').code.replace(/<\/script/gi,'<\\/script');
 let adapter = await readFile(new URL('../../desktop/official_page.js',import.meta.url),'utf8');
-for(const [marker,name] of [['COMPILER_SELECTION','official_languages.js'],['NOWCODER_RECEIPTS','official_nowcoder.js'],['LUOGU_RECEIPTS','official_luogu.js']])adapter=adapter.replace(marker,await readFile(new URL('../../desktop/'+name,import.meta.url),'utf8'));
+for(const [marker,name] of [['COMPILER_SELECTION','official_languages.js'],['NOWCODER_RECEIPTS','official_nowcoder.js'],['LUOGU_RECEIPTS','official_luogu.js'],['QOJ_ADAPTER','official_qoj.js']])adapter=adapter.replace(marker,await readFile(new URL('../../desktop/'+name,import.meta.url),'utf8'));
 const browser = await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
 const page = await browser.newPage(),posts=[];
 let rejectNext=false;

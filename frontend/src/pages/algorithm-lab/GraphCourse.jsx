@@ -7,66 +7,7 @@ import {CodeBlock} from './LabParts.jsx';
 import useCourseKeys from './useCourseKeys.js';
 import './graphLab.css';
 
-const CODE={bfs:`vector<int> dist(n, -1), parent(n, -1);
-queue<int> q;
-dist[start] = 0; q.push(start);
-while (!q.empty()) {
-    int u = q.front(); q.pop();
-    for (int v : adj[u]) if (dist[v] == -1) {
-        dist[v] = dist[u] + 1;
-        parent[v] = u;
-        q.push(v);
-    }
-}`,dfs:`// 显式递归帧：（当前点，接下来检查的邻边下标）
-vector<pair<int,int>> st{{start, 0}};
-visited[start] = true;
-while (!st.empty()) {
-    int u = st.back().first;
-    int &next = st.back().second;
-    if (next == adj[u].size()) {
-        // 所有子分支已完成，可以汇总 u 的子树
-        st.pop_back();
-        continue;
-    }
-    int v = adj[u][next++];
-    if (visited[v]) continue;
-    visited[v] = true;
-    parent[v] = u;
-    st.push_back({v, 0});
-}`,dsu:`// 初始化：iota(parent.begin(), parent.end(), 0);
-// size.assign(n, 1);
-int find(int x) {
-    while (parent[x] != x) {
-        parent[x] = parent[parent[x]];
-        x = parent[x];
-    }
-    return x;
-}
-bool unite(int a, int b) {
-    a = find(a); b = find(b);
-    if (a == b) return false;
-    if (size[a] < size[b]) swap(a, b);
-    parent[b] = a;
-    size[a] += size[b];
-    return true;
-}`,dijkstra:`using ll = long long;
-const ll INF = (1LL << 62);
-vector<ll> dist(n, INF);
-vector<int> parent(n, -1);
-priority_queue<pair<ll,int>, vector<pair<ll,int>>,
-               greater<pair<ll,int>>> pq;
-dist[start] = 0; pq.push({0, start});
-while (!pq.empty()) {
-    auto [du, u] = pq.top(); pq.pop();
-    if (du != dist[u]) continue;  // 旧候选
-    for (auto [v, w] : adj[u]) {
-        if (du + w < dist[v]) {
-            dist[v] = du + w;
-            parent[v] = u;
-            pq.push({dist[v], v});
-        }
-    }
-}`};
+import {GRAPH_CODE as CODE} from './graphCode.js';
 
 export default function GraphCourse({courseId,prefs,setPrefs,rows=[],lockedProblems=[],onTrain,headerActions}){
  const course=COURSES[courseId],saved=prefs.learningPaths?.[courseId]||{},guided=saved.mode==='guided';

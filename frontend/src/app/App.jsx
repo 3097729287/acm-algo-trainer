@@ -8,6 +8,7 @@ import RandomProblem from '@/components/RandomProblem.jsx';
 import AddToTrainingLists from '@/components/AddToTrainingLists.jsx';
 import useNavigationKeys from '@/lib/useNavigationKeys.js';
 import useUsage from '@/lib/useUsage.js';
+import usePlatformLogins from '@/lib/usePlatformLogins.js';
 import useContestCalendar from '@/lib/useContestCalendar.js';
 import PopConfirm from '@/components/PopConfirm.jsx';
 import {matchesShortcut} from '@/lib/shortcuts.js';
@@ -118,11 +119,13 @@ import {
 
 const loadWorkbench = () => import("./Workbench.jsx");
 const Workbench = lazy(loadWorkbench);
+const AccountPanel=lazy(()=>import('@/components/AccountPanel.jsx'));
 const progressPanel = name => lazy(() => import('@/pages/ProgressPanels.jsx').then(module => ({ default: module[name] })));
 const GrowthPage = progressPanel('GrowthPage'), ActivityPage = progressPanel('ActivityPage'), CompetitionPage = progressPanel('CompetitionPage');
 const UpdatePanel = progressPanel('UpdatePanel'), AchievementPanel = progressPanel('AchievementPanel'), DailyTasks = progressPanel('DailyTasks');
 const RankingsPage = lazy(() => import('@/pages/CommunityPanel.jsx'));
 const MockSetup = lazy(() => import('@/app/MockSetup.jsx'));
+const HistoricalCode=lazy(()=>import('@/components/HistoricalCode.jsx'));
 const SubmissionRecords = lazy(() => import('@/pages/SubmissionRecords.jsx'));
 const MockHistory = lazy(() => import('@/pages/SubmissionRecords.jsx').then(module => ({ default: module.MockHistory })));
 const AvatarSettings = lazy(() => import('@/components/AvatarSettings.jsx'));
@@ -272,7 +275,7 @@ function IconButton({ label, icon: Icon, onClick, children, ...props }) {
     </button>
   );
 }
-function Modal({ title, onClose, children, wide = false, footer }) {
+function Modal({ title, onClose, children, wide = false, footer, className='' }) {
   const ref = useRef(null),
     restore = useRef(document.activeElement),
     close = useRef(onClose);
@@ -325,7 +328,7 @@ function Modal({ title, onClose, children, wide = false, footer }) {
       onMouseDown={(e) => e.target === e.currentTarget && onClose?.()}
     >
       <section
-        className={"modal " + (wide ? "wide" : "")}
+        className={"modal " + (wide ? "wide " : "")+className}
         ref={ref}
         tabIndex={-1}
         role="dialog"
@@ -564,6 +567,7 @@ export default function App() {
   const practicePrefetch = useRef(null);
   const labVisit = useRef({leftAt:null,scrollTop:0});
   const templatesVisit=useRef({});
+  const [templateActive,setTemplateActive]=useState(false);
   const trainingListsVisit = useRef({});
   const lecturesVisit = useRef({});
   const [listProblemIds,setListProblemIds]=useState(null);
@@ -603,14 +607,25 @@ export default function App() {
   const calendar = useContestCalendar(api, Boolean(data), dialog === 'contest-calendar', now);
   const [account, setAccount] = useState(() => window.__tbAccount || null);
   const social = useSocial(api, Boolean(data && account?.userId));
-  useUsage(api,data&&account?.userId);
+  useUsage(api,data&&account?.userId,Boolean((!dialog||['lecture','solution'].includes(dialog))&&(practiceId||readerId||page==='mock'&&mockSlot&&workspace.activeContest||['lectures','paths','templates'].includes(page)||page==='settings'&&settingsTab==='accounts')));
+  usePlatformLogins(api,Boolean(data&&account?.userId));
   const [profileSnapshot, setProfileSnapshot] = useState(null), [accountFocus, setAccountFocus] = useState(null);
   useEffect(() => {
     const changed = event => setAccount(previous => shareWorkspace(previous, event.detail));
     window.addEventListener('tb:account-state', changed);
     return () => window.removeEventListener('tb:account-state', changed);
   }, []);
-  const profileChanged = useCallback(value => setProfileSnapshot(previous => shareWorkspace(previous, value)), []);
+  useEffect(()=>{
+    if(dialog!=='daily-tasks')return;
+    let alive=true;
+    const poll=async()=>{const sequence=backgroundSeq.current;try{const value=await api('daily-tasks');if(alive&&sequence===backgroundSeq.current)setInsights(previous=>({...previous,dailyTasks:value}));}catch{}};
+    const first=setTimeout(poll,350),timer=setInterval(poll,15000);
+    return()=>{alive=false;clearTimeout(first);clearInterval(timer);};
+  },[dialog,api]);
+  const profileChanged = useCallback(value => {
+    setProfileSnapshot(previous => shareWorkspace(previous, value));
+    if(value?.profile?.nickname){setAccount(previous=>previous?{...previous,nickname:value.profile.nickname}:previous);if(window.__tbAccount)window.__tbAccount={...window.__tbAccount,nickname:value.profile.nickname};}
+  }, []);
   const preferencesLoaded = useRef(false), uploadedPreferences = useRef(''), preferencesQueue = useRef(Promise.resolve(true));
   const preferencesBaseline = useRef(prefs);
   const [preferencesRevision, setPreferencesRevision] = useState(0);
@@ -1001,6 +1016,7 @@ export default function App() {
   }, [practiceId, page, displayedRows]);
   const active = workspace.activeContest,
     summary = workspace.summary || emptyWorkspace.summary;
+  const templateFocus=page==='templates'&&templateActive&&!practiceId;
   const labFocus=page==='paths'&&Boolean(prefs.learningPaths?.activePath)&&!practiceId;
   const mockFocus = page === "mock" && active && mockTab === "create" && !record && !practiceId;
   const lastWorkspacePage = useRef("mine");
@@ -1227,8 +1243,7 @@ export default function App() {
   }
   function openAccounts(section = 'accounts') {
     setAccountFocus(previous => ({ section, request: (previous?.request || 0) + 1 }));
-    go('settings');
-    setSettingsTab('accounts');
+    setDialog('accounts');
   }
   function startedMock(result) {
     applyWorkspace(result.workspace);
@@ -1802,7 +1817,7 @@ export default function App() {
   const todayAc = insights?.summary?.todaySolved ?? summary.todayAccepted ?? 0;
   return (
     <DifficultyDisplayProvider mode={prefs.difficultyDisplay}><DifficultyBoundsProvider rows={data?.rows||[]}><div
-      className={"app-shell " + (prefs.collapsed ? "sidebar-collapsed " : "") + (practiceId || mockFocus ? "mock-focus practice-focus" : labFocus?"lab-focus":"")}
+      className={"app-shell " + (prefs.collapsed ? "sidebar-collapsed " : "") + (practiceId || mockFocus ? "mock-focus practice-focus" : labFocus?"lab-focus":templateFocus?"template-focus practice-focus":"")}
     >
       <SoftwareUpdateNotice update={softwareUpdate} onDetails={() => { setPage('settings'); setSettingsTab('updates'); }} />
       <aside className="sidebar">
@@ -1878,7 +1893,7 @@ export default function App() {
 
           </div>
         </header>
-        <footer className={"app-statusbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}> <Tooltip text="比赛日历"><button className="achievement-top-button contest-calendar-button" aria-label="比赛日历" onClick={()=>setDialog('contest-calendar')}><CalendarClock size={18}/>{calendar.hasUnreadToday&&<i className="notification-dot" aria-hidden="true"/>}</button></Tooltip><button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><small>{(insights?.dailyTasks?.tasks || []).filter(task => task.claimed).length}/{insights?.dailyTasks?.tasks?.length || 6}</small>{(insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed)) && <i className="notification-dot" />}</button>
+        <footer className={"app-statusbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}> <Tooltip text="比赛日历"><button className="achievement-top-button contest-calendar-button" aria-label="比赛日历" onClick={()=>setDialog('contest-calendar')}><CalendarClock size={18}/>{calendar.hasUnreadToday&&<i className="notification-dot" aria-hidden="true"/>}</button></Tooltip><button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><small>{insights?.dailyTasks?.policyVersion===3?insights.dailyTasks.completedCount||0:`${(insights?.dailyTasks?.tasks||[]).filter(task=>task.claimed).length}/${insights?.dailyTasks?.tasks?.length||6}`}</small>{(insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed)) && <i className="notification-dot" />}</button>
             <button className="achievement-top-button" aria-label="成就" onClick={openAchievements}><Medal size={17} /><small>{unlockedAchievements.length}/{achievements.length}</small>{unseenAchievements.length > 0 && <i className="notification-dot" />}</button>
 {prefs.widgets && <TopbarClock />}</footer>
         {error && (
@@ -2022,7 +2037,7 @@ export default function App() {
           ) : page === "training-lists" ? (
             <TrainingListsPage rows={rows} api={api} onTrain={openPractice} visit={trainingListsVisit.current} pageSize={prefs.libraryPageSize} busy={busy} prefs={prefs} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={id=>setListProblemIds(Array.isArray(id)?id:[id])} onRemove={removeTraining}/>
           ) : page === "templates" ? (
-            <TemplatesPage api={api} shortcuts={prefs.shortcuts} visit={templatesVisit.current}/>
+            <TemplatesPage api={api} shortcuts={prefs.shortcuts} visit={templatesVisit.current} onActiveChange={setTemplateActive} onTrain={openPractice}/>
           ) : page === "paths" ? (
             <LearningPathsPage rows={rows} api={api} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} lockedProblems={active?.slots || []} visit={labVisit.current}/>
           ) : page === "lectures" ? (
@@ -2051,12 +2066,13 @@ export default function App() {
           )}
         </div>
       )}
+      {dialog === 'accounts'&&<Modal title="账号与身份" className="compact-account-modal" onClose={()=>setDialog(null)}><AccountPanel api={api} account={account} profileSnapshot={profileSnapshot} hub={hub} onProfileChanged={profileChanged} onHubChanged={setHub}/></Modal>}
       {dialog === "daily-tasks" && <Modal title="每日任务" onClose={() => setDialog(null)} wide><DailyTasks dailyTasks={insights?.dailyTasks} onClaim={async (id, date) => { try { const result = await api("daily-tasks/claim", { id, date }); backgroundSeq.current++; setInsights(previous => ({ ...previous, dailyTasks: result.dailyTasks })); notice("经验已领取", "success"); void refreshBackground(true); } catch (issue) { notice(issue.message, "error"); throw issue; } }} /></Modal>}
       {dialog === 'contest-calendar' && <Modal title="比赛日历" onClose={()=>setDialog(null)} wide><ContestCalendar calendar={calendar} onOpen={async contest=>{await reload();setCalendarContest(contest.import?.title||contest.title);setDialog(null);go("competitions");}}/></Modal>}
       {dialog === "avatar" && <Modal title="修改头像" onClose={()=>setDialog(null)}><Suspense fallback={<p role="status">正在读取…</p>}><AvatarSettings prefs={prefs} setPrefs={setPrefs} onError={message=>notice(message,"error")}/></Suspense></Modal>}
       {tourOpen && <Suspense fallback={null}><Onboarding initialGuide={tourContext} practiceId={practiceId||(mockFocus?currentMockSlot?.id:null)} onComplete={finishOnboarding} onNavigate={(target,tab)=>{go(target);if(target==="settings")setSettingsTab(tab||"home");}}/></Suspense>}
       {dialog === "achievements" && <Modal title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => setDialog(null)} wide><AchievementPanel achievements={achievements} newIds={unseenAchievements.map(item => item.id)} onSeen={markAchievementSeen} /></Modal>}
-      {dialog === "submission" && selectedSubmission && <Modal title={selectedSubmission.title + " · 历史提交"} onClose={() => setDialog(null)} wide footer={<button className="primary" onClick={() => { setDialog(null); openPractice(selectedSubmission.problemId); }}><Play size={14} />继续练习</button>}><div className="submission-detail-meta"><Verdict value={selectedSubmission.verdict} /><span>{formatDate(selectedSubmission.submittedAt)}</span><span>{selectedSubmission.contestName}</span><button className="secondary" disabled={!selectedSubmission.code} onClick={() => copy(selectedSubmission.code)}><Copy size={14} />复制本次代码</button></div><pre className="submission-source"><code>{selectedSubmission.code || "这条记录没有保存代码。"}</code></pre>{selectedSubmission.message && <p className="submission-message">{selectedSubmission.message}</p>}</Modal>}
+      {dialog === "submission" && selectedSubmission && <Modal title={selectedSubmission.title + " · 历史提交"} onClose={() => setDialog(null)} wide footer={<button className="primary" onClick={() => { setDialog(null); openPractice(selectedSubmission.problemId); }}><Play size={14} />继续练习</button>}><div className="submission-detail-meta"><Verdict value={selectedSubmission.verdict} /><span>{formatDate(selectedSubmission.submittedAt)}</span><span>{selectedSubmission.contestName}</span></div><HistoricalCode submission={selectedSubmission} api={api}/>{selectedSubmission.message && <p className="submission-message">{selectedSubmission.message}</p>}</Modal>}
       {dialog === "updates" && (
         <Modal title="消息与更新" onClose={() => setDialog(null)} wide>
           <SocialNotifications social={social} api={api}/>

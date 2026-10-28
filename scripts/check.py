@@ -34,6 +34,10 @@ def library_check():
             assert not Path(path).is_absolute(), 'Absolute source path in public content'
         tables = {row[0] for row in db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
         assert not tables.intersection({'training', 'drafts', 'submissions', 'ranking_profile', 'documents'})
+        if source.is_dir():
+            expected = {row['id'] for row in json.loads((source/'problems.json').read_text('utf8'))}
+            actual = {row[0] for row in db.execute('SELECT id FROM problems')}
+            assert actual == expected, 'Bundled SQLite is stale; rebuild it with scripts/library_seed.py build'
     print('Bundled library: ' + json.dumps(counts), flush=True)
 
 

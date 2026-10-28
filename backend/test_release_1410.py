@@ -29,6 +29,25 @@ class Release1410Tests(unittest.TestCase):
         self.assertLess(estimated['weight'],1)
         self.assertFalse(evidence(dict(difficulty=None))['known'])
 
+    def test_cf_alias_requires_same_original_namespace_and_complete_reference(self):
+        alias={'difficulty':2100,'platform':'洛谷','url':'https://www.luogu.com.cn/problem/CF1000E',
+               'difficultyEstimated':False,'difficultySource':'Codeforces 官方 rating',
+               'difficultyOfficialReference':{'contestId':1000,'index':'E',
+                   'source':'https://codeforces.com/contest/1000/problem/E',
+                   'metadataSource':'https://codeforces.com/api/problemset.problems'}}
+        self.assertEqual(evidence(alias)['kind'],'official-cf')
+        for changed in (
+            {'url':'https://www.luogu.com.cn/problem/P1000'},
+            {'url':'https://www.luogu.com.cn/problem/CF1000F'},
+            {'url':'https://www.luogu.com.cn/problem/CF1000E/other'},
+            {'difficultyOfficialReference':{**alias['difficultyOfficialReference'],'contestId':999}},
+            {'difficultyOfficialReference':{**alias['difficultyOfficialReference'],'source':'https://example.org/1000/E'}},
+            {'difficultyOfficialReference':None},
+            {'difficultyEstimated':True},
+        ):
+            with self.subTest(changed=changed):
+                self.assertNotEqual(evidence({**alias,**changed})['kind'],'official-cf')
+
     def test_receipt_refresh_bypasses_ttl_and_keeps_owner_filter(self):
         reads=[]
         def transport(url,headers):

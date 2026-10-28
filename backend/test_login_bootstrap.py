@@ -23,7 +23,7 @@ class LoginBootstrapTests(unittest.TestCase):
         original = self.server.accounts._remote
         calls = []
         def remote(method, path, *args, **kwargs):
-            if path == '/v1/accounts/state' and method == 'GET':
+            if path in ('/v1/accounts/state', '/v2/accounts/state') and method == 'GET':
                 calls.append(path); started.set()
                 self.assertTrue(release.wait(8))
             return original(method, path, *args, **kwargs)

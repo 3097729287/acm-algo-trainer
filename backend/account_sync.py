@@ -235,8 +235,15 @@ class AccountStateSync:
             self.meta = json.loads(row[0]) if row else {}
         if self.meta and (self.meta.get('owner') != self.owner or self.meta.get('endpoint') != session['endpoint']):
             raise ServiceError(409, '个人工作区所属账号不一致，请保留本地数据并检查账号设置')
+        from account_chunks import ChunkTransport
+        self.chunks=ChunkTransport(self)
 
-    def _call(self, method, path, body=None, cached_revision=None):
+    def _call(self,method,path,body=None,cached_revision=None):
+        if path=='/v1/accounts/state' and self.chunks.enabled:
+            return self.chunks.get(cached_revision) if method=='GET' else self.chunks.put(body)
+        return self._legacy_call(method,path,body,cached_revision)
+
+    def _legacy_call(self, method, path, body=None, cached_revision=None):
         timeout = 20
         if method == 'PUT' and path == '/v1/accounts/state':
             # HTTPS sendall applies its timeout to the entire compressed upload.
@@ -328,7 +335,9 @@ class AccountStateSync:
             tables = {name: [dict(row) for row in self.service.connection.execute(f'SELECT * FROM "{name}" ORDER BY ' + ','.join(keys))]
                       for name, keys in TABLES.items()}
             changes = self.service.connection.total_changes
-        return {'format': 'tb-account-state-v1', 'tables': tables, 'publicAccounts': profiles}, changes
+        state=self.chunks.canonicalize({'format':'tb-account-state-v1','tables':tables,'publicAccounts':profiles})
+        with self.service.lock:changes=self.service.connection.total_changes
+        return state,changes
 
     def _facts_signature(self):
         library = getattr(self.service.store, 'library', None)
@@ -443,7 +452,7 @@ class AccountStateSync:
     def _persist_meta(self, state, changes):
         self.meta = {'owner': self.owner, 'endpoint': self.session['endpoint'], 'revision': self.revision,
                      'syncedHash': digest(state), 'publicAccounts': state['publicAccounts'], 'lastSyncedAt': self.last_synced,
-                     'baseline': baselines(state)}
+                     'baseline': baselines(state),'transport':2 if self.chunks.enabled else 1}
         metadata = encoded(self.meta)
         with self.service.lock:
             self.service.connection.execute('INSERT INTO account_sync_meta VALUES(1,?) ON CONFLICT(id) DO UPDATE SET value=excluded.value', (metadata,))
@@ -460,11 +469,13 @@ class AccountStateSync:
             db = self.service.connection
             db.execute('BEGIN IMMEDIATE')
             try:
+                previous_codes=dict(db.execute('SELECT id,code FROM submissions'))
                 for table in TABLES:
                     rows = state['tables'].get(table, [])
                     allowed = {row[1] for row in db.execute(f'PRAGMA table_info("{table}")')}
                     db.execute(f'DELETE FROM "{table}"')
                     for row in rows:
+                        if table=='submissions':row=self.chunks.apply_code(row,previous_codes)
                         names = [name for name in row if name in allowed]
                         db.execute(f'INSERT INTO "{table}" (' + ','.join('"' + name + '"' for name in names) + ') VALUES(' + ','.join('?' for _ in names) + ')', [row[name] for name in names])
                 db.execute('COMMIT')
@@ -495,6 +506,7 @@ class AccountStateSync:
 
     def initialize(self):
         with self.operation:
+            self.chunks.negotiate()
             imported = (self.accounts.registry.get('activeOwner') == self.owner or
                         not self.meta and self.accounts.registry.get('originalOwner') == self.owner)
             # Cached portable facts are already durable. Refresh their public
@@ -529,7 +541,7 @@ class AccountStateSync:
                 state = merge_states(answer['state'], local, self.meta.get('baseline'))
             # Complete the first upload before exposing authentication. A failure
             # leaves the local workspace and session gate untouched.
-            if upload_pending or answer['state'] != state:
+            if upload_pending or answer['state'] != state or self.chunks.migrate:
                 saved = self._call('PUT', '/v1/accounts/state', {'revision': self.revision, 'state': state})
                 self.revision = saved['revision']
                 self.last_synced = saved['savedAt']

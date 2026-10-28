@@ -34,13 +34,14 @@ class JournalTests(unittest.TestCase):
 
     def test_claim_finishes_without_computing_insights_or_assigning_goals(self):
         self.accept()
-        with patch('daily_rotation.tasks_for',return_value=[dict(task) for task in __import__('progression').TASKS[:3]]), \
+        with patch('daily_chains.tasks_for',return_value=[dict(task) for task in __import__('progression').TASKS[:3]]), \
              patch.object(self.service,'insights',side_effect=AssertionError('heavy read on claim')), \
              patch('goals.Goals.list',side_effect=AssertionError('goal assignment on claim')):
-            value=self.service.claim_daily_task('solve-1')
+            value=self.service.claim_daily_task('ac-chain:0')
         self.assertEqual(value['awardedXp'],25)
         self.assertEqual(value['dailyTasks']['claimable'],0)
-        self.assertTrue(value['dailyTasks']['tasks'][0]['claimed'])
+        self.assertEqual(value['dailyTasks']['tasks'][0]['target'],2)
+        self.assertFalse(value['dailyTasks']['tasks'][0]['claimed'])
         self.assertEqual(self.service.insights()['growth']['missionXp'],25)
 
     def test_insights_cache_invalidates_on_writes_library_changes_and_day(self):

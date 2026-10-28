@@ -6,7 +6,7 @@ from unittest.mock import patch
 
 import test_training as fixtures
 from training import TrainingService, ServiceError, iso, UTC
-from reviews import ReviewScheduler, interval_after_pass
+from reviews import ReviewScheduler, interval_after_pass, reward_totals
 
 
 class ReviewTests(unittest.TestCase):
@@ -22,6 +22,11 @@ class ReviewTests(unittest.TestCase):
     def due(self, identity='fixture::A'):
         return next(r for r in self.service.workspace()['reviews']['tasks'] if r['problemId'] == identity)
 
+    def seed(self, identity='fixture::A'):
+        self.receipt(identity, verdict='WA')
+        self.clock.advance(seconds=1)
+        return self.receipt(identity)
+
     def open(self, identity='fixture::A'):
         task = self.due(identity)
         self.service.problem(identity, review_id=task['id'])
@@ -30,7 +35,7 @@ class ReviewTests(unittest.TestCase):
     def state(self, identity='fixture::A'):
         return next(json.loads(r[0]) for r in self.service.connection.execute("SELECT value FROM account_preferences WHERE key LIKE 'review-state:%'") if json.loads(r[0])['key'] == identity)
 
-    def test_elementary_url_is_excluded_with_compact_metadata_and_receipts_preserved(self):
+    def test_clean_basic_language_pass_preserves_draft_and_receipt_without_a_review(self):
         row=self.library.rows[0]
         row['url']='https://www.luogu.com.cn/problem/P1001'
         self.assertNotIn('reviewTrivial',row)
@@ -45,15 +50,23 @@ class ReviewTests(unittest.TestCase):
 
     def test_first_review_uses_next_beijing_day_not_fixed_week_or_24_hours(self):
         self.clock.value = dt.datetime(2026,10,8,15,58,tzinfo=UTC)
-        self.receipt()
+        self.seed()
         self.assertEqual(self.service.review_plan()['tasks'], [])
         self.clock.advance(minutes=3)
         self.assertEqual(self.due()['due'], '2026-10-09')
         self.assertEqual(self.service.start_training('fixture::A')['reviewTask']['id'], self.due()['id'])
 
+    def test_basic_language_exercise_with_a_real_wa_is_also_reviewed(self):
+        row=self.library.rows[0]
+        row['url']='https://www.luogu.com.cn/problem/P1001'
+        problem=dict(self.assets.problem(row['id']),url=row['url'])
+        with patch.object(self.assets,'problem',return_value=problem):self.seed()
+        self.clock.advance(days=1)
+        self.assertEqual(self.due()['problemId'],row['id'])
+
     def test_review_code_is_separate_across_rounds_languages_and_restart(self):
         self.service.save_draft('fixture::A', 'yesterday complete code', language='python3')
-        original = self.receipt()
+        original = self.seed()
         self.clock.advance(days=1)
         task = self.open()
         fresh = self.service.problem('fixture::A', review_id=task['id'])
@@ -83,7 +96,7 @@ class ReviewTests(unittest.TestCase):
         self.assertGreater(clean[1], hard[1])
         self.assertGreater(clean[1], failed[1])
         self.assertEqual(interval_after_pass(30,1800,1600,assisted=True)[1],1)
-        self.receipt();self.clock.advance(days=1);task=self.open()
+        self.seed();self.clock.advance(days=1);task=self.open()
         self.receipt(verdict='WA',review_id=task['id'])
         first = self.service.workspace()
         self.assertEqual(first['reviews']['tasks'][0]['id'],task['id'])
@@ -95,13 +108,15 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(self.state()['lapses'],1)
 
     def test_old_solution_read_does_not_taint_fresh_review_but_current_read_does(self):
-        self.service.mark_solution_seen('fixture::A');self.clock.advance(minutes=1);self.receipt()
+        self.service.mark_solution_seen('fixture::A');self.clock.advance(minutes=1);self.seed()
         self.clock.advance(days=1);task=self.open();self.clock.advance(minutes=10)
         receipt=self.receipt(review_id=task['id'])
         self.assertFalse(self.service.connection.execute('SELECT solution_seen FROM submissions WHERE id=?',(receipt['id'],)).fetchone()[0])
         self.service.workspace();self.assertEqual(self.state()['successes'],1)
         self.clock.advance(days=10);task=self.open();self.clock.advance(minutes=1)
         self.service.mark_solution_seen('fixture::A');self.clock.advance(minutes=1)
+        self.receipt(verdict='WA',review_id=task['id'])
+        self.clock.advance(seconds=1)
         self.receipt(review_id=task['id']);self.service.workspace()
         self.assertEqual(self.state()['successes'],0)
         self.assertEqual(self.state()['due'],(self.clock().date()+dt.timedelta(days=1)).isoformat())
@@ -113,7 +128,7 @@ class ReviewTests(unittest.TestCase):
             self.service.remove_training('fixture::'+chr(65+i))
         self.library.rows[5]['difficulty']=1400
         self.library.rows[6]['difficulty']=None
-        self.receipt('fixture::F');self.receipt('fixture::G')
+        self.seed('fixture::F');self.seed('fixture::G')
         self.clock.advance(days=1)
         easy=self.open('fixture::F');unknown=self.open('fixture::G')
         self.receipt('fixture::F',review_id=easy['id']);self.receipt('fixture::G',review_id=unknown['id'])
@@ -126,7 +141,7 @@ class ReviewTests(unittest.TestCase):
 
     def test_large_backlog_caps_day_defers_new_goals_and_does_not_refill(self):
         from goals import Goals
-        for row in self.library.rows:self.receipt(row['id'])
+        for row in self.library.rows:self.seed(row['id'])
         self.clock.advance(days=1)
         first=self.service.review_plan()
         self.assertLessEqual(len(first['tasks']),8)
@@ -145,7 +160,7 @@ class ReviewTests(unittest.TestCase):
         self.assertTrue(self.service.review_plan()['tasks'])
 
     def test_samples_and_unbound_or_early_receipts_do_not_complete_review(self):
-        self.receipt();self.clock.advance(days=1);task=self.open()
+        self.seed();self.clock.advance(days=1);task=self.open()
         result=self.service.submit('fixture::A','AC',mode='run',review_id=task['id'])
         self.judge.release.set()
         self.receipt() # ordinary practice receipt is distinct from the review
@@ -155,7 +170,7 @@ class ReviewTests(unittest.TestCase):
         self.assertTrue(self.service.submission(result['submission']['id']))
 
     def test_context_validation_and_removed_training_preserve_journal(self):
-        self.receipt();self.clock.advance(days=1);task=self.open()
+        self.seed();self.clock.advance(days=1);task=self.open()
         for identity,review_id,contest in [('fixture::B',task['id'],None),('fixture::A','bad',None),('fixture::A',task['id'],'fake')]:
             with self.assertRaises(ServiceError):
                 self.service.review_task(identity,review_id,contest,open_task=True)
@@ -165,7 +180,7 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(self.service.problem('fixture::A',review_id=task['id'])['draft'],'preserve review')
 
     def test_session_binding_survives_pending_restore_and_duplicate_result(self):
-        self.receipt();self.clock.advance(days=1);task=self.open()
+        self.seed();self.clock.advance(days=1);task=self.open()
         with self.service.lock,self.service._write() as db:
             ReviewScheduler(self.service).session(db,'native-session',task['id'])
         record=self.receipt(sessionId='native-session')
@@ -173,6 +188,70 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(self.service.problem('fixture::A',review_id=task['id'])['submissions'][0]['id'],record['id'])
         state=self.state()
         self.service.workspace();self.assertEqual(self.state(),state)
+
+    def test_clean_first_pass_and_other_verdicts_do_not_create_next_day_reviews(self):
+        self.receipt()
+        for letter,verdict in zip('BCDE',['CE','TLE','RE','MLE']):
+            self.receipt('fixture::'+letter,verdict=verdict)
+            self.receipt('fixture::'+letter)
+        self.clock.advance(days=1)
+        self.assertEqual(self.service.review_plan()['tasks'],[])
+        self.assertEqual(reward_totals(self.service),{'xp':0,'count':0})
+
+    def test_wa_without_ac_is_due_tomorrow_and_later_ac_does_not_move_anchor(self):
+        self.clock.value=dt.datetime(2026,10,8,15,58,tzinfo=UTC)
+        self.receipt(verdict='WA')
+        self.assertEqual(self.service.review_plan()['tasks'],[])
+        self.clock.advance(minutes=3)
+        task=self.due()
+        self.assertEqual(task['due'],'2026-10-09')
+        self.receipt()
+        self.assertEqual(self.due()['id'],task['id'])
+        self.clock.advance(days=1)
+        self.assertEqual(self.due()['id'],task['id'])
+
+    def test_clean_legacy_plan_leaves_queue_but_preserves_old_review_draft(self):
+        self.receipt()
+        scheduler=ReviewScheduler(self.service)
+        old={'id':'a'*32,'problemId':'fixture::A','problemKey':'fixture::A','due':'2026-10-09','openedAt':None,'completedAt':None,'failures':[],'processed':[]}
+        with self.service._write() as db:scheduler.save(db,'review-task:'+old['id'],old)
+        self.clock.advance(days=1)
+        self.service.save_draft('fixture::A','old review code',review_id=old['id'])
+        self.assertEqual(self.service.review_plan()['tasks'],[])
+        self.assertEqual(self.service.problem('fixture::A',review_id=old['id'])['draft'],'old review code')
+
+    def test_next_day_reward_is_immediate_once_and_survives_restart(self):
+        self.seed();self.clock.advance(days=1);task=self.open()
+        before=self.service.insights()['growth']['xp']
+        self.clock.advance(minutes=1)
+        result=self.receipt(review_id=task['id'])
+        self.assertEqual(result['reviewRewardXp'],20)
+        growth=self.service.insights()['growth']
+        self.assertEqual((growth['reviewXp'],growth['rewardedReviews']),(20,1))
+        self.assertEqual(growth['xp'],before+20)
+        self.receipt(review_id=task['id'])
+        self.assertEqual(reward_totals(self.service),{'xp':20,'count':1})
+        self.service.close()
+        self.service=TrainingService(self.library,self.db,self.assets,self.judge,self.clock,self.root/'backups')
+        self.assertEqual(self.service.submission(result['id'])['submission']['reviewRewardXp'],20)
+        self.assertEqual(self.service.insights()['growth']['reviewXp'],20)
+
+    def test_sample_and_unbound_accept_do_not_receive_review_reward(self):
+        self.seed();self.clock.advance(days=1);task=self.open()
+        self.service.submit('fixture::A','AC',mode='run',review_id=task['id'])
+        self.judge.release.set()
+        self.receipt()
+        self.assertEqual(reward_totals(self.service)['xp'],0)
+        self.assertEqual(self.due()['id'],task['id'])
+
+    def test_assisted_clean_review_is_not_queued_again_tomorrow(self):
+        self.seed();self.clock.advance(days=1);task=self.open()
+        self.clock.advance(minutes=1);self.service.mark_solution_seen('fixture::A')
+        self.clock.advance(minutes=1);self.receipt(review_id=task['id'])
+        self.service.workspace()
+        self.assertGreaterEqual((dt.date.fromisoformat(self.state()['due'])-self.clock().date()).days,2)
+        self.clock.advance(days=1)
+        self.assertEqual(self.service.review_plan()['tasks'],[])
 
 
 if __name__=='__main__':unittest.main()

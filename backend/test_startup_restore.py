@@ -27,13 +27,13 @@ class StartupRestoreTests(unittest.TestCase):
         original=self.server.accounts._remote
         def remote(method,path,*args,**kwargs):
             calls.append((method,path))
-            if method == 'GET' and path == '/v1/accounts/state': revisions.append(kwargs.get('state_revision'))
+            if method == 'GET' and path == '/v2/accounts/state': revisions.append(kwargs.get('state_revision'))
             return original(method,path,*args,**kwargs)
         with patch.object(self.server.accounts,'_remote',side_effect=remote), patch.object(AccountStateSync,'start'), patch.object(AccountStateSync,'_apply',side_effect=AssertionError('unchanged tables must not be replaced')):
             status,value=self.call('/api/account')
         self.assertEqual(status,200,value)
         self.assertTrue(value['authenticated'])
-        self.assertEqual([call for call in calls if call[0]=='GET'],[('GET','/v1/accounts/state')])
+        self.assertEqual([call for call in calls if call[0]=='GET'],[('GET','/v2/accounts/state')])
         self.assertTrue(revisions[0] > 0)
         self.assertEqual(self.server.training.problem('fixture::A')['draft'],'startup draft')
 
@@ -60,7 +60,7 @@ class StartupRestoreTests(unittest.TestCase):
         original=self.server.accounts._remote
         def remote(method,path,*args,**kwargs):
             answer=original(method,path,*args,**kwargs)
-            if path == '/v1/accounts/state':
+            if path == '/v2/accounts/state':
                 calls.append((method,answer.get('unchanged'),kwargs.get('state_revision')))
                 self.assertIsNone(self.server.accounts.session)
             return answer
@@ -81,7 +81,7 @@ class StartupRestoreTests(unittest.TestCase):
         original=self.server.accounts._remote
         from training import ServiceError
         def remote(method,path,*args,**kwargs):
-            if method == 'PUT' and path == '/v1/accounts/state':
+            if method == 'PUT' and path == '/v2/accounts/state':
                 raise ServiceError(503,'fixture upload unavailable')
             return original(method,path,*args,**kwargs)
         with patch.object(self.server.accounts,'_remote',side_effect=remote), patch.object(AccountStateSync,'start'):

@@ -567,14 +567,16 @@ class ExternalBrowserBridge:
 
 
 class ExternalBrowserPreparation:
-    def __init__(self, bridge):
-        self.bridge = bridge
+    def __init__(self, bridge, logins=None):
+        self.bridge, self.logins = bridge, logins
 
     def snapshot(self):
         available = browsers()
+        identities = self.logins.snapshot() if self.logins else {'platforms': {}}
         return {'available': True, 'mode': 'external', 'ready': any(available.values()), 'preferredBrowser': self.bridge.browser.preferred,
+                'loginSequenceBusy': identities.get('busy', False),
                 'browsers': [{'id': key, 'available': bool(path)} for key, path in available.items()],
-                'platforms': [{'platform': key, 'state': 'browser_owned', 'loginUrl': url} for key, url in {
+                'platforms': [{'platform': key, 'state': 'browser_owned', **identities['platforms'].get(key, {}), 'loginUrl': url} for key, url in {
                     'Codeforces':'https://codeforces.com/enter', 'AtCoder':'https://atcoder.jp/login',
                     '牛客':'https://ac.nowcoder.com/login', '洛谷':'https://www.luogu.com.cn/auth/login'}.items()]}
 
@@ -585,6 +587,10 @@ class ExternalBrowserPreparation:
 
     def action(self, body):
         action = body.get('action')
+        if action == 'startup-logins':
+            if set(body) != {'action'} or self.logins is None:
+                raise ServiceError(400, '平台登录准备无效')
+            return self.logins.start()
         if action == 'refresh':
             return self.snapshot()
         if action == 'open-login':

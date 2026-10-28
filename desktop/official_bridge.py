@@ -9,14 +9,14 @@ import sys
 from pathlib import Path
 from urllib.parse import urlsplit,urlunsplit,urlencode
 
-HOSTS={'codeforces.com':'Codeforces','www.codeforces.com':'Codeforces','atcoder.jp':'AtCoder','ac.nowcoder.com':'牛客','www.luogu.com.cn':'洛谷','luogu.com.cn':'洛谷'}
-LOGIN_HOSTS={'Codeforces':{'codeforces.com','www.codeforces.com'},'AtCoder':{'atcoder.jp'},'牛客':{'ac.nowcoder.com','nowcoder.com','www.nowcoder.com'},'洛谷':{'www.luogu.com.cn','luogu.com.cn','login.luogu.com.cn'}}
+HOSTS={'codeforces.com':'Codeforces','www.codeforces.com':'Codeforces','atcoder.jp':'AtCoder','ac.nowcoder.com':'牛客','www.luogu.com.cn':'洛谷','luogu.com.cn':'洛谷','qoj.ac':'QOJ'}
+LOGIN_HOSTS={'Codeforces':{'codeforces.com','www.codeforces.com'},'AtCoder':{'atcoder.jp'},'牛客':{'ac.nowcoder.com','nowcoder.com','www.nowcoder.com'},'洛谷':{'www.luogu.com.cn','luogu.com.cn','login.luogu.com.cn'},'QOJ':{'qoj.ac'}}
 STATUSES={'loading','needs_login','needs_verification','ready','submitted','judging','finished','error','closed','hidden'}
 
 def submission_target(url):
     import re
     p=urlsplit(url or '');platform=HOSTS.get((p.hostname or '').lower());problem='';path=p.path
-    if not platform or p.scheme not in ('https','http') or p.username or p.password or p.port not in (None,80,443):raise ValueError('只能打开题库中四个竞赛平台的官方题目地址')
+    if not platform or p.scheme not in ('https','http') or p.username or p.password or p.port not in (None,80,443):raise ValueError('只能打开题库支持的竞赛平台官方题目地址')
     if platform=='Codeforces':
         m=re.fullmatch(r'/(contest|gym)/(\d+)/problem/([A-Za-z]\d?)',path)
         if m:kind,contest,problem=m.groups();path=f'/{kind}/{contest}/submit'
@@ -31,18 +31,24 @@ def submission_target(url):
     elif platform=='牛客':
         if not re.fullmatch(r'/acm/contest/\d+/[A-Za-z]\d?',path):raise ValueError('牛客题目地址无效')
         problem=path.rsplit('/',1)[-1]
+    elif platform=='QOJ':
+        m=re.fullmatch(r'/problem/([1-9]\d*)',path)
+        if not m or p.scheme!='https' or p.port not in (None,443) or p.query:raise ValueError('QOJ 题目地址无效')
+        problem=m[1]
     elif not re.fullmatch(r'/problem/[A-Za-z0-9_]+',path):raise ValueError('洛谷题目地址无效')
     query=urlencode({'taskScreenName':problem}) if platform=='AtCoder' else ''
     origin = urlunsplit(('https', p.netloc, '', '', ''))
-    login_path = {'Codeforces': '/enter', 'AtCoder': '/login', '牛客': '/login', '洛谷': '/auth/login'}[platform]
-    return {'platform':platform,'url':urlunsplit(('https',p.netloc,path,query,'submit' if platform=='洛谷' else '')),
+    login_path = {'Codeforces': '/enter', 'AtCoder': '/login', '牛客': '/login', '洛谷': '/auth/login','QOJ':'/login'}[platform]
+    return {'platform':platform,'url':urlunsplit(('https',p.netloc,path,query,'submit' if platform=='洛谷' else 'tab-submit' if platform=='QOJ' else '')),
             'loginUrl': origin + login_path, 'problem':problem,'originalUrl':url}
 
 def page_source():
     asset_root=Path(sys.executable).resolve().parent if getattr(sys,'frozen',False) else Path(__file__).resolve().parent
     source=(asset_root/'official_page.js').read_text(encoding='utf-8')
-    for marker, filename in [('COMPILER_SELECTION','official_languages.js'), ('NOWCODER_RECEIPTS','official_nowcoder.js'), ('LUOGU_RECEIPTS','official_luogu.js')]:
-        source=source.replace(marker,(asset_root/filename).read_text(encoding='utf-8'),1)
+    for marker, filename in [('COMPILER_SELECTION','official_languages.js'), ('NOWCODER_RECEIPTS','official_nowcoder.js'), ('LUOGU_RECEIPTS','official_luogu.js'),('QOJ_ADAPTER','official_qoj.js')]:
+        path=asset_root/filename
+        if marker=='QOJ_ADAPTER' and not path.is_file():path=asset_root/'resources'/filename
+        source=source.replace(marker,path.read_text(encoding='utf-8'),1)
     return source
 
 

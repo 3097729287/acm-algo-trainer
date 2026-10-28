@@ -14,6 +14,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-100",
     "officialProblemCount": 15,
+    "problemCount": 15,
     "problems": [
       {
         "pid": "B2002",
@@ -124,6 +125,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-101",
     "officialProblemCount": 18,
+    "problemCount": 18,
     "problems": [
       {
         "pid": "P2433",
@@ -252,6 +254,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-102",
     "officialProblemCount": 21,
+    "problemCount": 21,
     "problems": [
       {
         "pid": "P5718",
@@ -398,6 +401,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-103",
     "officialProblemCount": 20,
+    "problemCount": 20,
     "problems": [
       {
         "pid": "P1428",
@@ -538,6 +542,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-104",
     "officialProblemCount": 15,
+    "problemCount": 15,
     "problems": [
       {
         "pid": "P5733",
@@ -648,6 +653,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-105",
     "officialProblemCount": 15,
+    "problemCount": 15,
     "problems": [
       {
         "pid": "P5735",
@@ -758,6 +764,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-106",
     "officialProblemCount": 16,
+    "problemCount": 16,
     "problems": [
       {
         "pid": "P1042",
@@ -874,6 +881,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-107",
     "officialProblemCount": 12,
+    "problemCount": 12,
     "problems": [
       {
         "pid": "P1271",
@@ -966,6 +974,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-108",
     "officialProblemCount": 14,
+    "problemCount": 14,
     "problems": [
       {
         "pid": "P2241",
@@ -1070,6 +1079,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-109",
     "officialProblemCount": 15,
+    "problemCount": 15,
     "problems": [
       {
         "pid": "P1255",
@@ -1180,6 +1190,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-110",
     "officialProblemCount": 14,
+    "problemCount": 14,
     "problems": [
       {
         "pid": "P2240",
@@ -1284,6 +1295,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-111",
     "officialProblemCount": 11,
+    "problemCount": 11,
     "problems": [
       {
         "pid": "P2249",
@@ -1370,6 +1382,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-112",
     "officialProblemCount": 16,
+    "problemCount": 16,
     "problems": [
       {
         "pid": "P1219",
@@ -1486,6 +1499,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-113",
     "officialProblemCount": 10,
+    "problemCount": 10,
     "problems": [
       {
         "pid": "P3156",
@@ -1566,6 +1580,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-114",
     "officialProblemCount": 10,
+    "problemCount": 10,
     "problems": [
       {
         "pid": "P4715",
@@ -1646,6 +1661,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-115",
     "officialProblemCount": 15,
+    "problemCount": 15,
     "problems": [
       {
         "pid": "P1551",
@@ -1756,6 +1772,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-116",
     "officialProblemCount": 10,
+    "problemCount": 9,
     "problems": [
       {
         "pid": "P5318",
@@ -1806,12 +1823,6 @@
         "url": "https://www.luogu.com.cn/problem/P1363"
       },
       {
-        "pid": "P1347",
-        "problemId": "luogu-training-P1347",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P1347"
-      },
-      {
         "pid": "P1983",
         "problemId": "luogu-training-P1983",
         "sections": [],
@@ -1836,6 +1847,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-117",
     "officialProblemCount": 24,
+    "problemCount": 23,
     "problems": [
       {
         "pid": "P1143",
@@ -1890,12 +1902,6 @@
         "problemId": "luogu-training-P2638",
         "sections": [],
         "url": "https://www.luogu.com.cn/problem/P2638"
-      },
-      {
-        "pid": "P1246",
-        "problemId": "luogu-training-P1246",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P1246"
       },
       {
         "pid": "P2926",
@@ -2000,6 +2006,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-200",
     "officialProblemCount": 18,
+    "problemCount": 18,
     "problems": [
       {
         "pid": "P8218",
@@ -2128,6 +2135,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-201",
     "officialProblemCount": 20,
+    "problemCount": 20,
     "problems": [
       {
         "pid": "P1102",
@@ -2268,6 +2276,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-202",
     "officialProblemCount": 18,
+    "problemCount": 18,
     "problems": [
       {
         "pid": "P1177",
@@ -2396,6 +2405,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-203",
     "officialProblemCount": 16,
+    "problemCount": 16,
     "problems": [
       {
         "pid": "P3375",
@@ -2512,6 +2522,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-204",
     "officialProblemCount": 15,
+    "problemCount": 14,
     "problems": [
       {
         "pid": "P1036",
@@ -2524,12 +2535,6 @@
         "problemId": "luogu-training-P1433",
         "sections": [],
         "url": "https://www.luogu.com.cn/problem/P1433"
-      },
-      {
-        "pid": "P1120",
-        "problemId": "luogu-training-P1120",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P1120"
       },
       {
         "pid": "P1763",
@@ -2622,6 +2627,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-205",
     "officialProblemCount": 17,
+    "problemCount": 17,
     "problems": [
       {
         "pid": "P3378",
@@ -2744,6 +2750,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-206",
     "officialProblemCount": 16,
+    "problemCount": 16,
     "problems": [
       {
         "pid": "P3372",
@@ -2860,6 +2867,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-207",
     "officialProblemCount": 22,
+    "problemCount": 22,
     "problems": [
       {
         "pid": "P5908",
@@ -3012,6 +3020,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-208",
     "officialProblemCount": 19,
+    "problemCount": 19,
     "problems": [
       {
         "pid": "P4779",
@@ -3146,6 +3155,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-209",
     "officialProblemCount": 11,
+    "problemCount": 11,
     "problems": [
       {
         "pid": "P3366",
@@ -3232,6 +3242,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-210",
     "officialProblemCount": 17,
+    "problemCount": 17,
     "problems": [
       {
         "pid": "P1656",
@@ -3354,6 +3365,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-211",
     "officialProblemCount": 18,
+    "problemCount": 18,
     "problems": [
       {
         "pid": "P2842",
@@ -3482,6 +3494,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-212",
     "officialProblemCount": 17,
+    "problemCount": 17,
     "problems": [
       {
         "pid": "P1020",
@@ -3604,6 +3617,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-213",
     "officialProblemCount": 12,
+    "problemCount": 11,
     "problems": [
       {
         "pid": "P1435",
@@ -3634,12 +3648,6 @@
         "problemId": "luogu-training-P1880",
         "sections": [],
         "url": "https://www.luogu.com.cn/problem/P1880"
-      },
-      {
-        "pid": "P1140",
-        "problemId": "luogu-training-P1140",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P1140"
       },
       {
         "pid": "P4170",
@@ -3696,6 +3704,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-214",
     "officialProblemCount": 17,
+    "problemCount": 16,
     "problems": [
       {
         "pid": "P1352",
@@ -3750,12 +3759,6 @@
         "problemId": "luogu-training-P1122",
         "sections": [],
         "url": "https://www.luogu.com.cn/problem/P1122"
-      },
-      {
-        "pid": "P2016",
-        "problemId": "luogu-training-P2016",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P2016"
       },
       {
         "pid": "P2585",
@@ -3818,6 +3821,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-215",
     "officialProblemCount": 21,
+    "problemCount": 21,
     "problems": [
       {
         "pid": "P1896",
@@ -3964,6 +3968,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-216",
     "officialProblemCount": 22,
+    "problemCount": 22,
     "problems": [
       {
         "pid": "P1516",
@@ -4116,6 +4121,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-217",
     "officialProblemCount": 19,
+    "problemCount": 19,
     "problems": [
       {
         "pid": "P3197",
@@ -4250,6 +4256,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-218",
     "officialProblemCount": 9,
+    "problemCount": 9,
     "problems": [
       {
         "pid": "P2719",
@@ -4324,6 +4331,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-219",
     "officialProblemCount": 12,
+    "problemCount": 12,
     "problems": [
       {
         "pid": "P1962",
@@ -4416,6 +4424,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-221",
     "officialProblemCount": 13,
+    "problemCount": 13,
     "problems": [
       {
         "pid": "P3834",
@@ -4514,6 +4523,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-225",
     "officialProblemCount": 19,
+    "problemCount": 19,
     "problems": [
       {
         "pid": "P2513",
@@ -4648,6 +4658,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1033453",
     "officialProblemCount": 165,
+    "problemCount": 165,
     "problems": [
       {
         "pid": "P8938",
@@ -5658,6 +5669,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1033454",
     "officialProblemCount": 149,
+    "problemCount": 149,
     "problems": [
       {
         "pid": "P10056",
@@ -6572,6 +6584,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1033455",
     "officialProblemCount": 164,
+    "problemCount": 164,
     "problems": [
       {
         "pid": "P11768",
@@ -7576,6 +7589,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-944619",
     "officialProblemCount": 26,
+    "problemCount": 25,
     "problems": [
       {
         "pid": "P4499",
@@ -7662,12 +7676,6 @@
         "url": "https://www.luogu.com.cn/problem/P12264"
       },
       {
-        "pid": "P12304",
-        "problemId": "luogu-training-P12304",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P12304"
-      },
-      {
         "pid": "P12417",
         "problemId": "luogu-training-P12417",
         "sections": [],
@@ -7752,6 +7760,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1033466",
     "officialProblemCount": 41,
+    "problemCount": 41,
     "problems": [
       {
         "pid": "B3648",
@@ -8018,6 +8027,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1033467",
     "officialProblemCount": 97,
+    "problemCount": 97,
     "problems": [
       {
         "pid": "B3696",
@@ -8620,6 +8630,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1033468",
     "officialProblemCount": 97,
+    "problemCount": 97,
     "problems": [
       {
         "pid": "B3913",
@@ -9222,6 +9233,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1033469",
     "officialProblemCount": 95,
+    "problemCount": 95,
     "problems": [
       {
         "pid": "B4120",
@@ -9820,6 +9832,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-551",
     "officialProblemCount": 32,
+    "problemCount": 32,
     "problems": [
       {
         "pid": "B3846",
@@ -10040,6 +10053,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-552",
     "officialProblemCount": 32,
+    "problemCount": 32,
     "problems": [
       {
         "pid": "B3844",
@@ -10260,6 +10274,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-553",
     "officialProblemCount": 30,
+    "problemCount": 30,
     "problems": [
       {
         "pid": "B3848",
@@ -10468,6 +10483,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-554",
     "officialProblemCount": 30,
+    "problemCount": 30,
     "problems": [
       {
         "pid": "B3939",
@@ -10676,6 +10692,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-555",
     "officialProblemCount": 28,
+    "problemCount": 28,
     "problems": [
       {
         "pid": "B3941",
@@ -10872,6 +10889,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-556",
     "officialProblemCount": 28,
+    "problemCount": 28,
     "problems": [
       {
         "pid": "P10250",
@@ -11068,6 +11086,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-557",
     "officialProblemCount": 26,
+    "problemCount": 26,
     "problems": [
       {
         "pid": "P10265",
@@ -11252,6 +11271,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-558",
     "officialProblemCount": 26,
+    "problemCount": 26,
     "problems": [
       {
         "pid": "P10288",
@@ -11428,6 +11448,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1004945",
     "officialProblemCount": 28,
+    "problemCount": 28,
     "problems": [
       {
         "pid": "P5660",
@@ -11616,6 +11637,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1004946",
     "officialProblemCount": 30,
+    "problemCount": 30,
     "problems": [
       {
         "pid": "P5657",
@@ -11816,6 +11838,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1004947",
     "officialProblemCount": 46,
+    "problemCount": 46,
     "problems": [
       {
         "pid": "P1563",
@@ -12112,6 +12135,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-560",
     "officialProblemCount": 42,
+    "problemCount": 0,
     "problems": [],
     "title": "蓝桥杯 C/C++ A 组省赛真题",
     "url": "https://www.luogu.com.cn/training/560"
@@ -12131,6 +12155,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-561",
     "officialProblemCount": 49,
+    "problemCount": 0,
     "problems": [],
     "title": "蓝桥杯 C/C++ B 组省赛真题",
     "url": "https://www.luogu.com.cn/training/561"
@@ -12150,6 +12175,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-562",
     "officialProblemCount": 34,
+    "problemCount": 0,
     "problems": [],
     "title": "蓝桥杯 Python A 组省赛真题",
     "url": "https://www.luogu.com.cn/training/562"
@@ -12169,6 +12195,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-563",
     "officialProblemCount": 44,
+    "problemCount": 0,
     "problems": [],
     "title": "蓝桥杯 Python B 组省赛真题",
     "url": "https://www.luogu.com.cn/training/563"
@@ -12188,6 +12215,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-564",
     "officialProblemCount": 34,
+    "problemCount": 0,
     "problems": [],
     "title": "蓝桥杯 Java A 组省赛真题",
     "url": "https://www.luogu.com.cn/training/564"
@@ -12207,6 +12235,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-565",
     "officialProblemCount": 44,
+    "problemCount": 0,
     "problems": [],
     "title": "蓝桥杯 Java B 组省赛真题",
     "url": "https://www.luogu.com.cn/training/565"
@@ -12226,6 +12255,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-505362",
     "officialProblemCount": 27,
+    "problemCount": 0,
     "problems": [],
     "title": "基本算法-例题（李煜东《算法竞赛进阶指南》）",
     "url": "https://www.luogu.com.cn/training/505362"
@@ -12245,6 +12275,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-503750",
     "officialProblemCount": 12,
+    "problemCount": 0,
     "problems": [],
     "title": "基本算法-习题（李煜东《算法竞赛进阶指南》）",
     "url": "https://www.luogu.com.cn/training/503750"
@@ -12264,6 +12295,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-506746",
     "officialProblemCount": 22,
+    "problemCount": 0,
     "problems": [],
     "title": "基本数据结构-例题（李煜东《算法竞赛进阶指南》）",
     "url": "https://www.luogu.com.cn/training/506746"
@@ -12283,6 +12315,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-504516",
     "officialProblemCount": 14,
+    "problemCount": 0,
     "problems": [],
     "title": "基本数据结构-习题（李煜东《算法竞赛进阶指南》）",
     "url": "https://www.luogu.com.cn/training/504516"
@@ -12302,6 +12335,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-506754",
     "officialProblemCount": 20,
+    "problemCount": 0,
     "problems": [],
     "title": "搜索-例题（李煜东《算法竞赛进阶指南》）",
     "url": "https://www.luogu.com.cn/training/506754"
@@ -12321,6 +12355,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-504581",
     "officialProblemCount": 13,
+    "problemCount": 0,
     "problems": [],
     "title": "搜索-习题（李煜东《算法竞赛进阶指南》）",
     "url": "https://www.luogu.com.cn/training/504581"
@@ -12340,6 +12375,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-506768",
     "officialProblemCount": 24,
+    "problemCount": 0,
     "problems": [],
     "title": "数学知识-例题（李煜东《算法竞赛进阶指南》）",
     "url": "https://www.luogu.com.cn/training/506768"
@@ -12359,6 +12395,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-504623",
     "officialProblemCount": 17,
+    "problemCount": 0,
     "problems": [],
     "title": "数学知识-习题（李煜东《算法竞赛进阶指南》）",
     "url": "https://www.luogu.com.cn/training/504623"
@@ -12378,6 +12415,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-506779",
     "officialProblemCount": 21,
+    "problemCount": 0,
     "problems": [],
     "title": "数据结构进阶-例题（李煜东《算法竞赛进阶指南》）",
     "url": "https://www.luogu.com.cn/training/506779"
@@ -12397,6 +12435,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-504649",
     "officialProblemCount": 14,
+    "problemCount": 0,
     "problems": [],
     "title": "数据结构进阶-习题（李煜东《算法竞赛进阶指南》）",
     "url": "https://www.luogu.com.cn/training/504649"
@@ -12416,6 +12455,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-506816",
     "officialProblemCount": 43,
+    "problemCount": 0,
     "problems": [],
     "title": "动态规划-例题（李煜东《算法竞赛进阶指南》）",
     "url": "https://www.luogu.com.cn/training/506816"
@@ -12435,6 +12475,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-505327",
     "officialProblemCount": 31,
+    "problemCount": 0,
     "problems": [],
     "title": "动态规划-习题（李煜东《算法竞赛进阶指南》）",
     "url": "https://www.luogu.com.cn/training/505327"
@@ -12454,6 +12495,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-506837",
     "officialProblemCount": 42,
+    "problemCount": 0,
     "problems": [],
     "title": "图论-例题（李煜东《算法竞赛进阶指南》）",
     "url": "https://www.luogu.com.cn/training/506837"
@@ -12473,6 +12515,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-505477",
     "officialProblemCount": 30,
+    "problemCount": 0,
     "problems": [],
     "title": "图论-习题（李煜东《算法竞赛进阶指南》）",
     "url": "https://www.luogu.com.cn/training/505477"
@@ -12492,6 +12535,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-735856",
     "officialProblemCount": 5,
+    "problemCount": 0,
     "problems": [],
     "title": "第一部分-第一章",
     "url": "https://www.luogu.com.cn/training/735856"
@@ -12511,6 +12555,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-735866",
     "officialProblemCount": 30,
+    "problemCount": 0,
     "problems": [],
     "title": "第一部分-第二章",
     "url": "https://www.luogu.com.cn/training/735866"
@@ -12530,6 +12575,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-735868",
     "officialProblemCount": 20,
+    "problemCount": 0,
     "problems": [],
     "title": "第一部分-第三章",
     "url": "https://www.luogu.com.cn/training/735868"
@@ -12549,6 +12595,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-735873",
     "officialProblemCount": 43,
+    "problemCount": 0,
     "problems": [],
     "title": "第一部分-第四章",
     "url": "https://www.luogu.com.cn/training/735873"
@@ -12568,6 +12615,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-735883",
     "officialProblemCount": 46,
+    "problemCount": 0,
     "problems": [],
     "title": "第一部分-第五章",
     "url": "https://www.luogu.com.cn/training/735883"
@@ -12587,6 +12635,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-735886",
     "officialProblemCount": 27,
+    "problemCount": 0,
     "problems": [],
     "title": "第一部分-第六章",
     "url": "https://www.luogu.com.cn/training/735886"
@@ -12606,6 +12655,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-735890",
     "officialProblemCount": 5,
+    "problemCount": 0,
     "problems": [],
     "title": "第一部分-第七章",
     "url": "https://www.luogu.com.cn/training/735890"
@@ -12625,6 +12675,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1016020",
     "officialProblemCount": 31,
+    "problemCount": 0,
     "problems": [],
     "title": "基础数据结构 - 罗勇军《算法竞赛》",
     "url": "https://www.luogu.com.cn/training/1016020"
@@ -12644,6 +12695,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1016021",
     "officialProblemCount": 47,
+    "problemCount": 0,
     "problems": [],
     "title": "基本算法 - 罗勇军《算法竞赛》",
     "url": "https://www.luogu.com.cn/training/1016021"
@@ -12663,6 +12715,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1016022",
     "officialProblemCount": 28,
+    "problemCount": 0,
     "problems": [],
     "title": "搜索 - 罗勇军《算法竞赛》",
     "url": "https://www.luogu.com.cn/training/1016022"
@@ -12682,6 +12735,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1016023",
     "officialProblemCount": 148,
+    "problemCount": 0,
     "problems": [],
     "title": "高级数据结构 - 罗勇军《算法竞赛》",
     "url": "https://www.luogu.com.cn/training/1016023"
@@ -12701,6 +12755,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1016024",
     "officialProblemCount": 86,
+    "problemCount": 0,
     "problems": [],
     "title": "动态规划 - 罗勇军《算法竞赛》",
     "url": "https://www.luogu.com.cn/training/1016024"
@@ -12720,6 +12775,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1016090",
     "officialProblemCount": 113,
+    "problemCount": 0,
     "problems": [],
     "title": "数论和线性代数 - 罗勇军《算法竞赛》",
     "url": "https://www.luogu.com.cn/training/1016090"
@@ -12739,6 +12795,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1016091",
     "officialProblemCount": 59,
+    "problemCount": 0,
     "problems": [],
     "title": "组合数学 - 罗勇军《算法竞赛》",
     "url": "https://www.luogu.com.cn/training/1016091"
@@ -12758,6 +12815,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1016092",
     "officialProblemCount": 16,
+    "problemCount": 0,
     "problems": [],
     "title": "计算几何 - 罗勇军《算法竞赛》",
     "url": "https://www.luogu.com.cn/training/1016092"
@@ -12777,6 +12835,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1016093",
     "officialProblemCount": 56,
+    "problemCount": 0,
     "problems": [],
     "title": "字符串 - 罗勇军《算法竞赛》",
     "url": "https://www.luogu.com.cn/training/1016093"
@@ -12796,6 +12855,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1016094",
     "officialProblemCount": 112,
+    "problemCount": 0,
     "problems": [],
     "title": "图论 - 罗勇军《算法竞赛》",
     "url": "https://www.luogu.com.cn/training/1016094"
@@ -12815,6 +12875,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1016590",
     "officialProblemCount": 20,
+    "problemCount": 0,
     "problems": [],
     "title": "《算法竞赛实战笔记》第一章",
     "url": "https://www.luogu.com.cn/training/1016590"
@@ -12834,6 +12895,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1016593",
     "officialProblemCount": 20,
+    "problemCount": 0,
     "problems": [],
     "title": "《算法竞赛实战笔记》第二章",
     "url": "https://www.luogu.com.cn/training/1016593"
@@ -12853,6 +12915,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1016595",
     "officialProblemCount": 17,
+    "problemCount": 0,
     "problems": [],
     "title": "《算法竞赛实战笔记》第三章",
     "url": "https://www.luogu.com.cn/training/1016595"
@@ -12872,6 +12935,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1016599",
     "officialProblemCount": 43,
+    "problemCount": 0,
     "problems": [],
     "title": "《算法竞赛实战笔记》第四章",
     "url": "https://www.luogu.com.cn/training/1016599"
@@ -12891,6 +12955,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-410",
     "officialProblemCount": 45,
+    "problemCount": 0,
     "problems": [],
     "title": "语言入门",
     "url": "https://www.luogu.com.cn/training/410"
@@ -12910,6 +12975,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-411",
     "officialProblemCount": 45,
+    "problemCount": 0,
     "problems": [],
     "title": "枚举、模拟",
     "url": "https://www.luogu.com.cn/training/411"
@@ -12929,6 +12995,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-412",
     "officialProblemCount": 47,
+    "problemCount": 0,
     "problems": [],
     "title": "基本算法",
     "url": "https://www.luogu.com.cn/training/412"
@@ -12948,6 +13015,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-413",
     "officialProblemCount": 47,
+    "problemCount": 0,
     "problems": [],
     "title": "数据结构与 STL",
     "url": "https://www.luogu.com.cn/training/413"
@@ -12967,6 +13035,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-414",
     "officialProblemCount": 23,
+    "problemCount": 0,
     "problems": [],
     "title": "搜索",
     "url": "https://www.luogu.com.cn/training/414"
@@ -12986,6 +13055,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-415",
     "officialProblemCount": 47,
+    "problemCount": 0,
     "problems": [],
     "title": "数学",
     "url": "https://www.luogu.com.cn/training/415"
@@ -13005,6 +13075,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-416",
     "officialProblemCount": 47,
+    "problemCount": 0,
     "problems": [],
     "title": "动态规划",
     "url": "https://www.luogu.com.cn/training/416"
@@ -13024,6 +13095,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-417",
     "officialProblemCount": 48,
+    "problemCount": 0,
     "problems": [],
     "title": "图论",
     "url": "https://www.luogu.com.cn/training/417"
@@ -13063,6 +13135,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9391",
     "officialProblemCount": 0,
+    "problemCount": 0,
     "problems": [],
     "title": "能力全面提升综合题单",
     "url": "https://www.luogu.com.cn/training/9391"
@@ -13087,6 +13160,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1435",
     "officialProblemCount": 0,
+    "problemCount": 93,
     "problems": [
       {
         "pid": "P1095",
@@ -13357,15 +13431,6 @@
           "0x20 基础的树dp"
         ],
         "url": "https://www.luogu.com.cn/problem/P1352"
-      },
-      {
-        "pid": "P2016",
-        "problemId": "luogu-training-P2016",
-        "sections": [
-          "0x2 树形dp",
-          "0x20 基础的树dp"
-        ],
-        "url": "https://www.luogu.com.cn/problem/P2016"
       },
       {
         "pid": "P2014",
@@ -13953,6 +14018,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1060",
     "officialProblemCount": 34,
+    "problemCount": 34,
     "problems": [
       {
         "pid": "P1359",
@@ -14179,6 +14245,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-743042",
     "officialProblemCount": 50,
+    "problemCount": 49,
     "problems": [
       {
         "pid": "P1102",
@@ -14329,12 +14396,6 @@
         "problemId": "luogu-training-P11229",
         "sections": [],
         "url": "https://www.luogu.com.cn/problem/P11229"
-      },
-      {
-        "pid": "P1815",
-        "problemId": "luogu-training-P1815",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P1815"
       },
       {
         "pid": "P1118",
@@ -14501,6 +14562,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-2929",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "P3371",
@@ -14921,6 +14983,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-8917",
     "officialProblemCount": 50,
+    "problemCount": 49,
     "problems": [
       {
         "pid": "P1048",
@@ -15113,14 +15176,6 @@
           "背包问题"
         ],
         "url": "https://www.luogu.com.cn/problem/P1466"
-      },
-      {
-        "pid": "P1853",
-        "problemId": "luogu-training-P1853",
-        "sections": [
-          "背包问题"
-        ],
-        "url": "https://www.luogu.com.cn/problem/P1853"
       },
       {
         "pid": "P1509",
@@ -15341,6 +15396,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-2932",
     "officialProblemCount": 32,
+    "problemCount": 34,
     "problems": [
       {
         "pid": "P1331",
@@ -15628,6 +15684,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1124",
     "officialProblemCount": 34,
+    "problemCount": 81,
     "problems": [
       {
         "pid": "CF240F",
@@ -16296,6 +16353,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-2018",
     "officialProblemCount": 49,
+    "problemCount": 49,
     "problems": [
       {
         "pid": "CF1292B",
@@ -16612,6 +16670,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-12927",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "P1880",
@@ -16764,15 +16823,6 @@
           "三 单调队列"
         ],
         "url": "https://www.luogu.com.cn/problem/P6563"
-      },
-      {
-        "pid": "P2016",
-        "problemId": "luogu-training-P2016",
-        "sections": [
-          "四 树形DP",
-          "4.1 普通树形 DP"
-        ],
-        "url": "https://www.luogu.com.cn/problem/P2016"
       },
       {
         "pid": "P3174",
@@ -17056,6 +17106,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-2685",
     "officialProblemCount": 31,
+    "problemCount": 31,
     "problems": [
       {
         "pid": "P4118",
@@ -17262,6 +17313,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-5199",
     "officialProblemCount": 28,
+    "problemCount": 28,
     "problems": [
       {
         "pid": "P1007",
@@ -17506,6 +17558,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-2649",
     "officialProblemCount": 38,
+    "problemCount": 38,
     "problems": [
       {
         "pid": "P3372",
@@ -17857,6 +17910,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-607752",
     "officialProblemCount": 48,
+    "problemCount": 48,
     "problems": [
       {
         "pid": "P6005",
@@ -18165,6 +18219,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1323",
     "officialProblemCount": 48,
+    "problemCount": 48,
     "problems": [
       {
         "pid": "P4310",
@@ -18404,16 +18459,6 @@
         "url": "https://www.luogu.com.cn/problem/P4084"
       },
       {
-        "pid": "P2016",
-        "problemId": "luogu-training-P2016",
-        "sections": [
-          "树形DP",
-          "普通树形DP",
-          "例题"
-        ],
-        "url": "https://www.luogu.com.cn/problem/P2016"
-      },
-      {
         "pid": "P2458",
         "problemId": "luogu-training-P2458",
         "sections": [
@@ -18648,6 +18693,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4865",
     "officialProblemCount": 12,
+    "problemCount": 12,
     "problems": [
       {
         "pid": "CF441C",
@@ -18740,6 +18786,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-5197",
     "officialProblemCount": 26,
+    "problemCount": 25,
     "problems": [
       {
         "pid": "P1048",
@@ -18796,14 +18843,6 @@
           "完全背包"
         ],
         "url": "https://www.luogu.com.cn/problem/P2722"
-      },
-      {
-        "pid": "P1853",
-        "problemId": "luogu-training-P1853",
-        "sections": [
-          "完全背包"
-        ],
-        "url": "https://www.luogu.com.cn/problem/P1853"
       },
       {
         "pid": "P2918",
@@ -18987,6 +19026,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3065",
     "officialProblemCount": 14,
+    "problemCount": 14,
     "problems": [
       {
         "pid": "P3367",
@@ -19091,6 +19131,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1368",
     "officialProblemCount": 14,
+    "problemCount": 14,
     "problems": [
       {
         "pid": "P1359",
@@ -19223,6 +19264,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1252",
     "officialProblemCount": 26,
+    "problemCount": 26,
     "problems": [
       {
         "pid": "P1024",
@@ -19399,6 +19441,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-2019",
     "officialProblemCount": 35,
+    "problemCount": 35,
     "problems": [
       {
         "pid": "P6146",
@@ -19629,6 +19672,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-16408",
     "officialProblemCount": 27,
+    "problemCount": 26,
     "problems": [
       {
         "pid": "P1652",
@@ -19647,12 +19691,6 @@
         "problemId": "luogu-training-P1257",
         "sections": [],
         "url": "https://www.luogu.com.cn/problem/P1257"
-      },
-      {
-        "pid": "P1142",
-        "problemId": "luogu-training-P1142",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P1142"
       },
       {
         "pid": "P2180",
@@ -19811,6 +19849,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-5312",
     "officialProblemCount": 24,
+    "problemCount": 24,
     "problems": [
       {
         "pid": "P2910",
@@ -19977,6 +20016,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3504",
     "officialProblemCount": 11,
+    "problemCount": 13,
     "problems": [
       {
         "pid": "P4118",
@@ -20101,6 +20141,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1654",
     "officialProblemCount": 22,
+    "problemCount": 22,
     "problems": [
       {
         "pid": "P3038",
@@ -20259,6 +20300,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "P6159",
@@ -20579,6 +20621,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3961",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "CF1271D",
@@ -20899,6 +20942,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4922",
     "officialProblemCount": 46,
+    "problemCount": 46,
     "problems": [
       {
         "pid": "P5104",
@@ -21195,6 +21239,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1008",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "P1919",
@@ -21659,6 +21704,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3210",
     "officialProblemCount": 49,
+    "problemCount": 52,
     "problems": [
       {
         "pid": "P2540",
@@ -22000,6 +22046,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1230",
     "officialProblemCount": 25,
+    "problemCount": 25,
     "problems": [
       {
         "pid": "CF311E",
@@ -22170,6 +22217,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1055",
     "officialProblemCount": 18,
+    "problemCount": 18,
     "problems": [
       {
         "pid": "P3455",
@@ -22298,6 +22346,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-11363",
     "officialProblemCount": 50,
+    "problemCount": 58,
     "problems": [
       {
         "pid": "P1352",
@@ -22316,12 +22365,6 @@
         "problemId": "luogu-training-P2014",
         "sections": [],
         "url": "https://www.luogu.com.cn/problem/P2014"
-      },
-      {
-        "pid": "P2016",
-        "problemId": "luogu-training-P2016",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P2016"
       },
       {
         "pid": "P3478",
@@ -22672,6 +22715,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-8793",
     "officialProblemCount": 16,
+    "problemCount": 17,
     "problems": [
       {
         "pid": "P2949",
@@ -22822,6 +22866,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-2971",
     "officialProblemCount": 44,
+    "problemCount": 44,
     "problems": [
       {
         "pid": "P5494",
@@ -23194,6 +23239,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3963",
     "officialProblemCount": 45,
+    "problemCount": 45,
     "problems": [
       {
         "pid": "CF296B",
@@ -23500,6 +23546,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-759988",
     "officialProblemCount": 34,
+    "problemCount": 34,
     "problems": [
       {
         "pid": "P8773",
@@ -23726,6 +23773,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3045",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "AT_arc081_c",
@@ -24046,6 +24094,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4969",
     "officialProblemCount": 39,
+    "problemCount": 38,
     "problems": [
       {
         "pid": "P1111",
@@ -24228,12 +24277,6 @@
         "url": "https://www.luogu.com.cn/problem/P6268"
       },
       {
-        "pid": "P1347",
-        "problemId": "luogu-training-P1347",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P1347"
-      },
-      {
         "pid": "P2024",
         "problemId": "luogu-training-P2024",
         "sections": [],
@@ -24302,6 +24345,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1093",
     "officialProblemCount": 46,
+    "problemCount": 46,
     "problems": [
       {
         "pid": "UVA272",
@@ -24604,6 +24648,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-11",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "CF504E",
@@ -24924,6 +24969,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-82023",
     "officialProblemCount": 33,
+    "problemCount": 33,
     "problems": [
       {
         "pid": "P4999",
@@ -25142,6 +25188,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3858",
     "officialProblemCount": 15,
+    "problemCount": 15,
     "problems": [
       {
         "pid": "P4556",
@@ -25252,6 +25299,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-14",
     "officialProblemCount": 20,
+    "problemCount": 20,
     "problems": [
       {
         "pid": "P3514",
@@ -25392,6 +25440,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-2914",
     "officialProblemCount": 28,
+    "problemCount": 28,
     "problems": [
       {
         "pid": "SP3267",
@@ -25580,6 +25629,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-44148",
     "officialProblemCount": 9,
+    "problemCount": 14,
     "problems": [
       {
         "pid": "P4119",
@@ -25712,6 +25762,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1432",
     "officialProblemCount": 44,
+    "problemCount": 44,
     "problems": [
       {
         "pid": "P2158",
@@ -26128,6 +26179,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3015",
     "officialProblemCount": 28,
+    "problemCount": 28,
     "problems": [
       {
         "pid": "P3803",
@@ -26320,6 +26372,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1010",
     "officialProblemCount": 33,
+    "problemCount": 34,
     "problems": [
       {
         "pid": "P1197",
@@ -26674,6 +26727,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3295",
     "officialProblemCount": 14,
+    "problemCount": 14,
     "problems": [
       {
         "pid": "P4841",
@@ -26820,6 +26874,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-53971",
     "officialProblemCount": 50,
+    "problemCount": 51,
     "problems": [
       {
         "pid": "P3370",
@@ -27226,6 +27281,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-7768",
     "officialProblemCount": 20,
+    "problemCount": 20,
     "problems": [
       {
         "pid": "P3375",
@@ -27406,6 +27462,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3135",
     "officialProblemCount": 28,
+    "problemCount": 28,
     "problems": [
       {
         "pid": "P1024",
@@ -27630,6 +27687,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-38213",
     "officialProblemCount": 46,
+    "problemCount": 47,
     "problems": [
       {
         "pid": "P3901",
@@ -28058,6 +28116,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4203",
     "officialProblemCount": 13,
+    "problemCount": 13,
     "problems": [
       {
         "pid": "AT_agc002_e",
@@ -28156,6 +28215,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-201862",
     "officialProblemCount": 50,
+    "problemCount": 57,
     "problems": [
       {
         "pid": "P1352",
@@ -28178,14 +28238,6 @@
           "第一部分：简单模板dp"
         ],
         "url": "https://www.luogu.com.cn/problem/UVA10534"
-      },
-      {
-        "pid": "P1800",
-        "problemId": "luogu-training-P1800",
-        "sections": [
-          "第一部分：简单模板dp"
-        ],
-        "url": "https://www.luogu.com.cn/problem/P1800"
       },
       {
         "pid": "P1880",
@@ -28630,6 +28682,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-16376",
     "officialProblemCount": 21,
+    "problemCount": 25,
     "problems": [
       {
         "pid": "P1904",
@@ -28836,6 +28889,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4986",
     "officialProblemCount": 36,
+    "problemCount": 35,
     "problems": [
       {
         "pid": "CF1187E",
@@ -28902,12 +28956,6 @@
         "problemId": "luogu-training-CF1328E",
         "sections": [],
         "url": "https://www.luogu.com.cn/problem/CF1328E"
-      },
-      {
-        "pid": "P2016",
-        "problemId": "luogu-training-P2016",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P2016"
       },
       {
         "pid": "P3478",
@@ -29072,6 +29120,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-14206",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "P4017",
@@ -29392,6 +29441,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-106266",
     "officialProblemCount": 25,
+    "problemCount": 25,
     "problems": [
       {
         "pid": "P3807",
@@ -29562,6 +29612,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-244301",
     "officialProblemCount": 26,
+    "problemCount": 26,
     "problems": [
       {
         "pid": "AT_dp_a",
@@ -29750,6 +29801,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1424",
     "officialProblemCount": 21,
+    "problemCount": 21,
     "problems": [
       {
         "pid": "P1612",
@@ -29896,6 +29948,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-5061",
     "officialProblemCount": 26,
+    "problemCount": 26,
     "problems": [
       {
         "pid": "P2580",
@@ -30078,6 +30131,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-12",
     "officialProblemCount": 49,
+    "problemCount": 49,
     "problems": [
       {
         "pid": "CF627E",
@@ -30392,6 +30446,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-12097",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "P1343",
@@ -30722,6 +30777,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-288387",
     "officialProblemCount": 40,
+    "problemCount": 40,
     "problems": [
       {
         "pid": "AT_abc290_f",
@@ -30982,18 +31038,13 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1109",
     "officialProblemCount": 26,
+    "problemCount": 25,
     "problems": [
       {
         "pid": "P5194",
         "problemId": "luogu-training-P5194",
         "sections": [],
         "url": "https://www.luogu.com.cn/problem/P5194"
-      },
-      {
-        "pid": "P1120",
-        "problemId": "luogu-training-P1120",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P1120"
       },
       {
         "pid": "P1731",
@@ -31160,6 +31211,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-293571",
     "officialProblemCount": 39,
+    "problemCount": 39,
     "problems": [
       {
         "pid": "P8346",
@@ -31414,6 +31466,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3121",
     "officialProblemCount": 22,
+    "problemCount": 22,
     "problems": [
       {
         "pid": "P2704",
@@ -31613,6 +31666,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-110962",
     "officialProblemCount": 28,
+    "problemCount": 25,
     "problems": [
       {
         "pid": "P8170",
@@ -31643,12 +31697,6 @@
         "problemId": "luogu-training-AT_agc023_f",
         "sections": [],
         "url": "https://www.luogu.com.cn/problem/AT_agc023_f"
-      },
-      {
-        "pid": "P6122",
-        "problemId": "luogu-training-P6122",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6122"
       },
       {
         "pid": "P6831",
@@ -31723,12 +31771,6 @@
         "url": "https://www.luogu.com.cn/problem/CF1477E"
       },
       {
-        "pid": "P6943",
-        "problemId": "luogu-training-P6943",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6943"
-      },
-      {
         "pid": "CF1637H",
         "problemId": "luogu-training-CF1637H",
         "sections": [],
@@ -31745,12 +31787,6 @@
         "problemId": "luogu-training-P6631",
         "sections": [],
         "url": "https://www.luogu.com.cn/problem/P6631"
-      },
-      {
-        "pid": "P6936",
-        "problemId": "luogu-training-P6936",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6936"
       },
       {
         "pid": "AT_agc013_f",
@@ -31807,6 +31843,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-13",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "AT_agc029_f",
@@ -32127,6 +32164,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-2478",
     "officialProblemCount": 7,
+    "problemCount": 7,
     "problems": [
       {
         "pid": "P1177",
@@ -32189,6 +32227,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-79728",
     "officialProblemCount": 50,
+    "problemCount": 49,
     "problems": [
       {
         "pid": "P3386",
@@ -32551,14 +32590,6 @@
         "url": "https://www.luogu.com.cn/problem/P3967"
       },
       {
-        "pid": "P1285",
-        "problemId": "luogu-training-P1285",
-        "sections": [
-          "二分图染色"
-        ],
-        "url": "https://www.luogu.com.cn/problem/P1285"
-      },
-      {
         "pid": "P4134",
         "problemId": "luogu-training-P4134",
         "sections": [
@@ -32589,14 +32620,6 @@
           "二分图博弈"
         ],
         "url": "https://www.luogu.com.cn/problem/P1971"
-      },
-      {
-        "pid": "P2016",
-        "problemId": "luogu-training-P2016",
-        "sections": [
-          "$\\mathrm{k\\ddot onig}$ 定理"
-        ],
-        "url": "https://www.luogu.com.cn/problem/P2016"
       }
     ],
     "title": "（提高&省选）『二分图』从入门到入土",
@@ -32617,6 +32640,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-81272",
     "officialProblemCount": 46,
+    "problemCount": 44,
     "problems": [
       {
         "pid": "P1948",
@@ -32644,15 +32668,6 @@
           "0x61 最短路"
         ],
         "url": "https://www.luogu.com.cn/problem/P3008"
-      },
-      {
-        "pid": "P1347",
-        "problemId": "luogu-training-P1347",
-        "sections": [
-          "《算法竞赛进阶指南》0x60图论",
-          "0x61 最短路"
-        ],
-        "url": "https://www.luogu.com.cn/problem/P1347"
       },
       {
         "pid": "P6175",
@@ -32925,15 +32940,6 @@
         "url": "https://www.luogu.com.cn/problem/P2860"
       },
       {
-        "pid": "P3225",
-        "problemId": "luogu-training-P3225",
-        "sections": [
-          "《算法竞赛进阶指南》0x60图论",
-          "0x6B 总结与练习"
-        ],
-        "url": "https://www.luogu.com.cn/problem/P3225"
-      },
-      {
         "pid": "UVA1464",
         "problemId": "luogu-training-UVA1464",
         "sections": [
@@ -33065,6 +33071,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3079",
     "officialProblemCount": 10,
+    "problemCount": 10,
     "problems": [
       {
         "pid": "P3374",
@@ -33145,6 +33152,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-83815",
     "officialProblemCount": 48,
+    "problemCount": 49,
     "problems": [
       {
         "pid": "SP15637",
@@ -33609,6 +33617,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1143",
     "officialProblemCount": 24,
+    "problemCount": 24,
     "problems": [
       {
         "pid": "P3374",
@@ -33775,6 +33784,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3364",
     "officialProblemCount": 15,
+    "problemCount": 15,
     "problems": [
       {
         "pid": "B3600",
@@ -33885,6 +33895,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1125",
     "officialProblemCount": 23,
+    "problemCount": 23,
     "problems": [
       {
         "pid": "P1531",
@@ -34043,6 +34054,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-42933",
     "officialProblemCount": 13,
+    "problemCount": 12,
     "problems": [
       {
         "pid": "P4017",
@@ -34117,14 +34129,6 @@
         "url": "https://www.luogu.com.cn/problem/P4316"
       },
       {
-        "pid": "P1347",
-        "problemId": "luogu-training-P1347",
-        "sections": [
-          "All Problems"
-        ],
-        "url": "https://www.luogu.com.cn/problem/P1347"
-      },
-      {
         "pid": "P3275",
         "problemId": "luogu-training-P3275",
         "sections": [
@@ -34169,6 +34173,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-85467",
     "officialProblemCount": 50,
+    "problemCount": 51,
     "problems": [
       {
         "pid": "P1029",
@@ -34509,6 +34514,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-2178",
     "officialProblemCount": 10,
+    "problemCount": 10,
     "problems": [
       {
         "pid": "P3366",
@@ -34589,6 +34595,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-5297",
     "officialProblemCount": 29,
+    "problemCount": 29,
     "problems": [
       {
         "pid": "P3810",
@@ -34783,6 +34790,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9435",
     "officialProblemCount": 22,
+    "problemCount": 22,
     "problems": [
       {
         "pid": "P3810",
@@ -34979,6 +34987,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4841",
     "officialProblemCount": 9,
+    "problemCount": 9,
     "problems": [
       {
         "pid": "P1650",
@@ -35053,6 +35062,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-7403",
     "officialProblemCount": 16,
+    "problemCount": 16,
     "problems": [
       {
         "pid": "P3390",
@@ -35169,6 +35179,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3202",
     "officialProblemCount": 34,
+    "problemCount": 36,
     "problems": [
       {
         "pid": "P3804",
@@ -35449,6 +35460,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3144",
     "officialProblemCount": 34,
+    "problemCount": 34,
     "problems": [
       {
         "pid": "P2756",
@@ -35673,6 +35685,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-60465",
     "officialProblemCount": 34,
+    "problemCount": 34,
     "problems": [
       {
         "pid": "P3808",
@@ -35899,6 +35912,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-424182",
     "officialProblemCount": 47,
+    "problemCount": 47,
     "problems": [
       {
         "pid": "P2566",
@@ -36201,6 +36215,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9410",
     "officialProblemCount": 31,
+    "problemCount": 33,
     "problems": [
       {
         "pid": "P6328",
@@ -36481,6 +36496,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-5322",
     "officialProblemCount": 33,
+    "problemCount": 33,
     "problems": [
       {
         "pid": "P3804",
@@ -36703,6 +36719,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1176",
     "officialProblemCount": 42,
+    "problemCount": 44,
     "problems": [
       {
         "pid": "P6327",
@@ -37110,6 +37127,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-15766",
     "officialProblemCount": 28,
+    "problemCount": 29,
     "problems": [
       {
         "pid": "P1226",
@@ -37399,6 +37417,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-5028",
     "officialProblemCount": 15,
+    "problemCount": 15,
     "problems": [
       {
         "pid": "CF816B",
@@ -37509,6 +37528,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4013",
     "officialProblemCount": 18,
+    "problemCount": 18,
     "problems": [
       {
         "pid": "P2367",
@@ -37637,6 +37657,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-16603",
     "officialProblemCount": 11,
+    "problemCount": 10,
     "problems": [
       {
         "pid": "P2712",
@@ -37645,14 +37666,6 @@
           "树与图的遍历"
         ],
         "url": "https://www.luogu.com.cn/problem/P2712"
-      },
-      {
-        "pid": "P1120",
-        "problemId": "luogu-training-P1120",
-        "sections": [
-          "剪枝"
-        ],
-        "url": "https://www.luogu.com.cn/problem/P1120"
       },
       {
         "pid": "P1731",
@@ -37747,6 +37760,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-2957",
     "officialProblemCount": 23,
+    "problemCount": 23,
     "problems": [
       {
         "pid": "P3371",
@@ -37905,6 +37919,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1416",
     "officialProblemCount": 22,
+    "problemCount": 22,
     "problems": [
       {
         "pid": "P3372",
@@ -38057,6 +38072,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-7045",
     "officialProblemCount": 49,
+    "problemCount": 49,
     "problems": [
       {
         "pid": "P1824",
@@ -38373,6 +38389,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-232599",
     "officialProblemCount": 37,
+    "problemCount": 37,
     "problems": [
       {
         "pid": "CF878D",
@@ -38618,6 +38635,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1219",
     "officialProblemCount": 38,
+    "problemCount": 38,
     "problems": [
       {
         "pid": "UVA1593",
@@ -38866,6 +38884,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-11251",
     "officialProblemCount": 16,
+    "problemCount": 17,
     "problems": [
       {
         "pid": "P3812",
@@ -38988,6 +39007,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-16612",
     "officialProblemCount": 16,
+    "problemCount": 16,
     "problems": [
       {
         "pid": "P3383",
@@ -39138,6 +39158,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-197795",
     "officialProblemCount": 36,
+    "problemCount": 35,
     "problems": [
       {
         "pid": "P1073",
@@ -39150,12 +39171,6 @@
         "problemId": "luogu-training-P1119",
         "sections": [],
         "url": "https://www.luogu.com.cn/problem/P1119"
-      },
-      {
-        "pid": "P1347",
-        "problemId": "luogu-training-P1347",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P1347"
       },
       {
         "pid": "P1522",
@@ -39374,6 +39389,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4840",
     "officialProblemCount": 17,
+    "problemCount": 16,
     "problems": [
       {
         "pid": "P1352",
@@ -39404,12 +39420,6 @@
         "problemId": "luogu-training-P2014",
         "sections": [],
         "url": "https://www.luogu.com.cn/problem/P2014"
-      },
-      {
-        "pid": "P2016",
-        "problemId": "luogu-training-P2016",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P2016"
       },
       {
         "pid": "P1131",
@@ -39496,6 +39506,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-6625",
     "officialProblemCount": 10,
+    "problemCount": 10,
     "problems": [
       {
         "pid": "P1102",
@@ -39576,6 +39587,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4575",
     "officialProblemCount": 7,
+    "problemCount": 7,
     "problems": [
       {
         "pid": "P2911",
@@ -39641,6 +39653,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3322",
     "officialProblemCount": 48,
+    "problemCount": 48,
     "problems": [
       {
         "pid": "P1601",
@@ -39949,6 +39962,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-379836",
     "officialProblemCount": 19,
+    "problemCount": 19,
     "problems": [
       {
         "pid": "P3370",
@@ -40083,6 +40097,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1138",
     "officialProblemCount": 47,
+    "problemCount": 47,
     "problems": [
       {
         "pid": "P3933",
@@ -40385,6 +40400,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-65708",
     "officialProblemCount": 26,
+    "problemCount": 26,
     "problems": [
       {
         "pid": "P5110",
@@ -40561,6 +40577,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-5163",
     "officialProblemCount": 10,
+    "problemCount": 10,
     "problems": [
       {
         "pid": "P1048",
@@ -40641,6 +40658,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-66122",
     "officialProblemCount": 24,
+    "problemCount": 25,
     "problems": [
       {
         "pid": "P1955",
@@ -40904,6 +40922,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-231055",
     "officialProblemCount": 40,
+    "problemCount": 39,
     "problems": [
       {
         "pid": "P1048",
@@ -40952,14 +40971,6 @@
           "完全背包 模板：P1616 疯狂的采药"
         ],
         "url": "https://www.luogu.com.cn/problem/P2918"
-      },
-      {
-        "pid": "P1853",
-        "problemId": "luogu-training-P1853",
-        "sections": [
-          "完全背包 模板：P1616 疯狂的采药"
-        ],
-        "url": "https://www.luogu.com.cn/problem/P1853"
       },
       {
         "pid": "P1776",
@@ -41252,6 +41263,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-11849",
     "officialProblemCount": 19,
+    "problemCount": 19,
     "problems": [
       {
         "pid": "P2801",
@@ -41386,6 +41398,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3174",
     "officialProblemCount": 15,
+    "problemCount": 15,
     "problems": [
       {
         "pid": "P3369",
@@ -41500,6 +41513,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3238",
     "officialProblemCount": 44,
+    "problemCount": 46,
     "problems": [
       {
         "pid": "P2709",
@@ -41928,6 +41942,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-200296",
     "officialProblemCount": 35,
+    "problemCount": 35,
     "problems": [
       {
         "pid": "P2303",
@@ -42161,6 +42176,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-873857",
     "officialProblemCount": 21,
+    "problemCount": 21,
     "problems": [
       {
         "pid": "CF2253A",
@@ -42307,6 +42323,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4855",
     "officialProblemCount": 15,
+    "problemCount": 16,
     "problems": [
       {
         "pid": "P3878",
@@ -42427,6 +42444,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3958",
     "officialProblemCount": 19,
+    "problemCount": 19,
     "problems": [
       {
         "pid": "P1334",
@@ -42621,6 +42639,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-247895",
     "officialProblemCount": 15,
+    "problemCount": 15,
     "problems": [
       {
         "pid": "P8839",
@@ -42731,6 +42750,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-2650",
     "officialProblemCount": 15,
+    "problemCount": 15,
     "problems": [
       {
         "pid": "P5367",
@@ -42844,6 +42864,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3027",
     "officialProblemCount": 47,
+    "problemCount": 47,
     "problems": [
       {
         "pid": "UVA673",
@@ -43146,6 +43167,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-5352",
     "officialProblemCount": 9,
+    "problemCount": 9,
     "problems": [
       {
         "pid": "P2365",
@@ -43220,6 +43242,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1185",
     "officialProblemCount": 28,
+    "problemCount": 28,
     "problems": [
       {
         "pid": "P1030",
@@ -43408,6 +43431,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1570",
     "officialProblemCount": 47,
+    "problemCount": 47,
     "problems": [
       {
         "pid": "CF746G",
@@ -43710,6 +43734,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3367",
     "officialProblemCount": 19,
+    "problemCount": 19,
     "problems": [
       {
         "pid": "P1886",
@@ -43844,6 +43869,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-2481",
     "officialProblemCount": 5,
+    "problemCount": 5,
     "problems": [
       {
         "pid": "P3371",
@@ -43900,6 +43926,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-10",
     "officialProblemCount": 37,
+    "problemCount": 37,
     "problems": [
       {
         "pid": "P3693",
@@ -44142,6 +44169,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-81332",
     "officialProblemCount": 38,
+    "problemCount": 70,
     "problems": [
       {
         "pid": "P1829",
@@ -44658,6 +44686,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-465429",
     "officialProblemCount": 24,
+    "problemCount": 24,
     "problems": [
       {
         "pid": "P2756",
@@ -44824,6 +44853,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3048",
     "officialProblemCount": 47,
+    "problemCount": 47,
     "problems": [
       {
         "pid": "UVA120",
@@ -45126,6 +45156,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-576466",
     "officialProblemCount": 24,
+    "problemCount": 23,
     "problems": [
       {
         "pid": "B3609",
@@ -45230,12 +45261,6 @@
         "url": "https://www.luogu.com.cn/problem/P3469"
       },
       {
-        "pid": "P3225",
-        "problemId": "luogu-training-P3225",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P3225"
-      },
-      {
         "pid": "P8436",
         "problemId": "luogu-training-P8436",
         "sections": [],
@@ -45296,6 +45321,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-147902",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "P3602",
@@ -45616,6 +45642,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4790",
     "officialProblemCount": 17,
+    "problemCount": 17,
     "problems": [
       {
         "pid": "P4051",
@@ -45738,6 +45765,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1574",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "CF1045G",
@@ -46058,6 +46086,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-5035",
     "officialProblemCount": 10,
+    "problemCount": 10,
     "problems": [
       {
         "pid": "P3527",
@@ -46138,6 +46167,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1344",
     "officialProblemCount": 38,
+    "problemCount": 38,
     "problems": [
       {
         "pid": "P3384",
@@ -46389,6 +46419,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-10560",
     "officialProblemCount": 28,
+    "problemCount": 28,
     "problems": [
       {
         "pid": "P1157",
@@ -46577,6 +46608,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-12098",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "UVA10249",
@@ -46899,6 +46931,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-87630",
     "officialProblemCount": 34,
+    "problemCount": 35,
     "problems": [
       {
         "pid": "P2480",
@@ -47129,6 +47162,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1576",
     "officialProblemCount": 46,
+    "problemCount": 46,
     "problems": [
       {
         "pid": "CF817E",
@@ -47428,6 +47462,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-6904",
     "officialProblemCount": 14,
+    "problemCount": 14,
     "problems": [
       {
         "pid": "P3367",
@@ -47532,6 +47567,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-2390",
     "officialProblemCount": 31,
+    "problemCount": 31,
     "problems": [
       {
         "pid": "P1164",
@@ -47740,6 +47776,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-20376",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "P5888",
@@ -48062,6 +48099,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4",
     "officialProblemCount": 33,
+    "problemCount": 33,
     "problems": [
       {
         "pid": "P5062",
@@ -48280,6 +48318,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1590",
     "officialProblemCount": 15,
+    "problemCount": 17,
     "problems": [
       {
         "pid": "P3901",
@@ -48411,6 +48450,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-75320",
     "officialProblemCount": 10,
+    "problemCount": 10,
     "problems": [
       {
         "pid": "P3811",
@@ -48509,6 +48549,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1567",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "CF662B",
@@ -48829,6 +48870,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-5005",
     "officialProblemCount": 13,
+    "problemCount": 13,
     "problems": [
       {
         "pid": "P6136",
@@ -48927,6 +48969,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-6686",
     "officialProblemCount": 26,
+    "problemCount": 26,
     "problems": [
       {
         "pid": "P3386",
@@ -49103,6 +49146,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-2290",
     "officialProblemCount": 20,
+    "problemCount": 20,
     "problems": [
       {
         "pid": "P1200",
@@ -49243,6 +49287,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-5037",
     "officialProblemCount": 9,
+    "problemCount": 9,
     "problems": [
       {
         "pid": "P4588",
@@ -49317,6 +49362,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9794",
     "officialProblemCount": 6,
+    "problemCount": 6,
     "problems": [
       {
         "pid": "P5788",
@@ -49376,6 +49422,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-428348",
     "officialProblemCount": 50,
+    "problemCount": 62,
     "problems": [
       {
         "pid": "P1886",
@@ -49992,6 +50039,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3130",
     "officialProblemCount": 31,
+    "problemCount": 31,
     "problems": [
       {
         "pid": "UVA1025",
@@ -50200,6 +50248,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-12433",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "P3371",
@@ -50520,6 +50569,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1218",
     "officialProblemCount": 40,
+    "problemCount": 40,
     "problems": [
       {
         "pid": "P2058",
@@ -50780,6 +50830,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-7063",
     "officialProblemCount": 18,
+    "problemCount": 18,
     "problems": [
       {
         "pid": "CF1349F2",
@@ -50908,6 +50959,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3495",
     "officialProblemCount": 14,
+    "problemCount": 15,
     "problems": [
       {
         "pid": "P2619",
@@ -51018,6 +51070,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-2892",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "CF958B2",
@@ -51338,6 +51391,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-756440",
     "officialProblemCount": 43,
+    "problemCount": 43,
     "problems": [
       {
         "pid": "P5417",
@@ -51616,6 +51670,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-2894",
     "officialProblemCount": 48,
+    "problemCount": 48,
     "problems": [
       {
         "pid": "CF76A",
@@ -51924,6 +51979,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3243",
     "officialProblemCount": 17,
+    "problemCount": 17,
     "problems": [
       {
         "pid": "P3372",
@@ -52046,6 +52102,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-248579",
     "officialProblemCount": 22,
+    "problemCount": 22,
     "problems": [
       {
         "pid": "P2863",
@@ -52244,6 +52301,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4897",
     "officialProblemCount": 27,
+    "problemCount": 29,
     "problems": [
       {
         "pid": "P3369",
@@ -52527,6 +52585,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3",
     "officialProblemCount": 30,
+    "problemCount": 30,
     "problems": [
       {
         "pid": "P6781",
@@ -52727,6 +52786,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-5539",
     "officialProblemCount": 16,
+    "problemCount": 16,
     "problems": [
       {
         "pid": "P5656",
@@ -52843,6 +52903,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-53303",
     "officialProblemCount": 16,
+    "problemCount": 17,
     "problems": [
       {
         "pid": "UVA529",
@@ -53016,6 +53077,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-12099",
     "officialProblemCount": 14,
+    "problemCount": 14,
     "problems": [
       {
         "pid": "UVA1317",
@@ -53120,6 +53182,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-5811",
     "officialProblemCount": 4,
+    "problemCount": 4,
     "problems": [
       {
         "pid": "P4822",
@@ -53167,6 +53230,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-380414",
     "officialProblemCount": 36,
+    "problemCount": 36,
     "problems": [
       {
         "pid": "B3614",
@@ -53549,6 +53613,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3139",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "UVA10285",
@@ -53869,6 +53934,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3682",
     "officialProblemCount": 11,
+    "problemCount": 11,
     "problems": [
       {
         "pid": "P3233",
@@ -53955,6 +54021,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3346",
     "officialProblemCount": 47,
+    "problemCount": 48,
     "problems": [
       {
         "pid": "P3376",
@@ -54263,6 +54330,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1893",
     "officialProblemCount": 9,
+    "problemCount": 9,
     "problems": [
       {
         "pid": "P3846",
@@ -54337,6 +54405,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-8174",
     "officialProblemCount": 9,
+    "problemCount": 9,
     "problems": [
       {
         "pid": "P5236",
@@ -54449,6 +54518,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-8353",
     "officialProblemCount": 44,
+    "problemCount": 45,
     "problems": [
       {
         "pid": "P1121",
@@ -54827,6 +54897,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-421539",
     "officialProblemCount": 38,
+    "problemCount": 38,
     "problems": [
       {
         "pid": "P3374",
@@ -55075,6 +55146,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-247303",
     "officialProblemCount": 19,
+    "problemCount": 19,
     "problems": [
       {
         "pid": "P1967",
@@ -55212,6 +55284,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-247892",
     "officialProblemCount": 8,
+    "problemCount": 8,
     "problems": [
       {
         "pid": "P6363",
@@ -55280,6 +55353,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-20236",
     "officialProblemCount": 19,
+    "problemCount": 19,
     "problems": [
       {
         "pid": "P4782",
@@ -55376,14 +55450,6 @@
         "url": "https://www.luogu.com.cn/problem/P7477"
       },
       {
-        "pid": "P6965",
-        "problemId": "luogu-training-P6965",
-        "sections": [
-          "Part3：优化建图"
-        ],
-        "url": "https://www.luogu.com.cn/problem/P6965"
-      },
-      {
         "pid": "CF1215F",
         "problemId": "luogu-training-CF1215F",
         "sections": [
@@ -55458,6 +55524,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1026",
     "officialProblemCount": 10,
+    "problemCount": 10,
     "problems": [
       {
         "pid": "P4980",
@@ -55538,6 +55605,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-39806",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "P3797",
@@ -55900,6 +55968,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-7052",
     "officialProblemCount": 13,
+    "problemCount": 13,
     "problems": [
       {
         "pid": "P1082",
@@ -55998,6 +56067,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3803",
     "officialProblemCount": 15,
+    "problemCount": 15,
     "problems": [
       {
         "pid": "P1144",
@@ -56108,6 +56178,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3153",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "UVA1393",
@@ -56428,6 +56499,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4133",
     "officialProblemCount": 23,
+    "problemCount": 23,
     "problems": [
       {
         "pid": "CF908G",
@@ -56592,6 +56664,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-147903",
     "officialProblemCount": 20,
+    "problemCount": 20,
     "problems": [
       {
         "pid": "P3347",
@@ -56732,6 +56805,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4919",
     "officialProblemCount": 11,
+    "problemCount": 11,
     "problems": [
       {
         "pid": "P3389",
@@ -56818,6 +56892,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-6358",
     "officialProblemCount": 10,
+    "problemCount": 10,
     "problems": [
       {
         "pid": "SP27561",
@@ -56898,6 +56973,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-169932",
     "officialProblemCount": 20,
+    "problemCount": 20,
     "problems": [
       {
         "pid": "P3809",
@@ -57038,6 +57114,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3172",
     "officialProblemCount": 49,
+    "problemCount": 49,
     "problems": [
       {
         "pid": "UVA1656",
@@ -57356,6 +57433,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-82071",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "P6306",
@@ -57676,6 +57754,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-674742",
     "officialProblemCount": 43,
+    "problemCount": 43,
     "problems": [
       {
         "pid": "P8816",
@@ -57954,6 +58033,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-5520",
     "officialProblemCount": 13,
+    "problemCount": 18,
     "problems": [
       {
         "pid": "P3932",
@@ -58082,6 +58162,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-8308",
     "officialProblemCount": 23,
+    "problemCount": 23,
     "problems": [
       {
         "pid": "P2147",
@@ -58240,6 +58321,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-22983",
     "officialProblemCount": 7,
+    "problemCount": 7,
     "problems": [
       {
         "pid": "P5960",
@@ -58302,6 +58384,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-702688",
     "officialProblemCount": 25,
+    "problemCount": 25,
     "problems": [
       {
         "pid": "P11168",
@@ -58472,6 +58555,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-20006",
     "officialProblemCount": 32,
+    "problemCount": 32,
     "problems": [
       {
         "pid": "P2210",
@@ -58684,6 +58768,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-569305",
     "officialProblemCount": 44,
+    "problemCount": 44,
     "problems": [
       {
         "pid": "P3374",
@@ -59056,6 +59141,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-78277",
     "officialProblemCount": 12,
+    "problemCount": 12,
     "problems": [
       {
         "pid": "P6329",
@@ -59150,6 +59236,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-73984",
     "officialProblemCount": 41,
+    "problemCount": 41,
     "problems": [
       {
         "pid": "P8120",
@@ -59416,6 +59503,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-33634",
     "officialProblemCount": 22,
+    "problemCount": 23,
     "problems": [
       {
         "pid": "P1337",
@@ -59616,6 +59704,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-69628",
     "officialProblemCount": 27,
+    "problemCount": 27,
     "problems": [
       {
         "pid": "P11886",
@@ -59852,6 +59941,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3225",
     "officialProblemCount": 11,
+    "problemCount": 11,
     "problems": [
       {
         "pid": "UVA1573",
@@ -59938,6 +60028,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-2440",
     "officialProblemCount": 27,
+    "problemCount": 28,
     "problems": [
       {
         "pid": "P1494",
@@ -60204,6 +60295,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3137",
     "officialProblemCount": 19,
+    "problemCount": 19,
     "problems": [
       {
         "pid": "P1457",
@@ -60338,6 +60430,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-764952",
     "officialProblemCount": 21,
+    "problemCount": 21,
     "problems": [
       {
         "pid": "P7054",
@@ -60484,6 +60577,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4874",
     "officialProblemCount": 35,
+    "problemCount": 37,
     "problems": [
       {
         "pid": "P3381",
@@ -60726,6 +60820,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3213",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "UVA1520",
@@ -61049,6 +61144,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1091422",
     "officialProblemCount": 20,
+    "problemCount": 20,
     "problems": [
       {
         "pid": "P13098",
@@ -61189,6 +61285,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3371",
     "officialProblemCount": 8,
+    "problemCount": 8,
     "problems": [
       {
         "pid": "P1337",
@@ -61257,6 +61354,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-8462",
     "officialProblemCount": 13,
+    "problemCount": 14,
     "problems": [
       {
         "pid": "P5192",
@@ -61361,6 +61459,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-25250",
     "officialProblemCount": 8,
+    "problemCount": 8,
     "problems": [
       {
         "pid": "P4132",
@@ -61429,6 +61528,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-584445",
     "officialProblemCount": 27,
+    "problemCount": 27,
     "problems": [
       {
         "pid": "CF1637E",
@@ -61611,6 +61711,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-92427",
     "officialProblemCount": 14,
+    "problemCount": 14,
     "problems": [
       {
         "pid": "P1337",
@@ -61771,6 +61872,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-470544",
     "officialProblemCount": 21,
+    "problemCount": 21,
     "problems": [
       {
         "pid": "AT_arc158_d",
@@ -61917,6 +62019,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-411026",
     "officialProblemCount": 25,
+    "problemCount": 25,
     "problems": [
       {
         "pid": "P2937",
@@ -62087,6 +62190,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-471502",
     "officialProblemCount": 18,
+    "problemCount": 18,
     "problems": [
       {
         "pid": "CF1207F",
@@ -62215,6 +62319,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3359",
     "officialProblemCount": 19,
+    "problemCount": 19,
     "problems": [
       {
         "pid": "P1546",
@@ -62352,6 +62457,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-247893",
     "officialProblemCount": 19,
+    "problemCount": 19,
     "problems": [
       {
         "pid": "P8828",
@@ -62486,6 +62592,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-7890",
     "officialProblemCount": 13,
+    "problemCount": 13,
     "problems": [
       {
         "pid": "P1082",
@@ -62586,6 +62693,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-18282",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "P7780",
@@ -62906,6 +63014,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4295",
     "officialProblemCount": 15,
+    "problemCount": 15,
     "problems": [
       {
         "pid": "P4148",
@@ -63018,6 +63127,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-235774",
     "officialProblemCount": 47,
+    "problemCount": 47,
     "problems": [
       {
         "pid": "P6782",
@@ -63320,6 +63430,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-330260",
     "officialProblemCount": 31,
+    "problemCount": 32,
     "problems": [
       {
         "pid": "P1996",
@@ -63608,6 +63719,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3347",
     "officialProblemCount": 11,
+    "problemCount": 11,
     "problems": [
       {
         "pid": "P2737",
@@ -63694,6 +63806,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-48747",
     "officialProblemCount": 19,
+    "problemCount": 19,
     "problems": [
       {
         "pid": "P2455",
@@ -63828,6 +63941,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4971",
     "officialProblemCount": 10,
+    "problemCount": 10,
     "problems": [
       {
         "pid": "P6003",
@@ -63908,6 +64022,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-576905",
     "officialProblemCount": 16,
+    "problemCount": 16,
     "problems": [
       {
         "pid": "P3379",
@@ -64024,6 +64139,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-253271",
     "officialProblemCount": 29,
+    "problemCount": 29,
     "problems": [
       {
         "pid": "P4779",
@@ -64221,6 +64337,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-17727",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "P1733",
@@ -64541,6 +64658,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-428147",
     "officialProblemCount": 9,
+    "problemCount": 9,
     "problems": [
       {
         "pid": "CF208E",
@@ -64615,6 +64733,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1792",
     "officialProblemCount": 18,
+    "problemCount": 18,
     "problems": [
       {
         "pid": "UVA272",
@@ -64743,6 +64862,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-269907",
     "officialProblemCount": 11,
+    "problemCount": 11,
     "problems": [
       {
         "pid": "CF915E",
@@ -64829,6 +64949,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-542418",
     "officialProblemCount": 12,
+    "problemCount": 12,
     "problems": [
       {
         "pid": "AT_abc305_f",
@@ -64921,6 +65042,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-87157",
     "officialProblemCount": 9,
+    "problemCount": 9,
     "problems": [
       {
         "pid": "P1495",
@@ -64995,6 +65117,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4974",
     "officialProblemCount": 12,
+    "problemCount": 12,
     "problems": [
       {
         "pid": "P6100",
@@ -65087,6 +65210,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-11477",
     "officialProblemCount": 6,
+    "problemCount": 6,
     "problems": [
       {
         "pid": "CF995F",
@@ -65143,6 +65267,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-559292",
     "officialProblemCount": 16,
+    "problemCount": 16,
     "problems": [
       {
         "pid": "CF13C",
@@ -65259,6 +65384,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4953",
     "officialProblemCount": 36,
+    "problemCount": 36,
     "problems": [
       {
         "pid": "P3372",
@@ -65495,6 +65621,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-22566",
     "officialProblemCount": 11,
+    "problemCount": 11,
     "problems": [
       {
         "pid": "P5496",
@@ -65581,6 +65708,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-327894",
     "officialProblemCount": 17,
+    "problemCount": 17,
     "problems": [
       {
         "pid": "P1722",
@@ -65703,6 +65831,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-58919",
     "officialProblemCount": 32,
+    "problemCount": 32,
     "problems": [
       {
         "pid": "UVA11292",
@@ -65915,6 +66044,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9583",
     "officialProblemCount": 12,
+    "problemCount": 12,
     "problems": [
       {
         "pid": "P1387",
@@ -66027,6 +66157,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-39093",
     "officialProblemCount": 10,
+    "problemCount": 10,
     "problems": [
       {
         "pid": "CF1305F",
@@ -66125,6 +66256,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-756595",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "P8942",
@@ -66445,6 +66577,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-38245",
     "officialProblemCount": 8,
+    "problemCount": 8,
     "problems": [
       {
         "pid": "P4782",
@@ -66529,6 +66662,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1015434",
     "officialProblemCount": 17,
+    "problemCount": 17,
     "problems": [
       {
         "pid": "P14203",
@@ -66681,6 +66815,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-355729",
     "officialProblemCount": 27,
+    "problemCount": 27,
     "problems": [
       {
         "pid": "P3369",
@@ -66863,6 +66998,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-55445",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "P7333",
@@ -67183,6 +67319,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-5644",
     "officialProblemCount": 18,
+    "problemCount": 18,
     "problems": [
       {
         "pid": "SP13",
@@ -67311,6 +67448,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-11474",
     "officialProblemCount": 16,
+    "problemCount": 16,
     "problems": [
       {
         "pid": "P1344",
@@ -67427,6 +67565,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4837",
     "officialProblemCount": 20,
+    "problemCount": 20,
     "problems": [
       {
         "pid": "P1522",
@@ -67567,6 +67706,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-692327",
     "officialProblemCount": 25,
+    "problemCount": 24,
     "problems": [
       {
         "pid": "CF1746F",
@@ -67621,12 +67761,6 @@
         "problemId": "luogu-training-P5811",
         "sections": [],
         "url": "https://www.luogu.com.cn/problem/P5811"
-      },
-      {
-        "pid": "P6914",
-        "problemId": "luogu-training-P6914",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6914"
       },
       {
         "pid": "CF1648F",
@@ -67739,6 +67873,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-5058",
     "officialProblemCount": 11,
+    "problemCount": 11,
     "problems": [
       {
         "pid": "P5173",
@@ -67825,6 +67960,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-288887",
     "officialProblemCount": 38,
+    "problemCount": 37,
     "problems": [
       {
         "pid": "P1466",
@@ -67909,12 +68045,6 @@
         "problemId": "luogu-training-P1225",
         "sections": [],
         "url": "https://www.luogu.com.cn/problem/P1225"
-      },
-      {
-        "pid": "P1778",
-        "problemId": "luogu-training-P1778",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P1778"
       },
       {
         "pid": "P1949",
@@ -68073,6 +68203,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-2033",
     "officialProblemCount": 8,
+    "problemCount": 8,
     "problems": [
       {
         "pid": "P4169",
@@ -68141,6 +68272,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-401640",
     "officialProblemCount": 23,
+    "problemCount": 22,
     "problems": [
       {
         "pid": "SP32079",
@@ -68227,12 +68359,6 @@
         "url": "https://www.luogu.com.cn/problem/SP22343"
       },
       {
-        "pid": "P12624",
-        "problemId": "luogu-training-P12624",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P12624"
-      },
-      {
         "pid": "CF526F",
         "problemId": "luogu-training-CF526F",
         "sections": [],
@@ -68299,6 +68425,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4066",
     "officialProblemCount": 18,
+    "problemCount": 18,
     "problems": [
       {
         "pid": "P4604",
@@ -68427,6 +68554,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-76602",
     "officialProblemCount": 14,
+    "problemCount": 13,
     "problems": [
       {
         "pid": "P2742",
@@ -68505,12 +68633,6 @@
         "problemId": "luogu-training-P1856",
         "sections": [],
         "url": "https://www.luogu.com.cn/problem/P1856"
-      },
-      {
-        "pid": "P1709",
-        "problemId": "luogu-training-P1709",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P1709"
       }
     ],
     "title": "USACO Section 5",
@@ -68531,6 +68653,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-7764",
     "officialProblemCount": 21,
+    "problemCount": 21,
     "problems": [
       {
         "pid": "P6568",
@@ -68679,6 +68802,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-10587",
     "officialProblemCount": 50,
+    "problemCount": 51,
     "problems": [
       {
         "pid": "U129453",
@@ -69189,6 +69313,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3748",
     "officialProblemCount": 0,
+    "problemCount": 6,
     "problems": [
       {
         "pid": "CF125E",
@@ -69245,6 +69370,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-7672",
     "officialProblemCount": 34,
+    "problemCount": 34,
     "problems": [
       {
         "pid": "P6306",
@@ -69469,6 +69595,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-505660",
     "officialProblemCount": 26,
+    "problemCount": 25,
     "problems": [
       {
         "pid": "B3609",
@@ -69599,14 +69726,6 @@
         "url": "https://www.luogu.com.cn/problem/P5058"
       },
       {
-        "pid": "P3225",
-        "problemId": "luogu-training-P3225",
-        "sections": [
-          "双连通分量"
-        ],
-        "url": "https://www.luogu.com.cn/problem/P3225"
-      },
-      {
         "pid": "P8867",
         "problemId": "luogu-training-P8867",
         "sections": [
@@ -69705,308 +69824,8 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-549764",
     "officialProblemCount": 50,
-    "problems": [
-      {
-        "pid": "P6892",
-        "problemId": "luogu-training-P6892",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6892"
-      },
-      {
-        "pid": "P6893",
-        "problemId": "luogu-training-P6893",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6893"
-      },
-      {
-        "pid": "P6894",
-        "problemId": "luogu-training-P6894",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6894"
-      },
-      {
-        "pid": "P6896",
-        "problemId": "luogu-training-P6896",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6896"
-      },
-      {
-        "pid": "P6897",
-        "problemId": "luogu-training-P6897",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6897"
-      },
-      {
-        "pid": "P6898",
-        "problemId": "luogu-training-P6898",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6898"
-      },
-      {
-        "pid": "P6899",
-        "problemId": "luogu-training-P6899",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6899"
-      },
-      {
-        "pid": "P6900",
-        "problemId": "luogu-training-P6900",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6900"
-      },
-      {
-        "pid": "P6901",
-        "problemId": "luogu-training-P6901",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6901"
-      },
-      {
-        "pid": "P6902",
-        "problemId": "luogu-training-P6902",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6902"
-      },
-      {
-        "pid": "P6903",
-        "problemId": "luogu-training-P6903",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6903"
-      },
-      {
-        "pid": "P6905",
-        "problemId": "luogu-training-P6905",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6905"
-      },
-      {
-        "pid": "P6908",
-        "problemId": "luogu-training-P6908",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6908"
-      },
-      {
-        "pid": "P6910",
-        "problemId": "luogu-training-P6910",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6910"
-      },
-      {
-        "pid": "P6911",
-        "problemId": "luogu-training-P6911",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6911"
-      },
-      {
-        "pid": "P6913",
-        "problemId": "luogu-training-P6913",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6913"
-      },
-      {
-        "pid": "P6914",
-        "problemId": "luogu-training-P6914",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6914"
-      },
-      {
-        "pid": "P6915",
-        "problemId": "luogu-training-P6915",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6915"
-      },
-      {
-        "pid": "P6916",
-        "problemId": "luogu-training-P6916",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6916"
-      },
-      {
-        "pid": "P6917",
-        "problemId": "luogu-training-P6917",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6917"
-      },
-      {
-        "pid": "P6918",
-        "problemId": "luogu-training-P6918",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6918"
-      },
-      {
-        "pid": "P6920",
-        "problemId": "luogu-training-P6920",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6920"
-      },
-      {
-        "pid": "P6922",
-        "problemId": "luogu-training-P6922",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6922"
-      },
-      {
-        "pid": "P6923",
-        "problemId": "luogu-training-P6923",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6923"
-      },
-      {
-        "pid": "P6924",
-        "problemId": "luogu-training-P6924",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6924"
-      },
-      {
-        "pid": "P6925",
-        "problemId": "luogu-training-P6925",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6925"
-      },
-      {
-        "pid": "P6926",
-        "problemId": "luogu-training-P6926",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6926"
-      },
-      {
-        "pid": "P6928",
-        "problemId": "luogu-training-P6928",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6928"
-      },
-      {
-        "pid": "P6929",
-        "problemId": "luogu-training-P6929",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6929"
-      },
-      {
-        "pid": "P6930",
-        "problemId": "luogu-training-P6930",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6930"
-      },
-      {
-        "pid": "P6932",
-        "problemId": "luogu-training-P6932",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6932"
-      },
-      {
-        "pid": "P6935",
-        "problemId": "luogu-training-P6935",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6935"
-      },
-      {
-        "pid": "P6936",
-        "problemId": "luogu-training-P6936",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6936"
-      },
-      {
-        "pid": "P6938",
-        "problemId": "luogu-training-P6938",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6938"
-      },
-      {
-        "pid": "P6939",
-        "problemId": "luogu-training-P6939",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6939"
-      },
-      {
-        "pid": "P6940",
-        "problemId": "luogu-training-P6940",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6940"
-      },
-      {
-        "pid": "P6943",
-        "problemId": "luogu-training-P6943",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6943"
-      },
-      {
-        "pid": "P6944",
-        "problemId": "luogu-training-P6944",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6944"
-      },
-      {
-        "pid": "P6945",
-        "problemId": "luogu-training-P6945",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6945"
-      },
-      {
-        "pid": "P6947",
-        "problemId": "luogu-training-P6947",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6947"
-      },
-      {
-        "pid": "P6948",
-        "problemId": "luogu-training-P6948",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6948"
-      },
-      {
-        "pid": "P6949",
-        "problemId": "luogu-training-P6949",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6949"
-      },
-      {
-        "pid": "P6950",
-        "problemId": "luogu-training-P6950",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6950"
-      },
-      {
-        "pid": "P6252",
-        "problemId": "luogu-training-P6252",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6252"
-      },
-      {
-        "pid": "P6253",
-        "problemId": "luogu-training-P6253",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6253"
-      },
-      {
-        "pid": "P6256",
-        "problemId": "luogu-training-P6256",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6256"
-      },
-      {
-        "pid": "P6257",
-        "problemId": "luogu-training-P6257",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6257"
-      },
-      {
-        "pid": "P6259",
-        "problemId": "luogu-training-P6259",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6259"
-      },
-      {
-        "pid": "P6260",
-        "problemId": "luogu-training-P6260",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6260"
-      },
-      {
-        "pid": "P6261",
-        "problemId": "luogu-training-P6261",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6261"
-      }
-    ],
+    "problemCount": 0,
+    "problems": [],
     "title": "IOI2021 国家集训队作业 Part 1",
     "url": "https://www.luogu.com.cn/training/549764"
   },
@@ -70025,6 +69844,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1367",
     "officialProblemCount": 43,
+    "problemCount": 43,
     "problems": [
       {
         "pid": "P1048",
@@ -70303,6 +70123,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-571221",
     "officialProblemCount": 8,
+    "problemCount": 8,
     "problems": [
       {
         "pid": "P5693",
@@ -70373,6 +70194,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-425412",
     "officialProblemCount": 34,
+    "problemCount": 34,
     "problems": [
       {
         "pid": "P9577",
@@ -70597,6 +70419,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3807",
     "officialProblemCount": 32,
+    "problemCount": 32,
     "problems": [
       {
         "pid": "UVA11292",
@@ -70809,6 +70632,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-58933",
     "officialProblemCount": 22,
+    "problemCount": 22,
     "problems": [
       {
         "pid": "UVA11995",
@@ -70961,6 +70785,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3148",
     "officialProblemCount": 28,
+    "problemCount": 28,
     "problems": [
       {
         "pid": "UVA10474",
@@ -71149,6 +70974,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-58930",
     "officialProblemCount": 31,
+    "problemCount": 31,
     "problems": [
       {
         "pid": "UVA11538",
@@ -71364,6 +71190,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-425024",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "P6667",
@@ -71693,6 +71520,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-370967",
     "officialProblemCount": 50,
+    "problemCount": 49,
     "problems": [
       {
         "pid": "CF1687C",
@@ -71935,12 +71763,6 @@
         "url": "https://www.luogu.com.cn/problem/CF549G"
       },
       {
-        "pid": "P6931",
-        "problemId": "luogu-training-P6931",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6931"
-      },
-      {
         "pid": "CF798D",
         "problemId": "luogu-training-CF798D",
         "sections": [],
@@ -72013,6 +71835,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3841",
     "officialProblemCount": 34,
+    "problemCount": 34,
     "problems": [
       {
         "pid": "UVA11636",
@@ -72240,6 +72063,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1091423",
     "officialProblemCount": 15,
+    "problemCount": 14,
     "problems": [
       {
         "pid": "P14142",
@@ -72288,12 +72112,6 @@
         "problemId": "luogu-training-P12775",
         "sections": [],
         "url": "https://www.luogu.com.cn/problem/P12775"
-      },
-      {
-        "pid": "P15625",
-        "problemId": "luogu-training-P15625",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P15625"
       },
       {
         "pid": "P17227",
@@ -72352,6 +72170,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-147101",
     "officialProblemCount": 41,
+    "problemCount": 41,
     "problems": [
       {
         "pid": "P3376",
@@ -72618,6 +72437,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-762625",
     "officialProblemCount": 20,
+    "problemCount": 20,
     "problems": [
       {
         "pid": "P5788",
@@ -72818,6 +72638,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4814",
     "officialProblemCount": 24,
+    "problemCount": 24,
     "problems": [
       {
         "pid": "P3809",
@@ -72982,6 +72803,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-58936",
     "officialProblemCount": 34,
+    "problemCount": 34,
     "problems": [
       {
         "pid": "UVA11624",
@@ -73206,6 +73028,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-322838",
     "officialProblemCount": 20,
+    "problemCount": 20,
     "problems": [
       {
         "pid": "P7605",
@@ -73346,6 +73169,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3142",
     "officialProblemCount": 16,
+    "problemCount": 16,
     "problems": [
       {
         "pid": "UVA1339",
@@ -73462,6 +73286,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-58934",
     "officialProblemCount": 18,
+    "problemCount": 18,
     "problems": [
       {
         "pid": "UVA11178",
@@ -73590,6 +73415,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-517506",
     "officialProblemCount": 25,
+    "problemCount": 25,
     "problems": [
       {
         "pid": "AT_agc060_c",
@@ -73762,6 +73588,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-440258",
     "officialProblemCount": 50,
+    "problemCount": 52,
     "problems": [
       {
         "pid": "P9808",
@@ -74096,6 +73923,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-6587",
     "officialProblemCount": 16,
+    "problemCount": 16,
     "problems": [
       {
         "pid": "CF1267B",
@@ -74212,6 +74040,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-57092",
     "officialProblemCount": 7,
+    "problemCount": 7,
     "problems": [
       {
         "pid": "P4929",
@@ -74274,6 +74103,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-58941",
     "officialProblemCount": 23,
+    "problemCount": 23,
     "problems": [
       {
         "pid": "UVA11270",
@@ -74432,6 +74262,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-111504",
     "officialProblemCount": 9,
+    "problemCount": 9,
     "problems": [
       {
         "pid": "P4219",
@@ -74506,6 +74337,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-286139",
     "officialProblemCount": 8,
+    "problemCount": 8,
     "problems": [
       {
         "pid": "P4781",
@@ -74583,6 +74415,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-404828",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "AT_arc105_e",
@@ -74903,6 +74736,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1020",
     "officialProblemCount": 8,
+    "problemCount": 8,
     "problems": [
       {
         "pid": "P6022",
@@ -74980,6 +74814,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-466134",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "P4249",
@@ -75300,6 +75135,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-401651",
     "officialProblemCount": 46,
+    "problemCount": 46,
     "problems": [
       {
         "pid": "P3379",
@@ -75596,6 +75432,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-288889",
     "officialProblemCount": 30,
+    "problemCount": 29,
     "problems": [
       {
         "pid": "P1032",
@@ -75644,12 +75481,6 @@
         "problemId": "luogu-training-P1491",
         "sections": [],
         "url": "https://www.luogu.com.cn/problem/P1491"
-      },
-      {
-        "pid": "P1778",
-        "problemId": "luogu-training-P1778",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P1778"
       },
       {
         "pid": "P1949",
@@ -75796,6 +75627,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3503",
     "officialProblemCount": 11,
+    "problemCount": 11,
     "problems": [
       {
         "pid": "P5547",
@@ -75882,6 +75714,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-5642",
     "officialProblemCount": 12,
+    "problemCount": 12,
     "problems": [
       {
         "pid": "P1739",
@@ -76002,229 +75835,8 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-549765",
     "officialProblemCount": 50,
+    "problemCount": 13,
     "problems": [
-      {
-        "pid": "P6957",
-        "problemId": "luogu-training-P6957",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6957"
-      },
-      {
-        "pid": "P6958",
-        "problemId": "luogu-training-P6958",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6958"
-      },
-      {
-        "pid": "P6959",
-        "problemId": "luogu-training-P6959",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6959"
-      },
-      {
-        "pid": "P6960",
-        "problemId": "luogu-training-P6960",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6960"
-      },
-      {
-        "pid": "P6961",
-        "problemId": "luogu-training-P6961",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6961"
-      },
-      {
-        "pid": "P6962",
-        "problemId": "luogu-training-P6962",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6962"
-      },
-      {
-        "pid": "P6963",
-        "problemId": "luogu-training-P6963",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6963"
-      },
-      {
-        "pid": "P6965",
-        "problemId": "luogu-training-P6965",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6965"
-      },
-      {
-        "pid": "P6966",
-        "problemId": "luogu-training-P6966",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6966"
-      },
-      {
-        "pid": "P6967",
-        "problemId": "luogu-training-P6967",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6967"
-      },
-      {
-        "pid": "P6970",
-        "problemId": "luogu-training-P6970",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6970"
-      },
-      {
-        "pid": "P7123",
-        "problemId": "luogu-training-P7123",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P7123"
-      },
-      {
-        "pid": "P6972",
-        "problemId": "luogu-training-P6972",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6972"
-      },
-      {
-        "pid": "P6973",
-        "problemId": "luogu-training-P6973",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6973"
-      },
-      {
-        "pid": "P6122",
-        "problemId": "luogu-training-P6122",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6122"
-      },
-      {
-        "pid": "P6124",
-        "problemId": "luogu-training-P6124",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6124"
-      },
-      {
-        "pid": "P6975",
-        "problemId": "luogu-training-P6975",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6975"
-      },
-      {
-        "pid": "P6976",
-        "problemId": "luogu-training-P6976",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6976"
-      },
-      {
-        "pid": "P6980",
-        "problemId": "luogu-training-P6980",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6980"
-      },
-      {
-        "pid": "P6981",
-        "problemId": "luogu-training-P6981",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6981"
-      },
-      {
-        "pid": "P6982",
-        "problemId": "luogu-training-P6982",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6982"
-      },
-      {
-        "pid": "P6983",
-        "problemId": "luogu-training-P6983",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6983"
-      },
-      {
-        "pid": "P6984",
-        "problemId": "luogu-training-P6984",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6984"
-      },
-      {
-        "pid": "P6987",
-        "problemId": "luogu-training-P6987",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6987"
-      },
-      {
-        "pid": "P6988",
-        "problemId": "luogu-training-P6988",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6988"
-      },
-      {
-        "pid": "P6989",
-        "problemId": "luogu-training-P6989",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6989"
-      },
-      {
-        "pid": "P6991",
-        "problemId": "luogu-training-P6991",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6991"
-      },
-      {
-        "pid": "P6992",
-        "problemId": "luogu-training-P6992",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6992"
-      },
-      {
-        "pid": "P6993",
-        "problemId": "luogu-training-P6993",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6993"
-      },
-      {
-        "pid": "P6996",
-        "problemId": "luogu-training-P6996",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6996"
-      },
-      {
-        "pid": "P6998",
-        "problemId": "luogu-training-P6998",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6998"
-      },
-      {
-        "pid": "P6999",
-        "problemId": "luogu-training-P6999",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P6999"
-      },
-      {
-        "pid": "P7000",
-        "problemId": "luogu-training-P7000",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P7000"
-      },
-      {
-        "pid": "P7002",
-        "problemId": "luogu-training-P7002",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P7002"
-      },
-      {
-        "pid": "P7003",
-        "problemId": "luogu-training-P7003",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P7003"
-      },
-      {
-        "pid": "P7004",
-        "problemId": "luogu-training-P7004",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P7004"
-      },
-      {
-        "pid": "P7006",
-        "problemId": "luogu-training-P7006",
-        "sections": [],
-        "url": "https://www.luogu.com.cn/problem/P7006"
-      },
       {
         "pid": "P4737",
         "problemId": "luogu-training-P4737",
@@ -76322,6 +75934,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-65436",
     "officialProblemCount": 7,
+    "problemCount": 7,
     "problems": [
       {
         "pid": "P7238",
@@ -76387,6 +76000,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-172968",
     "officialProblemCount": 46,
+    "problemCount": 46,
     "problems": [
       {
         "pid": "P7835",
@@ -76689,6 +76303,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-549766",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "P1745",
@@ -77009,6 +76624,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-5335",
     "officialProblemCount": 43,
+    "problemCount": 43,
     "problems": [
       {
         "pid": "UVA11292",
@@ -77287,6 +76903,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-528889",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "P3803",
@@ -77607,6 +77224,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4771",
     "officialProblemCount": 7,
+    "problemCount": 7,
     "problems": [
       {
         "pid": "P4123",
@@ -77669,6 +77287,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3029",
     "officialProblemCount": 15,
+    "problemCount": 15,
     "problems": [
       {
         "pid": "P3741",
@@ -77779,6 +77398,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-5843",
     "officialProblemCount": 33,
+    "problemCount": 33,
     "problems": [
       {
         "pid": "UVA1325",
@@ -77997,6 +77617,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-55555",
     "officialProblemCount": 23,
+    "problemCount": 26,
     "problems": [
       {
         "pid": "P6800",
@@ -78225,6 +77846,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-440363",
     "officialProblemCount": 50,
+    "problemCount": 51,
     "problems": [
       {
         "pid": "CF160D",
@@ -78551,6 +78173,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1027631",
     "officialProblemCount": 11,
+    "problemCount": 11,
     "problems": [
       {
         "pid": "P1733",
@@ -78637,6 +78260,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-37",
     "officialProblemCount": 24,
+    "problemCount": 24,
     "problems": [
       {
         "pid": "P5343",
@@ -78801,6 +78425,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4905",
     "officialProblemCount": 6,
+    "problemCount": 6,
     "problems": [
       {
         "pid": "P4254",
@@ -78859,6 +78484,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-921944",
     "officialProblemCount": 49,
+    "problemCount": 52,
     "problems": [
       {
         "pid": "P8447",
@@ -79341,6 +78967,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-496702",
     "officialProblemCount": 18,
+    "problemCount": 18,
     "problems": [
       {
         "pid": "P1494",
@@ -79469,6 +79096,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3034",
     "officialProblemCount": 30,
+    "problemCount": 30,
     "problems": [
       {
         "pid": "P6068",
@@ -79731,6 +79359,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-176776",
     "officialProblemCount": 47,
+    "problemCount": 47,
     "problems": [
       {
         "pid": "P8007",
@@ -80033,6 +79662,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-206285",
     "officialProblemCount": 48,
+    "problemCount": 48,
     "problems": [
       {
         "pid": "T315529",
@@ -80341,6 +79971,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-108049",
     "officialProblemCount": 37,
+    "problemCount": 37,
     "problems": [
       {
         "pid": "UVA1437",
@@ -80583,6 +80214,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3827",
     "officialProblemCount": 19,
+    "problemCount": 19,
     "problems": [
       {
         "pid": "P5477",
@@ -80717,6 +80349,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-49280",
     "officialProblemCount": 30,
+    "problemCount": 30,
     "problems": [
       {
         "pid": "P2681",
@@ -80917,6 +80550,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-113911",
     "officialProblemCount": 14,
+    "problemCount": 14,
     "problems": [
       {
         "pid": "UVA11388",
@@ -81023,6 +80657,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-84507",
     "officialProblemCount": 28,
+    "problemCount": 28,
     "problems": [
       {
         "pid": "P7852",
@@ -81271,6 +80906,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-555904",
     "officialProblemCount": 31,
+    "problemCount": 31,
     "problems": [
       {
         "pid": "P10797",
@@ -81477,6 +81113,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-114464",
     "officialProblemCount": 19,
+    "problemCount": 19,
     "problems": [
       {
         "pid": "UVA11038",
@@ -81611,6 +81248,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-813583",
     "officialProblemCount": 15,
+    "problemCount": 15,
     "problems": [
       {
         "pid": "P13457",
@@ -81721,6 +81359,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-10471",
     "officialProblemCount": 16,
+    "problemCount": 16,
     "problems": [
       {
         "pid": "P6586",
@@ -81855,6 +81494,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-714396",
     "officialProblemCount": 15,
+    "problemCount": 15,
     "problems": [
       {
         "pid": "P9542",
@@ -81965,6 +81605,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-5046",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "CF1110A",
@@ -82285,6 +81926,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-549808",
     "officialProblemCount": 21,
+    "problemCount": 21,
     "problems": [
       {
         "pid": "AT_wtf19_a",
@@ -82431,6 +82073,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-272753",
     "officialProblemCount": 69,
+    "problemCount": 71,
     "problems": [
       {
         "pid": "P8942",
@@ -82877,6 +82520,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-184914",
     "officialProblemCount": 19,
+    "problemCount": 19,
     "problems": [
       {
         "pid": "P8924",
@@ -83013,6 +82657,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-57432",
     "officialProblemCount": 50,
+    "problemCount": 50,
     "problems": [
       {
         "pid": "P3601",
@@ -83333,6 +82978,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-444558",
     "officialProblemCount": 37,
+    "problemCount": 37,
     "problems": [
       {
         "pid": "P5344",
@@ -83575,6 +83221,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-259596",
     "officialProblemCount": 9,
+    "problemCount": 9,
     "problems": [
       {
         "pid": "P8886",
@@ -83668,6 +83315,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-951100",
     "officialProblemCount": 0,
+    "problemCount": 0,
     "problems": [],
     "title": "Shunpower TrainingProject",
     "url": "https://www.luogu.com.cn/training/951100"
@@ -83687,6 +83335,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-281387",
     "officialProblemCount": 8,
+    "problemCount": 8,
     "problems": [
       {
         "pid": "P8980",
@@ -83757,6 +83406,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-731150",
     "officialProblemCount": 46,
+    "problemCount": 46,
     "problems": [
       {
         "pid": "P9484",
@@ -84055,6 +83705,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-525057",
     "officialProblemCount": 46,
+    "problemCount": 46,
     "problems": [
       {
         "pid": "P9203",
@@ -84351,6 +84002,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-2017",
     "officialProblemCount": 22,
+    "problemCount": 22,
     "problems": [
       {
         "pid": "P4170",
@@ -84505,6 +84157,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-60439",
     "officialProblemCount": 10,
+    "problemCount": 10,
     "problems": [
       {
         "pid": "P3926",
@@ -84585,6 +84238,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-16389",
     "officialProblemCount": 7,
+    "problemCount": 7,
     "problems": [
       {
         "pid": "P6373",
@@ -84661,6 +84315,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-343634",
     "officialProblemCount": 8,
+    "problemCount": 8,
     "problems": [
       {
         "pid": "CF13C",
@@ -84729,6 +84384,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-874963",
     "officialProblemCount": 10,
+    "problemCount": 10,
     "problems": [
       {
         "pid": "P12732",
@@ -84829,6 +84485,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-359665",
     "officialProblemCount": 14,
+    "problemCount": 14,
     "problems": [
       {
         "pid": "P9552",
@@ -84961,6 +84618,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-530931",
     "officialProblemCount": 49,
+    "problemCount": 49,
     "problems": [
       {
         "pid": "T575710",
@@ -85275,6 +84933,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-372559",
     "officialProblemCount": 16,
+    "problemCount": 16,
     "problems": [
       {
         "pid": "P1024",
@@ -85407,6 +85066,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-768817",
     "officialProblemCount": 42,
+    "problemCount": 42,
     "problems": [
       {
         "pid": "P12333",
@@ -85679,6 +85339,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3251",
     "officialProblemCount": 12,
+    "problemCount": 12,
     "problems": [
       {
         "pid": "P5635",
@@ -85771,6 +85432,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-710283",
     "officialProblemCount": 20,
+    "problemCount": 20,
     "problems": [
       {
         "pid": "P11747",
@@ -85951,6 +85613,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1178",
     "officialProblemCount": 8,
+    "problemCount": 8,
     "problems": [
       {
         "pid": "P4255",
@@ -86019,6 +85682,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-6303",
     "officialProblemCount": 13,
+    "problemCount": 13,
     "problems": [
       {
         "pid": "P5125",
@@ -86117,6 +85781,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-42763",
     "officialProblemCount": 21,
+    "problemCount": 21,
     "problems": [
       {
         "pid": "P7127",
@@ -86263,6 +85928,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3047",
     "officialProblemCount": 15,
+    "problemCount": 15,
     "problems": [
       {
         "pid": "T111666",
@@ -86373,6 +86039,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1015436",
     "officialProblemCount": 10,
+    "problemCount": 10,
     "problems": [
       {
         "pid": "P16277",
@@ -86453,6 +86120,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1097120",
     "officialProblemCount": 5,
+    "problemCount": 5,
     "problems": [
       {
         "pid": "CF526F",
@@ -86503,6 +86171,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-173168",
     "officialProblemCount": 9,
+    "problemCount": 9,
     "problems": [
       {
         "pid": "CF1098D",
@@ -86579,6 +86248,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1029872",
     "officialProblemCount": 14,
+    "problemCount": 60,
     "problems": [
       {
         "pid": "P16940",
@@ -86952,6 +86622,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9349",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 9349",
     "url": "https://www.luogu.com.cn/training/9349"
@@ -86964,6 +86635,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9374",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 9374",
     "url": "https://www.luogu.com.cn/training/9374"
@@ -86976,6 +86648,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9376",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 9376",
     "url": "https://www.luogu.com.cn/training/9376"
@@ -86988,6 +86661,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9350",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 9350",
     "url": "https://www.luogu.com.cn/training/9350"
@@ -87000,6 +86674,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9352",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 9352",
     "url": "https://www.luogu.com.cn/training/9352"
@@ -87012,6 +86687,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9372",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 9372",
     "url": "https://www.luogu.com.cn/training/9372"
@@ -87024,6 +86700,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9373",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 9373",
     "url": "https://www.luogu.com.cn/training/9373"
@@ -87036,6 +86713,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9377",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 9377",
     "url": "https://www.luogu.com.cn/training/9377"
@@ -87048,6 +86726,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9378",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 9378",
     "url": "https://www.luogu.com.cn/training/9378"
@@ -87060,6 +86739,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9379",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 9379",
     "url": "https://www.luogu.com.cn/training/9379"
@@ -87072,6 +86752,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9380",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 9380",
     "url": "https://www.luogu.com.cn/training/9380"
@@ -87084,6 +86765,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9381",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 9381",
     "url": "https://www.luogu.com.cn/training/9381"
@@ -87096,6 +86778,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9382",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 9382",
     "url": "https://www.luogu.com.cn/training/9382"
@@ -87108,6 +86791,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9383",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 9383",
     "url": "https://www.luogu.com.cn/training/9383"
@@ -87120,6 +86804,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9384",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 9384",
     "url": "https://www.luogu.com.cn/training/9384"
@@ -87132,6 +86817,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9385",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 9385",
     "url": "https://www.luogu.com.cn/training/9385"
@@ -87144,6 +86830,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9386",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 9386",
     "url": "https://www.luogu.com.cn/training/9386"
@@ -87156,6 +86843,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9387",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 9387",
     "url": "https://www.luogu.com.cn/training/9387"
@@ -87168,6 +86856,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9388",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 9388",
     "url": "https://www.luogu.com.cn/training/9388"
@@ -87180,6 +86869,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-13993",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 13993",
     "url": "https://www.luogu.com.cn/training/13993"
@@ -87192,6 +86882,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-13994",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 13994",
     "url": "https://www.luogu.com.cn/training/13994"
@@ -87204,6 +86895,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-14005",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 14005",
     "url": "https://www.luogu.com.cn/training/14005"
@@ -87216,6 +86908,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-14006",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 14006",
     "url": "https://www.luogu.com.cn/training/14006"
@@ -87228,6 +86921,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-511300",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 511300",
     "url": "https://www.luogu.com.cn/training/511300"
@@ -87240,6 +86934,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-44326",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 44326",
     "url": "https://www.luogu.com.cn/training/44326"
@@ -87252,6 +86947,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-9714",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 9714",
     "url": "https://www.luogu.com.cn/training/9714"
@@ -87264,6 +86960,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-862943",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 862943",
     "url": "https://www.luogu.com.cn/training/862943"
@@ -87276,6 +86973,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3043",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 3043",
     "url": "https://www.luogu.com.cn/training/3043"
@@ -87288,6 +86986,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-18506",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 18506",
     "url": "https://www.luogu.com.cn/training/18506"
@@ -87300,6 +86999,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-18508",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 18508",
     "url": "https://www.luogu.com.cn/training/18508"
@@ -87312,6 +87012,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-18509",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 18509",
     "url": "https://www.luogu.com.cn/training/18509"
@@ -87324,6 +87025,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-18938",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 18938",
     "url": "https://www.luogu.com.cn/training/18938"
@@ -87336,6 +87038,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-206995",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 206995",
     "url": "https://www.luogu.com.cn/training/206995"
@@ -87348,6 +87051,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-209337",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 209337",
     "url": "https://www.luogu.com.cn/training/209337"
@@ -87360,6 +87064,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-214621",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 214621",
     "url": "https://www.luogu.com.cn/training/214621"
@@ -87372,6 +87077,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-221804",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 221804",
     "url": "https://www.luogu.com.cn/training/221804"
@@ -87384,6 +87090,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-239450",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 239450",
     "url": "https://www.luogu.com.cn/training/239450"
@@ -87396,6 +87103,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-206977",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 206977",
     "url": "https://www.luogu.com.cn/training/206977"
@@ -87408,6 +87116,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-181995",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 181995",
     "url": "https://www.luogu.com.cn/training/181995"
@@ -87420,6 +87129,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-181342",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 181342",
     "url": "https://www.luogu.com.cn/training/181342"
@@ -87432,6 +87142,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-755575",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 755575",
     "url": "https://www.luogu.com.cn/training/755575"
@@ -87444,6 +87155,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-747972",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 747972",
     "url": "https://www.luogu.com.cn/training/747972"
@@ -87456,6 +87168,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-748106",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 748106",
     "url": "https://www.luogu.com.cn/training/748106"
@@ -87468,6 +87181,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-780605",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 780605",
     "url": "https://www.luogu.com.cn/training/780605"
@@ -87480,6 +87194,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-780826",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 780826",
     "url": "https://www.luogu.com.cn/training/780826"
@@ -87492,6 +87207,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-747431",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 747431",
     "url": "https://www.luogu.com.cn/training/747431"
@@ -87504,6 +87220,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-745619",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 745619",
     "url": "https://www.luogu.com.cn/training/745619"
@@ -87516,6 +87233,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-745636",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 745636",
     "url": "https://www.luogu.com.cn/training/745636"
@@ -87528,6 +87246,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-749493",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 749493",
     "url": "https://www.luogu.com.cn/training/749493"
@@ -87540,6 +87259,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-745555",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 745555",
     "url": "https://www.luogu.com.cn/training/745555"
@@ -87552,6 +87272,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-745609",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 745609",
     "url": "https://www.luogu.com.cn/training/745609"
@@ -87564,6 +87285,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-745551",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 745551",
     "url": "https://www.luogu.com.cn/training/745551"
@@ -87576,6 +87298,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-745544",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 745544",
     "url": "https://www.luogu.com.cn/training/745544"
@@ -87588,6 +87311,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-769067",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 769067",
     "url": "https://www.luogu.com.cn/training/769067"
@@ -87600,6 +87324,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-177093",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 177093",
     "url": "https://www.luogu.com.cn/training/177093"
@@ -87612,6 +87337,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-79158",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 79158",
     "url": "https://www.luogu.com.cn/training/79158"
@@ -87624,6 +87350,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-568306",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 568306",
     "url": "https://www.luogu.com.cn/training/568306"
@@ -87636,6 +87363,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-626676",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 626676",
     "url": "https://www.luogu.com.cn/training/626676"
@@ -87648,6 +87376,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-537913",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 537913",
     "url": "https://www.luogu.com.cn/training/537913"
@@ -87660,6 +87389,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-598814",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 598814",
     "url": "https://www.luogu.com.cn/training/598814"
@@ -87672,6 +87402,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-584719",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 584719",
     "url": "https://www.luogu.com.cn/training/584719"
@@ -87684,6 +87415,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-140652",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 140652",
     "url": "https://www.luogu.com.cn/training/140652"
@@ -87696,6 +87428,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-145463",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 145463",
     "url": "https://www.luogu.com.cn/training/145463"
@@ -87708,6 +87441,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-471061",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 471061",
     "url": "https://www.luogu.com.cn/training/471061"
@@ -87720,6 +87454,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-241374",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 241374",
     "url": "https://www.luogu.com.cn/training/241374"
@@ -87732,6 +87467,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-100192",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 100192",
     "url": "https://www.luogu.com.cn/training/100192"
@@ -87744,6 +87480,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-584740",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 584740",
     "url": "https://www.luogu.com.cn/training/584740"
@@ -87756,6 +87493,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-13245",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 13245",
     "url": "https://www.luogu.com.cn/training/13245"
@@ -87768,6 +87506,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-174991",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 174991",
     "url": "https://www.luogu.com.cn/training/174991"
@@ -87780,6 +87519,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-46574",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 46574",
     "url": "https://www.luogu.com.cn/training/46574"
@@ -87792,6 +87532,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-4972",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 4972",
     "url": "https://www.luogu.com.cn/training/4972"
@@ -87804,6 +87545,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-147992",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 147992",
     "url": "https://www.luogu.com.cn/training/147992"
@@ -87816,6 +87558,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-3120",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 3120",
     "url": "https://www.luogu.com.cn/training/3120"
@@ -87828,6 +87571,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-57464",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 57464",
     "url": "https://www.luogu.com.cn/training/57464"
@@ -87840,6 +87584,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-36057",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 36057",
     "url": "https://www.luogu.com.cn/training/36057"
@@ -87852,6 +87597,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-1095179",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 1095179",
     "url": "https://www.luogu.com.cn/training/1095179"
@@ -87864,6 +87610,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-950483",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 950483",
     "url": "https://www.luogu.com.cn/training/950483"
@@ -87876,6 +87623,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-950489",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 950489",
     "url": "https://www.luogu.com.cn/training/950489"
@@ -87888,6 +87636,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-950514",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 950514",
     "url": "https://www.luogu.com.cn/training/950514"
@@ -87900,6 +87649,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-950579",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 950579",
     "url": "https://www.luogu.com.cn/training/950579"
@@ -87912,6 +87662,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-950588",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 950588",
     "url": "https://www.luogu.com.cn/training/950588"
@@ -87924,6 +87675,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-950595",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 950595",
     "url": "https://www.luogu.com.cn/training/950595"
@@ -87936,6 +87688,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-950596",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 950596",
     "url": "https://www.luogu.com.cn/training/950596"
@@ -87948,6 +87701,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-950598",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 950598",
     "url": "https://www.luogu.com.cn/training/950598"
@@ -87960,6 +87714,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-950602",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 950602",
     "url": "https://www.luogu.com.cn/training/950602"
@@ -87972,6 +87727,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-950605",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 950605",
     "url": "https://www.luogu.com.cn/training/950605"
@@ -87984,6 +87740,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-950615",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 950615",
     "url": "https://www.luogu.com.cn/training/950615"
@@ -87996,6 +87753,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-950621",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 950621",
     "url": "https://www.luogu.com.cn/training/950621"
@@ -88008,6 +87766,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-951035",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 951035",
     "url": "https://www.luogu.com.cn/training/951035"
@@ -88020,6 +87779,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-951040",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 951040",
     "url": "https://www.luogu.com.cn/training/951040"
@@ -88032,6 +87792,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-951046",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 951046",
     "url": "https://www.luogu.com.cn/training/951046"
@@ -88044,6 +87805,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-951063",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 951063",
     "url": "https://www.luogu.com.cn/training/951063"
@@ -88056,6 +87818,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-951071",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 951071",
     "url": "https://www.luogu.com.cn/training/951071"
@@ -88068,6 +87831,7 @@
     "collectedAt": "2026-10-24T12:07:13.081031+00:00",
     "id": "luogu-959907",
     "officialProblemCount": null,
+    "problemCount": 0,
     "problems": [],
     "title": "洛谷题单 959907",
     "url": "https://www.luogu.com.cn/training/959907"

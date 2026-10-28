@@ -26,6 +26,7 @@ def english_prose(text):
 
 
 def needs_translation(problem):
+    if problem.get('translationAvailable') is False:return False
     if not problem.get('statementAvailable') or (problem.get('translation') or {}).get('markdown'):return False
     prose=english_prose(problem.get('markdown') or '')
     words=re.findall(r'[A-Za-z]+',prose.lower())
@@ -364,6 +365,7 @@ class TranslationService:
         # _cached is the read-only statement view. Never use problem()'s drafts,
         # own submissions, solutions or reference C++ as provider input.
         with self.assets.lock:problem=dict(self.assets._cached(identity))
+        if problem.get('translationAvailable') is False:raise ServiceError(422,'当前原题仅提供 PDF，请阅读原文题面')
         original=problem.get('markdown') or ''
         host=__import__('urllib.parse',fromlist=['urlsplit']).urlsplit(problem.get('url') or '').hostname
         if host not in ('atcoder.jp','codeforces.com','www.luogu.com.cn','ac.nowcoder.com'):raise ServiceError(422,'只支持四个原站的公开题面翻译')

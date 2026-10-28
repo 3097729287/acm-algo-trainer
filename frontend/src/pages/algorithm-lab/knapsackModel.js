@@ -93,7 +93,7 @@ export function cppTemplate(config = { init: 'zero', direction: 'down', source: 
   const loop = config.direction ? config.direction === 'down' ? 'for (int c = W; c >= w; --c)' : 'for (int c = w; c <= W; ++c)' : '/* ② 容量循环 */';
   const source = config.source ? config.source === 'remaining' ? 'dp[c - w]' : 'dp[c]' : '/* ③ 从哪里转移？ */';
   const output = config.output ? config.output === 'capacity' ? 'dp[W]' : 'dp[n]' : '/* ④ 输出哪个状态？ */';
-  return `#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    int n, W;\n    cin >> n >> W;\n    ${init}\n    for (int i = 0; i < n; ++i) {\n        int w;\n        long long v;\n        cin >> w >> v;\n        ${loop}\n            dp[c] = max(dp[c], ${source} + v);\n    }\n    cout << ${output} << '\\n';\n    return 0;\n}`;
+  return `#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    // n 是物品数，W 是背包容量；dp[c] 的含义由课堂选择的初始化决定。\n    int n, W;\n    cin >> n >> W;\n    // 全 0 对应容量至多 c；负无穷对应必须恰好装到 c，dp[0]=0。\n    ${init}\n    for (int i = 0; i < n; ++i) {\n        // w 是这件物品的重量，v 是收益；每轮只处理这一件物品。\n        int w;\n        long long v;\n        cin >> w >> v;\n        // 倒序让来源仍是上一轮；顺序可能读到本轮新值，重复使用同一件物品。\n        ${loop}\n            // 比较不选与选这件物品；正确的选取来源应保留 c-w 的容量。\n            dp[c] = max(dp[c], ${source} + v);\n    }\n    // 输出容量维度的状态；物品数 n 不是容量下标。\n    cout << ${output} << '\\n';\n    return 0;\n}`;
 }
 
 export const displayValue = value => value === -Infinity ? '不可达' : value == null ? '越界' : String(value);

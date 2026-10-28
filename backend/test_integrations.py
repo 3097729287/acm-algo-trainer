@@ -127,6 +127,72 @@ class IntegrationTests(unittest.TestCase):
                                          'difficultyConfidence': 'UNKNOWN', 'metadataVersion': '1.0.17'})
         self.assertIsNone(self.service.problem_metadata({}, url)['difficulty'])
 
+    def test_catalogue_unknown_and_low_sample_statistics_preserve_reviewed_estimates(self):
+        url='https://codeforces.com/gym/999999/problem/A'
+        reviewed={'difficulty':2700,'difficultyEstimated':True,'difficultyConfidence':'MEDIUM',
+                  'difficultySource':'阅读解法后估分','difficultyReviewed':True,
+                  'difficultyReviewSha256':'b'*64,'metadataVersion':'1.4.23'}
+        self.service.state['difficultyMetadata'][url]=dict(reviewed)
+        for value in [
+            {'difficulty':None,'difficultySource':'未提供官方 rating','difficultyConfidence':'UNKNOWN','metadataVersion':'1.4.23'},
+            {'difficulty':1800,'difficultySource':'同场统计粗估','difficultyConfidence':'LOW','metadataVersion':'1.4.23'},
+        ]:
+            self.service._observe_difficulty({'url':url,'platform':'Codeforces','tags':['dfs and similar'],**value})
+            current=self.service.problem_metadata({},url)
+            self.assertEqual(current['difficulty'],2700)
+            self.assertEqual(current['difficultyReviewSha256'],'b'*64)
+            self.assertEqual(current['officialTags'],['dfs and similar'])
+        self.service._observe_difficulty({'url':url,'platform':'Codeforces','difficulty':2500,'difficultySource':'Codeforces 官方 rating'})
+        current=self.service.problem_metadata({},url)
+        self.assertEqual(current['difficulty'],2500)
+        self.assertFalse(current['difficultyEstimated'])
+        self.assertNotIn('difficultyReviewed',current)
+
+    def test_published_native_models_can_replace_a_reviewed_fallback(self):
+        url='https://atcoder.jp/contests/agc999/tasks/agc999_f'
+        self.service.state['difficultyMetadata'][url]={'difficulty':3400,'difficultyReviewed':True,'metadataVersion':'1.4.23'}
+        self.service._observe_difficulty({'url':url,'platform':'AtCoder','difficulty':3200,'nativeDifficulty':3000,
+            'difficultySource':'CF-EQ · AtCoder Problems 最新模型估算','difficultyEstimated':True})
+        self.assertEqual(self.service.problem_metadata({},url)['difficulty'],3200)
+
+    def test_verified_official_scores_beat_unknown_and_manual_fallbacks(self):
+        url='https://codeforces.com/contest/99999/problem/A'
+        self.service.state['difficultyMetadata'][url]={'difficulty':2400,'difficultySource':'Codeforces 官方 rating',
+            'difficultyEstimated':False,'difficultyBand':[2400,2400],'metadataVersion':'1.4.23'}
+        for fields in [
+            {'difficulty':None,'difficultySource':'Codeforces 官方尚未评级','difficultyConfidence':'UNKNOWN','metadataVersion':'1.4.23'},
+            {'difficulty':3000,'difficultySource':'阅读解法后估分','difficultyEstimated':True,'difficultyReviewed':True,
+             'difficultyReviewSha256':'a'*64,'metadataVersion':'1.4.24'},
+        ]:
+            self.service._observe_difficulty({'url':url,'platform':'Codeforces',**fields})
+            self.assertEqual(self.service.problem_metadata({},url)['difficulty'],2400)
+        self.service._observe_difficulty({'url':url,'platform':'Codeforces','difficulty':2500,'difficultySource':'Codeforces 官方 rating'})
+        self.assertEqual(self.service.problem_metadata({},url)['difficulty'],2500)
+
+    def test_original_cf_ratings_refresh_luogu_cf_aliases_and_survive_native_bands(self):
+        from rating_evidence import evidence
+        alias='https://www.luogu.com.cn/problem/CF1000E'
+        non_alias='https://www.luogu.com.cn/problem/P1000'
+        self.store.values=[{'encoded':{'url':alias,'platform':'洛谷'}},{'encoded':{'url':non_alias,'platform':'洛谷'}}]
+        self.client.responses['https://codeforces.com/api/problemset.problems']={'status':'OK','result':{'problems':[
+            {'contestId':1000,'index':'E','name':'We Need More Bosses','rating':2100,'tags':['bridges','graphs']}]}}
+        self.service._refresh_difficulties('codeforces')
+        current=self.service.problem_metadata({},alias)
+        self.assertEqual(current['difficulty'],2100)
+        self.assertFalse(current['difficultyEstimated'])
+        self.assertEqual(evidence({**current,'url':alias,'platform':'洛谷'})['kind'],'official-cf')
+        self.assertEqual(current['difficultyOfficialReference']['index'],'E')
+        self.assertNotIn(non_alias,self.service.state['difficultyMetadata'])
+        for fields in (
+            {'difficulty':1800,'nativeDifficulty':4,'difficultySource':'CF-EQ / 洛谷官方难度档'},
+            {'difficulty':None,'difficultySource':'未提供','difficultyConfidence':'UNKNOWN','metadataVersion':'1.4.24'},
+        ):
+            self.service._observe_difficulty({'url':alias,'platform':'洛谷',**fields})
+            self.assertEqual(self.service.problem_metadata({},alias)['difficulty'],2100)
+        self.client.responses['https://codeforces.com/api/problemset.problems']['result']['problems'][0]['rating']=2200
+        self.service._refresh_difficulties('codeforces')
+        self.assertEqual(self.service.problem_metadata({},alias)['difficulty'],2200)
+
     def test_strict_filter_dedupe_local_first_and_unknown_pending(self):
         # This fixture drives _catalog directly; background sync must not race it.
         with patch.object(self.service,'_ensure_worker',lambda:None):

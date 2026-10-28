@@ -75,8 +75,18 @@ def _clean_markdown(value):
         text = re.sub(r'<[^>]+>|[*_`]', '', text)
         notice = (re.search(r'学术版|题目总版', text) and re.search(r'受信任|权限等级|发帖.{0,12}权限', text))
         notice = notice or (re.search(r'请勿|请不要|禁止', text) and re.search(r'(?:讨论区|讨论版|题目讨论).{0,16}(?:发|发布|询问|提问).{0,12}(?:题解|代码)', text))
+        # Strip stand-alone source pointers and repository-only attribution.
+        # Background that defines objects, operations or constraints survives.
+        pointer = re.fullmatch(r'\s*(?:来源|Source)\s*[:：]\s*(?:\[[^\]\n]+\]\(https?://[^)]+\)|https?://[^\s]+)\s*', block, re.I)
+        without_links = re.sub(r'\[[^\]\n]*\]\(https?://[^)]+\)|https?://[^\s]+', '', block).strip()
+        repository = re.fullmatch(r'本题(?:目)?(?:来自|来源于)\s*(?:仓库|代码仓库|GitHub\s*仓库|repository)\s*[:：]?\s*[。.]?', without_links, re.I)
         promotion = _PROMOTION.search(text)
-        notice = notice or promotion
+        notice = notice or promotion or pointer or repository
+        if not notice:
+            aligned = re.sub(r'(?m)^[ \t]*::align\{(?:left|center|right)\}[ \t]*$', '', block)
+            if aligned != block:
+                blocks[index] = aligned
+                changed = True
         if notice:
             blocks[index] = ''
             changed = True
@@ -97,7 +107,13 @@ def clean_statement(value):
     translation = value.get('translation')
     if isinstance(translation, dict):
         result['translation'] = dict(translation, markdown=clean_statement_markdown(translation.get('markdown')))
-        # A bundled translation must retain the original digest if its source
-        # was untouched. Cleaned Chinese notices do not change English sources.
+        # Rebase only a previously authenticated bundled translation when the
+        # exact source changes solely through this same deterministic cleanup.
+        # A stale or forged digest must never be made to look current.
+        if result['markdown'] != value.get('markdown') and translation.get('kind') == 'bundled':
+            import hashlib
+            old = hashlib.sha256((value.get('markdown') or '').encode('utf8')).hexdigest()
+            if translation.get('sourceHash') == old:
+                result['translation']['sourceHash'] = hashlib.sha256((result['markdown'] or '').encode('utf8')).hexdigest()
     from statement_quality import readable_statement
     return readable_statement(result)

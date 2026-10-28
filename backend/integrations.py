@@ -290,6 +290,24 @@ class IntegrationService:
                 previous=self.state['difficultyMetadata'].setdefault(key,{})
                 previous['officialTags']=copy.deepcopy(tags)
                 previous['officialTagsCheckedAt']=stamp(self.clock())
+        with self.lock:
+            previous=copy.deepcopy(self.state['difficultyMetadata'].get(key,{}))
+        from rating_evidence import evidence
+        prior_platform='Codeforces' if urlsplit(key).hostname in ('codeforces.com','www.codeforces.com') else row.get('platform')
+        prior_official=evidence({**previous,'platform':prior_platform,'url':key})['kind']=='official-cf'
+        if (previous.get('difficultyReviewed') is True or prior_official) and type(previous.get('difficulty')) is int:
+            # A catalogue re-scan can report no rating or another low-sample
+            # solve-count guess. Neither withdraws a reviewed solution estimate.
+            # Real published scores and a newer explicit review may supersede it.
+            valid=type(rating) is int and 0<rating<=10000
+            official=valid and evidence(row)['kind']=='official-cf'
+            source=str(row.get('difficultySource') or '')
+            native=valid and type(row.get('nativeDifficulty')) is int and (
+                row.get('platform') in ('AtCoder','atcoder') and 'AtCoder Problems' in source or
+                row.get('platform') in ('洛谷','luogu') and 1<=row['nativeDifficulty']<=8 and '官方难度档' in source)
+            revised=valid and row.get('difficultyReviewed') is True and bool(re.fullmatch(r'[0-9a-f]{64}',str(row.get('difficultyReviewSha256') or ''))) and (
+                (version_number(row.get('metadataVersion')) or (0,0,0)) >= (version_number(previous.get('metadataVersion')) or (0,0,0)))
+            if not (official or not prior_official and (native or revised)):return
         if rating is None and (version_number(row.get('metadataVersion')) or (0,0,0)) >= (1,0,17) and row.get('difficultyConfidence') == 'UNKNOWN':
             fields = {name:copy.deepcopy(row.get(name)) for name in ('difficulty','difficultySource','difficultyEstimated','difficultyConfidence','difficultyBand','difficultyEvidence','metadataVersion')}
             fields['difficultyCheckedAt'] = stamp(self.clock())
@@ -297,7 +315,7 @@ class IntegrationService:
             with self.lock:self.state['difficultyMetadata'][key] = fields
             return
         if not isinstance(rating,int) or isinstance(rating,bool) or not 0<rating<=10000:return
-        platform=row.get('platform');official=platform in ('Codeforces','codeforces') and '官方' in row.get('difficultySource','')
+        platform=row.get('platform');official=evidence(row)['kind']=='official-cf'
         fields={'difficulty':rating,'difficultySource':row.get('difficultySource') or '公开难度资料',
                 'difficultyConfidence':'HIGH' if official else row.get('difficultyConfidence','MEDIUM' if platform in ('AtCoder','atcoder') else 'LOW'),
                 'difficultyEstimated':not official,'difficultyBand':[rating,rating] if official else row.get('difficultyBand'),
@@ -305,6 +323,10 @@ class IntegrationService:
                 'officialTags':row.get('sourceTags',row.get('tags',[])),
                 'metadataVersion':row.get('metadataVersion','1.0.17'),
                 'difficultyEvidence':row.get('difficultyEvidence',[])}
+        if row.get('difficultyReviewed') is True:
+            fields.update({name:copy.deepcopy(row.get(name)) for name in ('difficultyReviewed','difficultyReviewSha256','difficultyReviewKind')})
+        if official and isinstance(row.get('difficultyOfficialReference'),dict):
+            fields['difficultyOfficialReference']=copy.deepcopy(row['difficultyOfficialReference'])
         with self.lock:self.state['difficultyMetadata'][key]=fields
 
     def _refresh_difficulties(self,platform):
@@ -329,15 +351,29 @@ class IntegrationService:
                 if key:urls[key]=value
         if platform=='codeforces':
             result=P.cf_result(self.client,'problemset.problems')
+            # Luogu's CF prefix is an explicit original problem ID. Keep its
+            # own URL/receipt identity while refreshing the original's rating.
+            # No title matching or positional index shifts are used here.
+            cf_aliases={}
+            for key in urls:
+                match=re.fullmatch(r'https://www\.luogu\.com\.cn/problem/CF([1-9][0-9]*)([A-Z][0-9]?)',key)
+                if match:cf_aliases.setdefault((int(match[1]),match[2]),[]).append(key)
             seen=set()
             for item in result.get('problems',[]):
                 cid,index=item.get('contestId'),item.get('index');rating=P.integer(item.get('rating'))
                 if cid is None or not index:continue
                 url=f'https://codeforces.com/contest/{cid}/problem/{index}'
+                tags=[P.CF_TAGS[tag] for tag in item.get('tags',[]) if tag in P.CF_TAGS]
+                for alias in cf_aliases.get((cid,index),[]):
+                    self._observe_difficulty({'url':alias,'platform':'洛谷','difficulty':rating,
+                        'difficultySource':'Codeforces 官方 rating（洛谷 CF 原题编号）','difficultyEstimated':False,
+                        'difficultyOfficialReference':{'contestId':cid,'index':index,'source':url,
+                            'metadataSource':'https://codeforces.com/api/problemset.problems'},
+                        'difficultyEvidence':[url,'https://codeforces.com/api/problemset.problems'],'tags':tags})
                 if canonical(url) not in urls:continue
                 seen.add(canonical(url))
                 self._observe_difficulty({'url':url,'platform':'Codeforces','difficulty':rating,
-                    'difficultySource':'Codeforces 官方 rating','tags':[P.CF_TAGS[tag] for tag in item.get('tags',[]) if tag in P.CF_TAGS]})
+                    'difficultySource':'Codeforces 官方 rating','tags':tags})
             # Shared tasks may only appear under Div.1 in problemset.problems.
             # Read the exact authorized Div.2 roster; never infer its indices.
             from contest_policy import authorized

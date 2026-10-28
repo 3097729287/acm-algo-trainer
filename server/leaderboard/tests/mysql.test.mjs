@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomUUID, createHash } from 'node:crypto';
 import { gzipSync, gunzipSync } from 'node:zlib';
+import {chunksSuite} from './chunks-suite.mjs';
 import { protocolSuite } from './protocol-suite.mjs';
 import { accountsSuite } from './accounts-suite.mjs';
 import { startMySQLFixture } from './mysql-fixture.mjs';
@@ -11,6 +12,29 @@ import { importSnapshot } from '../scripts/import-snapshot.mjs';
 import { readFile } from 'node:fs/promises';
 import { tokenHash } from '../src/accounts.mjs';
 import {preservedData,assertPreserved} from '../scripts/audit-preserved-data.mjs';
+
+test('chunk migration and binary payload preservation are audited before service switching',async()=>{
+  const f=await startMySQLFixture();
+  try{
+    const userId=randomUUID(),timestamp=new Date().toISOString();
+    await f.STORE.createAccount({userId,nickname:'迁移保留',retiredHash:'a'.repeat(64),loginId:'chunk_migration',passwordHash:'synthetic',timestamp});
+    for(const name of ['account_chunks','account_chunk_heads','account_chunk_usage'])await f.STORE.pool.query('DROP TABLE '+name);
+    const before=await preservedData(f.STORE.pool);
+    const migration=await readFile(new URL('../mysql/011_account_chunks.sql',import.meta.url),'utf8');
+    const migrate=async()=>{for(const sql of migration.split(';').map(value=>value.trim()).filter(Boolean))await f.STORE.pool.query(sql);};
+    await migrate();assertPreserved(before,await preservedData(f.STORE.pool),{requireAvatar:true,requireLists:true,requireChunks:true});
+    const payload=gzipSync(Buffer.from([0,255,128,37,0,255])),hash=createHash('sha256').update(payload).digest('hex');
+    await f.STORE.pool.execute('INSERT INTO account_chunks VALUES(?,?,?,?,?,?,?,?)',[userId,hash,'data',payload,'[]',payload.length,timestamp,timestamp]);
+    await f.STORE.pool.execute('INSERT INTO account_chunk_usage VALUES(?,?,?,?)',[userId,payload.length,1,'']);
+    await f.STORE.pool.execute('INSERT INTO account_chunk_heads VALUES(?,?,?,?,?)',[userId,1,hash,null,timestamp]);
+    const populated=await preservedData(f.STORE.pool);
+    await migrate();assertPreserved(populated,await preservedData(f.STORE.pool),{requireChunks:true});
+    await f.STORE.pool.execute('UPDATE account_chunks SET payload=? WHERE user_id=?',[Buffer.from([0,255,1]),userId]);
+    assert.throws(()=>assertPreserved(populated,{}));
+    const changed=await preservedData(f.STORE.pool);
+    assert.throws(()=>assertPreserved(populated,changed,{requireChunks:true}),/account_chunks/);
+  }finally{await f.close();}
+});
 
 test('training-list migration preserves existing rows and can be safely repeated',async()=>{
   const f=await startMySQLFixture();
@@ -32,6 +56,7 @@ test('training-list migration preserves existing rows and can be safely repeated
 protocolSuite(startMySQLFixture);
 accountsSuite(startMySQLFixture);
 socialSuite(startMySQLFixture);
+chunksSuite(startMySQLFixture);
 
 test('MySQL concurrent rate limits allocate each count once and expiry cleanup works', async () => {
   const fixture = await startMySQLFixture();
