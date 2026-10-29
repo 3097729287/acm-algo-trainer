@@ -3,7 +3,6 @@
   "baseProgramVersion": "1.4.30",
   "stages": "01-07",
   "problemCount": 610,
-  "englishDefaults": 124,
   "nativeOrAlreadyChinese": 486,
   "authorTranslations": 8,
   "existingSiteTranslations": 116,
@@ -4890,5 +4889,7 @@
       "englishOriginal": true,
       "chineseKind": "site"
     }
-  ]
+  ],
+  "englishWithChinese": 124,
+  "defaultLanguage": "original"
 }

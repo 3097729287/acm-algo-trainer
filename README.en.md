@@ -1,6 +1,6 @@
 # ToBe · Training Workbench
 
-Local Chinese statement patch for 1.4.30 (2026-10-30): the first seven learning stages contain 610 tasks in the installed catalogue. All 124 English statements open in Chinese, with the original still available: 116 existing site translations and eight newly completed translations. Missing statements are included in the offline seed, which now contains 12,271 problems, 9,436 statements and 1,383 default/detailed editorial pairs. This local patch is unpublished; public downloads remain at 1.4.29. [Scope and validation](docs/local-delivery-mainline-zh.md).
+Local statement-language patch for 1.4.30 (2026-10-30): English statements always open in English. Click the existing language toggle for Chinese. All 361 current ABC / CF Div.2 / Div.3 / Div.4 statements include verified offline Chinese text (94 / 100 / 86 / 81); four fetched originals received matching translations, with the previous text retained in archives. Existing mainline translations remain available. The local patch is unpublished; public downloads remain at 1.4.29. [Rules and validation](docs/local-delivery-english-first.md).
 
 **ToBe 1.4.29** connects evidence-based Rasch assessment, level-aware learning paths, protected offline work, bounded backups and public content updates. QOJ now includes the complete 13-task Shandong Provincial 2026 contest. [Release notes](docs/releases/1.4.29.md).
 

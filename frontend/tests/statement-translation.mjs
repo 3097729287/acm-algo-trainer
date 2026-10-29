@@ -47,8 +47,10 @@ try{
     f.problemOverrides.DEFAULT_ZH={markdown:original,translation:{kind:'bundled',targetLanguage:'zh-CN',defaultLanguage:'zh-CN',markdown:chinese}};
     f.changeProblem('DEFAULT_ZH');
   },{original,chinese});
+  await page.getByText('The red points satisfy the condition.',{exact:true}).waitFor();
+  assert.equal(await toggle.innerText(),'原文','English stays original even when an older seed requested Chinese by default');
+  await toggle.click();
   await page.getByText('图中的红点符合条件。',{exact:true}).waitFor();
-  assert.equal(await toggle.innerText(),'中文');
   await toggle.click();
   await page.getByText('The red points satisfy the condition.',{exact:true}).waitFor();
   await page.waitForTimeout(200);
@@ -57,5 +59,5 @@ try{
   await page.evaluate(()=>window.workbenchFixture.changeProblem('P'));
   await page.getByText('The red points satisfy the condition.',{exact:true}).waitFor();
   assert.equal(await toggle.innerText(),'原文','Unmarked English statements keep their existing default');
-  assert.deepEqual(errors,[]);console.log('PASS: scoped Chinese defaults, original switching, offline bundled diagram, unmarked originals and late response isolation.');
+  assert.deepEqual(errors,[]);console.log('PASS: English originals first, click for cached Chinese, legacy preference ignored, offline diagrams and late response isolation.');
 }finally{await browser.close();await server.close();}
