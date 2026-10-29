@@ -453,7 +453,7 @@ try {
   }
   await page.setViewportSize({ width: 1920, height: 1080 });
   await page.keyboard.press('Control+1');
-  await noOverflow('.training-workspace');
+  await noOverflow('.workspace-area[data-page="mine"]');
   await page.screenshot({ path: 'tests/screenshots/training-unified-dark-1920.png', animations: 'disabled' });
   await page.keyboard.press('Control+5');
   await page.locator('.mock-mode-options').waitFor();
