@@ -9,6 +9,7 @@ import time
 from urllib.parse import urlencode
 from urllib.request import urlopen
 from core7_authoring import OUT
+from core7_deliver import delivery_folder,filehash
 
 def junction(link,target):
     if link.exists():return
@@ -18,8 +19,8 @@ def junction(link,target):
 
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--target',type=Path,required=True);args=parser.parse_args()
-    target=args.target.resolve();stage=OUT/'delivery'/target.name/'library.sqlite3'
-    assert stage.is_file();folder=OUT/'frozen'/target.name;folder.mkdir(parents=True,exist_ok=True)
+    target=args.target.resolve();stage=delivery_folder(target)/'library.sqlite3'
+    assert stage.is_file();folder=OUT/'frozen'/delivery_folder(target).parent.name/target.name;folder.mkdir(parents=True,exist_ok=True)
     binary='ToBe.exe' if (target/'ToBe.exe').exists() else 'ToBe管理员版.exe'
     for name in [binary,'VERSION','BUILD-INFO.json','SOURCE-MANIFEST.json']:
         shutil.copy2(target/name,folder/name)
@@ -46,10 +47,11 @@ def main():
             for entry in methods:
                 method=found[entry['method']]
                 assert method['markdown']==entry['variants']['default']['markdown'],(identity,entry['method'],'default')
-                assert method['detailedSolution']==entry['variants']['detailed'],(identity,entry['method'],'detailed')
+                assert all(method['detailedSolution'][key]==v for key,v in entry['variants']['detailed'].items()),(identity,entry['method'],'detailed')
                 assert set(method['lectureIds'])=={'lecture:foundation-'+n for n in entry['lessons']}
                 checked+=1
         result={'frozen':True,'offline':True,'problems':len(groups),'methods':checked,'variantResponses':checked*2,
+                'publicSeedSha256':filehash(stage),
                 'referenceProgramsAndTextsMatch':True,'preciseLectureAssociations':True,
                 'originalSiteRequests':0,'livePersonalStateOpened':False,'library':runtime['library']}
         (folder/'editorial-check.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')

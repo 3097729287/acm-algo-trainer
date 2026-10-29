@@ -28,6 +28,7 @@
     "<algorithm>",
     "<cctype>",
     "<cmath>",
+    "<cstdint>",
     "<functional>",
     "<iomanip>",
     "<iostream>",

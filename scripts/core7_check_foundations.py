@@ -20,6 +20,7 @@ checks={
     'random-selection': [('', '', 'assert(index>=2 && index<=8);')],
     'lex-permutation': [('', '', 'assert(count==6 && a==vector<int>({1,2,3}));')],
     'big-integers': [('', '', 'assert(digits==vector<int>({4,8,0,6}));')],
+    'unsigned64': [('', '', 'assert(zero==0 && wrapped==top && product==1000000000000000000ULL);')],
 }
 results=[]
 with tempfile.TemporaryDirectory(prefix='core7-language-') as temporary:

@@ -68,10 +68,15 @@ def authored():
         assert check['passed'] and check['programSha256']==entry['programSha256']
     return entries
 
+def delivery_folder(target):
+    revision=source_hash(filehash(OUT/'authored.json')+filehash(ROOT/'data/library/solution_methods.json'))[:12]
+    return OUT/'delivery'/revision/target.name
+
 def stage(target):
     target=target.resolve();public=target/'data/library.sqlite3';assert public.is_file()
     build=target/'BUILD-INFO.json';assert build.is_file()
-    folder=OUT/'delivery'/target.name;folder.mkdir(parents=True,exist_ok=True)
+    assert read(build)['version']==(ROOT/'VERSION').read_text('utf-8').strip(),'Installed app version changed; integrate its source before staging'
+    folder=delivery_folder(target);folder.mkdir(parents=True,exist_ok=True)
     staged=folder/'library.sqlite3'
     if staged.exists():
         # Staging output is disposable, never a personal database.
@@ -156,12 +161,17 @@ def stage(target):
     return report
 
 def apply(target):
-    target=target.resolve();folder=OUT/'delivery'/target.name;report=read(folder/'stage-report.json')
+    target=target.resolve();folder=delivery_folder(target);report=read(folder/'stage-report.json')
     public=target/'data/library.sqlite3';build=target/'BUILD-INFO.json';staged=folder/'library.sqlite3'
+    assert read(build)['version']==(ROOT/'VERSION').read_text('utf-8').strip(),'Installed app version changed; restage after source integration'
     assert str(target)==report['target']
     assert filehash(public)==report['publicSeedBeforeSha256'],'Installed seed changed: restage'
     assert filehash(build)==report['buildInfoBeforeSha256'],'Installed patch changed: restage'
     assert filehash(staged)==report['stagedSha256']
+    frozen=read(OUT/'frozen'/folder.parent.name/target.name/'editorial-check.json')
+    assert frozen['frozen'] and frozen['offline'] and frozen['variantResponses']==report['articles']
+    assert frozen['publicSeedSha256']==report['stagedSha256'],'Frozen runtime check is stale'
+    assert read(OUT/'library-check.json')['privatePrimaryVariantsVisible']
     rendered=read(OUT/'render/report.json')
     assert not rendered['errors']
     for entry in authored():

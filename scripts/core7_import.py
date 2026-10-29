@@ -57,11 +57,18 @@ def prepare():
                 row={'problem_id':identity,**article,'source_path':f'core7-editorials/{primary["pid"]}/{primary["method"]}/{variant}.md'}
                 result[table].append(row);index[table][identity]=row
         catalog=[]
-        for method in methods:
-            catalog.append({'id':method['method'],'title':method['title'],'tags':method['tags'],
+        for position,method in enumerate(methods):
+            descriptor={'id':method['method'],'title':method['title'],'tags':method['tags'],
                 'lectureIds':['lecture:foundation-'+name for name in method['lessons']],
-                **method['variants']['default'],'detailedSolution':method['variants']['detailed'],
-                'validation':{'programSha256':method['programSha256'],'officialSubmissionsSent':0}})
+                'validation':{'programSha256':method['programSha256'],'officialSubmissionsSent':0}}
+            if position==0:
+                # Existing Store support reads the primary method through the
+                # default/detailed tables. Do not shadow a local amendment with
+                # a duplicate immutable body in solution_methods.
+                descriptor['legacy']=True
+            else:
+                descriptor.update(**method['variants']['default'],detailedSolution=method['variants']['detailed'])
+            catalog.append(descriptor)
         if identity in index['solution_methods']:
             old=index['solution_methods'][identity]['content']
             by_id={m['id']:m for m in catalog}
