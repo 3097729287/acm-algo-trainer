@@ -1,5 +1,7 @@
 # ToBe 架构
 
+1.4.29 已完成本机、[GitHub](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.29)与[国内统一发布](https://47.82.84.74/updates/stable/index.html)。能力证据、等级导航、离线学习、备份限额和公开热更新均已验收；共享服务保持 1.2.8。完整远端 CI 全部通过（[Actions](https://github.com/3097729287/acm-algo-trainer/actions/runs/40850211153)）。[交付证据](local-delivery-1.4.29.md)。
+
 ## 1.4.29 能力证据、等级导航、离线学习与公共热更新
 
 `featureUnlocks.js` 是唯一等级开放配置：Lv1 我的训练/题单，Lv2 题库/排行榜，Lv3 比赛/模拟赛，Lv4 算法实验室/模板/从零讲，Lv5 成长与能力/活动；提交记录和设置始终开放。题内工作台与基础帮助不受独立板块门槛影响。侧栏、分组、快捷键、命令、页面恢复和指引共用判断，隐藏偏好与原始排序保留。

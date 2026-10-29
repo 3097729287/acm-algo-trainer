@@ -1,6 +1,6 @@
 # ToBe 开发与构建
 
-1.4.29 正在验证，尚未打包或发布；公开下载仍为 1.4.28。完整检查、冻结程序、新装/覆盖升级和远端 CI 全部收口后再交付。[本次范围](releases/1.4.29.md)。
+1.4.29 已完成本机、[GitHub](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.29)与[国内统一发布](https://47.82.84.74/updates/stable/index.html)。能力证据、等级导航、离线学习、备份限额和公开热更新均已验收；共享服务保持 1.2.8。完整远端 CI 全部通过（[Actions](https://github.com/3097729287/acm-algo-trainer/actions/runs/40850211153)）。[交付证据](local-delivery-1.4.29.md)。
 
 1.4.28 已完成本机更新，并在 [GitHub](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.28) 与[国内更新源](https://47.82.84.74/updates/stable/index.html)统一发布。活动日历全页方向键和日期明细自动定位、实际比赛分类、从零讲独立全屏、每日任务快速领取，以及仅记住外观位置；共享服务保持 1.2.8。[交付记录](local-delivery-1.4.28.md)。
 

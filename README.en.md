@@ -1,6 +1,6 @@
 # ToBe · Training Workbench
 
-**Development status: 1.4.29 is not packaged or published.** Assessment, offline recovery, bounded backups and navigation changes are under validation; downloads below remain at the published 1.4.28.
+**ToBe 1.4.29** connects evidence-based Rasch assessment, level-aware learning paths, protected offline work, bounded backups and public content updates. QOJ now includes the complete 13-task Shandong Provincial 2026 contest. [Release notes](docs/releases/1.4.29.md).
 
 **ToBe 1.4.28** adds page-wide calendar arrow navigation with automatic detail-row positioning, removes empty contest folders, opens lectures in a full-app reading layout, accelerates daily reward claims, and remembers only Appearance settings position. [Release notes](docs/releases/1.4.28.md).
 
@@ -12,10 +12,10 @@
 
 **ToBe 1.4.20 (included in the current release)** repairs shared browser connection recovery, refines difficulty estimates and excludes elementary exercises from automatic review. It adds list filters, insertion ordering, a favorite-problems list, cached reversible likes and inline creation, single-column mock papers, accent-based activity levels and bounded statement/streamed sync memory. [Release scope](docs/releases/1.4.20.md).
 
-Includes algorithm topics, training lists, illustrated editorials and interface fixes previously delivered locally in 1.4.2–1.4.24. The development seed retains 12,244 problem records, 9,256 statement archives, 1,379 default/detailed editorial pairs, 447 lectures and 563 lists. Archived statements are not all complete or readable; see the [development scope](docs/releases/1.4.29.md) and [earlier statement audit](docs/releases/1.4.17.md). The complete 13-task Shandong Provincial 2026 set brings QOJ to 52 tasks; nine include site-provided Chinese and four retain their complete originals. The separate full editorial review remains incomplete.
+Includes algorithm topics, training lists, illustrated editorials and interface fixes previously delivered locally in 1.4.2–1.4.24. The public seed retains 12,244 problem records, 9,256 statement archives, 1,379 default/detailed editorial pairs, 447 lectures and 563 lists. Archived statements are not all complete or readable; see the [current release scope](docs/releases/1.4.29.md) and [earlier statement audit](docs/releases/1.4.17.md). The complete 13-task Shandong Provincial 2026 set brings QOJ to 52 tasks; nine include site-provided Chinese and four retain their complete originals. The separate full editorial review remains incomplete.
 
 <!-- release-status:start -->
-**Stable release: [ToBe 1.4.28](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.28).** GitHub and the [domestic update feed](https://47.82.84.74/updates/stable/index.html) carry the same verified build. [Delivery](docs/local-delivery-1.4.28.md).
+**Stable release: [ToBe 1.4.29](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.29).** GitHub and the [domestic update feed](https://47.82.84.74/updates/stable/index.html) publish the same verified user build. [Delivery evidence](docs/local-delivery-1.4.29.md).
 <!-- release-status:end -->
 
 [Website](https://3097729287.github.io/acm-algo-trainer/) · [Usage](docs/usage.md) · [Development](docs/development.md) · [中文](README.md)
@@ -24,9 +24,15 @@ Includes algorithm topics, training lists, illustrated editorials and interface 
 
 ## Install and upgrade
 
-Windows 10/11 x64. The [user installer](https://47.82.84.74/updates/assets/1.4.28/ToBe-Setup-1.4.28-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.4.28/ToBe-1.4.28-win64.zip) before running it. GitHub distributes only the user edition. The administrator program is reserved for the owner’s local use. Release assets include checksums and an incremental update from 1.4.27. Older versions can use the full Setup. The administrator edition is a local program and shortcut only.
+Windows 10/11 x64. The [user installer](https://47.82.84.74/updates/assets/1.4.29/ToBe-Setup-1.4.29-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.4.29/ToBe-1.4.29-win64.zip) before running it. GitHub distributes only the user edition. The administrator program is reserved for the owner’s local use. Release assets include checksums and an [incremental update from 1.4.28](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.4.29/ToBe-Update-1.4.28-to-1.4.29-win64.zip). Older versions can use the full Setup. The administrator edition is a local program and shortcut only.
 
 Save drafts and exit TB before installing into the existing directory. Personal databases, source code and imported content are preserved. The updater saves work, takes online SQLite backups and verifies SHA-256 before replacement. Keep the same TB version on your computers. Original-site login uses TB's dedicated browser profile; no extension is required.
+
+## Changes in 1.4.29
+
+All navigation, guides, shortcuts and dependent actions share one level-unlock configuration; new accounts start with introductory lists. Recommendations use actual review, prerequisite and independent-attempt evidence. Previously verified, unexpired accounts can continue cached study offline and merge before uploading when connectivity returns. Automatic backups retain validated WAL-inclusive recovery points under count/capacity limits, with manual copies protected.
+
+More translations, manual difficulty reviews, Nowcoder lists and teaching content continue in batches. Compatible public content can update while the service stays online; new interactive course behavior and program features require an application update. All remote CI jobs passed for the released build ([Actions](https://github.com/3097729287/acm-algo-trainer/actions/runs/40850211153)). The shared service remains 1.2.8; the administrator program stays private, and no real OJ test submissions were sent.
 
 ## Changes in 1.4.26
 
@@ -40,7 +46,7 @@ Save drafts and exit TB before installing into the existing directory. Personal 
 - Twenty-four templates include explained and short competition versions, plus 48 operation exercises judged inside the app. Initial code is customizable through a preview picker; account settings open from the nickname.
 - Official WA schedules next-day review; eligible completion earns 20 XP. Daily AC, review and study-time task chains advance after claiming rewards.
 - Chunked synchronization and on-demand historical code loading preserve local code and drafts. All devices on migrated accounts must upgrade.
-- Calendar, template and laboratory layouts, source cleanup, XCPC scope and list difficulty limits include the preceding local updates. Difficulty review and knowledge completion remain paused.
+- Calendar, template and laboratory layouts, source cleanup, XCPC scope and list difficulty limits include the preceding local updates. Source-backed difficulty and knowledge reviews continue in the current release series.
 
 ## Changes in 1.4.1
 
@@ -103,9 +109,9 @@ Save drafts and exit TB before installing into the existing directory. Personal 
 
 ## Library and progression
 
-The 1.4.5 public-seed baseline retained for 1.4.6 contains **13,123 original problem entries, 2,437 statements, 1,317 default editorials, 1,317 detailed editorials, 447 lectures and 5,395 lecture associations**, plus 563 training-list directory entries (420 readable and 143 unavailable), with seven unresolved problem references. Existing statements, both editorial versions and courses remain intact. Newly collected problems use original-site metadata; this version is not publicly released. The UI deduplicates original tasks while preserving aliases, content and work. Uncached statements require connectivity. New editorial work is limited to verified problem difficulty at most 2200, including 2200. [Editorial policy](docs/editorial-policy.md).
+The public seed contains **12,244 original problem records, 9,256 statement archives, 1,379 default/detailed editorial pairs, 447 lectures and 563 lists**. Archiving does not imply every task is complete or runnable. QOJ has 52 tasks; the complete Shandong Provincial 2026 set has 13 tasks, with site-provided Chinese for nine and complete originals for four. Existing content, aliases, code and drafts are retained. Verified difficulty at most 2300 is the scope for new translations and non-XCPC editorials; unknown ratings require evidence, and new XCPC editorials remain deferred. [Editorial policy](docs/editorial-policy.md).
 
-XP levels and skill tiers are independent. The unreleased 1.4.29 assessment shares the knowledge-mastery Rasch model, using recent independent judged attempts, rating reliability and retry evidence, with conservative estimates, uncertainty and per-problem provenance. Earned XP and rewards are preserved. Placement unlocks at level 5 and requires five independent successes. Iron through King starts at **0, 800, 1000, 1200, 1600, 1800, 2000, 2100 and 2200**. This is a training estimate, not a direct copy of an original-site account rating. [Progression rules](docs/progression.md).
+XP levels and skill tiers are independent. The 1.4.29 assessment shares the knowledge-mastery Rasch model, using recent independent judged attempts, rating reliability and retry evidence, with conservative estimates, uncertainty and per-problem provenance. Earned XP and rewards are preserved. Placement unlocks at level 5 and requires five independent successes. Iron through King starts at **0, 800, 1000, 1200, 1600, 1800, 2000, 2100 and 2200**. This is a training estimate, not a direct copy of an original-site account rating. [Progression rules](docs/progression.md).
 
 Only official AC receipts count as accepted problems. In 1.3.2 every timed mode submits through the original-site browser; local sample runs and historical local records retain their actual scope. Standings display separate level and ability information, daily hearts and private messages.
 
