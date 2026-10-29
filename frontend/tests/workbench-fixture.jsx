@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { EditorView } from '@codemirror/view';
 import Workbench from '../src/app/Workbench.jsx';
+import TEMPLATES from '../../backend/resources/code-templates.json';
 import 'katex/dist/katex.min.css';
 
 const style = document.createElement('style');
@@ -12,7 +13,7 @@ const fixture = window.workbenchFixture = {
   drafts: {}, calls: [], submissions: [], progress: [], problemDelay: {}, draftDelay: 15,
   nextVerdict: 'SAMPLE_PASS', nextRunVerdict: 'SAMPLE_PASS', exitCount: 0, solutionCount: 0, nextCount: 0,
   officialStatus: 'needs_login', officialSessions: {}, translationError: '', translationDelay: 10,
-  problemOverrides: {}, translationKind: '', preparationEvents: [],
+  notices: [], draftError: '', solutionClosed: 0, problemOverrides: {}, translationKind: '', preparationEvents: [],
 };
 window.addEventListener('tb:browser-preparation', event => fixture.preparationEvents.push(event.detail));
 const currentEditor = () => EditorView.findFromDOM(document.querySelector('.cm-content'));
@@ -22,7 +23,7 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 const key = body => `${body.contestId || 'solo'}:${body.id}`;
 const problem = id => ({
   id, title: id === 'A' ? '两数之和' : id === 'B' ? '最长的路径' : '第三道题',
-  markdown: '# 输入与输出\n\n给出两个整数 $a$ 和 $b$，输出 $a+b$。\n\n## 输入\n\n一行两个整数。\n\n## 输出\n\n它们的和。\n\n## 示例\n\n```text\n1 2\n```\n',
+  markdown: '# Input and Output\n\nGiven two integers $a$ and $b$, output $a+b$.\n\n## Input\n\nOne line contains two integers.\n\n## Output\n\nPrint their sum.\n\n## Example\n\n```text\n1 2\n```\n',
   url: 'https://example.com/problem', samples: [{ name: '样例 1', input: '1 2\n', output: '3\n' }, { name: '样例 2', input: '4 5\n', output: '9\n' }],
   limits: { timeMs: 2000, memoryMb: 256 }, judge: { scope: id === 'B' ? 'local' : 'samples', label: id === 'B' ? '本地验证' : '样例评测', cases: id === 'B' ? 20 : 1 },
   locked: false, statementAvailable: true,
@@ -30,6 +31,7 @@ const problem = id => ({
 async function api(path, body) {
   fixture.calls.push({ path, body, at: Date.now() });
   const url = new URL('http://fixture/' + path);
+  if(path==='templates')return TEMPLATES;
   if (path === 'problem/translate') {
     await sleep(fixture.translationDelay);
     if (fixture.translationError) throw new Error(fixture.translationError);
@@ -66,6 +68,7 @@ async function api(path, body) {
   }
   if (path === 'draft') {
     await sleep(fixture.draftDelay);
+    if(fixture.draftError)throw new Error(fixture.draftError);
     fixture.drafts[key(body)] = body.code;
     return { savedAt: new Date().toISOString() };
   }
@@ -92,11 +95,12 @@ async function api(path, body) {
 }
 function Fixture() {
   const [id, setId] = useState('A');
+  const [solutionOpen,setSolutionOpen]=useState(false);
   const [contest, setContest] = useState(null);
   fixture.changeProblem = setId;
   fixture.changeContest = setContest;
   return <div className="fixture"><Workbench problemId={id} contest={contest} api={api}
     onProgress={workspace => fixture.progress.push(workspace)} onExit={() => fixture.exitCount++}
-    onSolution={() => fixture.solutionCount++} onNext={() => fixture.nextCount++} /></div>;
+    onSolution={() => {fixture.solutionCount++;setSolutionOpen(true);}} solutionOpen={solutionOpen} onCloseSolution={()=>{fixture.solutionClosed++;setSolutionOpen(false);}} onNotice={(message,type)=>fixture.notices.push({message,type})} onNext={() => fixture.nextCount++} /></div>;
 }
 createRoot(document.getElementById('root')).render(<React.StrictMode><Fixture /></React.StrictMode>);

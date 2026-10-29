@@ -33,6 +33,9 @@ const BASICS=['数组','模拟','枚举','字符串','输入输出','顺序结�
 const finite=value=>typeof value==='number'&&Number.isFinite(value);
 const list=value=>Array.isArray(value)?value:[];
 const ready=row=>row?.catalogContentReady===true&&!row.locked;
+// The catalog sets solutionAvailable from actual bundled solution records;
+// statement readiness alone never promises an explanation is available.
+const explained=row=>row?.solutionAvailable===true&&row.solutionState!=='missing';
 const names=row=>rowKnowledgeNames(row);
 const matches=(row,wanted)=>wanted.some(name=>names(row).has(canonicalKnowledgeName(name)));
 const compare=(a,b)=>a.difficulty-b.difficulty||String(a.id).localeCompare(String(b.id));
@@ -162,7 +165,7 @@ export function nextActions({rows=[],training=[],insights={},prefs={},lists=[],t
   return added;
  };
  const accepted=new Set([...rows,...training].filter(row=>row.accepted).map(row=>original(byId.get(row.id)||row)));
- const candidates=rows.filter(row=>ready(row)&&!row.catalogHidden&&!accepted.has(original(row))&&trustedDifficulty(row)&&row.difficulty<=2300).sort(compare);
+ const candidates=rows.filter(row=>ready(row)&&explained(row)&&!row.catalogHidden&&!accepted.has(original(row))&&trustedDifficulty(row)&&row.difficulty<=2300).sort(compare);
  const due=training.filter(row=>['review','check'].includes(row.queue)&&ready({...byId.get(row.id),...row})
   &&isDue(dueDate(row),now)).sort((a,b)=>Number(Boolean(b.reviewTask?.openedAt))-Number(Boolean(a.reviewTask?.openedAt))
    ||(stamp(dueDate(a))||0)-(stamp(dueDate(b))||0)||String(a.id).localeCompare(String(b.id)));
@@ -179,20 +182,32 @@ export function nextActions({rows=[],training=[],insights={},prefs={},lists=[],t
  const equivalentBasics=assessment?.qualified===true&&evidence.all.solved>=5&&evidence.all.stable&&supportedBasics.length>=2;
  const unitTopics={0:['输入输出','顺序结构'],1:['分支','循环','枚举'],2:['数组','字符串'],3:['函数','结构体','STL']};
  const foundationTopics=new Set([...BASICS,'结构体','STL','排序']);
- const frontier=units.map(unit=>({unit,stats:evidence.forIds(unit.problems.map(item=>item.problemId)),
+ const frontier=units.slice().sort((a,b)=>a.curriculumOrder-b.curriculumOrder).map(unit=>({unit,stats:evidence.forIds(unit.problems.map(item=>item.problemId)),
   remaining:unit.problems.map(item=>byId.get(item.problemId)).filter(row=>candidates.includes(row)&&row.difficulty<=1400&&!row.knowledgeReviewRequired
    &&requiredTopics(row).every(tag=>foundationTopics.has(tag)||evidence.forTopics([tag]).prerequisite))}))
-  .find(item=>!equivalentBasics&&!item.stats.stable&&!evidence.forTopics(unitTopics[item.unit.curriculumOrder]||[]).stable&&item.remaining.length);
+  .find(item=>!equivalentBasics&&!item.stats.stable&&!evidence.forTopics(unitTopics[item.unit.curriculumOrder]||[]).stable);
  if(frontier){
   const {unit,stats,remaining}=frontier;
+  // An absent or unavailable prerequisite is a content gap, not completion.
+  // Never invent a curriculum ID or send a beginner to a later available unit.
+  const missingEarlier=Array.from({length:unit.curriculumOrder},(_,order)=>order).some(order=>
+   !units.some(candidate=>candidate.curriculumOrder===order)&&!evidence.forTopics(unitTopics[order]||[]).stable);
+  if(missingEarlier)return answer;
   const gap=stats.solved<3?'还需补充独立成功':stats.spanHours<24?'还缺隔日验证':stats.weight<.75?'可信难度证据仍少':'还需减少重试并巩固';
-  const reason=`先补「${unit.displayTitle||unit.title}」：${proof(stats)}，${gap}。还有 ${remaining.length} 道未通过且题面、样例完整的已定级题；卡住时先用题内一级帮助。`;
+  const availability=remaining.length?`还有 ${remaining.length} 道未通过且题面、样例和内置题解完整的已定级题；卡住时先用题内一级帮助。`
+   :'本单元暂没有同时具备完整题面、样例、内置题解和可信难度的未通过练习；先查看当前单元，补齐内容前不跳到后续单元。';
+  const reason=`先补「${unit.displayTitle||unit.title}」：${proof(stats)}，${gap}。${availability}`;
   if(allowed('training-lists'))push({kind:'list',page:'training-lists',id:unit.id,title:unit.displayTitle||unit.title,reason});
   offerProblems(remaining,task=>`${reason}这道 ${task.difficulty} 分题来自同一当前基础单元，可直接练习；这些备选不要求同时完成。`);
   return answer;
  }
  if(!foundational.stable&&!equivalentBasics){
-  offerProblems(candidates.filter(row=>row.difficulty<=1100&&topicMatches(row,BASICS)&&requiredTopics(row).every(tag=>BASICS.includes(tag))),
+  // Until source-list metadata arrives, only explicitly supported first-step
+  // language tasks are safe. A broad "basic" tag cannot authorize arrays,
+  // functions or STL for a learner without the earlier programming evidence.
+  const firstTopics=['输入输出','顺序结构'];
+  offerProblems(candidates.filter(row=>row.difficulty<=1100&&topicMatches(row,firstTopics)
+   &&requiredTopics(row).every(tag=>firstTopics.includes(tag)||evidence.forTopics([tag]).prerequisite)),
    task=>`${proof(foundational)}，近期独立证据还不足；先用这道 ${task.difficulty} 分完整基础题诊断并巩固。卡住时先用题内一级帮助。`);
   return answer;
  }

@@ -874,3 +874,26 @@
 .wb-compact .wb-console {max-height:45%}
 .wb-icon-button {min-width:30px;min-height:30px}
 .wb-font-controls button,.wb-language-toggle button {min-height:30px}
+
+/* One measured toolbar height and a real keyboard/pointer split handle. */
+.tb-workbench {--wb-control-height:30px}
+.tb-workbench.wb-pane-both:not(.wb-compact) .wb-body {grid-template-columns:var(--wb-split-columns);grid-template-rows:minmax(0,1fr)}
+.wb-splitter {cursor:col-resize;touch-action:none;background:var(--panel-2);position:relative;z-index:1}
+.wb-splitter::after {content:'';position:absolute;width:2px;top:0;bottom:0;left:3px;background:var(--line)}
+.wb-splitter:hover::after,.wb-splitter:focus-visible::after {background:var(--accent)}
+.wb-splitter:focus-visible {outline:2px solid var(--accent);outline-offset:-2px}
+.wb-pane-header :is(button,select,.wb-original-link),.wb-compact-toolbar button {box-sizing:border-box;min-height:var(--wb-control-height);height:var(--wb-control-height);display:inline-flex;align-items:center;justify-content:center;gap:5px;vertical-align:middle;line-height:1}
+.wb-pane-header .wb-icon-button,.wb-original-link {min-width:var(--wb-control-height);padding:5px}
+.tb-workbench .wb-compact-toolbar .wb-icon-button {min-width:var(--wb-control-height);min-height:var(--wb-control-height);width:var(--wb-control-height);height:var(--wb-control-height)}
+.wb-pane-header :is(.tb-select,.initial-code-trigger) {height:var(--wb-control-height);min-height:var(--wb-control-height)}
+.wb-pane-header .tb-select select {height:var(--wb-control-height);min-height:var(--wb-control-height);padding-block:3px}
+.wb-statement-actions,.wb-editor-actions,.wb-editor-header {gap:6px}
+.wb-editor-header {flex-wrap:wrap;height:auto}
+.wb-editor-header>span:first-child {flex:none}
+.wb-editor-header>span:first-child .tb-select-wrap {width:90px;flex:none}
+.wb-font-controls {padding:0;height:var(--wb-control-height);box-sizing:border-box;border:0;gap:2px}
+.wb-font-controls .bounded-number {width:48px;height:var(--wb-control-height)}
+.wb-font-controls .bounded-number input {box-sizing:border-box;min-height:var(--wb-control-height);height:var(--wb-control-height);width:100%;padding:2px 18px 2px 2px;text-align:center;font-size:12px;line-height:1}
+.wb-font-controls .bounded-number>span {right:4px;font-size:10px;line-height:1}
+.wb-save-state {display:inline-flex;align-items:center;min-height:var(--wb-control-height)}
+.wb-save-toast {position:fixed;bottom:28px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;z-index:1000;padding:10px 16px;border:1px solid var(--line);border-radius:8px;background:var(--panel);box-shadow:0 6px 24px #0002;color:var(--success)}

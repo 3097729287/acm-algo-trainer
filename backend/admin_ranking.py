@@ -8,6 +8,7 @@ import threading
 import time
 from urllib.error import HTTPError,URLError
 from urllib.request import Request
+from urllib.parse import quote
 
 from leaderboard import default_endpoint,service_opener,validate_endpoint
 from persistence import load_document,save_document
@@ -36,7 +37,7 @@ class AdminRanking:
 
     def _remote(self,method,path,body=None,session=None):
         if not self.endpoint:raise ServiceError(503,'管理员服务未连接')
-        headers={'Content-Type':'application/json','Accept':'application/json','User-Agent':'TB admin','X-TB-State-Protocol':'1'}
+        headers={'Content-Type':'application/json','Accept':'application/json','User-Agent':'TB admin','X-TB-State-Protocol':'1','X-TB-Chunk-Protocol':'2'}
         if session:headers.update({'X-TB-User':session['account']['userId'],'Authorization':'Bearer '+session['token']})
         request=Request(self.endpoint+path,data=json.dumps(body).encode() if body is not None else None,headers=headers,method=method)
         try:
@@ -110,3 +111,40 @@ class AdminRanking:
                     or body.get('confirmation')!='delete' or body.get('userId') is not None and not isinstance(body['userId'],str)):
                 raise ServiceError(400,'删除范围或确认无效')
             return self._remote('POST','/v1/admin/leaderboard/delete',body,self.session)
+
+    def search_accounts(self,query):
+        with self.lock:
+            if not self.snapshot()['authenticated']:raise ServiceError(401,'请先登录 admin 账号')
+            if not isinstance(query,str) or not 4<=len(query)<=80 or not re.fullmatch(r'[A-Za-z0-9_-]+',query):
+                raise ServiceError(400,'请输入完整登录号或公开 ID')
+            value=self._remote('GET','/v1/admin/accounts?q='+quote(query,safe=''),session=self.session)
+            entries=value.get('accounts')
+            if not isinstance(entries,list) or len(entries)>1:raise ServiceError(503,'管理员服务响应异常')
+            result=[]
+            for row in entries:
+                if (not isinstance(row,dict) or not isinstance(row.get('userId'),str)
+                        or not re.fullmatch(r'[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}',row['userId'],re.I)
+                        or not isinstance(row.get('loginId'),str) or not re.fullmatch(r'[a-z0-9_]{4,32}',row['loginId'])
+                        or not isinstance(row.get('nickname'),str) or type(row.get('protected')) is not bool):
+                    raise ServiceError(503,'管理员服务响应异常')
+                # Do not forward arbitrary server fields (especially secrets).
+                result.append({key:row.get(key) for key in ('userId','loginId','nickname','createdAt','protected')})
+            return {'accounts':result}
+
+    def _account_action(self,body,action):
+        with self.lock:
+            if not self.snapshot()['authenticated']:raise ServiceError(401,'请先登录 admin 账号')
+            if (not isinstance(body,dict) or set(body)!={'userId','loginId','confirmation'} or body.get('confirmation')!=action
+                    or not isinstance(body.get('userId'),str) or not re.fullmatch(r'[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}',body['userId'],re.I)
+                    or not isinstance(body.get('loginId'),str) or not re.fullmatch(r'[a-z0-9_]{4,32}',body['loginId'])):
+                raise ServiceError(400,'账号或操作确认无效')
+            if body['userId']==self.session['account']['userId'] or body['loginId']=='admin':raise ServiceError(403,'不能修改管理员账号')
+            route='delete' if action=='delete-account' else 'reset-password'
+            value=self._remote('POST','/v1/admin/accounts/'+route,body,self.session)
+            flag='deleted' if action=='delete-account' else 'sessionsRevoked'
+            if value.get('ok') is not True or value.get('userId')!=body['userId'] or value.get('loginId')!=body['loginId'] or value.get(flag) is not True:
+                raise ServiceError(503,'管理员服务响应异常')
+            return {'ok':True,'userId':body['userId'],'loginId':body['loginId'],flag:True}
+
+    def delete_account(self,body):return self._account_action(body,'delete-account')
+    def reset_password(self,body):return self._account_action(body,'reset-password')

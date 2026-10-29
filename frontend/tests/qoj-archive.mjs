@@ -30,7 +30,7 @@ try{
  await row.getByRole('button',{name:'Cipher',exact:true}).click();
  await page.getByRole('textbox',{name:'C++ 代码',exact:true}).waitFor();
  await page.waitForFunction(()=>document.querySelector('.reading-image img')?.naturalWidth>0);
- assert.equal(await page.getByRole('button',{name:'中文',exact:true}).isDisabled(),true);
+ assert.equal(await page.getByRole('button',{name:'原文',exact:true}).isDisabled(),true);
  assert((await page.locator('.wb-statement pre').allTextContents()).some(value=>value.includes('1000000007 1000000009')));
  await page.screenshot({path:output+'/qoj-cipher-workbench.png'});
  await page.getByRole('button',{name:'放大图片：原题题面第 1 页',exact:true}).click();

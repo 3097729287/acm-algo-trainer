@@ -113,6 +113,9 @@ export default function RankingsPage({ api, onConfigure, onError, socialState, a
     return () => clearTimeout(timer);
   }, [api, period, snapshot, deleting]);
   const entries = Array.isArray(snapshot?.entries) ? snapshot.entries.map(item=>{
+    // A confirmed local rename is newer than the cached board snapshot. Own
+    // avatar/growth already use their live account-owned props in the same way.
+    if(item.userId===window.__tbAccount?.userId&&window.__tbAccount.nickname)item={...item,nickname:window.__tbAccount.nickname};
     const likes=confirmedLikes.current.get(snapshot.date+':'+item.userId);
     return likes ? {...item,likes:{total:Math.max(likes.counts?.[period]??(likes.countPeriod===period?likes.total:0),item.likes?.total || 0),likedToday:true}} : item;
   }) : [];

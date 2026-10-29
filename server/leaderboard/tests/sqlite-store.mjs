@@ -1,5 +1,6 @@
 // Test-only SQLite store for exercising the production API protocol offline.
 import {AccountChunks} from '../src/account-chunks.mjs';
+import {AccountAdministration} from '../src/admin-accounts.mjs';
 import { DatabaseSync } from 'node:sqlite';
 import { SocialStore } from '../src/social-store.mjs';
 import { readFileSync } from 'node:fs';
@@ -23,6 +24,7 @@ export class SQLiteStore {
     };
     let writes=Promise.resolve();
     const chunkTransaction=action=>{const next=writes.then(async()=>{this.database.exec('BEGIN IMMEDIATE');try{const result=await action({execute});this.database.exec('COMMIT');return result;}catch(error){this.database.exec('ROLLBACK');throw error;}});writes=next.catch(()=>{});return next;};
+    this.accountAdmin=new AccountAdministration({execute,transaction:chunkTransaction},'sqlite');
     this.chunks=new AccountChunks({execute,transaction:chunkTransaction},'sqlite');
     this.social=new SocialStore({execute,transaction:action=>{
       const next=writes.then(async()=>{this.database.exec('BEGIN IMMEDIATE');try {const result=await action({execute});this.database.exec('COMMIT');return result;} catch(error){this.database.exec('ROLLBACK');throw error;}});

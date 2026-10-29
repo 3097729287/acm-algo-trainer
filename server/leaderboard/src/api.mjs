@@ -2,14 +2,15 @@ import {CHUNK_LIMIT,validateChunk,validateHashes} from './account-chunks.mjs';
 import {validateAvatar} from './public-avatar.mjs';
 import { EventConflict } from './errors.mjs';
 import { bounds, REWARD_POLICY } from './ranking-rules.mjs';
-import { AccountError, loginId, password, verifyPassword, hashPassword, tokenHash,
+import { AccountError, loginId, password, loginPassword, verifyPassword, hashPassword, tokenHash,
   session, publicAccount, registerAccount } from './accounts.mjs';
 import { validateState, guardStateJson, STATE_LIMIT } from './account-state.mjs';
 import { publicId, storedPublicProgress, validatePublicProgress } from './public-progress.mjs';
 import { socialSnapshot, socialWrite, rankingSocial } from './social.mjs';
 import {trainingListLikes} from './training-list-likes.mjs';
+import {adminAccounts} from './admin-accounts.mjs';
 
-const VERSION = '1.2.8';
+const VERSION = '1.2.9';
 const NOTICE = '排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const hashPattern = /^[a-f0-9]{64}$/;
@@ -126,13 +127,13 @@ export async function handle(request, env) {
     const timestamp = new Date(now).toISOString();
     if (path === '/v1/health' && request.method === 'GET') {
       await env.STORE.health();
-      return json({ ok: true, version: VERSION, eventScope: 'official', accountStateProtocol: 1, accountChunkProtocol:env.STORE.chunks&&await env.STORE.chunks.available()?2:0, singleSession: true, publicProgressProtocol: 1, publicAppearanceProtocol: 1, nicknameUnique: true, stateResumeProtocol: 1, socialProtocol:env.STORE.social && await env.STORE.social.available() ? 1 : 0, trainingListLikesProtocol:env.STORE.social && await env.STORE.social.listAvailable() ? 1 : 0 });
+      return json({ ok: true, version: VERSION, eventScope: 'official', accountStateProtocol: 1, accountChunkProtocol:env.STORE.chunks&&await env.STORE.chunks.available()?2:0, adminAccountProtocol:env.STORE.accountAdmin&&await env.STORE.accountAdmin.available()?1:0, singleSession: true, publicProgressProtocol: 1, publicAppearanceProtocol: 1, nicknameUnique: true, stateResumeProtocol: 1, socialProtocol:env.STORE.social && await env.STORE.social.available() ? 1 : 0, trainingListLikesProtocol:env.STORE.social && await env.STORE.social.listAvailable() ? 1 : 0 });
     }
     if (path === '/v1/profile/register') throw new ApiError(410, '请升级 TB 并注册账号后登录');
     if (['/v1/accounts/register', '/v1/accounts/login'].includes(path) && request.method === 'POST') {
       const registering = path.endsWith('/register');
       const value = await body(request, registering ? ['loginId', 'nickname', 'password'] : ['loginId', 'password']);
-      const login = loginId(value.loginId), secret = password(value.password);
+      const login = loginId(value.loginId), secret = registering?password(value.password):loginPassword(value.password);
       const ipHash = await digest((env.RATE_LIMIT_SALT || 'tb-ranking-registration') + ':' + (request.headers.get('X-TB-Client-IP') || 'unknown'));
       const seconds = Math.floor(now / 1000);
       if (registering) {
@@ -162,6 +163,7 @@ export async function handle(request, env) {
     }
     const user = await authenticate(request, env, now);
     if(!path.startsWith('/v2/accounts/state'))await limit(env, 'user:' + user.user_id, Math.min(600, Math.max(10, Number(env.REQUESTS_PER_USER_MINUTE) || 120)), 60, Math.floor(now / 1000));
+    if(path==='/v1/admin/accounts'||path.startsWith('/v1/admin/accounts/'))return await adminAccounts(request,env,user,now,{body,json,credentials,limit});
     if (path === '/v1/social' && request.method === 'GET') return json(await socialSnapshot(env.STORE,user,now));
     if(path==='/v1/training-list-likes' && request.method==='GET')return json(await trainingListLikes(env.STORE,user,null,url.searchParams.getAll('id'),false,now));
     if(path==='/v1/training-list-likes' && request.method==='POST') {
@@ -247,7 +249,7 @@ export async function handle(request, env) {
     if (path === '/v1/accounts/password' && request.method === 'POST') {
       const value = await body(request, ['oldPassword', 'newPassword']);
       await limit(env, 'password:' + user.user_id, 5, 300, Math.floor(now / 1000));
-      if (!await verifyPassword(password(value.oldPassword), user.password_hash)) throw new ApiError(400, '原密码错误');
+      if (!await verifyPassword(loginPassword(value.oldPassword), user.password_hash)) throw new ApiError(400, '原密码错误');
       const next = password(value.newPassword);
       if (next === value.oldPassword) throw new ApiError(400, '新密码不能与原密码相同');
       const encoded = await hashPassword(next), issued = session(now);

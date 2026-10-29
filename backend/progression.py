@@ -283,7 +283,8 @@ def task_progress(task, evidence, date):
         return min(task['target'],len(events)),[item['eventKey'] for item in events]
     eligible=[item for item in evidence if not item.get('_activityEvent') and item.get('day')==date
         and (not task.get('newOnly') or item.get('newProblem'))
-        and (not task.get('minDifficulty') or item.get('difficulty') is not None and item['difficulty']>=task['minDifficulty'])
+        and (not task.get('minDifficulty') or (item.get('abilityDifficulty') if task.get('difficultyEvidenceRequired') else item.get('difficulty')) is not None
+             and (item['abilityDifficulty'] if task.get('difficultyEvidenceRequired') else item['difficulty'])>=task['minDifficulty'])
         and (task.get('kind')!='independent' or item.get('independent'))]
     kind=task.get('kind')
     if kind in {'morning','evening'}:

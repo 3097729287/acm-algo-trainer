@@ -67,11 +67,12 @@ class DailyMissionTests(unittest.TestCase):
         tasks = {task["id"]: task for task in self.service.daily_tasks()["tasks"]}
         self.assertLess(tasks["ac-chain:0"]["xp"], tasks["hard-1500"]["xp"])
         self.assertLess(tasks["hard-1500"]["xp"], tasks["hard-1800"]["xp"])
-        self.assertLess(tasks["hard-1800"]["xp"], tasks["hard-2100"]["xp"])
+        self.assertEqual(tasks["hard-1800"]["minDifficulty"],tasks["hard-2100"]["minDifficulty"])
+        self.assertEqual(tasks["hard-1800"]["xp"], tasks["hard-2100"]["xp"])
         for identity in ("ac-chain:0", "hard-1500", "hard-1800", "hard-2100"):
             self.service.claim_daily_task(identity)
         growth = self.service.insights()['growth']
-        self.assertEqual(growth['missionXp'],435)
+        self.assertEqual(growth['missionXp'],305)
         self.assertEqual(growth['achievementXp'],220)
         base_xp = growth['xp'] - growth['missionXp'] - growth['achievementXp'] - growth['rankingXp']
         self.assertEqual(base_xp,300)
@@ -85,7 +86,7 @@ class DailyMissionTests(unittest.TestCase):
         self.assertEqual(repeated['xp']-repeated['missionXp']-repeated['achievementXp']-repeated['rankingXp'],base_xp)
         self.assertEqual(repeated['achievementXp'],220)
         self.assertEqual(repeated['newAchievementXp'],0)
-        self.assertEqual(repeated['missionXp'],435)
+        self.assertEqual(repeated['missionXp'],305)
         with self.assertRaises(ServiceError): self.service.claim_daily_task("ac-chain:0", "2026-10-08")
 
     def test_three_different_today_acs_include_repractice_but_not_opened_old_acs(self):

@@ -25,22 +25,20 @@ export default function LearningPathsPage({ rows = [], prefs, setPrefs, onTrain,
   const [query,setQuery]=useState('');
   const matches = COURSES.filter(course => `${course.title} ${course.search}`.toLowerCase().includes(query.trim().toLowerCase()));
   const fallback=useRef({leftAt:null,scrollTop:0}),session=visit||fallback.current,panel=useRef(null);
-  const [resume,setResume]=useState(()=>standalone||Number.isFinite(session.leftAt)&&Date.now()>=session.leftAt&&Date.now()-session.leftAt<180000);
   useLayoutEffect(()=>{
     const node=panel.current;
-    if(!resume)setPrefs(previous=>({...previous,learningPaths:{...previous.learningPaths,activePath:null}}));
-    else (node.querySelector('.lab-lesson')||node).scrollTop=session.scrollTop||0;
+    (node.querySelector('.lab-lesson')||node).scrollTop=session.scrollTop||0;
     session.leftAt=null;
     return()=>{session.leftAt=Date.now();session.scrollTop=(node.querySelector('.lab-lesson')||node).scrollTop;};
   },[]);
-  const open = (course,mode) => {setResume(true);if(panel.current)panel.current.scrollTop=0;setPrefs(previous => ({ ...previous, learningPaths: { ...previous.learningPaths, activePath: course.id, [course.id]: { ...previous.learningPaths?.[course.id], ...(mode==='continue'?{}:{mode}), ...(mode==='learn'?{labV1:{...previous.learningPaths?.[course.id]?.labV1,chapter:course.first}}:{}) } } }));};
+  const open = (course,mode) => {if(panel.current)panel.current.scrollTop=0;setPrefs(previous => ({ ...previous, learningPaths: { ...previous.learningPaths, activePath: course.id, [course.id]: { ...previous.learningPaths?.[course.id], ...(mode==='continue'?{}:{mode}), ...(mode==='learn'?{labV1:{...previous.learningPaths?.[course.id]?.labV1,chapter:course.first}}:{}) } } }));};
   const back = () => setPrefs(previous => ({ ...previous, learningPaths: { ...previous.learningPaths, activePath: null } }));
   useEffect(()=>{
-    if(!resume||!COURSES.some(course=>course.id===prefs.learningPaths?.activePath))return;
+    if(!COURSES.some(course=>course.id===prefs.learningPaths?.activePath))return;
     const escape=event=>{if(event.key!=='Escape'||event.defaultPrevented||event.target.closest?.('input,textarea,select,[contenteditable=true]')||document.querySelector('dialog[open],.tb-select-menu'))return;event.preventDefault();back();};
     window.addEventListener('keydown',escape);return()=>window.removeEventListener('keydown',escape);
-  },[resume,prefs.learningPaths?.activePath]);
-  const active = resume && COURSES.find(course=>course.id===prefs.learningPaths?.activePath);
+  },[prefs.learningPaths?.activePath]);
+  const active = COURSES.find(course=>course.id===prefs.learningPaths?.activePath);
   const actions = <button type="button" className="lab-icon-button" aria-label="返回算法实验室" title="返回算法实验室" onClick={back}><ArrowLeft size={17}/></button>;
   return <div ref={panel} className="learning-paths-page scroll-panel lab-page-surface" aria-label="算法实验室">
     {active ? SORTING_COURSES[active.id] ? <SortingCourse key={active.id} courseId={active.id} rows={rows} prefs={prefs} setPrefs={setPrefs} onTrain={onTrain} lockedProblems={lockedProblems} headerActions={actions}/> : GRAPH_COURSES[active.id] ? <GraphCourse key={active.id} courseId={active.id} rows={rows} prefs={prefs} setPrefs={setPrefs} onTrain={onTrain} lockedProblems={lockedProblems} headerActions={actions}/> : active.id==='knapsack' ? <KnapsackCourse rows={rows} prefs={prefs} setPrefs={setPrefs} onTrain={onTrain} lockedProblems={lockedProblems} headerActions={actions}/> : <SequenceCourse key={active.id} courseId={active.id} rows={rows} prefs={prefs} setPrefs={setPrefs} onTrain={onTrain} lockedProblems={lockedProblems} headerActions={actions}/> : <div className="lab-catalog lab-multi-catalog">

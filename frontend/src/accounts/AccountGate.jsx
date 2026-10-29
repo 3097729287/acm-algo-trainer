@@ -11,7 +11,7 @@ export default function AccountGate({ children }) {
   const [mode, setMode] = useState('login'), [loginId, setLoginId] = useState(''), [nickname, setNickname] = useState('');
   const [password, setPassword] = useState(''), [confirmation, setConfirmation] = useState(''), [visible, setVisible] = useState(false);
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [message, setMessage] = useState('');
-  const [syncBusy, setSyncBusy] = useState(false);
+  const syncNotices = useRef(new Set());
   const generation = useRef(0);
   const submitting = useRef(false);
   const refreshing = useRef(false);
@@ -42,12 +42,12 @@ export default function AccountGate({ children }) {
   useEffect(() => {
     mounted.current = true;
     refresh();
-    const changed = () => { generation.current++; setSession(null); setBooting(true); setError(''); seeded.current = false; setPassword(''); setConfirmation(''); setMode('login'); refresh(); };
+    const changed = () => { generation.current++; submitting.current = false; setBusy(false); setSession(null); setBooting(true); setError(''); seeded.current = false; setPassword(''); setConfirmation(''); setMode('login'); refresh(); };
     const visible = () => { if (!document.hidden) refresh(); };
     window.addEventListener('tb:account-change', changed);
     window.addEventListener('focus', refresh);
     document.addEventListener('visibilitychange', visible);
-    return () => { mounted.current = false; window.removeEventListener('tb:account-change', changed); window.removeEventListener('focus', refresh); document.removeEventListener('visibilitychange', visible); };
+    return () => { mounted.current = false; generation.current++; submitting.current = false; window.removeEventListener('tb:account-change', changed); window.removeEventListener('focus', refresh); document.removeEventListener('visibilitychange', visible); };
   }, [refresh]);
   useEffect(() => {
     // Saved-session validation runs in the backend. Show its completed result
@@ -56,31 +56,40 @@ export default function AccountGate({ children }) {
     return () => clearInterval(interval);
   }, [refresh, session?.restoring]);
   async function submit(event) {
-    event.preventDefault(); if (busy) return;
+    event.preventDefault(); if (submitting.current) return;
     setError(''); setMessage('');
     if (!session?.token) { await refresh(); return; }
     if (mode === 'register' && password !== confirmation) { setError('两次输入的密码不一致'); return; }
-    generation.current++;
-    submitting.current = true;
+    const current = ++generation.current;
+    const active = () => mounted.current && current === generation.current;
+    submitting.current = current;
     setBusy(true);
     try {
       if (mode === 'register') {
         const result = await request('account/register', { nickname: nickname.trim(), loginId: loginId.trim(), password }, session.token);
+        if (!active()) return;
         registeredLogin.current = result.loginId.toLowerCase();
         try { sessionStorage.setItem(`tb.onboarding.pending.${registeredLogin.current}`, '1'); } catch { /* Optional device hint. */ }
         setLoginId(result.loginId); setMode('login'); setPassword(''); setConfirmation(''); setVisible(false);
         setMessage('注册成功，请用登录号和密码登录。');
         const authenticated = await request('account/login', { loginId: result.loginId, password }, session.token);
+        if (!active()) return;
         window.__tbNewAccount = true;
-        setMessage(''); setSession(authenticated);
+        setMessage(''); setError(authenticated.error || ''); setSession(authenticated);
       } else {
         const result = await request('account/login', { loginId: loginId.trim(), password }, session.token);
+        if (!active()) return;
         window.__tbNewAccount = registeredLogin.current === loginId.trim().toLowerCase();
         try { window.__tbNewAccount ||= sessionStorage.getItem(`tb.onboarding.pending.${loginId.trim().toLowerCase()}`) === '1'; } catch { /* The in-memory registration hint still works. */ }
-        setPassword(''); setConfirmation(''); setSession(result);
+        setPassword(''); setConfirmation(''); setError(result.error || ''); setSession(result);
       }
-    } catch (issue) { setError(issue.message); }
-    finally { submitting.current = false; setBusy(false); }
+    } catch (issue) { if (active()) setError(issue.message); }
+    finally {
+      if (submitting.current === current) {
+        submitting.current = false;
+        if (mounted.current) setBusy(false);
+      }
+    }
   }
   function changeMode(next) {
     setMode(next); setError(''); setMessage(''); setPassword(''); setConfirmation(''); setVisible(false);
@@ -93,16 +102,19 @@ export default function AccountGate({ children }) {
   useEffect(() => {
     window.dispatchEvent(new CustomEvent('tb:sync-status', { detail: session?.authenticated ? session.sync : null }));
     window.dispatchEvent(new CustomEvent('tb:account-state', { detail: session?.account || null }));
+    const sync = session?.authenticated ? session.sync : null;
+    if (sync?.attention) {
+      const id = `${session.account?.userId}:${sync.attention}:${sync.conflictCount || 0}`;
+      if (!syncNotices.current.has(id)) {
+        syncNotices.current.add(id);
+        window.dispatchEvent(new CustomEvent('tb:account-sync-attention', { detail: {
+          id, owner: session.account?.userId, kind: sync.attention,
+          conflictCount: sync.conflictCount || 0, message: sync.error || '',
+        } }));
+      }
+    }
   }, [session]);
-  async function retrySync() {
-    if (syncBusy) return;
-    setSyncBusy(true);
-    try { await request('account/sync', {}, session.token); }
-    catch (issue) { setError(issue.message); }
-    finally { setSyncBusy(false); refresh(); }
-  }
   if (session?.authenticated) return <div className="account-session" key={`${session.account?.userId || 'fixture'}:${session.token}`}>
-    {session.sync?.status === 'error' && <aside className="account-sync-alert" role="status"><span>{session.sync.error || '云端同步暂未完成，本机数据已保留。'}</span><button type="button" onClick={retrySync} disabled={syncBusy}>{syncBusy ? '正在同步…' : '重试同步'}</button></aside>}
     <div className="account-session-content">{children}</div>
   </div>;
   if (booting || session?.restoring) return <><StartupScreen restoring={session?.restoring} error={error} onRetry={() => refresh(true)}/><SoftwareUpdateNotice update={softwareUpdate} onDetails={() => window.open(softwareUpdate.state.releaseUrl, '_blank', 'noopener,noreferrer')}/></>;
@@ -120,7 +132,7 @@ export default function AccountGate({ children }) {
         <form onSubmit={submit} className="account-form">
           {registering && <label>昵称<input name="nickname" autoComplete="nickname" maxLength={32} value={nickname} onChange={event => setNickname(event.target.value)} placeholder="排行榜上显示的名字" required disabled={busy}/></label>}
           <label>登录号<input name="username" autoComplete="username" minLength={4} maxLength={32} pattern="[A-Za-z0-9_]{4,32}" value={loginId} onChange={event => setLoginId(event.target.value)} placeholder="4–32 位字母、数字或下划线" autoCapitalize="none" spellCheck={false} required disabled={busy}/></label>
-          <label>密码<div className="account-password"><input name="password" type={visible ? 'text' : 'password'} autoComplete={registering ? 'new-password' : 'current-password'} minLength={8} maxLength={128} value={password} onChange={event => setPassword(event.target.value)} placeholder="至少 8 个字符" required disabled={busy}/><button type="button" aria-label={visible ? '隐藏密码' : '显示密码'} aria-pressed={visible} onClick={() => setVisible(value => !value)}>{visible ? <EyeOff size={18}/> : <Eye size={18}/>}</button></div></label>
+          <label>密码<div className="account-password"><input name="password" type={visible ? 'text' : 'password'} autoComplete={registering ? 'new-password' : 'current-password'} minLength={registering ? 8 : 6} maxLength={128} value={password} onChange={event => setPassword(event.target.value)} placeholder={registering ? '至少 8 个字符' : '请输入密码'} required disabled={busy}/><button type="button" aria-label={visible ? '隐藏密码' : '显示密码'} aria-pressed={visible} onClick={() => setVisible(value => !value)}>{visible ? <EyeOff size={18}/> : <Eye size={18}/>}</button></div></label>
           {registering && <label>确认密码<input name="passwordConfirmation" type={visible ? 'text' : 'password'} autoComplete="new-password" minLength={8} maxLength={128} value={confirmation} onChange={event => setConfirmation(event.target.value)} placeholder="再次输入密码" required disabled={busy}/></label>}
           {error && <p className="account-error" role="alert">{error}</p>}
           {message && <p className="account-message" role="status">{message}</p>}

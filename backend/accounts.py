@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import base64
-from contextlib import closing, contextmanager, nullcontext
+from contextlib import closing, contextmanager
 import json
 import logging
 import re
@@ -19,10 +19,18 @@ from persistence import load_document, save_document
 from training import ServiceError
 from translation_config import _crypt
 
+ACCOUNT_WAIT_SECONDS = 3
+RESTORE_NETWORK_SECONDS = 8
+LOGIN_NETWORK_SECONDS = 24
+
 
 class AccountConnectionUnavailable(ServiceError):
     """Transport/service outage, distinct from invalid credentials or content."""
     connection_unavailable = True
+
+
+class AccountOperationCancelled(ServiceError):
+    """A superseded restore must not activate or overwrite another identity."""
 
 
 class Accounts:
@@ -46,6 +54,7 @@ class Accounts:
         self.services = {str(original.db_path): original}
         self.retired_services = []
         self.retired_syncs = []
+        self.retire_workers = []
         self.session = None
         self.state_sync = None
         self.saved = None
@@ -54,6 +63,8 @@ class Accounts:
         self.restore_lock = threading.Lock()
         self.restore_worker = None
         self.restore_retry_at = 0
+        self.restore_epoch = 0
+        self.restore_suppressed = False
         self.network_context = threading.local()
         self.error = ''
         self.last_login = load_document(self.root / 'account-login.json', '')
@@ -69,14 +80,25 @@ class Accounts:
                 self.error = '本机登录凭据无法读取，请重新登录'
 
     @contextmanager
-    def request_context(self, changing=False):
+    def request_context(self, changing=False, *, restoring=False, supersede=True):
         """Allow concurrent work for one account; drain it before switching."""
+        deadline = time.monotonic() + ACCOUNT_WAIT_SECONDS
         with self.requests:
+            auth_epoch = None
+            if changing and not restoring and supersede and not self.session:
+                # An explicit account operation supersedes automatic recovery.
+                # The old worker keeps owning its resources until it unwinds.
+                self.restore_epoch += 1
+                auth_epoch = self.restore_epoch
+                self.restore_suppressed = bool(self.saved)
             if changing:
                 self.waiting_changes += 1
             try:
-                self.requests.wait_for(lambda: not self.changing_account and
-                    (self.active_requests == 0 if changing else self.waiting_changes == 0))
+                available = self.requests.wait_for(lambda: not self.changing_account and
+                    (self.active_requests == 0 if changing else self.waiting_changes == 0),
+                    timeout=max(0, deadline - time.monotonic()))
+                if not available:
+                    raise ServiceError(503, '上一次账号操作仍在收尾，本机数据已保留，请稍后重试')
                 if changing:
                     self.changing_account = True
                 else:
@@ -84,9 +106,21 @@ class Accounts:
             finally:
                 if changing:
                     self.waiting_changes -= 1
+                    self.requests.notify_all()
         try:
-            with self.lock if changing else nullcontext():
+            acquired = not changing or self.lock.acquire(timeout=max(0, deadline - time.monotonic()))
+            if not acquired:
+                raise ServiceError(503, '上一次账号操作仍在收尾，本机数据已保留，请稍后重试')
+            previous_epoch = getattr(self.network_context, 'auth_epoch', None)
+            if auth_epoch is not None:
+                self.network_context.auth_epoch = auth_epoch
+            try:
+                self._check_account_operation()
                 yield
+            finally:
+                self.network_context.auth_epoch = previous_epoch
+                if changing:
+                    self.lock.release()
         finally:
             with self.requests:
                 if changing:
@@ -98,16 +132,39 @@ class Accounts:
             # with a late 401. Drain retired workspaces only after releasing it.
             self._drain_retired()
 
-    def _drain_retired(self):
-        with self.lock:
-            services, self.retired_services = self.retired_services, []
-            syncs, self.retired_syncs = self.retired_syncs, []
-        for sync in syncs:
-            sync.close()
-        for service in services:
-            service.close()
+    def _drain_retired(self, *, wait=False):
+        # Most requests have nothing to retire. Never wait behind a cloud
+        # restore merely to inspect these queues, nor join a network worker on
+        # the HTTP response path. SQLite closes only after its sync has drained.
+        if self.retired_services or self.retired_syncs:
+            acquired = self.lock.acquire(blocking=wait)
+            if acquired:
+                try:
+                    services, self.retired_services = self.retired_services, []
+                    syncs, self.retired_syncs = self.retired_syncs, []
+                finally:
+                    self.lock.release()
+                def finish():
+                    for sync in syncs:
+                        sync.close()
+                        with sync.operation:
+                            pass
+                    for service in services:
+                        service.close()
+                worker = threading.Thread(target=finish, name='tb-retired-account-close', daemon=True)
+                with self.requests:
+                    self.retire_workers = [old for old in self.retire_workers if old.is_alive()]
+                    self.retire_workers.append(worker)
+                    worker.start()
+        if wait:
+            with self.requests:
+                workers = tuple(self.retire_workers)
+            for worker in workers:
+                if worker is not threading.current_thread():
+                    worker.join()
 
     def _remote(self, method, path, body=None, session=None, *, invalidate=True, maximum=262144, timeout=8, state_revision=None):
+        self._check_account_operation()
         if self.closed:
             raise ServiceError(503, 'ToBe 正在关闭')
         if not self.endpoint:
@@ -123,9 +180,11 @@ class Accounts:
             if remaining <= 0:
                 raise AccountConnectionUnavailable(503, '账号服务连接超时，本机数据已保留')
             timeout = min(timeout, remaining)
+        deadline = time.monotonic() + timeout
         try:
             with self.opener.open(Request(self.endpoint + path, data=payload, method=method, headers=headers), timeout=timeout) as response:
-                raw = response.read(maximum + 1)
+                raw = self._read_remote_response(response, maximum, deadline)
+            self._check_account_operation()
             if len(raw) > maximum:
                 raise ValueError()
             result = json.loads(raw)
@@ -134,9 +193,12 @@ class Accounts:
             return result
         except HTTPError as issue:
             try:
-                message = json.loads(issue.read(4096)).get('error')
-            except (ValueError, UnicodeError):
+                document = json.loads(self._read_remote_response(issue, 4096, deadline))
+                message = document.get('error') if isinstance(document, dict) else None
+            except (ValueError, UnicodeError, OSError):
                 message = None
+            finally:
+                issue.close()
             safe = message if isinstance(message, str) and len(message) <= 180 and not any(ord(c) < 32 for c in message) else '账号服务暂时无法完成请求'
             if invalidate and issue.code == 401 and session and self.session and self.session['token'] == session['token']:
                 self.invalidate(session['token'])
@@ -150,14 +212,51 @@ class Accounts:
             # A reachable service returning corrupt JSON is not an offline lease.
             raise ServiceError(503, '账号服务响应校验失败，本机数据已保留') from None
 
+    def _read_remote_response(self, response, maximum, deadline):
+        parts, size = [], 0
+        while size <= maximum:
+            self._check_account_operation()
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                raise TimeoutError('Account response deadline exceeded')
+            # urllib owns this HTTPResponse/socket. Cap each available read by
+            # the remaining *total* budget, including connection/TLS time.
+            sock = getattr(getattr(getattr(response, 'fp', None), 'raw', None), '_sock', None)
+            if sock is not None:
+                sock.settimeout(remaining)
+            reader = getattr(response, 'read1', response.read)
+            part = reader(min(65536, maximum + 1 - size))
+            if not part:
+                break
+            parts.append(part)
+            size += len(part)
+        if time.monotonic() > deadline:
+            raise TimeoutError('Account response deadline exceeded')
+        return b''.join(parts)
+
     def restore_time_remaining(self):
         deadline = getattr(getattr(self, 'network_context', None), 'deadline', None)
         return max(0, deadline - time.monotonic()) if deadline is not None else None
 
+    def _check_account_operation(self):
+        if getattr(self, 'closed', False) or getattr(self, 'closing', False):
+            raise ServiceError(503, 'ToBe 正在关闭，本机数据已保留')
+        context = getattr(self, 'network_context', None)
+        auth_epoch = getattr(context, 'auth_epoch', None)
+        if auth_epoch is not None and auth_epoch != self.restore_epoch:
+            raise AccountOperationCancelled(503, '已取消上一次账号操作，请使用当前账号继续')
+        epoch = getattr(context, 'restore_epoch', None)
+        if epoch is not None and (epoch != self.restore_epoch or self.restore_suppressed):
+            raise AccountOperationCancelled(503, '已取消上一次登录恢复，请使用当前账号继续')
+        remaining = self.restore_time_remaining()
+        if remaining is not None and remaining <= 0:
+            raise AccountConnectionUnavailable(503, '账号同步连接超时，本机数据已保留，请重新连接')
+
     @contextmanager
-    def _restoration_deadline(self):
+    def _restoration_deadline(self, seconds):
         previous = getattr(self.network_context, 'deadline', None)
-        self.network_context.deadline = time.monotonic() + 2
+        deadline = time.monotonic() + seconds
+        self.network_context.deadline = min(previous, deadline) if previous is not None else deadline
         try:
             yield
         finally:
@@ -196,23 +295,26 @@ class Accounts:
             with self.restore_lock:
                 if (not self.closed and not self.closing and
                         self.server.software_updates.status not in {'ready', 'installing'} and
+                        not self.restore_suppressed and
                         (not self.session and self.saved or self.session and self.session['expiresAt'] <= time.time()) and
                         not (self.restore_worker and self.restore_worker.is_alive()) and
                         (retry or time.monotonic() >= self.restore_retry_at)):
-                    self.restore_worker = threading.Thread(target=self._restore, name='tb-account-restore', daemon=True)
+                    self.restore_worker = threading.Thread(target=self._restore, args=(self.restore_epoch,), name='tb-account-restore', daemon=True)
                     self.restore_worker.start()
-                restoring = bool(self.restore_worker and self.restore_worker.is_alive())
+                restoring = bool(self.restore_worker and self.restore_worker.is_alive() and not self.restore_suppressed)
             return self._status(restoring=restoring)
         with self.lock:
             if self.session and self.session['expiresAt'] <= time.time():
                 self.invalidate()
-            if not self.session and self.saved:
+            if not self.session and self.saved and not self.restore_suppressed:
                 try:
                     # The authenticated state GET in initialize validates the
                     # saved credential too. Avoid a second serial TLS request;
                     # never expose the workspace before that validation.
                     self._activate(self.saved, allow_offline=True)
                     self.error = ''
+                except AccountOperationCancelled:
+                    raise
                 except ServiceError as issue:
                     self.error = issue.message
                     if issue.status == 401:
@@ -229,17 +331,24 @@ class Accounts:
                 'restoring': restoring and not authenticated,
                 'sync': self.state_sync.snapshot() if authenticated and self.state_sync else None}
 
-    def _restore(self):
+    def _restore(self, epoch=None):
+        epoch = self.restore_epoch if epoch is None else epoch
+        self.network_context.restore_epoch = epoch
         try:
-            with self.request_context(changing=True):
+            with self.request_context(changing=True, restoring=True):
+                self._check_account_operation()
                 if not self.closed:
                     self.snapshot()
+        except AccountOperationCancelled:
+            pass
         except Exception as issue:
             # Do not expose remote payloads, credentials or private paths.
             logging.getLogger('tb.accounts').warning('Saved account restoration failed: %s', type(issue).__name__)
-            self.error = '登录恢复未完成，本机数据已保留，请重试或使用账号密码登录'
+            if epoch == self.restore_epoch:
+                self.error = '登录恢复未完成，本机数据已保留，请重试或使用账号密码登录'
         finally:
             self.restore_retry_at = time.monotonic() + 30
+            self.network_context.restore_epoch = None
 
     def _assert_idle(self):
         current = self.server.training
@@ -305,7 +414,7 @@ class Accounts:
     def _activate(self, value, rotate=True, allow_offline=False):
         if self.closed or self.closing or self.server.software_updates.status == 'installing':
             raise ServiceError(503, 'ToBe 正在关闭')
-        account = value.get('account', {})
+        account = self._validated_account(value)
         owner = account.get('userId')
         if not isinstance(owner, str) or not isinstance(value.get('token'), str) or not re.fullmatch(r'[A-Za-z0-9_-]{32,200}', value['token']):
             raise ServiceError(503, '账号响应无效')
@@ -328,12 +437,16 @@ class Accounts:
         else:
             state_sync = AccountStateSync(self, service, candidate)
             try:
-                with self._restoration_deadline() if local_path else nullcontext():
+                with self._restoration_deadline(2 if local_path else RESTORE_NETWORK_SECONDS if allow_offline else LOGIN_NETWORK_SECONDS):
                     state_sync.initialize()
+                    self._check_account_operation()
             except ServiceError as issue:
+                if isinstance(issue, AccountOperationCancelled):
+                    raise
                 if not local_path or not getattr(issue, 'connection_unavailable', False):
                     raise
                 state_sync.resume_local()
+        self._check_account_operation()
         if self.closed or self.closing or self.server.software_updates.status == 'installing':
             raise ServiceError(503, 'ToBe 正在关闭')
         service.bind_account(account, self.endpoint)
@@ -342,6 +455,7 @@ class Accounts:
         self.registry['activeOwner'] = owner
         save_document(self.registry_path, self.registry)
         self.saved = None
+        self.restore_suppressed = False
         self.last_login = account['loginId']
         save_document(self.root / 'account-login.json', self.last_login)
         save_document(self.session_path, protected)
@@ -366,6 +480,19 @@ class Accounts:
                 self.retired_services.append(previous)
                 del self.services[key]
 
+    @staticmethod
+    def _validated_account(value):
+        account = value.get('account') if isinstance(value, dict) else None
+        try:
+            if (not isinstance(account, dict) or
+                    str(uuid.UUID(account.get('userId', ''))) != account.get('userId') or
+                    not isinstance(account.get('loginId'), str) or
+                    not re.fullmatch(r'[A-Za-z0-9_]{4,32}', account['loginId'])):
+                raise ValueError()
+        except (ValueError, TypeError, AttributeError):
+            raise ServiceError(503, '账号服务响应校验失败，本机数据已保留') from None
+        return account
+
     def register(self, body):
         with self.lock:
             if self.session:
@@ -375,7 +502,13 @@ class Accounts:
             legacy = None
             if not self.registry.get('originalOwner') and not self.registry.get('registeredOwner'):
                 legacy = {'userId': self.legacy_owner, 'token': self.legacy_secret}
-            value = self._remote('POST', '/v1/accounts/register', body, legacy)
+            try:
+                value = self._remote('POST', '/v1/accounts/register', body, legacy)
+            except AccountConnectionUnavailable:
+                # A lost acknowledgement is not proof that registration failed.
+                # Never replay it or tell the UI to create the account again.
+                raise AccountConnectionUnavailable(503, '尚未收到注册结果，请先尝试用该登录号登录；本机学习记录已保留') from None
+            self._validated_account(value)
             if not self.registry.get('originalOwner') and not self.registry.get('registeredOwner'):
                 self.registry['registeredOwner'] = value['account']['userId']
                 save_document(self.registry_path, self.registry)
@@ -390,9 +523,25 @@ class Accounts:
             if self.session:
                 raise ServiceError(409, '请先退出当前账号')
             value = self._remote('POST', '/v1/accounts/login', body)
+            self._validated_account(value)
             if self._personal_path(value['account']['userId']) != self.server.training.db_path:
                 self._assert_idle()
-            self._activate(value)
+            try:
+                self._activate(value)
+            except ServiceError as issue:
+                if not getattr(issue, 'connection_unavailable', False) and not getattr(issue, 'retry_state', False):
+                    raise
+                # The password POST succeeded. Keep only its protected session
+                # so retry performs state GET/merge/CAS, never another login POST.
+                candidate = {**value, 'userId': value['account']['userId'], 'endpoint': self.endpoint}
+                self.saved = candidate
+                save_document(self.session_path, base64.b64encode(self.crypt(json.dumps(candidate, ensure_ascii=False).encode('utf-8'))).decode('ascii'))
+                self.last_login = value['account']['loginId']
+                save_document(self.root / 'account-login.json', self.last_login)
+                self.restore_suppressed = False
+                self.restore_retry_at = time.monotonic() + 30
+                self.error = '登录验证已完成，学习记录尚未同步；请重新连接，本机数据已保留'
+                return self._status()
             return self.snapshot()
 
     def logout(self):
@@ -456,12 +605,15 @@ class Accounts:
                     current.close();syncs.append(current)
             for sync in syncs:
                 with sync.operation:pass
-            self._drain_retired()
+            self._drain_retired(wait=True)
             with self.lock:
                 self.session = self.saved = None
                 services = tuple(self.services.values())
             for service in services:service.close()
         busy=bool(worker and worker.is_alive())
+        acquired=self.lock.acquire(blocking=False)
+        if acquired:self.lock.release()
+        else:busy=True
         for sync in syncs:
             acquired=sync.operation.acquire(blocking=False)
             if acquired:sync.operation.release()

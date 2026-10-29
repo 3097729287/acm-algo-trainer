@@ -18,7 +18,7 @@ html .difficulty-range-values .bounded-number input {width:100%;padding:4px 1px;
 .filter-field.difficulty-filter {grid-template-columns:1fr;gap:3px}
 .difficulty-filter>.difficulty-range {grid-column:1/-1}
 .filter-popover .difficulty-range {grid-template-columns:1fr;gap:2px}
-.filter-popover .difficulty-range-values {grid-row:1;justify-content:space-between}
+.filter-popover .difficulty-range-values {grid-row:1;justify-content:center;gap:12px}
 .filter-popover .difficulty-range-track {grid-row:2}
 .difficulty-range[data-disabled=true] {opacity:.55}
 .difficulty-single {display:flex;align-items:center;gap:14px;min-width:0;width:100%}

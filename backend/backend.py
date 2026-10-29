@@ -112,8 +112,14 @@ class Handler(BaseHTTPRequestHandler):
     def dispatch(self, writing=False):
         path = unquote(urlsplit(self.path).path)
         starting = writing and path in {'/api/submissions', '/api/official/open', '/api/official/submit', '/api/contests/start', '/api/contests/start-calendar', '/api/software-update/install'}
-        with self.server.work_start_lock if starting else nullcontext():
-            self._account_dispatch(writing)
+        try:
+            with self.server.work_start_lock if starting else nullcontext():
+                self._account_dispatch(writing)
+        except (APIError, ServiceError) as error:
+            # Account-barrier timeouts occur before _dispatch's inner handler.
+            # Do not leave a client waiting on an unstructured closed socket.
+            self.close_connection = True
+            self.send_json(error.status, {'error': error.message})
 
     def _account_dispatch(self, writing=False):
         accounts = getattr(self.server, 'accounts', None)
@@ -131,9 +137,15 @@ class Handler(BaseHTTPRequestHandler):
                 return
             changing = (writing and (path.startswith('/api/account/') and path != '/api/account/sync' or path in ('/api/profile', '/api/identity'))
                         or path == '/api/account' and accounts.saved is not None)
+            if changing:
+                # Only a valid local request may supersede a saved restore.
+                # Recheck in _dispatch after the barrier, in case identity/token
+                # changed while this request was waiting.
+                self.local_request(writing)
             # Normal requests share the current workspace. Account mutations
             # wait for all of them, preventing writes/responses crossing users.
-            with accounts.request_context(changing=changing):
+            with accounts.request_context(changing=changing, restoring=not writing,
+                                          supersede=path in ('/api/account/login', '/api/account/register')):
                 self._dispatch(writing)
         else:
             self._dispatch(writing)
@@ -244,6 +256,9 @@ class Handler(BaseHTTPRequestHandler):
                 elif path == '/api/admin':
                     from admin import controls
                     value = controls(training, body)
+                elif path in ('/api/admin/accounts/delete','/api/admin/accounts/reset-password'):
+                    if not self.server.admin_mode:raise APIError(404,'没有找到这个接口')
+                    value=(self.server.admin_rankings.delete_account(body) if path.endswith('/delete') else self.server.admin_rankings.reset_password(body))
                 elif path == '/api/templates/save':
                     from code_templates import save
                     value = save(training, body)
@@ -423,6 +438,9 @@ class Handler(BaseHTTPRequestHandler):
             elif path == '/api/admin':
                 from admin import controls
                 self.send_json(200, controls(self.server.training))
+            elif path == '/api/admin/accounts':
+                if not self.server.admin_mode:raise APIError(404,'没有找到这个接口')
+                self.send_json(200,self.server.admin_rankings.search_accounts(parse_qs(target.query).get('q',[''])[0]))
             elif path == '/api/templates':
                 from code_templates import catalog
                 self.send_json(200, catalog(self.server.training))

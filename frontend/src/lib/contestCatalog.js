@@ -66,10 +66,10 @@ export function compactCatalogOptions(nodes, parent = []) {
   });
 }
 
-export function catalogEntries(rows, path = []) {
-  return catalogEntriesFor(rows,normalizeCatalogPath(path),new WeakMap());
+export function catalogEntries(rows, path = [], {descending=true}={}) {
+  return catalogEntriesFor(rows,normalizeCatalogPath(path),new WeakMap(),descending);
 }
-function catalogEntriesFor(rows,path,cache){
+function catalogEntriesFor(rows,path,cache,descending){
   const paths=row=>{if(!cache.has(row))cache.set(row,catalogPaths(row));return cache.get(row);};
   const matching=(row,prefix)=>paths(row).filter(parts=>begins(parts,prefix));
   const selected = rows.filter(row => matching(row,path).length);
@@ -82,7 +82,7 @@ function catalogEntriesFor(rows,path,cache){
   }
   const result=[...groups].flatMap(([name, items]) => {
     let next = [...path, name];
-    if (path[0]?.startsWith('蓝桥杯') && isYear(name)) return catalogEntriesFor(items,next,cache);
+    if (path[0]?.startsWith('蓝桥杯') && isYear(name)) return catalogEntriesFor(items,next,cache,descending);
     if (items.length && !preserveFolder(path, name)) {
       while (true) {
         const branches=items.flatMap(row=>matching(row,next));
@@ -96,10 +96,10 @@ function catalogEntriesFor(rows,path,cache){
   });
   const comparable=new Map(result.filter(item=>item.leaf).map(item=>[item,{...item.items[0],rows:item.items}]));
   const compareNewest=createContestComparator();
-  return result.sort((a, b) => a.leaf && b.leaf
+  return result.sort((a, b) => (a.leaf && b.leaf
     ? compareNewest(comparable.get(a),comparable.get(b))
     : isYear(a.label) && isYear(b.label) ? b.label.localeCompare(a.label)
-    : folderOrder.compare(a.label,b.label));
+    : folderOrder.compare(a.label,b.label))*(descending?1:-1));
 }
 
 export function contestOptions(events,{descending=true,shelf=''}={}) {

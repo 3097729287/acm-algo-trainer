@@ -22,7 +22,11 @@ async function load(path, body, token) {
   const base = (import.meta.env.VITE_API_BASE_URL || '/api').replace(/\/$/, '');
   const accountRequest = /^account(?:[/?]|$)/.test(path);
   const controller = accountRequest ? new AbortController() : null;
-  const timeout = controller ? setTimeout(() => controller.abort(), body === undefined ? 12000 : 60000) : null;
+  // Backend account barriers and authentication/state initialization have
+  // separate finite budgets. Leave room for their structured error response;
+  // this guard handles a broken local connection, never retries a password POST.
+  const milliseconds = body === undefined ? 12000 : path === 'account/register' ? 15000 : path === 'account/login' ? 45000 : 60000;
+  const timeout = controller ? setTimeout(() => controller.abort(), milliseconds) : null;
   let response, text;
   try {
     response = await fetch(`${base}/${path}`, body === undefined
@@ -30,7 +34,13 @@ async function load(path, body, token) {
       : { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-TB-Token': token }, body: JSON.stringify(body), ...(controller ? { signal: controller.signal } : {}) });
     text = await response.text();
   } catch (issue) {
-    if (controller?.signal.aborted) throw new Error('登录服务响应超时，本机学习记录已保留，请重试连接');
+    if (controller?.signal.aborted) {
+      const error = new Error(path === 'account/register'
+        ? '尚未收到注册结果，请先尝试用该登录号登录；本机学习记录已保留'
+        : '账号连接暂未完成，本机学习记录已保留，请重新连接');
+      error.uncertain = body !== undefined;
+      throw error;
+    }
     throw issue;
   } finally { if (timeout) clearTimeout(timeout); }
   let result;

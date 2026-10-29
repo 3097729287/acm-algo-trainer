@@ -7,11 +7,33 @@ import { protocolSuite } from './protocol-suite.mjs';
 import { accountsSuite } from './accounts-suite.mjs';
 import { startMySQLFixture } from './mysql-fixture.mjs';
 import { socialSuite } from './social-suite.mjs';
+import {adminAccountsSuite} from './admin-accounts-suite.mjs';
 import { snapshotFromSQL } from '../scripts/export-sqlite.mjs';
 import { importSnapshot } from '../scripts/import-snapshot.mjs';
 import { readFile } from 'node:fs/promises';
 import { tokenHash } from '../src/accounts.mjs';
 import {preservedData,assertPreserved} from '../scripts/audit-preserved-data.mjs';
+adminAccountsSuite(startMySQLFixture);
+
+test('admin audit migration preserves every old table, creates only empty audit and preserves existing actions on repeat',async()=>{
+  const f=await startMySQLFixture();
+  try {
+    await f.STORE.pool.query('DROP TABLE account_admin_actions');
+    const before=await preservedData(f.STORE.pool);
+    const source=await readFile(new URL('../mysql/012_account_admin.sql',import.meta.url),'utf8');
+    const migrate=async()=>{for(const statement of source.split(';').map(s=>s.trim()).filter(Boolean))await f.STORE.pool.query(statement);};
+    await migrate();const after=await preservedData(f.STORE.pool);
+    assertPreserved(before,after,{requireAvatar:true,requireLists:true,requireChunks:true,requireAdmin:true});
+    assert.equal(after.tables.account_admin_actions.rows,0);
+    await f.STORE.pool.execute('INSERT INTO account_admin_actions(actor_id,target_id,action,created_at) VALUES(?,?,?,?)',[randomUUID(),randomUUID(),'reset-password',new Date().toISOString()]);
+    const populated=await preservedData(f.STORE.pool);await migrate();
+    assertPreserved(populated,await preservedData(f.STORE.pool),{requireAdmin:true});
+    assert.throws(()=>assertPreserved(before,populated,{requireAdmin:true}),/account_admin_actions/);
+    await f.STORE.pool.execute("UPDATE account_admin_actions SET action='delete-account'");
+    const changed=await preservedData(f.STORE.pool);
+    assert.throws(()=>assertPreserved(populated,changed,{requireAdmin:true}),/account_admin_actions/);
+  }finally{await f.close();}
+});
 
 test('chunk migration and binary payload preservation are audited before service switching',async()=>{
   const f=await startMySQLFixture();

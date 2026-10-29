@@ -1,3 +1,5 @@
+import DailyTaskCount from '@/components/DailyTaskCount.jsx';
+import useSyncNotices from '@/lib/useSyncNotices.js';
 import {DifficultyDisplayProvider} from '@/components/DifficultyDisplay.jsx';
 import {ProblemCells,ProblemTableHead,Difficulty,Verdict} from '@/components/ProblemTableParts.jsx';
 import BrandWordmark from '../components/BrandWordmark.jsx';
@@ -180,7 +182,7 @@ const DEFAULTS = {
   fontSize: 15,
   difficultyDisplay: 'number',
   learnedLectures: [],
-  navOrder: ["mine", "library", "training-lists", "competitions", "mock", "paths", "templates", "rankings", "growth", "records", "activity", "lectures"],
+  navOrder: ["mine", "library", "training-lists", "competitions", "mock", "rankings", "growth", "records", "paths", "templates", "lectures", "activity"],
   learningPaths: {},
   shortcuts: {},
   navSchema: 2,
@@ -633,6 +635,7 @@ export default function App() {
   const calendar = useContestCalendar(api, Boolean(data), dialog === 'contest-calendar', now);
   const [account, setAccount] = useState(() => window.__tbAccount || null);
   const social = useSocial(api, Boolean(data && account?.userId));
+  const syncNotices=useSyncNotices(account?.userId||window.__tbAccountUserId||'');
   useUsage(api,data&&account?.userId,Boolean((!dialog||['lecture','solution'].includes(dialog))&&(practiceId||readerId||page==='mock'&&mockSlot&&workspace.activeContest||['lectures','paths','templates'].includes(page)||page==='settings'&&settingsTab==='accounts')));
   usePlatformLogins(api,Boolean(data&&account?.userId));
   const [profileSnapshot, setProfileSnapshot] = useState(null), [accountFocus, setAccountFocus] = useState(null);
@@ -1971,14 +1974,14 @@ export default function App() {
               icon={Bell}
               onClick={() => setDialog("updates")}
             >
-              {((hub?.notifications || []).some((n) => !n.read) || social.snapshot?.unreadCount > 0) && (
+              {((hub?.notifications || []).some((n) => !n.read) || social.snapshot?.unreadCount > 0 || syncNotices.items.some(item=>!item.read)) && (
                 <span className="notification-dot" />
               )}
             </IconButton>
 
           </div>
         </header>
-        <footer className={"app-statusbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}> {featureAvailable('competitions')&&<Tooltip text="比赛日历"><button className="achievement-top-button contest-calendar-button" aria-label="比赛日历" onClick={()=>setDialog('contest-calendar')}><CalendarClock size={18}/>{calendar.hasUnreadToday&&<i className="notification-dot" aria-hidden="true"/>}</button></Tooltip>}<button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><small>{insights?.dailyTasks?.policyVersion===3?insights.dailyTasks.completedCount||0:`${(insights?.dailyTasks?.tasks||[]).filter(task=>task.claimed).length}/${insights?.dailyTasks?.tasks?.length||6}`}</small>{(insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed)) && <i className="notification-dot" />}</button>
+        <footer className={"app-statusbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}> {featureAvailable('competitions')&&<Tooltip text="比赛日历"><button className="achievement-top-button contest-calendar-button" aria-label="比赛日历" onClick={()=>setDialog('contest-calendar')}><CalendarClock size={18}/>{calendar.hasUnreadToday&&<i className="notification-dot" aria-hidden="true"/>}</button></Tooltip>}<button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><DailyTaskCount value={insights?.dailyTasks}/>{(insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed)) && <i className="notification-dot" />}</button>
             <button className="achievement-top-button" aria-label="成就" onClick={openAchievements}><Medal size={17} /><small>{unlockedAchievements.length}/{achievements.length}</small>{unseenAchievements.length > 0 && <i className="notification-dot" />}</button>
 {prefs.widgets && <TopbarClock />}</footer>
         {error && (
@@ -2007,6 +2010,8 @@ export default function App() {
               onProgress={progressChanged}
               onExit={exitPractice}
               onSolution={openSolution}
+              onCloseSolution={()=>{readerSeq.current++;setReaderId(null);setReader(null);setReaderFull(false);}}
+              onNotice={notice}
               solutionOpen={readerId === practiceId}
               solutionMethodId={readerMethod||reader?.primaryMethod||reader?.methods?.[0]?.id}
               onNext={nextPractice}
@@ -2160,8 +2165,11 @@ export default function App() {
       {dialog === "achievements" && <Modal title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => setDialog(null)} wide><AchievementPanel achievements={achievements} newIds={unseenAchievements.map(item => item.id)} onSeen={markAchievementSeen} /></Modal>}
       {dialog === "submission" && selectedSubmission && <Modal title={selectedSubmission.title + " · 历史提交"} onClose={() => setDialog(null)} wide footer={<button className="primary" onClick={() => { setDialog(null); openPractice(selectedSubmission.problemId); }}><Play size={14} />继续练习</button>}><div className="submission-detail-meta"><Verdict value={selectedSubmission.verdict} /><span>{formatDate(selectedSubmission.submittedAt)}</span><span>{selectedSubmission.contestName}</span></div><HistoricalCode submission={selectedSubmission} api={api}/>{selectedSubmission.message && <p className="submission-message">{selectedSubmission.message}</p>}</Modal>}
       {dialog === "updates" && (
-        <Modal title="消息与更新" onClose={() => setDialog(null)} wide>
+        <Modal title="消息与更新" onClose={() => setDialog(null)} wide className="messages-modal">
+          <section className="messages-social-pane">
+          {syncNotices.items.length>0&&<section className="sync-notice-list" aria-label="账号同步消息"><header><h3>账号同步</h3><button type="button" onClick={syncNotices.markRead} disabled={syncNotices.items.every(item=>item.read)} aria-label="同步消息全部已读"><Check size={15}/></button></header>{syncNotices.items.map(item=><p key={item.id} data-read={item.read}>{item.message}</p>)}</section>}
           <SocialNotifications social={social} api={api}/>
+          </section>
           <UpdatePanel notificationsOnly
             softwareState={softwareUpdate.state}
             onContent={openUpdate}

@@ -12,6 +12,7 @@ const socialTables = ['social_likes','social_notifications'];
 const appearanceTables=['account_public_avatars'];
 const listTables=['training_list_likes'];
 const chunkTables=['account_chunk_heads','account_chunk_usage','account_chunks'];
+const adminTables=['account_admin_actions'];
 const identifier = name => '`' + name.replaceAll('`','``') + '`';
 
 export async function preservedData(pool) {
@@ -25,7 +26,7 @@ export async function preservedData(pool) {
   try {
     await connection.query('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ');
     await connection.query('START TRANSACTION WITH CONSISTENT SNAPSHOT, READ ONLY');
-    for (const table of [...coreTables,...socialTables,...appearanceTables,...listTables,...chunkTables].sort()) {
+    for (const table of [...coreTables,...socialTables,...appearanceTables,...listTables,...chunkTables,...adminTables].sort()) {
       if (!present.has(table)) continue;
       const [columns] = await connection.execute('SELECT COLUMN_NAME AS name,DATA_TYPE AS kind FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME=? ORDER BY ORDINAL_POSITION',[table]);
       const names = columns.map(row=>row.name);
@@ -48,14 +49,14 @@ export async function preservedData(pool) {
   finally { connection.release(); }
 }
 
-export function assertPreserved(before,after,{requireAvatar=false,requireLists=false,requireChunks=false}={}) {
+export function assertPreserved(before,after,{requireAvatar=false,requireLists=false,requireChunks=false,requireAdmin=false}={}) {
   if (before?.format!=='tb-preserved-data-v1' || after?.format!==before.format ||
       !isDeepStrictEqual(before.totals,after.totals)) throw new Error('Preserved data totals differ.');
   for (const table of coreTables) {
     if (!before.tables?.[table] || !isDeepStrictEqual(before.tables[table],after.tables?.[table]))
       throw new Error('Preserved account data differs: '+table);
   }
-  for (const table of [...socialTables,...appearanceTables.filter(name=>requireAvatar||before.tables?.[name]||after.tables?.[name]),...listTables.filter(name=>requireLists||before.tables?.[name]||after.tables?.[name]),...chunkTables.filter(name=>requireChunks||before.tables?.[name]||after.tables?.[name])]) {
+  for (const table of [...socialTables,...appearanceTables.filter(name=>requireAvatar||before.tables?.[name]||after.tables?.[name]),...listTables.filter(name=>requireLists||before.tables?.[name]||after.tables?.[name]),...chunkTables.filter(name=>requireChunks||before.tables?.[name]||after.tables?.[name]),...adminTables.filter(name=>requireAdmin||before.tables?.[name]||after.tables?.[name])]) {
     if (!after.tables?.[table]) throw new Error('Additive migration is incomplete.');
     if (before.tables?.[table] ? !isDeepStrictEqual(before.tables[table],after.tables[table]) : after.tables[table].rows!==0)
       throw new Error('Existing social data differs: '+table);
@@ -64,7 +65,7 @@ export function assertPreserved(before,after,{requireAvatar=false,requireLists=f
 
 async function main() {
   const mode=process.argv[2];
-  if (mode==='--compare'||mode==='--compare-chunks') {
+  if (mode==='--compare'||mode==='--compare-chunks'||mode==='--compare-admin') {
     const chunks=[];
     let bytes=0;
     for await (const chunk of process.stdin) {
@@ -75,13 +76,13 @@ async function main() {
     const input=Buffer.concat(chunks).toString('utf8');
     const lines=input.trim().split('\n');
     if (lines.length!==2) throw new Error('Provide exactly two fingerprint documents.');
-    assertPreserved(...lines.map(line=>JSON.parse(line)),{requireAvatar:true,requireLists:true,requireChunks:mode==='--compare-chunks'});
+    assertPreserved(...lines.map(line=>JSON.parse(line)),{requireAvatar:true,requireLists:true,requireChunks:mode!=='--compare',requireAdmin:mode==='--compare-admin'});
     process.stdout.write('Preserved account, snapshot, receipt and XP fingerprints match.\n');
     return;
   }
   if (mode==='--stage') {
     const value=JSON.parse(await readFile(new URL('../BUILD-INFO.json',import.meta.url),'utf8'));
-    if (value.format!=='tb-account-runtime-v1' || value.version!=='1.2.8' ||
+    if (value.format!=='tb-account-runtime-v1' || value.version!=='1.2.9' ||
         !/^[0-9a-f]{40}$/.test(value.sourceCommit) || value.sourceCommit!==process.argv[3])
       throw new Error('Staged source identity does not match the reviewed commit.');
     process.stdout.write('Staged source identity verified.\n');

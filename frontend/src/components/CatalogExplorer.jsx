@@ -24,11 +24,11 @@ export function CatalogPath({ scope, onChange }) {
     {path.map((part, index) => <span key={index}><ChevronRight size={13}/><button aria-current={index === path.length - 1 ? 'page' : undefined} onClick={() => onChange({ stage: index === path.length - 1 ? scope.stage : 'contests', path: path.slice(0, index + 1) })}>{part}</button></span>)}
   </nav>;
 }
-export default function CatalogExplorer({ rows, scope, onChange, onContest, renderContest, paginate=false }) {
+export default function CatalogExplorer({ rows, scope, onChange, onContest, renderContest, paginate=false,descending=true }) {
   const path = pathOf(scope), selected = rows.filter(row => catalogMatches(row, scope));
-  const entries = catalogEntries(rows, path).flatMap(entry => renderContest && entry.items.length && (entry.leaf || entry.items.every(row=>cardLevel(row,path))) ? [...new Map(entry.items.map(row=>[contestKey(row),row])).values()].map(row=>({...entry,items:[row],leaf:true,path:[...entry.path,contestKey(row)]})) : [entry]);
+  const entries = catalogEntries(rows, path,{descending}).flatMap(entry => renderContest && entry.items.length && (entry.leaf || entry.items.every(row=>cardLevel(row,path))) ? [...new Map(entry.items.map(row=>[contestKey(row),row])).values()].map(row=>({...entry,items:[row],leaf:true,path:[...entry.path,contestKey(row)]})) : [entry]);
   const panel=useRef(null),[page,setPage]=useState(1);
-  const key=JSON.stringify(path),size=useFittedPageSize(panel,key,'.catalog-folder-row, .catalog-contest-entry');
+  const key=JSON.stringify([path,descending]),size=useFittedPageSize(panel,key,'.catalog-folder-row, .catalog-contest-entry');
   useEffect(()=>setPage(1),[key]);
   const pages=Math.max(1,Math.ceil(entries.length/size)),current=Math.min(page,pages);
   const visible=paginate?entries.slice((current-1)*size,current*size):entries;

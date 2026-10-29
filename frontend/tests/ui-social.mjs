@@ -15,8 +15,8 @@ const self={userId:'11111111-1111-4111-8111-111111111111',nickname:'训练者甲
 const rows=Array.from({length:120},(_,index)=>({id:`fixture::${index}`,contest:'周赛 166',problem:String(index+1),title:`列表定位测试 ${String(index+1).padStart(3,'0')}`,tags:['模拟'],knowledge:'模拟',platform:'牛客',series:'周赛',difficulty:800+index*10,url:`https://example.com/${index}`,contestDate:'2026-10-20T00:00:00Z',solutionAvailable:true}));
 for(const row of rows){row.contestProblemCount=rows.filter(item=>item.contest===row.contest&&item.platform===row.platform).length;row.catalogContentReady=true;}
 const training=rows.map(row=>({id:row.id,activeAt:timestamp,lastActivityAt:timestamp,today:true,accepted:false,verdict:null,attempts:0}));
-let preferences=null,likes={total:4,likedToday:false},failLike=true,boardDay=date,notifications=[{id:'33333333-3333-4333-8333-333333333333',kind:'comment',actor:other,recipient:self,text:'一起加油 <script>window.untrusted=true</script>',createdAt:timestamp,read:false}];
-notifications.push(...Array.from({length:100},(_,index)=>({id:`55555555-5555-4555-8555-${String(index).padStart(12,'0')}`,kind:'like',actor:other,recipient:self,createdAt:timestamp,read:false})));
+let preferences=null,likes={total:4,likedToday:false},failLike=true,failAutomaticRead=true,boardDay=date,notifications=[{id:'33333333-3333-4333-8333-333333333333',kind:'comment',actor:other,recipient:self,text:'一起加油 <script>window.untrusted=true</script>',createdAt:timestamp,read:false}];
+notifications.push(...Array.from({length:100},(_,index)=>({id:`55555555-5555-4555-8555-${String(index).padStart(12,'0')}`,kind:index<3?'like':'comment',text:index<3?'':`分页留言 ${index}`,actor:other,recipient:self,createdAt:timestamp,read:false})));
 const workspace=()=>({training,sets:[],contests:[],activeContest:null,goals:{goals:[]},goalTasks:[],summary:{total:120,accepted:training.filter(row=>row.accepted).length,todayAccepted:0,attempts:0,due:0,pending:0,streak:1},now:timestamp});
 const progress={badge:'tier-7',level:8,tier:'大师',rankTier:'大师',rankScore:2000,titles:[]};
 const ranked={badge:'tier-7',tier:'大师',qualified:true,abilityScore:2000,nextAbilityScore:2100,evidenceCount:8,minimumEvidence:5,levelGate:5};
@@ -59,7 +59,10 @@ await page.route('**/api/**',async route=>{
     likes={total:likes.total+(likes.likedToday?0:1),likedToday:true};value={created:true,targetId:other.userId,likes};
   }
   else if(path==='/api/social/comments')value={created:true,id:body.requestId};
-  else if(path==='/api/social/read'){notifications=notifications.map(row=>body.all===true||body.ids?.includes(row.id)?{...row,read:true}:row);value={ok:true};}
+  else if(path==='/api/social/read'){
+    if(failAutomaticRead&&body.ids){failAutomaticRead=false;await route.fulfill({status:503,json:{error:'自动已读暂未完成，请重试'}});return;}
+    notifications=notifications.map(row=>body.all===true||body.ids?.includes(row.id)?{...row,read:true}:row);value={ok:true};
+  }
   else {await route.fulfill({status:404,json:{error:'fixture missing '+path}});return;}
   await route.fulfill({json:value});
 });
@@ -127,7 +130,9 @@ try {
   const sent=writes.filter(item=>item.path==='/api/social/likes').length;
   await page.getByRole('tab',{name:'本周',exact:true}).click();await heart.waitFor();assert(await heart.isDisabled());assert.equal(writes.filter(item=>item.path==='/api/social/likes').length,sent);
   boardDay=new Date(new Date(date+'T00:00:00Z').getTime()+86400000).toISOString().slice(0,10);likes={total:likes.total,likedToday:false};
-  await page.getByRole('tab',{name:'每日',exact:true}).click();await heart.waitFor();assert.equal(await heart.isDisabled(),false,'next Beijing day allows a new heart');
+  await page.getByRole('tab',{name:'每日',exact:true}).click();await heart.waitFor();
+  await page.waitForFunction(()=>Array.from(document.querySelectorAll('.ranking-table tbody tr')).find(row=>row.textContent.includes('训练者乙'))?.querySelector('.like-burst')?.disabled===false);
+  assert.equal(await heart.isDisabled(),false,'the refreshed next-Beijing-day snapshot allows a new heart');
   await page.getByRole('button',{name:'给 训练者乙 留言',exact:true}).click();
   await page.getByLabel('留言内容',{exact:true}).fill('继续加油！');await page.getByRole('button',{name:'发送留言',exact:true}).click();
   await page.getByText('留言已发送。',{exact:true}).waitFor();assert.equal(writes.filter(item=>item.path==='/api/social/comments').length,1);
@@ -135,8 +140,15 @@ try {
   await page.getByRole('button',{name:'消息通知',exact:true}).click();
   await page.getByRole('region',{name:'爱心与留言'}).getByText(/一起加油/).waitFor();
   assert.equal(await page.evaluate(()=>window.untrusted),undefined);
+  await page.getByText('自动已读暂未完成，请重试',{exact:true}).waitFor();
   await page.getByRole('button',{name:'全部已读',exact:true}).click();
-  await page.getByText('共收到 9 个爱心 · 0 条未读消息',{exact:true}).waitFor();assert(writes.some(item=>item.path==='/api/social/read'&&item.body.all===true),'read-all includes messages beyond the first 100');await shot('notifications');
+  await page.getByText('共收到 3 个爱心 · 0 条未读消息',{exact:true}).waitFor();assert(writes.some(item=>item.path==='/api/social/read'&&item.body.all===true),'read-all includes messages beyond the first 100');
+  assert(notifications.every(item=>item.read),'manual read-all includes the page-hidden 101st notification');
+  const freshId='66666666-6666-4666-8666-666666666666',beforeAutomatic=writes.filter(item=>item.path==='/api/social/read').length;
+  notifications.unshift({id:freshId,kind:'comment',actor:other,recipient:self,text:'新到消息自动已读',createdAt:timestamp,read:false});
+  await page.evaluate(()=>window.dispatchEvent(new Event('tb:social-change')));await page.getByText('新到消息自动已读',{exact:true}).waitFor();
+  await page.getByText('共收到 3 个爱心 · 0 条未读消息',{exact:true}).waitFor();assert(await page.getByRole('button',{name:'全部已读',exact:true}).isDisabled());
+  const automatic=writes.filter(item=>item.path==='/api/social/read').slice(beforeAutomatic);assert.equal(automatic.length,1);assert.deepEqual(automatic[0].body.ids,[freshId]);assert.equal(automatic[0].body.all,undefined);assert(notifications.find(item=>item.id===freshId).read);await shot('notifications');
   await page.keyboard.press('Escape');
   await nav('设置').click();
   await openSettings(page, '外观');

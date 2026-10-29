@@ -53,7 +53,7 @@ export default function DifficultyRange({ value, onChange, min = 800, max: maxim
       <input type="range" min={min} max={max} step={nativeStep} value={visualLow} aria-valuenow={low} disabled={disabled} aria-label={`${minLabel}滑块`} onChange={event => {if(!drag.current)slide('min', event.target.value);}} onKeyDown={event=>keys('min',low,event)} onPointerDown={event=>startDrag('min',event)} {...pointerProps} style={{ zIndex: low === high ? 3 : 1 }}/>
       <input type="range" min={min} max={max} step={nativeStep} value={visualHigh} aria-valuenow={high} disabled={disabled} aria-label={`${maxLabel}滑块`} onChange={event => {if(!drag.current)slide('max', event.target.value);}} onKeyDown={event=>keys('max',high,event)} onPointerDown={event=>startDrag('max',event)} {...pointerProps}/>
     </div>
-    <div className="difficulty-range-values"><BoundedNumber aria-label={minLabel} min={min} max={high} step={1} value={low} disabled={disabled} required onChange={event => change('min', event.target.value)}/><span aria-hidden="true">~</span><BoundedNumber aria-label={maxLabel} min={low} max={max} step={1} value={high} disabled={disabled} required onChange={event => change('max', event.target.value)}/></div>
+    <div className="difficulty-range-values"><BoundedNumber aria-label={minLabel} min={min} max={high} step={1} value={low} disabled={disabled} required onChange={event => change('min', event.target.value)}/><span aria-hidden="true">–</span><BoundedNumber aria-label={maxLabel} min={low} max={max} step={1} value={high} disabled={disabled} required onChange={event => change('max', event.target.value)}/></div>
   </div>;
 }
 

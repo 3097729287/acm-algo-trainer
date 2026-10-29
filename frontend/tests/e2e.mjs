@@ -8,6 +8,8 @@ import { createServer } from 'vite';
 import { chromium } from 'playwright';
 import {completeContest} from '../src/lib/completeContest.js';
 import { catalogSegments } from '../src/lib/contestCatalog.js';
+import {organizeCategories} from '../src/models/model.js';
+import {canonicalKnowledgeName,knowledgeFilterNames,rowKnowledgeNames} from '../src/lib/knowledgeNames.js';
 
 const root = resolve(fileURLToPath(new URL('../..', import.meta.url)));
 const seededSolutions = JSON.parse(await readFile(join(root, 'data/library/solutions.json'), 'utf8'));
@@ -100,9 +102,21 @@ try {
     return {left:left.height,right:right.height};
   });
   assert.ok(heights.left>250&&heights.right>200,JSON.stringify(heights));
-  assert.deepEqual(await page.locator('.knowledge-radar .radar-node').evaluateAll(nodes => nodes.map(node => node.getAttribute('aria-label').split('，')[0])),
-    ['思维与策略', '动态规划', '基础技巧', '数据结构', '图论', '数学与计数', '字符串', '搜索', '计算几何', '专题方法'],
-    'radar renders all organized domains from the real library taxonomy');
+  const taxonomyNames=['思维与策略','动态规划','基础技巧','数据结构','图论','数学与计数','字符串','搜索','计算几何','专题方法'];
+  const knowledgeRows=catalog.rows.map(row=>({identity:row.url||row.id,names:rowKnowledgeNames(row)}));
+  const leaves=node=>node.children?.length?node.children.flatMap(leaves):[canonicalKnowledgeName(node.name)];
+  const domainCounts=organizeCategories(catalog.categories).map((domain,order)=>{
+    const scope=new Set(knowledgeFilterNames(domain).map(canonicalKnowledgeName));
+    const available=new Set(knowledgeRows.filter(row=>[...row.names].some(name=>scope.has(name))).map(row=>row.identity)).size;
+    const hasTopics=leaves(domain).some(name=>knowledgeRows.some(row=>row.names.has(name)));
+    return {name:domain.name,available,order,hasTopics};
+  }).filter(domain=>domain.hasTopics);
+  assert.deepEqual(domainCounts.map(domain=>domain.name).sort(),[...taxonomyNames].sort(),'all expected real-library domains remain represented');
+  const expectedDomains=domainCounts.sort((a,b)=>b.available-a.available||a.order-b.order).map(domain=>domain.name);
+  const visibleDomains=await page.locator('.knowledge-radar .radar-node').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('aria-label').split('，')[0]));
+  assert.equal(new Set(visibleDomains).size,visibleDomains.length,'a domain is not duplicated to fill radar slots');
+  assert.deepEqual([...visibleDomains].sort(),[...taxonomyNames].sort(),'radar retains the complete organized domain set');
+  assert.deepEqual(visibleDomains,expectedDomains,'radar sorts distinct available originals before rendering, with taxonomy order only for ties');
   await page.screenshot({path: 'tests/screenshots/growth-real.png', animations: 'disabled'});
   assert.equal(await page.locator('.knowledge-drawer-toggle').count(),0);
   assert.equal(await page.getByRole('tab', {name: '目标计划', exact: true}).count(),0);

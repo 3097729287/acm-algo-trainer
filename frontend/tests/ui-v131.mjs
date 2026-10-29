@@ -78,7 +78,7 @@ await page.route('**/api/**',async route=>{
   await route.fulfill({json:value});
 });
 const nav=name=>page.locator('.sidebar').getByRole('button',{name,exact:true});
-async function openPage(name){if(await nav(name).isVisible())await nav(name).click();else if(name==='题库')await page.keyboard.press('Control+2');else{await page.keyboard.press('Control+k');await page.getByRole('button',{name:'打开'+name,exact:true}).click();}}
+async function openPage(name){if(await nav(name).isVisible())await nav(name).click();else if(name==='题库')await page.keyboard.press('Control+2');else{await page.keyboard.press('Control+k');await page.getByRole('dialog',{name:'快捷操作',exact:true}).getByRole('button',{name:new RegExp('^打开'+name+'(?:\\s|$)')}).click();}}
 const checkOverflow=async()=>assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
 async function shot(name){await page.screenshot({path:`tests/screenshots/v131-${name}.png`,animations:'disabled'});}
 async function settings(name){await nav('设置').click();await page.locator('.settings-page').waitFor();if(!(await page.locator('.settings-home-grid').count()))await page.keyboard.press('Escape');if(name)await page.getByRole('tab',{name,exact:true}).click();}
@@ -228,10 +228,10 @@ try{
  const guidanceSaved=page.waitForResponse(response=>response.url().endsWith('/api/preferences')&&response.request().method()==='POST'&&response.request().postData().includes('"assisted":true'));
  await page.getByRole('button',{name:'3 推到代码',exact:true}).click();await page.getByRole('form',{name:'补出关键转移'}).waitFor();await guidanceSaved;
  mockActive={id:'lab-lock',name:'隔离考场',status:'running',startedAt:timestamp,endsAt:new Date(Date.now()+3600000).toISOString(),duration:60,total:1,remainingSeconds:3600,slots:[{...rows[117],id:'fixture:alias:P1048',letter:'A'}]};
- await page.reload();await nav('算法实验室').click();await page.getByRole('button',{name:'打开算法 背包 DP',exact:true}).click();await page.getByRole('region',{name:'跟做指导已锁定',exact:true}).waitFor();
+ await page.reload();await nav('算法实验室').click();await page.getByRole('region',{name:'跟做指导已锁定',exact:true}).waitFor();
  assert.equal(await page.getByRole('form',{name:'补出关键转移'}).count(),0,'guided source obeys the active original-task lock, including aliases');
  assert.equal(await page.getByRole('navigation',{name:'解题过程'}).count(),0);await shot('algorithm-lab-locked');
- mockActive=null;await page.reload();await nav('算法实验室').click();await page.getByRole('button',{name:'打开算法 背包 DP',exact:true}).click();await page.getByRole('form',{name:'补出关键转移'}).waitFor();
+ mockActive=null;await page.reload();await nav('算法实验室').click();await page.getByRole('form',{name:'补出关键转移'}).waitFor();assert.equal(await page.locator('.lab-catalog').count(),0,'reload resumes the preserved guided lesson after the contest lock clears');
  await page.getByRole('button',{name:'5 自行实现',exact:true}).click();
  const labCheck=await page.locator('.lab-implementation input[type=checkbox]').first().boundingBox();assert(labCheck.width<=20&&labCheck.height<=20);await shot('algorithm-lab-guided');
  await page.getByRole('button',{name:'进入工作台实现',exact:true}).click();await page.locator('.cm-editor').waitFor();
@@ -255,7 +255,7 @@ try{
  assert(titleParts.every(part=>Math.abs(part.center-titleParts[0].center)<1));assert(titleParts.slice(1).every((part,index)=>part.x>titleParts[index].right));await shot('social-title-aligned');await page.keyboard.press('Escape');
  await page.evaluate(()=>window.dispatchEvent(new CustomEvent('tb:browser-preparation',{detail:{status:'needs_login'}})));assert.equal(await page.getByRole('dialog',{name:'浏览器原站提交'}).count(),0);
  for(const width of [1280,2048])for(const name of ['我的训练','题库','比赛','模拟赛','算法实验室','排行榜','成长与能力','提交记录','活动记录','从零讲']){
-  await page.setViewportSize({width,height:1000});await nav(name).click();await page.waitForTimeout(75);
+  await page.setViewportSize({width,height:1000});await openPage(name);await page.waitForTimeout(75);
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'page overflow: '+name+' '+width);
   const area=await page.locator('.workspace-area').boundingBox();assert(area.x>=0&&area.x+area.width<=width+1,name);await shot('audit-'+name+'-'+width);
  }
@@ -302,7 +302,7 @@ try{
  await page.locator('.lectures-list>button').filter({hasText:'二分查找'}).click();await page.getByRole('navigation',{name:'相关知识从零讲'}).waitFor();await page.getByRole('button',{name:'从零讲：线性 DP',exact:false}).click();await page.getByRole('article',{name:'知识讲解正文'}).getByText('独立复用基础知识。').waitFor();
  await nav('算法实验室').click();await page.waitForFunction(()=>document.querySelector('.lab-catalog,.lab-course-header'));if(await page.getByRole('button',{name:'打开算法 背包 DP',exact:true}).count())await page.getByRole('button',{name:'打开算法 背包 DP',exact:true}).click();if(await page.getByRole('button',{name:'返回学算法',exact:true}).count())await page.getByRole('button',{name:'返回学算法',exact:true}).click();await page.getByRole('button',{name:'目录',exact:true}).click();await page.getByRole('navigation',{name:'课程章节'}).getByRole('button').first().click();await page.getByRole('button',{name:'下一页',exact:true}).click();
  await page.clock.install({time:Date.now()});await openPage('题库');await page.locator('.problem-table').waitFor();await page.clock.fastForward(179000);await openPage('算法实验室');await page.getByRole('heading',{name:/把大问题拆小/}).waitFor();
- await openPage('题库');await page.clock.fastForward(180000);await openPage('算法实验室');await page.getByRole('button',{name:'打开算法 背包 DP',exact:true}).waitFor();await page.clock.resume();
+ await openPage('题库');await page.clock.fastForward(86400000);await openPage('算法实验室');await page.getByRole('heading',{name:/把大问题拆小/}).waitFor();await page.clock.resume();await page.getByRole('button',{name:'返回算法实验室',exact:true}).click();await page.locator('.lab-catalog').waitFor();
  await settings('数据统计');await page.getByRole('region',{name:'个人数据统计',exact:true}).waitFor();assert.equal(await page.locator('.personal-stat').count(),8);await shot('personal-statistics');
  await page.getByRole('button',{name:'返回设置首页',exact:true}).click();await page.getByRole('tab',{name:'更新',exact:true}).click();
  assert.equal(await page.getByLabel('自动检查间隔',{exact:true}).count(),0);assert.equal(await page.getByLabel('自动收录最低难度',{exact:true}).count(),0);assert.equal(await page.locator('.update-status').count(),0);

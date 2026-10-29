@@ -3,7 +3,7 @@ import datetime as dt
 import hashlib
 import json
 
-from daily_rotation import CHALLENGES, EXPLORATIONS, tasks_for
+from daily_rotation import CHALLENGES, EXPLORATIONS, tasks_for, adapt_challenge
 from progression import SHANGHAI, parse_time, task_progress
 from training import ServiceError, iso
 from usage import learning_seconds
@@ -122,11 +122,28 @@ def _random(training, day, owner, step, fixed, evidence, records):
     # out. New rounds require new evidence instead of immediately reusing ACs.
     pool.append(dict(id='learning-extra', title='再学一会', description='继续学习 5 分钟', kind='learning', target=5, xp=10))
     rank = lambda item: hashlib.sha256((owner + '\0' + day + '\0review\0' + str(step) + '\0' + item['id']).encode()).digest()
-    choice = min(pool, key=rank)
+    choice = adapt_challenge(min(pool, key=rank), _challenge_reference(training,day))
     task = {**choice, 'id': identity, 'sourceId': choice['id'], 'lane': 'review-random', 'step': step,
             'slot': 1, 'version': 3, 'baseline': sorted({_evidence_key(item) for item in evidence if _evidence_key(item)}),
             'secondsBaseline': learning_seconds(training, day), 'issuedAt': iso(training._now())}
     return task
+
+
+def _challenge_reference(training, day):
+    key='daily-challenge-reference:'+day
+    saved=_read(training,key)
+    if isinstance(saved,dict) and saved.get('version')==2:return saved.get('score')
+    # Use the same failure-aware model as the displayed ability score. The
+    # day's reference is frozen so a task cannot move while being attempted.
+    from ability_assessment import assess, from_records
+    from submission_evidence import annotate_sources
+    records=[dict(row) for row in training.connection.execute("SELECT * FROM submissions WHERE mode='submit' AND finished_at IS NOT NULL")]
+    model=assess(from_records(training._library(),annotate_sources(records,training.connection),training._now()),training._now())
+    score=model['abilityScore'] if model['qualified'] else None
+    value=json.dumps({'version':2,'score':score},ensure_ascii=False)
+    with training._write() as db:
+        db.execute('INSERT INTO account_preferences VALUES(?,?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at',(key,value,iso(training._now())))
+    return score
 
 
 def snapshot(training, goal_tasks=None, evidence=None, *, completed=None):
@@ -138,7 +155,8 @@ def snapshot(training, goal_tasks=None, evidence=None, *, completed=None):
         records = {row['id']: row for row in training.connection.execute('SELECT * FROM daily_missions WHERE day=?', (day,))}
         completed = _completed_reviews(training, day) if completed is None else completed
         limit = _review_limit(training, day, completed)
-        fixed = [{**task, 'lane': 'fixed', 'slot': i + 3} for i, task in enumerate(tasks_for(day, owner)[3:])]
+        basis=_challenge_reference(training,day)
+        fixed = [{**adapt_challenge(task,basis), 'lane': 'fixed', 'slot': i + 3} for i, task in enumerate(tasks_for(day, owner)[3:])]
         ac_step = _next_step(records, 'ac')
         # A legacy already-claimed 1/3-AC tier is not paid a second time.
         legacy_target = max((target for key,target in [('solve-1',1),('solve-3',3)] if key in records and records[key]['claimed_at']), default=0)
@@ -184,9 +202,13 @@ def snapshot(training, goal_tasks=None, evidence=None, *, completed=None):
         else:
             _advance_read_caches(training, day, before_changes)
         claimed = [row for row in current.values() if row['claimed_at']]
+        visible_completed=sum(json.loads(row['definition']).get('lane') in ('fixed','review-random') for row in claimed)
+        visible_completed+=sum(task['lane'] in ('fixed','review-random') and task['completed'] and not task['claimed'] for task in tasks)
         return {'date': day, 'timezone': 'Asia/Shanghai', 'policyVersion': 3, 'tasks': tasks, 'goalTasks': goal_tasks,
                 'goalPending': sum(not task['accepted'] for task in goal_tasks), 'claimable': sum(task['completed'] and not task['claimed'] for task in tasks),
                 'completedCount': len(claimed), 'reviewLimit': limit, 'reviewCompleted': len(completed),
+                'displayCompletedCount':visible_completed,'displayTarget':min(10,max(3,visible_completed+1)),
+                'displayComplete':visible_completed>=10,
                 'totalClaimedXp': sum(row['awarded_xp'] for row in claimed)}
 
 

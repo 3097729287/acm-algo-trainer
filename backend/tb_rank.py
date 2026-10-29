@@ -13,7 +13,9 @@ TITLES = ('编程入门', '基础研习', '算法实践', '结构分析', '构�
 LEGACY_TIERS = ('黑铁', '青铜', '白银', '黄金', '铂金', '翡翠', '钻石', '大师', '宗师', '王者')
 LEGACY_TITLES = ('编程入门', '基础研习', '算法实践', '结构分析', '状态建模', '构造与证明', '复杂度掌控', '算法设计', '竞赛研究', '算法专家')
 LEVEL_CAP = 100  # Public progress protocol 1 accepts levels 1 through 100.
-LEVEL_COSTS = tuple(200 * level for level in range(1, LEVEL_CAP))
+# The first four levels introduce the workspace within about five ordinary
+# first-AC awards. Earned XP is unchanged; normal 200*level costs resume at Lv.5.
+LEVEL_COSTS = (100, 100, 150, 150) + tuple(200 * level for level in range(5, LEVEL_CAP))
 RANK_UNLOCK_LEVEL = 5
 RANK_UNLOCK_XP = sum(LEVEL_COSTS[:RANK_UNLOCK_LEVEL - 1])
 MIN_RANK_EVIDENCE = 5

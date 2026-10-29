@@ -2,10 +2,12 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {nextActions,learningEvidence,trustedDifficulty,LAB_ACTIONS,NEXT_ACTION_POLICY} from '../src/lib/nextActions.js';
 import {availablePages} from '../src/lib/navigationVisibility.js';
+import {organizeTrainingLists} from '../src/lib/trainingListCatalog.js';
+import {buildTrainingCurriculum,filterTrainingListsScope} from '../src/lib/trainingCurriculum.js';
 
 const now=Date.parse('2026-10-29T04:00:00Z'),pages=availablePages(11);
 const row=(id,extra={})=>({id,title:id,tags:['数组'],difficulty:1000,difficultySource:'Codeforces 官方 rating',
- difficultyConfidence:'HIGH',platform:'Codeforces',catalogContentReady:true,...extra});
+ difficultyConfidence:'HIGH',platform:'Codeforces',catalogContentReady:true,solutionAvailable:true,solutionState:'available',...extra});
 const fact=(item,date='2026-10-28T00:00:00Z',extra={})=>({id:item.id,problemId:item.id,solved:true,weight:1,
  difficulty:item.difficulty,failures:0,date,...extra});
 const insight=(facts,extra={})=>({assessment:{model:{method:'rasch-practice-evidence-v2',version:2},
@@ -30,7 +32,7 @@ test('a beginner follows a real incomplete foundation unit with first-level help
  assert(!result.some(item=>['course','template','stretch','contest'].includes(item.kind)));
 });
 test('XP, synced AC totals and assisted/local results do not bypass foundations',()=>{
- const rows=[...foundation,row('basic-new')];
+ const rows=[...foundation,row('basic-new',{tags:['输入输出']})];
  const result=nextActions({rows,availablePages:pages,now,insights:{growth:{level:100,xp:999999,
   ranked:{qualified:true,abilityScore:2300,evidenceCount:100}},knowledgeEvidence:[{id:foundation[0].id,independence:1}]}});
  assert.equal(result[0].id,'basic-new');assert.match(result[0].reason,/独立通过 0/);
@@ -88,7 +90,7 @@ test('the server review budget prevents an unbounded new curriculum queue',()=>{
 test('same-day cramming and crossing midnight for a few minutes do not establish retention',()=>{
  const close=foundation.map((item,i)=>fact(item,`2026-10-28T${15+i}:55:00Z`));
  assert.equal(learningEvidence(foundation,insight(close),now).all.stable,false);
- const result=nextActions({...base,insights:insight(close),rows:[...base.rows,row('basic-new')]});
+ const result=nextActions({...base,insights:insight(close),rows:[...base.rows,row('basic-new',{tags:['输入输出']})]});
  assert.equal(result[0].id,'basic-new');
 });
 test('stale, future, invalid, zero-weight and explicitly non-independent evidence cannot unlock',()=>{
@@ -219,7 +221,7 @@ test('the current foundation unit offers several distinct direct exercises witho
 });
 
 test('extra foundation diagnostics remain complete, rated, unpassed and basic',()=>{
- const valid=[1,2,3,4,5].map(n=>row('diagnostic-'+n,{tags:['模拟']}));
+ const valid=[1,2,3,4,5].map(n=>row('diagnostic-'+n,{tags:['输入输出']}));
  const excluded=[row('unknown-extra',{difficulty:null}),row('incomplete-extra',{catalogContentReady:false}),
   row('advanced-extra',{tags:['网络流'],difficulty:1000}),row('passed-extra',{accepted:true}),row('tag-review-extra',{knowledgeReviewRequired:true})];
  const result=nextActions({rows:[...excluded,...valid],availablePages:pages,now});
@@ -250,6 +252,86 @@ test('implemented template alternatives are exact pending operations and cannot 
   prefs:{learningPaths:{'prefix-difference':{mode:'guided'}}},templates:[{...template,practiceIds:[first.id,alias.id,drill2.id],practicePassed:[false,false,true]}]});
  assert.equal(result.filter(item=>item.kind==='template-problem').length,1);
  assert.equal(result[0].id,first.id);assert(!result.some(item=>item.id===drill2.id));
+});
+
+test('a missing qualified exercise never promotes the learner past the earliest unmastered unit',()=>{
+ const io=[1,2,3].map(n=>row('first-low-'+n,{tags:['输入输出'],difficultyConfidence:'LOW',difficultySource:'来源档位换算（未核定）'}));
+ const later=[1,2,3].map(n=>row('later-stl-'+n,{tags:['STL']}));
+ const lists=[{id:'first',title:'输入输出与顺序结构',available:true,problems:io.map(item=>({problemId:item.id}))},
+  {id:'later',title:'函数与结构体',available:true,problems:later.map(item=>({problemId:item.id}))}];
+ const result=nextActions({rows:[...io,...later],lists,availablePages:pages,now});
+ assert.deepEqual(result.map(item=>item.id),['curriculum:0']);assert.match(result[0].reason,/暂没有.*题解.*不跳/);
+ assert(!result.some(item=>/STL|函数/.test(item.title)));
+});
+
+test('an incomplete first unit remains the frontier even when later exercises have explanations',()=>{
+ const first=[1,2,3].map(n=>row('first-unready-'+n,{tags:['输入输出'],catalogContentReady:n!==1,solutionAvailable:false,solutionState:'missing'}));
+ const later=[1,2,3].map(n=>row('later-ready-'+n,{tags:['函数']}));
+ const lists=[{id:'first',title:'顺序结构',available:true,problems:first.map(item=>({problemId:item.id}))},
+  {id:'later',title:'函数与结构体',available:true,problems:later.map(item=>({problemId:item.id}))}];
+ const result=nextActions({rows:[...first,...later],lists,availablePages:pages,now});
+ assert.deepEqual(result.map(item=>item.id),['curriculum:0']);
+ const hidden=nextActions({rows:[...first,...later],lists,availablePages:['mine'],now});
+ assert.deepEqual(hidden,[],'Hiding the current list cannot turn later exercises into eligible prerequisites');
+});
+
+test('accepted totals without qualified independent evidence do not complete the blocked unit',()=>{
+ const first=[1,2,3].map(n=>row('first-accepted-'+n,{tags:['输入输出'],accepted:true}));
+ const later=[1,2,3].map(n=>row('later-arrays-'+n,{tags:['数组']}));
+ const lists=[{id:'first',title:'顺序结构',available:true,problems:first.map(item=>({problemId:item.id}))},
+  {id:'later',title:'数组与字符串',available:true,problems:later.map(item=>({problemId:item.id}))}];
+ const result=nextActions({rows:[...first,...later],lists,insights:{growth:{level:1,totalXp:999}},availablePages:pages,now});
+ assert.deepEqual(result.map(item=>item.id),['curriculum:0']);
+});
+
+test('actual independent first-unit evidence advances to the next unit, not the next populated candidate',()=>{
+ const first=[1,2,3].map(n=>row('proved-io-'+n,{tags:['输入输出'],accepted:true}));
+ const second=[1,2,3].map(n=>row('unready-loop-'+n,{tags:['循环'],solutionAvailable:false,solutionState:'missing'}));
+ const later=[1,2,3].map(n=>row('ready-function-'+n,{tags:['函数']}));
+ const lists=[{id:'first',title:'顺序结构',available:true,problems:first.map(item=>({problemId:item.id}))},
+  {id:'second',title:'循环结构',available:true,problems:second.map(item=>({problemId:item.id}))},
+  {id:'later',title:'函数与结构体',available:true,problems:later.map(item=>({problemId:item.id}))}];
+ const facts=first.map((item,i)=>fact(item,`2026-10-${26+i}T00:00:00Z`));
+ const result=nextActions({rows:[...first,...second,...later],lists,insights:insight(facts),availablePages:pages,now});
+ assert.deepEqual(result.map(item=>item.id),['curriculum:1']);
+});
+
+test('an absent prerequisite directory is not fabricated or silently marked complete',()=>{
+ const later=[1,2,3].map(n=>row('only-stl-'+n,{tags:['STL']}));
+ const lists=[{id:'later',title:'函数与结构体',available:true,problems:later.map(item=>({problemId:item.id}))}];
+ assert.deepEqual(nextActions({rows:later,lists,availablePages:pages,now}),[]);
+ assert.deepEqual(nextActions({rows:later,availablePages:pages,now}),[],'Pending list metadata cannot briefly recommend an unsupported language unit');
+});
+
+test('direct new exercises require both real catalog explanation availability and statement/sample readiness',()=>{
+ const good=row('ready-explained',{tags:['输入输出']}),bad=[
+  row('a-statement-only',{tags:['输入输出'],solutionAvailable:false,solutionState:'missing'}),
+  row('b-stale-explanation-flag',{tags:['输入输出'],solutionAvailable:true,solutionState:'missing'}),
+  row('c-explanation-only',{tags:['输入输出'],catalogContentReady:false}),
+ ];
+ const result=nextActions({rows:[...bad,good],availablePages:pages,now});
+ assert.deepEqual(result.map(item=>item.id),[good.id]);
+});
+
+test('the actual public seed keeps a zero-evidence Lv1 learner in input/output',()=>{
+ const source=name=>JSON.parse(fs.readFileSync(new URL(`../../data/library/${name}.json`,import.meta.url)));
+ const statements=new Map(source('statements').map(item=>[item.problem_id,item.content]));
+ const solutions=new Set(source('solutions').filter(item=>item.markdown?.trim()).map(item=>item.problem_id));
+ const rows=source('problems').map(item=>{
+  const statement=statements.get(item.id),explained=solutions.has(item.id);
+  return {...item.encoded,accepted:false,catalogContentReady:Boolean(statement?.markdown?.trim()&&statement.samples?.some(sample=>typeof sample.input==='string'&&typeof sample.output==='string')),
+   solutionAvailable:explained,solutionState:explained?'available':'missing'};
+ });
+ const lists=source('training_lists'),units=buildTrainingCurriculum(filterTrainingListsScope(organizeTrainingLists(lists),rows),rows);
+ const first=units.find(unit=>unit.id==='curriculum:0');assert(first?.problems.length,'The recommendation points to an existing source-backed unit');
+ const result=nextActions({rows,lists,insights:{growth:{level:1,totalXp:0}},availablePages:availablePages(1),now});
+ assert.equal(result[0]?.id,first.id);assert.equal(result[0]?.kind,'list');
+ const firstIds=new Set(first.problems.map(item=>item.problemId));
+ for(const item of result.filter(item=>item.kind==='problem')){
+  assert(firstIds.has(item.id));assert(solutions.has(item.id));assert(statements.get(item.id)?.samples?.length);
+ }
+ assert(!result.some(item=>item.id==='curriculum:3'||item.kind==='course'||/STL|函数/.test(item.title)));
+ assert(result.length<=NEXT_ACTION_POLICY.maxActions);
 });
 
 test('lesson IDs are shipped, actions stay bounded and the model does not mutate its inputs',()=>{

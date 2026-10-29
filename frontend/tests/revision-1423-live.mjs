@@ -25,7 +25,8 @@ try {
  assert.equal(await page.locator('.sidebar').isVisible(),false);assert.equal(await page.locator('.topbar').isVisible(),false);assert.equal(await page.locator('.app-statusbar').isVisible(),false);
  assert(await page.locator('.template-code').evaluate(node=>node.getBoundingClientRect().width>innerWidth*.9));
  assert.match(await page.getByLabel('模板代码',{exact:true}).innerText(),/路径压缩|根/);
- await page.getByRole('button',{name:'竞赛版',exact:true}).click();
+ await page.getByRole('button',{name:'讲解版',exact:true}).click();
+ await page.getByRole('button',{name:'竞赛版',exact:true}).waitFor();
  const concise=await page.getByLabel('模板代码',{exact:true}).innerText();assert.match(concise,/vector<int> p, sz/);assert(!concise.includes('//'));
  await page.getByRole('button',{name:'复制模板',exact:true}).click();const copied=await page.evaluate(()=>navigator.clipboard.readText());assert(!copied.includes('//'));assert.match(copied,/int find\(int u\)/);
  for(const theme of ['dark','light']){await page.evaluate(v=>document.documentElement.dataset.theme=v,theme);await page.screenshot({path:`${output}/template-focus-${theme}.png`});}

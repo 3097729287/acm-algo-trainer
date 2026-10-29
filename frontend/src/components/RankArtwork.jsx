@@ -2,7 +2,7 @@
 // related without tracing the supplied game's wings, crest or ornamentation.
 const PALETTES=[
  ['#5a606e','#c4c9d0','#343b48','#aeb7c4'],
- ['#ad7551','#f1cf9b','#533c34','#f2b77d'],
+ ['#96604b','#cc9b85','#49352f','#b8795d'],
  ['#8ca5bc','#e4f5ff','#455568','#b8e1fc'],
  ['#d4a641','#fff0af','#675023','#ffe28b'],
  ['#31a98f','#b2fae2','#1e4c4d','#71e7c6'],

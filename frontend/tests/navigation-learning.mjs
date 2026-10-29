@@ -137,6 +137,12 @@ try{
   preferences={...preferences,theme,fontSize};await page.setViewportSize({width,height:850});await load(11);
   const recommendation=page.locator('.topbar > .next-actions');await recommendation.hover();await page.locator('.next-actions-popover').waitFor();
   const geometry=await page.locator('.next-actions-popover').evaluate(node=>{const r=node.getBoundingClientRect(),header=document.querySelector('.topbar');return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:innerWidth,height:innerHeight,headerOverflow:header.scrollWidth>header.clientWidth+1};});
+  const trigger=await recommendation.boundingBox();
+  assert(Math.abs(geometry.left-trigger.x)<.75&&Math.abs(geometry.right-geometry.left-trigger.width)<.75,'Real App popup aligns with the whole topbar control: '+JSON.stringify({theme,fontSize,width,geometry,trigger}));
+  const primaryName=await recommendation.locator('.next-actions-primary').getAttribute('aria-label');
+  assert.equal(await page.locator('.next-actions-popover').getByRole('button',{name:primaryName,exact:true}).count(),0);
+  assert.equal(await recommendation.locator('.next-actions-primary .lucide-arrow-right').count(),0);
+  assert(await page.locator('.next-actions-popover .next-actions-item').count()<=5);
   assert(geometry.left>=0&&geometry.right<=geometry.width+1&&geometry.top>=0&&geometry.bottom<=geometry.height+1,JSON.stringify(geometry));
   assert.equal(geometry.headerOverflow,false,`topbar remains usable at ${width}px / ${fontSize}px / ${theme}`);
   await page.screenshot({path:`tests/screenshots/navigation-learning/next-${theme}-${width}-${fontSize}.png`,animations:'disabled'});await page.keyboard.press('Escape');

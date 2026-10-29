@@ -7,6 +7,12 @@ from tb_rank import LEVEL_COSTS, RANK_THRESHOLDS, RANK_UNLOCK_XP, TIERS, growth,
 
 
 class TBRankTests(unittest.TestCase):
+    def test_first_five_levels_introduce_features_without_rewriting_xp(self):
+        for total,level in ((0,1),(100,2),(200,3),(350,4),(500,5)):
+            self.assertEqual(growth(total)['level'],level)
+            self.assertEqual(growth(total)['totalXp'],total)
+        self.assertEqual(LEVEL_COSTS[4:],tuple(200*level for level in range(5,100)))
+
     def test_level_boundaries_and_increasing_costs(self):
         total=0
         for level,cost in enumerate(LEVEL_COSTS,1):
@@ -141,7 +147,7 @@ class RankIntegrationTests(unittest.TestCase):
         self.assertTrue(growth_value['rankedEligible'])
         self.assertFalse(growth_value['ranked']['qualified'])
         original=tuple(self.service.connection.execute('SELECT * FROM tb_rank_profile').fetchone())
-        with patch.object(self.service,'_first_acceptance_xp',return_value=100):
+        with patch.object(self.service,'_first_acceptance_xp',return_value=50):
             downgraded=self.service.insights()['growth']
         self.assertEqual(downgraded['level'],1)
         self.assertTrue(downgraded['rankedEligible'])

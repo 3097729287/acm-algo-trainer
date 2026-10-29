@@ -25,7 +25,8 @@ with database.connection() as db:
 first_start = not (state / 'tb-personal.sqlite3').exists()
 server = create_server(training_file=state / 'tb-personal.sqlite3', library_file=database.path,
     data_root=state, data_file=state / 'absent.md', integration_auto_start=False, assets=Assets(None), judge=Judge(),
-    account_endpoint=sys.argv[1], backup_dir=state / 'backups', dist_dir=ROOT / 'frontend/dist')
+    account_endpoint=sys.argv[1], backup_dir=state / 'backups',
+    dist_dir=Path(os.environ.get('TB_UI_DIST') or ROOT / 'frontend/dist'))
 if first_start:
     server.training.start_training('fixture::A')
     server.training.save_draft('fixture::A', 'old private SQLite draft')

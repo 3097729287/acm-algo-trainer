@@ -35,6 +35,9 @@ export function password(value) {
     throw new AccountError(400, '密码须为 8–128 个字符');
   return value;
 }
+// The fixed maintenance reset is the only shorter existing credential. New
+// registrations and new passwords must still go through password(), unchanged.
+export function loginPassword(value) {return value==='123456'?value:password(value);}
 export async function hashPassword(value) {
   const salt = randomBytes(16);
   const hash = await derive(value, salt);

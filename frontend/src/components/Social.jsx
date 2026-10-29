@@ -91,7 +91,9 @@ export function CommentDialog({ target,api,onClose,onSent }) {
 
 export function SocialNotifications({ social,api }) {
   const [busy,setBusy]=useState(false),[error,setError]=useState('');
-  const value=social.snapshot;
+  const raw=social.snapshot,today=trainingDay(new Date().toISOString());
+  const notifications=(raw?.notifications||[]).filter(item=>trainingDay(item.createdAt)===today);
+  const value=raw?{...raw,notifications,totalLikes:Number.isSafeInteger(raw.todayLikes)?raw.todayLikes:notifications.filter(item=>item.kind==='like').length,unreadCount:notifications.filter(item=>!item.read).length}:raw;
   const attempted=useRef(new Set());
   const unread=JSON.stringify((value?.notifications||[]).filter(item=>!item.read).map(item=>item.id));
   useEffect(()=>{

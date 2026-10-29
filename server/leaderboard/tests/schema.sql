@@ -79,3 +79,4 @@ CREATE TABLE IF NOT EXISTS account_chunk_heads(user_id TEXT PRIMARY KEY REFERENC
 CREATE TABLE IF NOT EXISTS account_chunks(user_id TEXT NOT NULL REFERENCES accounts(user_id),hash TEXT NOT NULL,kind TEXT NOT NULL,payload BLOB NOT NULL,children TEXT NOT NULL,byte_count INTEGER NOT NULL,created_at TEXT NOT NULL,seen_at TEXT NOT NULL,PRIMARY KEY(user_id,hash));
 
 CREATE TABLE IF NOT EXISTS account_chunk_usage(user_id TEXT PRIMARY KEY REFERENCES accounts(user_id),byte_count INTEGER NOT NULL DEFAULT 0,object_count INTEGER NOT NULL DEFAULT 0,last_gc_at TEXT NOT NULL DEFAULT '');
+CREATE TABLE account_admin_actions(id INTEGER PRIMARY KEY AUTOINCREMENT,actor_id TEXT NOT NULL,target_id TEXT NOT NULL,action TEXT NOT NULL,created_at TEXT NOT NULL);

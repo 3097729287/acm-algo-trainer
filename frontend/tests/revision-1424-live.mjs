@@ -38,7 +38,7 @@ try {
    await page.getByRole('button',{name:`打开模板 ${title}`,exact:true}).click();
    await page.locator('.template-example').waitFor();
    for(const edition of ['讲解版','竞赛版']){
-    await page.getByRole('button',{name:edition,exact:true}).click();
+    if(await page.locator('.template-edition-toggle').innerText()!==edition)await page.locator('.template-edition-toggle').click();
     await page.waitForTimeout(35);
     const box=await page.evaluate(()=>{
      const detail=document.querySelector('.template-detail'),root=document.querySelector('.templates-page'),example=document.querySelector('.template-example'),pre=example.querySelector('pre'),code=document.querySelector('.template-code'),header=document.querySelector('.template-heading');

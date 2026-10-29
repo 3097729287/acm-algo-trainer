@@ -226,6 +226,9 @@ class AccountStateSync:
         self.status, self.error, self.last_synced = 'syncing', '', None
         self.pending = True
         self.needs_reconnect = False
+        self.attention = ''
+        self.recoverable = True
+        self.conflict_count = 0
         with service.lock:
             service.connection.executescript('''
               CREATE TABLE IF NOT EXISTS account_sync_meta (id INTEGER PRIMARY KEY CHECK(id=1),value TEXT NOT NULL);
@@ -240,6 +243,7 @@ class AccountStateSync:
             ''')
             row = service.connection.execute('SELECT value FROM account_sync_meta WHERE id=1').fetchone()
             self.meta = json.loads(row[0]) if row else {}
+            self.conflict_count = service.connection.execute('SELECT COUNT(*) FROM account_sync_conflicts').fetchone()[0]
         if self.meta and (self.meta.get('owner') != self.owner or self.meta.get('endpoint') != session['endpoint']):
             raise ServiceError(409, '个人工作区所属账号不一致，请保留本地数据并检查账号设置')
         from account_chunks import ChunkTransport
@@ -295,6 +299,9 @@ class AccountStateSync:
         stop = getattr(self, 'stop', None)
         if stop is not None and stop.is_set():
             raise ServiceError(503, '账号同步正在停止，本机数据已保留')
+        check = getattr(getattr(self, 'accounts', None), '_check_account_operation', None)
+        if check is not None:
+            check()
 
     def _profiles(self, import_original=False):
         current = self.accounts.session
@@ -348,8 +355,16 @@ class AccountStateSync:
             tables = {name: [dict(row) for row in self.service.connection.execute(f'SELECT * FROM "{name}" ORDER BY ' + ','.join(keys))]
                       for name, keys in TABLES.items()}
             changes = self.service.connection.total_changes
+            self.captured_journal = digest(tables)
         state=self.chunks.canonicalize({'format':'tb-account-state-v1','tables':tables,'publicAccounts':profiles})
-        with self.service.lock:changes=self.service.connection.total_changes
+        with self.service.lock:
+            current_changes = self.service.connection.total_changes
+            if current_changes != changes:
+                current = {name: [dict(row) for row in self.service.connection.execute(f'SELECT * FROM "{name}" ORDER BY ' + ','.join(keys))]
+                           for name, keys in TABLES.items()}
+                # Cache/code-reference writes are ours, but a real journal edit
+                # during canonicalization must remain pending after this upload.
+                changes = current_changes if digest(current) == self.captured_journal else -1
         return state,changes
 
     def _facts_signature(self):
@@ -477,9 +492,18 @@ class AccountStateSync:
         self.last_profile_hash = digest(state['publicAccounts'])
         self.last_profile_stamp = self.captured_profile_stamp
 
-    def _apply(self, state):
+    def _apply(self, state, expected_journal=None):
         with self.service.lock:
             self._check_stopping()
+            if expected_journal is not None:
+                current = {name: [dict(row) for row in self.service.connection.execute(f'SELECT * FROM "{name}" ORDER BY ' + ','.join(keys))]
+                           for name, keys in TABLES.items()}
+                if digest(current) != expected_journal:
+                    # A draft/record changed while the network was in flight.
+                    # Keep the complete current journal; retry GET/merge/CAS.
+                    issue = ServiceError(409, '本机记录已有更新，后台将重新合并同步')
+                    issue.retry_state = True
+                    raise issue
             self.service._backup()
             db = self.service.connection
             db.execute('BEGIN IMMEDIATE')
@@ -493,6 +517,7 @@ class AccountStateSync:
                         if table=='submissions':row=self.chunks.apply_code(row,previous_codes)
                         names = [name for name in row if name in allowed]
                         db.execute(f'INSERT INTO "{table}" (' + ','.join('"' + name + '"' for name in names) + ') VALUES(' + ','.join('?' for _ in names) + ')', [row[name] for name in names])
+                self._check_stopping()
                 db.execute('COMMIT')
             except BaseException:
                 db.execute('ROLLBACK')
@@ -502,6 +527,7 @@ class AccountStateSync:
         return changes
 
     def _apply_profiles(self, state):
+        self._check_stopping()
         extensions = getattr(self.accounts.server.store, 'extensions', None)
         if extensions is not None:
             from public_platforms import profile
@@ -529,6 +555,8 @@ class AccountStateSync:
             # metadata in the background after authentication, not on the
             # startup critical path. First migrations still capture everything.
             local, local_changes = self._capture(import_original=imported, refresh_facts=not bool(self.meta))
+            local_journal = self.captured_journal
+            self._check_stopping()
             local_matches = bool(self.meta and digest(local) == self.meta.get('syncedHash'))
             # A matching remote revision authenticates the saved credential and
             # proves the last applied snapshot is still current. Pending local
@@ -559,7 +587,12 @@ class AccountStateSync:
             # Complete the first upload before exposing authentication. A failure
             # leaves the local workspace and session gate untouched.
             if upload_pending or answer['state'] != state or self.chunks.migrate:
-                saved = self._call('PUT', '/v1/accounts/state', {'revision': self.revision, 'state': state})
+                try:
+                    saved = self._call('PUT', '/v1/accounts/state', {'revision': self.revision, 'state': state})
+                except ServiceError as issue:
+                    if issue.status == 409:
+                        issue.retry_state = True
+                    raise
                 self._check_stopping()
                 self.revision = saved['revision']
                 self.last_synced = saved['savedAt']
@@ -568,14 +601,20 @@ class AccountStateSync:
             # Most restarts restore the very same state. Do not take another
             # online backup and DELETE/INSERT every personal row in that case.
             if state != local:
-                changes = self._apply(state)
+                changes = self._apply(state, expected_journal=local_journal)
             else:
                 changes = local_changes
                 self._apply_profiles(state)
             self._persist_meta(state, changes)
+            with self.service.lock:
+                conflict_count = self.service.connection.execute('SELECT COUNT(*) FROM account_sync_conflicts').fetchone()[0]
+                still_dirty = self.service.connection.total_changes != self.last_changes
             with self.status_lock:
-                self.status, self.error, self.pending = 'ready', '', False
+                self.status, self.error, self.pending = 'ready', '', still_dirty
                 self.needs_reconnect = False
+                self.recoverable = True
+                self.conflict_count = conflict_count
+                self.attention = 'conflicts' if self.conflict_count else ''
 
     def resume_local(self):
         """Preserve the last cloud baseline; never acknowledge offline edits."""
@@ -595,7 +634,20 @@ class AccountStateSync:
         with self.status_lock:
             return {'status': self.status, 'error': self.error, 'pending': self.pending,
                     'lastSyncedAt': self.last_synced, 'revision': self.revision,
-                    'offline': self.needs_reconnect}
+                    'offline': self.needs_reconnect, 'attention': self.attention,
+                    'recoverable': self.recoverable, 'conflictCount': self.conflict_count}
+
+    def _record_error(self, issue):
+        with self.status_lock:
+            if issue.status == 409:
+                self.needs_reconnect = True
+            self.status = 'offline' if self.needs_reconnect and getattr(issue, 'connection_unavailable', False) else 'error'
+            self.error, self.pending = issue.message, True
+            self.recoverable = bool(getattr(issue, 'connection_unavailable', False) or issue.status in (409, 429, 500, 502, 504))
+            if not self.recoverable:
+                self.attention = 'login' if issue.status == 401 else 'upgrade' if issue.status == 426 else 'recovery'
+            elif self.attention not in ('login', 'upgrade', 'recovery'):
+                self.attention = 'conflicts' if self.conflict_count else ''
 
     def mark_pending(self):
         with self.service.lock:
@@ -643,17 +695,17 @@ class AccountStateSync:
                 still_dirty = still_dirty or self._profile_stamp() != self.last_profile_stamp
                 with self.status_lock:
                     self.status, self.error, self.pending = 'ready', '', still_dirty
+                    self.attention = 'conflicts' if self.conflict_count else ''
+                    self.recoverable = True
             return self.snapshot()
         except ServiceError as issue:
-            with self.status_lock:
-                self.status = 'offline' if self.needs_reconnect and getattr(issue, 'connection_unavailable', False) else 'error'
-                self.error, self.pending = issue.message, True
+            self._record_error(issue)
             if issue.status == 401:
                 self.accounts.invalidate(self.session['token'])
             raise
 
     def _loop(self):
-        retry_at, next_flush = 0, 0
+        retry_at, next_flush, failures = 0, 0, 0
         while not self.stop.is_set():
             self.wake.wait(.75)
             self.wake.clear()
@@ -668,22 +720,23 @@ class AccountStateSync:
                 if (changed or profile_changed or facts_changed or self.pending) and now >= max(retry_at, next_flush):
                     next_flush = now + .75
                     self.flush()
+                    failures, retry_at = 0, 0
             except ServiceError as issue:
-                with self.status_lock:
-                    self.status = 'offline' if self.needs_reconnect and getattr(issue, 'connection_unavailable', False) else 'error'
-                    self.error = issue.message
+                self._record_error(issue)
                 if issue.status == 401:
                     self.accounts.invalidate(self.session['token'])
                     break
-                retry_at = time.monotonic() + 5
+                failures += 1
+                retry_at = time.monotonic() + min(60, 2 ** min(failures, 6))
             except (OSError, ValueError):
-                with self.status_lock:
-                    self.status, self.error, self.pending = 'error', '同步暂时失败，本机数据已保留，后台将重试', True
-                retry_at = time.monotonic() + 5
+                self._record_error(ServiceError(503, '同步数据校验未完成，本机数据已保留，请检查账号同步状态'))
+                failures += 1
+                retry_at = time.monotonic() + min(60, 2 ** min(failures, 6))
 
     def _heartbeat(self):
         # A slow upload must not postpone takeover detection. This thread only
         # reads a tiny session response and never exports or locks training data.
+        failures = 0
         while not self.stop.is_set():
             try:
                 value = self._call('GET', '/v1/accounts/me')
@@ -692,14 +745,14 @@ class AccountStateSync:
                 with self.status_lock:
                     if self.status == 'error' and not self.pending:
                         self.status, self.error = 'ready', ''
+                failures = 0
             except ServiceError as issue:
-                with self.status_lock:
-                    self.status = 'offline' if self.needs_reconnect and getattr(issue, 'connection_unavailable', False) else 'error'
-                    self.error = issue.message
+                self._record_error(issue)
+                failures += 1
                 if issue.status == 401:
                     self.accounts.invalidate(self.session['token'])
                     return
-            if self.stop.wait(3):
+            if self.stop.wait(min(60, 3 * 2 ** min(failures, 5))):
                 return
 
     def start(self):

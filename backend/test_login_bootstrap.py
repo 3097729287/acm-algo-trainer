@@ -21,29 +21,48 @@ class LoginBootstrapTests(unittest.TestCase):
 
     def test_login_screen_can_install_during_a_slow_saved_session_restore(self):
         self.signup(); self.login(); self.stop(); self.start()
-        started, release = threading.Event(), threading.Event()
+        started, release, restore_left_gate = threading.Event(), threading.Event(), threading.Event()
+        install_done, launch_while_blocked = threading.Event(), threading.Event()
         original = self.server.accounts._remote
         updates = self.server.software_updates
         payload = b'login-independent-verified-update'
         package = self.root / 'verified-update.exe'; package.write_bytes(payload)
         def remote(method, path, *args, **kwargs):
             if method == 'GET' and path in ('/v1/accounts/state','/v2/accounts/state'):
-                started.set(); self.assertTrue(release.wait(8))
+                started.set()
+                # Only the test's finally block can release the restore. A
+                # timed gate could expire and let a dependent install pass.
+                release.wait()
+                restore_left_gate.set()
             return original(method, path, *args, **kwargs)
+        def observe_launch(*_):
+            if started.is_set() and not release.is_set() and not restore_left_gate.is_set():
+                launch_while_blocked.set()
         with patch.object(self.server.accounts, '_remote', side_effect=remote):
-            try:
-                self.assertTrue(self.call('/api/account?background=1')[1]['restoring'])
-                self.assertTrue(started.wait(3))
-                updates.installer=package;updates.release={'version':'99.0.0','sha256':hashlib.sha256(payload).hexdigest(),'size':len(payload),'releaseUrl':'https://47.82.84.74/updates/stable/index.html','notes':''};updates.status='ready'
-                with patch.object(updates,'launcher') as launched, ThreadPoolExecutor(1) as pool:
+            with patch.object(updates,'launcher',side_effect=observe_launch) as launched, ThreadPoolExecutor(1) as pool:
+                try:
+                    self.assertTrue(self.call('/api/account?background=1')[1]['restoring'])
+                    self.assertTrue(started.wait(15), 'Saved-session restore did not reach its controlled gate')
+                    updates.installer=package;updates.release={'version':'99.0.0','sha256':hashlib.sha256(payload).hexdigest(),'size':len(payload),'releaseUrl':'https://47.82.84.74/updates/stable/index.html','notes':''};updates.status='ready'
                     installed=pool.submit(self.call,'/api/software-update/install',{})
-                    status,value=installed.result(timeout=2)
+                    installed.add_done_callback(lambda _:install_done.set())
+                    # This is an independence check, not a two-second disk/
+                    # scheduling benchmark. The real SHA and SQLite backup run.
+                    self.assertTrue(install_done.wait(15), 'Install did not complete while cloud restore remained blocked')
+                    status,value=installed.result(timeout=0)
                     self.assertEqual(status,200,value)
                     self.assertEqual((status,value['status']),(200,'installing'))
                     launched.assert_called_once()
+                    self.assertTrue(launch_while_blocked.is_set(), 'Installer was not launched before restore release')
+                    self.assertFalse(release.is_set())
+                    self.assertFalse(restore_left_gate.is_set())
+                    self.assertTrue(self.server.accounts.restore_worker.is_alive())
                     self.assertIsNone(self.server.accounts.session)
                     self.assertEqual(self.call('/api/software-update/install',{},token='invalid')[0],403)
-            finally:release.set()
+                finally:
+                    # Release before executor shutdown, including assertion/
+                    # HTTP failures, so a real dependency fails without hanging.
+                    release.set()
             self.server.accounts.restore_worker.join(5)
 
     def test_download_ready_does_not_start_another_cloud_restore(self):

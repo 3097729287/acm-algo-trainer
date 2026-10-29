@@ -18,12 +18,23 @@ CHALLENGES=[
     _task('new-topic-pair','连点成线','首次 AC 两道具有同一知识点的新题','topic-pair',2,70),
 ]
 EXPLORATIONS=[
-    _task('action-favorite','题海拾贝','收藏一道题目','action',xp=10,event='favorite'),
-    _task('action-list','自成体系','创建一份自己的题单','action',xp=15,event='create-list'),
-    _task('action-style','换个心情','调整一次主题或强调色','action',xp=5,event='appearance'),
-    _task('action-learn','点亮知识','把一个从零讲知识点标记为已学会','action',xp=15,event='learn'),
-    _task('new-list-progress','清单推进','首次 AC 自建题单中的一道新题','personal-list',xp=50),
+    _task('practice-new-one','基础巩固','首次 AC 一道新题','solve',xp=30),
+    _task('practice-independent','独立巩固','独立首次 AC 一道新题','independent',xp=40),
 ]
+
+def adapt_challenge(task, ability):
+    """Difficulty tasks follow confirmed practice ability, never XP or rank art."""
+    result=dict(task)
+    if not result.get('minDifficulty'):return result
+    score=ability if type(ability) in (int,float) and 0<ability<=4000 else None
+    base=int(score//100)*100 if score is not None else 800
+    offset=100 if result['id']=='hard-1500' else 200
+    target=min(4000,base+offset)
+    result.update(minDifficulty=target,abilityReference=score,difficultyEvidenceRequired=True,
+                  xp=min(result.get('xp',100),80 if offset==100 else 100),
+                  description=f'首次 AC 一道难度至少 {target} 的新题',
+                  challengeBasis='近期独立作答能力' if score is not None else '入门训练起点，能力证据不足')
+    return result
 
 def tasks_for(day,owner):
     # Fixed within the Beijing date and independent of UI opening order.

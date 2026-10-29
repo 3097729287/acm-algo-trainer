@@ -8,7 +8,7 @@ import {createServer} from 'vite';
 const frontend=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const output=path.join(frontend,'tests/screenshots/next-actions');
 await mkdir(output,{recursive:true});
-const verified={platform:'Codeforces',difficultySource:'Codeforces 官方',difficultyConfidence:'HIGH'};
+const verified={platform:'Codeforces',difficultySource:'Codeforces 官方',difficultyConfidence:'HIGH',solutionAvailable:true,solutionState:'available'};
 const rows=[
   ...['A','A2','A3'].map(id=>({...verified,id,title:'已独立通过 '+id,accepted:true,
     tags:['数组','输入输出'],difficulty:1000,catalogContentReady:true})),
@@ -122,10 +122,18 @@ try{
   assert.equal(await page.locator('[data-recommendation]').count(),1,'Default chrome shows a single actionable recommendation');
   await hover();
   assert.equal(await page.locator('.next-actions-primary small').count(),0,'The top task has no next-step/category label');
+  assert.equal(await page.locator('.next-actions-primary .lucide-arrow-right').count(),0,'The top task has no trailing right arrow');
+  assert.equal(await root.evaluate(node=>getComputedStyle(node).borderWidth),'0px','The complete recommendation control has no outer frame');
   assert.equal(await page.locator('.next-actions-reason').count(),0,'Reasons are tooltips, not a second information panel');
   assert(!/优先推荐的原因|根据当前学习记录|接下来还可以/.test(await popup().innerText()));
   const allTasks=popup().locator('.next-actions-item');
-  assert.equal(await allTasks.count(),4,'Review, current foundation list and two distinct alternatives are all directly actionable');
+  assert.equal(await allTasks.count(),3,'The menu contains the current foundation list and two alternatives, without repeating the primary review');
+  assert.equal(await popup().getByRole('button',{name:'开始间隔复习 待复习的前缀和练习',exact:true}).count(),0);
+  assert(await allTasks.count()<=5,'The limit of six includes the primary task');
+  const motion=await popup().locator('li').evaluateAll(nodes=>nodes.map(node=>{
+    const style=getComputedStyle(node);return {duration:parseFloat(style.animationDuration),delay:parseFloat(style.animationDelay),iterations:style.animationIterationCount};
+  }));
+  assert(motion.every((item,index)=>item.iterations==='1'&&item.duration>0&&item.duration+item.delay<=.3&&(index===0||item.delay>motion[index-1].delay)),'Rows enter with finite short staggered animation, completing within 300ms');
   for(const task of await allTasks.all()){
     const description=await task.getAttribute('aria-describedby');
     assert(description&&await page.locator(`[id="${description}"]`).count()===1);
@@ -134,7 +142,7 @@ try{
     assert.equal(await task.locator('small').count(),0);
     assert(!(await task.innerText()).includes(reason),'A long recommendation reason is not visibly rendered');
   }
-  assert.match(await allTasks.first().getAttribute('title'),/1 道.*到期/);
+  assert.match(await page.locator('.next-actions-primary').getAttribute('title'),/1 道.*到期/);
   const listAction=popup().getByRole('button',{name:'开始基础题单 输入输出与顺序结构',exact:true});
   await listAction.waitFor();
   const bounds=await root.boundingBox();
@@ -150,8 +158,9 @@ try{
   phase='keyboard-and-outside';
   await page.mouse.move(800,500);await toggle().focus();await popup().waitFor();
   await page.keyboard.press('ArrowDown');
-  await page.waitForFunction(()=>document.activeElement?.dataset.recommendation==='review');
-  await page.keyboard.press('ArrowDown');assert.equal(await listAction.evaluate(node=>node===document.activeElement),true);
+  await page.waitForFunction(()=>document.activeElement?.dataset.recommendation==='list');
+  assert(await allTasks.first().evaluate(node=>{const style=getComputedStyle(node);return style.outlineStyle!=='none'&&parseFloat(style.outlineWidth)>=2;}),'Removing the outer frame keeps a visible keyboard focus outline');
+  await page.keyboard.press('ArrowDown');assert.equal(await allTasks.nth(1).evaluate(node=>node===document.activeElement),true);
   await page.keyboard.press('End');assert.equal(await allTasks.last().evaluate(node=>node===document.activeElement),true);
   await page.keyboard.press('Home');assert.equal(await allTasks.first().evaluate(node=>node===document.activeElement),true);
   await page.keyboard.press('ArrowUp');assert.equal(await allTasks.last().evaluate(node=>node===document.activeElement),true);
@@ -170,11 +179,13 @@ try{
   await page.evaluate(()=>window.fixtureUpdate({}));
 
   phase='viewport-and-motion';
-  for(const font of [15,22])for(const width of [1440,960,430]){
+  for(const font of [15,22])for(const width of [2048,1440,1294,960,430]){
     await page.setViewportSize({width,height:800});
     await page.evaluate(size=>document.documentElement.style.fontSize=size+'px',font);
     await hover();
     const box=await popup().boundingBox();
+    const trigger=await root.boundingBox();
+    assert(Math.abs(box.x-trigger.x)<.75&&Math.abs(box.width-trigger.width)<.75,'The flyout aligns with the whole recommendation control: '+JSON.stringify({font,width,box,trigger}));
     assert(box.x>=0&&box.x+box.width<=width+.5&&box.y+box.height<=800+.5,JSON.stringify({font,width,box}));
     assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
     report.geometry.push({width,font,bounds:box});
@@ -183,21 +194,22 @@ try{
   }
   await page.emulateMedia({reducedMotion:'reduce'});await hover();
   assert.equal(await page.locator('.next-actions-toggle svg').evaluate(node=>getComputedStyle(node).transitionDuration),'0s');
+  assert(await popup().locator('li').evaluateAll(nodes=>nodes.every(node=>getComputedStyle(node).animationName==='none')));
 
   phase='active-contest-and-suspended';
   await page.evaluate(()=>window.fixtureUpdate({contest:{id:'current',name:'正在进行的试卷'}}));
   const contest=page.locator('.next-actions-primary');await contest.waitFor();
   await page.waitForFunction(()=>document.querySelector('.next-actions-primary')?.dataset.recommendation==='contest');
-  await hover();assert.equal(await page.locator('.next-actions-item').count(),1);
-  assert.match(await popup().locator('.next-actions-item').getAttribute('title'),/已有正在进行的模拟赛/);
-  await popup().getByRole('button',{name:'开始继续比赛 正在进行的试卷',exact:true}).click();
+  await page.mouse.move(20,700);await root.hover();assert.equal(await popup().count(),0);
+  assert.equal(await toggle().count(),0,'A single primary task has no empty dropdown');
+  assert.match(await contest.getAttribute('title'),/已有正在进行的模拟赛/);
+  await contest.click();
   assert.deepEqual(await lastAction(),{navigate:'contest',id:'current'});
-  await hover();
   await page.evaluate(()=>{
     window.fixtureUpdate({suspended:true});window.fixtureEscapes=0;
     document.addEventListener('keydown',event=>{if(event.key==='Escape')window.fixtureEscapes++;});
   });
-  await page.waitForFunction(()=>document.querySelector('.next-actions-toggle').disabled);
+  await page.waitForFunction(()=>document.querySelector('.next-actions-primary')?.disabled===true);
   assert.equal(await popup().count(),0);assert.equal(await page.evaluate(()=>window.fixtureAdviceOpen),false);
   await page.mouse.move(20,700);await root.hover();assert.equal(await popup().count(),0);
   await page.keyboard.press('Escape');
@@ -209,7 +221,9 @@ try{
     const touch=await touchContext.newPage();await preparePage(touch);
     await touch.getByRole('button',{name:'展开下一步推荐任务',exact:true}).tap();
     const touchPopup=touch.locator('.next-actions-popover');await touchPopup.waitFor();
-    await touchPopup.getByRole('button',{name:'开始间隔复习 待复习的前缀和练习',exact:true}).tap();
+    await touchPopup.getByRole('button',{name:'开始基础题单 输入输出与顺序结构',exact:true}).tap();
+    assert.equal((await touch.evaluate(()=>window.fixtureEvents.at(-1))).navigate,'list');
+    await touch.locator('.next-actions-primary').tap();
     assert.deepEqual(await touch.evaluate(()=>window.fixtureEvents.at(-1)),{train:'B'});
     await touch.getByRole('button',{name:'展开下一步推荐任务',exact:true}).tap();await touchPopup.waitFor();
     await touch.touchscreen.tap(425,790);assert.equal(await touch.locator('.next-actions-popover').count(),0);
@@ -217,7 +231,7 @@ try{
 
   phase='open-change-and-unmount';
   await page.evaluate(()=>window.fixtureUpdate({}));
-  await page.waitForFunction(()=>!document.querySelector('.next-actions-toggle').disabled);
+  await page.waitForFunction(()=>document.querySelector('.next-actions-primary')?.disabled===false);await toggle().waitFor();
   await hover();await page.waitForFunction(()=>window.fixtureAdviceOpen===true);
   await page.evaluate(()=>window.fixtureUnmount());
   assert.equal(await page.evaluate(()=>window.fixtureAdviceOpen),false);
@@ -225,7 +239,7 @@ try{
   assert.deepEqual(errors,[]);assert.deepEqual(unknown,[]);
   assert(requests.includes('/api/training-lists')&&requests.includes('/api/templates'));
   Object.assign(report,{ok:true,hoverBridge:true,independentNavigation:true,keyboard:true,outsideClose:true,
-    touch:true,suspended:true,openChange:true,unmountCloses:true,reducedMotion:true,reasonTooltips:true,allTasksDirect:true,realOfficialSubmissionsSent:0});
+    touch:true,suspended:true,openChange:true,unmountCloses:true,reducedMotion:true,reasonTooltips:true,allTasksDirect:true,primaryNotRepeated:true,alignedToWholeControl:true,noPrimaryArrow:true,realOfficialSubmissionsSent:0});
   console.log(JSON.stringify({ok:true,geometryCases:report.geometry.length,report:path.join(output,'report.json')}));
 }catch(error){
   report.failure={phase,message:error.message};

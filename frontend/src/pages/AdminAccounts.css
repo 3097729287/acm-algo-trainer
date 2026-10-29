@@ -1,0 +1,13 @@
+.admin-accounts{margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--line);min-width:0}
+.admin-account-search{display:flex;gap:.5rem;align-items:center;max-width:34rem}
+.admin-account-search input{min-width:0;flex:1}
+.admin-account-search button,.admin-account-actions button{min-width:2.5rem;min-height:2.5rem;display:inline-flex;align-items:center;justify-content:center}
+.admin-account-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;max-width:34rem;margin-top:1rem}
+.admin-account-row>div:first-child{min-width:0;overflow-wrap:anywhere}
+.admin-account-row small{display:block;color:var(--muted)}
+.admin-account-actions{display:flex;gap:.5rem;flex-shrink:0}
+.admin-account-confirm{width:min(32rem,calc(100vw - 2rem));box-sizing:border-box;padding:1.25rem;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--text)}
+.admin-account-confirm::backdrop{background:rgb(0 0 0 / .6)}
+.admin-account-confirm h3{margin-top:0}.admin-account-confirm p{overflow-wrap:anywhere}
+.admin-account-confirm label{display:grid;gap:.5rem}.admin-account-confirm input{min-width:0;width:100%;box-sizing:border-box}
+.admin-account-confirm-actions{display:flex;justify-content:flex-end;gap:.5rem;flex-wrap:wrap;margin-top:1rem}

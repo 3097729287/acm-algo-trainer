@@ -20,14 +20,16 @@ import CodeEditor from '@/components/CodeEditor.jsx';
 import InitialCodePicker, {InitialCodeButton} from '@/components/InitialCodePicker.jsx';
 import InlineTitle from '@/components/InlineTitle.jsx';
 import ReadingImage, {readingUrlTransform} from '@/components/ReadingImage.jsx';
+import {insertTemplate,normalizeCppTemplate} from '@/lib/insertTemplate.js';
 import './Workbench.css';
 
 const TemplatesPage=lazy(()=>import('@/pages/TemplatesPage.jsx'));
 const TEMPLATE = '#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    \n    return 0;\n}\n';
 const PYTHON_TEMPLATE = 'import sys\n\ndef solve():\n    pass\n\nif __name__ == "__main__":\n    solve()\n';
 function startingTemplate(snapshot,language){
-  return snapshot?.templates?.find(item=>item.language===language&&item.id===(snapshot.selection?.[language]||'default'))
+  const item=snapshot?.templates?.find(item=>item.language===language&&item.id===(snapshot.selection?.[language]||'default'))
     ||{id:'default',title:'默认',language,code:language==='python3'?PYTHON_TEMPLATE:TEMPLATE};
+  return language==='cpp17'&&item.id==='default'?{...item,code:normalizeCppTemplate(item.code)}:item;
 }
 const MAX_BYTES = 64 * 1024;
 const byteLength = value => new TextEncoder().encode(value).byteLength;
@@ -40,6 +42,14 @@ function readStatementFontSize() {
   } catch { /* Reading remains available when browser storage is disabled. */ }
   const uiSize = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ui-font-size')) || 16;
   return Math.min(32, Math.max(16, Math.round(uiSize / 2) * 2));
+}
+function originalIsChinese(problem) {
+  const declared=problem?.statementLanguage||problem?.sourceLanguage||problem?.translation?.sourceLanguage;
+  if(declared)return /^zh(?:-|$)/i.test(declared);
+  if(problem?.translation?.kind==='original')return true;
+  const prose=(problem?.markdown||'').replace(/```[\s\S]*?```|\$\$[\s\S]*?\$\$|\$[^$\n]*\$|https?:\/\/\S+|^#+.*$/gm,'');
+  const chinese=(prose.match(/[\u3400-\u9fff]/g)||[]).length,english=(prose.match(/[A-Za-z]{3,}/g)||[]).join('').length;
+  return chinese>=8&&chinese*2>english;
 }
 const OFFICIAL_STATES = { awaiting_submit: '请在官网提交', loading: '打开浏览器原站', needs_browser: '需要连接浏览器', needs_login: '请在浏览器登录', needs_verification: '请在浏览器验证', ready: '已连接，可提交', submitted: '等待原站受理', judging: '评测中', finished: '评测完成', unconfirmed: '正在核对提交', error: '提交异常', closed: '会话已结束' };
 const OFFICIAL_TERMINAL = new Set(['finished', 'error', 'closed']);
@@ -192,7 +202,7 @@ function CaseResults({ cases }) {
   })}</div>;
 }
 
-export default function Workbench({shortcuts={}, problemId, preparedProblem=null, contest = null, reviewTask = null, api, onProgress, onExit, onSolution, solutionOpen=false, solutionMethodId=null, onNext, headerStart, headerEnd }) {
+export default function Workbench({shortcuts={}, problemId, preparedProblem=null, contest = null, reviewTask = null, api, onProgress, onExit, onSolution, onCloseSolution, onNotice, solutionOpen=false, solutionMethodId=null, onNext, headerStart, headerEnd }) {
   const featureAvailable=useFeatureVisibility();
   const contestId = contest?.id || null;
   const runningContest = contest?.status === 'running';
@@ -200,9 +210,9 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const reviewId = contestId ? null : reviewTask?.id;
   const contextKey = draftKey(problemId, reviewId ? `review:${reviewId}` : contestId);
   const apiRef = useRef(api);
-  const callbacks = useRef({ onProgress, onExit, onSolution, onNext });
+  const callbacks = useRef({ onProgress, onExit, onSolution, onCloseSolution, onNotice, onNext });
   apiRef.current = api;
-  callbacks.current = { onProgress, onExit, onSolution, onNext };
+  callbacks.current = { onProgress, onExit, onSolution, onCloseSolution, onNotice, onNext };
 
   const activeRecord = useRef(null);
   const sectionRef = useRef(null);
@@ -224,11 +234,17 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const [codeLanguage,setCodeLanguage]=useState('cpp17');
   const [saveState, setSaveState] = useState({ kind: 'automatic' });
   const [pane, setPane] = useState('both');
+  const [splitRatio,setSplitRatio]=useState(50),[splitBounds,setSplitBounds]=useState([30,70]);
+  const dragCleanup=useRef(null),saveFeedback=useRef({at:0,key:null,revision:0}),[saveToast,setSaveToast]=useState(false),saveToastTimer=useRef(null);
+  useEffect(()=>()=>{dragCleanup.current?.();clearTimeout(saveToastTimer.current);},[]);
   const [narrow,setNarrow]=useState(false);
   const [compactPane,setCompactPane]=useState('statement');
   useEffect(()=>{
     const node=sectionRef.current;if(!node)return;
-    const observer=new ResizeObserver(([entry])=>setNarrow(entry.contentRect.width<960));
+    const observer=new ResizeObserver(([entry])=>{
+      const width=entry.contentRect.width;setNarrow(width<960);
+      if(width>=960){const minimum=Math.min(45,320/(width-8)*100);setSplitBounds([minimum,100-minimum]);setSplitRatio(value=>Math.max(minimum,Math.min(100-minimum,value)));}
+    });
     observer.observe(node);return()=>observer.disconnect();
   },[]);
   const [cursor, setCursor] = useState({ line: 1, column: 1 });
@@ -237,7 +253,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const [creating, setCreating] = useState(false);
   const [actionError, setActionError] = useState('');
   const [pollError, setPollError] = useState('');
-  const [consoleOpen, setConsoleOpen] = useState(false);
+  const [consoleOpen, setConsoleOpen] = useState(true);
   const [consoleTab, setConsoleTab] = useState('input');
   const [sample, setSample] = useState('custom');
   const [input, setInput] = useState('');
@@ -252,6 +268,8 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const [translation, setTranslation] = useState(null);
   const [translationBusy, setTranslationBusy] = useState(false);
   const [translationError, setTranslationError] = useState('');
+  const [statementCopied,setStatementCopied]=useState(false),statementCopyTimer=useRef(null);
+  useEffect(()=>()=>clearTimeout(statementCopyTimer.current),[]);
   const [statementFontSize, setStatementFontSize] = useState(readStatementFontSize);
   const changeStatementFontSize = size => {
     if (!Number.isInteger(size) || size < 14 || size > 32) return;
@@ -284,6 +302,15 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
           if (isActive(record)) setSaveState({
             kind: record.version > version ? 'unsaved' : 'saved', savedAt: answer.savedAt,
           });
+          if(isActive(record)&&!answer.skipped&&record.version===version){
+            const previous=saveFeedback.current,now=Date.now(),fresh=previous.key!==record.key||previous.revision!==revision;
+            if(fresh&&(record.manualFeedback||now-previous.at>=15000)){
+              saveFeedback.current={at:now,key:record.key,revision};
+              if(callbacks.current.onNotice)callbacks.current.onNotice('草稿已保存','success');
+              else {setSaveToast(true);clearTimeout(saveToastTimer.current);saveToastTimer.current=setTimeout(()=>setSaveToast(false),3200);}
+            }
+            record.manualFeedback=false;
+          }
         } catch (error) {
           if (isActive(record)) setSaveState({ kind: 'error', retained: record.retained, message: error.message || '草稿保存失败' });
           return false;
@@ -316,7 +343,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     setCursor({ line: 1, column: 1 });
     setRestoreAvailable(false);
     setLocalDraftRecovery(null);
-    setConsoleOpen(false);
+    setConsoleOpen(true);
     setConsoleTab('input');
     setOutputTab('output');
     setCopied(false);
@@ -360,7 +387,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
         setProblem(answer);
         const prepared=(answer.translation?.targetLanguage==='zh-CN'||answer.translation?.kind==='site') && answer.translation.markdown ? answer.translation : null;
         setTranslation(prepared);
-        setLanguage(prepared ? 'zh' : 'original');
+        setLanguage('original');
         const history = (answer.submissions || []).slice().sort((a, b) => String(b.submittedAt || '').localeCompare(String(a.submittedAt || '')));
         setSubmissions(history);
         setResultId(history[0]?.id || null);
@@ -624,6 +651,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
       retainDraft(record);
     }
     clearTimeout(record.timer);
+    record.manualFeedback=true;
     saveRecord(record);
   };
   const execute = async mode => {
@@ -713,7 +741,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   };
   const translateStatement = async () => {
     const record = activeRecord.current;
-    if (!record?.loaded || loading || !problem?.markdown) return;
+    if (!record?.loaded || loading || !problem?.markdown || originalIsChinese(problem)) return;
     setLanguage('zh');
     if (translation || record.translationBusy) return;
     record.translationBusy = true;
@@ -722,6 +750,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
       const answer = await apiRef.current('problem/translate', requestBody(record));
       if (!isActive(record)) return;
       if (!answer.markdown || answer.targetLanguage !== 'zh-CN') throw new Error('翻译服务未返回中文题面，已保留原文。');
+      if(answer.kind==='original'||answer.sourceLanguage==='zh-CN'){setTranslation(null);setLanguage('original');return;}
       setTranslation(answer);
     } catch (error) {
       if (isActive(record)) { setTranslationError(error.message || '暂时无法翻译，已保留原文。'); setLanguage('original'); }
@@ -731,13 +760,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     const record=activeRecord.current;
     if (!record?.loaded || loading || problem?.statementLoading || !problem?.markdown || record.languageChosen) return;
     const prepared=problem.translation;
-    if (prepared?.markdown && (prepared.targetLanguage==='zh-CN'||prepared.kind==='site')) {
-      setTranslation(prepared);setLanguage('zh');return;
-    }
-    if (problem.autoTranslate && record.autoTranslationSource!==problem.markdown) {
-      record.autoTranslationSource=problem.markdown;
-      translateStatement();
-    }
+    if (prepared?.markdown && (prepared.targetLanguage==='zh-CN'||prepared.kind==='site')) setTranslation(prepared);
   },[loading,problem?.markdown,problem?.statementLoading,problem?.autoTranslate,problem?.translation]);
   const loadHistoryCode=async row=>{const record=activeRecord.current;try{const saved=row.codePending?(await apiRef.current(`submission?id=${encodeURIComponent(row.id)}`)).submission:row;if(isActive(record)){setSubmissions(rows=>mergeSubmission(rows,saved));loadOwnCode(saved.code);}}catch(issue){if(isActive(record))setActionError(issue.message);}};
   const editorCommand = command => {
@@ -783,13 +806,35 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     : saveState.kind === 'automatic' ? '自动保存' : '草稿已保存';
 
   const effectivePane=narrow&&pane==='both'?compactPane:pane;
-  return <section className={`tb-workbench wb-pane-${effectivePane}${narrow?' wb-compact':''}`} ref={sectionRef} onKeyDown={handleKeys} aria-label="代码训练工作台" data-problem-id={problemId}>
+  const toggleCodePane=()=>{if(effectivePane==='code'){setPane('both');setCompactPane('statement');}else focusPane('code');};
+  const layoutToggle=<button type="button" className="wb-icon-button wb-layout-toggle" aria-label={effectivePane==='code'?'题面与代码':'只看代码'} title={effectivePane==='code'?'题面与代码 · Alt+0':'只看代码 · Alt+2'} aria-pressed={effectivePane==='code'} onClick={toggleCodePane}>{effectivePane==='code'?<PanelsTopLeft size={17}/>:<Code2 size={17}/>}</button>;
+  const adjustSplit=value=>setSplitRatio(Math.max(splitBounds[0],Math.min(splitBounds[1],value)));
+  const startSplit=event=>{
+    if(event.button!==0)return;event.preventDefault();dragCleanup.current?.();
+    const body=event.currentTarget.parentElement,rect=body.getBoundingClientRect(),handle=event.currentTarget;handle.focus();handle.setPointerCapture(event.pointerId);
+    const move=next=>adjustSplit((next.clientX-rect.left-4)/(rect.width-8)*100);
+    const stop=()=>{handle.removeEventListener('pointermove',move);handle.removeEventListener('pointerup',stop);handle.removeEventListener('pointercancel',stop);handle.removeEventListener('lostpointercapture',stop);dragCleanup.current=null;};
+    handle.addEventListener('pointermove',move);handle.addEventListener('pointerup',stop);handle.addEventListener('pointercancel',stop);handle.addEventListener('lostpointercapture',stop);dragCleanup.current=stop;
+  };
+  const toggleStatementLanguage=()=>{if(activeRecord.current)activeRecord.current.languageChosen=true;if(language==='zh'){setLanguage('original');setTranslationError('');}else translateStatement();};
+  const copyStatement=async()=>{
+    const record=activeRecord.current;
+    try{
+      const markdown=language==='zh'&&translation?translation.markdown:problem?.markdown||'';
+      const samples=(problem?.samples||[]).map((item,index)=>`### ${item.name||`样例 ${index+1}`}\n\n#### 输入\n\n\`\`\`text\n${item.input||''}\n\`\`\`\n\n#### 输出\n\n\`\`\`text\n${item.output||''}\n\`\`\``).join('\n\n');
+      await navigator.clipboard.writeText(markdown+(samples?'\n\n## 样例\n\n'+samples:''));
+      if(!isActive(record))return;
+      setStatementCopied(true);clearTimeout(statementCopyTimer.current);statementCopyTimer.current=setTimeout(()=>setStatementCopied(false),1600);
+    }catch{setActionError('暂时无法复制题面，请选中题面后复制。');}
+  };
+  return <section className={`tb-workbench wb-pane-${effectivePane}${narrow?' wb-compact':''}`} ref={sectionRef} style={{'--wb-split-columns':`minmax(0,${splitRatio}fr) 8px minmax(0,${100-splitRatio}fr)`}} onKeyDown={handleKeys} aria-label="代码训练工作台" data-problem-id={problemId}>
 
-    {narrow&&<div className="wb-compact-toolbar"><button type="button" className="wb-icon-button" onClick={exit} title="返回列表" aria-label={runningContest?'返回工作台':'返回列表'}><ArrowLeft size={17}/></button>{effectivePane==='code'&&headerStart}<div className="wb-pane-buttons" role="group" aria-label="工作台布局"><button type="button" className="wb-icon-button" aria-label="只看题面" title="只看题面 · Alt+1" aria-pressed={effectivePane==='statement'} onClick={()=>{setCompactPane('statement');focusPane('statement');}}><PanelLeft size={17}/></button><button type="button" className="wb-icon-button" aria-label="只看代码" title="只看代码 · Alt+2" aria-pressed={effectivePane==='code'} onClick={()=>{setCompactPane('code');focusPane('code');}}><Code2 size={17}/></button></div><strong><InlineTitle>{problem?.title||'题目'}</InlineTitle></strong>{headerEnd}</div>}
+    {narrow&&<div className="wb-compact-toolbar"><button type="button" className="wb-icon-button" onClick={exit} title="返回列表" aria-label={runningContest?'返回工作台':'返回列表'}><ArrowLeft size={17}/></button>{effectivePane==='code'&&headerStart}<div className="wb-pane-buttons" role="group" aria-label="工作台布局"><button type="button" className="wb-icon-button" aria-label="只看题面" title="只看题面 · Alt+1" aria-pressed={effectivePane==='statement'} onClick={()=>focusPane('statement')}><PanelLeft size={17}/></button>{layoutToggle}</div><strong><InlineTitle>{problem?.title||'题目'}</InlineTitle></strong>{headerEnd}</div>}
 
-    {initialPickerOpen&&<InitialCodePicker api={api} language={codeLanguage} selected={startingTemplate(initialCode,codeLanguage).id} onClose={()=>setInitialPickerOpen(false)} onSelect={(item,snapshot)=>{const record=activeRecord.current;if(record?.key!==contextKey||record.closed||record.language!==item.language)return;setInitialCode(snapshot);loadOwnCode(item.code);}}/>}
+    {saveToast&&<div className="toast success wb-save-toast" role="status"><Check size={17}/><span>草稿已保存</span></div>}
+    {initialPickerOpen&&<InitialCodePicker api={api} language={codeLanguage} selected={startingTemplate(initialCode,codeLanguage).id} onClose={()=>setInitialPickerOpen(false)} onSelect={(item,snapshot)=>{const record=activeRecord.current;if(record?.key!==contextKey||record.closed||record.language!==item.language)return;setInitialCode(snapshot);loadOwnCode(item.language==='cpp17'&&item.id==='default'?normalizeCppTemplate(item.code):item.code);}}/>}
 
-    {templatesOpen&&<div className="modal-overlay wb-templates-overlay" onClick={event=>{if(event.target===event.currentTarget)setTemplatesOpen(false);}}><section role="dialog" aria-modal="true" aria-label="模板" className="modal wb-templates-modal"><button type="button" className="icon-button wb-templates-close" aria-label="关闭模板" onClick={()=>setTemplatesOpen(false)}>×</button><Suspense fallback={<LoaderCircle className="spin"/>}><TemplatesPage embedded api={api} language={codeLanguage} shortcuts={shortcuts} visit={templatesVisit.current} onUse={template=>{updateCode(template.code+'\n'+(editorRef.current?.value||code));setTemplatesOpen(false);requestAnimationFrame(()=>editorRef.current?.focus());}}/></Suspense></section></div>}
+    {templatesOpen&&<div className="modal-overlay wb-templates-overlay" onClick={event=>{if(event.target===event.currentTarget)setTemplatesOpen(false);}}><section role="dialog" aria-modal="true" aria-label="模板" className="modal wb-templates-modal"><button type="button" className="icon-button wb-templates-close" aria-label="关闭模板" onClick={()=>setTemplatesOpen(false)}>×</button><Suspense fallback={<LoaderCircle className="spin"/>}><TemplatesPage embedded api={api} language={codeLanguage} shortcuts={shortcuts} visit={templatesVisit.current} onUse={template=>{try{updateCode(insertTemplate(editorRef.current?.value||code,template.code,template.language));}catch(issue){setActionError(issue.message);}setTemplatesOpen(false);requestAnimationFrame(()=>editorRef.current?.focus());}}/></Suspense></section></div>}
     {sidePracticeLocked && !endedContest && <div className="wb-notice">这题正在模拟赛中，请进入考场运行与提交。</div>}
     {actionError && <div className="wb-error-strip" role="alert"><span>{actionError}</span><button type="button" onClick={() => setActionError('')}>知道了</button></div>}
 
@@ -803,19 +848,15 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
         <strong title={problem?.title}><InlineTitle>{problem?.title || (loading ? '载入题目…' : '题目')}</InlineTitle></strong>
         {problem && <span className="wb-limits">{elapsedText(problem.limits?.timeMs)} · {problem.limits?.memoryMb || '—'} MB</span>}
       </div>
-      {!narrow&&<div className="wb-pane-buttons" role="group" aria-label="工作台布局">
-        <button type="button" className="wb-icon-button" aria-pressed={pane === 'statement'} onClick={() => focusPane('statement')} title="只看题面 · Alt+1" aria-label="只看题面"><PanelLeft size={16} /></button>
-        <button type="button" className="wb-icon-button" aria-pressed={pane === 'both'} onClick={() => setPane('both')} title="题面与代码 · Alt+0" aria-label="题面与代码"><PanelsTopLeft size={16} /></button>
-        <button type="button" className="wb-icon-button" aria-pressed={pane === 'code'} onClick={() => focusPane('code')} title="只看代码 · Alt+2" aria-label="只看代码"><Code2 size={16} /></button>
-      </div>}
     </div><div className="wb-statement-actions">
           <div className="wb-font-controls" role="group" aria-label="题面字号调节">
             <button type="button" aria-label="缩小题面字号" title="缩小题面字号" disabled={statementFontSize <= 14} onClick={() => changeStatementFontSize(Math.max(14,statementFontSize - 1))}>A−</button>
             <BoundedNumber aria-label="题面字号" min={14} max={32} unit="px" value={statementFontSize} required onChange={event => changeStatementFontSize(Number(event.target.value))}/>
             <button type="button" aria-label="放大题面字号" title="放大题面字号" disabled={statementFontSize >= 32} onClick={() => changeStatementFontSize(Math.min(32,statementFontSize + 1))}>A+</button>
           </div>
-          <div className="wb-language-toggle" role="group" aria-label="题面语言"><button type="button" aria-pressed={language === 'original'} onClick={() => { if(activeRecord.current)activeRecord.current.languageChosen=true;setLanguage('original'); setTranslationError(''); }}>原文</button><button type="button" aria-pressed={language === 'zh'} disabled={loading || !problem?.markdown || translationBusy || problem?.translationAvailable===false} onClick={() => {if(activeRecord.current)activeRecord.current.languageChosen=true;translateStatement();}}>{translationBusy ? '翻译中…' : '中文'}</button></div>
-          {problem?.url && <a href={problem.url} target="_blank" rel="noreferrer" title="在浏览器打开原题">原题<ExternalLink size={12} /></a>}
+          <div className="wb-language-toggle" role="group" aria-label="题面语言"><button type="button" aria-pressed={language==='zh'&&!originalIsChinese(problem)} aria-label={translationBusy&&language==='zh'?'翻译中…':language==='zh'&&!originalIsChinese(problem)?'中文':'原文'} title={originalIsChinese(problem)?'原站中文题面':language==='zh'?'切换到原文':'切换到中文'} disabled={loading||!problem?.markdown||originalIsChinese(problem)||(problem?.translationAvailable===false&&!translation)} onClick={toggleStatementLanguage}>{translationBusy&&language==='zh'?<LoaderCircle size={14} className="wb-spinner"/>:language==='zh'&&!originalIsChinese(problem)?'中文':'原文'}</button></div>
+          <button type="button" className="wb-icon-button" aria-label={statementCopied?'已复制题面':'复制题面'} title={statementCopied?'已复制题面':'复制题面'} disabled={loading||!problem?.markdown} onClick={copyStatement}>{statementCopied?<Check size={16}/>:<Copy size={16}/>}</button>
+          {problem?.url && <a className="wb-original-link" href={problem.url} target="_blank" rel="noreferrer" aria-label="在浏览器打开原题" title="在浏览器打开原题"><ExternalLink size={16} /></a>}
         </div></div>
         {translationBusy && <p className="wb-translation-note" role="status"><LoaderCircle size={12} className="wb-spinner" />正在翻译公开题面，原文仍可阅读。</p>}
         {translationError && <div className="wb-translation-note wb-translation-error" role="alert"><span>{translationError}</span><button type="button" onClick={translateStatement}>重试</button></div>}
@@ -828,14 +869,17 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
         </article>
       </div>
 
+      {!narrow&&pane==='both'&&<div className="wb-splitter" role="separator" aria-label="调整题面与代码宽度" aria-orientation="vertical" tabIndex={0} aria-valuemin={Math.round(splitBounds[0])} aria-valuemax={Math.round(splitBounds[1])} aria-valuenow={Math.round(splitRatio)} aria-valuetext={`题面 ${Math.round(splitRatio)}%，代码 ${Math.round(100-splitRatio)}%`} onPointerDown={startSplit} onKeyDown={event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();adjustSplit(event.key==='Home'?splitBounds[0]:event.key==='End'?splitBounds[1]:splitRatio+(event.key==='ArrowRight'?1:-1)*(event.shiftKey?10:2));}}/>}
+
       <div className="wb-code-pane">
         <div className="wb-pane-header wb-editor-header">
           <span><Code2 size={14}/><ThemedSelect aria-label="编程语言" value={codeLanguage} disabled={unavailable||busy||officialBusy} onChange={changeCodeLanguage}><option value="cpp17">C++17</option><option value="python3">Python 3</option></ThemedSelect></span>
           <InitialCodeButton title={startingTemplate(initialCode,codeLanguage).title} disabled={loading||!problem||unavailable||busy||officialBusy} onClick={()=>setInitialPickerOpen(true)}/>
-          <span className={`wb-save-state wb-save-${saveState.kind}`} title={saveState.message || '草稿自动保存；Ctrl+S 立即保存'} aria-live="polite">{saveState.kind === 'saving' ? <LoaderCircle size={11} className="wb-spinner" /> : saveState.kind === 'saved' ? <Check size={11} /> : null}{saveLabel}</span>
+          {!['saved','automatic'].includes(saveState.kind)&&<span className={`wb-save-state wb-save-${saveState.kind}`} title={saveState.message||saveLabel} aria-label={saveLabel} role={saveState.kind==='error'?'alert':'status'}>{saveState.kind==='saving'?<LoaderCircle size={14} className="wb-spinner"/>:saveState.kind==='unsaved'?<span className="wb-pending-dot"/>:saveLabel}</span>}
+          {!narrow&&layoutToggle}
           <div className="wb-editor-actions">
             {featureAvailable('templates',true)&&<button type="button" className="wb-button" aria-label="打开模板" title="打开模板" disabled={loading||!problem||unavailable} onClick={()=>setTemplatesOpen(true)}><Code2 size={14}/></button>}
-            {onSolution && !runningContest && !problem?.locked && <span className="wb-solution-methods">{(problem?.solutionMethods??(problem?[{id:'original',title:'题解'}]:[])).map((method,index,methods)=><button key={method.id} type="button" className="wb-button wb-solution-button" aria-label={methods.length===1?'题解':`题解${index+1}`} title={method.title||`题解${index+1}`} aria-pressed={solutionOpen&&(solutionMethodId===method.id||!solutionMethodId&&index===0)} onClick={()=>callbacks.current.onSolution?.(problemId,method.id)}><BookOpen size={14}/></button>)}</span>}
+            {onSolution && !runningContest && !problem?.locked && <span className="wb-solution-methods">{(problem?.solutionMethods??(problem?[{id:'original',title:'题解'}]:[])).map((method,index,methods)=><button key={method.id} type="button" className="wb-button wb-solution-button" aria-label={methods.length===1?'题解':`题解${index+1}`} title={method.title||`题解${index+1}`} aria-pressed={solutionOpen&&(solutionMethodId===method.id||!solutionMethodId&&index===0)} onClick={()=>{const opened=solutionOpen&&(solutionMethodId===method.id||!solutionMethodId&&index===0);if(opened&&callbacks.current.onCloseSolution)callbacks.current.onCloseSolution();else callbacks.current.onSolution?.(problemId,method.id);}}><BookOpen size={14}/></button>)}</span>}
             {onNext && <button type="button" className="wb-button wb-next-button" onClick={async () => { if(await saveRecord(activeRecord.current)) callbacks.current.onNext?.(); }}>下一题<ArrowRight size={14} /></button>}
             {localDraftRecovery !== null && <button type="button" className="wb-button" disabled={unavailable} title="当前为更新的同步版本；可恢复本机未上传的旧草稿" onClick={() => {
               undoReplace.current = code;
