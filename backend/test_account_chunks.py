@@ -1,5 +1,5 @@
 """Real HTTP sync, interrupted transfer and lazy historical-code restoration."""
-import copy,datetime as dt,json,unittest
+import copy,datetime as dt,json,time,unittest
 from unittest.mock import patch
 import test_account_sync as fixtures
 from training import ServiceError
@@ -16,7 +16,28 @@ class ChunkSyncTests(unittest.TestCase):
     call_other=fixtures.CloudStateTests.call_other
 
     def pause(self):
-        sync=self.server.accounts.state_sync;sync.close();sync.stop.clear();return sync
+        sync=self.server.accounts.state_sync
+        sync.close()
+        # Production close is deliberately bounded. A transport unit fixture
+        # must fully drain its own workers before clearing their stop event.
+        for worker in (sync.thread,sync.heartbeat_thread):
+            if worker:
+                worker.join(15)
+                self.assertFalse(worker.is_alive(),'Account fixture worker did not stop')
+        with sync.operation:pass
+        # Login independently starts ranking/reward synchronization. Its valid
+        # receipt must finish before establishing this test's fixed journal;
+        # otherwise it can create new chunks between failed PUT and retry.
+        ranking=sync.service.leaderboard;deadline=time.monotonic()+15
+        while True:
+            with ranking.lock:worker=ranking.worker
+            if worker:worker.join(max(0,deadline-time.monotonic()))
+            with ranking.lock:
+                if not ranking.running:break
+            self.assertLess(time.monotonic(),deadline,'Startup ranking fixture did not settle')
+        ranking.close()  # Cancel future retries; these tests drive cloud sync manually.
+        sync.stop.clear()
+        return sync
 
     def test_old_code_is_not_downloaded_until_opened_but_original_local_copy_survives(self):
         self.signup();self.assertEqual(self.login()[0],200)

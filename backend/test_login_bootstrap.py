@@ -1,8 +1,8 @@
 """A slow cloud restore must not hide login feedback or software updates."""
 import threading
-import time
 import unittest
 import hashlib
+from contextlib import nullcontext
 from concurrent.futures import ThreadPoolExecutor
 from unittest.mock import patch
 
@@ -77,34 +77,56 @@ class LoginBootstrapTests(unittest.TestCase):
                 with self.assertRaises(ServiceError):self.server.assert_update_ready()
 
     def test_cloud_wait_is_background_and_has_one_restore_without_authentication_leak(self):
-        self.signup(); self.login(); self.stop(); self.start()
-        started, release = threading.Event(), threading.Event()
-        original = self.server.accounts._remote
+        self.assertEqual(self.signup()[0], 200)
+        status, value = self.login()
+        self.assertEqual(status, 200, value)
+        self.assertTrue(value['authenticated'], value)
+        self.stop(); self.start()
+        accounts = self.server.accounts
+        started, release, restore_left_gate = threading.Event(), threading.Event(), threading.Event()
+        polls_done = threading.Event()
+        original = accounts._remote
         calls = []
         def remote(method, path, *args, **kwargs):
             if path in ('/v1/accounts/state', '/v2/accounts/state') and method == 'GET':
                 calls.append(path); started.set()
-                self.assertTrue(release.wait(8))
+                release.wait()
+                restore_left_gate.set()
             return original(method, path, *args, **kwargs)
-        with patch.object(self.server.accounts, '_remote', side_effect=remote):
-            try:
-                status, value = self.call('/api/account?background=1')
-                self.assertEqual(status, 200)
-                self.assertFalse(value['authenticated'])
-                self.assertTrue(value['restoring'])
-                self.assertTrue(started.wait(3))
-                begin = time.monotonic()
-                for _ in range(3):
-                    self.assertTrue(self.call('/api/account?background=1')[1]['restoring'])
-                    self.assertEqual(self.call('/api/software-update')[0], 200)
-                    self.assertEqual(self.call('/')[0], 404)
-                self.assertLess(time.monotonic() - begin, 2)
-                self.assertEqual(len(calls), 1)
-                self.assertIsNone(self.server.accounts.session)
-            finally:
-                release.set()
-            self.server.accounts.restore_worker.join(5)
-        self.assertTrue(self.call('/api/account?background=1')[1]['authenticated'])
+        def poll_requests():
+            for _ in range(3):
+                self.assertTrue(self.call('/api/account?background=1')[1]['restoring'])
+                self.assertEqual(self.call('/api/software-update')[0], 200)
+                self.assertEqual(self.call('/')[0], 404)
+        # The controlled gate proves independence, not network timing. Exclude
+        # its arbitrary runner delay from the restore budget; real deadlines,
+        # verified offline leases and revocation are tested in AuthWaitBoundaries.
+        with patch.object(accounts, '_restoration_deadline', side_effect=lambda _: nullcontext()), \
+             patch.object(accounts, '_remote', side_effect=remote):
+            with ThreadPoolExecutor(1) as pool:
+                try:
+                    status, value = self.call('/api/account?background=1')
+                    self.assertEqual(status, 200)
+                    self.assertFalse(value['authenticated'])
+                    self.assertTrue(value['restoring'])
+                    self.assertTrue(started.wait(15), 'Restore did not reach its controlled gate')
+                    polled = pool.submit(poll_requests)
+                    polled.add_done_callback(lambda _: polls_done.set())
+                    self.assertTrue(polls_done.wait(15), 'Background requests waited for cloud restore')
+                    polled.result(timeout=0)
+                    self.assertFalse(release.is_set())
+                    self.assertFalse(restore_left_gate.is_set())
+                    self.assertTrue(accounts.restore_worker.is_alive())
+                    self.assertEqual(len(calls), 1)
+                    self.assertIsNone(accounts.session)
+                finally:
+                    # Release before executor shutdown even if a dependent
+                    # request fails, so a regression fails without hanging.
+                    release.set()
+            accounts.restore_worker.join(15)
+            self.assertFalse(accounts.restore_worker.is_alive(), 'Restore did not finish after gate release')
+        value = self.call('/api/account?background=1')[1]
+        self.assertTrue(value['authenticated'], value)
 
     def test_failed_restore_keeps_credentials_for_explicit_retry_and_revocation_stays_locked(self):
         self.signup(); self.login(); self.stop(); self.start()
