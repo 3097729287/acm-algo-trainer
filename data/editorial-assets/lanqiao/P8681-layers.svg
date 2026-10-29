@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="400" viewBox="0 0 720 400">
+  <rect width="720" height="400" fill="#ffffff"/>
+  <text x="20" y="30" font-size="18" font-weight="bold" fill="#222">完全二叉树层序编号与层和（N=7）</text>
+  <!-- 节点 -->
+  <circle cx="360" cy="70" r="24" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="360" y="76" font-size="16" text-anchor="middle" fill="#1e3a8a">1</text>
+  <text x="360" y="110" font-size="14" text-anchor="middle" fill="#555">权值 1</text>
+
+  <circle cx="240" cy="170" r="24" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="240" y="176" font-size="16" text-anchor="middle" fill="#14532d">2</text>
+  <text x="240" y="210" font-size="14" text-anchor="middle" fill="#555">权值 6</text>
+
+  <circle cx="480" cy="170" r="24" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="480" y="176" font-size="16" text-anchor="middle" fill="#14532d">3</text>
+  <text x="480" y="210" font-size="14" text-anchor="middle" fill="#555">权值 5</text>
+
+  <circle cx="150" cy="280" r="24" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="150" y="286" font-size="16" text-anchor="middle" fill="#78350f">4</text>
+  <text x="150" y="320" font-size="14" text-anchor="middle" fill="#555">权值 4</text>
+
+  <circle cx="330" cy="280" r="24" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="330" y="286" font-size="16" text-anchor="middle" fill="#78350f">5</text>
+  <text x="330" y="320" font-size="14" text-anchor="middle" fill="#555">权值 3</text>
+
+  <circle cx="510" cy="280" r="24" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="510" y="286" font-size="16" text-anchor="middle" fill="#78350f">6</text>
+  <text x="510" y="320" font-size="14" text-anchor="middle" fill="#555">权值 2</text>
+
+  <circle cx="690" cy="280" r="24" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="690" y="286" font-size="16" text-anchor="middle" fill="#78350f">7</text>
+  <text x="690" y="320" font-size="14" text-anchor="middle" fill="#555">权值 1</text>
+
+  <!-- 边 -->
+  <line x1="345" y1="92" x2="255" y2="148" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="375" y1="92" x2="465" y2="148" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="225" y1="192" x2="165" y2="258" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="255" y1="192" x2="315" y2="258" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="465" y1="192" x2="495" y2="258" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="495" y1="192" x2="675" y2="258" stroke="#94a3b8" stroke-width="2"/>
+
+  <!-- 层和标注 -->
+  <text x="20" y="70" font-size="16" fill="#1e3a8a">第1层：和=1</text>
+  <text x="20" y="170" font-size="16" fill="#14532d">第2层：和=11</text>
+  <text x="20" y="280" font-size="16" fill="#78350f">第3层：和=10</text>
+  <text x="20" y="370" font-size="16" fill="#b91c1c">最大层和=11，深度=2</text>
+</svg>

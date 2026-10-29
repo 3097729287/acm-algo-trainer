@@ -36384,5 +36384,99 @@
       "topic": "差分"
     },
     "id": "foundation:difference-prefix-v1"
+  },
+  {
+    "content": {
+      "available": true,
+      "catalogTags": [],
+      "categories": [
+        "算法基础"
+      ],
+      "category": "算法基础",
+      "concept": "最大流、最小割与 Dinic：容量限制下怎样传递",
+      "conceptSource": "independent-foundation",
+      "curationVersion": "lectures-v1.1",
+      "displayTitle": "最大流、最小割与 Dinic：容量限制下怎样传递",
+      "editorialVersion": "2026-10-30-lanqiao-all",
+      "excerpt": "有向网络中，一条边最多通过它的容量那么多流量。源点S负责发出流量，汇点T负责接收；其余点流入量必须等于流出量。目标是让S到T的总流量最大。",
+      "id": "lecture:foundation-max-flow",
+      "images": {
+        "assets/foundations/max-flow.svg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3MjAiIGhlaWdodD0iMzMwIiB2aWV3Qm94PSIwIDAgNzIwIDMzMCI+PHJlY3Qgd2lkdGg9IjcyMCIgaGVpZ2h0PSIzMzAiIGZpbGw9IndoaXRlIi8+PGcgc3Ryb2tlPSIjMjU2M2ViIiBzdHJva2Utd2lkdGg9IjMiIGZpbGw9Im5vbmUiPjxwYXRoIGQ9Ik0xMTAgMTU1TDI4NSA3ME0xMTAgMTY1TDI4NSAyNTBNMzI1IDcwTDUxMCAxNTVNMzI1IDI1MEw1MTAgMTY1TTMwNSAxMDBWMjIwIi8+PC9nPjxnIGZpbGw9IiMyNTYzZWIiPjxwYXRoIGQ9Ik0yODUgNzBsLTE1IDAgNiAxMnpNMjg1IDI1MGwtMTUgMCA2LTEyek01MTAgMTU1bC0xNSAwIDYtMTJ6TTUxMCAxNjVsLTE1IDAgNiAxMnpNMzA1IDIyMGwtNy0xNGgxNHoiLz48L2c+PGcgZmlsbD0iI2VmZjZmZiIgc3Ryb2tlPSIjNjQ3NDhiIj48Y2lyY2xlIGN4PSI5MCIgY3k9IjE2MCIgcj0iMjciLz48Y2lyY2xlIGN4PSIzMDUiIGN5PSI2MCIgcj0iMjciLz48Y2lyY2xlIGN4PSIzMDUiIGN5PSIyNjAiIHI9IjI3Ii8+PGNpcmNsZSBjeD0iNTM1IiBjeT0iMTYwIiByPSIyNyIvPjwvZz48ZyBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMSIgZmlsbD0iIzE3MjAzMyI+PHRleHQgeD0iODEiIHk9IjE2OCI+UzwvdGV4dD48dGV4dCB4PSIyOTciIHk9IjY4Ij5BPC90ZXh0Pjx0ZXh0IHg9IjI5NyIgeT0iMjY4Ij5CPC90ZXh0Pjx0ZXh0IHg9IjUyNyIgeT0iMTY4Ij5UPC90ZXh0Pjx0ZXh0IHg9IjE3NSIgeT0iOTUiPjM8L3RleHQ+PHRleHQgeD0iMTc1IiB5PSIyNDAiPjI8L3RleHQ+PHRleHQgeD0iNDI1IiB5PSI5NSI+MjwvdGV4dD48dGV4dCB4PSI0MjUiIHk9IjI0MCI+MzwvdGV4dD48dGV4dCB4PSIzMjIiIHk9IjE3MCI+MTwvdGV4dD48dGV4dCB4PSIzMiIgeT0iMzE0IiBmb250LXNpemU9IjE5Ij7libIge1N9IOeahOWHuui+ueWuuemHjyAzKzI9Ne+8m+S4ieadoei3r+e6v+mAgeWHuiAyKzIrMT0144CCPC90ZXh0PjwvZz48L3N2Zz4K"
+      },
+      "knowledgeName": "最大流",
+      "markdown": "# 最大流、最小割与 Dinic：容量限制下怎样传递\n\n有向网络中，一条边最多通过它的容量那么多流量。源点S负责发出流量，汇点T负责接收；其余点流入量必须等于流出量。目标是让S到T的总流量最大。\n\n![五条边的容量网络，最大流与割容量均为五](assets/foundations/max-flow.svg)\n\n图中可先沿S→A→T送二，再沿S→B→T送二，最后沿S→A→B→T送一，总流量五。把S单独放在源侧，另外三点放在汇侧，跨过去的容量为3+2=5；任何流都要通过这个出口，所以五也是上界。\n\n这样的两侧划分称为割。只加从源侧指向汇侧的边容量，反方向不加。最大流最小割定理说明：最大可送流量，等于所有割中最小的容量。做二选一建模时，先让每种选择划分的割容量准确等于目标代价，再求最大流，就能得到最小代价。\n\n求流不能只贪心固定一次路径。已送出的流可能挡住更好的安排，所以维护残量网络：原边还可送“容量减已有流量”；每送出x，同时给反向边增加x的残量，允许后续撤销和改道。反向残量是调整旧流的工具，不是原问题凭空多了一条道路。\n\nDinic重复两步：\n\n1. 在正残量边上从S做BFS，level记录最少边数。若T不可达，结束。\n2. 用DFS只沿level增加一的边送流，直到当前层次图中再无增广路。当前弧指针cur[u]跳过已证明不能继续送流的出边；下一轮BFS后才重置这些指针。\n\nDFS送出x后，同时减少正向残量、增加反向残量。邻接表中常把一对正反边连续存放，边号id的反边就是id^1。若按顶点分开存，则每条边保存反向边在对方邻接表中的下标rev，不能把两种存储方式混用。\n\n当T在残量网络中不可达时，从S仍可达的点组成源侧。流量已填满这个割的全部出边，而且没有反向流跨回，故当前流量等于该割容量；任何其他流又不可能超过割容量，证明当前流已最大。\n\n一般有V个点、E条边时，Dinic通用时间上界为O(V²E)，空间O(V+E)。单位容量等特殊网络可以有更强的界，但普通整数容量网络不能直接套用。容量与总流量用能容纳总和的整数类型，不能只按单条边最大容量选类型。\n",
+      "originalConcept": "最大流、最小割与 Dinic：容量限制下怎样传递",
+      "originalSourceHash": "af21d10e291fea78bb2f4076ecb949a392c01e50575de0fc88faf0239afe555e",
+      "originalTitle": "最大流、最小割与 Dinic：容量限制下怎样传递",
+      "quality": {
+        "catalogClassificationChanged": false,
+        "normalized": true,
+        "sourceAlgorithmReverified": false,
+        "supplemented": true
+      },
+      "sourceCodeHashes": [],
+      "sourceContest": "",
+      "sourceHash": "af21d10e291fea78bb2f4076ecb949a392c01e50575de0fc88faf0239afe555e",
+      "sourceHeading": "最大流、最小割与 Dinic：容量限制下怎样传递",
+      "sourceMarkdown": "# 最大流、最小割与 Dinic：容量限制下怎样传递\n\n有向网络中，一条边最多通过它的容量那么多流量。源点S负责发出流量，汇点T负责接收；其余点流入量必须等于流出量。目标是让S到T的总流量最大。\n\n![五条边的容量网络，最大流与割容量均为五](assets/foundations/max-flow.svg)\n\n图中可先沿S→A→T送二，再沿S→B→T送二，最后沿S→A→B→T送一，总流量五。把S单独放在源侧，另外三点放在汇侧，跨过去的容量为3+2=5；任何流都要通过这个出口，所以五也是上界。\n\n这样的两侧划分称为割。只加从源侧指向汇侧的边容量，反方向不加。最大流最小割定理说明：最大可送流量，等于所有割中最小的容量。做二选一建模时，先让每种选择划分的割容量准确等于目标代价，再求最大流，就能得到最小代价。\n\n求流不能只贪心固定一次路径。已送出的流可能挡住更好的安排，所以维护残量网络：原边还可送“容量减已有流量”；每送出x，同时给反向边增加x的残量，允许后续撤销和改道。反向残量是调整旧流的工具，不是原问题凭空多了一条道路。\n\nDinic重复两步：\n\n1. 在正残量边上从S做BFS，level记录最少边数。若T不可达，结束。\n2. 用DFS只沿level增加一的边送流，直到当前层次图中再无增广路。当前弧指针cur[u]跳过已证明不能继续送流的出边；下一轮BFS后才重置这些指针。\n\nDFS送出x后，同时减少正向残量、增加反向残量。邻接表中常把一对正反边连续存放，边号id的反边就是id^1。若按顶点分开存，则每条边保存反向边在对方邻接表中的下标rev，不能把两种存储方式混用。\n\n当T在残量网络中不可达时，从S仍可达的点组成源侧。流量已填满这个割的全部出边，而且没有反向流跨回，故当前流量等于该割容量；任何其他流又不可能超过割容量，证明当前流已最大。\n\n一般有V个点、E条边时，Dinic通用时间上界为O(V²E)，空间O(V+E)。单位容量等特殊网络可以有更强的界，但普通整数容量网络不能直接套用。容量与总流量用能容纳总和的整数类型，不能只按单条边最大容量选类型。\n",
+      "sourcePath": "docs/foundations/max-flow.md",
+      "sourceProblem": "",
+      "sourceProblemIds": [
+        "lanqiao:2014:国:::P8619"
+      ],
+      "sourceTags": [],
+      "sourceTitle": "独立基础课",
+      "tags": [],
+      "title": "从零讲：最大流、最小割与 Dinic：容量限制下怎样传递",
+      "topic": "最大流、最小割与 Dinic：容量限制下怎样传递"
+    },
+    "id": "lecture:foundation-max-flow"
+  },
+  {
+    "content": {
+      "available": true,
+      "catalogTags": [],
+      "categories": [
+        "算法基础"
+      ],
+      "category": "算法基础",
+      "concept": "Li Chao 树：插入直线并查询某个横坐标的最优值",
+      "conceptSource": "independent-foundation",
+      "curationVersion": "lectures-v1.1",
+      "displayTitle": "Li Chao 树：插入直线并查询某个横坐标的最优值",
+      "editorialVersion": "2026-10-30-lanqiao-all",
+      "excerpt": "陆续出现直线y=kx+b，查询给定x时所有直线的最小值或最大值。直接逐条试需要O(直线数)，Li Chao树利用“两条直线最多相交一次”，把单次插入与查询降到对数时间；它不要求斜率或查询顺序单调。",
+      "id": "lecture:foundation-li-chao",
+      "images": {
+        "assets/foundations/li-chao.svg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3MjAiIGhlaWdodD0iMzMwIiB2aWV3Qm94PSIwIDAgNzIwIDMzMCI+PHJlY3Qgd2lkdGg9IjcyMCIgaGVpZ2h0PSIzMzAiIGZpbGw9IndoaXRlIi8+PHBhdGggZD0iTTY1IDM1VjI3MEg0MzAiIHN0cm9rZT0iIzY0NzQ4YiIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTc1IDI1MEwzOTUgOTAiIHN0cm9rZT0iIzI1NjNlYiIgc3Ryb2tlLXdpZHRoPSIzIi8+PHBhdGggZD0iTTc1IDcwTDM5NSAxNTAiIHN0cm9rZT0iIzE2YTM0YSIgc3Ryb2tlLXdpZHRoPSIzIi8+PHBhdGggZD0iTTIzNSAzNVYyNzAiIHN0cm9rZT0iIzk0YTNiOCIgc3Ryb2tlLWRhc2hhcnJheT0iNSA1Ii8+PGcgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZpbGw9IiMxNzIwMzMiIGZvbnQtc2l6ZT0iMTgiPjx0ZXh0IHg9IjY1IiB5PSIyOTUiPng9MDwvdGV4dD48dGV4dCB4PSIyMTUiIHk9IjI5NSI+eD0yPC90ZXh0Pjx0ZXh0IHg9IjM3NSIgeT0iMjk1Ij54PTQ8L3RleHQ+PHRleHQgeD0iNDU1IiB5PSI3MCI+6JOd57q/77yaMngrMTwvdGV4dD48dGV4dCB4PSI0NTUiIHk9IjExMCI+57u/57q/77ya4oiSeCsxMDwvdGV4dD48dGV4dCB4PSI0NTUiIHk9IjE2NSI+5Lit54K577yaNSAmbHQ7IDg8L3RleHQ+PHRleHQgeD0iNDU1IiB5PSIyMDUiPuWPs+err++8mjkgJmd0OyA2PC90ZXh0Pjx0ZXh0IHg9IjQ1NSIgeT0iMjUwIj7ok53nur/lj6rpgJLlvZLlj7PljYo8L3RleHQ+PHRleHQgeD0iMjgiIHk9IjMxNSIgZm9udC1zaXplPSIxNiI+57q15Z2Q5qCH5ZCR5LiK77yb5Zu+5Lit5LiJ5aSE5YC85YiG5Yir5Li66JOd57q/IDEsNSw577yM57u/57q/IDEwLDgsNuOAgjwvdGV4dD48L2c+PC9zdmc+Cg=="
+      },
+      "knowledgeName": "Li Chao 树",
+      "markdown": "# Li Chao 树：插入直线并查询某个横坐标的最优值\n\n陆续出现直线y=kx+b，查询给定x时所有直线的最小值或最大值。直接逐条试需要O(直线数)，Li Chao树利用“两条直线最多相交一次”，把单次插入与查询降到对数时间；它不要求斜率或查询顺序单调。\n\n先固定查询横坐标范围。如果只会查询一组已知坐标X，可以排序去重，在线段树的下标范围上建树；比较直线时使用实际X[mid]，不能使用压缩后的下标代替横坐标。\n\n每个节点负责一段横坐标，存一条候选直线。以下讨论求最大值：插入新线时，在区间中点比较新旧两线，较优者留在当前节点，较差者记作loser。由于差值是一次函数，loser只可能在中点的一侧变好：若它在左端更优，递归左半；否则若它在右端更优，递归右半；两端均不优则丢弃。到叶子就停止。求最小值时反转比较方向。\n\n![两条实际直线在横坐标三处比较，败线只需进入右半](assets/foundations/li-chao.svg)\n\n例如y=2x+1与y=−x+10，查询坐标0、2、4。在中点2，后者为8，大于前者5，所以保留后者。前者在左端0更差，但在右端4达到9，大于后者6，因此只向右半递归。这不是丢掉前者，它仍可能回答右侧的查询。\n\n查询x时，沿对应根到叶路径走，把沿途所有候选线在x处的值取最优。插入过程中每次留下的线能负责中点及败线未递归的一侧；败线若还能获胜，已交给对应孩子。归纳可知所有可能影响x的直线都由这条查询路径上的某条候选覆盖。\n\n相同斜率时，求最大值只需保留截距更大的一条，求最小值保留更小的一条。初始化空节点时应记录“没有直线”，或使用经过范围证明的无穷哨兵；任意设为零会误答全部负值或全部正值的查询。\n\n树高O(log|X|)，每次插入最多走一个孩子，查询也只走一个孩子，因此二者都是O(log|X|)。完整静态树空间O(|X|)。数值范围上的动态树每次插入最多新建一条路径，其空间上界应按插入次数乘树高计算。kx+b与交叉比较可能溢出64位时，应在乘法前转为__int128。\n",
+      "originalConcept": "Li Chao 树：插入直线并查询某个横坐标的最优值",
+      "originalSourceHash": "549a8ada330a1e0eb227c2d02f5c1adafc44fa21c9eb888270bfe3ad56070636",
+      "originalTitle": "Li Chao 树：插入直线并查询某个横坐标的最优值",
+      "quality": {
+        "catalogClassificationChanged": false,
+        "normalized": true,
+        "sourceAlgorithmReverified": false,
+        "supplemented": true
+      },
+      "sourceCodeHashes": [],
+      "sourceContest": "",
+      "sourceHash": "549a8ada330a1e0eb227c2d02f5c1adafc44fa21c9eb888270bfe3ad56070636",
+      "sourceHeading": "Li Chao 树：插入直线并查询某个横坐标的最优值",
+      "sourceMarkdown": "# Li Chao 树：插入直线并查询某个横坐标的最优值\n\n陆续出现直线y=kx+b，查询给定x时所有直线的最小值或最大值。直接逐条试需要O(直线数)，Li Chao树利用“两条直线最多相交一次”，把单次插入与查询降到对数时间；它不要求斜率或查询顺序单调。\n\n先固定查询横坐标范围。如果只会查询一组已知坐标X，可以排序去重，在线段树的下标范围上建树；比较直线时使用实际X[mid]，不能使用压缩后的下标代替横坐标。\n\n每个节点负责一段横坐标，存一条候选直线。以下讨论求最大值：插入新线时，在区间中点比较新旧两线，较优者留在当前节点，较差者记作loser。由于差值是一次函数，loser只可能在中点的一侧变好：若它在左端更优，递归左半；否则若它在右端更优，递归右半；两端均不优则丢弃。到叶子就停止。求最小值时反转比较方向。\n\n![两条实际直线在横坐标三处比较，败线只需进入右半](assets/foundations/li-chao.svg)\n\n例如y=2x+1与y=−x+10，查询坐标0、2、4。在中点2，后者为8，大于前者5，所以保留后者。前者在左端0更差，但在右端4达到9，大于后者6，因此只向右半递归。这不是丢掉前者，它仍可能回答右侧的查询。\n\n查询x时，沿对应根到叶路径走，把沿途所有候选线在x处的值取最优。插入过程中每次留下的线能负责中点及败线未递归的一侧；败线若还能获胜，已交给对应孩子。归纳可知所有可能影响x的直线都由这条查询路径上的某条候选覆盖。\n\n相同斜率时，求最大值只需保留截距更大的一条，求最小值保留更小的一条。初始化空节点时应记录“没有直线”，或使用经过范围证明的无穷哨兵；任意设为零会误答全部负值或全部正值的查询。\n\n树高O(log|X|)，每次插入最多走一个孩子，查询也只走一个孩子，因此二者都是O(log|X|)。完整静态树空间O(|X|)。数值范围上的动态树每次插入最多新建一条路径，其空间上界应按插入次数乘树高计算。kx+b与交叉比较可能溢出64位时，应在乘法前转为__int128。\n",
+      "sourcePath": "docs/foundations/li-chao.md",
+      "sourceProblem": "",
+      "sourceProblemIds": [
+        "lanqiao:2015:国:::P8632"
+      ],
+      "sourceTags": [],
+      "sourceTitle": "独立基础课",
+      "tags": [],
+      "title": "从零讲：Li Chao 树：插入直线并查询某个横坐标的最优值",
+      "topic": "Li Chao 树：插入直线并查询某个横坐标的最优值"
+    },
+    "id": "lecture:foundation-li-chao"
   }
 ]

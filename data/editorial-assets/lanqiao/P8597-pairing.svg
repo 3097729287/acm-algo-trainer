@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="200" viewBox="0 0 720 200">
+  <rect width="720" height="200" fill="#f8f9fa" stroke="#dee2e6"/>
+  <text x="20" y="30" font-size="16" fill="#212529">差异位置配对：0 和 5，代价 5-0=5</text>
+  <line x1="80" y1="100" x2="640" y2="100" stroke="#adb5bd" stroke-width="2"/>
+  <circle cx="80" cy="100" r="8" fill="#dc3545"/>
+  <circle cx="640" cy="100" r="8" fill="#dc3545"/>
+  <text x="80" y="130" font-size="14" text-anchor="middle" fill="#212529">0</text>
+  <text x="640" y="130" font-size="14" text-anchor="middle" fill="#212529">5</text>
+  <line x1="80" y1="80" x2="640" y2="80" stroke="#0d6efd" stroke-width="2" stroke-dasharray="5,5"/>
+  <text x="360" y="70" font-size="14" text-anchor="middle" fill="#0d6efd">配对区间长度 5</text>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="240" viewBox="0 0 720 240">
+  <rect width="720" height="240" fill="#f8f9fa"/>
+  <text x="20" y="30" font-size="16" fill="#212529">样例 3 2 1 的逆序对统计</text>
+  <text x="20" y="60" font-size="14" fill="#212529">位置 i：0      1      2</text>
+  <text x="20" y="85" font-size="14" fill="#212529">身高 H：3      2      1</text>
+  <text x="20" y="115" font-size="14" fill="#212529">左侧严格大于：0      1      2</text>
+  <text x="20" y="145" font-size="14" fill="#212529">右侧严格小于：2      1      0</text>
+  <text x="20" y="175" font-size="14" fill="#212529">c_i = 左侧+右侧：2      2      2</text>
+  <text x="20" y="205" font-size="14" fill="#212529">贡献 c_i(c_i+1)/2：3      3      3</text>
+  <text x="20" y="230" font-size="14" fill="#212529">总和 = 9</text>
+</svg>
