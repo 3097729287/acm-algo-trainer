@@ -81,7 +81,8 @@ class StaticAssetSafetyTests(unittest.TestCase):
         finally:connection.close()
 
     def test_index_revalidates_and_changed_content_gets_a_new_validator(self):
-        self.server.dist_dir=self.root/'frontend';self.server.dist_dir.mkdir()
+        # Match create_server's canonical-root contract, including Windows 8.3 TEMP paths.
+        self.server.dist_dir=(self.root/'frontend').resolve();self.server.dist_dir.mkdir()
         index=self.server.dist_dir/'index.html';index.write_text('first',encoding='utf-8')
         status,headers,body=self.read('/')
         self.assertEqual((status,body),(200,b'first'))
@@ -93,7 +94,7 @@ class StaticAssetSafetyTests(unittest.TestCase):
         self.assertNotEqual(changed['ETag'],headers['ETag'])
 
     def test_only_hashed_assets_are_immutable(self):
-        self.server.dist_dir=self.root/'frontend';assets=self.server.dist_dir/'assets';assets.mkdir(parents=True)
+        self.server.dist_dir=(self.root/'frontend').resolve();assets=self.server.dist_dir/'assets';assets.mkdir(parents=True)
         for name in ['index-0123ABcd.js','plain.js']:(assets/name).write_text('export {}',encoding='utf-8')
         self.assertIn('immutable',self.read('/assets/index-0123ABcd.js')[1]['Cache-Control'])
         self.assertEqual(self.read('/assets/plain.js')[1]['Cache-Control'],'no-cache')
