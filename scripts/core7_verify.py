@@ -30,7 +30,15 @@ EDGES = json.loads((HERE/'cases.json').read_text('utf-8'))
 if __name__ == '__main__':
     main(solution=str(HERE/'a.cpp'), edges=EDGES, letter='A', samples_file=str(HERE/'samples.py'),
          log_file=str(HERE/'verify.log'))
+    # This corpus uses precomputed independent oracles as edges. Unconfigured
+    # brute/debug/timing modes stay explicitly unverified in the original log.
+    report = (HERE/'verify.log').read_text('utf-8')
+    assert '编译：通过' in report
+    assert '官方样例：SAMPLE_COUNT 组全过' in report
+    if EDGES:
+        assert '边界用例：EDGE_COUNT 条全过' in report
 '''
+    probe=probe.replace('SAMPLE_COUNT',str(len(samples))).replace('EDGE_COUNT',str(len(edges)))
     if spec.checker:
         probe=probe.replace('from verify import main',f'from verify import main\nsys.path.insert(0, {str(ROOT/"scripts")!r})\nfrom core7_checkers import {spec.checker}')
         probe=probe.replace("log_file=str(HERE/'verify.log'))",f"log_file=str(HERE/'verify.log'), checker={spec.checker})")
@@ -39,7 +47,9 @@ if __name__ == '__main__':
     started=time.monotonic()
     result=subprocess.run([sys.executable,str(folder/'verify_a.py')],capture_output=True,text=True,encoding='utf-8',env=env,timeout=240)
     (logs/'verify.log').write_text(result.stdout+result.stderr,encoding='utf-8')
-    if result.returncode:
+    successful_log=('编译：通过' in result.stdout and f'官方样例：{len(samples)} 组全过' in result.stdout
+                    and (not edges or f'边界用例：{len(edges)} 条全过' in result.stdout))
+    if result.returncode or not successful_log:
         return {'pid':spec.pid,'method':spec.key,'passed':False,'phase':'program','log':str(logs/'verify.log'),'tail':result.stdout[-2200:]+result.stderr[-1000:]}
     if spec.exact:
         # The old verifier collapses all whitespace. Check actual line structure
@@ -72,7 +82,11 @@ def main():
     report=[];run=[]
     for spec in selected:
         old=previous.get((spec.pid,spec.key))
-        if '--only-new' in sys.argv and old and old['passed'] and old['programSha256']==source_hash(spec.code):
+        logpath=OUT/'verification'/spec.pid/spec.key/'verify.log'
+        log=logpath.read_text('utf-8') if logpath.exists() else ''
+        audited_log=bool(old and '编译：通过' in log and f'官方样例：{old.get("samples",0)} 组全过' in log
+                         and (not old.get('independentCases') or f'边界用例：{old["independentCases"]} 条全过' in log))
+        if '--only-new' in sys.argv and old and old['passed'] and old['programSha256']==source_hash(spec.code) and audited_log:
             report.append(old)
         else:run.append(spec)
     with ThreadPoolExecutor(max_workers=4) as pool:

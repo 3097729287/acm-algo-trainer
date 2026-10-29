@@ -197,11 +197,70 @@ def attach_figures(specs):
     f.text(80,335,'每一段长 √3，共四段，总长 4√3 ≈ 6.928',GREEN,size=22)
     save('P5143',f,'图按高度投影排列样例五个点，路段的长度仍用全部三维坐标计算。')
 
+    f=Figure('中心 ? 周围有三个雷：左上、右、下',360)
+    grid=[['*','?','?'],['?','?','*'],['?','*','?']]
+    for r,row in enumerate(grid):
+        for c,v in enumerate(row):f.box(225+c*90,75+r*80,82,72,'3' if (r,c)==(1,1) else v,GREEN if (r,c)==(1,1) else RED if v=='*' else GRAY,size=25)
+    f.text(65,340,'只检查八个邻居，不计算中心自己',size=22)
+    save('P2670',f,'中心的八邻域有三颗地雷；其它问号不贡献计数。')
+
+    f=Figure('从 [1,3,2] 到紧邻的下一个排列 [2,1,3]',360)
+    for y,row,label in [(75,[1,3,2],'原排列'),(170,[2,3,1],'交换 1、2'),(265,[2,1,3],'反转后缀')]:
+        f.text(65,y+30,label,size=20);f.row(row,y,x=285,width=110,colors={0:RED,1:BLUE,2:BLUE})
+    save('P1088',f,'右侧 [3,2] 已经最大，增大首项后把后缀变成最小，得到字典序后继。')
+
+    f=Figure('12 × 13：按数位相乘，同一次幂的贡献相加',365)
+    f.text(105,115,'位乘');f.text(310,115,'来自个位 2');f.text(545,115,'来自十位 1')
+    f.text(90,185,'个位 3');f.box(295,145,180,62,'6 → 个位',GREEN,size=22);f.box(535,145,190,62,'3 → 十位',BLUE,size=22)
+    f.text(90,270,'十位 1');f.box(295,230,180,62,'2 → 十位',BLUE,size=22);f.box(535,230,190,62,'1 → 百位',RED,size=22)
+    f.text(75,340,'十位合计 3+2=5，所以乘积为 156',size=23)
+    save('P1303',f,'一列来自被乘数的一位，一行来自乘数的一位；两个十位贡献必须累加。')
+
+    f=Figure('四人按逆时针编号：朝内者从 0 左数三人',400)
+    pts=[(385,100),(245,220),(385,340),(525,220)]
+    for i,(x,y) in enumerate(pts):f.circle(x,y,i,GREEN if i==1 else BLUE)
+    for a,b in [(0,3),(3,2),(2,1)]:f.line(*pts[a],*pts[b],RED)
+    f.text(50,95,'下标增加：0→1→2→3',size=19)
+    f.text(45,385,'左数顺时针走 0→3→2→1，(0−3+4)%4=1',size=21)
+    save('P1563',f,'图中每人都朝圆心；红色连线标出左数三步的顺序，终点是下标一。')
+
+    f=Figure('样例最优分界：一行白、一行蓝、两行红',405)
+    colors=['W','B','R','R'];old=['WRWRW','BWRWB','WRWRW','RWBWR'];cost=[2,3,3,3]
+    palette={'W':GRAY,'B':BLUE,'R':RED}
+    for r in range(4):
+        for c in range(5):f.box(220+c*60,75+r*65,54,55,colors[r],palette[colors[r]],size=21)
+        f.text(580,110+r*65,f'本行改 {cost[r]} 格',size=20)
+    f.line(205,137,770,137,GREEN,dash=True);f.line(205,202,770,202,GREEN,dash=True)
+    f.text(65,385,'分界 a=1、b=2，总成本 2+3+3+3=11',size=22)
+    save('P3392',f,'每条分界线都放在两行之间；三个颜色段各至少有一行。')
+
+    f=Figure('安排靠后，仍可填入更早的机器空档',335)
+    for t in range(11):f.text(165+t*53,80,str(t),size=17,anchor='middle')
+    for y,label,slots in [(110,'机器一',[(0,3,'1-1',BLUE),(3,5,'2-1',RED),(5,9,'3-2',GREEN)]),(200,'机器二',[(0,2,'3-1',GREEN),(3,5,'1-2',BLUE),(5,10,'2-2',RED)])]:
+        f.text(50,y+30,label,size=20)
+        for start,end,name,color in slots:f.box(165+start*53,y,(end-start)*53-3,58,name,color,size=21)
+    f.text(45,315,'3-1 后安排，但插入 [0,2)；全部工作在 10 时完成',size=21)
+    save('P1065',f,'同一工件各工序遵循依赖，不同机器可以并行；已有 [3,5) 不阻止填入 [0,2)。')
+
+    f=Figure('四根木棒分到三条边，只能分为 1、1、2 根',535)
+    top,left,right=(390,80),(180,444),(600,444);middle=(390,444)
+    f.line(*top,*left,BLUE,width=7);f.line(*top,*right,BLUE,width=7)
+    f.line(*left,*middle,GREEN,width=7);f.line(*middle,*right,RED,width=7)
+    f.circle(*middle,'接点',GRAY)
+    f.text(205,265,'整根 2',BLUE,size=22);f.text(500,265,'整根 2',BLUE,size=22)
+    f.text(275,485,'短棒 1',GREEN,size=22,anchor='middle');f.text(495,485,'短棒 1',RED,size=22,anchor='middle')
+    f.text(115,520,'两根短棒 1+1=2，和另外两条完整边等长',size=22)
+    save('P3799',f,'只在一条边中有接点；不同颜色表示所选的四根棒，边的摆放次序不产生新选法。')
+
     for spec in specs:
         if spec.pid not in figures:continue
         if spec.pid=='P1177' and spec.key!='merge-sort':continue
         key,data,caption=figures[spec.pid]
-        image='!['+caption+']('+key+')\n\n'+caption
+        # ASCII brackets in alt text can form an unmatched Markdown label;
+        # fullwidth brackets also avoid the legacy LaTeX normalizer doubling
+        # the backslash that would otherwise escape them.
+        alt=caption.replace('[','［').replace(']','］')
+        image='!['+alt+']('+key+')\n\n'+caption
         spec.images[key]=data
         for field in ['brief','detail']:
             text=getattr(spec,field)

@@ -2,12 +2,12 @@
   "scopeVersion": "2026-10-30-screenshot-verified-610",
   "requestedStages": 7,
   "totalProblems": 610,
-  "authoredProblems": 81,
-  "authoredMethods": 86,
-  "authoredArticles": 172,
-  "hasBothVariants": 88,
-  "missingVariants": 522,
-  "pendingStandardReview": 529,
+  "authoredProblems": 99,
+  "authoredMethods": 106,
+  "authoredArticles": 212,
+  "hasBothVariants": 106,
+  "missingVariants": 504,
+  "pendingStandardReview": 511,
   "complete": false,
   "stages": [
     {
@@ -18,7 +18,7 @@
     {
       "stage": "02 基础解题方法",
       "total": 108,
-      "reviewed": 12
+      "reviewed": 30
     },
     {
       "stage": "03 搜索与图",
@@ -882,10 +882,10 @@
       "unit": "模拟与枚举",
       "title": "扫雷游戏",
       "difficulty": 900,
-      "knowledge": "枚举",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "枚举 + 模拟",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1036",
@@ -894,10 +894,10 @@
       "unit": "模拟与枚举",
       "title": "选数",
       "difficulty": 1200,
-      "knowledge": "枚举 + 剪枝 + 状压 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "枚举 + 剪枝 + 状压 DP + DFS + 素数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1067",
@@ -907,9 +907,9 @@
       "title": "多项式输出",
       "difficulty": 1200,
       "knowledge": "模拟",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1088",
@@ -919,9 +919,9 @@
       "title": "火星人",
       "difficulty": 1200,
       "knowledge": "模拟 + 排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1149",
@@ -931,9 +931,9 @@
       "title": "火柴棒等式",
       "difficulty": 1200,
       "knowledge": "枚举",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1157",
@@ -942,10 +942,10 @@
       "unit": "模拟与枚举",
       "title": "组合的输出",
       "difficulty": 1200,
-      "knowledge": "递归",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "递归 + DFS + 枚举",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1303",
@@ -955,9 +955,9 @@
       "title": "A*B Problem",
       "difficulty": 1200,
       "knowledge": "模拟 + 高精度",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1563",
@@ -967,9 +967,9 @@
       "title": "玩具谜题",
       "difficulty": 1200,
       "knowledge": "模拟",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1591",
@@ -979,9 +979,9 @@
       "title": "阶乘数码",
       "difficulty": 1200,
       "knowledge": "高精度",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1618",
@@ -991,9 +991,9 @@
       "title": "三连击（升级版）",
       "difficulty": 1200,
       "knowledge": "模拟 + 枚举",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1706",
@@ -1002,10 +1002,10 @@
       "unit": "模拟与枚举",
       "title": "全排列问题",
       "difficulty": 1200,
-      "knowledge": "递归",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "递归 + DFS + 枚举",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2089",
@@ -1014,10 +1014,10 @@
       "unit": "模拟与枚举",
       "title": "烤鸡",
       "difficulty": 1200,
-      "knowledge": "递归 + 枚举",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "递归 + 枚举 + DFS",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P3392",
@@ -1026,10 +1026,10 @@
       "unit": "模拟与枚举",
       "title": "涂条纹",
       "difficulty": 1200,
-      "knowledge": "模拟 + 枚举",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "模拟 + 枚举 + 前缀和",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P3654",
@@ -1039,9 +1039,9 @@
       "title": "First Step (ファーストステップ)",
       "difficulty": 1200,
       "knowledge": "模拟 + 枚举",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1045",
@@ -1050,10 +1050,10 @@
       "unit": "模拟与枚举",
       "title": "麦森数",
       "difficulty": 1500,
-      "knowledge": "高精度 + 素数",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "高精度 + 素数 + 快速幂",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1065",
@@ -1063,9 +1063,9 @@
       "title": "作业调度方案",
       "difficulty": 1500,
       "knowledge": "模拟",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1518",
@@ -1075,9 +1075,9 @@
       "title": "两只塔姆沃斯牛 The Tamworth Two",
       "difficulty": 1500,
       "knowledge": "模拟",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P3799",
@@ -1086,10 +1086,10 @@
       "unit": "模拟与枚举",
       "title": "小 Y 拼木棒",
       "difficulty": 1500,
-      "knowledge": "枚举 + 分类讨论",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "枚举 + 分类讨论 + 组合计数 + 取模与同余",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1152",

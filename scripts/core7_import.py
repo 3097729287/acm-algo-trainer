@@ -28,6 +28,8 @@ def prepare():
     result=deepcopy(before)
     index={name:{r['problem_id']:r for r in result[name]} for name in ['solutions','detailed_solutions','solution_methods','statements']}
     verification={(r['pid'],r['method']):r for r in read(OUT/'verification.json')}
+    correction_path=CONTENT/'corrections.json'
+    corrections={r['problemId']:r for r in read(correction_path)} if correction_path.exists() else {}
     authored=read(OUT/'authored.json')
     grouped=defaultdict(list)
     for entry in authored:
@@ -45,7 +47,10 @@ def prepare():
             article=deepcopy(primary['variants'][variant])
             if identity in index[table]:
                 previous=index[table][identity]
-                assert programs(previous['markdown'])==programs(article['markdown']),identity
+                if programs(previous['markdown'])!=programs(article['markdown']):
+                    old=programs(previous['markdown']);fix=corrections.get(identity)
+                    assert fix and len(old)==1 and source_hash(old[0])==fix['previousProgramSha256'],identity
+                    assert fix['reproductions'] and all(r['observed']!=r['expected'] for r in fix['reproductions']),identity
                 for key,value in previous['images'].items():assert article['images'].get(key)==value,(identity,key)
                 previous.update(article)
             else:
@@ -102,6 +107,8 @@ def prepare():
             linked.add((identity,key))
     result['meta']['revision']=str(int(result['meta'].get('revision','0'))+1)
     result['meta']['core7EditorialRevision']='2026-10-30-method-variants-v1'
+    if isinstance(result['meta'].get('lectureAudit'),dict):
+        result['meta']['lectureAudit']['count']=len(result['lectures'])
     touched=set(grouped)
     for table in ['solutions','detailed_solutions','solution_methods','statements']:
         after={r['problem_id']:r for r in result[table]}
@@ -109,7 +116,8 @@ def prepare():
             if row['problem_id'] not in touched:assert after[row['problem_id']]==row,(table,row['problem_id'])
     report={'problems':len(grouped),'methods':len(authored),'articles':len(authored)*2,
             'before':{n:len(before[n]) for n in names if n!='meta'},'after':{n:len(result[n]) for n in names if n!='meta'},
-            'unrelatedArticlesPreserved':True,'referenceProgramsPreserved':True,'officialSubmissionsSent':0,
+            'unrelatedArticlesPreserved':True,'verifiedBaselineProgramsPreserved':True,
+            'documentedBoundaryCorrections':sorted(corrections),'officialSubmissionsSent':0,
             'personalDatabasesOpened':False,'remainingRouteProblems':len(read(OUT/'scope.json'))-len(grouped)}
     return before,result,report
 

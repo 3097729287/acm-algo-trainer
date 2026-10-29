@@ -15884,11 +15884,13 @@
         {
           "problemId": "luogu-training-P5707",
           "reference": "data/library/solutions.json#luogu-training-P5707",
-          "sha256": "ed2debbfb92b42601a49ca566248b5b1d5f4780dfcafb3de6e2bb6bb316e61bb",
+          "sha256": "95d694e4cc6658d099a44e7c58cf05ffdad8f42343e3ee4dd030ce90f7bd5ac6",
           "reasons": [
             "统一分钟计算上取整路程加十分钟再从八点扣除，负时间按一天取正余数，两位补零输出。"
           ],
-          "kind": "archived-editorial"
+          "kind": "archived-editorial",
+          "previousSha256": "ed2debbfb92b42601a49ca566248b5b1d5f4780dfcafb3de6e2bb6bb316e61bb",
+          "revisionReason": "前七阶段双版重写；原算法与参考程序复核保留，更新正文绑定。"
         }
       ]
     },

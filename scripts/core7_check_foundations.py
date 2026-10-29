@@ -18,6 +18,8 @@ checks={
                      ('', '', "assert(c=='a' && digit);"),
                      ('', '', 'assert(text=="bXXcd" && last==\'d\' && where==string::npos && first==3);')],
     'random-selection': [('', '', 'assert(index>=2 && index<=8);')],
+    'lex-permutation': [('', '', 'assert(count==6 && a==vector<int>({1,2,3}));')],
+    'big-integers': [('', '', 'assert(digits==vector<int>({4,8,0,6}));')],
 }
 results=[]
 with tempfile.TemporaryDirectory(prefix='core7-language-') as temporary:

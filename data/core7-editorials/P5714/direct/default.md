@@ -107,11 +107,88 @@ while (x > 1) {
 
 复杂度由实际执行次数决定。上述求和执行 $n$ 次是 $O(n)$；每次将正整数减半只执行 $O(\log n)$ 次。两层循环不能仅凭外观判定为平方：内层若总共只前进 $n$ 次，总量仍可能线性。变量应在正确作用范围初始化；多组数据的计数器若未重置，下一组会错误继承上一组结果。
 
+### 从零讲：string：字符、下标与子串
+
+`string` 保存字符序列。`string s="abca";` 的长度为四，下标从零开始，`s[0]=='a'`、`s[3]=='a'`。字符用单引号，字符串用双引号；二者类型不同。需要 `<string>`。
+
+`cin >> s` 读到空白停止；整行含空格时使用 `getline`，并留意前一次格式化输入残留的换行。`s.size()` 是字符单元数量，不一定等于 UTF-8 中文字数；竞赛英文小写字母题通常一个字符对应一个单元。
+
+```cxx
+string s = "abca";
+string middle = s.substr(1, 2); // 从下标 1 开始取 2 个字符，得到 bc
+size_t pos = s.find('c');       // 得到 2；找不到是 string::npos
+if (pos != string::npos) cout << s[pos];
+```
+
+`substr(start,length)` 的第二项是长度，不是右端点。普通下标访问为 $O(1)$；复制长为 $k$ 的子串需要 $O(k)$ 时间和空间，循环里反复截取可能累积成平方成本。字符串比较按第一个不同字符决定字典序，公共前缀可能需要线性比较。
+
+常见字符转数字是 `c-'0'`，前提 `c` 在 `'0'` 到 `'9'`。修改原串可用 `for(char& c:s)`，只读使用 `char c`。`reverse(s.begin(),s.end())` 原地翻转；若还需要原串，应先复制。空串不能访问首尾，尾后位置不能当普通字符读取。
+
+### 从零讲：字符串修改、数字转换与字符判断
+
+处理文本时先区分三种对象：字符如 `'7'`、字符序列如 `"275"`、整数如 `275`。它们的表示和运算规则不同。字符减 `'0'` 只适用于单个十进制数字；多位数字可以用 `stoi` 或 `stoll` 转换。
+
+```cxx
+string s = "275";
+int x = stoi(s);               // 得到整数二百七十五
+long long y = stoll("10000000000");
+string equation = s + "+125=" + to_string(x + 125);
+// equation 为 275+125=400
+```
+
+`stoi` 返回 int，`stoll` 返回 long long；`to_string` 把整数转为十进制字符串，也会保留负号。转换读取十进制数字需要合法输入并且结果在返回类型范围内；非法或越界的转换会抛异常。题目保证格式正确时可以直接使用，处理不可信文本时应检查错误与是否完整消费了输入。转换长度为 L 的整数文本需要 $O(L)$ 时间。
+
+`isdigit` 与 `tolower` 定义在 `<cctype>`。`isdigit(c)` 判断一个字符是不是数字，`tolower(c)` 把可转换的大写字母转成小写，其它字符保持不变。向这类函数传入普通 char 前，应先转成 unsigned char，避免负的 char 值超出接口允许范围：
+
+```cxx
+char c = 'A';
+c = static_cast<char>(tolower(static_cast<unsigned char>(c))); // a
+bool digit = isdigit(static_cast<unsigned char>('7'));         // true
+```
+
+下面的操作直接修改字符串；它们改变的是字符位置，不能把旧下标当成某个字符永远不变的身份：
+
+```cxx
+string text = "bcd";
+text.insert(1, "XX"); // 在旧下标一之前插入，得到 bXXcd
+text += "e";          // 追加，得到 bXXcde
+text.pop_back();      // 删除末尾 e，恢复 bXXcd
+char last = text.back(); // d，前提是非空
+size_t where = text.find_first_of("./%"); // 没有这些字符，返回 npos
+size_t first = string("00070").find_first_not_of('0'); // 三，从零编号
+```
+
+`find` 查找整个子串，`find_first_of` 查找给定字符集合中的任意一个，`find_first_not_of` 查找首个不在指定集合中的字符。这些函数返回位置或 `string::npos`，不是直接返回真假。合法的零号位置不能误判为“没有找到”；输出找不到时应显式处理 npos，不能依赖把无符号大数转换成负数。
+
+`insert` 要移动插入点后面的字符，长度为 L 的串中插入 $k$ 个字符通常需要 $O(L+k)$ 时间，并可能重新分配存储，旧指针、引用和迭代器可能失效。删除末尾和读取 back 为常数操作，但都要求字符串非空。子串查找的最坏复杂度可能与文本长度和模式长度的乘积相关，不能一律写成常数或对数。
+
+### 从零讲：具名函数：给可复用计算一个明确接口
+
+函数把一段计算包装成“输入参数 → 返回结果”。例如判断整数是否为偶数：
+
+```cxx
+bool even(int x) {
+    return x % 2 == 0;
+}
+int main() {
+    bool a = even(8); // a 为 true
+    bool b = even(7); // b 为 false
+}
+```
+
+`bool` 是返回类型，`even` 是函数名，`int x` 是参数声明。调用 `even(8)` 时，实参八传入这个新调用的局部变量 $x$，执行 return 后把真假值交回调用处。定义本身不执行计算，只有调用才执行。函数应在调用处之前定义，或提前写声明。
+
+普通数值参数按值传递，函数里修改 $x$ 不会改变调用者原变量。参数写成 `int &x` 时才引用调用者对象；必须让这个对象在调用期间有效。`const vector<int>& a` 用引用避免复制整个容器，并承诺不通过这个引用修改它。返回局部变量的值是安全的，返回局部变量的引用则在函数结束后失效。
+
+函数名应说明它回答的问题，调用处负责传哪些数据。例如闰年判定只接收一个年份并返回真假，枚举年份范围和输出格式由调用者处理。同一判定被多次使用时，这能减少规则不一致；但函数包装不会自动降低算法复杂度，仍要把每次调用实际做的工作计入时间。
+
+如果函数内部又调用自身，就是递归，需要明确最小情况如何直接返回、每次调用如何逼近它；递归会占用调用栈。普通辅助函数可以不使用递归，不应仅因写成函数就称作递归算法。
+
 <!-- reusable-foundations:end -->
 
 ### 思路
 
-先算 $m/(h\times h)$，依次判断小于 18.5、小于 24、其余三段。最后一段按 cout 默认精度输出数值。
+输入最多三位小数，用整数 M、H 精确保存原数的一千倍。BMI 等于 $1000M/H^2$，先交叉相乘判断小于 18.5 或 24，避免浮点数误判恰好等于阈值的输入。
 
 时间与额外空间均为 $O(1)$。
 
@@ -121,14 +198,23 @@ while (x > 1) {
 #include <bits/stdc++.h>
 using namespace std;
 
+long long parse_thousandths(string s) {
+    size_t dot = s.find('.');
+    if (dot == string::npos) return stoll(s) * 1000;
+    string fraction = s.substr(dot + 1);
+    while (fraction.size() < 3) fraction += '0';
+    return stoll(s.substr(0,dot)) * 1000 + stoll(fraction);
+}
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-double m, h; cin >> m >> h;
-double bmi = m / (h*h);
-if (bmi < 18.5) cout << "Underweight\n";
-else if (bmi < 24) cout << "Normal\n";
-else cout << bmi << "\nOverweight\n";
+string m, h; cin >> m >> h;
+long long M = parse_thousandths(m), H = parse_thousandths(h);
+long long numerator = 1000 * M, denominator = H * H;
+// 阈值比较完全使用整数，等于阈值时归入右侧区间。
+if (2 * numerator < 37 * denominator) cout << "Underweight\n";
+else if (numerator < 24 * denominator) cout << "Normal\n";
+else cout << 1.0 * numerator / denominator << "\nOverweight\n";
     return 0;
 }
 ```
@@ -139,5 +225,5 @@ else cout << bmi << "\nOverweight\n";
 
 ## 实测记录
 
-本地 C++17 编译、2 组原站样例与 204 组独立边界/小域校验通过。
+本地 C++17 编译、2 组原站样例与 297 组独立边界/小域校验通过。
 正文参考程序与源码逐字核对；没有向原站提交。

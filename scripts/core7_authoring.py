@@ -50,6 +50,7 @@ def load_all():
     if not SPECS:
         import core7_stage01
         import core7_stage02
+        import core7_stage02_simulation
         from core7_figures import attach_figures
         attach_figures(SPECS)
         for spec in SPECS:
@@ -58,6 +59,7 @@ def load_all():
             if spec.pid=='P1553':spec.lessons=['io-basics','strings','string-tools','functions']
             if spec.pid in ['P1597','P1449','P1603','P1957','P5734','P1161']:
                 spec.lessons.append('string-tools')
+            spec.lessons=list(dict.fromkeys(spec.lessons))
     return SPECS
 
 
@@ -119,7 +121,10 @@ def generate():
             if record and record.get('passed') and record['programSha256']==source_hash(spec.code):
                 footer='\n## 实测记录\n\n'+f'本地 C++17 编译、{record["samples"]} 组原站样例与 {record["independentCases"]} 组独立边界/小域校验通过。\n正文参考程序与源码逐字核对；没有向原站提交。\n'
             exported=re.sub(r'^## [^\n]+',f'## A. {entry["title"]}',value['markdown'],count=1)
-            path.write_text(envelope + exported+footer, encoding='utf-8')
+            import sys
+            sys.path.insert(0,str(Path.home()/'.dsh/tools'))
+            import unify_latex
+            path.write_text(unify_latex.process(envelope+exported+footer,Counter()), encoding='utf-8')
             for key, data in value['images'].items():
                 target = folder / key
                 target.parent.mkdir(parents=True, exist_ok=True)

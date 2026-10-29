@@ -181,13 +181,19 @@ cout << (negative ? -reversed : reversed) << '\n';''',
     '十进制位数为 d，时间 $O(d)$、额外空间 $O(1)$。', lessons=CTRL)
 
 add('P1422', '分段累加电费', '前三个用电区间分别执行不同单价，求总电费并保留一位小数。',
-    '分别计算前一百五十度、接下来的二百五十度、超出四百度的部分，每部分乘自己的单价后相加。',
-    r'样例二百六十七度中，前一百五十度按 0.4463 元计算，其余一百一十七度按 0.4663 元计算，不能把全部电量套进后一单价。第一个用量是 $\min(n,150)$；第二个是 $\max(0,\min(n-150,250))$；最后是 $\max(0,n-400)$。三段互不重叠且覆盖所有已用电量。代码直接累加这三份费用，最后统一按一位小数输出。',
+    '分别计算三段用量。把一元分成一万份，三个单价精确记为 4463、4663、5663，先用整数累加费用，再四舍五入到角，输出元和十分位。',
+    r'''样例二百六十七度中，前一百五十度按 0.4463 元计算，其余一百一十七度按 0.4663 元计算，不能把全部电量套进后一单价。第一个用量是 $\min(n,150)$；第二个是 $\max(0,\min(n-150,250))$；最后是 $\max(0,n-400)$。三段互不重叠且覆盖所有已用电量。
+
+三个单价都有四位小数，因此用万分之一元作为单位，可以精确记为整数 4463、4663、5663。分段乘用量后相加得到 cost，整个过程不经过浮点数。
+
+保留一位小数等价于四舍五入到角。一角对应一千个万分元，半角对应五百个，所以 $(cost+500)/1000$ 的整数除法就是总角数。总角数再除十得到元，模十得到小数位。例如五百度费用精确为 240.15 元，应该输出 240.2；直接浮点计算可能得到略小于 240.15 的数，错误舍为 240.1。''',
     r'''int n; cin >> n;
-double cost = min(n,150) * 0.4463;
-cost += max(0,min(n-150,250)) * 0.4663;
-cost += max(0,n-400) * 0.5663;
-cout << fixed << setprecision(1) << cost << '\n';''',
+long long cost = 1LL * min(n,150) * 4463;
+cost += 1LL * max(0,min(n-150,250)) * 4663;
+cost += 1LL * max(0,n-400) * 5663;
+// 全部费用精确相加后，只在最后四舍五入一次。
+long long tenths = (cost + 500) / 1000;
+cout << tenths / 10 << '.' << tenths % 10 << '\n';''',
     '单价只作用于对应区间的那部分电量；检查一百五十度和四百度两个端点。', lessons=CTRL, exact=True)
 
 add('P1424', '按星期逐天模拟', '从星期 x 开始计算 n 天，周一到周五每天游二百五十公里，周末休息，求总路程。',
@@ -274,14 +280,29 @@ else cout << "Today, I ate " << n << " apples.\n";''',
     '以原题固定句型为准，零也走单数分支。', lessons=['io-basics','basic-control'], exact=True)
 
 add('P5714', '互斥区间分支', '按题目给定的 BMI 公式和阈值输出对应文字；达到二十四时先输出 BMI，再换行输出 Overweight。',
-    r'先算 $m/(h\times h)$，依次判断小于 18.5、小于 24、其余三段。最后一段按 cout 默认精度输出数值。',
-    '条件链先处理 BMI<18.5，所以进入第二个分支时自然已经满足 BMI≥18.5，只要再检查小于二十四。剩余情况就是 BMI≥24。两个阈值都归入其右侧区间，恰好十八点五输出 Normal，恰好二十四走最后一段。题目专门要求 cout 的默认数值格式，因此不添加 fixed，也不把六位有效数字误写成六位小数。',
-    r'''double m, h; cin >> m >> h;
-double bmi = m / (h*h);
-if (bmi < 18.5) cout << "Underweight\n";
-else if (bmi < 24) cout << "Normal\n";
-else cout << bmi << "\nOverweight\n";''',
+    r'输入最多三位小数，用整数 M、H 精确保存原数的一千倍。BMI 等于 $1000M/H^2$，先交叉相乘判断小于 18.5 或 24，避免浮点数误判恰好等于阈值的输入。',
+    r'''m=47.36、h=1.6 时 BMI 恰为 18.5，应输出 Normal；m=61.44、h=1.6 时 BMI 恰为 24，应输出 Overweight。直接计算 double 类型的 h×h 可能略大于精确值，把两个边界分别误算到下一区间。
+
+输入最多三位小数，把原始十进制字符串补足三位，就能得到精确整数 M=1000m、H=1000h。代入公式，BMI 为 $1000M/H^2$；分母严格为正，因此可以交叉相乘而不改变不等号方向。小于 18.5 等价于 $2\times1000M<37H^2$，其中三十七来自十八点五乘二；小于二十四等价于 $1000M<24H^2$。
+
+条件链先排除第一段，第二段只需检查是否小于二十四，其余就是至少二十四。相等时比较结果为假，自然落入右侧区间。只有最后一段需要输出实际比值，这时再做实数除法并按 cout 默认六位有效数字输出，不加 fixed。辅助函数只负责把一份合法十进制输入转换成千分单位，分支逻辑在主函数中保持可见。''',
+    r'''string m, h; cin >> m >> h;
+long long M = parse_thousandths(m), H = parse_thousandths(h);
+long long numerator = 1000 * M, denominator = H * H;
+// 阈值比较完全使用整数，等于阈值时归入右侧区间。
+if (2 * numerator < 37 * denominator) cout << "Underweight\n";
+else if (numerator < 24 * denominator) cout << "Normal\n";
+else cout << 1.0 * numerator / denominator << "\nOverweight\n";''',
     '公式分母是身高的平方，单位按题面输入；保留题目指定的默认精度。', lessons=CTRL, exact=True)
+SPECS[-1].code = SPECS[-1].code.replace('int main() {', r'''long long parse_thousandths(string s) {
+    size_t dot = s.find('.');
+    if (dot == string::npos) return stoll(s) * 1000;
+    string fraction = s.substr(dot + 1);
+    while (fraction.size() < 3) fraction += '0';
+    return stoll(s.substr(0,dot)) * 1000 + stoll(fraction);
+}
+int main() {''')
+SPECS[-1].lessons += ['strings','string-tools','functions']
 
 add('P5716', '月份表与闰年判定', '输入公历年份和月份，输出该月天数。',
     '普通年份的十二个月按固定表查询，只有二月在闰年时多一天。闰年条件是可被四整除且不可被一百整除，或者可被四百整除。',

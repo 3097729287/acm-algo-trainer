@@ -15,9 +15,16 @@ const server=await createServer({root:path.join(root,'frontend'),server:{host:'1
 await server.listen();
 const browser=await chromium.launch({channel:'msedge',headless:true});
 const frames=[],errors=[];
+const previous=process.argv.includes('--only-changed')&&fs.existsSync(path.join(out,'report.json'))
+  ?JSON.parse(fs.readFileSync(path.join(out,'report.json'),'utf8')).frames:[];
 try {
   for(const [width,dark] of [[1440,false],[1050,true],[390,false]]) {
     for(const entry of authored) for(const [variant,solution] of Object.entries(entry.variants)) {
+      const digest=createHash('sha256').update(solution.markdown).digest('hex');
+      const imagesDigest=createHash('sha256').update(JSON.stringify(solution.images)).digest('hex');
+      const expectedFigures=Object.keys(solution.images).filter(name=>name.startsWith('assets/core7/')).length;
+      const old=previous.find(f=>f.pid===entry.pid&&f.method===entry.method&&f.variant===variant&&f.width===width&&f.dark===dark&&f.markdownSha256===digest&&f.imagesSha256===imagesDigest);
+      if(old&&old.captures.every(name=>fs.existsSync(path.join(out,name)))){frames.push(old);continue;}
       const page=await browser.newPage({viewport:{width,height:1000}});
       page.on('pageerror',e=>errors.push(e.message));
       await page.addInitScript(fixture=>{window.editorialTeaching=fixture;},{solution,lectures,dark,narrow:false});
@@ -30,6 +37,7 @@ try {
       assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false,entry.pid+' overflow '+width);
       const key=`${entry.pid}-${entry.method}-${variant}-${width}`;
       const images=page.locator('main .reading-image-open');
+      assert.ok(await images.count()>=expectedFigures,entry.pid+' did not render its problem diagram');
       const captures=[];
       for(let i=0;i<await images.count();i++) {
         const img=images.nth(i);await img.scrollIntoViewIfNeeded();
@@ -43,7 +51,7 @@ try {
       assert.ok((await disclosure.innerText()).length>120);
       await disclosure.locator('summary').click();
       await page.screenshot({path:path.join(out,key+'.png'),fullPage:true});
-      frames.push({pid:entry.pid,method:entry.method,variant,width,dark,markdownSha256:createHash('sha256').update(solution.markdown).digest('hex'),captures:[key+'.png',...captures]});
+      frames.push({pid:entry.pid,method:entry.method,variant,width,dark,markdownSha256:digest,imagesSha256:imagesDigest,captures:[key+'.png',...captures]});
       await page.close();
       if(frames.length%24===0)console.log(JSON.stringify({rendered:frames.length,total:authored.length*6}));
     }

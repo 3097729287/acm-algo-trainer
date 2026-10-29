@@ -8,6 +8,8 @@ from decimal import Decimal, ROUND_HALF_UP
 
 
 def cases_for(pid):
+    from core7_cases_simulation import IDS,cases_for as simulation_cases
+    if pid in IDS:return simulation_cases(pid)
     rng = random.Random(20261030)
     values = []
     def put(inp, expected):
@@ -83,7 +85,7 @@ def cases_for(pid):
         for n in [0,10,-380,1000,-1000,-1000000000,1000000000]+[rng.randrange(-10**9,10**9+1) for _ in range(200)]:
             put(n,(-1 if n<0 else 1)*int(str(abs(n))[::-1]))
     elif pid == 'P1422':
-        for n in [1,149,150,151,399,400,401,10000]+[rng.randrange(1,10001) for _ in range(200)]:
+        for n in [1,149,150,151,399,400,401,10000]+list(range(500,10000,1000))+[rng.randrange(1,10001) for _ in range(200)]:
             units=[Decimal('0.4463') if i<=150 else Decimal('0.4663') if i<=400 else Decimal('0.5663') for i in range(1,n+1)]
             expected=sum(units,Decimal()).quantize(Decimal('.1'),rounding=ROUND_HALF_UP)
             put(n,str(expected))
@@ -115,9 +117,16 @@ def cases_for(pid):
     elif pid == 'P5712':
         for n in range(101):put(n,f'Today, I ate {n} apple'+('s' if n>1 else '')+'.')
     elif pid == 'P5714':
-        for m,h in [(40,2),(41.625,1.5),(54,1.5),(120,1.4)]+[(rng.randrange(40000,120001)/1000,rng.randrange(1400,2001)/1000) for _ in range(200)]:
-            b=m/h**2
-            put(f'{m} {h}', 'Underweight' if b<18.5 else 'Normal' if b<24 else format(b,'.6g')+'\nOverweight')
+        pairs=[(40000,2000),(41625,1500),(54000,1500),(120000,1400)]
+        for h in range(1400,2001):
+            for threshold in [Fraction(37,2),Fraction(24)]:
+                exact=threshold*h*h/1000
+                if exact.denominator==1 and 40000<=exact<=120000:
+                    pairs += [(int(exact)+delta,h) for delta in [-1,0,1] if 40000<=int(exact)+delta<=120000]
+        pairs += [(rng.randrange(40000,120001),rng.randrange(1400,2001)) for _ in range(200)]
+        for M,H in pairs:
+            b=Fraction(1000*M,H*H)
+            put(f'{M/1000:.3f} {H/1000:.3f}', 'Underweight' if b<Fraction(37,2) else 'Normal' if b<24 else format(float(b),'.6g')+'\nOverweight')
     elif pid in ['P5716','P5737']:
         def leap(y):
             # Gregorian 400-year cycle: divisible by four except 100,200,300.
