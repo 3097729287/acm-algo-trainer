@@ -9,7 +9,7 @@ HTTP caller opts in to a smaller list response after reading the normal view.
 # tooltips, while omitting the much larger algorithm-analysis derivations.
 ROW_FIELDS = frozenset('''
     id aliasIds title name contest problem platform series url source status date queue
-    tags knowledge knowledgeCategories difficulty difficultySource difficultyBand
+    tags knowledge knowledgeCategories knowledgeReviewRequired difficulty difficultySource difficultyBand
     difficultyConfidence difficultyEvidence difficultyEstimated nativeDifficulty nativeDifficultyLabel problemKind schoolTraining labTopic
     solutionAvailable solutionState detailedSolutionAvailable statementAvailable
     catalogHidden catalogNotice catalogVisibilityPolicy catalogContentReady

@@ -38,6 +38,17 @@ html .topbar {display:flex;align-items:center;gap:12px;padding:6px 12px;min-heig
 .competition-view-toggle {display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;color:var(--muted)}
 .competition-view-toggle:hover,.competition-view-toggle[aria-pressed=true] {color:var(--accent);background:var(--accent-soft)}
 html .topbar-search-slot {flex:1 1 240px;min-width:70px;max-width:none}
+html .topbar>.next-actions {flex:0 1 280px;min-width:140px;max-width:320px;margin-left:auto}
+@media(max-width:650px) {
+ html .topbar:has(>.next-actions) {flex-wrap:wrap}
+ html .topbar:has(>.next-actions)>.topbar-search-slot {order:0;flex:1 1 140px}
+ html .topbar>.next-actions {order:1;flex:1 1 170px;max-width:none;margin-left:0}
+ html .topbar:has(>.next-actions)>.topbar-actions {order:2;flex:1 1 100%;justify-content:flex-end;flex-wrap:wrap}
+}
+@media(max-width:480px) {
+ html .topbar:has(>.next-actions)>.topbar-search-slot {order:1;flex-basis:100%}
+ html .topbar>.next-actions {order:0;flex-basis:100%}
+}
 .page-search-controls {display:flex;align-items:center;gap:8px;min-width:0;width:100%}
 .page-search-controls .search-box {display:flex;flex:1;gap:8px;align-items:center;min-width:0;padding:7px 12px;border:0;background:color-mix(in srgb,var(--text) 5%,transparent);border-radius:9px;color:var(--muted);min-height:40px}
 .page-search-controls .search-box input {min-width:0;width:100%;border:0;background:transparent;box-shadow:none;padding:2px;color:var(--text)}

@@ -5,7 +5,7 @@ import {createServer} from 'vite';
 import {openSettings} from './settings-navigation.mjs';
 import {availablePages} from '../src/lib/navigationVisibility.js';
 
-const vite=await createServer({server:{host:'127.0.0.1',port:0,watch:null}});await vite.listen();
+const vite=await createServer({server:{host:'127.0.0.1',port:0,watch:null},plugins:[{name:'isolated-navigation-api',configureServer(server){server.middlewares.use((request,response,next)=>{if(!request.url?.startsWith('/api/'))return next();response.writeHead(410,{'Content-Type':'application/json'});response.end(JSON.stringify({error:'Isolated navigation fixture; live API disabled'}));});}}]});await vite.listen();
 const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
 const page=await browser.newPage({viewport:{width:1440,height:960}});page.setDefaultTimeout(12000);
 const errors=[],unknown=[];page.on('pageerror',error=>errors.push(error.message));
@@ -13,7 +13,7 @@ await page.addInitScript(()=>{window.__tbNewAccount=new URL(location.href).searc
 const owner='c3e5d799-502a-4b4f-a864-a342f7db419e',now=new Date().toISOString();
 let level=1,revision=0,draft='',sampleRequested=false,officialRequested=false,preferences={theme:'dark',accent:'teal',fontSize:15,onboardingGuideVersion:2,onboardingCompleted:true,onboardingUnlockedPages:availablePages(11),levelNoticeVersion:1,levelNoticeSeen:100,levelNoticePending:0};
 let preferenceSaveFailures=0,preferenceSaveAttempts=0;
-const rows=['A','B','C'].map((letter,index)=>({id:'fixture::'+letter,title:index?'基础练习 '+letter:'实际基础练习',contest:'测试题单',problem:letter,platform:'Codeforces',url:'https://codeforces.com/contest/1/problem/'+letter,difficulty:1000,tags:['输入输出','排序'],knowledge:'输入输出',catalogContentReady:true,solutionAvailable:true}));
+const rows=['A','B','C'].map((letter,index)=>({id:'fixture::'+letter,title:index?'基础练习 '+letter:'实际基础练习',contest:'测试题单',problem:letter,platform:'Codeforces',url:'https://codeforces.com/contest/1/problem/'+letter,difficulty:1000,difficultySource:'Codeforces 官方评分（隔离夹具）',difficultyConfidence:'HIGH',difficultyEstimated:false,tags:['输入输出','排序'],knowledge:'输入输出',catalogContentReady:true,solutionAvailable:true}));
 const lists=[{id:'fixture-basic',title:'顺序结构',available:true,categories:[],problems:rows.map(row=>({problemId:row.id,url:row.url}))}];
 const workspace={training:[],sets:[],contests:[],activeContest:null,summary:{total:0,accepted:0,attempts:0,due:0,pending:0,todayAccepted:0},now};
 await page.route('**/api/**',async route=>{
@@ -48,10 +48,15 @@ await page.route('**/api/**',async route=>{
  else {unknown.push(path);value={};}
  await route.fulfill({json:value});
 });
-const load=async (next,newAccount=false)=>{level=next;await page.goto(`http://127.0.0.1:${vite.httpServer.address().port}${newAccount?'?newAccount=1':''}`);await page.locator('.sidebar nav').waitFor();await page.locator(newAccount?'.training-list-content':'.next-actions').waitFor();};
+const load=async (next,newAccount=false)=>{level=next;await page.goto(`http://127.0.0.1:${vite.httpServer.address().port}${newAccount?'?newAccount=1':''}`);await page.locator('.sidebar nav').waitFor();await page.waitForFunction(value=>document.querySelector('.profile-level-number')?.textContent===String(value),next);await page.getByRole('navigation',{name:'主导航'}).getByRole('button',{name:next>=5?'成长与能力':next>=4?'算法实验室':next>=3?'模拟赛':next>=2?'排行榜':'题单',exact:true}).waitFor();await page.locator(newAccount?'.training-list-content':'.next-actions').waitFor();};
 const nav=()=>page.getByRole('navigation',{name:'主导航'});
 try{
  await load(1);
+ assert.equal(await page.locator('.topbar > .next-actions').count(),1,'the next task occupies the shared top bar');
+ assert.equal(await page.locator('.workspace-area .next-actions').count(),0,'recommendations do not consume training list space');
+ await page.locator('.next-actions').hover();await page.locator('.next-actions-popover').waitFor();
+ assert.match(await page.locator('.next-actions-reason').textContent(),/证据|独立|基础/);
+ await page.keyboard.press('Escape');assert.equal(await page.locator('.next-actions-popover').count(),0);
  assert.deepEqual(await nav().getByRole('button').allTextContents(),['我的训练','题单','提交记录']);
  assert.equal(await page.getByRole('button',{name:'比赛日历',exact:true}).count(),0);
  assert.equal(await page.locator('[data-recommendation="course"]').count(),0);
@@ -73,7 +78,7 @@ try{
  assert.equal(await page.locator('.tour-guide-grid').getByRole('button',{name:'模拟赛',exact:true}).count(),0);
  assert.equal(await page.locator('.tour-guide-grid').getByRole('button',{name:'题单',exact:true}).count(),1);
  await load(3);assert.equal(await nav().getByRole('button',{name:'模板',exact:true}).count(),0);assert.equal(await nav().getByRole('button',{name:'模拟赛',exact:true}).count(),1);
- await load(4);await page.locator('[data-recommendation="course"]').getByRole('button').click();await page.locator('.algorithm-lab').waitFor();assert.match(await page.locator('.lab-course-header h1').textContent(),/排序基础/);await page.getByRole('button',{name:'返回算法实验室',exact:true}).click();
+ await load(4);await nav().getByRole('button',{name:'算法实验室',exact:true}).click();await page.getByRole('button',{name:'打开算法 排序基础',exact:true}).click();assert.match(await page.locator('.lab-course-header h1').textContent(),/排序基础/);await page.getByRole('button',{name:'返回算法实验室',exact:true}).click();
  await load(11);assert.equal(await nav().getByRole('button').count(),12);
  await openSettings(page,'交互与导航');
  assert(await page.getByRole('button',{name:'隐藏 我的训练',exact:true}).isDisabled());
@@ -111,6 +116,14 @@ try{
  await page.emulateMedia({reducedMotion:'reduce'});await page.waitForTimeout(100);
  const animation=await page.locator('.settings-home-grid').evaluate(node=>node.getAnimations({subtree:true}).filter(animation=>animation.playState==='running').length);
  assert.equal(animation,0,'OS reduced motion disables home animations');
+ for(const theme of ['dark','light'])for(const fontSize of [15,22])for(const width of [2048,1294,960,430]){
+  preferences={...preferences,theme,fontSize};await page.setViewportSize({width,height:850});await load(11);
+  const recommendation=page.locator('.topbar > .next-actions');await recommendation.hover();await page.locator('.next-actions-popover').waitFor();
+  const geometry=await page.locator('.next-actions-popover').evaluate(node=>{const r=node.getBoundingClientRect(),header=document.querySelector('.topbar');return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:innerWidth,height:innerHeight,headerOverflow:header.scrollWidth>header.clientWidth+1};});
+  assert(geometry.left>=0&&geometry.right<=geometry.width+1&&geometry.top>=0&&geometry.bottom<=geometry.height+1,JSON.stringify(geometry));
+  assert.equal(geometry.headerOverflow,false,`topbar remains usable at ${width}px / ${fontSize}px / ${theme}`);
+  await page.screenshot({path:`tests/screenshots/navigation-learning/next-${theme}-${width}-${fontSize}.png`,animations:'disabled'});await page.keyboard.press('Escape');
+ }
  // Newly unlocked guides become available without interrupting with a tour.
  await page.waitForTimeout(800);
  preferences={theme:'dark',onboardingGuideVersion:2,onboardingCompleted:true,onboardingUnlockedPages:availablePages(1),levelNoticeVersion:1,levelNoticeSeen:2,levelNoticePending:0};

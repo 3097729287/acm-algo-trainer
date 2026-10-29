@@ -135,6 +135,7 @@ jobs:
       - run: node tests/mock-layout.mjs
       - run: node tests/training-overview.mjs
       - run: node tests/navigation-learning.mjs
+      - run: node tests/next-actions.mjs
       - run: TB_REAL_FOCUS=1 xvfb-run -a node tests/level-up.mjs
       - run: node tests/ability-evidence.mjs
       - run: node tests/lifecycle-layout.mjs

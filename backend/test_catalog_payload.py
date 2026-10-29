@@ -17,7 +17,7 @@ def fixture():
         {'id':'Div.2 1127::C','title':'Lavencia Oranges','contest':'Div.2 1127','problem':'C',
          'platform':'Codeforces','series':'Div.2','url':'https://codeforces.com/contest/2274/problem/C',
          'source':'archive','status':'未做','date':'','queue':None,'tags':['二分答案','构造'],
-         'knowledge':'二分答案 + 构造','knowledgeCategories':['思维与策略'],'difficulty':None,
+         'knowledge':'二分答案 + 构造','knowledgeCategories':['思维与策略'],'knowledgeReviewRequired':True,'difficulty':None,
          'difficultySource':'Codeforces 官方尚未评级','difficultyEstimated':False,'difficultyConfidence':'UNKNOWN',
          'difficultyEvidence':['https://codeforces.com/api/problemset.problems'], 'difficultyBand':None,
          'solutionAvailable':True,'solutionState':'available','contestDate':'2026-10-11T18:35:00Z',
@@ -28,7 +28,7 @@ def fixture():
          'sourceTags':['binary search'],'originalTitle':'Lavencia Oranges','metadataVersion':'1.0.20'},
         {'id':'gym::A','title':'XCPC fixture','contest':'ICPC 2026 南京区域赛','problem':'A','platform':'Codeforces',
          'series':'XCPC','source':'xcpc-codeforces','url':'https://codeforces.com/gym/100000/problem/A',
-         'status':'未做','date':'','tags':[],'knowledge':'','knowledgeCategories':['图论'],'difficulty':1800,
+         'status':'未做','date':'','tags':[],'knowledge':'','knowledgeCategories':['图论'],'knowledgeReviewRequired':False,'difficulty':1800,
          'difficultyEstimated':True,'difficultyBand':[1600,2100],'difficultyConfidence':'LOW',
          'difficultySource':'训练参考估算','difficultyEvidence':['published public evidence'],
          'xcpcYear':2026,'eventYear':2026,'xcpcKind':'区域赛','xcpcPlace':'南京','contestVariant':'Gym 100000',
@@ -51,7 +51,7 @@ class CataloguePayloadTests(unittest.TestCase):
         self.assertEqual(original,before)
         self.assertEqual([row['id'] for row in compact['rows']],[row['id'] for row in original['rows']])
         for old,new in zip(original['rows'],compact['rows']):
-            for key in ('id','title','url','contest','problem','tags','knowledge','knowledgeCategories','difficulty',
+            for key in ('id','title','url','contest','problem','tags','knowledge','knowledgeCategories','knowledgeReviewRequired','difficulty',
                         'difficultySource','difficultyBand','difficultyConfidence','difficultyEvidence','difficultyEstimated',
                         'catalogHidden','catalogNotice','contestDate','startedAt','endedAt','contestDatePrecision',
                         'eventYear','xcpcYear','xcpcKind','examYear','examStage','contestVariant','contestProblemCount',

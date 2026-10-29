@@ -1083,7 +1083,8 @@ export default function App() {
   const templateFocus=page==='templates'&&templateActive&&!practiceId;
   const labFocus=page==='paths'&&Boolean(prefs.learningPaths?.activePath)&&!practiceId;
   const mockFocus = page === "mock" && active && mockTab === "create" && !record && !practiceId;
-  const levelNoticeBlocked=Boolean(loading||busy||practiceId||active||workspace.summary?.pending||dialog||tourOpen||labFocus||templateFocus||lectureFull||readerFull);
+  const [recommendationOpen,setRecommendationOpen]=useState(false);
+  const levelNoticeBlocked=Boolean(loading||busy||practiceId||active||workspace.summary?.pending||dialog||tourOpen||recommendationOpen||labFocus||templateFocus||lectureFull||readerFull);
   const levelUp=useLevelUp({owner:account?.userId,growth:insights?.growth,preferences:prefs,preferencesReady:preferencesLoaded.current&&!loading,setPreferences:setPrefs,blocked:levelNoticeBlocked});
   const levelFeedbackVisible=!levelNoticeBlocked&&!levelUp.dialog&&!document.hidden&&document.hasFocus();
   useEffect(()=>{if(!levelFeedbackVisible||!levelUp.feedback.length)return;const timer=setTimeout(levelUp.clearFeedback,1400);return()=>clearTimeout(timer);},[levelFeedbackVisible,levelUp.feedback,levelUp.clearFeedback]);
@@ -1119,7 +1120,8 @@ export default function App() {
     if(item.kind==='course'){
       labVisit.current.leftAt=Date.now();labVisit.current.scrollTop=0;
       setPrefs(previous=>({...previous,learningPaths:{...previous.learningPaths,activePath:item.id,[item.id]:previous.learningPaths?.[item.id]||{mode:'learn'}}}));
-    } else if(item.kind==='template')Object.assign(templatesVisit.current,{selected:item.id,draft:null});
+    } else if(item.kind==='contest'||item.kind==='mixed'){setMockTab('create');setRecord(null);}
+    else if(item.kind==='template')Object.assign(templatesVisit.current,{selected:item.id,draft:null});
     else if(item.kind==='list')Object.assign(trainingListsVisit.current,{scrollTop:0,state:{curriculumVersion:1,mode:'algorithm',trail:[item.id],folder:[],sections:[],flat:false,query:'',page:1}});
     go(item.page);
   }
@@ -1952,6 +1954,7 @@ export default function App() {
         <header className={"topbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}>
           <div id="tb-page-location" className="page-location-slot"/>
           <div id="tb-page-search" className="topbar-search-slot"/>
+          {account?.userId&&!practiceId&&!mockFocus&&<NextActions key={account.userId} rows={rows} training={mine} reviewPlan={workspace.reviews} insights={insights} prefs={prefs} api={api} availablePages={visiblePageIds} activeContest={active} onNavigate={openRecommendation} onTrain={openPractice} onOpenChange={setRecommendationOpen} suspended={Boolean(dialog||tourOpen||levelUp.dialog)}/>}
           <div className="topbar-actions">
             <PracticeStreak days={summary.streak || 0} completedToday={Number(todayAc)>0}/>{window.__tbAdmin&&<span className="admin-workspace-label">管理员</span>}<div className="topbar-titles"><TitleMedals titles={insights?.equippedTitles || growth?.equippedTitles || []} /></div>
             {active && page !== "mock" && (
@@ -2009,7 +2012,7 @@ export default function App() {
               onNext={nextPractice}
             />
           ) : ["mine", "library"].includes(page) ? (
-            page === "mine" ? <div className="training-workspace">{account?.userId&&<NextActions rows={rows} training={mine} insights={insights} prefs={prefs} api={api} availablePages={visiblePageIds} activeContest={active} onNavigate={openRecommendation} onTrain={openPractice}/>}{renderListPage()}</div> : renderListPage()
+            renderListPage()
           ) : page === "mock" ? (
             <div className="mock-page">{record ? recordDetail() : <>{active && mockTab === "create" ? (
               <div className="contest-player">
