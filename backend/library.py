@@ -160,7 +160,7 @@ class LibraryDatabase:
                     elif table == 'statements':
                         # Add a prebuilt translation to an identical fetched
                         # original without replacing local statement metadata.
-                        from translation import bundled_translation
+                        from translation import bundled_translation,validate_translation,TranslationIncomplete
                         incoming=bundled_translation(json.loads(row['content']))
                         saved=json.loads(current['content'])
                         translated=saved.get('translation')
@@ -168,10 +168,15 @@ class LibraryDatabase:
                         candidate=json.loads(row['content'])
                         site=candidate.get('translation') or {}
                         if (site.get('kind')=='site' and site.get('defaultLanguage')=='zh-CN'
-                                and original==candidate.get('markdown') and isinstance(translated,dict)
-                                and translated.get('kind')=='site' and translated.get('markdown')==site.get('markdown')):
-                            saved['translation']=dict(translated,defaultLanguage='zh-CN')
-                            db.execute('UPDATE statements SET content=? WHERE problem_id=?', (json.dumps(saved,ensure_ascii=False),identity))
+                                and saved.get('url')==candidate.get('url') and isinstance(translated,dict)
+                                and translated.get('kind')=='site'):
+                            # A language preference must also reach older cached
+                            # titles/layouts. Keep both locally stored bodies.
+                            try:validate_translation(original,translated.get('markdown') or '')
+                            except TranslationIncomplete:pass
+                            else:
+                                saved['translation']=dict(translated,defaultLanguage='zh-CN')
+                                db.execute('UPDATE statements SET content=? WHERE problem_id=?', (json.dumps(saved,ensure_ascii=False),identity))
                         if (incoming and hashlib.sha256(original.encode()).hexdigest()==incoming['sourceHash']
                                 and (not translated or isinstance(translated,dict) and translated.get('kind')=='bundled')):
                             saved['translation']=incoming

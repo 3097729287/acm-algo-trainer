@@ -48,8 +48,13 @@ class BundledTranslationTests(unittest.TestCase):
             self.assertEqual(live.statement('fixture')['translation']['defaultLanguage'],'zh-CN')
             self.assertEqual(live.statement('fixture')['fetchedAt'],'site-cache')
             edited=dict(site,markdown=CHINESE+' local edit')
-            live.save_statement('fixture',dict(statement(),translation=edited))
+            live.save_statement('fixture',dict(statement(SOURCE.replace('Train Car','[old title] Train Car')),translation=edited))
             live.merge_seed(seed.path,fingerprint='keep-local-site-edit')
+            self.assertEqual(live.statement('fixture')['translation']['defaultLanguage'],'zh-CN')
+            self.assertEqual(live.statement('fixture')['translation']['markdown'],edited['markdown'])
+            self.assertIn('[old title]',live.statement('fixture')['markdown'])
+            live.save_statement('fixture',dict(statement(),translation=dict(site,markdown=SOURCE)))
+            live.merge_seed(seed.path,fingerprint='reject-untranslated-site-text')
             self.assertNotIn('defaultLanguage',live.statement('fixture')['translation'])
 
     def test_spaced_inline_math_never_masks_english_between_normal_inline_variables(self):

@@ -8,7 +8,7 @@
 
 补写的八题为 SP17247、SP1684、SP30906、SP32079、UVA1210、UVA1390、UVA1303、UVA1395。来源记录在每题 `translationSources`：原 [SPOJ](https://www.spoj.com/problems/ADAUNIQ/) 与 [UVa PDF](https://onlinejudge.org/external/13/1395.pdf)，以及对应洛谷镜像。约束缺损按原站补齐，保留样例及图形；ADAUNIQ 的 unique 按官方样例核对为“恰好出现一次”。JOIOJI 的来源为 [JOI 官方题面](https://www2.ioi-jp.org/camp/2014/2014-sp-tasks/2014-sp-d3.pdf)，保留子任务和三组样例。Dungeon Explore 保留交互规则及输出刷新要求。
 
-`translation.defaultLanguage` 仅对本批明确选定的题面设置为 `zh-CN`。原文切换、主动选择与迟到请求隔离继续生效；不触发在线翻译或发送个人代码。捆绑译文继续验证原文摘要、公式、数字和代码；已有原站译文的默认语言只在原文和译文均相同时合并，不覆盖本机编辑。
+`translation.defaultLanguage` 仅对本批明确选定的题面设置为 `zh-CN`。原文切换、主动选择与迟到请求隔离继续生效；不触发在线翻译或发送个人代码。捆绑译文继续验证原文摘要、公式、数字和代码；已有原站译文在同一原题 URL 且中文完整性检查通过时，仅合并默认语言，不覆盖本机原文或译文，兼容旧标题与空行差异。
 
 验证范围包括完整后端检查、前端构建、语言切换与后台题面测试；另外逐题检查范围、中文完整性和捆绑公式保护，独立核对 ADAUNIQ、ADAGF、JOIOJI 样例以及 Slim Span 的九组样例。冻结程序新状态及旧状态副本升级检查使用临时目录；真实原站提交数为零。
 
