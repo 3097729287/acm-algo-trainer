@@ -9,6 +9,7 @@ import time
 from urllib.parse import urlencode
 from urllib.request import urlopen
 from core7_authoring import OUT
+from core7_deliver import delivery_folder
 
 def junction(link,target):
     if link.exists():return
@@ -18,8 +19,8 @@ def junction(link,target):
 
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--target',type=Path,required=True);args=parser.parse_args()
-    target=args.target.resolve();stage=OUT/'delivery'/target.name/'library.sqlite3'
-    assert stage.is_file();folder=OUT/'frozen'/target.name;folder.mkdir(parents=True,exist_ok=True)
+    target=args.target.resolve();stage=delivery_folder(target)/'library.sqlite3'
+    assert stage.is_file();folder=OUT/'frozen'/delivery_folder(target).parent.name/target.name;folder.mkdir(parents=True,exist_ok=True)
     binary='ToBe.exe' if (target/'ToBe.exe').exists() else 'ToBe管理员版.exe'
     for name in [binary,'VERSION','BUILD-INFO.json','SOURCE-MANIFEST.json']:
         shutil.copy2(target/name,folder/name)

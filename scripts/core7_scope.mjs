@@ -16,6 +16,8 @@ const units=buildTrainingCurriculum(filterTrainingListsScope(organizeTrainingLis
 const defaults=new Set(read(path.join(root,'data/library/solutions.json')).map(r=>r.problem_id));
 const detailed=new Set(read(path.join(root,'data/library/detailed_solutions.json')).map(r=>r.problem_id));
 const authored=read(path.join(out,'authored.json')),done=new Set(authored.map(r=>r.problemId));
+const notesPath=path.join(root,'data/core7-editorials/notes.json');
+const notes=fs.existsSync(notesPath)?read(notesPath):{};
 let scope=units.flatMap(l=>l.problems.map(p=>{
   const row=byId.get(p.problemId)||rows.find(r=>r.url===p.url);
   return {stage:l.topicPath[0],unit:l.title,id:row.id,title:row.title,url:row.url,difficulty:row.difficulty,knowledge:row.knowledge,
@@ -29,6 +31,7 @@ if(fs.existsSync(pinned)){
     return {...p,title:row.title,difficulty:row.difficulty,knowledge:row.knowledge,default:defaults.has(p.id),detailed:detailed.has(p.id),reviewed:done.has(p.id)};
   });
 }
+scope=scope.map(entry=>notes[entry.id]?{...entry,reviewNote:notes[entry.id]}:entry);
 fs.writeFileSync(path.join(out,'scope.json'),JSON.stringify(scope,null,2)+'\n');
 const report={scopeVersion:fs.existsSync(pinned)?'2026-10-30-screenshot-verified-610':'2026-10-30-runtime-curriculum',requestedStages:7,totalProblems:scope.length,
   authoredProblems:done.size,authoredMethods:authored.length,authoredArticles:authored.length*2,

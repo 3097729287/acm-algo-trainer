@@ -22,7 +22,7 @@ try {
     for(const entry of authored) for(const [variant,solution] of Object.entries(entry.variants)) {
       const digest=createHash('sha256').update(solution.markdown).digest('hex');
       const imagesDigest=createHash('sha256').update(JSON.stringify(solution.images)).digest('hex');
-      const expectedFigures=Object.keys(solution.images).filter(name=>name.startsWith('assets/core7/')).length;
+      const expectedFigures=Object.keys(solution.images).filter(name=>name.startsWith('assets/core7/')&&solution.markdown.includes(']('+name+')')).length;
       const old=previous.find(f=>f.pid===entry.pid&&f.method===entry.method&&f.variant===variant&&f.width===width&&f.dark===dark&&f.markdownSha256===digest&&f.imagesSha256===imagesDigest);
       if(old&&old.captures.every(name=>fs.existsSync(path.join(out,name)))){frames.push(old);continue;}
       const page=await browser.newPage({viewport:{width,height:1000}});

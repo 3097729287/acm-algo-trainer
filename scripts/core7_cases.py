@@ -8,6 +8,8 @@ from decimal import Decimal, ROUND_HALF_UP
 
 
 def cases_for(pid):
+    from core7_cases_greedy import IDS as greedy_ids,cases_for as greedy_cases
+    if pid in greedy_ids:return greedy_cases(pid)
     from core7_cases_simulation import IDS,cases_for as simulation_cases
     if pid in IDS:return simulation_cases(pid)
     rng = random.Random(20261030)

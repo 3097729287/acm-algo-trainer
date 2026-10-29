@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="485" viewBox="0 0 760 485" role="img" aria-labelledby="title"><title id="title">目标 4：保留 3，让剩余区间先得到 5</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">目标 4：保留 3，让剩余区间先得到 5</text>
+<text x="295" y="77" fill="#68778b" font-size="16" text-anchor="middle" font-weight="normal">0</text>
+<text x="390" y="77" fill="#68778b" font-size="16" text-anchor="middle" font-weight="normal">1</text>
+<text x="485" y="77" fill="#68778b" font-size="16" text-anchor="middle" font-weight="normal">2</text>
+<text x="580" y="77" fill="#68778b" font-size="16" text-anchor="middle" font-weight="normal">3</text>
+<text x="45" y="116" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">初始</text>
+<rect x="250" y="85" width="92" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="296.0" y="116.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="345" y="85" width="92" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="391.0" y="116.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="440" y="85" width="92" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="486.0" y="116.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="535" y="85" width="92" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="581.0" y="116.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">6</text>
+<text x="295" y="177" fill="#68778b" font-size="16" text-anchor="middle" font-weight="normal">0</text>
+<text x="390" y="177" fill="#68778b" font-size="16" text-anchor="middle" font-weight="normal">1</text>
+<text x="485" y="177" fill="#68778b" font-size="16" text-anchor="middle" font-weight="normal">2</text>
+<text x="45" y="216" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">选位置 1、3</text>
+<rect x="250" y="185" width="92" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="296.0" y="216.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="345" y="185" width="92" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="391.0" y="216.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="440" y="185" width="92" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="486.0" y="216.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<text x="295" y="277" fill="#68778b" font-size="16" text-anchor="middle" font-weight="normal">0</text>
+<text x="390" y="277" fill="#68778b" font-size="16" text-anchor="middle" font-weight="normal">1</text>
+<text x="45" y="316" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">选位置 1、2</text>
+<rect x="250" y="285" width="92" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="296.0" y="316.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="345" y="285" width="92" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="391.0" y="316.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<text x="295" y="377" fill="#68778b" font-size="16" text-anchor="middle" font-weight="normal">0</text>
+<text x="45" y="416" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">选位置 0、1</text>
+<rect x="250" y="385" width="92" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="296.0" y="416.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<text x="60" y="465" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">上方小字是当前下标；删掉数后必须重新编号</text>
+</g></svg>

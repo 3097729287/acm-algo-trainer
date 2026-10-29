@@ -2,12 +2,12 @@
   "scopeVersion": "2026-10-30-screenshot-verified-610",
   "requestedStages": 7,
   "totalProblems": 610,
-  "authoredProblems": 99,
-  "authoredMethods": 106,
-  "authoredArticles": 212,
-  "hasBothVariants": 106,
-  "missingVariants": 504,
-  "pendingStandardReview": 511,
+  "authoredProblems": 116,
+  "authoredMethods": 124,
+  "authoredArticles": 248,
+  "hasBothVariants": 123,
+  "missingVariants": 487,
+  "pendingStandardReview": 494,
   "complete": false,
   "stages": [
     {
@@ -18,7 +18,7 @@
     {
       "stage": "02 基础解题方法",
       "total": 108,
-      "reviewed": 30
+      "reviewed": 47
     },
     {
       "stage": "03 搜索与图",
@@ -1746,10 +1746,10 @@
       "unit": "贪心与构造",
       "title": "均分纸牌",
       "difficulty": 1200,
-      "knowledge": "模拟 + 贪心",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "模拟 + 贪心 + 前缀和",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1208",
@@ -1758,10 +1758,10 @@
       "unit": "贪心与构造",
       "title": "混合牛奶 Mixing Milk",
       "difficulty": 1200,
-      "knowledge": "贪心",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "贪心 + 排序",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1478",
@@ -1771,9 +1771,9 @@
       "title": "陶陶摘苹果（升级版）",
       "difficulty": 1200,
       "knowledge": "贪心 + 排序 + 背包 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2695",
@@ -1782,10 +1782,10 @@
       "unit": "贪心与构造",
       "title": "骑士的工作",
       "difficulty": 1200,
-      "knowledge": "贪心 + 排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "贪心 + 排序 + 双指针",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P4995",
@@ -1795,9 +1795,9 @@
       "title": "跳跳！",
       "difficulty": 1200,
       "knowledge": "贪心 + 排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P5639",
@@ -1807,9 +1807,9 @@
       "title": "守序者的尊严",
       "difficulty": 1200,
       "knowledge": "模拟 + 贪心",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-B3753",
@@ -1818,10 +1818,10 @@
       "unit": "贪心与构造",
       "title": "堆栈计算机",
       "difficulty": 1500,
-      "knowledge": "栈 + 构造",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "栈 + 构造 + 位运算",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1056",
@@ -1831,9 +1831,9 @@
       "title": "排座椅",
       "difficulty": 1500,
       "knowledge": "贪心 + 排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2431",
@@ -1842,10 +1842,10 @@
       "unit": "贪心与构造",
       "title": "正妹吃月饼",
       "difficulty": 1500,
-      "knowledge": "贪心",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "贪心 + 位运算",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2949",
@@ -1854,10 +1854,10 @@
       "unit": "贪心与构造",
       "title": "Work Scheduling G",
       "difficulty": 1500,
-      "knowledge": "贪心 + 递推 + 树状数组 + 离散化 + 堆 + 反悔贪心",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "贪心 + 递推 + 树状数组 + 离散化 + 堆 + 反悔贪心 + 排序",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P12041",
@@ -1867,9 +1867,9 @@
       "title": "图上交互题 2 / Constructive Minimum Mex Path",
       "difficulty": 1500,
       "knowledge": "图论 + 并查集 + 构造",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-AT_arc161_c",
@@ -1878,10 +1878,10 @@
       "unit": "贪心与构造",
       "title": "Dyed by Majority (Odd Tree)",
       "difficulty": 1800,
-      "knowledge": "构造",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "构造 + 贪心 + DFS",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-B4225",
@@ -1890,10 +1890,10 @@
       "unit": "贪心与构造",
       "title": "黑板",
       "difficulty": 1800,
-      "knowledge": "递归 + 构造",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "递归 + 构造 + 栈",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1650",
@@ -1902,10 +1902,10 @@
       "unit": "贪心与构造",
       "title": "田忌赛马",
       "difficulty": 1800,
-      "knowledge": "贪心 + 枚举 + 排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "贪心 + 枚举 + 排序 + 双指针",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1766",
@@ -1917,7 +1917,12 @@
       "knowledge": "贪心 + 枚举",
       "default": false,
       "detailed": false,
-      "reviewed": false
+      "reviewed": false,
+      "reviewNote": {
+        "status": "needs-semantic-review",
+        "reason": "题面允许相交轨道，尚需核对同高交点处同时命中的处理；本题仍未写入题解，不用仅按端点高度排序的模拟冒充完整解法。",
+        "source": "https://www.luogu.com.cn/problem/P1766"
+      }
     },
     {
       "id": "luogu-training-P6155",
@@ -1926,10 +1931,10 @@
       "unit": "贪心与构造",
       "title": "修改",
       "difficulty": 1800,
-      "knowledge": "贪心 + 并查集 + 栈",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "贪心 + 并查集 + 栈 + 排序",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P11036",
@@ -1938,10 +1943,10 @@
       "unit": "贪心与构造",
       "title": "GCD 与 LCM 问题",
       "difficulty": 1800,
-      "knowledge": "构造",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "构造 + 最大公约数 + 位运算",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P12676",
@@ -1950,10 +1955,10 @@
       "unit": "贪心与构造",
       "title": "相等排列（equal）",
       "difficulty": 1800,
-      "knowledge": "构造",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "构造 + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2345",

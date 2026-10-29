@@ -51,8 +51,11 @@ def load_all():
         import core7_stage01
         import core7_stage02
         import core7_stage02_simulation
+        import core7_stage02_greedy
         from core7_figures import attach_figures
         attach_figures(SPECS)
+        from core7_figures_greedy import attach_figures as greedy_figures
+        greedy_figures(SPECS)
         for spec in SPECS:
             spec.tags=['线性 DP' if tag=='DP' else tag for tag in spec.tags]
             if spec.pid=='P5732':spec.tags=['递推']
@@ -66,6 +69,9 @@ def load_all():
 def source_hash(text):
     return hashlib.sha256(text.encode('utf-8')).hexdigest()
 
+def display_id(pid):
+    return pid[3:].replace('_','').upper() if pid.startswith('AT_') else pid
+
 
 def lesson_data():
     from refresh_editorial_teaching import lesson_sources, inline_lesson
@@ -74,7 +80,8 @@ def lesson_data():
 
 
 def article(spec, title, url, detailed, sources, inline):
-    text = f'## {spec.pid}. {title}\n\n> 原题：[{spec.pid}]({url})\n> 解法：{spec.title} · C++17\n\n### 题意\n\n{spec.meaning}\n\n'
+    label=display_id(spec.pid)
+    text = f'## {label}. {title}\n\n> 原题：[{label}]({url})\n> 解法：{spec.title} · C++17\n\n### 题意\n\n{spec.meaning}\n\n'
     images = dict(spec.images)
     if spec.lessons:
         text += '<!-- reusable-foundations:start -->\n\n'
@@ -115,7 +122,7 @@ def generate():
             # Export self-contained reading files for the existing DSH checker.
             path = folder / (name + '.md')
             catalog = ' + '.join(spec.tags)
-            envelope = f'# {spec.pid} {spec.title} 题解\n\n## 目录\n\n| 题号 | 题名 | 考点 | 难度 |\n|---|---|---|---|\n| A | {entry["title"]} | {catalog} | {entry["difficulty"]} |\n\n'
+            envelope = f'# {display_id(spec.pid)} {spec.title} 题解\n\n## 目录\n\n| 题号 | 题名 | 考点 | 难度 |\n|---|---|---|---|\n| A | {entry["title"]} | {catalog} | {entry["difficulty"]} |\n\n'
             record=verified.get((spec.pid,spec.key))
             footer=''
             if record and record.get('passed') and record['programSha256']==source_hash(spec.code):

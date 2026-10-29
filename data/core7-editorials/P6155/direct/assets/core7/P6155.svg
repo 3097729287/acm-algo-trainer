@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="395" viewBox="0 0 760 395" role="img" aria-labelledby="title"><title id="title">同样占用槽 3、4、5，让增量集中在一个元素</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">同样占用槽 3、4、5，让增量集中在一个元素</text>
+<text x="180" y="80" fill="#243449" font-size="22" text-anchor="middle" font-weight="normal">先到者先放</text>
+<text x="550" y="80" fill="#243449" font-size="22" text-anchor="middle" font-weight="normal">后到者先放</text>
+<text x="70" y="136" fill="#243449" font-size="19" text-anchor="start" font-weight="normal">槽 3</text>
+<rect x="145" y="105" width="90" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="190.0" y="136.0" fill="#12805c" font-size="20" text-anchor="middle" font-weight="normal">原 3</text>
+<text x="260" y="136" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">增 0</text>
+<text x="70" y="201" fill="#243449" font-size="19" text-anchor="start" font-weight="normal">槽 4</text>
+<rect x="145" y="170" width="90" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="190.0" y="201.0" fill="#bc3645" font-size="20" text-anchor="middle" font-weight="normal">原 3</text>
+<text x="260" y="201" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">增 1</text>
+<text x="70" y="266" fill="#243449" font-size="19" text-anchor="start" font-weight="normal">槽 5</text>
+<rect x="145" y="235" width="90" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="190.0" y="266.0" fill="#bc3645" font-size="20" text-anchor="middle" font-weight="normal">原 4</text>
+<text x="260" y="266" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">增 1</text>
+<text x="440" y="136" fill="#243449" font-size="19" text-anchor="start" font-weight="normal">槽 3</text>
+<rect x="515" y="105" width="90" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="560.0" y="136.0" fill="#12805c" font-size="20" text-anchor="middle" font-weight="normal">原 3</text>
+<text x="630" y="136" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">增 0</text>
+<text x="440" y="201" fill="#243449" font-size="19" text-anchor="start" font-weight="normal">槽 4</text>
+<rect x="515" y="170" width="90" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="560.0" y="201.0" fill="#12805c" font-size="20" text-anchor="middle" font-weight="normal">原 4</text>
+<text x="630" y="201" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">增 0</text>
+<text x="440" y="266" fill="#243449" font-size="19" text-anchor="start" font-weight="normal">槽 5</text>
+<rect x="515" y="235" width="90" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="560.0" y="266.0" fill="#bc3645" font-size="20" text-anchor="middle" font-weight="normal">原 3</text>
+<text x="630" y="266" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">增 2</text>
+<text x="40" y="345" fill="#243449" font-size="17" text-anchor="start" font-weight="normal">增量 1、1、0 配费用 1、2、3：3</text>
+<text x="410" y="345" fill="#243449" font-size="17" text-anchor="start" font-weight="normal">增量 2、0、0 配费用 1、2、3：2</text>
+<text x="70" y="382" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">费用允许重排，大增量配小费用；两边最终数值相同</text>
+</g></svg>

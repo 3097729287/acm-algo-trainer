@@ -1,0 +1,7 @@
+{
+  "luogu-training-P1766": {
+    "status": "needs-semantic-review",
+    "reason": "题面允许相交轨道，尚需核对同高交点处同时命中的处理；本题仍未写入题解，不用仅按端点高度排序的模拟冒充完整解法。",
+    "source": "https://www.luogu.com.cn/problem/P1766"
+  }
+}
