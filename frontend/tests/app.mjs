@@ -319,7 +319,7 @@ try {
   }
   const previousDay=page.locator('.submission-day[data-day="2026-10-12"]:not([aria-hidden="true"])');
   assert.equal(await previousDay.count(),1,'the final page reaches the preceding training date');
-  assert.deepEqual(await previousDay.locator('.submission-record-meta').locator(':scope > :not([aria-hidden])').allTextContents(),['23:59','D','测试比赛']);
+  assert.deepEqual(await previousDay.locator('.submission-record-meta').locator(':scope > :not([aria-hidden])').allTextContents(),['23:59','AtCoder','D','测试比赛']);
   await page.getByRole('button',{name:'上一页提交',exact:true}).click();
   await page.waitForFunction(()=>document.querySelector('.submission-log')?.getAttribute('aria-busy')==='false');
   await page.screenshot({path:'tests/screenshots/submissions-by-day-light-2048.png',animations:'disabled'});
@@ -410,7 +410,9 @@ try {
   assert.equal(await page.locator('.settings-page .update-notifications').count(), 0);
   await page.getByRole('button', { name: '消息通知', exact: true }).click();
   await page.getByRole('dialog').getByText('新题已加入', { exact: true }).waitFor();
-  await page.waitForFunction(() => document.querySelector('.update-notification-heading button')?.disabled);
+  assert.equal(await page.getByRole('dialog',{name:'消息与更新',exact:true}).getByRole('button',{name:'全部已读',exact:true}).count(),1,'Message and update read-all share one header action');
+  assert.equal(await page.locator('.update-notification-heading button').count(),0,'The former duplicate update read-all action is removed');
+  await page.waitForFunction(() => document.querySelector('.messages-modal button[aria-label="全部已读"]')?.disabled);
   assert.ok(hub.notifications.every(item => item.read));
   assert.ok(writes.some(item=>item.path==='/api/hub/dismiss'&&item.body.id===notice.id),'opening notifications acknowledges the displayed message');
   await page.keyboard.press('Escape');
