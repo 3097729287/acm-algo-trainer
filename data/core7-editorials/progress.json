@@ -2,12 +2,12 @@
   "scopeVersion": "2026-10-30-screenshot-verified-610",
   "requestedStages": 7,
   "totalProblems": 610,
-  "authoredProblems": 116,
-  "authoredMethods": 124,
-  "authoredArticles": 248,
-  "hasBothVariants": 123,
-  "missingVariants": 487,
-  "pendingStandardReview": 494,
+  "authoredProblems": 134,
+  "authoredMethods": 143,
+  "authoredArticles": 286,
+  "hasBothVariants": 141,
+  "missingVariants": 469,
+  "pendingStandardReview": 476,
   "complete": false,
   "stages": [
     {
@@ -18,7 +18,7 @@
     {
       "stage": "02 基础解题方法",
       "total": 108,
-      "reviewed": 47
+      "reviewed": 65
     },
     {
       "stage": "03 搜索与图",
@@ -1967,10 +1967,10 @@
       "unit": "递推、递归与分治",
       "title": "MooFest G",
       "difficulty": 900,
-      "knowledge": "模拟 + 枚举",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "模拟 + 枚举 + 排序 + 树状数组",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1002",
@@ -1979,10 +1979,10 @@
       "unit": "递推、递归与分治",
       "title": "过河卒",
       "difficulty": 1200,
-      "knowledge": "递推 + 记忆化搜索",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "递推 + 记忆化搜索 + 线性 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1010",
@@ -1991,10 +1991,10 @@
       "unit": "递推、递归与分治",
       "title": "幂次方",
       "difficulty": 1200,
-      "knowledge": "递归 + 分治",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "递归 + 分治 + 位运算",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1044",
@@ -2003,10 +2003,10 @@
       "unit": "递推、递归与分治",
       "title": "栈",
       "difficulty": 1200,
-      "knowledge": "递推 + 栈",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "递推 + 栈 + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1226",
@@ -2015,10 +2015,10 @@
       "unit": "递推、递归与分治",
       "title": "快速幂",
       "difficulty": 1200,
-      "knowledge": "递推 + 递归 + 分治 + 位运算",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "递推 + 递归 + 分治 + 位运算 + 快速幂",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1257",
@@ -2027,10 +2027,10 @@
       "unit": "递推、递归与分治",
       "title": "平面上的最接近点对",
       "difficulty": 1200,
-      "knowledge": "枚举",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "枚举 + 分治 + 计算几何 + 排序",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1464",
@@ -2040,9 +2040,9 @@
       "title": "Function",
       "difficulty": 1200,
       "knowledge": "递归 + 记忆化搜索",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2437",
@@ -2052,9 +2052,9 @@
       "title": "蜜蜂路线",
       "difficulty": 1200,
       "knowledge": "高精度 + 递推",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF873B",
@@ -2064,9 +2064,9 @@
       "title": "Balanced Substring",
       "difficulty": 1500,
       "knowledge": "前缀和 + 模拟",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1228",
@@ -2075,10 +2075,10 @@
       "unit": "递推、递归与分治",
       "title": "地毯填补问题",
       "difficulty": 1500,
-      "knowledge": "递归 + 分治",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "递归 + 分治 + 构造",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1498",
@@ -2087,10 +2087,10 @@
       "unit": "递推、递归与分治",
       "title": "南蛮图腾",
       "difficulty": 1500,
-      "knowledge": "递归 + 分治",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "递归 + 分治 + 模拟",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1908",
@@ -2100,9 +2100,9 @@
       "title": "逆序对",
       "difficulty": 1500,
       "knowledge": "线段树 + 树状数组 + 递归 + 离散化 + 分治 + 排序 + 扫描线",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1928",
@@ -2112,9 +2112,9 @@
       "title": "外星密码",
       "difficulty": 1500,
       "knowledge": "模拟 + 递归 + 分治",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-AT_agc005_b",
@@ -2123,10 +2123,10 @@
       "unit": "递推、递归与分治",
       "title": "Minimum Sum",
       "difficulty": 1800,
-      "knowledge": "线段树 + 枚举 + 分治 + ST 表 + 单调栈",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "线段树 + 枚举 + 分治 + ST 表 + 单调栈 + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-AT_joisc2014_h",
@@ -2136,9 +2136,9 @@
       "title": "JOIOJI",
       "difficulty": 1800,
       "knowledge": "前缀和",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2717",
@@ -2147,10 +2147,10 @@
       "unit": "递推、递归与分治",
       "title": "寒假作业",
       "difficulty": 1800,
-      "knowledge": "树状数组 + CDQ 分治",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "树状数组 + CDQ 分治 + 前缀和 + 离散化",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P7167",
@@ -2160,9 +2160,9 @@
       "title": "Fountain (Day1)",
       "difficulty": 1800,
       "knowledge": "倍增 + ST 表 + 单调栈",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-SP32079",
@@ -2171,10 +2171,10 @@
       "unit": "递推、递归与分治",
       "title": "ADAGF - Ada and Greenflies",
       "difficulty": 1800,
-      "knowledge": "二分查找 + CDQ 分治 + 分治 + 最大公约数",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "二分查找 + CDQ 分治 + 分治 + 最大公约数 + 递推",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-AT_arc001_2",

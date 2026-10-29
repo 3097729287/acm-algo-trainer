@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="425" viewBox="0 0 760 425" role="img" aria-labelledby="title"><title id="title">四乘四棋盘：先盖中心三格，四个象限各缺一格</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">四乘四棋盘：先盖中心三格，四个象限各缺一格</text>
+<rect x="190" y="75" width="62" height="62" rx="7" fill="#ffeef0" stroke="#bc3645" stroke-width="2"/>
+<text x="221.0" y="113.0" fill="#bc3645" font-size="19" text-anchor="middle" font-weight="normal">公主</text>
+<rect x="255" y="75" width="62" height="62" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="286.0" y="113.0" fill="#68778b" font-size="19" text-anchor="middle" font-weight="normal"></text>
+<rect x="320" y="75" width="62" height="62" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="351.0" y="113.0" fill="#68778b" font-size="19" text-anchor="middle" font-weight="normal"></text>
+<rect x="385" y="75" width="62" height="62" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="416.0" y="113.0" fill="#68778b" font-size="19" text-anchor="middle" font-weight="normal"></text>
+<rect x="190" y="140" width="62" height="62" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="221.0" y="178.0" fill="#68778b" font-size="19" text-anchor="middle" font-weight="normal"></text>
+<rect x="255" y="140" width="62" height="62" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="286.0" y="178.0" fill="#68778b" font-size="19" text-anchor="middle" font-weight="normal"></text>
+<rect x="320" y="140" width="62" height="62" rx="7" fill="#e4f5eb" stroke="#12805c" stroke-width="2"/>
+<text x="351.0" y="178.0" fill="#12805c" font-size="19" text-anchor="middle" font-weight="normal">中</text>
+<rect x="385" y="140" width="62" height="62" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="416.0" y="178.0" fill="#68778b" font-size="19" text-anchor="middle" font-weight="normal"></text>
+<rect x="190" y="205" width="62" height="62" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="221.0" y="243.0" fill="#68778b" font-size="19" text-anchor="middle" font-weight="normal"></text>
+<rect x="255" y="205" width="62" height="62" rx="7" fill="#e4f5eb" stroke="#12805c" stroke-width="2"/>
+<text x="286.0" y="243.0" fill="#12805c" font-size="19" text-anchor="middle" font-weight="normal">中</text>
+<rect x="320" y="205" width="62" height="62" rx="7" fill="#e4f5eb" stroke="#12805c" stroke-width="2"/>
+<text x="351.0" y="243.0" fill="#12805c" font-size="19" text-anchor="middle" font-weight="normal">中</text>
+<rect x="385" y="205" width="62" height="62" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="416.0" y="243.0" fill="#68778b" font-size="19" text-anchor="middle" font-weight="normal"></text>
+<rect x="190" y="270" width="62" height="62" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="221.0" y="308.0" fill="#68778b" font-size="19" text-anchor="middle" font-weight="normal"></text>
+<rect x="255" y="270" width="62" height="62" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="286.0" y="308.0" fill="#68778b" font-size="19" text-anchor="middle" font-weight="normal"></text>
+<rect x="320" y="270" width="62" height="62" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="351.0" y="308.0" fill="#68778b" font-size="19" text-anchor="middle" font-weight="normal"></text>
+<rect x="385" y="270" width="62" height="62" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="416.0" y="308.0" fill="#68778b" font-size="19" text-anchor="middle" font-weight="normal"></text>
+<line x1="318" y1="70" x2="318" y2="338" stroke="#2365ab" stroke-width="4"/>
+<line x1="185" y1="203" x2="452" y2="203" stroke="#2365ab" stroke-width="4"/>
+<text x="75" y="375" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">中心毯：拐角 (3,3)，方向 1（向上、向左）</text>
+<text x="75" y="411" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">绿色格对子棋盘成为人工缺格，递归时不能再覆盖</text>
+</g></svg>
