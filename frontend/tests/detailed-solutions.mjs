@@ -149,6 +149,20 @@ try {
       await page.evaluate(theme=>{document.documentElement.dataset.theme=theme;},theme);
       const figures=panel.locator('.markdown .reading-image-open');
       assert.equal(await figures.count(),variant==='default'?1:3,'Problem diagrams stay outside closed lessons');
+      if(variant==='default'&&width===1480){
+        const stableTrigger=await figures.first().elementHandle(),stableImage=await figures.first().locator('img').elementHandle();
+        await page.waitForTimeout(2200);
+        assert(await stableTrigger.evaluate(node=>node.isConnected),'parent clock refresh retains the exact image trigger');
+        assert(await stableImage.evaluate(node=>node.isConnected),'parent clock refresh retains the exact image element');
+        await figures.first().click();
+        const openImage=page.locator('.reading-image-dialog[open]');await openImage.waitFor();
+        const focused=await page.evaluateHandle(()=>document.activeElement);
+        await page.waitForTimeout(2200);
+        assert.equal(await openImage.count(),1,'parent clock refresh preserves an open native image dialog');
+        assert(await focused.evaluate(node=>node===document.activeElement&&node.isConnected),'parent clock refresh preserves native dialog focus');
+        await page.keyboard.press('Escape');await openImage.waitFor({state:'hidden'});
+        assert(await stableTrigger.evaluate(node=>node===document.activeElement),'closing the preserved dialog restores the same trigger');
+      }
       for (let index=0;index<await figures.count();index++) {
         await figures.nth(index).locator('img').evaluate(img=>img.decode());
         await figures.nth(index).screenshot({path:join(screenshots,`echo-${variant}-${theme}-${width}-${index}.png`)});
