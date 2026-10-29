@@ -301,11 +301,18 @@ try {
   assert.equal(await page.locator('.submission-log-row .verdict').nth(1).textContent(), 'WA');
   assert.equal(await page.locator('.submission-log-row .verdict.wrong').first().evaluate(node => getComputedStyle(node).color), 'rgb(182, 67, 88)');
   let submittedPages=0;
-  while(await page.getByRole('button',{name:'下一页提交',exact:true}).isEnabled()){
-    const before=Number(await page.locator('.submission-log').getAttribute('data-offset'));
-    await page.getByRole('button',{name:'下一页提交',exact:true}).click();
-    await page.waitForFunction(offset=>document.querySelector('.submission-log')?.getAttribute('aria-busy')==='false'&&Number(document.querySelector('.submission-log')?.dataset.offset)>offset,before);
-    const expectedOffset=Number(await page.locator('.submission-log').getAttribute('data-offset'));
+  const paginationDeadline=Date.now()+45000;
+  const paginationTimeout=(maximum=10000)=>{const remaining=paginationDeadline-Date.now();assert.ok(remaining>0,'submission pagination completes within 45 seconds');return Math.min(maximum,remaining);};
+  while(true){
+    await page.waitForFunction(()=>document.querySelector('.submission-log')?.getAttribute('aria-busy')==='false',null,{timeout:paginationTimeout()});
+    // Fitted row counts settle in requestAnimationFrame after metadata arrives.
+    await page.waitForFunction(()=>new Promise(done=>requestAnimationFrame(()=>requestAnimationFrame(()=>done(true)))),null,{timeout:paginationTimeout(5000)});
+    if(await page.locator('.submission-log').getAttribute('aria-busy',{timeout:paginationTimeout()})!=='false')continue;
+    if(!await page.getByRole('button',{name:'下一页提交',exact:true}).isEnabled({timeout:paginationTimeout()}))break;
+    const before=Number(await page.locator('.submission-log').getAttribute('data-offset',{timeout:paginationTimeout()}));
+    await page.getByRole('button',{name:'下一页提交',exact:true}).click({timeout:paginationTimeout()});
+    await page.waitForFunction(offset=>document.querySelector('.submission-log')?.getAttribute('aria-busy')==='false'&&Number(document.querySelector('.submission-log')?.dataset.offset)>offset,before,{timeout:paginationTimeout()});
+    const expectedOffset=Number(await page.locator('.submission-log').getAttribute('data-offset',{timeout:paginationTimeout()}));
     assert.ok(expectedOffset>before&&expectedOffset<=before+100,'next page advances within the fetched metadata block');
     assert.ok(++submittedPages<submissions.length,'responsive pagination always advances');
   }

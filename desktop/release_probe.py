@@ -164,12 +164,17 @@ def run(action, output):
                             if window.evaluate_js(script):
                                 return
                             time.sleep(.1)
-                        raise RuntimeError('Native account UI condition timed out')
+                        raise RuntimeError('Native account UI condition timed out: ' + script)
                     def fill(name, value):
                         window.evaluate_js("(()=>{const e=document.querySelector(" + json.dumps('input[name="'+name+'"]') +
                             ");Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(e," + json.dumps(value) +
                             ");e.dispatchEvent(new Event('input',{bubbles:true}));})()")
                     try:
+                        # Background windows deliberately defer account-owned
+                        # preferences. Exercise onboarding in a real visible
+                        # native window, as a user would see it after signing in.
+                        window.show()
+                        wait_js("!document.hidden")
                         wait_js("document.querySelector('.account-card h1')?.textContent==='登录 ToBe'")
                         assert not server.accounts.snapshot()['authenticated']
                         report['nativeLoginGate'] = True
@@ -178,15 +183,32 @@ def run(action, output):
                         fill('nickname', '打包验证者'); fill('username', 'native_account_fixture')
                         fill('password', 'native-fixture-password'); fill('passwordConfirmation', 'native-fixture-password')
                         window.evaluate_js("document.querySelector('.account-submit').click()")
-                        wait_js("document.querySelector('.account-message')?.textContent.includes('注册成功')")
-                        assert not server.accounts.snapshot()['authenticated']
-                        report['nativeRegistrationRequiresLogin'] = True
-                        fill('password', 'native-fixture-password')
-                        window.evaluate_js("document.querySelector('.account-submit').click()")
+                        # AccountGate now signs in immediately after registration.
+                        # Verify the resulting real session and beginner route,
+                        # rather than its transient registration status message.
                         wait_js("!!document.querySelector('.nav-item')")
-                        wait_js("!!document.querySelector('.onboarding')")
-                        window.evaluate_js("document.querySelector('.modal header button[aria-label=关闭]').click()")
+                        assert server.accounts.snapshot()['authenticated']
+                        assert not window.evaluate_js("!!document.querySelector('.account-card')")
+                        report['nativeRegistrationAutoLogin'] = True
+                        wait_js("document.querySelector('.workspace-area')?.dataset.page==='training-lists' && [...document.querySelectorAll('.training-list-path button')].some(button=>button.textContent==='01 编程基础')")
+                        report['nativeNewAccountFoundation'] = True
+                        wait_js("[...document.querySelectorAll('.sidebar nav button')].map(button=>button.textContent).join('|')==='我的训练|题单|提交记录'")
+                        report['nativeLevelOneNavigation'] = True
+                        wait_js("!!document.querySelector('.tour-card[role=dialog][aria-label=新手指引]')")
+                        assert window.evaluate_js("(()=>{const text=document.querySelector('.tour-card').textContent;return text.includes('Lv.2') && text.includes('Lv.5');})()")
+                        window.evaluate_js("document.querySelector('.tour-card .tour-close').click()")
+                        wait_js("!document.querySelector('.guided-tour')")
+                        from preferences import read_preferences
+                        deadline = time.monotonic() + 10
+                        while time.monotonic() < deadline:
+                            preferences = read_preferences(server.training)['preferences'] or {}
+                            if preferences.get('onboardingCompleted') and preferences.get('onboardingGuideVersion') == 2:
+                                break
+                            time.sleep(.1)
+                        else:
+                            raise AssertionError('Native guide acknowledgement was not saved for the account')
                         report['nativeNewUserGuide'] = True
+                        report['nativeGuideVersion'] = 2
                         assert server.accounts.snapshot()['authenticated']
                         report['nativeAccountLogin'] = True
                     except Exception as issue:
