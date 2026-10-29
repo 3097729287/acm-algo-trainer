@@ -1,5 +1,6 @@
 """Validate complete outputs for tasks with multiple accepted constructions."""
 import itertools
+from core7_checkers_recurrence import tromino
 from core7_checkers_greedy import stack_computer,mex_graph,majority_tree,blackboard,gcd_lcm,equal_permutations
 
 

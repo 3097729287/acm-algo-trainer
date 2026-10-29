@@ -8,6 +8,8 @@ import tempfile
 from core7_authoring import ROOT,OUT
 
 checks={
+    'decimal-addition': [('', '', 'assert(decimal_add("998","27")=="1025");assert(decimal_add("0","0")=="0");assert(decimal_add("999","1")=="1000");')],
+    'binary-lifting': [('', '', 'assert(u==4);assert(up[2][1]==5);assert(up[2][4]==0);')],
     'io-basics': [('20 30\n','50\n','')],
     'basic-arithmetic': [('', '', 'assert(money==103 && count==5 && rest==8 && average==2.5);')],
     'basic-control': [('', 'B',''),('','10',''),('','','assert(x==1 && times==3);')],
@@ -36,6 +38,7 @@ with tempfile.TemporaryDirectory(prefix='core7-language-') as temporary:
                     at=code.rfind('}');code=code[:at]+extra+'\n'+code[at:]
                 if '#include' not in code:code='#include <bits/stdc++.h>\nusing namespace std;\n'+code
             else:code='#include <bits/stdc++.h>\nusing namespace std;\nint main(){\n'+block+'\n'+extra+'\n}\n'
+            if name=='decimal-addition':code='#include <bits/stdc++.h>\nusing namespace std;\n'+block+'\nint main(){'+extra+'}\n'
             code='#include <cassert>\n'+code
             source=folder/(name+str(i)+'.cpp');exe=source.with_suffix('.exe');source.write_text(code,encoding='utf-8')
             compiled=subprocess.run([shutil.which('g++'),'-std=c++17','-O2',str(source),'-o',str(exe)],capture_output=True,text=True,encoding='utf-8')

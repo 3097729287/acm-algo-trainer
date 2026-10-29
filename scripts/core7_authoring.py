@@ -52,10 +52,13 @@ def load_all():
         import core7_stage02
         import core7_stage02_simulation
         import core7_stage02_greedy
+        import core7_stage02_recurrence
         from core7_figures import attach_figures
         attach_figures(SPECS)
         from core7_figures_greedy import attach_figures as greedy_figures
         greedy_figures(SPECS)
+        from core7_figures_recurrence import attach_figures as recurrence_figures
+        recurrence_figures(SPECS)
         for spec in SPECS:
             spec.tags=['线性 DP' if tag=='DP' else tag for tag in spec.tags]
             if spec.pid=='P5732':spec.tags=['递推']
