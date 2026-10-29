@@ -1,0 +1,156 @@
+{
+  "ok": true,
+  "applied": false,
+  "scope": "24 independently derived local algorithms; no live database or official submission",
+  "sampleCases": 68,
+  "oracleCases": 61360,
+  "elapsedSeconds": 10.356,
+  "implementationSha256": "6f40cf8b7be89d880981d11c83cff88d3990f9981133e8770ff10209349e4c91",
+  "validatorSha256": "74cab259a09955327721987d3807de39fec6871415f8373202edf73800dc1d03",
+  "tasks": {
+    "agc001_a": {
+      "sampleCases": 2,
+      "oracleCases": 129,
+      "sourceSha256": "804b0bb2ceedeabafff76491c67d2d515049d37e30a736581d8b31fb90a5b550",
+      "oracle": "Enumerate every perfect matching, multisets of 2/4/6 values in 1..4."
+    },
+    "agc002_a": {
+      "sampleCases": 3,
+      "oracleCases": 325,
+      "sourceSha256": "6bac5cd2f07d36552e85a6860d2d27c196fae884b610c576ec9aeb3dce264eca",
+      "oracle": "Literal integer product on every interval within -12..12."
+    },
+    "agc003_a": {
+      "sampleCases": 4,
+      "oracleCases": 341,
+      "sourceSha256": "4e370e3e32c82be9848fb1118bafe9b65be99c5e78c9c231b7ba13eb7960e51d",
+      "oracle": "Exhaustive positive lengths 1..|S| for all direction strings length <=4; unequal counts regression."
+    },
+    "agc004_a": {
+      "sampleCases": 3,
+      "oracleCases": 730,
+      "sourceSha256": "7567eaf7dcdaae14c5faafb8891df03d7c1773abd3556be2aa21e5a172657731",
+      "oracle": "Enumerate each legal integer cut on all three axes for dimensions 2..10; 64-bit face regression."
+    },
+    "agc006_a": {
+      "sampleCases": 3,
+      "oracleCases": 84,
+      "sourceSha256": "82f8441c32f4e847c9354c7add33ccd7bcfff3114b11c95bf52ec101c6078b64",
+      "oracle": "Enumerate all binary merged words of length N..2N, N<=3; equal strings included."
+    },
+    "agc007_a": {
+      "sampleCases": 3,
+      "oracleCases": 56,
+      "sourceSha256": "ff77302b5ce9ecc7486fad87465c17fc31b937c6cc0cbad6815e9f9c655ebec0",
+      "oracle": "All connected marked subsets containing both corners on 2x2,2x3,3x3; exact monotone path masks."
+    },
+    "agc008_a": {
+      "sampleCases": 3,
+      "oracleCases": 343,
+      "sourceSha256": "f65319ba83e711bfe10888c98259b77e0ffd78749c971fb65736c244c4f755cf",
+      "oracle": "Shortest-path BFS using actual +1/negate operations for x,y=-9..9; large sign flip regression."
+    },
+    "agc009_a": {
+      "sampleCases": 2,
+      "oracleCases": 819,
+      "sourceSha256": "cf8af899cc52647ccaed13c41f0343691e89d260c31b2cb1c0a2b2adc9bd8c02",
+      "oracle": "Unrestricted shortest-path BFS of actual prefix-increment buttons on the full residue-state graph; N<=3,Ai0..2,Bi1..3."
+    },
+    "agc010_a": {
+      "sampleCases": 2,
+      "oracleCases": 1020,
+      "sourceSha256": "eba267ccafcf8eaef8c74c92d867ef303a322d77a5ae9791cce8fc98fe73fcae",
+      "oracle": "Explore all legal same-parity merges to terminal size one for all binary parity arrays N=2..9."
+    },
+    "agc011_a": {
+      "sampleCases": 2,
+      "oracleCases": 1845,
+      "sourceSha256": "3824775cd7c2aa1ab682ec15f0719ee34518d4a53e1d4feadadc3280e0cf1f2e",
+      "oracle": "Minimum valid set partitions, arrival multisets in1..4,N<=6,C/K1..3; reverse-input sorting checked."
+    },
+    "agc012_a": {
+      "sampleCases": 2,
+      "oracleCases": 93,
+      "sourceSha256": "ecbae12744267ea21f28da6771dd4da9c6eb6ee3a9628607ce0f337fabbabadb",
+      "oracle": "Enumerate every partition into triples and sum medians, N<=3, strength multisets1..3."
+    },
+    "agc013_a": {
+      "sampleCases": 3,
+      "oracleCases": 3279,
+      "sourceSha256": "78e4331dd8bde68f06684ff2793c460e1fa8c28965183429cf59e8e7b9eb1015",
+      "oracle": "Quadratic partition DP testing each nonstrict monotone subarray for all ternary arrays length<=7."
+    },
+    "agc014_a": {
+      "sampleCases": 3,
+      "oracleCases": 2744,
+      "sourceSha256": "d58e3845efe3dc02067961d44c63aa4b7827969c3cc1b74270c470a990128332",
+      "oracle": "Generic cycle-detecting simultaneous-state simulation for all initial counts1..14."
+    },
+    "agc015_a": {
+      "sampleCases": 4,
+      "oracleCases": 81,
+      "sourceSha256": "502ab395a1a1db40b603502b7e985ee2c365e79902a689e7dfd6b98a98417199",
+      "oracle": "Enumerate all N<=5 tuples in1..4 and collect actual sums per exact min/max; 64-bit regression."
+    },
+    "agc019_a": {
+      "sampleCases": 4,
+      "oracleCases": 2048,
+      "sourceSha256": "912ef8288fcecb1c6a2f06e61ad94a88887effbb3acb6be2e02b68f66b67d5a1",
+      "oracle": "Unbounded exact-volume knapsack in quarter-liter units; all prices1..4,N1..8."
+    },
+    "agc020_a": {
+      "sampleCases": 3,
+      "oracleCases": 560,
+      "sourceSha256": "f35338721a02ccb8d0b85d0e6c6f4f4667402ff6f743aec787746cd014358253",
+      "oracle": "Retrograde win/lose/draw analysis on the full alternating-position game graph for N2..15."
+    },
+    "agc021_a": {
+      "sampleCases": 3,
+      "oracleCases": 30001,
+      "sourceSha256": "c8b77cf84f03a10a85b0e6426ff4c3ce056b1ba22c07ff1ed26673d8e8b2ab40",
+      "oracle": "Literal running maximum of digit sums for every N<=30000; 10^16 regression."
+    },
+    "agc024_a": {
+      "sampleCases": 3,
+      "oracleCases": 6657,
+      "sourceSha256": "5f79e5db8f5aec38b374d7b50b77164027f1a50a33f60d63d92ccf780078768a",
+      "oracle": "Literal simultaneous recurrence for each initial triple1..8 and K0..12; K10^18 regression."
+    },
+    "agc025_a": {
+      "sampleCases": 2,
+      "oracleCases": 5000,
+      "sourceSha256": "fb09ca9fd61adbb48279739ca5aebb92f25488b0be735c82feecfed8d0b67e50",
+      "oracle": "Compare exhaustive split implementation to the independently proved decimal carry identity, N2..5000 and100000."
+    },
+    "agc026_a": {
+      "sampleCases": 4,
+      "oracleCases": 1020,
+      "sourceSha256": "1c28ec38027a9645fed826fcd69345dc8c4b3b77ac1949b069826298ecefd8b9",
+      "oracle": "Enumerate changed-vertex subsets covering every original equal-adjacency edge; all binary arrays N2..9."
+    },
+    "agc027_a": {
+      "sampleCases": 4,
+      "oracleCases": 936,
+      "sourceSha256": "6ea99a8d6a44ffa1cae2865ec2c1089f9a8ed5a86b22a1ffc9aaa1d5ff7290ff",
+      "oracle": "Enumerate every nonnegative allocation of ALL candies; N2..4,needs1..3,total1..8."
+    },
+    "agc029_a": {
+      "sampleCases": 2,
+      "oracleCases": 2047,
+      "sourceSha256": "823e0580a1652b3f4968e3c92870f455856e510014d66d53221d6071afa9eb92",
+      "oracle": "Explore all actual BW->WB operation sequences for every binary string length<=10; 64-bit inversion regression."
+    },
+    "agc040_a": {
+      "sampleCases": 2,
+      "oracleCases": 1023,
+      "sourceSha256": "c6df0030916dc6de935e17bf721a1ffcb8079ceef82bb4267b2f7cd0de81c898",
+      "oracle": "DP minimizing sum over every assignment value0..N for all inequality strings length<=9; maximal-size chain regression."
+    },
+    "agc046_a": {
+      "sampleCases": 2,
+      "oracleCases": 179,
+      "sourceSha256": "7227a5e9436524468a785509b8031949061f0c660bcabd1fa6f8a331fd3b1cbd",
+      "oracle": "Simulate actual unit-step complex coordinates for every allowed angle1..179, locate first geometric return (tolerance1e-8)."
+    }
+  }
+}

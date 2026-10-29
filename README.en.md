@@ -1,5 +1,7 @@
 # ToBe · Training Workbench
 
+**Development status: 1.4.30 is not packaged or published.** Frequency-ordered knowledge pages, compact recommendation tooltips and more qualified choices are under validation with the next content batch. Installed and public stable builds remain 1.4.29.
+
 **ToBe 1.4.29** connects evidence-based Rasch assessment, level-aware learning paths, protected offline work, bounded backups and public content updates. QOJ now includes the complete 13-task Shandong Provincial 2026 contest. [Release notes](docs/releases/1.4.29.md).
 
 **ToBe 1.4.28** adds page-wide calendar arrow navigation with automatic detail-row positioning, removes empty contest folders, opens lectures in a full-app reading layout, accelerates daily reward claims, and remembers only Appearance settings position. [Release notes](docs/releases/1.4.28.md).

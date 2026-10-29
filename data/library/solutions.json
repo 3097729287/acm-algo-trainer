@@ -11917,5 +11917,29 @@
     "markdown": "# 上学迟到\n\n### 思路\n\n先把时间统一成分钟。走路需要 $\\lceil s/v\\rceil$ 分钟，再加上分类垃圾的 $10$ 分钟；从上午 $8:00$，也就是 $480$ 分钟，往前扣掉这些时间。\n\n走路时间要向上取整，不能用普通整数除法截掉不足一分钟的部分。正整数时可写成 `(s+v-1)/v`。\n\n计算结果可能为负，表示需要提前出门。用 `((t%1440)+1440)%1440` 转成一天内的分钟数，再用除以 $60$ 和模 $60$ 得到小时、分钟。输出时各占两位，不足补零。\n\n例如 $s=100,v=99$，走路需要 $2$ 分钟，加上额外的 $10$ 分钟，应输出 `07:48`。\n\n时间、额外空间均为 $O(1)$。\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\nint main() {\n    int s, v;\n    cin >> s >> v;\n    int walking = (s + v - 1) / v;\n    int start = ((8 * 60 - walking - 10) % 1440 + 1440) % 1440;\n    cout << setfill('0') << setw(2) << start / 60 << ':' << setw(2) << start % 60 << '\\n';\n}\n```\n",
     "problem_id": "luogu-training-P5707",
     "source_path": "authored/1.4.22/P5707.md"
+  },
+  {
+    "images": {},
+    "markdown": "# 按顺序买游戏\n\n### 题意\n\n游戏和纸币各有固定顺序。每个游戏只能用当前第一张纸币尝试购买；买成功才消耗纸币，买失败保留纸币。\n\n### 思路\n\n用 `next` 记录已经用掉几张纸币，它同时也是下一张纸币的数组下标。依次看每个游戏，若还有纸币且 `a[next] >= c[i]`，就把 `next` 加一；否则只继续看下一个游戏。一次成功只消耗一张纸币，因此最终 `next` 就是购买数量。\n\n不能把所有钱相加，也不能排序或找零。题目要求按规则模拟，并没有自由挑选方案。\n\n### 复杂度\n\n读取输入和模拟共 $O(n+m)$ 时间。保存两组输入需要 $O(n+m)$ 空间；数组长度上限固定为 1000。\n\n### 参考代码（C++17）\n\n```cpp\n#include <iostream>\nusing namespace std;\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n    int n, m;\n    cin >> n >> m;\n    int c[1000], a[1000];\n    for (int i = 0; i < n; ++i) cin >> c[i];\n    for (int j = 0; j < m; ++j) cin >> a[j];\n    int next = 0;\n    for (int i = 0; i < n; ++i) {\n        if (next < m && a[next] >= c[i]) ++next;\n    }\n    cout << next << '\\n';\n}\n```\n\n[原题](https://codeforces.com/contest/1009/problem/A)\n",
+    "problem_id": "remote:codeforces:1009::A",
+    "source_path": "authored/content-20261029-02/CF1009A-brief.md"
+  },
+  {
+    "images": {},
+    "markdown": "# 买巧克力与赠品\n\n### 题意\n\n每付钱购买 $a$ 块就额外赠送 $b$ 块，求固定预算下能拿到的总数。赠品不属于付费购买，不能拿去再次触发赠品。\n\n### 思路\n\n先算最多能付钱购买多少块：`paid=s/c`。这些付费巧克力可分成 `paid/a` 个完整优惠组，每组赠送 $b$ 块，所以答案为 `paid+(paid/a)*b`。不足一组的付费巧克力仍能拿走，只是不能触发赠送。\n\n所有量非负，C++ 整数除法 `/` 会舍去小数部分，正好得到完整块数和完整组数。答案可能超过 32 位整数范围，因此 `s,a,b,c,paid,gift` 都用 `long long`，让乘法本身也在 64 位范围内计算。\n\n### 复杂度\n\n每组测试只计算常数次四则运算，时间 $O(1)$、额外空间 $O(1)$；共 $t$ 组为 $O(t)$ 时间。\n\n### 参考代码（C++17）\n\n```cpp\n#include <iostream>\nusing namespace std;\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n    int t;\n    cin >> t;\n    while (t--) {\n        long long s, a, b, c;\n        cin >> s >> a >> b >> c;\n        long long paid = s / c;\n        long long gift = (paid / a) * b;\n        cout << paid + gift << '\\n';\n    }\n}\n```\n\n[原题](https://codeforces.com/contest/1065/problem/A)\n",
+    "problem_id": "remote:codeforces:1065::A",
+    "source_path": "authored/content-20261029-02/CF1065A-brief.md"
+  },
+  {
+    "images": {},
+    "markdown": "# 用 2 和 3 构造骰子点数\n\n### 题意\n\n每次可得到 2 至 7 中的任意一个数。输出一个次数，使得存在这么多次的结果之和恰好为 $x$。不要求最少次数，也不要求计算概率。\n\n### 思路\n\n输出 `x/2`，也就是 $\\lfloor x/2\\rfloor$。\n\n如果 $x$ 为偶数，全部掷出 2 即可。如果 $x$ 为奇数，至少为 3：先用 $\\lfloor x/2\\rfloor$ 个 2 得到 $x-1$，再把其中一个 2 换成 3，次数不变，总和恰好加一成为 $x$。2 和 3 都在骰子上，因此这个构造总是可行。\n\n样例输出只是一种答案。你的输出与样例数字不同，也可能正确，应检查是否存在合法掷骰结果。\n\n### 复杂度\n\n每个询问 $O(1)$ 时间、$O(1)$ 额外空间，全部询问共 $O(t)$ 时间。\n\n### 参考代码（C++17）\n\n```cpp\n#include <iostream>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        int x;\n        cin >> x;\n        cout << x / 2 << '\\n';\n    }\n}\n```\n\n[原题](https://codeforces.com/contest/1093/problem/A)\n",
+    "problem_id": "remote:codeforces:1093::A",
+    "source_path": "authored/content-20261029-02/CF1093A-brief.md"
+  },
+  {
+    "images": {},
+    "markdown": "# 从必有解反推一对整除数\n\n### 题意\n\n在正整数区间 $[l,r]$ 中找两个不同的数，前一个整除后一个。题目保证有解。\n\n### 思路\n\n输出 $l$ 和 $2l$。整除和不同都显然满足，关键是证明 $2l\\le r$。\n\n由于区间中存在合法的 $x,y$，正整数且 $x\\ne y$、$x\\mid y$，必有 $y\\ge2x\\ge2l$。又有 $y\\le r$，所以 $2l\\le r$。因此选择区间里最小的 $l$ 和它的两倍总能成功。\n\n保证有解是推理前提，不能忽略。若没有这个保证，例如区间 $[5,7]$，输出 $5,10$ 就会越界。\n\n### 复杂度\n\n每个询问 $O(1)$ 时间和额外空间；共 $t$ 个询问为 $O(t)$ 时间。\n\n### 参考代码（C++17）\n\n```cpp\n#include <iostream>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        long long l, r;\n        cin >> l >> r;\n        cout << l << ' ' << 2 * l << '\\n';\n    }\n}\n```\n\n[原题](https://codeforces.com/contest/1096/problem/A)\n",
+    "problem_id": "remote:codeforces:1096::A",
+    "source_path": "authored/content-20261029-02/CF1096A-brief.md"
   }
 ]

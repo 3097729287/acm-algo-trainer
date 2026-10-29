@@ -55,7 +55,10 @@ try{
  assert.equal(await page.locator('.topbar > .next-actions').count(),1,'the next task occupies the shared top bar');
  assert.equal(await page.locator('.workspace-area .next-actions').count(),0,'recommendations do not consume training list space');
  await page.locator('.next-actions').hover();await page.locator('.next-actions-popover').waitFor();
- assert.match(await page.locator('.next-actions-reason').textContent(),/证据|独立|基础/);
+ const firstAdvice=page.locator('.next-actions-popover .next-actions-item').first();
+ assert.match(await firstAdvice.getAttribute('title'),/证据|独立|基础/);
+ assert.equal(await page.locator('.next-actions-reason,.next-actions-primary small').count(),0);
+ assert(await firstAdvice.getAttribute('aria-describedby'),'The recommendation evidence remains available to assistive technology');
  await page.keyboard.press('Escape');assert.equal(await page.locator('.next-actions-popover').count(),0);
  assert.deepEqual(await nav().getByRole('button').allTextContents(),['我的训练','题单','提交记录']);
  assert.equal(await page.getByRole('button',{name:'比赛日历',exact:true}).count(),0);

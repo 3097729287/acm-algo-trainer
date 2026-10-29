@@ -1,9 +1,11 @@
 // Observe the original site's requests without replacing submit or judge behavior.
-// Protocol: Nowcoder public terminal bundle 2.0.114 (2026-10-10).
+// Contest protocol: public terminal 2.0.114; global problem identity/native
+// form parameters also checked against public terminal 2.0.118 (2026-10-29).
 function installNowcoderReceipts(ctx, report) {
   if (ctx.platform !== '牛客' || location.hostname !== 'ac.nowcoder.com') return null;
   if (window.__tbNowcoder?.sessionId === ctx.sessionId) return window.__tbNowcoder;
   const state = { sessionId: ctx.sessionId, armed: false, pending: null, receipt: null, early: [] };
+  state.confirmedIds = new Set();
   window.__tbNowcoder = state;
   const notify = value => {
     if (value.status === 'finished' && state.pending) value = {...value, owner:state.pending.owner, url:ctx.originalUrl, acceptedAt:state.pending.acceptedAt};
@@ -26,21 +28,45 @@ function installNowcoderReceipts(ctx, report) {
   const submitPaths = new Set(['/submit_cd', '/nccommon/submit_cd', '/api/service/judge/submit']);
   const statusPaths = new Set(['/status', '/nccommon/status', '/api/service/judge/submit-status']);
   const id = value => /^\d+$/.test(String(value ?? '')) && BigInt(value) > 0n ? String(value) : null;
+  state.isGlobalTarget = () => /^\/acm\/problem\/[1-9]\d{0,19}$/.test(parseUrl(ctx.originalUrl)?.pathname || '');
+  const pageIdentity = () => {
+    const original = parseUrl(ctx.originalUrl), info = window.pageInfo;
+    if (!original || original.origin !== 'https://ac.nowcoder.com' || location.origin !== original.origin || location.pathname !== original.pathname || !info || !id(info.questionId)) return null;
+    const global = original.pathname.match(/^\/acm\/problem\/([1-9]\d{0,19})$/);
+    if (global) {
+      // The global NC number is NOT the internal questionId and is not a
+      // contestId. Bind both actual IDs from this exact page, never infer one.
+      if (id(info.problemId) !== global[1] || id(info.doneQuestionId) !== global[1] || info.contestId != null && String(info.contestId) !== '' || String(info.codeJudgeType) !== '0' || String(info.tagId) !== '4' || String(info.subTagId) !== '0') return null;
+      return {kind:'global', problemId:global[1], questionId:id(info.questionId), originalUrl:original.href};
+    }
+    const contest = original.pathname.match(/^\/acm\/contest\/(\d+)\/[A-Za-z]\d?$/);
+    return contest && String(info.contestId) === contest[1] ? {kind:'contest',questionId:id(info.questionId),originalUrl:original.href} : null;
+  };
+  state.pageMatches = () => !!pageIdentity();
+  state.loggedOut = () => state.isGlobalTarget() && (window.isLogin === false || !id(window.globalInfo?.ownerId));
   const requestInfo = (url, method, body) => {
     const target = parseUrl(url), params = { ...Object.fromEntries(target?.searchParams || []), ...fields(body) };
     if (!allowed(target)) return null;
     if (statusPaths.has(target.pathname)) return { kind: 'status', target, params: { ...Object.fromEntries(target.searchParams), ...params } };
     const passive = ctx.sessionId === 'unbound';
     if ((!state.armed && !passive) || method.toUpperCase() !== 'POST' || !submitPaths.has(target.pathname)) return null;
-    const original = parseUrl(ctx.originalUrl), info = window.pageInfo;
-    if (!original || location.pathname !== original.pathname || !info || String(info.contestId) !== original.pathname.split('/')[3]) return null;
-    if (String(params.questionId) !== String(info.questionId) || (!passive && !ctx.manual && textCode(params.content) !== textCode(ctx.code))) return null;
+    const identity = pageIdentity(), info = window.pageInfo;
+    if (!identity) return null;
+    if (String(params.questionId) !== identity.questionId || (!passive && !ctx.manual && textCode(params.content) !== textCode(ctx.code))) return null;
     if (target.pathname === '/api/service/judge/submit' && String(params.submitType) !== '1') return null;
     if (params.selfType != null || params.selfInputData != null || params.input != null || params.isSelfTest) return null;
     const owner = id(window.globalInfo?.ownerId);
+    if (identity.kind === 'global') {
+      if (!owner || window.isLogin === false || id(info.teamId) && id(info.teamId) !== owner || state.pending && !passive) return null;
+      if (!textCode(params.content) || !/^\d+$/.test(String(params.language ?? '')) || String(params.tagId) !== String(info.tagId)) return null;
+      if (params.problemId != null && id(params.problemId) !== identity.problemId) return null;
+      if (target.pathname === '/api/service/judge/submit') {
+        if (target.origin !== 'https://victorinox.nowcoder.com' || String(params.userId) !== owner || String(params.appId) !== '6') return null;
+      } else if (target.origin !== location.origin || id(params.doneQuestionId) !== identity.problemId || String(params.subTagId) !== String(info.subTagId)) return null;
+    }
     const submitOwner = id(info.teamId) || owner;
     if (params.userId != null && (!submitOwner || String(params.userId) !== submitOwner)) return null;
-    return { kind: 'submit', target, params, owner };
+    return { kind: 'submit', target, params, owner, identity };
   };
   // Evaluate a status payload against the confirmed pending submission.
   const evaluateStatus = (pending, params, data) => {
@@ -51,6 +77,18 @@ function installNowcoderReceipts(ctx, report) {
       if (pending[key] != null && String(params[key]) !== String(pending[key])) return null;
       if (pending[key] != null && data[key] != null && String(data[key]) !== String(pending[key])) return null;
     }
+    if (pending.identity?.kind === 'global') {
+      const current = pageIdentity();
+      if (!current || current.kind !== 'global' || current.problemId !== pending.identity.problemId || current.questionId !== pending.identity.questionId || current.originalUrl !== pending.identity.originalUrl || state.loggedOut() || id(window.globalInfo?.ownerId) !== pending.owner) return null;
+      if (pending.subTagId != null && String(params.subTagId) !== String(pending.subTagId)) return null;
+      if (params.selfType != null || params.selfInputData != null || params.input != null || ['1','true'].includes(String(data.isSelfTest))) return null;
+      for (const key of ['questionId','problemId','doneQuestionId']) {
+        const expected = key === 'questionId' ? pending.identity.questionId : pending.identity.problemId;
+        if (params[key] != null && id(params[key]) !== expected || data[key] != null && id(data[key]) !== expected) return null;
+      }
+      if (data.userId != null && id(data.userId) !== pending.owner || data.ownerId != null && id(data.ownerId) !== pending.owner) return null;
+      if (data.subTagId != null && String(data.subTagId) !== String(pending.subTagId)) return null;
+    }
     if (pending.owner && window.globalInfo?.ownerId != null && String(window.globalInfo.ownerId) !== pending.owner) return null;
     if (data.error || data.isSelfTest === true || data.isSelfTest === 1 || !Number.isInteger(data.status)) return null;
     if (data.status >= 0 && data.status <= 2) return null;
@@ -60,6 +98,11 @@ function installNowcoderReceipts(ctx, report) {
   };
   const observe = (request, value) => {
     if (!request || !value || typeof value !== 'object') return;
+    if (request.kind === 'submit' && request.identity?.kind === 'global' && value.code === 999) {
+      state.armed = false;
+      notify({status:'needs_login',attempted:false,message:'牛客登录已失效，请在浏览器登录后重试。'});
+      return;
+    }
     if (request.kind === 'submit' && Number.isInteger(value.code) && (value.code !== 0 || value.error)) {
       state.armed = false;
       const verification = value.code === 1125 || /captcha|验证码|验证/.test(String(value.errorType || '') + ' ' + String(value.msg || ''));
@@ -74,7 +117,14 @@ function installNowcoderReceipts(ctx, report) {
     if (request.kind === 'submit') {
       const submissionId = id(typeof data === 'object' ? data?.submissionId ?? data?.id : data);
       if (!submissionId) return;
-      state.pending = { submissionId, owner: request.owner, acceptedAt:new Date().toISOString(), origin: request.target.origin, userId: request.params.userId, appId: request.params.appId, tagId: request.params.tagId };
+      if (request.identity?.kind === 'global') {
+        const current = pageIdentity(), previous = [...(ctx.baseline || []), ...state.confirmedIds];
+        if (!current || current.kind !== 'global' || current.problemId !== request.identity.problemId || current.questionId !== request.identity.questionId || state.loggedOut() || id(window.globalInfo?.ownerId) !== request.owner) return;
+        if (previous.some(value => id(value) && BigInt(value) >= BigInt(submissionId))) return;
+        state.confirmedIds.add(submissionId);
+      }
+      state.pending = { submissionId, owner: request.owner, identity:request.identity, acceptedAt:new Date().toISOString(), origin: request.target.origin, userId: request.params.userId, appId: request.params.appId, tagId: request.params.tagId, subTagId:request.params.subTagId };
+      if (request.identity?.kind === 'global') state.armed = false;
       // Keep the site's short-lived judge token in this page only. It is never
       // sent to TB, persisted, logged, or used to submit a second request.
       const modern = request.target.pathname === '/api/service/judge/submit';
@@ -112,7 +162,9 @@ function installNowcoderReceipts(ctx, report) {
     if (verdict) notify({ status: 'finished', submissionId: state.pending.submissionId, verdict, message: '牛客确认本次提交 #' + state.pending.submissionId + '：' + verdict });
   };
   const originalFetch = window.fetch;
-  state.hasLegacyApi = () => window.pageInfo?.isNewJudgeEditor === false && String(window.pageInfo?.codeJudgeType) === '0';
+  // Global problems always use the site's real submit control. In particular,
+  // do not synthesize a contestId or bypass the native CSRF/captcha handling.
+  state.hasLegacyApi = () => !state.isGlobalTarget() && window.pageInfo?.isNewJudgeEditor === false && String(window.pageInfo?.codeJudgeType) === '0';
   state.submitLegacy = async (compiler, checkpoint) => {
     const info = window.pageInfo, original = parseUrl(ctx.originalUrl);
     if (!state.hasLegacyApi() || location.pathname !== original?.pathname || String(info.contestId) !== original.pathname.split('/')[3] || !id(info.questionId)) throw new Error('牛客题目信息尚未就绪');
@@ -148,7 +200,7 @@ function installNowcoderReceipts(ctx, report) {
     try {
       const result = await originalFetch.call(window, state.statusUrl, { credentials: 'include', cache: 'no-store', signal: AbortSignal.timeout(15000) });
       const target = parseUrl(result.url || state.statusUrl);
-      if (result.ok && allowed(target) && target.origin === state.pending?.origin) {
+      if (result.ok && allowed(target) && target.origin === state.pending?.origin && (!state.isGlobalTarget() || target.pathname === parseUrl(state.statusUrl)?.pathname)) {
         observe(requestInfo(state.statusUrl, 'GET'), await result.json());
       }
     } catch {} finally { state.polling = false; }
@@ -163,7 +215,9 @@ function installNowcoderReceipts(ctx, report) {
       response.then(result => {
         if (result.ok && allowed(parseUrl(result.url || url))) {
           const copy = result.clone();
-          info.then(request => { if (request) copy.json().then(value => observe(request, value)).catch(() => {}); });
+          info.then(request => {
+            if (request && (!state.isGlobalTarget() || parseUrl(result.url || url)?.origin === request.target.origin && parseUrl(result.url || url)?.pathname === request.target.pathname)) copy.json().then(value => observe(request, value)).catch(() => {});
+          });
         }
       }).catch(() => {});
       return response;
@@ -176,6 +230,7 @@ function installNowcoderReceipts(ctx, report) {
       const meta = this.__tbRequest, request = meta && requestInfo(meta.url, meta.method, body);
       if (request) this.addEventListener('load', () => {
         if (this.status < 200 || this.status >= 300 || !allowed(parseUrl(this.responseURL || meta.url))) return;
+        if (state.isGlobalTarget() && (parseUrl(this.responseURL || meta.url)?.origin !== request.target.origin || parseUrl(this.responseURL || meta.url)?.pathname !== request.target.pathname)) return;
         try { observe(request, this.responseType === 'json' ? this.response : JSON.parse(this.responseText)); } catch {}
       }, { once: true });
       return send.apply(this, arguments);

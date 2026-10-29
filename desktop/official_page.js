@@ -117,7 +117,7 @@ return work.preparing;
 function receiptValue(receipt){return {status:receipt.verdict==='JUDGING'?'judging':'finished',submissionId:receipt.id,...(receipt.verdict==='JUDGING'?{}:{verdict:receipt.verdict}),message:receipt.verdict==='JUDGING'?'原站已接收，正在评测。':'本次提交结果：'+receipt.verdict};}
 function inspect(){
 lgReceipt?.inspectRejection?.();
-if(login()||cfLoggedOut()||luoguLoggedOut()||lgReceipt?.loggedOut()||(ctx.platform==='牛客'&&window.globalInfo?.ownerId!=null&&Number(window.globalInfo.ownerId)<=0))return {status:'needs_login',...(!ctx.attempted?{attempted:false}:{}),message:ctx.resumeAfterLogin?'请在弹出的浏览器登录原站，登录后会自动填码并继续本次提交。':'请在浏览器登录原站，然后核对本次提交状态。'};
+if(login()||cfLoggedOut()||luoguLoggedOut()||lgReceipt?.loggedOut()||ncReceipt?.loggedOut?.()||(ctx.platform==='牛客'&&window.globalInfo?.ownerId!=null&&Number(window.globalInfo.ownerId)<=0))return {status:'needs_login',...(!ctx.attempted?{attempted:false}:{}),message:ctx.resumeAfterLogin?'请在弹出的浏览器登录原站，登录后会自动填码并继续本次提交。':'请在浏览器登录原站，然后核对本次提交状态。'};
 if(verification())return {status:'needs_verification',...(!ctx.attempted?{attempted:false}:{}),message:ctx.resumeAfterLogin?'请在弹出的浏览器完成原站验证，完成后会继续本次提交。':'请在浏览器完成原站验证，然后回到 TB 查看状态。'};
 // Some native logins return to the site home page instead of the submit URL.
 // Only a positive account marker may resume this unsent submission there.
@@ -126,6 +126,7 @@ let luoguOwner=null;try{luoguOwner=JSON.parse(document.querySelector('#lentille-
 const loggedIn=ctx.platform==='AtCoder'?!!acOwner():ctx.platform==='Codeforces'?!!cfOwner():ctx.platform==='牛客'?Number(window.globalInfo?.ownerId)>0:ctx.platform==='洛谷'&&Number(luoguOwner||window._feInjection?.currentUser?.uid)>0;
 if(loggedIn)return {status:'loading',loggedIn:true,message:'登录成功，正在返回本题提交页。'};
 }
+if(ncReceipt?.isGlobalTarget()&&!ncReceipt.pageMatches())return {status:window.pageInfo?'error':'loading',attempted:false,message:'未能准确选定本题，已停止；请在原站确认题目。'};
 if(ctx.platform==='AtCoder'&&new URL(ctx.originalUrl).pathname.replace(/\/tasks\/[^/]+$/,'/submit')===location.pathname){
 const errors=[...document.querySelectorAll('.alert-danger,.has-error .help-block,.error-message')].filter(visible).map(e=>e.textContent.trim()).filter(Boolean);
 if(errors.length)return {status:'error',attempted:false,message:'AtCoder 未受理代码：'+errors.join('；').slice(0,200)};
@@ -157,6 +158,7 @@ if(!hasEditor())return send({status:manual?'awaiting_submit':'error',attempted:f
 let task=!ctx.problem,filled=0;
 document.querySelectorAll('select').forEach(s=>{const field=(s.name||s.id||'').toLowerCase();if(/problem|task/.test(field)&&ctx.problem){const o=[...s.options].find(o=>o.value===ctx.problem);if(o){if(s.value!==o.value){s.value=o.value;s.dispatchEvent(new Event('change',{bubbles:true}));}task=true;}}});
 if(['牛客','洛谷'].includes(ctx.platform))task=location.pathname===new URL(ctx.originalUrl).pathname;
+if(ncReceipt?.isGlobalTarget())task=ncReceipt.pageMatches();
 if(!task)return send({status:'error',attempted:false,message:'未能准确选定本题，已停止；请在原站确认题目。'});
 const compiler=await selectOfficialCompiler(ctx.code,ctx.platform,ctx.language || 'cpp17');
 if(!compiler)return send({status:'error',attempted:false,message:ctx.language==='python3'?'没有找到 Python 3 / PyPy 3，请在原站确认语言后重试。':'没有找到支持当前代码的 C++17 / C++20 / C++23 编译器，请在原站确认语言后重试。'});

@@ -32,6 +32,17 @@ if(view==='streak'){
   </div>
  </main>);
 }
+else if(view==='radar-frequency'){
+ const topics=Array.from({length:26},(_,i)=>`知识点${String(i+1).padStart(2,'0')}`),rows=[];
+ const counts=topics.map((name,i)=>({name,count:3+(i*11)%26}));
+ for(const {name,count} of counts)for(let i=0;i<count;i++)rows.push({id:`${name}-${i}`,url:`https://example.invalid/${name}/${i}`,tags:[name]});
+ // Aliases/duplicate catalog records must not inflate distinct availability.
+ rows.push({...rows[0],id:'mirror-of-first'});
+ rows.push({id:'rare-a',url:'https://example.invalid/rare/shared',tags:['罕见甲','罕见乙']},{id:'rare-b',url:'https://example.invalid/rare/second',tags:['罕见乙']});
+ const categories=[{name:'基础技巧',children:[...topics,'罕见甲','罕见乙'].map(name=>({name}))}];
+ window.radarFrequencyExpected=[...counts,{name:'杂项',count:2}].sort((a,b)=>b.count-a.count);
+ createRoot(document.getElementById('root')).render(<main style={{padding:24,maxWidth:1000}}><KnowledgeRadar rows={rows} categories={categories}/></main>);
+}
 else if(view==='radar-performance'){
  const topics=KNOWLEDGE_DOMAINS.flatMap(domain=>domain.topics.map(([name])=>name));
  const rows=Array.from({length:6000},(_,id)=>({id:String(id),url:`https://example.com/${id}`,tags:[topics[id%topics.length],topics[(id+7)%topics.length]],knowledgeCategories:[]}));

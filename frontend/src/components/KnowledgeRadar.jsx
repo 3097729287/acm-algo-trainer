@@ -4,7 +4,7 @@ import PageSearch from './PageSearch.jsx';
 import {canonicalKnowledgeName,knowledgeAliases,indexKnowledgeRows,knowledgeFilterNames} from '@/lib/knowledgeNames.js';
 import {combineKnowledgeEvidence} from '@/lib/knowledgeMastery.js';
 import {radarLabels} from '@/lib/radarLabels.js';
-import {radarTopicGroups} from '@/lib/radarTopicGroups.js';
+import {orderRadarNodes,radarTopicGroups} from '@/lib/radarTopicGroups.js';
 import PagePagination from './PagePagination.jsx';
 const EMPTY_LIST=[],EMPTY_MODEL={};
 export const KNOWLEDGE_DOMAINS = [
@@ -41,7 +41,7 @@ export default function KnowledgeRadar({knowledge=EMPTY_LIST,knowledgeEvidence=E
    const facts=(names,groups=[],scope=names)=>{const entries=evidence(scope),maximum=key=>Math.max(0,...entries.map(item=>Number(item[key])||0)),children=groups.map(group=>({name:group.name,ids:evidence(group.members).flatMap(item=>item.evidenceIds||[]),availableIds:available(group.members),difficulties:Object.fromEntries(available(group.members).map(id=>[id,difficultyById.get(id)]))}));return {...combineKnowledgeEvidence(entries.flatMap(item=>item.evidenceIds||[]),pool,knowledgeModel,children),available:rows.length?available(scope).length:maximum('available'),due:entries.some(item=>item.dueIds)?new Set(entries.flatMap(item=>item.dueIds||[])).size:maximum('due'),failures:maximum('failures'),suggested:entries.flatMap(item=>item.suggestedIds||[])[0]};};
    return domains.map(item=>({...item,...facts(item.topics.flatMap(topic=>topic.members),item.topics,item.scope||item.topics.flatMap(topic=>topic.members)),nodes:item.topics.map(topic=>({...topic,...facts(topic.members)}))}));
  },[domains,knowledge,knowledgeEvidence,knowledgeModel,availableIndex,rows.length]);
- const allNodes=domain?summaries.find(item=>item.name===domain.name)?.nodes||[]:summaries;
+ const allNodes=useMemo(()=>orderRadarNodes(domain?summaries.find(item=>item.name===domain.name)?.nodes||[]:summaries),[domain,summaries]);
  const filtered=allNodes.filter(node=>[node.name,...node.members||[]].flatMap(topicTags).some(tag=>tag.toLowerCase().includes(query.trim().toLowerCase())));
  const pages=Math.max(1,Math.ceil(filtered.length/12)),currentPage=Math.min(page,pages),nodes=filtered.slice((currentPage-1)*12,currentPage*12);
  const position=(index,radius)=>{const angle=-Math.PI/2+index*Math.PI*2/nodes.length;return [340+Math.cos(angle)*radius,245+Math.sin(angle)*radius];};

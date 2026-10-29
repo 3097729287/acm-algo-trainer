@@ -1,0 +1,335 @@
+{
+  "categorySha256": "47f4e4e9e7b1c3a8f87a2c3aa34b6a9dd1000cad503e6fa14d7def3a25a0f0d0",
+  "categoryUrl": "https://qoj.ac/category/810",
+  "communicationProblemCount": 1,
+  "contestUrl": "https://qoj.ac/contest/4582",
+  "interactiveProblemCount": 1,
+  "pageCount": 30,
+  "problemCount": 13,
+  "problems": [
+    {
+      "contestUrl": "https://qoj.ac/contest/4582",
+      "images": [
+        {
+          "height": 1684,
+          "sha256": "3f53990fec79e2440ca3e84e24281f8b9eff39fe8714cbb0a5a23c5fee757b98",
+          "width": 1191
+        },
+        {
+          "height": 1684,
+          "sha256": "6b3c72595313a015572c169a6210d1fc7c1beafb2c0028661f38713168b7679a",
+          "width": 1191
+        }
+      ],
+      "pageCount": 2,
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=22910",
+      "problemUrl": "https://qoj.ac/problem/22910",
+      "samplePairs": 2,
+      "sampleSha256": "3aa512e72851c7ba6d4654f88980654ca150eccea84953c3d499e1f2602c785a",
+      "sourceHtmlSha256": "23c7edb0d7833f9af12ea6a105ff6b6b1b904326776e0acfcc341c19e238652e",
+      "sourcePdfSha256": "64aac87734eef0bac2678a9ef3b4637d6467e81d0a1bb77bb1dce5e4bf3732f6",
+      "statementSha256": "8752038818b14035bcfc8acba17561869e3bcb52d6a27b6528d642f4f7d0eac8"
+    },
+    {
+      "contestUrl": "https://qoj.ac/contest/4582",
+      "images": [
+        {
+          "height": 1684,
+          "sha256": "ee2787a9517fdb97a1bea26fd4b4621cdcf83134711b17349f32bfdba87d604c",
+          "width": 1191
+        },
+        {
+          "height": 1684,
+          "sha256": "4c283a0511e429dd12cecb6e0ac717b0931cd4f9ec67c01d808c12100a95681b",
+          "width": 1191
+        },
+        {
+          "height": 1684,
+          "sha256": "e622c76220b1aafee17dc2d6820837f2f7a596ff478ecff1ffaa86ff13db3173",
+          "width": 1191
+        }
+      ],
+      "pageCount": 3,
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=22911",
+      "problemUrl": "https://qoj.ac/problem/22911",
+      "samplePairs": 3,
+      "sampleSha256": "1136d09e7ccf513d742256e62e54c59f3449a89f1c0674ba028219f97915841b",
+      "sourceHtmlSha256": "fa499f8f49b7ca26347eade090899c7c6ba411d0d180d364f8221ce03076e4ac",
+      "sourcePdfSha256": "b9ca02068b4fa7f0e97be5b3e66ca8d28079b9be7e5a18dfe30230c4dc4796e4",
+      "statementSha256": "e81b24d920758eabe878ce9625456ac3e3197e46a325179768300880c54340c5"
+    },
+    {
+      "contestUrl": "https://qoj.ac/contest/4582",
+      "images": [
+        {
+          "height": 1684,
+          "sha256": "b03f56ea76e617d897ca6f5e41ff0d58df345dbcea428e7b5a56f8f368a6c9b8",
+          "width": 1191
+        },
+        {
+          "height": 1684,
+          "sha256": "9e9b6d2b2dd6c2922d101814343b0e7217fc1d8a2e4903d8bb2e39df4cf4226b",
+          "width": 1191
+        }
+      ],
+      "pageCount": 2,
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=22912",
+      "problemUrl": "https://qoj.ac/problem/22912",
+      "samplePairs": 1,
+      "sampleSha256": "7367986adeb2c7b499322594b90c93b538ca83d30c5feede871caf88758b723f",
+      "sourceHtmlSha256": "002c6484997b5d0c95038bb0988bd3fb7131c32dc4af4786bcaa6a212b385aa8",
+      "sourcePdfSha256": "0b7b711b0ad9d0ffdfd283c369863c94126dc364eb46e9c568c52efe086f6d9e",
+      "statementSha256": "cc7001d7e4c8f1207815f1a9e96db0081852cfea45f293040d0f847cbf426ec2"
+    },
+    {
+      "contestUrl": "https://qoj.ac/contest/4582",
+      "images": [
+        {
+          "height": 1684,
+          "sha256": "ca4af4ccc15e57fb61dd156726a18753a1dc128e9e70f1a15dfeb63eba5d9e41",
+          "width": 1191
+        },
+        {
+          "height": 1684,
+          "sha256": "b7676237d68978662482dd492ee76a1d27f0b8781c891c08505d60edc28a3835",
+          "width": 1191
+        }
+      ],
+      "pageCount": 2,
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=22913",
+      "problemUrl": "https://qoj.ac/problem/22913",
+      "samplePairs": 0,
+      "sampleSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "sourceHtmlSha256": "a16bae4de249196c38e242c43cb31a9485688758381d4b678bb14775f785ba64",
+      "sourcePdfSha256": "352f5fca50034f0645b0851a0d04734d8f8ec1fb4ea8312ef4f316b2c4ba0c9f",
+      "statementSha256": "2438c96fdc557c3201de3c21e0f4fd7b1140d93b9d472793006089d73ced87c0"
+    },
+    {
+      "contestUrl": "https://qoj.ac/contest/4582",
+      "images": [
+        {
+          "height": 1684,
+          "sha256": "7dafb05d9a609c66a5e58272284677bf609753332b2c9032e72489dc5a23bac5",
+          "width": 1191
+        },
+        {
+          "height": 1684,
+          "sha256": "7750c948effd0925e2bbaced7c9941b9f24981b44b6170160aaa918a331d771e",
+          "width": 1191
+        }
+      ],
+      "pageCount": 2,
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=22914",
+      "problemUrl": "https://qoj.ac/problem/22914",
+      "samplePairs": 1,
+      "sampleSha256": "fe91b90399ae668df057a09f9bfd6dc1a7a9205fdf2db2fdaadda131ba6c6459",
+      "sourceHtmlSha256": "1c7a3704a09c423ae9194747ed91ae4b980a5e4470f132c8531ef774cbd0718b",
+      "sourcePdfSha256": "1e4695a963e7a56ea38cc5a619bde675f8fe3be893f0664a4cdf8f1c04652276",
+      "statementSha256": "237c07e5d5691f80ae9ca19fd7730aa331ca97f8c8a1e5abb76b92a3c6faf31a"
+    },
+    {
+      "contestUrl": "https://qoj.ac/contest/4582",
+      "images": [
+        {
+          "height": 1684,
+          "sha256": "667b0fa54b6efed9c6ddfa8281bea7501e2b12c71ebe8e867d5bdf167bc3bbf2",
+          "width": 1191
+        },
+        {
+          "height": 1684,
+          "sha256": "9e298c3c2c3371d12e2b80da72fe464f2bf794753520708adebbe2626c6880e5",
+          "width": 1191
+        }
+      ],
+      "pageCount": 2,
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=22915",
+      "problemUrl": "https://qoj.ac/problem/22915",
+      "samplePairs": 1,
+      "sampleSha256": "f26a5b827cfc99267f600e8d7c242d04cff036185b2b7837b31ad15436329315",
+      "sourceHtmlSha256": "67fc24618f94d1aabdafbac90eff99cba4bbf5b23ee3677f4aa3ea3fe22454a7",
+      "sourcePdfSha256": "dbc8d8516193ebe9cfa2b9a858f9f9f4f0c030d8d940a55b8f5072002e2ec87b",
+      "statementSha256": "8523a18938a7e2223d69f7fae56596d788dd7135c9cbe1d6b5d988d2b3f2520b"
+    },
+    {
+      "contestUrl": "https://qoj.ac/contest/4582",
+      "images": [
+        {
+          "height": 1684,
+          "sha256": "b4b886f791bf1fae0777923b057d017c795c33ce40a491636086958bf70a986c",
+          "width": 1191
+        },
+        {
+          "height": 1684,
+          "sha256": "c38c518d0a0b3ccdbdb75bdee94898110f4327af0652b8aea6ab535eb3146d9c",
+          "width": 1191
+        },
+        {
+          "height": 1684,
+          "sha256": "dfa965a6613b52ae17b7765d2712cb117818d24f6bb47e92a18ebeb88caf65ac",
+          "width": 1191
+        }
+      ],
+      "pageCount": 3,
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=22916",
+      "problemUrl": "https://qoj.ac/problem/22916",
+      "samplePairs": 1,
+      "sampleSha256": "a3da8a4e00a2ebee0ca04606c99cbf00a1eb90b8488a0eb8cbeee8dc089f9ceb",
+      "sourceHtmlSha256": "1c44b063935628375cc72b2d7fdcdb66755447504c8373c44b1cc1e0b7ab9e53",
+      "sourcePdfSha256": "5eb39c7a440145a6f3d7ea5db32c6833493bb51630283acd3b5b76f80029e26a",
+      "statementSha256": "ce58f9c941b7d99dad7250bb95239a3cb4a577cc54af0eaa4428c54114fb291a"
+    },
+    {
+      "contestUrl": "https://qoj.ac/contest/4582",
+      "images": [
+        {
+          "height": 1684,
+          "sha256": "b31f58e6a625039aae88011b54496b7261b5d5435afd0d5d10c1f376960b5fe4",
+          "width": 1191
+        },
+        {
+          "height": 1684,
+          "sha256": "c453cdbfe0f803e9cf5478f8bbf85cf84c61336378cd04e94d596392fceb4ac7",
+          "width": 1191
+        }
+      ],
+      "pageCount": 2,
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=22917",
+      "problemUrl": "https://qoj.ac/problem/22917",
+      "samplePairs": 2,
+      "sampleSha256": "c5d5680cf821b17b6bc660758c82c5c21f8105f05453d2a6da7d4ed651982237",
+      "sourceHtmlSha256": "4d18df9e604cbc10606fa4907ea4616dca8714f83132e18277706428849d937f",
+      "sourcePdfSha256": "4e0e11ebd0e7d31827ee689ef998c848a4aa576ddac1955c4a8c47a171bf6467",
+      "statementSha256": "dbbbffd6324e2b9c035f358aeb4bc0407db3f903439dace6549c50e152a21505"
+    },
+    {
+      "contestUrl": "https://qoj.ac/contest/4582",
+      "images": [
+        {
+          "height": 1684,
+          "sha256": "07218141d9c1b2036218801b0f6545393aeda0f6b1d2279cf497b71e36fd34a2",
+          "width": 1191
+        },
+        {
+          "height": 1684,
+          "sha256": "08d1d4ab4ce3fbb38da1e9ba07540b15812765a9c815d435c598c766cc577366",
+          "width": 1191
+        },
+        {
+          "height": 1684,
+          "sha256": "62087924b102e26b972d87acfb1713f0f5098b42740ad322131f871834b17b98",
+          "width": 1191
+        },
+        {
+          "height": 1684,
+          "sha256": "c30001c39a161c6c36a927c7041513cd9a137bdf09bd56e3a92f0eb3bed83adf",
+          "width": 1191
+        }
+      ],
+      "pageCount": 4,
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=22918",
+      "problemUrl": "https://qoj.ac/problem/22918",
+      "samplePairs": 0,
+      "sampleSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "sourceHtmlSha256": "bd56637378dc9744edc78c69ec833b8de27f8ec01a2ea409696819177fe888f0",
+      "sourcePdfSha256": "bfa50bbf240f0aa679b87a53864104dd418136cca95374a2ef3379d3f3198fb6",
+      "statementSha256": "945ab3479c959511f72c1cd8f958828dbecf38c56aa6d22ab0d0396bbe2864ed"
+    },
+    {
+      "contestUrl": "https://qoj.ac/contest/4582",
+      "images": [
+        {
+          "height": 1684,
+          "sha256": "b336ef55e505703eeac076917336a848c85d7c311fccc1dd9f27e9746bdfc79a",
+          "width": 1191
+        },
+        {
+          "height": 1684,
+          "sha256": "4bfee77973ce4c805f9e1f0f820a896696681730532bebac3eaed61232fc19a8",
+          "width": 1191
+        }
+      ],
+      "pageCount": 2,
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=22919",
+      "problemUrl": "https://qoj.ac/problem/22919",
+      "samplePairs": 1,
+      "sampleSha256": "885e542a1fe8eea496eedcf916dca53563f7acd7b6e832c75718db4812874e84",
+      "sourceHtmlSha256": "c2a53a7085dcec21c2051460a20ae619a0634b848c61137dab527eab414f5962",
+      "sourcePdfSha256": "c7cf328ea7c0c8aefcadaccfa0f94cf6b1f52460593539d119519ab83814af9a",
+      "statementSha256": "87333abfb5187dc9ddbe723f8bb44ce9f92750f3086ac6b65d7f473ec4df6561"
+    },
+    {
+      "contestUrl": "https://qoj.ac/contest/4582",
+      "images": [
+        {
+          "height": 1684,
+          "sha256": "f8dc1343a76fd1b3c04c636d7108a483313fc57ec00852bac9a771acef97ec6a",
+          "width": 1191
+        },
+        {
+          "height": 1684,
+          "sha256": "d605161473c56610ca642ee6700285ef696e77a8bcfcfa6f1cb6a7d445cdcf54",
+          "width": 1191
+        }
+      ],
+      "pageCount": 2,
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=22920",
+      "problemUrl": "https://qoj.ac/problem/22920",
+      "samplePairs": 1,
+      "sampleSha256": "f111e50d7a1ab82b518491b759e499ea1b602e4e1375cd6d4134250cdd751da5",
+      "sourceHtmlSha256": "1545185639f2b9c0950401dd598142134e33d6e0ed58950a34036a08a911350c",
+      "sourcePdfSha256": "fd033d1ce16ecb5a65ff340883d19e8e4405323c5ae8032669efd0c30c1e6168",
+      "statementSha256": "83cf4d38997192cfb8a6735975da5dd4b130afa5ea7ae504f620b9bd357534ef"
+    },
+    {
+      "contestUrl": "https://qoj.ac/contest/4582",
+      "images": [
+        {
+          "height": 1684,
+          "sha256": "142c1f08c8889bf4ca10fb2385dd7ab995cc4a183cb543f40564cbeac9ec6ac3",
+          "width": 1191
+        },
+        {
+          "height": 1684,
+          "sha256": "046b7af460593410d0a06f56e6f93de9de1f8bbb8c5d30a7d20103d295a05658",
+          "width": 1191
+        }
+      ],
+      "pageCount": 2,
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=22921",
+      "problemUrl": "https://qoj.ac/problem/22921",
+      "samplePairs": 1,
+      "sampleSha256": "d869d236ead4038fbad47dec0f479b4a065ebc29b91e90f2d674f3b03e1c8a21",
+      "sourceHtmlSha256": "e7b193f41cdc502280f039b72e60cdcb1a75b30d91ed3fc570b38906a8cb4dc8",
+      "sourcePdfSha256": "59b25a337ad3b218c68a28e4f83d4892a984c7d468b8d9a925d8abed7ee3f45d",
+      "statementSha256": "ca46a383b6fe55cda6b27ae6c3ea0c078753763283a69cc71fa4503be425a465"
+    },
+    {
+      "contestUrl": "https://qoj.ac/contest/4582",
+      "images": [
+        {
+          "height": 1684,
+          "sha256": "bbef968de19cdf473dc74aa9ffde9b6618a4e41f30a12355e552074fb772d825",
+          "width": 1191
+        },
+        {
+          "height": 1684,
+          "sha256": "ffa5fefde0b7dcc3bc39bfacf78512c3cf7ca03ea4c39e2e25d4d33c7484bc16",
+          "width": 1191
+        }
+      ],
+      "pageCount": 2,
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=22922",
+      "problemUrl": "https://qoj.ac/problem/22922",
+      "samplePairs": 1,
+      "sampleSha256": "31630336b63863b315966c82b90dfe288f7dbdd70755d3d3e8ddfd81b23003b5",
+      "sourceHtmlSha256": "aad9f9b26ed692f43c8150c0d166f99f9e0c4f5569c769a70826455aafc3125e",
+      "sourcePdfSha256": "1ef40214e36dfe9e50ad77d31652bad2b5cd1d9c0757e5e0d309f55f8c37226f",
+      "statementSha256": "943e80083e2dc63d5169555a11e82ac79ef78640f2565c82831884bba77a1e18"
+    }
+  ],
+  "rosterSha256": "6b47e8871a0b7f5cebc0971e702870475cfd9ae030132ee4ca06662356206f81",
+  "rosterUrl": "https://qoj.ac/problems?tag=CCPC+Changchun+2026",
+  "samplePairs": 15,
+  "schema": 1,
+  "standardProblemCount": 11
+}

@@ -1,0 +1,108 @@
+{
+  "chapterProblemCount": 47,
+  "originalGlobalProblemCount": 604,
+  "problems": [
+    {
+      "problemUrl": "https://ac.nowcoder.com/acm/problem/16570",
+      "sampleSha256": "b2dfc9884d717ec73c0e30ab500610eb8ab4769edd4071a719eca09f72322cfe",
+      "samples": 1,
+      "sourceHtmlBytes": 16621,
+      "sourceHtmlSha256": "c29f99b0bfaa4079fc07901c3d895db5f09296c93a2dbbbec615afe34dde3fa9"
+    },
+    {
+      "problemUrl": "https://ac.nowcoder.com/acm/problem/18929",
+      "sampleSha256": "3d531ff3cd27c2ac1818ba9fa92cafdcb2580f218a9780fc71a6528e712f2f41",
+      "samples": 1,
+      "sourceHtmlBytes": 16990,
+      "sourceHtmlSha256": "c892d1bcd3ff730ca10dd55db96f0c12811a866e94a90c1c5dea8fcaf0d8fc18"
+    },
+    {
+      "problemUrl": "https://ac.nowcoder.com/acm/problem/22206",
+      "sampleSha256": "a6d18bc93a221eff8bb793cdcadec7f78656127093a423c320892836d0fd563a",
+      "samples": 1,
+      "sourceHtmlBytes": 17505,
+      "sourceHtmlSha256": "b45830c1f0d40b5aabdf0387bb6c0b3a7a771c6cd02f8f4fcb9a3964abbfe2f9"
+    },
+    {
+      "problemUrl": "https://ac.nowcoder.com/acm/problem/201524",
+      "sampleSha256": "a0082a1ac4f6683718a9bdfe26067379f26acd67e7828021661c6244a2ad2e55",
+      "samples": 1,
+      "sourceHtmlBytes": 16707,
+      "sourceHtmlSha256": "73c1c421938f762a5106052755c9eac542850e3e5b16616c9ef415eb4abbc6cb"
+    },
+    {
+      "problemUrl": "https://ac.nowcoder.com/acm/problem/214222",
+      "sampleSha256": "0da369fcd9468d18c9a89a66dfc6c08e1a536dc973f76a9bd46fdd2941107df4",
+      "samples": 2,
+      "sourceHtmlBytes": 20185,
+      "sourceHtmlSha256": "1fa916e82f0e5f27c1147e5869a2cfc11f0e57b112d3dce43e9174be46a8672d"
+    },
+    {
+      "problemUrl": "https://ac.nowcoder.com/acm/problem/21985",
+      "sampleSha256": "64f47f0e86d898757ecf8d789384f4e6e59a17e23a84f9eb59e0a418a0793db4",
+      "samples": 1,
+      "sourceHtmlBytes": 17247,
+      "sourceHtmlSha256": "92269187cbb1274c318794ca92acde9393da1054dffdd67528af6d7b6e825a24"
+    },
+    {
+      "problemUrl": "https://ac.nowcoder.com/acm/problem/21986",
+      "sampleSha256": "6f2edef078d3c3c9578f98e259a6a3e8360c690e379160d4834dd15b7bac4114",
+      "samples": 2,
+      "sourceHtmlBytes": 19852,
+      "sourceHtmlSha256": "fab88efc44dee2dc70e930f6a497e5be21845e71219fcf684f83eb63904cdced"
+    },
+    {
+      "problemUrl": "https://ac.nowcoder.com/acm/problem/21987",
+      "sampleSha256": "c5cd6d28d266aa4ebe7f6de884f1cacff47c282eb2b879099c522eeef57bccd6",
+      "samples": 2,
+      "sourceHtmlBytes": 19965,
+      "sourceHtmlSha256": "f4d046d708f25ecb2b34f8158dfb933ddf6620dd9c302ba92ace63fa64036436"
+    },
+    {
+      "problemUrl": "https://ac.nowcoder.com/acm/problem/21988",
+      "sampleSha256": "16595c81c2c499fd721da2f4c3b1d7b14741ac5d6c508b033fb569a509c6561e",
+      "samples": 1,
+      "sourceHtmlBytes": 17122,
+      "sourceHtmlSha256": "9804d176acd672868d9be6ccf5e2645de921e529105f93e056261cd8174e1669"
+    },
+    {
+      "problemUrl": "https://ac.nowcoder.com/acm/problem/21989",
+      "sampleSha256": "9da2052db3dd87bb6f69e98068011d2a3a99bab971cc6e0c533391f9c2e92b06",
+      "samples": 2,
+      "sourceHtmlBytes": 18901,
+      "sourceHtmlSha256": "aac152d2df07a483de0bc0296a936344848825a1f0ff0fb842e489bd5aaa7a42"
+    },
+    {
+      "problemUrl": "https://ac.nowcoder.com/acm/problem/21992",
+      "sampleSha256": "1fa503dba0611fcf6e668edfb463204dec2d6069453773f99631f2ee48b97dc4",
+      "samples": 1,
+      "sourceHtmlBytes": 17806,
+      "sourceHtmlSha256": "724c90654508df22f1de341afdd2c5b4efbd7cd55c7fc3f937b0bafdb2879220"
+    },
+    {
+      "problemUrl": "https://ac.nowcoder.com/acm/problem/21453",
+      "sampleSha256": "9948a0e3a4647269be792b95de0fe4e623a3f01343d680426898a90335388622",
+      "samples": 1,
+      "sourceHtmlBytes": 17763,
+      "sourceHtmlSha256": "ea6ba2efb74cb8e1a30932b3dd69b041a2865f0f7f844c700ff507224c80d112"
+    },
+    {
+      "problemUrl": "https://ac.nowcoder.com/acm/problem/21310",
+      "sampleSha256": "89418b426ff867b9b960bfbd0eea9239972b757758502d3992c8d6bb7c5acfad",
+      "samples": 1,
+      "sourceHtmlBytes": 17560,
+      "sourceHtmlSha256": "91c01a3dfff7f65742b6d7cee9883f6f5008267dea7ccc0fb2ebc861423224ce"
+    },
+    {
+      "problemUrl": "https://ac.nowcoder.com/acm/problem/206668",
+      "sampleSha256": "26544eba1913b748b130a37311d44699c23121c8f68543e153a490a934537eff",
+      "samples": 2,
+      "sourceHtmlBytes": 19715,
+      "sourceHtmlSha256": "564a5f016f7714df63eac4a92c2c95c8793007a56cf4e0933f317cbf09fdda88"
+    }
+  ],
+  "samplePairCount": 19,
+  "selectedProblemCount": 14,
+  "sourceHtmlSha256": "3b90d18ced5ff61f29e04d9d5292167cc0c6b1720d4e07974f3276d363425955",
+  "sourceUrl": "https://ac.nowcoder.com/discuss/817596"
+}

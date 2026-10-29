@@ -29,8 +29,13 @@ def submission_target(url):
         if not m:raise ValueError('AtCoder 题目地址无效')
         contest,problem=m.groups();path=f'/contests/{contest}/submit'
     elif platform=='牛客':
-        if not re.fullmatch(r'/acm/contest/\d+/[A-Za-z]\d?',path):raise ValueError('牛客题目地址无效')
-        problem=path.rsplit('/',1)[-1]
+        global_problem=re.fullmatch(r'/acm/problem/([1-9]\d{0,19})',path)
+        if global_problem:
+            if p.scheme!='https' or p.port not in (None,443) or p.query or p.fragment:raise ValueError('牛客题目地址无效')
+            problem=global_problem[1]
+        else:
+            if not re.fullmatch(r'/acm/contest/\d+/[A-Za-z]\d?',path):raise ValueError('牛客题目地址无效')
+            problem=path.rsplit('/',1)[-1]
     elif platform=='QOJ':
         m=re.fullmatch(r'/problem/([1-9]\d*)',path)
         if not m or p.scheme!='https' or p.port not in (None,443) or p.query:raise ValueError('QOJ 题目地址无效')

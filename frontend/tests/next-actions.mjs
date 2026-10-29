@@ -121,8 +121,21 @@ try{
   await root.waitFor();
   assert.equal(await page.locator('[data-recommendation]').count(),1,'Default chrome shows a single actionable recommendation');
   await hover();
-  assert.match(await page.locator('.next-actions-reason').innerText(),/1 道.*到期/);
-  const listAction=page.getByRole('button',{name:'开始基础题单 输入输出与顺序结构',exact:true});
+  assert.equal(await page.locator('.next-actions-primary small').count(),0,'The top task has no next-step/category label');
+  assert.equal(await page.locator('.next-actions-reason').count(),0,'Reasons are tooltips, not a second information panel');
+  assert(!/优先推荐的原因|根据当前学习记录|接下来还可以/.test(await popup().innerText()));
+  const allTasks=popup().locator('.next-actions-item');
+  assert.equal(await allTasks.count(),4,'Review, current foundation list and two distinct alternatives are all directly actionable');
+  for(const task of await allTasks.all()){
+    const description=await task.getAttribute('aria-describedby');
+    assert(description&&await page.locator(`[id="${description}"]`).count()===1);
+    const reason=await page.locator(`[id="${description}"]`).innerText();
+    assert(reason.length>20);assert((await task.getAttribute('title')).includes(reason));
+    assert.equal(await task.locator('small').count(),0);
+    assert(!(await task.innerText()).includes(reason),'A long recommendation reason is not visibly rendered');
+  }
+  assert.match(await allTasks.first().getAttribute('title'),/1 道.*到期/);
+  const listAction=popup().getByRole('button',{name:'开始基础题单 输入输出与顺序结构',exact:true});
   await listAction.waitFor();
   const bounds=await root.boundingBox();
   await page.mouse.move(bounds.x+20,bounds.y+bounds.height+4);
@@ -137,10 +150,12 @@ try{
   phase='keyboard-and-outside';
   await page.mouse.move(800,500);await toggle().focus();await popup().waitFor();
   await page.keyboard.press('ArrowDown');
-  await page.waitForFunction(()=>document.activeElement?.dataset.recommendation==='list');
-  for(const key of ['ArrowUp','Home','End']){
-    await page.keyboard.press(key);assert.equal(await listAction.evaluate(node=>node===document.activeElement),true);
-  }
+  await page.waitForFunction(()=>document.activeElement?.dataset.recommendation==='review');
+  await page.keyboard.press('ArrowDown');assert.equal(await listAction.evaluate(node=>node===document.activeElement),true);
+  await page.keyboard.press('End');assert.equal(await allTasks.last().evaluate(node=>node===document.activeElement),true);
+  await page.keyboard.press('Home');assert.equal(await allTasks.first().evaluate(node=>node===document.activeElement),true);
+  await page.keyboard.press('ArrowUp');assert.equal(await allTasks.last().evaluate(node=>node===document.activeElement),true);
+  await page.keyboard.press('ArrowDown');assert.equal(await allTasks.first().evaluate(node=>node===document.activeElement),true);
   await page.keyboard.press('Escape');
   assert.equal(await popup().count(),0);assert.equal(await toggle().evaluate(node=>node===document.activeElement),true);
   await page.keyboard.press('Enter');await popup().waitFor();
@@ -171,9 +186,13 @@ try{
 
   phase='active-contest-and-suspended';
   await page.evaluate(()=>window.fixtureUpdate({contest:{id:'current',name:'正在进行的试卷'}}));
-  const contest=page.getByRole('button',{name:'开始继续比赛 正在进行的试卷',exact:true});await contest.waitFor();
-  await hover();assert.equal(await page.locator('.next-actions-item').count(),0);
-  assert.match(await page.locator('.next-actions-reason').innerText(),/已有正在进行的模拟赛/);
+  const contest=page.locator('.next-actions-primary');await contest.waitFor();
+  await page.waitForFunction(()=>document.querySelector('.next-actions-primary')?.dataset.recommendation==='contest');
+  await hover();assert.equal(await page.locator('.next-actions-item').count(),1);
+  assert.match(await popup().locator('.next-actions-item').getAttribute('title'),/已有正在进行的模拟赛/);
+  await popup().getByRole('button',{name:'开始继续比赛 正在进行的试卷',exact:true}).click();
+  assert.deepEqual(await lastAction(),{navigate:'contest',id:'current'});
+  await hover();
   await page.evaluate(()=>{
     window.fixtureUpdate({suspended:true});window.fixtureEscapes=0;
     document.addEventListener('keydown',event=>{if(event.key==='Escape')window.fixtureEscapes++;});
@@ -189,7 +208,10 @@ try{
   try{
     const touch=await touchContext.newPage();await preparePage(touch);
     await touch.getByRole('button',{name:'展开下一步推荐任务',exact:true}).tap();
-    await touch.locator('.next-actions-popover').waitFor();
+    const touchPopup=touch.locator('.next-actions-popover');await touchPopup.waitFor();
+    await touchPopup.getByRole('button',{name:'开始间隔复习 待复习的前缀和练习',exact:true}).tap();
+    assert.deepEqual(await touch.evaluate(()=>window.fixtureEvents.at(-1)),{train:'B'});
+    await touch.getByRole('button',{name:'展开下一步推荐任务',exact:true}).tap();await touchPopup.waitFor();
     await touch.touchscreen.tap(425,790);assert.equal(await touch.locator('.next-actions-popover').count(),0);
   }finally{await touchContext.close();}
 
@@ -203,7 +225,7 @@ try{
   assert.deepEqual(errors,[]);assert.deepEqual(unknown,[]);
   assert(requests.includes('/api/training-lists')&&requests.includes('/api/templates'));
   Object.assign(report,{ok:true,hoverBridge:true,independentNavigation:true,keyboard:true,outsideClose:true,
-    touch:true,suspended:true,openChange:true,unmountCloses:true,reducedMotion:true,realOfficialSubmissionsSent:0});
+    touch:true,suspended:true,openChange:true,unmountCloses:true,reducedMotion:true,reasonTooltips:true,allTasksDirect:true,realOfficialSubmissionsSent:0});
   console.log(JSON.stringify({ok:true,geometryCases:report.geometry.length,report:path.join(output,'report.json')}));
 }catch(error){
   report.failure={phase,message:error.message};

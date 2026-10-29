@@ -16,7 +16,7 @@ export default function NextActions({rows,training,insights,prefs,api,availableP
  useEffect(()=>{const refresh=()=>setRevision(value=>value+1);window.addEventListener('tb:training-lists-changed',refresh);return()=>window.removeEventListener('tb:training-lists-changed',refresh);},[]);
  const scope=availablePages.join(',');
  useEffect(()=>{let alive=true;const requests=[['training-lists','lists'],['templates','templates']].filter(([page])=>availablePages.includes(page));Promise.allSettled(requests.map(async([page,key])=>[key,(await api(page))[key]||[]])).then(results=>{if(alive)setMetadata(Object.fromEntries([['lists',[]],['templates',[]],...results.filter(item=>item.status==='fulfilled').map(item=>item.value)]));});return()=>{alive=false;};},[api,scope,revision]);
- const items=nextActions({rows,training,insights:insights||{},prefs,...metadata,availablePages,activeContest,reviewPlan}),primary=items[0],rest=items.slice(1);
+ const items=nextActions({rows,training,insights:insights||{},prefs,...metadata,availablePages,activeContest,reviewPlan}),primary=items[0];
  const expanded=Boolean(open&&!suspended&&primary);
  useEffect(()=>{openChanged.current?.(expanded);},[expanded]);
  useEffect(()=>()=>openChanged.current?.(false),[]);
@@ -64,8 +64,8 @@ export default function NextActions({rows,training,insights,prefs,api,availableP
  if(!primary)return null;
  const Icon=icons[primary.kind];
  return <section ref={root} className="next-actions" aria-label="下一步推荐做的事" data-open={open&&!suspended} data-suspended={suspended} onMouseEnter={show} onMouseLeave={leave} onFocus={()=>{if(!ignoreFocus.current)show();}} onBlur={blur}>
-  <button type="button" className="next-actions-primary" data-recommendation={primary.kind} aria-label={`开始${labels[primary.kind]} ${primary.title}`} aria-describedby={reasonId} disabled={suspended} onClick={()=>start(primary)} onKeyDown={openWithKeys}>
-   <Icon size={19} aria-hidden="true"/><span className="next-actions-primary-copy"><small>下一步 · {labels[primary.kind]}</small><strong>{primary.title}</strong></span><ArrowRight className="next-actions-primary-arrow" size={15} aria-hidden="true"/>
+  <button type="button" className="next-actions-primary" data-recommendation={primary.kind} aria-label={`开始${labels[primary.kind]} ${primary.title}`} aria-describedby={reasonId} title={`${labels[primary.kind]}：${primary.title}\n${primary.reason}`} disabled={suspended} onClick={()=>start(primary)} onKeyDown={openWithKeys}>
+   <Icon size={19} aria-hidden="true"/><span className="next-actions-primary-copy"><strong>{primary.title}</strong></span><ArrowRight className="next-actions-primary-arrow" size={15} aria-hidden="true"/>
   </button>
   <span className="sr-only" id={reasonId}>{primary.reason}</span>
   <button ref={toggle} type="button" className="next-actions-toggle" aria-label={open&&!suspended?'收起下一步推荐任务':'展开下一步推荐任务'} aria-expanded={open&&!suspended} aria-controls={popupId} disabled={suspended} onPointerDown={event=>{event.currentTarget.dataset.wasOpen=String(open);}} onClick={event=>{const wasOpen=event.currentTarget.dataset.wasOpen;delete event.currentTarget.dataset.wasOpen;if(wasOpen==='true'||wasOpen===undefined&&open)close();else show();}} onKeyDown={openWithKeys}><ChevronDown size={17} aria-hidden="true"/></button>
@@ -75,9 +75,7 @@ export default function NextActions({rows,training,insights,prefs,api,availableP
     const buttons=[...event.currentTarget.querySelectorAll('.next-actions-item')],index=buttons.indexOf(document.activeElement);if(index<0)return;
     event.preventDefault();buttons[event.key==='Home'?0:event.key==='End'?buttons.length-1:(index+(event.key==='ArrowDown'?1:-1)+buttons.length)%buttons.length]?.focus();
    }}>
-    <header><strong>下一步推荐做的事</strong><small>根据当前学习记录</small></header>
-    <div className="next-actions-reason"><span>优先推荐的原因</span><strong>{primary.title}</strong><p>{primary.reason}</p></div>
-    {rest.length>0&&<><h3>接下来还可以</h3><ul>{rest.map(item=>{const ItemIcon=icons[item.kind];return <li key={item.kind}><button type="button" className="next-actions-item" data-recommendation={item.kind} aria-label={`开始${labels[item.kind]} ${item.title}`} onClick={()=>start(item)}><ItemIcon size={18} aria-hidden="true"/><span className="next-actions-item-copy"><small>{labels[item.kind]}</small><strong>{item.title}</strong><span>{item.reason}</span></span><ArrowRight size={16} aria-hidden="true"/></button></li>;})}</ul></>}
+    <ul>{items.map((item,index)=>{const ItemIcon=icons[item.kind],description=`${popupId}-reason-${index}`;return <li key={`${item.kind}:${item.id}`}><button type="button" className="next-actions-item" data-recommendation={item.kind} aria-label={`开始${labels[item.kind]} ${item.title}`} aria-describedby={description} title={`${labels[item.kind]}：${item.title}\n${item.reason}`} onClick={()=>start(item)}><ItemIcon size={18} aria-hidden="true"/><span className="next-actions-item-copy"><strong>{item.title}</strong></span><ArrowRight size={16} aria-hidden="true"/></button><span className="sr-only" id={description}>{item.reason}</span></li>;})}</ul>
    </section>
   </div>,document.body)}
  </section>;

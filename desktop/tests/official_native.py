@@ -15,7 +15,7 @@ from official_bridge import OfficialBridge
 
 
 def run():
-    result={};phase={'value':'main'};requests=[];mode={'language':'C++(g++ 13)','authorized':False,'modern':False,'cfPosted':False,'cfFinished':False}
+    result={};phase={'value':'main'};requests=[];mode={'language':'C++(g++ 13)','authorized':False,'modern':False,'global':False,'globalWrongPage':False,'cfPosted':False,'cfFinished':False}
     with tempfile.TemporaryDirectory(prefix='tb-v5-native-',ignore_cleanup_errors=True) as directory:
         main=webview.create_window('TB hidden official layout proof',html='<html><body><script>window.preserved=7</script></body></html>',width=1480,height=920,hidden=True)
         from webview_resources import bind as bind_resources
@@ -48,7 +48,7 @@ def run():
                 elif 'victorinox.nowcoder.com/api/service/judge/submit' in str(request.Uri):
                     content=json.dumps({'code':0,'data':2002});headers='Content-Type: application/json\r\nAccess-Control-Allow-Origin: https://ac.nowcoder.com\r\nAccess-Control-Allow-Credentials: true'
                 elif str(request.Uri).split('?')[0].endswith('/submit_cd'):
-                    content=json.dumps({'code':0,'data':{'submissionId':2001}});headers='Content-Type: application/json'
+                    content=json.dumps({'code':0,'data':{'submissionId':4001 if mode['global'] else 2001}});headers='Content-Type: application/json'
                 elif str(request.Uri).split('?')[0].endswith('/status'):
                     content=json.dumps({'code':0,'data':{'status':5,'desc':'答案正确','memo':'通过全部用例'}});headers='Content-Type: application/json'
                 elif str(request.Method)=='POST':
@@ -76,6 +76,14 @@ def run():
 window.pageInfo={{contestId:'127263',questionId:'11604979'}};window.globalInfo={{ownerId:12345}};
 const savedFetch=window.fetch.bind(window);
 document.querySelector('form').onsubmit=async event=>{{event.preventDefault();const data=await savedFetch('{endpoint}',{{method:'POST',credentials:'include',body:new URLSearchParams({{questionId:'11604979',content:document.querySelector('textarea').value,submitType:1,userId:12345,appId:6,tagId:4,token:'fixture-only-token'}})}}).then(r=>r.json());{status_call}}};
+</script></body></html>'''
+                    if '/acm/problem/' in str(request.Uri):
+                        problem='16571' if mode['globalWrongPage'] else '16570'
+                        content=f'''<html><title>Nowcoder global native fixture</title><body><form><select name="language"><option value="2">C++（clang++18）</option></select><textarea name="sourceCode"></textarea><button class="btn-submit" type="submit">保存并提交</button></form><script>
+window.isLogin=true;window.pageInfo={{problemId:'{problem}',questionId:'170283',doneQuestionId:'{problem}',tagId:'4',subTagId:'0',codeJudgeType:'0'}};window.globalInfo={{ownerId:12345}};
+document.cookie='csrf_token=fixture-native-global-csrf; path=/; Secure; SameSite=Lax';
+window.nativeSubmitClicks=0;const savedFetch=window.fetch.bind(window);
+document.querySelector('form').onsubmit=async event=>{{event.preventDefault();window.nativeSubmitClicks++;const target=new URL('/nccommon/submit_cd',location.origin);target.searchParams.set('token',document.cookie.split(';').map(v=>v.trim()).find(v=>v.startsWith('csrf_token=')).slice(11));await savedFetch(target,{{method:'POST',credentials:'same-origin',body:new URLSearchParams({{questionId:window.pageInfo.questionId,doneQuestionId:window.pageInfo.doneQuestionId,tagId:4,subTagId:0,language:document.querySelector('select').value,languageName:'C++（clang++18）',content:document.querySelector('textarea').value}})}}).then(r=>r.json());}};
 </script></body></html>'''
                     if 'luogu.com.cn/problem/' in str(request.Uri):
                         content='''<html><title>Luogu submit</title><meta name="csrf-token" content="fixture-csrf"><script id="lentille-context" type="application/json">{"template":"problem.show","user":{"uid":12345},"data":{"problem":{"pid":"P1063","acceptLanguages":[12]}}}</script><body><form><select name="lang"><option value="12">C++17</option></select><div class="cm-editor"><div class="cm-content"></div></div><button type="submit">提交代码</button></form><script>
@@ -150,6 +158,27 @@ const savedFetch=fetch.bind(window);document.querySelector('form').onsubmit=asyn
                 assert bridge.status(modern['sessionId'])['submissionId']=='2002'
                 assert any('victorinox.nowcoder.com/api/service/judge/submit-status' in url for _,url,_ in requests)
                 result['earlyObserverWithCachedFetchAndCrossOriginPolling']=True
+                phase['value']='global Nowcoder native form';mode.update({'global':True,'modern':False,'globalWrongPage':False})
+                before=sum(method=='POST' for method,_,_ in requests);request_start=len(requests)
+                global_url='https://ac.nowcoder.com/acm/problem/16570'
+                global_session=bridge.submit(global_url,'int main(){}','Global original')
+                wait(lambda:sum(method=='POST' for method,_,_ in requests)>before)
+                assert bridge._eval('window.nativeSubmitClicks',identity=global_session['sessionId'])==1
+                wait(lambda:bridge.status(global_session['sessionId'],inspect=False)['status']=='finished')
+                status=bridge.status(global_session['sessionId'],inspect=False)
+                assert (status['submissionId'],status['verdict'])==('4001','AC'),status
+                assert sum(method=='POST' for method,_,_ in requests)==before+1
+                post=next((url,body) for method,url,body in requests[request_start:] if method=='POST' and '/nccommon/submit_cd' in url and 'doneQuestionId=16570' in body)
+                assert 'token=fixture-native-global-csrf' in post[0] and 'questionId=170283' in post[1] and 'language=2' in post[1] and 'contestId=' not in post[1],post
+                bridge.close(global_session['sessionId'])
+                result['globalNativeFormOriginalIdsCsrfLanguageAndHostPolling']=True
+                phase['value']='global Nowcoder wrong page';mode['globalWrongPage']=True
+                before=sum(method=='POST' for method,_,_ in requests)
+                wrong=bridge.submit(global_url,'int main(){return 1;}','Wrong global page fixture')
+                wait(lambda:bridge.status(wrong['sessionId'],inspect=False)['status']=='error')
+                assert sum(method=='POST' for method,_,_ in requests)==before
+                bridge.close(wrong['sessionId']);mode.update({'global':False,'globalWrongPage':False})
+                result['globalWrongPageCannotSubmit']=True
                 phase['value']='Luogu Columba login';mode['authorized']=False
                 luogu_url='https://www.luogu.com.cn/problem/P1063'
                 lg=bridge.submit(luogu_url,'int main(){}','Luogu')

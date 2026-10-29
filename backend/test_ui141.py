@@ -74,11 +74,49 @@ class ReviewedKnowledgeTests(unittest.TestCase):
         root=Path(__file__).resolve().parents[1]
         review=json.loads((root/'backend/resources/knowledge_topic_review.json').read_text(encoding='utf-8'))
         solutions={p['problem_id']:p['markdown'] for p in json.loads((root/'data/library/solutions.json').read_text(encoding='utf-8'))}
+        detailed={p['problem_id']:p['markdown'] for p in json.loads((root/'data/library/detailed_solutions.json').read_text(encoding='utf8'))}
+        statements={p['problem_id']:p['content'] for p in json.loads((root/'data/library/statements.json').read_text(encoding='utf8'))}
+        current=json.loads((root/'backend/resources/metadata-review-1430.json').read_text(encoding='utf8'))
+        algorithms={item['id']:item for item in current['knowledgeReviews']}
+        foundations={item['id']:item for item in current['foundationEditorials']}
         audit=json.loads((root/'backend/resources/metadata-review-1423.json').read_text(encoding='utf8'))
         external={item['id']:item for item in audit['estimated'] if item['id'].startswith('remote:atcoder:')}
         published={item['id']:item for item in audit.get('knowledgeReviews',[])}
         for rule in review['problems'].values():
             for source in rule['sources']:
+                # An independent derivation binds to its complete source
+                # statement and reproducible review payload, not a nonexistent
+                # public editorial. Keep the existing editorial checks below.
+                if source.get('reviewKind')=='independently-derived-and-locally-validated':
+                    identity=source['problemId'];item=algorithms[identity];statement=statements[identity]
+                    self.assertIn(identity,rule['problemIds'])
+                    self.assertEqual(source['reference'],'data/library/statements.json#'+identity)
+                    self.assertEqual(source['algorithmReview'],'backend/resources/metadata-review-1430.json#'+identity)
+                    content_hash=hashlib.sha256(json.dumps(statement,ensure_ascii=False,sort_keys=True).encode()).hexdigest()
+                    self.assertEqual(content_hash,item['statementContentSha256'])
+                    self.assertEqual(content_hash,source['sha256'])
+                    markdown_hash=hashlib.sha256(statement['markdown'].encode()).hexdigest()
+                    self.assertEqual(markdown_hash,item['statementMarkdownSha256'])
+                    self.assertEqual(markdown_hash,source['statementMarkdownSha256'])
+                    payload=item['independentReviewPayload']
+                    digest=hashlib.sha256(json.dumps(payload,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+                    self.assertEqual(digest,item['independentReviewSha256'])
+                    self.assertEqual(digest,source['independentReviewSha256'])
+                    self.assertEqual(payload['id'],identity)
+                    self.assertTrue(item['algorithm'] and item['derivation'])
+                    self.assertGreater(item['validation']['sampleCases'],0)
+                    self.assertGreater(item['validation']['oracleCases'],0)
+                    continue
+                if source.get('reviewKind')=='independently-reviewed-foundation-editorial':
+                    identity=source['problemId'];item=foundations[identity]
+                    self.assertIn(identity,rule['problemIds'])
+                    self.assertEqual(source['reference'],'data/library/detailed_solutions.json#'+identity)
+                    digest=hashlib.sha256(detailed[identity].encode()).hexdigest()
+                    self.assertEqual(digest,source['sha256'])
+                    self.assertEqual(digest,item['articles']['detailed_solutions']['markdownSha256'])
+                    self.assertEqual(hashlib.sha256(solutions[identity].encode()).hexdigest(),item['articles']['solutions']['markdownSha256'])
+                    self.assertEqual(hashlib.sha256(statements[identity]['markdown'].encode()).hexdigest(),source['statementMarkdownSha256'])
+                    continue
                 if source.get('kind')=='self-reviewed-statement':
                     item=published[source['problemId']]
                     self.assertEqual(source['reference'],item['source'])

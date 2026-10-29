@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {radarTopicGroups} from '../src/lib/radarTopicGroups.js';
+import {orderRadarNodes,radarTopicGroups} from '../src/lib/radarTopicGroups.js';
 import {catalogSegments,catalogPathMatches,contestOptions} from '../src/lib/contestCatalog.js';
 import {completeContest} from '../src/lib/completeContest.js';
 import {consolidateSmallCurriculum} from '../src/lib/trainingCurriculum.js';
@@ -9,6 +9,14 @@ const groups=radarTopicGroups([['empty',1600],['one',1000],['two',2000],['regula
 assert.equal(groups.length,2);assert(groups.some(node=>node.name==='regular'));
 const misc=groups.find(node=>node.name==='杂项');assert.deepEqual(misc.members,['one','two']);assert.equal(misc.difficulty,null);
 assert(!groups.some(node=>node.name==='empty'));
+const frequencies=Array.from({length:28},(_,i)=>({name:'topic-'+i,available:(i*7)%29,officialAccepted:100-i}));
+const untouched=JSON.stringify(frequencies),ranked=orderRadarNodes(frequencies);
+assert.equal(JSON.stringify(frequencies),untouched,'Frequency ordering does not mutate the taxonomy');
+assert(ranked.every((node,i)=>!i||ranked[i-1].available>=node.available));
+assert(ranked.slice(0,12).at(-1).available>=ranked.slice(12,24)[0].available);
+assert(ranked.slice(12,24).at(-1).available>=ranked.slice(24)[0].available);
+assert.deepEqual(orderRadarNodes([{name:'first',available:8},{name:'second',available:8},{name:'third',available:12}]).map(n=>n.name),['third','first','second'],'Tied counts keep their original order');
+assert.deepEqual(orderRadarNodes([{name:'common',available:3},{name:'杂项',available:5}]).map(n=>n.name),['杂项','common'],'Merged topics use their distinct union count');
 const regional={contest:'ICPC 2026 西安区域赛',series:'XCPC'};
 const provincial={contest:'CCPC 2026 黑龙江省赛',contestFullName:'CCPC2026黑龙江省大学生程序设计竞赛',xcpcKind:'省赛',series:'XCPC'};
 assert.deepEqual(catalogSegments(regional).slice(0,2),['XCPC','ICPC 区域赛']);

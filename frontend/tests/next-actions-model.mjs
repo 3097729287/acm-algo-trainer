@@ -201,6 +201,57 @@ test('unfinished prerequisite study outranks a possible mixed paper',()=>{
   prefs:{learningPaths:{activePath:'bfs',bfs:{mode:'learn'}}}});
  assert.equal(result[0].kind,'course');assert.equal(result[0].id,'bfs');assert(!result.some(item=>item.kind==='mixed'));
 });
+test('the current foundation unit offers several distinct direct exercises without jumping ahead',()=>{
+ const tasks=[1,2,3,4,5].map(n=>row('current-'+n,{tags:['输入输出']}));
+ const alias={...tasks[0],id:'current-alias',url:'https://codeforces.com/contest/900/problem/A'};
+ tasks[0]={...tasks[0],url:'https://codeforces.com/problemset/problem/900/A'};
+ const later=row('later-unit',{tags:['数组']}),advanced=row('a-unsupported',{tags:['网络流'],difficulty:1000});
+ const lists=[{id:'source:current',title:'输入输出与顺序结构',available:true,problems:[...tasks,alias,advanced].map(item=>({problemId:item.id}))},
+  {id:'source:later',title:'数组与字符串',available:true,problems:[later,advanced].map(item=>({problemId:item.id}))}];
+ const due=row('due-current',{accepted:true,queue:'review',reviewTask:{due:'2026-10-28'}});
+ const result=nextActions({rows:[...tasks,alias,later,advanced,due],training:[due],lists,availablePages:pages,now});
+ assert.deepEqual(result.map(item=>item.kind),['review','list','problem','problem','problem']);
+ assert(result.filter(item=>item.kind==='problem').every(item=>tasks.some(task=>task.id===item.id)));
+ assert(!result.some(item=>['later-unit','a-unsupported'].includes(item.id)));
+ assert.equal(result.filter(item=>item.id==='current-1'||item.id==='current-alias').length,1);
+ const hidden=nextActions({rows:[...tasks,alias],lists,availablePages:['mine'],now});
+ assert.equal(hidden.length,3);assert(hidden.every(item=>item.kind==='problem'));
+});
+
+test('extra foundation diagnostics remain complete, rated, unpassed and basic',()=>{
+ const valid=[1,2,3,4,5].map(n=>row('diagnostic-'+n,{tags:['模拟']}));
+ const excluded=[row('unknown-extra',{difficulty:null}),row('incomplete-extra',{catalogContentReady:false}),
+  row('advanced-extra',{tags:['网络流'],difficulty:1000}),row('passed-extra',{accepted:true}),row('tag-review-extra',{knowledgeReviewRequired:true})];
+ const result=nextActions({rows:[...excluded,...valid],availablePages:pages,now});
+ assert.equal(result.length,3);assert(result.every(item=>valid.some(task=>task.id===item.id)));
+ const onlyOne=nextActions({rows:[valid[0],...excluded],availablePages:pages,now});
+ assert.equal(onlyOne.length,1,'No unsupported tasks are invented to fill the menu');
+});
+
+test('six options can be offered only when each lesson or template has its own real prerequisite',()=>{
+ const basics=foundation.map(item=>({...item,tags:['数组','模拟','字符串']}));
+ const tasks=[row('sort-choice',{tags:['排序']}),prefix,row('bfs-choice',{tags:['BFS']}),row('dsu-choice',{tags:['并查集']}),
+  row('unsafe-shortest',{tags:['最短路','堆']})];
+ const operations=['kmp','z-function','trie'].map(id=>row('operation-'+id,{catalogHidden:true,difficulty:null,difficultySource:'',tags:['字符串']}));
+ const templates=operations.map((task,index)=>({id:['builtin:kmp','builtin:z-function','builtin:trie'][index],
+  title:task.id,builtin:true,tags:['字符串算法'],practiceIds:[task.id],practicePassed:[false]}));
+ const result=nextActions({rows:[...basics,...tasks,...operations],templates,availablePages:pages,now,insights:insight(foundationFacts)});
+ assert.equal(result.length,6);assert.deepEqual(result.map(item=>item.kind),['course','course','course','template','template','template']);
+ assert(!result.some(item=>item.id==='dijkstra'||item.id==='unsafe-shortest'));
+ assert(!result.some(item=>item.kind==='template-problem'),'Unstudied templates first offer their teaching text');
+ const paused=nextActions({rows:[...basics,...tasks,...operations],templates,availablePages:pages,now,insights:insight(foundationFacts),reviewPlan:{newMinutes:10}});
+ assert.deepEqual(paused,[]);
+});
+
+test('implemented template alternatives are exact pending operations and cannot repeat an original',()=>{
+ const alias={...drill1,id:'operation-alias',url:'https://qoj.ac/contest/3/problem/99/statement/zh_cn'};
+ const first={...drill1,url:'https://qoj.ac/problem/99'};
+ const result=nextActions({...base,rows:[...foundation,prefix,first,alias,drill2],
+  prefs:{learningPaths:{'prefix-difference':{mode:'guided'}}},templates:[{...template,practiceIds:[first.id,alias.id,drill2.id],practicePassed:[false,false,true]}]});
+ assert.equal(result.filter(item=>item.kind==='template-problem').length,1);
+ assert.equal(result[0].id,first.id);assert(!result.some(item=>item.id===drill2.id));
+});
+
 test('lesson IDs are shipped, actions stay bounded and the model does not mutate its inputs',()=>{
  const sorting=JSON.parse(fs.readFileSync(new URL('../../backend/resources/sorting-lab.json',import.meta.url)));
  const graph=JSON.parse(fs.readFileSync(new URL('../../backend/resources/graph-lab.json',import.meta.url)));

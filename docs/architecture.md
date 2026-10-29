@@ -1,5 +1,7 @@
 # ToBe 架构
 
+1.4.30 正在验证，尚未打包或发布；当前本机和公开正式版仍为 1.4.29。知识点按不同原题可用数量排序后分页，推荐默认只显示名称，类别和理由进入 tooltip，并提供最多六项同阶段选择。内容核验单独记录，未完成部分不计作已交付。[本次范围](releases/1.4.30.md)。
+
 1.4.29 已完成本机、[GitHub](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.29)与[国内统一发布](https://47.82.84.74/updates/stable/index.html)。能力证据、等级导航、离线学习、备份限额和公开热更新均已验收；共享服务保持 1.2.8。完整远端 CI 全部通过（[Actions](https://github.com/3097729287/acm-algo-trainer/actions/runs/40850211153)）。[交付证据](local-delivery-1.4.29.md)。
 
 ## 1.4.29 能力证据、等级导航、离线学习与公共热更新

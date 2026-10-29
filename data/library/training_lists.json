@@ -87835,5 +87835,138 @@
     "problems": [],
     "title": "洛谷题单 959907",
     "url": "https://www.luogu.com.cn/training/959907"
+  },
+  {
+    "aggregateChildren": false,
+    "available": true,
+    "categories": [
+      {
+        "id": "nowcoder-public-foundations",
+        "name": "牛客公开题单·语法入门",
+        "order": 0,
+        "position": 0
+      }
+    ],
+    "children": [],
+    "id": "nowcoder-817596-sequential-verified",
+    "problemCount": 14,
+    "problems": [
+      {
+        "pid": "NC16570",
+        "problemId": "nowcoder-global::16570",
+        "sections": [
+          "顺序结构程序设计"
+        ],
+        "url": "https://ac.nowcoder.com/acm/problem/16570"
+      },
+      {
+        "pid": "NC18929",
+        "problemId": "nowcoder-global::18929",
+        "sections": [
+          "顺序结构程序设计"
+        ],
+        "url": "https://ac.nowcoder.com/acm/problem/18929"
+      },
+      {
+        "pid": "NC22206",
+        "problemId": "nowcoder-global::22206",
+        "sections": [
+          "顺序结构程序设计"
+        ],
+        "url": "https://ac.nowcoder.com/acm/problem/22206"
+      },
+      {
+        "pid": "NC201524",
+        "problemId": "nowcoder-global::201524",
+        "sections": [
+          "顺序结构程序设计"
+        ],
+        "url": "https://ac.nowcoder.com/acm/problem/201524"
+      },
+      {
+        "pid": "NC214222",
+        "problemId": "nowcoder-global::214222",
+        "sections": [
+          "顺序结构程序设计"
+        ],
+        "url": "https://ac.nowcoder.com/acm/problem/214222"
+      },
+      {
+        "pid": "NC21985",
+        "problemId": "nowcoder-global::21985",
+        "sections": [
+          "顺序结构程序设计"
+        ],
+        "url": "https://ac.nowcoder.com/acm/problem/21985"
+      },
+      {
+        "pid": "NC21986",
+        "problemId": "nowcoder-global::21986",
+        "sections": [
+          "顺序结构程序设计"
+        ],
+        "url": "https://ac.nowcoder.com/acm/problem/21986"
+      },
+      {
+        "pid": "NC21987",
+        "problemId": "nowcoder-global::21987",
+        "sections": [
+          "顺序结构程序设计"
+        ],
+        "url": "https://ac.nowcoder.com/acm/problem/21987"
+      },
+      {
+        "pid": "NC21988",
+        "problemId": "nowcoder-global::21988",
+        "sections": [
+          "顺序结构程序设计"
+        ],
+        "url": "https://ac.nowcoder.com/acm/problem/21988"
+      },
+      {
+        "pid": "NC21989",
+        "problemId": "nowcoder-global::21989",
+        "sections": [
+          "顺序结构程序设计"
+        ],
+        "url": "https://ac.nowcoder.com/acm/problem/21989"
+      },
+      {
+        "pid": "NC21992",
+        "problemId": "nowcoder-global::21992",
+        "sections": [
+          "顺序结构程序设计"
+        ],
+        "url": "https://ac.nowcoder.com/acm/problem/21992"
+      },
+      {
+        "pid": "NC21453",
+        "problemId": "nowcoder-global::21453",
+        "sections": [
+          "顺序结构程序设计"
+        ],
+        "url": "https://ac.nowcoder.com/acm/problem/21453"
+      },
+      {
+        "pid": "NC21310",
+        "problemId": "nowcoder-global::21310",
+        "sections": [
+          "顺序结构程序设计"
+        ],
+        "url": "https://ac.nowcoder.com/acm/problem/21310"
+      },
+      {
+        "pid": "NC206668",
+        "problemId": "nowcoder-global::206668",
+        "sections": [
+          "顺序结构程序设计"
+        ],
+        "url": "https://ac.nowcoder.com/acm/problem/206668"
+      }
+    ],
+    "sourceChapterProblemCount": 47,
+    "sourceProblemCount": 604,
+    "title": "牛客语法入门·顺序结构（已核验选编）",
+    "url": "https://ac.nowcoder.com/discuss/817596"
   }
 ]

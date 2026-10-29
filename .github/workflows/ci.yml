@@ -110,6 +110,7 @@ jobs:
       - run: npm run build
       - run: npm run test:model
       - run: node tests/revision-1429-model.mjs
+      - run: node tests/radar-frequency.mjs
       - run: node tests/navigation-learning-model.mjs
       - run: node tests/daily-growth-authority-model.mjs
       - run: node tests/level-up-model.mjs
@@ -143,6 +144,7 @@ jobs:
       - run: npm run test:e2e
       - run: node tests/detailed-solutions.mjs
       - run: node tests/editorial-teaching.mjs
+      - run: node tests/content-batch-1430.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -1,0 +1,118 @@
+{
+  "applied": true,
+  "independentReview": {
+    "boundaryCases": 14,
+    "officialSubmissionsSent": 0,
+    "oracleCases": 38579,
+    "sampleCases": 6
+  },
+  "ok": true,
+  "packageSha256": "395e49cedecd44656757d4641c1f41b4df28e0db2ff8e82e0acd6af74c19a199",
+  "problems": [
+    {
+      "articles": {
+        "detailed_solutions": {
+          "images": {
+            "1009-a-process.svg": "e0be8798c978b766dbc8d18427c69d733e16a392dc45ecd0a6b3172ec5179e98"
+          },
+          "markdownSha256": "ebce8b6bea1bef279630f27ad95fbff43f6a746eb24677aa1342159fbf415ccc"
+        },
+        "solutions": {
+          "images": {},
+          "markdownSha256": "599aca6c745497105f6db4e8081f9b6f4dadfd76c47c40abf83d28633203b0d1"
+        }
+      },
+      "id": "remote:codeforces:1009::A",
+      "officialRating": 800,
+      "officialRatingChanged": false,
+      "reason": "严格保持钱包先后顺序；失败不推进纸币指针；&&短路避免a[m]。",
+      "referenceCodeSha256": "7cc41c8adc26fcc6f3a0b8ddd2405667b48606764adedb9286c95c1e524f9ec9",
+      "removeTags": [],
+      "samplesSha256": "6edcc2925461bdaf24046facdfa4b9fa8ab6b0c758530af97bf51bf0a7514ae2",
+      "statementMarkdownSha256": "cbd00fba2e0b513647b8996d93383a972f168d5240a65dc49da6dc9bdc5854e7",
+      "tags": [
+        "模拟"
+      ],
+      "translationSha256": "46eebe23368eea628e229a5ecacb02bbf374d91182f8f5ba7002eaac660e2006",
+      "url": "https://codeforces.com/contest/1009/problem/A"
+    },
+    {
+      "articles": {
+        "detailed_solutions": {
+          "images": {},
+          "markdownSha256": "33042651a58549ab5a958de2f1c9cb6ce3e845728e4448d026fdeca1effcda13"
+        },
+        "solutions": {
+          "images": {},
+          "markdownSha256": "834d36f4dc9fd6b8465be5cd89913a59c7166d29114a31ecf663b04ba31f5328"
+        }
+      },
+      "id": "remote:codeforces:1065::A",
+      "officialRating": 800,
+      "officialRatingChanged": false,
+      "reason": "赠品不再次触发购买优惠；区分两次整数除法的对象并核对64位中间值。",
+      "referenceCodeSha256": "c67665bf4d3c993626b94ea64f1072865b861b5fe94c0dccd4f9cb91203034d0",
+      "removeTags": [],
+      "samplesSha256": "542c8d7d9af9362aed6b2f774eb49f95ac7733b9444d26741c2d9485204cd77d",
+      "statementMarkdownSha256": "7eaa91768a31fc57d766152109e5ef7dafa7baa7d8f6f891908757f953924a1c",
+      "tags": [
+        "整除"
+      ],
+      "translationSha256": "3e54f950baf08b638ef67977f0b681f327eb92fc9e47d6aa6f4231e6e8e060dc",
+      "url": "https://codeforces.com/contest/1065/problem/A"
+    },
+    {
+      "articles": {
+        "detailed_solutions": {
+          "images": {},
+          "markdownSha256": "ebc3f0760237e3c1fca271cc83690c775f2f4fd5ffd7ba14d97c272e35e7bd3b"
+        },
+        "solutions": {
+          "images": {},
+          "markdownSha256": "ce1cea106972b7528cf5181cb1b970481b78663b9d430519ddef87d89795c240"
+        }
+      },
+      "id": "remote:codeforces:1093::A",
+      "officialRating": 800,
+      "officialRatingChanged": false,
+      "reason": "只需存在性构造，不是求概率；奇数k-1次2加一次3，非唯一答案不能逐字比样例。",
+      "referenceCodeSha256": "df981d94f510918ed7fe1be37c3a2c7d273ed2bd3ea7821f2e1d97da92cc5411",
+      "removeTags": [
+        "期望与概率"
+      ],
+      "samplesSha256": "d1f720ee4bfde481bd2c1f55e716432d2dff33a3e21df70b1d30eb5347cea051",
+      "statementMarkdownSha256": "0312040f181445ca584a2cbc9c0f989ee6bb7523617abcee4b9466357d7f6a28",
+      "tags": [
+        "构造"
+      ],
+      "translationSha256": "cfa04f1d5f9054a70c8c0c6160edc725820f1edc44af67f10b326b5a25ba56e9",
+      "url": "https://codeforces.com/contest/1093/problem/A"
+    },
+    {
+      "articles": {
+        "detailed_solutions": {
+          "images": {},
+          "markdownSha256": "51c7830ca74b286a2ac1db3e47793d378b2d06e53b7d5f15611f39e13fb150c5"
+        },
+        "solutions": {
+          "images": {},
+          "markdownSha256": "b7ad13799492c31fc2121ccf9a780d753ace281ff5aa6aa726d20ba96f822c79"
+        }
+      },
+      "id": "remote:codeforces:1096::A",
+      "officialRating": 800,
+      "officialRatingChanged": false,
+      "reason": "用必有解推出r>=2l；正整数不同倍数至少为2，不能遗漏前提。",
+      "referenceCodeSha256": "0b0980d2463860f509f88b77421b0b9593b32ca384ed888fc63cff32d68be928",
+      "removeTags": [],
+      "samplesSha256": "4cc34167ac688ba99c6ba1d3ce24aa37cc2dc95c5746ab63e31c6a56fd2cdc4b",
+      "statementMarkdownSha256": "75a9a8de6c6f46f2e88bee77e1f3d82075dbc32abaab0caf89f580b1e5d5851b",
+      "tags": [
+        "构造",
+        "整除"
+      ],
+      "translationSha256": "818466aa6080670cee4a04dc7502afec709956a09ff2517c14bae6e3378dee1d",
+      "url": "https://codeforces.com/contest/1096/problem/A"
+    }
+  ]
+}

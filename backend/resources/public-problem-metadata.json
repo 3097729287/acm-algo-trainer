@@ -206432,12 +206432,106 @@
       "官方解法校验值 242343c4c5953109acf6010024b716a59416cb5bbf665e77ae2801d6cb123dbb"
     ],
     "difficultySource": "阅读 AtCoder 官方解法后估分",
-    "metadataVersion": "1.4.23",
+    "metadataVersion": "1.4.30",
     "nativeDifficulty": null,
     "difficultyCheckedAt": "2026-10-28",
     "difficultyReviewed": true,
     "difficultyReviewSha256": "242343c4c5953109acf6010024b716a59416cb5bbf665e77ae2801d6cb123dbb",
-    "difficultyReviewKind": "official-editorial"
+    "difficultyReviewKind": "official-editorial",
+    "knowledge": "排序 + 贪心",
+    "knowledgeAnalysis": {
+      "categories": [
+        "思维与策略"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "排序后相邻配对，以交换论证确定最优。",
+          "reference": "https://img.atcoder.jp/agc001/editorial.pdf",
+          "source": "public-reviewed",
+          "tag": "排序",
+          "verified": false
+        },
+        {
+          "reason": "排序后相邻配对，以交换论证确定最优。",
+          "reference": "https://img.atcoder.jp/agc001/editorial.pdf",
+          "source": "public-reviewed",
+          "tag": "贪心",
+          "verified": false
+        },
+        {
+          "category": "思维与策略",
+          "reason": "排序后相邻配对，以交换论证确定最优。",
+          "reference": "https://img.atcoder.jp/agc001/editorial.pdf",
+          "source": "public-reviewed",
+          "verified": false
+        },
+        {
+          "reason": "排序后相邻配对，以交换论证确定最优。",
+          "reference": "https://img.atcoder.jp/agc001/editorial.pdf",
+          "source": "reviewed-topic",
+          "sourceHash": "242343c4c5953109acf6010024b716a59416cb5bbf665e77ae2801d6cb123dbb",
+          "tags": [
+            "排序",
+            "贪心"
+          ],
+          "verified": false
+        },
+        {
+          "reason": "升序排序长度，取下标 0,2,…,2N−2 的和。；看最长两根 M≥L。若原来分别与 x、y 配对（x,y≤L），原贡献 x+y；改为 (M,L)、(x,y)，贡献 L+min(x,y)≥x+y。；因此存在最优解将最长两根配在一起。移除这对并归纳，得到排序后相邻配对，而不是把一半最短与一半最长配对。",
+          "reference": "data/library/statements.json#remote:atcoder:agc001::A",
+          "source": "reviewed-topic",
+          "sourceHash": "4a81390493ab520a17dee36c2db77c4d5bb5aab27675fd63134f4fdc93fbee90",
+          "tags": [
+            "排序",
+            "贪心"
+          ],
+          "verified": false
+        }
+      ],
+      "inputHash": "2626016842dca3fd415d0f66c5290bda505c20b4f400e35c88e9c9dd18993c1a",
+      "knowledge": "排序 + 贪心",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [],
+      "tags": [
+        "排序",
+        "贪心"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "思维与策略"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": false,
+      "band": [
+        900,
+        1200
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "需要排序与一次交换论证；没有高级结构。当前900在人工区间内，建议保持原数值；已有官方解法阅读记录，本次是独立复核，不重复计为首次审查。",
+      "retainedDisplayedRating": 900,
+      "retainedSource": "阅读 AtCoder 官方解法后估分",
+      "reviewDecision": "保留原数值与来源，登记人工区间",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false
+    },
+    "sourceTags": [],
+    "tags": [
+      "排序",
+      "贪心"
+    ]
   },
   "https://atcoder.jp/contests/agc001/tasks/agc001_b": {
     "difficulty": 1700,
@@ -346282,5 +346376,2247 @@
     ],
     "officialTagsCheckedAt": "2026-10-28T18:52:16.345224+00:00",
     "metadataVersion": "1.4.29"
+  },
+  "https://atcoder.jp/contests/agc002/tasks/agc002_a": {
+    "difficulty": 800,
+    "difficultyBand": [
+      800,
+      900
+    ],
+    "difficultyConfidence": "MEDIUM",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "CF-EQ-v1.0 经验训练映射 raw=0.67*170+650=763.90 → 800（非官方统计等价；带 = 代表值±100）"
+    ],
+    "difficultySource": "CF-EQ · AtCoder Problems估算",
+    "knowledge": "奇偶性",
+    "knowledgeAnalysis": {
+      "categories": [
+        "数学"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "区间含0则Zero；全正则Positive；全负时按 b−a+1 的奇偶决定。；任一因子为0时整体为0。没有0时区间只能全正或全负；全负乘积的负号个数恰为区间长度。；负因子偶数个相消，奇数个保留一个负号。因此不应真的计算巨大乘积。",
+          "reference": "data/library/statements.json#remote:atcoder:agc002::A",
+          "source": "reviewed-topic",
+          "sourceHash": "288e62271fe1526d1c0496db94bda2ca96bb2f88c7e4e1a7999c93eb3d092a8a",
+          "tags": [
+            "奇偶性"
+          ],
+          "verified": false
+        },
+        {
+          "categories": [
+            "数学"
+          ],
+          "reason": "题面描述的对象和运算；具体解法尚待题解核验",
+          "source": "statement-model"
+        }
+      ],
+      "inputHash": "882d0d2b004b5ccac19182de8e5bc51671a4f6ef8d8f684e7f4cd5777ea7384c",
+      "knowledge": "奇偶性",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [],
+      "tags": [
+        "奇偶性"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "数学"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": false,
+      "band": [
+        800,
+        1000
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "只有零点分支与奇偶计数，人工800–1000；当前800无需调整。",
+      "retainedDisplayedRating": 800,
+      "retainedSource": "CF-EQ · AtCoder Problems估算",
+      "reviewDecision": "保留原数值与来源，登记人工区间",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false
+    },
+    "metadataVersion": "1.4.30",
+    "nativeDifficulty": 170,
+    "sourceTags": [],
+    "tags": [
+      "奇偶性"
+    ]
+  },
+  "https://atcoder.jp/contests/agc003/tasks/agc003_a": {
+    "difficulty": 900,
+    "difficultyBand": [
+      800,
+      1000
+    ],
+    "difficultyConfidence": "MEDIUM",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "CF-EQ-v1.0 经验训练映射 raw=0.67*436+650=942.12 → 900（非官方统计等价；带 = 代表值±100）"
+    ],
+    "difficultySource": "CF-EQ · AtCoder Problems估算",
+    "knowledge": "构造 + 结论与计数",
+    "knowledgeAnalysis": {
+      "categories": [
+        "思维与策略",
+        "数学与计数 / 计数",
+        "字符串",
+        "计算几何",
+        "数据结构"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "判断 N 与 S 是否同时出现或同时不出现，E 与 W 同理。；若某一轴只出现一个方向，则该轴总位移严格为同一符号，无法回原点，所以双向出现是必要条件。；若北向有p天、南向有q天，且p,q>0，可令每个北向日走q、每个南向日走p，总距离都为pq。东西轴独立同样构造。未使用的轴自然为0。",
+          "reference": "data/library/statements.json#remote:atcoder:agc003::A",
+          "source": "reviewed-topic",
+          "sourceHash": "cb60cc57f714aa34f24344d89a4b14873df0d798fa8bdcc910c63cb60e0fdbc9",
+          "tags": [
+            "构造",
+            "结论与计数"
+          ],
+          "verified": false
+        },
+        {
+          "categories": [
+            "字符串",
+            "计算几何",
+            "数据结构"
+          ],
+          "reason": "题面描述的对象和运算；具体解法尚待题解核验",
+          "source": "statement-model"
+        }
+      ],
+      "inputHash": "cffa59dc1626720669e83c67e2236f5c5dbc9f4c1b898778e820ba6a3d5b690a",
+      "knowledge": "构造 + 结论与计数",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [],
+      "tags": [
+        "构造",
+        "结论与计数"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "思维与策略",
+      "数学与计数 / 计数",
+      "字符串",
+      "计算几何",
+      "数据结构"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": false,
+      "band": [
+        800,
+        1100
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "从自由距离识别存在性并给出构造，略高于固定步长计数；当前900落在800–1100内。",
+      "retainedDisplayedRating": 900,
+      "retainedSource": "CF-EQ · AtCoder Problems估算",
+      "reviewDecision": "保留原数值与来源，登记人工区间",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false
+    },
+    "metadataVersion": "1.4.30",
+    "nativeDifficulty": 436,
+    "sourceTags": [],
+    "tags": [
+      "构造",
+      "结论与计数"
+    ]
+  },
+  "https://atcoder.jp/contests/agc004/tasks/agc004_a": {
+    "difficulty": 1000,
+    "difficultyBand": [
+      900,
+      1100
+    ],
+    "difficultyConfidence": "MEDIUM",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "CF-EQ-v1.0 经验训练映射 raw=0.67*558+650=1023.86 → 1000（非官方统计等价；带 = 代表值±100）"
+    ],
+    "difficultySource": "CF-EQ · AtCoder Problems估算",
+    "knowledge": "奇偶性 + 枚举",
+    "knowledgeAnalysis": {
+      "categories": [
+        "数学",
+        "思维与策略",
+        "计算几何"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "有偶数边则0，否则取 min(AB,AC,BC)。；沿长度A在位置k切开，两体积差为 |A−2k|·BC；其余两轴同理。偶数边可在中点切，差为0。；三边皆奇数时，每种方向的最小 |边长−2k| 都是1；只需枚举三个切割方向，取最小横截面积。",
+          "reference": "data/library/statements.json#remote:atcoder:agc004::A",
+          "source": "reviewed-topic",
+          "sourceHash": "fe969cfa305a7ef7e1004526cb3176fd72cac9dab2e542ff9db33fa06e774bb5",
+          "tags": [
+            "奇偶性",
+            "枚举"
+          ],
+          "verified": false
+        },
+        {
+          "categories": [
+            "计算几何",
+            "数学"
+          ],
+          "reason": "题面描述的对象和运算；具体解法尚待题解核验",
+          "source": "statement-model"
+        }
+      ],
+      "inputHash": "f1900fee47b91d8a294396696eec82e08386ce01960c144e6a111ffd83ac6226",
+      "knowledge": "奇偶性 + 枚举",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [],
+      "tags": [
+        "奇偶性",
+        "枚举"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "数学",
+      "思维与策略",
+      "计算几何"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": false,
+      "band": [
+        900,
+        1200
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "关键在体积差分解与奇偶性，当前1000位于900–1200；不因原站解释笔误改数值。",
+      "retainedDisplayedRating": 1000,
+      "retainedSource": "CF-EQ · AtCoder Problems估算",
+      "reviewDecision": "保留原数值与来源，登记人工区间",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false
+    },
+    "metadataVersion": "1.4.30",
+    "nativeDifficulty": 558,
+    "sourceTags": [],
+    "tags": [
+      "奇偶性",
+      "枚举"
+    ]
+  },
+  "https://atcoder.jp/contests/agc006/tasks/agc006_a": {
+    "difficulty": 1000,
+    "difficultyBand": [
+      900,
+      1100
+    ],
+    "difficultyConfidence": "MEDIUM",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "CF-EQ-v1.0 经验训练映射 raw=0.67*516+650=995.72 → 1000（非官方统计等价；带 = 代表值±100）"
+    ],
+    "difficultySource": "CF-EQ · AtCoder Problems估算",
+    "knowledge": "枚举",
+    "knowledgeAnalysis": {
+      "categories": [
+        "思维与策略",
+        "字符串",
+        "计算几何"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "枚举重叠长度k∈[0,N]，检查s后k字符等于t前k字符；最大重叠给出最短长度2N−k。；长度L≤2N的合法合并串中，前缀与后缀重叠k=2N−L个位置，这些位置必须同时与s的后缀、t的前缀一致。；反之，若重叠相等，直接把t未重叠的尾部接在s后即可合法构造。故枚举可行k并最大化是充分且必要的。",
+          "reference": "data/library/statements.json#remote:atcoder:agc006::A",
+          "source": "reviewed-topic",
+          "sourceHash": "8d8eaec73fd96e3a71aea301ca03ed85d0894fad237616a6d6447d38d2327dab",
+          "tags": [
+            "枚举"
+          ],
+          "verified": false
+        },
+        {
+          "categories": [
+            "字符串",
+            "计算几何"
+          ],
+          "reason": "题面描述的对象和运算；具体解法尚待题解核验",
+          "source": "statement-model"
+        }
+      ],
+      "inputHash": "0ba2f601c8919f6c3660685fcb660c238e57c853859b9b59405f8cc0c21866b9",
+      "knowledge": "枚举",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [],
+      "tags": [
+        "枚举"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "思维与策略",
+      "字符串",
+      "计算几何"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": false,
+      "band": [
+        900,
+        1200
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "有限重叠枚举与字符串边界处理，当前1000在900–1200内；不标注没有使用的KMP。",
+      "retainedDisplayedRating": 1000,
+      "retainedSource": "CF-EQ · AtCoder Problems估算",
+      "reviewDecision": "保留原数值与来源，登记人工区间",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false
+    },
+    "metadataVersion": "1.4.30",
+    "nativeDifficulty": 516,
+    "sourceTags": [],
+    "tags": [
+      "枚举"
+    ]
+  },
+  "https://atcoder.jp/contests/agc007/tasks/agc007_a": {
+    "difficulty": 1200,
+    "difficultyBand": [
+      1100,
+      1300
+    ],
+    "difficultyConfidence": "MEDIUM",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "CF-EQ-v1.0 经验训练映射 raw=0.67*792+650=1180.64 → 1200（非官方统计等价；带 = 代表值±100）"
+    ],
+    "difficultySource": "CF-EQ · AtCoder Problems估算",
+    "knowledge": "结论与计数 + 模拟",
+    "knowledgeAnalysis": {
+      "categories": [
+        "数学与计数 / 计数",
+        "思维与策略",
+        "字符串",
+        "图论",
+        "计算几何"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "统计#数，恰为H+W−1输出Possible，否则Impossible。此简化明确依赖题面保证。；只向右或下的路线必有H+W−2步，经过H+W−1个互异格子，所以计数相等是必要条件。；输入保证#构成连通访问集合且含两个角，因此集合内存在一条简单连通路径。其顶点数至少H+W−1；若总#数正好达到下界，这条路径必须使用全部#且每一步都朝向终点，故充分。",
+          "reference": "data/library/statements.json#remote:atcoder:agc007::A",
+          "source": "reviewed-topic",
+          "sourceHash": "f634217eaccf4022cc69d9f987fb8ab22c365e195c36f8688f43d8e320c46ff1",
+          "tags": [
+            "结论与计数",
+            "模拟"
+          ],
+          "verified": false
+        },
+        {
+          "categories": [
+            "字符串",
+            "图论",
+            "计算几何"
+          ],
+          "reason": "题面描述的对象和运算；具体解法尚待题解核验",
+          "source": "statement-model"
+        }
+      ],
+      "inputHash": "1df6e363ce4521ff2fccd4b35eee76b16b4c56a008319f730249daf8204617b6",
+      "knowledge": "结论与计数 + 模拟",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [],
+      "tags": [
+        "结论与计数",
+        "模拟"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "数学与计数 / 计数",
+      "思维与策略",
+      "字符串",
+      "图论",
+      "计算几何"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": false,
+      "band": [
+        1000,
+        1300
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "代码很短，但必须理解全局保证与最短路长度下界；当前1200在1000–1300内。",
+      "retainedDisplayedRating": 1200,
+      "retainedSource": "CF-EQ · AtCoder Problems估算",
+      "reviewDecision": "保留原数值与来源，登记人工区间",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false
+    },
+    "metadataVersion": "1.4.30",
+    "nativeDifficulty": 792,
+    "sourceTags": [],
+    "tags": [
+      "结论与计数",
+      "模拟"
+    ]
+  },
+  "https://atcoder.jp/contests/agc008/tasks/agc008_a": {
+    "difficulty": 1100,
+    "difficultyBand": [
+      1000,
+      1200
+    ],
+    "difficultyConfidence": "MEDIUM",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "CF-EQ-v1.0 经验训练映射 raw=0.67*740+650=1145.80 → 1100（非官方统计等价；带 = 代表值±100）"
+    ],
+    "difficultySource": "CF-EQ · AtCoder Problems估算",
+    "knowledge": "枚举",
+    "knowledgeAnalysis": {
+      "categories": [
+        "思维与策略",
+        "计算几何",
+        "数学"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "枚举是否在全部+1之前及之后各取反一次；起点u=(−1)^s x、取反前终点v=(−1)^t y，只保留v≥u，代价v−u+s+t。；观察最终符号，每个+1对最终结果的贡献只有+1或−1。若同时存在两种贡献，删除一正一负不改变终值而减少操作，故最优解无需两种增量共存。；所有有效+1可合并到一个连续段；初末各至多一次取反即可实现同样的起终符号。四种情况涵盖所有最优路径，再按不能执行−1的限制排除v<u。",
+          "reference": "data/library/statements.json#remote:atcoder:agc008::A",
+          "source": "reviewed-topic",
+          "sourceHash": "8f3c6d2cb32c1a2ac5ff59f7c5c5493399d2438f1f992612c4f933a1cac417b1",
+          "tags": [
+            "枚举"
+          ],
+          "verified": false
+        },
+        {
+          "categories": [
+            "计算几何",
+            "数学"
+          ],
+          "reason": "题面描述的对象和运算；具体解法尚待题解核验",
+          "source": "statement-model"
+        }
+      ],
+      "inputHash": "1d4adae9cec4e37a9191a8ea331b0f1efed40d4e9e33182ff4e62220c187619d",
+      "knowledge": "枚举",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [],
+      "tags": [
+        "枚举"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "思维与策略",
+      "计算几何",
+      "数学"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": false,
+      "band": [
+        1000,
+        1300
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "需要压缩无限状态操作序列成四个候选，人工1000–1300；现1100可保留。",
+      "retainedDisplayedRating": 1100,
+      "retainedSource": "CF-EQ · AtCoder Problems估算",
+      "reviewDecision": "保留原数值与来源，登记人工区间",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false
+    },
+    "metadataVersion": "1.4.30",
+    "nativeDifficulty": 740,
+    "sourceTags": [],
+    "tags": [
+      "枚举"
+    ]
+  },
+  "https://atcoder.jp/contests/agc009/tasks/agc009_a": {
+    "difficulty": 1200,
+    "difficultyBand": [
+      1100,
+      1300
+    ],
+    "difficultyConfidence": "MEDIUM",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "CF-EQ-v1.0 经验训练映射 raw=0.67*759+650=1158.53 → 1200（非官方统计等价；带 = 代表值±100）"
+    ],
+    "difficultySource": "CF-EQ · AtCoder Problems估算",
+    "knowledge": "贪心 + 取模与同余",
+    "knowledgeAnalysis": {
+      "categories": [
+        "思维与策略",
+        "数学 / 数论",
+        "计算几何",
+        "数学"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "从右向左维护累计操作T，令delta=(−(Ai+T)) mod Bi（非负模），T+=delta，最终输出T。；处理第i行时，右侧按钮的操作已经使它增加T。更小下标的按钮不影响该行，所以必须现在将Ai+T补到Bi的倍数。；每一步将累计量T映射为“不小于T且使Ai+T满足余数条件的最小值”。此向上取整映射单调，选更大的前一步累计量不可能让最终累计量更小；因此逐层取最小量是全局最优。",
+          "reference": "data/library/statements.json#remote:atcoder:agc009::A",
+          "source": "reviewed-topic",
+          "sourceHash": "e09416a60f083911ccec99a8af06dd9dfe9b6a98920376ade7c65785bd55e6c0",
+          "tags": [
+            "贪心",
+            "取模与同余"
+          ],
+          "verified": false
+        },
+        {
+          "categories": [
+            "计算几何",
+            "数学"
+          ],
+          "reason": "题面描述的对象和运算；具体解法尚待题解核验",
+          "source": "statement-model"
+        }
+      ],
+      "inputHash": "6c0940b84dec4c7349012c3718daf081dd4073d0656632a08960c2a43628aab2",
+      "knowledge": "贪心 + 取模与同余",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [],
+      "tags": [
+        "贪心",
+        "取模与同余"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "思维与策略",
+      "数学 / 数论",
+      "计算几何",
+      "数学"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": false,
+      "band": [
+        1200,
+        1500
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "逆序依赖与模运算贪心高于直接扫描，现1200在1200–1500区间低端；仍保留第三方数值。",
+      "retainedDisplayedRating": 1200,
+      "retainedSource": "CF-EQ · AtCoder Problems估算",
+      "reviewDecision": "保留原数值与来源，登记人工区间",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false
+    },
+    "metadataVersion": "1.4.30",
+    "nativeDifficulty": 759,
+    "sourceTags": [],
+    "tags": [
+      "贪心",
+      "取模与同余"
+    ]
+  },
+  "https://atcoder.jp/contests/agc010/tasks/agc010_a": {
+    "difficulty": 800,
+    "difficultyBand": [
+      800,
+      900
+    ],
+    "difficultyConfidence": "MEDIUM",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "CF-EQ-v1.0 经验训练映射 raw=0.67*-10000+650=-6050.00 → 800（非官方统计等价；带 = 代表值±100）"
+    ],
+    "difficultySource": "CF-EQ · AtCoder Problems估算",
+    "knowledge": "奇偶性 + 结论与计数",
+    "knowledgeAnalysis": {
+      "categories": [
+        "数学",
+        "数学与计数 / 计数"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "奇数元素个数为偶数则YES，否则NO。；偶+偶得到偶，奇+奇使奇数个数减少2，所以奇数个数的奇偶性保持不变。；偶数个奇数可以两两合并成偶数，随后全是偶数，可以合并为一个；若奇数个数为奇数，最后至少保留一个奇数。由于N≥2，操作只能在两个同奇偶数上进行，最后一次合并所得必为偶数，因此不能以单个奇数结束。",
+          "reference": "data/library/statements.json#remote:atcoder:agc010::A",
+          "source": "reviewed-topic",
+          "sourceHash": "a1e20f196ab5984daa25b14e6d30fe32919d2c4082fb003b9d5fd4442fe985ba",
+          "tags": [
+            "奇偶性",
+            "结论与计数"
+          ],
+          "verified": false
+        },
+        {
+          "excerpt": "直接统计给定数字或指定下标的总和",
+          "source": "statement-conditions",
+          "tag": "枚举"
+        }
+      ],
+      "inputHash": "7971bbe75c61a31271f99efb900d13faf9b6effe0f13c60947f61ab0f0736db0",
+      "knowledge": "奇偶性 + 结论与计数",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [
+        "枚举"
+      ],
+      "tags": [
+        "奇偶性",
+        "结论与计数"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "数学",
+      "数学与计数 / 计数"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": false,
+      "band": [
+        800,
+        1100
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "简单奇偶不变量，现800可保留。nativeDifficulty=−10000是第三方原始模型字段，不是官方负难度；保留来源但建议维护者另外核查该极值是否为模型哨兵值。",
+      "retainedDisplayedRating": 800,
+      "retainedSource": "CF-EQ · AtCoder Problems估算",
+      "reviewDecision": "保留原数值与来源，登记人工区间",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false
+    },
+    "metadataVersion": "1.4.30",
+    "nativeDifficulty": -10000,
+    "sourceTags": [],
+    "tags": [
+      "奇偶性",
+      "结论与计数"
+    ]
+  },
+  "https://atcoder.jp/contests/agc011/tasks/agc011_a": {
+    "difficulty": 1200,
+    "difficultyBand": [
+      1100,
+      1300
+    ],
+    "difficultyConfidence": "MEDIUM",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "CF-EQ-v1.0 经验训练映射 raw=0.67*827+650=1204.09 → 1200（非官方统计等价；带 = 代表值±100）"
+    ],
+    "difficultySource": "CF-EQ · AtCoder Problems估算",
+    "knowledge": "排序 + 贪心",
+    "knowledgeAnalysis": {
+      "categories": [
+        "思维与策略",
+        "计算几何",
+        "数学"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "排序，到当前最早未安排乘客t为止，下一辆最多接C人且到达≤t+K，尽量装满后安排下一辆。；最早未安排者必须在t+K前上车，所以载他的车无论何时发出，都不能接到达晚于t+K的人。；在这个截止前选最早的最多C个人不会比跳过他们更差：若某个较早者在另一车而较晚者在本车，交换两人不破坏容量与等待区间。故贪心可以固定一个最优解的第一车，归纳剩余乘客。",
+          "reference": "data/library/statements.json#remote:atcoder:agc011::A",
+          "source": "reviewed-topic",
+          "sourceHash": "fe4f10278c5dcf9586d8cc2647fa4203331ce9615c05af5e0ec318d92a6de352",
+          "tags": [
+            "排序",
+            "贪心"
+          ],
+          "verified": false
+        },
+        {
+          "categories": [
+            "计算几何",
+            "数学"
+          ],
+          "reason": "题面描述的对象和运算；具体解法尚待题解核验",
+          "source": "statement-model"
+        }
+      ],
+      "inputHash": "073a5c16804e40fdc785cb95afc49b4286a2a66d12dbd93649cbc98a2e496b76",
+      "knowledge": "排序 + 贪心",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [],
+      "tags": [
+        "排序",
+        "贪心"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "思维与策略",
+      "计算几何",
+      "数学"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": false,
+      "band": [
+        1100,
+        1400
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "排序后的截止时间分组与容量限制，现1200位于1100–1400。",
+      "retainedDisplayedRating": 1200,
+      "retainedSource": "CF-EQ · AtCoder Problems估算",
+      "reviewDecision": "保留原数值与来源，登记人工区间",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false
+    },
+    "metadataVersion": "1.4.30",
+    "nativeDifficulty": 827,
+    "sourceTags": [],
+    "tags": [
+      "排序",
+      "贪心"
+    ]
+  },
+  "https://atcoder.jp/contests/agc012/tasks/agc012_a": {
+    "difficulty": 1200,
+    "difficultyBand": [
+      1100,
+      1400
+    ],
+    "difficultyCheckedAt": "2026-10-29T11:45:06.987575+00:00",
+    "difficultyConfidence": "MEDIUM",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "CF-EQ-v1.0 经验训练映射 raw=0.67*474+650=967.58 → 1000（非官方统计等价；带 = 代表值±100）",
+      "https://atcoder.jp/contests/agc012/tasks/agc012_a",
+      "升序排列，取下标N,N+2,…,3N−2的N个值之和；最小N个作每组三人的较小成员。",
+      "完整原题面 SHA-256 0c104782b3a384aac2f46862c70e28229279bef795bcb92c0da3bec20560b7c0",
+      "人工训练区间 [1100, 1400]；未作人群难度标定，非官方评分"
+    ],
+    "difficultyReviewKind": "self-reviewed-statement",
+    "difficultyReviewSha256": "0c104782b3a384aac2f46862c70e28229279bef795bcb92c0da3bec20560b7c0",
+    "difficultyReviewed": true,
+    "difficultySource": "人工算法复核·训练估分（非官方）",
+    "difficultyStatementContentSha256": "d14e8200699a658e7594bcd3e15511e93dd87cedab1645e03e9b801fff99fa6a",
+    "difficultyStatementSha256": "0c104782b3a384aac2f46862c70e28229279bef795bcb92c0da3bec20560b7c0",
+    "knowledge": "排序 + 贪心",
+    "knowledgeAnalysis": {
+      "categories": [
+        "思维与策略",
+        "计算几何",
+        "数学"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "升序排列，取下标N,N+2,…,3N−2的N个值之和；最小N个作每组三人的较小成员。；将所有数降序记为b1≥b2≥…，将各组中位数也降序记为m1≥m2≥…。前k个中位数每个都需要一个同组不小于它的成员，因此至少2k个数≥mk，推出mk≤b(2k)。；把最大的2N个数按降序两两分组，每对较小者正是b2,b4,…,b(2N)；再各补一个最小N个中的数，达到逐项上界，故总和最优。",
+          "reference": "data/library/statements.json#remote:atcoder:agc012::A",
+          "source": "reviewed-topic",
+          "sourceHash": "d14e8200699a658e7594bcd3e15511e93dd87cedab1645e03e9b801fff99fa6a",
+          "tags": [
+            "排序",
+            "贪心"
+          ],
+          "verified": false
+        },
+        {
+          "categories": [
+            "计算几何",
+            "数学"
+          ],
+          "reason": "题面描述的对象和运算；具体解法尚待题解核验",
+          "source": "statement-model"
+        }
+      ],
+      "inputHash": "14fad6cffd2604f1ac36e982f6067324c043f114116f79d45f6ff62f5c5ec6bc",
+      "knowledge": "排序 + 贪心",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [],
+      "tags": [
+        "排序",
+        "贪心"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "思维与策略",
+      "计算几何",
+      "数学"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": true,
+      "band": [
+        1100,
+        1400
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "需要按第k大中位数给出上界并构造达到，人工1100–1400；现模型1000略低于本轮区间，建议二审，禁止本补丁直接改为某个新定分。",
+      "representative": 1200,
+      "retainedDisplayedRating": 1000,
+      "retainedSource": "CF-EQ · AtCoder Problems估算",
+      "reviewDecision": "采用人工代表值",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false,
+      "statementMarkdownSha256": "0c104782b3a384aac2f46862c70e28229279bef795bcb92c0da3bec20560b7c0"
+    },
+    "metadataVersion": "1.4.30",
+    "nativeDifficulty": 474,
+    "previousDifficulty": {
+      "difficulty": 1000,
+      "difficultyBand": [
+        900,
+        1100
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "CF-EQ-v1.0 经验训练映射 raw=0.67*474+650=967.58 → 1000（非官方统计等价；带 = 代表值±100）"
+      ],
+      "difficultySource": "CF-EQ · AtCoder Problems估算",
+      "nativeDifficulty": 474
+    },
+    "sourceTags": [],
+    "tags": [
+      "排序",
+      "贪心"
+    ]
+  },
+  "https://atcoder.jp/contests/agc013/tasks/agc013_a": {
+    "difficulty": 1300,
+    "difficultyBand": [
+      1200,
+      1500
+    ],
+    "difficultyCheckedAt": "2026-10-29T11:45:06.987575+00:00",
+    "difficultyConfidence": "MEDIUM",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "CF-EQ-v1.0 经验训练映射 raw=0.67*614+650=1061.38 → 1100（非官方统计等价；带 = 代表值±100）",
+      "https://atcoder.jp/contests/agc013/tasks/agc013_a",
+      "忽略相等差值，用首个非零比较确定方向。首次反向时在当前元素之前切段，当前元素成为新段首，方向重置为未定。",
+      "完整原题面 SHA-256 e8ff12e306bc436a233fbcfe97d8e7e17e5ad207387f96dffde88df72e4a34ef",
+      "人工训练区间 [1200, 1500]；未作人群难度标定，非官方评分"
+    ],
+    "difficultyReviewKind": "self-reviewed-statement",
+    "difficultyReviewSha256": "e8ff12e306bc436a233fbcfe97d8e7e17e5ad207387f96dffde88df72e4a34ef",
+    "difficultyReviewed": true,
+    "difficultySource": "人工算法复核·训练估分（非官方）",
+    "difficultyStatementContentSha256": "a135852f92149078f39048893778b2f34201c4de50dc465282d158108ea31786",
+    "difficultyStatementSha256": "e8ff12e306bc436a233fbcfe97d8e7e17e5ad207387f96dffde88df72e4a34ef",
+    "knowledge": "贪心 + 连续段",
+    "knowledgeAnalysis": {
+      "categories": [
+        "思维与策略",
+        "基础技巧",
+        "计算几何",
+        "数学"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "忽略相等差值，用首个非零比较确定方向。首次反向时在当前元素之前切段，当前元素成为新段首，方向重置为未定。；任何第一段都不能超过最长单调前缀g。把一个最优划分的第一段扩展至g，会吞掉若干完整后续段及至多一个段的前缀；剩余后缀仍单调，段数不会增加。；故存在最优划分采用最长单调前缀。对剩余序列归纳，即为此贪心扫描。相等值不建立或逆转方向。",
+          "reference": "data/library/statements.json#remote:atcoder:agc013::A",
+          "source": "reviewed-topic",
+          "sourceHash": "a135852f92149078f39048893778b2f34201c4de50dc465282d158108ea31786",
+          "tags": [
+            "贪心",
+            "连续段"
+          ],
+          "verified": false
+        },
+        {
+          "categories": [
+            "计算几何",
+            "数学"
+          ],
+          "reason": "题面描述的对象和运算；具体解法尚待题解核验",
+          "source": "statement-model"
+        }
+      ],
+      "inputHash": "16a60e32d88f4a1063dfcd8b759d427fc328bc793a02a6b26e3568ed5519f95d",
+      "knowledge": "贪心 + 连续段",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [],
+      "tags": [
+        "贪心",
+        "连续段"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "思维与策略",
+      "基础技巧",
+      "计算几何",
+      "数学"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": true,
+      "band": [
+        1200,
+        1500
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "重置位置与最长前缀的正确性是主要障碍，人工1200–1500；现1100低于区间，建议二审而非自动上调。",
+      "representative": 1300,
+      "retainedDisplayedRating": 1100,
+      "retainedSource": "CF-EQ · AtCoder Problems估算",
+      "reviewDecision": "采用人工代表值",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false,
+      "statementMarkdownSha256": "e8ff12e306bc436a233fbcfe97d8e7e17e5ad207387f96dffde88df72e4a34ef"
+    },
+    "metadataVersion": "1.4.30",
+    "nativeDifficulty": 614,
+    "previousDifficulty": {
+      "difficulty": 1100,
+      "difficultyBand": [
+        1000,
+        1200
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "CF-EQ-v1.0 经验训练映射 raw=0.67*614+650=1061.38 → 1100（非官方统计等价；带 = 代表值±100）"
+      ],
+      "difficultySource": "CF-EQ · AtCoder Problems估算",
+      "nativeDifficulty": 614
+    },
+    "sourceTags": [],
+    "tags": [
+      "贪心",
+      "连续段"
+    ]
+  },
+  "https://atcoder.jp/contests/agc014/tasks/agc014_a": {
+    "difficulty": 1000,
+    "difficultyBand": [
+      900,
+      1200
+    ],
+    "difficultyCheckedAt": "2026-10-29T11:45:06.987575+00:00",
+    "difficultyConfidence": "MEDIUM",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "CF-EQ-v1.0 经验训练映射 raw=0.67*279+650=836.93 → 800（非官方统计等价；带 = 代表值±100）",
+      "https://atcoder.jp/contests/agc014/tasks/agc014_a",
+      "初始若三者相等且为偶数，输出−1；否则按三者同时赋值模拟，遇任意奇数停止。",
+      "完整原题面 SHA-256 ce9935ece376af548209b0d183a82458c2a2240969e9f956f771fc87d82e7d48",
+      "人工训练区间 [900, 1200]；未作人群难度标定，非官方评分"
+    ],
+    "difficultyReviewKind": "self-reviewed-statement",
+    "difficultyReviewSha256": "ce9935ece376af548209b0d183a82458c2a2240969e9f956f771fc87d82e7d48",
+    "difficultyReviewed": true,
+    "difficultySource": "人工算法复核·训练估分（非官方）",
+    "difficultyStatementContentSha256": "de6266d84d5a780bf1aa8e51a414fa04fb8aa8edc7791e77bfe72ba454c15b4d",
+    "difficultyStatementSha256": "ce9935ece376af548209b0d183a82458c2a2240969e9f956f771fc87d82e7d48",
+    "knowledge": "模拟 + 奇偶性",
+    "knowledgeAnalysis": {
+      "categories": [
+        "思维与策略",
+        "数学",
+        "计算几何"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "初始若三者相等且为偶数，输出−1；否则按三者同时赋值模拟，遇任意奇数停止。；变换后A′−B′=(B−A)/2，其余差值同理。若初始不全相等，选一个非零差值；每次合法变换使其绝对值减半，有限次后不再能三者全偶。；全相等偶数会原地不变，是无限过程；全相等奇数一开始就不能操作，答案0。不存在需要把十亿轮过程直接模拟的非等值情况。",
+          "reference": "data/library/statements.json#remote:atcoder:agc014::A",
+          "source": "reviewed-topic",
+          "sourceHash": "de6266d84d5a780bf1aa8e51a414fa04fb8aa8edc7791e77bfe72ba454c15b4d",
+          "tags": [
+            "模拟",
+            "奇偶性"
+          ],
+          "verified": false
+        },
+        {
+          "categories": [
+            "计算几何",
+            "数学"
+          ],
+          "reason": "题面描述的对象和运算；具体解法尚待题解核验",
+          "source": "statement-model"
+        }
+      ],
+      "inputHash": "fba5a690eac749c07e83d42e931bf7b7513ba9dd32e992a00021bd377ec2a6fc",
+      "knowledge": "模拟 + 奇偶性",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [],
+      "tags": [
+        "模拟",
+        "奇偶性"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "思维与策略",
+      "数学",
+      "计算几何"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": true,
+      "band": [
+        900,
+        1200
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "模拟简单但无限性与复杂度需证明，人工900–1200；现800偏低，建议二审。",
+      "representative": 1000,
+      "retainedDisplayedRating": 800,
+      "retainedSource": "CF-EQ · AtCoder Problems估算",
+      "reviewDecision": "采用人工代表值",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false,
+      "statementMarkdownSha256": "ce9935ece376af548209b0d183a82458c2a2240969e9f956f771fc87d82e7d48"
+    },
+    "metadataVersion": "1.4.30",
+    "nativeDifficulty": 279,
+    "previousDifficulty": {
+      "difficulty": 800,
+      "difficultyBand": [
+        800,
+        900
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "CF-EQ-v1.0 经验训练映射 raw=0.67*279+650=836.93 → 800（非官方统计等价；带 = 代表值±100）"
+      ],
+      "difficultySource": "CF-EQ · AtCoder Problems估算",
+      "nativeDifficulty": 279
+    },
+    "sourceTags": [],
+    "tags": [
+      "模拟",
+      "奇偶性"
+    ]
+  },
+  "https://atcoder.jp/contests/agc015/tasks/agc015_a": {
+    "difficulty": 1100,
+    "difficultyBand": [
+      1000,
+      1200
+    ],
+    "difficultyConfidence": "MEDIUM",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "CF-EQ-v1.0 经验训练映射 raw=0.67*620+650=1065.40 → 1100（非官方统计等价；带 = 代表值±100）"
+    ],
+    "difficultySource": "CF-EQ · AtCoder Problems估算",
+    "knowledge": "结论与计数",
+    "knowledgeAnalysis": {
+      "categories": [
+        "数学与计数 / 计数"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "A>B为0；N=1仅A=B时1；N≥2为(N−2)(B−A)+1。；N≥2时先固定一个A和一个B，剩余N−2个值均在[A,B]。和的两端为A+B+(N−2)A及A+B+(N−2)B。；从剩余全A开始，将每个位置逐一增加至B，可以连续经过所有整数总和，因而无空洞；区间整数个数即端点之差加1。",
+          "reference": "data/library/statements.json#remote:atcoder:agc015::A",
+          "source": "reviewed-topic",
+          "sourceHash": "3e1dc5c08331698d1ee597ae8780e12e274bfc75c131e1c4eabd2babb97fdc6f",
+          "tags": [
+            "结论与计数"
+          ],
+          "verified": false
+        },
+        {
+          "excerpt": "直接统计给定数字或指定下标的总和",
+          "source": "statement-conditions",
+          "tag": "枚举"
+        }
+      ],
+      "inputHash": "54fb56ce3f6dec7e89107747783f82b856f83115a3d9ea79e8166de7b336666c",
+      "knowledge": "结论与计数",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [
+        "枚举"
+      ],
+      "tags": [
+        "结论与计数"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "数学与计数 / 计数"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": false,
+      "band": [
+        1000,
+        1300
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "端点计数加可达性证明，现1100位于1000–1300。",
+      "retainedDisplayedRating": 1100,
+      "retainedSource": "CF-EQ · AtCoder Problems估算",
+      "reviewDecision": "保留原数值与来源，登记人工区间",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false
+    },
+    "metadataVersion": "1.4.30",
+    "nativeDifficulty": 620,
+    "sourceTags": [],
+    "tags": [
+      "结论与计数"
+    ]
+  },
+  "https://atcoder.jp/contests/agc019/tasks/agc019_a": {
+    "difficulty": 1000,
+    "difficultyBand": [
+      900,
+      1100
+    ],
+    "difficultyConfidence": "MEDIUM",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "CF-EQ-v1.0 经验训练映射 raw=0.67*509+650=991.03 → 1000（非官方统计等价；带 = 代表值±100）"
+    ],
+    "difficultySource": "CF-EQ · AtCoder Problems估算",
+    "knowledge": "贪心 + 枚举",
+    "knowledgeAnalysis": {
+      "categories": [
+        "思维与策略",
+        "计算几何"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "先求一升最低价u=min(4Q,2H,S)，两升最低价v=min(2u,D)，花费floor(N/2)v+(N mod2)u。；只用小包装凑1升时，4份0.25升、2份0.5升、1份1升是各单位最便宜价格的完整选择；任意混合也不可能优于这些单位成本的最小值。；小包装可归成每升成本u，再比较2升瓶D和2u；偶数部分由最优两升组支付，奇数剩余必须补一升，不能多买。",
+          "reference": "data/library/statements.json#remote:atcoder:agc019::A",
+          "source": "reviewed-topic",
+          "sourceHash": "2f46ac06125c4ad0b950837f365b6ba9be15e297d05b8ec8f1b644d49787664e",
+          "tags": [
+            "贪心",
+            "枚举"
+          ],
+          "verified": false
+        },
+        {
+          "categories": [
+            "计算几何"
+          ],
+          "reason": "题面描述的对象和运算；具体解法尚待题解核验",
+          "source": "statement-model"
+        }
+      ],
+      "inputHash": "ed2930fe37f58e65dbf74655b2b657e6c343fe76aab34799dd457944cafe030b",
+      "knowledge": "贪心 + 枚举",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [],
+      "tags": [
+        "贪心",
+        "枚举"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "思维与策略",
+      "计算几何"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": false,
+      "band": [
+        900,
+        1200
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "少量成本规范化与奇偶拆分，现1000在900–1200内。",
+      "retainedDisplayedRating": 1000,
+      "retainedSource": "CF-EQ · AtCoder Problems估算",
+      "reviewDecision": "保留原数值与来源，登记人工区间",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false
+    },
+    "metadataVersion": "1.4.30",
+    "nativeDifficulty": 509,
+    "sourceTags": [],
+    "tags": [
+      "贪心",
+      "枚举"
+    ]
+  },
+  "https://atcoder.jp/contests/agc020/tasks/agc020_a": {
+    "difficulty": 1000,
+    "difficultyBand": [
+      900,
+      1200
+    ],
+    "difficultyCheckedAt": "2026-10-29T11:45:06.987575+00:00",
+    "difficultyConfidence": "MEDIUM",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "CF-EQ-v1.0 经验训练映射 raw=0.67*-78+650=597.74 → 800（非官方统计等价；带 = 代表值±100）",
+      "https://atcoder.jp/contests/agc020/tasks/agc020_a",
+      "B−A为偶数时Alice胜，为奇数时Borys胜；不产生Draw。",
+      "完整原题面 SHA-256 b760b8b4d68fc15951d6bcd933dad0331376bb460e99f3912e2b8368a7dee4ee",
+      "人工训练区间 [900, 1200]；未作人群难度标定，非官方评分"
+    ],
+    "difficultyReviewKind": "self-reviewed-statement",
+    "difficultyReviewSha256": "b760b8b4d68fc15951d6bcd933dad0331376bb460e99f3912e2b8368a7dee4ee",
+    "difficultyReviewed": true,
+    "difficultySource": "人工算法复核·训练估分（非官方）",
+    "difficultyStatementContentSha256": "7057c1c0a4c090550b298c142b03087698eaf217e63398621e7f75fde55f5fb2",
+    "difficultyStatementSha256": "b760b8b4d68fc15951d6bcd933dad0331376bb460e99f3912e2b8368a7dee4ee",
+    "knowledge": "博弈论 + 奇偶性",
+    "knowledgeAnalysis": {
+      "categories": [
+        "博弈论",
+        "数学"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "B−A为偶数时Alice胜，为奇数时Borys胜；不产生Draw。；每步让两棋子距离改变±1，因此轮到同一个玩家时距离奇偶恒定。若初始距离偶数，Alice每次轮到时距离至少2，可以始终向右走，不会被Borys挡住。她的位置逐次递增有上界，Borys必先无路可走。；若初始距离奇数，Alice第一步后Borys面对偶距离，他同理可以每次向左，逐次降低自己的位置，最终使Alice无路可走。两个策略均保证有限结束。",
+          "reference": "data/library/statements.json#remote:atcoder:agc020::A",
+          "source": "reviewed-topic",
+          "sourceHash": "7057c1c0a4c090550b298c142b03087698eaf217e63398621e7f75fde55f5fb2",
+          "tags": [
+            "博弈论",
+            "奇偶性"
+          ],
+          "verified": false
+        }
+      ],
+      "inputHash": "a22f81e4a12a404bea4d0980fc13aff58863bd8cf2578817e8f1a69638fc6be4",
+      "knowledge": "博弈论 + 奇偶性",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [],
+      "tags": [
+        "博弈论",
+        "奇偶性"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "博弈论",
+      "数学"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": true,
+      "band": [
+        900,
+        1200
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "常数代码掩盖了胜策与有限终止的证明，人工900–1200；现800略低，建议二审。已在线对照官方解法，仍不将本区间称作官方rating。",
+      "representative": 1000,
+      "retainedDisplayedRating": 800,
+      "retainedSource": "CF-EQ · AtCoder Problems估算",
+      "reviewDecision": "采用人工代表值",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false,
+      "statementMarkdownSha256": "b760b8b4d68fc15951d6bcd933dad0331376bb460e99f3912e2b8368a7dee4ee"
+    },
+    "metadataVersion": "1.4.30",
+    "nativeDifficulty": -78,
+    "previousDifficulty": {
+      "difficulty": 800,
+      "difficultyBand": [
+        800,
+        900
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "CF-EQ-v1.0 经验训练映射 raw=0.67*-78+650=597.74 → 800（非官方统计等价；带 = 代表值±100）"
+      ],
+      "difficultySource": "CF-EQ · AtCoder Problems估算",
+      "nativeDifficulty": -78
+    },
+    "sourceTags": [],
+    "tags": [
+      "博弈论",
+      "奇偶性"
+    ]
+  },
+  "https://atcoder.jp/contests/agc021/tasks/agc021_a": {
+    "difficulty": 1100,
+    "difficultyBand": [
+      1000,
+      1300
+    ],
+    "difficultyCheckedAt": "2026-10-29T11:45:06.987575+00:00",
+    "difficultyConfidence": "MEDIUM",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "CF-EQ-v1.0 经验训练映射 raw=0.67*396+650=915.32 → 900（非官方统计等价；带 = 代表值±100）",
+      "https://atcoder.jp/contests/agc021/tasks/agc021_a",
+      "比较N本身；枚举第一次小于N的位置，将该位减1、后面全部置9、前缀照抄，取候选数位和最大值。",
+      "完整原题面 SHA-256 f1021cb8287df1ef09e1c21dda0b66e54edbb600f276cceab436b82e1f424868",
+      "人工训练区间 [1000, 1300]；未作人群难度标定，非官方评分"
+    ],
+    "difficultyReviewKind": "self-reviewed-statement",
+    "difficultyReviewSha256": "f1021cb8287df1ef09e1c21dda0b66e54edbb600f276cceab436b82e1f424868",
+    "difficultyReviewed": true,
+    "difficultySource": "人工算法复核·训练估分（非官方）",
+    "difficultyStatementContentSha256": "88e5f78539136b8e4635daa37d6886a7fa94f197a4f5a60a820e9e9e243d5e13",
+    "difficultyStatementSha256": "f1021cb8287df1ef09e1c21dda0b66e54edbb600f276cceab436b82e1f424868",
+    "knowledge": "枚举 + 贪心 + 数位分析",
+    "knowledgeAnalysis": {
+      "categories": [
+        "思维与策略",
+        "数学与计数",
+        "计算几何",
+        "数学"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "比较N本身；枚举第一次小于N的位置，将该位减1、后面全部置9、前缀照抄，取候选数位和最大值。；任一x<N从高到低与N比较，必有第一个更小的数位i。此前前缀相同，该位最多Ni−1，后缀每位最多9。；如果Ni>0，上述上界由该位恰减1且后面全9的候选达到；Ni=0不能在这里首次变小。加上x=N覆盖所有可能。",
+          "reference": "data/library/statements.json#remote:atcoder:agc021::A",
+          "source": "reviewed-topic",
+          "sourceHash": "88e5f78539136b8e4635daa37d6886a7fa94f197a4f5a60a820e9e9e243d5e13",
+          "tags": [
+            "枚举",
+            "贪心",
+            "数位分析"
+          ],
+          "verified": false
+        },
+        {
+          "categories": [
+            "计算几何",
+            "数学"
+          ],
+          "reason": "题面描述的对象和运算；具体解法尚待题解核验",
+          "source": "statement-model"
+        }
+      ],
+      "inputHash": "ac1a455c29d8ed4ecbd4bfa4a115bba622f16ef06ddd84283516a1ed40161d63",
+      "knowledge": "枚举 + 贪心 + 数位分析",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [],
+      "tags": [
+        "枚举",
+        "贪心",
+        "数位分析"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "思维与策略",
+      "数学与计数",
+      "计算几何",
+      "数学"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": true,
+      "band": [
+        1000,
+        1300
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "首次不同位置的有限候选化是主要思维点，人工1000–1300；现900建议二审。",
+      "representative": 1100,
+      "retainedDisplayedRating": 900,
+      "retainedSource": "CF-EQ · AtCoder Problems估算",
+      "reviewDecision": "采用人工代表值",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false,
+      "statementMarkdownSha256": "f1021cb8287df1ef09e1c21dda0b66e54edbb600f276cceab436b82e1f424868"
+    },
+    "metadataVersion": "1.4.30",
+    "nativeDifficulty": 396,
+    "previousDifficulty": {
+      "difficulty": 900,
+      "difficultyBand": [
+        800,
+        1000
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "CF-EQ-v1.0 经验训练映射 raw=0.67*396+650=915.32 → 900（非官方统计等价；带 = 代表值±100）"
+      ],
+      "difficultySource": "CF-EQ · AtCoder Problems估算",
+      "nativeDifficulty": 396
+    },
+    "sourceTags": [],
+    "tags": [
+      "枚举",
+      "贪心",
+      "数位分析"
+    ]
+  },
+  "https://atcoder.jp/contests/agc024/tasks/agc024_a": {
+    "difficulty": 800,
+    "difficultyBand": [
+      800,
+      900
+    ],
+    "difficultyConfidence": "MEDIUM",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "CF-EQ-v1.0 经验训练映射 raw=0.67*144+650=746.48 → 800（非官方统计等价；带 = 代表值±100）"
+    ],
+    "difficultySource": "CF-EQ · AtCoder Problems估算",
+    "knowledge": "递推 + 奇偶性",
+    "knowledgeAnalysis": {
+      "categories": [
+        "基础技巧",
+        "数学"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "d′=−d，因此K偶数输出A−B，K奇数输出B−A。；一次变换直接相减：(B+C)−(A+C)=B−A，所以差值只变号，绝对值保持不变；不需要追踪越来越大的三项。；题面输入的|A−B|≤10^9−1，始终远小于10^18，故题面备用输出Unfair在这些约束下不可达。",
+          "reference": "data/library/statements.json#remote:atcoder:agc024::A",
+          "source": "reviewed-topic",
+          "sourceHash": "a9aeb9c0d92359355330cdf80c8d5be1679e8a2743f1557e0e3a7b2fc29853eb",
+          "tags": [
+            "递推",
+            "奇偶性"
+          ],
+          "verified": false
+        },
+        {
+          "excerpt": "直接统计给定数字或指定下标的总和",
+          "source": "statement-conditions",
+          "tag": "枚举"
+        }
+      ],
+      "inputHash": "3a877001ed9ff1467e6847e5ed38a706f42e4ad4ef1513384b4abe159488b320",
+      "knowledge": "递推 + 奇偶性",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [
+        "枚举"
+      ],
+      "tags": [
+        "递推",
+        "奇偶性"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "基础技巧",
+      "数学"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": false,
+      "band": [
+        800,
+        1100
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "从线性递推中提取消去不变量，现800处于800–1100低端。",
+      "retainedDisplayedRating": 800,
+      "retainedSource": "CF-EQ · AtCoder Problems估算",
+      "reviewDecision": "保留原数值与来源，登记人工区间",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false
+    },
+    "metadataVersion": "1.4.30",
+    "nativeDifficulty": 144,
+    "sourceTags": [],
+    "tags": [
+      "递推",
+      "奇偶性"
+    ]
+  },
+  "https://atcoder.jp/contests/agc025/tasks/agc025_a": {
+    "difficulty": 800,
+    "difficultyBand": [
+      800,
+      900
+    ],
+    "difficultyConfidence": "MEDIUM",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "CF-EQ-v1.0 经验训练映射 raw=0.67*-598+650=249.34 → 800（非官方统计等价；带 = 代表值±100）"
+    ],
+    "difficultySource": "CF-EQ · AtCoder Problems估算",
+    "knowledge": "枚举 + 数位分析",
+    "knowledgeAnalysis": {
+      "categories": [
+        "思维与策略",
+        "数学与计数",
+        "计算几何",
+        "数学"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "枚举A=1..N−1，以B=N−A求两个数位和并取最小。；每个合法有序拆分都唯一对应一个A∈[1,N−1]，故完整枚举不漏解；N只有十万，约百万次数位处理足够。；对照验证使用另一结论：相加每产生一次进位会让加数数位和比和的数位和多9。若N不是10的幂，可把其非零数位分给两个正数而不进位，最小为s(N)；若N=10^k，至少一次进位，可用10^(k−1)+9·10^(k−1)达到10。此公式不是参考实现的前提。",
+          "reference": "data/library/statements.json#remote:atcoder:agc025::A",
+          "source": "reviewed-topic",
+          "sourceHash": "dc57996e8be9de8758c852e081b437b6cff69ec0bd7b4e9ccb8fb78b408183e8",
+          "tags": [
+            "枚举",
+            "数位分析"
+          ],
+          "verified": false
+        },
+        {
+          "categories": [
+            "计算几何",
+            "数学"
+          ],
+          "reason": "题面描述的对象和运算；具体解法尚待题解核验",
+          "source": "statement-model"
+        }
+      ],
+      "inputHash": "038064af61003054e1ee174583e137ebc1b0fe7f616a53d5296e81edd06b6c09",
+      "knowledge": "枚举 + 数位分析",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [],
+      "tags": [
+        "枚举",
+        "数位分析"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "思维与策略",
+      "数学与计数",
+      "计算几何",
+      "数学"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": false,
+      "band": [
+        800,
+        1100
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "约束允许直接穷举，不必把可选数论捷径当强制前置，现800在800–1100内。",
+      "retainedDisplayedRating": 800,
+      "retainedSource": "CF-EQ · AtCoder Problems估算",
+      "reviewDecision": "保留原数值与来源，登记人工区间",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false
+    },
+    "metadataVersion": "1.4.30",
+    "nativeDifficulty": -598,
+    "sourceTags": [],
+    "tags": [
+      "枚举",
+      "数位分析"
+    ]
+  },
+  "https://atcoder.jp/contests/agc026/tasks/agc026_a": {
+    "difficulty": 800,
+    "difficultyBand": [
+      800,
+      900
+    ],
+    "difficultyConfidence": "MEDIUM",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "CF-EQ-v1.0 经验训练映射 raw=0.67*-183+650=527.39 → 800（非官方统计等价；带 = 代表值±100）"
+    ],
+    "difficultySource": "CF-EQ · AtCoder Problems估算",
+    "knowledge": "连续段 + 贪心",
+    "knowledgeAnalysis": {
+      "categories": [
+        "基础技巧",
+        "思维与策略",
+        "计算几何"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "每个同色连续段长L，累加floor(L/2)。；在一个同色段中取不相交相邻对(1,2),(3,4),…，每一对必须改掉至少一个位置，给出floor(L/2)下界。；把该段第2、4、6…个位置改为未在原序列出现的新颜色即可达到下界；这些改动位置彼此不相邻，且新色不同于边界原色，不会制造新的相等邻接。各段可独立处理。",
+          "reference": "data/library/statements.json#remote:atcoder:agc026::A",
+          "source": "reviewed-topic",
+          "sourceHash": "739bc54c5598a3965de8cf86f935c32f8615a75e582740b3d24e968d896498f3",
+          "tags": [
+            "连续段",
+            "贪心"
+          ],
+          "verified": false
+        },
+        {
+          "categories": [
+            "计算几何"
+          ],
+          "reason": "题面描述的对象和运算；具体解法尚待题解核验",
+          "source": "statement-model"
+        }
+      ],
+      "inputHash": "eb713098f9f58dc026ce5ef134a02bd1cfd77ad064602ef8e04d843fd18809e4",
+      "knowledge": "连续段 + 贪心",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [],
+      "tags": [
+        "连续段",
+        "贪心"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "基础技巧",
+      "思维与策略",
+      "计算几何"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": false,
+      "band": [
+        800,
+        1100
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "短连续段计数加简单下界，现800落在800–1100区间，不需上调。",
+      "retainedDisplayedRating": 800,
+      "retainedSource": "CF-EQ · AtCoder Problems估算",
+      "reviewDecision": "保留原数值与来源，登记人工区间",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false
+    },
+    "metadataVersion": "1.4.30",
+    "nativeDifficulty": -183,
+    "sourceTags": [],
+    "tags": [
+      "连续段",
+      "贪心"
+    ]
+  },
+  "https://atcoder.jp/contests/agc027/tasks/agc027_a": {
+    "difficulty": 1000,
+    "difficultyBand": [
+      900,
+      1200
+    ],
+    "difficultyCheckedAt": "2026-10-29T11:45:06.987575+00:00",
+    "difficultyConfidence": "MEDIUM",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "CF-EQ-v1.0 经验训练映射 raw=0.67*114+650=726.38 → 800（非官方统计等价；带 = 代表值±100）",
+      "https://atcoder.jp/contests/agc027/tasks/agc027_a",
+      "排序需求，依次付最便宜需求直到不够；若已满足全部N人但仍剩糖，只能得N−1人快乐。",
+      "完整原题面 SHA-256 573b4fb1eccf4962a090f1449960ea742e8d25697f4823b340340f92936e4f70",
+      "人工训练区间 [900, 1200]；未作人群难度标定，非官方评分"
+    ],
+    "difficultyReviewKind": "self-reviewed-statement",
+    "difficultyReviewSha256": "573b4fb1eccf4962a090f1449960ea742e8d25697f4823b340340f92936e4f70",
+    "difficultyReviewed": true,
+    "difficultySource": "人工算法复核·训练估分（非官方）",
+    "difficultyStatementContentSha256": "673090b92061ba827a2df18266e1248fc9131aa579c31b06ec53e4ce67fd32b7",
+    "difficultyStatementSha256": "573b4fb1eccf4962a090f1449960ea742e8d25697f4823b340340f92936e4f70",
+    "knowledge": "排序 + 贪心",
+    "knowledgeAnalysis": {
+      "categories": [
+        "思维与策略"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "排序需求，依次付最便宜需求直到不够；若已满足全部N人但仍剩糖，只能得N−1人快乐。；要使h人快乐至少要花这h个需求，最小为全体最小的h项之和，因此按小到大选择可使快乐人数上界最大。；若未满足全部人，可把剩糖交给一个未满足者；若全部满足且仍有剩糖，必须破坏至少一人的精确数量，给一人全部余糖即可达到N−1。",
+          "reference": "data/library/statements.json#remote:atcoder:agc027::A",
+          "source": "reviewed-topic",
+          "sourceHash": "673090b92061ba827a2df18266e1248fc9131aa579c31b06ec53e4ce67fd32b7",
+          "tags": [
+            "排序",
+            "贪心"
+          ],
+          "verified": false
+        }
+      ],
+      "inputHash": "bed8bc642b25960ae33a434552e6e71bd30e46c55b39a0963d5e13a1967d90c4",
+      "knowledge": "排序 + 贪心",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [],
+      "tags": [
+        "排序",
+        "贪心"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "思维与策略"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": true,
+      "band": [
+        900,
+        1200
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "排序贪心外加必须发完的反例分支，人工900–1200；现800略低，待二审。",
+      "representative": 1000,
+      "retainedDisplayedRating": 800,
+      "retainedSource": "CF-EQ · AtCoder Problems估算",
+      "reviewDecision": "采用人工代表值",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false,
+      "statementMarkdownSha256": "573b4fb1eccf4962a090f1449960ea742e8d25697f4823b340340f92936e4f70"
+    },
+    "metadataVersion": "1.4.30",
+    "nativeDifficulty": 114,
+    "previousDifficulty": {
+      "difficulty": 800,
+      "difficultyBand": [
+        800,
+        900
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "CF-EQ-v1.0 经验训练映射 raw=0.67*114+650=726.38 → 800（非官方统计等价；带 = 代表值±100）"
+      ],
+      "difficultySource": "CF-EQ · AtCoder Problems估算",
+      "nativeDifficulty": 114
+    },
+    "sourceTags": [],
+    "tags": [
+      "排序",
+      "贪心"
+    ]
+  },
+  "https://atcoder.jp/contests/agc029/tasks/agc029_a": {
+    "difficulty": 900,
+    "difficultyBand": [
+      800,
+      1000
+    ],
+    "difficultyConfidence": "MEDIUM",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "CF-EQ-v1.0 经验训练映射 raw=0.67*423+650=933.41 → 900（非官方统计等价；带 = 代表值±100）"
+    ],
+    "difficultySource": "CF-EQ · AtCoder Problems估算",
+    "knowledge": "逆序对 + 前缀和 + 结论与计数",
+    "knowledgeAnalysis": {
+      "categories": [
+        "基础技巧",
+        "基础技巧 / 前缀和与差分",
+        "数学与计数 / 计数",
+        "字符串",
+        "计算几何",
+        "数学"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "从左到右累计B个数；遇W把之前B数加进答案，即所有B在W前的逆序对数。；一次相邻BW→WB恰好消除这一对的先后关系，与其他字符的相对顺序不变，所以逆序对总数恰减1。；若不能继续操作，则不存在相邻BW，串只能是若干W接若干B，逆序对为0；因此任何完整操作序列长度都是初始逆序对数，最大值也如此。",
+          "reference": "data/library/statements.json#remote:atcoder:agc029::A",
+          "source": "reviewed-topic",
+          "sourceHash": "5ec1e28f6f13334a812a8d682d83bca195d838fddf15002acb5acc3fd7ddb935",
+          "tags": [
+            "逆序对",
+            "前缀和",
+            "结论与计数"
+          ],
+          "verified": false
+        },
+        {
+          "categories": [
+            "字符串",
+            "计算几何",
+            "数学"
+          ],
+          "reason": "题面描述的对象和运算；具体解法尚待题解核验",
+          "source": "statement-model"
+        }
+      ],
+      "inputHash": "58c8a2cf7a09b6505a8fbb1a3e965b1cff93c86db3e00d63f28a0e53408a8e6b",
+      "knowledge": "逆序对 + 前缀和 + 结论与计数",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [],
+      "tags": [
+        "逆序对",
+        "前缀和",
+        "结论与计数"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "基础技巧",
+      "基础技巧 / 前缀和与差分",
+      "数学与计数 / 计数",
+      "字符串",
+      "计算几何",
+      "数学"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": false,
+      "band": [
+        900,
+        1200
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "把交换序列改为逆序计数是主要转化，现900位于900–1200；不标注没有使用的树状数组。",
+      "retainedDisplayedRating": 900,
+      "retainedSource": "CF-EQ · AtCoder Problems估算",
+      "reviewDecision": "保留原数值与来源，登记人工区间",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false
+    },
+    "metadataVersion": "1.4.30",
+    "nativeDifficulty": 423,
+    "sourceTags": [],
+    "tags": [
+      "逆序对",
+      "前缀和",
+      "结论与计数"
+    ]
+  },
+  "https://atcoder.jp/contests/agc040/tasks/agc040_a": {
+    "difficulty": 1300,
+    "difficultyBand": [
+      1200,
+      1500
+    ],
+    "difficultyCheckedAt": "2026-10-29T11:45:06.987575+00:00",
+    "difficultyConfidence": "MEDIUM",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "CF-EQ-v1.0 经验训练映射 raw=0.67*443+650=946.81 → 900（非官方统计等价；带 = 代表值±100）",
+      "https://atcoder.jp/contests/agc040/tasks/agc040_a",
+      "左扫为连续<的长度下界，右扫为连续>的长度下界；每个位置取两种下界最大值后求和。",
+      "完整原题面 SHA-256 b5b0a56ac5daab1884223ce900c6c5320ebb91dedbbb6188bdc6683bd0b4dfbd",
+      "人工训练区间 [1200, 1500]；未作人群难度标定，非官方评分"
+    ],
+    "difficultyReviewKind": "self-reviewed-statement",
+    "difficultyReviewSha256": "b5b0a56ac5daab1884223ce900c6c5320ebb91dedbbb6188bdc6683bd0b4dfbd",
+    "difficultyReviewed": true,
+    "difficultySource": "人工算法复核·训练估分（非官方）",
+    "difficultyStatementContentSha256": "0467730a6c58405069c0ecbd43aa83ad2bb678df1a86e8ae7a5a7fcc24d6918f",
+    "difficultyStatementSha256": "b5b0a56ac5daab1884223ce900c6c5320ebb91dedbbb6188bdc6683bd0b4dfbd",
+    "knowledge": "贪心 + 前后缀分解 + 递推",
+    "knowledgeAnalysis": {
+      "categories": [
+        "思维与策略",
+        "基础技巧",
+        "字符串",
+        "计算几何",
+        "数学"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "左扫为连续<的长度下界，右扫为连续>的长度下界；每个位置取两种下界最大值后求和。；若位置i左边有连续L个<，从非负起点沿每边至少加1，必有ai≥L；右边连续R个>同样强迫ai≥R，所以ai≥max(L,R)。；取这些逐点下界能同时满足全部边。若符号i为<，右端的连续<下界比左端多1，且左端向右的>长度为0，故右端至少比左端大1；>情形对称。达到逐点下界即达到最小总和。",
+          "reference": "data/library/statements.json#remote:atcoder:agc040::A",
+          "source": "reviewed-topic",
+          "sourceHash": "0467730a6c58405069c0ecbd43aa83ad2bb678df1a86e8ae7a5a7fcc24d6918f",
+          "tags": [
+            "贪心",
+            "前后缀分解",
+            "递推"
+          ],
+          "verified": false
+        },
+        {
+          "categories": [
+            "字符串",
+            "计算几何",
+            "数学"
+          ],
+          "reason": "题面描述的对象和运算；具体解法尚待题解核验",
+          "source": "statement-model"
+        }
+      ],
+      "inputHash": "2fc1a3cf38d9621a821b86dcea2ab989c31693921a47fffb463fbfb348804cbf",
+      "knowledge": "贪心 + 前后缀分解 + 递推",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [],
+      "tags": [
+        "贪心",
+        "前后缀分解",
+        "递推"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "思维与策略",
+      "基础技巧",
+      "字符串",
+      "计算几何",
+      "数学"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": true,
+      "band": [
+        1200,
+        1500
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "需要两侧下界及可行性证明，明显高于单个连续段计数；人工1200–1500，现900建议二审。",
+      "representative": 1300,
+      "retainedDisplayedRating": 900,
+      "retainedSource": "CF-EQ · AtCoder Problems估算",
+      "reviewDecision": "采用人工代表值",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false,
+      "statementMarkdownSha256": "b5b0a56ac5daab1884223ce900c6c5320ebb91dedbbb6188bdc6683bd0b4dfbd"
+    },
+    "metadataVersion": "1.4.30",
+    "nativeDifficulty": 443,
+    "previousDifficulty": {
+      "difficulty": 900,
+      "difficultyBand": [
+        800,
+        1000
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "CF-EQ-v1.0 经验训练映射 raw=0.67*443+650=946.81 → 900（非官方统计等价；带 = 代表值±100）"
+      ],
+      "difficultySource": "CF-EQ · AtCoder Problems估算",
+      "nativeDifficulty": 443
+    },
+    "sourceTags": [],
+    "tags": [
+      "贪心",
+      "前后缀分解",
+      "递推"
+    ]
+  },
+  "https://atcoder.jp/contests/agc046/tasks/agc046_a": {
+    "difficulty": 1000,
+    "difficultyBand": [
+      900,
+      1200
+    ],
+    "difficultyCheckedAt": "2026-10-29T11:45:06.987575+00:00",
+    "difficultyConfidence": "MEDIUM",
+    "difficultyEstimated": true,
+    "difficultyEvidence": [
+      "CF-EQ-v1.0 经验训练映射 raw=0.67*246+650=814.82 → 800（非官方统计等价；带 = 代表值±100）",
+      "https://atcoder.jp/contests/agc046/tasks/agc046_a",
+      "最小正k使kX为360倍数，答案360/gcd(360,X)。",
+      "完整原题面 SHA-256 317042bf3c8e0b5578299ecf2b7a3f877c42937e03994027a4b3121413333fb4",
+      "人工训练区间 [900, 1200]；未作人群难度标定，非官方评分"
+    ],
+    "difficultyReviewKind": "self-reviewed-statement",
+    "difficultyReviewSha256": "317042bf3c8e0b5578299ecf2b7a3f877c42937e03994027a4b3121413333fb4",
+    "difficultyReviewed": true,
+    "difficultySource": "人工算法复核·训练估分（非官方）",
+    "difficultyStatementContentSha256": "a409c11087a4a76a755f771df136fb06dbc66a4870bf94d15d44766655b58a26",
+    "difficultyStatementSha256": "317042bf3c8e0b5578299ecf2b7a3f877c42937e03994027a4b3121413333fb4",
+    "knowledge": "最大公约数 + 周期性",
+    "knowledgeAnalysis": {
+      "categories": [
+        "数学 / 数论",
+        "字符串",
+        "计算几何",
+        "数学"
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "reason": "最小正k使kX为360倍数，答案360/gcd(360,X)。；把第j步位移视为复数r^j，r为单位复数且转角X；走k步总位移为1+r+…+r^(k−1)=(1−r^k)/(1−r)。因为1≤X≤179，所以r≠1。；总位移为0当且仅当r^k=1，也就是kX可被360整除。约去gcd后得到最小k。仅“朝向恢复”通常不足以证明“位置恢复”，本题由等比和补足该逻辑。",
+          "reference": "data/library/statements.json#remote:atcoder:agc046::A",
+          "source": "reviewed-topic",
+          "sourceHash": "a409c11087a4a76a755f771df136fb06dbc66a4870bf94d15d44766655b58a26",
+          "tags": [
+            "最大公约数",
+            "周期性"
+          ],
+          "verified": false
+        },
+        {
+          "categories": [
+            "计算几何",
+            "数学"
+          ],
+          "reason": "题面描述的对象和运算；具体解法尚待题解核验",
+          "source": "statement-model"
+        }
+      ],
+      "inputHash": "cca257d4ee1b1cdfa76abe7dce4ce1f8001bafb43806b550673cebb0840c2575",
+      "knowledge": "最大公约数 + 周期性",
+      "pendingCategories": [],
+      "source": "reviewed-topic",
+      "sourceTags": [],
+      "status": "classified",
+      "supersededTags": [],
+      "tags": [
+        "最大公约数",
+        "周期性"
+      ],
+      "unknown": [],
+      "version": "knowledge-v1.0"
+    },
+    "knowledgeCategories": [
+      "数学 / 数论",
+      "字符串",
+      "计算几何",
+      "数学"
+    ],
+    "knowledgeReviewRequired": false,
+    "knowledgeReviewSource": "逐题算法推导与本地样例/独立对照复核；非原站AC",
+    "manualDifficultyReview": {
+      "applied": true,
+      "band": [
+        900,
+        1200
+      ],
+      "confidence": "MEDIUM",
+      "estimated": true,
+      "kind": "independent-reviewer-estimate",
+      "limitation": "证明和小域测试可核对算法，不能精确测量用户群体解题难度；区间需维护者二审与后续训练数据校准。",
+      "maintainerReviewed": true,
+      "populationCalibrated": false,
+      "rationale": "代码为gcd但要解释几何返回与周期的等价，人工900–1200；现800略低，建议二审。",
+      "representative": 1000,
+      "retainedDisplayedRating": 800,
+      "retainedSource": "CF-EQ · AtCoder Problems估算",
+      "reviewDecision": "采用人工代表值",
+      "scale": "CF-like training interval; not an official rating",
+      "secondReviewRecommended": false,
+      "statementMarkdownSha256": "317042bf3c8e0b5578299ecf2b7a3f877c42937e03994027a4b3121413333fb4"
+    },
+    "metadataVersion": "1.4.30",
+    "nativeDifficulty": 246,
+    "previousDifficulty": {
+      "difficulty": 800,
+      "difficultyBand": [
+        800,
+        900
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "CF-EQ-v1.0 经验训练映射 raw=0.67*246+650=814.82 → 800（非官方统计等价；带 = 代表值±100）"
+      ],
+      "difficultySource": "CF-EQ · AtCoder Problems估算",
+      "nativeDifficulty": 246
+    },
+    "sourceTags": [],
+    "tags": [
+      "最大公约数",
+      "周期性"
+    ]
   }
 }

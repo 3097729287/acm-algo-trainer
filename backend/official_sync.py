@@ -175,7 +175,7 @@ class OfficialSync:
         sites = {
             'Codeforces': ('codeforces', r'https://(?:www\.)?codeforces.com/(?:contest|gym)/\d+/problem/[A-Za-z]\d?'),
             'AtCoder': ('atcoder', r'https://atcoder.jp/contests/[\w-]+/tasks/[\w-]+'),
-            '牛客': ('nowcoder', r'https://ac.nowcoder.com/acm/contest/\d+/[A-Za-z]\d?'),
+            '牛客': ('nowcoder', r'https://ac.nowcoder.com/acm/(?:contest/\d+/[A-Za-z]\d?|problem/[1-9]\d{0,19})'),
             '洛谷': ('luogu', r'https://(?:www\.)?luogu.com.cn/problem/[A-Za-z0-9_-]+'),
         }
         if platform not in sites or not isinstance(owner, str) or not isinstance(records, list) or len(records) > 100:
