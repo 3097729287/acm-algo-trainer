@@ -1,16 +1,16 @@
 import {useEffect,useId,useLayoutEffect,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
-import {ArrowRight,BookOpen,ChevronDown,Code2,FlaskConical,FolderOpen,History,Target} from 'lucide-react';
+import {ArrowRight,BookOpen,Code2,FlaskConical,FolderOpen,History,Target} from 'lucide-react';
 import {nextActions} from '@/lib/nextActions.js';
 import './NextActions.css';
 
 const icons={review:History,list:FolderOpen,problem:Target,course:FlaskConical,template:Code2,'template-problem':Code2,stretch:Target,contest:BookOpen,mixed:BookOpen};
-const labels={review:'间隔复习',list:'基础题单',problem:'基础练习',course:'算法实验室',template:'模板','template-problem':'模板练习',stretch:'进阶挑战',contest:'继续比赛',mixed:'混合限时训练'};
+const labels={review:'间隔复习',list:'基础题单',problem:'基础练习',course:'实验室',template:'模板','template-problem':'模板练习',stretch:'进阶挑战',contest:'继续比赛',mixed:'混合限时训练'};
 
 export default function NextActions({rows,training,insights,prefs,api,availablePages,activeContest,onNavigate,onTrain,suspended=false,onOpenChange,reviewPlan={}}) {
  const [metadata,setMetadata]=useState({lists:[],templates:[]}),[revision,setRevision]=useState(0);
  const [open,setOpen]=useState(false),[position,setPosition]=useState(null);
- const root=useRef(null),flyout=useRef(null),toggle=useRef(null),closeTimer=useRef(null),ignoreFocus=useRef(false);
+ const root=useRef(null),flyout=useRef(null),trigger=useRef(null),touchOpened=useRef(false),closeTimer=useRef(null),ignoreFocus=useRef(false);
  const openChanged=useRef(onOpenChange);openChanged.current=onOpenChange;
  const popupId=useId(),reasonId=useId();
  useEffect(()=>{const refresh=()=>setRevision(value=>value+1);window.addEventListener('tb:training-lists-changed',refresh);return()=>window.removeEventListener('tb:training-lists-changed',refresh);},[]);
@@ -26,12 +26,12 @@ export default function NextActions({rows,training,insights,prefs,api,availableP
  const show=()=>{cancelClose();if(!suspended&&expandable)setOpen(true);};
  const close=(restoreFocus=false)=>{
   cancelClose();setOpen(false);
-  if(restoreFocus){ignoreFocus.current=true;toggle.current?.focus({preventScroll:true});ignoreFocus.current=false;}
+  if(restoreFocus){ignoreFocus.current=true;trigger.current?.focus({preventScroll:true});ignoreFocus.current=false;}
  };
- const leave=()=>{
+ const leave=(keepFocus=false)=>{
   cancelClose();closeTimer.current=setTimeout(()=>{
-   if(!contains(document.activeElement)&&!root.current?.matches(':hover')&&!flyout.current?.matches(':hover'))setOpen(false);
-  },180);
+   if((!keepFocus||!contains(document.activeElement))&&!root.current?.matches(':hover')&&!flyout.current?.matches(':hover'))setOpen(false);
+  },80);
  };
  useEffect(()=>()=>clearTimeout(closeTimer.current),[]);
  useEffect(()=>{
@@ -61,16 +61,15 @@ export default function NextActions({rows,training,insights,prefs,api,availableP
   if(!expandable)return;
   if(event.key==='ArrowDown'||event.key==='ArrowUp'){event.preventDefault();show();focusRow(event.key==='ArrowUp');}
  };
- const blur=event=>{if(!contains(event.relatedTarget))leave();};
+ const blur=event=>{if(!contains(event.relatedTarget))leave(true);};
  if(!primary)return null;
  const Icon=icons[primary.kind];
- return <section ref={root} className="next-actions" aria-label="下一步推荐做的事" data-open={expanded} data-expandable={expandable} data-suspended={suspended} onMouseEnter={show} onMouseLeave={leave} onFocus={()=>{if(!ignoreFocus.current)show();}} onBlur={blur}>
-  <button type="button" className="next-actions-primary" data-recommendation={primary.kind} aria-label={`开始${labels[primary.kind]} ${primary.title}`} aria-describedby={reasonId} title={`${labels[primary.kind]}：${primary.title}\n${primary.reason}`} disabled={suspended} onClick={()=>start(primary)} onKeyDown={openWithKeys}>
-   <Icon size={19} aria-hidden="true"/><span className="next-actions-primary-copy"><strong>{primary.title}</strong></span>
+ return <section ref={root} className="next-actions" aria-label="下一步推荐做的事" data-open={expanded} data-expandable={expandable} data-suspended={suspended} onMouseEnter={show} onMouseLeave={()=>leave()} onFocus={()=>{if(!ignoreFocus.current)show();}} onBlur={blur}>
+  <button ref={trigger} type="button" className="next-actions-primary" data-recommendation={primary.kind} aria-label={`开始${labels[primary.kind]} ${primary.title}`} aria-describedby={reasonId} aria-expanded={expandable?expanded:undefined} aria-controls={expandable?popupId:undefined} title={`${labels[primary.kind]}：${primary.title}\n${primary.reason}`} disabled={suspended} onPointerDown={event=>{if(event.pointerType==='touch'&&expandable&&!open){touchOpened.current=true;show();}}} onClick={event=>{if(touchOpened.current){touchOpened.current=false;event.preventDefault();return;}start(primary);}} onKeyDown={openWithKeys}>
+   <Icon size={18} aria-hidden="true"/><span className="next-actions-primary-copy"><strong>{primary.title}</strong></span>
   </button>
   <span className="sr-only" id={reasonId}>{primary.reason}</span>
-  {expandable&&<button ref={toggle} type="button" className="next-actions-toggle" aria-label={expanded?'收起下一步推荐任务':'展开下一步推荐任务'} aria-expanded={expanded} aria-controls={popupId} disabled={suspended} onPointerDown={event=>{event.currentTarget.dataset.wasOpen=String(open);}} onClick={event=>{const wasOpen=event.currentTarget.dataset.wasOpen;delete event.currentTarget.dataset.wasOpen;if(wasOpen==='true'||wasOpen===undefined&&open)close();else show();}} onKeyDown={openWithKeys}><ChevronDown size={17} aria-hidden="true"/></button>}
-  {expanded&&createPortal(<div ref={flyout} className="next-actions-flyout" style={{...position,visibility:position?'visible':'hidden'}} onMouseEnter={cancelClose} onMouseLeave={leave} onFocus={cancelClose} onBlur={blur}>
+  {expanded&&createPortal(<div ref={flyout} className="next-actions-flyout" style={{...position,visibility:position?'visible':'hidden'}} onMouseEnter={cancelClose} onMouseLeave={()=>leave()} onFocus={cancelClose} onBlur={blur}>
    <section className="next-actions-popover" id={popupId} aria-label="推荐任务与依据" onKeyDown={event=>{
     if(!['ArrowDown','ArrowUp','Home','End'].includes(event.key))return;
     const buttons=[...event.currentTarget.querySelectorAll('.next-actions-item')],index=buttons.indexOf(document.activeElement);if(index<0)return;

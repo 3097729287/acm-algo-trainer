@@ -26,7 +26,7 @@ function tbCookieLoginState(platform, cookies) {
 }
 
 function tbFirstPartyCookie(platform, cookie) {
-  const root = {Codeforces:'codeforces.com',AtCoder:'atcoder.jp','牛客':'nowcoder.com','洛谷':'luogu.com.cn'}[platform];
+  const root = {Codeforces:'codeforces.com',AtCoder:'atcoder.jp','牛客':'nowcoder.com','洛谷':'luogu.com.cn',QOJ:'qoj.ac'}[platform];
   const domain = cookie.domain?.replace(/^\./, '').toLowerCase();
   if (!root || !(domain === root || domain?.endsWith('.' + root))) return false;
   if (!cookie.partitionKey) return true;
@@ -39,6 +39,15 @@ function tbFirstPartyCookie(platform, cookie) {
 }
 function tbPageLoginState(platform, html) {
   if (/just a moment|checking your browser|cf-chl-|安全验证/i.test(html.slice(0, 10000))) return 'unknown';
+  if (platform === 'QOJ') {
+    const start=/<(nav|div|header)\b[^>]*\bclass\s*=\s*["'][^"']*\bnavbar\b[^"']*["'][^>]*>/i.exec(html);
+    if (!start) return 'unknown';
+    const tags=new RegExp('<\\/?'+start[1]+'\\b[^>]*>','gi');tags.lastIndex=start.index;
+    let depth=0,end=html.length,tag;while((tag=tags.exec(html))){depth+=/^<\//.test(tag[0])?-1:1;if(!depth){end=tags.lastIndex;break;}}
+    const nav=html.slice(start.index,end),paths=[...nav.matchAll(/<a\b[^>]*\bhref\s*=\s*["']([^"']*)["']/gi)].map(link=>{try{const u=new URL(link[1],'https://qoj.ac');return u.origin==='https://qoj.ac'&&!u.username&&!u.password?u.pathname:'';}catch{return '';}});
+    if(paths.includes('/logout')&&paths.some(path=>/^\/user\/profile\/[A-Za-z0-9_-]{1,64}\/?$/.test(path)))return 'logged_in';
+    return paths.includes('/login')?'logged_out':'unknown';
+  }
   if (platform === 'Codeforces') {
     const start = /<(div|header)\b[^>]*\bid\s*=\s*["']header["'][^>]*>/i.exec(html);
     if (!start) return 'unknown';

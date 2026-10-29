@@ -163,7 +163,7 @@ try{
  assert(mock.history>=mock.bottom&&mock.history-mock.bottom<=20);assert(mock.borders.every(width=>width>=1));await shot('mock');
  await page.locator('.mock-history .record-row').first().click();await page.locator('.record-detail').waitFor();await page.keyboard.press('Escape');await page.locator('.mock-history').waitFor();
  console.log('STAGE radar');
- await nav('成长与能力').click();await page.getByLabel('一级知识雷达',{exact:true}).waitFor();await header();
+ await nav('成长').click();await page.getByLabel('一级知识雷达',{exact:true}).waitFor();await header();
  await radarNames();assert.equal(await page.getByRole('button',{name:'成就与称号',exact:true}).count(),0);assert.equal(await page.locator('.growth-account-hero #growth-goals').count(),1);
  await page.getByRole('button',{name:'新建目标',exact:true}).click();await page.getByRole('dialog',{name:'新建目标',exact:true}).waitFor();await page.getByRole('button',{name:'关闭目标设置',exact:true}).click();
  await page.getByLabel('账号成长统计',{exact:true}).waitFor();assert.equal(await page.getByText('下一步练什么',{exact:true}).count(),0);assert.equal(await page.getByText('今日同行',{exact:true}).count(),0);
@@ -210,7 +210,7 @@ try{
  await page.getByRole('combobox',{name:'从零讲知识分类'}).press('Space');await knowledgeFolders.getByRole('option',{name:'动态规划',exact:true}).click();await knowledgeFolders.getByRole('option',{name:'线性 DP',exact:true}).click();assert.equal(await page.locator('.lectures-list>button').count(),1);
  await page.getByRole('combobox',{name:'从零讲知识分类'}).press('Space');await knowledgeFolders.getByRole('button',{name:'返回上一级',exact:true}).click();await knowledgeFolders.getByRole('option',{name:'全部知识分类',exact:true}).click();assert.equal(await page.locator('.lectures-list>button').count(),3);
  await nav('提交记录').click();await page.locator('.submission-log-row').first().waitFor();assert.equal(await page.locator('.submission-log-row>svg').count(),0);assert.equal(await page.locator('.submission-runtime').count(),1);assert.equal(await page.locator('.submission-runtime').innerText(),'15 ms');
- await nav('算法实验室').click();assert.equal(await page.getByText('算法题单',{exact:true}).count(),0);
+ await nav('实验室').click();assert.equal(await page.getByText('算法题单',{exact:true}).count(),0);
  await page.locator('.lab-multi-catalog').waitFor();assert.equal(await page.locator('.lab-multi-catalog .catalog-card').count(),10);
  await page.getByRole('button',{name:'打开算法 背包 DP',exact:true}).click();await page.locator('.algorithm-lab .lab-course-header').waitFor();assert.equal(await page.locator('.lab-lesson-footer').count(),0);
  await page.getByRole('button',{name:'下一页',exact:true}).click();await page.getByRole('heading',{name:/把大问题拆小/}).waitFor();
@@ -228,10 +228,11 @@ try{
  const guidanceSaved=page.waitForResponse(response=>response.url().endsWith('/api/preferences')&&response.request().method()==='POST'&&response.request().postData().includes('"assisted":true'));
  await page.getByRole('button',{name:'3 推到代码',exact:true}).click();await page.getByRole('form',{name:'补出关键转移'}).waitFor();await guidanceSaved;
  mockActive={id:'lab-lock',name:'隔离考场',status:'running',startedAt:timestamp,endsAt:new Date(Date.now()+3600000).toISOString(),duration:60,total:1,remainingSeconds:3600,slots:[{...rows[117],id:'fixture:alias:P1048',letter:'A'}]};
- await page.reload();await nav('算法实验室').click();await page.getByRole('region',{name:'跟做指导已锁定',exact:true}).waitFor();
+ const enterGuidance=async()=>{await page.getByRole('button',{name:'目录',exact:true}).waitFor();assert.equal(await page.getByRole('button',{name:'上一页',exact:true}).isDisabled(),true,'re-entering the course starts at its first teaching page');await page.getByRole('button',{name:'目录',exact:true}).click();await page.getByRole('navigation',{name:'课程章节'}).getByRole('button',{name:/独立练习/}).click();await page.getByRole('button',{name:'进入跟着做题',exact:true}).click();};
+ await page.reload();await nav('实验室').click();await enterGuidance();await page.getByRole('region',{name:'跟做指导已锁定',exact:true}).waitFor();
  assert.equal(await page.getByRole('form',{name:'补出关键转移'}).count(),0,'guided source obeys the active original-task lock, including aliases');
  assert.equal(await page.getByRole('navigation',{name:'解题过程'}).count(),0);await shot('algorithm-lab-locked');
- mockActive=null;await page.reload();await nav('算法实验室').click();await page.getByRole('form',{name:'补出关键转移'}).waitFor();assert.equal(await page.locator('.lab-catalog').count(),0,'reload resumes the preserved guided lesson after the contest lock clears');
+ mockActive=null;await page.reload();await nav('实验室').click();await enterGuidance();await page.getByRole('form',{name:'补出关键转移'}).waitFor();assert.equal(await page.locator('.lab-catalog').count(),0,'the saved guided draft returns after explicitly re-entering guidance from the first course page');
  await page.getByRole('button',{name:'5 自行实现',exact:true}).click();
  const labCheck=await page.locator('.lab-implementation input[type=checkbox]').first().boundingBox();assert(labCheck.width<=20&&labCheck.height<=20);await shot('algorithm-lab-guided');
  await page.getByRole('button',{name:'进入工作台实现',exact:true}).click();await page.locator('.cm-editor').waitFor();
@@ -254,7 +255,7 @@ try{
  const titleParts=await messageTitle.locator(':scope > span').evaluateAll(nodes=>nodes.map(node=>{const r=node.getBoundingClientRect();return {x:r.x,right:r.right,center:r.y+r.height/2};}));
  assert(titleParts.every(part=>Math.abs(part.center-titleParts[0].center)<1));assert(titleParts.slice(1).every((part,index)=>part.x>titleParts[index].right));await shot('social-title-aligned');await page.keyboard.press('Escape');
  await page.evaluate(()=>window.dispatchEvent(new CustomEvent('tb:browser-preparation',{detail:{status:'needs_login'}})));assert.equal(await page.getByRole('dialog',{name:'浏览器原站提交'}).count(),0);
- for(const width of [1280,2048])for(const name of ['我的训练','题库','比赛','模拟赛','算法实验室','排行榜','成长与能力','提交记录','活动记录','从零讲']){
+ for(const width of [1280,2048])for(const name of ['我的训练','题库','比赛','模拟赛','实验室','排行榜','成长','提交记录','活动记录','从零讲']){
   await page.setViewportSize({width,height:1000});await openPage(name);await page.waitForTimeout(75);
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'page overflow: '+name+' '+width);
   const area=await page.locator('.workspace-area').boundingBox();assert(area.x>=0&&area.x+area.width<=width+1,name);await shot('audit-'+name+'-'+width);
@@ -293,25 +294,26 @@ try{
  }
  const previousYear=String(Number(date.slice(0,4))-1);await page.getByLabel('活动年份',{exact:true}).selectOption(previousYear);await page.waitForFunction(y=>[...document.querySelectorAll('.activity-month-grid [role=gridcell]')].every(node=>node.dataset.date.startsWith(y)),previousYear);assert.equal(await page.locator('.activity-month-grid [role=gridcell]').count(),Math.round((new Date(Number(previousYear)+1,0,1)-new Date(Number(previousYear),0,1))/86400000));
  await page.getByLabel('活动年份',{exact:true}).selectOption(date.slice(0,4));await page.setViewportSize({width:1600,height:1000});
- await nav('成长与能力').click();await page.getByRole('button',{name:'数学与计数，掌握 ?%，进入二级雷达',exact:true}).click();
+ await nav('成长').click();await page.getByRole('button',{name:'数学与计数，掌握 ?%，进入二级雷达',exact:true}).click();
  const panels=await page.locator('.progress-growth-columns').evaluate(node=>{const [left,right]=[...node.children].map(item=>item.getBoundingClientRect());return {top:Math.abs(left.top-right.top),bottom:Math.abs(left.bottom-right.bottom)};});assert(panels.top<1&&panels.bottom<1,JSON.stringify(panels));
  const topicPages=page.getByRole('navigation',{name:'知识点分页',exact:true}),seenTopics=new Set();
  for(let index=0;index<4;index++){const names=await page.locator('.radar-detail-row>button').evaluateAll(nodes=>nodes.map(node=>node.childNodes[0].textContent));assert(names.length>0&&names.length<=12,'each radar page has at most12 actual topics');names.forEach(name=>seenTopics.add(name));if(index<3){await topicPages.getByRole('button',{name:'下一页',exact:true}).click();await page.waitForFunction(first=>document.querySelector('.radar-detail-row>button')?.childNodes[0].textContent!==first,names[0]);}}
  assert.equal(seenTopics.size,40,'all40 backed-by-three-problem topics remain reachable');await shot('bounded-radar');
  await nav('从零讲').click();const ratings=(await page.locator('.lecture-difficulty').allTextContents()).map(Number);assert.deepEqual(ratings,[...ratings].sort((a,b)=>a-b));assert.equal(await page.getByRole('button',{name:'筛选讲解',exact:true}).count(),0);
  await page.locator('.lectures-list>button').filter({hasText:'二分查找'}).click();await page.getByRole('navigation',{name:'相关知识从零讲'}).waitFor();await page.getByRole('button',{name:'从零讲：线性 DP',exact:false}).click();await page.getByRole('article',{name:'知识讲解正文'}).getByText('独立复用基础知识。').waitFor();
- await nav('算法实验室').click();await page.waitForFunction(()=>document.querySelector('.lab-catalog,.lab-course-header'));if(await page.getByRole('button',{name:'打开算法 背包 DP',exact:true}).count())await page.getByRole('button',{name:'打开算法 背包 DP',exact:true}).click();if(await page.getByRole('button',{name:'返回学算法',exact:true}).count())await page.getByRole('button',{name:'返回学算法',exact:true}).click();await page.getByRole('button',{name:'目录',exact:true}).click();await page.getByRole('navigation',{name:'课程章节'}).getByRole('button').first().click();await page.getByRole('button',{name:'下一页',exact:true}).click();
- await page.clock.install({time:Date.now()});await openPage('题库');await page.locator('.problem-table').waitFor();await page.clock.fastForward(179000);await openPage('算法实验室');await page.getByRole('heading',{name:/把大问题拆小/}).waitFor();
- await openPage('题库');await page.clock.fastForward(86400000);await openPage('算法实验室');await page.getByRole('heading',{name:/把大问题拆小/}).waitFor();await page.clock.resume();await page.getByRole('button',{name:'返回算法实验室',exact:true}).click();await page.locator('.lab-catalog').waitFor();
+ await nav('实验室').click();await page.waitForFunction(()=>document.querySelector('.lab-catalog,.lab-course-header'));if(await page.getByRole('button',{name:'打开算法 背包 DP',exact:true}).count())await page.getByRole('button',{name:'打开算法 背包 DP',exact:true}).click();if(await page.getByRole('button',{name:'返回学算法',exact:true}).count())await page.getByRole('button',{name:'返回学算法',exact:true}).click();await page.getByRole('button',{name:'目录',exact:true}).click();await page.getByRole('navigation',{name:'课程章节'}).getByRole('button').first().click();await page.getByRole('button',{name:'下一页',exact:true}).click();
+ await page.getByRole('main',{name:'读懂表格',exact:true}).waitFor();
+ await page.clock.install({time:Date.now()});await openPage('题库');await page.locator('.problem-table').waitFor();await page.clock.fastForward(179000);await openPage('实验室');await page.getByRole('main',{name:'先装一次背包',exact:true}).waitFor();
+ await openPage('题库');await page.clock.fastForward(86400000);await openPage('实验室');await page.getByRole('main',{name:'先装一次背包',exact:true}).waitFor();await page.clock.resume();await page.getByRole('button',{name:'返回实验室',exact:true}).click();await page.locator('.lab-catalog').waitFor();
  await settings('数据统计');await page.getByRole('region',{name:'个人数据统计',exact:true}).waitFor();assert.equal(await page.locator('.personal-stat').count(),8);await shot('personal-statistics');
  await page.getByRole('button',{name:'返回设置首页',exact:true}).click();await page.getByRole('tab',{name:'更新',exact:true}).click();
  assert.equal(await page.getByLabel('自动检查间隔',{exact:true}).count(),0);assert.equal(await page.getByLabel('自动收录最低难度',{exact:true}).count(),0);assert.equal(await page.locator('.update-status').count(),0);
  const clickable=await page.getByRole('button',{name:'检查软件更新',exact:true}).evaluate(node=>{const s=getComputedStyle(node);return {background:s.backgroundColor,border:s.borderTopWidth};});assert.notEqual(clickable.background,'rgba(0, 0, 0, 0)');assert.equal(clickable.border,'1px');await shot('settings-updates');
- for(const theme of ['dark','light'])for(const style of ['minimal','outlined','aurora','blueprint'])for(const name of ['题库','比赛','模拟赛','成长与能力','提交记录','活动记录','从零讲']){
+ for(const theme of ['dark','light'])for(const style of ['minimal','outlined','aurora','blueprint'])for(const name of ['题库','比赛','模拟赛','成长','提交记录','活动记录','从零讲']){
   await nav(name).click();await page.waitForTimeout(30);await page.evaluate(({theme,style})=>{document.documentElement.dataset.theme=theme;document.documentElement.dataset.panelStyle=style;},{theme,style});
   const appearance=await page.locator('.workspace-area').evaluate(node=>{const panels=[...node.querySelectorAll('.list-page,.records-page,.mock-config,.progress-section,.lectures-list,.lectures-detail')];return panels.map(panel=>({image:getComputedStyle(panel).backgroundImage,radius:getComputedStyle(panel).borderTopLeftRadius,rect:panel.getBoundingClientRect().width}));});
   assert(appearance.length>0,name);assert(appearance.every(panel=>style==='minimal'||style==='outlined'?panel.image==='none':style==='blueprint'?panel.image.includes('linear-gradient'):panel.image.includes('radial-gradient')),JSON.stringify({name,style,appearance}));
-  await checkOverflow();if(theme==='dark'&&style==='blueprint'&&['提交记录','活动记录','成长与能力'].includes(name))await shot('blueprint-'+name);
+  await checkOverflow();if(theme==='dark'&&style==='blueprint'&&['提交记录','活动记录','成长'].includes(name))await shot('blueprint-'+name);
  }
  await page.evaluate(()=>{document.documentElement.dataset.theme='dark';document.documentElement.dataset.panelStyle='outlined';});
 

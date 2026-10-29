@@ -1,5 +1,7 @@
 # TB development rules
 
+- Automatic retirement (user instruction 2026-10-30): after each new version is validated and the local upgrade succeeds, remove superseded executables, installers and obsolete build files without asking again. Preserve personal data, unique source, required recovery evidence and dependencies still used by current development. Apply this rule to the current delivery too.
+
 TB is the primary product. Active code belongs in `frontend/`, `backend/`, `desktop/`, and `server/leaderboard/`.
 
 - 用户界面文案约束（2026-10-26）：未经用户明确要求，不得自行增加界面文字、标签或说明。实现功能时复用既有文案。题单不提供标签功能；操作按钮只显示图标，保留无障碍名称及必要的悬停提示。题目知识点与筛选保留。

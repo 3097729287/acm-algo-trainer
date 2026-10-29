@@ -5,6 +5,7 @@ import { trainingDay } from "@/lib/trainingDate.js";
 import { contestKind, matchesShelf } from "@/lib/contestShelves.js";
 import {catalogPathMatches} from '../lib/contestCatalog.js';
 import {completedReplayContests, hidesContestDifficulty} from '../lib/difficultyVisibility.js';
+import {rowPlatform,normalizePlatform} from '../lib/platformRegistry.js';
 const numericProblemOrder=new Intl.Collator('en',{numeric:true});
 const numericContestOrder=new Intl.Collator('zh-CN',{numeric:true});
 const titleOrder=new Intl.Collator('zh-CN');
@@ -153,7 +154,7 @@ export function filterRows(rows, filters = {}) {
       (row) =>
         (!wantedIds || wantedIds.has(row.id)) &&
         search(row,verdictLabel(row.verdict)) &&
-        (!platform || row.platform === platform) &&
+        (!platform || rowPlatform(row) === normalizePlatform(platform)) &&
         matchesShelf(row, shelf) &&
         (!kind || contestKind(row) === kind) &&
         (!catalogPath.length || catalogPathMatches(row,catalogPath)) &&

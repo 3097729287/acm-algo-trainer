@@ -1,6 +1,6 @@
 # ToBe · Training Workbench
 
-**Development status: 1.4.30 is not packaged or published.** Frequency-ordered knowledge pages, compact recommendation tooltips and more qualified choices are under validation with the next content batch. Installed and public stable builds remain 1.4.29.
+**Development status: 1.4.31 is being prepared; it is not built, installed or publicly released.** The verified local version is 1.4.30; GitHub and domestic public stable remain 1.4.29. This patch corrects the interface and recommendations and connects the existing QOJ adapter throughout the library, contests, filters, records and on-demand login. The public seed is unchanged. Statement recovery and performance review follow delivery; new editorial, translation and lesson authoring remains paused. Service 1.2.9 is already deployed and will only be reused after exact server-source verification. [Scope](docs/releases/1.4.31.md).
 
 **ToBe 1.4.29** connects evidence-based Rasch assessment, level-aware learning paths, protected offline work, bounded backups and public content updates. QOJ now includes the complete 13-task Shandong Provincial 2026 contest. [Release notes](docs/releases/1.4.29.md).
 

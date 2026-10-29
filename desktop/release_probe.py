@@ -244,7 +244,7 @@ def run(action, output):
                     try:
                         wait_js("!!document.querySelector('.nav-item')")
                         report['nativeLoaded'] = True
-                        window.evaluate_js("document.querySelector('.nav-item[aria-label=\"算法实验室\"]').click()")
+                        window.evaluate_js("document.querySelector('.nav-item[aria-label=\"实验室\"]').click()")
                         wait_js("!!document.querySelector('.catalog-card-open')")
                         report['nativeAlgorithmCourses'] = []
                         for course_title in ('排序基础', '分治与随机化', '桶与按位处理', 'Dijkstra 最短路', '并查集', 'DFS 深度优先搜索', 'BFS 广度优先搜索', '前缀和与差分', '双指针算法'):
@@ -252,7 +252,7 @@ def run(action, output):
                             window.evaluate_js('document.querySelector(' + json.dumps(selector) + ').click()')
                             wait_js("document.querySelector('.lab-course-header h1')?.textContent === " + json.dumps(course_title))
                             report['nativeAlgorithmCourses'].append(course_title)
-                            window.evaluate_js("document.querySelector('[aria-label=\"返回算法实验室\"]').click()")
+                            window.evaluate_js("document.querySelector('[aria-label=\"返回实验室\"]').click()")
                             wait_js("!!document.querySelector('.catalog-card-open')")
                         window.evaluate_js("document.querySelector('section[aria-label=\"背包 DP\"] .catalog-card-open').click()")
                         wait_js("!!document.querySelector('.algorithm-lab .lab-course-header h1')")
@@ -275,7 +275,7 @@ def run(action, output):
                         assert window.evaluate_js("document.querySelector('.lab-guided .lab-position').textContent") == '1 / 5'
                         report['nativeGuidedProblems'] = True
                         report['nativeFinalLessonHandoff'] = True
-                        window.evaluate_js("document.querySelector('.lab-guided [aria-label=\"返回算法实验室\"]').click()")
+                        window.evaluate_js("document.querySelector('.lab-guided [aria-label=\"返回实验室\"]').click()")
                         wait_js("!!document.querySelector('.catalog-card-open') && getComputedStyle(document.querySelector('.sidebar')).display!=='none'")
                         window.evaluate_js("document.querySelector('[aria-label=\"设置\"]').click()")
                         wait_js("!!document.querySelector('[role=tab][aria-label=\"交互与导航\"]')")

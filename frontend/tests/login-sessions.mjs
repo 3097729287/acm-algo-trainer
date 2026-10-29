@@ -10,7 +10,7 @@ import {fileURLToPath} from 'node:url';
 import {chromium} from 'playwright';
 import {fixtureExtension} from './extension-fixture.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
-const platforms=['Codeforces','AtCoder','牛客','洛谷'];
+const platforms=['Codeforces','AtCoder','牛客','洛谷','QOJ'];
 const server=spawn(process.env.TB_PYTHON||'C:/Users/lenovo/AppData/Local/Programs/Python/Python313/python.exe',['desktop/tests/browser_server.py'],{
   cwd:root,env:{...process.env,TB_OFFLINE:'1',TB_TEST_SILENT:'1',TB_TEST_PREPARATION:'1',TB_TEST_INSTALLED:'1',PYTHONIOENCODING:'utf-8'},windowsHide:true});
 let stderr='';server.stderr.on('data',b=>stderr+=b);
@@ -48,6 +48,7 @@ globalThis.fetch=async (url,options)=>{
   if(domain==='codeforces.com')return new Response('<div id="header"><a href="/'+(signed?'profile/fixture':'enter')+'">Account</a></div>',{status:200});
   // Blocked/background-negative responses must not erase signed Revel claims.
   if(domain==='atcoder.jp')return new Response('var userScreenName="";', {status:200});
+  if(domain==='qoj.ac')return new Response(signed?'<div class="navbar"><a href="/user/profile/fixture_owner">Owner</a><a href="/logout">Logout</a></div>':'<div class="navbar"><a href="/login">Login</a></div>',{status:200});
   return new Response('Fixture unavailable',{status:503});
 };
 `+await readFile(workerPath,'utf8'));
@@ -74,21 +75,22 @@ try{
     await chrome.cookies.set({url:'https://www.luogu.com.cn/',domain:'.luogu.com.cn',name:'_uid',value:'123',secure:true,expirationDate:expires});
     await chrome.cookies.set({url:'https://www.luogu.com.cn/',domain:'.luogu.com.cn',name:'__client_id',value:'fixture-only',secure:true,httpOnly:true,expirationDate:expires});
   });
-  await browser.addCookies([{name:'JSESSIONID',value:'fixture-only',domain:'codeforces.com',path:'/',secure:false,httpOnly:true,sameSite:'Lax',expires:Date.now()/1000+3600}]);
+  await browser.addCookies(['codeforces.com','qoj.ac'].map(domain=>({name:'JSESSIONID',value:'fixture-only',domain,path:'/',secure:false,httpOnly:true,sameSite:'Lax',expires:Date.now()/1000+3600})));
   assert.equal(await worker.evaluate(async()=>(await chrome.cookies.getAll({domain:'codeforces.com'})).some(c=>c.name==='JSESSIONID'&&!c.secure)),true,'CF non-Secure login cookie must be visible to the connector');
-  for(const domain of ['atcoder.jp','nowcoder.com','luogu.com.cn']) {
+  for(const domain of ['atcoder.jp','nowcoder.com','luogu.com.cn','qoj.ac']) {
     await browser.addCookies([{name:'nonsecure_fixture',value:'fixture-only',domain,path:'/',secure:false,httpOnly:true,sameSite:'Lax',expires:Date.now()/1000+3600}]);
     assert.equal(await worker.evaluate(async domain=>(await chrome.cookies.getAll({domain})).some(c=>c.name==='nonsecure_fixture'&&!c.secure),domain),true);
   }
-  await waitState(value=>value.ready);
+  await waitState(value=>value.ready&&platforms.every(platform=>value.platforms.find(p=>p.platform===platform)?.state==='logged_in'));
   assert.ok(browser.pages().every(p=>!p.url().startsWith('https://')),'No OJ tab opened for login detection');
   const cookies=await get('sync');
-  assert.deepEqual(Object.fromEntries(platforms.map(p=>[p,cookies[p].count])),{Codeforces:2,AtCoder:2,'牛客':2,'洛谷':3});
+  assert.deepEqual(Object.fromEntries(platforms.map(p=>[p,cookies[p].count])),{Codeforces:2,AtCoder:2,'牛客':2,'洛谷':3,QOJ:2});
   await browser.close();browser=null;
   await get('restart-sessions');
   const restored=await get('preparation');
   assert.equal(restored.extension.connected,false);
-  assert.equal(restored.ready,true,'All four confirmed states survive TB restart without a browser');
+  assert.equal(restored.ready,true,'Confirmed states survive TB restart without a browser');
+  assert.equal(restored.platforms.find(p=>p.platform==='QOJ').state,'logged_in','QOJ confirmed browser login survives encrypted local restart');
   child=spawn('C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',['--no-startup-window',`--user-data-dir=${profile}`,'--profile-directory=Default','--remote-debugging-port=0',`--disable-extensions-except=${extension}`,`--load-extension=${extension}`],{windowsHide:true,stdio:'ignore'});
   let debugPort;
   for(let i=0;i<120;i++){
@@ -103,16 +105,17 @@ try{
   await worker.evaluate(async()=>{
     await chrome.cookies.set({url:'https://atcoder.jp/',name:'REVEL_SESSION',value:encodeURIComponent('signed-\x00csrf_token:guest\x00'),secure:true,httpOnly:true,expirationDate:Date.now()/1000+3600});
     await chrome.cookies.remove({url:'https://codeforces.com/',name:'JSESSIONID'});
+    await chrome.cookies.remove({url:'https://qoj.ac/',name:'JSESSIONID'});
     await chrome.cookies.remove({url:'https://codeforces.com/',name:'cf_clearance',partitionKey:{topLevelSite:'https://codeforces.com',hasCrossSiteAncestor:false}});
     await chrome.cookies.remove({url:'https://ac.nowcoder.com/',name:'t'});
     await chrome.cookies.remove({url:'https://www.luogu.com.cn/',name:'_uid'});
     await chrome.cookies.remove({url:'https://www.luogu.com.cn/',name:'__client_id'});
-    for(const domain of ['atcoder.jp','nowcoder.com','luogu.com.cn'])await chrome.cookies.remove({url:'https://'+domain+'/',name:'nonsecure_fixture'});
+    for(const domain of ['atcoder.jp','nowcoder.com','luogu.com.cn','qoj.ac'])await chrome.cookies.remove({url:'https://'+domain+'/',name:'nonsecure_fixture'});
   });
   await waitState(value=>value.platforms.every(p=>p.state==='logged_out'));
   assert.equal((await worker.evaluate(()=>chrome.windows.getAll())).length,0);
   const cdp=await browser.newBrowserCDPSession();await cdp.send('Browser.close');browser=null;
-  console.log(JSON.stringify({ok:true,allFourWithoutSiteTabs:true,allFourNonSecureCookiesExported:true,firstPartyPartitionExported:true,atcoderExistingSessionDetected:true,desktopRestartKeepsLogin:true,closedBrowserColdStartHasZeroWindows:true,allFourLogoutUpdates:true,sitePosts:0,realAccountUsed:false}));
+  console.log(JSON.stringify({ok:true,allFiveWithoutSiteTabs:true,allFiveNonSecureCookiesExported:true,firstPartyPartitionExported:true,atcoderExistingSessionDetected:true,qojOwnerVerified:true,qojEncryptedSnapshotRestart:true,desktopRestartKeepsLogin:true,closedBrowserColdStartHasZeroWindows:true,allFiveLogoutUpdates:true,sitePosts:0,realAccountUsed:false}));
 }finally{
   if(browser)await browser.close();if(child&&!child.killed)child.kill();server.kill();
   assert.ok(path.resolve(profile).startsWith(path.resolve(os.tmpdir())+path.sep));

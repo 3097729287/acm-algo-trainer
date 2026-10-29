@@ -422,3 +422,15 @@ html .algorithm-lab .lab-course-tools {margin-left:auto;flex:none}
 html .algorithm-lab .lab-menu {order:-1}
 html .algorithm-lab .lab-lesson {flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:24px clamp(16px,2.5vw,48px) 36px;outline:0}
 html .algorithm-lab .lab-course-header .lab-menu nav {max-height:calc(100dvh - 100px);overflow:auto}
+
+/* Fixed outline columns keep short and wrapped chapter labels on one start. */
+html .lab-multi-catalog>.lab-catalog-group {text-align:center;justify-self:stretch;width:100%}
+html .lab-multi-catalog>.catalog-group {grid-column:1/-1;min-width:0;display:flex;flex-direction:column;gap:18px}
+html .catalog-group>.lab-catalog-group {font-size:1rem;font-weight:600;text-align:center;margin:4px 0 0;padding-bottom:8px;border-bottom:1px solid var(--soft-line)}
+.catalog-group-cards {display:flex;flex-wrap:wrap;align-items:stretch;justify-content:center;gap:18px;min-width:0}
+html .catalog-group-cards>.catalog-card {flex:0 1 300px;max-width:100%;min-width:0}
+html .templates-embedded .catalog-group-cards>.catalog-card {flex-basis:225px}
+html .algorithm-lab .lab-course-header .lab-menu nav button {display:grid;grid-template-columns:2ch minmax(0,1fr) auto;justify-content:stretch;align-items:baseline;column-gap:12px;text-align:left}
+html .algorithm-lab .lab-course-header .lab-menu nav button>span {width:2ch;justify-self:end;text-align:right;font-variant-numeric:tabular-nums}
+html .algorithm-lab .lab-course-header .lab-menu nav button>b {min-width:0;justify-self:start;text-align:left;overflow-wrap:anywhere}
+html .algorithm-lab .lab-course-header .lab-menu nav button>svg {margin-left:0;align-self:center}

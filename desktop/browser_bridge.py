@@ -83,7 +83,7 @@ class BrowserBridge:
                 raise ServiceError(400, '浏览器登录状态无效')
             self.client_login_states[client] = dict(states)
             refresh = body.get('syncPlatforms', [])
-            if not isinstance(refresh, list) or len(refresh) > 4 or any(not isinstance(p, str) or p not in LOGIN_HOSTS for p in refresh):
+            if not isinstance(refresh, list) or len(refresh) > len(LOGIN_HOSTS) or any(not isinstance(p, str) or p not in LOGIN_HOSTS for p in refresh):
                 raise ServiceError(400, '浏览器登录刷新范围无效')
             sync = []
             if self.session_store:

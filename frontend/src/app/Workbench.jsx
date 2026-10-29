@@ -21,6 +21,7 @@ import InitialCodePicker, {InitialCodeButton} from '@/components/InitialCodePick
 import InlineTitle from '@/components/InlineTitle.jsx';
 import ReadingImage, {readingUrlTransform} from '@/components/ReadingImage.jsx';
 import {insertTemplate,normalizeCppTemplate} from '@/lib/insertTemplate.js';
+import {platformInfo,rowPlatform} from '@/lib/platformRegistry.js';
 import './Workbench.css';
 
 const TemplatesPage=lazy(()=>import('@/pages/TemplatesPage.jsx'));
@@ -476,6 +477,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const unavailable = loading || !problem || endedContest || sidePracticeLocked || activeRecord.current?.key !== contextKey;
   const busy = creating || Boolean(pending);
   const officialBusy = openingOfficial || ['loading', 'submitted', 'judging'].includes(officialSession?.status);
+  const nativeSubmit=platformInfo(rowPlatform(problem)).nativeSubmit;
   const samples = problem?.samples || [];
   const slot = contest?.slots?.find(row => row.id === problemId);
 
@@ -699,6 +701,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   };
   const openOfficial = async (path = 'official/submit') => {
     const record = activeRecord.current;
+    if(path==='official/submit'&&!nativeSubmit)return;
     if (!record?.loaded || unavailable || sidePracticeLocked || record.officialBusy || (path === 'official/submit' && officialBusy)) return;
     if (!record.code.trim() || byteLength(record.code) > MAX_BYTES) {
       setActionError(!record.code.trim() ? '先写入代码，再提交到原站。' : '代码超过 64 KiB，请缩短后再提交。');
@@ -829,7 +832,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   };
   return <section className={`tb-workbench wb-pane-${effectivePane}${narrow?' wb-compact':''}`} ref={sectionRef} style={{'--wb-split-columns':`minmax(0,${splitRatio}fr) 8px minmax(0,${100-splitRatio}fr)`}} onKeyDown={handleKeys} aria-label="代码训练工作台" data-problem-id={problemId}>
 
-    {narrow&&<div className="wb-compact-toolbar"><button type="button" className="wb-icon-button" onClick={exit} title="返回列表" aria-label={runningContest?'返回工作台':'返回列表'}><ArrowLeft size={17}/></button>{effectivePane==='code'&&headerStart}<div className="wb-pane-buttons" role="group" aria-label="工作台布局"><button type="button" className="wb-icon-button" aria-label="只看题面" title="只看题面 · Alt+1" aria-pressed={effectivePane==='statement'} onClick={()=>focusPane('statement')}><PanelLeft size={17}/></button>{layoutToggle}</div><strong><InlineTitle>{problem?.title||'题目'}</InlineTitle></strong>{headerEnd}</div>}
+    {narrow&&<div className="wb-compact-toolbar"><button type="button" className="wb-icon-button wb-back-button" onClick={exit} title="返回列表" aria-label={runningContest?'返回工作台':'返回列表'}><ArrowLeft size={17}/></button>{effectivePane==='code'&&headerStart}<div className="wb-pane-buttons" role="group" aria-label="工作台布局"><button type="button" className="wb-icon-button" aria-label="只看题面" title="只看题面 · Alt+1" aria-pressed={effectivePane==='statement'} onClick={()=>focusPane('statement')}><PanelLeft size={17}/></button>{layoutToggle}</div><strong><InlineTitle>{problem?.title||'题目'}</InlineTitle></strong>{headerEnd}</div>}
 
     {saveToast&&<div className="toast success wb-save-toast" role="status"><Check size={17}/><span>草稿已保存</span></div>}
     {initialPickerOpen&&<InitialCodePicker api={api} language={codeLanguage} selected={startingTemplate(initialCode,codeLanguage).id} onClose={()=>setInitialPickerOpen(false)} onSelect={(item,snapshot)=>{const record=activeRecord.current;if(record?.key!==contextKey||record.closed||record.language!==item.language)return;setInitialCode(snapshot);loadOwnCode(item.language==='cpp17'&&item.id==='default'?normalizeCppTemplate(item.code):item.code);}}/>}
@@ -841,7 +844,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     <div className="wb-body">
       <div className="wb-statement-pane">
         <div className="wb-pane-header wb-merged-header"><div className="wb-toolbar">
-      <button type="button" className="wb-icon-button" onClick={exit} title={runningContest ? '返回工作台（比赛继续计时）' : '返回列表'} aria-label={runningContest ? '返回工作台' : '返回列表'}><ArrowLeft size={17} /></button>
+      <button type="button" className="wb-icon-button wb-back-button" onClick={exit} title={runningContest ? '返回工作台（比赛继续计时）' : '返回列表'} aria-label={runningContest ? '返回工作台' : '返回列表'}><ArrowLeft size={17} /></button>
       {headerStart}
       <div className="wb-heading">
         {slot && !headerStart && <span className="wb-letter">{slot.letter}</span>}
@@ -854,7 +857,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
             <BoundedNumber aria-label="题面字号" min={14} max={32} unit="px" value={statementFontSize} required onChange={event => changeStatementFontSize(Number(event.target.value))}/>
             <button type="button" aria-label="放大题面字号" title="放大题面字号" disabled={statementFontSize >= 32} onClick={() => changeStatementFontSize(Math.min(32,statementFontSize + 1))}>A+</button>
           </div>
-          <div className="wb-language-toggle" role="group" aria-label="题面语言"><button type="button" aria-pressed={language==='zh'&&!originalIsChinese(problem)} aria-label={translationBusy&&language==='zh'?'翻译中…':language==='zh'&&!originalIsChinese(problem)?'中文':'原文'} title={originalIsChinese(problem)?'原站中文题面':language==='zh'?'切换到原文':'切换到中文'} disabled={loading||!problem?.markdown||originalIsChinese(problem)||(problem?.translationAvailable===false&&!translation)} onClick={toggleStatementLanguage}>{translationBusy&&language==='zh'?<LoaderCircle size={14} className="wb-spinner"/>:language==='zh'&&!originalIsChinese(problem)?'中文':'原文'}</button></div>
+          {problem?.markdown&&!originalIsChinese(problem)&&<div className="wb-language-toggle" role="group" aria-label="题面语言"><button type="button" aria-pressed={language==='zh'} aria-label={translationBusy&&language==='zh'?'翻译中…':language==='zh'?'中文':'原文'} title={language==='zh'?'切换到英文':'切换到中文'} disabled={loading||(problem?.translationAvailable===false&&!translation)} onClick={toggleStatementLanguage}>{translationBusy&&language==='zh'?<LoaderCircle size={14} className="wb-spinner"/>:language==='zh'?'中':'英'}</button></div>}
           <button type="button" className="wb-icon-button" aria-label={statementCopied?'已复制题面':'复制题面'} title={statementCopied?'已复制题面':'复制题面'} disabled={loading||!problem?.markdown} onClick={copyStatement}>{statementCopied?<Check size={16}/>:<Copy size={16}/>}</button>
           {problem?.url && <a className="wb-original-link" href={problem.url} target="_blank" rel="noreferrer" aria-label="在浏览器打开原题" title="在浏览器打开原题"><ExternalLink size={16} /></a>}
         </div></div>
@@ -876,7 +879,6 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
           <span><Code2 size={14}/><ThemedSelect aria-label="编程语言" value={codeLanguage} disabled={unavailable||busy||officialBusy} onChange={changeCodeLanguage}><option value="cpp17">C++17</option><option value="python3">Python 3</option></ThemedSelect></span>
           <InitialCodeButton title={startingTemplate(initialCode,codeLanguage).title} disabled={loading||!problem||unavailable||busy||officialBusy} onClick={()=>setInitialPickerOpen(true)}/>
           {!['saved','automatic'].includes(saveState.kind)&&<span className={`wb-save-state wb-save-${saveState.kind}`} title={saveState.message||saveLabel} aria-label={saveLabel} role={saveState.kind==='error'?'alert':'status'}>{saveState.kind==='saving'?<LoaderCircle size={14} className="wb-spinner"/>:saveState.kind==='unsaved'?<span className="wb-pending-dot"/>:saveLabel}</span>}
-          {!narrow&&layoutToggle}
           <div className="wb-editor-actions">
             {featureAvailable('templates',true)&&<button type="button" className="wb-button" aria-label="打开模板" title="打开模板" disabled={loading||!problem||unavailable} onClick={()=>setTemplatesOpen(true)}><Code2 size={14}/></button>}
             {onSolution && !runningContest && !problem?.locked && <span className="wb-solution-methods">{(problem?.solutionMethods??(problem?[{id:'original',title:'题解'}]:[])).map((method,index,methods)=><button key={method.id} type="button" className="wb-button wb-solution-button" aria-label={methods.length===1?'题解':`题解${index+1}`} title={method.title||`题解${index+1}`} aria-pressed={solutionOpen&&(solutionMethodId===method.id||!solutionMethodId&&index===0)} onClick={()=>{const opened=solutionOpen&&(solutionMethodId===method.id||!solutionMethodId&&index===0);if(opened&&callbacks.current.onCloseSolution)callbacks.current.onCloseSolution();else callbacks.current.onSolution?.(problemId,method.id);}}><BookOpen size={14}/></button>)}</span>}
@@ -908,7 +910,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
           <span className={`wb-scope wb-scope-${problem?.judge?.scope || 'samples'}`} title={problem?.templatePractice ? `模板完整评测用例 ${problem.judge.cases || 0} 个` : problem?.judge?.scope === 'local' ? `本地验证用例 ${problem.judge.cases || 0} 个` : '仅使用公开样例，通过样例不会计入已 AC'}>{problem?.judge?.label || (problem?.judge?.scope === 'local' ? '本地验证' : '样例评测')}</span>
           <div className="wb-run-actions">
             <button type="button" className="wb-button" disabled={unavailable || busy} onClick={() => execute('run')} title={sample === 'samples' ? '编译并对比全部官方样例 · Ctrl+R' : '编译并运行自定义输入 · Ctrl+R'}><Play size={14} />{sample === 'custom' ? '运行输入' : '运行样例'}</button>
-            <button type="button" className="wb-button wb-primary" disabled={unavailable || officialBusy || Boolean(problem?.templatePractice&&busy)} onClick={() => problem?.templatePractice?execute('submit'):openOfficial()} title={problem?.templatePractice?'模板评测 · Ctrl+Enter':'原站提交 · Ctrl+Enter'}>{officialBusy || Boolean(problem?.templatePractice&&busy) ? <LoaderCircle size={14} className="wb-spinner" /> : <Send size={14} />}提交</button>
+            <button type="button" className="wb-button wb-primary" disabled={unavailable || officialBusy || Boolean(problem?.templatePractice?busy:!nativeSubmit)} onClick={() => problem?.templatePractice?execute('submit'):openOfficial()} title={problem?.templatePractice?'模板评测 · Ctrl+Enter':nativeSubmit?'原站提交 · Ctrl+Enter':'暂不支持此平台原站提交'}>{officialBusy || Boolean(problem?.templatePractice&&busy) ? <LoaderCircle size={14} className="wb-spinner" /> : <Send size={14} />}提交</button>
           </div>
         </div>
         <div className="wb-console-tabs" role="group" aria-label="输入与评测记录">
@@ -918,7 +920,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
           <button type="button" className="wb-console-toggle" onClick={() => setConsoleOpen(value => !value)} aria-label={consoleOpen ? '收起控制台' : '展开控制台'} aria-expanded={consoleOpen}>{consoleOpen ? <ChevronDown size={15} /> : <ChevronUp size={15} />}</button>
         </div>
         {consoleOpen && <div className={`wb-console wb-console-${consoleTab}`}>
-          {consoleTab === 'input' ? sample === 'samples' ? <div className="wb-sample-list">{samples.map((item, index) => <details key={index} open={index === 0}><summary>{item.name || `样例 ${index + 1}`}</summary><div className="wb-case-outputs"><div><span>样例输入</span><pre tabIndex={0}>{item.input || '（空输入）'}</pre></div><div><span>预期输出</span><pre tabIndex={0}>{item.output || '（空输出）'}</pre></div></div></details>)}<p className="wb-result-message">运行会对比全部样例；通过样例不会计入已 AC。</p></div> : <div className="wb-input-grid">
+          {consoleTab === 'input' ? sample === 'samples' ? <div className="wb-sample-list">{samples.map((item, index) => <details key={index} open={index === 0}><summary>{item.name || `样例 ${index + 1}`}</summary><div className="wb-case-outputs"><div><span>样例输入</span><pre tabIndex={0}>{item.input || '（空输入）'}</pre></div><div><span>预期输出</span><pre tabIndex={0}>{item.output || '（空输出）'}</pre></div></div></details>)}</div> : <div className="wb-input-grid">
             <label><span>标准输入</span><textarea value={input} onChange={event => { setInput(event.target.value); setSample('custom'); }} aria-label="标准输入" spellCheck={false} placeholder="输入测试数据；Ctrl+R 编译运行" /></label>
           </div> : consoleTab === 'history' ? <div className="wb-history">
             {submissions.length ? submissions.map(row => <div className={`wb-history-row${row.id === resultId ? ' wb-history-selected' : ''}`} key={row.id}>

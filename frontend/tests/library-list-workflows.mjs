@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {chooseMockValue} from './mock-mode-selection.mjs';
 import fs from 'node:fs';
 import {createServer} from 'vite';
 import {chromium} from 'playwright';
@@ -97,7 +98,7 @@ try{
   await page.locator('.paper-preview-title > span').click();await rename.fill('周末模拟赛');await rename.press('Enter');assert.equal(await page.getByRole('button',{name:'重命名模拟赛'}).innerText(),'周末模拟赛');
   await page.getByRole('button',{name:'重命名模拟赛'}).click();await rename.fill('不保存');await rename.press('Escape');assert.equal(await page.getByRole('button',{name:'重命名模拟赛'}).innerText(),'周末模拟赛');
   await page.getByRole('button',{name:'开始训练',exact:true}).click();await page.getByText('测试已收到重命名后的开赛请求',{exact:true}).first().waitFor();assert.equal(writes.filter(item=>item.path==='/api/contests/start').at(-1).body.name,'周末模拟赛');
-  await page.getByRole('button',{name:'重现赛',exact:true}).click();await page.getByRole('combobox',{name:'重现赛比赛'}).selectOption('ABC 481');
+  await chooseMockValue(page,'重现赛','ABC 481');
   assert.equal(await page.locator('.create-main select').count(),0);await page.getByRole('button',{name:'生成试卷',exact:true}).click();await page.locator('.paper-slot').first().waitFor();
   assert.deepEqual(await page.locator('.paper-slot strong').allTextContents(),['A','B','C','D','E','F','G','H']);assert.equal(await page.locator('.training-difficulty-summary').innerText(),'难度 1100–2000');
   for(const width of [1440,720,390]){await page.setViewportSize({width,height:900});await page.screenshot({path:out+`/mock-${width}.png`});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);}
@@ -106,7 +107,7 @@ try{
   await page.emulateMedia({reducedMotion:'reduce'});assert.equal(await page.evaluate(()=>document.documentElement.dataset.motion),'on');
   assert.notEqual(await page.locator('.globe-turn').evaluate(el=>getComputedStyle(el).animationName),'none');
   for(const width of [1440,1100,720]){await page.setViewportSize({width,height:900});await page.screenshot({path:out+`/settings-${width}.png`});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);}
-  await page.setViewportSize({width:1440,height:900});await nav('成长与能力').click();await page.locator('.account-hero-statistics').waitFor();
+  await page.setViewportSize({width:1440,height:900});await nav('成长').click();await page.locator('.account-hero-statistics').waitFor();
   for(const label of ['连续练习','完成比赛'])assert.equal(await page.locator(`.account-stat-icon[aria-label="${label}"] svg`).getAttribute('fill'),'currentColor');
   await bell().locator('.notification-dot').waitFor();holdNext=true;await page.evaluate(()=>window.dispatchEvent(new Event('tb:social-change')));
   for(let i=0;!releaseOld&&i<40;i++)await page.waitForTimeout(25);assert(releaseOld);

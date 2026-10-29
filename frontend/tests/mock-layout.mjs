@@ -21,6 +21,7 @@ const rows = [...'ABCDEF'].map((letter, index) => ({
   title: ['神奇的背包', 'Skibidus and Fanum Tax (hard version)', 'It and le', 'Skibidus and Capping', '小红删树(easy)', 'Hard Demon Problem'][index],
   platform: '牛客', tags: ['不应泄露的考点'], difficulty: 1600, solutionAvailable: true,
 }));
+let finishRequests=0;
 let contest = {
   id: 'layout-fixture', name: '模拟赛 · 6 题 / 120 分钟', status: 'running',
   duration: 120, total: 6, accepted: 1, startedAt: now(),
@@ -63,6 +64,7 @@ await page.route('**/api/**', async route => {
     drafts.set((body.contestId || 'solo') + ':' + body.id, body.code);
     value = { savedAt: now() };
   } else if (path === '/api/contests/finish') {
+    finishRequests++;
     assert.equal(body.contestId, contest.id);
     contest = { ...contest, status: 'finished' };
     value = { contest, workspace: workspace() };
@@ -182,10 +184,22 @@ try {
   assert.equal(await page.locator('.sidebar').isVisible(), true);
   await page.getByRole('button', { name: '继续比赛', exact: true }).click();
   await selected('B');
-  await page.getByRole('button', { name: '返回工作台', exact: true }).click();
-  assert.equal(await page.locator('.topbar').isVisible(), true);
-  await page.locator('.live-contest').click();
-  await selected('B');
+  for(const width of [1920,600]){
+    await page.setViewportSize({width,height:800});
+    await page.waitForFunction(narrow=>document.querySelector('.tb-workbench')?.classList.contains('wb-compact')===narrow,width<960);
+    const point=await page.getByRole('button',{name:'返回工作台',exact:true}).evaluate(button=>{
+      const header=button.closest('.wb-compact-toolbar,.wb-pane-header'),rect=header.getBoundingClientRect(),x=rect.left+1,y=rect.top+1;
+      return {x,y,hit:button.contains(document.elementFromPoint(x,y))};
+    });
+    assert(point.hit,'The contest return button includes the desktop/compact header corner');
+    await page.mouse.click(point.x,point.y);
+    await page.locator('.topbar').waitFor({state:'visible'});
+    assert.equal(contest.status,'running','Corner return leaves the actual App contest running');
+    assert.equal(finishRequests,0,'Returning to the workspace never finishes the contest');
+    assert.equal(await page.getByRole('alertdialog',{name:'结束比赛确认'}).count(),0);
+    await page.locator('.live-contest').click();await selected('B');
+  }
+  await page.setViewportSize({width:1920,height:1080});
 
   contest.deadline = new Date(Date.now() + 30000).toISOString();
   await page.reload();
@@ -205,6 +219,7 @@ try {
   await page.getByRole('button', { name: '结束比赛', exact: true }).click();
   await page.getByRole('alertdialog',{name:'结束比赛确认'}).getByRole('button', { name: '结束并复盘', exact: true }).click();
   await page.locator('.record-detail').waitFor();
+  assert.equal(finishRequests,1,'Only the explicit confirmed finish operation ends the contest');
   assert.equal(await page.locator('.sidebar').isVisible(), true);
   assert.equal(await page.locator('.topbar').isVisible(), true);
   assert.equal(await page.locator('.mock-focus').count(), 0);

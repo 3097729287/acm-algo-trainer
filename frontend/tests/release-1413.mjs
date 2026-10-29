@@ -1,5 +1,6 @@
 ﻿import assert from 'node:assert/strict';
 import {mkdir,writeFile} from 'node:fs/promises';
+import {openMockSelection} from './mock-mode-selection.mjs';
 import {realpathSync} from 'node:fs';
 import {createServer} from 'vite';
 import {chromium} from 'playwright';
@@ -32,10 +33,10 @@ try {
   await open('lists');const heading=await rect(page.locator('.training-list-directory'));
   for(const source of [false,true]){if(source)await page.getByRole('button',{name:'题单目录方式'}).click();await page.waitForTimeout(100);for(const row of await page.locator('.catalog-folder-row').all())assert(Math.abs((await rect(row)).height-heading.height)<1);}
   await open('mock');const heights=[];
-  for(const mode of ['综合训练','专项训练','重现赛']){await page.getByRole('button',{name:mode,exact:true}).click();heights.push((await rect(page.locator('.mock-config'))).height);assert.equal(await page.locator('#tb-page-search .folder-icon-control').count(),mode==='专项训练'?1:0);assert.equal(await page.locator('#tb-page-search .sort-direction').count(),0);const button=await rect(page.getByRole('button',{name:'生成试卷',exact:true}));assert(button.bottom<viewport.height);}
+  for(const mode of ['综合训练','专项训练','重现赛']){await page.getByRole('button',{name:mode,exact:true}).click();heights.push((await rect(page.locator('.mock-config'))).height);assert.equal(await page.locator('#tb-page-search .folder-icon-control').count(),0);assert.equal(await page.locator('#tb-page-search .sort-direction').count(),0);const button=await rect(page.getByRole('button',{name:'生成试卷',exact:true}));assert(button.bottom<viewport.height);await page.keyboard.press('Escape');}
   assert(Math.max(...heights)-Math.min(...heights)<1);
-  await page.getByRole('button',{name:'专项训练',exact:true}).click();await page.getByRole('combobox',{name:'专项训练知识点'}).click();await page.getByRole('listbox').getByRole('option',{name:'基础技巧',exact:true}).click();await page.getByRole('listbox').getByRole('option',{name:'前缀和',exact:true}).click();await page.getByRole('button',{name:'生成试卷',exact:true}).click();assert.deepEqual(await page.evaluate(()=>window.fixture.calls.find(call=>call.path==='contests/preview').body.tags),['前缀和']);
-  await page.getByRole('button',{name:'重现赛',exact:true}).click();await page.getByRole('combobox',{name:'重现赛比赛'}).click();
+  await openMockSelection(page,'专项训练');await page.getByRole('listbox').getByRole('option',{name:'基础技巧',exact:true}).click();await page.getByRole('listbox').getByRole('option',{name:'前缀和',exact:true}).click();await page.getByRole('button',{name:'生成试卷',exact:true}).click();assert.deepEqual(await page.evaluate(()=>window.fixture.calls.find(call=>call.path==='contests/preview').body.tags),['前缀和']);
+  await openMockSelection(page,'重现赛');
   for(let depth=0;depth<5;depth++){const options=page.getByRole('listbox').getByRole('option'),labels=await options.allTextContents();if(labels.some(text=>/^周赛 167/.test(text)))break;const folder=options.filter({hasText:/^(牛客|周赛)$/}).first();await folder.click();}
   const before=(await page.getByRole('listbox').getByRole('option').allTextContents()).filter(text=>/^周赛 \d/.test(text));assert(before.length===3);await page.getByRole('button',{name:'切换重现赛排序方向'}).click();const after=(await page.getByRole('listbox').getByRole('option').allTextContents()).filter(text=>/^周赛 \d/.test(text));assert.deepEqual(after,[...before].reverse());await page.keyboard.press('Escape');
   await open('settings');assert.equal(await page.getByRole('tab').count(),10);const tiles=await page.locator('.settings-tile').evaluateAll(nodes=>nodes.map(node=>{const r=node.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom};}));for(let i=0;i<tiles.length;i++)for(let j=i+1;j<tiles.length;j++)assert(!(Math.min(tiles[i].right,tiles[j].right)-Math.max(tiles[i].left,tiles[j].left)>1&&Math.min(tiles[i].bottom,tiles[j].bottom)-Math.max(tiles[i].top,tiles[j].top)>1),'settings tiles overlap');

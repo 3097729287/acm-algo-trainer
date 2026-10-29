@@ -1,3 +1,5 @@
+import {normalizePlatform,rowPlatform} from './platformRegistry.js';
+
 export function isXcpc(row) {
   return row.series === 'XCPC' || /ICPC|CCPC|XCPC|ACM|区域赛|邀请赛|省赛|网络(?:预选)?赛|分区赛|大学生.*程序设计/i.test(row.contest || row.name || '');
 }
@@ -22,7 +24,6 @@ export function matchesShelf(row, shelf = 'all') {
   if (!shelf || shelf === 'all') return true;
   if (shelf === 'xcpc' || shelf === 'ACM') return isXcpc(row);
   if (shelf === 'lanqiao') return /^蓝桥杯/.test(row.series || row.contest || row.name || '');
-  // Hosting a mirrored ACM problem does not make it an exclusive platform contest.
-  if (isXcpc(row) || /^蓝桥杯/.test(row.series || '')) return false;
-  return row.platform === shelf;
+  // Source platform and event type are independent browsing axes.
+  return rowPlatform(row) === normalizePlatform(shelf);
 }

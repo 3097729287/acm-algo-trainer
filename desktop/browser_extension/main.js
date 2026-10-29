@@ -1,5 +1,5 @@
 (() => {
-  const platform = ({ 'codeforces.com': 'Codeforces', 'www.codeforces.com': 'Codeforces', 'atcoder.jp': 'AtCoder', 'ac.nowcoder.com': '牛客', 'www.luogu.com.cn': '洛谷', 'luogu.com.cn': '洛谷' })[location.hostname];
+  const platform = ({ 'codeforces.com': 'Codeforces', 'www.codeforces.com': 'Codeforces', 'atcoder.jp': 'AtCoder', 'ac.nowcoder.com': '牛客', 'www.luogu.com.cn': '洛谷', 'luogu.com.cn': '洛谷', 'qoj.ac':'QOJ' })[location.hostname];
   const context = { platform, originalUrl: location.href, sessionId: 'unbound', code: '', attempted: false };
   let channel = '', submitted = '';
   const acknowledgments = new Map();

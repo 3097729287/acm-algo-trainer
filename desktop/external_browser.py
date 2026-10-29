@@ -599,7 +599,7 @@ class ExternalBrowserPreparation:
                 'browsers': [{'id': key, 'available': bool(path)} for key, path in available.items()],
                 'platforms': [{'platform': key, 'state': 'browser_owned', **identities['platforms'].get(key, {}), 'loginUrl': url} for key, url in {
                     'Codeforces':'https://codeforces.com/enter', 'AtCoder':'https://atcoder.jp/login',
-                    '牛客':'https://ac.nowcoder.com/login', '洛谷':'https://www.luogu.com.cn/auth/login'}.items()]}
+                    '牛客':'https://ac.nowcoder.com/login', '洛谷':'https://www.luogu.com.cn/auth/login', 'QOJ':'https://qoj.ac/login'}.items()]}
 
     def check_submission(self, url):
         submission_target(url)

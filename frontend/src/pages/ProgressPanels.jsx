@@ -33,6 +33,7 @@ import { ProfileSettings } from './CommunityPanel.jsx';
 import { MiniLeaderboard } from '../components/WorkspaceDecorations.jsx';
 import {verdictLabel,verdictTone} from '@/models/workspaceModel.js';
 import {completeContest} from '@/lib/completeContest.js';
+import {platformNames,rowPlatform} from '@/lib/platformRegistry.js';
 
 const PLATFORMS = [
   ['codeforces', 'Codeforces', 'Handle'], ['atcoder', 'AtCoder', '用户名'],
@@ -110,7 +111,7 @@ export function GrowthPage({avatarData,onAvatar,goalOverview,api,onGoalsChanged,
  const summary=insights.summary||{},growth=insights.growth||{},rank=growth.ranked||{},nickname=profile?.nickname||account?.nickname||insights.profile?.nickname||'练习者';
  const stats=[[Check,summary.totalSolved??summary.officialSolved,'总 AC'],[Code2,summary.submissions,'提交'],[CalendarDays,summary.activeDays,'活跃天数'],[Flame,summary.streak,'连续练习'],[Flag,summary.completedContests,'完成比赛'],[TrendingUp,summary.longestStreak??0,'最长连续练习']];
  const rankName=Number(growth.level)<5?'未定级':rank.qualified===false?'定级中':rank.tier||'定级中';
- return <div className="progress-page growth-dashboard" aria-label="成长与能力"><div className="progress-growth-columns">
+ return <div className="progress-page growth-dashboard" aria-label="成长"><div className="progress-growth-columns">
  <KnowledgeRadar rows={rows} categories={categories} knowledge={insights.knowledge||[]} knowledgeEvidence={insights.knowledgeEvidence||[]} knowledgeModel={insights.knowledgeModel||{}} onTopic={onTopic} onTrain={onTrain}/>
  <section className="progress-section growth-account-hero" aria-label="账号成长统计"><div className="account-hero-identity"><ProfileBadge compact={false} growth={growth} avatar={avatarData} nickname={nickname} onAvatarClick={onAvatar} onClick={onAccounts}/><div className="account-hero-rank"><TierIcon badge={rank.badge||'tier-0'} tier={rank.tier} size={180}/><strong>{rankName}</strong>{rank.abilityScore!=null&&<span title="根据独立作答和题目难度估计的保守参考，不是 Codeforces 官方等级分">约 {number(rank.abilityScore)} · CF 参考</span>}<AbilityEvidence rank={rank} rows={rows}/></div></div>
  <div className="account-hero-level"><span>Lv.{growth.level??'—'}</span><div><Meter value={growth.nextLevelXp?Number(growth.currentLevelXp||0)/growth.nextLevelXp*100:0} label="等级经验"/><span>{number(growth.currentLevelXp||0)} / {number(growth.nextLevelXp||0)} XP</span></div></div>
@@ -135,6 +136,7 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
   const [query, setQuery] = useState(''), [filter, setFilter] = useState('all');
   const deferredQuery = useDeferredValue(query);
   const [catalogPath, setCatalogPath] = useState([]), [examYear, setExamYear] = useState('');
+  const [platform,setPlatform]=useState('');
   const [folder,setFolder]=useState(null), [descending,setDescending]=useState(true);
   const sort = 'newest';
   const [page, setPage] = useState(1);
@@ -151,12 +153,13 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
   const filtered = useMemo(() => {
     const search = deferredQuery.trim().toLowerCase();
     return groups.filter(group => (!catalogPath.length || group.rows.some(row => catalogMatches(row, {path:catalogPath})))
+      && (!platform || group.rows.some(row=>rowPlatform(row)===platform))
       && (!examYear || String(group.examYear) === examYear)
       && (!search || `${group.name} ${group.platform} ${group.rows.map(row => `${row.title} ${row.problem} ${lockedIds.has(row.id) ? '' : list(row.tags).join(' ')}`).join(' ')}`.toLowerCase().includes(search))
       && (filter === 'all' || filter === 'joined' ? filter === 'all' || counts.get(group.key).active > 0 : filter === 'available' ? counts.get(group.key).active === 0 : counts.get(group.key).accepted < group.rows.length))
       .sort((a,b) => (sort === 'name' ? a.name.localeCompare(b.name, 'zh-CN', {numeric:true}) : -compareContestNewest(a,b)) * (descending ? -1 : 1));
-  }, [groups, catalogPath, examYear, deferredQuery, lockedIds, filter, counts, sort, descending]);
-  useEffect(() => { setPage(1); }, [deferredQuery, catalogPath, examYear, filter, sort, descending]);
+  }, [groups, catalogPath, platform, examYear, deferredQuery, lockedIds, filter, counts, sort, descending]);
+  useEffect(() => { setPage(1); }, [deferredQuery, catalogPath, platform, examYear, filter, sort, descending]);
   const listRef=useRef(null);
   const pageSize=useFittedPageSize(listRef,`${!!folder}:${selected||''}:${filtered.length>0}`), pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
   const currentPage = Math.min(page, pageCount), first = (currentPage - 1) * pageSize;
@@ -186,10 +189,11 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
     </div>;
   }
   const renderCard = group => <article className="competition-card" key={group.key}><button type="button" className="competition-card-open" onClick={() => setSelected(group.key)} aria-label={`查看 ${group.platform} ${group.name}，${group.rows.length} 道题`}><span className="competition-card-title"><strong>{group.name}</strong></span><span className="competition-problem-tokens">{group.rows.map(row => <span className={`competition-problem-token${progress.get(row.id)?.accepted ? ' competition-token-accepted' : ''}`} key={row.id} title={contestLetterTitle(row)}><b>{row.displayLetter}{typeof row.difficulty==='number' && showDifficulty(row) ? ':' : ''}</b>{typeof row.difficulty==='number' && showDifficulty(row) && <Difficulty row={row}/>}</span>)}</span><ChevronRight size={16}/></button>{startButton(group)}</article>;
-  const reset = () => {setCatalogPath([]);setExamYear('');setFilter('all');};
+  const reset = () => {setCatalogPath([]);setPlatform('');setExamYear('');setFilter('all');};
   return <div className="list-page competition-page" aria-label="比赛列表">
     <PageSearch><label className="search-box"><Search size={17}/><input value={query} onChange={event=>setQuery(event.target.value)} aria-label="搜索比赛"/></label>
-    <SortDirection label="切换比赛排序方向" descending={descending} normalDescending={sort==='newest'} onChange={setDescending}/><FilterMenu label="筛选比赛" active={!!catalogPath.length||!!examYear||filter!=='all'} onReset={reset}>
+    <SortDirection label="切换比赛排序方向" descending={descending} normalDescending={sort==='newest'} onChange={setDescending}/><FilterMenu label="筛选比赛" active={!!platform||!!catalogPath.length||!!examYear||filter!=='all'} onReset={reset}>
+      <label className="filter-field"><span>平台</span><ThemedSelect aria-label="比赛平台" value={platform} onChange={event=>setPlatform(event.target.value)}><option value="">全部平台</option>{platformNames(rows,platform).map(name=><option key={name}>{name}</option>)}</ThemedSelect></label>
       <label className="filter-field"><span>年份</span><ThemedSelect aria-label="比赛年份" value={examYear} onChange={event=>setExamYear(event.target.value)}><option value="">全部年份</option>{[...new Set(groups.map(group=>group.examYear).filter(Boolean))].sort((a,b)=>b-a).map(year=><option key={year}>{year}</option>)}</ThemedSelect></label>
       <label className="filter-field"><span>训练情况</span><ThemedSelect value={filter} onChange={event=>setFilter(event.target.value)} aria-label="比赛训练情况"><option value="all">全部比赛</option><option value="joined">已加入训练</option><option value="available">尚未加入</option><option value="unfinished">尚未全部通过</option></ThemedSelect></label>
     </FilterMenu><Tooltip text={folder?'切换到比赛列表':'按平台、系列、年份和场次逐级浏览'}><button type="button" className="competition-view-toggle" aria-label="比赛文件夹浏览" aria-pressed={!!folder} onClick={()=>setFolder(folder?null:{stage:'platforms',path:[]})}><FolderTree size={17}/></button></Tooltip></PageSearch>
@@ -272,7 +276,7 @@ export function ConnectionsPanel({ hub, api, onChanged, onError, includeTranslat
 }
 
 function updateDraft(hub) { return { autoSync: hub?.settings?.autoSync ?? true, intervalHours: hub?.settings?.intervalHours ?? 6, minDifficulty: hub?.settings?.minDifficulty ?? 0, maxDifficulty: hub?.settings?.maxDifficulty ?? 10000 }; }
-export function UpdatePanel({ softwareState, hub, api, onChanged, onError, onContent, showNotifications = true, notificationsOnly = false }) {
+export function UpdatePanel({ softwareState, hub, api, onChanged, onError, onContent, showNotifications = true, notificationsOnly = false, showReadAll = true }) {
   const [draft, setDraft] = useState(() => updateDraft(hub)), [busy, setBusy] = useState(false), [message, setMessage] = useState(''), [error, setError] = useState(''), [unreadOnly, setUnreadOnly] = useState(false);
   const dirty = useRef(false), editRevision = useRef(0);
   const seen=useRef(new Set()),reading=useRef(false),[readRevision,setReadRevision]=useState(0);
@@ -311,7 +315,7 @@ export function UpdatePanel({ softwareState, hub, api, onChanged, onError, onCon
     {list(sync.providers).length > 0 && <div className="update-providers">{list(sync.providers).map(item => <div key={item.platform}><strong>{LABELS[item.platform] || item.platform}</strong><span>{item.message&&<Tooltip label={`${LABELS[item.platform] || item.platform}检查详情`} text={item.message}/>}</span><small>新增 {number(item.added)} · 待定级 {number(item.pending)}</small></div>)}</div>}
     {updates.notes && <details className="update-release-notes"><summary>版本说明</summary><p>{updates.notes}</p></details>}
 </>}
-    {showNotifications && <><div className="progress-section-heading update-notification-heading"><h3>更新通知</h3><button type="button" className="progress-text-button" disabled={busy || !api || !list(hub?.notifications).some(item => !item.read)} onClick={() => request('hub/dismiss-all', {})}><CheckCheck size={14} />一键已读</button><label className="progress-check"><input type="checkbox" checked={unreadOnly} onChange={event => setUnreadOnly(event.target.checked)} />只看未读</label></div>
+    {showNotifications && <><div className="progress-section-heading update-notification-heading"><h3>更新通知</h3>{showReadAll&&<button type="button" className="progress-text-button" disabled={busy || !api || !list(hub?.notifications).some(item => !item.read)} onClick={() => request('hub/dismiss-all', {})}><CheckCheck size={14} />一键已读</button>}<label className="progress-check"><input type="checkbox" checked={unreadOnly} onChange={event => setUnreadOnly(event.target.checked)} />只看未读</label></div>
     <div className="update-notifications">{notifications.length ? notifications.map(item => {
       const targets = [...list(item.problemIds), ...list(item.solutionIds), ...list(item.problemUrls)];
       const clickable = targets.length > 0 && Boolean(onContent), Main = clickable ? 'button' : 'div';

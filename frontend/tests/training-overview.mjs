@@ -1,4 +1,4 @@
-import { openSettings } from './settings-navigation.mjs';
+import { openSettings, setTheme } from './settings-navigation.mjs';
 // All API calls use public fixture data; no user state or original-site access.
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
@@ -103,7 +103,7 @@ try {
   assert.equal(await page.getByRole('tab',{name:'初始代码模板',exact:true}).count(),1);
   await openSettings(page, '快捷键');
   assert.equal(await page.locator('.settings-commands').count(),0);
-  await openSettings(page, '外观');await page.getByRole('button',{name:'云白浅色',exact:true}).click();
+  await openSettings(page, '外观');await setTheme(page,'light');
   await page.keyboard.press('Control+k');await page.getByRole('button',{name:'查看训练概览',exact:true}).click();
   await page.screenshot({path:'tests/screenshots/training-overview/overview-light.png',animations:'disabled'});
   assert.deepEqual(errors,[]);

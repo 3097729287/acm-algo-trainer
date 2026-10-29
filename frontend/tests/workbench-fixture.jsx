@@ -24,7 +24,7 @@ const key = body => `${body.contestId || 'solo'}:${body.id}`;
 const problem = id => ({
   id, title: id === 'A' ? '两数之和' : id === 'B' ? '最长的路径' : '第三道题',
   markdown: '# Input and Output\n\nGiven two integers $a$ and $b$, output $a+b$.\n\n## Input\n\nOne line contains two integers.\n\n## Output\n\nPrint their sum.\n\n## Example\n\n```text\n1 2\n```\n',
-  url: 'https://example.com/problem', samples: [{ name: '样例 1', input: '1 2\n', output: '3\n' }, { name: '样例 2', input: '4 5\n', output: '9\n' }],
+  url: 'https://atcoder.jp/contests/abc001/tasks/abc001_1', samples: [{ name: '样例 1', input: '1 2\n', output: '3\n' }, { name: '样例 2', input: '4 5\n', output: '9\n' }],
   limits: { timeMs: 2000, memoryMb: 256 }, judge: { scope: id === 'B' ? 'local' : 'samples', label: id === 'B' ? '本地验证' : '样例评测', cases: id === 'B' ? 20 : 1 },
   locked: false, statementAvailable: true,
 });

@@ -17,11 +17,13 @@ SITES = {
     'AtCoder': ('atcoder', 'https://atcoder.jp/', 'https://atcoder.jp/login'),
     '牛客': ('nowcoder', 'https://ac.nowcoder.com/', 'https://ac.nowcoder.com/login'),
     '洛谷': ('luogu', 'https://www.luogu.com.cn/', 'https://www.luogu.com.cn/auth/login'),
+    'QOJ': ('qoj', 'https://qoj.ac/', 'https://qoj.ac/login'),
 }
+AUTOMATIC_SITES = tuple(platform for platform in SITES if platform != 'QOJ')
 
 LOGIN_SCRIPT = r"""(()=>{
 if(window!==window.top||location.protocol!=='https:')return null;
-const site={'codeforces.com':'Codeforces','www.codeforces.com':'Codeforces','atcoder.jp':'AtCoder','ac.nowcoder.com':'牛客','www.nowcoder.com':'牛客','nowcoder.com':'牛客','www.luogu.com.cn':'洛谷','luogu.com.cn':'洛谷','login.luogu.com.cn':'洛谷'}[location.hostname];
+const site={'codeforces.com':'Codeforces','www.codeforces.com':'Codeforces','atcoder.jp':'AtCoder','ac.nowcoder.com':'牛客','www.nowcoder.com':'牛客','nowcoder.com':'牛客','www.luogu.com.cn':'洛谷','luogu.com.cn':'洛谷','login.luogu.com.cn':'洛谷','qoj.ac':'QOJ'}[location.hostname];
 if(!site)return null;
 const result={platform:site,url:location.href,state:'unknown',owner:''};
 if(/just a moment|checking your browser|安全验证|人机验证/i.test(document.title))return result;
@@ -40,6 +42,10 @@ if(site==='Codeforces'){
 }else if(site==='牛客'){
  const value=window.globalInfo?.ownerId;
  if(value!==undefined&&value!==null){if(/^[1-9]\d{0,19}$/.test(String(value)))owner=String(value);else if(Number(value)===0)result.state='logged_out';}
+}else if(site==='QOJ'){
+ const paths=links('.navbar a[href]');
+ if(paths.includes('/logout')||document.querySelector('.navbar form[action="/logout"],.navbar [onclick*="logout"]'))owner=paths.map(path=>path.match(/^\/user\/profile\/([A-Za-z0-9_-]{1,64})\/?$/)?.[1]).find(Boolean)||'';
+ if(!owner&&paths.includes('/login'))result.state='logged_out';
 }else{
  let context=null;try{context=JSON.parse(document.querySelector('#lentille-context')?.textContent||'null');}catch{}
  const known=context&&Object.prototype.hasOwnProperty.call(context,'user');
@@ -65,7 +71,7 @@ def valid_identity(value, platform):
     except (ValueError, TypeError):
         return None
     owner = value.get('owner')
-    pattern = r'[1-9]\d{0,19}' if platform in ('牛客', '洛谷') else r'[A-Za-z0-9_.-]{1,64}'
+    pattern = r'[1-9]\d{0,19}' if platform in ('牛客', '洛谷') else r'[A-Za-z0-9_-]{1,64}' if platform == 'QOJ' else r'[A-Za-z0-9_.-]{1,64}'
     return owner if value.get('state') == 'logged_in' and isinstance(owner, str) and re.fullmatch(pattern, owner) else None
 
 
@@ -112,7 +118,8 @@ class PlatformLogins:
         if not handle or not self._current(owner):
             return False
         if self.observed.get(platform) != handle:
-            if not self.bind(owner, platform, handle):
+            # QOJ has a local browser identity, not a public rating/account binding.
+            if platform != 'QOJ' and not self.bind(owner, platform, handle):
                 with self.lock:
                     self.states[platform] = {'state': 'mismatch', 'owner': ''}
                 return False
@@ -182,7 +189,7 @@ class PlatformLogins:
 
     def _prepare(self, owner):
         self.bridge.browser.ensure(background=True)
-        for platform in SITES:
+        for platform in AUTOMATIC_SITES:
             if not self._current(owner):
                 return
             with self.lock:

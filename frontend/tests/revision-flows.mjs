@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
 import {createServer} from 'vite';
+import {openMockSelection} from './mock-mode-selection.mjs';
 const vite=await createServer({server:{host:'127.0.0.1',port:18832,strictPort:true}});await vite.listen();
 const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true}),page=await browser.newPage({viewport:{width:1600,height:1000}}),errors=[];
 page.on('pageerror',issue=>errors.push(issue.message));
@@ -15,14 +16,14 @@ try{
  for(const [mode,label] of [['comprehensive','综合训练'],['topic','专项训练'],['replay','重现赛']]){
   await page.getByRole('button',{name:label,exact:true}).click();
   if(mode==='topic'){
-   const picker=page.getByRole('combobox',{name:'专项训练知识点'});
-   await picker.click();assert.equal(await page.getByRole('listbox').getByText(/\//).count(),0);await page.getByRole('listbox').getByRole('option',{name:'基础技巧',exact:true}).click();
+   const picker=()=>openMockSelection(page,'专项训练');
+   await picker();assert.equal(await page.getByRole('listbox').getByText(/\//).count(),0);await page.getByRole('listbox').getByRole('option',{name:'基础技巧',exact:true}).click();
    await page.getByRole('listbox').getByRole('option',{name:'选择「基础技巧」',exact:true}).click();await page.getByRole('button',{name:'生成试卷',exact:true}).click();
    const broad=await page.evaluate(()=>revisionFixture.calls.filter(item=>item.path==='contests/preview').at(-1).body);assert.equal(broad.tags.length,34);assert(broad.tags.includes('前缀和'));assert(broad.tags.includes('二分查找'));
-   await picker.click();await page.getByRole('listbox').getByRole('option',{name:'基础技巧',exact:true}).click();await page.getByRole('listbox').getByRole('option',{name:'前缀和',exact:true}).click();
+   await picker();await page.getByRole('listbox').getByRole('option',{name:'基础技巧',exact:true}).click();await page.getByRole('listbox').getByRole('option',{name:'前缀和',exact:true}).click();
   }
   if(mode==='replay'){
-   assert.equal(await page.getByLabel('搜索重现赛比赛',{exact:true}).count(),0);await page.getByRole('combobox',{name:'重现赛比赛'}).click();
+   assert.equal(await page.getByLabel('搜索重现赛比赛',{exact:true}).count(),0);await openMockSelection(page,'重现赛');
    for(const name of ['XCPC','CCPC 区域赛','2025年','CCPC 2025 郑州区域赛 · 2 题'])await page.getByRole('listbox').getByRole('option',{name,exact:true}).click();
   }
   assert.equal(await page.getByRole('button',{name:'生成试卷',exact:true}).count(),1);

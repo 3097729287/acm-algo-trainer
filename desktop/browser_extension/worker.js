@@ -1,7 +1,7 @@
 // Capabilities stay in the extension's session storage, never in an OJ page.
 importScripts('login_state.js');
 const loginStates = {}, loginChecks = new Map(), loginGenerations = {}, loginCookies = {}, loginRescans = new Set();
-const scopes = {Codeforces:'codeforces.com',AtCoder:'atcoder.jp','牛客':'nowcoder.com','洛谷':'luogu.com.cn'};
+const scopes = {Codeforces:'codeforces.com',AtCoder:'atcoder.jp','牛客':'nowcoder.com','洛谷':'luogu.com.cn',QOJ:'qoj.ac'};
 const loginDirty = new Set(Object.keys(scopes));
 let lastLoginRefresh = 0, lastOpenRefresh = 0;
 async function readCookies(platform) {
@@ -24,10 +24,10 @@ async function updateLoginState(platform, cookies) {
   const cookieState = tbCookieLoginState(platform, cookies);
   if (!same || cookieState !== 'unknown') loginStates[platform] = cookieState;
   if (loginChecks.has(platform)) { loginRescans.add(platform); return; }
-  const urls = {Codeforces:'https://codeforces.com/',AtCoder:'https://atcoder.jp/','牛客':'https://ac.nowcoder.com/acm/home','洛谷':'https://www.luogu.com.cn/'};
+  const urls = {Codeforces:'https://codeforces.com/',AtCoder:'https://atcoder.jp/','牛客':'https://ac.nowcoder.com/acm/home','洛谷':'https://www.luogu.com.cn/',QOJ:'https://qoj.ac/'};
   const check = (async () => {
     try {
-      const patterns = {Codeforces:['https://codeforces.com/*','https://www.codeforces.com/*'],AtCoder:['https://atcoder.jp/*'],'牛客':['https://ac.nowcoder.com/*'],'洛谷':['https://www.luogu.com.cn/*','https://luogu.com.cn/*']};
+      const patterns = {Codeforces:['https://codeforces.com/*','https://www.codeforces.com/*'],AtCoder:['https://atcoder.jp/*'],'牛客':['https://ac.nowcoder.com/*'],'洛谷':['https://www.luogu.com.cn/*','https://luogu.com.cn/*'],QOJ:['https://qoj.ac/*']};
       const tabs = await chrome.tabs.query({url:patterns[platform]});
       const hints = await Promise.all(tabs.filter(tab=>!tab.incognito).slice(0,8).map(async tab=>{
         try { return await Promise.race([chrome.tabs.sendMessage(tab.id,{type:'login-state',platform}),new Promise(resolve=>setTimeout(()=>resolve({state:'unknown'}),5500))]); }
@@ -52,7 +52,7 @@ async function updateLoginState(platform, cookies) {
   })();
   loginChecks.set(platform, check);
 }
-const hosts = new Set(['codeforces.com', 'www.codeforces.com', 'atcoder.jp', 'ac.nowcoder.com', 'www.nowcoder.com', 'nowcoder.com', 'www.luogu.com.cn', 'luogu.com.cn', 'login.luogu.com.cn']);
+const hosts = new Set(['codeforces.com', 'www.codeforces.com', 'atcoder.jp', 'ac.nowcoder.com', 'www.nowcoder.com', 'nowcoder.com', 'www.luogu.com.cn', 'luogu.com.cn', 'login.luogu.com.cn', 'qoj.ac']);
 const queues = new Map();
 const connections = new Map();
 let queueBusy = false;
@@ -79,9 +79,9 @@ async function pollQueues() {
         if (!connections.has(base)) connections.set(base, (await backgroundRequest(base, 'register', { clientId, protocol: 3, extensionVersion:chrome.runtime.getManifest().version })).key);
         const [windows, tabs] = await Promise.all([
           chrome.windows.getAll({ windowTypes: ['normal'] }),
-          chrome.tabs.query({url:['https://codeforces.com/*','https://www.codeforces.com/*','https://atcoder.jp/*','https://ac.nowcoder.com/*','https://www.luogu.com.cn/*','https://luogu.com.cn/*']}),
+          chrome.tabs.query({url:['https://codeforces.com/*','https://www.codeforces.com/*','https://atcoder.jp/*','https://ac.nowcoder.com/*','https://www.luogu.com.cn/*','https://luogu.com.cn/*','https://qoj.ac/*']}),
         ]);
-        const platformHosts = {'codeforces.com':'Codeforces','www.codeforces.com':'Codeforces','atcoder.jp':'AtCoder','ac.nowcoder.com':'牛客','www.luogu.com.cn':'洛谷','luogu.com.cn':'洛谷'};
+        const platformHosts = {'codeforces.com':'Codeforces','www.codeforces.com':'Codeforces','atcoder.jp':'AtCoder','ac.nowcoder.com':'牛客','www.luogu.com.cn':'洛谷','luogu.com.cn':'洛谷','qoj.ac':'QOJ'};
         const platforms = [...new Set(tabs.filter(tab=>!tab.incognito).map(tab=>platformHosts[new URL(tab.url).hostname]).filter(Boolean))];
         if (Date.now() - lastLoginRefresh >= 30000) { Object.keys(scopes).forEach(platform=>loginDirty.add(platform)); lastLoginRefresh=Date.now(); }
         if (Date.now() - lastOpenRefresh >= 5000) { platforms.forEach(platform=>loginDirty.add(platform)); lastOpenRefresh=Date.now(); }
@@ -243,7 +243,7 @@ chrome.cookies.onChanged.addListener(({cookie}) => {
   if (loginDirty.size) pollQueues();
 });
 // Requests keep an active desktop session responsive; the alarm revives an idle
-// service worker. Only the four scoped sessions go to authenticated local TB;
+// service worker. Only explicitly scoped OJ sessions go to authenticated local TB;
 // passwords are never read, and cookie values never enter preparation responses.
 setInterval(pollQueues, 1000);
 pollQueues();

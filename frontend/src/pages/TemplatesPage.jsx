@@ -1,5 +1,6 @@
-import {Fragment,useEffect,useRef,useState} from 'react';
+import {useEffect,useLayoutEffect,useRef,useState} from 'react';
 import {ArrowLeft,Check,Code2,Copy,FilePlus2,LoaderCircle,Plus,Save,Search,Trash2,NotebookPen,X} from 'lucide-react';
+import CatalogGroup from '@/components/CatalogGroup.jsx';
 import CatalogCard from '@/components/CatalogCard.jsx';
 import PageSearch from '@/components/PageSearch.jsx';
 import CodeEditor from '@/components/CodeEditor.jsx';
@@ -23,13 +24,15 @@ export default function TemplatesPage({api,shortcuts={},visit,embedded=false,onU
  useEffect(()=>{live.current=true;api('templates').then(value=>{if(live.current)setTemplates((value.templates||[]).map(templateForDisplay));}).catch(issue=>{if(live.current)setError(issue.message);}).finally(()=>{if(live.current)setLoading(false);});return()=>{live.current=false;clearTimeout(copyTimer.current);};},[api]);
  useEffect(()=>{Object.assign(session,{query,selected,draft,edition});},[query,selected,draft,edition,session]);
  const current=draft||templates.find(item=>item.id===selected),own=current&&!current.builtin;
- useEffect(()=>{onActiveChange?.(Boolean(selected));return()=>onActiveChange?.(false);},[Boolean(selected),onActiveChange]);
+ // The outer shell must reach its final size before the editor is measured
+ // or painted. Restore a saved detail before paint as well as on direct clicks.
+ useLayoutEffect(()=>{onActiveChange?.(Boolean(selected));return()=>onActiveChange?.(false);},[Boolean(selected),onActiveChange]);
  useEffect(()=>{if(!selected||embedded)return;const key=event=>{if(event.key==='Escape'&&!document.querySelector('dialog[open],[aria-modal=true],[data-popconfirm]')){event.preventDefault();event.stopImmediatePropagation();back();}};window.addEventListener('keydown',key,true);return()=>window.removeEventListener('keydown',key,true);},[selected,embedded]);
  const matching=templates.filter(item=>(!language||item.language===language)&&`${item.title} ${item.category} ${item.summary} ${(item.tags||[]).join(' ')}`.toLowerCase().includes(query.trim().toLowerCase()));
  const groups=[...GROUPS,...templates.map(item=>item.category)].filter((name,index,all)=>all.indexOf(name)===index&&matching.some(item=>item.category===name));
- const open=item=>{setError('');setCopyTarget(null);setEdition('teaching');setSelected(item.id);setDraft(item.builtin?null:{...item});if(panel.current)panel.current.scrollTop=0;};
- const back=()=>{setSelected(null);setDraft(null);setError('');};
- const create=source=>{setSelected('new');setDraft(source?{...source,id:null,title:source.title,builtin:false,revision:undefined}:{...emptyTemplate(),language:language||'cpp17'});setError('');};
+ const open=item=>{onActiveChange?.(true);setError('');setCopyTarget(null);setEdition('teaching');setSelected(item.id);setDraft(item.builtin?null:{...item});if(panel.current)panel.current.scrollTop=0;};
+ const back=()=>{onActiveChange?.(false);setSelected(null);setDraft(null);setError('');};
+ const create=source=>{onActiveChange?.(true);setSelected('new');setDraft(source?{...source,id:null,title:source.title,builtin:false,revision:undefined}:{...emptyTemplate(),language:language||'cpp17'});setError('');};
  const update=(key,value)=>setDraft(previous=>({...previous,[key]:value}));
  const copy=async (code,onError=setError)=>{try{await navigator.clipboard.writeText(code);if(live.current){setCopied(true);clearTimeout(copyTimer.current);copyTimer.current=setTimeout(()=>{if(live.current)setCopied(false);},1800);}return true;}catch{if(live.current)onError('复制未完成，请选中代码后复制');return false;}};
  const requestCopy=(event,item)=>{event.preventDefault();event.stopPropagation();if(copyBusy)return;setCopyError('');setCopyTarget({anchor:event.currentTarget,code:item.contestCode||item.code});};
@@ -63,7 +66,7 @@ export default function TemplatesPage({api,shortcuts={},visit,embedded=false,onU
    {displayedExample&&<section className="template-example" aria-label="最小调用示例"><Markdown text={'```cpp\n'+displayedExample+'\n```'} onCopy={code=>copy(code)}/></section>}
   </div>:<div className="lab-catalog lab-multi-catalog template-catalog">
    {embedded?<div className="template-tools">{tools}</div>:<PageSearch>{tools}</PageSearch>}
-   {loading?<LoaderCircle className="spin" role="status" aria-label="正在读取模板"/>:groups.map(group=><Fragment key={group}><h2 className="lab-catalog-group">{group}</h2>{matching.filter(item=>item.category===group).map(item=><CatalogCard key={item.id} title={item.title} icon={<Code2 size={18}/>} label={`${onUse?'插入模板':'打开模板'} ${item.title}`} onOpen={()=>onUse?onUse({...item,code:item.contestCode||item.code}):open(item)} onContextMenu={event=>requestCopy(event,item)}/>)}</Fragment>)}
+   {loading?<LoaderCircle className="spin" role="status" aria-label="正在读取模板"/>:groups.map(group=><CatalogGroup key={group} title={group}>{matching.filter(item=>item.category===group).map(item=><CatalogCard key={item.id} title={item.title} icon={<Code2 size={18}/>} label={`${onUse?'插入模板':'打开模板'} ${item.title}`} onOpen={()=>onUse?onUse({...item,code:item.contestCode||item.code}):open(item)} onContextMenu={event=>requestCopy(event,item)}/>)}</CatalogGroup>)}
   </div>}
   {deleting&&<PopConfirm anchor={deleting} title="删除这个模板？" busy={busy} onCancel={()=>setDeleting(null)} onConfirm={()=>save(true)} error={error}/>}
   {copyTarget&&<PopConfirm anchor={copyTarget.anchor} label="复制模板确认" title="确认复制模板？" busy={copyBusy} error={copyError} onCancel={()=>setCopyTarget(null)} onConfirm={confirmCopy} confirmTone="primary" cancelLabel={<X size={15}/>} confirmLabel={<Copy size={15}/>} busyLabel={<LoaderCircle className="spin" size={15}/>} cancelAriaLabel="取消复制" confirmAriaLabel="确认复制"/>}

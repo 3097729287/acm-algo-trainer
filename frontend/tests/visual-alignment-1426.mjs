@@ -11,7 +11,7 @@ try {
  for(const [width,height] of [[2048,1152],[1440,900],[1050,700]])for(const theme of ['dark','light']) {
   await page.setViewportSize({width,height});
   const frame={width,height,theme,catalogs:[]};
-  for(const name of ['算法实验室','模板']) {
+  for(const name of ['实验室','模板']) {
    await nav(name).click();await page.locator('.catalog-card').first().waitFor();
    await page.evaluate(t=>document.documentElement.dataset.theme=t,theme);
    await page.mouse.move(0,0);await page.waitForTimeout(70);
@@ -31,7 +31,7 @@ try {
   const actions=await page.locator('.submission-record-actions').evaluateAll(nodes=>nodes.filter(n=>n.getBoundingClientRect().height&&n.closest('.submission-log-row').getAttribute('aria-hidden')!=='true').map(n=>{const code=n.querySelector('.submission-code-button').getBoundingClientRect(),verdict=n.querySelector('.verdict').getBoundingClientRect();return {codeX:code.x,gap:verdict.left-code.right};}));
   assert(actions.length>=2);assert(actions.every(a=>a.gap>=0&&a.gap<=8),JSON.stringify(actions));assert(Math.max(...actions.map(a=>a.codeX))-Math.min(...actions.map(a=>a.codeX))<=1);
   frame.submissionActions=actions;
-  await nav('成长与能力').click();await page.locator('.account-hero-statistics>div').last().waitFor();
+  await nav('成长').click();await page.locator('.account-hero-statistics>div').last().waitFor();
   const growth=await page.locator('.growth-account-hero').evaluate(n=>{const goals=n.querySelector('.account-hero-goals').getBoundingClientRect(),stats=[...n.querySelectorAll('.account-hero-statistics b')].map(x=>x.getBoundingClientRect());return {lastStatisticToGoals:goals.top-Math.max(...stats.map(x=>x.bottom)),panelHeight:n.clientHeight};});
   assert(growth.lastStatisticToGoals>=0&&growth.lastStatisticToGoals<=85,JSON.stringify(growth));
   frame.growth=growth;frames.push(frame);

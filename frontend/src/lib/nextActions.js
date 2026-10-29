@@ -166,12 +166,30 @@ export function nextActions({rows=[],training=[],insights={},prefs={},lists=[],t
  };
  const accepted=new Set([...rows,...training].filter(row=>row.accepted).map(row=>original(byId.get(row.id)||row)));
  const candidates=rows.filter(row=>ready(row)&&explained(row)&&!row.catalogHidden&&!accepted.has(original(row))&&trustedDifficulty(row)&&row.difficulty<=2300).sort(compare);
- const due=training.filter(row=>['review','check'].includes(row.queue)&&ready({...byId.get(row.id),...row})
-  &&isDue(dueDate(row),now)).sort((a,b)=>Number(Boolean(b.reviewTask?.openedAt))-Number(Boolean(a.reviewTask?.openedAt))
+ // Only offer actual selected due work. This is a queue/budget fact, not a
+ // mastery claim; missing explanations are never invented for a review action.
+ const plannedReviews=Array.isArray(reviewPlan?.tasks)?new Set(reviewPlan.tasks.map(task=>{
+  const id=task?.problemId||task?.id;return original(byId.get(id)||{id});
+ })):null;
+ const due=training.filter(row=>{
+  const merged={...byId.get(row.id),...row};
+  return ['review','check'].includes(row.queue)&&ready(merged)&&explained(merged)
+   &&isDue(dueDate(row),now)&&(!plannedReviews||plannedReviews.has(original(byId.get(row.id)||row)));
+ }).sort((a,b)=>Number(Boolean(b.reviewTask?.openedAt))-Number(Boolean(a.reviewTask?.openedAt))
    ||(stamp(dueDate(a))||0)-(stamp(dueDate(b))||0)||String(a.id).localeCompare(String(b.id)));
- if(due.length)push({kind:'review',page:'mine',id:due[0].id,title:due[0].title||byId.get(due[0].id)?.title,
-  reason:`训练队列已有 ${due.length} 道到期复习；先独立重写检验隔日保留。到期是复习安排，不等于已经掌握，也不重复计算首次学习结论。`});
- if(reviewPlan?.reviewOnly===true||finite(reviewPlan?.newMinutes)&&reviewPlan.newMinutes<15)return answer;
+ const offerReviews=(maximum=NEXT_ACTION_POLICY.maxActions)=>{
+  let added=0;
+  for(const row of due){
+   if(push({kind:'review',page:'mine',id:row.id,title:row.title||byId.get(row.id)?.title,
+    reason:`训练计划中有 ${due.length} 道题面、样例和内置题解完整的到期复习；可选择这道独立重写，检验隔日保留。到期是复习安排，不等于已经掌握，也不重复计算首次学习结论。`}))added++;
+   if(added>=maximum||answer.length>=NEXT_ACTION_POLICY.maxActions)break;
+  }
+ };
+ // Keep the main due task first, make room for the current learning frontier,
+ // then fill spare choices with genuine due work rather than another syllabus.
+ const finish=()=>{offerReviews();return answer;};
+ offerReviews(1);
+ if(reviewPlan?.reviewOnly===true||finite(reviewPlan?.newMinutes)&&reviewPlan.newMinutes<15)return finish();
  const sourceLists=filterTrainingListsScope(organizeTrainingLists(lists.filter(item=>!item.custom&&!String(item.id).startsWith('custom:')&&item.available!==false)),rows);
  const units=buildTrainingCurriculum(sourceLists,rows).filter(unit=>unit.topicPath?.[0]?.startsWith('01'));
  const foundational=evidence.forTopics(BASICS);
@@ -182,24 +200,37 @@ export function nextActions({rows=[],training=[],insights={},prefs={},lists=[],t
  const equivalentBasics=assessment?.qualified===true&&evidence.all.solved>=5&&evidence.all.stable&&supportedBasics.length>=2;
  const unitTopics={0:['输入输出','顺序结构'],1:['分支','循环','枚举'],2:['数组','字符串'],3:['函数','结构体','STL']};
  const foundationTopics=new Set([...BASICS,'结构体','STL','排序']);
- const frontier=units.slice().sort((a,b)=>a.curriculumOrder-b.curriculumOrder).map(unit=>({unit,stats:evidence.forIds(unit.problems.map(item=>item.problemId)),
-  remaining:unit.problems.map(item=>byId.get(item.problemId)).filter(row=>candidates.includes(row)&&row.difficulty<=1400&&!row.knowledgeReviewRequired
-   &&requiredTopics(row).every(tag=>foundationTopics.has(tag)||evidence.forTopics([tag]).prerequisite))}))
-  .find(item=>!equivalentBasics&&!item.stats.stable&&!evidence.forTopics(unitTopics[item.unit.curriculumOrder]||[]).stable);
+ // Completion (having passed the actual source-backed list) and independent
+ // mastery are different facts. A fully completed unit must not remain a new
+ // learning task merely because its native difficulty is uncalibrated.
+ const unitStates=units.slice().sort((a,b)=>a.curriculumOrder-b.curriculumOrder).map(unit=>{
+  const resolved=unit.problems.map(item=>byId.get(item.problemId)).filter(Boolean);
+  const unitOriginals=new Map();for(const row of resolved)if(!unitOriginals.has(original(row)))unitOriginals.set(original(row),row);
+  const originals=[...unitOriginals.values()];
+  const completed=resolved.length===unit.problems.length&&originals.length>0&&originals.every(row=>accepted.has(original(row)));
+  return {unit,stats:evidence.forIds(unit.problems.map(item=>item.problemId)),completed,total:originals.length,
+   passed:originals.filter(row=>accepted.has(original(row))).length,
+   remaining:originals.filter(row=>candidates.includes(row)&&row.difficulty<=1400&&!row.knowledgeReviewRequired
+    &&requiredTopics(row).every(tag=>foundationTopics.has(tag)||evidence.forTopics([tag]).prerequisite))};
+ });
+ const frontier=unitStates.find(item=>!item.completed&&!equivalentBasics&&!item.stats.stable
+  &&!evidence.forTopics(unitTopics[item.unit.curriculumOrder]||[]).stable);
  if(frontier){
-  const {unit,stats,remaining}=frontier;
+  const {unit,stats,remaining,passed,total}=frontier;
   // An absent or unavailable prerequisite is a content gap, not completion.
   // Never invent a curriculum ID or send a beginner to a later available unit.
   const missingEarlier=Array.from({length:unit.curriculumOrder},(_,order)=>order).some(order=>
    !units.some(candidate=>candidate.curriculumOrder===order)&&!evidence.forTopics(unitTopics[order]||[]).stable);
-  if(missingEarlier)return answer;
+  if(missingEarlier)return finish();
   const gap=stats.solved<3?'还需补充独立成功':stats.spanHours<24?'还缺隔日验证':stats.weight<.75?'可信难度证据仍少':'还需减少重试并巩固';
   const availability=remaining.length?`还有 ${remaining.length} 道未通过且题面、样例和内置题解完整的已定级题；卡住时先用题内一级帮助。`
    :'本单元暂没有同时具备完整题面、样例、内置题解和可信难度的未通过练习；先查看当前单元，补齐内容前不跳到后续单元。';
-  const reason=`先补「${unit.displayTitle||unit.title}」：${proof(stats)}，${gap}。${availability}`;
+  const priorCompleted=unitStates.filter(item=>item.unit.curriculumOrder<unit.curriculumOrder&&item.completed);
+  const completion=priorCompleted.length?`前序 ${priorCompleted.length} 个基础单元已全部通过，继续下一未完成单元；已通过只表示完成记录，不替代独立掌握或能力证据。`:'';
+  const reason=`${completion}当前「${unit.displayTitle||unit.title}」已通过 ${passed}/${total} 道：${proof(stats)}，${gap}。${availability}`;
   if(allowed('training-lists'))push({kind:'list',page:'training-lists',id:unit.id,title:unit.displayTitle||unit.title,reason});
   offerProblems(remaining,task=>`${reason}这道 ${task.difficulty} 分题来自同一当前基础单元，可直接练习；这些备选不要求同时完成。`);
-  return answer;
+  return finish();
  }
  if(!foundational.stable&&!equivalentBasics){
   // Until source-list metadata arrives, only explicitly supported first-step
@@ -209,7 +240,7 @@ export function nextActions({rows=[],training=[],insights={},prefs={},lists=[],t
   offerProblems(candidates.filter(row=>row.difficulty<=1100&&topicMatches(row,firstTopics)
    &&requiredTopics(row).every(tag=>firstTopics.includes(tag)||evidence.forTopics([tag]).prerequisite)),
    task=>`${proof(foundational)}，近期独立证据还不足；先用这道 ${task.difficulty} 分完整基础题诊断并巩固。卡住时先用题内一级帮助。`);
-  return answer;
+  return finish();
  }
  const prerequisite=tag=>evidence.forTopics([tag]).prerequisite;
  const canStudy=(row,wanted)=>{
@@ -226,9 +257,9 @@ export function nextActions({rows=[],training=[],insights={},prefs={},lists=[],t
   if(replacement){prerequisiteContext=`先补「${course.title}」需要的 ${tag}；`;course=replacement;}
   else{
    const tasks=candidates.filter(row=>matches(row,[tag])&&row.difficulty<=1300&&canStudy(row,[tag]));
-   if(tasks.length){offerProblems(tasks,task=>`「${course.title}」还缺 ${tag} 的前置独立证据：${proof(evidence.forTopics([tag]))}；先用这道 ${task.difficulty} 分完整题验证基础，再进入该课程。`);return answer;}
+   if(tasks.length){offerProblems(tasks,task=>`「${course.title}」还缺 ${tag} 的前置独立证据：${proof(evidence.forTopics([tag]))}；先用这道 ${task.difficulty} 分完整题验证基础，再进入该课程。`);return finish();}
    course=courseCandidates.find(item=>!missing(item).length);
-   if(!course)return answer;
+   if(!course)return finish();
   }
  }
  const level=assessment?.qualified&&finite(assessment.abilityScore)?assessment.abilityScore:null;
@@ -256,7 +287,7 @@ export function nextActions({rows=[],training=[],insights={},prefs={},lists=[],t
   const saved=prefs.learningPaths?.[item.id],stats=evidence.forTopics(item.tags);
   const prerequisites=item.requires.map(tag=>`${tag} ${evidence.forTopics([tag]).solved} 道`).join('、');
   return push({kind:'course',page:'paths',id:item.id,title:item.title,first:item.first,
-   reason:`${item===course?prerequisiteContext:''}前置已有跨日独立证据（${prerequisites}）；${proof(stats)}。先${saved?'按保存章节继续学习':'学习这门互动课'}，随后用实际练习检验理解。`});
+   reason:`${item===course?prerequisiteContext:''}前置已有跨日独立证据（${prerequisites}）；${proof(stats)}。先${saved?'从课程第一页复习并继续学习':'学习这门互动课'}，随后用实际练习检验理解。`});
  };
  const offerReadyAlternatives=()=>{
   // Alternatives remain at the learner's current qualified frontier. A saved
@@ -264,6 +295,7 @@ export function nextActions({rows=[],training=[],insights={},prefs={},lists=[],t
   let added=0;
   for(const item of courseCandidates){
    if(item===course||missing(item).length||implementationPosition(item,prefs.learningPaths?.[item.id])
+    ||list(templateById.get(item.template)?.practicePassed).some(value=>value===true)
     ||!candidates.some(row=>matches(row,item.tags)&&row.difficulty<=ceiling&&canStudy(row,item.tags)))continue;
    if(offerCourse(item))added++;
    if(added>=2||answer.length>=NEXT_ACTION_POLICY.maxActions)break;
@@ -273,35 +305,36 @@ export function nextActions({rows=[],training=[],insights={},prefs={},lists=[],t
    if(!item.builtin||!TEMPLATE_REQUIRES[item.id]||!TEMPLATE_REQUIRES[item.id].every(prerequisite)
     ||evidence.forTopics(list(item.tags)).stable)continue;
    const linked=LAB_ACTIONS.find(lesson=>lesson.template===item.id);
-   if(linked&&!implementationPosition(linked,prefs.learningPaths?.[linked.id]))continue;
+   if(linked&&!implementationPosition(linked,prefs.learningPaths?.[linked.id])&&!list(item.practicePassed).some(value=>value===true))continue;
    templateTask(item,'已有对应前置的跨日独立题证据；可选择这一实现练习巩固当前基础',Boolean(linked));
   }
  };
  if(course){
-  const saved=prefs.learningPaths?.[course.id];
-  if(!implementationPosition(course,saved)){
+  const saved=prefs.learningPaths?.[course.id],linkedTemplate=templateById.get(course.template);
+  const practiced=list(linkedTemplate?.practicePassed).some(value=>value===true);
+  if(!implementationPosition(course,saved)&&!practiced){
    if(allowed('paths'))offerCourse(course);
-   else independent(course.tags,'算法实验室当前未显示，先在可见入口做有题面与难度依据的独立诊断');
-  }else if(!templateTask(templateById.get(course.template),'课程已保存到实现或跟做位置，这只是练习起点',true)){
-   independent(course.tags,'已到实现或跟做位置，优先用真实题目独立巩固');
+   else independent(course.tags,'实验室当前未显示，先在可见入口做有题面与难度依据的独立诊断');
+  }else if(!templateTask(linkedTemplate,practiced?'已有真实配套操作题通过记录，继续尚未完成的实现练习':'课程已保存到实现或跟做位置，这只是练习起点',true)){
+   independent(course.tags,practiced?'配套操作题已有通过记录，接着用真实题目独立巩固':'已到实现或跟做位置，优先用真实题目独立巩固');
   }
   offerReadyAlternatives();
-  return answer;
+  return finish();
  }
  // The other templates have teaching text, but no assumed interactive course.
  const template=templates.find(item=>item.builtin&&TEMPLATE_REQUIRES[item.id]
   &&TEMPLATE_REQUIRES[item.id].every(prerequisite)&&!evidence.forTopics(list(item.tags)).stable
   &&list(item.practiceIds).some((id,index)=>item.practicePassed?.[index]!==true&&ready(byId.get(id))));
- if(template&&templateTask(template,'已有对应前置的跨日独立题证据；本算法暂不假定存在单独互动课程'))return answer;
+ if(template&&templateTask(template,'已有对应前置的跨日独立题证据；本算法暂不假定存在单独互动课程'))return finish();
  const implemented=templates.find(item=>item.builtin&&TEMPLATE_REQUIRES[item.id]
   &&TEMPLATE_REQUIRES[item.id].every(prerequisite)&&!evidence.forTopics(list(item.tags)).stable
   &&list(item.practiceIds).length&&item.practiceIds.every((id,index)=>item.practicePassed?.[index]===true)
   &&candidates.some(row=>matches(row,list(item.tags))&&row.difficulty<=ceiling&&canStudy(row,list(item.tags))));
- if(implemented&&independent(list(implemented.tags),`「${implemented.title}」的配套操作题已通过，下一步用官方题验证实现与应用`))return answer;
+ if(implemented&&independent(list(implemented.tags),`「${implemented.title}」的配套操作题已通过，下一步用官方题验证实现与应用`))return finish();
  const weakness=candidates.find(row=>[...names(row)].some(tag=>evidence.forTopics([tag]).attempted&&!evidence.forTopics([tag]).stable)&&row.difficulty<=ceiling);
  if(weakness){
   const topic=[...names(weakness)].find(tag=>evidence.forTopics([tag]).attempted&&!evidence.forTopics([tag]).stable);
-  if(independent([topic],'已有尝试的专题尚未稳定，先补巩固'))return answer;
+  if(independent([topic],'已有尝试的专题尚未稳定，先补巩固'))return finish();
  }
  const stats=evidence.all;
  if(allowed('mock')&&finite(level)&&stats.solved>=8&&stats.stable){
@@ -328,7 +361,7 @@ export function nextActions({rows=[],training=[],insights={},prefs={},lists=[],t
    if(papers.length){
     const paper=papers[0];push({kind:'mixed',page:'mock',id:paper[0].contest,contest:paper[0].contest,title:'混合限时训练',
      reason:`${proof(stats)}，已有多个技术的跨日独立证据。「${paper[0].contest}」共 ${paper.length} 道未做的完整题，难度在当前训练带内；去模拟赛选择这份试卷，练习限时独立识别与取舍。`});
-    return answer;
+    return finish();
    }
   }
  }
@@ -338,5 +371,5 @@ export function nextActions({rows=[],training=[],insights={},prefs={},lists=[],t
   if(task)push({kind:'stretch',page:'library',id:task.id,title:task.title,
    reason:`${proof(stats)}；题目涉及的具体技术均有独立作答支持。选这道 ${task.difficulty} 分完整题，在 ${level} 分保守训练参考上提高一档。`});
  }
- return answer;
+ return finish();
 }

@@ -2,17 +2,16 @@ import {ProblemCells,ProblemTableHead} from '@/components/ProblemTableParts.jsx'
 import PagePagination from '@/components/PagePagination.jsx';
 import {useFittedPageSize} from '@/lib/useFittedPageSize.js';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { ArrowLeftRight, ChevronLeft, ChevronRight, ExternalLink, FileText, Folder, Heart, House, Pencil, Plus, RotateCw, Search, Trash2, X } from 'lucide-react';
+import { ArrowLeftRight, ChevronLeft, ChevronRight, ExternalLink, FileText, Folder, House, Pencil, Plus, RotateCw, Search, Trash2, X } from 'lucide-react';
 import FilterMenu from '@/components/FilterMenu.jsx';
 import ThemedSelect from '@/components/ThemedSelect.jsx';
 import DifficultyRange from '@/components/DifficultyRange.jsx';
 import {matchesKnowledge} from '@/lib/knowledgeNames.js';
-import {readTrainingLikes,saveTrainingLikes,prefetchTrainingLikes,beginTrainingLikeWrite} from '@/lib/trainingLikeCache.js';
 import {ListPlus} from 'lucide-react';
-import {LikeBurst} from '@/components/Social.jsx';
 import TrainingListEditor from './TrainingListEditor.jsx';
 import PopConfirm from '@/components/PopConfirm.jsx';
-import {buildTrainingCurriculum,filterTrainingListsScope} from '@/lib/trainingCurriculum.js';
+import {filterTrainingListsScope} from '@/lib/trainingCurriculum.js';
+import {platformTrainingLists,platformListState,trainingListPlatform} from '@/lib/trainingListPlatforms.js';
 import SortDirection from '@/components/SortDirection.jsx';
 import {compareProblemDifficulty} from '@/lib/problemOrder.js';
 import PageSearch from '@/components/PageSearch.jsx';
@@ -26,18 +25,17 @@ const source = 'https://www.luogu.com.cn/training/list';
 const leaf=list=>list && !list.virtual && !list.children?.length && !list.problems?.some(item=>item.sections?.length);
 const cardTitle=list=>String(list.displayTitle||list.title).replace(/^(?:【[^】]*】|\[[^\]]*\])\s*/,'');
 
-export default function TrainingListsPage({ api, rows = [], onTrain, visit, pageSize = 50, busy = false, prefs={},onTag,onFavorite,onSolution,onAddToList,onRemove }) {
+export default function TrainingListsPage({ api, rows = [], onTrain, visit, pageSize = 50, busy = false, prefs={},onTag,onFavorite,onSolution,onAddToList,navigationRequest }) {
   const fallback = useRef({}), session = visit || fallback.current;
   const owner = window.__tbAccountUserId || 'local';
   const cached = session.content?.owner === owner ? session.content : null;
-  const [state, setState] = useState(() => ({ ...INITIAL, ...(session.state?.curriculumVersion===1?session.state:{}), status: '' }));
+  const [state, setState] = useState(() => platformListState({ ...INITIAL, ...(session.state?.curriculumVersion===1?session.state:{}), status: '' }));
   const [lists, setLists] = useState(() => cached?.lists || null), [error, setError] = useState(''), [attempt, setAttempt] = useState(0);
   const [deletion,setDeletion]=useState(null),[deleting,setDeleting]=useState(false),[deleteError,setDeleteError]=useState('');
   const panel = useRef(null), navigation = useRef(null);
-  const contentVersion=useRef(0),heartVersion=useRef(0);
-  const [editor,setEditor]=useState(null),[hearts,setHearts]=useState(()=>readTrainingLikes(owner));
+  const contentVersion=useRef(0);
+  const [editor,setEditor]=useState(null);
   const patch = value => setState(previous => ({ ...previous, page: 1, ...value }));
-  useLayoutEffect(()=>{setHearts(readTrainingLikes(owner));heartVersion.current++;},[owner]);
   useEffect(() => {
     let alive = true;
     const version=contentVersion.current;
@@ -76,9 +74,19 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
   }, [state, canBack]);
 
   useEffect(()=>{const changed=()=>setAttempt(value=>value+1);window.addEventListener('tb:training-lists-changed',changed);return()=>window.removeEventListener('tb:training-lists-changed',changed);},[]);
-  const organized = useMemo(() => {const original=filterTrainingListsScope(organizeTrainingLists((lists || []).filter(list=>!list.custom)),rows);const favorites=new Set(prefs.favorites||[]);const favorite={id:'personal:favorites',title:'我的收藏',displayTitle:'我的收藏',virtual:true,available:true,aggregateChildren:false,children:[],categories:[{id:'personal',name:'我的题单',order:-1}],topicPath:[],problems:rows.filter(row=>[row.id,...row.aliasIds||[]].some(id=>favorites.has(id))).map(row=>({problemId:row.id,pid:row.problem,url:row.url,sections:[]}))};return [...filterTrainingListsScope([...(state.mode==='source'?original:buildTrainingCurriculum(original,rows)),...(lists||[]).filter(list=>list.custom).map(list=>({...list,displayTitle:list.title,sourceLabel:'',topicPath:['我的题单']})),favorite],rows)];}, [lists, rows, state.mode,prefs.favorites]);
+  const organized = useMemo(() => {const original=filterTrainingListsScope(organizeTrainingLists((lists || []).filter(list=>!list.custom)),rows);const favorites=new Set(prefs.favorites||[]);const favorite={id:'personal:favorites',title:'我的收藏',displayTitle:'我的收藏',virtual:true,available:true,aggregateChildren:false,children:[],categories:[{id:'personal',name:'我的题单',order:-1}],topicPath:[],problems:rows.filter(row=>[row.id,...row.aliasIds||[]].some(id=>favorites.has(id))).map(row=>({problemId:row.id,pid:row.problem,url:row.url,sections:[]}))};return [...filterTrainingListsScope([...platformTrainingLists(original,rows,state.mode),...(lists||[]).filter(list=>list.custom).map(list=>({...list,displayTitle:list.title,sourceLabel:'',topicPath:['我的题单']})),favorite],rows)];}, [lists, rows, state.mode,prefs.favorites]);
   const index = useMemo(() => trainingIndex(organized, rows), [organized, rows]);
   const active = index.byList.get(state.trail.at(-1));
+  useLayoutEffect(()=>{
+    if(!navigationRequest||session.navigationRequest===navigationRequest)return;
+    const requested=navigationRequest.state||{},mode=requested.mode||'algorithm',id=navigationRequest.id||requested.trail?.at(-1);
+    if(!id)return;
+    if(state.mode!==mode){setState(platformListState({...INITIAL,...requested,mode}));return;}
+    const target=index.byList.get(id);if(!target)return;
+    session.navigationRequest=navigationRequest;session.scrollTop=0;
+    setState(platformListState({...INITIAL,...requested,mode,folder:mode==='algorithm'?[...(target.topicPath||[])]:requested.folder||[],trail:[id],sections:[],flat:false,query:'',status:'',page:1}));
+    if(panel.current)panel.current.scrollTop=0;
+  },[navigationRequest,index,state.mode,session]);
   const search = state.query.trim().toLocaleLowerCase();
   const rowSize=useFittedPageSize(panel,`${state.mode}:${state.trail.join('/')}:${state.folder.join('/')}:${Boolean(lists)}`,'.training-list-table tbody tr, .catalog-folder-row');
   const all = active ? index.all(active.id) : [];
@@ -115,6 +123,9 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
   const open = list => {setDeletion(null);patch({ trail: [...state.trail, list.id], sections: [], flat: false, query: '',sort:'auto',descending:false,knowledge:'',platform:'',min:800,max:4000 });};
   const listStats = index.stats(active ? [active.id] : scopeLists.map(list => list.id));
   const readableLists = scopeLists.filter(list => list.available).length;
+  const sourceList=active||scopeLists.find(list=>!list.virtual),sourcePlatform=trainingListPlatform(sourceList);
+  const sourceName=sourcePlatform==='牛客'?'牛客原题单':sourcePlatform==='洛谷'?'洛谷原题单':'原站题单';
+  const sourceUrl=sourceList?.url||source;
   const children = active && !showAll && !state.sections.length ? (active.children || []).filter(id => !state.trail.includes(id)).map(id => index.byList.get(id)).filter(Boolean) : [];
   const folderRows = active ? (showAll ? [] : sectionNames.map(name => ({ id: name, title: name, count: scoped.filter(item => item.sections?.[state.sections.length] === name).length, action: () => patch({ sections: [...state.sections, name] }) }))) : [...folders].map(([id, ids]) => ({ id, stats:index.stats(ids), title: state.mode === 'source' ? index.categories.find(c => c.id === id)?.name || id : id, count: ids.length, unit: '个题单', action: () => patch({ folder: [...state.folder, id] }) }));
   if (!active && state.mode === 'algorithm') folderRows.sort((a, b) => compareCategoryNames(a.title, b.title, state.folder[0]));
@@ -126,18 +137,6 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
   const pages = Math.max(1, Math.ceil(count / size)), page = Math.min(state.page, pages), start = (page - 1) * size;
   const directoryEntries = [...(browsingFolders?[{all:true}]:[]),...folderRows.map(folder => ({ folder })), ...listEntries.map(list => ({ list }))];
   const displayedEntries = directoryEntries.slice(start, start + size);
-  const likeIds=JSON.stringify(displayedEntries.filter(({list})=>leaf(list)&&!list.custom).map(({list})=>list.id).sort());
-  useEffect(()=>{
-    let alive=true,pending=false;
-
-    async function refresh(){if(pending||document.hidden)return;pending=true;
-      const version=heartVersion.current;try{const value=await prefetchTrainingLikes(owner,api);if(alive&&version===heartVersion.current)setHearts(value);}
-      catch{/* Preserve the last account-owned state while offline. */}finally{pending=false;}
-    }
-    refresh();const timer=setInterval(refresh,30000);
-    window.addEventListener('focus',refresh);document.addEventListener('visibilitychange',refresh);
-    return()=>{alive=false;clearInterval(timer);window.removeEventListener('focus',refresh);document.removeEventListener('visibilitychange',refresh);};
-  },[api,owner]);
   const problemIds = problems.filter(item => item.row).map(item => item.row.id);
   const title = active?.displayTitle || (state.mode === 'source' ? index.categories.find(c => c.id === state.folder.at(-1))?.name : state.folder.at(-1)) || '题单';
   const clear = () => patch({ query: '', status: '' });
@@ -173,7 +172,7 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
       {state.flat && <span aria-current="page">全部题目</span>}
     </nav>
     {active?.custom&&<div className="training-list-tools"><button type="button" className="icon-button" aria-label="编辑题单" title="编辑题单" onClick={()=>setEditor({...active,problems:index.own.get(active.id)})}><Pencil size={15}/></button><button type="button" className="icon-button" aria-label="删除题单" title="删除题单" onClick={event=>confirmDelete(event,active)}><Trash2 size={15}/></button></div>}
-    <div className="training-list-summary"><span className="training-list-stats">{active ? `${listStats.accepted} / ${listStats.total} 题已通过` : `${scopeLists.length} 个题单${readableLists < scopeLists.length ? `（${readableLists} 个可读取）` : ''} · ${listStats.total} 道题 · ${listStats.accepted} 题已通过`}</span>{state.mode==='source'&&!active?.custom&&<a className="icon-button training-list-source" aria-label="洛谷原题单" href={active?.url || source} target="_blank" rel="noreferrer"><ExternalLink size={15}/></a>}</div></div>
+    <div className="training-list-summary"><span className="training-list-stats">{active ? `${listStats.accepted} / ${listStats.total} 题已通过` : `${scopeLists.length} 个题单${readableLists < scopeLists.length ? `（${readableLists} 个可读取）` : ''} · ${listStats.total} 道题 · ${listStats.accepted} 题已通过`}</span>{state.mode==='source'&&!active?.custom&&<a className="icon-button training-list-source" aria-label={sourceName} href={sourceUrl} target="_blank" rel="noreferrer"><ExternalLink size={15}/></a>}</div></div>
     {error && <p role="alert" className="connection-error">{error} <button className="icon-button" aria-label="重新读取" onClick={() => setAttempt(value => value + 1)}><RotateCw size={16}/></button></p>}
     <div className="catalog-explorer training-list-content" ref={panel} onScroll={event => { session.scrollTop = event.currentTarget.scrollTop; }} aria-busy={!lists && !error}>
       {!lists && !error && <p className="progress-muted" role="status">正在读取题单…</p>}
@@ -183,7 +182,7 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
         const stats = list ? index.stats([list.id]) : folder?.stats;
         if(leaf(list))return <article className="training-list-card" key={list.id} data-list-id={list.id} onContextMenu={list.custom?event=>confirmDelete(event,list):undefined}>
           <button className="training-card-open" onClick={()=>open(list)} aria-label={`打开题单：${cardTitle(list)}`}><div><strong>{cardTitle(list)}</strong></div><span className="training-card-progress" aria-label={`已通过 ${stats.accepted} / ${stats.total} 题`}><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="28"/><circle cx="32" cy="32" r="28" pathLength="100" strokeDasharray={`${stats.total?stats.accepted/stats.total*100:0} 100`}/></svg><b>{stats.accepted}<small> / {stats.total}</small></b></span></button>
-          <div className="training-card-actions">{list.custom?<button type="button" className="icon-button" aria-label={`删除题单：${list.title}`} title="删除题单" onClick={event=>confirmDelete(event,list)}><Trash2 size={16}/></button>:<>{<LikeBurst key={`${owner}:${list.id}:${hearts.day}`} targetId={list.id} nickname={cardTitle(list)} toggle disabled={hearts.available===false} likes={hearts.likes?.[list.id]||{total:0,likedToday:false}} eventName="tb:training-list-like" api={(_,body)=>{heartVersion.current++;beginTrainingLikeWrite(owner);return api('training-list-likes',{listId:body.targetId,liked:body.liked});}} onLiked={result=>setHearts(previous=>saveTrainingLikes(owner,{...previous,likes:{...previous.likes,[list.id]:result.likes}}))} onError={setError}/>}</>}</div>
+          {list.custom&&<div className="training-card-actions"><button type="button" className="icon-button" aria-label={'删除题单：'+list.title} title="删除题单" onClick={event=>confirmDelete(event,list)}><Trash2 size={16}/></button></div>}
         </article>;
         return <button className="catalog-folder-row" key={folder ? 'folder:' + folder.id : list.id} onClick={folder ? folder.action : () => open(list)}>
           <Folder size={20}/><strong title={list?.originalTitle}>{folder?.title || list.displayTitle}{list && (list.sourceLabel || search) && <small>{[list.sourceLabel,search ? list.topicPath.join(' / ') : ''].filter(Boolean).join(' · ')}</small>}</strong>
@@ -192,7 +191,7 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
         </button>;
       })}</div>
       {active && !browsingFolders && problems.length > 0 && <table className="problem-table training-list-table"><ProblemTableHead onSort={()=>patch({sort:'difficulty',descending:sort==='difficulty'?!state.descending:false})} sorted={sort==='difficulty'} descending={state.descending}/><tbody>{problems.slice(start, start + size).map((item, offset) => <tr key={item.row?.id || item.pid} data-id={item.row?.id} className="training-problem-row" tabIndex={item.row&&!busy?0:undefined} aria-label={item.row?`进入题目：${item.row.title}`:undefined} onKeyDown={event=>{if(event.target===event.currentTarget && item.row&&!busy&&['Enter',' '].includes(event.key)){event.preventDefault();onTrain(item.row.id,{problemIds});}}} aria-disabled={!item.row||busy} onClick={event=>{if(item.row&&!busy&&!event.target.closest('button,a,input,select'))onTrain(item.row.id,{problemIds});}}>
-        <ProblemCells row={item.row||{title:item.pid,problem:item.pid,platform:'洛谷',tags:[]}} favorites={prefs.favorites} showPlatforms={prefs.showPlatforms!==false} busy={busy} onTrain={id=>onTrain(id,{problemIds})} onTag={onTag} onFavorite={onFavorite} onSolution={onSolution} onAddToList={onAddToList} onRemove={onRemove}/>
+        <ProblemCells row={item.row||{title:item.pid,problem:item.pid,platform:'洛谷',tags:[]}} favorites={prefs.favorites} showPlatforms={prefs.showPlatforms!==false} busy={busy} onTrain={id=>onTrain(id,{problemIds})} onTag={onTag} onFavorite={onFavorite} onSolution={onSolution} onAddToList={onAddToList}/>
       </tr>)}</tbody></table>}
       {lists && !displayedEntries.length && !problems.length && <div className="empty"><Search size={26}/><h3>{searchingProblems ? '没有匹配的题单或题目' : active ? '此目录暂无可用题目' : '暂无题单'}</h3>{searchingProblems && <button className="icon-button" aria-label="清除筛选" onClick={clear}><X size={16}/></button>}</div>}
     </div>

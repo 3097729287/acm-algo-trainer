@@ -1,5 +1,6 @@
-import { openSettings } from './settings-navigation.mjs';
+import { openSettings, setTheme } from './settings-navigation.mjs';
 import assert from 'node:assert/strict';
+import {chooseMockValue} from './mock-mode-selection.mjs';
 import { chromium } from 'playwright';
 import { createServer, preview as previewServer } from 'vite';
 import { mkdir } from 'node:fs/promises';
@@ -337,9 +338,10 @@ try {
   assert.ok(await page.locator('.record-slot .katex').count() > 0);
   await page.getByRole('button', { name: '所有记录', exact: true }).click();
   await page.getByRole('button', { name: /^专项训练$/ }).click();
+  await page.keyboard.press('Escape');
   await page.getByRole('button',{name:'生成试卷',exact:true}).click();await page.getByRole('alert').getByText('请选择知识点').waitFor();
+  await chooseMockValue(page,'专项训练','前缀和');
   await page.getByRole('button',{name:'训练筛选',exact:true}).click();
-  await page.getByLabel('专项训练知识点').selectOption('前缀和');
   await page.locator('.filter-popover').getByText('比赛分类',{exact:true}).click();
   await page.locator('.filter-popover').getByRole('button',{name:'AC',exact:true}).click();
   await page.getByLabel('只选本地完整评测题').check();
@@ -439,7 +441,7 @@ try {
   }
   await page.keyboard.press('Control+0');
   await openSettings(page, '外观');
-  await page.getByRole('button', { name: '石墨深色', exact: true }).click();
+  await setTheme(page,'dark');
   await page.screenshot({ path: 'tests/screenshots/v5-settings-dark-1050.png', animations: 'disabled' });
   for (const width of [1050, 2048]) {
     await page.setViewportSize({ width, height: width === 1050 ? 760 : 1152 });
@@ -458,8 +460,8 @@ try {
   await page.keyboard.press('Control+5');
   await page.locator('.mock-mode-options').waitFor();
   await page.getByRole('button', { name: /^重现赛$/ }).click();
+  await chooseMockValue(page,'重现赛','测试比赛');
   await page.getByRole('button',{name:'训练筛选',exact:true}).click();
-  await page.getByLabel('重现赛比赛', {exact:true}).selectOption('测试比赛');
   await page.waitForFunction(()=>document.querySelector('[aria-label="模拟赛时长"]').value==='120');
   assert.equal(await page.getByLabel('模拟赛时长').inputValue(), '120');
   assert.equal(await page.getByLabel('搜索重现赛比赛').count(),0,'replay uses the folder picker without a redundant search');
@@ -490,7 +492,8 @@ try {
   await page.keyboard.press('Control+1');
   for (const width of [1280,1024]) {
     await page.setViewportSize({width,height:760});
-    await page.getByRole('button',{name:'筛选题目',exact:true}).click();await page.getByLabel('清空我的训练',{exact:true}).waitFor({state:'visible'});await page.keyboard.press('Escape');
+    await page.getByLabel('清空我的训练',{exact:true}).waitFor({state:'visible'});
+    await page.getByRole('button',{name:'筛选题目',exact:true}).click();assert.equal(await page.getByRole('dialog',{name:'筛选题目'}).getByLabel('清空我的训练',{exact:true}).count(),0);await page.keyboard.press('Escape');
     const actions=page.locator('.problem-table .remove-training').first();
     await actions.waitFor({state:'visible'});
     assert.ok(await actions.evaluate(node=>{const box=node.getBoundingClientRect(),list=node.closest('.table-scroll').getBoundingClientRect();return box.right<=list.right&&box.left>=list.left;}),'Remove training remains inside the visible list');
@@ -643,7 +646,7 @@ try {
   await page.locator('.lab-catalog .catalog-card-open').click();
   await page.locator('.lab-lesson').waitFor();
   const navigation=await page.locator('.lab-course-header').evaluate(node=>({
-    back:node.querySelector('[aria-label="返回算法实验室"]').getBoundingClientRect().x,
+    back:node.querySelector('[aria-label="返回实验室"]').getBoundingClientRect().x,
     title:node.querySelector('h1').getBoundingClientRect().x,
     directory:node.querySelector('[aria-label="目录"]').getBoundingClientRect().x,
     previous:node.querySelector('[aria-label="上一页"]').getBoundingClientRect().x,
@@ -660,7 +663,7 @@ try {
   const afterScroll=await page.locator('.lab-course-header').boundingBox();
   assert.ok(Math.abs(beforeScroll.y-afterScroll.y)<1,'only the lesson scrolls');
   await page.screenshot({path:'tests/screenshots/course-header-navigation.png',animations:'disabled'});
-  await page.getByRole('button',{name:'返回算法实验室',exact:true}).click();
+  await page.getByRole('button',{name:'返回实验室',exact:true}).click();
   await page.keyboard.press('Control+7');
   // A slow analytics response must not let the 3-second busy poll pile up work.
   hub.sync.busy = true;

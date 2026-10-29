@@ -49,7 +49,7 @@
       reply({available});
     }
     if (message.type === 'login-state') {
-      const platform = ({'codeforces.com':'Codeforces','www.codeforces.com':'Codeforces','atcoder.jp':'AtCoder','ac.nowcoder.com':'牛客','www.luogu.com.cn':'洛谷','luogu.com.cn':'洛谷'})[location.hostname];
+      const platform = ({'codeforces.com':'Codeforces','www.codeforces.com':'Codeforces','atcoder.jp':'AtCoder','ac.nowcoder.com':'牛客','www.luogu.com.cn':'洛谷','luogu.com.cn':'洛谷','qoj.ac':'QOJ'})[location.hostname];
       if (platform !== message.platform) { reply({state:'unknown'}); return; }
       // Check a fresh same-origin page: an old sign-in/header DOM can remain
       // open after logging in or out elsewhere. No navigation or form action.

@@ -1,7 +1,7 @@
 const step=(target,title,text)=>({target,title,text});
 const page=(id,items,tab)=>items.map(item=>({...item,page:id,...(tab?{tab}:{})}));
 
-export const GUIDE_LABELS={mine:'我的训练',library:'题库','training-lists':'题单',competitions:'比赛',mock:'模拟赛',growth:'成长与能力',rankings:'排行榜',records:'提交记录',activity:'活动记录',lectures:'从零讲',templates:'模板',paths:'算法实验室',practice:'做题工作台',settings:'设置首页','settings:appearance':'外观设置','settings:interaction':'交互与导航','settings:training':'快捷键','settings:accounts':'初始代码模板','settings:advanced':'翻译 API','settings:updates':'更新','settings:help':'数据统计','settings:thanks':'鸣谢','settings:guide':'新手指引','settings:animation':'动画'};
+export const GUIDE_LABELS={mine:'我的训练',library:'题库','training-lists':'题单',competitions:'比赛',mock:'模拟赛',growth:'成长',rankings:'排行榜',records:'提交记录',activity:'活动记录',lectures:'从零讲',templates:'模板',paths:'实验室',practice:'做题工作台',settings:'设置首页','settings:appearance':'外观设置','settings:interaction':'交互与导航','settings:training':'快捷键','settings:accounts':'初始代码模板','settings:advanced':'翻译 API','settings:updates':'更新','settings:help':'数据统计','settings:thanks':'鸣谢','settings:guide':'新手指引','settings:animation':'动画'};
 
 export const PAGE_GUIDES={
  'training-lists':page('training-lists',[
@@ -99,7 +99,7 @@ export const PAGE_GUIDES={
  paths:page('paths',[
   step('.page-search-controls','搜索算法专题','顶部搜索算法名称、别名或英文名称，输入后只显示对应专题；搜索框与其他页面保持相同样式，清空恢复全部专题。'),
   step('.lab-course-header','课程导航与快捷键','返回在最左侧，目录在上一页、下一页之前。也可按键盘左右方向键翻页；输入框、编辑器、滑块正在操作时，方向键优先用于当前控件。顶部导航与正文各占独立区域，只有正文滚动。'),
-  step('.learning-paths-page','算法实验室','当前提供背包 DP、前缀和与差分、双指针算法。“学算法”通过装包、状态和执行过程理解算法；“跟着做题”带你分析五道精选题，再进入工作台独立实现。顶部箭头随时翻页。'),
+  step('.learning-paths-page','实验室','当前提供背包 DP、前缀和与差分、双指针算法。“学算法”通过装包、状态和执行过程理解算法；“跟着做题”带你分析五道精选题，再进入工作台独立实现。顶部箭头随时翻页。'),
   step('.learning-paths-page','用作答检验理解','通过顶部目录切换章节，也可自由跳转。课堂检验由正确作答产生，进度与输入自动保存；提示可逐层展开。真实题目的原站通过独立记录。'),
  ]),
  settings:page('settings',[

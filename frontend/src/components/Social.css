@@ -45,3 +45,6 @@ html[data-motion=off] .like-count-roll { transform:translateY(-50%); }
 .social-notifications-title { display:inline-flex; align-items:center; gap:10px; margin:0; line-height:1; }
 .social-notifications-title > .tooltip-anchor { display:inline-flex; align-items:center; }
 .social-notifications-title > span:not(.tooltip-anchor) { font-size:.85rem; font-weight:400; color:var(--muted); }
+.social-notifications-heading {justify-content:flex-start;gap:14px;flex-wrap:wrap}
+.social-notifications-heading>.social-notifications-summary {margin:0;min-width:0}
+.social-notifications-heading>.text-button {margin-left:auto}

@@ -1,6 +1,7 @@
 import { ArrowDown, ArrowUp, Eye, EyeOff, Layers, LockKeyhole, RotateCcw } from 'lucide-react';
 import Tooltip from '../components/Tooltip.jsx';
 import {ESSENTIAL_PAGES,PAGE_LEVELS,hiddenPages} from '@/lib/navigationVisibility.js';
+import './NavigationSettings.css';
 
 export function orderedPages(pages, preferences) {
   const order = Array.isArray(preferences.navOrder) ? preferences.navOrder : [];

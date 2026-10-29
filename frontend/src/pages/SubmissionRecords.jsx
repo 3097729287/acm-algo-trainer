@@ -3,6 +3,7 @@ import PageSearch from '@/components/PageSearch.jsx';
 import FolderSelect from '@/components/FolderSelect.jsx';
 import PopConfirm from '@/components/PopConfirm.jsx';
 import SortDirection from '@/components/SortDirection.jsx';
+import {platformNames,rowPlatform} from '@/lib/platformRegistry.js';
 import {useEffect,useLayoutEffect,useMemo,useRef,useState} from 'react';
 import InlineTitle from '@/components/InlineTitle.jsx';
 import {ChevronLeft,ChevronRight,Code2,Flag,Search,Trash2,X} from 'lucide-react';
@@ -14,12 +15,12 @@ import {submissionQuery,submissionSnapshot,loadSubmissionPage} from '@/lib/submi
 const dateText=value=>value?new Date(value).toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'—';
 const RESULT_OPTIONS=['AC','WA','CE','TLE','MLE','RE','OLE','ERROR'].map(value=>({value,label:verdictLabel(value)}));
 export default function SubmissionRecords({api,revision,scope='local',rows=[],onSelect,onOpenProblem}) {
- const [query,setQuery]=useState(''),[search,setSearch]=useState(''),[result,setResult]=useState(''),[descending,setDescending]=useState(true);
+ const [query,setQuery]=useState(''),[search,setSearch]=useState(''),[result,setResult]=useState(''),[platform,setPlatform]=useState(''),[descending,setDescending]=useState(true);
  const [offsets,setOffsets]=useState([0]),[visibleCount,setVisibleCount]=useState(1),[snapshot,setSnapshot]=useState(()=>submissionSnapshot(api,scope,revision,submissionQuery())||null),[loading,setLoading]=useState(true),[error,setError]=useState(''),[attempt,setAttempt]=useState(0);
  const requestId=useRef(0),panel=useRef(null);
  const offset=offsets.at(-1),page=offsets.length;
  const setPage=()=>setOffsets([0]);
- const requestKey=submissionQuery({offset,search,result,descending});
+ const requestKey=submissionQuery({offset,search,result,platform,descending});
  const current=snapshot?.requestKey===requestKey&&snapshot.scope===scope&&snapshot.revision===revision?snapshot:submissionSnapshot(api,scope,revision,requestKey);
  const pending=loading||!error&&snapshot?.requestKey!==requestKey;
  useEffect(()=>{if(query===search)return;const timer=setTimeout(()=>{setSearch(query);setPage(1);},200);return()=>clearTimeout(timer);},[query,search]);
@@ -47,7 +48,7 @@ export default function SubmissionRecords({api,revision,scope='local',rows=[],on
  const shown=Math.min(visibleCount,logs.length);
 
  return <div className="records-page records-paged" data-noselect="true">
-  <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索历史提交" maxLength={120} value={query} onChange={event=>setQuery(event.target.value)}/></label><SortDirection label="切换提交排序方向" descending={descending} normalDescending onChange={value=>{setDescending(value);setPage(1);}}/><FolderSelect iconOnly label="提交结果分类" placeholder="全部结果" options={RESULT_OPTIONS} value={result} onChange={event=>{setResult(event.target.value);setPage(1);}}/></PageSearch>
+  <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索历史提交" maxLength={120} value={query} onChange={event=>setQuery(event.target.value)}/></label><SortDirection label="切换提交排序方向" descending={descending} normalDescending onChange={value=>{setDescending(value);setPage(1);}}/><FolderSelect iconOnly label="提交平台" placeholder="全部平台" options={platformNames([...rows,...logs],platform).map(value=>({value,label:value}))} value={platform} onChange={event=>{setPlatform(event.target.value);setPage(1);}}/><FolderSelect iconOnly label="提交结果分类" placeholder="全部结果" options={RESULT_OPTIONS} value={result} onChange={event=>{setResult(event.target.value);setPage(1);}}/></PageSearch>
   {error&&<p role="alert" className="connection-error">{error} <button type="button" className="text-button" onClick={()=>setAttempt(value=>value+1)}>重新读取</button></p>}
   <div ref={panel} className="submission-log scroll-panel submission-fitted" aria-busy={pending} data-offset={current?.offset??0}>
    {days.map(group=><section className="submission-day" key={group.day} data-day={group.day} style={positions.get(group.submissions[0]?.id)>=visibleCount?{visibility:'hidden'}:undefined} aria-hidden={positions.get(group.submissions[0]?.id)>=visibleCount||undefined} aria-label={`${trainingDateLabel(group.day)}提交`}>
@@ -56,7 +57,7 @@ export default function SubmissionRecords({api,revision,scope='local',rows=[],on
      const row=rowMap.get(submission.problemId);
      const openProblem=()=>onOpenProblem?.(row?.id||submission.canonicalProblemId||submission.problemId);
      return <div className="submission-log-row" key={submission.id} style={positions.get(submission.id)>=visibleCount?{visibility:'hidden'}:undefined} aria-hidden={positions.get(submission.id)>=visibleCount||undefined} inert={positions.get(submission.id)>=visibleCount} onClick={openProblem}>
-      <button type="button" className="submission-problem-link" onClick={event=>{event.stopPropagation();openProblem();}}><strong><InlineTitle>{row?.title||submission.title||submission.problemId}</InlineTitle></strong><small className="submission-record-meta"><time dateTime={submission.submittedAt}>{trainingTime(submission.submittedAt)}</time>{(row?.problem||submission.problem)&&<><span aria-hidden="true">·</span><b className="submission-problem-index">{row?.problem||submission.problem}</b></>}{(row?.contest||submission.contestName)&&<><span aria-hidden="true">·</span><span className="submission-contest-name">{row?.contest||submission.contestName}</span></>}</small></button>
+      <button type="button" className="submission-problem-link" onClick={event=>{event.stopPropagation();openProblem();}}><strong><InlineTitle>{row?.title||submission.title||submission.problemId}</InlineTitle></strong><small className="submission-record-meta"><time dateTime={submission.submittedAt}>{trainingTime(submission.submittedAt)}</time>{(rowPlatform(row)||rowPlatform(submission))&&<><span aria-hidden="true">·</span><span className="submission-platform">{(rowPlatform(row)||rowPlatform(submission))}</span></>}{(row?.problem||submission.problem)&&<><span aria-hidden="true">·</span><b className="submission-problem-index">{row?.problem||submission.problem}</b></>}{(row?.contest||submission.contestName)&&<><span aria-hidden="true">·</span><span className="submission-contest-name">{row?.contest||submission.contestName}</span></>}</small></button>
       <div className="submission-record-actions"><button type="button" className="icon-button submission-code-button" aria-label="查看提交代码" title="查看本次提交代码" onClick={event=>{event.stopPropagation();onSelect({...submission,title:row?.title||submission.title||submission.problemId,contestName:row?.contest});}}><Code2 size={18}/></button><span className={'verdict '+verdictTone(submission.verdict)}><span/>{verdictLabel(submission.verdict)}</span>{submission.timeMs!=null&&<span className="submission-runtime">{submission.timeMs} ms</span>}</div>
      </div>;
     })}

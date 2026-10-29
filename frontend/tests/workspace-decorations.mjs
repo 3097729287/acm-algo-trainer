@@ -80,11 +80,11 @@ try{
  for(const label of ['清简','线框','极光','蓝图'])await page.getByRole('button',{name:label,exact:true}).click();
  assert.equal(await page.locator('html').getAttribute('data-panel-style'),'blueprint');
  const styleSignature=()=>page.locator('.knowledge-radar').evaluate(n=>{const s=getComputedStyle(n);return [s.borderStyle,s.borderRadius,s.backgroundImage];});
- await page.locator('.sidebar').getByRole('button',{name:'成长与能力',exact:true}).click();
+ await page.locator('.sidebar').getByRole('button',{name:'成长',exact:true}).click();
  const blueprint=await styleSignature();
  await page.locator('.sidebar').getByRole('button',{name:'设置',exact:true}).click();
  await page.getByRole('button',{name:'线框',exact:true}).click();
- await page.locator('.sidebar').getByRole('button',{name:'成长与能力',exact:true}).click();
+ await page.locator('.sidebar').getByRole('button',{name:'成长',exact:true}).click();
  const outlined=await styleSignature();assert.notDeepEqual(blueprint,outlined,'Blueprint has a grid/dashed silhouette on shared content cards');
  await page.locator('.sidebar').getByRole('button',{name:'设置',exact:true}).click();
  await page.getByRole('button',{name:'夜空极光',exact:true}).click();
@@ -118,7 +118,7 @@ try{
  await page.locator('.sidebar').getByRole('button',{name:'模拟赛',exact:false}).click();
  await glass('.mock-config');
  await page.screenshot({path:'tests/screenshots/v113-mock-glass.png'});
- await page.locator('.sidebar').getByRole('button',{name:'成长与能力',exact:false}).click();
+ await page.locator('.sidebar').getByRole('button',{name:'成长',exact:false}).click();
  await page.locator('.knowledge-radar').waitFor();
  assert.equal(await page.locator('.growth-account-panel').count(),0);
  await glass('.knowledge-radar');
@@ -134,7 +134,7 @@ try{
  await page.locator('.sidebar').getByRole('button',{name:'设置',exact:true}).click();
  await openSettings(page, '更新');
  await page.getByRole('button',{name:'检查软件更新',exact:true}).waitFor();assert.equal(await page.getByText('公开版本：',{exact:false}).count(),0,'Redundant catalog release status is removed');assert.equal(await page.getByText('v0.1.0',{exact:true}).count(),0,'Stale catalog cache cannot show an old public release');
- await page.locator('.sidebar').getByRole('button',{name:'成长与能力',exact:false}).click();
+ await page.locator('.sidebar').getByRole('button',{name:'成长',exact:false}).click();
  assert.equal(await page.getByRole('region',{name:'今日排行榜速览'}).count(),0);
  await page.locator('.sidebar').getByRole('button',{name:'排行榜',exact:true}).click();
  await page.locator('.ranking-table').waitFor();assert.equal(await page.locator('.ranking-table .ranking-medal').count(),0);
@@ -160,7 +160,7 @@ try{
  assert.ok(download.suggestedFilename().endsWith('.json'));const data=JSON.parse(await readFile(await download.path(),'utf8'));assert.equal(data.tables.drafts[0].code,'// 中文代码\nint main(){}');
  await openSettings(page,'新手指引');
  const directory=page.getByRole('region',{name:'新手指引',exact:true});await directory.waitFor();
- await directory.getByRole('button',{name:/成长与能力/}).click();
+ await directory.getByRole('button',{name:/成长/}).click();
  await page.getByRole('heading',{name:'更换头像',exact:true}).waitFor();
  const guideNext=page.getByRole('dialog',{name:'新手指引',exact:true}).getByRole('button',{name:'下一步',exact:true});
  for(const title of ['经验与等级','能力段位','定级与进阶','一级雷达可以点击','二级雷达与返回','掌握程度如何估计','为什么显示 ?%','作答、可用与待练','理解训练统计','设置目标计划','成就、勋章与称号','头像框、段位与排行榜']){await guideNext.click();await page.getByRole('heading',{name:title,exact:true}).waitFor();}

@@ -83,6 +83,8 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           node tests/login-sessions.mjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node ../desktop/tests/qoj_platform.mjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           node tests/browser-official.mjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
@@ -112,6 +114,11 @@ jobs:
       - run: node tests/revision-1429-model.mjs
       - run: node tests/radar-frequency.mjs
       - run: node tests/navigation-learning-model.mjs
+      - run: node tests/navigation-defaults-model.mjs
+      - run: node tests/training-list-platforms-model.mjs
+      - run: node tests/platform-registry-model.mjs
+      - run: node tests/course-entry-model.mjs
+      - run: node tests/next-actions-model.mjs
       - run: node tests/daily-growth-authority-model.mjs
       - run: node tests/level-up-model.mjs
       - run: node tests/uniform-random.mjs
@@ -129,13 +136,24 @@ jobs:
       - run: node tests/software-updates.mjs
       - run: npm run test:issues
       - run: node tests/ui-social.mjs
+      - run: node tests/messages-modal.mjs
       - run: node tests/ui-redesign.mjs
       - run: node tests/ui-v131.mjs
       - run: node tests/revision-flows.mjs
       - run: node tests/account-sync-status.mjs
       - run: node tests/mock-layout.mjs
+      - run: node tests/mock-controls.mjs
+      - run: node tests/filter-toolbar.mjs
+      - run: node tests/platforms.mjs
+      - run: node tests/training-remove-scope.mjs
+      - run: node tests/training-list-platforms.mjs
+      - run: node tests/wasd-navigation.mjs
+      - run: node tests/settings-scenes.mjs
+      - run: node tests/chrome-theme.mjs
       - run: node tests/training-overview.mjs
       - run: node tests/navigation-learning.mjs
+      - run: node tests/template-first-frame.mjs
+      - run: node tests/course-entry.mjs
       - run: node tests/auth-recovery.mjs
       - run: node tests/admin-settings.mjs
       - run: node tests/public-avatar-cache.mjs

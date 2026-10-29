@@ -14,7 +14,7 @@ const owner='c3e5d799-502a-4b4f-a864-a342f7db419e',now=new Date().toISOString();
 let level=1,revision=0,draft='',sampleRequested=false,officialRequested=false,preferences={theme:'dark',accent:'teal',fontSize:15,onboardingGuideVersion:2,onboardingCompleted:true,onboardingUnlockedPages:availablePages(11),levelNoticeVersion:1,levelNoticeSeen:100,levelNoticePending:0};
 let preferenceSaveFailures=0,preferenceSaveAttempts=0;
 const rows=['A','B','C'].map((letter,index)=>({id:'fixture::'+letter,title:index?'基础练习 '+letter:'实际基础练习',contest:'测试题单',problem:letter,platform:'Codeforces',url:'https://codeforces.com/contest/1/problem/'+letter,difficulty:1000,difficultySource:'Codeforces 官方评分（隔离夹具）',difficultyConfidence:'HIGH',difficultyEstimated:false,tags:['输入输出','排序'],knowledge:'输入输出',catalogContentReady:true,solutionAvailable:true}));
-const lists=[{id:'fixture-basic',title:'顺序结构',available:true,categories:[],problems:rows.map(row=>({problemId:row.id,url:row.url}))}];
+const lists=[{id:'fixture-basic',title:'顺序结构',sourcePlatform:'洛谷',available:true,categories:[],problems:rows.map(row=>({problemId:row.id,url:row.url}))}];
 const workspace={training:[],sets:[],contests:[],activeContest:null,summary:{total:0,accepted:0,attempts:0,due:0,pending:0,todayAccepted:0},now};
 await page.route('**/api/**',async route=>{
  const url=new URL(route.request().url());if(!url.pathname.startsWith('/api/'))return route.continue();const path=url.pathname.replace('/api/','');let value;
@@ -48,9 +48,65 @@ await page.route('**/api/**',async route=>{
  else {unknown.push(path);value={};}
  await route.fulfill({json:value});
 });
-const load=async (next,newAccount=false)=>{level=next;await page.goto(`http://127.0.0.1:${vite.httpServer.address().port}${newAccount?'?newAccount=1':''}`);await page.locator('.sidebar nav').waitFor();await page.waitForFunction(value=>document.querySelector('.profile-level-number')?.textContent===String(value),next);await page.getByRole('navigation',{name:'主导航'}).getByRole('button',{name:next>=5?'成长与能力':next>=4?'算法实验室':next>=3?'模拟赛':next>=2?'排行榜':'题单',exact:true}).waitFor();await page.locator(newAccount?'.training-list-content':'.next-actions').waitFor();};
+const load=async (next,newAccount=false)=>{level=next;await page.goto(`http://127.0.0.1:${vite.httpServer.address().port}${newAccount?'?newAccount=1':''}`);await page.locator('.sidebar nav').waitFor();await page.waitForFunction(value=>document.querySelector('.profile-level-number')?.textContent===String(value),next);await page.getByRole('navigation',{name:'主导航'}).getByRole('button',{name:next>=5?'成长':next>=4?'实验室':next>=3?'模拟赛':next>=2?'排行榜':'题单',exact:true}).waitFor();await page.locator(newAccount?'.training-list-content':'.next-actions').waitFor();};
 const nav=()=>page.getByRole('navigation',{name:'主导航'});
 try{
+ const originalPreferences={...preferences};
+ const defaultNames=['我的训练','题库','题单','比赛','模拟赛','成长','提交记录','活动记录','排行榜','实验室','模板','从零讲'];
+ const shippedOrders=[
+  ['mine','library','training-lists','competitions','mock','paths','rankings','growth','records','activity','lectures'],
+  ['mine','library','training-lists','competitions','mock','paths','rankings','growth','records','activity','lectures','templates'],
+  ['mine','library','training-lists','competitions','mock','records','growth','activity','lectures','templates','paths','rankings'],
+  ['mine','library','training-lists','competitions','mock','rankings','growth','records','paths','templates','lectures','activity'],
+ ];
+ for(const navOrder of shippedOrders){
+  preferences={...originalPreferences,navOrder,navSchema:1};await load(11);
+  assert.deepEqual(await nav().getByRole('button').allTextContents(),defaultNames,'A previously shipped default order migrates to the current visible order');
+ }
+ const customOrder=['mine','paths','templates','library','training-lists','activity','competitions','mock','rankings','growth','records','lectures'];
+ const customNames=['我的训练','实验室','模板','题库','题单','活动记录','比赛','模拟赛','排行榜','成长','提交记录','从零讲'];
+ for(const withSchema of [true,false]){
+  preferences={...originalPreferences,navOrder:customOrder,...(withSchema?{navSchema:1}:{})};await load(11);
+  assert.deepEqual(await nav().getByRole('button').allTextContents(),customNames,'A genuine custom order survives account restoration, including preferences without an old schema');
+ }
+ await openSettings(page,'交互与导航');
+ const resetSaved=page.waitForResponse(response=>new URL(response.url()).pathname==='/api/preferences'&&response.request().method()==='POST'&&response.request().postDataJSON().preferences?.navOrder?.length===0);
+ await page.getByRole('button',{name:'恢复默认导航',exact:true}).click();
+ assert.deepEqual(await nav().getByRole('button').allTextContents(),defaultNames,'Reset immediately uses the new page order');
+ assert.equal((await resetSaved).status(),200);await load(11);
+ assert.deepEqual(await nav().getByRole('button').allTextContents(),defaultNames,'Reset keeps the new default order after restoring persisted preferences');
+ for(const width of [2048,1440,800,430]){
+  preferences={...originalPreferences,fontSize:22};await page.setViewportSize({width,height:960});await load(11);await openSettings(page,'交互与导航');
+  const rows=await page.locator('.navigation-editor-row').evaluateAll(nodes=>nodes.map(row=>{
+   const bounds=node=>{const r=node.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height};};
+   return {label:bounds(row.querySelector(':scope>label')),name:bounds(row.querySelector(':scope>label input')),group:bounds(row.querySelector(':scope>input')),buttons:[...row.querySelectorAll('.navigation-reorder button')].map(bounds)};
+  }));
+  assert.equal(rows.length,12);
+  for(const row of rows){
+   const controls=[row.name,row.group,...row.buttons];
+   assert(controls.every(rect=>rect.left>=0&&rect.right<=width+.5&&rect.width>0&&rect.height>=35.5),'Navigation fields and actions stay within the window: '+JSON.stringify({width,row}));
+   assert(row.buttons.length===3&&row.buttons.every(rect=>rect.width>=35.5&&rect.height>=35.5),'All three navigation actions keep usable targets');
+   for(let a=0;a<controls.length;a++)for(let b=a+1;b<controls.length;b++){
+    const x=controls[a],y=controls[b];assert(x.right<=y.left+.5||y.right<=x.left+.5||x.bottom<=y.top+.5||y.bottom<=x.top+.5,'Navigation inputs and buttons never overlap: '+JSON.stringify({width,row}));
+   }
+   if(width>=800){assert(row.label.width<=250.5&&row.group.width<=220.5);assert(row.group.left-row.label.right>=19.5,'Desktop navigation keeps the requested middle whitespace');}
+   else assert(row.group.top>=row.name.bottom,'Narrow navigation moves the group input below its page name');
+  }
+  await mkdir('tests/screenshots/navigation-learning',{recursive:true});
+  await page.screenshot({path:`tests/screenshots/navigation-learning/navigation-settings-${width}-22.png`,animations:'disabled'});
+ }
+ await page.setViewportSize({width:1440,height:960});
+ for(const theme of ['dark','light']){
+  preferences={...originalPreferences,theme};await load(11);await nav().getByRole('button',{name:'成长',exact:true}).click();
+  await page.locator('.account-hero-statistics .streak-flame').waitFor();
+  const flame=await page.locator('.account-hero-statistics').evaluate(node=>{
+   const svg=node.querySelector('.streak-flame'),neighbor=node.querySelector('.account-stat-icon>svg:not(.streak-flame)');
+   return {neighbor:getComputedStyle(neighbor).color,paths:[...svg.querySelectorAll('path')].map(path=>({fill:getComputedStyle(path).fill,stroke:getComputedStyle(path).stroke})),shellWidth:svg.querySelector('.flame-shell').getBBox().width,embers:svg.querySelectorAll('.flame-embers').length};
+  });
+  assert(flame.paths.every(path=>path.fill===flame.neighbor&&path.stroke==='none'),'The hero flame matches its neighboring statistic icons in '+theme+': '+JSON.stringify(flame));
+  assert(flame.shellWidth>25.5&&flame.embers===1,'The hero retains the largest flame shape rather than the small topbar stage');
+ }
+ preferences={...originalPreferences};
  await load(1);
  assert.equal(await page.locator('.topbar > .next-actions').count(),1,'the next task occupies the shared top bar');
  assert.equal(await page.locator('.workspace-area .next-actions').count(),0,'recommendations do not consume training list space');
@@ -65,7 +121,7 @@ try{
  assert.equal(await page.locator('[data-recommendation="course"]').count(),0);
  await page.keyboard.press('Control+2');assert.equal(await page.locator('.workspace-area').getAttribute('data-page'),'mine','locked page shortcuts use the shared level rule');
  await page.keyboard.press('Control+k');const commands=page.getByRole('dialog',{name:'快捷操作',exact:true});await commands.waitFor();
- assert.equal(await commands.getByRole('button',{name:/打开题库/}).count(),0);assert.equal(await commands.getByRole('button',{name:/打开算法实验室/}).count(),0);await page.keyboard.press('Escape');
+ assert.equal(await commands.getByRole('button',{name:/打开题库/}).count(),0);assert.equal(await commands.getByRole('button',{name:/打开实验室/}).count(),0);await page.keyboard.press('Escape');
  await load(1,true);assert.equal(await page.locator('.workspace-area').getAttribute('data-page'),'training-lists');
  await page.locator('.training-list-path').getByRole('button',{name:'01 编程基础',exact:true}).waitFor();
  await load(1);
@@ -81,7 +137,7 @@ try{
  assert.equal(await page.locator('.tour-guide-grid').getByRole('button',{name:'模拟赛',exact:true}).count(),0);
  assert.equal(await page.locator('.tour-guide-grid').getByRole('button',{name:'题单',exact:true}).count(),1);
  await load(3);assert.equal(await nav().getByRole('button',{name:'模板',exact:true}).count(),0);assert.equal(await nav().getByRole('button',{name:'模拟赛',exact:true}).count(),1);
- await load(4);await nav().getByRole('button',{name:'算法实验室',exact:true}).click();await page.getByRole('button',{name:'打开算法 排序基础',exact:true}).click();assert.match(await page.locator('.lab-course-header h1').textContent(),/排序基础/);await page.getByRole('button',{name:'返回算法实验室',exact:true}).click();
+ await load(4);await nav().getByRole('button',{name:'实验室',exact:true}).click();await page.getByRole('button',{name:'打开算法 排序基础',exact:true}).click();assert.match(await page.locator('.lab-course-header h1').textContent(),/排序基础/);await page.getByRole('button',{name:'返回实验室',exact:true}).click();
  await load(11);assert.equal(await nav().getByRole('button').count(),12);
  await openSettings(page,'交互与导航');
  assert(await page.getByRole('button',{name:'隐藏 我的训练',exact:true}).isDisabled());
@@ -142,6 +198,8 @@ try{
   const primaryName=await recommendation.locator('.next-actions-primary').getAttribute('aria-label');
   assert.equal(await page.locator('.next-actions-popover').getByRole('button',{name:primaryName,exact:true}).count(),0);
   assert.equal(await recommendation.locator('.next-actions-primary .lucide-arrow-right').count(),0);
+  assert.equal(await recommendation.locator('.next-actions-toggle,.lucide-chevron-down').count(),0,'Actual App recommendation has no separate expansion arrow');
+  assert(await recommendation.locator('.next-actions-primary').evaluate(node=>{const style=getComputedStyle(node);return style.backgroundColor==='rgba(0, 0, 0, 0)'&&parseFloat(style.borderWidth)===0&&style.boxShadow==='none';}),'Actual App primary recommendation stays transparent and borderless');
   assert(await page.locator('.next-actions-popover .next-actions-item').count()<=5);
   assert(geometry.left>=0&&geometry.right<=geometry.width+1&&geometry.top>=0&&geometry.bottom<=geometry.height+1,JSON.stringify(geometry));
   assert.equal(geometry.headerOverflow,false,`topbar remains usable at ${width}px / ${fontSize}px / ${theme}`);

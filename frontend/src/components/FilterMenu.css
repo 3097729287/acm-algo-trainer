@@ -1,0 +1,13 @@
+html .filter-popover {box-sizing:border-box}
+html .filter-popover .filter-field {grid-template-columns:82px minmax(0,1fr);align-items:center;gap:8px 12px;min-width:0}
+html .filter-popover .filter-field>.tb-select-wrap {justify-self:start;min-width:0;width:max-content;max-width:100%}
+html .filter-popover .filter-field .tb-select {display:block;field-sizing:content;width:auto;min-width:0;max-width:100%;min-height:36px;height:36px;padding:5px 26px 5px 9px!important;line-height:1.4;font:inherit;color:var(--text)}
+html .filter-popover .tb-select-chevron {right:7px}
+html .filter-popover .filter-field>span:not(.tb-select-wrap) {white-space:nowrap}
+html .filter-popover .filter-field.difficulty-filter {grid-template-columns:82px minmax(0,1fr);row-gap:0}
+html .filter-popover .difficulty-filter>.difficulty-range {display:contents}
+html .filter-popover .difficulty-filter .difficulty-range-values {grid-column:2;grid-row:1;justify-self:start;justify-content:flex-start;gap:6px;min-height:36px}
+html .filter-popover .difficulty-filter .difficulty-range-values .bounded-number {width:5.5ch;min-width:0}
+html .filter-popover .difficulty-filter .difficulty-range-values input {min-height:36px;height:36px;font:inherit}
+html .filter-popover .difficulty-filter .difficulty-range-track {grid-column:1/-1;grid-row:2;width:100%;margin:0}
+@media(max-width:400px) {html .filter-popover .filter-field,html .filter-popover .filter-field.difficulty-filter {grid-template-columns:max-content minmax(0,1fr);column-gap:10px}}

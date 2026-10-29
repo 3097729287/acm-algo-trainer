@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {chooseMockValue} from './mock-mode-selection.mjs';
 import { spawn } from 'node:child_process';
 import { mkdtemp, mkdir, rm, realpath, readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -87,7 +88,7 @@ try {
   await page.setViewportSize({ width: 1480, height: 920 });
   await page.keyboard.press('Escape');
   await page.keyboard.press('Escape');
-  await page.locator('.nav-item').filter({hasText: '成长与能力'}).click();
+  await page.locator('.nav-item').filter({hasText: '成长'}).click();
   assert.equal(await page.locator('.daily-task').count(), 0);
   await page.getByRole('button', {name: '每日任务', exact: true}).click();
   await page.getByRole('dialog').getByRole('heading', {name: '每日任务', exact: true}).first().waitFor();
@@ -146,14 +147,14 @@ try {
   assert.equal(await page.locator('.workspace-area').getAttribute('data-page'), 'mine');
   assert.equal(await page.getByRole('tab', { name: '今日待办', exact: true }).count(), 0);
   await page.keyboard.press('Control+1');
-  await page.getByRole('button',{name:'筛选题目',exact:true}).click();await page.getByLabel('清空我的训练').click();
-  await page.getByRole('dialog').getByRole('button', {name: '取消', exact: true}).click();
+  await page.getByLabel('清空我的训练').click();
+  await page.getByRole('alertdialog',{name:'清空我的训练确认'}).getByRole('button', {name: '取消', exact: true}).click();
   const beforeClear = await (await page.request.get(frontendUrl + '/api/workspace')).json();
   const beforeClearDraft = (await (await page.request.get(frontendUrl + '/api/problem?id=' + encodeURIComponent(problem.id))).json()).draft;
   assert.ok(beforeClear.summary.total > 0);
-  await page.getByRole('button',{name:'筛选题目',exact:true}).click();await page.getByLabel('清空我的训练').click();
-  await page.getByRole('dialog').getByRole('button', {name: /确认清空/}).click();
-  await page.waitForFunction(() => !document.querySelector('[role="dialog"]'));
+  await page.getByLabel('清空我的训练').click();
+  await page.getByRole('alertdialog',{name:'清空我的训练确认'}).getByRole('button', {name: /确认清空/}).click();
+  await page.getByRole('alertdialog',{name:'清空我的训练确认'}).waitFor({state:'detached'});
   assert.equal((await (await page.request.get(frontendUrl + '/api/workspace')).json()).summary.total,0);
   assert.equal((await (await page.request.get(frontendUrl + '/api/problem?id=' + encodeURIComponent(problem.id))).json()).draft,beforeClearDraft);
   await page.keyboard.press('Control+4');
@@ -183,7 +184,7 @@ try {
   await page.getByRole('button',{name:'训练筛选',exact:true}).click();
   assert.equal(await page.getByLabel('模拟赛最低难度',{exact:true}).count(),0,'replay keeps every problem in the event regardless of difficulty');
   await page.keyboard.press('Escape');
-  await page.getByRole('combobox',{name:'重现赛比赛',exact:true}).selectOption('入门赛 49');
+  await chooseMockValue(page,'重现赛','入门赛 49');
   const previewResponse=page.waitForResponse(response=>response.url().endsWith('/api/contests/preview')&&response.request().method()==='POST');
   await page.getByRole('button', {name:'生成试卷',exact:true}).click();
   const replay = (await (await previewResponse).json()).plan;

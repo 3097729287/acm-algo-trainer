@@ -4,6 +4,7 @@ import COURSES from '../../../../backend/resources/sorting-lab.json';
 import SortingExperiment from './SortingExperiment.jsx';
 import GuidedProblem from './GuidedProblem.jsx';
 import useCourseKeys from './useCourseKeys.js';
+import {chapterMenuTitle} from './courseNavigation.js';
 import './graphLab.css';
 
 export default function SortingCourse({courseId,prefs,setPrefs,rows=[],lockedProblems=[],onTrain,headerActions}) {
@@ -24,7 +25,7 @@ export default function SortingCourse({courseId,prefs,setPrefs,rows=[],lockedPro
  useCourseKeys({index,count,navigate,menuOpen:open});
  return <div className="algorithm-lab seq-course" aria-label={course.title}>
   <header className="lab-course-header"><h1>{course.title}</h1><span className="lab-position">{guided?'跟做 ':''}{index+1} / {count}</span>
-   <aside className="lab-course-tools"><div className="lab-menu" ref={menu}><button type="button" className="lab-menu-toggle" ref={toggle} aria-label="目录" aria-expanded={open} onClick={()=>setOpen(v=>!v)}><List size={17}/>目录</button>{open&&<nav aria-label="课程章节">{(guided?course.problems:course.chapters).map((item,i)=><button key={item.id||item.pid} aria-current={i===index?'step':undefined} onClick={()=>navigate(i)}><span>{i+1}</span><b>{item.title}</b></button>)}</nav>}</div>
+   <aside className="lab-course-tools"><div className="lab-menu" ref={menu}><button type="button" className="lab-menu-toggle" ref={toggle} aria-label="目录" aria-expanded={open} onClick={()=>setOpen(v=>!v)}><List size={17}/>目录</button>{open&&<nav aria-label="课程章节">{(guided?course.problems:course.chapters).map((item,i)=><button key={item.id||item.pid} aria-current={i===index?'step':undefined} onClick={()=>navigate(i)}><span>{i+1}</span><b>{guided?item.title:chapterMenuTitle(item)}</b></button>)}</nav>}</div>
    <nav className="lab-page-navigation" aria-label="章节翻页"><button className="lab-icon-button" aria-label="上一页" disabled={!index} onClick={()=>navigate(index-1)}><ArrowLeft size={18}/></button><button className="lab-icon-button" aria-label="下一页" disabled={index===count-1} onClick={()=>navigate(index+1)}><ArrowRight size={18}/></button></nav></aside>
    <div className="lab-header-actions">{guided&&<button className="lab-icon-button" aria-label="返回学算法" onClick={()=>patch(old=>({...old,mode:'learn'}))}>课程</button>}{headerActions}</div>
   </header>

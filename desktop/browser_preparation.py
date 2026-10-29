@@ -10,7 +10,7 @@ from silent_browser import registered_browsers, wake_browser
 from training import ServiceError
 
 LOGIN_URLS = {'Codeforces': 'https://codeforces.com/enter', 'AtCoder': 'https://atcoder.jp/login',
-              '牛客': 'https://ac.nowcoder.com/login', '洛谷': 'https://www.luogu.com.cn/auth/login'}
+              '牛客': 'https://ac.nowcoder.com/login', '洛谷': 'https://www.luogu.com.cn/auth/login', 'QOJ': 'https://qoj.ac/login'}
 
 
 class BrowserPreparation:
@@ -62,7 +62,9 @@ class BrowserPreparation:
                 'extension': {'installed': installed, 'connected': connected, 'versions': versions},
                 'browsers': [{'id': key, 'name': 'Microsoft Edge' if key == 'edge' else 'Google Chrome',
                               'available': path.is_file()} for key, path in self._executables().items()],
-                'platforms': platforms, 'ready': installed and all(p['state'] == 'logged_in' for p in platforms)}
+                # QOJ is available on demand, without making an unused fifth
+                # account a prerequisite for the established startup workflow.
+                'platforms': platforms, 'ready': installed and all(p['state'] == 'logged_in' for p in platforms if p['platform'] != 'QOJ')}
 
     def check_submission(self, url):
         from official_bridge import submission_target

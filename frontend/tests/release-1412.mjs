@@ -55,7 +55,7 @@ try{
   for(const mode of ['综合训练','专项训练']){
    await page.getByRole('button',{name:mode,exact:true}).click();const slider=page.getByRole('slider',{name:'训练最低难度滑块'}),rail=await rect(slider),values=await rect(page.locator('.difficulty-range-values'));
    assert.equal(await slider.getAttribute('min'),'800');assert(rail.width<=480&&rail.width>=220);assert(values.bottom<=rail.y+1);assert(Math.abs(values.cx-rail.cx)<1);geometries.push(rail);
-   if(mode==='专项训练'){const topic=await rect(page.getByRole('combobox',{name:'专项训练知识点'}));assert(topic.bottom<rail.y);assert.equal(await page.locator('.mock-config .folder-icon-control').count(),0);}
+   if(mode==='专项训练'){const topic=await rect(page.getByRole('button',{name:'专项训练',exact:true})),menu=await rect(page.getByRole('listbox',{name:'专项训练知识点'}));assert(Math.abs(menu.y-topic.bottom-8)<1);assert.equal(await page.locator('#tb-page-search .folder-icon-control').count(),0);await page.keyboard.press('Escape');}
    const button=await rect(page.getByRole('button',{name:'生成试卷',exact:true})),duration=await rect(page.locator('.training-duration-summary'));assert(duration.y>=button.bottom);assert(Math.abs(button.cx-duration.cx)<1);assert(duration.bottom<viewport.height,'generate controls stay visible');
    await page.screenshot({path:`${out}/mock-${mode}-${viewport.width}.png`});
   }

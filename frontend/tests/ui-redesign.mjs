@@ -1,4 +1,4 @@
-import { openSettings } from './settings-navigation.mjs';
+import { openSettings, setTheme } from './settings-navigation.mjs';
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
 import { createServer } from 'vite';
@@ -107,6 +107,6 @@ try {
  await page.locator('.tour-card').getByRole('button',{name:'完成',exact:true}).click();assert.equal(await page.locator('.guided-tour').count(),0);
  await openSettings(page,'新手指引');await page.getByRole('button',{name:/入门总览/}).click();await page.getByRole('heading',{name:'按等级逐步开放',exact:true}).waitFor();
  await page.locator('.tour-card').getByRole('button',{name:'结束指引 ×',exact:true}).click();await page.setViewportSize({width:1280,height:800});await nav('设置').click();if(!(await page.locator('.settings-home-grid').count()))await page.keyboard.press('Escape');await page.getByRole('tab',{name:'外观',exact:true}).click();await page.getByRole('spinbutton',{name:'界面字号',exact:true}).fill('22');await page.getByRole('spinbutton',{name:'界面字号',exact:true}).blur();await checkOverflow();await page.screenshot({path:'tests/screenshots/ui-redesign-settings-22.png'});
- await openSettings(page, '外观');await page.getByRole('button',{name:'云白浅色',exact:true}).click();await nav('模拟赛').click();await page.locator('.mock-mode-options').waitFor();await checkOverflow();await page.getByRole('button',{name:'训练筛选',exact:true}).click();assert((await page.getByLabel('模拟赛时长',{exact:true}).boundingBox()).width>=70);await page.keyboard.press('Escape');await page.screenshot({path:'tests/screenshots/ui-redesign-light-mock-22.png'});
+ await openSettings(page, '外观');await setTheme(page,'light');await nav('模拟赛').click();await page.locator('.mock-mode-options').waitFor();await checkOverflow();await page.getByRole('button',{name:'训练筛选',exact:true}).click();assert((await page.getByLabel('模拟赛时长',{exact:true}).boundingBox()).width>=70);await page.keyboard.press('Escape');await page.screenshot({path:'tests/screenshots/ui-redesign-light-mock-22.png'});
  assert.equal(errors.length,0,JSON.stringify(errors));console.log('UI redesign navigation checks passed');
 } finally {await browser.close();await vite.close();}

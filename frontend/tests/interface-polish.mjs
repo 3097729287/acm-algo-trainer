@@ -1,3 +1,4 @@
+import { setTheme } from './settings-navigation.mjs';
 import assert from 'node:assert/strict';
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import {realpathSync} from 'node:fs';
@@ -61,7 +62,7 @@ async function checkRadar(){
  charts++;
 }
 try{
- await page.goto(base);await nav('成长与能力').click();await page.locator('.knowledge-radar').waitFor();
+ await page.goto(base);await nav('成长').click();await page.locator('.knowledge-radar').waitFor();
  assert.equal(await page.getByRole('button',{name:'切换主题',exact:true}).count(),0);
  for(const viewport of [{width:1920,height:1080},{width:1366,height:768},{width:1024,height:640}]){
   await page.setViewportSize(viewport);
@@ -82,7 +83,7 @@ try{
  await nav('比赛').click();await page.getByRole('button',{name:/查看 .*ABC 481/}).click();
  assert.deepEqual(await page.locator('.competition-result').allTextContents(),['AC','WA','CE','TLE','MLE','RE','OLE','样例通过','未加入']);
  await page.screenshot({path:out+'/contest-verdicts.png'});
- await nav('设置').click();await page.getByRole('tab',{name:'外观',exact:true}).click();await page.getByRole('button',{name:'云白浅色',exact:true}).click();
+ await nav('设置').click();await page.getByRole('tab',{name:'外观',exact:true}).click();await setTheme(page,'light');
  await page.waitForFunction(()=>document.documentElement.dataset.theme==='light');
  assert.equal(await page.getByRole('button',{name:'切换主题',exact:true}).count(),0);
  await page.screenshot({path:out+'/header-settings.png'});

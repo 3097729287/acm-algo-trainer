@@ -3,8 +3,8 @@ export const PAGE_UNLOCKS=Object.freeze([
  {id:'mine',level:1,label:'我的训练',always:true},{id:'training-lists',level:1,label:'题单'},
  {id:'library',level:2,label:'题库'},{id:'rankings',level:2,label:'排行榜'},
  {id:'competitions',level:3,label:'比赛'},{id:'mock',level:3,label:'模拟赛'},
- {id:'paths',level:4,label:'算法实验室'},{id:'templates',level:4,label:'模板'},{id:'lectures',level:4,label:'从零讲'},
- {id:'growth',level:5,label:'成长与能力'},{id:'activity',level:5,label:'活动记录'},
+ {id:'paths',level:4,label:'实验室'},{id:'templates',level:4,label:'模板'},{id:'lectures',level:4,label:'从零讲'},
+ {id:'growth',level:5,label:'成长'},{id:'activity',level:5,label:'活动记录'},
  {id:'records',level:1,label:'提交记录',always:true},{id:'settings',level:1,label:'设置',always:true},
 ]);
 export const PAGE_LEVELS=Object.freeze(Object.fromEntries(PAGE_UNLOCKS.map(item=>[item.id,item.level])));

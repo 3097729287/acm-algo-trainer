@@ -1,5 +1,6 @@
 import { ArrowLeft, BookOpen, Code2, Search } from 'lucide-react';
-import {Fragment,useEffect,useLayoutEffect,useRef,useState} from 'react';
+import {useEffect,useLayoutEffect,useRef,useState} from 'react';
+import CatalogGroup from '@/components/CatalogGroup.jsx';
 import CatalogCard from '@/components/CatalogCard.jsx';
 import PageSearch from '../components/PageSearch.jsx';
 import KnapsackCourse from './algorithm-lab/KnapsackCourse.jsx';
@@ -8,6 +9,7 @@ import SortingCourse from './algorithm-lab/SortingCourse.jsx';
 import SORTING_COURSES from '../../../backend/resources/sorting-lab.json';
 import GRAPH_COURSES from '../../../backend/resources/graph-lab.json';
 import SequenceCourse from './algorithm-lab/SequenceCourse.jsx';
+import {startCourseAtBeginning} from './algorithm-lab/courseNavigation.js';
 import './algorithm-lab/algorithmLab.css';
 import './algorithm-lab/sequenceLab.css';
 
@@ -24,25 +26,32 @@ const COURSES = [
 export default function LearningPathsPage({ rows = [], prefs, setPrefs, onTrain, lockedProblems = [], visit, standalone = false }) {
   const [query,setQuery]=useState('');
   const matches = COURSES.filter(course => `${course.title} ${course.search}`.toLowerCase().includes(query.trim().toLowerCase()));
-  const fallback=useRef({leftAt:null,scrollTop:0}),session=visit||fallback.current,panel=useRef(null);
+  const fallback=useRef({leftAt:null,scrollTop:0}),session=visit||fallback.current,panel=useRef(null),enteredCourse=useRef(null);
+  const active = COURSES.find(course=>course.id===prefs.learningPaths?.activePath);
+  const coursePreferences=active&&enteredCourse.current!==active.id?startCourseAtBeginning(prefs,active):prefs;
+  useLayoutEffect(()=>{
+    if(!active){enteredCourse.current=null;return;}
+    if(enteredCourse.current===active.id)return;
+    enteredCourse.current=active.id;
+    setPrefs(previous=>startCourseAtBeginning(previous,active));
+  },[active?.id,setPrefs]);
   useLayoutEffect(()=>{
     const node=panel.current;
-    (node.querySelector('.lab-lesson')||node).scrollTop=session.scrollTop||0;
+    (node.querySelector('.lab-lesson')||node).scrollTop=0;
     session.leftAt=null;
     return()=>{session.leftAt=Date.now();session.scrollTop=(node.querySelector('.lab-lesson')||node).scrollTop;};
   },[]);
-  const open = (course,mode) => {if(panel.current)panel.current.scrollTop=0;setPrefs(previous => ({ ...previous, learningPaths: { ...previous.learningPaths, activePath: course.id, [course.id]: { ...previous.learningPaths?.[course.id], ...(mode==='continue'?{}:{mode}), ...(mode==='learn'?{labV1:{...previous.learningPaths?.[course.id]?.labV1,chapter:course.first}}:{}) } } }));};
+  const open = course => {if(panel.current)panel.current.scrollTop=0;setPrefs(previous=>startCourseAtBeginning(previous,course));};
   const back = () => setPrefs(previous => ({ ...previous, learningPaths: { ...previous.learningPaths, activePath: null } }));
   useEffect(()=>{
     if(!COURSES.some(course=>course.id===prefs.learningPaths?.activePath))return;
     const escape=event=>{if(event.key!=='Escape'||event.defaultPrevented||event.target.closest?.('input,textarea,select,[contenteditable=true]')||document.querySelector('dialog[open],.tb-select-menu'))return;event.preventDefault();back();};
     window.addEventListener('keydown',escape);return()=>window.removeEventListener('keydown',escape);
   },[prefs.learningPaths?.activePath]);
-  const active = COURSES.find(course=>course.id===prefs.learningPaths?.activePath);
-  const actions = <button type="button" className="lab-icon-button" aria-label="返回算法实验室" title="返回算法实验室" onClick={back}><ArrowLeft size={17}/></button>;
-  return <div ref={panel} className="learning-paths-page scroll-panel lab-page-surface" aria-label="算法实验室">
-    {active ? SORTING_COURSES[active.id] ? <SortingCourse key={active.id} courseId={active.id} rows={rows} prefs={prefs} setPrefs={setPrefs} onTrain={onTrain} lockedProblems={lockedProblems} headerActions={actions}/> : GRAPH_COURSES[active.id] ? <GraphCourse key={active.id} courseId={active.id} rows={rows} prefs={prefs} setPrefs={setPrefs} onTrain={onTrain} lockedProblems={lockedProblems} headerActions={actions}/> : active.id==='knapsack' ? <KnapsackCourse rows={rows} prefs={prefs} setPrefs={setPrefs} onTrain={onTrain} lockedProblems={lockedProblems} headerActions={actions}/> : <SequenceCourse key={active.id} courseId={active.id} rows={rows} prefs={prefs} setPrefs={setPrefs} onTrain={onTrain} lockedProblems={lockedProblems} headerActions={actions}/> : <div className="lab-catalog lab-multi-catalog">
-      <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索算法" value={query} onChange={event=>setQuery(event.target.value)}/></label></PageSearch>{matches.length ? COURSE_GROUPS.filter(([,ids])=>matches.some(course=>ids.includes(course.id))).map(([group,ids])=><Fragment key={group}><h2 className="lab-catalog-group">{group}</h2>{matches.filter(course=>ids.includes(course.id)).map(course=><CatalogCard key={course.id} title={course.title} icon={<Code2 size={18}/>} label={`打开算法 ${course.title}`} onOpen={()=>open(course,prefs.learningPaths?.[course.id]?'continue':'learn')}/>)}</Fragment>) : <p className="progress-muted">没有匹配的算法。</p>}
+  const actions = <button type="button" className="lab-icon-button" aria-label="返回实验室" title="返回实验室" onClick={back}><ArrowLeft size={17}/></button>;
+  return <div ref={panel} className="learning-paths-page scroll-panel lab-page-surface" aria-label="实验室">
+    {active ? SORTING_COURSES[active.id] ? <SortingCourse key={active.id} courseId={active.id} rows={rows} prefs={coursePreferences} setPrefs={setPrefs} onTrain={onTrain} lockedProblems={lockedProblems} headerActions={actions}/> : GRAPH_COURSES[active.id] ? <GraphCourse key={active.id} courseId={active.id} rows={rows} prefs={coursePreferences} setPrefs={setPrefs} onTrain={onTrain} lockedProblems={lockedProblems} headerActions={actions}/> : active.id==='knapsack' ? <KnapsackCourse rows={rows} prefs={coursePreferences} setPrefs={setPrefs} onTrain={onTrain} lockedProblems={lockedProblems} headerActions={actions}/> : <SequenceCourse key={active.id} courseId={active.id} rows={rows} prefs={coursePreferences} setPrefs={setPrefs} onTrain={onTrain} lockedProblems={lockedProblems} headerActions={actions}/> : <div className="lab-catalog lab-multi-catalog">
+      <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索算法" value={query} onChange={event=>setQuery(event.target.value)}/></label></PageSearch>{matches.length ? COURSE_GROUPS.filter(([,ids])=>matches.some(course=>ids.includes(course.id))).map(([group,ids])=><CatalogGroup key={group} title={group}>{matches.filter(course=>ids.includes(course.id)).map(course=><CatalogCard key={course.id} title={course.title} icon={<Code2 size={18}/>} label={`打开算法 ${course.title}`} onOpen={()=>open(course)}/>)}</CatalogGroup>) : <p className="progress-muted">没有匹配的算法。</p>}
     </div>}
   </div>;
 }

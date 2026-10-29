@@ -67,7 +67,7 @@ try {
  const after=await page.locator('.template-example').boundingBox();assert.deepEqual(after,before);
  assert(await page.locator('.template-code .cm-scroller').evaluate(n=>n.scrollTop>0));
  await page.getByRole('button',{name:'返回模板',exact:true}).click();
- await page.getByRole('button',{name:'算法实验室',exact:true}).click();await page.getByRole('button',{name:'打开算法 并查集',exact:true}).waitFor();
+ await page.getByRole('button',{name:'实验室',exact:true}).click();await page.getByRole('button',{name:'打开算法 并查集',exact:true}).waitFor();
  const labGeometry=await geometry();for(const item of labGeometry){assert(Math.abs(item.indent-templateGeometry[0].indent)<1);assert(Math.abs(item.offset-templateGeometry[0].offset)<1);assert(Math.abs(item.height-templateGeometry[0].height)<1);}
  await page.screenshot({path:output+'/lab-catalog.png'});
  await page.getByRole('button',{name:'活动记录',exact:true}).click();await page.locator('.activity-continuous-grid').waitFor();

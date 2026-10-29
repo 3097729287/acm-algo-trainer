@@ -22,8 +22,7 @@ export default function DataHelpSettings({ api, onTutorial, onError, insights, a
     finally { setBusy(false); }
   }
   return <><PersonalStatistics rows={rows} api={api} insights={insights} account={account} onTrain={onTrain}/><section className="settings-data-help" aria-label="数据与帮助">
-    <h2>数据与帮助</h2>
-    {statements&&<p role="status">题面补全：{statements.message}{statements.remaining!=null&&` · 剩余 ${statements.remaining} 道`}</p>}
+    <h2>数据与帮助 {statements&&<Tooltip label="题面补全" text={`题面补全：${statements.message}${statements.remaining!=null?` · 剩余 ${statements.remaining} 道`:''}`}/>}</h2>
     <div className="help-action-grid">
       <Tooltip text="导出当前账号的训练、代码、记录、目标和偏好为 JSON；不含密码、Cookie 或 API 密钥。"><button className="help-action" aria-label="导出数据 · JSON" onClick={download} disabled={busy}>
         {busy ? <LoaderCircle size={22} className="spin"/> : <Download size={22}/>}<span><strong>导出我的数据</strong><small>训练、代码、目标与偏好 · JSON</small></span>

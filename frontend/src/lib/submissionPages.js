@@ -1,6 +1,6 @@
 // Private, in-memory metadata only; account and active-paper scope are explicit.
 const sessions=new WeakMap();
-export const submissionQuery=({offset=0,search='',result='',descending=true}={})=>new URLSearchParams({resultsOnly:'1',compact:'1',limit:'100',offset:String(offset),q:search,verdict:result,order:descending?'desc':'asc'}).toString();
+export const submissionQuery=({offset=0,search='',result='',platform='',descending=true}={})=>new URLSearchParams({resultsOnly:'1',compact:'1',limit:'100',offset:String(offset),q:search,verdict:result,order:descending?'desc':'asc',...(platform?{platform}:{})}).toString();
 function pages(api,scope){let session=sessions.get(api);if(!session||session.scope!==scope){session={scope,pages:new Map()};sessions.set(api,session);}return session.pages;}
 export const submissionSnapshot=(api,scope,revision,key)=>pages(api,scope).get(`${revision}:${key}`)?.value;
 export function loadSubmissionPage(api,scope,revision,key,{refresh=false}={}){

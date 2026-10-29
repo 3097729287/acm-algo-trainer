@@ -1,4 +1,4 @@
-import { openSettings } from './settings-navigation.mjs';
+import { openSettings, setTheme } from './settings-navigation.mjs';
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
 import { createServer } from 'vite';
@@ -39,6 +39,7 @@ await page.route('**/api/**',async route=>{
   else if(path==='/api/data')value={rows,categories:[],token:'fixture',today:date,revision:'ui-social'};
   else if(path==='/api/workspace')value=workspace();
   else if(path==='/api/hub')value=hub;
+  else if(path==='/api/hub/dismiss-all')value=hub;
   else if(path==='/api/insights')value={summary:{officialSolved:0,submissions:0,activeDays:1,streak:1},growth:{confirmed:true,authority:{owner:self.userId,epoch:'legacy-fixture',revision:1},...progress,totalXp:6265,currentLevelXp:665,nextLevelXp:1600,ranked},knowledge:[],achievements:[],activity:[],recommendations:[],assessment:{platforms:[]},dailyTasks:{tasks:[]}};
   else if(path==='/api/profile')value={profile:self,leaderboard:{configured:true,status:'ready'}};
   else if(path==='/api/goals')value={goals:[]};
@@ -142,7 +143,8 @@ try {
   assert.equal(await page.evaluate(()=>window.untrusted),undefined);
   await page.getByText('自动已读暂未完成，请重试',{exact:true}).waitFor();
   await page.getByRole('button',{name:'全部已读',exact:true}).click();
-  await page.getByText('共收到 3 个爱心 · 0 条未读消息',{exact:true}).waitFor();assert(writes.some(item=>item.path==='/api/social/read'&&item.body.all===true),'read-all includes messages beyond the first 100');
+  assert.equal(await page.getByRole('dialog',{name:'消息与更新',exact:true}).locator('header').getByRole('button',{name:'全部已读',exact:true}).count(),1);
+  await page.getByText('共收到 3 个爱心 · 0 条未读消息',{exact:true}).waitFor();assert(writes.some(item=>item.path==='/api/social/read'&&item.body.all===true),'read-all includes messages beyond the first 100');assert(writes.some(item=>item.path==='/api/hub/dismiss-all'),'The single header action also marks update notifications read');
   assert(notifications.every(item=>item.read),'manual read-all includes the page-hidden 101st notification');
   const freshId='66666666-6666-4666-8666-666666666666',beforeAutomatic=writes.filter(item=>item.path==='/api/social/read').length;
   notifications.unshift({id:freshId,kind:'comment',actor:other,recipient:self,text:'新到消息自动已读',createdAt:timestamp,read:false});
@@ -163,7 +165,7 @@ try {
   await font.fill('16');await font.blur();
   await page.getByRole('button',{name:'落日余晖',exact:true}).click();
   assert.equal(await page.locator('html').getAttribute('data-backdrop'),'sunset');
-  await page.getByRole('button',{name:'云白浅色',exact:true}).click();
+  await setTheme(page,'light');
   await page.getByRole('button',{name:'强调色说明',exact:true}).hover();
   await page.getByRole('tooltip').filter({hasText:'用于核心操作'}).waitFor();await shot('tooltip-light');
   await page.mouse.move(10,10);
@@ -177,7 +179,7 @@ try {
   await font.fill('16');await font.blur();await page.setViewportSize({width:1600,height:1000});
   const topProfile=page.locator('.topbar .profile-badge');
   const tierBefore=await topProfile.evaluate(node=>getComputedStyle(node).getPropertyValue('--tier-color').trim());
-  await page.getByRole('button',{name:'石墨深色',exact:true}).click();
+  await setTheme(page,'dark');
   assert.equal(await topProfile.evaluate(node=>getComputedStyle(node).getPropertyValue('--tier-color').trim()),tierBefore);
   assert.equal(tierBefore,'#bc8aff');
   assert.equal(await topProfile.locator('.avatar-rank-frame').count(),1);assert.equal(await topProfile.locator('.profile-rank-emblem').count(),0);
@@ -204,7 +206,7 @@ try {
   await shot('settings');
   await nav('题库').click();assert.equal(await page.getByRole('button',{name:'逐层浏览题库',exact:true}).count(),0);await page.locator('tr[data-id]').first().waitFor();
   assert((await page.locator('tr[data-id]').count())>0&&(await page.locator('tr[data-id]').count())<rows.length,'library mounts one fitted page');await shot('problem-list');
-  for(const label of ['我的训练','题库','比赛','模拟赛','排行榜','成长与能力','提交记录','活动记录','从零讲']) {
+  for(const label of ['我的训练','题库','比赛','模拟赛','排行榜','成长','提交记录','活动记录','从零讲']) {
     await nav(label).click();await page.waitForTimeout(250);await page.locator('.workspace-area .loading-screen').waitFor({state:'hidden'});await checkOverflow();await shot(label);
   }
   await page.setViewportSize({width:800,height:900});await nav('排行榜').click();await checkOverflow();await shot('compact');

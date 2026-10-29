@@ -36,7 +36,7 @@ try {
   assert.equal(await page.getByLabel('账号数据同步中',{exact:true}).evaluate(node=>node.closest('.tooltip-anchor').title),'同步中');
   await page.evaluate(()=>window.accountSyncStatusFixture.update({status:'ready',pending:false}));
   await page.getByLabel('账号数据已同步',{exact:true}).waitFor();
-  assert.equal(await page.getByLabel('账号数据已同步',{exact:true}).locator('svg.lucide-circle-check').count(),1);
+  assert.equal(await page.getByLabel('账号数据已同步',{exact:true}).locator('svg.lucide-check').count(),1);
   await page.getByLabel('账号数据已同步',{exact:true}).waitFor({state:'hidden',timeout:5000});
   await page.evaluate(()=>window.accountSyncStatusFixture.update({status:'error',pending:true,error:'事件模拟：连接已中断'}));
   await page.getByLabel('账号数据待同步',{exact:true}).waitFor();

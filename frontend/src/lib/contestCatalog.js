@@ -1,4 +1,5 @@
 import {createContestComparator} from './practiceMetadata.js';
+import {rowPlatform,PLATFORM_REGISTRY} from './platformRegistry.js';
 const folderOrder=new Intl.Collator('zh-CN',{numeric:true});
 
 export function contestYear(row) {
@@ -33,7 +34,12 @@ export function catalogSegments(row) {
 }
 
 // Event types are exclusive: an invitation/provincial must not appear among regionals.
-export const catalogPaths=row=>[catalogSegments(row)];
+export function catalogPaths(row){
+ const path=catalogSegments(row),platform=rowPlatform(row);
+ // Keep every saved event-category path; also expose its actual hosting platform.
+ return platform&&path[0]!==platform&&(path[0]==='XCPC'||path[0].startsWith('蓝桥杯'))
+  ?[path,[platform,...path.slice(1)]]:[path];
+}
 export function normalizeCatalogPath(path=[]) {
   return path.map((part,index)=>index===0&&part==='ACM'?'XCPC':index===1&&['ACM','XCPC'].includes(path[0])&&['ICPC','CCPC'].includes(part)?`${part} 区域赛`:part);
 }
@@ -43,7 +49,7 @@ export const catalogPathMatches=(row,path)=>catalogPaths(row).some(parts=>begins
 // Preserve these familiar grouping levels when they contain actual contests.
 export function catalogFolders(path=[]) {
   path=normalizeCatalogPath(path);
-  if (!path.length)return ['算法实验室','Codeforces','AtCoder','牛客','洛谷','XCPC','蓝桥杯 B 组','校队训练'];
+  if (!path.length)return ['算法实验室',...PLATFORM_REGISTRY.map(platform=>platform.id),'XCPC','蓝桥杯 B 组','校队训练'];
   if (path.length===1&&path[0]==='Codeforces')return ['教育赛','Div.1','Div.2','Div.3','Div.4'];
   if (path.length===1&&path[0]==='AtCoder')return ['ABC','ARC','AGC'];
   if (path.length===1&&path[0]==='XCPC')return ['ICPC 区域赛','CCPC 区域赛','网络预选赛','省赛','邀请赛','总决赛','分区赛'];
@@ -53,7 +59,7 @@ export function catalogFolders(path=[]) {
 
 // Collapse navigation-only nodes while keeping their original paths for saved filters.
 const isYear = label => /^20\d{2}年$/.test(label) || label === '年份待核实';
-const preserveFolder = (parent, label) => isYear(label) || catalogFolders(parent).includes(label) || (!parent.length && label === '算法实验室');
+const preserveFolder = (parent, label) => !parent.length || isYear(label) || catalogFolders(parent).includes(label);
 export function compactCatalogOptions(nodes, parent = []) {
   return nodes.flatMap(node => {
     const path = [...parent, node.label];

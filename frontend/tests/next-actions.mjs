@@ -113,13 +113,14 @@ try{
   await preparePage(page);
   const root=page.locator('.next-actions');
   const popup=()=>page.getByRole('region',{name:'推荐任务与依据'});
-  const toggle=()=>page.locator('.next-actions-toggle');
+  const primary=()=>page.locator('.next-actions-primary');
   const hover=async()=>{await page.mouse.move(20,700);await root.hover();await popup().waitFor();};
   const lastAction=()=>page.evaluate(()=>window.fixtureEvents.at(-1));
 
   phase='default-and-hover';
   await root.waitFor();
   assert.equal(await page.locator('[data-recommendation]').count(),1,'Default chrome shows a single actionable recommendation');
+  assert.equal(await page.locator('.next-actions-toggle,.next-actions .lucide-chevron-down').count(),0,'The recommendation itself handles expansion; no separate arrow button remains');
   await hover();
   assert.equal(await page.locator('.next-actions-primary small').count(),0,'The top task has no next-step/category label');
   assert.equal(await page.locator('.next-actions-primary .lucide-arrow-right').count(),0,'The top task has no trailing right arrow');
@@ -149,6 +150,11 @@ try{
   await page.mouse.move(bounds.x+20,bounds.y+bounds.height+4);
   await page.waitForTimeout(250);
   assert.equal(await popup().count(),1,'Moving through the visible gap does not dismiss the advice');
+  await listAction.hover();await page.waitForTimeout(200);
+  assert.equal(await popup().count(),1,'Hovering a real expanded task keeps the list open beyond the leave delay');
+  await page.mouse.move(20,700);
+  await popup().waitFor({state:'detached',timeout:180});
+  await hover();
   await listAction.click();
   assert.equal((await lastAction()).navigate,'list');
   assert.equal(await popup().count(),0);
@@ -156,25 +162,35 @@ try{
   assert.deepEqual(await lastAction(),{train:'B'});
 
   phase='keyboard-and-outside';
-  await page.mouse.move(800,500);await toggle().focus();await popup().waitFor();
+  await page.mouse.move(800,500);await page.locator('#outside').focus();await primary().focus();await popup().waitFor();
   await page.keyboard.press('ArrowDown');
   await page.waitForFunction(()=>document.activeElement?.dataset.recommendation==='list');
-  assert(await allTasks.first().evaluate(node=>{const style=getComputedStyle(node);return style.outlineStyle!=='none'&&parseFloat(style.outlineWidth)>=2;}),'Removing the outer frame keeps a visible keyboard focus outline');
+  await page.waitForTimeout(200);
+  assert.equal(await popup().count(),1,'Keyboard focus moving within the component keeps the menu open while the pointer is elsewhere');
+  assert(await allTasks.first().evaluate(node=>getComputedStyle(node).color===getComputedStyle(node.querySelector('svg')).color),'The focused task uses the accent color while keeping its borderless appearance');
   await page.keyboard.press('ArrowDown');assert.equal(await allTasks.nth(1).evaluate(node=>node===document.activeElement),true);
   await page.keyboard.press('End');assert.equal(await allTasks.last().evaluate(node=>node===document.activeElement),true);
   await page.keyboard.press('Home');assert.equal(await allTasks.first().evaluate(node=>node===document.activeElement),true);
   await page.keyboard.press('ArrowUp');assert.equal(await allTasks.last().evaluate(node=>node===document.activeElement),true);
   await page.keyboard.press('ArrowDown');assert.equal(await allTasks.first().evaluate(node=>node===document.activeElement),true);
   await page.keyboard.press('Escape');
-  assert.equal(await popup().count(),0);assert.equal(await toggle().evaluate(node=>node===document.activeElement),true);
-  await page.keyboard.press('Enter');await popup().waitFor();
+  assert.equal(await popup().count(),0);assert.equal(await primary().evaluate(node=>node===document.activeElement),true);
+  const beforeEnter=await page.evaluate(()=>window.fixtureEvents.length);
+  await page.keyboard.press('Enter');assert.deepEqual(await lastAction(),{train:'B'});
+  assert.equal(await page.evaluate(()=>window.fixtureEvents.length),beforeEnter+1,'Enter on the primary recommendation enters that task directly');
+  assert.equal(await popup().count(),0);
+  await primary().press('ArrowUp');await popup().waitFor();
+  assert.equal(await allTasks.last().evaluate(node=>node===document.activeElement),true,'ArrowUp on the primary opens the final menu task');
   await page.locator('#outside').click();assert.equal(await popup().count(),0);
-  await toggle().click();await popup().waitFor();await toggle().click();assert.equal(await popup().count(),0);
+  await hover();await primary().focus();await popup().waitFor();
+  await page.mouse.move(20,700);await popup().waitFor({state:'detached',timeout:180});
+  assert.equal(await primary().evaluate(node=>node===document.activeElement),true,'Mouse leave dismisses the menu even when the primary task retains focus');
+  await hover();await primary().click();assert.deepEqual(await lastAction(),{train:'B'});assert.equal(await popup().count(),0);
 
   phase='evidence-based-course';
   await page.evaluate(()=>window.fixtureUpdate({proved:true,pages:['mine','library','paths','templates','mock']}));
   await hover();
-  await page.getByRole('button',{name:'开始算法实验室 排序基础',exact:true}).click();
+  await page.getByRole('button',{name:'开始实验室 排序基础',exact:true}).click();
   assert.deepEqual(await lastAction(),{navigate:'course',id:'sorting-basics'});
   await page.evaluate(()=>window.fixtureUpdate({}));
 
@@ -188,12 +204,28 @@ try{
     assert(Math.abs(box.x-trigger.x)<.75&&Math.abs(box.width-trigger.width)<.75,'The flyout aligns with the whole recommendation control: '+JSON.stringify({font,width,box,trigger}));
     assert(box.x>=0&&box.x+box.width<=width+.5&&box.y+box.height<=800+.5,JSON.stringify({font,width,box}));
     assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
-    report.geometry.push({width,font,bounds:box});
+    const alignment=await page.evaluate(()=>{
+      const first=document.querySelector('.next-actions-primary'),others=[...document.querySelectorAll('.next-actions-item')];
+      return [first,...others].map(node=>{
+        const icon=node.querySelector(':scope>svg'),text=node.querySelector('strong'),style=getComputedStyle(node);
+        return {iconX:icon&&getComputedStyle(icon).display!=='none'?icon.getBoundingClientRect().x:null,textX:text.getBoundingClientRect().x,
+          background:style.backgroundColor,borders:[style.borderTopWidth,style.borderRightWidth,style.borderBottomWidth,style.borderLeftWidth],shadow:style.boxShadow};
+      });
+    });
+    for(const item of alignment){
+      assert(item.background==='rgba(0, 0, 0, 0)'&&item.borders.every(value=>parseFloat(value)===0)&&item.shadow==='none','Each recommendation stays transparent and borderless: '+JSON.stringify({width,font,item}));
+      assert(Math.abs(item.textX-alignment[0].textX)<.75,'Primary and expanded task text share the same horizontal start: '+JSON.stringify({width,font,alignment}));
+      if(item.iconX!==null&&alignment[0].iconX!==null)assert(Math.abs(item.iconX-alignment[0].iconX)<.75,'Recommendation icons share the same horizontal start');
+    }
+    for(const element of [root,popup()])assert(await element.evaluate(node=>{
+      const style=getComputedStyle(node);return style.backgroundColor==='rgba(0, 0, 0, 0)'&&parseFloat(style.borderWidth)===0&&style.boxShadow==='none';
+    }),'Neither the primary control nor its expanded list introduces a panel background or border');
+    report.geometry.push({width,font,bounds:box,alignment});
+    await popup().locator('li').evaluateAll(nodes=>Promise.all(nodes.flatMap(node=>node.getAnimations().map(animation=>animation.finished))));
     await page.screenshot({path:path.join(output,`${width}-${font}.png`)});
     await page.keyboard.press('Escape');
   }
   await page.emulateMedia({reducedMotion:'reduce'});await hover();
-  assert.equal(await page.locator('.next-actions-toggle svg').evaluate(node=>getComputedStyle(node).transitionDuration),'0s');
   assert(await popup().locator('li').evaluateAll(nodes=>nodes.every(node=>getComputedStyle(node).animationName==='none')));
 
   phase='active-contest-and-suspended';
@@ -201,7 +233,7 @@ try{
   const contest=page.locator('.next-actions-primary');await contest.waitFor();
   await page.waitForFunction(()=>document.querySelector('.next-actions-primary')?.dataset.recommendation==='contest');
   await page.mouse.move(20,700);await root.hover();assert.equal(await popup().count(),0);
-  assert.equal(await toggle().count(),0,'A single primary task has no empty dropdown');
+  assert.equal(await contest.getAttribute('aria-expanded'),null,'A single primary task has no empty dropdown');
   assert.match(await contest.getAttribute('title'),/已有正在进行的模拟赛/);
   await contest.click();
   assert.deepEqual(await lastAction(),{navigate:'contest',id:'current'});
@@ -219,27 +251,32 @@ try{
   const touchContext=await browser.newContext({hasTouch:true,viewport:{width:430,height:800}});
   try{
     const touch=await touchContext.newPage();await preparePage(touch);
-    await touch.getByRole('button',{name:'展开下一步推荐任务',exact:true}).tap();
+    const touchPrimary=touch.locator('.next-actions-primary');
+    await touchPrimary.tap();
     const touchPopup=touch.locator('.next-actions-popover');await touchPopup.waitFor();
+    assert.deepEqual(await touch.evaluate(()=>window.fixtureEvents),[],'The first primary tap opens choices without entering a task');
     await touchPopup.getByRole('button',{name:'开始基础题单 输入输出与顺序结构',exact:true}).tap();
     assert.equal((await touch.evaluate(()=>window.fixtureEvents.at(-1))).navigate,'list');
-    await touch.locator('.next-actions-primary').tap();
+    await touchPrimary.tap();await touchPopup.waitFor();
+    assert.equal(await touch.evaluate(()=>window.fixtureEvents.length),1);
+    await touchPrimary.tap();
     assert.deepEqual(await touch.evaluate(()=>window.fixtureEvents.at(-1)),{train:'B'});
-    await touch.getByRole('button',{name:'展开下一步推荐任务',exact:true}).tap();await touchPopup.waitFor();
+    assert.equal(await touchPopup.count(),0);
+    await touchPrimary.tap();await touchPopup.waitFor();
     await touch.touchscreen.tap(425,790);assert.equal(await touch.locator('.next-actions-popover').count(),0);
   }finally{await touchContext.close();}
 
   phase='open-change-and-unmount';
   await page.evaluate(()=>window.fixtureUpdate({}));
-  await page.waitForFunction(()=>document.querySelector('.next-actions-primary')?.disabled===false);await toggle().waitFor();
+  await page.waitForFunction(()=>document.querySelector('.next-actions-primary')?.disabled===false);await primary().waitFor();
   await hover();await page.waitForFunction(()=>window.fixtureAdviceOpen===true);
   await page.evaluate(()=>window.fixtureUnmount());
   assert.equal(await page.evaluate(()=>window.fixtureAdviceOpen),false);
   assert.equal(await page.locator('.next-actions-popover').count(),0);
   assert.deepEqual(errors,[]);assert.deepEqual(unknown,[]);
   assert(requests.includes('/api/training-lists')&&requests.includes('/api/templates'));
-  Object.assign(report,{ok:true,hoverBridge:true,independentNavigation:true,keyboard:true,outsideClose:true,
-    touch:true,suspended:true,openChange:true,unmountCloses:true,reducedMotion:true,reasonTooltips:true,allTasksDirect:true,primaryNotRepeated:true,alignedToWholeControl:true,noPrimaryArrow:true,realOfficialSubmissionsSent:0});
+  Object.assign(report,{ok:true,hoverBridge:true,realTaskHover:true,mouseLeaveWithin180ms:true,mouseLeaveWithRetainedFocus:true,keyboardInternalFocusKeepsOpen:true,independentNavigation:true,keyboard:true,outsideClose:true,
+    touch:true,suspended:true,openChange:true,unmountCloses:true,reducedMotion:true,reasonTooltips:true,allTasksDirect:true,primaryNotRepeated:true,alignedToWholeControl:true,alignedIconsAndText:true,transparentBorderless:true,noSeparateChevron:true,noPrimaryArrow:true,realOfficialSubmissionsSent:0});
   console.log(JSON.stringify({ok:true,geometryCases:report.geometry.length,report:path.join(output,'report.json')}));
 }catch(error){
   report.failure={phase,message:error.message};

@@ -373,7 +373,8 @@ html .submission-record-meta {display:flex;align-items:center;gap:7px;min-width:
 .submission-record-meta .submission-problem-index {font-weight:600;color:var(--muted)}
 .submission-contest-name {overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mock-difficulty-row>.difficulty-range {max-width:760px;min-width:220px;flex:1}
-html .mock-create .mock-mode-options {grid-template-columns:repeat(3,minmax(0,1fr))}
+html .mock-create .mock-mode-options {grid-template-columns:repeat(3,minmax(0,180px));justify-content:center}
+html .mock-create .mock-mode-options>button {min-height:48px;padding:10px 16px}
 html .update-difficulty-range>.difficulty-range {flex:1;max-width:660px}
 html .catalog-random {color:var(--accent)}
 
@@ -536,13 +537,18 @@ html .account-hero-rank>span {margin-top:-8px}
 .account-hero-statistics .account-stat-icon {display:grid;place-items:center;width:36px;height:36px;min-width:0;min-height:0}
 .account-hero-statistics b {line-height:1.15;font-variant-numeric:tabular-nums;text-align:center;align-self:start}
 .account-hero-statistics .account-stat-icon>svg {display:block;width:30px;height:30px;flex:none}
+.account-hero-statistics .streak-flame path {fill:currentColor;stroke:none}
 .messages-modal {height:min(85dvh,900px);max-height:85dvh;overflow:hidden;display:flex;flex-direction:column}
-.messages-modal>.modal-body {display:grid!important;grid-template-rows:minmax(0,1fr) minmax(0,1fr);flex:1;min-height:0;overflow:hidden!important;gap:16px}
+.messages-modal>header>h2 {margin-right:auto}
+.messages-modal>.modal-body {display:flex!important;flex-direction:column;flex:1;min-height:0;overflow:hidden!important;gap:12px}
 .messages-modal .messages-social-pane,.messages-modal .update-panel {min-height:0;max-height:100%;overflow:auto;overscroll-behavior:contain;padding:0 4px}
-.messages-modal .social-notifications {padding:0}
-.sync-notice-list>header {display:flex;align-items:center;justify-content:space-between}
-.sync-notice-list p {font-size:.88rem;line-height:1.6;overflow-wrap:anywhere}
-.messages-modal .update-panel {border-top:1px solid var(--line);padding-top:12px}
+.messages-modal .messages-social-pane {flex:0 1 auto;max-height:calc(50% - 6px)}
+.messages-modal .social-notifications {padding:0;margin:0}
+.messages-modal .social-notifications-heading {flex-wrap:nowrap;align-items:center;margin:0;gap:12px}
+.messages-modal .social-notifications-title {flex:none}
+.messages-modal .social-notifications-summary {line-height:1.5}
+.messages-modal .update-panel {flex:1 1 0;min-height:calc(50% - 6px);border-top:1px solid var(--line);padding-top:12px}
+.messages-modal .update-notification-heading {margin-top:0;padding-top:0;border-top:0}
 .messages-modal .update-notifications {max-height:none;overflow:visible}
 .filter-popover .filter-field {grid-template-columns:82px minmax(0,1fr);align-items:center;gap:12px}
 .filter-popover .filter-field.difficulty-filter {grid-template-columns:1fr}
@@ -611,6 +617,25 @@ html .topbar-actions>.tooltip-anchor {display:flex;align-items:center;align-self
 html .topbar-actions :is(.topbar-status-chip,.practice-streak,.icon-button) {height:40px;min-height:40px;box-sizing:border-box;align-items:center;justify-content:center;line-height:1}
 html .topbar-actions :is(.metric-label,.metric-separator,.topbar-status-chip b,.practice-streak b) {display:inline-flex;align-items:center;justify-content:center;height:22px;font-size:1rem;font-weight:650;line-height:22px}
 html .topbar-actions :is(.streak-flame,.topbar-love-count>svg,.icon-button>svg) {display:block;width:20px;height:20px;flex:none;transform:none}
+/* Keep only the surrounding application chrome on shared axes. */
+html .app-shell {--chrome-inline:12px}
+html .app-shell .topbar,html .app-shell .app-statusbar {padding-inline:var(--chrome-inline)}
+html .sidebar .brand {height:54px;min-height:54px;flex-shrink:0;flex-direction:row;align-items:center}
+html .app-shell:has(.topbar>.next-actions) .sidebar .brand {height:max(54px,2.95rem);min-height:max(54px,2.95rem)}
+html .sidebar .nav-item {align-items:center;line-height:1}
+html .sidebar .nav-item>svg {display:block;width:18px;height:18px;flex:none}
+html .app-statusbar>button {display:inline-flex;align-items:center;justify-content:center;gap:6px;line-height:1}
+html .app-statusbar>button>svg {display:block;flex:none}
+html .app-statusbar>button>small {display:inline-flex;align-items:center;line-height:1}
+html .topbar-actions>.theme-toggle,html .topbar-actions>.icon-button[aria-label="消息通知"] {display:inline-flex;flex:none;width:30px;height:40px}
+@media(max-width:850px) {
+ html .app-shell .sidebar {width:54px;flex-basis:54px;padding-inline:5px}
+ html .app-shell .sidebar .brand {justify-content:center;padding-inline:0}
+ html .app-shell .sidebar .nav-item {justify-content:center;padding-inline:0}
+ html .app-shell .sidebar .nav-item>span,html .app-shell .sidebar .nav-item>small {display:none}
+}
+@media(max-width:800px) {html .app-shell:has(.topbar>.next-actions) .sidebar .brand {height:max(54px,2.65rem);min-height:max(54px,2.65rem)}}
+@media(max-width:650px) {html .app-shell:has(.topbar>.next-actions) .sidebar .brand {height:max(40px,2.65rem);min-height:max(40px,2.65rem)}}
 .competition-result:is(.verdict-wrong,.verdict-runtime,.verdict-compile,.verdict-failed) {color:var(--danger)}
 .competition-result.verdict-limit {color:var(--warning)}
 
@@ -675,7 +700,7 @@ html .mock-config .training-duration-summary {font-size:inherit}
 html .mock-create:has(.paper-preview) {flex:1;min-height:0}
 html .mock-create:has(.paper-preview) .create-main {min-height:100%}
 html .mock-create:has(.paper-preview) .mock-config {flex:1}
-html .mock-config .create-buttons button {min-width:43px;width:43px;padding:0}
+html .mock-config .create-buttons>button {display:inline-flex;flex:0 0 64px;align-items:center;justify-content:center;min-width:64px;width:64px;height:42px;min-height:42px;padding:0}
 html .mock-config .paper-preview {padding:0;min-height:0;border:0;background:transparent}
 .paper-title-button {min-width:0;flex:1;text-align:left;background:transparent;border:0;padding:0;color:inherit;cursor:text}
 .paper-preview-title {cursor:text;gap:16px}

@@ -14,6 +14,8 @@
 
 html .lectures-layout {grid-template-columns:minmax(240px,25%) minmax(0,1fr)}
 html .lectures-detail-bar {justify-content:flex-start;align-items:center}
+html .lectures-detail-bar .lecture-source-inline {flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:34px;text-align:center;color:var(--muted);font-size:.85rem}
+html .lectures-detail .lecture-markdown :is(h1,h2,h3,h4,h5,h6) {text-align:center}
 html .lectures-detail-bar .lecture-fullscreen-toggle {margin-left:auto;flex:none}
 html .lectures-detail-bar>.icon-button,.lecture-source>.icon-button {box-sizing:border-box;width:34px;height:34px;flex:none;justify-content:center;padding:7px}
 html .lectures-detail-bar>.icon-button:focus-visible,.lecture-source>.icon-button:focus-visible {outline:2px solid var(--accent);outline-offset:2px}

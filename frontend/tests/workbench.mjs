@@ -20,6 +20,19 @@ page.on('pageerror', error => errors.push(error.message));
 try {
   await page.goto('http://127.0.0.1:18768/tests/workbench-fixture.html');
   const editor = page.getByRole('textbox', { name: 'C++ 代码' });
+  const clickReturnCorner=async label=>{
+    const back=page.getByRole('button',{name:label,exact:true});
+    const point=await back.evaluate(button=>{
+      // This standalone fixture has an outer rounded border. Use its first
+      // painted top-left pixels; the full-window App case checks (1,1).
+      const header=button.closest('.wb-compact-toolbar,.wb-pane-header'),rect=header.getBoundingClientRect(),x=rect.left+8,y=rect.top+1;
+      return {x,y,hit:button.contains(document.elementFromPoint(x,y))};
+    });
+    assert(point.hit,'The upper-left header corner belongs to the actual return button: '+JSON.stringify({label,point}));
+    const previous=await page.evaluate(()=>window.workbenchFixture.exitCount);
+    await page.mouse.click(point.x,point.y);
+    await page.waitForFunction(count=>window.workbenchFixture.exitCount===count+1,previous);
+  };
   await editor.waitFor({ state: 'visible' });
   await page.waitForFunction(() => document.querySelector('.cm-content')?.getAttribute('contenteditable') === 'true');
   await editor.focus();
@@ -56,6 +69,9 @@ try {
   assert.equal(await page.getByRole('button', { name: '缩小题面字号', exact: true }).isDisabled(), true);
   await setReadingSize('24');
   assert.equal(await page.locator('.wb-console').count(), 1, 'samples open on the first visit');
+  assert.equal(await page.locator('.wb-sample-list .wb-result-message').count(),0,'The sample list has no redundant footer sentence');
+  assert.equal(await page.getByText('运行会对比全部样例；通过样例不会计入已 AC。',{exact:true}).count(),0);
+  assert.match(await page.locator('.wb-scope').getAttribute('title'),/仅使用公开样例/,'Removing the sample footer preserves the run-scope tooltip');
   await page.getByRole('button',{name:'收起控制台',exact:true}).click();
   assert.equal(await page.locator('.wb-console').count(),0);
   await page.getByRole('button',{name:'展开控制台',exact:true}).click();
@@ -69,16 +85,32 @@ try {
   await page.mouse.move(handleBox.x+4,handleBox.y+80);await page.mouse.down();await page.mouse.move(bodyBox.x+bodyBox.width*.6,handleBox.y+80);await page.mouse.up();
   assert(Math.abs(Number(await splitter.getAttribute('aria-valuenow'))-60)<=1,'pointer drag changes the actual split');
   const beforeToggle=await page.evaluate(()=>window.workbenchFixture.readCode());
-  await page.getByRole('button',{name:'只看代码',exact:true}).click();assert.equal(await page.locator('.wb-statement-pane').isVisible(),false);
-  await page.getByRole('button',{name:'题面与代码',exact:true}).click();assert.equal(await page.locator('.wb-statement-pane').isVisible(),true);
+  assert.equal(await page.locator('.wb-layout-toggle').count(),0,'The desktop toolbar no longer includes a layout button');
+  await editor.press('Alt+2');assert.equal(await page.locator('.wb-statement-pane').isVisible(),false);
+  await editor.press('Alt+0');assert.equal(await page.locator('.wb-statement-pane').isVisible(),true);
   assert.equal(await page.evaluate(()=>window.workbenchFixture.readCode()),beforeToggle,'switching layout preserves the code document');
   assert(Math.abs(Number(await splitter.getAttribute('aria-valuenow'))-60)<=1,'split ratio survives layout toggling');
   assert.equal(await page.getByRole('link',{name:'在浏览器打开原题'}).innerText(),'','original link is icon-only');
   for(const width of [2048,1294,960,430]){
     await page.setViewportSize({width,height:800});
     await page.waitForFunction(expected=>document.querySelector('.tb-workbench').classList.contains('wb-compact')===expected,width<996);
-    if(width<996){await page.getByRole('button',{name:'只看代码',exact:true}).click();assert(await editor.isVisible());await page.getByRole('button',{name:'题面与代码',exact:true}).click();assert(await page.locator('.wb-statement').isVisible());}
-    const sizes=await page.locator('.wb-pane-header button:visible,.wb-pane-header select:visible,.wb-pane-header input:visible,.wb-original-link:visible,.wb-compact-toolbar button:visible').evaluateAll(nodes=>nodes.filter(n=>!n.disabled).map(n=>({height:n.getBoundingClientRect().height,label:n.getAttribute('aria-label')})));
+    await clickReturnCorner('返回列表');
+    if(width<996){
+      assert.equal(await page.locator('.wb-compact-toolbar .wb-layout-toggle').count(),1);
+      // Alt+2 previously selected the code pane. Resizing preserves that choice;
+      // exercise both actual compact controls without assuming a fresh default.
+      if(await page.getByRole('button',{name:'题面与代码',exact:true}).count())await page.getByRole('button',{name:'题面与代码',exact:true}).click();
+      assert(await page.locator('.wb-statement').isVisible());
+      await page.getByRole('button',{name:'只看代码',exact:true}).click();assert(await editor.isVisible());
+    }
+    else assert.equal(await page.locator('.wb-layout-toggle').count(),0);
+    const nextAlignment=await page.locator('.wb-next-button').evaluate(button=>{
+      const header=button.closest('.wb-editor-header'),bounds=header.getBoundingClientRect(),next=button.getBoundingClientRect(),style=getComputedStyle(header);
+      return {rightGap:bounds.right-next.right,expected:parseFloat(style.paddingRight)+parseFloat(style.borderRightWidth),within:next.left>=bounds.left&&next.right<=bounds.right+.5};
+    });
+    assert(nextAlignment.within&&Math.abs(nextAlignment.rightGap-nextAlignment.expected)<1,'Next question remains at the right edge of the editor toolbar: '+JSON.stringify({width,...nextAlignment}));
+    if(width<996){await page.getByRole('button',{name:'题面与代码',exact:true}).click();assert(await page.locator('.wb-statement').isVisible());}
+    const sizes=await page.locator('.wb-pane-header button:not(.wb-back-button):visible,.wb-pane-header select:visible,.wb-pane-header input:visible,.wb-original-link:visible,.wb-compact-toolbar button:not(.wb-back-button):visible').evaluateAll(nodes=>nodes.filter(n=>!n.disabled).map(n=>({height:n.getBoundingClientRect().height,label:n.getAttribute('aria-label')})));
     assert(sizes.every(item=>Math.abs(item.height-30)<1),`toolbar controls align at ${width}: ${JSON.stringify(sizes)}`);
     if(width>=996)assert((await page.getByLabel('编程语言',{exact:true}).boundingBox()).width>=80,'language name keeps a usable width');
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
@@ -344,6 +376,14 @@ try {
   await editor.fill('contest draft');
   await editor.press('Control+s');
   await page.waitForFunction(() => window.workbenchFixture.drafts['mock1:A'] === 'contest draft');
+  for(const width of [1050,430]){
+    await page.setViewportSize({width,height:800});
+    await page.waitForFunction(expected=>document.querySelector('.tb-workbench').classList.contains('wb-compact')===expected,width<996);
+    await clickReturnCorner('返回工作台');
+    assert.equal(await editor.getAttribute('aria-readonly'),'false','Returning leaves the running contest editable');
+    assert.equal(await page.evaluate(()=>window.workbenchFixture.calls.filter(call=>/contests\/(?:finish|cancel)/.test(call.path)).length),0,'Return never sends a finish or cancellation request');
+  }
+  await page.setViewportSize({width:1050,height:700});await page.waitForFunction(()=>!document.querySelector('.wb-compact'));
   await page.getByRole('button', {name:'提交',exact:true}).click();
   await page.waitForFunction(()=>window.workbenchFixture.calls.filter(call=>call.path==='official/submit').at(-1)?.body.contestId==='mock1');
   assert.equal(await page.evaluate(()=>window.workbenchFixture.calls.filter(call=>call.path==='official/submit').at(-1).body.code),'contest draft');

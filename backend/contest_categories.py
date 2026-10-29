@@ -1,4 +1,4 @@
-"""A mirrored ACM contest belongs to ACM rather than its hosting platform."""
+"""Contest series and actual hosting platform are independent filters."""
 import re
 
 def is_acm(row):
@@ -10,5 +10,4 @@ def matches_shelf(row,shelf):
     if shelf.casefold() in ('xcpc','acm'):return is_acm(row)
     lanqiao=str(row.get('series') or row.get('contest') or '').startswith('蓝桥杯')
     if shelf=='lanqiao':return lanqiao
-    if is_acm(row) or lanqiao:return False
     return shelf.casefold()==str(row.get('platform','')).casefold()

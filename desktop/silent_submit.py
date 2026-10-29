@@ -9,6 +9,7 @@ from urllib.parse import urlsplit
 from official_bridge import OfficialBridge, LOGIN_HOSTS, page_source
 from silent_browser import wake_browser
 from browser_sessions import live_cookies
+PROFILE_NAMES = {'Codeforces':'tb-cf','AtCoder':'tb-atcoder','牛客':'tb-nowcoder','洛谷':'tb-luogu','QOJ':'tb-qoj'}
 
 
 def navigation_failure(session):
@@ -159,7 +160,7 @@ class SilentSubmitter(OfficialBridge):
         view.Dock = Forms.DockStyle.Fill
         props = CoreWebView2CreationProperties()
         props.UserDataFolder = form.browser.user_data_folder
-        props.ProfileName = 'tb-' + {'Codeforces': 'cf', 'AtCoder': 'atcoder', '牛客': 'nowcoder', '洛谷': 'luogu'}[session['platform']]
+        props.ProfileName = PROFILE_NAMES[session['platform']]
         props.set_IsInPrivateModeEnabled(False)
         view.CreationProperties = props
         panel.Controls.Add(view)

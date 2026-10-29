@@ -19,7 +19,7 @@
 .bulb-rays {animation:bulb-rays 6s ease-in-out infinite}
 .globe-turn {transform-origin:90px 73px;animation:planet-rotation 24s linear infinite}
 .globe-planet {transform-origin:90px 73px;animation:planet-cycle 24s ease-in-out infinite}
-.globe-building {transform-origin:90px 40px;animation:city-rise 24s ease-out infinite;animation-delay:var(--build-delay);opacity:0}
+.globe-building {transform-origin:90px 40px;animation-duration:24s;animation-timing-function:ease-out;animation-iteration-count:infinite;opacity:0}
 .globe-burst {opacity:0;animation:planet-burst 24s linear infinite}
 .globe-shockwave {transform-origin:90px 73px;animation:shockwave-spread 24s ease-out infinite}
 .globe-fragment {transform-origin:90px 73px;animation:fragment-flight 24s ease-out infinite}
@@ -39,11 +39,10 @@
 @keyframes bulb-filament {0%,100%{stroke-opacity:.35}50%{stroke-opacity:1}}
 @keyframes bulb-rays {0%,100%{opacity:.25}50%{opacity:.9}}
 @keyframes planet-rotation {to{transform:rotate(360deg)}}
-@keyframes city-rise {0%,2%{opacity:0;transform:scaleY(.05)}6%,62%{opacity:1;transform:scaleY(1)}68%,100%{opacity:0;transform:scaleY(.05)}}
-@keyframes planet-cycle {0%,66%,100%{transform:scale(1);opacity:1}70%{transform:scale(1.07) rotate(-3deg)}73%{transform:scale(1.02) rotate(3deg)}77%{transform:scale(.7);opacity:.6}82%,91%{transform:scale(.05);opacity:0}96%{transform:scale(.65);opacity:.65}}
-@keyframes planet-burst {0%,69%,94%,100%{opacity:0}72%,80%{opacity:1}90%{opacity:0}}
-@keyframes shockwave-spread {0%,69%{transform:scale(.9);opacity:0}73%{opacity:.8}87%,100%{transform:scale(2);opacity:0}}
-@keyframes fragment-flight {0%,70%{transform:translateY(0) rotate(0)}88%,100%{transform:translateY(var(--fragment-distance)) rotate(var(--fragment-turn))}}
+@keyframes planet-cycle {0%,83%,100%{transform:scale(1);opacity:1}84%{transform:scale(1.08);opacity:1}85.5%,96%{transform:scale(.8);opacity:0}99%{transform:scale(1);opacity:1}}
+@keyframes planet-burst {0%,83.7%,87.2%,100%{opacity:0}84.3%,85%{opacity:1}}
+@keyframes shockwave-spread {0%,83.7%{transform:scale(.9);opacity:0}84%{transform:scale(1);opacity:.8}85.8%,100%{transform:scale(2.4);opacity:0}}
+@keyframes fragment-flight {0%,83.7%{transform:translateY(0) rotate(0);opacity:0}84%{opacity:1}86.8%,100%{transform:translateY(calc(var(--fragment-distance)*3)) rotate(var(--fragment-turn));opacity:0}}
 @media(max-width:800px) {.settings-home-grid .settings-tile>button>.settings-scene {width:150px;height:110px;top:calc(50% + 15px)}.balloon-flight {width:52px;height:100px;left:calc(50% - 26px)}.cloud-flight {width:80px;height:50px}.cloud-flight-1{top:55%}.settings-home-grid .settings-tile>button>.scene-globe{width:150px;height:116px}}
 html[data-motion=off] .settings-scene * {animation:none!important}
 
@@ -52,11 +51,6 @@ html[data-motion=off] .settings-scene * {animation:none!important}
 .dino-landscape {position:absolute;inset:0;width:100%;height:100%;opacity:.32}
 .volcano-steam {animation:volcano-steam 4s ease-out infinite;transform-origin:center;opacity:0}
 @keyframes volcano-steam {0%{opacity:0;transform:translateY(9px)}25%{opacity:.65}100%{opacity:0;transform:translateY(-20px)}}
-.globe-turn {animation-duration:12s}.globe-planet {animation-duration:12s}.globe-building {animation-duration:12s}.globe-burst,.globe-shockwave,.globe-fragment {animation-duration:12s}
-@keyframes planet-cycle {0%,62%{transform:scale(1);opacity:1}64%{transform:scale(.93);opacity:1}66%{transform:scale(1.12);opacity:1}68%,95%{transform:scale(1.2);opacity:0}100%{transform:scale(1);opacity:1}}
-@keyframes planet-burst {0%,64%,92%,100%{opacity:0}66%,77%{opacity:1}86%{opacity:0}}
-@keyframes shockwave-spread {0%,64%{transform:scale(.65);opacity:0}65%{transform:scale(.8);opacity:.85}73%{transform:scale(2.5);opacity:0}100%{transform:scale(2.5);opacity:0}}
-@keyframes fragment-flight {0%,64%{transform:translateY(0) rotate(0);opacity:0}65%{opacity:1}76%{transform:translateY(calc(var(--fragment-distance)*3.1)) rotate(var(--fragment-turn));opacity:0}100%{transform:translateY(calc(var(--fragment-distance)*3.1));opacity:0}}
 .dipper-lines {stroke-dasharray:1;stroke-dashoffset:1;animation:dipper-lines 8s linear infinite}
 .dipper-star {opacity:0;animation-duration:8s;animation-timing-function:ease;animation-iteration-count:infinite}
 @keyframes dipper-lines {0%,48%{stroke-dashoffset:1;opacity:0}51%{opacity:.65}71%,84%{stroke-dashoffset:0;opacity:.65}95%,100%{stroke-dashoffset:0;opacity:0}}
@@ -117,3 +111,10 @@ html[data-motion=off] .dipper-lines {stroke-dashoffset:0}
 }
 html[data-motion=off] .settings-scene :is(.dino-traveler,.cloud-flight) {left:10%;opacity:.75}
 html[data-motion=off] .settings-scene .balloon-flight {top:20%;bottom:auto;opacity:.9}
+
+/* Equal screen-space line weight despite the landscape/portrait SVG viewBoxes. */
+.settings-scene {--settings-line-width:2.4px}
+.settings-scene :is(path,circle,ellipse,line,polyline,polygon,rect) {vector-effect:non-scaling-stroke;stroke-width:var(--settings-line-width)}
+@media(max-width:800px){.settings-scene{--settings-line-width:1.5px}}
+html[data-motion=off] .settings-scene .globe-building {opacity:1;transform:none}
+html[data-motion=off] .settings-scene .globe-burst {opacity:0}

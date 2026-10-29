@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {chooseMockValue} from './mock-mode-selection.mjs';
 import { chromium } from 'playwright';
 import { mkdir } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -155,7 +156,7 @@ try {
   const topicValues = await page.getByLabel('专项训练知识点').locator('option').evaluateAll(options => options.map(option => option.value));
   const topic = tested.tags.find(tag => topicValues.includes(tag));
   assert.ok(topic, 'Reviewed source knowledge can be selected for targeted practice.');
-  await page.getByLabel('专项训练知识点').selectOption(topic);
+  await page.keyboard.press('Escape');await chooseMockValue(page,'专项训练',topic);
   const previewResponse = page.waitForResponse(response => response.url() === `${base}/api/contests/preview` && response.request().method() === 'POST');
   await page.getByRole('button', { name: '生成试卷', exact: true }).click();
   const targeted = (await (await previewResponse).json()).plan;
@@ -252,8 +253,8 @@ try {
   const preservedHistory=(await get('submissions')).total;
   await page.keyboard.press('Control+1');
   await page.getByLabel('清空我的训练').click();
-  await page.getByRole('dialog').getByRole('button',{name:/确认清空/}).click();
-  await page.waitForFunction(()=>!document.querySelector('[role="dialog"]'));
+  await page.getByRole('alertdialog',{name:'清空我的训练确认'}).getByRole('button',{name:/确认清空/}).click();
+  await page.getByRole('alertdialog',{name:'清空我的训练确认'}).waitFor({state:'detached'});
   assert.equal((await get('workspace')).summary.total,0);
   assert.equal((await get('problem?id='+encodeURIComponent(tested.id))).draft,preservedDraft);
   assert.equal((await get('submissions')).total,preservedHistory);

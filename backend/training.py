@@ -38,6 +38,14 @@ def parse_time(value):
     return dt.datetime.fromisoformat(value.replace("Z", "+00:00")).astimezone(UTC)
 
 
+def _submission_platform(value):
+    """Match actual catalog metadata; unfamiliar platform names stay distinct."""
+    name = value.strip() if isinstance(value, str) else ''
+    return {'codeforces': 'Codeforces', 'cf': 'Codeforces',
+            'atcoder': 'AtCoder', 'ac': 'AtCoder',
+            'nowcoder': '牛客', 'luogu': '洛谷', 'qoj': 'QOJ'}.get(name.casefold(), name)
+
+
 class TrainingService:
     def __init__(self, store, db_path, assets=None, judge=None, clock=None, backup_dir=None, rng=None, account_provider=None, admin_mode=False):
         self.admin_mode = bool(admin_mode)
@@ -1367,7 +1375,7 @@ class TrainingService:
                 result["workspace"] = self.workspace()
             return result
 
-    def submissions(self, identity=None, contest_id=None, exact_context=False, limit=100, offset=0, results_only=False, review_id=None, query='', verdict='', order='desc', compact=False):
+    def submissions(self, identity=None, contest_id=None, exact_context=False, limit=100, offset=0, results_only=False, review_id=None, query='', verdict='', order='desc', compact=False, platform=''):
         try:
             limit, offset = int(limit), int(offset)
         except (ValueError, TypeError):
@@ -1378,6 +1386,9 @@ class TrainingService:
             raise ServiceError(400, '提交记录查询参数无效')
         if verdict not in ('', 'AC', 'WA', 'CE', 'TLE', 'MLE', 'RE', 'OLE', 'ERROR', 'QUEUED', 'RUNNING'):
             raise ServiceError(400, '提交结果筛选无效')
+        if not isinstance(platform, str) or len(platform) > 80:
+            raise ServiceError(400, '提交记录平台筛选无效')
+        platform = _submission_platform(platform)
         with self.lock:
             self._expire()
             active = self.connection.execute("SELECT id,slots FROM contests WHERE status='running'").fetchone()
@@ -1385,14 +1396,49 @@ class TrainingService:
             if identity:
                 self._history_visible(identity, contest_id)
             clauses, values = [], []
+            catalog_rows, catalog, aliases, history_rows = None, {}, {}, {}
+
+            def load_catalog():
+                nonlocal catalog_rows, catalog, aliases
+                if catalog_rows is None:
+                    catalog_rows = self._library()
+                    catalog = {row['id']: row for row in catalog_rows}
+                    aliases = self._identity_map(catalog_rows)
+
+            def history_row(pid):
+                if pid not in history_rows:
+                    canonical = aliases.get(pid, pid)
+                    row = catalog.get(canonical)
+                    if row is None:
+                        try:
+                            row = self._row(canonical)
+                        except ServiceError as error:
+                            if error.status != 404:
+                                raise
+                            # Compact unfiltered pages retain their direct lookup
+                            # path; only unresolved aliases need a catalog view.
+                            load_catalog()
+                            canonical = aliases.get(pid, pid)
+                            row = catalog.get(canonical)
+                    history_rows[pid] = (canonical, row)
+                return history_rows[pid]
+
+            if platform:
+                load_catalog()
+                # Filter before COUNT and LIMIT, including historic aliases and
+                # portable imported/retired facts. Never read private code blobs.
+                matching = [record['problem_id'] for record in self.connection.execute('SELECT DISTINCT problem_id FROM submissions')
+                            if _submission_platform((history_row(record['problem_id'])[1] or {}).get('platform')) == platform]
+                clauses.append('problem_id IN (SELECT value FROM json_each(?))')
+                values.append(json.dumps(matching, ensure_ascii=False))
             if verdict:
                 clauses.append('verdict=?')
                 values.append(verdict)
             if query.strip():
-                catalog = self._library()
+                load_catalog()
                 for token in query.casefold().split():
                     ids = set()
-                    for row in catalog:
+                    for row in catalog_rows:
                         text = ' '.join(str(row.get(key) or '') for key in ('id', 'title', 'contest', 'problem')).casefold()
                         if token in text:
                             ids.update([row['id'], *row.get('aliasIds', [])])
@@ -1430,15 +1476,10 @@ class TrainingService:
             if compact:
                 # List navigation never decodes code/output/case blobs. Resolve
                 # only the distinct displayed problems, including portable facts.
-                catalog={}
                 for pid in dict.fromkeys(record['problem_id'] for record in records):
-                    try:catalog[pid]=self._row(pid)
-                    except ServiceError as error:
-                        if error.status!=404:raise
-                aliases={}
+                    history_row(pid)
             else:
-                catalog={row['id']:row for row in self._library()}
-                aliases=self._identity_map(list(catalog.values()))
+                load_catalog()
             submissions=[]
             for record in records:
                 value=({'id':record['id'],'problemId':record['problem_id'],'contestId':record['contest_id'],
@@ -1447,9 +1488,8 @@ class TrainingService:
                         'timeMs':record['time_ms'],'memoryKb':record['memory_kb'],
                         'passed':record['passed'],'total':record['total'],'sampleRun':bool(record['sample_run']),
                         'codePending':True} if compact else self._submission(record))
-                canonical=aliases.get(value['problemId'],value['problemId'])
-                row=catalog.get(canonical)
-                if row:value.update(canonicalProblemId=canonical,title=row.get('title'),contestName=row.get('contest'),problem=row.get('problem'))
+                canonical,row=history_row(value['problemId'])
+                if row:value.update(canonicalProblemId=canonical,title=row.get('title'),contestName=row.get('contest'),problem=row.get('problem'),platform=_submission_platform(row.get('platform')),url=row.get('url'))
                 submissions.append(value)
             return {"submissions": submissions, "total": total, "offset": offset, "limit": limit, "hasMore": offset + len(records) < total}
 

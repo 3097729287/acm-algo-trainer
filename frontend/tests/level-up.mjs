@@ -15,13 +15,13 @@ try{
  assert.equal(await dialog().count(),0);assert.equal((await snapshot()).preferences.levelNoticePending,3);
  assert.equal(await page.getByRole('navigation').getByRole('button',{name:'模拟赛',exact:true}).count(),1,'gates unlock immediately even while notices queue');
  console.log('queued');await page.getByRole('button',{name:'离开编辑器'}).click();await dialog().waitFor();console.log('visible');assert.match(await dialog().textContent(),/Lv\.1.*Lv\.3/s);
- await emit(4,3);await page.waitForTimeout(50);assert.match(await dialog().textContent(),/Lv\.4/);assert.equal(await dialog().getByRole('button',{name:'打开新解锁板块 算法实验室',exact:true}).count(),1);
+ await emit(4,3);await page.waitForTimeout(50);assert.match(await dialog().textContent(),/Lv\.4/);assert.equal(await dialog().getByRole('button',{name:'打开新解锁板块 实验室',exact:true}).count(),1);
  await page.keyboard.press('Tab');await page.keyboard.press('Shift+Tab');assert(await page.evaluate(()=>!!document.activeElement.closest('[data-level-up]')));
  await page.keyboard.press('Escape');await page.waitForTimeout(50);assert.equal(await dialog().count(),0);assert.equal((await snapshot()).preferences.levelNoticeSeen,4);
  assert(await page.locator('.level-new-entry').count()>0);await page.waitForTimeout(1500);assert.equal(await page.locator('.level-new-entry').count(),0);
  await emit(4,4);await page.waitForTimeout(50);assert.equal(await dialog().count(),0);await emit(2,1);assert.equal((await snapshot()).growth.level,4,'older authority cannot roll back features');
  await page.evaluate(()=>levelFixture.block(true));await emit(5,5);await page.waitForTimeout(50);assert.equal(await dialog().count(),0);await page.reload();await page.getByRole('navigation').waitFor();assert.equal((await snapshot()).preferences.levelNoticePending,5);
- await page.evaluate(()=>levelFixture.block(false));await dialog().waitFor();assert.match(await dialog().textContent(),/成长与能力/);await page.keyboard.press('Escape');
+ await page.evaluate(()=>levelFixture.block(false));await dialog().waitFor();assert.match(await dialog().textContent(),/成长/);await page.keyboard.press('Escape');
  await page.evaluate(()=>levelFixture.other(true));await emit(6,6);await page.waitForTimeout(80);assert.equal(await dialog().count(),0);await page.getByRole('button',{name:'关闭',exact:true}).click();await dialog().waitFor();assert.equal(await dialog().locator('.level-up-next').count(),0,'no invented feature unlocks after Lv5');await page.keyboard.press('Escape');
  await page.evaluate(()=>levelFixture.switchOwner('second-account',11));await page.waitForTimeout(100);assert.equal(await dialog().count(),0);assert.equal((await snapshot()).preferences.levelNoticeSeen,11);
  await emit(20,40,{owner:'first-account'});await page.waitForTimeout(50);assert.equal((await snapshot()).growth.level,11);assert.equal(await dialog().count(),0);

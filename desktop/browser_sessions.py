@@ -1,4 +1,4 @@
-"""User-authorized OJ login sync. Only four site scopes, encrypted by Windows DPAPI."""
+"""User-authorized OJ login sync. Explicit site scopes, encrypted by Windows DPAPI."""
 import json
 import math
 import secrets
@@ -11,7 +11,7 @@ from training import ServiceError
 from translation_config import _crypt
 
 DOMAINS = {'Codeforces': ('codeforces.com',), 'AtCoder': ('atcoder.jp',),
-           '牛客': ('nowcoder.com',), '洛谷': ('luogu.com.cn',)}
+           '牛客': ('nowcoder.com',), '洛谷': ('luogu.com.cn',), 'QOJ': ('qoj.ac',)}
 LOGIN_STATES = {'logged_in', 'logged_out', 'unknown'}
 
 

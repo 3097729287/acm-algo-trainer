@@ -1,14 +1,18 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { RotateCcw, SlidersHorizontal, X } from 'lucide-react';
+import './FilterMenu.css';
 
 export default function FilterMenu({ children, active = false, label = '筛选', onReset }) {
   const [open, setOpen] = useState(false), host = useRef(null), trigger = useRef(null), id = useId();
   const [position,setPosition]=useState({});
   useLayoutEffect(()=>{
     if(!open)return;
-    const layout=()=>{const rect=trigger.current.getBoundingClientRect(),width=Math.min(360,innerWidth-24),top=Math.min(rect.bottom+9,innerHeight-140);setPosition({position:'fixed',left:Math.max(12,Math.min(rect.right-width,innerWidth-width-12)),right:'auto',top,width,maxHeight:Math.max(100,innerHeight-top-16)});};
-    layout();window.addEventListener('resize',layout);window.addEventListener('scroll',layout,true);
-    return()=>{window.removeEventListener('resize',layout);window.removeEventListener('scroll',layout,true);};
+    const layout=()=>{const rect=trigger.current.getBoundingClientRect(),edge=12,width=Math.max(0,Math.min(360,innerWidth-edge*2)),top=Math.max(edge,Math.min(rect.bottom+8,innerHeight-edge-100));setPosition({position:'fixed',left:Math.max(edge,Math.min(rect.left,innerWidth-width-edge)),right:'auto',top,width,maxHeight:Math.max(0,innerHeight-top-edge)});};
+    let frame;
+    const resize=()=>{layout();cancelAnimationFrame(frame);frame=requestAnimationFrame(layout);};
+    const observer=new ResizeObserver(resize);observer.observe(trigger.current);const controls=host.current?.closest('.page-search-controls');if(controls)observer.observe(controls);
+    resize();window.addEventListener('resize',resize);window.addEventListener('scroll',resize,true);
+    return()=>{cancelAnimationFrame(frame);observer.disconnect();window.removeEventListener('resize',resize);window.removeEventListener('scroll',resize,true);};
   },[open]);
   useEffect(() => {
     if (!open) return;

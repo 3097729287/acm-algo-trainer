@@ -61,7 +61,7 @@ class Fixture(Handler):
             if 'platform' in query:
                 store.request(query['platform'][0])
             self.send_json(200, {platform: {'count': len(value['cookies']), 'fixture': all(c['value'] == 'fixture-only' for c in value['cookies'])}
-                                for platform in ('Codeforces','AtCoder','牛客','洛谷') if (value := store.snapshot(platform)) is not None})
+                                for platform in ('Codeforces','AtCoder','牛客','洛谷','QOJ') if (value := store.snapshot(platform)) is not None})
         else:
             super().do_GET()
 

@@ -42,7 +42,7 @@ test('the real lesson comes before its operation exercises',()=>{
  const result=nextActions(base);assert.equal(result[0].kind,'course');assert.equal(result[0].id,'prefix-difference');
  assert.match(result[0].reason,/前置/);assert(!result.some(item=>item.kind==='template-problem'));
  const saved=nextActions({...base,prefs:{learningPaths:{activePath:'prefix-difference','prefix-difference':{mode:'learn',labV1:{chapter:'sum'}}}}});
- assert.equal(saved[0].kind,'course');assert.match(saved[0].reason,/按保存章节继续/);
+ assert.equal(saved[0].kind,'course');assert.match(saved[0].reason,/从课程第一页复习并继续/);
 });
 test('an implementation position offers a diagnostic, never claims course completion',()=>{
  const result=nextActions({...base,prefs:{learningPaths:{'prefix-difference':{mode:'learn',labV1:{chapter:'code'}}}}});
@@ -61,6 +61,22 @@ test('already accepted originals and completed operations are never new recommen
  const result=nextActions({...base,rows:base.rows.map(item=>item.id===prefix.id?{...item,accepted:true}:item),
   prefs:{learningPaths:{'prefix-difference':{mode:'guided'}}},templates:[{...template,practicePassed:[true,true]}]});
  assert(!result.some(item=>[prefix.id,drill1.id,drill2.id].includes(item.id)));
+});
+
+test('returning to a course first page preserves the handoff from actual completed operations',()=>{
+ const prefs={learningPaths:{activePath:'prefix-difference','prefix-difference':{mode:'learn',labV1:{chapter:'sum'}}}};
+ const partial=nextActions({...base,prefs,templates:[{...template,practicePassed:[true,false]}]});
+ assert.equal(partial[0].kind,'template-problem');assert.equal(partial[0].id,drill2.id);
+ const complete=nextActions({...base,prefs,templates:[{...template,practicePassed:[true,true]}]});
+ assert.equal(complete[0].kind,'problem');assert.equal(complete[0].id,prefix.id);
+ assert(!complete.some(item=>item.kind==='course'&&item.id==='prefix-difference'));
+ assert.equal(learningEvidence(base.rows,base.insights,now).all.solved,3,'operation receipts never manufacture independent mastery');
+});
+
+test('actual operation receipts cannot waive the course prerequisite or the review budget',()=>{
+ const templates=[{...template,practicePassed:[true,true]}],prefs={learningPaths:{'prefix-difference':{mode:'learn',labV1:{chapter:'sum'}}}};
+ assert(!nextActions({...base,insights:insight([]),prefs,templates}).some(item=>[prefix.id,drill1.id,drill2.id].includes(item.id)));
+ assert.deepEqual(nextActions({...base,prefs,templates,reviewPlan:{reviewOnly:true,newMinutes:0}}),[]);
 });
 test('a missing prerequisite diverts Dijkstra to the real BFS lesson',()=>{
  const result=nextActions({...base,rows:[...foundation,row('shortest',{tags:['最短路']})],templates:[],
@@ -275,13 +291,20 @@ test('an incomplete first unit remains the frontier even when later exercises ha
  assert.deepEqual(hidden,[],'Hiding the current list cannot turn later exercises into eligible prerequisites');
 });
 
-test('accepted totals without qualified independent evidence do not complete the blocked unit',()=>{
- const first=[1,2,3].map(n=>row('first-accepted-'+n,{tags:['输入输出'],accepted:true}));
+test('completed source units advance learning without manufacturing independent mastery',()=>{
+ const first=[1,2,3].map(n=>row('first-accepted-'+n,{tags:['输入输出'],accepted:true,platform:'Luogu',difficultyConfidence:'LOW',difficultySource:'来源档位换算（未核定）'}));
+ const second=[1,2,3].map(n=>row('next-loops-'+n,{tags:['循环'],solutionAvailable:false}));
  const later=[1,2,3].map(n=>row('later-arrays-'+n,{tags:['数组']}));
  const lists=[{id:'first',title:'顺序结构',available:true,problems:first.map(item=>({problemId:item.id}))},
+  {id:'second',title:'循环结构',available:true,problems:second.map(item=>({problemId:item.id}))},
   {id:'later',title:'数组与字符串',available:true,problems:later.map(item=>({problemId:item.id}))}];
- const result=nextActions({rows:[...first,...later],lists,insights:{growth:{level:1,totalXp:999}},availablePages:pages,now});
- assert.deepEqual(result.map(item=>item.id),['curriculum:0']);
+ const config={rows:[...first,...second,...later],lists,insights:{growth:{level:1,totalXp:999}},availablePages:pages,now};
+ const result=nextActions(config);
+ assert.deepEqual(result.map(item=>item.id),['curriculum:1']);
+ assert.match(result[0].reason,/前序 1 个基础单元已全部通过/);
+ assert.match(result[0].reason,/不替代独立掌握或能力证据/);
+ assert.equal(learningEvidence(config.rows,config.insights,now).all.solved,0);
+ assert(!result.some(item=>item.kind==='course'||item.kind==='stretch'||item.id==='curriculum:0'));
 });
 
 test('actual independent first-unit evidence advances to the next unit, not the next populated candidate',()=>{
@@ -331,6 +354,75 @@ test('the actual public seed keeps a zero-evidence Lv1 learner in input/output',
   assert(firstIds.has(item.id));assert(solutions.has(item.id));assert(statements.get(item.id)?.samples?.length);
  }
  assert(!result.some(item=>item.id==='curriculum:3'||item.kind==='course'||/STL|函数/.test(item.title)));
+ assert(result.length<=NEXT_ACTION_POLICY.maxActions);
+});
+
+test('selected complete due reviews provide real alternatives alongside the next unfinished unit',()=>{
+ const first=Array.from({length:15},(_,i)=>row('completed-io-'+i,{tags:['输入输出'],accepted:true,difficultyConfidence:'LOW',platform:'Luogu',difficultySource:'来源档位换算（未核定）'}));
+ const second=Array.from({length:18},(_,i)=>row('pending-loop-'+i,{tags:['循环'],accepted:i<4,solutionAvailable:false,difficultyConfidence:'LOW',platform:'Luogu',difficultySource:'来源档位换算（未核定）'}));
+ const reviews=Array.from({length:6},(_,i)=>row('actual-review-'+i,{accepted:true,queue:'review',reviewTask:{due:'2026-10-28',openedAt:i===0?'2026-10-28T00:00:00Z':null},solutionAvailable:i<4,solutionState:i<4?'available':'missing'}));
+ const lists=[{id:'first',title:'顺序结构',available:true,problems:first.map(item=>({problemId:item.id}))},
+  {id:'second',title:'循环结构',available:true,problems:second.map(item=>({problemId:item.id}))}];
+ const input={rows:[...first,...second,...reviews],training:reviews,lists,availablePages:pages,now,
+  reviewPlan:{tasks:reviews.map(item=>({problemId:item.id,minutes:20})),dailyMinutes:240,minutes:120,newMinutes:120}};
+ const result=nextActions(input);
+ assert.deepEqual(result.map(item=>item.id),[reviews[0].id,'curriculum:1',reviews[1].id,reviews[2].id,reviews[3].id]);
+ assert.match(result[1].reason,/已通过 4\/18/);
+ assert(!result.some(item=>item.id==='curriculum:0'||reviews.slice(4).some(row=>row.id===item.id)));
+ assert.equal(learningEvidence(input.rows,{},now).all.solved,0);
+});
+
+test('review alternatives obey the selected server budget and original identity',()=>{
+ const due=Array.from({length:8},(_,i)=>row('budget-review-'+i,{accepted:true,queue:'review',reviewTask:{due:'2026-10-28'}}));
+ const alias={...due[0],id:'review-alias',url:'https://codeforces.com/problemset/problem/912/A'};
+ due[0]={...due[0],url:'https://codeforces.com/contest/912/problem/A'};
+ const training=[...due,alias],config={rows:training,training,availablePages:pages,now,
+  reviewPlan:{reviewOnly:true,newMinutes:0,tasks:[{problemId:alias.id},{problemId:due[1].id}]}};
+ const result=nextActions(config);
+ assert.equal(result.length,2);assert.equal(result.filter(item=>[due[0].id,alias.id].includes(item.id)).length,1);
+ assert(result.every(item=>item.kind==='review'&&[due[0].id,alias.id,due[1].id].includes(item.id)));
+ assert.deepEqual(nextActions({...config,reviewPlan:{reviewOnly:true,tasks:[]}}),[],'An empty selected review plan never expands to the whole personal queue');
+ const bounded=nextActions({...config,reviewPlan:{reviewOnly:true,newMinutes:0}});
+ assert.equal(bounded.length,NEXT_ACTION_POLICY.maxActions);assert(bounded.every(item=>item.kind==='review'));
+ const short=nextActions({...base,rows:[...base.rows,...training],training,reviewPlan:{newMinutes:10,tasks:[{problemId:due[1].id},{problemId:due[2].id}]}});
+ assert.deepEqual(short.map(item=>item.id),[due[1].id,due[2].id]);
+});
+
+test('completed earlier units do not authorize skipping a genuinely absent next prerequisite',()=>{
+ const first=[1,2,3].map(i=>row('done-first-'+i,{tags:['输入输出'],accepted:true}));
+ const later=[1,2,3].map(i=>row('only-later-'+i,{tags:['函数']}));
+ const lists=[{id:'first',title:'顺序结构',available:true,problems:first.map(row=>({problemId:row.id}))},
+  {id:'later',title:'函数与结构体',available:true,problems:later.map(row=>({problemId:row.id}))}];
+ assert.deepEqual(nextActions({rows:[...first,...later],lists,availablePages:pages,now}),[]);
+});
+
+test('passing every foundation list does not create algorithm prerequisites or repeat completed lists',()=>{
+ const topics=[['顺序结构','输入输出'],['循环结构','循环'],['数组与字符串','数组'],['函数与结构体','函数']];
+ const rows=topics.flatMap(([,tag],index)=>[1,2,3].map(i=>row('all-done-'+index+'-'+i,{tags:[tag],accepted:true})));
+ const lists=topics.map(([title],index)=>({id:'done-source-'+index,title,available:true,problems:rows.filter(row=>row.id.startsWith('all-done-'+index+'-')).map(row=>({problemId:row.id}))}));
+ const result=nextActions({rows:[...rows,row('unsupported-bfs',{tags:['BFS']})],lists,availablePages:pages,now});
+ assert.deepEqual(result,[]);
+ assert.equal(learningEvidence(rows,{},now).all.solved,0);
+});
+
+test('the actual public seed advances a completed 15-of-15 first unit without losing evidence safeguards',()=>{
+ const source=name=>JSON.parse(fs.readFileSync(new URL(`../../data/library/${name}.json`,import.meta.url)));
+ const statements=new Map(source('statements').map(item=>[item.problem_id,item.content]));
+ const explanations=new Set(source('solutions').filter(item=>item.markdown?.trim()).map(item=>item.problem_id));
+ const rows=source('problems').map(item=>{const statement=statements.get(item.id);return {...item.encoded,accepted:false,
+  catalogContentReady:Boolean(statement?.markdown?.trim()&&statement.samples?.some(sample=>typeof sample.input==='string'&&typeof sample.output==='string')),
+  solutionAvailable:explanations.has(item.id),solutionState:explanations.has(item.id)?'available':'missing'};});
+ const lists=source('training_lists'),units=buildTrainingCurriculum(filterTrainingListsScope(organizeTrainingLists(lists),rows),rows);
+ const first=units.find(unit=>unit.id==='curriculum:0'),second=units.find(unit=>unit.id==='curriculum:1');
+ assert.equal(first.problems.length,15);assert(second?.problems.length>4);
+ const passed=new Set([...first.problems,...second.problems.slice(0,4)].map(item=>item.problemId));
+ const completedRows=rows.map(row=>({...row,accepted:passed.has(row.id)}));
+ const input={rows:completedRows,lists,insights:{growth:{level:12},assessment:{model:{method:'rasch-practice-evidence-v2'},evidence:[]}},availablePages:availablePages(12),now};
+ const result=nextActions(input);
+ assert.equal(result[0]?.kind,'list');assert.equal(result[0]?.id,second.id);
+ assert.match(result[0].reason,new RegExp(`已通过 4/${second.problems.length}`));
+ assert(!result.some(item=>item.id===first.id||item.kind==='course'||item.kind==='stretch'));
+ assert.equal(learningEvidence(completedRows,input.insights,now).all.solved,0);
  assert(result.length<=NEXT_ACTION_POLICY.maxActions);
 });
 
