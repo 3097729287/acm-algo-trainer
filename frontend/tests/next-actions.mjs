@@ -256,6 +256,22 @@ try{
     await touchPrimary.tap();
     const touchPopup=touch.locator('.next-actions-popover');await touchPopup.waitFor();
     assert.deepEqual(await touch.evaluate(()=>window.fixtureEvents),[],'The first primary tap opens choices without entering a task');
+    // A non-mouse pointer clears Chromium's sticky compatibility hover without
+    // clicking outside. The following native mouseout models a touchscreen's
+    // compatibility event; it must not acquire real-mouse dismissal semantics.
+    const touchInput=await touch.context().newCDPSession(touch);
+    await touchInput.send('Input.dispatchMouseEvent',{type:'mouseMoved',x:425,y:790,pointerType:'pen'});
+    await touchInput.detach();
+    const touchCompatibility=await touchPrimary.evaluate(node=>{
+      const root=node.closest('.next-actions');
+      const remaining=Math.max(0,...document.getAnimations().map(animation=>Number(animation.effect.getComputedTiming().endTime)-Number(animation.currentTime||0)).filter(Number.isFinite));
+      const detail={rootHovered:root.matches(':hover'),primaryHovered:node.matches(':hover'),flyoutHovered:document.querySelector('.next-actions-flyout')?.matches(':hover'),at:performance.now(),settledAfter:performance.now()+remaining+80+16};
+      node.dispatchEvent(new MouseEvent('mouseout',{bubbles:true,relatedTarget:document.body}));
+      return detail;
+    });
+    console.log('TOUCH COMPATIBILITY',JSON.stringify(touchCompatibility));
+    await touch.waitForFunction(settledAfter=>performance.now()>=settledAfter&&document.getAnimations().every(animation=>animation.playState==='finished'),touchCompatibility.settledAfter);
+    assert.equal(await touchPopup.count(),1,'A compatibility mouseout after a touch tap must not close the menu during its entrance animation');
     await touchPopup.getByRole('button',{name:'开始基础题单 输入输出与顺序结构',exact:true}).tap();
     assert.equal((await touch.evaluate(()=>window.fixtureEvents.at(-1))).navigate,'list');
     await touchPrimary.tap();await touchPopup.waitFor();
@@ -265,6 +281,15 @@ try{
     assert.equal(await touchPopup.count(),0);
     await touchPrimary.tap();await touchPopup.waitFor();
     await touch.touchscreen.tap(425,790);assert.equal(await touch.locator('.next-actions-popover').count(),0);
+    const pen=await touch.context().newCDPSession(touch),penBox=await touchPrimary.boundingBox(),penPoint={x:penBox.x+penBox.width/2,y:penBox.y+penBox.height/2,pointerType:'pen'};
+    await pen.send('Input.dispatchMouseEvent',{type:'mouseMoved',...penPoint});
+    const beforePen=await touch.evaluate(()=>window.fixtureEvents.length);
+    await pen.send('Input.dispatchMouseEvent',{type:'mousePressed',...penPoint,button:'left',buttons:1,clickCount:1});
+    await pen.send('Input.dispatchMouseEvent',{type:'mouseReleased',...penPoint,button:'left',buttons:0,clickCount:1});await pen.detach();
+    assert.equal(await touch.evaluate(()=>window.fixtureEvents.length),beforePen+1,'Pen click enters the primary task directly');
+    assert.deepEqual(await touch.evaluate(()=>window.fixtureEvents.at(-1)),{train:'B'});
+    assert.equal(await touchPopup.count(),0);
+    report.touchCompatibility={...touchCompatibility,menuSurvivedAnimationAndCloseBudget:true,secondaryTapNavigated:true,penClickNavigated:true};
   }finally{await touchContext.close();}
 
   phase='open-change-and-unmount';

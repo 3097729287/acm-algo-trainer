@@ -64,12 +64,12 @@ export default function NextActions({rows,training,insights,prefs,api,availableP
  const blur=event=>{if(!contains(event.relatedTarget))leave(true);};
  if(!primary)return null;
  const Icon=icons[primary.kind];
- return <section ref={root} className="next-actions" aria-label="下一步推荐做的事" data-open={expanded} data-expandable={expandable} data-suspended={suspended} onMouseEnter={show} onMouseLeave={()=>leave()} onFocus={()=>{if(!ignoreFocus.current)show();}} onBlur={blur}>
+ return <section ref={root} className="next-actions" aria-label="下一步推荐做的事" data-open={expanded} data-expandable={expandable} data-suspended={suspended} onPointerEnter={event=>{if(event.pointerType==='mouse')show();}} onPointerLeave={event=>{if(event.pointerType==='mouse')leave();}} onFocus={()=>{if(!ignoreFocus.current)show();}} onBlur={blur}>
   <button ref={trigger} type="button" className="next-actions-primary" data-recommendation={primary.kind} aria-label={`开始${labels[primary.kind]} ${primary.title}`} aria-describedby={reasonId} aria-expanded={expandable?expanded:undefined} aria-controls={expandable?popupId:undefined} title={`${labels[primary.kind]}：${primary.title}\n${primary.reason}`} disabled={suspended} onPointerDown={event=>{if(event.pointerType==='touch'&&expandable&&!open){touchOpened.current=true;show();}}} onClick={event=>{if(touchOpened.current){touchOpened.current=false;event.preventDefault();return;}start(primary);}} onKeyDown={openWithKeys}>
    <Icon size={18} aria-hidden="true"/><span className="next-actions-primary-copy"><strong>{primary.title}</strong></span>
   </button>
   <span className="sr-only" id={reasonId}>{primary.reason}</span>
-  {expanded&&createPortal(<div ref={flyout} className="next-actions-flyout" style={{...position,visibility:position?'visible':'hidden'}} onMouseEnter={cancelClose} onMouseLeave={()=>leave()} onFocus={cancelClose} onBlur={blur}>
+  {expanded&&createPortal(<div ref={flyout} className="next-actions-flyout" style={{...position,visibility:position?'visible':'hidden'}} onPointerEnter={event=>{if(event.pointerType==='mouse')cancelClose();}} onPointerLeave={event=>{if(event.pointerType==='mouse')leave();}} onFocus={cancelClose} onBlur={blur}>
    <section className="next-actions-popover" id={popupId} aria-label="推荐任务与依据" onKeyDown={event=>{
     if(!['ArrowDown','ArrowUp','Home','End'].includes(event.key))return;
     const buttons=[...event.currentTarget.querySelectorAll('.next-actions-item')],index=buttons.indexOf(document.activeElement);if(index<0)return;

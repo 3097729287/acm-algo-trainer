@@ -84,7 +84,8 @@ try{
   await page.screenshot({path:output+'/'+width+'-'+font+'-'+collapsed+'.png'});report.cases.push({width,font,collapsed,...g});
  }
  await openSettings(page,'外观');assert.equal(await page.getByRole('button',{name:'石墨深色',exact:true}).count(),0);assert.equal(await page.getByRole('button',{name:'云白浅色',exact:true}).count(),0);assert.equal(await page.locator('.visual-preferences .setting-label strong').filter({hasText:/^主题$/}).count(),0);
- await setTheme(page,'dark');await page.waitForTimeout(600);assert.equal(preferences.theme,'dark');await page.reload();await page.waitForFunction(()=>document.documentElement.dataset.theme==='dark');
+ const darkSaved=page.waitForResponse(response=>{const request=response.request(),url=new URL(response.url());return url.origin===new URL(base).origin&&url.pathname==='/api/preferences'&&request.method()==='POST'&&request.postDataJSON()?.preferences?.theme==='dark'&&response.ok();});
+ await setTheme(page,'dark');await darkSaved;assert.equal(preferences.theme,'dark');await page.reload();await page.waitForFunction(()=>document.documentElement.dataset.theme==='dark');
  await page.waitForFunction(()=>document.querySelector('.profile-level-number')?.textContent==='11');await page.locator('.next-actions-primary').waitFor();await page.keyboard.press('Control+k');const commands=page.getByRole('dialog',{name:'快捷操作',exact:true});await commands.waitFor();await commands.getByRole('button',{name:'切换深浅主题',exact:true}).click();await page.waitForFunction(()=>document.documentElement.dataset.theme==='light');
  assert.deepEqual(errors,[]);assert.deepEqual(unknown,[]);assert.deepEqual(external,[]);report.ok=true;console.log(JSON.stringify({ok:true,geometryCases:report.cases.length,singleThemeButton:true,settingsRowRemoved:true,savedPreferenceReload:true,keyboardCommandPreserved:true}));
 }catch(error){report.error=error.stack||error.message;await page.screenshot({path:output+'/failure.png'}).catch(()=>{});throw error;}
