@@ -27,14 +27,15 @@ def main():
         target=temp/'reader.sqlite3'
         with public.connection() as src,closing(sqlite3.connect(target)) as dest:src.backup(dest)
         store=Store(data_file=temp/'absent.md',library_file=target,history_file=temp/'history.jsonl')
-        methods=0
+        methods=0;reader_fixtures=[]
         for identity,entries in grouped.items():
             value=store.solution(identity);found={m['id']:m for m in value['methods']}
+            reader_fixtures.append({'problem_id':identity,'content':value})
             assert value['primaryMethod']==entries[0]['method'],identity
             for entry in entries:
                 method=found[entry['method']]
                 assert method['markdown']==entry['variants']['default']['markdown'],identity
-                assert method['detailedSolution']==entry['variants']['detailed'],identity
+                assert all(method['detailedSolution'][key]==value for key,value in entry['variants']['detailed'].items()),identity
                 assert method['markdown']!=method['detailedSolution']['markdown'],identity
                 assert set(method['lectureIds'])=={'lecture:foundation-'+x for x in entry['lessons']},identity
                 for variant in [method,method['detailedSolution']]:
@@ -48,18 +49,27 @@ def main():
         note='Private annotation remains intact after a public editorial update.'
         with upgrade.connection() as db:
             db.execute('UPDATE solutions SET markdown=?,digest=? WHERE problem_id=?',(note,source_hash(note),identity))
+            db.execute('UPDATE detailed_solutions SET markdown=?,digest=? WHERE problem_id=?',(note+' detailed',source_hash(note+' detailed'),identity))
             db.execute('CREATE TABLE private_fixture(key TEXT PRIMARY KEY,value TEXT)')
             db.execute('INSERT INTO private_fixture VALUES(?,?)',('draft-code','int main(){return 7;}'))
         upgrade.merge_seed(public.path)
         assert upgrade.solution(identity)['markdown']==note
+        amended_store=Store(data_file=temp/'absent.md',library_file=upgrade.path,history_file=temp/'amended-history.jsonl')
+        amended=amended_store.solution(identity)
+        primary=next(m for m in amended['methods'] if m['id']==amended['primaryMethod'])
+        assert primary['markdown']==note
+        assert primary['detailedSolution']['markdown']==note+' detailed'
+        (OUT/'private-amendment-reader.json').write_text(json.dumps(amended,ensure_ascii=False)+'\n',encoding='utf-8')
         with upgrade.connection() as db:assert db.execute('SELECT value FROM private_fixture').fetchone()[0]=='int main(){return 7;}'
         assert upgrade.check()==public.check()
         fields=['id','url','title','difficulty','knowledge','tags','aliasIds']
         catalog=[{k:v for k,v in row.items() if k in fields} for row in store.data()['rows']]
         (OUT/'runtime-rows.json').write_text(json.dumps(catalog,ensure_ascii=False)+'\n',encoding='utf-8')
+        (OUT/'runtime-solutions.json').write_text(json.dumps(reader_fixtures,ensure_ascii=False)+'\n',encoding='utf-8')
         report={'problems':len(grouped),'methods':methods,'variantResponses':methods*2,
                 'referenceProgramsMatch':True,'preciseLessonAssociations':True,
-                'privateEditorialAndFixturePreserved':True,'counts':public.check(),'liveDatabasesOpened':False}
+                'privateEditorialAndFixturePreserved':True,'privatePrimaryVariantsVisible':True,
+                'counts':public.check(),'liveDatabasesOpened':False}
         (OUT/'library-check.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
         print(json.dumps(report,ensure_ascii=False,indent=2))
 

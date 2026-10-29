@@ -69,7 +69,7 @@ def authored():
     return entries
 
 def delivery_folder(target):
-    revision=source_hash((OUT/'authored.json').read_text('utf-8'))[:12]
+    revision=source_hash(filehash(OUT/'authored.json')+filehash(ROOT/'data/library/solution_methods.json'))[:12]
     return OUT/'delivery'/revision/target.name
 
 def stage(target):
@@ -168,6 +168,10 @@ def apply(target):
     assert filehash(public)==report['publicSeedBeforeSha256'],'Installed seed changed: restage'
     assert filehash(build)==report['buildInfoBeforeSha256'],'Installed patch changed: restage'
     assert filehash(staged)==report['stagedSha256']
+    frozen=read(OUT/'frozen'/folder.parent.name/target.name/'editorial-check.json')
+    assert frozen['frozen'] and frozen['offline'] and frozen['variantResponses']==report['articles']
+    assert frozen['publicSeedSha256']==report['stagedSha256'],'Frozen runtime check is stale'
+    assert read(OUT/'library-check.json')['privatePrimaryVariantsVisible']
     rendered=read(OUT/'render/report.json')
     assert not rendered['errors']
     for entry in authored():

@@ -7,7 +7,7 @@ import {chromium} from 'playwright';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 const out=path.join(root,'.backups/core7-editorials-20261030/reader');fs.mkdirSync(out,{recursive:true});
 const authored=JSON.parse(fs.readFileSync(path.join(root,'.backups/core7-editorials-20261030/authored.json'),'utf8'));
-const solutions=JSON.parse(fs.readFileSync(path.join(root,'data/library/solution_methods.json'),'utf8'));
+const solutions=JSON.parse(fs.readFileSync(path.join(root,'.backups/core7-editorials-20261030/runtime-solutions.json'),'utf8'));
 const lectures=JSON.parse(fs.readFileSync(path.join(root,'data/library/lectures.json'),'utf8')).map(r=>r.content);
 const selections=[['P1425','io-basics'],['P5705','strings'],['P1553','string-tools'],['P5741','structures'],['P5737','functions'],['CF2135A','arrays'],['CF2136A','basic-control'],['B2029','basic-arithmetic'],['P1923','random-selection'],['P1059','sort'],['P1177','recursion']];
 selections.push(['P1088','lex-permutation'],['P1303','big-integers']);
@@ -47,6 +47,21 @@ for(const [width,dark] of [[1440,false],[1050,true],[390,false]])for(const [pid,
   await page.getByRole('button',{name:'返回题解',exact:true}).click();
   await page.getByRole('button',{name:'切换为详细题解',exact:true}).waitFor();
   frames.push({pid,name,width,dark,capture});await page.close();
+}
+const amended=JSON.parse(fs.readFileSync(path.join(root,'.backups/core7-editorials-20261030/private-amendment-reader.json'),'utf8'));
+for(const width of [1440,390]){
+  const page=await browser.newPage({viewport:{width,height:1000}});
+  page.on('pageerror',error=>errors.push(error.message));
+  await page.addInitScript(data=>{window.core7Reader=data;},{reader:amended,lectures:[],dark:false});
+  await page.goto(`http://127.0.0.1:${server.httpServer.address().port}/tests/core7-reader-fixture.html`);
+  await page.getByRole('button',{name:'切换为详细题解',exact:true}).waitFor();
+  assert.ok((await page.locator('.reader-content').innerText()).includes('Private annotation remains intact after a public editorial update.'));
+  await page.getByRole('button',{name:'切换为详细题解',exact:true}).click();
+  await page.getByRole('button',{name:'切换为默认题解',exact:true}).waitFor();
+  assert.ok((await page.locator('.reader-content').innerText()).includes('update. detailed'));
+  assert.equal(await page.locator('.katex-error,.reading-image-missing').count(),0);
+  const capture=`private-primary-variants-${width}.png`;await page.screenshot({path:path.join(out,capture)});
+  frames.push({pid:'private-amendment-fixture',width,capture});await page.close();
 }
 assert.deepEqual(errors,[]);fs.writeFileSync(path.join(out,'report.json'),JSON.stringify({frames,errors},null,2)+'\n');console.log(JSON.stringify({frames:frames.length,errors}));
 }finally{await browser.close();await server.close();}
