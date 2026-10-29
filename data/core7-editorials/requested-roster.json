@@ -1,0 +1,3662 @@
+[
+  {
+    "id": "luogu-training-B2002",
+    "url": "https://www.luogu.com.cn/problem/B2002",
+    "stage": "01 编程基础",
+    "unit": "输入输出与顺序结构"
+  },
+  {
+    "id": "luogu-training-B2005",
+    "url": "https://www.luogu.com.cn/problem/B2005",
+    "stage": "01 编程基础",
+    "unit": "输入输出与顺序结构"
+  },
+  {
+    "id": "luogu-training-B2025",
+    "url": "https://www.luogu.com.cn/problem/B2025",
+    "stage": "01 编程基础",
+    "unit": "输入输出与顺序结构"
+  },
+  {
+    "id": "luogu-training-B2029",
+    "url": "https://www.luogu.com.cn/problem/B2029",
+    "stage": "01 编程基础",
+    "unit": "输入输出与顺序结构"
+  },
+  {
+    "id": "luogu-training-P1000",
+    "url": "https://www.luogu.com.cn/problem/P1000",
+    "stage": "01 编程基础",
+    "unit": "输入输出与顺序结构"
+  },
+  {
+    "id": "luogu-training-P1001",
+    "url": "https://www.luogu.com.cn/problem/P1001",
+    "stage": "01 编程基础",
+    "unit": "输入输出与顺序结构"
+  },
+  {
+    "id": "luogu-training-P1421",
+    "url": "https://www.luogu.com.cn/problem/P1421",
+    "stage": "01 编程基础",
+    "unit": "输入输出与顺序结构"
+  },
+  {
+    "id": "luogu-training-P1425",
+    "url": "https://www.luogu.com.cn/problem/P1425",
+    "stage": "01 编程基础",
+    "unit": "输入输出与顺序结构"
+  },
+  {
+    "id": "luogu-training-P3954",
+    "url": "https://www.luogu.com.cn/problem/P3954",
+    "stage": "01 编程基础",
+    "unit": "输入输出与顺序结构"
+  },
+  {
+    "id": "luogu-training-P5703",
+    "url": "https://www.luogu.com.cn/problem/P5703",
+    "stage": "01 编程基础",
+    "unit": "输入输出与顺序结构"
+  },
+  {
+    "id": "luogu-training-P5704",
+    "url": "https://www.luogu.com.cn/problem/P5704",
+    "stage": "01 编程基础",
+    "unit": "输入输出与顺序结构"
+  },
+  {
+    "id": "luogu-training-P5705",
+    "url": "https://www.luogu.com.cn/problem/P5705",
+    "stage": "01 编程基础",
+    "unit": "输入输出与顺序结构"
+  },
+  {
+    "id": "luogu-training-P5706",
+    "url": "https://www.luogu.com.cn/problem/P5706",
+    "stage": "01 编程基础",
+    "unit": "输入输出与顺序结构"
+  },
+  {
+    "id": "luogu-training-P5707",
+    "url": "https://www.luogu.com.cn/problem/P5707",
+    "stage": "01 编程基础",
+    "unit": "输入输出与顺序结构"
+  },
+  {
+    "id": "luogu-training-P5708",
+    "url": "https://www.luogu.com.cn/problem/P5708",
+    "stage": "01 编程基础",
+    "unit": "输入输出与顺序结构"
+  },
+  {
+    "id": "luogu-training-P1035",
+    "url": "https://www.luogu.com.cn/problem/P1035",
+    "stage": "01 编程基础",
+    "unit": "分支与循环"
+  },
+  {
+    "id": "luogu-training-P1085",
+    "url": "https://www.luogu.com.cn/problem/P1085",
+    "stage": "01 编程基础",
+    "unit": "分支与循环"
+  },
+  {
+    "id": "luogu-training-P1307",
+    "url": "https://www.luogu.com.cn/problem/P1307",
+    "stage": "01 编程基础",
+    "unit": "分支与循环"
+  },
+  {
+    "id": "luogu-training-P1422",
+    "url": "https://www.luogu.com.cn/problem/P1422",
+    "stage": "01 编程基础",
+    "unit": "分支与循环"
+  },
+  {
+    "id": "luogu-training-P1424",
+    "url": "https://www.luogu.com.cn/problem/P1424",
+    "stage": "01 编程基础",
+    "unit": "分支与循环"
+  },
+  {
+    "id": "luogu-training-P1888",
+    "url": "https://www.luogu.com.cn/problem/P1888",
+    "stage": "01 编程基础",
+    "unit": "分支与循环"
+  },
+  {
+    "id": "luogu-training-P2669",
+    "url": "https://www.luogu.com.cn/problem/P2669",
+    "stage": "01 编程基础",
+    "unit": "分支与循环"
+  },
+  {
+    "id": "luogu-training-P4956",
+    "url": "https://www.luogu.com.cn/problem/P4956",
+    "stage": "01 编程基础",
+    "unit": "分支与循环"
+  },
+  {
+    "id": "luogu-training-P5710",
+    "url": "https://www.luogu.com.cn/problem/P5710",
+    "stage": "01 编程基础",
+    "unit": "分支与循环"
+  },
+  {
+    "id": "luogu-training-P5712",
+    "url": "https://www.luogu.com.cn/problem/P5712",
+    "stage": "01 编程基础",
+    "unit": "分支与循环"
+  },
+  {
+    "id": "luogu-training-P5714",
+    "url": "https://www.luogu.com.cn/problem/P5714",
+    "stage": "01 编程基础",
+    "unit": "分支与循环"
+  },
+  {
+    "id": "luogu-training-P5716",
+    "url": "https://www.luogu.com.cn/problem/P5716",
+    "stage": "01 编程基础",
+    "unit": "分支与循环"
+  },
+  {
+    "id": "luogu-training-P5720",
+    "url": "https://www.luogu.com.cn/problem/P5720",
+    "stage": "01 编程基础",
+    "unit": "分支与循环"
+  },
+  {
+    "id": "luogu-training-P5722",
+    "url": "https://www.luogu.com.cn/problem/P5722",
+    "stage": "01 编程基础",
+    "unit": "分支与循环"
+  },
+  {
+    "id": "luogu-training-P5725",
+    "url": "https://www.luogu.com.cn/problem/P5725",
+    "stage": "01 编程基础",
+    "unit": "分支与循环"
+  },
+  {
+    "id": "luogu-training-P1055",
+    "url": "https://www.luogu.com.cn/problem/P1055",
+    "stage": "01 编程基础",
+    "unit": "分支与循环"
+  },
+  {
+    "id": "luogu-training-P2433",
+    "url": "https://www.luogu.com.cn/problem/P2433",
+    "stage": "01 编程基础",
+    "unit": "分支与循环"
+  },
+  {
+    "id": "luogu-training-P5726",
+    "url": "https://www.luogu.com.cn/problem/P5726",
+    "stage": "01 编程基础",
+    "unit": "分支与循环"
+  },
+  {
+    "id": "luogu-training-P1047",
+    "url": "https://www.luogu.com.cn/problem/P1047",
+    "stage": "01 编程基础",
+    "unit": "数组与字符串"
+  },
+  {
+    "id": "luogu-training-P1161",
+    "url": "https://www.luogu.com.cn/problem/P1161",
+    "stage": "01 编程基础",
+    "unit": "数组与字符串"
+  },
+  {
+    "id": "luogu-training-P1319",
+    "url": "https://www.luogu.com.cn/problem/P1319",
+    "stage": "01 编程基础",
+    "unit": "数组与字符串"
+  },
+  {
+    "id": "luogu-training-P1321",
+    "url": "https://www.luogu.com.cn/problem/P1321",
+    "stage": "01 编程基础",
+    "unit": "数组与字符串"
+  },
+  {
+    "id": "luogu-training-P1428",
+    "url": "https://www.luogu.com.cn/problem/P1428",
+    "stage": "01 编程基础",
+    "unit": "数组与字符串"
+  },
+  {
+    "id": "luogu-training-P1597",
+    "url": "https://www.luogu.com.cn/problem/P1597",
+    "stage": "01 编程基础",
+    "unit": "数组与字符串"
+  },
+  {
+    "id": "luogu-training-P1765",
+    "url": "https://www.luogu.com.cn/problem/P1765",
+    "stage": "01 编程基础",
+    "unit": "数组与字符串"
+  },
+  {
+    "id": "luogu-training-P2550",
+    "url": "https://www.luogu.com.cn/problem/P2550",
+    "stage": "01 编程基础",
+    "unit": "数组与字符串"
+  },
+  {
+    "id": "luogu-training-P5015",
+    "url": "https://www.luogu.com.cn/problem/P5015",
+    "stage": "01 编程基础",
+    "unit": "数组与字符串"
+  },
+  {
+    "id": "luogu-training-P5727",
+    "url": "https://www.luogu.com.cn/problem/P5727",
+    "stage": "01 编程基础",
+    "unit": "数组与字符串"
+  },
+  {
+    "id": "luogu-training-P5729",
+    "url": "https://www.luogu.com.cn/problem/P5729",
+    "stage": "01 编程基础",
+    "unit": "数组与字符串"
+  },
+  {
+    "id": "luogu-training-P5732",
+    "url": "https://www.luogu.com.cn/problem/P5732",
+    "stage": "01 编程基础",
+    "unit": "数组与字符串"
+  },
+  {
+    "id": "luogu-training-P1125",
+    "url": "https://www.luogu.com.cn/problem/P1125",
+    "stage": "01 编程基础",
+    "unit": "数组与字符串"
+  },
+  {
+    "id": "luogu-training-P1553",
+    "url": "https://www.luogu.com.cn/problem/P1553",
+    "stage": "01 编程基础",
+    "unit": "数组与字符串"
+  },
+  {
+    "id": "luogu-training-P1603",
+    "url": "https://www.luogu.com.cn/problem/P1603",
+    "stage": "01 编程基础",
+    "unit": "数组与字符串"
+  },
+  {
+    "id": "luogu-training-P1957",
+    "url": "https://www.luogu.com.cn/problem/P1957",
+    "stage": "01 编程基础",
+    "unit": "数组与字符串"
+  },
+  {
+    "id": "luogu-training-P2615",
+    "url": "https://www.luogu.com.cn/problem/P2615",
+    "stage": "01 编程基础",
+    "unit": "数组与字符串"
+  },
+  {
+    "id": "luogu-training-P5734",
+    "url": "https://www.luogu.com.cn/problem/P5734",
+    "stage": "01 编程基础",
+    "unit": "数组与字符串"
+  },
+  {
+    "id": "luogu-training-CF2136A",
+    "url": "https://www.luogu.com.cn/problem/CF2136A",
+    "stage": "01 编程基础",
+    "unit": "函数、结构体与 STL"
+  },
+  {
+    "id": "luogu-training-CF2136B",
+    "url": "https://www.luogu.com.cn/problem/CF2136B",
+    "stage": "01 编程基础",
+    "unit": "函数、结构体与 STL"
+  },
+  {
+    "id": "luogu-training-P3156",
+    "url": "https://www.luogu.com.cn/problem/P3156",
+    "stage": "01 编程基础",
+    "unit": "函数、结构体与 STL"
+  },
+  {
+    "id": "luogu-training-P5737",
+    "url": "https://www.luogu.com.cn/problem/P5737",
+    "stage": "01 编程基础",
+    "unit": "函数、结构体与 STL"
+  },
+  {
+    "id": "luogu-training-P5743",
+    "url": "https://www.luogu.com.cn/problem/P5743",
+    "stage": "01 编程基础",
+    "unit": "函数、结构体与 STL"
+  },
+  {
+    "id": "luogu-training-P9496",
+    "url": "https://www.luogu.com.cn/problem/P9496",
+    "stage": "01 编程基础",
+    "unit": "函数、结构体与 STL"
+  },
+  {
+    "id": "luogu-training-P11033",
+    "url": "https://www.luogu.com.cn/problem/P11033",
+    "stage": "01 编程基础",
+    "unit": "函数、结构体与 STL"
+  },
+  {
+    "id": "luogu-training-CF2135A",
+    "url": "https://www.luogu.com.cn/problem/CF2135A",
+    "stage": "01 编程基础",
+    "unit": "函数、结构体与 STL"
+  },
+  {
+    "id": "luogu-training-P1449",
+    "url": "https://www.luogu.com.cn/problem/P1449",
+    "stage": "01 编程基础",
+    "unit": "函数、结构体与 STL"
+  },
+  {
+    "id": "luogu-training-P1918",
+    "url": "https://www.luogu.com.cn/problem/P1918",
+    "stage": "01 编程基础",
+    "unit": "函数、结构体与 STL"
+  },
+  {
+    "id": "luogu-training-P2415",
+    "url": "https://www.luogu.com.cn/problem/P2415",
+    "stage": "01 编程基础",
+    "unit": "函数、结构体与 STL"
+  },
+  {
+    "id": "luogu-training-P3405",
+    "url": "https://www.luogu.com.cn/problem/P3405",
+    "stage": "01 编程基础",
+    "unit": "函数、结构体与 STL"
+  },
+  {
+    "id": "luogu-training-P3613",
+    "url": "https://www.luogu.com.cn/problem/P3613",
+    "stage": "01 编程基础",
+    "unit": "函数、结构体与 STL"
+  },
+  {
+    "id": "luogu-training-P4305",
+    "url": "https://www.luogu.com.cn/problem/P4305",
+    "stage": "01 编程基础",
+    "unit": "函数、结构体与 STL"
+  },
+  {
+    "id": "luogu-training-P5738",
+    "url": "https://www.luogu.com.cn/problem/P5738",
+    "stage": "01 编程基础",
+    "unit": "函数、结构体与 STL"
+  },
+  {
+    "id": "luogu-training-P5741",
+    "url": "https://www.luogu.com.cn/problem/P5741",
+    "stage": "01 编程基础",
+    "unit": "函数、结构体与 STL"
+  },
+  {
+    "id": "luogu-training-P9497",
+    "url": "https://www.luogu.com.cn/problem/P9497",
+    "stage": "01 编程基础",
+    "unit": "函数、结构体与 STL"
+  },
+  {
+    "id": "luogu-training-P15320",
+    "url": "https://www.luogu.com.cn/problem/P15320",
+    "stage": "01 编程基础",
+    "unit": "函数、结构体与 STL"
+  },
+  {
+    "id": "luogu-training-P2670",
+    "url": "https://www.luogu.com.cn/problem/P2670",
+    "stage": "02 基础解题方法",
+    "unit": "模拟与枚举"
+  },
+  {
+    "id": "luogu-training-P1036",
+    "url": "https://www.luogu.com.cn/problem/P1036",
+    "stage": "02 基础解题方法",
+    "unit": "模拟与枚举"
+  },
+  {
+    "id": "luogu-training-P1067",
+    "url": "https://www.luogu.com.cn/problem/P1067",
+    "stage": "02 基础解题方法",
+    "unit": "模拟与枚举"
+  },
+  {
+    "id": "luogu-training-P1088",
+    "url": "https://www.luogu.com.cn/problem/P1088",
+    "stage": "02 基础解题方法",
+    "unit": "模拟与枚举"
+  },
+  {
+    "id": "luogu-training-P1149",
+    "url": "https://www.luogu.com.cn/problem/P1149",
+    "stage": "02 基础解题方法",
+    "unit": "模拟与枚举"
+  },
+  {
+    "id": "luogu-training-P1157",
+    "url": "https://www.luogu.com.cn/problem/P1157",
+    "stage": "02 基础解题方法",
+    "unit": "模拟与枚举"
+  },
+  {
+    "id": "luogu-training-P1303",
+    "url": "https://www.luogu.com.cn/problem/P1303",
+    "stage": "02 基础解题方法",
+    "unit": "模拟与枚举"
+  },
+  {
+    "id": "luogu-training-P1563",
+    "url": "https://www.luogu.com.cn/problem/P1563",
+    "stage": "02 基础解题方法",
+    "unit": "模拟与枚举"
+  },
+  {
+    "id": "luogu-training-P1591",
+    "url": "https://www.luogu.com.cn/problem/P1591",
+    "stage": "02 基础解题方法",
+    "unit": "模拟与枚举"
+  },
+  {
+    "id": "luogu-training-P1618",
+    "url": "https://www.luogu.com.cn/problem/P1618",
+    "stage": "02 基础解题方法",
+    "unit": "模拟与枚举"
+  },
+  {
+    "id": "luogu-training-P1706",
+    "url": "https://www.luogu.com.cn/problem/P1706",
+    "stage": "02 基础解题方法",
+    "unit": "模拟与枚举"
+  },
+  {
+    "id": "luogu-training-P2089",
+    "url": "https://www.luogu.com.cn/problem/P2089",
+    "stage": "02 基础解题方法",
+    "unit": "模拟与枚举"
+  },
+  {
+    "id": "luogu-training-P3392",
+    "url": "https://www.luogu.com.cn/problem/P3392",
+    "stage": "02 基础解题方法",
+    "unit": "模拟与枚举"
+  },
+  {
+    "id": "luogu-training-P3654",
+    "url": "https://www.luogu.com.cn/problem/P3654",
+    "stage": "02 基础解题方法",
+    "unit": "模拟与枚举"
+  },
+  {
+    "id": "luogu-training-P1045",
+    "url": "https://www.luogu.com.cn/problem/P1045",
+    "stage": "02 基础解题方法",
+    "unit": "模拟与枚举"
+  },
+  {
+    "id": "luogu-training-P1065",
+    "url": "https://www.luogu.com.cn/problem/P1065",
+    "stage": "02 基础解题方法",
+    "unit": "模拟与枚举"
+  },
+  {
+    "id": "luogu-training-P1518",
+    "url": "https://www.luogu.com.cn/problem/P1518",
+    "stage": "02 基础解题方法",
+    "unit": "模拟与枚举"
+  },
+  {
+    "id": "luogu-training-P3799",
+    "url": "https://www.luogu.com.cn/problem/P3799",
+    "stage": "02 基础解题方法",
+    "unit": "模拟与枚举"
+  },
+  {
+    "id": "luogu-training-P1152",
+    "url": "https://www.luogu.com.cn/problem/P1152",
+    "stage": "02 基础解题方法",
+    "unit": "排序与复杂度"
+  },
+  {
+    "id": "luogu-training-P1059",
+    "url": "https://www.luogu.com.cn/problem/P1059",
+    "stage": "02 基础解题方法",
+    "unit": "排序与复杂度"
+  },
+  {
+    "id": "luogu-training-P1068",
+    "url": "https://www.luogu.com.cn/problem/P1068",
+    "stage": "02 基础解题方法",
+    "unit": "排序与复杂度"
+  },
+  {
+    "id": "luogu-training-P1093",
+    "url": "https://www.luogu.com.cn/problem/P1093",
+    "stage": "02 基础解题方法",
+    "unit": "排序与复杂度"
+  },
+  {
+    "id": "luogu-training-P1104",
+    "url": "https://www.luogu.com.cn/problem/P1104",
+    "stage": "02 基础解题方法",
+    "unit": "排序与复杂度"
+  },
+  {
+    "id": "luogu-training-P1116",
+    "url": "https://www.luogu.com.cn/problem/P1116",
+    "stage": "02 基础解题方法",
+    "unit": "排序与复杂度"
+  },
+  {
+    "id": "luogu-training-P1177",
+    "url": "https://www.luogu.com.cn/problem/P1177",
+    "stage": "02 基础解题方法",
+    "unit": "排序与复杂度"
+  },
+  {
+    "id": "luogu-training-P1271",
+    "url": "https://www.luogu.com.cn/problem/P1271",
+    "stage": "02 基础解题方法",
+    "unit": "排序与复杂度"
+  },
+  {
+    "id": "luogu-training-P1781",
+    "url": "https://www.luogu.com.cn/problem/P1781",
+    "stage": "02 基础解题方法",
+    "unit": "排序与复杂度"
+  },
+  {
+    "id": "luogu-training-P1923",
+    "url": "https://www.luogu.com.cn/problem/P1923",
+    "stage": "02 基础解题方法",
+    "unit": "排序与复杂度"
+  },
+  {
+    "id": "luogu-training-P2676",
+    "url": "https://www.luogu.com.cn/problem/P2676",
+    "stage": "02 基础解题方法",
+    "unit": "排序与复杂度"
+  },
+  {
+    "id": "luogu-training-P5143",
+    "url": "https://www.luogu.com.cn/problem/P5143",
+    "stage": "02 基础解题方法",
+    "unit": "排序与复杂度"
+  },
+  {
+    "id": "lanqiao:2017:省:::P8649",
+    "url": "https://www.luogu.com.cn/problem/P8649",
+    "stage": "02 基础解题方法",
+    "unit": "前缀和与差分"
+  },
+  {
+    "id": "luogu-training-B3799",
+    "url": "https://www.luogu.com.cn/problem/B3799",
+    "stage": "02 基础解题方法",
+    "unit": "前缀和与差分"
+  },
+  {
+    "id": "luogu-training-P1496",
+    "url": "https://www.luogu.com.cn/problem/P1496",
+    "stage": "02 基础解题方法",
+    "unit": "前缀和与差分"
+  },
+  {
+    "id": "luogu-training-P3131",
+    "url": "https://www.luogu.com.cn/problem/P3131",
+    "stage": "02 基础解题方法",
+    "unit": "前缀和与差分"
+  },
+  {
+    "id": "luogu-training-P7714",
+    "url": "https://www.luogu.com.cn/problem/P7714",
+    "stage": "02 基础解题方法",
+    "unit": "前缀和与差分"
+  },
+  {
+    "id": "luogu-training-P9749",
+    "url": "https://www.luogu.com.cn/problem/P9749",
+    "stage": "02 基础解题方法",
+    "unit": "前缀和与差分"
+  },
+  {
+    "id": "luogu-training-P14028",
+    "url": "https://www.luogu.com.cn/problem/P14028",
+    "stage": "02 基础解题方法",
+    "unit": "前缀和与差分"
+  },
+  {
+    "id": "luogu-training-UVA11059",
+    "url": "https://www.luogu.com.cn/problem/UVA11059",
+    "stage": "02 基础解题方法",
+    "unit": "前缀和与差分"
+  },
+  {
+    "id": "luogu-training-P1719",
+    "url": "https://www.luogu.com.cn/problem/P1719",
+    "stage": "02 基础解题方法",
+    "unit": "前缀和与差分"
+  },
+  {
+    "id": "luogu-training-P2879",
+    "url": "https://www.luogu.com.cn/problem/P2879",
+    "stage": "02 基础解题方法",
+    "unit": "前缀和与差分"
+  },
+  {
+    "id": "luogu-training-P3948",
+    "url": "https://www.luogu.com.cn/problem/P3948",
+    "stage": "02 基础解题方法",
+    "unit": "前缀和与差分"
+  },
+  {
+    "id": "luogu-training-P5542",
+    "url": "https://www.luogu.com.cn/problem/P5542",
+    "stage": "02 基础解题方法",
+    "unit": "前缀和与差分"
+  },
+  {
+    "id": "luogu-training-P9533",
+    "url": "https://www.luogu.com.cn/problem/P9533",
+    "stage": "02 基础解题方法",
+    "unit": "前缀和与差分"
+  },
+  {
+    "id": "luogu-training-P10719",
+    "url": "https://www.luogu.com.cn/problem/P10719",
+    "stage": "02 基础解题方法",
+    "unit": "前缀和与差分"
+  },
+  {
+    "id": "luogu-training-P12674",
+    "url": "https://www.luogu.com.cn/problem/P12674",
+    "stage": "02 基础解题方法",
+    "unit": "前缀和与差分"
+  },
+  {
+    "id": "luogu-training-P13787",
+    "url": "https://www.luogu.com.cn/problem/P13787",
+    "stage": "02 基础解题方法",
+    "unit": "前缀和与差分"
+  },
+  {
+    "id": "luogu-training-P14520",
+    "url": "https://www.luogu.com.cn/problem/P14520",
+    "stage": "02 基础解题方法",
+    "unit": "前缀和与差分"
+  },
+  {
+    "id": "luogu-training-UVA1210",
+    "url": "https://www.luogu.com.cn/problem/UVA1210",
+    "stage": "02 基础解题方法",
+    "unit": "前缀和与差分"
+  },
+  {
+    "id": "luogu-training-B3691",
+    "url": "https://www.luogu.com.cn/problem/B3691",
+    "stage": "02 基础解题方法",
+    "unit": "二分查找与二分答案"
+  },
+  {
+    "id": "luogu-training-P1678",
+    "url": "https://www.luogu.com.cn/problem/P1678",
+    "stage": "02 基础解题方法",
+    "unit": "二分查找与二分答案"
+  },
+  {
+    "id": "luogu-training-P7713",
+    "url": "https://www.luogu.com.cn/problem/P7713",
+    "stage": "02 基础解题方法",
+    "unit": "二分查找与二分答案"
+  },
+  {
+    "id": "luogu-training-P11962",
+    "url": "https://www.luogu.com.cn/problem/P11962",
+    "stage": "02 基础解题方法",
+    "unit": "二分查找与二分答案"
+  },
+  {
+    "id": "luogu-training-CF1967A",
+    "url": "https://www.luogu.com.cn/problem/CF1967A",
+    "stage": "02 基础解题方法",
+    "unit": "二分查找与二分答案"
+  },
+  {
+    "id": "luogu-training-P1570",
+    "url": "https://www.luogu.com.cn/problem/P1570",
+    "stage": "02 基础解题方法",
+    "unit": "二分查找与二分答案"
+  },
+  {
+    "id": "luogu-training-P2005",
+    "url": "https://www.luogu.com.cn/problem/P2005",
+    "stage": "02 基础解题方法",
+    "unit": "二分查找与二分答案"
+  },
+  {
+    "id": "luogu-training-P2920",
+    "url": "https://www.luogu.com.cn/problem/P2920",
+    "stage": "02 基础解题方法",
+    "unit": "二分查找与二分答案"
+  },
+  {
+    "id": "luogu-training-P8873",
+    "url": "https://www.luogu.com.cn/problem/P8873",
+    "stage": "02 基础解题方法",
+    "unit": "二分查找与二分答案"
+  },
+  {
+    "id": "luogu-training-P14115",
+    "url": "https://www.luogu.com.cn/problem/P14115",
+    "stage": "02 基础解题方法",
+    "unit": "二分查找与二分答案"
+  },
+  {
+    "id": "luogu-training-P14635",
+    "url": "https://www.luogu.com.cn/problem/P14635",
+    "stage": "02 基础解题方法",
+    "unit": "二分查找与二分答案"
+  },
+  {
+    "id": "luogu-training-UVA10125",
+    "url": "https://www.luogu.com.cn/problem/UVA10125",
+    "stage": "02 基础解题方法",
+    "unit": "二分查找与二分答案"
+  },
+  {
+    "id": "luogu-training-P3611",
+    "url": "https://www.luogu.com.cn/problem/P3611",
+    "stage": "02 基础解题方法",
+    "unit": "二分查找与二分答案"
+  },
+  {
+    "id": "luogu-training-P6465",
+    "url": "https://www.luogu.com.cn/problem/P6465",
+    "stage": "02 基础解题方法",
+    "unit": "二分查找与二分答案"
+  },
+  {
+    "id": "luogu-training-P7579",
+    "url": "https://www.luogu.com.cn/problem/P7579",
+    "stage": "02 基础解题方法",
+    "unit": "二分查找与二分答案"
+  },
+  {
+    "id": "luogu-training-P10445",
+    "url": "https://www.luogu.com.cn/problem/P10445",
+    "stage": "02 基础解题方法",
+    "unit": "二分查找与二分答案"
+  },
+  {
+    "id": "luogu-training-P13824",
+    "url": "https://www.luogu.com.cn/problem/P13824",
+    "stage": "02 基础解题方法",
+    "unit": "二分查找与二分答案"
+  },
+  {
+    "id": "luogu-training-UVA11134",
+    "url": "https://www.luogu.com.cn/problem/UVA11134",
+    "stage": "02 基础解题方法",
+    "unit": "二分查找与二分答案"
+  },
+  {
+    "id": "lanqiao:2025:省:/Python B 第二场::P12342",
+    "url": "https://www.luogu.com.cn/problem/P12342",
+    "stage": "02 基础解题方法",
+    "unit": "双指针与滑动窗口"
+  },
+  {
+    "id": "luogu-training-CF1237B",
+    "url": "https://www.luogu.com.cn/problem/CF1237B",
+    "stage": "02 基础解题方法",
+    "unit": "双指针与滑动窗口"
+  },
+  {
+    "id": "luogu-training-CF1304C",
+    "url": "https://www.luogu.com.cn/problem/CF1304C",
+    "stage": "02 基础解题方法",
+    "unit": "双指针与滑动窗口"
+  },
+  {
+    "id": "luogu-training-CF1148B",
+    "url": "https://www.luogu.com.cn/problem/CF1148B",
+    "stage": "02 基础解题方法",
+    "unit": "双指针与滑动窗口"
+  },
+  {
+    "id": "luogu-training-CF2037E",
+    "url": "https://www.luogu.com.cn/problem/CF2037E",
+    "stage": "02 基础解题方法",
+    "unit": "双指针与滑动窗口"
+  },
+  {
+    "id": "luogu-training-CF644B",
+    "url": "https://www.luogu.com.cn/problem/CF644B",
+    "stage": "02 基础解题方法",
+    "unit": "双指针与滑动窗口"
+  },
+  {
+    "id": "luogu-training-P1031",
+    "url": "https://www.luogu.com.cn/problem/P1031",
+    "stage": "02 基础解题方法",
+    "unit": "贪心与构造"
+  },
+  {
+    "id": "luogu-training-P1208",
+    "url": "https://www.luogu.com.cn/problem/P1208",
+    "stage": "02 基础解题方法",
+    "unit": "贪心与构造"
+  },
+  {
+    "id": "luogu-training-P1478",
+    "url": "https://www.luogu.com.cn/problem/P1478",
+    "stage": "02 基础解题方法",
+    "unit": "贪心与构造"
+  },
+  {
+    "id": "luogu-training-P2695",
+    "url": "https://www.luogu.com.cn/problem/P2695",
+    "stage": "02 基础解题方法",
+    "unit": "贪心与构造"
+  },
+  {
+    "id": "luogu-training-P4995",
+    "url": "https://www.luogu.com.cn/problem/P4995",
+    "stage": "02 基础解题方法",
+    "unit": "贪心与构造"
+  },
+  {
+    "id": "luogu-training-P5639",
+    "url": "https://www.luogu.com.cn/problem/P5639",
+    "stage": "02 基础解题方法",
+    "unit": "贪心与构造"
+  },
+  {
+    "id": "luogu-training-B3753",
+    "url": "https://www.luogu.com.cn/problem/B3753",
+    "stage": "02 基础解题方法",
+    "unit": "贪心与构造"
+  },
+  {
+    "id": "luogu-training-P1056",
+    "url": "https://www.luogu.com.cn/problem/P1056",
+    "stage": "02 基础解题方法",
+    "unit": "贪心与构造"
+  },
+  {
+    "id": "luogu-training-P2431",
+    "url": "https://www.luogu.com.cn/problem/P2431",
+    "stage": "02 基础解题方法",
+    "unit": "贪心与构造"
+  },
+  {
+    "id": "luogu-training-P2949",
+    "url": "https://www.luogu.com.cn/problem/P2949",
+    "stage": "02 基础解题方法",
+    "unit": "贪心与构造"
+  },
+  {
+    "id": "luogu-training-P12041",
+    "url": "https://www.luogu.com.cn/problem/P12041",
+    "stage": "02 基础解题方法",
+    "unit": "贪心与构造"
+  },
+  {
+    "id": "luogu-training-AT_arc161_c",
+    "url": "https://www.luogu.com.cn/problem/AT_arc161_c",
+    "stage": "02 基础解题方法",
+    "unit": "贪心与构造"
+  },
+  {
+    "id": "luogu-training-B4225",
+    "url": "https://www.luogu.com.cn/problem/B4225",
+    "stage": "02 基础解题方法",
+    "unit": "贪心与构造"
+  },
+  {
+    "id": "luogu-training-P1650",
+    "url": "https://www.luogu.com.cn/problem/P1650",
+    "stage": "02 基础解题方法",
+    "unit": "贪心与构造"
+  },
+  {
+    "id": "luogu-training-P1766",
+    "url": "https://www.luogu.com.cn/problem/P1766",
+    "stage": "02 基础解题方法",
+    "unit": "贪心与构造"
+  },
+  {
+    "id": "luogu-training-P6155",
+    "url": "https://www.luogu.com.cn/problem/P6155",
+    "stage": "02 基础解题方法",
+    "unit": "贪心与构造"
+  },
+  {
+    "id": "luogu-training-P11036",
+    "url": "https://www.luogu.com.cn/problem/P11036",
+    "stage": "02 基础解题方法",
+    "unit": "贪心与构造"
+  },
+  {
+    "id": "luogu-training-P12676",
+    "url": "https://www.luogu.com.cn/problem/P12676",
+    "stage": "02 基础解题方法",
+    "unit": "贪心与构造"
+  },
+  {
+    "id": "luogu-training-P2345",
+    "url": "https://www.luogu.com.cn/problem/P2345",
+    "stage": "02 基础解题方法",
+    "unit": "递推、递归与分治"
+  },
+  {
+    "id": "luogu-training-P1002",
+    "url": "https://www.luogu.com.cn/problem/P1002",
+    "stage": "02 基础解题方法",
+    "unit": "递推、递归与分治"
+  },
+  {
+    "id": "luogu-training-P1010",
+    "url": "https://www.luogu.com.cn/problem/P1010",
+    "stage": "02 基础解题方法",
+    "unit": "递推、递归与分治"
+  },
+  {
+    "id": "luogu-training-P1044",
+    "url": "https://www.luogu.com.cn/problem/P1044",
+    "stage": "02 基础解题方法",
+    "unit": "递推、递归与分治"
+  },
+  {
+    "id": "luogu-training-P1226",
+    "url": "https://www.luogu.com.cn/problem/P1226",
+    "stage": "02 基础解题方法",
+    "unit": "递推、递归与分治"
+  },
+  {
+    "id": "luogu-training-P1257",
+    "url": "https://www.luogu.com.cn/problem/P1257",
+    "stage": "02 基础解题方法",
+    "unit": "递推、递归与分治"
+  },
+  {
+    "id": "luogu-training-P1464",
+    "url": "https://www.luogu.com.cn/problem/P1464",
+    "stage": "02 基础解题方法",
+    "unit": "递推、递归与分治"
+  },
+  {
+    "id": "luogu-training-P2437",
+    "url": "https://www.luogu.com.cn/problem/P2437",
+    "stage": "02 基础解题方法",
+    "unit": "递推、递归与分治"
+  },
+  {
+    "id": "luogu-training-CF873B",
+    "url": "https://www.luogu.com.cn/problem/CF873B",
+    "stage": "02 基础解题方法",
+    "unit": "递推、递归与分治"
+  },
+  {
+    "id": "luogu-training-P1228",
+    "url": "https://www.luogu.com.cn/problem/P1228",
+    "stage": "02 基础解题方法",
+    "unit": "递推、递归与分治"
+  },
+  {
+    "id": "luogu-training-P1498",
+    "url": "https://www.luogu.com.cn/problem/P1498",
+    "stage": "02 基础解题方法",
+    "unit": "递推、递归与分治"
+  },
+  {
+    "id": "luogu-training-P1908",
+    "url": "https://www.luogu.com.cn/problem/P1908",
+    "stage": "02 基础解题方法",
+    "unit": "递推、递归与分治"
+  },
+  {
+    "id": "luogu-training-P1928",
+    "url": "https://www.luogu.com.cn/problem/P1928",
+    "stage": "02 基础解题方法",
+    "unit": "递推、递归与分治"
+  },
+  {
+    "id": "luogu-training-AT_agc005_b",
+    "url": "https://www.luogu.com.cn/problem/AT_agc005_b",
+    "stage": "02 基础解题方法",
+    "unit": "递推、递归与分治"
+  },
+  {
+    "id": "luogu-training-AT_joisc2014_h",
+    "url": "https://www.luogu.com.cn/problem/AT_joisc2014_h",
+    "stage": "02 基础解题方法",
+    "unit": "递推、递归与分治"
+  },
+  {
+    "id": "luogu-training-P2717",
+    "url": "https://www.luogu.com.cn/problem/P2717",
+    "stage": "02 基础解题方法",
+    "unit": "递推、递归与分治"
+  },
+  {
+    "id": "luogu-training-P7167",
+    "url": "https://www.luogu.com.cn/problem/P7167",
+    "stage": "02 基础解题方法",
+    "unit": "递推、递归与分治"
+  },
+  {
+    "id": "luogu-training-SP32079",
+    "url": "https://www.luogu.com.cn/problem/SP32079",
+    "stage": "02 基础解题方法",
+    "unit": "递推、递归与分治"
+  },
+  {
+    "id": "luogu-training-AT_arc001_2",
+    "url": "https://www.luogu.com.cn/problem/AT_arc001_2",
+    "stage": "03 搜索与图",
+    "unit": "DFS 与回溯"
+  },
+  {
+    "id": "luogu-training-P1331",
+    "url": "https://www.luogu.com.cn/problem/P1331",
+    "stage": "03 搜索与图",
+    "unit": "DFS 与回溯"
+  },
+  {
+    "id": "luogu-training-P1605",
+    "url": "https://www.luogu.com.cn/problem/P1605",
+    "stage": "03 搜索与图",
+    "unit": "DFS 与回溯"
+  },
+  {
+    "id": "luogu-training-P2802",
+    "url": "https://www.luogu.com.cn/problem/P2802",
+    "stage": "03 搜索与图",
+    "unit": "DFS 与回溯"
+  },
+  {
+    "id": "luogu-training-CF1059B",
+    "url": "https://www.luogu.com.cn/problem/CF1059B",
+    "stage": "03 搜索与图",
+    "unit": "DFS 与回溯"
+  },
+  {
+    "id": "luogu-training-P1019",
+    "url": "https://www.luogu.com.cn/problem/P1019",
+    "stage": "03 搜索与图",
+    "unit": "DFS 与回溯"
+  },
+  {
+    "id": "luogu-training-P1219",
+    "url": "https://www.luogu.com.cn/problem/P1219",
+    "stage": "03 搜索与图",
+    "unit": "DFS 与回溯"
+  },
+  {
+    "id": "luogu-training-P1825",
+    "url": "https://www.luogu.com.cn/problem/P1825",
+    "stage": "03 搜索与图",
+    "unit": "DFS 与回溯"
+  },
+  {
+    "id": "luogu-training-P2895",
+    "url": "https://www.luogu.com.cn/problem/P2895",
+    "stage": "03 搜索与图",
+    "unit": "DFS 与回溯"
+  },
+  {
+    "id": "luogu-training-SP4580",
+    "url": "https://www.luogu.com.cn/problem/SP4580",
+    "stage": "03 搜索与图",
+    "unit": "DFS 与回溯"
+  },
+  {
+    "id": "luogu-training-CF55B",
+    "url": "https://www.luogu.com.cn/problem/CF55B",
+    "stage": "03 搜索与图",
+    "unit": "DFS 与回溯"
+  },
+  {
+    "id": "luogu-training-AT_abc184_f",
+    "url": "https://www.luogu.com.cn/problem/AT_abc184_f",
+    "stage": "03 搜索与图",
+    "unit": "DFS 与回溯"
+  },
+  {
+    "id": "luogu-training-CF700B",
+    "url": "https://www.luogu.com.cn/problem/CF700B",
+    "stage": "03 搜索与图",
+    "unit": "DFS 与回溯"
+  },
+  {
+    "id": "luogu-training-CF1401D",
+    "url": "https://www.luogu.com.cn/problem/CF1401D",
+    "stage": "03 搜索与图",
+    "unit": "DFS 与回溯"
+  },
+  {
+    "id": "luogu-training-P1790",
+    "url": "https://www.luogu.com.cn/problem/P1790",
+    "stage": "03 搜索与图",
+    "unit": "DFS 与回溯"
+  },
+  {
+    "id": "luogu-training-P4289",
+    "url": "https://www.luogu.com.cn/problem/P4289",
+    "stage": "03 搜索与图",
+    "unit": "DFS 与回溯"
+  },
+  {
+    "id": "luogu-training-P10488",
+    "url": "https://www.luogu.com.cn/problem/P10488",
+    "stage": "03 搜索与图",
+    "unit": "DFS 与回溯"
+  },
+  {
+    "id": "luogu-training-UVA11367",
+    "url": "https://www.luogu.com.cn/problem/UVA11367",
+    "stage": "03 搜索与图",
+    "unit": "DFS 与回溯"
+  },
+  {
+    "id": "luogu-training-B3625",
+    "url": "https://www.luogu.com.cn/problem/B3625",
+    "stage": "03 搜索与图",
+    "unit": "DFS 与回溯"
+  },
+  {
+    "id": "luogu-training-P1536",
+    "url": "https://www.luogu.com.cn/problem/P1536",
+    "stage": "03 搜索与图",
+    "unit": "并查集"
+  },
+  {
+    "id": "luogu-training-CF1263D",
+    "url": "https://www.luogu.com.cn/problem/CF1263D",
+    "stage": "03 搜索与图",
+    "unit": "并查集"
+  },
+  {
+    "id": "luogu-training-P1656",
+    "url": "https://www.luogu.com.cn/problem/P1656",
+    "stage": "03 搜索与图",
+    "unit": "并查集"
+  },
+  {
+    "id": "luogu-training-P2256",
+    "url": "https://www.luogu.com.cn/problem/P2256",
+    "stage": "03 搜索与图",
+    "unit": "并查集"
+  },
+  {
+    "id": "luogu-training-P3420",
+    "url": "https://www.luogu.com.cn/problem/P3420",
+    "stage": "03 搜索与图",
+    "unit": "并查集"
+  },
+  {
+    "id": "luogu-training-P10378",
+    "url": "https://www.luogu.com.cn/problem/P10378",
+    "stage": "03 搜索与图",
+    "unit": "并查集"
+  },
+  {
+    "id": "luogu-training-UVA10369",
+    "url": "https://www.luogu.com.cn/problem/UVA10369",
+    "stage": "03 搜索与图",
+    "unit": "并查集"
+  },
+  {
+    "id": "luogu-training-CF1365D",
+    "url": "https://www.luogu.com.cn/problem/CF1365D",
+    "stage": "03 搜索与图",
+    "unit": "并查集"
+  },
+  {
+    "id": "luogu-training-P1196",
+    "url": "https://www.luogu.com.cn/problem/P1196",
+    "stage": "03 搜索与图",
+    "unit": "并查集"
+  },
+  {
+    "id": "luogu-training-P1621",
+    "url": "https://www.luogu.com.cn/problem/P1621",
+    "stage": "03 搜索与图",
+    "unit": "并查集"
+  },
+  {
+    "id": "luogu-training-P2294",
+    "url": "https://www.luogu.com.cn/problem/P2294",
+    "stage": "03 搜索与图",
+    "unit": "并查集"
+  },
+  {
+    "id": "luogu-training-P2916",
+    "url": "https://www.luogu.com.cn/problem/P2916",
+    "stage": "03 搜索与图",
+    "unit": "并查集"
+  },
+  {
+    "id": "luogu-training-P7073",
+    "url": "https://www.luogu.com.cn/problem/P7073",
+    "stage": "03 搜索与图",
+    "unit": "并查集"
+  },
+  {
+    "id": "luogu-training-P7991",
+    "url": "https://www.luogu.com.cn/problem/P7991",
+    "stage": "03 搜索与图",
+    "unit": "并查集"
+  },
+  {
+    "id": "luogu-training-P13308",
+    "url": "https://www.luogu.com.cn/problem/P13308",
+    "stage": "03 搜索与图",
+    "unit": "并查集"
+  },
+  {
+    "id": "luogu-training-P16495",
+    "url": "https://www.luogu.com.cn/problem/P16495",
+    "stage": "03 搜索与图",
+    "unit": "并查集"
+  },
+  {
+    "id": "luogu-training-UVA1395",
+    "url": "https://www.luogu.com.cn/problem/UVA1395",
+    "stage": "03 搜索与图",
+    "unit": "并查集"
+  },
+  {
+    "id": "luogu-training-CF1624G",
+    "url": "https://www.luogu.com.cn/problem/CF1624G",
+    "stage": "03 搜索与图",
+    "unit": "并查集"
+  },
+  {
+    "id": "luogu-training-B3644",
+    "url": "https://www.luogu.com.cn/problem/B3644",
+    "stage": "03 搜索与图",
+    "unit": "拓扑排序与 DAG"
+  },
+  {
+    "id": "luogu-training-P1113",
+    "url": "https://www.luogu.com.cn/problem/P1113",
+    "stage": "03 搜索与图",
+    "unit": "拓扑排序与 DAG"
+  },
+  {
+    "id": "luogu-training-P1137",
+    "url": "https://www.luogu.com.cn/problem/P1137",
+    "stage": "03 搜索与图",
+    "unit": "拓扑排序与 DAG"
+  },
+  {
+    "id": "luogu-training-P1960",
+    "url": "https://www.luogu.com.cn/problem/P1960",
+    "stage": "03 搜索与图",
+    "unit": "拓扑排序与 DAG"
+  },
+  {
+    "id": "luogu-training-P2419",
+    "url": "https://www.luogu.com.cn/problem/P2419",
+    "stage": "03 搜索与图",
+    "unit": "拓扑排序与 DAG"
+  },
+  {
+    "id": "luogu-training-P2712",
+    "url": "https://www.luogu.com.cn/problem/P2712",
+    "stage": "03 搜索与图",
+    "unit": "拓扑排序与 DAG"
+  },
+  {
+    "id": "luogu-training-P3183",
+    "url": "https://www.luogu.com.cn/problem/P3183",
+    "stage": "03 搜索与图",
+    "unit": "拓扑排序与 DAG"
+  },
+  {
+    "id": "luogu-training-P4017",
+    "url": "https://www.luogu.com.cn/problem/P4017",
+    "stage": "03 搜索与图",
+    "unit": "拓扑排序与 DAG"
+  },
+  {
+    "id": "luogu-training-P7113",
+    "url": "https://www.luogu.com.cn/problem/P7113",
+    "stage": "03 搜索与图",
+    "unit": "拓扑排序与 DAG"
+  },
+  {
+    "id": "luogu-training-P10166",
+    "url": "https://www.luogu.com.cn/problem/P10166",
+    "stage": "03 搜索与图",
+    "unit": "拓扑排序与 DAG"
+  },
+  {
+    "id": "luogu-training-UVA10305",
+    "url": "https://www.luogu.com.cn/problem/UVA10305",
+    "stage": "03 搜索与图",
+    "unit": "拓扑排序与 DAG"
+  },
+  {
+    "id": "luogu-training-CF1361A",
+    "url": "https://www.luogu.com.cn/problem/CF1361A",
+    "stage": "03 搜索与图",
+    "unit": "拓扑排序与 DAG"
+  },
+  {
+    "id": "luogu-training-P1038",
+    "url": "https://www.luogu.com.cn/problem/P1038",
+    "stage": "03 搜索与图",
+    "unit": "拓扑排序与 DAG"
+  },
+  {
+    "id": "luogu-training-P3243",
+    "url": "https://www.luogu.com.cn/problem/P3243",
+    "stage": "03 搜索与图",
+    "unit": "拓扑排序与 DAG"
+  },
+  {
+    "id": "luogu-training-P3627",
+    "url": "https://www.luogu.com.cn/problem/P3627",
+    "stage": "03 搜索与图",
+    "unit": "拓扑排序与 DAG"
+  },
+  {
+    "id": "luogu-training-P8269",
+    "url": "https://www.luogu.com.cn/problem/P8269",
+    "stage": "03 搜索与图",
+    "unit": "拓扑排序与 DAG"
+  },
+  {
+    "id": "luogu-training-P11022",
+    "url": "https://www.luogu.com.cn/problem/P11022",
+    "stage": "03 搜索与图",
+    "unit": "拓扑排序与 DAG"
+  },
+  {
+    "id": "luogu-training-CF1385E",
+    "url": "https://www.luogu.com.cn/problem/CF1385E",
+    "stage": "03 搜索与图",
+    "unit": "拓扑排序与 DAG"
+  },
+  {
+    "id": "luogu-training-CF910A",
+    "url": "https://www.luogu.com.cn/problem/CF910A",
+    "stage": "03 搜索与图",
+    "unit": "最短路"
+  },
+  {
+    "id": "luogu-training-P1339",
+    "url": "https://www.luogu.com.cn/problem/P1339",
+    "stage": "03 搜索与图",
+    "unit": "最短路"
+  },
+  {
+    "id": "luogu-training-P1828",
+    "url": "https://www.luogu.com.cn/problem/P1828",
+    "stage": "03 搜索与图",
+    "unit": "最短路"
+  },
+  {
+    "id": "luogu-training-P3905",
+    "url": "https://www.luogu.com.cn/problem/P3905",
+    "stage": "03 搜索与图",
+    "unit": "最短路"
+  },
+  {
+    "id": "luogu-training-P11966",
+    "url": "https://www.luogu.com.cn/problem/P11966",
+    "stage": "03 搜索与图",
+    "unit": "最短路"
+  },
+  {
+    "id": "luogu-training-AT_arc064_c",
+    "url": "https://www.luogu.com.cn/problem/AT_arc064_c",
+    "stage": "03 搜索与图",
+    "unit": "最短路"
+  },
+  {
+    "id": "luogu-training-P1608",
+    "url": "https://www.luogu.com.cn/problem/P1608",
+    "stage": "03 搜索与图",
+    "unit": "最短路"
+  },
+  {
+    "id": "luogu-training-P2737",
+    "url": "https://www.luogu.com.cn/problem/P2737",
+    "stage": "03 搜索与图",
+    "unit": "最短路"
+  },
+  {
+    "id": "luogu-training-P5195",
+    "url": "https://www.luogu.com.cn/problem/P5195",
+    "stage": "03 搜索与图",
+    "unit": "最短路"
+  },
+  {
+    "id": "luogu-training-P7100",
+    "url": "https://www.luogu.com.cn/problem/P7100",
+    "stage": "03 搜索与图",
+    "unit": "最短路"
+  },
+  {
+    "id": "luogu-training-P10726",
+    "url": "https://www.luogu.com.cn/problem/P10726",
+    "stage": "03 搜索与图",
+    "unit": "最短路"
+  },
+  {
+    "id": "luogu-training-UVA658",
+    "url": "https://www.luogu.com.cn/problem/UVA658",
+    "stage": "03 搜索与图",
+    "unit": "最短路"
+  },
+  {
+    "id": "luogu-training-CF938D",
+    "url": "https://www.luogu.com.cn/problem/CF938D",
+    "stage": "03 搜索与图",
+    "unit": "最短路"
+  },
+  {
+    "id": "luogu-training-CF912D",
+    "url": "https://www.luogu.com.cn/problem/CF912D",
+    "stage": "03 搜索与图",
+    "unit": "最短路"
+  },
+  {
+    "id": "luogu-training-P2371",
+    "url": "https://www.luogu.com.cn/problem/P2371",
+    "stage": "03 搜索与图",
+    "unit": "最短路"
+  },
+  {
+    "id": "luogu-training-P3831",
+    "url": "https://www.luogu.com.cn/problem/P3831",
+    "stage": "03 搜索与图",
+    "unit": "最短路"
+  },
+  {
+    "id": "luogu-training-P6096",
+    "url": "https://www.luogu.com.cn/problem/P6096",
+    "stage": "03 搜索与图",
+    "unit": "最短路"
+  },
+  {
+    "id": "luogu-training-UVA11997",
+    "url": "https://www.luogu.com.cn/problem/UVA11997",
+    "stage": "03 搜索与图",
+    "unit": "最短路"
+  },
+  {
+    "id": "luogu-training-P1194",
+    "url": "https://www.luogu.com.cn/problem/P1194",
+    "stage": "03 搜索与图",
+    "unit": "最小生成树"
+  },
+  {
+    "id": "luogu-training-P1195",
+    "url": "https://www.luogu.com.cn/problem/P1195",
+    "stage": "03 搜索与图",
+    "unit": "最小生成树"
+  },
+  {
+    "id": "luogu-training-P1546",
+    "url": "https://www.luogu.com.cn/problem/P1546",
+    "stage": "03 搜索与图",
+    "unit": "最小生成树"
+  },
+  {
+    "id": "luogu-training-P1547",
+    "url": "https://www.luogu.com.cn/problem/P1547",
+    "stage": "03 搜索与图",
+    "unit": "最小生成树"
+  },
+  {
+    "id": "luogu-training-P2212",
+    "url": "https://www.luogu.com.cn/problem/P2212",
+    "stage": "03 搜索与图",
+    "unit": "最小生成树"
+  },
+  {
+    "id": "luogu-training-P2330",
+    "url": "https://www.luogu.com.cn/problem/P2330",
+    "stage": "03 搜索与图",
+    "unit": "最小生成树"
+  },
+  {
+    "id": "luogu-training-P2872",
+    "url": "https://www.luogu.com.cn/problem/P2872",
+    "stage": "03 搜索与图",
+    "unit": "最小生成树"
+  },
+  {
+    "id": "luogu-training-P17016",
+    "url": "https://www.luogu.com.cn/problem/P17016",
+    "stage": "03 搜索与图",
+    "unit": "最小生成树"
+  },
+  {
+    "id": "luogu-training-CF1687B",
+    "url": "https://www.luogu.com.cn/problem/CF1687B",
+    "stage": "03 搜索与图",
+    "unit": "最小生成树"
+  },
+  {
+    "id": "luogu-training-P1340",
+    "url": "https://www.luogu.com.cn/problem/P1340",
+    "stage": "03 搜索与图",
+    "unit": "最小生成树"
+  },
+  {
+    "id": "luogu-training-P2700",
+    "url": "https://www.luogu.com.cn/problem/P2700",
+    "stage": "03 搜索与图",
+    "unit": "最小生成树"
+  },
+  {
+    "id": "luogu-training-P5425",
+    "url": "https://www.luogu.com.cn/problem/P5425",
+    "stage": "03 搜索与图",
+    "unit": "最小生成树"
+  },
+  {
+    "id": "luogu-training-P12375",
+    "url": "https://www.luogu.com.cn/problem/P12375",
+    "stage": "03 搜索与图",
+    "unit": "最小生成树"
+  },
+  {
+    "id": "luogu-training-CF1184E1",
+    "url": "https://www.luogu.com.cn/problem/CF1184E1",
+    "stage": "03 搜索与图",
+    "unit": "最小生成树"
+  },
+  {
+    "id": "luogu-training-CF545E",
+    "url": "https://www.luogu.com.cn/problem/CF545E",
+    "stage": "03 搜索与图",
+    "unit": "最小生成树"
+  },
+  {
+    "id": "luogu-training-CF1184E2",
+    "url": "https://www.luogu.com.cn/problem/CF1184E2",
+    "stage": "03 搜索与图",
+    "unit": "最小生成树"
+  },
+  {
+    "id": "luogu-training-P2245",
+    "url": "https://www.luogu.com.cn/problem/P2245",
+    "stage": "03 搜索与图",
+    "unit": "最小生成树"
+  },
+  {
+    "id": "luogu-training-P14362",
+    "url": "https://www.luogu.com.cn/problem/P14362",
+    "stage": "03 搜索与图",
+    "unit": "最小生成树"
+  },
+  {
+    "id": "luogu-training-P1030",
+    "url": "https://www.luogu.com.cn/problem/P1030",
+    "stage": "03 搜索与图",
+    "unit": "树的遍历、倍增与 LCA"
+  },
+  {
+    "id": "luogu-training-P4715",
+    "url": "https://www.luogu.com.cn/problem/P4715",
+    "stage": "03 搜索与图",
+    "unit": "树的遍历、倍增与 LCA"
+  },
+  {
+    "id": "luogu-training-P1351",
+    "url": "https://www.luogu.com.cn/problem/P1351",
+    "stage": "03 搜索与图",
+    "unit": "树的遍历、倍增与 LCA"
+  },
+  {
+    "id": "luogu-training-P3379",
+    "url": "https://www.luogu.com.cn/problem/P3379",
+    "stage": "03 搜索与图",
+    "unit": "树的遍历、倍增与 LCA"
+  },
+  {
+    "id": "luogu-training-P10113",
+    "url": "https://www.luogu.com.cn/problem/P10113",
+    "stage": "03 搜索与图",
+    "unit": "树的遍历、倍增与 LCA"
+  },
+  {
+    "id": "luogu-training-P1185",
+    "url": "https://www.luogu.com.cn/problem/P1185",
+    "stage": "03 搜索与图",
+    "unit": "树的遍历、倍增与 LCA"
+  },
+  {
+    "id": "luogu-training-P5536",
+    "url": "https://www.luogu.com.cn/problem/P5536",
+    "stage": "03 搜索与图",
+    "unit": "树的遍历、倍增与 LCA"
+  },
+  {
+    "id": "luogu-training-UVA11987",
+    "url": "https://www.luogu.com.cn/problem/UVA11987",
+    "stage": "03 搜索与图",
+    "unit": "树的遍历、倍增与 LCA"
+  },
+  {
+    "id": "luogu-training-CF77C",
+    "url": "https://www.luogu.com.cn/problem/CF77C",
+    "stage": "03 搜索与图",
+    "unit": "树的遍历、倍增与 LCA"
+  },
+  {
+    "id": "luogu-training-CF455C",
+    "url": "https://www.luogu.com.cn/problem/CF455C",
+    "stage": "03 搜索与图",
+    "unit": "树的遍历、倍增与 LCA"
+  },
+  {
+    "id": "luogu-training-CF540E",
+    "url": "https://www.luogu.com.cn/problem/CF540E",
+    "stage": "03 搜索与图",
+    "unit": "树的遍历、倍增与 LCA"
+  },
+  {
+    "id": "luogu-training-P1099",
+    "url": "https://www.luogu.com.cn/problem/P1099",
+    "stage": "03 搜索与图",
+    "unit": "树的遍历、倍增与 LCA"
+  },
+  {
+    "id": "luogu-training-P9433",
+    "url": "https://www.luogu.com.cn/problem/P9433",
+    "stage": "03 搜索与图",
+    "unit": "树的遍历、倍增与 LCA"
+  },
+  {
+    "id": "luogu-training-CF196C",
+    "url": "https://www.luogu.com.cn/problem/CF196C",
+    "stage": "03 搜索与图",
+    "unit": "树的遍历、倍增与 LCA"
+  },
+  {
+    "id": "luogu-training-CF538E",
+    "url": "https://www.luogu.com.cn/problem/CF538E",
+    "stage": "03 搜索与图",
+    "unit": "树的遍历、倍增与 LCA"
+  },
+  {
+    "id": "luogu-training-CF765E",
+    "url": "https://www.luogu.com.cn/problem/CF765E",
+    "stage": "03 搜索与图",
+    "unit": "树的遍历、倍增与 LCA"
+  },
+  {
+    "id": "luogu-training-CF980E",
+    "url": "https://www.luogu.com.cn/problem/CF980E",
+    "stage": "03 搜索与图",
+    "unit": "树的遍历、倍增与 LCA"
+  },
+  {
+    "id": "luogu-training-CF1278E",
+    "url": "https://www.luogu.com.cn/problem/CF1278E",
+    "stage": "03 搜索与图",
+    "unit": "树的遍历、倍增与 LCA"
+  },
+  {
+    "id": "luogu-training-P1077",
+    "url": "https://www.luogu.com.cn/problem/P1077",
+    "stage": "04 动态规划",
+    "unit": "状态定义与线性 DP"
+  },
+  {
+    "id": "luogu-training-P1203",
+    "url": "https://www.luogu.com.cn/problem/P1203",
+    "stage": "04 动态规划",
+    "unit": "状态定义与线性 DP"
+  },
+  {
+    "id": "luogu-training-P2834",
+    "url": "https://www.luogu.com.cn/problem/P2834",
+    "stage": "04 动态规划",
+    "unit": "状态定义与线性 DP"
+  },
+  {
+    "id": "luogu-training-P2842",
+    "url": "https://www.luogu.com.cn/problem/P2842",
+    "stage": "04 动态规划",
+    "unit": "状态定义与线性 DP"
+  },
+  {
+    "id": "luogu-training-P1095",
+    "url": "https://www.luogu.com.cn/problem/P1095",
+    "stage": "04 动态规划",
+    "unit": "状态定义与线性 DP"
+  },
+  {
+    "id": "luogu-training-P1280",
+    "url": "https://www.luogu.com.cn/problem/P1280",
+    "stage": "04 动态规划",
+    "unit": "状态定义与线性 DP"
+  },
+  {
+    "id": "luogu-training-P1544",
+    "url": "https://www.luogu.com.cn/problem/P1544",
+    "stage": "04 动态规划",
+    "unit": "状态定义与线性 DP"
+  },
+  {
+    "id": "luogu-training-P1874",
+    "url": "https://www.luogu.com.cn/problem/P1874",
+    "stage": "04 动态规划",
+    "unit": "状态定义与线性 DP"
+  },
+  {
+    "id": "luogu-training-P2285",
+    "url": "https://www.luogu.com.cn/problem/P2285",
+    "stage": "04 动态规划",
+    "unit": "状态定义与线性 DP"
+  },
+  {
+    "id": "luogu-training-P2758",
+    "url": "https://www.luogu.com.cn/problem/P2758",
+    "stage": "04 动态规划",
+    "unit": "状态定义与线性 DP"
+  },
+  {
+    "id": "luogu-training-P3842",
+    "url": "https://www.luogu.com.cn/problem/P3842",
+    "stage": "04 动态规划",
+    "unit": "状态定义与线性 DP"
+  },
+  {
+    "id": "luogu-training-CF946D",
+    "url": "https://www.luogu.com.cn/problem/CF946D",
+    "stage": "04 动态规划",
+    "unit": "状态定义与线性 DP"
+  },
+  {
+    "id": "luogu-training-P1005",
+    "url": "https://www.luogu.com.cn/problem/P1005",
+    "stage": "04 动态规划",
+    "unit": "状态定义与线性 DP"
+  },
+  {
+    "id": "luogu-training-P1020",
+    "url": "https://www.luogu.com.cn/problem/P1020",
+    "stage": "04 动态规划",
+    "unit": "状态定义与线性 DP"
+  },
+  {
+    "id": "luogu-training-P1436",
+    "url": "https://www.luogu.com.cn/problem/P1436",
+    "stage": "04 动态规划",
+    "unit": "状态定义与线性 DP"
+  },
+  {
+    "id": "luogu-training-P1541",
+    "url": "https://www.luogu.com.cn/problem/P1541",
+    "stage": "04 动态规划",
+    "unit": "状态定义与线性 DP"
+  },
+  {
+    "id": "luogu-training-P4310",
+    "url": "https://www.luogu.com.cn/problem/P4310",
+    "stage": "04 动态规划",
+    "unit": "状态定义与线性 DP"
+  },
+  {
+    "id": "月赛 304::B",
+    "url": "https://www.luogu.com.cn/problem/P17594",
+    "stage": "04 动态规划",
+    "unit": "状态定义与线性 DP"
+  },
+  {
+    "id": "lab:luogu:P1048",
+    "url": "https://www.luogu.com.cn/problem/P1048",
+    "stage": "04 动态规划",
+    "unit": "背包 DP"
+  },
+  {
+    "id": "lab:luogu:P2392",
+    "url": "https://www.luogu.com.cn/problem/P2392",
+    "stage": "04 动态规划",
+    "unit": "背包 DP"
+  },
+  {
+    "id": "luogu-training-P1679",
+    "url": "https://www.luogu.com.cn/problem/P1679",
+    "stage": "04 动态规划",
+    "unit": "背包 DP"
+  },
+  {
+    "id": "luogu-training-P1855",
+    "url": "https://www.luogu.com.cn/problem/P1855",
+    "stage": "04 动态规划",
+    "unit": "背包 DP"
+  },
+  {
+    "id": "luogu-training-P2639",
+    "url": "https://www.luogu.com.cn/problem/P2639",
+    "stage": "04 动态规划",
+    "unit": "背包 DP"
+  },
+  {
+    "id": "luogu-training-P11246",
+    "url": "https://www.luogu.com.cn/problem/P11246",
+    "stage": "04 动态规划",
+    "unit": "背包 DP"
+  },
+  {
+    "id": "luogu-training-B3873",
+    "url": "https://www.luogu.com.cn/problem/B3873",
+    "stage": "04 动态规划",
+    "unit": "背包 DP"
+  },
+  {
+    "id": "luogu-training-P1466",
+    "url": "https://www.luogu.com.cn/problem/P1466",
+    "stage": "04 动态规划",
+    "unit": "背包 DP"
+  },
+  {
+    "id": "luogu-training-P2170",
+    "url": "https://www.luogu.com.cn/problem/P2170",
+    "stage": "04 动态规划",
+    "unit": "背包 DP"
+  },
+  {
+    "id": "luogu-training-P2725",
+    "url": "https://www.luogu.com.cn/problem/P2725",
+    "stage": "04 动态规划",
+    "unit": "背包 DP"
+  },
+  {
+    "id": "luogu-training-P5365",
+    "url": "https://www.luogu.com.cn/problem/P5365",
+    "stage": "04 动态规划",
+    "unit": "背包 DP"
+  },
+  {
+    "id": "luogu-training-P14920",
+    "url": "https://www.luogu.com.cn/problem/P14920",
+    "stage": "04 动态规划",
+    "unit": "背包 DP"
+  },
+  {
+    "id": "luogu-training-P1156",
+    "url": "https://www.luogu.com.cn/problem/P1156",
+    "stage": "04 动态规划",
+    "unit": "背包 DP"
+  },
+  {
+    "id": "luogu-training-P1776",
+    "url": "https://www.luogu.com.cn/problem/P1776",
+    "stage": "04 动态规划",
+    "unit": "背包 DP"
+  },
+  {
+    "id": "luogu-training-P4912",
+    "url": "https://www.luogu.com.cn/problem/P4912",
+    "stage": "04 动态规划",
+    "unit": "背包 DP"
+  },
+  {
+    "id": "luogu-training-P13018",
+    "url": "https://www.luogu.com.cn/problem/P13018",
+    "stage": "04 动态规划",
+    "unit": "背包 DP"
+  },
+  {
+    "id": "luogu-training-P1858",
+    "url": "https://www.luogu.com.cn/problem/P1858",
+    "stage": "04 动态规划",
+    "unit": "背包 DP"
+  },
+  {
+    "id": "luogu-training-P11274",
+    "url": "https://www.luogu.com.cn/problem/P11274",
+    "stage": "04 动态规划",
+    "unit": "背包 DP"
+  },
+  {
+    "id": "luogu-training-P1435",
+    "url": "https://www.luogu.com.cn/problem/P1435",
+    "stage": "04 动态规划",
+    "unit": "区间 DP"
+  },
+  {
+    "id": "luogu-training-P1775",
+    "url": "https://www.luogu.com.cn/problem/P1775",
+    "stage": "04 动态规划",
+    "unit": "区间 DP"
+  },
+  {
+    "id": "luogu-training-P2734",
+    "url": "https://www.luogu.com.cn/problem/P2734",
+    "stage": "04 动态规划",
+    "unit": "区间 DP"
+  },
+  {
+    "id": "luogu-training-P17015",
+    "url": "https://www.luogu.com.cn/problem/P17015",
+    "stage": "04 动态规划",
+    "unit": "区间 DP"
+  },
+  {
+    "id": "luogu-training-P1063",
+    "url": "https://www.luogu.com.cn/problem/P1063",
+    "stage": "04 动态规划",
+    "unit": "区间 DP"
+  },
+  {
+    "id": "luogu-training-P1388",
+    "url": "https://www.luogu.com.cn/problem/P1388",
+    "stage": "04 动态规划",
+    "unit": "区间 DP"
+  },
+  {
+    "id": "luogu-training-P1880",
+    "url": "https://www.luogu.com.cn/problem/P1880",
+    "stage": "04 动态规划",
+    "unit": "区间 DP"
+  },
+  {
+    "id": "luogu-training-P3205",
+    "url": "https://www.luogu.com.cn/problem/P3205",
+    "stage": "04 动态规划",
+    "unit": "区间 DP"
+  },
+  {
+    "id": "luogu-training-P4290",
+    "url": "https://www.luogu.com.cn/problem/P4290",
+    "stage": "04 动态规划",
+    "unit": "区间 DP"
+  },
+  {
+    "id": "luogu-training-P10236",
+    "url": "https://www.luogu.com.cn/problem/P10236",
+    "stage": "04 动态规划",
+    "unit": "区间 DP"
+  },
+  {
+    "id": "luogu-training-P13439",
+    "url": "https://www.luogu.com.cn/problem/P13439",
+    "stage": "04 动态规划",
+    "unit": "区间 DP"
+  },
+  {
+    "id": "luogu-training-UVA1362",
+    "url": "https://www.luogu.com.cn/problem/UVA1362",
+    "stage": "04 动态规划",
+    "unit": "区间 DP"
+  },
+  {
+    "id": "luogu-training-UVA10003",
+    "url": "https://www.luogu.com.cn/problem/UVA10003",
+    "stage": "04 动态规划",
+    "unit": "区间 DP"
+  },
+  {
+    "id": "luogu-training-P1070",
+    "url": "https://www.luogu.com.cn/problem/P1070",
+    "stage": "04 动态规划",
+    "unit": "区间 DP"
+  },
+  {
+    "id": "luogu-training-P6006",
+    "url": "https://www.luogu.com.cn/problem/P6006",
+    "stage": "04 动态规划",
+    "unit": "区间 DP"
+  },
+  {
+    "id": "luogu-training-P7129",
+    "url": "https://www.luogu.com.cn/problem/P7129",
+    "stage": "04 动态规划",
+    "unit": "区间 DP"
+  },
+  {
+    "id": "luogu-training-UVA1626",
+    "url": "https://www.luogu.com.cn/problem/UVA1626",
+    "stage": "04 动态规划",
+    "unit": "区间 DP"
+  },
+  {
+    "id": "luogu-training-CF1336C",
+    "url": "https://www.luogu.com.cn/problem/CF1336C",
+    "stage": "04 动态规划",
+    "unit": "区间 DP"
+  },
+  {
+    "id": "luogu-training-B4016",
+    "url": "https://www.luogu.com.cn/problem/B4016",
+    "stage": "04 动态规划",
+    "unit": "树形 DP"
+  },
+  {
+    "id": "luogu-training-P11249",
+    "url": "https://www.luogu.com.cn/problem/P11249",
+    "stage": "04 动态规划",
+    "unit": "树形 DP"
+  },
+  {
+    "id": "luogu-training-P15801",
+    "url": "https://www.luogu.com.cn/problem/P15801",
+    "stage": "04 动态规划",
+    "unit": "树形 DP"
+  },
+  {
+    "id": "luogu-training-P1131",
+    "url": "https://www.luogu.com.cn/problem/P1131",
+    "stage": "04 动态规划",
+    "unit": "树形 DP"
+  },
+  {
+    "id": "luogu-training-P2458",
+    "url": "https://www.luogu.com.cn/problem/P2458",
+    "stage": "04 动态规划",
+    "unit": "树形 DP"
+  },
+  {
+    "id": "luogu-training-P2986",
+    "url": "https://www.luogu.com.cn/problem/P2986",
+    "stage": "04 动态规划",
+    "unit": "树形 DP"
+  },
+  {
+    "id": "luogu-training-P4084",
+    "url": "https://www.luogu.com.cn/problem/P4084",
+    "stage": "04 动态规划",
+    "unit": "树形 DP"
+  },
+  {
+    "id": "luogu-training-P9584",
+    "url": "https://www.luogu.com.cn/problem/P9584",
+    "stage": "04 动态规划",
+    "unit": "树形 DP"
+  },
+  {
+    "id": "luogu-training-P13020",
+    "url": "https://www.luogu.com.cn/problem/P13020",
+    "stage": "04 动态规划",
+    "unit": "树形 DP"
+  },
+  {
+    "id": "luogu-training-CF337D",
+    "url": "https://www.luogu.com.cn/problem/CF337D",
+    "stage": "04 动态规划",
+    "unit": "树形 DP"
+  },
+  {
+    "id": "luogu-training-CF1416C",
+    "url": "https://www.luogu.com.cn/problem/CF1416C",
+    "stage": "04 动态规划",
+    "unit": "树形 DP"
+  },
+  {
+    "id": "luogu-training-P1453",
+    "url": "https://www.luogu.com.cn/problem/P1453",
+    "stage": "04 动态规划",
+    "unit": "树形 DP"
+  },
+  {
+    "id": "luogu-training-P3554",
+    "url": "https://www.luogu.com.cn/problem/P3554",
+    "stage": "04 动态规划",
+    "unit": "树形 DP"
+  },
+  {
+    "id": "luogu-training-P5958",
+    "url": "https://www.luogu.com.cn/problem/P5958",
+    "stage": "04 动态规划",
+    "unit": "树形 DP"
+  },
+  {
+    "id": "luogu-training-P8916",
+    "url": "https://www.luogu.com.cn/problem/P8916",
+    "stage": "04 动态规划",
+    "unit": "树形 DP"
+  },
+  {
+    "id": "luogu-training-P10767",
+    "url": "https://www.luogu.com.cn/problem/P10767",
+    "stage": "04 动态规划",
+    "unit": "树形 DP"
+  },
+  {
+    "id": "luogu-training-UVA1218",
+    "url": "https://www.luogu.com.cn/problem/UVA1218",
+    "stage": "04 动态规划",
+    "unit": "树形 DP"
+  },
+  {
+    "id": "luogu-training-CF1540B",
+    "url": "https://www.luogu.com.cn/problem/CF1540B",
+    "stage": "04 动态规划",
+    "unit": "树形 DP"
+  },
+  {
+    "id": "luogu-training-P12593",
+    "url": "https://www.luogu.com.cn/problem/P12593",
+    "stage": "04 动态规划",
+    "unit": "状态压缩 DP"
+  },
+  {
+    "id": "luogu-training-P2622",
+    "url": "https://www.luogu.com.cn/problem/P2622",
+    "stage": "04 动态规划",
+    "unit": "状态压缩 DP"
+  },
+  {
+    "id": "luogu-training-AT_abc359_d",
+    "url": "https://www.luogu.com.cn/problem/AT_abc359_d",
+    "stage": "04 动态规划",
+    "unit": "状态压缩 DP"
+  },
+  {
+    "id": "luogu-training-P1441",
+    "url": "https://www.luogu.com.cn/problem/P1441",
+    "stage": "04 动态规划",
+    "unit": "状态压缩 DP"
+  },
+  {
+    "id": "luogu-training-P2210",
+    "url": "https://www.luogu.com.cn/problem/P2210",
+    "stage": "04 动态规划",
+    "unit": "状态压缩 DP"
+  },
+  {
+    "id": "luogu-training-P5911",
+    "url": "https://www.luogu.com.cn/problem/P5911",
+    "stage": "04 动态规划",
+    "unit": "状态压缩 DP"
+  },
+  {
+    "id": "luogu-training-P10865",
+    "url": "https://www.luogu.com.cn/problem/P10865",
+    "stage": "04 动态规划",
+    "unit": "状态压缩 DP"
+  },
+  {
+    "id": "luogu-training-P1450",
+    "url": "https://www.luogu.com.cn/problem/P1450",
+    "stage": "04 动态规划",
+    "unit": "状态压缩 DP"
+  },
+  {
+    "id": "luogu-training-P2167",
+    "url": "https://www.luogu.com.cn/problem/P2167",
+    "stage": "04 动态规划",
+    "unit": "状态压缩 DP"
+  },
+  {
+    "id": "luogu-training-P2473",
+    "url": "https://www.luogu.com.cn/problem/P2473",
+    "stage": "04 动态规划",
+    "unit": "状态压缩 DP"
+  },
+  {
+    "id": "luogu-training-P2831",
+    "url": "https://www.luogu.com.cn/problem/P2831",
+    "stage": "04 动态规划",
+    "unit": "状态压缩 DP"
+  },
+  {
+    "id": "luogu-training-P3694",
+    "url": "https://www.luogu.com.cn/problem/P3694",
+    "stage": "04 动态规划",
+    "unit": "状态压缩 DP"
+  },
+  {
+    "id": "luogu-training-P3786",
+    "url": "https://www.luogu.com.cn/problem/P3786",
+    "stage": "04 动态规划",
+    "unit": "状态压缩 DP"
+  },
+  {
+    "id": "luogu-training-P3947",
+    "url": "https://www.luogu.com.cn/problem/P3947",
+    "stage": "04 动态规划",
+    "unit": "状态压缩 DP"
+  },
+  {
+    "id": "luogu-training-P4928",
+    "url": "https://www.luogu.com.cn/problem/P4928",
+    "stage": "04 动态规划",
+    "unit": "状态压缩 DP"
+  },
+  {
+    "id": "luogu-training-P7296",
+    "url": "https://www.luogu.com.cn/problem/P7296",
+    "stage": "04 动态规划",
+    "unit": "状态压缩 DP"
+  },
+  {
+    "id": "luogu-training-P9017",
+    "url": "https://www.luogu.com.cn/problem/P9017",
+    "stage": "04 动态规划",
+    "unit": "状态压缩 DP"
+  },
+  {
+    "id": "luogu-training-CF11D",
+    "url": "https://www.luogu.com.cn/problem/CF11D",
+    "stage": "04 动态规划",
+    "unit": "状态压缩 DP"
+  },
+  {
+    "id": "luogu-training-P2657",
+    "url": "https://www.luogu.com.cn/problem/P2657",
+    "stage": "04 动态规划",
+    "unit": "数位 DP"
+  },
+  {
+    "id": "luogu-training-P14074",
+    "url": "https://www.luogu.com.cn/problem/P14074",
+    "stage": "04 动态规划",
+    "unit": "数位 DP"
+  },
+  {
+    "id": "luogu-training-P1836",
+    "url": "https://www.luogu.com.cn/problem/P1836",
+    "stage": "04 动态规划",
+    "unit": "数位 DP"
+  },
+  {
+    "id": "luogu-training-P4798",
+    "url": "https://www.luogu.com.cn/problem/P4798",
+    "stage": "04 动态规划",
+    "unit": "数位 DP"
+  },
+  {
+    "id": "luogu-training-P4999",
+    "url": "https://www.luogu.com.cn/problem/P4999",
+    "stage": "04 动态规划",
+    "unit": "数位 DP"
+  },
+  {
+    "id": "luogu-training-SP17247",
+    "url": "https://www.luogu.com.cn/problem/SP17247",
+    "stage": "04 动态规划",
+    "unit": "数位 DP"
+  },
+  {
+    "id": "luogu-training-UVA1640",
+    "url": "https://www.luogu.com.cn/problem/UVA1640",
+    "stage": "04 动态规划",
+    "unit": "数位 DP"
+  },
+  {
+    "id": "luogu-training-CF401D",
+    "url": "https://www.luogu.com.cn/problem/CF401D",
+    "stage": "04 动态规划",
+    "unit": "数位 DP"
+  },
+  {
+    "id": "luogu-training-P2518",
+    "url": "https://www.luogu.com.cn/problem/P2518",
+    "stage": "04 动态规划",
+    "unit": "数位 DP"
+  },
+  {
+    "id": "luogu-training-P4124",
+    "url": "https://www.luogu.com.cn/problem/P4124",
+    "stage": "04 动态规划",
+    "unit": "数位 DP"
+  },
+  {
+    "id": "luogu-training-P4127",
+    "url": "https://www.luogu.com.cn/problem/P4127",
+    "stage": "04 动态规划",
+    "unit": "数位 DP"
+  },
+  {
+    "id": "luogu-training-P5128",
+    "url": "https://www.luogu.com.cn/problem/P5128",
+    "stage": "04 动态规划",
+    "unit": "数位 DP"
+  },
+  {
+    "id": "luogu-training-P6218",
+    "url": "https://www.luogu.com.cn/problem/P6218",
+    "stage": "04 动态规划",
+    "unit": "数位 DP"
+  },
+  {
+    "id": "luogu-training-P14084",
+    "url": "https://www.luogu.com.cn/problem/P14084",
+    "stage": "04 动态规划",
+    "unit": "数位 DP"
+  },
+  {
+    "id": "luogu-training-SP10606",
+    "url": "https://www.luogu.com.cn/problem/SP10606",
+    "stage": "04 动态规划",
+    "unit": "数位 DP"
+  },
+  {
+    "id": "luogu-training-UVA1652",
+    "url": "https://www.luogu.com.cn/problem/UVA1652",
+    "stage": "04 动态规划",
+    "unit": "数位 DP"
+  },
+  {
+    "id": "luogu-training-CF628D",
+    "url": "https://www.luogu.com.cn/problem/CF628D",
+    "stage": "04 动态规划",
+    "unit": "数位 DP"
+  },
+  {
+    "id": "luogu-training-CF1073E",
+    "url": "https://www.luogu.com.cn/problem/CF1073E",
+    "stage": "04 动态规划",
+    "unit": "数位 DP"
+  },
+  {
+    "id": "luogu-training-P1628",
+    "url": "https://www.luogu.com.cn/problem/P1628",
+    "stage": "05 数据结构进阶",
+    "unit": "堆与单调结构"
+  },
+  {
+    "id": "luogu-training-UVA11462",
+    "url": "https://www.luogu.com.cn/problem/UVA11462",
+    "stage": "05 数据结构进阶",
+    "unit": "堆与单调结构"
+  },
+  {
+    "id": "luogu-training-B3666",
+    "url": "https://www.luogu.com.cn/problem/B3666",
+    "stage": "05 数据结构进阶",
+    "unit": "堆与单调结构"
+  },
+  {
+    "id": "luogu-training-P1440",
+    "url": "https://www.luogu.com.cn/problem/P1440",
+    "stage": "05 数据结构进阶",
+    "unit": "堆与单调结构"
+  },
+  {
+    "id": "luogu-training-P1886",
+    "url": "https://www.luogu.com.cn/problem/P1886",
+    "stage": "05 数据结构进阶",
+    "unit": "堆与单调结构"
+  },
+  {
+    "id": "luogu-training-P2251",
+    "url": "https://www.luogu.com.cn/problem/P2251",
+    "stage": "05 数据结构进阶",
+    "unit": "堆与单调结构"
+  },
+  {
+    "id": "luogu-training-P2947",
+    "url": "https://www.luogu.com.cn/problem/P2947",
+    "stage": "05 数据结构进阶",
+    "unit": "堆与单调结构"
+  },
+  {
+    "id": "luogu-training-P5788",
+    "url": "https://www.luogu.com.cn/problem/P5788",
+    "stage": "05 数据结构进阶",
+    "unit": "堆与单调结构"
+  },
+  {
+    "id": "luogu-training-P15232",
+    "url": "https://www.luogu.com.cn/problem/P15232",
+    "stage": "05 数据结构进阶",
+    "unit": "堆与单调结构"
+  },
+  {
+    "id": "luogu-training-UVA1619",
+    "url": "https://www.luogu.com.cn/problem/UVA1619",
+    "stage": "05 数据结构进阶",
+    "unit": "堆与单调结构"
+  },
+  {
+    "id": "luogu-training-P1950",
+    "url": "https://www.luogu.com.cn/problem/P1950",
+    "stage": "05 数据结构进阶",
+    "unit": "堆与单调结构"
+  },
+  {
+    "id": "luogu-training-P2564",
+    "url": "https://www.luogu.com.cn/problem/P2564",
+    "stage": "05 数据结构进阶",
+    "unit": "堆与单调结构"
+  },
+  {
+    "id": "luogu-training-P6503",
+    "url": "https://www.luogu.com.cn/problem/P6503",
+    "stage": "05 数据结构进阶",
+    "unit": "堆与单调结构"
+  },
+  {
+    "id": "luogu-training-P7410",
+    "url": "https://www.luogu.com.cn/problem/P7410",
+    "stage": "05 数据结构进阶",
+    "unit": "堆与单调结构"
+  },
+  {
+    "id": "luogu-training-P9977",
+    "url": "https://www.luogu.com.cn/problem/P9977",
+    "stage": "05 数据结构进阶",
+    "unit": "堆与单调结构"
+  },
+  {
+    "id": "luogu-training-P10277",
+    "url": "https://www.luogu.com.cn/problem/P10277",
+    "stage": "05 数据结构进阶",
+    "unit": "堆与单调结构"
+  },
+  {
+    "id": "luogu-training-CF547B",
+    "url": "https://www.luogu.com.cn/problem/CF547B",
+    "stage": "05 数据结构进阶",
+    "unit": "堆与单调结构"
+  },
+  {
+    "id": "luogu-training-CF1237D",
+    "url": "https://www.luogu.com.cn/problem/CF1237D",
+    "stage": "05 数据结构进阶",
+    "unit": "堆与单调结构"
+  },
+  {
+    "id": "luogu-training-CF44C",
+    "url": "https://www.luogu.com.cn/problem/CF44C",
+    "stage": "05 数据结构进阶",
+    "unit": "树状数组"
+  },
+  {
+    "id": "luogu-training-P1714",
+    "url": "https://www.luogu.com.cn/problem/P1714",
+    "stage": "05 数据结构进阶",
+    "unit": "树状数组"
+  },
+  {
+    "id": "luogu-training-P3531",
+    "url": "https://www.luogu.com.cn/problem/P3531",
+    "stage": "05 数据结构进阶",
+    "unit": "树状数组"
+  },
+  {
+    "id": "luogu-training-P2161",
+    "url": "https://www.luogu.com.cn/problem/P2161",
+    "stage": "05 数据结构进阶",
+    "unit": "树状数组"
+  },
+  {
+    "id": "luogu-training-P4939",
+    "url": "https://www.luogu.com.cn/problem/P4939",
+    "stage": "05 数据结构进阶",
+    "unit": "树状数组"
+  },
+  {
+    "id": "luogu-training-P5367",
+    "url": "https://www.luogu.com.cn/problem/P5367",
+    "stage": "05 数据结构进阶",
+    "unit": "树状数组"
+  },
+  {
+    "id": "luogu-training-P7149",
+    "url": "https://www.luogu.com.cn/problem/P7149",
+    "stage": "05 数据结构进阶",
+    "unit": "树状数组"
+  },
+  {
+    "id": "luogu-training-P10235",
+    "url": "https://www.luogu.com.cn/problem/P10235",
+    "stage": "05 数据结构进阶",
+    "unit": "树状数组"
+  },
+  {
+    "id": "luogu-training-P14521",
+    "url": "https://www.luogu.com.cn/problem/P14521",
+    "stage": "05 数据结构进阶",
+    "unit": "树状数组"
+  },
+  {
+    "id": "luogu-training-CF961E",
+    "url": "https://www.luogu.com.cn/problem/CF961E",
+    "stage": "05 数据结构进阶",
+    "unit": "树状数组"
+  },
+  {
+    "id": "luogu-training-P1966",
+    "url": "https://www.luogu.com.cn/problem/P1966",
+    "stage": "05 数据结构进阶",
+    "unit": "树状数组"
+  },
+  {
+    "id": "luogu-training-P3149",
+    "url": "https://www.luogu.com.cn/problem/P3149",
+    "stage": "05 数据结构进阶",
+    "unit": "树状数组"
+  },
+  {
+    "id": "luogu-training-P4064",
+    "url": "https://www.luogu.com.cn/problem/P4064",
+    "stage": "05 数据结构进阶",
+    "unit": "树状数组"
+  },
+  {
+    "id": "luogu-training-P5677",
+    "url": "https://www.luogu.com.cn/problem/P5677",
+    "stage": "05 数据结构进阶",
+    "unit": "树状数组"
+  },
+  {
+    "id": "luogu-training-P8201",
+    "url": "https://www.luogu.com.cn/problem/P8201",
+    "stage": "05 数据结构进阶",
+    "unit": "树状数组"
+  },
+  {
+    "id": "luogu-training-P11656",
+    "url": "https://www.luogu.com.cn/problem/P11656",
+    "stage": "05 数据结构进阶",
+    "unit": "树状数组"
+  },
+  {
+    "id": "luogu-training-P14379",
+    "url": "https://www.luogu.com.cn/problem/P14379",
+    "stage": "05 数据结构进阶",
+    "unit": "树状数组"
+  },
+  {
+    "id": "luogu-training-CF1194E",
+    "url": "https://www.luogu.com.cn/problem/CF1194E",
+    "stage": "05 数据结构进阶",
+    "unit": "树状数组"
+  },
+  {
+    "id": "luogu-training-P1204",
+    "url": "https://www.luogu.com.cn/problem/P1204",
+    "stage": "05 数据结构进阶",
+    "unit": "线段树"
+  },
+  {
+    "id": "luogu-training-P10288",
+    "url": "https://www.luogu.com.cn/problem/P10288",
+    "stage": "05 数据结构进阶",
+    "unit": "线段树"
+  },
+  {
+    "id": "luogu-training-P1531",
+    "url": "https://www.luogu.com.cn/problem/P1531",
+    "stage": "05 数据结构进阶",
+    "unit": "线段树"
+  },
+  {
+    "id": "luogu-training-P2846",
+    "url": "https://www.luogu.com.cn/problem/P2846",
+    "stage": "05 数据结构进阶",
+    "unit": "线段树"
+  },
+  {
+    "id": "luogu-training-P6492",
+    "url": "https://www.luogu.com.cn/problem/P6492",
+    "stage": "05 数据结构进阶",
+    "unit": "线段树"
+  },
+  {
+    "id": "luogu-training-P10237",
+    "url": "https://www.luogu.com.cn/problem/P10237",
+    "stage": "05 数据结构进阶",
+    "unit": "线段树"
+  },
+  {
+    "id": "luogu-training-CF1696D",
+    "url": "https://www.luogu.com.cn/problem/CF1696D",
+    "stage": "05 数据结构进阶",
+    "unit": "线段树"
+  },
+  {
+    "id": "luogu-training-AT_abc322_f",
+    "url": "https://www.luogu.com.cn/problem/AT_abc322_f",
+    "stage": "05 数据结构进阶",
+    "unit": "线段树"
+  },
+  {
+    "id": "luogu-training-CF960F",
+    "url": "https://www.luogu.com.cn/problem/CF960F",
+    "stage": "05 数据结构进阶",
+    "unit": "线段树"
+  },
+  {
+    "id": "luogu-training-P1937",
+    "url": "https://www.luogu.com.cn/problem/P1937",
+    "stage": "05 数据结构进阶",
+    "unit": "线段树"
+  },
+  {
+    "id": "luogu-training-P3924",
+    "url": "https://www.luogu.com.cn/problem/P3924",
+    "stage": "05 数据结构进阶",
+    "unit": "线段树"
+  },
+  {
+    "id": "luogu-training-P5568",
+    "url": "https://www.luogu.com.cn/problem/P5568",
+    "stage": "05 数据结构进阶",
+    "unit": "线段树"
+  },
+  {
+    "id": "luogu-training-P6587",
+    "url": "https://www.luogu.com.cn/problem/P6587",
+    "stage": "05 数据结构进阶",
+    "unit": "线段树"
+  },
+  {
+    "id": "luogu-training-P10134",
+    "url": "https://www.luogu.com.cn/problem/P10134",
+    "stage": "05 数据结构进阶",
+    "unit": "线段树"
+  },
+  {
+    "id": "luogu-training-SP1043",
+    "url": "https://www.luogu.com.cn/problem/SP1043",
+    "stage": "05 数据结构进阶",
+    "unit": "线段树"
+  },
+  {
+    "id": "luogu-training-CF413E",
+    "url": "https://www.luogu.com.cn/problem/CF413E",
+    "stage": "05 数据结构进阶",
+    "unit": "线段树"
+  },
+  {
+    "id": "luogu-training-CF438D",
+    "url": "https://www.luogu.com.cn/problem/CF438D",
+    "stage": "05 数据结构进阶",
+    "unit": "线段树"
+  },
+  {
+    "id": "luogu-training-CF1093G",
+    "url": "https://www.luogu.com.cn/problem/CF1093G",
+    "stage": "05 数据结构进阶",
+    "unit": "线段树"
+  },
+  {
+    "id": "luogu-training-UVA12345",
+    "url": "https://www.luogu.com.cn/problem/UVA12345",
+    "stage": "05 数据结构进阶",
+    "unit": "分块与离线处理"
+  },
+  {
+    "id": "lab:codeforces:816B",
+    "url": "https://codeforces.com/problemset/problem/816/B",
+    "stage": "05 数据结构进阶",
+    "unit": "分块与离线处理"
+  },
+  {
+    "id": "luogu-training-P4109",
+    "url": "https://www.luogu.com.cn/problem/P4109",
+    "stage": "05 数据结构进阶",
+    "unit": "分块与离线处理"
+  },
+  {
+    "id": "luogu-training-CF220B",
+    "url": "https://www.luogu.com.cn/problem/CF220B",
+    "stage": "05 数据结构进阶",
+    "unit": "分块与离线处理"
+  },
+  {
+    "id": "luogu-training-P3645",
+    "url": "https://www.luogu.com.cn/problem/P3645",
+    "stage": "05 数据结构进阶",
+    "unit": "分块与离线处理"
+  },
+  {
+    "id": "luogu-training-P3901",
+    "url": "https://www.luogu.com.cn/problem/P3901",
+    "stage": "05 数据结构进阶",
+    "unit": "分块与离线处理"
+  },
+  {
+    "id": "luogu-training-SP1684",
+    "url": "https://www.luogu.com.cn/problem/SP1684",
+    "stage": "05 数据结构进阶",
+    "unit": "分块与离线处理"
+  },
+  {
+    "id": "luogu-training-P1494",
+    "url": "https://www.luogu.com.cn/problem/P1494",
+    "stage": "05 数据结构进阶",
+    "unit": "分块与离线处理"
+  },
+  {
+    "id": "luogu-training-P2325",
+    "url": "https://www.luogu.com.cn/problem/P2325",
+    "stage": "05 数据结构进阶",
+    "unit": "分块与离线处理"
+  },
+  {
+    "id": "luogu-training-P2709",
+    "url": "https://www.luogu.com.cn/problem/P2709",
+    "stage": "05 数据结构进阶",
+    "unit": "分块与离线处理"
+  },
+  {
+    "id": "luogu-training-P4462",
+    "url": "https://www.luogu.com.cn/problem/P4462",
+    "stage": "05 数据结构进阶",
+    "unit": "分块与离线处理"
+  },
+  {
+    "id": "luogu-training-P4863",
+    "url": "https://www.luogu.com.cn/problem/P4863",
+    "stage": "05 数据结构进阶",
+    "unit": "分块与离线处理"
+  },
+  {
+    "id": "luogu-training-SP3267",
+    "url": "https://www.luogu.com.cn/problem/SP3267",
+    "stage": "05 数据结构进阶",
+    "unit": "分块与离线处理"
+  },
+  {
+    "id": "luogu-training-SP30906",
+    "url": "https://www.luogu.com.cn/problem/SP30906",
+    "stage": "05 数据结构进阶",
+    "unit": "分块与离线处理"
+  },
+  {
+    "id": "luogu-training-CF617E",
+    "url": "https://www.luogu.com.cn/problem/CF617E",
+    "stage": "05 数据结构进阶",
+    "unit": "分块与离线处理"
+  },
+  {
+    "id": "luogu-training-CF877F",
+    "url": "https://www.luogu.com.cn/problem/CF877F",
+    "stage": "05 数据结构进阶",
+    "unit": "分块与离线处理"
+  },
+  {
+    "id": "luogu-training-CF119A",
+    "url": "https://www.luogu.com.cn/problem/CF119A",
+    "stage": "06 数学与字符串",
+    "unit": "整除、质数与模运算"
+  },
+  {
+    "id": "luogu-training-UVA11388",
+    "url": "https://www.luogu.com.cn/problem/UVA11388",
+    "stage": "06 数学与字符串",
+    "unit": "整除、质数与模运算"
+  },
+  {
+    "id": "luogu-training-B3969",
+    "url": "https://www.luogu.com.cn/problem/B3969",
+    "stage": "06 数学与字符串",
+    "unit": "整除、质数与模运算"
+  },
+  {
+    "id": "luogu-training-P3383",
+    "url": "https://www.luogu.com.cn/problem/P3383",
+    "stage": "06 数学与字符串",
+    "unit": "整除、质数与模运算"
+  },
+  {
+    "id": "luogu-training-P17011",
+    "url": "https://www.luogu.com.cn/problem/P17011",
+    "stage": "06 数学与字符串",
+    "unit": "整除、质数与模运算"
+  },
+  {
+    "id": "luogu-training-P3811",
+    "url": "https://www.luogu.com.cn/problem/P3811",
+    "stage": "06 数学与字符串",
+    "unit": "整除、质数与模运算"
+  },
+  {
+    "id": "luogu-training-P7960",
+    "url": "https://www.luogu.com.cn/problem/P7960",
+    "stage": "06 数学与字符串",
+    "unit": "整除、质数与模运算"
+  },
+  {
+    "id": "luogu-training-CF582A",
+    "url": "https://www.luogu.com.cn/problem/CF582A",
+    "stage": "06 数学与字符串",
+    "unit": "整除、质数与模运算"
+  },
+  {
+    "id": "luogu-training-P2261",
+    "url": "https://www.luogu.com.cn/problem/P2261",
+    "stage": "06 数学与字符串",
+    "unit": "整除、质数与模运算"
+  },
+  {
+    "id": "luogu-training-P6523",
+    "url": "https://www.luogu.com.cn/problem/P6523",
+    "stage": "06 数学与字符串",
+    "unit": "整除、质数与模运算"
+  },
+  {
+    "id": "luogu-training-CF632D",
+    "url": "https://www.luogu.com.cn/problem/CF632D",
+    "stage": "06 数学与字符串",
+    "unit": "整除、质数与模运算"
+  },
+  {
+    "id": "luogu-training-P1495",
+    "url": "https://www.luogu.com.cn/problem/P1495",
+    "stage": "06 数学与字符串",
+    "unit": "整除、质数与模运算"
+  },
+  {
+    "id": "luogu-training-P2260",
+    "url": "https://www.luogu.com.cn/problem/P2260",
+    "stage": "06 数学与字符串",
+    "unit": "整除、质数与模运算"
+  },
+  {
+    "id": "luogu-training-P2568",
+    "url": "https://www.luogu.com.cn/problem/P2568",
+    "stage": "06 数学与字符串",
+    "unit": "整除、质数与模运算"
+  },
+  {
+    "id": "luogu-training-P4028",
+    "url": "https://www.luogu.com.cn/problem/P4028",
+    "stage": "06 数学与字符串",
+    "unit": "整除、质数与模运算"
+  },
+  {
+    "id": "luogu-training-P4861",
+    "url": "https://www.luogu.com.cn/problem/P4861",
+    "stage": "06 数学与字符串",
+    "unit": "整除、质数与模运算"
+  },
+  {
+    "id": "luogu-training-P6210",
+    "url": "https://www.luogu.com.cn/problem/P6210",
+    "stage": "06 数学与字符串",
+    "unit": "整除、质数与模运算"
+  },
+  {
+    "id": "luogu-training-UVA11426",
+    "url": "https://www.luogu.com.cn/problem/UVA11426",
+    "stage": "06 数学与字符串",
+    "unit": "整除、质数与模运算"
+  },
+  {
+    "id": "luogu-training-CF388C",
+    "url": "https://www.luogu.com.cn/problem/CF388C",
+    "stage": "06 数学与字符串",
+    "unit": "整除、质数与模运算"
+  },
+  {
+    "id": "luogu-training-P2911",
+    "url": "https://www.luogu.com.cn/problem/P2911",
+    "stage": "06 数学与字符串",
+    "unit": "组合计数与基础概率"
+  },
+  {
+    "id": "luogu-training-CF1178C",
+    "url": "https://www.luogu.com.cn/problem/CF1178C",
+    "stage": "06 数学与字符串",
+    "unit": "组合计数与基础概率"
+  },
+  {
+    "id": "luogu-training-P1754",
+    "url": "https://www.luogu.com.cn/problem/P1754",
+    "stage": "06 数学与字符串",
+    "unit": "组合计数与基础概率"
+  },
+  {
+    "id": "luogu-training-P3197",
+    "url": "https://www.luogu.com.cn/problem/P3197",
+    "stage": "06 数学与字符串",
+    "unit": "组合计数与基础概率"
+  },
+  {
+    "id": "lanqiao:2024:国:::P10912",
+    "url": "https://www.luogu.com.cn/problem/P10912",
+    "stage": "06 数学与字符串",
+    "unit": "组合计数与基础概率"
+  },
+  {
+    "id": "luogu-training-P1291",
+    "url": "https://www.luogu.com.cn/problem/P1291",
+    "stage": "06 数学与字符串",
+    "unit": "组合计数与基础概率"
+  },
+  {
+    "id": "luogu-training-P2532",
+    "url": "https://www.luogu.com.cn/problem/P2532",
+    "stage": "06 数学与字符串",
+    "unit": "组合计数与基础概率"
+  },
+  {
+    "id": "luogu-training-P3802",
+    "url": "https://www.luogu.com.cn/problem/P3802",
+    "stage": "06 数学与字符串",
+    "unit": "组合计数与基础概率"
+  },
+  {
+    "id": "luogu-training-P6075",
+    "url": "https://www.luogu.com.cn/problem/P6075",
+    "stage": "06 数学与字符串",
+    "unit": "组合计数与基础概率"
+  },
+  {
+    "id": "luogu-training-UVA11181",
+    "url": "https://www.luogu.com.cn/problem/UVA11181",
+    "stage": "06 数学与字符串",
+    "unit": "组合计数与基础概率"
+  },
+  {
+    "id": "luogu-training-CF1909I",
+    "url": "https://www.luogu.com.cn/problem/CF1909I",
+    "stage": "06 数学与字符串",
+    "unit": "组合计数与基础概率"
+  },
+  {
+    "id": "luogu-training-CF1151E",
+    "url": "https://www.luogu.com.cn/problem/CF1151E",
+    "stage": "06 数学与字符串",
+    "unit": "组合计数与基础概率"
+  },
+  {
+    "id": "luogu-training-P1850",
+    "url": "https://www.luogu.com.cn/problem/P1850",
+    "stage": "06 数学与字符串",
+    "unit": "组合计数与基础概率"
+  },
+  {
+    "id": "luogu-training-P4284",
+    "url": "https://www.luogu.com.cn/problem/P4284",
+    "stage": "06 数学与字符串",
+    "unit": "组合计数与基础概率"
+  },
+  {
+    "id": "luogu-training-P6046",
+    "url": "https://www.luogu.com.cn/problem/P6046",
+    "stage": "06 数学与字符串",
+    "unit": "组合计数与基础概率"
+  },
+  {
+    "id": "luogu-training-UVA1390",
+    "url": "https://www.luogu.com.cn/problem/UVA1390",
+    "stage": "06 数学与字符串",
+    "unit": "组合计数与基础概率"
+  },
+  {
+    "id": "luogu-training-CF559C",
+    "url": "https://www.luogu.com.cn/problem/CF559C",
+    "stage": "06 数学与字符串",
+    "unit": "组合计数与基础概率"
+  },
+  {
+    "id": "luogu-training-CF1768E",
+    "url": "https://www.luogu.com.cn/problem/CF1768E",
+    "stage": "06 数学与字符串",
+    "unit": "组合计数与基础概率"
+  },
+  {
+    "id": "luogu-training-P2957",
+    "url": "https://www.luogu.com.cn/problem/P2957",
+    "stage": "06 数学与字符串",
+    "unit": "字符串哈希与字典树"
+  },
+  {
+    "id": "luogu-training-P4398",
+    "url": "https://www.luogu.com.cn/problem/P4398",
+    "stage": "06 数学与字符串",
+    "unit": "字符串哈希与字典树"
+  },
+  {
+    "id": "luogu-training-SP4033",
+    "url": "https://www.luogu.com.cn/problem/SP4033",
+    "stage": "06 数学与字符串",
+    "unit": "字符串哈希与字典树"
+  },
+  {
+    "id": "luogu-training-AT_arc172_c",
+    "url": "https://www.luogu.com.cn/problem/AT_arc172_c",
+    "stage": "06 数学与字符串",
+    "unit": "字符串哈希与字典树"
+  },
+  {
+    "id": "luogu-training-P1381",
+    "url": "https://www.luogu.com.cn/problem/P1381",
+    "stage": "06 数学与字符串",
+    "unit": "字符串哈希与字典树"
+  },
+  {
+    "id": "luogu-training-P2536",
+    "url": "https://www.luogu.com.cn/problem/P2536",
+    "stage": "06 数学与字符串",
+    "unit": "字符串哈希与字典树"
+  },
+  {
+    "id": "luogu-training-P2922",
+    "url": "https://www.luogu.com.cn/problem/P2922",
+    "stage": "06 数学与字符串",
+    "unit": "字符串哈希与字典树"
+  },
+  {
+    "id": "luogu-training-P3449",
+    "url": "https://www.luogu.com.cn/problem/P3449",
+    "stage": "06 数学与字符串",
+    "unit": "字符串哈希与字典树"
+  },
+  {
+    "id": "luogu-training-P4551",
+    "url": "https://www.luogu.com.cn/problem/P4551",
+    "stage": "06 数学与字符串",
+    "unit": "字符串哈希与字典树"
+  },
+  {
+    "id": "luogu-training-P5018",
+    "url": "https://www.luogu.com.cn/problem/P5018",
+    "stage": "06 数学与字符串",
+    "unit": "字符串哈希与字典树"
+  },
+  {
+    "id": "luogu-training-P5335",
+    "url": "https://www.luogu.com.cn/problem/P5335",
+    "stage": "06 数学与字符串",
+    "unit": "字符串哈希与字典树"
+  },
+  {
+    "id": "基础赛 33::E",
+    "url": "https://www.luogu.com.cn/problem/P16340",
+    "stage": "06 数学与字符串",
+    "unit": "字符串哈希与字典树"
+  },
+  {
+    "id": "luogu-training-CF817E",
+    "url": "https://www.luogu.com.cn/problem/CF817E",
+    "stage": "06 数学与字符串",
+    "unit": "字符串哈希与字典树"
+  },
+  {
+    "id": "luogu-training-P3065",
+    "url": "https://www.luogu.com.cn/problem/P3065",
+    "stage": "06 数学与字符串",
+    "unit": "字符串哈希与字典树"
+  },
+  {
+    "id": "luogu-training-P4407",
+    "url": "https://www.luogu.com.cn/problem/P4407",
+    "stage": "06 数学与字符串",
+    "unit": "字符串哈希与字典树"
+  },
+  {
+    "id": "luogu-training-P4683",
+    "url": "https://www.luogu.com.cn/problem/P4683",
+    "stage": "06 数学与字符串",
+    "unit": "字符串哈希与字典树"
+  },
+  {
+    "id": "luogu-training-P6088",
+    "url": "https://www.luogu.com.cn/problem/P6088",
+    "stage": "06 数学与字符串",
+    "unit": "字符串哈希与字典树"
+  },
+  {
+    "id": "luogu-training-P2580",
+    "url": "https://www.luogu.com.cn/problem/P2580",
+    "stage": "06 数学与字符串",
+    "unit": "KMP 与 Z 函数"
+  },
+  {
+    "id": "luogu-training-P3375",
+    "url": "https://www.luogu.com.cn/problem/P3375",
+    "stage": "06 数学与字符串",
+    "unit": "KMP 与 Z 函数"
+  },
+  {
+    "id": "luogu-training-UVA11019",
+    "url": "https://www.luogu.com.cn/problem/UVA11019",
+    "stage": "06 数学与字符串",
+    "unit": "KMP 与 Z 函数"
+  },
+  {
+    "id": "luogu-training-CF1200E",
+    "url": "https://www.luogu.com.cn/problem/CF1200E",
+    "stage": "06 数学与字符串",
+    "unit": "KMP 与 Z 函数"
+  },
+  {
+    "id": "luogu-training-P2375",
+    "url": "https://www.luogu.com.cn/problem/P2375",
+    "stage": "06 数学与字符串",
+    "unit": "KMP 与 Z 函数"
+  },
+  {
+    "id": "luogu-training-P3435",
+    "url": "https://www.luogu.com.cn/problem/P3435",
+    "stage": "06 数学与字符串",
+    "unit": "KMP 与 Z 函数"
+  },
+  {
+    "id": "luogu-training-P4824",
+    "url": "https://www.luogu.com.cn/problem/P4824",
+    "stage": "06 数学与字符串",
+    "unit": "KMP 与 Z 函数"
+  },
+  {
+    "id": "luogu-training-P13790",
+    "url": "https://www.luogu.com.cn/problem/P13790",
+    "stage": "06 数学与字符串",
+    "unit": "KMP 与 Z 函数"
+  },
+  {
+    "id": "luogu-training-P1652",
+    "url": "https://www.luogu.com.cn/problem/P1652",
+    "stage": "06 数学与字符串",
+    "unit": "基础计算几何"
+  },
+  {
+    "id": "luogu-training-P1325",
+    "url": "https://www.luogu.com.cn/problem/P1325",
+    "stage": "06 数学与字符串",
+    "unit": "基础计算几何"
+  },
+  {
+    "id": "luogu-training-P1355",
+    "url": "https://www.luogu.com.cn/problem/P1355",
+    "stage": "06 数学与字符串",
+    "unit": "基础计算几何"
+  },
+  {
+    "id": "luogu-training-P2180",
+    "url": "https://www.luogu.com.cn/problem/P2180",
+    "stage": "06 数学与字符串",
+    "unit": "基础计算几何"
+  },
+  {
+    "id": "luogu-training-P2181",
+    "url": "https://www.luogu.com.cn/problem/P2181",
+    "stage": "06 数学与字符串",
+    "unit": "基础计算几何"
+  },
+  {
+    "id": "luogu-training-P2742",
+    "url": "https://www.luogu.com.cn/problem/P2742",
+    "stage": "06 数学与字符串",
+    "unit": "基础计算几何"
+  },
+  {
+    "id": "luogu-training-P2924",
+    "url": "https://www.luogu.com.cn/problem/P2924",
+    "stage": "06 数学与字符串",
+    "unit": "基础计算几何"
+  },
+  {
+    "id": "luogu-training-P3194",
+    "url": "https://www.luogu.com.cn/problem/P3194",
+    "stage": "06 数学与字符串",
+    "unit": "基础计算几何"
+  },
+  {
+    "id": "luogu-training-UVA675",
+    "url": "https://www.luogu.com.cn/problem/UVA675",
+    "stage": "06 数学与字符串",
+    "unit": "基础计算几何"
+  },
+  {
+    "id": "luogu-training-UVA681",
+    "url": "https://www.luogu.com.cn/problem/UVA681",
+    "stage": "06 数学与字符串",
+    "unit": "基础计算几何"
+  },
+  {
+    "id": "luogu-training-UVA1303",
+    "url": "https://www.luogu.com.cn/problem/UVA1303",
+    "stage": "06 数学与字符串",
+    "unit": "基础计算几何"
+  },
+  {
+    "id": "luogu-training-UVA11626",
+    "url": "https://www.luogu.com.cn/problem/UVA11626",
+    "stage": "06 数学与字符串",
+    "unit": "基础计算几何"
+  },
+  {
+    "id": "luogu-training-B3609",
+    "url": "https://www.luogu.com.cn/problem/B3609",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "图的连通性与综合建模"
+  },
+  {
+    "id": "luogu-training-B3610",
+    "url": "https://www.luogu.com.cn/problem/B3610",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "图的连通性与综合建模"
+  },
+  {
+    "id": "luogu-training-P1726",
+    "url": "https://www.luogu.com.cn/problem/P1726",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "图的连通性与综合建模"
+  },
+  {
+    "id": "luogu-training-P2169",
+    "url": "https://www.luogu.com.cn/problem/P2169",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "图的连通性与综合建模"
+  },
+  {
+    "id": "luogu-training-P2341",
+    "url": "https://www.luogu.com.cn/problem/P2341",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "图的连通性与综合建模"
+  },
+  {
+    "id": "luogu-training-P2863",
+    "url": "https://www.luogu.com.cn/problem/P2863",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "图的连通性与综合建模"
+  },
+  {
+    "id": "luogu-training-P3388",
+    "url": "https://www.luogu.com.cn/problem/P3388",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "图的连通性与综合建模"
+  },
+  {
+    "id": "luogu-training-P8435",
+    "url": "https://www.luogu.com.cn/problem/P8435",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "图的连通性与综合建模"
+  },
+  {
+    "id": "luogu-training-SP14887",
+    "url": "https://www.luogu.com.cn/problem/SP14887",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "图的连通性与综合建模"
+  },
+  {
+    "id": "luogu-training-CF1000E",
+    "url": "https://www.luogu.com.cn/problem/CF1000E",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "图的连通性与综合建模"
+  },
+  {
+    "id": "luogu-training-P2783",
+    "url": "https://www.luogu.com.cn/problem/P2783",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "图的连通性与综合建模"
+  },
+  {
+    "id": "luogu-training-P2812",
+    "url": "https://www.luogu.com.cn/problem/P2812",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "图的连通性与综合建模"
+  },
+  {
+    "id": "luogu-training-P3007",
+    "url": "https://www.luogu.com.cn/problem/P3007",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "图的连通性与综合建模"
+  },
+  {
+    "id": "luogu-training-P3469",
+    "url": "https://www.luogu.com.cn/problem/P3469",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "图的连通性与综合建模"
+  },
+  {
+    "id": "luogu-training-P4171",
+    "url": "https://www.luogu.com.cn/problem/P4171",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "图的连通性与综合建模"
+  },
+  {
+    "id": "luogu-training-P4819",
+    "url": "https://www.luogu.com.cn/problem/P4819",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "图的连通性与综合建模"
+  },
+  {
+    "id": "luogu-training-P7251",
+    "url": "https://www.luogu.com.cn/problem/P7251",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "图的连通性与综合建模"
+  },
+  {
+    "id": "luogu-training-CF1777E",
+    "url": "https://www.luogu.com.cn/problem/CF1777E",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "图的连通性与综合建模"
+  },
+  {
+    "id": "luogu-training-AT_dp_j",
+    "url": "https://www.luogu.com.cn/problem/AT_dp_j",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "动态规划综合"
+  },
+  {
+    "id": "luogu-training-P1169",
+    "url": "https://www.luogu.com.cn/problem/P1169",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "动态规划综合"
+  },
+  {
+    "id": "luogu-training-P3080",
+    "url": "https://www.luogu.com.cn/problem/P3080",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "动态规划综合"
+  },
+  {
+    "id": "luogu-training-P5752",
+    "url": "https://www.luogu.com.cn/problem/P5752",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "动态规划综合"
+  },
+  {
+    "id": "luogu-training-CF41D",
+    "url": "https://www.luogu.com.cn/problem/CF41D",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "动态规划综合"
+  },
+  {
+    "id": "luogu-training-CF372B",
+    "url": "https://www.luogu.com.cn/problem/CF372B",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "动态规划综合"
+  },
+  {
+    "id": "luogu-training-CF685B",
+    "url": "https://www.luogu.com.cn/problem/CF685B",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "动态规划综合"
+  },
+  {
+    "id": "luogu-training-CF82D",
+    "url": "https://www.luogu.com.cn/problem/CF82D",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "动态规划综合"
+  },
+  {
+    "id": "luogu-training-CF478D",
+    "url": "https://www.luogu.com.cn/problem/CF478D",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "动态规划综合"
+  },
+  {
+    "id": "luogu-training-CF814D",
+    "url": "https://www.luogu.com.cn/problem/CF814D",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "动态规划综合"
+  },
+  {
+    "id": "luogu-training-CF1131D",
+    "url": "https://www.luogu.com.cn/problem/CF1131D",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "动态规划综合"
+  },
+  {
+    "id": "luogu-training-AT_dp_v",
+    "url": "https://www.luogu.com.cn/problem/AT_dp_v",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "动态规划综合"
+  },
+  {
+    "id": "luogu-training-CF799D",
+    "url": "https://www.luogu.com.cn/problem/CF799D",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "动态规划综合"
+  },
+  {
+    "id": "luogu-training-CF1271E",
+    "url": "https://www.luogu.com.cn/problem/CF1271E",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "动态规划综合"
+  },
+  {
+    "id": "luogu-training-P3360",
+    "url": "https://www.luogu.com.cn/problem/P3360",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "动态规划综合"
+  },
+  {
+    "id": "luogu-training-P5839",
+    "url": "https://www.luogu.com.cn/problem/P5839",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "动态规划综合"
+  },
+  {
+    "id": "luogu-training-UVA1222",
+    "url": "https://www.luogu.com.cn/problem/UVA1222",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "动态规划综合"
+  },
+  {
+    "id": "luogu-training-CF1015F",
+    "url": "https://www.luogu.com.cn/problem/CF1015F",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "动态规划综合"
+  },
+  {
+    "id": "luogu-training-P1069",
+    "url": "https://www.luogu.com.cn/problem/P1069",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "数学与字符串综合"
+  },
+  {
+    "id": "luogu-training-P1414",
+    "url": "https://www.luogu.com.cn/problem/P1414",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "数学与字符串综合"
+  },
+  {
+    "id": "luogu-training-P2441",
+    "url": "https://www.luogu.com.cn/problem/P2441",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "数学与字符串综合"
+  },
+  {
+    "id": "luogu-training-P2789",
+    "url": "https://www.luogu.com.cn/problem/P2789",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "数学与字符串综合"
+  },
+  {
+    "id": "luogu-training-P4391",
+    "url": "https://www.luogu.com.cn/problem/P4391",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "数学与字符串综合"
+  },
+  {
+    "id": "luogu-training-P7469",
+    "url": "https://www.luogu.com.cn/problem/P7469",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "数学与字符串综合"
+  },
+  {
+    "id": "luogu-training-UVA11475",
+    "url": "https://www.luogu.com.cn/problem/UVA11475",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "数学与字符串综合"
+  },
+  {
+    "id": "luogu-training-UVA11732",
+    "url": "https://www.luogu.com.cn/problem/UVA11732",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "数学与字符串综合"
+  },
+  {
+    "id": "luogu-training-P1409",
+    "url": "https://www.luogu.com.cn/problem/P1409",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "数学与字符串综合"
+  },
+  {
+    "id": "luogu-training-P3501",
+    "url": "https://www.luogu.com.cn/problem/P3501",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "数学与字符串综合"
+  },
+  {
+    "id": "luogu-training-P3805",
+    "url": "https://www.luogu.com.cn/problem/P3805",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "数学与字符串综合"
+  },
+  {
+    "id": "luogu-training-P4503",
+    "url": "https://www.luogu.com.cn/problem/P4503",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "数学与字符串综合"
+  },
+  {
+    "id": "luogu-training-P5451",
+    "url": "https://www.luogu.com.cn/problem/P5451",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "数学与字符串综合"
+  },
+  {
+    "id": "luogu-training-P6162",
+    "url": "https://www.luogu.com.cn/problem/P6162",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "数学与字符串综合"
+  },
+  {
+    "id": "luogu-training-P6561",
+    "url": "https://www.luogu.com.cn/problem/P6561",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "数学与字符串综合"
+  },
+  {
+    "id": "luogu-training-UVA11022",
+    "url": "https://www.luogu.com.cn/problem/UVA11022",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "数学与字符串综合"
+  },
+  {
+    "id": "luogu-training-CF526D",
+    "url": "https://www.luogu.com.cn/problem/CF526D",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "数学与字符串综合"
+  },
+  {
+    "id": "luogu-training-CF808G",
+    "url": "https://www.luogu.com.cn/problem/CF808G",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "数学与字符串综合"
+  },
+  {
+    "id": "luogu-training-AT_abc305_f",
+    "url": "https://www.luogu.com.cn/problem/AT_abc305_f",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "区域赛与思维综合"
+  },
+  {
+    "id": "luogu-training-P3929",
+    "url": "https://www.luogu.com.cn/problem/P3929",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "区域赛与思维综合"
+  },
+  {
+    "id": "luogu-training-P7023",
+    "url": "https://www.luogu.com.cn/problem/P7023",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "区域赛与思维综合"
+  },
+  {
+    "id": "luogu-training-P7943",
+    "url": "https://www.luogu.com.cn/problem/P7943",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "区域赛与思维综合"
+  },
+  {
+    "id": "luogu-training-P9065",
+    "url": "https://www.luogu.com.cn/problem/P9065",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "区域赛与思维综合"
+  },
+  {
+    "id": "luogu-training-P10026",
+    "url": "https://www.luogu.com.cn/problem/P10026",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "区域赛与思维综合"
+  },
+  {
+    "id": "luogu-training-P10854",
+    "url": "https://www.luogu.com.cn/problem/P10854",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "区域赛与思维综合"
+  },
+  {
+    "id": "luogu-training-P12397",
+    "url": "https://www.luogu.com.cn/problem/P12397",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "区域赛与思维综合"
+  },
+  {
+    "id": "luogu-training-P15267",
+    "url": "https://www.luogu.com.cn/problem/P15267",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "区域赛与思维综合"
+  },
+  {
+    "id": "luogu-training-CF1416B",
+    "url": "https://www.luogu.com.cn/problem/CF1416B",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "区域赛与思维综合"
+  },
+  {
+    "id": "luogu-training-P5008",
+    "url": "https://www.luogu.com.cn/problem/P5008",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "区域赛与思维综合"
+  },
+  {
+    "id": "luogu-training-P6748",
+    "url": "https://www.luogu.com.cn/problem/P6748",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "区域赛与思维综合"
+  },
+  {
+    "id": "luogu-training-P7480",
+    "url": "https://www.luogu.com.cn/problem/P7480",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "区域赛与思维综合"
+  },
+  {
+    "id": "luogu-training-P9035",
+    "url": "https://www.luogu.com.cn/problem/P9035",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "区域赛与思维综合"
+  },
+  {
+    "id": "luogu-training-P10199",
+    "url": "https://www.luogu.com.cn/problem/P10199",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "区域赛与思维综合"
+  },
+  {
+    "id": "luogu-training-P11749",
+    "url": "https://www.luogu.com.cn/problem/P11749",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "区域赛与思维综合"
+  },
+  {
+    "id": "luogu-training-P16943",
+    "url": "https://www.luogu.com.cn/problem/P16943",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "区域赛与思维综合"
+  },
+  {
+    "id": "luogu-training-CF1408F",
+    "url": "https://www.luogu.com.cn/problem/CF1408F",
+    "stage": "07 CF 2300 综合训练",
+    "unit": "区域赛与思维综合"
+  }
+]

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="290" viewBox="0 0 760 290" role="img" aria-labelledby="title"><title id="title">先模拟得到唯一过程，再反向读取保存的各项</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">先模拟得到唯一过程，再反向读取保存的各项</text>
+<circle cx="60" cy="125" r="25" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="60" y="132" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">6</text>
+<circle cx="140" cy="125" r="25" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="140" y="132" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<circle cx="220" cy="125" r="25" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="220" y="132" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">10</text>
+<circle cx="300" cy="125" r="25" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="300" y="132" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<circle cx="380" cy="125" r="25" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="380" y="132" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">16</text>
+<circle cx="460" cy="125" r="25" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="460" y="132" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">8</text>
+<circle cx="540" cy="125" r="25" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="540" y="132" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<circle cx="620" cy="125" r="25" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="620" y="132" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<circle cx="700" cy="125" r="25" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="700" y="132" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<line x1="87" y1="125" x2="113" y2="125" stroke="#68778b" stroke-width="3"/>
+<line x1="167" y1="125" x2="193" y2="125" stroke="#68778b" stroke-width="3"/>
+<line x1="247" y1="125" x2="273" y2="125" stroke="#68778b" stroke-width="3"/>
+<line x1="327" y1="125" x2="353" y2="125" stroke="#68778b" stroke-width="3"/>
+<line x1="407" y1="125" x2="433" y2="125" stroke="#68778b" stroke-width="3"/>
+<line x1="487" y1="125" x2="513" y2="125" stroke="#68778b" stroke-width="3"/>
+<line x1="567" y1="125" x2="593" y2="125" stroke="#68778b" stroke-width="3"/>
+<line x1="647" y1="125" x2="673" y2="125" stroke="#68778b" stroke-width="3"/>
+<text x="60" y="205" fill="#2365ab" font-size="21" text-anchor="start" font-weight="normal">模拟：从左到右 →</text>
+<text x="390" y="250" fill="#12805c" font-size="21" text-anchor="start" font-weight="normal">输出：← 从右到左</text>
+</g></svg>

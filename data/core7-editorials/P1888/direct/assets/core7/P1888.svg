@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="385" viewBox="0 0 760 385" role="img" aria-labelledby="title"><title id="title">较小角在 B，对边 AC=3，斜边 BC=5</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">较小角在 B，对边 AC=3，斜边 BC=5</text>
+<line x1="160" y1="295" x2="440" y2="295" stroke="#2365ab" stroke-width="3"/>
+<line x1="440" y1="295" x2="160" y2="85" stroke="#2365ab" stroke-width="3"/>
+<line x1="160" y1="85" x2="160" y2="295" stroke="#2365ab" stroke-width="3"/>
+<text x="140" y="325" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">A</text>
+<text x="420" y="325" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">B</text>
+<text x="140" y="115" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">C</text>
+<text x="110" y="200" fill="#12805c" font-size="21" text-anchor="start" font-weight="normal">3</text>
+<text x="295" y="330" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">4</text>
+<text x="315" y="180" fill="#bc3645" font-size="21" text-anchor="start" font-weight="normal">5</text>
+<line x1="160" y1="275" x2="180" y2="275" stroke="#68778b" stroke-width="3"/>
+<line x1="180" y1="275" x2="180" y2="295" stroke="#68778b" stroke-width="3"/>
+<text x="485" y="180" fill="#12805c" font-size="23" text-anchor="start" font-weight="normal">sin B = 3/5</text>
+</g></svg>

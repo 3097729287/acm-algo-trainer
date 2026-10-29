@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="290" viewBox="0 0 760 290" role="img" aria-labelledby="title"><title id="title">当前位置 i=4：只检查它左侧的三条鱼</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">当前位置 i=4：只检查它左侧的三条鱼</text>
+<rect x="75" y="100" width="102" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="126.0" y="131.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="180" y="100" width="102" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="231.0" y="131.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="285" y="100" width="102" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="336.0" y="131.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="390" y="100" width="102" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="441.0" y="131.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="495" y="100" width="102" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="546.0" y="131.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="600" y="100" width="102" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="651.0" y="131.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<text x="125" y="83" fill="#68778b" font-size="18" text-anchor="middle" font-weight="normal">1</text>
+<text x="230" y="83" fill="#68778b" font-size="18" text-anchor="middle" font-weight="normal">2</text>
+<text x="335" y="83" fill="#68778b" font-size="18" text-anchor="middle" font-weight="normal">3</text>
+<text x="440" y="83" fill="#68778b" font-size="18" text-anchor="middle" font-weight="normal">4</text>
+<text x="545" y="83" fill="#68778b" font-size="18" text-anchor="middle" font-weight="normal">5</text>
+<text x="650" y="83" fill="#68778b" font-size="18" text-anchor="middle" font-weight="normal">6</text>
+<text x="75" y="220" fill="#12805c" font-size="21" text-anchor="start" font-weight="normal">4、3、0 都小于 5 → 计三条</text>
+<text x="75" y="265" fill="#68778b" font-size="20" text-anchor="start" font-weight="normal">右侧的 1、2 即使更小也不参加本次计数</text>
+</g></svg>

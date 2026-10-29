@@ -173572,7 +173572,6 @@
       "statementAvailable": true,
       "statementVersion": 5,
       "title": "Game Shopping",
-      "url": "https://codeforces.com/contest/1009/problem/A",
       "translation": {
         "format": "complete-prose-v4",
         "kind": "bundled",
@@ -173582,7 +173581,8 @@
         "sourceHash": "cbd00fba2e0b513647b8996d93383a972f168d5240a65dc49da6dc9bdc5854e7",
         "sourceLanguage": "en",
         "targetLanguage": "zh-CN"
-      }
+      },
+      "url": "https://codeforces.com/contest/1009/problem/A"
     },
     "problem_id": "remote:codeforces:1009::A"
   },
@@ -194162,7 +194162,6 @@
       "statementAvailable": true,
       "statementVersion": 5,
       "title": "Vasya and Chocolate",
-      "url": "https://codeforces.com/contest/1065/problem/A",
       "translation": {
         "format": "complete-prose-v4",
         "kind": "bundled",
@@ -194172,7 +194171,8 @@
         "sourceHash": "7eaa91768a31fc57d766152109e5ef7dafa7baa7d8f6f891908757f953924a1c",
         "sourceLanguage": "en",
         "targetLanguage": "zh-CN"
-      }
+      },
+      "url": "https://codeforces.com/contest/1065/problem/A"
     },
     "problem_id": "remote:codeforces:1065::A"
   },
@@ -196154,7 +196154,6 @@
       "statementAvailable": true,
       "statementVersion": 5,
       "title": "Dice Rolling",
-      "url": "https://codeforces.com/contest/1093/problem/A",
       "translation": {
         "format": "complete-prose-v4",
         "kind": "bundled",
@@ -196164,7 +196163,8 @@
         "sourceHash": "0312040f181445ca584a2cbc9c0f989ee6bb7523617abcee4b9466357d7f6a28",
         "sourceLanguage": "en",
         "targetLanguage": "zh-CN"
-      }
+      },
+      "url": "https://codeforces.com/contest/1093/problem/A"
     },
     "problem_id": "remote:codeforces:1093::A"
   },
@@ -196333,7 +196333,6 @@
       "statementAvailable": true,
       "statementVersion": 5,
       "title": "Find Divisible",
-      "url": "https://codeforces.com/contest/1096/problem/A",
       "translation": {
         "format": "complete-prose-v4",
         "kind": "bundled",
@@ -196343,7 +196342,8 @@
         "sourceHash": "75a9a8de6c6f46f2e88bee77e1f3d82075dbc32abaab0caf89f580b1e5d5851b",
         "sourceLanguage": "en",
         "targetLanguage": "zh-CN"
-      }
+      },
+      "url": "https://codeforces.com/contest/1096/problem/A"
     },
     "problem_id": "remote:codeforces:1096::A"
   },
@@ -273875,5 +273875,521 @@
       "url": "https://qoj.ac/problem/22922"
     },
     "problem_id": "xcpc-qoj::22922"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5703",
+      "images": {},
+      "markdown": "# 【深基2.例5】苹果采购\n\n## 题目描述\n\n现在需要采购一些苹果，每名同学都可以分到固定数量的苹果，并且已经知道了同学的数量，请问需要采购多少个苹果？\n\n## 输入格式\n\n输入两个不超过 $10^9$ 正整数，分别表示每人分到的数量和同学的人数。\n\n## 输出格式\n\n一个整数，表示答案。保证输入和答案都在 int 范围内的非负整数。",
+      "samples": [
+        {
+          "input": "5 3\n",
+          "name": "样例 1",
+          "output": "15\n"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5703",
+      "statementAvailable": true,
+      "title": "【深基2.例5】苹果采购"
+    },
+    "problem_id": "luogu-training-P5703"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5704",
+      "images": {},
+      "markdown": "# 【深基2.例6】字母转换\n\n## 题目描述\n\n输入一个小写字母，输出其对应的大写字母。例如输入 q[回车] 时，会输出 Q。",
+      "samples": [
+        {
+          "input": "q",
+          "name": "样例 1",
+          "output": "Q"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5704",
+      "statementAvailable": true,
+      "title": "【深基2.例6】字母转换"
+    },
+    "problem_id": "luogu-training-P5704"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5705",
+      "images": {},
+      "markdown": "# 【深基2.例7】数字反转\n\n## 题目描述\n\n输入一个不小于 $100$ 且小于 $1000$，同时包括小数点后一位的一个浮点数，例如 $123.4$ ，要求把这个数字翻转过来，变成 $4.321$ 并输出。\n\n## 输入格式\n\n一行一个浮点数。\n\n## 输出格式\n\n一行一个浮点数。",
+      "samples": [
+        {
+          "input": "123.4",
+          "name": "样例 1",
+          "output": "4.321"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5705",
+      "statementAvailable": true,
+      "title": "【深基2.例7】数字反转"
+    },
+    "problem_id": "luogu-training-P5705"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5706",
+      "images": {},
+      "markdown": "# 【深基2.例8】再分肥宅水\n\n## 题目描述\n\n现在有 $t$ 毫升肥宅快乐水，要均分给 $n$ 名同学。每名同学需要 $2$ 个杯子。现在想知道每名同学可以获得多少毫升饮料（严格精确到小数点后 $3$ 位），以及一共需要多少个杯子。\n\n\n\n## 输入格式\n\n输入一个实数 $t$ 和一个正整数 $n$，使用空格隔开。\n\n## 输出格式\n\n输出两行。\n\n第一行输出一个三位小数，表示可以获得多少毫升饮料。第二行输出一个正整数，表示一共需要多少个杯子。\n\n## 提示\n\n对于所有数据，$0\\leq t\\leq 10000$ 且小数点后不超过 $3$ 位，$1\\leq n\\leq 1000$。",
+      "samples": [
+        {
+          "input": "500.0 3",
+          "name": "样例 1",
+          "output": "166.667\n6"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5706",
+      "statementAvailable": true,
+      "title": "【深基2.例8】再分肥宅水"
+    },
+    "problem_id": "luogu-training-P5706"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5708",
+      "images": {},
+      "markdown": "# 【深基2.习2】三角形面积\n\n## 题目描述\n\n一个三角形的三边长分别是 $a$、$b$、$c$，那么它的面积为 $\\sqrt{p(p-a)(p-b)(p-c)}$，其中 $p=\\frac{1}{2}(a+b+c)$。输入这三个数字，计算三角形的面积，四舍五入精确到 $1$ 位小数。\n\n\n## 输入格式\n\n第一行输入三个实数 $a,b,c$，以空格隔开。\n\n## 输出格式\n\n输出一个实数，表示三角形面积。精确到小数点后 $1$ 位。\n\n## 提示\n\n数据保证能构成三角形，$0\\leq a,b,c\\leq 1000$，每个边长输入时不超过 $2$ 位小数。",
+      "samples": [
+        {
+          "input": "3 4 5",
+          "name": "样例 1",
+          "output": "6.0"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5708",
+      "statementAvailable": true,
+      "title": "【深基2.习2】三角形面积"
+    },
+    "problem_id": "luogu-training-P5708"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5707",
+      "images": {},
+      "markdown": "# 【深基2.例12】上学迟到\n\n## 题目描述\n\n学校和 yyy 的家之间的距离为 $s$ 米，而 yyy 以 $v$ 米每分钟的速度匀速走向学校。\n\n在上学的路上，yyy 还要额外花费 $10$ 分钟的时间进行垃圾分类。\n\n学校要求必须在上午 $\\textrm{8:00}$  到达，请计算在不迟到的前提下，yyy 最晚能什么时候出门。\n\n由于路途遥远，yyy 可能不得不提前一点出发，但是提前的时间不会超过一天。\n\n注意，yyy 只能在每分钟的第 $0$ 秒时出发。\n\n## 输入格式\n\n一行两个正整数 $s,v$，分别代表路程和速度。\n\n## 输出格式\n\n输出一个 $24$ 小时制下的时间，代表 yyy 最晚的出发时间。\n\n输出格式为 $\\texttt{HH:MM}$，分别代表该时间的时和分。必须输出两位，不足前面补 $0$。\n\n## 提示\n\n对于 $100\\%$ 的数据，$1 \\le s,v \\le 10^4$。",
+      "samples": [
+        {
+          "input": "100 99",
+          "name": "样例 1",
+          "output": "07:48"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5707",
+      "statementAvailable": true,
+      "title": "【深基2.例12】上学迟到"
+    },
+    "problem_id": "luogu-training-P5707"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P4956",
+      "images": {},
+      "markdown": "# [COCI 2017/2018 #6] Davor\n\n## 题目描述\n\nAfter successfully conquering the South Pole, Davor is preparing for new challenges. Next up is the Arctic expedition to Siberia, Greenland and Norway. He begins his travels on 31 December 2018, and needs to collect $N$ kunas (Croatian currency) by then. In order to do this, he has decided to put away $X$ ($X \\le 100$) kunas every Monday to his travel fund, $X + K$ kunas every Tuesday, $X + 2\\times K$ every Wednesday, and so on until Sunday, when he will put away $X + 6\\times K$ kunas. This way, he will collect money for 52 weeks, starting with 1 January 2018 (Monday) until 30 December 2018 (Sunday).\n\nIf we know the amount of money $N$, output the values $X$ and $K$ so that it is possible to collect the **exact** money amount in the given timespan. The solution will always exist, and if there are multiple, output the one with the greatest $X$ and smallest $K$.\n\n## 输入格式\n\nThe first line of input contains the integer $N$ ($1456\\le N \\le 145600$), the number from the task.\n\n## 输出格式\n\nThe first line of output must contain the value of $X$ ($0 \\le X \\le 100$), and the second the value of $K$ ($K > 0$).",
+      "samples": [
+        {
+          "input": "1456",
+          "name": "样例 1",
+          "output": "1\n1"
+        },
+        {
+          "input": "6188",
+          "name": "样例 2",
+          "output": "14\n1"
+        },
+        {
+          "input": "40404",
+          "name": "样例 3",
+          "output": "99\n4"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P4956",
+      "statementAvailable": true,
+      "title": "[COCI 2017/2018 #6] Davor"
+    },
+    "problem_id": "luogu-training-P4956"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5710",
+      "images": {},
+      "markdown": "# 【深基3.例2】数的性质\n\n## 题目描述\n\n一些整数可能拥有以下的性质：\n\n- 性质 1：是偶数；\n- 性质 2：大于 $4$ 且不大于 $12$。\n\n小 A 喜欢这两个性质同时成立的整数；Uim 喜欢这至少符合其中一种性质的整数；小 B 喜欢刚好有符合其中一个性质的整数；正妹喜欢不符合这两个性质的整数。现在给出一个整数 $x$，请问他们是否喜欢这个整数？\n\n## 输入格式\n\n输入一个整数 $x(0\\le x \\le 1000)$\n\n## 输出格式\n\n输出这 $4$ 个人是否喜欢这个数字，如果喜欢则输出 `1`，否则输出 `0`，用空格分隔。输出顺序为：小 A、Uim、小 B、正妹。",
+      "samples": [
+        {
+          "input": "12",
+          "name": "样例 1",
+          "output": "1 1 0 0"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5710",
+      "statementAvailable": true,
+      "title": "【深基3.例2】数的性质"
+    },
+    "problem_id": "luogu-training-P5710"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5712",
+      "images": {},
+      "markdown": "# 【深基3.例4】Apples\n\n## 题目描述\n\n小 B 喜欢吃苹果。她今天吃掉了 $x$ 个苹果。英语课上学到了 apple 这个词语，想用它来造句。如果她吃了 1 个苹果，就输出 `Today, I ate 1 apple.`；如果她没有吃，那么就把 1 换成 0；如果她吃了不止一个苹果，别忘了 `apple` 这个单词后面要加上代表复数的 `s`。你能帮她完成这个句子吗？\n\n## 输入格式\n\n输入一行一个自然数 $x$，表示吃掉的苹果数。\n\n## 输出格式\n\n根据题目要求输出。\n\n## 提示\n\n对于所有数据，$0\\le x \\le 100$。",
+      "samples": [
+        {
+          "input": "1",
+          "name": "样例 1",
+          "output": "Today, I ate 1 apple."
+        },
+        {
+          "input": "3",
+          "name": "样例 2",
+          "output": "Today, I ate 3 apples."
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5712",
+      "statementAvailable": true,
+      "title": "【深基3.例4】Apples"
+    },
+    "problem_id": "luogu-training-P5712"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5714",
+      "images": {},
+      "markdown": "# 【深基3.例7】肥胖问题\n\n## 题目描述\n\nBMI 指数是国际上常用的衡量人体胖瘦程度的一个标准，其算法是 $\\dfrac{m}{h^2}$，其中 $m$ 是指体重（千克），$h$ 是指身高（米）。不同体型范围与判定结果如下：\n\n- 小于 $18.5$：体重过轻，输出 `Underweight`；\n- 大于等于 $18.5$ 且小于 $24$：正常体重，输出 `Normal`；\n- 大于等于 $24$：肥胖，不仅要输出 BMI 值（使用 `cout` 的默认精度），然后换行，还要输出 `Overweight`；\n\n现在给出体重和身高数据，需要根据 BMI 指数判断体型状态并输出对应的判断。\n\n对于非 C++ 语言，在输出时，请四舍五入保留六位**有效数字**输出，如果小数部分存在后缀 $0$，不要输出后缀 $0$。\n\n请注意，保留六位**有效数字**不是保留六位小数。例如 $123.4567$ 应该输出为 $123.457$，$5432.10$ 应该输出为 $5432.1$。\n\n## 输入格式\n\n共一行。\n\n第一行，共 $2$ 个浮点数，$m, h$，分别表示体重（单位为 kg），身高（单位为 m）。\n\n## 输出格式\n\n输出一行一个字符串，表示根据 BMI 的对应判断。特别地，对于 `Overweight` 情况的特别处理请参照题目所述。\n\n## 提示\n\n对于所有数据，$40\\le m \\le 120$，$1.4 \\le h \\le 2.0$。$m$ 和 $h$ 的小数点后不超过三位。",
+      "samples": [
+        {
+          "input": "70 1.72",
+          "name": "样例 1",
+          "output": "Normal"
+        },
+        {
+          "input": "100 1.68",
+          "name": "样例 2",
+          "output": "35.4308\nOverweight"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5714",
+      "statementAvailable": true,
+      "title": "【深基3.例7】肥胖问题"
+    },
+    "problem_id": "luogu-training-P5714"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5716",
+      "images": {},
+      "markdown": "# 【深基3.例9】月份天数\n\n## 题目描述\n\n输入年份和月份，输出这一年的这一月有多少天。需要考虑闰年。\n\n## 输入格式\n\n输入两个正整数，分别表示年份 $y$ 和月数 $m$，以空格隔开。\n\n## 输出格式\n\n输出一行一个正整数，表示这个月有多少天。\n\n## 提示\n\n数据保证 $1583 \\leq y \\leq 2020$，$1 \\leq m \\leq 12$。",
+      "samples": [
+        {
+          "input": "1926 8",
+          "name": "样例 1",
+          "output": "31"
+        },
+        {
+          "input": "2000 2",
+          "name": "样例 2",
+          "output": "29"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5716",
+      "statementAvailable": true,
+      "title": "【深基3.例9】月份天数"
+    },
+    "problem_id": "luogu-training-P5716"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5720",
+      "images": {},
+      "markdown": "# 【深基4.例4】一尺之棰\n\n## 题目描述\n\n《庄子》中说到，“一尺之棰，日取其半，万世不竭”。第一天有一根长度为 $a$ 的木棍，从第二天开始，每天都要将这根木棍锯掉一半（每次除 $2$，向下取整）。第几天的时候木棍的长度会变为 $1$？\n\n## 输入格式\n\n输入一个正整数 $a$，表示木棍长度。\n\n## 输出格式\n\n输出一个正整数，表示要第几天的时候木棍长度会变为 $1$。\n\n## 提示\n\n数据保证，$1 \\le a\\le 10^9$。",
+      "samples": [
+        {
+          "input": "100",
+          "name": "样例 1",
+          "output": "7"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5720",
+      "statementAvailable": true,
+      "title": "【深基4.例4】一尺之棰"
+    },
+    "problem_id": "luogu-training-P5720"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5722",
+      "images": {},
+      "markdown": "# 【深基4.例11】数列求和\n\n## 题目描述\n\n计算 $1+2+3+\\cdots+(n-1)+n$ 的值，其中正整数 $n$ 不大于 100。由于你没有高斯聪明，所以你不被允许使用等差数列求和公式直接求出答案。\n\n## 输入格式\n\n输入一个正整数 $n$。\n\n## 输出格式\n\n输出一个正整数，表示最后求和的答案。\n\n## 提示\n\n数据保证，$1 \\leq n \\leq 100$。",
+      "samples": [
+        {
+          "input": "100",
+          "name": "样例 1",
+          "output": "5050"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5722",
+      "statementAvailable": true,
+      "title": "【深基4.例11】数列求和"
+    },
+    "problem_id": "luogu-training-P5722"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5725",
+      "images": {},
+      "markdown": "# 【深基4.习8】求三角形\n\n## 题目描述\n\n模仿例题，打印出不同方向的正方形，然后打印三角形矩阵。中间有个空行。\n\n## 输入格式\n\n输入矩阵的规模，不超过 $9$。\n\n## 输出格式\n\n输出矩形和三角形。",
+      "samples": [
+        {
+          "input": "4",
+          "name": "样例 1",
+          "output": "01020304\n05060708\n09101112\n13141516\n\n      01\n    0203\n  040506\n07080910"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5725",
+      "statementAvailable": true,
+      "title": "【深基4.习8】求三角形"
+    },
+    "problem_id": "luogu-training-P5725"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5726",
+      "images": {},
+      "markdown": "# 【深基4.习9】打分\n\n## 题目描述\n\n现在有 $n(n \\le 1000)$ 位评委给选手打分，分值从 $0$ 到 $10$。需要去掉一个最高分，去掉一个最低分（如果有多个最高或者最低分，也只需要去掉一个），剩下的评分的平均数就是这位选手的得分。现在输入评委人数和他们的打分，请输出选手的最后得分，精确到 $2$ 位小数。\n\n## 输入格式\n\n第一行输入一个正整数 $n$，表示有 $n$ 个评委。\n\n第二行输入 $n$ 个整数，第 $i$ 个整数表示第 $i$ 个评委打出的分值。\n\n## 输出格式\n\n输出一行一个两位小数，表示选手的最后得分。\n\n## 提示\n\n数据保证，$3 \\leq n \\leq 1000$，每个评委打出的分值为 $0$ 到 $10$（含 $0$ 与 $10$）之间的整数。",
+      "samples": [
+        {
+          "input": "5\n9 5 6 8 9",
+          "name": "样例 1",
+          "output": "7.67"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5726",
+      "statementAvailable": true,
+      "title": "【深基4.习9】打分"
+    },
+    "problem_id": "luogu-training-P5726"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5015",
+      "images": {},
+      "markdown": "# [NOIP 2018 普及组] 标题统计\n\n## 题目背景\n\nNOIP2018 普及组 T1\n\n## 题目描述\n\n凯凯刚写了一篇美妙的作文，请问这篇作文的标题中有多少个字符？ 注意：标题中可能包含大、小写英文字母、数字字符、空格和换行符。统计标题字符数时，空格和换行符不计算在内。 \n\n## 输入格式\n\n输入文件只有一行，一个字符串 $s$。 \n\n## 输出格式\n\n输出文件只有一行，包含一个整数，即作文标题的字符数（不含空格和换行符）。 \n\n## 提示\n\n**样例 1 说明**   \n\n标题中共有 3 个字符，这 3 个字符都是数字字符。   \n\n**样例 2 说明**\n\n标题中共有 $ 5$ 个字符，包括 $1$ 个大写英文字母， $1$ 个小写英文字母和 $2$ 个数字字符， 还有 $1$ 个空格。由于空格不计入结果中，故标题的有效字符数为 $4$ 个。 \n\n**数据规模与约定**\n\n规定 $|s|$ 表示字符串 $s$ 的长度（即字符串中的字符和空格数）。    \n对于 $40\\%$ 的数据，$1 ≤ |s| ≤ 5$，保证输入为数字字符及行末换行符。   \n对于 $80\\%$ 的数据，$1 ≤ |s| ≤ 5$，输入只可能包含大、小写英文字母、数字字符及行末换行符。   \n对于 $100\\%$ 的数据，$1 ≤ |s| ≤ 5$，输入可能包含大、小写英文字母、数字字符、空格和行末换行符。 ",
+      "samples": [
+        {
+          "input": "234 ",
+          "name": "样例 1",
+          "output": "3"
+        },
+        {
+          "input": "Ca 45 ",
+          "name": "样例 2",
+          "output": "4"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5015",
+      "statementAvailable": true,
+      "title": "[NOIP 2018 普及组] 标题统计"
+    },
+    "problem_id": "luogu-training-P5015"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5727",
+      "images": {},
+      "markdown": "# 【深基5.例3】冰雹猜想\n\n## 题目描述\n\n给出一个正整数 $n$，然后对这个数字一直进行下面的操作：如果这个数字是奇数，那么将其乘 $3$ 再加 $1$，否则除以 $2$。经过若干次循环后，最终都会回到 $1$。经过验证很大的数字（$7\\times10^{11}$）都可以按照这样的方式比变成 $1$，所以被称为“冰雹猜想”。例如当 $n$ 是 $20$，变化的过程是 $20\\to 10\\to 5\\to 16\\to 8\\to 4\\to 2\\to 1$。\n\n根据给定的数字，验证这个猜想，并从最后的 $1$ 开始，倒序输出整个变化序列。\n\n## 输入格式\n\n输入一个正整数 $n$。\n\n## 输出格式\n\n输出若干个由空格隔开的正整数，表示从最后的 $1$ 开始倒序的变化数列。\n\n## 提示\n\n数据保证，$1 \\le n\\le 100$。",
+      "samples": [
+        {
+          "input": "20",
+          "name": "样例 1",
+          "output": "1 2 4 8 16 5 10 20"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5727",
+      "statementAvailable": true,
+      "title": "【深基5.例3】冰雹猜想"
+    },
+    "problem_id": "luogu-training-P5727"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5729",
+      "images": {},
+      "markdown": "# 【深基5.例7】工艺品制作\n\n## 题目描述\n\n现有一个长宽高分别为 $w,x,h$ 组成的实心玻璃立方体，可以认为是由 $1\\times1\\times1$ 的数个小方块组成的，每个小方块都有一个坐标 $ ( i,j,k ) $。现在需要进行 $q$ 次切割。每次切割给出 $(x_1,y_1,z_1),(x_2,y_2,z_2)$ 这 6 个参数，保证 $x_1\\le x_2$，$y_1\\le y_2$，$z_1\\le z_2$；每次切割时，使用激光工具切出一个立方体空洞，空洞的壁平行于立方体的面，空洞的对角点就是给出的切割参数的两个点。\n\n换句话说，所有满足  $x_1\\le i\\le x_2$，$y_1\\le j \\le y_2 $，$z_1\\le k\\le z_2$ 的小方块 $(i,j,k)$ 的点都会被激光蒸发。例如有一个  $4\\times4\\times 4$ 的大方块，其体积为 $64$；给出参数 $(1,1,1),(2,2,2)$ 时，**对应的** $8$ 块小方块就会被蒸发，剩下 $56$ 个小方块。现在想知道经过所有切割操作后，剩下的工艺品还剩下多少格小方块的体积？ \n\n## 输入格式\n\n第一行三个正整数 $w,x,h$。\n\n第二行一个正整数 $q$。\n\n接下来 $q$ 行，每行六个整数 $(x_1,y_1,z_1),(x_2,y_2,z_2)$。\n\n## 输出格式\n\n输出一个整数表示答案。\n\n## 提示\n\n数据保证，$1\\le w,x,h\\le 20$，$1 \\leq q\\le 100$。$1 \\leq x_1 \\leq x_2 \\leq w$，$1 \\leq y_1\\leq y_2 \\leq x$，$1 \\leq z_1 \\leq z_2 \\leq h$。",
+      "samples": [
+        {
+          "input": "4 4 4\n1\n1 1 1 2 2 2\n",
+          "name": "样例 1",
+          "output": "56"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5729",
+      "statementAvailable": true,
+      "title": "【深基5.例7】工艺品制作"
+    },
+    "problem_id": "luogu-training-P5729"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5732",
+      "images": {},
+      "markdown": "# 【深基5.习7】杨辉三角\n\n## 题目描述\n\n给出 $n(1\\le n\\le20)$，输出杨辉三角的前 $n$ 行。\n\n如果你不知道什么是杨辉三角，可以观察样例找找规律。",
+      "samples": [
+        {
+          "input": "6",
+          "name": "样例 1",
+          "output": "1\n1 1\n1 2 1\n1 3 3 1\n1 4 6 4 1\n1 5 10 10 5 1\n"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5732",
+      "statementAvailable": true,
+      "title": "【深基5.习7】杨辉三角"
+    },
+    "problem_id": "luogu-training-P5732"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5734",
+      "images": {},
+      "markdown": "# 【深基6.例6】文字处理软件\n\n## 题目描述\n\n你需要开发一款文字处理软件。最开始时输入一个字符串作为初始文档。可以认为文档开头是第 $0$ 个字符。需要支持以下操作：\n\n- `1 str`：后接插入，在文档后面插入字符串 $\\texttt{str}$，并输出文档的字符串；\n- `2 a b`：截取文档部分，只保留文档中从第 $a$ 个字符起 $b$ 个字符，并输出文档的字符串；\n- `3 a str`：插入片段，在文档中第 $a$ 个字符前面插入字符串 $\\texttt{str}$，并输出文档的字符串；\n- `4 str`：查找子串，查找字符串 $\\texttt{str}$ 在文档中最先的位置并输出；如果找不到输出 $-1$。\n\n为了简化问题，规定初始的文档和每次操作中的 $\\texttt{str}$ 都不含有空格或换行。最多会有 $q$ 次操作。\n\n## 输入格式\n\n第一行输入一个正整数 $q$，表示操作次数。\n\n第二行输入一个字符串 $\\texttt{str}$，表示最开始的字符串。\n\n第三行开始，往下 $q$ 行，每行表示一个操作，操作如题目描述所示。\n\n## 输出格式\n\n一共输出 $q$ 行。\n\n对于每个操作 $1,2,3$，根据操作的要求输出一个字符串。\n\n对于操作 $4$，根据操作的要求输出一个整数。\n\n## 提示\n\n数据保证，$1 \\leq q\\le 100$，开始的字符串长度 $\\leq 100$。",
+      "samples": [
+        {
+          "input": "4\nILove\n1 Luogu\n2 5 5\n3 3 guGugu\n4 gu",
+          "name": "样例 1",
+          "output": "ILoveLuogu\nLuogu\nLuoguGugugu\n3"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5734",
+      "statementAvailable": true,
+      "title": "【深基6.例6】文字处理软件"
+    },
+    "problem_id": "luogu-training-P5734"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5737",
+      "images": {},
+      "markdown": "# 【深基7.例3】闰年展示\n\n## 题目描述\n\n输入 $x,y$，输出 $[x,y]$ 区间中闰年个数，并在下一行输出所有闰年年份数字，使用空格隔开。\n\n## 输入格式\n\n输入两个正整数 $x,y$，以空格隔开。\n\n## 输出格式\n\n第一行输出一个正整数，表示 $[x,y]$ 区间中闰年个数。\n\n第二行输出若干个正整数，按照年份单调递增的顺序输出所有闰年年份数字。\n\n## 提示\n\n数据保证，$1582\\le x < y \\le 3000$。",
+      "samples": [
+        {
+          "input": "1989 2001",
+          "name": "样例 1",
+          "output": "3\n1992 1996 2000"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5737",
+      "statementAvailable": true,
+      "title": "【深基7.例3】闰年展示"
+    },
+    "problem_id": "luogu-training-P5737"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5743",
+      "images": {},
+      "markdown": "# 【深基7.习8】猴子吃桃\n\n## 题目描述\n\n一只小猴买了若干个桃子。第一天他刚好吃了这些桃子的一半，又贪嘴多吃了一个；接下来的每一天它都会吃剩余的桃子的一半外加一个。第 $n$ 天早上起来一看，只剩下 $1$ 个桃子了。请问小猴买了几个桃子？\n\n## 输入格式\n\n输入一个正整数 $n$，表示天数。\n\n## 输出格式\n\n输出小猴买了多少个桃子。\n\n## 提示\n\n数据保证，$1\\le n\\le20$。",
+      "samples": [
+        {
+          "input": "4",
+          "name": "样例 1",
+          "output": "22\n"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5743",
+      "statementAvailable": true,
+      "title": "【深基7.习8】猴子吃桃"
+    },
+    "problem_id": "luogu-training-P5743"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P9496",
+      "images": {},
+      "markdown": "# 「RiOI-2」hacker\n\n## 题目背景\n\n在小树丛边坐落着一个幻想的城堡。这里是 E 国的领地，而小 E，则是 E 国之王。\n\n现在，伟大的 E 国之王正在披挂出征。\n\n不过听说 E 国之王遇见了两个叫 ACCEPT 和 BOTH 的人，他们是谁？\n\n## 题目描述\n\n现在有正整数 $n$，有以下操作；\n\n- 「ACCEPT」。花费 $1$ 的代价，将 $n$ [二进制](https://oi-wiki.org/math/base/#%E4%BA%8C%E8%BF%9B%E5%88%B6)**按位或**上 一个正整数。\n- 「BOTH」。花费 $1$ 的代价，将 $n$ [二进制](https://oi-wiki.org/math/base/#%E4%BA%8C%E8%BF%9B%E5%88%B6)**按位与**上 一个正整数。\n\n两种操作均可使用多次（或不用），请求出将 $n$ 变为 $m$ 最小的代价。\n\n[帮助：什么是按位与和按位或](https://oi-wiki.org/math/bit/#%E4%B8%8E%E6%88%96%E5%BC%82%E6%88%96)\n\n## 输入格式\n\n**本题有多组数据。**\n\n第一行一个正整数 $T$ 表示数据组数。\n\n接下来 $T$ 行，每行两个正整数 $n, m$ 以空格隔开。\n\n## 输出格式\n\n输出 $T$ 行，每行一个整数，表示答案。\n\n## 提示\n\n### 样例解释\n\n+ 对于 $n = 1$，$m = 1$，不需要任何操作。\n+ 对于 $n = 4$，$m = 5$，一种可行的方案为使用「ACCEPT $1$」。\n+ 对于 $n = 1$，$m = 4$，一种可行的方案为依次使用「ACCEPT $998{,}244{,}853$」和「BOTH $14$」。\n\n### 数据规模与约定\n\n**本题开启捆绑测试。**\n\n| $\\text{Subtask}$ | 分值 | $T \\leq$ | $n, m \\leq$ |\n| :--------------: | :--: | :------: | :---------: |\n| $0$ | $30$ | $100$ | $100$ |\n| $1$ | $70$ | $2\\times 10^5$ | $10^{18}$ |\n\n对于所有数据，$1\\le T\\le2\\times 10^5$，$1\\le n,m\\le10^{18}$。",
+      "samples": [
+        {
+          "input": "3\n1 1\n4 5\n1 4",
+          "name": "样例 1",
+          "output": "0\n1\n2"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P9496",
+      "statementAvailable": true,
+      "title": "「RiOI-2」hacker"
+    },
+    "problem_id": "luogu-training-P9496"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5738",
+      "images": {},
+      "markdown": "# 【深基7.例4】歌唱比赛\n\n## 题目描述\n\n$n(n\\le 100)$ 名同学参加歌唱比赛，并接受 $m(m\\le 20)$ 名评委的评分，评分范围是 $0$ 到 $10$ 分。这名同学的得分就是这些评委给分中去掉一个最高分，去掉一个最低分，剩下 $m-2$ 个评分的平均数。请问得分最高的同学分数是多少？评分保留 $2$ 位小数。\n\n## 输入格式\n\n第一行两个整数 $n,m$。   \n接下来 $n$ 行，每行各 $m$ 个整数，表示得分。\n\n## 输出格式\n\n输出分数最高的同学的分数，保留两位小数。",
+      "samples": [
+        {
+          "input": "7 6\n4 7 2 6 10 7\n0 5 0 10 3 10\n2 6 8 4 3 6\n6 3 6 7 5 8\n5 9 3 3 8 1\n5 9 9 3 2 0\n5 8 0 4 1 10\n",
+          "name": "样例 1",
+          "output": "6.00"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5738",
+      "statementAvailable": true,
+      "title": "【深基7.例4】歌唱比赛"
+    },
+    "problem_id": "luogu-training-P5738"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5741",
+      "images": {},
+      "markdown": "# 【深基7.例10】旗鼓相当的对手 - 加强版\n\n## 题目描述\n\n现有 $N(N\\le 1000)$ 名同学参加了期末考试，并且获得了每名同学的信息：姓名（不超过 $8$ 个字符的字符串，没有空格）、语文、数学、英语成绩（均为不超过 $150$ 的自然数）。如果某对学生 $\\text{<}i,j\\text{>}$ 的每一科成绩的分差都不大于 $5$，且总分分差不大于 $10$，那么这对学生就是“旗鼓相当的对手”。现在我们想知道这些同学中，哪些是“旗鼓相当的对手”？请输出他们的姓名。\n\n所有人的姓名是按照字典序给出的，输出时也应该按照字典序输出所有对手组合。也就是说，这对组合的第一个名字的字典序应该小于第二个；如果两个组合中第一个名字不一样，则第一个名字字典序小的先输出；如果两个组合的第一个名字一样但第二个名字不同，则第二个名字字典序小的先输出。\n\n## 输入格式\n\n第一行输入一个正整数 $N$，表示学生个数。\n\n第二行开始，往下 $N$ 行，对于每一行首先先输入一个字符串表示学生姓名，再输入三个自然数表示语文、数学、英语的成绩。均用空格相隔。\n\n## 输出格式\n\n输出若干行，每行两个以空格隔开的字符串，表示一组旗鼓相当的对手。注意题目描述中的输出格式。\n\n## 提示\n\n数据保证，$1 \\leq N \\leq 1000$，姓名为长度不超过 $8$ 的字符串，语文、数学、英语成绩均为不超过 $150$ 的自然数。",
+      "samples": [
+        {
+          "input": "3\nfafa 90 90 90\nlxl 95 85 90\nsenpai 100 80 91",
+          "name": "样例 1",
+          "output": "fafa lxl\nlxl senpai\n"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5741",
+      "statementAvailable": true,
+      "title": "【深基7.例10】旗鼓相当的对手 - 加强版"
+    },
+    "problem_id": "luogu-training-P5741"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P9497",
+      "images": {},
+      "markdown": "# 「RiOI-2」weight\n\n## 题目背景\n\n在小树林间坐落着一个幻想的城堡。这里是 E 国的领地，而小 E，则是 E 国之王。\n\n树木，是 E 国抵挡袭击的法宝。树木越高，越能蒙蔽敌人的视线。\n\n可是，随着自然条件的退化，小 E 却不知怎么处理。怎么办呢？\n\n## 题目描述\n\n给定一个 $n$ 行 $n$ 列 的矩阵 $a$。\n\n有 $q$ 组询问，每次给定一个 $v$，请将矩阵每一行任意重排（可以不重排），最大化**最大值不小于** $v$（也就是说，至少有一个不小于 $v$ 的数）的列数。请输出这个列数。\n\n询问之间相互独立。换言之，每次询问前可以重新排列。\n\n\n## 输入格式\n\n第一行两个正整数 $n, q$。\n\n第 $2\\sim n+1$ 行，每行 $n$ 个正整数，表示矩阵 $a$。\n\n接下来 $q$ 行每行一个正整数 $v$，表示一次询问。\n\n## 输出格式\n\n对于每次询问，输出一行一个整数表示答案。\n\n## 提示\n\n### 样例解释\n\n原矩阵为 $\\begin{bmatrix}9&9&8\\\\2&4&4\\\\3&5&3\\end{bmatrix}$。\n\n对于第一次询问，每一列的最大值 $9,9,8$ 均不小于 $v=5$，所以每一列都符合条件，答案为 $3$。显然无论怎么重排都不可能超过 $3$ 列（因为总共只有 $3$ 列），所以答案为 $3$。\n\n### 数据规模与约定\n\n**本题开启捆绑测试。**\n\n| $\\text{Subtask}$ | 分值 | $n \\leq$ | $q \\leq$ |\n| :--------------: | :--: | :------: | :------: |\n| $0$ | $10$ | $3$ | $10$ |\n| $1$ | $40$ | $100$ | $10^3$ |\n| $2$ | $50$ | $10^3$ | $5\\times 10^5$ |\n\n对于所有数据，$1 \\leq n \\leq 10^3$，$1 \\leq q \\leq 5\\times 10^5$，$1 \\leq a_{i,j}, v \\leq 10^9$。",
+      "samples": [
+        {
+          "input": "3 3\n9 9 8\n2 4 4\n3 5 3\n5\n9\n10",
+          "name": "样例 1",
+          "output": "3\n2\n0"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P9497",
+      "statementAvailable": true,
+      "title": "「RiOI-2」weight"
+    },
+    "problem_id": "luogu-training-P9497"
+  },
+  {
+    "content": {
+      "id": "luogu-training-P5143",
+      "images": {},
+      "markdown": "# 攀爬者\n\n## 题目背景\n\nHKE 考完 GDOI 之后跟他的神犇小伙伴们一起去爬山。\n\n## 题目描述\n\nHKE 在地形图上标记了 $N$ 个点，每个点 $P_i$ 都有一个坐标 $(x_i,y_i,z_i)$，且在所有点对中，高度值 $z$ 不会相等。HKE 准备从最低的点爬到最高的点，他的攀爬满足以下条件：\n\n1. 经过他标记的每一个点；\n2. 从第二个点开始，他经过的每一个点高度 $z$ 都比上一个点高；\n3. HKE 会飞，他从一个点 $P_i$ 爬到 $P_j$ 的距离为两个点的欧几里得距离，即 $\\sqrt{(X_i-X_j)^2+(Y_i-Y_j)^2+(Z_i-Z_j)^2}$。\n\n现在，HKE 希望你能求出他攀爬的总距离。\n\n## 输入格式\n\n第一行，一个整数 $N$ 表示地图上的点数。\n\n接下来 $N$ 行，每行三个整数 $x_i,y_i,z_i$，表示第 $i$ 个点的坐标。\n\n## 输出格式\n\n一个实数，表示 HKE 需要攀爬的总距离（保留三位小数）。\n\n## 提示\n\n对于 $100\\%$ 的数据，$1\\leq N\\leq 50000$，答案在 `double` 类型的表示范围内。",
+      "samples": [
+        {
+          "input": "5\n2 2 2\n1 1 1\n4 4 4\n3 3 3\n5 5 5\n",
+          "name": "样例 1",
+          "output": "6.928"
+        }
+      ],
+      "sourceUrl": "https://www.luogu.com.cn/problem/P5143",
+      "statementAvailable": true,
+      "title": "攀爬者"
+    },
+    "problem_id": "luogu-training-P5143"
   }
 ]
