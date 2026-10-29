@@ -11,6 +11,39 @@ import uuid
 from check_release import ROOT, run, install, serving, snapshot, CODE
 
 
+def program_manifest(package):
+    """Every distributed file is required, including deeply nested notices."""
+    package = package.resolve()
+    manifest = {}
+    for source in sorted(package.rglob('*')):
+        if not source.is_file():
+            continue
+        relative = source.relative_to(package)
+        assert not source.is_symlink() and source.resolve().is_relative_to(package), 'Linked program file: ' + str(relative)
+        assert relative.parts[0].lower() not in {'state', 'cache', 'backups', 'logs'}, 'Private state in package: ' + str(relative)
+        if relative.parts[0].lower() == 'data':
+            assert relative.as_posix() == 'data/library.sqlite3', 'Unexpected root package data: ' + str(relative)
+        manifest[relative.as_posix()] = hashlib.sha256(source.read_bytes()).hexdigest()
+    assert manifest and 'ToBe.exe' in manifest and 'data/library.sqlite3' in manifest
+    return manifest
+
+
+def verify_program_manifest(app, manifest):
+    """Check every expected byte; installer metadata and user files may coexist."""
+    app = app.resolve()
+    missing, mismatched = [], []
+    for relative, digest in manifest.items():
+        target = app / relative
+        assert target.resolve().is_relative_to(app) and not target.is_symlink(), 'Program file escapes installation: ' + relative
+        if not target.is_file():
+            missing.append(relative)
+        elif hashlib.sha256(target.read_bytes()).hexdigest() != digest:
+            mismatched.append(relative)
+    assert not missing and not mismatched, 'Incomplete installed program: ' + json.dumps({'missing': missing, 'hashMismatch': mismatched}, ensure_ascii=False)
+    return {'files': len(manifest), 'allSha256Match': True,
+            'manifestSha256': hashlib.sha256(json.dumps(manifest, sort_keys=True).encode('utf-8')).hexdigest()}
+
+
 def personal_rows(app):
     with closing(sqlite3.connect(app / 'state/tb-personal.sqlite3')) as db:
         return {table: db.execute('SELECT * FROM ' + table + ' ORDER BY rowid').fetchall()
@@ -30,6 +63,11 @@ def main():
     work.mkdir(parents=True)
     result = {'ok': False, 'version': version, 'work': str(work)}
     try:
+        manifest = program_manifest(package)
+        release_manifest = args.stage.resolve() / 'release-manifest.json'
+        if release_manifest.exists():
+            assert manifest == json.loads(release_manifest.read_text(encoding='utf-8-sig')), 'Source package differs from its release manifest'
+        result['programManifestFiles'] = len(manifest)
         output = work / 'setup'; output.mkdir()
         run([args.inno, '/DAppId=TB.Validation.' + work.name, '/DPackageDir=' + str(package),
              '/DOutputDir=' + str(output), '/DWebViewInstaller=' + str(args.webview2),
@@ -37,6 +75,7 @@ def main():
         setup = output / ('ToBe-Setup-' + version + '-win64.exe')
         fresh = work / 'fresh'
         install(setup, fresh, work / 'fresh-install.log')
+        result['freshProgramManifest'] = verify_program_manifest(fresh, manifest)
         assert not (fresh / 'state').exists()
         with serving(fresh, work / 'fresh-api.json') as api:
             assert api.get('workspace')['summary']['total'] == 0
@@ -63,6 +102,7 @@ def main():
         marker = upgrade / 'cache/retained-preferences.txt'
         marker.parent.mkdir(exist_ok=True); marker.write_text('fixture-cache-preserved')
         install(setup, upgrade, work / 'upgrade-install.log')
+        result['upgradeProgramManifest'] = verify_program_manifest(upgrade, manifest)
         assert personal_rows(upgrade) == before, 'Installer overwrote personal tables'
         with serving(upgrade, work / 'upgraded-api.json') as api:
             assert snapshot(api, problem) == before_view, 'Upgrade changed identity, drafts, history or training'

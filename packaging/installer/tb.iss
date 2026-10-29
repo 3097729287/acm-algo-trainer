@@ -72,7 +72,9 @@ Name: "importlegacy"; Description: "导入此电脑原 TB 的训练、提交、�
 #endif
 
 [Files]
-Source: "{#PackageDir}\*"; DestDir: "{app}"; Excludes: "data\*,state\*,cache\*,backups\*,logs\*,*.log"; Flags: ignoreversion recursesubdirs createallsubdirs
+; Leading backslashes anchor exclusions at the package root. Nested data/logs
+; directories can contain distributed runtime resources and license notices.
+Source: "{#PackageDir}\*"; DestDir: "{app}"; Excludes: "\data\*,\state\*,\cache\*,\backups\*,\logs\*,\*.log"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "{#PackageDir}\data\library.sqlite3"; DestDir: "{app}\data"; Flags: ignoreversion
 #ifndef AdminEdition
 ; Earlier automatic updaters reopen this filename after Setup returns.
