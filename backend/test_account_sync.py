@@ -95,7 +95,11 @@ class CloudStateTests(unittest.TestCase):
         self.assertEqual(records[0]['code'], 'int main(){}')
         self.assertEqual(Goals(other.training).list()['goals'][0]['title'], 'shared goal')
         self.assertEqual(other.store.extensions.snapshot()['settings']['accounts']['codeforces'], 'fixture_owner')
-        self.assertEqual(other.training.insights()['growth'], before['growth'])
+        restored_growth=other.training.insights()['growth']
+        self.assertEqual(restored_growth['authority']['owner'],before['growth']['authority']['owner'])
+        self.assertNotEqual(restored_growth['authority']['epoch'],before['growth']['authority']['epoch'])
+        self.assertEqual({k:v for k,v in restored_growth.items() if k!='authority'},
+                         {k:v for k,v in before['growth'].items() if k!='authority'})
         self.assertEqual(other.training.connection.execute('SELECT COUNT(*) FROM achievement_xp_claims').fetchone()[0], claim_count)
         self.assertEqual(json.loads(other.training.connection.execute("SELECT value FROM account_preferences WHERE key='favorites'").fetchone()[0]), ['fixture::A'])
         deadline = time.monotonic() + 6
@@ -108,7 +112,10 @@ class CloudStateTests(unittest.TestCase):
         self.assertEqual(self.call_other(other, '/api/account/logout', {})[0], 200)
         self.assertEqual(self.login()[0], 200)
         self.assertEqual(self.server.training.problem('fixture::A')['draft'], 'second computer draft')
-        self.assertEqual(self.server.training.insights()['growth'], before['growth'])
+        resumed_growth=self.server.training.insights()['growth']
+        self.assertEqual(resumed_growth['authority']['owner'],before['growth']['authority']['owner'])
+        self.assertEqual({k:v for k,v in resumed_growth.items() if k!='authority'},
+                         {k:v for k,v in before['growth'].items() if k!='authority'})
 
     @patch('integrations.IntegrationService.sync', lambda service, body=None: service.snapshot())
     def test_receipt_owner_bindings_follow_account_across_computers_and_clear_on_switch(self):

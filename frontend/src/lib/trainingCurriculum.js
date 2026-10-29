@@ -123,5 +123,22 @@ export function buildTrainingCurriculum(lists,rows) {
   if(selected.length)result.push(make(`curriculum:${index}`,UNITS[index][1],[UNITS[index][0]],selected,index));
  });
  for(const [kind,groups] of [['08 专题加练',extra],['09 高阶拓展',advanced]])for(const [category,values] of groups)if(values.length)result.push(make(`curriculum:${kind.slice(0,2)}:${category}`,category,[kind],values,100+result.length));
- return result;
+ return consolidateSmallCurriculum(result);
+}
+
+// Public generated routes only: private/source collections retain their identity.
+// Prefer the same stage's general practice; keep every original problem once.
+export function consolidateSmallCurriculum(lists){
+ const result=lists.map(list=>({...list,problems:[...(list.problems||[])]})),removed=new Set();
+ for(const list of result){
+  if(!list.id?.startsWith('curriculum:')||list.problems.length>2||removed.has(list.id))continue;
+  if(!list.problems.length){removed.add(list.id);continue;}
+  const sameStage=result.filter(other=>other!==list&&!removed.has(other.id)&&other.problems.length>2&&other.topicPath?.[0]===list.topicPath?.[0]);
+  const target=sameStage.find(other=>other.title==='综合训练')||sameStage.find(other=>other.title==='基础算法')||sameStage.sort((a,b)=>b.problems.length-a.problems.length)[0];
+  if(!target)continue;
+  const identities=new Set(target.problems.map(item=>keyOf(item)));
+  for(const item of list.problems)if(!identities.has(keyOf(item))){target.problems.push(item);identities.add(keyOf(item));}
+  target.problemCount=target.problems.length;removed.add(list.id);
+ }
+ return result.filter(list=>!removed.has(list.id));
 }

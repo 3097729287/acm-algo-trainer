@@ -20,7 +20,7 @@ try {
   assert.equal(await page.evaluate(() => window.updaterCalls.some(item => item.path.endsWith('/install'))), false);
   await page.evaluate(() => { window.saveAllowed = true; });
   await panel.getByRole('button', { name: '保存并替换更新' }).click();
-  await page.getByRole('status').filter({ hasText: '正在关闭 TB' }).waitFor();
+  await page.getByRole('status').filter({ hasText: '正在关闭 ToBe' }).waitFor();
   const installs = await page.evaluate(() => window.updaterCalls.filter(item => item.path.endsWith('/install')));
   assert.deepEqual(installs, [{ path: 'software-update/install', draftSaved: true }]);
   await page.goto(server.resolvedUrls.local[0] + 'tests/software-updates-fixture.html?automatic');
@@ -33,12 +33,12 @@ try {
   await page.evaluate(() => { window.saveAllowed = true; });
   await panel.getByRole('alert').filter({ hasText: '等待当前官方提交' }).waitFor();
   await page.evaluate(() => { window.guardBlocked = false; });
-  await panel.getByRole('status').filter({ hasText: '正在关闭 TB' }).waitFor();
+  await panel.getByRole('status').filter({ hasText: '正在关闭 ToBe' }).waitFor();
   assert((await page.evaluate(() => window.updaterCalls.filter(item => item.path.endsWith('/install')))).every(item => item.draftSaved));
   await page.goto(server.resolvedUrls.local[0] + 'tests/software-updates-fixture.html?automatic&login');
-  await page.getByRole('heading', { name: '登录 TB' }).waitFor();
+  await page.getByRole('heading', { name: '登录 ToBe' }).waitFor();
   await page.evaluate(() => { window.saveAllowed = true; window.guardBlocked = false; });
-  await page.getByRole('complementary', { name: '软件更新提示' }).getByRole('status').filter({ hasText: '正在关闭 TB' }).waitFor();
+  await page.getByRole('complementary', { name: '软件更新提示' }).getByRole('status').filter({ hasText: '正在关闭 ToBe' }).waitFor();
   assert.deepEqual(errors, []);
   console.log('Software updates passed: automatic install without confirmation, draft barrier, safe retry, login-screen update, manual compatibility.');
 } finally { await browser.close(); await server.close(); }

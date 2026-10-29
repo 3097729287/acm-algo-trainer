@@ -20,6 +20,11 @@ from training import ServiceError
 from translation_config import _crypt
 
 
+class AccountConnectionUnavailable(ServiceError):
+    """Transport/service outage, distinct from invalid credentials or content."""
+    connection_unavailable = True
+
+
 class Accounts:
     def __init__(self, server, training_factory, endpoint=None, crypt=_crypt):
         self.server, self.factory, self.crypt = server, training_factory, crypt
@@ -49,6 +54,7 @@ class Accounts:
         self.restore_lock = threading.Lock()
         self.restore_worker = None
         self.restore_retry_at = 0
+        self.network_context = threading.local()
         self.error = ''
         self.last_login = load_document(self.root / 'account-login.json', '')
         encoded = load_document(self.session_path, '')
@@ -112,6 +118,11 @@ class Accounts:
         if type(state_revision) is int and state_revision > 0:
             headers['X-TB-State-Revision'] = str(state_revision)
         payload = json.dumps(body, ensure_ascii=False).encode('utf-8') if body is not None else None
+        remaining = self.restore_time_remaining()
+        if remaining is not None:
+            if remaining <= 0:
+                raise AccountConnectionUnavailable(503, '账号服务连接超时，本机数据已保留')
+            timeout = min(timeout, remaining)
         try:
             with self.opener.open(Request(self.endpoint + path, data=payload, method=method, headers=headers), timeout=timeout) as response:
                 raw = response.read(maximum + 1)
@@ -129,17 +140,35 @@ class Accounts:
             safe = message if isinstance(message, str) and len(message) <= 180 and not any(ord(c) < 32 for c in message) else '账号服务暂时无法完成请求'
             if invalidate and issue.code == 401 and session and self.session and self.session['token'] == session['token']:
                 self.invalidate(session['token'])
-            raise ServiceError(issue.code, safe) from None
-        except (URLError, TimeoutError, OSError, ValueError) as issue:
+            error_type = AccountConnectionUnavailable if issue.code in (502, 503, 504) else ServiceError
+            raise error_type(issue.code, safe) from None
+        except (URLError, TimeoutError, OSError) as issue:
             cause = getattr(issue, 'reason', issue)
             logging.getLogger('tb.accounts').warning('Account connection failed: %s %s', method, type(cause).__name__)
-            raise ServiceError(503, '账号服务连接失败，请检查网络后重试') from None
+            raise AccountConnectionUnavailable(503, '账号服务连接失败，请检查网络后重试') from None
+        except ValueError:
+            # A reachable service returning corrupt JSON is not an offline lease.
+            raise ServiceError(503, '账号服务响应校验失败，本机数据已保留') from None
+
+    def restore_time_remaining(self):
+        deadline = getattr(getattr(self, 'network_context', None), 'deadline', None)
+        return max(0, deadline - time.monotonic()) if deadline is not None else None
+
+    @contextmanager
+    def _restoration_deadline(self):
+        previous = getattr(self.network_context, 'deadline', None)
+        self.network_context.deadline = time.monotonic() + 2
+        try:
+            yield
+        finally:
+            self.network_context.deadline = previous
 
     def credentials(self, owner):
         # An immutable snapshot avoids taking the account lock under a training
         # lock. Background ranking work can never acquire another user's token.
         current = self.session
-        if current and current['userId'] == owner and current['expiresAt'] > time.time():
+        if (current and current['userId'] == owner and current['expiresAt'] > time.time()
+                and not (self.state_sync and self.state_sync.needs_reconnect)):
             return {'user_id': owner, 'auth_token': current['token'], 'endpoint': current['endpoint']}
         return None
 
@@ -182,7 +211,7 @@ class Accounts:
                     # The authenticated state GET in initialize validates the
                     # saved credential too. Avoid a second serial TLS request;
                     # never expose the workspace before that validation.
-                    self._activate(self.saved)
+                    self._activate(self.saved, allow_offline=True)
                     self.error = ''
                 except ServiceError as issue:
                     self.error = issue.message
@@ -247,7 +276,33 @@ class Accounts:
             return self.original_db_path
         return self.root / 'accounts' / owner / 'tb-personal.sqlite3'
 
-    def _activate(self, value, rotate=True):
+    def _local_resume_path(self, value):
+        """Only a DPAPI-restored, synchronized, same-account workspace qualifies."""
+        if value is not self.saved or value.get('endpoint') != self.endpoint:
+            return None
+        owner = value.get('account', {}).get('userId')
+        if self.registry.get('activeOwner') != owner:
+            return None
+        try:
+            if str(uuid.UUID(owner)) != owner or type(value.get('expiresAt')) is not int or value['expiresAt'] <= time.time():
+                return None
+            path = (self.original_db_path if self.registry.get('originalOwner') == owner else
+                    self.root / 'accounts' / owner / 'tb-personal.sqlite3')
+            if not path.is_file(): return None
+            with closing(sqlite3.connect(path.resolve().as_uri() + '?mode=ro', uri=True)) as db:
+                profile = db.execute('SELECT user_id FROM ranking_profile WHERE singleton=1').fetchone()
+                row = db.execute('SELECT value FROM account_sync_meta WHERE id=1').fetchone()
+                meta = json.loads(row[0]) if row else {}
+            if (not profile or profile[0] != owner or meta.get('owner') != owner
+                or meta.get('endpoint') != self.endpoint or type(meta.get('revision')) is not int
+                or meta['revision'] <= 0 or not re.fullmatch(r'[a-f0-9]{64}', str(meta.get('syncedHash') or ''))
+                or not isinstance(meta.get('baseline'), dict) or not meta.get('lastSyncedAt')):
+                return None
+            return path
+        except (TypeError, ValueError, OSError, sqlite3.Error):
+            return None
+
+    def _activate(self, value, rotate=True, allow_offline=False):
         if self.closed or self.closing or self.server.software_updates.status == 'installing':
             raise ServiceError(503, 'ToBe 正在关闭')
         account = value.get('account', {})
@@ -258,7 +313,8 @@ class Accounts:
             raise ServiceError(401, '登录已失效，请重新登录')
         candidate = {**value, 'userId': owner, 'endpoint': self.endpoint}
         protected = base64.b64encode(self.crypt(json.dumps(candidate, ensure_ascii=False).encode('utf-8'))).decode('ascii')
-        path = self._personal_path(owner)
+        local_path = self._local_resume_path(value) if allow_offline else None
+        path = local_path or self._personal_path(owner)
         service = self.services.get(str(path))
         if service is None:
             service = self.factory(path)
@@ -271,7 +327,13 @@ class Accounts:
             state_sync = old_sync
         else:
             state_sync = AccountStateSync(self, service, candidate)
-            state_sync.initialize()
+            try:
+                with self._restoration_deadline() if local_path else nullcontext():
+                    state_sync.initialize()
+            except ServiceError as issue:
+                if not local_path or not getattr(issue, 'connection_unavailable', False):
+                    raise
+                state_sync.resume_local()
         if self.closed or self.closing or self.server.software_updates.status == 'installing':
             raise ServiceError(503, 'ToBe 正在关闭')
         service.bind_account(account, self.endpoint)
@@ -286,7 +348,8 @@ class Accounts:
         if rotate:
             self.server.store.token = secrets.token_urlsafe(32)
         self.error = ''
-        # Publish authentication only after state merging and persistence.
+        # Fresh authentication still requires merging. A saved verified lease
+        # may expose only its existing local workspace during a transport outage.
         self.session = candidate
         service.leaderboard.invalidate()
         state_sync.start()
@@ -369,31 +432,43 @@ class Accounts:
         self._activate({**current, 'account': {**current['account'], 'nickname': value['nickname'], 'displayName': value['nickname']}}, rotate=False)
         return self.server.training.profile()
 
-    def close(self):
+    def close(self,*,wait=True):
         self.closing = True
+        self.closed = True
+        syncs=list(self.retired_syncs)
+        if self.state_sync and self.state_sync not in syncs:syncs.append(self.state_sync)
+        # Every edit is already committed locally. Do not start a new cloud
+        # upload during exit, especially on a slow or disconnected network.
+        for sync in syncs:
+            sync.stop.set();sync.wake.set()
         worker = self.restore_worker
         if worker and worker is not threading.current_thread():
-            worker.join(timeout=22)
-        self._drain_retired()
-        # Drain late ranking writes before the final account journal upload.
-        # Otherwise a restored login can needlessly re-upload on the next boot.
-        for service in tuple(self.services.values()):
-            service.leaderboard.close()
-        state_sync = self.state_sync
-        if state_sync:
-            try:
-                state_sync.flush()
-            except ServiceError:
-                pass  # Durable local journal is retried before next login.
-            state_sync.close()
-        with self.lock:
-            self.closed = True
-            self.session = self.saved = None
-            services = tuple(self.services.values())
-        # Ranking completion may report a 401 through invalidate(), so never
-        # hold the account lock while joining its executor.
-        for service in services:
-            service.close()
+            worker.join(timeout=.2)
+        for sync in syncs:sync.close()
+        def finish():
+            # An in-flight restore/sync owns its service until its cancelled
+            # response returns. Never close SQLite beneath that operation.
+            if worker and worker is not threading.current_thread():worker.join()
+            # A restore may have published its sync just before closing was
+            # requested. Include it after the restore writer has drained.
+            for current in [*self.retired_syncs,self.state_sync]:
+                if current is not None and current not in syncs:
+                    current.close();syncs.append(current)
+            for sync in syncs:
+                with sync.operation:pass
+            self._drain_retired()
+            with self.lock:
+                self.session = self.saved = None
+                services = tuple(self.services.values())
+            for service in services:service.close()
+        busy=bool(worker and worker.is_alive())
+        for sync in syncs:
+            acquired=sync.operation.acquire(blocking=False)
+            if acquired:sync.operation.release()
+            else:busy=True
+        if busy and not wait:
+            threading.Thread(target=finish,name='tb-local-close',daemon=True).start()
+        else:finish()
 
     def sync_pending(self, wait=False):
         current = self.state_sync

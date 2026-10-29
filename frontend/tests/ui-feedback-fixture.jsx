@@ -41,7 +41,7 @@ else if(view==='radar-performance'){
  function MeasuredRadar(){React.useEffect(()=>{window.radarReady=performance.now();},[]);return <main style={{padding:24,maxWidth:1000}}><KnowledgeRadar rows={rows} knowledge={knowledge} knowledgeEvidence={evidence}/></main>;}
  createRoot(document.getElementById('root')).render(<MeasuredRadar/>);
 }
-else if(view==='radar')createRoot(document.getElementById('root')).render(<main style={{padding:24,maxWidth:960}}><KnowledgeRadar knowledge={[{name:'KMP',evidenceIds:[0,1,2,3,4],available:200},{name:'字典树',evidenceIds:[0,1,2],available:100}]} knowledgeEvidence={Array.from({length:5},(_,id)=>({id,rated:true,score:80,weight:1,solved:true}))}/></main>);
+else if(view==='radar')createRoot(document.getElementById('root')).render(<main style={{padding:24,maxWidth:960}}><KnowledgeRadar knowledge={[{name:'KMP',evidenceIds:[0,1,2,3,4],available:200},{name:'字典树',evidenceIds:[5,6,7],available:100}]} knowledgeEvidence={Array.from({length:8},(_,id)=>({id,rated:id<5,difficulty:id<5?1800:null,weight:1,solved:true}))}/></main>);
 else if(view==='achievements')createRoot(document.getElementById('root')).render(<main style={{padding:28}}><AchievementPanel achievements={achievements}/></main>);
 else
 createRoot(document.getElementById('root')).render(<main className="tier-preview-grid" style={{display:'grid',gridTemplateColumns:'repeat(5,minmax(0,1fr))',gap:20,padding:28}}>

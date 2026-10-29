@@ -8,12 +8,12 @@ const browser=await chromium.launch({channel:process.env.CI ? undefined : 'msedg
 const page=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];
 page.on('pageerror',e=>errors.push(e.message));
 let accountCalls=0;
-let savedPreferences=null;
+let savedPreferences={onboardingGuideVersion:2};
 let registrationMode=false;
 const owner='10000000-0000-4000-8000-000000000001';
-const growth={level:8,tier:'大师',badge:'master',currentLevelXp:400,nextLevelXp:1600,totalXp:6000,levelCosts:[200,400],levelName:'算法设计'};
+const growth={confirmed:true,authority:{owner,epoch:'workspace-fixture',revision:1},level:8,tier:'大师',badge:'master',currentLevelXp:400,nextLevelXp:1600,totalXp:6000,levelCosts:[200,400],levelName:'算法设计'};
 const entries=[{rank:1,userId:owner,nickname:'我的训练',count:0,publicProgress:{level:8,tier:'大师',titles:[]}},{rank:2,userId:'other',nickname:'同行者',count:0}];
-const rows=[152,165,166].map(number=>({id:`weekly-${number}`,contest:`周赛 ${number}`,problem:'A',title:`周赛练习 ${number}`,platform:'牛客',series:'周赛',url:`https://ac.nowcoder.com/acm/contest/${number}/A`,tags:['模拟'],difficulty:800,solutionAvailable:true}));
+const rows=[152,165,166].map(number=>({id:`weekly-${number}`,contest:`周赛 ${number}`,problem:'A',title:`周赛练习 ${number}`,platform:'牛客',series:'周赛',url:`https://ac.nowcoder.com/acm/contest/${number}/A`,tags:['模拟'],difficulty:800,solutionAvailable:true,contestProblemCount:1,catalogContentReady:true}));
 const goals={goals:[{id:'goal',title:'CF 2200',kind:'cf',deadline:'2027-07-10',currentRating:1000,targetRating:2200,dailyMinutes:90}]};
 await page.addInitScript(()=>{const canvas=document.createElement('canvas');canvas.width=1000;canvas.height=700;const context=canvas.getContext('2d'),sky=context.createLinearGradient(0,0,1000,700);sky.addColorStop(0,'#375b85');sky.addColorStop(.5,'#628388');sky.addColorStop(1,'#a66c77');context.fillStyle=sky;context.fillRect(0,0,1000,700);context.fillStyle='#213c50';context.beginPath();context.moveTo(0,700);context.lineTo(380,190);context.lineTo(600,500);context.lineTo(800,280);context.lineTo(1000,700);context.fill();localStorage.setItem('tb.appearance.background',canvas.toDataURL('image/jpeg'));});
 try{
@@ -23,6 +23,8 @@ try{
   if(path==='account'){accountCalls++;if(accountCalls===1)await new Promise(r=>setTimeout(r,3200));value={authenticated:!registrationMode,required:registrationMode,token:'fixture',account:registrationMode?null:{userId:owner,nickname:'我的训练',loginId:'fixture'}};}
   else if(path==='account/register')value={loginId:'newuser'};
   else if(path==='account/login'){registrationMode=false;value={authenticated:true,required:true,token:'fixture',account:{userId:owner,nickname:'新手',loginId:'newuser'}};}
+  else if(path==='contest-calendar')value={contests:[],refreshing:false,importing:false};
+  else if(path==='content-update')value={revision:0,status:'current'};
   else if(path==='data')value={token:'fixture',revision:'fixture',rows,categories:[]};
   else if(path==='workspace')value={now:new Date().toISOString(),training:rows.map(r=>({id:r.id,activeAt:new Date().toISOString(),today:true,accepted:false,attempts:0})),sets:[],contests:[],activeContest:null,goals,goalTasks:[{...rows[0],accepted:false,goalTitles:['CF 2200']}],summary:{accepted:0,total:3,attempts:0}};
   else if(path==='insights')value={summary:{totalSolved:0,streak:0},growth,achievements:[],knowledge:[],recommendations:[],assessment:{platforms:[]},dailyTasks:{tasks:[]},activity:[{date:'2026-10-01',officialAccepted:73}]};
@@ -34,6 +36,11 @@ try{
   else if(path==='social')value={available:false,totalLikes:0,unreadCount:0,notifications:[]};
   else if(path==='browser-preparation')value={available:false};
   else if(path==='translation/settings')value={provider:'custom',providerName:'自定义 OpenAI 兼容 API',model:'fixture-model',baseUrl:'http://127.0.0.1:8788/v1',configured:false,providers:[{id:'custom',name:'自定义 OpenAI 兼容 API'}]};
+  else if(path==='training-lists')value={lists:[]};
+  else if(path==='templates')value={templates:[]};
+  else if(path==='lectures')value={lectures:[]};
+  else if(path==='statement-backfill')value={remaining:0,message:'已补全'};
+  else if(path==='training-list-likes')value={likes:[]};
   else if(path==='preferences'){if(route.request().method()==='POST')savedPreferences=route.request().postDataJSON().preferences;value={preferences:savedPreferences};}
   else if(path==='data/export')value={format:'tb-learning-export',formatVersion:1,tables:{drafts:[{code:'// 中文代码\nint main(){}'}]}};
   else if(path==='desktop/fullscreen')value={available:false,fullscreen:false};
@@ -87,7 +94,7 @@ try{
  assert.equal(await page.locator('.competition-card-title small').count(),0);
  assert.ok((await page.locator('.competition-problem-token').first().innerText()).includes('A:'));
  assert.deepEqual(await page.locator('.competition-card-title>strong').allTextContents(),['周赛 166','周赛 165','周赛 152'],'Name order uses descending numeric rounds');
- await glass('.competition-card');
+ await glass('.competition-page');await glass('.competition-card',true);
  await page.screenshot({path:'tests/screenshots/v113-competitions-glass.png'});
  await page.locator('.sidebar').getByRole('button',{name:'模拟赛',exact:false}).click();
  await glass('.mock-config');
@@ -118,7 +125,8 @@ try{
  await page.locator('.sidebar').getByRole('button',{name:'活动记录',exact:false}).click();
  await page.locator('.activity-month-grid').waitFor();
  assert.equal(await page.locator('.activity-stats').count(),0,'Duplicate streak/AC cards are removed');
- assert.match(await page.getByLabel('活动时间',{exact:true}).inputValue(),/^\d{4}-\d{2}$/);
+ assert.match(await page.getByLabel('活动年份',{exact:true}).inputValue(),/^\d{4}$/);
+ assert.ok([365,366].includes(await page.locator('.activity-month-grid [role="gridcell"]').count()),'Year view keeps every calendar date');
  await mkdir('tests/screenshots',{recursive:true});
  for(const [width,height]of[[2048,1152],[1440,900],[1280,720],[1024,760]]){await page.setViewportSize({width,height});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));const clock=await page.getByLabel('北京时间',{exact:true}).boundingBox();assert.ok(clock.y>height-100&&clock.x+clock.width<=width,'Clock stays within the bottom status bar');await page.screenshot({path:`tests/screenshots/v113-activity-${width}.png`});}
  await page.locator('.sidebar').getByRole('button',{name:'我的训练',exact:true}).click();
@@ -131,8 +139,8 @@ try{
  await openSettings(page,'数据统计');
  const downloaded=page.waitForEvent('download');await page.getByRole('button',{name:/导出数据/}).click();const download=await downloaded;
  assert.ok(download.suggestedFilename().endsWith('.json'));const data=JSON.parse(await readFile(await download.path(),'utf8'));assert.equal(data.tables.drafts[0].code,'// 中文代码\nint main(){}');
- await page.getByRole('button',{name:/新手指引/}).click();
- const directory=page.getByRole('dialog',{name:'新手指引目录',exact:true});await directory.waitFor();
+ await openSettings(page,'新手指引');
+ const directory=page.getByRole('region',{name:'新手指引',exact:true});await directory.waitFor();
  await directory.getByRole('button',{name:/成长与能力/}).click();
  await page.getByRole('heading',{name:'更换头像',exact:true}).waitFor();
  const guideNext=page.getByRole('dialog',{name:'新手指引',exact:true}).getByRole('button',{name:'下一步',exact:true});
@@ -140,16 +148,16 @@ try{
  await page.keyboard.press('Escape');
  assert.notEqual(JSON.parse(await page.evaluate(()=>localStorage.getItem('tb.preferences.v2.10000000-0000-4000-8000-000000000001')))?.onboardingCompleted,true,'Page guide does not complete the introductory overview');
  assert.equal(await page.locator('.topbar').getByRole('button',{name:/指引/}).count(),0,'Page guide entry stays in Settings');
- await openSettings(page,'数据统计');await page.getByRole('button',{name:/新手指引/}).click();await directory.waitFor();
- await directory.getByRole('button',{name:/入门总览/}).click();await page.getByRole('heading',{name:'收起与展开侧边栏',exact:true}).waitFor();
+ await openSettings(page,'数据统计');await openSettings(page,'新手指引');await directory.waitFor();
+ await directory.getByRole('button',{name:/入门总览/}).click();await page.getByRole('heading',{name:'按等级逐步开放',exact:true}).waitFor();
  await page.keyboard.press('Escape');
  await page.waitForFunction(()=>JSON.parse(localStorage.getItem('tb.preferences.v2.10000000-0000-4000-8000-000000000001')).onboardingCompleted===true);
- await openSettings(page,'数据统计');await page.getByRole('button',{name:/新手指引/}).click();await directory.waitFor();await directory.getByRole('button',{name:/翻译 API/}).click();await page.getByRole('heading',{name:'预置中文与自行翻译',exact:true}).waitFor();await page.locator('.translation-settings').waitFor();await page.keyboard.press('Escape');
+ await openSettings(page,'数据统计');await openSettings(page,'新手指引');await directory.waitFor();await directory.getByRole('button',{name:/翻译 API/}).click();await page.getByRole('heading',{name:'预置中文与自行翻译',exact:true}).waitFor();await page.locator('.translation-settings').waitFor();await page.keyboard.press('Escape');
  await page.close();registrationMode=true;savedPreferences=null;
  const fresh=await browser.newPage({viewport:{width:1024,height:760}});await fresh.route('**/api/**',routes);await fresh.goto(vite.resolvedUrls.local[0]);
  await fresh.getByRole('tab',{name:'注册',exact:true}).click();
  await fresh.locator('[name=nickname]').fill('新手');await fresh.locator('[name=username]').fill('newuser');await fresh.locator('[name=password]').fill('fixture-password');await fresh.locator('[name=passwordConfirmation]').fill('fixture-password');
- await fresh.getByRole('button',{name:'注册账号',exact:true}).click();await fresh.getByText('注册成功',{exact:false}).waitFor();await fresh.locator('[name=password]').fill('fixture-password');await fresh.getByRole('button',{name:'登录',exact:true}).click();
+ await fresh.getByRole('button',{name:'注册账号',exact:true}).click();
  await fresh.getByRole('dialog',{name:'新手指引',exact:true}).waitFor();await fresh.keyboard.press('Escape');
  for(let i=0;i<50&&!savedPreferences?.onboardingCompleted;i++)await new Promise(resolve=>setTimeout(resolve,50));assert.equal(savedPreferences?.onboardingCompleted,true);
  await fresh.reload();await fresh.locator('.sidebar').waitFor();assert.equal(await fresh.getByRole('dialog',{name:'新手指引',exact:true}).count(),0,'Completed guide does not reopen after login restore');await fresh.close();

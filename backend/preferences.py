@@ -7,7 +7,7 @@ import re
 from training import ServiceError, iso
 
 ALLOWED = frozenset(('panelStyle', 'backdrop', 'panelOpacity', 'pageOpacities', 'widgets', 'theme', 'accent', 'motion', 'compact', 'collapsed', 'favorites', 'views',
-                     'readerWidth', 'fontSize', 'difficultyDisplay', 'learnedLectures', 'libraryPageSize', 'navOrder', 'navLabels', 'navGroups', 'seenAchievements', 'showPlatforms', 'onboardingCompleted', 'onboardingGuideVersion', 'avatarData', 'navSchema', 'learningPaths', 'shortcuts'))
+                     'readerWidth', 'fontSize', 'difficultyDisplay', 'learnedLectures', 'libraryPageSize', 'navOrder', 'navLabels', 'navGroups', 'hiddenNavPages', 'onboardingUnlockedPages', 'levelNoticeVersion', 'levelNoticeSeen', 'levelNoticePending', 'seenAchievements', 'showPlatforms', 'onboardingCompleted', 'onboardingGuideVersion', 'avatarData', 'navSchema', 'learningPaths', 'shortcuts'))
 AVATAR_DATA_MAX_BYTES = 48 * 1024
 
 
@@ -70,6 +70,16 @@ def save_preferences(training, body):
     value = dict(body['preferences'])
     if set(value) - ALLOWED:
         raise ServiceError(400, '偏好设置包含不支持的字段')
+    pages={'mine','library','training-lists','competitions','mock','paths','templates','rankings','growth','records','activity','lectures','settings'}
+    for field in ('hiddenNavPages','onboardingUnlockedPages'):
+        if field in value and (not isinstance(value[field],list) or len(value[field])>len(pages) or any(not isinstance(item,str) or item not in pages for item in value[field])):
+            raise ServiceError(400,'导航显示偏好无效')
+    if set(value.get('hiddenNavPages',[])) & {'mine','records','settings'}:
+        raise ServiceError(400,'我的训练和设置须保留')
+    if 'levelNoticeVersion' in value and (type(value['levelNoticeVersion']) is not int or value['levelNoticeVersion'] not in (0,1)):
+        raise ServiceError(400,'等级提示版本无效')
+    if any(name in value and (type(value[name]) is not int or not 0<=value[name]<=100) for name in ('levelNoticeSeen','levelNoticePending')):
+        raise ServiceError(400,'等级提示记录无效')
     if 'learnedLectures' in value and (not isinstance(value['learnedLectures'],list) or len(value['learnedLectures'])>2048 or any(not isinstance(key,str) or not key or len(key)>240 for key in value['learnedLectures'])):
         raise ServiceError(400,'已学会的知识点格式无效')
     if 'shortcuts' in value:
@@ -131,6 +141,11 @@ def save_preferences(training, body):
         # Read acknowledgements are monotonic. A delayed save of appearance or
         # favourites must not make an already inspected achievement unread.
         previous = json.loads(row['value']) if row else {}
+        if any(name in previous or name in value for name in ('levelNoticeVersion','levelNoticeSeen','levelNoticePending')):
+            value.update(merge_level_notices(previous,value));text=json.dumps(value,ensure_ascii=False,sort_keys=True,allow_nan=False)
+        if 'onboardingUnlockedPages' in previous or 'onboardingUnlockedPages' in value:
+            value['onboardingUnlockedPages']=sorted((set(previous.get('onboardingUnlockedPages',[]))|set(value.get('onboardingUnlockedPages',[]))) & pages)
+            text=json.dumps(value,ensure_ascii=False,sort_keys=True,allow_nan=False)
         if previous.get('onboardingCompleted'):
             value['onboardingCompleted'] = True
             text = json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False)
@@ -161,6 +176,17 @@ def save_preferences(training, body):
 
 def merge_onboarding_versions(*values):
     return max((value for value in values if type(value) is int and 0 <= value <= 1000), default=0)
+
+def merge_onboarding_unlocked_pages(*values):
+    pages={'mine','library','training-lists','competitions','mock','paths','templates','rankings','growth','records','activity','lectures','settings'}
+    return sorted({item for value in values if isinstance(value,list) for item in value if isinstance(item,str) and item in pages})
+
+def merge_level_notices(*values):
+    current=[value for value in values if isinstance(value,dict) and value.get('levelNoticeVersion')==1]
+    valid=lambda value:type(value) is int and 0<=value<=100
+    seen=max([0]+[value['levelNoticeSeen'] for value in current if valid(value.get('levelNoticeSeen'))])
+    pending=max([0]+[value['levelNoticePending'] for value in current if valid(value.get('levelNoticePending'))])
+    return {'levelNoticeVersion':1 if current else 0,'levelNoticeSeen':seen,'levelNoticePending':pending if pending>seen else 0}
 
 
 def merge_seen_achievements(*values):

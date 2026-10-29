@@ -1,0 +1,38 @@
+import assert from 'node:assert/strict';
+import {createServer} from 'vite';
+import {chromium} from 'playwright';
+import {mkdir} from 'node:fs/promises';
+const vite=await createServer({server:{host:'127.0.0.1',port:0}});await vite.listen();
+const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
+const page=await browser.newPage({viewport:{width:960,height:700},deviceScaleFactor:1.5});
+const errors=[];page.on('pageerror',error=>errors.push(error.message));
+try{
+ await page.goto(`http://127.0.0.1:${vite.httpServer.address().port}/tests/workbench-fixture.html`);
+ await page.locator('.tb-workbench.wb-compact').waitFor();
+ assert.ok(await page.locator('.wb-statement-pane').isVisible());
+ assert.equal(await page.locator('.wb-code-pane').isVisible(),false);
+ await page.getByRole('button',{name:'只看代码',exact:true}).click();
+ const editor=page.getByRole('textbox',{name:'C++ 代码'});await editor.waitFor();
+ await editor.fill('int main(){return 37;}');
+ const width=await editor.evaluate(node=>node.getBoundingClientRect().width);
+ assert.ok(width>800,`narrow mode gives the editor usable width: ${width}`);
+ await page.getByRole('button',{name:'只看题面',exact:true}).click();
+ await page.getByRole('button',{name:'只看代码',exact:true}).click();
+ assert.equal(await page.evaluate(()=>window.workbenchFixture.readCode()),'int main(){return 37;}');
+ await page.setViewportSize({width:700,height:700});
+ await page.evaluate(()=>{document.documentElement.style.fontSize='22px';});
+ assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+ const overflow=await page.locator('.wb-code-pane').evaluate(node=>node.scrollWidth-node.clientWidth);
+ assert.ok(overflow<=1,`the editor pane does not grow wider than the viewport: ${overflow}`);
+ await mkdir('tests/screenshots/lifecycle',{recursive:true});
+ await page.screenshot({path:'tests/screenshots/lifecycle/workbench-700-hidpi.png'});
+ await page.setViewportSize({width:1280,height:800});await page.reload();
+ await editor.waitFor();
+ assert.equal(await page.locator('.wb-compact').count(),0);
+ assert.ok(await page.locator('.wb-statement-pane').isVisible());
+ assert.ok(await page.locator('.wb-code-pane').isVisible());
+ assert.ok(await page.locator('.wb-code-pane').evaluate(node=>node.getBoundingClientRect().width)>500);
+ assert.equal(await page.evaluate(()=>window.workbenchFixture.calls.filter(call=>/official\/(?:open|submit)/.test(call.path)).length),0);
+ assert.deepEqual(errors,[]);
+ console.log(JSON.stringify({ok:true,widths:[700,960,1280],deviceScaleFactor:1.5,localDraftSurvivesPaneSwitch:true,noOriginalSubmissions:true}));
+}finally{await browser.close();await vite.close();}

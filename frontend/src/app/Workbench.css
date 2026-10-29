@@ -858,3 +858,19 @@
 .wb-solution-methods .wb-solution-button:nth-child(4n+3) {color:#ad92e9}
 .wb-solution-methods .wb-solution-button:nth-child(4n+4) {color:var(--warning,#d7a45e)}
 .wb-solution-methods .wb-solution-button[aria-pressed=true] {border-color:currentColor;background:var(--accent-soft)}
+
+/* Measure the actual workbench, including space taken by side readers. */
+.wb-compact-toolbar {display:flex;align-items:center;gap:8px;flex:none;min-height:42px;padding:4px 8px;border-bottom:1px solid var(--line);overflow-x:auto}
+.wb-compact-toolbar>strong {flex:1;min-width:40px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.9rem}
+.wb-compact-toolbar .wb-icon-button {width:34px;height:34px;color:var(--text)}
+.mock-focus .wb-compact-toolbar .wb-pane-buttons {display:flex}
+.wb-compact .wb-statement-pane .wb-toolbar>.wb-icon-button:first-child {display:none}
+.wb-compact .wb-editor-header {flex-wrap:wrap;height:auto;min-height:42px}
+.wb-compact .wb-editor-actions {margin-left:auto}
+.wb-compact .wb-save-state {margin-left:auto}
+.wb-compact .wb-body {display:flex;grid-template-rows:none}
+.wb-compact :is(.wb-code-pane,.wb-statement-pane) {flex:1;width:100%}
+.wb-compact .wb-run-toolbar {flex-wrap:wrap}
+.wb-compact .wb-console {max-height:45%}
+.wb-icon-button {min-width:30px;min-height:30px}
+.wb-font-controls button,.wb-language-toggle button {min-height:30px}

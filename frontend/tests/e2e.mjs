@@ -6,6 +6,7 @@ import { basename, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createServer } from 'vite';
 import { chromium } from 'playwright';
+import {completeContest} from '../src/lib/completeContest.js';
 import { catalogSegments } from '../src/lib/contestCatalog.js';
 
 const root = resolve(fileURLToPath(new URL('../..', import.meta.url)));
@@ -69,9 +70,9 @@ try {
   assert.equal(await page.locator('.wb-run-actions').getByRole('button', { name: '运行样例', exact: true }).count(), 1);
   await page.getByRole('button', { name: '题解', exact: true }).click();
   await page.locator('.reader-panel .markdown').first().waitFor();
-  await page.getByText('本题的基础讲解与引用', { exact: true }).waitFor();
+  await page.locator('.reader-panel .lesson-reader-link > button:first-child').first().waitFor();
   const linkedLecture = solution.lectures[0];
-  assert.ok((await page.locator('.reader-panel .lecture-disclosure summary').allTextContents())
+  assert.ok((await page.locator('.reader-panel .lesson-reader-link > button:first-child').allTextContents())
     .some(title=>title.includes(linkedLecture.displayTitle || linkedLecture.concept || linkedLecture.title)));
   await editor.fill('#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    return 0;\n}\n');
   await mkdir('tests/screenshots', { recursive: true });
@@ -144,19 +145,23 @@ try {
   await page.keyboard.press('Control+4');
   await page.getByRole('button',{name:'筛选比赛',exact:true}).click();
   const menu=page.locator('.filter-popover');
-  const lanqiao=catalog.rows.find(row=>/蓝桥/.test(row.contest)&&Number(row.examYear)===2026&&/国赛|决赛/.test(`${row.examStage||''} ${row.contest}`));
-  assert(lanqiao,'Use a real bundled final contest');
-  const [folder,stage]=catalogSegments(lanqiao);
-  await menu.getByRole('combobox',{name:'筛选比赛分类',exact:true}).press('Space');
-  const folders=page.getByRole('listbox',{name:'筛选比赛分类'});
-  await folders.getByRole('option',{name:folder,exact:true}).click();
-  await folders.getByRole('option',{name:stage,exact:true}).click();
-  await folders.getByRole('option',{name:`选择「${stage}」`,exact:true}).click();
-  await page.getByLabel('比赛年份',{exact:true}).selectOption('2026');
-  await page.keyboard.press('Escape');
-  assert.ok(await page.locator('.competition-card').count());
-  assert.equal(await page.locator('.competition-card').filter({hasText: '初赛'}).count(),0);
-  await page.screenshot({path: 'tests/screenshots/lanqiao-history.png', animations: 'disabled'});
+  const contests=new Map();for(const row of catalog.rows.filter(row=>!row.catalogHidden)){const key=row.platform+'::'+row.contest;if(!contests.has(key))contests.set(key,[]);contests.get(key).push(row);}
+  const full=[...contests.values()].filter(completeContest);
+  const provincial=full.find(rows=>rows.some(row=>row.id==='xcpc-qoj::18307'));
+  assert(provincial,'Use the verified complete Shandong provincial contest');
+  const [folder,stage,yearFolder]=catalogSegments(provincial[0]),year=yearFolder.replace('年','');
+  assert.equal(await menu.getByRole('combobox',{name:'筛选比赛分类',exact:true}).count(),0);
+  await page.getByLabel('比赛年份',{exact:true}).selectOption(year);
+  await page.getByRole('button',{name:'关闭筛选',exact:true}).click();
+  await page.getByRole('button',{name:'比赛文件夹浏览',exact:true}).click();
+  await page.locator('.catalog-folder-row').filter({has:page.getByText(folder,{exact:true})}).click();
+  await page.locator('.catalog-folder-row').filter({has:page.getByText(stage,{exact:true})}).click();
+  await page.locator('.catalog-folder-row').filter({has:page.getByText(yearFolder,{exact:true})}).click();
+  await page.locator('.competition-card').first().waitFor();
+  assert.equal(await page.locator('.competition-card').filter({hasText:provincial[0].contest}).count(),1);
+  for(const rows of [...contests.values()].filter(rows=>!completeContest(rows)&&catalogSegments(rows[0]).slice(0,3).join('/')===[folder,stage,yearFolder].join('/')))
+    assert.equal(await page.locator('.competition-card').filter({hasText:rows[0].contest}).count(),0,'Incomplete events must not become playable cards');
+  await page.screenshot({path: 'tests/screenshots/verified-provincial-history.png', animations: 'disabled'});
   await page.keyboard.press('Control+5');
   await page.getByRole('button', {name: '重现赛', exact: true}).click();
   assert.equal(await page.getByRole('textbox', {name: '搜索题目', exact: true}).count(),0,'replay has no irrelevant search box');
@@ -171,7 +176,7 @@ try {
   assert.equal(replay.slots.length,collected.length);
   assert.deepEqual(replay.slots.map(slot=>slot.id),collected.sort((a,b)=>a.problem.localeCompare(b.problem)).map(row=>row.id));
   await page.getByRole('button',{name:'训练筛选',exact:true}).click();
-  await page.getByLabel('模拟赛赛制').selectOption('xcpc');
+  assert.equal(await page.getByLabel('模拟赛赛制').count(),0,'replay uses the original published rules');
   assert.equal(await page.getByLabel('模拟赛时长').inputValue(),String(replay.duration),'replay retains the selected event duration');
   assert.equal(await page.getByLabel('编译错误计罚时').isChecked(),false);
   await page.keyboard.press('Escape');

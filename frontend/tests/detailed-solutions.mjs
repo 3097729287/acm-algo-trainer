@@ -47,17 +47,20 @@ try {
   await page.getByRole('heading', { name: '从第一道题开始', exact: true }).waitFor();
   await page.keyboard.press('Control+2');
   const open = async title => {
+    if(await page.getByRole('button',{name:'收起题解',exact:true}).count())await page.getByRole('button',{name:'收起题解',exact:true}).click();
+    if(await page.getByRole('button',{name:'返回列表',exact:true}).count())await page.getByRole('button',{name:'返回列表',exact:true}).click();
     await page.getByRole('textbox', { name: '搜索题目', exact: true }).fill(title);
     const identity = title === 'Rank Subsequence' ? pid : editorialRows.find(row => row.title === title && row.solutionAvailable)?.id;
     assert.ok(identity, 'The test must open an exact problem with a bundled editorial');
-    await page.locator(`tr[data-id=${JSON.stringify(identity)}]`).getByRole('button', { name: '题解 ' + title, exact: true }).click();
-    await page.getByRole('group', { name: '题解版本' }).waitFor();
+    await page.locator(`tr[data-id=${JSON.stringify(identity)}]`).getByRole('button', { name: title, exact: true }).click();
+    await page.getByRole('button',{name:'题解',exact:true}).click();
+    await page.getByRole('button', { name: '切换为详细题解', exact: true }).waitFor();
   };
   await open('Rank Subsequence');
   const panel = page.getByRole('complementary', { name: '题解阅读' });
-  const defaultButton = panel.getByRole('button', { name: '默认题解', exact: true });
-  const detailedButton = panel.getByRole('button', { name: '详细题解', exact: true });
-  assert.equal(await defaultButton.getAttribute('aria-pressed'), 'true');
+  const defaultButton = panel.getByRole('button', { name: '切换为默认题解', exact: true });
+  const detailedButton = panel.getByRole('button', { name: '切换为详细题解', exact: true });
+  assert.equal(await detailedButton.getAttribute('aria-pressed'), 'false');
   assert.equal(await panel.getByText('左秩、右秩到底是什么？', { exact: true }).count(), 0);
   await panel.locator('.reader-content .markdown').first().waitFor();
   const defaultText = await panel.locator('.reader-content').innerText();
@@ -65,21 +68,36 @@ try {
   await detailedButton.focus();
   await page.keyboard.press('Enter');
   await panel.getByRole('heading', { name: '左秩、右秩到底是什么？', exact: true }).waitFor();
-  assert.equal(await detailedButton.getAttribute('aria-pressed'), 'true');
-  assert((await panel.locator('table').count())>=4,'The detailed worked-example tables remain available');
-  assert((await panel.locator('pre').count())>=4,'Original code and added foundation examples remain available');
+  assert.equal(await defaultButton.getAttribute('aria-pressed'), 'true');
+  let tableCount = await panel.locator('table').count(), codeCount = await panel.locator('pre').count();
   assert.equal(await panel.locator('.solution-full').count(), 0, 'Detailed content must not be automatically summarized');
   await panel.getByRole('heading',{name:'把推导对应到代码',exact:true}).waitFor();
   assert.equal(await panel.locator('.markdown h3').count(), 5, 'Problem-specific reasoning and reference code remain outside the foundation disclosures');
-  assert.equal(await panel.locator('.lecture-disclosure').count(), 3);
-  assert.equal(await panel.locator('.lecture-disclosure[open]').count(), 0, 'Detailed foundations start collapsed');
+  const foundations = panel.locator('.lesson-reader-link > button:first-child');
+  assert.equal(await foundations.count(), 3, 'All three foundation lessons remain directly accessible');
+  const foundationNames = await foundations.allTextContents();
+  const detailedText = await panel.locator('.reader-content').innerText();
+  for (const name of foundationNames) {
+    await panel.locator('.lesson-reader-link > button:first-child').filter({hasText: name}).click();
+    await panel.getByRole('button', { name: '返回上一级', exact: true }).waitFor();
+    const lesson = panel.locator('[aria-label="从零讲正文"]');
+    assert.ok((await lesson.innerText()).trim().length > 100, 'The full foundation article opens within the reader');
+    tableCount += await lesson.locator('table').count();
+    codeCount += await lesson.locator('pre').count();
+    assert.ok(!(await lesson.innerText()).includes('reusable-foundations'));
+    await page.keyboard.press('Backspace');
+    await panel.locator('[aria-label="题解正文"]').waitFor();
+    assert.equal(await panel.locator('.reader-content').innerText(), detailedText, 'Backspace returns to the same complete detailed article');
+  }
+  assert.ok(tableCount >= 4, 'Detailed examples and linked foundation tables remain available');
+  assert.ok(codeCount >= 4, 'Original code and linked foundation examples remain available');
   assert.ok(!(await panel.innerText()).includes('reusable-foundations'), 'Authoring comments never appear as prose');
   await defaultButton.click();
   assert.equal(await panel.locator('.reader-content').innerText(), defaultText);
   await detailedButton.click();
   await panel.getByRole('button', { name: '收起题解', exact: true }).click();
   await open('Rank Subsequence');
-  assert.equal(await defaultButton.getAttribute('aria-pressed'), 'true', 'Reopening starts from the original default');
+  assert.equal(await detailedButton.getAttribute('aria-pressed'), 'false', 'Reopening starts from the original default');
   // Public content keeps growing. Make the missing-detail response explicit
   // without deleting an editorial from the real library or personal state.
   const missingId = editorialRows.find(row => row.title === 'String Construction' && row.solutionAvailable).id;
@@ -87,38 +105,40 @@ try {
     if (new URL(route.request().url()).searchParams.get('id') !== missingId) return route.continue();
     const response = await route.fetch();
     const body = await response.json();
-    await route.fulfill({response,json:{...body,detailedSolution:null}});
+    await route.fulfill({response,json:{...body,detailedSolution:null,
+      methods:body.methods?.map(method=>({...method,detailedSolution:null}))}});
   });
   await open('String Construction');
   await detailedButton.click();
-  await panel.getByRole('heading', { name: '详细题解待补充', exact: true }).waitFor();
-  assert.equal(await panel.locator('.markdown').count(), 0, 'Missing details must not repeat the default body');
-  await panel.getByRole('button', { name: '返回默认题解', exact: true }).click();
+  await panel.getByRole('status').filter({hasText: '详细题解待补充'}).waitFor();
+  assert.ok((await panel.locator('.markdown').allTextContents()).every(text=>!text.trim()), 'Missing details must not repeat any default article text');
+  await defaultButton.click();
   await panel.locator('.markdown').first().waitFor();
   await detailedButton.click();
   await open('Rank Subsequence');
-  assert.equal(await defaultButton.getAttribute('aria-pressed'), 'true', 'A different problem starts from its default');
+  assert.equal(await detailedButton.getAttribute('aria-pressed'), 'false', 'A different problem starts from its default');
   await detailedButton.click();
   await mkdir(screenshots, { recursive: true });
   for (const [theme, width] of [['light', 1480], ['dark', 1050], ['light', 375]]) {
     await page.setViewportSize({ width, height: 920 });
     await page.evaluate(theme => { document.documentElement.dataset.theme = theme; }, theme);
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
-    assert.ok(await detailedButton.isVisible());
+    assert.ok(await defaultButton.isVisible());
     await page.screenshot({ path: join(screenshots, `detailed-solutions-${theme}-${width}.png`), animations: 'disabled' });
   }
   await page.setViewportSize({ width: 1480, height: 920 });
   await panel.getByRole('button', { name: '题解全屏', exact: true }).click();
   await page.locator('.reader-full').waitFor();
-  assert.equal(await detailedButton.getAttribute('aria-pressed'), 'true');
+  assert.equal(await defaultButton.getAttribute('aria-pressed'), 'true');
   await page.screenshot({ path: join(screenshots, 'detailed-solutions-full.png'), animations: 'disabled' });
   await panel.getByRole('button', { name: '退出题解全屏', exact: true }).click();
   await panel.getByRole('button', { name: '收起题解', exact: true }).click();
   await open('小月的回声');
   for (const variant of ['default','detailed']) {
-    await (variant==='default'?defaultButton:detailedButton).click();
+    if (variant === 'detailed') await detailedButton.click();
     await panel.getByRole('heading',{name:variant==='default'?'三个条件为什么足够让答案加一':'先用一个真实区间写出要检查的等式',exact:true}).waitFor();
-    assert.equal(await panel.locator('.lecture-disclosure[open]').count(),0,'Each variant starts with closed foundation lessons');
+    assert.equal(await panel.locator('[aria-label="从零讲正文"]').count(),0,'Each variant starts at the editorial with foundation lessons linked');
+    assert.equal(await panel.locator('.lesson-reader-link').count(),4,'All four supporting foundation lessons remain accessible');
     assert.ok(!(await panel.innerText()).includes('reusable-foundations'));
     assert.ok((await panel.innerText()).includes('重复确认'),'The redundant length check is explained honestly');
     assert.ok((await panel.innerText()).includes('a[l] == v'),'The guessed value is checked against the actual array');
@@ -130,7 +150,6 @@ try {
       const figures=panel.locator('.markdown .reading-image-open');
       assert.equal(await figures.count(),variant==='default'?1:3,'Problem diagrams stay outside closed lessons');
       for (let index=0;index<await figures.count();index++) {
-        await figures.nth(index).scrollIntoViewIfNeeded();
         await figures.nth(index).locator('img').evaluate(img=>img.decode());
         await figures.nth(index).screenshot({path:join(screenshots,`echo-${variant}-${theme}-${width}-${index}.png`)});
       }
@@ -145,11 +164,13 @@ try {
     await imageDialog.waitFor({state:'hidden'});
     assert.ok(await panel.isVisible(),'Escape closes the topmost native image dialog without closing its reader');
     assert.ok(await imageTrigger.evaluate(node=>document.activeElement===node),'Closing the image restores focus to its trigger');
-    const foundation=panel.locator('.lecture-disclosure').filter({hasText:'前缀和'}).first();
-    await foundation.locator('summary').click();
-    await foundation.locator('.lecture-disclosure-body').waitFor();
+    await panel.locator('.lesson-reader-link > button:first-child').filter({hasText:'前缀和'}).first().click();
+    const foundation=panel.locator('[aria-label="从零讲正文"]');
+    await foundation.waitFor();
+    assert.ok((await foundation.innerText()).trim().length > 100);
     assert.ok(!(await foundation.innerText()).includes('reusable-foundations'));
-    await foundation.locator('summary').click();
+    await panel.getByRole('button', {name:'返回题解',exact:true}).click();
+    await panel.getByRole('heading',{name:variant==='default'?'三个条件为什么足够让答案加一':'先用一个真实区间写出要检查的等式',exact:true}).waitFor();
   }
   await page.setViewportSize({width:1480,height:920});
   await page.keyboard.press('Escape');
@@ -157,15 +178,19 @@ try {
   await open('Range Search Query');
   await panel.getByRole('heading',{name:'为什么检查一个起点就足够回答 Yes 或 No',exact:true}).waitFor();
   assert.equal(await panel.locator('.concise-solution').count(),0,'A low-rating default editorial does not hide its worked proof and diagram');
-  assert.equal(await panel.locator('.lecture-disclosure[open]').count(),0);
+  assert.equal(await panel.locator('[aria-label="从零讲正文"]').count(),0);
   assert.ok(await panel.locator('.markdown img').count()>0,'Its diagram is part of the visible main article');
 
   // The real API protects the combined response, including the new detailed body.
   const catalog = await get('data');
-  const contest = catalog.rows.find(row => row.id === pid)?.contest;
-  assert.ok(contest, 'Use the current display name while preserving the original problem identity');
+  const events = (await get('contests/events')).events;
+  const event = events.find(event => event.complete && catalog.rows.some(row => row.contest === event.name && row.solutionAvailable));
+  assert.ok(event, 'Only a verified complete contest can start a replay');
+  const protectedProblem = catalog.rows.find(row => row.contest === event.name && row.solutionAvailable);
+  const protectedSolution = await get('solution?id=' + encodeURIComponent(protectedProblem.id));
+  assert.ok(protectedSolution.markdown && protectedSolution.detailedSolution?.markdown, 'The protected response includes both editorial variants');
   const preview = await page.request.post(url + '/api/contests/preview', {
-    headers: { 'X-TB-Token': catalog.token }, data: { mode: 'replay', contest, duration: 30 },
+    headers: { 'X-TB-Token': catalog.token }, data: { mode: 'replay', contest: event.name, duration: 30 },
   });
   assert.equal(preview.status(), 200, await preview.text());
   const { plan } = await preview.json();
@@ -173,11 +198,12 @@ try {
     headers: { 'X-TB-Token': catalog.token }, data: { ids: plan.slots.map(slot => slot.id), duration: plan.duration, previewId: plan.previewId },
   });
   assert.equal(start.status(), 200, await start.text());
-  const locked = await page.request.get(url + '/api/solution?id=' + encodeURIComponent(pid));
+  const locked = await page.request.get(url + '/api/solution?id=' + encodeURIComponent(protectedProblem.id));
   assert.equal(locked.status(), 403);
-  assert.ok(!(await locked.text()).includes('第三个样例'));
+  const lockedBody = await locked.json();
+  assert.deepEqual(Object.keys(lockedBody), ['error'], 'The locked response exposes neither editorial variant nor method metadata');
   assert.deepEqual(errors, []);
-  console.log('Detailed solutions passed: exact SQLite bodies, switching, collapsed foundations in both variants, hidden author markers, Echo diagrams/proof, keyboard, default reset, missing state, light/dark/narrow/fullscreen and contest lock.');
+  console.log('Detailed solutions passed: exact SQLite bodies, icon switching, full linked foundations and return stack, hidden author markers, Echo diagrams/proof, keyboard, default reset, missing state, light/dark/narrow/fullscreen and contest lock.');
 } catch (error) {
   console.error('Browser errors:', errors, 'API stderr:', stderr);
   if (page) {

@@ -24,6 +24,8 @@ await page.route('**/api/**',async route=>{
  let value={};
  if(path==='/api/account')value={required:false,authenticated:true,usesOriginalWorkspace:true,token:'fixture',account:self};
  else if(path==='/api/preferences'){if(body)preferences=body.preferences;value={preferences,updatedAt:now};}
+ else if(path==='/api/contest-calendar')value={contests:[],refreshing:false,importing:false};
+ else if(path==='/api/content-update')value={revision:0,status:'current',error:''};
  else if(path==='/api/software-update')value={currentVersion:'1.4.16',status:'current',autoCheck:false,canInstall:false};
  else if(path==='/api/data')value={rows,categories,token:'fixture',today:now.slice(0,10),revision:'polish'};
  else if(path==='/api/workspace')value={training,sets:[],contests:[],activeContest:null,summary:{total:training.length,accepted:1,attempts:8,todayAccepted:0,due:0,pending:0,streak:16},now};

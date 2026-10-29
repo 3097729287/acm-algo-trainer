@@ -7,12 +7,18 @@ import SortDirection from '@/components/SortDirection.jsx';
 import RandomProblem from '@/components/RandomProblem.jsx';
 import AddToTrainingLists from '@/components/AddToTrainingLists.jsx';
 import useNavigationKeys from '@/lib/useNavigationKeys.js';
+import {pageAvailable,availablePages,hiddenPages,guideAvailable} from '@/lib/navigationVisibility.js';
+import {FeatureVisibilityContext} from '@/lib/FeatureVisibility.jsx';
+import NextActions from '@/components/NextActions.jsx';
+import useLevelUp from '@/lib/useLevelUp.js';
+import {mergeLevelNotices,protectGrowth} from '@/lib/levelNotices.js';
+import LevelUpDialog from '@/components/LevelUpDialog.jsx';
 import {applyDailyTaskReward} from '@/lib/dailyTaskReward.js';
 import useUsage from '@/lib/useUsage.js';
 import usePlatformLogins from '@/lib/usePlatformLogins.js';
 import useContestCalendar from '@/lib/useContestCalendar.js';
 import PopConfirm from '@/components/PopConfirm.jsx';
-import {matchesShortcut} from '@/lib/shortcuts.js';
+import {matchesShortcut,shortcutValue} from '@/lib/shortcuts.js';
 import PageSearch from '@/components/PageSearch.jsx';
 import FolderSelect from '@/components/FolderSelect.jsx';
 import Tooltip from '@/components/Tooltip.jsx';
@@ -151,7 +157,7 @@ const PAGES = [
   { id: "paths", label: "算法实验室", icon: FlaskConical, key: "3" },
   { id: "rankings", label: "排行榜", icon: ListOrdered, key: "" },
 ];
-const GUIDE_VERSION = 1;
+const GUIDE_VERSION = 2;
 const DEFAULTS = {
   panelStyle: "outlined",
   backdrop: "none",
@@ -180,6 +186,11 @@ const DEFAULTS = {
   navSchema: 2,
   navLabels: {},
   navGroups: {},
+  hiddenNavPages: [],
+  onboardingUnlockedPages: [],
+  levelNoticeVersion:0,
+  levelNoticeSeen:0,
+  levelNoticePending:0,
   seenAchievements: [],
   fullscreen: false,
 };
@@ -200,8 +211,11 @@ function normalizePreferences(saved) {
     preferences.learnedLectures=Array.isArray(preferences.learnedLectures)?[...new Set(preferences.learnedLectures.filter(value=>typeof value==='string'))]:[];
     preferences.difficultyDisplay=preferences.difficultyDisplay==='text'?'text':'number';
     preferences.onboardingGuideVersion=Number.isSafeInteger(preferences.onboardingGuideVersion)&&preferences.onboardingGuideVersion>=0&&preferences.onboardingGuideVersion<=1000?preferences.onboardingGuideVersion:0;
-    preferences.motion = true;
+    preferences.motion = saved?.motion !== false;
     preferences.navSchema = 2;
+    preferences.hiddenNavPages=hiddenPages(preferences.hiddenNavPages);
+    preferences.onboardingUnlockedPages=Array.isArray(preferences.onboardingUnlockedPages)?preferences.onboardingUnlockedPages.filter(id=>availablePages(Infinity).includes(id)):[];
+    Object.assign(preferences,mergeLevelNotices(preferences));
     preferences.navGroups = { ...preferences.navGroups };
     preferences.navLabels = { ...preferences.navLabels };
     preferences.pageOpacities = { ...preferences.pageOpacities };
@@ -539,6 +553,8 @@ function KnowledgeTree({
   );
 }
 
+const foundationListState=()=>({curriculumVersion:1,mode:'algorithm',folder:['01 编程基础'],trail:[],sections:[],flat:false,query:'',page:1});
+
 export default function App() {
   useNavigationKeys();
   const [finishAnchor,setFinishAnchor] = useState(null);
@@ -549,7 +565,7 @@ export default function App() {
     [insights, setInsights] = useState(null),
     [loading, setLoading] = useState(true),
     [error, setError] = useState("");
-  const [page, setPage] = useState("mine"),
+  const [page, setPage] = useState(()=>window.__tbNewAccount?'training-lists':'mine'),
     [filters, setFilters] = useState({
       library: blankFilters(),
       mine: blankFilters(),
@@ -572,13 +588,18 @@ export default function App() {
   const labVisit = useRef({leftAt:null,scrollTop:0});
   const templatesVisit=useRef({});
   const [templateActive,setTemplateActive]=useState(false);
-  const trainingListsVisit = useRef({});
+  const trainingListsVisit = useRef(window.__tbNewAccount?{state:foundationListState()}:{});
   const lecturesVisit = useRef({});
   const [lectureFull,setLectureFull]=useState(false);
   const [listProblemIds,setListProblemIds]=useState(null);
   const [tourOpen,setTourOpen]=useState(false);
   const [tourContext,setTourContext]=useState('overview');
   const automaticTourStarted=useRef(false);
+  const navigationLevel=(window.__tbAccountUserId||window.__tbAccount?.userId)?insights?.growth?.level??1:Infinity;
+  const featureAvailable=(id,inline=false)=>inline?!hiddenPages(prefs.hiddenNavPages).includes(id):id==='mock'&&Boolean(workspace.activeContest)||pageAvailable(id,navigationLevel,prefs);
+  const visiblePageIds=[...new Set([...availablePages(navigationLevel,prefs),...(workspace.activeContest?['mock']:[])])];
+  const visiblePageKey=visiblePageIds.join(',');
+  useEffect(()=>{if(page!=='settings'&&!featureAvailable(page)&&!practiceId){setPage('mine');setTourOpen(false);}},[visiblePageKey,page,practiceId]);
   const pointerPosition = useRef(null);
   const [hoveredRow, setHoveredRow] = useState(null);
   const [dialog, setDialog] = useState(null),
@@ -638,12 +659,12 @@ export default function App() {
   const preferencesBaseline = useRef(prefs);
   const [preferencesRevision, setPreferencesRevision] = useState(0);
   useEffect(() => {
-    if (!loading && preferencesLoaded.current && account?.userId && prefs.onboardingGuideVersion<GUIDE_VERSION && !dialog && !automaticTourStarted.current) {
+    if (!loading && preferencesLoaded.current && Number.isFinite(insights?.growth?.level) && account?.userId && prefs.onboardingGuideVersion<GUIDE_VERSION && !dialog && !automaticTourStarted.current) {
       automaticTourStarted.current=true;setTourContext('overview');setTourOpen(true);
     }
-  }, [loading, preferencesRevision, prefs.onboardingGuideVersion, dialog,account?.userId]);
+  }, [loading, preferencesRevision, prefs.onboardingGuideVersion, dialog,account?.userId,insights?.growth?.level]);
   function markGuideShown() {
-    setPrefs(previous=>previous.onboardingGuideVersion>=GUIDE_VERSION?previous:{...previous,onboardingGuideVersion:GUIDE_VERSION});
+    setPrefs(previous=>({...previous,onboardingGuideVersion:Math.max(previous.onboardingGuideVersion,GUIDE_VERSION),onboardingUnlockedPages:[...new Set([...(previous.onboardingUnlockedPages||[]),...(tourContext==='overview'?visiblePageIds:[tourContext])])]}));
   }
   function finishOnboarding(overviewCompleted=true) {
     setTourOpen(false);
@@ -657,10 +678,12 @@ export default function App() {
     if(typeof guide!=='string'||guide==='catalog') {
       setTourOpen(false);go('settings');setSettingsTab('guide');return;
     }
+    if(!guideAvailable(guide,navigationLevel,prefs))return;
     setTourContext(guide);setTourOpen(true);
   }
   const backgroundRequest = useRef(null), backgroundAgain = useRef(false),
     backgroundSeq = useRef(0), backgroundVersion = useRef(null);
+  const retiredGrowthEpochs=useRef(new Set());
   const backgroundDialog=useRef(dialog);backgroundDialog.current=dialog;
   const refreshBackground = useCallback(function refresh(force = false) {
     if (document.hidden && !force) return Promise.resolve();
@@ -670,10 +693,11 @@ export default function App() {
       return backgroundRequest.current;
     }
     const seq = ++backgroundSeq.current;
+    const requestOwner=window.__tbAccountUserId;
     const pending = Promise.allSettled([
       ["hub?compact=1", setHub], ["insights", setInsights],
     ].map(([path, apply]) => api(path).then(value => {
-      if (seq === backgroundSeq.current) apply(previous => shareWorkspace(previous, value));
+      if (seq === backgroundSeq.current&&requestOwner===window.__tbAccountUserId) apply(previous => shareWorkspace(previous,path==='insights'?protectGrowth(previous,value,requestOwner,retiredGrowthEpochs.current):value));
     }))).finally(() => {
       backgroundRequest.current = null;
       if (backgroundAgain.current) {
@@ -718,6 +742,8 @@ export default function App() {
                 ...(Array.isArray(previous.seenAchievements) ? previous.seenAchievements : []),
               ])];
               merged.onboardingGuideVersion=Math.max(loaded.onboardingGuideVersion,previous.onboardingGuideVersion);
+              merged.onboardingUnlockedPages=[...new Set([...(loaded.onboardingUnlockedPages||[]),...(previous.onboardingUnlockedPages||[])])];
+              Object.assign(merged,mergeLevelNotices(loaded,previous));
               return merged;
             });
           }
@@ -744,6 +770,7 @@ export default function App() {
     if (!data || !preferencesLoaded.current || !window.__tbAccountUserId) return;
     const value = portablePreferences(prefs), signature = JSON.stringify(value);
     if (signature === uploadedPreferences.current) return;
+    let disposed=false,retryTimer,failures=0;
     const save = () => {
       const pending = preferencesQueue.current.catch(() => false).then(async () => {
         if (signature === uploadedPreferences.current) return true;
@@ -752,7 +779,9 @@ export default function App() {
           uploadedPreferences.current = signature;
           return true;
         } catch (issue) {
-          notice(`设置尚未同步：${issue.message}`, 'error');
+          if(!failures)notice(`设置尚未同步：${issue.message}`, 'error');
+          failures++;
+          if(!disposed)retryTimer=setTimeout(save,Math.min(10000,2000*failures));
           return false;
         }
       });
@@ -762,7 +791,7 @@ export default function App() {
     const timer = setTimeout(save, 600);
     const beforeExit = event => { clearTimeout(timer); event.detail?.waitUntil?.(save()); };
     window.addEventListener('tb-before-update', beforeExit);
-    return () => { clearTimeout(timer); window.removeEventListener('tb-before-update', beforeExit); };
+    return () => { disposed=true;clearTimeout(retryTimer);clearTimeout(timer); window.removeEventListener('tb-before-update', beforeExit); };
   }, [prefs, !!data, preferencesRevision, api, notice]);
   const applyWorkspace = useCallback((value) => {
     if (!value) return;
@@ -800,6 +829,17 @@ export default function App() {
     },
     [api, applyWorkspace, refreshBackground],
   );
+  const calendarImportSignature=JSON.stringify((calendar.snapshot?.imports||[]).filter(item=>item.ready).map(item=>[item.id,item.ready,item.status]).sort());
+  const lastCalendarImports=useRef(null);
+  useEffect(()=>{const old=lastCalendarImports.current;lastCalendarImports.current=calendarImportSignature;if(old!==null&&old!==calendarImportSignature)reload();},[calendarImportSignature,reload]);
+  const contentRevision=useRef(null);
+  useEffect(()=>{
+    if(!data)return;
+    let alive=true,pending=false;
+    const poll=async()=>{if(pending||document.hidden)return;pending=true;try{const value=await api('content-update');if(alive){const previous=contentRevision.current;contentRevision.current=value.revision;if(previous!==null&&previous!==value.revision){window.dispatchEvent(new Event('tb:training-lists-changed'));await reload();}}}catch{}finally{pending=false;}};
+    poll();const timer=setInterval(poll,30000);document.addEventListener('visibilitychange',poll);
+    return()=>{alive=false;clearInterval(timer);document.removeEventListener('visibilitychange',poll);};
+  },[Boolean(data),api,reload]);
   useEffect(() => {
     reload(true);
     return () => {
@@ -821,12 +861,16 @@ export default function App() {
       if (prefs.pageOpacities?.[key] == null) root.style.removeProperty(`--opacity-${key}`);
     root.dataset.theme = prefs.theme;
     root.dataset.accent = prefs.accent;
-    root.dataset.motion = "on";
+    const motionQuery=window.matchMedia('(prefers-reduced-motion: reduce)');
+    const applyMotion=()=>{root.dataset.motion=prefs.motion===false||motionQuery.matches?'off':'on';};
+    applyMotion();
+    motionQuery.addEventListener('change',applyMotion);
     root.dataset.density = prefs.compact ? "compact" : "comfortable";
     root.style.setProperty(
       "--ui-font-size",
       `${Math.min(22, Math.max(13, Number(prefs.fontSize) || 15))}px`,
     );
+    return ()=>motionQuery.removeEventListener('change',applyMotion);
   }, [prefs]);
   // 桌面全屏：浏览器测试环境没有原生窗口，available=false 时设置项禁用。
   const [display, setDisplay] = useState({ available: false, fullscreen: false });
@@ -1039,6 +1083,11 @@ export default function App() {
   const templateFocus=page==='templates'&&templateActive&&!practiceId;
   const labFocus=page==='paths'&&Boolean(prefs.learningPaths?.activePath)&&!practiceId;
   const mockFocus = page === "mock" && active && mockTab === "create" && !record && !practiceId;
+  const levelNoticeBlocked=Boolean(loading||busy||practiceId||active||workspace.summary?.pending||dialog||tourOpen||labFocus||templateFocus||lectureFull||readerFull);
+  const levelUp=useLevelUp({owner:account?.userId,growth:insights?.growth,preferences:prefs,preferencesReady:preferencesLoaded.current&&!loading,setPreferences:setPrefs,blocked:levelNoticeBlocked});
+  const levelFeedbackVisible=!levelNoticeBlocked&&!levelUp.dialog&&!document.hidden;
+  useEffect(()=>{if(!levelFeedbackVisible||!levelUp.feedback.length)return;const timer=setTimeout(levelUp.clearFeedback,1400);return()=>clearTimeout(timer);},[levelFeedbackVisible,levelUp.feedback,levelUp.clearFeedback]);
+  useEffect(()=>setFinishAnchor(null),[active?.id,page,mockTab,Boolean(record),Boolean(practiceId)]);
   const lastWorkspacePage = useRef("mine");
   useEffect(()=>{if(page!=="settings"){lastWorkspacePage.current=page;setSettingsTab(previous=>previous==='appearance'?previous:'home');}},[page]);
   const passedCount = mine.filter((r) => r.accepted).length,
@@ -1050,6 +1099,8 @@ export default function App() {
       [target]: { ...current[target], ...patch, ...(target === "mine" ? { platform: "", shelf: "all", setId: "" } : {}) },
     }));
   function go(next) {
+    if(!featureAvailable(next))return;
+    if(next==='training-lists'&&navigationLevel===1&&!trainingListsVisit.current.state)trainingListsVisit.current.state=foundationListState();
     setKeyboardSelection(false);
     setSelected(null);
     setListOrder(null);
@@ -1063,10 +1114,20 @@ export default function App() {
     setDialog(null);
     requestAnimationFrame(() => listRef.current?.focus());
   }
+  function openRecommendation(item) {
+    if(!featureAvailable(item.page))return;
+    if(item.kind==='course'){
+      labVisit.current.leftAt=Date.now();labVisit.current.scrollTop=0;
+      setPrefs(previous=>({...previous,learningPaths:{...previous.learningPaths,activePath:item.id,[item.id]:previous.learningPaths?.[item.id]||{mode:'learn'}}}));
+    } else if(item.kind==='template')Object.assign(templatesVisit.current,{selected:item.id,draft:null});
+    else if(item.kind==='list')Object.assign(trainingListsVisit.current,{scrollTop:0,state:{curriculumVersion:1,mode:'algorithm',trail:[item.id],folder:[],sections:[],flat:false,query:'',page:1}});
+    go(item.page);
+  }
   function filterCategory(node, explicitTarget) {
     const target =
       explicitTarget ||
       (["mine", "library"].includes(page) && mine.length ? page : "library");
+    if(!featureAvailable(target))return;
     setPracticeId(null);
     setPage(target);
     setFilter({ category: node, setId: "" }, target);
@@ -1266,6 +1327,7 @@ export default function App() {
     setDialog('accounts');
   }
   function startedMock(result) {
+    setFinishAnchor(null);
     applyWorkspace(result.workspace);
     setPracticeId(null);
     setReaderId(null);
@@ -1290,7 +1352,6 @@ export default function App() {
       setDialog(null);
       setReaderId(null);
       setPracticeId(null);
-      setMockFocus(false);
       setFinishAnchor(null);
       notice(cancelled?"比赛已取消":"比赛已结束，可以开始复盘");
     } catch (e) {
@@ -1377,14 +1438,13 @@ export default function App() {
     });
   }
   const commands = [
-    ...orderedPages(PAGES, prefs).map((p) => ({
+    ...orderedPages(PAGES, prefs).filter(p=>featureAvailable(p.id)).map((p) => ({
       name: "打开" + p.label,
-      detail: p.key ? "Ctrl+" + p.key : "",
+      detail: shortcutValue('page-'+p.id,prefs.shortcuts),
       action: () => go(p.id),
     })),
     {
       name: "查看训练待办",
-      detail: "Ctrl+3",
       action: () => { go("mine"); setFilter(blankFilters(), "mine"); },
     },
     {
@@ -1437,7 +1497,7 @@ export default function App() {
       if (PAGES.some(item=>shortcut("page-"+item.id))) {
         e.preventDefault();
         e.stopPropagation();
-        const target = PAGES.find(item=>shortcut("page-"+item.id));
+        const target = PAGES.find(item=>featureAvailable(item.id)&&shortcut("page-"+item.id));
         if (target) go(target.id);
         return;
       }
@@ -1625,7 +1685,7 @@ export default function App() {
           }
         }}
       >
-        <ProblemCells row={row} favorites={prefs.favorites} showPlatforms={prefs.showPlatforms} busy={busy} onTrain={id=>{setSelected(id);openPractice(id);}} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={id=>setListProblemIds(Array.isArray(id)?id:[id])} onRemove={removeTraining}/>
+        <ProblemCells row={row} favorites={prefs.favorites} showPlatforms={prefs.showPlatforms} busy={busy} onTrain={id=>{setSelected(id);openPractice(id);}} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={featureAvailable('training-lists')?id=>setListProblemIds(Array.isArray(id)?id:[id]):undefined} onRemove={removeTraining}/>
       </tr>
     ));
   }
@@ -1668,7 +1728,7 @@ export default function App() {
     );
   }
   function toolbar() {
-    return <PageSearch><label className="search-box"><Search size={17}/><input ref={searchRef} aria-label="搜索题目" value={currentFilters.query} onChange={event=>setFilter({query:event.target.value})} onKeyDown={event=>{if(['ArrowDown','Enter'].includes(event.key)){event.preventDefault();focusList();}}}/></label><SortDirection label="切换题目排序方向" descending={currentFilters.desc} onChange={desc=>setFilter({desc})}/><ProblemFilters rows={data?.rows || []} categories={categories} views={prefs.views||[]} onDeleteView={id=>setPrefs(previous=>({...previous,views:previous.views.filter(view=>view.id!==id)}))} value={currentFilters} onChange={setFilter} onReset={resetFilters} onSave={()=>{setViewName('');setDialog('saveView');}} onClear={page==='mine'?()=>setDialog('clear-training'):undefined} clearDisabled={busy||!mine.length||!!active||!!workspace.summary.pending}/>{page==='library'&&<Tooltip text={Boolean(currentFilters.query||currentFilters.category||currentFilters.result||currentFilters.catalogPath?.length)?`将筛选结果加入题单（${visible.length} 道题）`:`加入题单（${visible.length} 道题）`}><button type="button" className="icon-button" aria-label="将筛选结果加入题单" disabled={busy||!visible.length||query!==currentFilters.query} onClick={()=>setListProblemIds(visible.map(row=>row.id))}><ListPlus size={17}/></button></Tooltip>}{page==='library'&&<RandomProblem rows={visible} disabled={busy||query!==currentFilters.query} onChoose={openPractice} onError={error=>notice(error.message,'error')}/>}{currentFilters.category&&<span className="active-knowledge-filter" role="group" aria-label="当前知识点筛选"><span>{currentFilters.category.name}</span><button type="button" aria-label={`清除知识点筛选 ${currentFilters.category.name}`} onClick={()=>setFilter({category:null})}><X size={13}/></button></span>}</PageSearch>;
+    return <PageSearch><label className="search-box"><Search size={17}/><input ref={searchRef} aria-label="搜索题目" value={currentFilters.query} onChange={event=>setFilter({query:event.target.value})} onKeyDown={event=>{if(['ArrowDown','Enter'].includes(event.key)){event.preventDefault();focusList();}}}/></label><SortDirection label="切换题目排序方向" descending={currentFilters.desc} onChange={desc=>setFilter({desc})}/><ProblemFilters rows={data?.rows || []} categories={categories} views={prefs.views||[]} onDeleteView={id=>setPrefs(previous=>({...previous,views:previous.views.filter(view=>view.id!==id)}))} value={currentFilters} onChange={setFilter} onReset={resetFilters} onSave={()=>{setViewName('');setDialog('saveView');}} onClear={page==='mine'?()=>setDialog('clear-training'):undefined} clearDisabled={busy||!mine.length||!!active||!!workspace.summary.pending}/>{page==='library'&&featureAvailable('training-lists')&&<Tooltip text={Boolean(currentFilters.query||currentFilters.category||currentFilters.result||currentFilters.catalogPath?.length)?`将筛选结果加入题单（${visible.length} 道题）`:`加入题单（${visible.length} 道题）`}><button type="button" className="icon-button" aria-label="将筛选结果加入题单" disabled={busy||!visible.length||query!==currentFilters.query} onClick={()=>setListProblemIds(visible.map(row=>row.id))}><ListPlus size={17}/></button></Tooltip>}{page==='library'&&<RandomProblem rows={visible} disabled={busy||query!==currentFilters.query} onChoose={openPractice} onError={error=>notice(error.message,'error')}/>}{currentFilters.category&&<span className="active-knowledge-filter" role="group" aria-label="当前知识点筛选"><span>{currentFilters.category.name}</span><button type="button" aria-label={`清除知识点筛选 ${currentFilters.category.name}`} onClick={()=>setFilter({category:null})}><X size={13}/></button></span>}</PageSearch>;
   }
 
   function renderListPage() {
@@ -1679,14 +1739,16 @@ export default function App() {
           title="从第一道题开始"
           description="选择一题、一场比赛，或组成自己的模拟赛。你的进度从这里积累。"
         >
-          <button className="primary" onClick={() => go("library")}>
+          {featureAvailable('library')&&<button className="primary" onClick={() => go("library")}>
             <Library size={16} />
             去题库选题
-          </button>
-          <button className="secondary" onClick={() => go("mock")}>
+          </button>}
+          {featureAvailable('mock')&&<button className="secondary" onClick={() => go("mock")}>
             <Flag size={16} />
             创建模拟赛
-          </button>
+          </button>}
+          {!featureAvailable('library')&&featureAvailable('training-lists')&&<button type="button" className="icon-button" aria-label="打开基础题单" onClick={()=>go('training-lists')}><FolderOpen size={19}/></button>}
+          {!featureAvailable('mock')&&featureAvailable('paths')&&<button type="button" className="icon-button" aria-label="打开算法实验室" onClick={()=>go('paths')}><FlaskConical size={19}/></button>}
         </Empty>
       );
     return (
@@ -1765,10 +1827,10 @@ export default function App() {
     );
   }
   function settingsPage() {
-    return <PreferencesPage rows={rows} insights={insights} onTrain={openPractice} tab={settingsTab} onTab={setSettingsTab} prefs={prefs} setPrefs={setPrefs} display={display} onFullscreen={applyFullscreen} api={api} softwareUpdate={softwareUpdate} hub={hub} account={account} accountFocus={accountFocus} profileSnapshot={profileSnapshot} onProfileChanged={profileChanged} onRefresh={()=>refreshBackground(true)} onHubChanged={setHub} onError={message=>notice(message, "error")} onContent={openUpdate} onMessages={()=>setDialog("updates")} onTutorial={openGuide} onKeyboard={()=>{setPage("settings");setSettingsTab("training");}} commands={{pages:PAGES,items:commands}}/>;
+    return <PreferencesPage availablePages={visiblePageIds} level={navigationLevel} rows={rows} insights={insights} onTrain={openPractice} tab={settingsTab} onTab={setSettingsTab} prefs={prefs} setPrefs={setPrefs} display={display} onFullscreen={applyFullscreen} api={api} softwareUpdate={softwareUpdate} hub={hub} account={account} accountFocus={accountFocus} profileSnapshot={profileSnapshot} onProfileChanged={profileChanged} onRefresh={()=>refreshBackground(true)} onHubChanged={setHub} onError={message=>notice(message, "error")} onContent={openUpdate} onMessages={()=>setDialog("updates")} onTutorial={openGuide} onKeyboard={()=>{setPage("settings");setSettingsTab("training");}} commands={{pages:PAGES,items:commands}}/>;
   }
 
-  const navigationPages = orderedPages(PAGES, prefs);
+  const navigationPages = orderedPages(PAGES, prefs).filter(item=>featureAvailable(item.id));
   const navigationEntries = navigationPages.reduce((entries, item) => {
     if (!item.group) entries.push(item);
     else if (!entries.some(entry => entry.group === item.group)) { const members = navigationPages.filter(member => member.group === item.group); entries.push({ ...item, id: "group:" + item.group, label: item.group, icon: Layers, key: "", members }); }
@@ -1836,7 +1898,7 @@ export default function App() {
   const beforeTodayAc = insights?.summary?.beforeTodaySolved ?? Math.max(summary.beforeTodayAccepted || 0, (insights?.summary?.totalSolved ?? summary.historicalAccepted ?? 0) - (summary.todayAccepted || 0));
   const todayAc = insights?.summary?.todaySolved ?? summary.todayAccepted ?? 0;
   return (
-    <DifficultyDisplayProvider mode={prefs.difficultyDisplay}><DifficultyBoundsProvider rows={data?.rows||[]}><div
+    <FeatureVisibilityContext.Provider value={featureAvailable}><DifficultyDisplayProvider mode={prefs.difficultyDisplay}><DifficultyBoundsProvider rows={data?.rows||[]}><div
       className={"app-shell " + (prefs.collapsed ? "sidebar-collapsed " : "") + (practiceId || mockFocus ? "mock-focus practice-focus" : labFocus?"lab-focus":templateFocus?"template-focus practice-focus":page==='lectures'&&lectureFull?"lecture-focus practice-focus":"")}
     >
       <SoftwareUpdateNotice update={softwareUpdate} onDetails={() => { setPage('settings'); setSettingsTab('updates'); }} />
@@ -1851,7 +1913,7 @@ export default function App() {
           {navigationEntries.map((p) => (
             <button
               key={p.id}
-              className={"nav-item " + (page === p.id || p.members?.some(member => member.id === page) ? "active" : "")}
+              className={"nav-item " + (page === p.id || p.members?.some(member => member.id === page) ? "active" : "")+(levelFeedbackVisible&&(levelUp.feedback.includes(p.id)||p.members?.some(member=>levelUp.feedback.includes(member.id)))?' level-new-entry':'')}
               aria-current={page === p.id || p.members?.some(member => member.id === page) ? "page" : undefined}
               aria-label={p.label}
               aria-describedby={dueCount > 0 && (p.id === "mine" || p.members?.some(member => member.id === "mine")) ? `training-pending-${p.id}` : undefined}
@@ -1913,7 +1975,7 @@ export default function App() {
 
           </div>
         </header>
-        <footer className={"app-statusbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}> <Tooltip text="比赛日历"><button className="achievement-top-button contest-calendar-button" aria-label="比赛日历" onClick={()=>setDialog('contest-calendar')}><CalendarClock size={18}/>{calendar.hasUnreadToday&&<i className="notification-dot" aria-hidden="true"/>}</button></Tooltip><button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><small>{insights?.dailyTasks?.policyVersion===3?insights.dailyTasks.completedCount||0:`${(insights?.dailyTasks?.tasks||[]).filter(task=>task.claimed).length}/${insights?.dailyTasks?.tasks?.length||6}`}</small>{(insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed)) && <i className="notification-dot" />}</button>
+        <footer className={"app-statusbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}> {featureAvailable('competitions')&&<Tooltip text="比赛日历"><button className="achievement-top-button contest-calendar-button" aria-label="比赛日历" onClick={()=>setDialog('contest-calendar')}><CalendarClock size={18}/>{calendar.hasUnreadToday&&<i className="notification-dot" aria-hidden="true"/>}</button></Tooltip>}<button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><small>{insights?.dailyTasks?.policyVersion===3?insights.dailyTasks.completedCount||0:`${(insights?.dailyTasks?.tasks||[]).filter(task=>task.claimed).length}/${insights?.dailyTasks?.tasks?.length||6}`}</small>{(insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed)) && <i className="notification-dot" />}</button>
             <button className="achievement-top-button" aria-label="成就" onClick={openAchievements}><Medal size={17} /><small>{unlockedAchievements.length}/{achievements.length}</small>{unseenAchievements.length > 0 && <i className="notification-dot" />}</button>
 {prefs.widgets && <TopbarClock />}</footer>
         {error && (
@@ -1947,7 +2009,7 @@ export default function App() {
               onNext={nextPractice}
             />
           ) : ["mine", "library"].includes(page) ? (
-            page === "mine" ? <div className="training-workspace">{renderListPage()}</div> : renderListPage()
+            page === "mine" ? <div className="training-workspace">{account?.userId&&<NextActions rows={rows} training={mine} insights={insights} prefs={prefs} api={api} availablePages={visiblePageIds} activeContest={active} onNavigate={openRecommendation} onTrain={openPractice}/>}{renderListPage()}</div> : renderListPage()
           ) : page === "mock" ? (
             <div className="mock-page">{record ? recordDetail() : <>{active && mockTab === "create" ? (
               <div className="contest-player">
@@ -2009,7 +2071,7 @@ export default function App() {
               />
             )}{!mockPreview&&<MockHistory embedded query={mockHistoryQuery} contests={workspace.contests} onDelete={async body => { const answer = await api("contests/delete", body); applyWorkspace(answer.workspace); notice(`已删除 ${answer.deleted} 场模拟赛记录`); }} onSelect={openRecord} onResume={contest=>{setMockTab("create");setMockSlot(contest.slots[0]?.id);}} onCreate={()=>{setMockTab("create");document.querySelector('.mock-create')?.scrollIntoView({block:'start'});}}/>}</>}</>}</div>
           ) : page === "records" ? (
-            <SubmissionRecords api={api} revision={workspace.summary?.attempts} rows={rows} onOpenProblem={openPractice} onSelect={(submission) => { setSelectedSubmission(submission); setDialog("submission"); }} />
+            <SubmissionRecords api={api} revision={workspace.summary?.attempts} scope={`${account?.userId||'local'}:${workspace.activeContest?.id||''}`} rows={rows} onOpenProblem={openPractice} onSelect={(submission) => { setSelectedSubmission(submission); setDialog("submission"); }} />
           ) : page === "competitions" ? (
             <CompetitionPage
               rows={rows}
@@ -2055,7 +2117,7 @@ export default function App() {
           ) : page === "activity" ? (
             <ActivityPage insights={insights} onTrain={openPractice} />
           ) : page === "training-lists" ? (
-            <TrainingListsPage rows={rows} api={api} onTrain={openPractice} visit={trainingListsVisit.current} pageSize={prefs.libraryPageSize} busy={busy} prefs={prefs} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={id=>setListProblemIds(Array.isArray(id)?id:[id])} onRemove={removeTraining}/>
+            <TrainingListsPage rows={rows} api={api} onTrain={openPractice} visit={trainingListsVisit.current} pageSize={prefs.libraryPageSize} busy={busy} prefs={prefs} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={featureAvailable('training-lists')?id=>setListProblemIds(Array.isArray(id)?id:[id]):undefined} onRemove={removeTraining}/>
           ) : page === "templates" ? (
             <TemplatesPage api={api} shortcuts={prefs.shortcuts} visit={templatesVisit.current} onActiveChange={setTemplateActive} onTrain={openPractice}/>
           ) : page === "paths" ? (
@@ -2088,9 +2150,10 @@ export default function App() {
       )}
       {dialog === 'accounts'&&<Modal title="账号与身份" className="compact-account-modal" onClose={()=>setDialog(null)}><AccountPanel api={api} account={account} profileSnapshot={profileSnapshot} hub={hub} onProfileChanged={profileChanged} onHubChanged={setHub}/></Modal>}
       {dialog === "daily-tasks" && <Modal title="每日任务" onClose={() => {setDialog(null);backgroundDialog.current=null;clearTimeout(dailyRefreshTimer.current);dailyRefreshTimer.current=setTimeout(()=>void refreshBackground(true),300);}} wide><DailyTasks dailyTasks={insights?.dailyTasks} onClaim={async (id, date) => { dailyClaimPending.current=true;backgroundSeq.current++;try { const result = await api("daily-tasks/claim", { id, date }); backgroundSeq.current++; setInsights(previous => applyDailyTaskReward(previous,result)); notice("经验已领取", "success"); } catch (issue) { notice(issue.message, "error"); throw issue; } finally {dailyClaimPending.current=false;} }} /></Modal>}
-      {dialog === 'contest-calendar' && <Modal title="比赛日历" onClose={()=>setDialog(null)} wide><ContestCalendar calendar={calendar} onOpen={async contest=>{await reload();setCalendarContest(contest.import?.title||contest.title);setDialog(null);go("competitions");}}/></Modal>}
+      {dialog === 'contest-calendar' && <Modal title="比赛日历" onClose={()=>setDialog(null)} wide><ContestCalendar calendar={calendar} onStart={featureAvailable('mock')?async contest=>{const result=await api('contests/start-calendar',{id:contest.id});setDialog(null);startedMock(result);}:undefined}/></Modal>}
       {dialog === "avatar" && <Modal title="修改头像" onClose={()=>setDialog(null)}><Suspense fallback={<p role="status">正在读取…</p>}><AvatarSettings prefs={prefs} setPrefs={setPrefs} onError={message=>notice(message,"error")}/></Suspense></Modal>}
-      {tourOpen && <Suspense fallback={null}><Onboarding key={tourContext} initialGuide={tourContext} practiceId={practiceId||(mockFocus?currentMockSlot?.id:null)} onShown={markGuideShown} onComplete={finishOnboarding} onDirectory={()=>openGuide('catalog')} onNavigate={(target,tab)=>{go(target);if(target==="settings")setSettingsTab(tab||"home");}}/></Suspense>}
+      {tourOpen && <Suspense fallback={null}><Onboarding availablePages={visiblePageIds} key={tourContext} initialGuide={tourContext} practiceId={practiceId||(mockFocus?currentMockSlot?.id:null)} onShown={markGuideShown} onComplete={finishOnboarding} onDirectory={()=>openGuide('catalog')} onNavigate={(target,tab)=>{go(target);if(target==="settings")setSettingsTab(tab||"home");}}/></Suspense>}
+      {levelUp.dialog&&<LevelUpDialog notice={levelUp.dialog} pages={PAGES} preferences={prefs} onPresented={levelUp.markPresented} onClose={levelUp.close} onOpen={go}/>}
       {dialog === "achievements" && <Modal title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => setDialog(null)} wide><AchievementPanel achievements={achievements} newIds={unseenAchievements.map(item => item.id)} onSeen={markAchievementSeen} /></Modal>}
       {dialog === "submission" && selectedSubmission && <Modal title={selectedSubmission.title + " · 历史提交"} onClose={() => setDialog(null)} wide footer={<button className="primary" onClick={() => { setDialog(null); openPractice(selectedSubmission.problemId); }}><Play size={14} />继续练习</button>}><div className="submission-detail-meta"><Verdict value={selectedSubmission.verdict} /><span>{formatDate(selectedSubmission.submittedAt)}</span><span>{selectedSubmission.contestName}</span></div><HistoricalCode submission={selectedSubmission} api={api}/>{selectedSubmission.message && <p className="submission-message">{selectedSubmission.message}</p>}</Modal>}
       {dialog === "updates" && (
@@ -2293,7 +2356,7 @@ export default function App() {
       {listProblemIds&&<AddToTrainingLists problemIds={listProblemIds} api={api} onClose={()=>setListProblemIds(null)} onSave={()=>{delete trainingListsVisit.current.content;setListProblemIds(null);notice("已加入题单","success");}}/>}
       {finishAnchor && active && <PopConfirm anchor={finishAnchor} title="结束这场比赛？" label="结束比赛确认" busy={busy} cancelLabel="继续比赛" confirmLabel="结束并复盘" busyLabel="正在处理…" confirmTone="primary" onCancel={()=>setFinishAnchor(null)} onConfirm={()=>finishMock(false)} extraActions={<Tooltip text="撤销本场训练安排，保留草稿及真实原站提交"><button type="button" className="danger" disabled={busy} onClick={()=>finishMock(true)}>取消比赛</button></Tooltip>}/>}
 
-    </div></DifficultyBoundsProvider></DifficultyDisplayProvider>
+    </div></DifficultyBoundsProvider></DifficultyDisplayProvider></FeatureVisibilityContext.Provider>
   );
 
 }

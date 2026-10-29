@@ -6,11 +6,12 @@ const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',h
 page.on('pageerror',issue=>errors.push(issue.message));
 try{
  await page.goto('http://127.0.0.1:18832/tests/revision-fixture.html');
+ const range=async(min,max)=>{await page.getByRole('button',{name:'训练筛选',exact:true}).click();await page.getByLabel('训练最低难度',{exact:true}).fill(String(min));await page.getByLabel('训练最高难度',{exact:true}).fill(String(max));await page.getByRole('button',{name:'关闭筛选',exact:true}).click();};
  for(const [label,min,max,duration] of [['简单',1000,1400,120],['普通',1300,1700,150],['困难',1600,2000,180],['极难',1900,2200,210]]){
-  await page.getByLabel('训练最低难度',{exact:true}).fill(String(min));await page.getByLabel('训练最高难度',{exact:true}).fill(String(max));await page.getByRole('button',{name:'生成试卷',exact:true}).click();
+  await range(min,max);await page.getByRole('button',{name:'生成试卷',exact:true}).click();
   const body=await page.evaluate(()=>revisionFixture.calls.filter(item=>item.path==='contests/preview').at(-1).body);assert.equal(body.min,min);assert.equal(body.max,max);assert.equal(body.duration,duration);
  }
- await page.getByLabel('训练最低难度',{exact:true}).fill('1000');await page.getByLabel('训练最高难度',{exact:true}).fill('1400');
+ await range(1000,1400);
  for(const [mode,label] of [['comprehensive','综合训练'],['topic','专项训练'],['replay','重现赛']]){
   await page.getByRole('button',{name:label,exact:true}).click();
   if(mode==='topic'){
@@ -22,7 +23,7 @@ try{
   }
   if(mode==='replay'){
    assert.equal(await page.getByLabel('搜索重现赛比赛',{exact:true}).count(),0);await page.getByRole('combobox',{name:'重现赛比赛'}).click();
-   for(const name of ['ACM','CCPC','2025年','CCPC 2025 郑州区域赛','正赛 · 2 题'])await page.getByRole('listbox').getByRole('option',{name,exact:true}).click();
+   for(const name of ['XCPC','CCPC 区域赛','2025年','CCPC 2025 郑州区域赛 · 2 题'])await page.getByRole('listbox').getByRole('option',{name,exact:true}).click();
   }
   assert.equal(await page.getByRole('button',{name:'生成试卷',exact:true}).count(),1);
   await page.getByRole('button',{name:'生成试卷',exact:true}).click();await page.getByRole('button',{name:'开始训练',exact:true}).click();
@@ -30,7 +31,7 @@ try{
   assert.equal(await page.evaluate(()=>revisionFixture.started.at(-1).duration),{comprehensive:120,topic:90,replay:300}[mode]);
  }
  await page.getByRole('button',{name:'综合训练',exact:true}).click();
- await page.getByLabel('训练最高难度',{exact:true}).fill('2000');
+ await range(1000,2000);
  await page.getByRole('button',{name:'训练筛选',exact:true}).click();await page.getByLabel('模拟赛时长',{exact:true}).fill('50');await page.keyboard.press('Escape');
  await page.getByRole('button',{name:'专项训练',exact:true}).click();await page.getByRole('button',{name:'综合训练',exact:true}).click();
  await page.getByRole('button',{name:'生成试卷',exact:true}).click();assert.equal(await page.evaluate(()=>revisionFixture.calls.filter(item=>item.path==='contests/preview').at(-1).body.duration),50);

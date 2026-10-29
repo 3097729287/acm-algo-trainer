@@ -95,19 +95,10 @@ class LibraryDatabase:
         finally:
             db.close()
 
-    def backup(self, label='before-upgrade'):
-        directory = self.path.parent / 'backups'
-        directory.mkdir(parents=True, exist_ok=True)
-        target = directory / (self.path.stem + '-' + label + '-' + dt.datetime.now().strftime('%Y%m%d-%H%M%S-%f') + '.sqlite3')
+    def backup(self, label='before-upgrade', *, manual=False):
+        from recovery_backups import snapshot
         with self.connection() as source:
-            destination = sqlite3.connect(target)
-            try:
-                source.backup(destination)
-                if destination.execute('PRAGMA quick_check').fetchone()[0] != 'ok':
-                    raise ValueError('Library backup failed integrity check')
-            finally:
-                destination.close()
-        return target
+            return snapshot(source, self.path, self.path.parent / 'backups', label=label, manual=manual, suffix='.sqlite3')
 
     def merge_seed(self, path, fingerprint=None):
         """Upgrade bundled content, preserving locally imported/edited rows and fetched statements."""
@@ -353,7 +344,9 @@ class LibraryDatabase:
 
     def metadata(self):
         with self.connection() as db:
-            return dict(db.execute('SELECT key,value FROM library_meta'))
+            # The hot-content overlay may contain thousands of ratings. Status,
+            # signature and seed checks only need the small version fields.
+            return dict(db.execute("SELECT key,value FROM library_meta WHERE key!='content_update_metadata'"))
 
     def training_lists(self):
         with self.connection() as db:

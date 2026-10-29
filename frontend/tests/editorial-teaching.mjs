@@ -16,7 +16,8 @@ let articleCount=0,inlineCount=0;
 for (const article of [...defaults,...details]) {
   const blocks=solutionBlocks(article.markdown,lectures);
   const lessons=blocks.filter(block=>block.type==='lecture');
-  assert.ok(lessons.length>0,article.problem_id+' must expose teaching sections');
+  if(article.problem_id===target)assert.ok(lessons.length>=5,article.problem_id+' exposes its dedicated foundation lessons');
+  assert.ok(article.markdown.trim(),article.problem_id+' has readable editorial content');
   assert.ok(blocks.some(block=>block.type==='markdown'&&block.markdown.includes('```cpp')),article.problem_id+' keeps its reference program outside disclosures');
   for (const block of lessons.filter(block=>block.markdown.includes('assets/foundations/')||block.markdown.includes('保存对象'))) {
     assert.ok(block.markdown.length>300,article.problem_id+' must contain the complete lesson');

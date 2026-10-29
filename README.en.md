@@ -1,5 +1,7 @@
 # ToBe · Training Workbench
 
+**Development status: 1.4.29 is not packaged or published.** Assessment, offline recovery, bounded backups and navigation changes are under validation; downloads below remain at the published 1.4.28.
+
 **ToBe 1.4.28** adds page-wide calendar arrow navigation with automatic detail-row positioning, removes empty contest folders, opens lectures in a full-app reading layout, accelerates daily reward claims, and remembers only Appearance settings position. [Release notes](docs/releases/1.4.28.md).
 
 **ToBe 1.4.27** shows aligned guide cards with existing page icons. New and existing accounts automatically see the guide on first sign-in; registration signs in automatically, and a per-account acknowledgement prevents repeats. [Release notes](docs/releases/1.4.27.md).
@@ -10,7 +12,7 @@
 
 **ToBe 1.4.20 (included in the current release)** repairs shared browser connection recovery, refines difficulty estimates and excludes elementary exercises from automatic review. It adds list filters, insertion ordering, a favorite-problems list, cached reversible likes and inline creation, single-column mock papers, accent-based activity levels and bounded statement/streamed sync memory. [Release scope](docs/releases/1.4.20.md).
 
-Includes algorithm topics, training lists, illustrated editorials and interface fixes previously delivered locally in 1.4.2–1.4.24. The public seed retains 12,231 problem records, 9,243 statement archives, 1,379 default/detailed editorial pairs, 447 lectures and 563 lists. Archived statements are not all complete or readable; see the [current release scope](docs/releases/1.4.28.md) and [earlier statement audit](docs/releases/1.4.17.md). The separate full editorial review remains incomplete.
+Includes algorithm topics, training lists, illustrated editorials and interface fixes previously delivered locally in 1.4.2–1.4.24. The development seed retains 12,244 problem records, 9,256 statement archives, 1,379 default/detailed editorial pairs, 447 lectures and 563 lists. Archived statements are not all complete or readable; see the [development scope](docs/releases/1.4.29.md) and [earlier statement audit](docs/releases/1.4.17.md). The complete 13-task Shandong Provincial 2026 set brings QOJ to 52 tasks; nine include site-provided Chinese and four retain their complete originals. The separate full editorial review remains incomplete.
 
 <!-- release-status:start -->
 **Stable release: [ToBe 1.4.28](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.28).** GitHub and the [domestic update feed](https://47.82.84.74/updates/stable/index.html) carry the same verified build. [Delivery](docs/local-delivery-1.4.28.md).
@@ -103,7 +105,7 @@ Save drafts and exit TB before installing into the existing directory. Personal 
 
 The 1.4.5 public-seed baseline retained for 1.4.6 contains **13,123 original problem entries, 2,437 statements, 1,317 default editorials, 1,317 detailed editorials, 447 lectures and 5,395 lecture associations**, plus 563 training-list directory entries (420 readable and 143 unavailable), with seven unresolved problem references. Existing statements, both editorial versions and courses remain intact. Newly collected problems use original-site metadata; this version is not publicly released. The UI deduplicates original tasks while preserving aliases, content and work. Uncached statements require connectivity. New editorial work is limited to verified problem difficulty at most 2200, including 2200. [Editorial policy](docs/editorial-policy.md).
 
-XP levels and skill tiers are independent. Level 5 unlocks placement; at least five distinct, verified, independent first official ACs are required. Ability is the median difficulty of the strongest five. Iron through King starts at **0, 800, 1000, 1200, 1600, 1800, 2000, 2100 and 2200**. This is a training estimate, not a direct copy of an original-site account rating. [Progression rules](docs/progression.md).
+XP levels and skill tiers are independent. The unreleased 1.4.29 assessment shares the knowledge-mastery Rasch model, using recent independent judged attempts, rating reliability and retry evidence, with conservative estimates, uncertainty and per-problem provenance. Earned XP and rewards are preserved. Placement unlocks at level 5 and requires five independent successes. Iron through King starts at **0, 800, 1000, 1200, 1600, 1800, 2000, 2100 and 2200**. This is a training estimate, not a direct copy of an original-site account rating. [Progression rules](docs/progression.md).
 
 Only official AC receipts count as accepted problems. In 1.3.2 every timed mode submits through the original-site browser; local sample runs and historical local records retain their actual scope. Standings display separate level and ability information, daily hearts and private messages.
 

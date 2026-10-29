@@ -114,7 +114,7 @@ class ReviewScheduler:
 
     def _plan(self):
         from training import iso
-        from tb_rank import _skill_evidence, MIN_RANK_EVIDENCE
+        from ability_assessment import assess,from_records
         t = self.t
         now = t._now()
         today = now.astimezone(SHANGHAI).date()
@@ -142,8 +142,9 @@ class ReviewScheduler:
             evidence.append({'key': canonical_url(row.get('url')) or identity, 'acceptedAt': record['submitted_at'],
                              'scope': 'official', 'verdict': record['verdict'], 'difficulty': row.get('difficulty'),
                              'independent': not bool(record['solution_seen']), 'independentKnown': True})
-        skills = _skill_evidence(evidence, now)
-        ability = skills[MIN_RANK_EVIDENCE // 2] if len(skills) >= MIN_RANK_EVIDENCE else None
+        from submission_evidence import annotate_sources
+        ability_records = annotate_sources([receipt for receipts in facts.values() for receipt in receipts],t.connection)
+        ability = assess(from_records(library,ability_records,now),now)['abilityScore']
         preferences = {}
         for r in t.connection.execute("SELECT key,value FROM account_preferences WHERE key LIKE 'review-%'"):
             try:

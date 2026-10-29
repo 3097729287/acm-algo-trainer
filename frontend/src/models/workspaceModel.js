@@ -3,7 +3,7 @@ import { compileKnowledge,knowledgeFilterNames } from '../lib/knowledgeNames.js'
 import { createContestComparator } from "@/lib/practiceMetadata.js";
 import { trainingDay } from "@/lib/trainingDate.js";
 import { contestKind, matchesShelf } from "@/lib/contestShelves.js";
-import {catalogSegments} from '../lib/contestCatalog.js';
+import {catalogPathMatches} from '../lib/contestCatalog.js';
 import {completedReplayContests, hidesContestDifficulty} from '../lib/difficultyVisibility.js';
 const numericProblemOrder=new Intl.Collator('en',{numeric:true});
 const numericContestOrder=new Intl.Collator('zh-CN',{numeric:true});
@@ -156,7 +156,7 @@ export function filterRows(rows, filters = {}) {
         (!platform || row.platform === platform) &&
         matchesShelf(row, shelf) &&
         (!kind || contestKind(row) === kind) &&
-        (!catalogPath.length || (()=>{const parts=catalogSegments(row);return catalogPath.every((part,index)=>parts[index]===part);})()) &&
+        (!catalogPath.length || catalogPathMatches(row,catalogPath)) &&
         (!knowledgeMatch || knowledgeMatch(row)) &&
         (min === "" || row.difficulty == null && Number(min) <= 800 ||
           (row.difficulty != null && row.difficulty >= Math.max(800,Number(min)))) &&

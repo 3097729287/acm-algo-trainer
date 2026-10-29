@@ -58,6 +58,8 @@ async function scenario(mode) {
     else if (path === '/api/inbox') value = { pending: 0, errors: [] };
     else if (path === '/api/hub') value = null;
     else if (path === '/api/goals') value = { goals: [], contestPlan: { contests: [] } };
+    else if(path==='/api/contest-calendar')value={contests:[],refreshing:false,importing:false};
+    else if(path==='/api/content-update')value={revision:0,status:'current',error:''};
     else if (path === '/api/software-update') value = { currentVersion: '1.1.0', status: 'current', autoCheck: false, canInstall: false };
     else if (path === '/api/social') value = { available:false, activity:[], notifications:[] };
     else if (path === '/api/browser-preparation') value = { available: false };

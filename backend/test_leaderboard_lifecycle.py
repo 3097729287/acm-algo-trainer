@@ -1,5 +1,6 @@
 """Ranking timers must respect the personal SQLite shutdown barrier."""
 import threading
+import time
 import unittest
 from unittest.mock import patch
 
@@ -63,6 +64,23 @@ class LeaderboardLifecycleTests(unittest.TestCase):
         self.assertFalse(closer.is_alive())
         self.assertEqual(errors, [])
         self.assertEqual(client.queue_sync()['status'], 'closed')
+
+    def test_slow_network_cannot_delay_close_or_write_after_sqlite_closes(self):
+        client=self.service.leaderboard
+        entered,release=threading.Event(),threading.Event()
+        profile={'endpoint':'http://127.0.0.1:1','auth_token':'fixture','user_id':'fixture'}
+        def request(*_):
+            entered.set();release.wait(3)
+            return {'userId':'fixture'}
+        original=self.service._ranking_profile
+        with patch.object(self.service,'_ranking_profile',return_value=profile),patch.object(client,'_request',side_effect=request),patch.object(self.service,'_ranking_events',side_effect=AssertionError('late SQL access')) as events:
+            client.worker=threading.Thread(target=client._sync,daemon=True);client.worker.start()
+            self.assertTrue(entered.wait(2))
+            started=time.monotonic();self.service.close()
+            self.assertLess(time.monotonic()-started,.5)
+            release.set();client.worker.join(2)
+            events.assert_not_called()
+        self.assertFalse(client.worker.is_alive())
 
 
 if __name__ == '__main__':

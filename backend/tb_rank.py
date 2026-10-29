@@ -135,31 +135,22 @@ def _skill_evidence(evidence, now):
     return sorted((difficulty for qualified, difficulty in first.values() if qualified), reverse=True)
 
 
-def ranked(evidence, daily_evidence, unlocked_at, now):
-    """Skill = median of the strongest five distinct independent official ACs.
-
-    Five dated, known-difficulty first ACs are required. Samples, solution-assisted
-    ACs, unknown independence/difficulty and future receipts do not qualify. A
-    single exceptional solve or any volume of easy solves cannot raise the
-    median beyond the demonstrated band. XP and missed days never change skill.
-    """
+def ranked(evidence, daily_evidence, unlocked_at, now, diagnostics=None):
+    """Derived Rasch assessment; earned XP and historical awards are untouched."""
+    from ability_assessment import assess,from_successes
     evidence, daily_evidence = list(evidence), list(daily_evidence)
-    difficulties = _skill_evidence(evidence, now)
-    qualified = len(difficulties) >= MIN_RANK_EVIDENCE
-    ability = difficulties[MIN_RANK_EVIDENCE // 2] if qualified else None
+    assessment=assess(diagnostics if diagnostics is not None else from_successes(evidence,now),now)
+    qualified=assessment['qualified'];ability=assessment['abilityScore']
     index = rank_index(ability) if qualified else None
     next_ability = RANK_THRESHOLDS[index + 1] if index is not None and index + 1 < len(TIERS) else None
     requirements = [{'tier': tier, 'badge': f'tier-{position}', 'minAbilityScore': minimum}
                     for position, (tier, minimum) in enumerate(zip(TIERS, RANK_THRESHOLDS))]
-    return {'score': ability if qualified else 0, 'abilityScore': ability,
+    return {**assessment,'score': ability if qualified else 0, 'abilityScore': ability,
             'tier': TIERS[index] if qualified else None, 'badge': f'tier-{index}' if qualified else None,
             'title': TITLES[index] if qualified else '定级中', 'qualified': qualified,
             'nextScore': next_ability, 'nextAbilityScore': next_ability,
             'minDifficulty': RANK_THRESHOLDS[index] if qualified else None,
-            'evidenceCount': len(difficulties), 'minimumEvidence': MIN_RANK_EVIDENCE,
-            'topDifficulties': difficulties[:MIN_RANK_EVIDENCE],
             'levelGate': RANK_UNLOCK_LEVEL, 'tierRequirements': requirements, 'thresholds': requirements,
             'unlockedAt': unlocked_at, 'date': now.astimezone(SHANGHAI).date().isoformat(),
-            'scoreScale': 'CF 参考能力', 'estimated': any(item.get('difficultyKind') == 'estimated-cf-band' for item in evidence),
-            'rules': '5 级解锁段位。非 CF 官方难度使用宽区间的保守下界参与定级；这是训练证据参考分，不是 CF 账号比赛 rating。至少需要 5 道不同原题的独立首次官方 AC，且难度和独立完成情况已知；取最高 5 题难度的中位数作为能力分。解锁前的真实记录同样有效。能力分 2200 达到王者。段位按能力分门槛确定，不随经验、刷简单题或缺勤改变；题库难度修订后按证据重新计算。',
+            'scoreScale': 'CF 参考能力',
             'legacyPoints': legacy_ranked_points(evidence, daily_evidence, unlocked_at, now)}

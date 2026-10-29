@@ -53,6 +53,8 @@ def regular_contest(value):
 
 def contest_name(value, date=None):
     name = re.sub(r'\s+', ' ', str(value or '')).strip()
+    # Shared C++/Python B labels refer to one paper, never a 1 + 7 split.
+    name = re.sub(r'(蓝桥杯 20\d{2} C/C\+\+大学B组 初赛)\s*·\s*(?:/Python\s*B\s*)?第二场',r'\1 · 第二场',name)
     regular = regular_contest(name)
     if regular:
         return f'{regular[0]} {regular[1]}'

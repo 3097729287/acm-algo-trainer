@@ -13,12 +13,13 @@ try {
   await page.goto('http://127.0.0.1:18778/tests/catalog-activity-fixture.html');
   await page.getByRole('button',{name:'比赛文件夹浏览',exact:true}).click();
   const folders=page.getByRole('region',{name:'比赛层级浏览'});
+  await folders.getByText('牛客',{exact:true}).waitFor();
   const rootNames=await folders.locator('.catalog-folder-row strong').allTextContents();
-  for(const name of ['牛客','洛谷','Codeforces','AtCoder','ACM','蓝桥杯 B 组'])assert(rootNames.includes(name),name);
+  for(const name of ['牛客','洛谷','Codeforces','AtCoder','XCPC','蓝桥杯 B 组'])assert(rootNames.includes(name),name+': '+JSON.stringify(rootNames));
   const shelf=async name=>{
     if(name==='全部比赛'){await page.getByRole('button',{name:'比赛文件夹浏览',exact:true}).click();return;}
     await page.getByRole('button',{name:'全部平台',exact:true}).click();
-    const root={CF:'Codeforces',ACM:'ACM',蓝桥杯:'蓝桥杯 B 组'}[name]||name;
+    const root={CF:'Codeforces',ACM:'XCPC',蓝桥杯:'蓝桥杯 B 组'}[name]||name;
     await folders.locator('.catalog-folder-row').filter({has:page.getByText(root,{exact:true})}).click();
     for(let depth=0;await page.locator('.competition-card').count()===0;depth++){
       assert(depth<6,'nonempty shelf must lead to actual contests');

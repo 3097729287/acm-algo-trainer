@@ -13,5 +13,6 @@
 
 # Preserve upstream license whitespace.
 licenses/** -whitespace
+licenses/python/** -text
 THIRDPARTY.md -whitespace
 data/*.sqlite3 -text -diff

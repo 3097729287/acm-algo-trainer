@@ -6,6 +6,25 @@ import threading
 import time
 
 
+def qoj_pdf_runtime():
+    """Exercise packaged PDFium native DLLs, text extraction and PNG encoding."""
+    import io
+    from pypdf import PdfWriter
+    from pypdf.generic import DictionaryObject,NameObject,DecodedStreamObject
+    from qoj import pdf_statement
+    writer=PdfWriter();page=writer.add_blank_page(width=220,height=180)
+    font=DictionaryObject({NameObject('/Type'):NameObject('/Font'),NameObject('/Subtype'):NameObject('/Type1'),NameObject('/BaseFont'):NameObject('/Helvetica')})
+    page[NameObject('/Resources')]=DictionaryObject({NameObject('/Font'):DictionaryObject({NameObject('/F1'):font})})
+    content=DecodedStreamObject();content.set_data(b'10 80 200 80 re S 105 80 m 105 160 l S 10 140 m 210 140 l S '
+        b'BT /F1 8 Tf 20 150 Td (standard input) Tj ET BT /F1 8 Tf 115 150 Td (standard output) Tj ET '
+        b'BT /F1 8 Tf 20 110 Td (1 2) Tj ET BT /F1 8 Tf 115 110 Td (3) Tj ET')
+    page[NameObject('/Contents')]=writer._add_object(content)
+    data=io.BytesIO();writer.write(data);value=pdf_statement(data.getvalue(),'release-fixture')
+    assert [(sample['input'],sample['output']) for sample in value['samples']]==[('1 2','3')]
+    assert value['pageCount']==1 and all(image.startswith('data:image/png;base64,') for image in value['images'].values())
+    return {'offline':True,'pages':1,'samples':1,'originalSiteRequests':0}
+
+
 def network_check(output):
     """Explicit diagnosis of the bundled service; no account or credential input."""
     from version import VERSION
@@ -89,6 +108,7 @@ def run(action, output):
                       library=server.store.library.check(), profile=server.training.profile()['profile'],
                       baseUrl='http://127.0.0.1:'+str(server.server_port))
         if action == '--package-check':
+            report['qojPdfRuntime']=qoj_pdf_runtime()
             from judge import Judge
             import re
             class Fixture:

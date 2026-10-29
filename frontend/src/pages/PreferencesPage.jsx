@@ -14,7 +14,7 @@ import { GUIDE_LABELS, PAGE_GUIDES } from '@/lib/guideCatalog.js';
 const DataHelpSettings=lazy(()=>import('./DataHelpSettings.jsx'));
 
 
-export default function PreferencesPage({insights,onTrain,rows,tab,onTab,prefs,setPrefs,display,onFullscreen,api,softwareUpdate,hub,account,accountFocus,profileSnapshot,onProfileChanged,onRefresh,onHubChanged,onError,onContent,onMessages,onTutorial,onKeyboard,commands}) {
+export default function PreferencesPage({availablePages,level,insights,onTrain,rows,tab,onTab,prefs,setPrefs,display,onFullscreen,api,softwareUpdate,hub,account,accountFocus,profileSnapshot,onProfileChanged,onRefresh,onHubChanged,onError,onContent,onMessages,onTutorial,onKeyboard,commands}) {
   const panel=useRef(null),restoring=useRef(false);
   const locationKey=`tb.settings.location.${window.__tbAccount?.userId || window.__tbAccount?.loginId || 'local'}`;
   const positions=useRef((()=>{try{return {appearance:JSON.parse(sessionStorage.getItem(locationKey)||'{}').scroll?.appearance||0};}catch{return {};}})());
@@ -35,11 +35,11 @@ export default function PreferencesPage({insights,onTrain,rows,tab,onTab,prefs,s
       {tab==='accounts'&&<InitialCodeSettings api={api} shortcuts={prefs.shortcuts}/>}
       {tab==='admin'&&window.__tbAdmin&&<AdminSettings api={api} onChanged={onRefresh} onError={onError}/>}
       {tab==='appearance'&&<><VisualPreferences prefs={prefs} setPrefs={setPrefs}/><VisualStyleSettings prefs={prefs} setPrefs={setPrefs} onError={onError}/></>}
-      {tab==='interaction'&&<><InteractionSettings prefs={prefs} setPrefs={setPrefs} display={display} onFullscreen={onFullscreen}/><NavigationSettings pages={commands.pages} prefs={prefs} setPrefs={setPrefs}/></>}
-      {tab==='navigation'&&<NavigationSettings pages={commands.pages} prefs={prefs} setPrefs={setPrefs}/>}
+      {tab==='interaction'&&<><InteractionSettings prefs={prefs} setPrefs={setPrefs} display={display} onFullscreen={onFullscreen}/><NavigationSettings pages={commands.pages} prefs={prefs} setPrefs={setPrefs} level={level}/></>}
+      {tab==='navigation'&&<NavigationSettings pages={commands.pages} prefs={prefs} setPrefs={setPrefs} level={level}/>}
       {tab==='advanced'&&<section className="settings-translation-panel"><TranslationSettings api={api} onError={onError}/></section>}
       {tab==='help'&&<Suspense fallback={<p role="status">正在读取…</p>}><DataHelpSettings api={api} rows={rows} insights={insights} account={account} onTrain={onTrain} onTutorial={onTutorial} onError={onError}/></Suspense>}
-      {tab==='guide'&&<section className="settings-guide" aria-label="新手指引"><h2><GraduationCap size={19}/>新手指引</h2><button type="button" className="tour-overview-button" aria-label="入门总览" onClick={()=>onTutorial('overview')}><GraduationCap size={22} aria-hidden="true"/><span className="guide-entry-copy"><strong>入门总览</strong><small>从连接账号、选题到运行与原站提交</small></span></button><h3>各页指引</h3><div className="tour-guide-grid">{Object.entries(GUIDE_LABELS).map(([id,label])=>{const Icon=guideIcons[id];return <button type="button" key={id} aria-label={label} disabled={!PAGE_GUIDES[id]?.length} onClick={()=>onTutorial(id)}>{Icon&&<Icon size={22} aria-hidden="true"/>}<span className="guide-entry-copy"><strong>{label}</strong><small>{PAGE_GUIDES[id]?.length||0} 项操作说明</small></span></button>;})}</div></section>}
+      {tab==='guide'&&<section className="settings-guide" aria-label="新手指引"><h2><GraduationCap size={19}/>新手指引</h2><button type="button" className="tour-overview-button" aria-label="入门总览" onClick={()=>onTutorial('overview')}><GraduationCap size={22} aria-hidden="true"/><span className="guide-entry-copy"><strong>入门总览</strong><small>从连接账号、选题到运行与原站提交</small></span></button><h3>各页指引</h3><div className="tour-guide-grid">{Object.entries(GUIDE_LABELS).filter(([id])=>!availablePages||id==='practice'||id.startsWith('settings:')||availablePages.includes(id)).map(([id,label])=>{const Icon=guideIcons[id];return <button type="button" key={id} aria-label={label} disabled={!PAGE_GUIDES[id]?.length} onClick={()=>onTutorial(id)}>{Icon&&<Icon size={22} aria-hidden="true"/>}<span className="guide-entry-copy"><strong>{label}</strong><small>{PAGE_GUIDES[id]?.length||0} 项操作说明</small></span></button>;})}</div></section>}
       {tab==='training' &&<ShortcutSettings prefs={prefs} setPrefs={setPrefs}/>}
       {tab==='updates'&&<><SoftwareUpdatePanel update={softwareUpdate}/><UpdatePanel softwareState={softwareUpdate.state} showNotifications={false} hub={hub} api={api} onContent={onContent} onChanged={onHubChanged} onError={onError}/></>}
     </div>

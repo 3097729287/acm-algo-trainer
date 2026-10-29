@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
 import {createServer} from 'vite';
 const vite=await createServer({server:{host:'127.0.0.1',port:0}});await vite.listen();
-const browser=await chromium.launch({channel:'msedge',headless:true}),page=await browser.newPage({viewport:{width:1280,height:800}}),errors=[];
+const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true}),page=await browser.newPage({viewport:{width:1280,height:800}}),errors=[];
 page.on('pageerror',issue=>errors.push(issue.message));
 try{
  await page.goto(vite.resolvedUrls.local[0]+'tests/replay-fixture.html');

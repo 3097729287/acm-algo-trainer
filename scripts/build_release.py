@@ -3,16 +3,63 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import re
 import shutil
 import sqlite3
 import subprocess
 import sys
 import zipfile
+from urllib.parse import quote, unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parent.parent
 VERSION = (ROOT / 'VERSION').read_text().strip()
 NAME = 'ToBe'
 PACKAGE = 'ToBe-' + VERSION + '-win64'
+PACKAGE_DOCUMENTS = {'usage.md': '使用说明.md', 'accounts.md': 'accounts.md',
+                     'browser-preparation.md': 'browser-preparation.md'}
+
+
+def package_document(source, target, *, version=VERSION, source_root=ROOT):
+    """Keep shipped manuals linked locally; pin other references to this tag."""
+    source, target, source_root = Path(source).resolve(), Path(target), Path(source_root).resolve()
+    if not re.fullmatch(r'\d+\.\d+\.\d+', version): raise ValueError('Invalid document version')
+    def replace(match):
+        value = match[2].strip()
+        if value.startswith('<') and '>' in value:
+            stop = value.index('>'); href, rest = value[1:stop], value[stop+1:]
+        else:
+            first = re.match(r'(\S+)(.*)', value)
+            if not first: return match[0]
+            href, rest = first.groups()
+        parts = urlsplit(href)
+        if parts.scheme or parts.netloc or not parts.path: return match[0]
+        destination = (source.parent / unquote(parts.path)).resolve()
+        if not destination.is_relative_to(source_root) or not destination.is_file():
+            raise RuntimeError('Missing or non-repository manual link: ' + parts.path)
+        relative = destination.relative_to(source_root).as_posix()
+        if destination.parent == source_root / 'docs' and destination.name in PACKAGE_DOCUMENTS:
+            resolved = PACKAGE_DOCUMENTS[destination.name]
+        elif destination.parent == source_root and destination.name in ('VERSION','LICENSE','THIRDPARTY.md','TOOLCHAIN-SOURCES.md','third-party-inventory.json'):
+            resolved = destination.name
+        else:
+            resolved = 'https://github.com/3097729287/acm-algo-trainer/blob/v' + version + '/' + quote(relative, safe='/')
+        if parts.query: resolved += '?' + parts.query
+        if parts.fragment: resolved += '#' + parts.fragment
+        return match[1] + resolved + rest + match[3]
+    text = re.sub(r'(!?\[[^\]\n]*\]\()([^\n)]+)(\))', replace, source.read_text(encoding='utf8'))
+    target.write_text(text, encoding='utf8')
+
+
+def check_package_documents(package):
+    """Fail assembly when a copied manual still points at an absent local file."""
+    package = Path(package).resolve()
+    for name in PACKAGE_DOCUMENTS.values():
+        for match in re.finditer(r'!?\[[^\]\n]*\]\(([^\n)]+)\)', (package / name).read_text('utf8')):
+            href = match[1].split()[0].strip('<>'); parts = urlsplit(href)
+            if parts.scheme or parts.netloc or not parts.path: continue
+            destination = (package / unquote(parts.path)).resolve()
+            if not destination.is_relative_to(package) or not destination.is_file():
+                raise RuntimeError('Packaged manual has an unresolved link: ' + href)
 
 
 def manifest(directory):
@@ -98,9 +145,9 @@ def assemble(args):
     shutil.copy2(ROOT / 'desktop' / 'tb.ico', package / 'tb.ico')
     for name in ('VERSION', 'LICENSE', 'THIRDPARTY.md', 'TOOLCHAIN-SOURCES.md', 'third-party-inventory.json'):
         shutil.copy2(ROOT / name, package / name)
-    shutil.copy2(ROOT / 'docs' / 'usage.md', package / '使用说明.md')
-    shutil.copy2(ROOT / 'docs' / 'accounts.md', package / 'accounts.md')
-    shutil.copy2(ROOT / 'docs' / 'browser-preparation.md', package / 'browser-preparation.md')
+    for source, target in PACKAGE_DOCUMENTS.items():
+        package_document(ROOT / 'docs' / source, package / target)
+    check_package_documents(package)
     files = manifest(package)
     forbidden = [key for key in files if key.startswith(('state/', 'cache/', 'logs/', 'backups/'))]
     if forbidden:

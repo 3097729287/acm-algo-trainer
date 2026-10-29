@@ -136,22 +136,18 @@ class PlatformLogins:
             return None
 
     def _probe(self, owner, platform):
-        """Read existing tabs first, then one disposable, minimized home page."""
+        """Read existing tabs first, then a truly hidden disposable target."""
         from external_browser import DevToolsPage
         browser = self.bridge.browser
         for target in browser.request('/json/list'):
             value = self._inspect(target, platform)
             if self._accept(owner, platform, value):
                 return True
-        target = browser.new_submission_page()
+        target = browser.new_probe_page(SITES[platform][1])
+        if target is None:
+            return None
         page = DevToolsPage(target['webSocketDebuggerUrl'], lambda *_: None)
         try:
-            try:
-                window = page.call('Browser.getWindowForTarget', {'targetId': target['id']})
-                page.call('Browser.setWindowBounds', {'windowId': window['windowId'], 'bounds': {'windowState': 'minimized'}})
-            except Exception:
-                pass
-            page.call('Page.navigate', {'url': SITES[platform][1]})
             deadline = time.monotonic() + 18
             while self._current(owner) and time.monotonic() < deadline:
                 value = page.evaluate(LOGIN_SCRIPT)
@@ -161,13 +157,16 @@ class PlatformLogins:
                     return False
                 if self.bridge.stopping.wait(.6):
                     break
-            return False
+            return None  # A timeout/challenge never proves the user logged out.
         finally:
             page.close()
             try:
                 browser.close_page(target['id'])
             except Exception:
                 pass
+            controller=target.get('_controller')
+            if controller is not None:
+                controller.close()
 
     def _wait_login(self, owner, platform, target):
         deadline = time.monotonic() + 600
@@ -188,7 +187,14 @@ class PlatformLogins:
                 return
             with self.lock:
                 self.states[platform] = {'state': 'checking', 'owner': ''}
-            if self._probe(owner, platform):
+            try:
+                logged_in=self._probe(owner, platform)
+            except Exception:
+                logged_in=None
+            if logged_in is not False:
+                if logged_in is None:
+                    with self.lock:
+                        self.states[platform]={'state':'unknown','owner':''}
                 continue
             if not self._current(owner):
                 return
@@ -198,6 +204,12 @@ class PlatformLogins:
             target = self.bridge.browser.new_page(SITES[platform][2])
             if not self._wait_login(owner, platform, target):
                 return
+            # This exact tab was opened only for the automatic login sequence.
+            # Keep manually opened pages and all submission windows untouched.
+            try:
+                self.bridge.browser.close_page(target['id'])
+            except Exception:
+                pass
 
     def _run(self, owner):
         try:

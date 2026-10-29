@@ -24,6 +24,8 @@ await page.route('**/api/**', async route => {
   if (path === '/api/account') value = { required: false, authenticated: true, token: 'fixture', account: null };
   else if (path === '/api/data') value = { rows, categories: [], token: 'fixture', revision: 'catalog-full', today: now.slice(0, 10) };
   else if (path === '/api/workspace') value = { training: [], sets: [], contests: [], activeContest: null, goals: { goals: [] }, goalTasks: [], summary: {}, now };
+  else if(path==='/api/contest-calendar')value={contests:[],refreshing:false,importing:false};
+  else if(path==='/api/content-update')value={revision:0,status:'current',error:''};
   else if (path === '/api/software-update') value = { currentVersion: '1.4.7', status: 'current', autoCheck: false, canInstall: false };
   else if (path === '/api/desktop/fullscreen') value = { available: false, fullscreen: false };
   else if (path === '/api/hub') value = { settings: { accounts: {} }, accounts: [], sync: {}, updates: {}, notifications: [] };

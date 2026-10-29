@@ -42,6 +42,18 @@ class LoginSequenceTests(unittest.TestCase):
         with patch.object(self.logins,'_probe',return_value=True):self.logins._prepare(self.owner)
         self.browser.new_page.assert_not_called()
 
+    def test_unavailable_hidden_check_never_opens_visible_probe_or_login(self):
+        self.browser.request.return_value=[]
+        self.browser.new_probe_page.return_value=None
+        self.logins._prepare(self.owner)
+        self.browser.new_submission_page.assert_not_called()
+        self.browser.new_page.assert_not_called()
+
+    def test_successful_automatic_login_closes_only_the_owned_login_target(self):
+        with patch.object(self.logins,'_probe',side_effect=[False,True,True,True]),patch.object(self.logins,'_wait_login',return_value=True):
+            self.logins._prepare(self.owner)
+        self.browser.close_page.assert_called_once_with(SITES['Codeforces'][2])
+
     def test_next_platform_is_not_opened_before_the_previous_login_completes(self):
         waited=[]
         def complete(owner,platform,target):

@@ -49,6 +49,8 @@ await page.route('**/*',async route=>{
   else if(path==='/api/hub')value={settings:{accounts:{}},accounts:[],sync:{busy:true,message:'后台公开同步'},notifications:[]};
   else if(path==='/api/inbox')value={pending:0,errors:[]};
   else if(path==='/api/goals')value={goals:[],contestPlan:{contests:[]}};
+  else if(path==='/api/contest-calendar')value={contests:[],refreshing:false,importing:false};
+  else if(path==='/api/content-update')value={revision:0,status:'current',error:''};
   else if(path==='/api/software-update')value={currentVersion:'1.1.0',status:'current',automatic:false,canInstall:false};
   else if(path==='/api/browser-preparation')value={available:false};
   else if(path==='/api/desktop/fullscreen')value={available:false,fullscreen:false};

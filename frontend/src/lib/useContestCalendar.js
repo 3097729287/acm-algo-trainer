@@ -42,7 +42,9 @@ export default function useContestCalendar(api, enabled, open, now) {
         const value = await api('contest-calendar' + (force ? '?refresh=1' : ''));
         if (stopped) return;
         setSnapshot(value); setError('');
-        if (value.refreshing || open && value.importing) delay = 1500;
+        if (value.refreshing || value.importing) delay = 1500;
+        const starts=(value.contests||[]).map(row=>Date.parse(row.startAt)-Date.now()+100).filter(ms=>ms>0);
+        delay=Math.max(100,Math.min(delay,...starts));
       } catch (issue) {
         if (!stopped) setError(issue.message);
       } finally {

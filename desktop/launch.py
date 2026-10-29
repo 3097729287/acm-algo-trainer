@@ -83,10 +83,13 @@ class SingleInstance:
         user.ShowWindow.argtypes = [wintypes.HWND, ctypes.c_int]
         user.SetForegroundWindow.argtypes = [wintypes.HWND]
         user.BringWindowToTop.argtypes = [wintypes.HWND]
+        seen_pid=False
         for _ in range(30):
             try:
                 expected_pid = int(PID_FILE.read_text(encoding="ascii").strip())
+                seen_pid=True
             except (OSError, ValueError):
+                if seen_pid:return False  # The previous owner finished closing.
                 time.sleep(0.1)
                 continue
             matches = []
@@ -196,9 +199,20 @@ def run_desktop() -> int:
     try:
         if instance.existing:
             if not instance.focus_existing():
-                show_error("ToBe 已经在运行，但暂时未找到它的窗口。请稍等后再打开，或先关闭现有 ToBe。")
-                return 1
-            return 0
+                # A window can disappear a moment before its local service and
+                # mutex finish closing. Hand off without a false startup error.
+                instance.close()
+                deadline=time.monotonic()+12
+                while True:
+                    instance=SingleInstance()
+                    if not instance.existing:break
+                    instance.close()
+                    if time.monotonic()>=deadline:
+                        show_error("ToBe 已经在运行，但暂时未找到它的窗口。请稍等后再打开，或先关闭现有 ToBe。")
+                        return 1
+                    time.sleep(.1)
+            else:
+                return 0
         check_dependencies()
         if getattr(sys, 'frozen', False) and not ADMIN_MODE and os.environ.get('TB_OFFLINE') != '1':
             from legacy_cleanup import prepare
@@ -264,7 +278,12 @@ def run_desktop() -> int:
         server.official_submitter = official.submit
         server.official_status = official.status
         server.official_closer = official.close
-        window.events.closing += official.on_closing
+        from close_coordinator import CloseCoordinator
+        def begin_close():
+            server.fast_shutdown=True
+            official.on_closing()
+        closing=CloseCoordinator(window,begin_close)
+        window.events.closing += closing.on_closing
         if getattr(sys, 'frozen', False):
             from update_installer import launch_installer
             from training import ServiceError

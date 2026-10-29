@@ -333,6 +333,9 @@ def discover_nc(client,now):
 DISCOVERY_ADAPTERS={'codeforces':discover_curated_cf,'luogu':discover_lg,'atcoder':discover_at,'nowcoder':discover_nc}
 
 def statement(client,identity,title,url):
+    if urlsplit(url).hostname=='qoj.ac':
+        from qoj import statement as qoj_statement
+        return qoj_statement(client,identity,title,url)
     import fetch_problem as adapter
     from statement_format import html_markdown, nowcoder_statement, nowcoder_explanations, codeforces_samples
     parsed=urlsplit(url);host=parsed.hostname;limits={'timeMs':2000,'memoryMb':256};body='';samples=[];official_tags=None;translation=None

@@ -33,6 +33,8 @@ await page.route('**/api/**', async route => {
   if (!path.startsWith('/api/')) return route.continue();
   let value;
   if (path==='/api/account') value={required:false,authenticated:true,token:'fixture',account:null};
+  else if(path==='/api/contest-calendar')value={contests:[],refreshing:false,importing:false};
+  else if(path==='/api/content-update')value={revision:0,status:'current',error:''};
   else if (path==='/api/software-update') value={currentVersion:'1.0.19',status:'current',autoCheck:false,canInstall:false};
   else if (path==='/api/browser-preparation') value={available:false};
   else if (path==='/api/data') value={rows,categories:[],token:'fixture',today:now.slice(0,10)};
@@ -53,7 +55,7 @@ try {
   const overview = page.getByRole('button',{name:'训练概览',exact:true});
   assert.equal(await overview.getAttribute('aria-busy'),'true');
   assert.doesNotMatch(await overview.textContent(),/黑铁|Lv\.1\b/);
-  await overview.click();
+  await page.keyboard.press('Control+k');await page.getByRole('button',{name:'查看训练概览',exact:true}).click();
   const dialog = page.getByRole('dialog',{name:'你的训练概览',exact:true});
   await dialog.waitFor();
   assert.equal(await page.locator('.overview-popover').count(),0);
@@ -62,7 +64,7 @@ try {
   assert.deepEqual(loadedModules,[],'the library/home page does not load the practice editor or CodeMirror');
   releaseInsights();
   await page.waitForFunction(()=>document.querySelector('.profile-level-number')?.textContent==='7');
-  await overview.click();
+  await page.keyboard.press('Control+k');await page.getByRole('button',{name:'查看训练概览',exact:true}).click();
   await dialog.getByText('AC 25题',{exact:true}).waitFor();
   assert.equal(await dialog.locator('.summary-grid > div').count(),2);
   assert.equal(await dialog.getByText('仅样例通过',{exact:true}).count(),0);
@@ -98,11 +100,11 @@ try {
   await page.keyboard.press('Escape');
   await openSettings(page);await page.locator('.settings-home-grid').waitFor();
   assert.equal(await page.getByRole('tab',{name:'翻译 API',exact:true}).count(),1);
-  assert.equal(await page.getByRole('tab',{name:'账号与身份',exact:true}).count(),1);
+  assert.equal(await page.getByRole('tab',{name:'初始代码模板',exact:true}).count(),1);
   await openSettings(page, '快捷键');
   assert.equal(await page.locator('.settings-commands').count(),0);
   await openSettings(page, '外观');await page.getByRole('button',{name:'云白浅色',exact:true}).click();
-  await overview.click();
+  await page.keyboard.press('Control+k');await page.getByRole('button',{name:'查看训练概览',exact:true}).click();
   await page.screenshot({path:'tests/screenshots/training-overview/overview-light.png',animations:'disabled'});
   assert.deepEqual(errors,[]);
   console.log(JSON.stringify({ok:true,directOverview:true,loadingGrowthIsExplicit:true,serverAchievementProgress:true,rewardStatus:true,groupedCollapsedPendingHint:true,practiceEditorDeferred:true,realAccountSubmission:false}));

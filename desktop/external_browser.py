@@ -204,6 +204,27 @@ class BrowserProcess:
         finally:
             page.close()
 
+    def new_probe_page(self, url):
+        """Create an invisible, disposable target in the managed profile.
+
+        Older Chromium builds without hidden targets simply defer the check;
+        a background tab or minimized window still causes a visible flash.
+        """
+        self.ensure(background=True)
+        protocol=self.request('/json/protocol')
+        command=next((command for domain in protocol.get('domains',[]) if domain.get('domain')=='Target'
+                      for command in domain.get('commands',[]) if command.get('name')=='createTarget'),{})
+        if not any(p.get('name')=='hidden' for p in command.get('parameters',[])):
+            return None
+        version=self.request('/json/version')
+        page=DevToolsPage(version['webSocketDebuggerUrl'],lambda *_:None)
+        try:
+            identity=page.call('Target.createTarget',{'url':url,'hidden':True,'background':True})['targetId']
+            return {'id':identity,'url':url,'webSocketDebuggerUrl':f'ws://127.0.0.1:{self.port}/devtools/page/{identity}', '_controller':page}
+        except BaseException:
+            page.close()
+            raise
+
     def new_page(self, url='about:blank', browser=None):
         from urllib.parse import quote
         self.ensure(browser)

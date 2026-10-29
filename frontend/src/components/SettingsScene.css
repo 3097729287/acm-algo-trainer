@@ -95,3 +95,25 @@ html[data-motion=off] .dipper-lines {stroke-dashoffset:0}
 @keyframes dino-step {0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
 @media(max-width:800px){.dino-traveler{--dino-width:114px}}
 .dino-traveler {max-height:92%}
+
+/* Fit illustrations to their own tile, rather than the outer window width. */
+.settings-home-grid>.settings-tile {container-type:size;container-name:settings-tile}
+.settings-home-grid .settings-tile>button>.settings-scene {max-height:calc(100% - 64px);max-width:calc(100% - 32px);top:calc(50% + 24px);pointer-events:none}
+.settings-home-grid .settings-tile>button>:is(.scene-dino-stage,.scene-cloud-stage,.scene-balloon-stage) {top:56px;bottom:12px;max-width:none;max-height:none}
+@container settings-tile (max-height:170px) {
+ .settings-tile>button>.settings-scene {left:auto;right:12px;top:50%;transform:translateY(-50%);width:96px;height:80px;max-width:40%;max-height:80%}
+ .settings-tile>button>:is(.scene-cloud-stage,.scene-balloon-stage) {left:54%;right:8px;top:10px;bottom:10px;transform:none;width:auto;height:auto;max-width:none;max-height:none}
+ .settings-tile>button>:is(.scene-dino-stage) {left:35%;right:8px;top:38px;bottom:6px;transform:none;width:auto;height:auto}
+ .dino-traveler {--dino-width:88px;max-width:35%}
+ .balloon-flight {width:46px;height:82px;left:calc(50% - 23px)}
+}
+@media(prefers-reduced-motion:reduce) {
+ .settings-scene,.settings-scene * {animation:none!important;transition:none!important}
+ .settings-scene :is(.dipper-star,.volcano-steam,.globe-building,.dipper-lines) {opacity:1}
+ .settings-scene .dipper-lines {stroke-dashoffset:0}
+ .settings-scene .dino-traveler {left:10%}
+ .settings-scene .cloud-flight {left:15%;opacity:.75}
+ .settings-scene .balloon-flight {top:20%;bottom:auto;opacity:.9}
+}
+html[data-motion=off] .settings-scene :is(.dino-traveler,.cloud-flight) {left:10%;opacity:.75}
+html[data-motion=off] .settings-scene .balloon-flight {top:20%;bottom:auto;opacity:.9}

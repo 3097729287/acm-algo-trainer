@@ -11,5 +11,5 @@ export function completedReplayContests(workspace = {}) {
 }
 
 export function hidesContestDifficulty(row, completed) {
-  return catalogSegments(row)[0] === 'ACM' && !completed.has(row.contest);
+  return catalogSegments(row)[0] === 'XCPC' && !completed.has(row.contest);
 }

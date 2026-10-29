@@ -157,7 +157,7 @@ def merge_states(remote, local, baseline=None):
             elif table == 'ranking_reward_totals':
                 winner['total_xp'] = max(old['total_xp'], row['total_xp'])
             elif table == 'account_preferences' and winner.get('key') == 'ui':
-                from preferences import merge_onboarding_versions, merge_seen_achievements
+                from preferences import merge_onboarding_versions, merge_seen_achievements, merge_onboarding_unlocked_pages, merge_level_notices
                 try:
                     left, right = json.loads(old['value']), json.loads(row['value'])
                 except (ValueError, TypeError):
@@ -170,6 +170,10 @@ def merge_states(remote, local, baseline=None):
                         preferences['onboardingCompleted'] = True
                     if 'onboardingGuideVersion' in left or 'onboardingGuideVersion' in right:
                         preferences['onboardingGuideVersion'] = merge_onboarding_versions(left.get('onboardingGuideVersion'), right.get('onboardingGuideVersion'))
+                    if 'onboardingUnlockedPages' in left or 'onboardingUnlockedPages' in right:
+                        preferences['onboardingUnlockedPages'] = merge_onboarding_unlocked_pages(left.get('onboardingUnlockedPages'), right.get('onboardingUnlockedPages'))
+                    if any(key in left or key in right for key in ('levelNoticeVersion','levelNoticeSeen','levelNoticePending')):
+                        preferences.update(merge_level_notices(left,right))
                     winner['value'] = encoded(preferences)
             rows[key] = winner
         result['tables'][table] = list(rows.values())
@@ -221,6 +225,7 @@ class AccountStateSync:
         self.facts_ids = None
         self.status, self.error, self.last_synced = 'syncing', '', None
         self.pending = True
+        self.needs_reconnect = False
         with service.lock:
             service.connection.executescript('''
               CREATE TABLE IF NOT EXISTS account_sync_meta (id INTEGER PRIMARY KEY CHECK(id=1),value TEXT NOT NULL);
@@ -267,6 +272,7 @@ class AccountStateSync:
                                                maximum=4 * 1024 * 1024, timeout=timeout, **options)
             else:
                 raise
+        self._check_stopping()
         if path == '/v1/accounts/state' and isinstance(value.get('state'), dict) and value['state'].get('format') == 'tb-account-state-gzip-v1':
             try:
                 compressed = value['state']
@@ -284,6 +290,11 @@ class AccountStateSync:
             except (ValueError, OSError, EOFError, KeyError, TypeError):
                 raise ServiceError(503, '云端账号数据校验失败，本机记录已保留，请稍后重试') from None
         return value
+
+    def _check_stopping(self):
+        stop = getattr(self, 'stop', None)
+        if stop is not None and stop.is_set():
+            raise ServiceError(503, '账号同步正在停止，本机数据已保留')
 
     def _profiles(self, import_original=False):
         current = self.accounts.session
@@ -452,6 +463,7 @@ class AccountStateSync:
         self.last_facts_signature, self.facts_ids = signature, tracked
 
     def _persist_meta(self, state, changes):
+        self._check_stopping()
         self.meta = {'owner': self.owner, 'endpoint': self.session['endpoint'], 'revision': self.revision,
                      'syncedHash': digest(state), 'publicAccounts': state['publicAccounts'], 'lastSyncedAt': self.last_synced,
                      'baseline': baselines(state),'transport':2 if self.chunks.enabled else 1}
@@ -467,6 +479,7 @@ class AccountStateSync:
 
     def _apply(self, state):
         with self.service.lock:
+            self._check_stopping()
             self.service._backup()
             db = self.service.connection
             db.execute('BEGIN IMMEDIATE')
@@ -508,6 +521,7 @@ class AccountStateSync:
 
     def initialize(self):
         with self.operation:
+            self._check_stopping()
             self.chunks.negotiate()
             imported = (self.accounts.registry.get('activeOwner') == self.owner or
                         not self.meta and self.accounts.registry.get('originalOwner') == self.owner)
@@ -534,6 +548,7 @@ class AccountStateSync:
                     raise ServiceError(503, '云端同步版本不一致，请重试；本机数据已保留')
                 upload_pending = not local_matches
                 answer = {'revision': cached_revision, 'state': local}
+            self._check_stopping()
             if type(answer.get('revision')) is not int or 'state' not in answer:
                 raise ServiceError(503, '账号同步服务需要升级，请稍后重试')
             self.revision = answer['revision']
@@ -545,6 +560,7 @@ class AccountStateSync:
             # leaves the local workspace and session gate untouched.
             if upload_pending or answer['state'] != state or self.chunks.migrate:
                 saved = self._call('PUT', '/v1/accounts/state', {'revision': self.revision, 'state': state})
+                self._check_stopping()
                 self.revision = saved['revision']
                 self.last_synced = saved['savedAt']
             else:
@@ -559,11 +575,27 @@ class AccountStateSync:
             self._persist_meta(state, changes)
             with self.status_lock:
                 self.status, self.error, self.pending = 'ready', '', False
+                self.needs_reconnect = False
+
+    def resume_local(self):
+        """Preserve the last cloud baseline; never acknowledge offline edits."""
+        if (self.meta.get('owner') != self.owner or self.meta.get('endpoint') != self.session['endpoint']
+            or type(self.meta.get('revision')) is not int or self.meta['revision'] <= 0
+            or not self.meta.get('syncedHash')):
+            raise ServiceError(409, '本机账号工作区尚未完成验证，请联网登录')
+        self.revision = self.meta['revision']
+        self.synced_hash = self.meta['syncedHash']
+        self.last_synced = self.meta.get('lastSyncedAt')
+        with self.status_lock:
+            self.needs_reconnect = True
+            self.status, self.pending = 'offline', True
+            self.error = '离线学习：本机记录已保存，联网后自动同步'
 
     def snapshot(self):
         with self.status_lock:
             return {'status': self.status, 'error': self.error, 'pending': self.pending,
-                    'lastSyncedAt': self.last_synced, 'revision': self.revision}
+                    'lastSyncedAt': self.last_synced, 'revision': self.revision,
+                    'offline': self.needs_reconnect}
 
     def mark_pending(self):
         with self.service.lock:
@@ -589,6 +621,11 @@ class AccountStateSync:
             with self.operation:
                 if self.stop.is_set():
                     return self.snapshot()
+                if self.needs_reconnect:
+                    # A remote root can have changed while this machine was
+                    # offline. Re-fetch and three-way merge before any PUT.
+                    self.initialize()
+                    return self.snapshot()
                 state, changes = self._capture()
                 signature = digest(state)
                 if signature != self.synced_hash:
@@ -609,7 +646,8 @@ class AccountStateSync:
             return self.snapshot()
         except ServiceError as issue:
             with self.status_lock:
-                self.status, self.error, self.pending = 'error', issue.message, True
+                self.status = 'offline' if self.needs_reconnect and getattr(issue, 'connection_unavailable', False) else 'error'
+                self.error, self.pending = issue.message, True
             if issue.status == 401:
                 self.accounts.invalidate(self.session['token'])
             raise
@@ -632,7 +670,8 @@ class AccountStateSync:
                     self.flush()
             except ServiceError as issue:
                 with self.status_lock:
-                    self.status, self.error = 'error', issue.message
+                    self.status = 'offline' if self.needs_reconnect and getattr(issue, 'connection_unavailable', False) else 'error'
+                    self.error = issue.message
                 if issue.status == 401:
                     self.accounts.invalidate(self.session['token'])
                     break
@@ -655,7 +694,8 @@ class AccountStateSync:
                         self.status, self.error = 'ready', ''
             except ServiceError as issue:
                 with self.status_lock:
-                    self.status, self.error = 'error', issue.message
+                    self.status = 'offline' if self.needs_reconnect and getattr(issue, 'connection_unavailable', False) else 'error'
+                    self.error = issue.message
                 if issue.status == 401:
                     self.accounts.invalidate(self.session['token'])
                     return
@@ -673,6 +713,6 @@ class AccountStateSync:
         self.stop.set()
         self.wake.set()
         if self.thread and self.thread is not threading.current_thread():
-            self.thread.join(22)
+            self.thread.join(.1)
         if self.heartbeat_thread and self.heartbeat_thread is not threading.current_thread():
-            self.heartbeat_thread.join(22)
+            self.heartbeat_thread.join(.1)

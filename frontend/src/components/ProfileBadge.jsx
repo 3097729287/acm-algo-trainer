@@ -46,7 +46,7 @@ export default function ProfileBadge({ growth, avatar, nickname, onClick, onAvat
   const ability = rank?.abilityScore ?? rank?.score;
   const minimumEvidence = Math.max(1, finite(rank?.minimumEvidence, 5));
   const rankText = !unlocked ? rankName : qualified
-    ? `${rankName} · 能力分 ${number(ability)}${rank?.nextAbilityScore != null ? ` · 下一段位 ${number(rank.nextAbilityScore)}` : ''}`
+    ? `${rankName} · 能力分 ${number(ability)}${rank?.abilityInterval ? ` · 参考范围 ${rank.abilityInterval.join('–')}` : ''}${rank?.nextAbilityScore != null ? ` · 下一段位 ${number(rank.nextAbilityScore)}` : ''}`
     : `定级中 · 独立通过 ${number(minimumEvidence)} 道已知难度的题目后评估段位${rank?.evidenceCount != null ? `（${number(rank.evidenceCount)}/${number(minimumEvidence)}）` : ''}`;
   const AvatarControl = onAvatarClick ? 'button' : 'span';
   const OverviewControl = onClick ? 'button' : 'span';

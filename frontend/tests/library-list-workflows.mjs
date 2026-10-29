@@ -28,6 +28,8 @@ await page.route('**/api/**',async route=>{
   else if(path==='/api/hub')value=hub;
   else if(path==='/api/hub/dismiss'){hub={...hub,notifications:hub.notifications.map(item=>item.id===body.id?{...item,read:true}:item)};value=hub;}
   else if(path==='/api/insights')value={summary:{officialSolved:1,submissions:1,activeDays:1,streak:1,completedContests:0,longestStreak:1},growth:{level:1,totalXp:10,currentLevelXp:10,nextLevelXp:100,ranked:{}},knowledge:[],achievements:[],activity:[],assessment:{platforms:[]},dailyTasks:{tasks:[]}};
+  else if(path==='/api/contest-calendar')value={contests:[],refreshing:false,importing:false};
+  else if(path==='/api/content-update')value={revision:0,status:'current',error:''};
   else if(path==='/api/software-update')value={currentVersion:'1.4.19',status:'current',autoCheck:false,canInstall:false};
   else if(path==='/api/desktop/fullscreen')value={available:false,fullscreen:false};
   else if(path==='/api/profile')value={profile:self,leaderboard:{configured:true,status:'ready'}};

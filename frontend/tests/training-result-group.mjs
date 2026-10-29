@@ -30,6 +30,7 @@ await page.route('**/api/**',async route=>{
   let value;
   if(path==='/api/account')value={required:false,authenticated:true,usesOriginalWorkspace:true,token:'fixture',account:self};
   else if(path==='/api/preferences'){if(body)preferences=body.preferences;value={preferences,updatedAt:timestamp};}
+  else if(path==='/api/content-update')value={revision:0,status:'current',error:''};
   else if(path==='/api/software-update')value={currentVersion:'1.1.5',status:'current',autoCheck:false,canInstall:false};
   else if(path==='/api/browser-preparation')value={available:false};
   else if(path==='/api/data')value={rows,categories:[],token:'fixture',today:date,revision:'ui-social'};

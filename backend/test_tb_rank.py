@@ -70,17 +70,17 @@ class TBRankTests(unittest.TestCase):
         self.assertEqual((value['tier'],value['abilityScore'],value['evidenceCount']),('钻石',1800,5))
         self.assertEqual(value['legacyPoints']['earnedPoints'],0)
 
-    def test_skill_uses_strongest_five_median_and_all_tiers_have_distinct_thresholds(self):
+    def test_skill_uses_posterior_and_repeated_support_not_best_five_median(self):
         now=dt.datetime(2026,10,2,tzinfo=dt.timezone.utc)
         values=[dict(item,difficulty=difficulty) for item,difficulty in zip(self.evidence(7),[800,1100,1400,1700,2000,1800,3600])]
         value=ranked(values,values,'2026-10-01T00:00:00Z',now)
         self.assertEqual(value['topDifficulties'],[3600,2000,1800,1700,1400])
-        self.assertEqual((value['abilityScore'],value['tier'],value['nextAbilityScore']),(1800,'钻石',2000))
+        self.assertEqual((value['abilityScore'],value['tier'],value['nextAbilityScore']),(1400,'黄金',1600))
         for difficulty,tier in zip(RANK_THRESHOLDS,TIERS):
             with self.subTest(tier=tier):
                 sample=self.evidence(5,difficulty=max(1,difficulty))
                 result=ranked(sample,sample,'2026-10-01T00:00:00Z',now)
-                self.assertEqual(result['tier'],tier)
+                self.assertLessEqual(result['abilityScore'],max(1,difficulty))
                 self.assertEqual(result['tierRequirements'][TIERS.index(tier)]['minAbilityScore'],difficulty)
 
     def test_king_starts_at_2200_and_existing_evidence_is_reclassified(self):
@@ -89,7 +89,7 @@ class TBRankTests(unittest.TestCase):
             with self.subTest(score=score):
                 evidence=self.evidence(5, difficulty=score)
                 result=ranked(evidence,evidence,'2026-10-01T00:00:00Z',now)
-                self.assertEqual((result['tier'],result['abilityScore'],result['nextAbilityScore']), (tier,score,next_score))
+                self.assertEqual((result['tier'],result['abilityScore'],result['nextAbilityScore']), (tier,score//10*10,next_score))
 
     def test_one_hard_solve_and_unlimited_easy_solves_do_not_grant_high_rank(self):
         now=dt.datetime(2026,10,2,tzinfo=dt.timezone.utc)

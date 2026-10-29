@@ -1,4 +1,5 @@
 import {matchesShortcut} from '@/lib/shortcuts.js';
+import {useFeatureVisibility} from '@/lib/FeatureVisibility.jsx';
 import ThemedSelect from '@/components/ThemedSelect.jsx';
 import BoundedNumber from '@/components/BoundedNumber.jsx';
 import { memo, lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
@@ -192,6 +193,7 @@ function CaseResults({ cases }) {
 }
 
 export default function Workbench({shortcuts={}, problemId, preparedProblem=null, contest = null, reviewTask = null, api, onProgress, onExit, onSolution, solutionOpen=false, solutionMethodId=null, onNext, headerStart, headerEnd }) {
+  const featureAvailable=useFeatureVisibility();
   const contestId = contest?.id || null;
   const runningContest = contest?.status === 'running';
   const endedContest = Boolean(contest && !runningContest);
@@ -222,6 +224,13 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const [codeLanguage,setCodeLanguage]=useState('cpp17');
   const [saveState, setSaveState] = useState({ kind: 'automatic' });
   const [pane, setPane] = useState('both');
+  const [narrow,setNarrow]=useState(false);
+  const [compactPane,setCompactPane]=useState('statement');
+  useEffect(()=>{
+    const node=sectionRef.current;if(!node)return;
+    const observer=new ResizeObserver(([entry])=>setNarrow(entry.contentRect.width<960));
+    observer.observe(node);return()=>observer.disconnect();
+  },[]);
   const [cursor, setCursor] = useState({ line: 1, column: 1 });
   const [submissions, setSubmissions] = useState([]);
   const [resultId, setResultId] = useState(null);
@@ -657,6 +666,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   };
   const focusPane = next => {
     setPane(next);
+    setCompactPane(next);
     requestAnimationFrame(() => (next === 'statement' ? statementRef.current : editorRef.current)?.focus());
   };
   const openOfficial = async (path = 'official/submit') => {
@@ -772,7 +782,10 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     : saveState.kind === 'closed' ? (endedContest ? '本场已结束' : '考场题目')
     : saveState.kind === 'automatic' ? '自动保存' : '草稿已保存';
 
-  return <section className={`tb-workbench wb-pane-${pane}`} ref={sectionRef} onKeyDown={handleKeys} aria-label="代码训练工作台" data-problem-id={problemId}>
+  const effectivePane=narrow&&pane==='both'?compactPane:pane;
+  return <section className={`tb-workbench wb-pane-${effectivePane}${narrow?' wb-compact':''}`} ref={sectionRef} onKeyDown={handleKeys} aria-label="代码训练工作台" data-problem-id={problemId}>
+
+    {narrow&&<div className="wb-compact-toolbar"><button type="button" className="wb-icon-button" onClick={exit} title="返回列表" aria-label={runningContest?'返回工作台':'返回列表'}><ArrowLeft size={17}/></button>{effectivePane==='code'&&headerStart}<div className="wb-pane-buttons" role="group" aria-label="工作台布局"><button type="button" className="wb-icon-button" aria-label="只看题面" title="只看题面 · Alt+1" aria-pressed={effectivePane==='statement'} onClick={()=>{setCompactPane('statement');focusPane('statement');}}><PanelLeft size={17}/></button><button type="button" className="wb-icon-button" aria-label="只看代码" title="只看代码 · Alt+2" aria-pressed={effectivePane==='code'} onClick={()=>{setCompactPane('code');focusPane('code');}}><Code2 size={17}/></button></div><strong><InlineTitle>{problem?.title||'题目'}</InlineTitle></strong>{headerEnd}</div>}
 
     {initialPickerOpen&&<InitialCodePicker api={api} language={codeLanguage} selected={startingTemplate(initialCode,codeLanguage).id} onClose={()=>setInitialPickerOpen(false)} onSelect={(item,snapshot)=>{const record=activeRecord.current;if(record?.key!==contextKey||record.closed||record.language!==item.language)return;setInitialCode(snapshot);loadOwnCode(item.code);}}/>}
 
@@ -790,11 +803,11 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
         <strong title={problem?.title}><InlineTitle>{problem?.title || (loading ? '载入题目…' : '题目')}</InlineTitle></strong>
         {problem && <span className="wb-limits">{elapsedText(problem.limits?.timeMs)} · {problem.limits?.memoryMb || '—'} MB</span>}
       </div>
-      <div className="wb-pane-buttons" role="group" aria-label="工作台布局">
+      {!narrow&&<div className="wb-pane-buttons" role="group" aria-label="工作台布局">
         <button type="button" className="wb-icon-button" aria-pressed={pane === 'statement'} onClick={() => focusPane('statement')} title="只看题面 · Alt+1" aria-label="只看题面"><PanelLeft size={16} /></button>
         <button type="button" className="wb-icon-button" aria-pressed={pane === 'both'} onClick={() => setPane('both')} title="题面与代码 · Alt+0" aria-label="题面与代码"><PanelsTopLeft size={16} /></button>
         <button type="button" className="wb-icon-button" aria-pressed={pane === 'code'} onClick={() => focusPane('code')} title="只看代码 · Alt+2" aria-label="只看代码"><Code2 size={16} /></button>
-      </div>
+      </div>}
     </div><div className="wb-statement-actions">
           <div className="wb-font-controls" role="group" aria-label="题面字号调节">
             <button type="button" aria-label="缩小题面字号" title="缩小题面字号" disabled={statementFontSize <= 14} onClick={() => changeStatementFontSize(Math.max(14,statementFontSize - 1))}>A−</button>
@@ -821,7 +834,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
           <InitialCodeButton title={startingTemplate(initialCode,codeLanguage).title} disabled={loading||!problem||unavailable||busy||officialBusy} onClick={()=>setInitialPickerOpen(true)}/>
           <span className={`wb-save-state wb-save-${saveState.kind}`} title={saveState.message || '草稿自动保存；Ctrl+S 立即保存'} aria-live="polite">{saveState.kind === 'saving' ? <LoaderCircle size={11} className="wb-spinner" /> : saveState.kind === 'saved' ? <Check size={11} /> : null}{saveLabel}</span>
           <div className="wb-editor-actions">
-            <button type="button" className="wb-button" aria-label="打开模板" title="打开模板" disabled={loading||!problem||unavailable} onClick={()=>setTemplatesOpen(true)}><Code2 size={14}/></button>
+            {featureAvailable('templates',true)&&<button type="button" className="wb-button" aria-label="打开模板" title="打开模板" disabled={loading||!problem||unavailable} onClick={()=>setTemplatesOpen(true)}><Code2 size={14}/></button>}
             {onSolution && !runningContest && !problem?.locked && <span className="wb-solution-methods">{(problem?.solutionMethods??(problem?[{id:'original',title:'题解'}]:[])).map((method,index,methods)=><button key={method.id} type="button" className="wb-button wb-solution-button" aria-label={methods.length===1?'题解':`题解${index+1}`} title={method.title||`题解${index+1}`} aria-pressed={solutionOpen&&(solutionMethodId===method.id||!solutionMethodId&&index===0)} onClick={()=>callbacks.current.onSolution?.(problemId,method.id)}><BookOpen size={14}/></button>)}</span>}
             {onNext && <button type="button" className="wb-button wb-next-button" onClick={async () => { if(await saveRecord(activeRecord.current)) callbacks.current.onNext?.(); }}>下一题<ArrowRight size={14} /></button>}
             {localDraftRecovery !== null && <button type="button" className="wb-button" disabled={unavailable} title="当前为更新的同步版本；可恢复本机未上传的旧草稿" onClick={() => {
@@ -837,7 +850,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
               if (typeof previous === 'string') updateCode(previous);
             }}><RotateCcw size={14} /></button>}
           </div>
-          {headerEnd&&<div className="wb-context-actions">{headerEnd}</div>}
+          {headerEnd&&!narrow&&<div className="wb-context-actions">{headerEnd}</div>}
         </div>
         <div className="wb-editor">
           <CodeEditor shortcuts={shortcuts} ref={editorRef} value={code} docKey={contextKey} onChange={updateCode} onCursorChange={setCursor} onCommand={editorCommand} onLeave={() => consoleButtonRef.current?.focus()} readOnly={unavailable} disabled={loading || !problem} language={codeLanguage} ariaLabel={codeLanguage==='python3'?'Python 代码':'C++ 代码'} />

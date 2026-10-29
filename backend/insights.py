@@ -49,6 +49,9 @@ def _canonical_url(value):
         match = re.fullmatch(r"/acm/contest/(\d+)/([A-Za-z0-9]+)", path)
         if match:
             return f"ac.nowcoder.com/acm/contest/{match[1]}/{match[2].upper()}"
+    if host == 'qoj.ac':
+        match=re.fullmatch(r'/(?:contest/\d+/)?problem/(\d+)(?:/statement/(?:default|zh_cn))?',path)
+        if match:return 'qoj.ac/problem/'+match[1]
     # Unknown domains can dedupe their own exact paths, but do not match platform facts.
     return host + path if parsed.scheme in {"http", "https"} and host else None
 
@@ -215,22 +218,15 @@ def build_insights(rows, submissions, history, workspace, hub, now):
     from progression import ac_achievements, official_reward_evidence
     achievements = ac_achievements(official_reward_evidence(rows, records, hub))
     achievements.append({"id": "contest-1", "name": "完成模拟赛", "description": "完成一场至少训练一分钟并实际提交的计时模拟赛", "unlocked": bool(completed_contests), "unlockedAt": min((item.get("finishedAt") for item in completed_contests if item.get("finishedAt")), default=None), "progress": min(1, len(completed_contests)), "target": 1})
-    evidence_count = len(independent)
-    enough = evidence_count >= 5
-    rating = int(round(statistics.median(value[0] for value in independent.values()) / 100) * 100) if enough else None
-    trend = []
-    seen_values = []
-    for difficulty, timestamp in sorted(independent.values(), key=lambda value: value[1] or ""):
-        seen_values.append(difficulty)
-        day = _date(timestamp)
-        if len(seen_values) >= 5 and day:
-            point = {"date": day.isoformat(), "value": int(round(statistics.median(seen_values) / 100) * 100)}
-            if trend and trend[-1]["date"] == point["date"]:
-                trend[-1] = point
-            else:
-                trend.append(point)
-    assessment = {"rating": rating, "band": "insufficient" if not enough else "low" if evidence_count < 10 else "medium" if evidence_count < 30 else "high", "label": "训练难度估算" if enough else "独立通过证据不足", "confidence": "none" if not enough else "low" if evidence_count < 10 else "medium" if evidence_count < 30 else "high", "evidenceCount": evidence_count, "explanation": "取至少五道独立官方 AC 题目的难度中位数，非 CF 官方难度采用保守区间下界，仅描述已验证训练范围，不是官方等级分；查看题解后的提交、运行和样例通过不计入。", "platforms": platforms, "trend": trend[-365:]}
-    recommendations, level, basis = recommend_problems(library, active, independent, personal, official, hub)
+    from ability_assessment import assess,from_records
+    ability=assess(from_records(rows,records,now),now)
+    if workspace.get('activeContest'):ability['evidence']=[]
+    assessment={**ability,'rating':ability['abilityScore'],'band':ability['confidence'],
+        'label':'训练难度估算' if ability['qualified'] else '独立通过证据不足',
+        'explanation':ability['rules'],'platforms':platforms,'trend':[]}
+    # A historical median curve cannot stand in for this new model. Only a
+    # genuinely recorded series may be added later; no retroactive fake trend.
+    recommendations, level, basis = recommend_problems(library, active, independent, personal, official, hub, ability=ability['abilityScore'])
     assessment.update(recommendationLevel=level, recommendationBasis=basis)
     before_today_solved = {key for key in total_solved if not solved_dates[key] or any(day < today for day in solved_dates[key])}
     today_solved = {key for key in total_solved if first_solved_days.get(key) == today}
@@ -249,14 +245,14 @@ def build_insights(rows, submissions, history, workspace, hub, now):
     return {"summary": summary, "personalStatistics":personal_statistics, "growth": growth, "activity": activity, "knowledge": knowledge, "knowledgeEvidence": list(mastery_evidence.values()), "knowledgeModel": dict(KNOWLEDGE_MODEL), "recommendations": recommendations, "achievements": achievements, "assessment": assessment}
 
 
-def recommend_problems(library, active, independent, personal, official, hub):
+def recommend_problems(library, active, independent, personal, official, hub, ability=None):
     """Practice targets are conservative training bands, never fabricated ratings."""
     values = [value[0] for value in independent.values()]
     cf = [account.get('rating') for account in hub.get('accounts', []) if account.get('platform') == 'codeforces' and account.get('status') == 'ready' and isinstance(account.get('rating'), (int, float)) and not isinstance(account.get('rating'), bool)]
     public = [library[identity]['difficulty'] for identity in official if identity in library and isinstance(library[identity].get('difficulty'), (int, float))]
-    if len(values) >= 3:
-        level = round(statistics.median(values) / 100) * 100
-        basis = f'根据 {len(values)} 道独立官方 AC 题的难度选择邻近训练带；这不是官方等级分'
+    if ability is not None:
+        level = round(ability / 100) * 100
+        basis = '根据独立正式作答的保守能力估计选择邻近训练带；不是官方等级分'
     elif cf:
         level = round((cf[0] - 100) / 100) * 100
         basis = '使用已绑定 Codeforces 官方等级分保守选择训练带；其它平台分数不混算'

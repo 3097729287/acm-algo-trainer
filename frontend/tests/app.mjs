@@ -72,6 +72,8 @@ await page.route('**/api/**', async route => {
   if (body) { assert.equal(request.headers()['x-tb-token'], 'fixture'); writes.push({ path, body }); }
   let value;
   if (path === '/api/account') value = { required: false, authenticated: true, token: 'fixture', account: null };
+  else if(path==='/api/contest-calendar')value={contests:[],refreshing:false,importing:false};
+  else if(path==='/api/content-update')value={revision:0,status:'current',error:''};
   else if (path === '/api/software-update') value = {currentVersion:'0.10.0', status:'current', autoCheck:true, canInstall:false};
   else if (path === '/api/browser-preparation') value = {available:false};
   else if (path === '/api/data') value = { rows, categories, token: 'fixture', today: date, revision: 'fixture' };
@@ -82,6 +84,7 @@ await page.route('**/api/**', async route => {
   else if (path === '/api/inbox') value = { pending: 0, errors: [] };
   else if (path === '/api/hub') value = hub;
   else if (path === '/api/insights') value = insights;
+  else if (path === '/api/daily-tasks') value = insights.dailyTasks;
   else if (path === '/api/submissions') {
     assert.equal(url.searchParams.get('resultsOnly'),'1');
     const offset=Number(url.searchParams.get('offset')||0),limit=Number(url.searchParams.get('limit')||100),verdict=url.searchParams.get('verdict'),query=(url.searchParams.get('q')||'').toLowerCase();
@@ -157,7 +160,14 @@ try {
   await page.locator('.reader-panel header .katex').waitFor();
   assert.equal(await page.locator('.reader-panel header .katex-html').textContent(), 'gcd');
   await page.screenshot({ path: 'tests/screenshots/title-math-workbench.png', animations: 'disabled' });
+  await page.setViewportSize({width:960,height:700});
+  await page.waitForFunction(()=>document.querySelector('.reader-panel')?.getBoundingClientRect().width>650);
+  assert.equal(await page.locator('.tb-workbench').count(),1,'reading in a small window preserves the mounted editor');
+  assert.equal(await page.locator('.tb-workbench').isVisible(),false,'the full-width reader leaves enough space for readable text');
+  await page.screenshot({path:'tests/screenshots/reader-960.png',animations:'disabled'});
   await page.getByRole('button', { name: '收起题解', exact: true }).click();
+  await page.locator('.tb-workbench').waitFor({state:'visible'});
+  await page.setViewportSize({width:2048,height:1152});
   await page.getByRole('button', { name: '返回列表', exact: true }).click();
   await page.locator('.table-scroll').focus();
   await page.keyboard.press('Home');
@@ -239,7 +249,11 @@ try {
   assert.equal(await page.locator('.activity-month-grid').count(),1);
   assert.equal(await page.locator('.activity-square-viewport h3,.activity-day-blank').count(),0);
   const calendarDates=await page.locator('.activity-day').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('aria-label').slice(0,10)));
-  assert.ok(calendarDates.length>=120&&calendarDates.length<=123);
+  const calendarYear=Number(calendarDates[0]?.slice(0,4));
+  const daysInYear=(Date.UTC(calendarYear+1,0,1)-Date.UTC(calendarYear,0,1))/86400000;
+  assert.equal(calendarDates.length,daysInYear,'the training grid contains the complete selected year');
+  assert.equal(calendarDates[0],`${calendarYear}-01-01`);
+  assert.equal(calendarDates.at(-1),`${calendarYear}-12-31`);
   assert.ok(calendarDates.slice(1).every((day,index)=>Date.parse(day)-Date.parse(calendarDates[index])===86400000),'dates remain consecutive across all month boundaries');
   assert.ok(squares.every(([width,height,text])=>width<=48&&Math.abs(width-height)<1&&text===''),'calendar cells are true squares without text');
   assert.equal(await page.locator('.activity-selected-summary .activity-progress-segment').count(),5);
@@ -250,7 +264,9 @@ try {
   await page.getByLabel('搜索活动日期',{exact:true}).fill('2026-02-30');
   assert.equal(await page.getByLabel('搜索活动日期',{exact:true}).getAttribute('aria-invalid'),'true');
   await page.getByLabel('搜索活动日期',{exact:true}).fill('');
-  await page.getByLabel('活动时间',{exact:true}).fill(date.slice(0,7));
+  await page.getByLabel('搜索活动日期',{exact:true}).fill(date);
+  await page.waitForFunction(day=>document.querySelector('.activity-selected-summary time')?.getAttribute('datetime')===day,date);
+  await page.getByLabel('搜索活动日期',{exact:true}).fill('');
   await page.screenshot({path:'tests/screenshots/activity-square-light-2048.png',animations:'disabled'});
 
   await page.keyboard.press('Control+9');
@@ -269,7 +285,10 @@ try {
   await page.getByRole('dialog').locator('.submission-source').getByText('#include <iostream>', { exact: false }).waitFor();
   assert.ok(await page.getByRole('dialog').locator('header .katex').count() > 0);
   await page.keyboard.press('Escape');
-  assert.equal(await page.locator('.submission-log-row').count(), 20);
+  const visibleRecords=()=>page.locator('.submission-log-row:not([aria-hidden="true"])');
+  await visibleRecords().first().waitFor();
+  assert.ok(await visibleRecords().count()>0,'fitted submission pages display available rows');
+  assert.ok(await visibleRecords().evaluateAll(nodes=>nodes.every(node=>node.getBoundingClientRect().bottom<=document.querySelector('.submission-log').getBoundingClientRect().bottom+1)),'visible rows fit the records panel');
   const startsBefore=writes.filter(item=>item.path==='/api/training/start').length;
   await page.locator('.submission-problem-link').first().click();
   await page.getByRole('textbox',{name:'C++ 代码',exact:true}).waitFor();
@@ -277,19 +296,22 @@ try {
   await page.getByRole('button',{name:'返回列表',exact:true}).click();
   await page.locator('.submission-log-row .verdict').first().waitFor();
   assert.ok(writes.filter(item=>item.path==='/api/training/start').length>=startsBefore);
-  assert.equal(await page.locator('.submission-day').count(), 1);
+  assert.equal(await page.locator('.submission-day:not([aria-hidden="true"])').count(), 1);
   assert.equal(await page.locator('.submission-day-heading > span').count(), 0);
   assert.equal(await page.locator('.submission-log-row .verdict').nth(1).textContent(), 'WA');
   assert.equal(await page.locator('.submission-log-row .verdict.wrong').first().evaluate(node => getComputedStyle(node).color), 'rgb(182, 67, 88)');
-  for(let index=0;index<5;index++){
-    const response=page.waitForResponse(response=>response.url().includes('/api/submissions?')&&new URL(response.url()).searchParams.get('offset')===String((index+1)*20));
+  let submittedPages=0;
+  while(await page.getByRole('button',{name:'下一页提交',exact:true}).isEnabled()){
+    const before=Number(await page.locator('.submission-log').getAttribute('data-offset'));
     await page.getByRole('button',{name:'下一页提交',exact:true}).click();
-    await response;
-    await page.waitForFunction(offset=>document.querySelector('.submission-log')?.getAttribute('aria-busy')==='false'&&document.querySelector('.submission-log')?.dataset.offset===String(offset),(index+1)*20);
+    await page.waitForFunction(offset=>document.querySelector('.submission-log')?.getAttribute('aria-busy')==='false'&&Number(document.querySelector('.submission-log')?.dataset.offset)>offset,before);
+    const expectedOffset=Number(await page.locator('.submission-log').getAttribute('data-offset'));
+    assert.ok(expectedOffset>before&&expectedOffset<=before+100,'next page advances within the fetched metadata block');
+    assert.ok(++submittedPages<submissions.length,'responsive pagination always advances');
   }
-  assert.equal(await page.locator('.submission-log-row').count(),1);
-  assert.deepEqual(await page.locator('.submission-day').evaluateAll(nodes=>nodes.map(node=>node.dataset.day)),['2026-10-12']);
-  assert.deepEqual(await page.locator('.submission-record-meta').locator(':scope > :not([aria-hidden])').allTextContents(),['23:59','D','测试比赛']);
+  const previousDay=page.locator('.submission-day[data-day="2026-10-12"]:not([aria-hidden="true"])');
+  assert.equal(await previousDay.count(),1,'the final page reaches the preceding training date');
+  assert.deepEqual(await previousDay.locator('.submission-record-meta').locator(':scope > :not([aria-hidden])').allTextContents(),['23:59','D','测试比赛']);
   await page.getByRole('button',{name:'上一页提交',exact:true}).click();
   await page.waitForFunction(()=>document.querySelector('.submission-log')?.getAttribute('aria-busy')==='false');
   await page.screenshot({path:'tests/screenshots/submissions-by-day-light-2048.png',animations:'disabled'});
@@ -299,7 +321,7 @@ try {
   assert.equal(await page.locator('.submission-log-row .verdict').textContent(),'CE');
   assert.equal(await page.locator('.submission-day-heading > span').count(),0);
   await page.getByLabel('提交结果分类',{exact:true}).selectOption('');
-  await page.waitForFunction(()=>document.querySelectorAll('.submission-log-row').length===20);
+  await page.waitForFunction(()=>document.querySelector('.submission-log')?.getAttribute('aria-busy')==='false'&&document.querySelector('.submission-log')?.dataset.offset==='0'&&document.querySelectorAll('.submission-log-row:not([aria-hidden=true])').length>1);
   await page.keyboard.press('Control+5');
   assert.equal(await page.locator('.mock-followup').count(), 0);
   await page.locator('.mock-history').waitFor();
@@ -337,15 +359,16 @@ try {
   await page.getByText('共享排行榜尚未连接', { exact: true }).waitFor();
   assert.equal(await page.locator('.ranking-table').count(), 0);
   await page.getByRole('button', { name: '设置昵称与连接' }).click();
-  assert.equal(await page.locator('.profile-edit').getAttribute('open'), null);
-  await page.getByText('管理账号',{exact:true}).click();
-  await page.getByLabel('用户昵称').fill('测试新昵称');
+  await page.locator('.account-panel').waitFor();
+  await page.getByLabel('用户昵称',{exact:true}).fill('测试新昵称');
   connection.endpoint = 'https://fixture.example.com';
   connection.configured = true; connection.status = 'syncing';
   await page.getByRole('button', { name: '保存昵称' }).click();
-  await page.getByText('昵称已保存。').waitFor();
+  await page.locator('.account-panel-saved').getByLabel('已保存',{exact:true}).waitFor();
   assert.equal(profile.userId, 'TB-fixture-00001');
+  await page.keyboard.press('Escape');
   await page.getByRole('button', { name: '排行榜', exact: true }).click();
+  await page.getByRole('button',{name:'同步与刷新',exact:true}).click();
   await page.locator('.ranking-table').getByText('测试新昵称', { exact: true }).waitFor();
 
   await page.keyboard.press('Control+0');
@@ -378,10 +401,9 @@ try {
   assert.equal(await page.locator('.settings-page .update-notifications').count(), 0);
   await page.getByRole('button', { name: '消息通知', exact: true }).click();
   await page.getByRole('dialog').getByText('新题已加入', { exact: true }).waitFor();
-  await page.getByRole('dialog').getByRole('button', { name: '一键已读', exact: true }).click();
   await page.waitForFunction(() => document.querySelector('.update-notification-heading button')?.disabled);
   assert.ok(hub.notifications.every(item => item.read));
-  assert.equal(writes.filter(item => item.path === '/api/hub/dismiss-all').length, 1);
+  assert.ok(writes.some(item=>item.path==='/api/hub/dismiss'&&item.body.id===notice.id),'opening notifications acknowledges the displayed message');
   await page.keyboard.press('Escape');
 
   for (const width of [2048, 1050]) {
@@ -447,15 +469,17 @@ try {
   assert.match(await page.locator('.topbar-daily-ac').getAttribute('aria-label'),/今日 3/);
   assert.equal(await page.locator('.overview-statistics').count(),0);
   assert.equal(await page.locator('.topbar').getByRole('button',{name:'模拟赛',exact:true}).count(),0);
+  await page.getByRole('button',{name:'综合训练',exact:true}).click();
   await page.locator('.mock-history').waitFor();
   await page.getByRole('button',{name:'删除模拟赛 完成的模拟赛',exact:true}).click();
-  await page.getByRole('alertdialog').getByRole('button',{name:'确认删除',exact:true}).click();
-  await page.waitForFunction(()=>!document.querySelector('.mock-delete-confirm'));
+  await page.getByRole('alertdialog').getByRole('button',{name:'删除',exact:true}).click();
+  await page.getByRole('alertdialog').waitFor({state:'detached'});
   assert.ok(writes.some(w=>w.path==='/api/contests/delete'&&w.body.id==='mock-old'));
-  await page.getByRole('button',{name:'删除全部记录',exact:true}).click();
-  await page.getByRole('alertdialog').getByRole('button',{name:'确认删除',exact:true}).click();
+  assert.equal(await page.getByRole('button',{name:'删除全部记录',exact:true}).count(),0,'history uses per-record confirmation');
+  await page.locator('.mock-history .mock-record-delete').click();
+  await page.getByRole('alertdialog').getByRole('button',{name:'删除',exact:true}).click();
   await page.locator('.mock-history .empty').waitFor();
-  assert.ok(writes.some(w=>w.path==='/api/contests/delete'&&w.body.all));
+  assert.ok(writes.some(w=>w.path==='/api/contests/delete'&&w.body.id==='mock-new'));
   await page.keyboard.press('Control+1');
   for (const width of [1280,1024]) {
     await page.setViewportSize({width,height:760});
@@ -518,10 +542,10 @@ try {
   assert.ok(profileRings.masked&&profileRings.frameInner>=profileRings.xpOuter-1,'frame surrounds the XP ring without wings crossing it');
   await page.screenshot({path:'tests/screenshots/growth-aligned-2048.png',animations:'disabled'});
   await page.keyboard.press('Control+1');
-  await page.getByLabel('我的训练分类',{exact:true}).selectOption('goals');
-  assert.equal(await page.locator('.queue-heading').count(),1);
-  assert.ok((await page.locator('.queue-heading').textContent()).includes('今日目标'));
-  await page.getByLabel('我的训练分类',{exact:true}).selectOption('');
+  await page.locator('.queue-heading').first().waitFor();
+  const trainingGroups=await page.locator('.queue-heading strong').allTextContents();
+  assert.ok(trainingGroups.includes('今日目标')&&trainingGroups.length>1,'daily goals remain grouped alongside ongoing training');
+  assert.equal(await page.getByLabel('我的训练分类',{exact:true}).count(),0,'training uses the shared problem filter');
   const board=async route=>route.fulfill({json:{configured:true,status:'ready',hasSnapshot:true,period:new URL(route.request().url()).searchParams.get('period'),date,socialAvailable:true,self:{userId:profile.userId,count:1},entries:[{rank:1,userId:profile.userId,nickname:profile.nickname,count:3,likes:{total:4}},{rank:2,userId:'other-two',nickname:'星河Alice',count:2,likes:{total:6}},{rank:3,userId:'other-three',nickname:'海边Bob',count:1,likes:{total:2}}]}});
   await page.route('**/api/leaderboard?**',board);
   await page.locator('.sidebar').getByRole('button',{name:'排行榜',exact:true}).click();
@@ -573,16 +597,18 @@ try {
   assert.equal(Number(await lowSlider.inputValue()),lowBefore+100);
   await lowSlider.press('Alt+ArrowRight');assert.equal(Number(await lowSlider.inputValue()),lowBefore+110);
   await lowSlider.press('Home');
+  const sliderMin=Number(await lowSlider.getAttribute('min')),sliderMax=Number(await lowSlider.getAttribute('max'));
+  assert.equal(Number(await lowSlider.inputValue()),sliderMin);
   const rail=await lowSlider.boundingBox();
-  const pixelsPerStep=Math.max(32,(rail.width-12)*100/2000);
+  const pixelsPerStep=(rail.width-12)*100/(sliderMax-sliderMin);
   await page.mouse.move(rail.x+6,rail.y+rail.height/2);await page.mouse.down();
   await page.mouse.move(rail.x+10,rail.y+rail.height/2);
-  assert.equal(Number(await lowSlider.inputValue()),0,'a millimetre-sized movement changes nothing');
-  await page.mouse.move(rail.x+26,rail.y+rail.height/2);
-  assert.equal(Number(await lowSlider.inputValue()),0,'short drags cannot overshoot by 100');
-  await page.mouse.move(rail.x+6+pixelsPerStep+7,rail.y+rail.height/2);
-  assert.equal(Number(await lowSlider.inputValue()),100,'a deliberate full movement advances one hundred-point step');
-  await page.mouse.up();assert.equal(Number(await lowSlider.inputValue()),100,'release never jumps to the pointer absolute position');
+  assert.equal(Number(await lowSlider.inputValue()),sliderMin,'a millimetre-sized movement changes nothing');
+  await page.mouse.move(rail.x+6+pixelsPerStep*.4,rail.y+rail.height/2);
+  assert.equal(Number(await lowSlider.inputValue()),sliderMin,'movement below half of the displayed step cannot overshoot by 100');
+  await page.mouse.move(rail.x+6+pixelsPerStep*1.1,rail.y+rail.height/2);
+  assert.equal(Number(await lowSlider.inputValue()),sliderMin+100,'a full displayed step advances one hundred-point step');
+  await page.mouse.up();assert.equal(Number(await lowSlider.inputValue()),sliderMin+100,'release never jumps to the pointer absolute position');
   const thumb=await lowSlider.evaluate(node=>({size:getComputedStyle(node,'::-webkit-slider-thumb').width,height:node.getBoundingClientRect().height}));
   await page.screenshot({path:'tests/screenshots/difficulty-refined.png',animations:'disabled'});
   assert.ok(thumb.height<32);
@@ -607,7 +633,7 @@ try {
   await page.keyboard.press('Control+3');
   await page.getByLabel('搜索算法',{exact:true}).fill('knapsack');
   assert.equal(await page.locator('.lab-catalog .lab-panel').count(),1);
-  await page.getByRole('button',{name:'学算法',exact:true}).click();
+  await page.locator('.lab-catalog .catalog-card-open').click();
   await page.locator('.lab-lesson').waitFor();
   const navigation=await page.locator('.lab-course-header').evaluate(node=>({
     back:node.querySelector('[aria-label="返回算法实验室"]').getBoundingClientRect().x,

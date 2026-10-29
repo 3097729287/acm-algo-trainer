@@ -22,7 +22,7 @@ import public_platforms as P
 
 from version import VERSION
 LOG=logging.getLogger('tb.integrations')
-HOSTS={'codeforces.com','atcoder.jp','ac.nowcoder.com','www.luogu.com.cn','api.github.com','github.com','kenkoooo.com'}
+HOSTS={'codeforces.com','atcoder.jp','ac.nowcoder.com','www.luogu.com.cn','api.github.com','github.com','kenkoooo.com','qoj.ac'}
 KNOWN_REPO='3097729287/acm-algo-trainer'
 DEFAULTS={'githubRepo':KNOWN_REPO,'autoSync':True,'intervalHours':6,'minDifficulty':0,'maxDifficulty':10000,'includePrereleases':True,'accounts':{p:'' for p in P.LABELS}}
 
@@ -50,6 +50,9 @@ def canonical(url):
     if host=='luogu.com.cn':host='www.luogu.com.cn'
     match=re.fullmatch(r'/problemset/problem/(\d+)/([A-Z]\d?)',path)
     if host=='codeforces.com' and match:path='/contest/'+match[1]+'/problem/'+match[2]
+    if host=='qoj.ac':
+        qoj=re.fullmatch(r'/(?:contest/\d+/)?problem/(\d+)(?:/statement/(?:default|zh_cn))?',path)
+        if qoj:path='/problem/'+qoj[1]
     return 'https://'+host+path if host else None
 
 def atomic(path,value):
@@ -117,9 +120,10 @@ class PublicClient:
     def __init__(self,state_dir,stop=None,transport=None,spacing=2):
         self.directory=Path(state_dir)/'http';self.stop=stop or threading.Event();self.transport=transport;self.spacing=spacing
         self.lock=threading.RLock();self.pacing={};self.backoff={};self.request_locks={};self.opener=build_opener(_Redirect())
-    def _get(self,url,headers=None,public_fields=None,owner_filter=None,max_age=300):
+    def _get(self,url,headers=None,public_fields=None,owner_filter=None,max_age=300,binary=False):
         safe_url(url);host=urlsplit(url).hostname
         cache_key=url+('\0contest-metadata' if public_fields else '')
+        if binary:cache_key+='\0public-binary-v1'
         if owner_filter:cache_key+='\0owner-receipts-v1:'+owner_filter[0]
         path=self.directory/(hashlib.sha256(cache_key.encode()).hexdigest()+'.json')
         # Deduplicate one URL, but never hold a global lock during pacing or
@@ -143,7 +147,7 @@ class PublicClient:
                     with self.opener.open(Request(url,headers=request_headers,method='GET'),timeout=8) as response:
                         safe_url(response.url);body=response.read(32*1024*1024+1);etag=response.headers.get('ETag')
                 if len(body)>32*1024*1024:raise ValueError('公开响应超过大小限制')
-                text=body.decode('utf-8','replace')
+                text=base64.b64encode(body).decode('ascii') if binary else body.decode('utf-8','replace')
                 if owner_filter:text=json.dumps(owner_filter[1](json.loads(text)),ensure_ascii=False)
                 if public_fields:
                     # The anonymous CF standings endpoint requires an entire
@@ -158,9 +162,10 @@ class PublicClient:
             except HTTPError as error:
                 if error.code==304 and saved:
                     saved['at']=time.time();atomic(path,saved);return saved['text']
-                with self.lock:
-                    count=self.backoff.get(host,(0,0))[1]+1
-                    self.backoff[host]=(time.monotonic()+min(3600,15*2**min(count,8)),count)
+                if error.code not in (404,410):
+                    with self.lock:
+                        count=self.backoff.get(host,(0,0))[1]+1
+                        self.backoff[host]=(time.monotonic()+min(3600,15*2**min(count,8)),count)
                 raise RuntimeError(f'原站公开 GET 返回 HTTP {error.code}；保留已有缓存') from error
             except (OSError,ValueError,RuntimeError) as error:
                 with self.lock:
@@ -168,6 +173,7 @@ class PublicClient:
                     self.backoff[host]=(time.monotonic()+min(3600,15*2**min(count,8)),count)
                 raise RuntimeError(str(error)[:250]) from error
     def text(self,url,headers=None):return self._get(url,headers)
+    def bytes(self,url,headers=None):return base64.b64decode(self._get(url,headers,binary=True))
     def json(self,url,headers=None):return json.loads(self._get(url,headers))
     def fresh_json(self,url,headers=None):return json.loads(self._get(url,headers,max_age=0))
     def owner_json(self,url,owner,parse,headers=None):return json.loads(self._get(url,headers,owner_filter=(owner,parse),max_age=0))

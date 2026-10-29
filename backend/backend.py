@@ -111,7 +111,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def dispatch(self, writing=False):
         path = unquote(urlsplit(self.path).path)
-        starting = writing and path in {'/api/submissions', '/api/official/open', '/api/official/submit', '/api/contests/start', '/api/software-update/install'}
+        starting = writing and path in {'/api/submissions', '/api/official/open', '/api/official/submit', '/api/contests/start', '/api/contests/start-calendar', '/api/software-update/install'}
         with self.server.work_start_lock if starting else nullcontext():
             self._account_dispatch(writing)
 
@@ -184,7 +184,7 @@ class Handler(BaseHTTPRequestHandler):
                     raise APIError(400, "JSON 格式无效")
                 if not isinstance(body, dict):
                     raise APIError(400, "请求必须是 JSON 对象")
-                if path in {'/api/submissions', '/api/official/open', '/api/official/submit', '/api/contests/start'} and self.server.software_updates.status == 'installing':
+                if path in {'/api/submissions', '/api/official/open', '/api/official/submit', '/api/contests/start', '/api/contests/start-calendar'} and self.server.software_updates.status == 'installing':
                     raise APIError(409, '正在安装更新，请等待程序重新启动')
                 training = self.server.training
                 if path.startswith('/api/account/'):
@@ -281,6 +281,10 @@ class Handler(BaseHTTPRequestHandler):
                     value = training.start_contest(body)
                     if callable(self.server.official_closer):
                         self.server.official_closer(None)
+                elif path == '/api/contests/start-calendar':
+                    if set(body)!={'id'} or not isinstance(body['id'],str):raise APIError(400,'请选择比赛日历中的比赛')
+                    value=training.start_calendar_contest(self.server.calendar_service().ongoing(body['id']))
+                    if callable(self.server.official_closer):self.server.official_closer(None)
                 elif path == '/api/contests/cancel':
                     value = training.cancel_contest(body.get('contestId'))
                 elif path == "/api/contests/finish":
@@ -512,7 +516,9 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_json(200, self.server.training.submission(identity))
             elif path == "/api/submissions":
                 query = parse_qs(target.query)
-                self.send_json(200, self.server.training.submissions(query.get("id", [None])[0], query.get("contestId", [None])[0], limit=query.get("limit", [100])[0], offset=query.get("offset", [0])[0], results_only=query.get('resultsOnly', ['0'])[0] == '1', query=query.get('q', [''])[0], verdict=query.get('verdict', [''])[0], order=query.get('order', ['desc'])[0]))
+                self.send_json(200, self.server.training.submissions(query.get("id", [None])[0], query.get("contestId", [None])[0], limit=query.get("limit", [100])[0], offset=query.get("offset", [0])[0], results_only=query.get('resultsOnly', ['0'])[0] == '1', query=query.get('q', [''])[0], verdict=query.get('verdict', [''])[0], order=query.get('order', ['desc'])[0], compact=query.get('compact',['0'])[0]=='1'))
+            elif path == '/api/content-update':
+                self.send_json(200,self.server.content_updates.snapshot())
             elif path == "/api/contest":
                 identity = parse_qs(target.query).get("id", [None])[0]
                 self.send_json(200, self.server.training.contest(identity))
@@ -815,6 +821,8 @@ class LocalServer(ThreadingHTTPServer):
         return value
 
     def server_close(self):
+        content=getattr(self,'content_updates',None)
+        if content is not None:content.close()
         cache=getattr(self,'catalogue_compression',None)
         if cache is not None:cache.clear()
         backfill = getattr(self, 'statement_backfill', None)
@@ -838,7 +846,7 @@ class LocalServer(ThreadingHTTPServer):
         finally:
             accounts = getattr(self, 'accounts', None)
             if accounts is not None:
-                accounts.close()
+                accounts.close(wait=not getattr(self,'fast_shutdown',False))
             elif training is not None:
                 training.close()
 
@@ -926,11 +934,22 @@ def create_server(port=0, data_file=None, data_root=None, dist_dir=None, history
             from lectures import LectureLibrary
             lectures = LectureLibrary(server.store, server.state_dir)
         server.lectures = lectures
+        from content_updates import ContentUpdates
+        def content_applied():
+            services=[server.training,*getattr(getattr(server,'accounts',None),'services',{}).values()]
+            for service in services:
+                assets=getattr(service,'assets',None)
+                if assets is not None:
+                    for name in ('_cached','bundle'):
+                        clear=getattr(getattr(assets,name,None),'cache_clear',None)
+                        if callable(clear):clear()
+        server.content_updates=ContentUpdates(server.store,offline=True if admin_mode else None,on_applied=content_applied)
         from official_sync import OfficialSync
         server.official_sync = OfficialSync(server)
         if integration_auto_start:
             server.official_sync.start()
             if not admin_mode:
+                server.content_updates.start()
                 server.calendar_service()
                 server.statement_backfill.start()
     except Exception:

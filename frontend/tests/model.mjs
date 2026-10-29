@@ -54,7 +54,7 @@ assert.deepEqual(folders.find(node=>node.label==='AtCoder').children.map(node=>n
 assert.deepEqual(contestOptions([]),[]);
 assert.deepEqual(catalogEntries([]),[]);
 assert.deepEqual(contestFilterOptions([]),[]);
-assert.deepEqual(catalogEntries([{contest:'ICPC 2026 杭州区域赛',series:'XCPC'}],['ACM']).map(node=>node.label),['ICPC']);
+assert.deepEqual(catalogEntries([{contest:'ICPC 2026 杭州区域赛',series:'XCPC'}],['ACM']).map(node=>node.label),['ICPC 区域赛']);
 assert.deepEqual(folders.find(node=>node.label==='牛客').children[0].children.map(node=>node.value),['周赛 166','周赛 123']);
 const easy='### 题意\n\n统计总和。\n\n### 思路\n\n累加每个数。\n\n### 参考代码\n\n```cpp\nint main(){}\n// ### not a heading\n```\n\n### 复杂度\n\n线性。';
 assert.match(briefSolution(easy,800),/累加每个数/);

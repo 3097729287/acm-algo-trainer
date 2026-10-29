@@ -139,7 +139,25 @@ class ContestCalendar:
         while not self.stop.is_set():
             self.snapshot()
             self.import_due()
-            self.stop.wait(15)
+            with self.lock:
+                future=[dt.datetime.fromisoformat(row['startAt']).timestamp()-self.clock()
+                        for provider in self.providers.values() for row in provider.get('contests',[])
+                        if dt.datetime.fromisoformat(row['startAt']).timestamp()>self.clock()]
+            self.stop.wait(max(.05,min([15,*future])))
+
+    def ongoing(self, identity):
+        """Resolve a cached first-party event; callers cannot supply a deadline."""
+        from training import ServiceError
+        with self.lock:
+            row=next((row for provider in self.providers.values() for row in provider.get('contests',[])
+                      if row['id']==identity),None)
+            if row is None:raise ServiceError(404,'没有找到这场公开比赛，请刷新赛程')
+            now=self.clock()
+            if not dt.datetime.fromisoformat(row['startAt']).timestamp()<=now<dt.datetime.fromisoformat(row['endAt']).timestamp():
+                raise ServiceError(409,'这场比赛尚未开始或已经结束')
+            imported=self.imports.get(identity,{})
+            if imported.get('status')!='ready':raise ServiceError(409,'完整题面尚未就绪，请稍后重试')
+            return {**copy.deepcopy(row),'contest':imported.get('title') or row['title']}
 
     def import_due(self):
         if self.offline or self.stop.is_set() or self.importer is None:

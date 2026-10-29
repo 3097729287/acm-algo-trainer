@@ -11,8 +11,8 @@ const rows = [
   ['ABC 1', 'AtCoder', 'ABC'], ['ICPC 2025 南京区域赛', 'Codeforces', 'XCPC'],
   ['蓝桥杯 2025 初赛', '洛谷', '蓝桥杯 C/C++大学B'],
 ].map(([contest, platform, series], index) => ({ id: 'fixture-' + index, contest, platform,
-  series, examGroup:index===6?'C/C++大学B组':undefined, title: '题目 ' + index, problem: 'A', difficulty: index === 5 ? null : 1100,
-  difficultyEstimated: platform !== 'Codeforces', examYear: 2025, examStage: '区域赛' }));
+  series, contestProblemCount:1,catalogContentReady:true,examGroup:index===6?'C/C++大学B组':undefined, title: '题目 ' + index, problem: 'A', difficulty: index === 5 ? null : 1100,
+  difficultyEstimated: platform !== 'Codeforces', examYear: 2025, examStage:index===5?'区域赛':index===6?'省赛':undefined }));
 const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Shanghai' }).format(new Date());
 const activity = [0, 2, 4, 6, 8, 10].map((officialAccepted, index) => ({
   date: today.slice(0, 8) + String(index + 1).padStart(2, '0'),

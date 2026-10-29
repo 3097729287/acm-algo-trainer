@@ -31,16 +31,7 @@ def _grid(parameters):
                  for r in (p['gridMin']+i*p['gridStep'] for i in range(size)))
 
 
-def estimate(evidence, model=None):
-    p = {**MODEL, **(model or {})}
-    items = sorted({item['id']: item for item in evidence}.values(), key=lambda item: item['id'])
-    known = [item for item in items if item.get('rated') and type(item.get('difficulty')) in (int,float)
-             and math.isfinite(item['difficulty']) and item['difficulty']>0]
-    base = {'value': None, 'rawValue': None, 'interval': None, 'intervalKind': 'model',
-            'participated': len(items), 'rated': len(known),
-            'officialAccepted': sum(bool(item.get('solved')) for item in items)}
-    if not known:
-        return {**base, 'reason': '尚无已定级题目的有效作答；未练与未知难度均不补造掌握分。'}
+def _distribution(known, p):
     histogram = {}
     for item in known:
         total_weight, successes = histogram.get(item['difficulty'], (0.0,0.0))
@@ -58,13 +49,41 @@ def estimate(evidence, model=None):
     peak = max(densities)
     weights = [math.exp(value-peak) for value in densities]
     total = sum(weights)
-    quantiles = [.025,p['scoreQuantile'],.975]
+    return grid, [weight/total for weight in weights]
+
+
+def _quantiles(grid, weights, quantiles, column):
     scores, cumulative = [],0.0
-    for weight, (_,_,score) in zip(weights,grid):
-        cumulative += weight/total
-        while len(scores)<3 and cumulative>=quantiles[len(scores)]:
-            scores.append(score)
-    scores += [100.0]*(3-len(scores))
+    for weight, point in zip(weights,grid):
+        cumulative += weight
+        while len(scores)<len(quantiles) and cumulative>=quantiles[len(scores)]:
+            scores.append(point[column])
+    return scores+[grid[-1][column]]*(len(quantiles)-len(scores))
+
+
+def ability_posterior(evidence, model=None):
+    """The same Rasch likelihood as mastery, returned on its ability axis."""
+    p={**MODEL,**(model or {})}
+    known=[item for item in evidence if item.get('rated') and type(item.get('difficulty')) in (int,float)
+           and math.isfinite(item['difficulty']) and item['difficulty']>0]
+    if not known:return None
+    grid,weights=_distribution(known,p)
+    values=_quantiles(grid,weights,[.025,p['scoreQuantile'],.5,.975],0)
+    return {'lower':values[1],'median':values[2],'interval':[values[0],values[3]]}
+
+
+def estimate(evidence, model=None):
+    p = {**MODEL, **(model or {})}
+    items = sorted({item['id']: item for item in evidence}.values(), key=lambda item: item['id'])
+    known = [item for item in items if item.get('rated') and type(item.get('difficulty')) in (int,float)
+             and math.isfinite(item['difficulty']) and item['difficulty']>0]
+    base = {'value': None, 'rawValue': None, 'interval': None, 'intervalKind': 'model',
+            'participated': len(items), 'rated': len(known),
+            'officialAccepted': sum(bool(item.get('solved')) for item in items)}
+    if not known:
+        return {**base, 'reason': '尚无已定级题目的有效作答；未练与未知难度均不补造掌握分。'}
+    grid,weights=_distribution(known,p)
+    scores=_quantiles(grid,weights,[.025,p['scoreQuantile'],.975],2)
     raw = scores[1]
     rounded = lambda x: math.floor(x+.5)
     value, interval = rounded(raw), [rounded(scores[0]),rounded(scores[2])]

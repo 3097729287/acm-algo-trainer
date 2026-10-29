@@ -13,6 +13,7 @@ page.setDefaultTimeout(12000);
 const timestamp=new Date().toISOString(),date=new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Shanghai'});
 const self={userId:'11111111-1111-4111-8111-111111111111',nickname:'训练者甲'},other={userId:'22222222-2222-4222-8222-222222222222',nickname:'训练者乙'};
 const rows=Array.from({length:120},(_,index)=>({id:`fixture::${index}`,contest:'周赛 166',problem:String(index+1),title:`列表定位测试 ${String(index+1).padStart(3,'0')}`,tags:['模拟'],knowledge:'模拟',platform:'牛客',series:'周赛',difficulty:800+index*10,url:`https://example.com/${index}`,contestDate:'2026-10-20T00:00:00Z',solutionAvailable:true}));
+for(const row of rows){row.contestProblemCount=rows.filter(item=>item.contest===row.contest&&item.platform===row.platform).length;row.catalogContentReady=true;}
 const training=rows.map(row=>({id:row.id,activeAt:timestamp,lastActivityAt:timestamp,today:true,accepted:false,verdict:null,attempts:0}));
 let preferences=null,likes={total:4,likedToday:false},failLike=true,boardDay=date,notifications=[{id:'33333333-3333-4333-8333-333333333333',kind:'comment',actor:other,recipient:self,text:'一起加油 <script>window.untrusted=true</script>',createdAt:timestamp,read:false}];
 notifications.push(...Array.from({length:100},(_,index)=>({id:`55555555-5555-4555-8555-${String(index).padStart(12,'0')}`,kind:'like',actor:other,recipient:self,createdAt:timestamp,read:false})));
@@ -21,7 +22,7 @@ const progress={badge:'tier-7',level:8,tier:'大师',rankTier:'大师',rankScore
 const ranked={badge:'tier-7',tier:'大师',qualified:true,abilityScore:2000,nextAbilityScore:2100,evidenceCount:8,minimumEvidence:5,levelGate:5};
 ranked.tierRequirements=['黑铁','青铜','白银','黄金','铂金','翡翠','钻石','大师','宗师','王者'].map((tier,index)=>({tier,badge:`tier-${index}`,minAbilityScore:[0,800,1000,1200,1400,1600,1800,2000,2100,2200][index]}));
 const hub={settings:{githubRepo:'3097729287/acm-algo-trainer',accounts:{},autoSync:false,intervalHours:6,minDifficulty:0,maxDifficulty:2199},sync:{busy:false},updates:{currentVersion:'1.1.5'},accounts:[],notifications:[]};
-await page.addInitScript(()=>localStorage.setItem('tb.preferences',JSON.stringify({theme:'dark',accent:'teal',backdrop:'aurora',panelOpacity:35,widgets:true,fontSize:16,navOrder:['mine','library','competitions','mock','rankings','growth','records','activity','lectures'],views:[]})));
+await page.addInitScript(()=>localStorage.setItem('tb.preferences',JSON.stringify({onboardingGuideVersion:2,theme:'dark',accent:'teal',backdrop:'aurora',panelOpacity:35,widgets:true,fontSize:16,navOrder:['mine','library','competitions','mock','rankings','growth','records','activity','lectures'],views:[]})));
 await page.route('**/api/**',async route=>{
   const request=route.request(),url=new URL(request.url()),path=url.pathname;
   if(!path.startsWith('/api/'))return route.continue();
@@ -29,13 +30,16 @@ await page.route('**/api/**',async route=>{
   if(body)writes.push({path,body});
   let value;
   if(path==='/api/account')value={required:false,authenticated:true,usesOriginalWorkspace:true,token:'fixture',account:self};
+  else if(path==='/api/training-list-likes')value={likes:[]};
   else if(path==='/api/preferences'){if(body)preferences=body.preferences;value={preferences,updatedAt:timestamp};}
+  else if(path==='/api/contest-calendar')value={contests:[],refreshing:false,importing:false};
+  else if(path==='/api/content-update')value={revision:0,status:'current',error:''};
   else if(path==='/api/software-update')value={currentVersion:'1.1.5',status:'current',autoCheck:false,canInstall:false};
   else if(path==='/api/browser-preparation')value={available:false};
   else if(path==='/api/data')value={rows,categories:[],token:'fixture',today:date,revision:'ui-social'};
   else if(path==='/api/workspace')value=workspace();
   else if(path==='/api/hub')value=hub;
-  else if(path==='/api/insights')value={summary:{officialSolved:0,submissions:0,activeDays:1,streak:1},growth:{...progress,totalXp:6265,currentLevelXp:665,nextLevelXp:1600,ranked},knowledge:[],achievements:[],activity:[],recommendations:[],assessment:{platforms:[]},dailyTasks:{tasks:[]}};
+  else if(path==='/api/insights')value={summary:{officialSolved:0,submissions:0,activeDays:1,streak:1},growth:{confirmed:true,authority:{owner:self.userId,epoch:'legacy-fixture',revision:1},...progress,totalXp:6265,currentLevelXp:665,nextLevelXp:1600,ranked},knowledge:[],achievements:[],activity:[],recommendations:[],assessment:{platforms:[]},dailyTasks:{tasks:[]}};
   else if(path==='/api/profile')value={profile:self,leaderboard:{configured:true,status:'ready'}};
   else if(path==='/api/goals')value={goals:[]};
   else if(path==='/api/contests/events')value={events:[]};
@@ -66,9 +70,9 @@ try {
  await mkdir('tests/screenshots',{recursive:true});
  await page.goto('http://127.0.0.1:18827');
  await page.locator('.problem-table tr[data-id]').first().waitFor();
- await page.getByLabel('今日获得爱心 3',{exact:true}).waitFor();
+ await page.getByLabel('爱心：历史 6，今日 3',{exact:true}).waitFor();
  const paths=await page.evaluate(async()=>{const {catalogSegments}=await import('/src/components/CatalogExplorer.jsx');return ['练习赛 153','CCPC 2025 郑州区域赛（热身赛）','CCPC 2025 郑州区域赛','ICPC 2026 亚洲区网络预选赛'].map(contest=>catalogSegments({contest,platform:'牛客'}));});
- assert.deepEqual(paths[0],['牛客','练习赛','练习赛 153']);assert.deepEqual(paths[1].slice(0,3),['ACM','CCPC','2025年']);assert.deepEqual(paths[1].slice(0,-1),paths[2].slice(0,-1));assert.equal(paths[1].at(-1),'热身赛');assert.equal(paths[2].at(-1),'正赛');assert.equal(paths[3][1],'网络预选赛');
+ assert.deepEqual(paths[0],['牛客','练习赛','练习赛 153']);assert.deepEqual(paths[1].slice(0,3),['XCPC','CCPC 区域赛','2025年']);assert.deepEqual(paths[1].slice(0,-1),paths[2].slice(0,-1));assert.equal(paths[1].at(-1),'热身赛');assert.equal(paths[2].at(-1),'正赛');assert.equal(paths[3][1],'网络预选赛');
  assert.equal(await page.locator('.sidebar').evaluate(el=>Math.round(el.getBoundingClientRect().width)),128);
  assert.equal(await page.locator('.knowledge-drawer-toggle').count(),0);
  await page.keyboard.press('Control+b');await page.keyboard.press('Control+b');
@@ -90,19 +94,19 @@ try {
  await page.locator('.problem-table tr[data-id]').first().waitFor();
  await page.locator('.problem-table tr[data-id]').first().locator('.problem-title').click();await page.locator('.cm-editor').waitFor();assert.equal(await page.locator('.topbar').isVisible(),false);assert.equal(await page.locator('.app-statusbar').isVisible(),false);await page.getByRole('button',{name:'返回列表',exact:true}).click();
  await nav('排行榜').click();await page.locator('.ranking-table tbody tr').first().waitFor();assert.equal(await page.getByText('本榜训练者',{exact:true}).count(),0);assert.equal(await page.getByRole('button',{name:'同步与刷新',exact:true}).innerText(),'');await checkOverflow();await page.screenshot({path:'tests/screenshots/ui-redesign-ranking.png'});
- await nav('设置').click();await page.keyboard.press('Escape');await page.getByRole('tab',{name:'数据统计',exact:true}).click();await page.getByRole('button',{name:'新手指引',exact:true}).click();await page.getByRole('button',{name:/入门总览/}).click();await page.getByRole('heading',{name:'收起与展开侧边栏',exact:true}).waitFor();await page.locator('.tour-card').getByRole('button',{name:'下一步',exact:true}).click();await page.getByRole('heading',{name:'连接账号',exact:true}).waitFor();
+ await openSettings(page,'新手指引');await page.getByRole('button',{name:/入门总览/}).click();await page.getByRole('heading',{name:'按等级逐步开放',exact:true}).waitFor();for(const title of ['下一步推荐做的事','收起与展开侧边栏','连接账号']){await page.locator('.tour-card').getByRole('button',{name:'下一步',exact:true}).click();await page.locator('.tour-card').getByRole('heading',{name:title,exact:true}).waitFor();}
  const next=page.locator('.tour-card').getByRole('button',{name:'下一步',exact:true});
  await next.click();await page.getByRole('heading',{name:'找到想练的题',exact:true}).waitFor();
  await next.click();await page.getByRole('heading',{name:'进入练习',exact:true}).waitFor();assert(await next.isDisabled());
  await page.locator('.problem-table tr[data-id]').first().locator('.problem-title').click();
  await page.getByRole('heading',{name:'阅读题面',exact:true}).waitFor();await page.locator('.cm-editor').waitFor();
- for (const title of ['编写代码','运行与提交','回到题库']) {await next.click();await page.getByRole('heading',{name:title,exact:true}).waitFor();assert(await page.locator('.tour-highlight').isVisible());}
+ for (const title of ['编写代码','运行与提交','回到题库']) {await next.click();await page.locator('.tour-card').getByRole('heading',{name:title,exact:true}).waitFor();assert(await page.locator('.tour-highlight').isVisible());}
  assert(await next.isDisabled());await page.getByRole('button',{name:'返回列表',exact:true}).click();
  await page.getByRole('heading',{name:'查看提交结果',exact:true}).waitFor();
- for (const title of ['组成一场训练','安排下一次练习','查看比赛日历','完成入门']) {await next.click();await page.getByRole('heading',{name:title,exact:true}).waitFor();}
+ for (const title of ['组成一场训练','安排下一次练习','查看比赛日历','完成入门']) {await next.click();await page.locator('.tour-card').getByRole('heading',{name:title,exact:true}).waitFor();}
  await page.locator('.tour-card').getByRole('button',{name:'完成',exact:true}).click();assert.equal(await page.locator('.guided-tour').count(),0);
- await page.getByRole('tab',{name:'数据统计',exact:true}).click();await page.getByRole('button',{name:'新手指引',exact:true}).click();await page.getByRole('button',{name:/入门总览/}).click();await page.getByRole('heading',{name:'收起与展开侧边栏',exact:true}).waitFor();
+ await openSettings(page,'新手指引');await page.getByRole('button',{name:/入门总览/}).click();await page.getByRole('heading',{name:'按等级逐步开放',exact:true}).waitFor();
  await page.locator('.tour-card').getByRole('button',{name:'结束指引 ×',exact:true}).click();await page.setViewportSize({width:1280,height:800});await nav('设置').click();if(!(await page.locator('.settings-home-grid').count()))await page.keyboard.press('Escape');await page.getByRole('tab',{name:'外观',exact:true}).click();await page.getByRole('spinbutton',{name:'界面字号',exact:true}).fill('22');await page.getByRole('spinbutton',{name:'界面字号',exact:true}).blur();await checkOverflow();await page.screenshot({path:'tests/screenshots/ui-redesign-settings-22.png'});
- await openSettings(page, '外观');await page.getByRole('button',{name:'云白浅色',exact:true}).click();await nav('模拟赛').click();await page.locator('.mock-mode-options').waitFor();await checkOverflow();await page.getByRole('button',{name:'训练筛选',exact:true}).click();assert((await page.getByLabel('模拟赛赛制',{exact:true}).boundingBox()).width>=100);await page.keyboard.press('Escape');await page.screenshot({path:'tests/screenshots/ui-redesign-light-mock-22.png'});
+ await openSettings(page, '外观');await page.getByRole('button',{name:'云白浅色',exact:true}).click();await nav('模拟赛').click();await page.locator('.mock-mode-options').waitFor();await checkOverflow();await page.getByRole('button',{name:'训练筛选',exact:true}).click();assert((await page.getByLabel('模拟赛时长',{exact:true}).boundingBox()).width>=70);await page.keyboard.press('Escape');await page.screenshot({path:'tests/screenshots/ui-redesign-light-mock-22.png'});
  assert.equal(errors.length,0,JSON.stringify(errors));console.log('UI redesign navigation checks passed');
 } finally {await browser.close();await vite.close();}

@@ -58,10 +58,15 @@ class ChunkTransport:
             if self.sync.stop.is_set():raise ServiceError(503,'账号同步正在停止，本机数据已保留')
             session=self.sync.session
             try:
-                return self.sync.accounts._remote(method,path,body,session,invalidate=False,maximum=128*1024,timeout=40,
+                value=self.sync.accounts._remote(method,path,body,session,invalidate=False,maximum=128*1024,timeout=40,
                     **({'state_revision':cached_revision} if cached_revision is not None else {}))
+                self.sync._check_stopping()
+                return value
             except ServiceError as issue:
                 if issue.status==401 and session['token']!=self.sync.session['token']:continue
+                if (getattr(issue, 'connection_unavailable', False)
+                    and self.sync.accounts.restore_time_remaining() is not None):
+                    raise  # A verified local lease must not wait through retry backoff.
                 if (issue.status not in (429,502,503,504) or attempt==attempts-1 or
                     (issue.status!=429 and (attempt>=8 or not retry))):raise
                 # Stable owner-based jitter spreads devices without a global lock.

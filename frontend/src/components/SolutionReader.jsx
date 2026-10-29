@@ -5,6 +5,7 @@ import {solutionBlocks} from '@/lib/practiceMetadata.js';
 import {primaryLectureTopic} from '@/lib/lectureFolders.js';
 import {canonicalKnowledgeName} from '@/lib/knowledgeNames.js';
 import './SolutionReader.css';
+import InlineTitle from './InlineTitle.jsx';
 
 import {lessonKey} from '@/lib/lessonKey.js';
 export default function SolutionReader({reader,error,api,methodId,onMethodChange,onClose,fullscreen,onFullscreen,prefs,setPrefs,onTrain}){
@@ -39,7 +40,7 @@ export default function SolutionReader({reader,error,api,methodId,onMethodChange
  const related=selected?(selected.tags||[]).map(canonicalKnowledgeName).filter((tag,index,tags)=>tag!==primaryLectureTopic(selected)&&tags.indexOf(tag)===index).map(tag=>lectures.find(item=>item.id!==selected.id&&primaryLectureTopic(item)===tag)).filter(Boolean):[];
  return <><header className="solution-reader-header">
   {stack.length>0&&<><button type="button" className="icon-button" aria-label="返回上一级" title="返回上一级 · Backspace" onClick={back}><ArrowLeft size={17}/></button><button type="button" className="icon-button" aria-label="返回题解" title="返回题解" onClick={root}><House size={17}/></button></>}
-  <strong>{selected?.concept||selected?.displayTitle||selected?.title||reader?.title||'题解'}</strong>
+  <strong><InlineTitle>{selected?.concept||selected?.displayTitle||selected?.title||reader?.title||'题解'}</InlineTitle></strong>
   {selected?<button type="button" className="icon-button" aria-label={learned.has(lessonKey(selected))?'取消已学会':'标记已学会'} aria-pressed={learned.has(lessonKey(selected))} title={learned.has(lessonKey(selected))?'取消已学会':'标记已学会'} onClick={()=>toggleLearned(selected)}><Check size={17}/></button>:reader&&<button type="button" className="icon-button solution-version-toggle" aria-label={variant==='default'?'切换为详细题解':'切换为默认题解'} title={variant==='default'?'切换为详细题解':'切换为默认题解'} aria-pressed={variant==='detailed'} onClick={()=>{remember();restore.current=positions.current.get(`${method.id}:${variant==='default'?'detailed':'default'}`)||0;setVariants(old=>({...old,[method.id]:variant==='default'?'detailed':'default'}));}}>{variant==='default'?<BookText size={17}/>:<BookOpen size={17}/>}</button>}
   <button type="button" className="icon-button" aria-label={fullscreen?'退出题解全屏':'题解全屏'} onClick={onFullscreen}>{fullscreen?<Minimize2 size={17}/>:<Maximize2 size={17}/>}</button><button type="button" className="icon-button" aria-label="收起题解" onClick={onClose}><X size={17}/></button>
  </header><div ref={body} className="reader-content" tabIndex={0} aria-label={selected?'从零讲正文':'题解正文'} onScroll={remember}>

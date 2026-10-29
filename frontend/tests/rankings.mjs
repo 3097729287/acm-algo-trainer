@@ -72,9 +72,9 @@ try {
  // A fetched empty board remains readable when another period or XP fails.
  await page.evaluate(()=>window.rankingState={status:'error',hasSnapshot:true,entries:[],self:{count:0},error:'排行榜服务响应超时，后台将自动重试'});
  await page.getByRole('button',{name:'同步与刷新'}).click();
- await page.getByRole('heading',{name:'榜单已读取',exact:true}).waitFor();
+ await page.getByRole('status').filter({hasText:'部分数据刷新未完成'}).waitFor();
  assert.equal(await page.getByText('排行榜暂时无法连接',{exact:true}).count(),0);
- await page.getByText('这个统计周期还没有首次官方 AC 记录。',{exact:true}).waitFor();
+ await page.getByText('暂无过题记录',{exact:true}).waitFor();
  await page.getByText('部分数据刷新未完成，后台将重试。',{exact:false}).waitFor();
  await page.evaluate(()=>window.rankingState={status:'error',hasSnapshot:false,entries:[],self:null,error:'排行榜服务响应超时，后台将自动重试'});
  await page.getByRole('button',{name:'同步与刷新'}).click();

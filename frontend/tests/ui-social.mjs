@@ -13,6 +13,7 @@ page.setDefaultTimeout(12000);
 const timestamp=new Date().toISOString(),date=new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Shanghai'});
 const self={userId:'11111111-1111-4111-8111-111111111111',nickname:'训练者甲'},other={userId:'22222222-2222-4222-8222-222222222222',nickname:'训练者乙'};
 const rows=Array.from({length:120},(_,index)=>({id:`fixture::${index}`,contest:'周赛 166',problem:String(index+1),title:`列表定位测试 ${String(index+1).padStart(3,'0')}`,tags:['模拟'],knowledge:'模拟',platform:'牛客',series:'周赛',difficulty:800+index*10,url:`https://example.com/${index}`,contestDate:'2026-10-20T00:00:00Z',solutionAvailable:true}));
+for(const row of rows){row.contestProblemCount=rows.filter(item=>item.contest===row.contest&&item.platform===row.platform).length;row.catalogContentReady=true;}
 const training=rows.map(row=>({id:row.id,activeAt:timestamp,lastActivityAt:timestamp,today:true,accepted:false,verdict:null,attempts:0}));
 let preferences=null,likes={total:4,likedToday:false},failLike=true,boardDay=date,notifications=[{id:'33333333-3333-4333-8333-333333333333',kind:'comment',actor:other,recipient:self,text:'一起加油 <script>window.untrusted=true</script>',createdAt:timestamp,read:false}];
 notifications.push(...Array.from({length:100},(_,index)=>({id:`55555555-5555-4555-8555-${String(index).padStart(12,'0')}`,kind:'like',actor:other,recipient:self,createdAt:timestamp,read:false})));
@@ -21,7 +22,7 @@ const progress={badge:'tier-7',level:8,tier:'大师',rankTier:'大师',rankScore
 const ranked={badge:'tier-7',tier:'大师',qualified:true,abilityScore:2000,nextAbilityScore:2100,evidenceCount:8,minimumEvidence:5,levelGate:5};
 ranked.tierRequirements=['黑铁','青铜','白银','黄金','翡翠','钻石','大师','宗师','王者'].map((tier,index)=>({tier,badge:`tier-${index}`,minAbilityScore:[0,800,1000,1200,1600,1800,2000,2100,2200][index]}));
 const hub={settings:{githubRepo:'3097729287/acm-algo-trainer',accounts:{},autoSync:false,intervalHours:6,minDifficulty:0,maxDifficulty:2199},sync:{busy:false},updates:{currentVersion:'1.1.5'},accounts:[],notifications:[]};
-await page.addInitScript(()=>localStorage.setItem('tb.preferences',JSON.stringify({theme:'dark',accent:'teal',backdrop:'aurora',panelOpacity:35,widgets:true,fontSize:16,navOrder:['mine','library','competitions','mock','rankings','growth','records','activity','lectures'],views:[]})));
+await page.addInitScript(()=>localStorage.setItem('tb.preferences',JSON.stringify({onboardingGuideVersion:2,theme:'dark',accent:'teal',backdrop:'aurora',panelOpacity:35,widgets:true,fontSize:16,navOrder:['mine','library','competitions','mock','rankings','growth','records','activity','lectures'],views:[]})));
 await page.route('**/api/**',async route=>{
   const request=route.request(),url=new URL(request.url()),path=url.pathname;
   if(!path.startsWith('/api/'))return route.continue();
@@ -29,13 +30,16 @@ await page.route('**/api/**',async route=>{
   if(body)writes.push({path,body});
   let value;
   if(path==='/api/account')value={required:false,authenticated:true,usesOriginalWorkspace:true,token:'fixture',account:self};
+  else if(path==='/api/training-list-likes')value={likes:[]};
   else if(path==='/api/preferences'){if(body)preferences=body.preferences;value={preferences,updatedAt:timestamp};}
+  else if(path==='/api/contest-calendar')value={contests:[],refreshing:false,importing:false};
+  else if(path==='/api/content-update')value={revision:0,status:'current',error:''};
   else if(path==='/api/software-update')value={currentVersion:'1.1.5',status:'current',autoCheck:false,canInstall:false};
   else if(path==='/api/browser-preparation')value={available:false};
   else if(path==='/api/data')value={rows,categories:[],token:'fixture',today:date,revision:'ui-social'};
   else if(path==='/api/workspace')value=workspace();
   else if(path==='/api/hub')value=hub;
-  else if(path==='/api/insights')value={summary:{officialSolved:0,submissions:0,activeDays:1,streak:1},growth:{...progress,totalXp:6265,currentLevelXp:665,nextLevelXp:1600,ranked},knowledge:[],achievements:[],activity:[],recommendations:[],assessment:{platforms:[]},dailyTasks:{tasks:[]}};
+  else if(path==='/api/insights')value={summary:{officialSolved:0,submissions:0,activeDays:1,streak:1},growth:{confirmed:true,authority:{owner:self.userId,epoch:'legacy-fixture',revision:1},...progress,totalXp:6265,currentLevelXp:665,nextLevelXp:1600,ranked},knowledge:[],achievements:[],activity:[],recommendations:[],assessment:{platforms:[]},dailyTasks:{tasks:[]}};
   else if(path==='/api/profile')value={profile:self,leaderboard:{configured:true,status:'ready'}};
   else if(path==='/api/goals')value={goals:[]};
   else if(path==='/api/contests/events')value={events:[]};
@@ -66,7 +70,7 @@ try {
   await mkdir('tests/screenshots',{recursive:true});
   await page.goto('http://127.0.0.1:18826');
   await page.locator('.problem-table tr[data-id]').first().waitFor();
-  await page.getByLabel('今日获得爱心 3',{exact:true}).waitFor();
+  await page.getByLabel('爱心：历史 6，今日 3',{exact:true}).waitFor();
   const clock=page.getByLabel('北京时间',{exact:true});
   const statusbar=await page.locator('.app-statusbar').boundingBox(),clockBox=await clock.boundingBox();
   assert(clockBox.y>=statusbar.y && clockBox.x+clockBox.width<=statusbar.x+statusbar.width);
@@ -93,9 +97,11 @@ try {
   await page.getByRole('button',{name:'返回列表',exact:true}).click();
   await list.waitFor();
   assert.equal(await list.evaluate(node=>node.scrollTop),oldScroll);
-  assert.deepEqual(await page.locator('tr[data-id]').evaluateAll(nodes=>nodes.map(node=>node.dataset.id)),before,'return preserves the original grouping after AC');
+  const after=await page.locator('tr[data-id]').evaluateAll(nodes=>nodes.map(node=>node.dataset.id));
+  assert.deepEqual([...after].sort(),[...before].sort(),'return preserves every problem');
+  assert.deepEqual(after.filter(id=>id!==targetId),before.filter(id=>id!==targetId),'unchanged evidence keeps its original row order');
   const returned=await page.locator(`tr[data-id="${targetId}"]`).boundingBox();
-  assert(Math.abs(returned.y-oldBox.y)<1,'return keeps the row at its previous visual position');
+  assert.equal(await page.locator(`tr[data-id="${targetId}"] .verdict`).innerText(),'AC','completed evidence changes to the accepted group');
   assert.equal(await page.locator('tr[data-selected=true],tr[data-hovered=true]').count(),0);
   const dateStyle=await page.locator('.last-date').first().evaluate(node=>({font:getComputedStyle(node).fontSize,root:getComputedStyle(document.documentElement).getPropertyValue('--ui-font-size')}));
   assert(Number.parseFloat(dateStyle.font)>=13);
@@ -165,8 +171,8 @@ try {
   assert.equal(await topProfile.locator('.avatar-rank-frame').count(),1);assert.equal(await topProfile.locator('.profile-rank-emblem').count(),0);
   assert(!/XP|665\s*\//.test(await topProfile.innerText()),'XP stays in the ring tooltip');
   await page.getByRole('meter',{name:'本级经验进度',exact:true}).hover();
-  await page.getByRole('tooltip').filter({hasText:'经验值:665/1,600'}).waitFor();
-  await page.getByRole('button',{name:'训练概览',exact:true}).click();
+  assert.equal(await page.getByRole('meter',{name:'本级经验进度',exact:true}).locator('xpath=ancestor::span[contains(@class,"tooltip-anchor")]').getAttribute('title'),'经验值:665/1,600');
+  await page.keyboard.press('Control+k');await page.getByRole('button',{name:'查看训练概览',exact:true}).click();
   await page.getByText('段位要求',{exact:true}).click();
   assert.equal(await page.getByRole('table',{name:'段位能力分要求',exact:true}).locator('tbody tr').count(),9);
   await page.keyboard.press('Escape');
@@ -185,7 +191,7 @@ try {
   await page.getByRole('button',{name:'夜空极光',exact:true}).click();
   await shot('settings');
   await nav('题库').click();assert.equal(await page.getByRole('button',{name:'逐层浏览题库',exact:true}).count(),0);await page.locator('tr[data-id]').first().waitFor();
-  assert.equal(await page.locator('tr[data-id]').count(),50);await shot('problem-list');
+  assert((await page.locator('tr[data-id]').count())>0&&(await page.locator('tr[data-id]').count())<rows.length,'library mounts one fitted page');await shot('problem-list');
   for(const label of ['我的训练','题库','比赛','模拟赛','排行榜','成长与能力','提交记录','活动记录','从零讲']) {
     await nav(label).click();await page.waitForTimeout(250);await page.locator('.workspace-area .loading-screen').waitFor({state:'hidden'});await checkOverflow();await shot(label);
   }

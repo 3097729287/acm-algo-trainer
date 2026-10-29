@@ -20805,3 +20805,32 @@ Source: https://fuchsia.googlesource.com/third_party/github.com/googlefonts/noto
    limitations under the License.
 
 ```
+
+## pypdfium2 5.14.0 — original wheel notices
+
+The Windows x64 wheel includes native PDFium and its dependency notices. Wrapper and native notices are preserved byte for byte from the installed wheel.
+
+- [Apache-2.0.txt](licenses/python/pypdfium2-5.14.0/LICENSES/Apache-2.0.txt)
+- [BSD-3-Clause.txt](licenses/python/pypdfium2-5.14.0/LICENSES/BSD-3-Clause.txt)
+- [CC-BY-4.0.txt](licenses/python/pypdfium2-5.14.0/LICENSES/CC-BY-4.0.txt)
+- [abseil.txt](licenses/python/pypdfium2-5.14.0/data/windows_x64/BUILD_LICENSES/abseil.txt)
+- [agg23.txt](licenses/python/pypdfium2-5.14.0/data/windows_x64/BUILD_LICENSES/agg23.txt)
+- [fast_float.txt](licenses/python/pypdfium2-5.14.0/data/windows_x64/BUILD_LICENSES/fast_float.txt)
+- [freetype.txt](licenses/python/pypdfium2-5.14.0/data/windows_x64/BUILD_LICENSES/freetype.txt)
+- [icu.txt](licenses/python/pypdfium2-5.14.0/data/windows_x64/BUILD_LICENSES/icu.txt)
+- [lcms.txt](licenses/python/pypdfium2-5.14.0/data/windows_x64/BUILD_LICENSES/lcms.txt)
+- [libjpeg_turbo.ijg](licenses/python/pypdfium2-5.14.0/data/windows_x64/BUILD_LICENSES/libjpeg_turbo.ijg)
+- [libjpeg_turbo.md](licenses/python/pypdfium2-5.14.0/data/windows_x64/BUILD_LICENSES/libjpeg_turbo.md)
+- [libopenjpeg.txt](licenses/python/pypdfium2-5.14.0/data/windows_x64/BUILD_LICENSES/libopenjpeg.txt)
+- [libpng.txt](licenses/python/pypdfium2-5.14.0/data/windows_x64/BUILD_LICENSES/libpng.txt)
+- [llvm-libc.txt](licenses/python/pypdfium2-5.14.0/data/windows_x64/BUILD_LICENSES/llvm-libc.txt)
+- [pdfium-binaries.txt](licenses/python/pypdfium2-5.14.0/data/windows_x64/BUILD_LICENSES/pdfium-binaries.txt)
+- [pdfium.txt](licenses/python/pypdfium2-5.14.0/data/windows_x64/BUILD_LICENSES/pdfium.txt)
+- [simdutf.txt](licenses/python/pypdfium2-5.14.0/data/windows_x64/BUILD_LICENSES/simdutf.txt)
+- [zlib.txt](licenses/python/pypdfium2-5.14.0/data/windows_x64/BUILD_LICENSES/zlib.txt)
+
+## pypdf 6.19.0 — original wheel notices
+
+Original license preserved byte for byte from the installed wheel.
+
+- [LICENSE](licenses/python/pypdf-6.19.0/LICENSE)

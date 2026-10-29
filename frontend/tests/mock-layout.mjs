@@ -38,6 +38,8 @@ await page.route('**/api/**', async route => {
   let value;
   if (path === '/api/account') value = { required: false, authenticated: true, token: 'mock-ui-fixture', account: null };
   else if (path === '/api/data') value = { rows, categories: [], token: 'mock-ui-fixture', today: now().slice(0, 10) };
+  else if(path==='/api/contest-calendar')value={contests:[],refreshing:false,importing:false};
+  else if(path==='/api/content-update')value={revision:0,status:'current',error:''};
   else if (path === '/api/software-update') value = {currentVersion:'1.2.1',status:'current',autoCheck:false,canInstall:false};
   else if (path === '/api/browser-preparation') value = {available:false};
   else if (path === '/api/workspace') value = workspace();
@@ -81,6 +83,7 @@ const geometry = async () => page.evaluate(() => {
     return { x, y, width, height };
   };
   return { workbench: bounds('.tb-workbench'), toolbar: bounds('.wb-toolbar'),
+    compact: document.querySelector('.wb-compact-toolbar') ? bounds('.wb-compact-toolbar') : null,
     body: bounds('.wb-body'), statement: bounds('.wb-statement-pane'), code: bounds('.wb-code-pane') };
 });
 const measurements = [];
@@ -92,6 +95,12 @@ try {
   await selected('A');
   for (const [width, height] of [[1920, 1080], [1366, 768], [1050, 700], [800, 600], [600, 600]]) {
     await page.setViewportSize({ width, height });
+    await page.waitForFunction(narrow=>document.querySelector('.tb-workbench')?.classList.contains('wb-compact')===narrow,width<960);
+    if(width<960){
+      await page.getByRole('button',{name:'只看题面',exact:true}).click();
+      assert.equal(await editor.isVisible(),false);
+      await page.getByRole('button',{name:'只看代码',exact:true}).click();
+    }
     assert.equal(await page.locator('.sidebar').isVisible(), false);
     assert.equal(await page.locator('.topbar').isVisible(), false);
     assert.equal(await page.locator('.mock-page-tabs').isVisible(), false);
@@ -100,15 +109,22 @@ try {
     assert.equal(await page.getByRole('menu', { name: '模拟赛题目' }).count(), 0);
     const before = await geometry();
     assert.deepEqual(before.workbench, { x: 0, y: 0, width, height });
-    assert.ok(before.toolbar.height <= 44, 'only one compact toolbar precedes the two panes: ' + JSON.stringify(before));
-    assert.ok(before.body.height >= height - 44, 'contest chrome uses at most 44 pixels');
-    assert.equal(before.statement.y, before.code.y);
-    assert.ok(before.statement.x < before.code.x && before.statement.width > width * 0.4);
+    if(before.compact){
+      assert.ok(before.compact.height<=64&&before.body.height>=height-64,'narrow mode reserves one usable switching toolbar: '+JSON.stringify(before));
+      assert.equal(before.statement.width,0,'narrow mode gives the selected pane the available width');
+      assert.equal(before.code.width,width);
+      assert.ok(await editor.evaluate(node=>node.getBoundingClientRect().width)>width-80,'narrow editor has a usable full-width surface');
+    }else{
+      assert.ok(before.body.height>=height-1,'wide contest panes use the full available height');
+      assert.equal(before.statement.y, before.code.y);
+      assert.ok(before.statement.x<before.code.x&&before.statement.width>width*.4&&before.code.width>width*.45);
+    }
     assert.equal(await editor.isVisible(), true);
     assert.equal(await page.getByRole('timer', { name: '比赛剩余时间' }).isVisible(), true);
     assert.equal(await page.getByRole('button', { name: '结束比赛', exact: true }).isVisible(), true);
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
     assert.ok(await page.locator('.wb-toolbar').evaluate(node => node.scrollWidth <= node.clientWidth));
+    if(before.compact)assert.ok(await page.locator('.wb-compact-toolbar').evaluate(node=>node.scrollWidth<=node.clientWidth),'narrow switching, picker and timer fit together');
     await picker().click();
     assert.equal(await page.getByRole('menuitemradio').count(), 6);
     assert.deepEqual(await geometry(), before, 'opening the picker never shrinks or moves either pane');
@@ -126,6 +142,8 @@ try {
     if (width === 1920 || width === 1050) await page.screenshot({ path: resolve(output, 'mock-focus-' + width + '.png'), animations: 'disabled' });
   }
   await page.setViewportSize({ width: 1920, height: 1080 });
+  await editor.press('Alt+0');
+  await page.locator('.tb-workbench.wb-pane-both').waitFor();
   const time = await page.getByRole('timer').textContent();
   await page.waitForFunction(previous => document.querySelector('.mock-timer')?.textContent !== previous, time);
 
@@ -193,7 +211,7 @@ try {
   assert.ok(draftWrites.every(body => body.contestId === 'layout-fixture'), 'all contest saves keep their contest identity');
   assert.deepEqual(errors, []);
   await writeFile(resolve(output, 'mock-layout-check.json'), JSON.stringify({ ok: true, bundle: process.env.TB_UI_DIST || null, measurements, errors }, null, 2));
-  console.log('Mock UI: full-height split panes, overlay picker, keyboard, timer, isolated drafts, history/resume and finish passed at five viewport sizes.');
+  console.log('Mock UI: full-height split panes, narrow pane switching, overlay picker, keyboard, timer, isolated drafts, history/resume and finish passed at five viewport sizes.');
 } catch (error) {
   await page.screenshot({ path: resolve(output, 'mock-layout-failure.png'), animations: 'disabled' });
   throw error;

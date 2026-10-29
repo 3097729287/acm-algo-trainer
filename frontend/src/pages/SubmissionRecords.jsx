@@ -9,28 +9,30 @@ import {ChevronLeft,ChevronRight,Code2,Flag,Search,Trash2,X} from 'lucide-react'
 import {groupSubmissionsByDay,verdictLabel,verdictTone} from '@/models/workspaceModel.js';
 import {trainingDateLabel,trainingTime} from '@/lib/trainingDate.js';
 import './SubmissionRecords.css';
+import {submissionQuery,submissionSnapshot,loadSubmissionPage} from '@/lib/submissionPages.js';
 
 const dateText=value=>value?new Date(value).toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'—';
 const RESULT_OPTIONS=['AC','WA','CE','TLE','MLE','RE','OLE','ERROR'].map(value=>({value,label:verdictLabel(value)}));
-export default function SubmissionRecords({api,revision,rows=[],onSelect,onOpenProblem}) {
+export default function SubmissionRecords({api,revision,scope='local',rows=[],onSelect,onOpenProblem}) {
  const [query,setQuery]=useState(''),[search,setSearch]=useState(''),[result,setResult]=useState(''),[descending,setDescending]=useState(true);
- const [offsets,setOffsets]=useState([0]),[visibleCount,setVisibleCount]=useState(1),[snapshot,setSnapshot]=useState(null),[loading,setLoading]=useState(true),[error,setError]=useState(''),[attempt,setAttempt]=useState(0);
+ const [offsets,setOffsets]=useState([0]),[visibleCount,setVisibleCount]=useState(1),[snapshot,setSnapshot]=useState(()=>submissionSnapshot(api,scope,revision,submissionQuery())||null),[loading,setLoading]=useState(true),[error,setError]=useState(''),[attempt,setAttempt]=useState(0);
  const requestId=useRef(0),panel=useRef(null);
  const offset=offsets.at(-1),page=offsets.length;
  const setPage=()=>setOffsets([0]);
- const requestKey=new URLSearchParams({resultsOnly:'1',limit:'100',offset:String(offset),q:search,verdict:result,order:descending?'desc':'asc'}).toString();
+ const requestKey=submissionQuery({offset,search,result,descending});
+ const current=snapshot?.requestKey===requestKey&&snapshot.scope===scope&&snapshot.revision===revision?snapshot:submissionSnapshot(api,scope,revision,requestKey);
  const pending=loading||!error&&snapshot?.requestKey!==requestKey;
  useEffect(()=>{if(query===search)return;const timer=setTimeout(()=>{setSearch(query);setPage(1);},200);return()=>clearTimeout(timer);},[query,search]);
  useEffect(()=>{
   const seq=++requestId.current;
   setLoading(true);setError('');
-  api('submissions?'+requestKey).then(value=>{if(seq!==requestId.current)return;setSnapshot({...value,requestKey});if(offset>=value.total&&offset>0)setOffsets([0]);}).catch(issue=>{if(seq===requestId.current)setError(issue.message||'读取提交记录失败');}).finally(()=>{if(seq===requestId.current)setLoading(false);});
+  loadSubmissionPage(api,scope,revision,requestKey,{refresh:true}).then(value=>{if(seq!==requestId.current)return;setSnapshot(value);if(offset>=value.total&&offset>0)setOffsets([0]);}).catch(issue=>{if(seq===requestId.current)setError(issue.message||'读取提交记录失败');}).finally(()=>{if(seq===requestId.current)setLoading(false);});
   return()=>{requestId.current++;};
- },[api,revision,offset,search,result,descending,attempt]);
+ },[api,scope,revision,requestKey,attempt]);
  const rowMap=useMemo(()=>{const map=new Map();for(const row of rows)for(const id of [row.id,...row.aliasIds||[]])map.set(id,row);return map;},[rows]);
- const logs=snapshot?.submissions||[],grouped=groupSubmissionsByDay(logs);
+ const logs=current?.submissions||[],grouped=groupSubmissionsByDay(logs);
  const days=descending?grouped:[...grouped].reverse().map(group=>({...group,submissions:[...group.submissions].reverse()}));
- const total=snapshot?.total||0;
+ const total=current?.total||0;
  const positions=new Map(days.flatMap(group=>group.submissions).map((row,i)=>[row.id,i]));
  useLayoutEffect(()=>{
   const node=panel.current;if(!node)return;let frame;
@@ -41,13 +43,13 @@ export default function SubmissionRecords({api,revision,rows=[],onSelect,onOpenP
   });};
   const observer=new ResizeObserver(measure);observer.observe(node);node.querySelectorAll('.submission-log-row').forEach(row=>observer.observe(row));measure();
   return()=>{cancelAnimationFrame(frame);observer.disconnect();};
- },[snapshot,descending]);
+ },[current,descending]);
  const shown=Math.min(visibleCount,logs.length);
 
  return <div className="records-page records-paged" data-noselect="true">
   <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索历史提交" maxLength={120} value={query} onChange={event=>setQuery(event.target.value)}/></label><SortDirection label="切换提交排序方向" descending={descending} normalDescending onChange={value=>{setDescending(value);setPage(1);}}/><FolderSelect iconOnly label="提交结果分类" placeholder="全部结果" options={RESULT_OPTIONS} value={result} onChange={event=>{setResult(event.target.value);setPage(1);}}/></PageSearch>
   {error&&<p role="alert" className="connection-error">{error} <button type="button" className="text-button" onClick={()=>setAttempt(value=>value+1)}>重新读取</button></p>}
-  <div ref={panel} className="submission-log scroll-panel submission-fitted" aria-busy={pending} data-offset={snapshot?.offset??0}>
+  <div ref={panel} className="submission-log scroll-panel submission-fitted" aria-busy={pending} data-offset={current?.offset??0}>
    {days.map(group=><section className="submission-day" key={group.day} data-day={group.day} style={positions.get(group.submissions[0]?.id)>=visibleCount?{visibility:'hidden'}:undefined} aria-hidden={positions.get(group.submissions[0]?.id)>=visibleCount||undefined} aria-label={`${trainingDateLabel(group.day)}提交`}>
     <header className="submission-day-heading"><h2><time dateTime={group.day||undefined}>{trainingDateLabel(group.day)}</time></h2></header>
     {group.submissions.map(submission=>{
@@ -60,7 +62,7 @@ export default function SubmissionRecords({api,revision,rows=[],onSelect,onOpenP
     })}
    </section>)}
    {!logs.length&&!loading&&<div className="empty"><Code2 size={26}/><h2>{search||result?'没有匹配的提交':'还没有提交记录'}</h2></div>}
-   {loading&&!snapshot&&<p role="status" className="progress-muted">正在读取提交记录…</p>}
+   {loading&&!current&&<p role="status" className="progress-muted">正在读取提交记录…</p>}
   </div>
   <PagePagination label="提交记录分页" count={`共 ${total} 条`} page={page} previousLabel="上一页提交" nextLabel="下一页提交" previousDisabled={pending} nextDisabled={pending||offset+shown>=total||!shown} onPrevious={()=>setOffsets(value=>value.slice(0,-1))} onNext={()=>setOffsets(value=>[...value,offset+shown])}/>
  </div>;

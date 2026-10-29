@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {applyDailyTaskReward} from '../src/lib/dailyTaskReward.js';
+const authority=revision=>({owner:'fixture-owner',epoch:'fixture-epoch',revision});
+const base={growth:{xp:190,totalXp:190,missionXp:0,level:1,levelCosts:[200,400,600],levelCap:4,rankUnlockLevel:5,authority:authority(1)},dailyTasks:{tasks:[]}};
+const claim=(total,revision)=>({awardedXp:25,confirmedMissionXp:total,growthAuthority:authority(revision),dailyTasks:{tasks:[]}});
+const first=applyDailyTaskReward(base,claim(25,2));
+assert.equal(first.growth.xp,215);assert.equal(first.growth.level,2);
+assert.equal(applyDailyTaskReward(first,claim(25,2)).growth.xp,215,'repeated acknowledgement uses committed total, not award increment');
+const polled={...first,growth:{...first.growth,authority:authority(3)}};
+assert.equal(applyDailyTaskReward(polled,claim(25,2)),polled,'old reply after refreshed confirmed state is ignored');
+const newer=applyDailyTaskReward(base,claim(50,4));
+assert.equal(newer.growth.xp,240);
+assert.equal(applyDailyTaskReward(newer,claim(25,2)),newer,'out-of-order claims never replay XP');
+assert.equal(applyDailyTaskReward(base,{...claim(25,2),growthAuthority:{...authority(2),owner:'old-account'}}),base,'cross-account reply ignored');
+console.log('Confirmed daily XP totals, refresh deduplication, ordering and owner guards passed');

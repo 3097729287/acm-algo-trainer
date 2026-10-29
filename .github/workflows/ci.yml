@@ -47,6 +47,8 @@ jobs:
           python desktop/tests/official_native.py
           python desktop/tests/silent_native.py
           python desktop/tests/managed_login.py
+          python desktop/tests/login_probe_native.py
+          python desktop/tests/close_native.py
           python desktop/tests/interactive_browser.py
           python desktop/tests/webview_resources_native.py --rounds 0
       - name: Browser sessions and intercepted native submissions
@@ -89,6 +91,10 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run build
       - run: npm run test:model
+      - run: node tests/revision-1429-model.mjs
+      - run: node tests/navigation-learning-model.mjs
+      - run: node tests/daily-growth-authority-model.mjs
+      - run: node tests/level-up-model.mjs
       - run: node tests/uniform-random.mjs
       - run: npm run test:math
       - run: npm run test:compilers
@@ -110,6 +116,10 @@ jobs:
       - run: node tests/account-sync-status.mjs
       - run: node tests/mock-layout.mjs
       - run: node tests/training-overview.mjs
+      - run: node tests/navigation-learning.mjs
+      - run: node tests/level-up.mjs
+      - run: node tests/ability-evidence.mjs
+      - run: node tests/lifecycle-layout.mjs
       - run: npm run test:workbench
       - run: npm run test:e2e
       - run: node tests/detailed-solutions.mjs

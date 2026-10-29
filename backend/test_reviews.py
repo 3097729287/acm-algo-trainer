@@ -123,7 +123,7 @@ class ReviewTests(unittest.TestCase):
 
     def test_easy_task_stops_after_first_clean_review_unknown_difficulty_does_not(self):
         for i in range(5):
-            self.library.rows[i]['difficulty']=1600
+            self.library.rows[i].update(difficulty=2000,platform='Codeforces',difficultySource='Codeforces 官方 rating',difficultyEstimated=False)
             self.receipt('fixture::'+chr(65+i))
             self.service.remove_training('fixture::'+chr(65+i))
         self.library.rows[5]['difficulty']=1400

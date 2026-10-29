@@ -33,5 +33,7 @@ def event_info(name,rows):
         except (KeyError,TypeError,ValueError,AttributeError):pass
     if duration is None:duration=300 if xcpc else 120
     expected=max([int(row.get('contestProblemCount') or 0) for row in rows] or [0])
-    return {'name':name,'count':len(rows),'expectedCount':expected or None,'complete':len(rows)==expected if expected else None,
+    missing=any(row.get('catalogContentReady') is False for row in rows)
+    complete=(len(rows)==expected and not missing) if expected else (False if any('catalogContentReady' in row for row in rows) else None)
+    return {'name':name,'count':len(rows),'expectedCount':expected or None,'complete':complete,
             'duration':duration,'durationSource':source,'rules':'xcpc' if xcpc else 'acm'}

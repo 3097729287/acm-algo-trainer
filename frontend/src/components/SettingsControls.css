@@ -27,7 +27,10 @@
 .settings-command-grid { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
 .settings-command-grid button { position:relative; min-width:44px; min-height:40px; justify-content:center; }
 .settings-command-index { font-size:10px; color:var(--muted); }
-html .navigation-editor-row,html .navigation-editor-heading { grid-template-columns:minmax(0,1fr) minmax(0,1fr); }
+html .navigation-editor-row,html .navigation-editor-heading { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr) 126px; gap:12px; }
+html .navigation-reorder { display:flex; justify-content:flex-end; gap:6px; }
+html .navigation-reorder button { min-width:36px; min-height:36px; display:inline-flex; justify-content:center; align-items:center; }
+@media(max-width:750px) { html .navigation-editor-row { grid-template-columns:minmax(0,1fr) 126px; } html .navigation-editor-row>input { grid-column:1/-1;grid-row:2; } html .navigation-reorder { grid-row:1;grid-column:2; } html .navigation-editor-heading { display:none; } }
 html .navigation-order-only .navigation-editor-row,html .navigation-order-only .navigation-editor-heading { grid-template-columns:minmax(0,1fr) 84px; }
 html .navigation-editor-row input { width:100%; min-width:0; }
 html .navigation-settings-content { padding:0; }

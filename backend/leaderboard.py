@@ -1,7 +1,6 @@
 """Bounded background client for the shared TB ranking service; no code upload."""
 from __future__ import annotations
 
-from concurrent.futures import ThreadPoolExecutor
 import datetime as dt
 import json
 import hashlib
@@ -88,7 +87,7 @@ class LeaderboardClient:
         self.training = training
         self.timeout = timeout
         self.lock = threading.RLock()
-        self.executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="tb-ranking")
+        self.worker = None
         self.opener = None
         self.opener_endpoint = None
         self.running = False
@@ -103,6 +102,8 @@ class LeaderboardClient:
         self.avatar_cache = {}
 
     def _request(self, profile, method, path, data=None):
+        if self.closed or getattr(self.training,'closed',False):
+            raise RuntimeError('排行榜正在关闭')
         if getattr(self.training, "admin_mode", False):
             raise RankingRequestError(403, "管理员工作区不连接公共排行")
         payload = json.dumps(data, ensure_ascii=False).encode("utf-8") if data is not None else None
@@ -121,6 +122,7 @@ class LeaderboardClient:
             value = json.loads(raw)
             if not isinstance(value, dict):
                 raise ValueError("排行榜响应格式无效")
+            if self.closed or getattr(self.training,'closed',False):raise RuntimeError('排行榜正在关闭')
             return value
         except HTTPError as error:
             raise RankingRequestError(error.code, "只有管理员可以删除排行榜成绩" if error.code == 403 else f"排行榜服务返回 HTTP {error.code}") from None
@@ -165,7 +167,8 @@ class LeaderboardClient:
                 self.dirty = False
                 self.status = "syncing"
                 self.last_attempt = time.monotonic()
-                self.executor.submit(self._sync)
+                self.worker=threading.Thread(target=self._sync,name='tb-ranking',daemon=True)
+                self.worker.start()
         return self.snapshot()
 
     def invalidate(self):
@@ -174,17 +177,23 @@ class LeaderboardClient:
             self.error = ""
         return self.queue_sync(force=True)
 
+    def _local(self,name,*args):
+        # No late network completion may read or write a retired SQLite journal.
+        with self.training.lock:
+            if self.closed or self.training.closed:raise RuntimeError('排行榜正在关闭')
+            return getattr(self.training,name)(*args)
+
     def _sync(self):
         profile = {}
         try:
-            profile = self.training._ranking_profile()
+            profile = self._local('_ranking_profile')
             if not profile["endpoint"] or not profile['auth_token']:
                 return
             registered = self._request(profile, "GET", "/v1/profile")
             if registered.get("userId") != profile["user_id"]:
                 raise RuntimeError("排行榜身份响应不匹配")
             if registered.get("publicProgressProtocol") == 1:
-                payload = self.training.public_profile() if registered.get("publicAppearanceProtocol") == 1 else {"publicProgress": self.training.public_progress()}
+                payload = self._local('public_profile') if registered.get("publicAppearanceProtocol") == 1 else {"publicProgress": self._local('public_progress')}
                 progress = payload["publicProgress"]
                 signature = (profile["endpoint"], profile["user_id"], profile["auth_token"], payload)
                 if self.last_public_progress != signature:
@@ -194,7 +203,7 @@ class LeaderboardClient:
                     if "avatarData" in payload and published.get("avatarHash") != (hashlib.sha256(payload["avatarData"].encode()).hexdigest() if payload["avatarData"] else None):
                         raise RuntimeError("排行榜头像响应不匹配")
                     self.last_public_progress = signature
-            events = self.training._ranking_events(profile["endpoint"])
+            events = self._local('_ranking_events',profile["endpoint"])
             for offset in range(0, len(events), 100):
                 with self.lock:
                     if self.closed:
@@ -203,7 +212,7 @@ class LeaderboardClient:
                 answer = self._request(profile, "POST", "/v1/events", {"events": batch})
                 if answer.get("processed") != len(batch) or answer.get("scope") != "official":
                     raise RuntimeError("排行榜通过记录未完整接收")
-                self.training._ranking_receipts(profile["endpoint"], batch)
+                self._local('_ranking_receipts',profile["endpoint"], batch)
             failures = []
             for period in ("daily", "weekly", "total"):
                 with self.lock:
@@ -222,22 +231,23 @@ class LeaderboardClient:
                     failures.append(str(error))
                     continue
                 local_day = self.training._now().astimezone(SHANGHAI).date().isoformat()
-                current = self.training._ranking_profile()
+                current = self._local('_ranking_profile')
                 with self.lock:
                     if not self.closed and all(profile[key] == current[key] for key in ('endpoint', 'user_id', 'auth_token')):
                         # An empty board is also a valid result. Publish each
                         # period before a later board or reward request can fail.
                         self.cache[period] = (time.monotonic(), value, local_day)
             rewards = self._request(profile, "GET", "/v1/rewards")
-            self.training._ranking_rewards(profile, rewards)
+            self._local('_ranking_rewards',profile, rewards)
             if failures:
                 raise RuntimeError(failures[0])
-            self.training._ranking_synced(profile["endpoint"])
-            current_endpoint = self.training._ranking_profile()["endpoint"]
+            self._local('_ranking_synced',profile["endpoint"])
+            current_endpoint = self._local('_ranking_profile')["endpoint"]
             with self.lock:
                 if profile["endpoint"] == current_endpoint:
                     self.status, self.error = "ready", ""
         except Exception as error:
+            if self.closed or self.training.closed:return
             if isinstance(error, RankingRequestError) and error.status == 401:
                 owner = getattr(self.training.account_provider, '__self__', None)
                 if owner is not None:
@@ -384,4 +394,5 @@ class LeaderboardClient:
             if self.retry_timer:
                 self.retry_timer.cancel()
                 self.retry_timer = None
-        self.executor.shutdown(wait=True, cancel_futures=True)
+        # This read-only network worker is a daemon; only local journal writes
+        # are shutdown barriers. Failed/unfinished sync is retried on restart.

@@ -54,6 +54,7 @@ class TrainingService:
         # backup folders stay intact; new backups use a stable short namespace.
         mirror = 'personal-' + hashlib.sha256(str(self.db_path.parent).encode('utf-8')).hexdigest()[:16]
         self.backup_dir = Path(backup_dir) if backup_dir else Path(__import__("toolutil").BACKUP_ROOT) / mirror
+        self.backup_budget_root = Path(backup_dir) if backup_dir else Path(__import__("toolutil").BACKUP_ROOT)
         existed = self.db_path.exists()
         self.connection = sqlite3.connect(self.db_path, check_same_thread=False, isolation_level=None)
         self.connection.row_factory = sqlite3.Row
@@ -173,16 +174,12 @@ class TrainingService:
         value = self.clock()
         return value.replace(tzinfo=UTC) if value.tzinfo is None else value.astimezone(UTC)
 
-    def _backup(self):
-        self.backup_dir.mkdir(parents=True, exist_ok=True)
-        timestamp = dt.datetime.now().strftime("%Y%m%d-%H%M%S-%f")
-        destination = self.backup_dir / f"{self.db_path.name}.{timestamp}.{uuid.uuid4().hex[:6]}.bak"
-        backup = sqlite3.connect(destination)
-        try:
-            self.connection.backup(backup)
-        finally:
-            backup.close()
+    def _backup(self, *, manual=False):
+        from recovery_backups import snapshot
+        destination = snapshot(self.connection, self.db_path, self.backup_dir,
+                               budget_root=self.backup_budget_root, manual=manual)
         self._last_backup_at = time.monotonic()
+        return destination
 
     @contextmanager
     def _write(self):
@@ -191,7 +188,7 @@ class TrainingService:
             # are bounded, rather than copying the entire code history for
             # every autosave, mission update and receipt in the same minute.
             # Migrations and cloud replacements still call _backup explicitly.
-            if self._last_backup_at is None or time.monotonic() - self._last_backup_at >= 300:
+            if self._last_backup_at is None or time.monotonic() - self._last_backup_at >= 3600:
                 self._backup()
             self.connection.execute("BEGIN IMMEDIATE")
             try:
@@ -534,6 +531,8 @@ class TrainingService:
         with self.lock, self._library_view():
             workspace = self.workspace()
             records = [dict(record) for record in self.connection.execute("SELECT * FROM submissions WHERE mode='submit' AND finished_at IS NOT NULL ORDER BY submitted_at,rowid")]
+            from submission_evidence import annotate_sources
+            records = annotate_sources(records, self.connection)
             history = [dict(record) for record in self.connection.execute("SELECT * FROM training")]
             library = self._library()
             known = {row["id"] for row in library}
@@ -577,6 +576,7 @@ class TrainingService:
             value['growth'] = dict(growth(xp), missionXp=claimed['xp'], rankingXp=ranking_xp,
                                    achievementXp=achievement_rewards['xp'], newAchievementXp=achievement_rewards['newXp'],
                                    reviewXp=review_rewards['xp'], rewardedReviews=review_rewards['count'])
+            value['growth'].update(confirmed=True,authority=self._confirmed_growth_authority())
             titles, equipped_titles = earned_titles(achievement_rewards['claims'])
             value.update(titles=titles, equippedTitles=equipped_titles)
             value['growth'].update(titles=titles, equippedTitles=equipped_titles)
@@ -597,7 +597,14 @@ class TrainingService:
                         per_day.setdefault(day, []).append(record)
                 daily_evidence = [item for daily_records in per_day.values()
                                   for item in official_reward_evidence(library, daily_records)]
-                value['growth']['ranked'] = ranked(evidence, daily_evidence, rank_profile['unlocked_at'], self._now())
+                from ability_assessment import from_records
+                value['growth']['ranked'] = ranked(evidence, daily_evidence, rank_profile['unlocked_at'], self._now(),
+                                                  diagnostics=from_records(library,records,self._now()))
+                if workspace.get('activeContest'):value['growth']['ranked']['evidence']=[]
+                value['assessment'].update(rating=value['growth']['ranked']['abilityScore'],
+                    abilityInterval=value['growth']['ranked']['abilityInterval'],
+                    evidenceCount=value['growth']['ranked']['evidenceCount'],
+                    explanation=value['growth']['ranked']['rules'])
                 if value['growth']['ranked']['qualified']:
                     value['growth'].update(tier=value['growth']['ranked']['tier'], badge=value['growth']['ranked']['badge'])
             value["dailyTasks"] = tasks
@@ -740,7 +747,19 @@ class TrainingService:
 
     def claim_daily_task(self, identity, date=None):
         from daily_chains import claim
-        return claim(self, identity, date)
+        with self.lock:
+            result=claim(self, identity, date)
+            result['confirmedMissionXp']=self.connection.execute("SELECT COALESCE(SUM(awarded_xp),0) FROM daily_missions WHERE claimed_at IS NOT NULL AND CASE WHEN json_valid(definition) THEN json_extract(definition,'$.version') END IN (2,3)").fetchone()[0]
+            result['growthAuthority']=self._confirmed_growth_authority()
+            return result
+
+    def _confirmed_growth_authority(self):
+        """Order already committed growth reads/claims within this workspace."""
+        if not hasattr(self,'_growth_authority_epoch'):
+            self._growth_authority_epoch=uuid.uuid4().hex;self._growth_authority_revision=0
+        self._growth_authority_revision+=1
+        return {'owner':self._ranking_profile()['user_id'],'epoch':self._growth_authority_epoch,
+                'revision':self._growth_authority_revision}
 
     def _ranking_profile(self):
         with self.lock:
@@ -1348,7 +1367,7 @@ class TrainingService:
                 result["workspace"] = self.workspace()
             return result
 
-    def submissions(self, identity=None, contest_id=None, exact_context=False, limit=100, offset=0, results_only=False, review_id=None, query='', verdict='', order='desc'):
+    def submissions(self, identity=None, contest_id=None, exact_context=False, limit=100, offset=0, results_only=False, review_id=None, query='', verdict='', order='desc', compact=False):
         try:
             limit, offset = int(limit), int(offset)
         except (ValueError, TypeError):
@@ -1406,12 +1425,28 @@ class TrainingService:
             where = " WHERE " + " AND ".join(clauses) if clauses else ""
             total = self.connection.execute("SELECT COUNT(*) FROM submissions" + where, values).fetchone()[0]
             direction = 'ASC' if order == 'asc' else 'DESC'
-            records = self.connection.execute("SELECT * FROM submissions" + where + f" ORDER BY submitted_at {direction},rowid {direction} LIMIT ? OFFSET ?", values + [limit, offset]).fetchall()
-            catalog={row['id']:row for row in self._library()}
-            aliases=self._identity_map(list(catalog.values()))
+            fields='id,problem_id,contest_id,mode,verdict,scope,submitted_at,finished_at,time_ms,memory_kb,passed,total,sample_run' if compact else '*'
+            records = self.connection.execute("SELECT " + fields + " FROM submissions" + where + f" ORDER BY submitted_at {direction},rowid {direction} LIMIT ? OFFSET ?", values + [limit, offset]).fetchall()
+            if compact:
+                # List navigation never decodes code/output/case blobs. Resolve
+                # only the distinct displayed problems, including portable facts.
+                catalog={}
+                for pid in dict.fromkeys(record['problem_id'] for record in records):
+                    try:catalog[pid]=self._row(pid)
+                    except ServiceError as error:
+                        if error.status!=404:raise
+                aliases={}
+            else:
+                catalog={row['id']:row for row in self._library()}
+                aliases=self._identity_map(list(catalog.values()))
             submissions=[]
             for record in records:
-                value=self._submission(record)
+                value=({'id':record['id'],'problemId':record['problem_id'],'contestId':record['contest_id'],
+                        'mode':record['mode'],'verdict':record['verdict'],'scope':record['scope'],
+                        'submittedAt':record['submitted_at'],'finishedAt':record['finished_at'],
+                        'timeMs':record['time_ms'],'memoryKb':record['memory_kb'],
+                        'passed':record['passed'],'total':record['total'],'sampleRun':bool(record['sample_run']),
+                        'codePending':True} if compact else self._submission(record))
                 canonical=aliases.get(value['problemId'],value['problemId'])
                 row=catalog.get(canonical)
                 if row:value.update(canonicalProblemId=canonical,title=row.get('title'),contestName=row.get('contest'),problem=row.get('problem'))
@@ -1633,7 +1668,7 @@ class TrainingService:
                 if not row.get('catalogHidden') and row.get('source') not in {'luogu-training','algorithm-lab','algorithm-lab-curation'} and not row.get('labTopic'):groups.setdefault(row['contest'],[]).append(row)
             from replay_catalog import unique_replay_rows
             groups={name:unique_replay_rows(rows) for name,rows in groups.items()}
-            result=[event_info(name,rows) for name,rows in groups.items()]
+            result=[info for name,rows in groups.items() if (info:=event_info(name,rows))['complete'] is not False]
             from contest_names import contest_name, natural_key
             for item in result:
                 item['displayName'] = contest_name(item['name'])
@@ -1646,7 +1681,7 @@ class TrainingService:
                     value=next((row.get(key) for row in event_rows if row.get(key) is not None),None)
                     if value is not None:item[key]=value
             from graph_lab import replay_events
-            result.extend(replay_events(self._library()))
+            result.extend(item for item in replay_events(self._library()) if item['complete'])
             return {'events':sorted(result, key=lambda item: natural_key(item['displayName']))}
 
     def preview_replay(self, body):
@@ -1682,6 +1717,22 @@ class TrainingService:
               'difficultyRange':{'min':min(rated,default=None),'max':max(rated,default=None)}}
         with self.lock:self.previews[tuple(slot['id'] for slot in slots)]={'plan':plan,'slots':slots,'at':self._now()}
         return {'plan':plan,'available':len(slots)}
+
+    def start_calendar_contest(self, event):
+        # Only the server's calendar resolver calls this method. The public
+        # start endpoint never accepts client-supplied schedule timestamps.
+        with self.lock, self._library_view():
+            self._expire()
+            if self.connection.execute("SELECT 1 FROM contests WHERE status='running'").fetchone():
+                raise ServiceError(409,'已有一场模拟赛正在进行，请先回到考场或交卷')
+            began,ended=parse_time(event['startAt']),parse_time(event['endAt'])
+            if not began<=self._now()<ended:raise ServiceError(409,'这场比赛尚未开始或已经结束')
+            duration=max(1,int((ended-began).total_seconds()/60))
+            plan=self.preview_replay({'contest':event['contest'],'duration':duration})['plan']
+            saved=self.previews[tuple(slot['id'] for slot in plan['slots'])]
+            saved['plan']['constraints']['calendarEvent']={key:event[key] for key in ('id','url','startAt','endAt')}
+            return self.start_contest({'ids':[slot['id'] for slot in plan['slots']],
+                                      'previewId':plan['previewId'],'duration':duration,'name':plan['name']})
 
     def start_contest(self, body):
         ids = body.get("ids")
@@ -1731,6 +1782,11 @@ class TrainingService:
             now = self._now()
             timestamp = iso(now)
             deadline = iso(now + dt.timedelta(minutes=duration))
+            if options.get('calendarEvent'):
+                schedule=options['calendarEvent']
+                began,ended=parse_time(schedule['startAt']),parse_time(schedule['endAt'])
+                if not began<=now<ended:raise ServiceError(409,'这场比赛尚未开始或已经结束')
+                timestamp,deadline=iso(began),iso(ended)
             identity = "contest-" + uuid.uuid4().hex
             with self._write() as connection:
                 owned = {slot['id'] for prior in connection.execute('SELECT slots,config FROM contests WHERE deleted_at IS NULL')

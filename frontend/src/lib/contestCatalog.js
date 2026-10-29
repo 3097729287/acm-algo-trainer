@@ -23,36 +23,30 @@ export function catalogSegments(row) {
       :/邀请|invitational/i.test(eventType)?'邀请赛'
       :/总决赛|world finals/i.test(eventType)?'总决赛'
       :/分区赛|subregional/i.test(eventType)?'分区赛'
-      :/CCPC/i.test(fullName)?'CCPC':/ICPC/i.test(fullName)?'ICPC':'其他赛事';
+      :/CCPC/i.test(fullName)?'CCPC 区域赛':/ICPC/i.test(fullName)?'ICPC 区域赛':'其他赛事';
     const year=contestYear(row);
     const event=name.replace(/[（(]\s*(?:热身赛?|正式赛|正赛|warm.?up)\s*[）)]/gi,'').trim();
-    return ['ACM',type,year?`${year}年`:'年份待核实',event,/热身|warm.?up/i.test(eventType)?'热身赛':'正赛'];
+    return ['XCPC',type,year?`${year}年`:'年份待核实',event,/热身|warm.?up/i.test(eventType)?'热身赛':'正赛'];
   }
   const series=row.series&&row.series!==row.platform?row.series:name.match(/练习赛|小白月赛|周赛|月赛|挑战赛|入门赛|基础赛|教育赛|ABC|ARC|AGC|Div\.?\s*[1-4](?:\s*\+\s*Div\.?\s*[1-4])?/i)?.[0]||'其他比赛';
   return [row.platform||'其他平台',series,name];
 }
 
-// An ICPC/CCPC provincial or invitational belongs to both its series and its
-// event type. These are alternate navigation paths for the same original row.
-export function catalogPaths(row) {
-  const primary=catalogSegments(row),name=`${row.contest||row.name||''} ${row.contestFullName||''} ${row.examStage||''} ${row.xcpcKind||''}`;
-  if(primary[0]!=='ACM')return [primary];
-  const types=new Set([primary[1]]);
-  if(/\bCCPC\b|CCPC(?=\d)/i.test(name))types.add('CCPC');
-  if(/\bICPC\b|ICPC(?=\d)/i.test(name))types.add('ICPC');
-  if(/省赛|省(?:第[一二三四五六七八九十\d]+届)?(?:ICPC|CCPC|大学生|程序)|\bprovincial\b/i.test(name))types.add('省赛');
-  if(/邀请|\binvitational\b/i.test(name))types.add('邀请赛');
-  return [...types].map(type=>[primary[0],type,...primary.slice(2)]);
+// Event types are exclusive: an invitation/provincial must not appear among regionals.
+export const catalogPaths=row=>[catalogSegments(row)];
+export function normalizeCatalogPath(path=[]) {
+  return path.map((part,index)=>index===0&&part==='ACM'?'XCPC':index===1&&['ACM','XCPC'].includes(path[0])&&['ICPC','CCPC'].includes(part)?`${part} 区域赛`:part);
 }
 const begins=(parts,path)=>path.every((part,index)=>parts[index]===part);
-export const catalogPathMatches=(row,path)=>catalogPaths(row).some(parts=>begins(parts,path));
+export const catalogPathMatches=(row,path)=>catalogPaths(row).some(parts=>begins(parts,normalizeCatalogPath(path)));
 
 // Preserve these familiar grouping levels when they contain actual contests.
 export function catalogFolders(path=[]) {
-  if (!path.length)return ['算法实验室','Codeforces','AtCoder','牛客','洛谷','ACM','蓝桥杯 B 组','校队训练'];
+  path=normalizeCatalogPath(path);
+  if (!path.length)return ['算法实验室','Codeforces','AtCoder','牛客','洛谷','XCPC','蓝桥杯 B 组','校队训练'];
   if (path.length===1&&path[0]==='Codeforces')return ['教育赛','Div.1','Div.2','Div.3','Div.4'];
   if (path.length===1&&path[0]==='AtCoder')return ['ABC','ARC','AGC'];
-  if (path.length===1&&path[0]==='ACM')return ['ICPC','CCPC','网络预选赛','省赛','邀请赛','总决赛','分区赛'];
+  if (path.length===1&&path[0]==='XCPC')return ['ICPC 区域赛','CCPC 区域赛','网络预选赛','省赛','邀请赛','总决赛','分区赛'];
   if (path.length===1&&path[0].startsWith('蓝桥杯'))return ['省赛','国赛'];
   return [];
 }
@@ -73,7 +67,7 @@ export function compactCatalogOptions(nodes, parent = []) {
 }
 
 export function catalogEntries(rows, path = []) {
-  return catalogEntriesFor(rows,path,new WeakMap());
+  return catalogEntriesFor(rows,normalizeCatalogPath(path),new WeakMap());
 }
 function catalogEntriesFor(rows,path,cache){
   const paths=row=>{if(!cache.has(row))cache.set(row,catalogPaths(row));return cache.get(row);};
