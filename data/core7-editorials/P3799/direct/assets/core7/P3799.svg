@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="535" viewBox="0 0 760 535" role="img" aria-labelledby="title"><title id="title">四根木棒分到三条边，只能分为 1、1、2 根</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">四根木棒分到三条边，只能分为 1、1、2 根</text>
+<line x1="390" y1="80" x2="180" y2="444" stroke="#2365ab" stroke-width="7"/>
+<line x1="390" y1="80" x2="600" y2="444" stroke="#2365ab" stroke-width="7"/>
+<line x1="180" y1="444" x2="390" y2="444" stroke="#12805c" stroke-width="7"/>
+<line x1="390" y1="444" x2="600" y2="444" stroke="#bc3645" stroke-width="7"/>
+<circle cx="390" cy="444" r="23" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="390" y="451" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">接点</text>
+<text x="205" y="265" fill="#2365ab" font-size="22" text-anchor="start" font-weight="normal">整根 2</text>
+<text x="500" y="265" fill="#2365ab" font-size="22" text-anchor="start" font-weight="normal">整根 2</text>
+<text x="275" y="485" fill="#12805c" font-size="22" text-anchor="middle" font-weight="normal">短棒 1</text>
+<text x="495" y="485" fill="#bc3645" font-size="22" text-anchor="middle" font-weight="normal">短棒 1</text>
+<text x="115" y="520" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">两根短棒 1+1=2，和另外两条完整边等长</text>
+</g></svg>

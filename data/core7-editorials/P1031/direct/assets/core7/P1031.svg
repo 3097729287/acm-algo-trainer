@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="330" viewBox="0 0 760 330" role="img" aria-labelledby="title"><title id="title">四堆平均十张：三条分界线的前缀差都非零</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">四堆平均十张：三条分界线的前缀差都非零</text>
+<rect x="110" y="90" width="142" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="181.0" y="121.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">9</text>
+<rect x="255" y="90" width="142" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="326.0" y="121.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">8</text>
+<rect x="400" y="90" width="142" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="471.0" y="121.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">17</text>
+<rect x="545" y="90" width="142" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="616.0" y="121.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">6</text>
+<line x1="255" y1="155" x2="255" y2="220" stroke="#bc3645" stroke-width="3" stroke-dasharray="7 5"/>
+<text x="255" y="255" fill="#bc3645" font-size="22" text-anchor="middle" font-weight="normal">少 1</text>
+<line x1="400" y1="155" x2="400" y2="220" stroke="#bc3645" stroke-width="3" stroke-dasharray="7 5"/>
+<text x="400" y="255" fill="#bc3645" font-size="22" text-anchor="middle" font-weight="normal">少 3</text>
+<line x1="545" y1="155" x2="545" y2="220" stroke="#bc3645" stroke-width="3" stroke-dasharray="7 5"/>
+<text x="545" y="255" fill="#bc3645" font-size="22" text-anchor="middle" font-weight="normal">多 4</text>
+<text x="60" y="310" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">这些线都至少跨一次；次数为 3，不是搬牌张数 8</text>
+</g></svg>

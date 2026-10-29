@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="320" viewBox="0 0 760 320" role="img" aria-labelledby="title"><title id="title">赋值复制当时的值，后续修改不会自动传递</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">赋值复制当时的值，后续修改不会自动传递</text>
+<text x="120" y="90" fill="#243449" font-size="21" text-anchor="middle" font-weight="normal">a:=3</text>
+<rect x="35" y="120" width="62" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="66.0" y="151.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="100" y="120" width="62" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="131.0" y="151.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="165" y="120" width="62" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="196.0" y="151.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<text x="120" y="205" fill="#68778b" font-size="20" text-anchor="middle" font-weight="normal">a     b     c</text>
+<text x="365" y="90" fill="#243449" font-size="21" text-anchor="middle" font-weight="normal">b:=a</text>
+<rect x="280" y="120" width="62" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="311.0" y="151.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="345" y="120" width="62" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="376.0" y="151.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="410" y="120" width="62" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="441.0" y="151.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<text x="365" y="205" fill="#68778b" font-size="20" text-anchor="middle" font-weight="normal">a     b     c</text>
+<text x="610" y="90" fill="#243449" font-size="21" text-anchor="middle" font-weight="normal">a:=5</text>
+<rect x="525" y="120" width="62" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="556.0" y="151.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="590" y="120" width="62" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="621.0" y="151.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="655" y="120" width="62" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="686.0" y="151.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<text x="610" y="205" fill="#68778b" font-size="20" text-anchor="middle" font-weight="normal">a     b     c</text>
+<text x="70" y="280" fill="#12805c" font-size="21" text-anchor="start" font-weight="normal">最后 a=5，但 b 保存的仍是复制时的 3</text>
+</g></svg>

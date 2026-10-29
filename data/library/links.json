@@ -33228,6 +33228,3444 @@
     "problem_id": "remote:nowcoder:141877::C"
   },
   {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-B2002"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-B2005"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-B2025"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-B2029"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-CF2135A"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-CF2136A"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-CF2136B"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1000"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1001"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1035"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1047"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1055"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1085"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P11033"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1125"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1161"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1307"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1319"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1321"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1421"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1422"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1424"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1425"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1428"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1449"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P15320"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1553"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1597"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1603"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1765"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1888"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1918"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1957"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P2415"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P2433"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P2550"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P2615"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P2669"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P3156"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P3405"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P3613"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P3954"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P4305"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P4956"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5015"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5703"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5704"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5705"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5706"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5707"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5708"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5710"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5712"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5714"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5716"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5720"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5722"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5725"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5726"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5727"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5729"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5732"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5734"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5737"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5738"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5741"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5743"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P9496"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P9497"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-B2029"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-CF2136A"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P1001"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P1035"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P1085"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P1161"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P1307"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P1421"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P1422"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P1424"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P1425"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P2433"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P2669"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P3954"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P4956"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P5703"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P5705"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P5706"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P5707"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P5708"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P5710"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P5714"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P5716"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P5720"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P5722"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P5726"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P5738"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P5743"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "luogu-training-P1055"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "luogu-training-P1125"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 2,
+    "problem_id": "luogu-training-P1161"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "luogu-training-P1321"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "luogu-training-P1449"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "luogu-training-P1553"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "luogu-training-P1597"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "luogu-training-P1603"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "luogu-training-P1765"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "luogu-training-P1957"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "luogu-training-P3405"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "luogu-training-P5015"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 2,
+    "problem_id": "luogu-training-P5705"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "luogu-training-P5734"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "luogu-training-P5741"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 1,
+    "problem_id": "luogu-training-P1918"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 1,
+    "problem_id": "luogu-training-P3613"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 3,
+    "problem_id": "luogu-training-P5705"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 1,
+    "problem_id": "luogu-training-P9497"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-CF2135A"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-CF2136A"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-CF2136B"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1035"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P1047"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1055"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1085"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P11033"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 3,
+    "problem_id": "luogu-training-P1161"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1307"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P1319"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1321"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1422"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1424"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P1428"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P15320"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1597"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1957"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P2433"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P2550"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P2615"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P2669"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P3156"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P3405"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P4956"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P5015"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P5710"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P5712"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P5714"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P5716"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P5720"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P5725"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P5726"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P5727"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P5729"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P5732"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P5734"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P5737"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P5738"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P5741"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P5743"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-number-theory",
+    "position": 2,
+    "problem_id": "luogu-training-P1125"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-number-theory",
+    "position": 1,
+    "problem_id": "luogu-training-P1888"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 2,
+    "problem_id": "luogu-training-CF2135A"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 2,
+    "problem_id": "luogu-training-CF2136B"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 2,
+    "problem_id": "luogu-training-P1047"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 2,
+    "problem_id": "luogu-training-P11033"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P1125"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 4,
+    "problem_id": "luogu-training-P1161"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 2,
+    "problem_id": "luogu-training-P1428"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P1597"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 2,
+    "problem_id": "luogu-training-P1765"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 2,
+    "problem_id": "luogu-training-P2550"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 2,
+    "problem_id": "luogu-training-P2615"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 2,
+    "problem_id": "luogu-training-P3156"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P3405"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 2,
+    "problem_id": "luogu-training-P5727"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 2,
+    "problem_id": "luogu-training-P5729"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 2,
+    "problem_id": "luogu-training-P5732"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 2,
+    "problem_id": "luogu-training-P5737"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P5741"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "luogu-training-CF2135A"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "luogu-training-CF2136B"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "luogu-training-P1047"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 5,
+    "problem_id": "luogu-training-P1161"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "luogu-training-P1428"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "luogu-training-P1603"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "luogu-training-P2615"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "luogu-training-P3156"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "luogu-training-P5727"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "luogu-training-P5737"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P5741"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "luogu-training-P9497"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 6,
+    "problem_id": "luogu-training-P1161"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 2,
+    "problem_id": "luogu-training-P1449"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 2,
+    "problem_id": "luogu-training-P1553"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 4,
+    "problem_id": "luogu-training-P1597"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 3,
+    "problem_id": "luogu-training-P1603"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 3,
+    "problem_id": "luogu-training-P1957"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 3,
+    "problem_id": "luogu-training-P5734"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 4,
+    "problem_id": "luogu-training-CF2135A"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 3,
+    "problem_id": "luogu-training-P5732"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 3,
+    "problem_id": "luogu-training-P1553"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 4,
+    "problem_id": "luogu-training-P5737"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 3,
+    "problem_id": "luogu-training-P5743"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-maps",
+    "position": 4,
+    "problem_id": "luogu-training-P1603"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-maps",
+    "position": 2,
+    "problem_id": "luogu-training-P1918"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-maps",
+    "position": 2,
+    "problem_id": "luogu-training-P3613"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 5,
+    "problem_id": "luogu-training-P1603"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 3,
+    "problem_id": "luogu-training-P9497"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-construction",
+    "position": 4,
+    "problem_id": "luogu-training-CF2136B"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 1,
+    "problem_id": "luogu-training-P2415"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 1,
+    "problem_id": "luogu-training-P9496"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 3,
+    "problem_id": "luogu-training-P1449"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 2,
+    "problem_id": "luogu-training-P2415"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "luogu-training-P3405"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 2,
+    "problem_id": "luogu-training-P9496"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-queue-stack",
+    "position": 4,
+    "problem_id": "luogu-training-P1449"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 3,
+    "problem_id": "luogu-training-P2415"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 3,
+    "problem_id": "luogu-training-P3613"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 1,
+    "problem_id": "luogu-training-P4305"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-sets",
+    "position": 2,
+    "problem_id": "luogu-training-P4305"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-structures",
+    "position": 5,
+    "problem_id": "luogu-training-P5741"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-bounds",
+    "position": 4,
+    "problem_id": "luogu-training-P9497"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-games",
+    "position": 2,
+    "problem_id": "luogu-training-P15320"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1059"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1068"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1093"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1104"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1116"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1152"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1177"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1271"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1781"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1923"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P2676"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5143"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P1152"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "luogu-training-P1104"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "luogu-training-P1781"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 1,
+    "problem_id": "luogu-training-P1059"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 1,
+    "problem_id": "luogu-training-P1068"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 1,
+    "problem_id": "luogu-training-P1093"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 2,
+    "problem_id": "luogu-training-P1104"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 1,
+    "problem_id": "luogu-training-P1177"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 1,
+    "problem_id": "luogu-training-P1923"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 1,
+    "problem_id": "luogu-training-P2676"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 1,
+    "problem_id": "luogu-training-P5143"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1059"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1068"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1093"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 3,
+    "problem_id": "luogu-training-P1104"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P1116"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1152"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1177"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P1271"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1781"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1923"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P2676"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P5143"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P1059"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P1068"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P1093"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 4,
+    "problem_id": "luogu-training-P1104"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 2,
+    "problem_id": "luogu-training-P1116"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P1152"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P1177"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 2,
+    "problem_id": "luogu-training-P1271"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P1923"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P2676"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P5143"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P1059"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P1068"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P1093"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 5,
+    "problem_id": "luogu-training-P1104"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "luogu-training-P1116"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P1152"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P1177"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "luogu-training-P1271"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P1923"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P2676"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P5143"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 3,
+    "problem_id": "luogu-training-P1781"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 5,
+    "problem_id": "luogu-training-P1068"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 5,
+    "problem_id": "luogu-training-P1093"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 6,
+    "problem_id": "luogu-training-P1104"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 5,
+    "problem_id": "luogu-training-P1177"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 5,
+    "problem_id": "luogu-training-P5143"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 5,
+    "problem_id": "luogu-training-P1059"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 6,
+    "problem_id": "luogu-training-P1068"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 6,
+    "problem_id": "luogu-training-P1093"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 7,
+    "problem_id": "luogu-training-P1104"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 6,
+    "problem_id": "luogu-training-P1177"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 5,
+    "problem_id": "luogu-training-P2676"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 6,
+    "problem_id": "luogu-training-P5143"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "luogu-training-P1116"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-structures",
+    "position": 7,
+    "problem_id": "luogu-training-P1068"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-structures",
+    "position": 7,
+    "problem_id": "luogu-training-P1093"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-structures",
+    "position": 8,
+    "problem_id": "luogu-training-P1104"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-structures",
+    "position": 7,
+    "problem_id": "luogu-training-P5143"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-recursion",
+    "position": 7,
+    "problem_id": "luogu-training-P1177"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-random-selection",
+    "position": 5,
+    "problem_id": "luogu-training-P1923"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-greedy",
+    "position": 6,
+    "problem_id": "luogu-training-P2676"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-geometry",
+    "position": 8,
+    "problem_id": "luogu-training-P5143"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 3,
+    "problem_id": "luogu-training-CF2136A"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 3,
+    "problem_id": "luogu-training-P1035"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 3,
+    "problem_id": "luogu-training-P1085"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 3,
+    "problem_id": "luogu-training-P1307"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 3,
+    "problem_id": "luogu-training-P1422"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 3,
+    "problem_id": "luogu-training-P1424"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 3,
+    "problem_id": "luogu-training-P2433"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 3,
+    "problem_id": "luogu-training-P2669"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 3,
+    "problem_id": "luogu-training-P4956"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 3,
+    "problem_id": "luogu-training-P5710"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 3,
+    "problem_id": "luogu-training-P5714"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 3,
+    "problem_id": "luogu-training-P5716"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 3,
+    "problem_id": "luogu-training-P5720"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 3,
+    "problem_id": "luogu-training-P5726"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 3,
+    "problem_id": "luogu-training-P5738"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 4,
+    "problem_id": "luogu-training-P5743"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 4,
+    "problem_id": "luogu-training-CF2136A"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 4,
+    "problem_id": "luogu-training-P1035"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 4,
+    "problem_id": "luogu-training-P1085"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 4,
+    "problem_id": "luogu-training-P1307"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 4,
+    "problem_id": "luogu-training-P1422"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 4,
+    "problem_id": "luogu-training-P1424"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 4,
+    "problem_id": "luogu-training-P2433"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 4,
+    "problem_id": "luogu-training-P2669"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 4,
+    "problem_id": "luogu-training-P4956"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 4,
+    "problem_id": "luogu-training-P5710"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 4,
+    "problem_id": "luogu-training-P5714"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 4,
+    "problem_id": "luogu-training-P5716"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 4,
+    "problem_id": "luogu-training-P5720"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 4,
+    "problem_id": "luogu-training-P5726"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 4,
+    "problem_id": "luogu-training-P5738"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 5,
+    "problem_id": "luogu-training-P5743"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 5,
+    "problem_id": "luogu-training-CF2136A"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 5,
+    "problem_id": "luogu-training-P1035"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 5,
+    "problem_id": "luogu-training-P1085"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 5,
+    "problem_id": "luogu-training-P1307"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 5,
+    "problem_id": "luogu-training-P1422"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 5,
+    "problem_id": "luogu-training-P1424"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 5,
+    "problem_id": "luogu-training-P2433"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 5,
+    "problem_id": "luogu-training-P2669"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 5,
+    "problem_id": "luogu-training-P4956"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 5,
+    "problem_id": "luogu-training-P5710"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 5,
+    "problem_id": "luogu-training-P5714"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 5,
+    "problem_id": "luogu-training-P5716"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 5,
+    "problem_id": "luogu-training-P5720"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 5,
+    "problem_id": "luogu-training-P5726"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 5,
+    "problem_id": "luogu-training-P5738"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1036"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1045"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1065"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1067"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1088"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1149"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1157"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1303"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1518"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1563"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1591"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1618"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1706"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P2089"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P2670"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P3392"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P3654"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P3799"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P1067"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P1618"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "luogu-training-P1303"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "luogu-training-P1563"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "luogu-training-P2670"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "luogu-training-P3392"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "luogu-training-P3654"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 1,
+    "problem_id": "luogu-training-P1065"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 1,
+    "problem_id": "luogu-training-P1088"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 1,
+    "problem_id": "luogu-training-P1706"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P1036"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P1045"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1065"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1067"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1088"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P1149"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P1157"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1303"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P1518"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1563"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P1591"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1618"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1706"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P2089"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P2670"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P3392"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P3654"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P3799"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 2,
+    "problem_id": "luogu-training-P1036"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 2,
+    "problem_id": "luogu-training-P1045"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 3,
+    "problem_id": "luogu-training-P1088"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 2,
+    "problem_id": "luogu-training-P1149"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 2,
+    "problem_id": "luogu-training-P1157"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 2,
+    "problem_id": "luogu-training-P1518"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 3,
+    "problem_id": "luogu-training-P1706"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 2,
+    "problem_id": "luogu-training-P2089"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-number-theory",
+    "position": 3,
+    "problem_id": "luogu-training-P1036"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 4,
+    "problem_id": "luogu-training-P1036"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P1045"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P1065"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 4,
+    "problem_id": "luogu-training-P1088"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P1149"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P1157"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P1303"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P1518"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P1563"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 2,
+    "problem_id": "luogu-training-P1591"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P1618"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 4,
+    "problem_id": "luogu-training-P1706"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P2089"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P2670"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P3392"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P3654"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 2,
+    "problem_id": "luogu-training-P3799"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 5,
+    "problem_id": "luogu-training-P1036"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P1045"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P1065"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 5,
+    "problem_id": "luogu-training-P1088"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P1149"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P1157"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P1303"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P1518"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P1563"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "luogu-training-P1591"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 5,
+    "problem_id": "luogu-training-P1706"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P2089"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P2670"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P3392"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P3654"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "luogu-training-P3799"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "luogu-training-P3799"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 5,
+    "problem_id": "luogu-training-P3799"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-structures",
+    "position": 5,
+    "problem_id": "luogu-training-P1518"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-recursion",
+    "position": 6,
+    "problem_id": "luogu-training-P1036"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-recursion",
+    "position": 5,
+    "problem_id": "luogu-training-P1157"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-recursion",
+    "position": 6,
+    "problem_id": "luogu-training-P1706"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-recursion",
+    "position": 5,
+    "problem_id": "luogu-training-P2089"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-lex-permutation",
+    "position": 6,
+    "problem_id": "luogu-training-P1088"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-lex-permutation",
+    "position": 7,
+    "problem_id": "luogu-training-P1706"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 5,
+    "problem_id": "luogu-training-P1149"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-big-integers",
+    "position": 5,
+    "problem_id": "luogu-training-P1045"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-big-integers",
+    "position": 5,
+    "problem_id": "luogu-training-P1303"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-big-integers",
+    "position": 4,
+    "problem_id": "luogu-training-P1591"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-modular",
+    "position": 6,
+    "problem_id": "luogu-training-P1045"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-modular",
+    "position": 5,
+    "problem_id": "luogu-training-P1563"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-modular",
+    "position": 6,
+    "problem_id": "luogu-training-P3799"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-prefix",
+    "position": 5,
+    "problem_id": "luogu-training-P3392"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-numeric-tools",
+    "position": 7,
+    "problem_id": "luogu-training-P1045"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-AT_arc161_c"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-B3753"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-B4225"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1031"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1056"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P11036"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P12041"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1208"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P12676"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1478"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P1650"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P2431"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P2695"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P2949"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P4995"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P5639"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-io-basics",
+    "position": 0,
+    "problem_id": "luogu-training-P6155"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-arithmetic",
+    "position": 1,
+    "problem_id": "luogu-training-P11036"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "luogu-training-AT_arc161_c"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 1,
+    "problem_id": "luogu-training-P1056"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 1,
+    "problem_id": "luogu-training-P1208"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 1,
+    "problem_id": "luogu-training-P1478"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 1,
+    "problem_id": "luogu-training-P1650"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 1,
+    "problem_id": "luogu-training-P2695"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 1,
+    "problem_id": "luogu-training-P2949"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 1,
+    "problem_id": "luogu-training-P4995"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 1,
+    "problem_id": "luogu-training-P6155"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-AT_arc161_c"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-B3753"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-B4225"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P1031"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1056"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P12041"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1208"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P12676"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1478"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P1650"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P2431"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P2695"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P2949"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P4995"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 1,
+    "problem_id": "luogu-training-P5639"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-basic-control",
+    "position": 2,
+    "problem_id": "luogu-training-P6155"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 3,
+    "problem_id": "luogu-training-P1056"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 2,
+    "problem_id": "luogu-training-P12041"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 2,
+    "problem_id": "luogu-training-P12676"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 2,
+    "problem_id": "luogu-training-P2431"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-number-theory",
+    "position": 2,
+    "problem_id": "luogu-training-P11036"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-AT_arc161_c"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 2,
+    "problem_id": "luogu-training-B3753"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 2,
+    "problem_id": "luogu-training-B4225"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 2,
+    "problem_id": "luogu-training-P1031"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 4,
+    "problem_id": "luogu-training-P1056"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P12041"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P1208"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P12676"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P1478"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P1650"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P2695"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P2949"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P4995"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 3,
+    "problem_id": "luogu-training-P6155"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-AT_arc161_c"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "luogu-training-B3753"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "luogu-training-B4225"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "luogu-training-P1031"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 5,
+    "problem_id": "luogu-training-P1056"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P12041"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P1208"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P12676"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P1478"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P1650"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P2695"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P2949"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P4995"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "luogu-training-P6155"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 6,
+    "problem_id": "luogu-training-P1056"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 5,
+    "problem_id": "luogu-training-P1208"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 5,
+    "problem_id": "luogu-training-P1478"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 5,
+    "problem_id": "luogu-training-P1650"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 5,
+    "problem_id": "luogu-training-P2695"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 5,
+    "problem_id": "luogu-training-P2949"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 5,
+    "problem_id": "luogu-training-P4995"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 5,
+    "problem_id": "luogu-training-P6155"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-construction",
+    "position": 5,
+    "problem_id": "luogu-training-AT_arc161_c"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-construction",
+    "position": 4,
+    "problem_id": "luogu-training-B3753"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-construction",
+    "position": 4,
+    "problem_id": "luogu-training-B4225"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-construction",
+    "position": 3,
+    "problem_id": "luogu-training-P11036"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-construction",
+    "position": 5,
+    "problem_id": "luogu-training-P12041"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-construction",
+    "position": 5,
+    "problem_id": "luogu-training-P12676"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 5,
+    "problem_id": "luogu-training-B3753"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 4,
+    "problem_id": "luogu-training-P11036"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 3,
+    "problem_id": "luogu-training-P2431"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 5,
+    "problem_id": "luogu-training-P11036"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 6,
+    "problem_id": "luogu-training-P1208"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "luogu-training-P2431"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 6,
+    "problem_id": "luogu-training-P2695"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 6,
+    "problem_id": "luogu-training-P2949"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 6,
+    "problem_id": "luogu-training-P4995"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 6,
+    "problem_id": "luogu-training-P6155"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-queue-stack",
+    "position": 5,
+    "problem_id": "luogu-training-B4225"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-queue-stack",
+    "position": 7,
+    "problem_id": "luogu-training-P6155"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 6,
+    "problem_id": "luogu-training-P12676"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-greedy",
+    "position": 4,
+    "problem_id": "luogu-training-P1031"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-greedy",
+    "position": 7,
+    "problem_id": "luogu-training-P1056"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-greedy",
+    "position": 7,
+    "problem_id": "luogu-training-P1208"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-greedy",
+    "position": 6,
+    "problem_id": "luogu-training-P1478"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-greedy",
+    "position": 6,
+    "problem_id": "luogu-training-P1650"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-greedy",
+    "position": 7,
+    "problem_id": "luogu-training-P2695"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-greedy",
+    "position": 7,
+    "problem_id": "luogu-training-P2949"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-greedy",
+    "position": 7,
+    "problem_id": "luogu-training-P4995"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-greedy",
+    "position": 2,
+    "problem_id": "luogu-training-P5639"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-greedy",
+    "position": 8,
+    "problem_id": "luogu-training-P6155"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-prefix",
+    "position": 5,
+    "problem_id": "luogu-training-P1031"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-two-pointers",
+    "position": 7,
+    "problem_id": "luogu-training-P1650"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-two-pointers",
+    "position": 8,
+    "problem_id": "luogu-training-P2695"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-heap",
+    "position": 8,
+    "problem_id": "luogu-training-P2949"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-dsu",
+    "position": 6,
+    "problem_id": "luogu-training-P12041"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-trees",
+    "position": 6,
+    "problem_id": "luogu-training-AT_arc161_c"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-unsigned64",
+    "position": 9,
+    "problem_id": "luogu-training-P6155"
+  },
+  {
     "kind": "explicit",
     "lecture_id": "lecture:foundation-graphs",
     "position": 0,

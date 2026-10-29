@@ -1,0 +1,36 @@
+[
+  {
+    "problemId": "luogu-training-P5714",
+    "previousProgramSha256": "338ce440f48b6d5c3e9ba46947f395de09f3bb276d9e57a160eb9f1651a83d54",
+    "reason": "精确十进制边界与四舍五入，避免二进制浮点误差",
+    "reproductions": [
+      {
+        "input": "47.36 1.6\n",
+        "expected": "Normal\n",
+        "observed": "Underweight\n"
+      },
+      {
+        "input": "61.44 1.6\n",
+        "expected": "24\nOverweight\n",
+        "observed": "Normal\n"
+      }
+    ]
+  },
+  {
+    "problemId": "luogu-training-P1422",
+    "previousProgramSha256": "bf22ee8e51bdcd2983975e9eaa0892b152f21f18a70d60215af1df63468034ed",
+    "reason": "精确十进制边界与四舍五入，避免二进制浮点误差",
+    "reproductions": [
+      {
+        "input": "500\n",
+        "expected": "240.2\n",
+        "observed": "240.1\n"
+      },
+      {
+        "input": "4500\n",
+        "expected": "2505.4\n",
+        "observed": "2505.3\n"
+      }
+    ]
+  }
+]

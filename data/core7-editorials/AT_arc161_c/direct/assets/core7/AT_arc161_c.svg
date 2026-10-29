@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="390" viewBox="0 0 760 390" role="img" aria-labelledby="title"><title id="title">目标 BWWW：叶子要求中心原色 W，中心要多数 B</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">目标 BWWW：叶子要求中心原色 W，中心要多数 B</text>
+<line x1="380" y1="125" x2="200" y2="280" stroke="#68778b" stroke-width="3"/>
+<line x1="380" y1="125" x2="380" y2="280" stroke="#68778b" stroke-width="3"/>
+<line x1="380" y1="125" x2="560" y2="280" stroke="#68778b" stroke-width="3"/>
+<circle cx="380" cy="125" r="23" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="380" y="132" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">W</text>
+<text x="380" y="90" fill="#243449" font-size="20" text-anchor="middle" font-weight="normal">点 1，目标 B</text>
+<circle cx="200" cy="280" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="200" y="287" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">B</text>
+<text x="200" y="325" fill="#243449" font-size="18" text-anchor="middle" font-weight="normal">点 2，目标 W</text>
+<circle cx="380" cy="280" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="380" y="287" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">B</text>
+<text x="380" y="325" fill="#243449" font-size="18" text-anchor="middle" font-weight="normal">点 3，目标 W</text>
+<circle cx="560" cy="280" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="560" y="287" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">B</text>
+<text x="560" y="325" fill="#243449" font-size="18" text-anchor="middle" font-weight="normal">点 4，目标 W</text>
+<text x="75" y="375" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">操作前 WBBB → 邻居取多数 → 操作后 BWWW</text>
+</g></svg>

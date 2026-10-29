@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="340" viewBox="0 0 760 340" role="img" aria-labelledby="title"><title id="title">按位或先补齐，再按位与删掉多余的一</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">按位或先补齐，再按位与删掉多余的一</text>
+<text x="35" y="111" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">n=5</text>
+<rect x="290" y="80" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="333.5" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="380" y="80" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="423.5" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="470" y="80" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="513.5" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="560" y="80" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="603.5" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<text x="35" y="176" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">或 3 → 7</text>
+<rect x="290" y="145" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="333.5" y="176.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="380" y="145" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="423.5" y="176.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="470" y="145" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="513.5" y="176.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="560" y="145" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="603.5" y="176.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<text x="35" y="241" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">与 3 → 3</text>
+<rect x="290" y="210" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="333.5" y="241.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="380" y="210" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="423.5" y="241.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="470" y="210" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="513.5" y="241.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="560" y="210" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="603.5" y="241.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<text x="35" y="315" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">目标 3 的二进制为 0011，需要同时补一位、删一位</text>
+</g></svg>
