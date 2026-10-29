@@ -1085,7 +1085,7 @@ export default function App() {
   const mockFocus = page === "mock" && active && mockTab === "create" && !record && !practiceId;
   const levelNoticeBlocked=Boolean(loading||busy||practiceId||active||workspace.summary?.pending||dialog||tourOpen||labFocus||templateFocus||lectureFull||readerFull);
   const levelUp=useLevelUp({owner:account?.userId,growth:insights?.growth,preferences:prefs,preferencesReady:preferencesLoaded.current&&!loading,setPreferences:setPrefs,blocked:levelNoticeBlocked});
-  const levelFeedbackVisible=!levelNoticeBlocked&&!levelUp.dialog&&!document.hidden;
+  const levelFeedbackVisible=!levelNoticeBlocked&&!levelUp.dialog&&!document.hidden&&document.hasFocus();
   useEffect(()=>{if(!levelFeedbackVisible||!levelUp.feedback.length)return;const timer=setTimeout(levelUp.clearFeedback,1400);return()=>clearTimeout(timer);},[levelFeedbackVisible,levelUp.feedback,levelUp.clearFeedback]);
   useEffect(()=>setFinishAnchor(null),[active?.id,page,mockTab,Boolean(record),Boolean(practiceId)]);
   const lastWorkspacePage = useRef("mine");

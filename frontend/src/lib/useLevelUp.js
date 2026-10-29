@@ -17,16 +17,16 @@ export default function useLevelUp({owner,growth,preferences,preferencesReady,se
   setDialog(previous=>previous&&state.levelNoticePending>previous.to?{...previous,to:state.levelNoticePending,growth}:previous);
  },[owner,growth,preferencesReady,persist]);
  useEffect(()=>{
-  if(!owner||!preferencesReady||!authority.current||authority.current.owner!==owner||dialog||blocked||document.hidden||typing()||otherDialog())return;
+  if(!owner||!preferencesReady||!authority.current||authority.current.owner!==owner||dialog||blocked||document.hidden||!document.hasFocus()||typing()||otherDialog())return;
   const state=latest.current;if(state.levelNoticePending>state.levelNoticeSeen&&authority.current.level>=state.levelNoticePending){shownFrom.current=state.levelNoticeSeen;presented.current=0;setDialog({from:state.levelNoticeSeen,to:state.levelNoticePending,growth});}
  },[owner,preferencesReady,preferences.levelNoticePending,preferences.levelNoticeSeen,blocked,wake,dialog,growth]);
  useEffect(()=>{
   if(!owner)return;
-  const update=()=>setWake(value=>value+1),focus=()=>setTimeout(update,0);document.addEventListener('visibilitychange',update);document.addEventListener('focusin',focus);document.addEventListener('focusout',focus);
-  return()=>{document.removeEventListener('visibilitychange',update);document.removeEventListener('focusin',focus);document.removeEventListener('focusout',focus);};
+  const update=()=>setWake(value=>value+1),focus=()=>setTimeout(update,0);document.addEventListener('visibilitychange',update);document.addEventListener('focusin',focus);document.addEventListener('focusout',focus);window.addEventListener('focus',focus);window.addEventListener('blur',update);
+  return()=>{document.removeEventListener('visibilitychange',update);document.removeEventListener('focusin',focus);document.removeEventListener('focusout',focus);window.removeEventListener('focus',focus);window.removeEventListener('blur',update);};
  },[owner]);
- useEffect(()=>{if(!owner||dialog||!(preferences.levelNoticePending>preferences.levelNoticeSeen))return;const timer=setInterval(()=>{if(!document.hidden)setWake(value=>value+1);},500);return()=>clearInterval(timer);},[owner,dialog,preferences.levelNoticePending,preferences.levelNoticeSeen]);
- const markPresented=useCallback(level=>{if(scope.current===owner&&!document.hidden)presented.current=Math.max(presented.current,level);},[owner]);
+ useEffect(()=>{if(!owner||dialog||!(preferences.levelNoticePending>preferences.levelNoticeSeen))return;const timer=setInterval(()=>{if(!document.hidden&&document.hasFocus())setWake(value=>value+1);},500);return()=>clearInterval(timer);},[owner,dialog,preferences.levelNoticePending,preferences.levelNoticeSeen]);
+ const markPresented=useCallback(level=>{if(scope.current===owner&&!document.hidden&&document.hasFocus())presented.current=Math.max(presented.current,level);},[owner]);
  const close=useCallback(()=>{const seen=presented.current;if(!seen||scope.current!==owner){setDialog(null);return;}persist(acknowledgeLevel(latest.current,seen));setFeedback(newlyUnlocked(shownFrom.current,seen).map(item=>item.id));setDialog(null);},[owner,persist]);
  const clearFeedback=useCallback(()=>setFeedback([]),[]);
  return {dialog,close,markPresented,feedback,clearFeedback};

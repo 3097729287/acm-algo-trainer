@@ -17,6 +17,7 @@ import sys
 import tempfile
 import threading
 import time
+from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'desktop'))
@@ -28,10 +29,18 @@ window.ticks=0; setInterval(()=>window.ticks++,100);
 document.querySelector('#rows').innerHTML=Array.from({length:1200},(_,i)=>'<article><strong>Problem '+i+'</strong><p>Stable local fixture</p></article>').join('');
 window.burst=async count=>{
  const start=performance.now(); let next=0;
- await Promise.all(Array.from({length:8},async()=>{
-  while(next<count){const id=next++;const response=await fetch('/data?i='+id,{cache:'no-store'});await response.arrayBuffer();}
- }));
- window.burstResult={count,elapsedMs:performance.now()-start};
+ const result=window.burstResult={status:'running',count,started:0,completed:0,bytes:0,error:null,elapsedMs:0};
+ try {
+  await Promise.all(Array.from({length:8},async()=>{
+   while(next<count){const id=next++;result.started++;const response=await fetch('/data?i='+id,{cache:'no-store'});
+    if(!response.ok)throw new Error('HTTP '+response.status+' for resource '+id);
+    const body=await response.arrayBuffer();if(body.byteLength!==65536)throw new Error('Wrong byte count for resource '+id);
+    result.completed++;result.bytes+=body.byteLength;result.elapsedMs=performance.now()-start;
+   }
+  }));
+  result.status='complete';
+ } catch(error) {result.status='failed';result.error=String(error);}
+ result.elapsedMs=performance.now()-start;
 };
 window.saveDraft=async()=>{const text='fixture-code-'.repeat(4000);document.querySelector('#draft').value=text;localStorage.setItem('fixture-draft',text);
  const result=await fetch('/draft',{method:'POST',body:text});window.savedDraft=await result.json();};
@@ -44,25 +53,41 @@ def phase(directory, mode):
     from webview_resources import bind
 
     callbacks = {'request':0, 'response':0}
+    callbacks_lock=threading.Lock()
+    def data_request(url):return urlsplit(str(url)).path=='/data'
     original_request, original_response = edge.EdgeChrome.on_web_resource_request, edge.EdgeChrome.on_web_resource_response
     def counted_request(self, sender, event):
-        callbacks['request'] += 1
+        if data_request(event.Request.Uri):
+            with callbacks_lock:callbacks['request'] += 1
         return original_request(self, sender, event)
     def counted_response(self, sender, event):
-        callbacks['response'] += 1
+        if data_request(event.Request.Uri):
+            with callbacks_lock:callbacks['response'] += 1
         return original_response(self, sender, event)
     edge.EdgeChrome.on_web_resource_request, edge.EdgeChrome.on_web_resource_response = counted_request, counted_response
-    state = {'posts':0, 'bytes':0}
+    state = {'posts':0, 'bytes':0, 'dataStarted':0, 'dataCompleted':0, 'dataBytes':0, 'dataErrors':[]}
+    state_lock=threading.Lock()
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *_args): pass
         def do_GET(self):
+            is_data=self.path.startswith('/data?')
+            if is_data:
+                with state_lock:state['dataStarted']+=1
             body = HTML if self.path == '/' else b'x' * 65536
             self.send_response(200)
             self.send_header('Content-Type', 'text/html' if self.path == '/' else 'application/octet-stream')
             self.send_header('Content-Length', str(len(body)))
             self.send_header('Cache-Control', 'no-store')
             for i in range(8): self.send_header(f'X-Fixture-{i}', 'local-resource-proof')
-            self.end_headers(); self.wfile.write(body)
+            self.end_headers()
+            try:
+                self.wfile.write(body)
+                if is_data:
+                    with state_lock:state['dataCompleted']+=1;state['dataBytes']+=len(body)
+            except OSError as error:
+                if is_data:
+                    with state_lock:state['dataErrors'].append(type(error).__name__)
+                raise
         def do_POST(self):
             body = self.rfile.read(int(self.headers.get('Content-Length', '0')))
             state['posts'] += 1; state['bytes'] = len(body)
@@ -76,8 +101,12 @@ def phase(directory, mode):
     window = webview.create_window('TB isolated resource proof', f'http://127.0.0.1:{server.server_address[1]}', width=1200, height=850, hidden=True)
     subscribers = {'request':0, 'response':0}
     if mode == 'subscribed':
-        def request_listener(_request): subscribers['request'] += 1
-        def response_listener(_response): subscribers['response'] += 1
+        def request_listener(request):
+            if data_request(request.url):
+                with callbacks_lock:subscribers['request'] += 1
+        def response_listener(response):
+            if data_request(response.url):
+                with callbacks_lock:subscribers['response'] += 1
         window.events.request_sent += request_listener
         window.events.response_received += response_listener
     policy = bind(window) if mode != 'baseline' else None
@@ -111,7 +140,35 @@ def phase(directory, mode):
         def state_view():
             core=window.native.browser.webview.CoreWebView2
             return {'visible':bool(window.native.browser.webview.Visible),'target':str(core.MemoryUsageTargetLevel),'suspended':bool(core.IsSuspended)}
+        def wait_burst(before_callbacks,before_subscribers,timeout=90,stall_timeout=30):
+            # A rejected fetch must fail explicitly. A slow CI worker may need
+            # more than 30 seconds for all 400 requests and Python listeners;
+            # permit progress only within a hard total deadline.
+            started=last_changed=time.monotonic();previous=None;next_log=started
+            while True:
+                progress=window.evaluate_js('window.burstResult')
+                with state_lock:served={key:list(value) if isinstance(value,list) else value for key,value in state.items()}
+                with callbacks_lock:
+                    observed={'javascript':progress,'server':served,'callbacks':{key:callbacks[key]-before_callbacks[key] for key in callbacks},'subscribers':{key:subscribers[key]-before_subscribers[key] for key in subscribers}}
+                result['lastBurstProgress']=observed
+                signature=json.dumps(observed,sort_keys=True)
+                now=time.monotonic()
+                if signature!=previous:last_changed=now;previous=signature
+                if now>=next_log:
+                    print(json.dumps({'phase':'burst-progress','mode':mode,'seconds':round(now-started,2),**observed}),flush=True);next_log=now+5
+                if progress and progress['status']=='failed':raise AssertionError('Resource burst failed: '+json.dumps(observed))
+                if served['dataErrors']:raise AssertionError('Resource server failed: '+json.dumps(observed))
+                if progress and progress['status']=='complete':
+                    assert progress['completed']==400 and progress['bytes']==400*65536,observed
+                    server_ready=served['dataCompleted']==400 and served['dataBytes']==400*65536
+                    hooks_ready=mode=='optimized' or all(observed['callbacks'][key]>=400 for key in callbacks)
+                    listeners_ready=mode!='subscribed' or all(observed['subscribers'][key]>=400 for key in subscribers)
+                    if server_ready and hooks_ready and listeners_ready:return progress
+                if now-started>=timeout or now-last_changed>=stall_timeout:
+                    raise AssertionError('Resource burst timed out: '+json.dumps({'seconds':round(now-started,2),'stalledSeconds':round(now-last_changed,2),**observed}))
+                time.sleep(.25)
         try:
+            result['stage']='startup'
             assert window.events.loaded.wait(30)
             wait(lambda:window.evaluate_js('window.ticks') is not None)
             result['startupSeconds']=time.perf_counter()-started
@@ -130,15 +187,18 @@ def phase(directory, mode):
                 result['removedHooks']=list(policy.removed_hooks)
                 assert set(policy.removed_hooks)==(set() if mode=='subscribed' else {'request_sent','response_received'}),result
             before_callbacks=dict(callbacks)
+            before_subscribers=dict(subscribers)
             before=measure()
+            result['stage']='burst'
             window.evaluate_js('window.burstResult=null;void window.burst(400)')
-            burst=wait(lambda:window.evaluate_js('window.burstResult'))
+            burst=wait_burst(before_callbacks,before_subscribers)
             after=measure()
             result['burst']={**burst,'cpuSeconds':after['cpuSeconds']-before['cpuSeconds'],'callbacks':{key:callbacks[key]-before_callbacks[key] for key in callbacks}}
             if mode=='optimized':assert result['burst']['callbacks']=={'request':0,'response':0},result['burst']
             else:assert result['burst']['callbacks']['request']>=400,result['burst']
             if mode=='subscribed':assert subscribers['request']>=400 and subscribers['response']>=400,subscribers
             time.sleep(1)
+            result['stage']='minimized-draft'
             result['foregroundMemory']=measure()
             ticks_before=window.evaluate_js('window.ticks')
             ui(lambda:setattr(window.native,'WindowState',FormWindowState.Minimized))
@@ -188,6 +248,7 @@ def phase(directory, mode):
                 ui(overlay_during_minimize)
                 result.update(originalSiteOverlayPreserved=True,unsupportedSdkFallsBack=True)
             if mode == 'subscribed':
+                result['stage']='renderer-recovery'
                 renderer_pids = ui(lambda: [int(item.ProcessId) for item in policy.core.Environment.GetProcessInfos() if str(item.Kind) == 'Renderer'])
                 assert renderer_pids, 'Isolated renderer process not found'
                 before_recovery = len(policy.recoveries)
@@ -202,7 +263,7 @@ def phase(directory, mode):
                 wait(lambda: window.evaluate_js("document.querySelector('#draft')?.value.length") == 52000)
                 result['rendererCrashRecovered'] = True
                 result['draftJournalSurvivedCrash'] = True
-            result.update(restoredState=restored,backgroundDraftBytes=52000,timersRunningWhileMinimized=True,subscribers=subscribers,ok=True)
+            result.update(restoredState=restored,backgroundDraftBytes=52000,timersRunningWhileMinimized=True,subscribers=subscribers,stage='complete',ok=True)
         except Exception as issue:
             result.update(ok=False,error=repr(issue))
         finally:window.destroy()
@@ -221,7 +282,7 @@ def run(rounds, output):
         sequence=['subscribed'] if rounds==0 else [item for _ in range(rounds) for item in ('baseline','optimized')]
         for index,mode in enumerate(sequence):
             directory=base/f'{index}-{mode}';directory.mkdir()
-            run=subprocess.run([sys.executable,str(Path(__file__).resolve()),'--child',str(directory),'--mode',mode],capture_output=True,text=True,encoding='utf-8',timeout=100,creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0),env=dict(os.environ,TB_OFFLINE='1',TB_STATE_DIR=str(directory/'state')))
+            run=subprocess.run([sys.executable,str(Path(__file__).resolve()),'--child',str(directory),'--mode',mode],capture_output=True,text=True,encoding='utf-8',timeout=180,creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0),env=dict(os.environ,TB_OFFLINE='1',TB_STATE_DIR=str(directory/'state')))
             lines=[line for line in run.stdout.splitlines() if line.startswith('{')]
             if not lines or run.returncode:raise AssertionError(run.stdout+'\n'+run.stderr)
             report=json.loads(lines[-1]);reports.append(report)

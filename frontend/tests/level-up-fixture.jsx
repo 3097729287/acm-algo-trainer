@@ -17,7 +17,7 @@ function Harness(){
  const retired=useRef(new Set()),latest=useRef({owner,growth,preferences});latest.current={owner,growth,preferences};
  const setPreferences=useCallback(update=>storePreferences(previous=>{const value=typeof update==='function'?update(previous):update;localStorage.setItem('level-fixture:prefs:'+latest.current.owner,JSON.stringify(value));return value;}),[]);
  const level=useLevelUp({owner,growth,preferences,preferencesReady:true,setPreferences,blocked:blocked||other||immersive});
- const usable=!blocked&&!other&&!immersive&&!document.hidden;
+ const usable=!blocked&&!other&&!immersive&&!document.hidden&&document.hasFocus();
  useEffect(()=>{document.documentElement.dataset.theme=theme;document.documentElement.style.fontSize=font+'px';},[theme,font]);
  useEffect(()=>{if(!usable||level.dialog||!level.feedback.length)return;const timer=setTimeout(level.clearFeedback,1400);return()=>clearTimeout(timer);},[usable,level.dialog,level.feedback]);
  window.levelFixture={

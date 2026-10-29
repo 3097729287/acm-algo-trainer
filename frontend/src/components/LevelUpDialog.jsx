@@ -7,11 +7,11 @@ import './LevelUpDialog.css';
 export default function LevelUpDialog({notice,pages,preferences,onPresented,onClose,onOpen}){
  const card=useRef(null),returnFocus=useRef(document.activeElement),close=useRef(onClose);close.current=onClose;
  useLayoutEffect(()=>{
-  const node=card.current;node.querySelector('button')?.focus({preventScroll:true});
+  const node=card.current;if(!document.hidden&&document.hasFocus())node.querySelector('button')?.focus({preventScroll:true});
   const key=event=>{if(event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();close.current();}else if(event.key==='Tab'){const elements=[...node.querySelectorAll('button:not(:disabled),a[href],[tabindex="0"]')].filter(element=>element.getBoundingClientRect().height>0),first=elements[0],last=elements.at(-1);if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}}};
-  document.addEventListener('keydown',key,true);return()=>{document.removeEventListener('keydown',key,true);if(returnFocus.current?.isConnected)returnFocus.current.focus({preventScroll:true});};
+  document.addEventListener('keydown',key,true);return()=>{document.removeEventListener('keydown',key,true);if(!document.hidden&&document.hasFocus()&&returnFocus.current?.isConnected)returnFocus.current.focus({preventScroll:true});};
  },[]);
- useLayoutEffect(()=>{const visible=()=>{if(!document.hidden)onPresented(notice.to);};visible();document.addEventListener('visibilitychange',visible);return()=>document.removeEventListener('visibilitychange',visible);},[notice.to,onPresented]);
+ useLayoutEffect(()=>{const visible=()=>{if(!document.hidden&&document.hasFocus())onPresented(notice.to);};visible();document.addEventListener('visibilitychange',visible);window.addEventListener('focus',visible);return()=>{document.removeEventListener('visibilitychange',visible);window.removeEventListener('focus',visible);};},[notice.to,onPresented]);
  const unlocked=newlyUnlocked(notice.from,notice.to).filter(item=>canOpenPage(item.id,notice.to,preferences)),next=nextUnlock(notice.to),groups=[...new Set(unlocked.map(item=>item.level))];
  const growth=notice.growth||{},capped=notice.to>=100,progress=capped?100:Math.max(0,Math.min(100,Number(growth.nextLevelXp)>0?Number(growth.currentLevelXp)/Number(growth.nextLevelXp)*100:0));
  const open=id=>{onClose();onOpen(id);};
