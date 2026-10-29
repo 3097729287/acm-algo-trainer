@@ -15,8 +15,8 @@ const server=await createServer({root:path.join(root,'frontend'),server:{host:'1
 await server.listen();
 const browser=await chromium.launch({channel:'msedge',headless:true});
 const frames=[],errors=[];
-const previous=process.argv.includes('--only-changed')&&fs.existsSync(path.join(out,'report.json'))
-  ?JSON.parse(fs.readFileSync(path.join(out,'report.json'),'utf8')).frames:[];
+const previous=process.argv.includes('--only-changed')?['report-progress.json','report.json'].flatMap(name=>
+  fs.existsSync(path.join(out,name))?JSON.parse(fs.readFileSync(path.join(out,name),'utf8')).frames:[]):[];
 try {
   for(const [width,dark] of [[1440,false],[1050,true],[390,false]]) {
     for(const entry of authored) for(const [variant,solution] of Object.entries(entry.variants)) {
@@ -51,12 +51,16 @@ try {
       assert.ok((await disclosure.innerText()).length>120);
       await disclosure.locator('summary').click();
       await page.screenshot({path:path.join(out,key+'.png'),fullPage:true});
+      assert.deepEqual(errors,[],entry.pid+' page error');
       frames.push({pid:entry.pid,method:entry.method,variant,width,dark,markdownSha256:digest,imagesSha256:imagesDigest,captures:[key+'.png',...captures]});
       await page.close();
-      if(frames.length%24===0)console.log(JSON.stringify({rendered:frames.length,total:authored.length*6}));
+      if(frames.length%24===0){
+        fs.writeFileSync(path.join(out,'report-progress.json'),JSON.stringify({frames,errors,complete:false},null,2)+'\n');
+        console.log(JSON.stringify({rendered:frames.length,total:authored.length*6}));
+      }
     }
   }
   assert.deepEqual(errors,[]);
-  fs.writeFileSync(path.join(out,'report.json'),JSON.stringify({frames,errors},null,2)+'\n');
+  fs.writeFileSync(path.join(out,'report.json'),JSON.stringify({frames,errors,complete:true},null,2)+'\n');
   console.log(JSON.stringify({frames:frames.length,errors}));
 } finally {await browser.close();await server.close();}

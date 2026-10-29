@@ -1,5 +1,7 @@
 # ToBe · Training Workbench
 
+Local editorial batch (2026-10-30): 99 problems, 106 algorithms and 212 distinct default/detailed articles cover the programming stage and the simulation/enumeration and sorting units. The seed now contains 12,271 problems, 9,436 statements, 1,481 editorial pairs and 457 lectures. The full 610-problem request remains incomplete. English-first display and offline Chinese switching are preserved. This batch is local and unpublished; public downloads remain at 1.4.29. [Scope and validation](docs/local-delivery-core7.md).
+
 Local statement-language patch for 1.4.30 (2026-10-30): English statements always open in English. Click the existing language toggle for Chinese. All 361 current ABC / CF Div.2 / Div.3 / Div.4 statements include verified offline Chinese text (94 / 100 / 86 / 81); four fetched originals received matching translations, with the previous text retained in archives. Existing mainline translations remain available. The local patch is unpublished; public downloads remain at 1.4.29. [Rules and validation](docs/local-delivery-english-first.md).
 
 **ToBe 1.4.29** connects evidence-based Rasch assessment, level-aware learning paths, protected offline work, bounded backups and public content updates. QOJ now includes the complete 13-task Shandong Provincial 2026 contest. [Release notes](docs/releases/1.4.29.md).
