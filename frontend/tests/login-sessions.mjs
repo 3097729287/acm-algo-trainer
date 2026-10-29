@@ -2,6 +2,7 @@
 // All website responses are fixtures. No real account/network submission.
 import assert from 'node:assert/strict';
 import {spawn} from 'node:child_process';
+import {createHash} from 'node:crypto';
 import {mkdtemp,readFile,writeFile,rm} from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
@@ -19,6 +20,21 @@ const {port}=await new Promise((resolve,reject)=>{
 });
 const base=`http://127.0.0.1:${port}`,profile=await mkdtemp(path.join(os.tmpdir(),'tb-login-sessions-'));
 const extension=await fixtureExtension(process.env.TB_BROWSER_EXTENSION||path.join(root,'build/browser-extension'),profile,base);
+const manifest=JSON.parse(await readFile(path.join(extension,'manifest.json'),'utf8'));
+assert.ok(manifest.key&&manifest.background?.service_worker,'The fixture must pin the connector identity');
+const extensionId=createHash('sha256').update(Buffer.from(manifest.key,'base64')).digest('hex').slice(0,32)
+  .replace(/[0-9a-f]/g,digit=>String.fromCharCode(97+parseInt(digit,16)));
+const workerUrl=`chrome-extension://${extensionId}/${manifest.background.service_worker}`;
+async function connectorWorker(context){
+  // A headless Edge cold start may also expose built-in service workers.
+  // Cookie operations must run in our permission-bearing connector, never
+  // whichever worker happened to be listed first after CDP reconnect.
+  const worker=context.serviceWorkers().find(item=>item.url()===workerUrl)
+    ||await context.waitForEvent('serviceworker',{predicate:item=>item.url()===workerUrl});
+  assert.equal(await worker.evaluate(()=>chrome.runtime.id),extensionId);
+  assert.equal(await worker.evaluate(()=>typeof chrome.cookies?.set),'function');
+  return worker;
+}
 const workerPath=path.join(extension,'worker.js');
 await writeFile(workerPath,`
 const fixtureFetch=globalThis.fetch.bind(globalThis);
@@ -47,7 +63,7 @@ async function waitState(predicate){
 }
 try{
   browser=await chromium.launchPersistentContext(profile,{channel:'msedge',headless:true,args:[`--disable-extensions-except=${extension}`,`--load-extension=${extension}`]});
-  let worker=browser.serviceWorkers()[0]||await browser.waitForEvent('serviceworker');
+  let worker=await connectorWorker(browser);
   await worker.evaluate(async()=>{
     const expires=Date.now()/1000+3600;
     await chrome.cookies.set({url:'https://codeforces.com/',name:'cf_clearance',value:'fixture-only',secure:true,httpOnly:true,sameSite:'no_restriction',expirationDate:expires,partitionKey:{topLevelSite:'https://codeforces.com',hasCrossSiteAncestor:false}});
@@ -80,7 +96,7 @@ try{
     await new Promise(r=>setTimeout(r,100));
   }
   browser=await chromium.connectOverCDP(`http://127.0.0.1:${debugPort}`);
-  const context=browser.contexts()[0];worker=context.serviceWorkers()[0]||await context.waitForEvent('serviceworker');
+  const context=browser.contexts()[0];worker=await connectorWorker(context);
   await waitState(value=>value.extension.connected&&value.ready);
   assert.equal((await worker.evaluate(()=>chrome.windows.getAll())).length,0);
   // A real logout/anonymous Revel session must replace the prior login proof.

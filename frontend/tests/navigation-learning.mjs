@@ -119,6 +119,20 @@ try{
  await page.emulateMedia({reducedMotion:'reduce'});await page.waitForTimeout(100);
  const animation=await page.locator('.settings-home-grid').evaluate(node=>node.getAnimations({subtree:true}).filter(animation=>animation.playState==='running').length);
  assert.equal(animation,0,'OS reduced motion disables home animations');
+ // The preceding hide/group scenario deliberately removes the only source
+ // foundation list. Restore its real entrypoint before testing recommendation
+ // geometry: without that list these fixture rows also require an unsupported
+ // sorting technique, so the strict model is right to offer no task.
+ await openSettings(page,'交互与导航');
+ const restoredPreferences=page.waitForResponse(response=>{
+  if(new URL(response.url()).pathname!=='/api/preferences'||response.request().method()!=='POST')return false;
+  const hidden=response.request().postDataJSON().preferences?.hiddenNavPages;
+  return Array.isArray(hidden)&&!hidden.includes('training-lists')&&!hidden.includes('templates');
+ });
+ await page.getByRole('button',{name:'显示 题单',exact:true}).click();
+ await page.getByRole('button',{name:'显示 模板',exact:true}).click();
+ assert.equal((await restoredPreferences).status(),200,'Geometry starts only after restored account preferences are saved');
+ assert(!preferences.hiddenNavPages.includes('training-lists')&&!preferences.hiddenNavPages.includes('templates'));
  for(const theme of ['dark','light'])for(const fontSize of [15,22])for(const width of [2048,1294,960,430]){
   preferences={...preferences,theme,fontSize};await page.setViewportSize({width,height:850});await load(11);
   const recommendation=page.locator('.topbar > .next-actions');await recommendation.hover();await page.locator('.next-actions-popover').waitFor();
