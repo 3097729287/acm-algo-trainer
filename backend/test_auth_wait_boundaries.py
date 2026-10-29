@@ -3,6 +3,7 @@ import threading
 import time
 import unittest
 import json
+import http.client
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from concurrent.futures import ThreadPoolExecutor
 from types import SimpleNamespace
@@ -69,11 +70,30 @@ class AuthWaitBoundaries(unittest.TestCase):
             self.call('/api/account?background=1');self.assertTrue(started.wait(2))
             epoch=self.server.accounts.restore_epoch
             try:
-                status,_=self.call('/api/account/register',{'loginId':'untrusted_b','nickname':'B','password':'fixture-password'},token='wrong')
-                self.assertEqual(status,403)
-                self.assertEqual(self.server.accounts.restore_epoch,epoch)
+                for nickname in ('B', 'B'*32000):
+                    status,value=self.call('/api/account/register',{'loginId':'untrusted_b','nickname':nickname,'password':'fixture-password'},token='wrong')
+                    self.assertEqual(status,403,value)
+                    self.assertIn('会话已失效',value['error'])
+                    self.assertEqual(self.server.accounts.restore_epoch,epoch)
             finally:release.set();self.server.accounts.restore_worker.join(4)
         self.assertIsNotNone(self.server.accounts.session)
+
+    def test_rejected_incomplete_body_cannot_hold_an_auth_request_open(self):
+        connection=http.client.HTTPConnection('127.0.0.1',self.server.server_port,timeout=3)
+        begin=time.monotonic()
+        try:
+            connection.putrequest('POST','/api/account/register')
+            connection.putheader('X-TB-Token','wrong')
+            connection.putheader('Content-Length','64000')
+            connection.endheaders()
+            connection.send(b'x')  # The rest of this rejected body never arrives.
+            response=connection.getresponse()
+            self.assertEqual(response.status,403)
+            self.assertIn('会话已失效',json.loads(response.read())['error'])
+            self.assertLess(time.monotonic()-begin,2)
+            self.assertIsNone(self.server.accounts.session)
+        finally:
+            connection.close()
 
     def test_verified_login_sync_failure_reconnects_without_replaying_password_post(self):
         self.signup()

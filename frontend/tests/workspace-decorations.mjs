@@ -8,6 +8,11 @@ const browser=await chromium.launch({channel:process.env.CI ? undefined : 'msedg
 const page=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];
 page.on('pageerror',e=>errors.push(e.message));
 let accountCalls=0;
+let accountPending=0,accountMaxPending=0;
+let firstStarted,secondStarted,releaseFirst,releaseSecond;
+const firstRequest=new Promise(resolve=>{firstStarted=resolve;}),secondRequest=new Promise(resolve=>{secondStarted=resolve;});
+const firstResponse=new Promise(resolve=>{releaseFirst=resolve;}),secondResponse=new Promise(resolve=>{releaseSecond=resolve;});
+const bounded=(promise,label)=>{let timer;return Promise.race([promise,new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error(label+' did not start within 10 seconds')),10000);})]).finally(()=>clearTimeout(timer));};
 let savedPreferences={onboardingGuideVersion:2};
 let registrationMode=false;
 const owner='10000000-0000-4000-8000-000000000001';
@@ -20,7 +25,13 @@ try{
  const routes=async route=>{
   if(!new URL(route.request().url()).pathname.startsWith('/api/'))return route.continue();
   const path=new URL(route.request().url()).pathname.split('/api/')[1];let value;
-  if(path==='account'){accountCalls++;if(accountCalls===1)await new Promise(r=>setTimeout(r,3200));value={authenticated:!registrationMode,required:registrationMode,token:'fixture',account:registrationMode?null:{userId:owner,nickname:'我的训练',loginId:'fixture'}};}
+  if(path==='account'){
+   accountCalls++;accountPending++;accountMaxPending=Math.max(accountMaxPending,accountPending);
+   if(accountCalls===1){firstStarted();await firstResponse;}
+   if(accountCalls===2){secondStarted();await secondResponse;}
+   value={authenticated:!registrationMode,required:registrationMode,token:'fixture',account:registrationMode?null:{userId:owner,nickname:'我的训练',loginId:'fixture'}};
+   accountPending--;
+  }
   else if(path==='account/register')value={loginId:'newuser'};
   else if(path==='account/login'){registrationMode=false;value={authenticated:true,required:true,token:'fixture',account:{userId:owner,nickname:'新手',loginId:'newuser'}};}
   else if(path==='contest-calendar')value={contests:[],refreshing:false,importing:false};
@@ -49,7 +60,15 @@ try{
   await route.fulfill({contentType:'application/json',body:JSON.stringify(value)});
  };await page.route('**/api/**',routes);
  await page.goto(vite.resolvedUrls.local[0]);
- await page.locator('.sidebar').waitFor();assert.equal(accountCalls,1,'A slow bootstrap is not superseded by the three-second poll');
+ await bounded(firstRequest,'initial account read');await page.waitForTimeout(3200);await page.evaluate(()=>window.dispatchEvent(new Event('focus')));
+ assert.equal(accountCalls,1,'A pending slow bootstrap is not superseded by polling or focus');
+ assert.equal(accountMaxPending,1);assert.equal(await page.locator('.sidebar').count(),0,'authentication is still pending');
+ releaseFirst();await bounded(secondRequest,'fresh account read');
+ // Development StrictMode retires the first effect generation. Its completed
+ // response must stay behind the gate until the sequential fresh read confirms it.
+ assert.equal(await page.locator('.sidebar').count(),0,'a retired response cannot expose the workspace');
+ assert.equal(accountCalls,2);assert.equal(accountMaxPending,1,'the fresh read starts only after the retired read finishes');
+ releaseSecond();await page.locator('.sidebar').waitFor();assert.equal(accountMaxPending,1);
  await page.getByRole('button',{name:'设置',exact:true}).click();
  await openSettings(page,'外观');
  await page.getByRole('region',{name:'工作台风格',exact:true}).waitFor();
@@ -162,4 +181,4 @@ try{
  for(let i=0;i<50&&!savedPreferences?.onboardingCompleted;i++)await new Promise(resolve=>setTimeout(resolve,50));assert.equal(savedPreferences?.onboardingCompleted,true);
  await fresh.reload();await fresh.locator('.sidebar').waitFor();assert.equal(await fresh.getByRole('dialog',{name:'新手指引',exact:true}).count(),0,'Completed guide does not reopen after login restore');await fresh.close();
  assert.deepEqual(errors,[]);console.log(JSON.stringify({ok:true,slowLoginSingleFlight:true,stylesAndBackground:true,duplicateEntryRemoved:true,releaseSourceUnified:true,miniLeaderboard:true,zeroSolveNoMedal:true,alignedNumbers:true,responsive:true}));
-}finally{await browser.close();await vite.close();}
+}finally{releaseFirst();releaseSecond();await browser.close();await vite.close();}

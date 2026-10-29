@@ -14,6 +14,7 @@ import secrets
 import socket
 import sys
 import threading
+import time
 from contextlib import nullcontext
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, unquote, urlsplit
@@ -119,7 +120,33 @@ class Handler(BaseHTTPRequestHandler):
             # Account-barrier timeouts occur before _dispatch's inner handler.
             # Do not leave a client waiting on an unstructured closed socket.
             self.close_connection = True
+            if writing:
+                self.discard_rejected_body()
             self.send_json(error.status, {'error': error.message})
+
+    def discard_rejected_body(self):
+        # Closing with an unread small POST can reset a Windows socket before
+        # its error response arrives. Drain without parsing, within one total
+        # budget, so an untrusted slow body cannot extend an auth request.
+        previous_timeout = self.connection.gettimeout()
+        deadline = time.monotonic() + .25
+        try:
+            remaining = int(self.headers.get('Content-Length', '0'))
+            if not 0 < remaining <= 262144:
+                return
+            while remaining:
+                budget = deadline - time.monotonic()
+                if budget <= 0:
+                    break
+                self.connection.settimeout(budget)
+                part = self.rfile.read1(min(65536, remaining))
+                if not part:
+                    break
+                remaining -= len(part)
+        except (ValueError, OSError):
+            pass
+        finally:
+            self.connection.settimeout(previous_timeout)
 
     def _account_dispatch(self, writing=False):
         accounts = getattr(self.server, 'accounts', None)
@@ -546,18 +573,7 @@ class Handler(BaseHTTPRequestHandler):
                 self.static(path)
         except (APIError, ServiceError) as error:
             if writing and not body_consumed:
-                # Consume a small rejected body before closing the HTTP/1.0 socket.
-                # Otherwise Windows may reset it before the caller receives the 403.
-                previous_timeout = self.connection.gettimeout()
-                try:
-                    size = int(self.headers.get("Content-Length", "0"))
-                    if 0 < size <= 262144:
-                        self.connection.settimeout(.25)
-                        self.rfile.read(size)
-                except (ValueError, OSError):
-                    pass
-                finally:
-                    self.connection.settimeout(previous_timeout)
+                self.discard_rejected_body()
             self.send_json(error.status, {"error": error.message})
         except (OSError, RuntimeError, ValueError) as error:
             self.send_json(500, {"error": "操作未完成：" + str(error)})
