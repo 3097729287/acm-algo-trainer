@@ -67,7 +67,16 @@ class BrowserBridge:
             assigned = self.sync_assignments.get(body.get('platform'))
             if assigned and assigned != (body.get('nonce'), body.get('clientId')):
                 raise ServiceError(403, '登录同步已分配给其他浏览器配置')
-            return self.session_store.accept(body)
+            answer = self.session_store.accept(body)
+            platform, client = body.get('platform'), body.get('clientId')
+            cached = self.session_store.snapshot(platform)
+            if cached and cached.get('clientId') == client:
+                # A cookie refresh can precede its asynchronous original-site
+                # proof. Do not keep showing the preceding snapshot's login.
+                # Read the accepted snapshot so a consumed-nonce replay cannot
+                # overwrite a more recent confirmation with stale metadata.
+                self.client_login_states.setdefault(client, {})[platform] = cached.get('loginState', 'unknown')
+            return answer
 
     def browser_queue(self, body, capability):
         client = body.get('clientId')
