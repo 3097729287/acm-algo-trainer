@@ -115,7 +115,9 @@ def bundled_translation(problem):
             if not found:return None
     try:validate_translation(original,translated)
     except TranslationIncomplete:return None
-    return {key:value[key] for key in ('kind','markdown','provider','format','sourceHash','sourceLanguage','targetLanguage','notice') if key in value}
+    prepared={key:value[key] for key in ('kind','markdown','provider','format','sourceHash','sourceLanguage','targetLanguage','notice') if key in value}
+    if value.get('defaultLanguage')=='zh-CN':prepared['defaultLanguage']='zh-CN'
+    return prepared
 
 
 class _NoRedirect(HTTPRedirectHandler):

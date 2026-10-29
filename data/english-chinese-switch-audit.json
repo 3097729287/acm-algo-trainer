@@ -1,0 +1,2543 @@
+{
+  "date": "2026-10-30",
+  "defaultLanguage": "original",
+  "switchLanguage": "zh-CN",
+  "problems": 361,
+  "seriesCounts": {
+    "ABC": 94,
+    "Div.2": 100,
+    "Div.3": 86,
+    "Div.4": 81
+  },
+  "providerCallsOnOpen": 0,
+  "legacyChineseDefaultIgnored": true,
+  "rows": [
+    {
+      "id": "ABC 469::A",
+      "url": "https://atcoder.jp/contests/abc469/tasks/abc469_a",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Train Car"
+    },
+    {
+      "id": "ABC 469::B",
+      "url": "https://atcoder.jp/contests/abc469/tasks/abc469_b",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Isolated Seats"
+    },
+    {
+      "id": "ABC 469::C",
+      "url": "https://atcoder.jp/contests/abc469/tasks/abc469_c",
+      "group": "ABC",
+      "difficulty": 1000,
+      "title": "Cantrip"
+    },
+    {
+      "id": "ABC 469::D",
+      "url": "https://atcoder.jp/contests/abc469/tasks/abc469_d",
+      "group": "ABC",
+      "difficulty": 1400,
+      "title": "The Big Two"
+    },
+    {
+      "id": "ABC 469::E",
+      "url": "https://atcoder.jp/contests/abc469/tasks/abc469_e",
+      "group": "ABC",
+      "difficulty": 1700,
+      "title": "Pro Exam Eligibility"
+    },
+    {
+      "id": "ABC 469::F",
+      "url": "https://atcoder.jp/contests/abc469/tasks/abc469_f",
+      "group": "ABC",
+      "difficulty": 1700,
+      "title": "GCD Maximum Spanning Tree"
+    },
+    {
+      "id": "ABC 470::A",
+      "url": "https://atcoder.jp/contests/abc470/tasks/abc470_a",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Fizz"
+    },
+    {
+      "id": "ABC 470::B",
+      "url": "https://atcoder.jp/contests/abc470/tasks/abc470_b",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Monocolor"
+    },
+    {
+      "id": "ABC 470::C",
+      "url": "https://atcoder.jp/contests/abc470/tasks/abc470_c",
+      "group": "ABC",
+      "difficulty": 1300,
+      "title": "Inc, Dec, Xor"
+    },
+    {
+      "id": "ABC 470::D",
+      "url": "https://atcoder.jp/contests/abc470/tasks/abc470_d",
+      "group": "ABC",
+      "difficulty": 1200,
+      "title": "Inverse and Swap"
+    },
+    {
+      "id": "ABC 470::E",
+      "url": "https://atcoder.jp/contests/abc470/tasks/abc470_e",
+      "group": "ABC",
+      "difficulty": 2100,
+      "title": "Concentration"
+    },
+    {
+      "id": "ABC 470::F",
+      "url": "https://atcoder.jp/contests/abc470/tasks/abc470_f",
+      "group": "ABC",
+      "difficulty": 1700,
+      "title": "Googol Swaps"
+    },
+    {
+      "id": "ABC 470::G",
+      "url": "https://atcoder.jp/contests/abc470/tasks/abc470_g",
+      "group": "ABC",
+      "difficulty": 2100,
+      "title": "ΣШX"
+    },
+    {
+      "id": "ABC 471::A",
+      "url": "https://atcoder.jp/contests/abc471/tasks/abc471_a",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Nine or Nein"
+    },
+    {
+      "id": "ABC 471::B",
+      "url": "https://atcoder.jp/contests/abc471/tasks/abc471_b",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Survey Tabulation"
+    },
+    {
+      "id": "ABC 471::C",
+      "url": "https://atcoder.jp/contests/abc471/tasks/abc471_c",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Cookies and Greedy Takahashi"
+    },
+    {
+      "id": "ABC 471::D",
+      "url": "https://atcoder.jp/contests/abc471/tasks/abc471_d",
+      "group": "ABC",
+      "difficulty": 1000,
+      "title": "Chargers"
+    },
+    {
+      "id": "ABC 471::E",
+      "url": "https://atcoder.jp/contests/abc471/tasks/abc471_e",
+      "group": "ABC",
+      "difficulty": 1300,
+      "title": "Sum of Square of Sum"
+    },
+    {
+      "id": "ABC 471::F",
+      "url": "https://atcoder.jp/contests/abc471/tasks/abc471_f",
+      "group": "ABC",
+      "difficulty": 1900,
+      "title": "Concat (maximize)"
+    },
+    {
+      "id": "ABC 472::A",
+      "url": "https://atcoder.jp/contests/abc472/tasks/abc472_a",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "A"
+    },
+    {
+      "id": "ABC 472::B",
+      "url": "https://atcoder.jp/contests/abc472/tasks/abc472_b",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Break a Stick"
+    },
+    {
+      "id": "ABC 472::C",
+      "url": "https://atcoder.jp/contests/abc472/tasks/abc472_c",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "On a Diet"
+    },
+    {
+      "id": "ABC 472::D",
+      "url": "https://atcoder.jp/contests/abc472/tasks/abc472_d",
+      "group": "ABC",
+      "difficulty": 1100,
+      "title": "Bomber Mad"
+    },
+    {
+      "id": "ABC 472::E",
+      "url": "https://atcoder.jp/contests/abc472/tasks/abc472_e",
+      "group": "ABC",
+      "difficulty": 1300,
+      "title": "Odd Cycle"
+    },
+    {
+      "id": "ABC 472::F",
+      "url": "https://atcoder.jp/contests/abc472/tasks/abc472_f",
+      "group": "ABC",
+      "difficulty": 1800,
+      "title": "Centroid of a Slice"
+    },
+    {
+      "id": "ABC 472::G",
+      "url": "https://atcoder.jp/contests/abc472/tasks/abc472_g",
+      "group": "ABC",
+      "difficulty": 2000,
+      "title": "Cascading Grid"
+    },
+    {
+      "id": "ABC 473::A",
+      "url": "https://atcoder.jp/contests/abc473/tasks/abc473_a",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Second Half Sum"
+    },
+    {
+      "id": "ABC 473::B",
+      "url": "https://atcoder.jp/contests/abc473/tasks/abc473_b",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Old Maid"
+    },
+    {
+      "id": "ABC 473::C",
+      "url": "https://atcoder.jp/contests/abc473/tasks/abc473_c",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Change Schools"
+    },
+    {
+      "id": "ABC 473::D",
+      "url": "https://atcoder.jp/contests/abc473/tasks/abc473_d",
+      "group": "ABC",
+      "difficulty": 1200,
+      "title": "Coefficient Stair"
+    },
+    {
+      "id": "ABC 473::E",
+      "url": "https://atcoder.jp/contests/abc473/tasks/abc473_e",
+      "group": "ABC",
+      "difficulty": 1300,
+      "title": "K-Divisible Subarrays"
+    },
+    {
+      "id": "ABC 473::F",
+      "url": "https://atcoder.jp/contests/abc473/tasks/abc473_f",
+      "group": "ABC",
+      "difficulty": 1500,
+      "title": "A/AB Insertion"
+    },
+    {
+      "id": "ABC 473::G",
+      "url": "https://atcoder.jp/contests/abc473/tasks/abc473_g",
+      "group": "ABC",
+      "difficulty": 2000,
+      "title": "Wipeout"
+    },
+    {
+      "id": "ABC 474::A",
+      "url": "https://atcoder.jp/contests/abc474/tasks/abc474_a",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Not X"
+    },
+    {
+      "id": "ABC 474::B",
+      "url": "https://atcoder.jp/contests/abc474/tasks/abc474_b",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Exit Order"
+    },
+    {
+      "id": "ABC 474::C",
+      "url": "https://atcoder.jp/contests/abc474/tasks/abc474_c",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Remove and Append"
+    },
+    {
+      "id": "ABC 474::D",
+      "url": "https://atcoder.jp/contests/abc474/tasks/abc474_d",
+      "group": "ABC",
+      "difficulty": 900,
+      "title": "Outweigh"
+    },
+    {
+      "id": "ABC 474::E",
+      "url": "https://atcoder.jp/contests/abc474/tasks/abc474_e",
+      "group": "ABC",
+      "difficulty": 1400,
+      "title": "One Time Coupon"
+    },
+    {
+      "id": "ABC 474::F",
+      "url": "https://atcoder.jp/contests/abc474/tasks/abc474_f",
+      "group": "ABC",
+      "difficulty": 1900,
+      "title": "Increment All Divisors"
+    },
+    {
+      "id": "ABC 475::A",
+      "url": "https://atcoder.jp/contests/abc475/tasks/abc475_a",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "mnclr"
+    },
+    {
+      "id": "ABC 475::B",
+      "url": "https://atcoder.jp/contests/abc475/tasks/abc475_b",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Change"
+    },
+    {
+      "id": "ABC 475::C",
+      "url": "https://atcoder.jp/contests/abc475/tasks/abc475_c",
+      "group": "ABC",
+      "difficulty": 1000,
+      "title": "Walk the Line"
+    },
+    {
+      "id": "ABC 475::D",
+      "url": "https://atcoder.jp/contests/abc475/tasks/abc475_d",
+      "group": "ABC",
+      "difficulty": 1100,
+      "title": "Alphametic Prime"
+    },
+    {
+      "id": "ABC 475::E",
+      "url": "https://atcoder.jp/contests/abc475/tasks/abc475_e",
+      "group": "ABC",
+      "difficulty": 1800,
+      "title": "Quiz Competition: Qualifiers"
+    },
+    {
+      "id": "ABC 475::F",
+      "url": "https://atcoder.jp/contests/abc475/tasks/abc475_f",
+      "group": "ABC",
+      "difficulty": 1900,
+      "title": "Rectangle Filling"
+    },
+    {
+      "id": "ABC 476::A",
+      "url": "https://atcoder.jp/contests/abc476/tasks/abc476_a",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Appender"
+    },
+    {
+      "id": "ABC 476::B",
+      "url": "https://atcoder.jp/contests/abc476/tasks/abc476_b",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Wild Card"
+    },
+    {
+      "id": "ABC 476::C",
+      "url": "https://atcoder.jp/contests/abc476/tasks/abc476_c",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Third Largest Number"
+    },
+    {
+      "id": "ABC 476::D",
+      "url": "https://atcoder.jp/contests/abc476/tasks/abc476_d",
+      "group": "ABC",
+      "difficulty": 1200,
+      "title": "Automat"
+    },
+    {
+      "id": "ABC 476::E",
+      "url": "https://atcoder.jp/contests/abc476/tasks/abc476_e",
+      "group": "ABC",
+      "difficulty": 1300,
+      "title": "Min-Max Swap"
+    },
+    {
+      "id": "ABC 476::F",
+      "url": "https://atcoder.jp/contests/abc476/tasks/abc476_f",
+      "group": "ABC",
+      "difficulty": 1800,
+      "title": "Chebyshev Cafe"
+    },
+    {
+      "id": "ABC 477::A",
+      "url": "https://atcoder.jp/contests/abc477/tasks/abc477_a",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Traffic Light"
+    },
+    {
+      "id": "ABC 477::B",
+      "url": "https://atcoder.jp/contests/abc477/tasks/abc477_b",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Standing Outliers"
+    },
+    {
+      "id": "ABC 477::C",
+      "url": "https://atcoder.jp/contests/abc477/tasks/abc477_c",
+      "group": "ABC",
+      "difficulty": 1000,
+      "title": "Range Search Query"
+    },
+    {
+      "id": "ABC 477::D",
+      "url": "https://atcoder.jp/contests/abc477/tasks/abc477_d",
+      "group": "ABC",
+      "difficulty": 1300,
+      "title": "Masking Tape"
+    },
+    {
+      "id": "ABC 477::E",
+      "url": "https://atcoder.jp/contests/abc477/tasks/abc477_e",
+      "group": "ABC",
+      "difficulty": 1500,
+      "title": "Wheel Distance"
+    },
+    {
+      "id": "ABC 477::F",
+      "url": "https://atcoder.jp/contests/abc477/tasks/abc477_f",
+      "group": "ABC",
+      "difficulty": 1700,
+      "title": "Count Cells in a Window"
+    },
+    {
+      "id": "ABC 477::G",
+      "url": "https://atcoder.jp/contests/abc477/tasks/abc477_g",
+      "group": "ABC",
+      "difficulty": 2100,
+      "title": "Frequency Query on Tree"
+    },
+    {
+      "id": "ABC 478::A",
+      "url": "https://atcoder.jp/contests/abc478/tasks/abc478_a",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Grapes"
+    },
+    {
+      "id": "ABC 478::B",
+      "url": "https://atcoder.jp/contests/abc478/tasks/abc478_b",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Topping"
+    },
+    {
+      "id": "ABC 478::C",
+      "url": "https://atcoder.jp/contests/abc478/tasks/abc478_c",
+      "group": "ABC",
+      "difficulty": 900,
+      "title": "Sort Subarray"
+    },
+    {
+      "id": "ABC 478::D",
+      "url": "https://atcoder.jp/contests/abc478/tasks/abc478_d",
+      "group": "ABC",
+      "difficulty": 1100,
+      "title": "Range Set Insertion Query"
+    },
+    {
+      "id": "ABC 478::E",
+      "url": "https://atcoder.jp/contests/abc478/tasks/abc478_e",
+      "group": "ABC",
+      "difficulty": 1600,
+      "title": "lt and le"
+    },
+    {
+      "id": "ABC 478::F",
+      "url": "https://atcoder.jp/contests/abc478/tasks/abc478_f",
+      "group": "ABC",
+      "difficulty": 1700,
+      "title": "Min-First Search"
+    },
+    {
+      "id": "ABC 479::C",
+      "url": "https://atcoder.jp/contests/abc479/tasks/abc479_c",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Bento Packing"
+    },
+    {
+      "id": "ABC 479::D",
+      "url": "https://atcoder.jp/contests/abc479/tasks/abc479_d",
+      "group": "ABC",
+      "difficulty": 1000,
+      "title": "Back and Forth Distance"
+    },
+    {
+      "id": "ABC 479::E",
+      "url": "https://atcoder.jp/contests/abc479/tasks/abc479_e",
+      "group": "ABC",
+      "difficulty": 1300,
+      "title": "Cut and Add"
+    },
+    {
+      "id": "ABC 479::F",
+      "url": "https://atcoder.jp/contests/abc479/tasks/abc479_f",
+      "group": "ABC",
+      "difficulty": 1900,
+      "title": "Narrow Passage"
+    },
+    {
+      "id": "ABC 481::A",
+      "url": "https://atcoder.jp/contests/abc481/tasks/abc481_a",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Digits of A+B"
+    },
+    {
+      "id": "ABC 481::B",
+      "url": "https://atcoder.jp/contests/abc481/tasks/abc481_b",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Polyline"
+    },
+    {
+      "id": "ABC 481::C",
+      "url": "https://atcoder.jp/contests/abc481/tasks/abc481_c",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Bank Accounts"
+    },
+    {
+      "id": "ABC 481::D",
+      "url": "https://atcoder.jp/contests/abc481/tasks/abc481_d",
+      "group": "ABC",
+      "difficulty": 1000,
+      "title": "Autopilot"
+    },
+    {
+      "id": "ABC 481::E",
+      "url": "https://atcoder.jp/contests/abc481/tasks/abc481_e",
+      "group": "ABC",
+      "difficulty": 1500,
+      "title": "Most Brilliant Starry Sky"
+    },
+    {
+      "id": "ABC 481::F",
+      "url": "https://atcoder.jp/contests/abc481/tasks/abc481_f",
+      "group": "ABC",
+      "difficulty": 1700,
+      "title": "Evil Shortest Path"
+    },
+    {
+      "id": "Div.2 1112::A",
+      "url": "https://codeforces.com/contest/2250/problem/A",
+      "group": "Div.2",
+      "difficulty": 800,
+      "title": "Threshold Movement"
+    },
+    {
+      "id": "Div.2 1112::B",
+      "url": "https://codeforces.com/contest/2250/problem/B",
+      "group": "Div.2",
+      "difficulty": 1000,
+      "title": "String Construction"
+    },
+    {
+      "id": "Div.2 1112::C",
+      "url": "https://codeforces.com/contest/2250/problem/C",
+      "group": "Div.2",
+      "difficulty": 1300,
+      "title": "Rank Subsequence"
+    },
+    {
+      "id": "Div.2 1112::D",
+      "url": "https://codeforces.com/contest/2250/problem/D",
+      "group": "Div.2",
+      "difficulty": 1700,
+      "title": "Permutation Cuts"
+    },
+    {
+      "id": "Div.2 1112::E",
+      "url": "https://codeforces.com/contest/2250/problem/E",
+      "group": "Div.2",
+      "difficulty": 2000,
+      "title": "Double-Rift Dial"
+    },
+    {
+      "id": "Div.2 1112::F",
+      "url": "https://codeforces.com/contest/2250/problem/F",
+      "group": "Div.2",
+      "difficulty": 2300,
+      "title": "Xor Permutation Matrix"
+    },
+    {
+      "id": "Div.2 1113::A",
+      "url": "https://codeforces.com/contest/2248/problem/A",
+      "group": "Div.2",
+      "difficulty": 800,
+      "title": "You Delete, I Delete"
+    },
+    {
+      "id": "Div.2 1113::B",
+      "url": "https://codeforces.com/contest/2248/problem/B",
+      "group": "Div.2",
+      "difficulty": 1000,
+      "title": "Merge to Match"
+    },
+    {
+      "id": "Div.2 1113::C",
+      "url": "https://codeforces.com/contest/2248/problem/C",
+      "group": "Div.2",
+      "difficulty": 1300,
+      "title": "Maximize the Score"
+    },
+    {
+      "id": "Div.2 1113::D",
+      "url": "https://codeforces.com/contest/2248/problem/D",
+      "group": "Div.2",
+      "difficulty": 1400,
+      "title": "Good Pair Queries"
+    },
+    {
+      "id": "Div.2 1113::E",
+      "url": "https://codeforces.com/contest/2248/problem/E",
+      "group": "Div.2",
+      "difficulty": 2000,
+      "title": "Excuse for Breaks"
+    },
+    {
+      "id": "Div.2 1113::F",
+      "url": "https://codeforces.com/contest/2248/problem/F",
+      "group": "Div.2",
+      "difficulty": 2500,
+      "title": "Matrix Elimination"
+    },
+    {
+      "id": "Div.2 1113::G",
+      "url": "https://codeforces.com/contest/2248/problem/G",
+      "group": "Div.2",
+      "difficulty": 3000,
+      "title": "No Balance Left"
+    },
+    {
+      "id": "Div.2 1115::A",
+      "url": "https://codeforces.com/contest/2252/problem/A",
+      "group": "Div.2",
+      "difficulty": 800,
+      "title": "Boss Fight"
+    },
+    {
+      "id": "Div.2 1115::B",
+      "url": "https://codeforces.com/contest/2252/problem/B",
+      "group": "Div.2",
+      "difficulty": 1100,
+      "title": "Always Changing"
+    },
+    {
+      "id": "Div.2 1115::C",
+      "url": "https://codeforces.com/contest/2252/problem/C",
+      "group": "Div.2",
+      "difficulty": 1400,
+      "title": "Risky Tower"
+    },
+    {
+      "id": "Div.2 1115::D",
+      "url": "https://codeforces.com/contest/2252/problem/D",
+      "group": "Div.2",
+      "difficulty": 1700,
+      "title": "Array Replacement"
+    },
+    {
+      "id": "Div.2 1115::E",
+      "url": "https://codeforces.com/contest/2252/problem/E",
+      "group": "Div.2",
+      "difficulty": 2100,
+      "title": "Generational Triplets"
+    },
+    {
+      "id": "Div.2 1115::F",
+      "url": "https://codeforces.com/contest/2252/problem/F",
+      "group": "Div.2",
+      "difficulty": 2600,
+      "title": "Spectral Components"
+    },
+    {
+      "id": "Div.2 1116::A",
+      "url": "https://codeforces.com/contest/2256/problem/A",
+      "group": "Div.2",
+      "difficulty": 800,
+      "title": "Three Numbers on the Blackboard"
+    },
+    {
+      "id": "Div.2 1116::B",
+      "url": "https://codeforces.com/contest/2256/problem/B",
+      "group": "Div.2",
+      "difficulty": 1000,
+      "title": "Domino Tiles"
+    },
+    {
+      "id": "Div.2 1116::C",
+      "url": "https://codeforces.com/contest/2256/problem/C",
+      "group": "Div.2",
+      "difficulty": 1200,
+      "title": "Hot Potatoes at the Fairy Warehouse"
+    },
+    {
+      "id": "Div.2 1116::D",
+      "url": "https://codeforces.com/contest/2256/problem/D",
+      "group": "Div.2",
+      "difficulty": 1600,
+      "title": "A Ribbon for Tomorrow"
+    },
+    {
+      "id": "Div.2 1116::E",
+      "url": "https://codeforces.com/contest/2256/problem/E",
+      "group": "Div.2",
+      "difficulty": 2100,
+      "title": "Even If the World Turns"
+    },
+    {
+      "id": "Div.2 1116::F",
+      "url": "https://codeforces.com/contest/2256/problem/F",
+      "group": "Div.2",
+      "difficulty": 2300,
+      "title": "How Long Until Nothing Remains?"
+    },
+    {
+      "id": "Div.2 1117::A",
+      "url": "https://codeforces.com/contest/2257/problem/A",
+      "group": "Div.2",
+      "difficulty": 800,
+      "title": "Creating Abbreviations"
+    },
+    {
+      "id": "Div.2 1117::B",
+      "url": "https://codeforces.com/contest/2257/problem/B",
+      "group": "Div.2",
+      "difficulty": 800,
+      "title": "Gigantomachy"
+    },
+    {
+      "id": "Div.2 1117::C",
+      "url": "https://codeforces.com/contest/2257/problem/C",
+      "group": "Div.2",
+      "difficulty": 1200,
+      "title": "Spying on the Beaver"
+    },
+    {
+      "id": "Div.2 1117::D",
+      "url": "https://codeforces.com/contest/2257/problem/D",
+      "group": "Div.2",
+      "difficulty": 1600,
+      "title": "Bermuda Rectangle"
+    },
+    {
+      "id": "Div.2 1117::E",
+      "url": "https://codeforces.com/contest/2257/problem/E",
+      "group": "Div.2",
+      "difficulty": 2100,
+      "title": "Busy Beaver"
+    },
+    {
+      "id": "Div.2 1117::F1",
+      "url": "https://codeforces.com/contest/2257/problem/F1",
+      "group": "Div.2",
+      "difficulty": 2500,
+      "title": "Beaver's Jumping Track (Easy Version)"
+    },
+    {
+      "id": "Div.2 1117::F2",
+      "url": "https://codeforces.com/contest/2257/problem/F2",
+      "group": "Div.2",
+      "difficulty": 2700,
+      "title": "Beaver's Jumping Track (Hard Version)"
+    },
+    {
+      "id": "Div.2 1118::A",
+      "url": "https://codeforces.com/contest/2258/problem/A",
+      "group": "Div.2",
+      "difficulty": 800,
+      "title": "Odd Eraser"
+    },
+    {
+      "id": "Div.2 1118::B1",
+      "url": "https://codeforces.com/contest/2258/problem/B1",
+      "group": "Div.2",
+      "difficulty": 900,
+      "title": "Carrot Chopdown (Easy Version)"
+    },
+    {
+      "id": "Div.2 1118::B2",
+      "url": "https://codeforces.com/contest/2258/problem/B2",
+      "group": "Div.2",
+      "difficulty": 1600,
+      "title": "Carrot Chopdown (Hard Version)"
+    },
+    {
+      "id": "Div.2 1118::C",
+      "url": "https://codeforces.com/contest/2258/problem/C",
+      "group": "Div.2",
+      "difficulty": 1600,
+      "title": "Far Cities"
+    },
+    {
+      "id": "Div.2 1118::D",
+      "url": "https://codeforces.com/contest/2258/problem/D",
+      "group": "Div.2",
+      "difficulty": 2500,
+      "title": "Magic Tiles"
+    },
+    {
+      "id": "Div.2 1118::E",
+      "url": "https://codeforces.com/contest/2258/problem/E",
+      "group": "Div.2",
+      "difficulty": 2400,
+      "title": "DivMEX"
+    },
+    {
+      "id": "Div.2 1118::F",
+      "url": "https://codeforces.com/contest/2258/problem/F",
+      "group": "Div.2",
+      "difficulty": 3000,
+      "title": "Plus Minus Tree"
+    },
+    {
+      "id": "Div.2 1120::A",
+      "url": "https://codeforces.com/contest/2263/problem/A",
+      "group": "Div.2",
+      "difficulty": 800,
+      "title": "Min Max Game"
+    },
+    {
+      "id": "Div.2 1120::B",
+      "url": "https://codeforces.com/contest/2263/problem/B",
+      "group": "Div.2",
+      "difficulty": 900,
+      "title": "Min Matrices"
+    },
+    {
+      "id": "Div.2 1120::C1",
+      "url": "https://codeforces.com/contest/2263/problem/C1",
+      "group": "Div.2",
+      "difficulty": 1200,
+      "title": "Floor of MEX (Easy Version)"
+    },
+    {
+      "id": "Div.2 1120::C2",
+      "url": "https://codeforces.com/contest/2263/problem/C2",
+      "group": "Div.2",
+      "difficulty": 1800,
+      "title": "Floor of MEX (Hard Version)"
+    },
+    {
+      "id": "Div.2 1120::D",
+      "url": "https://codeforces.com/contest/2263/problem/D",
+      "group": "Div.2",
+      "difficulty": 2000,
+      "title": "Culling Game"
+    },
+    {
+      "id": "Div.2 1120::E",
+      "url": "https://codeforces.com/contest/2263/problem/E",
+      "group": "Div.2",
+      "difficulty": 2300,
+      "title": "Traveling the World"
+    },
+    {
+      "id": "Div.2 1120::F",
+      "url": "https://codeforces.com/contest/2263/problem/F",
+      "group": "Div.2",
+      "difficulty": 2900,
+      "title": "PLUSworld"
+    },
+    {
+      "id": "Div.2 1121::A",
+      "url": "https://codeforces.com/contest/2264/problem/A",
+      "group": "Div.2",
+      "difficulty": 800,
+      "title": "Rumb Needs a Hand"
+    },
+    {
+      "id": "Div.2 1121::B",
+      "url": "https://codeforces.com/contest/2264/problem/B",
+      "group": "Div.2",
+      "difficulty": 1000,
+      "title": "Knife's Pill Farm"
+    },
+    {
+      "id": "Div.2 1121::C",
+      "url": "https://codeforces.com/contest/2264/problem/C",
+      "group": "Div.2",
+      "difficulty": 1400,
+      "title": "Madamant's Skating Dynasty"
+    },
+    {
+      "id": "Div.2 1121::D",
+      "url": "https://codeforces.com/contest/2264/problem/D",
+      "group": "Div.2",
+      "difficulty": 1900,
+      "title": "Dr. Agos's Dark Mode"
+    },
+    {
+      "id": "Div.2 1121::E1",
+      "url": "https://codeforces.com/contest/2264/problem/E1",
+      "group": "Div.2",
+      "difficulty": 2200,
+      "title": "A Prime Flood (Easy Version)"
+    },
+    {
+      "id": "Div.2 1121::E2",
+      "url": "https://codeforces.com/contest/2264/problem/E2",
+      "group": "Div.2",
+      "difficulty": 2700,
+      "title": "A Prime Flood (Hard Version)"
+    },
+    {
+      "id": "Div.2 1121::F",
+      "url": "https://codeforces.com/contest/2264/problem/F",
+      "group": "Div.2",
+      "difficulty": 2800,
+      "title": "Deranged Calculator"
+    },
+    {
+      "id": "Div.2 1123::A",
+      "url": "https://codeforces.com/contest/2267/problem/A",
+      "group": "Div.2",
+      "difficulty": 800,
+      "title": "Turn Into a Palindrome"
+    },
+    {
+      "id": "Div.2 1123::B",
+      "url": "https://codeforces.com/contest/2267/problem/B",
+      "group": "Div.2",
+      "difficulty": 800,
+      "title": "Fashionable Array"
+    },
+    {
+      "id": "Div.2 1123::C",
+      "url": "https://codeforces.com/contest/2267/problem/C",
+      "group": "Div.2",
+      "difficulty": 1200,
+      "title": "GCD Treasury"
+    },
+    {
+      "id": "Div.2 1123::D",
+      "url": "https://codeforces.com/contest/2267/problem/D",
+      "group": "Div.2",
+      "difficulty": 1400,
+      "title": "Backrooms Hill"
+    },
+    {
+      "id": "Div.2 1123::E",
+      "url": "https://codeforces.com/contest/2267/problem/E",
+      "group": "Div.2",
+      "difficulty": 2000,
+      "title": "Clean Substrings"
+    },
+    {
+      "id": "Div.2 1123::F1",
+      "url": "https://codeforces.com/contest/2267/problem/F1",
+      "group": "Div.2",
+      "difficulty": 1700,
+      "title": "XOR Transformations (Easy Version)"
+    },
+    {
+      "id": "Div.2 1123::F2",
+      "url": "https://codeforces.com/contest/2267/problem/F2",
+      "group": "Div.2",
+      "difficulty": 2300,
+      "title": "XOR Transformations (Hard Version)"
+    },
+    {
+      "id": "Div.2 1123::G",
+      "url": "https://codeforces.com/contest/2267/problem/G",
+      "group": "Div.2",
+      "difficulty": 2600,
+      "title": "New LRT"
+    },
+    {
+      "id": "Div.2 1124::A",
+      "url": "https://codeforces.com/contest/2269/problem/A",
+      "group": "Div.2",
+      "difficulty": 800,
+      "title": "SauSaGe Bank"
+    },
+    {
+      "id": "Div.2 1124::B",
+      "url": "https://codeforces.com/contest/2269/problem/B",
+      "group": "Div.2",
+      "difficulty": 1000,
+      "title": "KiaKio and Squared Numbers"
+    },
+    {
+      "id": "Div.2 1124::C",
+      "url": "https://codeforces.com/contest/2269/problem/C",
+      "group": "Div.2",
+      "difficulty": 1200,
+      "title": "K Is Important"
+    },
+    {
+      "id": "Div.2 1124::D",
+      "url": "https://codeforces.com/contest/2269/problem/D",
+      "group": "Div.2",
+      "difficulty": 1500,
+      "title": "What a SauSaGe! It's All Meat"
+    },
+    {
+      "id": "Div.2 1124::E",
+      "url": "https://codeforces.com/contest/2269/problem/E",
+      "group": "Div.2",
+      "difficulty": 2300,
+      "title": "KiaKio and Energy Intervals"
+    },
+    {
+      "id": "Div.2 1124::F",
+      "url": "https://codeforces.com/contest/2269/problem/F",
+      "group": "Div.2",
+      "difficulty": 2600,
+      "title": "AghaBalaSar and Hamed"
+    },
+    {
+      "id": "Div.2 1127::B",
+      "url": "https://codeforces.com/contest/2274/problem/B",
+      "group": "Div.2",
+      "difficulty": 1100,
+      "title": "Prefix"
+    },
+    {
+      "id": "Div.2 1127::C",
+      "url": "https://codeforces.com/contest/2274/problem/C",
+      "group": "Div.2",
+      "difficulty": 1300,
+      "title": "Lavencia Oranges"
+    },
+    {
+      "id": "Div.2 1127::D",
+      "url": "https://codeforces.com/contest/2274/problem/D",
+      "group": "Div.2",
+      "difficulty": 1900,
+      "title": "Robot Championship"
+    },
+    {
+      "id": "Div.3 1076::A",
+      "url": "https://codeforces.com/contest/2193/problem/A",
+      "group": "Div.3",
+      "difficulty": 800,
+      "title": "DBMB and the Array"
+    },
+    {
+      "id": "Div.3 1076::B",
+      "url": "https://codeforces.com/contest/2193/problem/B",
+      "group": "Div.3",
+      "difficulty": 800,
+      "title": "Reverse a Permutation"
+    },
+    {
+      "id": "Div.3 1076::C",
+      "url": "https://codeforces.com/contest/2193/problem/C",
+      "group": "Div.3",
+      "difficulty": 1000,
+      "title": "Replace and Sum"
+    },
+    {
+      "id": "Div.3 1076::D",
+      "url": "https://codeforces.com/contest/2193/problem/D",
+      "group": "Div.3",
+      "difficulty": 1100,
+      "title": "Monster Game"
+    },
+    {
+      "id": "Div.3 1076::E",
+      "url": "https://codeforces.com/contest/2193/problem/E",
+      "group": "Div.3",
+      "difficulty": 1300,
+      "title": "Product Queries"
+    },
+    {
+      "id": "Div.3 1076::F",
+      "url": "https://codeforces.com/contest/2193/problem/F",
+      "group": "Div.3",
+      "difficulty": 1600,
+      "title": "Pizza Delivery"
+    },
+    {
+      "id": "Div.3 1076::G",
+      "url": "https://codeforces.com/contest/2193/problem/G",
+      "group": "Div.3",
+      "difficulty": 2100,
+      "title": "Paths in a Tree"
+    },
+    {
+      "id": "Div.3 1076::H",
+      "url": "https://codeforces.com/contest/2193/problem/H",
+      "group": "Div.3",
+      "difficulty": 2400,
+      "title": "Remove the Grail Tree"
+    },
+    {
+      "id": "Div.3 1080::A",
+      "url": "https://codeforces.com/contest/2195/problem/A",
+      "group": "Div.3",
+      "difficulty": 800,
+      "title": "Sieve of Erato67henes"
+    },
+    {
+      "id": "Div.3 1080::B",
+      "url": "https://codeforces.com/contest/2195/problem/B",
+      "group": "Div.3",
+      "difficulty": 900,
+      "title": "Heapify 1"
+    },
+    {
+      "id": "Div.3 1080::C",
+      "url": "https://codeforces.com/contest/2195/problem/C",
+      "group": "Div.3",
+      "difficulty": 1100,
+      "title": "Dice Roll Sequence"
+    },
+    {
+      "id": "Div.3 1080::D",
+      "url": "https://codeforces.com/contest/2195/problem/D",
+      "group": "Div.3",
+      "difficulty": 1300,
+      "title": "Absolute Cinema"
+    },
+    {
+      "id": "Div.3 1080::E",
+      "url": "https://codeforces.com/contest/2195/problem/E",
+      "group": "Div.3",
+      "difficulty": 1500,
+      "title": "Idiot First Search"
+    },
+    {
+      "id": "Div.3 1080::F",
+      "url": "https://codeforces.com/contest/2195/problem/F",
+      "group": "Div.3",
+      "difficulty": 2000,
+      "title": "Parabola Independence"
+    },
+    {
+      "id": "Div.3 1080::G",
+      "url": "https://codeforces.com/contest/2195/problem/G",
+      "group": "Div.3",
+      "difficulty": 2300,
+      "title": "Idiot First Search and Queries"
+    },
+    {
+      "id": "Div.3 1080::H",
+      "url": "https://codeforces.com/contest/2195/problem/H",
+      "group": "Div.3",
+      "difficulty": 2400,
+      "title": "Codeforces Heuristic Contest 001"
+    },
+    {
+      "id": "Div.3 1084::A",
+      "url": "https://codeforces.com/contest/2200/problem/A",
+      "group": "Div.3",
+      "difficulty": 800,
+      "title": "Eating Game"
+    },
+    {
+      "id": "Div.3 1084::B",
+      "url": "https://codeforces.com/contest/2200/problem/B",
+      "group": "Div.3",
+      "difficulty": 800,
+      "title": "Deletion Sort"
+    },
+    {
+      "id": "Div.3 1084::C",
+      "url": "https://codeforces.com/contest/2200/problem/C",
+      "group": "Div.3",
+      "difficulty": 900,
+      "title": "Specialty String"
+    },
+    {
+      "id": "Div.3 1084::D",
+      "url": "https://codeforces.com/contest/2200/problem/D",
+      "group": "Div.3",
+      "difficulty": 1300,
+      "title": "Portal"
+    },
+    {
+      "id": "Div.3 1084::E",
+      "url": "https://codeforces.com/contest/2200/problem/E",
+      "group": "Div.3",
+      "difficulty": 1500,
+      "title": "Divisive Battle"
+    },
+    {
+      "id": "Div.3 1084::F",
+      "url": "https://codeforces.com/contest/2200/problem/F",
+      "group": "Div.3",
+      "difficulty": 1900,
+      "title": "Mooclear Reactor 2"
+    },
+    {
+      "id": "Div.3 1084::G",
+      "url": "https://codeforces.com/contest/2200/problem/G",
+      "group": "Div.3",
+      "difficulty": 2200,
+      "title": "Operation Permutation"
+    },
+    {
+      "id": "Div.3 1084::H",
+      "url": "https://codeforces.com/contest/2200/problem/H",
+      "group": "Div.3",
+      "difficulty": 2600,
+      "title": "Six Seven"
+    },
+    {
+      "id": "Div.3 1096::A",
+      "url": "https://codeforces.com/contest/2227/problem/A",
+      "group": "Div.3",
+      "difficulty": 800,
+      "title": "Koshary"
+    },
+    {
+      "id": "Div.3 1096::B",
+      "url": "https://codeforces.com/contest/2227/problem/B",
+      "group": "Div.3",
+      "difficulty": 800,
+      "title": "Party Monster"
+    },
+    {
+      "id": "Div.3 1096::C",
+      "url": "https://codeforces.com/contest/2227/problem/C",
+      "group": "Div.3",
+      "difficulty": 800,
+      "title": "Snowfall"
+    },
+    {
+      "id": "Div.3 1096::D",
+      "url": "https://codeforces.com/contest/2227/problem/D",
+      "group": "Div.3",
+      "difficulty": 1200,
+      "title": "Palindromex"
+    },
+    {
+      "id": "Div.3 1096::E",
+      "url": "https://codeforces.com/contest/2227/problem/E",
+      "group": "Div.3",
+      "difficulty": 1400,
+      "title": "It All Went Sideways"
+    },
+    {
+      "id": "Div.3 1096::F",
+      "url": "https://codeforces.com/contest/2227/problem/F",
+      "group": "Div.3",
+      "difficulty": 1700,
+      "title": "It Just Keeps Going Sideways"
+    },
+    {
+      "id": "Div.3 1096::G",
+      "url": "https://codeforces.com/contest/2227/problem/G",
+      "group": "Div.3",
+      "difficulty": 2000,
+      "title": "Drowning"
+    },
+    {
+      "id": "Div.3 1096::H",
+      "url": "https://codeforces.com/contest/2227/problem/H",
+      "group": "Div.3",
+      "difficulty": 2100,
+      "title": "Fallen Leaves"
+    },
+    {
+      "id": "Div.3 1103::A",
+      "url": "https://codeforces.com/contest/2236/problem/A",
+      "group": "Div.3",
+      "difficulty": 800,
+      "title": "Games on the Train"
+    },
+    {
+      "id": "Div.3 1103::B",
+      "url": "https://codeforces.com/contest/2236/problem/B",
+      "group": "Div.3",
+      "difficulty": 800,
+      "title": "Tatar TV Show"
+    },
+    {
+      "id": "Div.3 1103::C",
+      "url": "https://codeforces.com/contest/2236/problem/C",
+      "group": "Div.3",
+      "difficulty": 1000,
+      "title": "Omsk Programmers"
+    },
+    {
+      "id": "Div.3 1103::D",
+      "url": "https://codeforces.com/contest/2236/problem/D",
+      "group": "Div.3",
+      "difficulty": 1300,
+      "title": "Brand New Tatar TV Show"
+    },
+    {
+      "id": "Div.3 1103::E",
+      "url": "https://codeforces.com/contest/2236/problem/E",
+      "group": "Div.3",
+      "difficulty": 1700,
+      "title": "Friendly Gifts"
+    },
+    {
+      "id": "Div.3 1103::F1",
+      "url": "https://codeforces.com/contest/2236/problem/F1",
+      "group": "Div.3",
+      "difficulty": 1700,
+      "title": "Elections in Saransk (easy version)"
+    },
+    {
+      "id": "Div.3 1103::F2",
+      "url": "https://codeforces.com/contest/2236/problem/F2",
+      "group": "Div.3",
+      "difficulty": 2200,
+      "title": "Elections in Saransk (hard version)"
+    },
+    {
+      "id": "Div.3 1103::G",
+      "url": "https://codeforces.com/contest/2236/problem/G",
+      "group": "Div.3",
+      "difficulty": 2600,
+      "title": "Criterion in Burlandia"
+    },
+    {
+      "id": "Div.3 1107::A",
+      "url": "https://codeforces.com/contest/2241/problem/A",
+      "group": "Div.3",
+      "difficulty": 800,
+      "title": "Divide and Conquer"
+    },
+    {
+      "id": "Div.3 1107::B",
+      "url": "https://codeforces.com/contest/2241/problem/B",
+      "group": "Div.3",
+      "difficulty": 1100,
+      "title": "Good times Good times"
+    },
+    {
+      "id": "Div.3 1107::C",
+      "url": "https://codeforces.com/contest/2241/problem/C",
+      "group": "Div.3",
+      "difficulty": 1000,
+      "title": "RemovevomeR"
+    },
+    {
+      "id": "Div.3 1107::D",
+      "url": "https://codeforces.com/contest/2241/problem/D",
+      "group": "Div.3",
+      "difficulty": 1100,
+      "title": "An Alternative Way"
+    },
+    {
+      "id": "Div.3 1107::E",
+      "url": "https://codeforces.com/contest/2241/problem/E",
+      "group": "Div.3",
+      "difficulty": 1600,
+      "title": "Fair and Square"
+    },
+    {
+      "id": "Div.3 1107::F",
+      "url": "https://codeforces.com/contest/2241/problem/F",
+      "group": "Div.3",
+      "difficulty": 1700,
+      "title": "A Bit Odd"
+    },
+    {
+      "id": "Div.3 1107::G",
+      "url": "https://codeforces.com/contest/2241/problem/G",
+      "group": "Div.3",
+      "difficulty": 2400,
+      "title": "Summmon"
+    },
+    {
+      "id": "Div.3 1109::A",
+      "url": "https://codeforces.com/contest/2244/problem/A",
+      "group": "Div.3",
+      "difficulty": 800,
+      "title": "Iskander and Drawings"
+    },
+    {
+      "id": "Div.3 1109::B",
+      "url": "https://codeforces.com/contest/2244/problem/B",
+      "group": "Div.3",
+      "difficulty": 800,
+      "title": "Nikita and Books"
+    },
+    {
+      "id": "Div.3 1109::C",
+      "url": "https://codeforces.com/contest/2244/problem/C",
+      "group": "Div.3",
+      "difficulty": 1100,
+      "title": "Stepan and Permutation"
+    },
+    {
+      "id": "Div.3 1109::D",
+      "url": "https://codeforces.com/contest/2244/problem/D",
+      "group": "Div.3",
+      "difficulty": 1200,
+      "title": "Yaroslav and Productivity"
+    },
+    {
+      "id": "Div.3 1109::E",
+      "url": "https://codeforces.com/contest/2244/problem/E",
+      "group": "Div.3",
+      "difficulty": 1400,
+      "title": "Masha and the Garland"
+    },
+    {
+      "id": "Div.3 1109::F",
+      "url": "https://codeforces.com/contest/2244/problem/F",
+      "group": "Div.3",
+      "difficulty": 1700,
+      "title": "Anya Loves Trees!"
+    },
+    {
+      "id": "Div.3 1109::G",
+      "url": "https://codeforces.com/contest/2244/problem/G",
+      "group": "Div.3",
+      "difficulty": 1900,
+      "title": "Yura and Deadlines"
+    },
+    {
+      "id": "Div.3 1114::A",
+      "url": "https://codeforces.com/contest/2254/problem/A",
+      "group": "Div.3",
+      "difficulty": 800,
+      "title": "Riptide"
+    },
+    {
+      "id": "Div.3 1114::B",
+      "url": "https://codeforces.com/contest/2254/problem/B",
+      "group": "Div.3",
+      "difficulty": 900,
+      "title": "Evanescent"
+    },
+    {
+      "id": "Div.3 1114::C1",
+      "url": "https://codeforces.com/contest/2254/problem/C1",
+      "group": "Div.3",
+      "difficulty": 1000,
+      "title": "Marenol (easy version)"
+    },
+    {
+      "id": "Div.3 1114::C2",
+      "url": "https://codeforces.com/contest/2254/problem/C2",
+      "group": "Div.3",
+      "difficulty": 1200,
+      "title": "Marenol (hard version)"
+    },
+    {
+      "id": "Div.3 1114::D",
+      "url": "https://codeforces.com/contest/2254/problem/D",
+      "group": "Div.3",
+      "difficulty": 1300,
+      "title": "Silhouette"
+    },
+    {
+      "id": "Div.3 1114::E",
+      "url": "https://codeforces.com/contest/2254/problem/E",
+      "group": "Div.3",
+      "difficulty": 1500,
+      "title": "Chronostasis"
+    },
+    {
+      "id": "Div.3 1114::F",
+      "url": "https://codeforces.com/contest/2254/problem/F",
+      "group": "Div.3",
+      "difficulty": 1900,
+      "title": "Whiplash"
+    },
+    {
+      "id": "Div.3 1114::G",
+      "url": "https://codeforces.com/contest/2254/problem/G",
+      "group": "Div.3",
+      "difficulty": 2200,
+      "title": "Nightcrawler"
+    },
+    {
+      "id": "Div.3 1119::A",
+      "url": "https://codeforces.com/contest/2259/problem/A",
+      "group": "Div.3",
+      "difficulty": 800,
+      "title": "Moo Language School"
+    },
+    {
+      "id": "Div.3 1119::B",
+      "url": "https://codeforces.com/contest/2259/problem/B",
+      "group": "Div.3",
+      "difficulty": 800,
+      "title": "Minus Two"
+    },
+    {
+      "id": "Div.3 1119::C",
+      "url": "https://codeforces.com/contest/2259/problem/C",
+      "group": "Div.3",
+      "difficulty": 1000,
+      "title": "101"
+    },
+    {
+      "id": "Div.3 1119::D",
+      "url": "https://codeforces.com/contest/2259/problem/D",
+      "group": "Div.3",
+      "difficulty": 1200,
+      "title": "MEX Multiset"
+    },
+    {
+      "id": "Div.3 1119::E",
+      "url": "https://codeforces.com/contest/2259/problem/E",
+      "group": "Div.3",
+      "difficulty": 1500,
+      "title": "Treasure Map Destruction (Constructive Version)"
+    },
+    {
+      "id": "Div.3 1119::F",
+      "url": "https://codeforces.com/contest/2259/problem/F",
+      "group": "Div.3",
+      "difficulty": 1800,
+      "title": "Binary Bubble Sort Inversions"
+    },
+    {
+      "id": "Div.3 1119::G",
+      "url": "https://codeforces.com/contest/2259/problem/G",
+      "group": "Div.3",
+      "difficulty": 1900,
+      "title": "Index Removal"
+    },
+    {
+      "id": "Div.3 1119::H",
+      "url": "https://codeforces.com/contest/2259/problem/H",
+      "group": "Div.3",
+      "difficulty": 2200,
+      "title": "Treasure Map Destruction (Counting Version)"
+    },
+    {
+      "id": "Div.3 1122::A",
+      "url": "https://codeforces.com/contest/2266/problem/A",
+      "group": "Div.3",
+      "difficulty": 800,
+      "title": "Good Contest"
+    },
+    {
+      "id": "Div.3 1122::B",
+      "url": "https://codeforces.com/contest/2266/problem/B",
+      "group": "Div.3",
+      "difficulty": 800,
+      "title": "Three Piles"
+    },
+    {
+      "id": "Div.3 1122::C",
+      "url": "https://codeforces.com/contest/2266/problem/C",
+      "group": "Div.3",
+      "difficulty": 1000,
+      "title": "AND, OR, Sort!"
+    },
+    {
+      "id": "Div.3 1122::D",
+      "url": "https://codeforces.com/contest/2266/problem/D",
+      "group": "Div.3",
+      "difficulty": 1400,
+      "title": "Falling Concrete"
+    },
+    {
+      "id": "Div.3 1122::E",
+      "url": "https://codeforces.com/contest/2266/problem/E",
+      "group": "Div.3",
+      "difficulty": 1400,
+      "title": "Prime Destruction"
+    },
+    {
+      "id": "Div.3 1122::F",
+      "url": "https://codeforces.com/contest/2266/problem/F",
+      "group": "Div.3",
+      "difficulty": 2000,
+      "title": "MEX Replacement"
+    },
+    {
+      "id": "Div.3 1122::G",
+      "url": "https://codeforces.com/contest/2266/problem/G",
+      "group": "Div.3",
+      "difficulty": 2200,
+      "title": "Modular Tree"
+    },
+    {
+      "id": "Div.3 1122::H",
+      "url": "https://codeforces.com/contest/2266/problem/H",
+      "group": "Div.3",
+      "difficulty": 2400,
+      "title": "Deque Malfunction"
+    },
+    {
+      "id": "Div.3 1125::A",
+      "url": "https://codeforces.com/contest/2275/problem/A",
+      "group": "Div.3",
+      "difficulty": 800,
+      "title": "In Search of Convenience"
+    },
+    {
+      "id": "Div.3 1125::B",
+      "url": "https://codeforces.com/contest/2275/problem/B",
+      "group": "Div.3",
+      "difficulty": 800,
+      "title": "Did Not Go to Print"
+    },
+    {
+      "id": "Div.3 1125::C",
+      "url": "https://codeforces.com/contest/2275/problem/C",
+      "group": "Div.3",
+      "difficulty": 1000,
+      "title": "Unrequited Love"
+    },
+    {
+      "id": "Div.3 1125::D",
+      "url": "https://codeforces.com/contest/2275/problem/D",
+      "group": "Div.3",
+      "difficulty": 1300,
+      "title": "Precision Alignment"
+    },
+    {
+      "id": "Div.3 1125::E",
+      "url": "https://codeforces.com/contest/2275/problem/E",
+      "group": "Div.3",
+      "difficulty": 1500,
+      "title": "Repentance Is Already on the Way"
+    },
+    {
+      "id": "Div.3 1125::F",
+      "url": "https://codeforces.com/contest/2275/problem/F",
+      "group": "Div.3",
+      "difficulty": 1800,
+      "title": "Tea Blend"
+    },
+    {
+      "id": "Div.3 1125::G",
+      "url": "https://codeforces.com/contest/2275/problem/G",
+      "group": "Div.3",
+      "difficulty": 1900,
+      "title": "Copper Squander"
+    },
+    {
+      "id": "Div.4 1003::A",
+      "url": "https://codeforces.com/contest/2065/problem/A",
+      "group": "Div.4",
+      "difficulty": 800,
+      "title": "Skibidus and Amog'u"
+    },
+    {
+      "id": "Div.4 1003::B",
+      "url": "https://codeforces.com/contest/2065/problem/B",
+      "group": "Div.4",
+      "difficulty": 800,
+      "title": "Skibidus and Ohio"
+    },
+    {
+      "id": "Div.4 1003::C1",
+      "url": "https://codeforces.com/contest/2065/problem/C1",
+      "group": "Div.4",
+      "difficulty": 1100,
+      "title": "Skibidus and Fanum Tax (easy version)"
+    },
+    {
+      "id": "Div.4 1003::C2",
+      "url": "https://codeforces.com/contest/2065/problem/C2",
+      "group": "Div.4",
+      "difficulty": 1300,
+      "title": "Skibidus and Fanum Tax (hard version)"
+    },
+    {
+      "id": "Div.4 1003::D",
+      "url": "https://codeforces.com/contest/2065/problem/D",
+      "group": "Div.4",
+      "difficulty": 1200,
+      "title": "Skibidus and Sigma"
+    },
+    {
+      "id": "Div.4 1003::E",
+      "url": "https://codeforces.com/contest/2065/problem/E",
+      "group": "Div.4",
+      "difficulty": 1600,
+      "title": "Skibidus and Rizz"
+    },
+    {
+      "id": "Div.4 1003::F",
+      "url": "https://codeforces.com/contest/2065/problem/F",
+      "group": "Div.4",
+      "difficulty": 1700,
+      "title": "Skibidus and Slay"
+    },
+    {
+      "id": "Div.4 1003::G",
+      "url": "https://codeforces.com/contest/2065/problem/G",
+      "group": "Div.4",
+      "difficulty": 1700,
+      "title": "Skibidus and Capping"
+    },
+    {
+      "id": "Div.4 1003::H",
+      "url": "https://codeforces.com/contest/2065/problem/H",
+      "group": "Div.4",
+      "difficulty": 2200,
+      "title": "Bro Thinks He's Him"
+    },
+    {
+      "id": "Div.4 1017::A",
+      "url": "https://codeforces.com/contest/2094/problem/A",
+      "group": "Div.4",
+      "difficulty": 800,
+      "title": "Trippi Troppi"
+    },
+    {
+      "id": "Div.4 1017::B",
+      "url": "https://codeforces.com/contest/2094/problem/B",
+      "group": "Div.4",
+      "difficulty": 800,
+      "title": "Bobritto Bandito"
+    },
+    {
+      "id": "Div.4 1017::C",
+      "url": "https://codeforces.com/contest/2094/problem/C",
+      "group": "Div.4",
+      "difficulty": 900,
+      "title": "Brr Brrr Patapim"
+    },
+    {
+      "id": "Div.4 1017::D",
+      "url": "https://codeforces.com/contest/2094/problem/D",
+      "group": "Div.4",
+      "difficulty": 1100,
+      "title": "Tung Tung Sahur"
+    },
+    {
+      "id": "Div.4 1017::E",
+      "url": "https://codeforces.com/contest/2094/problem/E",
+      "group": "Div.4",
+      "difficulty": 1200,
+      "title": "Boneca Ambalabu"
+    },
+    {
+      "id": "Div.4 1017::F",
+      "url": "https://codeforces.com/contest/2094/problem/F",
+      "group": "Div.4",
+      "difficulty": 1600,
+      "title": "Trulimero Trulicina"
+    },
+    {
+      "id": "Div.4 1017::G",
+      "url": "https://codeforces.com/contest/2094/problem/G",
+      "group": "Div.4",
+      "difficulty": 1700,
+      "title": "Chimpanzini Bananini"
+    },
+    {
+      "id": "Div.4 1017::H",
+      "url": "https://codeforces.com/contest/2094/problem/H",
+      "group": "Div.4",
+      "difficulty": 1900,
+      "title": "La Vaca Saturno Saturnita"
+    },
+    {
+      "id": "Div.4 1050::A",
+      "url": "https://codeforces.com/contest/2148/problem/A",
+      "group": "Div.4",
+      "difficulty": 800,
+      "title": "Sublime Sequence"
+    },
+    {
+      "id": "Div.4 1050::B",
+      "url": "https://codeforces.com/contest/2148/problem/B",
+      "group": "Div.4",
+      "difficulty": 800,
+      "title": "Lasers"
+    },
+    {
+      "id": "Div.4 1050::C",
+      "url": "https://codeforces.com/contest/2148/problem/C",
+      "group": "Div.4",
+      "difficulty": 900,
+      "title": "Pacer"
+    },
+    {
+      "id": "Div.4 1050::D",
+      "url": "https://codeforces.com/contest/2148/problem/D",
+      "group": "Div.4",
+      "difficulty": 1000,
+      "title": "Destruction of the Dandelion Fields"
+    },
+    {
+      "id": "Div.4 1050::E",
+      "url": "https://codeforces.com/contest/2148/problem/E",
+      "group": "Div.4",
+      "difficulty": 1200,
+      "title": "Split"
+    },
+    {
+      "id": "Div.4 1050::F",
+      "url": "https://codeforces.com/contest/2148/problem/F",
+      "group": "Div.4",
+      "difficulty": 1800,
+      "title": "Gravity Falls"
+    },
+    {
+      "id": "Div.4 1050::G",
+      "url": "https://codeforces.com/contest/2148/problem/G",
+      "group": "Div.4",
+      "difficulty": 1900,
+      "title": "Farmer John's Last Wish"
+    },
+    {
+      "id": "Div.4 1062::A",
+      "url": "https://codeforces.com/contest/2167/problem/A",
+      "group": "Div.4",
+      "difficulty": 800,
+      "title": "Square?"
+    },
+    {
+      "id": "Div.4 1062::B",
+      "url": "https://codeforces.com/contest/2167/problem/B",
+      "group": "Div.4",
+      "difficulty": 800,
+      "title": "Your Name"
+    },
+    {
+      "id": "Div.4 1062::C",
+      "url": "https://codeforces.com/contest/2167/problem/C",
+      "group": "Div.4",
+      "difficulty": 800,
+      "title": "Isamatdin and His Magic Wand!"
+    },
+    {
+      "id": "Div.4 1062::D",
+      "url": "https://codeforces.com/contest/2167/problem/D",
+      "group": "Div.4",
+      "difficulty": 1000,
+      "title": "Yet Another Array Problem"
+    },
+    {
+      "id": "Div.4 1062::E",
+      "url": "https://codeforces.com/contest/2167/problem/E",
+      "group": "Div.4",
+      "difficulty": 1600,
+      "title": "khba Loves to Sleep!"
+    },
+    {
+      "id": "Div.4 1062::F",
+      "url": "https://codeforces.com/contest/2167/problem/F",
+      "group": "Div.4",
+      "difficulty": 1600,
+      "title": "Tree, TREE!!!"
+    },
+    {
+      "id": "Div.4 1062::G",
+      "url": "https://codeforces.com/contest/2167/problem/G",
+      "group": "Div.4",
+      "difficulty": 1600,
+      "title": "Mukhammadali and the Smooth Array"
+    },
+    {
+      "id": "Div.4 1074::A",
+      "url": "https://codeforces.com/contest/2185/problem/A",
+      "group": "Div.4",
+      "difficulty": 800,
+      "title": "Perfect Root"
+    },
+    {
+      "id": "Div.4 1074::B",
+      "url": "https://codeforces.com/contest/2185/problem/B",
+      "group": "Div.4",
+      "difficulty": 800,
+      "title": "Prefix Max"
+    },
+    {
+      "id": "Div.4 1074::C",
+      "url": "https://codeforces.com/contest/2185/problem/C",
+      "group": "Div.4",
+      "difficulty": 900,
+      "title": "Shifted MEX"
+    },
+    {
+      "id": "Div.4 1074::D",
+      "url": "https://codeforces.com/contest/2185/problem/D",
+      "group": "Div.4",
+      "difficulty": 1100,
+      "title": "OutOfMemoryError"
+    },
+    {
+      "id": "Div.4 1074::E",
+      "url": "https://codeforces.com/contest/2185/problem/E",
+      "group": "Div.4",
+      "difficulty": 1500,
+      "title": "The Robotic Rush"
+    },
+    {
+      "id": "Div.4 1074::F",
+      "url": "https://codeforces.com/contest/2185/problem/F",
+      "group": "Div.4",
+      "difficulty": 1700,
+      "title": "BattleCows"
+    },
+    {
+      "id": "Div.4 1074::G",
+      "url": "https://codeforces.com/contest/2185/problem/G",
+      "group": "Div.4",
+      "difficulty": 1800,
+      "title": "Mixing MEXes"
+    },
+    {
+      "id": "Div.4 1074::H",
+      "url": "https://codeforces.com/contest/2185/problem/H",
+      "group": "Div.4",
+      "difficulty": 2500,
+      "title": "BattleCows 2"
+    },
+    {
+      "id": "Div.4 1090::A",
+      "url": "https://codeforces.com/contest/2218/problem/A",
+      "group": "Div.4",
+      "difficulty": 800,
+      "title": "The 67th Integer Problem"
+    },
+    {
+      "id": "Div.4 1090::B",
+      "url": "https://codeforces.com/contest/2218/problem/B",
+      "group": "Div.4",
+      "difficulty": 800,
+      "title": "The 67th 6-7 Integer Problem"
+    },
+    {
+      "id": "Div.4 1090::C",
+      "url": "https://codeforces.com/contest/2218/problem/C",
+      "group": "Div.4",
+      "difficulty": 800,
+      "title": "The 67th Permutation Problem"
+    },
+    {
+      "id": "Div.4 1090::D",
+      "url": "https://codeforces.com/contest/2218/problem/D",
+      "group": "Div.4",
+      "difficulty": 1100,
+      "title": "The 67th OEIS Problem"
+    },
+    {
+      "id": "Div.4 1090::E",
+      "url": "https://codeforces.com/contest/2218/problem/E",
+      "group": "Div.4",
+      "difficulty": 1200,
+      "title": "The 67th XOR Problem"
+    },
+    {
+      "id": "Div.4 1090::F",
+      "url": "https://codeforces.com/contest/2218/problem/F",
+      "group": "Div.4",
+      "difficulty": 1500,
+      "title": "The 67th Tree Problem"
+    },
+    {
+      "id": "Div.4 1090::G",
+      "url": "https://codeforces.com/contest/2218/problem/G",
+      "group": "Div.4",
+      "difficulty": 1800,
+      "title": "The 67th Iteration of \"Counting is Fun\""
+    },
+    {
+      "id": "Div.4 952::A",
+      "url": "https://codeforces.com/contest/1985/problem/A",
+      "group": "Div.4",
+      "difficulty": 800,
+      "title": "Creating Words"
+    },
+    {
+      "id": "Div.4 952::B",
+      "url": "https://codeforces.com/contest/1985/problem/B",
+      "group": "Div.4",
+      "difficulty": 800,
+      "title": "Maximum Multiple Sum"
+    },
+    {
+      "id": "Div.4 952::C",
+      "url": "https://codeforces.com/contest/1985/problem/C",
+      "group": "Div.4",
+      "difficulty": 1000,
+      "title": "Good Prefixes"
+    },
+    {
+      "id": "Div.4 952::D",
+      "url": "https://codeforces.com/contest/1985/problem/D",
+      "group": "Div.4",
+      "difficulty": 900,
+      "title": "Manhattan Circle"
+    },
+    {
+      "id": "Div.4 952::E",
+      "url": "https://codeforces.com/contest/1985/problem/E",
+      "group": "Div.4",
+      "difficulty": 1200,
+      "title": "Secret Box"
+    },
+    {
+      "id": "Div.4 952::F",
+      "url": "https://codeforces.com/contest/1985/problem/F",
+      "group": "Div.4",
+      "difficulty": 1500,
+      "title": "Final Boss"
+    },
+    {
+      "id": "Div.4 952::G",
+      "url": "https://codeforces.com/contest/1985/problem/G",
+      "group": "Div.4",
+      "difficulty": 1600,
+      "title": "D-Function"
+    },
+    {
+      "id": "Div.4 952::H1",
+      "url": "https://codeforces.com/contest/1985/problem/H1",
+      "group": "Div.4",
+      "difficulty": 1700,
+      "title": "Maximize the Largest Component (Easy Version)"
+    },
+    {
+      "id": "Div.4 952::H2",
+      "url": "https://codeforces.com/contest/1985/problem/H2",
+      "group": "Div.4",
+      "difficulty": 2200,
+      "title": "Maximize the Largest Component (Hard Version)"
+    },
+    {
+      "id": "Div.4 964::A",
+      "url": "https://codeforces.com/contest/1999/problem/A",
+      "group": "Div.4",
+      "difficulty": 800,
+      "title": "A+B Again?"
+    },
+    {
+      "id": "Div.4 964::B",
+      "url": "https://codeforces.com/contest/1999/problem/B",
+      "group": "Div.4",
+      "difficulty": 1000,
+      "title": "Card Game"
+    },
+    {
+      "id": "Div.4 964::C",
+      "url": "https://codeforces.com/contest/1999/problem/C",
+      "group": "Div.4",
+      "difficulty": 800,
+      "title": "Showering"
+    },
+    {
+      "id": "Div.4 964::D",
+      "url": "https://codeforces.com/contest/1999/problem/D",
+      "group": "Div.4",
+      "difficulty": 1100,
+      "title": "Slavic's Exam"
+    },
+    {
+      "id": "Div.4 964::E",
+      "url": "https://codeforces.com/contest/1999/problem/E",
+      "group": "Div.4",
+      "difficulty": 1300,
+      "title": "Triple Operations"
+    },
+    {
+      "id": "Div.4 964::F",
+      "url": "https://codeforces.com/contest/1999/problem/F",
+      "group": "Div.4",
+      "difficulty": 1500,
+      "title": "Expected Median"
+    },
+    {
+      "id": "Div.4 964::G1",
+      "url": "https://codeforces.com/contest/1999/problem/G1",
+      "group": "Div.4",
+      "difficulty": 1500,
+      "title": "Ruler (easy version)"
+    },
+    {
+      "id": "Div.4 964::G2",
+      "url": "https://codeforces.com/contest/1999/problem/G2",
+      "group": "Div.4",
+      "difficulty": 1700,
+      "title": "Ruler (hard version)"
+    },
+    {
+      "id": "Div.4 971::A",
+      "url": "https://codeforces.com/contest/2009/problem/A",
+      "group": "Div.4",
+      "difficulty": 800,
+      "title": "Minimize!"
+    },
+    {
+      "id": "Div.4 971::B",
+      "url": "https://codeforces.com/contest/2009/problem/B",
+      "group": "Div.4",
+      "difficulty": 800,
+      "title": "osu!mania"
+    },
+    {
+      "id": "Div.4 971::C",
+      "url": "https://codeforces.com/contest/2009/problem/C",
+      "group": "Div.4",
+      "difficulty": 1100,
+      "title": "The Legend of Freya the Frog"
+    },
+    {
+      "id": "Div.4 971::D",
+      "url": "https://codeforces.com/contest/2009/problem/D",
+      "group": "Div.4",
+      "difficulty": 1400,
+      "title": "Satyam and Counting"
+    },
+    {
+      "id": "Div.4 971::E",
+      "url": "https://codeforces.com/contest/2009/problem/E",
+      "group": "Div.4",
+      "difficulty": 1400,
+      "title": "Klee's SUPER DUPER LARGE Array!!!"
+    },
+    {
+      "id": "Div.4 971::F",
+      "url": "https://codeforces.com/contest/2009/problem/F",
+      "group": "Div.4",
+      "difficulty": 1700,
+      "title": "Firefly's Queries"
+    },
+    {
+      "id": "Div.4 971::G1",
+      "url": "https://codeforces.com/contest/2009/problem/G1",
+      "group": "Div.4",
+      "difficulty": 1900,
+      "title": "Yunli's Subarray Queries (easy version)"
+    },
+    {
+      "id": "Div.4 971::G2",
+      "url": "https://codeforces.com/contest/2009/problem/G2",
+      "group": "Div.4",
+      "difficulty": 2200,
+      "title": "Yunli's Subarray Queries (hard version)"
+    },
+    {
+      "id": "Div.4 971::G3",
+      "url": "https://codeforces.com/contest/2009/problem/G3",
+      "group": "Div.4",
+      "difficulty": 2700,
+      "title": "Yunli's Subarray Queries (extreme version)"
+    },
+    {
+      "id": "Div.4 993::A",
+      "url": "https://codeforces.com/contest/2044/problem/A",
+      "group": "Div.4",
+      "difficulty": 800,
+      "title": "Easy Problem"
+    },
+    {
+      "id": "Div.4 993::B",
+      "url": "https://codeforces.com/contest/2044/problem/B",
+      "group": "Div.4",
+      "difficulty": 800,
+      "title": "Normal Problem"
+    },
+    {
+      "id": "Div.4 993::C",
+      "url": "https://codeforces.com/contest/2044/problem/C",
+      "group": "Div.4",
+      "difficulty": 800,
+      "title": "Hard Problem"
+    },
+    {
+      "id": "Div.4 993::D",
+      "url": "https://codeforces.com/contest/2044/problem/D",
+      "group": "Div.4",
+      "difficulty": 1100,
+      "title": "Harder Problem"
+    },
+    {
+      "id": "Div.4 993::E",
+      "url": "https://codeforces.com/contest/2044/problem/E",
+      "group": "Div.4",
+      "difficulty": 1300,
+      "title": "Insane Problem"
+    },
+    {
+      "id": "Div.4 993::F",
+      "url": "https://codeforces.com/contest/2044/problem/F",
+      "group": "Div.4",
+      "difficulty": 1900,
+      "title": "Easy Demon Problem"
+    },
+    {
+      "id": "Div.4 993::G1",
+      "url": "https://codeforces.com/contest/2044/problem/G1",
+      "group": "Div.4",
+      "difficulty": 1700,
+      "title": "Medium Demon Problem (easy version)"
+    },
+    {
+      "id": "Div.4 993::G2",
+      "url": "https://codeforces.com/contest/2044/problem/G2",
+      "group": "Div.4",
+      "difficulty": 1900,
+      "title": "Medium Demon Problem (hard version)"
+    },
+    {
+      "id": "Div.4 993::H",
+      "url": "https://codeforces.com/contest/2044/problem/H",
+      "group": "Div.4",
+      "difficulty": 2100,
+      "title": "Hard Demon Problem"
+    },
+    {
+      "id": "lab:codeforces:1592C",
+      "url": "https://codeforces.com/contest/1592/problem/C",
+      "group": "Div.2",
+      "difficulty": 1700,
+      "title": "Bakry and Partitioning"
+    },
+    {
+      "id": "lab:codeforces:242C",
+      "url": "https://codeforces.com/contest/242/problem/C",
+      "group": "Div.2",
+      "difficulty": 1800,
+      "title": "King's Path"
+    },
+    {
+      "id": "lab:codeforces:510B",
+      "url": "https://codeforces.com/contest/510/problem/B",
+      "group": "Div.2",
+      "difficulty": 1500,
+      "title": "Fox And Two Dots"
+    },
+    {
+      "id": "lab:codeforces:520B",
+      "url": "https://codeforces.com/contest/520/problem/B",
+      "group": "Div.2",
+      "difficulty": 1400,
+      "title": "Two Buttons"
+    },
+    {
+      "id": "lab:codeforces:545E",
+      "url": "https://codeforces.com/contest/545/problem/E",
+      "group": "Div.2",
+      "difficulty": 2000,
+      "title": "Paths and Trees"
+    },
+    {
+      "id": "lab:codeforces:580C",
+      "url": "https://codeforces.com/contest/580/problem/C",
+      "group": "Div.2",
+      "difficulty": 1500,
+      "title": "Kefa and Park"
+    },
+    {
+      "id": "lab:codeforces:796D",
+      "url": "https://codeforces.com/contest/796/problem/D",
+      "group": "Div.2",
+      "difficulty": 2100,
+      "title": "Police Stations"
+    },
+    {
+      "id": "remote:atcoder:abc469::G",
+      "url": "https://atcoder.jp/contests/abc469/tasks/abc469_g",
+      "group": "ABC",
+      "difficulty": 2500,
+      "title": "K-nacci Operations"
+    },
+    {
+      "id": "remote:atcoder:abc471::G",
+      "url": "https://atcoder.jp/contests/abc471/tasks/abc471_g",
+      "group": "ABC",
+      "difficulty": 2300,
+      "title": "Caeser Syllables"
+    },
+    {
+      "id": "remote:atcoder:abc474::G",
+      "url": "https://atcoder.jp/contests/abc474/tasks/abc474_g",
+      "group": "ABC",
+      "difficulty": 2200,
+      "title": "LRUD Moving 2"
+    },
+    {
+      "id": "remote:atcoder:abc475::G",
+      "url": "https://atcoder.jp/contests/abc475/tasks/abc475_g",
+      "group": "ABC",
+      "difficulty": 2200,
+      "title": "Has Many Divisors"
+    },
+    {
+      "id": "remote:atcoder:abc476::G",
+      "url": "https://atcoder.jp/contests/abc476/tasks/abc476_g",
+      "group": "ABC",
+      "difficulty": 2300,
+      "title": "Increasing Popcount"
+    },
+    {
+      "id": "remote:atcoder:abc478::G",
+      "url": "https://atcoder.jp/contests/abc478/tasks/abc478_g",
+      "group": "ABC",
+      "difficulty": 2400,
+      "title": "Division Point Hull"
+    },
+    {
+      "id": "remote:atcoder:abc479::A",
+      "url": "https://atcoder.jp/contests/abc479/tasks/abc479_a",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Odd Index Sum"
+    },
+    {
+      "id": "remote:atcoder:abc479::B",
+      "url": "https://atcoder.jp/contests/abc479/tasks/abc479_b",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Longest Rainy Streak"
+    },
+    {
+      "id": "remote:atcoder:abc479::C",
+      "url": "https://atcoder.jp/contests/abc479/tasks/abc479_c",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Bento Packing"
+    },
+    {
+      "id": "remote:atcoder:abc479::D",
+      "url": "https://atcoder.jp/contests/abc479/tasks/abc479_d",
+      "group": "ABC",
+      "difficulty": 1000,
+      "title": "Back and Forth Distance"
+    },
+    {
+      "id": "remote:atcoder:abc479::E",
+      "url": "https://atcoder.jp/contests/abc479/tasks/abc479_e",
+      "group": "ABC",
+      "difficulty": 1300,
+      "title": "Cut and Add"
+    },
+    {
+      "id": "remote:atcoder:abc479::F",
+      "url": "https://atcoder.jp/contests/abc479/tasks/abc479_f",
+      "group": "ABC",
+      "difficulty": 1900,
+      "title": "Narrow Passage"
+    },
+    {
+      "id": "remote:atcoder:abc479::G",
+      "url": "https://atcoder.jp/contests/abc479/tasks/abc479_g",
+      "group": "ABC",
+      "difficulty": 2200,
+      "title": "Tuning"
+    },
+    {
+      "id": "remote:atcoder:abc480::A",
+      "url": "https://atcoder.jp/contests/abc480/tasks/abc480_a",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "ADjacent"
+    },
+    {
+      "id": "remote:atcoder:abc480::B",
+      "url": "https://atcoder.jp/contests/abc480/tasks/abc480_b",
+      "group": "ABC",
+      "difficulty": 800,
+      "title": "Invalid Vote"
+    },
+    {
+      "id": "remote:atcoder:abc480::C",
+      "url": "https://atcoder.jp/contests/abc480/tasks/abc480_c",
+      "group": "ABC",
+      "difficulty": 1100,
+      "title": "Self-Stopping Shower"
+    },
+    {
+      "id": "remote:atcoder:abc480::D",
+      "url": "https://atcoder.jp/contests/abc480/tasks/abc480_d",
+      "group": "ABC",
+      "difficulty": 1200,
+      "title": "Concatenation of Prefixes"
+    },
+    {
+      "id": "remote:atcoder:abc480::E",
+      "url": "https://atcoder.jp/contests/abc480/tasks/abc480_e",
+      "group": "ABC",
+      "difficulty": 1600,
+      "title": "Product-Bounded Arithmetic Sequences"
+    },
+    {
+      "id": "remote:atcoder:abc480::F",
+      "url": "https://atcoder.jp/contests/abc480/tasks/abc480_f",
+      "group": "ABC",
+      "difficulty": 1900,
+      "title": "Cake Cutting"
+    },
+    {
+      "id": "remote:atcoder:abc480::G",
+      "url": "https://atcoder.jp/contests/abc480/tasks/abc480_g",
+      "group": "ABC",
+      "difficulty": 2100,
+      "title": "Zonal Score Minimization"
+    },
+    {
+      "id": "remote:codeforces:2238::A",
+      "url": "https://codeforces.com/contest/2238/problem/A",
+      "group": "Div.2",
+      "difficulty": 800,
+      "title": "Another Puzzle from Papyrus"
+    },
+    {
+      "id": "remote:codeforces:2238::B",
+      "url": "https://codeforces.com/contest/2238/problem/B",
+      "group": "Div.2",
+      "difficulty": 900,
+      "title": "Crimson Triples"
+    },
+    {
+      "id": "remote:codeforces:2238::C",
+      "url": "https://codeforces.com/contest/2238/problem/C",
+      "group": "Div.2",
+      "difficulty": 1400,
+      "title": "Village Guilds"
+    },
+    {
+      "id": "remote:codeforces:2238::D",
+      "url": "https://codeforces.com/contest/2238/problem/D",
+      "group": "Div.2",
+      "difficulty": 1500,
+      "title": "Storming Arasaka"
+    },
+    {
+      "id": "remote:codeforces:2238::E",
+      "url": "https://codeforces.com/contest/2238/problem/E",
+      "group": "Div.2",
+      "difficulty": 2100,
+      "title": "Cake Trial"
+    },
+    {
+      "id": "remote:codeforces:2238::F",
+      "url": "https://codeforces.com/contest/2238/problem/F",
+      "group": "Div.2",
+      "difficulty": 2600,
+      "title": "Infinite Work"
+    },
+    {
+      "id": "remote:codeforces:2240::A",
+      "url": "https://codeforces.com/contest/2240/problem/A",
+      "group": "Div.2",
+      "difficulty": 800,
+      "title": "Another Popcount Problem"
+    },
+    {
+      "id": "remote:codeforces:2240::B",
+      "url": "https://codeforces.com/contest/2240/problem/B",
+      "group": "Div.2",
+      "difficulty": 1100,
+      "title": "AI Finds Nothing Here"
+    },
+    {
+      "id": "remote:codeforces:2246::A",
+      "url": "https://codeforces.com/contest/2246/problem/A",
+      "group": "Div.2",
+      "difficulty": 800,
+      "title": "farmpiggie and Subset Sum"
+    },
+    {
+      "id": "remote:codeforces:2246::B",
+      "url": "https://codeforces.com/contest/2246/problem/B",
+      "group": "Div.2",
+      "difficulty": 900,
+      "title": "ezraft and Array"
+    },
+    {
+      "id": "remote:codeforces:2246::C",
+      "url": "https://codeforces.com/contest/2246/problem/C",
+      "group": "Div.2",
+      "difficulty": 1400,
+      "title": "0mar and Alternating Sums"
+    },
+    {
+      "id": "remote:codeforces:2246::D",
+      "url": "https://codeforces.com/contest/2246/problem/D",
+      "group": "Div.2",
+      "difficulty": 1900,
+      "title": "diss_quack and Array Game"
+    },
+    {
+      "id": "remote:codeforces:2246::E",
+      "url": "https://codeforces.com/contest/2246/problem/E",
+      "group": "Div.2",
+      "difficulty": 2600,
+      "title": "lce4113 and Security Game"
+    },
+    {
+      "id": "remote:codeforces:2246::F",
+      "url": "https://codeforces.com/contest/2246/problem/F",
+      "group": "Div.2",
+      "difficulty": 2900,
+      "title": "Whoname and Unsorted Array"
+    },
+    {
+      "id": "remote:codeforces:2247::A",
+      "url": "https://codeforces.com/contest/2247/problem/A",
+      "group": "Div.2",
+      "difficulty": 800,
+      "title": "Zero Sum"
+    },
+    {
+      "id": "remote:codeforces:2247::B",
+      "url": "https://codeforces.com/contest/2247/problem/B",
+      "group": "Div.2",
+      "difficulty": 900,
+      "title": "Yet Another Constructive"
+    },
+    {
+      "id": "remote:codeforces:2247::C",
+      "url": "https://codeforces.com/contest/2247/problem/C",
+      "group": "Div.2",
+      "difficulty": 1100,
+      "title": "Inversion of a Subsequence"
+    },
+    {
+      "id": "remote:codeforces:2247::D1",
+      "url": "https://codeforces.com/contest/2247/problem/D1",
+      "group": "Div.2",
+      "difficulty": 1500,
+      "title": "XOR Sorting (Easy Version)"
+    },
+    {
+      "id": "remote:codeforces:2247::D2",
+      "url": "https://codeforces.com/contest/2247/problem/D2",
+      "group": "Div.2",
+      "difficulty": 2000,
+      "title": "XOR Sorting (Hard Version)"
+    },
+    {
+      "id": "remote:codeforces:2247::E",
+      "url": "https://codeforces.com/contest/2247/problem/E",
+      "group": "Div.2",
+      "difficulty": 2300,
+      "title": "Build a Tree"
+    },
+    {
+      "id": "remote:codeforces:2247::F",
+      "url": "https://codeforces.com/contest/2247/problem/F",
+      "group": "Div.2",
+      "difficulty": 2900,
+      "title": "Paths on a Grid"
+    },
+    {
+      "id": "remote:codeforces:2274::A",
+      "url": "https://codeforces.com/contest/2274/problem/A",
+      "group": "Div.2",
+      "difficulty": 800,
+      "title": "The Projections of Paco"
+    },
+    {
+      "id": "remote:codeforces:2274::B",
+      "url": "https://codeforces.com/contest/2274/problem/B",
+      "group": "Div.2",
+      "difficulty": 1100,
+      "title": "Prefix"
+    },
+    {
+      "id": "remote:codeforces:2275::H",
+      "url": "https://codeforces.com/contest/2275/problem/H",
+      "group": "Div.3",
+      "difficulty": 2400,
+      "title": "A Problem to Warm Up the Eyebrows"
+    }
+  ]
+}

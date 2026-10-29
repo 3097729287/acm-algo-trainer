@@ -763,7 +763,9 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     const record=activeRecord.current;
     if (!record?.loaded || loading || problem?.statementLoading || !problem?.markdown || record.languageChosen) return;
     const prepared=problem.translation;
-    if (prepared?.markdown && (prepared.targetLanguage==='zh-CN'||prepared.kind==='site')) setTranslation(prepared);
+    if (prepared?.markdown && (prepared.targetLanguage==='zh-CN'||prepared.kind==='site')) {
+      setTranslation(prepared);
+    }
   },[loading,problem?.markdown,problem?.statementLoading,problem?.autoTranslate,problem?.translation]);
   const loadHistoryCode=async row=>{const record=activeRecord.current;try{const saved=row.codePending?(await apiRef.current(`submission?id=${encodeURIComponent(row.id)}`)).submission:row;if(isActive(record)){setSubmissions(rows=>mergeSubmission(rows,saved));loadOwnCode(saved.code);}}catch(issue){if(isActive(record))setActionError(issue.message);}};
   const editorCommand = command => {

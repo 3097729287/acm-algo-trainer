@@ -49,8 +49,22 @@ try{
   await page.evaluate(()=>{const f=window.workbenchFixture;f.problemOverrides.ZH_DECLARED={statementLanguage:'zh-CN',markdown:'# A+B\n\n计算两个数之和，Input and Output 是输入与输出。'};f.changeProblem('ZH_DECLARED');});
   await page.getByText('计算两个数之和，Input and Output 是输入与输出。',{exact:true}).waitFor();
   assert.equal(await page.getByRole('group',{name:'题面语言'}).count(),0,'Declared Chinese originals stay control-free even with English prose');
+  await page.evaluate(({original,chinese})=>{
+    const f=window.workbenchFixture;
+    f.problemOverrides.DEFAULT_ZH={markdown:original,translation:{kind:'bundled',targetLanguage:'zh-CN',defaultLanguage:'zh-CN',markdown:chinese}};
+    f.changeProblem('DEFAULT_ZH');
+  },{original,chinese});
+  await page.getByText('The red points satisfy the condition.',{exact:true}).waitFor();
+  assert.equal(await toggle.innerText(),'英','English stays original even when an older seed requested Chinese by default');
+  await toggle.click();
+  await page.getByText('图中的红点符合条件。',{exact:true}).waitFor();
+  await toggle.click();
+  await page.getByText('The red points satisfy the condition.',{exact:true}).waitFor();
+  await page.waitForTimeout(200);
+  assert.equal(await toggle.getAttribute('aria-pressed'),'false','Explicit English selection wins over the Chinese default');
+  assert.equal(await page.evaluate(()=>window.workbenchFixture.calls.filter(call=>call.path==='problem/translate'&&call.body.id==='DEFAULT_ZH').length),0,'A prebuilt Chinese default works offline without provider calls');
   await page.evaluate(()=>window.workbenchFixture.changeProblem('P'));
   await page.getByText('The red points satisfy the condition.',{exact:true}).waitFor();
-  assert.equal(await toggle.innerText(),'英');assert.equal(await toggle.getAttribute('aria-label'),'原文');
-  assert.deepEqual(errors,[]);console.log('PASS: English/Chinese short labels retain full accessible names, Chinese originals omit the language control, bundled diagrams and cancelled/late responses remain isolated.');
+  assert.equal(await toggle.innerText(),'英','Unmarked English statements keep their existing default');
+  assert.deepEqual(errors,[]);console.log('PASS: English originals first, click for cached Chinese, legacy preference ignored, offline diagrams and late response isolation.');
 }finally{await browser.close();await server.close();}

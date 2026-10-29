@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="360" viewBox="0 0 760 360" role="img" aria-labelledby="title"><title id="title">阈值 v=5：三行各有一个有效元素，可覆盖三列</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">阈值 v=5：三行各有一个有效元素，可覆盖三列</text>
+<text x="155" y="80" fill="#243449" font-size="18" text-anchor="middle" font-weight="normal">原来都集中在第一列</text>
+<rect x="50" y="105" width="64" height="52" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="82.0" y="138.0" fill="#12805c" font-size="22" text-anchor="middle" font-weight="normal">8</text>
+<rect x="120" y="105" width="64" height="52" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="152.0" y="138.0" fill="#68778b" font-size="22" text-anchor="middle" font-weight="normal">1</text>
+<rect x="190" y="105" width="64" height="52" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="222.0" y="138.0" fill="#68778b" font-size="22" text-anchor="middle" font-weight="normal">1</text>
+<rect x="50" y="165" width="64" height="52" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="82.0" y="198.0" fill="#12805c" font-size="22" text-anchor="middle" font-weight="normal">9</text>
+<rect x="120" y="165" width="64" height="52" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="152.0" y="198.0" fill="#68778b" font-size="22" text-anchor="middle" font-weight="normal">1</text>
+<rect x="190" y="165" width="64" height="52" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="222.0" y="198.0" fill="#68778b" font-size="22" text-anchor="middle" font-weight="normal">1</text>
+<rect x="50" y="225" width="64" height="52" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="82.0" y="258.0" fill="#12805c" font-size="22" text-anchor="middle" font-weight="normal">7</text>
+<rect x="120" y="225" width="64" height="52" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="152.0" y="258.0" fill="#68778b" font-size="22" text-anchor="middle" font-weight="normal">1</text>
+<rect x="190" y="225" width="64" height="52" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="222.0" y="258.0" fill="#68778b" font-size="22" text-anchor="middle" font-weight="normal">1</text>
+<text x="535" y="80" fill="#243449" font-size="18" text-anchor="middle" font-weight="normal">行内重排后分散到三列</text>
+<rect x="430" y="105" width="64" height="52" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="462.0" y="138.0" fill="#12805c" font-size="22" text-anchor="middle" font-weight="normal">8</text>
+<rect x="500" y="105" width="64" height="52" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="532.0" y="138.0" fill="#68778b" font-size="22" text-anchor="middle" font-weight="normal">1</text>
+<rect x="570" y="105" width="64" height="52" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="602.0" y="138.0" fill="#68778b" font-size="22" text-anchor="middle" font-weight="normal">1</text>
+<rect x="430" y="165" width="64" height="52" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="462.0" y="198.0" fill="#68778b" font-size="22" text-anchor="middle" font-weight="normal">1</text>
+<rect x="500" y="165" width="64" height="52" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="532.0" y="198.0" fill="#12805c" font-size="22" text-anchor="middle" font-weight="normal">9</text>
+<rect x="570" y="165" width="64" height="52" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="602.0" y="198.0" fill="#68778b" font-size="22" text-anchor="middle" font-weight="normal">1</text>
+<rect x="430" y="225" width="64" height="52" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="462.0" y="258.0" fill="#68778b" font-size="22" text-anchor="middle" font-weight="normal">1</text>
+<rect x="500" y="225" width="64" height="52" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="532.0" y="258.0" fill="#68778b" font-size="22" text-anchor="middle" font-weight="normal">1</text>
+<rect x="570" y="225" width="64" height="52" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="602.0" y="258.0" fill="#12805c" font-size="22" text-anchor="middle" font-weight="normal">7</text>
+<text x="35" y="335" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">有效元素数 c=3，总列数 n=3，最优列数 min(n,c)=3</text>
+</g></svg>

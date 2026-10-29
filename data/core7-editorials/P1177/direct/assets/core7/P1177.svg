@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="365" viewBox="0 0 760 365" role="img" aria-labelledby="title"><title id="title">归并排序：两半分别有序，再取两边最小剩余项</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">归并排序：两半分别有序，再取两边最小剩余项</text>
+<text x="35" y="110" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">原数组</text>
+<rect x="220" y="80" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="263.5" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="310" y="80" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="353.5" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="400" y="80" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="443.5" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="490" y="80" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="533.5" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="580" y="80" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="623.5" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<text x="35" y="215" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">两半有序</text>
+<rect x="220" y="185" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="263.5" y="216.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="310" y="185" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="353.5" y="216.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="415" y="185" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="458.5" y="216.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="505" y="185" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="548.5" y="216.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="595" y="185" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="638.5" y="216.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<text x="35" y="320" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">合并结果</text>
+<rect x="220" y="290" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="263.5" y="321.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="310" y="290" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="353.5" y="321.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="400" y="290" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="443.5" y="321.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="490" y="290" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="533.5" y="321.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="580" y="290" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="623.5" y="321.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<line x1="405" y1="70" x2="405" y2="245" stroke="#68778b" stroke-width="3" stroke-dasharray="7 5"/>
+</g></svg>
