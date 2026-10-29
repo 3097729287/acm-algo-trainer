@@ -63,6 +63,47 @@ class BrowserSessionTests(unittest.TestCase):
         self.store.update_login_states('owner', {'洛谷':'logged_out'})
         self.assertEqual(BrowserSessions(self.path).snapshot('洛谷')['loginState'], 'logged_out')
 
+    def test_qoj_cookie_refresh_invalidates_stale_live_proof_until_confirmed(self):
+        from browser_preparation import BrowserPreparation
+        bridge = BrowserBridge('http://127.0.0.1:1', session_store=self.store)
+        preparation = BrowserPreparation(bridge, Path(self.temp.name), profiles=lambda: [])
+        client = str(uuid.uuid4())
+        key = bridge.register_browser({'clientId': client, 'protocol': 3})['key']
+        states = {platform: 'logged_in' for platform in ('Codeforces', 'AtCoder', '牛客', '洛谷', 'QOJ')}
+        heartbeat = {'clientId': client, 'loginStates': states, 'syncPlatforms': ['QOJ']}
+        cookie = {'name': 'JSESSIONID', 'value': 'fixture-only', 'domain': 'qoj.ac', 'path': '/'}
+
+        def export(state, cookies):
+            answer = bridge.browser_queue(heartbeat, key)
+            request = next(item for item in answer['sync'] if item['platform'] == 'QOJ')
+            body = {**request, 'clientId': client, 'loginState': state, 'cookies': cookies}
+            bridge.sync_browser(body, key)
+            return body
+
+        def qoj_state():
+            return next(item['state'] for item in preparation.snapshot()['platforms'] if item['platform'] == 'QOJ')
+
+        export('logged_in', [cookie])
+        self.assertEqual(qoj_state(), 'logged_in')
+        # A new export can finish before the original-site check for its
+        # cookies. The previous heartbeat proves only the previous snapshot.
+        pending = export('unknown', [cookie, {**cookie, 'name': 'nonsecure_fixture'}])
+        self.assertEqual(qoj_state(), 'unknown')
+        self.assertTrue(preparation.snapshot()['ready'], 'Optional QOJ must not block the four established sites')
+        self.assertEqual(BrowserSessions(self.path).snapshot('QOJ')['loginState'], 'unknown')
+
+        bridge.browser_queue({**heartbeat, 'syncPlatforms': []}, key)
+        self.assertEqual(qoj_state(), 'logged_in')
+        self.assertEqual(BrowserSessions(self.path).snapshot('QOJ')['loginState'], 'logged_in')
+        # A replayed, already-consumed nonce cannot replace the newer proof.
+        bridge.sync_browser(pending, key)
+        self.assertEqual(qoj_state(), 'logged_in')
+        with bridge.lock:
+            bridge.session_store = BrowserSessions(self.path)
+            bridge.client_seen.clear()
+            bridge.client_login_states.clear()
+        self.assertEqual(qoj_state(), 'logged_in')
+
     def test_logged_in_profile_wins_even_without_an_open_site_tab(self):
         bridge = BrowserBridge('http://127.0.0.1:1', session_store=self.store)
         guest, signed = str(uuid.uuid4()), str(uuid.uuid4())
