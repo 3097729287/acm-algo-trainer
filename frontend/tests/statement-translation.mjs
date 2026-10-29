@@ -42,5 +42,20 @@ try{
   await page.getByText('给定两个整数，请输出两个整数的和。输入包括两个整数，输出一行答案。',{exact:true}).waitFor();
   assert.equal(await toggle.innerText(),'原文');assert.equal(await toggle.isDisabled(),true);
   assert.equal(await page.evaluate(()=>window.workbenchFixture.calls.filter(call=>call.path==='problem/translate'&&call.body.id==='ZH').length),0);
-  assert.deepEqual(errors,[]);console.log('PASS: original-first single toggle, bundled diagram, explicit translation, native Chinese original, cancelled/late response isolation.');
+  await page.evaluate(({original,chinese})=>{
+    const f=window.workbenchFixture;
+    f.problemOverrides.DEFAULT_ZH={markdown:original,translation:{kind:'bundled',targetLanguage:'zh-CN',defaultLanguage:'zh-CN',markdown:chinese}};
+    f.changeProblem('DEFAULT_ZH');
+  },{original,chinese});
+  await page.getByText('图中的红点符合条件。',{exact:true}).waitFor();
+  assert.equal(await toggle.innerText(),'中文');
+  await toggle.click();
+  await page.getByText('The red points satisfy the condition.',{exact:true}).waitFor();
+  await page.waitForTimeout(200);
+  assert.equal(await toggle.getAttribute('aria-pressed'),'false','Explicit English selection wins over the Chinese default');
+  assert.equal(await page.evaluate(()=>window.workbenchFixture.calls.filter(call=>call.path==='problem/translate'&&call.body.id==='DEFAULT_ZH').length),0,'A prebuilt Chinese default works offline without provider calls');
+  await page.evaluate(()=>window.workbenchFixture.changeProblem('P'));
+  await page.getByText('The red points satisfy the condition.',{exact:true}).waitFor();
+  assert.equal(await toggle.innerText(),'原文','Unmarked English statements keep their existing default');
+  assert.deepEqual(errors,[]);console.log('PASS: scoped Chinese defaults, original switching, offline bundled diagram, unmarked originals and late response isolation.');
 }finally{await browser.close();await server.close();}

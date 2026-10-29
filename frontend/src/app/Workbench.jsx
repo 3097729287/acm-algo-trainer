@@ -387,7 +387,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
         setProblem(answer);
         const prepared=(answer.translation?.targetLanguage==='zh-CN'||answer.translation?.kind==='site') && answer.translation.markdown ? answer.translation : null;
         setTranslation(prepared);
-        setLanguage('original');
+        setLanguage(prepared?.defaultLanguage==='zh-CN'?'zh':'original');
         const history = (answer.submissions || []).slice().sort((a, b) => String(b.submittedAt || '').localeCompare(String(a.submittedAt || '')));
         setSubmissions(history);
         setResultId(history[0]?.id || null);
@@ -760,7 +760,10 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     const record=activeRecord.current;
     if (!record?.loaded || loading || problem?.statementLoading || !problem?.markdown || record.languageChosen) return;
     const prepared=problem.translation;
-    if (prepared?.markdown && (prepared.targetLanguage==='zh-CN'||prepared.kind==='site')) setTranslation(prepared);
+    if (prepared?.markdown && (prepared.targetLanguage==='zh-CN'||prepared.kind==='site')) {
+      setTranslation(prepared);
+      if(prepared.defaultLanguage==='zh-CN')setLanguage('zh');
+    }
   },[loading,problem?.markdown,problem?.statementLoading,problem?.autoTranslate,problem?.translation]);
   const loadHistoryCode=async row=>{const record=activeRecord.current;try{const saved=row.codePending?(await apiRef.current(`submission?id=${encodeURIComponent(row.id)}`)).submission:row;if(isActive(record)){setSubmissions(rows=>mergeSubmission(rows,saved));loadOwnCode(saved.code);}}catch(issue){if(isActive(record))setActionError(issue.message);}};
   const editorCommand = command => {

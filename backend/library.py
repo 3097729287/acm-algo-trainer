@@ -165,6 +165,13 @@ class LibraryDatabase:
                         saved=json.loads(current['content'])
                         translated=saved.get('translation')
                         original=saved.get('markdown') or ''
+                        candidate=json.loads(row['content'])
+                        site=candidate.get('translation') or {}
+                        if (site.get('kind')=='site' and site.get('defaultLanguage')=='zh-CN'
+                                and original==candidate.get('markdown') and isinstance(translated,dict)
+                                and translated.get('kind')=='site' and translated.get('markdown')==site.get('markdown')):
+                            saved['translation']=dict(translated,defaultLanguage='zh-CN')
+                            db.execute('UPDATE statements SET content=? WHERE problem_id=?', (json.dumps(saved,ensure_ascii=False),identity))
                         if (incoming and hashlib.sha256(original.encode()).hexdigest()==incoming['sourceHash']
                                 and (not translated or isinstance(translated,dict) and translated.get('kind')=='bundled')):
                             saved['translation']=incoming

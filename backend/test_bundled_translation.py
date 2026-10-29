@@ -31,6 +31,27 @@ def statement(source=SOURCE):
             'statementAvailable':True,'limits':{'timeMs':2000,'memoryMb':256}}
 
 class BundledTranslationTests(unittest.TestCase):
+    def test_default_chinese_survives_validation_and_seed_merge(self):
+        prepared=dict(translation(),defaultLanguage='zh-CN')
+        self.assertEqual(bundled_translation(dict(statement(),translation=prepared))['defaultLanguage'],'zh-CN')
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);seed=LibraryDatabase(root/'seed.sqlite3');live=LibraryDatabase(root/'live.sqlite3')
+            seed.save_statement('fixture',dict(statement(),translation=prepared))
+            live.save_statement('fixture',dict(statement(),fetchedAt='local-cache'))
+            live.merge_seed(seed.path)
+            self.assertEqual(live.statement('fixture')['translation']['defaultLanguage'],'zh-CN')
+            self.assertEqual(live.statement('fixture')['fetchedAt'],'local-cache')
+            site={'kind':'site','markdown':CHINESE,'sourceUrl':statement()['url']}
+            live.save_statement('fixture',dict(statement(),translation=site,fetchedAt='site-cache'))
+            seed.save_statement('fixture',dict(statement(),translation=dict(site,defaultLanguage='zh-CN')))
+            live.merge_seed(seed.path,fingerprint='site-default')
+            self.assertEqual(live.statement('fixture')['translation']['defaultLanguage'],'zh-CN')
+            self.assertEqual(live.statement('fixture')['fetchedAt'],'site-cache')
+            edited=dict(site,markdown=CHINESE+' local edit')
+            live.save_statement('fixture',dict(statement(),translation=edited))
+            live.merge_seed(seed.path,fingerprint='keep-local-site-edit')
+            self.assertNotIn('defaultLanguage',live.statement('fixture')['translation'])
+
     def test_spaced_inline_math_never_masks_english_between_normal_inline_variables(self):
         formula='$ $(0,0) \\xrightarrow{\\texttt{long}} (2,0) \\xrightarrow{\\texttt{long}} (4,0)$ $'
         source='A valid sequence is: '+formula+'.\nGiven $N$ $M$, print the result using the following positive integer values.\n'
