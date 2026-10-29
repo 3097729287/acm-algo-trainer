@@ -204,7 +204,9 @@ class AuthWaitBoundaries(unittest.TestCase):
                 self.assertTrue(started.wait(2))
                 service.save_draft('fixture::A','newest draft typed while downloading')
             finally:release.set()
-            with self.assertRaises(ServiceError) as caught:pending.result(timeout=3)
+            # The held request is released above; allow the real loopback object
+            # downloads to finish on slower runners before asserting the 409.
+            with self.assertRaises(ServiceError) as caught:pending.result(timeout=10)
             self.assertEqual(caught.exception.status,409)
         self.assertEqual(service.problem('fixture::A')['draft'],'newest draft typed while downloading')
         sync.flush()

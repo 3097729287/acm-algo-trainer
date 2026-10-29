@@ -75,7 +75,10 @@ class AccountTests(unittest.TestCase):
         self.temp.cleanup()
 
     def call(self, path, body=None, token=None, headers=None):
-        connection = http.client.HTTPConnection('127.0.0.1', self.server.server_port, timeout=15)
+        # Login permits 24 seconds of network work plus local state activation;
+        # match the real frontend's 45-second budget rather than aborting first.
+        timeout = 45 if path == '/api/account/login' else 15
+        connection = http.client.HTTPConnection('127.0.0.1', self.server.server_port, timeout=timeout)
         values = {'Content-Type': 'application/json', 'X-TB-Token': token if token is not None else self.server.store.token}
         values.update(headers or {})
         connection.request('GET' if body is None else 'POST', path, body=None if body is None else json.dumps(body).encode(), headers=values)
