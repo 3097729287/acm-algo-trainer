@@ -180,6 +180,7 @@ try{
   assert.equal(await page.evaluate(()=>window.fixtureEvents.length),beforeEnter+1,'Enter on the primary recommendation enters that task directly');
   assert.equal(await popup().count(),0);
   await primary().press('ArrowUp');await popup().waitFor();
+  await page.waitForFunction(()=>{const tasks=[...document.querySelectorAll('.next-actions-flyout .next-actions-item')];return tasks.length>0&&tasks.at(-1)===document.activeElement;});
   assert.equal(await allTasks.last().evaluate(node=>node===document.activeElement),true,'ArrowUp on the primary opens the final menu task');
   await page.locator('#outside').click();assert.equal(await popup().count(),0);
   await hover();await primary().focus();await popup().waitFor();
