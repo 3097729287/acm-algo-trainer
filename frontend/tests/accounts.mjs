@@ -146,8 +146,17 @@ try{
 
   phase='account-b-isolation';await post('account/register',{loginId:'ui_account_b',nickname:'另一个账号',password:'fixture-password'});
   assert.equal((await page.request.get(base+'/api/workspace')).status(),401,'Registration API alone does not authenticate');
-  await logIn('ui_account_b','fixture-password');await nav().waitFor();await acknowledgeGuide();await levelOne();
-  const b=await get('account');assert.notEqual(b.account.userId,a.account.userId);assert.equal(b.usesOriginalWorkspace,false);assert.equal((await get('workspace')).summary.total,0);
+  await logIn('ui_account_b','fixture-password');await nav().waitFor();
+  const b=await get('account');assert.notEqual(b.account.userId,a.account.userId);
+  const experience=page.getByRole('dialog',{name:'你有编程经验吗？',exact:true});await experience.waitFor();
+  const offered=(await get('insights')).growth.experienceChallenge;
+  assert.equal(offered.owner,b.account.userId);assert.equal(offered.eligible,true);assert.equal(offered.choice,null);
+  assert.equal(await page.evaluate(()=>window.__tbAccountUserId),b.account.userId,'The experience choice belongs to the newly signed-in account');
+  await experience.getByRole('button',{name:/我是新手/}).click();await experience.waitFor({state:'detached'});
+  const chosen=(await get('insights')).growth.experienceChallenge;
+  assert.equal(chosen.owner,b.account.userId);assert.equal(chosen.choice,'beginner');assert.equal(chosen.status,'beginner');assert.equal(chosen.promptRequired,false);assert.equal(chosen.allNavigationUnlocked,false);
+  await acknowledgeGuide();await levelOne();
+  assert.equal(b.usesOriginalWorkspace,false);assert.equal((await get('workspace')).summary.total,0);
   assert.equal((await page.request.post(base+'/api/draft',{data:{id:problemId,code:'must be rejected'},headers:{'X-TB-Token':a.token}})).status(),403,'An old local token cannot write another account draft');
   await post('training/start',{id:problemId});await page.reload();await nav().waitFor();await openTraining(problemId);
   await page.waitForFunction(()=>document.querySelector('.cm-content')?.getAttribute('contenteditable')==='true');assert(!(await editor().innerText()).includes('old private browser draft'));

@@ -80,7 +80,7 @@ try {
     }
     if (url.hostname === 'atcoder.jp') {
       if (url.pathname.endsWith('/submissions/me')) return html(row('AtCoder', acSubmitted));
-      if (url.pathname.endsWith('/submit')) return html('<form>' + form('AtCoder', 'abc100_a') + '</form><script>document.querySelector("form").onsubmit=e=>{e.preventDefault();fetch(location.pathname,{method:"POST",body:document.querySelector("textarea").value})}</script>');
+      if (url.pathname.endsWith('/submit')) return html('<form><input type="hidden" name="csrf_token" value="fixture-atcoder-csrf">' + form('AtCoder', 'abc100_a') + '</form><script>document.querySelector("form").onsubmit=e=>{e.preventDefault();fetch(location.pathname,{method:"POST",body:document.querySelector("textarea").value})}</script>');
     }
     if (url.hostname === 'ac.nowcoder.com' && url.pathname === '/nccommon/status') return json({code:0,id:3002,status:5,isSelfTest:false});
     if (url.hostname === 'ac.nowcoder.com') return html(`<select name="language"><option value="2">C++（clang++18）</option></select><div class="CodeMirror">原站编辑器</div><div style="display:none"><button>保存并提交</button></div><button class="btn-submit">保存并提交</button><script>
