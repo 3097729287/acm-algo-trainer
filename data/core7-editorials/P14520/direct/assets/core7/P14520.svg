@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" role="img" aria-labelledby="title"><title id="title">[4,3 | 2,5]：反击后左前线变为空城</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">[4,3 | 2,5]：反击后左前线变为空城</text>
+<text x="25" y="111" fill="#243449" font-size="18" text-anchor="start" font-weight="normal">初始 7 : 7</text>
+<rect x="270" y="80" width="102" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="321.0" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="375" y="80" width="102" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="426.0" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="480" y="80" width="102" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="531.0" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="585" y="80" width="102" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="636.0" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<line x1="478" y1="70" x2="478" y2="138" stroke="#bc3645" stroke-width="4"/>
+<text x="25" y="221" fill="#243449" font-size="18" text-anchor="start" font-weight="normal">左攻占后 9 : 5</text>
+<rect x="270" y="190" width="102" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="321.0" y="221.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="375" y="190" width="102" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="426.0" y="221.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="480" y="190" width="102" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="531.0" y="221.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="585" y="190" width="102" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="636.0" y="221.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<line x1="583" y1="180" x2="583" y2="248" stroke="#bc3645" stroke-width="4"/>
+<text x="25" y="331" fill="#243449" font-size="18" text-anchor="start" font-weight="normal">右反击后 4 : 10</text>
+<rect x="270" y="300" width="102" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="321.0" y="331.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="375" y="300" width="102" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="426.0" y="331.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="480" y="300" width="102" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="531.0" y="331.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">10</text>
+<rect x="585" y="300" width="102" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="636.0" y="331.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<line x1="478" y1="290" x2="478" y2="358" stroke="#bc3645" stroke-width="4"/>
+<text x="75" y="401" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">右方可以用相等兵力反击；左方当前前线零，不能马上夺回</text>
+</g></svg>

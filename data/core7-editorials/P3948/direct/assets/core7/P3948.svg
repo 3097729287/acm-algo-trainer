@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="320" viewBox="0 0 760 320" role="img" aria-labelledby="title"><title id="title">差分 [0,5,0,−5,0] 还原出第三格仍有五</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">差分 [0,5,0,−5,0] 还原出第三格仍有五</text>
+<rect x="125" y="75" width="107" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="178.5" y="106.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="235" y="75" width="107" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="288.5" y="106.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="345" y="75" width="107" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="398.5" y="106.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="455" y="75" width="107" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="508.5" y="106.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">-5</text>
+<rect x="565" y="75" width="107" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="618.5" y="106.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="125" y="185" width="107" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="178.5" y="216.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="235" y="185" width="107" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="288.5" y="216.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="345" y="185" width="107" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="398.5" y="216.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="455" y="185" width="107" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="508.5" y="216.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="565" y="185" width="107" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="618.5" y="216.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<text x="70" y="295" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">只问第三格也要从首项累加，不能从查询左端清零</text>
+</g></svg>

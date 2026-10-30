@@ -53,12 +53,15 @@ def load_all():
         import core7_stage02_simulation
         import core7_stage02_greedy
         import core7_stage02_recurrence
+        import core7_stage02_prefix
         from core7_figures import attach_figures
         attach_figures(SPECS)
         from core7_figures_greedy import attach_figures as greedy_figures
         greedy_figures(SPECS)
         from core7_figures_recurrence import attach_figures as recurrence_figures
         recurrence_figures(SPECS)
+        from core7_figures_prefix import attach_figures as prefix_figures
+        prefix_figures(SPECS)
         for spec in SPECS:
             spec.tags=['线性 DP' if tag=='DP' else tag for tag in spec.tags]
             if spec.pid=='P5732':spec.tags=['递推']
@@ -71,6 +74,19 @@ def load_all():
 
 def source_hash(text):
     return hashlib.sha256(text.encode('utf-8')).hexdigest()
+
+def roster_entries():
+    scope=json.loads((OUT/'scope.json').read_text('utf-8'))
+    # The problem code is an authoring key. Keep every existing database alias.
+    entries={entry['url'].rstrip('/').split('/')[-1]:entry for entry in scope}
+    assert len(entries)==len(scope),'Ambiguous problem-code mapping'
+    return entries
+
+
+def statement_path(pid):
+    identity=roster_entries()[pid]['id']
+    return OUT/'statements'/(re.sub(r'[:<>/\\|?*]','_',identity)+'.json')
+
 
 def display_id(pid):
     return pid[3:].replace('_','').upper() if pid.startswith('AT_') else pid
@@ -98,6 +114,10 @@ def article(spec, title, url, detailed, sources, inline):
     sys.path.insert(0,str(Path.home()/'.dsh/tools'))
     import unify_latex
     text=unify_latex.process(text,Counter())
+    # Normalize title mathematics separately so a code such as P8649 is never
+    # absorbed into the formula that begins its lowercase problem title.
+    heading=f'## {label}. '+unify_latex.process(title,Counter())
+    text=re.sub(r'^## [^\n]+',lambda _:heading,text,count=1)
     return {'markdown': text, 'images': images}
 
 
@@ -105,7 +125,7 @@ def generate():
     specs = load_all()
     sources, inline = lesson_data()
     scope = json.loads((OUT / 'scope.json').read_text('utf-8'))
-    roster = {entry['id'].removeprefix('luogu-training-'): entry for entry in scope}
+    roster = roster_entries()
     seen = set()
     package = []
     verified={(r['pid'],r['method']):r for r in json.loads((OUT/'verification.json').read_text('utf-8'))} if (OUT/'verification.json').exists() else {}
@@ -113,6 +133,9 @@ def generate():
         assert (spec.pid, spec.key) not in seen
         seen.add((spec.pid, spec.key))
         entry = roster[spec.pid]
+        # A lowercase title immediately after "A." is misread as a formula by
+        # the old DSH normalizer. This affects only its interchange envelope.
+        export_title=('题目：' if re.match(r'^[a-z]',entry['title']) else '')+entry['title']
         folder = CONTENT / spec.pid / spec.key
         folder.mkdir(parents=True, exist_ok=True)
         cpp = folder / 'a.cpp'
@@ -125,12 +148,12 @@ def generate():
             # Export self-contained reading files for the existing DSH checker.
             path = folder / (name + '.md')
             catalog = ' + '.join(spec.tags)
-            envelope = f'# {display_id(spec.pid)} {spec.title} 题解\n\n## 目录\n\n| 题号 | 题名 | 考点 | 难度 |\n|---|---|---|---|\n| A | {entry["title"]} | {catalog} | {entry["difficulty"]} |\n\n'
+            envelope = f'# {display_id(spec.pid)} {spec.title} 题解\n\n## 目录\n\n| 题号 | 题名 | 考点 | 难度 |\n|---|---|---|---|\n| A | {export_title} | {catalog} | {entry["difficulty"]} |\n\n'
             record=verified.get((spec.pid,spec.key))
             footer=''
             if record and record.get('passed') and record['programSha256']==source_hash(spec.code):
                 footer='\n## 实测记录\n\n'+f'本地 C++17 编译、{record["samples"]} 组原站样例与 {record["independentCases"]} 组独立边界/小域校验通过。\n正文参考程序与源码逐字核对；没有向原站提交。\n'
-            exported=re.sub(r'^## [^\n]+',f'## A. {entry["title"]}',value['markdown'],count=1)
+            exported=re.sub(r'^## [^\n]+',f'## A. {export_title}',value['markdown'],count=1)
             import sys
             sys.path.insert(0,str(Path.home()/'.dsh/tools'))
             import unify_latex

@@ -13,11 +13,13 @@ const selections=[['P1425','io-basics'],['P5705','strings'],['P1553','string-too
 selections.push(['P1088','lex-permutation'],['P1303','big-integers']);
 selections.push(['P6155','unsigned64'],['P2949','heap'],['P12041','dsu'],['AT_arc161_c','trees']);
 selections.push(['P2437','decimal-addition'],['P7167','binary-lifting'],['P1908','fenwick'],['P1228','recursion']);
+selections.push(['P8649','prefix'],['P5542','rectangle-difference'],['UVA1210','prime-sieve'],['P14520','games']);
 const server=await createServer({root:path.join(root,'frontend'),server:{host:'127.0.0.1',port:0}});await server.listen();
 const browser=await chromium.launch({channel:'msedge',headless:true});const errors=[],frames=[];
 try{
 for(const [width,dark] of [[1440,false],[1050,true],[390,false]])for(const [pid,name] of selections){
-  const content=solutions.find(row=>row.problem_id==='luogu-training-'+pid).content;
+  const identity=authored.find(entry=>entry.pid===pid).problemId;
+  const content=solutions.find(row=>row.problem_id===identity).content;
   const reader={...content,title:pid};const page=await browser.newPage({viewport:{width,height:1000}});
   page.on('pageerror',error=>errors.push(error.message));
   await page.addInitScript(data=>{window.core7Reader=data;},{reader,lectures,dark});

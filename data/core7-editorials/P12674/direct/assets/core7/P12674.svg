@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="350" viewBox="0 0 760 350" role="img" aria-labelledby="title"><title id="title">[1,2,2,1] 的三种合法完整划分</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">[1,2,2,1] 的三种合法完整划分</text>
+<rect x="100" y="80" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="143.5" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="190" y="80" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="233.5" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="280" y="80" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="323.5" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="370" y="80" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="413.5" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<line x1="188" y1="70" x2="188" y2="138" stroke="#bc3645" stroke-width="4"/>
+<line x1="278" y1="70" x2="278" y2="138" stroke="#bc3645" stroke-width="4"/>
+<line x1="368" y1="70" x2="368" y2="138" stroke="#bc3645" stroke-width="4"/>
+<text x="490" y="111" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">贡献 1+2+2+1=6</text>
+<rect x="100" y="165" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="143.5" y="196.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="190" y="165" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="233.5" y="196.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="280" y="165" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="323.5" y="196.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="370" y="165" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="413.5" y="196.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<line x1="188" y1="155" x2="188" y2="223" stroke="#bc3645" stroke-width="4"/>
+<line x1="368" y1="155" x2="368" y2="223" stroke="#bc3645" stroke-width="4"/>
+<text x="490" y="196" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">贡献 1+4+1=6</text>
+<rect x="100" y="250" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="143.5" y="281.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="190" y="250" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="233.5" y="281.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="280" y="250" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="323.5" y="281.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="370" y="250" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="413.5" y="281.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<text x="490" y="281" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">贡献 1×2×2×1=4</text>
+<text x="100" y="335" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">每块的首尾值相同；贡献总和 6+6+4=16</text>
+</g></svg>

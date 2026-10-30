@@ -13,7 +13,7 @@ import re
 import shutil
 import sys
 
-from core7_authoring import ROOT, OUT, CONTENT, source_hash, load_all, lesson_data
+from core7_authoring import ROOT, OUT, CONTENT, source_hash, load_all, lesson_data, statement_path
 
 
 def read(path):return json.loads(path.read_text('utf-8'))
@@ -79,7 +79,7 @@ def prepare():
         if identity in index['solution_methods']:index['solution_methods'][identity].update(row)
         else:result['solution_methods'].append(row)
         if identity not in index['statements']:
-            statement=read(OUT/'statements'/('luogu-training-'+primary['pid']+'.json'))
+            statement=read(statement_path(primary['pid']))
             result['statements'].append({'problem_id':identity,'content':statement})
 
     sources,inline=lesson_data()

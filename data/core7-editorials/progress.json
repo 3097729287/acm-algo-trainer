@@ -2,12 +2,12 @@
   "scopeVersion": "2026-10-30-screenshot-verified-610",
   "requestedStages": 7,
   "totalProblems": 610,
-  "authoredProblems": 134,
-  "authoredMethods": 143,
-  "authoredArticles": 286,
-  "hasBothVariants": 141,
-  "missingVariants": 469,
-  "pendingStandardReview": 476,
+  "authoredProblems": 152,
+  "authoredMethods": 161,
+  "authoredArticles": 322,
+  "hasBothVariants": 159,
+  "missingVariants": 451,
+  "pendingStandardReview": 458,
   "complete": false,
   "stages": [
     {
@@ -18,7 +18,7 @@
     {
       "stage": "02 基础解题方法",
       "total": 108,
-      "reviewed": 65
+      "reviewed": 83
     },
     {
       "stage": "03 搜索与图",
@@ -1242,10 +1242,10 @@
       "unit": "前缀和与差分",
       "title": "k 倍区间",
       "difficulty": 1200,
-      "knowledge": "枚举 + 前缀和",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "枚举 + 前缀和 + 取模与同余",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-B3799",
@@ -1254,10 +1254,10 @@
       "unit": "前缀和与差分",
       "title": "序列",
       "difficulty": 1200,
-      "knowledge": "二分查找 + 前缀和",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "二分查找 + 前缀和 + 排序",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1496",
@@ -1266,10 +1266,10 @@
       "unit": "前缀和与差分",
       "title": "火烧赤壁",
       "difficulty": 1200,
-      "knowledge": "模拟 + 离散化 + 排序 + 差分 + 枚举",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "模拟 + 离散化 + 排序 + 差分 + 枚举 + 贪心",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P3131",
@@ -1278,10 +1278,10 @@
       "unit": "前缀和与差分",
       "title": "Subsequences Summing to Sevens S",
       "difficulty": 1200,
-      "knowledge": "前缀和",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "前缀和 + 取模与同余",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P7714",
@@ -1290,10 +1290,10 @@
       "unit": "前缀和与差分",
       "title": "排列排序",
       "difficulty": 1200,
-      "knowledge": "模拟 + 构造 + 差分",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "模拟 + 构造 + 差分 + 连续段 + 贪心",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P9749",
@@ -1303,9 +1303,9 @@
       "title": "公路",
       "difficulty": 1200,
       "knowledge": "模拟 + 贪心 + 前缀和 + 反悔贪心",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P14028",
@@ -1315,9 +1315,9 @@
       "title": "最小极差（jicha）",
       "difficulty": 1200,
       "knowledge": "贪心 + 前缀和 + 差分",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-UVA11059",
@@ -1327,9 +1327,9 @@
       "title": "最大乘积 Maximum Product",
       "difficulty": 1200,
       "knowledge": "枚举 + 前缀和",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1719",
@@ -1338,10 +1338,10 @@
       "unit": "前缀和与差分",
       "title": "最大加权矩形",
       "difficulty": 1500,
-      "knowledge": "递推 + 枚举 + 前缀和",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "递推 + 枚举 + 前缀和 + 线性 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2879",
@@ -1351,9 +1351,9 @@
       "title": "Tallest Cow S",
       "difficulty": 1500,
       "knowledge": "模拟 + 前缀和 + 差分",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P3948",
@@ -1363,9 +1363,9 @@
       "title": "数据结构",
       "difficulty": 1500,
       "knowledge": "线段树 + 树状数组 + 前缀和 + 差分 + FFT",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P5542",
@@ -1375,9 +1375,9 @@
       "title": "Painting The Barn S",
       "difficulty": 1500,
       "knowledge": "前缀和 + 差分",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P9533",
@@ -1387,9 +1387,9 @@
       "title": "区间翻转区间异或和",
       "difficulty": 1500,
       "knowledge": "前缀和 + 位运算",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P10719",
@@ -1398,10 +1398,10 @@
       "unit": "前缀和与差分",
       "title": "黑白格",
       "difficulty": 1500,
-      "knowledge": "二分查找 + 前缀和",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "二分查找 + 前缀和 + 枚举 + 双指针",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P12674",
@@ -1410,10 +1410,10 @@
       "unit": "前缀和与差分",
       "title": "Count",
       "difficulty": 1500,
-      "knowledge": "前缀和 + 枚举",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "前缀和 + 枚举 + 线性 DP + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P13787",
@@ -1422,10 +1422,10 @@
       "unit": "前缀和与差分",
       "title": "地毯 加强版",
       "difficulty": 1500,
-      "knowledge": "前缀和 + 差分",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "前缀和 + 差分 + 位运算",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P14520",
@@ -1435,9 +1435,9 @@
       "title": "战争游戏",
       "difficulty": 1500,
       "knowledge": "贪心 + 博弈论 + 前缀和",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-UVA1210",
@@ -1446,10 +1446,10 @@
       "unit": "前缀和与差分",
       "title": "连续素数之和 Sum of Consecutive Prime Numbers",
       "difficulty": 1500,
-      "knowledge": "前缀和",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "前缀和 + 素数 + 枚举",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-B3691",

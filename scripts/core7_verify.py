@@ -8,7 +8,7 @@ import subprocess
 import sys
 import time
 
-from core7_authoring import ROOT, OUT, CONTENT, load_all, source_hash
+from core7_authoring import ROOT, OUT, CONTENT, load_all, source_hash, statement_path
 from core7_cases import cases_for
 
 
@@ -16,7 +16,7 @@ def validate_one(spec):
     folder = CONTENT / spec.pid / spec.key
     logs = OUT / 'verification' / spec.pid / spec.key
     logs.mkdir(parents=True, exist_ok=True)
-    statement = json.loads((OUT / 'statements' / ('luogu-training-'+spec.pid+'.json')).read_text('utf-8'))
+    statement = json.loads(statement_path(spec.pid).read_text('utf-8'))
     samples = [('A '+s.get('name',str(i)), s['input'], s['output']) for i,s in enumerate(statement.get('samples',[]))]
     edges = cases_for(spec.pid) + [(f'手工边界 {i+1}',x,y) for i,(x,y) in enumerate(spec.cases)]
     (folder/'samples.py').write_text('SAMPLES = '+repr(samples)+'\n', encoding='utf-8')

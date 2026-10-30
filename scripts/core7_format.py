@@ -37,6 +37,7 @@ CODE_SPELLINGS=[
     'prefix(r)-prefix(l-1)','priority_queue<T>','push(x)','reverse','second',
     'top()','uniform_int_distribution<int>(left,right)','vector<Student> students(n)',
     '2(2+2(0))+2(2)+2(0)', # exact textual output of P1010, not an evaluated formula
+    'k % length','n+1','p<=limit/p','vector<bool>',
 ]
 
 def main():

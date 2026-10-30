@@ -8,6 +8,8 @@ import tempfile
 from core7_authoring import ROOT,OUT
 
 checks={
+    'rectangle-difference': [('', '', 'assert(covered==6);assert(diff[1][1]==1&&diff[2][3]==1&&diff[3][3]==0&&diff[0][1]==0);')],
+    'prime-sieve': [('', '', 'assert(primes==vector<int>({2,3,5,7,11,13,17,19,23,29}));assert(!is_prime[0]&&!is_prime[1]&&!is_prime[25]);')],
     'decimal-addition': [('', '', 'assert(decimal_add("998","27")=="1025");assert(decimal_add("0","0")=="0");assert(decimal_add("999","1")=="1000");')],
     'binary-lifting': [('', '', 'assert(u==4);assert(up[2][1]==5);assert(up[2][4]==0);')],
     'io-basics': [('20 30\n','50\n','')],

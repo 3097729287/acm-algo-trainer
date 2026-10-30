@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="345" viewBox="0 0 760 345" role="img" aria-labelledby="title"><title id="title">每升走四公里：两段各十公里只需五升</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">每升走四公里：两段各十公里只需五升</text>
+<line x1="100" y1="120" x2="660" y2="120" stroke="#2365ab" stroke-width="7"/>
+<circle cx="100" cy="120" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="100" y="127" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<text x="100" y="180" fill="#243449" font-size="20" text-anchor="middle" font-weight="normal">0 公里</text>
+<circle cx="380" cy="120" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="380" y="127" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<text x="380" y="180" fill="#243449" font-size="20" text-anchor="middle" font-weight="normal">10 公里</text>
+<circle cx="660" cy="120" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="660" y="127" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<text x="660" y="180" fill="#243449" font-size="20" text-anchor="middle" font-weight="normal">20 公里</text>
+<text x="240" y="245" fill="#12805c" font-size="23" text-anchor="middle" font-weight="normal">第一次需要 3 升</text>
+<text x="540" y="245" fill="#12805c" font-size="23" text-anchor="middle" font-weight="normal">累计需要 5 升</text>
+<text x="80" y="320" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">第二段只新增两升；不能每段分别上取整买三升</text>
+</g></svg>

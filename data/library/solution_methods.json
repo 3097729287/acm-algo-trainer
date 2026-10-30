@@ -3995,5 +3995,572 @@
       "primaryMethod": "direct"
     },
     "problem_id": "luogu-training-SP32079"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-arrays",
+            "lecture:foundation-vector",
+            "lecture:foundation-functions",
+            "lecture:foundation-integer",
+            "lecture:foundation-prefix",
+            "lecture:foundation-modular"
+          ],
+          "legacy": true,
+          "tags": [
+            "前缀和",
+            "取模与同余"
+          ],
+          "title": "统计相同前缀余数的此前出现次数",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "fc9eee2118eb5a3fe85eca708ff6daaae63bed146849e078832deb4c20202f70"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "lanqiao:2017:省:::P8649"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-arrays",
+            "lecture:foundation-vector",
+            "lecture:foundation-functions",
+            "lecture:foundation-integer",
+            "lecture:foundation-sort",
+            "lecture:foundation-iterators",
+            "lecture:foundation-prefix",
+            "lecture:foundation-bounds"
+          ],
+          "legacy": true,
+          "tags": [
+            "排序",
+            "前缀和",
+            "二分查找"
+          ],
+          "title": "排序原值，用统一偏移量求所有正数之和",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "3e73a39e2409cb062e4e80b1f8e57a493100dd88c32a3fcd1ebc295728590a1b"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-B3799"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-arrays",
+            "lecture:foundation-vector",
+            "lecture:foundation-functions",
+            "lecture:foundation-integer",
+            "lecture:foundation-sort",
+            "lecture:foundation-iterators",
+            "lecture:foundation-greedy",
+            "lecture:foundation-coordinates"
+          ],
+          "legacy": true,
+          "tags": [
+            "排序",
+            "贪心"
+          ],
+          "title": "按左端点排序并合并相交区间",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "c3b1cc7cffc50af252f2b4eb667eb31401466d2b5b142dc3877245e3f00888b7"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P1496"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-arrays",
+            "lecture:foundation-vector",
+            "lecture:foundation-functions",
+            "lecture:foundation-integer",
+            "lecture:foundation-prefix",
+            "lecture:foundation-modular"
+          ],
+          "legacy": true,
+          "tags": [
+            "前缀和",
+            "取模与同余"
+          ],
+          "title": "每个模七前缀保存最早位置",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "f368e03de6116aff42c82085e6d16bbed48e4f391c2ed69b7511acbe7f2f7a01"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P3131"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-arrays",
+            "lecture:foundation-vector",
+            "lecture:foundation-functions",
+            "lecture:foundation-integer",
+            "lecture:foundation-greedy",
+            "lecture:foundation-permutations"
+          ],
+          "legacy": true,
+          "tags": [
+            "连续段",
+            "贪心"
+          ],
+          "title": "在前缀最大值等于位置处切分排列",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "2f059b8e1ff12f910c0e0845ecaf0a90d4da3cbfcf4c98846ad175586e62f98d"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P7714"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-arrays",
+            "lecture:foundation-vector",
+            "lecture:foundation-functions",
+            "lecture:foundation-integer",
+            "lecture:foundation-prefix",
+            "lecture:foundation-greedy",
+            "lecture:foundation-basic-arithmetic"
+          ],
+          "legacy": true,
+          "tags": [
+            "贪心",
+            "前缀和"
+          ],
+          "title": "按累计路程的整数升需求分配最低价格",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "fcb99756d7bcf48b1aa08a4f502875fdd363df520b0e442137813effd77c61bd"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P9749"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-arrays",
+            "lecture:foundation-vector",
+            "lecture:foundation-functions",
+            "lecture:foundation-integer",
+            "lecture:foundation-difference",
+            "lecture:foundation-greedy",
+            "lecture:foundation-coordinates"
+          ],
+          "legacy": true,
+          "tags": [
+            "差分",
+            "贪心"
+          ],
+          "title": "差分统计调整次数，再比较可达区间",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "a85b3077fe7f572b538a7b403de52f7c6acd1e51a4366bbd2958da632b368f26"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P14028"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-arrays",
+            "lecture:foundation-vector",
+            "lecture:foundation-functions",
+            "lecture:foundation-integer",
+            "lecture:foundation-enumeration"
+          ],
+          "legacy": true,
+          "tags": [
+            "枚举"
+          ],
+          "title": "枚举左端点并逐项扩展乘积",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "ab8c672c19b58ab10de0e180ec1c16caf162107cfa4733e6ab2c3cc42037abd2"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-UVA11059"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-arrays",
+            "lecture:foundation-vector",
+            "lecture:foundation-functions",
+            "lecture:foundation-integer",
+            "lecture:foundation-enumeration",
+            "lecture:foundation-dp",
+            "lecture:foundation-prefix"
+          ],
+          "legacy": true,
+          "tags": [
+            "枚举",
+            "线性 DP"
+          ],
+          "title": "枚举上下边界，压成非空最大子段和",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "c3244ec640a0ff8afede7775ec40ea746dcb73f8d682a3f2d41b7b0f56e9827d"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P1719"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-arrays",
+            "lecture:foundation-vector",
+            "lecture:foundation-functions",
+            "lecture:foundation-integer",
+            "lecture:foundation-difference",
+            "lecture:foundation-sets"
+          ],
+          "legacy": true,
+          "tags": [
+            "差分"
+          ],
+          "title": "可见区间去重后给内部位置统一减一",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "d3eedf35866562086279dda81759200f315f2dc47c806790a11bc2ba80b830f5"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P2879"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-arrays",
+            "lecture:foundation-vector",
+            "lecture:foundation-functions",
+            "lecture:foundation-integer",
+            "lecture:foundation-difference",
+            "lecture:foundation-prefix",
+            "lecture:foundation-modular"
+          ],
+          "legacy": true,
+          "tags": [
+            "差分",
+            "前缀和"
+          ],
+          "title": "差分承接修改，少量在线询问扫描，末尾询问用前缀计数",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "3568a24cb237dbf1476e8f54bad77c40f2749939b59d5335a546d1903a5ff06d"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P3948"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-arrays",
+            "lecture:foundation-vector",
+            "lecture:foundation-functions",
+            "lecture:foundation-integer",
+            "lecture:foundation-rectangle-difference"
+          ],
+          "legacy": true,
+          "tags": [
+            "差分",
+            "前缀和"
+          ],
+          "title": "二维差分还原每个单位方格的涂层数",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "7fe0f4eac8e6545a4f3847ce3c0ab181fc6caf3c38654961585c194b58f59cab"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P5542"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-arrays",
+            "lecture:foundation-vector",
+            "lecture:foundation-functions",
+            "lecture:foundation-integer",
+            "lecture:foundation-prefix",
+            "lecture:foundation-bitwise",
+            "lecture:foundation-counting"
+          ],
+          "legacy": true,
+          "tags": [
+            "前缀和",
+            "位运算"
+          ],
+          "title": "零异或翻转只重排前缀异或值，答案不变",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "8a53b1d499f513639a5c506c338b5e1608774e2fde16ac8f164efa25049e0d53"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P9533"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-arrays",
+            "lecture:foundation-vector",
+            "lecture:foundation-functions",
+            "lecture:foundation-integer",
+            "lecture:foundation-enumeration",
+            "lecture:foundation-two-pointers"
+          ],
+          "legacy": true,
+          "tags": [
+            "枚举",
+            "双指针"
+          ],
+          "title": "枚举行带，再用非负列计数做滑窗",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "6ac65d512f373477259de8b8743dacc4de3082287a0845d4be512edd68daeed6"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P10719"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-arrays",
+            "lecture:foundation-vector",
+            "lecture:foundation-functions",
+            "lecture:foundation-integer",
+            "lecture:foundation-dp",
+            "lecture:foundation-counting",
+            "lecture:foundation-modular"
+          ],
+          "legacy": true,
+          "tags": [
+            "线性 DP",
+            "组合计数"
+          ],
+          "title": "分别累计划分数量、旧贡献及候选末块乘积",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "5d59d566d5505ee347fb1bbbac6a2d27830f1bf6b8c5a270795b902616f43acc"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P12674"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-arrays",
+            "lecture:foundation-vector",
+            "lecture:foundation-functions",
+            "lecture:foundation-integer",
+            "lecture:foundation-rectangle-difference",
+            "lecture:foundation-bitwise"
+          ],
+          "legacy": true,
+          "tags": [
+            "差分",
+            "前缀和",
+            "位运算"
+          ],
+          "title": "二维差分还原覆盖数后逐格异或累加",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "556f905db9b229524e6bca3581b77e6f150c52a65c064b35aaa5cd4e0199b766"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P13787"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-arrays",
+            "lecture:foundation-vector",
+            "lecture:foundation-functions",
+            "lecture:foundation-integer",
+            "lecture:foundation-prefix",
+            "lecture:foundation-games"
+          ],
+          "legacy": true,
+          "tags": [
+            "博弈论",
+            "前缀和"
+          ],
+          "title": "兵力优势可撤退保全，劣势方只剩立即攻占",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "9b20cf05411b7fdb81dfce12c8181544a293e7640f56d715ff755518cf94ed93"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P14520"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-arrays",
+            "lecture:foundation-vector",
+            "lecture:foundation-functions",
+            "lecture:foundation-integer",
+            "lecture:foundation-number-theory",
+            "lecture:foundation-prime-sieve",
+            "lecture:foundation-enumeration"
+          ],
+          "legacy": true,
+          "tags": [
+            "素数",
+            "枚举"
+          ],
+          "title": "筛出素数后预统计全部连续素数段",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "e67df00f8ff3e9b3f70e58ac5b848cacbfb44ac13fbe1203537562c53f09a9ab"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-UVA1210"
   }
 ]
