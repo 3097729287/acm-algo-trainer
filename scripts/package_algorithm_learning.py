@@ -47,12 +47,16 @@ def snapshot(app,target):
     for path in state_files(app):
         relative=path.relative_to(app);backup_db(path,target/relative);paths.append(relative.as_posix())
     return paths
-def table_digests(path):
+def table_digests(path,exclude_catalog_cache=False):
     result={}
     with closing(sqlite3.connect(path.as_uri()+'?mode=ro',uri=True)) as db:
         for (name,) in db.execute("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"):
             quoted='"'+name.replace('"','""')+'"'
-            rows=sorted(repr(tuple(row)) for row in db.execute('SELECT * FROM '+quoted))
+            query='SELECT * FROM '+quoted
+            if exclude_catalog_cache and name=='documents':
+                cursor=db.execute(query+' WHERE key<>?',('tb-catalog-cache.json',))
+            else:cursor=db.execute(query)
+            rows=sorted(repr(tuple(row)) for row in cursor)
             result[name]=dict(rows=len(rows),sha256=hashlib.sha256('\n'.join(rows).encode()).hexdigest())
     return result
 def ps(script):
@@ -116,7 +120,7 @@ def validate(stage):
                     # The real runtime's state override has a flat active state.
                     if db.parent!=original/'state':continue
                     backup_db(db,state/db.name)
-                    if 'library' not in db.name:before[db.name]=table_digests(state/db.name)
+                    if 'library' not in db.name:before[db.name]=table_digests(state/db.name,db.name=='tb-documents.sqlite3')
             output=folder/'probe.json'
             env=dict(os.environ,TB_STATE_DIR=str(state),TB_OFFLINE='1',TB_BACKUP_DIR=str(folder/'backups'),TB_PACKAGE_PORT='0')
             with (folder/'stdout.log').open('wb') as out,(folder/'stderr.log').open('wb') as err:
@@ -131,8 +135,8 @@ def validate(stage):
                     basis=next(x for x in catalog if x['id']=='builtin:linear-basis');assert 'kth' in basis['code'] and basis['explanation']
                     with OPENER.open(base+'/',timeout=20) as response:html=response.read().decode()
                     assert 'assets/index-' in html
-                    for name,expected in before.items():assert table_digests(state/name)==expected,(edition,mode,name)
-                    reports.append(dict(edition=edition,mode=mode,ok=True,templates=28,publicSeedUnchanged=sha(app/'data/library.sqlite3')==package['baseline'][edition]['seed'],personalTablesUnchanged=True,baseUrl=base,publicLibrary=result['library']))
+                    for name,expected in before.items():assert table_digests(state/name,name=='tb-documents.sqlite3')==expected,(edition,mode,name)
+                    reports.append(dict(edition=edition,mode=mode,ok=True,templates=28,publicSeedUnchanged=sha(app/'data/library.sqlite3')==package['baseline'][edition]['seed'],personalTablesUnchanged=True,derivedCatalogCacheMayRefresh=True,baseUrl=base,publicLibrary=result['library']))
                 finally:
                     output.with_suffix('.stop').write_text('stop',encoding='ascii')
                     try:process.wait(timeout=30)
