@@ -22,7 +22,10 @@ import public_platforms as P
 
 from version import VERSION
 LOG=logging.getLogger('tb.integrations')
-HOSTS={'codeforces.com','atcoder.jp','ac.nowcoder.com','www.luogu.com.cn','api.github.com','github.com','kenkoooo.com','qoj.ac'}
+HOSTS={'codeforces.com','atcoder.jp','ac.nowcoder.com','www.luogu.com.cn','luogu.com.cn','api.github.com','github.com','kenkoooo.com','qoj.ac',
+       'img.atcoder.jp','cdn.luogu.com.cn','ipic.luogu.com.cn','luogu.oss-cn-hangzhou.aliyuncs.com',
+       'espresso.codeforces.com','uploadfiles.nowcoder.com','uploadfiles.nowcoder.net','main.edu.pl',
+       'szkopul.edu.pl','onlinejudge.org','www2.ioi-jp.org'}
 KNOWN_REPO='3097729287/acm-algo-trainer'
 DEFAULTS={'githubRepo':KNOWN_REPO,'autoSync':True,'intervalHours':6,'minDifficulty':0,'maxDifficulty':10000,'includePrereleases':True,'accounts':{p:'' for p in P.LABELS}}
 
@@ -144,7 +147,7 @@ class PublicClient:
             try:
                 if self.transport:body,etag=self.transport(url,request_headers)
                 else:
-                    with self.opener.open(Request(url,headers=request_headers,method='GET'),timeout=8) as response:
+                    with self.opener.open(Request(quote(url,safe=":/?#[]@!$&'()*+,;=%"),headers=request_headers,method='GET'),timeout=8) as response:
                         safe_url(response.url);body=response.read(32*1024*1024+1);etag=response.headers.get('ETag')
                 if len(body)>32*1024*1024:raise ValueError('公开响应超过大小限制')
                 text=base64.b64encode(body).decode('ascii') if binary else body.decode('utf-8','replace')

@@ -1,0 +1,807 @@
+{
+  "addedProblems": 11,
+  "checkedAt": "2026-10-30T06:54:21.038676+00:00",
+  "letterMappingVerified": false,
+  "notes": "原站未公开逐题比赛字母；使用实际全局题号，不猜映射。",
+  "problems": [
+    {
+      "canonicalId": "xcpc-qoj::14681",
+      "categoryLabel": " The 2025 ICPC Asia Xi'an Regional ContestA B C D E F G H I J K L M 13",
+      "categoryUrl": "https://qoj.ac/category/576",
+      "contestId": "2562",
+      "disposition": "added-complete-native-problem",
+      "id": "14681",
+      "letter": null,
+      "nativeMemberships": [
+        [
+          "/contest/2562",
+          "The 4th Universal Cup. Extra Stage 1: Xi'an (Unrated)"
+        ],
+        [
+          "/contest/3167",
+          "Cfz's Forgotten Hill"
+        ]
+      ],
+      "nativeRosterUrl": "https://qoj.ac/problems?search=Xi%27an",
+      "pages": 2,
+      "pdfHeader": "Azalea Garden\nInput file: standard input\nOutput file: standard output\nTime limit: 6 seconds\nMemory limit: 512 megabytes",
+      "pdfSha256": "43a985e8401c27d1f263f2f6547d571cd7b0d9df748e868ad352e0bf7adeac5d",
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=14681",
+      "rosterLabel": "#14681Azalea GardenXi'an Regional 2025",
+      "sampleSha256": "710197a592baf575aa532a179cd4daaede0e34754ae8f2e724fe252cc61a23d1",
+      "samplesExtracted": 1,
+      "sourceTextSha256": "cbc99a283831d8e41e9e3c64e231ae13f4edd80d4355dadff16dd2ce8cfe8830",
+      "sources": [
+        {
+          "cached": true,
+          "file": "by-sha/b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa.bin",
+          "sha256": "b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa",
+          "url": "https://qoj.ac/problems?search=Xi%27an"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207.bin",
+          "sha256": "f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207",
+          "url": "https://qoj.ac/category/576"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/f720fb2cce16cab7379ef20eee9ad64e5fb1975bfd11baa12ee90abfbf6eda1b.bin",
+          "sha256": "f720fb2cce16cab7379ef20eee9ad64e5fb1975bfd11baa12ee90abfbf6eda1b",
+          "url": "https://qoj.ac/problem/14681"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/43a985e8401c27d1f263f2f6547d571cd7b0d9df748e868ad352e0bf7adeac5d.bin",
+          "sha256": "43a985e8401c27d1f263f2f6547d571cd7b0d9df748e868ad352e0bf7adeac5d",
+          "url": "https://qoj.ac/download.php?type=statement&id=14681"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/f720fb2cce16cab7379ef20eee9ad64e5fb1975bfd11baa12ee90abfbf6eda1b.bin",
+          "sha256": "f720fb2cce16cab7379ef20eee9ad64e5fb1975bfd11baa12ee90abfbf6eda1b",
+          "url": "https://qoj.ac/problem/14681"
+        }
+      ],
+      "title": "Azalea Garden",
+      "url": "https://qoj.ac/problem/14681"
+    },
+    {
+      "canonicalId": "xcpc-qoj::14682",
+      "categoryLabel": " The 2025 ICPC Asia Xi'an Regional ContestA B C D E F G H I J K L M 13",
+      "categoryUrl": "https://qoj.ac/category/576",
+      "contestId": "2562",
+      "disposition": "added-complete-native-problem",
+      "id": "14682",
+      "letter": null,
+      "nativeMemberships": [
+        [
+          "/contest/2562",
+          "The 4th Universal Cup. Extra Stage 1: Xi'an (Unrated)"
+        ],
+        [
+          "/contest/3167",
+          "Cfz's Forgotten Hill"
+        ]
+      ],
+      "nativeRosterUrl": "https://qoj.ac/problems?search=Xi%27an",
+      "pages": 2,
+      "pdfHeader": "Beautiful Dangos\nInput file: standard input\nOutput file: standard output\nTime limit: 1 second\nMemory limit: 512 megabytes",
+      "pdfSha256": "4443a381d348909eb544875a71965eb277f59d23fee68622d4be4e66df56ec06",
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=14682",
+      "rosterLabel": "#14682Beautiful DangosXi'an Regional 2025",
+      "sampleSha256": "1563c4aaded2fd2025e9ad1bdf16b89dc02c3a7bae6a705bbcbad4b3f4bc8118",
+      "samplesExtracted": 1,
+      "sourceTextSha256": "045ad1411f7ec355b3c89cc3ecb6c26b260e5e6b38cc60d5f8d1073b92d4757d",
+      "sources": [
+        {
+          "cached": true,
+          "file": "by-sha/b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa.bin",
+          "sha256": "b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa",
+          "url": "https://qoj.ac/problems?search=Xi%27an"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207.bin",
+          "sha256": "f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207",
+          "url": "https://qoj.ac/category/576"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/5005919de3ee6594a05b15c19e15c50dcdd71b56db056324571d1eab10e14385.bin",
+          "sha256": "5005919de3ee6594a05b15c19e15c50dcdd71b56db056324571d1eab10e14385",
+          "url": "https://qoj.ac/problem/14682"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/4443a381d348909eb544875a71965eb277f59d23fee68622d4be4e66df56ec06.bin",
+          "sha256": "4443a381d348909eb544875a71965eb277f59d23fee68622d4be4e66df56ec06",
+          "url": "https://qoj.ac/download.php?type=statement&id=14682"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/5005919de3ee6594a05b15c19e15c50dcdd71b56db056324571d1eab10e14385.bin",
+          "sha256": "5005919de3ee6594a05b15c19e15c50dcdd71b56db056324571d1eab10e14385",
+          "url": "https://qoj.ac/problem/14682"
+        }
+      ],
+      "title": "Beautiful Dangos",
+      "url": "https://qoj.ac/problem/14682"
+    },
+    {
+      "canonicalId": "xcpc-qoj::14683",
+      "categoryLabel": " The 2025 ICPC Asia Xi'an Regional ContestA B C D E F G H I J K L M 13",
+      "categoryUrl": "https://qoj.ac/category/576",
+      "contestId": "2562",
+      "disposition": "added-complete-native-problem",
+      "id": "14683",
+      "letter": null,
+      "nativeMemberships": [
+        [
+          "/contest/2562",
+          "The 4th Universal Cup. Extra Stage 1: Xi'an (Unrated)"
+        ]
+      ],
+      "nativeRosterUrl": "https://qoj.ac/problems?search=Xi%27an",
+      "pages": 2,
+      "pdfHeader": "Catch the Monster\nInput file: standard input\nOutput file: standard output\nTime limit: 5 seconds\nMemory limit: 512 megabytes",
+      "pdfSha256": "6f5a8309557ae136f915d05d66e356254639a493546c5e20d20ac3bbb2a087b6",
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=14683",
+      "rosterLabel": "#14683Catch the MonsterXi'an Regional 2025",
+      "sampleSha256": "6fab22833d6c55c337a3fa989713bd063e9aad0821cc91a02af8ffdaaf407ad0",
+      "samplesExtracted": 2,
+      "sourceTextSha256": "23c42ae58ae47e1acb85f76bdd9834e666bb6e03dbf5f410e55189f68563cade",
+      "sources": [
+        {
+          "cached": true,
+          "file": "by-sha/b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa.bin",
+          "sha256": "b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa",
+          "url": "https://qoj.ac/problems?search=Xi%27an"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207.bin",
+          "sha256": "f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207",
+          "url": "https://qoj.ac/category/576"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/4a262a53b5030e63ad4805fd3a1e6798292f37e8b91237aab142be7d4f821ec0.bin",
+          "sha256": "4a262a53b5030e63ad4805fd3a1e6798292f37e8b91237aab142be7d4f821ec0",
+          "url": "https://qoj.ac/problem/14683"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/6f5a8309557ae136f915d05d66e356254639a493546c5e20d20ac3bbb2a087b6.bin",
+          "sha256": "6f5a8309557ae136f915d05d66e356254639a493546c5e20d20ac3bbb2a087b6",
+          "url": "https://qoj.ac/download.php?type=statement&id=14683"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/4a262a53b5030e63ad4805fd3a1e6798292f37e8b91237aab142be7d4f821ec0.bin",
+          "sha256": "4a262a53b5030e63ad4805fd3a1e6798292f37e8b91237aab142be7d4f821ec0",
+          "url": "https://qoj.ac/problem/14683"
+        }
+      ],
+      "title": "Catch the Monster",
+      "url": "https://qoj.ac/problem/14683"
+    },
+    {
+      "canonicalId": "luogu-training-P14450",
+      "categoryLabel": " The 2025 ICPC Asia Xi'an Regional ContestA B C D E F G H I J K L M 13",
+      "categoryUrl": "https://qoj.ac/category/576",
+      "contestId": "2562",
+      "disposition": "reused-existing-mirror",
+      "id": "14684",
+      "identityReview": {
+        "constraintsVerified": [
+          "n=5,m=6,k=6; n=100,m=128,k=16000"
+        ],
+        "method": "full-specification-io-constraints-all-samples-and-notes",
+        "otherStatementSha256": "823ff5c377d8d2cb8d3eafc03e2d5450e504b13475dd7ee2f8ad9663139d5bc8",
+        "otherUrl": "https://www.luogu.com.cn/problem/P14450"
+      },
+      "letter": null,
+      "nativeMemberships": [
+        [
+          "/contest/2562",
+          "The 4th Universal Cup. Extra Stage 1: Xi'an (Unrated)"
+        ]
+      ],
+      "nativeRosterUrl": "https://qoj.ac/problems?search=Xi%27an",
+      "pages": 2,
+      "pdfHeader": "Directed Acyclic Graph\nInput file: standard input\nOutput file: standard output\nTime limit: 1 second\nMemory limit: 512 megabytes",
+      "pdfSha256": "8e6567e7fc57743b10a1c299aa774eb708852a9ec857b9131bdcc59441cb8bce",
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=14684",
+      "rosterLabel": "#14684Directed Acyclic GraphXi'an Regional 2025",
+      "sampleSha256": "4fc2ef049d149697a55821ac40da2c19d3f139b0b5fff50157da5df7dc703ef6",
+      "samplesExtracted": 1,
+      "sourceTextSha256": "54bf0ad5b1f0e3a724aae3b3b65edfbb9b953f80df43716b274d4e88e1baffce",
+      "sources": [
+        {
+          "cached": true,
+          "file": "by-sha/b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa.bin",
+          "sha256": "b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa",
+          "url": "https://qoj.ac/problems?search=Xi%27an"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207.bin",
+          "sha256": "f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207",
+          "url": "https://qoj.ac/category/576"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/bb8dc82f223e5c96789ec88e4d947def9b68e604022f1d0dfeef1395134db887.bin",
+          "sha256": "bb8dc82f223e5c96789ec88e4d947def9b68e604022f1d0dfeef1395134db887",
+          "url": "https://qoj.ac/problem/14684"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/8e6567e7fc57743b10a1c299aa774eb708852a9ec857b9131bdcc59441cb8bce.bin",
+          "sha256": "8e6567e7fc57743b10a1c299aa774eb708852a9ec857b9131bdcc59441cb8bce",
+          "url": "https://qoj.ac/download.php?type=statement&id=14684"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/bb8dc82f223e5c96789ec88e4d947def9b68e604022f1d0dfeef1395134db887.bin",
+          "sha256": "bb8dc82f223e5c96789ec88e4d947def9b68e604022f1d0dfeef1395134db887",
+          "url": "https://qoj.ac/problem/14684"
+        }
+      ],
+      "title": "Directed Acyclic Graph",
+      "url": "https://qoj.ac/problem/14684"
+    },
+    {
+      "canonicalId": "xcpc-qoj::14685",
+      "categoryLabel": " The 2025 ICPC Asia Xi'an Regional ContestA B C D E F G H I J K L M 13",
+      "categoryUrl": "https://qoj.ac/category/576",
+      "contestId": "2562",
+      "disposition": "added-complete-native-problem",
+      "id": "14685",
+      "letter": null,
+      "nativeMemberships": [
+        [
+          "/contest/2562",
+          "The 4th Universal Cup. Extra Stage 1: Xi'an (Unrated)"
+        ]
+      ],
+      "nativeRosterUrl": "https://qoj.ac/problems?search=Xi%27an",
+      "pages": 2,
+      "pdfHeader": "Epilogue of Happiness\nInput file: standard input\nOutput file: standard output\nTime limit: 7 seconds\nMemory limit: 1024 megabytes",
+      "pdfSha256": "ed1e949f4841b8f8db8b26d37dc3c89daa58b15697cb6e5f5472c089f8844387",
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=14685",
+      "rosterLabel": "#14685Epilogue of HappinessXi'an Regional 2025",
+      "sampleSha256": "0518095376ea91a5506c9cd6c0571d026c5fcf473188a12e3f836931d475047c",
+      "samplesExtracted": 1,
+      "sourceTextSha256": "a67d1403d129a18b78cf28cafe604de414175328e1a043973311040f92ba515a",
+      "sources": [
+        {
+          "cached": true,
+          "file": "by-sha/b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa.bin",
+          "sha256": "b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa",
+          "url": "https://qoj.ac/problems?search=Xi%27an"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207.bin",
+          "sha256": "f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207",
+          "url": "https://qoj.ac/category/576"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/12efc1b3317608c5e1794dbfd7dcf0e2c0c28b52e6c70483f3beac01c34f4502.bin",
+          "sha256": "12efc1b3317608c5e1794dbfd7dcf0e2c0c28b52e6c70483f3beac01c34f4502",
+          "url": "https://qoj.ac/problem/14685"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/ed1e949f4841b8f8db8b26d37dc3c89daa58b15697cb6e5f5472c089f8844387.bin",
+          "sha256": "ed1e949f4841b8f8db8b26d37dc3c89daa58b15697cb6e5f5472c089f8844387",
+          "url": "https://qoj.ac/download.php?type=statement&id=14685"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/12efc1b3317608c5e1794dbfd7dcf0e2c0c28b52e6c70483f3beac01c34f4502.bin",
+          "sha256": "12efc1b3317608c5e1794dbfd7dcf0e2c0c28b52e6c70483f3beac01c34f4502",
+          "url": "https://qoj.ac/problem/14685"
+        }
+      ],
+      "title": "Epilogue of Happiness",
+      "url": "https://qoj.ac/problem/14685"
+    },
+    {
+      "canonicalId": "xcpc-qoj::14686",
+      "categoryLabel": " The 2025 ICPC Asia Xi'an Regional ContestA B C D E F G H I J K L M 13",
+      "categoryUrl": "https://qoj.ac/category/576",
+      "contestId": "2562",
+      "disposition": "added-complete-native-problem",
+      "id": "14686",
+      "letter": null,
+      "nativeMemberships": [
+        [
+          "/contest/2562",
+          "The 4th Universal Cup. Extra Stage 1: Xi'an (Unrated)"
+        ],
+        [
+          "/contest/3167",
+          "Cfz's Forgotten Hill"
+        ]
+      ],
+      "nativeRosterUrl": "https://qoj.ac/problems?search=Xi%27an",
+      "pages": 2,
+      "pdfHeader": "Follow the Penguins\nInput file: standard input\nOutput file: standard output\nTime limit: 3 seconds\nMemory limit: 512 megabytes",
+      "pdfSha256": "c96cded70ed80ce226d965be73be3b27ee87d486b624b7f1aca5832bb6a12ddf",
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=14686",
+      "rosterLabel": "#14686Follow the PenguinsXi'an Regional 2025",
+      "sampleSha256": "76c79292e18218260943cb5d19637eca91be02eafc95116e08881dad5bc5911b",
+      "samplesExtracted": 2,
+      "sourceTextSha256": "673fd5c69496156a7e953f941e82052eec7ecce147b354e264add67143b1b1c3",
+      "sources": [
+        {
+          "cached": true,
+          "file": "by-sha/b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa.bin",
+          "sha256": "b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa",
+          "url": "https://qoj.ac/problems?search=Xi%27an"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207.bin",
+          "sha256": "f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207",
+          "url": "https://qoj.ac/category/576"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/290ae83295c605a244b6711e84e5ffaab1a9e16cd36c29171e7108c017c01c85.bin",
+          "sha256": "290ae83295c605a244b6711e84e5ffaab1a9e16cd36c29171e7108c017c01c85",
+          "url": "https://qoj.ac/problem/14686"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/c96cded70ed80ce226d965be73be3b27ee87d486b624b7f1aca5832bb6a12ddf.bin",
+          "sha256": "c96cded70ed80ce226d965be73be3b27ee87d486b624b7f1aca5832bb6a12ddf",
+          "url": "https://qoj.ac/download.php?type=statement&id=14686"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/290ae83295c605a244b6711e84e5ffaab1a9e16cd36c29171e7108c017c01c85.bin",
+          "sha256": "290ae83295c605a244b6711e84e5ffaab1a9e16cd36c29171e7108c017c01c85",
+          "url": "https://qoj.ac/problem/14686"
+        }
+      ],
+      "title": "Follow the Penguins",
+      "url": "https://qoj.ac/problem/14686"
+    },
+    {
+      "canonicalId": "xcpc-qoj::14687",
+      "categoryLabel": " The 2025 ICPC Asia Xi'an Regional ContestA B C D E F G H I J K L M 13",
+      "categoryUrl": "https://qoj.ac/category/576",
+      "contestId": "2562",
+      "disposition": "added-complete-native-problem",
+      "id": "14687",
+      "letter": null,
+      "nativeMemberships": [
+        [
+          "/contest/2562",
+          "The 4th Universal Cup. Extra Stage 1: Xi'an (Unrated)"
+        ]
+      ],
+      "nativeRosterUrl": "https://qoj.ac/problems?search=Xi%27an",
+      "pages": 1,
+      "pdfHeader": "Grand Voting\nInput file: standard input\nOutput file: standard output\nTime limit: 1 second\nMemory limit: 512 megabytes",
+      "pdfSha256": "798cd3cae14b646f440fb13743945cf33febe17bd5a6d8be0cf3962e16faca6c",
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=14687",
+      "rosterLabel": "#14687Grand VotingXi'an Regional 2025",
+      "sampleSha256": "b9b4f76dcd464008abd268648d4320a34b4917877bdfb42725717a3d0ca676d4",
+      "samplesExtracted": 1,
+      "sourceTextSha256": "5ad9b3abc57b64094dc907163a709bead24ae0b8bdf3659e415f7321989c25f2",
+      "sources": [
+        {
+          "cached": true,
+          "file": "by-sha/b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa.bin",
+          "sha256": "b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa",
+          "url": "https://qoj.ac/problems?search=Xi%27an"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207.bin",
+          "sha256": "f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207",
+          "url": "https://qoj.ac/category/576"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/207f51bf412f898311f27ae04d40d862e3bedece4ebc9a1eb2cab52bcc92f247.bin",
+          "sha256": "207f51bf412f898311f27ae04d40d862e3bedece4ebc9a1eb2cab52bcc92f247",
+          "url": "https://qoj.ac/problem/14687"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/798cd3cae14b646f440fb13743945cf33febe17bd5a6d8be0cf3962e16faca6c.bin",
+          "sha256": "798cd3cae14b646f440fb13743945cf33febe17bd5a6d8be0cf3962e16faca6c",
+          "url": "https://qoj.ac/download.php?type=statement&id=14687"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/207f51bf412f898311f27ae04d40d862e3bedece4ebc9a1eb2cab52bcc92f247.bin",
+          "sha256": "207f51bf412f898311f27ae04d40d862e3bedece4ebc9a1eb2cab52bcc92f247",
+          "url": "https://qoj.ac/problem/14687"
+        }
+      ],
+      "title": "Grand Voting",
+      "url": "https://qoj.ac/problem/14687"
+    },
+    {
+      "canonicalId": "luogu-training-P14454",
+      "categoryLabel": " The 2025 ICPC Asia Xi'an Regional ContestA B C D E F G H I J K L M 13",
+      "categoryUrl": "https://qoj.ac/category/576",
+      "contestId": "2562",
+      "disposition": "reused-existing-mirror",
+      "id": "14688",
+      "identityReview": {
+        "constraintsVerified": [
+          "1<=n<=10^7; 1<=k<=5000; modulo 998244353"
+        ],
+        "method": "full-specification-io-constraints-all-samples-and-notes",
+        "otherStatementSha256": "c8014949ab80c98f28dac742548c3986195819ed3ff5706f64defca15080f8ec",
+        "otherUrl": "https://www.luogu.com.cn/problem/P14454"
+      },
+      "letter": null,
+      "nativeMemberships": [
+        [
+          "/contest/2562",
+          "The 4th Universal Cup. Extra Stage 1: Xi'an (Unrated)"
+        ]
+      ],
+      "nativeRosterUrl": "https://qoj.ac/problems?search=Xi%27an",
+      "pages": 1,
+      "pdfHeader": "Heart of Darkness\nInput file: standard input\nOutput file: standard output\nTime limit: 3 seconds\nMemory limit: 512 megabytes",
+      "pdfSha256": "adb1e72a8552591069ecdad2197cceb8e7a32e26190e284962e7978c0c727fb9",
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=14688",
+      "rosterLabel": "#14688Heart of DarknessXi'an Regional 2025",
+      "sampleSha256": "c04f63390b98bd179f3174546b7dea55b82e5f6f0ba4d9ce0705221ec654e4fd",
+      "samplesExtracted": 4,
+      "sourceTextSha256": "f7a5534d7068bbd86b6719494afdb691f613d839f3c4efb21e4451744e525149",
+      "sources": [
+        {
+          "cached": true,
+          "file": "by-sha/b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa.bin",
+          "sha256": "b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa",
+          "url": "https://qoj.ac/problems?search=Xi%27an"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207.bin",
+          "sha256": "f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207",
+          "url": "https://qoj.ac/category/576"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/836cf4455fceafe522765ed22b8055558e0082ce1387b4107f9b49dcbf1f707c.bin",
+          "sha256": "836cf4455fceafe522765ed22b8055558e0082ce1387b4107f9b49dcbf1f707c",
+          "url": "https://qoj.ac/problem/14688"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/adb1e72a8552591069ecdad2197cceb8e7a32e26190e284962e7978c0c727fb9.bin",
+          "sha256": "adb1e72a8552591069ecdad2197cceb8e7a32e26190e284962e7978c0c727fb9",
+          "url": "https://qoj.ac/download.php?type=statement&id=14688"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/836cf4455fceafe522765ed22b8055558e0082ce1387b4107f9b49dcbf1f707c.bin",
+          "sha256": "836cf4455fceafe522765ed22b8055558e0082ce1387b4107f9b49dcbf1f707c",
+          "url": "https://qoj.ac/problem/14688"
+        }
+      ],
+      "title": "Heart of Darkness",
+      "url": "https://qoj.ac/problem/14688"
+    },
+    {
+      "canonicalId": "xcpc-qoj::14689",
+      "categoryLabel": " The 2025 ICPC Asia Xi'an Regional ContestA B C D E F G H I J K L M 13",
+      "categoryUrl": "https://qoj.ac/category/576",
+      "contestId": "2562",
+      "disposition": "added-complete-native-problem",
+      "id": "14689",
+      "letter": null,
+      "nativeMemberships": [
+        [
+          "/contest/2562",
+          "The 4th Universal Cup. Extra Stage 1: Xi'an (Unrated)"
+        ],
+        [
+          "/contest/3167",
+          "Cfz's Forgotten Hill"
+        ]
+      ],
+      "nativeRosterUrl": "https://qoj.ac/problems?search=Xi%27an",
+      "pages": 2,
+      "pdfHeader": "Imagined Holly\nInput file: standard input\nOutput file: standard output\nTime limit: 1 second\nMemory limit: 512 megabytes",
+      "pdfSha256": "f02c1f5c145e16c23a60ebb659e436cf96c485005bf420d04fcb90b4932cd0e7",
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=14689",
+      "rosterLabel": "#14689Imagined HollyXi'an Regional 2025",
+      "sampleSha256": "2c9c08b7cb0cdc4b907814692e430441392a4142a7684864fbb418aa6440fe59",
+      "samplesExtracted": 3,
+      "sourceTextSha256": "aebd8d463a506091e0209190c968274f644a43326e477079f7d5409983471a25",
+      "sources": [
+        {
+          "cached": true,
+          "file": "by-sha/b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa.bin",
+          "sha256": "b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa",
+          "url": "https://qoj.ac/problems?search=Xi%27an"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207.bin",
+          "sha256": "f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207",
+          "url": "https://qoj.ac/category/576"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/5fe48884efc0c7b9b9b66a271b78b6ad0b943f9dbbf67e1a89d90cffa79cd082.bin",
+          "sha256": "5fe48884efc0c7b9b9b66a271b78b6ad0b943f9dbbf67e1a89d90cffa79cd082",
+          "url": "https://qoj.ac/problem/14689"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/f02c1f5c145e16c23a60ebb659e436cf96c485005bf420d04fcb90b4932cd0e7.bin",
+          "sha256": "f02c1f5c145e16c23a60ebb659e436cf96c485005bf420d04fcb90b4932cd0e7",
+          "url": "https://qoj.ac/download.php?type=statement&id=14689"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/5fe48884efc0c7b9b9b66a271b78b6ad0b943f9dbbf67e1a89d90cffa79cd082.bin",
+          "sha256": "5fe48884efc0c7b9b9b66a271b78b6ad0b943f9dbbf67e1a89d90cffa79cd082",
+          "url": "https://qoj.ac/problem/14689"
+        }
+      ],
+      "title": "Imagined Holly",
+      "url": "https://qoj.ac/problem/14689"
+    },
+    {
+      "canonicalId": "xcpc-qoj::14690",
+      "categoryLabel": " The 2025 ICPC Asia Xi'an Regional ContestA B C D E F G H I J K L M 13",
+      "categoryUrl": "https://qoj.ac/category/576",
+      "contestId": "2562",
+      "disposition": "added-complete-native-problem",
+      "id": "14690",
+      "letter": null,
+      "nativeMemberships": [
+        [
+          "/contest/2562",
+          "The 4th Universal Cup. Extra Stage 1: Xi'an (Unrated)"
+        ]
+      ],
+      "nativeRosterUrl": "https://qoj.ac/problems?search=Xi%27an",
+      "pages": 2,
+      "pdfHeader": "January’s Color\nInput file: standard input\nOutput file: standard output\nTime limit: 2 seconds\nMemory limit: 512 megabytes",
+      "pdfSha256": "613e0023de811dfcfbcdefe8c9fe21b28eb0d2354b53b765060abbd98a67cc62",
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=14690",
+      "rosterLabel": "#14690January's ColorXi'an Regional 2025",
+      "sampleSha256": "7f2d650e5f4670acd6e2f3552fb420118d29e99857133db6afc57f4178692c8f",
+      "samplesExtracted": 1,
+      "sourceTextSha256": "3a4d99abe2762895929be9c802c855fc58440e24cfa25412ea5c1eb07cf67ee5",
+      "sources": [
+        {
+          "cached": true,
+          "file": "by-sha/b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa.bin",
+          "sha256": "b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa",
+          "url": "https://qoj.ac/problems?search=Xi%27an"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207.bin",
+          "sha256": "f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207",
+          "url": "https://qoj.ac/category/576"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/16398a56f7e0d4a4b346b887a13b97fa07641a545c64d5c9d0a0c976e5a1b7c0.bin",
+          "sha256": "16398a56f7e0d4a4b346b887a13b97fa07641a545c64d5c9d0a0c976e5a1b7c0",
+          "url": "https://qoj.ac/problem/14690"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/613e0023de811dfcfbcdefe8c9fe21b28eb0d2354b53b765060abbd98a67cc62.bin",
+          "sha256": "613e0023de811dfcfbcdefe8c9fe21b28eb0d2354b53b765060abbd98a67cc62",
+          "url": "https://qoj.ac/download.php?type=statement&id=14690"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/16398a56f7e0d4a4b346b887a13b97fa07641a545c64d5c9d0a0c976e5a1b7c0.bin",
+          "sha256": "16398a56f7e0d4a4b346b887a13b97fa07641a545c64d5c9d0a0c976e5a1b7c0",
+          "url": "https://qoj.ac/problem/14690"
+        }
+      ],
+      "title": "January's Color",
+      "url": "https://qoj.ac/problem/14690"
+    },
+    {
+      "canonicalId": "xcpc-qoj::14691",
+      "categoryLabel": " The 2025 ICPC Asia Xi'an Regional ContestA B C D E F G H I J K L M 13",
+      "categoryUrl": "https://qoj.ac/category/576",
+      "contestId": "2562",
+      "disposition": "added-complete-native-problem",
+      "id": "14691",
+      "letter": null,
+      "nativeMemberships": [
+        [
+          "/contest/2562",
+          "The 4th Universal Cup. Extra Stage 1: Xi'an (Unrated)"
+        ]
+      ],
+      "nativeRosterUrl": "https://qoj.ac/problems?search=Xi%27an",
+      "pages": 2,
+      "pdfHeader": "Killing Bits\nInput file: standard input\nOutput file: standard output\nTime limit: 4 seconds\nMemory limit: 512 megabytes",
+      "pdfSha256": "41143315b72fa7721b03bc30d31d1e038f45faf4e9dede5a5632f143eafa39a9",
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=14691",
+      "rosterLabel": "#14691Killing BitsXi'an Regional 2025",
+      "sampleSha256": "233b612d35d7c8e8971b85d9405c3a09a6f8de8acf5b73d60304834b518f3e42",
+      "samplesExtracted": 1,
+      "sourceTextSha256": "a1a8577158a232b267a64c6776035fab1f2c98f67571e362d1030f79662c72f3",
+      "sources": [
+        {
+          "cached": true,
+          "file": "by-sha/b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa.bin",
+          "sha256": "b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa",
+          "url": "https://qoj.ac/problems?search=Xi%27an"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207.bin",
+          "sha256": "f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207",
+          "url": "https://qoj.ac/category/576"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/b9e479e335053973bf8ad73306bce4e3bad0a60df6270cd94d619136cb32d5be.bin",
+          "sha256": "b9e479e335053973bf8ad73306bce4e3bad0a60df6270cd94d619136cb32d5be",
+          "url": "https://qoj.ac/problem/14691"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/41143315b72fa7721b03bc30d31d1e038f45faf4e9dede5a5632f143eafa39a9.bin",
+          "sha256": "41143315b72fa7721b03bc30d31d1e038f45faf4e9dede5a5632f143eafa39a9",
+          "url": "https://qoj.ac/download.php?type=statement&id=14691"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/b9e479e335053973bf8ad73306bce4e3bad0a60df6270cd94d619136cb32d5be.bin",
+          "sha256": "b9e479e335053973bf8ad73306bce4e3bad0a60df6270cd94d619136cb32d5be",
+          "url": "https://qoj.ac/problem/14691"
+        }
+      ],
+      "title": "Killing Bits",
+      "url": "https://qoj.ac/problem/14691"
+    },
+    {
+      "canonicalId": "xcpc-qoj::14692",
+      "categoryLabel": " The 2025 ICPC Asia Xi'an Regional ContestA B C D E F G H I J K L M 13",
+      "categoryUrl": "https://qoj.ac/category/576",
+      "contestId": "2562",
+      "disposition": "added-complete-native-problem",
+      "id": "14692",
+      "letter": null,
+      "nativeMemberships": [
+        [
+          "/contest/2562",
+          "The 4th Universal Cup. Extra Stage 1: Xi'an (Unrated)"
+        ],
+        [
+          "/contest/3167",
+          "Cfz's Forgotten Hill"
+        ]
+      ],
+      "nativeRosterUrl": "https://qoj.ac/problems?search=Xi%27an",
+      "pages": 2,
+      "pdfHeader": "Let’s Make a Convex!\nInput file: standard input\nOutput file: standard output\nTime limit: 1 second\nMemory limit: 512 megabytes",
+      "pdfSha256": "30a42716001bf111683bb311511874467deb91972074f85b2aeff928c97f8f2f",
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=14692",
+      "rosterLabel": "#14692Let's Make a Convex!Xi'an Regional 2025",
+      "sampleSha256": "86090dd48bc99eaba8fcd57f98773a889fe0954afafb55b67ad828ef496f42f9",
+      "samplesExtracted": 1,
+      "sourceTextSha256": "549d01bf91eeb3fa479c89ef8f16c18bd8722a32e4d3e0de851b36cea684fb86",
+      "sources": [
+        {
+          "cached": true,
+          "file": "by-sha/b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa.bin",
+          "sha256": "b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa",
+          "url": "https://qoj.ac/problems?search=Xi%27an"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207.bin",
+          "sha256": "f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207",
+          "url": "https://qoj.ac/category/576"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/5ed1b07ef516a08fdb52ba89c86ac2fe30fa01c9af96c4991e471a844831ac1e.bin",
+          "sha256": "5ed1b07ef516a08fdb52ba89c86ac2fe30fa01c9af96c4991e471a844831ac1e",
+          "url": "https://qoj.ac/problem/14692"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/30a42716001bf111683bb311511874467deb91972074f85b2aeff928c97f8f2f.bin",
+          "sha256": "30a42716001bf111683bb311511874467deb91972074f85b2aeff928c97f8f2f",
+          "url": "https://qoj.ac/download.php?type=statement&id=14692"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/5ed1b07ef516a08fdb52ba89c86ac2fe30fa01c9af96c4991e471a844831ac1e.bin",
+          "sha256": "5ed1b07ef516a08fdb52ba89c86ac2fe30fa01c9af96c4991e471a844831ac1e",
+          "url": "https://qoj.ac/problem/14692"
+        }
+      ],
+      "title": "Let's Make a Convex!",
+      "url": "https://qoj.ac/problem/14692"
+    },
+    {
+      "canonicalId": "xcpc-qoj::14693",
+      "categoryLabel": " The 2025 ICPC Asia Xi'an Regional ContestA B C D E F G H I J K L M 13",
+      "categoryUrl": "https://qoj.ac/category/576",
+      "contestId": "2562",
+      "disposition": "added-complete-native-problem",
+      "id": "14693",
+      "letter": null,
+      "nativeMemberships": [
+        [
+          "/contest/2562",
+          "The 4th Universal Cup. Extra Stage 1: Xi'an (Unrated)"
+        ]
+      ],
+      "nativeRosterUrl": "https://qoj.ac/problems?search=Xi%27an",
+      "pages": 1,
+      "pdfHeader": "Mystique as Iris\nInput file: standard input\nOutput file: standard output\nTime limit: 1 second\nMemory limit: 512 megabytes",
+      "pdfSha256": "9b59efd99fb096d13bb5dc9f72e125523c053656d1b2fbef6f5e0ee8b5867688",
+      "pdfUrl": "https://qoj.ac/download.php?type=statement&id=14693",
+      "rosterLabel": "#14693Mystique as IrisXi'an Regional 2025",
+      "sampleSha256": "1e82b7bedef8b6113535696dedaf6bf729cfde9535fd71af85a834862bcf7666",
+      "samplesExtracted": 2,
+      "sourceTextSha256": "bbff3d953e2a1eb5e49668d01e12cfe41e610668eacf669b5fd822b7c5ef1c06",
+      "sources": [
+        {
+          "cached": true,
+          "file": "by-sha/b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa.bin",
+          "sha256": "b83957290aa8d1a927f987ebd9a997356b5c48c9fde9f095ec1825d071a642fa",
+          "url": "https://qoj.ac/problems?search=Xi%27an"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207.bin",
+          "sha256": "f5138000ca5f1e708671e5f5f5c701d805bbb077ecf8664c8683ff6d02c4e207",
+          "url": "https://qoj.ac/category/576"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/b5e8a7b6cb78b399a2d8bd3dccbed8094f551314e8648e6126a5aeee281cdc77.bin",
+          "sha256": "b5e8a7b6cb78b399a2d8bd3dccbed8094f551314e8648e6126a5aeee281cdc77",
+          "url": "https://qoj.ac/problem/14693"
+        },
+        {
+          "bytes": 155311,
+          "file": "by-sha/9b59efd99fb096d13bb5dc9f72e125523c053656d1b2fbef6f5e0ee8b5867688.bin",
+          "finalUrl": "https://qoj.ac/download.php?type=statement&id=14693",
+          "method": "GET",
+          "mime": "application/pdf",
+          "route": "anonymous-direct",
+          "sha256": "9b59efd99fb096d13bb5dc9f72e125523c053656d1b2fbef6f5e0ee8b5867688",
+          "status": 200,
+          "time": "2026-10-30T06:50:06.526299+00:00",
+          "url": "https://qoj.ac/download.php?type=statement&id=14693"
+        },
+        {
+          "cached": true,
+          "file": "by-sha/b5e8a7b6cb78b399a2d8bd3dccbed8094f551314e8648e6126a5aeee281cdc77.bin",
+          "sha256": "b5e8a7b6cb78b399a2d8bd3dccbed8094f551314e8648e6126a5aeee281cdc77",
+          "url": "https://qoj.ac/problem/14693"
+        }
+      ],
+      "title": "Mystique as Iris",
+      "url": "https://qoj.ac/problem/14693"
+    }
+  ],
+  "replayEnabled": false,
+  "reusedProblems": 2,
+  "verifiedNativeProblems": 13
+}

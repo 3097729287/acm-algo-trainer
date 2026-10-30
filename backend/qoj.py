@@ -38,13 +38,16 @@ def html_samples(article):
             elif re.search(r'sample\s*output|output\s*(?:sample|example)?\s*\d*$|输出样例|样例输出|输出格式\s*\d+\s*$',text,re.I):pending='output'
         elif node.tag=='pre':
             text=plain(node).replace('\r\n','\n').strip('\n')
-            if pending=='input':sample_input=text
+            if pending=='input':
+                if sample_input is not None:raise ValueError('QOJ 样例缺少对应输出')
+                sample_input=text
             elif pending=='output' and sample_input is not None:
                 result.append({'name':'样例 '+str(len(result)+1),'input':sample_input,'output':text});sample_input=None
             pending=None
         else:
             for child in node.children:visit(child)
     visit(article)
+    if sample_input is not None:raise ValueError('QOJ 样例缺少对应输出')
     return result
 
 def _pdf_lines(page):
@@ -101,27 +104,58 @@ def _pdf_samples(textpage,horizontal,vertical):
             samples.append({'name':'样例 '+str(len(samples)+1),'input':inp,'output':out})
     return samples
 
-def pdf_statement(data,pid):
+def _pdf_unbordered_samples(textpage,width):
+    """Explicit numbered sample headings, including vertically stacked examples."""
+    def boxes(word):
+        result=[]
+        with closing(textpage.search(word)) as search:
+            while (found:=search.get_next()) is not None:
+                chars=[textpage.get_charbox(i) for i in range(found[0],sum(found))]
+                result.append((min(c[0] for c in chars),min(c[1] for c in chars),max(c[2] for c in chars),max(c[3] for c in chars)))
+        return sorted(result,key=lambda b:(-b[1],b[0]))
+    inputs,outputs=boxes('Sample Input'),boxes('Sample Output')
+    if not inputs or len(inputs)!=len(outputs):return []
+    headings=inputs+outputs;notes=boxes('Notes')+boxes('Explanation')+boxes('Hint')
+    result=[]
+    def text(left,bottom,right,top):
+        return '\n'.join(line.rstrip(' \t') for line in textpage.get_text_bounded(left,bottom,right,top).replace('\r\n','\n').strip('\n').split('\n'))
+    for inp,out in zip(inputs,outputs):
+        if abs(inp[1]-out[1])<4 and out[0]>inp[2]:
+            bottom=max([35]+[b[3]+1 for b in headings+notes if b[3]<min(inp[1],out[1])-2])
+            a=text(0,bottom,out[0]-3,inp[1]-1);b=text(out[0]-2,bottom,width,out[1]-1)
+        elif out[3]<inp[1] and abs(out[0]-inp[0])<20:
+            bottom=max([35]+[b[3]+1 for b in headings+notes if b[3]<out[1]-2])
+            a=text(0,out[3]+1,width,inp[1]-1);b=text(0,bottom,width,out[1]-1)
+        else:return []
+        if not b or '\ufffd' in a+b or re.search(r'(?m)^(?:In (?:the|this)|For (?:the|this)|Note that|The answer)\b',b):return []
+        result.append({'name':'样例 '+str(len(result)+1),'input':a,'output':b})
+    return result
+
+def pdf_statement(data,pid,*,render_pages=True):
     if not isinstance(data,bytes) or not data.startswith(b'%PDF-') or len(data)>32*1024*1024:raise ValueError('QOJ 未返回有效公开 PDF')
     import pypdfium2 as pdfium
     from pypdf import PdfReader
     reader=PdfReader(io.BytesIO(data))
     if reader.is_encrypted or not 0<len(reader.pages)<=32:raise ValueError('QOJ PDF 页数或加密格式不支持')
-    images={};body=[];samples=[];pixels=0;size=0
+    images={};body=[];samples=[];texts=[];pixels=0;size=0
     with PDF_LOCK,closing(pdfium.PdfDocument(data)) as document:
         for index,page in enumerate(document):
             width,height=page.get_size();pixels+=int(width*height*4)
             if width<=0 or height<=0 or pixels>64_000_000:raise ValueError('QOJ PDF 页面大小超过限制')
             with closing(page.get_textpage()) as textpage:
+                texts.append(textpage.get_text_range())
                 horizontal,vertical=_pdf_lines(reader.pages[index])
-                samples.extend(_pdf_samples(textpage,horizontal,vertical))
-            with closing(page.render(scale=2)) as bitmap:
-                buffer=io.BytesIO();bitmap.to_pil().save(buffer,format='PNG');png=buffer.getvalue();size+=len(png)
-            if size>32*1024*1024:raise ValueError('QOJ PDF 配图超过限制')
-            name=f'qoj-{pid}-{hashlib.sha256(data).hexdigest()[:12]}-page-{index+1}.png';images[name]='data:image/png;base64,'+base64.b64encode(png).decode('ascii')
-            body.append(f'![原题题面第 {index+1} 页]({name})');page.close()
-    return {'markdown':'\n\n'.join(body),'images':images,'samples':samples,'pageCount':len(reader.pages),
-            'statementFormat':'pdf-pages-v1','sourcePdfSha256':hashlib.sha256(data).hexdigest(),
+                extracted=_pdf_samples(textpage,horizontal,vertical)
+                samples.extend(extracted or _pdf_unbordered_samples(textpage,width))
+            if render_pages:
+                with closing(page.render(scale=2)) as bitmap:
+                    buffer=io.BytesIO();bitmap.to_pil().save(buffer,format='PNG');png=buffer.getvalue();size+=len(png)
+                if size>32*1024*1024:raise ValueError('QOJ PDF 配图超过限制')
+                name=f'qoj-{pid}-{hashlib.sha256(data).hexdigest()[:12]}-page-{index+1}.png';images[name]='data:image/png;base64,'+base64.b64encode(png).decode('ascii')
+                body.append(f'![原题题面第 {index+1} 页]({name})')
+            page.close()
+    return {'markdown':'\n\n'.join(body),'images':images,'samples':samples,'pageCount':len(reader.pages),'sourceText':'\n\n'.join(texts),
+            'statementFormat':'pdf-pages-v1' if render_pages else 'pdf-native-v1','sourcePdfSha256':hashlib.sha256(data).hexdigest(),
             'sampleExtraction':'pdf-table-geometry-v1' if samples else 'unavailable'}
 
 def statement(client,identity,title,url):
@@ -136,13 +170,19 @@ def statement(client,identity,title,url):
         source=urljoin(url,iframe.attrs.get('src',''));parts=urlsplit(source);query=parse_qs(parts.query)
         if parts.scheme!='https' or parts.hostname!='qoj.ac' or parts.username or parts.password or parts.port not in (None,443) or parts.fragment or parts.path!='/download.php' or query.get('type')!=['statement'] or query.get('id')!=[pid] or set(query)-{'type','id','ver','contest_id'}:
             raise ValueError('QOJ PDF 题面来源与原题不一致')
-        value=pdf_statement(client.bytes(source,headers={'Accept':'application/pdf'}),pid);value['sourcePdfUrl']=source
+        data=client.bytes(source,headers={'Accept':'application/pdf'})
+        value=pdf_statement(data,pid,render_pages=False);value['sourcePdfUrl']=source
+        from statement_resources import inspect_resource
+        entry=inspect_resource(data,source,'attachment')
+        value['attachments']={source:dict(entry,fileName=f'qoj-{pid}.pdf',data='data:application/pdf;base64,'+base64.b64encode(data).decode('ascii'))}
+        value['statementPdf']=dict(value['attachments'][source])
+        value['markdown']+='\n\n[PDF]('+source+')'
     else:
         article=next(root.find(lambda n:n.tag=='article' and 'uoj-article' in classes(n)),None)
         if article is None:raise ValueError('QOJ 题面正文缺失')
         body=markdown(article,url).strip()
         if not body:raise ValueError('QOJ 题面正文为空')
-        images={};total=0
+        images={};total=0;manifest={}
         for node in article.find(lambda n:n.tag=='img'):
             source=urljoin(url,node.attrs.get('src',''))
             if not source or urlsplit(source).hostname!='qoj.ac':raise ValueError('QOJ 题面图片来源待核验')
@@ -152,10 +192,13 @@ def statement(client,identity,title,url):
             if mime is None:raise ValueError('QOJ 题面未返回可识别图片')
             name='qoj-image-'+hashlib.sha256(source.encode()).hexdigest()[:20]
             images[name]='data:'+mime+';base64,'+base64.b64encode(data).decode('ascii');body=body.replace(']('+source+')',']('+name+')')
-        value={'markdown':body,'images':images,'samples':html_samples(article),'statementFormat':'html-v1'}
+            from statement_resources import inspect_resource
+            manifest[name]=inspect_resource(data,source,'image')
+        value={'markdown':body,'images':images,'resourceManifest':manifest,'samples':html_samples(article),'statementFormat':'html-v1'}
     value['markdown']='# '+actual+'\n\n'+value['markdown']
     value.update(id=identity,title=actual,url=url,statementAvailable=True,statementVersion=6,
                  limits={'timeMs':round(float(limit[1])*1000),'memoryMb':int(limit[2])},
                  sourceHtmlSha256=hashlib.sha256(page.encode()).hexdigest())
     if '/statement/zh_cn' in url:value.update(statementLanguage='zh-CN',translationProvider='QOJ 原站中文题面（含原站标记的机器译文）' if 'translated using AI' in page else 'QOJ 原站中文题面')
-    return value
+    from statement_integrity import annotate_type
+    return annotate_type(value)

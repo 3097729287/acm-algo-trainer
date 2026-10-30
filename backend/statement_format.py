@@ -21,9 +21,26 @@ class Tree(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.root = Node()
         self.stack = [self.root]
+        self.nodes = 0
         self.feed(html)
 
     def handle_starttag(self, tag, attrs):
+        self.nodes += 1
+        if self.nodes > 100000 or len(self.stack) > 192:
+            raise ValueError('Original HTML exceeds the statement structure limit')
+        # Original OJ pages commonly omit optional table/list end tags. HTMLParser
+        # does not close them for us; leaving them nested joins unrelated rows.
+        closes = {'tr': ({'tr'}, {'table'}), 'td': ({'td', 'th'}, {'tr', 'table'}),
+                  'th': ({'td', 'th'}, {'tr', 'table'}),
+                  'li': ({'li'}, {'ul', 'ol'}), 'option': ({'option'}, {'select'})}
+        if tag in closes:
+            targets, boundaries = closes[tag]
+            for index in range(len(self.stack) - 1, 0, -1):
+                if self.stack[index].tag in targets:
+                    del self.stack[index:]
+                    break
+                if self.stack[index].tag in boundaries:
+                    break
         node = Node(tag, attrs)
         self.stack[-1].children.append(node)
         if tag not in {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'source', 'wbr'}:
@@ -60,7 +77,7 @@ def fence(value):
     return '\n\n' + delimiter + 'text\n' + value.rstrip('\n') + '\n' + delimiter + '\n\n'
 
 
-def markdown(node, base='', prose_pre=False):
+def markdown(node, base='', prose_pre=False, table_cell=False):
     if isinstance(node, str):
         return re.sub(r'\s+', ' ', node.replace('\xa0', ' '))
     tag, names = node.tag, classes(node)
@@ -95,7 +112,18 @@ def markdown(node, base='', prose_pre=False):
         return '![' + (node.attrs.get('alt') or '').replace(']', '\\]') + '](' + parsed.geturl().replace(')', '%29') + ')'
     if tag == 'var':
         return '$' + plain(node).strip() + '$'
-    if tag == 'pre' and not prose_pre:
+    if tag == 'pre' and (not prose_pre or table_cell):
+        if table_cell:
+            # GFM tables cannot contain fenced blocks or literal newlines.
+            # Keep each transcript line and its monospace formatting.
+            value=plain(node).replace('\r\n','\n')
+            if value.startswith('\n'):value=value[1:]
+            def code_span(line):
+                if not line:return ''
+                delimiter='`'*max(1,max((len(m[0])+1 for m in re.finditer(r'`+',line)),default=1))
+                padded=' '+line+' ' if line.startswith((' ','`')) or line.endswith((' ','`')) else line
+                return delimiter+padded+delimiter
+            return '<br />'.join(code_span(line) for line in value.split('\n'))
         if any(node.find(lambda child: child.tag=='var')):
             def formatted(child):
                 if isinstance(child,str):return child
@@ -107,7 +135,7 @@ def markdown(node, base='', prose_pre=False):
     if tag == 'table':
         rows = []
         for row in node.find(lambda item: item.tag == 'tr'):
-            cells = [markdown(cell, base, prose_pre).strip().replace('\n', ' ').replace('|', '\\|')
+            cells = [markdown(cell, base, prose_pre, table_cell=True).strip().replace('\n', '<br />').replace('|', '\\|')
                      for cell in row.children if isinstance(cell, Node) and cell.tag in ('td', 'th')]
             if cells:
                 rows.append(cells)
@@ -117,14 +145,14 @@ def markdown(node, base='', prose_pre=False):
         rows = [row + [''] * (width - len(row)) for row in rows]
         rows.insert(1, ['---'] * width)
         return '\n\n' + '\n'.join('| ' + ' | '.join(row) + ' |' for row in rows) + '\n\n'
-    content = ''.join(markdown(child, base, prose_pre) for child in node.children)
+    content = ''.join(markdown(child, base, prose_pre, table_cell) for child in node.children)
     if tag in ('h1', 'h2', 'h3', 'h4', 'h5', 'h6') or 'section-title' in names:
         return '\n\n' + ('##' if 'section-title' in names else '#' * int(tag[1])) + ' ' + content.strip() + '\n\n'
     if tag == 'li':
         return '\n- ' + content.strip().replace('\n\n', '\n  ') + '\n'
-    if tag in ('b', 'strong') and content.strip():
+    if (tag in ('b', 'strong') or 'tex-font-style-bf' in names) and content.strip():
         return '**' + content.strip() + '**'
-    if tag in ('em', 'i') and content.strip():
+    if (tag in ('em', 'i') or 'tex-font-style-it' in names) and content.strip():
         return '*' + content.strip() + '*'
     if tag == 'code' or 'tex-font-style-tt' in names:
         return '`' + plain(node).strip() + '`'

@@ -32,11 +32,11 @@ class StatementBackfill:
     def pending(self):
         with self.store.library.connection() as db:
             # Repair the old AtCoder parser that omitted sample diagrams.
-            from library import _CONTENT_READY_SQL
-            rows = db.execute('SELECT p.id,p.url,p.encoded FROM problems p WHERE NOT (' + _CONTENT_READY_SQL + ") OR EXISTS (SELECT 1 FROM statements s WHERE s.problem_id=p.id AND json_extract(s.content,'$.url') LIKE 'https://atcoder.jp/%' AND COALESCE(json_extract(s.content,'$.statementVersion'),0)<5)").fetchall()
+            from library import _STATEMENT_READY_SQL
+            rows = db.execute('SELECT p.id,p.url,p.encoded FROM problems p WHERE NOT (' + _STATEMENT_READY_SQL + ") OR EXISTS (SELECT 1 FROM statements s WHERE s.problem_id=p.id AND json_extract(s.content,'$.url') LIKE 'https://atcoder.jp/%' AND COALESCE(json_extract(s.content,'$.statementVersion'),0)<5)").fetchall()
         return [(row['id'], row['url'], json.loads(row['encoded']).get('title') or row['id'])
                 for row in rows if row['url'] and urlsplit(row['url']).hostname in
-                {'codeforces.com', 'atcoder.jp', 'www.luogu.com.cn', 'luogu.com.cn', 'ac.nowcoder.com'}]
+                {'codeforces.com', 'atcoder.jp', 'www.luogu.com.cn', 'luogu.com.cn', 'ac.nowcoder.com', 'qoj.ac'}]
 
     def once(self):
         if self._pending is None:

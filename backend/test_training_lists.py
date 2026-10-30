@@ -62,7 +62,7 @@ class TrainingListTests(unittest.TestCase):
         live.merge_seed(old.path)
         self.assertEqual(live.training_lists(), [])
         migrated = LibraryDatabase(old.path)
-        self.assertEqual(migrated.metadata()['schema'], '6')
+        self.assertEqual(migrated.metadata()['schema'], '7')
         self.assertEqual(migrated.rows()[0]['id'], 'fixture::A')
         self.assertTrue(list((self.root / 'backups').glob('*schema-migration*.sqlite3')))
 
@@ -76,6 +76,18 @@ class TrainingListTests(unittest.TestCase):
         store = Store(library_file=seed.path, data_file=self.root / 'missing.md', data_root=self.root)
         self.assertFalse(store.data()['rows'][0].get('catalogHidden'))
         self.assertEqual(seed.find('fixture::A'), before)
+
+    def test_statement_retirement_filters_public_list_without_changing_saved_list(self):
+        seed=LibraryDatabase(self.root/'retired.sqlite3')
+        raw,encoded,solution,statement=record()
+        encoded.update(statementRetired=True,statementRetirementPolicy='public-statement-audit-v1')
+        seed.import_records([(raw,encoded,solution,statement)],{}, {})
+        saved=[{'id':'public-list','problems':[{'problemId':encoded['id'],'url':encoded['url']},{'problemId':None,'url':'https://qoj.ac/problem/12345'}]}]
+        self.lists(seed,saved)
+        store=Store(library_file=seed.path,data_file=self.root/'missing.md',data_root=self.root)
+        self.assertEqual(store.public_training_lists()[0]['problems'],[saved[0]['problems'][1]])
+        self.assertEqual(seed.training_lists(),saved)
+        self.assertIsNotNone(seed.statement(encoded['id']))
 
     def test_embedded_sections_and_public_link_boundaries(self):
         description = '''## 动态规划

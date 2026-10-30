@@ -335,11 +335,12 @@ DISCOVERY_ADAPTERS={'codeforces':discover_curated_cf,'luogu':discover_lg,'atcode
 def statement(client,identity,title,url):
     if urlsplit(url).hostname=='qoj.ac':
         from qoj import statement as qoj_statement
-        return qoj_statement(client,identity,title,url)
+        from statement_integrity import finalize_source
+        return finalize_source(qoj_statement(client,identity,title,url),client)
     import fetch_problem as adapter
     from statement_format import html_markdown, nowcoder_statement, nowcoder_explanations, codeforces_samples
-    parsed=urlsplit(url);host=parsed.hostname;limits={'timeMs':2000,'memoryMb':256};body='';samples=[];official_tags=None;translation=None
-    if host=='www.luogu.com.cn':
+    parsed=urlsplit(url);host=parsed.hostname;limits={'timeMs':2000,'memoryMb':256};body='';samples=[];official_tags=None;translation=None;attachments={}
+    if host in ('www.luogu.com.cn','luogu.com.cn'):
         pid=parsed.path.rsplit('/',1)[-1];p=lg_data(client.json(url,headers={'x-lentille-request':'content-only'})).get('problem') or {}
         if p.get('pid')!=pid:raise ValueError('原题编号不匹配或题面尚未公开')
         if p.get('tags'):
@@ -361,6 +362,15 @@ def statement(client,identity,title,url):
         raw=p.get('limits') or {};times=raw.get('time') or [];memories=raw.get('memory') or []
         if times:limits['timeMs']=int(times[0])
         if memories:limits['memoryMb']=max(1,round(memories[0]/1000))
+        for attachment in p.get('attachments') or []:
+            if not isinstance(attachment,dict):continue
+            source=attachment.get('url') or attachment.get('downloadUrl')
+            if source:
+                from urllib.parse import urljoin
+                source=urljoin(url,source)
+                name=str(attachment.get('name') or attachment.get('filename') or 'attachment').replace(']','')
+                attachments[source]={'sourceUrl':source,'fileName':name}
+                body+='\n\n['+name+']('+source+')'
     elif host=='atcoder.jp':
         page=client.text(url+('&' if '?' in url else '?')+'lang=en');english=adapter.at_span(page,'lang-en')
         if not english:raise ValueError('AtCoder 英文原题面暂不可读取')
@@ -369,12 +379,29 @@ def statement(client,identity,title,url):
         if tl:limits['timeMs']=round(float(tl[1])*1000)
         if ml:limits['memoryMb']=int(ml[1])
     elif host=='codeforces.com':
-        page=client.text(url);_,body,_=adapter.cf_statement(page);samples=codeforces_samples(page)
-        tl=re.search(r'Time limit:\s*([\d.]+)\s*seconds?',body,re.I);ml=re.search(r'Memory limit:\s*(\d+)\s*megabytes',body,re.I)
-        if tl:limits['timeMs']=round(float(tl[1])*1000)
-        if ml:limits['memoryMb']=int(ml[1])
-        start=page.find('<div class="problem-statement">')
-        if start>=0:body=html_markdown(adapter.cf_balanced(page,start,'div'),url)
+        from statement_format import Tree,classes,plain,markdown
+        page=client.text(url)
+        # Only the native statement subtree belongs to the parser. Long Gym
+        # sidebars and malformed unrelated saved-page markup are not task text.
+        start=re.search(r'<div\b[^>]*class=["\'][^"\']*\bproblem-statement\b[^"\']*["\'][^>]*>',page,re.I)
+        fragment=adapter.cf_balanced(page,start.start(),'div') if start else page
+        root=Tree(fragment).root
+        original=next(root.find(lambda n:'problem-statement' in classes(n)),None)
+        samples=codeforces_samples(fragment)
+        if original is not None:
+            heading=next(original.find(lambda n:'title' in classes(n)),None)
+            expected=re.search(r'/(?:problem/|problemset/problem/\d+/)([A-Z]\d?)/?$',parsed.path)
+            if heading is not None and expected and not re.match(re.escape(expected[1])+r'\.',plain(heading).strip()):
+                raise ValueError('Codeforces 题面与原题编号不一致')
+            body=markdown(original,url).strip()
+            for name,key,pattern in [('time-limit','timeMs',r'([\d.]+)\s*(?:seconds?|s)\b'),('memory-limit','memoryMb',r'(\d+)\s*megabytes')]:
+                node=next(original.find(lambda n:name in classes(n)),None)
+                found=re.search(pattern,plain(node),re.I) if node else None
+                if found:limits[key]=round(float(found[1])*(1000 if key=='timeMs' else 1))
+        if not body.strip() and parsed.path.startswith('/gym/'):
+            from codeforces_pdf import statement as pdf_statement
+            from statement_integrity import finalize_source
+            return finalize_source(pdf_statement(client,identity,title,url,page),client)
     elif host=='ac.nowcoder.com':
         page=client.text(url);body=nowcoder_statement(page,url);samples=[{'name':x['name'],'input':x['in'],'output':x['out'], **({'explanation': x['expl']} if x.get('expl') else {})} for x in adapter.extract_samples(page)]
         for sample,explanation in zip(samples,nowcoder_explanations(page,url)):
@@ -387,7 +414,15 @@ def statement(client,identity,title,url):
     from statement_cleanup import clean_statement_markdown, clean_statement
     body=clean_statement_markdown(body)
     if translation:translation['markdown']=clean_statement_markdown(translation['markdown'])
-    value=clean_statement({'id':identity,'title':title,'url':url,'markdown':'# '+title+'\n\n'+body,'samples':samples,'limits':limits,'statementAvailable':True,'statementVersion':5, **({'officialTags':official_tags} if official_tags is not None else {}), **({'translation':translation} if translation else {})})
+    # Luogu can expose native HTML tables and images inside Markdown. Convert
+    # only those elements; parsing the whole Markdown as HTML would eat < in TeX.
+    def elements(markdown):
+        markdown=re.sub(r'<table\b[^>]*>.*?</table>',lambda m:html_markdown(m[0],url),markdown,flags=re.S|re.I)
+        return re.sub(r'<img\b[^>]*>',lambda m:html_markdown(m[0],url),markdown,flags=re.I)
+    body=elements(body)
+    if translation:translation['markdown']=elements(translation['markdown'])
+    value=clean_statement({'id':identity,'title':title,'url':url,'markdown':'# '+title+'\n\n'+body,'samples':samples,'limits':limits,'statementAvailable':True,'statementVersion':7, **({'attachments':attachments} if attachments else {}), **({'officialTags':official_tags} if official_tags is not None else {}), **({'translation':translation} if translation else {})})
     if not value['statementAvailable']:
         raise ValueError(value['statementError'])
-    return value
+    from statement_integrity import finalize_source
+    return finalize_source(value,client)

@@ -32,11 +32,11 @@ assert.equal(trainingListPlatform({custom:true,sourcePlatform:'QOJ'}),null,'Priv
 const futureList={id:'future-list',sourcePlatform:'FutureJudge',topicPath:['基础'],problems:['future::A']};
 assert.deepEqual(platformTrainingLists([futureList],[future])[0].topicPath,['FutureJudge','基础']);
 const raw=JSON.parse(await readFile(new URL('../../data/library/problems.json',import.meta.url),'utf8')).map(item=>item.encoded||item);
-const qoj=raw.filter(row=>row.platform==='QOJ');assert.equal(qoj.length,65,'Audit the unchanged public QOJ inventory');
+const qoj=raw.filter(row=>row.platform==='QOJ');assert.equal(qoj.length,76,'Keep all 65 existing originals and add 11 verified unique native problems');
 assert(qoj.every(row=>new URL(row.url).hostname==='qoj.ac'&&/^\/problem\/\d+\/?$/.test(new URL(row.url).pathname)));
 for(const row of qoj){assert(catalogPathMatches(row,['QOJ']));assert(catalogPathMatches(row,['XCPC']));}
-assert.equal(new Set(qoj.map(row=>row.url)).size,65);
-const qojEntries=catalogEntries(raw,['QOJ']);assert.equal(new Set(qojEntries.flatMap(entry=>entry.items.map(row=>row.id))).size,65);
+assert.equal(new Set(qoj.map(row=>row.url)).size,76);
+const qojEntries=catalogEntries(raw,['QOJ']);assert.equal(new Set(qojEntries.flatMap(entry=>entry.items.map(row=>row.id))).size,76);
 const events=qoj.map(row=>({...row,name:row.contest,count:13}));
 assert(contestOptions(events).some(node=>node.label==='QOJ'));
 assert.equal(catalogPaths(future).length,1);

@@ -43,7 +43,7 @@ class DetailedSolutionTests(unittest.TestCase):
         old = LibraryDatabase.from_source(source, self.root / 'old-source.sqlite3')
         self.assertEqual(old.solution('fixture::A'), default)
         self.assertIsNone(old.solution('fixture::A', 'detailed'))
-        self.assertEqual(old.metadata()['schema'], '6')
+        self.assertEqual(old.metadata()['schema'], '7')
 
     def test_upgrade_adds_details_and_protects_each_locally_edited_version(self):
         seed = LibraryDatabase(self.root / 'seed.sqlite3')
@@ -85,7 +85,7 @@ class DetailedSolutionTests(unittest.TestCase):
             target = LibraryDatabase(self.root / 'target.sqlite3')
             target.merge_seed(saved.path)
             self.assertEqual(target.solution('fixture::A'), saved.solution('fixture::A'))
-            self.assertEqual(migrated.metadata()['schema'], '6')
+            self.assertEqual(migrated.metadata()['schema'], '7')
             self.assertEqual(migrated.check()['detailed_solutions'], 0)
 
     def test_store_preserves_original_body_and_resolves_details_by_canonical_problem(self):

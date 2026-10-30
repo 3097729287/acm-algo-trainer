@@ -1,0 +1,1031 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=14681": {
+            "bytes": 154052,
+            "data": "tb-asset:43a985e8401c27d1f263f2f6547d571cd7b0d9df748e868ad352e0bf7adeac5d",
+            "fileName": "qoj-14681.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "43a985e8401c27d1f263f2f6547d571cd7b0d9df748e868ad352e0bf7adeac5d",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14681"
+          }
+        },
+        "id": "xcpc-qoj::14681",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T06:50:05.593091+00:00",
+          "markdownSha256": "629855cd097f15091a86764a3f776b4511222365a92766e5ee7e4ed963abbe88",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 3000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Azalea Garden\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=14681)",
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://qoj.ac/download.php?type=statement&id=14681": {
+            "bytes": 154052,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "43a985e8401c27d1f263f2f6547d571cd7b0d9df748e868ad352e0bf7adeac5d",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14681"
+          }
+        },
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "3 1\n1 1\n2 2\n3 3\n2 2 4",
+            "name": "样例 1",
+            "output": "1\n2"
+          }
+        ],
+        "sourceHtmlSha256": "f720fb2cce16cab7379ef20eee9ad64e5fb1975bfd11baa12ee90abfbf6eda1b",
+        "sourcePdfSha256": "43a985e8401c27d1f263f2f6547d571cd7b0d9df748e868ad352e0bf7adeac5d",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=14681",
+        "sourceText": "Azalea Garden\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 6 seconds\r\nMemory limit: 512 megabytes\r\nIn a serene garden of azaleas, n dangerous creatures have appeared. Each creature possesses an attack\r\npower and a defense power. Initially, the i-th creature (1 ≤ i ≤ n) has an attack power of ai and a defense\r\npower of bi\r\n.\r\nYou, the guardian of the azalea garden, can mentally imagine a war between them. A war consists of\r\nseveral (possibly, 0) battles. In each imagined battle, you choose two living creatures i and j (1 ≤ i, j ≤ n,\r\ni ̸= j), and:\r\n• If the attack power of creature i is greater than or equal to the defense power of creature j (i.e.\r\nai ≥ bj ), then i can defeat j in the battle, and j is considered eliminated.\r\n• Otherwise, nothing happens.\r\nNote that the wars are imaginary; that is, a creature eliminated cannot be used for future battles in the\r\nsame war, but it regains its vigor at the beginning of the next war, and thus can participate in future\r\nbattles of consequent wars.\r\nThe creatures are volatile and undergo mutations over time. You are given q mutations. After each of the\r\nmutations, the attributes of a creature change. Specifically, in the i-th mutation, the vi-th creature has its\r\nattack power updated to xi and its defense power updated to yi\r\n. Note that the mutations are persistent;\r\nAfter the i-th mutation, the impacts of the first i − 1 mutations are accumulated.\r\nSince each remaining creature poses an ongoing threat to the flowers, you want to find the minimum\r\npossible number of creatures that remain after an optimal sequence of an imagined war. You need to\r\nanswer the question for all states before all mutations and after each mutation.\r\nInput\r\nThe first line of the input contains two integers n and q (1 ≤ n ≤ 4 · 105\r\n, 0 ≤ q ≤ 4 · 105\r\n), where n is the\r\nnumber of creatures and q is the number of mutations.\r\nThe next n lines of the input describe all the creatures. The i-th line of these contains two integers ai and\r\nbi (1 ≤ ai\r\n, bi ≤ 109\r\n), where ai\r\nis the attack power and bi\r\nis the defense power of the i-th creature.\r\nThe next q lines of the input describe all the mutations. The i-th line of these contains three integers vi\r\n,\r\nxi\r\n, and yi (1 ≤ vi ≤ n, 1 ≤ xi\r\n, yi ≤ 109\r\n), where xi\r\nis the new attack power of creature vi and yi\r\nis the\r\nnew defense power of creature vi\r\n.\r\nOutput\r\nOutput q + 1 lines, each containing a single integer, which are the answers before any mutations and after\r\neach mutation in sequence.\r\nExample\r\nstandard input standard output\r\n3 1\r\n1 1\r\n2 2\r\n3 3\r\n2 2 4\r\n1\r\n2\r\nPage 1 of 2\n\nNote\r\nIn the example, before the mutations begin, the third creature can defeat the first and second creatures.\r\nClearly, this is the optimal sequence of imagined battles, so the answer is 1.\r\nAfter the first mutation ends, the attack power of the second creature becomes 2, and its defense power\r\nbecomes 4. Now the third creature can only defeat the first creature, leaving 2 creatures remaining. It can\r\nbe proved that no better solution exists, so the answer is 2.\r\nPage 2 of 2",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 154052,
+          "data": "tb-asset:43a985e8401c27d1f263f2f6547d571cd7b0d9df748e868ad352e0bf7adeac5d",
+          "fileName": "qoj-14681.pdf",
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "sha256": "43a985e8401c27d1f263f2f6547d571cd7b0d9df748e868ad352e0bf7adeac5d",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14681"
+        },
+        "statementVersion": 6,
+        "title": "Azalea Garden",
+        "url": "https://qoj.ac/problem/14681"
+      },
+      "problem_id": "xcpc-qoj::14681"
+    },
+    {
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=14682": {
+            "bytes": 242162,
+            "data": "tb-asset:4443a381d348909eb544875a71965eb277f59d23fee68622d4be4e66df56ec06",
+            "fileName": "qoj-14682.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "4443a381d348909eb544875a71965eb277f59d23fee68622d4be4e66df56ec06",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14682"
+          }
+        },
+        "id": "xcpc-qoj::14682",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T06:50:05.667819+00:00",
+          "markdownSha256": "a081f2b98752f45752bc115883daaa85934a9b6210a3ed7647fe67c094408e11",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Beautiful Dangos\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=14682)",
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://qoj.ac/download.php?type=statement&id=14682": {
+            "bytes": 242162,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "4443a381d348909eb544875a71965eb277f59d23fee68622d4be4e66df56ec06",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14682"
+          }
+        },
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "4\n5\nCWCWC\n6\nCWCCPW\n3\nPPP\n8\nCWPPCWWC",
+            "name": "样例 1",
+            "output": "Beautiful\nPossible\n4 5\nCWCPCW\nImpossible\nPossible\n4 6\nCWPWCPWC"
+          }
+        ],
+        "sourceHtmlSha256": "5005919de3ee6594a05b15c19e15c50dcdd71b56db056324571d1eab10e14385",
+        "sourcePdfSha256": "4443a381d348909eb544875a71965eb277f59d23fee68622d4be4e66df56ec06",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=14682",
+        "sourceText": "Beautiful Dangos\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 512 megabytes\r\nLittle Cyan Fish likes to eat Tricolor Dango!\r\nFigure 1: Little Cyan Fish\r\nNow there are n dangos arranged in a string, and each dango is colored cyan (C), white (W), or pink (P).\r\nThe dangos are numbered from 1 to n.\r\nLittle Cyan Fish considers a string of dangos to be beautiful if and only if any two adjacent dangos have\r\ndifferent colors.\r\nTo make this string of tricolor dango more beautiful, Little Cyan Fish decides to select an interval [l, r]\r\n(1 ≤ l ≤ r ≤ n), and rearrange all dangos in this interval arbitrarily, so that the entire string of dango\r\nbecomes beautiful after the rearrangement.\r\nLittle Cyan Fish wants to make the interval he selects as short as possible. Can you help him? You need\r\nto output the optimal interval, as well as the whole string after rearrangement.\r\nNote that the original string may already be beautiful, or it might be impossible to make it beautiful\r\nthrough any rearrangement.\r\nInput\r\nThe input consists of multiple test cases. The first line contains an integer t (1 ≤ t ≤ 105\r\n), the number of\r\ntest cases. For each test case:\r\n• The first line contains an integer n (1 ≤ n ≤ 2 · 106\r\n), which is the number of dangos in this string.\r\n• The second line contains a string of length n, where the i-th character denotes the color of the i-th\r\ndango, with “C” representing cyan, “W” representing white, and “P” representing pink.\r\nIt is guaranteed that the sum of n over all test cases does not exceed 2 · 106\r\n.\r\nOutput\r\nFor each test case:\r\n• If the string of dangos is already beautiful, output a single line “Beautiful”.\r\n• Otherwise, if it is impossible to make the string of dangos beautiful through any rearrangement,\r\noutput a single line “Impossible”.\r\nPage 1 of 2\n\n• Otherwise, output three lines:\r\n⋄ The first line should contain the word “Possible”.\r\n⋄ The second line should contain two integers l and r, representing the selected interval\r\n(1 ≤ l ≤ r ≤ n).\r\n⋄ The third line should contain a string of length n, representing the colors of all dangos after\r\nrearrangement.\r\nIf there are multiple possible solutions, you may output any of them.\r\nExample\r\nstandard input standard output\r\n4\r\n5\r\nCWCWC\r\n6\r\nCWCCPW\r\n3\r\nPPP\r\n8\r\nCWPPCWWC\r\nBeautiful\r\nPossible\r\n4 5\r\nCWCPCW\r\nImpossible\r\nPossible\r\n4 6\r\nCWPWCPWC\r\nNote\r\nIn the first test case, the string of dangos is already beautiful.\r\n1 2 3 4 5\r\nIn the second test case, initially, the string of dangos is not beautiful because two adjacent dangos, the\r\nthird and the fourth, are both cyan. But Little Cyan Fish can resolve this by selecting the interval [4, 5]\r\nand swapping the two dangos within it.\r\n1 2 3 4 5 6\r\n1 2 3 4 5 6\r\nIt can be easily shown that this solution selects an interval of the shortest possible length.\r\nIn the third test case, Little Cyan Fish can’t make it beautiful through any rearrangement.\r\nPage 2 of 2",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 242162,
+          "data": "tb-asset:4443a381d348909eb544875a71965eb277f59d23fee68622d4be4e66df56ec06",
+          "fileName": "qoj-14682.pdf",
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "sha256": "4443a381d348909eb544875a71965eb277f59d23fee68622d4be4e66df56ec06",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14682"
+        },
+        "statementVersion": 6,
+        "title": "Beautiful Dangos",
+        "url": "https://qoj.ac/problem/14682"
+      },
+      "problem_id": "xcpc-qoj::14682"
+    },
+    {
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=14683": {
+            "bytes": 150339,
+            "data": "tb-asset:6f5a8309557ae136f915d05d66e356254639a493546c5e20d20ac3bbb2a087b6",
+            "fileName": "qoj-14683.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "6f5a8309557ae136f915d05d66e356254639a493546c5e20d20ac3bbb2a087b6",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14683"
+          }
+        },
+        "id": "xcpc-qoj::14683",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T06:50:05.736552+00:00",
+          "markdownSha256": "2a6d57e1a203948352d3f9c13e23b2d3f1d1c1e8e9de2e956551391f944c9e5b",
+          "pdfPageCountVerified": true,
+          "sampleCount": 2,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 3000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Catch the Monster\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=14683)",
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://qoj.ac/download.php?type=statement&id=14683": {
+            "bytes": 150339,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "6f5a8309557ae136f915d05d66e356254639a493546c5e20d20ac3bbb2a087b6",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14683"
+          }
+        },
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "10 9 3\n1 2\n1 3\n1 8\n2 5\n2 6\n2 7\n3 4\n8 9\n8 10\n1 3\n2 6\n1 10",
+            "name": "样例 1",
+            "output": "Yes\nYes\nNo"
+          },
+          {
+            "input": "100000 1 1\n1 2\n1 9999",
+            "name": "样例 2",
+            "output": "Yes"
+          }
+        ],
+        "sourceHtmlSha256": "4a262a53b5030e63ad4805fd3a1e6798292f37e8b91237aab142be7d4f821ec0",
+        "sourcePdfSha256": "6f5a8309557ae136f915d05d66e356254639a493546c5e20d20ac3bbb2a087b6",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=14683",
+        "sourceText": "Catch the Monster\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 5 seconds\r\nMemory limit: 512 megabytes\r\nA prehistoric monster has arrived on Earth via Dr. Peter’s time machine. You need to help Dr. Peter\r\ncatch it.\r\nThe monster hides in a forest with n vertices and m edges. Here, a forest is an acyclic undirected graph\r\nthat may consist of multiple trees. You can perform the following operations to catch the monster:\r\n• First, you choose a vertex x (1 ≤ x ≤ n).\r\n• Then, if the monster is currently at vertex x, it is caught.\r\n• Otherwise, the monster remains uncaught, and it may move to any adjacent vertex to its current\r\nvertex after the operation, except vertex x. Or it may choose not to move and stay at the same\r\nvertex.\r\nWe define a forest as nice if and only if there exists a finite sequence a of vertices, such that regardless of\r\nthe monster’s initial position and how it moves, performing operations by selecting vertices in the order\r\nof a can guarantee that the monster will be caught.\r\nNow, you need to answer q questions from Dr. Peter. In each question, he gives you an interval [l, r]\r\n(1 ≤ l ≤ r ≤ n). You need to tell him whether the subforest induced by the vertices whose indices are in\r\n[l, r] (i.e., the graph formed by retaining only these vertices and the edges between them) is nice.\r\nInput\r\nThe first line of the input contains three integers n, m, and q (2 ≤ n ≤ 106\r\n, 1 ≤ m ≤ n − 1, 1 ≤ q ≤ 106\r\n),\r\nwhere n is the number of vertices in the forest, m in the number of edges in the forest, and q is the number\r\nof queries.\r\nThe next m lines of the input each contain two integers u and v (1 ≤ u, v ≤ n, u ̸= v), representing an\r\nedge in the forest.\r\nThe next q lines of the input each contain two integers l and r (1 ≤ l ≤ r ≤ n), representing a query.\r\nOutput\r\nFor each query, output a single line “Yes” if the subforest is nice; otherwise, output a single line “No”.\r\nYou can output the answer in any case (upper or lower). For example, the strings “yEs”, “yes”, “Yes”, and\r\n“YES” will be recognized as positive responses.\r\nPage 1 of 2\n\nExamples\r\nstandard input standard output\r\n10 9 3\r\n1 2\r\n1 3\r\n1 8\r\n2 5\r\n2 6\r\n2 7\r\n3 4\r\n8 9\r\n8 10\r\n1 3\r\n2 6\r\n1 10\r\nYes\r\nYes\r\nNo\r\n100000 1 1\r\n1 2\r\n1 9999\r\nYes\r\nNote\r\nIn the first test case:\r\n• In the first query, for the subforest [1, 3], you can set a = [3, 1, 2].\r\n• In the second query, for the subforest [2, 6], you can set a = [3, 4, 5, 2, 6].\r\n• In the third query, for the subforest [1, 10], it can be proven that there does not exist a finite valid\r\nsequence a.\r\nIn the second test case:\r\n• In the only query, for the subforest [1, 9999], you can set a = [1, 2, . . . , 9999].\r\nPage 2 of 2",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 150339,
+          "data": "tb-asset:6f5a8309557ae136f915d05d66e356254639a493546c5e20d20ac3bbb2a087b6",
+          "fileName": "qoj-14683.pdf",
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "sha256": "6f5a8309557ae136f915d05d66e356254639a493546c5e20d20ac3bbb2a087b6",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14683"
+        },
+        "statementVersion": 6,
+        "title": "Catch the Monster",
+        "url": "https://qoj.ac/problem/14683"
+      },
+      "problem_id": "xcpc-qoj::14683"
+    },
+    {
+      "beforeSha256": "823ff5c377d8d2cb8d3eafc03e2d5450e504b13475dd7ee2f8ad9663139d5bc8",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=14684": {
+            "bytes": 175888,
+            "data": "tb-asset:8e6567e7fc57743b10a1c299aa774eb708852a9ec857b9131bdcc59441cb8bce",
+            "fileName": "qoj-14684.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "8e6567e7fc57743b10a1c299aa774eb708852a9ec857b9131bdcc59441cb8bce",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14684"
+          }
+        },
+        "currentSourceMarkdown": "# Directed Acyclic Graph\n\n## 题目描述\n\nGiven two integers $n$ and $m$, you need to construct a directed acyclic graph (DAG) $G = (V, E)$ with exactly $n$ vertices and $m$ edges.\n\nIn the graph $G$, a vertex $v$ is called $\\textit{reachable}$ from vertex $u$ if and only if there exists a path in the graph that starts at vertex $u$ and ends at vertex $v$.\n\nFor a non-empty set of vertices $A\\subseteq V$, a vertex $w$ is defined as $\\textit{good}$ for $A$ if and only if it is reachable from $\\textbf{every}$ vertex in $A$, and we denote $f(A)$ as the set of all good vertices for $A$.\n\nThe graph you constructed should satisfy both of the following constraints:\n\n- For every vertex $i$ ($1\\le i\\le n$), it is reachable from vertex $1$.\n- There exist $k$ distinct non-empty sets of vertices $S_1, S_2, \\ldots, S_k$, such that $f(S_1), f(S_2), \\ldots, f(S_k)$ are pairwise distinct. Note that $f(S_i)$ can be empty.\n\nTo prove the graph $G$ you constructed satisfies the second constraint, you also need to provide $k$ sets $S_1, S_2,\\ldots, S_k$ that satisfy the second constraint.\n\n\n## 输入格式\n\nThe only line of the input contains three integers $n, m$, and $k$.\n\nThere are only $2$ tests in this problem:\n\n- $n = 5$, $m = 6$, $k = 6$;\n- $n = 100$, $m = 128$, $k = 16\\,000$.\n\n## 输出格式\n\nThe first $m$ lines of the output describe the graph $G$ you construct. Each line contains two integers $u, v$ representing an edge from $u$ to $v$ in the graph.\n\nThe next $k$ lines of the output describe the $k$ sets of vertices you provide. The $i$-th line first contains the size of the set $S_i$, followed by the $|S_i|$ numbers representing each vertex in the set.\n\n## 提示\n\nIn the example, the output constructs a graph with $n = 5$ vertices and $m = 6$ edges. The corresponding $k = 6$ sets are $S_1 = \\{1\\}, S_2 = \\{2\\}, S_3 = \\{3\\}, S_4 = \\{4\\}, S_5 = \\{5\\}, S_6 = \\{2, 3\\}$.\n\nHere, vertices $4$ and $5$ can both be reached from any element in $S_6 = \\{2, 3\\}$, so $f(\\{2, 3\\}) = \\{4, 5\\}$. Together with $f(S_1) = \\{1, 2, 3, 4, 5\\}, f(S_2) = \\{2, 4, 5\\}, f(S_3) = \\{3, 4, 5\\}, f(S_4) = \\{4\\}, f(S_5) = \\{5\\}$, these sets are all distinct, satisfying the constraints.\n\n:::align{center}\n![](https://cdn.luogu.com.cn/upload/image_hosting/5hqla0ex.png)\n:::",
+        "id": "luogu-training-P14450",
+        "images": {
+          "https://cdn.luogu.com.cn/upload/image_hosting/5hqla0ex.png": "tb-asset:7af17048b9f297eab4d0defac22c9b83d1c0b395683147c6fbca700c862566d9"
+        },
+        "integrity": {
+          "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+          "issues": [],
+          "markdownSha256": "8eaa899b8801bb5fc6a05cbc0dfb56d63c26fb2e91e42bac7f3c0edf259fc0f3",
+          "pdfPageCountVerified": false,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "3cf58e4802c1607ccac74d7d6471bbe6b47e532f61fbc79e8a5eb7a5d0c56d55",
+              "url": "https://www.luogu.com.cn/problem/P14450"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 524,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Directed Acyclic Graph\n\n## 题目描述\n\nGiven two integers $n$ and $m$, you need to construct a directed acyclic graph (DAG) $G = (V, E)$ with exactly $n$ vertices and $m$ edges.\n\nIn the graph $G$, a vertex $v$ is called $\\textit{reachable}$ from vertex $u$ if and only if there exists a path in the graph that starts at vertex $u$ and ends at vertex $v$.\n\nFor a non-empty set of vertices $A\\subseteq V$, a vertex $w$ is defined as $\\textit{good}$ for $A$ if and only if it is reachable from $\\textbf{every}$ vertex in $A$, and we denote $f(A)$ as the set of all good vertices for $A$.\n\nThe graph you constructed should satisfy both of the following constraints:\n\n- For every vertex $i$ ($1\\le i\\le n$), it is reachable from vertex $1$.\n- There exist $k$ distinct non-empty sets of vertices $S_1, S_2, \\ldots, S_k$, such that $f(S_1), f(S_2), \\ldots, f(S_k)$ are pairwise distinct. Note that $f(S_i)$ can be empty.\n\nTo prove the graph $G$ you constructed satisfies the second constraint, you also need to provide $k$ sets $S_1, S_2,\\ldots, S_k$ that satisfy the second constraint.\n\n## 输入格式\n\nThe only line of the input contains three integers $n, m$, and $k$.\n\nThere are only $2$ tests in this problem:\n\n- $n = 5$, $m = 6$, $k = 6$;\n- $n = 100$, $m = 128$, $k = 16\\,000$.\n\n## 输出格式\n\nThe first $m$ lines of the output describe the graph $G$ you construct. Each line contains two integers $u, v$ representing an edge from $u$ to $v$ in the graph.\n\nThe next $k$ lines of the output describe the $k$ sets of vertices you provide. The $i$-th line first contains the size of the set $S_i$, followed by the $|S_i|$ numbers representing each vertex in the set.\n\n## 提示\n\nIn the example, the output constructs a graph with $n = 5$ vertices and $m = 6$ edges. The corresponding $k = 6$ sets are $S_1 = \\{1\\}, S_2 = \\{2\\}, S_3 = \\{3\\}, S_4 = \\{4\\}, S_5 = \\{5\\}, S_6 = \\{2, 3\\}$.\n\nHere, vertices $4$ and $5$ can both be reached from any element in $S_6 = \\{2, 3\\}$, so $f(\\{2, 3\\}) = \\{4, 5\\}$. Together with $f(S_1) = \\{1, 2, 3, 4, 5\\}, f(S_2) = \\{2, 4, 5\\}, f(S_3) = \\{3, 4, 5\\}, f(S_4) = \\{4\\}, f(S_5) = \\{5\\}$, these sets are all distinct, satisfying the constraints.\n\n:::align{center}\n![](https://cdn.luogu.com.cn/upload/image_hosting/5hqla0ex.png)\n:::",
+        "officialTags": [
+          "图论",
+          "2025",
+          "Special Judge",
+          "构造",
+          "ICPC",
+          "西安"
+        ],
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://cdn.luogu.com.cn/upload/image_hosting/5hqla0ex.png": {
+            "bytes": 46086,
+            "frameCount": 1,
+            "height": 477,
+            "mime": "image/png",
+            "sha256": "7af17048b9f297eab4d0defac22c9b83d1c0b395683147c6fbca700c862566d9",
+            "sourceUrl": "https://cdn.luogu.com.cn/upload/image_hosting/5hqla0ex.png",
+            "width": 563
+          }
+        },
+        "samples": [
+          {
+            "input": "5 6 6",
+            "name": "样例 1",
+            "output": "1 2\n1 3\n2 4\n3 5\n2 5\n3 4\n1 1\n1 2\n1 3\n1 4\n1 5\n2 2 3"
+          }
+        ],
+        "statementAvailable": true,
+        "statementSupplement": "",
+        "statementVersion": 7,
+        "title": "Directed Acyclic Graph",
+        "translation": {
+          "kind": "site",
+          "markdown": "# Directed Acyclic Graph\n\n## 题目描述\n\n给定两个整数 $n$ 和 $m$，你需要构造一张有向无环图（DAG）$G = (V, E)$，其中包含恰好 $n$ 个顶点和 $m$ 条边。\n\n在图 $G$ 中，如果从顶点 $u$ 出发存在一条路径到达顶点 $v$，则称顶点 $v$ **可达**于顶点 $u$。\n\n对于一个非空顶点集合 $A \\subseteq V$，如果存在顶点 $w$ 能够从 $A$ 中的**每一个**顶点到达，则称 $w$ 对于集合 $A$ 是 **良好** 的。记 $f(A)$ 为对集合 $A$ 来说所有 **良好** 顶点组成的集合。\n\n你构造的图必须满足以下两个条件：\n\n- 对于每个顶点 $i$（$1 \\leq i \\leq n$），它都必须是从顶点 $1$ **可达** 的。\n- 存在 $k$ 个两两不同的非空顶点集合 $S_1, S_2, \\ldots, S_k$，使得 $f(S_1), f(S_2), \\ldots, f(S_k)$ 两两不同。注意，$f(S_i)$ 允许为空。\n\n为了证明你构造的图 $G$ 满足上述第二条条件，你还需要输出这 $k$ 个集合 $S_1, S_2, \\ldots, S_k$。\n\n## 输入格式\n\n输入仅一行，包含三个整数 $n, m, k$。\n\n本题中仅有 $2$ 个测试数据：\n\n- $n = 5$, $m = 6$, $k = 6$；\n- $n = 100$, $m = 128$, $k = 16\\,000$。\n\n## 输出格式\n\n输出前 $m$ 行描述你构造的图 $G$。每一行包含两个整数 $u, v$，表示图中的一条边，从 $u$ 指向 $v$。\n\n接下来输出 $k$ 行，描述你给出的 $k$ 个顶点集合。第 $i$ 行首先输出集合 $S_i$ 的大小，然后输出该集合中的各个顶点。\n\n## 提示\n\n在示例中，输出构造了一张有 $n = 5$ 个顶点、$m = 6$ 条边的图。对应的 $k = 6$ 个集合为：\n\n$S_1 = \\{1\\},\\ S_2 = \\{2\\},\\ S_3 = \\{3\\},\\ S_4 = \\{4\\},\\ S_5 = \\{5\\},\\ S_6 = \\{2, 3\\}$。\n\n其中，从 $S_6 = \\{2, 3\\}$ 的任一顶点出发，都可以到达顶点 $4$ 和 $5$，因此有 $f(\\{2, 3\\}) = \\{4, 5\\}$。\n\n结合：\n- $f(S_1) = \\{1, 2, 3, 4, 5\\}$\n- $f(S_2) = \\{2, 4, 5\\}$\n- $f(S_3) = \\{3, 4, 5\\}$\n- $f(S_4) = \\{4\\}$\n- $f(S_5) = \\{5\\}$\n- $f(S_6) = \\{4, 5\\}$\n\n可以看到这些集合两两不同，满足题目要求。\n\n:::align{center}\n![](https://cdn.luogu.com.cn/upload/image_hosting/5hqla0ex.png)\n:::\n\n翻译由 ChatGPT-5 完成",
+          "provider": "洛谷原站中文题面",
+          "sourceUrl": "https://www.luogu.com.cn/problem/P14450"
+        },
+        "translationSourceSnapshot": {
+          "currentSourceHash": "8eaa899b8801bb5fc6a05cbc0dfb56d63c26fb2e91e42bac7f3c0edf259fc0f3",
+          "equivalentFormattingVerified": true,
+          "samplesUnchanged": true,
+          "sourceHash": "dc9a4e42b5db9bd96c411739375fb78db8769434bc8caffe6a1d82db37358649"
+        },
+        "url": "https://www.luogu.com.cn/problem/P14450",
+        "verifiedEquivalentSources": [
+          {
+            "identityReview": {
+              "constraintsVerified": [
+                "n=5,m=6,k=6; n=100,m=128,k=16000"
+              ],
+              "method": "full-specification-io-constraints-all-samples-and-notes",
+              "otherStatementSha256": "823ff5c377d8d2cb8d3eafc03e2d5450e504b13475dd7ee2f8ad9663139d5bc8",
+              "otherUrl": "https://www.luogu.com.cn/problem/P14450"
+            },
+            "sourcePdfSha256": "8e6567e7fc57743b10a1c299aa774eb708852a9ec857b9131bdcc59441cb8bce",
+            "url": "https://qoj.ac/problem/14684"
+          }
+        ]
+      },
+      "problem_id": "luogu-training-P14450"
+    },
+    {
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=14685": {
+            "bytes": 156413,
+            "data": "tb-asset:ed1e949f4841b8f8db8b26d37dc3c89daa58b15697cb6e5f5472c089f8844387",
+            "fileName": "qoj-14685.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "ed1e949f4841b8f8db8b26d37dc3c89daa58b15697cb6e5f5472c089f8844387",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14685"
+          }
+        },
+        "id": "xcpc-qoj::14685",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T06:50:05.880590+00:00",
+          "markdownSha256": "5366c1384fa5d469b2183cb64ff0bf4e117604526bbb9ed1eff61e2522593123",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 1024,
+          "timeMs": 7000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Epilogue of Happiness\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=14685)",
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://qoj.ac/download.php?type=statement&id=14685": {
+            "bytes": 156413,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "ed1e949f4841b8f8db8b26d37dc3c89daa58b15697cb6e5f5472c089f8844387",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14685"
+          }
+        },
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "5 3 7\n1 2 3 3\n907 609 48 670 184\n2\n3\n5\n1 2 5\n1 3 3\n1 3 2\n2 3 1\n2 3 3\n2 3 4\n3 3 5",
+            "name": "样例 1",
+            "output": "48\n1516\n1516\n0\n0\n0\n1748"
+          }
+        ],
+        "sourceHtmlSha256": "12efc1b3317608c5e1794dbfd7dcf0e2c0c28b52e6c70483f3beac01c34f4502",
+        "sourcePdfSha256": "ed1e949f4841b8f8db8b26d37dc3c89daa58b15697cb6e5f5472c089f8844387",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=14685",
+        "sourceText": "Epilogue of Happiness\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 7 seconds\r\nMemory limit: 1024 megabytes\r\nAs the competition was nearing its end, a banquet was held. For decoration, there was a tree with n light\r\nbulbs numbered from 1 to n on it, where the i-th bulb has a beauty of wi\r\n. The bulbs are connected by\r\nn − 1 circuits. Specifically, for each i from 2 to n, there is a circuit connecting the i-th bulb and the fi-th\r\nbulb (1 ≤ fi < i).\r\nThere is a row of m switches that control the bulbs’ lighting. Pressing the i-th switch toggles the state of\r\nall bulbs on the simple path from bulb 1 to bulb oi on the tree (i.e., bulbs that are on turn off, and those\r\nthat are off turn on).\r\nq children will interact with the tree. The process for the i-th child is described by three integers li\r\n, ri\r\n,\r\nand xi\r\n:\r\n• Initially, all bulbs are off.\r\n• Then, the switches from the li-th to the ri-th are pressed in sequence.\r\n• Finally, a photo is taken of the bulbs on the simple path from 1 to xi\r\n.\r\nThe total beauty of a photo is the sum of the beauty of all bulbs that are on in the photo. Your task is to\r\ncompute this value for each of the q children.\r\nInput\r\nThe first line of the input contains three integers n, m, and q (1 ≤ n, m, q ≤ 5 · 105\r\n), where n is the\r\nnumber of bulbs, m is the number of switches, and q is the number of children.\r\nThe second line of the input contains n − 1 integers f2, f3, . . . , fn (1 ≤ fi < i), where fi represents a\r\ncircuit between the i-th bulb and the fi-th bulb.\r\nThe third line of the input contains n integers w1, w2, . . . , wn (0 ≤ wi ≤ 1000), where wi\r\nis the beauty of\r\nthe i-th bulb.\r\nThe next m lines of the input describe the switches. The i-th line of these contains a single integer oi\r\n(1 ≤ oi ≤ n).\r\nThe next q lines of the input describe the interaction process of the children. The i-th line of these contains\r\nthree integers li\r\n, ri\r\n, and xi (1 ≤ li ≤ ri ≤ m, 1 ≤ xi ≤ n).\r\nOutput\r\nOutput q lines, each containing an integer, representing the total beauty of each photo.\r\nPage 1 of 2\n\nExample\r\nstandard input standard output\r\n5 3 7\r\n1 2 3 3\r\n907 609 48 670 184\r\n2\r\n3\r\n5\r\n1 2 5\r\n1 3 3\r\n1 3 2\r\n2 3 1\r\n2 3 3\r\n2 3 4\r\n3 3 5\r\n48\r\n1516\r\n1516\r\n0\r\n0\r\n0\r\n1748\r\nNote\r\nFor the first child:\r\n• First, he pressed the first switch, causing the first and the second bulbs to turn on.\r\n• Then, he pressed the second switch, causing the first and the second bulbs to turn off while the\r\nthird bulb turns on.\r\n• He took a photo of bulbs 1, 2, 3, and 5. In the photo, only the 3rd bulb was lit, resulting in a beauty\r\nof 48.\r\nPage 2 of 2",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 156413,
+          "data": "tb-asset:ed1e949f4841b8f8db8b26d37dc3c89daa58b15697cb6e5f5472c089f8844387",
+          "fileName": "qoj-14685.pdf",
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "sha256": "ed1e949f4841b8f8db8b26d37dc3c89daa58b15697cb6e5f5472c089f8844387",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14685"
+        },
+        "statementVersion": 6,
+        "title": "Epilogue of Happiness",
+        "url": "https://qoj.ac/problem/14685"
+      },
+      "problem_id": "xcpc-qoj::14685"
+    },
+    {
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=14686": {
+            "bytes": 803459,
+            "data": "tb-asset:c96cded70ed80ce226d965be73be3b27ee87d486b624b7f1aca5832bb6a12ddf",
+            "fileName": "qoj-14686.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "c96cded70ed80ce226d965be73be3b27ee87d486b624b7f1aca5832bb6a12ddf",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14686"
+          }
+        },
+        "id": "xcpc-qoj::14686",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T06:50:05.957929+00:00",
+          "markdownSha256": "44de64c00f42cc44ecbd25a1791119a2f76ee9a4325f9ba350d109ae4e3e1520",
+          "pdfPageCountVerified": true,
+          "sampleCount": 2,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 3000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Follow the Penguins\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=14686)",
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://qoj.ac/download.php?type=statement&id=14686": {
+            "bytes": 803459,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "c96cded70ed80ce226d965be73be3b27ee87d486b624b7f1aca5832bb6a12ddf",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14686"
+          }
+        },
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "3\n2 3 1\n-1 2 3",
+            "name": "样例 1",
+            "output": "7 1 4"
+          },
+          {
+            "input": "10\n8 3 6 7 1 8 2 10 8 1\n0 -14 5 -3 14 -12 11 8 -18 17",
+            "name": "样例 2",
+            "output": "25 21 17 14 14 49 29 9 61 17"
+          }
+        ],
+        "sourceHtmlSha256": "290ae83295c605a244b6711e84e5ffaab1a9e16cd36c29171e7108c017c01c85",
+        "sourcePdfSha256": "c96cded70ed80ce226d965be73be3b27ee87d486b624b7f1aca5832bb6a12ddf",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=14686",
+        "sourceText": "Follow the Penguins\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 3 seconds\r\nMemory limit: 512 megabytes\r\nThere are n penguins standing on a number line. The i-th penguin is initially located at coordinate ai\r\n. It\r\nis guaranteed that all ai-s are pairwise distinct.\r\nEach penguin chooses a target penguin, denoted by ti (1 ≤ ti ≤ n, ti ̸= i). At time 0, all penguins start\r\nmoving simultaneously. Each one runs towards the current position of its target penguin at a constant\r\nspeed of 0.5 units per second.\r\nWhen penguin i meets penguin ti\r\n, it stops immediately. For every penguin, determine the time when it\r\nstops moving. Here, penguin i meets penguin ti\r\nif and only if they are at the same coordinate at the same\r\ntime.\r\nIt can be proven that every penguin will stop moving within a finite amount of time, and the stopping\r\ntime is always an integer.\r\nInput\r\nThe first line of the input contains a single integer n (2 ≤ n ≤ 5 · 105\r\n), which is the number of penguins.\r\nThe second line of the input contains n integers t1, t2, . . . , tn (1 ≤ ti ≤ n, ti ̸= i), where ti\r\nis the target\r\nchosen by the i-th penguin.\r\nThe third line of the input contains n distinct integers a1, a2, . . . , an (−5 · 108 ≤ ai ≤ 5 · 108\r\n), where ai\r\nis\r\nthe initial coordinate of the i-th penguin.\r\nOutput\r\nOutput a single line containing n integers, where the i-th integer represents the time (in seconds) when\r\nthe i-th penguin stops moving.\r\nExamples\r\nstandard input standard output\r\n3\r\n2 3 1\r\n-1 2 3\r\n7 1 4\r\n10\r\n8 3 6 7 1 8 2 10 8 1\r\n0 -14 5 -3 14 -12 11 8 -18 17\r\n25 21 17 14 14 49 29 9 61 17\r\nNote\r\nIn the example, initially, since the second penguin is in the positive direction of the first penguin, the\r\nfirst penguin runs in the positive direction. Similarly, the second penguin runs in the positive direction,\r\nwhile the third penguin runs in the negative direction. The initial positions of the three penguins on the\r\nnumber line are shown in the figure below:\r\n1 2 3\r\n−1 0 2 3\r\nPage 1 of 2\n\nAt second 1, the second penguin and the third penguin meet at x = 2.5, at which point the second penguin\r\nstops moving.\r\n1 2/3\r\n−0.5 0 2.5\r\nAt this moment, the first penguin is at −0.5, and the second penguin is at 2.5. The distance between\r\nthem is 3. Since the first penguin runs at a speed of 0.5 units per second, it will take 6 more seconds to\r\nreach the second penguin. Therefore, the first penguin stops moving at second 7.\r\nBefore the first penguin stops, the third penguin meets it at second 4. So the answers are 7, 1, and 4,\r\nrespectively.\r\nPage 2 of 2",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 803459,
+          "data": "tb-asset:c96cded70ed80ce226d965be73be3b27ee87d486b624b7f1aca5832bb6a12ddf",
+          "fileName": "qoj-14686.pdf",
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "sha256": "c96cded70ed80ce226d965be73be3b27ee87d486b624b7f1aca5832bb6a12ddf",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14686"
+        },
+        "statementVersion": 6,
+        "title": "Follow the Penguins",
+        "url": "https://qoj.ac/problem/14686"
+      },
+      "problem_id": "xcpc-qoj::14686"
+    },
+    {
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=14687": {
+            "bytes": 133834,
+            "data": "tb-asset:798cd3cae14b646f440fb13743945cf33febe17bd5a6d8be0cf3962e16faca6c",
+            "fileName": "qoj-14687.pdf",
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "sha256": "798cd3cae14b646f440fb13743945cf33febe17bd5a6d8be0cf3962e16faca6c",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14687"
+          }
+        },
+        "id": "xcpc-qoj::14687",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T06:50:06.022117+00:00",
+          "markdownSha256": "af989275e9dbb95ebabe2eba2bd28d52f3e3028570fdf7eba7ceb9b01de3550b",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Grand Voting\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=14687)",
+        "pageCount": 1,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://qoj.ac/download.php?type=statement&id=14687": {
+            "bytes": 133834,
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "sha256": "798cd3cae14b646f440fb13743945cf33febe17bd5a6d8be0cf3962e16faca6c",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14687"
+          }
+        },
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "5\n-1 0 1 2 3",
+            "name": "样例 1",
+            "output": "5 -5"
+          }
+        ],
+        "sourceHtmlSha256": "207f51bf412f898311f27ae04d40d862e3bedece4ebc9a1eb2cab52bcc92f247",
+        "sourcePdfSha256": "798cd3cae14b646f440fb13743945cf33febe17bd5a6d8be0cf3962e16faca6c",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=14687",
+        "sourceText": "Grand Voting\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 512 megabytes\r\nDada organized a contest, but it received heavy downvotes. He decided to start manipulating the\r\ncomments.\r\nThis contest has s votes, initially set to 0.\r\nThere are n participants, each with a voting parameter ai\r\n. When it’s their turn to vote:\r\n• If s ≥ ai\r\n, they cast an upvote, incrementing s by 1.\r\n• If s < ai\r\n, they cast a downvote, decrementing s by 1.\r\nDada can control the voting order of these n people. He wants to know the maximum and minimum\r\npossible vote count s in this contest.\r\nInput\r\nThe first line of input contains a single integer n (1 ≤ n ≤ 105\r\n), representing the number of voters.\r\nThe next line of input contains n integers a1, a2, · · · , an (|ai\r\n| ≤ 105\r\n), separated by spaces.\r\nOutput\r\nOutput one line containing two integers separated by a space, representing the maximum and minimum\r\nvote count s in this contest.\r\nExample\r\nstandard input standard output\r\n5\r\n-1 0 1 2 3\r\n5 -5\r\nNote\r\nFor example, if you rearrange a to [−1, 0, 1, 2, 3], initially s = 0. Since s ≥ a1 = −1, the first voter casts\r\nan upvote, making s = 1. Similarly, the remaining four voters also satisfy s ≥ ai\r\n, so all cast upvotes. The\r\nfinal value of s is 5, which is the maximum possible.\r\nConversely, if you rearrange a to [1, 2, 0, 3, −1], then for each voter from left to right, s < ai holds, so\r\nall cast downvotes, resulting in s = −5. This is the minimum possible. Another arrangement such as\r\n[3, 2, 1, 0, −1] also leads to s = −5.\r\nPage 1 of 1",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 133834,
+          "data": "tb-asset:798cd3cae14b646f440fb13743945cf33febe17bd5a6d8be0cf3962e16faca6c",
+          "fileName": "qoj-14687.pdf",
+          "mime": "application/pdf",
+          "pageCount": 1,
+          "sha256": "798cd3cae14b646f440fb13743945cf33febe17bd5a6d8be0cf3962e16faca6c",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14687"
+        },
+        "statementVersion": 6,
+        "title": "Grand Voting",
+        "url": "https://qoj.ac/problem/14687"
+      },
+      "problem_id": "xcpc-qoj::14687"
+    },
+    {
+      "beforeSha256": "c8014949ab80c98f28dac742548c3986195819ed3ff5706f64defca15080f8ec",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=14688": {
+            "bytes": 127034,
+            "data": "tb-asset:adb1e72a8552591069ecdad2197cceb8e7a32e26190e284962e7978c0c727fb9",
+            "fileName": "qoj-14688.pdf",
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "sha256": "adb1e72a8552591069ecdad2197cceb8e7a32e26190e284962e7978c0c727fb9",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14688"
+          }
+        },
+        "currentSourceMarkdown": "# Heart of Darkness\n\n## 题目描述\n\nFor a tree $T$, define $v(T)$ as the number of schemes that stain vertices of $T$ in black and white, and satisfy the following conditions:\n\n- For all black vertices $u,v$ in $T$, vertices in the simple path from $u$ to $v$ are all black.\n- There are at least $k$ undirected edges $(u,v)$ satisfy $u$ and $v$ has different color.\n\nFor all $n$ vertices labeled unrooted tree $T$, calculate the sum of $v(T)$ modulo $998244353$.\n\n\n## 输入格式\n\nA single line contains two positive integers $n,k$ ($1\\le n \\le 10^7$, $1\\le k \\le 5000$).\n\n## 输出格式\n\nA single integer as the answer.\n\n## 提示\n\nFor the first test case, there are only $3$ different $T$ those are chains, so they have the same $v(T)$. Denote $0$ as black and $1$ as white, there are $5$ schemes: $(0,0,1),(1,0,0),(1,1,0),(0,1,1),(1,0,1)$. We emphasize that schemes $(1,1,1)$ and $(0,0,0)$ don't satisfy the second condition, and $(0,1,0)$ doesn't satisfy the first one.\n\nTherefore, the answer is $3 \\cdot 5 = 15$.",
+        "id": "luogu-training-P14454",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T06:33:11.495642+00:00",
+          "issues": [],
+          "markdownSha256": "238ea25b589db3b432a4672de4b3b661397136dca91d6502b5de146921320128",
+          "pdfPageCountVerified": false,
+          "sampleCount": 4,
+          "schema": 1,
+          "sourceDocuments": [
+            {
+              "sha256": "dde188b07256a46b9ab5c5b2aae96c23dee9a6b6827ff4c7f6fdaf1ed6a5bc99",
+              "url": "https://www.luogu.com.cn/problem/P14454"
+            }
+          ],
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 524,
+          "timeMs": 3000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Heart of Darkness\n\n## 题目描述\n\nFor a tree $T$, define $v(T)$ as the number of schemes that stain vertices of $T$ in black and white, and satisfy the following conditions:\n\n- For all black vertices $u,v$ in $T$, vertices in the simple path from $u$ to $v$ are all black.\n- There are at least $k$ undirected edges $(u,v)$ satisfy $u$ and $v$ has different color.\n\nFor all $n$ vertices labeled unrooted tree $T$, calculate the sum of $v(T)$ modulo $998244353$.\n\n## 输入格式\n\nA single line contains two positive integers $n,k$ ($1\\le n \\le 10^7$, $1\\le k \\le 5000$).\n\n## 输出格式\n\nA single integer as the answer.\n\n## 提示\n\nFor the first test case, there are only $3$ different $T$ those are chains, so they have the same $v(T)$. Denote $0$ as black and $1$ as white, there are $5$ schemes: $(0,0,1),(1,0,0),(1,1,0),(0,1,1),(1,0,1)$. We emphasize that schemes $(1,1,1)$ and $(0,0,0)$ don't satisfy the second condition, and $(0,1,0)$ doesn't satisfy the first one.\n\nTherefore, the answer is $3 \\cdot 5 = 15$.",
+        "officialTags": [
+          "2025",
+          "组合数学",
+          "生成函数",
+          "ICPC",
+          "拉格朗日反演",
+          "西安"
+        ],
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "3 1",
+            "name": "样例 1",
+            "output": "15"
+          },
+          {
+            "input": "6 2",
+            "name": "样例 2",
+            "output": "17286"
+          },
+          {
+            "input": "30 9",
+            "name": "样例 3",
+            "output": "434031055"
+          },
+          {
+            "input": "114514 2520",
+            "name": "样例 4",
+            "output": "136362204"
+          }
+        ],
+        "statementAvailable": true,
+        "statementSupplement": "",
+        "statementVersion": 7,
+        "title": "Heart of Darkness",
+        "translation": {
+          "kind": "site",
+          "markdown": "# Heart of Darkness\n\n## 题目描述\n\n对于一棵树 $T$，定义 $v(T)$ 为将 $T$ 的顶点染成黑色和白色的方案数，且需满足以下条件：\n\n- 对于树中任意两个黑色顶点 $u, v$，从 $u$ 到 $v$ 的简单路径上的所有顶点都必须为黑色；\n- 至少有 $k$ 条无向边 $(u, v)$ 满足 $u$ 和 $v$ 的颜色不同。\n\n对于所有有 $n$ 个标号顶点的无根树 $T$，计算 $\\sum v(T)$ 的值，并将结果对 $998244353$ 取模。\n\n## 输入格式\n\n输入共一行，包含两个正整数 $n, k$（$1 \\leq n \\leq 10^7$，$1 \\leq k \\leq 5000$）。\n\n## 输出格式\n\n输出一个整数，表示答案。\n\n## 提示\n\n在第一个测试用例中，只有 $3$ 种不同的树 $T$，它们都是链形结构，因此每棵树的 $v(T)$ 相同。设 $0$ 表示黑色，$1$ 表示白色，则共有 $5$ 种满足条件的染色方案：\n$$(0,0,1),\\ (1,0,0),\\ (1,1,0),\\ (0,1,1),\\ (1,0,1)。$$\n\n其中，方案 $(1,1,1)$ 与 $(0,0,0)$ 不满足第二个条件（即没有至少 $k=1$ 条黑白相邻的边），而方案 $(0,1,0)$ 不满足第一个条件（两个黑色顶点之间的路径上存在白色顶点）。\n\n因此，最终答案为 $3 \\times 5 = 15$。\n\n翻译由 ChatGPT-5 完成",
+          "provider": "洛谷原站中文题面",
+          "sourceUrl": "https://www.luogu.com.cn/problem/P14454"
+        },
+        "translationSourceSnapshot": {
+          "currentSourceHash": "238ea25b589db3b432a4672de4b3b661397136dca91d6502b5de146921320128",
+          "equivalentFormattingVerified": true,
+          "samplesUnchanged": true,
+          "sourceHash": "03fb166135126b83d359aa88e5d7f5ec6bc500bf8be29a435d31fab9b5847cb1"
+        },
+        "url": "https://www.luogu.com.cn/problem/P14454",
+        "verifiedEquivalentSources": [
+          {
+            "identityReview": {
+              "constraintsVerified": [
+                "1<=n<=10^7; 1<=k<=5000; modulo 998244353"
+              ],
+              "method": "full-specification-io-constraints-all-samples-and-notes",
+              "otherStatementSha256": "c8014949ab80c98f28dac742548c3986195819ed3ff5706f64defca15080f8ec",
+              "otherUrl": "https://www.luogu.com.cn/problem/P14454"
+            },
+            "sourcePdfSha256": "adb1e72a8552591069ecdad2197cceb8e7a32e26190e284962e7978c0c727fb9",
+            "url": "https://qoj.ac/problem/14688"
+          }
+        ]
+      },
+      "problem_id": "luogu-training-P14454"
+    },
+    {
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=14689": {
+            "bytes": 157051,
+            "data": "tb-asset:f02c1f5c145e16c23a60ebb659e436cf96c485005bf420d04fcb90b4932cd0e7",
+            "fileName": "qoj-14689.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "f02c1f5c145e16c23a60ebb659e436cf96c485005bf420d04fcb90b4932cd0e7",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14689"
+          }
+        },
+        "id": "xcpc-qoj::14689",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T06:50:06.139848+00:00",
+          "markdownSha256": "1315dd2c42504f56fa7358158667e2820516d9e7229af963f4e50334183f6d44",
+          "pdfPageCountVerified": true,
+          "sampleCount": 3,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Imagined Holly\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=14689)",
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://qoj.ac/download.php?type=statement&id=14689": {
+            "bytes": 157051,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "f02c1f5c145e16c23a60ebb659e436cf96c485005bf420d04fcb90b4932cd0e7",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14689"
+          }
+        },
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "2\n1 3\n2",
+            "name": "样例 1",
+            "output": "1 2"
+          },
+          {
+            "input": "4\n1 3 2 5\n2 0 7\n3 6\n4",
+            "name": "样例 2",
+            "output": "1 2\n1 3\n1 4"
+          },
+          {
+            "input": "6\n1 7 4 5 2 3\n2 1 6 7 0\n3 5 4 3\n4 3 2\n5 5\n6",
+            "name": "样例 3",
+            "output": "4 1\n2 3\n6 4\n5 2\n4 2"
+          }
+        ],
+        "sourceHtmlSha256": "5fe48884efc0c7b9b9b66a271b78b6ad0b943f9dbbf67e1a89d90cffa79cd082",
+        "sourcePdfSha256": "f02c1f5c145e16c23a60ebb659e436cf96c485005bf420d04fcb90b4932cd0e7",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=14689",
+        "sourceText": "Imagined Holly\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 512 megabytes\r\nGiven a non-negative integer matrix A of size n × n. For a tree with n vertices, numbered from 1 to n,\r\nwe call it a holly tree if and only if:\r\n• For any pair of vertices u and v (1 ≤ u, v ≤ n), Au,v equals the bitwise XOR sum of the indices of\r\nthe vertices on the simple path from u to v in the tree.\r\nYour task is to construct a holly tree. It is guaranteed that such a holly tree always exists.\r\nInput\r\nThe first line of the input contains an integer n (2 ≤ n ≤ 2000), which is the size of matrix A.\r\nThe next n lines of the input describe the matrix A. The i-th line contains n − i + 1 integers\r\nAi,i, Ai,i+1, . . . , Ai,n (0 ≤ Ai,j < 2\r\n11). Note that Ai,j = Aj,i holds for all 1 ≤ i, j ≤ n.\r\nIt is guaranteed that such a holly tree always exists.\r\nOutput\r\nOutput n − 1 lines, each containing two integers u and v (1 ≤ u, v ≤ n), representing an edge of the holly\r\ntree.\r\nExamples\r\nstandard input standard output\r\n2\r\n1 3\r\n2\r\n1 2\r\n4\r\n1 3 2 5\r\n2 0 7\r\n3 6\r\n4\r\n1 2\r\n1 3\r\n1 4\r\n6\r\n1 7 4 5 2 3\r\n2 1 6 7 0\r\n3 5 4 3\r\n4 3 2\r\n5 5\r\n6\r\n4 1\r\n2 3\r\n6 4\r\n5 2\r\n4 2\r\nNote\r\nIn the second example, the tree in the output is shown in the following figure:\r\n1\r\n2 3 4\r\nPage 1 of 2\n\nThis tree is a holly tree. For example, for the pair of vertices (2, 4), the simple path from 1 to 4 includes\r\nvertices 2, 1, and 4, with a bitwise XOR sum of 2⊕1⊕4 = 7, which satisfies the constraint A2,4 = 7 given\r\nin the input.\r\nPage 2 of 2",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 157051,
+          "data": "tb-asset:f02c1f5c145e16c23a60ebb659e436cf96c485005bf420d04fcb90b4932cd0e7",
+          "fileName": "qoj-14689.pdf",
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "sha256": "f02c1f5c145e16c23a60ebb659e436cf96c485005bf420d04fcb90b4932cd0e7",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14689"
+        },
+        "statementVersion": 6,
+        "title": "Imagined Holly",
+        "url": "https://qoj.ac/problem/14689"
+      },
+      "problem_id": "xcpc-qoj::14689"
+    },
+    {
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=14690": {
+            "bytes": 154006,
+            "data": "tb-asset:613e0023de811dfcfbcdefe8c9fe21b28eb0d2354b53b765060abbd98a67cc62",
+            "fileName": "qoj-14690.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "613e0023de811dfcfbcdefe8c9fe21b28eb0d2354b53b765060abbd98a67cc62",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14690"
+          }
+        },
+        "id": "xcpc-qoj::14690",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T06:50:06.207877+00:00",
+          "markdownSha256": "39cefb3d2792ec6e77ab5bc26181bfc90b5d6872ccc4c17c4986c6205f275a72",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# January's Color\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=14690)",
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://qoj.ac/download.php?type=statement&id=14690": {
+            "bytes": 154006,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "613e0023de811dfcfbcdefe8c9fe21b28eb0d2354b53b765060abbd98a67cc62",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14690"
+          }
+        },
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "3\n5 5\n1 2 3 4 5\n1 2\n1 3\n2 4\n2 5\n3 1\n2 1\n4 1\n5 1\n5 2\n5 5\n1 5 1 1 1\n1 2\n1 3\n2 4\n2 5\n3 1\n2 1\n4 1\n5 1\n2 5\n6 5\n9 9 8 2 4 4\n1 2\n1 3\n1 4\n1 5\n1 6\n2 1\n3 1\n4 1\n5 1\n6 1",
+            "name": "样例 1",
+            "output": "2\n3\n8\n7\n4\n2\n1\n2\n2\n-1\n2\n2\n4\n2\n2"
+          }
+        ],
+        "sourceHtmlSha256": "16398a56f7e0d4a4b346b887a13b97fa07641a545c64d5c9d0a0c976e5a1b7c0",
+        "sourcePdfSha256": "613e0023de811dfcfbcdefe8c9fe21b28eb0d2354b53b765060abbd98a67cc62",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=14690",
+        "sourceText": "January’s Color\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 2 seconds\r\nMemory limit: 512 megabytes\r\nGiven a rooted tree with n vertices, where the root is at vertex 1. It is guaranteed that no vertex has\r\nexactly one child in the tree. In other words, each vertex is either a leaf or has at least two children.\r\nYou own some of the vertices in the tree.\r\nYou may have some vertices in your hand. You can obtain new vertices in the following two ways:\r\n• Directly purchase a vertex i from the bank at a cost of ci\r\n.\r\n• Select two different vertices from your hand that share the same parent, discard them, and obtain\r\ntheir parent for free.\r\nNow, you have m queries. In each query, you initially have exactly one vertex x, and you want to end up\r\nwith exactly one vertex y with no other vertices left. Find the minimum cost needed to achieve this, or\r\nreport no solution.\r\nInput\r\nThe input consists of multiple test cases. The first line contains an integer t (1 ≤ t ≤ 105\r\n), the number of\r\ntest cases. For each test case:\r\n• The first line contains two integers n and m (3 ≤ n ≤ 3 · 105\r\n, 1 ≤ m ≤ 3 · 105\r\n), where n is the\r\nnumber of vertices in the tree and m is the number of queries.\r\n• The second line contains n integers c1, c2, . . . , cn (1 ≤ ci ≤ 109\r\n), which are the costs to obtain each\r\nvertex from the bank.\r\n• The next n − 1 lines each contain two integers u and v (1 ≤ u, v ≤ n, u ̸= v), representing an edge\r\nin the tree.\r\n• The next m lines each contain two integers x and y (1 ≤ x, y ≤ n, x ̸= y), representing a query.\r\nIt is guaranteed that the sum of n and the sum of m over all test cases do not exceed 3 · 105\r\n.\r\nOutput\r\nFor each query, output a single integer representing the minimum additional cost for that query. If there\r\nis no way to end up with a single vertex y, output −1.\r\nPage 1 of 2\n\nExample\r\nstandard input standard output\r\n3\r\n5 5\r\n1 2 3 4 5\r\n1 2\r\n1 3\r\n2 4\r\n2 5\r\n3 1\r\n2 1\r\n4 1\r\n5 1\r\n5 2\r\n5 5\r\n1 5 1 1 1\r\n1 2\r\n1 3\r\n2 4\r\n2 5\r\n3 1\r\n2 1\r\n4 1\r\n5 1\r\n2 5\r\n6 5\r\n9 9 8 2 4 4\r\n1 2\r\n1 3\r\n1 4\r\n1 5\r\n1 6\r\n2 1\r\n3 1\r\n4 1\r\n5 1\r\n6 1\r\n2\r\n3\r\n8\r\n7\r\n4\r\n2\r\n1\r\n2\r\n2\r\n-1\r\n2\r\n2\r\n4\r\n2\r\n2\r\nNote\r\nFor the first query in the first test case, you initially have vertex 3 and wish to obtain vertex 1. The\r\ncheapest solution is to directly purchase vertex 2 at a cost of c2 = 2, then discard vertices 2 and 3 to\r\nobtain their common parent 1 for free. It can be proven that this is the minimum-cost solution.\r\nFor the first query in the second test case, you again start with vertex 3 and want to obtain vertex 1.\r\nInstead of purchasing vertex 2, you choose to purchase vertices 4 and 5 at a total cost of c4 +c5 = 2, then\r\ndiscard vertices 4 and 5 to obtain their parent vertex 2 for free. Next, discard vertices 2 and 3 to obtain\r\ntheir parent vertex 1 for free. It can be proven that this is the minimum-cost solution.\r\nNote that you can not purchase another vertex 3 and then discard it with the original vertex 3 to obtain\r\nvertex 1, since these two vertices 3 do not satisfy the requirement of being two different vertices.\r\nPage 2 of 2",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 154006,
+          "data": "tb-asset:613e0023de811dfcfbcdefe8c9fe21b28eb0d2354b53b765060abbd98a67cc62",
+          "fileName": "qoj-14690.pdf",
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "sha256": "613e0023de811dfcfbcdefe8c9fe21b28eb0d2354b53b765060abbd98a67cc62",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14690"
+        },
+        "statementVersion": 6,
+        "title": "January's Color",
+        "url": "https://qoj.ac/problem/14690"
+      },
+      "problem_id": "xcpc-qoj::14690"
+    },
+    {
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=14691": {
+            "bytes": 138915,
+            "data": "tb-asset:41143315b72fa7721b03bc30d31d1e038f45faf4e9dede5a5632f143eafa39a9",
+            "fileName": "qoj-14691.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "41143315b72fa7721b03bc30d31d1e038f45faf4e9dede5a5632f143eafa39a9",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14691"
+          }
+        },
+        "id": "xcpc-qoj::14691",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T06:50:06.277528+00:00",
+          "markdownSha256": "2060aba6be73b0f3819f55421677d41bae2a8002841a2b7ec93cd5f7b22d2618",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 4000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Killing Bits\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=14691)",
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://qoj.ac/download.php?type=statement&id=14691": {
+            "bytes": 138915,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "41143315b72fa7721b03bc30d31d1e038f45faf4e9dede5a5632f143eafa39a9",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14691"
+          }
+        },
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "4\n3\n0 1 2\n2 1 0\n5\n1 0 1 3 4\n0 0 1 1 4\n8\n1 2 3 4 5 6 7 7\n1 2 3 4 5 6 7 7\n8\n7 7 7 7 7 7 7 7\n1 2 3 4 5 6 7 7",
+            "name": "样例 1",
+            "output": "No\nYes\nYes\nNo"
+          }
+        ],
+        "sourceHtmlSha256": "b9e479e335053973bf8ad73306bce4e3bad0a60df6270cd94d619136cb32d5be",
+        "sourcePdfSha256": "41143315b72fa7721b03bc30d31d1e038f45faf4e9dede5a5632f143eafa39a9",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=14691",
+        "sourceText": "Killing Bits\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 4 seconds\r\nMemory limit: 512 megabytes\r\nYou are given two arrays a and b, both consisting of n non-negative integers. You can perform the following\r\noperation on the array a an arbitrary number of times (possibly, zero):\r\n• First, you select a permutation p of 0, 1, . . . , n − 1;\r\n• Then, for each 1 ≤ i ≤ n, you set ai to ai & pi\r\n. Here, & denotes the bitwise AND operation.\r\nYou have to determine whether it is possible to transform a into b.\r\nInput\r\nThe input consists of multiple test cases. The first line contains an integer t (1 ≤ t ≤ 104\r\n), the number of\r\ntest cases. For each test case:\r\n• The first line contains a single integer n (1 ≤ n ≤ 5 · 104\r\n), which is the length of arrays a and b.\r\n• The second line contains n integers a1, a2, . . . , an (0 ≤ ai ≤ n − 1), which are the elements of a.\r\n• The third line contains n integers b1, b2, . . . , bn (0 ≤ bi ≤ n − 1), which are the elements of b.\r\nIt is guaranteed that the sum of n over all test cases does not exceed 5 · 104\r\n.\r\nOutput\r\nFor each test case, print “Yes” in a single line if it is possible to transform a into b. Otherwise, print “No”.\r\nYou can output the answer in any case (upper or lower). For example, the strings “yEs”, “yes”, “Yes”, and\r\n“YES” will be recognized as positive responses.\r\nExample\r\nstandard input standard output\r\n4\r\n3\r\n0 1 2\r\n2 1 0\r\n5\r\n1 0 1 3 4\r\n0 0 1 1 4\r\n8\r\n1 2 3 4 5 6 7 7\r\n1 2 3 4 5 6 7 7\r\n8\r\n7 7 7 7 7 7 7 7\r\n1 2 3 4 5 6 7 7\r\nNo\r\nYes\r\nYes\r\nNo\r\nNote\r\nIn the first test case, we need to use at least one operation to transform a into b. Note that a1 & p1 is\r\nalways 0 because a1 = 0. However, b1 > 0, so it is impossible to make a1 = b1, no matter how the\r\npermutations are selected during the operations.\r\nPage 1 of 2\n\nIn the second test case, you can select p = [2, 0, 3, 1, 4]. After this operation, a is transformed into b.\r\nIn the third test case, a = b, so we do not need any operations.\r\nPage 2 of 2",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 138915,
+          "data": "tb-asset:41143315b72fa7721b03bc30d31d1e038f45faf4e9dede5a5632f143eafa39a9",
+          "fileName": "qoj-14691.pdf",
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "sha256": "41143315b72fa7721b03bc30d31d1e038f45faf4e9dede5a5632f143eafa39a9",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14691"
+        },
+        "statementVersion": 6,
+        "title": "Killing Bits",
+        "url": "https://qoj.ac/problem/14691"
+      },
+      "problem_id": "xcpc-qoj::14691"
+    },
+    {
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=14692": {
+            "bytes": 162078,
+            "data": "tb-asset:30a42716001bf111683bb311511874467deb91972074f85b2aeff928c97f8f2f",
+            "fileName": "qoj-14692.pdf",
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "30a42716001bf111683bb311511874467deb91972074f85b2aeff928c97f8f2f",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14692"
+          }
+        },
+        "id": "xcpc-qoj::14692",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T06:50:06.347693+00:00",
+          "markdownSha256": "88593ea87481e9c6ff602a1bdb602b0152b1ad1803f11236bac10285c3836166",
+          "pdfPageCountVerified": true,
+          "sampleCount": 1,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Let's Make a Convex!\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=14692)",
+        "pageCount": 2,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://qoj.ac/download.php?type=statement&id=14692": {
+            "bytes": 162078,
+            "mime": "application/pdf",
+            "pageCount": 2,
+            "sha256": "30a42716001bf111683bb311511874467deb91972074f85b2aeff928c97f8f2f",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14692"
+          }
+        },
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "7\n5\n1 2 3 4 5\n5\n1 2 4 8 16\n5\n2 2 2 2 2\n4\n1 4 10 7\n2\n1 2\n3\n2 3 4\n4\n3 1 2 6",
+            "name": "样例 1",
+            "output": "0 0 12 14 15\n0 0 0 0 0\n0 0 6 8 10\n0 0 21 22\n0 0\n0 0 9\n0 0 0 0"
+          }
+        ],
+        "sourceHtmlSha256": "5ed1b07ef516a08fdb52ba89c86ac2fe30fa01c9af96c4991e471a844831ac1e",
+        "sourcePdfSha256": "30a42716001bf111683bb311511874467deb91972074f85b2aeff928c97f8f2f",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=14692",
+        "sourceText": "Let’s Make a Convex!\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 512 megabytes\r\nKevin is the chief judge of the International Convex Polygon Championship (ICPC). He proposed a\r\ngeometry task for the contest. However, due to his lack of experience in geometry, he was unable to\r\ngenerate the correct convex polygons for the task.\r\nTo prove his geometry skills, Kevin starts playing with sticks. He has n sticks, the i-th of which has\r\na length ai\r\n. He would like to select k sticks so that they can be arranged as a non-degenerate convex\r\npolygon.\r\nSince stronger test data are needed, Kevin wants to maximize the perimeter of the polygon (i.e., maximize\r\nthe sum of ai of all sticks in the subset). Could you help him find out the value for all integers k from 1\r\nto n? If no such polygon exists, tell him a single integer 0 instead.\r\nInput\r\nThe input consists of multiple test cases. The first line contains an integer t (1 ≤ t ≤ 105\r\n), the number of\r\ntest cases. For each test case:\r\n• The first line contains a single integer n (1 ≤ n ≤ 2 · 105\r\n), which is the number of sticks.\r\n• The second line contains n integers a1, . . . , an (1 ≤ ai ≤ 109\r\n), which are the lengths of each stick.\r\nIt is guaranteed that the sum of n over all test cases does not exceed 2 · 105\r\n.\r\nOutput\r\nFor each test case, output a single line containing n integers, representing the maximal perimeter of the\r\npolygon. Specifically, if no such polygon exists, output a single integer 0.\r\nExample\r\nstandard input standard output\r\n7\r\n5\r\n1 2 3 4 5\r\n5\r\n1 2 4 8 16\r\n5\r\n2 2 2 2 2\r\n4\r\n1 4 10 7\r\n2\r\n1 2\r\n3\r\n2 3 4\r\n4\r\n3 1 2 6\r\n0 0 12 14 15\r\n0 0 0 0 0\r\n0 0 6 8 10\r\n0 0 21 22\r\n0 0\r\n0 0 9\r\n0 0 0 0\r\nNote\r\nIn the first test case, it can be shown that there does not exist a convex polygon of 1 or 2 sides. When k = 3,\r\nthe maximal perimeter of the convex polygon is 12, since sticks of side lengths 3, 4, and 5 are known for\r\nPage 1 of 2\n\nforming a right triangle. Similarly, when k = 4, the maximal perimeter of the polygon is 2+ 3+ 4+ 5 = 14;\r\nwhen k = 5, selecting all sticks is a valid scheme and obtains a perimeter of 1 + 2 + 3 + 4 + 5 = 15.\r\nIn the second test case, it can be proven that no matter how the sticks are selected, they cannot form a\r\nconvex polygon.\r\nPage 2 of 2",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 162078,
+          "data": "tb-asset:30a42716001bf111683bb311511874467deb91972074f85b2aeff928c97f8f2f",
+          "fileName": "qoj-14692.pdf",
+          "mime": "application/pdf",
+          "pageCount": 2,
+          "sha256": "30a42716001bf111683bb311511874467deb91972074f85b2aeff928c97f8f2f",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14692"
+        },
+        "statementVersion": 6,
+        "title": "Let's Make a Convex!",
+        "url": "https://qoj.ac/problem/14692"
+      },
+      "problem_id": "xcpc-qoj::14692"
+    },
+    {
+      "beforeSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "content": {
+        "attachments": {
+          "https://qoj.ac/download.php?type=statement&id=14693": {
+            "bytes": 155311,
+            "data": "tb-asset:9b59efd99fb096d13bb5dc9f72e125523c053656d1b2fbef6f5e0ee8b5867688",
+            "fileName": "qoj-14693.pdf",
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "sha256": "9b59efd99fb096d13bb5dc9f72e125523c053656d1b2fbef6f5e0ee8b5867688",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14693"
+          }
+        },
+        "id": "xcpc-qoj::14693",
+        "images": {},
+        "integrity": {
+          "checkedAt": "2026-10-30T06:50:12.587880+00:00",
+          "markdownSha256": "453d9140c6ea29327c9dc3fbce0ec2889da7fdf8766628f800fd2343b37536f3",
+          "pdfPageCountVerified": true,
+          "sampleCount": 2,
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Mystique as Iris\n\n\n\n[PDF](https://qoj.ac/download.php?type=statement&id=14693)",
+        "pageCount": 1,
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://qoj.ac/download.php?type=statement&id=14693": {
+            "bytes": 155311,
+            "mime": "application/pdf",
+            "pageCount": 1,
+            "sha256": "9b59efd99fb096d13bb5dc9f72e125523c053656d1b2fbef6f5e0ee8b5867688",
+            "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14693"
+          }
+        },
+        "sampleExtraction": "pdf-table-geometry-v1",
+        "samples": [
+          {
+            "input": "2 2\n-1 -1",
+            "name": "样例 1",
+            "output": "3"
+          },
+          {
+            "input": "6 10\n-1 -1 -1 -1 1 7",
+            "name": "样例 2",
+            "output": "9125"
+          }
+        ],
+        "sourceHtmlSha256": "b5e8a7b6cb78b399a2d8bd3dccbed8094f551314e8648e6126a5aeee281cdc77",
+        "sourcePdfSha256": "9b59efd99fb096d13bb5dc9f72e125523c053656d1b2fbef6f5e0ee8b5867688",
+        "sourcePdfUrl": "https://qoj.ac/download.php?type=statement&id=14693",
+        "sourceText": "Mystique as Iris\r\nInput file: standard input\r\nOutput file: standard output\r\nTime limit: 1 second\r\nMemory limit: 512 megabytes\r\nThe following two steps, on an array x consisting of positive integers, are called an operation:\r\n1. Select any two adjacent elements in x, decrease one of them by 1, and set the other to 0.\r\n2. Remove all zeros from x.\r\nWe call x mystic if and only if it can be transformed into an empty sequence after a finite number of\r\noperations (possibly zero).\r\nYou are given an array a consisting of n integers, as well as an integer m. Each element of a is either an\r\ninteger from 1 to m or −1. Your task is to replace every occurrence of −1 in a with any integer from 1 to\r\nm.\r\nDetermine the number of distinct mystic arrays a that can be obtained after the replacement. Since the\r\nanswer can be very large, output it modulo 109 + 7.\r\nInput\r\nThe first line of the input contains two integers n and m (2 ≤ n ≤ 106\r\n, 1 ≤ m ≤ 108\r\n).\r\nThe second line of the input contains n integers a1, a2, . . . , an (1 ≤ ai ≤ m or ai = −1).\r\nOutput\r\nOutput a single integer, representing the number of distinct mystic sequences a that can be obtained,\r\nmodulo 109 + 7.\r\nExamples\r\nstandard input standard output\r\n2 2\r\n-1 -1\r\n3\r\n6 10\r\n-1 -1 -1 -1 1 7\r\n9125\r\nNote\r\nIn the first test, the array a is [−1, −1]. By replacing both −1-s, one possible result is [1, 2]. In this case,\r\nwe select the two adjacent numbers: decrease the first by 1 and set the second to 0, obtaining [0, 0]. After\r\nremoving all zeros, the sequence becomes empty. Hence, [1, 2] is a mystic sequence.\r\nSimilarly, if we replace the −1-s with [1, 1] or with [2, 1], both sequences can also be reduced to empty.\r\nTherefore, the total number of distinct mystic sequences is 3.\r\nPage 1 of 1",
+        "statementAvailable": true,
+        "statementFormat": "pdf-native-v1",
+        "statementPdf": {
+          "bytes": 155311,
+          "data": "tb-asset:9b59efd99fb096d13bb5dc9f72e125523c053656d1b2fbef6f5e0ee8b5867688",
+          "fileName": "qoj-14693.pdf",
+          "mime": "application/pdf",
+          "pageCount": 1,
+          "sha256": "9b59efd99fb096d13bb5dc9f72e125523c053656d1b2fbef6f5e0ee8b5867688",
+          "sourceUrl": "https://qoj.ac/download.php?type=statement&id=14693"
+        },
+        "statementVersion": 6,
+        "title": "Mystique as Iris",
+        "url": "https://qoj.ac/problem/14693"
+      },
+      "problem_id": "xcpc-qoj::14693"
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "method": "all-existing-statement-complete-sample-signature-and-original-PDF-SHA256-independent-of-title",
+  "existingOriginalIdsRetained": 12271,
+  "problems": [
+    {
+      "nativeUrl": "https://qoj.ac/problem/14681",
+      "globalId": "14681",
+      "sampleCandidates": [],
+      "originalPdfCandidates": []
+    },
+    {
+      "nativeUrl": "https://qoj.ac/problem/14682",
+      "globalId": "14682",
+      "sampleCandidates": [],
+      "originalPdfCandidates": []
+    },
+    {
+      "nativeUrl": "https://qoj.ac/problem/14683",
+      "globalId": "14683",
+      "sampleCandidates": [],
+      "originalPdfCandidates": []
+    },
+    {
+      "nativeUrl": "https://qoj.ac/problem/14684",
+      "globalId": "14684",
+      "sampleCandidates": [
+        "luogu-training-P14450"
+      ],
+      "originalPdfCandidates": []
+    },
+    {
+      "nativeUrl": "https://qoj.ac/problem/14685",
+      "globalId": "14685",
+      "sampleCandidates": [],
+      "originalPdfCandidates": []
+    },
+    {
+      "nativeUrl": "https://qoj.ac/problem/14686",
+      "globalId": "14686",
+      "sampleCandidates": [],
+      "originalPdfCandidates": []
+    },
+    {
+      "nativeUrl": "https://qoj.ac/problem/14687",
+      "globalId": "14687",
+      "sampleCandidates": [],
+      "originalPdfCandidates": []
+    },
+    {
+      "nativeUrl": "https://qoj.ac/problem/14688",
+      "globalId": "14688",
+      "sampleCandidates": [
+        "luogu-training-P14454"
+      ],
+      "originalPdfCandidates": []
+    },
+    {
+      "nativeUrl": "https://qoj.ac/problem/14689",
+      "globalId": "14689",
+      "sampleCandidates": [],
+      "originalPdfCandidates": []
+    },
+    {
+      "nativeUrl": "https://qoj.ac/problem/14690",
+      "globalId": "14690",
+      "sampleCandidates": [],
+      "originalPdfCandidates": []
+    },
+    {
+      "nativeUrl": "https://qoj.ac/problem/14691",
+      "globalId": "14691",
+      "sampleCandidates": [],
+      "originalPdfCandidates": []
+    },
+    {
+      "nativeUrl": "https://qoj.ac/problem/14692",
+      "globalId": "14692",
+      "sampleCandidates": [],
+      "originalPdfCandidates": []
+    },
+    {
+      "nativeUrl": "https://qoj.ac/problem/14693",
+      "globalId": "14693",
+      "sampleCandidates": [],
+      "originalPdfCandidates": []
+    }
+  ]
+}

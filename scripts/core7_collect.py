@@ -12,12 +12,13 @@ os.environ['TB_STATE_DIR'] = str(OUT / 'isolated-state')
 os.environ['TB_OFFLINE'] = '1'
 sys.path[:0] = [str(ROOT / 'backend/common'), str(ROOT / 'backend')]
 from fetch_problem import LuoguSession, LG_SECTIONS
+from statement_seed import load_statements
 
 
 def main():
     source = ROOT / 'data/library'
     scope = json.loads((OUT / 'scope.json').read_text('utf-8'))
-    known = {r['problem_id']: r['content'] for r in json.loads((source / 'statements.json').read_text('utf-8'))}
+    known = {r['problem_id']: r['content'] for r in load_statements(source)}
     directory = OUT / 'statements'
     directory.mkdir(parents=True, exist_ok=True)
     session = LuoguSession(delay=1.5)

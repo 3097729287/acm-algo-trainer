@@ -1,0 +1,1222 @@
+[
+  {
+    "id": "luogu-training-AT_agc025_e",
+    "url": "https://qoj.ac/problems?search=Walking%20on%20a%20Tree",
+    "time": "2026-10-30T07:17:55.149847+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "7cf2d83a105ece9f1765f146c6c302001f5f66eaac6abdfb3bf4a537abc71d9a"
+  },
+  {
+    "id": "luogu-training-AT_agc041_e",
+    "url": "https://qoj.ac/problems?search=Balancing%20Network",
+    "time": "2026-10-30T07:17:55.150532+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "f17172d5ab7c8950951241bec39a9876d2abb05e4958820033691adffa6156d0"
+  },
+  {
+    "id": "luogu-training-CF1088E",
+    "url": "https://qoj.ac/problems?search=Ehab%20and%20a%20component%20choosing%20problem",
+    "time": "2026-10-30T07:17:55.150783+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "2dc36ce9b9dd5a840a841f1e8ffaf38bbe58e6fd16127ea2b92ee2f561ba9908"
+  },
+  {
+    "id": "luogu-training-CF119A",
+    "url": "https://qoj.ac/problems?search=Epic%20Game",
+    "time": "2026-10-30T07:17:55.151024+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "4d53586a546945ded007fa71a8ac45b0c396f63c46f416696b382625cd655130"
+  },
+  {
+    "id": "luogu-training-CF1322B",
+    "url": "https://qoj.ac/problems?search=Present",
+    "time": "2026-10-30T07:17:58.134540+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [
+      {
+        "url": "https://qoj.ac/problem/506",
+        "title": "Gift"
+      },
+      {
+        "url": "https://qoj.ac/problem/509",
+        "title": "Birthday gift"
+      },
+      {
+        "url": "https://qoj.ac/problem/798",
+        "title": "Fibonacci Representations"
+      },
+      {
+        "url": "https://qoj.ac/problem/1420",
+        "title": "Presents"
+      },
+      {
+        "url": "https://qoj.ac/problem/2809",
+        "title": "Present"
+      },
+      {
+        "url": "https://qoj.ac/problem/4405",
+        "title": "普罗霍洛夫卡"
+      },
+      {
+        "url": "https://qoj.ac/problem/4908",
+        "title": "完全表示"
+      },
+      {
+        "url": "https://qoj.ac/problem/8258",
+        "title": "Gift Exchange"
+      },
+      {
+        "url": "https://qoj.ac/problem/9015",
+        "title": "Difference Representations"
+      },
+      {
+        "url": "https://qoj.ac/problem/10474",
+        "title": "Ribbon on the Christmas Present"
+      },
+      {
+        "url": "https://qoj.ac/problem/11192",
+        "title": "Reprezentanci firmy"
+      },
+      {
+        "url": "https://qoj.ac/problem/12146",
+        "title": "Jigsaw Present"
+      },
+      {
+        "url": "https://qoj.ac/problem/13195",
+        "title": "生日礼物"
+      },
+      {
+        "url": "https://qoj.ac/problem/13304",
+        "title": "Fibonacci Representation"
+      },
+      {
+        "url": "https://qoj.ac/problem/18097",
+        "title": "Gifts delivery"
+      },
+      {
+        "url": "https://qoj.ac/problem/18244",
+        "title": "Time Display Stickers"
+      },
+      {
+        "url": "https://qoj.ac/problem/18621",
+        "title": "Доклад инвесторам"
+      },
+      {
+        "url": "https://qoj.ac/problem/18695",
+        "title": "수학은 비대면강의입니다"
+      },
+      {
+        "url": "https://qoj.ac/problem/20791",
+        "title": "Redistributing Gifts"
+      },
+      {
+        "url": "https://qoj.ac/problem/20794",
+        "title": "Redistributing Gifts"
+      },
+      {
+        "url": "https://qoj.ac/problem/21257",
+        "title": "Gifts"
+      },
+      {
+        "url": "https://qoj.ac/problem/22335",
+        "title": "Clear And Present Danger"
+      },
+      {
+        "url": "https://qoj.ac/problem/22463",
+        "title": "Test Taking"
+      },
+      {
+        "url": "https://qoj.ac/problem/22790",
+        "title": "Gift Giving"
+      },
+      {
+        "url": "https://qoj.ac/problem/23143",
+        "title": "대표 선수"
+      },
+      {
+        "url": "https://qoj.ac/problem/23387",
+        "title": "대표값2"
+      },
+      {
+        "url": "https://qoj.ac/problem/23392",
+        "title": "대표값"
+      },
+      {
+        "url": "https://qoj.ac/problem/23544",
+        "title": "대표 자연수"
+      },
+      {
+        "url": "https://qoj.ac/problem/23547",
+        "title": "두 대표 자연수"
+      },
+      {
+        "url": "https://qoj.ac/problem/24339",
+        "title": "Подарки"
+      }
+    ],
+    "sourceSha256": "50018207f91930120c7d8fedc1ceeeca56823662dd20297be23603c5dcf29e29"
+  },
+  {
+    "id": "luogu-training-CF1349F1",
+    "url": "https://qoj.ac/problems?search=Slime%20and%20Sequences%20%28Easy%20Version%29",
+    "time": "2026-10-30T07:17:59.497257+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "ea7e07f06d865a44b3f818264799c5605bcb8008172820d02b60f11ea9fa06ae"
+  },
+  {
+    "id": "luogu-training-CF1500C",
+    "url": "https://qoj.ac/problems?search=Matrix%20Sorting",
+    "time": "2026-10-30T07:18:01.069078+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "a2a6a483fd4086aba1e91fad4a1930aaf3e04f38a3d8a7a2592c69a1642189d9"
+  },
+  {
+    "id": "luogu-training-CF1930H",
+    "url": "https://qoj.ac/problems?search=Interactive%20Mex%20Tree",
+    "time": "2026-10-30T07:18:01.614396+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "1a08f7463cde3cf252cba107410d721feeb54f20f917bf8e638c8f5404cf1837"
+  },
+  {
+    "id": "luogu-training-CF2135D1",
+    "url": "https://qoj.ac/problems?search=From%20the%20Unknown%20%28Easy%20Version%29",
+    "time": "2026-10-30T07:18:03.501964+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "5c5961fdf01f3b63dba296d0276d7b8bc7454e4e8203871d633d121a1b70394a"
+  },
+  {
+    "id": "luogu-training-CF285D",
+    "url": "https://qoj.ac/problems?search=Permutation%20Sum",
+    "time": "2026-10-30T07:18:05.546094+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "5da25448960bbfe7ab0c7ba3ec08343afb0ebc1e662be64871428cc89090323a"
+  },
+  {
+    "id": "luogu-training-CF402D",
+    "url": "https://qoj.ac/problems?search=Upgrading%20Array",
+    "time": "2026-10-30T07:18:05.815281+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "94b07b46363249eee079bdf8ac3e137c6a8d0298d4a78bbdc631907e6d2230d4"
+  },
+  {
+    "id": "luogu-training-CF402E",
+    "url": "https://qoj.ac/problems?search=Strictly%20Positive%20Matrix",
+    "time": "2026-10-30T07:18:11.883307+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "34eee9b3f865368e20cd4f021aceaf169cc02b867013cbe6463286d5fcfc985f"
+  },
+  {
+    "id": "luogu-training-CF414D",
+    "url": "https://qoj.ac/problems?search=Mashmokh%20and%20Water%20Tanks",
+    "time": "2026-10-30T07:18:13.930352+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "0b173cb9403278393ac93c5a7dec41012809a9e2f961820c68596a831e875e48"
+  },
+  {
+    "id": "luogu-training-CF463E",
+    "url": "https://qoj.ac/problems?search=Caisa%20and%20Tree",
+    "time": "2026-10-30T07:18:15.164847+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "22a2a982777a3e7d7d45bf073fbc0ad0f16bf6b9c14029707c3106f1bc732a48"
+  },
+  {
+    "id": "luogu-training-CF494C",
+    "url": "https://qoj.ac/problems?search=Helping%20People",
+    "time": "2026-10-30T07:18:17.936393+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "5a64f0e427fcce4b4f1e1331f812b1024975bd9b889f75c17f4dbb4b5ee9bbf0"
+  },
+  {
+    "id": "luogu-training-CF512D",
+    "url": "https://qoj.ac/problems?search=Fox%20And%20Travelling",
+    "time": "2026-10-30T07:18:19.206202+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "0a057950c9b9bef012477ab54d76dfa9db913f3524fc44a9b23b2c540d813391"
+  },
+  {
+    "id": "luogu-training-CF542C",
+    "url": "https://qoj.ac/problems?search=Idempotent%20functions",
+    "time": "2026-10-30T07:18:28.172770+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [
+      {
+        "url": "https://qoj.ac/problem/11046",
+        "title": "Idempotent Functions"
+      }
+    ],
+    "sourceSha256": "90608d11a8c069fc9a4ed6f14fdaf47dea7d131fc38c43e23c01ecc97ecda626"
+  },
+  {
+    "id": "luogu-training-CF549F",
+    "url": "https://qoj.ac/problems?search=Yura%20and%20Developers",
+    "time": "2026-10-30T07:18:29.595311+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "9e7f5a22b41cdc2801cd342773ffcaa9c2e7a172db318d973c8d365ad02d0110"
+  },
+  {
+    "id": "luogu-training-CF578F",
+    "url": "https://qoj.ac/problems?search=Mirror%20Box",
+    "time": "2026-10-30T07:18:29.810962+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "f783b21235f279bc4ffb7b5316b05e8b44d42375c023702e1723091ae540c6d2"
+  },
+  {
+    "id": "luogu-training-CF582D",
+    "url": "https://qoj.ac/problems?search=Number%20of%20Binominal%20Coefficients",
+    "time": "2026-10-30T07:18:33.176155+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "dd9a5d69ce10d05c67b43e994e54d74a43b12cf016c4e81dd40c026c552e88b9"
+  },
+  {
+    "id": "luogu-training-CF601B",
+    "url": "https://qoj.ac/problems?search=Lipshitz%20Sequence",
+    "time": "2026-10-30T07:18:33.553525+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "970992690a8ac48e9e7a5ff1200d1225e8b23f122594b475e72a7e0beb5c9b35"
+  },
+  {
+    "id": "luogu-training-CF633H",
+    "url": "https://qoj.ac/problems?search=Fibonacci-ish%20II",
+    "time": "2026-10-30T07:18:35.621488+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "1adf6ac6a32b4a628f8e6ac8e93d8e153b1077c64bad5d7f8cb16d7ecb723a73"
+  },
+  {
+    "id": "luogu-training-CF704C",
+    "url": "https://qoj.ac/problems?search=Black%20Widow",
+    "time": "2026-10-30T07:18:36.816488+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "32b865bfb7b4f400f481b0bbd4c045530cbb116714c0eabd303d3ac687c3f259"
+  },
+  {
+    "id": "luogu-training-CF757G",
+    "url": "https://qoj.ac/problems?search=Can%20Bash%20Save%20the%20Day%3F",
+    "time": "2026-10-30T07:18:37.423333+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "alternative-search-transient-or-unavailable",
+    "status": null,
+    "error": "The read operation timed out"
+  },
+  {
+    "id": "luogu-training-CF802N",
+    "url": "https://qoj.ac/problems?search=April%20Fools%27%20Problem%20%28medium%29",
+    "time": "2026-10-30T07:18:39.358118+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "5a92a13be74ffc29ce2fd4c83bbfc43b5126714ad1c71ed4774e99d8c1f70655"
+  },
+  {
+    "id": "luogu-training-CF814D",
+    "url": "https://qoj.ac/problems?search=An%20overnight%20dance%20in%20discotheque",
+    "time": "2026-10-30T07:18:40.490892+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "alternative-search-transient-or-unavailable",
+    "status": null,
+    "error": "The read operation timed out"
+  },
+  {
+    "id": "luogu-training-CF85C",
+    "url": "https://qoj.ac/problems?search=Petya%20and%20Tree",
+    "time": "2026-10-30T07:18:45.586170+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "e0349bc365eb55c8fedcfd902f27b518e3cb0ba67d974e099dbd0dac1b213787"
+  },
+  {
+    "id": "luogu-training-P11147",
+    "url": "https://qoj.ac/problems?search=Strange%20Dino%20Game",
+    "time": "2026-10-30T07:18:47.719849+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "d31ce4ffae970bb32079a0966d06d81bebc0eff2381bc38dee9fb4d52619287e"
+  },
+  {
+    "id": "luogu-training-P12417",
+    "url": "https://qoj.ac/problems?search=%E5%9F%BA%E7%A1%80%E6%9E%84%E9%80%A0%E7%BB%83%E4%B9%A0%E9%A2%98%201",
+    "time": "2026-10-30T07:18:49.440821+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "34f3fabfa971c79a4ec620d69a302c52194df3cad6093fe92b3d1a38d9b4938b"
+  },
+  {
+    "id": "luogu-training-P15654",
+    "url": "https://qoj.ac/problems?search=%E5%B7%A5%E4%B8%9A%E7%B3%BB%E7%BB%9F",
+    "time": "2026-10-30T07:18:51.858970+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [
+      {
+        "url": "https://qoj.ac/problem/17306",
+        "title": "工业系统"
+      }
+    ],
+    "sourceSha256": "c14854f194f1bcf5f83e27700328f91d9877711559fc56df6b551b8a4d65bb6a"
+  },
+  {
+    "id": "luogu-training-P17227",
+    "url": "https://qoj.ac/problems?search=%E3%81%BE%E3%82%88%E3%81%84%E3%81%A5%E3%81%8D",
+    "time": "2026-10-30T07:18:53.273307+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "7c680fba529bfabdfceb8ab867876f2737baafd12a8b8578c2874ac81849f066"
+  },
+  {
+    "id": "luogu-training-P17286",
+    "url": "https://qoj.ac/problems?search=Horizon%20Blue",
+    "time": "2026-10-30T07:18:54.832350+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "94fd4777185f2cdb3720ddf995e0e6300d856228631f19395da319ed04d96ebc"
+  },
+  {
+    "id": "luogu-training-P4979",
+    "url": "https://qoj.ac/problems?search=%E7%9F%BF%E6%B4%9E%EF%BC%9A%E5%9D%8D%E5%A1%8C",
+    "time": "2026-10-30T07:18:56.585882+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "fd716c982e7ef4bd6403593af7707b72d28a5580f56624228f897fdacd699c1d"
+  },
+  {
+    "id": "luogu-training-P6309",
+    "url": "https://qoj.ac/problems?search=%E4%BA%BA%E9%97%B4%E4%B9%8B%E9%87%8C",
+    "time": "2026-10-30T07:18:58.733773+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "0ec69cbfa249f6ec09c3aa55a995a4821328605c75b457c5da7e154cf0a8b641"
+  },
+  {
+    "id": "luogu-training-P7010",
+    "url": "https://qoj.ac/problems?search=Subway",
+    "time": "2026-10-30T07:18:59.623736+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [
+      {
+        "url": "https://qoj.ac/problem/478",
+        "title": "Subway"
+      },
+      {
+        "url": "https://qoj.ac/problem/501",
+        "title": "Subway"
+      },
+      {
+        "url": "https://qoj.ac/problem/2848",
+        "title": "城市地铁规划"
+      },
+      {
+        "url": "https://qoj.ac/problem/3733",
+        "title": "地铁"
+      },
+      {
+        "url": "https://qoj.ac/problem/4441",
+        "title": "BIT Subway"
+      },
+      {
+        "url": "https://qoj.ac/problem/4608",
+        "title": "小 Y 和地铁"
+      },
+      {
+        "url": "https://qoj.ac/problem/4734",
+        "title": "Subway"
+      },
+      {
+        "url": "https://qoj.ac/problem/4740",
+        "title": "Subway design"
+      },
+      {
+        "url": "https://qoj.ac/problem/7680",
+        "title": "Subway"
+      },
+      {
+        "url": "https://qoj.ac/problem/9569",
+        "title": "Subway"
+      },
+      {
+        "url": "https://qoj.ac/problem/11330",
+        "title": "Subway Chasing"
+      },
+      {
+        "url": "https://qoj.ac/problem/12581",
+        "title": "Subway"
+      },
+      {
+        "url": "https://qoj.ac/problem/16241",
+        "title": "Subway Signalling Error"
+      },
+      {
+        "url": "https://qoj.ac/problem/16974",
+        "title": "Subway Timing"
+      },
+      {
+        "url": "https://qoj.ac/problem/19723",
+        "title": "Subway tree systems"
+      }
+    ],
+    "sourceSha256": "d8cd7ce36ee8f37cfdba7ba0fad3fb82327f46773f8493978074c9a94253d03e"
+  },
+  {
+    "id": "luogu-training-P7014",
+    "url": "https://qoj.ac/problems?search=Chain%20%26%20Co.",
+    "time": "2026-10-30T07:19:00.398737+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [
+      {
+        "url": "https://qoj.ac/problem/12585",
+        "title": "Chain & Co."
+      }
+    ],
+    "sourceSha256": "b0ede48f81b093b6f0dd053549a5d233d8b1c0e62c6027afba0adcc1b84516ed"
+  },
+  {
+    "id": "luogu-training-P7040",
+    "url": "https://qoj.ac/problems?search=Java2016",
+    "time": "2026-10-30T07:19:02.392331+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [
+      {
+        "url": "https://qoj.ac/problem/12733",
+        "title": "Java2016"
+      }
+    ],
+    "sourceSha256": "b4b72c0f54c15c706da4fa6f5eb2397b4b92ca0ab0722693fba9d320a547b21c"
+  },
+  {
+    "id": "luogu-training-P7707",
+    "url": "https://qoj.ac/problems?search=%E7%99%BE%E8%8A%B1%E9%BD%90%E6%94%BE%E7%9A%84%E5%A4%AA%E9%98%B3%E8%8A%B1%E7%94%B0",
+    "time": "2026-10-30T07:19:03.105706+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "d97238203e2758affe289a507c4569f5f29856d07e5cf0983c3e86f268a04502"
+  },
+  {
+    "id": "luogu-training-P8458",
+    "url": "https://qoj.ac/problems?search=%E6%89%93%E6%8D%9E",
+    "time": "2026-10-30T07:19:03.425689+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "b5ba9763e9ade57dcc3aa51b8b9490c552c17023fa6e57cddca6e278c8680e61"
+  },
+  {
+    "id": "luogu-training-P8488",
+    "url": "https://qoj.ac/problems?search=%E6%81%8B%E5%BC%B9%E8%80%85%E4%BB%AC%E7%9A%84%E9%BB%91%E9%9B%86%E5%B8%82",
+    "time": "2026-10-30T07:19:05.766098+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "55142fcad09162424cb4da01d6262210395d330d8dc87f59c19026d5e61ca618"
+  },
+  {
+    "id": "luogu-training-SP116",
+    "url": "https://qoj.ac/problems?search=INTERVAL%20-%20Intervals",
+    "time": "2026-10-30T07:19:05.789253+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "f0b19f5e4353237c192342fe4e245843c5800e72d313547dca5ea9af0a63f533"
+  },
+  {
+    "id": "luogu-training-SP13",
+    "url": "https://qoj.ac/problems?search=HOTLINE%20-%20Hotline",
+    "time": "2026-10-30T07:19:06.791810+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "b1ec1a929cfe881edcda7271da05c1fc7bffc16c4eebd5ac9e8b06d890886653"
+  },
+  {
+    "id": "luogu-training-SP13015",
+    "url": "https://qoj.ac/problems?search=CNTPRIME%20-%20Counting%20Primes",
+    "time": "2026-10-30T07:19:08.011622+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "1ae9d56e91af9bc9510d917d3821ae4f44fbcdd7e1727479101e6110f4824b24"
+  },
+  {
+    "id": "luogu-training-SP1557",
+    "url": "https://qoj.ac/problems?search=GSS2%20-%20Can%20you%20answer%20these%20queries%20II",
+    "time": "2026-10-30T07:19:09.149364+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "c6ca5b4a6dd8d39df7aa7e9ee828f057181bf9d630c089d9fcafac744095cbde"
+  },
+  {
+    "id": "luogu-training-SP22343",
+    "url": "https://qoj.ac/problems?search=NORMA2%20-%20Norma",
+    "time": "2026-10-30T07:19:09.759624+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "0420675919014c9897faca856ddbc56a08c3756732c4bb86e038a35265921749"
+  },
+  {
+    "id": "luogu-training-SP288",
+    "url": "https://qoj.ac/problems?search=PON%20-%20Prime%20or%20Not",
+    "time": "2026-10-30T07:19:10.302117+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "b7c202da467dfe365ad882bbb32de75387ff16008dece68a8971d829793a8db3"
+  },
+  {
+    "id": "luogu-training-UVA1048",
+    "url": "https://qoj.ac/problems?search=Low%20Cost%20Air%20Travel",
+    "time": "2026-10-30T07:19:11.408716+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "alternative-search-transient-or-unavailable",
+    "status": null,
+    "error": "The read operation timed out"
+  },
+  {
+    "id": "remote:atcoder:agc025::E",
+    "url": "https://qoj.ac/problems?search=Walking%20on%20a%20Tree",
+    "time": "2026-10-30T07:19:12.057891+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "7cf2d83a105ece9f1765f146c6c302001f5f66eaac6abdfb3bf4a537abc71d9a"
+  },
+  {
+    "id": "remote:atcoder:agc069::B",
+    "url": "https://qoj.ac/problems?search=Pair%20Guessing",
+    "time": "2026-10-30T07:19:12.140190+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "75a7d03ee489d8d32f8b235b9715f31b64ed39383fc31adf318caf34e186133b"
+  },
+  {
+    "id": "remote:codeforces:104021::E",
+    "url": "https://qoj.ac/problems?search=XOR%20Tree",
+    "time": "2026-10-30T07:19:13.052138+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [
+      {
+        "url": "https://qoj.ac/problem/5566",
+        "title": "And Xor Tree"
+      },
+      {
+        "url": "https://qoj.ac/problem/6317",
+        "title": "XOR Tree Path"
+      },
+      {
+        "url": "https://qoj.ac/problem/7045",
+        "title": "XOR Tree"
+      },
+      {
+        "url": "https://qoj.ac/problem/7207",
+        "title": "XOR Tree"
+      },
+      {
+        "url": "https://qoj.ac/problem/13020",
+        "title": "XOR Tree"
+      }
+    ],
+    "sourceSha256": "76fe97863f6a8fff55c3890eae435411085929c6b949dfb1eb09b25c07ce093c"
+  },
+  {
+    "id": "remote:codeforces:1389::D",
+    "url": "https://qoj.ac/problems?search=Segment%20Intersections",
+    "time": "2026-10-30T07:19:16.193770+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "f47e7f9c3be4d903606fd71df74b080e118978e6a7304ec0c948930043c3b00f"
+  },
+  {
+    "id": "remote:codeforces:2043::E",
+    "url": "https://qoj.ac/problems?search=Matrix%20Transformation",
+    "time": "2026-10-30T07:19:22.456475+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [
+      {
+        "url": "https://qoj.ac/problem/3715",
+        "title": "Matrix Transformation"
+      }
+    ],
+    "sourceSha256": "df07ca7d0cfefc08617c5673c0965b4c503baaf0a71d11dc58f2ce2fb51e0799"
+  },
+  {
+    "id": "remote:nowcoder:12548::C",
+    "url": "https://qoj.ac/problems?search=Cities",
+    "time": "2026-10-30T07:19:24.310556+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [
+      {
+        "url": "https://qoj.ac/problem/68",
+        "title": "Designated Cities"
+      },
+      {
+        "url": "https://qoj.ac/problem/436",
+        "title": "Swapping Cities"
+      },
+      {
+        "url": "https://qoj.ac/problem/2766",
+        "title": "Unique Cities"
+      },
+      {
+        "url": "https://qoj.ac/problem/3871",
+        "title": "Voting Cities"
+      },
+      {
+        "url": "https://qoj.ac/problem/6841",
+        "title": "Occupy the Cities"
+      },
+      {
+        "url": "https://qoj.ac/problem/11199",
+        "title": "Miasta partnerskie"
+      },
+      {
+        "url": "https://qoj.ac/problem/12113",
+        "title": "Cities"
+      },
+      {
+        "url": "https://qoj.ac/problem/12521",
+        "title": "Cities"
+      },
+      {
+        "url": "https://qoj.ac/problem/17718",
+        "title": "1e16 Cities"
+      },
+      {
+        "url": "https://qoj.ac/problem/20284",
+        "title": "Guizhou Historic Cities"
+      },
+      {
+        "url": "https://qoj.ac/problem/21190",
+        "title": "Cities and States"
+      },
+      {
+        "url": "https://qoj.ac/problem/23129",
+        "title": "Penalties on a Segment of Cities"
+      },
+      {
+        "url": "https://qoj.ac/problem/23228",
+        "title": "공중도시"
+      },
+      {
+        "url": "https://qoj.ac/problem/24413",
+        "title": "Города"
+      }
+    ],
+    "sourceSha256": "4a781c408b94c4f463a2dd40004bbaf5bbd05c4bcac9de404515170611cf67d7"
+  },
+  {
+    "id": "remote:nowcoder:14055::C",
+    "url": "https://qoj.ac/problems?search=Cities",
+    "time": "2026-10-30T07:19:24.592979+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [
+      {
+        "url": "https://qoj.ac/problem/68",
+        "title": "Designated Cities"
+      },
+      {
+        "url": "https://qoj.ac/problem/436",
+        "title": "Swapping Cities"
+      },
+      {
+        "url": "https://qoj.ac/problem/2766",
+        "title": "Unique Cities"
+      },
+      {
+        "url": "https://qoj.ac/problem/3871",
+        "title": "Voting Cities"
+      },
+      {
+        "url": "https://qoj.ac/problem/6841",
+        "title": "Occupy the Cities"
+      },
+      {
+        "url": "https://qoj.ac/problem/11199",
+        "title": "Miasta partnerskie"
+      },
+      {
+        "url": "https://qoj.ac/problem/12113",
+        "title": "Cities"
+      },
+      {
+        "url": "https://qoj.ac/problem/12521",
+        "title": "Cities"
+      },
+      {
+        "url": "https://qoj.ac/problem/17718",
+        "title": "1e16 Cities"
+      },
+      {
+        "url": "https://qoj.ac/problem/20284",
+        "title": "Guizhou Historic Cities"
+      },
+      {
+        "url": "https://qoj.ac/problem/21190",
+        "title": "Cities and States"
+      },
+      {
+        "url": "https://qoj.ac/problem/23129",
+        "title": "Penalties on a Segment of Cities"
+      },
+      {
+        "url": "https://qoj.ac/problem/23228",
+        "title": "공중도시"
+      },
+      {
+        "url": "https://qoj.ac/problem/24413",
+        "title": "Города"
+      }
+    ],
+    "sourceSha256": "bce18e775d50d3a95528ec0000e736a34de4c03328736c422bab6295ce697a1b"
+  },
+  {
+    "id": "remote:nowcoder:140730::A",
+    "url": "https://qoj.ac/problems?search=Puzzle%3A%20Arithmetic%20Square",
+    "time": "2026-10-30T07:19:26.972229+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "191a1e4a6da184785586a990ad310b132b2066235d973e18b0baccb7b642e75c"
+  },
+  {
+    "id": "remote:nowcoder:15597::B",
+    "url": "https://qoj.ac/problems?search=Willis%20and%20Fibonacci%20Sequence",
+    "time": "2026-10-30T07:19:27.824620+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "0d25eca45b4e358d33b4f1c2d8eb594928fd6ace978652eb1df1adb4067843bb"
+  },
+  {
+    "id": "remote:nowcoder:17624::I",
+    "url": "https://qoj.ac/problems?search=Monster%20Hunter",
+    "time": "2026-10-30T07:19:28.966054+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [
+      {
+        "url": "https://qoj.ac/problem/6430",
+        "title": "Monster Hunter"
+      },
+      {
+        "url": "https://qoj.ac/problem/6769",
+        "title": "Monster Hunter"
+      },
+      {
+        "url": "https://qoj.ac/problem/7588",
+        "title": "Monster Hunter"
+      }
+    ],
+    "sourceSha256": "fee5763d3dc6614ca0047f41c4bb3788d28e41851192cd46326f58f1f0ea1cfa"
+  },
+  {
+    "id": "remote:nowcoder:17797::D",
+    "url": "https://qoj.ac/problems?search=Double",
+    "time": "2026-10-30T07:19:31.342792+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [
+      {
+        "url": "https://qoj.ac/problem/1955",
+        "title": "Double Rainbow"
+      },
+      {
+        "url": "https://qoj.ac/problem/2891",
+        "title": "狗蛋和二五仔"
+      },
+      {
+        "url": "https://qoj.ac/problem/2908",
+        "title": "Double Password"
+      },
+      {
+        "url": "https://qoj.ac/problem/3015",
+        "title": "Double Clique"
+      },
+      {
+        "url": "https://qoj.ac/problem/3775",
+        "title": "Double Shortest Paths"
+      },
+      {
+        "url": "https://qoj.ac/problem/3987",
+        "title": "Double Elimination"
+      },
+      {
+        "url": "https://qoj.ac/problem/4120",
+        "title": "双旋转字符串"
+      },
+      {
+        "url": "https://qoj.ac/problem/4228",
+        "title": "Double Sort"
+      },
+      {
+        "url": "https://qoj.ac/problem/4270",
+        "title": "Double Attendance"
+      },
+      {
+        "url": "https://qoj.ac/problem/5542",
+        "title": "Doubled GCD"
+      },
+      {
+        "url": "https://qoj.ac/problem/6105",
+        "title": "Double-Colored Papers"
+      },
+      {
+        "url": "https://qoj.ac/problem/6449",
+        "title": "Incremental Double Free Strings"
+      },
+      {
+        "url": "https://qoj.ac/problem/7695",
+        "title": "Double Up"
+      },
+      {
+        "url": "https://qoj.ac/problem/8181",
+        "title": "Alice and Bob (and string): Double Menace"
+      },
+      {
+        "url": "https://qoj.ac/problem/9287",
+        "title": "Double Elimination"
+      },
+      {
+        "url": "https://qoj.ac/problem/9540",
+        "title": "Double 11"
+      },
+      {
+        "url": "https://qoj.ac/problem/10386",
+        "title": "Double Factorial [B]"
+      },
+      {
+        "url": "https://qoj.ac/problem/10400",
+        "title": "Double Move"
+      },
+      {
+        "url": "https://qoj.ac/problem/10404",
+        "title": "Doubles Horseback Wrestling"
+      },
+      {
+        "url": "https://qoj.ac/problem/11869",
+        "title": "Double-row"
+      },
+      {
+        "url": "https://qoj.ac/problem/11961",
+        "title": "Double Deck"
+      },
+      {
+        "url": "https://qoj.ac/problem/12457",
+        "title": "Double or NOTing"
+      },
+      {
+        "url": "https://qoj.ac/problem/12476",
+        "title": "Double or One Thing"
+      },
+      {
+        "url": "https://qoj.ac/problem/15114",
+        "title": "Take It or Double It"
+      },
+      {
+        "url": "https://qoj.ac/problem/15340",
+        "title": "双面棋盘"
+      },
+      {
+        "url": "https://qoj.ac/problem/15671",
+        "title": "Double Radars"
+      },
+      {
+        "url": "https://qoj.ac/problem/15770",
+        "title": "双十字"
+      },
+      {
+        "url": "https://qoj.ac/problem/16300",
+        "title": "二重镇"
+      },
+      {
+        "url": "https://qoj.ac/problem/16792",
+        "title": "Double Palindrome"
+      },
+      {
+        "url": "https://qoj.ac/problem/17153",
+        "title": "Deque Sort"
+      },
+      {
+        "url": "https://qoj.ac/problem/17925",
+        "title": "더블 초콜릿"
+      },
+      {
+        "url": "https://qoj.ac/problem/18082",
+        "title": "Double-Slit Experiment"
+      },
+      {
+        "url": "https://qoj.ac/problem/18671",
+        "title": "두 배"
+      },
+      {
+        "url": "https://qoj.ac/problem/20353",
+        "title": "Josh’s Double Bacon Deluxe"
+      },
+      {
+        "url": "https://qoj.ac/problem/20416",
+        "title": "Double Dice"
+      },
+      {
+        "url": "https://qoj.ac/problem/20586",
+        "title": "Double Knockout Competition"
+      },
+      {
+        "url": "https://qoj.ac/problem/22800",
+        "title": "Double Smoothly Undulating Numbers"
+      },
+      {
+        "url": "https://qoj.ac/problem/22854",
+        "title": "Deque Bracket Optimization"
+      },
+      {
+        "url": "https://qoj.ac/problem/23345",
+        "title": "두 배"
+      },
+      {
+        "url": "https://qoj.ac/problem/24230",
+        "title": "双皮奶"
+      }
+    ],
+    "sourceSha256": "2134dcc28abe5035032b4b3272620df34b8a96f9ba95941412f670c79d7a8864"
+  },
+  {
+    "id": "remote:nowcoder:21592::I",
+    "url": "https://qoj.ac/problems?search=Homework",
+    "time": "2026-10-30T07:19:32.718740+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [
+      {
+        "url": "https://qoj.ac/problem/3289",
+        "title": "Homework"
+      },
+      {
+        "url": "https://qoj.ac/problem/4203",
+        "title": "Forgotten Homework"
+      },
+      {
+        "url": "https://qoj.ac/problem/4400",
+        "title": "Homework"
+      },
+      {
+        "url": "https://qoj.ac/problem/5318",
+        "title": "Very Boring Homework"
+      },
+      {
+        "url": "https://qoj.ac/problem/6019",
+        "title": "Praca domowa [A]"
+      },
+      {
+        "url": "https://qoj.ac/problem/6161",
+        "title": "作业题"
+      },
+      {
+        "url": "https://qoj.ac/problem/6814",
+        "title": "Group Homework"
+      },
+      {
+        "url": "https://qoj.ac/problem/8108",
+        "title": "Homework"
+      },
+      {
+        "url": "https://qoj.ac/problem/10593",
+        "title": "Homework Help"
+      },
+      {
+        "url": "https://qoj.ac/problem/12925",
+        "title": "Easy Homework"
+      },
+      {
+        "url": "https://qoj.ac/problem/12975",
+        "title": "Math Homework"
+      },
+      {
+        "url": "https://qoj.ac/problem/13141",
+        "title": "Copying Homework"
+      },
+      {
+        "url": "https://qoj.ac/problem/15403",
+        "title": "Kindergarten Homework"
+      },
+      {
+        "url": "https://qoj.ac/problem/16342",
+        "title": "数学作业"
+      },
+      {
+        "url": "https://qoj.ac/problem/20363",
+        "title": "Math Homework"
+      },
+      {
+        "url": "https://qoj.ac/problem/21021",
+        "title": "My Cow Ate My Homework"
+      },
+      {
+        "url": "https://qoj.ac/problem/22692",
+        "title": "Turning in Homework"
+      }
+    ],
+    "sourceSha256": "933db3923816e4e80653986957d0a7cf26ad8c739e6347c43f5bd9e49b4a7c30"
+  },
+  {
+    "id": "remote:nowcoder:4370::J",
+    "url": "https://qoj.ac/problems?search=Bob%27s%20Poor%20Math",
+    "time": "2026-10-30T07:19:32.997569+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [
+      {
+        "url": "https://qoj.ac/problem/11013",
+        "title": "Bob's Poor Math"
+      }
+    ],
+    "sourceSha256": "9dfe801d1321777f5ef625cd4c16d5ac6edca0f1772a0c6a42afa1a274239d75"
+  },
+  {
+    "id": "remote:nowcoder:68503::C",
+    "url": "https://qoj.ac/problems?search=%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8C%B9%E9%85%8D",
+    "time": "2026-10-30T07:19:35.475926+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "5b0f77044bf5c68d8daf8df4abd882648047f31e50df7fa910fcfd8d70bd876e"
+  },
+  {
+    "id": "xcpc-luogu::P17638",
+    "url": "https://qoj.ac/problems?search=Pot%21%21",
+    "time": "2026-10-30T07:19:35.494033+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [
+      {
+        "url": "https://qoj.ac/problem/7047",
+        "title": "Pot!!"
+      }
+    ],
+    "sourceSha256": "9a8edf295de99985741f8b3e7c1915329ea74c4c264772113d46ac205b3b0bec"
+  },
+  {
+    "id": "周赛 150::C",
+    "url": "https://qoj.ac/problems?search=%E5%BC%82%E6%88%96%E6%88%96%E9%85%8D%E5%AF%B9%E8%AE%A1%E6%95%B0",
+    "time": "2026-10-30T07:19:35.514715+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [],
+    "sourceSha256": "a092fae5970e2fb12b0cf100f9bf607771f7b3170681249e01df35f291f9233a"
+  },
+  {
+    "id": "月赛 295::B",
+    "url": "https://qoj.ac/problems?search=%E6%9C%AA%E6%9D%A5",
+    "time": "2026-10-30T07:19:35.929931+00:00",
+    "purpose": "formal-alternative-for-unrenderable-source-math",
+    "result": "searched-no-verified-equivalent",
+    "candidates": [
+      {
+        "url": "https://qoj.ac/problem/2112",
+        "title": "未来程序"
+      },
+      {
+        "url": "https://qoj.ac/problem/3215",
+        "title": "Join The Future"
+      },
+      {
+        "url": "https://qoj.ac/problem/3418",
+        "title": "Highway of the Future"
+      },
+      {
+        "url": "https://qoj.ac/problem/4263",
+        "title": "未来程序·改"
+      },
+      {
+        "url": "https://qoj.ac/problem/5072",
+        "title": "Future Coder"
+      },
+      {
+        "url": "https://qoj.ac/problem/7489",
+        "title": "长存不灭的过去、逐渐消逝的未来"
+      },
+      {
+        "url": "https://qoj.ac/problem/7492",
+        "title": "即便看不到未来"
+      },
+      {
+        "url": "https://qoj.ac/problem/7899",
+        "title": "Say Hello to the Future"
+      },
+      {
+        "url": "https://qoj.ac/problem/8750",
+        "title": "连向未来"
+      },
+      {
+        "url": "https://qoj.ac/problem/9033",
+        "title": "未来日记"
+      },
+      {
+        "url": "https://qoj.ac/problem/10368",
+        "title": "北校门外的未来"
+      },
+      {
+        "url": "https://qoj.ac/problem/13162",
+        "title": "Future Generation"
+      }
+    ],
+    "sourceSha256": "41db3179bdd2cb46e5baf2c8488b1f418de8acc6a1ac11195984375e25d1f576"
+  }
+]

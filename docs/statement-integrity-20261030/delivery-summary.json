@@ -1,0 +1,20 @@
+{
+  "addedUniqueQoj": 11,
+  "candidateLinksCountAsComplete": false,
+  "checkedAt": "2026-10-30T07:19:45.219825+00:00",
+  "counts": {
+    "complete": 11924,
+    "nativePdfStatements": 221,
+    "samples": 19666,
+    "specialTypes": 185,
+    "stored": 12183,
+    "total": 12282,
+    "unresolved": 358
+  },
+  "formatReviewProblems": 64,
+  "officialSubmissionsSent": 0,
+  "originalInventory": 12271,
+  "recoveredNativeRenderSources": 77,
+  "retainedOriginalIds": 12271,
+  "verifiedReusedMirrors": 2
+}

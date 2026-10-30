@@ -313,7 +313,7 @@ class Store:
         Older installations keep their original public rows for private history.
         Custom user lists are stored separately and are not changed here.
         """
-        rows = self.training_data()['rows']
+        rows = [row for row in self.training_data()['rows'] if not row.get('catalogHidden')]
         allowed_ids = {row['id'] for row in rows}
         allowed_urls = {canonical_url(row.get('url')) for row in rows if row.get('url')}
         known = self.identity_rows()

@@ -20,6 +20,11 @@ import CodeEditor from '@/components/CodeEditor.jsx';
 import InitialCodePicker, {InitialCodeButton} from '@/components/InitialCodePicker.jsx';
 import InlineTitle from '@/components/InlineTitle.jsx';
 import ReadingImage, {readingUrlTransform} from '@/components/ReadingImage.jsx';
+import ReadingLink from '@/components/ReadingLink.jsx';
+import StatementPdf from '@/components/StatementPdf.jsx';
+import remarkTableBreaks from '@/lib/remarkTableBreaks.js';
+import remarkSourceMath from '@/lib/remarkSourceMath.js';
+import {originalIsChinese} from '@/lib/statementLanguage.js';
 import {insertTemplate,normalizeCppTemplate} from '@/lib/insertTemplate.js';
 import {platformInfo,rowPlatform} from '@/lib/platformRegistry.js';
 import './Workbench.css';
@@ -43,14 +48,6 @@ function readStatementFontSize() {
   } catch { /* Reading remains available when browser storage is disabled. */ }
   const uiSize = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ui-font-size')) || 16;
   return Math.min(32, Math.max(16, Math.round(uiSize / 2) * 2));
-}
-function originalIsChinese(problem) {
-  const declared=problem?.statementLanguage||problem?.sourceLanguage||problem?.translation?.sourceLanguage;
-  if(declared)return /^zh(?:-|$)/i.test(declared);
-  if(problem?.translation?.kind==='original')return true;
-  const prose=(problem?.markdown||'').replace(/```[\s\S]*?```|\$\$[\s\S]*?\$\$|\$[^$\n]*\$|https?:\/\/\S+|^#+.*$/gm,'');
-  const chinese=(prose.match(/[\u3400-\u9fff]/g)||[]).length,english=(prose.match(/[A-Za-z]{3,}/g)||[]).join('').length;
-  return chinese>=8&&chinese*2>english;
 }
 const OFFICIAL_STATES = { awaiting_submit: '请在官网提交', loading: '打开浏览器原站', needs_browser: '需要连接浏览器', needs_login: '请在浏览器登录', needs_verification: '请在浏览器验证', ready: '已连接，可提交', submitted: '等待原站受理', judging: '评测中', finished: '评测完成', unconfirmed: '正在核对提交', error: '提交异常', closed: '会话已结束' };
 const OFFICIAL_TERMINAL = new Set(['finished', 'error', 'closed']);
@@ -174,9 +171,9 @@ function StatementPre({ children }) {
   const value = String(children?.props?.children ?? '');
   return <div className="wb-statement-code"><button className="wb-statement-copy" aria-label={copied ? '已复制' : '复制样例或代码'} onClick={async () => { try { await navigator.clipboard.writeText(value); setCopied(true); } catch { setCopied(false); } }}>{copied ? <Check size={14}/> : <Copy size={14}/>}</button><pre tabIndex={0}>{children}</pre></div>;
 }
-const StatementMarkdown = memo(function StatementMarkdown({ markdown, samples, title, images }) {
-  return <ReactMarkdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[[rehypeKatex, { throwOnError: false, strict: false, trust: false }]]}
-    urlTransform={readingUrlTransform} components={{ pre: StatementPre, img: ({node,...props})=><ReadingImage {...props} images={images}/>, a: ({ node, ...props }) => <a {...props} target="_blank" rel="noreferrer" /> }}>{normalizeMarkdown(normalizeStatement(markdown, samples, title))}</ReactMarkdown>;
+export const StatementMarkdown = memo(function StatementMarkdown({ markdown, samples, title, images, attachments }) {
+  return <ReactMarkdown remarkPlugins={[remarkGfm, remarkMath, remarkTableBreaks, remarkSourceMath]} rehypePlugins={[[rehypeKatex, { throwOnError: false, strict: false, trust: false }]]}
+    urlTransform={readingUrlTransform} components={{ pre: StatementPre, img: ({node,...props})=><ReadingImage {...props} images={images}/>, a: ({ node, ...props }) => <ReadingLink {...props} attachments={attachments}/> }}>{normalizeMarkdown(normalizeStatement(markdown, samples, title))}</ReactMarkdown>;
 });
 
 function CaseResults({ cases }) {
@@ -477,7 +474,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const unavailable = loading || !problem || endedContest || sidePracticeLocked || activeRecord.current?.key !== contextKey;
   const busy = creating || Boolean(pending);
   const officialBusy = openingOfficial || ['loading', 'submitted', 'judging'].includes(officialSession?.status);
-  const nativeSubmit=platformInfo(rowPlatform(problem)).nativeSubmit;
+  const nativeSubmit=platformInfo(rowPlatform(problem)).nativeSubmit && !['communication','output-only','attachment'].includes(problem?.problemType);
   const samples = problem?.samples || [];
   const slot = contest?.slots?.find(row => row.id === problemId);
 
@@ -658,7 +655,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   };
   const execute = async mode => {
     const record = activeRecord.current;
-    if (!record?.loaded || unavailable || busy) return;
+    if (!record?.loaded || unavailable || busy || problem?.judge?.scope === 'unsupported') return;
     if (!record.code.trim()) {
       setActionError('先写入 C++ 代码，再运行或提交。');
       editorRef.current?.focus();
@@ -825,7 +822,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const copyStatement=async()=>{
     const record=activeRecord.current;
     try{
-      const markdown=language==='zh'&&translation?translation.markdown:problem?.markdown||'';
+      const markdown=language==='zh'&&translation?translation.markdown+(problem.statementSupplement?'\n\n'+problem.statementSupplement:''):problem?.currentSourceMarkdown||problem?.markdown||'';
       const samples=(problem?.samples||[]).map((item,index)=>`### ${item.name||`样例 ${index+1}`}\n\n#### 输入\n\n\`\`\`text\n${item.input||''}\n\`\`\`\n\n#### 输出\n\n\`\`\`text\n${item.output||''}\n\`\`\``).join('\n\n');
       await navigator.clipboard.writeText(markdown+(samples?'\n\n## 样例\n\n'+samples:''));
       if(!isActive(record))return;
@@ -865,10 +862,11 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
         </div></div>
         {translationBusy && <p className="wb-translation-note" role="status"><LoaderCircle size={12} className="wb-spinner" />正在翻译公开题面，原文仍可阅读。</p>}
         {translationError && <div className="wb-translation-note wb-translation-error" role="alert"><span>{translationError}</span><button type="button" onClick={translateStatement}>重试</button></div>}
-        <article className="wb-statement" ref={statementRef} tabIndex={0} aria-label="题面内容" style={{ '--statement-font-size': `${statementFontSize}px` }}>
+        <article className={`wb-statement${problem?.statementPdf && !(language === 'zh' && translation) ? ' wb-pdf-statement' : ''}`} ref={statementRef} tabIndex={0} aria-label="题面内容" style={{ '--statement-font-size': `${statementFontSize}px` }}>
           {loading ? <div className="wb-empty"><LoaderCircle className="wb-spinner" size={22} /><span>正在载入题面</span></div>
             : loadError ? <div className="wb-empty"><span>{loadError}</span><button type="button" className="wb-button" onClick={() => setLoadAttempt(value => value + 1)}><RotateCcw size={14} />重新载入</button></div>
-            : problem?.markdown ? <StatementMarkdown markdown={language === 'zh' && translation ? translation.markdown : problem.markdown} samples={problem.samples} title={problem.title} images={problem.images} />
+            : problem?.statementPdf && !(language === 'zh' && translation) ? <StatementPdf key={problem.statementPdf.sha256} pdf={problem.statementPdf} title={problem.title}/>
+            : problem?.markdown ? <StatementMarkdown markdown={language === 'zh' && translation ? translation.markdown+(problem.statementSupplement?'\n\n'+problem.statementSupplement:'') : problem.currentSourceMarkdown || problem.markdown} samples={problem.samples} title={problem.title} images={problem.images} attachments={problem.attachments} />
             : problem?.statementLoading ? <div className="wb-empty" role="status"><LoaderCircle className="wb-spinner" size={22}/><strong>正在读取原站题面</strong>{problem?.url && <a className="wb-button" href={problem.url} target="_blank" rel="noreferrer">打开原题<ExternalLink size={14}/></a>}</div>
             : <div className="wb-empty"><BookOpen size={24} /><strong>题面暂时未能加载</strong><span>{problem?.statementError || '请重试读取原站题面。'}</span><button type="button" className="wb-button" onClick={retryStatement}><RotateCcw size={14} />重新载入</button>{problem?.url && <a className="wb-button" href={problem.url} target="_blank" rel="noreferrer">打开原题<ExternalLink size={14} /></a>}</div>}
         </article>
@@ -911,7 +909,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
           </ThemedSelect>
           <span className={`wb-scope wb-scope-${problem?.judge?.scope || 'samples'}`} title={problem?.templatePractice ? `模板完整评测用例 ${problem.judge.cases || 0} 个` : problem?.judge?.scope === 'local' ? `本地验证用例 ${problem.judge.cases || 0} 个` : '仅使用公开样例，通过样例不会计入已 AC'}>{problem?.judge?.label || (problem?.judge?.scope === 'local' ? '本地验证' : '样例评测')}</span>
           <div className="wb-run-actions">
-            <button type="button" className="wb-button" disabled={unavailable || busy} onClick={() => execute('run')} title={sample === 'samples' ? '编译并对比全部官方样例 · Ctrl+R' : '编译并运行自定义输入 · Ctrl+R'}><Play size={14} />{sample === 'custom' ? '运行输入' : '运行样例'}</button>
+            <button type="button" className="wb-button" disabled={unavailable || busy || problem?.judge?.scope === 'unsupported'} onClick={() => execute('run')} title={sample === 'samples' ? '编译并对比全部官方样例 · Ctrl+R' : '编译并运行自定义输入 · Ctrl+R'}><Play size={14} />{sample === 'custom' ? '运行输入' : '运行样例'}</button>
             <button type="button" className="wb-button wb-primary" disabled={unavailable || officialBusy || Boolean(problem?.templatePractice?busy:!nativeSubmit)} onClick={() => problem?.templatePractice?execute('submit'):openOfficial()} title={problem?.templatePractice?'模板评测 · Ctrl+Enter':nativeSubmit?'原站提交 · Ctrl+Enter':'暂不支持此平台原站提交'}>{officialBusy || Boolean(problem?.templatePractice&&busy) ? <LoaderCircle size={14} className="wb-spinner" /> : <Send size={14} />}提交</button>
           </div>
         </div>

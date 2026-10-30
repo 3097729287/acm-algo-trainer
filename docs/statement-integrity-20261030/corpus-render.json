@@ -1,0 +1,942 @@
+{
+  "total": 11988,
+  "rendered": 11822,
+  "nativePdf": 166,
+  "issues": [
+    {
+      "id": "luogu-training-AT_agc025_e",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected group after &#x27;^&#x27; at position 2: u^̲&#x27;_1",
+        "ParseError: KaTeX parse error: Expected group after &#x27;^&#x27; at position 2: v^̲&#x27;_1",
+        "ParseError: KaTeX parse error: Expected group after &#x27;^&#x27; at position 2: u^̲&#x27;_M",
+        "ParseError: KaTeX parse error: Expected group after &#x27;^&#x27; at position 2: v^̲&#x27;_M",
+        "ParseError: KaTeX parse error: Expected group after &#x27;^&#x27; at position 2: u^̲&#x27;_i",
+        "ParseError: KaTeX parse error: Expected group after &#x27;^&#x27; at position 2: v^̲&#x27;_i"
+      ]
+    },
+    {
+      "id": "luogu-training-CF1004F",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 2:  $̲ 0 $ , $ 3 $ , …",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 2:  $̲ 1\\ldots4 $ ",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 2:  $̲ 3\\ldots4 $ ",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 2:  $̲ 7 $ , $ 3 $ , …",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 2:  $̲ 1\\ldots3 $ ",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 2:  $̲ 1\\ldots1 $ ",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 2:  $̲ 6 $ , $ 0 $ , …",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 2:  $̲ 1\\ldots5 $ ",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 2:  $̲ 3\\ldots5 $ "
+      ]
+    },
+    {
+      "id": "luogu-training-CF1017F",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 1: $̲$$ \\log(p_1^{a_…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF1038E",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 7: color $̲ _1 $ |value|co…",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 7: color $̲ _2 $ |value|co…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF1054H",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 1: $̲$$\\sum_{i=0}^{n…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF1088E",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 1: $̲$$\\frac{\\sum\\li…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF1089F",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 2:  $̲$$ \\begin{cases…",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;}&#x27; at position 1: }̲ \\\\ \\text{",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;}&#x27; at position 1: }̲ \\end{cases}  "
+      ]
+    },
+    {
+      "id": "luogu-training-CF1110A",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 14: a=\\[11, 15, 7\\̲]̲"
+      ]
+    },
+    {
+      "id": "luogu-training-CF1110C",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 1: $̲$$f(a) = \\max_{…",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;#&#x27; at position 70: …twise_operation#̲XOR&quot;&gt;bitwise XO…",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;#&#x27; at position 70: …twise_operation#̲AND&quot;&gt;bitwise AN…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF1151E",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 1: $̲$$\\sum_{l=1}^{n…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF119A",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 2: 0&amp;̲lt;5"
+      ]
+    },
+    {
+      "id": "luogu-training-CF119C",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 2: 1&amp;̲lt;i&lt;=n"
+      ]
+    },
+    {
+      "id": "luogu-training-CF1204E",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 1: $̲$$f(a) = \\max (…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF125E",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 29: …=m&lt;=10^{5};0&lt;=k&amp;̲lt;5000"
+      ]
+    },
+    {
+      "id": "luogu-training-CF1266D",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 1: $̲$$\\Sigma_d = \\s…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF1271E",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 1: $̲$$ \\begin{matri…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF1292C",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 1: $̲$$S = \\sum_{1 \\…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF1322B",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 1: $̲$$ (a_1 + a_2) …"
+      ]
+    },
+    {
+      "id": "luogu-training-CF1349F1",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 1: $̲$$\\left(\\sum_{p…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF1438F",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 2:  $̲ 4 $ , $ 7 $ , …"
+      ]
+    },
+    {
+      "id": "luogu-training-CF14E",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 8: y_{j-1}&amp;̲lt;y_{j}&amp;gt;y_{…",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 8: y_{j-1}&amp;̲gt;y_{j}&amp;lt;y_{…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF1500C",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 1: $̲$$\\begin{matrix…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF1580D",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 1: $̲$$\\sum_{i = 1}^…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF164A",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 5: 1&lt;=i&amp;̲lt;x"
+      ]
+    },
+    {
+      "id": "luogu-training-CF165E",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 1: &amp;̲"
+      ]
+    },
+    {
+      "id": "luogu-training-CF176D",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 9: 1&lt;=p_{1}&amp;̲lt;p_{2}&amp;lt;...…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF176E",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 5: 1&lt;=i&amp;̲lt;n"
+      ]
+    },
+    {
+      "id": "luogu-training-CF1776I",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 1: $̲$$ \\begin{array…",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;}&#x27; at position 1: }̲ \\\\ \\hline \\tex…",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;}&#x27; at position 1: }̲ \\\\ \\hline &amp; \\t…",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;}&#x27; at position 1: }̲ \\\\ \\hline \\end…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF1909I",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 1: $̲$$\\large S = \\s…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF1930H",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 1: $̲$$\\min_{i=l}^{r…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF195E",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 3: (i&amp;̲gt;0)"
+      ]
+    },
+    {
+      "id": "luogu-training-CF2135A",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 10: \\[3, 3, 3\\̲]̲",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 4: \\[1\\̲]̲",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 13: \\[4, 4, 4, 4\\̲]̲",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 10: \\[1, 1, 1\\̲]̲",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 10: \\[2, 3, 3\\̲]̲",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 7: \\[2, 2\\̲]̲",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 10: \\[2,2,1,1\\̲]̲",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 6: \\[2,2\\̲]̲",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 16: \\[1, 3, 3, 3, 1\\̲]̲"
+      ]
+    },
+    {
+      "id": "luogu-training-CF2135C",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 8: 1\\\\le p&amp;̲lt;q\\\\le n",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 8: 1\\\\le i&amp;̲lt;j\\\\le n",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 12: a=\\[0,0,0,0\\̲]̲",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 12: a=\\[0,0,0,1\\̲]̲",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 12: a=\\[0,0,0,2\\̲]̲",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 12: a=\\[0,0,0,3\\̲]̲"
+      ]
+    },
+    {
+      "id": "luogu-training-CF2135D1",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 27: …2,\\\\ldots, a\\_n\\̲]̲",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 34: …\\\\ldots, a\\_n) &amp;̲gt; W",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 28: …, \\\\ldots, a\\_n\\̲]̲",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 2: W&amp;̲lt;21",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 3: W &amp;̲lt; 2"
+      ]
+    },
+    {
+      "id": "luogu-training-CF2136B",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 7: \\[l, r\\̲]̲",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 12: \\[2,3,1,5,4\\̲]̲",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 8: \\[1,2,2\\̲]̲",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 8: \\[1,3,4\\̲]̲",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 15: p=\\[1, 4, 3, 2\\̲]̲",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 7: \\[1, 3\\̲]̲",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 7: \\[1, 4\\̲]̲",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 7: \\[2, 4\\̲]̲"
+      ]
+    },
+    {
+      "id": "luogu-training-CF223B",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 10: (1&lt;=k_{1}&amp;̲lt;k_{2}&amp;lt;...…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF226C",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 20: …m&lt;=10^{9}; 1&lt;=l&amp;̲lt;r&lt;=10^{12}; …"
+      ]
+    },
+    {
+      "id": "luogu-training-CF226E",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 57: …b_{i}; 0&lt;=y_{i}&amp;̲lt;i"
+      ]
+    },
+    {
+      "id": "luogu-training-CF229B",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 10: 0&lt;=t_{ij}&amp;̲lt;10^{9}"
+      ]
+    },
+    {
+      "id": "luogu-training-CF231E",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 3: (t&amp;̲gt;2)",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 6: (1&lt;=i&amp;̲lt;t)",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 3: (t&amp;̲gt;0)"
+      ]
+    },
+    {
+      "id": "luogu-training-CF276E",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 5: 1&lt;=d&amp;̲lt;n"
+      ]
+    },
+    {
+      "id": "luogu-training-CF277E",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 6: y_{u}&amp;̲gt;y_{v}"
+      ]
+    },
+    {
+      "id": "luogu-training-CF27D",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 5: 1&lt;=i&amp;̲lt;n"
+      ]
+    },
+    {
+      "id": "luogu-training-CF288D",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 5: 1&lt;=a&amp;̲lt;b&lt;=n",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 5: 1&lt;=c&amp;̲lt;d&lt;=n"
+      ]
+    },
+    {
+      "id": "luogu-training-CF296B",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 6: s_{i}&amp;̲gt;w_{i}",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 6: s_{j}&amp;̲lt;w_{j}"
+      ]
+    },
+    {
+      "id": "luogu-training-CF321B",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 1: &amp;̲gt;"
+      ]
+    },
+    {
+      "id": "luogu-training-CF351B",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 6: p_{i}&amp;̲gt;p_{i+1}",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 6: p_{i}&amp;̲lt;p_{i+1}"
+      ]
+    },
+    {
+      "id": "luogu-training-CF354C",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 6: b_{i}&amp;̲gt;0; 0&lt;=a_{i}-…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF367C",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 6: (1&lt;=j&amp;̲lt;n)"
+      ]
+    },
+    {
+      "id": "luogu-training-CF377A",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 5: 0&lt;=k&amp;̲lt;s"
+      ]
+    },
+    {
+      "id": "luogu-training-CF402D",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 9: 2&lt;=b_{1}&amp;̲lt;b_{2}&amp;lt;...…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF402E",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 7: b_{ij}&amp;̲gt;0"
+      ]
+    },
+    {
+      "id": "luogu-training-CF406D",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 6: x_{i}&amp;̲lt;x_{j}",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 2: i&amp;̲lt;j"
+      ]
+    },
+    {
+      "id": "luogu-training-CF414C",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 2: i&amp;̲lt;j",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 5: x[i]&amp;̲gt;x[j]"
+      ]
+    },
+    {
+      "id": "luogu-training-CF414D",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 3: (i&amp;̲gt;1)"
+      ]
+    },
+    {
+      "id": "luogu-training-CF463E",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 31: …{i},value of v)&amp;̲gt;1",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 2: i&amp;̲lt;k"
+      ]
+    },
+    {
+      "id": "luogu-training-CF47E",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 2: 0&amp;̲lt;alpha_{i}&amp;lt…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF487E",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 24: …x_{2},...,x_{k}\\̲]̲"
+      ]
+    },
+    {
+      "id": "luogu-training-CF494C",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 6: \\[l,r\\̲]̲",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 6: \\[a,b\\̲]̲",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;\\]&#x27; in math mode at position 6: \\[c,d\\̲]̲"
+      ]
+    },
+    {
+      "id": "luogu-training-CF505C",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 5: →...&amp;̲#x1;"
+      ]
+    },
+    {
+      "id": "luogu-training-CF506D",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 15: b_{i}(1&lt;=a_{i}&amp;̲lt;b_{i}&lt;=n)"
+      ]
+    },
+    {
+      "id": "luogu-training-CF512D",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 2: k&amp;̲gt;0"
+      ]
+    },
+    {
+      "id": "luogu-training-CF522D",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 2:  $̲ l_{j},r_{j} $ "
+      ]
+    },
+    {
+      "id": "luogu-training-CF533B",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 9: 1&lt;=p_{i}&amp;̲lt;i"
+      ]
+    },
+    {
+      "id": "luogu-training-CF538F",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 6: a_{v}&amp;̲lt;a_{p(v)}"
+      ]
+    },
+    {
+      "id": "luogu-training-CF538G",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 6: t_{i}&amp;̲lt;t_{i+1}"
+      ]
+    },
+    {
+      "id": "luogu-training-CF540E",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 2: i&amp;̲lt;j",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 6: p_{i}&amp;̲gt;p_{j}"
+      ]
+    },
+    {
+      "id": "luogu-training-CF542C",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 2: k&amp;̲gt;1"
+      ]
+    },
+    {
+      "id": "luogu-training-CF549F",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 5: 1&lt;=l&amp;̲lt;r&lt;=n"
+      ]
+    },
+    {
+      "id": "luogu-training-CF555B",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 6: r_{i}&amp;̲lt;l_{i+1}"
+      ]
+    },
+    {
+      "id": "luogu-training-CF578F",
+      "issues": [
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 1: \\̲"
+      ]
+    },
+    {
+      "id": "luogu-training-CF582D",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 5: 0&lt;=A&amp;̲lt;10^{1000}"
+      ]
+    },
+    {
+      "id": "luogu-training-CF601B",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 2: n&amp;̲lt;2",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 5: 1&lt;=i&amp;̲lt;j&lt;=n",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 9: 1&lt;=l_{i}&amp;̲lt;r_{i}&lt;=n"
+      ]
+    },
+    {
+      "id": "luogu-training-CF621E",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 30: …=b&lt;=10^{9},0&lt;=k&amp;̲lt;x&lt;=100,x&gt;=2"
+      ]
+    },
+    {
+      "id": "luogu-training-CF632F",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 10: 0&lt;=a_{ij}&amp;̲lt;10^{9}"
+      ]
+    },
+    {
+      "id": "luogu-training-CF633H",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 2: i&amp;̲lt;j",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 6: a_{1}&amp;̲lt;a_{2}&amp;lt;...…",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 2: n&amp;̲gt;2"
+      ]
+    },
+    {
+      "id": "luogu-training-CF638D",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 2: i&amp;̲lt;p"
+      ]
+    },
+    {
+      "id": "luogu-training-CF639E",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 6: p_{i}&amp;̲lt;p_{j}",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 2: 4&amp;̲lt;10",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 5: 3.72&amp;̲gt;3"
+      ]
+    },
+    {
+      "id": "luogu-training-CF644B",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 8: t_{i-1}&amp;̲lt;t_{i}",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 2: i&amp;̲gt;1"
+      ]
+    },
+    {
+      "id": "luogu-training-CF650C",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 8: a_{i,j}&amp;̲lt;a_{i,k}",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 9: a&#x27;_{i,j}&amp;̲lt;a&#x27;_{i,k}",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 8: a_{i,j}&amp;̲lt;a_{p,j}",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 9: a&#x27;_{i,j}&amp;̲lt;a&#x27;_{p,j}"
+      ]
+    },
+    {
+      "id": "luogu-training-CF681D",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 5: 0&lt;=m&amp;̲lt;n&lt;=100000"
+      ]
+    },
+    {
+      "id": "luogu-training-CF696E",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 6: c_{x}&amp;̲lt;c_{y}"
+      ]
+    },
+    {
+      "id": "luogu-training-CF704B",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 2: j&amp;̲lt;i",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 2: j&amp;̲gt;i"
+      ]
+    },
+    {
+      "id": "luogu-training-CF704C",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 8: a_{i,j}&amp;̲gt;0"
+      ]
+    },
+    {
+      "id": "luogu-training-CF739C",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 6: a_{l}&amp;̲lt;a_{l+1}&amp;lt;a…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF755G",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 5: 1&lt;=k&amp;̲lt;2^{15}"
+      ]
+    },
+    {
+      "id": "luogu-training-CF757B",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 2: k&amp;̲gt;1"
+      ]
+    },
+    {
+      "id": "luogu-training-CF793D",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 17: …in(u_{i},v_{i})&amp;̲lt;x&amp;lt;max(u_{…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF802N",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 9: 1&lt;=i_{1}&amp;̲lt;i_{2}&amp;lt;...…",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 9: 1&lt;=j_{1}&amp;̲lt;j_{2}&amp;lt;...…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF814D",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 5: 1&lt;=i&amp;̲lt;j&lt;=n"
+      ]
+    },
+    {
+      "id": "luogu-training-CF817E",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 2: 2&amp;̲lt;3"
+      ]
+    },
+    {
+      "id": "luogu-training-CF819B",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 5: 0&lt;=k&amp;̲lt;n"
+      ]
+    },
+    {
+      "id": "luogu-training-CF840C",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 5: 1&lt;=i&amp;̲lt;n"
+      ]
+    },
+    {
+      "id": "luogu-training-CF843B",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 14: value_{nexti}&amp;̲gt;value_{i}"
+      ]
+    },
+    {
+      "id": "luogu-training-CF843E",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 6: c_{i}&amp;̲gt;0",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 6: f_{i}&amp;̲gt;0"
+      ]
+    },
+    {
+      "id": "luogu-training-CF85C",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 5: 3&lt;=n&amp;̲lt;10^{5}"
+      ]
+    },
+    {
+      "id": "luogu-training-CF875C",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 2: 2&amp;̲lt;3",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 3: 2&#x27;&amp;̲lt;3&#x27;",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 3: 3&#x27;&amp;̲lt;2",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 6: x_{j}&amp;̲lt;y_{j}",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 3: 2&#x27;&amp;̲lt;1",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 3: 3&#x27;&amp;̲lt;1"
+      ]
+    },
+    {
+      "id": "luogu-training-CF875D",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 5: 1&lt;=l&amp;̲lt;r&lt;=n"
+      ]
+    },
+    {
+      "id": "luogu-training-CF89B",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 5: 1&lt;=i&amp;̲lt;k"
+      ]
+    },
+    {
+      "id": "luogu-training-CF925F",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 1: $̲$$\\sum\\limits_{…",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;#&#x27; at position 29: …in the graph?\n\n#̲# 输入格式\n\nThe fir…"
+      ]
+    },
+    {
+      "id": "luogu-training-P11147",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 82: …在任意**实数点**（只要在 $̲x$ 轴上）处开始跳跃。也就是…"
+      ]
+    },
+    {
+      "id": "luogu-training-P12417",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 14: \n  下表为在一些特殊的 $̲s$ 中选手在该测试点得到的分…"
+      ]
+    },
+    {
+      "id": "luogu-training-P15654",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 6: - 其中 $̲\\text{ch}(s,t)$…"
+      ]
+    },
+    {
+      "id": "luogu-training-P17227",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 7: \n  其中 $̲m_{\\min}$ 为：对于当…"
+      ]
+    },
+    {
+      "id": "luogu-training-P17286",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 6:   参数 $̲y$ 不参与异或。\n\n- 对于…",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 16: \n- 设本次询问的真实答案为 $̲S$，则输出",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;#&#x27; at position 19: …保证所有操作解码后均合法。\n\n#̲# 输出格式\n\n对于每个操作 …",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 10: 且输入中编码后的 $̲x,l,r$ 位于 $[0,2…"
+      ]
+    },
+    {
+      "id": "luogu-training-P4979",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 1: &amp;̲@"
+      ]
+    },
+    {
+      "id": "luogu-training-P6309",
+      "issues": [
+        "ParseError: KaTeX parse error: \\tag works only in display equations"
+      ]
+    },
+    {
+      "id": "luogu-training-P7010",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 2: (&amp;̲)."
+      ]
+    },
+    {
+      "id": "luogu-training-P7014",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 1: &amp;̲"
+      ]
+    },
+    {
+      "id": "luogu-training-P7040",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 1062: …e}\\end{aligned}$̲$\n\nMinimum $(\\t…"
+      ]
+    },
+    {
+      "id": "luogu-training-P7707",
+      "issues": [
+        "ParseError: KaTeX parse error: \\tag works only in display equations"
+      ]
+    },
+    {
+      "id": "luogu-training-P8458",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;#&#x27; at position 1: #̲1",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;#&#x27; at position 1: #̲2"
+      ]
+    },
+    {
+      "id": "luogu-training-P8488",
+      "issues": [
+        "ParseError: KaTeX parse error: \\tag works only in display equations"
+      ]
+    },
+    {
+      "id": "luogu-training-SP116",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 3: a $̲ _{i} $ , b $ _…"
+      ]
+    },
+    {
+      "id": "luogu-training-SP13",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected group after &#x27;_&#x27; at position 10: \\__object_̲",
+        "ParseError: KaTeX parse error: Expected group after &#x27;_&#x27; at position 11:  \\__object_̲",
+        "ParseError: KaTeX parse error: Expected group after &#x27;_&#x27; at position 11: \\__object1_̲",
+        "ParseError: KaTeX parse error: Expected group after &#x27;_&#x27; at position 11: \\__object2_̲",
+        "ParseError: KaTeX parse error: Expected group after &#x27;_&#x27; at position 11: \\__object3_̲"
+      ]
+    },
+    {
+      "id": "luogu-training-SP13015",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 7: 2, 10 $̲ ^{6} $ "
+      ]
+    },
+    {
+      "id": "luogu-training-SP1557",
+      "issues": [
+        "ParseError: KaTeX parse error: Double subscript at position 3: _X_̲.._Y_"
+      ]
+    },
+    {
+      "id": "luogu-training-SP22343",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 7: 1, 10 $̲ ^{8} $ "
+      ]
+    },
+    {
+      "id": "luogu-training-SP288",
+      "issues": [
+        "ParseError: KaTeX parse error: Double subscript at position 8: 2 &lt;= _N_̲ &lt;= 2^63-1"
+      ]
+    },
+    {
+      "id": "remote:atcoder:agc025::E",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected group after &#x27;^&#x27; at position 2: u^̲&#x27;_1",
+        "ParseError: KaTeX parse error: Expected group after &#x27;^&#x27; at position 2: v^̲&#x27;_1",
+        "ParseError: KaTeX parse error: Expected group after &#x27;^&#x27; at position 2: u^̲&#x27;_M",
+        "ParseError: KaTeX parse error: Expected group after &#x27;^&#x27; at position 2: v^̲&#x27;_M",
+        "ParseError: KaTeX parse error: Expected group after &#x27;^&#x27; at position 2: u^̲&#x27;_i",
+        "ParseError: KaTeX parse error: Expected group after &#x27;^&#x27; at position 2: v^̲&#x27;_i"
+      ]
+    },
+    {
+      "id": "remote:atcoder:agc069::B",
+      "issues": [
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 9: S_{i,j}=\\̲"
+      ]
+    },
+    {
+      "id": "remote:codeforces:104021::E",
+      "issues": [
+        "ParseError: KaTeX parse error: Unexpected end of input in a macro argument, expected &#x27;}&#x27; at end of input: …a_y \\mid \\text{",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;}&#x27; at position 5:  and}̲~d(x, y) \\leq k…"
+      ]
+    },
+    {
+      "id": "remote:codeforces:1389::D",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;_&#x27; at position 41: …xt{intersection_̲length}([al_i, …",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;_&#x27; at position 23: …xt{intersection_̲length}([al_1, …"
+      ]
+    },
+    {
+      "id": "remote:codeforces:2043::E",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 16: A_{i,j} \\text{ &amp;̲ } x"
+      ]
+    },
+    {
+      "id": "remote:nowcoder:12548::C",
+      "issues": [
+        "ParseError: KaTeX parse error: Unexpected end of input in a macro argument, expected &#x27;}&#x27; at end of input: …h means no one ",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;}&#x27; at position 46: …s in this line.}̲"
+      ]
+    },
+    {
+      "id": "remote:nowcoder:14055::C",
+      "issues": [
+        "ParseError: KaTeX parse error: Unexpected end of input in a macro argument, expected &#x27;}&#x27; at end of input: …h means no one ",
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;}&#x27; at position 46: …s in this line.}̲"
+      ]
+    },
+    {
+      "id": "remote:nowcoder:140730::A",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;#&#x27; at position 9: \\texttt{#̲}"
+      ]
+    },
+    {
+      "id": "remote:nowcoder:15597::B",
+      "issues": [
+        "ParseError: KaTeX parse error: {equation*} can be used only in display mode."
+      ]
+    },
+    {
+      "id": "remote:nowcoder:17624::I",
+      "issues": [
+        "ParseError: KaTeX parse error: {align*} can be used only in display mode."
+      ]
+    },
+    {
+      "id": "remote:nowcoder:17797::D",
+      "issues": [
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 7: (n-1)!\\̲"
+      ]
+    },
+    {
+      "id": "remote:nowcoder:21592::I",
+      "issues": [
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 4: \\ n\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 6: \\ n-1\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 4: \\ i\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 4: \\ j\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 4: \\ q\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 4: \\ w\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 4: \\ u\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 4: \\ v\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 4: \\ x\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 6: \\ 200\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 6: \\ t_i\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 4: \\ 1\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 4: \\ 2\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 4: \\ 3\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 10: \\ t_1 = 4\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 10: \\ t_2 = 4\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 10: \\ t_3 = 2\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 4: \\ 4\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 18: …t_4 = 2 + 1 = 3\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 10: \\ t_1 = 1\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 10: \\ t_4 = 3\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 10: \\ t_2 = 2\\̲"
+      ]
+    },
+    {
+      "id": "remote:nowcoder:4370::J",
+      "issues": [
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 6: Shift\\̲"
+      ]
+    },
+    {
+      "id": "remote:nowcoder:68503::C",
+      "issues": [
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 29: …ngth \\leq 1000 \\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 33: …ngth \\leq 1000 \\̲"
+      ]
+    },
+    {
+      "id": "xcpc-luogu::P17638",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 11:     where $̲p$ is prime.\n\nN…"
+      ]
+    },
+    {
+      "id": "周赛 150::C",
+      "issues": [
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 21: …ce{23pt}\\bullet\\̲"
+      ]
+    },
+    {
+      "id": "月赛 295::B",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 10:   \n   这里 $̲0\\le 3\\le R_1$。…",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 8: \n   这里 $̲0\\le 2\\le C_2$。…",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 8: \n   这里 $̲0\\le 2\\le R_2$。…",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 8: \n   这里 $̲0\\le 2\\le C_1$。…",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 8: \n   这里 $̲0\\le 2\\le C_3$。…"
+      ]
+    }
+  ]
+}
