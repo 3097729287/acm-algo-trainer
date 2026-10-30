@@ -2,12 +2,12 @@
   "scopeVersion": "2026-10-30-screenshot-verified-610",
   "requestedStages": 7,
   "totalProblems": 610,
-  "authoredProblems": 176,
-  "authoredMethods": 186,
-  "authoredArticles": 372,
-  "hasBothVariants": 182,
-  "missingVariants": 428,
-  "pendingStandardReview": 434,
+  "authoredProblems": 195,
+  "authoredMethods": 206,
+  "authoredArticles": 412,
+  "hasBothVariants": 201,
+  "missingVariants": 409,
+  "pendingStandardReview": 415,
   "complete": false,
   "stages": [
     {
@@ -23,7 +23,7 @@
     {
       "stage": "03 搜索与图",
       "total": 109,
-      "reviewed": 0
+      "reviewed": 19
     },
     {
       "stage": "04 动态规划",
@@ -2185,10 +2185,10 @@
       "unit": "DFS 与回溯",
       "title": "リモコン",
       "difficulty": 1200,
-      "knowledge": "贪心 + 最短路",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "贪心 + 最短路 + BFS + 枚举",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1331",
@@ -2197,10 +2197,10 @@
       "unit": "DFS 与回溯",
       "title": "海战",
       "difficulty": 1200,
-      "knowledge": "",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "BFS + 连通块计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1605",
@@ -2209,10 +2209,10 @@
       "unit": "DFS 与回溯",
       "title": "迷宫",
       "difficulty": 1200,
-      "knowledge": "递推 + 枚举",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "递推 + 枚举 + DFS + 递归",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2802",
@@ -2221,10 +2221,10 @@
       "unit": "DFS 与回溯",
       "title": "回家",
       "difficulty": 1200,
-      "knowledge": "",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "BFS",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF1059B",
@@ -2233,10 +2233,10 @@
       "unit": "DFS 与回溯",
       "title": "Forgery",
       "difficulty": 1300,
-      "knowledge": "枚举 + 模拟",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "枚举 + 模拟 + 构造",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1019",
@@ -2245,10 +2245,15 @@
       "unit": "DFS 与回溯",
       "title": "单词接龙（疑似错题）",
       "difficulty": 1500,
-      "knowledge": "递推 + 状压 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "递推 + 状压 DP + DFS + 记忆化搜索 + 递归",
+      "default": true,
+      "detailed": true,
+      "reviewed": true,
+      "reviewNote": {
+        "status": "exact-exponential-reference",
+        "reason": "原题明确标注疑似错题及最坏数据性能无保证。本批给出语义精确的最短合法重叠记忆化搜索，实际访问状态经小域独立枚举核对；最坏仍指数级，不宣称所有 n=20 输入在原时限内通过。",
+        "source": "https://www.luogu.com.cn/problem/P1019"
+      }
     },
     {
       "id": "luogu-training-P1219",
@@ -2257,10 +2262,10 @@
       "unit": "DFS 与回溯",
       "title": "八皇后 Checker Challenge",
       "difficulty": 1500,
-      "knowledge": "",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "DFS + 递归",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1825",
@@ -2269,10 +2274,10 @@
       "unit": "DFS 与回溯",
       "title": "Corn Maze S",
       "difficulty": 1500,
-      "knowledge": "模拟 + 最短路",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "模拟 + 最短路 + BFS",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2895",
@@ -2281,10 +2286,10 @@
       "unit": "DFS 与回溯",
       "title": "Meteor Shower S",
       "difficulty": 1500,
-      "knowledge": "",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "BFS",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-SP4580",
@@ -2293,10 +2298,10 @@
       "unit": "DFS 与回溯",
       "title": "ABCDEF",
       "difficulty": 1500,
-      "knowledge": "枚举",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "枚举 + 折半枚举 + 二分查找 + 排序",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF55B",
@@ -2305,10 +2310,10 @@
       "unit": "DFS 与回溯",
       "title": "Smallest number",
       "difficulty": 1600,
-      "knowledge": "枚举",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "枚举 + DFS",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-AT_abc184_f",
@@ -2317,10 +2322,10 @@
       "unit": "DFS 与回溯",
       "title": "Programming Contest",
       "difficulty": 1800,
-      "knowledge": "",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "折半枚举 + 二分查找 + 排序",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF700B",
@@ -2329,10 +2334,10 @@
       "unit": "DFS 与回溯",
       "title": "Connecting Universities",
       "difficulty": 1800,
-      "knowledge": "贪心 + DFS + 图论",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "贪心 + DFS + 图论 + 结论与计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF1401D",
@@ -2342,9 +2347,9 @@
       "title": "Maximum Distributed Tree",
       "difficulty": 1800,
       "knowledge": "DFS + 贪心 + 模拟 + 排序 + 素数 + 图论",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1790",
@@ -2353,10 +2358,10 @@
       "unit": "DFS 与回溯",
       "title": "矩形分割",
       "difficulty": 1800,
-      "knowledge": "",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "DFS + 递归 + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P4289",
@@ -2365,10 +2370,10 @@
       "unit": "DFS 与回溯",
       "title": "移动玩具",
       "difficulty": 1800,
-      "knowledge": "队列",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "队列 + BFS + 位运算",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P10488",
@@ -2377,10 +2382,10 @@
       "unit": "DFS 与回溯",
       "title": "Booksort",
       "difficulty": 1800,
-      "knowledge": "",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "DFS + 递归",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-UVA11367",
@@ -2389,10 +2394,10 @@
       "unit": "DFS 与回溯",
       "title": "Full Tank?",
       "difficulty": 1800,
-      "knowledge": "堆 + 队列",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "堆 + 队列 + 最短路",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-B3625",
@@ -2401,10 +2406,10 @@
       "unit": "DFS 与回溯",
       "title": "迷宫寻路",
       "difficulty": 1200,
-      "knowledge": "",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "DFS + 图论",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1536",

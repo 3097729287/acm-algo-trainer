@@ -17,6 +17,7 @@ import unpair_ticks
 import check_solution
 
 CODE_SPELLINGS=[
+    'vector<int> snapshot = result','result = source','dist',
     'greater<int>()','greater<T>','greater<int>()(a,b)','no solution',
     '? l r','! answer','? 1 3','! 7','cout.flush()','1 p ... q ...','2 x y',
     '<iostream>','<string>','<iomanip>','fixed','setprecision','string(k,c)',

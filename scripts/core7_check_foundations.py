@@ -8,6 +8,7 @@ import tempfile
 from core7_authoring import ROOT,OUT
 
 checks={
+    'vector-ranges': [('', '', 'assert(first_value==2);assert(snapshot==vector<int>({0,2,3,4}));assert(result==source&&source==vector<int>({1,2,3,4,5}));')],
     'order-selection': [('', '', 'assert(smallest_sum==6);assert(values[3]==5);for(int i=0;i<3;++i)assert(values[i]<=values[3]);')],
     'interactive-io': [('7\n','? 1 3\n! 7\n','')],
     'rectangle-difference': [('', '', 'assert(covered==6);assert(diff[1][1]==1&&diff[2][3]==1&&diff[3][3]==0&&diff[0][1]==0);')],

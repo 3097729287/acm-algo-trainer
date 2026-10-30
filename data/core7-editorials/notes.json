@@ -5,5 +5,10 @@
     "source": "https://www.luogu.com.cn/problem/P1766",
     "lastPrimaryCheck": "2026-10-30",
     "evidence": "复查洛谷原题仍只说明允许相交、轨道内部不受影响及端点不计，未补充同高同时命中、水平或竖直轨道的处理；不从二手程序推定原题未声明保证。"
+  },
+  "luogu-training-P1019": {
+    "status": "exact-exponential-reference",
+    "reason": "原题明确标注疑似错题及最坏数据性能无保证。本批给出语义精确的最短合法重叠记忆化搜索，实际访问状态经小域独立枚举核对；最坏仍指数级，不宣称所有 n=20 输入在原时限内通过。",
+    "source": "https://www.luogu.com.cn/problem/P1019"
   }
 }

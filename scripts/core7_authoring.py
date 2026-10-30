@@ -58,6 +58,8 @@ def load_all():
         import core7_stage02_binary
         import core7_stage02_twopointers
         import core7_stage02_interactive
+        import core7_stage03_dfs
+        import core7_stage03_search_models
         from core7_figures import attach_figures
         attach_figures(SPECS)
         from core7_figures_greedy import attach_figures as greedy_figures
@@ -68,6 +70,8 @@ def load_all():
         prefix_figures(SPECS)
         from core7_figures_binary import attach_figures as binary_figures
         binary_figures(SPECS)
+        from core7_figures_search import attach_figures as search_figures
+        search_figures(SPECS)
         for spec in SPECS:
             spec.tags=['线性 DP' if tag=='DP' else tag for tag in spec.tags]
             if spec.pid=='P5732':spec.tags=['递推']
