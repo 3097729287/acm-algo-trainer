@@ -1,0 +1,27 @@
+{
+  "checkedAt": "2026-10-30T07:25:29.601968+00:00",
+  "counts": {
+    "protected_solutions": 1674,
+    "protected_detailed_solutions": 1674,
+    "protected_lectures": 467,
+    "protected_problem_lectures": 7214,
+    "protected_solution_methods": 294,
+    "protected_training_lists": 564,
+    "assets": 5947,
+    "asset_bytes": 673473389,
+    "pdf_assets": 1021,
+    "pdf_pages": 1694,
+    "gif_assets": 10,
+    "gif_frames": 437,
+    "total": 12282,
+    "readable_stored": 12183,
+    "translations_exact_after_existing_cleanup": 2898,
+    "all_source_sample_pairs_verified": 19194,
+    "complete": 11924,
+    "temporarily_hidden": 358,
+    "native_pdf_statements": 166,
+    "retained_original_ids": 12271
+  },
+  "errors": [],
+  "officialSubmissionsSent": 0
+}

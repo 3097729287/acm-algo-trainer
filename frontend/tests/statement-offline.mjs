@@ -1,0 +1,46 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {createServer} from 'vite';
+import {chromium} from 'playwright';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const server=await createServer({root,server:{host:'127.0.0.1',port:18793,strictPort:true,hmr:false}});
+await server.listen();
+let browser;
+const directory=await fs.mkdtemp(path.join(os.tmpdir(),'tb-offline-statement-'));
+try {
+  browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
+  const context=await browser.newContext({acceptDownloads:true});
+  const external=[],errors=[];
+  await context.route('**/*',route=>{
+    const url=new URL(route.request().url());
+    if(url.origin==='http://127.0.0.1:18793'||['blob:','data:'].includes(url.protocol))return route.continue();
+    external.push(url.href);return route.abort();
+  });
+  const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('http://127.0.0.1:18793/tests/statement-offline-fixture.html');
+  await page.getByRole('heading',{name:'Offline original',exact:true}).waitFor();
+  const cells=page.locator('tbody tr').first().locator('td');
+  assert.equal(await cells.nth(0).innerText(),'2\n1 2\n3 4');
+  assert.equal(await cells.nth(1).innerText(),'query\nreply');
+  assert.equal(await page.locator('img').first().evaluate(img=>img.complete&&img.naturalWidth===1),true);
+  const downloadPromise=page.waitForEvent('download');
+  await page.getByRole('link',{name:'PDF',exact:true}).click();
+  const download=await downloadPromise;
+  assert.equal(download.suggestedFilename(),'original.pdf');
+  const target=path.join(directory,'original.pdf');await download.saveAs(target);
+  assert.equal((await fs.readFile(target)).toString('base64'),'JVBERi0xLjcKJSBvZmZsaW5lIGZpeHR1cmUK');
+  const gifPromise=page.waitForEvent('download');
+  await page.getByRole('link',{name:'GIF',exact:true}).click();
+  const gif=await gifPromise;const gifTarget=path.join(directory,'original.gif');await gif.saveAs(gifTarget);
+  assert.equal(gif.suggestedFilename(),'original.gif');
+  assert.equal((await fs.readFile(gifTarget)).toString('base64'),'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
+  assert.equal(await page.evaluate(()=>Boolean(window.untrustedScript)),false);
+  const blocks=await page.locator('pre').allTextContents();
+  assert.ok(blocks.some(x=>x.trimEnd()==='2\n1 2\n3 4'));
+  assert.ok(blocks.some(x=>x.trimEnd()==='7\n8'));
+  assert.deepEqual(external,[]);assert.deepEqual(errors,[]);
+  console.log('PASS: original reader keeps multiline table cells, complete sample lines, embedded image and exact offline PDF download; no external requests or script execution.');
+} finally {await browser?.close();await server.close();await fs.rm(directory,{recursive:true,force:true});}

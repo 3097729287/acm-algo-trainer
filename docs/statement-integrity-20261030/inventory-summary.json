@@ -1,0 +1,23 @@
+{
+  "counts": {
+    "total": 12271,
+    "stored": 9436,
+    "readable_by_old_gate": 9348,
+    "special_type_requires_review": 160,
+    "external_image": 1436,
+    "no_samples_requires_type_review": 100,
+    "attachment_requires_offline_review": 225,
+    "unreadable": 88,
+    "short_requires_source_review": 181,
+    "missing": 2835,
+    "unresolved_image": 45
+  },
+  "hosts": {
+    "atcoder.jp": 603,
+    "codeforces.com": 2669,
+    "www.luogu.com.cn": 7898,
+    "ac.nowcoder.com": 988,
+    "none": 48,
+    "qoj.ac": 65
+  }
+}

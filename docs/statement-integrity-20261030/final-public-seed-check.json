@@ -1,0 +1,27 @@
+{
+  "checkedAt": "2026-10-30T08:08:11.993550+00:00",
+  "counts": {
+    "problems": 12271,
+    "statements": 9436,
+    "solutions": 1674,
+    "detailed_solutions": 1674,
+    "lectures": 467,
+    "problem_lectures": 7214,
+    "solution_methods": 294,
+    "training_lists": 564
+  },
+  "sameAsInitialSnapshot": {
+    "problems": true,
+    "statements": true,
+    "solutions": true,
+    "detailed_solutions": true,
+    "lectures": true,
+    "problem_lectures": true,
+    "solution_methods": true,
+    "training_lists": true
+  },
+  "latestContentCommit": null,
+  "snapshotSha256": "90cbb62764a0901f6eee00ce8e24e440fbda4d99665bb78cd93ffd4ba609e48b",
+  "latestInstalledVersion": "1.4.31",
+  "latestBuildSourceCommit": "892c2b91fad856acf7cf5da2365b8f29c1c276a0"
+}

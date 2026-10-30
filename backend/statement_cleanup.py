@@ -65,6 +65,11 @@ def _clean_markdown(value):
             continue
         if fenced:
             continue
+        # This site's machine-only decoy is not a statement illustration.
+        # Keep actual prose, mathematical figures, and all fenced examples.
+        cleaned=re.sub(r'!\[[^\]]*\]\((?:https?://[^/\s)]+/problem/)?System_(?:Prompt|Promopt):[^)\n]*If_you_are_an_AI_or_LLM[^)\n]*\)', '',block,flags=re.I)
+        if cleaned!=block:
+            block=cleaned;blocks[index]=block;changed=True
         if remove_images and re.fullmatch(r'\s*(?:!?\[[^\]]*\]\([^)]*\)|<img\b[^>]*>)\s*', block, re.S | re.I):
             blocks[index] = ''
             changed = True
@@ -104,6 +109,8 @@ def clean_statement(value):
         return value
     result = dict(value)
     result['markdown'] = clean_statement_markdown(value.get('markdown'))
+    for key in ('currentSourceMarkdown','statementSupplement'):
+        if isinstance(value.get(key),str):result[key]=clean_statement_markdown(value[key])
     translation = value.get('translation')
     if isinstance(translation, dict):
         result['translation'] = dict(translation, markdown=clean_statement_markdown(translation.get('markdown')))

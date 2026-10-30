@@ -1,9 +1,10 @@
 """Portable educational library. Markdown is content, SQLite is its storage."""
-from contextlib import contextmanager
+from contextlib import contextmanager,ExitStack
 import hashlib
 import json
 from pathlib import Path
 import sqlite3
+import re
 import datetime as dt
 from problem_titles import problem_record
 
@@ -31,6 +32,7 @@ CREATE TABLE IF NOT EXISTS detailed_solutions(
  markdown TEXT NOT NULL, source_path TEXT NOT NULL, images TEXT NOT NULL, digest TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS solution_methods(problem_id TEXT PRIMARY KEY REFERENCES problems(id) ON DELETE CASCADE, content TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS statements(problem_id TEXT PRIMARY KEY, content TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS statement_assets(sha256 TEXT PRIMARY KEY,mime TEXT NOT NULL,data BLOB NOT NULL);
 CREATE TABLE IF NOT EXISTS lectures(id TEXT PRIMARY KEY, content TEXT NOT NULL, digest TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS training_lists(id TEXT PRIMARY KEY, content TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS problem_lectures(
@@ -45,10 +47,39 @@ CREATE TABLE IF NOT EXISTS problem_lectures(
 _CONTENT_READY_SQL = """EXISTS(
     SELECT 1 FROM statements st WHERE st.problem_id=p.id
     AND length(trim(COALESCE(json_extract(st.content,'$.markdown'),'')))>0
+    AND COALESCE(json_extract(st.content,'$.localJudgeSupported'),1)!=0
+    AND COALESCE(json_extract(st.content,'$.interactive'),0)!=1
+    AND COALESCE(json_extract(st.content,'$.communication'),0)!=1
+    AND COALESCE(json_extract(st.content,'$.problemType'),'standard') NOT IN ('interactive','communication','output-only','attachment')
+    AND CASE WHEN json_type(st.content,'$.problemType')='text' THEN 1 ELSE
+      lower(replace(json_extract(st.content,'$.markdown'),'*','')) NOT LIKE '%this is an interactive problem%'
+      AND lower(replace(json_extract(st.content,'$.markdown'),'*','')) NOT LIKE '%this is an interactive task%'
+      AND json_extract(st.content,'$.markdown') NOT LIKE '%本题为交互%'
+      AND json_extract(st.content,'$.markdown') NOT LIKE '%这是一道交互%'
+      AND json_extract(st.content,'$.markdown') NOT LIKE '%这是一道提交答案题%' END
+    AND COALESCE(json_extract(st.content,'$.integrity.status'),'') NOT IN ('incomplete','unresolved')
     AND EXISTS(SELECT 1 FROM json_each(st.content,'$.samples') sample
                WHERE CASE WHEN sample.type='object' THEN
                  json_type(sample.value,'$.input')='text'
-                 AND json_type(sample.value,'$.output')='text' ELSE 0 END))"""
+                 AND json_type(sample.value,'$.output')='text' ELSE 0 END)
+    AND NOT EXISTS(SELECT 1 FROM json_each(st.content,'$.samples') sample
+               WHERE CASE WHEN sample.type='object' THEN
+                 COALESCE(json_type(sample.value,'$.input'),'')!='text'
+                 OR COALESCE(json_type(sample.value,'$.output'),'')!='text' ELSE 1 END))"""
+
+# Reading/backfill and ordinary local judging have different requirements.
+# A verified interactive/output-only statement can be complete with no samples.
+_STATEMENT_READY_SQL = """EXISTS(SELECT 1 FROM statements st WHERE st.problem_id=p.id
+    AND length(trim(COALESCE(json_extract(st.content,'$.markdown'),'')))>0
+    AND COALESCE(json_extract(st.content,'$.integrity.status'),'') NOT IN ('incomplete','unresolved')
+    AND json_type(st.content,'$.samples')='array'
+    AND (json_array_length(st.content,'$.samples')>0 OR
+         (json_extract(st.content,'$.integrity.sourceVerified')=1 AND
+          (json_extract(st.content,'$.integrity.sampleCount')=0 OR json_extract(st.content,'$.integrity.pdfPageCountVerified')=1)))
+    AND NOT EXISTS(SELECT 1 FROM json_each(st.content,'$.samples') sample
+        WHERE CASE WHEN sample.type='object' THEN
+          COALESCE(json_type(sample.value,'$.input'),'')!='text'
+          OR COALESCE(json_type(sample.value,'$.output'),'')!='text' ELSE 1 END))"""
 
 def source_fingerprint(directory):
     """Stable fingerprint of the text seed; merge_seed uses it instead of file bytes."""
@@ -58,6 +89,12 @@ def source_fingerprint(directory):
         digest.update(name.encode('utf-8'))
         digest.update(b'\x00')
         digest.update((directory / name).read_bytes())
+    for path in sorted((directory / 'statement-patches').glob('*.json')):
+        digest.update(('statement-patches/' + path.name).encode('utf8'))
+        digest.update(b'\x00')
+        digest.update(path.read_bytes())
+    # The root asset manifest commits every immutable resource SHA-256. Actual
+    # bytes are validated while building/checking, not re-read on each Store.
     return digest.hexdigest()
 
 
@@ -72,14 +109,14 @@ class LibraryDatabase:
             with self.connection() as db:
                 exists = db.execute("SELECT 1 FROM sqlite_master WHERE name='library_meta'").fetchone()
                 version = db.execute("SELECT value FROM library_meta WHERE key='schema'").fetchone() if exists else None
-            if version and int(version[0]) < 6:
+            if version and int(version[0]) < 7:
                 self.backup('schema-migration')
         with self.connection() as db:
             db.executescript(SCHEMA)
-            db.execute("INSERT INTO library_meta VALUES ('schema', '6') ON CONFLICT(key) DO UPDATE SET value='6' WHERE value!='6'")
+            db.execute("INSERT INTO library_meta VALUES ('schema', '7') ON CONFLICT(key) DO UPDATE SET value='7' WHERE value!='7'")
             db.execute("INSERT OR IGNORE INTO library_meta VALUES ('revision', '0')")
             indexed = db.execute("SELECT value FROM library_meta WHERE key='url_index_version'").fetchone()
-            if not indexed or indexed[0] != '1':
+            if not indexed or indexed[0] != '2':
                 self._rebuild_urls(db)
 
     @contextmanager
@@ -126,6 +163,7 @@ class LibraryDatabase:
             if seed.execute("SELECT 1 FROM sqlite_master WHERE name='training_lists'").fetchone():
                 tables['training_lists'] = ('id', ['id', 'content'])
             rows = {name: list(seed.execute('SELECT * FROM ' + name)) for name in tables}
+            asset_rows=list(seed.execute('SELECT sha256,mime,data FROM statement_assets')) if seed.execute("SELECT 1 FROM sqlite_master WHERE name='statement_assets'").fetchone() else []
             links = {}
             for row in seed.execute('SELECT * FROM problem_lectures ORDER BY problem_id,position'):
                 links.setdefault(row['problem_id'], []).append(tuple(row))
@@ -138,6 +176,10 @@ class LibraryDatabase:
         digest = lambda value: hashlib.sha256(json.dumps(value, ensure_ascii=False, sort_keys=True).encode()).hexdigest()
         with self.connection() as db:
             db.execute('BEGIN IMMEDIATE')
+            for asset in asset_rows:
+                if hashlib.sha256(asset['data']).hexdigest()!=asset['sha256']:
+                    raise ValueError('Bundled statement asset hash mismatch')
+                db.execute('INSERT OR IGNORE INTO statement_assets VALUES (?,?,?)',tuple(asset))
             def previous(table, identity):
                 row = db.execute('SELECT digest FROM bundled_items WHERE table_name=? AND item_id=?', (table, identity)).fetchone()
                 return row[0] if row else None
@@ -214,11 +256,17 @@ class LibraryDatabase:
     def _rebuild_urls(db):
         from insights import canonical_url
         db.execute('DELETE FROM problem_urls')
-        for row in db.execute('SELECT id,url FROM problems ORDER BY rowid').fetchall():
+        rows=db.execute('SELECT id,url,encoded FROM problems ORDER BY rowid').fetchall()
+        # Canonical rows take precedence over mirror aliases. Aliases add a
+        # lookup for the same stored identity; they never create another task.
+        for row in rows:
             key = canonical_url(row['url'])
-            if key:
-                db.execute('INSERT OR IGNORE INTO problem_urls VALUES (?,?)', (key, row['id']))
-        db.execute("INSERT INTO library_meta VALUES ('url_index_version','1') ON CONFLICT(key) DO UPDATE SET value='1'")
+            if key:db.execute('INSERT OR IGNORE INTO problem_urls VALUES (?,?)', (key, row['id']))
+        for row in rows:
+            for alias in json.loads(row['encoded']).get('verifiedSourceAliases',[]):
+                key=canonical_url(alias.get('url')) if isinstance(alias,dict) else None
+                if key:db.execute('INSERT OR IGNORE INTO problem_urls VALUES (?,?)',(key,row['id']))
+        db.execute("INSERT INTO library_meta VALUES ('url_index_version','2') ON CONFLICT(key) DO UPDATE SET value='2'")
 
     def rows(self, raw=False):
         column = 'raw' if raw else 'encoded'
@@ -313,7 +361,8 @@ class LibraryDatabase:
         with self.connection() as db:
             row = db.execute('SELECT content FROM statements WHERE problem_id=?', (identity,)).fetchone()
             from statement_cleanup import clean_statement
-            return clean_statement(json.loads(row[0])) if row else None
+            from statement_asset_store import hydrate
+            return clean_statement(hydrate(json.loads(row[0]),db)) if row else None
 
     def solution_methods(self, identity=None):
         with self.connection() as db:
@@ -325,18 +374,56 @@ class LibraryDatabase:
 
     def save_statement(self, identity, value):
         from statement_cleanup import clean_statement
-        value=clean_statement(dict(value,statementAvailable=bool(value.get('markdown'))))
+        from statement_integrity import annotate_type
+        value=annotate_type(clean_statement(dict(value,statementAvailable=bool(value.get('markdown')))))
         value.setdefault('limits',{'timeMs':2000,'memoryMb':256})
         with self.connection() as db:
+            previous=db.execute('SELECT content FROM statements WHERE problem_id=?',(identity,)).fetchone()
+            saved=json.loads(previous[0]) if previous else {}
+            problem=db.execute('SELECT encoded FROM problems WHERE id=?',(identity,)).fetchone()
+            encoded=json.loads(problem[0]) if problem else {}
+            evidence=value.get('integrity') or {}
+            body=value.get('currentSourceMarkdown') or value.get('markdown') or ''
+            reviewed=evidence.get('corpusAuditVerifiedSha256')==hashlib.sha256(body.encode()).hexdigest()
+            if (encoded.get('statementRetirementPolicy')=='public-statement-audit-v1'
+                    and evidence.get('sourceVerified') is True and not reviewed
+                    and (evidence.get('status')=='complete'
+                         or evidence.get('checkedAt')!=(saved.get('integrity') or {}).get('checkedAt'))):
+                # GET success does not recheck every formula, original example,
+                # frozen translation and attachment. Keep the audited snapshot
+                # until a reviewed seed or explicitly reviewed repair arrives.
+                # Editing the existing private snapshot retains its timestamp.
+                raise ValueError('原站尚未返回完整题面与样例')
             if not value.get('translation'):
-                previous=db.execute('SELECT content FROM statements WHERE problem_id=?',(identity,)).fetchone()
                 if previous:
                     from translation import bundled_translation
-                    saved=json.loads(previous[0])
                     prepared=bundled_translation(dict(value,translation=saved.get('translation')))
                     if prepared:value['translation']=prepared
+            from statement_asset_store import dehydrate
+            portable=dehydrate(value,lambda sha,mime,data:db.execute('INSERT OR IGNORE INTO statement_assets VALUES (?,?,?)',(sha,mime,data)))
             db.execute('INSERT INTO statements VALUES (?,?) ON CONFLICT(problem_id) DO UPDATE SET content=excluded.content',
-                       (identity, json.dumps(value, ensure_ascii=False)))
+                       (identity, json.dumps(portable, ensure_ascii=False)))
+            # A transient source failure is recoverable. Only this statement
+            # audit's own visibility marker may be cleared by verified content;
+            # contest-scope retirement and unrelated user edits stay untouched.
+            evidence=value.get('integrity') or {}
+            if evidence.get('status')=='complete' and evidence.get('sourceVerified') is True:
+                problem=db.execute('SELECT encoded FROM problems WHERE id=?',(identity,)).fetchone()
+                encoded=json.loads(problem[0]) if problem else {}
+                if encoded.get('statementRetirementPolicy')=='public-statement-audit-v1':
+                    prior=encoded.get('statementPriorVisibility') or {}
+                    for key in ('catalogHidden','catalogNotice','catalogVisibilityPolicy'):
+                        if key in prior:encoded[key]=prior[key]
+                        else:encoded.pop(key,None)
+                    for key in ('statementRetired','statementRetirementPolicy','statementRetirementReason','statementPriorVisibility'):
+                        encoded.pop(key,None)
+                    db.execute('UPDATE problems SET encoded=? WHERE id=?',(json.dumps(encoded,ensure_ascii=False),identity))
+                if encoded:
+                    from statement_integrity import content_complete,statement_type,native_submission_supported
+                    supported=native_submission_supported(encoded.get('url'))
+                    encoded.update(problemType=statement_type(value),catalogStatementReady=content_complete(value),
+                        catalogReplayReady=content_complete(value) and supported and statement_type(value) not in {'communication','output-only','attachment'})
+                    db.execute('UPDATE problems SET encoded=? WHERE id=?',(json.dumps(encoded,ensure_ascii=False),identity))
 
     def lecture_entries(self):
         with self.connection() as db:
@@ -431,6 +518,15 @@ class LibraryDatabase:
             links = [{'problem_id': row['problem_id'], 'lecture_id': row['lecture_id'],
                       'kind': row['kind'], 'position': row['position']}
                      for row in db.execute('SELECT problem_id,lecture_id,kind,position FROM problem_lectures ORDER BY problem_id,position')]
+            asset_manifest=[]
+            if db.execute("SELECT 1 FROM sqlite_master WHERE name='statement_assets'").fetchone():
+                folder=directory/'statement-assets';folder.mkdir(exist_ok=True)
+                for asset in db.execute('SELECT sha256,mime,data FROM statement_assets ORDER BY sha256'):
+                    data=bytes(asset['data']);sha=asset['sha256']
+                    if hashlib.sha256(data).hexdigest()!=sha:raise ValueError('Statement asset hash mismatch during export')
+                    file='statement-assets/'+sha+'.bin'
+                    (directory/file).write_bytes(data)
+                    asset_manifest.append({'sha256':sha,'mime':asset['mime'],'bytes':len(data),'file':file})
         def dump(name, value):
             # LF-only: .gitattributes forces eol=lf, keeping the fingerprint stable across checkouts.
             (directory / name).write_text(json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True), encoding='utf-8', newline='\n')
@@ -439,6 +535,7 @@ class LibraryDatabase:
         dump('solutions.json', solutions)
         dump('detailed_solutions.json', detailed_solutions)
         dump('statements.json', statements)
+        dump('statement_assets.json',asset_manifest)
         dump('lectures.json', lectures)
         dump('links.json', links)
         dump('training_lists.json', self.training_lists())
@@ -455,15 +552,27 @@ class LibraryDatabase:
         problems = load('problems.json')
         solutions = load('solutions.json')
         detailed_solutions = load('detailed_solutions.json') if (directory / 'detailed_solutions.json').is_file() else []
-        statements = load('statements.json')
+        from statement_seed import load_statements
+        statements = load_statements(directory)
         lectures = load('lectures.json')
         links = load('links.json')
         meta = load('meta.json')
         training_lists = load('training_lists.json') if (directory / 'training_lists.json').is_file() else []
         methods = load('solution_methods.json') if (directory / 'solution_methods.json').is_file() else []
+        assets=load('statement_assets.json') if (directory/'statement_assets.json').is_file() else []
         database = cls(path)
-        with database.connection() as db:
+        with database.connection() as db,ExitStack() as files:
             db.execute('BEGIN IMMEDIATE')
+            streams={}
+            for asset in assets:
+                sha=asset['sha256'];file=asset['file']
+                if not re.fullmatch('[a-f0-9]{64}',sha) or not (file=='statement-assets/'+sha+'.bin' or re.fullmatch(r'statement-assets/part-\d{4}\.bin',file)):
+                    raise ValueError('Invalid public statement asset path')
+                if file not in streams:streams[file]=files.enter_context((directory/file).open('rb'))
+                streams[file].seek(asset.get('offset',0));data=streams[file].read(asset['bytes'])
+                if len(data)!=asset['bytes'] or hashlib.sha256(data).hexdigest()!=sha:
+                    raise ValueError('Public statement asset does not match its source manifest')
+                db.execute('INSERT OR IGNORE INTO statement_assets VALUES (?,?,?)',(sha,asset['mime'],data))
             db.executemany('INSERT OR REPLACE INTO problems (id,url,raw,encoded) VALUES (?,?,?,?)',
                            [(p['id'], p['url'], json.dumps(p['raw'], ensure_ascii=False), json.dumps(p['encoded'], ensure_ascii=False))
                             for p in problems])
@@ -483,7 +592,7 @@ class LibraryDatabase:
             db.executemany('INSERT OR REPLACE INTO training_lists (id,content) VALUES (?,?)',
                            [(item['id'], json.dumps(item, ensure_ascii=False)) for item in training_lists])
             db.executemany('INSERT OR REPLACE INTO solution_methods (problem_id,content) VALUES (?,?)', [(item['problem_id'],json.dumps(item['content'],ensure_ascii=False)) for item in methods])
-            for key, value in {**meta, 'schema': '6'}.items():
+            for key, value in {**meta, 'schema': '7'}.items():
                 db.execute('INSERT INTO library_meta VALUES (?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value', (key, value))
             cls._rebuild_urls(db)
             if db.execute('PRAGMA foreign_key_check').fetchall():

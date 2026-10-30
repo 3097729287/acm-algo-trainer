@@ -71,15 +71,16 @@ def authorized(row, platform=None):
 
 
 def content_ready(statement):
-    if not isinstance(statement, dict) or not str(statement.get('markdown') or '').strip():
-        return False
-    samples = statement.get('samples')
-    return bool(isinstance(samples, list) and samples and all(isinstance(sample, dict)
-        and isinstance(sample.get('input'), str) and isinstance(sample.get('output'), str)
-        for sample in samples))
+    from statement_integrity import content_complete
+    return content_complete(statement)
 
 
 def apply_visibility(row):
+    # Explicit public-content retirement also applies to training-list members.
+    # The stored row and all private references remain addressable by ID.
+    if row.get('statementRetired'):
+        return {**row, 'catalogHidden': True,
+                'catalogNotice': row.get('statementRetirementReason') or '公开题面与样例尚未就绪，暂不加入题库；个人训练与历史记录保留'}
     if row.get('trainingListMember'):
         # Explicitly collected training lists extend catalogue scope. Stored
         # contest identities/content and all personal progress stay untouched.

@@ -12,7 +12,7 @@ try{
   await page.goto(`http://127.0.0.1:${server.httpServer.address().port}/tests/workbench-fixture.html`);await page.locator('.cm-content').waitFor();
   await page.evaluate(({original,chinese,embedded})=>{
     const f=window.workbenchFixture;
-    f.problemOverrides.P={title:'Polyline',markdown:original,images:{'https://img.atcoder.jp/fixture.png':embedded},translation:{kind:'bundled',targetLanguage:'zh-CN',markdown:chinese}};
+    f.problemOverrides.P={title:'Polyline',markdown:original,currentSourceMarkdown:original,statementLanguage:'zh',images:{'https://img.atcoder.jp/fixture.png':embedded},translation:{kind:'bundled',targetLanguage:'zh-CN',markdown:chinese}};
     f.changeProblem('P');
   },{original,chinese,embedded});
   const toggle=page.getByRole('group',{name:'题面语言'}).getByRole('button');

@@ -82,7 +82,7 @@ class AssetLibrary:
         from translation import needs_translation
         value['autoTranslate']=needs_translation(value)
         bundle=self.bundle(identity)
-        value.update(templatePractice=is_drill(identity),judge={'scope':bundle['scope'],'label':'模板评测' if bundle['scope']=='template' else '本地审核测试' if bundle['scope']=='local' else '仅官方样例', 'cases':len(bundle['cases'])},locked=False,draft='',submissions=[])
+        value.update(templatePractice=is_drill(identity),judge={'scope':bundle['scope'],'label':'模板评测' if bundle['scope']=='template' else '本地审核测试' if bundle['scope']=='local' else '原站提交' if bundle['scope']=='unsupported' else '仅官方样例', 'cases':len(bundle['cases'])},locked=False,draft='',submissions=[])
         return value
 
     def _fetch_statement(self,identity,value):
@@ -160,7 +160,7 @@ class AssetLibrary:
     def _fetch_missing(self,identity,value):
         """Only an explicit single-problem opening fetches; preview never does network I/O."""
         parsed=urlsplit(value['url'])
-        if parsed.hostname in ('codeforces.com','atcoder.jp','www.luogu.com.cn','ac.nowcoder.com'):
+        if parsed.hostname in ('codeforces.com','atcoder.jp','www.luogu.com.cn','luogu.com.cn','ac.nowcoder.com','qoj.ac'):
             try:
                 from integrations import PublicClient
                 from public_platforms import statement
@@ -197,6 +197,10 @@ class AssetLibrary:
         from template_drills import is_drill,bundle as drill_bundle
         if is_drill(identity):return drill_bundle(identity)
         base=self._cached(identity)
+        from statement_integrity import ordinary_samples
+        if not ordinary_samples(base):
+            return {'scope':'unsupported','cases':[],'limits':dict(base['limits']),
+                    'checker':None,'nonunique':False,'caseInsensitive':False,'coverage':'仅样例，不代表完整评测'}
         cases=list(base['samples']);checker=None
         local=False
         # A profile alone is insufficient: original statement and samples must also exist.
@@ -208,7 +212,19 @@ class AssetLibrary:
                 'caseInsensitive':bool(re.search(r'(?:any case|case.insensitive|任意大小写|不区分大小写)',base['markdown'] or '',re.I)),
                 'coverage':reviewed_cases.PROFILES.get(identity) if local else '仅样例，不代表完整评测'}
 
-    def candidates(self,rows):
+    def candidates(self,rows,official=False):
+        if official:
+            from statement_integrity import content_complete,statement_type,native_submission_supported
+            result=[]
+            for row in rows:
+                if row.get('catalogHidden') or row.get('problemType') in {'communication','output-only','attachment'}:continue
+                if not native_submission_supported(row.get('url')):continue
+                ready=row.get('catalogReplayReady')
+                if ready is None:
+                    value=self._cached(row['id'])
+                    ready=content_complete(value) and statement_type(value) not in {'communication','output-only','attachment'}
+                if ready:result.append(dict(row,judgeScope='official'))
+            return result
         # The fresh catalog already checks statement/sample presence in SQLite.
         # Do not decode thousands of Markdown/image bodies merely to choose a
         # paper, or fill the reader cache with tasks the user has never opened.
@@ -230,7 +246,8 @@ class AssetLibrary:
             for row in pending:
                 try:base=self._cached(row['id'])
                 except (OSError,ValueError,SyntaxError):continue
-                if base['statementAvailable'] and base['samples']:
+                from statement_integrity import ordinary_samples
+                if base['statementAvailable'] and base['samples'] and ordinary_samples(base):
                     ready.add(row['id'])
             return [dict(row,judgeScope='local' if row['id'] in reviewed_cases.PROFILES else 'samples') for row in rows if row['id'] in ready]
         finally:_CANDIDATE_ROWS.reset(token)

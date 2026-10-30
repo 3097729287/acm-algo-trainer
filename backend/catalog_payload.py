@@ -13,6 +13,7 @@ ROW_FIELDS = frozenset('''
     difficultyConfidence difficultyEvidence difficultyEstimated nativeDifficulty nativeDifficultyLabel problemKind schoolTraining labTopic
     solutionAvailable solutionState detailedSolutionAvailable statementAvailable
     catalogHidden catalogNotice catalogVisibilityPolicy catalogContentReady
+    catalogStatementReady catalogReplayReady problemType localJudgeSupported rosterVerified contestLetterVerified
     contestDate startedAt endedAt contestDateSource contestDatePrecision
     contestFullName contestId contestLetter contestFamily contestRoster contestProblemCount
     contestVariant contestDifficulty contestDifficultySource contestPhase

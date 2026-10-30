@@ -947,6 +947,13 @@ class TrainingService:
     def assert_official_allowed(self, identity, contest_id=None, receipt=False):
         """All timed modes use native OJ forms in their validated contest context."""
         with self.lock:
+            if not receipt:
+                from statement_integrity import statement_type
+                library = getattr(self.store, 'library', None)
+                statement = library.statement(identity) if library is not None else {}
+                statement = statement or {}
+                if statement_type(statement) in {'communication', 'output-only', 'attachment'}:
+                    raise ServiceError(422, '暂不支持此平台原站提交')
             contest = self._context(identity, contest_id, writing=not receipt) if contest_id else None
             if contest:
                 return contest
@@ -1066,7 +1073,7 @@ class TrainingService:
             self._context(identity, contest_id)
             self._history_visible(identity, contest_id)
             allowed = {"id", "title", "markdown", "url", "samples", "limits", "judge", "statementAvailable", "statementError", "statementLoading",
-                       "statementVersion", "images", "translation", "translationAvailable", "autoTranslate", "templatePractice"}
+                       "statementVersion", "statementPdf", "currentSourceMarkdown", "statementSupplement", "images", "attachments", "problemType", "localJudgeSupported", "translation", "translationAvailable", "autoTranslate", "templatePractice"}
             problem = {key: raw[key] for key in allowed if key in raw}
             problem.setdefault("id", identity)
             problem.setdefault("title", row["title"])
@@ -1185,6 +1192,9 @@ class TrainingService:
         # The workbench already loads statements in the background. Starting a
         # local run must never wait for an original-site HTTP request.
         metadata = assets.problem(identity, fetch=False) if 'fetch' in inspect.signature(assets.problem).parameters else assets.problem(identity)
+        from statement_integrity import ordinary_samples
+        if not ordinary_samples(metadata) or metadata.get('judge', {}).get('scope') == 'unsupported':
+            raise ServiceError(422, '重现赛请使用原站提交')
         with self.lock:
             if self.closed:
                 raise ServiceError(503, "判题服务正在关闭，请稍后重试")
@@ -1700,6 +1710,12 @@ class TrainingService:
                 self.previews.pop(next(iter(self.previews)))
             return {"plan": plan, "available": available}
 
+    def _contest_candidates(self,rows,official=False):
+        assets=self._asset_library()
+        if 'official' in inspect.signature(assets.candidates).parameters:
+            return assets.candidates(rows,official=official)
+        return assets.candidates(rows)
+
     def replay_events(self):
         from contest_rules import event_info
         with self.lock:
@@ -1743,7 +1759,7 @@ class TrainingService:
             if lab is None: rows.sort(key=order)
         # Load missing public statements before freezing; never silently omit a slot.
         for row in rows:self._asset_library().problem(row['id'])
-        available={row['id']:row for row in self._asset_library().candidates(rows)}
+        available={row['id']:row for row in self._contest_candidates(rows,official=True)}
         missing=[row['problem'] for row in rows if row['id'] not in available]
         if missing:raise ServiceError(422,'以下题目尚缺完整题面或样例：'+', '.join(missing)+'。补全后才能重现整场已收录赛题')
         try:duration=int(body.get('duration',info['duration']))
@@ -1809,7 +1825,7 @@ class TrainingService:
                 if key in body and body[key] != preview["plan"][key]:
                     raise ServiceError(409, "难度条件已变化，请重新生成题目")
             solved = self._solved_problem_keys(self._library()) if options["excludeSolved"] else set()
-            current_rows = {row["id"]: row for row in self._asset_library().candidates([self._row(identity) for identity in ids])}
+            current_rows = {row["id"]: row for row in self._contest_candidates([self._row(identity) for identity in ids],official=options['strategy']=='replay')}
             for identity in ids:
                 row = current_rows.get(identity)
                 if row is None:

@@ -69,6 +69,9 @@ def validate(payload,current):
             elif 'content' in row:
                 value=json.loads(row['content'])
                 if not isinstance(value,dict) or table=='training_lists' and value.get('custom'):raise ValueError('公共内容不可包含私有题单')
+                if table=='statements':
+                    from statement_asset_store import references
+                    if references(value):raise ValueError('Schema-1 content patches cannot transport SQLite statement assets; use a program update')
     return payload
 
 def apply(store,payload,current=VERSION):

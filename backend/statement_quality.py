@@ -14,7 +14,7 @@ def prose(markdown):
 
 
 def has_body(markdown):
-    return bool(re.search(r'[\w\u3400-\u9fff]', prose(markdown)))
+    return any(character.isalpha() for character in prose(markdown))
 
 
 def japanese_only(markdown):

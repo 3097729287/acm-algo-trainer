@@ -1,0 +1,12 @@
+{
+  "preservedSyntheticPrivateFacts": 8,
+  "privateStatementAndChinesePreserved": true,
+  "privateImportPreserved": true,
+  "onlineBackupIncludesCommittedWal": true,
+  "verifiedSourceAliases": 2,
+  "publicRetirementsFiltered": 358,
+  "newQojFilteredRows": 11,
+  "newEventReplayDisabled": true,
+  "visiblePublicRows": 11695,
+  "realPersonalDatabasesRead": 0
+}

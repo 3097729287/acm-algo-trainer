@@ -1,0 +1,71 @@
+{
+  "total": 3241,
+  "rendered": 3241,
+  "nativePdf": 0,
+  "issues": [
+    {
+      "id": "luogu-training-AT_agc025_e",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected group after &#x27;^&#x27; at position 2: u^̲&#x27;_1",
+        "ParseError: KaTeX parse error: Expected group after &#x27;^&#x27; at position 2: v^̲&#x27;_1",
+        "ParseError: KaTeX parse error: Expected group after &#x27;^&#x27; at position 2: u^̲&#x27;_M",
+        "ParseError: KaTeX parse error: Expected group after &#x27;^&#x27; at position 2: v^̲&#x27;_M"
+      ]
+    },
+    {
+      "id": "luogu-training-AT_agc041_e",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected group after &#x27;^&#x27; at position 1: ^̲^^^^",
+        "ParseError: KaTeX parse error: Expected group after &#x27;^&#x27; at position 2: v^̲^^^"
+      ]
+    },
+    {
+      "id": "luogu-training-CF1930H",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 29: …互相独立。特别地，不同轮次的 $̲a$、$u$ 和 $v$ 可以…"
+      ]
+    },
+    {
+      "id": "luogu-training-CF285D",
+      "issues": [
+        "ParseError: KaTeX parse error: Unexpected end of input in a macro argument, expected &#x27;}&#x27; at end of input: \\mod"
+      ]
+    },
+    {
+      "id": "luogu-training-CF757G",
+      "issues": [
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 6:   其中 $̲dist(a,b)$ 表示在给…",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 6: - 如果 $̲t=2$，第二行包含一个整数 …",
+        "ParseError: KaTeX parse error: Can&#x27;t use function &#x27;$&#x27; in math mode at position 5: \n其中 $̲ans_i$ 表示第 $i$ …"
+      ]
+    },
+    {
+      "id": "luogu-training-P7014",
+      "issues": [
+        "ParseError: KaTeX parse error: Expected &#x27;EOF&#x27;, got &#x27;&amp;&#x27; at position 1: &amp;̲"
+      ]
+    },
+    {
+      "id": "luogu-training-UVA1048",
+      "issues": [
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 1: \\̲"
+      ]
+    },
+    {
+      "id": "remote:nowcoder:21592::I",
+      "issues": [
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 4: \\ 1\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 4: \\ 2\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 4: \\ 3\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 10: \\ t_1 = 4\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 10: \\ t_2 = 4\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 10: \\ t_3 = 2\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 4: \\ 4\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 18: …t_4 = 2 + 1 = 3\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 10: \\ t_1 = 1\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 10: \\ t_4 = 3\\̲",
+        "ParseError: KaTeX parse error: Unexpected character: &#x27;\\&#x27; at position 10: \\ t_2 = 2\\̲"
+      ]
+    }
+  ]
+}

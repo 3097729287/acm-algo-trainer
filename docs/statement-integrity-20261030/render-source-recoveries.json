@@ -1,0 +1,1311 @@
+[
+  {
+    "id": "luogu-training-CF1004F",
+    "url": "https://codeforces.com/problemset/problem/1004/F",
+    "time": "2026-10-30T07:08:44.216464+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF1004F",
+      "originalUrl": "https://codeforces.com/problemset/problem/1004/F",
+      "sourceProblemId": "CF1004F",
+      "textAlignment": 0.9850467289719627,
+      "mirrorMarkdownSha256": "798526c6b96aa6a7ad78230fa4ce6440bcc26a4cd7fe21e4cd0776be3adc011c",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF1017F",
+    "url": "https://codeforces.com/problemset/problem/1017/F",
+    "time": "2026-10-30T07:08:44.216679+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF1017F",
+      "originalUrl": "https://codeforces.com/problemset/problem/1017/F",
+      "sourceProblemId": "CF1017F",
+      "textAlignment": 0.9952,
+      "mirrorMarkdownSha256": "9c0d805cd267b51bd54a98494ea47d17bb5cc436619d5d7ac4e56603ffc75564",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF1038E",
+    "url": "https://codeforces.com/problemset/problem/1038/E",
+    "time": "2026-10-30T07:08:44.216831+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF1038E",
+      "originalUrl": "https://codeforces.com/problemset/problem/1038/E",
+      "sourceProblemId": "CF1038E",
+      "textAlignment": 0.9956958393113343,
+      "mirrorMarkdownSha256": "da68c5b5830541b6a10d7de7408e05be0be94bb3b6a77cecc397a18ca7a6c07c",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF1054H",
+    "url": "https://codeforces.com/problemset/problem/1054/H",
+    "time": "2026-10-30T07:08:44.217003+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF1054H",
+      "originalUrl": "https://codeforces.com/problemset/problem/1054/H",
+      "sourceProblemId": "CF1054H",
+      "textAlignment": 0.986784140969163,
+      "mirrorMarkdownSha256": "85666493c5c8cae257fa1d0f7af73a75e6139ea7bb43917c8d637a2095720682",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF1088E",
+    "url": "https://codeforces.com/problemset/problem/1088/E",
+    "time": "2026-10-30T07:08:44.217908+00:00",
+    "result": "native-render-source-unverified",
+    "error": "The read operation timed out"
+  },
+  {
+    "id": "luogu-training-CF1089F",
+    "url": "https://codeforces.com/problemset/problem/1089/F",
+    "time": "2026-10-30T07:08:44.218087+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF1089F",
+      "originalUrl": "https://codeforces.com/problemset/problem/1089/F",
+      "sourceProblemId": "CF1089F",
+      "textAlignment": 0.9896193771626297,
+      "mirrorMarkdownSha256": "d2cdb8e9c0c5f6ce10e03d13ccb832b09f1c37e6d7dee906c65d01af08cf7465",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF1110A",
+    "url": "https://codeforces.com/problemset/problem/1110/A",
+    "time": "2026-10-30T07:08:44.218469+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF1110A",
+      "originalUrl": "https://codeforces.com/problemset/problem/1110/A",
+      "sourceProblemId": "CF1110A",
+      "textAlignment": 0.9721362229102167,
+      "mirrorMarkdownSha256": "366b532f3a6c7d0b2be0bc96ff548dad8cc2969c94c87bf16d8a4e146fb89f4e",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF1110C",
+    "url": "https://codeforces.com/problemset/problem/1110/C",
+    "time": "2026-10-30T07:08:44.267047+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF1110C",
+      "originalUrl": "https://codeforces.com/problemset/problem/1110/C",
+      "sourceProblemId": "CF1110C",
+      "textAlignment": 0.9696969696969697,
+      "mirrorMarkdownSha256": "56aa3ed6d40b748173362cf46dabd4806c7c618f8e48588fb17b5f13bdc78de6",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF1151E",
+    "url": "https://codeforces.com/problemset/problem/1151/E",
+    "time": "2026-10-30T07:08:47.750238+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF1151E",
+      "originalUrl": "https://codeforces.com/problemset/problem/1151/E",
+      "sourceProblemId": "CF1151E",
+      "textAlignment": 0.9942857142857143,
+      "mirrorMarkdownSha256": "b28ddbca7ab7a14dc9078a85cd20e95e205f3fa4565ba7b7f088d43c078632b2",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF119A",
+    "url": "https://codeforces.com/problemset/problem/119/A",
+    "time": "2026-10-30T07:08:48.815685+00:00",
+    "result": "native-render-source-unverified",
+    "error": "The read operation timed out"
+  },
+  {
+    "id": "luogu-training-CF119C",
+    "url": "https://codeforces.com/problemset/problem/119/C",
+    "time": "2026-10-30T07:08:51.138860+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF119C",
+      "originalUrl": "https://codeforces.com/problemset/problem/119/C",
+      "sourceProblemId": "CF119C",
+      "textAlignment": 0.9975845410628019,
+      "mirrorMarkdownSha256": "89dc1f05601048b55f999d1c56ad2a3f5def026aa7f056e090696da1bc01a908",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF1204E",
+    "url": "https://codeforces.com/problemset/problem/1204/E",
+    "time": "2026-10-30T07:08:51.166817+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF1204E",
+      "originalUrl": "https://codeforces.com/problemset/problem/1204/E",
+      "sourceProblemId": "CF1204E",
+      "textAlignment": 0.9946332737030411,
+      "mirrorMarkdownSha256": "31cfefe65855927214bf5fd10686b5a5b9a61e5ec30c93ec7312594da4999887",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF125E",
+    "url": "https://codeforces.com/problemset/problem/125/E",
+    "time": "2026-10-30T07:08:51.380736+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF125E",
+      "originalUrl": "https://codeforces.com/problemset/problem/125/E",
+      "sourceProblemId": "CF125E",
+      "textAlignment": 0.9961685823754789,
+      "mirrorMarkdownSha256": "c29e5a7231cf3bc3465df6d225cb87d502135419ade9ade38771acf79ce75ea0",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF1266D",
+    "url": "https://codeforces.com/problemset/problem/1266/D",
+    "time": "2026-10-30T07:08:53.188240+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF1266D",
+      "originalUrl": "https://codeforces.com/problemset/problem/1266/D",
+      "sourceProblemId": "CF1266D",
+      "textAlignment": 0.989492119089317,
+      "mirrorMarkdownSha256": "265e9f3518bc4c004b5d4761b5a434ebbbfce80c8d0ef5a575ef6bbcd56b9986",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF1271E",
+    "url": "https://codeforces.com/problemset/problem/1271/E",
+    "time": "2026-10-30T07:08:53.284585+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF1271E",
+      "originalUrl": "https://codeforces.com/problemset/problem/1271/E",
+      "sourceProblemId": "CF1271E",
+      "textAlignment": 0.9931662870159453,
+      "mirrorMarkdownSha256": "1e9050be953cb83c29e80d6a37d70d3a23620081d4d8a5379d31c5fb3d3039bf",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF1292C",
+    "url": "https://codeforces.com/problemset/problem/1292/C",
+    "time": "2026-10-30T07:08:55.966988+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF1292C",
+      "originalUrl": "https://codeforces.com/problemset/problem/1292/C",
+      "sourceProblemId": "CF1292C",
+      "textAlignment": 0.9233954451345756,
+      "mirrorMarkdownSha256": "b5c5bba78cb50324bfa2e6c5874098b485caaf3190717d5baf4e520db54908e0",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF1322B",
+    "url": "https://codeforces.com/problemset/problem/1322/B",
+    "time": "2026-10-30T07:08:57.484691+00:00",
+    "result": "native-render-source-unverified",
+    "error": "The read operation timed out"
+  },
+  {
+    "id": "luogu-training-CF1349F1",
+    "url": "https://codeforces.com/problemset/problem/1349/F1",
+    "time": "2026-10-30T07:08:59.906989+00:00",
+    "result": "native-render-source-unverified",
+    "error": "Original sample bytes differ"
+  },
+  {
+    "id": "luogu-training-CF1438F",
+    "url": "https://codeforces.com/problemset/problem/1438/F",
+    "time": "2026-10-30T07:09:00.848637+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF1438F",
+      "originalUrl": "https://codeforces.com/problemset/problem/1438/F",
+      "sourceProblemId": "CF1438F",
+      "textAlignment": 0.9961783439490446,
+      "mirrorMarkdownSha256": "8a733ae2978f1d245c9025fd52a23a8a7a7f2073f5c078053a9398b8317737e9",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF14E",
+    "url": "https://codeforces.com/problemset/problem/14/E",
+    "time": "2026-10-30T07:09:05.844391+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF14E",
+      "originalUrl": "https://codeforces.com/problemset/problem/14/E",
+      "sourceProblemId": "CF14E",
+      "textAlignment": 0.9925558312655087,
+      "mirrorMarkdownSha256": "7e5813354cca12c8a22caa9d3c282645dcd231afea53d0ddd898e8748466bc31",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF1500C",
+    "url": "https://codeforces.com/problemset/problem/1500/C",
+    "time": "2026-10-30T07:09:06.005723+00:00",
+    "result": "native-render-source-unverified",
+    "error": "Original sample bytes differ"
+  },
+  {
+    "id": "luogu-training-CF1580D",
+    "url": "https://codeforces.com/problemset/problem/1580/D",
+    "time": "2026-10-30T07:09:14.198311+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF1580D",
+      "originalUrl": "https://codeforces.com/problemset/problem/1580/D",
+      "sourceProblemId": "CF1580D",
+      "textAlignment": 0.9905362776025236,
+      "mirrorMarkdownSha256": "2d0e38412f09fab2bceb1aef904b76c1981cceabfd1fc7deb7ad666d97e9bf96",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF164A",
+    "url": "https://codeforces.com/problemset/problem/164/A",
+    "time": "2026-10-30T07:09:17.688916+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF164A",
+      "originalUrl": "https://codeforces.com/problemset/problem/164/A",
+      "sourceProblemId": "CF164A",
+      "textAlignment": 0.8477546549835706,
+      "mirrorMarkdownSha256": "2ad196faa9bca1e972f1b4665aba00fa202e3123c7c2bb1f60497b3f062650cb",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF165E",
+    "url": "https://codeforces.com/problemset/problem/165/E",
+    "time": "2026-10-30T07:09:18.402135+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF165E",
+      "originalUrl": "https://codeforces.com/problemset/problem/165/E",
+      "sourceProblemId": "CF165E",
+      "textAlignment": 0.9947368421052631,
+      "mirrorMarkdownSha256": "5060228acab2659348c088d18c2a349e370528c046b5a46cc8b9149e0a7b3678",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF176D",
+    "url": "https://codeforces.com/problemset/problem/176/D",
+    "time": "2026-10-30T07:09:19.914335+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF176D",
+      "originalUrl": "https://codeforces.com/problemset/problem/176/D",
+      "sourceProblemId": "CF176D",
+      "textAlignment": 0.9955686853766618,
+      "mirrorMarkdownSha256": "3ad19765ff1a189f77edff940f96dfe811a01e215cbc2c0f91643c2a34e957ad",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF176E",
+    "url": "https://codeforces.com/problemset/problem/176/E",
+    "time": "2026-10-30T07:09:20.278991+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF176E",
+      "originalUrl": "https://codeforces.com/problemset/problem/176/E",
+      "sourceProblemId": "CF176E",
+      "textAlignment": 0.9958932238193019,
+      "mirrorMarkdownSha256": "da18cf5dc3d44deef9c84f751def90c64ff980e22f70f894bc7b6464f7928acc",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF1776I",
+    "url": "https://codeforces.com/problemset/problem/1776/I",
+    "time": "2026-10-30T07:09:20.481106+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF1776I",
+      "originalUrl": "https://codeforces.com/problemset/problem/1776/I",
+      "sourceProblemId": "CF1776I",
+      "textAlignment": 0.9510395707578806,
+      "mirrorMarkdownSha256": "1ff9a480cfd65a49002d8f57d60a6fdb35e0b60c420a7dccbdf66d0d384d0757",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF1909I",
+    "url": "https://codeforces.com/problemset/problem/1909/I",
+    "time": "2026-10-30T07:09:23.611221+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF1909I",
+      "originalUrl": "https://codeforces.com/problemset/problem/1909/I",
+      "sourceProblemId": "CF1909I",
+      "textAlignment": 0.9962073324905183,
+      "mirrorMarkdownSha256": "5d47da80cffc4f5c2aa042083fda945fb781c8a86d5e44a96b8c951a6ccec0cd",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF1930H",
+    "url": "https://codeforces.com/problemset/problem/1930/H",
+    "time": "2026-10-30T07:09:24.196681+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF1930H",
+      "originalUrl": "https://codeforces.com/problemset/problem/1930/H",
+      "sourceProblemId": "CF1930H",
+      "textAlignment": 0.9900642898889538,
+      "mirrorMarkdownSha256": "830f44ed05d4afa193ed16f476485872187dccebcdb89e20ff98ad577f6cabef",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF195E",
+    "url": "https://codeforces.com/problemset/problem/195/E",
+    "time": "2026-10-30T07:09:24.709567+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF195E",
+      "originalUrl": "https://codeforces.com/problemset/problem/195/E",
+      "sourceProblemId": "CF195E",
+      "textAlignment": 0.9624885635864593,
+      "mirrorMarkdownSha256": "51248c919712f389abd67f9a8c82444bb55c78c3b27b128178e4039afc147aba",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF2135A",
+    "url": "https://codeforces.com/problemset/problem/2135/A",
+    "time": "2026-10-30T07:09:25.359829+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF2135A",
+      "originalUrl": "https://codeforces.com/problemset/problem/2135/A",
+      "sourceProblemId": "CF2135A",
+      "textAlignment": 0.9948364888123924,
+      "mirrorMarkdownSha256": "58cb792f392430b2f5602ce24e00c3203631b702d1738022c442eaa2b66d2dd3",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF2135C",
+    "url": "https://codeforces.com/problemset/problem/2135/C",
+    "time": "2026-10-30T07:09:28.194973+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF2135C",
+      "originalUrl": "https://codeforces.com/problemset/problem/2135/C",
+      "sourceProblemId": "CF2135C",
+      "textAlignment": 0.9939024390243902,
+      "mirrorMarkdownSha256": "e39f06126be5c5cac21c65122634f99cf33903438f8b870a6fc4b1412b278cef",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF2135D1",
+    "url": "https://codeforces.com/problemset/problem/2135/D1",
+    "time": "2026-10-30T07:09:28.420983+00:00",
+    "result": "native-render-source-unverified",
+    "error": "('Full source alignment requires review', 0.7381342062193126)"
+  },
+  {
+    "id": "luogu-training-CF2136B",
+    "url": "https://codeforces.com/problemset/problem/2136/B",
+    "time": "2026-10-30T07:09:31.145341+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF2136B",
+      "originalUrl": "https://codeforces.com/problemset/problem/2136/B",
+      "sourceProblemId": "CF2136B",
+      "textAlignment": 0.9961685823754789,
+      "mirrorMarkdownSha256": "733294162c99b334d0b02eeaa59d5ad106076d226ed223480e7a73637b92057c",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF223B",
+    "url": "https://codeforces.com/problemset/problem/223/B",
+    "time": "2026-10-30T07:09:33.647975+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF223B",
+      "originalUrl": "https://codeforces.com/problemset/problem/223/B",
+      "sourceProblemId": "CF223B",
+      "textAlignment": 0.9924433249370277,
+      "mirrorMarkdownSha256": "a2a6ff80915268317f3987b7e1a9de0a6ae1c56cd6c09bf27c09821373e31416",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF226C",
+    "url": "https://codeforces.com/problemset/problem/226/C",
+    "time": "2026-10-30T07:09:36.496512+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF226C",
+      "originalUrl": "https://codeforces.com/problemset/problem/226/C",
+      "sourceProblemId": "CF226C",
+      "textAlignment": 0.9950738916256158,
+      "mirrorMarkdownSha256": "e2e2b6d58d8815ec6d570839750b41362a48484222cf0f624eec309083a9131c",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF226E",
+    "url": "https://codeforces.com/problemset/problem/226/E",
+    "time": "2026-10-30T07:09:39.494302+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF226E",
+      "originalUrl": "https://codeforces.com/problemset/problem/226/E",
+      "sourceProblemId": "CF226E",
+      "textAlignment": 0.9962714392244594,
+      "mirrorMarkdownSha256": "d74804a099817834d1ebbbeced7bbd8d5aeabbc68e2199bd13ccd28455f47c48",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF229B",
+    "url": "https://codeforces.com/problemset/problem/229/B",
+    "time": "2026-10-30T07:09:40.211901+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF229B",
+      "originalUrl": "https://codeforces.com/problemset/problem/229/B",
+      "sourceProblemId": "CF229B",
+      "textAlignment": 0.9971014492753624,
+      "mirrorMarkdownSha256": "02267a2a6afc68195379acce9d8606a8350be4bf33a77e6d44b15ba3f1444a96",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF231E",
+    "url": "https://codeforces.com/problemset/problem/231/E",
+    "time": "2026-10-30T07:09:40.532029+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF231E",
+      "originalUrl": "https://codeforces.com/problemset/problem/231/E",
+      "sourceProblemId": "CF231E",
+      "textAlignment": 0.9971671388101983,
+      "mirrorMarkdownSha256": "b052aa32bbb5ce115d742135ef3748f45bc7219a464bc16b237ad0341ab5183f",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF276E",
+    "url": "https://codeforces.com/problemset/problem/276/E",
+    "time": "2026-10-30T07:09:41.302864+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF276E",
+      "originalUrl": "https://codeforces.com/problemset/problem/276/E",
+      "sourceProblemId": "CF276E",
+      "textAlignment": 0.9968152866242038,
+      "mirrorMarkdownSha256": "9db4b521d35d77a9ed158e30bd6c30262675c09363587f48afc409cf6c2eaa0c",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF277E",
+    "url": "https://codeforces.com/problemset/problem/277/E",
+    "time": "2026-10-30T07:09:41.830901+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF277E",
+      "originalUrl": "https://codeforces.com/problemset/problem/277/E",
+      "sourceProblemId": "CF277E",
+      "textAlignment": 0.995,
+      "mirrorMarkdownSha256": "0c3f8e7563c06dedfc44579a3a1571d98b95b6e7e92994762736526aa61d5661",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF27D",
+    "url": "https://codeforces.com/problemset/problem/27/D",
+    "time": "2026-10-30T07:09:42.072402+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF27D",
+      "originalUrl": "https://codeforces.com/problemset/problem/27/D",
+      "sourceProblemId": "CF27D",
+      "textAlignment": 0.9957081545064378,
+      "mirrorMarkdownSha256": "67db1048bc6845555c48966ad44094220748a994c6fe98aa5024a46a69e21cde",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF288D",
+    "url": "https://codeforces.com/problemset/problem/288/D",
+    "time": "2026-10-30T07:09:42.679368+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF288D",
+      "originalUrl": "https://codeforces.com/problemset/problem/288/D",
+      "sourceProblemId": "CF288D",
+      "textAlignment": 0.9946808510638298,
+      "mirrorMarkdownSha256": "83156b274297f4ddc74a9a0d88f7f392687b677066c82a0da259fc00ca4d9155",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF296B",
+    "url": "https://codeforces.com/problemset/problem/296/B",
+    "time": "2026-10-30T07:09:44.190993+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF296B",
+      "originalUrl": "https://codeforces.com/problemset/problem/296/B",
+      "sourceProblemId": "CF296B",
+      "textAlignment": 0.9934640522875817,
+      "mirrorMarkdownSha256": "59f7ccbba7f8d47c03d49f421b9f159049b2a3653f160cbca797e7f172ebcd56",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF321B",
+    "url": "https://codeforces.com/problemset/problem/321/B",
+    "time": "2026-10-30T07:09:44.715645+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF321B",
+      "originalUrl": "https://codeforces.com/problemset/problem/321/B",
+      "sourceProblemId": "CF321B",
+      "textAlignment": 0.9940828402366864,
+      "mirrorMarkdownSha256": "77dbddb12686cad4cebede7d0ef89b361ddbabf40b68f4d0be019bfbaba22402",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF351B",
+    "url": "https://codeforces.com/problemset/problem/351/B",
+    "time": "2026-10-30T07:09:46.135354+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF351B",
+      "originalUrl": "https://codeforces.com/problemset/problem/351/B",
+      "sourceProblemId": "CF351B",
+      "textAlignment": 0.9950413223140496,
+      "mirrorMarkdownSha256": "c6773275561e817d94dc135f7721b3e916c46583434d6697853e05f9f501cca0",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF354C",
+    "url": "https://codeforces.com/problemset/problem/354/C",
+    "time": "2026-10-30T07:09:47.309337+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF354C",
+      "originalUrl": "https://codeforces.com/problemset/problem/354/C",
+      "sourceProblemId": "CF354C",
+      "textAlignment": 0.9922077922077922,
+      "mirrorMarkdownSha256": "1d20768ef408fe6a50f32fbf27c03ffe8d4dda87c51c037902ff7f9084759f01",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF367C",
+    "url": "https://codeforces.com/problemset/problem/367/C",
+    "time": "2026-10-30T07:09:48.255497+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF367C",
+      "originalUrl": "https://codeforces.com/problemset/problem/367/C",
+      "sourceProblemId": "CF367C",
+      "textAlignment": 0.9950413223140496,
+      "mirrorMarkdownSha256": "7d2bc6f2141a60dd4476c45d456b7fe97fffed5cd3b708ca16a9854b0e4d5a03",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF377A",
+    "url": "https://codeforces.com/problemset/problem/377/A",
+    "time": "2026-10-30T07:09:48.797381+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF377A",
+      "originalUrl": "https://codeforces.com/problemset/problem/377/A",
+      "sourceProblemId": "CF377A",
+      "textAlignment": 0.9953917050691244,
+      "mirrorMarkdownSha256": "7777aab9c6ea5b75e01db9fbe399fa27fd81ccab2825234ba1f755bada40795b",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF402D",
+    "url": "https://codeforces.com/problemset/problem/402/D",
+    "time": "2026-10-30T07:09:49.148945+00:00",
+    "result": "native-render-source-unverified",
+    "error": "('Full source alignment requires review', 0.6910197869101978)"
+  },
+  {
+    "id": "luogu-training-CF402E",
+    "url": "https://codeforces.com/problemset/problem/402/E",
+    "time": "2026-10-30T07:09:50.151315+00:00",
+    "result": "native-render-source-unverified",
+    "error": "The read operation timed out"
+  },
+  {
+    "id": "luogu-training-CF406D",
+    "url": "https://codeforces.com/problemset/problem/406/D",
+    "time": "2026-10-30T07:09:51.416727+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF406D",
+      "originalUrl": "https://codeforces.com/problemset/problem/406/D",
+      "sourceProblemId": "CF406D",
+      "textAlignment": 0.9494712103407755,
+      "mirrorMarkdownSha256": "4d16700baf78b30924b714832b9de82d528bb044f6c488bd5f397ea8e209965b",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF414C",
+    "url": "https://codeforces.com/problemset/problem/414/C",
+    "time": "2026-10-30T07:09:51.660662+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF414C",
+      "originalUrl": "https://codeforces.com/problemset/problem/414/C",
+      "sourceProblemId": "CF414C",
+      "textAlignment": 0.985632183908046,
+      "mirrorMarkdownSha256": "12333799b2fde5c79cc0d22b5ccc33e498461378f624ecfa33e911e92593e862",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF414D",
+    "url": "https://codeforces.com/problemset/problem/414/D",
+    "time": "2026-10-30T07:09:51.977443+00:00",
+    "result": "native-render-source-unverified",
+    "error": "[{'url': 'https://espresso.codeforces.com/715ad37bc3e20c52021935adf257821f27688d20.png', 'kind': 'image', 'error': 'The read operation timed out'}]"
+  },
+  {
+    "id": "luogu-training-CF463E",
+    "url": "https://codeforces.com/problemset/problem/463/E",
+    "time": "2026-10-30T07:09:53.461721+00:00",
+    "result": "native-render-source-unverified",
+    "error": "Remote end closed connection without response"
+  },
+  {
+    "id": "luogu-training-CF47E",
+    "url": "https://codeforces.com/problemset/problem/47/E",
+    "time": "2026-10-30T07:09:53.909865+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF47E",
+      "originalUrl": "https://codeforces.com/problemset/problem/47/E",
+      "sourceProblemId": "CF47E",
+      "textAlignment": 0.9973404255319149,
+      "mirrorMarkdownSha256": "4bf1044843b06d62bd0bfec34bc46a4f9efdadde29bc0581f2ee54ce2a00b385",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF487E",
+    "url": "https://codeforces.com/problemset/problem/487/E",
+    "time": "2026-10-30T07:09:56.589591+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF487E",
+      "originalUrl": "https://codeforces.com/problemset/problem/487/E",
+      "sourceProblemId": "CF487E",
+      "textAlignment": 0.9584664536741214,
+      "mirrorMarkdownSha256": "a60a181f97799c3112031be071da6264921fa38c5f09d8d964c4fdcded25d538",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF494C",
+    "url": "https://codeforces.com/problemset/problem/494/C",
+    "time": "2026-10-30T07:09:59.760381+00:00",
+    "result": "native-render-source-unverified",
+    "error": "('Full source alignment requires review', 0.6454183266932271)"
+  },
+  {
+    "id": "luogu-training-CF505C",
+    "url": "https://codeforces.com/problemset/problem/505/C",
+    "time": "2026-10-30T07:09:59.866060+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF505C",
+      "originalUrl": "https://codeforces.com/problemset/problem/505/C",
+      "sourceProblemId": "CF505C",
+      "textAlignment": 0.9957805907172996,
+      "mirrorMarkdownSha256": "4538e217209f659bbebb05e5d7f40ad1ebed9183b9b2f004a2d91b3cd885a8f8",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF506D",
+    "url": "https://codeforces.com/problemset/problem/506/D",
+    "time": "2026-10-30T07:10:02.428346+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF506D",
+      "originalUrl": "https://codeforces.com/problemset/problem/506/D",
+      "sourceProblemId": "CF506D",
+      "textAlignment": 0.9298597194388778,
+      "mirrorMarkdownSha256": "ca24609e554627a09ac3faf3938144617d5907047cc9ba9fd9e098ea65239c14",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF512D",
+    "url": "https://codeforces.com/problemset/problem/512/D",
+    "time": "2026-10-30T07:10:07.903854+00:00",
+    "result": "native-render-source-unverified",
+    "error": "[{'url': 'https://espresso.codeforces.com/40908ba99fdfe860d958e8392de8c0664ef820de.png', 'kind': 'image', 'error': '<urlopen error _ssl.c:1015: The handshake operation timed out>'}]"
+  },
+  {
+    "id": "luogu-training-CF522D",
+    "url": "https://codeforces.com/problemset/problem/522/D",
+    "time": "2026-10-30T07:10:09.388616+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF522D",
+      "originalUrl": "https://codeforces.com/problemset/problem/522/D",
+      "sourceProblemId": "CF522D",
+      "textAlignment": 0.9929577464788732,
+      "mirrorMarkdownSha256": "2ccc54f24835abf8adca1397b85d6f9e73fcc43a5112cfdbe9503b7664823238",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF533B",
+    "url": "https://codeforces.com/problemset/problem/533/B",
+    "time": "2026-10-30T07:10:11.764256+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF533B",
+      "originalUrl": "https://codeforces.com/problemset/problem/533/B",
+      "sourceProblemId": "CF533B",
+      "textAlignment": 0.995334370139969,
+      "mirrorMarkdownSha256": "81abf423417a44868a7d0ff410237adbba00350a23bd4afb68773efb6dcf1789",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF538F",
+    "url": "https://codeforces.com/problemset/problem/538/F",
+    "time": "2026-10-30T07:10:14.251562+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF538F",
+      "originalUrl": "https://codeforces.com/problemset/problem/538/F",
+      "sourceProblemId": "CF538F",
+      "textAlignment": 0.8238276299112801,
+      "mirrorMarkdownSha256": "0ad016406b9549216b2676b3d7b727a89b8f88ce72d44889787a62fef2c66a34",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF538G",
+    "url": "https://codeforces.com/problemset/problem/538/G",
+    "time": "2026-10-30T07:10:14.687246+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF538G",
+      "originalUrl": "https://codeforces.com/problemset/problem/538/G",
+      "sourceProblemId": "CF538G",
+      "textAlignment": 0.9959514170040485,
+      "mirrorMarkdownSha256": "076ef9a693f809df9157c00829624aa5b7bc780d13599aaa7e351abf10d8ee31",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF540E",
+    "url": "https://codeforces.com/problemset/problem/540/E",
+    "time": "2026-10-30T07:10:16.532976+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF540E",
+      "originalUrl": "https://codeforces.com/problemset/problem/540/E",
+      "sourceProblemId": "CF540E",
+      "textAlignment": 0.8996763754045307,
+      "mirrorMarkdownSha256": "ce9c1624e34bd58d62ebf3c1330476c94f0eac9a2a55b808414d6757a06a9777",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF542C",
+    "url": "https://codeforces.com/problemset/problem/542/C",
+    "time": "2026-10-30T07:10:16.734557+00:00",
+    "result": "native-render-source-unverified",
+    "error": "('Full source alignment requires review', 0.7614213197969543)"
+  },
+  {
+    "id": "luogu-training-CF549F",
+    "url": "https://codeforces.com/problemset/problem/549/F",
+    "time": "2026-10-30T07:10:21.805137+00:00",
+    "result": "native-render-source-unverified",
+    "error": "The read operation timed out"
+  },
+  {
+    "id": "luogu-training-CF555B",
+    "url": "https://codeforces.com/problemset/problem/555/B",
+    "time": "2026-10-30T07:10:23.553810+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF555B",
+      "originalUrl": "https://codeforces.com/problemset/problem/555/B",
+      "sourceProblemId": "CF555B",
+      "textAlignment": 0.9955290611028316,
+      "mirrorMarkdownSha256": "c25f163825296536cf4efd1616ffceb4461dbfe8a0be68be98d452c81c6eaf6d",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF578F",
+    "url": "https://codeforces.com/problemset/problem/578/F",
+    "time": "2026-10-30T07:10:23.795232+00:00",
+    "result": "native-render-source-unverified",
+    "error": "('Full source alignment requires review', 0.673355629877369)"
+  },
+  {
+    "id": "luogu-training-CF582D",
+    "url": "https://codeforces.com/problemset/problem/582/D",
+    "time": "2026-10-30T07:10:23.897999+00:00",
+    "result": "native-render-source-unverified",
+    "error": "('Full source alignment requires review', 0.579185520361991)"
+  },
+  {
+    "id": "luogu-training-CF601B",
+    "url": "https://codeforces.com/problemset/problem/601/B",
+    "time": "2026-10-30T07:10:26.233452+00:00",
+    "result": "native-render-source-unverified",
+    "error": "('Full source alignment requires review', 0.47098402018502944)"
+  },
+  {
+    "id": "luogu-training-CF621E",
+    "url": "https://codeforces.com/problemset/problem/621/E",
+    "time": "2026-10-30T07:10:32.203565+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF621E",
+      "originalUrl": "https://codeforces.com/problemset/problem/621/E",
+      "sourceProblemId": "CF621E",
+      "textAlignment": 0.9895833333333334,
+      "mirrorMarkdownSha256": "e7e2ae9d5ff5f318dd06445c13328e2a6345451c6282378325b6accc7f9c65e9",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF632F",
+    "url": "https://codeforces.com/problemset/problem/632/F",
+    "time": "2026-10-30T07:10:33.672182+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF632F",
+      "originalUrl": "https://codeforces.com/problemset/problem/632/F",
+      "sourceProblemId": "CF632F",
+      "textAlignment": 0.9931506849315068,
+      "mirrorMarkdownSha256": "26b5a18e75403af2dcf92a79f622715f69d5a1b0e5edc38ef9aa1b4ddf229fe6",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF633H",
+    "url": "https://codeforces.com/problemset/problem/633/H",
+    "time": "2026-10-30T07:10:38.160075+00:00",
+    "result": "native-render-source-unverified",
+    "error": "The read operation timed out"
+  },
+  {
+    "id": "luogu-training-CF638D",
+    "url": "https://codeforces.com/problemset/problem/638/D",
+    "time": "2026-10-30T07:10:39.454533+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF638D",
+      "originalUrl": "https://codeforces.com/problemset/problem/638/D",
+      "sourceProblemId": "CF638D",
+      "textAlignment": 0.9967707212055974,
+      "mirrorMarkdownSha256": "33818d50c30057936f15f802f0f5b7a9b4de6c255e56bdf88acd756de6b30e70",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF639E",
+    "url": "https://codeforces.com/problemset/problem/639/E",
+    "time": "2026-10-30T07:10:42.240422+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF639E",
+      "originalUrl": "https://codeforces.com/problemset/problem/639/E",
+      "sourceProblemId": "CF639E",
+      "textAlignment": 0.830142063001853,
+      "mirrorMarkdownSha256": "e00e6cf2f8ef4c4095d73f214e6c8c85ed0c89e558240950317670ecde97b73b",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF644B",
+    "url": "https://codeforces.com/problemset/problem/644/B",
+    "time": "2026-10-30T07:10:42.888516+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF644B",
+      "originalUrl": "https://codeforces.com/problemset/problem/644/B",
+      "sourceProblemId": "CF644B",
+      "textAlignment": 0.983669548511047,
+      "mirrorMarkdownSha256": "482742dbb48dda8e538162c9935012e84c28f2f3d341fe35527b1f5d965fff8b",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF650C",
+    "url": "https://codeforces.com/problemset/problem/650/C",
+    "time": "2026-10-30T07:10:45.079588+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF650C",
+      "originalUrl": "https://codeforces.com/problemset/problem/650/C",
+      "sourceProblemId": "CF650C",
+      "textAlignment": 0.9281961471103327,
+      "mirrorMarkdownSha256": "09be7b07fd12ac812e7856205ed144f18dbbacbb1e7240fa96d84446365f5681",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF681D",
+    "url": "https://codeforces.com/problemset/problem/681/D",
+    "time": "2026-10-30T07:10:45.248007+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF681D",
+      "originalUrl": "https://codeforces.com/problemset/problem/681/D",
+      "sourceProblemId": "CF681D",
+      "textAlignment": 0.9922720247295209,
+      "mirrorMarkdownSha256": "bbc56613924b1e0cd0397744990c3e37a898475c5bc5c2b89419616bab4785da",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF696E",
+    "url": "https://codeforces.com/problemset/problem/696/E",
+    "time": "2026-10-30T07:10:46.051564+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF696E",
+      "originalUrl": "https://codeforces.com/problemset/problem/696/E",
+      "sourceProblemId": "CF696E",
+      "textAlignment": 0.9397923875432526,
+      "mirrorMarkdownSha256": "01dfb2188eb0727b63cc2d2119235d395a0ac3ad5f0f9db09c3a746df08450d6",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF704B",
+    "url": "https://codeforces.com/problemset/problem/704/B",
+    "time": "2026-10-30T07:10:47.223871+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF704B",
+      "originalUrl": "https://codeforces.com/problemset/problem/704/B",
+      "sourceProblemId": "CF704B",
+      "textAlignment": 0.9522643818849449,
+      "mirrorMarkdownSha256": "fd3ee6c7f95095bbadf04f9167b1d7e97602d95cd7b0340840d806c270fd4543",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF704C",
+    "url": "https://codeforces.com/problemset/problem/704/C",
+    "time": "2026-10-30T07:10:47.906251+00:00",
+    "result": "native-render-source-unverified",
+    "error": "('Full source alignment requires review', 0.7940594059405941)"
+  },
+  {
+    "id": "luogu-training-CF739C",
+    "url": "https://codeforces.com/problemset/problem/739/C",
+    "time": "2026-10-30T07:10:52.026776+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF739C",
+      "originalUrl": "https://codeforces.com/problemset/problem/739/C",
+      "sourceProblemId": "CF739C",
+      "textAlignment": 0.9960886571056062,
+      "mirrorMarkdownSha256": "43d7c09b32020e06f1b337093260bd04ecf46aa3a973d9ec2c5b49afcd949ebb",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF755G",
+    "url": "https://codeforces.com/problemset/problem/755/G",
+    "time": "2026-10-30T07:10:52.652299+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF755G",
+      "originalUrl": "https://codeforces.com/problemset/problem/755/G",
+      "sourceProblemId": "CF755G",
+      "textAlignment": 0.9919137466307277,
+      "mirrorMarkdownSha256": "55af1728bbb32da4bd7e3f730058cd06cfe41749d795eea5a48ec29d2775fda5",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF757B",
+    "url": "https://codeforces.com/problemset/problem/757/B",
+    "time": "2026-10-30T07:10:53.846944+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF757B",
+      "originalUrl": "https://codeforces.com/problemset/problem/757/B",
+      "sourceProblemId": "CF757B",
+      "textAlignment": 0.9938398357289527,
+      "mirrorMarkdownSha256": "eb8a50c8fa706065b0a7f1f07c51bc0c78ac2c52e74b747c134fb60edc7c7784",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF793D",
+    "url": "https://codeforces.com/problemset/problem/793/D",
+    "time": "2026-10-30T07:10:55.366355+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF793D",
+      "originalUrl": "https://codeforces.com/problemset/problem/793/D",
+      "sourceProblemId": "CF793D",
+      "textAlignment": 0.9957446808510638,
+      "mirrorMarkdownSha256": "f108fe9164c995fb6ce40fb5de9bfdaa571e291f942af8cc7f37e2746bd4d049",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF802N",
+    "url": "https://codeforces.com/problemset/problem/802/N",
+    "time": "2026-10-30T07:10:58.868676+00:00",
+    "result": "native-render-source-unverified",
+    "error": "原站未返回完整公开题面"
+  },
+  {
+    "id": "luogu-training-CF814D",
+    "url": "https://codeforces.com/problemset/problem/814/D",
+    "time": "2026-10-30T07:10:59.195605+00:00",
+    "result": "native-render-source-unverified",
+    "error": "[{'url': 'https://espresso.codeforces.com/12372a17309ea5dd143367cc8392abb0e46e13b5.png', 'kind': 'image', 'error': 'The read operation timed out'}]"
+  },
+  {
+    "id": "luogu-training-CF817E",
+    "url": "https://codeforces.com/problemset/problem/817/E",
+    "time": "2026-10-30T07:10:59.755107+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF817E",
+      "originalUrl": "https://codeforces.com/problemset/problem/817/E",
+      "sourceProblemId": "CF817E",
+      "textAlignment": 0.8350877192982457,
+      "mirrorMarkdownSha256": "08577b0355c0229ad40a3960eb217b3027880a95a67a373dbf93f92d29b7125f",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF819B",
+    "url": "https://codeforces.com/problemset/problem/819/B",
+    "time": "2026-10-30T07:11:00.747818+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF819B",
+      "originalUrl": "https://codeforces.com/problemset/problem/819/B",
+      "sourceProblemId": "CF819B",
+      "textAlignment": 0.9468892261001517,
+      "mirrorMarkdownSha256": "cb86133ce01bb07d7af8bfdffa16d35dbf3006eb508d6bb54159f0be5044281b",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF840C",
+    "url": "https://codeforces.com/problemset/problem/840/C",
+    "time": "2026-10-30T07:11:01.270093+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF840C",
+      "originalUrl": "https://codeforces.com/problemset/problem/840/C",
+      "sourceProblemId": "CF840C",
+      "textAlignment": 0.9905956112852664,
+      "mirrorMarkdownSha256": "c643497324bea6404dfdc1d1e9429537cc686282eb3315d1196b97abd584af9a",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF843B",
+    "url": "https://codeforces.com/problemset/problem/843/B",
+    "time": "2026-10-30T07:11:05.695939+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF843B",
+      "originalUrl": "https://codeforces.com/problemset/problem/843/B",
+      "sourceProblemId": "CF843B",
+      "textAlignment": 0.9689336691855583,
+      "mirrorMarkdownSha256": "4179a58981aedf75f56bfcf40825685acc7937aab08ec728091f9e22738ef5f4",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF843E",
+    "url": "https://codeforces.com/problemset/problem/843/E",
+    "time": "2026-10-30T07:11:08.862910+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF843E",
+      "originalUrl": "https://codeforces.com/problemset/problem/843/E",
+      "sourceProblemId": "CF843E",
+      "textAlignment": 0.9307923771313942,
+      "mirrorMarkdownSha256": "6abcbf0163bd13dc7125516bc1f8d2cd25dd1b9219dc5edffb3c443c071ef266",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF85C",
+    "url": "https://codeforces.com/problemset/problem/85/C",
+    "time": "2026-10-30T07:11:09.525004+00:00",
+    "result": "native-render-source-unverified",
+    "error": "<urlopen error [WinError 10054] 远程主机强迫关闭了一个现有的连接。>"
+  },
+  {
+    "id": "luogu-training-CF875C",
+    "url": "https://codeforces.com/problemset/problem/875/C",
+    "time": "2026-10-30T07:11:09.904753+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF875C",
+      "originalUrl": "https://codeforces.com/problemset/problem/875/C",
+      "sourceProblemId": "CF875C",
+      "textAlignment": 0.9887808526551982,
+      "mirrorMarkdownSha256": "399b0f735436db47d925016e55889ecbbd84ee2c3cd64e5aae068403933c40f9",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF875D",
+    "url": "https://codeforces.com/problemset/problem/875/D",
+    "time": "2026-10-30T07:11:15.702204+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF875D",
+      "originalUrl": "https://codeforces.com/problemset/problem/875/D",
+      "sourceProblemId": "CF875D",
+      "textAlignment": 0.9921875,
+      "mirrorMarkdownSha256": "858f70168e70d791a57effe41e4190904cacd46ee0ae8fdccc41d0ab678a4e09",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF89B",
+    "url": "https://codeforces.com/problemset/problem/89/B",
+    "time": "2026-10-30T07:11:17.134830+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF89B",
+      "originalUrl": "https://codeforces.com/problemset/problem/89/B",
+      "sourceProblemId": "CF89B",
+      "textAlignment": 0.9600484261501211,
+      "mirrorMarkdownSha256": "e1c702dba0c7b5f0ad8dfd9927a883cccb85b619e8b50af48c09f3937b1c3956",
+      "allSamplesEqual": true
+    }
+  },
+  {
+    "id": "luogu-training-CF925F",
+    "url": "https://codeforces.com/problemset/problem/925/F",
+    "time": "2026-10-30T07:11:17.925289+00:00",
+    "result": "verified-original-for-render-repair",
+    "binding": {
+      "method": "explicit-luogu-CF-source-identity-native-header-full-text-alignment-and-all-samples",
+      "mirrorUrl": "https://www.luogu.com.cn/problem/CF925F",
+      "originalUrl": "https://codeforces.com/problemset/problem/925/F",
+      "sourceProblemId": "CF925F",
+      "textAlignment": 0.9760900140646976,
+      "mirrorMarkdownSha256": "2546a3941eed72afe290e96a4bcfe4fe5113609b8dd260529a5730c201a3ed3f",
+      "allSamplesEqual": true
+    }
+  }
+]
