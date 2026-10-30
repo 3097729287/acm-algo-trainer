@@ -14,12 +14,8 @@ try {
   assert.equal(await page.locator('.training-list-tags,.training-tag-browser').count(),0);
   assert.equal(await page.locator('.page-search-controls').innerText(),'');
   await card.click({button:'right'});assert.equal(await popup().count(),0);
-  await page.evaluate(()=>{trainingFixture.failLike=true;});
-  await card.locator('.like-burst').click();await page.getByRole('alert').filter({hasText:'测试失败'}).waitFor();
-  assert.equal(await card.locator('.like-burst').isDisabled(),false);assert.match(await card.locator('.like-burst').innerText(),/7/);
-  await page.evaluate(()=>{trainingFixture.failLike=false;});
-  await card.locator('.like-burst').click();await page.waitForFunction(()=>document.querySelector('.like-burst-count')?.textContent==='8');
-  assert.equal(await card.locator('.like-burst').isDisabled(),false);await card.locator('.like-burst').click();await page.waitForFunction(()=>document.querySelector('.like-burst-count')?.textContent==='7');
+  assert.equal(await card.locator('.like-burst,.training-card-actions').count(),0,'Public list cards have no hearts or empty action row');
+  assert.equal(await page.evaluate(()=>trainingFixture.calls.filter(call=>call.path.startsWith('training-list-likes')).length),0,'Reading lists no longer requests unused like data');
   await card.getByRole('button',{name:'打开题单：搜索'}).click();await page.locator('.training-list-table').waitFor();
   assert.match(await page.locator('.training-list-table .tags-cell').first().innerText(),/DFS/);
   for(const status of ['AC','WA','TLE','MLE'])assert((await page.locator('.verdict').allTextContents()).includes(status));
@@ -48,13 +44,13 @@ try {
     await page.setViewportSize(viewport);await page.waitForTimeout(100);
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
     assert.equal(await page.locator('.training-list-path').evaluate(el=>getComputedStyle(el).scrollbarWidth),'none');
-    const metrics=await page.locator('.training-list-card').evaluateAll(cards=>cards.map(card=>{const box=card.getBoundingClientRect(),title=card.querySelector('strong').getBoundingClientRect(),ring=card.querySelector('.training-card-progress').getBoundingClientRect(),action=card.querySelector('.training-card-actions').getBoundingClientRect();return {height:box.height,titleCenter:title.y+title.height/2-box.y,ringCenter:ring.y+ring.height/2-box.y,actionY:action.y-box.y};}));
+    const metrics=await page.locator('.training-list-card').evaluateAll(cards=>cards.map(card=>{const box=card.getBoundingClientRect(),title=card.querySelector('strong').getBoundingClientRect(),ring=card.querySelector('.training-card-progress').getBoundingClientRect(),action=card.querySelector('.training-card-actions')?.getBoundingClientRect();return {height:box.height,titleCenter:title.y+title.height/2-box.y,ringCenter:ring.y+ring.height/2-box.y,actionY:action? action.y-box.y:null};}));
     assert(metrics.every(item=>Math.abs(item.titleCenter-item.ringCenter)<1));
-    assert(Math.abs(metrics[0].height-metrics[1].height)<1);assert(Math.abs(metrics[0].actionY-metrics[1].actionY)<1);
+    assert(Math.abs(metrics[0].height-metrics[1].height)<1);assert(metrics.filter(item=>item.actionY!=null).every(item=>item.actionY>=0&&item.actionY<item.height));
     await page.screenshot({path:`${out}/cards-${viewport.width}.png`});
   }
   await page.evaluate(()=>{trainingFixture.failDelete=true;});await own.click({button:'right'});await popup().getByRole('button',{name:'确认删除'}).click();await popup().getByRole('alert').waitFor();assert.equal(await own.count(),1);
   await page.evaluate(()=>{trainingFixture.failDelete=false;});await popup().getByRole('button',{name:'确认删除'}).click();await own.waitFor({state:'detached'});
   await page.evaluate(()=>{trainingFixture.delay=0;trainingFixture.remount();});await page.locator('.training-list-card').waitFor();assert.equal(await page.getByRole('button',{name:'打开题单：123',exact:true}).count(),0);
-  assert.deepEqual(errors,[]);console.log('PASS: icon-only controls, name-only creation, card alignment, cached navigation, editing, context delete/cancel/retry/persistence, public protection, heart rollback and knowledge/verdicts.');
+  assert.deepEqual(errors,[]);console.log('PASS: icon-only controls, name-only creation, card alignment, cached navigation, editing, context delete/cancel/retry/persistence, public protection, no card hearts or like requests, and knowledge/verdicts.');
 }catch(error){await page.screenshot({path:out+'/cards-failure.png'});throw error;}finally{await browser.close();await vite.close();}

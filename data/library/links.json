@@ -40286,7 +40286,7 @@
   {
     "kind": "own",
     "lecture_id": "lecture:foundation-io-basics",
-    "position": 0,
+    "position": 4,
     "problem_id": "lanqiao:2017:省:::P8649"
   },
   {
@@ -40412,7 +40412,7 @@
   {
     "kind": "own",
     "lecture_id": "lecture:foundation-basic-control",
-    "position": 1,
+    "position": 5,
     "problem_id": "lanqiao:2017:省:::P8649"
   },
   {
@@ -40520,7 +40520,7 @@
   {
     "kind": "own",
     "lecture_id": "lecture:foundation-functions",
-    "position": 2,
+    "position": 6,
     "problem_id": "lanqiao:2017:省:::P8649"
   },
   {
@@ -40634,7 +40634,7 @@
   {
     "kind": "own",
     "lecture_id": "lecture:foundation-arrays",
-    "position": 3,
+    "position": 7,
     "problem_id": "lanqiao:2017:省:::P8649"
   },
   {
@@ -41060,7 +41060,7 @@
   {
     "kind": "own",
     "lecture_id": "lecture:foundation-modular",
-    "position": 6,
+    "position": 8,
     "problem_id": "lanqiao:2017:省:::P8649"
   },
   {
