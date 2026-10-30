@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="450" viewBox="0 0 760 450" role="img" aria-labelledby="title"><title id="title">中间边切成二加二：四对端点经过它</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">中间边切成二加二：四对端点经过它</text>
+<line x1="130" y1="130" x2="290" y2="130" stroke="#68778b" stroke-width="5"/>
+<line x1="290" y1="130" x2="470" y2="130" stroke="#68778b" stroke-width="5"/>
+<line x1="470" y1="130" x2="630" y2="130" stroke="#68778b" stroke-width="5"/>
+<circle cx="130" cy="130" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="130" y="137" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<circle cx="290" cy="130" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="290" y="137" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<circle cx="470" cy="130" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="470" y="137" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<circle cx="630" cy="130" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="630" y="137" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<line x1="380" y1="70" x2="380" y2="205" stroke="#bc3645" stroke-width="3" stroke-dasharray="7 5"/>
+<text x="45" y="220" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">跨边点对：(1,3)、(1,4)、(2,3)、(2,4)，共四对</text>
+<text x="35" y="292" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">排序后系数</text>
+<rect x="245" y="260" width="137" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="313.5" y="291.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="385" y="260" width="137" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="453.5" y="291.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="525" y="260" width="137" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="593.5" y="291.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<text x="35" y="362" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">所配边权</text>
+<rect x="245" y="330" width="137" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="313.5" y="361.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="385" y="330" width="137" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="453.5" y="361.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="525" y="330" width="137" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="593.5" y="361.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">5×7=35</text>
+<text x="55" y="425" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">四个质因子分三组：最大两项合到最大系数，和为 155</text>
+</g></svg>

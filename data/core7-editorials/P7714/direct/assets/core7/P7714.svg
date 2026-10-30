@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="325" viewBox="0 0 760 325" role="img" aria-labelledby="title"><title id="title">排列 [2,1,3,5,4]：边界 2、3、5 可切开</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">排列 [2,1,3,5,4]：边界 2、3、5 可切开</text>
+<rect x="110" y="80" width="112" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="166.0" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="225" y="80" width="112" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="281.0" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="340" y="80" width="112" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="396.0" y="111.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="455" y="80" width="112" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="511.0" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="570" y="80" width="112" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="626.0" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<line x1="338" y1="65" x2="338" y2="200" stroke="#bc3645" stroke-width="3" stroke-dasharray="7 5"/>
+<line x1="453" y1="65" x2="453" y2="200" stroke="#bc3645" stroke-width="3" stroke-dasharray="7 5"/>
+<text x="220" y="235" fill="#243449" font-size="21" text-anchor="middle" font-weight="normal">费用 2</text>
+<text x="395" y="235" fill="#243449" font-size="21" text-anchor="middle" font-weight="normal">已就位，0</text>
+<text x="565" y="235" fill="#243449" font-size="21" text-anchor="middle" font-weight="normal">费用 2</text>
+<text x="75" y="305" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">三块分别排序；总费用四，整段排序反而要五</text>
+</g></svg>

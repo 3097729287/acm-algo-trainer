@@ -1,0 +1,1508 @@
+{
+  "addedDistinctSources": 97,
+  "addedSourceRows": 99,
+  "catalogContests": 34,
+  "catalogProblems": 201,
+  "companionContentCommit": "39a0bca94b29a8df8ee0bdcbca29cef439f297f4",
+  "formalSubmissions": 0,
+  "initialLanqiaoBaseDefaultRows": 1383,
+  "newPrimaryMethodEntries": 99,
+  "oldDefaultRowsPreserved": 1516,
+  "oldDetailedRowsPreserved": 1516,
+  "oldLectureRowsPreserved": 460,
+  "preservedEditorialPairs": 104,
+  "revision": "2026-10-30-lanqiao-all",
+  "scope": [
+    {
+      "lessons": [
+        "graphs",
+        "bindings",
+        "sets",
+        "queue-stack",
+        "strings",
+        "recursion"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2024:省:::P10427",
+      "referenceSha256": "169a0baa2242472782c58ecd851e6bebb4bde5d892ed483e6093fa9f928943f1",
+      "sourceId": "P10427",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P10427",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "counting",
+        "dp",
+        "vector",
+        "numeric-tools",
+        "integer",
+        "bitwise"
+      ],
+      "limitations": [
+        "当前公开题面标为“疑似错题”。给出有界精确DP与可快速处理的特例，一般最大规模的时间性能尚未解决，不能当作全范围参考程序。"
+      ],
+      "problemId": "lanqiao:2026:国:::P16802",
+      "referenceSha256": "aa80bad46a9217f46002dd92acef4b3b17134678bdd22b3100382078068fdd65",
+      "sourceId": "P16802",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P16802",
+      "status": "bounded_reference"
+    },
+    {
+      "lessons": [
+        "greedy",
+        "strings",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2013:省:::P8597",
+      "referenceSha256": "d385103d90b9cc192aae13d28d39545b8d08a7639975fcb2efd6ce05715d7b2b",
+      "sourceId": "P8597",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8597",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "counting",
+        "enumeration",
+        "vector"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2013:省:::P8598",
+      "referenceSha256": "7de7c9e4e26d4f4da200e323e4374739de0b7848d65763832e2adaa33c38ad44",
+      "sourceId": "P8598",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8598",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "permutations",
+        "enumeration",
+        "strings",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2013:省:::P8599",
+      "referenceSha256": "8ff8474b6dad878190461d189d9aa58d39df917c3b1b3481f60faac2c966d44c",
+      "sourceId": "P8599",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8599",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "monotonic",
+        "segment-tree",
+        "counting",
+        "vector",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2013:省:::P8600",
+      "referenceSha256": "ded875e37318a4d33b314d648413571dd1eb77964629d3216f1d16ac6848fe59",
+      "sourceId": "P8600",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8600",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "games",
+        "bitwise",
+        "lambda",
+        "vector",
+        "sort"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2013:国:::P8606",
+      "referenceSha256": "ddf0c99fd8ac8ee488e2c74e014a602c4d3e998ed9b03da0d90259111858e453",
+      "sourceId": "P8606",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8606",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "subset-dp",
+        "counting",
+        "lambda",
+        "numeric-tools",
+        "integer",
+        "bitwise"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2013:国:::P8607",
+      "referenceSha256": "e9357e9af98c90c93f064c93cd5d7b203f8c96ea2a46c797891c3278994742a9",
+      "sourceId": "P8607",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8607",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "geometry",
+        "vector",
+        "bindings",
+        "sort"
+      ],
+      "limitations": [
+        "公开镜像缺少n和坐标的完整范围；给出精确边界积分算法及复杂度，不保证未知最大范围的耗时与浮点误差。输出遵从样例的两位小数。"
+      ],
+      "problemId": "lanqiao:2013:国:::P8608",
+      "referenceSha256": "40ffcaefef9291d50bf5996f0c024f11a7407ee33f653cf46994672de75668cb",
+      "sourceId": "P8608",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8608",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration",
+        "counting",
+        "vector"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2014:省:::P8611",
+      "referenceSha256": "e9e79a0f861571a3a5cba26a2510d3dd83f834d1713d4f6754ca01992b38da78",
+      "sourceId": "P8611",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8611",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "dp",
+        "counting",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2014:省:::P8612",
+      "referenceSha256": "4dacd8fa7f3e1231c4ca8fba12879ef791df01f268f64a0dd3a1ec84ab52cdee",
+      "sourceId": "P8612",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8612",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "fenwick",
+        "greedy",
+        "sort",
+        "lambda",
+        "vector",
+        "numeric-tools",
+        "integer",
+        "bitwise"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2014:省:::P8613",
+      "referenceSha256": "c9a9be2057e0289ff87d78efcc16e4720b0e376c1c6bc09475598aedd36a38b5",
+      "sourceId": "P8613",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8613",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "segment-tree",
+        "monotonic",
+        "integer"
+      ],
+      "limitations": [
+        "当前题面注明原数据疑问、使用重造数据；本解按题面现有正整数范围和操作定义推导，不代表已核验原始比赛数据。"
+      ],
+      "problemId": "lanqiao:2014:国:::P8618",
+      "referenceSha256": "d823bba408822c0166dd03ca308fad17aaba37525b0901c078069e4a341e0798",
+      "sourceId": "P8618",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8618",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "max-flow",
+        "lambda",
+        "vector",
+        "queue-stack",
+        "numeric-tools",
+        "recursion"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2014:国:::P8619",
+      "referenceSha256": "6a7dbb0a17debbc20a18a95d034a2b26b8feed64657d32c95984f4566eb2a2f5",
+      "sourceId": "P8619",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8619",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "number-theory",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2014:国:::P8622",
+      "referenceSha256": "8d3752a0445e680168e1a8dcc37afcc12bfac0b39af9b6b7efdeedc5ff2032e2",
+      "sourceId": "P8622",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8622",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "bindings"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2015:省:::P8623",
+      "referenceSha256": "f4e37a4c474e567f6604334dba488fdf33fb8e147057a8f1726068d8766d1380",
+      "sourceId": "P8623",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8623",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "modular",
+        "dp",
+        "counting",
+        "integer",
+        "bitwise"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2015:省:::P8624",
+      "referenceSha256": "aa59e7ed5b80a7f07d77de4f18ab27f1d4b7136e4454cdabb32e94c5026761a6",
+      "sourceId": "P8624",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8624",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "trees",
+        "vector",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2015:省:::P8625",
+      "referenceSha256": "cb08ffb75b4613b5916169edd1bd4d346205535e3d8b972bca7656ea1d1ad56a",
+      "sourceId": "P8625",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8625",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "hashing",
+        "counting",
+        "lambda",
+        "maps",
+        "strings",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2015:国:::P8630",
+      "referenceSha256": "ef24ba9da7e4d7061945dcece0d3b14e93de297cd48a2c664bb3e6b1315149cd",
+      "sourceId": "P8630",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8630",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "li-chao",
+        "dp",
+        "prefix",
+        "coordinates",
+        "bounds",
+        "vector",
+        "sort",
+        "integer",
+        "iterators"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2015:国:::P8632",
+      "referenceSha256": "9967633403395fbb294913e230b965c8ef3ee18d9b14c43f8a467690908939f5",
+      "sourceId": "P8632",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8632",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration",
+        "modular",
+        "vector",
+        "bindings",
+        "numeric-tools",
+        "integer",
+        "bitwise"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2015:国:::P8633",
+      "referenceSha256": "66e7fbb6cd3eb98c3487a29ffb7780a6315307c22982d7179d78af1f97db055a",
+      "sourceId": "P8633",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8633",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration",
+        "vector"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2016:省:::P8635",
+      "referenceSha256": "c76325b1cfcee6c6c4106dbfde8451e5ef413b395b76b4ef4b155b0023e822b9",
+      "sourceId": "P8635",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8635",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "number-theory",
+        "lambda",
+        "vector",
+        "bindings",
+        "sort",
+        "maps",
+        "integer"
+      ],
+      "limitations": [
+        "最大公比存在的保证很重要：至少两个不同调查值。若全相同，公比没有有限最大值，不能把输出1/1当作该情形的数学最优答案。"
+      ],
+      "problemId": "lanqiao:2016:省:::P8636",
+      "referenceSha256": "64bd840a65ce85a0eb6d488422778dce988e246f4770e6410d4e84051956f304",
+      "sourceId": "P8636",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8636",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "permutations",
+        "greedy",
+        "graphs",
+        "vector"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2016:省:::P8637",
+      "referenceSha256": "f3b8f75b9040718270b3bc5501a3b3fc2bb6c0d05aacdbc677afc79f48b00377",
+      "sourceId": "P8637",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8637",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "dp",
+        "subset-dp",
+        "lambda",
+        "vector",
+        "strings",
+        "numeric-tools",
+        "bitwise"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2016:国:::P8639",
+      "referenceSha256": "caa139e4444e79cf2adae5c1550ccc25920b1abda4160d75152376e52b75095f",
+      "sourceId": "P8639",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8639",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration",
+        "bitwise",
+        "counting",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2016:国:::P8644",
+      "referenceSha256": "db3c7be3c38a088ed67c14565a7ac7425ba8d70ea694ca12a56462ac1722f210",
+      "sourceId": "P8644",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8644",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "geometry",
+        "coordinates",
+        "bounds",
+        "lambda",
+        "vector",
+        "sort",
+        "integer",
+        "iterators"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2016:国:::P8645",
+      "referenceSha256": "e2f562b6b5bee744e8dcb08735c1610956007df821651d2fbfdb5618dc1117d8",
+      "sourceId": "P8645",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8645",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "number-theory",
+        "knapsack",
+        "dp",
+        "vector"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2017:省:::P8646",
+      "referenceSha256": "28f9c2d0f1481ddb3f4406029b5a4151fbed7e736729811be8127a528dadd091",
+      "sourceId": "P8646",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8646",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "binary-answer",
+        "greedy",
+        "lambda",
+        "vector",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2017:省:::P8647",
+      "referenceSha256": "db33e0cefc60d39f6c3d006f9d3c80c1eba3a84da02a50ca51cf18af0a18369c",
+      "sourceId": "P8647",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8647",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "prefix",
+        "counting",
+        "vector",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2017:省:::P8649",
+      "referenceSha256": "12aec1bfdd43fb3d10cf537eb5f365e2715f378675f01019901fd07ad4aeed39",
+      "sourceId": "P8649",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8649",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration",
+        "sets",
+        "strings"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2017:省:::P8651",
+      "referenceSha256": "cf04b78f4ab7852f810c0f3d4eb6a2c85084d3e47b173e795d2ab2c245a0bf68",
+      "sourceId": "P8651",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8651",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "graphs",
+        "topology",
+        "vector",
+        "queue-stack"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2017:国:::P8655",
+      "referenceSha256": "38fae91c672b91ca9a49d637f69b7b8cc9e6cc0f1a4531a94c9757066e8a358b",
+      "sourceId": "P8655",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8655",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "dp",
+        "counting",
+        "vector",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2017:国:::P8656",
+      "referenceSha256": "4556d60267ccc1d9da7c25db79ea67168b49417fd5296097716db9d7f17cc50f",
+      "sourceId": "P8656",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8656",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "probability",
+        "graphs",
+        "vector"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2017:国:::P8657",
+      "referenceSha256": "443b344c510eec3ba1e2c069ce03a19aee9b8e49e32ab2e18727557f6f056ece",
+      "sourceId": "P8657",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8657",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "sort",
+        "two-pointers",
+        "hashing",
+        "vector",
+        "maps",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2018:省:::P8661",
+      "referenceSha256": "33221c068aa164bfa24cc2469fce10589564a123674675fdb9c38032f88417e6",
+      "sourceId": "P8661",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8661",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "graphs",
+        "enumeration",
+        "vector",
+        "bindings",
+        "queue-stack",
+        "strings"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2018:省:::P8662",
+      "referenceSha256": "79fcfeb11f357d56bac1a498adac91a097bb412ebfbf369d95d3b7e8958485bd",
+      "sourceId": "P8662",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8662",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "sort",
+        "bounds",
+        "counting",
+        "vector",
+        "integer",
+        "iterators"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2018:省:::P8667",
+      "referenceSha256": "b7e4c4f574a83ee2866cda035f010a854d69873d3ce266b22e65297deb796407",
+      "sourceId": "P8667",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8667",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2018:省:::P8668",
+      "referenceSha256": "a025283503d832a9c6799d0efa5559898908c29ea11b27f7f266286ff59809d6",
+      "sourceId": "P8668",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8668",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "sort",
+        "greedy",
+        "modular",
+        "lambda",
+        "vector",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2018:省:::P8669",
+      "referenceSha256": "6c87ca82b12ab11496658f620d1e5df0f4f3be7b8374521fbce7a81c2ca15b7c",
+      "sourceId": "P8669",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8669",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "number-theory",
+        "prefix",
+        "vector",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2018:国:::P8670",
+      "referenceSha256": "4d3895e2cddca7dbf8d08e2e0da5571542ec94ffbab506b6a5de13321ecd8353",
+      "sourceId": "P8670",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8670",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "graphs",
+        "shortest-path",
+        "modular",
+        "vector",
+        "queue-stack"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2018:国:::P8674",
+      "referenceSha256": "36d2806c53ba035c1bcd58efa3453d5b97702e046df5ea2a5e7b9dc1bce725d9",
+      "sourceId": "P8674",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8674",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "dp",
+        "subset-dp",
+        "counting",
+        "vector",
+        "strings",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2018:国:::P8675",
+      "referenceSha256": "a808ecad08e6d9f337151c28d21c6cc03b24a92703c655ac042e588c1bf954b6",
+      "sourceId": "P8675",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8675",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "subset-dp",
+        "dp",
+        "enumeration",
+        "graphs",
+        "shortest-path",
+        "vector",
+        "bindings",
+        "queue-stack",
+        "strings",
+        "integer",
+        "bitwise"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2019:省:::P8679",
+      "referenceSha256": "85854b628b7d75182c9a2f8f129f61ccd114a71cbace86dae6fb8f2cd4be6882",
+      "sourceId": "P8679",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8679",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2019:省:::P8680",
+      "referenceSha256": "5ee8388c3f443d1046767d4bb1d9f9a940cea61afad71148bb53f598e47fc45e",
+      "sourceId": "P8680",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8680",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration",
+        "vector",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2019:省:::P8681",
+      "referenceSha256": "ab26f9d6e51c4ddf99a9a2512cb40ead0d54e73bde242b273d28c8736e399170",
+      "sourceId": "P8681",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8681",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "sort",
+        "number-theory",
+        "vector",
+        "integer"
+      ],
+      "limitations": [
+        "公开题面未说明重复记录的含义。代码按包含给定数值解释，全部相等返回1；若N条记录必须来自不同项，零公差时应取N。这个边界没有正式提交验证。"
+      ],
+      "problemId": "lanqiao:2019:省:::P8682",
+      "referenceSha256": "dae5d54c8efb88ea639fe68b2228e2df97aa147dfedea5fb0ae6801d1728aee9",
+      "sourceId": "P8682",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8682",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "sort",
+        "greedy",
+        "vector",
+        "numeric-tools",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2019:省:::P8683",
+      "referenceSha256": "7465acd9b709f2bfe128cec06efbc54c6e0e7d7cd1de20eaaf58e8bda9b84968",
+      "sourceId": "P8683",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8683",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "prefix",
+        "sort",
+        "construction",
+        "greedy",
+        "vector",
+        "bindings",
+        "integer"
+      ],
+      "limitations": [
+        "公开题面的第三组样例引用trans3.in/trans3.ans，未提供可下载附件；已验证前两组可运行样例及独立构造数据，没有编造第三组输入。"
+      ],
+      "problemId": "lanqiao:2019:省:::P8684",
+      "referenceSha256": "f37dc8f8f2cdd1f74fb70af13319c6cf5a247f4e38d42928c378b7592b6da634",
+      "sourceId": "P8684",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8684",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration",
+        "number-theory",
+        "knapsack",
+        "graphs",
+        "lambda",
+        "vector",
+        "bindings",
+        "queue-stack",
+        "integer",
+        "bitwise"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2019:国:::P8690",
+      "referenceSha256": "320d675c665791754684d75dbd62a7c3f48febfd20b4bab3d34422cb49068caa",
+      "sourceId": "P8690",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8690",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "dp",
+        "counting",
+        "vector",
+        "numeric-tools",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2019:国:::P8699",
+      "referenceSha256": "c8c9aebeb7186eb0bca12c693bc7060895068e8142f188ea26bbafca491aff75",
+      "sourceId": "P8699",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8699",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "counting",
+        "lambda",
+        "strings"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2019:国:::P8700",
+      "referenceSha256": "39e41a91d5ad9c09114efbf0e26bbda44572b31617089db0e029d6b8e408f15a",
+      "sourceId": "P8700",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8700",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "segment-tree",
+        "vector",
+        "numeric-tools"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2019:国:::P8701",
+      "referenceSha256": "11244005658e3a9c608e1e77d40b6e5f936c41621654946a62cd1035be8014f2",
+      "sourceId": "P8701",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8701",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "probability",
+        "counting",
+        "modular",
+        "prefix",
+        "lambda",
+        "vector",
+        "integer",
+        "bitwise"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2019:国:::P8702",
+      "referenceSha256": "44e98bd19d72988822250faa6af69f555b8dbc297f7ff26dd333bc5c6246fe27",
+      "sourceId": "P8702",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8702",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "dp",
+        "vector",
+        "strings"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2019:国:::P8703",
+      "referenceSha256": "9e81907e70f16dc21065d7507db93628ac155a1526d5aa39ffcb2657a607816c",
+      "sourceId": "P8703",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8703",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration",
+        "dp",
+        "counting",
+        "vector",
+        "bindings",
+        "strings",
+        "integer"
+      ],
+      "limitations": [
+        "D题的REPEAT程序已从原试卷配套公开附件恢复并内嵌，不依赖本机文件。C题按100人恰1例阳性且均匀分布的竞赛常见模型得到k=10；独立感染率0.01是不同模型，不能混同。"
+      ],
+      "problemId": "lanqiao:2020:省:1::P8705",
+      "referenceSha256": "6325b60ec2c3224c80aef8b97a0c1bad6533ab0e29903e6ec5b69998bac7dd27",
+      "sourceId": "P8705",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8705",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration",
+        "strings"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2020:省:1::P8706",
+      "referenceSha256": "7ff0f3783e9e4a1b566649322397203d2de434bcf2d9d8fda967469dfc4adf96",
+      "sourceId": "P8706",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8706",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "dp",
+        "counting",
+        "vector",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2020:省:1::P8707",
+      "referenceSha256": "bb6c44780374923018a534818d04f8306aeac5ceadc0e2e32740de59ffea8b7c",
+      "sourceId": "P8707",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8707",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "dsu",
+        "vector",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2020:省:1::P8710",
+      "referenceSha256": "c3d3cb4cbfdb67a771813ffd82077694dd6c255641c7b736e49c3080f288e1d3",
+      "sourceId": "P8710",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8710",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2020:省:1::P8711",
+      "referenceSha256": "f99b6c41f904ec4116994f4f7c3eef99a33e321eb4e1758bb67f88a0e0146e65",
+      "sourceId": "P8711",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8711",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "modular",
+        "counting",
+        "enumeration",
+        "vector",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2020:省:1::P8712",
+      "referenceSha256": "c7f0a6b076eaa02548f0337f55c7cdd0bb4602af69e9ebf324c0f339451c4b82",
+      "sourceId": "P8712",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8712",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration",
+        "number-theory",
+        "lambda",
+        "vector",
+        "integer",
+        "bitwise"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2020:省:2::P8714",
+      "referenceSha256": "494128bff07409658b88603480116358f39c4147463f87de70f5f29e468cacc4",
+      "sourceId": "P8714",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8714",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "counting",
+        "vector",
+        "strings",
+        "numeric-tools",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2020:省:2::P8715",
+      "referenceSha256": "12c0f8b7e92eee526e2a23289ea1794d390e52d806f3d43057ae55c6c6cac851",
+      "sourceId": "P8715",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8715",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2020:省:2::P8716",
+      "referenceSha256": "5aa252c5139ffb317130e2a3ac1bbe204ca569ad7d4e343b54263843a123935f",
+      "sourceId": "P8716",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8716",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2020:省:2::P8717",
+      "referenceSha256": "097aaaa000eb2366d4b5ddea56c525686a3685a649593fae4dfa78dc9fd55916",
+      "sourceId": "P8717",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8717",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "greedy",
+        "construction",
+        "bounds",
+        "strings",
+        "integer",
+        "iterators"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2020:省:2::P8719",
+      "referenceSha256": "569bc71bcef6a4af76295e5e02f811081ac242ca943719bdb66ddf45b1f1f093",
+      "sourceId": "P8719",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8719",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "geometry",
+        "sort",
+        "bindings",
+        "sets",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2020:省:2::P8720",
+      "referenceSha256": "560f4f33975a39f510f705a02cc36a0955a0d2e7a0cd803d19dc7ca73d47cb1f",
+      "sourceId": "P8720",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8720",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration",
+        "graphs",
+        "heap",
+        "sort",
+        "vector",
+        "sets",
+        "integer"
+      ],
+      "limitations": [
+        "E题原卷inc.txt缺失，无法复算原矩阵数值答案。正文给出通用DAG计数法；输出qwq只对应当前洛谷镜像的明确适配要求。"
+      ],
+      "problemId": "lanqiao:2020:省:3::P8721",
+      "referenceSha256": "175e834a93810858011d7f79fb9c850f6f04f3427ae35379caedefb70ec9e23f",
+      "sourceId": "P8721",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8721",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration",
+        "strings"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2020:省:3::P8722",
+      "referenceSha256": "4e92157869c9564aa6daeb0b0f6bbb60d2d174904bf898215bb45d2737d5dadb",
+      "sourceId": "P8722",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8722",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration",
+        "strings"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2020:省:3::P8723",
+      "referenceSha256": "6c6c106043e0f6a8264fe83fb429ac9caa162f0b2c6fd344f164cceaabee22f8",
+      "sourceId": "P8723",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8723",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "shortest-path",
+        "graphs",
+        "vector",
+        "bindings",
+        "heap",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2020:省:3::P8724",
+      "referenceSha256": "6278bfac47b3acd1f335917127db0337d730d42c24933216386659281ccd73ae",
+      "sourceId": "P8724",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8724",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "dp",
+        "counting",
+        "vector",
+        "numeric-tools",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2020:省:3::P8725",
+      "referenceSha256": "ee2da85025514abe7f74e5baabaf94db1f1c42aeb0af6378808f1cfb8e108e67",
+      "sourceId": "P8725",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8725",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "dp",
+        "monotonic",
+        "vector",
+        "queue-stack",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2020:省:3::P8726",
+      "referenceSha256": "95868f4e8b07590603a0b8548e0807c47929aeae8d7f3f465f9b719deb17f535",
+      "sourceId": "P8726",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8726",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration",
+        "number-theory",
+        "dp",
+        "graphs",
+        "strings"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2020:国:::P8728",
+      "referenceSha256": "b59e7032746c416d169009e1dafabfb50d3a657c58e4490db65cbbdb7878c7b4",
+      "sourceId": "P8728",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8728",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "graphs",
+        "strings",
+        "integer",
+        "bitwise"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2020:国:::P8730",
+      "referenceSha256": "b9a2fe348bb2c128f43d6c1841d7ca7f40c2aafba96d19845611d690a4872bab",
+      "sourceId": "P8730",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8730",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "shortest-path",
+        "lambda",
+        "vector",
+        "bindings",
+        "heap",
+        "integer",
+        "bitwise"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2020:国:::P8731",
+      "referenceSha256": "4163e88c00bb570f044742ccc610c482bb62ebe2f9a2b213b695956a46c5d2cb",
+      "sourceId": "P8731",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8731",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "greedy",
+        "sort",
+        "lambda",
+        "vector",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2020:国:::P8732",
+      "referenceSha256": "925904f8cfc35995d838b8327a66d1ed7239ac9fb4759b9ccaa21f498b935766",
+      "sourceId": "P8732",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8732",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "greedy",
+        "bounds",
+        "sort",
+        "lambda",
+        "vector",
+        "strings",
+        "iterators"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2020:国:::P8736",
+      "referenceSha256": "dfda251106cc967d8807d4139f34cc394707246a8b8cc4a0c04249e3a7bff8d4",
+      "sourceId": "P8736",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8736",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "dp",
+        "counting",
+        "lambda",
+        "vector",
+        "maps",
+        "integer",
+        "bitwise"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2020:国:::P8737",
+      "referenceSha256": "4e5d8e39b55efce5ce01a386615091fcee23f94e29ae9969fb5c8d3f03a63aea",
+      "sourceId": "P8737",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8737",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration",
+        "number-theory",
+        "shortest-path",
+        "sort",
+        "vector",
+        "bindings",
+        "sets",
+        "heap",
+        "integer",
+        "bitwise"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2021:省:::P8741",
+      "referenceSha256": "62708192c825c5fa03280792089cbae9481771bc2105d9d30e98fdfb589840fd",
+      "sourceId": "P8741",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8741",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "dp",
+        "vector",
+        "numeric-tools"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2021:省:::P8742",
+      "referenceSha256": "162d92bc53ea3af896882b9a84fed7901004305a377418ca23b35218843a241d",
+      "sourceId": "P8742",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8742",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "dp",
+        "prefix",
+        "counting",
+        "vector",
+        "strings",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2021:省:::P8745",
+      "referenceSha256": "482e391d00a1b75ece86cdd7d402f4d6a23403605ef6b4f48a213e68751d9114",
+      "sourceId": "P8745",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8745",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "monotonic",
+        "construction",
+        "enumeration",
+        "vector",
+        "bindings"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2021:省:::P8747",
+      "referenceSha256": "85dc5a615d0d10a24007aeee9f256ed4bbb35f449ec2a6691ef66b984f5cf0f3",
+      "sourceId": "P8747",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8747",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration",
+        "modular",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2021:省:::P8748",
+      "referenceSha256": "dd279a2e5946165a98b92c0dfe973529e720c786c175e1d867bca4b6fe76575b",
+      "sourceId": "P8748",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8748",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "counting",
+        "bounds",
+        "integer",
+        "iterators"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2021:省:::P8749",
+      "referenceSha256": "6401d8808c562d0def866584d7bc32f4dd9562e2a34e4125f5c87eb9986b1cfb",
+      "sourceId": "P8749",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8749",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration",
+        "counting",
+        "vector",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2021:省:2::P8751",
+      "referenceSha256": "ebd528d711810381b21d10ce1bc2577a28fc53693f4039b236a1289ced313fb0",
+      "sourceId": "P8751",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8751",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2021:省:2::P8752",
+      "referenceSha256": "6125165b65e55b9a48aadc9f4c597704ee3b18b0faa8f875919281a52672c721",
+      "sourceId": "P8752",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8752",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration",
+        "modular",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2021:省:2::P8753",
+      "referenceSha256": "f8edcf123bf053165d77550f4bd8164b95a7eff44355254e97eea0afcb5ea336",
+      "sourceId": "P8753",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8753",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "number-theory",
+        "greedy",
+        "integer",
+        "bitwise"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2021:省:2::P8754",
+      "referenceSha256": "ec6eac8f2280671bfce233c36c3c96ca338d92f35f2f05457ae8fdb24c88a514",
+      "sourceId": "P8754",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8754",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration",
+        "heap",
+        "greedy",
+        "vector",
+        "bindings",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2021:省:2::P8755",
+      "referenceSha256": "e6e9448120dbdd64554cc7fa256c6b32449365003f3b822eecb60289fd49ef7b",
+      "sourceId": "P8755",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8755",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "dp",
+        "subset-dp",
+        "counting",
+        "vector",
+        "numeric-tools",
+        "bitwise"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2021:省:2::P8756",
+      "referenceSha256": "84a5d3afb8685de175908952dad98b890e26707063e8d458f1f92251aa7f8f45",
+      "sourceId": "P8756",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8756",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "dp",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2021:国:::P8759",
+      "referenceSha256": "12f0e005b8bc327af48ac592fb38c062702843fc3b7f1b57e55a5a48e57d0eb3",
+      "sourceId": "P8759",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8759",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration",
+        "strings"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2021:国:::P8761",
+      "referenceSha256": "cddeba968b906d0e07681cd3dc800226505d2f636050de3c2bbb4aa20c8a8e11",
+      "sourceId": "P8761",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8761",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "enumeration",
+        "strings"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2021:国:C::P8761",
+      "referenceSha256": "cddeba968b906d0e07681cd3dc800226505d2f636050de3c2bbb4aa20c8a8e11",
+      "sourceId": "P8761",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8761",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "bounds",
+        "prefix",
+        "integer",
+        "iterators"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2021:国:::P8762",
+      "referenceSha256": "79ae3440850781c97772352cee1e6dd66c46e2e6b15ee970368e89d07c542205",
+      "sourceId": "P8762",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8762",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "bitwise",
+        "strings",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2021:国:::P8763",
+      "referenceSha256": "11b7e29966d7a4a0f0db2043e86a5d2c865f8368c13157e721bd363686c2a52b",
+      "sourceId": "P8763",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8763",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "counting",
+        "bitwise",
+        "dp",
+        "numeric-tools",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2021:国:::P8764",
+      "referenceSha256": "3e740a1eb66d0919bc828b4af0f4ea301b004060293ab8a0eddb0e5e326df25b",
+      "sourceId": "P8764",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8764",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "counting",
+        "bitwise",
+        "dp",
+        "numeric-tools",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2021:国:C::P8764",
+      "referenceSha256": "3e740a1eb66d0919bc828b4af0f4ea301b004060293ab8a0eddb0e5e326df25b",
+      "sourceId": "P8764",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8764",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "prefix",
+        "segment-tree",
+        "bounds",
+        "vector",
+        "strings",
+        "iterators"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2021:国:::P8765",
+      "referenceSha256": "1fcdc45c9733209224900bf05f73fdef4896ccd77e570cbd2039a14cbc70ce93",
+      "sourceId": "P8765",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8765",
+      "status": "full"
+    },
+    {
+      "lessons": [
+        "bitwise",
+        "counting",
+        "integer"
+      ],
+      "limitations": [],
+      "problemId": "lanqiao:2021:国:::P8766",
+      "referenceSha256": "fc15e8190a84036b0f168f2b6f2316b953f2a2de1127dc8b4a9e9e6db6bd311b",
+      "sourceId": "P8766",
+      "sourceUrl": "https://www.luogu.com.cn/problem/P8766",
+      "status": "full"
+    }
+  ],
+  "sourceRows": 203,
+  "statusMeaning": "full表示提供了题解与参考程序；具体资料和适用范围见limitations，不表示官方评测已通过。",
+  "totalDefault": 1615,
+  "totalDetailed": 1615,
+  "totalLectures": 462,
+  "totalLinks": 6714,
+  "totalMethodCatalogRows": 234,
+  "verification": {
+    "backendTests": 8,
+    "companionPrimaryMethodsChecked": 143,
+    "companionVariantsChecked": 286,
+    "compiledReferences": 97,
+    "customCases": 393,
+    "differentialCases": 2607,
+    "freshAndUpgrade": true,
+    "isolatedSvgBoundsChecks": 93,
+    "officialSubmissions": 0,
+    "offlineChinesePreserved": 361,
+    "publicSeedSha256": "bd2f8aa18445f99ca31a766f8997b86510803f6708feedf1d68ae1da38c04781",
+    "readerLayouts": 18,
+    "referenceNormalization": "strip leading and trailing whitespace",
+    "renderedNewArticles": 198,
+    "scaleChecks": 45,
+    "scaleChecksPassed": 45,
+    "scaleChecksWithIndependentExpected": 37,
+    "sourcePreservationChecked": true,
+    "sourceSamples": 122
+  }
+}

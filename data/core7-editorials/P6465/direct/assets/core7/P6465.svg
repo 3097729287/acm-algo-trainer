@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="330" viewBox="0 0 760 330" role="img" aria-labelledby="title"><title id="title">右端为第五格：三个可选左端，排除首尾同为二</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">右端为第五格：三个可选左端，排除首尾同为二</text>
+<rect x="110" y="80" width="117" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="168.5" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="230" y="80" width="117" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="288.5" y="111.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="350" y="80" width="117" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="408.5" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="470" y="80" width="117" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="528.5" y="111.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="590" y="80" width="117" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="648.5" y="111.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<text x="90" y="190" fill="#12805c" font-size="22" text-anchor="start" font-weight="normal">左端一：长度五，首尾不同，保留</text>
+<text x="90" y="238" fill="#bc3645" font-size="22" text-anchor="start" font-weight="normal">左端二：长度四，首尾相同，排除</text>
+<text x="90" y="286" fill="#12805c" font-size="22" text-anchor="start" font-weight="normal">左端三：长度三，首尾不同，保留</text>
+</g></svg>

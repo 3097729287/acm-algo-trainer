@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="355" viewBox="0 0 760 355" role="img" aria-labelledby="title"><title id="title">三种卡各铺两次，再接两个不同的额外类型</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">三种卡各铺两次，再接两个不同的额外类型</text>
+<rect x="50" y="75" width="79" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="89.5" y="106.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="132" y="75" width="79" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="171.5" y="106.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="214" y="75" width="79" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="253.5" y="106.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="296" y="75" width="79" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="335.5" y="106.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="378" y="75" width="79" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="417.5" y="106.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="460" y="75" width="79" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="499.5" y="106.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="542" y="75" width="79" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="581.5" y="106.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="624" y="75" width="79" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="663.5" y="106.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<line x1="90" y1="153" x2="254" y2="153" stroke="#12805c" stroke-width="5"/>
+<line x1="172" y1="177" x2="336" y2="177" stroke="#12805c" stroke-width="5"/>
+<line x1="254" y1="201" x2="418" y2="201" stroke="#12805c" stroke-width="5"/>
+<line x1="336" y1="225" x2="500" y2="225" stroke="#12805c" stroke-width="5"/>
+<line x1="418" y1="249" x2="582" y2="249" stroke="#12805c" stroke-width="5"/>
+<line x1="500" y1="273" x2="664" y2="273" stroke="#12805c" stroke-width="5"/>
+<text x="60" y="330" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">六条线各对应一个长度三的排列窗口，分数为六</text>
+</g></svg>

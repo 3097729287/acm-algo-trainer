@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="385" viewBox="0 0 760 385" role="img" aria-labelledby="title"><title id="title">一件玩具向右一格：只改变两个相邻格的占用</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">一件玩具向右一格：只改变两个相邻格的占用</text>
+<rect x="80" y="80" width="55" height="52" rx="7" fill="#e5f7ef" stroke="#12805c" stroke-width="2"/>
+<text x="107.5" y="113.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">●</text>
+<rect x="138" y="80" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="165.5" y="113.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="196" y="80" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="223.5" y="113.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="254" y="80" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="281.5" y="113.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="80" y="135" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="107.5" y="168.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="138" y="135" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="165.5" y="168.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="196" y="135" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="223.5" y="168.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="254" y="135" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="281.5" y="168.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="80" y="190" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="107.5" y="223.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="138" y="190" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="165.5" y="223.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="196" y="190" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="223.5" y="223.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="254" y="190" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="281.5" y="223.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="80" y="245" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="107.5" y="278.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="138" y="245" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="165.5" y="278.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="196" y="245" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="223.5" y="278.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="254" y="245" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="281.5" y="278.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<text x="195" y="340" fill="#243449" font-size="21" text-anchor="middle" font-weight="normal">掩码十进制一</text>
+<rect x="450" y="80" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="477.5" y="113.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="508" y="80" width="55" height="52" rx="7" fill="#e5f7ef" stroke="#12805c" stroke-width="2"/>
+<text x="535.5" y="113.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">●</text>
+<rect x="566" y="80" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="593.5" y="113.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="624" y="80" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="651.5" y="113.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="450" y="135" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="477.5" y="168.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="508" y="135" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="535.5" y="168.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="566" y="135" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="593.5" y="168.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="624" y="135" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="651.5" y="168.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="450" y="190" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="477.5" y="223.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="508" y="190" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="535.5" y="223.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="566" y="190" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="593.5" y="223.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="624" y="190" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="651.5" y="223.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="450" y="245" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="477.5" y="278.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="508" y="245" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="535.5" y="278.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="566" y="245" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="593.5" y="278.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="624" y="245" width="55" height="52" rx="7" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<text x="651.5" y="278.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<text x="565" y="340" fill="#243449" font-size="21" text-anchor="middle" font-weight="normal">掩码十进制二</text>
+<line x1="325" y1="175" x2="420" y2="175" stroke="#bc3645" stroke-width="5"/>
+<text x="375" y="150" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">一步</text>
+<text x="50" y="377" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">格编号按行从零开始；最低位对应左上角，不给相同玩具编号</text>
+</g></svg>

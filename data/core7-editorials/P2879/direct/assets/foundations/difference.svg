@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="330" viewBox="0 0 760 330" role="img" aria-labelledby="title"><title id="title">区间加三：开始位置 +3，结束后一位 −3</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">区间加三：开始位置 +3，结束后一位 −3</text>
+<text x="35" y="105" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">差分事件</text>
+<rect x="205" y="75" width="93" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="251.5" y="106.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="301" y="75" width="93" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="347.5" y="106.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">+3</text>
+<rect x="397" y="75" width="93" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="443.5" y="106.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="493" y="75" width="93" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="539.5" y="106.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="589" y="75" width="93" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="635.5" y="106.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">−3</text>
+<text x="35" y="205" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">前缀累计</text>
+<rect x="205" y="175" width="93" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="251.5" y="206.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="301" y="175" width="93" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="347.5" y="206.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="397" y="175" width="93" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="443.5" y="206.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="493" y="175" width="93" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="539.5" y="206.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="589" y="175" width="93" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="635.5" y="206.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<text x="70" y="285" fill="#12805c" font-size="21" text-anchor="start" font-weight="normal">只有第 2、3、4 位保留额外的三</text>
+</g></svg>

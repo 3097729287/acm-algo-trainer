@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="310" viewBox="0 0 760 310" role="img" aria-labelledby="title"><title id="title">置换 p=[2,0,1,4,3] 的两个环</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">置换 p=[2,0,1,4,3] 的两个环</text>
+<text x="170" y="100" fill="#2365ab" font-size="27" text-anchor="start" font-weight="normal">0 → 2 → 1 → 0</text>
+<text x="440" y="210" fill="#12805c" font-size="27" text-anchor="start" font-weight="normal">3 → 4 → 3</text>
+<text x="90" y="265" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">环长三与二；每个编号恰在一个环中</text>
+</g></svg>

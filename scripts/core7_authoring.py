@@ -34,6 +34,7 @@ class Method:
     images: dict = field(default_factory=dict)
     exact: bool = False
     checker: str = ''
+    interactive: str = ''
 
 
 def program(body, declarations=''):
@@ -41,9 +42,9 @@ def program(body, declarations=''):
 
 
 def add(pid, title, meaning, brief, detail, body, pitfalls, complexity='时间与额外空间均为 $O(1)$。',
-        tags=None, lessons=None, key='direct', declarations='', cases=None, exact=False, checker=''):
+        tags=None, lessons=None, key='direct', declarations='', cases=None, exact=False, checker='', interactive=''):
     SPECS.append(Method(pid, key, title, meaning, brief, detail, program(body, declarations),
-                        pitfalls, complexity, tags or ['模拟'], lessons or [], cases or [], exact=exact, checker=checker))
+                        pitfalls, complexity, tags or ['模拟'], lessons or [], cases or [], exact=exact, checker=checker,interactive=interactive))
 
 
 def load_all():
@@ -52,10 +53,25 @@ def load_all():
         import core7_stage02
         import core7_stage02_simulation
         import core7_stage02_greedy
+        import core7_stage02_recurrence
+        import core7_stage02_prefix
+        import core7_stage02_binary
+        import core7_stage02_twopointers
+        import core7_stage02_interactive
+        import core7_stage03_dfs
+        import core7_stage03_search_models
         from core7_figures import attach_figures
         attach_figures(SPECS)
         from core7_figures_greedy import attach_figures as greedy_figures
         greedy_figures(SPECS)
+        from core7_figures_recurrence import attach_figures as recurrence_figures
+        recurrence_figures(SPECS)
+        from core7_figures_prefix import attach_figures as prefix_figures
+        prefix_figures(SPECS)
+        from core7_figures_binary import attach_figures as binary_figures
+        binary_figures(SPECS)
+        from core7_figures_search import attach_figures as search_figures
+        search_figures(SPECS)
         for spec in SPECS:
             spec.tags=['线性 DP' if tag=='DP' else tag for tag in spec.tags]
             if spec.pid=='P5732':spec.tags=['递推']
@@ -68,6 +84,28 @@ def load_all():
 
 def source_hash(text):
     return hashlib.sha256(text.encode('utf-8')).hexdigest()
+
+def verification_footer(record):
+    if record.get('interactive'):
+        live=record['interactive']
+        return (f"本地 C++17 编译、{live['liveScenarios']} 个真实交互场景与 {record['independentCases']} 组转录重放通过；核对主动刷新、合法询问与问数上限。\n"
+                "官方样例是对话，已按样例秘密场景另行交互验证，未当作普通固定输入输出比较。\n"
+                "正文参考程序与源码逐字核对；没有向原站提交。\n")
+    return f'本地 C++17 编译、{record["samples"]} 组原站样例与 {record["independentCases"]} 组独立边界/小域校验通过。\n正文参考程序与源码逐字核对；没有向原站提交。\n'
+
+
+def roster_entries():
+    scope=json.loads((OUT/'scope.json').read_text('utf-8'))
+    # The problem code is an authoring key. Keep every existing database alias.
+    entries={entry['url'].rstrip('/').split('/')[-1]:entry for entry in scope}
+    assert len(entries)==len(scope),'Ambiguous problem-code mapping'
+    return entries
+
+
+def statement_path(pid):
+    identity=roster_entries()[pid]['id']
+    return OUT/'statements'/(re.sub(r'[:<>/\\|?*]','_',identity)+'.json')
+
 
 def display_id(pid):
     return pid[3:].replace('_','').upper() if pid.startswith('AT_') else pid
@@ -86,8 +124,15 @@ def article(spec, title, url, detailed, sources, inline):
     if spec.lessons:
         text += '<!-- reusable-foundations:start -->\n\n'
         for name in spec.lessons:
-            text += inline(name, sources[name]) + '\n\n'
-            images.update(sources[name]['images'])
+            block=inline(name,sources[name])
+            for key,data in sources[name]['images'].items():
+                destination=key
+                if key in images and images[key]!=data:
+                    asset=Path(key)
+                    destination=str(asset.with_name(asset.stem+'-core7-'+source_hash(data)[:10]+asset.suffix)).replace('\\','/')
+                    block=block.replace(']('+key+')',']('+destination+')')
+                images[destination]=data
+            text += block + '\n\n'
         text += '<!-- reusable-foundations:end -->\n\n'
     text += '### 思路\n\n' + (spec.detail if detailed else spec.brief) + '\n\n' + spec.complexity
     text += '\n\n### 参考代码\n\n```cpp\n' + spec.code + '```\n\n### 易错点\n\n' + spec.pitfalls + '\n'
@@ -95,14 +140,20 @@ def article(spec, title, url, detailed, sources, inline):
     sys.path.insert(0,str(Path.home()/'.dsh/tools'))
     import unify_latex
     text=unify_latex.process(text,Counter())
+    # Normalize title mathematics separately so a code such as P8649 is never
+    # absorbed into the formula that begins its lowercase problem title.
+    heading=f'## {label}. '+unify_latex.process(title,Counter())
+    text=re.sub(r'^## [^\n]+',lambda _:heading,text,count=1)
     return {'markdown': text, 'images': images}
 
 
 def generate():
+    import sys
+    sys.path.insert(0,str(Path.home()/'.dsh/tools'))
     specs = load_all()
     sources, inline = lesson_data()
     scope = json.loads((OUT / 'scope.json').read_text('utf-8'))
-    roster = {entry['id'].removeprefix('luogu-training-'): entry for entry in scope}
+    roster = roster_entries()
     seen = set()
     package = []
     verified={(r['pid'],r['method']):r for r in json.loads((OUT/'verification.json').read_text('utf-8'))} if (OUT/'verification.json').exists() else {}
@@ -110,6 +161,11 @@ def generate():
         assert (spec.pid, spec.key) not in seen
         seen.add((spec.pid, spec.key))
         entry = roster[spec.pid]
+        # A lowercase title immediately after "A." is misread as a formula by
+        # the old DSH normalizer. This affects only its interchange envelope.
+        import unify_latex
+        probe=unify_latex.process('## A. '+entry['title'],Counter())
+        export_title=('题目：' if (entry['title'][:1].isascii() and entry['title'][:1].islower()) or not probe.startswith('## A. ') else '')+entry['title']
         folder = CONTENT / spec.pid / spec.key
         folder.mkdir(parents=True, exist_ok=True)
         cpp = folder / 'a.cpp'
@@ -122,12 +178,12 @@ def generate():
             # Export self-contained reading files for the existing DSH checker.
             path = folder / (name + '.md')
             catalog = ' + '.join(spec.tags)
-            envelope = f'# {display_id(spec.pid)} {spec.title} 题解\n\n## 目录\n\n| 题号 | 题名 | 考点 | 难度 |\n|---|---|---|---|\n| A | {entry["title"]} | {catalog} | {entry["difficulty"]} |\n\n'
+            envelope = f'# {display_id(spec.pid)} {spec.title} 题解\n\n## 目录\n\n| 题号 | 题名 | 考点 | 难度 |\n|---|---|---|---|\n| A | {export_title} | {catalog} | {entry["difficulty"]} |\n\n'
             record=verified.get((spec.pid,spec.key))
             footer=''
             if record and record.get('passed') and record['programSha256']==source_hash(spec.code):
-                footer='\n## 实测记录\n\n'+f'本地 C++17 编译、{record["samples"]} 组原站样例与 {record["independentCases"]} 组独立边界/小域校验通过。\n正文参考程序与源码逐字核对；没有向原站提交。\n'
-            exported=re.sub(r'^## [^\n]+',f'## A. {entry["title"]}',value['markdown'],count=1)
+                footer='\n## 实测记录\n\n'+verification_footer(record)
+            exported=re.sub(r'^## [^\n]+',f'## A. {export_title}',value['markdown'],count=1)
             import sys
             sys.path.insert(0,str(Path.home()/'.dsh/tools'))
             import unify_latex

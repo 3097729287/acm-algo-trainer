@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="240" viewBox="0 0 720 240">
+  <rect width="720" height="240" fill="#f8f9fa"/>
+  <text x="360" y="30" font-size="18" text-anchor="middle" fill="#212529">n=5 时枚举过程</text>
+  <line x1="60" y1="60" x2="660" y2="60" stroke="#adb5bd" stroke-width="2"/>
+  <text x="120" y="90" font-size="16" text-anchor="middle" fill="#212529">v</text>
+  <text x="240" y="90" font-size="16" text-anchor="middle" fill="#212529">v²</text>
+  <text x="360" y="90" font-size="16" text-anchor="middle" fill="#212529">r = v² mod 5</text>
+  <text x="480" y="90" font-size="16" text-anchor="middle" fill="#212529">2r &lt; 5 ?</text>
+  <text x="600" y="90" font-size="16" text-anchor="middle" fill="#212529">计数</text>
+  <line x1="60" y1="100" x2="660" y2="100" stroke="#adb5bd" stroke-width="1"/>
+  <text x="120" y="130" font-size="16" text-anchor="middle" fill="#212529">1</text>
+  <text x="240" y="130" font-size="16" text-anchor="middle" fill="#212529">1</text>
+  <text x="360" y="130" font-size="16" text-anchor="middle" fill="#212529">1</text>
+  <text x="480" y="130" font-size="16" text-anchor="middle" fill="#212529">2 &lt; 5 是</text>
+  <text x="600" y="130" font-size="16" text-anchor="middle" fill="#212529">1</text>
+  <text x="120" y="160" font-size="16" text-anchor="middle" fill="#212529">2</text>
+  <text x="240" y="160" font-size="16" text-anchor="middle" fill="#212529">4</text>
+  <text x="360" y="160" font-size="16" text-anchor="middle" fill="#212529">4</text>
+  <text x="480" y="160" font-size="16" text-anchor="middle" fill="#212529">8 &lt; 5 否</text>
+  <text x="600" y="160" font-size="16" text-anchor="middle" fill="#212529">1</text>
+  <text x="120" y="190" font-size="16" text-anchor="middle" fill="#212529">3</text>
+  <text x="240" y="190" font-size="16" text-anchor="middle" fill="#212529">9</text>
+  <text x="360" y="190" font-size="16" text-anchor="middle" fill="#212529">4</text>
+  <text x="480" y="190" font-size="16" text-anchor="middle" fill="#212529">8 &lt; 5 否</text>
+  <text x="600" y="190" font-size="16" text-anchor="middle" fill="#212529">1</text>
+  <text x="120" y="220" font-size="16" text-anchor="middle" fill="#212529">4</text>
+  <text x="240" y="220" font-size="16" text-anchor="middle" fill="#212529">16</text>
+  <text x="360" y="220" font-size="16" text-anchor="middle" fill="#212529">1</text>
+  <text x="480" y="220" font-size="16" text-anchor="middle" fill="#212529">2 &lt; 5 是</text>
+  <text x="600" y="220" font-size="16" text-anchor="middle" fill="#212529">2</text>
+</svg>

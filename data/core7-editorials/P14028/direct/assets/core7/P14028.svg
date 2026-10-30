@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="350" viewBox="0 0 760 350" role="img" aria-labelledby="title"><title id="title">各项可达区间：最大下界八，最小上界五</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">各项可达区间：最大下界八，最小上界五</text>
+<text x="40" y="117" fill="#2365ab" font-size="20" text-anchor="start" font-weight="normal">第一项</text>
+<line x1="250" y1="110" x2="370" y2="110" stroke="#2365ab" stroke-width="7"/>
+<circle cx="250" cy="110" r="16" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="250" y="117" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<circle cx="370" cy="110" r="16" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="370" y="117" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<text x="40" y="192" fill="#bc3645" font-size="20" text-anchor="start" font-weight="normal">第二项</text>
+<line x1="490" y1="185" x2="610" y2="185" stroke="#bc3645" stroke-width="7"/>
+<circle cx="490" cy="185" r="16" fill="#fff" stroke="#bc3645" stroke-width="3"/>
+<text x="490" y="192" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">8</text>
+<circle cx="610" cy="185" r="16" fill="#fff" stroke="#bc3645" stroke-width="3"/>
+<text x="610" y="192" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">11</text>
+<text x="40" y="267" fill="#12805c" font-size="20" text-anchor="start" font-weight="normal">第三项</text>
+<line x1="290" y1="260" x2="530" y2="260" stroke="#12805c" stroke-width="7"/>
+<circle cx="290" cy="260" r="16" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="290" y="267" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<circle cx="530" cy="260" r="16" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="530" y="267" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">9</text>
+<line x1="370" y1="75" x2="370" y2="285" stroke="#68778b" stroke-width="3" stroke-dasharray="7 5"/>
+<line x1="490" y1="75" x2="490" y2="285" stroke="#68778b" stroke-width="3" stroke-dasharray="7 5"/>
+<text x="90" y="330" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">选值都放在 [5,8] 内，最小极差 8−5=3</text>
+</g></svg>

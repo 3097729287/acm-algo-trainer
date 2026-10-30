@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="400" viewBox="0 0 720 400">
+  <rect width="720" height="400" fill="#ffffff"/>
+  <text x="360" y="30" font-size="20" text-anchor="middle" fill="#222222">n=3, m=4 的 DP 填表结果</text>
+  <g font-size="18" text-anchor="middle">
+    <!-- 列标 -->
+    <text x="180" y="70" fill="#444444">j=1</text>
+    <text x="300" y="70" fill="#444444">j=2</text>
+    <text x="420" y="70" fill="#444444">j=3</text>
+    <text x="540" y="70" fill="#444444">j=4</text>
+    <!-- 行标 -->
+    <text x="90" y="120" fill="#444444">i=1</text>
+    <text x="90" y="200" fill="#444444">i=2</text>
+    <text x="90" y="280" fill="#444444">i=3</text>
+    <!-- 第1行 -->
+    <rect x="130" y="85" width="100" height="60" fill="#e8f4ff" stroke="#2b6cb0" stroke-width="2"/>
+    <text x="180" y="123" fill="#1a365d">1</text>
+    <rect x="250" y="85" width="100" height="60" fill="#e8f4ff" stroke="#2b6cb0" stroke-width="2"/>
+    <text x="300" y="123" fill="#1a365d">1</text>
+    <rect x="370" y="85" width="100" height="60" fill="#e8f4ff" stroke="#2b6cb0" stroke-width="2"/>
+    <text x="420" y="123" fill="#1a365d">1</text>
+    <rect x="490" y="85" width="100" height="60" fill="#e8f4ff" stroke="#2b6cb0" stroke-width="2"/>
+    <text x="540" y="123" fill="#1a365d">1</text>
+    <!-- 第2行 -->
+    <rect x="130" y="165" width="100" height="60" fill="#e8f4ff" stroke="#2b6cb0" stroke-width="2"/>
+    <text x="180" y="203" fill="#1a365d">1</text>
+    <rect x="250" y="165" width="100" height="60" fill="#ffe0e0" stroke="#c53030" stroke-width="2"/>
+    <text x="300" y="203" fill="#9b2c2c">0</text>
+    <rect x="370" y="165" width="100" height="60" fill="#e8f4ff" stroke="#2b6cb0" stroke-width="2"/>
+    <text x="420" y="203" fill="#1a365d">1</text>
+    <rect x="490" y="165" width="100" height="60" fill="#ffe0e0" stroke="#c53030" stroke-width="2"/>
+    <text x="540" y="203" fill="#9b2c2c">0</text>
+    <!-- 第3行 -->
+    <rect x="130" y="245" width="100" height="60" fill="#e8f4ff" stroke="#2b6cb0" stroke-width="2"/>
+    <text x="180" y="283" fill="#1a365d">1</text>
+    <rect x="250" y="245" width="100" height="60" fill="#e8f4ff" stroke="#2b6cb0" stroke-width="2"/>
+    <text x="300" y="283" fill="#1a365d">1</text>
+    <rect x="370" y="245" width="100" height="60" fill="#e8f4ff" stroke="#2b6cb0" stroke-width="2"/>
+    <text x="420" y="283" fill="#1a365d">2</text>
+    <rect x="490" y="245" width="100" height="60" fill="#fff3cd" stroke="#b7791f" stroke-width="3"/>
+    <text x="540" y="283" fill="#744210">2</text>
+  </g>
+  <text x="360" y="350" font-size="16" text-anchor="middle" fill="#444444">红色格 (2,2)、(2,4) 行列均为偶数，禁止进入；终点 (3,4) 答案为 2</text>
+</svg>

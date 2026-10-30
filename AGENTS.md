@@ -6,6 +6,8 @@
 
 TB is the primary product. Active code belongs in `frontend/`, `backend/`, `desktop/`, and `server/leaderboard/`.
 
+- User scope override (2026-10-30): write editorials for every Lanqiao provincial/national contest already in the current problem library. Cover all existing questions and shared aliases regardless of the general 2300 authoring limit, preserve all existing editorials and reference programs, and do not invent ratings or missing attachments. This exception is limited to this explicit existing Lanqiao inventory; unknown or inconsistent statements require an honest explanation and evidence, never a fabricated full solution.
+
 - 用户界面文案约束（2026-10-26）：未经用户明确要求，不得自行增加界面文字、标签或说明。实现功能时复用既有文案。题单不提供标签功能；操作按钮只显示图标，保留无障碍名称及必要的悬停提示。题目知识点与筛选保留。
 
 - Delivery preference (user instruction 2026-10-24): after validating TB features or teaching updates, package them into the normal desktop program and deliver the local upgrade directly. Do not default to a standalone preview, ask the user to experiment first, or stop with unpackaged source. Do not ask again whether to package. Preserve isolated install/upgrade checks and personal-data backups. This authorizes local delivery, not automatic public publication or service deployment; interactive teaching experiments remain part of Algorithm Lab.

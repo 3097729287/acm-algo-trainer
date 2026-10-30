@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="300" viewBox="0 0 720 300">
+  <rect width="720" height="300" fill="#f8f9fa"/>
+  <text x="20" y="30" font-size="16" fill="#212529">Lucas 前缀枚举：L=7, B-1=2, p=3</text>
+  <text x="20" y="60" font-size="15" fill="#212529">L 的 p 进制：(2, 1)   B-1 的 p 进制：(0, 2)</text>
+  <text x="20" y="90" font-size="15" fill="#212529">从高位到低位：</text>
+  <rect x="20" y="110" width="200" height="60" fill="#e9ecef" stroke="#495057"/>
+  <text x="30" y="135" font-size="15" fill="#212529">第 1 位（高位）</text>
+  <text x="30" y="155" font-size="15" fill="#212529">L_i=2, bound_i=0</text>
+  <text x="240" y="135" font-size="15" fill="#212529">只能取 d=0</text>
+  <text x="240" y="155" font-size="15" fill="#212529">equal = C(2,0)=1</text>
+  <rect x="20" y="190" width="200" height="60" fill="#e9ecef" stroke="#495057"/>
+  <text x="30" y="215" font-size="15" fill="#212529">第 2 位（低位）</text>
+  <text x="30" y="235" font-size="15" fill="#212529">L_i=1, bound_i=2</text>
+  <text x="240" y="215" font-size="15" fill="#212529">d=0: C(1,0)·2^{2}=4</text>
+  <text x="240" y="235" font-size="15" fill="#212529">d=1: C(1,1)·2^{2}=4</text>
+  <text x="20" y="280" font-size="15" fill="#212529">累加得 S=8，最后加完全相等项 0，S=8≡2 mod 3</text>
+</svg>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="370" viewBox="0 0 760 370" role="img" aria-labelledby="title"><title id="title">可见区间嵌套：内部每多一层就再矮一</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">可见区间嵌套：内部每多一层就再矮一</text>
+<rect x="45" y="240" width="73" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="81.5" y="271.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="121" y="240" width="73" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="157.5" y="271.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="197" y="240" width="73" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="233.5" y="271.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="273" y="240" width="73" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="309.5" y="271.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="349" y="240" width="73" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="385.5" y="271.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="425" y="240" width="73" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="461.5" y="271.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="501" y="240" width="73" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="537.5" y="271.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="577" y="240" width="73" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="613.5" y="271.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="653" y="240" width="73" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="689.5" y="271.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<line x1="83" y1="85" x2="235" y2="85" stroke="#2365ab" stroke-width="4"/>
+<line x1="83" y1="85" x2="83" y2="103" stroke="#2365ab" stroke-width="3"/>
+<line x1="235" y1="85" x2="235" y2="103" stroke="#2365ab" stroke-width="3"/>
+<line x1="235" y1="145" x2="539" y2="145" stroke="#12805c" stroke-width="4"/>
+<line x1="235" y1="145" x2="235" y2="163" stroke="#12805c" stroke-width="3"/>
+<line x1="539" y1="145" x2="539" y2="163" stroke="#12805c" stroke-width="3"/>
+<line x1="235" y1="200" x2="387" y2="200" stroke="#bc3645" stroke-width="4"/>
+<line x1="235" y1="200" x2="235" y2="218" stroke="#bc3645" stroke-width="3"/>
+<line x1="387" y1="200" x2="387" y2="218" stroke="#bc3645" stroke-width="3"/>
+<text x="90" y="340" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">位置四同时在 (3,7)、(3,5) 内部：最高 5−2=3</text>
+</g></svg>

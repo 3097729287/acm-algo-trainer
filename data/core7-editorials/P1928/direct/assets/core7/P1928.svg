@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="370" viewBox="0 0 760 370" role="img" aria-labelledby="title"><title id="title">AC[2[3B]]：先展开内层，再复制外层</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">AC[2[3B]]：先展开内层，再复制外层</text>
+<rect x="205" y="70" width="350" height="55" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="380.0" y="104.5" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">AC + [2 [3 B]]</text>
+<rect x="45" y="180" width="260" height="55" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="175.0" y="214.5" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">内层返回 BBB</text>
+<rect x="405" y="180" width="310" height="55" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="560.0" y="214.5" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">外层复制为 BBBBBB</text>
+<line x1="260" y1="125" x2="175" y2="180" stroke="#2365ab" stroke-width="3"/>
+<line x1="305" y1="207" x2="405" y2="207" stroke="#12805c" stroke-width="3"/>
+<rect x="185" y="285" width="390" height="55" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="380.0" y="319.5" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">最终 ACBBBBBB</text>
+<line x1="560" y1="235" x2="440" y2="285" stroke="#bc3645" stroke-width="3"/>
+</g></svg>

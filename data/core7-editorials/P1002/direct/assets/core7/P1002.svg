@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="455" viewBox="0 0 760 455" role="img" aria-labelledby="title"><title id="title">马在 (2,2)：红叉是禁行点，不是一整片区域</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">马在 (2,2)：红叉是禁行点，不是一整片区域</text>
+<circle cx="160" cy="95" r="17" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="160" y="102" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">·</text>
+<circle cx="160" cy="160" r="17" fill="#fff" stroke="#bc3645" stroke-width="3"/>
+<text x="160" y="167" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">×</text>
+<circle cx="160" cy="225" r="17" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="160" y="232" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">·</text>
+<circle cx="160" cy="290" r="17" fill="#fff" stroke="#bc3645" stroke-width="3"/>
+<text x="160" y="297" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">×</text>
+<circle cx="160" cy="355" r="17" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="160" y="362" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">·</text>
+<circle cx="250" cy="95" r="17" fill="#fff" stroke="#bc3645" stroke-width="3"/>
+<text x="250" y="102" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">×</text>
+<circle cx="250" cy="160" r="17" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="250" y="167" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">·</text>
+<circle cx="250" cy="225" r="17" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="250" y="232" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">·</text>
+<circle cx="250" cy="290" r="17" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="250" y="297" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">·</text>
+<circle cx="250" cy="355" r="17" fill="#fff" stroke="#bc3645" stroke-width="3"/>
+<text x="250" y="362" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">×</text>
+<circle cx="340" cy="95" r="17" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="340" y="102" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">·</text>
+<circle cx="340" cy="160" r="17" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="340" y="167" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">·</text>
+<circle cx="340" cy="225" r="17" fill="#fff" stroke="#bc3645" stroke-width="3"/>
+<text x="340" y="232" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">×</text>
+<circle cx="340" cy="290" r="17" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="340" y="297" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">·</text>
+<circle cx="340" cy="355" r="17" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="340" y="362" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">·</text>
+<circle cx="430" cy="95" r="17" fill="#fff" stroke="#bc3645" stroke-width="3"/>
+<text x="430" y="102" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">×</text>
+<circle cx="430" cy="160" r="17" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="430" y="167" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">·</text>
+<circle cx="430" cy="225" r="17" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="430" y="232" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">·</text>
+<circle cx="430" cy="290" r="17" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="430" y="297" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">·</text>
+<circle cx="430" cy="355" r="17" fill="#fff" stroke="#bc3645" stroke-width="3"/>
+<text x="430" y="362" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">×</text>
+<circle cx="520" cy="95" r="17" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="520" y="102" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">·</text>
+<circle cx="520" cy="160" r="17" fill="#fff" stroke="#bc3645" stroke-width="3"/>
+<text x="520" y="167" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">×</text>
+<circle cx="520" cy="225" r="17" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="520" y="232" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">·</text>
+<circle cx="520" cy="290" r="17" fill="#fff" stroke="#bc3645" stroke-width="3"/>
+<text x="520" y="297" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">×</text>
+<circle cx="520" cy="355" r="17" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="520" y="362" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">·</text>
+<text x="90" y="105" fill="#243449" font-size="17" text-anchor="start" font-weight="normal">y=0</text>
+<text x="90" y="365" fill="#243449" font-size="17" text-anchor="start" font-weight="normal">y=4</text>
+<text x="160" y="404" fill="#243449" font-size="18" text-anchor="middle" font-weight="normal">x=0</text>
+<text x="520" y="404" fill="#243449" font-size="18" text-anchor="middle" font-weight="normal">x=4</text>
+<text x="55" y="445" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">起点 (0,0) 的右侧与下侧都被控制，路径数为零</text>
+</g></svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="260" viewBox="0 0 720 260">
+  <rect width="720" height="260" fill="#ffffff"/>
+  <text x="20" y="30" font-size="18" fill="#222">id=1 排序后时刻：0, 9, 10；D=10, K=2</text>
+  <line x1="60" y1="120" x2="660" y2="120" stroke="#333" stroke-width="2"/>
+  <g font-size="16" fill="#222">
+    <circle cx="120" cy="120" r="8" fill="#4a90d9"/>
+    <text x="112" y="155">0</text>
+    <circle cx="360" cy="120" r="8" fill="#4a90d9"/>
+    <text x="352" y="155">9</text>
+    <circle cx="600" cy="120" r="8" fill="#4a90d9"/>
+    <text x="588" y="155">10</text>
+  </g>
+  <rect x="100" y="90" width="280" height="60" fill="none" stroke="#e67e22" stroke-width="3" stroke-dasharray="6 4"/>
+  <text x="180" y="80" font-size="16" fill="#e67e22">窗口 [0,1]：差 9 &lt; 10，长度 2 ≥ K</text>
+  <text x="100" y="210" font-size="16" fill="#555">左指针 l=0，右指针 r=1 时窗口长度达到 2，标记热帖。</text>
+  <text x="100" y="240" font-size="16" fill="#555">若 r=2，a[2]-a[0]=10 ≥ D，左指针右移，窗口变为 [1,2]。</text>
+</svg>

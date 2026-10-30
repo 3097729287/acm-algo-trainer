@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="300" viewBox="0 0 720 300">
+  <rect width="720" height="300" fill="#f8f9fa"/>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+  </defs>
+  <!-- 节点 -->
+  <circle cx="80" cy="150" r="22" fill="#4dabf7" stroke="#1c7ed6" stroke-width="2"/>
+  <text x="80" y="156" font-size="16" text-anchor="middle" fill="#fff" font-weight="bold">S</text>
+  <circle cx="640" cy="150" r="22" fill="#4dabf7" stroke="#1c7ed6" stroke-width="2"/>
+  <text x="640" y="156" font-size="16" text-anchor="middle" fill="#fff" font-weight="bold">T</text>
+  <circle cx="360" cy="70" r="22" fill="#ff6b6b" stroke="#c92a2a" stroke-width="2"/>
+  <text x="360" y="76" font-size="16" text-anchor="middle" fill="#fff" font-weight="bold">P</text>
+  <circle cx="360" cy="230" r="22" fill="#ffd43b" stroke="#e67700" stroke-width="2"/>
+  <text x="360" y="236" font-size="16" text-anchor="middle" fill="#333" font-weight="bold">Q</text>
+  <!-- 边 -->
+  <line x1="102" y1="140" x2="338" y2="80" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="200" y="100" font-size="15" fill="#333">G(S,P)=2</text>
+  <line x1="382" y1="80" x2="618" y2="140" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="480" y="100" font-size="15" fill="#333">G(P,T)=2</text>
+  <line x1="102" y1="160" x2="338" y2="220" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="200" y="210" font-size="15" fill="#333">G(S,Q)=0</text>
+  <line x1="382" y1="220" x2="618" y2="160" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="480" y="210" font-size="15" fill="#333">G(Q,T)=6</text>
+  <line x1="102" y1="150" x2="618" y2="150" stroke="#868e96" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrow)"/>
+  <text x="360" y="140" font-size="15" fill="#868e96" text-anchor="middle">G(S,T)=15</text>
+  <!-- 说明 -->
+  <text x="360" y="285" font-size="15" fill="#333" text-anchor="middle">答案 = 15 − 2×2 − 0×6 + 0 = 11</text>
+</svg>

@@ -8,7 +8,7 @@ import subprocess
 import sys
 import time
 
-from core7_authoring import ROOT, OUT, CONTENT, load_all, source_hash
+from core7_authoring import ROOT, OUT, CONTENT, load_all, source_hash, statement_path, verification_footer
 from core7_cases import cases_for
 
 
@@ -16,9 +16,15 @@ def validate_one(spec):
     folder = CONTENT / spec.pid / spec.key
     logs = OUT / 'verification' / spec.pid / spec.key
     logs.mkdir(parents=True, exist_ok=True)
-    statement = json.loads((OUT / 'statements' / ('luogu-training-'+spec.pid+'.json')).read_text('utf-8'))
+    statement = json.loads(statement_path(spec.pid).read_text('utf-8'))
     samples = [('A '+s.get('name',str(i)), s['input'], s['output']) for i,s in enumerate(statement.get('samples',[]))]
     edges = cases_for(spec.pid) + [(f'手工边界 {i+1}',x,y) for i,(x,y) in enumerate(spec.cases)]
+    interactive_proof=None
+    if spec.interactive:
+        from core7_interactive import prepare
+        samples=[]
+        edges,interactive_proof=prepare(spec,folder,logs)
+    sample_success=(f'官方样例：{len(samples)} 组全过' if samples else '官方样例：未验证（没有 samples.py）')
     (folder/'samples.py').write_text('SAMPLES = '+repr(samples)+'\n', encoding='utf-8')
     (folder/'cases.json').write_text(json.dumps(edges,ensure_ascii=False,indent=2)+'\n', encoding='utf-8')
     probe = '''from pathlib import Path
@@ -39,6 +45,7 @@ if __name__ == '__main__':
         assert '边界用例：EDGE_COUNT 条全过' in report
 '''
     probe=probe.replace('SAMPLE_COUNT',str(len(samples))).replace('EDGE_COUNT',str(len(edges)))
+    if not samples:probe=probe.replace("官方样例：0 组全过","官方样例：未验证（没有 samples.py）")
     if spec.checker:
         probe=probe.replace('from verify import main',f'from verify import main\nsys.path.insert(0, {str(ROOT/"scripts")!r})\nfrom core7_checkers import {spec.checker}')
         probe=probe.replace("log_file=str(HERE/'verify.log'))",f"log_file=str(HERE/'verify.log'), checker={spec.checker})")
@@ -47,7 +54,7 @@ if __name__ == '__main__':
     started=time.monotonic()
     result=subprocess.run([sys.executable,str(folder/'verify_a.py')],capture_output=True,text=True,encoding='utf-8',env=env,timeout=240)
     (logs/'verify.log').write_text(result.stdout+result.stderr,encoding='utf-8')
-    successful_log=('编译：通过' in result.stdout and f'官方样例：{len(samples)} 组全过' in result.stdout
+    successful_log=('编译：通过' in result.stdout and sample_success in result.stdout
                     and (not edges or f'边界用例：{len(edges)} 条全过' in result.stdout))
     if result.returncode or not successful_log:
         return {'pid':spec.pid,'method':spec.key,'passed':False,'phase':'program','log':str(logs/'verify.log'),'tail':result.stdout[-2200:]+result.stderr[-1000:]}
@@ -64,8 +71,7 @@ if __name__ == '__main__':
         path=folder/(name+'.md')
         data=path.read_text('utf-8').split('\n## 实测记录')[0]
         data+='\n## 实测记录\n\n'
-        data+=f'本地 C++17 编译、{len(samples)} 组原站样例与 {len(edges)} 组独立边界/小域校验通过。\n'
-        data+='正文参考程序与源码逐字核对；没有向原站提交。\n'
+        data+=verification_footer({'samples':len(samples),'independentCases':len(edges),'interactive':interactive_proof})
         path.write_text(data,encoding='utf-8')
         compare=subprocess.run([sys.executable,str(Path.home()/'.dsh/tools/md_full.py'),str(path),'A'],capture_output=True,text=True,encoding='utf-8',env=env,timeout=90)
         (logs/(name+'-md-full.log')).write_text(compare.stdout+compare.stderr,encoding='utf-8')
@@ -73,7 +79,7 @@ if __name__ == '__main__':
             return {'pid':spec.pid,'method':spec.key,'passed':False,'phase':'md-full','tail':compare.stdout[-2000:]+compare.stderr[-1000:]}
         records.append(source_hash(data))
     return {'pid':spec.pid,'method':spec.key,'passed':True,'samples':len(samples),'independentCases':len(edges),
-            'programSha256':source_hash(spec.code),'articleFileSha256':records,'elapsedSeconds':round(time.monotonic()-started,3)}
+            'programSha256':source_hash(spec.code),'articleFileSha256':records,'interactive':interactive_proof,'elapsedSeconds':round(time.monotonic()-started,3)}
 
 
 def main():
@@ -84,9 +90,10 @@ def main():
         old=previous.get((spec.pid,spec.key))
         logpath=OUT/'verification'/spec.pid/spec.key/'verify.log'
         log=logpath.read_text('utf-8') if logpath.exists() else ''
-        audited_log=bool(old and '编译：通过' in log and f'官方样例：{old.get("samples",0)} 组全过' in log
+        audited_log=bool(old and '编译：通过' in log and (f'官方样例：{old.get("samples",0)} 组全过' in log or bool(old.get('interactive') and '官方样例：未验证（没有 samples.py）' in log))
                          and (not old.get('independentCases') or f'边界用例：{old["independentCases"]} 条全过' in log))
-        if '--only-new' in sys.argv and old and old['passed'] and old['programSha256']==source_hash(spec.code) and audited_log:
+        interactive_valid=not spec.interactive or bool(old and old.get('interactive') and old['interactive']['judgeSha256']==__import__('hashlib').sha256((ROOT/'scripts/core7_interactive.py').read_bytes()).hexdigest())
+        if interactive_valid and '--only-new' in sys.argv and old and old['passed'] and old['programSha256']==source_hash(spec.code) and audited_log:
             report.append(old)
         else:run.append(spec)
     with ThreadPoolExecutor(max_workers=4) as pool:

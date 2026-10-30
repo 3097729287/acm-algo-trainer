@@ -4,9 +4,9 @@
 
 | 题号 | 题名 | 考点 | 难度 |
 |---|---|---|---|
-| A | hacker | 位运算 | 900 |
+| A | 题目：hacker | 位运算 | 900 |
 
-## A. hacker
+## A. 题目：hacker
 
 > 原题：[P9496](https://www.luogu.com.cn/problem/P9496)
 > 解法：按二进制包含关系分三类 · C++17

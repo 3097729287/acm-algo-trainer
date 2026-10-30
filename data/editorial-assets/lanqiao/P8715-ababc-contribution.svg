@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="300" viewBox="0 0 720 300">
+  <rect width="720" height="300" fill="#ffffff"/>
+  <text x="20" y="30" font-size="16" fill="#222">字符串 ababc 的最近相同字符与贡献</text>
+  <g font-size="16" fill="#222">
+    <text x="40" y="80">下标</text>
+    <text x="120" y="80">0</text>
+    <text x="180" y="80">1</text>
+    <text x="240" y="80">2</text>
+    <text x="300" y="80">3</text>
+    <text x="360" y="80">4</text>
+    <text x="40" y="110">字符</text>
+    <text x="120" y="110">a</text>
+    <text x="180" y="110">b</text>
+    <text x="240" y="110">a</text>
+    <text x="300" y="110">b</text>
+    <text x="360" y="110">c</text>
+    <text x="40" y="140">L[i]</text>
+    <text x="120" y="140">-1</text>
+    <text x="180" y="140">-1</text>
+    <text x="240" y="140">0</text>
+    <text x="300" y="140">1</text>
+    <text x="360" y="140">-1</text>
+    <text x="40" y="170">R[i]</text>
+    <text x="120" y="170">2</text>
+    <text x="180" y="170">3</text>
+    <text x="240" y="170">5</text>
+    <text x="300" y="170">5</text>
+    <text x="360" y="170">5</text>
+    <text x="40" y="200">贡献</text>
+    <text x="120" y="200">2</text>
+    <text x="180" y="200">4</text>
+    <text x="240" y="200">6</text>
+    <text x="300" y="200">4</text>
+    <text x="360" y="200">5</text>
+  </g>
+  <g stroke="#888" stroke-width="1">
+    <line x1="100" y1="60" x2="100" y2="220"/>
+    <line x1="160" y1="60" x2="160" y2="220"/>
+    <line x1="220" y1="60" x2="220" y2="220"/>
+    <line x1="280" y1="60" x2="280" y2="220"/>
+    <line x1="340" y1="60" x2="340" y2="220"/>
+    <line x1="400" y1="60" x2="400" y2="220"/>
+  </g>
+  <text x="20" y="250" font-size="15" fill="#444">总和 = 2+4+6+4+5 = 21</text>
+</svg>

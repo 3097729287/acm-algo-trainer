@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="345" viewBox="0 0 760 345" role="img" aria-labelledby="title"><title id="title">买油付费，行驶扣油；相同城市不同油量是不同状态</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">买油付费，行驶扣油；相同城市不同油量是不同状态</text>
+<rect x="40" y="115" width="145" height="65" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="112.5" y="154.5" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">(A,0)</text>
+<rect x="225" y="115" width="145" height="65" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="297.5" y="154.5" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">(A,1)</text>
+<rect x="410" y="115" width="145" height="65" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="482.5" y="154.5" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">(A,2)</text>
+<rect x="595" y="115" width="145" height="65" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="667.5" y="154.5" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">(B,0)</text>
+<line x1="185" y1="147" x2="220" y2="147" stroke="#bc3645" stroke-width="4"/>
+<line x1="220" y1="147" x2="212" y2="141" stroke="#bc3645" stroke-width="3"/>
+<line x1="220" y1="147" x2="212" y2="153" stroke="#bc3645" stroke-width="3"/>
+<text x="200" y="100" fill="#bc3645" font-size="18" text-anchor="middle" font-weight="normal">买一：5</text>
+<line x1="370" y1="147" x2="405" y2="147" stroke="#bc3645" stroke-width="4"/>
+<line x1="405" y1="147" x2="397" y2="141" stroke="#bc3645" stroke-width="3"/>
+<line x1="405" y1="147" x2="397" y2="153" stroke="#bc3645" stroke-width="3"/>
+<text x="385" y="100" fill="#bc3645" font-size="18" text-anchor="middle" font-weight="normal">买一：5</text>
+<line x1="555" y1="147" x2="590" y2="147" stroke="#bc3645" stroke-width="4"/>
+<line x1="590" y1="147" x2="582" y2="141" stroke="#bc3645" stroke-width="3"/>
+<line x1="590" y1="147" x2="582" y2="153" stroke="#bc3645" stroke-width="3"/>
+<text x="570" y="100" fill="#bc3645" font-size="18" text-anchor="middle" font-weight="normal">走长二：0</text>
+<text x="60" y="245" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">容量至少二，A 城每单位油价五；这条路线总费用十</text>
+<text x="60" y="305" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">到 A 城但油为零时，还不能执行最后那次行驶</text>
+</g></svg>

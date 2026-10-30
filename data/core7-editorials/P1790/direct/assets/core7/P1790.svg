@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="425" viewBox="0 0 760 425" role="img" aria-labelledby="title"><title id="title">在格点上走割线：这一条隔出右上角一格</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">在格点上走割线：这一条隔出右上角一格</text>
+<rect x="270" y="85" width="90" height="90" rx="7" fill="#dff0fc" stroke="#2365ab" stroke-width="2"/>
+<text x="315.0" y="137.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="360" y="85" width="90" height="90" rx="7" fill="#fff2b8" stroke="#2365ab" stroke-width="2"/>
+<text x="405.0" y="137.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="270" y="175" width="90" height="90" rx="7" fill="#dff0fc" stroke="#2365ab" stroke-width="2"/>
+<text x="315.0" y="227.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="360" y="175" width="90" height="90" rx="7" fill="#dff0fc" stroke="#2365ab" stroke-width="2"/>
+<text x="405.0" y="227.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="270" y="265" width="90" height="90" rx="7" fill="#dff0fc" stroke="#2365ab" stroke-width="2"/>
+<text x="315.0" y="317.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<rect x="360" y="265" width="90" height="90" rx="7" fill="#dff0fc" stroke="#2365ab" stroke-width="2"/>
+<text x="405.0" y="317.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<circle cx="270" cy="85" r="4" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<circle cx="360" cy="85" r="4" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<circle cx="450" cy="85" r="4" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<circle cx="270" cy="175" r="4" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<circle cx="360" cy="175" r="4" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<circle cx="450" cy="175" r="4" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<circle cx="270" cy="265" r="4" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<circle cx="360" cy="265" r="4" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<circle cx="450" cy="265" r="4" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<circle cx="270" cy="355" r="4" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<circle cx="360" cy="355" r="4" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<circle cx="450" cy="355" r="4" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<line x1="360" y1="85" x2="360" y2="175" stroke="#bc3645" stroke-width="7"/>
+<line x1="360" y1="175" x2="450" y2="175" stroke="#bc3645" stroke-width="7"/>
+<circle cx="360" cy="85" r="18" fill="#fff" stroke="#bc3645" stroke-width="3"/>
+<text x="360" y="92" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">起</text>
+<circle cx="450" cy="175" r="18" fill="#fff" stroke="#bc3645" stroke-width="3"/>
+<text x="450" y="182" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">终</text>
+<text x="40" y="245" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">黄色一格连通</text>
+<text x="40" y="285" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">蓝色五格连通</text>
+<text x="475" y="235" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">两部分都接触</text>
+<text x="475" y="275" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">原矩形外边界</text>
+<text x="60" y="405" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">红线走的是小格的边，灰点是转弯格点；反过来走仍是同一分法</text>
+</g></svg>
