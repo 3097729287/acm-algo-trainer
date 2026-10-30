@@ -181,9 +181,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex: 0 0 auto;
+  flex: 0 0 44px;
   gap: 8px;
-  min-height: 34px;
+  height: 44px;
+  min-height: 44px;
+  box-sizing: border-box;
+  flex-wrap: nowrap;
   padding: 4px 13px;
   color: var(--muted);
   background: var(--panel-2);
@@ -802,8 +805,7 @@
 .wb-official-status span { color: var(--muted); overflow-wrap: anywhere; }
 .wb-official-actions { display: flex; flex-wrap: wrap; gap: 6px; }
 .wb-official-status .wb-poll-error { width: 100%; margin: 0; }
-.wb-statement-pane > .wb-pane-header { flex-wrap: wrap; }
-.wb-statement-actions { display: flex; flex: 1; flex-wrap: wrap; justify-content: flex-end; align-items: center; min-width: 0; gap: 6px 10px; }
+.wb-statement-actions { display: flex; flex: 0 0 auto; flex-wrap: nowrap; justify-content: flex-end; align-items: center; min-width: 0; gap: 6px 10px; }
 .wb-font-controls { display: inline-flex; align-items: center; gap: 1px; flex-shrink: 0; padding: 1px; border: 1px solid var(--line); border-radius: 5px; }
 .wb-font-controls button, .wb-font-controls select { height: 25px; padding: 2px 4px; color: var(--muted); background: transparent; border: 0; border-radius: 3px; font-size: 12px; }
 .wb-font-controls button { min-width: 25px; }
@@ -842,14 +844,7 @@
 @media (max-width: 800px) { .wb-case-outputs { grid-template-columns: minmax(0, 1fr); } .wb-run-toolbar select { width: 115px; } }
 /* Text actions keep their words intact even in a narrow split pane. */
 .wb-language-toggle,.wb-language-toggle button,.wb-statement-actions>a {flex-shrink:0;white-space:nowrap;word-break:keep-all;overflow-wrap:normal}
-.wb-statement-actions {flex-basis:max-content}
 .wb-statement-actions>a {display:inline-flex;align-items:center;gap:4px}
-.wb-statement-pane {container-type:inline-size;container-name:statement-pane}
-@container statement-pane (max-width:680px) {
- .wb-statement-pane>.wb-pane-header {flex-wrap:wrap;height:auto}
- .wb-statement-pane > .wb-pane-header > .wb-toolbar {width:100%;min-width:0}
- .wb-statement-actions {flex:0 0 100%;flex-wrap:wrap;justify-content:flex-end;min-width:0}
-}
 
 .wb-templates-overlay {z-index:180}.wb-templates-modal {width:min(1200px,94vw);height:86vh;max-width:none;position:relative;display:flex;flex-direction:column;padding:0}.wb-templates-close {position:absolute;top:8px;right:10px;z-index:2}.wb-templates-modal .template-heading {padding-right:28px}.wb-templates-modal .template-tools {padding-right:28px}
 
@@ -865,8 +860,8 @@
 .wb-compact-toolbar>strong {flex:1;min-width:40px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.9rem}
 .wb-compact-toolbar .wb-icon-button {width:34px;height:34px;color:var(--text)}
 .mock-focus .wb-compact-toolbar .wb-pane-buttons {display:flex}
-.wb-compact .wb-statement-pane .wb-toolbar>.wb-icon-button:first-child {display:none}
-.wb-compact .wb-editor-header {flex-wrap:wrap;height:auto;min-height:42px}
+.wb-compact .wb-statement-pane>.wb-merged-header>.wb-back-button {display:none}
+.wb-compact .wb-editor-header {flex:0 0 auto;flex-wrap:wrap;height:auto;min-height:42px}
 .wb-compact .wb-editor-actions {margin-left:auto}
 .wb-compact .wb-save-state {margin-left:auto}
 .wb-compact .wb-body {display:flex;grid-template-rows:none}
@@ -889,7 +884,7 @@
 .wb-pane-header :is(.tb-select,.initial-code-trigger) {height:var(--wb-control-height);min-height:var(--wb-control-height)}
 .wb-pane-header .tb-select select {height:var(--wb-control-height);min-height:var(--wb-control-height);padding-block:3px}
 .wb-statement-actions,.wb-editor-actions,.wb-editor-header {gap:6px}
-.wb-editor-header {flex-wrap:wrap;height:auto}
+.wb-editor-header {flex-wrap:nowrap}
 .wb-editor-header>span:first-child {flex:none}
 .wb-editor-header>span:first-child .tb-select-wrap {width:90px;flex:none}
 .wb-font-controls {padding:0;height:var(--wb-control-height);box-sizing:border-box;border:0;gap:2px}
@@ -898,8 +893,25 @@
 .wb-font-controls .bounded-number>span {right:4px;font-size:10px;line-height:1}
 .wb-save-state {display:inline-flex;align-items:center;min-height:var(--wb-control-height)}
 .wb-save-toast {position:fixed;bottom:28px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;z-index:1000;padding:10px 16px;border:1px solid var(--line);border-radius:8px;background:var(--panel);box-shadow:0 6px 24px #0002;color:var(--success)}
-html .tb-workbench .wb-merged-header {position:relative}
-html .tb-workbench .wb-merged-header .wb-toolbar {padding-left:30px}
-html .tb-workbench .wb-merged-header .wb-toolbar>.wb-back-button {position:absolute;left:0;top:0;z-index:2;width:44px;min-width:44px;height:44px;min-height:44px;padding:0;border-radius:0}
+html .tb-workbench .wb-merged-header {position:relative;padding-left:48px}
+html .tb-workbench .wb-merged-header .wb-toolbar {padding-left:0}
+/* The back button must stay outside the title's overflow clip. */
+html .tb-workbench .wb-merged-header>.wb-back-button {position:absolute;left:0;top:0;bottom:0;z-index:2;width:44px;min-width:44px;height:100%;min-height:44px;padding:0;border-radius:0}
 html .tb-workbench .wb-compact-toolbar {position:relative;padding-left:48px}
 html .tb-workbench .wb-compact-toolbar>.wb-back-button {position:absolute;left:0;top:0;bottom:0;width:44px;min-width:44px;height:100%;min-height:42px;padding:0;border-radius:0}
+
+/* Both panes share one toolbar row, including at Windows display scaling. */
+html .tb-workbench:not(.wb-compact) .wb-pane-header {height:44px;min-height:44px;flex:0 0 44px;flex-wrap:nowrap;box-sizing:border-box}
+html .tb-workbench:not(.wb-compact) .wb-merged-header>.wb-toolbar {width:auto;min-width:0;flex:1 1 0}
+html .tb-workbench:not(.wb-compact) .wb-statement-actions {flex:0 0 auto;flex-wrap:nowrap;min-width:0}
+html .tb-workbench:not(.wb-compact) .wb-editor-header {justify-content:flex-start;min-width:0}
+html .tb-workbench:not(.wb-compact) .wb-editor-header>.initial-code-trigger {flex:0 1 auto;min-width:40px;max-width:140px}
+html .tb-workbench:not(.wb-compact) .wb-editor-header>.wb-save-state {flex:0 1 auto;min-width:0;max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html .tb-workbench:not(.wb-compact) .wb-editor-actions {flex:0 0 auto;margin-left:auto}
+.wb-code-pane {container-type:inline-size;container-name:code-pane}
+@container code-pane (max-width:380px) {
+ .wb-editor-header>span:first-child>svg {display:none}
+ .wb-editor-header>span:first-child .tb-select-wrap {width:80px}
+ .wb-editor-header {padding-inline:8px;gap:4px}
+ .wb-editor-actions {gap:4px}
+}

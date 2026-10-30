@@ -9,9 +9,14 @@ import {submissionQuery} from '../src/lib/submissionPages.js';
 const cases=[];
 for(const {id}of PLATFORM_REGISTRY){
  const row={id:id+'::fixture',platform:id,title:'A',contest:'CCPC 2026 隔离省赛',series:'XCPC',eventYear:2026,url:id==='QOJ'?'https://qoj.ac/problem/18307':undefined};
- assert(matchesShelf(row,id));assert(matchesShelf(row,'xcpc'));
- assert(catalogPathMatches(row,[id]));assert(catalogPathMatches(row,['XCPC','省赛']));
- assert.equal(catalogEntries([row],[id]).flatMap(entry=>entry.items).filter(item=>item.id===row.id).length,1);
+ const original=JSON.stringify(row);
+ assert(!matchesShelf(row,id));assert(matchesShelf(row,'xcpc'));
+ assert(!catalogPathMatches(row,[id]));assert(catalogPathMatches(row,['XCPC','省赛']));
+ assert.equal(catalogEntries([row],[id]).length,0);
+ assert.equal(catalogPaths(row).length,1);
+ assert.equal(rowPlatform(row),id);assert.equal(JSON.stringify(row),original,'Classification never rewrites original identity or platform');
+ const regular={...row,contest:'普通练习赛 1',series:id};
+ assert(matchesShelf(regular,id));assert(!matchesShelf(regular,'XCPC'));assert(catalogPathMatches(regular,[id]));
  assert(platformInfo(id).nativeSubmit);cases.push(id);
 }
 const future={id:'future::A',platform:'FutureJudge',contest:'独立杯',title:'A',url:'https://future.invalid/problem/1'};
@@ -34,10 +39,14 @@ assert.deepEqual(platformTrainingLists([futureList],[future])[0].topicPath,['Fut
 const raw=JSON.parse(await readFile(new URL('../../data/library/problems.json',import.meta.url),'utf8')).map(item=>item.encoded||item);
 const qoj=raw.filter(row=>row.platform==='QOJ');assert.equal(qoj.length,65,'Audit the unchanged public QOJ inventory');
 assert(qoj.every(row=>new URL(row.url).hostname==='qoj.ac'&&/^\/problem\/\d+\/?$/.test(new URL(row.url).pathname)));
-for(const row of qoj){assert(catalogPathMatches(row,['QOJ']));assert(catalogPathMatches(row,['XCPC']));}
+for(const row of qoj){assert(!catalogPathMatches(row,['QOJ']));assert(catalogPathMatches(row,['XCPC']));}
 assert.equal(new Set(qoj.map(row=>row.url)).size,65);
-const qojEntries=catalogEntries(raw,['QOJ']);assert.equal(new Set(qojEntries.flatMap(entry=>entry.items.map(row=>row.id))).size,65);
+const qojEntries=catalogEntries(qoj,['XCPC']);assert.equal(new Set(qojEntries.flatMap(entry=>entry.items.map(row=>row.id))).size,65);
 const events=qoj.map(row=>({...row,name:row.contest,count:13}));
-assert(contestOptions(events).some(node=>node.label==='QOJ'));
+assert(!contestOptions(events).some(node=>node.label==='QOJ'));assert(contestOptions(events).some(node=>node.label==='XCPC'));
+for(const contest of ['ICPC 2026 区域赛','CCPC 2026 省赛','2026 大学生邀请赛']){
+ const row={platform:'牛客',contest};assert(catalogPathMatches(row,['XCPC']));assert(!catalogPathMatches(row,['牛客']));
+}
+assert(!matchesShelf({platform:'洛谷',contest:'蓝桥杯 2026 省赛',series:'蓝桥杯'},'XCPC'),'Lanqiao retains its separate competition category');
 assert.equal(catalogPaths(future).length,1);
 console.log(JSON.stringify({ok:true,existingPlatforms:cases,qojOriginals:qoj.length,futureDisplayOnly:true,categoryAndSourceIndependent:true,unchangedOriginalUrls:true}));

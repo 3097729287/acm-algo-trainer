@@ -1,6 +1,7 @@
 export const NAVIGATION_ORDER=Object.freeze(['mine','library','training-lists','competitions','mock','growth','records','activity','rankings','paths','templates','lectures']);
 
 const previousDefaults=[
+ ['training-lists'],
  ['mine','library','training-lists','competitions','mock','rankings','growth','records','paths','templates','lectures','activity'],
  ['mine','library','training-lists','competitions','mock','paths','rankings','growth','records','activity','lectures'],
  ['mine','library','training-lists','competitions','mock','paths','rankings','growth','records','activity','lectures','templates'],

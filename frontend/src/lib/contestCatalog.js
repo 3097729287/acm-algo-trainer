@@ -36,8 +36,9 @@ export function catalogSegments(row) {
 // Event types are exclusive: an invitation/provincial must not appear among regionals.
 export function catalogPaths(row){
  const path=catalogSegments(row),platform=rowPlatform(row);
- // Keep every saved event-category path; also expose its actual hosting platform.
- return platform&&path[0]!==platform&&(path[0]==='XCPC'||path[0].startsWith('蓝桥杯'))
+ // XCPC is a platform-independent event category. Hosting provenance stays on
+ // the problem for source filters, original links and the submit adapter.
+ return platform&&path[0]!==platform&&path[0].startsWith('蓝桥杯')
   ?[path,[platform,...path.slice(1)]]:[path];
 }
 export function normalizeCatalogPath(path=[]) {

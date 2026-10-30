@@ -1,7 +1,8 @@
 import {normalizePlatform,rowPlatform} from './platformRegistry.js';
+import {catalogSegments} from './contestCatalog.js';
 
 export function isXcpc(row) {
-  return row.series === 'XCPC' || /ICPC|CCPC|XCPC|ACM|区域赛|邀请赛|省赛|网络(?:预选)?赛|分区赛|大学生.*程序设计/i.test(row.contest || row.name || '');
+  return catalogSegments(row)[0] === 'XCPC';
 }
 export function contestKind(row) {
   const name = `${row.contest || row.name || ''} ${row.contestFullName || ''} ${row.examStage || ''}`;
@@ -22,8 +23,7 @@ export function contestKind(row) {
 export const CONTEST_KINDS = [['invitational','邀请赛'],['provincial','省赛'],['online','网络赛'],['subregional','分区赛'],['regional','区域赛'],['finals','总决赛'],['final','决赛'],['preliminary','初赛'],['warmup','热身赛'],['educational','教育赛'],['beginner','入门赛'],['weekly','周赛'],['other','其他']];
 export function matchesShelf(row, shelf = 'all') {
   if (!shelf || shelf === 'all') return true;
-  if (shelf === 'xcpc' || shelf === 'ACM') return isXcpc(row);
+  if (shelf === 'xcpc' || shelf === 'XCPC' || shelf === 'ACM') return isXcpc(row);
   if (shelf === 'lanqiao') return /^蓝桥杯/.test(row.series || row.contest || row.name || '');
-  // Source platform and event type are independent browsing axes.
-  return rowPlatform(row) === normalizePlatform(shelf);
+  return !isXcpc(row) && rowPlatform(row) === normalizePlatform(shelf);
 }

@@ -109,7 +109,7 @@ try {
  for(const width of [1280,1600,2048]){await page.setViewportSize({width,height:900});await checkOverflow();const tiles=await page.locator('.settings-home-grid [role=tab]').evaluateAll(nodes=>nodes.map(node=>({width:node.clientWidth,height:node.clientHeight})));assert(tiles.every(tile=>tile.width>130&&tile.height>=100));}
  await page.screenshot({path:'tests/screenshots/v130-settings.png'});
  await nav('题库').click();assert.equal(await page.getByLabel('逐层浏览题库',{exact:true}).count(),0);
- const classifications=await page.evaluate(async()=>{const {matchesShelf}=await import('/src/lib/contestShelves.js');const row={platform:'Codeforces',series:'XCPC',contest:'ICPC 2025 区域赛'};return [matchesShelf(row,'Codeforces'),matchesShelf(row,'xcpc')];});assert.deepEqual(classifications,[true,true]);
+ const classifications=await page.evaluate(async()=>{const {matchesShelf}=await import('/src/lib/contestShelves.js');const row={platform:'Codeforces',series:'XCPC',contest:'ICPC 2025 区域赛'};return [matchesShelf(row,'Codeforces'),matchesShelf(row,'xcpc')];});assert.deepEqual(classifications,[false,true]);
  await page.locator('.problem-table tr[data-id] .problem-title').first().click();await page.locator('.cm-editor').waitFor();
  await page.getByRole('combobox',{name:'编程语言',exact:true}).selectOption('python3');await page.getByRole('textbox',{name:'Python 代码',exact:true}).waitFor();
  await page.screenshot({path:'tests/screenshots/v130-python.png'});

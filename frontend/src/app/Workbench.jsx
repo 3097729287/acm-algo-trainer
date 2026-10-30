@@ -845,8 +845,9 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
 
     <div className="wb-body">
       <div className="wb-statement-pane">
-        <div className="wb-pane-header wb-merged-header"><div className="wb-toolbar">
+        <div className="wb-pane-header wb-merged-header">
       <button type="button" className="wb-icon-button wb-back-button" onClick={exit} title={runningContest ? '返回工作台（比赛继续计时）' : '返回列表'} aria-label={runningContest ? '返回工作台' : '返回列表'}><ArrowLeft size={17} /></button>
+      <div className="wb-toolbar">
       {headerStart}
       <div className="wb-heading">
         {slot && !headerStart && <span className="wb-letter">{slot.letter}</span>}

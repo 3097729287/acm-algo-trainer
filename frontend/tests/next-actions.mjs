@@ -54,15 +54,19 @@ window.fixtureUnmount=()=>root.unmount();root.render(React.createElement(App));
 window.fixtureNextActions=true;
 `;
 const html=`<!doctype html><html><head><meta charset="utf-8"><style>
-:root{font-size:15px;--panel:#191d25;--text:#e3e8ed;--muted:#a8b2c1;--line:#35414e;--accent:#72d3be;--accent-soft:#263e3e}
+:root{font-size:15px;--panel:#191d25;--panel-base:#191d25;--text:#e3e8ed;--muted:#a8b2c1;--line:#35414e;--accent:#72d3be;--accent-soft:#263e3e}
+:root[data-theme=light]{--panel-base:#f7f9fc;--text:#172431;--muted:#526170;--line:#cad4de;--accent:#267a6c;--accent-soft:#dfefe9}
 *{box-sizing:border-box}body{margin:0;background:#11151b;color:var(--text)}
 button,input{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
 header{display:flex;gap:12px;align-items:center;padding:10px}
 header>input{flex:1 1 250px;min-width:30px;background:#232730;height:40px}
 .fixture-metrics{flex:0 0 160px}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.fixture-underlay{display:none;position:fixed;inset:90px 0 0;z-index:110;background:repeating-linear-gradient(0deg,#365b5b 0 1px,#191d25 1px 24px);color:white;font-size:22px}
+body[data-underlay=true] .fixture-underlay{display:block}
+#outside{position:relative;z-index:111}
 @media(max-width:600px){.fixture-metrics{flex-basis:65px}}
-</style></head><body><div id="root"></div><button id="outside">外部按钮</button>
+</style></head><body><div id="root"></div><button id="outside">外部按钮</button><div class="fixture-underlay">Underlying page content / 下层题单内容</div>
 <script type="module" src="/@id/virtual:next-actions.jsx"></script></body></html>`;
 const vite=await createServer({
   root:frontend,configFile:path.join(frontend,'vite.config.js'),
@@ -196,8 +200,10 @@ try{
   await page.evaluate(()=>window.fixtureUpdate({}));
 
   phase='viewport-and-motion';
-  for(const font of [15,22])for(const width of [2048,1440,1294,960,430]){
+  await page.evaluate(()=>document.body.dataset.underlay='true');
+  for(const theme of ['dark','light'])for(const font of [15,22])for(const width of [2048,1440,1294,960,430]){
     await page.setViewportSize({width,height:800});
+    await page.evaluate(theme=>document.documentElement.dataset.theme=theme,theme);
     await page.evaluate(size=>document.documentElement.style.fontSize=size+'px',font);
     await hover();
     const box=await popup().boundingBox();
@@ -208,24 +214,33 @@ try{
     const alignment=await page.evaluate(()=>{
       const first=document.querySelector('.next-actions-primary'),others=[...document.querySelectorAll('.next-actions-item')];
       return [first,...others].map(node=>{
-        const icon=node.querySelector(':scope>svg'),text=node.querySelector('strong'),style=getComputedStyle(node);
+        const icon=node.querySelector(':scope>svg'),text=node.querySelector('strong'),arrow=node.classList.contains('next-actions-item')?node.querySelector(':scope>svg:last-child'):null,style=getComputedStyle(node);
         return {iconX:icon&&getComputedStyle(icon).display!=='none'?icon.getBoundingClientRect().x:null,textX:text.getBoundingClientRect().x,
+          arrowRight:arrow?.getBoundingClientRect().right??null,
           background:style.backgroundColor,borders:[style.borderTopWidth,style.borderRightWidth,style.borderBottomWidth,style.borderLeftWidth],shadow:style.boxShadow};
       });
     });
     for(const item of alignment){
-      assert(item.background==='rgba(0, 0, 0, 0)'&&item.borders.every(value=>parseFloat(value)===0)&&item.shadow==='none','Each recommendation stays transparent and borderless: '+JSON.stringify({width,font,item}));
+      assert(item.borders.every(value=>parseFloat(value)===0)&&item.shadow==='none','Rows share the popup border and shadow: '+JSON.stringify({width,font,item}));
       assert(Math.abs(item.textX-alignment[0].textX)<.75,'Primary and expanded task text share the same horizontal start: '+JSON.stringify({width,font,alignment}));
       if(item.iconX!==null&&alignment[0].iconX!==null)assert(Math.abs(item.iconX-alignment[0].iconX)<.75,'Recommendation icons share the same horizontal start');
     }
-    for(const element of [root,popup()])assert(await element.evaluate(node=>{
+    const arrows=alignment.filter(item=>item.arrowRight!==null);assert(arrows.every(item=>Math.abs(item.arrowRight-arrows[0].arrowRight)<.75),'Trailing arrows align');
+    assert(await root.evaluate(node=>{
       const style=getComputedStyle(node);return style.backgroundColor==='rgba(0, 0, 0, 0)'&&parseFloat(style.borderWidth)===0&&style.boxShadow==='none';
-    }),'Neither the primary control nor its expanded list introduces a panel background or border');
-    report.geometry.push({width,font,bounds:box,alignment});
+    }),'The closed primary control retains its compact styling');
+    const readability=await popup().evaluate(node=>{
+      const style=getComputedStyle(node),item=node.querySelector('button'),r=item.getBoundingClientRect(),hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);
+      return {background:style.backgroundColor,opacity:style.opacity,border:parseFloat(style.borderWidth),shadow:style.boxShadow,hit:node.contains(hit)};
+    });
+    assert.equal(readability.background,theme==='dark'?'rgb(25, 29, 37)':'rgb(247, 249, 252)','The menu has an opaque theme background');
+    assert.equal(readability.opacity,'1');assert.equal(readability.border,1);assert.notEqual(readability.shadow,'none');assert(readability.hit,'The actual menu stays above the underlying page');
+    report.geometry.push({width,font,theme,bounds:box,alignment,readability});
     await popup().locator('li').evaluateAll(nodes=>Promise.all(nodes.flatMap(node=>node.getAnimations().map(animation=>animation.finished))));
-    await page.screenshot({path:path.join(output,`${width}-${font}.png`)});
+    await page.screenshot({path:path.join(output,`${width}-${font}-${theme}.png`)});
     await page.keyboard.press('Escape');
   }
+  await page.evaluate(()=>{delete document.body.dataset.underlay;document.documentElement.dataset.theme='dark';});
   await page.emulateMedia({reducedMotion:'reduce'});await hover();
   assert(await popup().locator('li').evaluateAll(nodes=>nodes.every(node=>getComputedStyle(node).animationName==='none')));
 
@@ -282,13 +297,14 @@ try{
     await touchPrimary.tap();await touchPopup.waitFor();
     await touch.touchscreen.tap(425,790);assert.equal(await touch.locator('.next-actions-popover').count(),0);
     const pen=await touch.context().newCDPSession(touch),penBox=await touchPrimary.boundingBox(),penPoint={x:penBox.x+penBox.width/2,y:penBox.y+penBox.height/2,pointerType:'pen'};
+    await touch.evaluate(()=>{window.penEvents=[];for(const type of ['pointerover','pointerenter','pointerdown','pointerup','click','focusin','focusout'])document.addEventListener(type,event=>{window.penEvents.push({type,pointer:event.pointerType,target:event.target.className,expanded:document.querySelector('.next-actions')?.dataset.open});},true);});
     await pen.send('Input.dispatchMouseEvent',{type:'mouseMoved',...penPoint});
     const beforePen=await touch.evaluate(()=>window.fixtureEvents.length);
     await pen.send('Input.dispatchMouseEvent',{type:'mousePressed',...penPoint,button:'left',buttons:1,clickCount:1});
     await pen.send('Input.dispatchMouseEvent',{type:'mouseReleased',...penPoint,button:'left',buttons:0,clickCount:1});await pen.detach();
     assert.equal(await touch.evaluate(()=>window.fixtureEvents.length),beforePen+1,'Pen click enters the primary task directly');
     assert.deepEqual(await touch.evaluate(()=>window.fixtureEvents.at(-1)),{train:'B'});
-    await touchPopup.waitFor({state:'detached',timeout:1000});
+    await touchPopup.waitFor({state:'detached',timeout:1000}).catch(async error=>{console.log('PEN TRACE',JSON.stringify(await touch.evaluate(()=>window.penEvents)));throw error;});
     assert.equal(await touchPopup.count(),0);
     report.touchCompatibility={...touchCompatibility,menuSurvivedAnimationAndCloseBudget:true,secondaryTapNavigated:true,penClickNavigated:true};
   }finally{await touchContext.close();}
@@ -303,7 +319,7 @@ try{
   assert.deepEqual(errors,[]);assert.deepEqual(unknown,[]);
   assert(requests.includes('/api/training-lists')&&requests.includes('/api/templates'));
   Object.assign(report,{ok:true,hoverBridge:true,realTaskHover:true,mouseLeaveWithin180ms:true,mouseLeaveWithRetainedFocus:true,keyboardInternalFocusKeepsOpen:true,independentNavigation:true,keyboard:true,outsideClose:true,
-    touch:true,suspended:true,openChange:true,unmountCloses:true,reducedMotion:true,reasonTooltips:true,allTasksDirect:true,primaryNotRepeated:true,alignedToWholeControl:true,alignedIconsAndText:true,transparentBorderless:true,noSeparateChevron:true,noPrimaryArrow:true,realOfficialSubmissionsSent:0});
+    touch:true,suspended:true,openChange:true,unmountCloses:true,reducedMotion:true,reasonTooltips:true,allTasksDirect:true,primaryNotRepeated:true,alignedToWholeControl:true,alignedIconsTextAndArrows:true,opaqueThemedPopup:true,subtleBorderAndShadow:true,aboveUnderlyingContent:true,noSeparateChevron:true,noPrimaryArrow:true,realOfficialSubmissionsSent:0});
   console.log(JSON.stringify({ok:true,geometryCases:report.geometry.length,report:path.join(output,'report.json')}));
 }catch(error){
   report.failure={phase,message:error.message};

@@ -11,6 +11,7 @@ const errors=[],unknown=[];page.on('pageerror',error=>errors.push(error.message)
 await page.addInitScript(()=>{window.__tbNewAccount=new URL(location.href).searchParams.get('newAccount')==='1';});
 let owner='c3e5d799-502a-4b4f-a864-a342f7db419e';const now=new Date().toISOString();
 let held=true,resume=[];let level=12,revision=0,draft='',sampleRequested=false,officialRequested=false,preferences={theme:'dark',accent:'teal',fontSize:15,onboardingGuideVersion:2,onboardingCompleted:true,onboardingUnlockedPages:availablePages(11),levelNoticeVersion:1,levelNoticeSeen:100,levelNoticePending:0};
+preferences.navOrder=['training-lists'];
 let preferenceSaveFailures=0,preferenceSaveAttempts=0;
 const rows=Array.from({length:20},(_,i)=>({id:'fixture::'+i,title:'完整练习 '+i,contest:'1024数学专场考核',problem:String.fromCharCode(65+i),platform:'牛客',series:'牛客',url:'https://ac.nowcoder.com/acm/contest/142622/'+String.fromCharCode(65+i),difficulty:1000,difficultySource:'fixture',difficultyConfidence:'HIGH',tags:[i<10?'枚举':'素数'],contestProblemCount:20,catalogContentReady:true,solutionAvailable:true}));
 for(const prefix of ['ICPC','CCPC'])rows.push({id:prefix,contest:prefix+' 2026 中国区域赛',title:prefix+'练习',problem:'A',platform:'Codeforces',series:'XCPC',url:'https://codeforces.com/gym/'+(prefix==='ICPC'?'101':'102')+'/problem/A',difficulty:2000,tags:['树'],contestProblemCount:1,catalogContentReady:true});
@@ -37,7 +38,7 @@ await page.route('**/api/**',async route=>{
  else if(path==='training-list-likes')value={likes:[]};
  else if(path==='templates')value={templates:[]};
  else if(path==='training/start')value={workspace};
- else if(path==='problem')value={...rows.find(row=>row.id===url.searchParams.get('id')),id:url.searchParams.get('id'),markdown:'# 基础练习\n\n输入两个整数，输出它们的和。',samples:[{name:'样例 1',input:'1 2\n',output:'3\n'}],limits:{timeMs:2000,memoryMb:256},judge:{scope:'samples',cases:1},locked:false,statementAvailable:true,draft,submissions:[]};
+ else if(path==='problem')value={...rows.find(row=>row.id===url.searchParams.get('id')),id:url.searchParams.get('id'),markdown:'# Maximize the Score\n\nRead two integers and print their sum.',samples:[{name:'样例 1',input:'1 2\n',output:'3\n'}],limits:{timeMs:2000,memoryMb:256},judge:{scope:'samples',cases:1},locked:false,statementAvailable:true,draft,submissions:[]};
  else if(path==='draft'){draft=route.request().postDataJSON().code;value={savedAt:now};}
  else if(path==='submissions'&&route.request().method()==='POST'){sampleRequested=route.request().postDataJSON().sampleRun;value={submission:{id:'sample-1',problemId:rows[0].id,mode:'run',verdict:'QUEUED',scope:'samples',finishedAt:null,submittedAt:now}};}
  else if(path==='submission')value={submission:{id:'sample-1',problemId:rows[0].id,mode:'run',sampleRun:true,verdict:'SAMPLE_PASS',scope:'samples',finishedAt:now,submittedAt:now,passed:1,total:1,caseResults:[{name:'样例 1',input:'1 2\n',expected:'3\n',actual:'3\n',verdict:'SAMPLE_PASS',timeMs:2,exitCode:0}]},workspace};
@@ -61,6 +62,7 @@ try {
  held=true;await page.reload();await nav().getByRole('button',{name:'成长',exact:true}).waitFor();
  assert.equal(await nav().getByRole('button').count(),12,'Restart paints the last confirmed complete navigation before insights arrives');
  assert.equal(await page.locator('.navigation-pending').count(),0);release();await settled();
+ assert.deepEqual((await nav().getByRole('button').allTextContents()).slice(0,4),['我的训练','题库','题单','比赛'],'The shipped singleton preference migrates to the requested default order');
  await page.setViewportSize({width:1440,height:600});
  await nav().getByRole('button',{name:'比赛',exact:true}).click();
  await page.getByRole('button',{name:'查看 牛客 1024数学专场考核，20 道题',exact:true}).click();
@@ -68,9 +70,36 @@ try {
  await page.screenshot({path:`${save}/contest-detail.png`});
  await detail().evaluate(node=>node.scrollTop=node.scrollHeight);const before=await detail().evaluate(node=>node.scrollTop);assert(before>0);
  await page.getByRole('button',{name:'练习 T 完整练习 19',exact:true}).click();await page.locator('.cm-content').waitFor();
- await page.getByRole('button',{name:'返回列表',exact:true}).click();await detail().waitFor();
+ const fontSize=page.getByRole('spinbutton',{name:'题面字号',exact:true});
+ await fontSize.fill('32');await fontSize.press('Tab');
+ const toolbarGeometry=[];
+ for(const font of [13,18,22])for(const width of [2048,1440,1280,1050,1000,960]){
+  await page.setViewportSize({width,height:800});await page.evaluate(value=>document.documentElement.style.fontSize=value+'px',font);
+  await page.waitForFunction(()=>!document.querySelector('.tb-workbench').classList.contains('wb-compact'));
+  const geometry=await page.locator('.wb-body').evaluate(body=>{
+   const rect=node=>{const r=node.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height,right:r.right,bottom:r.bottom};};
+   return [...body.querySelectorAll(':scope>.wb-statement-pane>.wb-pane-header,:scope>.wb-code-pane>.wb-pane-header')].map(header=>({header:rect(header),controls:[...header.querySelectorAll('button,input,select,a')].filter(node=>node.getClientRects().length).map(node=>({label:node.getAttribute('aria-label')||node.textContent,rect:rect(node)}))}));
+  });
+  assert.equal(geometry.length,2);assert(Math.abs(geometry[0].header.y-geometry[1].header.y)<.5&&Math.abs(geometry[0].header.height-geometry[1].header.height)<.5,'Both full-App toolbars share one row: '+JSON.stringify({font,width,geometry}));
+  for(const {header,controls} of geometry)for(const {label,rect} of controls)assert(rect.y>=header.y-.5&&rect.bottom<=header.bottom+.5&&rect.x>=header.x-.5&&rect.right<=header.right+.5,'Toolbar controls fit their actual pane: '+JSON.stringify({font,width,label,rect,header}));
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
+  toolbarGeometry.push({font,width,panes:geometry.map(item=>item.header)});
+ }
+ await page.setViewportSize({width:1440,height:600});await page.evaluate(()=>document.documentElement.style.fontSize='15px');
+ await page.screenshot({path:`${save}/workbench-aligned-32px.png`});
+ await page.locator('.cm-content').fill('// corner-return draft\nint main() { return 0; }');
+ for(const compact of [false,true]){
+  if(compact){await page.getByRole('button',{name:'练习 T 完整练习 19',exact:true}).click();await page.locator('.cm-content').waitFor();await page.setViewportSize({width:430,height:800});await page.locator('.wb-compact-toolbar').waitFor();}
+  const back=page.getByRole('button',{name:'返回列表',exact:true});
+  const corner=await back.evaluate(button=>{const rect=button.getBoundingClientRect(),points=[{x:rect.left+1,y:rect.top+1},{x:rect.right-1,y:rect.bottom-1}];return {points,hits:points.map(p=>button.contains(document.elementFromPoint(p.x,p.y)))};});
+  assert(corner.hits.every(Boolean),'Both corners of the actual full-App return button accept pointer clicks: '+JSON.stringify(corner));
+  await page.mouse.click(corner.points[0].x,corner.points[0].y);await detail().waitFor();
+  await page.waitForFunction(()=>!document.querySelector('.tb-workbench'));
+  if(!compact){assert.equal(await detail().locator('h2').innerText(),'1024数学专场考核');assert(Math.abs(await detail().evaluate(node=>node.scrollTop)-before)<2,'The same contest and scroll position survive actual App workbench unmount');}
+  assert.equal(draft,'// corner-return draft\nint main() { return 0; }','Returning retains the exact user draft');
+ }
+ await page.setViewportSize({width:1440,height:600});
  assert.equal(await detail().locator('h2').innerText(),'1024数学专场考核');
- assert(Math.abs(await detail().evaluate(node=>node.scrollTop)-before)<2,'The same contest and scroll position survive actual App workbench unmount');
  assert.equal(await page.locator('.competition-question button button').count(),0,'Knowledge and practice controls are valid sibling buttons');
  await detail().evaluate(node=>node.scrollTop=0);
  await page.locator('.competition-tag').filter({hasText:'枚举'}).first().focus();await page.keyboard.press('Enter');
@@ -106,6 +135,6 @@ try {
  release();await settled();assert.deepEqual(await nav().getByRole('button').allTextContents(),['我的训练','题单','提交记录']);
  await page.reload();await settled();assert.equal(await nav().getByRole('button').count(),3,'Real Lv1 gates remain intact');
  assert.deepEqual(errors,[]);assert.deepEqual(unknown,[]);
- const report={ok:true,unknownLevelDoesNotShowLv1:true,restartCompleteMenu:true,accountIsolation:true,actualAppContestReturn:true,detailScrollRestored:true,keyboardKnowledgeFilter:true,knowledgeCount:10,catalogGeometry:geometry,errors,unknown,officialSubmissionsSent:0};
+ const report={ok:true,unknownLevelDoesNotShowLv1:true,restartCompleteMenu:true,legacySidebarOrder:true,accountIsolation:true,actualAppContestReturn:true,fullAppReturnCorners:true,returnDraftPreserved:true,toolbarGeometry,detailScrollRestored:true,keyboardKnowledgeFilter:true,knowledgeCount:10,catalogGeometry:geometry,errors,unknown,officialSubmissionsSent:0};
  await writeFile(`${save}/report.json`,JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));
 } catch(error){console.error(JSON.stringify({errors,unknown,body:(await page.locator('body').innerText()).slice(0,1800)}));throw error;}finally{release();await browser.close();await vite.close();}
