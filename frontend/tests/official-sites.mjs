@@ -64,6 +64,48 @@ try{
   await pending.page.waitForFunction(()=>posts.length===1);
   assert.equal(await pending.page.evaluate(()=>posts[0]['cf-turnstile-response']),'fixture-site-token');
   await pending.page.close();result.atcoderVerificationBeforeDispatch=true;
+  const mounting=await fixture('AtCoder');
+  await mounting.page.evaluate(()=>{
+    ctx.nativeFormOnly=true;
+    document.querySelector('[name="data.LanguageId"]').innerHTML='<option value="">Loading</option>';
+    document.querySelector('[name="csrf_token"]').value='';
+    tbOfficialPage(ctx,'submit',report);
+  });
+  await mounting.page.waitForFunction(()=>messages.some(m=>m.status==='loading'&&m.attempted===false));
+  assert.equal(await mounting.page.evaluate(()=>posts.length),0,'A mounting language control never causes an early click');
+  await mounting.page.evaluate(()=>{
+    document.querySelector('[name="data.LanguageId"]').innerHTML='<option value="java">Java 21</option><option value="54">GNU C++17</option>';
+    document.querySelector('[name="csrf_token"]').value='fixture-csrf';
+    document.body.insertAdjacentHTML('afterbegin','<form style="display:none"><select name="data.LanguageId"><option value="99">GNU C++17</option></select><textarea name="sourceCode"></textarea></form>');
+    const source=document.querySelector('form:not([style]) textarea');source.style.display='none';source.insertAdjacentHTML('afterend','<div class="CodeMirror" style="height:100px"></div>');
+    tbOfficialPage(ctx,'submit',report);
+  });
+  await mounting.page.waitForFunction(()=>!window.__tbSubmissionWork.submitting);
+  assert.equal(await mounting.page.evaluate(()=>posts.length),0,'A visible editor shell without its native API is not ready');
+  await mounting.page.evaluate(()=>{document.querySelector('form:not([style]) textarea').style.display='';document.querySelector('.CodeMirror').remove();tbOfficialPage(ctx,'submit',report)});
+  await mounting.page.waitForFunction(()=>posts.length===1);
+  assert.equal(await mounting.page.evaluate(()=>posts[0]['data.LanguageId']),'54','Only the actual submission form language is selected');
+  await mounting.page.evaluate(()=>{ctx.attempted=false;tbOfficialPage(ctx,'submit',report);tbOfficialPage(ctx,'submit',report)});
+  await mounting.page.waitForTimeout(100);assert.equal(await mounting.page.evaluate(()=>posts.length),1,'A stale caller cannot repeat a checkpointed native click');
+  await mounting.page.close();result.atcoderDelayedNativeFormAndScopedCompiler=true;
+  const manual=await fixture('AtCoder');
+  await manual.page.evaluate(()=>{ctx.nativeFormOnly=true;document.querySelector('textarea').value=ctx.code;tbOfficialPage(ctx,'inspect',report)});
+  await manual.page.waitForFunction(()=>window.__tbSubmissionWork.snapshot?.baselineKnown);
+  // A real native submit event reaches the observer after the site's own form
+  // handler; the fixture prevents the default navigation only afterwards.
+  await manual.page.evaluate(()=>{const form=document.querySelector('form');form.onsubmit=null;form.addEventListener('submit',event=>event.preventDefault());form.requestSubmit()});
+  await manual.page.waitForFunction(()=>messages.some(m=>m.status==='submitted'&&m.attempted===true&&m.baselineKnown));
+  manual.setPosted();await manual.page.evaluate(()=>tbOfficialPage(ctx,'inspect',report));
+  await manual.page.waitForFunction(()=>messages.some(m=>m.submissionId==='2002'&&m.verdict==='AC'));
+  await manual.page.close();result.atcoderNativeManualSubmitReceipt=true;
+  const edited=await fixture('AtCoder');
+  await edited.page.evaluate(()=>{ctx.nativeFormOnly=true;document.querySelector('textarea').value='int changed_on_site(){}';tbOfficialPage(ctx,'inspect',report)});
+  await edited.page.waitForFunction(()=>window.__tbSubmissionWork.snapshot?.baselineKnown);
+  await edited.page.evaluate(()=>{const form=document.querySelector('form');form.onsubmit=null;form.addEventListener('submit',event=>event.preventDefault());form.requestSubmit()});
+  await edited.page.waitForFunction(()=>messages.some(m=>m.status==='unconfirmed'&&m.attempted===true&&m.baselineKnown===false));
+  edited.setPosted();await edited.page.evaluate(()=>tbOfficialPage(ctx,'inspect',report));await edited.page.waitForTimeout(100);
+  assert.equal(await edited.page.evaluate(()=>messages.some(m=>m.verdict==='AC')),false,'A manually changed source must not be credited to the original code');
+  await edited.page.close();result.atcoderChangedManualSourceNotMisattributed=true;
   const expiring=await fixture('AtCoder',empty,400);
   await expiring.page.evaluate(()=>{
     document.querySelector('form').insertAdjacentHTML('beforeend','<div class="cf-turnstile"><iframe src="/challenge-fixture"></iframe><input type="hidden" name="cf-turnstile-response" value="fixture-site-token"></div>');

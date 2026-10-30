@@ -22,11 +22,27 @@ if(host.__tbSubmissionWork?.key!==pageKey)host.__tbSubmissionWork?.observer?.dis
 const work=host.__tbSubmissionWork?.key===pageKey?host.__tbSubmissionWork:(host.__tbSubmissionWork={key:pageKey,preparing:null,snapshot:null,polling:false,nextPoll:0});
 if(work.retry!==(ctx.retry||0)){
 work.retry=ctx.retry||0;
+if(ctx.platform==='AtCoder'&&ctx.nativeFormOnly&&!ctx.attempted)work.attempted=false;
 // Clear a rejected request only on the user's next explicit Submit click.
 // Inspection, opening verification, and receiving a token never resubmit.
 for(const receipt of [ncReceipt,lgReceipt])if(!ctx.attempted&&!receipt?.pending&&['needs_verification','needs_login','error'].includes(receipt?.receipt?.status))receipt.receipt=null;
 }
-function acSubmitForm(){return editors().map(e=>e.closest('form')).find(Boolean)||document.querySelector('form[action$="/submit"]');}
+if(ctx.platform==='AtCoder'&&ctx.nativeFormOnly&&(ctx.attempted||work.attempted))ctx.attempted=work.attempted=true;
+function acSubmitForm(){return editors().map(e=>e.form||e.closest('form')).find(form=>visible(form))||[...document.querySelectorAll('form[action$="/submit"]')].find(visible);}
+function acLanguageSelect(form){return form&&[...form.elements].find(e=>e.tagName==='SELECT'&&visible(e.parentElement)&&/language|lang/i.test((e.name||'')+' '+(e.id||'')));}
+function acEditorReady(form){
+if(!form)return false;
+return editors().some(e=>e.form===form&&visible(e))
+||[...form.querySelectorAll('.CodeMirror')].some(e=>visible(e)&&typeof e.CodeMirror?.setValue==='function')
+||[...form.querySelectorAll('.ace_editor')].some(e=>visible(e)&&typeof window.ace?.edit==='function')
+||[...form.querySelectorAll('.monaco-editor')].some(e=>visible(e)&&window.monaco?.editor?.getModels?.().some(model=>!model.isDisposed()))
+||[...form.querySelectorAll('.cm-editor .cm-content')].some(e=>visible(e)&&codeMirrorView(e)?.state?.doc&&typeof codeMirrorView(e)?.dispatch==='function');
+}
+function acFormPending(){
+if(ctx.platform!=='AtCoder'||ctx.attempted)return false;
+const form=acSubmitForm(),language=acLanguageSelect(form);
+return !form||!acEditorReady(form)||!language||language.disabled||![...language.options].some(option=>!option.disabled&&option.value&&option.value!=='0')||!form.querySelector('[name="csrf_token"]')?.value.trim();
+}
 function acVerificationState(){
 if(ctx.platform!=='AtCoder')return null;
 const form=acSubmitForm(),widget=form?.querySelector('.cf-challenge,.cf-turnstile'),token=form?.querySelector('[name="cf-turnstile-response"]');
@@ -115,10 +131,28 @@ return {baseline:[],baselineKnown:false,baselineOwner:''};
 return work.preparing;
 }
 function receiptValue(receipt){return {status:receipt.verdict==='JUDGING'?'judging':'finished',submissionId:receipt.id,...(receipt.verdict==='JUDGING'?{}:{verdict:receipt.verdict}),message:receipt.verdict==='JUDGING'?'原站已接收，正在评测。':'本次提交结果：'+receipt.verdict};}
+function observeAtCoderForm(){
+if(ctx.platform!=='AtCoder'||!ctx.nativeFormOnly||ctx.attempted)return;
+const form=acSubmitForm();if(!form)return;
+prepare();
+if(work.nativeForm===form)return;
+work.nativeForm=form;
+form.addEventListener('submit',event=>{
+  // A native site handler can reject the form before a request is sent.
+  if(event.defaultPrevented||work.attempted||ctx.attempted)return;
+  const snapshot=work.snapshot;
+  work.attempted=ctx.attempted=true;
+  const submittedCode=[...form.elements].find(e=>e.tagName==='TEXTAREA'&&/source|code|editor/i.test((e.name||'')+' '+(e.id||'')))?.value;
+  if(!snapshot?.baselineKnown||submittedCode!==ctx.code){ctx.baselineKnown=false;send({status:'unconfirmed',attempted:true,baselineKnown:false,message:'尚未收到原站受理编号，正在后台查询。'});return;}
+  Object.assign(ctx,snapshot);
+  send({status:'submitted',attempted:true,...snapshot,message:'已在官网提交，正在读取原站结果。'});
+});
+}
 function inspect(){
 lgReceipt?.inspectRejection?.();
 if(login()||cfLoggedOut()||luoguLoggedOut()||lgReceipt?.loggedOut()||ncReceipt?.loggedOut?.()||(ctx.platform==='牛客'&&window.globalInfo?.ownerId!=null&&Number(window.globalInfo.ownerId)<=0))return {status:'needs_login',...(!ctx.attempted?{attempted:false}:{}),message:ctx.resumeAfterLogin?'请在弹出的浏览器登录原站，登录后会自动填码并继续本次提交。':'请在浏览器登录原站，然后核对本次提交状态。'};
 if(verification())return {status:'needs_verification',...(!ctx.attempted?{attempted:false}:{}),message:ctx.resumeAfterLogin?'请在弹出的浏览器完成原站验证，完成后会继续本次提交。':'请在浏览器完成原站验证，然后回到 TB 查看状态。'};
+observeAtCoderForm();
 // Some native logins return to the site home page instead of the submit URL.
 // Only a positive account marker may resume this unsent submission there.
 if(ctx.resumeAfterLogin&&!ctx.attempted&&!hasEditor()){
@@ -132,6 +166,7 @@ const errors=[...document.querySelectorAll('.alert-danger,.has-error .help-block
 if(errors.length)return {status:'error',attempted:false,message:'AtCoder 未受理代码：'+errors.join('；').slice(0,200)};
 }
 const acVerification=acVerificationState();if(acVerification)return acVerification;
+if(acFormPending())return {status:'loading',attempted:false,message:'正在加载原站提交表单。'};
 if(ncReceipt?.receipt)return ncReceipt.receipt;
 if(lgReceipt?.receipt)return lgReceipt.receipt;
 if(lgReceipt&&!ctx.attempted)lgReceipt.prepare();
@@ -149,6 +184,7 @@ if(!ctx.attempted&&hasEditor()&&['Codeforces','AtCoder'].includes(ctx.platform))
 return (ctx.platform==='洛谷'?(ctx.nativeFormOnly?hasReadyEditor():lgReceipt?.hasSubmitApi()):hasEditor())?{status:ctx.attempted?'submitted':'ready',message:ctx.attempted?'已发送原站提交请求，正在等待受理编号。':'后台连接已就绪。'}:{status:ctx.attempted?'submitted':'loading',message:ctx.attempted?'尚未收到原站受理编号，正在后台查询。':ctx.platform==='洛谷'&&ctx.nativeFormOnly?'正在等待洛谷代码编辑器加载，尚未发送代码。':'正在准备原站提交接口。'};
 }
 async function submit(manual=false){
+if(ctx.attempted)return send(inspect());
 if(manual&&work.manualFilled)return send({status:'awaiting_submit',message:'代码已填入浏览器，请在官网点击提交。结果会自动同步到 TB。'});
 const state=inspect();if(state.status==='needs_login'||!manual&&(['needs_verification'].includes(state.status)||ctx.platform==='AtCoder'&&['loading','error'].includes(state.status)))return send(state);
 if(!manual&&ctx.nativeFormOnly&&ctx.platform==='洛谷'&&state.status==='loading')return send(state);
@@ -160,7 +196,9 @@ document.querySelectorAll('select').forEach(s=>{const field=(s.name||s.id||'').t
 if(['牛客','洛谷'].includes(ctx.platform))task=location.pathname===new URL(ctx.originalUrl).pathname;
 if(ncReceipt?.isGlobalTarget())task=ncReceipt.pageMatches();
 if(!task)return send({status:'error',attempted:false,message:'未能准确选定本题，已停止；请在原站确认题目。'});
-const compiler=await selectOfficialCompiler(ctx.code,ctx.platform,ctx.language || 'cpp17');
+const compilerForm=ctx.platform==='AtCoder'?acSubmitForm():document;
+if(ctx.platform==='AtCoder'&&(!compilerForm||acFormPending()))return send({status:'loading',attempted:false,message:'正在加载原站提交表单。'});
+const compiler=await selectOfficialCompiler(ctx.code,ctx.platform,ctx.language || 'cpp17',compilerForm);
 if(!compiler)return send({status:'error',attempted:false,message:ctx.language==='python3'?'没有找到 Python 3 / PyPy 3，请在原站确认语言后重试。':'没有找到支持当前代码的 C++17 / C++20 / C++23 编译器，请在原站确认语言后重试。'});
 if(!manual&&!ctx.nativeFormOnly&&ctx.language!=='python3'&&ncReceipt?.hasLegacyApi())return ncReceipt.submitLegacy(compiler,checkpoint);
 editors().forEach(e=>{Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,'value').set.call(e,ctx.code);e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));filled++;});
@@ -172,7 +210,7 @@ work.manualFilled=true;
 const snapshot=await prepare();
 if(snapshot)Object.assign(ctx,snapshot);
 // Keep the user's native form, CSRF and verification behavior. Never click it.
-const form=editors().map(e=>e.closest('form')).find(Boolean);
+const form=ctx.platform==='AtCoder'?acSubmitForm():editors().map(e=>e.closest('form')).find(Boolean);
 form?.addEventListener('submit',()=>{ctx.attempted=true;const submittedCode=editors().map(e=>e.value).find(v=>v.trim())||'';postMessage({tbOfficial:true,sessionId:ctx.sessionId,status:'submitted',attempted:true,submittedCode,...(snapshot||{}),message:'已在官网提交，正在读取原站结果。'});},{once:true});
 if(ncReceipt)ncReceipt.armed=true;if(lgReceipt)lgReceipt.armed=true;
 return send({status:'awaiting_submit',...(snapshot||{}),message:'代码已填入浏览器，请在官网点击提交。结果会自动同步到 TB。'});
@@ -183,7 +221,11 @@ if(['Codeforces','AtCoder'].includes(ctx.platform)&&!baselineKnown)return send({
 // is in flight. Recheck this form immediately before the dispatch checkpoint.
 const verificationAfterPreparation=acVerificationState();if(verificationAfterPreparation)return send(verificationAfterPreparation);
 const submitForm=f=>f&&[...f.elements].some(e=>e.tagName==='SELECT'&&/language|programType/i.test((e.name||'')+' '+(e.id||'')))&&(f.querySelector('.CodeMirror,.cm-editor,.ace_editor,.monaco-editor')||editors().some(e=>e.form===f));
-const form=editors().map(e=>e.form||e.closest('form')).find(submitForm)||[...document.forms].find(submitForm);
+const form=ctx.platform==='AtCoder'?acSubmitForm():editors().map(e=>e.form||e.closest('form')).find(submitForm)||[...document.forms].find(submitForm);
+if(ctx.platform==='AtCoder'){
+const language=acLanguageSelect(form);
+if(form!==compilerForm||acFormPending()||!compilerCandidate(language?.selectedOptions[0]?.textContent,ctx.code,ctx.platform,ctx.language||'cpp17'))return send({status:'loading',attempted:false,message:'正在加载原站提交表单。'});
+}
 if(ctx.platform==='AtCoder'&&form&&!form.checkValidity())return send({status:'error',attempted:false,message:'AtCoder 提交表单未通过校验，尚未发送代码；请检查原站题目和语言选择。'});
 // Use DOM form ownership, including external controls and default-type buttons.
 // CF also uses an input[type=button].submit with its own native click handler.
@@ -208,6 +250,7 @@ if(ncReceipt){ncReceipt.armed=true;ncReceipt.pending=null;ncReceipt.receipt=null
 if(lgReceipt){lgReceipt.armed=true;lgReceipt.pending=null;lgReceipt.receipt=null;}
 // Persist the pre-submit snapshot before a native form can navigate away.
 // Browser transport acknowledges this checkpoint; WebView transport is immediate.
+ctx.attempted=true;if(ctx.platform==='AtCoder'&&ctx.nativeFormOnly)work.attempted=true;
 await postMessage({tbOfficial:true,sessionId:ctx.sessionId,status:'submitted',message:'已选择 '+compiler.label+'，正在操作原站表单，尚未确认受理。',compiler:compiler.label,baseline,baselineKnown,baselineOwner,attempted:true});button.click();return {status:'submitted'};
 }
 // Native verdict cells update independently of our fallback inspection timer.
@@ -226,7 +269,7 @@ if(typeof MutationObserver!=='undefined'&&!work.observer&&document.documentEleme
 }
 if(action==='observe')return null;
 if(action==='prepare'){if(!work.filling){work.filling=true;submit(true).catch(e=>send({status:'awaiting_submit',message:'请在官网检查代码并提交；'+String(e).slice(0,120)})).finally(()=>{work.filling=false});}return null;}
-if(action==='submit'){submit().catch(e=>send({status:ctx.attempted?'unconfirmed':'error',attempted:!!ctx.attempted,message:ctx.attempted?'原站响应中断，正在核对记录，请勿重复提交。':'表单操作未完成，尚未发送代码：'+String(e).slice(0,160)}));return {status:'loading'};}
+if(action==='submit'){if(!work.submitting){work.submitting=true;submit().catch(e=>send({status:ctx.attempted?'unconfirmed':'error',attempted:!!ctx.attempted,message:ctx.attempted?'原站响应中断，正在核对记录，请勿重复提交。':'表单操作未完成，尚未发送代码：'+String(e).slice(0,160)})).finally(()=>{work.submitting=false;});}return {status:'loading'};}
 const state=inspect();
 if(ctx.attempted&&ncReceipt)ncReceipt.poll();
 if(ctx.attempted&&lgReceipt)lgReceipt.poll();

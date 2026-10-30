@@ -1,0 +1,2 @@
+html .lesson-learned-toggle {display:inline-flex;align-items:center;justify-content:center;flex:none;color:var(--muted);border:1px solid transparent;}
+html .lesson-learned-toggle[aria-pressed="true"] {color:var(--accent);background:var(--accent-soft);border-color:var(--accent);}

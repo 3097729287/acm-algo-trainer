@@ -4,6 +4,7 @@ Schedules and rosters are public catalogue data, independent of account sessions
 No authentication, submission, editorial disclosure, or speculative task creation.
 """
 import hashlib
+import json
 import re
 
 import public_platforms as P
@@ -17,6 +18,36 @@ SCHOOL_CONTESTS = (
     {'id': 'nowcoder:142622', 'platform': 'nowcoder', 'title': '1024数学专场考核',
      'url': 'https://ac.nowcoder.com/acm/contest/142622', 'schoolTraining': True},
 )
+
+
+class StartedContestClient:
+    """Recheck public availability while retaining source pacing/access backoff.
+
+    A successful HTTP 200 can contain a pre-start empty roster or login notice.
+    Such cached responses must not hide tasks after the source publishes them.
+    Complete statements are retained separately and are never refetched here.
+    """
+    def __init__(self, client):
+        self.client = client
+
+    def __getattr__(self, name):
+        return getattr(self.client, name)
+
+    def _fresh(self, name, *args, **kwargs):
+        method = getattr(self.client, 'fresh_' + name, None) or getattr(self.client, name)
+        return method(*args, **kwargs)
+
+    def text(self, *args, **kwargs):
+        return self._fresh('text', *args, **kwargs)
+
+    def json(self, *args, **kwargs):
+        return self._fresh('json', *args, **kwargs)
+
+    def bytes(self, *args, **kwargs):
+        return self._fresh('bytes', *args, **kwargs)
+
+    def contest_problems(self, *args, **kwargs):
+        return self._fresh('contest_problems', *args, **kwargs)
 
 
 def roster(client, event):
@@ -61,11 +92,21 @@ def roster(client, event):
         result = client.json('https://ac.nowcoder.com/acm/contest/problem-list?token=&id=' + cid)
         if result.get('code') != 0:
             raise ValueError('原站题单尚未公开或需要报名')
-        for task in (result.get('data') or {}).get('data') or []:
+        payload = result.get('data') or {}
+        tasks = payload.get('data') or []
+        basic = payload.get('basicInfo') or {}
+        if basic.get('contestId') is not None and str(basic['contestId']) != cid:
+            raise ValueError('原站比赛编号与请求不一致')
+        expected = P.integer(basic.get('problemCount'))
+        if expected is not None and expected != len(tasks):
+            raise ValueError('原站完整题单尚未公开，请稍后重试')
+        for task in tasks:
             index = str(task.get('index') or '')
             if not re.fullmatch(r'[A-Z][0-9]?', index):
                 continue
             rows.append(P.row(platform, contest, index, task['title'], f'https://ac.nowcoder.com/acm/contest/{cid}/{index}', None, '原站未提供可靠数值难度'))
+        if len(rows) != len(tasks):
+            raise ValueError('原站题单尚未完整识别，请稍后重试')
     elif platform == 'luogu':
         if not cid.isdigit():
             raise ValueError('洛谷比赛编号无效')
@@ -97,7 +138,8 @@ def roster(client, event):
 
 def import_contest(service, event):
     """Publish complete roster with truthful per-task availability, idempotently."""
-    rows = roster(service.client, event)
+    client = StartedContestClient(service.client)
+    rows = roster(client, event)
     ready, errors = 0, []
     for row in rows:
         if service.stop.is_set():
@@ -106,7 +148,7 @@ def import_contest(service, event):
         statement = load_document(path, {})
         if not content_ready(statement):
             try:
-                statement = P.statement(service.client, row['id'], row['title'], row['url'])
+                statement = P.statement(client, row['id'], row['title'], row['url'])
                 if not content_ready(statement):
                     raise ValueError('题面与样例尚未完整公开')
                 save_document(path, statement)
@@ -120,15 +162,21 @@ def import_contest(service, event):
     with service.lock:
         if service.closed:
             raise RuntimeError('应用正在关闭，稍后继续')
+        merged_rows = []
         for row in rows:
             old = service.state['rows'].get(row['id'], {})
             # Do not discard later ratings, local supplementation, or first-added dates.
             merged = {**old, **row}
+            if row['catalogContentReady'] and merged.get('statementNotice') == '原站题面尚未公开或需要在原站报名':
+                merged.pop('statementNotice', None)
             if row.get('difficulty') is None:
                 for key in ('difficulty', 'difficultySource', 'difficultyEvidence', 'difficultyEstimated'):
                     if key in old:
                         merged[key] = old[key]
             service.state['rows'][row['id']] = merged
+            merged_rows.append(merged)
         service._save()
     return {'status': 'ready' if ready == len(rows) else 'partial', 'total': len(rows),
-            'ready': ready, 'title': rows[0]['contest'], 'error': '；'.join(errors)[:350]}
+            'ready': ready, 'title': rows[0]['contest'], 'error': '；'.join(errors)[:350],
+            'problemIds': [row['id'] for row in rows],
+            'catalogRevision': hashlib.sha256(json.dumps(merged_rows, sort_keys=True, ensure_ascii=False).encode()).hexdigest()}

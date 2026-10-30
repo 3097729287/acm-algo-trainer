@@ -17,6 +17,7 @@ const counts={cf:0,ac:0,nc:0,lg:0}, reads={cf:0,ac:0};
 const cfHeader='<header id="header"><a href="/profile/fixture">fixture</a></header>';
 const acHeader='<nav class="navbar"><a href="/users/fixture">fixture</a></nav>';
 let acAuthenticated=false;
+let acTokenExpiredDuringPreparation=false;
 const row=(key,id,verdict)=>`<table class="status-frame-datatable"><tr><th>Submission</th><th>Status</th></tr><tr><td><a href="${key==='cf'?'/contest/123/submission/':'/contests/abc100/submissions/'}${id}">${id}</a><a href="${key==='cf'?'/contest/123/problem/A':'/contests/abc100/tasks/abc100_a'}">A</a><a href="${key==='cf'?'/profile/fixture':'/users/fixture'}">fixture</a><span class="${key==='cf'?'submissionVerdictWrapper':'label'}">${verdict}</span></td></tr></table>`;
 async function until(read,accept,timeout=30000){const deadline=Date.now()+timeout;let last;while(Date.now()<deadline){last=await read();if(accept(last))return last;await new Promise(r=>setTimeout(r,150));}throw new Error('Condition timed out: '+JSON.stringify(last));}
 try{
@@ -30,11 +31,25 @@ try{
   if(request.method()==='POST'){
    counts[key]++;
    const body=request.postData();assert.ok(body.includes('int+main')||body.includes('int main')||body.includes('int%20main'));
+   if(key==='ac'){
+    const fields=new URLSearchParams(body);assert.equal(fields.get('language'),'54');assert.equal(fields.get('csrf_token'),'site-native-token');
+    assert.equal(fields.get('cf-turnstile-response'),'renewed-fixture-token','The same intent resumes after the native verification token is renewed');
+   }
    if(key==='cf'||key==='ac')return route.fulfill({contentType:'text/html',body:(key==='cf'?cfHeader:acHeader)+row(key,key==='cf'?1002:2002,'TESTING')});
    return route.fulfill({contentType:'application/json',body:JSON.stringify(key==='nc'?{code:0,data:{submissionId:3001}}:{rid:4001})});
   }
   if(key==='cf'&&url.pathname==='/api/user.status')return route.fulfill({contentType:'application/json',body:JSON.stringify({status:'OK',result:counts.cf?[{id:1002,verdict:++reads.cf>1?'OK':'TESTING',problem:{contestId:123,index:'A'},author:{members:[{handle:'fixture'}]}}]:[]})});
-  if((key==='cf'&&url.pathname.endsWith('/my'))||(key==='ac'&&url.pathname.endsWith('/submissions/me')))return route.fulfill({contentType:'text/html',body:(key==='cf'?cfHeader:acHeader)+(counts[key]?row(key,key==='cf'?1002:2002,++reads[key]>1?'AC':'TESTING'):'<table><tr><th>Submission</th><th>Status</th></tr></table>')});
+  if((key==='cf'&&url.pathname.endsWith('/my'))||(key==='ac'&&url.pathname.endsWith('/submissions/me'))){
+   if(key==='ac'&&!counts.ac&&!acTokenExpiredDuringPreparation){
+    acTokenExpiredDuringPreparation=true;
+    await request.frame().evaluate(()=>{
+     setTimeout(()=>{document.querySelector('[name="cf-turnstile-response"]').value=''},60);
+     setTimeout(()=>{document.querySelector('[name="cf-turnstile-response"]').value='renewed-fixture-token'},900);
+    });
+    await new Promise(resolve=>setTimeout(resolve,400));
+   }
+   return route.fulfill({contentType:'text/html',body:(key==='cf'?cfHeader:acHeader)+(counts[key]?row(key,key==='cf'?1002:2002,++reads[key]>1?'AC':'TESTING'):'<table><tr><th>Submission</th><th>Status</th></tr></table>')});
+  }
   if(key==='nc'&&url.pathname==='/status')return route.fulfill({contentType:'application/json',body:JSON.stringify({code:0,data:{submissionId:3001,status:5}})});
   if(key==='lg'&&url.pathname.startsWith('/record/'))return route.fulfill({contentType:'application/json',body:JSON.stringify({data:{record:{id:4001,problem:{pid:'P1000'},user:{uid:123},status:12}}})});
   const task=key==='ac'?'abc100_a':'A';
@@ -44,7 +59,8 @@ try{
   const editor=key==='lg'?'<div id="native-editor"></div>':'<textarea name="source"></textarea>';
   const delayedMount=key==='lg'?`<script>${editorSource}</script><script>setTimeout(mountLuoguEditor,700)</script>`:'';
   const form=key==='lg'?`<div class="body">${combo.html}${editor}<button id="native-submit" type="button">提交评测</button></div>`:`<form method="post"><input type="hidden" name="csrf_token" value="site-native-token"><select name="${key==='ac'?'data.TaskScreenName':'submittedProblemIndex'}"><option value="${task}">${task}</option></select><select name="${key==='cf'?'programTypeId':'language'}"><option value="54">GNU C++17</option></select>${editor}<button type="submit">${key==='nc'?'提交':'Submit'}</button></form>`;
-  return route.fulfill({contentType:'text/html; charset=utf-8',body:(key==='cf'?cfHeader:key==='ac'?acHeader:'')+metadata+form+delayedMount+nativeScript});
+  const acMount=key==='ac'?`<script>const form=document.querySelector('form');form.insertAdjacentHTML('beforeend','<div class="cf-turnstile"><input name="cf-turnstile-response" type="hidden" value="initial-fixture-token"></div>');const language=form.querySelector('[name="language"]');language.innerHTML='<option value="">Loading</option>';setTimeout(()=>language.innerHTML='<option value="java">Java 21</option><option value="54">GNU C++17</option>',40)</script>`:'';
+  return route.fulfill({contentType:'text/html; charset=utf-8',body:(key==='cf'?cfHeader:key==='ac'?acHeader:'')+metadata+form+delayedMount+nativeScript+acMount});
  });
  server=spawn(process.env.TB_PYTHON||(process.platform==='win32'?'python':'python3'),['desktop/tests/external_server.py'],{cwd:root,env:{...process.env,TB_OFFLINE:'1',TB_EXTERNAL_FIXTURE_PROFILE:profile,PYTHONIOENCODING:'utf-8'},windowsHide:true});
  let stderr='';server.stderr.on('data',b=>stderr+=b);
@@ -73,5 +89,6 @@ try{
 
  }
  assert.equal(browser.serviceWorkers().length,0,'No browser extension is installed');
- console.log(JSON.stringify({ok:true,nativeFormPosts:counts,receiptSavedForAllFour:true,loginHomeRedirectResumesSameIntent:true,browserExtension:false,realAccountSubmission:false}));
+ assert(acTokenExpiredDuringPreparation);
+ console.log(JSON.stringify({ok:true,nativeFormPosts:counts,receiptSavedForAllFour:true,loginHomeRedirectResumesSameIntent:true,atcoderNativeLanguageMount:true,atcoderExpiredTokenResumesSameIntent:true,browserExtension:false,realAccountSubmission:false}));
 }finally{server?.kill();await browser?.close();assert.ok(path.basename(profile).startsWith('tb-external-fixture-'));await rm(profile,{recursive:true,force:true});}

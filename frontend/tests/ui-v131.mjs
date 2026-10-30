@@ -189,8 +189,29 @@ try{
  const ranking=await own.evaluate(row=>{const bounds=selector=>row.querySelector(selector).getBoundingClientRect(),self=row.getBoundingClientRect(),identity=bounds('.ranking-identity'),place=bounds('.ranking-place'),count=bounds('.ranking-count'),social=bounds('.ranking-social-cell');return {left:identity.left-self.left,place:place.width,right:self.right-count.right,gap:count.left-social.right,social:social.width};});
  assert(ranking.left<=ranking.place+10,JSON.stringify(ranking));assert.equal(ranking.gap,0);assert(ranking.social<=135);assert(ranking.right<=1);
  assert.equal((await own.locator('.profile-avatar-button').boundingBox()).width,76);assert.equal((await own.locator('.ranking-medal').boundingBox()).height,52);
- await page.locator('.social-activity').waitFor();assert.equal(await page.locator('.social-activity>div').count(),1);assert.equal(await page.locator('.social-activity').getByText('昨日用户').count(),0);
- await shot('rankings');await nav('题库').click();await nav('排行榜').click();assert.equal(await page.locator('.social-activity').count(),1);
+ assert.equal(await page.locator('.social-activity').count(),0,'The leaderboard has no separate public activity panel');
+ const rankingAppearance=await page.evaluate(()=>({theme:document.documentElement.dataset.theme,fontSize:document.documentElement.style.fontSize,uiFontSize:document.documentElement.style.getPropertyValue('--ui-font-size')})),rankingGeometry=[];
+ for(const width of [1600,430])for(const fontSize of [15,18])for(const theme of ['dark','light']){
+  await page.setViewportSize({width,height:1000});
+  await page.evaluate(({fontSize,theme})=>{document.documentElement.dataset.theme=theme;document.documentElement.style.fontSize=fontSize+'px';document.documentElement.style.setProperty('--ui-font-size',fontSize+'px');},{fontSize,theme});
+  await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+  const geometry=await page.locator('.rankings-page').evaluate(node=>{
+   const box=element=>{const r=element.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,height:r.height};},panel=node.querySelector('.progress-section'),list=node.querySelector('.progress-table-scroll'),workspace=node.closest('.workspace-area'),p=getComputedStyle(panel),w=getComputedStyle(workspace),bounds=box(workspace);
+   return {root:box(node),list:box(list),panel:box(panel),panelBottom:panel.getBoundingClientRect().bottom-parseFloat(p.paddingBottom)-parseFloat(p.borderBottomWidth),workspaceLeft:bounds.left+parseFloat(w.paddingLeft)+parseFloat(w.borderLeftWidth),workspaceRight:bounds.right-parseFloat(w.paddingRight)-parseFloat(w.borderRightWidth),workspaceBottom:bounds.bottom-parseFloat(w.paddingBottom)-parseFloat(w.borderBottomWidth),outerScroll:node.scrollHeight-node.clientHeight,panelScroll:panel.scrollHeight-panel.clientHeight,documentOverflow:document.documentElement.scrollWidth-innerWidth};
+  });
+  assert(geometry.list.height>0&&Math.abs(geometry.list.bottom-geometry.panelBottom)<1,'The ranking list fills the panel below the header: '+JSON.stringify({width,fontSize,theme,geometry}));
+  assert(Math.abs(geometry.root.left-geometry.workspaceLeft)<1&&Math.abs(geometry.root.right-geometry.workspaceRight)<1&&Math.abs(geometry.root.bottom-geometry.workspaceBottom)<1,'The board aligns with the workspace edges: '+JSON.stringify({width,fontSize,theme,geometry}));
+  assert(geometry.outerScroll<=1&&geometry.panelScroll<=1&&geometry.documentOverflow<=1,'Only the ranking list scrolls within the page: '+JSON.stringify({width,fontSize,theme,geometry}));
+  if(width===430){
+   const columns=await page.locator('.ranking-table tbody tr').evaluateAll(rows=>rows.map(row=>{const social=row.querySelector('.ranking-social-cell').getBoundingClientRect(),avatar=row.querySelector('.profile-avatar-button').getBoundingClientRect(),nickname=row.querySelector('.profile-nickname').getBoundingClientRect(),message=row.querySelector('.ranking-message')?.getBoundingClientRect(),like=row.querySelector('.like-burst').getBoundingClientRect();return {socialLeft:social.left,avatarRight:avatar.right,nicknameRight:nickname.right,nicknameWidth:nickname.width,messageRight:message?.right,likeLeft:like.left};}));
+   assert(columns.every(c=>c.avatarRight<=c.socialLeft+1&&c.nicknameRight<=c.socialLeft+1&&c.nicknameWidth>16&&(!c.messageRight||c.messageRight<=c.likeLeft+1)),'Narrow standings preserve readable identities and separate message/like actions: '+JSON.stringify({fontSize,theme,columns}));
+  }
+  assert.equal(await page.getByRole('region',{name:'爱心动态',exact:true}).count(),0);rankingGeometry.push({width,fontSize,theme,geometry});
+  if(fontSize===15)await shot(`rankings-${width}-${theme}`);
+ }
+ await page.setViewportSize({width:1600,height:1000});await page.evaluate(value=>{document.documentElement.dataset.theme=value.theme;document.documentElement.style.fontSize=value.fontSize;if(value.uiFontSize)document.documentElement.style.setProperty('--ui-font-size',value.uiFontSize);else document.documentElement.style.removeProperty('--ui-font-size');},rankingAppearance);
+ console.log('PASS ranking full-height alignment: '+JSON.stringify(rankingGeometry.map(({width,fontSize,theme})=>({width,fontSize,theme}))));
+ await shot('rankings');await nav('题库').click();await nav('排行榜').click();assert.equal(await page.locator('.social-activity').count(),0);
  adminMode=true;await page.reload();await nav('排行榜').click();await page.getByRole('button',{name:'清空当前榜单',exact:true}).waitFor();assert.equal(await page.locator('.ranking-admin-cell').count(),2);adminMode=false;await page.reload();await page.locator('.problem-table').waitFor();
  console.log('STAGE scenes');
  await settings();for(const width of [1280,1600,2048]){await page.setViewportSize({width,height:1000});await chrome();const grid=await page.locator('.settings-home-grid').boundingBox();assert(grid.width>width*.7);assert(grid.height>700);}

@@ -176,13 +176,16 @@ class PublicClient:
                     self.backoff[host]=(time.monotonic()+min(3600,15*2**min(count,8)),count)
                 raise RuntimeError(str(error)[:250]) from error
     def text(self,url,headers=None):return self._get(url,headers)
+    def fresh_text(self,url,headers=None):return self._get(url,headers,max_age=0)
     def bytes(self,url,headers=None):return base64.b64decode(self._get(url,headers,binary=True))
+    def fresh_bytes(self,url,headers=None):return base64.b64decode(self._get(url,headers,max_age=0,binary=True))
     def json(self,url,headers=None):return json.loads(self._get(url,headers))
     def fresh_json(self,url,headers=None):return json.loads(self._get(url,headers,max_age=0))
     def owner_json(self,url,owner,parse,headers=None):return json.loads(self._get(url,headers,owner_filter=(owner,parse),max_age=0))
-    def contest_problems(self,identity):
+    def contest_problems(self,identity,*,refresh=False):
         if not str(identity).isdigit():raise ValueError('比赛编号必须是数字')
-        return json.loads(self._get('https://codeforces.com/api/contest.standings?contestId='+str(identity),public_fields=('contest','problems')))
+        return json.loads(self._get('https://codeforces.com/api/contest.standings?contestId='+str(identity),public_fields=('contest','problems'),max_age=0 if refresh else 300))
+    def fresh_contest_problems(self,identity):return self.contest_problems(identity,refresh=True)
 
 class IntegrationService:
     def __init__(self,store,state_dir,auto_start=True,client=None,clock=None):

@@ -162,8 +162,11 @@ try {
   const menu=page.locator('.filter-popover');
   const contests=new Map();for(const row of catalog.rows.filter(row=>!row.catalogHidden)){const key=row.platform+'::'+row.contest;if(!contests.has(key))contests.set(key,[]);contests.get(key).push(row);}
   const full=[...contests.values()].filter(completeContest);
-  const provincial=full.find(rows=>rows.some(row=>row.id==='xcpc-qoj::18307'));
-  assert(provincial,'Use the verified complete Shandong provincial contest');
+  const provincial=full.find(rows=>{
+    const [family,kind,year]=catalogSegments(rows[0]);
+    return family==='XCPC'&&kind==='省赛'&&/^20\d{2}年$/.test(year);
+  });
+  assert(provincial,'Use a currently complete public XCPC provincial contest');
   const [folder,stage,yearFolder]=catalogSegments(provincial[0]),year=yearFolder.replace('年','');
   assert.equal(await menu.getByRole('combobox',{name:'筛选比赛分类',exact:true}).count(),0);
   await page.getByLabel('比赛年份',{exact:true}).selectOption(year);

@@ -217,8 +217,11 @@ html .account-hero-rank {display:flex;flex-direction:column;align-items:center;j
 .progress-achievement>.achievement-icon-missions {color:var(--success)}
 .progress-achievement.progress-unlocked>.achievement-icon {opacity:1}
 /* Ranking uses the full content width and aligned columns. */
-html .rankings-page {width:100%;max-width:none;padding:0;margin:0;min-height:100%;display:flex;flex-direction:column}
-html .rankings-page>.progress-section {max-width:none;width:100%;min-height:100%;display:flex;flex-direction:column;padding:16px}
+html .rankings-page {width:100%;max-width:none;padding:0;margin:0;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+html .rankings-page>.progress-section {max-width:none;width:100%;flex:1;min-height:0;display:flex;flex-direction:column;padding:16px;overflow:hidden}
+html .rankings-page .progress-table-scroll {flex:1;min-height:0;overflow:auto}
+html .rankings-page .ranking-header {flex:none}
+html .rankings-page>.progress-section>.ranking-empty {flex:1;justify-content:center;min-height:0}
 html .ranking-header {display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:14px;margin-bottom:20px}
 .ranking-period-controls {grid-column:2;display:flex;align-items:center;justify-content:center;gap:14px}
 .ranking-overview-controls {grid-column:3;display:flex;align-items:center;justify-content:flex-end;gap:18px}
@@ -261,10 +264,6 @@ html .list-footer>.autosave-dot {margin-left:auto}
 .social-notification time {text-align:right;white-space:nowrap}
 @media(max-width:900px){html .ranking-header{grid-template-columns:1fr}.ranking-period-controls,.ranking-overview-controls{grid-column:1;justify-content:center}.social-notification>div{grid-template-columns:1fr}.social-notification time{text-align:left}}
 .ranking-title-list {display:flex;gap:8px;flex-wrap:wrap}
-html .social-activity {display:block;width:100%;min-height:90px;margin-top:26px;padding:24px 0 0;border-top:1px solid var(--line)}
-html .social-activity>div {display:flex;gap:18px;align-items:center;justify-content:space-between;padding:12px 0;font-size:.94rem}
-html .social-activity>h3 {font-size:1rem}
-.social-activity time {font-size:.8rem;color:var(--muted);white-space:nowrap}
 /* Settings fill the viewport, including its animated tiles. */
 html .settings-page {padding:0!important;gap:18px;min-height:100%}
 html .settings-page .settings-column {display:contents}
@@ -571,6 +570,19 @@ html .ranking-message,.ranking-message-slot {width:32px;height:32px;display:grid
 html .ranking-message {border:0!important;box-shadow:none!important;background:transparent!important;padding:0;color:var(--muted);border-radius:5px}
 html .ranking-message:hover {color:var(--accent)}
 html .ranking-social .social-like {min-width:72px;justify-content:flex-end}
+@media(max-width:640px){
+ html .ranking-table col.ranking-column-place{width:40px}
+ html .ranking-table col.ranking-column-social,html .ranking-table:not(:has(.ranking-message)) col.ranking-column-social,html .ranking-table :is(td,th).ranking-social-cell{width:92px}
+ html .ranking-table col.ranking-column-count,html .ranking-table :is(td,th).ranking-count{width:46px}
+ html .ranking-table tbody td{padding:10px 4px!important}
+ html .ranking-table .ranking-place .ranking-medal{width:30px;height:36px}
+ html .ranking-identity .profile-avatar-button{width:48px;height:48px;min-width:48px}
+ html .ranking-identity .profile-avatar-face{width:32px;height:32px}
+ html .ranking-identity .profile-badge{gap:6px}
+ html .ranking-social{grid-template-columns:28px 50px;gap:4px}
+ html .ranking-social .ranking-message,html .ranking-social .ranking-message-slot{width:28px}
+ html .ranking-social .like-burst{min-width:50px;font-size:.9rem}
+}
 html .records-paged {display:flex;flex-direction:column;min-height:0;overflow:hidden}
 html .records-paged>.submission-log {flex:1;min-height:0;overflow:auto}
 .submission-page-controls {display:flex;align-items:center;justify-content:flex-end;flex:none;gap:12px;min-height:44px;padding:6px 16px;border-top:1px solid var(--soft-line);font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}

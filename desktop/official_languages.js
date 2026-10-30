@@ -31,7 +31,7 @@ function compilerCandidate(text, code = '', platform = '', language = 'cpp17') {
     score:standard !== null ? standard - required : version !== null ? 40 - Math.min(version,30) : 45};
 }
 
-async function selectOfficialCompiler(code, platform = '', language = 'cpp17') {
+async function selectOfficialCompiler(code, platform = '', language = 'cpp17', scope = document) {
   const site = {
     '牛客': { selected: '.btn-language .el-input__inner,.language-select .el-input__inner,.nc-select .nc-select-label,.nc-select .selected-value,.select-language,.language-select .selected,.lang-select .selected-text', options: '.nc-select-item,.nc-select-option,.select-language-menu li,.language-list li' },
     '洛谷': { selected: '.language-select .selected,.select-language .selected,.el-input__inner,.combo-wrapper.lang-select > .text', options: '.language-list li,.el-select-dropdown__item,.dropdown > ul > li' },
@@ -42,7 +42,9 @@ async function selectOfficialCompiler(code, platform = '', language = 'cpp17') {
   const visible = node => node && node.getClientRects().length > 0;
   const candidates = values => values.map(node => ({node, candidate:compilerCandidate(node.textContent || node.value, code, platform, language)}))
     .filter(item => item.candidate && !item.node.disabled).sort((a,b)=>a.candidate.score-b.candidate.score);
-  for (const select of document.querySelectorAll('select')) {
+  const nativeSelects=scope.elements?[...scope.elements].filter(node=>node.tagName==='SELECT'):[...scope.querySelectorAll('select')];
+  for (const select of nativeSelects) {
+    if (select.disabled || platform==='AtCoder' && !visible(select.parentElement)) continue;
     if (!visible(select) && platform !== 'AtCoder') continue;
     // Luogu's native Vue select has no name/id. Its actual option list,
     // rather than attributes or unrelated page text, identifies the control.
@@ -57,7 +59,7 @@ async function selectOfficialCompiler(code, platform = '', language = 'cpp17') {
     }
     return item.candidate;
   }
-  const selected = [...document.querySelectorAll(selectors)].filter(visible);
+  const selected = [...scope.querySelectorAll(selectors)].filter(visible);
   const current = candidates(selected)[0];
   if (current) return current.candidate;
   // Only open a real combobox or a known component whose label identifies

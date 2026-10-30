@@ -21,6 +21,8 @@ import {applyDailyTaskReward} from '@/lib/dailyTaskReward.js';
 import useUsage from '@/lib/useUsage.js';
 import usePlatformLogins from '@/lib/usePlatformLogins.js';
 import useContestCalendar from '@/lib/useContestCalendar.js';
+import ContestReminder from '@/components/ContestReminder.jsx';
+import {createCalendarCatalogReader} from '@/lib/calendarCatalogRefresh.js';
 import PopConfirm from '@/components/PopConfirm.jsx';
 import {matchesShortcut,shortcutValue} from '@/lib/shortcuts.js';
 import PageSearch from '@/components/PageSearch.jsx';
@@ -635,8 +637,8 @@ export default function App() {
     serverOffset = useRef(0),
     previousActive = useRef(null);
   const api = useCallback((path, body) => request(path, body, token.current), []);
-  const calendar = useContestCalendar(api, Boolean(data), dialog === 'contest-calendar', now);
   const [account, setAccount] = useState(() => window.__tbAccount || null);
+  const calendar = useContestCalendar(api, Boolean(data), dialog === 'contest-calendar', now, account?.userId ?? null);
   const social = useSocial(api, Boolean(data && account?.userId));
   const [messagesReading,setMessagesReading]=useState(false);
   useUsage(api,data&&account?.userId,Boolean((!dialog||['lecture','solution'].includes(dialog))&&(practiceId||readerId||page==='mock'&&mockSlot&&workspace.activeContest||['lectures','paths','templates'].includes(page)||page==='settings'&&settingsTab==='accounts')));
@@ -835,9 +837,30 @@ export default function App() {
     },
     [api, applyWorkspace, refreshBackground],
   );
-  const calendarImportSignature=JSON.stringify((calendar.snapshot?.imports||[]).filter(item=>item.ready).map(item=>[item.id,item.ready,item.status]).sort());
+  const calendarDataOwner=useRef(account?.userId??null);calendarDataOwner.current=account?.userId??null;
+  const calendarDataReader=useMemo(()=>createCalendarCatalogReader({api,
+    currentOwner:()=>window.__tbAccountUserId!==undefined&&window.__tbAccountUserId!==calendarDataOwner.current?null:calendarDataOwner.current,
+    apply:(library,owner)=>{token.current=library.token;setData(previous=>calendarDataOwner.current===owner&&(window.__tbAccountUserId===undefined||window.__tbAccountUserId===owner)?shareWorkspace(previous,library):previous);},
+  }),[api]);
+  useEffect(()=>{calendarDataReader.invalidate();return()=>calendarDataReader.invalidate();},[calendarDataReader,account?.userId]);
+  const calendarImportSignature=JSON.stringify((calendar.snapshot?.imports||[]).filter(item=>item.ready).map(item=>[item.id,item.ready,item.status,item.catalogRevision||'']).sort());
   const lastCalendarImports=useRef(null);
-  useEffect(()=>{const old=lastCalendarImports.current;lastCalendarImports.current=calendarImportSignature;if(old!==null&&old!==calendarImportSignature)reload();},[calendarImportSignature,reload]);
+  useEffect(()=>{
+    if(!account?.userId||calendarImportSignature==='[]')return;
+    const owner=account.userId,key=owner+':'+calendarImportSignature;
+    if(lastCalendarImports.current===key)return;
+    let cancelled=false,timer,failures=0;
+    const update=async()=>{try{const applied=await calendarDataReader.refresh(owner);if(!cancelled&&applied)lastCalendarImports.current=key;else if(!cancelled)timer=setTimeout(update,2000);}catch{if(!cancelled)timer=setTimeout(update,Math.min(30000,2000*++failures));}};
+    update();return()=>{cancelled=true;clearTimeout(timer);};
+  },[calendarImportSignature,calendarDataReader,account?.userId]);
+  async function openCalendarContest(contest,{isCurrent=()=>true}={}) {
+    const owner=account?.userId;
+    if(!owner||!featureAvailable('competitions'))return;
+    const refreshed=await calendarDataReader.refresh(owner,{isCurrent});
+    if(!refreshed||!isCurrent()||calendarDataOwner.current!==owner)return;
+    setCalendarContest({id:contest.id,url:contest.url,platform:contest.platform,name:contest.import?.title||contest.title});
+    go('competitions');
+  }
   const contentRevision=useRef(null);
   useEffect(()=>{
     if(!data)return;
@@ -1093,6 +1116,12 @@ export default function App() {
   const levelNoticeBlocked=Boolean(loading||busy||practiceId||active||workspace.summary?.pending||dialog||clearTrainingAnchor||tourOpen||recommendationOpen||labFocus||templateFocus||lectureFull||readerFull);
   const levelUp=useLevelUp({owner:account?.userId,growth:insights?.growth,preferences:prefs,preferencesReady:preferencesLoaded.current&&!loading,setPreferences:setPrefs,blocked:levelNoticeBlocked});
   const levelFeedbackVisible=!levelNoticeBlocked&&!levelUp.dialog&&!document.hidden&&document.hasFocus();
+  const calendarReminderAllowed = featureAvailable('competitions');
+  useEffect(() => {
+    if (dialog === 'contest-reminder' && !calendar.reminder) { setDialog(null); return; }
+    if (calendar.reminder && calendarReminderAllowed && !dialog && !tourOpen && !levelUp.dialog && !loading)
+      setDialog('contest-reminder');
+  }, [calendar.reminder?.signature, calendar.reminder?.ownerKey, calendarReminderAllowed, dialog, tourOpen, levelUp.dialog, loading]);
   useEffect(()=>{if(!levelFeedbackVisible||!levelUp.feedback.length)return;const timer=setTimeout(levelUp.clearFeedback,1400);return()=>clearTimeout(timer);},[levelFeedbackVisible,levelUp.feedback,levelUp.clearFeedback]);
   useEffect(()=>setFinishAnchor(null),[active?.id,page,mockTab,Boolean(record),Boolean(practiceId)]);
   useEffect(()=>setClearTrainingAnchor(null),[page,Boolean(practiceId),active?.id,workspace.summary?.pending]);
@@ -2169,7 +2198,8 @@ export default function App() {
       )}
       {dialog === 'accounts'&&<Modal title="账号与身份" className="compact-account-modal" onClose={()=>setDialog(null)}><AccountPanel api={api} account={account} profileSnapshot={profileSnapshot} hub={hub} onProfileChanged={profileChanged} onHubChanged={setHub}/></Modal>}
       {dialog === "daily-tasks" && <Modal title="每日任务" onClose={() => {setDialog(null);backgroundDialog.current=null;clearTimeout(dailyRefreshTimer.current);dailyRefreshTimer.current=setTimeout(()=>void refreshBackground(true),300);}} wide><DailyTasks dailyTasks={insights?.dailyTasks} onClaim={async (id, date) => { dailyClaimPending.current=true;backgroundSeq.current++;try { const result = await api("daily-tasks/claim", { id, date }); backgroundSeq.current++; setInsights(previous => applyDailyTaskReward(previous,result)); notice("经验已领取", "success"); } catch (issue) { notice(issue.message, "error"); throw issue; } finally {dailyClaimPending.current=false;} }} /></Modal>}
-      {dialog === 'contest-calendar' && <Modal title="比赛日历" onClose={()=>setDialog(null)} wide><ContestCalendar calendar={calendar} onStart={featureAvailable('mock')?async contest=>{const result=await api('contests/start-calendar',{id:contest.id});setDialog(null);startedMock(result);}:undefined}/></Modal>}
+      {dialog === 'contest-calendar' && <Modal title="比赛日历" onClose={()=>setDialog(null)} wide><ContestCalendar calendar={calendar} onOpen={featureAvailable('competitions')?openCalendarContest:undefined} onStart={featureAvailable('mock')?async(contest,{isCurrent=()=>true}={})=>{const owner=account?.userId;const result=await api('contests/start-calendar',{id:contest.id});if(!isCurrent()||calendarDataOwner.current!==owner||window.__tbAccountUserId!==undefined&&window.__tbAccountUserId!==owner)return;await calendarDataReader.refresh(owner,{isCurrent});if(!isCurrent()||calendarDataOwner.current!==owner)return;setDialog(null);startedMock(result);}:undefined}/></Modal>}
+      {dialog === 'contest-reminder' && calendar.reminder && <Modal title="比赛即将开始" onClose={()=>{calendar.dismissReminder();setDialog(previous=>previous==='contest-reminder'?null:previous);}} footer={<button type="button" className="primary" onClick={()=>{calendar.dismissReminder();setDialog('contest-calendar');}}>查看比赛</button>}><ContestReminder contest={calendar.reminder} now={calendar.now} onShown={calendar.markReminderShown}/></Modal>}
       {dialog === "avatar" && <Modal title="修改头像" onClose={()=>setDialog(null)}><Suspense fallback={<p role="status">正在读取…</p>}><AvatarSettings prefs={prefs} setPrefs={setPrefs} onError={message=>notice(message,"error")}/></Suspense></Modal>}
       {tourOpen && <Suspense fallback={null}><Onboarding availablePages={visiblePageIds} key={tourContext} initialGuide={tourContext} practiceId={practiceId||(mockFocus?currentMockSlot?.id:null)} onShown={markGuideShown} onComplete={finishOnboarding} onDirectory={()=>openGuide('catalog')} onNavigate={(target,tab)=>{go(target);if(target==="settings")setSettingsTab(tab||"home");}}/></Suspense>}
       {levelUp.dialog&&<LevelUpDialog notice={levelUp.dialog} pages={PAGES} preferences={prefs} onPresented={levelUp.markPresented} onClose={levelUp.close} onOpen={go}/>}

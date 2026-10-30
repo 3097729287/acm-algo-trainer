@@ -127,6 +127,7 @@ class ContestCalendar:
         self.import_path = Path(state_dir) / 'contest-imports.json'
         self.imports = load_document(self.import_path, {})
         self.import_running = set()
+        self.manual_import_attempted = {}
         self.scheduler = None
 
     def start(self):
@@ -138,7 +139,6 @@ class ContestCalendar:
     def _schedule(self):
         while not self.stop.is_set():
             self.snapshot()
-            self.import_due()
             with self.lock:
                 future=[dt.datetime.fromisoformat(row['startAt']).timestamp()-self.clock()
                         for provider in self.providers.values() for row in provider.get('contests',[])
@@ -159,7 +159,7 @@ class ContestCalendar:
             if imported.get('status')!='ready':raise ServiceError(409,'完整题面尚未就绪，请稍后重试')
             return {**copy.deepcopy(row),'contest':imported.get('title') or row['title']}
 
-    def import_due(self):
+    def import_due(self, refresh=False):
         if self.offline or self.stop.is_set() or self.importer is None:
             return
         from contest_imports import SCHOOL_CONTESTS
@@ -167,18 +167,28 @@ class ContestCalendar:
         with self.lock:
             events = {row['id']: row for provider in self.providers.values() for row in provider.get('contests', [])}
             events.update({row['id']: dict(row) for row in SCHOOL_CONTESTS})
-            for identity, row in events.items():
+            def priority(item):
+                identity, row = item
+                started = row.get('startAt') and dt.datetime.fromisoformat(row['startAt']).timestamp() <= now
+                ongoing = started and row.get('endAt') and now < dt.datetime.fromisoformat(row['endAt']).timestamp()
+                return (0 if ongoing else 1, self.imports.get(identity, {}).get('checkedAt', 0), identity)
+            for identity, row in sorted(events.items(), key=priority):
                 if row.get('startAt') and dt.datetime.fromisoformat(row['startAt']).timestamp() > now:
                     continue
                 # Stale schedules are not a request to crawl the entire archive.
                 if row.get('endAt') and dt.datetime.fromisoformat(row['endAt']).timestamp() + 86400 < now:
                     continue
                 old = self.imports.get(identity, {})
-                if old.get('status') == 'ready' or identity in self.import_running or now < old.get('retryAt', 0):
+                ongoing = row.get('endAt') and now < dt.datetime.fromisoformat(row['endAt']).timestamp()
+                manual = refresh and ongoing and now - self.manual_import_attempted.get(identity, float('-inf')) >= 15
+                moved = old.get('scheduledStartAt') is not None and old.get('scheduledStartAt') != row.get('startAt')
+                if old.get('status') == 'ready' or identity in self.import_running or not (manual or moved) and now < old.get('retryAt', 0):
                     continue
                 # One source operation at a time; rate limiting is also shared with sync.
                 if self.import_running:
                     break
+                if manual:
+                    self.manual_import_attempted[identity] = now
                 self.import_running.add(identity)
                 threading.Thread(target=self._import, args=(copy.deepcopy(row),), name='TB-contest-import', daemon=True).start()
 
@@ -186,12 +196,27 @@ class ContestCalendar:
         identity = event['id']
         try:
             result = self.importer(event)
-        except (OSError, ValueError, RuntimeError, KeyError, TypeError) as issue:
+            if not isinstance(result, dict):
+                raise ValueError('原站导入结果无效，请稍后重试')
+        except (OSError, ValueError, RuntimeError, KeyError, TypeError, AttributeError) as issue:
             result = {'status': 'error', 'error': str(issue)[:350]}
         with self.lock:
-            attempts = self.imports.get(identity, {}).get('attempts', 0) + 1
+            old = self.imports.get(identity, {})
+            attempts = (old.get('attempts', 0) if old.get('scheduledStartAt', event.get('startAt')) == event.get('startAt') else 0) + 1
+            now = self.clock()
+            ongoing = event.get('endAt') and now < dt.datetime.fromisoformat(event['endAt']).timestamp()
+            # Live contests last only a few hours. Do not spend that window
+            # waiting 2/4/8/16 minutes after a pre-publication response.
+            opening_window = event.get('startAt') and now - dt.datetime.fromisoformat(event['startAt']).timestamp() < 600
+            if ongoing and opening_window and attempts <= 8:
+                delay = min(60, 15 * 2 ** min(attempts - 1, 2))
+            elif ongoing:
+                delay = 300
+            else:
+                delay = min(3600, 60 * 2 ** min(attempts, 6))
             result.update(id=identity, url=event['url'], title=result.get('title') or event['title'],
-                          checkedAt=self.clock(), retryAt=self.clock() + min(3600, 60 * 2 ** min(attempts, 6)), attempts=attempts)
+                          checkedAt=now, retryAt=now + delay, attempts=attempts,
+                          scheduledStartAt=event.get('startAt'))
             try:
                 if not self.stop.is_set():
                     self.imports[identity] = result
@@ -213,6 +238,9 @@ class ContestCalendar:
                     self.attempted[key] = now
                     threading.Thread(target=self._refresh, args=(key,), name='TB-calendar-' + key, daemon=True).start()
             timestamp = dt.datetime.fromtimestamp(now, dt.timezone.utc).isoformat()
+            # Opening/refreshing the calendar at the start boundary can launch
+            # one bounded import immediately; it never waits for network I/O.
+            self.import_due(refresh=refresh)
             contests = {}
             statuses = []
             for key, label in PLATFORMS.items():
@@ -235,7 +263,7 @@ class ContestCalendar:
                 retained = {row['id']: row for row in self.providers[key].get('contests', []) if dt.datetime.fromisoformat(row['endAt']).timestamp() + 86400 > self.clock()}
             retained.update({row['id']: row for row in contests})
             update = {'contests': list(retained.values()), 'checkedAt': self.clock(), 'status': 'ready', 'error': ''}
-        except (OSError, RuntimeError, ValueError, KeyError, TypeError) as issue:
+        except (OSError, RuntimeError, ValueError, KeyError, TypeError, AttributeError) as issue:
             update = {'status': 'error', 'error': str(issue)[:180]}
         with self.lock:
             if not self.stop.is_set():

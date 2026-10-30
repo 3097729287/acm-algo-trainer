@@ -43,6 +43,25 @@ class VisibleTransportTests(unittest.TestCase):
             self.bridge._update('fixture', {'status':status, 'attempted':False}, inspection=True)
             self.assertFalse(session['intent'])
 
+    def test_confirmed_pre_click_wait_resumes_the_same_unsent_intent(self):
+        session = self.bridge.sessions['fixture']
+        session.update(platform='AtCoder',status='ready',attempted=False,intent=False,
+                       dispatched=True,dispatching=True)
+        self.bridge._update('fixture', {'status':'loading','attempted':False,
+                                       'message':'Waiting for the native form token'})
+        self.assertTrue(session['intent'])
+        self.assertFalse(session['dispatched'])
+        self.assertFalse(session['dispatching'])
+
+    def test_late_pre_click_wait_never_replays_an_attempted_submission(self):
+        session = self.bridge.sessions['fixture']
+        session.update(platform='AtCoder',status='submitted',attempted=True,intent=False,
+                       dispatched=True,dispatching=True)
+        self.bridge._update('fixture', {'status':'loading','attempted':False})
+        self.assertTrue(session['attempted'])
+        self.assertFalse(session['intent'])
+        self.assertTrue(session['dispatched'])
+
     def test_internal_login_controls_are_not_exposed(self):
         self.bridge.sessions['fixture'].update(awaitingLogin=True, dispatched=True)
         self.assertNotIn('awaitingLogin', self.bridge.status('fixture'))

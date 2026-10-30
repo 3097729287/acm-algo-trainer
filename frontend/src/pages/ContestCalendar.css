@@ -19,5 +19,7 @@
 
 .calendar-import-state{display:block;font-size:.76rem;font-weight:400;margin-top:4px;color:var(--muted)}
 .calendar-live{display:inline-block;margin-inline-start:10px;color:var(--accent);font-size:.76rem;font-weight:500;white-space:nowrap}
+.calendar-contest-title{appearance:none;background:none;border:0;padding:0;margin:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.calendar-contest-title:hover{color:var(--accent)}
 .calendar-actions{display:flex;align-items:center;gap:8px;white-space:nowrap}.calendar-actions a{display:inline-flex;padding:6px;color:var(--accent)}
 @media(max-width:600px){.contest-calendar-row{grid-template-columns:48px minmax(0,1fr) auto}.contest-calendar-row>.calendar-actions{display:flex}.calendar-actions .progress-button{padding:5px;font-size:.78rem}}

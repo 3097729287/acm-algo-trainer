@@ -412,6 +412,13 @@ class ExternalBrowserBridge:
                 return
             if session.get('submissionId') and status == 'submitted':
                 return
+            if (not inspection and status == 'loading' and value.get('attempted') is False
+                    and session.get('dispatching') and not session.get('attempted')):
+                # The adapter explicitly stopped before its durable click
+                # checkpoint (for example a Turnstile token expired while the
+                # personal-history snapshot was loading). Keep the original
+                # intent pending until inspection reports a ready form again.
+                session.update(intent=True, dispatched=False, dispatching=False)
             changed = any(session.get(key) != value[key] for key in
                           ('status', 'message', 'submissionId', 'verdict', 'attempted') if key in value)
             if status in ('needs_login', 'needs_verification') and session.get('status') != status:

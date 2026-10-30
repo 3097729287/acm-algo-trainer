@@ -4,6 +4,7 @@
 .code-editor .cm-editor.cm-focused { outline: none !important; box-shadow: none; }
 .code-editor .cm-content { min-height: 100%; }
 .code-editor .cm-content:focus-visible { outline: none; }
+.code-editor[data-readonly="false"] .cm-editor:not(.cm-focused) .cm-cursor-primary { display:block; opacity:.7; }
 .code-editor .cm-tooltip-autocomplete { max-width: min(380px, 90vw); font-size: .9rem; }
 .code-editor .cm-tooltip-autocomplete ul { font-family: inherit; }
 .code-editor .cm-completionDetail { color: var(--muted); }

@@ -1,7 +1,7 @@
 import {matchesShortcut} from '@/lib/shortcuts.js';
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import { basicSetup } from 'codemirror';
-import { EditorView, keymap } from '@codemirror/view';
+import { drawSelection, EditorView, keymap } from '@codemirror/view';
 import { Annotation, Compartment, EditorState, Prec } from '@codemirror/state';
 import { indentLess, indentMore } from '@codemirror/commands';
 import { cpp } from '@codemirror/lang-cpp';
@@ -82,7 +82,7 @@ const CodeEditor = forwardRef(function CodeEditor({ shortcuts={}, value = '', on
         event.preventDefault(); event.stopPropagation(); callbacks.current.onCommand?.(command); return true;
       } })),
       Prec.highest(keymap.of([{ key: 'Tab', run: editor => (completionStatus(editor.state) === 'active' && acceptCompletion(editor)) || indentMore(editor), shift: indentLess }])),
-      basicSetup, language==='python3' ? python() : cpp(), indentUnit.of('    '), theme, syntaxHighlighting(colors),
+      basicSetup, drawSelection({cursorBlinkRate:0}), language==='python3' ? python() : cpp(), indentUnit.of('    '), theme, syntaxHighlighting(colors),
       autocompletion({ ...(language==='python3'?{}:{override:[completeCpp]}), activateOnTyping: true, maxRenderedOptions: 12 }),
       readonlyCompartment.current.of([EditorState.readOnly.of(readOnly || disabled), EditorView.editable.of(!disabled)]),
       EditorView.contentAttributes.of(editor => ({ 'aria-label': language==='python3'?'Python 代码':ariaLabel, 'aria-multiline': 'true', 'aria-readonly': editor.state.readOnly ? 'true' : 'false', role: 'textbox', spellcheck: 'false', autocapitalize: 'off' })),

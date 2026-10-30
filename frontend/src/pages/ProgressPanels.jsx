@@ -178,7 +178,9 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
   useEffect(() => {
     if (!initialContest) return;
     const name = typeof initialContest === 'string' ? initialContest : initialContest.name || initialContest.contest || initialContest.id;
-    const group = groups.find(item => item.key === name || item.name === name);
+    const source = typeof initialContest === 'object' && initialContest.url?.replace(/\/$/,'');
+    const group = (source&&groups.find(item=>item.rows.some(row=>row.url?.startsWith(source+'/'))))
+      || groups.find(item => item.key === name || item.name === name);
     if (group) setSelected(group.key);
   }, [initialContest, groups]);
   if (!rows) return <Loading text="正在读取比赛列表" />;

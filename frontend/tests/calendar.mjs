@@ -24,4 +24,30 @@ try{
   await page.evaluate(()=>calendarFixture.setNow(Date.parse('2026-10-27T10:00:00+08:00')));
   await page.waitForFunction(()=>document.querySelector('.contest-calendar-day h3')?.textContent==='今天'&&document.querySelectorAll('.calendar-unread-today .contest-calendar-row').length===1);
   assert.deepEqual(errors,[]);console.log('Calendar: relative dates, shared day surface, unread/hover/focus, persistence, new events, account/day rollover passed.');
+  await page.evaluate(()=>{calendarFixture.account('reminder-owner');calendarFixture.setNow(Date.parse('2026-10-27T18:54:59+08:00'));});
+  const reminder=()=>page.getByRole('dialog',{name:'比赛即将开始'});
+  await reminder().waitFor();assert.match(await reminder().innerText(),/Contest 2/,'a local alarm reaches the five-minute threshold even when the parent clock does not tick');
+  await reminder().getByRole('button',{name:'关闭提醒'}).click();
+  await page.evaluate(()=>calendarFixture.refresh());await page.waitForTimeout(80);assert.equal(await reminder().count(),0,'poll/refresh does not repeat a presented reminder');
+  await page.reload();await page.evaluate(()=>{calendarFixture.account('reminder-owner');calendarFixture.setNow(Date.parse('2026-10-27T18:55:01+08:00'));});
+  await page.waitForTimeout(100);assert.equal(await reminder().count(),0,'presentation persists across reload');
+  await page.evaluate(()=>calendarFixture.account('second-reminder-owner'));await reminder().waitFor();
+  await reminder().getByRole('button',{name:'关闭提醒'}).click();
+  await page.evaluate(()=>{calendarFixture.events[2].startAt='2026-10-27T19:01:00+08:00';calendarFixture.setNow(Date.parse('2026-10-27T18:56:01+08:00'));calendarFixture.refresh();});
+  await reminder().waitFor();assert.match(await reminder().innerText(),/19:01/,'a changed start time has its own single reminder');
+  await reminder().getByRole('button',{name:'关闭提醒'}).click();
+  await page.evaluate(()=>{Storage.prototype.setItem=function(){throw new DOMException('blocked');};calendarFixture.account('blocked-reminder-store');});
+  await reminder().waitFor();await reminder().getByRole('button',{name:'关闭提醒'}).click();
+  await page.evaluate(()=>calendarFixture.refresh());await page.waitForTimeout(80);assert.equal(await reminder().count(),0,'blocked storage retains the in-session acknowledgement');
+  if(!await page.locator('.contest-calendar').count())await toggle.click();
+  await page.evaluate(()=>{calendarFixture.events[2].title='Old account pending roster';calendarFixture.hold=true;calendarFixture.refresh();});
+  await page.waitForFunction(()=>Boolean(calendarFixture.release));
+  await page.evaluate(()=>{calendarFixture.events[2].title='Current account roster';calendarFixture.account('pending-switch-owner');});
+  await page.locator('.contest-calendar-row strong').filter({hasText:'Current account roster'}).waitFor();
+  await page.evaluate(()=>calendarFixture.release());await page.waitForTimeout(80);
+  assert.equal(await page.locator('.contest-calendar-row strong').filter({hasText:'Old account pending roster'}).count(),0,'an old-owner response cannot replace the current-owner calendar');
+  assert.deepEqual(errors,[]);console.log('Calendar reminders: exact five-minute wake, once across polling/reload, owner isolation including a late old-owner response, rescheduling and blocked storage passed.');
 }finally{await browser.close();await vite.close();}
+await import('./calendar-catalog.mjs');
+
+await import('./calendar-app.mjs');

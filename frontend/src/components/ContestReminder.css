@@ -1,0 +1,5 @@
+.contest-start-reminder{display:flex;align-items:center;gap:18px;padding:12px 0;color:var(--text)}
+.contest-start-reminder>svg{flex:none;color:var(--accent)}
+.contest-start-reminder strong{font-size:1.06rem;line-height:1.5}
+.contest-start-reminder p{display:flex;align-items:center;gap:14px;margin:8px 0 0;color:var(--muted);font-size:.88rem}
+.contest-start-reminder time{font-variant-numeric:tabular-nums;color:var(--accent)}
