@@ -97,7 +97,7 @@ export default function RankingsPage({ api, onConfigure, onError, socialState, a
     catch (issue) { if (request === generation.current) { setError(issue.message); onError?.(issue.message); } }
     finally { if (request === generation.current) setBusy(false); }
   }, [api, period]);
-  useEffect(() => { setSnapshot(previous=>{const cached=rankingCache.get(api)?.[period];return cached?.date===rankingDate()?cached.value:previous?.period===period?previous:null;});setMessage('');load(); return () => { generation.current++; }; }, [load]);
+  useEffect(() => { setSnapshot(previous=>{const cached=rankingCache.get(api)?.[period];return cached?.date===rankingDate()?cached.value:previous;});setMessage('');load(); return () => { generation.current++; }; }, [load]);
   async function sync() {
     if (busy || deleting) return;
     setBusy(true); setError('');
@@ -121,7 +121,7 @@ export default function RankingsPage({ api, onConfigure, onError, socialState, a
   }) : [];
   const shownEntries=entries.filter(item=>String(item.nickname||'').toLocaleLowerCase().includes(query.trim().toLocaleLowerCase()));
   const label = periods.find(([key]) => key === period)[1];
-  const ready = snapshot?.configured && snapshot.status !== 'offline' && snapshot.status !== 'error';
+  const ready = snapshot?.configured && snapshot.period === period && snapshot.status !== 'offline' && snapshot.status !== 'error';
   const canManage = Boolean(window.__tbAdmin && snapshot?.isAdmin);
   const awards = snapshot?.rewardPolicy?.[period] || (period === 'daily' ? [100, 60, 30] : [500, 300, 150]);
   function askDelete(item = null, anchor) { setConfirmation({anchor, userId: item?.userId || null, nickname: item?.nickname || '用户', period, label }); }

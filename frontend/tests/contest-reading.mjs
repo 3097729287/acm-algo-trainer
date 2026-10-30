@@ -25,7 +25,7 @@ try {
     assert.equal(await cards.filter({hasText:'周赛 166'}).locator('.competition-difficulty').count(),3);
     assert.equal(await cards.filter({hasText:'蓝桥杯'}).locator('.competition-difficulty').count(),3);
     await page.getByRole('button',{name:'比赛文件夹浏览',exact:true}).click();
-    for(const folder of ['ACM','邀请赛','2026年'])await page.locator('.catalog-folder-row').filter({has:page.getByText(folder,{exact:true})}).click();
+    for(const folder of ['XCPC','邀请赛','2026年'])await page.locator('.catalog-folder-row').filter({has:page.getByText(folder,{exact:true})}).click();
     assert.equal(await cards.count(),5,'year level shows every actual contest, including the separate warmup');
     assert.equal(await page.locator('.catalog-folder-row').count(),0,'no event wrapper folder remains');
     assert.equal(await page.locator('.competition-start').count(),5);

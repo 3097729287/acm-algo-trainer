@@ -13,17 +13,19 @@ for(const [name,color] of [['a','#3355aa'],['b','#55aa33']]) {
  const hash=[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(data)))].map(v=>v.toString(16).padStart(2,'0')).join('');
  assets[name]={avatarData:data,avatarHash:hash};
 }
-let fail=new URLSearchParams(location.search).has('fail');
+let fail=new URLSearchParams(location.search).has('fail'),responseAsset=null,failures=0,boardDelay=0;
+window.boardCalls=[];
 window.avatarCalls=[];window.firstAvatarRenders=[];
 const api=async path=>{
  if(path.startsWith('leaderboard/avatar?')) {
   const hash=new URLSearchParams(path.split('?')[1]).get('hash');window.avatarCalls.push(hash);
   await new Promise(resolve=>setTimeout(resolve,100));
-  if(fail)throw new Error('Isolated network failure');
+  if(fail||failures-->0)throw new Error('Isolated network failure');
+  if(responseAsset)return assets[responseAsset];
   const asset=Object.values(assets).find(item=>item.avatarHash===hash);
   return asset||{avatarData:'',avatarHash:null};
  }
- if(path.startsWith('leaderboard?'))return {configured:true,hasSnapshot:true,status:'ready',date:new Date().toISOString().slice(0,10),period:'daily',entries:[{userId:OWNER,nickname:'Old board nickname',rank:1,count:3,publicProgress:{level:1}},{userId:TARGET,nickname:'Other person',avatarHash:assets.a.avatarHash,rank:2,count:2,publicProgress:{level:1}}],self:{userId:OWNER},socialAvailable:false};
+ if(path.startsWith('leaderboard?')){const period=new URLSearchParams(path.split('?')[1]).get('period');window.boardCalls.push(period);await new Promise(resolve=>setTimeout(resolve,boardDelay));return {configured:true,hasSnapshot:true,status:'ready',date:new Date().toISOString().slice(0,10),period,entries:[{userId:OWNER,nickname:'Old board nickname',rank:1,count:3,publicProgress:{level:1}},{userId:TARGET,nickname:'Other person',avatarHash:assets.a.avatarHash,rank:2,count:2,publicProgress:{level:1}}],self:{userId:OWNER},socialAvailable:false};}
  throw new Error('Unexpected isolated API '+path);
 };
 function Probe({id,hash}) {
@@ -33,7 +35,7 @@ function Probe({id,hash}) {
 }
 function Fixture(){
  const [config,setConfig]=useState({show:true,asset:'a',id:TARGET,board:false,revision:0,own:assets.a.avatarData});
- window.publicAvatarFixture={assets,OWNER,TARGET,configure(change){flushSync(()=>setConfig(old=>({...old,...change,revision:old.revision+1})));},fail(value){fail=value;},rename(name){window.__tbAccount.nickname=name;flushSync(()=>setConfig(old=>({...old,revision:old.revision+1})));}};
+ window.publicAvatarFixture={assets,OWNER,TARGET,server(change){if('asset' in change)responseAsset=change.asset;if('failures' in change)failures=change.failures;if('delay' in change)boardDelay=change.delay;},configure(change){flushSync(()=>setConfig(old=>({...old,...change,revision:old.revision+1})));},fail(value){fail=value;},rename(name){window.__tbAccount.nickname=name;flushSync(()=>setConfig(old=>({...old,revision:old.revision+1})));}};
  return config.board?<RankingsPage api={api} socialState={{snapshot:{activity:[]}}} avatarData={config.own} ownGrowth={{level:1}}/>:config.show?<div key={config.id}><Probe id={config.id} hash={assets[config.asset]?.avatarHash||null}/><Probe id={config.id} hash={assets[config.asset]?.avatarHash||null}/></div>:null;
 }
 createRoot(document.getElementById('root')).render(<Fixture/>);

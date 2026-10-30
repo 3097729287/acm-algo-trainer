@@ -86,10 +86,11 @@ def prepare(installation,stage):
         shutil.copytree(ROOT/'frontend/dist',package/'frontend/dist')
         (package/'data').mkdir();shutil.copy2(app/'data/library.sqlite3',package/'data/library.sqlite3')
         for name in ['code-templates.json','algorithm-learning.json']:shutil.copy2(ROOT/'backend/resources'/name,package/'resources'/name)
-        info=read(app/'BUILD-INFO.json');info.update(frontendSourceCommit=commit,templateSourceCommit=commit,
+        info=read(app/'BUILD-INFO.json');info.update(commit=commit,sourceCommit=commit,sourceBranch=git('branch','--show-current'),frontendSourceCommit=commit,templateSourceCommit=commit,
             learningOrganizationSourceCommit=commit,localRevision='algorithm-learning-20261030',sourcePushed=False,
             status='local frontend/template teaching update; existing executable and public content retained; unpublished',
             algorithmLearning=dict(templates=28,topics=8,movedLectures=15),frontendSourceBranch=git('branch','--show-current'))
+        info['frontendBuildSha256']=hashlib.sha256(json.dumps(files(package/'frontend/dist'),sort_keys=True,separators=(',',':')).encode()).hexdigest()
         manifest=read(app/'SOURCE-MANIFEST.json')
         manifest={k:v for k,v in manifest.items() if not k.startswith('frontend/dist/')}
         manifest.update({'frontend/dist/'+k:v for k,v in files(package/'frontend/dist').items()})
