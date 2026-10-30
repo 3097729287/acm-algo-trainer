@@ -23,7 +23,7 @@ await page.route('**/api/**',async route=>{
  else if(path==='preferences'){if(route.request().method()==='POST'){preferenceSaveAttempts++;if(preferenceSaveFailures>0){preferenceSaveFailures--;await route.fulfill({status:503,json:{error:'隔离偏好保存失败'}});return;}preferences=route.request().postDataJSON().preferences;}value={preferences,updatedAt:now};}
  else if(path==='data')value={rows,categories:[],token:'fixture',today:now.slice(0,10)};
  else if(path==='workspace')value=workspace;
- else if(path==='insights'){if(held)await new Promise(resolve=>resume.push(resolve));value={summary:{totalSolved:0},growth:{level,confirmed:true,authority:{owner,epoch:'navigation-fixture',revision:++revision},tier:'黑铁',currentLevelXp:0,nextLevelXp:200,totalXp:0},knowledge:[],recommendations:[],activity:[],assessment:{},dailyTasks:{tasks:[]}};}
+ else if(path==='insights'){if(held)await new Promise(resolve=>resume.push(resolve));value={summary:{totalSolved:0},growth:{level,confirmed:true,authority:{owner,epoch:'navigation-fixture',revision:++revision},tier:'黑铁',currentLevelXp:0,nextLevelXp:200,totalXp:0},equippedTitles:[{id:'ac-2000',name:'双千传奇',category:'ac',target:2000},{id:'streak-730',name:'双年不辍',category:'streak',target:730}],knowledge:[],recommendations:[],activity:[],assessment:{},dailyTasks:{tasks:[]}};}
  else if(path==='software-update')value={currentVersion:'1.4.29',status:'current',autoCheck:false,canInstall:false};
  else if(path==='content-update')value={revision:0,status:'current'};
  else if(path==='contest-calendar')value={contests:[],providers:[],refreshing:false};
@@ -63,6 +63,7 @@ try {
  assert.equal(await nav().getByRole('button').count(),12,'Restart paints the last confirmed complete navigation before insights arrives');
  assert.equal(await page.locator('.navigation-pending').count(),0);release();await settled();
  assert.deepEqual((await nav().getByRole('button').allTextContents()).slice(0,4),['我的训练','题库','题单','比赛'],'The shipped singleton preference migrates to the requested default order');
+ assert.equal(await page.locator('.topbar-titles .title-medal').count(),2);assert.deepEqual(await page.locator('.topbar-titles .title-medal').allTextContents(),['',''],'Topbar medals keep accessible names and tooltips without adjacent text');
  await page.setViewportSize({width:1440,height:600});
  await nav().getByRole('button',{name:'比赛',exact:true}).click();
  await page.getByRole('button',{name:'查看 牛客 1024数学专场考核，20 道题',exact:true}).click();
@@ -82,11 +83,18 @@ try {
   });
   assert.equal(geometry.length,2);assert(Math.abs(geometry[0].header.y-geometry[1].header.y)<.5&&Math.abs(geometry[0].header.height-geometry[1].header.height)<.5,'Both full-App toolbars share one row: '+JSON.stringify({font,width,geometry}));
   for(const {header,controls} of geometry)for(const {label,rect} of controls)assert(rect.y>=header.y-.5&&rect.bottom<=header.bottom+.5&&rect.x>=header.x-.5&&rect.right<=header.right+.5,'Toolbar controls fit their actual pane: '+JSON.stringify({font,width,label,rect,header}));
+  for(const {controls} of geometry)for(let i=1;i<controls.length;i++)assert(controls[i].rect.x>=controls[i-1].rect.right-.5,'Adjacent toolbar controls do not overlap: '+JSON.stringify({font,width,controls}));
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
   toolbarGeometry.push({font,width,panes:geometry.map(item=>item.header)});
  }
  await page.setViewportSize({width:1440,height:600});await page.evaluate(()=>document.documentElement.style.fontSize='15px');
  await page.screenshot({path:`${save}/workbench-aligned-32px.png`});
+ const splitter=page.getByRole('separator',{name:'调整题面与代码宽度'});
+ for(const direction of ['Home','End']){
+  await splitter.focus();await splitter.press(direction);
+  const overflow=await page.locator('.wb-pane-header').evaluateAll(headers=>headers.flatMap(header=>{const r=header.getBoundingClientRect();return [...header.querySelectorAll('button,input,select,a')].filter(n=>n.getClientRects().length).filter(n=>{const b=n.getBoundingClientRect();return b.left<r.left-.5||b.right>r.right+.5||b.bottom>r.bottom+.5;}).map(n=>n.getAttribute('aria-label')||n.textContent);}));
+  assert.deepEqual(overflow,[],'The minimum split pane keeps all toolbar controls usable');
+ }
  await page.locator('.cm-content').fill('// corner-return draft\nint main() { return 0; }');
  for(const compact of [false,true]){
   if(compact){await page.getByRole('button',{name:'练习 T 完整练习 19',exact:true}).click();await page.locator('.cm-content').waitFor();await page.setViewportSize({width:430,height:800});await page.locator('.wb-compact-toolbar').waitFor();}
