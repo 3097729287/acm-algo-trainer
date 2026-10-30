@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="200" viewBox="0 0 720 200">
+  <rect width="720" height="200" fill="#f8f9fa"/>
+  <text x="20" y="30" font-size="16" fill="#212529">排列：3 6 9 2 5 8 7 1 4</text>
+  <text x="20" y="60" font-size="16" fill="#212529">切点 i=1, j=6</text>
+  <rect x="20" y="80" width="40" height="40" fill="#d0ebff" stroke="#1c7ed6"/>
+  <text x="35" y="105" font-size="18" fill="#1c7ed6">3</text>
+  <text x="65" y="105" font-size="18" fill="#212529">|</text>
+  <rect x="80" y="80" width="200" height="40" fill="#d3f9d8" stroke="#2f9e44"/>
+  <text x="90" y="105" font-size="18" fill="#2f9e44">6 9 2 5 8</text>
+  <text x="285" y="105" font-size="18" fill="#212529">|</text>
+  <rect x="300" y="80" width="120" height="40" fill="#ffe3e3" stroke="#e03131"/>
+  <text x="310" y="105" font-size="18" fill="#e03131">7 1 4</text>
+  <text x="20" y="150" font-size="16" fill="#212529">a=3, b=69258, c=714</text>
+  <text x="20" y="180" font-size="16" fill="#212529">3 + 69258/714 = 100</text>
+</svg>

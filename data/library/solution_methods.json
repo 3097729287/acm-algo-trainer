@@ -4000,7 +4000,907 @@
     "content": {
       "methods": [
         {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-graphs",
+            "lecture:foundation-bindings",
+            "lecture:foundation-sets",
+            "lecture:foundation-queue-stack",
+            "lecture:foundation-strings",
+            "lecture:foundation-recursion"
+          ],
+          "legacy": true,
+          "tags": [
+            "DFS",
+            "回溯",
+            "剪枝",
+            "连通性剪枝",
+            "哈密顿路径",
+            "网格图"
+          ],
+          "title": "DFS、回溯",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "169a0baa2242472782c58ecd851e6bebb4bde5d892ed483e6093fa9f928943f1"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2024:省:::P10427"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-counting",
+            "lecture:foundation-dp",
+            "lecture:foundation-vector",
+            "lecture:foundation-numeric-tools",
+            "lecture:foundation-integer",
+            "lecture:foundation-bitwise"
+          ],
+          "legacy": true,
+          "tags": [
+            "组合数学",
+            "动态规划",
+            "生成函数",
+            "Lucas定理",
+            "有界精确解"
+          ],
+          "title": "有界精确背包DP（非一般最大范围）",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "aa80bad46a9217f46002dd92acef4b3b17134678bdd22b3100382078068fdd65"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2026:国:::P16802"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-greedy",
+            "lecture:foundation-strings",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "贪心",
+            "字符串",
+            "相邻配对"
+          ],
+          "title": "贪心、字符串",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "d385103d90b9cc192aae13d28d39545b8d08a7639975fcb2efd6ce05715d7b2b"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2013:省:::P8597"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-counting",
+            "lecture:foundation-enumeration",
+            "lecture:foundation-vector"
+          ],
+          "legacy": true,
+          "tags": [
+            "数组",
+            "计数",
+            "模拟"
+          ],
+          "title": "数组、计数",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "7de7c9e4e26d4f4da200e323e4374739de0b7848d65763832e2adaa33c38ad44"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2013:省:::P8598"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-permutations",
+            "lecture:foundation-enumeration",
+            "lecture:foundation-strings",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "全排列",
+            "枚举",
+            "整数运算"
+          ],
+          "title": "全排列、枚举",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "8ff8474b6dad878190461d189d9aa58d39df917c3b1b3481f60faac2c966d44c"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2013:省:::P8599"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-monotonic",
+            "lecture:foundation-segment-tree",
+            "lecture:foundation-counting",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "单调栈",
+            "线段树",
+            "区间加",
+            "计数"
+          ],
+          "title": "单调栈、线段树",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "ded875e37318a4d33b314d648413571dd1eb77964629d3216f1d16ac6848fe59"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2013:省:::P8600"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-games",
+            "lecture:foundation-bitwise",
+            "lecture:foundation-lambda",
+            "lecture:foundation-vector",
+            "lecture:foundation-sort"
+          ],
+          "legacy": true,
+          "tags": [
+            "Nim 游戏",
+            "博弈论",
+            "异或",
+            "贪心枚举"
+          ],
+          "title": "Nim 游戏、博弈论",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "ddf0c99fd8ac8ee488e2c74e014a602c4d3e998ed9b03da0d90259111858e453"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2013:国:::P8606"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-subset-dp",
+            "lecture:foundation-counting",
+            "lecture:foundation-lambda",
+            "lecture:foundation-numeric-tools",
+            "lecture:foundation-integer",
+            "lecture:foundation-bitwise"
+          ],
+          "legacy": true,
+          "tags": [
+            "状态压缩 DP",
+            "连通性 DP",
+            "网格图",
+            "哈密顿路径",
+            "计数"
+          ],
+          "title": "双点前沿连通性DP",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "e9357e9af98c90c93f064c93cd5d7b203f8c96ea2a46c797891c3278994742a9"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2013:国:::P8607"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-geometry",
+            "lecture:foundation-vector",
+            "lecture:foundation-bindings",
+            "lecture:foundation-sort"
+          ],
+          "legacy": true,
+          "tags": [
+            "计算几何",
+            "Green公式",
+            "圆弧积分",
+            "区间合并",
+            "圆并"
+          ],
+          "title": "圆并裁剪与有向边界积分",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "40ffcaefef9291d50bf5996f0c024f11a7407ee33f653cf46994672de75668cb"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2013:国:::P8608"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration",
+            "lecture:foundation-counting",
+            "lecture:foundation-vector"
+          ],
+          "legacy": true,
+          "tags": [
+            "模拟",
+            "等价转化",
+            "计数"
+          ],
+          "title": "模拟、等价转化",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "e9e79a0f861571a3a5cba26a2510d3dd83f834d1713d4f6754ca01992b38da78"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2014:省:::P8611"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-dp",
+            "lecture:foundation-counting",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "动态规划",
+            "计数",
+            "网格路径"
+          ],
+          "title": "动态规划、计数",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "4dacd8fa7f3e1231c4ca8fba12879ef791df01f268f64a0dd3a1ec84ab52cdee"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2014:省:::P8612"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-fenwick",
+            "lecture:foundation-greedy",
+            "lecture:foundation-sort",
+            "lecture:foundation-lambda",
+            "lecture:foundation-vector",
+            "lecture:foundation-numeric-tools",
+            "lecture:foundation-integer",
+            "lecture:foundation-bitwise"
+          ],
+          "legacy": true,
+          "tags": [
+            "树状数组",
+            "逆序对",
+            "贪心",
+            "排序"
+          ],
+          "title": "树状数组、逆序对",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "c9a9be2057e0289ff87d78efcc16e4720b0e376c1c6bc09475598aedd36a38b5"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2014:省:::P8613"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-segment-tree",
+            "lecture:foundation-monotonic",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "线段树",
+            "区间操作",
+            "势能分析"
+          ],
+          "title": "线段树、区间操作",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "d823bba408822c0166dd03ca308fad17aaba37525b0901c078069e4a341e0798"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2014:国:::P8618"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-max-flow",
+            "lecture:foundation-lambda",
+            "lecture:foundation-vector",
+            "lecture:foundation-queue-stack",
+            "lecture:foundation-numeric-tools",
+            "lecture:foundation-recursion"
+          ],
+          "legacy": true,
+          "tags": [
+            "最小割",
+            "最大流",
+            "Dinic",
+            "网络流建模"
+          ],
+          "title": "最小割建模与Dinic",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "6a7dbb0a17debbc20a18a95d034a2b26b8feed64657d32c95984f4566eb2a2f5"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2014:国:::P8619"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-number-theory",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "数论",
+            "约数个数",
+            "完全平方数",
+            "整数平方根"
+          ],
+          "title": "数论、约数个数",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "8d3752a0445e680168e1a8dcc37afcc12bfac0b39af9b6b7efdeedc5ff2032e2"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2014:国:::P8622"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-bindings"
+          ],
+          "legacy": true,
+          "tags": [
+            "数学",
+            "坐标转换",
+            "曼哈顿距离"
+          ],
+          "title": "数学、坐标转换",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "f4e37a4c474e567f6604334dba488fdf33fb8e147057a8f1726068d8766d1380"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2015:省:::P8623"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-modular",
+            "lecture:foundation-dp",
+            "lecture:foundation-counting",
+            "lecture:foundation-integer",
+            "lecture:foundation-bitwise"
+          ],
+          "legacy": true,
+          "tags": [
+            "矩阵快速幂",
+            "动态规划",
+            "计数"
+          ],
+          "title": "矩阵快速幂、动态规划",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "aa59e7ed5b80a7f07d77de4f18ab27f1d4b7136e4454cdabb32e94c5026761a6"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2015:省:::P8624"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-trees",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "树形DP",
+            "最大权连通块",
+            "迭代DFS",
+            "后序遍历"
+          ],
+          "title": "树形DP、最大权连通块",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "cb08ffb75b4613b5916169edd1bd4d346205535e3d8b972bca7656ea1d1ad56a"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2015:省:::P8625"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-hashing",
+            "lecture:foundation-counting",
+            "lecture:foundation-lambda",
+            "lecture:foundation-maps",
+            "lecture:foundation-strings",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "字符串",
+            "哈希表",
+            "滑动窗口",
+            "计数"
+          ],
+          "title": "字符串、哈希表",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "ef24ba9da7e4d7061945dcece0d3b14e93de297cd48a2c664bb3e6b1315149cd"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2015:国:::P8630"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-li-chao",
+            "lecture:foundation-dp",
+            "lecture:foundation-prefix",
+            "lecture:foundation-coordinates",
+            "lecture:foundation-bounds",
+            "lecture:foundation-vector",
+            "lecture:foundation-sort",
+            "lecture:foundation-integer",
+            "lecture:foundation-iterators"
+          ],
+          "legacy": true,
+          "tags": [
+            "动态规划",
+            "斜率优化",
+            "Li Chao 树",
+            "前缀和",
+            "离散化"
+          ],
+          "title": "三层DP与离散Li Chao树",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "9967633403395fbb294913e230b965c8ef3ee18d9b14c43f8a467690908939f5"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2015:国:::P8632"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration",
+            "lecture:foundation-modular",
+            "lecture:foundation-vector",
+            "lecture:foundation-bindings",
+            "lecture:foundation-numeric-tools",
+            "lecture:foundation-integer",
+            "lecture:foundation-bitwise"
+          ],
+          "legacy": true,
+          "tags": [
+            "Burnside引理",
+            "图自同构",
+            "置换群",
+            "枚举",
+            "模逆元"
+          ],
+          "title": "Burnside引理、图自同构",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "66e7fbb6cd3eb98c3487a29ffb7780a6315307c22982d7179d78af1f97db055a"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2015:国:::P8633"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration",
+            "lecture:foundation-vector"
+          ],
+          "legacy": true,
+          "tags": [
+            "枚举",
+            "预处理",
+            "哈希/数组映射",
+            "数学"
+          ],
+          "title": "枚举、预处理",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "c76325b1cfcee6c6c4106dbfde8451e5ef413b395b76b4ef4b155b0023e822b9"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2016:省:::P8635"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-number-theory",
+            "lecture:foundation-lambda",
+            "lecture:foundation-vector",
+            "lecture:foundation-bindings",
+            "lecture:foundation-sort",
+            "lecture:foundation-maps",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "数学",
+            "数论",
+            "质因数分解",
+            "最大公约数",
+            "排序去重"
+          ],
+          "title": "数学、数论",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "64bd840a65ce85a0eb6d488422778dce988e246f4770e6410d4e84051956f304"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2016:省:::P8636"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-permutations",
+            "lecture:foundation-greedy",
+            "lecture:foundation-graphs",
+            "lecture:foundation-vector"
+          ],
+          "legacy": true,
+          "tags": [
+            "置换",
+            "置换环",
+            "贪心",
+            "图论"
+          ],
+          "title": "置换、置换环",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "f3b8f75b9040718270b3bc5501a3b3fc2bb6c0d05aacdbc677afc79f48b00377"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2016:省:::P8637"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-dp",
+            "lecture:foundation-subset-dp",
+            "lecture:foundation-lambda",
+            "lecture:foundation-vector",
+            "lecture:foundation-strings",
+            "lecture:foundation-numeric-tools",
+            "lecture:foundation-bitwise"
+          ],
+          "legacy": true,
+          "tags": [
+            "动态规划",
+            "状态压缩",
+            "连通性状态压缩",
+            "生成树计数",
+            "网格图"
+          ],
+          "title": "前沿连通性DP",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "caa139e4444e79cf2adae5c1550ccc25920b1abda4160d75152376e52b75095f"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2016:国:::P8639"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration",
+            "lecture:foundation-bitwise",
+            "lecture:foundation-counting",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "枚举",
+            "位运算",
+            "异或",
+            "组合计数"
+          ],
+          "title": "枚举、位运算",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "db3c7be3c38a088ed67c14565a7ac7425ba8d70ea694ca12a56462ac1722f210"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2016:国:::P8644"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-geometry",
+            "lecture:foundation-coordinates",
+            "lecture:foundation-bounds",
+            "lecture:foundation-lambda",
+            "lecture:foundation-vector",
+            "lecture:foundation-sort",
+            "lecture:foundation-integer",
+            "lecture:foundation-iterators"
+          ],
+          "legacy": true,
+          "tags": [
+            "计算几何",
+            "扫描线",
+            "floor_sum",
+            "二分",
+            "简单多边形"
+          ],
+          "title": "竖条扫描与欧几里得取整和",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "e2f562b6b5bee744e8dcb08735c1610956007df821651d2fbfdb5618dc1117d8"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2016:国:::P8645"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-number-theory",
+            "lecture:foundation-knapsack",
+            "lecture:foundation-dp",
+            "lecture:foundation-vector"
+          ],
+          "legacy": true,
+          "tags": [
+            "数论",
+            "最大公约数",
+            "完全背包",
+            "动态规划"
+          ],
+          "title": "数论、最大公约数",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "28f9c2d0f1481ddb3f4406029b5a4151fbed7e736729811be8127a528dadd091"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2017:省:::P8646"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-binary-answer",
+            "lecture:foundation-greedy",
+            "lecture:foundation-lambda",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "二分答案",
+            "贪心",
+            "整数除法"
+          ],
+          "title": "二分答案、贪心",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "db33e0cefc60d39f6c3d006f9d3c80c1eba3a84da02a50ca51cf18af0a18369c"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2017:省:::P8647"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-arrays",
+            "lecture:foundation-vector",
+            "lecture:foundation-functions",
+            "lecture:foundation-integer",
+            "lecture:foundation-prefix",
+            "lecture:foundation-modular",
+            "lecture:foundation-counting"
+          ],
+          "legacy": true,
+          "tags": [
+            "前缀和",
+            "取模与同余"
+          ],
+          "title": "累计完整前缀和后统计同余次数",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "957307dbe40eaf67c018403ddfd5622c46a6b7b9fe6b6a2489d758d1bb802c72"
+          }
+        },
+        {
+          "detailedSolution": {
+            "images": {
+              "assets/core7/P8649.svg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3NjAiIGhlaWdodD0iMzMwIiB2aWV3Qm94PSIwIDAgNzYwIDMzMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9InRpdGxlIj48dGl0bGUgaWQ9InRpdGxlIj7mqKHkuozliY3nvIDvvJrmr4/kuKrkvZnmlbDkuInmrKHvvIzlkITphY3miJDkuInlr7k8L3RpdGxlPg0KPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgcng9IjEyIiBmaWxsPSIjZmZmIi8+DQo8ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLCBOb3RvIFNhbnMgQ0pLIFNDLCBzYW5zLXNlcmlmIiBmaWxsPSIjMjQzNDQ5Ij4NCjx0ZXh0IHg9IjI4IiB5PSIzNiIgZmlsbD0iIzI0MzQ0OSIgZm9udC1zaXplPSIyMyIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iYm9sZCI+5qih5LqM5YmN57yA77ya5q+P5Liq5L2Z5pWw5LiJ5qyh77yM5ZCE6YWN5oiQ5LiJ5a+5PC90ZXh0Pg0KPHJlY3QgeD0iMTQ1IiB5PSI3NSIgd2lkdGg9Ijk3IiBoZWlnaHQ9IjQ4IiByeD0iNyIgZmlsbD0iI2VkZjVmZiIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjIiLz4NCjx0ZXh0IHg9IjE5My41IiB5PSIxMDYuMCIgZmlsbD0iIzIzNjVhYiIgZm9udC1zaXplPSIyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+MTwvdGV4dD4NCjxyZWN0IHg9IjI0NSIgeT0iNzUiIHdpZHRoPSI5NyIgaGVpZ2h0PSI0OCIgcng9IjciIGZpbGw9IiNlZGY1ZmYiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIyIi8+DQo8dGV4dCB4PSIyOTMuNSIgeT0iMTA2LjAiIGZpbGw9IiMyMzY1YWIiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPjI8L3RleHQ+DQo8cmVjdCB4PSIzNDUiIHk9Ijc1IiB3aWR0aD0iOTciIGhlaWdodD0iNDgiIHJ4PSI3IiBmaWxsPSIjZWRmNWZmIiBzdHJva2U9IiMyMzY1YWIiIHN0cm9rZS13aWR0aD0iMiIvPg0KPHRleHQgeD0iMzkzLjUiIHk9IjEwNi4wIiBmaWxsPSIjMjM2NWFiIiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj4zPC90ZXh0Pg0KPHJlY3QgeD0iNDQ1IiB5PSI3NSIgd2lkdGg9Ijk3IiBoZWlnaHQ9IjQ4IiByeD0iNyIgZmlsbD0iI2VkZjVmZiIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjIiLz4NCjx0ZXh0IHg9IjQ5My41IiB5PSIxMDYuMCIgZmlsbD0iIzIzNjVhYiIgZm9udC1zaXplPSIyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+NDwvdGV4dD4NCjxyZWN0IHg9IjU0NSIgeT0iNzUiIHdpZHRoPSI5NyIgaGVpZ2h0PSI0OCIgcng9IjciIGZpbGw9IiNlZGY1ZmYiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIyIi8+DQo8dGV4dCB4PSI1OTMuNSIgeT0iMTA2LjAiIGZpbGw9IiMyMzY1YWIiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPjU8L3RleHQ+DQo8Y2lyY2xlIGN4PSIxNDAiIGN5PSIxOTUiIHI9IjIzIiBmaWxsPSIjZmZmIiBzdHJva2U9IiMxMjgwNWMiIHN0cm9rZS13aWR0aD0iMyIvPg0KPHRleHQgeD0iMTQwIiB5PSIyMDIiIGZpbGw9IiMxMjgwNWMiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPjA8L3RleHQ+DQo8Y2lyY2xlIGN4PSIyNDAiIGN5PSIxOTUiIHI9IjIzIiBmaWxsPSIjZmZmIiBzdHJva2U9IiMyMzY1YWIiIHN0cm9rZS13aWR0aD0iMyIvPg0KPHRleHQgeD0iMjQwIiB5PSIyMDIiIGZpbGw9IiMyMzY1YWIiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPjE8L3RleHQ+DQo8Y2lyY2xlIGN4PSIzNDAiIGN5PSIxOTUiIHI9IjIzIiBmaWxsPSIjZmZmIiBzdHJva2U9IiMyMzY1YWIiIHN0cm9rZS13aWR0aD0iMyIvPg0KPHRleHQgeD0iMzQwIiB5PSIyMDIiIGZpbGw9IiMyMzY1YWIiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPjE8L3RleHQ+DQo8Y2lyY2xlIGN4PSI0NDAiIGN5PSIxOTUiIHI9IjIzIiBmaWxsPSIjZmZmIiBzdHJva2U9IiMxMjgwNWMiIHN0cm9rZS13aWR0aD0iMyIvPg0KPHRleHQgeD0iNDQwIiB5PSIyMDIiIGZpbGw9IiMxMjgwNWMiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPjA8L3RleHQ+DQo8Y2lyY2xlIGN4PSI1NDAiIGN5PSIxOTUiIHI9IjIzIiBmaWxsPSIjZmZmIiBzdHJva2U9IiMxMjgwNWMiIHN0cm9rZS13aWR0aD0iMyIvPg0KPHRleHQgeD0iNTQwIiB5PSIyMDIiIGZpbGw9IiMxMjgwNWMiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPjA8L3RleHQ+DQo8Y2lyY2xlIGN4PSI2NDAiIGN5PSIxOTUiIHI9IjIzIiBmaWxsPSIjZmZmIiBzdHJva2U9IiMyMzY1YWIiIHN0cm9rZS13aWR0aD0iMyIvPg0KPHRleHQgeD0iNjQwIiB5PSIyMDIiIGZpbGw9IiMyMzY1YWIiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPjE8L3RleHQ+DQo8dGV4dCB4PSI4NSIgeT0iMjc1IiBmaWxsPSIjMjQzNDQ5IiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPuS9meaVsOmbtu+8muS9jee9riAw44CBM+OAgTTvvJvkvZnmlbDkuIDvvJrkvY3nva4gMeOAgTLjgIE1PC90ZXh0Pg0KPHRleHQgeD0iMjAwIiB5PSIzMTUiIGZpbGw9IiMxMjgwNWMiIGZvbnQtc2l6ZT0iMjMiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+5oC75Yy66Ze05pWwIEMoMywyKStDKDMsMik9NjwvdGV4dD4NCjwvZz48L3N2Zz4NCg==",
+              "assets/foundations/prefix.svg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3NjAiIGhlaWdodD0iMzE1IiB2aWV3Qm94PSIwIDAgNzYwIDMxNSIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9InRpdGxlIj48dGl0bGUgaWQ9InRpdGxlIj7ljLrpl7TlkozvvJrmlbTmrrXlh4/mjonlpJrnrpfnmoTliY3nvIA8L3RpdGxlPgo8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiByeD0iMTIiIGZpbGw9IiNmZmYiLz4KPGcgZm9udC1mYW1pbHk9Ik1pY3Jvc29mdCBZYUhlaSwgTm90byBTYW5zIENKSyBTQywgc2Fucy1zZXJpZiIgZmlsbD0iIzI0MzQ0OSI+Cjx0ZXh0IHg9IjI4IiB5PSIzNiIgZmlsbD0iIzI0MzQ0OSIgZm9udC1zaXplPSIyMyIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iYm9sZCI+5Yy66Ze05ZKM77ya5pW05q615YeP5o6J5aSa566X55qE5YmN57yAPC90ZXh0Pgo8cmVjdCB4PSIyMDAiIHk9Ijk1IiB3aWR0aD0iMTE3IiBoZWlnaHQ9IjQ4IiByeD0iNyIgZmlsbD0iI2VkZjVmZiIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMjU4LjUiIHk9IjEyNi4wIiBmaWxsPSIjMjM2NWFiIiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj4yPC90ZXh0Pgo8cmVjdCB4PSIzMjAiIHk9Ijk1IiB3aWR0aD0iMTE3IiBoZWlnaHQ9IjQ4IiByeD0iNyIgZmlsbD0iI2VkZjVmZiIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMzc4LjUiIHk9IjEyNi4wIiBmaWxsPSIjMjM2NWFiIiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj4zPC90ZXh0Pgo8cmVjdCB4PSI0NDAiIHk9Ijk1IiB3aWR0aD0iMTE3IiBoZWlnaHQ9IjQ4IiByeD0iNyIgZmlsbD0iI2VkZjVmZiIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iNDk4LjUiIHk9IjEyNi4wIiBmaWxsPSIjMjM2NWFiIiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj4xPC90ZXh0Pgo8cmVjdCB4PSI1NjAiIHk9Ijk1IiB3aWR0aD0iMTE3IiBoZWlnaHQ9IjQ4IiByeD0iNyIgZmlsbD0iI2VkZjVmZiIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iNjE4LjUiIHk9IjEyNi4wIiBmaWxsPSIjMjM2NWFiIiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj40PC90ZXh0Pgo8dGV4dCB4PSI0NSIgeT0iMTI4IiBmaWxsPSIjMjQzNDQ5IiBmb250LXNpemU9IjIyIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPmE8L3RleHQ+CjxsaW5lIHgxPSIyMDAiIHkxPSIxNjUiIHgyPSI2NzciIHkyPSIxNjUiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSI3Ii8+Cjx0ZXh0IHg9IjQwMCIgeT0iMjAwIiBmaWxsPSIjMjM2NWFiIiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj5T4oKEID0gMTA8L3RleHQ+CjxsaW5lIHgxPSIyMDAiIHkxPSIyMjUiIHgyPSIzMTciIHkyPSIyMjUiIHN0cm9rZT0iI2JjMzY0NSIgc3Ryb2tlLXdpZHRoPSI3Ii8+Cjx0ZXh0IHg9IjIwMCIgeT0iMjY1IiBmaWxsPSIjYmMzNjQ1IiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPuWHj+WOuyBT4oKBID0gMjwvdGV4dD4KPGxpbmUgeDE9IjMyMCIgeTE9IjIyNSIgeDI9IjY3NyIgeTI9IjIyNSIgc3Ryb2tlPSIjMTI4MDVjIiBzdHJva2Utd2lkdGg9IjciLz4KPHRleHQgeD0iNTEwIiB5PSIyNjUiIGZpbGw9IiMxMjgwNWMiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPueVmeS4iyAzICsgMSArIDQgPSA4PC90ZXh0Pgo8L2c+PC9zdmc+Cg=="
+            },
+            "markdown": "## P8649. $k$ 倍区间\n\n> 原题：[P8649](https://www.luogu.com.cn/problem/P8649)\n> 解法：只保存前缀余数，逐项累计同余次数 · C++17\n\n### 题意\n\n统计数组中元素和为 K 的倍数的非空连续区间数量。\n\n<!-- reusable-foundations:start -->\n\n### 从零讲：C++ 输入输出：把数据读进变量，把结果写到标准输出\n\n程序运行时从标准输入接收题目给的数据，把答案送到标准输出。`cin` 和 `cout` 定义在 `<iostream>`；写 `using namespace std;` 后可以省略它们前面的 `std::`。最小完整程序是：\n\n```cxx\n#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    cout << a + b << '\\n';\n    return 0;\n}\n```\n\n输入二十和三十，两个变量分别保存二十、三十，输出五十。`int a, b;` 声明两个整数变量；`cin >> a` 才给变量赋入输入值。多个 `>>` 从左到右读取，读取整数时会跳过空格、制表符、换行，所以两个整数可以分处两行。负号属于整数，不需要另读一个符号。\n\n`cout <<` 后可以接数值、字符或字符串。`' '` 是一个空格字符，`'\\n'` 是换行字符，`\"Hello\"` 是字符串。`cout << a << ' ' << b << '\\n';` 输出两个以空格分开的整数并换行。评测程序只需要答案，不应加入“请输入”等提示。\n\n读取 `char c; cin >> c;` 会跳过前导空白。要读取包含空格的一整行，用 `<string>` 中的 `string s; getline(cin, s);`。若此前用 `cin >> n` 读取过整数，换行还留在输入中，需要先处理那一个剩余换行；不能盲目把所有空格都删掉，因为字符画的行首空格和文本中的空格可能就是数据。\n\n`fixed << setprecision(3)`（需要 `<iomanip>`）表示以小数形式保留三位小数，例如把 $2.5$ 输出成 $2.500$；不用 `fixed` 时，`setprecision` 指有效数字总数。设置会影响后续输出，使用前应确认所需精度。\n\n竞赛中可在首次输入输出前调用 `ios::sync_with_stdio(false); cin.tie(nullptr);`，减少 C++ 流与 C 标准输入输出的同步、绑定开销。随后保持使用 `cin/cout`，不要混用另一套 `scanf/printf`。交互题还要在需要对方回应前主动刷新，例如 `cout << query << endl;`；普通题用换行字符即可。\n\n读入长度为 $L$ 的文本、或输出 $L$ 个字符，至少需要 $O(L)$ 时间。数据类型仍要能容纳结果：把两个整数相乘时，即使保存到 `long long`，也要让乘法本身在这个类型中进行，例如先把输入声明为 `long long`。\n\n### 从零讲：分支与循环：按条件选择，按次序重复\n\n`if (条件) { ... } else { ... }` 根据条件的真假选择一条分支。比较运算 `==`、`!=`、`<`、`<=`、`>`、`>=` 返回真假值；`=` 是赋值，不能代替相等比较。`&&` 表示两边都成立，`||` 表示至少一边成立，`!` 把真假反转。\n\n```cxx\nint score = 85;\nif (score >= 90) cout << \"A\";\nelse if (score >= 60) cout << \"B\";\nelse cout << \"C\"; // 这个例子输出 B\n```\n\n这条分支链只执行第一个符合条件的分支。先处理高分后，第二个条件自然只会接到低于九十分的数。几个独立的 `if` 则可能执行多次；两种结构代表不同问题。逻辑运算会短路：`i < n && a[i] == 0` 先确认下标合法，才读取那一格。\n\n`for (初始化; 继续条件; 每轮更新)` 适合知道重复范围的情况。例如下列代码依次处理一到四，总和是十：\n\n```cxx\nint sum = 0;\nfor (int i = 1; i <= 4; ++i) {\n    sum += i;\n}\ncout << sum;\n```\n\n初始化只做一次；每轮先判断条件，条件为真才执行循环体，随后执行更新。`++i` 把 $i$ 加一，`sum += i` 等价于把旧 sum 加 $i$ 再保存。应明确每个变量在循环前、循环后分别表示什么；最大值相同时是否更新，决定了保留较早还是较晚的答案。\n\n`while (条件)` 适合“不满足目标就再做一步”：\n\n```cxx\nint x = 13, times = 0;\nwhile (x > 1) {\n    x /= 2;\n    ++times;\n}\n// x 依次是 13、6、3、1，执行三次\n```\n\n循环开始前先检查条件，初始已满足目标时可能一次也不执行。每次执行必须推进状态，否则可能无限循环。`break` 结束最内层循环，`continue` 跳过本轮剩余部分；`for` 中的 continue 之后仍会执行每轮更新。\n\n复杂度由实际执行次数决定。上述求和执行 $n$ 次是 $O(n)$；每次将正整数减半只执行 $O(\\log n)$ 次。两层循环不能仅凭外观判定为平方：内层若总共只前进 $n$ 次，总量仍可能线性。变量应在正确作用范围初始化；多组数据的计数器若未重置，下一组会错误继承上一组结果。\n\n### 从零讲：数组：用下标定位一组状态\n\n数组把同一类型的若干值按位置保存。`int a[5] = {};` 创建五个初始为零的整数，合法下标是零到四；`a[2] = 7;` 只修改第三格。下标表示位置，格子中保存的值是另一回事。\n\n```cxx\nint a[4] = {4, 3, 0, 5};\nint sum = 0;\nfor (int i = 0; i < 4; ++i) sum += a[i];\n// 和为十二；a[0] 是四，a[3] 是五\n```\n\n读写一个给定下标的格子是 $O(1)$。扫描全部 $n$ 格为 $O(n)$，保存 $n$ 格的空间为 $O(n)$。不能访问负下标或 $a[n]$，越界属于未定义行为，可能表现为随机数或崩溃，编译通过不代表安全。\n\n`bool seen[34] = {};` 可以保存号码是否出现过，初始全为 false；`seen[x]=true` 表示记录出现状态。再次赋 true 不改变结果，因此适合去重、标记删除；若操作是开关翻转，则要写 `seen[x]=!seen[x]`。标记真假和记录出现次数是不同任务，后者需要整数计数数组。\n\n若题目用一到 $n$ 编号，可以创建 $n+1$ 格并预留零号，统一按原编号访问。或者读入时改成零到 $n-1$，但必须让全部循环与公式使用同一套下标。\n\n二维数组 `int a[5][6] = {};` 有五行六列，`a[r][c]` 表示第 $r$ 行第 $c$ 列。三维数组再加一个方向，用三个下标定位单位格子。逐格扫描的时间是各维长度的乘积，空间也按格子总数计算。\n\n固定数组的长度需要在编译时确定，不能在标准 C++17 中写依赖输入的 `int a[n]`。输入后才确定大小时使用 `vector<int> a(n,0)`；它同样从零编号，也可以按下标访问，但仍须检查下标边界。大数组应避免放在空间有限的函数栈上，可以用动态容器或全局数组。数组里的旧状态是否应该保留，需要根据当前问题决定，多组测试不能意外继承上一组的内容。\n\n### 从零讲：vector：长度可变的连续数组\n\n`vector<T>` 保存一串同类型的元素，适合按下标访问、扫描、排序。`T` 是元素类型，例如 `vector<int>` 保存整数，`vector<pair<int,int>>` 保存整数对，`vector<vector<int>>` 可保存每个顶点各自的邻居。需要 `<vector>`。\n\n```cxx\nvector<int> a(3, 7);   // 三个元素，内容是 7、7、7\na.push_back(9);       // 在末尾追加，现在长度为 4\nint x = a[1];         // 从 0 编号，这里得到 7\na[1] = 2;            // 改第二个元素\nint n = int(a.size());\n```\n\n`vector<int> a(3)` 创建三个值为零的元素；`a.reserve(3)` 只预留容量，元素数仍为零，此时不能访问 `a[0]`。长度 `size()` 与容量 `capacity()` 是不同概念。\n\n下标访问为 $O(1)$，遍历为 $O(n)$。末尾追加通常为 $O(1)$；容量不足时会分配更大的连续空间并搬移元素，这次可能为 $O(n)$，一连串追加的平均成本称为摊还 $O(1)$。中间插入或删除会搬移后续元素，最坏 $O(n)$。内存是元素量的 $O(n)$，并可能预留部分尚未使用的容量。\n\n`begin()` 指向首元素，`end()` 指向尾后位置，`sort(a.begin(),a.end())` 操作整个数组。`a[i]` 不检查越界；下标须满足 $0\\le i<\\mathrm{size}$。`at(i)` 会检查越界并抛异常。空数组不能访问 `front()`、`back()`；`pop_back()` 也要求非空。\n\n扩容后指向旧存储的迭代器、引用和指针会失效。遍历的同时 `push_back`，不能假定此前取得的引用仍可用。读取大数组的函数常用 `const vector<int>& a` 按常量引用传入，既不复制也禁止通过该引用修改；`vector<int> a` 按值传参则复制内容。选择副本还是引用取决于是否要保留独立数据。\n\n### 从零讲：具名函数：给可复用计算一个明确接口\n\n函数把一段计算包装成“输入参数 → 返回结果”。例如判断整数是否为偶数：\n\n```cxx\nbool even(int x) {\n    return x % 2 == 0;\n}\nint main() {\n    bool a = even(8); // a 为 true\n    bool b = even(7); // b 为 false\n}\n```\n\n`bool` 是返回类型，`even` 是函数名，`int x` 是参数声明。调用 `even(8)` 时，实参八传入这个新调用的局部变量 $x$，执行 return 后把真假值交回调用处。定义本身不执行计算，只有调用才执行。函数应在调用处之前定义，或提前写声明。\n\n普通数值参数按值传递，函数里修改 $x$ 不会改变调用者原变量。参数写成 `int &x` 时才引用调用者对象；必须让这个对象在调用期间有效。`const vector<int>& a` 用引用避免复制整个容器，并承诺不通过这个引用修改它。返回局部变量的值是安全的，返回局部变量的引用则在函数结束后失效。\n\n函数名应说明它回答的问题，调用处负责传哪些数据。例如闰年判定只接收一个年份并返回真假，枚举年份范围和输出格式由调用者处理。同一判定被多次使用时，这能减少规则不一致；但函数包装不会自动降低算法复杂度，仍要把每次调用实际做的工作计入时间。\n\n如果函数内部又调用自身，就是递归，需要明确最小情况如何直接返回、每次调用如何逼近它；递归会占用调用栈。普通辅助函数可以不使用递归，不应仅因写成函数就称作递归算法。\n\n### 从零讲：整数类型、整除与溢出\n\n计算前先看每一步可能达到的范围。常见环境中 `int` 是 32 位，上界约 $2.1\\times10^9$；`long long` 至少 64 位，常见有符号 64 位上界约 $9.22\\times10^{18}$。`using ll = long long;` 只是为已有类型起别名。\n\n```cxx\nint a = 100000, b = 100000;\nlong long wrong = a * b;      // 右边先按 int 乘，可能已溢出\nlong long right = 1LL * a * b; // 先把运算提升到 long long\n```\n\n不能指望“接收结果的变量够大”修复此前已经溢出的计算。先提高操作数类型，再做乘法。超过 64 位时，GCC 的 `__int128` 可作中间量，但它不是标准 C++17 类型，也没有标准流输出重载；先证明范围，再选择工具。\n\n整数 `/` 对有符号数向零截断：`7/3==2`、`-7/3==-2`。对非负数才等于向下取整。余数满足 `a == (a/b)*b + a%b`，除数不能为零；要将余数归入 $[0,m-1]$（$m>0$），可用 `(a % m + m) % m`，同时保证中间加法不溢出。\n\n非负 $a$、正 $b$ 的向上取整可写 `a/b + (a%b != 0)`，比 `(a+b-1)/b` 更容易避免加法溢出。比较平方时也应在宽类型内计算；浮点数不适合作为大整数相等的默认判断方式。\n\n`size()` 返回无符号类型。空容器上写 `size()-1` 会绕到很大的数，逆序遍历可以先转成有符号、确认长度，或使用逆向迭代器。`abs` 对最小有符号数无法在同类型中表达其正值，需先约束输入差值范围。一般机器整数运算按常数时间估算，宽类型解决表示范围，不改变算法的增长阶。\n\n### 从零讲：前缀和：一段和由两段前缀相减\n\n一串数需要反复询问连续一段的总和，逐段扫描会重复加很多相同元素。先保存从头到每个位置的累计量，就能复用这些工作。\n\n对从一编号的数组定义 $S_0=0$，$S_i=a_1+\\cdots+a_i$。例如 $a=[2,3,1,4]$，前缀为 $S=[0,2,5,6,10]$。\n\n![S4 包含整段，S1 是多算的前缀，减去后留下第 2 至 4 项](assets/foundations/prefix.svg)\n\n查询 $[2,4]$ 时，$S_4$ 包含第一个数，减去 $S_1$ 后留下 $3+1+4=8$。一般地，$S_r-S_{l-1}$ 中前 $l-1$ 项逐项抵消，只留下第 $l$ 到第 $r$ 项。\n\n```cxx\nvector<long long> s(n + 1, 0);\nfor (int i = 1; i <= n; ++i) s[i] = s[i - 1] + a[i];\nlong long sum = s[r] - s[l - 1];\n```\n\n预处理 $O(n)$ 时间和空间，每次查询 $O(1)$，比 $q$ 次逐段扫描的最坏 $O(nq)$ 更适合大量静态区间和。若使用从零编号的原数组，也可定义 $P_i$ 为前 $i$ 项之和，查询闭区间 $[l,r]$ 为 $P_{r+1}-P_l$；不要混用两套下标。\n\n前缀可以累积满足条件的次数，把每项变成零或一；也可以保存异或，此时相同前缀通过异或抵消。最小值没有同样的可逆减法，不能直接套区间最小值。原数组改变后，后续许多前缀都受影响；频繁在线修改时可考虑树状数组或线段树。\n\n首个空前缀零不可漏，累加类型要覆盖总和。数学上的减法可能得到负值，别让无符号类型把它变成巨大正数。\n\n### 从零讲：取模、快速幂与乘法逆元\n\n模正整数 $m$ 把数按余数归为 $0$ 到 $m-1$。加法、减法和乘法可以在中途取模而保持最终同余结果；除法需要额外条件。\n\n例如模七，八与一同余，十与三同余；$8+10$ 的余数为四，先算 $1+3$ 也为四。C++ 负数 `%` 可能为负，需在安全范围内用 `(x % m + m) % m` 归一。相乘之前仍须避免机器整数溢出，取模并不能修复已经溢出的乘法。\n\n#### 快速幂为什么只需对数次\n\n计算 $a^e$，将指数写成二进制。十三等于八加四加一，所以只需 $a^8,a^4,a$ 三项相乘。逐次平方得到 $a,a^2,a^4,a^8$，指数每轮除二。\n\n```cxx\nlong long power(long long a, long long e, long long mod) {\n    a %= mod;\n    if (a < 0) a += mod;\n    long long result = 1 % mod;\n    while (e > 0) {\n        if (e & 1) result = result * a % mod;\n        a = a * a % mod;\n        e >>= 1;\n    }\n    return result;\n}\n```\n\n这里要求 $e\\ge0,m>0$，并保证两个乘积能用 `long long` 表示。模数不超过 $10^9+7$ 时两个归一余数的乘积可放进常见有符号 64 位；更大的模数要额外处理乘法。时间 $O(\\log(e+1))$，额外空间 $O(1)$，零次幂返回一的余数。\n\n#### 模意义的除法\n\n$b$ 的乘法逆元是满足 $bb^{-1}\\equiv1\\pmod m$ 的数。模七时二的逆元为四，因为 $2\\times4\\equiv1$；因此八除二的模七结果为 $(8\\bmod7)\\times4\\bmod7=4$，不是把一直接整除二得到零。\n\n逆元存在当且仅当 $\\gcd(b,m)=1$。若 $m$ 为质数且 $b$ 不为其倍数，可用费马小定理求 $b^{m-2}\\bmod m$；合数模不能照抄这个指数。阶乘下标达到模质数时，阶乘可能为零，普通逆阶乘方法也失去前提。若普通整数公式中的分子可整除分母，仍不意味着先取模再整除保持正确。\n\n<!-- reusable-foundations:end -->\n\n### 思路\n\n样例 [1,2,3,4,5]、K=2，含空前缀的余数为 [0,1,1,0,0,1]。零与一各出现三次，各自任选两个按下标先后配对，得到三段，总计六段。\n\n![前缀状态位于元素之间；每对同余边界对应其间唯一的非空连续区间。](assets/core7/P8649.svg)\n\n前缀状态位于元素之间；每对同余边界对应其间唯一的非空连续区间。\n\n令 $S[i]$ 为前 $i$ 项之和。区间 $[l, r]$ 的和是 $S[r]-S[l-1]$，可被 K 整除等价于 $S[r]$ 与 $S[l-1]$ 同余。每对不同下标的同余前缀恰好对应一个非空区间，因此不必真的枚举区间或保存全部前缀和。\n\n当前前缀到来时，频次数组只存此前位置。若相同余数已有 $c$ 次，就有 $c$ 个可选左边界，答案加 $c$，再登记当前一次。先查后加排除自己和自己配出的空区间；初始 $cnt[0]=1$ 则包含从首项开始的区间。\n\n维护余数时每次加新值再对 K 取模即可。输入是正数，无负余数问题；若推广到负输入，应做非负归一。最多 N(N+1)/2 段，答案用 long long，而不是只看单个 $A_i$ 的大小选 int。\n\n时间 $O(n+k)$、频次数组空间 $O(k)$。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nint n,k;cin>>n>>k;vector<long long>count(k);count[0]=1;int remainder=0;long long answer=0;\nfor(int i=0;i<n;++i){int x;cin>>x;remainder=(remainder+x)%k;answer+=count[remainder];++count[remainder];}\ncout<<answer<<'\\n';\n    return 0;\n}\n```\n\n### 易错点\n\n空前缀先登记一次；先加此前次数再插入自己；区间数用 long long。\n"
+          },
           "id": "direct",
+          "images": {
+            "assets/core7/P8649.svg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3NjAiIGhlaWdodD0iMzMwIiB2aWV3Qm94PSIwIDAgNzYwIDMzMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9InRpdGxlIj48dGl0bGUgaWQ9InRpdGxlIj7mqKHkuozliY3nvIDvvJrmr4/kuKrkvZnmlbDkuInmrKHvvIzlkITphY3miJDkuInlr7k8L3RpdGxlPg0KPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgcng9IjEyIiBmaWxsPSIjZmZmIi8+DQo8ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLCBOb3RvIFNhbnMgQ0pLIFNDLCBzYW5zLXNlcmlmIiBmaWxsPSIjMjQzNDQ5Ij4NCjx0ZXh0IHg9IjI4IiB5PSIzNiIgZmlsbD0iIzI0MzQ0OSIgZm9udC1zaXplPSIyMyIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iYm9sZCI+5qih5LqM5YmN57yA77ya5q+P5Liq5L2Z5pWw5LiJ5qyh77yM5ZCE6YWN5oiQ5LiJ5a+5PC90ZXh0Pg0KPHJlY3QgeD0iMTQ1IiB5PSI3NSIgd2lkdGg9Ijk3IiBoZWlnaHQ9IjQ4IiByeD0iNyIgZmlsbD0iI2VkZjVmZiIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjIiLz4NCjx0ZXh0IHg9IjE5My41IiB5PSIxMDYuMCIgZmlsbD0iIzIzNjVhYiIgZm9udC1zaXplPSIyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+MTwvdGV4dD4NCjxyZWN0IHg9IjI0NSIgeT0iNzUiIHdpZHRoPSI5NyIgaGVpZ2h0PSI0OCIgcng9IjciIGZpbGw9IiNlZGY1ZmYiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIyIi8+DQo8dGV4dCB4PSIyOTMuNSIgeT0iMTA2LjAiIGZpbGw9IiMyMzY1YWIiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPjI8L3RleHQ+DQo8cmVjdCB4PSIzNDUiIHk9Ijc1IiB3aWR0aD0iOTciIGhlaWdodD0iNDgiIHJ4PSI3IiBmaWxsPSIjZWRmNWZmIiBzdHJva2U9IiMyMzY1YWIiIHN0cm9rZS13aWR0aD0iMiIvPg0KPHRleHQgeD0iMzkzLjUiIHk9IjEwNi4wIiBmaWxsPSIjMjM2NWFiIiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj4zPC90ZXh0Pg0KPHJlY3QgeD0iNDQ1IiB5PSI3NSIgd2lkdGg9Ijk3IiBoZWlnaHQ9IjQ4IiByeD0iNyIgZmlsbD0iI2VkZjVmZiIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjIiLz4NCjx0ZXh0IHg9IjQ5My41IiB5PSIxMDYuMCIgZmlsbD0iIzIzNjVhYiIgZm9udC1zaXplPSIyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+NDwvdGV4dD4NCjxyZWN0IHg9IjU0NSIgeT0iNzUiIHdpZHRoPSI5NyIgaGVpZ2h0PSI0OCIgcng9IjciIGZpbGw9IiNlZGY1ZmYiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIyIi8+DQo8dGV4dCB4PSI1OTMuNSIgeT0iMTA2LjAiIGZpbGw9IiMyMzY1YWIiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPjU8L3RleHQ+DQo8Y2lyY2xlIGN4PSIxNDAiIGN5PSIxOTUiIHI9IjIzIiBmaWxsPSIjZmZmIiBzdHJva2U9IiMxMjgwNWMiIHN0cm9rZS13aWR0aD0iMyIvPg0KPHRleHQgeD0iMTQwIiB5PSIyMDIiIGZpbGw9IiMxMjgwNWMiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPjA8L3RleHQ+DQo8Y2lyY2xlIGN4PSIyNDAiIGN5PSIxOTUiIHI9IjIzIiBmaWxsPSIjZmZmIiBzdHJva2U9IiMyMzY1YWIiIHN0cm9rZS13aWR0aD0iMyIvPg0KPHRleHQgeD0iMjQwIiB5PSIyMDIiIGZpbGw9IiMyMzY1YWIiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPjE8L3RleHQ+DQo8Y2lyY2xlIGN4PSIzNDAiIGN5PSIxOTUiIHI9IjIzIiBmaWxsPSIjZmZmIiBzdHJva2U9IiMyMzY1YWIiIHN0cm9rZS13aWR0aD0iMyIvPg0KPHRleHQgeD0iMzQwIiB5PSIyMDIiIGZpbGw9IiMyMzY1YWIiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPjE8L3RleHQ+DQo8Y2lyY2xlIGN4PSI0NDAiIGN5PSIxOTUiIHI9IjIzIiBmaWxsPSIjZmZmIiBzdHJva2U9IiMxMjgwNWMiIHN0cm9rZS13aWR0aD0iMyIvPg0KPHRleHQgeD0iNDQwIiB5PSIyMDIiIGZpbGw9IiMxMjgwNWMiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPjA8L3RleHQ+DQo8Y2lyY2xlIGN4PSI1NDAiIGN5PSIxOTUiIHI9IjIzIiBmaWxsPSIjZmZmIiBzdHJva2U9IiMxMjgwNWMiIHN0cm9rZS13aWR0aD0iMyIvPg0KPHRleHQgeD0iNTQwIiB5PSIyMDIiIGZpbGw9IiMxMjgwNWMiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPjA8L3RleHQ+DQo8Y2lyY2xlIGN4PSI2NDAiIGN5PSIxOTUiIHI9IjIzIiBmaWxsPSIjZmZmIiBzdHJva2U9IiMyMzY1YWIiIHN0cm9rZS13aWR0aD0iMyIvPg0KPHRleHQgeD0iNjQwIiB5PSIyMDIiIGZpbGw9IiMyMzY1YWIiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPjE8L3RleHQ+DQo8dGV4dCB4PSI4NSIgeT0iMjc1IiBmaWxsPSIjMjQzNDQ5IiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPuS9meaVsOmbtu+8muS9jee9riAw44CBM+OAgTTvvJvkvZnmlbDkuIDvvJrkvY3nva4gMeOAgTLjgIE1PC90ZXh0Pg0KPHRleHQgeD0iMjAwIiB5PSIzMTUiIGZpbGw9IiMxMjgwNWMiIGZvbnQtc2l6ZT0iMjMiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+5oC75Yy66Ze05pWwIEMoMywyKStDKDMsMik9NjwvdGV4dD4NCjwvZz48L3N2Zz4NCg==",
+            "assets/foundations/prefix.svg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3NjAiIGhlaWdodD0iMzE1IiB2aWV3Qm94PSIwIDAgNzYwIDMxNSIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9InRpdGxlIj48dGl0bGUgaWQ9InRpdGxlIj7ljLrpl7TlkozvvJrmlbTmrrXlh4/mjonlpJrnrpfnmoTliY3nvIA8L3RpdGxlPgo8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiByeD0iMTIiIGZpbGw9IiNmZmYiLz4KPGcgZm9udC1mYW1pbHk9Ik1pY3Jvc29mdCBZYUhlaSwgTm90byBTYW5zIENKSyBTQywgc2Fucy1zZXJpZiIgZmlsbD0iIzI0MzQ0OSI+Cjx0ZXh0IHg9IjI4IiB5PSIzNiIgZmlsbD0iIzI0MzQ0OSIgZm9udC1zaXplPSIyMyIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iYm9sZCI+5Yy66Ze05ZKM77ya5pW05q615YeP5o6J5aSa566X55qE5YmN57yAPC90ZXh0Pgo8cmVjdCB4PSIyMDAiIHk9Ijk1IiB3aWR0aD0iMTE3IiBoZWlnaHQ9IjQ4IiByeD0iNyIgZmlsbD0iI2VkZjVmZiIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMjU4LjUiIHk9IjEyNi4wIiBmaWxsPSIjMjM2NWFiIiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj4yPC90ZXh0Pgo8cmVjdCB4PSIzMjAiIHk9Ijk1IiB3aWR0aD0iMTE3IiBoZWlnaHQ9IjQ4IiByeD0iNyIgZmlsbD0iI2VkZjVmZiIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMzc4LjUiIHk9IjEyNi4wIiBmaWxsPSIjMjM2NWFiIiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj4zPC90ZXh0Pgo8cmVjdCB4PSI0NDAiIHk9Ijk1IiB3aWR0aD0iMTE3IiBoZWlnaHQ9IjQ4IiByeD0iNyIgZmlsbD0iI2VkZjVmZiIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iNDk4LjUiIHk9IjEyNi4wIiBmaWxsPSIjMjM2NWFiIiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj4xPC90ZXh0Pgo8cmVjdCB4PSI1NjAiIHk9Ijk1IiB3aWR0aD0iMTE3IiBoZWlnaHQ9IjQ4IiByeD0iNyIgZmlsbD0iI2VkZjVmZiIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iNjE4LjUiIHk9IjEyNi4wIiBmaWxsPSIjMjM2NWFiIiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj40PC90ZXh0Pgo8dGV4dCB4PSI0NSIgeT0iMTI4IiBmaWxsPSIjMjQzNDQ5IiBmb250LXNpemU9IjIyIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPmE8L3RleHQ+CjxsaW5lIHgxPSIyMDAiIHkxPSIxNjUiIHgyPSI2NzciIHkyPSIxNjUiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSI3Ii8+Cjx0ZXh0IHg9IjQwMCIgeT0iMjAwIiBmaWxsPSIjMjM2NWFiIiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj5T4oKEID0gMTA8L3RleHQ+CjxsaW5lIHgxPSIyMDAiIHkxPSIyMjUiIHgyPSIzMTciIHkyPSIyMjUiIHN0cm9rZT0iI2JjMzY0NSIgc3Ryb2tlLXdpZHRoPSI3Ii8+Cjx0ZXh0IHg9IjIwMCIgeT0iMjY1IiBmaWxsPSIjYmMzNjQ1IiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPuWHj+WOuyBT4oKBID0gMjwvdGV4dD4KPGxpbmUgeDE9IjMyMCIgeTE9IjIyNSIgeDI9IjY3NyIgeTI9IjIyNSIgc3Ryb2tlPSIjMTI4MDVjIiBzdHJva2Utd2lkdGg9IjciLz4KPHRleHQgeD0iNTEwIiB5PSIyNjUiIGZpbGw9IiMxMjgwNWMiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPueVmeS4iyAzICsgMSArIDQgPSA4PC90ZXh0Pgo8L2c+PC9zdmc+Cg=="
+          },
           "lectureIds": [
             "lecture:foundation-io-basics",
             "lecture:foundation-basic-control",
@@ -4011,21 +4911,2063 @@
             "lecture:foundation-prefix",
             "lecture:foundation-modular"
           ],
-          "legacy": true,
+          "markdown": "## P8649. $k$ 倍区间\n\n> 原题：[P8649](https://www.luogu.com.cn/problem/P8649)\n> 解法：只保存前缀余数，逐项累计同余次数 · C++17\n\n### 题意\n\n统计数组中元素和为 K 的倍数的非空连续区间数量。\n\n<!-- reusable-foundations:start -->\n\n### 从零讲：C++ 输入输出：把数据读进变量，把结果写到标准输出\n\n程序运行时从标准输入接收题目给的数据，把答案送到标准输出。`cin` 和 `cout` 定义在 `<iostream>`；写 `using namespace std;` 后可以省略它们前面的 `std::`。最小完整程序是：\n\n```cxx\n#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    cout << a + b << '\\n';\n    return 0;\n}\n```\n\n输入二十和三十，两个变量分别保存二十、三十，输出五十。`int a, b;` 声明两个整数变量；`cin >> a` 才给变量赋入输入值。多个 `>>` 从左到右读取，读取整数时会跳过空格、制表符、换行，所以两个整数可以分处两行。负号属于整数，不需要另读一个符号。\n\n`cout <<` 后可以接数值、字符或字符串。`' '` 是一个空格字符，`'\\n'` 是换行字符，`\"Hello\"` 是字符串。`cout << a << ' ' << b << '\\n';` 输出两个以空格分开的整数并换行。评测程序只需要答案，不应加入“请输入”等提示。\n\n读取 `char c; cin >> c;` 会跳过前导空白。要读取包含空格的一整行，用 `<string>` 中的 `string s; getline(cin, s);`。若此前用 `cin >> n` 读取过整数，换行还留在输入中，需要先处理那一个剩余换行；不能盲目把所有空格都删掉，因为字符画的行首空格和文本中的空格可能就是数据。\n\n`fixed << setprecision(3)`（需要 `<iomanip>`）表示以小数形式保留三位小数，例如把 $2.5$ 输出成 $2.500$；不用 `fixed` 时，`setprecision` 指有效数字总数。设置会影响后续输出，使用前应确认所需精度。\n\n竞赛中可在首次输入输出前调用 `ios::sync_with_stdio(false); cin.tie(nullptr);`，减少 C++ 流与 C 标准输入输出的同步、绑定开销。随后保持使用 `cin/cout`，不要混用另一套 `scanf/printf`。交互题还要在需要对方回应前主动刷新，例如 `cout << query << endl;`；普通题用换行字符即可。\n\n读入长度为 $L$ 的文本、或输出 $L$ 个字符，至少需要 $O(L)$ 时间。数据类型仍要能容纳结果：把两个整数相乘时，即使保存到 `long long`，也要让乘法本身在这个类型中进行，例如先把输入声明为 `long long`。\n\n### 从零讲：分支与循环：按条件选择，按次序重复\n\n`if (条件) { ... } else { ... }` 根据条件的真假选择一条分支。比较运算 `==`、`!=`、`<`、`<=`、`>`、`>=` 返回真假值；`=` 是赋值，不能代替相等比较。`&&` 表示两边都成立，`||` 表示至少一边成立，`!` 把真假反转。\n\n```cxx\nint score = 85;\nif (score >= 90) cout << \"A\";\nelse if (score >= 60) cout << \"B\";\nelse cout << \"C\"; // 这个例子输出 B\n```\n\n这条分支链只执行第一个符合条件的分支。先处理高分后，第二个条件自然只会接到低于九十分的数。几个独立的 `if` 则可能执行多次；两种结构代表不同问题。逻辑运算会短路：`i < n && a[i] == 0` 先确认下标合法，才读取那一格。\n\n`for (初始化; 继续条件; 每轮更新)` 适合知道重复范围的情况。例如下列代码依次处理一到四，总和是十：\n\n```cxx\nint sum = 0;\nfor (int i = 1; i <= 4; ++i) {\n    sum += i;\n}\ncout << sum;\n```\n\n初始化只做一次；每轮先判断条件，条件为真才执行循环体，随后执行更新。`++i` 把 $i$ 加一，`sum += i` 等价于把旧 sum 加 $i$ 再保存。应明确每个变量在循环前、循环后分别表示什么；最大值相同时是否更新，决定了保留较早还是较晚的答案。\n\n`while (条件)` 适合“不满足目标就再做一步”：\n\n```cxx\nint x = 13, times = 0;\nwhile (x > 1) {\n    x /= 2;\n    ++times;\n}\n// x 依次是 13、6、3、1，执行三次\n```\n\n循环开始前先检查条件，初始已满足目标时可能一次也不执行。每次执行必须推进状态，否则可能无限循环。`break` 结束最内层循环，`continue` 跳过本轮剩余部分；`for` 中的 continue 之后仍会执行每轮更新。\n\n复杂度由实际执行次数决定。上述求和执行 $n$ 次是 $O(n)$；每次将正整数减半只执行 $O(\\log n)$ 次。两层循环不能仅凭外观判定为平方：内层若总共只前进 $n$ 次，总量仍可能线性。变量应在正确作用范围初始化；多组数据的计数器若未重置，下一组会错误继承上一组结果。\n\n### 从零讲：数组：用下标定位一组状态\n\n数组把同一类型的若干值按位置保存。`int a[5] = {};` 创建五个初始为零的整数，合法下标是零到四；`a[2] = 7;` 只修改第三格。下标表示位置，格子中保存的值是另一回事。\n\n```cxx\nint a[4] = {4, 3, 0, 5};\nint sum = 0;\nfor (int i = 0; i < 4; ++i) sum += a[i];\n// 和为十二；a[0] 是四，a[3] 是五\n```\n\n读写一个给定下标的格子是 $O(1)$。扫描全部 $n$ 格为 $O(n)$，保存 $n$ 格的空间为 $O(n)$。不能访问负下标或 $a[n]$，越界属于未定义行为，可能表现为随机数或崩溃，编译通过不代表安全。\n\n`bool seen[34] = {};` 可以保存号码是否出现过，初始全为 false；`seen[x]=true` 表示记录出现状态。再次赋 true 不改变结果，因此适合去重、标记删除；若操作是开关翻转，则要写 `seen[x]=!seen[x]`。标记真假和记录出现次数是不同任务，后者需要整数计数数组。\n\n若题目用一到 $n$ 编号，可以创建 $n+1$ 格并预留零号，统一按原编号访问。或者读入时改成零到 $n-1$，但必须让全部循环与公式使用同一套下标。\n\n二维数组 `int a[5][6] = {};` 有五行六列，`a[r][c]` 表示第 $r$ 行第 $c$ 列。三维数组再加一个方向，用三个下标定位单位格子。逐格扫描的时间是各维长度的乘积，空间也按格子总数计算。\n\n固定数组的长度需要在编译时确定，不能在标准 C++17 中写依赖输入的 `int a[n]`。输入后才确定大小时使用 `vector<int> a(n,0)`；它同样从零编号，也可以按下标访问，但仍须检查下标边界。大数组应避免放在空间有限的函数栈上，可以用动态容器或全局数组。数组里的旧状态是否应该保留，需要根据当前问题决定，多组测试不能意外继承上一组的内容。\n\n### 从零讲：vector：长度可变的连续数组\n\n`vector<T>` 保存一串同类型的元素，适合按下标访问、扫描、排序。`T` 是元素类型，例如 `vector<int>` 保存整数，`vector<pair<int,int>>` 保存整数对，`vector<vector<int>>` 可保存每个顶点各自的邻居。需要 `<vector>`。\n\n```cxx\nvector<int> a(3, 7);   // 三个元素，内容是 7、7、7\na.push_back(9);       // 在末尾追加，现在长度为 4\nint x = a[1];         // 从 0 编号，这里得到 7\na[1] = 2;            // 改第二个元素\nint n = int(a.size());\n```\n\n`vector<int> a(3)` 创建三个值为零的元素；`a.reserve(3)` 只预留容量，元素数仍为零，此时不能访问 `a[0]`。长度 `size()` 与容量 `capacity()` 是不同概念。\n\n下标访问为 $O(1)$，遍历为 $O(n)$。末尾追加通常为 $O(1)$；容量不足时会分配更大的连续空间并搬移元素，这次可能为 $O(n)$，一连串追加的平均成本称为摊还 $O(1)$。中间插入或删除会搬移后续元素，最坏 $O(n)$。内存是元素量的 $O(n)$，并可能预留部分尚未使用的容量。\n\n`begin()` 指向首元素，`end()` 指向尾后位置，`sort(a.begin(),a.end())` 操作整个数组。`a[i]` 不检查越界；下标须满足 $0\\le i<\\mathrm{size}$。`at(i)` 会检查越界并抛异常。空数组不能访问 `front()`、`back()`；`pop_back()` 也要求非空。\n\n扩容后指向旧存储的迭代器、引用和指针会失效。遍历的同时 `push_back`，不能假定此前取得的引用仍可用。读取大数组的函数常用 `const vector<int>& a` 按常量引用传入，既不复制也禁止通过该引用修改；`vector<int> a` 按值传参则复制内容。选择副本还是引用取决于是否要保留独立数据。\n\n### 从零讲：具名函数：给可复用计算一个明确接口\n\n函数把一段计算包装成“输入参数 → 返回结果”。例如判断整数是否为偶数：\n\n```cxx\nbool even(int x) {\n    return x % 2 == 0;\n}\nint main() {\n    bool a = even(8); // a 为 true\n    bool b = even(7); // b 为 false\n}\n```\n\n`bool` 是返回类型，`even` 是函数名，`int x` 是参数声明。调用 `even(8)` 时，实参八传入这个新调用的局部变量 $x$，执行 return 后把真假值交回调用处。定义本身不执行计算，只有调用才执行。函数应在调用处之前定义，或提前写声明。\n\n普通数值参数按值传递，函数里修改 $x$ 不会改变调用者原变量。参数写成 `int &x` 时才引用调用者对象；必须让这个对象在调用期间有效。`const vector<int>& a` 用引用避免复制整个容器，并承诺不通过这个引用修改它。返回局部变量的值是安全的，返回局部变量的引用则在函数结束后失效。\n\n函数名应说明它回答的问题，调用处负责传哪些数据。例如闰年判定只接收一个年份并返回真假，枚举年份范围和输出格式由调用者处理。同一判定被多次使用时，这能减少规则不一致；但函数包装不会自动降低算法复杂度，仍要把每次调用实际做的工作计入时间。\n\n如果函数内部又调用自身，就是递归，需要明确最小情况如何直接返回、每次调用如何逼近它；递归会占用调用栈。普通辅助函数可以不使用递归，不应仅因写成函数就称作递归算法。\n\n### 从零讲：整数类型、整除与溢出\n\n计算前先看每一步可能达到的范围。常见环境中 `int` 是 32 位，上界约 $2.1\\times10^9$；`long long` 至少 64 位，常见有符号 64 位上界约 $9.22\\times10^{18}$。`using ll = long long;` 只是为已有类型起别名。\n\n```cxx\nint a = 100000, b = 100000;\nlong long wrong = a * b;      // 右边先按 int 乘，可能已溢出\nlong long right = 1LL * a * b; // 先把运算提升到 long long\n```\n\n不能指望“接收结果的变量够大”修复此前已经溢出的计算。先提高操作数类型，再做乘法。超过 64 位时，GCC 的 `__int128` 可作中间量，但它不是标准 C++17 类型，也没有标准流输出重载；先证明范围，再选择工具。\n\n整数 `/` 对有符号数向零截断：`7/3==2`、`-7/3==-2`。对非负数才等于向下取整。余数满足 `a == (a/b)*b + a%b`，除数不能为零；要将余数归入 $[0,m-1]$（$m>0$），可用 `(a % m + m) % m`，同时保证中间加法不溢出。\n\n非负 $a$、正 $b$ 的向上取整可写 `a/b + (a%b != 0)`，比 `(a+b-1)/b` 更容易避免加法溢出。比较平方时也应在宽类型内计算；浮点数不适合作为大整数相等的默认判断方式。\n\n`size()` 返回无符号类型。空容器上写 `size()-1` 会绕到很大的数，逆序遍历可以先转成有符号、确认长度，或使用逆向迭代器。`abs` 对最小有符号数无法在同类型中表达其正值，需先约束输入差值范围。一般机器整数运算按常数时间估算，宽类型解决表示范围，不改变算法的增长阶。\n\n### 从零讲：前缀和：一段和由两段前缀相减\n\n一串数需要反复询问连续一段的总和，逐段扫描会重复加很多相同元素。先保存从头到每个位置的累计量，就能复用这些工作。\n\n对从一编号的数组定义 $S_0=0$，$S_i=a_1+\\cdots+a_i$。例如 $a=[2,3,1,4]$，前缀为 $S=[0,2,5,6,10]$。\n\n![S4 包含整段，S1 是多算的前缀，减去后留下第 2 至 4 项](assets/foundations/prefix.svg)\n\n查询 $[2,4]$ 时，$S_4$ 包含第一个数，减去 $S_1$ 后留下 $3+1+4=8$。一般地，$S_r-S_{l-1}$ 中前 $l-1$ 项逐项抵消，只留下第 $l$ 到第 $r$ 项。\n\n```cxx\nvector<long long> s(n + 1, 0);\nfor (int i = 1; i <= n; ++i) s[i] = s[i - 1] + a[i];\nlong long sum = s[r] - s[l - 1];\n```\n\n预处理 $O(n)$ 时间和空间，每次查询 $O(1)$，比 $q$ 次逐段扫描的最坏 $O(nq)$ 更适合大量静态区间和。若使用从零编号的原数组，也可定义 $P_i$ 为前 $i$ 项之和，查询闭区间 $[l,r]$ 为 $P_{r+1}-P_l$；不要混用两套下标。\n\n前缀可以累积满足条件的次数，把每项变成零或一；也可以保存异或，此时相同前缀通过异或抵消。最小值没有同样的可逆减法，不能直接套区间最小值。原数组改变后，后续许多前缀都受影响；频繁在线修改时可考虑树状数组或线段树。\n\n首个空前缀零不可漏，累加类型要覆盖总和。数学上的减法可能得到负值，别让无符号类型把它变成巨大正数。\n\n### 从零讲：取模、快速幂与乘法逆元\n\n模正整数 $m$ 把数按余数归为 $0$ 到 $m-1$。加法、减法和乘法可以在中途取模而保持最终同余结果；除法需要额外条件。\n\n例如模七，八与一同余，十与三同余；$8+10$ 的余数为四，先算 $1+3$ 也为四。C++ 负数 `%` 可能为负，需在安全范围内用 `(x % m + m) % m` 归一。相乘之前仍须避免机器整数溢出，取模并不能修复已经溢出的乘法。\n\n#### 快速幂为什么只需对数次\n\n计算 $a^e$，将指数写成二进制。十三等于八加四加一，所以只需 $a^8,a^4,a$ 三项相乘。逐次平方得到 $a,a^2,a^4,a^8$，指数每轮除二。\n\n```cxx\nlong long power(long long a, long long e, long long mod) {\n    a %= mod;\n    if (a < 0) a += mod;\n    long long result = 1 % mod;\n    while (e > 0) {\n        if (e & 1) result = result * a % mod;\n        a = a * a % mod;\n        e >>= 1;\n    }\n    return result;\n}\n```\n\n这里要求 $e\\ge0,m>0$，并保证两个乘积能用 `long long` 表示。模数不超过 $10^9+7$ 时两个归一余数的乘积可放进常见有符号 64 位；更大的模数要额外处理乘法。时间 $O(\\log(e+1))$，额外空间 $O(1)$，零次幂返回一的余数。\n\n#### 模意义的除法\n\n$b$ 的乘法逆元是满足 $bb^{-1}\\equiv1\\pmod m$ 的数。模七时二的逆元为四，因为 $2\\times4\\equiv1$；因此八除二的模七结果为 $(8\\bmod7)\\times4\\bmod7=4$，不是把一直接整除二得到零。\n\n逆元存在当且仅当 $\\gcd(b,m)=1$。若 $m$ 为质数且 $b$ 不为其倍数，可用费马小定理求 $b^{m-2}\\bmod m$；合数模不能照抄这个指数。阶乘下标达到模质数时，阶乘可能为零，普通逆阶乘方法也失去前提。若普通整数公式中的分子可整除分母，仍不意味着先取模再整除保持正确。\n\n<!-- reusable-foundations:end -->\n\n### 思路\n\n区间和可被 K 整除，当且仅当它两端的前缀和对 K 取余相同。扫描当前前缀余数 $r$，答案增加此前 $r$ 的出现次数，再把其频次加一。先登记空前缀余数零出现一次。\n\n![前缀状态位于元素之间；每对同余边界对应其间唯一的非空连续区间。](assets/core7/P8649.svg)\n\n前缀状态位于元素之间；每对同余边界对应其间唯一的非空连续区间。\n\n时间 $O(n+k)$、频次数组空间 $O(k)$。\n\n### 参考代码\n\n```cpp\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nint n,k;cin>>n>>k;vector<long long>count(k);count[0]=1;int remainder=0;long long answer=0;\nfor(int i=0;i<n;++i){int x;cin>>x;remainder=(remainder+x)%k;answer+=count[remainder];++count[remainder];}\ncout<<answer<<'\\n';\n    return 0;\n}\n```\n\n### 易错点\n\n空前缀先登记一次；先加此前次数再插入自己；区间数用 long long。\n",
           "tags": [
             "前缀和",
             "取模与同余"
           ],
-          "title": "统计相同前缀余数的此前出现次数",
+          "title": "只保存前缀余数，逐项累计同余次数",
           "validation": {
             "officialSubmissionsSent": 0,
             "programSha256": "fc9eee2118eb5a3fe85eca708ff6daaae63bed146849e078832deb4c20202f70"
           }
         }
       ],
-      "primaryMethod": "direct"
+      "primaryMethod": "reference"
     },
     "problem_id": "lanqiao:2017:省:::P8649"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration",
+            "lecture:foundation-sets",
+            "lecture:foundation-strings"
+          ],
+          "legacy": true,
+          "tags": [
+            "枚举",
+            "日期处理",
+            "集合"
+          ],
+          "title": "枚举、日期处理",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "cf04b78f4ab7852f810c0f3d4eb6a2c85084d3e47b173e795d2ab2c245a0bf68"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2017:省:::P8651"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-graphs",
+            "lecture:foundation-topology",
+            "lecture:foundation-vector",
+            "lecture:foundation-queue-stack"
+          ],
+          "legacy": true,
+          "tags": [
+            "图论",
+            "拓扑排序",
+            "基环树"
+          ],
+          "title": "图论、拓扑排序",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "38fae91c672b91ca9a49d637f69b7b8cc9e6cc0f1a4531a94c9757066e8a358b"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2017:国:::P8655"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-dp",
+            "lecture:foundation-counting",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "动态规划",
+            "最大独立集",
+            "计数",
+            "链上DP"
+          ],
+          "title": "动态规划、最大独立集",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "4556d60267ccc1d9da7c25db79ea67168b49417fd5296097716db9d7f17cc50f"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2017:国:::P8656"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-probability",
+            "lecture:foundation-graphs",
+            "lecture:foundation-vector"
+          ],
+          "legacy": true,
+          "tags": [
+            "概率期望",
+            "随机游走",
+            "图论"
+          ],
+          "title": "非回退随机游走期望",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "443b344c510eec3ba1e2c069ce03a19aee9b8e49e32ab2e18727557f6f056ece"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2017:国:::P8657"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-sort",
+            "lecture:foundation-two-pointers",
+            "lecture:foundation-hashing",
+            "lecture:foundation-vector",
+            "lecture:foundation-maps",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "排序",
+            "双指针",
+            "滑动窗口",
+            "哈希表/映射"
+          ],
+          "title": "排序、双指针",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "33221c068aa164bfa24cc2469fce10589564a123674675fdb9c38032f88417e6"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2018:省:::P8661"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-graphs",
+            "lecture:foundation-enumeration",
+            "lecture:foundation-vector",
+            "lecture:foundation-bindings",
+            "lecture:foundation-queue-stack",
+            "lecture:foundation-strings"
+          ],
+          "legacy": true,
+          "tags": [
+            "BFS",
+            "连通块",
+            "网格",
+            "模拟"
+          ],
+          "title": "BFS、连通块",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "79fcfeb11f357d56bac1a498adac91a097bb412ebfbf369d95d3b7e8958485bd"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2018:省:::P8662"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-sort",
+            "lecture:foundation-bounds",
+            "lecture:foundation-counting",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-iterators"
+          ],
+          "legacy": true,
+          "tags": [
+            "排序",
+            "二分查找",
+            "计数"
+          ],
+          "title": "排序、二分查找",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "b7e4c4f574a83ee2866cda035f010a854d69873d3ce266b22e65297deb796407"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2018:省:::P8667"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "数学",
+            "找规律",
+            "坐标变换",
+            "O(1)"
+          ],
+          "title": "数学、找规律",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "a025283503d832a9c6799d0efa5559898908c29ea11b27f7f266286ff59809d6"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2018:省:::P8668"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-sort",
+            "lecture:foundation-greedy",
+            "lecture:foundation-modular",
+            "lecture:foundation-lambda",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "排序",
+            "贪心",
+            "分类讨论",
+            "模运算"
+          ],
+          "title": "排序、贪心",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "6c87ca82b12ab11496658f620d1e5df0f4f3be7b8374521fbce7a81c2ca15b7c"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2018:省:::P8669"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-number-theory",
+            "lecture:foundation-prefix",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "数论",
+            "线性筛",
+            "积性函数",
+            "整除分块",
+            "前缀和"
+          ],
+          "title": "数论、线性筛",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "4d3895e2cddca7dbf8d08e2e0da5571542ec94ffbab506b6a5de13321ecd8353"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2018:国:::P8670"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-graphs",
+            "lecture:foundation-shortest-path",
+            "lecture:foundation-modular",
+            "lecture:foundation-vector",
+            "lecture:foundation-queue-stack"
+          ],
+          "legacy": true,
+          "tags": [
+            "图论",
+            "广度优先搜索",
+            "最短路",
+            "模运算"
+          ],
+          "title": "图论、广度优先搜索",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "36d2806c53ba035c1bcd58efa3453d5b97702e046df5ea2a5e7b9dc1bce725d9"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2018:国:::P8674"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-dp",
+            "lecture:foundation-subset-dp",
+            "lecture:foundation-counting",
+            "lecture:foundation-vector",
+            "lecture:foundation-strings",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "动态规划",
+            "区间DP",
+            "二维前缀和",
+            "计数"
+          ],
+          "title": "动态规划、区间DP",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "a808ecad08e6d9f337151c28d21c6cc03b24a92703c655ac042e588c1bf954b6"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2018:国:::P8675"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-subset-dp",
+            "lecture:foundation-dp",
+            "lecture:foundation-enumeration",
+            "lecture:foundation-graphs",
+            "lecture:foundation-shortest-path",
+            "lecture:foundation-vector",
+            "lecture:foundation-bindings",
+            "lecture:foundation-queue-stack",
+            "lecture:foundation-strings",
+            "lecture:foundation-integer",
+            "lecture:foundation-bitwise"
+          ],
+          "legacy": true,
+          "tags": [
+            "状态压缩DP",
+            "进制转换",
+            "递推",
+            "枚举",
+            "BFS",
+            "最短路"
+          ],
+          "title": "逐小题计算与结果复核",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "85854b628b7d75182c9a2f8f129f61ccd114a71cbace86dae6fb8f2cd4be6882"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2019:省:::P8679"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "枚举",
+            "数位处理"
+          ],
+          "title": "枚举、数位处理",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "5ee8388c3f443d1046767d4bb1d9f9a940cea61afad71148bb53f598e47fc45e"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2019:省:::P8680"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "完全二叉树",
+            "层序遍历",
+            "数组",
+            "模拟"
+          ],
+          "title": "完全二叉树、层序遍历",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "ab26f9d6e51c4ddf99a9a2512cb40ead0d54e73bde242b273d28c8736e399170"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2019:省:::P8681"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-sort",
+            "lecture:foundation-number-theory",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "排序",
+            "最大公约数",
+            "数学"
+          ],
+          "title": "排序、最大公约数",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "dae5d54c8efb88ea639fe68b2228e2df97aa147dfedea5fb0ae6801d1728aee9"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2019:省:::P8682"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-sort",
+            "lecture:foundation-greedy",
+            "lecture:foundation-vector",
+            "lecture:foundation-numeric-tools",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "排序",
+            "贪心",
+            "表达式树"
+          ],
+          "title": "排序、贪心",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "7465acd9b709f2bfe128cec06efbc54c6e0e7d7cd1de20eaaf58e8bda9b84968"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2019:省:::P8683"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-prefix",
+            "lecture:foundation-sort",
+            "lecture:foundation-construction",
+            "lecture:foundation-greedy",
+            "lecture:foundation-vector",
+            "lecture:foundation-bindings",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "前缀和",
+            "排序",
+            "构造",
+            "贪心",
+            "瓶颈 Hamilton 路径"
+          ],
+          "title": "前缀和、排序",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "f37dc8f8f2cdd1f74fb70af13319c6cf5a247f4e38d42928c378b7592b6da634"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2019:省:::P8684"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration",
+            "lecture:foundation-number-theory",
+            "lecture:foundation-knapsack",
+            "lecture:foundation-graphs",
+            "lecture:foundation-lambda",
+            "lecture:foundation-vector",
+            "lecture:foundation-bindings",
+            "lecture:foundation-queue-stack",
+            "lecture:foundation-integer",
+            "lecture:foundation-bitwise"
+          ],
+          "legacy": true,
+          "tags": [
+            "枚举",
+            "完全平方数",
+            "质数筛",
+            "0/1背包",
+            "自避路径",
+            "连通性洪泛",
+            "约数个数",
+            "DFS"
+          ],
+          "title": "逐小题计算与结果复核",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "320d675c665791754684d75dbd62a7c3f48febfd20b4bab3d34422cb49068caa"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2019:国:::P8690"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-dp",
+            "lecture:foundation-counting",
+            "lecture:foundation-vector",
+            "lecture:foundation-numeric-tools",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "动态规划",
+            "排列计数",
+            "组合数学",
+            "滚动数组"
+          ],
+          "title": "插入最大值的段数DP",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "c8c9aebeb7186eb0bca12c693bc7060895068e8142f188ea26bbafca491aff75"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2019:国:::P8699"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-counting",
+            "lecture:foundation-lambda",
+            "lecture:foundation-strings"
+          ],
+          "legacy": true,
+          "tags": [
+            "置换群",
+            "不变量",
+            "计数"
+          ],
+          "title": "置换群、不变量",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "39e41a91d5ad9c09114efbf0e26bbda44572b31617089db0e029d6b8e408f15a"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2019:国:::P8700"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-segment-tree",
+            "lecture:foundation-vector",
+            "lecture:foundation-numeric-tools"
+          ],
+          "legacy": true,
+          "tags": [
+            "线段树",
+            "归并",
+            "区间前k大"
+          ],
+          "title": "线段树、归并",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "11244005658e3a9c608e1e77d40b6e5f936c41621654946a62cd1035be8014f2"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2019:国:::P8701"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-probability",
+            "lecture:foundation-counting",
+            "lecture:foundation-modular",
+            "lecture:foundation-prefix",
+            "lecture:foundation-lambda",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-bitwise"
+          ],
+          "legacy": true,
+          "tags": [
+            "概率",
+            "组合计数",
+            "Lucas定理",
+            "模逆元",
+            "前缀和"
+          ],
+          "title": "二项分布前缀与Lucas分解",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "44e98bd19d72988822250faa6af69f555b8dbc297f7ff26dd333bc5c6246fe27"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2019:国:::P8702"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-dp",
+            "lecture:foundation-vector",
+            "lecture:foundation-strings"
+          ],
+          "legacy": true,
+          "tags": [
+            "动态规划",
+            "字符串",
+            "子序列",
+            "滚动数组"
+          ],
+          "title": "动态规划、字符串",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "9e81907e70f16dc21065d7507db93628ac155a1526d5aa39ffcb2657a607816c"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2019:国:::P8703"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration",
+            "lecture:foundation-dp",
+            "lecture:foundation-counting",
+            "lecture:foundation-vector",
+            "lecture:foundation-bindings",
+            "lecture:foundation-strings",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "模拟",
+            "日期计算",
+            "枚举",
+            "缩进栈",
+            "动态规划",
+            "组合计数"
+          ],
+          "title": "逐小题计算与结果复核",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "6325b60ec2c3224c80aef8b97a0c1bad6533ab0e29903e6ec5b69998bac7dd27"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:省:1::P8705"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration",
+            "lecture:foundation-strings"
+          ],
+          "legacy": true,
+          "tags": [
+            "字符串",
+            "模拟"
+          ],
+          "title": "字符串、模拟",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "7ff0f3783e9e4a1b566649322397203d2de434bcf2d9d8fda967469dfc4adf96"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:省:1::P8706"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-dp",
+            "lecture:foundation-counting",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "动态规划",
+            "网格路径",
+            "计数"
+          ],
+          "title": "动态规划、网格路径",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "bb6c44780374923018a534818d04f8306aeac5ceadc0e2e32740de59ffea8b7c"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:省:1::P8707"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-dsu",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "并查集",
+            "带权并查集",
+            "路径压缩",
+            "增量维护"
+          ],
+          "title": "并查集、带权并查集",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "c3d3cb4cbfdb67a771813ffd82077694dd6c255641c7b736e49c3080f288e1d3"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:省:1::P8710"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "模拟",
+            "整除",
+            "循环"
+          ],
+          "title": "模拟、整除",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "f99b6c41f904ec4116994f4f7c3eef99a33e321eb4e1758bb67f88a0e0146e65"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:省:1::P8711"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-modular",
+            "lecture:foundation-counting",
+            "lecture:foundation-enumeration",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "模运算",
+            "计数",
+            "枚举",
+            "有序对"
+          ],
+          "title": "模运算、计数",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "c7f0a6b076eaa02548f0337f55c7cdd0bb4602af69e9ebf324c0f339451c4b82"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:省:1::P8712"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration",
+            "lecture:foundation-number-theory",
+            "lecture:foundation-lambda",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-bitwise"
+          ],
+          "legacy": true,
+          "tags": [
+            "枚举",
+            "最大公约数",
+            "蛇形矩阵",
+            "日期模拟",
+            "连通性",
+            "位掩码"
+          ],
+          "title": "枚举、最大公约数",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "494128bff07409658b88603480116358f39c4147463f87de70f5f29e468cacc4"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:省:2::P8714"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-counting",
+            "lecture:foundation-vector",
+            "lecture:foundation-strings",
+            "lecture:foundation-numeric-tools",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "字符串",
+            "贡献法",
+            "最近相同字符",
+            "计数"
+          ],
+          "title": "字符串、贡献法",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "12c0f8b7e92eee526e2a23289ea1794d390e52d806f3d43057ae55c6c6cac851"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:省:2::P8715"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration"
+          ],
+          "legacy": true,
+          "tags": [
+            "枚举",
+            "日期处理",
+            "回文数"
+          ],
+          "title": "枚举、日期处理",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "5aa252c5139ffb317130e2a3ac1bbe204ca569ad7d4e343b54263843a123935f"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:省:2::P8716"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration"
+          ],
+          "legacy": true,
+          "tags": [
+            "模拟",
+            "枚举",
+            "数学"
+          ],
+          "title": "模拟、枚举",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "097aaaa000eb2366d4b5ddea56c525686a3685a649593fae4dfa78dc9fd55916"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:省:2::P8717"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-greedy",
+            "lecture:foundation-construction",
+            "lecture:foundation-bounds",
+            "lecture:foundation-strings",
+            "lecture:foundation-integer",
+            "lecture:foundation-iterators"
+          ],
+          "legacy": true,
+          "tags": [
+            "贪心",
+            "逆序对",
+            "构造",
+            "二分"
+          ],
+          "title": "最大逆序数界与逐位构造",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "569bc71bcef6a4af76295e5e02f811081ac242ca943719bdb66ddf45b1f1f093"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:省:2::P8719"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-geometry",
+            "lecture:foundation-sort",
+            "lecture:foundation-bindings",
+            "lecture:foundation-sets",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "计算几何",
+            "直线交点",
+            "分数表示",
+            "集合去重"
+          ],
+          "title": "计算几何、直线交点",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "560f4f33975a39f510f705a02cc36a0955a0d2e7a0cd803d19dc7ca73d47cb1f"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:省:2::P8720"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration",
+            "lecture:foundation-graphs",
+            "lecture:foundation-heap",
+            "lecture:foundation-sort",
+            "lecture:foundation-vector",
+            "lecture:foundation-sets",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "枚举",
+            "容斥原理",
+            "回溯",
+            "优先队列",
+            "集合去重",
+            "填空题"
+          ],
+          "title": "逐小题计算与结果复核",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "175e834a93810858011d7f79fb9c850f6f04f3427ae35379caedefb70ec9e23f"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:省:3::P8721"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration",
+            "lecture:foundation-strings"
+          ],
+          "legacy": true,
+          "tags": [
+            "字符串",
+            "枚举",
+            "模拟"
+          ],
+          "title": "字符串、枚举",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "4e92157869c9564aa6daeb0b0f6bbb60d2d174904bf898215bb45d2737d5dadb"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:省:3::P8722"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration",
+            "lecture:foundation-strings"
+          ],
+          "legacy": true,
+          "tags": [
+            "进制转换",
+            "模拟",
+            "枚举"
+          ],
+          "title": "进制转换、模拟",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "6c6c106043e0f6a8264fe83fb429ac9caa162f0b2c6fd344f164cceaabee22f8"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:省:3::P8723"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-shortest-path",
+            "lecture:foundation-graphs",
+            "lecture:foundation-vector",
+            "lecture:foundation-bindings",
+            "lecture:foundation-heap",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "最短路",
+            "Dijkstra",
+            "分层图",
+            "图论"
+          ],
+          "title": "最短路、Dijkstra",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "6278bfac47b3acd1f335917127db0337d730d42c24933216386659281ccd73ae"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:省:3::P8724"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-dp",
+            "lecture:foundation-counting",
+            "lecture:foundation-vector",
+            "lecture:foundation-numeric-tools",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "动态规划",
+            "计数",
+            "前缀约束"
+          ],
+          "title": "动态规划、计数",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "ee2da85025514abe7f74e5baabaf94db1f1c42aeb0af6378808f1cfb8e108e67"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:省:3::P8725"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-dp",
+            "lecture:foundation-monotonic",
+            "lecture:foundation-vector",
+            "lecture:foundation-queue-stack",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "动态规划",
+            "斜率优化",
+            "凸包",
+            "单调队列",
+            "向零取整"
+          ],
+          "title": "动态规划、斜率优化",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "95868f4e8b07590603a0b8548e0807c47929aeae8d7f3f465f9b719deb17f535"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:省:3::P8726"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration",
+            "lecture:foundation-number-theory",
+            "lecture:foundation-dp",
+            "lecture:foundation-graphs",
+            "lecture:foundation-strings"
+          ],
+          "legacy": true,
+          "tags": [
+            "枚举",
+            "容斥",
+            "曼哈顿距离",
+            "质因数分解",
+            "约数个数",
+            "动态规划",
+            "去重",
+            "DFS",
+            "自避路径"
+          ],
+          "title": "逐小题计算与结果复核",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "b59e7032746c416d169009e1dafabfb50d3a657c58e4490db65cbbdb7878c7b4"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:国:::P8728"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-graphs",
+            "lecture:foundation-strings",
+            "lecture:foundation-integer",
+            "lecture:foundation-bitwise"
+          ],
+          "legacy": true,
+          "tags": [
+            "递归",
+            "分形",
+            "坐标变换",
+            "数学"
+          ],
+          "title": "递归、分形",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "b9a2fe348bb2c128f43d6c1841d7ca7f40c2aafba96d19845611d690a4872bab"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:国:::P8730"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-shortest-path",
+            "lecture:foundation-lambda",
+            "lecture:foundation-vector",
+            "lecture:foundation-bindings",
+            "lecture:foundation-heap",
+            "lecture:foundation-integer",
+            "lecture:foundation-bitwise"
+          ],
+          "legacy": true,
+          "tags": [
+            "最短路",
+            "Dijkstra",
+            "时变图",
+            "状态扩展",
+            "红绿灯等待",
+            "中点建模"
+          ],
+          "title": "最短路、Dijkstra",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "4163e88c00bb570f044742ccc610c482bb62ebe2f9a2b213b695956a46c5d2cb"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:国:::P8731"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-greedy",
+            "lecture:foundation-sort",
+            "lecture:foundation-lambda",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "贪心",
+            "排序",
+            "相邻交换"
+          ],
+          "title": "贪心、排序",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "925904f8cfc35995d838b8327a66d1ed7239ac9fb4759b9ccaa21f498b935766"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:国:::P8732"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-greedy",
+            "lecture:foundation-bounds",
+            "lecture:foundation-sort",
+            "lecture:foundation-lambda",
+            "lecture:foundation-vector",
+            "lecture:foundation-strings",
+            "lecture:foundation-iterators"
+          ],
+          "legacy": true,
+          "tags": [
+            "字符串",
+            "最长递增子序列",
+            "贪心",
+            "二分查找",
+            "排序"
+          ],
+          "title": "字符串、最长递增子序列",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "dfda251106cc967d8807d4139f34cc394707246a8b8cc4a0c04249e3a7bff8d4"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:国:::P8736"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-dp",
+            "lecture:foundation-counting",
+            "lecture:foundation-lambda",
+            "lecture:foundation-vector",
+            "lecture:foundation-maps",
+            "lecture:foundation-integer",
+            "lecture:foundation-bitwise"
+          ],
+          "legacy": true,
+          "tags": [
+            "动态规划",
+            "组合数学",
+            "容斥原理",
+            "卷积",
+            "质数筛法"
+          ],
+          "title": "按步数计数的生成函数与容斥",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "4e5d8e39b55efce5ce01a386615091fcee23f94e29ae9969fb5c8d3f03a63aea"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2020:国:::P8737"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration",
+            "lecture:foundation-number-theory",
+            "lecture:foundation-shortest-path",
+            "lecture:foundation-sort",
+            "lecture:foundation-vector",
+            "lecture:foundation-bindings",
+            "lecture:foundation-sets",
+            "lecture:foundation-heap",
+            "lecture:foundation-integer",
+            "lecture:foundation-bitwise"
+          ],
+          "legacy": true,
+          "tags": [
+            "枚举",
+            "模拟",
+            "数论",
+            "最大公约数",
+            "最短路",
+            "Dijkstra",
+            "集合去重"
+          ],
+          "title": "逐小题计算与结果复核",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "62708192c825c5fa03280792089cbae9481771bc2105d9d30e98fdfb589840fd"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2021:省:::P8741"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-dp",
+            "lecture:foundation-vector",
+            "lecture:foundation-numeric-tools"
+          ],
+          "legacy": true,
+          "tags": [
+            "动态规划",
+            "布尔可达性",
+            "天平模型",
+            "偏移量"
+          ],
+          "title": "动态规划、布尔可达性",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "162d92bc53ea3af896882b9a84fed7901004305a377418ca23b35218843a241d"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2021:省:::P8742"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-dp",
+            "lecture:foundation-prefix",
+            "lecture:foundation-counting",
+            "lecture:foundation-vector",
+            "lecture:foundation-strings",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "动态规划",
+            "括号序列",
+            "前缀和",
+            "组合计数"
+          ],
+          "title": "动态规划、括号序列",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "482e391d00a1b75ece86cdd7d402f4d6a23403605ef6b4f48a213e68751d9114"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2021:省:::P8745"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-monotonic",
+            "lecture:foundation-construction",
+            "lecture:foundation-enumeration",
+            "lecture:foundation-vector",
+            "lecture:foundation-bindings"
+          ],
+          "legacy": true,
+          "tags": [
+            "单调栈",
+            "构造",
+            "模拟"
+          ],
+          "title": "单调栈、构造",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "85dc5a615d0d10a24007aeee9f256ed4bbb35f449ec2a6691ef66b984f5cf0f3"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2021:省:::P8747"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration",
+            "lecture:foundation-modular",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "数学",
+            "模拟",
+            "取模运算"
+          ],
+          "title": "数学、模拟",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "dd279a2e5946165a98b92c0dfe973529e720c786c175e1d867bca4b6fe76575b"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2021:省:::P8748"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-counting",
+            "lecture:foundation-bounds",
+            "lecture:foundation-integer",
+            "lecture:foundation-iterators"
+          ],
+          "legacy": true,
+          "tags": [
+            "组合数学",
+            "二分查找",
+            "杨辉三角"
+          ],
+          "title": "组合数学、二分查找",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "6401d8808c562d0def866584d7bc32f4dd9562e2a34e4125f5c87eb9986b1cfb"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2021:省:::P8749"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration",
+            "lecture:foundation-counting",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "模拟",
+            "数学",
+            "组合计数",
+            "最小生成树",
+            "Prim算法"
+          ],
+          "title": "逐小题计算与结果复核",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "ebd528d711810381b21d10ce1bc2577a28fc53693f4039b236a1289ced313fb0"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2021:省:2::P8751"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration"
+          ],
+          "legacy": true,
+          "tags": [
+            "枚举",
+            "模拟",
+            "数位分离"
+          ],
+          "title": "枚举、模拟",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "6125165b65e55b9a48aadc9f4c597704ee3b18b0faa8f875919281a52672c721"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2021:省:2::P8752"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration",
+            "lecture:foundation-modular",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "枚举",
+            "取模",
+            "整数比较"
+          ],
+          "title": "枚举、取模",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "f8edcf123bf053165d77550f4bd8164b95a7eff44355254e97eea0afcb5ea336"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2021:省:2::P8753"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-number-theory",
+            "lecture:foundation-greedy",
+            "lecture:foundation-integer",
+            "lecture:foundation-bitwise"
+          ],
+          "legacy": true,
+          "tags": [
+            "质因数分解",
+            "数论",
+            "贪心"
+          ],
+          "title": "质因数分解、数论",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "ec6eac8f2280671bfce233c36c3c96ca338d92f35f2f05457ae8fdb24c88a514"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2021:省:2::P8754"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration",
+            "lecture:foundation-heap",
+            "lecture:foundation-greedy",
+            "lecture:foundation-vector",
+            "lecture:foundation-bindings",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "模拟",
+            "优先队列",
+            "堆",
+            "贪心"
+          ],
+          "title": "模拟、优先队列",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "e6e9448120dbdd64554cc7fa256c6b32449365003f3b822eecb60289fd49ef7b"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2021:省:2::P8755"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-dp",
+            "lecture:foundation-subset-dp",
+            "lecture:foundation-counting",
+            "lecture:foundation-vector",
+            "lecture:foundation-numeric-tools",
+            "lecture:foundation-bitwise"
+          ],
+          "legacy": true,
+          "tags": [
+            "动态规划",
+            "状态压缩",
+            "轮廓线 DP",
+            "计数"
+          ],
+          "title": "动态规划、状态压缩",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "84a5d3afb8685de175908952dad98b890e26707063e8d458f1f92251aa7f8f45"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2021:省:2::P8756"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-dp",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "单位换算",
+            "素数筛法",
+            "日期枚举",
+            "动态规划",
+            "二叉树"
+          ],
+          "title": "逐小题计算与结果复核",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "12f0e005b8bc327af48ac592fb38c062702843fc3b7f1b57e55a5a48e57d0eb3"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2021:国:::P8759"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration",
+            "lecture:foundation-strings"
+          ],
+          "legacy": true,
+          "tags": [
+            "字符串",
+            "模拟",
+            "字符处理"
+          ],
+          "title": "字符串、模拟",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "cddeba968b906d0e07681cd3dc800226505d2f636050de3c2bbb4aa20c8a8e11"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2021:国:::P8761"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-enumeration",
+            "lecture:foundation-strings"
+          ],
+          "legacy": true,
+          "tags": [
+            "字符串",
+            "模拟",
+            "字符处理"
+          ],
+          "title": "字符串、模拟",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "cddeba968b906d0e07681cd3dc800226505d2f636050de3c2bbb4aa20c8a8e11"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2021:国:C::P8761"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-bounds",
+            "lecture:foundation-prefix",
+            "lecture:foundation-integer",
+            "lecture:foundation-iterators"
+          ],
+          "legacy": true,
+          "tags": [
+            "数学",
+            "二分查找",
+            "前缀和"
+          ],
+          "title": "数学、二分查找",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "79ae3440850781c97772352cee1e6dd66c46e2e6b15ee970368e89d07c542205"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2021:国:::P8762"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-bitwise",
+            "lecture:foundation-strings",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "异或",
+            "线性变换",
+            "二进制分解",
+            "原地更新"
+          ],
+          "title": "异或、线性变换",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "11b7e29966d7a4a0f0db2043e86a5d2c865f8368c13157e721bd363686c2a52b"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2021:国:::P8763"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-counting",
+            "lecture:foundation-bitwise",
+            "lecture:foundation-dp",
+            "lecture:foundation-numeric-tools",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "组合数学",
+            "数位统计",
+            "二进制",
+            "递推"
+          ],
+          "title": "组合数学、数位统计",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "3e740a1eb66d0919bc828b4af0f4ea301b004060293ab8a0eddb0e5e326df25b"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2021:国:::P8764"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-counting",
+            "lecture:foundation-bitwise",
+            "lecture:foundation-dp",
+            "lecture:foundation-numeric-tools",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "组合数学",
+            "数位统计",
+            "二进制",
+            "递推"
+          ],
+          "title": "组合数学、数位统计",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "3e740a1eb66d0919bc828b4af0f4ea301b004060293ab8a0eddb0e5e326df25b"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2021:国:C::P8764"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-prefix",
+            "lecture:foundation-segment-tree",
+            "lecture:foundation-bounds",
+            "lecture:foundation-vector",
+            "lecture:foundation-strings",
+            "lecture:foundation-iterators"
+          ],
+          "legacy": true,
+          "tags": [
+            "前缀和",
+            "线段树",
+            "懒标记",
+            "二分查找",
+            "括号序列"
+          ],
+          "title": "前缀和仿射懒标记线段树",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "1fcdc45c9733209224900bf05f73fdef4896ccd77e570cbd2039a14cbc70ce93"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2021:国:::P8765"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "reference",
+          "lectureIds": [
+            "lecture:foundation-bitwise",
+            "lecture:foundation-counting",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "位运算",
+            "异或",
+            "容斥原理",
+            "组合计数",
+            "二进制"
+          ],
+          "title": "逐位分类与容斥",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "fc15e8190a84036b0f168f2b6f2316b953f2a2de1127dc8b4a9e9e6db6bd311b"
+          }
+        }
+      ],
+      "primaryMethod": "reference"
+    },
+    "problem_id": "lanqiao:2021:国:::P8766"
   },
   {
     "content": {

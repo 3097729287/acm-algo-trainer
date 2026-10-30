@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="260" viewBox="0 0 720 260">
+  <rect width="720" height="260" fill="#ffffff"/>
+  <text x="20" y="30" font-size="18" fill="#222">样例2：K=1，链 1→2→3→4，权值 4,1,1,4</text>
+  <g font-size="16" fill="#222">
+    <rect x="40" y="70" width="100" height="50" rx="8" fill="#e8f0fe" stroke="#3366cc"/>
+    <text x="70" y="100">值 1</text>
+    <text x="70" y="118" font-size="14">权 4</text>
+    <rect x="200" y="70" width="100" height="50" rx="8" fill="#e8f0fe" stroke="#3366cc"/>
+    <text x="230" y="100">值 2</text>
+    <text x="230" y="118" font-size="14">权 1</text>
+    <rect x="360" y="70" width="100" height="50" rx="8" fill="#e8f0fe" stroke="#3366cc"/>
+    <text x="390" y="100">值 3</text>
+    <text x="390" y="118" font-size="14">权 1</text>
+    <rect x="520" y="70" width="100" height="50" rx="8" fill="#e8f0fe" stroke="#3366cc"/>
+    <text x="550" y="100">值 4</text>
+    <text x="550" y="118" font-size="14">权 4</text>
+  </g>
+  <g stroke="#666" stroke-width="2" marker-end="url(#arrow)">
+    <line x1="140" y1="95" x2="195" y2="95"/>
+    <line x1="300" y1="95" x2="355" y2="95"/>
+    <line x1="460" y1="95" x2="515" y2="95"/>
+  </g>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#666"/>
+    </marker>
+  </defs>
+  <g font-size="15" fill="#222">
+    <text x="40" y="170">dp[1]=4</text>
+    <text x="200" y="170">dp[2]=max(4,1)=4</text>
+    <text x="360" y="170">dp[3]=max(4,4+1)=5</text>
+    <text x="520" y="170">dp[4]=max(5,4+4)=8</text>
+  </g>
+  <text x="40" y="220" font-size="15" fill="#444">最终答案 8，对应选积分 1 的 4 人和积分 4 的 4 人。</text>
+</svg>

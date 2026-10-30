@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="300" viewBox="0 0 720 300">
+  <rect width="720" height="300" fill="#ffffff"/>
+  <text x="20" y="30" font-size="18" fill="#222">w=6 蛇形矩阵（行号从0开始）</text>
+  <g font-size="16" text-anchor="middle">
+    <text x="80" y="70" fill="#555">列0</text>
+    <text x="160" y="70" fill="#555">列1</text>
+    <text x="240" y="70" fill="#555">列2</text>
+    <text x="320" y="70" fill="#555">列3</text>
+    <text x="400" y="70" fill="#555">列4</text>
+    <text x="480" y="70" fill="#555">列5</text>
+    <text x="20" y="120" fill="#555">行0</text>
+    <text x="20" y="200" fill="#555">行1</text>
+  </g>
+  <g stroke="#888" stroke-width="1">
+    <rect x="50" y="85" width="60" height="50" fill="#eef6ff"/>
+    <rect x="130" y="85" width="60" height="50" fill="#fff3cd"/>
+    <rect x="210" y="85" width="60" height="50" fill="#eef6ff"/>
+    <rect x="290" y="85" width="60" height="50" fill="#eef6ff"/>
+    <rect x="370" y="85" width="60" height="50" fill="#eef6ff"/>
+    <rect x="450" y="85" width="60" height="50" fill="#eef6ff"/>
+    <rect x="50" y="165" width="60" height="50" fill="#eef6ff"/>
+    <rect x="130" y="165" width="60" height="50" fill="#eef6ff"/>
+    <rect x="210" y="165" width="60" height="50" fill="#eef6ff"/>
+    <rect x="290" y="165" width="60" height="50" fill="#eef6ff"/>
+    <rect x="370" y="165" width="60" height="50" fill="#ffe0e0"/>
+    <rect x="450" y="165" width="60" height="50" fill="#eef6ff"/>
+  </g>
+  <g font-size="18" text-anchor="middle" fill="#222">
+    <text x="80" y="117">1</text>
+    <text x="160" y="117">2</text>
+    <text x="240" y="117">3</text>
+    <text x="320" y="117">4</text>
+    <text x="400" y="117">5</text>
+    <text x="480" y="117">6</text>
+    <text x="80" y="197">12</text>
+    <text x="160" y="197">11</text>
+    <text x="240" y="197">10</text>
+    <text x="320" y="197">9</text>
+    <text x="400" y="197">8</text>
+    <text x="480" y="197">7</text>
+  </g>
+  <g stroke="#d00" stroke-width="3" fill="none">
+    <path d="M160 110 L160 190 L400 190"/>
+  </g>
+  <circle cx="160" cy="110" r="5" fill="#d00"/>
+  <circle cx="400" cy="190" r="5" fill="#d00"/>
+  <text x="170" y="105" font-size="15" fill="#d00">2 (0,1)</text>
+  <text x="410" y="185" font-size="15" fill="#d00">8 (1,4)</text>
+  <text x="250" y="260" font-size="16" fill="#333">路径长度 = 1 + 3 = 4</text>
+</svg>

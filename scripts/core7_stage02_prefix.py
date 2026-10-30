@@ -1,5 +1,5 @@
 """Prefix states, difference arrays, interval geometry and their applications."""
-from core7_authoring import add
+from core7_authoring import add,SPECS,CONTENT
 
 A=['io-basics','basic-control','arrays','vector','functions','integer']
 S=A+['sort','iterators']
@@ -374,3 +374,20 @@ int n;while(cin>>n&&n!=0)cout<<ways[n]<<'\n';''',
     '素数必须在完整素数表中连续；一个素数也算一段；零是终止符。',
     r'上限 M、素数个数 P、询问数 T 下，时间上界 $O(M\log\log M+P^2+T)$、空间 $O(M)$。',
     tags=['素数','枚举'],lessons=A+['number-theory','prime-sieve','enumeration'],exact=True)
+
+# A concurrently delivered Lanqiao batch introduced a verified full-prefix
+# implementation. Keep that exact program as the existing primary method and
+# retain our already verified modulo-only implementation as a second method.
+from dataclasses import replace
+import json
+retained=json.loads((CONTENT/'P8649/retained-lanqiao.json').read_text('utf-8'))
+modulo=next(spec for spec in SPECS if spec.pid=='P8649')
+reference=replace(modulo,key='reference',title='累计完整前缀和后统计同余次数',
+                  code=retained['referenceProgram'],lessons=list(modulo.lessons)+['counting'],
+                  images={**retained['default']['images'],**retained['detailed']['images']})
+reference.brief=reference.brief.replace('扫描当前前缀余数 r','扫描完整前缀和 sum，取 r=sum%K')
+reference.detail=reference.detail.replace(
+    '维护余数时每次加新值再对 K 取模即可。输入是正数，无负余数问题；若推广到负输入，应做非负归一。',
+    '本程序保存完整前缀和 sum，每次用 sum%K 得到余数。总和最大约十的十次方，因此 sum 用 long long。若只希望保存当前余数，可以选择另一种逐项取模实现；两者按同一同余条件计数。输入是正数，无负余数问题。')
+SPECS.insert(SPECS.index(modulo),reference)
+modulo.title='只保存前缀余数，逐项累计同余次数'

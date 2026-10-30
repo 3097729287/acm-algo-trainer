@@ -37542,6 +37542,2748 @@
     "problem_id": "luogu-training-P7167"
   },
   {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-graphs",
+    "position": 0,
+    "problem_id": "lanqiao:2024:省:::P10427"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 1,
+    "problem_id": "lanqiao:2024:省:::P10427"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-sets",
+    "position": 2,
+    "problem_id": "lanqiao:2024:省:::P10427"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-queue-stack",
+    "position": 3,
+    "problem_id": "lanqiao:2024:省:::P10427"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 4,
+    "problem_id": "lanqiao:2024:省:::P10427"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-recursion",
+    "position": 5,
+    "problem_id": "lanqiao:2024:省:::P10427"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 0,
+    "problem_id": "lanqiao:2026:国:::P16802"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 1,
+    "problem_id": "lanqiao:2026:国:::P16802"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "lanqiao:2026:国:::P16802"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-numeric-tools",
+    "position": 3,
+    "problem_id": "lanqiao:2026:国:::P16802"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lanqiao:2026:国:::P16802"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 5,
+    "problem_id": "lanqiao:2026:国:::P16802"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-greedy",
+    "position": 0,
+    "problem_id": "lanqiao:2013:省:::P8597"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "lanqiao:2013:省:::P8597"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 2,
+    "problem_id": "lanqiao:2013:省:::P8597"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 0,
+    "problem_id": "lanqiao:2013:省:::P8598"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 1,
+    "problem_id": "lanqiao:2013:省:::P8598"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "lanqiao:2013:省:::P8598"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-permutations",
+    "position": 0,
+    "problem_id": "lanqiao:2013:省:::P8599"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 1,
+    "problem_id": "lanqiao:2013:省:::P8599"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 2,
+    "problem_id": "lanqiao:2013:省:::P8599"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 3,
+    "problem_id": "lanqiao:2013:省:::P8599"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-monotonic",
+    "position": 0,
+    "problem_id": "lanqiao:2013:省:::P8600"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-segment-tree",
+    "position": 1,
+    "problem_id": "lanqiao:2013:省:::P8600"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 2,
+    "problem_id": "lanqiao:2013:省:::P8600"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "lanqiao:2013:省:::P8600"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lanqiao:2013:省:::P8600"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-games",
+    "position": 0,
+    "problem_id": "lanqiao:2013:国:::P8606"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 1,
+    "problem_id": "lanqiao:2013:国:::P8606"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-lambda",
+    "position": 2,
+    "problem_id": "lanqiao:2013:国:::P8606"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "lanqiao:2013:国:::P8606"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 4,
+    "problem_id": "lanqiao:2013:国:::P8606"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-subset-dp",
+    "position": 0,
+    "problem_id": "lanqiao:2013:国:::P8607"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 1,
+    "problem_id": "lanqiao:2013:国:::P8607"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-lambda",
+    "position": 2,
+    "problem_id": "lanqiao:2013:国:::P8607"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-numeric-tools",
+    "position": 3,
+    "problem_id": "lanqiao:2013:国:::P8607"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lanqiao:2013:国:::P8607"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 5,
+    "problem_id": "lanqiao:2013:国:::P8607"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-geometry",
+    "position": 0,
+    "problem_id": "lanqiao:2013:国:::P8608"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lanqiao:2013:国:::P8608"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 2,
+    "problem_id": "lanqiao:2013:国:::P8608"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 3,
+    "problem_id": "lanqiao:2013:国:::P8608"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2014:省:::P8611"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 1,
+    "problem_id": "lanqiao:2014:省:::P8611"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "lanqiao:2014:省:::P8611"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 0,
+    "problem_id": "lanqiao:2014:省:::P8612"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 1,
+    "problem_id": "lanqiao:2014:省:::P8612"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 2,
+    "problem_id": "lanqiao:2014:省:::P8612"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-fenwick",
+    "position": 0,
+    "problem_id": "lanqiao:2014:省:::P8613"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-greedy",
+    "position": 1,
+    "problem_id": "lanqiao:2014:省:::P8613"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 2,
+    "problem_id": "lanqiao:2014:省:::P8613"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-lambda",
+    "position": 3,
+    "problem_id": "lanqiao:2014:省:::P8613"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "lanqiao:2014:省:::P8613"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-numeric-tools",
+    "position": 5,
+    "problem_id": "lanqiao:2014:省:::P8613"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 6,
+    "problem_id": "lanqiao:2014:省:::P8613"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 7,
+    "problem_id": "lanqiao:2014:省:::P8613"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-segment-tree",
+    "position": 0,
+    "problem_id": "lanqiao:2014:国:::P8618"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-monotonic",
+    "position": 1,
+    "problem_id": "lanqiao:2014:国:::P8618"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 2,
+    "problem_id": "lanqiao:2014:国:::P8618"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-max-flow",
+    "position": 0,
+    "problem_id": "lanqiao:2014:国:::P8619"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-lambda",
+    "position": 1,
+    "problem_id": "lanqiao:2014:国:::P8619"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "lanqiao:2014:国:::P8619"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-queue-stack",
+    "position": 3,
+    "problem_id": "lanqiao:2014:国:::P8619"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-numeric-tools",
+    "position": 4,
+    "problem_id": "lanqiao:2014:国:::P8619"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-recursion",
+    "position": 5,
+    "problem_id": "lanqiao:2014:国:::P8619"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-number-theory",
+    "position": 0,
+    "problem_id": "lanqiao:2014:国:::P8622"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 1,
+    "problem_id": "lanqiao:2014:国:::P8622"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 0,
+    "problem_id": "lanqiao:2015:省:::P8623"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-modular",
+    "position": 0,
+    "problem_id": "lanqiao:2015:省:::P8624"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 1,
+    "problem_id": "lanqiao:2015:省:::P8624"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 2,
+    "problem_id": "lanqiao:2015:省:::P8624"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 3,
+    "problem_id": "lanqiao:2015:省:::P8624"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 4,
+    "problem_id": "lanqiao:2015:省:::P8624"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-trees",
+    "position": 0,
+    "problem_id": "lanqiao:2015:省:::P8625"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lanqiao:2015:省:::P8625"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 2,
+    "problem_id": "lanqiao:2015:省:::P8625"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-hashing",
+    "position": 0,
+    "problem_id": "lanqiao:2015:国:::P8630"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 1,
+    "problem_id": "lanqiao:2015:国:::P8630"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-lambda",
+    "position": 2,
+    "problem_id": "lanqiao:2015:国:::P8630"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-maps",
+    "position": 3,
+    "problem_id": "lanqiao:2015:国:::P8630"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 4,
+    "problem_id": "lanqiao:2015:国:::P8630"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 5,
+    "problem_id": "lanqiao:2015:国:::P8630"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-li-chao",
+    "position": 0,
+    "problem_id": "lanqiao:2015:国:::P8632"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 1,
+    "problem_id": "lanqiao:2015:国:::P8632"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-prefix",
+    "position": 2,
+    "problem_id": "lanqiao:2015:国:::P8632"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-coordinates",
+    "position": 3,
+    "problem_id": "lanqiao:2015:国:::P8632"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bounds",
+    "position": 4,
+    "problem_id": "lanqiao:2015:国:::P8632"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 5,
+    "problem_id": "lanqiao:2015:国:::P8632"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 6,
+    "problem_id": "lanqiao:2015:国:::P8632"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 7,
+    "problem_id": "lanqiao:2015:国:::P8632"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 8,
+    "problem_id": "lanqiao:2015:国:::P8632"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2015:国:::P8633"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-modular",
+    "position": 1,
+    "problem_id": "lanqiao:2015:国:::P8633"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "lanqiao:2015:国:::P8633"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 3,
+    "problem_id": "lanqiao:2015:国:::P8633"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-numeric-tools",
+    "position": 4,
+    "problem_id": "lanqiao:2015:国:::P8633"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 5,
+    "problem_id": "lanqiao:2015:国:::P8633"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 6,
+    "problem_id": "lanqiao:2015:国:::P8633"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2016:省:::P8635"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lanqiao:2016:省:::P8635"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-number-theory",
+    "position": 0,
+    "problem_id": "lanqiao:2016:省:::P8636"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-lambda",
+    "position": 1,
+    "problem_id": "lanqiao:2016:省:::P8636"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "lanqiao:2016:省:::P8636"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 3,
+    "problem_id": "lanqiao:2016:省:::P8636"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 4,
+    "problem_id": "lanqiao:2016:省:::P8636"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-maps",
+    "position": 5,
+    "problem_id": "lanqiao:2016:省:::P8636"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 6,
+    "problem_id": "lanqiao:2016:省:::P8636"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-permutations",
+    "position": 0,
+    "problem_id": "lanqiao:2016:省:::P8637"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-greedy",
+    "position": 1,
+    "problem_id": "lanqiao:2016:省:::P8637"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-graphs",
+    "position": 2,
+    "problem_id": "lanqiao:2016:省:::P8637"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "lanqiao:2016:省:::P8637"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 0,
+    "problem_id": "lanqiao:2016:国:::P8639"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-subset-dp",
+    "position": 1,
+    "problem_id": "lanqiao:2016:国:::P8639"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-lambda",
+    "position": 2,
+    "problem_id": "lanqiao:2016:国:::P8639"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "lanqiao:2016:国:::P8639"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 4,
+    "problem_id": "lanqiao:2016:国:::P8639"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-numeric-tools",
+    "position": 5,
+    "problem_id": "lanqiao:2016:国:::P8639"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 6,
+    "problem_id": "lanqiao:2016:国:::P8639"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2016:国:::P8644"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 1,
+    "problem_id": "lanqiao:2016:国:::P8644"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 2,
+    "problem_id": "lanqiao:2016:国:::P8644"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 3,
+    "problem_id": "lanqiao:2016:国:::P8644"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-geometry",
+    "position": 0,
+    "problem_id": "lanqiao:2016:国:::P8645"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-coordinates",
+    "position": 1,
+    "problem_id": "lanqiao:2016:国:::P8645"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bounds",
+    "position": 2,
+    "problem_id": "lanqiao:2016:国:::P8645"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-lambda",
+    "position": 3,
+    "problem_id": "lanqiao:2016:国:::P8645"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "lanqiao:2016:国:::P8645"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 5,
+    "problem_id": "lanqiao:2016:国:::P8645"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 6,
+    "problem_id": "lanqiao:2016:国:::P8645"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 7,
+    "problem_id": "lanqiao:2016:国:::P8645"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-number-theory",
+    "position": 0,
+    "problem_id": "lanqiao:2017:省:::P8646"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-knapsack",
+    "position": 1,
+    "problem_id": "lanqiao:2017:省:::P8646"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 2,
+    "problem_id": "lanqiao:2017:省:::P8646"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "lanqiao:2017:省:::P8646"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-binary-answer",
+    "position": 0,
+    "problem_id": "lanqiao:2017:省:::P8647"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-greedy",
+    "position": 1,
+    "problem_id": "lanqiao:2017:省:::P8647"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-lambda",
+    "position": 2,
+    "problem_id": "lanqiao:2017:省:::P8647"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "lanqiao:2017:省:::P8647"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lanqiao:2017:省:::P8647"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-prefix",
+    "position": 0,
+    "problem_id": "lanqiao:2017:省:::P8649"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 1,
+    "problem_id": "lanqiao:2017:省:::P8649"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "lanqiao:2017:省:::P8649"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 3,
+    "problem_id": "lanqiao:2017:省:::P8649"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2017:省:::P8651"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-sets",
+    "position": 1,
+    "problem_id": "lanqiao:2017:省:::P8651"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 2,
+    "problem_id": "lanqiao:2017:省:::P8651"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-graphs",
+    "position": 0,
+    "problem_id": "lanqiao:2017:国:::P8655"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-topology",
+    "position": 1,
+    "problem_id": "lanqiao:2017:国:::P8655"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "lanqiao:2017:国:::P8655"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-queue-stack",
+    "position": 3,
+    "problem_id": "lanqiao:2017:国:::P8655"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 0,
+    "problem_id": "lanqiao:2017:国:::P8656"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 1,
+    "problem_id": "lanqiao:2017:国:::P8656"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "lanqiao:2017:国:::P8656"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 3,
+    "problem_id": "lanqiao:2017:国:::P8656"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-probability",
+    "position": 0,
+    "problem_id": "lanqiao:2017:国:::P8657"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-graphs",
+    "position": 1,
+    "problem_id": "lanqiao:2017:国:::P8657"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "lanqiao:2017:国:::P8657"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 0,
+    "problem_id": "lanqiao:2018:省:::P8661"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-two-pointers",
+    "position": 1,
+    "problem_id": "lanqiao:2018:省:::P8661"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-hashing",
+    "position": 2,
+    "problem_id": "lanqiao:2018:省:::P8661"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "lanqiao:2018:省:::P8661"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-maps",
+    "position": 4,
+    "problem_id": "lanqiao:2018:省:::P8661"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 5,
+    "problem_id": "lanqiao:2018:省:::P8661"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-graphs",
+    "position": 0,
+    "problem_id": "lanqiao:2018:省:::P8662"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 1,
+    "problem_id": "lanqiao:2018:省:::P8662"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "lanqiao:2018:省:::P8662"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 3,
+    "problem_id": "lanqiao:2018:省:::P8662"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-queue-stack",
+    "position": 4,
+    "problem_id": "lanqiao:2018:省:::P8662"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 5,
+    "problem_id": "lanqiao:2018:省:::P8662"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 0,
+    "problem_id": "lanqiao:2018:省:::P8667"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bounds",
+    "position": 1,
+    "problem_id": "lanqiao:2018:省:::P8667"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 2,
+    "problem_id": "lanqiao:2018:省:::P8667"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "lanqiao:2018:省:::P8667"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lanqiao:2018:省:::P8667"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 5,
+    "problem_id": "lanqiao:2018:省:::P8667"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 0,
+    "problem_id": "lanqiao:2018:省:::P8668"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 0,
+    "problem_id": "lanqiao:2018:省:::P8669"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-greedy",
+    "position": 1,
+    "problem_id": "lanqiao:2018:省:::P8669"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-modular",
+    "position": 2,
+    "problem_id": "lanqiao:2018:省:::P8669"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-lambda",
+    "position": 3,
+    "problem_id": "lanqiao:2018:省:::P8669"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "lanqiao:2018:省:::P8669"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 5,
+    "problem_id": "lanqiao:2018:省:::P8669"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-number-theory",
+    "position": 0,
+    "problem_id": "lanqiao:2018:国:::P8670"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-prefix",
+    "position": 1,
+    "problem_id": "lanqiao:2018:国:::P8670"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "lanqiao:2018:国:::P8670"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 3,
+    "problem_id": "lanqiao:2018:国:::P8670"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-graphs",
+    "position": 0,
+    "problem_id": "lanqiao:2018:国:::P8674"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-shortest-path",
+    "position": 1,
+    "problem_id": "lanqiao:2018:国:::P8674"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-modular",
+    "position": 2,
+    "problem_id": "lanqiao:2018:国:::P8674"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "lanqiao:2018:国:::P8674"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-queue-stack",
+    "position": 4,
+    "problem_id": "lanqiao:2018:国:::P8674"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 0,
+    "problem_id": "lanqiao:2018:国:::P8675"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-subset-dp",
+    "position": 1,
+    "problem_id": "lanqiao:2018:国:::P8675"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 2,
+    "problem_id": "lanqiao:2018:国:::P8675"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "lanqiao:2018:国:::P8675"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 4,
+    "problem_id": "lanqiao:2018:国:::P8675"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 5,
+    "problem_id": "lanqiao:2018:国:::P8675"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-subset-dp",
+    "position": 0,
+    "problem_id": "lanqiao:2019:省:::P8679"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 1,
+    "problem_id": "lanqiao:2019:省:::P8679"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 2,
+    "problem_id": "lanqiao:2019:省:::P8679"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-graphs",
+    "position": 3,
+    "problem_id": "lanqiao:2019:省:::P8679"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-shortest-path",
+    "position": 4,
+    "problem_id": "lanqiao:2019:省:::P8679"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 5,
+    "problem_id": "lanqiao:2019:省:::P8679"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 6,
+    "problem_id": "lanqiao:2019:省:::P8679"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-queue-stack",
+    "position": 7,
+    "problem_id": "lanqiao:2019:省:::P8679"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 8,
+    "problem_id": "lanqiao:2019:省:::P8679"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 9,
+    "problem_id": "lanqiao:2019:省:::P8679"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 10,
+    "problem_id": "lanqiao:2019:省:::P8679"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2019:省:::P8680"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 1,
+    "problem_id": "lanqiao:2019:省:::P8680"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2019:省:::P8681"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lanqiao:2019:省:::P8681"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 2,
+    "problem_id": "lanqiao:2019:省:::P8681"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 0,
+    "problem_id": "lanqiao:2019:省:::P8682"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-number-theory",
+    "position": 1,
+    "problem_id": "lanqiao:2019:省:::P8682"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "lanqiao:2019:省:::P8682"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 3,
+    "problem_id": "lanqiao:2019:省:::P8682"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 0,
+    "problem_id": "lanqiao:2019:省:::P8683"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-greedy",
+    "position": 1,
+    "problem_id": "lanqiao:2019:省:::P8683"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "lanqiao:2019:省:::P8683"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-numeric-tools",
+    "position": 3,
+    "problem_id": "lanqiao:2019:省:::P8683"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lanqiao:2019:省:::P8683"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-prefix",
+    "position": 0,
+    "problem_id": "lanqiao:2019:省:::P8684"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 1,
+    "problem_id": "lanqiao:2019:省:::P8684"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-construction",
+    "position": 2,
+    "problem_id": "lanqiao:2019:省:::P8684"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-greedy",
+    "position": 3,
+    "problem_id": "lanqiao:2019:省:::P8684"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "lanqiao:2019:省:::P8684"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 5,
+    "problem_id": "lanqiao:2019:省:::P8684"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 6,
+    "problem_id": "lanqiao:2019:省:::P8684"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2019:国:::P8690"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-number-theory",
+    "position": 1,
+    "problem_id": "lanqiao:2019:国:::P8690"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-knapsack",
+    "position": 2,
+    "problem_id": "lanqiao:2019:国:::P8690"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-graphs",
+    "position": 3,
+    "problem_id": "lanqiao:2019:国:::P8690"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-lambda",
+    "position": 4,
+    "problem_id": "lanqiao:2019:国:::P8690"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 5,
+    "problem_id": "lanqiao:2019:国:::P8690"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 6,
+    "problem_id": "lanqiao:2019:国:::P8690"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-queue-stack",
+    "position": 7,
+    "problem_id": "lanqiao:2019:国:::P8690"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 8,
+    "problem_id": "lanqiao:2019:国:::P8690"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 9,
+    "problem_id": "lanqiao:2019:国:::P8690"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 0,
+    "problem_id": "lanqiao:2019:国:::P8699"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 1,
+    "problem_id": "lanqiao:2019:国:::P8699"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "lanqiao:2019:国:::P8699"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-numeric-tools",
+    "position": 3,
+    "problem_id": "lanqiao:2019:国:::P8699"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lanqiao:2019:国:::P8699"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 0,
+    "problem_id": "lanqiao:2019:国:::P8700"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-lambda",
+    "position": 1,
+    "problem_id": "lanqiao:2019:国:::P8700"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 2,
+    "problem_id": "lanqiao:2019:国:::P8700"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-segment-tree",
+    "position": 0,
+    "problem_id": "lanqiao:2019:国:::P8701"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lanqiao:2019:国:::P8701"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-numeric-tools",
+    "position": 2,
+    "problem_id": "lanqiao:2019:国:::P8701"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-probability",
+    "position": 0,
+    "problem_id": "lanqiao:2019:国:::P8702"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 1,
+    "problem_id": "lanqiao:2019:国:::P8702"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-modular",
+    "position": 2,
+    "problem_id": "lanqiao:2019:国:::P8702"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-prefix",
+    "position": 3,
+    "problem_id": "lanqiao:2019:国:::P8702"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-lambda",
+    "position": 4,
+    "problem_id": "lanqiao:2019:国:::P8702"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 5,
+    "problem_id": "lanqiao:2019:国:::P8702"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 6,
+    "problem_id": "lanqiao:2019:国:::P8702"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 7,
+    "problem_id": "lanqiao:2019:国:::P8702"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 0,
+    "problem_id": "lanqiao:2019:国:::P8703"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lanqiao:2019:国:::P8703"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 2,
+    "problem_id": "lanqiao:2019:国:::P8703"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2020:省:1::P8705"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 1,
+    "problem_id": "lanqiao:2020:省:1::P8705"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 2,
+    "problem_id": "lanqiao:2020:省:1::P8705"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "lanqiao:2020:省:1::P8705"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 4,
+    "problem_id": "lanqiao:2020:省:1::P8705"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 5,
+    "problem_id": "lanqiao:2020:省:1::P8705"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 6,
+    "problem_id": "lanqiao:2020:省:1::P8705"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2020:省:1::P8706"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "lanqiao:2020:省:1::P8706"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 0,
+    "problem_id": "lanqiao:2020:省:1::P8707"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 1,
+    "problem_id": "lanqiao:2020:省:1::P8707"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "lanqiao:2020:省:1::P8707"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 3,
+    "problem_id": "lanqiao:2020:省:1::P8707"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dsu",
+    "position": 0,
+    "problem_id": "lanqiao:2020:省:1::P8710"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lanqiao:2020:省:1::P8710"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 2,
+    "problem_id": "lanqiao:2020:省:1::P8710"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2020:省:1::P8711"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 1,
+    "problem_id": "lanqiao:2020:省:1::P8711"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-modular",
+    "position": 0,
+    "problem_id": "lanqiao:2020:省:1::P8712"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 1,
+    "problem_id": "lanqiao:2020:省:1::P8712"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 2,
+    "problem_id": "lanqiao:2020:省:1::P8712"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "lanqiao:2020:省:1::P8712"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lanqiao:2020:省:1::P8712"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2020:省:2::P8714"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-number-theory",
+    "position": 1,
+    "problem_id": "lanqiao:2020:省:2::P8714"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-lambda",
+    "position": 2,
+    "problem_id": "lanqiao:2020:省:2::P8714"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "lanqiao:2020:省:2::P8714"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lanqiao:2020:省:2::P8714"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 5,
+    "problem_id": "lanqiao:2020:省:2::P8714"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 0,
+    "problem_id": "lanqiao:2020:省:2::P8715"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lanqiao:2020:省:2::P8715"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 2,
+    "problem_id": "lanqiao:2020:省:2::P8715"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-numeric-tools",
+    "position": 3,
+    "problem_id": "lanqiao:2020:省:2::P8715"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lanqiao:2020:省:2::P8715"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2020:省:2::P8716"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2020:省:2::P8717"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-greedy",
+    "position": 0,
+    "problem_id": "lanqiao:2020:省:2::P8719"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-construction",
+    "position": 1,
+    "problem_id": "lanqiao:2020:省:2::P8719"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bounds",
+    "position": 2,
+    "problem_id": "lanqiao:2020:省:2::P8719"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 3,
+    "problem_id": "lanqiao:2020:省:2::P8719"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lanqiao:2020:省:2::P8719"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 5,
+    "problem_id": "lanqiao:2020:省:2::P8719"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-geometry",
+    "position": 0,
+    "problem_id": "lanqiao:2020:省:2::P8720"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 1,
+    "problem_id": "lanqiao:2020:省:2::P8720"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 2,
+    "problem_id": "lanqiao:2020:省:2::P8720"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-sets",
+    "position": 3,
+    "problem_id": "lanqiao:2020:省:2::P8720"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lanqiao:2020:省:2::P8720"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2020:省:3::P8721"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-graphs",
+    "position": 1,
+    "problem_id": "lanqiao:2020:省:3::P8721"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-heap",
+    "position": 2,
+    "problem_id": "lanqiao:2020:省:3::P8721"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 3,
+    "problem_id": "lanqiao:2020:省:3::P8721"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "lanqiao:2020:省:3::P8721"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-sets",
+    "position": 5,
+    "problem_id": "lanqiao:2020:省:3::P8721"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 6,
+    "problem_id": "lanqiao:2020:省:3::P8721"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2020:省:3::P8722"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "lanqiao:2020:省:3::P8722"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2020:省:3::P8723"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "lanqiao:2020:省:3::P8723"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-shortest-path",
+    "position": 0,
+    "problem_id": "lanqiao:2020:省:3::P8724"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-graphs",
+    "position": 1,
+    "problem_id": "lanqiao:2020:省:3::P8724"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "lanqiao:2020:省:3::P8724"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 3,
+    "problem_id": "lanqiao:2020:省:3::P8724"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-heap",
+    "position": 4,
+    "problem_id": "lanqiao:2020:省:3::P8724"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 5,
+    "problem_id": "lanqiao:2020:省:3::P8724"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 0,
+    "problem_id": "lanqiao:2020:省:3::P8725"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 1,
+    "problem_id": "lanqiao:2020:省:3::P8725"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "lanqiao:2020:省:3::P8725"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-numeric-tools",
+    "position": 3,
+    "problem_id": "lanqiao:2020:省:3::P8725"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lanqiao:2020:省:3::P8725"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 0,
+    "problem_id": "lanqiao:2020:省:3::P8726"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-monotonic",
+    "position": 1,
+    "problem_id": "lanqiao:2020:省:3::P8726"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "lanqiao:2020:省:3::P8726"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-queue-stack",
+    "position": 3,
+    "problem_id": "lanqiao:2020:省:3::P8726"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lanqiao:2020:省:3::P8726"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2020:国:::P8728"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-number-theory",
+    "position": 1,
+    "problem_id": "lanqiao:2020:国:::P8728"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 2,
+    "problem_id": "lanqiao:2020:国:::P8728"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-graphs",
+    "position": 3,
+    "problem_id": "lanqiao:2020:国:::P8728"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 4,
+    "problem_id": "lanqiao:2020:国:::P8728"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-graphs",
+    "position": 0,
+    "problem_id": "lanqiao:2020:国:::P8730"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "lanqiao:2020:国:::P8730"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 2,
+    "problem_id": "lanqiao:2020:国:::P8730"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 3,
+    "problem_id": "lanqiao:2020:国:::P8730"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-shortest-path",
+    "position": 0,
+    "problem_id": "lanqiao:2020:国:::P8731"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-lambda",
+    "position": 1,
+    "problem_id": "lanqiao:2020:国:::P8731"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "lanqiao:2020:国:::P8731"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 3,
+    "problem_id": "lanqiao:2020:国:::P8731"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-heap",
+    "position": 4,
+    "problem_id": "lanqiao:2020:国:::P8731"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 5,
+    "problem_id": "lanqiao:2020:国:::P8731"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 6,
+    "problem_id": "lanqiao:2020:国:::P8731"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-greedy",
+    "position": 0,
+    "problem_id": "lanqiao:2020:国:::P8732"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 1,
+    "problem_id": "lanqiao:2020:国:::P8732"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-lambda",
+    "position": 2,
+    "problem_id": "lanqiao:2020:国:::P8732"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "lanqiao:2020:国:::P8732"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lanqiao:2020:国:::P8732"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-greedy",
+    "position": 0,
+    "problem_id": "lanqiao:2020:国:::P8736"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bounds",
+    "position": 1,
+    "problem_id": "lanqiao:2020:国:::P8736"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 2,
+    "problem_id": "lanqiao:2020:国:::P8736"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-lambda",
+    "position": 3,
+    "problem_id": "lanqiao:2020:国:::P8736"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "lanqiao:2020:国:::P8736"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 5,
+    "problem_id": "lanqiao:2020:国:::P8736"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 6,
+    "problem_id": "lanqiao:2020:国:::P8736"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 0,
+    "problem_id": "lanqiao:2020:国:::P8737"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 1,
+    "problem_id": "lanqiao:2020:国:::P8737"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-lambda",
+    "position": 2,
+    "problem_id": "lanqiao:2020:国:::P8737"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "lanqiao:2020:国:::P8737"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-maps",
+    "position": 4,
+    "problem_id": "lanqiao:2020:国:::P8737"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 5,
+    "problem_id": "lanqiao:2020:国:::P8737"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 6,
+    "problem_id": "lanqiao:2020:国:::P8737"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2021:省:::P8741"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-number-theory",
+    "position": 1,
+    "problem_id": "lanqiao:2021:省:::P8741"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-shortest-path",
+    "position": 2,
+    "problem_id": "lanqiao:2021:省:::P8741"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 3,
+    "problem_id": "lanqiao:2021:省:::P8741"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 4,
+    "problem_id": "lanqiao:2021:省:::P8741"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 5,
+    "problem_id": "lanqiao:2021:省:::P8741"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-sets",
+    "position": 6,
+    "problem_id": "lanqiao:2021:省:::P8741"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-heap",
+    "position": 7,
+    "problem_id": "lanqiao:2021:省:::P8741"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 8,
+    "problem_id": "lanqiao:2021:省:::P8741"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 9,
+    "problem_id": "lanqiao:2021:省:::P8741"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 0,
+    "problem_id": "lanqiao:2021:省:::P8742"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "lanqiao:2021:省:::P8742"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-numeric-tools",
+    "position": 2,
+    "problem_id": "lanqiao:2021:省:::P8742"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 0,
+    "problem_id": "lanqiao:2021:省:::P8745"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-prefix",
+    "position": 1,
+    "problem_id": "lanqiao:2021:省:::P8745"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 2,
+    "problem_id": "lanqiao:2021:省:::P8745"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "lanqiao:2021:省:::P8745"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 4,
+    "problem_id": "lanqiao:2021:省:::P8745"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 5,
+    "problem_id": "lanqiao:2021:省:::P8745"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-monotonic",
+    "position": 0,
+    "problem_id": "lanqiao:2021:省:::P8747"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-construction",
+    "position": 1,
+    "problem_id": "lanqiao:2021:省:::P8747"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 2,
+    "problem_id": "lanqiao:2021:省:::P8747"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "lanqiao:2021:省:::P8747"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 4,
+    "problem_id": "lanqiao:2021:省:::P8747"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2021:省:::P8748"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-modular",
+    "position": 1,
+    "problem_id": "lanqiao:2021:省:::P8748"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 2,
+    "problem_id": "lanqiao:2021:省:::P8748"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 0,
+    "problem_id": "lanqiao:2021:省:::P8749"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bounds",
+    "position": 1,
+    "problem_id": "lanqiao:2021:省:::P8749"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 2,
+    "problem_id": "lanqiao:2021:省:::P8749"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 3,
+    "problem_id": "lanqiao:2021:省:::P8749"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2021:省:2::P8751"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 1,
+    "problem_id": "lanqiao:2021:省:2::P8751"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 2,
+    "problem_id": "lanqiao:2021:省:2::P8751"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 3,
+    "problem_id": "lanqiao:2021:省:2::P8751"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2021:省:2::P8752"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2021:省:2::P8753"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-modular",
+    "position": 1,
+    "problem_id": "lanqiao:2021:省:2::P8753"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 2,
+    "problem_id": "lanqiao:2021:省:2::P8753"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-number-theory",
+    "position": 0,
+    "problem_id": "lanqiao:2021:省:2::P8754"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-greedy",
+    "position": 1,
+    "problem_id": "lanqiao:2021:省:2::P8754"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 2,
+    "problem_id": "lanqiao:2021:省:2::P8754"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 3,
+    "problem_id": "lanqiao:2021:省:2::P8754"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2021:省:2::P8755"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-heap",
+    "position": 1,
+    "problem_id": "lanqiao:2021:省:2::P8755"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-greedy",
+    "position": 2,
+    "problem_id": "lanqiao:2021:省:2::P8755"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "lanqiao:2021:省:2::P8755"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 4,
+    "problem_id": "lanqiao:2021:省:2::P8755"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 5,
+    "problem_id": "lanqiao:2021:省:2::P8755"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 0,
+    "problem_id": "lanqiao:2021:省:2::P8756"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-subset-dp",
+    "position": 1,
+    "problem_id": "lanqiao:2021:省:2::P8756"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 2,
+    "problem_id": "lanqiao:2021:省:2::P8756"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "lanqiao:2021:省:2::P8756"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-numeric-tools",
+    "position": 4,
+    "problem_id": "lanqiao:2021:省:2::P8756"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 5,
+    "problem_id": "lanqiao:2021:省:2::P8756"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 0,
+    "problem_id": "lanqiao:2021:国:::P8759"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 1,
+    "problem_id": "lanqiao:2021:国:::P8759"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2021:国:::P8761"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "lanqiao:2021:国:::P8761"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-enumeration",
+    "position": 0,
+    "problem_id": "lanqiao:2021:国:C::P8761"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "lanqiao:2021:国:C::P8761"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bounds",
+    "position": 0,
+    "problem_id": "lanqiao:2021:国:::P8762"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-prefix",
+    "position": 1,
+    "problem_id": "lanqiao:2021:国:::P8762"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 2,
+    "problem_id": "lanqiao:2021:国:::P8762"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 3,
+    "problem_id": "lanqiao:2021:国:::P8762"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 0,
+    "problem_id": "lanqiao:2021:国:::P8763"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 1,
+    "problem_id": "lanqiao:2021:国:::P8763"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 2,
+    "problem_id": "lanqiao:2021:国:::P8763"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 0,
+    "problem_id": "lanqiao:2021:国:::P8764"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 1,
+    "problem_id": "lanqiao:2021:国:::P8764"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 2,
+    "problem_id": "lanqiao:2021:国:::P8764"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-numeric-tools",
+    "position": 3,
+    "problem_id": "lanqiao:2021:国:::P8764"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lanqiao:2021:国:::P8764"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 0,
+    "problem_id": "lanqiao:2021:国:C::P8764"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 1,
+    "problem_id": "lanqiao:2021:国:C::P8764"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-dp",
+    "position": 2,
+    "problem_id": "lanqiao:2021:国:C::P8764"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-numeric-tools",
+    "position": 3,
+    "problem_id": "lanqiao:2021:国:C::P8764"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 4,
+    "problem_id": "lanqiao:2021:国:C::P8764"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-prefix",
+    "position": 0,
+    "problem_id": "lanqiao:2021:国:::P8765"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-segment-tree",
+    "position": 1,
+    "problem_id": "lanqiao:2021:国:::P8765"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bounds",
+    "position": 2,
+    "problem_id": "lanqiao:2021:国:::P8765"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 3,
+    "problem_id": "lanqiao:2021:国:::P8765"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 4,
+    "problem_id": "lanqiao:2021:国:::P8765"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 5,
+    "problem_id": "lanqiao:2021:国:::P8765"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 0,
+    "problem_id": "lanqiao:2021:国:::P8766"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-counting",
+    "position": 1,
+    "problem_id": "lanqiao:2021:国:::P8766"
+  },
+  {
+    "kind": "explicit",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 2,
+    "problem_id": "lanqiao:2021:国:::P8766"
+  },
+  {
     "kind": "own",
     "lecture_id": "lecture:foundation-io-basics",
     "position": 0,
@@ -38000,12 +40742,6 @@
   {
     "kind": "own",
     "lecture_id": "lecture:foundation-vector",
-    "position": 4,
-    "problem_id": "lanqiao:2017:省:::P8649"
-  },
-  {
-    "kind": "own",
-    "lecture_id": "lecture:foundation-vector",
     "position": 5,
     "problem_id": "luogu-training-B3799"
   },
@@ -38140,12 +40876,6 @@
     "lecture_id": "lecture:foundation-bitwise",
     "position": 5,
     "problem_id": "luogu-training-P9533"
-  },
-  {
-    "kind": "own",
-    "lecture_id": "lecture:foundation-integer",
-    "position": 5,
-    "problem_id": "lanqiao:2017:省:::P8649"
   },
   {
     "kind": "own",
@@ -38350,12 +41080,6 @@
     "lecture_id": "lecture:foundation-modular",
     "position": 6,
     "problem_id": "luogu-training-P3948"
-  },
-  {
-    "kind": "own",
-    "lecture_id": "lecture:foundation-prefix",
-    "position": 7,
-    "problem_id": "lanqiao:2017:省:::P8649"
   },
   {
     "kind": "own",

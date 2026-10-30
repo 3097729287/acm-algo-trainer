@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="260" viewBox="0 0 720 260">
+  <rect width="720" height="260" fill="#ffffff"/>
+  <text x="20" y="30" font-size="16" fill="#222">N = 7 = (111)₂，K = 2</text>
+  <text x="20" y="60" font-size="15" fill="#444">从高位到低位扫描，遇到 1 时统计“该位取 0”的分支</text>
+
+  <rect x="40" y="90" width="80" height="40" fill="#e8f0fe" stroke="#3366cc"/>
+  <text x="70" y="116" font-size="18" fill="#222">1</text>
+  <text x="55" y="150" font-size="14" fill="#555">位2</text>
+
+  <rect x="140" y="90" width="80" height="40" fill="#e8f0fe" stroke="#3366cc"/>
+  <text x="170" y="116" font-size="18" fill="#222">1</text>
+  <text x="155" y="150" font-size="14" fill="#555">位1</text>
+
+  <rect x="240" y="90" width="80" height="40" fill="#e8f0fe" stroke="#3366cc"/>
+  <text x="270" y="116" font-size="18" fill="#222">1</text>
+  <text x="255" y="150" font-size="14" fill="#555">位0</text>
+
+  <line x1="80" y1="130" x2="80" y2="180" stroke="#cc3333" stroke-width="2"/>
+  <line x1="180" y1="130" x2="180" y2="180" stroke="#cc3333" stroke-width="2"/>
+  <line x1="280" y1="130" x2="280" y2="180" stroke="#cc3333" stroke-width="2"/>
+
+  <text x="20" y="205" font-size="15" fill="#cc3333">位2取0：低2位放2个1 → C(2,2)=1，对应 011=3</text>
+  <text x="20" y="230" font-size="15" fill="#cc3333">位1取0：低1位放1个1 → C(1,1)=1，对应 101=5</text>
+  <text x="20" y="255" font-size="15" fill="#cc3333">位0取0：低0位放0个1 → C(0,0)=1，对应 110=6</text>
+</svg>

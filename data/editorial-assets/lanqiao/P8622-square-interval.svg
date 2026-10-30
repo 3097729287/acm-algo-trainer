@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="220" viewBox="0 0 720 220">
+  <rect width="720" height="220" fill="#ffffff"/>
+  <line x1="60" y1="120" x2="660" y2="120" stroke="#333333" stroke-width="2"/>
+  <text x="60" y="150" font-size="16" fill="#333333" text-anchor="middle">1</text>
+  <text x="120" y="150" font-size="16" fill="#333333" text-anchor="middle">2</text>
+  <text x="180" y="150" font-size="16" fill="#333333" text-anchor="middle">3</text>
+  <text x="240" y="150" font-size="16" fill="#333333" text-anchor="middle">4</text>
+  <text x="300" y="150" font-size="16" fill="#333333" text-anchor="middle">5</text>
+  <text x="360" y="150" font-size="16" fill="#333333" text-anchor="middle">6</text>
+  <text x="420" y="150" font-size="16" fill="#333333" text-anchor="middle">7</text>
+  <text x="480" y="150" font-size="16" fill="#333333" text-anchor="middle">8</text>
+  <text x="540" y="150" font-size="16" fill="#333333" text-anchor="middle">9</text>
+  <text x="600" y="150" font-size="16" fill="#333333" text-anchor="middle">10</text>
+  <rect x="90" y="90" width="480" height="30" fill="#d9edf7" stroke="#31708f" stroke-width="2"/>
+  <text x="330" y="80" font-size="16" fill="#31708f" text-anchor="middle">区间 [L,R] = [2,9]</text>
+  <circle cx="60" cy="120" r="6" fill="#d9534f"/>
+  <circle cx="240" cy="120" r="6" fill="#d9534f"/>
+  <circle cx="540" cy="120" r="6" fill="#d9534f"/>
+  <text x="60" y="190" font-size="14" fill="#d9534f" text-anchor="middle">1=1²</text>
+  <text x="240" y="190" font-size="14" fill="#d9534f" text-anchor="middle">4=2²</text>
+  <text x="540" y="190" font-size="14" fill="#d9534f" text-anchor="middle">9=3²</text>
+  <text x="330" y="210" font-size="15" fill="#333333" text-anchor="middle">区间长度 8，平方数 2 个（4,9），亮灯数 = 8 - 2 = 6</text>
+</svg>

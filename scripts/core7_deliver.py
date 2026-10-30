@@ -97,7 +97,7 @@ def stage(target):
                 if row['problem_id'] not in identities:continue
                 previous=db.execute('SELECT images FROM '+table+' WHERE problem_id=?',(row['problem_id'],)).fetchone()
                 if previous:
-                    for key,value in json.loads(previous[0]).items():assert row['images'].get(key)==value
+                    for key,value in json.loads(previous[0]).items():assert row['images'].get(key)==value,(table,row['problem_id'],key)
                 db.execute('INSERT INTO '+table+' VALUES (?,?,?,?,?) ON CONFLICT(problem_id) DO UPDATE SET markdown=excluded.markdown,source_path=excluded.source_path,images=excluded.images,digest=excluded.digest',
                     (row['problem_id'],row['markdown'],row['source_path'],json.dumps(row['images'],ensure_ascii=False),source_hash(row['markdown'])))
         for row in read(source/'solution_methods.json'):
@@ -168,6 +168,8 @@ def apply(target):
     assert filehash(public)==report['publicSeedBeforeSha256'],'Installed seed changed: restage'
     assert filehash(build)==report['buildInfoBeforeSha256'],'Installed patch changed: restage'
     assert filehash(staged)==report['stagedSha256']
+    required_space=2*max(public.stat().st_size,staged.stat().st_size)+64*1024*1024
+    assert shutil.disk_usage(target).free>=required_space,'Insufficient free space for atomic public-seed replacement and rollback'
     frozen=read(OUT/'frozen'/folder.parent.name/target.name/'editorial-check.json')
     assert frozen['frozen'] and frozen['offline'] and frozen['variantResponses']==report['articles']
     assert frozen['publicSeedSha256']==report['stagedSha256'],'Frozen runtime check is stale'
@@ -218,6 +220,8 @@ def apply(target):
         status='local content-only editorial update; English-first frontend retained; unpublished',
         sourceManifestSha256=hashlib.sha256(manifest_bytes).hexdigest(),core7Editorials={k:report[k] for k in ['problems','methods','articles','scopeTotal','complete','missingDualEditorials','pendingStandardReview']})
     info['publicLibrary'].update(report['countsAfter'])
+    if 'publicLibraryCounts' in info:info['publicLibraryCounts'].update(report['countsAfter'])
+    if 'publicLibrarySha256' in info:info['publicLibrarySha256']=report['stagedSha256']
     # Preserve the exact EXE and frontend provenance of the preceding patch.
     assert info.get('buildSourceCommit') and info.get('frontendSourceCommit')
     payloads={}
