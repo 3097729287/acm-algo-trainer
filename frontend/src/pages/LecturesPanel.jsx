@@ -1,4 +1,5 @@
 import {lessonKey} from '@/lib/lessonKey.js';
+import {foundationLectures,lectureDestination} from '@/lib/algorithmLearning.js';
 import PageSearch from '@/components/PageSearch.jsx';
 import {lessonLevel} from '@/lib/difficultyPresentation.js';
 import Tooltip from '@/components/Tooltip.jsx';
@@ -49,8 +50,10 @@ export function LectureDisclosure({ lecture = {}, inlineMarkdown, images, api, o
 }
 
 const EMPTY_CATEGORIES=[];
-export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError,onFullscreenChange,categories=EMPTY_CATEGORIES,visit,prefs={},setPrefs }) {
+export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError,onFullscreenChange,onOpenTemplate,categories=EMPTY_CATEGORIES,visit,prefs={},setPrefs }) {
   const [snapshot, setSnapshot] = useState(lectures || null), [query, setQuery] = useState(visit?.query||''), [selected, setSelected] = useState(initialLecture || visit?.selected || null);
+  const moved=lectureDestination(selected);
+  useEffect(()=>{if(moved&&onOpenTemplate){setSelected(null);if(visit)visit.selected=null;onOpenTemplate(moved.templateId);}},[moved,onOpenTemplate,visit]);
   const [readingFull,setReadingFull]=useState(visit?.readingFull||false);
   const readingScroll=useRef(null);
   const changeReadingFull=value=>{readingScroll.current=detail.current?.scrollTop||0;setReadingFull(value);};
@@ -80,7 +83,7 @@ export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError,
     return () => { seq.current++; };
   }, [selected, api]);
   useEffect(()=>{if(lesson&&detail.current){detail.current.scrollTop=restoreScroll.current??0;restoreScroll.current=null;}},[lesson]);
-  const entries = Array.isArray(snapshot) ? snapshot : snapshot?.lectures || [];
+  const entries = foundationLectures(Array.isArray(snapshot) ? snapshot : snapshot?.lectures || []);
   const classifications = useMemo(() => lectureFolderOptions(entries,categories), [snapshot,categories]);
   const sorted=useMemo(()=>entries.map((item,index)=>({...item,listIndex:index,displayDifficulty:lessonLevel(item)})).sort((a,b)=>['基础','进阶','深入'].indexOf(a.displayDifficulty)-['基础','进阶','深入'].indexOf(b.displayDifficulty)||a.listIndex-b.listIndex),[snapshot]);
   const categoryPath = classification ? JSON.parse(classification) : [];

@@ -2127,11 +2127,11 @@ export default function App() {
           ) : page === "training-lists" ? (
             <TrainingListsPage rows={rows} api={api} onTrain={openPractice} visit={trainingListsVisit.current} pageSize={prefs.libraryPageSize} busy={busy} prefs={prefs} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={featureAvailable('training-lists')?id=>setListProblemIds(Array.isArray(id)?id:[id]):undefined} onRemove={removeTraining}/>
           ) : page === "templates" ? (
-            <TemplatesPage api={api} shortcuts={prefs.shortcuts} visit={templatesVisit.current} onActiveChange={setTemplateActive} onTrain={openPractice}/>
+            <TemplatesPage api={api} shortcuts={prefs.shortcuts} visit={templatesVisit.current} onActiveChange={setTemplateActive} onTrain={openPractice} onOpenCourse={id=>{setPrefs(previous=>({...previous,learningPaths:{...previous.learningPaths,activePath:id,[id]:{...previous.learningPaths?.[id],mode:'learn',labV1:{...previous.learningPaths?.[id]?.labV1,chapter:'0'}}}}));setPage('paths');}}/>
           ) : page === "paths" ? (
-            <LearningPathsPage rows={rows} api={api} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} lockedProblems={active?.slots || []} visit={labVisit.current}/>
+            <LearningPathsPage rows={rows} api={api} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} lockedProblems={active?.slots || []} visit={labVisit.current} onOpenTemplate={id=>{templatesVisit.current.selected=id;setPage('templates');}}/>
           ) : page === "lectures" ? (
-            <LecturesPanel prefs={prefs} setPrefs={setPrefs} api={api} visit={lecturesVisit.current} initialLecture={lectureId} categories={categories} onFullscreenChange={setLectureFull} onTrain={openPractice} onError={(message) => notice(message, "error")} />
+            <LecturesPanel prefs={prefs} setPrefs={setPrefs} api={api} visit={lecturesVisit.current} initialLecture={lectureId} categories={categories} onFullscreenChange={setLectureFull} onTrain={openPractice} onOpenTemplate={id=>{templatesVisit.current.selected=id;setLectureId(null);setPage('templates');}} onError={(message) => notice(message, "error")} />
           ) : page === "rankings" ? (
             <RankingsPage socialState={social} avatarData={prefs.avatarData} ownGrowth={growth} api={api} onConfigure={() => {if(window.__tbAdmin){setPage('settings');setSettingsTab('admin')}else openAccounts()}} onError={(message) => notice(message, "error")} />
           ) : (

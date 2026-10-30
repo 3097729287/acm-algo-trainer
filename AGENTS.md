@@ -24,6 +24,8 @@ TB is the primary product. Active code belongs in `frontend/`, `backend/`, `desk
 
 ## Teaching content
 
+- User organization rule (2026-10-30): multi-operation algorithm/data-structure material belongs in Templates (explanation, teaching code and contest code) and Algorithm Lab (operation experiments and practice), not the standalone From Zero catalog. Audit actual reusable content, preserve its original lecture IDs/Markdown/images and problem references, route historical entries to the matching template, and keep language/library basics and problem-specific reasoning. `backend/resources/algorithm-learning.json` records the reviewed placements; regenerate it with `scripts/organize_algorithm_learning.py` after changing its sources.
+
 - Apply `docs/algorithm-lab-authoring.md` as the persistent end-to-end workflow for algorithm lessons, five curated guided problems, independent implementation handoff, related detailed-editorial revisions, validation and release. Use meaningful interactions beyond reveal-only hints; keep necessary reasoning concise and visible.
 - Related detailed editorials must explain problem-specific recognition, changes from the basic algorithm and useful debugging/transfer cases where they help. Audit actual relevance and difficulty, preserve existing content, and never append identical boilerplate across problems.
 - Follow the basic teaching-writing standards and recorded lessons in `docs/algorithm-lab-design.md` for every algorithm lesson or teaching revision.
