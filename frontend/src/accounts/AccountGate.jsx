@@ -10,6 +10,7 @@ export default function AccountGate({ children }) {
   const [session, setSession] = useState(null), [booting, setBooting] = useState(true);
   const [mode, setMode] = useState('login'), [loginId, setLoginId] = useState(''), [nickname, setNickname] = useState('');
   const [password, setPassword] = useState(''), [confirmation, setConfirmation] = useState(''), [visible, setVisible] = useState(false);
+  const [experience,setExperience]=useState('beginner');
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [message, setMessage] = useState('');
   const syncNotices = useRef(new Set());
   const generation = useRef(0);
@@ -75,6 +76,7 @@ export default function AccountGate({ children }) {
         const authenticated = await request('account/login', { loginId: result.loginId, password }, session.token);
         if (!active()) return;
         window.__tbNewAccount = true;
+        window.__tbExperienceChoicePending={owner:authenticated.account?.userId,choice:experience};
         setMessage(''); setError(authenticated.error || ''); setSession(authenticated);
       } else {
         const result = await request('account/login', { loginId: loginId.trim(), password }, session.token);
@@ -134,6 +136,7 @@ export default function AccountGate({ children }) {
           <label>登录号<input name="username" autoComplete="username" minLength={4} maxLength={32} pattern="[A-Za-z0-9_]{4,32}" value={loginId} onChange={event => setLoginId(event.target.value)} placeholder="4–32 位字母、数字或下划线" autoCapitalize="none" spellCheck={false} required disabled={busy}/></label>
           <label>密码<div className="account-password"><input name="password" type={visible ? 'text' : 'password'} autoComplete={registering ? 'new-password' : 'current-password'} minLength={registering ? 8 : 6} maxLength={128} value={password} onChange={event => setPassword(event.target.value)} placeholder={registering ? '至少 8 个字符' : '请输入密码'} required disabled={busy}/><button type="button" aria-label={visible ? '隐藏密码' : '显示密码'} aria-pressed={visible} onClick={() => setVisible(value => !value)}>{visible ? <EyeOff size={18}/> : <Eye size={18}/>}</button></div></label>
           {registering && <label>确认密码<input name="passwordConfirmation" type={visible ? 'text' : 'password'} autoComplete="new-password" minLength={8} maxLength={128} value={confirmation} onChange={event => setConfirmation(event.target.value)} placeholder="再次输入密码" required disabled={busy}/></label>}
+          {registering&&<fieldset className="account-experience" disabled={busy}><legend>编程经验</legend><label><input type="radio" name="experience" value="beginner" checked={experience==='beginner'} onChange={()=>setExperience('beginner')}/>我是新手</label><label><input type="radio" name="experience" value="experienced" checked={experience==='experienced'} onChange={()=>setExperience('experienced')}/>我是老手</label></fieldset>}
           {error && <p className="account-error" role="alert">{error}</p>}
           {message && <p className="account-message" role="status">{message}</p>}
           <button type="submit" className="account-submit" disabled={busy || session?.restoring || !session?.token}>{busy ? <LoaderCircle className="spin" size={18}/> : registering ? <UserRoundPlus size={18}/> : <LogIn size={18}/>} {busy ? registering ? '正在注册…' : '正在登录并同步数据…' : registering ? '注册账号' : '登录'}</button>

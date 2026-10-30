@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import shutil
@@ -103,6 +104,13 @@ def assemble(args):
     package = stage / 'release' / PACKAGE
     if package.exists():
         raise RuntimeError('Use a new stage; existing packages are never overwritten')
+    if __package__:
+        from .prepare_formatters import verify,copy_to_package
+    else:
+        from prepare_formatters import verify,copy_to_package
+    formatters_source=getattr(args,'formatters_source',None) or os.environ.get('TB_FORMATTERS_ROOT')
+    if not formatters_source:raise RuntimeError('--formatters-source must identify the prepared pinned offline formatters')
+    verify(formatters_source)
     if not args.compiler_source or not (args.compiler_source / 'ucrt64' / 'bin' / 'g++.exe').is_file():
         raise RuntimeError('--compiler-source must contain a complete ucrt64 compiler')
     if not (ROOT / 'frontend' / 'dist' / 'index.html').is_file():
@@ -133,6 +141,7 @@ def assemble(args):
         raise RuntimeError('--python-source must contain the verified CPython embeddable runtime')
     shutil.copytree(args.python_source, package / '_internal' / 'python3')
     shutil.copytree(ROOT / 'licenses', package / 'licenses')
+    copy_to_package(formatters_source,package)
     (package / 'data').mkdir()
     shutil.copy2(seed, package / 'data' / 'library.sqlite3')
     shutil.copy2(ROOT / 'desktop' / 'official_languages.js', package / 'official_languages.js')
@@ -211,6 +220,7 @@ def main():
     parser.add_argument('--stage', type=Path, required=True)
     parser.add_argument('--compiler-source', type=Path)
     parser.add_argument('--python-source', type=Path)
+    parser.add_argument('--formatters-source', type=Path)
     parser.add_argument('--inno', type=Path)
     parser.add_argument('--webview2', type=Path)
     args = parser.parse_args()

@@ -580,10 +580,14 @@ class TrainingService:
             from reviews import reward_totals
             review_rewards = reward_totals(self)
             xp = self._first_acceptance_xp(library, records) + claimed["xp"] + ranking_xp + achievement_rewards['xp'] + review_rewards['xp']
+            from experience_challenge import reward as experience_reward, snapshot as experience_snapshot
+            challenge_xp = experience_reward(self, xp)
+            xp += challenge_xp
             from tb_rank import growth, ranked
             value['growth'] = dict(growth(xp), missionXp=claimed['xp'], rankingXp=ranking_xp,
                                    achievementXp=achievement_rewards['xp'], newAchievementXp=achievement_rewards['newXp'],
-                                   reviewXp=review_rewards['xp'], rewardedReviews=review_rewards['count'])
+                                   reviewXp=review_rewards['xp'], rewardedReviews=review_rewards['count'], challengeXp=challenge_xp)
+            value['growth']['experienceChallenge'] = experience_snapshot(self, value['growth']['level'])
             value['growth'].update(confirmed=True,authority=self._confirmed_growth_authority())
             titles, equipped_titles = earned_titles(achievement_rewards['claims'])
             value.update(titles=titles, equippedTitles=equipped_titles)
@@ -1117,6 +1121,8 @@ class TrainingService:
                 evidence = {"statement":problem["markdown"], "official_tags":raw.get("officialTags")}
                 analyzed = cache.enrich(row, **evidence) if cache is not None else enrich_row(row, **evidence)
                 problem.update({key: analyzed[key] for key in ("tags", "knowledge", "knowledgeAnalysis") if key in analyzed})
+            from code_format import formatting_available
+            problem['formattingAvailable'] = bool(not contest_id and not problem['locked'] and not self.connection.execute("SELECT 1 FROM contests WHERE status='running'").fetchone() and formatting_available())
             return problem
 
     @staticmethod
@@ -1222,6 +1228,8 @@ class TrainingService:
             with self._write() as connection:
                 connection.execute("INSERT INTO submissions(id,problem_id,contest_id,mode,code,submitted_at,verdict,scope,custom_input,solution_seen,sample_run) VALUES(?,?,?,?,?,?,'QUEUED',?,?,?,?)", (submission_id, identity, contest_id or None, mode, code, timestamp, scope, input_text, seen_solution, int(sample_run)))
                 self._save_language(connection, "submission-language:"+submission_id, language)
+                from experience_challenge import bind_submission
+                bind_submission(self, connection, submission_id, identity, mode, scope)
                 if review:
                     ReviewScheduler(self).bind(connection, submission_id, review_id)
                 if mode == "submit":
@@ -1272,6 +1280,8 @@ class TrainingService:
             with self.lock:
                 with self._write() as connection:
                     connection.execute("UPDATE submissions SET finished_at=?,verdict=?,scope=?,time_ms=?,memory_kb=?,passed=?,total=?,output=?,stderr=?,message=?,case_results=? WHERE id=?", (finished, verdict, scope, result.get("timeMs"), result.get("memoryKb"), max(0, int(result.get("passed", 0))), max(0, int(result.get("total", 0))), str(result.get("output", ""))[:262144], str(result.get("stderr", ""))[:262144], str(result.get("message", ""))[:4000], json.dumps(case_results, ensure_ascii=False), identity))
+                    from experience_challenge import finish_submission
+                    finish_submission(self, connection, identity)
                     # 官方 AC 会推进个人进度；模赛提交完成后也要重算以清掉补题标记。
                     if record["mode"] == "submit" and (verdict == "AC" or record["contest_id"]):
                         self._recompute_progress(connection, record["problem_id"])

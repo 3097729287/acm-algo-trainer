@@ -180,6 +180,9 @@ def run(action, output):
                         report['nativeLoginGate'] = True
                         window.evaluate_js("document.querySelectorAll('.account-tabs button')[1].click()")
                         wait_js("!!document.querySelector('input[name=nickname]')")
+                        assert window.evaluate_js("(()=>{const options=[...document.querySelectorAll('.account-experience input[type=radio]')];return options.length===2 && options.some(e=>e.value==='beginner') && options.some(e=>e.value==='experienced');})()"), 'Registration must offer both experience choices'
+                        window.evaluate_js("document.querySelector('.account-experience input[value=beginner]').click()")
+                        report['nativeRegistrationExperienceChoices'] = True
                         fill('nickname', '打包验证者'); fill('username', 'native_account_fixture')
                         fill('password', 'native-fixture-password'); fill('passwordConfirmation', 'native-fixture-password')
                         window.evaluate_js("document.querySelector('.account-submit').click()")
@@ -190,6 +193,18 @@ def run(action, output):
                         assert server.accounts.snapshot()['authenticated']
                         assert not window.evaluate_js("!!document.querySelector('.account-card')")
                         report['nativeRegistrationAutoLogin'] = True
+                        # Persist the real registration choice through the local
+                        # authenticated API. Do not pre-mark any browser storage.
+                        deadline = time.monotonic() + 15
+                        while time.monotonic() < deadline:
+                            from experience_challenge import read as read_experience
+                            experience = read_experience(server.training)
+                            if experience.get('choice') == 'beginner' and experience.get('seenVersion') == 1:
+                                break
+                            time.sleep(.1)
+                        else:
+                            raise AssertionError('Native beginner choice was not saved for the authenticated account')
+                        report['nativeRegistrationBeginnerSaved'] = True
                         wait_js("document.querySelector('.workspace-area')?.dataset.page==='training-lists' && [...document.querySelectorAll('.training-list-path button')].some(button=>button.textContent==='01 编程基础')")
                         report['nativeNewAccountFoundation'] = True
                         wait_js("[...document.querySelectorAll('.sidebar nav button')].map(button=>button.textContent).join('|')==='我的训练|题单|提交记录'")

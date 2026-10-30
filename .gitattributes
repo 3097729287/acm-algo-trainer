@@ -14,6 +14,7 @@
 # Preserve upstream license whitespace.
 licenses/** -whitespace
 licenses/python/** -text
+licenses/code-formatters/* -text
 THIRDPARTY.md -whitespace
 data/*.sqlite3 -text -diff
 data/library/statement-assets/*.bin -text -diff

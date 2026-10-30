@@ -13,6 +13,8 @@ let owner='c3e5d799-502a-4b4f-a864-a342f7db419e';const now=new Date().toISOStrin
 let held=false,resume=[];let level=12,revision=0,draft='',sampleRequested=false,officialRequested=false,preferences={theme:'dark',accent:'teal',fontSize:15,onboardingGuideVersion:2,onboardingCompleted:true,onboardingUnlockedPages:availablePages(11),levelNoticeVersion:1,levelNoticeSeen:100,levelNoticePending:0};
 preferences.navOrder=['training-lists'];
 let events=[],calendarReads=0,catalogReads=0,holdCatalog=false,releaseCatalog;
+let experience=null,experienceSeen=0;
+const growth=()=>({level,confirmed:true,authority:{owner,epoch:'navigation-fixture',revision:++revision},tier:'黑铁',currentLevelXp:0,nextLevelXp:200,totalXp:0,...(experience?{experienceChallenge:{...experience}}:{})});
 const calendarState=()=>({contests:structuredClone(events),imports:events.map(e=>e.import).filter(Boolean),providers:[],refreshing:false,importing:false});
 let preferenceSaveFailures=0,preferenceSaveAttempts=0;
 const rows=Array.from({length:20},(_,i)=>({id:'fixture::'+i,title:'完整练习 '+i,contest:'1024数学专场考核',problem:String.fromCharCode(65+i),platform:'牛客',series:'牛客',url:'https://ac.nowcoder.com/acm/contest/142622/'+String.fromCharCode(65+i),difficulty:1000,difficultySource:'fixture',difficultyConfidence:'HIGH',tags:[i<10?'枚举':'素数'],contestProblemCount:20,catalogContentReady:true,solutionAvailable:true}));
@@ -25,7 +27,8 @@ await page.route('**/api/**',async route=>{
  else if(path==='preferences'){if(route.request().method()==='POST'){preferenceSaveAttempts++;if(preferenceSaveFailures>0){preferenceSaveFailures--;await route.fulfill({status:503,json:{error:'隔离偏好保存失败'}});return;}preferences=route.request().postDataJSON().preferences;}value={preferences,updatedAt:now};}
  else if(path==='data'){catalogReads++;const payload={rows:structuredClone(rows),categories:[],token:'fixture',today:now.slice(0,10)};if(url.searchParams.has('calendar')&&holdCatalog){holdCatalog=false;await new Promise(resolve=>{releaseCatalog=resolve;});}value=payload;}
  else if(path==='workspace')value={...workspace,now:new Date().toISOString()};
- else if(path==='insights'){if(held)await new Promise(resolve=>resume.push(resolve));value={summary:{totalSolved:0},growth:{level,confirmed:true,authority:{owner,epoch:'navigation-fixture',revision:++revision},tier:'黑铁',currentLevelXp:0,nextLevelXp:200,totalXp:0},equippedTitles:[{id:'ac-2000',name:'双千传奇',category:'ac',target:2000},{id:'streak-730',name:'双年不辍',category:'streak',target:730}],knowledge:[],recommendations:[],activity:[],assessment:{},dailyTasks:{tasks:[]}};}
+ else if(path==='insights'){if(held)await new Promise(resolve=>resume.push(resolve));value={summary:{totalSolved:0},growth:growth(),equippedTitles:[{id:'ac-2000',name:'双千传奇',category:'ac',target:2000},{id:'streak-730',name:'双年不辍',category:'streak',target:730}],knowledge:[],recommendations:[],activity:[],assessment:{},dailyTasks:{tasks:[]}};}
+ else if(path==='experience-challenge'){const body=route.request().postDataJSON();experience={...experience,promptRequired:false,seenVersion:1};if(body.action==='seen')experienceSeen++;else{experience.choice=body.choice;experience.status='beginner';}value={challenge:{...experience},growth:growth()};}
  else if(path==='software-update')value={currentVersion:'1.4.29',status:'current',autoCheck:false,canInstall:false};
  else if(path==='content-update')value={revision:0,status:'current'};
  else if(path==='contest-calendar'){calendarReads++;value=calendarState();}
@@ -96,6 +99,24 @@ try{
  await openCalendar();holdCatalog=true;await modal().getByRole('button',{name:'在TB打开比赛 小白月赛 139',exact:true}).click();
  for(let n=0;n<80&&!releaseCatalog;n++)await page.waitForTimeout(25);assert(releaseCatalog);await closeCalendar();await nav().getByRole('button',{name:'题库',exact:true}).click();releaseCatalog();releaseCatalog=null;await page.waitForTimeout(100);
  await page.locator('.workspace-area[data-page="library"]').waitFor();assert.equal(await detail().count(),0,'closed calendar does not navigate after a late response');
+ // A real eligible Lv3 entry can receive the assessment and a five-minute
+ // reminder together. Defer the reminder until the top-layer choice closes;
+ // receiving the assessment's seen response must not mark the hidden reminder.
+ owner='f53b262e-150e-4e6e-b8d7-55828dd17db6';level=3;
+ preferences={...preferences,levelNoticeVersion:1,levelNoticeSeen:3,levelNoticePending:0};
+ experience={owner,policyVersion:1,eligible:true,promptRequired:true,seenVersion:0,choice:null,status:'offered',problemId:null,allNavigationUnlocked:false,awardedXp:0};
+ events=[event('141884','选择之后再提醒',Date.now()+180000)];const readsBeforeChoice=calendarReads;
+ await page.goto(base+'?challengeRace=1');
+ const choice=page.getByRole('dialog',{name:'你有编程经验吗？',exact:true});await choice.waitFor();
+ for(let n=0;n<80&&(experienceSeen===0||calendarReads<=readsBeforeChoice);n++)await page.waitForTimeout(25);
+ assert(experienceSeen>0&&calendarReads>readsBeforeChoice,'Both live offers reached the actual App');
+ await page.waitForTimeout(100);assert.equal(await reminder.count(),0,'The native experience dialog keeps the reminder out of the DOM');
+ const reminderKey=`tb.contest-calendar.reminders.${owner}`;
+ assert.deepEqual(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)||'[]'),reminderKey),[],'An occluded reminder is never acknowledged');
+ await choice.getByRole('button',{name:'我是新手',exact:false}).click();await choice.waitFor({state:'detached'});
+ await reminder.waitFor();assert.match(await reminder.innerText(),/选择之后再提醒/);
+ assert.equal((await page.evaluate(key=>JSON.parse(localStorage.getItem(key)||'[]'),reminderKey)).length,1,'Only the presented reminder is acknowledged');
+ await reminder.getByRole('button',{name:'关闭',exact:true}).click();
  assert.deepEqual(errors,[]);assert.deepEqual(unknown,[]);assert.equal(officialRequested,false);assert.equal(sampleRequested,false);
- console.log('Calendar full App: reminder, loaded-catalogue update, active editor/draft preserved, same-page contest and problem open, B over late A, close cancellation passed.');
+ console.log('Calendar full App: reminder, loaded-catalogue update, active editor/draft preserved, same-page contest and problem open, B over late A, close cancellation, experience-choice race and rendered-only reminder acknowledgement passed.');
 }catch(error){console.error(JSON.stringify({errors,unknown,body:(await page.locator('body').innerText()).slice(0,2400)}));throw error;}finally{releaseCatalog?.();for(const done of resume)done();await browser.close();await vite.close();}

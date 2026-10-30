@@ -168,6 +168,8 @@ jobs:
       - run: node tests/ability-evidence.mjs
       - run: node tests/lifecycle-layout.mjs
       - run: npm run test:workbench
+      - run: node tests/code-format.mjs
+      - run: node tests/experience-challenge.mjs
       - run: npm run test:e2e
       - run: node tests/detailed-solutions.mjs
       - run: node tests/editorial-teaching.mjs

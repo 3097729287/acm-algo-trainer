@@ -7,6 +7,8 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import {ChangeSet} from '@codemirror/state';
+import {isolateHistory} from '@codemirror/commands';
 import {
   ArrowLeft, ArrowRight, BookOpen, Check, ChevronDown, ChevronUp,
   Code2, Copy, ExternalLink, History, LoaderCircle,
@@ -213,6 +215,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   callbacks.current = { onProgress, onExit, onSolution, onCloseSolution, onNotice, onNext };
 
   const activeRecord = useRef(null);
+  const formattingContext = useRef(null), formattingRequest = useRef(null), formattingGeneration = useRef(0);
   const sectionRef = useRef(null);
   const statementRef = useRef(null);
   const editorRef = useRef(null);
@@ -472,6 +475,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   }, [result?.id, result?.finishedAt, result?.stderr]);
   const sidePracticeLocked = Boolean(problem?.locked && !runningContest);
   const unavailable = loading || !problem || endedContest || sidePracticeLocked || activeRecord.current?.key !== contextKey;
+  formattingContext.current={allowed:!contest&&!unavailable&&problem?.formattingAvailable===true,key:contextKey,account:window.__tbAccountUserId||''};
   const busy = creating || Boolean(pending);
   const officialBusy = openingOfficial || ['loading', 'submitted', 'judging'].includes(officialSession?.status);
   const nativeSubmit=platformInfo(rowPlatform(problem)).nativeSubmit && !['communication','output-only','attachment'].includes(problem?.problemType);
@@ -653,6 +657,39 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     record.manualFeedback=true;
     saveRecord(record);
   };
+  const formatAndSave = async () => {
+    const record=activeRecord.current,context=formattingContext.current,view=editorRef.current?.getView();
+    if(!context?.allowed||!record?.loaded||record.closed||!view||!record.code.trim()){
+      formattingGeneration.current++;formattingRequest.current=null;manualSave();return;
+    }
+    const version=record.version,language=record.language,source=record.code,document=view.state.doc,account=context.account;
+    const pending=formattingRequest.current;
+    if(pending?.record===record&&pending.version===version&&pending.language===language&&pending.view===view)return;
+    const generation=++formattingGeneration.current,request={record,version,language,view,generation};
+    formattingRequest.current=request;
+    const current=()=>formattingGeneration.current===generation&&activeRecord.current===record&&record.loaded&&!record.closed
+      &&formattingContext.current?.allowed&&formattingContext.current.key===record.key&&formattingContext.current.account===account
+      &&(window.__tbAccountUserId||'')===account&&record.version===version&&record.language===language&&record.code===source
+      &&editorRef.current?.getView()===view&&view.state.doc===document;
+    try{
+      if(byteLength(source)>MAX_BYTES)throw new Error('代码超过 64 KiB，请缩短后保存。');
+      const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(source));
+      const hash=[...new Uint8Array(digest)].map(value=>value.toString(16).padStart(2,'0')).join('');
+      if(!current())return;
+      setActionError('');
+      const answer=await apiRef.current('code/format',requestBody(record,{code:source}));
+      if(!current())return;
+      if(answer.language!==language||answer.inputSha256!==hash||typeof answer.code!=='string'||byteLength(answer.code)>MAX_BYTES||!Array.isArray(answer.changes))throw new Error('格式化结果无效，原代码已保留。');
+      const changes=ChangeSet.of(answer.changes,document.length);
+      if(changes.apply(document).toString()!==answer.code)throw new Error('格式化结果无效，原代码已保留。');
+      // A single ordinary editor transaction maps the CURRENT selection and
+      // enters existing draft retention/saving through CodeEditor's onChange.
+      if(!changes.empty)view.dispatch({changes,userEvent:'input.format',annotations:isolateHistory.of('full')});
+      manualSave();
+    }catch(issue){
+      if(current()){setActionError(issue.message||'代码暂时无法格式化，原内容已保留。');manualSave();}
+    }finally{if(formattingRequest.current===request)formattingRequest.current=null;}
+  };
   const execute = async mode => {
     const record = activeRecord.current;
     if (!record?.loaded || unavailable || busy || problem?.judge?.scope === 'unsupported') return;
@@ -768,7 +805,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const editorCommand = command => {
     if (command === 'official'||command==='submit') {if(problem?.templatePractice)execute('submit');else openOfficial();}
     else if (command === 'run') execute('run');
-    else if (command === 'save') manualSave();
+    else if (command === 'save') formatAndSave();
     else if (command === 'pane-0') setPane('both');
     else if (command === 'pane-1') focusPane('statement');
     else if (command === 'pane-2') focusPane('code');

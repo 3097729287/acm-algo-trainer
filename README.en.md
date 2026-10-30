@@ -2,6 +2,8 @@
 
 **Development status: 1.4.32 is merged and under validation; it is not packaged, installed or published.** Local and public stable remain 1.4.31 and download links still target that release. This update fixes workbench toolbars, return hit targets, recommendation menus and navigation defaults; it separates XCPC event shelves and integrates audited offline statements, assets and native PDF reading. All original IDs and teaching content remain; 358 problems are withheld from public selection. [Scope](docs/releases/1.4.32.md).
 
+This update also adds five-minute contest reminders and live statement import, a level-five assessment for experienced users, and offline Ctrl+S formatting in ordinary practice. It fixes AtCoder submission readiness and feedback, caret visibility and learned-state icons, and removes the activity feed below rankings.
+
 **ToBe 1.4.31 is publicly released.** Local 1.4.30 was upgraded; GitHub and domestic user builds match. Service 1.2.9 is reused without deployment. No new content feed. [Delivery](docs/local-delivery-1.4.31.md).
 
 Local 1.4.30 teaching update: a complete XOR-basis template and 15 reusable operation lessons organized into Templates and Algorithm Lab. There are 28 templates and 17 lab topics. Teaching editions pair explanations with code; contest editions keep compact implementations. Original lecture records, illustrations, editorial links and learning history remain intact. This revision is included in the published 1.4.31 build. [Scope and validation](docs/algorithm-learning-organization.md).

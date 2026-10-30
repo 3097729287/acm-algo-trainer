@@ -1,0 +1,10 @@
+.experience-challenge{width:min(480px,calc(100vw - 32px));max-height:calc(100dvh - 32px);overflow:auto;border:1px solid var(--line);border-radius:14px;padding:24px;background:var(--panel-base);color:var(--text);box-shadow:0 20px 70px #0005}
+.experience-challenge::backdrop{background:#05091088;backdrop-filter:blur(4px)}
+.experience-challenge>header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.experience-challenge h2{margin:0;font-size:1.2rem}.experience-challenge>p{display:flex;align-items:center;gap:8px;color:var(--muted);line-height:1.7}
+.experience-challenge header>button{display:grid;place-items:center;flex:none;width:36px;height:36px;padding:0}
+.experience-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:20px}
+.experience-choices>button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;min-height:136px;padding:18px 10px;border:1px solid var(--line);border-radius:10px;background:var(--panel-2);color:var(--text)}
+.experience-choices>button:hover:not(:disabled),.experience-choices>button:focus-visible{border-color:var(--accent);background:var(--accent-soft)}
+.experience-choices svg{color:var(--accent)}.experience-choices small{color:var(--muted);font-size:.8rem}
+.experience-challenge>p[role=alert]{color:var(--danger)}

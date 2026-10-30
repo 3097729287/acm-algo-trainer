@@ -10,6 +10,10 @@
 .account-tabs button { flex:1; border:0; padding:10px; border-radius:6px; color:#aeadbf; background:transparent; cursor:pointer; font:inherit; }
 .account-tabs button[aria-selected=true] { background:#302b42; color:#d3c8ff; }
 .account-form { display:flex; flex-direction:column; gap:17px; }
+.account-form .account-experience{display:flex;flex-wrap:wrap;gap:12px 24px;margin:0;padding:12px;border:1px solid #3b3748;border-radius:8px;min-width:0}
+.account-form .account-experience legend{padding:0 4px;font-size:14px;color:#dddbea}
+.account-form .account-experience label{flex-direction:row;align-items:center;gap:7px}
+.account-form .account-experience input{width:16px;height:16px;min-height:0;padding:0;accent-color:#b29afa}
 .account-form label { display:flex; flex-direction:column; gap:8px; font-size:14px; color:#dddbea; }
 .account-form input,.account-settings input { box-sizing:border-box; width:100%; padding:12px 13px; color:#eeeafc; background:#12141b; border:1px solid #3b3748; border-radius:8px; font:inherit; outline:none; }
 .account-form input:focus,.account-settings input:focus { border-color:#aa91f5; box-shadow:0 0 0 3px #aa91f520; }
