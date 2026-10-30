@@ -1,3 +1,5 @@
+import useNavigationLevel from '@/lib/useNavigationLevel.js';
+import NavigationPending from '@/components/NavigationPending.jsx';
 import DailyTaskCount from '@/components/DailyTaskCount.jsx';
 import {DifficultyDisplayProvider} from '@/components/DifficultyDisplay.jsx';
 import {ProblemCells,ProblemTableHead,Difficulty,Verdict} from '@/components/ProblemTableParts.jsx';
@@ -588,6 +590,7 @@ export default function App() {
   const practicePrefetch = useRef(null);
   const labVisit = useRef({leftAt:null,scrollTop:0});
   const templatesVisit=useRef({});
+  const competitionsVisit=useRef({});
   const [templateActive,setTemplateActive]=useState(false);
   const trainingListsVisit = useRef(window.__tbNewAccount?{state:foundationListState()}:{});
   const [trainingListRequest,setTrainingListRequest]=useState(null);
@@ -597,11 +600,12 @@ export default function App() {
   const [tourOpen,setTourOpen]=useState(false);
   const [tourContext,setTourContext]=useState('overview');
   const automaticTourStarted=useRef(false);
-  const navigationLevel=(window.__tbAccountUserId||window.__tbAccount?.userId)?insights?.growth?.level??1:Infinity;
+  const navigation=useNavigationLevel(window.__tbAccountUserId||window.__tbAccount?.userId||'',insights?.growth?.level);
+  const navigationLevel=navigation.level??1;
   const featureAvailable=(id,inline=false)=>inline?!hiddenPages(prefs.hiddenNavPages).includes(id):id==='mock'&&Boolean(workspace.activeContest)||pageAvailable(id,navigationLevel,prefs);
   const visiblePageIds=[...new Set([...availablePages(navigationLevel,prefs),...(workspace.activeContest?['mock']:[])])];
   const visiblePageKey=visiblePageIds.join(',');
-  useEffect(()=>{if(page!=='settings'&&!featureAvailable(page)&&!practiceId){setPage('mine');setTourOpen(false);}},[visiblePageKey,page,practiceId]);
+  useEffect(()=>{if(!navigation.pending&&page!=='settings'&&!featureAvailable(page)&&!practiceId){setPage('mine');setTourOpen(false);}},[visiblePageKey,page,practiceId,navigation.pending]);
   const pointerPosition = useRef(null);
   const [hoveredRow, setHoveredRow] = useState(null);
   const [dialog, setDialog] = useState(null),
@@ -1918,8 +1922,8 @@ export default function App() {
           </button>
 
         </div>
-        <nav aria-label="主导航">
-          {navigationEntries.map((p) => (
+        <nav aria-label="主导航" aria-busy={navigation.pending}>
+          {navigation.pending?<NavigationPending/>:navigationEntries.map((p) => (
             <button
               key={p.id}
               className={"nav-item " + (page === p.id || p.members?.some(member => member.id === page) ? "active" : "")+(levelFeedbackVisible&&(levelUp.feedback.includes(p.id)||p.members?.some(member=>levelUp.feedback.includes(member.id)))?' level-new-entry':'')}
@@ -2091,6 +2095,8 @@ export default function App() {
               workspace={workspace}
               hub={hub}
               onTrain={openPractice}
+              visit={competitionsVisit.current}
+              onTag={node=>{go('library');setFilter({...blankFilters(),category:node},'library');}}
               initialContest={calendarContest}
               onBack={()=>setCalendarContest(null)}
               onJoin={startOriginalContest}
@@ -2132,11 +2138,11 @@ export default function App() {
           ) : page === "training-lists" ? (
             <TrainingListsPage rows={rows} api={api} onTrain={openPractice} visit={trainingListsVisit.current} navigationRequest={trainingListRequest} pageSize={prefs.libraryPageSize} busy={busy} prefs={prefs} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={featureAvailable('training-lists')?id=>setListProblemIds(Array.isArray(id)?id:[id]):undefined}/>
           ) : page === "templates" ? (
-            <TemplatesPage api={api} shortcuts={prefs.shortcuts} visit={templatesVisit.current} onActiveChange={setTemplateActive} onTrain={openPractice}/>
+            <TemplatesPage api={api} shortcuts={prefs.shortcuts} visit={templatesVisit.current} onActiveChange={setTemplateActive} onTrain={openPractice} onOpenCourse={id=>{setPrefs(previous=>({...previous,learningPaths:{...previous.learningPaths,activePath:id,[id]:{...previous.learningPaths?.[id],mode:'learn',labV1:{...previous.learningPaths?.[id]?.labV1,chapter:'0'}}}}));setPage('paths');}}/>
           ) : page === "paths" ? (
-            <LearningPathsPage rows={rows} api={api} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} lockedProblems={active?.slots || []} visit={labVisit.current}/>
+            <LearningPathsPage rows={rows} api={api} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} lockedProblems={active?.slots || []} visit={labVisit.current} onOpenTemplate={id=>{templatesVisit.current.selected=id;setPage('templates');}}/>
           ) : page === "lectures" ? (
-            <LecturesPanel prefs={prefs} setPrefs={setPrefs} api={api} visit={lecturesVisit.current} initialLecture={lectureId} categories={categories} onFullscreenChange={setLectureFull} onTrain={openPractice} onError={(message) => notice(message, "error")} />
+            <LecturesPanel prefs={prefs} setPrefs={setPrefs} api={api} visit={lecturesVisit.current} initialLecture={lectureId} categories={categories} onFullscreenChange={setLectureFull} onTrain={openPractice} onOpenTemplate={id=>{templatesVisit.current.selected=id;setLectureId(null);setPage('templates');}} onError={(message) => notice(message, "error")} />
           ) : page === "rankings" ? (
             <RankingsPage socialState={social} avatarData={prefs.avatarData} ownGrowth={growth} api={api} onConfigure={() => {if(window.__tbAdmin){setPage('settings');setSettingsTab('admin')}else openAccounts()}} onError={(message) => notice(message, "error")} />
           ) : (

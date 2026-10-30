@@ -1,0 +1,8 @@
+.navigation-pending{display:flex;flex-direction:column;gap:5px;width:100%;opacity:.4}
+.navigation-pending>span{display:flex;align-items:center;gap:8px;min-height:38px;padding-inline:13px 3px}
+.navigation-pending i,.navigation-pending b{display:block;background:var(--line);border-radius:4px}
+.navigation-pending i{width:18px;height:18px;flex:none}
+.navigation-pending b{width:66px;height:13px}
+.sidebar-collapsed .navigation-pending>span{justify-content:center;padding-inline:0}
+.sidebar-collapsed .navigation-pending b{display:none}
+@media(max-width:800px){.navigation-pending>span{justify-content:center;padding-inline:0}.navigation-pending b{display:none}}

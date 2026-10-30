@@ -1,0 +1,784 @@
+{
+  "revision": 1,
+  "topics": [
+    {
+      "id": "dsu",
+      "title": "并查集",
+      "category": "数据结构",
+      "lectures": [
+        "lecture:foundation-dsu"
+      ],
+      "intro": "有 n 个对象，开始互不相连。每次把两组接起来，或询问两个对象是否已在同一组；不需要保存组内每一条连接边。",
+      "invariant": "parent 是父指针，根结点指向自己。size 只在根处有意义；合并两个不同根才减少集合数。路径压缩改的是指针长度，不是集合归属。",
+      "operations": [
+        [
+          "find(v)",
+          "找到对象 v 所属集合的根；根编号只是代表元，不保证是最小编号。"
+        ],
+        [
+          "same(a,b)",
+          "比较两个根，判断是否同组。"
+        ],
+        [
+          "unite(a,b)",
+          "只连接不同根；重复合并返回 false，不能再累加集合大小。"
+        ],
+        [
+          "component_size(v)",
+          "先找根，再读整组大小。"
+        ]
+      ],
+      "boundary": "编号从 0 开始。路径压缩与按大小合并的均摊复杂度为 O(α(n))，空间 O(n)。普通并查集不能直接删除一条边；撤销需要另一种实现。",
+      "values": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "scripts": [
+        [
+          "unite",
+          0,
+          1
+        ],
+        [
+          "unite",
+          1,
+          2
+        ],
+        [
+          "same",
+          0,
+          2
+        ],
+        [
+          "unite",
+          0,
+          2
+        ],
+        [
+          "size",
+          1
+        ]
+      ],
+      "bug": "合并 0 与 1 后，再合并 1 与 0。若每次都累加大小，两个对象会被错误计成四个。",
+      "templateId": "builtin:dsu",
+      "practiceIds": [
+        "template-drill:dsu:1",
+        "template-drill:dsu:2"
+      ],
+      "reasoning": "查根时沿父指针走到 parent[root]=root。把途中结点直接指向同一个根，没有改变“最终到哪个根”，所以没有改变集合。合并前先查两个根，根相同就已经连通；只有两个不同根相连，集合数才减少一。按大小把小集合挂到大集合，每次被挂接的结点所在集合至少翻倍，避免反复接出长链；再配合路径压缩得到均摊界。",
+      "sections": [
+        {
+          "id": "lecture:foundation-dsu",
+          "title": "并查集：维护哪些对象已属于同一组",
+          "markdown": "# 并查集：维护哪些对象已属于同一组\n\n从每个元素独立成组开始，反复合并两组、判断两项是否连通。并查集用父指针形成若干棵树，每棵树的根代表一组；根的编号只是代表，不一定是最小编号或有特殊题意。\n\n![合并两个根后，同组元素沿父指针到达同一代表；路径压缩缩短后续查找](assets/foundations/dsu.svg)\n\n```cpp\nstruct DSU {\n    vector<int> parent, size;\n    DSU(int n): parent(n), size(n, 1) {\n        iota(parent.begin(), parent.end(), 0);\n    }\n    int find(int x) {\n        return parent[x] == x ? x : parent[x] = find(parent[x]);\n    }\n    bool merge(int a, int b) {\n        a = find(a); b = find(b);\n        if (a == b) return false;\n        if (size[a] < size[b]) swap(a, b);\n        parent[b] = a; size[a] += size[b];\n        return true;\n    }\n};\n```\n\n合并 $0,1$ 再合并 $1,2$ 后，三者的 `find` 相同，即使零和二没有直接边。这表示路径连通，不表示两项相邻。路径压缩将访问链上的父亲直接改为根；按大小合并把小树挂到大树，避免人为形成长链。\n\n初始化 $O(n)$，两种优化一起使用时，一连串操作的摊还成本为 $O(\\alpha(n))$ 每次，常见规模近似常数；不能说每一次都严格 $O(1)$。数组空间 $O(n)$。\n\n普通并查集擅长增加连通关系，不直接支持删边和拆组。回滚版本通常不用路径压缩，并保存每次合并改变的值；带权版本还需维护到父亲的关系，不能只合并普通 parent。分组大小等统计应读根上的记录。\n",
+          "images": {
+            "assets/foundations/dsu.svg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3NjAiIGhlaWdodD0iMjkwIiB2aWV3Qm94PSIwIDAgNzYwIDI5MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9InRpdGxlIj48dGl0bGUgaWQ9InRpdGxlIj7lubbmn6Xpm4bvvJrniLbmjIfpkojmnIDnu4jmjIflkJHlkIzkuIDku6Pooag8L3RpdGxlPg0KPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgcng9IjEyIiBmaWxsPSIjZmZmIi8+DQo8ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLCBOb3RvIFNhbnMgQ0pLIFNDLCBzYW5zLXNlcmlmIiBmaWxsPSIjMjQzNDQ5Ij4NCjx0ZXh0IHg9IjI4IiB5PSIzNiIgZmlsbD0iIzI0MzQ0OSIgZm9udC1zaXplPSIyMyIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iYm9sZCI+5bm25p+l6ZuG77ya54i25oyH6ZKI5pyA57uI5oyH5ZCR5ZCM5LiA5Luj6KGoPC90ZXh0Pg0KPGNpcmNsZSBjeD0iMTQwIiBjeT0iMTE1IiByPSIyMyIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjMiLz4NCjx0ZXh0IHg9IjE0MCIgeT0iMTIyIiBmaWxsPSIjMjM2NWFiIiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj4wPC90ZXh0Pg0KPGNpcmNsZSBjeD0iMzgwIiBjeT0iMTE1IiByPSIyMyIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjMiLz4NCjx0ZXh0IHg9IjM4MCIgeT0iMTIyIiBmaWxsPSIjMjM2NWFiIiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj4xPC90ZXh0Pg0KPGNpcmNsZSBjeD0iNjIwIiBjeT0iMTE1IiByPSIyMyIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjMiLz4NCjx0ZXh0IHg9IjYyMCIgeT0iMTIyIiBmaWxsPSIjMjM2NWFiIiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj4yPC90ZXh0Pg0KPGxpbmUgeDE9IjM1NiIgeTE9IjExNSIgeDI9IjE2NCIgeTI9IjExNSIgc3Ryb2tlPSIjNjg3NzhiIiBzdHJva2Utd2lkdGg9IjMiLz4NCjxsaW5lIHgxPSI1OTYiIHkxPSIxMTUiIHgyPSI0MDQiIHkyPSIxMTUiIHN0cm9rZT0iIzY4Nzc4YiIgc3Ryb2tlLXdpZHRoPSIzIi8+DQo8dGV4dCB4PSIzNzUiIHk9IjE5MCIgZmlsbD0iIzI0MzQ0OSIgZm9udC1zaXplPSIyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+MiDihpIgMSDihpIgMO+8m+S4ieS4queCueWxnuS6juWQjOS4gOe7hDwvdGV4dD4NCjx0ZXh0IHg9IjM3NSIgeT0iMjQ1IiBmaWxsPSIjMTI4MDVjIiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj7ljovnvKnlkI4gMiDnm7TmjqXmjIflkJEgMO+8jOe7hOWGheWFs+ezu+S4jeWPmDwvdGV4dD4NCjwvZz48L3N2Zz4NCg=="
+          },
+          "sourceProblemIds": [
+            "ABC 469::F",
+            "ABC 470::F",
+            "ARC 225::C",
+            "Div.3 1125::G",
+            "Div.4 952::H1",
+            "Div.4 952::H2",
+            "lab:codeforces:1167C",
+            "lab:codeforces:217A",
+            "lab:codeforces:25D",
+            "lab:codeforces:277A",
+            "lab:codeforces:722C",
+            "lanqiao:2024:省: 第二场::P12123",
+            "lanqiao:2024:省: 第二场::P12126",
+            "lanqiao:2025:国:::P12839",
+            "lanqiao:2026:省:::P16237",
+            "luogu-training-P12041",
+            "remote:codeforces:104417::J",
+            "remote:codeforces:105657::A",
+            "xcpc-luogu::P14187",
+            "xcpc-luogu::P9565",
+            "周赛 140::D",
+            "周赛 140::E",
+            "周赛 140::G",
+            "周赛 145::E",
+            "周赛 165::E",
+            "基础赛 37::C",
+            "月赛 302::C",
+            "练习赛 153::F"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fenwick",
+      "title": "树状数组",
+      "category": "数据结构",
+      "lectures": [
+        "lecture:foundation-fenwick",
+        "lecture:58d9d668d41f6312aaf37a12",
+        "lecture:ff9fbee9ff36049ce6222ad3",
+        "lecture:36ec25cec109737102d5956e",
+        "lecture:bccb082a95e36319b45ec067"
+      ],
+      "intro": "数组会发生单点增量修改，又要反复询问一段的总和。静态前缀和每改一次就可能重算整段，树状数组只改包含该点的若干块。",
+      "invariant": "外部下标从 0 开始，内部 tree 从 1 开始。tree[i] 保存内部 [i-lowbit(i)+1,i] 的和；更新先把外部下标加 1，再沿 i+=lowbit(i) 找更大覆盖块，查询沿 i-=lowbit(i) 拆出互不重叠的块。",
+      "operations": [
+        [
+          "add(i,delta)",
+          "给外部下标 i 的一项加增量，不是赋值；合法范围 [0,n)。"
+        ],
+        [
+          "prefix_sum(end)",
+          "求 [0,end) 的和；prefix_sum(0)=0 是空前缀。"
+        ],
+        [
+          "range_sum(l,r)",
+          "左闭右开 [l,r) 的和等于 prefix_sum(r)-prefix_sum(l)。"
+        ],
+        [
+          "kth(k)",
+          "当原数组每项非负时，找从 1 开始的第 k 个频次所在的外部位置；k 无效或超总数返回 n。"
+        ]
+      ],
+      "boundary": "更新与前缀查询 O(log n)，空间 O(n)。外部 add(0,d) 合法，代码先将下标转换为内部 1；不能省去这次转换。区间和用 long long；第 k 小必须满足非负频次前提。",
+      "values": [
+        2,
+        1,
+        3,
+        0,
+        4
+      ],
+      "scripts": [
+        [
+          "prefix",
+          3
+        ],
+        [
+          "add",
+          1,
+          5
+        ],
+        [
+          "sum",
+          1,
+          4
+        ],
+        [
+          "add",
+          4,
+          -2
+        ],
+        [
+          "prefix",
+          5
+        ]
+      ],
+      "bug": "数组 [2,1]，第二项加 3 后应为 [2,4]。把 add(1,3) 当作赋值会误算总和为 5，正确总和是 6。",
+      "templateId": "builtin:fenwick",
+      "practiceIds": [
+        "template-drill:fenwick:1",
+        "template-drill:fenwick:2"
+      ],
+      "reasoning": "例如内部 tree[4] 保存外部 [0,4)，tree[6] 保存 [4,6)。查询前 6 项时先读 tree[6]，再令 6-lowbit(6)=4 读 tree[4]，两块恰好覆盖 [0,6)，既不重叠也不遗漏。外部位置 1 加 5 时先转到内部 2，再访问 2、4 等包含它的块。查询向左拆块与修改向上找覆盖块，是两个相反用途的循环。",
+      "sections": [
+        {
+          "id": "lecture:foundation-fenwick",
+          "title": "树状数组：动态前缀和",
+          "markdown": "# 树状数组：动态前缀和\n\n前缀和数组适合不修改的序列；若要不断给单点加值并查询前缀总和，树状数组把每个前缀拆成少量已维护的小块。\n\n从一编号，`lowbit(i)=i&-i` 是二进制最低的一位所代表的数。`tree[i]` 维护区间 $[i-\\operatorname{lowbit}(i)+1,i]$ 的和。例如 $i=6$、二进制 $110_2$，lowbit 为二，维护第五、第六项；查询前六项时再转到四，取第一到第四项。\n\n![查询前六项拆成最后两项与最前四项，不重不漏](assets/foundations/fenwick.svg)\n\n```cpp\nvoid add(int i, long long delta) {\n    for (; i <= n; i += i & -i) tree[i] += delta;\n}\nlong long prefix(int i) {\n    long long sum = 0;\n    for (; i > 0; i -= i & -i) sum += tree[i];\n    return sum;\n}\n```\n\n查询每次去掉最低的一位，区间块恰好首尾衔接；更新则访问所有覆盖原位置的上层块。二进制位数为 $O(\\log n)$，所以两种操作均为 $O(\\log n)$，空间 $O(n)$。区间 $[l,r]$ 的和仍为 `prefix(r)-prefix(l-1)`。\n\n`add` 接收增量，不是新值；赋新值需减去旧值。下标零会使更新步长为零，导致死循环，必须从一开始。坐标稀疏时可先离散化。求第 $k$ 小的倍增搜索还要求维护的频次非负，不能将任意带负数的前缀误认为单调。\n",
+          "images": {
+            "assets/foundations/fenwick.svg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3NjAiIGhlaWdodD0iMzAwIiB2aWV3Qm94PSIwIDAgNzYwIDMwMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9InRpdGxlIj48dGl0bGUgaWQ9InRpdGxlIj7moJHnirbmlbDnu4TvvJrliY3lha3pobnmi4bmiJDkuKTkuKrkuI3ph43lj6DlnZc8L3RpdGxlPg0KPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgcng9IjEyIiBmaWxsPSIjZmZmIi8+DQo8ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLCBOb3RvIFNhbnMgQ0pLIFNDLCBzYW5zLXNlcmlmIiBmaWxsPSIjMjQzNDQ5Ij4NCjx0ZXh0IHg9IjI4IiB5PSIzNiIgZmlsbD0iIzI0MzQ0OSIgZm9udC1zaXplPSIyMyIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iYm9sZCI+5qCR54q25pWw57uE77ya5YmN5YWt6aG55ouG5oiQ5Lik5Liq5LiN6YeN5Y+g5Z2XPC90ZXh0Pg0KPHJlY3QgeD0iOTAiIHk9IjkwIiB3aWR0aD0iOTciIGhlaWdodD0iNDgiIHJ4PSI3IiBmaWxsPSIjZWRmNWZmIiBzdHJva2U9IiMyMzY1YWIiIHN0cm9rZS13aWR0aD0iMiIvPg0KPHRleHQgeD0iMTM4LjUiIHk9IjEyMS4wIiBmaWxsPSIjMjM2NWFiIiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj4xPC90ZXh0Pg0KPHJlY3QgeD0iMTkwIiB5PSI5MCIgd2lkdGg9Ijk3IiBoZWlnaHQ9IjQ4IiByeD0iNyIgZmlsbD0iI2VkZjVmZiIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjIiLz4NCjx0ZXh0IHg9IjIzOC41IiB5PSIxMjEuMCIgZmlsbD0iIzIzNjVhYiIgZm9udC1zaXplPSIyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+MjwvdGV4dD4NCjxyZWN0IHg9IjI5MCIgeT0iOTAiIHdpZHRoPSI5NyIgaGVpZ2h0PSI0OCIgcng9IjciIGZpbGw9IiNlZGY1ZmYiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIyIi8+DQo8dGV4dCB4PSIzMzguNSIgeT0iMTIxLjAiIGZpbGw9IiMyMzY1YWIiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPjM8L3RleHQ+DQo8cmVjdCB4PSIzOTAiIHk9IjkwIiB3aWR0aD0iOTciIGhlaWdodD0iNDgiIHJ4PSI3IiBmaWxsPSIjZWRmNWZmIiBzdHJva2U9IiMyMzY1YWIiIHN0cm9rZS13aWR0aD0iMiIvPg0KPHRleHQgeD0iNDM4LjUiIHk9IjEyMS4wIiBmaWxsPSIjMjM2NWFiIiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj40PC90ZXh0Pg0KPHJlY3QgeD0iNDkwIiB5PSI5MCIgd2lkdGg9Ijk3IiBoZWlnaHQ9IjQ4IiByeD0iNyIgZmlsbD0iI2VkZjVmZiIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjIiLz4NCjx0ZXh0IHg9IjUzOC41IiB5PSIxMjEuMCIgZmlsbD0iIzIzNjVhYiIgZm9udC1zaXplPSIyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+NTwvdGV4dD4NCjxyZWN0IHg9IjU5MCIgeT0iOTAiIHdpZHRoPSI5NyIgaGVpZ2h0PSI0OCIgcng9IjciIGZpbGw9IiNlZGY1ZmYiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIyIi8+DQo8dGV4dCB4PSI2MzguNSIgeT0iMTIxLjAiIGZpbGw9IiMyMzY1YWIiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPjY8L3RleHQ+DQo8bGluZSB4MT0iOTAiIHkxPSIxNzUiIHgyPSI0ODUiIHkyPSIxNzUiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSI4Ii8+DQo8dGV4dCB4PSIyOTAiIHk9IjIxNSIgZmlsbD0iIzIzNjVhYiIgZm9udC1zaXplPSIyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+dHJlZVs0Xe+8muesrCAxIOiHsyA0IOmhuTwvdGV4dD4NCjxsaW5lIHgxPSI0OTAiIHkxPSIxNzUiIHgyPSI2ODUiIHkyPSIxNzUiIHN0cm9rZT0iIzEyODA1YyIgc3Ryb2tlLXdpZHRoPSI4Ii8+DQo8dGV4dCB4PSI1ODgiIHk9IjI1MCIgZmlsbD0iIzEyODA1YyIgZm9udC1zaXplPSIyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+dHJlZVs2Xe+8muesrCA144CBNiDpobk8L3RleHQ+DQo8dGV4dCB4PSI0MCIgeT0iMjgwIiBmaWxsPSIjMjQzNDQ5IiBmb250LXNpemU9IjIwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPjYg4oiSIGxvd2JpdCg2KSA9IDTvvJs0IOKIkiBsb3diaXQoNCkgPSAwPC90ZXh0Pg0KPC9nPjwvc3ZnPg0K"
+          },
+          "sourceProblemIds": [
+            "ABC 477::F",
+            "ABC 479::F",
+            "ARC 225::E",
+            "Div.2 1115::C",
+            "Div.2 1115::F",
+            "Div.2 1120::D",
+            "Div.3 1096::F",
+            "Div.3 1096::G",
+            "Div.4 1003::H",
+            "Div.4 1074::E",
+            "Div.4 1074::H",
+            "Div.4 971::G2",
+            "Div.4 971::G3",
+            "lanqiao:2024:省: 第二场::P12127",
+            "lanqiao:2026:国:::P16799",
+            "luogu-training-P1908",
+            "luogu-training-P2345",
+            "luogu-training-P2717",
+            "remote:atcoder:abc479::F",
+            "remote:nowcoder:141876::E",
+            "xcpc-luogu::P9695",
+            "周赛 158::E",
+            "周赛 159::F",
+            "周赛 163::G",
+            "小白月赛 135::F",
+            "练习赛 154::F"
+          ]
+        },
+        {
+          "id": "lecture:58d9d668d41f6312aaf37a12",
+          "title": "树状数组：树状数组（单点加 + 前缀和）",
+          "markdown": "# 树状数组：树状数组（单点加 + 前缀和）\n\n## 题目中的问题\n\n与 E 题相同的向右重力和至多一次降低柱子操作，求所有剩余方块移动距离之和的最大值。\n\n树状数组维护一排桶，支持把某个桶加上一个值，以及查询前若干桶的和，两个操作都只需对数时间。本题桶的下标是高度，桶里既可以存柱子数量，也可以存高度总和。\n\n它让下标 $i$ 保存结尾为 $i$、长度为 $\\operatorname{lowbit}(i)$ 的一块区间和；$\\operatorname{lowbit}(i)$ 是二进制最低的一位一代表的数。例如桶八覆盖前八项，桶六覆盖第五、六项。查前缀时不断减去最低位，把前缀拆成互不重叠的块；更新一个桶时不断加上最低位，修正所有包含它的块。\n\n已处理的柱子共有 $c$ 根、总高为 $s$。查询不超过高度 $h$ 的数量 $c_0$ 与总高 $s_0$，那么更高柱子的贡献就是 $(s-s_0)-(c-c_0)h$。这样不用逐根枚举，也能一次统计所有左侧柱子与当前位置形成的距离贡献。\n\n## 用到这道题里\n\n高度 $h$ 处一个方块的右移距离，等于右侧缺少这一层方块的列数。把所有层对每对列 $(i,j)$ 的贡献相加，得到原距离和\n$$D=\\sum_{i<j}\\max(0,a_i-a_j).$$\n例如左列高五、右列高二，第三至第五层各贡献一个空位，总共贡献三。\n\n把 $a_k$ 降一时，左侧高度不小于原 $a_k$ 的每根柱子让差值增加一；右侧严格低于原 $a_k$ 的每根柱子让差值减少一。因此\n$$\\Delta_k=\\#\\{i<k:a_i\\ge a_k\\}-\\#\\{j>k:a_j<a_k\\}.$$\n答案为 $D+\\max(0,\\max_k\\Delta_k)$。\n\n按高度建立计数与高度和两棵树状数组。左扫时用“大于当前高度的数之和减去数量乘当前高度”累加 $D$，同时记录左侧数量；右扫得到右侧严格更小数量。时间 $O(n\\log n)$，空间 $O(n)$。\n",
+          "images": {},
+          "sourceProblemIds": [
+            "Div.3 1096::F"
+          ]
+        },
+        {
+          "id": "lecture:ff9fbee9ff36049ce6222ad3",
+          "title": "树状数组：树状数组",
+          "markdown": "# 树状数组：树状数组\n\n## 题目中的问题\n\n数组值在一至九之间，支持单点修改。询问某区间能否分成若干三元组，使每组三个数的平方和被九整除。\n\n树状数组把前缀和拆成若干长度为二的幂的块。位置 $i$ 的节点管理以 $i$ 结尾、长度为 $\\operatorname{lowbit}(i)$ 的区间，其中 lowbit 是二进制最低的一位一所代表的值。\n\n查询前缀时累加当前块，再令 $i$ 减去 lowbit，跳到剩下的前缀；单点增减时令 $i$ 加上 lowbit，依次更新覆盖该点的更大块。两者最多经过 $O(\\log n)$ 个块。区间 $[l,r]$ 的数量等于前缀 $r$ 减前缀 $l-1$，正好满足本题的动态分类计数。\n\n## 用到这道题里\n\n数的平方模九只可能为 $0,1,4,7$。枚举三种余数的组合，可行三元组只有 $000,117,144,477$。记四类数量为 $c_0,c_1,c_4,c_7$，后三种三元组的数量为 $u,v,w$，则\n\n$$c_1=2u+v,\\qquad c_4=2v+w,\\qquad c_7=u+2w.$$\n\n解得 $u=(4c_1+c_7-2c_4)/9$，再算 $v=c_1-2u$、$w=(c_7-u)/2$。三者都是非负整数且 $c_0$ 被三整除，当且仅当能按这些数量完成分组。\n\n用四棵树状数组维护各类型出现次数，单点修改时旧类型减一、新类型加一；每个区间用前缀和之差取得四个计数，再常数时间判断。总时间 $O((n+q)\\log n)$，空间 $O(n)$。\n",
+          "images": {},
+          "sourceProblemIds": [
+            "小白月赛 135::F"
+          ]
+        },
+        {
+          "id": "lecture:36ec25cec109737102d5956e",
+          "title": "树状数组：树状数组（BIT）与逆序对",
+          "markdown": "# 树状数组：树状数组（BIT）与逆序对\n\n## 题目中的问题\n\n交换规则与简单版相同：两端之间的所有位置必须已经就位。但每次交换的费用固定为一，求排序的最少交换次数。\n\n逆序对是一对下标 $i<j$ 却有 $P_i>P_j$，例如 $[3,1,2]$ 中有 $(3,1),(3,2)$ 两对。\n\n从左到右读到数 $x$ 时，之前已有 $i-1$ 个数。若能查出其中不超过 $x$ 的个数，就用 $(i-1)-\\operatorname{count}(\\le x)$ 得到以当前位置结尾的逆序对数。\n\n树状数组按值存出现次数，利用二进制的最低一位将前缀分成若干段，支持单点增加和前缀求和，各花 $O(\\log N)$。每次先查询再插入 $x$，避免把自己计入已出现元素。\n\n## 用到这道题里\n\n这次一次长距离交换只算一步，不能再用总距离除二。设 $D=\\sum|P_i-i|$、$I$ 为逆序对数，答案为 $F=D-I$。\n\n先证明每次合法交换使 $F$ 最多下降一。设端点值为 $a>b$、间隔为 $d$，中间全部固定为自身下标，所以 $a,b$ 都不可能落在内部值区间。若 $a\\ge j,b\\le i$，交换使 $D$ 下降 $2d$，逆序对除端点这一对外，每个中间点还少两对，总共下降 $2d-1$，于是 $F$ 下降一。其余逆序交换不能减少总距离，却只消去端点的一对逆序，使 $F$ 增加一。若 $a<b$，是上述交换的逆过程，变化符号相反。所以每一步至多让 $F$ 降一，而终局为零。\n\n简单版证明过：未排序时，总能找到相邻未就位位置 $i<j$，满足 $P_i\\ge j,P_j\\le i$。交换这对正是第一种情况，让 $F$ 恰好下降一，并让总距离严格下降，最终能排好。因此既有下界又能达到，最少步数为 $D-I$。\n\n总距离线性计算，逆序对由基础小节的树状数组求出，时间 $O(N\\log N)$，空间 $O(N)$。\n",
+          "images": {},
+          "sourceProblemIds": [
+            "ARC 225::E"
+          ]
+        },
+        {
+          "id": "lecture:bccb082a95e36319b45ec067",
+          "title": "树状数组：树状数组上二分（找前缀和第一次 $\\ge$ 目标）",
+          "markdown": "# 树状数组：树状数组上二分（找前缀和第一次 $\\ge$ 目标）\n\n## 题目中的问题\n\n塔的每行有稳定度与若干块，抽掉第 $i$ 行一块，会按该块数值减少第 $1\\ldots i$ 行稳定度。任意行稳定度不正，或被抽空，塔即倒塌。求最少抽块数。\n\n树状数组通常用于求前缀和。若数组非负，前缀和单调，就还能找“和第一次达到目标的位置”。普通二分每次再查前缀和需要两个对数，树状数组的结构允许直接倍增到答案。\n\n维护当前位置 $p$ 与此前累计和 $s$，从最大二的幂向下尝试步长 $2^j$。如果走到 $p+2^j$ 后，整段累计仍严格小于目标，就接受这一步；否则不走，换更小步长。结束时 $p$ 是和仍不足的最右位置，下一位置首次足够。\n\n例如当前有效值按降序是 $[9,6,4]$，目标为十三：只拿九不够，再加六即足够，答案两块。未插入位置视作零，因此定位后还需另查已插入数量，而不是返回下标本身。\n\n## 用到这道题里\n\n抽空一行花 $m$ 次，先作为答案上界。若目标是让第 $r$ 行稳定度降到零，只有第 $r$ 行及其下方的块有用；选择其中数值最大的若干块最省次数，因为用较大值替换较小值不会使伤害减少。\n\n将所有块按数值降序赋予位置，自底向上逐行加入。用两棵树状数组分别维护各位置已加入块的数值和、数量。若总和足以达到当前稳定度，用下节倍增找到降序前缀和第一次足够的位置，再查此前有多少实际加入的块，即该行最少抽取数。\n\n共 $nm$ 个块，排序和每次维护查询给出 $O(nm\\log(nm))$ 时间、$O(nm)$ 空间。提前触发其他行倒塌只会让实际用量更少，不会破坏取所有倒塌原因最小值的做法。\n",
+          "images": {},
+          "sourceProblemIds": [
+            "Div.2 1115::C"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "segment-tree",
+      "title": "懒标记线段树",
+      "category": "数据结构",
+      "lectures": [
+        "lecture:foundation-segment-tree",
+        "lecture:236c076c7e0f8cd291adb348"
+      ],
+      "intro": "既要给整个区间加一个数，又要查询区间总和。每次逐项修改太慢，需要把一整块的变化先记在代表这一块的结点上。",
+      "invariant": "sum 是结点区间的当前总和，lazy 是已经计入这个总和、但尚未传给孩子的增量。覆盖长度 len 的区间加 d，必须使 sum 增加 d*len。",
+      "operations": [
+        [
+          "RangeAddSum(a)",
+          "由原数组建立每个区间的总和。"
+        ],
+        [
+          "add(l,r,delta)",
+          "更新左闭右开区间 [l,r)；完全覆盖时更新 sum 和 lazy。"
+        ],
+        [
+          "range_sum(l,r)",
+          "把相交部分的总和合并；只访问一部分时先下传标记，空区间返回 0。"
+        ],
+        [
+          "push / pull",
+          "下传让孩子得到尚欠的增量；回收用两个孩子的和重建父结点。"
+        ]
+      ],
+      "boundary": "实验和代码都用外部 0 开始、左闭右开区间。区间加和区间和每次 O(log n)，空间 O(n)。区间赋值不能直接复用“累加”标记。",
+      "values": [
+        2,
+        1,
+        3,
+        0,
+        4
+      ],
+      "scripts": [
+        [
+          "addRange",
+          1,
+          4,
+          3
+        ],
+        [
+          "sum",
+          0,
+          5
+        ],
+        [
+          "sum",
+          2,
+          3
+        ],
+        [
+          "addRange",
+          0,
+          3,
+          -2
+        ],
+        [
+          "sum",
+          1,
+          4
+        ]
+      ],
+      "bug": "[0,0,0] 整段加 2，总和要加 2×3=6。只让根的 sum 加 2，连整段查询也会立刻出错。",
+      "templateId": "builtin:segment-tree",
+      "practiceIds": [
+        "template-drill:segment-tree:1",
+        "template-drill:segment-tree:2"
+      ],
+      "reasoning": "以 [2,1,3,0,4] 为例，给 [1,4) 加 3 后成为 [2,4,6,3,4]，总和从 10 变成 19。完全覆盖的结点可以先只更新自己；此时孩子的 sum 仍可能是旧值。若随后只查这段的一部分，必须先把父亲 lazy 下传，并在父亲清零，才能读到正确孩子。一个 lazy=3 表示每项尚欠 3，不是整个区间尚欠总共 3。",
+      "sections": [
+        {
+          "id": "lecture:foundation-segment-tree",
+          "title": "线段树：把区间问题分成可合并的两半",
+          "markdown": "# 线段树：把区间问题分成可合并的两半\n\n需要动态修改并查询区间的和、最小值或最大值时，可以递归将数组一分为二。一个节点代表一段范围，叶子代表单个元素，父节点保存两个孩子答案的合并。\n\n![四项数组的区间树，整段答案来自左右两半](assets/foundations/segment-tree.svg)\n\n例如 $[2,3,1,4]$，叶子是各项，左半和五、右半和五，根为十。修改第三项后，只需改叶子及其到根的祖先；其他范围完全未变。查询 $[2,3]$ 时取覆盖这两项的节点，跳过完全无交的节点，合并各部分。\n\n树高 $O(\\log n)$。单点修改沿一条根到叶路径，区间查询在每层只需处理边界附近的少量分支，均为 $O(\\log n)$；建树 $O(n)$，空间 $O(n)$，数组式常预留约四倍大小。\n\n```cpp\n// 假设当前结点范围为 [left,right]，查询为 [ql,qr]\nif (ql <= left && right <= qr) return tree[node];\nint mid = left + (right - left) / 2;\nlong long answer = 0; // 求和的合并单位；求最小值应换成 +INF\nif (ql <= mid) answer += query(node*2, left, mid, ql, qr);\nif (qr > mid) answer += query(node*2+1, mid+1, right, ql, qr);\nreturn answer;\n```\n\n求和、求最小和最大各有自己的合并与无交单位，不能混用。维护的信息要足以从孩子合并；例如最大连续子段和需要额外的区间和、最大前缀及后缀，单存一个最大值不够。\n\n区间修改可用懒标记：整段更新时先改当前节点答案，记录尚未作用到孩子的操作；下次进入孩子前下传。区间加对区间和的变化是“增量乘长度”，赋值与加法的标记组合顺序不同。只有更新能够从所存摘要直接计算、且标记能正确复合时才能这样优化，不能对任意操作机械加一个 lazy 数组。\n",
+          "images": {
+            "assets/foundations/segment-tree.svg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3NjAiIGhlaWdodD0iMzUwIiB2aWV3Qm94PSIwIDAgNzYwIDM1MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9InRpdGxlIj48dGl0bGUgaWQ9InRpdGxlIj7nur/mrrXmoJHvvJroioLngrnku6PooajljLrpl7TvvIzniLbkurLlkIjlubblranlrZA8L3RpdGxlPg0KPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgcng9IjEyIiBmaWxsPSIjZmZmIi8+DQo8ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLCBOb3RvIFNhbnMgQ0pLIFNDLCBzYW5zLXNlcmlmIiBmaWxsPSIjMjQzNDQ5Ij4NCjx0ZXh0IHg9IjI4IiB5PSIzNiIgZmlsbD0iIzI0MzQ0OSIgZm9udC1zaXplPSIyMyIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iYm9sZCI+57q/5q615qCR77ya6IqC54K55Luj6KGo5Yy66Ze077yM54i25Lqy5ZCI5bm25a2p5a2QPC90ZXh0Pg0KPGxpbmUgeDE9IjM4MCIgeTE9Ijk1IiB4Mj0iMjEwIiB5Mj0iMTg1IiBzdHJva2U9IiM2ODc3OGIiIHN0cm9rZS13aWR0aD0iMyIvPg0KPGxpbmUgeDE9IjM4MCIgeTE9Ijk1IiB4Mj0iNTUwIiB5Mj0iMTg1IiBzdHJva2U9IiM2ODc3OGIiIHN0cm9rZS13aWR0aD0iMyIvPg0KPGxpbmUgeDE9IjIxMCIgeTE9IjE4NSIgeDI9IjEyNSIgeTI9IjI4MCIgc3Ryb2tlPSIjNjg3NzhiIiBzdHJva2Utd2lkdGg9IjMiLz4NCjxsaW5lIHgxPSIyMTAiIHkxPSIxODUiIHgyPSIyOTUiIHkyPSIyODAiIHN0cm9rZT0iIzY4Nzc4YiIgc3Ryb2tlLXdpZHRoPSIzIi8+DQo8bGluZSB4MT0iNTUwIiB5MT0iMTg1IiB4Mj0iNDY1IiB5Mj0iMjgwIiBzdHJva2U9IiM2ODc3OGIiIHN0cm9rZS13aWR0aD0iMyIvPg0KPGxpbmUgeDE9IjU1MCIgeTE9IjE4NSIgeDI9IjYzNSIgeTI9IjI4MCIgc3Ryb2tlPSIjNjg3NzhiIiBzdHJva2Utd2lkdGg9IjMiLz4NCjxjaXJjbGUgY3g9IjM4MCIgY3k9Ijk1IiByPSIyMyIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjMiLz4NCjx0ZXh0IHg9IjM4MCIgeT0iMTAyIiBmaWxsPSIjMjM2NWFiIiBmb250LXNpemU9IjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj4xMDwvdGV4dD4NCjxjaXJjbGUgY3g9IjIxMCIgY3k9IjE4NSIgcj0iMjMiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIzIi8+DQo8dGV4dCB4PSIyMTAiIHk9IjE5MiIgZmlsbD0iIzIzNjVhYiIgZm9udC1zaXplPSIyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+NTwvdGV4dD4NCjxjaXJjbGUgY3g9IjU1MCIgY3k9IjE4NSIgcj0iMjMiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIzIi8+DQo8dGV4dCB4PSI1NTAiIHk9IjE5MiIgZmlsbD0iIzIzNjVhYiIgZm9udC1zaXplPSIyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+NTwvdGV4dD4NCjxjaXJjbGUgY3g9IjEyNSIgY3k9IjI4MCIgcj0iMjMiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIzIi8+DQo8dGV4dCB4PSIxMjUiIHk9IjI4NyIgZmlsbD0iIzIzNjVhYiIgZm9udC1zaXplPSIyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+MjwvdGV4dD4NCjxjaXJjbGUgY3g9IjI5NSIgY3k9IjI4MCIgcj0iMjMiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIzIi8+DQo8dGV4dCB4PSIyOTUiIHk9IjI4NyIgZmlsbD0iIzIzNjVhYiIgZm9udC1zaXplPSIyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+MzwvdGV4dD4NCjxjaXJjbGUgY3g9IjQ2NSIgY3k9IjI4MCIgcj0iMjMiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIzIi8+DQo8dGV4dCB4PSI0NjUiIHk9IjI4NyIgZmlsbD0iIzIzNjVhYiIgZm9udC1zaXplPSIyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+MTwvdGV4dD4NCjxjaXJjbGUgY3g9IjYzNSIgY3k9IjI4MCIgcj0iMjMiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIzIi8+DQo8dGV4dCB4PSI2MzUiIHk9IjI4NyIgZmlsbD0iIzIzNjVhYiIgZm9udC1zaXplPSIyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+NDwvdGV4dD4NCjx0ZXh0IHg9IjM4MCIgeT0iMzM1IiBmaWxsPSIjMjQzNDQ5IiBmb250LXNpemU9IjIyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0ibm9ybWFsIj5bMiwzLDEsNF3vvJrmoLnnmoQgMTAgPSDlt6bljYogNSArIOWPs+WNiiA1PC90ZXh0Pg0KPC9nPjwvc3ZnPg0K"
+          },
+          "sourceProblemIds": [
+            "ABC 470::G",
+            "ABC 473::F",
+            "ABC 476::E",
+            "ARC 227::B",
+            "Div.2 1112::E",
+            "Div.2 1117::F1",
+            "Div.2 1117::F2",
+            "Div.2 1118::E",
+            "Div.3 1109::G",
+            "Div.3 1122::H",
+            "lanqiao:2024:省: 第二场::P12127",
+            "lanqiao:2026:国:::P16799",
+            "luogu-training-P10445",
+            "remote:atcoder:abc480::G",
+            "remote:codeforces:105486::I",
+            "xcpc-luogu::P15080",
+            "xcpc-luogu::P16915",
+            "xcpc-luogu::P9695",
+            "周赛 157::F",
+            "基础赛 31::D",
+            "小白月赛 136::F",
+            "挑战赛 88::D",
+            "挑战赛 89::C",
+            "月赛 293::D",
+            "练习赛 150::E",
+            "练习赛 153::F",
+            "练习赛 157::F"
+          ]
+        },
+        {
+          "id": "lecture:236c076c7e0f8cd291adb348",
+          "title": "线段树：线段树与懒标记",
+          "markdown": "# 线段树：线段树与懒标记\n\n## 题目中的问题\n\n纸带只含 A、B、C。支持把区间内字符同时循环变色 $A\\to B\\to C\\to A$，以及查询整条纸带中极大的连续 A 段数。$n,q\\le2\\times10^5$。\n\n线段树把一个区间不断分成左右两半，叶子对应单个位置。每个结点保存这一段的统计信息，父结点的信息由两个孩子合并得到。\n\n这题要保存 A 段数以及首尾字符。左右两段的段数先相加；若左段末尾和右段开头都是 A，两条 A 段在接缝合为一条，应减一。\n\n![F：合并时处理接缝，整体轮换时移动三套统计](assets/f-segment-rotation.svg)\n\n整段变色时，不能再去逐个改叶子。我们为每个结点存三套信息：当前状态、整体再转一次、整体再转两次的统计。整段转一次后，只需把三套信息循环移动；同时记下孩子尚未执行的轮换次数。这个暂存的待执行操作叫**懒标记**。以后必须访问孩子时，再把标记传给孩子；完全覆盖整段时不必深入。\n\n## 用到这道题里\n\n用 $cnt_t,f_t,l_t$ 表示当前区间再轮换 $t$ 次后的 A 段数、首字符、尾字符，$t\\in\\{0,1,2\\}$。分别合并三套信息：\n\n$$cnt_t=cnt_{L,t}+cnt_{R,t}-[l_{L,t}=A\\text{ 且 }f_{R,t}=A].$$\n\n首字符取左孩子，尾字符取右孩子。整个结点再转 $d$ 次，新第 $t$ 套就是旧第 $(t+d)\\bmod3$ 套，懒标记相应累加模三。\n\n例如 `\"ABCAA\"` 的三套 A 段数为 $(2,1,1)$。将前三位转一次得到 `\"BCAAA\"`；左半 `\"BCA\"` 和右半 `\"AA\"` 各有一段 A，但接缝相连，整串只有一段。\n\n区间修改只访问与边界相关的结点和若干完整区间，耗时 $O(\\log n)$；查询直接读根的当前统计 $cnt_0$，耗时 $O(1)$。建树 $O(n)$，空间 $O(n)$。\n",
+          "images": {
+            "assets/f-segment-rotation.svg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5MDAiIGhlaWdodD0iMzg1IiB2aWV3Qm94PSIwIDAgOTAwIDM4NSIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9InRpdGxlIGRlc2MiPgo8dGl0bGUgaWQ9InRpdGxlIj7mjqXnvJ3lkIjlubbkuI7kuInlpZfova7mjaLnirbmgIE8L3RpdGxlPjxkZXNjIGlkPSJkZXNjIj5BQkPkuI5BQeaLvOaOpeacieS4pOautUHvvIzliY3kuInkvY3ovazmiJBCQ0HlkI7kuKTkvqdB5Zyo5o6l57yd6L+e5oiQ5LiA5q6177yb5pW05q616L2u5o2i5L2/5LiJ5aWX6K6h5pWw5b6q546v56e75Yqo44CCPC9kZXNjPgo8ZGVmcz48bWFya2VyIGlkPSJhcnJvdyIgbWFya2VyV2lkdGg9IjgiIG1hcmtlckhlaWdodD0iOCIgcmVmWD0iNyIgcmVmWT0iNCIgb3JpZW50PSJhdXRvIj48cGF0aCBkPSJNMCwwIEw4LDQgTDAsOCIgZmlsbD0iIzg0OThhOCIvPjwvbWFya2VyPjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSIzODUiIHJ4PSIxNCIgZmlsbD0iI2ZmZmZmZiIvPgo8dGV4dCB4PSIyNCIgeT0iMzUiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzFjMmIzOSIgZm9udC1mYW1pbHk9Ik1pY3Jvc29mdCBZYUhlaSwgTm90byBTYW5zIENKSyBTQywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZm9udC13ZWlnaHQ9ImJvbGQiPkFCQ0FB77ya5YmN5LiJ5L2N6L2u5o2i5LiA5qyh77yM5o6l57yd5Lik5L6n55qEIEEg5ZCI5bm2PC90ZXh0Pgo8cmVjdCB4PSI0MCIgeT0iODAiIHdpZHRoPSI1NSIgaGVpZ2h0PSI0NSIgcng9IjYiIGZpbGw9IiNlOGY2ZWUiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjY3LjUiIHk9IjExMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzFjMmIzOSIgZm9udC1mYW1pbHk9Ik1pY3Jvc29mdCBZYUhlaSwgTm90byBTYW5zIENKSyBTQywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMyIgZm9udC13ZWlnaHQ9ImJvbGQiPkE8L3RleHQ+CjxyZWN0IHg9IjEwMiIgeT0iODAiIHdpZHRoPSI1NSIgaGVpZ2h0PSI0NSIgcng9IjYiIGZpbGw9IiNlYWYyZmYiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjEyOS41IiB5PSIxMTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxYzJiMzkiIGZvbnQtZmFtaWx5PSJNaWNyb3NvZnQgWWFIZWksIE5vdG8gU2FucyBDSksgU0MsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjMiIGZvbnQtd2VpZ2h0PSJib2xkIj5CPC90ZXh0Pgo8cmVjdCB4PSIxNjQiIHk9IjgwIiB3aWR0aD0iNTUiIGhlaWdodD0iNDUiIHJ4PSI2IiBmaWxsPSIjZmZmMmRiIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSIxOTEuNSIgeT0iMTEwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWMyYjM5IiBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLCBOb3RvIFNhbnMgQ0pLIFNDLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIzIiBmb250LXdlaWdodD0iYm9sZCI+QzwvdGV4dD4KPHJlY3QgeD0iMjI2IiB5PSI4MCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjQ1IiByeD0iNiIgZmlsbD0iI2U4ZjZlZSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMjUzLjUiIHk9IjExMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzFjMmIzOSIgZm9udC1mYW1pbHk9Ik1pY3Jvc29mdCBZYUhlaSwgTm90byBTYW5zIENKSyBTQywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMyIgZm9udC13ZWlnaHQ9ImJvbGQiPkE8L3RleHQ+CjxyZWN0IHg9IjI4OCIgeT0iODAiIHdpZHRoPSI1NSIgaGVpZ2h0PSI0NSIgcng9IjYiIGZpbGw9IiNlOGY2ZWUiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjMxNS41IiB5PSIxMTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxYzJiMzkiIGZvbnQtZmFtaWx5PSJNaWNyb3NvZnQgWWFIZWksIE5vdG8gU2FucyBDSksgU0MsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjMiIGZvbnQtd2VpZ2h0PSJib2xkIj5BPC90ZXh0Pgo8bGluZSB4MT0iMjIyIiB5MT0iNzAiIHgyPSIyMjIiIHkyPSIxMzQiIHN0cm9rZT0iIzUyNjc3OCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtZGFzaGFycmF5PSI3IDUiLz4KPHRleHQgeD0iNDI1IiB5PSIxMTAiIHRleHQtYW5jaG9yPSJzdGFydCIgZmlsbD0iIzE2Nzc1NSIgZm9udC1mYW1pbHk9Ik1pY3Jvc29mdCBZYUhlaSwgTm90byBTYW5zIENKSyBTQywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+5Y6f5p2l77yaMSArIDEgPSAyIOautTwvdGV4dD4KPHJlY3QgeD0iNDAiIHk9IjE2NiIgd2lkdGg9IjU1IiBoZWlnaHQ9IjQ1IiByeD0iNiIgZmlsbD0iI2VhZjJmZiIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iNjcuNSIgeT0iMTk2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWMyYjM5IiBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLCBOb3RvIFNhbnMgQ0pLIFNDLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIzIiBmb250LXdlaWdodD0iYm9sZCI+QjwvdGV4dD4KPHJlY3QgeD0iMTAyIiB5PSIxNjYiIHdpZHRoPSI1NSIgaGVpZ2h0PSI0NSIgcng9IjYiIGZpbGw9IiNmZmYyZGIiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjEyOS41IiB5PSIxOTYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxYzJiMzkiIGZvbnQtZmFtaWx5PSJNaWNyb3NvZnQgWWFIZWksIE5vdG8gU2FucyBDSksgU0MsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjMiIGZvbnQtd2VpZ2h0PSJib2xkIj5DPC90ZXh0Pgo8cmVjdCB4PSIxNjQiIHk9IjE2NiIgd2lkdGg9IjU1IiBoZWlnaHQ9IjQ1IiByeD0iNiIgZmlsbD0iI2U4ZjZlZSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMTkxLjUiIHk9IjE5NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzFjMmIzOSIgZm9udC1mYW1pbHk9Ik1pY3Jvc29mdCBZYUhlaSwgTm90byBTYW5zIENKSyBTQywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMyIgZm9udC13ZWlnaHQ9ImJvbGQiPkE8L3RleHQ+CjxyZWN0IHg9IjIyNiIgeT0iMTY2IiB3aWR0aD0iNTUiIGhlaWdodD0iNDUiIHJ4PSI2IiBmaWxsPSIjZThmNmVlIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSIyNTMuNSIgeT0iMTk2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWMyYjM5IiBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLCBOb3RvIFNhbnMgQ0pLIFNDLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIzIiBmb250LXdlaWdodD0iYm9sZCI+QTwvdGV4dD4KPHJlY3QgeD0iMjg4IiB5PSIxNjYiIHdpZHRoPSI1NSIgaGVpZ2h0PSI0NSIgcng9IjYiIGZpbGw9IiNlOGY2ZWUiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjMxNS41IiB5PSIxOTYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxYzJiMzkiIGZvbnQtZmFtaWx5PSJNaWNyb3NvZnQgWWFIZWksIE5vdG8gU2FucyBDSksgU0MsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjMiIGZvbnQtd2VpZ2h0PSJib2xkIj5BPC90ZXh0Pgo8bGluZSB4MT0iMjIyIiB5MT0iMTU2IiB4Mj0iMjIyIiB5Mj0iMjIwIiBzdHJva2U9IiM1MjY3NzgiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNyA1Ii8+Cjx0ZXh0IHg9IjQyNSIgeT0iMTk2IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiMxNjc3NTUiIGZvbnQtZmFtaWx5PSJNaWNyb3NvZnQgWWFIZWksIE5vdG8gU2FucyBDSksgU0MsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjIiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPueOsOWcqO+8mjEgKyAxIOKIkiAxID0gMSDmrrU8L3RleHQ+CjxyZWN0IHg9IjI0IiB5PSIyNzUiIHdpZHRoPSI4NTAiIGhlaWdodD0iODQiIHJ4PSI4IiBmaWxsPSIjZWFmMmZmIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSI0MiIgeT0iMzA2IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiMxYzJiMzkiIGZvbnQtZmFtaWx5PSJNaWNyb3NvZnQgWWFIZWksIE5vdG8gU2FucyBDSksgU0MsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPuS4ieWll+iuoeaVsO+8mlsyLDEsMV0gPSDlvZPliY3jgIHlho3ovawx5qyh44CB5YaN6L2sMuasoeeahCBBIOauteaVsDwvdGV4dD4KPHRleHQgeD0iNDIiIHk9IjM0MCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmaWxsPSIjMWMyYjM5IiBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLCBOb3RvIFNhbnMgQ0pLIFNDLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIwIiBmb250LXdlaWdodD0ibm9ybWFsIj7mlbTmrrXova7mjaIx5qyh5ZCO77yaWzEsMSwyXe+8m+WtqeWtkOeahOi9ruaNouWFiOiusOWcqOaHkuagh+iusOmHjOOAgjwvdGV4dD4KPC9zdmc+"
+          },
+          "sourceProblemIds": [
+            "周赛 157::F"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "trie",
+      "title": "字典树",
+      "category": "字符串",
+      "lectures": [
+        "lecture:foundation-trie",
+        "lecture:7734277051034f49ca3ee1e6"
+      ],
+      "intro": "维护一组会重复的单词，支持插入、整词计数、前缀计数和删除一次。共享前缀的单词沿同一段路径走，到单词结束时再记结束计数。",
+      "invariant": "pass 表示经过结点的单词份数，end 表示在该结点结束的份数。“有这个前缀”与“有这个完整单词”是不同问题。删除前必须确认整词存在。",
+      "operations": [
+        [
+          "insert(word)",
+          "沿字符走，按需建结点并增加路径计数；重复单词增加份数。"
+        ],
+        [
+          "count(word)",
+          "读结束计数，只算完整单词。"
+        ],
+        [
+          "prefix_count(prefix)",
+          "读前缀路径的经过计数。"
+        ],
+        [
+          "erase(word)",
+          "只删除一份已有单词，不能把不存在单词的计数减成负数。"
+        ]
+      ],
+      "boundary": "模板字符集为小写 a-z，各操作 O(字符串长度)，空间与建过的字符路径数相关。空串、重复词和删除约定见代码示例；不同字符集需更换分支表示。",
+      "values": [
+        "ab",
+        "abc",
+        "ab"
+      ],
+      "scripts": [
+        [
+          "insert",
+          "ab"
+        ],
+        [
+          "insert",
+          "abc"
+        ],
+        [
+          "insert",
+          "ab"
+        ],
+        [
+          "count",
+          "ab"
+        ],
+        [
+          "prefix",
+          "ab"
+        ],
+        [
+          "erase",
+          "ab"
+        ],
+        [
+          "count",
+          "ab"
+        ]
+      ],
+      "bug": "仅插入 abc 后，ab 的前缀计数是 1，但完整单词 ab 的计数是 0。不能用 pass 代替 end。",
+      "templateId": "builtin:trie",
+      "practiceIds": [
+        "template-drill:trie:1",
+        "template-drill:trie:2"
+      ],
+      "reasoning": "依次插入 ab、ab、abc：路径 ab 的 passing=3、ending=2，路径 abc 的 passing=1、ending=1。删去一份 ab 时，根、a、ab 的 passing 都减一，ab 的 ending 减一；abc 的计数保持不变。只插入 abc 时虽然路径 ab 存在，ending 仍为 0，所以不能删除 ab。树上保存的是字符前缀，词库计数另由这两个量区分。",
+      "sections": [
+        {
+          "id": "lecture:foundation-trie",
+          "title": "字典树：共享相同前缀的分支",
+          "markdown": "# 字典树：共享相同前缀的分支\n\n要频繁查询一批字符串的前缀，可从根开始，每层用一个字符选一条边。字符串的公共前缀走相同路径，分歧字符才分开；节点表示“已经读过的前缀”，根表示空前缀。\n\n例如插入 `\"ab\"`、`\"ac\"`，根到 $a$ 的边共享，$a$ 再连 $b$、$c$。插入 `\"a\"` 时不能新造另一条 $a$ 路径，只需在已有 $a$ 节点标记单词结束。存在前缀不等于存在完整单词。\n\n![a 前缀由三条单词共享，结束标记与子边分别保存](assets/foundations/trie.svg)\n\n对固定小写字母表，一个节点可保存二十六个孩子编号和结束次数；插入长度 $L$ 的串逐字符前进，缺边则建节点，最后增加结束次数。查询同样沿边，时间 $O(L)$。若要数前缀次数，还应在经过的节点累积次数，而不仅标记叶子。\n\n总节点数不超过所有插入串长度之和加一。固定数组实现的空间约为节点数乘字母表大小；大字母表可用映射省空边，但单步查询成本会改变。删除要维护路径上的次数，不能删除仍由别的词共享的节点。\n\n二进制 Trie 将整数从高位到低位插入，查询最大异或时优先走与当前位相反且仍有元素的分支，因为高位收益大于所有低位总和。这里走的是二进制位而非十进制数字；位宽、零和重复元素都须明确定义。\n",
+          "images": {
+            "assets/foundations/trie.svg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3NjAiIGhlaWdodD0iMzYwIiB2aWV3Qm94PSIwIDAgNzYwIDM2MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9InRpdGxlIj48dGl0bGUgaWQ9InRpdGxlIj5Ucmll77ya6Lev5b6E5a2Y5YmN57yA77yM57uT5p2f5qCH6K6w5Y+m5aSW5L+d5a2YPC90aXRsZT4NCjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHJ4PSIxMiIgZmlsbD0iI2ZmZiIvPg0KPGcgZm9udC1mYW1pbHk9Ik1pY3Jvc29mdCBZYUhlaSwgTm90byBTYW5zIENKSyBTQywgc2Fucy1zZXJpZiIgZmlsbD0iIzI0MzQ0OSI+DQo8dGV4dCB4PSIyOCIgeT0iMzYiIGZpbGw9IiMyNDM0NDkiIGZvbnQtc2l6ZT0iMjMiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC13ZWlnaHQ9ImJvbGQiPlRyaWXvvJrot6/lvoTlrZjliY3nvIDvvIznu5PmnZ/moIforrDlj6blpJbkv53lrZg8L3RleHQ+DQo8bGluZSB4MT0iMzgwIiB5MT0iOTAiIHgyPSIzODAiIHkyPSIxODAiIHN0cm9rZT0iIzY4Nzc4YiIgc3Ryb2tlLXdpZHRoPSIzIi8+DQo8bGluZSB4MT0iMzgwIiB5MT0iMTgwIiB4Mj0iMjIwIiB5Mj0iMjgwIiBzdHJva2U9IiM2ODc3OGIiIHN0cm9rZS13aWR0aD0iMyIvPg0KPGxpbmUgeDE9IjM4MCIgeTE9IjE4MCIgeDI9IjU0MCIgeTI9IjI4MCIgc3Ryb2tlPSIjNjg3NzhiIiBzdHJva2Utd2lkdGg9IjMiLz4NCjxjaXJjbGUgY3g9IjM4MCIgY3k9IjkwIiByPSIyMyIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjMjM2NWFiIiBzdHJva2Utd2lkdGg9IjMiLz4NCjx0ZXh0IHg9IjM4MCIgeT0iOTciIGZpbGw9IiMyMzY1YWIiIGZvbnQtc2l6ZT0iMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPuaguTwvdGV4dD4NCjxjaXJjbGUgY3g9IjM4MCIgY3k9IjE4MCIgcj0iMjMiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIzIi8+DQo8dGV4dCB4PSIzODAiIHk9IjE4NyIgZmlsbD0iIzIzNjVhYiIgZm9udC1zaXplPSIyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+YTwvdGV4dD4NCjxjaXJjbGUgY3g9IjIyMCIgY3k9IjI4MCIgcj0iMjMiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIzIi8+DQo8dGV4dCB4PSIyMjAiIHk9IjI4NyIgZmlsbD0iIzIzNjVhYiIgZm9udC1zaXplPSIyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+YjwvdGV4dD4NCjxjaXJjbGUgY3g9IjU0MCIgY3k9IjI4MCIgcj0iMjMiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzIzNjVhYiIgc3Ryb2tlLXdpZHRoPSIzIi8+DQo8dGV4dCB4PSI1NDAiIHk9IjI4NyIgZmlsbD0iIzIzNjVhYiIgZm9udC1zaXplPSIyMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+YzwvdGV4dD4NCjx0ZXh0IHg9IjQyNSIgeT0iMTg1IiBmaWxsPSIjMTI4MDVjIiBmb250LXNpemU9IjIwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPmEg5Zyo6L+Z6YeM57uT5p2fPC90ZXh0Pg0KPHRleHQgeD0iMTgwIiB5PSIzMzUiIGZpbGw9IiMxMjgwNWMiIGZvbnQtc2l6ZT0iMjAiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+YWIg57uT5p2fPC90ZXh0Pg0KPHRleHQgeD0iNTAwIiB5PSIzMzUiIGZpbGw9IiMxMjgwNWMiIGZvbnQtc2l6ZT0iMjAiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+YWMg57uT5p2fPC90ZXh0Pg0KPC9nPjwvc3ZnPg0K"
+          },
+          "sourceProblemIds": [
+            "ABC 475::E",
+            "xcpc-luogu::P14801",
+            "xcpc-luogu::P9694",
+            "周赛 159::E",
+            "周赛 163::F",
+            "基础赛 33::E",
+            "基础赛 39::D",
+            "月赛 295::B"
+          ]
+        },
+        {
+          "id": "lecture:7734277051034f49ca3ee1e6",
+          "title": "字典树：Trie（字典树）",
+          "markdown": "# 字典树：Trie（字典树）\n\n## 题目中的问题\n\n有 $n$ 种互不相同的小写字符串 $s_i$，库存为 $c_i$。每次给字符串 $t$，选择仍有库存且是 $t$ 前缀的最长 $s_i$，输出编号并减一库存；不存在则输出零。所有输入串的总长度不超过 $5\\times10^5$。\n\n字符串的**前缀**是从开头连续取出的一段。例如 `\"abc\"` 的非空前缀是 `\"a\"`、`\"ab\"`、`\"abc\"`。\n\n把多个串相同的开头合在一起，就得到字典树。根表示空前缀，每条边写一个字符；从根沿路径读出的字符，就是当前结点代表的前缀。下图三个串共享同一条路径：\n\n![F：沿abc向下走，记住最深且仍有库存的结束位置](assets/f-trie.svg)\n\n串在哪里结束，就在那里保存它的编号 `id[v]`。结点存在，只能说明这个前缀曾被某个串经过；是否是完整的一种串，还要看 `id[v]`，是否有货再看 `cnt[id[v]]`。\n\n插入 `\"abc\"` 时，从根依次沿 `\"a\"`、`\"b\"`、`\"c\"` 走；缺哪条边，就新建一个结点。查询同样沿字符走，因此不用把 $t$ 和每种字符串逐一比较。代码用 `ch[v][x]` 记录结点 $v$ 沿字符 $x$ 到哪里；零表示没有这条边，新结点编号从一开始。\n\n一个串每个字符至多新建一个结点，所以结点总数不超过插入串总长度加一。这里字母表固定为二十六个字符，可以直接用二维数组存边。\n\n## 用到这道题里\n\n**沿 $t$ 从根往下走，把最近遇到的“完整串且有库存”的编号记为 `best`。** 走得越深，前缀越长，所以每次发现合法候选就覆盖旧候选。\n\n例如图中库存为 $[2,1,0]$，查询 `\"abc\"`：经过 `\"a\"` 时记一号，经过 `\"ab\"` 时改记二号，经过 `\"abc\"` 时发现没货，保留二号。最终输出二号，并只把二号库存减一。\n\n遇到不存在的边就停止。更长的前缀也必须经过这条边，因此后面不可能再有答案；之前记下的 `best` 仍有效。若始终没有合法候选，就输出零。\n\n插入和查询都只沿字符走一遍。设插入总长度为 $S$、查询总长度为 $T$，时间 $O(S+T)$，空间 $O(26S+n)$。\n",
+          "images": {
+            "assets/f-trie.svg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4OTAiIGhlaWdodD0iMzQ5IiB2aWV3Qm94PSIwIDAgODkwIDM0OSIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9InRpdGxlIGRlc2MiPgo8dGl0bGUgaWQ9InRpdGxlIj7msr/mn6Xor6LkuLLmib7mnIDmt7HnmoTmnInlupPlrZjnu5PmnZ/ngrk8L3RpdGxlPjxkZXNjIGlkPSJkZXNjIj5h44CBYWLjgIFhYmPlhbHnlKjkuIDmnaHlrZflhbjmoJHot6/lvoTvvIzlupPlrZjliIbliKvkuLoy44CBMeOAgTDjgILmn6Xor6JhYmPkvJrkvp3mrKHorrDlvZVh44CBYWLvvIzot7Pov4fmsqHotKfnmoRhYmPvvIzmnIDnu4jpgInmi6lhYuOAgjwvZGVzYz4KPGRlZnM+PG1hcmtlciBpZD0iYXJyb3ciIG1hcmtlcldpZHRoPSI4IiBtYXJrZXJIZWlnaHQ9IjgiIHJlZlg9IjciIHJlZlk9IjQiIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAsMCBMOCw0IEwwLDgiIGZpbGw9IiM4NDk4YTgiLz48L21hcmtlcj48L2RlZnM+CjxyZWN0IHdpZHRoPSI4OTAiIGhlaWdodD0iMzQ5IiByeD0iMTQiIGZpbGw9IiNmZmZmZmYiLz4KPHRleHQgeD0iMjQiIHk9IjM2IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiMxYzJiMzkiIGZvbnQtZmFtaWx5PSJNaWNyb3NvZnQgWWFIZWksIE5vdG8gU2FucyBDSksgU0MsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjEiIGZvbnQtd2VpZ2h0PSJib2xkIj7mn6Xor6IgdCA9ICZxdW90O2FiYyZxdW90O++8muayv+S4gOadoei3r+W+hOi1sO+8jOS/neeVmeacgOa3seeahOWQiOazleWAmemAiTwvdGV4dD4KPGxpbmUgeDE9Ijk2IiB5MT0iMTIyIiB4Mj0iMjYzIiB5Mj0iMTIyIiBzdHJva2U9IiMyNDVlYjIiIHN0cm9rZS13aWR0aD0iMyIgbWFya2VyLWVuZD0idXJsKCNhcnJvdykiLz4KPHRleHQgeD0iMTgxLjUiIHk9IjEwMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzFjMmIzOSIgZm9udC1mYW1pbHk9Ik1pY3Jvc29mdCBZYUhlaSwgTm90byBTYW5zIENKSyBTQywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+YTwvdGV4dD4KPGxpbmUgeDE9IjMxOSIgeTE9IjEyMiIgeDI9IjQ4NiIgeTI9IjEyMiIgc3Ryb2tlPSIjMjQ1ZWIyIiBzdHJva2Utd2lkdGg9IjMiIG1hcmtlci1lbmQ9InVybCgjYXJyb3cpIi8+Cjx0ZXh0IHg9IjQwNC41IiB5PSIxMDIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxYzJiMzkiIGZvbnQtZmFtaWx5PSJNaWNyb3NvZnQgWWFIZWksIE5vdG8gU2FucyBDSksgU0MsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPmI8L3RleHQ+CjxsaW5lIHgxPSI1NDIiIHkxPSIxMjIiIHgyPSI3MDkiIHkyPSIxMjIiIHN0cm9rZT0iIzI0NWViMiIgc3Ryb2tlLXdpZHRoPSIzIiBtYXJrZXItZW5kPSJ1cmwoI2Fycm93KSIvPgo8dGV4dCB4PSI2MjcuNSIgeT0iMTAyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWMyYjM5IiBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLCBOb3RvIFNhbnMgQ0pLIFNDLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0IiBmb250LXdlaWdodD0ibm9ybWFsIj5jPC90ZXh0Pgo8Y2lyY2xlIGN4PSI3MCIgY3k9IjEyMiIgcj0iMjUiIGZpbGw9IiNlOGY2ZWUiIHN0cm9rZT0iIzE2Nzc1NSIgc3Ryb2tlLXdpZHRoPSI0Ii8+Cjx0ZXh0IHg9IjcwIiB5PSIxMzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxYzJiMzkiIGZvbnQtZmFtaWx5PSJNaWNyb3NvZnQgWWFIZWksIE5vdG8gU2FucyBDSksgU0MsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjMiIGZvbnQtd2VpZ2h0PSJib2xkIj4wPC90ZXh0Pgo8Y2lyY2xlIGN4PSIyOTMiIGN5PSIxMjIiIHI9IjI1IiBmaWxsPSIjZWFmMmZmIiBzdHJva2U9IiMyNDVlYjIiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSIyOTMiIHk9IjEzMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzFjMmIzOSIgZm9udC1mYW1pbHk9Ik1pY3Jvc29mdCBZYUhlaSwgTm90byBTYW5zIENKSyBTQywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMyIgZm9udC13ZWlnaHQ9ImJvbGQiPjE8L3RleHQ+CjxjaXJjbGUgY3g9IjUxNiIgY3k9IjEyMiIgcj0iMjUiIGZpbGw9IiNlYWYyZmYiIHN0cm9rZT0iIzI0NWViMiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjUxNiIgeT0iMTMwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWMyYjM5IiBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLCBOb3RvIFNhbnMgQ0pLIFNDLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIzIiBmb250LXdlaWdodD0iYm9sZCI+MjwvdGV4dD4KPGNpcmNsZSBjeD0iNzM5IiBjeT0iMTIyIiByPSIyNSIgZmlsbD0iI2VhZjJmZiIgc3Ryb2tlPSIjMjQ1ZWIyIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iNzM5IiB5PSIxMzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxYzJiMzkiIGZvbnQtZmFtaWx5PSJNaWNyb3NvZnQgWWFIZWksIE5vdG8gU2FucyBDSksgU0MsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjMiIGZvbnQtd2VpZ2h0PSJib2xkIj4zPC90ZXh0Pgo8dGV4dCB4PSI3MCIgeT0iMTg1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWMyYjM5IiBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLCBOb3RvIFNhbnMgQ0pLIFNDLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0ibm9ybWFsIj7moLnvvJrnqbrkuLI8L3RleHQ+Cjx0ZXh0IHg9IjcwIiB5PSIyMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxYzJiMzkiIGZvbnQtZmFtaWx5PSJNaWNyb3NvZnQgWWFIZWksIE5vdG8gU2FucyBDSksgU0MsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPuWwmuaXoOWAmemAiTwvdGV4dD4KPHRleHQgeD0iMjkzIiB5PSIxODUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxYzJiMzkiIGZvbnQtZmFtaWx5PSJNaWNyb3NvZnQgWWFIZWksIE5vdG8gU2FucyBDSksgU0MsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPuS4siBh77ya57yW5Y+3IDE8L3RleHQ+Cjx0ZXh0IHg9IjI5MyIgeT0iMjIxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWMyYjM5IiBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLCBOb3RvIFNhbnMgQ0pLIFNDLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0ibm9ybWFsIj7lupPlrZggMiDihpIg5Y+v6YCJPC90ZXh0Pgo8dGV4dCB4PSIyOTMiIHk9IjI1NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE2Nzc1NSIgZm9udC1mYW1pbHk9Ik1pY3Jvc29mdCBZYUhlaSwgTm90byBTYW5zIENKSyBTQywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9Im5vcm1hbCI+YmVzdCA9IDE8L3RleHQ+Cjx0ZXh0IHg9IjUxNiIgeT0iMTg1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWMyYjM5IiBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLCBOb3RvIFNhbnMgQ0pLIFNDLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0ibm9ybWFsIj7kuLIgYWLvvJrnvJblj7cgMjwvdGV4dD4KPHRleHQgeD0iNTE2IiB5PSIyMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxYzJiMzkiIGZvbnQtZmFtaWx5PSJNaWNyb3NvZnQgWWFIZWksIE5vdG8gU2FucyBDSksgU0MsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPuW6k+WtmCAxIOKGkiDlj6/pgIk8L3RleHQ+Cjx0ZXh0IHg9IjUxNiIgeT0iMjU3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMTY3NzU1IiBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLCBOb3RvIFNhbnMgQ0pLIFNDLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0ibm9ybWFsIj5iZXN0ID0gMjwvdGV4dD4KPHRleHQgeD0iNzM5IiB5PSIxODUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxYzJiMzkiIGZvbnQtZmFtaWx5PSJNaWNyb3NvZnQgWWFIZWksIE5vdG8gU2FucyBDSksgU0MsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPuS4siBhYmPvvJrnvJblj7cgMzwvdGV4dD4KPHRleHQgeD0iNzM5IiB5PSIyMjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxYzJiMzkiIGZvbnQtZmFtaWx5PSJNaWNyb3NvZnQgWWFIZWksIE5vdG8gU2FucyBDSksgU0MsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPuW6k+WtmCAwIOKGkiDot7Pov4c8L3RleHQ+Cjx0ZXh0IHg9IjczOSIgeT0iMjU3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMTY3NzU1IiBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLCBOb3RvIFNhbnMgQ0pLIFNDLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0ibm9ybWFsIj5iZXN0IOS7jeS4uiAyPC90ZXh0Pgo8dGV4dCB4PSIyNCIgeT0iMzI4IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZpbGw9IiM1MjY3NzgiIGZvbnQtZmFtaWx5PSJNaWNyb3NvZnQgWWFIZWksIE5vdG8gU2FucyBDSksgU0MsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSJub3JtYWwiPuacgOe7iOmAiee8luWPtyAy77yM5bqT5a2Y5LuOIDEg5Y+Y5oiQIDDvvJvnu5Pngrnlkozovrnku43kv53nlZnvvIzku6Xkvr/nu6fnu63mn6Xor6Lmm7Tplb/nmoTkuLLjgII8L3RleHQ+Cjwvc3ZnPg=="
+          },
+          "sourceProblemIds": [
+            "周赛 163::F"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "binary-lifting",
+      "title": "倍增",
+      "category": "数据结构",
+      "lectures": [
+        "lecture:foundation-binary-lifting",
+        "lecture:5d088249ba6e27a509fe4c90",
+        "lecture:7990d92643ad917708eb9306"
+      ],
+      "intro": "每个位置都有唯一后继，要多次询问从 v 连续走 k 步后在哪里。逐步走要 O(k)，把 k 拆成二进制，就能拼接少量预处理好的跳跃。",
+      "invariant": "up[v][j] 表示从 v 出发走 2^j 步的终点。先走 2^(j-1) 步到 mid，再从 mid 走同样多的步数；不是直接把编号加上步长。",
+      "operations": [
+        [
+          "BinaryLifting(next)",
+          "预处理每个位置的 1、2、4、8…步后继。"
+        ],
+        [
+          "jump(v,k)",
+          "按 k 的置位逐段跳；k=0 返回 v 自己。"
+        ],
+        [
+          "树上祖先",
+          "根的后继可以设为自己；超过树深后仍停在根。LCA 还需要深度和共同祖先逻辑，使用独立 LCA 模板。"
+        ]
+      ],
+      "boundary": "编号 [0,n)，next 必须都在范围内；支持函数图、自环和 uint64_t 步数。预处理 O(64n)，查询 O(64)，空间 O(64n)。不对第 64 位做移位。",
+      "values": [
+        1,
+        2,
+        3,
+        4,
+        2
+      ],
+      "scripts": [
+        [
+          "jump",
+          0,
+          0
+        ],
+        [
+          "jump",
+          0,
+          1
+        ],
+        [
+          "jump",
+          0,
+          2
+        ],
+        [
+          "jump",
+          0,
+          7
+        ],
+        [
+          "jump",
+          4,
+          8
+        ]
+      ],
+      "bug": "后继 [1,2,0] 形成三元环。从 0 走 4 步应到 1；用 (v+k)%n 只在特别编号的环上碰巧正确，一般函数图不成立。",
+      "templateId": "builtin:binary-lifting",
+      "practiceIds": [],
+      "reasoning": "从 0 走 7 步不是把编号加 7，而是沿后继执行七次。把 7 写成 4+2+1：先用 up[0][2] 得到四步终点，再从这个新终点查两步后继，最后走一步。预处理 up[v][j] 必须先完成所有点的第 j-1 列，两个半段才都有定义。函数图可以进入环，但每一步仍有唯一后继，因此同一个拼接公式仍成立。",
+      "sections": [
+        {
+          "id": "lecture:foundation-binary-lifting",
+          "title": "倍增：把重复后继操作拼成二的幂次步长",
+          "markdown": "若每个状态都有唯一后继 next[u]，反复移动 t 步可以预先保存一、二、四、八……步的目的地。它适用于树的祖先、函数反复应用、跳转链等，不要求状态原本就是一棵树。\n\n定义 up[j][u] 为从 u 出发走 2^j 次后继到达的位置。基础 up[0][u]=next[u]；两段各 2^(j−1) 次组成 2^j 次，所以令 v=up[j−1][u]，有 up[j][u]=up[j−1][v]。先算小 j 再算大 j，第二段才有现成答案。\n\n例如链 1→2→3→4→5→0，走三步可拆成二加一：先从一用二步表到三，再用一步表到四。拆分的是移动次数，目的地必须沿上一次的结果继续，不能每次都从原起点查表。\n\n如果每移动一次有费用 w[u]，约定费用属于出发状态 u、不包含最终到达者，就可同步保存 cost[j][u]。拼接公式是 cost[j−1][u]+cost[j−1][v]；若错误地把中间点在两段都算一遍，就会重复收费。\n\n```cpp\n// 此例使用固定大小的一张后继表；零号状态表示终点。\nint next_node[6] = {0, 2, 3, 4, 5, 0};\nint up[3][6] = {};\nfor (int u = 0; u < 6; ++u) up[0][u] = next_node[u];\nfor (int j = 1; j < 3; ++j)\n    for (int u = 0; u < 6; ++u)\n        up[j][u] = up[j-1][up[j-1][u]];\nint u = 1, steps = 3;\nfor (int j = 0; j < 3; ++j)\n    if ((steps >> j) & 1) u = up[j][u];\n```\n\n以上代码结束时 u=4。所有表下标必须合法，终点零的后继也设为零；如果要求走精确 t 步，最大层数由 t 的位数决定，而非一律由状态数决定。无环且链长至多 n 时，按 n 的位数建表就够用。\n\n用预算找最长可走前缀时，常从大步长往小试跳，只有整段费用满足预算才接纳。这依赖费用非负等保证可行前缀具有单调性的条件，不能把任意带负费用的链也照搬。比较使用 `<` 还是 `<=` 由“恰好用完是否允许离开当前段”的题意决定。\n\nn 个状态、最大跳数 T 的预处理时间与空间均为 O(n log(T+1))，一次按位跳转为 O(log(T+1))。费用累加可能超过单步数值，应使用足够宽的整数类型。",
+          "images": {},
+          "sourceProblemIds": [
+            "luogu-training-P7167"
+          ]
+        },
+        {
+          "id": "lecture:5d088249ba6e27a509fe4c90",
+          "title": "倍增：按二进制位倍增",
+          "markdown": "# 倍增：按二进制位倍增\n\n## 题目中的问题\n\n求 $\\sum_{i=1}^n(ai+b)q^i\\bmod m$，其中 $n$ 以极长二进制串给出，模数不保证为素数。\n\n从高位读二进制数，每读一位 $c$，原前缀值 $p$ 就变成 $2p+c$。例如二进制一零一依次表示一、二、五。\n\n若答案可以从长度 $p$ 的状态常数时间扩展到 $2p$，再追加一项，就无须把巨大整数转成机器整数。本题只在乘法系数中使用 $p$，保存 $p\\bmod m$ 足够；幂 $q^p$ 则作为独立状态，通过平方和乘 $q$ 维护。\n\n## 用到这道题里\n\n维护 $A(p)=\\sum_{i=1}^p q^i$、$B(p)=\\sum_{i=1}^p iq^i$、$Q=q^p$ 和 $p\\bmod m$。从零开始逐位读入二进制数，先将长度翻倍：\n\n$$A(2p)=A(p)(1+Q),$$\n\n$$B(2p)=B(p)(1+Q)+pQA(p).$$\n\n第二个半段的指数比第一段多 $p$，所以乘 $Q$；下标也多 $p$，因此额外加上 $pQA(p)$。同时令 $Q\\leftarrow Q^2$、$p\\leftarrow2p$。若本位为一，再加入新的一项 $q^{p+1}$ 与 $(p+1)q^{p+1}$。\n\n最终输出 $aB(n)+bA(n)$。全程只有乘加与取模，无需除法，适用于任意给定模数。时间与二进制位数成正比，除输入串外仅需常数空间。\n",
+          "images": {},
+          "sourceProblemIds": [
+            "挑战赛 87::C"
+          ]
+        },
+        {
+          "id": "lecture:7990d92643ad917708eb9306",
+          "title": "倍增：在函数图上「倍增」跳",
+          "markdown": "# 倍增：在函数图上「倍增」跳\n\n## 题目中的问题\n\n增量规则与简单版相同，但询问数可达 $2\\times10^5$，需要预处理每个余数的链与环结构，快速判定起始数能否到达 $c$。\n\n倍增预处理“走 $2^k$ 步会到哪里”。设 $\\mathrm{up}[0][v]$ 为下一点，则 $\\mathrm{up}[k+1][v]=\\mathrm{up}[k][\\mathrm{up}[k][v]]$，因为两段 $2^k$ 步接起来就是 $2^{k+1}$ 步。\n\n例如想走十三步，可拆成八、四、一，查三次表即可。此题不必为每个查询重新穿过长链：从大步到小步尝试，利用到环剩余增量的单调性，快速定位目标之前的最后状态，再检查是否恰好命中。链长最多 $m$，所以只需 $O(\\log m)$ 层。\n\n## 用到这道题里\n\n给每个余数连向 $(r+a_r)\\bmod m$，找出全部环。对每点记录到环步数、到环总增量 $d_r$，并为环按方向记录累计增量 $P_j$、一圈总增量 $T$。\n\n询问先令 $D=c-x$。负数不可能，零直接成功。在进入环前，可达增量等于原 $d_r$ 减去当前点到环的剩余增量；沿链这个剩余量单调不增，用倍增定位它是否恰好等于 $d_r-D$。\n\n若进入环时 $X=x+d_r\\le c$，设进入的是环位置 $u$。从这里到各环点的累计增量模 $T$ 为 $P_j-P_u$，所以只需检查\n\n$$ (c-X+P_u)\\bmod T\\in\\{P_j\\bmod T\\}. $$\n\n右侧集合预先排序，二分查找。增量非负，圈内最小非负路程小于 $T$，目标差又非负；同余命中后总能多绕若干整圈凑出目标。零增量环单独按数值相等处理。\n\n预处理 $O(m\\log m)$，每问 $O(\\log m)$，空间 $O(m\\log m)$。\n",
+          "images": {},
+          "sourceProblemIds": [
+            "小白月赛 129::E"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dinic",
+      "title": "最大流与最小割",
+      "category": "图论",
+      "lectures": [
+        "lecture:foundation-max-flow"
+      ],
+      "intro": "有向边有容量上限。流从源点出发到汇点，中间点流入等于流出；要让总流量尽量大。一次选路可能挡住后续选择，必须允许撤回旧流。",
+      "invariant": "残量正向边表示还能增加多少流，反向边表示能撤回多少旧流。Dinic 先按正残量边 BFS 分层，再只沿下一层增广；不能把反向边删掉。",
+      "operations": [
+        [
+          "add_edge(u,v,cap)",
+          "加入有向容量边及初始为 0 的反向残量边。"
+        ],
+        [
+          "max_flow(s,t)",
+          "不断分层、增广，返回本次新增流量；第二次调用在已有残量上继续。"
+        ],
+        [
+          "source_side(s)",
+          "完整最大流结束后，正残量还能到达的点是一个最小割的源侧。"
+        ]
+      ],
+      "boundary": "顶点 [0,n)，容量非负且总流量须在 long long 范围内。支持平行边、自环。一般复杂度 O(V²E)，空间 O(V+E)；用显式路径避免深图递归。最小割结论需要完整最大流。",
+      "values": [
+        [
+          0,
+          1,
+          3
+        ],
+        [
+          0,
+          2,
+          2
+        ],
+        [
+          1,
+          2,
+          1
+        ],
+        [
+          1,
+          3,
+          2
+        ],
+        [
+          2,
+          3,
+          3
+        ]
+      ],
+      "scripts": [
+        [
+          "flow",
+          0,
+          3
+        ]
+      ],
+      "bug": "先选择的路径不必属于最终答案。增广时若只减正向容量而不增加反向容量，就无法取消已经不合适的旧分配。",
+      "templateId": "builtin:dinic",
+      "practiceIds": [],
+      "reasoning": "容量边 u→v 上送过 f 单位流后，还能正向增加 cap-f，并能沿反向 v→u 撤回 f；反向残量不是一条新建的原容量。增广路径的最小正残量是这次可增加的流量。Dinic 的 BFS 记录到源的最少残量边数，随后只沿层数加一的边找阻塞流，避免反复绕圈。再无增广路时，残量可达源侧的所有出边都饱和，当前流量等于这个割的容量。",
+      "sections": [
+        {
+          "id": "lecture:foundation-max-flow",
+          "title": "最大流、最小割与 Dinic：容量限制下怎样传递",
+          "markdown": "# 最大流、最小割与 Dinic：容量限制下怎样传递\n\n有向网络中，一条边最多通过它的容量那么多流量。源点S负责发出流量，汇点T负责接收；其余点流入量必须等于流出量。目标是让S到T的总流量最大。\n\n![五条边的容量网络，最大流与割容量均为五](assets/foundations/max-flow.svg)\n\n图中可先沿S→A→T送二，再沿S→B→T送二，最后沿S→A→B→T送一，总流量五。把S单独放在源侧，另外三点放在汇侧，跨过去的容量为3+2=5；任何流都要通过这个出口，所以五也是上界。\n\n这样的两侧划分称为割。只加从源侧指向汇侧的边容量，反方向不加。最大流最小割定理说明：最大可送流量，等于所有割中最小的容量。做二选一建模时，先让每种选择划分的割容量准确等于目标代价，再求最大流，就能得到最小代价。\n\n求流不能只贪心固定一次路径。已送出的流可能挡住更好的安排，所以维护残量网络：原边还可送“容量减已有流量”；每送出x，同时给反向边增加x的残量，允许后续撤销和改道。反向残量是调整旧流的工具，不是原问题凭空多了一条道路。\n\nDinic重复两步：\n\n1. 在正残量边上从S做BFS，level记录最少边数。若T不可达，结束。\n2. 用DFS只沿level增加一的边送流，直到当前层次图中再无增广路。当前弧指针cur[u]跳过已证明不能继续送流的出边；下一轮BFS后才重置这些指针。\n\nDFS送出x后，同时减少正向残量、增加反向残量。邻接表中常把一对正反边连续存放，边号id的反边就是id^1。若按顶点分开存，则每条边保存反向边在对方邻接表中的下标rev，不能把两种存储方式混用。\n\n当T在残量网络中不可达时，从S仍可达的点组成源侧。流量已填满这个割的全部出边，而且没有反向流跨回，故当前流量等于该割容量；任何其他流又不可能超过割容量，证明当前流已最大。\n\n一般有V个点、E条边时，Dinic通用时间上界为O(V²E)，空间O(V+E)。单位容量等特殊网络可以有更强的界，但普通整数容量网络不能直接套用。容量与总流量用能容纳总和的整数类型，不能只按单条边最大容量选类型。\n",
+          "images": {
+            "assets/foundations/max-flow.svg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3MjAiIGhlaWdodD0iMzMwIiB2aWV3Qm94PSIwIDAgNzIwIDMzMCI+PHJlY3Qgd2lkdGg9IjcyMCIgaGVpZ2h0PSIzMzAiIGZpbGw9IndoaXRlIi8+PGcgc3Ryb2tlPSIjMjU2M2ViIiBzdHJva2Utd2lkdGg9IjMiIGZpbGw9Im5vbmUiPjxwYXRoIGQ9Ik0xMTAgMTU1TDI4NSA3ME0xMTAgMTY1TDI4NSAyNTBNMzI1IDcwTDUxMCAxNTVNMzI1IDI1MEw1MTAgMTY1TTMwNSAxMDBWMjIwIi8+PC9nPjxnIGZpbGw9IiMyNTYzZWIiPjxwYXRoIGQ9Ik0yODUgNzBsLTE1IDAgNiAxMnpNMjg1IDI1MGwtMTUgMCA2LTEyek01MTAgMTU1bC0xNSAwIDYtMTJ6TTUxMCAxNjVsLTE1IDAgNiAxMnpNMzA1IDIyMGwtNy0xNGgxNHoiLz48L2c+PGcgZmlsbD0iI2VmZjZmZiIgc3Ryb2tlPSIjNjQ3NDhiIj48Y2lyY2xlIGN4PSI5MCIgY3k9IjE2MCIgcj0iMjciLz48Y2lyY2xlIGN4PSIzMDUiIGN5PSI2MCIgcj0iMjciLz48Y2lyY2xlIGN4PSIzMDUiIGN5PSIyNjAiIHI9IjI3Ii8+PGNpcmNsZSBjeD0iNTM1IiBjeT0iMTYwIiByPSIyNyIvPjwvZz48ZyBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMSIgZmlsbD0iIzE3MjAzMyI+PHRleHQgeD0iODEiIHk9IjE2OCI+UzwvdGV4dD48dGV4dCB4PSIyOTciIHk9IjY4Ij5BPC90ZXh0Pjx0ZXh0IHg9IjI5NyIgeT0iMjY4Ij5CPC90ZXh0Pjx0ZXh0IHg9IjUyNyIgeT0iMTY4Ij5UPC90ZXh0Pjx0ZXh0IHg9IjE3NSIgeT0iOTUiPjM8L3RleHQ+PHRleHQgeD0iMTc1IiB5PSIyNDAiPjI8L3RleHQ+PHRleHQgeD0iNDI1IiB5PSI5NSI+MjwvdGV4dD48dGV4dCB4PSI0MjUiIHk9IjI0MCI+MzwvdGV4dD48dGV4dCB4PSIzMjIiIHk9IjE3MCI+MTwvdGV4dD48dGV4dCB4PSIzMiIgeT0iMzE0IiBmb250LXNpemU9IjE5Ij7libIge1N9IOeahOWHuui+ueWuuemHjyAzKzI9Ne+8m+S4ieadoei3r+e6v+mAgeWHuiAyKzIrMT0144CCPC90ZXh0PjwvZz48L3N2Zz4K"
+          },
+          "sourceProblemIds": [
+            "lanqiao:2014:国:::P8619"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "li-chao",
+      "title": "Li Chao 树",
+      "category": "数据结构",
+      "lectures": [
+        "lecture:foundation-li-chao"
+      ],
+      "intro": "不断加入直线 y=kx+b，又要在指定横坐标上询问所有已加入直线的最小值。不同直线在不同位置可能更优，不能只保留全局斜率最小的一条。",
+      "invariant": "一个结点保存其横坐标中点处更优的线。两条直线至多相交一次；中点落败的线至多在一侧重新胜出，把它递归送往那一侧即可。",
+      "operations": [
+        [
+          "LiChao(coordinates)",
+          "先登记全部会查询的横坐标，排序去重后构建离散域。"
+        ],
+        [
+          "add({k,b})",
+          "加入整条直线，按中点比较决定留下谁、向哪一侧递归。"
+        ],
+        [
+          "query(x)",
+          "沿 x 所属路径比较各结点的候选；尚无直线或 x 未登记时返回空值。"
+        ]
+      ],
+      "boundary": "插入和查询 O(log m)，m 为不同查询坐标个数，空间 O(m)。系数和坐标是 long long，求值用 __int128 避免乘法溢出；当前模板处理整条直线，线段插入需另写覆盖逻辑。",
+      "values": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "scripts": [
+        [
+          "line",
+          2,
+          1
+        ],
+        [
+          "query",
+          1
+        ],
+        [
+          "line",
+          -1,
+          7
+        ],
+        [
+          "query",
+          1
+        ],
+        [
+          "query",
+          4
+        ],
+        [
+          "line",
+          0,
+          2
+        ],
+        [
+          "query",
+          3
+        ]
+      ],
+      "bug": "y=2x+1 与 y=-x+7 在 x=0 时前者更小，在 x=4 时后者更小。只比较左端点并永久丢掉另一条，会漏掉右侧答案。",
+      "templateId": "builtin:li-chao",
+      "practiceIds": [],
+      "reasoning": "例如 y=2x+1 与 y=-x+7：在 x=0 时分别为 1、7，在 x=4 时分别为 9、3。它们的差仍是一条直线，至多变号一次。插入时让中点更优的线留下；另一条若在左端与中点的胜负不同，就只可能在左半边再有用，否则只需考察右半边。查询沿横坐标的树路径取最小值，因为每次被下放的候选只可能在该分支获胜。",
+      "sections": [
+        {
+          "id": "lecture:foundation-li-chao",
+          "title": "Li Chao 树：插入直线并查询某个横坐标的最优值",
+          "markdown": "# Li Chao 树：插入直线并查询某个横坐标的最优值\n\n陆续出现直线y=kx+b，查询给定x时所有直线的最小值或最大值。直接逐条试需要O(直线数)，Li Chao树利用“两条直线最多相交一次”，把单次插入与查询降到对数时间；它不要求斜率或查询顺序单调。\n\n先固定查询横坐标范围。如果只会查询一组已知坐标X，可以排序去重，在线段树的下标范围上建树；比较直线时使用实际X[mid]，不能使用压缩后的下标代替横坐标。\n\n每个节点负责一段横坐标，存一条候选直线。以下讨论求最大值：插入新线时，在区间中点比较新旧两线，较优者留在当前节点，较差者记作loser。由于差值是一次函数，loser只可能在中点的一侧变好：若它在左端更优，递归左半；否则若它在右端更优，递归右半；两端均不优则丢弃。到叶子就停止。求最小值时反转比较方向。\n\n![两条实际直线在横坐标三处比较，败线只需进入右半](assets/foundations/li-chao.svg)\n\n例如y=2x+1与y=−x+10，查询坐标0、2、4。在中点2，后者为8，大于前者5，所以保留后者。前者在左端0更差，但在右端4达到9，大于后者6，因此只向右半递归。这不是丢掉前者，它仍可能回答右侧的查询。\n\n查询x时，沿对应根到叶路径走，把沿途所有候选线在x处的值取最优。插入过程中每次留下的线能负责中点及败线未递归的一侧；败线若还能获胜，已交给对应孩子。归纳可知所有可能影响x的直线都由这条查询路径上的某条候选覆盖。\n\n相同斜率时，求最大值只需保留截距更大的一条，求最小值保留更小的一条。初始化空节点时应记录“没有直线”，或使用经过范围证明的无穷哨兵；任意设为零会误答全部负值或全部正值的查询。\n\n树高O(log|X|)，每次插入最多走一个孩子，查询也只走一个孩子，因此二者都是O(log|X|)。完整静态树空间O(|X|)。数值范围上的动态树每次插入最多新建一条路径，其空间上界应按插入次数乘树高计算。kx+b与交叉比较可能溢出64位时，应在乘法前转为__int128。\n",
+          "images": {
+            "assets/foundations/li-chao.svg": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3MjAiIGhlaWdodD0iMzMwIiB2aWV3Qm94PSIwIDAgNzIwIDMzMCI+PHJlY3Qgd2lkdGg9IjcyMCIgaGVpZ2h0PSIzMzAiIGZpbGw9IndoaXRlIi8+PHBhdGggZD0iTTY1IDM1VjI3MEg0MzAiIHN0cm9rZT0iIzY0NzQ4YiIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTc1IDI1MEwzOTUgOTAiIHN0cm9rZT0iIzI1NjNlYiIgc3Ryb2tlLXdpZHRoPSIzIi8+PHBhdGggZD0iTTc1IDcwTDM5NSAxNTAiIHN0cm9rZT0iIzE2YTM0YSIgc3Ryb2tlLXdpZHRoPSIzIi8+PHBhdGggZD0iTTIzNSAzNVYyNzAiIHN0cm9rZT0iIzk0YTNiOCIgc3Ryb2tlLWRhc2hhcnJheT0iNSA1Ii8+PGcgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZpbGw9IiMxNzIwMzMiIGZvbnQtc2l6ZT0iMTgiPjx0ZXh0IHg9IjY1IiB5PSIyOTUiPng9MDwvdGV4dD48dGV4dCB4PSIyMTUiIHk9IjI5NSI+eD0yPC90ZXh0Pjx0ZXh0IHg9IjM3NSIgeT0iMjk1Ij54PTQ8L3RleHQ+PHRleHQgeD0iNDU1IiB5PSI3MCI+6JOd57q/77yaMngrMTwvdGV4dD48dGV4dCB4PSI0NTUiIHk9IjExMCI+57u/57q/77ya4oiSeCsxMDwvdGV4dD48dGV4dCB4PSI0NTUiIHk9IjE2NSI+5Lit54K577yaNSAmbHQ7IDg8L3RleHQ+PHRleHQgeD0iNDU1IiB5PSIyMDUiPuWPs+err++8mjkgJmd0OyA2PC90ZXh0Pjx0ZXh0IHg9IjQ1NSIgeT0iMjUwIj7ok53nur/lj6rpgJLlvZLlj7PljYo8L3RleHQ+PHRleHQgeD0iMjgiIHk9IjMxNSIgZm9udC1zaXplPSIxNiI+57q15Z2Q5qCH5ZCR5LiK77yb5Zu+5Lit5LiJ5aSE5YC85YiG5Yir5Li66JOd57q/IDEsNSw577yM57u/57q/IDEwLDgsNuOAgjwvdGV4dD48L2c+PC9zdmc+Cg=="
+          },
+          "sourceProblemIds": [
+            "lanqiao:2015:国:::P8632"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "linear-basis",
+      "title": "线性基",
+      "category": "数学",
+      "lectures": [],
+      "intro": "给出若干非负整数，每个下标选或不选一次，求子集异或能得到什么。以 [6,5,3] 为例，6 XOR 5=3；第三个数并没有带来新的结果。",
+      "invariant": "p[i] 的最高 1 位固定为 i。插入 x 时从最高位往下看：已有主元就异或消掉这一位；遇到空主元就保存剩余数；消成 0 表示它已能由已有数表示。替换只改变生成方式，不改变全部可表示的异或值。",
+      "operations": [
+        [
+          "insert(x)",
+          "加入一个数；返回是否增加独立方向，插入 0 或重复信息不会增加 rank。"
+        ],
+        [
+          "contains(x)",
+          "沿同样的主元消元，最终为 0 才可表示。"
+        ],
+        [
+          "max_xor(seed) / min_xor(seed)",
+          "从高位向低位尝试改善答案；更低主元不再改变已经决定的高位。seed 默认是 0，允许空子集。"
+        ],
+        [
+          "merge(other)",
+          "把另一份基的主元插入当前基；这是生成空间的合并，不是支持删除的集合。"
+        ],
+        [
+          "kth(k)",
+          "不同异或结果排序后第 k 个，从 0 开始，包含 0。先清除其它主元位，才能把编号的二进制对应到排序。"
+        ],
+        [
+          "min_nonzero()",
+          "返回最小非零可表示值；只有 0 可表示时返回空值。"
+        ]
+      ],
+      "boundary": "全程 uint64_t，覆盖第 63 位；插入/表示性/最值 O(64)，合并/第 k 小 O(64²)，空间 O(64)。rank=r 时有 2^r 个不同结果；原输入 n 项时每个可达结果有 2^(n-r) 组下标方案。非空异或为 0 当且仅当 n>r。不能把“不同结果数”当作“方案数”。",
+      "values": [
+        "6",
+        "5",
+        "3"
+      ],
+      "scripts": [],
+      "bug": "只把原数从大到小各尝试一次不成立。[12,10,9] 会先取 12 并拒绝 10、9，得到 12；真正最大值是 12 XOR 10 XOR 9=15。先消元后再贪心。",
+      "templateId": "builtin:linear-basis",
+      "practiceIds": [],
+      "reasoning": "先看二进制，并把最高位对齐：\n\n| 当前原数 | 二进制 | 处理 |\n| --- | --- | --- |\n| 6 | 110 | 第 2 位还没有主元，保存 p[2]=6 |\n| 5 | 101 | 与 110 异或得到 011，保存 p[1]=3 |\n| 3 | 011 | 与 p[1] 异或得到 000，不新增方向 |\n\n为什么消元不丢信息？设已有主元为 b，把新数 x 换成 x XOR b。新数能由 x 与 b 产生，原数也能由新数与 b 还原，因此两组能产生的全部异或值完全相同。消成 0 时，这个方向已经包含在旧集合里。\n\n为什么这些主元彼此独立？任选非空的一组主元，看其中最高的主元位。只有这一行在该位为 1，其它行的最高位更低，无法抵消它。因此非空主元组合不可能为 0；这也解释了从高位开始的查询为什么不会被低位破坏。",
+      "sections": []
+    }
+  ]
+}

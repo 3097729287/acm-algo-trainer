@@ -1,0 +1,29 @@
+.operations-experiment {line-height:1.8}
+.operations-controls,.operations-input,.operations-predict {display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+.operations-input {margin:16px 0}
+.operations-input label,.operations-predict label {display:flex;align-items:center;flex-wrap:wrap;gap:9px;min-width:0}
+.operations-input input {width:min(400px,100%);max-width:100%;min-width:0}
+.operations-predict {margin:20px 0 10px}
+.operations-predict input {width:110px;max-width:100%}
+.operations-table {overflow:auto;max-width:100%;margin:16px 0}
+.operations-table table {border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+.operations-table :is(td,th) {padding:8px 12px;border:1px solid var(--line);text-align:left;white-space:nowrap}
+.operations-table [data-active=true] {background:var(--accent-soft);color:var(--accent)}
+.operations-table code {font-size:.88em}
+.operations-experiment details {margin:16px 0}
+.operations-experiment summary {cursor:pointer;color:var(--accent)}
+.operations-lines {width:100%;max-height:280px;overflow:hidden}
+.operations-lines line {stroke:var(--muted)}
+.operations-lines polyline {stroke:var(--blue);stroke-width:2;fill:none}
+.operations-lines .line-1 {stroke:var(--warning)}
+.operations-lines .line-2 {stroke:var(--accent)}
+.operations-lines circle {fill:var(--accent)}
+.operations-lines text {fill:var(--text);text-anchor:middle}
+.operations-reading {min-width:0;line-height:1.85}
+.operations-reading details {border-top:1px solid var(--line);padding:14px 0}
+.operations-reading summary {cursor:pointer;color:var(--accent)}
+.operations-reading .markdown {overflow-wrap:anywhere}
+.operations-practice textarea {width:100%;box-sizing:border-box;resize:vertical;min-height:90px}
+.operations-practice .lab-feedback {margin-bottom:15px}
+.operations-links {display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+@media(max-width:600px){.operations-experiment{padding:16px}.operations-input label{width:100%}.operations-input input{flex:1;min-width:80px}.operations-table :is(td,th){padding:7px}}

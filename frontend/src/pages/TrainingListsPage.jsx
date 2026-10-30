@@ -1,3 +1,4 @@
+import CatalogName from '@/components/CatalogName.jsx';
 import {ProblemCells,ProblemTableHead} from '@/components/ProblemTableParts.jsx';
 import PagePagination from '@/components/PagePagination.jsx';
 import {useFittedPageSize} from '@/lib/useFittedPageSize.js';
@@ -166,9 +167,9 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
     <div className="training-list-directory"><nav className="catalog-path training-list-path" aria-label="题单浏览路径">
       <button type="button" data-folder-up aria-label="返回上一级文件夹" title="返回上一级 · Backspace" disabled={!canBack} onClick={back}><ChevronLeft size={17}/></button>
       <button aria-label="全部题单" onClick={() => patch({ folder: [], trail: [], sections: [], flat: false, query: '' })}><House size={16}/></button>
-      {state.folder.map((part, i) => <span key={part}><ChevronRight size={13}/><button onClick={() => patch({ folder: state.folder.slice(0, i + 1), trail: [], sections: [], flat: false, query: '' })}>{state.mode === 'source' ? index.categories.find(c => c.id === part)?.name || part : part}</button></span>)}
-      {state.trail.map((id, i) => <span key={id}><ChevronRight size={13}/><button onClick={() => patch({ trail: state.trail.slice(0, i + 1), sections: [], flat: false, query: '' })}>{index.byList.get(id)?.displayTitle || '题单'}</button></span>)}
-      {state.sections.map((part, i) => <span key={i}><ChevronRight size={13}/><button onClick={() => patch({ sections: state.sections.slice(0, i + 1), flat: false })}>{part}</button></span>)}
+      {state.folder.map((part, i) => <span key={part}><ChevronRight size={13}/><button onClick={() => patch({ folder: state.folder.slice(0, i + 1), trail: [], sections: [], flat: false, query: '' })}><CatalogName>{state.mode === 'source' ? index.categories.find(c => c.id === part)?.name || part : part}</CatalogName></button></span>)}
+      {state.trail.map((id, i) => <span key={id}><ChevronRight size={13}/><button onClick={() => patch({ trail: state.trail.slice(0, i + 1), sections: [], flat: false, query: '' })}><CatalogName>{index.byList.get(id)?.displayTitle || '题单'}</CatalogName></button></span>)}
+      {state.sections.map((part, i) => <span key={i}><ChevronRight size={13}/><button onClick={() => patch({ sections: state.sections.slice(0, i + 1), flat: false })}><CatalogName>{part}</CatalogName></button></span>)}
       {state.flat && <span aria-current="page">全部题目</span>}
     </nav>
     {active?.custom&&<div className="training-list-tools"><button type="button" className="icon-button" aria-label="编辑题单" title="编辑题单" onClick={()=>setEditor({...active,problems:index.own.get(active.id)})}><Pencil size={15}/></button><button type="button" className="icon-button" aria-label="删除题单" title="删除题单" onClick={event=>confirmDelete(event,active)}><Trash2 size={15}/></button></div>}
@@ -181,11 +182,11 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
         if(allEntry)return <button key="all" className="catalog-folder-row" onClick={() => patch({ flat: true, sections: [] })}><FileText size={20}/><strong>全部题目</strong><span>{all.length} 题</span><ChevronRight size={16}/></button>;
         const stats = list ? index.stats([list.id]) : folder?.stats;
         if(leaf(list))return <article className="training-list-card" key={list.id} data-list-id={list.id} onContextMenu={list.custom?event=>confirmDelete(event,list):undefined}>
-          <button className="training-card-open" onClick={()=>open(list)} aria-label={`打开题单：${cardTitle(list)}`}><div><strong>{cardTitle(list)}</strong></div><span className="training-card-progress" aria-label={`已通过 ${stats.accepted} / ${stats.total} 题`}><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="28"/><circle cx="32" cy="32" r="28" pathLength="100" strokeDasharray={`${stats.total?stats.accepted/stats.total*100:0} 100`}/></svg><b>{stats.accepted}<small> / {stats.total}</small></b></span></button>
+          <button className="training-card-open" onClick={()=>open(list)} aria-label={`打开题单：${cardTitle(list)}`}><div><strong><CatalogName>{cardTitle(list)}</CatalogName></strong></div><span className="training-card-progress" aria-label={`已通过 ${stats.accepted} / ${stats.total} 题`}><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="28"/><circle cx="32" cy="32" r="28" pathLength="100" strokeDasharray={`${stats.total?stats.accepted/stats.total*100:0} 100`}/></svg><b>{stats.accepted}<small> / {stats.total}</small></b></span></button>
           {list.custom&&<div className="training-card-actions"><button type="button" className="icon-button" aria-label={'删除题单：'+list.title} title="删除题单" onClick={event=>confirmDelete(event,list)}><Trash2 size={16}/></button></div>}
         </article>;
         return <button className="catalog-folder-row" key={folder ? 'folder:' + folder.id : list.id} onClick={folder ? folder.action : () => open(list)}>
-          <Folder size={20}/><strong title={list?.originalTitle}>{folder?.title || list.displayTitle}{list && (list.sourceLabel || search) && <small>{[list.sourceLabel,search ? list.topicPath.join(' / ') : ''].filter(Boolean).join(' · ')}</small>}</strong>
+          <Folder size={20}/><strong title={list?.originalTitle}><CatalogName>{folder?.title || list.displayTitle}</CatalogName>{list && (list.sourceLabel || search) && <small>{[list.sourceLabel,search ? list.topicPath.join(' / ') : ''].filter(Boolean).join(' · ')}</small>}</strong>
           {stats&&<span className="training-folder-progress" role="progressbar" aria-label={`${folder?.title||list.displayTitle} 已 AC / 总题数`} aria-valuemin={0} aria-valuemax={Math.max(1,stats.total)} aria-valuenow={stats.accepted} aria-valuetext={`${stats.accepted} / ${stats.total}`}><span className="training-folder-progress-track"><span style={{width:`${stats.total?stats.accepted/stats.total*100:0}%`}}/></span><span className="training-folder-progress-count">{stats.accepted} / {stats.total}</span></span>}
           <span>{folder ? `${folder.count} ${folder.unit || '题'}` : list.available ? `${stats.accepted} / ${stats.total} 题` : '暂不可用'}</span><ChevronRight size={16}/>
         </button>;

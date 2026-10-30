@@ -1,0 +1,245 @@
+{
+  "sourceCommit": "83079d8b1c9aee211bba6daa6304a329f5d44332",
+  "templates": [
+    {
+      "id": "builtin:dsu",
+      "fields": {
+        "code": "c5824a935cf3f6caaf88adf7855f15f901507c8a3f99c883d7d8f7e7a156de89",
+        "contestCode": "c8ba13b980ae3f516b0dbf410337fbbcc41a6418051afa3e6b37c8ba4fccdb00",
+        "example": "f6857d8b4d61f854451f0dede79d01c74e298a046d2843a2c295e7679448fb5e",
+        "contestExample": "74500c7740159c27f7c5f5338b76b6aa3cb9f531444233feddd9e42db26dcce0",
+        "practiceIds": "683036d8fee0ed77df5e2a38fa96d5b19ad10eb1014a763924dbc0bbdda0929c"
+      }
+    },
+    {
+      "id": "builtin:dijkstra",
+      "fields": {
+        "code": "0b55c1e18cc743ae6ca03ac17483d0bd98690bb63278e3525aaed3be75312ca6",
+        "contestCode": "70f6901e2f0bf21897f66d15d7c41d952fb59163f092c79c8580194e4993e8e2",
+        "example": "3fe749c4a01debb5bfc7acfabc6a92f8231e0b706eb959e5b617aa45f02db681",
+        "contestExample": "eae0c2f5aa5f0f71afad34da6dc2238729b2530870f29190752619ba59bd3019",
+        "practiceIds": "827f1d5bda9a986b9c0728387d7ecb88071eb4ed2bf2cbfe49a9bcaef4f3a8bf"
+      }
+    },
+    {
+      "id": "builtin:kruskal",
+      "fields": {
+        "code": "078fdaaf4d73a8eb10b12a7c2fd4f325a0d47460100d91a90ed36abeb073ae22",
+        "contestCode": "c0b0db11b92a986260bc5aa03acc08bb5f9d11199d241cca12cce40579bdf460",
+        "example": "fc09984c1ef2b1bb6fd6a4862089f4c99c14b50a43b31b4919bf8b2ccc098fe2",
+        "contestExample": "412e07f1f36b1af044cd7f12c5857502789248fd0ab6f764394c8c330bdc28db",
+        "practiceIds": "d2f1af1286e01b7bf117777c094b0f8b26cb065193db8713e43e50d2de8813f2"
+      }
+    },
+    {
+      "id": "builtin:bfs",
+      "fields": {
+        "code": "7fa3e1ed8fa72b7e9bd1625bf90e4d5c66ad0314f920f3fdf483ff05afcf9180",
+        "contestCode": "3365669429f7aea17ab8a730d927acb7d03ab42691731428def32dbff089f3da",
+        "example": "0ee4acd7aeffbb63a238df4ef70e02740a6c63176505f09a40f59661bca0c414",
+        "contestExample": "574489a21bb995db504e7a78c2aa773e9df4bbdd8ed2e211464b899c1e95225e",
+        "practiceIds": "d596630d342f0bf6f0f0a1d2a597b1293aeb49089b38b50fb1208faccaf0327d"
+      }
+    },
+    {
+      "id": "builtin:zero-one-bfs",
+      "fields": {
+        "code": "d61ba88d4e11daa0bc2cdb3eeed039da2c47a49e71058ffb46b584d245e7b0f9",
+        "contestCode": "59bab311df4a08392e9c717b4ecd2dff3d9cdf1ec088c56ac5b9cd46dd410dbb",
+        "example": "6bdf1de6602df946c8fb00c57c77e4047a64d41d3dbaf34bd1b00f22314a261d",
+        "contestExample": "b67b262ec5497d00e7727293a5e91561e55a7be1eaa7adc2969bdc478f138e84",
+        "practiceIds": "d8437d35bb2695639f26414f0d653d1ec2aa401a8de07fb730c6d3e34866b35c"
+      }
+    },
+    {
+      "id": "builtin:bellman-ford",
+      "fields": {
+        "code": "d0d7931ba360f19cf2f24157180030518f0469d987e1f1140968e609a8d04739",
+        "contestCode": "76da50c2c651d61efa42e02dff17f4a23027414714558ed9cfc73cb21d628d61",
+        "example": "f05b24ceaae8e826bf25702be3a4d9bda5ea107cfc12ed156e82f0fc1153a072",
+        "contestExample": "c5ad132ff48da7e80ad2901ec01c38daa675c8eead35ea5aa0de2a410c9549fb",
+        "practiceIds": "db4a440c16536becf04b12198c1b45875136d86d333eace778d5dfb625a8376e"
+      }
+    },
+    {
+      "id": "builtin:topological",
+      "fields": {
+        "code": "85eeabd770b66a0cd0a853cbf059632c78cce330bf5ed60592ee3180c1a5f41e",
+        "contestCode": "8b82895ea54671668ca68097225fc90e9687f25ea3d18248f0092c14872f7132",
+        "example": "31cbbe0a8124a3515a718924f3668ae9b80345ef034768a39cc662baa76306c8",
+        "contestExample": "fd1a3ec3d19ee1c57895f10c6b1bd014b97243f61cce6eb029dad455107d78a0",
+        "practiceIds": "7b4676b881add3674d63a3991ec36c246962ff2f4c77a97eb0a8c8e23df1d116"
+      }
+    },
+    {
+      "id": "builtin:scc",
+      "fields": {
+        "code": "3c49cc0bdeccb4baa90b45c9eb7afea3844bf8b116b1a50ed46a44ea97a3be8f",
+        "contestCode": "c4d3ba70d01233855c0712bbdb6b2b92990768a878288f7a5695415e74e81aa0",
+        "example": "dc51e93a0c2c7c8a66f7089a22aab7cab7a3a041f8d9b08616dee15c982962cb",
+        "contestExample": "aa986bfa8c249384193a5e6b5bdb5cc2fb5b917f566dd6c5f0670a307f3a361b",
+        "practiceIds": "f71bbebac8ae155efa32673577a44f79079921eb13f40e2252ed9274886eb966"
+      }
+    },
+    {
+      "id": "builtin:lca",
+      "fields": {
+        "code": "469ffcbb4c12d55f4f9b5ab846238f4acc83c3b83b6b812bfcc6b6fa612fc950",
+        "contestCode": "6bbf007378f3e4fa33d77754caebf852baabaae673de6a12c4191168bb882b5d",
+        "example": "1c3ded8470d521e8423afb45d7633ae83093401dcea3503f362ce90e929948f6",
+        "contestExample": "376ec4cd55c36bd61e646c7fd205e2d246cf21b5b9ecae631f63550c55fa8543",
+        "practiceIds": "9b397c51c7123fe19fc3aef41b4d1da43c17b1c682b1dab3ecc0a1cdaeaa0449"
+      }
+    },
+    {
+      "id": "builtin:fenwick",
+      "fields": {
+        "code": "45c1f50321812d542693c52ca9eac89b097437a0adaa671705737820752ea02c",
+        "contestCode": "2d46d2132d26997a6fc43e169beba35a97c55384439ea65a79e1086e32071f41",
+        "example": "b4e62466e1aba512f09b905665c99887c61154f9b928db9a47635dc2bd18a38b",
+        "contestExample": "c8cf87f9cf1066e9f8553800b788e529d6d753bee075baa39c06ee00f2c6b73f",
+        "practiceIds": "1d2077e0e309405dceec72c6563f825254615b20ad508203a96e48bc6d54cc92"
+      }
+    },
+    {
+      "id": "builtin:segment-tree",
+      "fields": {
+        "code": "4deae2813ec2f2a774f62090796eb06a84af5fbd449dca6a352e1af918bd3074",
+        "contestCode": "990c1facf28c26ecc54189102633d9fcb6ecd2e62d8a2027feaef67270513d4a",
+        "example": "1663423ce875287624cf6fa7cfc9c515d4adec169ce8c8523b9945ba742f629d",
+        "contestExample": "b31b7e777464e76ce5f02d11d4f6f8a391afd0d42634fac6634bb1b949cd1d7c",
+        "practiceIds": "7400cc29faa5e0914d0799abdc99ba28aa401209a748d8e6c2133fc81098fdfd"
+      }
+    },
+    {
+      "id": "builtin:sparse-table",
+      "fields": {
+        "code": "27c8d7f022950d2cb341ca272e5ca2fe4c92b426d131fefd9aa3625c11663ca2",
+        "contestCode": "89be086602ff1398d1ad8d61d52993bf8b2ec1c9a05f03f12ddb5408af375903",
+        "example": "8950295ed0f67724bf6806e259ca9e70cd664b156768ce3c303b70f14ea9a5ee",
+        "contestExample": "fa6fbd92055b68caf3aa5a25147443929947c715e9f4a9a38a7d43d366a18357",
+        "practiceIds": "ae40469e6d405081acad1c07573b7cbe7298382649b31bd0d2d37e53fae91060"
+      }
+    },
+    {
+      "id": "builtin:compression",
+      "fields": {
+        "code": "39703b139b7efa857b8152981d5c11493d98bf1ef11395c5b067a9fd45ff438d",
+        "contestCode": "22ec762261e2f49b670417ecdceb90f234a71781b7a1049f3c36c2a042c2878a",
+        "example": "cc91eb54827156aff9467c8eaa91be7bb86df4eddddfab52c626e705ed435c9a",
+        "contestExample": "1e112e0ccc69e2f5113f60e58be87523531a727b670ade09c6c12de4e578ec65",
+        "practiceIds": "bd17cc3ade0187a2fb05a7d3a4fc32149820c6bd88576eec333d4009cc331baf"
+      }
+    },
+    {
+      "id": "builtin:prefix-difference",
+      "fields": {
+        "code": "a39d5450caa5f91f9ed30b2f6299b1ad56506aa573727fd50fbabf7f650bc97f",
+        "contestCode": "fdd37670ec3be254913573d8ed7b1e68f9d3df90d6f944676cc045f84e8d987b",
+        "example": "3707a8995f28f2f622778187065c9afca048d8daf5f245b95f6b8abcd1c5775a",
+        "contestExample": "3e92cc21d7bc0f5d6408b16ebe3411fcb5c0691d9bdfecabb24829c0a05abef0",
+        "practiceIds": "95b84bd16d3f360a7b87df241a858872c17131f1cc4965bad1600c5b47f75382"
+      }
+    },
+    {
+      "id": "builtin:window-extrema",
+      "fields": {
+        "code": "8963b3938f472217046726360f52e18e408f9da0a5eb711d753e43ee91621fbe",
+        "contestCode": "65195b52d4747522f97ec2fbe060d438cf4cc6c24f6a0004faeafe10b0d50937",
+        "example": "9127ef324e45d987e98ab059191b0febf38da81fc6b1595c587051f2429bb154",
+        "contestExample": "443c5b0a4a00cde9235f197f33e45dc34854308f86425a4132f12585d4a17b0b",
+        "practiceIds": "b91f97c95d1fd57a102331bee8a68d3fa96a755ad19aa88bcd55e6e777c5dd42"
+      }
+    },
+    {
+      "id": "builtin:binary-search",
+      "fields": {
+        "code": "f16055248d903db95bb37bc8b2dbc74d96bd7c3c56b17c9bf3f5c48dcad92c13",
+        "contestCode": "70783c36ca3eb62ad4ec64f8b563bf0d92e51c8f562a6e053f1b356109363664",
+        "example": "b9c80754cbff57a8546b0dbd944b5949646a36ebc72247c805fc279e06b45def",
+        "contestExample": "527ae8d52060d9ce01a8aef612050108b944eb8d5733f3370b88e37cc723f17b",
+        "practiceIds": "9ade9b80936436244e28c8eb5b90213833f00f51d4a834ef150c5ad9ba7e1174"
+      }
+    },
+    {
+      "id": "builtin:kmp",
+      "fields": {
+        "code": "e5195b162dc931ef7101816bbc50caf547bc13e003123e7c992b0a4a123d89fe",
+        "contestCode": "a33618a516c777147200fd6c85bbccbb02adf3bbe7b18e1e0ac9cd0e73b3458a",
+        "example": "815c36c3279e35e031a1737317e573ff89da17d09cedb57cebc2ced24313c77d",
+        "contestExample": "7ae8b38fee447a42e7abdf3deb64d0c6609708c2298d264e400cb4d8bdc427f5",
+        "practiceIds": "cbaf6389460550eceb7b47d939d6fc65249d5672dc72e1a35b2e3ba1cd0f38b6"
+      }
+    },
+    {
+      "id": "builtin:z-function",
+      "fields": {
+        "code": "292b15c57fc54ba004b0e55f4a8fd29a4487d2fe5aa175d9144ff97ab8f73749",
+        "contestCode": "9279554aec0b54a045e1bb44f050958900238c58ff74ed06ace42088114774fd",
+        "example": "bdb59a3f092e973ff3fc7e4d47a414ef8861652ff28fd506687354c583bca661",
+        "contestExample": "faf13a44c1ce4219230ebb744702c5622fdc8bdac59af772a466102b13b712ad",
+        "practiceIds": "ec3103d722e522bec36846de9b2fa4f2d9a4c298707b62b0eeb79decf9f34b25"
+      }
+    },
+    {
+      "id": "builtin:trie",
+      "fields": {
+        "code": "a51cf88772a89eb8b1ecc1341d04f93fe060359eabd560d5a4dcd2d52dbbdf55",
+        "contestCode": "8207b327910b4f43b8ffd4b797e8f93d5c7b08a8b2897289c1802236b04270d5",
+        "example": "da62bf7f8b7c2e40bc93e8bfd036ea9d55b7504b1967a48d212dc421c1252e6f",
+        "contestExample": "8ad2c262359756a51c48ca4daaeddf0ea5abb97b1eff4d15f99b5688ac50696c",
+        "practiceIds": "eebd4ba20b8e10eda9dec8499dba7e3c80665cea39254c04d5c6666ff136555e"
+      }
+    },
+    {
+      "id": "builtin:mod-combination",
+      "fields": {
+        "code": "27f77a3c4af55172b4f5464e7eec0e2dfc74e739141414b1e8a79060fe4c0f92",
+        "contestCode": "6a21bfd3fbe3abb098b646d166d3af72828bf5820f270694d2f76dbb9c3b1221",
+        "example": "6bd793cffbc97ac5d33aa0798a61285a812902ef62e26605cbcb9989f75757a0",
+        "contestExample": "5db1366a16f79b4731439bfb4faf119a8cc50ad423d512351e1e05b30157b766",
+        "practiceIds": "5164985485b991c6bfc6d80025b8e44a87dffaf85a7601a0fa91eccd54dd6bf5"
+      }
+    },
+    {
+      "id": "builtin:linear-sieve",
+      "fields": {
+        "code": "5a91cd073ea4706a79b02a0b9c3be7c02a60f91285a1474a41960d28161c5c4d",
+        "contestCode": "acbe593b4a5a9097b2aaa00f87af6fee3dcbb01a3825575113a8d038baf5f035",
+        "example": "f97f4bb0495e7c278ec018cebe92463269904786ff4a7519a55a81c0fdb4c1e6",
+        "contestExample": "434c444fe782bea8f95777d6e28fb9254c8110fb83f1f2f4a9ee61e4108ecfad",
+        "practiceIds": "87d7301cf8f58ef228e1740eebcb5685c596b3ac7df4f972978311e1467dca32"
+      }
+    },
+    {
+      "id": "builtin:extended-gcd",
+      "fields": {
+        "code": "862cd154861580f79e8fd6f580840cf65817db8f56e3d6f77ce4b1677d56b7b2",
+        "contestCode": "ed5784dd97ae074268e3e7d1fce5d2e59d15d91a2d0246e33e519fd60e17192c",
+        "example": "28072af66e5a7b0d18a2e2a66011691db9224ce2c9561e8a737eb530a5c94252",
+        "contestExample": "c39803e16e94921dee8943354b0136c63de909a44621aefb26fc4801744932a8",
+        "practiceIds": "770ec69382ed8aa2fa4af23ff67c4d245787bac16663c5b280b65f5fc1465f64"
+      }
+    },
+    {
+      "id": "builtin:knapsack",
+      "fields": {
+        "code": "b468b46451c348a86252de90e2629a1a30030d3030584118bad48993c97943b5",
+        "contestCode": "a7ee381155ef2d648abb19abc63e954fca8a23e173de2d346a212249a56169bd",
+        "example": "75ad29d96944a3a220597fac770474a8fc87106e92cb6af05110c3d64399a05f",
+        "contestExample": "785fa847e18e37c1863518b1e92fc7613c9bf80630fa0bed7ea7208e871f8343",
+        "practiceIds": "602971bdbbf6cf82c09cae6eca81290ee99fb893e99bf3ee9197e8e061d68ec6"
+      }
+    },
+    {
+      "id": "builtin:lis",
+      "fields": {
+        "code": "41701d76ab5c6ca8a4ba7faee5b20a44489423a37b4f054548020be47a968647",
+        "contestCode": "7b3a0add9e419655b64ff9b9032486432b4bfd5574e98e66e6c242253713335b",
+        "example": "fdd03370c14f944b2926968a0ee076d3e99c4f50a544608f81d6f68d2956de61",
+        "contestExample": "a603d4f39f82dc53142a2e14303b7795fe3a6d522b62bc59dc6713c5c03c54c3",
+        "practiceIds": "2fdf1936e02bd4c441c875091143305613a2c7b140f41f8f83ad2925b3db801a"
+      }
+    }
+  ]
+}
