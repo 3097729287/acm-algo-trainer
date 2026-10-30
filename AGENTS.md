@@ -1,5 +1,7 @@
 # TB development rules
 
+- Cleanup first (latest user instruction 2026-10-30): before starting the next version's development, build or update, clean obsolete ToBe programs, duplicate installers, failed candidates and abandoned build output from both C: and D:. Do not defer known obsolete tens of GiB until after release, and do not ask again. Retain the currently used version, the active development candidate, required upgrade baselines, personal data/code/drafts/identities, unique source, necessary recovery evidence and active dependencies. Verify deletion targets and source preservation, then report actual released bytes and free space per drive. Retire the currently used program only after its replacement is verified and personal data is migrated; clean older obsolete artifacts first. Do not bypass an execution-policy rejection through another interface.
+
 - Automatic retirement (user instruction 2026-10-30): after each new version is validated and the local upgrade succeeds, remove superseded executables, installers and obsolete build files without asking again. Preserve personal data, unique source, required recovery evidence and dependencies still used by current development. Apply this rule to the current delivery too.
 
 TB is the primary product. Active code belongs in `frontend/`, `backend/`, `desktop/`, and `server/leaderboard/`.
