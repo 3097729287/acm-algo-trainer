@@ -52,13 +52,13 @@ await page.route('**/api/**',async route=>{
 const base=process.env.UI_FOLLOWUPS_BASE||`http://127.0.0.1:${vite.httpServer.address().port}`,save='../.backups/ui-followups-20261030/reader';await mkdir(save,{recursive:true});
 const nav=()=>page.getByRole('navigation',{name:'主导航'});
 const release=()=>{held=false;for(const done of resume)done();resume=[];};
-const settled=async()=>{await nav().getByRole('button',{name:level>=5?'成长与能力':'题单',exact:true}).waitFor();await page.waitForFunction(()=>!document.querySelector('.sidebar nav').getAttribute('aria-busy')||document.querySelector('.sidebar nav').getAttribute('aria-busy')==='false');};
+const settled=async()=>{await nav().getByRole('button',{name:level>=5?'成长':'题单',exact:true}).waitFor();await page.waitForFunction(()=>!document.querySelector('.sidebar nav').getAttribute('aria-busy')||document.querySelector('.sidebar nav').getAttribute('aria-busy')==='false');};
 try {
  await page.goto(base);await page.locator('.navigation-pending').waitFor();
  assert.equal(await nav().getByRole('button').count(),0,'Unknown level never masquerades as the three-page Lv1 menu');
  release();await settled();assert.equal(await nav().getByRole('button').count(),12);
  assert.equal(await page.evaluate(owner=>JSON.parse(localStorage.getItem('tb.navigation-level.v1.'+owner)).level,owner),12);
- held=true;await page.reload();await nav().getByRole('button',{name:'成长与能力',exact:true}).waitFor();
+ held=true;await page.reload();await nav().getByRole('button',{name:'成长',exact:true}).waitFor();
  assert.equal(await nav().getByRole('button').count(),12,'Restart paints the last confirmed complete navigation before insights arrives');
  assert.equal(await page.locator('.navigation-pending').count(),0);release();await settled();
  await page.setViewportSize({width:1440,height:600});
