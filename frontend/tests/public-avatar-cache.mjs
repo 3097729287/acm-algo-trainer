@@ -34,6 +34,29 @@ try {
  assert((await page.locator('.ranking-self').innerText()).includes('New confirmed nickname'));
  await page.evaluate(()=>window.publicAvatarFixture.configure({own:window.publicAvatarFixture.assets.b.avatarData}));
  assert.equal(await page.locator('.ranking-self .profile-avatar-face img').getAttribute('src'),values.b.avatarData);
+ // An old board hash may point at a newer, verified target image. Every
+ // mounted identity must adopt it and period switches must retain the face.
+ await page.evaluate(()=>window.publicAvatarFixture.server({asset:'b',delay:500}));
+ const target=()=>page.locator('.ranking-table tr').filter({hasText:'Other person'}).locator('.profile-avatar-face img');
+ await target().waitFor();
+ for(const [name,period] of [['本周','weekly'],['累计','total'],['每日','daily']]) {
+  const before=await target().getAttribute('src');
+  await page.getByRole('tab',{name,exact:true}).click();
+  assert.equal(await target().getAttribute('src'),before,'Switching periods keeps the visible avatar while loading');
+  await page.waitForFunction(period=>window.boardCalls.at(-1)===period,period);
+  await page.waitForFunction(()=>!document.querySelector('[aria-label="同步与刷新"]').disabled);
+  assert.equal(await target().count(),1);
+ }
+ await page.evaluate(()=>{window.publicAvatarFixture.configure({board:false,id:'55555555-5555-4555-8555-555555555555',asset:'a'});});
+ await images().first().waitFor();
+ assert.equal(await images().first().getAttribute('src'),values.b.avatarData,'A stale requested hash accepts the current validated server image');
+ assert.equal(await images().last().getAttribute('src'),values.b.avatarData,'Concurrent readers receive the new version together');
+ await page.clock.install();
+ await page.evaluate(()=>{window.publicAvatarFixture.server({asset:'a',failures:4});window.publicAvatarFixture.configure({id:'66666666-6666-4666-8666-666666666666',asset:'a'});});
+ for(const delay of [200,3200,6200,12200,24200])await page.clock.runFor(delay);
+ await images().first().waitFor();
+ assert.equal(await images().first().getAttribute('src'),values.a.avatarData,'Transient failures recover after more than three attempts without refresh');
+ await page.clock.resume();
  await page.evaluate(()=>window.publicAvatarFixture.configure({board:false}));
  for(let index=0;index<27;index++) {
   await page.evaluate(id=>window.publicAvatarFixture.configure({id,asset:'a'}),`00000000-0000-4000-8000-${index.toString(16).padStart(12,'0')}`);
@@ -44,5 +67,5 @@ try {
  assert.equal(bounded.draft,'never remove');
  assert(JSON.parse(bounded.raw).entries.every(item=>Object.keys(item).sort().join(',')==='data,hash,owner,userId'));
  assert.deepEqual(errors,[]);
- console.log(JSON.stringify({ok:true,concurrentDedup:true,instantRemount:true,firstRenderAcrossRestart:true,offlineCache:true,hashAndDeletionInvalidation:true,quotaSafe:true,persistentCountBound:24,persistentCharacterBound:2*1024*1024,ownerIsolation:true,confirmedNickname:true,ownAvatarChange:true,productionRequests:0}));
+ console.log(JSON.stringify({ok:true,concurrentDedup:true,instantRemount:true,firstRenderAcrossRestart:true,offlineCache:true,hashAndDeletionInvalidation:true,quotaSafe:true,persistentCountBound:24,persistentCharacterBound:2*1024*1024,ownerIsolation:true,confirmedNickname:true,ownAvatarChange:true,periodSwitchKeepsAvatar:true,staleBoardHash:true,automaticRecoveryAfterFourFailures:true,productionRequests:0}));
 } finally {await browser.close();await server.close();}

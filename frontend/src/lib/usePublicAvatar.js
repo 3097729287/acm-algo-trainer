@@ -1,9 +1,10 @@
-import {useEffect,useState} from 'react';
+import {useCallback,useEffect,useSyncExternalStore} from 'react';
 import {isAvatarData} from '@/components/ProfileBadge.jsx';
 
 // The API callback belongs to one mounted authenticated workspace. Weak keys
 // isolate endpoints/accounts and release retired sessions; content hashes make
-// a changed avatar a different entry. Never cache failures or mismatched data.
+// a changed avatar a different entry. A validated target response can be newer
+// than a cached period's hash; remember that redirect without caching failures.
 const stores=new WeakMap(),LIMIT=96,DISK_LIMIT=24,DISK_CHARS=2*1024*1024,DISK_KEY='tb.public-avatars.v1';
 const ownerId=()=>String(window.__tbAccountUserId||'');
 const validOwner=value=>typeof value==='string'&&/^[a-zA-Z0-9_-]{1,80}$/.test(value);
@@ -38,24 +39,43 @@ function persist(owner,userId,hash,data) {
 function storeFor(api,owner) {
  let store=stores.get(api);
  if(!store||store.owner!==owner){
-  store={owner,images:new Map(),pending:new Map()};
+  store={owner,images:new Map(),pending:new Map(),aliases:new Map(),epochs:new Map(),listeners:new Set()};
   for(const item of diskEntries())if(item.owner===owner)store.images.set(`${item.userId}:${item.hash}`,item.data);
   stores.set(api,store);
  }
  return store;
 }
 function cached(store,key) {
- const value=store.images.get(key);
- if(value){store.images.delete(key);store.images.set(key,value);}
- return value||null;
+ const target=store.aliases.has(key)?store.aliases.get(key):key;
+ return target?store.images.get(target)||null:null;
+}
+function notify(store) { for(const listener of store.listeners)listener(); }
+function clearTarget(store,userId) {
+ store.epochs.set(userId,(store.epochs.get(userId)||0)+1);
+ for(const key of store.images.keys())if(key.startsWith(`${userId}:`))store.images.delete(key);
+ for(const key of store.aliases.keys())if(key.startsWith(`${userId}:`))store.aliases.set(key,null);
+ persist(store.owner,userId,null,null);
+ notify(store);
 }
 function load(store,api,userId,hash,key) {
  if(store.pending.has(key))return store.pending.get(key);
+ const epoch=store.epochs.get(userId)||0;
  const pending=api(`leaderboard/avatar?${new URLSearchParams({userId,hash})}`).then(value=>{
-  if(value.avatarHash!==hash||!isAvatarData(value.avatarData))throw new Error('Avatar version not available');
-  store.images.set(key,value.avatarData);
+  if(ownerId()!==store.owner||(store.epochs.get(userId)||0)!==epoch)throw new Error('Avatar request retired');
+  if(value.avatarHash==null&&value.avatarData===''){clearTarget(store,userId);return null;}
+  if(!validHash(value.avatarHash)||!isAvatarData(value.avatarData))throw new Error('Avatar version not available');
+  const current=`${userId}:${value.avatarHash}`;
+  // The local API has verified the returned image and digest for this target.
+  // Retire old versions so switching back to a cached board cannot restore one.
+  for(const old of store.images.keys())if(old.startsWith(`${userId}:`)&&old!==current){store.images.delete(old);store.aliases.set(old,current);}
+  for(const old of store.aliases.keys())if(old.startsWith(`${userId}:`))store.aliases.set(old,current);
+  store.aliases.delete(current);
+  if(key!==current)store.aliases.set(key,current);
+  store.images.delete(current);store.images.set(current,value.avatarData);
   while(store.images.size>LIMIT)store.images.delete(store.images.keys().next().value);
-  persist(store.owner,userId,hash,value.avatarData);
+  while(store.aliases.size>LIMIT)store.aliases.delete(store.aliases.keys().next().value);
+  persist(store.owner,userId,value.avatarHash,value.avatarData);
+  notify(store);
   return value.avatarData;
  }).finally(()=>{if(store.pending.get(key)===pending)store.pending.delete(key);});
  store.pending.set(key,pending);
@@ -63,25 +83,28 @@ function load(store,api,userId,hash,key) {
 }
 export default function usePublicAvatar(api,userId,hash) {
  const store=storeFor(api,ownerId()),key=`${userId}:${hash}`;
- const [saved,setSaved]=useState(()=>({store,key,data:cached(store,key)}));
+ const subscribe=useCallback(listener=>{store.listeners.add(listener);return()=>store.listeners.delete(listener);},[store]);
+ const snapshot=useCallback(()=>hash?cached(store,key):null,[store,key,hash]);
+ const image=useSyncExternalStore(subscribe,snapshot,snapshot);
  useEffect(()=>{
   if(!hash){
-   for(const old of store.images.keys())if(old.startsWith(`${userId}:`))store.images.delete(old);
-   persist(store.owner,userId,null,null);
+   clearTarget(store,userId);
    return;
   }
   let active=true,timer,attempt=0;
   const hit=cached(store,key);
-  if(hit){setSaved({store,key,data:hit});return;}
-  const fetchAvatar=()=>load(store,api,userId,hash,key).then(data=>{
-   if(active)setSaved({store,key,data});
-  }).catch(()=>{
-   if(!active)return;
-   setSaved({store,key,data:null});
-   if(attempt<2)timer=setTimeout(fetchAvatar,++attempt*3000);
+  if(hit)return;
+  const fetchAvatar=()=>load(store,api,userId,hash,key).catch(()=>{
+   if(!active||ownerId()!==store.owner)return;
+   // Recover automatically after a transient failure, even after the first
+   // three attempts. Back off to thirty seconds and pause hidden-page work.
+   const delay=Math.min(30000,3000*2**Math.min(attempt++,4));
+   timer=setTimeout(()=>{if(!document.hidden)fetchAvatar();},delay);
   });
+  const wake=()=>{if(active&&!document.hidden){clearTimeout(timer);fetchAvatar();}};
+  window.addEventListener('online',wake);document.addEventListener('visibilitychange',wake);
   fetchAvatar();
-  return()=>{active=false;clearTimeout(timer);};
+  return()=>{active=false;clearTimeout(timer);window.removeEventListener('online',wake);document.removeEventListener('visibilitychange',wake);};
  },[api,userId,hash,key,store]);
- return hash?(cached(store,key)||(saved?.store===store&&saved?.key===key?saved.data:null)):null;
+ return image;
 }

@@ -1,4 +1,5 @@
 import {useEffect,useId,useLayoutEffect,useRef,useState} from 'react';
+import CatalogName from './CatalogName.jsx';
 import {createPortal} from 'react-dom';
 import {ArrowLeft,Check,ChevronDown,ChevronRight,FileText,Folder,FolderTree} from 'lucide-react';
 import './ThemedSelect.css';
@@ -67,9 +68,9 @@ export default function FolderSelect({options=[],value='',onChange,disabled=fals
    if(event.key.length===1){event.preventDefault();if(!open)show();const now=Date.now();search.current={text:(now-search.current.at<700?search.current.text:'')+event.key.toLocaleLowerCase(),at:now};const found=rows.findIndex(row=>row.label.toLocaleLowerCase().startsWith(search.current.text));if(found>=0)setActive(found);}
   }}><option value="">{placeholder}</option>{value&&!flatten(options).some(node=>node.value===value)&&<option value={value}>{selectedLabel||value}</option>}{flatten(options).map((node,index)=><option key={`${node.value}:${index}`} value={node.value}>{node.selectionLabel||node.label}</option>)}</select>{iconOnly?<FolderTree className="folder-control-symbol" size={18} aria-hidden="true"/>:<ChevronDown className="tb-select-chevron" size={14} aria-hidden="true"/>}</span>
   {open&&createPortal(<div ref={menu} id={id} className="tb-select-menu folder-select-menu" role="listbox" aria-label={label} style={position} onPointerDown={event=>event.preventDefault()}>
-   <header>{path.length?<button type="button" aria-label="返回上一级" onClick={back}><ArrowLeft size={15}/></button>:<Folder size={16}/>}<strong>{current?.label||placeholder}</strong>{headerActions&&<span className="folder-menu-actions">{headerActions}</span>}</header>
+   <header>{path.length?<button type="button" aria-label="返回上一级" onClick={back}><ArrowLeft size={15}/></button>:<Folder size={16}/>}<strong><CatalogName>{current?.label||placeholder}</CatalogName></strong>{headerActions&&<span className="folder-menu-actions">{headerActions}</span>}</header>
    {rows.map((row,index)=><button type="button" key={`${row.value||row.label}:${index}`} role="option" id={`${id}-${index}`} data-index={index} data-active={active===index} aria-selected={row.value!==undefined&&value===row.value} disabled={row.disabled} tabIndex={-1} onPointerMove={()=>setActive(index)} onClick={()=>choose(index)}>
-    {Array.isArray(row.children)?<Folder size={16}/>:row.value?<FileText size={15}/>:null}<span>{row.label}</span>{Array.isArray(row.children)?<ChevronRight size={15}/>:value===row.value?<Check size={14}/>:null}
+    {Array.isArray(row.children)?<Folder size={16}/>:row.value?<FileText size={15}/>:null}<span><CatalogName>{row.label}</CatalogName></span>{Array.isArray(row.children)?<ChevronRight size={15}/>:value===row.value?<Check size={14}/>:null}
    </button>)}
    {!rows.length&&<p>此分类暂未收录比赛</p>}
   </div>,control.current?.closest('dialog')||document.body)}

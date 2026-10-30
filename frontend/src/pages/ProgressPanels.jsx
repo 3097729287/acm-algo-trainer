@@ -1,3 +1,4 @@
+import CatalogName from '@/components/CatalogName.jsx';
 import {StreakFlame} from '@/components/PracticeStreak.jsx';
 import {useDifficultyDisplay} from '@/components/DifficultyDisplay.jsx';
 import PagePagination from '@/components/PagePagination.jsx';
@@ -18,7 +19,7 @@ import AbilityEvidence from '@/components/AbilityEvidence.jsx';
 import { Info, Code2, Flame } from 'lucide-react';
 import BoundedNumber from '@/components/BoundedNumber.jsx';
 import ThemedSelect from '@/components/ThemedSelect.jsx';
-import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
+import { useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import InlineTitle from '@/components/InlineTitle.jsx';
 import TitleMedals from '../components/TitleMedals.jsx';
 import { ArrowLeft, ArrowRight, Award, BookOpen, CalendarDays, Check, CheckCheck, Circle, ChevronRight, ExternalLink, Flag, Github, LoaderCircle, Play, RefreshCw, Search, Target, TrendingUp, Trophy, UserRound } from 'lucide-react';
@@ -130,15 +131,17 @@ function contestGroups(rows) {
   return [...map.values()].filter(group=>completeContest(group.rows)).map(group => ({ ...group, rows: withContestLetters(group.rows.sort((a, b) => String(a.problem).localeCompare(String(b.problem), 'en', { numeric: true }))) })).sort(compareContestNewest);
 }
 function Difficulty({ row, locked = false }) { const mode=useDifficultyDisplay();return <span className={`competition-difficulty competition-difficulty-${locked ? 'unknown' : difficultyBand(row.difficulty)}${locked ? ' competition-hidden-difficulty' : ''}`} title={locked ? '比赛进行中，赛后显示难度' : difficultyDescription(row)}>{locked ? '赛中隐藏' : difficultyLabel(row,mode)}</span>; }
-export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStartReproduction, initialContest, onBack }) {
+export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStartReproduction, initialContest, onBack, visit, onTag }) {
   const groups = useMemo(() => contestGroups(list(rows).filter(row => !row.catalogHidden && row.source !== 'luogu-training' && row.source !== 'algorithm-lab' && row.source !== 'algorithm-lab-curation')), [rows]);
-  const [query, setQuery] = useState(''), [filter, setFilter] = useState('all');
+  const fallbackVisit=useRef({}),session=visit||fallbackVisit.current,saved=session.state||{};
+  const panelRef=useRef(null);
+  const [query, setQuery] = useState(saved.query||''), [filter, setFilter] = useState(saved.filter||'all');
   const deferredQuery = useDeferredValue(query);
-  const [catalogPath, setCatalogPath] = useState([]), [examYear, setExamYear] = useState('');
-  const [folder,setFolder]=useState(null), [descending,setDescending]=useState(true);
+  const [catalogPath, setCatalogPath] = useState(saved.catalogPath||[]), [examYear, setExamYear] = useState(saved.examYear||'');
+  const [folder,setFolder]=useState(saved.folder||null), [descending,setDescending]=useState(saved.descending??true);
   const sort = 'newest';
-  const [page, setPage] = useState(1);
-  const [selected, setSelected] = useState(null), [joining, setJoining] = useState(false), [joinError, setJoinError] = useState(''), [starting, setStarting] = useState(null);
+  const [page, setPage] = useState(saved.page||1);
+  const [selected, setSelected] = useState(saved.selected||null), [joining, setJoining] = useState(false), [joinError, setJoinError] = useState(''), [starting, setStarting] = useState(null);
   const progress = useMemo(() => new Map(list(workspace?.training).map(row => [row.id, row])), [workspace?.training]);
   const completedReplays = useMemo(() => completedReplayContests(workspace), [workspace?.completedReplayContests, workspace?.contests]);
   const lockedIds = useMemo(() => new Set(workspace?.activeContest?.status === 'running' ? list(workspace.activeContest.slots).map(row => row.id) : []), [workspace?.activeContest]);
@@ -156,7 +159,15 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
       && (filter === 'all' || filter === 'joined' ? filter === 'all' || counts.get(group.key).active > 0 : filter === 'available' ? counts.get(group.key).active === 0 : counts.get(group.key).accepted < group.rows.length))
       .sort((a,b) => (sort === 'name' ? a.name.localeCompare(b.name, 'zh-CN', {numeric:true}) : -compareContestNewest(a,b)) * (descending ? -1 : 1));
   }, [groups, catalogPath, examYear, deferredQuery, lockedIds, filter, counts, sort, descending]);
-  useEffect(() => { setPage(1); }, [deferredQuery, catalogPath, examYear, filter, sort, descending]);
+  const filterKey=JSON.stringify([deferredQuery,catalogPath,examYear,filter,sort,descending]);
+  const previousFilter=useRef(filterKey);
+  useEffect(()=>{if(previousFilter.current!==filterKey){previousFilter.current=filterKey;setPage(1);}},[filterKey]);
+  useEffect(()=>{session.state={query,filter,catalogPath,examYear,folder,descending,page,selected};},[session,query,filter,catalogPath,examYear,folder,descending,page,selected]);
+  useLayoutEffect(()=>{
+    const panel=panelRef.current,key=selected||'catalog';
+    if(panel)panel.scrollTop=session.scrollPositions?.[key]||0;
+  },[session,selected]);
+  const rememberScroll=event=>{session.scrollPositions||={};session.scrollPositions[selected||'catalog']=event.currentTarget.scrollTop;};
   const listRef=useRef(null);
   const pageSize=useFittedPageSize(listRef,`${!!folder}:${selected||''}:${filtered.length>0}`), pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
   const currentPage = Math.min(page, pageCount), first = (currentPage - 1) * pageSize;
@@ -174,20 +185,27 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
   const startButton = group => onStartReproduction && <button type="button" className="progress-button progress-primary competition-start" disabled={!!starting} onClick={() => start(group)} aria-label={`开始比赛 ${group.name}`}>{starting === group.key ? <LoaderCircle size={14} className="progress-spin" /> : <Play size={14} />}{starting === group.key ? '正在开始' : '开始比赛'}</button>;
   if (current) {
     const inMock = current.rows.some(row => lockedIds.has(row.id));
-    return <div className="list-page competition-page competition-detail" tabIndex={0} aria-label={`${current.name}比赛详情`}>
+    return <div ref={panelRef} onScroll={rememberScroll} className="list-page competition-page competition-detail" tabIndex={0} aria-label={`${current.name}比赛详情`}>
       <div className="competition-detail-heading"><button type="button" className="progress-button" onClick={() => { setSelected(null); if (initialContest) onBack?.(); }}><ArrowLeft size={14} />全部比赛</button><div><h2>{current.name}</h2></div>{onJoin && <button type="button" className="progress-button" disabled={joining || inMock || activeCount(current) === current.rows.length} onClick={() => join(current)}>{joining ? <LoaderCircle size={14} className="progress-spin" /> : <Flag size={14} />}{activeCount(current) === current.rows.length ? '已加入训练' : activeCount(current) ? '加入剩余题目' : '加入我的训练'}</button>}{startButton(current)}</div>
       {inMock && <div className="competition-notice">本场部分题目正在模拟赛中，难度和知识点将在赛后显示。请从模拟赛页继续。</div>}
       {joinError && <p className="connection-error" role="alert">{joinError}</p>}
       <div className="competition-question-list">{current.rows.map(row => {
         const state = progress.get(row.id), locked = lockedIds.has(row.id);
         const verdict=state?.accepted?'AC':state?.verdict;
-        return <button type="button" className="competition-question" key={row.id} disabled={!onTrain || locked} onClick={() => onTrain?.(row.id)} aria-label={`练习 ${row.displayLetter} ${row.title}`}><span className="competition-letter" title={contestLetterTitle(row)}>{row.displayLetter}</span><div className="competition-question-main"><strong><InlineTitle>{row.title}</InlineTitle></strong></div><div className="competition-question-meta">{locked ? <span>模拟赛进行中</span> : knowledgeLabels(row).map(tag => <span className="competition-tag" key={tag}>{tag}</span>)}</div>{showDifficulty(row) && <Difficulty row={row} />}<span className={`competition-result verdict-${verdictTone(verdict)}${state?.accepted ? ' competition-accepted' : ''}`}>{locked ? '考场中' : verdict ? verdictLabel(verdict) : state ? '已加入' : '未加入'}</span><ChevronRight size={15} aria-hidden="true" /></button>;
+        const practice=()=>{if(!locked)onTrain?.(row.id,{problemIds:current.rows.map(item=>item.id)});};
+        return <div className="competition-question" key={row.id} aria-disabled={!onTrain||locked} onClick={event=>{if(!event.target.closest('button'))practice();}}>
+          <span className="competition-letter" title={contestLetterTitle(row)}>{row.displayLetter}</span>
+          <div className="competition-question-main"><button type="button" className="competition-question-open" disabled={!onTrain||locked} onClick={practice} aria-label={`练习 ${row.displayLetter} ${row.title}`}><strong><InlineTitle>{row.title}</InlineTitle></strong></button></div>
+          <div className="competition-question-meta">{locked?<span>模拟赛进行中</span>:knowledgeLabels(row).map(tag=>onTag?<button type="button" className="competition-tag" key={tag} onClick={()=>onTag({name:tag,tags:[tag]})}>{tag}</button>:<span className="competition-tag" key={tag}>{tag}</span>)}</div>
+          {showDifficulty(row)&&<Difficulty row={row}/>}
+          <span className={`competition-result verdict-${verdictTone(verdict)}${state?.accepted?' competition-accepted':''}`}>{locked?'考场中':verdict?verdictLabel(verdict):state?'已加入':'未加入'}</span><ChevronRight size={15} aria-hidden="true"/>
+        </div>;
       })}</div>
     </div>;
   }
-  const renderCard = group => <article className="competition-card" key={group.key}><button type="button" className="competition-card-open" onClick={() => setSelected(group.key)} aria-label={`查看 ${group.platform} ${group.name}，${group.rows.length} 道题`}><span className="competition-card-title"><strong>{group.name}</strong></span><span className="competition-problem-tokens">{group.rows.map(row => <span className={`competition-problem-token${progress.get(row.id)?.accepted ? ' competition-token-accepted' : ''}`} key={row.id} title={contestLetterTitle(row)}><b>{row.displayLetter}{typeof row.difficulty==='number' && showDifficulty(row) ? ':' : ''}</b>{typeof row.difficulty==='number' && showDifficulty(row) && <Difficulty row={row}/>}</span>)}</span><ChevronRight size={16}/></button>{startButton(group)}</article>;
+  const renderCard = group => <article className="competition-card" key={group.key}><button type="button" className="competition-card-open" onClick={() => setSelected(group.key)} aria-label={`查看 ${group.platform} ${group.name}，${group.rows.length} 道题`}><span className="competition-card-title"><strong><CatalogName>{group.name}</CatalogName></strong></span><span className="competition-problem-tokens">{group.rows.map(row => <span className={`competition-problem-token${progress.get(row.id)?.accepted ? ' competition-token-accepted' : ''}`} key={row.id} title={contestLetterTitle(row)}><b>{row.displayLetter}{typeof row.difficulty==='number' && showDifficulty(row) ? ':' : ''}</b>{typeof row.difficulty==='number' && showDifficulty(row) && <Difficulty row={row}/>}</span>)}</span><ChevronRight size={16}/></button>{startButton(group)}</article>;
   const reset = () => {setCatalogPath([]);setExamYear('');setFilter('all');};
-  return <div className="list-page competition-page" aria-label="比赛列表">
+  return <div ref={panelRef} onScroll={rememberScroll} className="list-page competition-page" aria-label="比赛列表">
     <PageSearch><label className="search-box"><Search size={17}/><input value={query} onChange={event=>setQuery(event.target.value)} aria-label="搜索比赛"/></label>
     <SortDirection label="切换比赛排序方向" descending={descending} normalDescending={sort==='newest'} onChange={setDescending}/><FilterMenu label="筛选比赛" active={!!catalogPath.length||!!examYear||filter!=='all'} onReset={reset}>
       <label className="filter-field"><span>年份</span><ThemedSelect aria-label="比赛年份" value={examYear} onChange={event=>setExamYear(event.target.value)}><option value="">全部年份</option>{[...new Set(groups.map(group=>group.examYear).filter(Boolean))].sort((a,b)=>b-a).map(year=><option key={year}>{year}</option>)}</ThemedSelect></label>

@@ -1,3 +1,4 @@
+import CatalogName from './CatalogName.jsx';
 import PagePagination from '@/components/PagePagination.jsx';
 import {useRef,useState,useEffect} from 'react';
 import {useFittedPageSize} from '@/lib/useFittedPageSize.js';
@@ -21,7 +22,7 @@ export function CatalogPath({ scope, onChange }) {
   return <nav className="catalog-path" aria-label="题目浏览路径">
     <button type="button" data-folder-up aria-label="返回上一级文件夹" title="返回上一级 · Backspace" disabled={!path.length} onClick={()=>onChange({stage:path.length>1?'contests':'platforms',path:path.slice(0,-1)})}><ChevronLeft size={17}/></button>
     <button aria-label="全部平台" onClick={() => onChange({ stage: 'platforms', path: [] })}><House size={16}/></button>
-    {path.map((part, index) => <span key={index}><ChevronRight size={13}/><button aria-current={index === path.length - 1 ? 'page' : undefined} onClick={() => onChange({ stage: index === path.length - 1 ? scope.stage : 'contests', path: path.slice(0, index + 1) })}>{part}</button></span>)}
+    {path.map((part, index) => <span key={index}><ChevronRight size={13}/><button aria-current={index === path.length - 1 ? 'page' : undefined} onClick={() => onChange({ stage: index === path.length - 1 ? scope.stage : 'contests', path: path.slice(0, index + 1) })}><CatalogName>{part}</CatalogName></button></span>)}
   </nav>;
 }
 export default function CatalogExplorer({ rows, scope, onChange, onContest, renderContest, paginate=false,descending=true }) {
@@ -35,10 +36,10 @@ export default function CatalogExplorer({ rows, scope, onChange, onContest, rend
   return <><section ref={panel} className={`catalog-explorer${paginate?" catalog-paged":""}`} aria-label={onContest ? '比赛层级浏览' : '题库层级浏览'}>
     {!onContest && <button className="catalog-folder-row" onClick={() => onChange({ ...scope, stage: 'problems' })}><FileText size={19}/><strong>全部题目</strong><span>{selected.length}</span><ChevronRight size={16}/></button>}
     {!entries.length&&path[0]!=='校队训练'&&<p className="catalog-empty" role="status">此分类暂未收录比赛</p>}
-    {path[0]==='校队训练'&&path.length===1&&schoolSources.filter(source=>!rows.some(row=>row.url?.startsWith(source.url+'/'))).map(source=><a key={source.url} className="catalog-folder-row" href={source.url} target="_blank" rel="noreferrer"><FileText size={20}/><strong>{source.label}</strong><span>等待原站公开题面 · 前往原站</span><ChevronRight size={16}/></a>)}
+    {path[0]==='校队训练'&&path.length===1&&schoolSources.filter(source=>!rows.some(row=>row.url?.startsWith(source.url+'/'))).map(source=><a key={source.url} className="catalog-folder-row" href={source.url} target="_blank" rel="noreferrer"><FileText size={20}/><strong><CatalogName>{source.label}</CatalogName></strong><span>等待原站公开题面 · 前往原站</span><ChevronRight size={16}/></a>)}
     {visible.map(({label:name, items, path:next, leaf}) => renderContest && items.length>0 && (leaf || items.every(row=>cardLevel(row,path))) ? <div className="catalog-contest-entry" key={JSON.stringify(next)}>{[...new Map(items.map(row=>[contestKey(row),row])).values()].map(row=><div key={contestKey(row)}>{renderContest(row)}</div>)}</div> : <button className="catalog-folder-row" key={JSON.stringify(next)} onClick={() => {
       if (leaf && onContest) onContest(items[0]);
       else onChange({ path: next, stage: leaf ? 'problems' : 'contests' });
-    }}><Folder size={20}/><strong>{name}</strong><span>{onContest ? new Set(items.map(row => row.groupKey || `${row.platform}:${row.contest}`)).size : items.length}</span><ChevronRight size={16}/></button>)}
+    }}><Folder size={20}/><strong><CatalogName>{name}</CatalogName></strong><span>{onContest ? new Set(items.map(row => row.groupKey || `${row.platform}:${row.contest}`)).size : items.length}</span><ChevronRight size={16}/></button>)}
   </section>{paginate&&entries.length>0&&<PagePagination label="目录分页" count={`${entries.length} 项`} page={current} pages={pages} onPageChange={setPage} onPrevious={()=>setPage(current-1)} onNext={()=>setPage(current+1)}/>}</>;
 }
