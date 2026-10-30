@@ -14,6 +14,7 @@ selections.push(['P1088','lex-permutation'],['P1303','big-integers']);
 selections.push(['P6155','unsigned64'],['P2949','heap'],['P12041','dsu'],['AT_arc161_c','trees']);
 selections.push(['P2437','decimal-addition'],['P7167','binary-lifting'],['P1908','fenwick'],['P1228','recursion']);
 selections.push(['P8649','prefix'],['P5542','rectangle-difference'],['UVA1210','prime-sieve'],['P14520','games']);
+selections.push(['P14115','order-selection'],['P7579','interactive-io'],['CF2037E','interactive-io'],['P10445','segment-tree'],['P13824','dp']);
 const server=await createServer({root:path.join(root,'frontend'),server:{host:'127.0.0.1',port:0}});await server.listen();
 const browser=await chromium.launch({channel:'msedge',headless:true});const errors=[],frames=[];
 try{

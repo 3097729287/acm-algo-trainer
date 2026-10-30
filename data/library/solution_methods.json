@@ -7504,5 +7504,756 @@
       "primaryMethod": "direct"
     },
     "problem_id": "luogu-training-UVA1210"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-sort",
+            "lecture:foundation-iterators",
+            "lecture:foundation-bounds"
+          ],
+          "legacy": true,
+          "tags": [
+            "二分查找",
+            "连续段"
+          ],
+          "title": "有序切割值查找，统计保留段的起点",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "8141ecce7944244d86abc6d2412417b5c82452ddb3b6ffc6b39857f90a58b4e1"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-B3691"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-sort",
+            "lecture:foundation-iterators",
+            "lecture:foundation-bounds"
+          ],
+          "legacy": true,
+          "tags": [
+            "排序",
+            "二分查找"
+          ],
+          "title": "二分学校分数，只比较分界两侧",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "c736d142995970d8d731a578560509531bcbfb483c358b91d738c0c64c53d03e"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P1678"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-greedy",
+            "lecture:foundation-basic-arithmetic"
+          ],
+          "legacy": true,
+          "tags": [
+            "贪心"
+          ],
+          "title": "固定被删最小值，均衡其余分数的最大值",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "b9f12f98940383541908df242d7aa60a6e1fe1d52f6a98f8ae44aec872ce0309"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P7713"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-graphs",
+            "lecture:foundation-trees"
+          ],
+          "legacy": true,
+          "tags": [
+            "BFS",
+            "图论"
+          ],
+          "title": "按树的二分颜色统计偶数步终点",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "5a863b80bfdae56f9fed508d5a067b648d8dea620878b6dff5f58d6be9e8f879"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P11962"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-binary-answer",
+            "lecture:foundation-counting",
+            "lecture:foundation-greedy",
+            "lecture:foundation-permutations"
+          ],
+          "legacy": true,
+          "tags": [
+            "二分答案",
+            "组合计数",
+            "贪心"
+          ],
+          "title": "先抬高最低频数，再增加不同的额外类型",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "81b71ab7d49b1866d9cf7dd930897e8853ce801cedf41786e0eea233a9c43b12"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-CF1967A"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-sort",
+            "lecture:foundation-iterators",
+            "lecture:foundation-functions",
+            "lecture:foundation-binary-answer",
+            "lecture:foundation-greedy"
+          ],
+          "legacy": true,
+          "tags": [
+            "二分答案",
+            "贪心",
+            "排序"
+          ],
+          "title": "整数比较比率阈值，精确舍入到三位小数",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "fe9f08d5993bb29ea473d9bfbc75e8bab948011d9256f0026dbd74062789b6c2"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P1570"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-strings",
+            "lecture:foundation-string-tools",
+            "lecture:foundation-functions",
+            "lecture:foundation-big-integers",
+            "lecture:foundation-binary-answer"
+          ],
+          "legacy": true,
+          "tags": [
+            "高精度",
+            "二分答案"
+          ],
+          "title": "十进制乘候选小整数，二分有界商",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "d1b7f23d9d4472f9c1176efeb9163a3213ca1c7d2f0bf758160c0945b294d3e2"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P2005"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-sort",
+            "lecture:foundation-iterators",
+            "lecture:foundation-greedy",
+            "lecture:foundation-prefix"
+          ],
+          "legacy": true,
+          "tags": [
+            "贪心",
+            "排序",
+            "前缀和"
+          ],
+          "title": "截止时间升序，取所有前缀的最小余量",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "64d73bbeab8a46f1c8e09b8a6715c2c3000d1c81cd879587057d2c169bc2e56c"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P2920"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-bounds",
+            "lecture:foundation-prefix",
+            "lecture:foundation-basic-arithmetic"
+          ],
+          "legacy": true,
+          "tags": [
+            "二分查找",
+            "递推"
+          ],
+          "title": "二分所在波段，再按段内折线求值",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "0d2921e7120fe7207517207fc8f44c07b340dceb62bd7f8200cca6e4ecc9a3fa"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P8873"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-functions",
+            "lecture:foundation-binary-answer",
+            "lecture:foundation-greedy",
+            "lecture:foundation-order-selection"
+          ],
+          "legacy": true,
+          "tags": [
+            "二分答案",
+            "贪心"
+          ],
+          "title": "二分最低高度，优先使用不浪费的长木板",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "ae4057a474b5cc3df2130df6295ad31fc3977e6fe36c47ea32009495c01d097d"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P14115"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-sort",
+            "lecture:foundation-iterators",
+            "lecture:foundation-greedy",
+            "lecture:foundation-prefix"
+          ],
+          "legacy": true,
+          "tags": [
+            "贪心",
+            "排序",
+            "前缀和"
+          ],
+          "title": "拆成最便宜的糖果对与不同种类的单颗",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "d8d4beee06d430b222da7c5440129f75067f53fb3b220937eb60a7d3ba4556a6"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P14635"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-sort",
+            "lecture:foundation-iterators",
+            "lecture:foundation-bounds",
+            "lecture:foundation-structures",
+            "lecture:foundation-enumeration"
+          ],
+          "legacy": true,
+          "tags": [
+            "折半枚举",
+            "二分查找",
+            "排序"
+          ],
+          "title": "两数和排序，倒序枚举结果并排除重复下标",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "08bf92d516787d0dea69518d132ad80c5cd4fb234dde4149f2a5b430483bde0d"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-UVA10125"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-functions",
+            "lecture:foundation-binary-answer",
+            "lecture:foundation-heap"
+          ],
+          "legacy": true,
+          "tags": [
+            "二分答案",
+            "堆"
+          ],
+          "title": "二分同时表演数，用小根堆模拟最早空位",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "02318fe82cf958ebe126f44815200eeaf1d2ee52a81d1492f7215774e0e2a462"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P3611"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-sort",
+            "lecture:foundation-iterators",
+            "lecture:foundation-structures",
+            "lecture:foundation-functions",
+            "lecture:foundation-coordinates",
+            "lecture:foundation-two-pointers",
+            "lecture:foundation-segment-tree",
+            "lecture:foundation-bitwise"
+          ],
+          "legacy": true,
+          "tags": [
+            "双指针",
+            "排序",
+            "线段树"
+          ],
+          "title": "扫描两种时间预算，用最小对称差编号比较方案",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "1da61e150aa7a3e22d4bbed447c3d299a9df0ea31d977bb412c82353cd19022c"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P10445"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-sort",
+            "lecture:foundation-iterators",
+            "lecture:foundation-bounds",
+            "lecture:foundation-structures",
+            "lecture:foundation-functions",
+            "lecture:foundation-graphs",
+            "lecture:foundation-trees",
+            "lecture:foundation-dp"
+          ],
+          "legacy": true,
+          "tags": [
+            "递推",
+            "二分查找",
+            "图论"
+          ],
+          "title": "双人状态的最小瓶颈递推，再按阈值查询最长路径",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "661c15694019da3a974b8df5024b9c517eb3b6f923388bcc8af90b458daffc19"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P13824"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-two-pointers",
+            "lecture:foundation-counting"
+          ],
+          "legacy": true,
+          "tags": [
+            "连续段",
+            "双指针"
+          ],
+          "title": "按相邻不同段扫描，统计已允许的左端点",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "c5f511a41894259ac2ff09eba9c9c6d1447254e73a5cd89e4d94d7105f49d0bb"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P6465"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-sort",
+            "lecture:foundation-iterators",
+            "lecture:foundation-bounds",
+            "lecture:foundation-sets",
+            "lecture:foundation-structures",
+            "lecture:foundation-functions",
+            "lecture:foundation-greedy"
+          ],
+          "legacy": true,
+          "tags": [
+            "贪心",
+            "排序"
+          ],
+          "title": "横纵分开，按右端优先分配最小可用坐标",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "fdc2df9d46f52b375e5add9ead0e6a6d5dfb93bd489ad0ae458a4d78e3749ca5"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-UVA11134"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-sort",
+            "lecture:foundation-iterators",
+            "lecture:foundation-greedy",
+            "lecture:foundation-two-pointers"
+          ],
+          "legacy": true,
+          "tags": [
+            "排序",
+            "贪心",
+            "双指针"
+          ],
+          "title": "排序后贪心匹配所有无需修改的数",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "e756e8ce21032310e242b436c6ccacb3bc32c9a3949225f6c24fc927e4020f68"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "lanqiao:2025:省:/Python B 第二场::P12342"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-arrays",
+            "lecture:foundation-two-pointers"
+          ],
+          "legacy": true,
+          "tags": [
+            "双指针",
+            "模拟"
+          ],
+          "title": "维护最早尚未出洞的入口车",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "808250df14c53ad65fb2e1f60c20b623e4ced05d5f4f5aa90f3f4c5a47eb92a0"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-CF1237B"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-greedy",
+            "lecture:foundation-coordinates"
+          ],
+          "legacy": true,
+          "tags": [
+            "贪心"
+          ],
+          "title": "维护全部可达温度区间，先扩张再相交",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "652f14bd57905eb3d6b716e9ddd8ab84761896410f0bbdef54bba295da93e057"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-CF1304C"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-bounds",
+            "lecture:foundation-enumeration",
+            "lecture:foundation-greedy",
+            "lecture:foundation-iterators"
+          ],
+          "legacy": true,
+          "tags": [
+            "枚举",
+            "二分查找",
+            "贪心"
+          ],
+          "title": "枚举两程取消名额的分配",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "7c47aac55a085d1dbb194c9d797e5a9dcb88a807c7e964fec3939e9e22ec8b44"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-CF1148B"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-queue-stack"
+          ],
+          "legacy": true,
+          "tags": [
+            "队列",
+            "模拟"
+          ],
+          "title": "队列保存全部未完成任务的完成时刻",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "47da45754b42fcdce0feec90d3e587043aef351c08a936dc06cde5c69794321d"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-CF644B"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-functions",
+            "lecture:foundation-interactive-io",
+            "lecture:foundation-iterators",
+            "lecture:foundation-binary-answer"
+          ],
+          "legacy": true,
+          "tags": [
+            "交互题",
+            "二分查找",
+            "分治"
+          ],
+          "title": "两轻球二分定位，分开后分别三分",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "722b6e9bab55aaa89d854606de0f212e68c7eee2a3b3d1c654f5031078a0144c"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-P7579"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "direct",
+          "lectureIds": [
+            "lecture:foundation-io-basics",
+            "lecture:foundation-basic-control",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer",
+            "lecture:foundation-functions",
+            "lecture:foundation-interactive-io",
+            "lecture:foundation-strings",
+            "lecture:foundation-string-tools",
+            "lecture:foundation-prefix"
+          ],
+          "legacy": true,
+          "tags": [
+            "交互题",
+            "前缀和",
+            "构造"
+          ],
+          "title": "先确认能否唯一确定，再用前缀增量还原",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "4ea761d44a058aae24e7e60ebb76219a05c2156b7e4286f658c1a1612790e48e"
+          }
+        }
+      ],
+      "primaryMethod": "direct"
+    },
+    "problem_id": "luogu-training-CF2037E"
   }
 ]

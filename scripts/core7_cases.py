@@ -8,6 +8,8 @@ from decimal import Decimal, ROUND_HALF_UP
 
 
 def cases_for(pid):
+    from core7_cases_binary import IDS as binary_ids,cases_for as binary_cases
+    if pid in binary_ids:return binary_cases(pid)
     from core7_cases_prefix import IDS as prefix_ids,cases_for as prefix_cases
     if pid in prefix_ids:return prefix_cases(pid)
     from core7_cases_recurrence import IDS as recurrence_ids,cases_for as recurrence_cases

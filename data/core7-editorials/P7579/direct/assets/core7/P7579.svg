@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" role="img" aria-labelledby="title"><title id="title">两个轻球在一、五：第一次左轻，第二次平衡</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">两个轻球在一、五：第一次左轻，第二次平衡</text>
+<rect x="40" y="80" width="285" height="65" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="182.5" y="119.5" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">左盘 {1,2}</text>
+<rect x="435" y="80" width="285" height="65" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="577.5" y="119.5" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">右盘 {3,4}</text>
+<text x="380" y="123" fill="#bc3645" font-size="34" text-anchor="middle" font-weight="normal">&lt;</text>
+<rect x="40" y="185" width="285" height="65" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="182.5" y="224.5" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">左盘 {1,3}</text>
+<rect x="435" y="185" width="285" height="65" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="577.5" y="224.5" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">右盘 {2,5}</text>
+<text x="380" y="228" fill="#bc3645" font-size="34" text-anchor="middle" font-weight="normal">=</text>
+<text x="65" y="170" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">五暂不称；较轻组 {1,2} 加五仍包含两轻球</text>
+<text x="65" y="280" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">三已知正常，只补左盘，不加入真实候选</text>
+<text x="65" y="335" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">平衡后：左候选 {1}，右候选 {2,5}，各有一个</text>
+<text x="65" y="390" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">再称二对五，右轻；最终升序提交一、五</text>
+</g></svg>

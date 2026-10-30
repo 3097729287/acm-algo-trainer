@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="300" viewBox="0 0 760 300" role="img" aria-labelledby="title"><title id="title">贪心交换：更早结束留下更多可用时间</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">贪心交换：更早结束留下更多可用时间</text>
+<line x1="110" y1="105" x2="370" y2="105" stroke="#bc3645" stroke-width="10"/>
+<text x="30" y="112" fill="#bc3645" font-size="19" text-anchor="start" font-weight="normal">原首项</text>
+<line x1="385" y1="105" x2="690" y2="105" stroke="#68778b" stroke-width="3" stroke-dasharray="7 5"/>
+<text x="520" y="85" fill="#68778b" font-size="19" text-anchor="middle" font-weight="normal">后续可使用的时间</text>
+<line x1="110" y1="190" x2="270" y2="190" stroke="#12805c" stroke-width="10"/>
+<text x="30" y="197" fill="#12805c" font-size="19" text-anchor="start" font-weight="normal">替换后首项</text>
+<line x1="285" y1="190" x2="690" y2="190" stroke="#68778b" stroke-width="3" stroke-dasharray="7 5"/>
+<text x="520" y="170" fill="#68778b" font-size="19" text-anchor="middle" font-weight="normal">后续可使用的时间</text>
+<text x="90" y="270" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">替换不减少后续可接活动，已选数量保持不变</text>
+</g></svg>

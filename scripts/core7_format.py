@@ -17,6 +17,8 @@ import unpair_ticks
 import check_solution
 
 CODE_SPELLINGS=[
+    'greater<int>()','greater<T>','greater<int>()(a,b)','no solution',
+    '? l r','! answer','? 1 3','! 7','cout.flush()','1 p ... q ...','2 x y',
     '<iostream>','<string>','<iomanip>','fixed','setprecision','string(k,c)',
     '/','%','x+d-1','1LL*a*b','sqrt(x)','<cmath>','ceil(x)','x','abs(x)',
     'min(a,b)','max(a,b)','min({a,b,c})','c','*it','first','last','list','set',

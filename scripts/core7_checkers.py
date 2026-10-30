@@ -32,3 +32,6 @@ def bitset(inp, got, other=None):
         return True
     except (ValueError,StopIteration):
         return False,'Missing or malformed output'
+
+from core7_interactive import weighing_transcript,kachina_transcript
+from core7_checkers_binary import rooks,sign_route

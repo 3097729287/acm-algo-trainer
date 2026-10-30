@@ -2,12 +2,12 @@
   "scopeVersion": "2026-10-30-screenshot-verified-610",
   "requestedStages": 7,
   "totalProblems": 610,
-  "authoredProblems": 152,
-  "authoredMethods": 162,
-  "authoredArticles": 324,
-  "hasBothVariants": 159,
-  "missingVariants": 451,
-  "pendingStandardReview": 458,
+  "authoredProblems": 176,
+  "authoredMethods": 186,
+  "authoredArticles": 372,
+  "hasBothVariants": 182,
+  "missingVariants": 428,
+  "pendingStandardReview": 434,
   "complete": false,
   "stages": [
     {
@@ -18,7 +18,7 @@
     {
       "stage": "02 基础解题方法",
       "total": 108,
-      "reviewed": 83
+      "reviewed": 107
     },
     {
       "stage": "03 搜索与图",
@@ -1458,10 +1458,10 @@
       "unit": "二分查找与二分答案",
       "title": "狠狠地切割(Easy Version)",
       "difficulty": 1200,
-      "knowledge": "二分查找 + 排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "二分查找 + 排序 + 连续段",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1678",
@@ -1471,9 +1471,9 @@
       "title": "烦恼的高考志愿",
       "difficulty": 1200,
       "knowledge": "模拟 + 贪心 + 二分查找 + 排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P7713",
@@ -1483,9 +1483,9 @@
       "title": "打分",
       "difficulty": 1200,
       "knowledge": "模拟 + 贪心 + 二分查找",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P11962",
@@ -1494,10 +1494,10 @@
       "unit": "二分查找与二分答案",
       "title": "树上漫步",
       "difficulty": 1200,
-      "knowledge": "二分图匹配",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "二分图匹配 + BFS + 图论",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF1967A",
@@ -1506,10 +1506,10 @@
       "unit": "二分查找与二分答案",
       "title": "Permutation Counting",
       "difficulty": 1400,
-      "knowledge": "贪心 + 二分查找 + 模拟 + 排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "贪心 + 二分查找 + 模拟 + 排序 + 二分答案 + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1570",
@@ -1518,10 +1518,10 @@
       "unit": "二分查找与二分答案",
       "title": "KC 喝咖啡",
       "difficulty": 1500,
-      "knowledge": "二分查找",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "二分查找 + 二分答案 + 贪心 + 排序",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2005",
@@ -1530,10 +1530,10 @@
       "unit": "二分查找与二分答案",
       "title": "A/B Problem II",
       "difficulty": 1500,
-      "knowledge": "高精度 + 二分查找",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "高精度 + 二分查找 + 二分答案",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2920",
@@ -1542,10 +1542,10 @@
       "unit": "二分查找与二分答案",
       "title": "Time Management S",
       "difficulty": 1500,
-      "knowledge": "贪心 + 二分查找 + 排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "贪心 + 二分查找 + 排序 + 前缀和",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P8873",
@@ -1554,10 +1554,10 @@
       "unit": "二分查找与二分答案",
       "title": "E-梅莉的市场经济学",
       "difficulty": 1500,
-      "knowledge": "二分查找",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "二分查找 + 递推",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P14115",
@@ -1566,10 +1566,10 @@
       "unit": "二分查找与二分答案",
       "title": "木桶效应",
       "difficulty": 1500,
-      "knowledge": "贪心 + 二分查找",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "贪心 + 二分查找 + 二分答案",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P14635",
@@ -1578,10 +1578,10 @@
       "unit": "二分查找与二分答案",
       "title": "糖果店",
       "difficulty": 1500,
-      "knowledge": "贪心 + 二分查找 + 排序 + 反悔贪心",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "贪心 + 二分查找 + 排序 + 反悔贪心 + 前缀和",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-UVA10125",
@@ -1590,10 +1590,10 @@
       "unit": "二分查找与二分答案",
       "title": "Sumsets",
       "difficulty": 1500,
-      "knowledge": "二分查找 + 枚举 + 排序 + 哈希表",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "二分查找 + 枚举 + 排序 + 哈希表 + 折半枚举",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P3611",
@@ -1602,10 +1602,10 @@
       "unit": "二分查找与二分答案",
       "title": "Cow Dance Show S",
       "difficulty": 1800,
-      "knowledge": "模拟 + 线段树 + 二分查找 + 堆 + 队列",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "模拟 + 线段树 + 二分查找 + 堆 + 队列 + 二分答案",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P6465",
@@ -1614,10 +1614,10 @@
       "unit": "二分查找与二分答案",
       "title": "课程安排",
       "difficulty": 1800,
-      "knowledge": "二分查找",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "二分查找 + 连续段 + 双指针",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P7579",
@@ -1626,10 +1626,10 @@
       "unit": "二分查找与二分答案",
       "title": "称重(weigh)",
       "difficulty": 1800,
-      "knowledge": "二分查找 + 分治",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "二分查找 + 分治 + 交互题",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P10445",
@@ -1638,10 +1638,10 @@
       "unit": "二分查找与二分答案",
       "title": "签到",
       "difficulty": 1800,
-      "knowledge": "贪心 + 二分查找",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "贪心 + 二分查找 + 双指针 + 排序 + 线段树",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P13824",
@@ -1650,10 +1650,10 @@
       "unit": "二分查找与二分答案",
       "title": "在水一方",
       "difficulty": 1800,
-      "knowledge": "二分查找 + 扫描线",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "二分查找 + 扫描线 + 递推 + 图论",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-UVA11134",
@@ -1663,9 +1663,9 @@
       "title": "传说中的车 Fabled Rooks",
       "difficulty": 1800,
       "knowledge": "贪心 + 排序 + 二分图匹配",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "lanqiao:2025:省:/Python B 第二场::P12342",
@@ -1674,10 +1674,10 @@
       "unit": "双指针与滑动窗口",
       "title": "数列差分",
       "difficulty": 1200,
-      "knowledge": "贪心 + 二分查找 + 双指针",
+      "knowledge": "贪心 + 二分查找 + 双指针 + 排序",
       "default": true,
       "detailed": true,
-      "reviewed": false
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF1237B",
@@ -1686,10 +1686,10 @@
       "unit": "双指针与滑动窗口",
       "title": "Balanced Tunnel",
       "difficulty": 1300,
-      "knowledge": "排序 + 双指针",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "排序 + 双指针 + 模拟",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF1304C",
@@ -1699,9 +1699,9 @@
       "title": "Air Conditioner",
       "difficulty": 1500,
       "knowledge": "贪心 + 模拟 + 排序 + 双指针",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF1148B",
@@ -1710,10 +1710,10 @@
       "unit": "双指针与滑动窗口",
       "title": "Born This Way",
       "difficulty": 1600,
-      "knowledge": "二分查找 + 枚举 + 双指针",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "二分查找 + 枚举 + 双指针 + 贪心",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF2037E",
@@ -1722,10 +1722,10 @@
       "unit": "双指针与滑动窗口",
       "title": "Kachina's Favorite Binary String",
       "difficulty": 1600,
-      "knowledge": "贪心 + 交互题 + 双指针",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "贪心 + 交互题 + 双指针 + 前缀和 + 构造",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF644B",
@@ -1734,10 +1734,10 @@
       "unit": "双指针与滑动窗口",
       "title": "Processing Queries",
       "difficulty": 1700,
-      "knowledge": "构造 + 双指针",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "构造 + 双指针 + 队列 + 模拟",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1031",
@@ -1921,7 +1921,9 @@
       "reviewNote": {
         "status": "needs-semantic-review",
         "reason": "题面允许相交轨道，尚需核对同高交点处同时命中的处理；本题仍未写入题解，不用仅按端点高度排序的模拟冒充完整解法。",
-        "source": "https://www.luogu.com.cn/problem/P1766"
+        "source": "https://www.luogu.com.cn/problem/P1766",
+        "lastPrimaryCheck": "2026-10-30",
+        "evidence": "复查洛谷原题仍只说明允许相交、轨道内部不受影响及端点不计，未补充同高同时命中、水平或竖直轨道的处理；不从二手程序推定原题未声明保证。"
       }
     },
     {
