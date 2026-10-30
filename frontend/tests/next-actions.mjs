@@ -288,6 +288,7 @@ try{
     await pen.send('Input.dispatchMouseEvent',{type:'mouseReleased',...penPoint,button:'left',buttons:0,clickCount:1});await pen.detach();
     assert.equal(await touch.evaluate(()=>window.fixtureEvents.length),beforePen+1,'Pen click enters the primary task directly');
     assert.deepEqual(await touch.evaluate(()=>window.fixtureEvents.at(-1)),{train:'B'});
+    await touchPopup.waitFor({state:'detached',timeout:1000});
     assert.equal(await touchPopup.count(),0);
     report.touchCompatibility={...touchCompatibility,menuSurvivedAnimationAndCloseBudget:true,secondaryTapNavigated:true,penClickNavigated:true};
   }finally{await touchContext.close();}

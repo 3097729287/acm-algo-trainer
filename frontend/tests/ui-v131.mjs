@@ -2,6 +2,9 @@ import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
 import { createServer } from 'vite';
 import { chromium } from 'playwright';
+import {ALGORITHM_TOPICS} from '../src/lib/algorithmLearning.js';
+import SORTING_COURSES from '../../backend/resources/sorting-lab.json' with {type:'json'};
+import GRAPH_COURSES from '../../backend/resources/graph-lab.json' with {type:'json'};
 
 const vite=await createServer({server:{host:'127.0.0.1',port:18831,strictPort:true}});
 await vite.listen();
@@ -211,7 +214,9 @@ try{
  await page.getByRole('combobox',{name:'从零讲知识分类'}).press('Space');await knowledgeFolders.getByRole('button',{name:'返回上一级',exact:true}).click();await knowledgeFolders.getByRole('option',{name:'全部知识分类',exact:true}).click();assert.equal(await page.locator('.lectures-list>button').count(),3);
  await nav('提交记录').click();await page.locator('.submission-log-row').first().waitFor();assert.equal(await page.locator('.submission-log-row>svg').count(),0);assert.equal(await page.locator('.submission-runtime').count(),1);assert.equal(await page.locator('.submission-runtime').innerText(),'15 ms');
  await nav('实验室').click();assert.equal(await page.getByText('算法题单',{exact:true}).count(),0);
- await page.locator('.lab-multi-catalog').waitFor();assert.equal(await page.locator('.lab-multi-catalog .catalog-card').count(),10);
+ await page.locator('.lab-multi-catalog').waitFor();
+ const expectedCourseIds=new Set([...ALGORITHM_TOPICS.map(topic=>topic.id),...Object.keys(SORTING_COURSES),...Object.keys(GRAPH_COURSES),'prefix-difference','two-pointers','knapsack']);
+ assert.equal(await page.locator('.lab-multi-catalog .catalog-card').count(),expectedCourseIds.size,'All original and organized operation courses remain in the catalogue');
  await page.getByRole('button',{name:'打开算法 背包 DP',exact:true}).click();await page.locator('.algorithm-lab .lab-course-header').waitFor();assert.equal(await page.locator('.lab-lesson-footer').count(),0);
  await page.getByRole('button',{name:'下一页',exact:true}).click();await page.getByRole('heading',{name:/把大问题拆小/}).waitFor();
  await page.locator('.learning-paths-page').evaluate(node=>{node.scrollTop=node.scrollHeight;});
