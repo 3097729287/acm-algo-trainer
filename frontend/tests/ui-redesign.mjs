@@ -100,7 +100,20 @@ try {
  await next.click();await page.getByRole('heading',{name:'进入练习',exact:true}).waitFor();assert(await next.isDisabled());
  await page.locator('.problem-table tr[data-id]').first().locator('.problem-title').click();
  await page.getByRole('heading',{name:'阅读题面',exact:true}).waitFor();await page.locator('.cm-editor').waitFor();
- for (const title of ['编写代码','运行与提交','回到题库']) {await next.click();await page.locator('.tour-card').getByRole('heading',{name:title,exact:true}).waitFor();assert(await page.locator('.tour-highlight').isVisible());}
+ const practiceTargets={'编写代码':'.cm-editor','运行与提交':'.wb-run-actions','回到题库':'.tb-workbench .wb-back-button[aria-label="返回列表"]'};
+ for (const title of ['编写代码','运行与提交','回到题库']) {
+  await next.click();await page.locator('.tour-card').getByRole('heading',{name:title,exact:true}).waitFor();
+  // Headings update before the guide's rAF measurement and CSS transition.
+  // Wait for the current target geometry so the preceding highlight cannot
+  // accidentally hide a missing selector or pass on stale coordinates.
+  await page.waitForFunction(selector=>{
+   const target=[...document.querySelectorAll(selector)].find(node=>{const box=node.getBoundingClientRect();return box.width>0&&box.height>0;}),highlight=document.querySelector('.tour-highlight');
+   if(!target||!highlight)return false;
+   const box=target.getBoundingClientRect(),spot=highlight.getBoundingClientRect();
+   return Math.abs(spot.left-(box.left-5))<1&&Math.abs(spot.top-(box.top-5))<1&&Math.abs(spot.width-(box.width+10))<1&&Math.abs(spot.height-(box.height+10))<1;
+  },practiceTargets[title]);
+  assert(await page.locator('.tour-highlight').isVisible());
+ }
  assert(await next.isDisabled());await page.getByRole('button',{name:'返回列表',exact:true}).click();
  await page.getByRole('heading',{name:'查看提交结果',exact:true}).waitFor();
  for (const title of ['组成一场训练','安排下一次练习','查看比赛日历','完成入门']) {await next.click();await page.locator('.tour-card').getByRole('heading',{name:title,exact:true}).waitFor();}

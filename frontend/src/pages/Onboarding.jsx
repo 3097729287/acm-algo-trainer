@@ -13,7 +13,7 @@ const STEPS = [
   { practice: true, target: '.wb-statement-pane', title: '阅读题面', text: '先确认题意、输入输出和样例。这里可以切换原文与中文，也可以调整题面字号。' },
   { practice: true, target: '.cm-editor', title: '编写代码', text: '选择 C++17 或 Python 3 后编写代码。语言旁的模板选择器可切换初始代码，默认项显示“默认”；自定义初始代码在设置中保存。草稿自动保存，已有草稿再次打开时会保留。' },
   { practice: true, target: '.wb-run-actions', title: '运行与提交', text: '先用“运行”检查样例，再用“提交”进入原站。首次提交需在浏览器登录并确认；结果显示后自动关闭本次提交窗口，原站 AC 才计入通过数。你可以稍后完成这道题。' },
-  { practice: true, target: '.wb-toolbar button[aria-label="返回列表"]', title: '回到题库', text: '点击高亮的返回按钮。草稿会保留，下次打开这道题可以接着写。', action: 'return' },
+  { practice: true, target: '.tb-workbench .wb-back-button[aria-label="返回列表"]', title: '回到题库', text: '点击高亮的返回按钮。草稿会保留，下次打开这道题可以接着写。', action: 'return' },
   { page: 'records', target: '.submission-log', title: '查看提交结果', text: '正式提交后，这里会按日期保存结果。点击记录可以查看当次代码；样例运行结果留在工作台中。' },
   { page: 'mock', target: '.mock-mode-options', title: '组成一场训练', text: '选择综合、专项或重现赛，设置题数和时长，再生成预览。确认试卷后才开始计时，结束后复盘。' },
   { page: 'growth', target: '.progress-growth-columns', title: '安排下一次练习', text: '点击一级雷达圆点进入子知识点，Esc 返回；二级知识点可筛选题目。?% 表示作答证据不足。目标计划安排后续练习，日历和奖章打开每日任务与成就。经验等级与能力段位分别成长。' },
