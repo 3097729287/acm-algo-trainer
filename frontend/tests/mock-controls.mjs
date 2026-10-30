@@ -35,7 +35,7 @@ try{
  await page.mouse.click(10,800);assert.equal(await topicMenu.count(),0,'An outside click dismisses the anchored selector');
  for(const width of [1440,430,320])for(const mode of ['专项训练','重现赛']){
   await page.setViewportSize({width,height:850});const menu=await openMockSelection(page,mode),trigger=page.getByRole('button',{name:mode,exact:true});
-  await page.waitForFunction(label=>{const popup=[...document.querySelectorAll('[role=listbox]')].find(node=>node.getAttribute('aria-label')===label);return popup&&parseFloat(popup.style.top)>=0;},mode==='专项训练'?'专项训练知识点':'重现赛比赛');
+  await page.waitForFunction(({label,mode})=>{const popup=[...document.querySelectorAll('[role=listbox]')].find(node=>node.getAttribute('aria-label')===label),anchor=[...document.querySelectorAll('.mock-config button')].find(node=>node.textContent===mode);if(!popup||!anchor)return false;const r=popup.getBoundingClientRect(),a=anchor.getBoundingClientRect();return Math.abs(r.y-a.bottom-8)<1&&Math.abs(r.x-Math.max(8,Math.min(a.x,innerWidth-r.width-8)))<1;},{label:mode==='专项训练'?'专项训练知识点':'重现赛比赛',mode});
   const box=await menu.boundingBox(),anchor=await trigger.boundingBox();assert(box.x>=0&&box.x+box.width<=width+.5&&box.y+box.height<=850+.5);
   assert(Math.abs(box.x-Math.max(8,Math.min(anchor.x,width-box.width-8)))<1&&Math.abs(box.y-anchor.y-anchor.height-8)<1,'Mode selector stays anchored below its actual tab: '+JSON.stringify({width,mode,box,anchor}));
   modeAnchors.push({width,mode,box,anchor});if(width!==320)await page.screenshot({path:`${output}/mode-${mode}-${width}.png`,animations:'disabled'});

@@ -44,11 +44,19 @@ export default function FolderSelect({options=[],value='',onChange,disabled=fals
  useLayoutEffect(()=>{if(externalAnchor){if(openRequest)show();else setOpen(false);}},[externalAnchor,openRequest]);
  useLayoutEffect(()=>{
   if(!open)return;
+  const anchor=externalAnchor||control.current;
   const layout=()=>{const rect=(externalAnchor||control.current).getBoundingClientRect(),width=Math.min(Math.max(rect.width,240),innerWidth-16),below=innerHeight-rect.bottom-12,above=rect.top-12,up=below<Math.min(300,rows.length*36+42)&&above>below,gap=externalAnchor?8:5;
    setPosition({position:'fixed',left:Math.max(8,Math.min(rect.left,innerWidth-width-8)),width,maxHeight:Math.min(380,Math.max(100,up?above:below)),...(up?{bottom:innerHeight-rect.top+gap}:{top:rect.bottom+gap})});};
   const outside=event=>{if(!(externalAnchor||control.current)?.contains(event.target)&&!menu.current?.contains(event.target))dismiss();};
-  layout();if(externalAnchor)menu.current?.focus({preventScroll:true});document.addEventListener('pointerdown',outside,true);window.addEventListener('resize',layout);window.addEventListener('scroll',layout,true);
-  return()=>{document.removeEventListener('pointerdown',outside,true);window.removeEventListener('resize',layout);window.removeEventListener('scroll',layout,true);};
+  // Responsive text wrapping and late font metrics can move the trigger after
+  // the window's resize event. Follow its actual box and surrounding row.
+  let frame=0,alive=true;
+  const schedule=()=>{cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>{if(alive)layout();});};
+  const observer=typeof ResizeObserver==='undefined'?null:new ResizeObserver(schedule);
+  if(anchor){observer?.observe(anchor);if(anchor.parentElement)observer?.observe(anchor.parentElement);}
+  layout();schedule();document.fonts?.ready.then(()=>{if(alive)schedule();});
+  if(externalAnchor)menu.current?.focus({preventScroll:true});document.addEventListener('pointerdown',outside,true);window.addEventListener('resize',schedule);window.addEventListener('scroll',schedule,true);
+  return()=>{alive=false;cancelAnimationFrame(frame);observer?.disconnect();document.removeEventListener('pointerdown',outside,true);window.removeEventListener('resize',schedule);window.removeEventListener('scroll',schedule,true);};
  },[open,path.length,rows.length,externalAnchor]);
  useLayoutEffect(()=>{if(open)menu.current?.querySelector(`[data-index="${active}"]`)?.scrollIntoView({block:'nearest'});},[open,active]);
  useEffect(()=>{if(disabled)setOpen(false);},[disabled]);
