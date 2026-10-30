@@ -109,6 +109,8 @@ def merge_states(remote, local, baseline=None):
         for key, old in list(rows.items()):
             previous = previous_rows.get(encoded(list(key)))
             if previous and encoded(list(key)) not in local_keys:
+                if table == 'account_preferences' and key == ('experience-challenge-v1',):
+                    continue
                 if digest(old) == previous:
                     del rows[key]  # An actual pending local deletion.
                 else:
@@ -156,6 +158,14 @@ def merge_states(remote, local, baseline=None):
                 winner['claimed_at'] = min(old['claimed_at'], row['claimed_at'])
             elif table == 'ranking_reward_totals':
                 winner['total_xp'] = max(old['total_xp'], row['total_xp'])
+            elif table == 'account_preferences' and winner.get('key') == 'experience-challenge-v1':
+                from experience_challenge import merge as merge_experience
+                try:
+                    merged = merge_experience(json.loads(old['value']), json.loads(row['value']))
+                except (ValueError, TypeError):
+                    merged = None
+                if merged is not None:
+                    winner['value'] = encoded(merged)
             elif table == 'account_preferences' and winner.get('key') == 'ui':
                 from preferences import merge_onboarding_versions, merge_seen_achievements, merge_onboarding_unlocked_pages, merge_level_notices
                 try:
@@ -506,11 +516,28 @@ class AccountStateSync:
                     raise issue
             self.service._backup()
             db = self.service.connection
+            from experience_challenge import read as read_experience, validate as validate_experience, preserve_earned_rows
+            protect_earned = bool(read_experience(self.service).get('passedAt'))
+            for row in state['tables'].get('account_preferences', []):
+                if row.get('key') == 'experience-challenge-v1':
+                    try:
+                        received = validate_experience(json.loads(row['value']), self.service._ranking_profile()['user_id'])
+                        protect_earned = protect_earned or bool(received and received.get('passedAt'))
+                    except (ValueError, TypeError):
+                        pass
             db.execute('BEGIN IMMEDIATE')
             try:
                 previous_codes=dict(db.execute('SELECT id,code FROM submissions'))
+                retained_experience = False
                 for table in TABLES:
                     rows = state['tables'].get(table, [])
+                    if protect_earned:
+                        rows, retained = preserve_earned_rows(self.service, table, rows)
+                        retained_experience = retained_experience or retained
+                    if table == 'account_preferences':
+                        from experience_challenge import preserve_rows
+                        rows, retained = preserve_rows(self.service, rows)
+                        retained_experience = retained_experience or retained
                     allowed = {row[1] for row in db.execute(f'PRAGMA table_info("{table}")')}
                     db.execute(f'DELETE FROM "{table}"')
                     for row in rows:
@@ -524,7 +551,9 @@ class AccountStateSync:
                 raise
             changes = db.total_changes
         self._apply_profiles(state)
-        return changes
+        # A retained local fact differs from the remote acknowledgement. Keep
+        # the journal pending so the next CAS publishes the monotonic merge.
+        return changes - int(retained_experience)
 
     def _apply_profiles(self, state):
         self._check_stopping()

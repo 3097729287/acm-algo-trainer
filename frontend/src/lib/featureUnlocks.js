@@ -11,14 +11,14 @@ export const PAGE_LEVELS=Object.freeze(Object.fromEntries(PAGE_UNLOCKS.map(item=
 export const ESSENTIAL_PAGES=Object.freeze(PAGE_UNLOCKS.filter(item=>item.always).map(item=>item.id));
 export const optionalPages=PAGE_UNLOCKS.filter(item=>!item.always).map(item=>item.id);
 export function hiddenPages(value){return [...new Set((Array.isArray(value)?value:[]).filter(id=>optionalPages.includes(id)))];}
-export function canOpenPage(id,level,preferences={}){
+export function canOpenPage(id,level,preferences={},access={}){
  if(id==='goals')id='growth';if(typeof id!=='string')return false;
  if(id==='practice'||id==='overview'||id.startsWith('settings:'))return true;
  const page=PAGE_UNLOCKS.find(item=>item.id===id);
  const current=level===Infinity?Infinity:Number.isFinite(level)?level:1;
- return !!page&&(page.always||(!hiddenPages(preferences.hiddenNavPages).includes(id)&&current>=page.level));
+ return !!page&&(page.always||(!hiddenPages(preferences.hiddenNavPages).includes(id)&&(access.allNavigationUnlocked===true||current>=page.level)));
 }
 export const pageAvailable=canOpenPage,guideAvailable=canOpenPage;
-export const availablePages=(level,preferences={})=>PAGE_UNLOCKS.filter(item=>canOpenPage(item.id,level,preferences)).map(item=>item.id);
+export const availablePages=(level,preferences={},access={})=>PAGE_UNLOCKS.filter(item=>canOpenPage(item.id,level,preferences,access)).map(item=>item.id);
 export function newlyUnlocked(from,to){return PAGE_UNLOCKS.filter(item=>!item.always&&item.level>from&&item.level<=to);}
 export function nextUnlock(level){const next=PAGE_UNLOCKS.filter(item=>item.level>level);return next.length?next.filter(item=>item.level===Math.min(...next.map(item=>item.level))):[];}

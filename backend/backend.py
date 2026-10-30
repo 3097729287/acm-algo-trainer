@@ -295,6 +295,12 @@ class Handler(BaseHTTPRequestHandler):
                 elif path == '/api/initial-code/select':
                     from initial_code import choose
                     value = choose(training, body)
+                elif path == '/api/code/format':
+                    from code_format import format_code
+                    value = format_code(training, body)
+                elif path == '/api/experience-challenge':
+                    from experience_challenge import update
+                    value = update(training, body)
                 elif path == '/api/preferences':
                     from preferences import save_preferences
                     value = save_preferences(training, body)
@@ -424,7 +430,7 @@ class Handler(BaseHTTPRequestHandler):
                     value = self.server.translation_service().configure(body)
                 else:
                     raise APIError(404, "没有找到这个接口")
-                if accounts is not None and accounts.session and path not in ('/api/account/sync', '/api/software-update/install'):
+                if accounts is not None and accounts.session and path not in ('/api/account/sync', '/api/software-update/install', '/api/code/format'):
                     accounts.queue_sync()
                 self.send_json(200, value)
             elif path == "/api/data":
@@ -474,6 +480,8 @@ class Handler(BaseHTTPRequestHandler):
             elif path == '/api/initial-code':
                 from initial_code import catalog
                 self.send_json(200, catalog(self.server.training))
+            elif path == '/api/experience-challenge':
+                self.send_json(200, {'challenge': self.server.training.insights()['growth']['experienceChallenge']})
             elif path == '/api/preferences':
                 from preferences import read_preferences
                 self.send_json(200, read_preferences(self.server.training))

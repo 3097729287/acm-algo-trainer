@@ -14,11 +14,13 @@ const fixture = window.workbenchFixture = {
   nextVerdict: 'SAMPLE_PASS', nextRunVerdict: 'SAMPLE_PASS', exitCount: 0, solutionCount: 0, nextCount: 0,
   officialStatus: 'needs_login', officialSessions: {}, translationError: '', translationDelay: 10,
   notices: [], draftError: '', solutionClosed: 0, problemOverrides: {}, translationKind: '', preparationEvents: [],
+  formatting: window.formattingFixture || null,
 };
 window.addEventListener('tb:browser-preparation', event => fixture.preparationEvents.push(event.detail));
 const currentEditor = () => EditorView.findFromDOM(document.querySelector('.cm-content'));
 fixture.readCode = () => currentEditor().state.doc.toString();
 fixture.selectCode = (start, end = start) => currentEditor().dispatch({ selection: { anchor: start, head: end } });
+fixture.readSelection = () => ({anchor:currentEditor().state.selection.main.anchor,head:currentEditor().state.selection.main.head});
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 const key = body => `${body.contestId || 'solo'}:${body.id}`;
 const problem = id => ({
@@ -64,7 +66,15 @@ async function api(path, body) {
     const id = url.searchParams.get('id');
     await sleep(fixture.problemDelay[id] || 10);
     const context = { id, contestId: url.searchParams.get('contestId') };
-    return { ...problem(id), ...fixture.problemOverrides[id], draft: fixture.drafts[key(context)] || '', submissions: fixture.submissions.filter(row => row.problemId === id && row.contestId === context.contestId) };
+    return { ...problem(id), ...fixture.problemOverrides[id], ...(fixture.formatting?{formattingAvailable:fixture.formatting.available}:{}), draft: fixture.drafts[key(context)] || '', submissions: fixture.submissions.filter(row => row.problemId === id && row.contestId === context.contestId) };
+  }
+  if(path==='code/format'&&fixture.formatting){
+    await sleep(fixture.formatting.delay||0);
+    if(fixture.formatting.error)throw new Error(fixture.formatting.error);
+    const response=fixture.formatting.responses.find(item=>item.source===body.code&&item.language===body.language);
+    if(!response)throw new Error('Unknown isolated formatter input');
+    const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(body.code));
+    return {...response,inputSha256:[...new Uint8Array(digest)].map(n=>n.toString(16).padStart(2,'0')).join('')};
   }
   if (path === 'draft') {
     await sleep(fixture.draftDelay);
