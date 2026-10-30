@@ -8,6 +8,8 @@ import {CodeBlock,Feedback,Hints} from './LabParts.jsx';
 import OperationsExperiment from './OperationsExperiment.jsx';
 import LinearBasisExperiment from './LinearBasisExperiment.jsx';
 import GuidedProblem from './GuidedProblem.jsx';
+import GraphExperiment from './GraphExperiment.jsx';
+import {GRAPH_CODE} from './graphCode.js';
 import {OPERATION_PRACTICE} from './operationPractice.js';
 import useCourseKeys from './useCourseKeys.js';
 import './operationsLab.css';
@@ -55,7 +57,7 @@ export default function TemplateOperationsCourse({courseId,prefs,setPrefs,rows=[
    {guided?graphProblem?<GuidedProblem key={graphProblem.pid} problem={graphProblem} draft={saved.guided?.problems?.[graphProblem.pid]||{}} update={fn=>patch(old=>({...old,guided:{...old.guided,problems:{...old.guided?.problems,[graphProblem.pid]:fn(old.guided?.problems?.[graphProblem.pid]||{})}}}))} rows={rows} lockedProblems={lockedProblems} onTrain={onTrain}/>:<Practice key={saved.guided?.active||0} topic={topic} saved={saved} patch={patch} rows={rows} lockedProblems={lockedProblems} onTrain={onTrain}/>:<>
     <section className="lab-story"><h2>{CHAPTERS[index]}</h2><p>{index===0?topic.intro:index===1?topic.invariant:index===2?'先区分修改了结构的操作，与只返回答案的查询。每个操作都要能说出输入、结果和前提。':index===3?topic.boundary:index===4?topic.bug:index===5?'把操作、下标和不变量逐项对应到 C++。模板本身不替题目决定输入输出；最小示例展示完整调用方式。':'先完成五个递进练习，再独立写出完整程序。'}</p></section>
     {index<2&&experiment}
-    {index===1&&<><Markdown text={topic.reasoning}/>{topic.sections.map(section=><details key={section.id}><summary>{section.title}</summary>{topic.id==='fenwick'&&<p>这是独立推导，沿用原文注明的内部编号。当前模板的外部调用仍从 0 开始，区间为 [l,r)。</p>}<Markdown text={section.markdown} images={section.images}/></details>)}</>}
+    {index===1&&<><Markdown text={topic.reasoning}/>{topic.sections.map(section=><details key={section.id}><summary>{section.title}</summary>{topic.id==='fenwick'&&<p>这是独立推导，沿用原文注明的内部编号。当前模板的外部调用仍从 0 开始，区间为 [l,r)。</p>}<Markdown text={section.markdown} images={section.images}/></details>)}{GRAPH_COURSES[courseId]&&<details><summary>已有课程的推导与实验</summary>{GRAPH_COURSES[courseId].chapters.map(chapter=><section key={chapter.id}><h3>{chapter.title}</h3>{chapter.paragraphs.map(text=><p key={text}>{text}</p>)}</section>)}<GraphExperiment kind={courseId}/><CodeBlock code={GRAPH_CODE[courseId]}/></details>}</>}
     {index===2&&<><div className="operations-table"><table><thead><tr><th>操作</th><th>含义与前提</th></tr></thead><tbody>{topic.operations.map(([name,meaning])=><tr key={name}><th><code>{name}</code></th><td style={{whiteSpace:'normal'}}>{meaning}</td></tr>)}</tbody></table></div>{experiment}</>}
     {index===3&&<section className="lab-panel"><p>{topic.invariant}</p><p>{topic.boundary}</p><p>{topic.bug}</p></section>}
     {index===4&&<section className="lab-panel"><label>写出错误第一次出现的位置、修复依据和复测数据<textarea aria-label="我的排错说明" rows={5} style={{width:'100%',boxSizing:'border-box'}} value={saved.labV1?.drafts?.bug||''} onChange={e=>{const value=e.target.value;patch(old=>({...old,labV1:{...old.labV1,drafts:{...old.labV1?.drafts,bug:value}}}));}}/></label>{experiment}</section>}
