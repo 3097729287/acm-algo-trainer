@@ -23,7 +23,7 @@ try {
     await folders.locator('.catalog-folder-row').filter({has:page.getByText(root,{exact:true})}).click();
     for(let depth=0;await page.locator('.competition-card').count()===0;depth++){
       assert(depth<6,'nonempty shelf must lead to actual contests');
-      const label=await folders.locator('.catalog-folder-row').evaluateAll(nodes=>nodes.find(node=>Number(node.querySelector('span')?.textContent)>0)?.querySelector('strong')?.textContent);
+      const label=await folders.locator('.catalog-folder-row').evaluateAll(nodes=>nodes.find(node=>Number(node.querySelector(':scope > span')?.textContent)>0)?.querySelector('strong')?.textContent);
       assert(label,'expected a nonempty child folder');
       await folders.locator('.catalog-folder-row').filter({has:page.getByText(label,{exact:true})}).click();
     }
