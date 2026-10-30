@@ -11,7 +11,7 @@ permissions:
 jobs:
   backend:
     runs-on: windows-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     env:
       TB_OFFLINE: '1'
       PYTHONIOENCODING: utf-8

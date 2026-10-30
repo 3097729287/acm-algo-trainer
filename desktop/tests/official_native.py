@@ -66,7 +66,7 @@ def run():
                 elif str(request.Uri)=='https://www.luogu.com.cn/':
                     content='<html><title>Logged in homepage</title><body>Welcome</body></html>'
                 else:
-                    content=f'<html><title>compiler fixture</title><body><header id="account">fixture-user · Login</header><form method="post" action="/contests/abc478/submit"><select name="taskScreenName"><option value="abc478_d">D</option></select><select name="languageId"><option value="native-compiler">{mode["language"]}</option></select><textarea name="sourceCode"></textarea><button type="submit">Submit</button></form></body></html>'
+                    content=f'<html><title>compiler fixture</title><body><header id="account">fixture-user · Login</header><form method="post" action="/contests/abc478/submit"><input type="hidden" name="csrf_token" value="fixture-atcoder-csrf"><select name="taskScreenName"><option value="abc478_d">D</option></select><select name="languageId"><option value="native-compiler">{mode["language"]}</option></select><textarea name="sourceCode"></textarea><button type="submit">Submit</button></form></body></html>'
                     if 'codeforces.com' in str(request.Uri):
                         content=f'<html><title>Submit</title><body><header id="header"><a href="/profile/fixture">fixture</a></header><form method="post" action="/contest/123/submit"><select name="submittedProblemIndex"><option value="A">A</option></select><select name="programTypeId"><option value="native-compiler">{mode["language"]}</option></select><textarea name="source"></textarea><button type="submit">Submit</button></form></body></html>'
                     if '/acm/contest/' in str(request.Uri):

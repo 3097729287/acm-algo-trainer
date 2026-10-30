@@ -94,6 +94,7 @@ def run():
                         task='A' if cf else 'abc100_a'
                         account='<header id="header"><a href="/profile/fixture">fixture</a></header>' if cf else '<nav class="navbar"><a href="/users/fixture">fixture</a></nav>'
                         content=account+f'<form method="post"><select name="taskScreenName"><option value="{task}">{task}</option></select><select name="languageId"><option value="2">GNU C++17</option></select><textarea name="sourceCode"></textarea><button type="submit">Submit</button></form>'
+                        if not cf:content=content.replace('<form method="post">','<form method="post"><input type="hidden" name="csrf_token" value="fixture-atcoder-csrf">')
                         if not cf and mode['acToken'] is not None:
                             token='fixture-site-token' if mode['acToken'] else ''
                             content=content.replace('</form>',f'<div class="cf-challenge"><input type="hidden" name="cf-turnstile-response" value="{token}"></div></form>')
