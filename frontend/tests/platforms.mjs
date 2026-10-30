@@ -76,7 +76,11 @@ try{
  await nav().getByRole('button',{name:'比赛',exact:true}).click();await page.getByRole('button',{name:'筛选比赛',exact:true}).click();await choose('比赛平台','QOJ');await page.keyboard.press('Escape');
  await page.waitForFunction(()=>document.querySelectorAll('.competition-card').length===1);assert(await page.getByRole('button',{name:/查看 QOJ ICPC 2026 山东省赛/}).count());
  await page.getByRole('button',{name:'比赛文件夹浏览',exact:true}).click();const explorer=page.getByRole('region',{name:'比赛层级浏览'});
- assert(await explorer.getByRole('button',{name:/QOJ/}).count());assert(await explorer.getByRole('button',{name:/XCPC/}).count());
+ const qojFolder=explorer.getByRole('button',{name:/QOJ/}),xcpcFolder=explorer.getByRole('button',{name:/XCPC/});
+ // Fitted pagination measures its first row in the next animation frame.
+ // Observe both actual folders after that measurement before asserting.
+ await Promise.all([qojFolder.waitFor({state:'visible'}),xcpcFolder.waitFor({state:'visible'})]);
+ assert.equal(await qojFolder.count(),1);assert.equal(await xcpcFolder.count(),1);
  await explorer.getByRole('button',{name:/QOJ/}).click();assert(await page.getByRole('navigation',{name:'题目浏览路径'}).getByRole('button',{name:'QOJ',exact:true}).count());
  await nav().getByRole('button',{name:'提交记录',exact:true}).click();await page.getByLabel('提交平台',{exact:true}).click();await page.getByRole('listbox',{name:'提交平台',exact:true}).getByRole('option',{name:'QOJ',exact:true}).click();
  await page.waitForFunction(()=>document.querySelectorAll('.submission-log-row').length===1&&document.querySelector('.submission-platform')?.textContent==='QOJ');
