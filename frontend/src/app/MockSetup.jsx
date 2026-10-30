@@ -2,6 +2,7 @@ import PageSearch from '@/components/PageSearch.jsx';
 import FilterMenu from '@/components/FilterMenu.jsx';
 import {contestShelvesFor} from '@/components/ContestTabs.jsx';
 import {matchesShelf} from '@/lib/contestShelves.js';
+import {normalizePlatform,rowPlatform} from '@/lib/platformRegistry.js';
 import BoundedNumber from '@/components/BoundedNumber.jsx';
 import DifficultyRange from '@/components/DifficultyRange.jsx';
 import InlineTitle from '@/components/InlineTitle.jsx';
@@ -32,7 +33,14 @@ export default function MockSetup({api,onStarted,onError,activeContest,onResume,
  useEffect(()=>{if(!replay)return;let alive=true;setEventsLoading(true);api('contests/events').then(value=>{if(alive)setEvents(value.events||[]);}).catch(issue=>{if(alive)setError(issue.message);}).finally(()=>{if(alive)setEventsLoading(false);});return()=>{alive=false;};},[replay,api,eventAttempt]);
  const topicOptions=useMemo(()=>{const build=nodes=>nodes.map(node=>{const children=build(node.children||[]),tags=knowledgeFilterNames(node);return {label:children.length?node.name:canonicalKnowledgeName(node.name),value:node.name,tags,...(children.length?{children}:{})};});return build(categories);},[categories]);
  const topics=useMemo(()=>{const walk=nodes=>nodes.flatMap(node=>[node,...walk(node.children||[])]);return walk(topicOptions);},[topicOptions]);
- const shownEvents=useMemo(()=>events.filter(item=>!config.platform||matchesShelf(item,config.platform)),[events,config.platform]);
+ const shownEvents=useMemo(()=>{
+  if(!config.platform)return events;
+  if(['xcpc','XCPC','ACM','lanqiao'].includes(config.platform))return events.filter(item=>matchesShelf(item,config.platform));
+  // Training selects an actual source; the folder tree still groups XCPC
+  // independently of its host, matching the preview endpoint's source filter.
+  const platform=normalizePlatform(config.platform);
+  return events.filter(item=>rowPlatform(item)===platform);
+ },[events,config.platform]);
  const eventOptions=useMemo(()=>contestOptions(shownEvents,{descending:eventDescending,shelf:config.platform}),[shownEvents,eventDescending,config.platform]);
  const change=(patch,manual=false)=>{setConfig(previous=>{
   const next={...previous,...patch};

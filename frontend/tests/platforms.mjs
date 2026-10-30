@@ -67,8 +67,10 @@ try{
   }
   await choose('题目平台','QOJ');
   await page.getByLabel('筛选比赛分类',{exact:true}).click();
-  const menu=page.getByRole('listbox',{name:'筛选比赛分类',exact:true});await menu.getByRole('option',{name:'QOJ',exact:true}).click();
-  await menu.getByRole('option',{name:'选择「QOJ」',exact:true}).click();
+  const menu=page.getByRole('listbox',{name:'筛选比赛分类',exact:true});
+  assert.equal(await menu.getByRole('option',{name:'QOJ',exact:true}).count(),0,'XCPC events have no hosting-platform category mirror');
+  await menu.getByRole('option',{name:'XCPC',exact:true}).click();
+  await menu.getByRole('option',{name:'选择「XCPC」',exact:true}).click();
   await page.waitForFunction(()=>document.querySelectorAll('.problem-title').length===1);
   assert.equal(await page.getByLabel('题目平台',{exact:true}).inputValue(),'QOJ','Selecting the event taxonomy preserves the independent source filter');
   await page.keyboard.press('Escape');await page.screenshot({path:`${output}/${pageName}-qoj.png`,animations:'disabled'});
@@ -78,10 +80,11 @@ try{
  await page.getByRole('button',{name:'比赛文件夹浏览',exact:true}).click();const explorer=page.getByRole('region',{name:'比赛层级浏览'});
  const qojFolder=explorer.getByRole('button',{name:/QOJ/}),xcpcFolder=explorer.getByRole('button',{name:/XCPC/});
  // Fitted pagination measures its first row in the next animation frame.
- // Observe both actual folders after that measurement before asserting.
- await Promise.all([qojFolder.waitFor({state:'visible'}),xcpcFolder.waitFor({state:'visible'})]);
- assert.equal(await qojFolder.count(),1);assert.equal(await xcpcFolder.count(),1);
- await explorer.getByRole('button',{name:/QOJ/}).click();assert(await page.getByRole('navigation',{name:'题目浏览路径'}).getByRole('button',{name:'QOJ',exact:true}).count());
+ // Observe the event folder after that measurement before asserting.
+ await xcpcFolder.waitFor({state:'visible'});
+ assert.equal(await qojFolder.count(),0,'XCPC events appear only under their platform-independent category');assert.equal(await xcpcFolder.count(),1);
+ await xcpcFolder.click();const catalogPath=page.getByRole('navigation',{name:'题目浏览路径'});
+ assert.equal(await catalogPath.getByRole('button',{name:'XCPC',exact:true}).count(),1);assert.equal(await catalogPath.getByRole('button',{name:'QOJ',exact:true}).count(),0);
  await nav().getByRole('button',{name:'提交记录',exact:true}).click();await page.getByLabel('提交平台',{exact:true}).click();await page.getByRole('listbox',{name:'提交平台',exact:true}).getByRole('option',{name:'QOJ',exact:true}).click();
  await page.waitForFunction(()=>document.querySelectorAll('.submission-log-row').length===1&&document.querySelector('.submission-platform')?.textContent==='QOJ');
  assert(requests.some(request=>request.name==='submissions'&&request.query.platform==='QOJ'&&request.query.offset==='0'));
@@ -90,6 +93,7 @@ try{
  await page.getByRole('button',{name:'生成试卷',exact:true}).click();await page.getByLabel('训练试卷预览',{exact:true}).waitFor();
  assert.equal(requests.filter(request=>request.name==='contests/preview').at(-1).body.platform,'QOJ');
  await chooseMockValue(page,'重现赛','ICPC 2026 山东省赛');await page.getByRole('button',{name:'生成试卷',exact:true}).click();
+ assert.equal(requests.filter(request=>request.name==='contests/preview').at(-1).body.platform,'QOJ','Replaying an XCPC event preserves its independently selected hosting source');
  assert.equal(requests.filter(request=>request.name==='contests/preview').at(-1).body.contest,'ICPC 2026 山东省赛');
  assert.equal(requests.filter(request=>request.name==='contests/start').length,0);
  // Account source fields remain the four actually implemented public providers.
