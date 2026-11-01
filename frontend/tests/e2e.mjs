@@ -70,7 +70,7 @@ try {
   assert.equal(await page.locator('.wb-run-actions').getByRole('button', { name: '官方提交', exact: true }).count(), 0);
   assert.equal(await page.locator('.wb-run-actions').getByRole('button', { name: '本地提交', exact: true }).count(), 0);
   assert.equal(await page.locator('.wb-run-actions').getByRole('button', { name: '提交', exact: true }).count(), 1);
-  assert.equal(await page.locator('.wb-run-actions').getByRole('button', { name: '运行样例', exact: true }).count(), 1);
+  assert.equal(await page.locator('.wb-run-toolbar').getByRole('button', { name: '自测运行', exact: true }).count(), 1);
   await page.getByRole('button', { name: '题解', exact: true }).click();
   await page.locator('.reader-panel .markdown').first().waitFor();
   await page.locator('.reader-panel .lesson-reader-link > button:first-child').first().waitFor();

@@ -21,6 +21,8 @@ try {
  assert.equal(await page.getByRole('dialog').count(),0);await page.getByRole('listbox',{name:'选择初始代码模板',exact:true}).getByRole('option',{name:'我的模板',exact:true}).click();
  await page.waitForFunction(()=>fixture.calls.some(call=>call.path==='initial-code/select'&&call.body.id==='own'));
  const geometry=await page.locator('.initial-code-settings-editor').evaluate(node=>({bottom:node.getBoundingClientRect().bottom,viewport:innerHeight,height:node.clientHeight}));assert(geometry.viewport-geometry.bottom<60&&geometry.height>500,JSON.stringify(geometry));
+ const nameField=page.getByRole('textbox',{name:'初始代码模板名称',exact:true});
+ assert.equal(await nameField.evaluate(node=>node.parentElement.classList.contains('initial-code-settings-toolbar')),true,'Name editing is in the same compact toolbar');
  await page.evaluate(()=>fixture.screen('code-theme'));await page.getByRole('option',{name:'Dracula',exact:true}).click();
  await page.waitForFunction(()=>fixture.prefs.editorTheme==='dracula');assert.equal(await page.locator('.editor-theme-preview .cm-content').count(),1);
  assert.equal(await page.locator('.editor-theme-preview .cm-editor').evaluate(node=>getComputedStyle(node).color),'rgb(248, 248, 242)');
@@ -31,11 +33,11 @@ try {
  await page.getByRole('button',{name:'最近练习',exact:true}).click();await page.waitForFunction(()=>fixture.filter.sort==='date');await page.getByRole('button',{name:'最近练习',exact:true}).click();await page.waitForFunction(()=>fixture.filter.sort==='contestDate');
  await page.evaluate(()=>fixture.screen('', 'daily'));await page.getByRole('heading',{name:'日常',exact:true}).waitFor();assert.equal(await page.getByText('进行中',{exact:true}).count(),0);assert.equal(await page.getByRole('heading',{name:'日常',exact:true}).count(),1);assert.equal(await page.getByRole('heading',{name:'任务',exact:true}).count(),1);
  await page.goto(base+'/tests/workbench-fixture.html');await page.addStyleTag({url:base+'/src/styles/interaction.css'});await page.locator('.cm-content').waitFor();
- const lock=page.getByRole('button',{name:'解锁顶部工具栏',exact:true});await lock.click();await page.waitForFunction(()=>document.querySelector('.tb-workbench').classList.contains('wb-toolbar-hidden'));
+ const editor=page.getByRole('textbox',{name:'C++ 代码'});await editor.focus();await editor.press('Alt+t');await page.waitForFunction(()=>document.querySelector('.tb-workbench').classList.contains('wb-toolbar-hidden'));
  const hidden=await page.locator('.wb-editor-header').evaluate(node=>node.getBoundingClientRect().height);assert.equal(hidden,0);
- const bounds=await page.locator('.tb-workbench').boundingBox();await page.mouse.move(bounds.x+bounds.width/2,bounds.y+2);await page.getByRole('button',{name:'锁定顶部工具栏',exact:true}).waitFor({state:'visible'});await page.getByRole('button',{name:'锁定顶部工具栏',exact:true}).click();
- const editor=page.getByRole('textbox',{name:'C++ 代码'});await editor.fill('int main() { return (1); }');await editor.focus();await editor.press('Home');
+ const bounds=await page.locator('.tb-workbench').boundingBox();await page.mouse.move(bounds.x+bounds.width/2,bounds.y+2);await page.locator('.wb-editor-header').waitFor({state:'visible'});await page.keyboard.press('Alt+t');
+ await editor.fill('int main() { return (1); }');await editor.focus();await editor.press('Home');
  const carets=[];for(let i=0;i<4;i++){await editor.press('ArrowRight');await page.waitForTimeout(30);carets.push(await page.locator('.cm-cursor-primary').evaluate(node=>node.getBoundingClientRect().x));}assert(carets.every((value,index)=>!index||value>carets[index-1]),JSON.stringify(carets));
- await page.getByRole('button',{name:'解锁顶部工具栏',exact:true}).focus();assert.equal(await page.locator('.cm-cursorLayer').evaluate(node=>getComputedStyle(node).display),'block');
+ await page.getByRole('button',{name:'下一题',exact:false}).focus();assert.equal(await page.locator('.cm-cursorLayer').evaluate(node=>getComputedStyle(node).display),'block');
  assert.deepEqual(errors,[]);console.log('Interaction 1.4.33: grouping, opacity, direct template select, full height, code themes, filter toggles, routines, toolbar lock and persistent caret passed.');
 } finally {await browser.close();await vite.close();}

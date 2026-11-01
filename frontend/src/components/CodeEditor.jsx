@@ -1,19 +1,23 @@
 import {EXTRA_SHORTCUTS,matchesShortcut} from '@/lib/shortcuts.js';
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
-import { basicSetup } from 'codemirror';
-import { drawSelection, EditorView, keymap } from '@codemirror/view';
+import { drawSelection, EditorView, keymap, lineNumbers, highlightActiveLineGutter, highlightSpecialChars, dropCursor, rectangularSelection, crosshairCursor, highlightActiveLine } from '@codemirror/view';
 import { Annotation, Compartment, EditorState, Prec } from '@codemirror/state';
-import { indentLess, indentMore } from '@codemirror/commands';
+import { indentLess, indentMore, history, defaultKeymap, historyKeymap } from '@codemirror/commands';
+import {highlightSelectionMatches,searchKeymap} from '@codemirror/search';
+import {lintKeymap} from '@codemirror/lint';
 import { cpp } from '@codemirror/lang-cpp';
 import { python } from '@codemirror/lang-python';
-import { HighlightStyle, indentUnit, syntaxHighlighting } from '@codemirror/language';
-import { acceptCompletion, autocompletion, completionStatus, snippetCompletion } from '@codemirror/autocomplete';
+import { HighlightStyle, indentUnit, syntaxHighlighting, indentOnInput, bracketMatching } from '@codemirror/language';
+import { acceptCompletion, autocompletion, completionStatus, snippetCompletion, closeBrackets, closeBracketsKeymap, completionKeymap } from '@codemirror/autocomplete';
 import { tags } from '@lezer/highlight';
 import './CodeEditor.css';
 import './CodeEditorTheme.css';
 import {editorTheme as findEditorTheme,editorThemeStyle} from '@/lib/editorThemes.js';
 
 const externalChange = Annotation.define();
+// Configure the editor explicitly so neither a folding gutter nor folding
+// commands can hide code. Keep history, selection, search and completion.
+const editorSetup=[lineNumbers(),highlightActiveLineGutter(),highlightSpecialChars(),history(),dropCursor(),EditorState.allowMultipleSelections.of(true),indentOnInput(),bracketMatching(),closeBrackets(),rectangularSelection(),crosshairCursor(),highlightActiveLine(),highlightSelectionMatches(),keymap.of([...closeBracketsKeymap,...defaultKeymap,...searchKeymap,...historyKeymap,...completionKeymap,...lintKeymap])];
 const keywordOptions = 'alignas alignof auto bool break case catch char class const constexpr continue decltype default delete do double else enum explicit extern false float for friend if inline int long namespace new noexcept nullptr operator private protected public return short signed sizeof static struct switch template this throw true try typedef typename union unsigned using virtual void volatile while'.split(' ').map(label => ({ label, type: 'keyword' }));
 const completions = [
   ...keywordOptions,
@@ -57,7 +61,7 @@ const theme = EditorView.theme({
   '.cm-searchMatch-selected': { backgroundColor: 'color-mix(in srgb, var(--warning) 45%, transparent)' },
 });
 
-const CodeEditor = forwardRef(function CodeEditor({ shortcuts={}, value = '', onChange, onCursorChange, onCommand, onLeave, readOnly = false, disabled = false, docKey = '', language = 'cpp17', ariaLabel = 'C++ 代码',editorTheme }, ref) {
+const CodeEditor = forwardRef(function CodeEditor({ shortcuts={}, value = '', onChange, onCursorChange, onCommand, onLeave, readOnly = false, disabled = false, docKey = '', language = 'cpp17', ariaLabel = 'C++ 代码',editorTheme,cursorPosition }, ref) {
   const host = useRef(null), viewRef = useRef(null), readonlyCompartment = useRef(new Compartment());
   const callbacks = useRef({ onChange, onCursorChange, onCommand, onLeave, shortcuts });
   callbacks.current = { onChange, onCursorChange, onCommand, onLeave, shortcuts };
@@ -84,7 +88,7 @@ const CodeEditor = forwardRef(function CodeEditor({ shortcuts={}, value = '', on
         event.preventDefault(); event.stopPropagation(); callbacks.current.onCommand?.(command); return true;
       } })),
       Prec.highest(keymap.of([{ key: 'Tab', run: editor => (completionStatus(editor.state) === 'active' && acceptCompletion(editor)) || indentMore(editor), shift: indentLess }])),
-      basicSetup, drawSelection({cursorBlinkRate:0}), language==='python3' ? python() : cpp(), indentUnit.of('    '), theme, syntaxHighlighting(colors),
+      editorSetup, drawSelection({cursorBlinkRate:0}), language==='python3' ? python() : cpp(), indentUnit.of('    '), theme, syntaxHighlighting(colors),
       autocompletion({ ...(language==='python3'?{}:{override:[completeCpp]}), activateOnTyping: true, maxRenderedOptions: 12 }),
       readonlyCompartment.current.of([EditorState.readOnly.of(readOnly || disabled), EditorView.editable.of(!disabled)]),
       EditorView.contentAttributes.of(editor => ({ 'aria-label': language==='python3'?'Python 代码':ariaLabel, 'aria-multiline': 'true', 'aria-readonly': editor.state.readOnly ? 'true' : 'false', role: 'textbox', spellcheck: 'false', autocapitalize: 'off' })),
@@ -95,7 +99,9 @@ const CodeEditor = forwardRef(function CodeEditor({ shortcuts={}, value = '', on
     ] }) });
     viewRef.current = view;
     notifyCursor(view);
-    return () => { viewRef.current = null; view.destroy(); };
+    const gutter=view.dom.querySelector('.cm-gutters'),measure=()=>host.current?.style.setProperty('--editor-gutter-width',`${gutter?.getBoundingClientRect().width||36}px`),observer=new ResizeObserver(measure);
+    if(gutter)observer.observe(gutter);measure();
+    return () => { observer.disconnect();viewRef.current = null; view.destroy(); };
     // Changing document identity creates a fresh undo history; mirrored value
     // updates below preserve the current caret and history during ordinary edits.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -106,6 +112,6 @@ const CodeEditor = forwardRef(function CodeEditor({ shortcuts={}, value = '', on
   }, [value, docKey]);
   useEffect(() => { viewRef.current?.dispatch({ effects: readonlyCompartment.current.reconfigure([EditorState.readOnly.of(readOnly || disabled), EditorView.editable.of(!disabled)]) }); }, [readOnly, disabled, docKey]);
   const selected=editorTheme?findEditorTheme(editorTheme):null;
-  return <div className="code-editor" style={selected?editorThemeStyle(selected.id):undefined} ref={host} data-editor-theme={selected?.id} data-editor-effect={selected?selected.effect||'none':undefined} data-readonly={readOnly || disabled} onKeyDown={event => { if (event.defaultPrevented) event.stopPropagation(); }} />;
+  return <div className="code-editor" style={selected?editorThemeStyle(selected.id):undefined} ref={host} data-editor-theme={selected?.id} data-editor-effect={selected?selected.effect||'none':undefined} data-readonly={readOnly || disabled} onKeyDown={event => { if (event.defaultPrevented) event.stopPropagation(); }}>{cursorPosition&&<span className="code-editor-position" aria-label={`当前第 ${cursorPosition.line} 行，第 ${cursorPosition.column} 列`} title={`Ln ${cursorPosition.line}, Col ${cursorPosition.column}`}>{cursorPosition.line}:{cursorPosition.column}</span>}</div>;
 });
 export default CodeEditor;

@@ -113,7 +113,7 @@ try{
  await page.waitForFunction(()=>document.querySelector('.cm-content')?.getAttribute('contenteditable')==='true');
  await editor.press('Control+Enter');await page.waitForTimeout(150);
  assert.equal(await page.evaluate(()=>workbenchFixture.calls.filter(call=>call.path==='official/submit').length),0,'Unknown platform shortcuts never send an original-site request');
- await page.getByRole('button',{name:'运行样例',exact:true}).click();await page.waitForFunction(()=>workbenchFixture.calls.some(call=>call.path==='submissions'&&call.body.mode==='run'));
+ await page.getByRole('button',{name:'自测运行',exact:true}).click();await page.waitForFunction(()=>workbenchFixture.calls.some(call=>call.path==='submissions'&&call.body.mode==='run'));
  await page.evaluate(()=>workbenchFixture.changeProblem('Q'));await page.waitForFunction(()=>document.querySelector('.wb-primary')?.disabled===false&&document.querySelector('.wb-primary')?.title==='原站提交 · Ctrl+Enter');
  await editor.press('Control+Enter');await page.waitForFunction(()=>workbenchFixture.calls.some(call=>call.path==='official/submit'&&call.body.id==='Q'));
  await page.getByRole('button',{name:'在浏览器查看',exact:true}).waitFor();await page.getByRole('button',{name:'在浏览器查看',exact:true}).click();

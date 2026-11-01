@@ -66,6 +66,9 @@ class InteractionFollowupTests(unittest.TestCase):
         result=self.service.start_contest({'ids':[slot['id'] for slot in plan['slots']],'duration':120,'name':'重现赛 · fixture'})['contest']
         row=next(row for row in self.library.rows if row['id']==result['slots'][0]['id'])
         self.assertEqual(self.service.contest(result['id'])['contest']['name'],'重现赛 · fixture')
+        for began,ended in [(None,None),(None,self.clock().isoformat()),(self.clock().isoformat(),None),('',None)]:
+            row.update(startedAt=began,endedAt=ended)
+            self.assertEqual(self.service.contest(result['id'])['contest']['name'],'重现赛 · fixture','Missing source times cannot prove live participation or break replay startup')
         row.update(startedAt=(self.clock()-dt.timedelta(minutes=1)).isoformat(),endedAt=(self.clock()+dt.timedelta(minutes=119)).isoformat())
         self.assertEqual(self.service.contest(result['id'])['contest']['name'],'fixture')
         row['endedAt']=(self.clock()-dt.timedelta(seconds=1)).isoformat()

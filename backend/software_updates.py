@@ -10,12 +10,14 @@ from pathlib import Path
 import re
 import sqlite3
 import threading
+import uuid
 from urllib.parse import urlsplit
 from urllib.error import HTTPError
 from urllib.request import Request, build_opener, HTTPRedirectHandler, ProxyHandler
 
 from persistence import load_document, save_document
 from version import VERSION
+from update_errors import UpdateBaseMismatch
 
 REPOSITORY = "3097729287/acm-algo-trainer"
 RELEASES = "https://github.com/" + REPOSITORY + "/releases"
@@ -93,10 +95,20 @@ def domestic_release_info(payload, current):
                 not isinstance(sha, str) or not re.fullmatch('[a-f0-9]{64}', sha) or
                 asset.get('url') != expected or not trusted_url(expected)):
             raise ValueError('国内更新包地址、大小或 SHA-256 校验值无效')
-        candidates.append({'kind': 'delta' if name in deltas else 'installer', 'version': version,
+        candidate={'kind': 'delta' if name in deltas else 'installer', 'version': version,
                            'name': name, 'url': expected, 'size': size, 'sha256': sha,
                            'notes': str(record.get('notes') or '')[:12000],
-                           'releaseUrl': f'{DOMESTIC_ROOT}/stable/release-{version}.html'})
+                           'releaseUrl': f'{DOMESTIC_ROOT}/stable/release-{version}.html'}
+        fallback_name=next((item for item in installers if item in available),None)
+        if candidate['kind']=='delta' and fallback_name:
+            fallback=available[fallback_name]
+            fallback_url=f'{DOMESTIC_ROOT}/assets/{version}/{fallback_name}'
+            if (type(fallback.get('size')) is not int or not 0<fallback['size']<=MAX_INSTALLER or
+                    not isinstance(fallback.get('sha256'),str) or not re.fullmatch('[a-f0-9]{64}',fallback['sha256']) or
+                    fallback.get('url')!=fallback_url or not trusted_url(fallback_url)):
+                raise ValueError('完整安装包地址、大小或 SHA-256 校验值无效')
+            candidate['fallbackInstaller']={**candidate,'kind':'installer','name':fallback_name,'url':fallback_url,'size':fallback['size'],'sha256':fallback['sha256']}
+        candidates.append(candidate)
     newer = any(version_tuple(row['version']) > version_tuple(current) for row in records)
     if not candidates and newer:
         raise MissingDelta('国内更新包尚未发布完整，请稍后重试')
@@ -114,7 +126,8 @@ def release_info(payload, current):
     incremental = version_tuple(current) >= (1, 0, 13)
     names = [(brand + "-Update-" + current + "-to-" + version + "-win64.zip") if incremental else brand + "-Setup-" + version + "-win64.exe" for brand in ("ToBe", "TB")]
     uploaded = [asset for asset in payload.get("assets", []) if asset.get("state") == "uploaded"]
-    name = next((name for name in names if any(asset.get("name") == name for asset in uploaded)), names[0])
+    installer_names=[brand+'-Setup-'+version+'-win64.exe' for brand in ('ToBe','TB')]
+    name = next((name for name in names + installer_names if any(asset.get("name") == name for asset in uploaded)), names[0])
     assets = [asset for asset in uploaded if asset.get("name") == name]
     if len(assets) != 1:
         if incremental:
@@ -127,8 +140,12 @@ def release_info(payload, current):
     size = asset.get("size")
     if type(size) is not int or not 0 < size <= MAX_INSTALLER:
         raise ValueError("更新包大小无效")
-    return {"kind": "delta" if incremental else "installer", "version": version, "name": name, "url": expected, "sha256": asset["digest"][7:], "size": size,
+    result={"kind": "delta" if name in names and incremental else "installer", "version": version, "name": name, "url": expected, "sha256": asset["digest"][7:], "size": size,
             "releaseUrl": RELEASES + "/tag/" + tag, "notes": str(payload.get("body") or "")[:12000]}
+    if result['kind']=='delta' and any(item.get('name') in installer_names for item in uploaded):
+        fallback_payload={**payload,'assets':[item for item in uploaded if item.get('name') in installer_names]}
+        result['fallbackInstaller']=release_info(fallback_payload,current)
+    return result
 
 
 def backup_databases(state, destination):
@@ -171,6 +188,9 @@ class SoftwareUpdates:
         self.installer = None
         self.launcher = None
         self.guard = None
+        self.preparer = None
+        self.error_code, self.deferred_reason = '', ''
+        self.repairing = False
         self.status, self.error, self.checked_at = "idle", "", None
         self.downloaded = 0
         self.started = False
@@ -182,6 +202,7 @@ class SoftwareUpdates:
                     "startupCheckRequired": True, "automatic": self.automatic,
                     "channel": "domestic" if self.feed == DOMESTIC_FEED else "github",
                     "lastCheckedAt": self.checked_at, "error": self.error, "canInstall": self.launcher is not None,
+                    "errorCode":self.error_code,"installDeferred":bool(self.deferred_reason),"deferredReason":self.deferred_reason,"repairing":self.repairing,
                     "latestVersion": self.release["version"] if self.release else None,
                     "updateKind": self.release.get("kind") if self.release else "delta",
                     "releaseUrl": self.release["releaseUrl"] if self.release else DOMESTIC_ROOT + '/stable/index.html' if self.feed == DOMESTIC_FEED else RELEASES,
@@ -247,7 +268,7 @@ class SoftwareUpdates:
         with self.lock:
             if self.offline or self.stop.is_set() or self.status in {"checking", "downloading", "ready", "installing"}:
                 return self.snapshot()
-            self.status, self.error = "checking", ""
+            self.status, self.error, self.error_code, self.deferred_reason = "checking", "", "", ""
             self._spawn(self._check)
         return self.snapshot()
 
@@ -308,6 +329,7 @@ class SoftwareUpdates:
             if not self.release:
                 raise ServiceError(409, "请先检查可用更新")
             self.status, self.error, self.downloaded = "downloading", "", 0
+            self.error_code,self.deferred_reason='',''
             self.installer = None
             self._spawn(self._download)
         return self.snapshot()
@@ -319,6 +341,12 @@ class SoftwareUpdates:
             directory = self.state_dir.parent / "cache" / "updates"
             directory.mkdir(parents=True, exist_ok=True)
             destination = directory / release["name"]
+            if destination.is_file() and destination.stat().st_size==release['size']:
+                with destination.open('rb') as cached:
+                    verified=hashlib.file_digest(cached,'sha256').hexdigest()==release['sha256']
+                if verified:
+                    with self.lock:self.installer,self.status,self.downloaded=destination,'ready',release['size']
+                    return
             partial = destination.with_suffix(".download")
             digest = hashlib.sha256()
             size = 0
@@ -342,8 +370,11 @@ class SoftwareUpdates:
             with self.lock:
                 self.installer, self.status = destination, "ready"
         except Exception as error:
-            if partial:
-                partial.unlink(missing_ok=True)
+            if partial and partial.exists():
+                # Retain rejected bytes for diagnosis; ordinary retirement uses
+                # the Windows Recycle Bin instead of permanent deletion.
+                try:partial.replace(partial.with_name(partial.name+'.failed-'+uuid.uuid4().hex))
+                except OSError:pass  # Keep the original when it cannot be moved.
             with self.lock:
                 self.status = "error"
                 self.error = str(error) if isinstance(error, ValueError) else "安装包下载失败，请检查网络后重试"
@@ -353,8 +384,12 @@ class SoftwareUpdates:
         with self.lock:
             if self.status != "ready" or not self.installer or not self.launcher:
                 raise ServiceError(409, "请先下载并校验安装包")
+            self.error,self.error_code,self.deferred_reason='','',''
             if self.guard:
-                self.guard()
+                try:self.guard()
+                except ServiceError as error:
+                    self.error_code,self.deferred_reason='busy',str(error)
+                    raise
             try:
                 with self.installer.open("rb") as stream:
                     digest = hashlib.file_digest(stream, "sha256").hexdigest()
@@ -362,12 +397,24 @@ class SoftwareUpdates:
                     self.installer = None
                     self.status = "error"
                     raise ValueError("更新包校验失败，请重新下载")
+                if self.preparer:self.preparer(self.installer,self.release['sha256'],self.release['version'])
                 stamp = dt.datetime.now().strftime("%Y%m%d-%H%M%S-%f")
                 backup_databases(self.state_dir, self.state_dir / "backups" / ("before-update-" + stamp))
                 self.launcher(self.installer, self.release["sha256"], self.release["version"])
                 self.status = "installing"
+            except UpdateBaseMismatch as error:
+                fallback=self.release.get('fallbackInstaller') if self.release.get('kind')=='delta' else None
+                if fallback:
+                    self.release,self.installer,self.repairing=fallback,None,True
+                    self.status='available'
+                    return self.download()
+                self.status,self.error,self.error_code='repair-required',str(error),'base-mismatch'
+                raise ServiceError(409,self.error) from error
             except Exception as error:
-                raise ServiceError(409, str(error) if isinstance(error, ValueError) else "更新准备失败，程序和个人数据已保留，请重试") from error
+                if self.status!='error':self.status='install-error'
+                self.error_code='verification' if self.status=='error' else 'prepare-failed'
+                self.error=str(error) if isinstance(error,ValueError) else '更新准备失败，程序和个人数据已保留，请重试'
+                raise ServiceError(409,self.error) from error
         return self.snapshot()
 
     def close(self):

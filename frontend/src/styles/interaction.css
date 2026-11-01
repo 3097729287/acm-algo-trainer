@@ -9,8 +9,6 @@ html .tb-workbench[data-surface=contest] .wb-code-pane {--panel:color-mix(in srg
 html .tb-workbench :is(.wb-pane-header,.wb-compact-toolbar) {--toolbar-opacity:var(--opacity-practice-toolbar,var(--panel-opacity,76%));background:color-mix(in srgb,var(--panel-raised-base) var(--toolbar-opacity),transparent);}
 html .tb-workbench[data-surface=mock] :is(.wb-pane-header,.wb-compact-toolbar) {--toolbar-opacity:var(--opacity-mock-toolbar,var(--panel-opacity,76%));}
 html .tb-workbench[data-surface=contest] :is(.wb-pane-header,.wb-compact-toolbar) {--toolbar-opacity:var(--opacity-contest-toolbar,var(--panel-opacity,76%));}
-html .tb-workbench .wb-toolbar-lock {width:var(--wb-control-height,32px);height:var(--wb-control-height,32px);flex:none;}
-html .tb-workbench .wb-toolbar-lock[aria-pressed=true] {color:var(--accent);}
 .wb-toolbar-reveal {position:absolute;z-index:40;top:0;left:0;right:0;width:100%;height:7px;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;}
 html .tb-workbench.wb-toolbar-hidden :is(.wb-pane-header,.wb-compact-toolbar) {height:0!important;min-height:0!important;max-height:0!important;padding-block:0!important;border-bottom:0;overflow:hidden;visibility:hidden;}
 html .tb-workbench .wb-statement {scrollbar-width:none;}

@@ -83,7 +83,13 @@ try{
   }
   await waitState(value=>value.ready&&platforms.every(platform=>value.platforms.find(p=>p.platform===platform)?.state==='logged_in'));
   assert.ok(browser.pages().every(p=>!p.url().startsWith('https://')),'No OJ tab opened for login detection');
-  const cookies=await get('sync');
+  const expectedCounts={Codeforces:2,AtCoder:2,'牛客':2,'洛谷':3,QOJ:2};
+  let cookies;
+  for(let attempt=0;attempt<160;attempt++){
+    cookies=await get('sync');
+    if(platforms.every(platform=>cookies[platform]?.count===expectedCounts[platform]))break;
+    await new Promise(resolve=>setTimeout(resolve,100));
+  }
   assert.deepEqual(Object.fromEntries(platforms.map(p=>[p,cookies[p].count])),{Codeforces:2,AtCoder:2,'牛客':2,'洛谷':3,QOJ:2});
   // A live heartbeat can precede the encrypted store confirmation. Restart
   // only after the fixture has observed the durable state being tested.

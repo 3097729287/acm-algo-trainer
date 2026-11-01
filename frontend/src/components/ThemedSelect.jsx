@@ -5,24 +5,25 @@ import './ThemedSelect.css';
 
 // Retain the native form control, labels, validation and change events. Only the
 // popup is rendered here, so Windows cannot paint it in an unrelated palette.
-const ThemedSelect=forwardRef(function ThemedSelect({children,onChange,onKeyDown,onPointerDown,onClick,className='',style,...props},forwardedRef) {
+const ThemedSelect=forwardRef(function ThemedSelect({children,onChange,onKeyDown,onPointerDown,onClick,onOpenChange,hideSelectedOption=false,className='',style,...props},forwardedRef) {
   const native=useRef(null),menu=useRef(null),search=useRef({text:'',at:0}),id=useId();
   const [open,setOpen]=useState(false),[active,setActive]=useState(-1),[items,setItems]=useState([]),[position,setPosition]=useState({});
   const attach=useCallback(node=>{native.current=node;if(typeof forwardedRef==='function')forwardedRef(node);else if(forwardedRef)forwardedRef.current=node;},[forwardedRef]);
-  function options(){return Array.from(native.current?.options || []).map((option,index)=>({index,value:option.value,text:option.text,disabled:option.disabled || Boolean(option.parentElement?.disabled),group:option.parentElement?.tagName==='OPTGROUP'?option.parentElement.label:''}));}
-  function show(){if(props.disabled)return;const values=options();setItems(values);setActive(native.current.selectedIndex);setOpen(true);}
+  function options(){return Array.from(native.current?.options || []).filter(option=>!hideSelectedOption||!option.selected).map(option=>({value:option.value,text:option.text,disabled:option.disabled || Boolean(option.parentElement?.disabled),group:option.parentElement?.tagName==='OPTGROUP'?option.parentElement.label:''}));}
+  function show(){if(props.disabled)return;const values=options();if(!values.length)return;setItems(values);setActive(hideSelectedOption?values.findIndex(item=>!item.disabled):values.findIndex(item=>item.value===native.current.value));setOpen(true);}
   function choose(index){const option=items[index];if(!option || option.disabled)return;const select=native.current;select.value=option.value;select.dispatchEvent(new Event('change',{bubbles:true}));setOpen(false);select.focus({preventScroll:true});}
   function move(direction){let index=active;for(let count=0;count<items.length;count++){index=(index+direction+items.length)%items.length;if(!items[index].disabled){setActive(index);break;}}}
   useLayoutEffect(()=>{
     if(!open)return;
-    const layout=()=>{const rect=native.current.getBoundingClientRect(),context=document.createElement('canvas').getContext('2d');context.font=getComputedStyle(native.current).font;const textWidth=Math.max(0,...items.map(item=>context.measureText(item.text).width));const width=Math.min(Math.max(rect.width,Math.ceil(textWidth)+54),innerWidth-16);const below=innerHeight-rect.bottom-12,above=rect.top-12;const height=Math.min(288,Math.max(80,Math.max(below,above)));const upwards=below<Math.min(240,items.length*36)&&above>below;
-      setPosition({position:'fixed',left:Math.max(8,Math.min(rect.left,innerWidth-width-8)),width,maxHeight:height,...(upwards?{bottom:innerHeight-rect.top+5}:{top:rect.bottom+5})});};
+    const layout=()=>{const rect=native.current.getBoundingClientRect(),font=getComputedStyle(native.current),context=document.createElement('canvas').getContext('2d');context.font=font.font;const textWidth=Math.max(0,...items.map(item=>context.measureText(item.text).width));const width=Math.min(Math.max(rect.width,Math.ceil(textWidth)+(hideSelectedOption?34:54)),innerWidth-16);const below=innerHeight-rect.bottom-12,above=rect.top-12;const height=Math.min(288,Math.max(80,Math.max(below,above)));const upwards=below<Math.min(240,items.length*36)&&above>below;
+      setPosition({position:'fixed',left:Math.max(8,Math.min(rect.left,innerWidth-width-8)),width,maxHeight:height,fontFamily:font.fontFamily,fontSize:font.fontSize,fontWeight:font.fontWeight,...(upwards?{bottom:innerHeight-rect.top+5}:{top:rect.bottom+5})});};
     layout();const outside=event=>{if(!native.current?.contains(event.target)&&!menu.current?.contains(event.target))setOpen(false);};
     document.addEventListener('pointerdown',outside,true);window.addEventListener('resize',layout);window.addEventListener('scroll',layout,true);
     return()=>{document.removeEventListener('pointerdown',outside,true);window.removeEventListener('resize',layout);window.removeEventListener('scroll',layout,true);};
-  },[open,items.length]);
+  },[open,items,hideSelectedOption]);
   useLayoutEffect(()=>{if(open)menu.current?.querySelector(`[data-index="${active}"]`)?.scrollIntoView({block:'nearest'});},[open,active]);
   useEffect(()=>{if(props.disabled)setOpen(false);},[props.disabled]);
+  useEffect(()=>{onOpenChange?.(open);},[open,onOpenChange]);
   return <><span className="tb-select-wrap"><select {...props} ref={attach} className={`tb-select ${className}`} style={style} aria-expanded={open} aria-controls={open?id:undefined} aria-activedescendant={open&&active>=0?`${id}-${active}`:undefined}
     onPointerDown={event=>{onPointerDown?.(event);if(event.defaultPrevented || props.disabled)return;event.preventDefault();native.current.focus({preventScroll:true});if(open)setOpen(false);else show();}}
     onClick={event=>{event.preventDefault();onClick?.(event);}}

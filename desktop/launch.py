@@ -292,6 +292,12 @@ def run_desktop() -> int:
         if getattr(sys, 'frozen', False):
             from update_installer import launch_installer
             from training import ServiceError
+            def prepare_update(path,digest,version):
+                if path.suffix.lower()=='.zip':
+                    import zipfile
+                    from update_patch import inspect_patch
+                    with zipfile.ZipFile(path) as archive:inspect_patch(archive,APP_DIR,version)
+            server.software_updates.preparer=prepare_update
             def install_update(path, digest, version):
                 if path.suffix.lower() == ".zip":
                     from update_patch import launch_patch

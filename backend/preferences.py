@@ -88,6 +88,7 @@ def save_preferences(training, body):
                    'run','submit','official','save','pane-0','pane-1','pane-2',
                    'page-mine','page-library','page-training-lists','page-templates','page-paths','page-competitions','page-mock','page-records','page-growth','page-activity','page-lectures'}
         allowed.update(['theme', 'calendar', 'daily-tasks', 'achievements', 'list-filter', 'list-random', 'list-difficulty', 'list-recent', 'workbench-back', 'workbench-next', 'statement-language', 'statement-copy', 'toolbar-lock', 'initial-code', 'code-templates', 'workbench-solution', 'console-toggle', 'catalog-up', 'catalog-home', 'catalog-filter', 'catalog-new', 'contest-filter', 'contest-folders', 'contest-up', 'mock-filter', 'mock-regenerate', 'lecture-learned', 'lecture-fullscreen', 'lecture-back', 'template-copy', 'template-back', 'records-platform', 'records-result', 'ranking-daily', 'ranking-weekly', 'ranking-all', 'initial-new', 'initial-copy'])
+        allowed.update({'statement-font','statement-original','code-language','workbench-undo'})
         if (not isinstance(shortcuts, dict) or set(shortcuts) - allowed or any(
                 not isinstance(binding, str) or len(binding) > 64 or any(ord(char) < 32 for char in binding)
                 for binding in shortcuts.values())):

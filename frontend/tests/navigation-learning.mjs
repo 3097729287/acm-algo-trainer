@@ -130,7 +130,7 @@ try{
  await page.locator('.training-list-table .problem-title').first().click();await page.locator('.cm-content').waitFor();
  assert.equal(await page.getByRole('button',{name:'打开模板',exact:true}).count(),1,'in-problem help stays available at Lv1');
  await page.locator('.cm-content').fill('#include <iostream>\nint main(){std::cout<<3;}');
- await page.getByRole('button',{name:'运行样例',exact:true}).click();await page.locator('.wb-result-summary').getByText('样例通过',{exact:false}).waitFor();assert(sampleRequested);
+ await page.getByRole('button',{name:'自测运行',exact:true}).click();await page.locator('.wb-result-summary').getByText('样例通过',{exact:false}).waitFor();assert(sampleRequested);
  await page.getByRole('button',{name:'提交',exact:true}).click();await page.waitForTimeout(900);assert(officialRequested,'formal original-site submission entry works at Lv1; requests are fixture-only');
  await page.getByRole('button',{name:'返回列表',exact:true}).click();
  await openSettings(page,'新手指引');
@@ -197,11 +197,12 @@ try{
   const spacing=await recommendation.evaluate(node=>{const control=node.getBoundingClientRect(),button=node.querySelector('.next-actions-primary'),title=button.querySelector('strong'),range=document.createRange();range.selectNodeContents(title);const css=getComputedStyle(button),icon=button.querySelector('svg').getBoundingClientRect();return {width:control.width,natural:range.getBoundingClientRect().width+icon.width+parseFloat(css.columnGap)+parseFloat(css.paddingLeft)+parseFloat(css.paddingRight),gap:document.querySelector('.topbar-actions').getBoundingClientRect().left-control.right};});
   assert(spacing.width<=spacing.natural+1,'No reserved blank width after the recommendation: '+JSON.stringify(spacing));
   if(width>=960)assert(spacing.gap>=0&&spacing.gap<=13,'Recommendation sits next to the right-side statistics: '+JSON.stringify(spacing));
-  const popupWidth=geometry.right-geometry.left,alignedLeft=Math.max(10,Math.min(trigger.x+trigger.width-popupWidth,width-popupWidth-10));
+  const popupWidth=geometry.right-geometry.left,alignedLeft=Math.max(10,Math.min(trigger.x,width-popupWidth-10));
   assert(Math.abs(geometry.left-alignedLeft)<.75&&popupWidth>0&&popupWidth<=width-16,'Real App compact popup aligns with the control and fits the viewport: '+JSON.stringify({theme,fontSize,width,geometry,trigger}));
   const primaryName=await recommendation.locator('.next-actions-primary').getAttribute('aria-label');
   assert.equal(await page.locator('.next-actions-popover').getByRole('button',{name:primaryName,exact:true}).count(),0);
   assert.equal(await recommendation.locator('.next-actions-primary .lucide-arrow-right').count(),0);
+  assert.equal(await page.locator('.next-actions-popover .lucide-arrow-right').count(),0);
   assert.equal(await recommendation.locator('.next-actions-toggle,.lucide-chevron-down').count(),0,'Actual App recommendation has no separate expansion arrow');
   assert(await recommendation.locator('.next-actions-primary').evaluate(node=>{const style=getComputedStyle(node);return style.backgroundColor==='rgba(0, 0, 0, 0)'&&parseFloat(style.borderWidth)===0&&style.boxShadow==='none';}),'Actual App primary recommendation stays transparent and borderless');
   assert(await page.locator('.next-actions-popover .next-actions-item').count()<=5);

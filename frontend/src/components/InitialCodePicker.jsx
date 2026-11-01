@@ -5,8 +5,8 @@ import CodeEditor from './CodeEditor.jsx';
 import ThemedSelect from './ThemedSelect.jsx';
 import './InitialCode.css';
 
-export function InitialCodeButton({title='默认', disabled=false, onClick}) {
-  return <button type="button" className="initial-code-trigger" aria-label="选择初始代码模板" aria-haspopup="dialog" title="选择初始代码模板" disabled={disabled} onClick={onClick}><span>{title}</span><ChevronDown size={13}/></button>;
+export function InitialCodeButton({title='默认', disabled=false, onClick,shortcut=''}) {
+  return <button type="button" className="initial-code-trigger" aria-label="选择初始代码模板" aria-haspopup="dialog" title={`选择初始代码模板${shortcut?' · '+shortcut:''}`} disabled={disabled} onClick={onClick}><span>{title}</span><ChevronDown size={13}/></button>;
 }
 
 export function InitialCodeSelect({api,snapshot,language,selected='default',disabled=false,onSelect,onError}) {

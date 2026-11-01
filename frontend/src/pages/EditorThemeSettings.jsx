@@ -1,4 +1,6 @@
 import {Check,Code2} from 'lucide-react';
+import {useState} from 'react';
+import BoundedNumber from '@/components/BoundedNumber.jsx';
 import CodeEditor from '@/components/CodeEditor.jsx';
 import {EDITOR_THEMES,editorTheme,editorThemeStyle} from '@/lib/editorThemes.js';
 import './EditorThemeSettings.css';
@@ -28,6 +30,7 @@ int main() {
 }`;
 
 export default function EditorThemeSettings({prefs,setPrefs}) {
+ const [previewFont,setPreviewFont]=useState(16);
  const selected=editorTheme(prefs.editorTheme).id;
  const choose=id=>setPrefs(previous=>({...previous,editorTheme:id}));
  function navigate(event,theme) {
@@ -39,7 +42,7 @@ export default function EditorThemeSettings({prefs,setPrefs}) {
   choose(EDITOR_THEMES[next].id);
  }
  return <section className="editor-theme-settings" aria-label="代码主题">
-  <h2><Code2 size={19}/>代码主题</h2>
+  <header className="editor-theme-heading"><h2><Code2 size={19}/>代码主题</h2><BoundedNumber aria-label="代码预览字号" title="代码预览字号 · 滚轮调节" value={previewFont} min={12} max={28} required wheelStep onChange={event=>setPreviewFont(Number(event.target.value))}/></header>
   <div className="editor-theme-layout">
    <div className="editor-theme-options" role="listbox" aria-label="代码主题选择">
     {EDITOR_THEMES.map(theme=><button type="button" key={theme.id} role="option" tabIndex={selected===theme.id?0:-1} aria-selected={selected===theme.id} title={theme.name} onClick={()=>choose(theme.id)} onKeyDown={event=>navigate(event,theme)}>
@@ -47,7 +50,7 @@ export default function EditorThemeSettings({prefs,setPrefs}) {
      <span>{theme.name}</span>{selected===theme.id&&<Check size={16}/>}
     </button>)}
    </div>
-   <div className="editor-theme-preview" style={editorThemeStyle(selected)}><CodeEditor value={EXAMPLE} language="cpp17" readOnly ariaLabel="代码主题预览" editorTheme={selected}/></div>
+   <div className="editor-theme-preview" style={{...editorThemeStyle(selected),'--theme-preview-font-size':`${previewFont}px`}}><CodeEditor value={EXAMPLE} language="cpp17" readOnly ariaLabel="代码主题预览" editorTheme={selected}/></div>
   </div>
  </section>;
 }

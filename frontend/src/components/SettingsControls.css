@@ -17,6 +17,9 @@
 .setting-control .accent-options button { padding:6px 8px; }
 .setting-control .accent-options > .tooltip-anchor { flex:none; }
 .setting-control .bounded-number { width:88px; }
+.code-theme-entry {display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:34px;padding:6px 10px;border:1px solid var(--line);border-radius:5px;background:var(--panel-2);color:var(--text);font:inherit;font-size:.87rem;}
+.code-theme-entry:hover {color:var(--accent);border-color:var(--accent);}
+.code-theme-entry>svg {flex:none;}
 .background-options { display:flex; align-items:center; flex-wrap:wrap; gap:7px; }
 .background-option { display:flex; justify-content:center; align-items:center; width:36px; height:34px; border:1px solid var(--line); border-radius:5px; color:var(--muted); background:transparent; }
 .background-option[aria-pressed=true] { color:var(--accent); border-color:var(--accent); background:transparent; }

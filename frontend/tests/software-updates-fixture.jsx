@@ -15,8 +15,9 @@ async function api(path, body) {
     window.updaterCalls.push({ path, draftSaved: Boolean(window.draftSaved) });
     if (path.endsWith('/download')) state = { ...state, status: 'ready' };
     if (path.endsWith('/install')) {
-      if (window.guardBlocked) throw new Error('请等待当前官方提交取得结果后再安装更新');
-      state = { ...state, status: 'installing' };
+      if (window.guardBlocked){state={...state,installDeferred:true,errorCode:'busy',deferredReason:'请等待当前官方提交取得结果后再安装更新'};throw new Error(state.deferredReason);}
+      if(window.installFailure){state={...state,status:'install-error',errorCode:'prepare-failed',installDeferred:false,error:window.installFailure};throw new Error(window.installFailure);}
+      state = { ...state, status: 'installing',installDeferred:false,errorCode:'' };
     }
     if (path.endsWith('/settings')) state = { ...state, ...body };
   }

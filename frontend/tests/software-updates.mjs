@@ -39,6 +39,14 @@ try {
   await page.getByRole('heading', { name: '登录 ToBe' }).waitFor();
   await page.evaluate(() => { window.saveAllowed = true; window.guardBlocked = false; });
   await page.getByRole('complementary', { name: '软件更新提示' }).getByRole('status').filter({ hasText: '正在关闭 ToBe' }).waitFor();
+  await page.goto(server.resolvedUrls.local[0]+'tests/software-updates-fixture.html?automatic');
+  await page.evaluate(()=>{window.saveAllowed=true;window.guardBlocked=false;window.installFailure='fixture package preparation failed';});
+  await panel.getByRole('alert').filter({hasText:'fixture package preparation failed'}).waitFor();
+  assert.equal(await page.getByRole('status').filter({hasText:'等待草稿保存及当前提交、模拟赛结束'}).count(),0,'A permanent preparation failure must not masquerade as a busy task');
+  const failedAttempts=await page.evaluate(()=>updaterCalls.filter(item=>item.path.endsWith('/install')).length);
+  await page.waitForTimeout(5500);
+  assert.equal(await page.evaluate(()=>updaterCalls.filter(item=>item.path.endsWith('/install')).length),failedAttempts,'A permanent failure does not retry the same installer every five seconds');
+  assert.equal(await panel.getByRole('button',{name:'重试安装',exact:true}).count(),1);
   assert.deepEqual(errors, []);
   console.log('Software updates passed: automatic install without confirmation, draft barrier, safe retry, login-screen update, manual compatibility.');
 } finally { await browser.close(); await server.close(); }

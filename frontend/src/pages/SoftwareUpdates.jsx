@@ -9,17 +9,20 @@ export function useSoftwareUpdates(api, enabled) {
   const [state, setState] = useState(null);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  const [deferred,setDeferred]=useState(false);
   const [dismissed, setDismissed] = useState('');
   const performing = useRef(false);
   const installing = useRef(false);
+  const revision=useRef(0);
   useEffect(() => {
     if (!enabled) return;
     let alive = true, timer;
     const poll = async () => {
+      const observed=revision.current;
       try {
         const value = await api('software-update');
         if (alive) {
-          if (!installing.current) setState(value);
+          if (!installing.current&&observed===revision.current&&!performing.current) setState(value);
           timer = setTimeout(poll, value.automatic || ['checking', 'downloading', 'installing'].includes(value.status) ? 1000 : 10000);
         }
       } catch { if (alive) timer = setTimeout(poll, 30000); }
@@ -30,37 +33,48 @@ export function useSoftwareUpdates(api, enabled) {
   const action = useCallback(async (name, body = {}) => {
     if (performing.current || installing.current) return;
     performing.current = true;
-    setBusy(true); setError('');
+    revision.current++;
+    setBusy(true); setError('');setDeferred(false);
     try {
       if (name === 'install') await saveBeforeUpdate();
       const result = await api('software-update/' + name, body);
       if (result.status === 'installing') installing.current = true;
       setState(result);
       if (name === 'check') setDismissed('');
-    } catch (problem) { setError(problem.message || '更新未完成，请重试'); }
+      return {retry:result.status==='ready'&&result.installDeferred};
+    } catch (problem) {
+      setError(problem.message || '更新未完成，请重试');
+      if(problem.updateDeferred){setDeferred(true);return {retry:true};}
+      if(name==='install'){
+        try{const fresh=await api('software-update');setState(fresh);setDeferred(Boolean(fresh.installDeferred));return {retry:fresh.status==='ready'&&fresh.installDeferred};}catch{/* Keep the actual request failure visible. */}
+      }
+      return {retry:false};
+    }
     finally { performing.current = false; setBusy(false); }
   }, [api]);
   useEffect(() => {
     if (!enabled || !state?.automatic || !state.canInstall || state.status !== 'ready') return;
     let alive = true, timer;
     const install = async () => {
-      await action('install');
+      const outcome=await action('install');
       // A draft save, official submission or active mock can defer replacement.
       // Retry after it is safe without requiring another user click.
-      if (alive && !installing.current) timer = setTimeout(install, 5000);
+      if (alive && !installing.current && outcome?.retry) timer = setTimeout(install, 5000);
     };
     install();
     return () => { alive = false; clearTimeout(timer); };
   }, [enabled, state?.automatic, state?.canInstall, state?.status, action]);
-  return { state, error, busy, action, dismissed, dismiss: () => setDismissed(state?.latestVersion || '') };
+  return { state, error, busy, deferred, action, dismissed, dismiss: () => setDismissed(state?.latestVersion || '') };
 }
 
 function UpdateAction({ update }) {
-  const { state, action, busy } = update;
+  const { state, action, busy,error,deferred } = update;
   if (state.status === 'current') return null;
   if (state.status === 'installing') return <span role="status">正在关闭 ToBe 并安装，完成后将自动重新打开…</span>;
   if (state.status === 'downloading') return <div role="status"><progress max={state.totalBytes || 1} value={state.downloadedBytes || 0} aria-label="更新包下载进度" /> {Math.floor(100 * (state.downloadedBytes || 0) / (state.totalBytes || 1))}%</div>;
-  if (state.automatic && state.canInstall && state.latestVersion) return <span role="status">{state.status === 'ready' ? busy ? '正在保存草稿并准备安装…' : '等待草稿保存及当前提交、模拟赛结束后自动安装…' : state.status === 'error' ? '更新暂未完成，正在自动重试…' : '正在准备自动下载更新…'}</span>;
+  if(state.status==='repair-required')return <a href={state.releaseUrl} target="_blank" rel="noreferrer">下载 Windows 安装版</a>;
+  if(state.status==='install-error'||state.status==='ready'&&error&&!deferred&&!state.installDeferred)return <button className="primary" disabled={busy} onClick={()=>action('install')}>重试安装</button>;
+  if (state.automatic && state.canInstall && state.latestVersion) return <span role="status">{state.status === 'ready' ? busy ? '正在保存草稿并准备安装…' : deferred||state.installDeferred ? '等待草稿保存及当前提交、模拟赛结束后自动安装…' : '更新已校验，正在准备安装…' : state.status === 'error' ? '更新暂未完成，正在自动重试…' : '正在准备自动下载更新…'}</span>;
   if (state.status === 'ready') return <button className="primary" disabled={busy || !state.canInstall} onClick={() => action('install')}>保存并替换更新</button>;
   if (state.latestVersion) return state.canInstall
     ? <button className="primary" disabled={busy} onClick={() => action('download')}>下载更新 v{state.latestVersion}</button>
@@ -72,7 +86,7 @@ export function SoftwareUpdatePanel({ update }) {
   const { state, error, busy, action } = update;
   if (!state) return <section className="software-update"><h2>软件版本更新</h2><p>正在读取软件更新状态…</p></section>;
   return <section className="software-update" aria-label="软件版本更新">
-    <h2>软件版本更新<Tooltip label="软件更新说明" text="每次启动检查新版，发现更新后自动下载、校验并安装。只下载变化的程序文件；替换前保存草稿并备份个人数据，完成后重新打开 ToBe。"/></h2>
+    <h2>软件版本更新<Tooltip label="软件更新说明" text="每次启动检查新版，发现更新后自动下载、校验并安装。增量基线不一致时自动使用校验过的完整安装包；替换前保存草稿并备份个人数据，完成后重新打开 ToBe。"/></h2>
     <p>当前版本 v{state.currentVersion}{state.latestVersion ? ` · 新版本 v${state.latestVersion}` : state.status === 'current' ? ' · 已是最新正式版' : ''}</p>
     <label><input type="checkbox" checked={state.autoCheck} onChange={event => action('settings', { autoCheck: event.target.checked })} disabled={busy} />每天检查一次<Tooltip label="每日检查说明" text="运行期间每天额外检查一次；不影响启动时检查。"/></label>
     <div className="software-update-actions"><button type="button" className="progress-button progress-primary software-check-button" disabled={busy || ['checking', 'downloading', 'installing'].includes(state.status)} onClick={() => action('check')}><RefreshCw size={16} className={state.status==='checking'?'spin':undefined}/>{state.status === 'checking' ? '正在检查…' : '检查软件更新'}</button><UpdateAction update={update} /></div>

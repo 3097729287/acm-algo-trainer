@@ -1,10 +1,16 @@
 import { forwardRef, useEffect, useRef, useState } from 'react';
 import './SettingsControls.css';
 
-const BoundedNumber=forwardRef(function BoundedNumber({value,onChange,onBlur,min=0,max=10000,step=1,unit='',className='',...props},ref){
-  const [draft,setDraft]=useState(String(value ?? '')),focused=useRef(false);
+const BoundedNumber=forwardRef(function BoundedNumber({value,onChange,onBlur,min=0,max=10000,step=1,unit='',wheelStep=false,className='',...props},ref){
+  const [draft,setDraft]=useState(String(value ?? '')),focused=useRef(false),input=useRef(null);
+  const attach=node=>{input.current=node;if(typeof ref==='function')ref(node);else if(ref)ref.current=node;};
   useEffect(()=>{if(!focused.current)setDraft(String(value ?? ''));},[value]);
   const emit=(event,next)=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(event.currentTarget,String(next));onChange?.({...event,target:event.currentTarget,currentTarget:event.currentTarget});};
+  useEffect(()=>{
+    if(!wheelStep||!input.current)return;
+    const node=input.current,adjust=event=>{if(event.ctrlKey||event.metaKey||!event.deltaY||node.disabled||node.readOnly)return;event.preventDefault();const next=Math.max(Number(min),Math.min(Number(max),(Number(node.value)||Number(value)||Number(min))+(event.deltaY<0?1:-1)*Number(step)));setDraft(String(next));emit({currentTarget:node},next);};
+    node.addEventListener('wheel',adjust,{passive:false});return()=>node.removeEventListener('wheel',adjust);
+  },[wheelStep,value,min,max,step,onChange]);
   function commit(event){
     focused.current=false;
     if(draft===''&&!props.required){setDraft('');emit(event,'');onBlur?.(event);return;}
@@ -12,6 +18,6 @@ const BoundedNumber=forwardRef(function BoundedNumber({value,onChange,onBlur,min
     const next=Number(step)%1===0?Math.round(bounded):bounded;
     setDraft(String(next));emit(event,next);onBlur?.(event);
   }
-  return <span className={`bounded-number ${className}`}><input {...props} ref={ref} type="number" min={min} max={max} step={step} value={draft} onFocus={()=>{focused.current=true;}} onChange={event=>{const text=event.target.value;setDraft(text);if(text===''&&!props.required){onChange?.(event);return;}const next=Number(text);if(text!==''&&Number.isFinite(next)&&next>=Number(min)&&next<=Number(max))onChange?.(event);}} onBlur={commit} onKeyDown={event=>{props.onKeyDown?.(event);if(event.key==='Enter'){event.preventDefault();commit(event);event.currentTarget.blur();}if(event.key==='Escape'){setDraft(String(value ?? ''));event.currentTarget.blur();}}}/>{unit&&<span aria-hidden="true">{unit}</span>}</span>;
+  return <span className={`bounded-number ${className}`}><input {...props} ref={attach} type="number" min={min} max={max} step={step} value={draft} onFocus={()=>{focused.current=true;}} onChange={event=>{const text=event.target.value;setDraft(text);if(text===''&&!props.required){onChange?.(event);return;}const next=Number(text);if(text!==''&&Number.isFinite(next)&&next>=Number(min)&&next<=Number(max))onChange?.(event);}} onBlur={commit} onKeyDown={event=>{props.onKeyDown?.(event);if(event.key==='Enter'){event.preventDefault();commit(event);event.currentTarget.blur();}if(event.key==='Escape'){setDraft(String(value ?? ''));event.currentTarget.blur();}}}/>{unit&&<span aria-hidden="true">{unit}</span>}</span>;
 });
 export default BoundedNumber;

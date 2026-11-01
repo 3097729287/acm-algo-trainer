@@ -18,6 +18,12 @@ try {
  await page.evaluate(()=>fixture.screen('code-theme'));
  const options=page.getByRole('listbox',{name:'代码主题选择'}),preview=page.locator('.editor-theme-preview');
  await options.waitFor();
+ const previewSize=page.getByRole('spinbutton',{name:'代码预览字号',exact:true});
+ const uiFont=await page.evaluate(()=>fixture.prefs.fontSize);
+ await previewSize.fill('21');await previewSize.press('Tab');
+ assert.equal(await preview.locator('.cm-scroller').evaluate(node=>getComputedStyle(node).fontSize),'21px');
+ assert.equal(await page.evaluate(()=>fixture.prefs.fontSize),uiFont,'Preview size does not change the account UI font');
+ const compact=await options.boundingBox();assert(compact.width<=280,'The theme list no longer reserves a quarter of the page');
  assert((await options.getByRole('option').count())>=20);
  for(const name of ['Woodfish Dracula','Woodfish Black','Woodfish Neon','Woodfish Light'])await options.getByRole('option',{name,exact:true}).waitFor({state:'attached'});
  await options.getByRole('option',{name:'Woodfish Neon',exact:true}).click();

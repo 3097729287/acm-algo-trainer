@@ -1,0 +1,74 @@
+import assert from 'node:assert/strict';
+import {mkdir} from 'node:fs/promises';
+import {createServer} from 'vite';
+import {chromium} from 'playwright';
+
+const server=await createServer({server:{host:'127.0.0.1',port:0}});await server.listen();
+const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
+const page=await browser.newPage({viewport:{width:1536,height:900}}),errors=[];
+page.on('pageerror',error=>errors.push(error.message));
+const base=`http://127.0.0.1:${server.httpServer.address().port}`;
+const output='../.backups/interaction-1434/toolbar-refinement/ui';await mkdir(output,{recursive:true});
+try{
+ await page.context().grantPermissions(['clipboard-read','clipboard-write']);
+ await page.goto(base+'/tests/workbench-fixture.html');
+ await page.addStyleTag({url:base+'/src/styles/interaction.css'});
+ const editor=page.getByRole('textbox',{name:'C++ 代码'}),font=page.getByRole('spinbutton',{name:'题面字号',exact:true});
+ await editor.waitFor();await page.waitForFunction(()=>document.querySelector('.cm-content')?.contentEditable==='true');
+ assert.equal(await page.locator('.wb-toolbar-lock,.wb-language-select>svg,.cm-foldGutter,.wb-editor-status,.wb-scope').count(),0);
+ assert.equal(await page.locator('.wb-font-controls button,.wb-font-controls .bounded-number>span').count(),0);
+ const before=Number(await font.inputValue());await font.hover();await page.mouse.wheel(0,-100);
+ await page.waitForFunction(value=>Number(document.querySelector('[aria-label="题面字号"]').value)===value,before+1);
+ await page.mouse.wheel(0,100);await page.waitForFunction(value=>Number(document.querySelector('[aria-label="题面字号"]').value)===value,before);
+ assert.equal(await page.getByRole('button',{name:'官方样例',exact:true}).getAttribute('aria-pressed'),'true');
+ const order=await page.locator('.wb-run-toolbar button').allTextContents();assert.deepEqual(order,['官方样例','自测输入','自测运行','提交']);
+ await page.getByRole('button',{name:'自测输入',exact:true}).click();await page.getByRole('textbox',{name:'标准输入',exact:true}).fill('7 9\n');
+ await page.getByRole('button',{name:'官方样例',exact:true}).click();await page.getByRole('button',{name:'自测输入',exact:true}).click();
+ assert.equal(await page.getByRole('textbox',{name:'标准输入',exact:true}).inputValue(),'7 9\n');
+ await editor.fill('int main() { return 0; }');await page.getByRole('button',{name:'自测运行',exact:true}).click();
+ await page.waitForFunction(()=>workbenchFixture.calls.some(row=>row.path==='submissions'&&row.body?.sampleRun===false&&row.body.input==='7 9\n'));
+ await page.waitForFunction(()=>workbenchFixture.submissions[0]?.verdict==='RUN_OK');
+ const language=page.getByRole('combobox',{name:'编程语言',exact:true});await language.click();
+ let popup=page.getByRole('listbox',{name:'编程语言',exact:true});await popup.waitFor();
+ assert.deepEqual(await popup.getByRole('option').allTextContents(),['Python3']);
+ assert.equal(await popup.locator('svg').count(),0);
+ assert.equal(await popup.evaluate(node=>getComputedStyle(node).fontSize),await language.evaluate(node=>getComputedStyle(node).fontSize));
+ await popup.getByRole('option',{name:'Python3',exact:true}).click();
+ await page.getByRole('textbox',{name:'Python 代码',exact:true}).waitFor();await language.click();
+ popup=page.getByRole('listbox',{name:'编程语言',exact:true});assert.deepEqual(await popup.getByRole('option').allTextContents(),['C++17']);
+ await popup.getByRole('option',{name:'C++17',exact:true}).click();await editor.waitFor();
+ assert.equal(await page.evaluate(()=>workbenchFixture.readCode()),'int main() { return 0; }');
+ const style=await page.locator('.wb-pane-header :is(input,select,.initial-code-trigger,.wb-button),.wb-run-button').evaluateAll(nodes=>nodes.map(node=>({font:getComputedStyle(node).fontSize,bg:getComputedStyle(node).backgroundColor,height:node.getBoundingClientRect().height})));
+ assert.equal(new Set(style.map(item=>item.font)).size,1,JSON.stringify(style));
+ assert.equal(new Set(style.map(item=>item.bg)).size,1,JSON.stringify(style));
+ assert(style.every(item=>item.height===30),JSON.stringify(style));
+ const position=await page.locator('.code-editor-position').evaluate(node=>{const rect=node.getBoundingClientRect(),gutter=node.parentElement.querySelector('.cm-gutters').getBoundingClientRect(),pane=node.parentElement.getBoundingClientRect();return{width:rect.width,gutter:gutter.width,bottom:rect.bottom,paneBottom:pane.bottom};});
+ assert(Math.abs(position.width-position.gutter)<1&&Math.abs(position.bottom-position.paneBottom)<1,JSON.stringify(position));
+ const splitter=page.getByRole('separator',{name:'调整题面与代码宽度'}),body=await page.locator('.wb-body').boundingBox();
+ assert.equal(await splitter.evaluate(node=>getComputedStyle(node,'::after').width),'1px');
+ for(const direction of[-1,1]){
+  const handle=await splitter.boundingBox();await page.mouse.move(handle.x+4,handle.y+100);await page.mouse.down();
+  await page.mouse.move(body.x+body.width/2+direction*100,body.y+100);await page.mouse.move(body.x+body.width/2+direction*6,body.y+100);
+  assert.equal(await splitter.getAttribute('aria-valuenow'),'50');
+  await page.mouse.move(body.x+body.width/2+direction*12,body.y+100);assert.equal(await splitter.getAttribute('aria-valuenow'),'50');
+  await page.mouse.move(body.x+body.width/2+direction*30,body.y+100);assert.notEqual(await splitter.getAttribute('aria-valuenow'),'50');
+  await page.mouse.move(body.x+body.width/2,body.y+100);await page.mouse.up();
+ }
+ await editor.focus();await editor.press('Control+ArrowRight');await page.waitForFunction(()=>workbenchFixture.nextCount===1);
+ const bounds=await page.locator('.tb-workbench').boundingBox();await page.mouse.move(bounds.x+100,bounds.y+200);await editor.press('Alt+t');
+ await page.waitForFunction(()=>document.querySelector('.tb-workbench').classList.contains('wb-toolbar-hidden'));
+ assert.equal(await page.locator('.wb-editor-header').evaluate(node=>node.getBoundingClientRect().height),0);
+ await page.mouse.move(bounds.x+100,bounds.y+2);await page.waitForFunction(()=>!document.querySelector('.wb-toolbar-hidden'));
+ await page.getByRole('button',{name:'复制题面',exact:true}).click();await page.mouse.move(bounds.x+100,bounds.y+200);
+ await page.waitForFunction(()=>document.querySelector('.wb-toolbar-hidden'));
+ // An open menu remains operable, then a mouse-focused trigger must not pin it.
+ const right=await page.locator('.wb-code-pane').boundingBox();await page.mouse.move(right.x+40,bounds.y+2);
+ await language.click();await popup.waitFor();await page.mouse.move(right.x+200,bounds.y+200);
+ assert.equal(await page.locator('.wb-toolbar-hidden').count(),0);
+ await page.keyboard.press('Escape');await editor.click();await page.mouse.move(bounds.x+100,bounds.y+200);
+ await page.waitForFunction(()=>document.querySelector('.wb-toolbar-hidden'));
+ await editor.press('Alt+t');await page.waitForFunction(()=>!document.querySelector('.wb-toolbar-hidden'));
+ const languageToggle=page.getByRole('group',{name:'题面语言',exact:true}).getByRole('button');assert.equal(await languageToggle.getAttribute('aria-pressed'),null);
+ await page.screenshot({path:output+'/workbench.png'});
+ assert.deepEqual(errors,[]);console.log('PASS toolbar typography and backgrounds, alternative-language menu, wheel font, sample/custom execution, saved input/code, hidden lock shortcut, pointer auto-hide, bidirectional split snap, thin separator, line-number position and Ctrl+Right.');
+}finally{await browser.close();await server.close();}

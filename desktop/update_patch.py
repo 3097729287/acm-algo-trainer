@@ -10,6 +10,7 @@ import uuid
 import zipfile
 
 from app_brand import executable
+from update_errors import UpdateBaseMismatch
 
 ROOT_FILES = {'ToBe.exe', 'TB新版.exe', 'VERSION', 'BUILD-INFO.json', 'SOURCE-MANIFEST.json', 'tb.ico', 'official_languages.js', 'official_nowcoder.js', 'official_luogu.js', 'official_page.js', 'LICENSE', 'THIRDPARTY.md', 'TOOLCHAIN-SOURCES.md', 'third-party-inventory.json', '使用说明.md', 'accounts.md', 'browser-preparation.md'}
 PREFIXES = ('_internal/', 'frontend/dist/', 'resources/', 'browser-extension/', 'licenses/')
@@ -61,7 +62,7 @@ def inspect_patch(archive, app_dir, version):
         raise ValueError('增量包包含未声明文件')
     for name, sha in base.items():
         if not (app_dir / name).is_file() or digest(app_dir / name) != sha:
-            raise ValueError('当前程序文件已变化，请使用安装版修复后重试：' + name)
+            raise UpdateBaseMismatch('当前程序文件已变化，请使用安装版修复后重试：' + name)
     for name in changed:
         if hashlib.sha256(archive.read('files/' + name)).hexdigest() != files[name]:
             raise ValueError('增量文件校验失败：' + name)

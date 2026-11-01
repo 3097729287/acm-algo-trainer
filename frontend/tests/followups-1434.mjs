@@ -37,7 +37,7 @@ try{
  const medal=page.locator('.account-hero-person .title-medal');await medal.waitFor();
  const geometry=await medal.evaluate(node=>{const medal=node.getBoundingClientRect(),name=node.closest('.account-hero-person').querySelector('.profile-nickname').getBoundingClientRect(),svg=node.querySelector('svg').getBoundingClientRect();return{medal:medal.toJSON(),name:name.toJSON(),svg:svg.toJSON(),border:getComputedStyle(node).borderWidth};});
  assert(geometry.medal.top>=geometry.name.bottom&&Math.abs(geometry.medal.x+geometry.medal.width/2-geometry.name.x-geometry.name.width/2)<1,JSON.stringify(geometry));
- assert(geometry.svg.width>=44);assert.equal(geometry.border,'0px');await page.screenshot({path:output+'/growth.png'});
+ assert(geometry.svg.width>=44);assert.equal(await medal.innerText(),'','The equipped title name is only in the accessible label and tooltip');assert.equal(geometry.border,'0px');await page.screenshot({path:output+'/growth.png'});
  await page.evaluate(()=>followups.setPanel('admin'));await page.getByRole('button',{name:'调整霸榜天数'}).click();
  await page.getByRole('spinbutton',{name:'每日霸榜天数'}).fill('9');
  assert.equal(await page.locator('.admin-dominance-row [data-days="9"]').count(),1);

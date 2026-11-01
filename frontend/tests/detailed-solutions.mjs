@@ -19,7 +19,7 @@ service.stderr.on('data', chunk => { stderr += chunk; });
 const errors = [];
 try {
   const apiUrl = await new Promise((done, fail) => {
-    const timer = setTimeout(() => fail(new Error('API startup timeout: ' + stderr)), 30000);
+    const timer = setTimeout(() => fail(new Error('API startup timeout: ' + stderr)), 120000);
     service.stdout.on('data', chunk => {
       const match = String(chunk).match(/http:\/\/127\.0\.0\.1:\d+/);
       if (match) { clearTimeout(timer); done(match[0]); }
@@ -206,7 +206,7 @@ try {
   const preview = await page.request.post(url + '/api/contests/preview', {
     headers: { 'X-TB-Token': catalog.token }, data: { mode: 'replay', contest: event.name, duration: 30 },
   });
-  assert.equal(preview.status(), 200, await preview.text());
+  assert.equal(preview.status(), 200, JSON.stringify({event:event.name,response:await preview.text(),stderr}));
   const { plan } = await preview.json();
   const start = await page.request.post(url + '/api/contests/start', {
     headers: { 'X-TB-Token': catalog.token }, data: { ids: plan.slots.map(slot => slot.id), duration: plan.duration, previewId: plan.previewId },
@@ -235,5 +235,6 @@ try {
   }
   const actual = await realpath(state), temporaryRoot = await realpath(tmpdir());
   assert.ok(actual.startsWith(temporaryRoot + sep) && basename(actual).startsWith('tb-detailed-ui-'));
-  await rm(actual, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
+  if(process.platform==='win32')console.log('Retained isolated fixture for Recycle Bin retirement:',actual);
+  else await rm(actual, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
 }

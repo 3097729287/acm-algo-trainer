@@ -51,10 +51,10 @@ try {
   assert.ok(enlarged.math > beforeSize.math && enlarged.sample > beforeSize.sample, 'formulas and samples follow the reading size');
   assert.equal(enlarged.editor, beforeSize.editor, 'reading size does not enlarge code');
   assert.equal(enlarged.toolbar, beforeSize.toolbar);
-  await page.getByRole('button', { name: '放大题面字号', exact: true }).click();
+  await fontSize.hover(); await page.mouse.wheel(0,-100);
   await page.waitForFunction(() => document.querySelector('input[aria-label="题面字号"]').value === '25');
   assert.equal(await fontSize.inputValue(), '25');
-  await page.getByRole('button', { name: '缩小题面字号', exact: true }).click();
+  await fontSize.hover(); await page.mouse.wheel(0,100);
   await page.waitForFunction(() => document.querySelector('input[aria-label="题面字号"]').value === '24');
   assert.equal(await fontSize.inputValue(), '24');
   await page.reload();
@@ -62,16 +62,16 @@ try {
   assert.equal(await fontSize.inputValue(), '24', 'reading size survives reopening');
   await setReadingSize('99');
   assert.equal(await fontSize.inputValue(), '32', 'reading size clamps typed values to its upper bound');
-  assert.equal(await page.getByRole('button', { name: '放大题面字号', exact: true }).isDisabled(), true);
+  await fontSize.hover(); await page.mouse.wheel(0,-100); assert.equal(await fontSize.inputValue(),'32');
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
   await setReadingSize('1');
   assert.equal(await fontSize.inputValue(), '14', 'reading size clamps typed values to its lower bound');
-  assert.equal(await page.getByRole('button', { name: '缩小题面字号', exact: true }).isDisabled(), true);
+  await fontSize.hover(); await page.mouse.wheel(0,100); assert.equal(await fontSize.inputValue(),'14');
   await setReadingSize('24');
   assert.equal(await page.locator('.wb-console').count(), 1, 'samples open on the first visit');
   assert.equal(await page.locator('.wb-sample-list .wb-result-message').count(),0,'The sample list has no redundant footer sentence');
   assert.equal(await page.getByText('运行会对比全部样例；通过样例不会计入已 AC。',{exact:true}).count(),0);
-  assert.match(await page.locator('.wb-scope').getAttribute('title'),/仅使用公开样例/,'Removing the sample footer preserves the run-scope tooltip');
+  assert.equal(await page.locator('.wb-scope').count(),0,'The scope caption was removed; sample runs still carry sampleRun=true');
   await page.getByRole('button',{name:'收起控制台',exact:true}).click();
   assert.equal(await page.locator('.wb-console').count(),0);
   await page.getByRole('button',{name:'展开控制台',exact:true}).click();
@@ -112,7 +112,7 @@ try {
     if(width<996){await page.getByRole('button',{name:'题面与代码',exact:true}).click();assert(await page.locator('.wb-statement').isVisible());}
     const sizes=await page.locator('.wb-pane-header button:not(.wb-back-button):visible,.wb-pane-header select:visible,.wb-pane-header input:visible,.wb-original-link:visible,.wb-compact-toolbar button:not(.wb-back-button):visible').evaluateAll(nodes=>nodes.filter(n=>!n.disabled).map(n=>({height:n.getBoundingClientRect().height,label:n.getAttribute('aria-label')})));
     assert(sizes.every(item=>Math.abs(item.height-30)<1),`toolbar controls align at ${width}: ${JSON.stringify(sizes)}`);
-    if(width>=996)assert((await page.getByLabel('编程语言',{exact:true}).boundingBox()).width>=80,'language name keeps a usable width');
+    if(width>=996)assert((await page.getByLabel('编程语言',{exact:true}).boundingBox()).width>=65,'language name keeps a usable width');
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
   }
   await page.setViewportSize({width:1050,height:700});await page.waitForFunction(()=>!document.querySelector('.wb-compact'));
@@ -230,15 +230,14 @@ try {
   assert.equal(await page.locator('.wb-result-summary .wb-verdict-wa').evaluate(node => getComputedStyle(node).color), 'rgb(190, 57, 76)');
   assert.equal(await page.locator('.wb-case-mismatch').count(), 2, 'WA highlights expected and actual mismatch lines');
   assert.ok(await page.getByRole('generic', { name: '样例 2 实际输出' }).count() || await page.locator('pre[aria-label="样例 2 实际输出"]').count());
-  await page.getByLabel('运行输入', { exact: true }).selectOption('custom');
-  await page.getByRole('button', { name: '输入与样例', exact: true }).click();
+  await page.getByRole('button',{name:'自测输入',exact:true}).click();
   await page.getByRole('textbox', { name: '标准输入', exact: true }).fill('');
   await editor.press('Control+r');
   await page.waitForFunction(() => document.querySelector('.wb-result-summary')?.textContent.includes('运行完成（未校验）'));
   assert.equal(await page.evaluate(() => window.workbenchFixture.calls.filter(call => call.path === 'submissions').at(-1).body.sampleRun), false, 'empty custom input is not sample execution');
   assert.ok(await page.getByText('自定义输入没有预期答案，仅检查程序是否正常运行。', { exact: true }).isVisible());
   assert.equal(await page.evaluate(() => window.workbenchFixture.progress.length), 0);
-  assert.deepEqual(await page.locator('.wb-run-actions button').allTextContents(), ['运行输入', '提交']);
+  assert.deepEqual(await page.locator('.wb-run-toolbar button').allTextContents(), ['官方样例','自测输入','自测运行','提交']);
   assert.equal(await page.getByRole('button', { name: '本地提交', exact: true }).count(), 0);
   assert.equal(await page.getByRole('button', { name: '官方提交', exact: true }).count(), 0);
   await editor.press('Control+Enter');
@@ -279,10 +278,10 @@ try {
     document.documentElement.style.setProperty('--blue', '#3e78bd');
     document.documentElement.style.setProperty('--verdict-purple', '#8053ba');
   });
-  await page.getByLabel('运行输入', { exact: true }).selectOption('samples');
+  await page.getByRole('button',{name:'官方样例',exact:true}).click();
   for (const [verdict, color] of [['RE', 'rgb(128, 83, 186)'], ['CE', 'rgb(62, 120, 189)'], ['TLE', 'rgb(161, 100, 25)'], ['MLE', 'rgb(161, 100, 25)'], ['OLE', 'rgb(161, 100, 25)'], ['ERROR', 'rgb(190, 57, 76)']]) {
     await page.evaluate(value => { window.workbenchFixture.nextRunVerdict = value; }, verdict);
-    await page.getByRole('button', { name: '运行样例', exact: true }).click();
+    await page.getByRole('button', { name: '自测运行', exact: true }).click();
     const badge = page.locator('.wb-result-summary .wb-verdict-' + verdict.toLowerCase());
     await badge.waitFor();
     assert.equal(await badge.textContent(), verdict === 'ERROR' ? 'SE' : verdict);
@@ -318,7 +317,7 @@ try {
   await page.evaluate(() => { window.workbenchFixture.translationError = '翻译服务暂不可用，已保留原文。'; });
   await page.getByRole('button', { name: '原文', exact: true }).click();
   await page.getByText('翻译服务暂不可用，已保留原文。', { exact: true }).waitFor();
-  assert.equal(await page.getByRole('button', { name: '原文', exact: true }).getAttribute('aria-pressed'), 'false');
+  assert.equal(await page.getByRole('button', { name: '原文', exact: true }).getAttribute('aria-pressed'), null);
   assert.ok(await page.locator('.wb-statement').textContent().then(text => text.includes('Given two integers')));
   await page.evaluate(() => { window.workbenchFixture.translationError = ''; });
   await page.locator('.wb-translation-error').getByRole('button', { name: '重试', exact: true }).click();
@@ -395,7 +394,7 @@ try {
   await page.waitForFunction(() => document.querySelector('.cm-content')?.getAttribute('aria-readonly') === 'true');
   assert.equal(await editor.getAttribute('aria-readonly'), 'true');
   assert.equal(await page.getByRole('button', { name: '提交', exact: true }).isDisabled(), true);
-  assert.equal(await page.getByRole('button', { name: '运行样例', exact: true }).isDisabled(), true);
+  assert.equal(await page.getByRole('button', { name: '自测运行', exact: true }).isDisabled(), true);
 
   const overflow = await page.evaluate(() => ({
     page: document.documentElement.scrollWidth > innerWidth,

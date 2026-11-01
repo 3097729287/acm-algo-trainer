@@ -875,10 +875,12 @@
 .wb-font-controls button,.wb-language-toggle button {min-height:30px}
 
 /* One measured toolbar height and a real keyboard/pointer split handle. */
-.tb-workbench {--wb-control-height:30px}
+.tb-workbench {--wb-control-height:30px;--wb-toolbar-font-size:clamp(12px,.82rem,16px);--wb-control-background:var(--panel-2)}
 .tb-workbench.wb-pane-both:not(.wb-compact) .wb-body {grid-template-columns:var(--wb-split-columns);grid-template-rows:minmax(0,1fr)}
-.wb-splitter {cursor:col-resize;touch-action:none;background:var(--panel-2);position:relative;z-index:1}
-.wb-splitter::after {content:'';position:absolute;width:2px;top:0;bottom:0;left:3px;background:var(--line)}
+.wb-splitter {cursor:col-resize;touch-action:none;background:transparent;position:relative;z-index:1}
+.wb-splitter::after {content:'';position:absolute;width:1px;top:0;bottom:0;left:50%;background:var(--line)}
+.wb-splitter::before {content:'';position:absolute;left:0;right:0;top:43px;height:1px;background:var(--line)}
+.wb-toolbar-hidden .wb-splitter::before {display:none}
 .wb-splitter:hover::after,.wb-splitter:focus-visible::after {background:var(--accent)}
 .wb-splitter:focus-visible {outline:2px solid var(--accent);outline-offset:-2px}
 .wb-pane-header :is(button,select,.wb-original-link),.wb-compact-toolbar button {box-sizing:border-box;min-height:var(--wb-control-height);height:var(--wb-control-height);display:inline-flex;align-items:center;justify-content:center;gap:5px;vertical-align:middle;line-height:1}
@@ -889,11 +891,20 @@
 .wb-statement-actions,.wb-editor-actions,.wb-editor-header {gap:6px}
 .wb-editor-header {flex-wrap:nowrap}
 .wb-editor-header>.wb-language-select {flex:none}
-.wb-editor-header>.wb-language-select .tb-select-wrap {width:90px;flex:none}
+.wb-editor-header>.wb-language-select .tb-select-wrap {width:max-content;flex:none}
 .wb-font-controls {padding:0;height:var(--wb-control-height);box-sizing:border-box;border:0;gap:2px}
-.wb-font-controls .bounded-number {width:48px;height:var(--wb-control-height)}
-.wb-font-controls .bounded-number input {box-sizing:border-box;min-height:var(--wb-control-height);height:var(--wb-control-height);width:100%;padding:2px 18px 2px 2px;text-align:center;font-size:12px;line-height:1}
-.wb-font-controls .bounded-number>span {right:4px;font-size:10px;line-height:1}
+.wb-font-controls .bounded-number {width:42px;height:var(--wb-control-height)}
+.wb-font-controls .bounded-number input {box-sizing:border-box;min-height:var(--wb-control-height);height:var(--wb-control-height);width:100%;padding:2px 5px;text-align:center;font-size:var(--wb-toolbar-font-size);line-height:1;appearance:textfield}
+.wb-font-controls .bounded-number input::-webkit-inner-spin-button {display:none}
+html .tb-workbench :is(.wb-pane-header,.wb-compact-toolbar) :is(button,select,input,.wb-original-link) {font-size:var(--wb-toolbar-font-size)!important;font-family:inherit;font-weight:500;line-height:1}
+html .tb-workbench .wb-pane-header :is(.tb-select,.initial-code-trigger,.wb-button),html .tb-workbench .wb-font-controls input,html .tb-workbench .wb-run-button {background:var(--wb-control-background)}
+html .tb-workbench .wb-pane-header :is(button,a)>svg {width:16px;height:16px;flex:none}
+html .tb-workbench .wb-pane-header .wb-language-toggle button {background:transparent;color:var(--muted)}
+html .tb-workbench .wb-pane-header .wb-language-toggle button:hover {background:var(--hover);color:var(--text)}
+.wb-input-modes {display:flex;align-items:center;gap:4px;flex:none}
+.wb-input-modes button {min-height:30px;padding:5px 9px;border:1px solid transparent;border-radius:5px;background:transparent;color:var(--muted);white-space:nowrap;font-size:var(--wb-toolbar-font-size)}
+.wb-input-modes button[aria-pressed=true] {background:var(--accent-soft);color:var(--accent)}
+html .tb-workbench .wb-run-button {font-size:var(--wb-toolbar-font-size)!important;min-height:30px}
 .wb-save-state {display:inline-flex;align-items:center;min-height:var(--wb-control-height)}
 .wb-save-toast {position:fixed;bottom:28px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;z-index:1000;padding:10px 16px;border:1px solid var(--line);border-radius:8px;background:var(--panel);box-shadow:0 6px 24px #0002;color:var(--success)}
 html .tb-workbench .wb-merged-header {position:relative;padding-left:48px}
@@ -914,7 +925,7 @@ html .tb-workbench:not(.wb-compact) .wb-editor-actions {flex:0 0 auto;margin-lef
 .wb-code-pane {container-type:inline-size;container-name:code-pane}
 @container code-pane (max-width:380px) {
  .wb-editor-header>.wb-language-select>svg {display:none}
- .wb-editor-header>.wb-language-select .tb-select-wrap {width:80px}
+ .wb-editor-header>.wb-language-select .tb-select-wrap {width:max-content}
  .wb-editor-header {padding-inline:8px;gap:4px}
  .wb-editor-actions {gap:4px}
  .wb-editor-actions .wb-next-button {font-size:0;gap:0;width:var(--wb-control-height);min-width:var(--wb-control-height);padding-inline:5px}

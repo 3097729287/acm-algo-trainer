@@ -1,6 +1,6 @@
 import {useEffect,useId,useLayoutEffect,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
-import {ArrowRight,BookOpen,Code2,FlaskConical,FolderOpen,History,Target} from 'lucide-react';
+import {BookOpen,Code2,FlaskConical,FolderOpen,History,Target} from 'lucide-react';
 import {nextActions} from '@/lib/nextActions.js';
 import './NextActions.css';
 
@@ -47,7 +47,7 @@ export default function NextActions({rows,training,insights,prefs,api,availableP
    if(!root.current)return;
    const rect=root.current.getBoundingClientRect(),edge=10,width=Math.max(0,Math.min(flyout.current?.getBoundingClientRect().width||rect.width,innerWidth-edge*2));
    const top=Math.min(rect.bottom,Math.max(edge,innerHeight-100));
-   setPosition({left:Math.max(edge,Math.min(rect.right-width,innerWidth-width-edge)),top,maxWidth:innerWidth-edge*2,maxHeight:Math.max(80,innerHeight-top-edge)});
+   setPosition({left:Math.max(edge,Math.min(rect.left,innerWidth-width-edge)),top,maxWidth:innerWidth-edge*2,maxHeight:Math.max(80,innerHeight-top-edge)});
   };
   update();const observer=typeof ResizeObserver==='undefined'?null:new ResizeObserver(update);if(root.current)observer?.observe(root.current);if(flyout.current)observer?.observe(flyout.current);
   window.addEventListener('resize',update);window.addEventListener('scroll',update,true);
@@ -75,7 +75,7 @@ export default function NextActions({rows,training,insights,prefs,api,availableP
     const buttons=[...event.currentTarget.querySelectorAll('.next-actions-item')],index=buttons.indexOf(document.activeElement);if(index<0)return;
     event.preventDefault();buttons[event.key==='Home'?0:event.key==='End'?buttons.length-1:(index+(event.key==='ArrowDown'?1:-1)+buttons.length)%buttons.length]?.focus();
    }}>
-    <ul>{rest.map((item,index)=>{const ItemIcon=icons[item.kind],description=`${popupId}-reason-${index}`;return <li key={`${item.kind}:${item.id}`} style={{'--task-index':index}}><button type="button" className="next-actions-item" data-recommendation={item.kind} aria-label={`开始${labels[item.kind]} ${item.title}`} aria-describedby={description} title={`${labels[item.kind]}：${item.title}\n${item.reason}`} onClick={()=>start(item)}><ItemIcon size={18} aria-hidden="true"/><span className="next-actions-item-copy"><strong>{item.title}</strong></span><ArrowRight size={16} aria-hidden="true"/></button><span className="sr-only" id={description}>{item.reason}</span></li>;})}</ul>
+    <ul>{rest.map((item,index)=>{const ItemIcon=icons[item.kind],description=`${popupId}-reason-${index}`;return <li key={`${item.kind}:${item.id}`} style={{'--task-index':index}}><button type="button" className="next-actions-item" data-recommendation={item.kind} aria-label={`开始${labels[item.kind]} ${item.title}`} aria-describedby={description} title={`${labels[item.kind]}：${item.title}\n${item.reason}`} onClick={()=>start(item)}><ItemIcon size={18} aria-hidden="true"/><span className="next-actions-item-copy"><strong>{item.title}</strong></span></button><span className="sr-only" id={description}>{item.reason}</span></li>;})}</ul>
    </section>
   </div>,document.body)}
  </section>;

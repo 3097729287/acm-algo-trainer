@@ -22,7 +22,7 @@ try{
   const elapsed=await page.evaluate(start=>performance.now()-start,started);assert(elapsed<300,`native receipt display delayed ${elapsed}ms`);
   await page.waitForFunction(()=>workbenchFixture.ackVisible===true);
   await page.waitForTimeout(1100);assert.equal(await page.getByLabel('原站提交状态').count(),0,'late polling cannot overwrite the pushed terminal result');
-  await page.getByRole('button',{name:'运行样例',exact:true}).click();
+  await page.getByRole('button',{name:'自测运行',exact:true}).click();
   await page.waitForFunction(()=>workbenchFixture.submissions.some(row=>row.mode==='run'));
   await page.evaluate(()=>{
     const row=workbenchFixture.submissions.find(row=>row.mode==='run');

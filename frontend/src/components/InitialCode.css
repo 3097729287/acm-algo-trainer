@@ -20,7 +20,9 @@
 .initial-code-settings-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .initial-code-settings-toolbar .initial-code-trigger{max-width:260px}
 .initial-code-settings-actions{display:flex;align-items:center;gap:6px;margin-left:auto}
-.initial-code-title{width:min(100%,360px);min-height:36px}
+.initial-code-title{flex:0 1 200px;width:200px;min-width:100px;min-height:36px}
+.initial-code-settings-toolbar :is(select,.initial-code-title){height:36px;box-sizing:border-box}
+@media(max-width:600px){.initial-code-title{flex-basis:140px;width:140px}}
 .initial-code-settings-editor{flex:1;min-height:180px;overflow:hidden;border:1px solid var(--line);border-radius:6px;background:var(--panel)}
 .initial-code-settings-editor>.code-editor{height:100%}
 @media(max-width:600px){.initial-code-picker-body{grid-template-columns:minmax(115px,30%) minmax(0,1fr)}.initial-code-settings{padding:12px}.initial-code-settings-editor{height:54dvh}.initial-code-options{padding:5px}}

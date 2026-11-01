@@ -1979,7 +1979,9 @@ class TrainingService:
             if not live:
                 try:
                     original=self._row(slots[0]['id'])
-                    live=parse_time(original['startedAt'])<=parse_time(record['started_at'])<parse_time(original['endedAt'])
+                    began,ended=original.get('startedAt'),original.get('endedAt')
+                    if isinstance(began,str) and isinstance(ended,str):
+                        live=parse_time(began)<=parse_time(record['started_at'])<parse_time(ended)
                 except (KeyError,TypeError,ValueError,IndexError,ServiceError):pass
             if live:name=name.removeprefix('重现赛 · ')
         if config.get('calendarEvent'):
