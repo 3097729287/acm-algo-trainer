@@ -6,7 +6,8 @@ from pathlib import Path
 import sys
 import zipfile
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'desktop'))
+ROOT=Path(__file__).resolve().parents[1]
+sys.path[:0]=[str(ROOT/name) for name in ('desktop','backend','backend/common')]
 from update_patch import safe_name
 
 

@@ -42,9 +42,10 @@
   },
   "currentRepair": {
     "version": "1.4.36",
-    "status": "source prepared; native and installation validation pending recording completion",
+    "status": "candidate B: storage and incremental bridge fixes; native/install validation in progress",
     "scope": "releases/1.4.36.md",
     "automaticBackupBounds": true,
-    "defaultFutureDelivery": "verified incremental update"
+    "defaultFutureDelivery": "verified incremental update",
+    "oneTimeFullRepairBaseline": true
   }
 }

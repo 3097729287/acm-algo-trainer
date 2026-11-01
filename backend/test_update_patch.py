@@ -55,6 +55,25 @@ class PatchTests(unittest.TestCase):
         for name, value in self.old.items(): self.assertEqual((self.app / name).read_bytes(), value)
         self.assertFalse((self.app / 'frontend/dist/new.js').exists())
 
+    def test_loader_is_verified_updated_and_rolled_back_with_the_program(self):
+        self.old['ToBeLoader.exe']=b'old native shortcut loader'
+        self.new['ToBeLoader.exe']=b'new native shortcut loader'
+        (self.app/'ToBeLoader.exe').write_bytes(self.old['ToBeLoader.exe'])
+        path=self.package()
+        with self.assertRaises(OSError):apply_patch_file(path,digest(path),'1.0.14',self.app,fail_after=1)
+        self.assertEqual((self.app/'ToBeLoader.exe').read_bytes(),self.old['ToBeLoader.exe'])
+        self.assertEqual((self.app/'state/private.sqlite3').read_bytes(),b'personal WAL and code untouched')
+        apply_patch_file(path,digest(path),'1.0.14',self.app)
+        self.assertEqual((self.app/'ToBeLoader.exe').read_bytes(),self.new['ToBeLoader.exe'])
+
+    def test_one_hundred_failed_program_applications_reuse_one_rollback_copy(self):
+        path=self.package()
+        for _ in range(100):
+            with self.assertRaises(OSError):apply_patch_file(path,digest(path),'1.0.14',self.app,fail_after=1)
+        self.assertEqual(len(list(self.root.glob('rollback-v1-*'))),1)
+        for name,value in self.old.items():self.assertEqual((self.app/name).read_bytes(),value)
+        self.assertEqual((self.app/'state/private.sqlite3').read_bytes(),b'personal WAL and code untouched')
+
     def test_build_provenance_updates_with_program_and_preserves_personal_state(self):
         for name in ('BUILD-INFO.json', 'SOURCE-MANIFEST.json'):
             self.old[name] = json.dumps({'commit': 'old-build', 'file': name}).encode()

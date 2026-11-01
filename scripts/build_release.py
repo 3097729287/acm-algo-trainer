@@ -141,7 +141,7 @@ def assemble(args):
     shutil.copytree(args.compiler_source, package / 'compiler')
     compiler=args.compiler_source/'ucrt64/bin/g++.exe'
     if not compiler.is_file():raise RuntimeError('The native shortcut loader requires the bundled C++ compiler')
-    subprocess.run([str(compiler),'-x','c++','-municode','-mwindows','-Os','-s','-static','-fno-exceptions','-fno-rtti','-finput-charset=UTF-8',
+    subprocess.run([str(compiler),'-x','c++','-municode','-mwindows','-Os','-s','-static','-Wl,--no-insert-timestamp','-fno-exceptions','-fno-rtti','-finput-charset=UTF-8',
                     str(ROOT/'desktop/startup_loader.c'),'-o',str(package/'ToBeLoader.exe'),'-luser32','-lgdi32'],
                    check=True,env={**os.environ,'PATH':str(compiler.parent)+os.pathsep+os.environ.get('PATH','')})
     if not args.python_source or not (args.python_source / 'python.exe').is_file() or not (args.python_source / 'LICENSE.txt').is_file():

@@ -53,6 +53,11 @@ def require_space(path,needed):
     if shutil.disk_usage(path).free<needed+RESERVE:
         raise UpdateStorageError('磁盘空间不足，更新已暂停，未继续创建备份或下载文件')
 
+def update_backup_bytes(root):
+    if not root.exists():return 0
+    return sum((sum(p.stat().st_size for p in files(path)) if path.is_dir() else path.stat().st_size)
+               for path in root.iterdir() if path.name.casefold().startswith('before-update-') and ordinary(path))
+
 def _owned(root):
     result=[]
     if not root.exists():return result
@@ -60,6 +65,8 @@ def _owned(root):
         if not path.is_dir() or not path.name.startswith('before-update-') or not ordinary(path):continue
         proof=path/'.update-proof'
         if not proof.is_dir() or not ordinary(proof):continue
+        metadata=proof/'tb-documents.sqlite3'
+        if not metadata.is_file() or not ordinary(metadata):continue
         value=load_document(path/META,{})
         if value.get('schema')==1 and value.get('kind')=='software-update' and isinstance(value.get('files'),dict):result.append((path,value))
     return sorted(result,key=lambda pair:pair[1].get('createdAt',''))
@@ -93,7 +100,7 @@ def recycle_directory(path):
         class Info(ctypes.Structure):_fields_=[('size',w.DWORD),('bytes',ctypes.c_longlong),('items',ctypes.c_longlong)]
         info=Info();info.size=ctypes.sizeof(info)
         if ctypes.windll.shell32.SHQueryRecycleBinW(path.drive+'\\',ctypes.byref(info))!=0:return False
-        size=sum(p.stat().st_size for p in files(path))
+        size=path.stat().st_size if path.is_file() else sum(p.stat().st_size for p in files(path))
         if info.bytes+size+16*1024**2>=capacity*800000:return False
         class Operation(ctypes.Structure):_fields_=[('hwnd',w.HWND),('function',w.UINT),('source',w.LPCWSTR),('destination',w.LPCWSTR),('flags',w.WORD),('aborted',w.BOOL),('mapping',ctypes.c_void_p),('title',w.LPCWSTR)]
         operation=Operation();operation.function=3;operation.source=str(path)+'\0\0';operation.flags=0x454
@@ -125,11 +132,13 @@ def backup(state,destination,*,context=None):
     with LOCK:
         paths=sources(state);signature=fingerprints(paths,state)
         for path,value in _owned(root):
-            if value.get('context')==context and value.get('sources')==signature and _valid(path,value):return path
+            if value.get('context')==context and value.get('sources')==signature and _valid(path,value):
+                require_space(state,0)
+                return path
         _trim(root)
         if len(_owned(root))>=3:raise UpdateStorageError('更新备份已达保留上限，原备份已保留，更新已暂停')
         estimated=sum(p.stat().st_size for p in paths)+sum(p.with_name(p.name+'-wal').stat().st_size for p in paths if p.with_name(p.name+'-wal').is_file())+1024**2
-        occupied=sum(p.stat().st_size for p in files(root)) if root.exists() else 0
+        occupied=update_backup_bytes(root)
         if estimated>MAX_BYTES or occupied+estimated>MAX_BYTES:raise UpdateStorageError('更新备份总量已达上限，原备份已保留，未继续复制')
         require_space(state,estimated)
         destination.mkdir(parents=True,exist_ok=False)

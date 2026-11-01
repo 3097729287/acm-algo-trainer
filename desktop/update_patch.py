@@ -8,11 +8,12 @@ import shutil
 import subprocess
 import uuid
 import zipfile
+from update_artifacts import prepare_tree,record_process,record_file
 
 from app_brand import executable
 from update_errors import UpdateBaseMismatch
 
-ROOT_FILES = {'ToBe.exe', 'TB新版.exe', 'VERSION', 'BUILD-INFO.json', 'SOURCE-MANIFEST.json', 'tb.ico', 'official_languages.js', 'official_nowcoder.js', 'official_luogu.js', 'official_page.js', 'LICENSE', 'THIRDPARTY.md', 'TOOLCHAIN-SOURCES.md', 'third-party-inventory.json', '使用说明.md', 'accounts.md', 'browser-preparation.md'}
+ROOT_FILES = {'ToBe.exe', 'ToBeLoader.exe', 'TB新版.exe', 'VERSION', 'BUILD-INFO.json', 'SOURCE-MANIFEST.json', 'tb.ico', 'official_languages.js', 'official_nowcoder.js', 'official_luogu.js', 'official_page.js', 'LICENSE', 'THIRDPARTY.md', 'TOOLCHAIN-SOURCES.md', 'third-party-inventory.json', '使用说明.md', 'accounts.md', 'browser-preparation.md'}
 PREFIXES = ('_internal/', 'frontend/dist/', 'resources/', 'browser-extension/', 'licenses/')
 
 
@@ -77,19 +78,14 @@ def apply_patch_file(package, sha, version, app_dir, *, fail_after=None):
         raise ValueError('增量包 SHA-256 不匹配')
     with zipfile.ZipFile(package) as archive:
         manifest = inspect_patch(archive, app_dir, version)
-        recovery = package.parent / ('rollback-' + uuid.uuid4().hex)
-        recovery.mkdir()
         touched = manifest['changed'] + sorted(set(manifest['base']) - set(manifest['files']))
-        existing = set()
-        for name in touched:
-            path = app_dir / name
-            if path.exists():
-                existing.add(name)
-                backup = recovery / name
-                backup.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(path, backup)
+        existing = {name for name in touched if (app_dir/name).exists()}
         journal = {'target': str(app_dir), 'existing': sorted(existing), 'touched': touched}
-        (recovery / 'recovery.json').write_text(json.dumps(journal, ensure_ascii=False), encoding='utf-8')
+        data=json.dumps(journal,ensure_ascii=False).encode('utf-8')
+        specs={name:(app_dir/name,manifest['base'][name]) for name in existing}
+        specs['recovery.json']=(data,hashlib.sha256(data).hexdigest())
+        staging=sum(archive.getinfo('files/'+name).file_size for name in manifest['changed'])
+        recovery=prepare_tree(package.parent,'rollback',str(app_dir)+':'+sha,specs,staging_bytes=staging)
         try:
             # VERSION changes last so a half-written update is never reported as done.
             order = sorted(manifest['changed'], key=lambda name: name == 'VERSION')
@@ -116,6 +112,7 @@ def apply_patch_file(package, sha, version, app_dir, *, fail_after=None):
                 path.with_name(path.name + '.tb-update').unlink(missing_ok=True)
             raise
         (recovery / 'complete').write_text(version)
+        record_file(recovery,'complete')
         return {'version': version, 'replaced': len(manifest['changed']), 'recovery': str(recovery)}
 
 
@@ -123,15 +120,20 @@ def launch_patch(package, sha, version, app_dir):
     """Copy the helper/runtime so its own loaded DLLs do not lock the target."""
     package, app_dir = Path(package).resolve(), Path(app_dir).resolve()
     with zipfile.ZipFile(package) as archive:
-        inspect_patch(archive, app_dir, version)
-    helper = package.parent / ('helper-' + uuid.uuid4().hex)
-    helper.mkdir()
+        manifest=inspect_patch(archive, app_dir, version)
+        staging=sum(archive.getinfo('files/'+name).file_size for name in manifest['changed'])
+    original=executable(app_dir)
+    if original.name not in manifest['base']:raise ValueError('当前更新程序不在已校验基线中')
+    specs={name:(app_dir/name,sha256) for name,sha256 in manifest['base'].items() if name==original.name or name.startswith('_internal/')}
+    helper=prepare_tree(package.parent,'helper',str(app_dir)+':'+sha,specs,staging_bytes=staging)
     helper_exe = helper / executable(app_dir).name
-    shutil.copy2(executable(app_dir), helper_exe)
-    shutil.copytree(app_dir / '_internal', helper / '_internal')
-    return subprocess.Popen([str(helper_exe), '--apply-update-patch', str(package), sha, version, str(app_dir), str(os.getpid())],
+    child=subprocess.Popen([str(helper_exe), '--apply-update-patch', str(package), sha, version, str(app_dir), str(os.getpid())],
                             creationflags=subprocess.CREATE_NO_WINDOW | subprocess.CREATE_NEW_PROCESS_GROUP,
                             stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    try:record_process(helper,child.pid,helper_exe)
+    except Exception:
+        child.terminate();child.wait(timeout=5);raise
+    return child
 
 
 def helper_main(args):

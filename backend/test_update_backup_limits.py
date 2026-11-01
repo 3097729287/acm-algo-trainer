@@ -88,6 +88,29 @@ class UpdateBackupLimitTests(unittest.TestCase):
         with patch('update_backups.shutil.disk_usage',return_value=SimpleNamespace(free=1024,total=1024**4)):
             with self.assertRaises(UpdateStorageError):backup(self.state,self.destination('low'))
         self.assertFalse((self.state/'backups').exists())
+    def test_other_migration_backups_do_not_consume_the_software_update_budget(self):
+        original=self.state/'backups/library-before-schema-upgrade.sqlite3';original.parent.mkdir()
+        with original.open('wb') as file:file.write(b'preserved original recovery');file.truncate(4*1024**2)
+        with patch('update_backups.MAX_BYTES',2*1024**2):
+            copied=backup(self.state,self.destination('update'))
+        self.assertTrue((copied/'personal.sqlite3').is_file());self.assertEqual(original.stat().st_size,4*1024**2)
+    def test_only_obsolete_known_downloads_are_retired(self):
+        from software_updates import _retire_downloads
+        directory=Path(self.temp.name)/'cache/updates';directory.mkdir(parents=True)
+        old=directory/'ToBe-Setup-1.4.35-win64.exe';old.write_bytes(b'obsolete installer')
+        protected=['ToBe-Setup-1.4.36-win64.exe','ToBe-Update-1.4.36-to-1.4.37-win64.zip','unique-code.cpp']
+        for name in protected:(directory/name).write_bytes(b'keep')
+        _retire_downloads(directory,'1.4.36')
+        self.assertFalse(old.exists());self.assertTrue(all((directory/name).read_bytes()==b'keep' for name in protected))
+    def test_download_cache_limit_blocks_network_before_new_partial_files(self):
+        directory=Path(self.temp.name)/'cache/updates';directory.mkdir(parents=True)
+        (directory/'ToBe-Setup-1.4.99-win64.exe').write_bytes(b'retained future candidate')
+        service=SoftwareUpdates(self.state,current='1.4.31',offline=True,opener=Mock())
+        service.release={'name':'ToBe-Setup-1.4.36-win64.exe','size':1024,'sha256':'0'*64,'url':'https://47.82.84.74/updates/assets/1.4.36/ToBe-Setup-1.4.36-win64.exe'}
+        try:
+            with patch('software_updates.MAX_DOWNLOAD_CACHE',1024):service._download()
+            self.assertEqual(service.error_code,'storage');service.opener.open.assert_not_called();self.assertEqual(len(list(directory.iterdir())),1)
+        finally:service.close()
     def test_backup_names_are_case_insensitively_excluded_and_never_recursive(self):
         for name in ['Backup','BACKUPS','backups']:
             p=self.state/name/'nested';p.mkdir(parents=True,exist_ok=True);(p/'old.sqlite3').write_bytes(b'not a live database')

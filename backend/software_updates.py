@@ -25,6 +25,18 @@ FEED = "https://api.github.com/repos/" + REPOSITORY + "/releases/latest"
 DOMESTIC_ROOT = "https://47.82.84.74/updates"
 DOMESTIC_FEED = DOMESTIC_ROOT + "/stable/manifest-v1.json"
 MAX_INSTALLER = 2 * 1024 * 1024 * 1024
+MAX_DOWNLOAD_CACHE = 8 * 1024**3
+
+def _retire_downloads(directory,current):
+    from update_backups import ordinary,recycle_directory
+    for path in directory.iterdir():
+        match=re.fullmatch(r'(?:ToBe|TB)-(?:Setup-(\d+\.\d+\.\d+)|Update-\d+\.\d+\.\d+-to-(\d+\.\d+\.\d+))-win64\.(?:exe|zip|download(?:\.failed-[a-f0-9]{32})?)',path.name)
+        if not match or not path.is_file() or not ordinary(path):continue
+        try:obsolete=version_tuple(match.group(1) or match.group(2))<version_tuple(current)
+        except ValueError:continue
+        if obsolete:
+            try:path.unlink()
+            except OSError:recycle_directory(path)
 
 
 def version_tuple(value):
@@ -325,6 +337,7 @@ class SoftwareUpdates:
             release = dict(self.release)
             directory = self.state_dir.parent / "cache" / "updates"
             directory.mkdir(parents=True, exist_ok=True)
+            _retire_downloads(directory,self.current)
             destination = directory / release["name"]
             if destination.is_file() and destination.stat().st_size==release['size']:
                 with destination.open('rb') as cached:
@@ -334,6 +347,10 @@ class SoftwareUpdates:
                     return
             pending = destination.with_suffix(".download")
             from update_backups import require_space
+            from update_backups import ordinary
+            occupied=sum(p.stat().st_size for p in directory.iterdir() if p.is_file() and ordinary(p))
+            if occupied+release['size']>MAX_DOWNLOAD_CACHE:
+                raise UpdateStorageError('更新下载缓存已达上限，已暂停下载')
             if len(list(directory.glob(pending.name+'.failed-*')))>=2:
                 raise UpdateStorageError('下载失败文件已达保留上限，原文件保留，更新已暂停')
             require_space(directory,release['size'])
