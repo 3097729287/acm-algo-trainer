@@ -85,7 +85,7 @@ def insert(database,packet,meta_key="threeContests20261102"):
         assert not db.execute('pragma foreign_key_check').fetchall()
     return lib
 
-def text_source(packet):
+def text_source(packet,replace_ids=frozenset()):
     for table in TABLES:
         path=ROOT/'data/library'/(table+'.json');saved=OUT/'source-before'/path.name
         saved.parent.mkdir(parents=True,exist_ok=True)
@@ -95,9 +95,13 @@ def text_source(packet):
         by_id={key(row):row for row in result}
         for row in packet[table]:
             identity=key(row)
-            if identity in by_id:assert by_id[identity]==row,identity
+            if identity in by_id:
+                if by_id[identity]!=row:
+                    assert identity in replace_ids,identity
+                    result[next(i for i,x in enumerate(result) if key(x)==identity)]=deepcopy(row)
+                    by_id[identity]=row
             else:result.append(row);by_id[identity]=row
-        assert result[:len(old)]==old
+        assert all(result[i]==row for i,row in enumerate(old) if key(row) not in replace_ids)
         dump(path,result)
 
 def portable_seed(packet):
@@ -124,16 +128,19 @@ def upgrade_check(packet,seed):
     lib.merge_seed(seed.path)
     assert lib.solution(identity)['markdown']==local
     assert lib.find(own)
-    for p in packet['problems']:
-        assert lib.solution(p['id'],'detailed')
-    dump(OUT/'upgrade-report.json',{'passed':True,'localEditorialPreserved':True,'localImportPreserved':True,'detailedArticles':len(packet['problems'])})
+    for p in packet['detailed_solutions']:
+        assert lib.solution(p['problem_id'],'detailed')
+    dump(OUT/'upgrade-report.json',{'passed':True,'localEditorialPreserved':True,'localImportPreserved':True,'detailedArticles':len(packet['detailed_solutions'])})
 
 def export_readers(lib,packet):
     store=Store(data_file=OUT/'absent.md',library_file=lib.path,history_file=OUT/'fixture/history.jsonl')
     rows=[]
     for p in packet['problems']:
         value=store.solution(p['id'])
-        assert value['markdown']!=value['detailedSolution']['markdown']
+        if p['encoded'].get('detailedSolutionAvailable'):
+            assert value['markdown']!=value['detailedSolution']['markdown']
+        else:
+            assert value['detailedSolution'] is None
         assert value['methods'][0]['markdown']==value['markdown']
         assert value['methods'][0]['detailedSolution']==value['detailedSolution']
         assert lib.statement(p['id'])['integrity']['status']=='complete'

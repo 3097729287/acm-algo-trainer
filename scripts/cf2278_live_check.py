@@ -1,4 +1,5 @@
 """Read back the installed articles and compare private records to recovery."""
+import argparse
 import json
 from collections import Counter
 from pathlib import Path
@@ -67,6 +68,9 @@ def private_records(before, identities):
     return sorted(set(changes)),sorted(set(reordered))
 
 def main():
+    global OUT
+    ap=argparse.ArgumentParser();ap.add_argument('--receipt-root',type=Path);args=ap.parse_args()
+    if args.receipt_root:OUT=args.receipt_root.resolve()
     packet=additions();before=shared.load(OUT/'local-install.json')
     workspace=get('/api/workspace');assert not workspace.get('activeContest')
     checks=[]
@@ -76,22 +80,26 @@ def main():
         for p in task['problems']:
             identity=p['id'];value=get('/api/solution?id='+urllib.parse.quote(identity,safe=''))
             assert value['markdown']==defaults[identity]['markdown'],identity
-            assert value['detailedSolution']['markdown']==detailed[identity]['markdown'],identity
+            if identity in detailed:
+                assert value['detailedSolution']['markdown']==detailed[identity]['markdown'],identity
+            else:
+                assert value['detailedSolution'] is None,identity
             assert value['methods'][0]['markdown']==value['markdown'],identity
-            checks.append({'id':identity,'bothVariantsExact':True})
+            checks.append({'id':identity,'defaultExact':True,'detailedExact':True if identity in detailed else None,'defaultOnly':identity not in detailed})
     cache_changes,reordered=private_records(before,{p['id'] for p in packet['problems']})
     api=get('/api/data')
     rows=api.get('rows',[]) if isinstance(api,dict) else api
     indexed={x['id']:x for x in rows}
     for p in packet['problems']:
         saved=indexed[p['id']]
-        assert saved.get('solutionAvailable') and saved.get('detailedSolutionAvailable'),p['id']
-    result={'passed':True,'newTasks':6,'newArticles':12,'priorTasksPreserved':16,
+        assert saved.get('solutionAvailable'),p['id']
+        assert bool(saved.get('detailedSolutionAvailable'))==bool(p['encoded'].get('detailedSolutionAvailable')),p['id']
+    result={'passed':True,'newTasks':len(packet['problems']),'newArticles':len(packet['solutions'])+len(packet['detailed_solutions']),'priorTasksPreserved':16,
         'priorArticlesPreserved':32,'checks':checks,'privateRecordInventoryUnchanged':True,
         'normalStartupReadback':True,'noOfficialSubmissionsSent':True,
         'unrelatedLivePublicRowsUnchanged':True,'startupCacheDocumentsRefreshed':cache_changes,
         'equalPrivateRecordsReorderedByAccountSync':reordered}
     shared.dump(OUT/'live-readback.json',result)
-    print('Live readback: 12 new and 32 prior articles exact; private records unchanged.')
+    print('Live readback: current contest and 32 prior articles exact; A default-only; private records unchanged.')
 
 if __name__=='__main__':main()

@@ -1,16 +1,16 @@
 {
-  "articles": 12,
+  "articles": 13,
   "contest": "Div.3 1131",
   "contestId": 2278,
-  "excluded": [
-    {
-      "letter": "A",
-      "reason": "签到题"
-    }
+  "defaultArticles": 7,
+  "defaultOnly": [
+    "A"
   ],
-  "letters": "BCDEFG",
+  "detailedArticles": 6,
+  "excluded": [],
+  "letters": "ABCDEFG",
   "officialRatingPublished": false,
-  "problems": 6,
+  "problems": 7,
   "statementSemanticNote": {
     "C": "原文终止句有歧义，参考程序与正文采用官方题解及样例的“只剩一颗即结束”口径。"
   },
@@ -22,5 +22,6 @@
       "letter": "G",
       "reason": "独立逐脉冲模拟证明同层冲突；保留原输入，另加可达目标00110期望2，参考程序未改。"
     }
-  ]
+  ],
+  "warmupPolicy": "签到题也收录，仅提供默认版；保留既有详细版。用户于 2026-11-02 明确修改。"
 }

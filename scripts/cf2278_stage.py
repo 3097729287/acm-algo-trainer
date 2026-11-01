@@ -14,6 +14,7 @@ def additions():
         rows = []
         for p in packet['problems']:
             letter = p['encoded']['problem']
+            if variant=='detailed' and not p['encoded'].get('detailedSolutionAvailable'):continue
             markdown = (CONTENT/variant/(letter+'.md')).read_text('utf8')
             images = {rel:'data:image/svg+xml;base64,'+base64.b64encode((CONTENT/rel).read_bytes()).decode('ascii')
                       for rel in re.findall(r'!\[[^\]]*\]\((assets/[^)]+)\)',markdown)}
@@ -23,7 +24,7 @@ def additions():
             rows.append({'problem_id':p['id'],'markdown':markdown,'images':images,
                          'source_path':f'contest-editorials/div3-1131/{variant}/{letter}.md'})
         packet[table] = rows
-    assert len(packet['problems'])==len(LETTERS)==6
+    assert len(packet['problems'])==len(LETTERS)
     return packet
 
 def seed(packet):
@@ -40,13 +41,13 @@ def seed(packet):
 def main():
     OUT.mkdir(parents=True,exist_ok=True)
     packet=additions();lib=seed(packet)
-    assert all(lib.check()[key]==6 for key in ['problems','solutions','detailed_solutions'])
+    assert all(lib.check()[key]==len(packet[key]) for key in ['problems','solutions','detailed_solutions'])
     shared.upgrade_check(packet,lib)
     shared.export_readers(lib,packet)
     shared.text_source(packet)
-    shared.dump(OUT/'stage-report.json',{'passed':True,'problems':6,'articles':12,
+    shared.dump(OUT/'stage-report.json',{'passed':True,'problems':len(packet['problems']),'articles':len(packet['solutions'])+len(packet['detailed_solutions']),
         'lectureLinks':len(packet['links']),'counts':lib.check(),'textSourceUpdated':True,
         'unrelatedTextRowsPreserved':True,'personalDatabasesModified':False})
-    print('Staged 6 problems, 12 articles and',len(packet['links']),'lecture links; local edits/imports preserved.')
+    print('Staged',len(packet['problems']),'problems and',len(packet['solutions'])+len(packet['detailed_solutions']),'articles; local edits/imports preserved.')
 
 if __name__=='__main__':main()

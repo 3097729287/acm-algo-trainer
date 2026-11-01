@@ -1499325,5 +1499325,70 @@
       "题名": "0s and 1s"
     },
     "url": "https://codeforces.com/contest/2278/problem/G"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://codeforces.com/contest/2278",
+      "contest": "Div.3 1131",
+      "contestDate": "2026-10-31T14:35:00+00:00",
+      "contestDateSource": "Codeforces 官方比赛时间",
+      "contestFamily": "Div.3",
+      "contestFullName": "Codeforces Round 1131 (Div. 3)",
+      "contestId": "2278",
+      "contestProblemCount": 7,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": false,
+      "difficulty": 800,
+      "difficultyBand": [
+        800,
+        1000
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://codeforces.com/contest/2278/problem/A",
+        "https://codeforces.com/api/contest.standings?contestId=2278",
+        "分子与分母的二十六类字符频数作差，匹配 six；线性扫描，无需处理顺序。",
+        "官方未定级，800 为独立复核估分。"
+      ],
+      "difficultySource": "ToBe 题面与算法复核估算（官方未定级）",
+      "editorialVariants": [
+        "default"
+      ],
+      "endedAt": "2026-10-31T16:50:00+00:00",
+      "eventYear": 2026,
+      "id": "remote:codeforces:2278::A",
+      "knowledge": "模拟",
+      "metadataVersion": "2026-11-02-div3-1131-a",
+      "officialRating": null,
+      "originalTitle": "Fraction and Six",
+      "platform": "Codeforces",
+      "problem": "A",
+      "series": "Div.3",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-10-31T14:35:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "模拟"
+      ],
+      "title": "Fraction and Six",
+      "url": "https://codeforces.com/contest/2278/problem/A"
+    },
+    "id": "remote:codeforces:2278::A",
+    "raw": {
+      "_id": "remote:codeforces:2278::A",
+      "场次": "Div.3 1131",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "模拟",
+      "难度": "800",
+      "题号": "A",
+      "题名": "Fraction and Six"
+    },
+    "url": "https://codeforces.com/contest/2278/problem/A"
   }
 ]

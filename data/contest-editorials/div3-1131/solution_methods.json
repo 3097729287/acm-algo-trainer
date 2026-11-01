@@ -149,5 +149,26 @@
       "primaryMethod": "main"
     },
     "problem_id": "remote:codeforces:2278::G"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "main",
+          "lectureIds": [],
+          "legacy": true,
+          "tags": [
+            "模拟"
+          ],
+          "title": "主解法",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "67bc62768b81c259ade2ce8b4655ab5a7977a7e8ffed154a22a078fa761977c7"
+          }
+        }
+      ],
+      "primaryMethod": "main"
+    },
+    "problem_id": "remote:codeforces:2278::A"
   }
 ]

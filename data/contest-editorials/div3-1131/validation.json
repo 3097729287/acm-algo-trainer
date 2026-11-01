@@ -1,5 +1,5 @@
 {
-  "boundaries": 31,
+  "boundaries": 39,
   "checkerMutationCasesRejected": 4,
   "corrections": [
     {
@@ -10,6 +10,11 @@
       "reason": "独立逐脉冲模拟证明同层冲突；保留原输入，另加可达目标00110期望2，参考程序未改。"
     }
   ],
+  "defaultArticles": 7,
+  "defaultOnly": [
+    "A"
+  ],
+  "detailedArticles": 6,
   "formatCheckedVariants": 2,
   "isolatedUpgrade": {
     "detailedArticles": 6,
@@ -17,12 +22,12 @@
     "localImportPreserved": true,
     "passed": true
   },
-  "limitCases": 9,
-  "markdownCodeChecks": 12,
-  "officialSamples": 6,
+  "limitCases": 10,
+  "markdownCodeChecks": 13,
+  "officialSamples": 7,
   "officialSubmissionsSent": 0,
   "passed": true,
-  "randomComparisons": 5300,
+  "randomComparisons": 5600,
   "render": {
     "articles": [
       {
@@ -358,6 +363,22 @@
     ]
   },
   "tasks": [
+    {
+      "boundaries": 8,
+      "letter": "A",
+      "limits": [
+        {
+          "name": "最大组数和字符串长度",
+          "officialTimeLimitSeconds": 1.0,
+          "seconds": 0.006
+        }
+      ],
+      "officialSampleGroups": 1,
+      "passed": true,
+      "randomComparisons": 300,
+      "referenceSha256": "67bc62768b81c259ade2ce8b4655ab5a7977a7e8ffed154a22a078fa761977c7",
+      "seed": 227800
+    },
     {
       "boundaries": 4,
       "letter": "B",

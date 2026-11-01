@@ -7,8 +7,9 @@ ROOT=Path(__file__).resolve().parents[1]
 CONTENT=ROOT/'data/contest-editorials/div3-1131'
 ARCHIVE=Path('D:/Data/Code/题解/Codeforces/Div.3/1131')
 OUT=ROOT/'.backups/div3-1131'
-LETTERS='BCDEFG'
+LETTERS='ABCDEFG'
 META={
+ 'A':('Fraction and Six','模拟',800,[]),
  'B':('Stakes and Shapes','构造[主] + 贪心',800,['integer']),
  'C':('Math and Physics','贪心',1100,['vector','integer']),
  'D':('Lock and Unlock','贪心[主] + 排序',1600,['vector','integer']),
@@ -18,6 +19,29 @@ META={
 }
 
 PROGRAMS={
+'A':r'''
+#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, m;
+        string p, q;
+        cin >> n >> m >> p >> q;
+        int count[26] = {};
+        for (char c : p) ++count[c - 'a'];
+        for (char c : q) --count[c - 'a'];
+        // 再扣掉目标，所有差值为零才表示分母清空、分子恰好剩 six。
+        for (char c : string("six")) --count[c - 'a'];
+        bool ok = true;
+        for (int value : count) if (value != 0) ok = false;
+        cout << (ok ? "YES" : "NO") << '\n';
+    }
+}
+''',
 'B':r'''
 #include <bits/stdc++.h>
 using namespace std;
@@ -200,6 +224,27 @@ int main() {
 }
 
 BRUTES={
+'A':r'''
+#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, m;
+        string p, q;
+        cin >> n >> m >> p >> q;
+        bool ok = true;
+        for (char c : q) {
+            size_t pos = p.find(c);
+            if (pos == string::npos) { ok = false; break; }
+            p.erase(pos, 1);
+        }
+        sort(p.begin(), p.end());
+        cout << (ok && p == "isx" ? "YES" : "NO") << '\n';
+    }
+}
+''',
 'B':r'''
 #include <bits/stdc++.h>
 using namespace std;
@@ -258,7 +303,7 @@ def put(path,text):
 def main():
     for letter in LETTERS:
         for name,code in [(letter.lower()+'.cpp',PROGRAMS[letter]),(letter.lower()+'_brute.cpp',BRUTES[letter])]:
-            for folder in [ARCHIVE/'B-G'/letter,CONTENT/'programs'/letter]:put(folder/name,code.strip()+'\n')
-    print('Wrote six references and six independent baselines.')
+            for folder in [ARCHIVE/('A-G' if letter=='A' else 'B-G')/letter,CONTENT/'programs'/letter]:put(folder/name,code.strip()+'\n')
+    print('Wrote seven references and seven independent baselines.')
 
 if __name__=='__main__':main()

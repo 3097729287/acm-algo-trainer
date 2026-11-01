@@ -13,7 +13,7 @@ window.fixtureData=data;
 function Fixture(){
  const [index,setIndex]=useState(0),[prefs,setPrefs]=useState({}),[statement,setStatement]=useState(null);
  window.openContestEditorial=index=>{setStatement(null);setIndex(index)};
- window.openContestStatement=(index,chinese)=>setStatement(chinese?data.statements[index].translation||data.statements[index]:data.statements[index]);
+ window.openContestStatement=(index,chinese)=>setStatement(chinese?{...data.statements[index],...data.statements[index].translation}:data.statements[index]);
  const api=useCallback(async path=>({lectures:[]}),[]);
  return <main className="workspace-area" style={{height:'100vh',padding:0,display:'flex'}}>
   {statement?<section className="reader-content" style={{maxWidth:'100%',width:'100%',padding:24,overflow:'auto'}}><Markdown text={statement.markdown} images={statement.images||{}}/></section>:

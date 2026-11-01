@@ -8,18 +8,25 @@ from cf2278_stage import ROOT, CONTENT, OUT, additions, shared
 from three_contests_install import NEWEST, file_hash, assert_closed, personal_paths, stable_inventory, public_digest
 
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--apply',action='store_true');args=ap.parse_args()
+    global OUT
+    ap=argparse.ArgumentParser();ap.add_argument('--apply',action='store_true');ap.add_argument('--letters');ap.add_argument('--receipt-root',type=Path);args=ap.parse_args()
+    if args.receipt_root:OUT=args.receipt_root.resolve()
     assert shared.load(OUT/'render/report.json')['passed']
     assert shared.load(OUT/'upgrade-report.json')['passed']
     assert shared.load(CONTENT/'validation.json')['passed']
     assert all(x['passed'] for x in shared.load(OUT/'format-report.json'))
     assert all(x['passed'] for x in shared.load(OUT/'mdfull-report.json'))
-    assert_closed();packet=additions();identities={p['id'] for p in packet['problems']}
+    assert_closed();all_content=additions();packet={k:list(v) for k,v in all_content.items()}
+    if args.letters:
+        wanted={'remote:codeforces:2278::'+x for x in args.letters}
+        packet={k:[r for r in rows if r.get('id',r.get('problem_id')) in wanted] for k,rows in packet.items()}
+    identities={p['id'] for p in packet['problems']};assert identities
+    problem_count=len(identities);article_count=len(packet['solutions'])+len(packet['detailed_solutions'])
     recovery=Path.home()/'.dsh/backups/div3-1131-20261102'/dt.datetime.now().strftime('%Y%m%d-%H%M%S')
     recovery.mkdir(parents=True)
     commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
     report={'applied':args.apply,'sourceCommit':commit,'recovery':str(recovery),'installations':[],
-        'publicProblems':6,'articles':12,'personalDatabaseReplacement':False,'publicDeployment':False}
+        'publicProblems':problem_count,'articles':article_count,'personalDatabaseReplacement':False,'publicDeployment':False}
     known_backups={}
     for name in ['程序','管理员程序']:
         installation=(NEWEST/name).resolve();assert installation.is_relative_to(NEWEST)
@@ -37,13 +44,16 @@ def main():
         with sqlite3.connect(seed.as_uri()+'?mode=ro',uri=True) as db:
             previous={t:db.execute('select count(*) from '+t).fetchone()[0] for t in ['problems','solutions','detailed_solutions','statements']}
             present=db.execute('select count(*) from problems where id in ('+','.join('?' for _ in identities)+')',tuple(identities)).fetchone()[0]
-        assert present in (0,6)
+            missing={table:sum(not db.execute('select 1 from '+table+' where '+('id' if table=='problems' else 'problem_id')+'=?',(row.get('id',row.get('problem_id')),)).fetchone() for row in packet[table]) for table in previous}
         print('Verified recovery and public/private baseline:',name,flush=True)
         assert_closed()
         assert file_hash(seed)==seed_hash,'Another task changed this public seed during validation'
         if args.apply:
-            lib=shared.insert(seed,packet,meta_key='cf2278Content');after=lib.check()
-            assert all(after[t]==previous[t]+(6 if present==0 else 0) for t in previous)
+            lib=shared.insert(seed,packet,meta_key='cf2278Content')
+            with lib.connection() as db:
+                db.execute("update library_meta set value=? where key='cf2278Content'",(str(len(all_content['problems']))+'-problems-'+str(len(all_content['solutions'])+len(all_content['detailed_solutions']))+'-articles',))
+            after=lib.check()
+            assert all(after[t]==previous[t]+missing[t] for t in previous)
             assert public_digest(seed,identities)==unrelated,'An unrelated public row changed'
             assert stable_inventory(paths)==private,'Private records changed during public installation'
             assert {f:file_hash(installation/f) for f in native}==native
@@ -53,7 +63,7 @@ def main():
                 saved.write_bytes(marker.read_bytes())
             shared.dump(marker,{'kind':'local public educational content overlay','sourceCommit':commit,
                 'sourceBranch':'content/div3-1131-20261102','contest':'Div.3 1131','contestId':2278,
-                'problems':6,'articles':12,'nativeVersion':(installation/'VERSION').read_text().strip(),
+                'problems':len(all_content['problems']),'articles':len(all_content['solutions'])+len(all_content['detailed_solutions']),'lastAppend':args.letters or ''.join(x['encoded']['problem'] for x in packet['problems']),'nativeVersion':(installation/'VERSION').read_text().strip(),
                 'seedSha256':file_hash(seed),'installedAt':dt.datetime.now(dt.timezone.utc).isoformat()})
         else:after=previous
         report['installations'].append({'installation':str(installation),'version':(installation/'VERSION').read_text().strip(),

@@ -10,6 +10,20 @@ from three_contests_figures import Figure
 TEXT={}
 def add(letter,intent,short,long,pitfalls):TEXT[letter]={'intent':intent.strip(),'default':short.strip(),'detailed':long.strip(),'pitfalls':pitfalls.strip()}
 
+add('A',r'''
+分子字符串 $p$、分母字符串 $q$ 都由小写字母组成，每个字符表示一个相乘的变量。同字母可一对一约掉，剩余字母可以重排。判断能否让分母为空、分子恰好剩下 $\texttt{six}$。每个字符串的长度均在一到一百之间。
+''',r'''
+只需检查：对每个字母，分子次数减去分母次数，是否恰好等于它在 $\texttt{six}$ 中的次数。
+
+例如 $p=\texttt{sinx}$、$q=\texttt{n}$：两边各一个 $n$ 抵消，剩下 $s$、$i$、$x$ 各一个，重排即为目标。因此顺序不用模拟，但次数必须精确匹配；多一个字符或分母少约掉一个字符都会失败。
+
+用二十六个计数槽分别保存 $a$ 到 $z$ 的次数差。遍历分子时加一，遍历分母时减一，再把目标 six 的三个字符各减一；最后所有槽都应为零。必要性来自同字母才能约分；反过来，次数关系成立就能将每个分母字符配给一个相同的分子字符，恰好留下目标，所以条件也充分。
+
+代码中 <code>int count[26] = {}</code> 将二十六个计数初始化为零；<code>c - 'a'</code> 把小写字母映射到零到二十五，例如 $b$ 对应一。负值说明分子缺少所需字符，正值说明还有多余字符，两者都不允许。<code>for (char c : p)</code> 按顺序读出字符串的每个字符。
+
+时间为 $O(n+m+26)$，计数数组使用 $O(26)$ 空间，输入字符串另用 $O(n+m)$ 空间。
+''','',r'''不能把字符串当作一个整体变量，也不能只比较长度差为三。约分后既不能留有分母字符，也不能让分子多出字符。''')
+
 add('B',r'''
 Alice 在 $x+y+z$ 局中分别出 $x$ 次石头、$y$ 次剪刀、$z$ 次布，顺序未知。Bob 须提前确定全部手势，保证对方任意排列下，自己赢局数不少于输局数。输出任意满足条件的字符串。$0\le x,y,z\le100$，总局数为正。
 ''',r'''
@@ -336,7 +350,7 @@ def record():
         timings.append(letter+' '+('/'.join(re.findall(r'([0-9]+\.[0-9]+) s（TL=',s)))+' s')
     return f'''## 实测记录
 
-六份参考程序与六份独立基准已编译；参考程序无警告。
+七份参考程序与七份独立基准已编译；参考程序无警告。
 官方样例 {samples} 组、边界 {edges} 条、随机对拍 {checks} 组通过；B 用任意输出判定器，随机种子逐题保留。
 极限计时：{'；'.join(timings)}。每例三次取最小，均通过官方时限。
 默认与详细两版共用验证源码；格式、文档代码及实际渲染另行核对。
@@ -344,15 +358,16 @@ def record():
 
 def main():
     figures()
-    table='| 题号 | 题名 | 考点 | 难度 |\n|---|---|---|---|\n'+''.join(f'| {l} | {META[l][0]} | {META[l][1]} | {META[l][2]} |\n' for l in LETTERS)
     for variant,suffix in [('default','题解'),('detailed','详细题解')]:
-        parts=['# Div.3 1131 题解\n\n> 比赛：[Codeforces Round 1131 (Div. 3)](https://codeforces.com/contest/2278)\n> 语言：C++17。收录 B–G，A 按签到题规则略去。官方尚未公布 rating，目录难度为算法复核估分，不是 Codeforces 官方评分。','## 目录\n\n'+table]
-        for letter in LETTERS:
+        selected=LETTERS if variant=='default' else LETTERS.replace('A','')
+        table='| 题号 | 题名 | 考点 | 难度 |\n|---|---|---|---|\n'+''.join(f'| {l} | {META[l][0]} | {META[l][1]} | {META[l][2]} |\n' for l in selected)
+        parts=['# Div.3 1131 题解\n\n> 比赛：[Codeforces Round 1131 (Div. 3)](https://codeforces.com/contest/2278)\n> 语言：C++17。默认稿收录 A–G；A 为签到题，按用户最新规则仅提供默认版，详细稿收录 B–G。官方尚未公布 rating，目录难度为算法复核估分，不是 Codeforces 官方评分。','## 目录\n\n'+table]
+        for letter in selected:
             v=TEXT[letter];code=(CONTENT/'programs'/letter/(letter.lower()+'.cpp')).read_text('utf8')
             text=f'## {letter}. {META[letter][0]}\n\n### 题意\n\n[原题链接](https://codeforces.com/contest/2278/problem/{letter})\n\n{v["intent"]}\n\n{foundations(letter)}\n\n### 思路\n\n{v[variant]}\n\n### 参考代码\n\n```cpp\n{code}```\n\n### 易错点\n\n{v["pitfalls"]}\n'
             text=inline(text);put(CONTENT/variant/(letter+'.md'),text);parts.append(text)
         parts.append(record());text='\n\n'.join(parts).rstrip()+'\n'
         put(CONTENT/('1131'+suffix+'.md'),text);put(ARCHIVE/('1131'+suffix+'.md'),text)
-    print('Built twelve articles, two manuscripts and six diagrams with explicit SVG dimensions.')
+    print('Built thirteen articles, two manuscripts and six diagrams with explicit SVG dimensions.')
 
 if __name__=='__main__':main()

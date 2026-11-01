@@ -15,6 +15,7 @@ from public_platforms import statement
 import fetch_problem as adapter
 
 REASONS={
+'A':'按二十六个字母统计分子次数减分母次数，精确匹配 six，O(n+m+26)。',
 'B':'选择出现最多的类别并固定克制手势，按频数证明对所有排列不败，O(x+y+z)。',
 'C':'区分内部质量守恒和端点流失，证明内部活跃传播与端点滚动的最优损失，O(n)。',
 'D':'将锁定操作与整体平移联系到中位数距离和，再证明极差下界同时可达，O(n log n)。',
@@ -67,7 +68,7 @@ def main():
           'difficultyEvidence':[url,'https://codeforces.com/api/contest.standings?contestId=2278','https://codeforces.com/blog/entry/158300',REASONS[letter],
             '未公布的官方 rating 保留为空；人工复核估分独立标注，不冒充正式评分。'],
           'metadataVersion':'2026-11-02-div3-1131','source':'bundled','status':'未做','date':'','solutionAvailable':True,
-          'detailedSolutionAvailable':True,'solutionState':'available','statementAvailable':True,'contestProblemCount':7,'contestRoster':True,
+          'detailedSolutionAvailable':letter!='A','solutionState':'available','statementAvailable':True,'contestProblemCount':7,'contestRoster':True,
           'collectionSource':'https://codeforces.com/contest/2278','startedAt':date.isoformat(),'endedAt':end.isoformat(),
           'contestDate':date.isoformat(),'contestDateSource':'Codeforces 官方比赛时间','eventYear':date.year}
         assert encoded['difficulty']<=2300
@@ -78,8 +79,8 @@ def main():
            'validation':{'programSha256':hashlib.sha256((CONTENT/'programs'/letter/(letter.lower()+'.cpp')).read_bytes()).hexdigest(),'officialSubmissionsSent':0}}]}})
         for index,name in enumerate(lessons):links.append({'problem_id':identity,'lecture_id':'lecture:foundation-'+name,'kind':'own','position':index})
     for name,rows in [('problems',problems),('statements',statements),('solution_methods',methods),('links',links)]:dump(CONTENT/(name+'.json'),rows)
-    dump(CONTENT/'scope.json',{'contest':'Div.3 1131','contestId':2278,'letters':LETTERS,'problems':6,'articles':12,
-      'officialRatingPublished':any(ratings[l] is not None for l in LETTERS),'excluded':[{'letter':'A','reason':'签到题'}],
+    dump(CONTENT/'scope.json',{'contest':'Div.3 1131','contestId':2278,'letters':LETTERS,'problems':7,'articles':13,
+      'officialRatingPublished':any(ratings[l] is not None for l in LETTERS),'excluded':[],'defaultOnly':['A'],
       'statementSemanticNote':{'C':'原文终止句有歧义，参考程序与正文采用官方题解及样例的“只剩一颗即结束”口径。'},
       'verificationCorrections':[{'letter':'G','inputTarget':'00010','initialExpected':'2','correctedExpected':'-1',
           'reason':'独立逐脉冲模拟证明同层冲突；保留原输入，另加可达目标00110期望2，参考程序未改。'}]})

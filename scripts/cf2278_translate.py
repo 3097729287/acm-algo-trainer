@@ -11,6 +11,27 @@ from translation import bundled_translation, TRANSLATION_FORMAT
 # Every formula, inline code and image is substituted from the original paragraph.
 PROTECTED = re.compile(r'\$\$\$[\s\S]*?\$\$\$|`[^`]+`|!\[[^\]]*\]\([^\)]+\)')
 TEXT = {
+'A': [
+None,
+'给定两个仅含小写英文字母的字符串 @0 和 @1。',
+'将字符串 @0 看作分子中变量的乘积，字符串 @1 看作分母中变量的乘积。**每个字符都代表一个变量**。',
+'乘法满足交换律，因此分子和分母中的变量均可任意重排。另外，可以约去同时出现在分子与分母中的相同变量。每出现一次只能和另一侧的一次相互约去。',
+'判断能否将分式化简为恰好等于字符串 @0 的表达式。也就是说，经过任意次约分和重排后，分子中剩余的变量必须能组成字符串 @1，且分母中不能剩余任何变量。',
+'例如，当 @0、@1 时，可以约掉变量 @2，在分子中留下 @3。',
+' @0',
+'## 输入格式',
+'第一行包含一个整数 @0（@1），表示测试用例数。接下来给出各组测试。',
+'每组测试第一行包含两个整数 @0 和 @1（@2），分别表示字符串 @3 和 @4 的长度。',
+'第二行包含字符串 @0，表示分子。保证字符串 @1 的长度为 @2，且仅含小写英文字母。',
+'第三行包含字符串 @0，表示分母。保证字符串 @1 的长度为 @2，且仅含小写英文字母。',
+'## 输出格式',
+'每组测试中，若能将分式化简为字符串 @1，输出“@0”，否则输出“@2”。',
+'输出“@0”和“@1”时，大小写任意，例如“@2”、“@3”和“@4”均视为肯定回答。',
+'## 样例说明',
+'第一组测试中，变量 @0 在分子与分母中均出现，可以约去。分子剩余变量 @1、@2、@3，重排后得到 @4。',
+'第二组测试中，约去所有能约掉的变量后，分子仅剩 @0，分母仅剩 @1。因此无法化简为 @2。',
+'第三组测试中，可以从两侧约去变量 @0、@1、@2、@3、@4。分子剩余变量 @5、@6、@7，重排后组成 @8。',
+],
 'B': [
 None,
 'Alice 和 Bob 正在玩“石头、剪刀、布”游戏。',
@@ -147,6 +168,6 @@ def main():
         assert bundled_translation(value), letter
         put(CONTENT/'statements'/(letter+'.json'), json.dumps(value,ensure_ascii=False,indent=2,sort_keys=True)+'\n')
     put(CONTENT/'statements.json', json.dumps(statements,ensure_ascii=False,indent=2,sort_keys=True)+'\n')
-    print('Six Chinese statements passed complete-prose and immutable-span validation.')
+    print('Chinese statements passed complete-prose and immutable-span validation.')
 
 if __name__=='__main__': main()
