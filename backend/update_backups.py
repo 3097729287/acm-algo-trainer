@@ -8,6 +8,7 @@ from pathlib import Path
 import shutil
 import sqlite3
 import threading
+import time
 
 from persistence import load_document,save_document
 from update_errors import UpdateStorageError
@@ -133,7 +134,12 @@ def recycle_directory(path):
             operation.SetOperationFlags(0x00080000|shellcon.FOF_ALLOWUNDO|shellcon.FOF_WANTNUKEWARNING|shellcon.FOFX_EARLYFAILURE|shellcon.FOF_SILENT|shellcon.FOF_NOCONFIRMATION|shellcon.FOF_NOERRORUI)
             item=shell.SHCreateItemFromParsingName(str(path),None,shell.IID_IShellItem)
             operation.DeleteItem(item,None);operation.PerformOperations()
-            return not operation.GetAnyOperationsAborted() and not path.exists() and bool(_recycle_receipts(path)-before)
+            if operation.GetAnyOperationsAborted() or path.exists():return False
+            deadline=time.monotonic()+3
+            while time.monotonic()<deadline:
+                if _recycle_receipts(path)-before:return True
+                time.sleep(.05)
+            return False
         finally:pythoncom.CoUninitialize()
     except ImportError:return False
     except Exception:return False
