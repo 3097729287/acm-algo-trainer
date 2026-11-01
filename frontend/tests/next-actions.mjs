@@ -208,7 +208,7 @@ try{
     await hover();
     const box=await popup().boundingBox();
     const trigger=await root.boundingBox();
-    assert(Math.abs(box.x-Math.max(10,Math.min(trigger.x,width-box.width-10)))<.75,'The content-sized flyout stays aligned with the trigger or viewport edge: '+JSON.stringify({font,width,box,trigger}));
+    assert(Math.abs(box.x-Math.max(10,Math.min(trigger.x+trigger.width-box.width,width-box.width-10)))<.75,'The content-sized flyout aligns its right edge with the trigger or viewport edge: '+JSON.stringify({font,width,box,trigger}));
     assert(box.x>=0&&box.x+box.width<=width+.5&&box.y+box.height<=800+.5,JSON.stringify({font,width,box}));
     assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
     const alignment=await page.evaluate(()=>{

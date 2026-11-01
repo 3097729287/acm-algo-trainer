@@ -194,7 +194,10 @@ try{
   const recommendation=page.locator('.topbar > .next-actions');await recommendation.hover();await page.locator('.next-actions-popover').waitFor();
   const geometry=await page.locator('.next-actions-popover').evaluate(node=>{const r=node.getBoundingClientRect(),header=document.querySelector('.topbar');return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:innerWidth,height:innerHeight,headerOverflow:header.scrollWidth>header.clientWidth+1};});
   const trigger=await recommendation.boundingBox();
-  const popupWidth=geometry.right-geometry.left,alignedLeft=Math.max(10,Math.min(trigger.x,width-popupWidth-10));
+  const spacing=await recommendation.evaluate(node=>{const control=node.getBoundingClientRect(),button=node.querySelector('.next-actions-primary'),title=button.querySelector('strong'),range=document.createRange();range.selectNodeContents(title);const css=getComputedStyle(button),icon=button.querySelector('svg').getBoundingClientRect();return {width:control.width,natural:range.getBoundingClientRect().width+icon.width+parseFloat(css.columnGap)+parseFloat(css.paddingLeft)+parseFloat(css.paddingRight),gap:document.querySelector('.topbar-actions').getBoundingClientRect().left-control.right};});
+  assert(spacing.width<=spacing.natural+1,'No reserved blank width after the recommendation: '+JSON.stringify(spacing));
+  if(width>=960)assert(spacing.gap>=0&&spacing.gap<=13,'Recommendation sits next to the right-side statistics: '+JSON.stringify(spacing));
+  const popupWidth=geometry.right-geometry.left,alignedLeft=Math.max(10,Math.min(trigger.x+trigger.width-popupWidth,width-popupWidth-10));
   assert(Math.abs(geometry.left-alignedLeft)<.75&&popupWidth>0&&popupWidth<=width-16,'Real App compact popup aligns with the control and fits the viewport: '+JSON.stringify({theme,fontSize,width,geometry,trigger}));
   const primaryName=await recommendation.locator('.next-actions-primary').getAttribute('aria-label');
   assert.equal(await page.locator('.next-actions-popover').getByRole('button',{name:primaryName,exact:true}).count(),0);
@@ -204,6 +207,7 @@ try{
   assert(await page.locator('.next-actions-popover .next-actions-item').count()<=5);
   assert(geometry.left>=0&&geometry.right<=geometry.width+1&&geometry.top>=0&&geometry.bottom<=geometry.height+1,JSON.stringify(geometry));
   assert.equal(geometry.headerOverflow,false,`topbar remains usable at ${width}px / ${fontSize}px / ${theme}`);
+  if(width===2048&&fontSize===15&&theme==='dark')await page.screenshot({path:'../.backups/interaction-1434/right-alignment/topbar-right-dark.png'});
   await page.screenshot({path:`tests/screenshots/navigation-learning/next-${theme}-${width}-${fontSize}.png`,animations:'disabled'});await page.keyboard.press('Escape');
  }
  // Newly unlocked guides become available without interrupting with a tour.
