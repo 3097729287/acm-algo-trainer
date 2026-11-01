@@ -59,6 +59,11 @@ await page.route(/^https?:\/\/(?!127\.0\.0\.1)(?!localhost)/,route=>{external.pu
 const base=`http://127.0.0.1:${vite.httpServer.address().port}`,nav=()=>page.getByRole('navigation',{name:'主导航'});
 async function load(){await page.goto(base);await page.waitForFunction(()=>document.querySelector('.profile-level-number')?.textContent==='11');await nav().getByRole('button',{name:'成长',exact:true}).waitFor();}
 const openPage=async label=>{await page.keyboard.press('Control+k');const modal=page.getByRole('dialog',{name:'快捷操作',exact:true});await modal.waitFor();await modal.getByRole('button',{name:new RegExp('^打开'+label+'(?:\\s|$)')}).click();};
+async function setSavedTheme(theme){
+ if(await page.locator('html').getAttribute('data-theme')===theme)return;
+ const saved=page.waitForResponse(response=>{const request=response.request(),url=new URL(response.url());return url.origin===new URL(base).origin&&url.pathname==='/api/preferences'&&request.method()==='POST'&&request.postDataJSON()?.preferences?.theme===theme&&response.ok();});
+ await Promise.all([saved,setTheme(page,theme)]);
+}
 
 
 const output='tests/screenshots/chrome-theme';await mkdir(output,{recursive:true});const report={cases:[]};
@@ -74,7 +79,7 @@ const geometry=()=>page.evaluate(()=>{
 try{
  for(const width of [2048,1294,960,810,650,430])for(const font of [13,22])for(const collapsed of (width===1294?[false,true]:[false])){
   preferences={...preferences,theme:'dark',fontSize:font,collapsed};await page.setViewportSize({width,height:960});await load();await page.locator('.next-actions-primary').waitFor();await page.waitForTimeout(220);
-  await setTheme(page,'light');let g=await geometry();
+  await setSavedTheme('light');let g=await geometry();
   assert.equal(g.overflow,false,JSON.stringify({width,font,collapsed,g}));assert(g.theme.w>0&&g.bell.w>0&&g.theme.right<=width&&g.bell.right<=width,JSON.stringify(g));assert(Math.abs(g.theme.cy-g.bell.cy)<1.5);
   assert(g.controls.every(c=>c.right<=width+1),JSON.stringify(g));assert(g.controls.every(c=>Math.abs(c.cy-g.controls[0].cy)<1.5),JSON.stringify(g));
   assert(Math.abs(g.brand.cx-g.navIcon.cx)<1.5&&Math.abs(g.brand.cx-g.settingsIcon.cx)<1.5,JSON.stringify(g));
@@ -84,8 +89,7 @@ try{
   await page.screenshot({path:output+'/'+width+'-'+font+'-'+collapsed+'.png'});report.cases.push({width,font,collapsed,...g});
  }
  await openSettings(page,'外观');assert.equal(await page.getByRole('button',{name:'石墨深色',exact:true}).count(),0);assert.equal(await page.getByRole('button',{name:'云白浅色',exact:true}).count(),0);assert.equal(await page.locator('.visual-preferences .setting-label strong').filter({hasText:/^主题$/}).count(),0);
- const darkSaved=page.waitForResponse(response=>{const request=response.request(),url=new URL(response.url());return url.origin===new URL(base).origin&&url.pathname==='/api/preferences'&&request.method()==='POST'&&request.postDataJSON()?.preferences?.theme==='dark'&&response.ok();});
- await setTheme(page,'dark');await darkSaved;assert.equal(preferences.theme,'dark');await page.reload();await page.waitForFunction(()=>document.documentElement.dataset.theme==='dark');
+ await setSavedTheme('dark');assert.equal(preferences.theme,'dark');await page.reload();await page.waitForFunction(()=>document.documentElement.dataset.theme==='dark');
  await page.waitForFunction(()=>document.querySelector('.profile-level-number')?.textContent==='11');await page.locator('.next-actions-primary').waitFor();await page.keyboard.press('Control+k');const commands=page.getByRole('dialog',{name:'快捷操作',exact:true});await commands.waitFor();await commands.getByRole('button',{name:'切换深浅主题',exact:true}).click();await page.waitForFunction(()=>document.documentElement.dataset.theme==='light');
  assert.deepEqual(errors,[]);assert.deepEqual(unknown,[]);assert.deepEqual(external,[]);report.ok=true;console.log(JSON.stringify({ok:true,geometryCases:report.cases.length,singleThemeButton:true,settingsRowRemoved:true,savedPreferenceReload:true,keyboardCommandPreserved:true}));
 }catch(error){report.error=error.stack||error.message;await page.screenshot({path:output+'/failure.png'}).catch(()=>{});throw error;}
