@@ -106,8 +106,8 @@ try{
   const daily=page.getByRole('dialog',{name:'每日任务',exact:true});await daily.waitFor();
   await daily.locator('.daily-task').first().waitFor();
   assert.equal(await daily.locator('.daily-task').count(),6);
-  const ac=daily.locator('[data-lane="ac"]');await ac.getByRole('button',{name:'领取经验',exact:true}).waitFor();
-  await ac.getByRole('button',{name:'领取经验',exact:true}).click();await ac.getByText('AC 2 道不同题目',{exact:true}).waitFor();
+  const ac=daily.locator('[data-lane="ac"]');await ac.getByRole('button',{name:'领取奖励',exact:true}).waitFor();
+  await ac.getByRole('button',{name:'领取奖励',exact:true}).click();await ac.getByText('AC 2 道不同题目',{exact:true}).waitFor();
   await page.screenshot({path:output+'/daily-three-chains.png'});
   assert.deepEqual(official,[]);assert.deepEqual(errors,[]);
   console.log('PASS real App: compact account popup, four bindings, password validation, saved starter picker and undo, empty draft preservation, learning-page usage, progressive AC task and aligned history buttons.');

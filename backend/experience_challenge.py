@@ -207,12 +207,17 @@ def update(training, body):
         if not initial['experienceChallenge']['eligible'] and not state.get('passedAt'):
             raise ServiceError(409, '当前等级已经解锁全部功能')
         state['seenVersion'] = POLICY
+        beginner_choice=False
         if body['action'] == 'choose' and not state['choice'] and not state.get('passedAt'):
             state['choice'] = body['choice']
+            beginner_choice=state['choice']=='beginner'
             if state['choice'] == 'experienced':
                 state.update(problemId=secrets.choice(PROBLEMS), challengeId=str(uuid.uuid4()), startedAt=iso(training._now()))
         with training._write() as connection:
             _save(training, connection, state)
+            if beginner_choice:
+                from starter_pacing import choose
+                choose(training,connection,initial)
             if state['choice'] == 'experienced' and not state.get('passedAt'):
                 training._activate(connection, state['problemId'], state['startedAt'])
     value = training.insights()['growth']

@@ -109,7 +109,7 @@ def merge_states(remote, local, baseline=None):
         for key, old in list(rows.items()):
             previous = previous_rows.get(encoded(list(key)))
             if previous and encoded(list(key)) not in local_keys:
-                if table == 'account_preferences' and (key == ('experience-challenge-v1',) or str(key[0]).startswith('achievement-unlock:')):
+                if table == 'account_preferences' and (key in {('experience-challenge-v1',),('starter-level-curve-v1',)} or str(key[0]).startswith('achievement-unlock:')):
                     continue
                 if digest(old) == previous:
                     del rows[key]  # An actual pending local deletion.
@@ -120,7 +120,7 @@ def merge_states(remote, local, baseline=None):
             old = rows.get(key)
             previous = previous_rows.get(encoded(list(key)))
             if old is None:
-                if previous is None or digest(row) != previous or table=='account_preferences' and str(key[0]).startswith('achievement-unlock:'):
+                if previous is None or digest(row) != previous or table=='account_preferences' and (str(key[0]).startswith('achievement-unlock:') or key==('starter-level-curve-v1',)):
                     rows[key] = copy.deepcopy(row)
                 continue
             if old == row:
@@ -173,6 +173,11 @@ def merge_states(remote, local, baseline=None):
                     merged = None
                 if merged is not None:
                     winner['value'] = encoded(merged)
+            elif table=='account_preferences' and winner.get('key')=='starter-level-curve-v1':
+                from starter_pacing import merge as merge_starter
+                try:merged=merge_starter(json.loads(old['value']),json.loads(row['value']))
+                except (ValueError,TypeError):merged=None
+                if merged is not None:winner['value']=encoded(merged)
             elif table == 'account_preferences' and winner.get('key') == 'ui':
                 from preferences import merge_onboarding_versions, merge_seen_achievements, merge_onboarding_unlocked_pages, merge_level_notices
                 try:
@@ -545,6 +550,9 @@ class AccountStateSync:
                         from experience_challenge import preserve_rows
                         rows, retained = preserve_rows(self.service, rows)
                         retained_experience = retained_experience or retained
+                        from starter_pacing import preserve_rows as preserve_starter
+                        rows,retained=preserve_starter(self.service,rows)
+                        retained_experience=retained_experience or retained
                     allowed = {row[1] for row in db.execute(f'PRAGMA table_info("{table}")')}
                     db.execute(f'DELETE FROM "{table}"')
                     for row in rows:

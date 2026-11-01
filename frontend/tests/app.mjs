@@ -226,7 +226,7 @@ try {
   assert.equal(await page.locator('.progress-page .daily-tasks').count(), 0);
   await page.getByRole('button', { name: '每日任务', exact: true }).click();
   const task = page.getByRole('dialog').locator('.daily-task').filter({ hasText: '每日热身' });
-  await task.getByRole('button', { name: '领取经验' }).click();
+  await task.getByRole('button', { name: '领取奖励' }).click();
   await task.getByRole('button', { name: '已领取' }).waitFor();
   assert.equal(insights.growth.totalXp, 30);
   assert.equal(await page.locator('.task-claim-dot').count(),0);

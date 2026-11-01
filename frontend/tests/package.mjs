@@ -119,7 +119,7 @@ try {
   await page.getByRole('button', { name: '返回列表', exact: true }).click();
   await page.keyboard.press('Control+7');
   const taskCard = page.locator('.daily-task').filter({ hasText: reward.title });
-  await taskCard.getByRole('button', { name: '领取经验', exact: true }).click();
+  await taskCard.getByRole('button', { name: '领取奖励', exact: true }).click();
   await taskCard.getByRole('button', { name: '已领取', exact: true }).waitFor();
   const afterClaim = await get('insights');
   assert.equal(afterClaim.growth.totalXp, acceptedInsights.growth.totalXp + reward.xp);

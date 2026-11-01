@@ -23,16 +23,16 @@ RANK_THRESHOLDS = (0, 800, 1000, 1200, 1600, 1800, 2000, 2100, 2200)
 LEGACY_RANK_THRESHOLDS = (0, 300, 700, 1200, 1800, 2500, 3300, 4200, 5300, 6500)
 
 
-def growth(xp):
+def growth(xp, *, level_costs=LEVEL_COSTS):
     xp = max(0, int(xp))
     remaining, level = xp, 1
-    for cost in LEVEL_COSTS:
+    for cost in level_costs:
         if remaining < cost:
             break
         remaining -= cost
         level += 1
     capped = level == LEVEL_CAP
-    cost = LEVEL_COSTS[level - 1] if not capped else 0
+    cost = level_costs[level - 1] if not capped else 0
     return {'xp': xp, 'totalXp': xp, 'level': level, 'levelName': f'Lv.{level}',
             # Protocol-1 fallback fields remain present; XP no longer assigns
             # a skill badge. TrainingService fills these from qualified rank.
@@ -40,8 +40,8 @@ def growth(xp):
             'currentLevelXp': remaining if not capped else 0, 'nextLevelXp': cost,
             'rankedEligible': level >= RANK_UNLOCK_LEVEL, 'mode': 'xp',
             'nextMilestone': '已达等级上限' if capped else f'再积累 {cost - remaining} XP 升至 {level + 1} 级',
-            'levelCosts': list(LEVEL_COSTS), 'levelCap': LEVEL_CAP,
-            'rankUnlockXp': RANK_UNLOCK_XP, 'rankUnlockLevel': RANK_UNLOCK_LEVEL}
+            'levelCosts': list(level_costs), 'levelCap': LEVEL_CAP,
+            'rankUnlockXp': sum(level_costs[:RANK_UNLOCK_LEVEL-1]), 'rankUnlockLevel': RANK_UNLOCK_LEVEL}
 
 
 def rank_index(score, thresholds=RANK_THRESHOLDS):

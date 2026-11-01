@@ -592,7 +592,8 @@ class TrainingService:
             challenge_xp = experience_reward(self, xp)
             xp += challenge_xp
             from tb_rank import growth, ranked
-            value['growth'] = dict(growth(xp), missionXp=claimed['xp'], rankingXp=ranking_xp,
+            from starter_pacing import costs as starter_costs
+            value['growth'] = dict(growth(xp,level_costs=starter_costs(self)), missionXp=claimed['xp'], rankingXp=ranking_xp,
                                    achievementXp=achievement_rewards['xp'], newAchievementXp=achievement_rewards['newXp'],
                                    reviewXp=review_rewards['xp'], rewardedReviews=review_rewards['count'], challengeXp=challenge_xp)
             value['growth']['experienceChallenge'] = experience_snapshot(self, value['growth']['level'])
