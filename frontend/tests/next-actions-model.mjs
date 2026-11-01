@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {nextActions,learningEvidence,trustedDifficulty,LAB_ACTIONS,NEXT_ACTION_POLICY} from '../src/lib/nextActions.js';
+// The legacy policy checks the routine frontier; composed learning choices are checked in knowledge-journey-model.mjs.
+import {routineActions as nextActions,learningEvidence,trustedDifficulty,LAB_ACTIONS,NEXT_ACTION_POLICY} from '../src/lib/nextActions.js';
 import {availablePages} from '../src/lib/navigationVisibility.js';
 import {organizeTrainingLists} from '../src/lib/trainingListCatalog.js';
 import {buildTrainingCurriculum,filterTrainingListsScope} from '../src/lib/trainingCurriculum.js';
@@ -21,6 +22,7 @@ const template={id:'builtin:prefix-difference',title:'前缀和与差分',tags:[
  practiceIds:[drill1.id,drill2.id],practicePassed:[false,false]};
 const base={rows:[...foundation,prefix,drill1,drill2],insights:insight(foundationFacts),availablePages:pages,
  templates:[template],now};
+const fallback=items=>{assert.equal(items.length,1);assert(['lecture','navigation'].includes(items[0].kind));};
 let count=0;const test=(name,run)=>{run();count++;console.log('PASS '+name);};
 
 test('a beginner follows a real incomplete foundation unit with first-level help',()=>{
@@ -76,7 +78,7 @@ test('returning to a course first page preserves the handoff from actual complet
 test('actual operation receipts cannot waive the course prerequisite or the review budget',()=>{
  const templates=[{...template,practicePassed:[true,true]}],prefs={learningPaths:{'prefix-difference':{mode:'learn',labV1:{chapter:'sum'}}}};
  assert(!nextActions({...base,insights:insight([]),prefs,templates}).some(item=>[prefix.id,drill1.id,drill2.id].includes(item.id)));
- assert.deepEqual(nextActions({...base,prefs,templates,reviewPlan:{reviewOnly:true,newMinutes:0}}),[]);
+ fallback(nextActions({...base,prefs,templates,reviewPlan:{reviewOnly:true,newMinutes:0}}));
 });
 test('a missing prerequisite diverts Dijkstra to the real BFS lesson',()=>{
  const result=nextActions({...base,rows:[...foundation,row('shortest',{tags:['最短路']})],templates:[],
@@ -100,7 +102,7 @@ test('the server review budget prevents an unbounded new curriculum queue',()=>{
  const due=row('due',{accepted:true,queue:'review',reviewTask:{due:'2026-10-28'}});
  const result=nextActions({...base,training:[due],reviewPlan:{reviewOnly:true,newMinutes:0}});
  assert.deepEqual(result.map(item=>item.kind),['review']);
- assert.deepEqual(nextActions({...base,reviewPlan:{newMinutes:10}}),[]);
+ fallback(nextActions({...base,reviewPlan:{newMinutes:10}}));
  assert.equal(nextActions({...base,reviewPlan:{}})[0].kind,'course');
 });
 test('same-day cramming and crossing midnight for a few minutes do not establish retention',()=>{
@@ -138,7 +140,7 @@ test('unknown/unreviewed difficulty, incomplete statements and locked content ar
  assert(!trustedDifficulty(row('unknown',{difficulty:null})));assert(!trustedDifficulty(row('source-missing',{difficultySource:''})));
  assert(!trustedDifficulty(row('pending',{difficultySource:'待核验'})));
  const rows=[row('incomplete',{catalogContentReady:false}),row('locked',{locked:true}),row('hidden',{catalogHidden:true}),row('unknown',{difficulty:null})];
- assert.deepEqual(nextActions({rows,availablePages:pages,now}),[]);
+ fallback(nextActions({rows,availablePages:pages,now}));
 });
 test('a stable user gets a small stretch only when every concrete technique is supported',()=>{
  const supported=[...foundation,...[1,2,3].map(n=>row('prefix-'+n,{accepted:true,tags:['前缀和']}))];
@@ -152,7 +154,7 @@ test('hidden and locked pages do not leak dependent actions; active contests sta
  const hidden=nextActions({...base,availablePages:availablePages(11,{hiddenNavPages:['paths','templates','library']})});
  assert(!hidden.some(item=>['course','template','template-problem','stretch'].includes(item.kind)));
  assert.deepEqual(nextActions({...base,activeContest:{id:'active',name:'当前试卷'}}).map(item=>item.kind),['contest']);
- assert.deepEqual(nextActions({...base,availablePages:['mine'],activeContest:{id:'active',name:'当前试卷'}}),[]);
+ fallback(nextActions({...base,availablePages:['mine'],activeContest:{id:'active',name:'当前试卷'}}));
 });
 test('a completed standalone template hands off to official practice without inventing a lab',()=>{
  const strings=foundation.map(item=>({...item,tags:['数组','模拟','字符串']}));
@@ -258,7 +260,7 @@ test('six options can be offered only when each lesson or template has its own r
  assert(!result.some(item=>item.id==='dijkstra'||item.id==='unsafe-shortest'));
  assert(!result.some(item=>item.kind==='template-problem'),'Unstudied templates first offer their teaching text');
  const paused=nextActions({rows:[...basics,...tasks,...operations],templates,availablePages:pages,now,insights:insight(foundationFacts),reviewPlan:{newMinutes:10}});
- assert.deepEqual(paused,[]);
+ fallback(paused);
 });
 
 test('implemented template alternatives are exact pending operations and cannot repeat an original',()=>{
@@ -288,7 +290,7 @@ test('an incomplete first unit remains the frontier even when later exercises ha
  const result=nextActions({rows:[...first,...later],lists,availablePages:pages,now});
  assert.deepEqual(result.map(item=>item.id),['curriculum:0']);
  const hidden=nextActions({rows:[...first,...later],lists,availablePages:['mine'],now});
- assert.deepEqual(hidden,[],'Hiding the current list cannot turn later exercises into eligible prerequisites');
+ fallback(hidden);assert(!hidden.some(item=>item.page==='training-lists'));
 });
 
 test('completed source units advance learning without manufacturing independent mastery',()=>{
@@ -322,8 +324,8 @@ test('actual independent first-unit evidence advances to the next unit, not the 
 test('an absent prerequisite directory is not fabricated or silently marked complete',()=>{
  const later=[1,2,3].map(n=>row('only-stl-'+n,{tags:['STL']}));
  const lists=[{id:'later',title:'函数与结构体',available:true,problems:later.map(item=>({problemId:item.id}))}];
- assert.deepEqual(nextActions({rows:later,lists,availablePages:pages,now}),[]);
- assert.deepEqual(nextActions({rows:later,availablePages:pages,now}),[],'Pending list metadata cannot briefly recommend an unsupported language unit');
+ fallback(nextActions({rows:later,lists,availablePages:pages,now}));
+ fallback(nextActions({rows:later,availablePages:pages,now}));
 });
 
 test('direct new exercises require both real catalog explanation availability and statement/sample readiness',()=>{
@@ -381,7 +383,7 @@ test('review alternatives obey the selected server budget and original identity'
  const result=nextActions(config);
  assert.equal(result.length,2);assert.equal(result.filter(item=>[due[0].id,alias.id].includes(item.id)).length,1);
  assert(result.every(item=>item.kind==='review'&&[due[0].id,alias.id,due[1].id].includes(item.id)));
- assert.deepEqual(nextActions({...config,reviewPlan:{reviewOnly:true,tasks:[]}}),[],'An empty selected review plan never expands to the whole personal queue');
+ fallback(nextActions({...config,reviewPlan:{reviewOnly:true,tasks:[]}}));
  const bounded=nextActions({...config,reviewPlan:{reviewOnly:true,newMinutes:0}});
  assert.equal(bounded.length,NEXT_ACTION_POLICY.maxActions);assert(bounded.every(item=>item.kind==='review'));
  const short=nextActions({...base,rows:[...base.rows,...training],training,reviewPlan:{newMinutes:10,tasks:[{problemId:due[1].id},{problemId:due[2].id}]}});
@@ -393,7 +395,7 @@ test('completed earlier units do not authorize skipping a genuinely absent next 
  const later=[1,2,3].map(i=>row('only-later-'+i,{tags:['函数']}));
  const lists=[{id:'first',title:'顺序结构',available:true,problems:first.map(row=>({problemId:row.id}))},
   {id:'later',title:'函数与结构体',available:true,problems:later.map(row=>({problemId:row.id}))}];
- assert.deepEqual(nextActions({rows:[...first,...later],lists,availablePages:pages,now}),[]);
+ fallback(nextActions({rows:[...first,...later],lists,availablePages:pages,now}));
 });
 
 test('passing every foundation list does not create algorithm prerequisites or repeat completed lists',()=>{
@@ -401,7 +403,7 @@ test('passing every foundation list does not create algorithm prerequisites or r
  const rows=topics.flatMap(([,tag],index)=>[1,2,3].map(i=>row('all-done-'+index+'-'+i,{tags:[tag],accepted:true})));
  const lists=topics.map(([title],index)=>({id:'done-source-'+index,title,available:true,problems:rows.filter(row=>row.id.startsWith('all-done-'+index+'-')).map(row=>({problemId:row.id}))}));
  const result=nextActions({rows:[...rows,row('unsupported-bfs',{tags:['BFS']})],lists,availablePages:pages,now});
- assert.deepEqual(result,[]);
+ fallback(result);
  assert.equal(learningEvidence(rows,{},now).all.solved,0);
 });
 
@@ -433,6 +435,6 @@ test('lesson IDs are shipped, actions stay bounded and the model does not mutate
  assert(LAB_ACTIONS.every(course=>actual.has(course.id)));
  const input=structuredClone(base),before=JSON.stringify(input);const result=nextActions(input);
  assert.equal(JSON.stringify(input),before);assert(result.length<=NEXT_ACTION_POLICY.maxActions);
- assert(result.every(item=>item.reason.length>20));assert.deepEqual(nextActions({...base,rows:[],training:[],insights:{},templates:[]}),[]);
+ assert(result.every(item=>item.reason.length>20));fallback(nextActions({...base,rows:[],training:[],insights:{},templates:[]}));
 });
 console.log(`PASS ${count} evidence-backed learning recommendation scenarios`);

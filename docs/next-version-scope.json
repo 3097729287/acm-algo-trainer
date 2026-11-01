@@ -1,5 +1,5 @@
 {
-  "status": "1.5.0 isolated verification; validated 1.4.36 source integrated; final installation coordinated after parallel 1.4.37 delivery",
+  "status": "1.5.0 isolated verification; delivered 1.4.37 learning and update repairs integrated; final corner repair waits for its completed delivery",
   "requestedOn": "2026-11-01",
   "continuation": "用户已要求当前版本更新完成后先列出下一版内容与实施顺序，然后继续实施；不得提前并入当前版本。",
   "features": [
@@ -126,5 +126,12 @@
     "newSystemMetadataAndPayloadRequired": true,
     "neverEmptyResizeOrEvictExistingItems": true,
     "automaticFailedRetirementRetry": false
+  },
+  "deliveredLearningBaseline": {
+    "version": "1.4.37",
+    "sourceCommit": "4b0a96fe09a2763889805db27b68375f29250bc9",
+    "state": "installed by its owning session and merged into isolated 1.5.0",
+    "pendingFinalRepair": "9f10b378b05279d54b306c0eb88b9830a5518813",
+    "productionChanged": false
   }
 }

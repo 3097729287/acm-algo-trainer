@@ -92,12 +92,6 @@ Name: "{autodesktop}\{#ProductName}"; Filename: "{app}\ToBeLoader.exe"; WorkingD
 [Run]
 Filename: "{app}\ToBeLoader.exe"; Description: "打开 {#ProductName}"; WorkingDir: "{app}"; Flags: nowait postinstall skipifsilent
 
-[InstallDelete]
-Type: files; Name: "{app}\{#LegacyExe}"
-#ifndef AdminEdition
-Type: files; Name: "{group}\TB 管理员工作台.lnk"
-#endif
-
 [Code]
 var
   LegacyRestartRequired: Boolean;

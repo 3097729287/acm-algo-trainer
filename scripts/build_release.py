@@ -177,8 +177,8 @@ def assemble(args):
         raise RuntimeError('Package contains runtime data')
     (stage / 'release-manifest.json').write_text(json.dumps(files, ensure_ascii=False, indent=2), encoding='utf-8')
     (stage / 'assembly.json').write_text(json.dumps({'version': VERSION, 'package': str(package), 'problems': problems, 'solutions': solutions, 'files': len(files)}, ensure_ascii=False, indent=2), encoding='utf-8')
-    if getattr(args,'skip_archive',False):
-        print(json.dumps({'package':str(package),'files':len(files),'archiveCreated':False}))
+    if getattr(args,'skip_archive',False) or getattr(args,'skip_portable',False):
+        print(json.dumps({'package':str(package),'files':len(files),'archiveCreated':False,'portableArchive':False}))
         return
     destination = stage / 'release' / (PACKAGE + '.zip')
     with zipfile.ZipFile(destination, 'x', zipfile.ZIP_DEFLATED, compresslevel=6) as output:
@@ -241,6 +241,7 @@ def main():
     parser.add_argument('--frontend-dist',type=Path,help='Verified frontend build for this same source commit; existing builds are retained')
     parser.add_argument('--library-seed',type=Path,help='Verified public SQLite seed rebuilt from this same source; never a personal database')
     parser.add_argument('--skip-archive',action='store_true',help='Prepare the normal installer/delta inputs without an additional portable ZIP')
+    parser.add_argument('--skip-portable',action='store_true',help='Assemble the verified folder without a duplicate portable ZIP')
     parser.add_argument('--inno', type=Path)
     parser.add_argument('--webview2', type=Path)
     args = parser.parse_args()

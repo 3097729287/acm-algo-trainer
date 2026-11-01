@@ -10,7 +10,7 @@ import zipfile
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'desktop'))
 from update_patch import apply_patch_file, digest, safe_name
 from software_updates import release_info, RELEASES, SoftwareUpdates
-from unittest.mock import Mock
+from unittest.mock import Mock,patch
 from test_software_updates import idle
 
 
@@ -18,6 +18,12 @@ class PatchTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)
+        recycled=self.root/'simulated-recycle';recycled.mkdir()
+        def recycle(path):
+            path=Path(path);self.assertTrue(path.resolve().is_relative_to(self.root.resolve()))
+            path.rename(recycled/(str(len(list(recycled.iterdir())))+'-'+path.name));return True
+        recycle_patch=patch('update_patch.recycle_directory',side_effect=recycle)
+        recycle_patch.start();self.addCleanup(recycle_patch.stop)
         self.app = self.root / 'app'
         self.old = {'VERSION': b'1.0.13', 'TB新版.exe': b'old app', '_internal/runtime.dll': b'unchanged DLL', 'frontend/dist/old.js': b'obsolete'}
         self.new = {'VERSION': b'1.0.14', 'TB新版.exe': b'new app', '_internal/runtime.dll': b'unchanged DLL', 'frontend/dist/new.js': b'new UI'}
@@ -54,6 +60,14 @@ class PatchTests(unittest.TestCase):
         with self.assertRaises(OSError): apply_patch_file(path, digest(path), '1.0.14', self.app, fail_after=1)
         for name, value in self.old.items(): self.assertEqual((self.app / name).read_bytes(), value)
         self.assertFalse((self.app / 'frontend/dist/new.js').exists())
+
+    def test_recycle_failure_preserves_old_files_and_rolls_back_without_permanent_removal(self):
+        from update_errors import UpdateStorageError
+        package=self.package()
+        with patch('update_patch.recycle_directory',return_value=False),patch.object(Path,'unlink',side_effect=AssertionError('No permanent removal')):
+            with self.assertRaises(UpdateStorageError):apply_patch_file(package,digest(package),'1.0.14',self.app)
+        for name,value in self.old.items():self.assertEqual((self.app/name).read_bytes(),value)
+        self.assertTrue((self.app/'frontend/dist/new.js').exists(),'An unrecyclable added file is retained rather than permanently removed')
 
     def test_loader_is_verified_updated_and_rolled_back_with_the_program(self):
         self.old['ToBeLoader.exe']=b'old native shortcut loader'

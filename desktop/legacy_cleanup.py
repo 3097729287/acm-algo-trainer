@@ -14,10 +14,12 @@ import threading
 import time
 from update_backups import recycle_directory,require_space
 from system_recycle import can_recycle
+from update_errors import UpdateStorageError
 from persistence import load_document,save_document
 
 PRIVATE = {'state', 'cache', 'backups', 'logs', 'admin-workspace'}
 REPOSITORY = '3097729287/acm-algo-trainer'
+LEGACY_RECOVERY_LIMIT = 8*1024**3
 
 
 def sha(path):
@@ -137,7 +139,17 @@ def preserve(candidate, app):
             if value.get('complete') and value.get('sources')==signature and value.get('files')==actual:
                 return backup
         raise ValueError('Existing incomplete or modified legacy backup retained')
-    require_space(app,sum((source/name).stat().st_size for name in signature)+1024**2)
+    needed=sum((source/name).stat().st_size for name in signature)+1024**2
+    if needed>LEGACY_RECOVERY_LIMIT:
+        raise UpdateStorageError('旧版个人恢复材料过大，已保留原程序，未继续复制')
+    occupied=0
+    parent=backup.parent
+    if parent.exists():
+        snapshot_files(parent)  # Reject links before traversing retained recoveries.
+        occupied=sum(path.stat().st_size for path in parent.rglob('*') if path.is_file())
+    if occupied+needed>LEGACY_RECOVERY_LIMIT:
+        raise UpdateStorageError('旧版恢复材料已达上限，已保留原文件并停止新增')
+    require_space(app,needed)
     backup.mkdir(parents=True, exist_ok=False)
     snapshot_files(backup)
     for name in sorted(PRIVATE):

@@ -114,6 +114,41 @@ class LegacyCleanupTests(unittest.TestCase):
             self.assertEqual(len(list((self.app/'state/backups/legacy-programs').iterdir())),2)
         finally:db.close()
 
+    def test_one_hundred_blocked_recycles_reuse_one_private_snapshot_without_permanent_fallback(self):
+        state=self.old/'state';state.mkdir();(state/'draft.cpp').write_text('unique private draft')
+        with patch('legacy_cleanup.recycle_directory',return_value=False),patch.object(Path,'unlink',side_effect=AssertionError('No permanent removal')):
+            for _ in range(100):
+                result=retire(identify(self.old,self.app,self.catalog),self.app,self.catalog)
+                self.assertEqual(result['status'],'retained')
+        self.assertEqual(len(list((self.app/'state/backups/legacy-programs').glob('*/complete.json'))),1)
+        self.assertTrue((self.old/'TB新版.exe').exists());self.assertEqual((state/'draft.cpp').read_text(),'unique private draft')
+
+    def test_oversized_legacy_snapshot_stops_before_creating_a_backup(self):
+        from update_errors import UpdateStorageError
+        with patch('legacy_cleanup.require_space',side_effect=UpdateStorageError('insufficient fixture space')):
+            with self.assertRaises(UpdateStorageError):retire(identify(self.old,self.app,self.catalog),self.app,self.catalog)
+        self.assertFalse((self.app/'state/backups/legacy-programs').exists());self.assertTrue((self.old/'TB新版.exe').exists())
+
+    def test_legacy_size_and_total_recovery_budget_keep_originals_without_new_copies(self):
+        from update_errors import UpdateStorageError
+        state=self.old/'state';state.mkdir();draft=state/'draft.cpp';draft.write_text('first draft')
+        item=identify(self.old,self.app,self.catalog)
+        with patch('legacy_cleanup.LEGACY_RECOVERY_LIMIT',1):
+            with self.assertRaises(UpdateStorageError):retire(item,self.app,self.catalog)
+        self.assertFalse((self.app/'state/backups/legacy-programs').exists())
+        with patch('legacy_cleanup.recycle_directory',return_value=False):
+            first=retire(item,self.app,self.catalog,retry=True)
+        parent=Path(first['backup']).parent
+        occupied=sum(path.stat().st_size for path in parent.rglob('*') if path.is_file())
+        draft.write_text('new committed draft')
+        needed=draft.stat().st_size+1024**2
+        with patch('legacy_cleanup.LEGACY_RECOVERY_LIMIT',occupied+needed-1):
+            with self.assertRaises(UpdateStorageError):retire(item,self.app,self.catalog,retry=True)
+        self.assertEqual(len(list(parent.iterdir())),1)
+        self.assertEqual(draft.read_text(),'new committed draft')
+        self.assertEqual((Path(first['backup'])/'state/draft.cpp').read_text(),'first draft')
+        self.assertTrue(item['executable'].exists())
+
     def test_fresh_directory_automatically_migrates_state_and_never_overwrites_existing_database(self):
         state = self.old/'state'; state.mkdir()
         with closing(sqlite3.connect(state/'tb-personal.sqlite3')) as db:

@@ -8,6 +8,7 @@ from pathlib import Path
 import shutil
 import sqlite3
 import threading
+import time
 
 from persistence import load_document,save_document
 from update_errors import UpdateStorageError

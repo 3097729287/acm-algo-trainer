@@ -21,13 +21,14 @@ function PaperTitle({name,onChange,disabled,count,duration}) {
  const finish=(save,focus=false)=>{if(finished.current)return;finished.current=true;if(save&&draft.trim())onChange(draft.trim());setEditing(false);if(focus)requestAnimationFrame(()=>button.current?.focus());};
  return <div className="paper-preview-title" onClick={open}>{editing?<input aria-label="模拟赛名称" autoFocus maxLength={80} value={draft} onFocus={event=>event.target.select()} onChange={event=>setDraft(event.target.value)} onBlur={()=>finish(true)} onKeyDown={event=>{if(event.key==='Enter'||event.key==='Escape'){event.preventDefault();event.stopPropagation();finish(event.key==='Enter',true);}}}/>:<button ref={button} type="button" className="paper-title-button" aria-label="重命名模拟赛" disabled={disabled} onClick={open}><strong>{name}</strong></button>}<span>{count} 题 · {duration} 分钟</span></div>;
 }
-export default function MockSetup({api,onStarted,onError,activeContest,onResume,categories=[],platforms=[],historyQuery='',onHistoryQuery,onPreviewChange}) {
+export default function MockSetup({api,onStarted,onError,activeContest,onResume,categories=[],platforms=[],historyQuery='',onHistoryQuery,onPreviewChange,recommendation}) {
  const [config,setConfig]=useState({mode:'comprehensive',count:4,duration:120,min:1000,max:1400,tags:[],platform:'',excludeSolved:true,reviewedOnly:false,rules:'acm',wrongPenalty:20,compilePenalty:false,contest:''});
  const [events,setEvents]=useState([]),[eventsLoading,setEventsLoading]=useState(false),[eventAttempt,setEventAttempt]=useState(0);
  const [eventDescending,setEventDescending]=useState(true);
  const [plan,setPlan]=useState(null),[busy,setBusy]=useState(false),[name,setName]=useState(''),[error,setError]=useState(''),[topic,setTopic]=useState('');
  const [modeMenu,setModeMenu]=useState(null),[menuRequest,setMenuRequest]=useState(0),modeTriggers=useRef({});
  const sequence=useRef(0),manualDurations=useRef({}),replay=config.mode==='replay';
+ useEffect(()=>{if(!recommendation||!['topic','replay'].includes(recommendation.mode)||activeContest)return;setConfig(previous=>({...previous,mode:recommendation.mode,...(recommendation.tags?.length?{tags:recommendation.tags}:{})}));if(recommendation.tags?.length)setTopic(recommendation.tags[0]);setPlan(null);setError('');setModeMenu(null);},[recommendation?.requestId]);
  useEffect(()=>{onPreviewChange?.(Boolean(plan));},[plan,onPreviewChange]);
  useEffect(()=>()=>onPreviewChange?.(false),[onPreviewChange]);
  useEffect(()=>{if(!replay)return;let alive=true;setEventsLoading(true);api('contests/events').then(value=>{if(alive)setEvents(value.events||[]);}).catch(issue=>{if(alive)setError(issue.message);}).finally(()=>{if(alive)setEventsLoading(false);});return()=>{alive=false;};},[replay,api,eventAttempt]);

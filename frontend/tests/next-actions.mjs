@@ -132,7 +132,7 @@ try{
   assert.equal(await page.locator('.next-actions-reason').count(),0,'No visible recommendation-explanation box remains');
   assert(!/优先推荐的原因|根据当前学习记录|接下来还可以/.test(await popup().innerText()));
   const allTasks=popup().locator('.next-actions-item');
-  assert.equal(await allTasks.count(),3,'The menu contains the current foundation list and two alternatives, without repeating the primary review');
+  assert.equal(await allTasks.count(),5,'The menu includes knowledge learning, optional training and the routine foundation frontier, without repeating the primary review');
   assert.equal(await popup().getByRole('button',{name:'开始间隔复习 待复习的前缀和练习',exact:true}).count(),0);
   assert(await allTasks.count()<=5,'The limit of six includes the primary task');
   const motion=await popup().locator('li').evaluateAll(nodes=>nodes.map(node=>{
@@ -169,7 +169,7 @@ try{
   phase='keyboard-and-outside';
   await page.mouse.move(800,500);await page.locator('#outside').focus();await page.keyboard.press('Tab');await primary().focus();await popup().waitFor();
   await page.keyboard.press('ArrowDown');
-  await page.waitForFunction(()=>document.activeElement?.dataset.recommendation==='list');
+  await page.waitForFunction(()=>document.activeElement?.dataset.recommendation==='knowledge');
   await page.waitForTimeout(200);
   assert.equal(await popup().count(),1,'Keyboard focus moving within the component keeps the menu open while the pointer is elsewhere');
   assert(await allTasks.first().evaluate(node=>getComputedStyle(node).color===getComputedStyle(node.querySelector('svg')).color),'The focused task uses the accent color while keeping its borderless appearance');

@@ -207,7 +207,7 @@ def run(action, output):
                         report['nativeRegistrationBeginnerSaved'] = True
                         wait_js("document.querySelector('.workspace-area')?.dataset.page==='training-lists' && [...document.querySelectorAll('.training-list-path button')].some(button=>button.textContent==='01 编程基础')")
                         report['nativeNewAccountFoundation'] = True
-                        wait_js("[...document.querySelectorAll('.sidebar nav button')].map(button=>button.textContent).join('|')==='我的训练|题单|提交记录'")
+                        wait_js("[...document.querySelectorAll('.sidebar nav button')].map(button=>button.textContent).sort().join('|')===['我的训练','题库','题单','实验室','模板','从零讲','提交记录'].sort().join('|')")
                         report['nativeLevelOneNavigation'] = True
                         wait_js("!!document.querySelector('.tour-card[role=dialog][aria-label=新手指引]')")
                         assert window.evaluate_js("(()=>{const text=document.querySelector('.tour-card').textContent;return text.includes('Lv.2') && text.includes('Lv.5');})()")

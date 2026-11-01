@@ -38,9 +38,9 @@ const notice = { id: 'update-1', type: 'content', title: '新题已加入', body
 const hub = { version: '0.5.0', settings: { githubRepo: '3097729287/acm-algo-trainer', autoSync: true, intervalHours: 6, minDifficulty: 1000, maxDifficulty: 2199, accounts: { codeforces: 'tester', atcoder: 'tester', nowcoder: '', luogu: '' } }, accounts: [{ platform: 'codeforces', handle: 'tester', rating: 415, maxRating: 500, solvedCount: 22, submissionCount: 67, updatedAt: now(), status: 'ready' }, { platform: 'atcoder', handle: 'tester', rating: 98, maxRating: 101, solvedCount: 14, submissionCount: 38, updatedAt: now(), status: 'ready' }], sync: { busy: false, message: '同步完成', providers: [] }, updates: { configured: true, currentVersion: '0.5.0', latestVersion: '0.5.0', repository: '3097729287/acm-algo-trainer' }, notifications: [notice] };
 const lecture = { id: 'lesson-1', concept: '位运算：$v \\oplus (v-1)$', displayTitle: '位运算：$v \\oplus (v-1)$', title: '原题旧标题', originalTitle: '旧题应用标题', category: '基础技巧 / 位运算', categories: ['基础技巧 / 位运算'], tags: ['位运算'], sourceContest: '测试比赛', sourceProblem: 'B', sourceTitle: rows[1].title, sourceProblemIds: [rows[1].id], markdown: '## 位运算\n\n一个可手算的例子：$4 \\oplus 3 = 7$。\n\n```cpp\nint value = 4 ^ 3;\n```', images: {} };
 const relatedLectures=[
- {id:'chain-root',title:'线段树测试起点',concept:'线段树测试起点',tags:['线段树','双指针'],markdown:'## 线段树测试正文\n\n'+('这是测试讲解中的独立段落。\n\n'.repeat(160)),images:{}},
- {id:'chain-two',title:'双指针测试中篇',concept:'双指针测试中篇',tags:['双指针','枚举'],markdown:'## 双指针测试正文\n\n'+('这一段用于核对阅读返回位置。\n\n'.repeat(140)),images:{}},
- {id:'chain-last',title:'枚举测试末篇',concept:'枚举测试末篇',tags:['枚举'],markdown:'## 枚举测试正文\n\n阅读栈的最后一篇。',images:{}}
+ {id:'lecture:foundation-functions',title:'函数测试起点',concept:'函数测试起点',tags:['线段树','双指针'],markdown:'## 函数测试正文\n\n'+('这是测试讲解中的独立段落。\n\n'.repeat(160)),images:{}},
+ {id:'lecture:foundation-basic-control',title:'分支循环测试中篇',concept:'分支循环测试中篇',tags:['双指针','枚举'],markdown:'## 分支循环测试正文\n\n'+('这一段用于核对阅读返回位置。\n\n'.repeat(140)),images:{}},
+ {id:'lecture:foundation-io-basics',title:'输入输出测试末篇',concept:'输入输出测试末篇',tags:['枚举'],markdown:'## 输入输出测试正文\n\n阅读栈的最后一篇。',images:{}}
 ];
 const profile = { userId: 'TB-fixture-00001', nickname: '测试用户', displayName: '测试用户#TB-fixture-00001', createdAt: now() };
 let rankingPolls = 0;
@@ -650,19 +650,19 @@ try {
   await page.keyboard.press('Escape');
   await page.keyboard.press('Control+7');
   await page.keyboard.press('Control+9');
-  await page.locator('.lectures-list button').filter({hasText:'线段树测试起点'}).click();
-  await page.getByRole('heading',{name:'线段树测试正文',exact:true}).waitFor();
+  await page.locator('.lectures-list button').filter({hasText:'函数测试起点'}).click();
+  await page.getByRole('heading',{name:'函数测试正文',exact:true}).waitFor();
   await page.locator('.lectures-detail').evaluate(node=>{node.scrollTop=1200;});
-  await page.locator('.lecture-prerequisites button').filter({hasText:'双指针'}).dispatchEvent('click');
-  await page.getByRole('heading',{name:'双指针测试正文',exact:true}).waitFor();
+  await page.locator('.lecture-prerequisites button').filter({hasText:'分支与循环'}).dispatchEvent('click');
+  await page.getByRole('heading',{name:'分支循环测试正文',exact:true}).waitFor();
   await page.locator('.lectures-detail').evaluate(node=>{node.scrollTop=800;});
-  await page.locator('.lecture-prerequisites button').filter({hasText:'枚举'}).dispatchEvent('click');
-  await page.getByRole('heading',{name:'枚举测试正文',exact:true}).waitFor();
+  await page.locator('.lecture-prerequisites button').filter({hasText:'输入输出'}).dispatchEvent('click');
+  await page.getByRole('heading',{name:'输入输出测试正文',exact:true}).waitFor();
   await page.getByRole('button',{name:'返回上篇',exact:true}).click();
-  await page.getByRole('heading',{name:'双指针测试正文',exact:true}).waitFor();
+  await page.getByRole('heading',{name:'分支循环测试正文',exact:true}).waitFor();
   await page.waitForFunction(()=>document.querySelector('.lectures-detail').scrollTop>=790);
   await page.getByRole('button',{name:'返回上篇',exact:true}).click();
-  await page.getByRole('heading',{name:'线段树测试正文',exact:true}).waitFor();
+  await page.getByRole('heading',{name:'函数测试正文',exact:true}).waitFor();
   await page.waitForFunction(()=>document.querySelector('.lectures-detail').scrollTop>=1190);
   assert.ok(await page.getByRole('button',{name:'返回上篇',exact:true}).isDisabled());
   await page.keyboard.press('Control+3');

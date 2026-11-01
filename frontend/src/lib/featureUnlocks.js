@@ -1,13 +1,21 @@
 // One source for navigation, shortcuts, commands, guides and level notices.
 export const PAGE_UNLOCKS=Object.freeze([
  {id:'mine',level:1,label:'我的训练',always:true},{id:'training-lists',level:1,label:'题单'},
- {id:'library',level:2,label:'题库'},{id:'rankings',level:2,label:'排行榜'},
+ {id:'library',level:1,label:'题库'},{id:'rankings',level:5,label:'排行榜'},
  {id:'competitions',level:3,label:'比赛'},{id:'mock',level:3,label:'模拟赛'},
  {id:'duel',level:3,label:'双人在线对战'},{id:'wiki',level:4,label:'维基百科'},
- {id:'paths',level:4,label:'实验室'},{id:'templates',level:4,label:'模板'},{id:'lectures',level:4,label:'从零讲'},
- {id:'growth',level:5,label:'成长'},{id:'activity',level:5,label:'活动记录'},
+ {id:'paths',level:1,label:'实验室'},{id:'templates',level:1,label:'模板'},{id:'lectures',level:1,label:'从零讲'},
+ {id:'growth',level:2,label:'成长'},{id:'activity',level:4,label:'活动记录'},
  {id:'records',level:1,label:'提交记录',always:true},{id:'settings',level:1,label:'设置',always:true},
 ]);
+export const NAVIGATION_POLICY=2;
+const LEGACY_LEVELS={mine:1,'training-lists':1,library:2,rankings:2,competitions:3,mock:3,paths:4,templates:4,lectures:4,growth:5,activity:5,records:1,settings:1};
+// Migrate once after the owner's confirmed level and preferences are loaded.
+// Existing users retain pages they had already earned under the old policy.
+export function migrateNavigationAccess(preferences,level){
+ if(preferences.learningPaths?.navigationAccess?.version===NAVIGATION_POLICY||!Number.isFinite(level)||level<1)return preferences;
+ return {...preferences,learningPaths:{...preferences.learningPaths,navigationAccess:{version:NAVIGATION_POLICY,retained:Object.entries(LEGACY_LEVELS).filter(([,required])=>level>=required).map(([id])=>id)}}};
+}
 export const PAGE_LEVELS=Object.freeze(Object.fromEntries(PAGE_UNLOCKS.map(item=>[item.id,item.level])));
 export const ESSENTIAL_PAGES=Object.freeze(PAGE_UNLOCKS.filter(item=>item.always).map(item=>item.id));
 export const optionalPages=PAGE_UNLOCKS.filter(item=>!item.always).map(item=>item.id);
@@ -17,7 +25,8 @@ export function canOpenPage(id,level,preferences={},access={}){
  if(id==='practice'||id==='overview'||id.startsWith('settings:'))return true;
  const page=PAGE_UNLOCKS.find(item=>item.id===id);
  const current=level===Infinity?Infinity:Number.isFinite(level)?level:1;
- return !!page&&(page.always||(!hiddenPages(preferences.hiddenNavPages).includes(id)&&(access.allNavigationUnlocked===true||current>=page.level)));
+ const retained=preferences.learningPaths?.navigationAccess?.version===NAVIGATION_POLICY&&Array.isArray(preferences.learningPaths.navigationAccess.retained)?preferences.learningPaths.navigationAccess.retained:[];
+ return !!page&&(page.always||(!hiddenPages(preferences.hiddenNavPages).includes(id)&&(access.allNavigationUnlocked===true||current>=page.level||retained.includes(id))));
 }
 export const pageAvailable=canOpenPage,guideAvailable=canOpenPage;
 export const availablePages=(level,preferences={},access={})=>PAGE_UNLOCKS.filter(item=>canOpenPage(item.id,level,preferences,access)).map(item=>item.id);

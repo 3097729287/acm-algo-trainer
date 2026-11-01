@@ -230,6 +230,8 @@ class SoftwareUpdates:
             self.automatic = self.launcher is not None
         # The persisted preference controls daily checks only. Every launch must
         # check immediately, including installations that disabled the old option.
+        directory=self.state_dir.parent/'cache/updates'
+        if directory.is_dir():_retire_downloads(directory,self.current)
         self.check()
         def automatic():
             last_check = dt.datetime.now(dt.timezone.utc)

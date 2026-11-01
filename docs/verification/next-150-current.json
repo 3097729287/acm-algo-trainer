@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-01T23:20:47.822033+00:00",
+  "updatedAt": "2026-11-01T23:30:06.776327+00:00",
   "version": "1.5.0",
   "repairBaseline": "6907a65495b9e6519f5ace9747a412a78ea2ca06",
   "installed": false,
@@ -13,7 +13,8 @@
     "skipped": 2,
     "passedFullSuite": false,
     "failureOwner": "delegated core-seven editorial review",
-    "errorDetails": null
+    "errorDetails": null,
+    "scope": "Before the 1.4.37 learning merge; full merged suite pending"
   },
   "sharedServicePass": 59,
   "mysqlGameplayPass": 4,
@@ -78,9 +79,23 @@
     "cppLoader": {
       "path": ".backups/next-150/native-loader-cpp-2/report.json",
       "sha256": "dad606237179f7c25b3bf4cd7caac881f085432b22cbad5bd42b20335e95f3bd"
+    },
+    "learningMergeTargeted": {
+      "path": ".backups/next-150/1437-merge-targeted-4.log",
+      "sha256": "fdb466629215be5a9f321e0eea6f6a62581e6924f038c5a9fa1c2a4c7a1d36e3"
+    },
+    "learningMergeApp": {
+      "path": ".backups/next-150/app-integration-1437-1.log",
+      "sha256": "d2c7cff53dfb9aec5489a1a6f40c49140b2438a6c5b1d4f68905fa6a49ab6d3b"
+    },
+    "learningMergeBrowser": {
+      "path": ".backups/next-150/learning-merge-ui-1.log",
+      "sha256": "4024e6f30478b3c3e344c8427ed0885c10cfa5c4fd3496e4178a6134a46389ba"
     }
   },
   "stickerGeometryCases": 1750,
   "packagedLoaderCppFrameworkMs": 43.68,
-  "packagedServiceBackupRestoreRollback": true
+  "packagedServiceBackupRestoreRollback": true,
+  "deliveredLearningBaseline": "4b0a96fe09a2763889805db27b68375f29250bc9",
+  "postLearningMergeTargetedPass": 60
 }

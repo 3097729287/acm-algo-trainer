@@ -19,8 +19,15 @@ class UpdateArtifactTests(unittest.TestCase):
         copies=[prepare_tree(self.root,'helper','same-package',self.specs()) for _ in range(100)]
         self.assertEqual(len(set(copies)),1);self.assertEqual(len(_owned(self.root,'helper')),1)
     def test_old_verified_trees_are_retired_but_unknown_files_are_preserved(self):
-        for i in range(8):prepare_tree(self.root,'helper',str(i),self.specs(str(i).encode()))
+        retained=self.root/'simulated-recycle';retained.mkdir()
+        def recycle_copy(path):
+            self.assertTrue(path.resolve().is_relative_to(self.root.resolve()))
+            target=retained/path.name;self.assertTrue(target.resolve().is_relative_to(retained.resolve()))
+            path.rename(target);return True
+        with patch('update_artifacts.retire_directory',side_effect=recycle_copy):
+            for i in range(8):prepare_tree(self.root,'helper',str(i),self.specs(str(i).encode()))
         self.assertEqual(len(_owned(self.root,'helper')),2)
+        self.patch_recycle=patch('update_artifacts.retire_directory',side_effect=recycle_copy);self.patch_recycle.start();self.addCleanup(self.patch_recycle.stop)
         first=prepare_tree(self.root,'helper','manual',self.specs());(first/'unique.cpp').write_bytes(b'private manual code')
         prepare_tree(self.root,'helper','after-0',self.specs())
         with self.assertRaises(UpdateStorageError):prepare_tree(self.root,'helper','after-1',self.specs())
