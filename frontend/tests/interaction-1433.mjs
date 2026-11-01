@@ -25,11 +25,11 @@ try {
  await page.waitForFunction(()=>fixture.prefs.editorTheme==='dracula');assert.equal(await page.locator('.editor-theme-preview .cm-content').count(),1);
  assert.equal(await page.locator('.editor-theme-preview .cm-editor').evaluate(node=>getComputedStyle(node).color),'rgb(248, 248, 242)');
  await page.getByRole('option',{name:'GitHub Light',exact:true}).click();await page.waitForFunction(()=>fixture.prefs.editorTheme==='github-light');
- await page.evaluate(()=>fixture.screen('guide'));assert.equal(await page.locator('.tour-guide-grid small').count(),0);
+ await page.evaluate(()=>fixture.screen('guide'));await page.locator('.tour-guide-grid').waitFor();assert.equal(await page.locator('.tour-guide-grid small').count(),0);
  await page.evaluate(()=>fixture.screen('', 'filter'));await page.getByRole('button',{name:'筛选题目',exact:true}).click();
  assert.equal(await page.getByLabel('题目平台',{exact:true}).count(),0);assert.equal(await page.getByRole('combobox',{name:'排序方式',exact:true}).count(),0);
  await page.getByRole('button',{name:'最近练习',exact:true}).click();await page.waitForFunction(()=>fixture.filter.sort==='date');await page.getByRole('button',{name:'最近练习',exact:true}).click();await page.waitForFunction(()=>fixture.filter.sort==='contestDate');
- await page.evaluate(()=>fixture.screen('', 'daily'));assert.equal(await page.getByText('进行中',{exact:true}).count(),0);assert.equal(await page.getByRole('heading',{name:'日常',exact:true}).count(),1);assert.equal(await page.getByRole('heading',{name:'任务',exact:true}).count(),1);
+ await page.evaluate(()=>fixture.screen('', 'daily'));await page.getByRole('heading',{name:'日常',exact:true}).waitFor();assert.equal(await page.getByText('进行中',{exact:true}).count(),0);assert.equal(await page.getByRole('heading',{name:'日常',exact:true}).count(),1);assert.equal(await page.getByRole('heading',{name:'任务',exact:true}).count(),1);
  await page.goto(base+'/tests/workbench-fixture.html');await page.addStyleTag({url:base+'/src/styles/interaction.css'});await page.locator('.cm-content').waitFor();
  const lock=page.getByRole('button',{name:'解锁顶部工具栏',exact:true});await lock.click();await page.waitForFunction(()=>document.querySelector('.tb-workbench').classList.contains('wb-toolbar-hidden'));
  const hidden=await page.locator('.wb-editor-header').evaluate(node=>node.getBoundingClientRect().height);assert.equal(hidden,0);
