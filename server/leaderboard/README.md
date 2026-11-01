@@ -1,5 +1,8 @@
 # TB 排行榜服务
 
+1.3.0 is a source candidate, not yet deployed. Production remains1.2.9. Migration013 adds daily observations of daily/weekly/all-time leaders;014 adds source-hash-bound public Chinese statement translations. Both are additive. Take and verify a fresh independent SQL backup and preservation fingerprints before any separately authorized deployment.
+
+
 ## 1.2.9 私有管理员账号维护（待独立部署验收）
 
 `GET /v1/admin/accounts?q=...` 按完整登录号、UUID或公开ID查找一个账号，仅返回身份和保护状态，不返回密码、哈希、会话或学习正文。`POST /v1/admin/accounts/delete` 与 `POST /v1/admin/accounts/reset-password` 接受 `{userId,loginId,confirmation}`；confirmation 分别为 `delete-account`、`reset-password`。必须使用仍有效的管理员会话，服务端及写事务均检查 `ranking_admins` 角色；客户端开关、昵称或登录号不能授予权限。当前账号、保留的 admin 登录号和所有管理员目标均受保护。

@@ -127,7 +127,7 @@ test('midnight and Sunday settle only three distinct places, atomically and with
     assert.deepEqual(before.entries.map(row => row.rank), [1,2,3,4]);
     fixture.env.TEST_NOW += 1000;
     const retries = await Promise.all(Array.from({length: 6}, () => request(fixture, users[0], 'GET', '/v1/rewards')));
-    assert(retries.every(value => value.status === 200 && value.value.totalXp === 600));
+    assert(retries.every(value => value.status === 200 && value.value.totalXp === 600),JSON.stringify(retries));
     for (const [index, xp] of [600,360,180,0].entries()) {
       const rewards = (await request(fixture, users[index], 'GET', '/v1/rewards')).value;
       assert.equal(rewards.totalXp, xp);

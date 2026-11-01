@@ -33,7 +33,7 @@ Local statement-language patch for 1.4.30 (2026-10-30): English statements alway
 Includes algorithm topics, training lists, illustrated editorials and interface fixes previously delivered locally in 1.4.2–1.4.24. The current public seed retains 12,271 original problem records, 9,436 statement archives, 1,674 default/detailed editorial pairs, 467 lectures and 564 lists. Archived statements are not all complete or readable; see the [current release scope](docs/releases/1.4.31.md) and [earlier statement audit](docs/releases/1.4.17.md). QOJ has 65 tasks, including the complete 13-task Shandong Provincial 2026 and 13-task Changchun Regional 2026 sets. Changchun D is interactive and I is communication; their special types are preserved, and the set is not offered as an ordinary mock contest. The separate full editorial review remains incomplete.
 
 <!-- release-status:start -->
-**Stable release: [ToBe 1.4.31](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.31).** [Delivery](docs/local-delivery-1.4.31.md).
+**Stable release: [ToBe 1.4.32](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.32).**
 <!-- release-status:end -->
 
 [Website](https://3097729287.github.io/acm-algo-trainer/) · [Usage](docs/usage.md) · [Development](docs/development.md) · [中文](README.md)
@@ -42,7 +42,7 @@ Includes algorithm topics, training lists, illustrated editorials and interface 
 
 ## Install and upgrade
 
-Windows 10/11 x64. The [user installer](https://47.82.84.74/updates/assets/1.4.31/ToBe-Setup-1.4.31-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.4.31/ToBe-1.4.31-win64.zip) before running it. GitHub distributes only the user edition. The administrator program is reserved for the owner’s local use. Release assets include checksums and a [full update for older versions](https://47.82.84.74/updates/assets/1.4.31/ToBe-Setup-1.4.31-win64.exe). Older versions can use the full Setup. The administrator edition is a local program and shortcut only.
+Windows 10/11 x64. The [user installer](https://47.82.84.74/updates/assets/1.4.32/ToBe-Setup-1.4.32-win64.exe) includes the C++ compiler, Python 3 runtime and offline WebView2 runtime. Fully extract the [portable archive](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.4.32/ToBe-1.4.32-win64.zip) before running it. GitHub distributes only the user edition. The administrator program is reserved for the owner’s local use. Release assets include checksums and a [full update for older versions](https://47.82.84.74/updates/assets/1.4.32/ToBe-Setup-1.4.32-win64.exe). Older versions can use the full Setup. The administrator edition is a local program and shortcut only.
 
 Save drafts and exit TB before installing into the existing directory. Personal databases, source code and imported content are preserved. The updater saves work, takes online SQLite backups and verifies SHA-256 before replacement. Keep the same TB version on your computers. Original-site login uses TB's dedicated browser profile; no extension is required.
 

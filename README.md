@@ -33,7 +33,7 @@
 包含此前本机 1.4.2—1.4.24 的算法专题、题单、图文题解和界面修正。当前公共种子保留 12,271 条原始题目、9,436 份题面存档、1,674 组默认/详细题解、467 篇讲义、564 个题单。存档数不等于完整可用题面数；[当前发行范围](docs/releases/1.4.31.md)与[此前题面审计](docs/releases/1.4.17.md)分别记录。QOJ 共 65 题，包括山东省赛 2026 完整 13 题及长春区域赛 2026 完整 13 题；长春 D 为交互题、I 为通信题，保留特殊类型，不作为普通模拟赛整场开赛。原题解逐篇精修仍有未完成部分。
 
 <!-- release-status:start -->
-**正式版本：[ToBe 1.4.31](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.31)。** [交付记录](docs/local-delivery-1.4.31.md)。
+**正式版本：[ToBe 1.4.32](https://github.com/3097729287/acm-algo-trainer/releases/tag/v1.4.32)。**
 <!-- release-status:end -->
 
 [项目主页](https://3097729287.github.io/acm-algo-trainer/) · [使用说明](docs/usage.md) · [开发与构建](docs/development.md) · [English](README.en.md)
@@ -42,7 +42,7 @@
 
 ## 安装与更新
 
-Windows 10/11 x64。[用户版安装包](https://47.82.84.74/updates/assets/1.4.31/ToBe-Setup-1.4.31-win64.exe)包含 C++ 编译器、Python 3 运行时和离线 WebView2；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.4.31/ToBe-1.4.31-win64.zip)需要完整解压。GitHub 仅公开用户版；管理员程序仅供维护者本机自用。发布页提供校验清单及[旧版完整更新](https://47.82.84.74/updates/assets/1.4.31/ToBe-Setup-1.4.31-win64.exe)；更旧版本可使用完整 Setup。管理员只保留维护者本机程序和快捷方式。
+Windows 10/11 x64。[用户版安装包](https://47.82.84.74/updates/assets/1.4.32/ToBe-Setup-1.4.32-win64.exe)包含 C++ 编译器、Python 3 运行时和离线 WebView2；[便携版](https://github.com/3097729287/acm-algo-trainer/releases/download/v1.4.32/ToBe-1.4.32-win64.zip)需要完整解压。GitHub 仅公开用户版；管理员程序仅供维护者本机自用。发布页提供校验清单及[旧版完整更新](https://47.82.84.74/updates/assets/1.4.32/ToBe-Setup-1.4.32-win64.exe)；更旧版本可使用完整 Setup。管理员只保留维护者本机程序和快捷方式。
 
 保存草稿并退出 TB 后安装到原目录，个人数据库、代码和导入内容保留。自动更新会先保存草稿、在线备份 SQLite、验证 SHA-256，再替换程序。跨电脑使用同一账号时，各电脑应升级到同一版本。原站登录保存在 TB 专用浏览器中，无需扩展。
 

@@ -19,7 +19,10 @@ export class RankingDominance {
     if(!await this.available())return;
     const today=bounds('daily',now).day,timestamp=new Date(now).toISOString(),ignore=this.dialect==='mysql'?'INSERT IGNORE':'INSERT OR IGNORE';
     await this.database.transaction(async connection=>{
-      await connection.execute(`${ignore} INTO ranking_leader_schedule(singleton,next_day) VALUES(1,?)`,[today]);
+      const schedule=this.dialect==='mysql'?'INSERT INTO ranking_leader_schedule(singleton,next_day) VALUES(1,?) ON DUPLICATE KEY UPDATE singleton=singleton':'INSERT OR IGNORE INTO ranking_leader_schedule(singleton,next_day) VALUES(1,?)';
+      // Take the exclusive singleton lock immediately. INSERT IGNORE can hold
+      // shared duplicate-key locks that deadlock on concurrent FOR UPDATE.
+      await connection.execute(schedule,[today]);
       // Only settled daily awards establish history from before this feature.
       // Weekly/all-time holding days begin with actual daily observations.
       await connection.execute(`${ignore} INTO ranking_leader_days(period,ranking_day,user_id,score,observed_at) SELECT 'daily',start_date,user_id,0,settled_at FROM ranking_rewards WHERE period='daily' AND position=1`);

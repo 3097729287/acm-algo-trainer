@@ -9,7 +9,7 @@ export function rankingDominanceSuite(startFixture){
   try {
    for(const [index,id] of owners.entries()){
     await db.execute('INSERT INTO users VALUES(?,?,?,?,?)',[id,'leader'+index,'fixture',stamp,stamp]);
-    await db.execute('INSERT INTO accounts(user_id,login_id,password_hash,created_at,updated_at) VALUES(?,?,?,?,?)',[id,'leader_'+id,'fixture',stamp,stamp]);
+    await db.execute('INSERT INTO accounts(user_id,login_id,password_hash,created_at,updated_at) VALUES(?,?,?,?,?)',[id,'leader_'+id.replaceAll('-','').slice(0,20),'fixture',stamp,stamp]);
    }
    await STORE.settleRewards(Date.parse(stamp));
    async function ac(owner,key,day,received=day+'T12:00:00.000Z'){
