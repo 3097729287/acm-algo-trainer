@@ -1,20 +1,21 @@
 {
-  "updatedAt": "2026-11-01T23:42:03.847481+00:00",
+  "updatedAt": "2026-11-01T23:53:57.692356+00:00",
   "version": "1.5.0",
   "repairBaseline": "6907a65495b9e6519f5ace9747a412a78ea2ca06",
   "installed": false,
   "publiclyDeployed": false,
   "observedOnlineServiceVersion": "1.2.9",
   "fullBackend": {
-    "tests": 1044,
-    "passed": 1041,
+    "tests": 1054,
+    "passed": 1051,
     "failures": 1,
     "errors": 0,
     "skipped": 2,
     "passedFullSuite": false,
     "failureOwner": "delegated core-seven editorial review",
     "errorDetails": null,
-    "scope": "Before the 1.4.37 learning merge; full merged suite pending"
+    "scope": "All current backend behavior; subsequent final-1.4.37 merge changes only frontend CSS and its test",
+    "sourceCommit": "675a574a9a182d1ddbd464a55ed724805140a9bb"
   },
   "sharedServicePass": 59,
   "mysqlGameplayPass": 4,
@@ -26,15 +27,15 @@
     2910.97,
     2804.72
   ],
-  "frozenStartupVerified": false,
+  "frozenStartupVerified": true,
   "evidence": {
     "content": {
       "path": ".backups/next-150/delivered-contests/verification.json",
       "sha256": "02baf6548f31ed7d135d3c82e22d6fe0596d4675841c6eff3dd3a316eb841785"
     },
     "backend": {
-      "path": ".backups/next-150/backend-check-merged-content-4.log",
-      "sha256": "09b9bd12094dd41f64330ac5240a93bb3166deff43d809a5461bf26d588ab1af"
+      "path": ".backups/next-150/backend-check-675a574a-1.log",
+      "sha256": "2194db5e5db5571b34dc397d49ac1d8a66eddaa86a93d75d877528047a20a14a"
     },
     "targetedRetirement": {
       "path": ".backups/next-150/recycle-receipt-tests-2.log",
@@ -93,8 +94,8 @@
       "sha256": "4024e6f30478b3c3e344c8427ed0885c10cfa5c4fd3496e4178a6134a46389ba"
     },
     "frozenContentCandidate": {
-      "path": ".backups/next-150/frozen-startup-d8975402-1/report.json",
-      "sha256": "f27a81f49d0c74c437a537e5b33e159396e3063de6e74e045b9e6b69bcfe7626"
+      "path": "build/frozen-startup-675a574a-1/report.json",
+      "sha256": "4d69f8ce2935aebc45853839c72de00add42307e8663a1037725ecce9b9a2b6f"
     },
     "frozenNetworkFailure": {
       "path": ".backups/next-150/frozen-startup-d8975402-2/launch-1/network.json",
@@ -103,27 +104,50 @@
     "startupNavigationTargeted": {
       "path": ".backups/next-150/startup-burst-navigation-1.log",
       "sha256": "78791f932835c3a19e9bcf3ac30aec8165eea695f076b61f08bf08d0e5b5ceaa"
+    },
+    "frozenCleanNetworkFirst": {
+      "path": "build/frozen-startup-675a574a-1/launch-1/network.json",
+      "sha256": "970b22d16242a77531e73cc87b85a67997e9e99f1bd765c69483bb2ef943aee4"
+    },
+    "frozenCleanNetworkSecond": {
+      "path": "build/frozen-startup-675a574a-1/launch-2/network.json",
+      "sha256": "6fca6a3a06279c16982f3282e1e9cc054dfc710d4862a32dfbd4d2ebd7d8aba1"
+    },
+    "navigationSync": {
+      "path": ".backups/next-150/startup-navigation-extra-2.log",
+      "sha256": "f61a8e092a6ca2d2939e4d4bb5e6f2e0c582d27f8fb84bf59b3ed9de3dad0de1"
+    },
+    "finalRepairReceived": {
+      "path": ".backups/next-150/pre-1437-final-merge/actual-delivery.json",
+      "sha256": "4d3f6221c007f266def8a7eaabc91336de70cfe74b1b50376fff9252b8a62ac2"
+    },
+    "finalRepairBrowser": {
+      "path": ".backups/next-150/final-1437-toolbar-merge.log",
+      "sha256": "7ff960c1be5104abbad7183f196b4f72d6880468c9510ee035a08f33fc95418b"
     }
   },
   "stickerGeometryCases": 1750,
   "packagedLoaderCppFrameworkMs": 43.68,
   "packagedServiceBackupRestoreRollback": true,
-  "deliveredLearningBaseline": "4b0a96fe09a2763889805db27b68375f29250bc9",
+  "deliveredLearningBaseline": "9f10b378b05279d54b306c0eb88b9830a5518813",
   "postLearningMergeTargetedPass": 60,
   "frozenContentCandidate": {
-    "sourceCommit": "d8975402f8df9cf8304daffea63370e5d2eb368b",
+    "sourceCommit": "675a574a9a182d1ddbd464a55ed724805140a9bb",
     "contentMilliseconds": [
-      2645.7,
-      2563.15
+      2572.04,
+      2447.22
     ],
     "frameMilliseconds": [
-      32.82,
-      14.12
+      17.75,
+      14.52
     ],
     "draftPreserved": true,
     "originalSubmissions": 0,
-    "stabilityAccepted": false,
-    "reason": "Native screenshot review found two loopback connection refusals; queue fix awaits rebuilt verification"
+    "stabilityAccepted": true,
+    "startupFailedRequests": 0,
+    "startupAlerts": 0,
+    "finalMergedInstallerMeasured": false
   },
-  "startupNavigationTargetedPass": 7
+  "startupNavigationTargetedPass": 7,
+  "startupNavigationAndSyncPass": 37
 }

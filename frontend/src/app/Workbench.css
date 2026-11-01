@@ -916,6 +916,8 @@ html .tb-workbench .wb-merged-header .wb-toolbar {padding-left:0}
 html .tb-workbench .wb-merged-header>.wb-back-button {position:absolute;left:0;top:0;bottom:0;z-index:2;width:44px;min-width:44px;height:100%;min-height:44px;padding:0;border-radius:0}
 html .tb-workbench .wb-compact-toolbar {position:relative;padding-left:48px}
 html .tb-workbench .wb-compact-toolbar>.wb-back-button {position:absolute;left:0;top:0;bottom:0;width:44px;min-width:44px;height:100%;min-height:42px;padding:0;border-radius:0}
+/* Press feedback must not move a hit target away from the screen edge. */
+html .tb-workbench .wb-back-button:active:not(:disabled) {transform:none}
 
 /* Both panes share one toolbar row, including at Windows display scaling. */
 html .tb-workbench:not(.wb-compact) .wb-pane-header {height:44px;min-height:44px;flex:0 0 44px;flex-wrap:nowrap;box-sizing:border-box}
