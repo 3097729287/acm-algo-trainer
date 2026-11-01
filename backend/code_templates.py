@@ -11,7 +11,14 @@ MAX_CODE_BYTES = 64 * 1024
 
 @lru_cache(maxsize=1)
 def builtins():
-    return json.loads(resource('code-templates.json').read_text(encoding='utf8'))['templates']
+    original=json.loads(resource('code-templates.json').read_text(encoding='utf8'))['templates']
+    teaching=json.loads(resource('template-teaching.json').read_text(encoding='utf8'))
+    values=[]
+    for item in [*original,*teaching['templates']]:
+        lesson=teaching['topics'].get(item['id'].removeprefix('builtin:'))
+        values.append({**item,'curriculum':lesson,'learningPath':item.get('learningPath') or lesson['learningPath'],
+                       'explanation':'\n\n'.join(x for x in [item.get('explanation'),lesson['markdown']] if x)} if lesson else item)
+    return values
 
 def _owned(training):
     values=[]

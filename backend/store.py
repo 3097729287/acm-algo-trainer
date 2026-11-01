@@ -7,6 +7,7 @@ from pathlib import Path
 import shutil
 import sqlite3
 import threading
+import zlib
 from errors import APIError
 from insights import canonical_url
 from library import LibraryDatabase, source_fingerprint
@@ -273,6 +274,11 @@ class Store:
             public = self._content_signature()
             analysis = self._analysis_signature()
             signature = (public, tuple(sorted(analysis.items()))) if public is not None else None
+            if compact and signature is not None:
+                if self._compact_json is None:
+                    self._load_compact_catalog(signature)
+                if self._compact_signature==signature and self._compact_json is not None:
+                    return self._catalog_response(self._compact_json,signature,True,compressed)
             if signature is None or signature != self._data_signature or self._data_json is None:
                 value = self.data()
                 # A writer may change the signature while data() is building.
@@ -286,23 +292,55 @@ class Store:
                 if compact:
                     self._compact_json = catalog_snapshot.pack(json.dumps({key: row for key, row in value.items() if key not in ('today', 'token')}, ensure_ascii=False).encode('utf-8'))
                     self._compact_signature = self._data_signature
+                    self._save_compact_catalog()
                 del value
-            today=dt.date.today().isoformat()
-            response_key=(self._data_signature,compact,today,self.token)
-            if response_key==self._response_key and self._response_bytes is not None:
-                return catalog_snapshot.response(self._response_bytes, compressed)
             raw = self._data_json
             if compact:
                 if self._compact_signature != self._data_signature or self._compact_json is None:
                     from catalog_payload import catalogue_payload
                     self._compact_json = catalog_snapshot.pack(json.dumps(catalogue_payload(json.loads(catalog_snapshot.unpack(raw))), ensure_ascii=False).encode('utf-8'))
                     self._compact_signature = self._data_signature
+                    self._save_compact_catalog()
                 raw = self._compact_json
-            raw = catalog_snapshot.unpack(raw)
-            suffix = json.dumps({'today':today, 'token':self.token}, ensure_ascii=False).encode('utf-8')
-            self._response_bytes=catalog_snapshot.pack(raw[:-1] + b', ' + suffix[1:])
-            self._response_key=response_key
-            return catalog_snapshot.response(self._response_bytes, compressed)
+            return self._catalog_response(raw,self._data_signature,compact,compressed)
+
+    def _catalog_response(self,snapshot,signature,compact,compressed):
+        today=dt.date.today().isoformat()
+        key=(signature,compact,today,self.token)
+        if key!=self._response_key or self._response_bytes is None:
+            raw=catalog_snapshot.unpack(snapshot)
+            suffix=json.dumps({'today':today,'token':self.token},ensure_ascii=False).encode('utf-8')
+            self._response_bytes=catalog_snapshot.pack(raw[:-1]+b', '+suffix[1:])
+            self._response_key=key
+        return catalog_snapshot.response(self._response_bytes,compressed)
+
+    def _load_compact_catalog(self,signature):
+        """Restore only list metadata, leaving full analysis lazy on restart."""
+        from persistence import load_document
+        path=self.library.path.with_name('tb-catalog-compact-cache.json')
+        try:
+            cached=load_document(path,{})
+            expected=hashlib.sha256(repr(signature).encode()).hexdigest()
+            if cached.get('signature')!=expected:return
+            snapshot=catalog_snapshot.from_document(cached)
+            value=json.loads(catalog_snapshot.unpack(snapshot))
+            if not isinstance(value,dict) or not isinstance(value.get('rows'),list) or not isinstance(value.get('categories'),list):return
+            from catalog_payload import ROW_FIELDS
+            if any(not isinstance(row,dict) or set(row)-ROW_FIELDS for row in value['rows']):return
+            if 'token' in value or 'today' in value:return
+            self._compact_json=snapshot if snapshot.startswith(b'\x1f\x8b') else catalog_snapshot.pack(snapshot)
+            self._compact_signature=signature
+        except (OSError,ValueError,TypeError,AttributeError,KeyError,sqlite3.Error,zlib.error):
+            pass  # An optional cache never blocks the authoritative SQLite view.
+
+    def _save_compact_catalog(self):
+        if self._compact_json is None or self._compact_signature is None:return
+        from persistence import save_document
+        try:
+            save_document(self.library.path.with_name('tb-catalog-compact-cache.json'),
+                          {'signature':hashlib.sha256(repr(self._compact_signature).encode()).hexdigest(),
+                           **catalog_snapshot.document(self._compact_json)})
+        except (OSError,sqlite3.Error):pass
 
     def _catalog_rows(self):
         from knowledge import catalogue_context
@@ -341,6 +379,8 @@ class Store:
         # through data() and the problem API; share the existing compact cache.
         with self.lock:
             public = self._content_signature()
+            if public is not None and self._compact_json is None:
+                self._load_compact_catalog((public,tuple(sorted(self._analysis_signature().items()))))
             if public is not None and self._compact_json is not None and self._compact_signature and self._compact_signature[0] == public:
                 # Opening a new problem adds analysis for that task. Scheduling
                 # must not rebuild/hash/compress the entire full catalogue for

@@ -58,11 +58,17 @@ def stickers(training,kind=None,value=None):
     try:_grant_pending(training)
     except ServiceError as issue:error=str(issue)
     result=_request(training,'GET','/v1/stickers')
+    from fun_moments import confirmed_gameplay
+    confirmed_gameplay(training,result,kind)
     if error:result['rewardSyncError']=error
     return result
 
 def duel(training,kind=None,value=None):
-    if not kind:return _request(training,'GET','/v1/duels')
+    if not kind:
+        result=_request(training,'GET','/v1/duels')
+        from fun_moments import confirmed_gameplay
+        confirmed_gameplay(training,result)
+        return result
     if kind not in {'join','cancel','poll','dismiss'} or not isinstance(value,dict) or set(value)-{'requestId','ticket','matchId'}:
         raise ServiceError(400,'对战操作无效')
     if kind=='join':
@@ -71,4 +77,7 @@ def duel(training,kind=None,value=None):
         settings=training.store.extensions.snapshot().get('settings',{})
         handle=settings.get('accounts',{}).get('codeforces','')
         value={**value,'handle':handle}
-    return _request(training,'POST','/v1/duels/'+kind,value)
+    result=_request(training,'POST','/v1/duels/'+kind,value)
+    from fun_moments import confirmed_gameplay
+    confirmed_gameplay(training,result)
+    return result

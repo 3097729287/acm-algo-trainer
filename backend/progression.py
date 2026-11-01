@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import datetime as dt
 import hashlib
+from fun_moment_definitions import MOMENTS
 
 SHANGHAI = dt.timezone(dt.timedelta(hours=8), name="Asia/Shanghai")
 
@@ -26,6 +27,7 @@ ACHIEVEMENT_TITLES = {
        for target, name in ((30, '持之以恒'), (90, '百炼不怠'), (180, '半载精进'), (365, '全年坚守'), (730, '双年不辍'))},
 }
 ACHIEVEMENT_DEFINITIONS = {
+    **{identity:{'target':1,'rewardXp':definition['xp']} for identity,definition in MOMENTS.items()},
     **{f'official-{target}': {'target': target, 'rewardXp': xp} for target, xp in AC_ACHIEVEMENT_REWARDS},
     **{f'difficulty-{difficulty}': {'target': 1, 'rewardXp': xp}
        for difficulty, xp in ((1500, 40), (1800, 60), (2100, 80), (2400, 100), (2700, 120), (3000, 150), (3300, 180), (3600, 200))},

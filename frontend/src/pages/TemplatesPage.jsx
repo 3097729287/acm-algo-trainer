@@ -9,6 +9,7 @@ import PopConfirm from '@/components/PopConfirm.jsx';
 import Markdown from '@/components/SolutionMarkdown.jsx';
 import {templateForDisplay} from '@/lib/insertTemplate.js';
 import {ALGORITHM_TOPIC_BY_ID} from '@/lib/algorithmLearning.js';
+import TemplateVariations from '@/components/TemplateVariations.jsx';
 import './algorithm-lab/algorithmLab.css';
 import './algorithm-lab/sequenceLab.css';
 import './TemplatesPage.css';
@@ -16,7 +17,7 @@ import './TemplatesPage.css';
 const GROUPS=['基础算法','搜索','数据结构','图论','字符串','数学','动态规划','我的模板'];
 const emptyTemplate=()=>({id:null,title:'',category:'我的模板',language:'cpp17',code:'',notes:'',summary:'',builtin:false});
 const Button=({label,children,...props})=><button type="button" className="icon-button" aria-label={label} title={label} {...props}>{children}</button>;
-export default function TemplatesPage({api,shortcuts={},visit,embedded=false,onUse,language,onActiveChange,onTrain,onOpenCourse}) {
+export default function TemplatesPage({api,shortcuts={},visit,embedded=false,onUse,language,onActiveChange,onTrain,onOpenCourse,lockedProblems=[]}) {
  const fallback=useRef({}),session=visit||fallback.current;
  const [templates,setTemplates]=useState([]),[query,setQuery]=useState(session.query||''),[selected,setSelected]=useState(session.selected||null),[draft,setDraft]=useState(session.draft||null);
  const [loading,setLoading]=useState(true),[busy,setBusy]=useState(false),[error,setError]=useState(''),[copied,setCopied]=useState(false),[deleting,setDeleting]=useState(null),[edition,setEdition]=useState('teaching');
@@ -58,7 +59,7 @@ export default function TemplatesPage({api,shortcuts={},visit,embedded=false,onU
   {selected&&current?<div className="template-detail">
    <header className="template-heading"><Button label="返回模板" data-folder-up onClick={back}><ArrowLeft size={18}/></Button><h2 title={current.title||'新建模板'}>{current.title||'新建模板'}</h2>
     {current.builtin&&<nav className="template-editions" aria-label="模板版本"><button type="button" className="template-edition-toggle" aria-label={edition==='teaching'?'讲解版':'竞赛版'} title={edition==='teaching'?'切换到竞赛版':'切换到讲解版'} aria-pressed={edition==='contest'} onClick={()=>setEdition(value=>value==='teaching'?'contest':'teaching')}>{edition==='teaching'?'讲解版':'竞赛版'}</button>{onTrain&&(current.practiceIds||[]).map((id,index)=><Button key={id} label={`模板练习 ${index+1}`} onClick={()=>onTrain(id)}>{current.practicePassed?.[index]?<Check size={17}/>:<NotebookPen size={17}/>}<small>{index+1}</small></Button>)}</nav>}
-    {topic&&onOpenCourse&&<Button label="在实验室学习" onClick={()=>onOpenCourse(topic.id)}><FlaskConical size={17}/></Button>}
+    {current.learningPath&&onOpenCourse&&<Button label="在实验室学习" onClick={()=>onOpenCourse(current.learningPath)}><FlaskConical size={17}/></Button>}
     <span className="template-language">{current.language==='python3'?'Python 3':'C++17'}</span>
     <Button label="复制模板" onClick={()=>copy(displayedCode)}>{copied?<Check size={17}/>:<Copy size={17}/>}</Button>
     {current.builtin?<Button label="另存为我的模板" onClick={()=>create(using(current))}><FilePlus2 size={17}/></Button>:<><Button label="保存模板" disabled={busy||!current.title.trim()||!current.code.trim()} onClick={()=>save(false)}>{busy?<LoaderCircle className="spin" size={17}/>:<Save size={17}/>}</Button>{current.id&&<Button label="删除模板" disabled={busy} onClick={event=>setDeleting(event.currentTarget)}><Trash2 size={17}/></Button>}</>}
@@ -67,9 +68,10 @@ export default function TemplatesPage({api,shortcuts={},visit,embedded=false,onU
    {own&&<div className="template-fields"><input aria-label="模板名称" maxLength={120} value={current.title} onChange={event=>update('title',event.target.value)} placeholder="模板名称"/><input aria-label="模板分类" maxLength={40} value={current.category} onChange={event=>update('category',event.target.value)} placeholder="模板分类"/><ThemedSelect aria-label="模板语言" value={current.language} onChange={event=>update('language',event.target.value)}><option value="cpp17">C++17</option><option value="python3">Python 3</option></ThemedSelect></div>}
    {current.builtin?!(edition==='teaching'&&current.explanation)&&<p className="template-notes">{edition==='contest'?current.contestNotes||current.notes:current.notes}</p>:<textarea aria-label="模板说明" maxLength={16384} value={current.notes} onChange={event=>update('notes',event.target.value)} placeholder="适用条件与复杂度"/>}
    <div className={`template-body ${current.builtin&&edition==='teaching'&&current.explanation?'template-with-explanation':''}`}>
-    {current.builtin&&edition==='teaching'&&current.explanation&&<section className="template-explanation" aria-label="模板讲解" tabIndex={0}><Markdown text={explanation}/>{topic?.sections.map(section=><details key={section.id}><summary>{section.title}</summary>{topic.id==='fenwick'&&<p>原文推导沿用其注明的内部编号；本模板外部调用从 0 开始，区间为 [l,r)。</p>}<Markdown text={section.markdown} images={section.images}/></details>)}</section>}
+    {current.builtin&&edition==='teaching'&&current.explanation&&<section className="template-explanation" aria-label="模板讲解" tabIndex={0}><Markdown text={explanation}/><TemplateVariations curriculum={current.curriculum} edition={edition} onTrain={onTrain} lockedProblems={lockedProblems}/>{topic?.sections.map(section=><details key={section.id}><summary>{section.title}</summary>{topic.id==='fenwick'&&<p>原文推导沿用其注明的内部编号；本模板外部调用从 0 开始，区间为 [l,r)。</p>}<Markdown text={section.markdown} images={section.images}/></details>)}</section>}
     <div className="template-code"><CodeEditor ref={editor} value={displayedCode} docKey={`${selected}:${current.language}:${edition}`} language={current.language} readOnly={current.builtin} shortcuts={shortcuts} onChange={value=>update('code',value)} onCommand={command=>{if(command==='save'&&own)save(false);}} ariaLabel="模板代码"/></div>
    </div>
+   {current.builtin&&edition==='contest'&&current.curriculum&&<section className="template-explanation template-contest-variations" aria-label="模板变种"><TemplateVariations curriculum={current.curriculum} edition={edition} onTrain={onTrain} lockedProblems={lockedProblems}/></section>}
    {displayedExample&&(topic?<details className="template-example template-example-fold" aria-label="最小调用示例"><summary>最小调用示例</summary><Markdown text={'```cpp\n'+displayedExample+'\n```'} onCopy={code=>copy(code)}/></details>:<section className="template-example" aria-label="最小调用示例"><Markdown text={'```cpp\n'+displayedExample+'\n```'} onCopy={code=>copy(code)}/></section>)}
   </div>:<div className="lab-catalog lab-multi-catalog template-catalog">
    {embedded?<div className="template-tools">{tools}</div>:<PageSearch>{tools}</PageSearch>}

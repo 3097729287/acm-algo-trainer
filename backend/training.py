@@ -591,6 +591,9 @@ class TrainingService:
             preserve_completion(self,value['achievements'])
             from progression import ACHIEVEMENT_DEFINITIONS, earned_titles
             achievement_rewards = award_achievement_xp(self.connection, value['achievements'], self._now(),claim_ids=())
+            # Hidden conditions and progress do not leave the account API before
+            # completion. Durable earned/claimed secrets remain visible.
+            value['achievements']=[item for item in value['achievements'] if not item.get('hidden') or item.get('unlocked')]
             ranking_profile = self._ranking_profile()
             ranking_reward = self.connection.execute("SELECT total_xp FROM ranking_reward_totals WHERE endpoint=? AND user_id=?",
                                                      (ranking_profile["endpoint"], ranking_profile["user_id"])).fetchone()

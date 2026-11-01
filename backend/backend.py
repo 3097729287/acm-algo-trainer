@@ -541,7 +541,11 @@ class Handler(BaseHTTPRequestHandler):
             elif path == '/api/wiki':
                 from wiki import read
                 query=parse_qs(target.query)
-                self.send_json(200,read(query.get('q',[''])[0],query.get('id',[None])[0]))
+                value=read(query.get('q',[''])[0],query.get('id',[None])[0])
+                if value.get('article'):
+                    from fun_moments import confirmed_wiki_visit
+                    confirmed_wiki_visit(self.server.training,value['article'])
+                self.send_json(200,value)
             elif path == '/api/stickers':
                 from gameplay import stickers
                 self.send_json(200,stickers(self.server.training))

@@ -22,7 +22,8 @@ assert.equal(entries.length,2);assert.ok(entries.every(e=>e.leaf&&e.label.includ
 assert.deepEqual(entries.map(e=>e.path[2]),['2026年','2025年'],'saved raw paths survive collapsed folders');
 const filtered=contestFilterOptions(lanqiao).find(n=>n.label==='蓝桥杯 B 组').children.find(n=>n.label==='国赛');
 assert.ok(filtered.children.every(n=>n.label.includes('蓝桥杯')&&!n.children));
-assert.equal(rankIndex({tier:'王者',rankTier:'黄金',rankScore:1560}),3,'public rankTier has priority over the legacy XP tier');
+assert.equal(rankIndex({tier:'王者',rankTier:'黄金',rankScore:1560}),5,'Current ability maps through the updated tier rules even in an older public snapshot');
+for(const [score,expected] of [[0,0],[799,0],[800,1],[949,1],[950,2],[1099,2],[1100,3],[1249,3],[1250,4],[1399,4],[1400,5],[1599,5],[1600,6],[1799,6],[1800,7],[1999,7],[2000,8],[2001,8],[3600,8]])assert.equal(rankIndex({abilityScore:score}),expected,`rank boundary ${score}`);
 assert.equal(rankIndex({rankTier:'铂金'}),3,'old platinum snapshots join gold without changing the score');
 assert.equal(rankIndex({tier:'王者',badge:'tier-9'}),8,'old king snapshots retain the highest current tier');
 const broadDp={tags:[],knowledgeCategories:['动态规划']};

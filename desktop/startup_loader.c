@@ -11,10 +11,11 @@
 #include <wchar.h>
 
 static PROCESS_INFORMATION child;
-static HBRUSH background, accent;
+static HBRUSH background, accent, panel, muted;
 static HFONT title_font, body_font;
 static int width, height, scale;
 static HWND splash;
+static int px(int value){return MulDiv(value,scale,96);}
 
 static BOOL CALLBACK main_visible(HWND window, LPARAM data) {
     DWORD pid=0; GetWindowThreadProcessId(window,&pid);
@@ -28,14 +29,32 @@ static BOOL CALLBACK main_visible(HWND window, LPARAM data) {
 static LRESULT CALLBACK procedure(HWND window,UINT msg,WPARAM wp,LPARAM lp) {
     if (msg==WM_PAINT) {
         PAINTSTRUCT paint;HDC dc=BeginPaint(window,&paint);
-        RECT all={0,0,width,height};FillRect(dc,&all,background);SetBkMode(dc,TRANSPARENT);
+        RECT all;GetClientRect(window,&all);width=all.right;height=all.bottom;
+        FillRect(dc,&all,background);SetBkMode(dc,TRANSPARENT);
+        int sidebar=px(140),top=px(72);
         HGDIOBJ old=SelectObject(dc,title_font);SetTextColor(dc,RGB(233,239,245));
-        RECT text={0,MulDiv(25,scale,96),width,MulDiv(76,scale,96)};
-        DrawTextW(dc,L"ToBe",-1,&text,DT_CENTER|DT_VCENTER|DT_SINGLELINE);
+        RECT text={px(20),px(17),sidebar-px(8),px(56)};
+        DrawTextW(dc,L"ToBe",-1,&text,DT_LEFT|DT_VCENTER|DT_SINGLELINE);
+        RECT line={sidebar,0,sidebar+1,height};FillRect(dc,&line,panel);
+        line.left=sidebar;line.top=top;line.right=width;line.bottom=top+1;FillRect(dc,&line,panel);
+        RECT search={sidebar+px(18),px(17),sidebar+px(448),px(55)};
+        FillRect(dc,&search,panel);
         SelectObject(dc,body_font);SetTextColor(dc,RGB(167,177,194));
-        text.top=MulDiv(81,scale,96);text.bottom=MulDiv(109,scale,96);
-        DrawTextW(dc,L"正在打开 ToBe…",-1,&text,DT_CENTER|DT_VCENTER|DT_SINGLELINE);
-        RECT bar={MulDiv(138,scale,96),MulDiv(129,scale,96),MulDiv(222,scale,96),MulDiv(132,scale,96)};
+        const wchar_t *labels[]={L"我的训练",L"题库",L"题单",L"比赛",L"模拟赛",L"成长",L"提交记录",L"从零讲"};
+        for(int index=0;index<8;index++){
+            int y=px(80+index*44);
+            RECT icon={px(21),y+px(12),px(33),y+px(24)};FrameRect(dc,&icon,muted);
+            text.left=px(43);text.right=sidebar-px(8);text.top=y;text.bottom=y+px(38);
+            DrawTextW(dc,labels[index],-1,&text,DT_LEFT|DT_VCENTER|DT_SINGLELINE);
+        }
+        text.left=px(21);text.top=height-px(48);text.right=sidebar-px(8);text.bottom=height-px(10);
+        DrawTextW(dc,L"设置",-1,&text,DT_LEFT|DT_VCENTER|DT_SINGLELINE);
+        int center_x=(sidebar+width)/2,center_y=(top+height)/2;
+        text.left=sidebar+px(24);text.right=width-px(24);text.top=center_y-px(40);text.bottom=center_y-px(10);
+        SetTextColor(dc,RGB(233,239,245));DrawTextW(dc,L"正在加载 ToBe",-1,&text,DT_CENTER|DT_VCENTER|DT_SINGLELINE);
+        text.top=center_y-px(8);text.bottom=center_y+px(18);SetTextColor(dc,RGB(167,177,194));
+        DrawTextW(dc,L"正在准备训练工作台…",-1,&text,DT_CENTER|DT_VCENTER|DT_SINGLELINE);
+        RECT bar={center_x-px(76),center_y+px(44),center_x+px(76),center_y+px(47)};
         FillRect(dc,&bar,accent);SelectObject(dc,old);EndPaint(window,&paint);return 0;
     }
     if(msg==WM_TIMER) {
@@ -58,15 +77,17 @@ int WINAPI wWinMain(HINSTANCE instance,HINSTANCE previous,LPWSTR arguments,int d
     if(swprintf(command,32768,L"\"%ls\" %ls",executable,arguments)<0)return 1;
     if(!*arguments) {
         SetProcessDPIAware();scale=(int)GetDpiForSystem();
-        width=MulDiv(360,scale,96);height=MulDiv(158,scale,96);
+        RECT work;SystemParametersInfoW(SPI_GETWORKAREA,0,&work,0);
+        width=min(px(1480),work.right-work.left);height=min(px(920),work.bottom-work.top);
         background=CreateSolidBrush(RGB(16,17,22));accent=CreateSolidBrush(RGB(106,205,180));
-        title_font=CreateFontW(-MulDiv(30,scale,96),0,0,0,600,0,0,0,DEFAULT_CHARSET,0,0,CLEARTYPE_QUALITY,0,L"Segoe UI");
-        body_font=CreateFontW(-MulDiv(13,scale,96),0,0,0,400,0,0,0,DEFAULT_CHARSET,0,0,CLEARTYPE_QUALITY,0,L"Segoe UI");
+        panel=CreateSolidBrush(RGB(32,36,44));muted=CreateSolidBrush(RGB(125,136,151));
+        title_font=CreateFontW(-px(19),0,0,0,600,0,0,0,DEFAULT_CHARSET,0,0,CLEARTYPE_QUALITY,0,L"Segoe UI");
+        body_font=CreateFontW(-px(14),0,0,0,400,0,0,0,DEFAULT_CHARSET,0,0,CLEARTYPE_QUALITY,0,L"Microsoft YaHei UI");
         WNDCLASSW klass={0};klass.lpfnWndProc=procedure;klass.hInstance=instance;
         klass.hbrBackground=background;klass.lpszClassName=L"ToBe.NativeLoading";
         if(RegisterClassW(&klass)) {
             splash=CreateWindowExW(WS_EX_TOOLWINDOW,klass.lpszClassName,L"ToBe",WS_POPUP,
-                (GetSystemMetrics(SM_CXSCREEN)-width)/2,(GetSystemMetrics(SM_CYSCREEN)-height)/2,
+                work.left+(work.right-work.left-width)/2,work.top+(work.bottom-work.top-height)/2,
                 width,height,NULL,NULL,instance,NULL);
             if(splash){ShowWindow(splash,SW_SHOWNOACTIVATE);UpdateWindow(splash);}
         }
@@ -86,6 +107,8 @@ int WINAPI wWinMain(HINSTANCE instance,HINSTANCE previous,LPWSTR arguments,int d
     if(body_font)DeleteObject(body_font);
     if(background)DeleteObject(background);
     if(accent)DeleteObject(accent);
+    if(panel)DeleteObject(panel);
+    if(muted)DeleteObject(muted);
     /* Waiting preserves normal process lifetime for shortcuts and updaters. */
     WaitForSingleObject(child.hProcess,INFINITE);DWORD exit_code=0;
     GetExitCodeProcess(child.hProcess,&exit_code);CloseHandle(child.hProcess);return (int)exit_code;

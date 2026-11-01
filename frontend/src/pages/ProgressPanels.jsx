@@ -1,7 +1,7 @@
 import {compareCompetitionNewest} from '@/lib/competitionOrder.js';
 import StickerCanvas from '@/components/StickerCanvas.jsx';
 import MedalEmblem,{titleMedalIndex} from '@/components/MedalEmblem.jsx';
-import {Gift} from 'lucide-react';
+import {Gift,EyeOff} from 'lucide-react';
 import CatalogName from '@/components/CatalogName.jsx';
 import {StreakFlame} from '@/components/PracticeStreak.jsx';
 import {useDifficultyDisplay} from '@/components/DifficultyDisplay.jsx';
@@ -74,14 +74,14 @@ export function AchievementPanel({ achievements = [], newIds = [], onSeen, onCla
     claiming.current=true;setPending(item.id);setError('');
     try{await onClaim(item.id);}catch(issue){setError(issue.message);}finally{claiming.current=false;setPending(null);}
   }
-  const items=list(achievements).map(item=>({...item,name:acText(item.name),description:achievementText(item.description)})).filter(item=>filter==='all'||(filter==='unlocked'?item.unlocked:!item.unlocked)).slice().sort((left,right)=>Number(right.unlocked&&!right.rewardClaimed)-Number(left.unlocked&&!left.rewardClaimed)||Number(right.unlocked)-Number(left.unlocked));
+  const items=list(achievements).filter(item=>!item.hidden||item.unlocked).map(item=>({...item,name:acText(item.name),description:achievementText(item.description)})).filter(item=>filter==='all'||(filter==='unlocked'?item.unlocked:!item.unlocked)).slice().sort((left,right)=>Number(right.unlocked&&!right.rewardClaimed)-Number(left.unlocked&&!left.rewardClaimed)||Number(right.unlocked)-Number(left.unlocked));
   return <div className="achievement-panel"><div className="ranking-tabs" role="group" aria-label="成就筛选">{[['all','全部成就'],['unlocked','已达成'],['pending','待达成']].map(([value,label])=><button className={filter===value?'active':''} aria-pressed={filter===value} key={value} onClick={()=>setFilter(value)}>{label}</button>)}</div>
     <div className="progress-achievements">{items.map(item=>{
       const isNew=item.unlocked&&fresh.has(item.id)&&!seen.has(item.id);
       const rewardXp=item.earnedRewardXp??(item.rewardXp||item.legacyAwardedXp||0);
       return <div className={`progress-achievement${item.unlocked?' progress-unlocked':''}${isNew?' progress-achievement-new':''}`} key={item.id} data-achievement-id={item.id} tabIndex={isNew?0:undefined} onMouseEnter={()=>markSeen(item.id)} onFocus={()=>markSeen(item.id)}>
         {item.rewardClaimed&&item.rewardTitle?<MedalEmblem index={titleMedalIndex(item.rewardTitle)} variant={item.rewardTitle.category} size={28} label={item.rewardTitle.name}/>:<AchievementIcon achievement={item}/>}
-        <div className="achievement-card-content"><div className="progress-achievement-name"><strong title={item.name}>{item.name}</strong>{item.unlocked&&item.unlockedAt&&<time dateTime={item.unlockedAt}>{dateLabel(item.unlockedAt)}</time>}</div>
+        <div className="achievement-card-content"><div className="progress-achievement-name"><strong title={item.name}>{item.name}</strong>{item.hidden&&<Tooltip text="隐藏成就"><EyeOff size={14} aria-label="隐藏成就"/></Tooltip>}{item.unlocked&&item.unlockedAt&&<time dateTime={item.unlockedAt}>{dateLabel(item.unlockedAt)}</time>}</div>
           <p>{item.description}</p>{!item.unlocked&&<><Meter value={item.target?item.progress/item.target*100:0} label={`${item.name}完成进度`}/><span className="progress-muted achievement-progress-count">{number(item.progress)} / {number(item.target)}</span></>}
           {item.unlocked&&<div className="achievement-reward-row">{rewardXp>0&&<span className="achievement-reward">任务奖励 · +{number(rewardXp)} XP</span>}{!item.rewardClaimed&&<Tooltip text={item.rewardTitle?.name||'领取奖励'}><button type="button" className="progress-button achievement-claim" aria-label={`领取${item.name}奖励`} disabled={Boolean(pending)||!onClaim} onClick={()=>claim(item)}>{pending===item.id?'领取中…':'领取奖励'}</button></Tooltip>}</div>}
         </div>

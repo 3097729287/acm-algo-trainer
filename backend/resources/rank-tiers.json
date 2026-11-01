@@ -1,0 +1,15 @@
+{
+  "revision": "2026-11-02-king-2000",
+  "scale": "CF-reference-ability",
+  "tiers": [
+    {"name": "黑铁", "minimum": 0},
+    {"name": "青铜", "minimum": 800},
+    {"name": "白银", "minimum": 950},
+    {"name": "黄金", "minimum": 1100},
+    {"name": "翡翠", "minimum": 1250},
+    {"name": "钻石", "minimum": 1400},
+    {"name": "大师", "minimum": 1600},
+    {"name": "宗师", "minimum": 1800},
+    {"name": "王者", "minimum": 2000}
+  ]
+}

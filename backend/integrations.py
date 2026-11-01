@@ -258,7 +258,8 @@ class IntegrationService:
             value = [self.state['rows'], self.state['difficultyMetadata'],
                      self.state['settings']['minDifficulty'], self.state['settings']['maxDifficulty'],
                      self.dates.public, self.dates.by_url]
-            return hashlib.sha256(json.dumps(value, ensure_ascii=False, sort_keys=True).encode()).digest()
+            from public_signature import digest
+            return digest(value)
 
     def accepted_records(self):
         """Goal allocation only needs acceptance identities and timestamps."""

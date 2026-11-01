@@ -1,0 +1,432 @@
+{
+  "binary-search": [
+    {
+      "pid": "P2249",
+      "title": "查找：重复值的第一次出现",
+      "kind": "lookup",
+      "values": [
+        1,
+        3,
+        3,
+        3,
+        5
+      ],
+      "parameter": 3,
+      "recognize": "原序列已经非递减；询问第一次出现的 1 开始编号，而不是任意一次命中。",
+      "state": "left..right 夹住第一个 ≥query 的边界；right=n 可以表示没有这样的元素。",
+      "changes": "先求 lower 边界，再检查未越界且相等，最后才把 0 开始位置加 1。",
+      "question": "当前数据查询 3，按原题编号应该输出多少？",
+      "answer": 2,
+      "line": "int p=lower_position(a,q); cout<<(p<n&&a[p]==q?p+1:-1);",
+      "lineReason": "lower 给出的是第一个不小于的位置；查 4 时落在数值 5，必须输出 -1。",
+      "bug": "数组只有 [5]，查询 8，为什么不能直接读 a[p]？",
+      "bugReason": "p 等于 n=1，是哨兵。先检查 p<n；短路 && 可以阻止越界读取。",
+      "tests": [
+        "全相等时返回第一个位置",
+        "查询比最小值小、比最大值大",
+        "查询位于两个现有值之间"
+      ],
+      "problemId": "luogu-training-P2249",
+      "url": "https://www.luogu.com.cn/problem/P2249",
+      "samples": [
+        {
+          "input": "11 3\n1 3 3 3 5 7 9 11 13 15 15\n1 3 6",
+          "name": "样例 1",
+          "output": "1 2 -1 "
+        }
+      ],
+      "statementSha256": "43071afad66d509dc3f01731177cb246ca43a19be198e6787854e6d80be7c613",
+      "referenceCode": "#include <bits/stdc++.h>\n#include <cassert>\nusing namespace std;\n// 两种边界分别证明：第一个 >=x；第一个 >x。空数组都返回 0。\nint lower_position(const vector<long long>& a,long long x) {\n    int left=0,right=a.size();\n    while(left<right){int middle=left+(right-left)/2;\n        if(a[middle]>=x)right=middle;else left=middle+1;}\n    return left;\n}\nint upper_position(const vector<long long>& a,long long x) {\n    int left=0,right=a.size();\n    while(left<right){int middle=left+(right-left)/2;\n        if(a[middle]>x)right=middle;else left=middle+1;}\n    return left;\n}\nint main(){ios::sync_with_stdio(false);cin.tie(nullptr);int n,m;cin>>n>>m;\n    vector<long long>a(n);for(auto&x:a)cin>>x;\n    while(m--){long long q;cin>>q;int p=lower_position(a,q);\n        cout<<(p<n&&a[p]==q?p+1:-1)<<' ';}}\n",
+      "programSha256": "d28e94dd45cd88b4798fb206e14b7605b0ad2a754680fbc6c462ba12ebfd5c33"
+    },
+    {
+      "pid": "B3691",
+      "title": "切割：查找对象与片段计数分开",
+      "kind": "cuts",
+      "values": [
+        3,
+        4,
+        3,
+        5,
+        2,
+        6
+      ],
+      "parameter": 3,
+      "extra": [
+        3,
+        5,
+        6
+      ],
+      "recognize": "原数组的连续性必须保留；只把切割值集合排序，用二分判断每个原值是否被删除。",
+      "state": "inSegment 表示前一个原位置是否仍属于保留段；cut 集合用于成员查询，不改变 a 的顺序。",
+      "changes": "二分只决定删不删；遇到一个保留元素且前面不在保留段时，片段数才加一。相邻切割点之间不生成空片段。",
+      "question": "原数组 [3,4,3,5,2,6]，删除数值集合 {3,5,6} 后有几个非空片段？",
+      "answer": 2,
+      "line": "if(!cut){answer+=!inSegment;inSegment=true;}else inSegment=false;",
+      "lineReason": "保留下来的原位置是 4 与 2，虽然去掉其它数字后看似相邻，但原来被切割点分开，必须算两段。",
+      "bug": "为什么不能先把原数组排序，再在排好序的数组上数段？",
+      "bugReason": "排序会改变原相邻关系。二分的有序对象是切割集合，原数组仍按原顺序扫描。",
+      "tests": [
+        "全部元素被删时为零段",
+        "没有元素被删时为一段",
+        "首尾与连续多个切割点不制造空段"
+      ],
+      "problemId": "luogu-training-B3691",
+      "url": "https://www.luogu.com.cn/problem/B3691",
+      "samples": [
+        {
+          "input": "6 2\n3 4 3 5 2 6\n5 4",
+          "name": "样例 1",
+          "output": "3"
+        },
+        {
+          "input": "6 3\n3 4 3 5 2 6\n3 5 6",
+          "name": "样例 2",
+          "output": "2"
+        }
+      ],
+      "statementSha256": "0d35f9d4ffc339c89e8e7a6e13d2f8732a118e9fa515d2f88007f11689d717a1",
+      "referenceCode": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nint n,m;cin>>n>>m;vector<int>a(n),cuts(m);for(int &x:a)cin>>x;for(int &x:cuts)cin>>x;sort(cuts.begin(),cuts.end());\n// 只在一个非空保留段的开头计数。\nint answer=0;bool inside=false;\nfor(int x:a){auto found=lower_bound(cuts.begin(),cuts.end(),x);bool removed=found!=cuts.end()&&*found==x;\n    if(!removed&&!inside)++answer;inside=!removed;\n}\ncout<<answer<<'\\n';\n    return 0;\n}\n",
+      "programSha256": "8141ecce7944244d86abc6d2412417b5c82452ddb3b6ffc6b39857f90a58b4e1"
+    },
+    {
+      "pid": "P1678",
+      "title": "志愿：分界两侧才是最近候选",
+      "kind": "nearest",
+      "values": [
+        513,
+        598,
+        567,
+        689
+      ],
+      "parameter": 550,
+      "recognize": "每名学生独立选学校，学校可以重复推荐；先对学校分数线排序，学生次序无须改变。",
+      "state": "p 为第一个学校分数线 ≥学生分数的位置；最近值只可能在 p 或 p-1。",
+      "changes": "目标从是否存在改为绝对差最小：分别检查右侧候选与存在的前驱，不把 p==n 当成没有可推荐学校。",
+      "question": "学校为 [513,598,567,689]，学生估分 550，最小不满意度是多少？",
+      "answer": 17,
+      "line": "if(p<n)best=min(best,a[p]-q);if(p>0)best=min(best,q-a[p-1]);",
+      "lineReason": "排序后分界在 567，左侧最近为 513；17 比 37 小。更远的同侧学校不会更优。",
+      "bug": "学生分数高于全部学校，lower 返回 n，为什么答案仍然存在？",
+      "bugReason": "右候选不存在，最后一所学校仍是合法的左候选；访问 a[n] 才是错误。",
+      "tests": [
+        "学生低于全部学校",
+        "学生高于全部学校",
+        "正好等于某所学校时差为零",
+        "累计十万名学生用 64 位"
+      ],
+      "problemId": "luogu-training-P1678",
+      "url": "https://www.luogu.com.cn/problem/P1678",
+      "samples": [
+        {
+          "input": "4 3\n513 598 567 689\n500 600 550\n",
+          "name": "样例 1",
+          "output": "32"
+        }
+      ],
+      "statementSha256": "8e50265a46b9c4607c1587cebff6638c576a186fcd11e4373d4ad4b43ef89ac0",
+      "referenceCode": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nint m,n;cin>>m>>n;vector<long long>schools(m);for(auto &x:schools)cin>>x;sort(schools.begin(),schools.end());long long answer=0;\n// 二分位置及前驱是两侧各自最近的学校。\nwhile(n--){long long x;cin>>x;int p=(int)(lower_bound(schools.begin(),schools.end(),x)-schools.begin());long long best=LLONG_MAX;\n    if(p<m)best=min(best,schools[p]-x);if(p>0)best=min(best,x-schools[p-1]);answer+=best;\n}\ncout<<answer<<'\\n';\n    return 0;\n}\n",
+      "programSha256": "c736d142995970d8d731a578560509531bcbfb483c358b91d738c0c64c53d03e"
+    },
+    {
+      "pid": "P2920",
+      "title": "时间安排：单调判定以后再找更直接的式子",
+      "kind": "schedule",
+      "values": [
+        3,
+        8,
+        5,
+        1
+      ],
+      "extra": [
+        5,
+        14,
+        20,
+        16
+      ],
+      "parameter": 2,
+      "recognize": "所有工作都必须完成；选择最晚开始时间。推迟开始只会让完成时间更晚，可行性先真后假。",
+      "state": "按截止时间排序后，prefixDuration 是已安排工作的总时长；每个前缀要求 start+prefixDuration≤deadline。",
+      "changes": "可以找最后一个可行 start；进一步消掉二分，直接求所有 deadline-prefixDuration 的最小值。负值说明从 0 开始也做不完，输出 -1。",
+      "question": "当前四份工作的最晚可行开始时间是多少？",
+      "answer": 2,
+      "line": "elapsed+=duration;latest=min(latest,deadline-elapsed);",
+      "lineReason": "相邻逆序截止时间的工作交换后不会使更早截止的工作更晚，因此截止时间升序可行；每个前缀都施加一个上界。",
+      "bug": "只检查最后一份工作的总截止时间，可能漏掉什么？",
+      "bugReason": "中间某个早截止前缀可能已经超时，最后的宽松截止不能修复它。二分不是一定比直接式子更好。",
+      "tests": [
+        "第一份工作已经来不及",
+        "恰好 0 时刻开始可行",
+        "多个同截止时间",
+        "一个早截止前缀限制全部安排"
+      ],
+      "problemId": "luogu-training-P2920",
+      "url": "https://www.luogu.com.cn/problem/P2920",
+      "samples": [
+        {
+          "input": "4 \n3 5 \n8 14 \n5 20 \n1 16 \n",
+          "name": "样例 1",
+          "output": "2 \n"
+        }
+      ],
+      "statementSha256": "1e0a85254d7c74dc1ed2e0fd9031dfc04837b8adbedc82d72cc7cd03da4a5ff3",
+      "referenceCode": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nint n;cin>>n;vector<pair<long long,long long>>jobs(n);for(auto &job:jobs){cin>>job.second>>job.first;}sort(jobs.begin(),jobs.end());\n// 每个截止前缀都对开工时间提出一个上限。\nlong long elapsed=0,latest=LLONG_MAX;\nfor(auto job:jobs){elapsed+=job.second;latest=min(latest,job.first-elapsed);}\ncout<<(latest<0?-1:latest)<<'\\n';\n    return 0;\n}\n",
+      "programSha256": "64d73bbeab8a46f1c8e09b8a6715c2c3000d1c81cd879587057d2c169bc2e56c"
+    },
+    {
+      "pid": "P8873",
+      "title": "市场波段：数值不单调，段尾位置才单调",
+      "kind": "wave",
+      "values": [],
+      "parameter": 10,
+      "recognize": "贸易差会来回涨跌，不能对贸易差本身二分。先按越来越长的波段定位第 k 项。",
+      "state": "波段 i 从 0 开始，长度为 4i+1；到该段末尾共 (i+1)(2i+1) 项。这个累计长度严格增加。",
+      "changes": "找第一个段尾位置≥k，再令 t=k-i(2i-1)-1，转成 0 开始段内偏移；分别按上升、中间下降、末尾回升求值。",
+      "question": "按原题从 1 开始，第 10 项是什么？",
+      "answer": 1,
+      "line": "long long i=first_end_at_least(k),t=k-i*(2*i-1)-1;",
+      "lineReason": "前 3 段末尾为 1、6、15，第 10 项在 i=2 的段内，t=3，数值为 2i-t=1。",
+      "bug": "为什么不能直接对“第 k 项≥某个数”二分 k？",
+      "bugReason": "同一波段会升降，真假值反复改变；累计段长的判定才具有单调边界。",
+      "tests": [
+        "k 恰好在段尾",
+        "k 是下一段开头",
+        "段内三个转折点",
+        "4×10^18 的乘法先核对 64 位范围"
+      ],
+      "problemId": "luogu-training-P8873",
+      "url": "https://www.luogu.com.cn/problem/P8873",
+      "samples": [
+        {
+          "input": "9\n1\n10\n100\n1000\n10000\n100000\n1000000\n10000000\n100000000",
+          "name": "样例 1",
+          "output": "0\n1\n6\n-9\n-11\n-128\n406\n1629\n5154"
+        }
+      ],
+      "statementSha256": "6db7f134af0d940c8a10de2db3e9e54752d7e40a0695dee7e7ead7aab6657bcd",
+      "referenceCode": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nint queries;cin>>queries;while(queries--){long long k;cin>>k;long long lo=0,hi=2000000000LL;\n    while(lo<hi){long long mid=(lo+hi)/2;if((mid+1)*(2*mid+1)>=k)hi=mid;else lo=mid+1;}\n    // 找到波段后，转换为从零开始的段内偏移。\n    long long i=lo,t=k-i*(2*i-1)-1;\n    if(t<=i)cout<<t<<'\\n';else if(t<=3*i)cout<<2*i-t<<'\\n';else cout<<t-4*i<<'\\n';\n}\n    return 0;\n}\n",
+      "programSha256": "0d2921e7120fe7207517207fc8f44c07b340dceb62bd7f8200cca6e4ecc9a3fa"
+    }
+  ],
+  "window-extrema": [
+    {
+      "pid": "P1886",
+      "title": "滑动窗口：最小与最大分两行",
+      "kind": "extrema",
+      "values": [
+        1,
+        3,
+        -1,
+        -3,
+        5,
+        3,
+        6,
+        7
+      ],
+      "parameter": 3,
+      "recognize": "固定窗口向右移动，要求全部最小值和全部最大值，数组允许负数。",
+      "state": "两类候选下标分别保持值递增、递减；同一窗口的过期边界相同。",
+      "changes": "保留最小值函数，另建最大值的支配规则；两次扫描后按两行输出，不交错输出。",
+      "question": "当前完整窗口有多少个？",
+      "answer": 6,
+      "line": "while(!q.empty()&&a[q.back()]<=a[right])q.pop_back();",
+      "lineReason": "这行属于最大值队列：新值更大且更晚到期，旧小值此后不会成为最大值。",
+      "bug": "只把最小值取负来求最大值，读取 -2147483648 时要注意什么？",
+      "bugReason": "32 位最小整数取负会溢出。直接比较大小，或先转换到更宽类型；本模板直接维护最大候选。",
+      "tests": [
+        "k=1 与 k=n",
+        "全相等、递增、递减",
+        "最小负整数",
+        "输出顺序与行数"
+      ],
+      "problemId": "luogu-training-P1886",
+      "url": "https://www.luogu.com.cn/problem/P1886",
+      "samples": [
+        {
+          "input": "8 3\n1 3 -1 -3 5 3 6 7",
+          "name": "样例 1",
+          "output": "-1 -3 -3 -3 3 3\n3 3 5 5 6 7"
+        }
+      ],
+      "statementSha256": "d0db734217c49522415e3c011a4c648c05e57a1a1d54e902fde356d2c7156027",
+      "referenceCode": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nint n,k;cin>>n>>k;vector<int>a(n);for(int &x:a) cin>>x;\nfor(int maximum=0;maximum<2;++maximum){deque<int>queue;bool first=true;\n    for(int i=0;i<n;++i){while(!queue.empty()&&queue.front()<i-k+1) queue.pop_front();while(!queue.empty()&&(maximum?a[queue.back()]<=a[i]:a[queue.back()]>=a[i])) queue.pop_back();queue.push_back(i);if(i>=k-1){if(!first) cout<<' ';first=false;cout<<a[queue.front()];}}\n    cout<<'\\n';\n}\n    return 0;\n}\n",
+      "programSha256": "314a25cc82b88d27d7b637f9325a60457ae162014a9af7b38eebbd1475237e76"
+    },
+    {
+      "pid": "P2251",
+      "title": "质量检测：完整产品窗口才输出",
+      "kind": "quality",
+      "values": [
+        16,
+        5,
+        6,
+        9,
+        5,
+        13,
+        14,
+        20,
+        8,
+        12
+      ],
+      "parameter": 4,
+      "recognize": "每段恰好 M 件产品，输出最差分数；开头不足 M 件不是合法产品窗口。",
+      "state": "候选下标仍递增，分数递增；right+1≥M 是输出门槛，不是入队门槛。",
+      "changes": "只保留最小值一条队列，输出 N-M+1 行；不要把上一题的最大值行一并输出。",
+      "question": "当前数据的最后一个窗口最小值是多少？",
+      "answer": 8,
+      "line": "if(right+1>=width)cout<<a[q.front()]<<\"\\n\";",
+      "lineReason": "最后一个窗口为 [14,20,8,12]，最小值是 8。提前输出会多出 M-1 行。",
+      "bug": "队首下标恰好等于 right-M，应保留还是移出？",
+      "bugReason": "当前完整窗口的左端为 right-M+1，right-M 已过期，须移出。",
+      "tests": [
+        "N=M 时只输出一行",
+        "新最小值恰好进入窗口",
+        "旧最小值刚过期",
+        "相等值连续出现"
+      ],
+      "problemId": "luogu-training-P2251",
+      "url": "https://www.luogu.com.cn/problem/P2251",
+      "samples": [
+        {
+          "input": "10 4\n16 5 6 9 5 13 14 20 8 12\n",
+          "name": "样例 1",
+          "output": "5\n5\n5\n5\n5\n8\n8\n"
+        }
+      ],
+      "statementSha256": "364a11469f050329f6bde7ab4726f465d8f0682de6e2727282e0216cd983f8b6",
+      "referenceCode": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nint n,m;cin>>n>>m;deque<pair<long long,int>>queue;\nfor(int i=0;i<n;++i){long long x;cin>>x;while(!queue.empty()&&queue.front().second<i-m+1) queue.pop_front();while(!queue.empty()&&queue.back().first>=x) queue.pop_back();queue.push_back({x,i});if(i>=m-1) cout<<queue.front().first<<'\\n';}\n    return 0;\n}\n",
+      "programSha256": "0a42a584a1dc926c5bf98186ec122b18dedeaeeb98d204e46e33928984eb2326"
+    },
+    {
+      "pid": "P1440",
+      "title": "之前 m 项：查询必须在插入当前项以前",
+      "kind": "previous",
+      "values": [
+        7,
+        8,
+        1,
+        4,
+        3,
+        2
+      ],
+      "parameter": 2,
+      "recognize": "第 i 行问 a[i] 之前最多 m 项，不包含 a[i]；首项没有前驱时输出 0。",
+      "state": "查询前队列只包含 [max(0,i-m),i) 的候选；不足 m 项也有输出。",
+      "changes": "先删除 <i-m 的旧下标，再读队首，最后才插入当前项。与标准完整窗口相比，过期边界和输出时机都不同。",
+      "question": "当前数据的第三行应输出多少？",
+      "answer": 7,
+      "line": "answer=queue.empty()?0:a[queue.front()]; // 然后才插入 a[i]",
+      "lineReason": "第三项自身是 1，但询问的前两项为 7、8，所以答案是 7。提前插入会泄漏当前项。",
+      "bug": "i=2、m=2，0 开始下标 0 是否已经过期？",
+      "bugReason": "前两项的合法下标是 [0,2)，下标 0 仍合法。这里移出 <i-m，不能照搬完整窗口的 ≤i-width。",
+      "tests": [
+        "第一行必须是 0",
+        "开始不足 m 项也输出",
+        "当前项特别小时不能提前影响本行",
+        "i-m 下标仍合法"
+      ],
+      "problemId": "luogu-training-P1440",
+      "url": "https://www.luogu.com.cn/problem/P1440",
+      "samples": [
+        {
+          "input": "6 2\n7 8 1 4 3 2\n",
+          "name": "样例 1",
+          "output": "0\n7\n7\n1\n1\n3 \n"
+        }
+      ],
+      "statementSha256": "12c2ffe11ab38abacf9b23b4a42445cd67f7e27936f875e59dfc83bc6a99a3c2",
+      "referenceCode": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nint n,m;cin>>n>>m;deque<pair<int,int>>queue;\nfor(int i=1;i<=n;++i){int x;cin>>x;while(!queue.empty()&&queue.front().second<i-m) queue.pop_front();cout<<(queue.empty()?0:queue.front().first)<<'\\n';while(!queue.empty()&&queue.back().first>=x) queue.pop_back();queue.push_back({x,i});}\n    return 0;\n}\n",
+      "programSha256": "f5ffdc535bf1f1388ed2c56eb06e26bc524cc8e6b6ed40e903831876003ab81c"
+    },
+    {
+      "pid": "P1714",
+      "title": "切蛋糕：维护前缀的最小值，不允许空段",
+      "kind": "bounded-sum",
+      "values": [
+        1,
+        -2,
+        3,
+        -4,
+        5,
+        -6
+      ],
+      "parameter": 3,
+      "recognize": "有负数，选至少一块、至多 m 块的连续段；正数和窗口的伸缩依据已经失效。",
+      "state": "以 i 结束的段和为 prefix[i]-prefix[j]，j∈[max(0,i-m),i-1]；维护这些前缀的最小值。",
+      "changes": "入队对象从原元素改为前缀下标。先过期、再查询、最后插入 prefix[i]，保证 j<i；初始队列含 prefix[0]=0。",
+      "question": "当前数据长度至多 3 的非空段，最大和是多少？",
+      "answer": 5,
+      "line": "best=max(best,prefix[i]-prefix[queue.front()]); // 先查再插入 i",
+      "lineReason": "单块 [5] 可取。把当前前缀提前插入会得到长度为 0 的假段；全负数组时尤其容易把错误的 0 当答案。",
+      "bug": "数组 [-4,-2,-7]、m=2，把 best 初始化成 0 会怎样？",
+      "bugReason": "正确答案为 -2；0 来自不允许的空段。用极小初值，并且只从合法 j 查询。",
+      "tests": [
+        "全负且至少选一块",
+        "最佳段短于 m",
+        "长度恰好 m",
+        "最优从第一项开始，必须保留 prefix[0]"
+      ],
+      "problemId": "luogu-training-P1714",
+      "url": "https://www.luogu.com.cn/problem/P1714",
+      "samples": [
+        {
+          "input": "5 2\n1 2 3 4 5",
+          "name": "样例 1",
+          "output": "9"
+        },
+        {
+          "input": "6 3\n1 -2 3 -4 5 -6",
+          "name": "样例 2",
+          "output": "5"
+        }
+      ],
+      "statementSha256": "3250b02f491fb13b033fa9fa7221c150d92ce5845f2e768199f9930338ef5cc5",
+      "referenceCode": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nint n,m;cin>>n>>m;vector<long long>prefix(n+1);deque<int>queue;queue.push_back(0);long long answer=LLONG_MIN;\nfor(int i=1;i<=n;++i){int x;cin>>x;prefix[i]=prefix[i-1]+x;while(queue.front()<i-m) queue.pop_front();answer=max(answer,prefix[i]-prefix[queue.front()]);while(!queue.empty()&&prefix[queue.back()]>=prefix[i]) queue.pop_back();queue.push_back(i);}\ncout<<answer<<'\\n';\n    return 0;\n}\n",
+      "programSha256": "073fdc95a67a712da46c87386f31da072d289a162c8866c3388ae02a12746daa"
+    },
+    {
+      "pid": "CF547B",
+      "title": "所有宽度：改用最小值的可扩展边界",
+      "kind": "all-widths",
+      "values": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "parameter": 3,
+      "recognize": "同时询问每一种窗口长度中的最大最小值。对每个长度重跑队列会达到 O(n²)，需要改变组织方式。",
+      "state": "对每个元素找左右第一个严格更小值；它能作为最小值覆盖的最长长度是 right-left-1。",
+      "changes": "两次单调栈求严格更小边界；把元素贡献给其最长长度，再从大长度向小长度传播最大值。不是在原队列外简单套一层宽度循环。",
+      "question": "当前数组中，所有长度 3 窗口的最小值，最大能是多少？",
+      "answer": 4,
+      "line": "int length=right[i]-left[i]-1;answer[length]=max(answer[length],a[i]);",
+      "lineReason": "[4,5,4] 的最小值为 4；不存在长度 3 且全部元素大于 4 的窗口。已知长度 L 的可行段可截成更短段，最小值不会变小，所以需要逆向传播。",
+      "bug": "已为长度 5 记录一个值，却没有任何元素直接记录长度 4，是否应输出零？",
+      "bugReason": "不应。把长度 5 的段截短即可得到至少相同的最小值；用 answer[len]=max(answer[len],answer[len+1]) 补齐。",
+      "tests": [
+        "全部相等时每个长度答案相同",
+        "严格递增与递减",
+        "左右界都不存在",
+        "每个宽度对照枚举的所有连续段"
+      ],
+      "problemId": "luogu-training-CF547B",
+      "url": "https://www.luogu.com.cn/problem/CF547B",
+      "samples": [
+        {
+          "input": "10\n1 2 3 4 5 4 3 2 1 6\n",
+          "name": "样例 1",
+          "output": "6 4 4 3 3 2 2 1 1 1 \n"
+        }
+      ],
+      "statementSha256": "db1bb133b09cdf490449730881e1dbf17f7286f3284621abc731a5e9dcdb7a1d",
+      "referenceCode": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\nint n;cin>>n;vector<int>a(n),left(n),right(n),stack,answer(n+1);for(int &x:a) cin>>x;\nfor(int i=0;i<n;++i){while(!stack.empty()&&a[stack.back()]>=a[i]) stack.pop_back();left[i]=stack.empty()?-1:stack.back();stack.push_back(i);}\nstack.clear();for(int i=n-1;i>=0;--i){while(!stack.empty()&&a[stack.back()]>=a[i]) stack.pop_back();right[i]=stack.empty()?n:stack.back();stack.push_back(i);}\nfor(int i=0;i<n;++i){int length=right[i]-left[i]-1;answer[length]=max(answer[length],a[i]);}\nfor(int length=n-1;length>=1;--length) answer[length]=max(answer[length],answer[length+1]);\nfor(int length=1;length<=n;++length) cout<<(length==1?\"\":\" \")<<answer[length];cout<<'\\n';\n    return 0;\n}\n",
+      "programSha256": "8656cd7d203d1c248f56c1e53ebe60406516bddfd18f8a2144b2c6160034d915"
+    }
+  ]
+}

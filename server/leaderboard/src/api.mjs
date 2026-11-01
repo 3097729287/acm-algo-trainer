@@ -188,7 +188,7 @@ export async function handle(request, env) {
       return json({ account: publicAccount(user), stateRevision: await env.STORE.stateRevision(user.user_id), singleSession: true });
     }
     if(path.startsWith('/v1/stickers')||path.startsWith('/v1/duels')) {
-      if(!env.STORE.gameplay||!await env.STORE.gameplay.available())throw new ApiError(503,'?????????????');
+      if(!env.STORE.gameplay||!await env.STORE.gameplay.available())throw new ApiError(503,'在线对战和贴纸服务尚未就绪');
       const game=env.STORE.gameplay,owner=user.user_id,auth=tokenHash(credentials(request).token);
       await limit(env,'gameplay:'+owner,240,60,Math.floor(now/1000));
       if(path==='/v1/stickers'&&request.method==='GET')return json(await game.stickers(owner));
@@ -199,7 +199,7 @@ export async function handle(request, env) {
         if(sticker){const value=await body(request,['requestId','unitId','revision','x','y','angle','day','taskId','xp','minDifficulty'],4096);return json(await game.stickerWrite(owner,auth,sticker[1],value,now));}
         if(duel){const value=await body(request,['requestId','handle','ticket','matchId'],2048);return json(await game.duelWrite(owner,auth,duel[1],value,now));}
       }
-      throw new ApiError(404,'????????');
+      throw new ApiError(404,'没有找到这项在线操作');
     }
     if(path.startsWith('/v2/accounts/state')) {
       if(!env.STORE.chunks||!await env.STORE.chunks.available())throw new ApiError(404,'分块同步暂不可用');

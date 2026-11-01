@@ -259,9 +259,19 @@ def run_desktop() -> int:
                     except Exception as issue:
                         LOG.warning('Legacy migration deferred; original data retained: %s', type(issue).__name__)
                 server=start_server(port=0,dist_dir=FRONTEND,admin_mode=ADMIN_MODE,integration_auto_start=False if os.environ.get('TB_OFFLINE')=='1' else None)
+                if server.accounts is not None:
+                    # Start the original guarded restore while WebView loads
+                    # its assets; the UI still waits for authenticated evidence.
+                    server.accounts.snapshot(background=True)
                 service_thread=threading.Thread(target=server.serve_forever,name='tb-local-service',daemon=True)
                 service_thread.start()
                 LOG.info('Local backend ready')
+                def warm_catalog():
+                    try:
+                        server.store.data_response_bytes(compact=True,compressed=True)
+                    except Exception as issue:
+                        LOG.info('Catalog warmup deferred: %s',type(issue).__name__)
+                threading.Thread(target=warm_catalog,name='tb-catalog-warmup',daemon=True).start()
                 # 桌面全屏：受本机写接口保护，通过 pywebview 原生 toggle_fullscreen 实现。
                 bind_desktop_fullscreen(server, window)
                 def push_status(name, value):

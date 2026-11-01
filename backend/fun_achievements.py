@@ -74,4 +74,5 @@ def fun_achievements(training,records):
     for target in (3,7,30):
         times=sorted(stamp for stamp in days.values() if stamp)
         add(f'daily-leader-{target}','每日榜首',f'累计获得 {target} 天今日排行榜第一名',len(days),target,times[target-1] if len(times)>=target else None)
-    return result
+    from fun_moments import from_facts
+    return result+from_facts(training,records)

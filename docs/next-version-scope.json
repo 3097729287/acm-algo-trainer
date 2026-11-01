@@ -26,6 +26,14 @@
         "epic": "purple",
         "legendary": "multicolor gemstone"
       }
+    },
+    {
+      "id": "fun-hidden-achievements",
+      "description": "用户追加有趣成就与隐藏成就。14 个真实操作与结果触发的成就，其中 8 个解锁前不下发条件；按账号持久保存，手动领取 XP 且并发幂等，不伪造原站通过或学习完成。"
+    },
+    {
+      "id": "rank-2000-king",
+      "description": "用户指定能力分 2000 为王者；其余段位由低到高采用 0/800/950/1100/1250/1400/1600/1800/2000。共用一份映射，不改变能力评估或已有 XP。"
     }
   ],
   "currentDomesticStable": "1.4.34",
@@ -49,12 +57,19 @@
     "oneTimeFullRepairBaseline": true
   },
   "activeFeatures": [
-    "problem-solving-templates",
     "wiki",
     "online-duel",
     "stickers",
-    "core7-editorials"
+    "fun-hidden-achievements",
+    "rank-2000-king"
   ],
+  "delegatedWork": {
+    "requestedOn": "2026-11-02",
+    "sourceBranch": "handoff/1.5.0-teaching-20261102",
+    "core7-editorials": "User moved content authorship to another window; current window stopped this work. See handoffs/core7-editorials.md.",
+    "problem-solving-templates": "User moved living-template authorship and lab courses to another window; current window stopped this work. See handoffs/living-templates.md.",
+    "finalIntegrationAndInstallation": "Remain with the current primary window; delegated windows must not install or change release feeds independently."
+  },
   "explicitFollowups": [
     "Full task-card rarity palettes, Clash Royale reference supplied by user",
     "Immediate complete window; actual content within 3 seconds, measured cold/restart",

@@ -2,7 +2,7 @@ import { LoaderCircle, LockKeyhole, UserRound } from 'lucide-react';
 import AvatarFrame from './AvatarFrame.jsx';
 import Tooltip from './Tooltip.jsx';
 import TierIcon from './TierIcon.jsx';
-import {rankIndex} from '@/lib/rankTiers.js';
+import {rankIndex,TIER_NAMES} from '@/lib/rankTiers.js';
 import './ProfileBadge.css';
 
 export const MAX_AVATAR_DATA_LENGTH = 48 * 1024;
@@ -42,7 +42,7 @@ export default function ProfileBadge({ growth, avatar, nickname, onClick, onAvat
       ? `经验值:${number(growth?.totalXp ?? growth?.xp)}/${number(capXp)} · 已达到最高等级`
       : `经验值:${number(currentXp)}/${number(nextXp)}`
     : '正在读取等级与经验值';
-  const rankName = !unlocked ? `${number(unlockLevel)} 级解锁段位` : qualified ? rank.tier || '黑铁' : '定级中';
+  const rankName = !unlocked ? `${number(unlockLevel)} 级解锁段位` : qualified ? TIER_NAMES[rankIndex(rank)] : '定级中';
   const ability = rank?.abilityScore ?? rank?.score;
   const minimumEvidence = Math.max(1, finite(rank?.minimumEvidence, 5));
   const rankText = !unlocked ? rankName : qualified

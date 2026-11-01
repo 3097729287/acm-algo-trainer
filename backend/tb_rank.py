@@ -6,9 +6,12 @@ never used to award a current skill tier or to rewrite a user's earned XP.
 from collections import defaultdict
 import datetime as dt
 import math
+import json
+from paths import resource
 from progression import SHANGHAI, parse_time
 
-TIERS = ('黑铁', '青铜', '白银', '黄金', '翡翠', '钻石', '大师', '宗师', '王者')
+_TIER_RULES=json.loads(resource('rank-tiers.json').read_text('utf-8'))
+TIERS=tuple(item['name'] for item in _TIER_RULES['tiers'])
 TITLES = ('编程入门', '基础研习', '算法实践', '结构分析', '构造与证明', '复杂度掌控', '算法设计', '竞赛研究', '算法专家')
 LEGACY_TIERS = ('黑铁', '青铜', '白银', '黄金', '铂金', '翡翠', '钻石', '大师', '宗师', '王者')
 LEGACY_TITLES = ('编程入门', '基础研习', '算法实践', '结构分析', '状态建模', '构造与证明', '复杂度掌控', '算法设计', '竞赛研究', '算法专家')
@@ -19,7 +22,7 @@ LEVEL_COSTS = (100, 100, 150, 150) + tuple(200 * level for level in range(5, LEV
 RANK_UNLOCK_LEVEL = 5
 RANK_UNLOCK_XP = sum(LEVEL_COSTS[:RANK_UNLOCK_LEVEL - 1])
 MIN_RANK_EVIDENCE = 5
-RANK_THRESHOLDS = (0, 800, 1000, 1200, 1600, 1800, 2000, 2100, 2200)
+RANK_THRESHOLDS=tuple(item['minimum'] for item in _TIER_RULES['tiers'])
 LEGACY_RANK_THRESHOLDS = (0, 300, 700, 1200, 1800, 2500, 3300, 4200, 5300, 6500)
 
 
