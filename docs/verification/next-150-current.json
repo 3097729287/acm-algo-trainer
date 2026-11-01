@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-01T23:30:06.776327+00:00",
+  "updatedAt": "2026-11-01T23:42:03.847481+00:00",
   "version": "1.5.0",
   "repairBaseline": "6907a65495b9e6519f5ace9747a412a78ea2ca06",
   "installed": false,
@@ -91,11 +91,39 @@
     "learningMergeBrowser": {
       "path": ".backups/next-150/learning-merge-ui-1.log",
       "sha256": "4024e6f30478b3c3e344c8427ed0885c10cfa5c4fd3496e4178a6134a46389ba"
+    },
+    "frozenContentCandidate": {
+      "path": ".backups/next-150/frozen-startup-d8975402-1/report.json",
+      "sha256": "f27a81f49d0c74c437a537e5b33e159396e3063de6e74e045b9e6b69bcfe7626"
+    },
+    "frozenNetworkFailure": {
+      "path": ".backups/next-150/frozen-startup-d8975402-2/launch-1/network.json",
+      "sha256": "1c3e391805f28a15ee49c8ccc7c6e5d6378f95a31f4a924e4557a2bf18b1d8e9"
+    },
+    "startupNavigationTargeted": {
+      "path": ".backups/next-150/startup-burst-navigation-1.log",
+      "sha256": "78791f932835c3a19e9bcf3ac30aec8165eea695f076b61f08bf08d0e5b5ceaa"
     }
   },
   "stickerGeometryCases": 1750,
   "packagedLoaderCppFrameworkMs": 43.68,
   "packagedServiceBackupRestoreRollback": true,
   "deliveredLearningBaseline": "4b0a96fe09a2763889805db27b68375f29250bc9",
-  "postLearningMergeTargetedPass": 60
+  "postLearningMergeTargetedPass": 60,
+  "frozenContentCandidate": {
+    "sourceCommit": "d8975402f8df9cf8304daffea63370e5d2eb368b",
+    "contentMilliseconds": [
+      2645.7,
+      2563.15
+    ],
+    "frameMilliseconds": [
+      32.82,
+      14.12
+    ],
+    "draftPreserved": true,
+    "originalSubmissions": 0,
+    "stabilityAccepted": false,
+    "reason": "Native screenshot review found two loopback connection refusals; queue fix awaits rebuilt verification"
+  },
+  "startupNavigationTargetedPass": 7
 }

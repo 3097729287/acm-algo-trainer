@@ -725,6 +725,8 @@ class Handler(BaseHTTPRequestHandler):
 
 
 class LocalServer(ThreadingHTTPServer):
+    request_queue_size = 64
+
     def browser_account_context(self):
         accounts = getattr(self, 'accounts', None)
         if accounts is not None:

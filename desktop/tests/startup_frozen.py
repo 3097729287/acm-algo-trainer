@@ -78,7 +78,9 @@ def main():
     parser.add_argument('--work-dir',type=Path,required=True)
     args=parser.parse_args();package=args.package.resolve(strict=True);folder=args.work_dir.resolve()
     owned=(ROOT/'.backups/next-150').resolve()
-    assert package.is_relative_to(owned) and folder.is_relative_to(owned)
+    assert package.is_relative_to(owned)
+    assert folder.is_relative_to(owned) or folder.is_relative_to((ROOT/'build').resolve())
+    assert not folder.exists(),'Use a fresh isolated fixture; existing evidence is retained'
     assert (package/'ToBe.exe').is_file() and (package/'ToBeLoader.exe').is_file()
     assert shutil.disk_usage(folder.parent).free>=3*1024**3,'Keep existing artifacts; insufficient space for one isolated public-library fixture'
     folder.mkdir(parents=True,exist_ok=False);state=folder/'profile/state';state.mkdir(parents=True)

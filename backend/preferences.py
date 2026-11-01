@@ -70,7 +70,7 @@ def save_preferences(training, body):
     value = dict(body['preferences'])
     if set(value) - ALLOWED:
         raise ServiceError(400, '偏好设置包含不支持的字段')
-    pages={'mine','library','training-lists','competitions','mock','paths','templates','rankings','growth','records','activity','lectures','settings'}
+    pages={'mine','library','training-lists','competitions','mock','paths','templates','rankings','growth','records','activity','lectures','settings','wiki','duel'}
     for field in ('hiddenNavPages','onboardingUnlockedPages'):
         if field in value and (not isinstance(value[field],list) or len(value[field])>len(pages) or any(not isinstance(item,str) or item not in pages for item in value[field])):
             raise ServiceError(400,'导航显示偏好无效')
@@ -119,7 +119,7 @@ def save_preferences(training, body):
         raise ServiceError(400, '题库每页题数须为 10–200')
     if 'pageOpacities' in value:
         opacities = value['pageOpacities']
-        if (not isinstance(opacities, dict) or set(opacities) - {'mine','library','training-lists','competitions','mock','rankings','growth','records','activity','lectures','settings','statement','editor','solution','paths','templates','practice-toolbar','practice-picker','template-picker','contest-statement','contest-editor','contest-toolbar','contest-picker','contest-calendar','mock-statement','mock-editor','mock-toolbar','mock-picker','initial-code','daily-tasks','achievements','level-up','popups','messages','accounts'}
+        if (not isinstance(opacities, dict) or set(opacities) - {'mine','library','training-lists','competitions','mock','rankings','growth','records','activity','lectures','settings','statement','editor','solution','paths','templates','practice-toolbar','practice-picker','template-picker','contest-statement','contest-editor','contest-toolbar','contest-picker','contest-calendar','mock-statement','mock-editor','mock-toolbar','mock-picker','initial-code','daily-tasks','achievements','level-up','popups','messages','accounts','wiki','duel'}
                 or any(type(opacity) is not int or not 0 <= opacity <= 100 for opacity in opacities.values())):
             raise ServiceError(400, '界面不透明度须为 0–100')
     if 'editorTheme' in value and (not isinstance(value['editorTheme'],str) or value['editorTheme'] not in {'auto','rainbow-dark','woodfish-dracula','woodfish-black','woodfish-neon','woodfish-light','one-dark','dracula','nord','tokyo-night','catppuccin','github-dark','monokai','gruvbox','solarized-dark','ayu-dark','rose-pine','github-light','one-light','solarized-light','ayu-light','paper','rose-pine-dawn'}):
@@ -188,7 +188,7 @@ def merge_onboarding_versions(*values):
     return max((value for value in values if type(value) is int and 0 <= value <= 1000), default=0)
 
 def merge_onboarding_unlocked_pages(*values):
-    pages={'mine','library','training-lists','competitions','mock','paths','templates','rankings','growth','records','activity','lectures','settings'}
+    pages={'mine','library','training-lists','competitions','mock','paths','templates','rankings','growth','records','activity','lectures','settings','wiki','duel'}
     return sorted({item for value in values if isinstance(value,list) for item in value if isinstance(item,str) and item in pages})
 
 def merge_level_notices(*values):

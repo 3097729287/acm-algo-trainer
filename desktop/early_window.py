@@ -59,10 +59,15 @@ class _Handler(BaseHTTPRequestHandler):
         except (OSError,ValueError):self._json(503,b'{"error":"ToBe local service unavailable"}')
     do_GET=do_POST=do_OPTIONS=do_HEAD=_handle
 
+class _Server(ThreadingHTTPServer):
+    # WebView hydrates several independent panels at once. Windows refuses a
+    # new loopback connection when the default five-slot accept queue is full.
+    request_queue_size=64
+
 class EarlyWindow:
     def __init__(self,root,port=0,*,resume_expected=True):
-        try:self.server=ThreadingHTTPServer(('127.0.0.1',port),_Handler)
-        except OSError:self.server=ThreadingHTTPServer(('127.0.0.1',0),_Handler)
+        try:self.server=_Server(('127.0.0.1',port),_Handler)
+        except OSError:self.server=_Server(('127.0.0.1',0),_Handler)
         self.server.daemon_threads=True;self.server.root=Path(root).resolve()
         self.server.target=None;self.server.failed=False
         self.server.resume_expected=resume_expected
