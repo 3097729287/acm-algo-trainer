@@ -12,6 +12,8 @@ from update_artifacts import prepare_tree,record_process,record_file
 
 from app_brand import executable
 from update_errors import UpdateBaseMismatch
+from update_errors import UpdateStorageError
+from update_backups import recycle_directory
 
 ROOT_FILES = {'ToBe.exe', 'ToBeLoader.exe', 'TB新版.exe', 'VERSION', 'BUILD-INFO.json', 'SOURCE-MANIFEST.json', 'tb.ico', 'official_languages.js', 'official_nowcoder.js', 'official_luogu.js', 'official_page.js', 'LICENSE', 'THIRDPARTY.md', 'TOOLCHAIN-SOURCES.md', 'third-party-inventory.json', '使用说明.md', 'accounts.md', 'browser-preparation.md'}
 PREFIXES = ('_internal/', 'frontend/dist/', 'resources/', 'browser-extension/', 'licenses/')
@@ -93,12 +95,13 @@ def apply_patch_file(package, sha, version, app_dir, *, fail_after=None):
                 path = app_dir / name
                 path.parent.mkdir(parents=True, exist_ok=True)
                 temporary = path.with_name(path.name + '.tb-update')
+                if temporary.exists() and not recycle_directory(temporary):raise UpdateStorageError('上次更新临时文件无法回收，已停止重试')
                 temporary.write_bytes(archive.read('files/' + name))
                 os.replace(temporary, path)
                 if fail_after is not None and index >= fail_after:
                     raise OSError('isolated replacement failure')
             for name in set(manifest['base']) - set(manifest['files']):
-                (app_dir / name).unlink()
+                if not recycle_directory(app_dir/name):raise UpdateStorageError('旧程序文件无法回收，已保留文件并回滚本次更新')
             for name, sha in manifest['files'].items():
                 if digest(app_dir / name) != sha:
                     raise ValueError('更新后的程序未通过校验：' + name)
@@ -108,8 +111,9 @@ def apply_patch_file(package, sha, version, app_dir, *, fail_after=None):
                 if name in existing:
                     shutil.copy2(recovery / name, path)
                 else:
-                    path.unlink(missing_ok=True)
-                path.with_name(path.name + '.tb-update').unlink(missing_ok=True)
+                    if path.exists():recycle_directory(path)
+                temporary=path.with_name(path.name + '.tb-update')
+                if temporary.exists():recycle_directory(temporary)
             raise
         (recovery / 'complete').write_text(version)
         record_file(recovery,'complete')

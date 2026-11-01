@@ -12,6 +12,8 @@ import sqlite3
 import subprocess
 import threading
 import time
+from update_backups import recycle_directory,require_space
+from update_errors import UpdateStorageError
 
 PRIVATE = {'state', 'cache', 'backups', 'logs', 'admin-workspace'}
 REPOSITORY = '3097729287/acm-algo-trainer'
@@ -89,15 +91,30 @@ def preserve(candidate, app):
     key = hashlib.sha256(str(source).casefold().encode()).hexdigest()[:20]
     backup = app/'state/backups/legacy-programs'/key
     complete = backup/'complete.json'
+    paths=[]
+    for name in sorted(PRIVATE):
+        directory=source/name
+        if not directory.exists():continue
+        for folder,children,names in os.walk(directory,followlinks=False):
+            if any(linked(Path(folder)/name) for name in children+names):raise ValueError('Linked private content is retained in place')
+            paths.extend(Path(folder)/name for name in names if not name.endswith(('-shm','-journal')))
+    needed=sum(path.stat().st_size for path in paths)
+    if needed>8*1024**3:raise UpdateStorageError('旧版个人恢复材料过大，已保留原程序，未继续复制')
+    fingerprint={path.relative_to(source).as_posix():sha(path) for path in paths}
     if complete.is_file():
-        # Never mistake an old backup for protection of newly changed data.
+        previous=json.loads(complete.read_text('utf-8'))
+        if previous.get('sourceFingerprint')==fingerprint:return backup
         backup = backup.with_name(key+'-'+str(time.time_ns()))
         complete = backup/'complete.json'
+    parent=backup.parent
+    occupied=sum(path.stat().st_size for path in parent.rglob('*') if path.is_file() and not linked(path)) if parent.exists() else 0
+    if occupied+needed>8*1024**3:raise UpdateStorageError('旧版恢复材料已达上限，已保留原文件并停止新增')
+    require_space(app,needed)
     backup.mkdir(parents=True, exist_ok=False)
     for name in sorted(PRIVATE):
         directory = source/name
         if directory.exists(): copy_private(directory, backup/name)
-    complete.write_text(json.dumps({'source': str(source), 'version': candidate['version'], 'complete': True}), encoding='utf8')
+    complete.write_text(json.dumps({'source': str(source), 'version': candidate['version'], 'complete': True,'sourceFingerprint':fingerprint}), encoding='utf8')
     return backup
 
 
@@ -113,20 +130,15 @@ def retire(candidate, app, catalog, *, running=()):
     executable = fresh['executable']
     if sha(executable) not in catalog['versions'][fresh['version']].values():
         return {'status': 'changed', 'removed': 0}
-    executable.unlink()
+    if not recycle_directory(executable):return {'status':'retained','removed':0,'retained':1,'backup':str(backup)}
     removed, retained = 1, 0
     # Only byte-for-byte known distributed files can be deleted. User-created
     # code, modified files, databases and unknown contents stay where they are.
     for name, digests in catalog['files'].items():
         target = safe_file(source, name)
         if target.is_file() and sha(target) in digests:
-            try: target.unlink(); removed += 1
-            except OSError: retained += 1
-    directories = {source.joinpath(*PurePosixPath(name).parts[:i]) for name in catalog['files'] for i in range(1, len(PurePosixPath(name).parts))}
-    for directory in sorted(directories, key=lambda p: len(p.parts), reverse=True):
-        if directory.resolve().is_relative_to(source) and not linked(directory):
-            try: directory.rmdir()
-            except OSError: pass
+            if recycle_directory(target):removed+=1
+            else:retained+=1
     return {'status': 'retired', 'removed': removed, 'retained': retained, 'backup': str(backup)}
 
 

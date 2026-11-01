@@ -83,6 +83,24 @@ def _valid(path,value):
     expected=set(value['files'])|{'.update-proof/tb-documents.sqlite3'}
     return {p.relative_to(path).as_posix() for p in files(path)}<=expected
 
+def _recycle_receipts(path):
+    """Require both the Shell receipt and its retained data, never absence alone."""
+    import struct
+    result=set()
+    for folder in (Path(path.drive+'/$Recycle.Bin')).iterdir():
+        try:
+            for meta in folder.glob('$I*'):
+                if not meta.is_file() or meta.stat().st_size>128*1024:continue
+                data=meta.read_bytes()
+                if len(data)<28:continue
+                version=struct.unpack_from('<Q',data)[0]
+                if version not in (1,2):continue
+                source=data[28 if version==2 else 24:].decode('utf-16le',errors='replace').rstrip('\0')
+                retained=meta.with_name('$R'+meta.name[2:])
+                if source.casefold()==str(path).casefold() and retained.exists():result.add(str(meta))
+        except PermissionError:continue
+    return result
+
 def recycle_directory(path):
     """Reject unknown quotas/platforms. Never fall back to permanent removal."""
     if os.name!='nt':return False
@@ -104,6 +122,7 @@ def recycle_directory(path):
         if ctypes.windll.shell32.SHQueryRecycleBinW(path.drive+'\\',ctypes.byref(info))!=0:return False
         size=path.stat().st_size if path.is_file() else sum(p.stat().st_size for p in files(path))
         if info.bytes+size+16*1024**2>=capacity*800000:return False
+        before=_recycle_receipts(path)
         # The Windows 8+ recycle-only flag forbids a permanent-delete fallback.
         # ALLOWUNDO alone merely requests undo information when possible.
         import pythoncom
@@ -111,10 +130,10 @@ def recycle_directory(path):
         pythoncom.CoInitializeEx(pythoncom.COINIT_APARTMENTTHREADED)
         try:
             operation=pythoncom.CoCreateInstance(shell.CLSID_FileOperation,None,pythoncom.CLSCTX_INPROC_SERVER,shell.IID_IFileOperation)
-            operation.SetOperationFlags(0x00080000|shellcon.FOFX_EARLYFAILURE|shellcon.FOF_SILENT|shellcon.FOF_NOCONFIRMATION|shellcon.FOF_NOERRORUI)
+            operation.SetOperationFlags(0x00080000|shellcon.FOF_ALLOWUNDO|shellcon.FOF_WANTNUKEWARNING|shellcon.FOFX_EARLYFAILURE|shellcon.FOF_SILENT|shellcon.FOF_NOCONFIRMATION|shellcon.FOF_NOERRORUI)
             item=shell.SHCreateItemFromParsingName(str(path),None,shell.IID_IShellItem)
             operation.DeleteItem(item,None);operation.PerformOperations()
-            return not operation.GetAnyOperationsAborted() and not path.exists()
+            return not operation.GetAnyOperationsAborted() and not path.exists() and bool(_recycle_receipts(path)-before)
         finally:pythoncom.CoUninitialize()
     except ImportError:return False
     except Exception:return False

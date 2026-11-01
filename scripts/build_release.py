@@ -170,6 +170,9 @@ def assemble(args):
         raise RuntimeError('Package contains runtime data')
     (stage / 'release-manifest.json').write_text(json.dumps(files, ensure_ascii=False, indent=2), encoding='utf-8')
     (stage / 'assembly.json').write_text(json.dumps({'version': VERSION, 'package': str(package), 'problems': problems, 'solutions': solutions, 'files': len(files)}, ensure_ascii=False, indent=2), encoding='utf-8')
+    if getattr(args,'skip_portable',False):
+        print(json.dumps({'package':str(package),'portableArchive':False,'reason':'Installer-only delivery avoids a second full compressed package'}))
+        return
     destination = stage / 'release' / (PACKAGE + '.zip')
     with zipfile.ZipFile(destination, 'x', zipfile.ZIP_DEFLATED, compresslevel=6) as output:
         for relative in files:
@@ -228,6 +231,7 @@ def main():
     parser.add_argument('--compiler-source', type=Path)
     parser.add_argument('--python-source', type=Path)
     parser.add_argument('--formatters-source', type=Path)
+    parser.add_argument('--skip-portable',action='store_true',help='Assemble the verified folder without a duplicate portable ZIP')
     parser.add_argument('--inno', type=Path)
     parser.add_argument('--webview2', type=Path)
     args = parser.parse_args()

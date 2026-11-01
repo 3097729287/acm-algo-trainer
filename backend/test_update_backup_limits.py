@@ -146,7 +146,7 @@ class UpdateBackupLimitTests(unittest.TestCase):
         save_document(self.state/'private-preferences.json',{'private':'keep'})
         copied=backup(self.state,self.destination(1));self.assertEqual(load_document(copied/'private-preferences.json',{}),{'private':'keep'})
     def test_low_space_download_preserves_existing_partial_and_does_not_open_network(self):
-        service=SoftwareUpdates(self.state,offline=True,opener=Mock());service.release={'name':'ToBe-Setup-1.4.36-win64.exe','size':1024,'sha256':'0'*64,'url':'https://47.82.84.74/updates/assets/1.4.36/ToBe-Setup-1.4.36-win64.exe'}
+        service=SoftwareUpdates(self.state,current='1.4.35',offline=True,opener=Mock());service.release={'name':'ToBe-Setup-1.4.36-win64.exe','size':1024,'sha256':'0'*64,'url':'https://47.82.84.74/updates/assets/1.4.36/ToBe-Setup-1.4.36-win64.exe'}
         directory=self.state.parent/'cache/updates';directory.mkdir(parents=True);partial=directory/'ToBe-Setup-1.4.36-win64.download';partial.write_bytes(b'retained partial')
         try:
             with patch('update_backups.shutil.disk_usage',return_value=SimpleNamespace(free=1024,total=1024**4)):service._download()

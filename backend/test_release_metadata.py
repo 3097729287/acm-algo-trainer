@@ -18,6 +18,12 @@ class ReleaseMetadataTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)
+        recycled=self.root/'simulated-recycle';recycled.mkdir()
+        def recycle(path):
+            path=Path(path);self.assertTrue(path.resolve().is_relative_to(self.root.resolve()))
+            path.rename(recycled/(str(len(list(recycled.iterdir())))+'-'+path.name));return True
+        recycle_patch=patch('release_metadata.recycle_directory',side_effect=recycle)
+        recycle_patch.start();self.addCleanup(recycle_patch.stop)
         self.app = self.root / 'app'
         (self.app / 'resources').mkdir(parents=True)
         (self.app / 'state').mkdir()

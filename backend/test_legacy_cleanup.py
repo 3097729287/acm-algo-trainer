@@ -14,6 +14,13 @@ class LegacyCleanupTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)
+        self.recycled=self.root/'simulated-recycle';self.recycled.mkdir()
+        def recycle(path):
+            path=Path(path);self.assertTrue(path.resolve().is_relative_to(self.root.resolve()))
+            target=self.recycled/(str(len(list(self.recycled.iterdir())))+'-'+path.name)
+            path.rename(target);return True
+        self.recycle_patch=patch('legacy_cleanup.recycle_directory',side_effect=recycle)
+        self.recycle_patch.start();self.addCleanup(self.recycle_patch.stop)
         self.old, self.app = self.root/'TB-old', self.root/'TB-current'
         self.old.mkdir(); self.app.mkdir()
         self.files = {'TB新版.exe': b'official test executable', '_internal/runtime.dll': b'known runtime',
@@ -59,6 +66,21 @@ class LegacyCleanupTests(unittest.TestCase):
         self.assertTrue((self.old/'TB新版.exe').exists())
         (self.old/'TB新版.exe').write_bytes(b'unknown app with same name')
         self.assertIsNone(identify(self.old,self.app,self.catalog))
+
+    def test_one_hundred_blocked_recycles_reuse_one_private_snapshot_without_permanent_fallback(self):
+        state=self.old/'state';state.mkdir();(state/'draft.cpp').write_text('unique private draft')
+        with patch('legacy_cleanup.recycle_directory',return_value=False),patch.object(Path,'unlink',side_effect=AssertionError('No permanent removal')):
+            for _ in range(100):
+                result=retire(identify(self.old,self.app,self.catalog),self.app,self.catalog)
+                self.assertEqual(result['status'],'retained')
+        self.assertEqual(len(list((self.app/'state/backups/legacy-programs').glob('*/complete.json'))),1)
+        self.assertTrue((self.old/'TB新版.exe').exists());self.assertEqual((state/'draft.cpp').read_text(),'unique private draft')
+
+    def test_oversized_legacy_snapshot_stops_before_creating_a_backup(self):
+        from update_errors import UpdateStorageError
+        with patch('legacy_cleanup.require_space',side_effect=UpdateStorageError('insufficient fixture space')):
+            with self.assertRaises(UpdateStorageError):retire(identify(self.old,self.app,self.catalog),self.app,self.catalog)
+        self.assertFalse((self.app/'state/backups/legacy-programs').exists());self.assertTrue((self.old/'TB新版.exe').exists())
 
     def test_fresh_directory_automatically_migrates_state_and_never_overwrites_existing_database(self):
         state = self.old/'state'; state.mkdir()

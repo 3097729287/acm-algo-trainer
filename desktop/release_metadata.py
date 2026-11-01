@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from update_backups import recycle_directory
 import logging
 import os
 from pathlib import Path
@@ -56,7 +57,7 @@ def _stage(root: Path, value: bytes) -> Path:
             stream.flush()
             os.fsync(stream.fileno())
     except Exception:
-        path.unlink(missing_ok=True)
+        if path.exists():recycle_directory(path)
         raise
     return path
 
@@ -117,7 +118,7 @@ def refresh_release_metadata(app_dir: Path) -> dict:
             try:
                 _regular_path(root, root / name)
                 if previous[name] is None:
-                    (root / name).unlink()
+                    recycle_directory(root/name)
                 else:
                     rollback = _stage(root, previous[name])
                     staged['rollback-' + name] = rollback
@@ -129,6 +130,6 @@ def refresh_release_metadata(app_dir: Path) -> dict:
     finally:
         for path in staged.values():
             try:
-                path.unlink(missing_ok=True)
+                if path.exists():recycle_directory(path)
             except OSError:
                 LOG.warning('Could not remove release provenance staging file')

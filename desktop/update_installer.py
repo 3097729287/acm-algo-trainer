@@ -37,7 +37,8 @@ try {{
   # TB is the interactive application the user requested to reopen.
   if (-not (Test-Path -LiteralPath $exePath)) {{ $exePath = Join-Path $targetDir 'TB新版.exe' }}
   Start-Process -FilePath $exePath -WorkingDirectory $targetDir -WindowStyle Normal
-  Remove-Item -LiteralPath $setupPath -Force
+  # Keep this verified current-version repair installer. The new application's
+  # managed cache retires older versions through the verified Recycle Bin API.
 }} catch {{
   Set-Content -LiteralPath $resultPath -Value $_.Exception.Message -Encoding UTF8
   Add-Type -AssemblyName System.Windows.Forms
