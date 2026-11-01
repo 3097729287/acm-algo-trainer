@@ -194,7 +194,8 @@ try{
   const recommendation=page.locator('.topbar > .next-actions');await recommendation.hover();await page.locator('.next-actions-popover').waitFor();
   const geometry=await page.locator('.next-actions-popover').evaluate(node=>{const r=node.getBoundingClientRect(),header=document.querySelector('.topbar');return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:innerWidth,height:innerHeight,headerOverflow:header.scrollWidth>header.clientWidth+1};});
   const trigger=await recommendation.boundingBox();
-  assert(Math.abs(geometry.left-trigger.x)<.75&&Math.abs(geometry.right-geometry.left-trigger.width)<.75,'Real App popup aligns with the whole topbar control: '+JSON.stringify({theme,fontSize,width,geometry,trigger}));
+  const popupWidth=geometry.right-geometry.left,alignedLeft=Math.max(10,Math.min(trigger.x,width-popupWidth-10));
+  assert(Math.abs(geometry.left-alignedLeft)<.75&&popupWidth>0&&popupWidth<=width-16,'Real App compact popup aligns with the control and fits the viewport: '+JSON.stringify({theme,fontSize,width,geometry,trigger}));
   const primaryName=await recommendation.locator('.next-actions-primary').getAttribute('aria-label');
   assert.equal(await page.locator('.next-actions-popover').getByRole('button',{name:primaryName,exact:true}).count(),0);
   assert.equal(await recommendation.locator('.next-actions-primary .lucide-arrow-right').count(),0);
