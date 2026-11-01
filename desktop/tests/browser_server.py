@@ -60,7 +60,7 @@ class Fixture(Handler):
             store = self.server.browser_bridge.session_store
             if 'platform' in query:
                 store.request(query['platform'][0])
-            self.send_json(200, {platform: {'count': len(value['cookies']), 'fixture': all(c['value'] == 'fixture-only' for c in value['cookies'])}
+            self.send_json(200, {platform: {'count': len(value['cookies']), 'fixture': all(c['value'] == 'fixture-only' for c in value['cookies']), 'loginState': value.get('loginState', 'unknown')}
                                 for platform in ('Codeforces','AtCoder','牛客','洛谷','QOJ') if (value := store.snapshot(platform)) is not None})
         else:
             super().do_GET()

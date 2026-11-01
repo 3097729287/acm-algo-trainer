@@ -9,7 +9,7 @@ import './CatalogExplorer.css';
 
 const pathOf = scope => normalizeCatalogPath(scope.path || (scope.platform ? [scope.platform] : []));
 const contestKey = row => row.groupKey || `${row.platform || ''}::${row.contest}`;
-const schoolSources = [{label:'Gym 726517',url:'https://codeforces.com/gym/726517'}, {label:'1024数学专场考核',url:'https://ac.nowcoder.com/acm/contest/142622'}];
+const schoolSources = [{label:'1025 Graph Theory Assessment',url:'https://codeforces.com/gym/726517'}, {label:'1024数学专场考核',url:'https://ac.nowcoder.com/acm/contest/142622'}];
 const cardLevel = (row, path) => {
   return catalogPaths(row).some(parts=>path.every((part,index)=>parts[index]===part)&&(parts.length === path.length + 1 || (parts[0] === 'XCPC'
     && parts.length === path.length + 2 && ['正赛', '热身赛'].includes(parts.at(-1)))));
@@ -36,7 +36,7 @@ export default function CatalogExplorer({ rows, scope, onChange, onContest, rend
   return <><section ref={panel} className={`catalog-explorer${paginate?" catalog-paged":""}`} aria-label={onContest ? '比赛层级浏览' : '题库层级浏览'}>
     {!onContest && <button className="catalog-folder-row" onClick={() => onChange({ ...scope, stage: 'problems' })}><FileText size={19}/><strong>全部题目</strong><span>{selected.length}</span><ChevronRight size={16}/></button>}
     {!entries.length&&path[0]!=='校队训练'&&<p className="catalog-empty" role="status">此分类暂未收录比赛</p>}
-    {path[0]==='校队训练'&&path.length===1&&schoolSources.filter(source=>!rows.some(row=>row.url?.startsWith(source.url+'/'))).map(source=><a key={source.url} className="catalog-folder-row" href={source.url} target="_blank" rel="noreferrer"><FileText size={20}/><strong><CatalogName>{source.label}</CatalogName></strong><span>等待原站公开题面 · 前往原站</span><ChevronRight size={16}/></a>)}
+    {path[0]==='校队训练'&&path.length===1&&schoolSources.filter(source=>!rows.some(row=>row.url?.startsWith(source.url+'/'))).map(source=><a key={source.url} className="catalog-folder-row" href={source.url} target="_blank" rel="noreferrer"><FileText size={20}/><strong><CatalogName>{source.label}</CatalogName></strong><span>前往原站</span><ChevronRight size={16}/></a>)}
     {visible.map(({label:name, items, path:next, leaf}) => renderContest && items.length>0 && (leaf || items.every(row=>cardLevel(row,path))) ? <div className="catalog-contest-entry" key={JSON.stringify(next)}>{[...new Map(items.map(row=>[contestKey(row),row])).values()].map(row=><div key={contestKey(row)}>{renderContest(row)}</div>)}</div> : <button className="catalog-folder-row" key={JSON.stringify(next)} onClick={() => {
       if (leaf && onContest) onContest(items[0]);
       else onChange({ path: next, stage: leaf ? 'problems' : 'contests' });

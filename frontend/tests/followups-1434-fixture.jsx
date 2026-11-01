@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import {createRoot} from 'react-dom/client';
-import {AchievementPanel,DailyTasks,GrowthPage} from '../src/pages/ProgressPanels.jsx';
+import {AchievementPanel,DailyTasks,GrowthPage,CompetitionPage} from '../src/pages/ProgressPanels.jsx';
 import AdminDominancePreview,{useAdminDominancePreview} from '../src/components/AdminDominancePreview.jsx';
 import '../src/styles/workspace.css';
 import '../src/styles/refinements.css';
@@ -24,6 +24,7 @@ function Fixture(){
  const[panel,setPanel]=useState('rewards'),[owner,setOwner]=useState('A'),[items,setItems]=useState(rewards),[claims,setClaims]=useState(0);
  const[days,onDays]=useAdminDominancePreview(owner);
  window.followups={setPanel,setOwner,claims,days,theme:value=>document.documentElement.dataset.theme=value};
+ if(panel==='school')return <CompetitionPage rows={['codeforces','nowcoder'].flatMap(platform=>['A','B'].map((letter,index)=>({id:platform+letter,title:letter+' task',contest:platform==='codeforces'?'1025 Graph Theory Assessment':'1024数学专场考核',platform:platform==='codeforces'?'Codeforces':'牛客',series:'校队训练',problem:letter,url:platform==='codeforces'?'https://codeforces.com/gym/726517/problem/'+letter:'https://ac.nowcoder.com/acm/contest/142622/'+letter,schoolTraining:true,catalogContentReady:platform==='codeforces'&&index===1,catalogHidden:!(platform==='codeforces'&&index===1),solutionAvailable:true,contestProblemCount:2,tags:[]})))} workspace={{training:[]}}/>;
  if(panel==='growth')return <GrowthPage profile={{nickname:'测试学习者'}} insights={{growth:{level:13,currentLevelXp:10,nextLevelXp:3000,ranked:{tier:'青铜',badge:'tier-1',abilityScore:800}},equippedTitles:[{id:'difficulty-1500',name:'进阶第一步',category:'difficulty',target:1500}],knowledge:[],summary:{totalSolved:108,submissions:195,activeDays:33,streak:23,completedContests:1,longestStreak:23}}}/>;
  if(panel==='admin')return <AdminDominancePreview owner={owner} days={days} actualDays={{daily:2,weekly:3,total:8}} onChange={onDays}/>;
  return <section className="modal" style={{position:'static',width:'100%',maxWidth:1000,margin:'auto',padding:20,background:'var(--panel-base)'}}>{panel==='daily'?<DailyTasks dailyTasks={{date:'2026-11-01',tasks}} onClaim={async()=>{}}/>:<AchievementPanel achievements={items} onClaim={async id=>{setClaims(value=>value+1);await new Promise(resolve=>setTimeout(resolve,80));setItems(previous=>previous.map(item=>item.id===id?{...item,rewardClaimed:true}:item));}}/>}</section>;

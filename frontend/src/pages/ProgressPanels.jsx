@@ -142,11 +142,11 @@ function contestGroups(rows) {
     if (!map.has(key)) map.set(key, { key, name: row.contest, platform: row.platform, series: row.series, examYear: contestYear(row), examStage: row.examStage ?? row.xcpcKind, xcpc: isXcpc(row), notice: row.collectionNotice, rows: [] });
     map.get(key).rows.push(row);
   }
-  return [...map.values()].filter(group=>completeContest(group.rows)).map(group => ({ ...group, rows: withContestLetters(group.rows.sort((a, b) => String(a.problem).localeCompare(String(b.problem), 'en', { numeric: true }))) })).sort(compareContestNewest);
+  return [...map.values()].filter(group=>completeContest(group.rows)||group.rows.every(row=>row.schoolTraining)&&group.rows.some(row=>row.solutionAvailable||row.catalogContentReady)).map(group => ({ ...group, rows: withContestLetters(group.rows.sort((a, b) => String(a.problem).localeCompare(String(b.problem), 'en', { numeric: true }))) })).sort(compareContestNewest);
 }
 function Difficulty({ row, locked = false }) { const mode=useDifficultyDisplay();return <span className={`competition-difficulty competition-difficulty-${locked ? 'unknown' : difficultyBand(row.difficulty)}${locked ? ' competition-hidden-difficulty' : ''}`} title={locked ? '比赛进行中，赛后显示难度' : difficultyDescription(row)}>{locked ? '赛中隐藏' : difficultyLabel(row,mode)}</span>; }
 export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStartReproduction, initialContest, onBack, visit, onTag }) {
-  const groups = useMemo(() => contestGroups(list(rows).filter(row => !row.catalogHidden && row.source !== 'luogu-training' && row.source !== 'algorithm-lab' && row.source !== 'algorithm-lab-curation')), [rows]);
+  const groups = useMemo(() => contestGroups(list(rows).filter(row => (!row.catalogHidden||row.schoolTraining&&row.solutionAvailable) && row.source !== 'luogu-training' && row.source !== 'algorithm-lab' && row.source !== 'algorithm-lab-curation')), [rows]);
   const fallbackVisit=useRef({}),session=visit||fallbackVisit.current,saved=session.state||{};
   const panelRef=useRef(null);
   const [query, setQuery] = useState(saved.query||''), [filter, setFilter] = useState(saved.filter||'all');

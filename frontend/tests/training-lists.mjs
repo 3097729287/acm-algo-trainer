@@ -92,6 +92,14 @@ try {
   await sourceMode();
   await folder('深入浅出基础篇').click();
   await folder('顺序结构').click();
+  const pathBefore=await page.locator('.training-list-path').innerText();
+  await page.locator('.training-list-table .tags-cell').getByRole('button',{name:'模拟',exact:true}).first().click();
+  const knowledgeChip=page.getByRole('group',{name:'当前题单知识点筛选',exact:true});
+  await knowledgeChip.getByText('模拟',{exact:true}).waitFor();
+  assert.equal(await page.locator('.training-list-path').innerText(),pathBefore,'Knowledge clicks stay inside the same training list');
+  assert(await page.locator('.training-list-table tbody tr').count()>0);
+  await knowledgeChip.getByRole('button',{name:'清除知识点筛选 模拟',exact:true}).click();
+  await knowledgeChip.waitFor({state:'detached'});
   const perPage=await page.locator('.training-list-table tbody tr').count();
   assert(perPage>=5&&perPage<=rows.length);
   await page.getByRole('button', { name: '题单下一页', exact: true }).click();

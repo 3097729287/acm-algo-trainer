@@ -85,6 +85,14 @@ try{
   assert.ok(browser.pages().every(p=>!p.url().startsWith('https://')),'No OJ tab opened for login detection');
   const cookies=await get('sync');
   assert.deepEqual(Object.fromEntries(platforms.map(p=>[p,cookies[p].count])),{Codeforces:2,AtCoder:2,'牛客':2,'洛谷':3,QOJ:2});
+  // A live heartbeat can precede the encrypted store confirmation. Restart
+  // only after the fixture has observed the durable state being tested.
+  for(let attempt=0;attempt<160;attempt++){
+    const stored=await get('sync');
+    if(platforms.every(platform=>stored[platform]?.loginState==='logged_in'))break;
+    if(attempt===159)assert.fail('Confirmed logins did not reach encrypted storage');
+    await new Promise(resolve=>setTimeout(resolve,100));
+  }
   await browser.close();browser=null;
   await get('restart-sessions');
   const restored=await get('preparation');

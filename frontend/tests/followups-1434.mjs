@@ -47,5 +47,15 @@ try{
  await page.getByRole('button',{name:'关闭霸榜预览'}).click();await page.evaluate(()=>followups.setOwner('A'));
  await page.getByRole('button',{name:'调整霸榜天数'}).click();assert.equal(await page.getByRole('spinbutton',{name:'每日霸榜天数'}).inputValue(),'9');
  await page.getByRole('button',{name:'恢复真实霸榜天数'}).click();assert.equal(await page.getByRole('spinbutton',{name:'每日霸榜天数'}).inputValue(),'2');
+ await page.getByRole('button',{name:'关闭霸榜预览'}).click();await page.evaluate(()=>followups.setPanel('school'));
+ await page.locator('.competition-page').waitFor();assert.deepEqual(errors,[]);
+ if(!await page.getByRole('button',{name:'查看 Codeforces 1025 Graph Theory Assessment，2 道题',exact:true}).count())await page.getByRole('button',{name:'下一页',exact:true}).click();
+ await page.getByRole('button',{name:'查看 Codeforces 1025 Graph Theory Assessment，2 道题',exact:true}).click();
+ assert.equal(await page.locator('.competition-question').count(),2,'Archived school tasks and existing solutions remain reachable despite a source recheck');
+ await page.getByRole('button',{name:'全部比赛',exact:true}).click();
+ if(!await page.getByRole('button',{name:'查看 牛客 1024数学专场考核，2 道题',exact:true}).count())await page.getByRole('button',{name:'上一页',exact:true}).click();
+ await page.getByRole('button',{name:'查看 牛客 1024数学专场考核，2 道题',exact:true}).click();
+ assert.equal(await page.locator('.competition-question').count(),2,'Private school archive is preserved without inventing current source verification');
+ assert.equal(await page.getByText('等待原站公开题面',{exact:false}).count(),0);
  assert.deepEqual(errors,[]);console.log('PASS compact reward footer and text claim, brighter completed cards, routine grouping independent of order, larger borderless medals below nickname, per-account private admin dominance preview.');
 }finally{await browser.close();await vite.close();}

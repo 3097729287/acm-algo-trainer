@@ -1,6 +1,7 @@
 {
   "status": "deferred until the current 1.4.34 local update is delivered",
   "requestedOn": "2026-11-01",
+  "continuation": "用户已要求当前版本更新完成后先列出下一版内容与实施顺序，然后继续实施；不得提前并入当前版本。",
   "features": [
     {
       "id": "problem-solving-templates",

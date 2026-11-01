@@ -228371,15 +228371,49 @@
   },
   {
     "content": {
+      "attachments": {},
       "id": "remote:codeforces:726517::A",
       "images": {
-        "https://espresso.codeforces.com/2efb48fd56a6167cac3c5a8c51483513d9b48b30.png": "data:image/png;base64,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"
+        "https://espresso.codeforces.com/2efb48fd56a6167cac3c5a8c51483513d9b48b30.png": "tb-asset:da9d1ca3d5c3ff0cac18be1a5bfa83f91ce851fe1a09a78cec1de8901f1a6bf3"
+      },
+      "integrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "sampleCount": 2,
+        "pdfPageCountVerified": false,
+        "checkedAt": "2026-11-01T08:36:02.380418+00:00",
+        "issues": [],
+        "corpusAuditVerifiedSha256": "ab64e741d84db9858e8cb6597360496ca5a3b6bf3e91cf71ac8c39bfc977fb5c",
+        "markdownSha256": "ab64e741d84db9858e8cb6597360496ca5a3b6bf3e91cf71ac8c39bfc977fb5c",
+        "sourceDocuments": [
+          {
+            "url": "https://codeforces.com/gym/726517/problem/A",
+            "sha256": "03bb569205114c2996d98075c54725ad116c44ab77efe0da4ecf90f9b5157571",
+            "kind": "original-browser-document"
+          }
+        ],
+        "review": "Original source prose, every sample input/output and source resource references compared; preserve existing normalized body and Chinese translation"
       },
       "limits": {
         "memoryMb": 256,
         "timeMs": 2000
       },
+      "localJudgeSupported": true,
       "markdown": "# A. Cyclic Components\n\nYou are given an undirected graph consisting of $n$ vertices and $m$ edges. Your task is to find the number of connected components which are cycles.\n\nHere are some definitions of graph theory.\n\nAn undirected graph consists of two sets: set of nodes (called vertices) and set of edges. Each edge connects a pair of vertices. All edges are bidirectional (i.e. if a vertex $a$ is connected with a vertex $b$, a vertex $b$ is also connected with a vertex $a$). An edge can't connect vertex with itself, there is at most one edge between a pair of vertices.\n\nTwo vertices $u$ and $v$ belong to the same connected component if and only if there is at least one path along edges connecting $u$ and $v$.\n\nA connected component is a cycle if and only if its vertices can be reordered in such a way that:\n\n- the first vertex is connected with the second vertex by an edge,\n\n- the second vertex is connected with the third vertex by an edge,\n\n- ...\n\n- the last vertex is connected with the first vertex by an edge,\n\n- all the described edges of a cycle are distinct.\n\nA cycle doesn't contain any other edges except described above. By definition any cycle contains three or more vertices.\n\n![](https://espresso.codeforces.com/2efb48fd56a6167cac3c5a8c51483513d9b48b30.png) There are $6$ connected components, $2$ of them are cycles: $[7, 10, 16]$ and $[5, 11, 9, 15]$.\n\n## Input\n\nThe first line contains two integer numbers $n$ and $m$ ($1 \\le n \\le 2 \\cdot 10^5$, $0 \\le m \\le 2 \\cdot 10^5$) — number of vertices and edges.\n\nThe following $m$ lines contains edges: edge $i$ is given as a pair of vertices $v_i$, $u_i$ ($1 \\le v_i, u_i \\le n$, $u_i \\ne v_i$). There is no multiple edges in the given graph, i.e. for each pair ($v_i, u_i$) there no other pairs ($v_i, u_i$) and ($u_i, v_i$) in the list of edges.\n\n## Output\n\nPrint one integer — the number of connected components which are also cycles.\n\n## Note\n\nIn the first example only component $[3, 4, 5]$ is also a cycle.\n\nThe illustration above corresponds to the second example.",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {
+        "https://espresso.codeforces.com/2efb48fd56a6167cac3c5a8c51483513d9b48b30.png": {
+          "bytes": 8599,
+          "frameCount": 1,
+          "height": 294,
+          "mime": "image/png",
+          "sha256": "da9d1ca3d5c3ff0cac18be1a5bfa83f91ce851fe1a09a78cec1de8901f1a6bf3",
+          "sourceUrl": "https://espresso.codeforces.com/2efb48fd56a6167cac3c5a8c51483513d9b48b30.png",
+          "width": 294
+        }
+      },
       "samples": [
         {
           "input": "5 4\n1 2\n3 4\n5 4\n3 5",
@@ -228411,12 +228445,38 @@
   },
   {
     "content": {
+      "attachments": {},
+      "currentSourceMarkdown": "# Two Buttons\n\nVasya has found a strange device. On the front panel of a device there are: a red button, a blue button and a display showing some positive integer. After clicking the red button, device multiplies the displayed number by two. After clicking the blue button, device subtracts one from the number on the display. If at some point the number stops being positive, the device breaks down. The display can show arbitrarily large numbers. Initially, the display shows number *n*.\n\n\n\nBob wants to get number *m* on the display. What minimum number of clicks he has to make in order to achieve this result?\n\n\n\n## Input\n\n\n\nThe first and the only line of the input contains two distinct integers *n* and *m* (1 ≤ *n*, *m* ≤ 10$^{4}$), separated by a space .\n\n\n\n## Output\n\n\n\nPrint a single number — the minimum number of times one needs to push the button required to get the number *m* out of number *n*.\n\n\n\n## Note\n\n\n\nIn the first example you need to push the blue button once, and then push the red button once.\n\n\n\nIn the second example, doubling the number is unnecessary, so we need to push the blue button nine times.",
       "id": "remote:codeforces:726517::B",
+      "images": {},
+      "integrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "sampleCount": 2,
+        "pdfPageCountVerified": false,
+        "checkedAt": "2026-11-01T08:36:02.384502+00:00",
+        "issues": [],
+        "corpusAuditVerifiedSha256": "ff7011776aa0a80c3c2a872151582f7b9936f765b40944a2b28a87c12d85b9c6",
+        "markdownSha256": "ff7011776aa0a80c3c2a872151582f7b9936f765b40944a2b28a87c12d85b9c6",
+        "sourceDocuments": [
+          {
+            "url": "https://codeforces.com/gym/726517/problem/B",
+            "sha256": "7f4f7369a8c0e23335ccced9e4ce3edafb4200856d0b3c72d6a95555bf04f7c4",
+            "kind": "original-browser-document"
+          }
+        ],
+        "review": "Original source prose, every sample input/output and source resource references compared; preserve existing normalized body and Chinese translation"
+      },
       "limits": {
         "memoryMb": 256,
         "timeMs": 2000
       },
+      "localJudgeSupported": true,
       "markdown": "# Two Buttons\n\nVasya has found a strange device. On the front panel of a device there are: a red button, a blue button and a display showing some positive integer. After clicking the red button, device multiplies the displayed number by two. After clicking the blue button, device subtracts one from the number on the display. If at some point the number stops being positive, the device breaks down. The display can show arbitrarily large numbers. Initially, the display shows number *n*.\n\nBob wants to get number *m* on the display. What minimum number of clicks he has to make in order to achieve this result?\n\n## Input\n\nThe first and the only line of the input contains two distinct integers *n* and *m* (1 ≤ *n*, *m* ≤ 10$^{4}$), separated by a space .\n\n## Output\n\nPrint a single number — the minimum number of times one needs to push the button required to get the number *m* out of number *n*.\n\n## Note\n\nIn the first example you need to push the blue button once, and then push the red button once.\n\nIn the second example, doubling the number is unnecessary, so we need to push the blue button nine times.",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {},
       "samples": [
         {
           "input": "4 6",
@@ -228429,8 +228489,17 @@
           "output": "9"
         }
       ],
+      "sourceBinding": {
+        "method": "all-body-prose-math-io-constraints-and-every-sample",
+        "mirrorBodySha256": "ea955bec390216a7c5bb6a1e10b8ea0824072806e46d1b169c72676406589f67",
+        "mirrorId": "lab:codeforces:520B",
+        "mirrorUrl": "https://codeforces.com/contest/520/problem/B",
+        "originalArchiveBodySha256": "ff7011776aa0a80c3c2a872151582f7b9936f765b40944a2b28a87c12d85b9c6",
+        "originalUrl": "https://codeforces.com/gym/726517/problem/B"
+      },
       "statementAvailable": true,
-      "statementVersion": 3,
+      "statementSupplement": "",
+      "statementVersion": 7,
       "title": "Two Buttons",
       "translation": {
         "format": "complete-prose-v4",
@@ -228442,18 +228511,49 @@
         "sourceLanguage": "en",
         "targetLanguage": "zh-CN"
       },
+      "translationSourceSnapshot": {
+        "currentSourceHash": "ea955bec390216a7c5bb6a1e10b8ea0824072806e46d1b169c72676406589f67",
+        "equivalentFormattingVerified": true,
+        "samplesUnchanged": true,
+        "sourceHash": "ff7011776aa0a80c3c2a872151582f7b9936f765b40944a2b28a87c12d85b9c6"
+      },
       "url": "https://codeforces.com/gym/726517/problem/B"
     },
     "problem_id": "remote:codeforces:726517::B"
   },
   {
     "content": {
+      "attachments": {},
       "id": "remote:codeforces:726517::C",
+      "images": {},
+      "integrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "sampleCount": 2,
+        "pdfPageCountVerified": false,
+        "checkedAt": "2026-11-01T08:36:02.389937+00:00",
+        "issues": [],
+        "corpusAuditVerifiedSha256": "6e125ffc56de201810e161033370689370c30608243810c42c6ef4f9bdce8c1c",
+        "markdownSha256": "6e125ffc56de201810e161033370689370c30608243810c42c6ef4f9bdce8c1c",
+        "sourceDocuments": [
+          {
+            "url": "https://codeforces.com/gym/726517/problem/C",
+            "sha256": "862870fab8f1b8a110f59560e0860a3abacd941e3322f7ead85d6a9957104d7a",
+            "kind": "original-browser-document"
+          }
+        ],
+        "review": "Original source prose, every sample input/output and source resource references compared; preserve existing normalized body and Chinese translation"
+      },
       "limits": {
         "memoryMb": 256,
         "timeMs": 1000
       },
+      "localJudgeSupported": false,
       "markdown": "# C. PolandBall and Forest\n\nPolandBall lives in a forest with his family. There are some trees in the forest. Trees are undirected acyclic graphs with *k* vertices and *k* - 1 edges, where *k* is some integer. Note that one vertex is a valid tree.\n\nThere is exactly one relative living in each vertex of each tree, they have unique ids from 1 to *n*. For each Ball *i* we know the id of its most distant relative living on the same tree. If there are several such vertices, we only know the value of the one with smallest id among those.\n\nHow many trees are there in the forest?\n\n## Input\n\nThe first line contains single integer *n* (1 ≤ *n* ≤ 10$^{4}$) — the number of Balls living in the forest.\n\nThe second line contains a sequence *p*$_{1}$, *p*$_{2}$, ..., *p*$_{n}$ of length *n*, where (1 ≤ *p*$_{i}$ ≤ *n*) holds and *p*$_{i}$ denotes the most distant from Ball *i* relative living on the same tree. If there are several most distant relatives living on the same tree, *p*$_{i}$ is the id of one with the smallest id.\n\nIt's guaranteed that the sequence *p* corresponds to some valid forest.\n\nHacking: To hack someone, you should provide a correct forest as a test. The sequence *p* will be calculated according to the forest and given to the solution you try to hack as input. Use the following format:\n\nIn the first line, output the integer *n* (1 ≤ *n* ≤ 10$^{4}$) — the number of Balls and the integer *m* (0 ≤ *m* < *n*) — the total number of edges in the forest. Then *m* lines should follow. The *i*-th of them should contain two integers *a*$_{i}$ and *b*$_{i}$ and represent an edge between vertices in which relatives *a*$_{i}$ and *b*$_{i}$ live. For example, the first sample is written as follows:\n\n```text\n\n5 3\n1 2\n3 4\n4 5\n```\n\n## Output\n\nYou should output the number of trees in the forest where PolandBall lives.\n\n## Interaction\n\nFrom the technical side, this problem is interactive. However, it should not affect you (except hacking) since there is no interaction.\n\n## Note\n\nIn the first sample testcase, possible forest is: `1-2 3-4-5`.\n\nThere are 2 trees overall.\n\nIn the second sample testcase, the only possible graph is one vertex and no edges. Therefore, there is only one tree.",
+      "problemType": "interactive",
+      "resourceIssues": [],
+      "resourceManifest": {},
       "samples": [
         {
           "input": "5\n2 1 5 3 3",
@@ -228485,12 +228585,38 @@
   },
   {
     "content": {
+      "attachments": {},
+      "currentSourceMarkdown": "# Minimal Labels\n\nYou are given a directed acyclic graph with *n* vertices and *m* edges. There are no self-loops or multiple edges between any pair of vertices. Graph can be disconnected.\n\n\n\nYou should assign labels to all vertices in such a way that:\n\n\n\n- Labels form a valid permutation of length *n* — an integer sequence such that each integer from 1 to *n* appears exactly once in it.\n\n- If there exists an edge from vertex *v* to vertex *u* then *label*$_{v}$ should be smaller than *label*$_{u}$.\n\n- Permutation should be lexicographically smallest among all suitable.\n\n\n\nFind such sequence of labels to satisfy all the conditions.\n\n\n\n## Input\n\n\n\nThe first line contains two integer numbers *n*, *m* (2 ≤ *n* ≤ 10$^{5}$, 1 ≤ *m* ≤ 10$^{5}$).\n\n\n\nNext *m* lines contain two integer numbers *v* and *u* (1 ≤ *v*, *u* ≤ *n*, *v* ≠ *u*) — edges of the graph. Edges are directed, graph doesn't contain loops or multiple edges.\n\n\n\n## Output\n\n\n\nPrint *n* numbers — lexicographically smallest correct permutation of labels of vertices.",
       "id": "remote:codeforces:726517::D",
+      "images": {},
+      "integrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "sampleCount": 3,
+        "pdfPageCountVerified": false,
+        "checkedAt": "2026-11-01T08:36:02.394216+00:00",
+        "issues": [],
+        "corpusAuditVerifiedSha256": "d8fe39d251efb204373801e68d105945080ab0bd6be141438c9e921aef52ef51",
+        "markdownSha256": "d8fe39d251efb204373801e68d105945080ab0bd6be141438c9e921aef52ef51",
+        "sourceDocuments": [
+          {
+            "url": "https://codeforces.com/gym/726517/problem/D",
+            "sha256": "d3664432745964c0741af630fadab07175d4eb2e659d3d475220b99ce9657352",
+            "kind": "original-browser-document"
+          }
+        ],
+        "review": "Original source prose, every sample input/output and source resource references compared; preserve existing normalized body and Chinese translation"
+      },
       "limits": {
         "memoryMb": 256,
         "timeMs": 1000
       },
+      "localJudgeSupported": true,
       "markdown": "# D. Minimal Labels\n\nYou are given a directed acyclic graph with *n* vertices and *m* edges. There are no self-loops or multiple edges between any pair of vertices. Graph can be disconnected.\n\nYou should assign labels to all vertices in such a way that:\n\n- Labels form a valid permutation of length *n* — an integer sequence such that each integer from 1 to *n* appears exactly once in it.\n\n- If there exists an edge from vertex *v* to vertex *u* then *label*$_{v}$ should be smaller than *label*$_{u}$.\n\n- Permutation should be lexicographically smallest among all suitable.\n\nFind such sequence of labels to satisfy all the conditions.\n\n## Input\n\nThe first line contains two integer numbers *n*, *m* (2 ≤ *n* ≤ 10$^{5}$, 1 ≤ *m* ≤ 10$^{5}$).\n\nNext *m* lines contain two integer numbers *v* and *u* (1 ≤ *v*, *u* ≤ *n*, *v* ≠ *u*) — edges of the graph. Edges are directed, graph doesn't contain loops or multiple edges.\n\n## Output\n\nPrint *n* numbers — lexicographically smallest correct permutation of labels of vertices.",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {},
       "samples": [
         {
           "input": "3 3\n1 2\n1 3\n3 2",
@@ -228508,8 +228634,17 @@
           "output": "3 1 2 4 5 "
         }
       ],
+      "sourceBinding": {
+        "method": "all-body-prose-math-io-constraints-and-every-sample",
+        "mirrorBodySha256": "cb6200d8e227fe18b76a2b5cde0089a521ddbf9a58091515fc9544bfab245bb2",
+        "mirrorId": "remote:codeforces:825::E",
+        "mirrorUrl": "https://codeforces.com/contest/825/problem/E",
+        "originalArchiveBodySha256": "d8fe39d251efb204373801e68d105945080ab0bd6be141438c9e921aef52ef51",
+        "originalUrl": "https://codeforces.com/gym/726517/problem/D"
+      },
       "statementAvailable": true,
-      "statementVersion": 3,
+      "statementSupplement": "",
+      "statementVersion": 7,
       "title": "Minimal Labels",
       "translation": {
         "format": "complete-prose-v4",
@@ -228521,18 +228656,49 @@
         "sourceLanguage": "en",
         "targetLanguage": "zh-CN"
       },
+      "translationSourceSnapshot": {
+        "currentSourceHash": "cb6200d8e227fe18b76a2b5cde0089a521ddbf9a58091515fc9544bfab245bb2",
+        "equivalentFormattingVerified": true,
+        "samplesUnchanged": true,
+        "sourceHash": "d8fe39d251efb204373801e68d105945080ab0bd6be141438c9e921aef52ef51"
+      },
       "url": "https://codeforces.com/gym/726517/problem/D"
     },
     "problem_id": "remote:codeforces:726517::D"
   },
   {
     "content": {
+      "attachments": {},
       "id": "remote:codeforces:726517::E",
+      "images": {},
+      "integrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "sampleCount": 2,
+        "pdfPageCountVerified": false,
+        "checkedAt": "2026-11-01T08:36:02.399086+00:00",
+        "issues": [],
+        "corpusAuditVerifiedSha256": "279e49c0a2badbba004aaf602f388495d6d9cd8645f39ccbb3151e4349732ff0",
+        "markdownSha256": "279e49c0a2badbba004aaf602f388495d6d9cd8645f39ccbb3151e4349732ff0",
+        "sourceDocuments": [
+          {
+            "url": "https://codeforces.com/gym/726517/problem/E",
+            "sha256": "eca5626a50e2b044974486639d9ddd0a4e371aae26b44d1f50de96c08e984a53",
+            "kind": "original-browser-document"
+          }
+        ],
+        "review": "Original source prose, every sample input/output and source resource references compared; preserve existing normalized body and Chinese translation"
+      },
       "limits": {
         "memoryMb": 256,
         "timeMs": 2000
       },
+      "localJudgeSupported": true,
       "markdown": "# E. Mahmoud and Ehab and the bipartiteness\n\nMahmoud and Ehab continue their adventures! As everybody in the evil land knows, Dr. Evil likes bipartite graphs, especially trees.\n\nA tree is a connected acyclic graph. A bipartite graph is a graph, whose vertices can be partitioned into 2 sets in such a way, that for each edge (*u*, *v*) that belongs to the graph, *u* and *v* belong to different sets. You can find more formal definitions of a tree and a bipartite graph in the notes section below.\n\nDr. Evil gave Mahmoud and Ehab a tree consisting of *n* nodes and asked them to add edges to it in such a way, that the graph is still bipartite. Besides, after adding these edges the graph should be simple (doesn't contain loops or multiple edges). What is the maximum number of edges they can add?\n\nA loop is an edge, which connects a node with itself. Graph doesn't contain multiple edges when for each pair of nodes there is no more than one edge between them. A cycle and a loop aren't the same .\n\n## Input\n\nThe first line of input contains an integer *n* — the number of nodes in the tree (1 ≤ *n* ≤ 10$^{5}$).\n\nThe next *n* - 1 lines contain integers *u* and *v* (1 ≤ *u*, *v* ≤ *n*, *u* ≠ *v*) — the description of the edges of the tree.\n\nIt's guaranteed that the given graph is a tree.\n\n## Output\n\nOutput one integer — the maximum number of edges that Mahmoud and Ehab can add to the tree while fulfilling the conditions.\n\n## Note\n\nTree definition: [https://en.wikipedia.org/wiki/Tree_(graph_theory)](https://en.wikipedia.org/wiki/Tree_%28graph_theory%29)\n\nBipartite graph definition: [https://en.wikipedia.org/wiki/Bipartite_graph](https://en.wikipedia.org/wiki/Bipartite_graph)\n\nIn the first test case the only edge that can be added in such a way, that graph won't contain loops or multiple edges is (2, 3), but adding this edge will make the graph non-bipartite so the answer is 0.\n\nIn the second test case Mahmoud and Ehab can add edges (1, 4) and (2, 5).",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {},
       "samples": [
         {
           "input": "3\n1 2\n1 3",
@@ -228564,12 +228730,37 @@
   },
   {
     "content": {
+      "attachments": {},
       "id": "remote:codeforces:726517::F",
+      "images": {},
+      "integrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "sampleCount": 2,
+        "pdfPageCountVerified": false,
+        "checkedAt": "2026-11-01T08:36:02.403961+00:00",
+        "issues": [],
+        "corpusAuditVerifiedSha256": "96b4019563030bc44b494bbf536f706dfe8dc110fc8ecf664f53167e1946aa40",
+        "markdownSha256": "96b4019563030bc44b494bbf536f706dfe8dc110fc8ecf664f53167e1946aa40",
+        "sourceDocuments": [
+          {
+            "url": "https://codeforces.com/gym/726517/problem/F",
+            "sha256": "1f44867f54deb442c7041cd5160ec1bc3cc598e5b792138121a4f238d4e49d7e",
+            "kind": "original-browser-document"
+          }
+        ],
+        "review": "Original source prose, every sample input/output and source resource references compared; preserve existing normalized body and Chinese translation"
+      },
       "limits": {
         "memoryMb": 64,
         "timeMs": 1000
       },
+      "localJudgeSupported": true,
       "markdown": "# Dijkstra?\n\nYou are given a weighted undirected graph. The vertices are enumerated from 1 to *n*. Your task is to find the shortest path between the vertex 1 and the vertex *n*.\n\n## Input\n\nThe first line contains two integers *n* and *m* (2 ≤ *n* ≤ 10$^{5}$, 0 ≤ *m* ≤ 10$^{5}$), where *n* is the number of vertices and *m* is the number of edges. Following *m* lines contain one edge each in form *a*$_{i}$, *b*$_{i}$ and *w*$_{i}$ (1 ≤ *a*$_{i}$, *b*$_{i}$ ≤ *n*, 1 ≤ *w*$_{i}$ ≤ 10$^{6}$), where *a*$_{i}$, *b*$_{i}$ are edge endpoints and *w*$_{i}$ is the length of the edge.\n\nIt is possible that the graph has loops and multiple edges between pair of vertices.\n\n## Output\n\nWrite the only integer `-1` in case of no path. Write the shortest path in opposite case. If there are many solutions, print any of them.",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {},
       "samples": [
         {
           "input": "5 6\n1 2 2\n2 5 5\n2 3 4\n1 4 1\n4 3 3\n3 5 1",
@@ -228601,17 +228792,69 @@
   },
   {
     "content": {
+      "attachments": {},
       "id": "remote:codeforces:726517::G",
       "images": {
-        "https://espresso.codeforces.com/733cb599cc7e9bd751cb590866cace5a207dec6f.png": "data:image/png;base64,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",
-        "https://espresso.codeforces.com/aafdedd23e3077335800387927eedf7dbdf99a6c.png": "data:image/png;base64,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",
-        "https://espresso.codeforces.com/af2714f5b8e774568184a3fbec53af2f54476fef.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATkAAAE1CAAAAAC5SMhWAAAS/0lEQVR42u2dbWwcx3nH/xQF64TA2jNciDEE904MCqFSwDsEAlLJVe9guKU/GDkGdUu3kHGskeKcwsVRdRvaKqw9UU2oOEmPbVxQQmyvgLCmjQA5Cf6gGI6xdCxZAdR0K8mqJUDyugYCS4SiJQVZZGBSTxPSypBzd/vKfd/fNxk0Bf1uduc/zz0zA0qwByghMXeHxFywScwl5hiJuWCTmEvMMRJzwSYxl5hjJOaCTWIuMcdIzAWbxFxijpGYCzaJucQcIzEXbBJzrplTR/uKWQD54sARjRJMmtNqeSyneIQij1IbKBazxeJAbdK+uSNZQChJskpEilwvASjKFGXkgTQY6QHZljklDxQaRAxNygB9GnnGtd5x8hClCCBTlWRZlWWpmgFQVKybk9PISMQjCsir5BEXcvDQnDYICKJKDFUUgEHNojkJKGnUjJpDWiGPuFXxzpyWB0SN/48ikNcsmZOAKrVEK32mLlrmlDQyCjWjtBspaPt7JGpHeeljiJQ5JY2cRq3QCkydsTktjTK1RcuhSBQpc1oeZZ2RktXMmiujQDpoAiSiKJkrIqcZjxRjcwoElfRoIK1FyZwIQdMfKaI5c0WIpE8BYoTMaWnIpIeMtGbGnMI+AZ1fRe5zrRcY9mTIFYxHihlzVVTJiBwaFBXYkGuLAmgmzOVNWBFRpaggoURGlCAZm1Mh0EoOAr1T/IeQpahQRp2MqKNkbE7mn/rXgL6Nf3yTVoDo1ETTUInjwj27+eGUNjZX5x/Ex/566lj+D07zLzqFooGCDPF8GZw5ykE2NCfy88jfnyPa8fucuQKiUqmTUSCOfWDm2v1718KYfwc+OZX9Q6wgjVKq4zPWdCwRzj//H3iU4T99ExzZtz/ECnTHHOMQftT0GUQHkVZwc0fPG9htZGUtzPDek08/Cp4f7yTGbSKicP755i2sZP+pc9MwplW8KfM5ZXPvzZvvcaEvMjNEgwsc77c0U4ZkPZWoW3DoPx/eEdVUwv97z7U0VzAxt2rc/zS1GQAw3jSVRwQZeeJ5x3huhfGadGp8kSlaTjVCqy9AMzSnAZqxuTrKZEQ+MnGOrUlXjJaf6qxtdapMaeMqk0CRgVmxsrZF6w+hbDjkRIoMKqCSPmrz2ha2fpWE1CWKDsYjpdz8E7DzvaCSBtbV5iga/HKgA1Asj0q0+7ZnQPcrtsee6MAX3qIIcGPveqzdrj9StDyqpr+pFjCo/xXbya3AX31MIefTFzYCpYv6I4UGkNPMmiMZGGj7AQgaEX36/OcgvHCbQsztH28Btp9YGimi3neKioWOnIaAvKbff/HRI8DO8xRaTmwHNr9y22Ck0CAgW+oCUzJIj7bolFo+cl+/H2u/8QmFkotfAe757q/pMyQBRY2a0foAyWLnoVYAsit6g9WawLU4ffKNtbj/dQofU0+uxV3/cH3lqz17pFXbqqBY73aVMwDyo5OTKimTk4N5APgbWsn5ncAjH1G4uHHgbnT0q02BAvmjtJyjRSCn2upNl0oAQyi/iNRl/jX7fQGfe/7TAPSt3qoA42Yn1IdOE88Y1gLpgSNLndWTRwbSQEay3dWvNaqFQga5QkGU28Ttjx8Dtp70v2/1Xy/QCZwgI347oX7xTWpiZiMmxByWkxG1VdtJcqaz8zI18dYX0PHENZ97a65dJKLhYaMJ9QFg08sL1MwQdhCRWi8VAACFUl212dVvvIJjzNXW4d6XfTPHGB43nFDvPnCLWnA1hXdd3b10ubPzDLXg0oPAg5f8Nnetcs1gQl379SlqSQX95Ko5KrerZk18npUB/DI3fkJn2B+4GyhdpNa819mpumzucgpnqCUzT61hZQBfzF042n5CfWkT8EB7sb2okMvmqNq+hPqLL7EygA/mrg3f0ptQtzSoLcex4arr5q6k8DNqw8L3BQgvLHhujr3kjl6gZk4/AGz8D53MOb8NIx7sbx3iv5Dlw92XfuFp3yrLjGj5t6j9HVi/9wbpMIbsrAfmpgW+eMCHuzVPBacMMLXnLqwZ+CXx8CGYLILV7Ehm4c7fMgA/oT50jniaQ7An5qYFHCcOLtwFowyw8NImttJqj8pCsMvmaAQ9xMOHO1YG8I03vwhsfmWBjOhHP3lkbrZLp32dhTtWBvCD0w+x0qUu7yKlemWO6jqDjoU7VgbwEDahstKlPgUMkWfmZrt0JyMW7u59+Tb5wPU9d7HSpQHHsXHGO3M0hu55YuiEu52XyGt+/Z17gAdOkz4sBNfJQ3Pz3ZCIoRPuPO8GWHhlM7/SMgrBXpojCd2zxNALd1wZwIMJddPL3LRuEII9NTffYzTIWbjzsBvg3EN86dJECPbWHDXQZXaUv3QvVwZwr7lmDVe6NBOCvTZHbNAZcu2JDlYGcI3re9fzpUtTIdg7c2zQTZNZTm7FmqdmXJ9Qt58gDuMQ7L052gWRTLLUwPN598oAt1/ZzJpEzLMDQ+SDORnCNJnno0fcKwOc2M5WWhaYYCHYA3MOzkF4/X53ygDnvgKs33udrDKbxRj5Yk6GcIWM4Bt4tp50YUJlpUsrjGDbvD/mqBdVssb5nXwZwHm3KitdWmNmA46TT+bOIHWFrHH7pXu5MoDDblVWurTzfYpf5qhkZdCxcMdaPZ12q/JNIhZDsH/mznRyXWEmwx1r9XQ0ofIrLcsh2CdzfIOOtXB3/1vtj5Ot1YrFvlrtiKbfXMOttKyHYD/NXea6wsyHuzZlAGUwD0ZxVGvfXNPRf5HswEKwn+aobHnMs3DXXAZQBwAIZVGU5YYoFgCka1rLblW+dGknBPtojm/QsRru+DLAICBU5eWHyRaAdKN5QuVLl/ZCsI/m+AYdy+FuRRlAywNllU/bBWCQa67hm0RshmC/zV2xNehYuLvvVVpCybY+I1QC+rTl3aqsScQ2V1kI9s8cVdFLDBvh7sFL+meEKgLybEJlKy0HVNBL/pu7wjXoWA9362qfkpZtn2/UDAbuTKgonSP7sAbN9/w2xzfo2Ax3W0/mkaO2KALqi801rHTpiBIq5Ls5vivMbrhDRtOtP+OfNvGlSwcheMPVQJijEewiZ7zYYSBfBCtdOmYHRPLbHGvQcXkRpwn4i+vEcBqCfTfHGnTcPr2hjiwxfAvBDJDng87m2TICk+s8BAfGHI2hZ57sk0fD/FkrXodg5+acN+gwjA49uilueIefXln2cRyCfTbHN+jMr95Jl1NZ/N47zXqJfA/BDJD3g874NFn6eQm8ORKgkRPYLqVAmaMJ1hVmjPHJnruZOcenyfK7lAJjjjXoBN8c26XkhznnXWE8ZUgemZOQnQ2cOdqFkaCPudksJihI5liDjpvm8lBWIQRTgMw5v6ikgVKTufveIA7A1xDMA/Jl0BldmfAocLfUfDC88xAc0PtbezFEthD4B3H8N5xrXts6D8EBNafToON8TZpHw3kIDuydwSVUbb7osiYKUasQggNrzvagy0AifYqoOg/BAb6nuh8VuwlVM5p9NLIJ26UUYHN2G3SooD+kNAcHGLNdSoG+G72Mss1govu89iGnkSOGsCPYt8pfTtkcdBJ0lghV7qJFew2awTZHVbtdYVXWtMQzyKw6aVYLuDn7DTplYJR0zgh1FoJTatDNOegKqwN9KvHIeXZGqKPtB4E3d0Ww3RXWaL6KXGZnhDoMwcE3R6L9dbVaBlAcvWNqcjALCPXVqQSHwJyjBh21hEWKxTwAQBA1YjgIwWEw57ArTGuUBSyRYz3DjkNwKMxNdzkvIO7BnxPDeQgOhznHDTr8dW3OQ3BYzLEGHX/NsV1KYTFHY+jx1Ry/Syk85ua7MeG/ObZLKTzmWIOOXSZW6xFrYONMmMyxBh2nF1w6D8FjFCZzNMEGnT/mWAieD5c56sGYQ3PBDcE65nxs0GHmghuCdcz51RXGOI7e4IZgl80dZ4POxnUusr2173DlFh+Cw2eOChjhrnNx29ytCiq3uBAcRnMrG3RuVbwYc+PMHAvB7rAGrlHsnanDT149tXEvXMNFc3geo1fhH3PPYv+GcJrrKc2MwCYpzMEhox9u+1uE0xyGcfiqb+amRvDdzrCa6+mfG4FffOtG78MIqzl8q/PwB/CHDw/jewivue7dc8NY5FdfPbz7ANzmwO7DX/0VFnlmrn8bXIU4AtIV9j62rE4lOIxJeJGKzdquisyqVIJDmYQX2Z8aPwuO0IfgRdw211VZ2AeO0IdgT8zhWeGY9UEX8BC8BLmNaKtG+TG6HO9SCvcMsdig8zOyjAbB6S6lkM8QgDCI5+Ap51/s/B6AsL/ngD1db0/CS55e+Nq2SJgTnkENHjL5xoZhAOGfIYhmbXSFzWKd/RA8QkQRmCFsdoUB9s+rmiWKwgwB4Mnus0fBcD0EpwBE4T0HpJ6DuIAlIhGCPTOHx7vP/hDmCHgl2HCG8L9BZx1mAxuCFwF5Qw8ksoQAzfZW/UiZa6B71n1zbKt+ROZWAH09HxyC6/zkTgiOznuONei4OObYLqUoPa1EBdTJAl342PYupYiZk9E1TebJQCWLzN5p0IyYOeqF6K65kTsNmlEzdwbCtCvmWCVYpkWiZo5KEC2ZC2wIZqnEI4YxejXslWAwyEP6USWzbMH7gQ3B3j2trFfC/LFNOSj2t+pHzhyVUbVgLrAh2PP3HLDPta6wH5zPDmI5EanP3aH7a3PDcIMbIkZSWE60ZgiiK6aPbfoyTrEtKJZ3KUXuPWfh2KYCZLYFxeoupSiaYyfoGJtjW1Csb9WP2gwBdA1i3+qH4NdSB7GC6L3nFht0zjgdc8bnVUXwaTV9bFMvjjNzVkNwNM1Nd0EmY0poMHPWQ3D03nNLDTohD8FLkOfMdkF2NuaMt+pH8mklqmOXeXPXeoFhqyE4quZmu9EwEdEm7G/Vj6o5ktBj9oYXeyE4submu9FwZs54l1IE51YAnd9cta6wp1HNoplozq3mGnTKkBxcKBrVp5WoYdgVVsEYGTLf+kLRKJszPrapijoZMtb2QtGIvucAfBu1udWoBP9LJ1oR3fcca9AxGnN2QnCkxxxqODgHZ3z4bzpb9SP2DQ4YxcLVUThgaav+DrQmyuZwAAdnHB1YckqvEhzh95xRg44I0f5W/Ui/5xYbdGaCvVU/qGOO+jGkO+bs36of5STMGnR0zNm+VT/q5nQbdEYwZHurfvTN6Q26Oqr6QbmXdInyDLHYoCPaPa/KoEEzynlu6QSdFz+wGYJ3b0N7om+uq7IwDCuwEFyDPpFOJbpdYWOoBDYELwLylyH061wQYbsSHPUZAsCzwmtnXTmvKuLvOUAYxL7AbtUPtDns6Tr2TmC36gd4hliMvAWd61xs7lKKwQzRtkGngZL9rfrxMMcGHW/OyS6l6M+tiyfovP2TgG7VD/QMAaSewxBM8494diNMEIMZgjXomLnOZcLcVv14vOdYV5jx1RqzWUhkgni854DHe86+ajoEPw5TxOE9B3Tuxz8vhCkE+2qOP0HnhzDBPrM3F8TGHL6NAwtN31Q72KofH3MPFz74QZM5B4e2xsccaqjNhSYE+22Ob9A5BH0WLITgGJnDARycC+YupaCb21W6OrqqW/XjsPpixzbpXeciWmnQjMvqq1VXmIoM3w7xLpkkbubOdApX2puroEQWiMm6dYme3TMjeudVfRPmidV7jmvQUZFxUAmO19NKVEGVu87F3lb9+Jm7kkpd5q5zsbVVP37mqIoyZ87Woa0xNMcadJg5G1v1Y2iOhlBm5uzvUoqhuWmh8wyRdrTW9ydAsTg4qtrZqh9HcySidKQPYGQHVctb9WNpbno9AOTEhiyrslwvCwCwTiVLxNGcWgQykkYMpQysk8ga8TOnpJGRmmwWgAGyQvzMSUBJo2YkAUWNzBM7cxJQpZYoAvJknriZUwCJ2qBlrDywMTOnplHV0SqgTqaJl7mifumyAahkkniZkyFoBtWAIpklVubyEEkXTYBM5oiVOQkZMkA0P+jiZK5sPAFogEamiJW5NFQyogSJTBEnc3LTw/p14O+a2v9LZI4YmRP5LLcfKN4ncYkPWTJFvMyJtJyb+BE90/0duzcwx8hc0ytsiujPcC4xZ/p8ecaFrcjf1P8pY2LSHbGS//rfR/9nAEGGAkEJDeIZ/yMkT6uVGYKBxJwNc8eO3fxvPM0vIgQyRZzMNbia7xQA/OUUrUBKknAL+DXpz58/9FOra1tGnMyVIDle2zLiZE5C0fhHcmSSOJnTMoaDzsLW1jiZI8loOS9aGHKxMkcZVA2+/pfJJDEzp0DvadSyKJNZYmaOJEChduQtPasxM0dVpCVqiZaHoJFpYmeOykCNWqBkkVHIPPEzRxJQlIlDq6WR08gCMTRHsgAMqCu8jaZhdXKIoznSRAHIDh5VFv8wOdoHoCCTNWJpjkgtC/gdgfXGzAUKpVrIAYBQKEsaBRRQQmLuDom5YJOYS8wxEnPBJjGXmGMk5oJNYi4xx0jMBZvEXGKOkZgLNom5xBwjMRdsEnOJOUZiLtgk5uzy/0cxmSVYlkAyAAAAAElFTkSuQmCC"
+        "https://espresso.codeforces.com/733cb599cc7e9bd751cb590866cace5a207dec6f.png": "tb-asset:88fbec252918b325d4ffe43a9c26860f0cf53317e69b733ee4178941c2dac1e1",
+        "https://espresso.codeforces.com/aafdedd23e3077335800387927eedf7dbdf99a6c.png": "tb-asset:0b196a6b0494023e6a61e8adcd648feca4dc4e9113a65086b6ec5c8e80f16005",
+        "https://espresso.codeforces.com/af2714f5b8e774568184a3fbec53af2f54476fef.png": "tb-asset:9f809516e74d4ab383f9d0b4adf648665f041938d5dd86f54ef32b6695056731"
+      },
+      "integrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "sampleCount": 1,
+        "pdfPageCountVerified": false,
+        "checkedAt": "2026-11-01T08:36:02.416882+00:00",
+        "issues": [],
+        "corpusAuditVerifiedSha256": "caa4e1ac1d24738f9528eec88f9095e3c1ccea8cfa2cb2c5238463d36675bb80",
+        "markdownSha256": "caa4e1ac1d24738f9528eec88f9095e3c1ccea8cfa2cb2c5238463d36675bb80",
+        "sourceDocuments": [
+          {
+            "url": "https://codeforces.com/gym/726517/problem/G",
+            "sha256": "e6ed1161e0f1508b324bb9102055552e60871e7b03ce06453117835db54364f6",
+            "kind": "original-browser-document"
+          }
+        ],
+        "review": "Original source prose, every sample input/output and source resource references compared; preserve existing normalized body and Chinese translation"
       },
       "limits": {
         "memoryMb": 512,
         "timeMs": 2000
       },
+      "localJudgeSupported": true,
       "markdown": "# G. Road Reform\n\nThere are $n$ cities and $m$ bidirectional roads in Berland. The $i$-th road connects the cities $x_i$ and $y_i$, and has the speed limit $s_i$. The road network allows everyone to get from any city to any other city.\n\nThe Berland Transport Ministry is planning a road reform.\n\nFirst of all, maintaining all $m$ roads is too costly, so $m - (n - 1)$ roads will be demolished in such a way that the remaining $(n - 1)$ roads still allow to get to any city from any other city. Formally, the remaining roads should represent an undirected tree.\n\nSecondly, the speed limits on the remaining roads might be changed. The changes will be done sequentially, each change is either increasing the speed limit on some road by $1$, or decreasing it by $1$. Since changing the speed limit requires a lot of work, the Ministry wants to minimize the number of changes.\n\nThe goal of the Ministry is to have a road network of $(n - 1)$ roads with the maximum speed limit over all roads equal to exactly $k$. They assigned you the task of calculating the minimum number of speed limit changes they have to perform so the road network meets their requirements.\n\nFor example, suppose the initial map of Berland looks like that, and $k = 7$:\n\n![](https://espresso.codeforces.com/733cb599cc7e9bd751cb590866cace5a207dec6f.png)\n\nThen one of the optimal courses of action is to demolish the roads $1$–$4$ and $3$–$4$, and then decrease the speed limit on the road $2$–$3$ by $1$, so the resulting road network looks like that:\n\n![](https://espresso.codeforces.com/aafdedd23e3077335800387927eedf7dbdf99a6c.png)\n\n## Input\n\nThe first line contains one integer $t$ ($1 \\le t \\le 1000$) — the number of test cases.\n\nThe first line of each test case contains three integers $n$, $m$ and $k$ ($2 \\le n \\le 2 \\cdot 10^5$; $n - 1 \\le m \\le \\min(2 \\cdot 10^5, \\frac{n(n-1)}{2})$; $1 \\le k \\le 10^9$) — the number of cities, the number of roads and the required maximum speed limit, respectively.\n\nThen $m$ lines follow. The $i$-th line contains three integers $x_i$, $y_i$ and $s_i$ ($1 \\le x_i, y_i \\le n$; $x_i \\ne y_i$; $1 \\le s_i \\le 10^9$) — the cities connected by the $i$-th road and the speed limit on it, respectively. All roads are bidirectional.\n\nThe road network in each test case is connected (that is, it is possible to reach any city from any other city by traveling along the road), and each pair of cities is connected by at most one road.\n\nThe sum of $n$ over all test cases does not exceed $2 \\cdot 10^5$. Similarly, the sum of $m$ over all test cases does not exceed $2 \\cdot 10^5$.\n\n## Output\n\nFor each test case, print one integer — the minimum number of changes the Ministry has to perform so that the maximum speed limit among the remaining $(n - 1)$ roads is exactly $k$.\n\n## Note\n\nThe explanation for the example test:\n\nThe first test case is described in the problem statement.\n\nIn the second test case, the road network initially looks like that:\n\n![](https://espresso.codeforces.com/af2714f5b8e774568184a3fbec53af2f54476fef.png)\n\nThe Ministry can demolish the roads $1$–$2$, $3$–$2$ and $3$–$4$, and then increase the speed limit on the road $1$–$4$ three times.\n\nIn the third test case, the road network already meets all the requirements.\n\nIn the fourth test case, it is enough to demolish the road $1$–$2$ so the resulting road network meets the requirements.",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {
+        "https://espresso.codeforces.com/733cb599cc7e9bd751cb590866cace5a207dec6f.png": {
+          "bytes": 4386,
+          "frameCount": 1,
+          "height": 237,
+          "mime": "image/png",
+          "sha256": "88fbec252918b325d4ffe43a9c26860f0cf53317e69b733ee4178941c2dac1e1",
+          "sourceUrl": "https://espresso.codeforces.com/733cb599cc7e9bd751cb590866cace5a207dec6f.png",
+          "width": 295
+        },
+        "https://espresso.codeforces.com/aafdedd23e3077335800387927eedf7dbdf99a6c.png": {
+          "bytes": 3478,
+          "frameCount": 1,
+          "height": 234,
+          "mime": "image/png",
+          "sha256": "0b196a6b0494023e6a61e8adcd648feca4dc4e9113a65086b6ec5c8e80f16005",
+          "sourceUrl": "https://espresso.codeforces.com/aafdedd23e3077335800387927eedf7dbdf99a6c.png",
+          "width": 296
+        },
+        "https://espresso.codeforces.com/af2714f5b8e774568184a3fbec53af2f54476fef.png": {
+          "bytes": 4920,
+          "frameCount": 1,
+          "height": 309,
+          "mime": "image/png",
+          "sha256": "9f809516e74d4ab383f9d0b4adf648665f041938d5dd86f54ef32b6695056731",
+          "sourceUrl": "https://espresso.codeforces.com/af2714f5b8e774568184a3fbec53af2f54476fef.png",
+          "width": 313
+        }
+      },
       "samples": [
         {
           "input": "4\n4 5 7\n4 1 3\n1 2 5\n2 3 8\n2 4 1\n3 4 4\n4 6 5\n1 2 1\n1 3 1\n1 4 2\n2 4 1\n4 3 1\n3 2 1\n3 2 10\n1 2 8\n1 3 10\n5 5 15\n1 2 17\n3 1 15\n2 3 10\n1 4 14\n2 5 8",
@@ -228638,12 +228881,38 @@
   },
   {
     "content": {
+      "attachments": {},
+      "currentSourceMarkdown": "# Party\n\nA company has *n* employees numbered from 1 to *n*. Each employee either has no immediate manager or exactly one immediate manager, who is another employee with a different number. An employee *A* is said to be the superior of another employee *B* if at least one of the following is true:\n\n\n\n- Employee *A* is the immediate manager of employee *B*\n\n- Employee *B* has an immediate manager employee *C* such that employee *A* is the superior of employee *C*.\n\n\n\nThe company will not have a managerial cycle. That is, there will not exist an employee who is the superior of his/her own immediate manager.\n\n\n\nToday the company is going to arrange a party. This involves dividing all *n* employees into several groups: every employee must belong to exactly one group. Furthermore, within any single group, there must not be two employees *A* and *B* such that *A* is the superior of *B*.\n\n\n\nWhat is the minimum number of groups that must be formed?\n\n\n\n## Input\n\n\n\nThe first line contains integer *n* (1 ≤ *n* ≤ 2000) — the number of employees.\n\n\n\nThe next *n* lines contain the integers *p*$_{i}$ (1 ≤ *p*$_{i}$ ≤ *n* or *p*$_{i}$ = -1). Every *p*$_{i}$ denotes the immediate manager for the *i*-th employee. If *p*$_{i}$ is -1, that means that the *i*-th employee does not have an immediate manager.\n\n\n\nIt is guaranteed, that no employee will be the immediate manager of him/herself (*p*$_{i}$ ≠ *i*). Also, there will be no managerial cycles.\n\n\n\n## Output\n\n\n\nPrint a single integer denoting the minimum number of groups that will be formed in the party.\n\n\n\n## Note\n\n\n\nFor the first example, three groups are sufficient, for example:\n\n\n\n- Employee 1\n\n- Employees 2 and 4\n\n- Employees 3 and 5",
       "id": "remote:codeforces:726517::H",
+      "images": {},
+      "integrity": {
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete",
+        "sampleCount": 1,
+        "pdfPageCountVerified": false,
+        "checkedAt": "2026-11-01T08:36:02.423799+00:00",
+        "issues": [],
+        "corpusAuditVerifiedSha256": "bec223700077ac05d7a5e7ead97a39a3128638aa461537608778f0acb5355fde",
+        "markdownSha256": "bec223700077ac05d7a5e7ead97a39a3128638aa461537608778f0acb5355fde",
+        "sourceDocuments": [
+          {
+            "url": "https://codeforces.com/gym/726517/problem/H",
+            "sha256": "fb1f90f942c2a7495f7e2e4dc58649a7349d789f55b3077c578f43412e5ca7c9",
+            "kind": "original-browser-document"
+          }
+        ],
+        "review": "Original source prose, every sample input/output and source resource references compared; preserve existing normalized body and Chinese translation"
+      },
       "limits": {
         "memoryMb": 256,
         "timeMs": 3000
       },
+      "localJudgeSupported": true,
       "markdown": "# Party\n\nA company has *n* employees numbered from 1 to *n*. Each employee either has no immediate manager or exactly one immediate manager, who is another employee with a different number. An employee *A* is said to be the superior of another employee *B* if at least one of the following is true:\n\n- Employee *A* is the immediate manager of employee *B*\n\n- Employee *B* has an immediate manager employee *C* such that employee *A* is the superior of employee *C*.\n\nThe company will not have a managerial cycle. That is, there will not exist an employee who is the superior of his/her own immediate manager.\n\nToday the company is going to arrange a party. This involves dividing all *n* employees into several groups: every employee must belong to exactly one group. Furthermore, within any single group, there must not be two employees *A* and *B* such that *A* is the superior of *B*.\n\nWhat is the minimum number of groups that must be formed?\n\n## Input\n\nThe first line contains integer *n* (1 ≤ *n* ≤ 2000) — the number of employees.\n\nThe next *n* lines contain the integers *p*$_{i}$ (1 ≤ *p*$_{i}$ ≤ *n* or *p*$_{i}$ = -1). Every *p*$_{i}$ denotes the immediate manager for the *i*-th employee. If *p*$_{i}$ is -1, that means that the *i*-th employee does not have an immediate manager.\n\nIt is guaranteed, that no employee will be the immediate manager of him/herself (*p*$_{i}$ ≠ *i*). Also, there will be no managerial cycles.\n\n## Output\n\nPrint a single integer denoting the minimum number of groups that will be formed in the party.\n\n## Note\n\nFor the first example, three groups are sufficient, for example:\n\n- Employee 1\n\n- Employees 2 and 4\n\n- Employees 3 and 5",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {},
       "samples": [
         {
           "input": "5\n-1\n1\n2\n1\n-1",
@@ -228651,8 +228920,17 @@
           "output": "3"
         }
       ],
+      "sourceBinding": {
+        "method": "all-body-prose-math-io-constraints-and-every-sample",
+        "mirrorBodySha256": "3956e50b665234b9a56fd11a8aa9023b90298bee942211d03b50385e4eacb726",
+        "mirrorId": "lab:codeforces:115A",
+        "mirrorUrl": "https://codeforces.com/contest/115/problem/A",
+        "originalArchiveBodySha256": "bec223700077ac05d7a5e7ead97a39a3128638aa461537608778f0acb5355fde",
+        "originalUrl": "https://codeforces.com/gym/726517/problem/H"
+      },
       "statementAvailable": true,
-      "statementVersion": 3,
+      "statementSupplement": "",
+      "statementVersion": 7,
       "title": "Party",
       "translation": {
         "format": "complete-prose-v4",
@@ -228663,6 +228941,12 @@
         "sourceHash": "bec223700077ac05d7a5e7ead97a39a3128638aa461537608778f0acb5355fde",
         "sourceLanguage": "en",
         "targetLanguage": "zh-CN"
+      },
+      "translationSourceSnapshot": {
+        "currentSourceHash": "3956e50b665234b9a56fd11a8aa9023b90298bee942211d03b50385e4eacb726",
+        "equivalentFormattingVerified": true,
+        "samplesUnchanged": true,
+        "sourceHash": "bec223700077ac05d7a5e7ead97a39a3128638aa461537608778f0acb5355fde"
       },
       "url": "https://codeforces.com/gym/726517/problem/H"
     },
