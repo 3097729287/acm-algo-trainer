@@ -24,7 +24,7 @@ await page.route('**/api/**',async route=>{
  else if(name==='insights')value={summary:{totalSolved:0},growth:{level:11,confirmed:true,authority:{owner,epoch:'filter-fixture',revision:++revision},currentLevelXp:0,nextLevelXp:2200,totalXp:0},knowledge:[],recommendations:[],activity:[],assessment:{},dailyTasks:{tasks:[]}};
  else if(name==='preferences'){if(request.method()==='POST')preferences=request.postDataJSON().preferences;value={preferences,updatedAt:now};}
  else if(name==='training/clear'){
-  assert.equal(request.method(),'POST');assert.equal(request.headers()['x-tb-token'],'filter-fixture');assert.deepEqual(request.postDataJSON(),{});
+  assert.equal(request.method(),'POST');assert.equal(request.headers()['x-tb-token'],'filter-fixture');assert.deepEqual(request.postDataJSON(),{ids:training.map(row=>row.id)});
   assert(!pending&&!activeContest);writes.push({path:name,body:request.postDataJSON()});const cleared=training.length;training=[];value={cleared,workspace:workspace()};
  }
  else if(name==='training-lists')value={lists:[]};

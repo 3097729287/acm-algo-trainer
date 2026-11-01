@@ -58,21 +58,19 @@ try{
  await page.goto(base);await page.waitForFunction(()=>document.querySelector('.profile-level-number')?.textContent==='11');
  for(const pageName of ['我的训练','题库']){
   await nav().getByRole('button',{name:pageName,exact:true}).click();await page.getByRole('button',{name:'筛选题目',exact:true}).click();
-  assert.deepEqual(await page.getByLabel('题目平台',{exact:true}).locator('option').allTextContents(),['全部平台',...platforms]);
+  assert.equal(await page.getByLabel('题目平台',{exact:true}).count(),0,'Problem filters omit the redundant platform row');
   for(const platform of platforms){
-   await choose('题目平台',platform);
-   await page.waitForFunction(platform=>{const nodes=[...document.querySelectorAll('.problem-title')];return nodes.length===1&&nodes[0].textContent.startsWith(platform);},platform);
-   assert.equal(await page.locator('.platform-symbol').getAttribute('title'),platform);
-   assert.equal(await page.locator('.platform-symbol').textContent(),platform==='QOJ'?'QJ':platform==='FutureJudge'?'Fu':platform==='Codeforces'?'CF':platform==='AtCoder'?'At':platform==='牛客'?'牛':'洛');
+   const badge=page.locator('.problem-table tr').filter({has:page.locator('.problem-title',{hasText:platform+' 真实来源夹具'})}).locator('.platform-symbol');
+   assert.equal(await badge.getAttribute('title'),platform);
+   assert.equal(await badge.textContent(),platform==='QOJ'?'QJ':platform==='FutureJudge'?'Fu':platform==='Codeforces'?'CF':platform==='AtCoder'?'At':platform==='牛客'?'牛':'洛');
   }
-  await choose('题目平台','QOJ');
   await page.getByLabel('筛选比赛分类',{exact:true}).click();
   const menu=page.getByRole('listbox',{name:'筛选比赛分类',exact:true});
   assert.equal(await menu.getByRole('option',{name:'QOJ',exact:true}).count(),0,'XCPC events have no hosting-platform category mirror');
   await menu.getByRole('option',{name:'XCPC',exact:true}).click();
   await menu.getByRole('option',{name:'选择「XCPC」',exact:true}).click();
   await page.waitForFunction(()=>document.querySelectorAll('.problem-title').length===1);
-  assert.equal(await page.getByLabel('题目平台',{exact:true}).inputValue(),'QOJ','Selecting the event taxonomy preserves the independent source filter');
+  assert.equal(await page.locator('.problem-table .platform-symbol').getAttribute('title'),'QOJ','The event taxonomy preserves the original hosting platform');
   await page.keyboard.press('Escape');await page.screenshot({path:`${output}/${pageName}-qoj.png`,animations:'disabled'});
  }
  await nav().getByRole('button',{name:'比赛',exact:true}).click();await page.getByRole('button',{name:'筛选比赛',exact:true}).click();await choose('比赛平台','QOJ');await page.keyboard.press('Escape');
@@ -125,5 +123,5 @@ try{
  assert.equal(await page.evaluate(()=>workbenchFixture.calls.filter(call=>call.path==='official/submit').length),1,'Template practice uses its local submit even for an unknown source');
  report.submitGuard={unknownButtonBlocked:true,unknownShortcutBlocked:true,unknownRunAvailable:true,qojShortcutAllowed:true,existingSessionOpenPreserved:true,templateLocalSubmitPreserved:true};
  assert.deepEqual(errors,[]);assert.deepEqual(unknown,[]);assert.deepEqual(external,[]);report.ok=true;
- console.log('PASS actual App: five supported + future display-only source filters/badges, QOJ and XCPC catalog axes, exact mock source/event, SQL-query parameter/record source, native-login-only account control; zero real OJ traffic');
+ console.log('PASS actual App: five supported + future display-only source badges, compact problem filters, QOJ and XCPC catalog axes, exact mock source/event, SQL-query parameter/record source, native-login-only account control; zero real OJ traffic');
 }finally{await writeFile(output+'/report.json',JSON.stringify({...report,errors,unknown,external,requests},null,2));await browser.close();await vite.close();}

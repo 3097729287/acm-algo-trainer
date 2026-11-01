@@ -36,11 +36,16 @@ html .ranking-table col.ranking-column-count {width:60px;}
 html .ranking-table td.ranking-social-cell {padding-inline:0!important;}
 html .ranking-table td.ranking-count {padding-inline:4px!important;text-align:center;}
 html .ranking-table .ranking-social {display:grid;grid-template-columns:40px 52px;gap:8px;align-items:center;justify-content:end;}
+html .ranking-social .like-burst {box-sizing:border-box;min-width:0;width:100%;justify-content:center;}
 html .ranking-social .ranking-message-slot {width:40px;height:32px;}
 html .ranking-social .ranking-message {display:grid;place-items:center;width:40px;height:32px;}
 .ranking-table .ranking-medal[data-days] {width:36px;height:54px;max-height:none;overflow:visible;vertical-align:middle;}
 .ranking-dominance {color:inherit;}
 @media(max-width:700px) {
+ html .ranking-table col.ranking-column-social {width:88px;}
+ html .ranking-table col.ranking-column-count {width:48px;}
+ html .ranking-table .ranking-social {grid-template-columns:32px 48px;gap:8px;}
+ html .ranking-social :is(.ranking-message-slot,.ranking-message) {width:32px;}
  html .training-lists-page .training-list-table :is(th,td) {padding-inline:4px;min-width:0;}
  html .training-lists-page .training-list-table :is(th,td):nth-child(1) {width:auto;padding-left:8px!important;}
  html .training-lists-page .training-list-table :is(th,td):nth-child(3) {width:48px;}

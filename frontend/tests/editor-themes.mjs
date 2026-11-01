@@ -22,6 +22,7 @@ try {
  for(const name of ['Woodfish Dracula','Woodfish Black','Woodfish Neon','Woodfish Light'])await options.getByRole('option',{name,exact:true}).waitFor({state:'attached'});
  await options.getByRole('option',{name:'Woodfish Neon',exact:true}).click();
  await page.evaluate(()=>fixture.setPrefs({theme:'light'}));
+ await page.waitForFunction(()=>getComputedStyle(document.querySelector('.editor-theme-options>button>span')).color==='rgb(37, 44, 59)');
  assert.equal(await preview.locator('.cm-editor').evaluate(node=>getComputedStyle(node).color),'rgb(232, 227, 255)');
  const token=preview.locator('.tok-keyword').first();
  assert.match(await token.evaluate(node=>getComputedStyle(node).backgroundImage),/^linear-gradient/);

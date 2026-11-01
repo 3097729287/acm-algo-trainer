@@ -154,7 +154,8 @@ try {
   await page.keyboard.press('Escape');
   await nav('设置').click();
   await openSettings(page, '外观');
-  await page.getByLabel('练习题面不透明度',{exact:true}).fill('42');
+  await page.locator('.page-opacity-settings').getByRole('button',{name:'单题',exact:true}).click();
+  await page.getByLabel('题面不透明度',{exact:true}).fill('42');
   await page.getByLabel('代码编辑器不透明度',{exact:true}).fill('65');
   for(let attempt=0;attempt<30&&preferences?.pageOpacities?.editor!==65;attempt++)await page.waitForTimeout(100);
   assert.equal(preferences.pageOpacities.statement,42);assert.equal(preferences.pageOpacities.editor,65);

@@ -91,8 +91,8 @@ try {
   await achievementDialog.locator('[data-achievement-id="official-10"]').hover();
   assert.equal(await achievementDialog.locator('.progress-achievement-new').count(),2,'hover reads only this achievement');
   await achievementDialog.getByText('完成模拟赛',{exact:true}).waitFor();
-  assert.equal(await achievementDialog.getByText('+25 XP · 已发放',{exact:true}).count(),1);
-  assert.equal(await achievementDialog.getByText('+80 XP · 达成后发放',{exact:true}).count(),1);
+  assert.equal(await achievementDialog.getByText('+25 XP · 已发放',{exact:true}).count(),0,'Claimed reward rows are omitted');
+  assert.equal(await achievementDialog.getByText('+80 XP · 达成后发放',{exact:true}).count(),0,'Unearned rewards do not add a redundant status row');
   await page.screenshot({path:'tests/screenshots/training-overview/achievements-dark.png',animations:'disabled'});
   await page.keyboard.press('Escape');
   await page.getByRole('button',{name:'成就',exact:true}).click();

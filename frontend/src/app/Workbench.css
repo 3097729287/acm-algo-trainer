@@ -917,6 +917,7 @@ html .tb-workbench:not(.wb-compact) .wb-editor-actions {flex:0 0 auto;margin-lef
  .wb-editor-header>.wb-language-select .tb-select-wrap {width:80px}
  .wb-editor-header {padding-inline:8px;gap:4px}
  .wb-editor-actions {gap:4px}
+ .wb-editor-actions .wb-next-button {font-size:0;gap:0;width:var(--wb-control-height);min-width:var(--wb-control-height);padding-inline:5px}
 }
 
 html .tb-workbench.wb-toolbar-hidden :is(.wb-pane-header,.wb-compact-toolbar){flex-basis:0!important;}
