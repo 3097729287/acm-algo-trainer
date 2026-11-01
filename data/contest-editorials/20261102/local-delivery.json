@@ -1,0 +1,17 @@
+{
+  "state": "installed-local-content",
+  "contests": [
+    "周赛 168",
+    "ABC 482",
+    "小白月赛 139"
+  ],
+  "sourceCommit": "ecdf5d31",
+  "nativeVersion": "1.4.36",
+  "problems": 16,
+  "defaultArticles": 16,
+  "detailedArticles": 16,
+  "normalStartupReadback": true,
+  "personalSubmissionsAndDraftsUnchanged": true,
+  "publicDeployment": false,
+  "standaloneInstallerPublished": false
+}
