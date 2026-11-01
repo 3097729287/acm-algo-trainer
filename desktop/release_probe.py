@@ -278,7 +278,17 @@ def run(action, output):
                         report['nativeKnapsackAnimation'] = True
                         report['nativeAlgorithmLab'] = True
                         assert window.evaluate_js("!document.querySelector('.lab-course-header .lab-mode-switch')")
-                        assert window.evaluate_js("(() => {const header=document.querySelector('.lab-course-header').getBoundingClientRect(),tools=document.querySelector('.lab-course-tools').getBoundingClientRect();return tools.top>=header.top&&tools.bottom<=header.bottom&&tools.right<=header.right;})()")
+                        # The toolbar wrapper uses display:contents so its own
+                        # DOMRect is empty. Check the visible controls instead.
+                        report['nativeTopNavigationGeometry'] = window.evaluate_js("(() => {const header=document.querySelector('.lab-course-header').getBoundingClientRect(),controls=[...document.querySelectorAll('.lab-course-header .lab-icon-button,.lab-course-header .lab-menu-toggle')].filter(node=>node.getClientRects().length).map(node=>{const r=node.getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right,width:r.width,height:r.height};});return {header:{top:header.top,bottom:header.bottom,left:header.left,right:header.right},controls};})()")
+                        geometry = report['nativeTopNavigationGeometry']
+                        assert len(geometry['controls']) >= 3
+                        for control in geometry['controls']:
+                            assert control['width'] > 0 and control['height'] > 0
+                            assert control['top'] >= geometry['header']['top'] - 1
+                            assert control['bottom'] <= geometry['header']['bottom'] + 1
+                            assert control['left'] >= geometry['header']['left'] - 1
+                            assert control['right'] <= geometry['header']['right'] + 1
                         assert window.evaluate_js("getComputedStyle(document.querySelector('.sidebar')).display==='none'&&getComputedStyle(document.querySelector('.topbar')).display==='none'")
                         report['nativeTopNavigation'] = True
                         window.evaluate_js("document.querySelector('.lab-menu-toggle').click()")

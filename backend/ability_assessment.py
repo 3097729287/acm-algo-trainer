@@ -12,7 +12,7 @@ from progression import parse_time
 from submission_evidence import source_present
 
 FAILURES={'WA','TLE','MLE','RE','OLE'}
-MODEL={'version':2,'method':'rasch-practice-evidence-v2','window':60,
+MODEL={'version':3,'method':'rasch-practice-evidence-v3','window':60,
        'bandWidth':100,'bandWeightCap':8,'minimumSuccesses':5,
        'supportCount':5,'scoreQuantile':.1,'calibrated':False}
 
@@ -25,14 +25,22 @@ def _weight(value):
 def _iso(value):
     return value.astimezone(dt.timezone.utc).isoformat(timespec='microseconds').replace('+00:00','Z')
 
+
+def _live_contest(record, periods):
+    stamp=parse_time(record.get('submitted_at'))
+    return bool(stamp and len(periods)==1 and next(iter(periods))[0]<=stamp<next(iter(periods))[1])
+
 def from_records(rows, records, now):
     """One first-learning episode per exact original, never one per retry."""
     from insights import canonical_url
     from rating_evidence import evidence as rating_evidence
-    metadata={};aliases={}
+    metadata={};aliases={};periods=defaultdict(set)
     for row in rows:
         key=canonical_url(row.get('url')) or row['id']
         if key not in metadata or metadata[key].get('source')=='remote':metadata[key]=row
+        if row.get('contestDateSource')=='原站公开比赛时间':
+            start=parse_time(row.get('startedAt'));end=parse_time(row.get('endedAt'))
+            if start and end and start<end:periods[key].add((start,end))
         for identity in [row['id'],*row.get('aliasIds',[])]:aliases[identity]=key
     grouped=defaultdict(list)
     for record in records:
@@ -45,7 +53,8 @@ def from_records(rows, records, now):
     result=[]
     for key,receipts in grouped.items():
         independent=lambda r:('solution_seen' in r and r['solution_seen'] is not None
-                              and not r['solution_seen'] and source_present(r))
+                              and not r['solution_seen'] and (source_present(r) or
+                              r.get('ownerReceipt') is True and (r.get('timedReceipt') is True or _live_contest(r,periods[key]))))
         # Compare instants, not ISO text (offsets can spell the same instant
         # differently). Uncertain or assisted facts win an exact AC tie.
         receipts.sort(key=lambda r:(parse_time(r['submitted_at']),independent(r),r.get('id','')))
@@ -64,7 +73,9 @@ def from_records(rows, records, now):
             'date':_iso(parse_time(stamp)),'failures':len(failures),'firstPass':solved and not failures,
             'kind':rating['kind'],'topics':sorted({path.split(' / ')[0] for path in row.get('knowledgeCategories',[]) if path}),
             'problemId':row['id'],'tags':row.get('tags',[]),'independentKnown':True,
-            'timed':bool((first_ac if solved else failures[-1]).get('contest_id'))})
+            'timed':bool((first_ac if solved else failures[-1]).get('contest_id') or
+                         (first_ac if solved else failures[-1]).get('timedReceipt') or
+                         _live_contest(first_ac if solved else failures[-1],periods[key]))})
     return result
 
 def from_successes(evidence, now):
@@ -139,5 +150,8 @@ def assess(evidence, now):
         'evidence':[{'id':item['id'],'problemId':item.get('problemId'),'difficulty':item['difficulty'],
            'solved':item['solved'],'weight':round(item['weight'],6),'date':item['date'],
            'difficultyKind':item.get('kind'),'failures':item.get('failures',0)} for item in known],
+        'unratedEvidence':[{'id':item['id'],'problemId':item.get('problemId'),'difficulty':None,
+           'solved':item['solved'],'weight':0,'date':item['date'],'difficultyKind':'unknown',
+           'failures':item.get('failures',0)} for item in all_items if not (item.get('rated') and _number(item.get('difficulty')) and _weight(item.get('weight',0))>0)],
         'estimated':True,'intervalKind':'supported-reference',
         'rules':'5 级解锁段位。能力分和知识点掌握度共用 Rasch 作答模型：同一原题只计一份首次学习证据，采用最近 60 道难度已知且权重有效的不同原题的独立正式作答；未知难度另计参与数，不挤掉有效证据。未独立完成的有效失败参与估计，重试成功降低权重，样例、编译错误、辅助 AC 不充当独立成功。CF 官方题权重为 1，跨平台估计采用保守区间和较低权重；同一整百难度层最多 8 份有效证据。显示后验 10% 分位数，且不超过至少 5 道独立成功支持的难度；同时给出 95% 模型区间、90 天全部不同原题的实际结果和专题证据。模型参数是公开工程约定，尚未经共同人群标定，不是 CF 官方 rating。经验和奖励不参与能力计算；不因缺勤直接扣能力分。'}

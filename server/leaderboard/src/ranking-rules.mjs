@@ -1,9 +1,9 @@
-export const REWARD_POLICY = Object.freeze({ daily: [100, 60, 30], weekly: [500, 300, 150], timezone: 'Asia/Shanghai', weekStartsOn: 'Sunday' });
+export const REWARD_POLICY = Object.freeze({ daily: [100, 60, 30], weekly: [500, 300, 150], timezone: 'Asia/Shanghai', weekStartsOn: 'Monday' });
 
 export function bounds(period, now) {
   const day = new Date(now + 8 * 3600 * 1000).toISOString().slice(0, 10);
   const startDate = new Date(day + 'T00:00:00Z');
-  if (period === 'weekly') startDate.setUTCDate(startDate.getUTCDate() - startDate.getUTCDay());
+  if (period === 'weekly') startDate.setUTCDate(startDate.getUTCDate() - (startDate.getUTCDay()+6)%7);
   const start = startDate.toISOString().slice(0, 10);
   return { day, start, end: addDays(start, period === 'weekly' ? 7 : 1) };
 }
@@ -31,3 +31,11 @@ export function rankingQuery(range, loginDay = null) {
 }
 
 export const normalizeRank = row => row && ({ ...row, count: Number(row.count), rank: Number(row.position) });
+
+// Old Sunday schedules advance to the following Monday once. Preserve paid
+// rewards and avoid settling an overlapping or unfinished transition period.
+export function settlementStart(period,start){
+  if(period!=='weekly')return start;
+  const day=new Date(start+'T00:00:00Z').getUTCDay();
+  return addDays(start,(8-day)%7);
+}

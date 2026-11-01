@@ -3,7 +3,7 @@ import datetime as dt
 import hashlib
 import json
 
-from daily_rotation import CHALLENGES, EXPLORATIONS, tasks_for, adapt_challenge
+from daily_rotation import CHALLENGES, EXPLORATIONS, tasks_for, adapt_challenge, task_condition
 from progression import SHANGHAI, parse_time, task_progress
 from training import ServiceError, iso
 from usage import learning_seconds
@@ -110,14 +110,18 @@ def progress(training, task, evidence, day, completed=None):
 
 def _random(training, day, owner, step, fixed, evidence, records):
     identity = 'review-random:' + str(step)
+    conditions={task_condition(task) for task in fixed}
     if identity in records:
-        return json.loads(records[identity]['definition'])
+        saved=json.loads(records[identity]['definition'])
+        if records[identity]['claimed_at'] or task_condition(saved) not in conditions:return saved
     excluded = {task['id'] for task in fixed}
     previous = records.get('review-random:' + str(step - 1))
     if previous:
         excluded.add(json.loads(previous['definition']).get('sourceId'))
+    basis=_challenge_reference(training,day)
     pool = [task for task in [*CHALLENGES, *EXPLORATIONS]
-            if task['id'] not in excluded and task['kind'] not in ('morning', 'evening')]
+            if task['id'] not in excluded and task['kind'] not in ('morning', 'evening')
+            and task_condition(adapt_challenge(task,basis)) not in conditions]
     # A short extra learning session remains possible after finite actions run
     # out. New rounds require new evidence instead of immediately reusing ACs.
     pool.append(dict(id='learning-extra', title='再学一会', description='继续学习 5 分钟', kind='learning', target=5, xp=10))
@@ -156,7 +160,7 @@ def snapshot(training, goal_tasks=None, evidence=None, *, completed=None):
         completed = _completed_reviews(training, day) if completed is None else completed
         limit = _review_limit(training, day, completed)
         basis=_challenge_reference(training,day)
-        fixed = [{**adapt_challenge(task,basis), 'lane': 'fixed', 'slot': i + 3} for i, task in enumerate(tasks_for(day, owner)[3:])]
+        fixed = [{**adapt_challenge(task,basis), 'lane': 'fixed', 'slot': i + 3} for i, task in enumerate(tasks_for(day, owner, basis)[3:])]
         ac_step = _next_step(records, 'ac')
         # A legacy already-claimed 1/3-AC tier is not paid a second time.
         legacy_target = max((target for key,target in [('solve-1',1),('solve-3',3)] if key in records and records[key]['claimed_at']), default=0)

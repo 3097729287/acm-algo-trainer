@@ -129,7 +129,7 @@ try{
   assert.equal(await page.locator('.next-actions-primary small').count(),0,'The top task has no next-step/category label');
   assert.equal(await page.locator('.next-actions-primary .lucide-arrow-right').count(),0,'The top task has no trailing right arrow');
   assert.equal(await root.evaluate(node=>getComputedStyle(node).borderWidth),'0px','The complete recommendation control has no outer frame');
-  assert.equal(await page.locator('.next-actions-reason').count(),0,'Reasons are tooltips, not a second information panel');
+  assert.equal(await page.locator('.next-actions-reason').count(),0,'No visible recommendation-explanation box remains');
   assert(!/优先推荐的原因|根据当前学习记录|接下来还可以/.test(await popup().innerText()));
   const allTasks=popup().locator('.next-actions-item');
   assert.equal(await allTasks.count(),3,'The menu contains the current foundation list and two alternatives, without repeating the primary review');
@@ -143,11 +143,12 @@ try{
     const description=await task.getAttribute('aria-describedby');
     assert(description&&await page.locator(`[id="${description}"]`).count()===1);
     const reason=await page.locator(`[id="${description}"]`).innerText();
-    assert(reason.length>20);assert((await task.getAttribute('title')).includes(reason));
+    assert(reason.length>20);assert.equal(await task.getAttribute('title'),null);
     assert.equal(await task.locator('small').count(),0);
     assert(!(await task.innerText()).includes(reason),'A long recommendation reason is not visibly rendered');
   }
-  assert.match(await page.locator('.next-actions-primary').getAttribute('title'),/1 道.*到期/);
+  assert.equal(await primary().getAttribute('title'),null);
+  assert.match(await primary().evaluate(node=>document.getElementById(node.getAttribute('aria-describedby')).textContent),/1 道.*到期/);
   const listAction=popup().getByRole('button',{name:'开始基础题单 输入输出与顺序结构',exact:true});
   await listAction.waitFor();
   const bounds=await root.boundingBox();
@@ -166,7 +167,7 @@ try{
   assert.deepEqual(await lastAction(),{train:'B'});
 
   phase='keyboard-and-outside';
-  await page.mouse.move(800,500);await page.locator('#outside').focus();await primary().focus();await popup().waitFor();
+  await page.mouse.move(800,500);await page.locator('#outside').focus();await page.keyboard.press('Tab');await primary().focus();await popup().waitFor();
   await page.keyboard.press('ArrowDown');
   await page.waitForFunction(()=>document.activeElement?.dataset.recommendation==='list');
   await page.waitForTimeout(200);
@@ -251,7 +252,7 @@ try{
   await page.waitForFunction(()=>document.querySelector('.next-actions-primary')?.dataset.recommendation==='contest');
   await page.mouse.move(20,700);await root.hover();assert.equal(await popup().count(),0);
   assert.equal(await contest.getAttribute('aria-expanded'),null,'A single primary task has no empty dropdown');
-  assert.match(await contest.getAttribute('title'),/已有正在进行的模拟赛/);
+  assert.equal(await contest.getAttribute('title'),null);
   await contest.click();
   assert.deepEqual(await lastAction(),{navigate:'contest',id:'current'});
   await page.evaluate(()=>{
@@ -320,7 +321,7 @@ try{
   assert.deepEqual(errors,[]);assert.deepEqual(unknown,[]);
   assert(requests.includes('/api/training-lists')&&requests.includes('/api/templates'));
   Object.assign(report,{ok:true,hoverBridge:true,realTaskHover:true,mouseLeaveWithin180ms:true,mouseLeaveWithRetainedFocus:true,keyboardInternalFocusKeepsOpen:true,independentNavigation:true,keyboard:true,outsideClose:true,
-    touch:true,suspended:true,openChange:true,unmountCloses:true,reducedMotion:true,reasonTooltips:true,allTasksDirect:true,primaryNotRepeated:true,alignedToWholeControl:true,alignedIconsTextAndArrows:true,opaqueThemedPopup:true,subtleBorderAndShadow:true,aboveUnderlyingContent:true,noSeparateChevron:true,noPrimaryArrow:true,realOfficialSubmissionsSent:0});
+    touch:true,suspended:true,openChange:true,unmountCloses:true,reducedMotion:true,noReasonTooltip:true,allTasksDirect:true,primaryNotRepeated:true,alignedToWholeControl:true,alignedIconsTextAndArrows:true,opaqueThemedPopup:true,subtleBorderAndShadow:true,aboveUnderlyingContent:true,noSeparateChevron:true,noPrimaryArrow:true,realOfficialSubmissionsSent:0});
   console.log(JSON.stringify({ok:true,geometryCases:report.geometry.length,report:path.join(output,'report.json')}));
 }catch(error){
   report.failure={phase,message:error.message};

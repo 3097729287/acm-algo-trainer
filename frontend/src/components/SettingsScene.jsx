@@ -1,4 +1,6 @@
 import './SettingsScene.css';
+import {useRef} from 'react';
+import useSettingsSceneInteractions from '@/lib/useSettingsSceneInteractions.js';
 import {RoundedDinosaur,SpinningPlanet} from './SettingsIllustrations.jsx';
 
 const svgProps={viewBox:'0 0 180 130','aria-hidden':true,fill:'none',stroke:'currentColor',strokeWidth:2,strokeLinecap:'round',strokeLinejoin:'round'};
@@ -18,10 +20,11 @@ const cityFrames=buildings.map((_,index)=>{
 }).join('');
 
 export default function SettingsScene({kind}) {
- if(kind==='dino')return <RoundedDinosaur/>;
- if(kind==='cloud')return <div className="settings-scene scene-cloud-stage" aria-hidden="true">{[0,1].map(index=><svg key={index} {...svgProps} className={`cloud-flight cloud-flight-${index}`} viewBox="0 0 110 65"><path d="M10 38C2 17 25 8 39 24c3-28 39-28 43 1 27-13 37 31 7 31H24C13 56 5 49 10 38Z" fill="currentColor" fillOpacity=".1"/><path d="M23 48h13m10 0h35" opacity=".2"/></svg>)}</div>;
- if(kind==='balloon')return <div className="settings-scene scene-balloon-stage" aria-hidden="true"><svg {...svgProps} className="balloon-flight" viewBox="0 0 90 150"><ellipse cx="45" cy="42" rx="26" ry="32" fill="currentColor" fillOpacity=".13"/><path d="m40 77 5-5 5 5Zm5 1c-22 17 23 26 0 45s9 18 0 23M32 24q-9 7-7 20"/><path d="M60 17c10 10 12 25 6 39" opacity=".35"/></svg></div>;
- return <svg {...svgProps} className={`settings-scene scene-${kind}`}>
+ const scene=useRef(null);useSettingsSceneInteractions(scene,kind);
+ if(kind==='dino')return <RoundedDinosaur sceneRef={scene}/>;
+ if(kind==='cloud')return <div ref={scene} className="settings-scene scene-cloud-stage" aria-hidden="true">{[0,1].map(index=><svg key={index} {...svgProps} className={`cloud-flight cloud-flight-${index}`} viewBox="0 0 110 65"><path d="M10 38C2 17 25 8 39 24c3-28 39-28 43 1 27-13 37 31 7 31H24C13 56 5 49 10 38Z" fill="currentColor" fillOpacity=".1"/><path d="M23 48h13m10 0h35" opacity=".2"/></svg>)}</div>;
+ if(kind==='balloon')return <div ref={scene} className="settings-scene scene-balloon-stage" aria-hidden="true"><svg {...svgProps} className="balloon-flight" viewBox="0 0 90 150"><ellipse cx="45" cy="42" rx="26" ry="32" fill="currentColor" fillOpacity=".13"/><path d="m40 77 5-5 5 5Zm5 1c-22 17 23 26 0 45s9 18 0 23M32 24q-9 7-7 20"/><path d="M60 17c10 10 12 25 6 39" opacity=".35"/></svg></div>;
+ return <svg ref={scene} {...svgProps} className={`settings-scene scene-${kind}`}>
  {kind==='coffee'&&<><path className="scene-ground" d="M36 109h104"/><path className="coffee-cup" d="M57 65h52v27q0 16-26 16T57 92Z" fill="currentColor" fillOpacity=".12"/><path d="M109 70h10c18 0 16 24-10 24"/>{[0,1,2].map(i=><path key={i} className="coffee-steam" style={{animationDelay:`${i*.9}s`}} d={`M${69+i*13} 53q-9-10 0-19t0-17`}/>)}</>}
  {kind==='bulb'&&<g className="scene-bulb"><circle className="bulb-halo" cx="90" cy="56" r="43" stroke="none" fill="currentColor"/><path className="bulb-glass" d="M73 83C43 55 66 25 90 26s47 31 17 57l-2 14H75Z" fill="currentColor"/><path className="bulb-filament" d="m80 58 10 9 10-9m-10 9v29"/><path d="m76 104h28m-24 7h20"/><g className="bulb-rays"><path d="m90 12 1-7m39 21 5-5m4 40h8M49 23l-5-5m-1 43h-8"/></g></g>}
  {kind==='orbit'&&<SpinningPlanet/>}

@@ -1,0 +1,30 @@
+import assert from 'node:assert/strict';
+import {createServer} from 'vite';
+import {chromium} from 'playwright';
+const server=await createServer({server:{host:'127.0.0.1',port:0,watch:null}});await server.listen();
+const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
+const page=await browser.newPage({viewport:{width:1100,height:760}}),errors=[];page.on('pageerror',error=>errors.push(error.message));
+try{
+ await page.goto(`http://127.0.0.1:${server.httpServer.address().port}/tests/navigation-reorder-fixture.html`);
+ const nav=page.getByRole('navigation',{name:'主导航'}),library=nav.getByRole('button',{name:'题库',exact:true});await library.waitFor();
+ await library.click();assert.equal(await page.evaluate(()=>dragFixture.page),'library');
+ const start=await library.boundingBox(),last=await nav.getByRole('button',{name:'提交记录',exact:true}).boundingBox();
+ await page.mouse.move(start.x+start.width/2,start.y+start.height/2);await page.mouse.down();
+ await page.waitForFunction(()=>document.querySelector('nav').dataset.reordering==='true');
+ await page.mouse.move(start.x+start.width/2,last.y+last.height/2+5,{steps:8});
+ assert(await library.evaluate(node=>node.dataset.dragActive==='true'));
+ await page.mouse.up();await page.waitForFunction(()=>window.reorderSaves===1);
+ assert.deepEqual(await page.evaluate(()=>dragFixture.entries),['mine','competitions','records','library']);
+ assert.equal(await page.evaluate(()=>dragFixture.page),'library','Drag never enters the item under the release point');
+ const moved=await library.boundingBox(),first=await nav.getByRole('button',{name:'我的训练',exact:true}).boundingBox();
+ await page.waitForTimeout(320);await page.mouse.move(moved.x+40,moved.y+moved.height/2);await page.mouse.down();
+ await page.waitForFunction(()=>document.querySelector('nav').dataset.reordering==='true');await page.mouse.move(first.x+40,first.y+4,{steps:6});
+ await page.keyboard.press('Escape');await page.mouse.up();assert.equal(await page.evaluate(()=>window.reorderSaves),1);
+ assert.deepEqual(await page.evaluate(()=>dragFixture.entries),['mine','competitions','records','library']);
+ const setting=page.getByRole('region',{name:'板块显示'});assert.equal(await setting.getByRole('textbox').count(),0);assert.equal(await setting.getByRole('button').count(),0);
+ const visible=setting.getByRole('checkbox',{name:'显示 题库',exact:true});await visible.uncheck();assert.deepEqual(await page.evaluate(()=>dragFixture.prefs.hiddenNavPages),['library']);await visible.check();assert.deepEqual(await page.evaluate(()=>dragFixture.prefs.hiddenNavPages),[]);
+ await page.emulateMedia({reducedMotion:'reduce'});await page.waitForTimeout(320);await library.hover();await page.mouse.down();await page.waitForFunction(()=>document.querySelector('nav').dataset.reordering==='true');
+ assert(await nav.locator('button svg').evaluateAll(nodes=>nodes.every(node=>getComputedStyle(node).animationName==='none')));await page.keyboard.press('Escape');await page.mouse.up();
+ await page.setViewportSize({width:430,height:800});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+ assert.deepEqual(errors,[]);console.log('PASS short click, long press/reorder/save, no accidental navigation, Escape cancellation, visibility-only settings, reduced motion and narrow layout');
+}finally{await browser.close();await server.close();}

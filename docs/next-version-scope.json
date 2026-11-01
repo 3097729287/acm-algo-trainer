@@ -50,11 +50,12 @@
   },
   "currentRepair": {
     "version": "1.4.36",
-    "status": "candidate B: storage and incremental bridge fixes; native/install validation in progress",
+    "status": "Validated repair baseline merged into isolated 1.5.0; no installation or feed change",
     "scope": "releases/1.4.36.md",
     "automaticBackupBounds": true,
     "defaultFutureDelivery": "verified incremental update",
-    "oneTimeFullRepairBaseline": true
+    "oneTimeFullRepairBaseline": true,
+    "sourceCommit": "6907a65495b9e6519f5ace9747a412a78ea2ca06"
   },
   "activeFeatures": [
     "wiki",
@@ -95,5 +96,6 @@
       "luogu-training-P1858"
     ],
     "publicArchiveReadOnly": true
-  }
+  },
+  "nextSessionPrompt": "另一个会话使用独立分支开发维基、双人对战、贴纸，不修改当前修复工作副本、候选或正式更新清单"
 }

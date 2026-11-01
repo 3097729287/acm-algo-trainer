@@ -167,6 +167,7 @@ class TrainingService:
             with self._library_view(), self._write() as connection:
                 for record in cached:
                     self._recompute_progress(connection, record["id"])
+        self.reconcile_official_contests()
         self.previews = {}
         self.previous_previews = {}
         self.executor = ThreadPoolExecutor(max_workers=2, thread_name_prefix="tb-judge")
@@ -494,6 +495,13 @@ class TrainingService:
                 contest_id = contest['id']
             identity='official-'+hashlib.sha256((str(urlsplit(session['url']).hostname)+'/'+remote).encode()).hexdigest()
             existing=self.connection.execute('SELECT * FROM submissions WHERE id=?',(identity,)).fetchone()
+            if not contest_id:
+                from submission_evidence import matching_contest
+                candidate=matching_contest({'problem_id':row['id'],'submitted_at':existing['submitted_at'] if existing else submitted},
+                    [dict(value) for value in self.connection.execute('SELECT * FROM contests')])
+                if candidate:
+                    contest=self.connection.execute('SELECT * FROM contests WHERE id=?',(candidate,)).fetchone()
+                    contest_id=candidate
             if existing:
                 if detail and detail not in existing['message']:
                     with self._write() as connection:
@@ -538,6 +546,23 @@ class TrainingService:
         if verdict == 'AC':
             self.leaderboard.invalidate()
         return result
+
+    def reconcile_official_contests(self):
+        """Recover missing exam links from exact saved slots and receipt times."""
+        from submission_evidence import matching_contest,verified_receipt
+        with self.lock:
+            contests=[dict(row) for row in self.connection.execute('SELECT * FROM contests')]
+            updates=[]
+            for value in self.connection.execute("SELECT * FROM submissions WHERE scope='official' AND contest_id IS NULL AND finished_at IS NOT NULL"):
+                row=dict(value)
+                if verified_receipt(row) and (identity:=matching_contest(row,contests)):
+                    updates.append((identity,row['id'],row['problem_id']))
+            if updates:
+                with self._write() as connection:
+                    for contest,identity,problem in updates:
+                        connection.execute('UPDATE submissions SET contest_id=? WHERE id=? AND contest_id IS NULL',(contest,identity))
+                        self._recompute_progress(connection,problem)
+            return len(updates)
 
     def insights(self, hub=None):
         with self.lock:
@@ -634,7 +659,7 @@ class TrainingService:
                 from ability_assessment import from_records
                 value['growth']['ranked'] = ranked(evidence, daily_evidence, rank_profile['unlocked_at'], self._now(),
                                                   diagnostics=from_records(library,records,self._now()))
-                if workspace.get('activeContest'):value['growth']['ranked']['evidence']=[]
+                if workspace.get('activeContest'):value['growth']['ranked']['evidence']=[];value['growth']['ranked']['unratedEvidence']=[]
                 value['assessment'].update(rating=value['growth']['ranked']['abilityScore'],
                     abilityInterval=value['growth']['ranked']['abilityInterval'],
                     evidenceCount=value['growth']['ranked']['evidenceCount'],

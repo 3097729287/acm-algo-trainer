@@ -220,7 +220,7 @@ def build_insights(rows, submissions, history, workspace, hub, now):
     achievements.append({"id": "contest-1", "name": "完成模拟赛", "description": "完成一场至少训练一分钟并实际提交的计时模拟赛", "unlocked": bool(completed_contests), "unlockedAt": min((item.get("finishedAt") for item in completed_contests if item.get("finishedAt")), default=None), "progress": min(1, len(completed_contests)), "target": 1})
     from ability_assessment import assess,from_records
     ability=assess(from_records(rows,records,now),now)
-    if workspace.get('activeContest'):ability['evidence']=[]
+    if workspace.get('activeContest'):ability['evidence']=[];ability['unratedEvidence']=[]
     assessment={**ability,'rating':ability['abilityScore'],'band':ability['confidence'],
         'label':'训练难度估算' if ability['qualified'] else '独立通过证据不足',
         'explanation':ability['rules'],'platforms':platforms,'trend':[]}

@@ -26,7 +26,11 @@ def fullscreen_frame(window):
         dwm.DwmSetWindowAttribute.argtypes=[wintypes.HWND,wintypes.DWORD,ctypes.c_void_p,wintypes.DWORD]
         dwm.DwmExtendFrameIntoClientArea.argtypes=[wintypes.HWND,ctypes.POINTER(Margins)]
         full=is_fullscreen(window);shadow=bool(getattr(window,'shadow',True))
-        for attribute,value in [(33,1 if full else 0),(34,0xfffffffe if full else 0xffffffff)]:
+        # pywebview forces DWMNCRP_ENABLED while enabling its normal-window
+        # shadow. That draws a frame even after FormBorderStyle becomes None.
+        # Let the borderless fullscreen style control nonclient rendering;
+        # restore the normal shadow policy when leaving fullscreen.
+        for attribute,value in [(2,0 if full or not shadow else 2),(33,1 if full else 0),(34,0xfffffffe if full else 0xffffffff)]:
             number=ctypes.c_uint32(value);dwm.DwmSetWindowAttribute(handle,attribute,ctypes.byref(number),4)
         margin=0 if full or not shadow else 1
         dwm.DwmExtendFrameIntoClientArea(handle,ctypes.byref(Margins(margin,margin,margin,margin)))

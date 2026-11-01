@@ -64,8 +64,8 @@ export function socialSuite(startFixture) {
         const board=(await call(f,'/v1/leaderboard?period='+period,undefined,target)).value;
         assert.deepEqual(board.self.likes,{total,likedToday:false});
       }
-      // Sunday starts a new ranking week in the existing Beijing-time policy.
-      f.env.TEST_NOW=Date.parse('2026-10-24T16:01:00Z');
+      // Monday starts a new ranking week in the existing Beijing-time policy.
+      f.env.TEST_NOW=Date.parse('2026-10-25T16:01:00Z');
       await call(f,'/v1/accounts/login',{loginId:'heart_target',password:'social-fixture-password'});
       const renewed=await call(f,'/v1/accounts/login',{loginId:'heart_actor',password:'social-fixture-password'});
       const current={userId:renewed.value.account.userId,token:renewed.value.token};

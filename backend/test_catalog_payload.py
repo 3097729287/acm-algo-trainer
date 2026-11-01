@@ -46,6 +46,15 @@ def fixture():
 
 
 class CataloguePayloadTests(unittest.TestCase):
+    def test_import_time_survives_projection_refresh_and_legacy_school_backfill(self):
+        old={'id':'old','url':'https://codeforces.com/gym/726517/problem/A','schoolTraining':True}
+        new={'id':'new','url':'https://codeforces.com/gym/728862/problem/A','schoolTraining':True}
+        imported={**new,'addedAt':'2026-11-01T06:00:00Z','firstAdded':'2026-11-01T06:00:00Z'}
+        before=copy.deepcopy([old,new,imported]);rows=catalogue_payload({'rows':before})['rows']
+        self.assertLess(rows[0]['catalogAddedAt'],rows[1]['catalogAddedAt'])
+        self.assertEqual(rows[2]['addedAt'],imported['addedAt']);self.assertNotIn('catalogAddedAt',rows[2])
+        self.assertEqual(before,[old,new,imported])
+
     def test_all_identities_order_visibility_and_display_evidence_are_preserved(self):
         original=fixture();before=copy.deepcopy(original);compact=catalogue_payload(original)
         self.assertEqual(original,before)

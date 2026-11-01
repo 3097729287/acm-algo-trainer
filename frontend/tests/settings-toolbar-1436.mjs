@@ -32,6 +32,12 @@ try{
  assert.equal(await page.locator('.editor-theme-settings').count(),0);
  await page.getByRole('button',{name:'返回设置首页',exact:true}).click();await page.getByRole('tab',{name:'外观',exact:true}).waitFor({state:'visible'});
 
+ await page.evaluate(()=>fixture.screen('guide'));
+ const legend=page.getByRole('region',{name:'推荐任务图标',exact:true});await legend.waitFor();
+ assert.equal(await legend.locator('dt').count(),9);
+ assert.equal(await legend.locator('dt>svg').evaluateAll(nodes=>new Set(nodes.map(node=>node.innerHTML)).size),9);
+ assert.match(await legend.innerText(),/间隔复习/);assert.match(await legend.innerText(),/混合限时训练/);
+ await page.setViewportSize({width:430,height:800});assert(await legend.evaluate(node=>node.getBoundingClientRect().right<=innerWidth));await page.setViewportSize({width:1440,height:900});
  await page.addInitScript(()=>{window.initialCodeFixture={selection:{cpp17:'default',python3:'default'},revisions:{cpp17:'r1',python3:'r1'},templates:[{id:'default',title:'默认',builtin:true,language:'cpp17',code:'int main() { return 0; }'},{id:'own',title:'比赛模板',revision:'r1',language:'cpp17',code:'// retained selected template\nint main() { return 7; }'},{id:'default',title:'默认',builtin:true,language:'python3',code:'print(0)'}]};});
  await page.goto(base+'/tests/workbench-fixture.html');await page.addStyleTag({url:base+'/src/styles/interaction.css'});
  const editor=page.getByRole('textbox',{name:'C++ 代码',exact:true});await editor.waitFor();

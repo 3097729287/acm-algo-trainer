@@ -1,0 +1,25 @@
+--- a/src/ranking-rules.mjs
++++ b/src/ranking-rules.mjs
+@@ -1 +1 @@
+-export const REWARD_POLICY = Object.freeze({ daily: [100, 60, 30], weekly: [500, 300, 150], timezone: 'Asia/Shanghai', weekStartsOn: 'Sunday' });
++export const REWARD_POLICY = Object.freeze({ daily: [100, 60, 30], weekly: [500, 300, 150], timezone: 'Asia/Shanghai', weekStartsOn: 'Monday' });
+@@ -6 +6 @@
+-  if (period === 'weekly') startDate.setUTCDate(startDate.getUTCDate() - startDate.getUTCDay());
++  if (period === 'weekly') startDate.setUTCDate(startDate.getUTCDate() - (startDate.getUTCDay()+6)%7);
+@@ -33,0 +34,8 @@
++
++// Old Sunday schedules advance to the following Monday once. Preserve paid
++// rewards and avoid settling an overlapping or unfinished transition period.
++export function settlementStart(period,start){
++  if(period!=='weekly')return start;
++  const day=new Date(start+'T00:00:00Z').getUTCDay();
++  return addDays(start,(8-day)%7);
++}
+--- a/src/mysql-store.mjs
++++ b/src/mysql-store.mjs
+@@ -10 +10 @@
+-import { bounds, addDays, rankingQuery, normalizeRank, REWARD_POLICY } from './ranking-rules.mjs';
++import { bounds, addDays, rankingQuery, normalizeRank, settlementStart, REWARD_POLICY } from './ranking-rules.mjs';
+@@ -201 +201 @@
+-        let start = settings[0][period + '_start'];
++        let start = settlementStart(period,settings[0][period + '_start']);

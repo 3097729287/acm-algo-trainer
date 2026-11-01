@@ -10,7 +10,7 @@ import { EventConflict } from './errors.mjs';
 import { AccountError } from './accounts.mjs';
 import { claimNickname } from './nicknames.mjs';
 import { storedPublicProgress } from './public-progress.mjs';
-import { bounds, addDays, rankingQuery, normalizeRank, REWARD_POLICY } from './ranking-rules.mjs';
+import { bounds, addDays, rankingQuery, normalizeRank, settlementStart, REWARD_POLICY } from './ranking-rules.mjs';
 
 export async function secret(env, name) {
   if (env[name + '_FILE']) return (await readFile(env[name + '_FILE'], 'utf8')).trim();
@@ -201,7 +201,7 @@ export class MySQLStore {
       const [settings] = await connection.execute('SELECT * FROM ranking_schedule WHERE singleton=1 FOR UPDATE');
       const timestamp = new Date(now).toISOString();
       for (const [period, cutoff, step] of [['daily', day, 1], ['weekly', week, 7]]) {
-        let start = settings[0][period + '_start'];
+        let start = settlementStart(period,settings[0][period + '_start']);
         while (start < cutoff) {
           const end = addDays(start, step);
           const { sql, values } = rankingQuery({ start, end });

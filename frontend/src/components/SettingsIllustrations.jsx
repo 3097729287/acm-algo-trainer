@@ -8,8 +8,8 @@ function AncientTree({x,y,scale=1}) {
  </g>;
 }
 
-export function RoundedDinosaur() {
- return <div className="settings-scene scene-dino-stage" aria-hidden="true">
+export function RoundedDinosaur({sceneRef}={}) {
+ return <div ref={sceneRef} className="settings-scene scene-dino-stage" aria-hidden="true">
   <svg className="dino-landscape" viewBox="0 0 640 310" preserveAspectRatio="xMidYMax meet" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
    <g opacity=".22"><path d="M145 289Q184 231 214 209Q239 236 268 285M465 284Q509 224 538 209Q571 246 602 289"/><path d="M184 250L214 209L229 246M509 248L538 209L555 245"/></g>
    <g className="scene-volcano">

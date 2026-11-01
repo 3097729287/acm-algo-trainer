@@ -19,3 +19,8 @@ html .settings-page .editor-theme-settings {display:flex;flex:1;min-height:0;fle
 .editor-theme-preview .cm-scroller {font-size:var(--theme-preview-font-size,16px)!important;}
 .editor-theme-options>button:focus-visible {outline:2px solid var(--accent);outline-offset:-2px;}
 @media(max-width:700px){.editor-theme-layout{grid-template-columns:minmax(128px,31%) minmax(0,1fr);gap:8px}.editor-theme-options>button{padding:8px 5px;font-size:.85rem}.editor-theme-options>button>i{width:25px}}
+
+.editor-theme-font { display:inline-flex;align-items:center;gap:6px;line-height:1.5;white-space:nowrap;font-size:.87rem; }
+.editor-theme-font>.bounded-number { font-size:inherit;line-height:1.5; }
+.editor-theme-font>.bounded-number input { font:inherit;line-height:1.5; }
+.editor-theme-font>.bounded-number>span { font-size:inherit;line-height:1.5; }

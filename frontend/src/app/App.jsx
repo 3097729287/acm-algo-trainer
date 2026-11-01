@@ -116,6 +116,7 @@ import MockProblemPicker from "./MockProblemPicker.jsx";
 import { difficultyBand, difficultyLabel, difficultyDescription, briefSolution } from "@/lib/practiceMetadata.js";
 import '@/styles/followups-1434.css';
 import { organizeCategories } from "@/models/model.js";
+import ReorderableNavigation from "@/components/ReorderableNavigation.jsx";
 import NavigationSettings, { orderedPages } from "@/pages/NavigationSettings.jsx";
 import { AppearanceSettings, TopbarClock } from "@/components/WorkspaceDecorations.jsx";
 import GoalsPanel from '@/pages/GoalsPanel.jsx';
@@ -2003,8 +2004,13 @@ export default function App() {
           </button>
 
         </div>
-        <nav aria-label="主导航" aria-busy={navigation.pending}>
-          {navigation.pending?<NavigationPending/>:navigationEntries.map((p) => (
+        <ReorderableNavigation entries={navigationEntries} pending={navigation.pending} fallback={<NavigationPending/>} onReorder={entries=>setPrefs(previous=>{
+          const visible=entries.flatMap(entry=>entry.members?entry.members.map(member=>member.id):[entry.id]);
+          const selected=new Set(visible),queue=[...visible];
+          const navOrder=orderedPages(PAGES,previous).map(entry=>selected.has(entry.id)?queue.shift():entry.id);
+          return {...previous,navOrder};
+        })}>
+          {(p) => (
             <button
               key={p.id}
               className={"nav-item " + (page === p.id || p.members?.some(member => member.id === page) ? "active" : "")+(levelFeedbackVisible&&(levelUp.feedback.includes(p.id)||p.members?.some(member=>levelUp.feedback.includes(member.id)))?' level-new-entry':'')}
@@ -2023,8 +2029,8 @@ export default function App() {
               )}
               {dueCount > 0 && (p.id === "mine" || p.members?.some(member => member.id === "mine")) && <><i className="training-pending-dot" aria-hidden="true" /><span className="sr-only" id={`training-pending-${p.id}`}>有 {dueCount} 项未完成训练待办</span></>}
             </button>
-          ))}
-        </nav>
+          )}
+        </ReorderableNavigation>
         <div className="sidebar-bottom">
           <button
             className={"nav-item " + (page === "settings" ? "active" : "")}
