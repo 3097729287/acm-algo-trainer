@@ -175,6 +175,7 @@ jobs:
       - run: node tests/lifecycle-layout.mjs
       - run: npm run test:workbench
       - run: node tests/toolbar-refinement.mjs
+      - run: node tests/registered-contest.mjs
       - run: node tests/code-format.mjs
       - run: node tests/experience-challenge.mjs
       - run: npm run test:e2e

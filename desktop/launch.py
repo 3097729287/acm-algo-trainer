@@ -278,6 +278,8 @@ def run_desktop() -> int:
         from platform_login import PlatformLogins
         logins = PlatformLogins(official, server.browser_account_context, server.bind_browser_account)
         server.browser_preparation = ExternalBrowserPreparation(official, logins)
+        from contest_reading import ContestReading
+        server.original_contest_reader=ContestReading(official,server.browser_account_context,server.bind_browser_account)
         server.official_opener = official.open
         server.official_acknowledger = official.acknowledge
         server.official_submitter = official.submit

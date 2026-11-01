@@ -1,5 +1,7 @@
 # ToBe · Training Workbench
 
+**1.4.35 is a maintenance candidate under validation, not publicly released; domestic stable remains 1.4.34.** Fixes include edge-to-edge practice layout, top-left back clicks, a continuous 1px divider, stronger center snapping, a borderless px font control and transparent Ln/Col text. Restricted Nowcoder statements use the current account?s managed browser and private SQLite. Subsequent releases default to verified deltas with a full repair installer. [Scope](docs/releases/1.4.35.md).
+
 **Domestic stable 1.4.34 was published on 2026-11-01; both local editions are updated.** This revision aligns workbench typography and control backgrounds, adds wheel font adjustment, inline sample/custom/run controls, Alt+T toolbar locking and Ctrl+Right navigation, and removes visible lock/fold controls. Recommendations, template naming and adjustable theme previews use less space; title medals use restrained engraved metal and enamel. An incompatible delta falls back to a verified full installer, and preparation errors no longer look like active-contest waits. [Scope](docs/releases/1.4.34.md). Service 1.3.0 remains local only; the four next-version features remain queued.
 
 New Lv.1 beginners unlock levels 2–5 at 200/600/1200/2000 cumulative XP. Existing account levels, XP and veteran assessments retain their original rules. All 12 Gym 728862 tasks and paired editorials already installed locally are included in the updated source and public seed.

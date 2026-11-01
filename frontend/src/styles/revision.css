@@ -313,7 +313,8 @@ html .practice-focus .workspace-area {padding:0;gap:0;border:0;width:100%;height
 html .practice-focus :is(.tb-workbench,.wb-body,.wb-statement-pane,.wb-code-pane) {border:0;border-radius:0;margin:0;box-shadow:none}
 html .practice-focus .tb-workbench {height:100%;width:100%;flex:1;padding:0;max-width:none}
 html .practice-focus .wb-body {height:100%;width:100%;gap:0;flex:1}
-html .practice-focus .wb-code-pane {border-left:1px solid var(--soft-line)}
+html .practice-focus .wb-code-pane {border-left:0}
+html .app-shell.practice-focus {border:0;border-radius:0;padding:0;margin:0;width:100dvw;height:100dvh;min-height:0}
 html .wb-editor-actions {align-items:center;gap:6px;flex-wrap:nowrap;flex-shrink:0}
 html .wb-editor-actions :is(.wb-solution-button,.wb-next-button) {font-size:.8rem;padding:5px 8px;white-space:nowrap}
 .app-recovery {min-height:100dvh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:22px;padding:32px;background:var(--bg);color:var(--text)}

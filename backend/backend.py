@@ -441,8 +441,20 @@ class Handler(BaseHTTPRequestHandler):
                     accounts.queue_sync()
                 self.send_json(200, value)
             elif path == "/api/data":
-                self.send_json(200, store.data_response_bytes(compact=parse_qs(target.query).get('compact', ['0'])[0]=='1',
-                                                            compressed=accepts_gzip(self.headers.get('Accept-Encoding', ''))))
+                from private_contest_reading import private_rows
+                private=private_rows(self.server.training)
+                compact=parse_qs(target.query).get('compact',['0'])[0]=='1'
+                if private:
+                    value=json.loads(store.data_response_bytes())
+                    rows={row['id']:row for row in value['rows']};rows.update((row['id'],row) for row in private)
+                    value['rows']=list(rows.values())
+                    value['revision']=str(value.get('revision',''))+':'+hashlib.sha256(json.dumps(private,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
+                    if compact:
+                        from catalog_payload import catalogue_payload
+                        value=catalogue_payload(value)
+                    self.send_json(200,value)
+                else:
+                    self.send_json(200,store.data_response_bytes(compact=compact,compressed=accepts_gzip(self.headers.get('Accept-Encoding',''))))
             elif path == "/api/training-lists":
                 from custom_training_lists import read_lists
                 custom = read_lists(self.server.training)
@@ -515,7 +527,9 @@ class Handler(BaseHTTPRequestHandler):
             elif path == '/api/statement-backfill':
                 self.send_json(200, self.server.statement_backfill.snapshot())
             elif path == '/api/contest-calendar':
-                self.send_json(200, self.server.calendar_service().snapshot(refresh=parse_qs(target.query).get('refresh', ['0'])[0] == '1'))
+                value=self.server.calendar_service().snapshot(refresh=parse_qs(target.query).get('refresh', ['0'])[0] == '1')
+                value['browserReadingAvailable']=callable(getattr(self.server,'original_contest_reader',None))
+                self.send_json(200,value)
             elif path == "/api/goals":
                 from goals import Goals
                 self.send_json(200, Goals(self.server.training).list())
@@ -837,10 +851,37 @@ class LocalServer(ThreadingHTTPServer):
 
     def calendar_service(self):
         with self.calendar_lock:
+            owner=self.training
+            if self.contest_calendar is not None and getattr(self,'_calendar_training',owner) is not owner:
+                self.contest_calendar.close();self.contest_calendar=None
             if self.contest_calendar is None:
                 from contest_calendar import ContestCalendar
                 from contest_imports import import_contest
-                self.contest_calendar = ContestCalendar(self.state_dir, importer=lambda event,on_progress=None: import_contest(self.store.extensions, event,on_progress=on_progress))
+                self._calendar_training=owner
+                def current(expected):
+                    try:return self.browser_account_context() is expected and not expected.closed
+                    except (ServiceError,RuntimeError):return False
+                def save_private(expected,rows,statements):
+                    import contextlib
+                    from private_contest_reading import remember
+                    accounts=getattr(self,'accounts',None)
+                    with accounts.request_context() if accounts is not None else contextlib.nullcontext():
+                        if accounts is not None:accounts.require()
+                        if self.training is not expected:raise RuntimeError('账号已切换，请重新读取比赛')
+                        remember(expected,rows,statements)
+                def importer(event,on_progress=None):
+                    reader=getattr(self,'original_contest_reader',None)
+                    if event['platform']!='nowcoder' or not callable(reader):
+                        return import_contest(self.store.extensions,event,on_progress=on_progress)
+                    from private_contest_reading import AccountContestImport
+                    try:
+                        context=AccountContestImport(self.store.extensions,owner,event,reader,current,save_private)
+                        result=import_contest(context,event,on_progress=on_progress)
+                    except ServiceError as error:
+                        raise RuntimeError('账号状态已变化，请在当前账号重新读取比赛') from error
+                    result.update(accessRequired=context.access_required,accessMessage=context.access_message)
+                    return result
+                self.contest_calendar = ContestCalendar(owner.db_path.parent, importer=importer)
                 self.contest_calendar.start()
             return self.contest_calendar
 

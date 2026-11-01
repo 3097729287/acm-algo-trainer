@@ -116,6 +116,8 @@ class TrainingService:
               key TEXT PRIMARY KEY, value TEXT NOT NULL, updated_at TEXT NOT NULL);
             CREATE TABLE IF NOT EXISTS account_problem_facts (
               problem_id TEXT PRIMARY KEY, value TEXT NOT NULL, updated_at TEXT NOT NULL);
+            CREATE INDEX IF NOT EXISTS account_statement_reading_idx ON account_problem_facts (
+              CASE WHEN json_valid(value) THEN json_extract(value,'$.statement.accountReading') ELSE 0 END);
             CREATE TABLE IF NOT EXISTS daily_missions (
               day TEXT NOT NULL, id TEXT NOT NULL, definition TEXT NOT NULL,
               claimed_at TEXT, awarded_xp INTEGER NOT NULL DEFAULT 0, evidence TEXT NOT NULL DEFAULT '[]',
@@ -212,7 +214,12 @@ class TrainingService:
         if snapshot is not None and snapshot[0] is self:
             return list(snapshot[1])
         reader = getattr(self.store, 'training_data', None) or self.store.data
-        return reader()["rows"]
+        rows=reader()["rows"]
+        from private_contest_reading import private_rows
+        private=private_rows(self)
+        if not private:return rows
+        by_id={row['id']:row for row in rows};by_id.update((row['id'],row) for row in private)
+        return list(by_id.values())
 
     @contextmanager
     def _library_view(self):
@@ -230,6 +237,9 @@ class TrainingService:
     def _row(self, identity):
         if not isinstance(identity, str) or not identity or len(identity) > 512:
             raise ServiceError(400, "题目编号无效")
+        from private_contest_reading import private_rows
+        private=private_rows(self,identity)
+        if private:return private[0]
         snapshot = _LIBRARY_VIEW.get()
         scoped = snapshot is not None and snapshot[0] is self
         # Direct SQLite lookup avoids decoding the full library while holding

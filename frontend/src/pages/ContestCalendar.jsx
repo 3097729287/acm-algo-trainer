@@ -7,7 +7,7 @@ import './ContestCalendar.css';
 
 const timeFormat=new Intl.DateTimeFormat('zh-CN',{timeZone:'Asia/Shanghai',hour:'2-digit',minute:'2-digit',hour12:false});
 const labels={codeforces:'Codeforces',atcoder:'AtCoder',nowcoder:'牛客',luogu:'洛谷'};
-export default function ContestCalendar({calendar,onStart,onOpen}) {
+export default function ContestCalendar({calendar,onStart,onOpen,onOriginal}) {
  const {snapshot,contests,today,now,hasUnreadToday,markTodaySeen,refresh}=calendar;
  const [openError,setError]=useState(''),[starting,setStarting]=useState(null);
  const pending=useRef(false),mounted=useRef(false),operation=useRef(0),owner=useRef(calendar.ownerKey);
@@ -40,14 +40,14 @@ export default function ContestCalendar({calendar,onStart,onOpen}) {
      return <div className="contest-calendar-row" key={contest.id}>
       <time dateTime={contest.startAt}>{timeFormat.format(new Date(contest.startAt))}</time>
       <strong>{readable&&onOpen?<button type="button" className="calendar-contest-title" aria-label={`在TB打开比赛 ${contest.title}`} disabled={pending.current} onClick={()=>act(contest,onOpen)}>{contest.title}</button>:contest.title}{live&&<span className="calendar-live">进行中</span>}
-       {started&&<small className="calendar-import-state">{contest.import?.status==='ready'?'题面已更新':contest.import?.ready?`${contest.import.ready}/${contest.import.total} 题已更新`:contest.import?.error?'题面暂不可用，稍后重试':'正在读取公开题面'}</small>}
+       {started&&<small className="calendar-import-state">{contest.import?.status==='ready'?'题面已更新':contest.import?.accessRequired?contest.import.accessMessage||'请先在原站登录并报名，再重试题面':contest.import?.ready?`${contest.import.ready}/${contest.import.total} 题已更新`:contest.import?.error?'题面暂不可用，稍后重试':'正在读取公开题面'}</small>}
       </strong>
       <span>{labels[contest.platform]}</span>
       <Tooltip text={`时长 ${Math.round((Date.parse(contest.endAt)-Date.parse(contest.startAt))/60000)} 分钟`}><CalendarClock size={17}/></Tooltip>
       <span className="calendar-actions">
        {live&&contest.import?.status!=='ready'&&<Tooltip text={contest.import?.error||'重新读取公开题面'}><button type="button" className="icon-button" aria-label={`重试题面 ${contest.title}`} disabled={snapshot?.importing||snapshot?.refreshing} onClick={refresh}><RefreshCw size={16} className={snapshot?.importing?'spin':''}/></button></Tooltip>}
        {live&&(contest.import?.status==='ready'||contest.import?.entryReady)&&(onStart||onOpen)&&<Tooltip text="开始比赛"><button type="button" className="icon-button" aria-label={`开始比赛 ${contest.title}`} disabled={Boolean(starting)} onClick={()=>act(contest,onStart||onOpen,Boolean(onStart))}>{starting===contest.id?<LoaderCircle size={17} className="spin"/>:<Play size={17}/>}</button></Tooltip>}
-       <a href={contest.url} target="_blank" rel="noreferrer" aria-label={`前往原站 ${contest.title}`}><ArrowUpRight size={15}/></a>
+       <a href={contest.url} target="_blank" rel="noreferrer" aria-label={`前往原站 ${contest.title}`} onClick={contest.platform==='nowcoder'&&snapshot?.browserReadingAvailable&&onOriginal?event=>{event.preventDefault();void act(contest,onOriginal);}:undefined}><ArrowUpRight size={15}/></a>
       </span>
      </div>;
     })}

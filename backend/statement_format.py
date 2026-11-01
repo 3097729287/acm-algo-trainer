@@ -187,6 +187,9 @@ def html_markdown(html, base='', prose_pre=False):
 
 
 def nowcoder_statement(page, base):
+    from statement_access import nowcoder_access_notice, StatementAccessRequired
+    if nowcoder_access_notice(page):
+        raise StatementAccessRequired('请先在原站登录并报名，再重试题面')
     # Samples are extracted from authoritative textarea blocks separately.
     root = Tree(page).root
     description = next(root.find(lambda node: 'subject-describe' in classes(node)), None)

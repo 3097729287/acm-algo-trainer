@@ -875,7 +875,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     if(event.button!==0)return;event.preventDefault();dragCleanup.current?.();
     const body=event.currentTarget.parentElement,rect=body.getBoundingClientRect(),handle=event.currentTarget;handle.focus();handle.setPointerCapture(event.pointerId);
     let snapped=Math.abs(splitRatio-50)<.01;
-    const move=next=>{const distance=next.clientX-(rect.left+rect.width/2);snapped=Math.abs(distance)<=(snapped?14:8);adjustSplit(snapped?50:(next.clientX-rect.left-4)/(rect.width-8)*100);};
+    const move=next=>{const distance=next.clientX-(rect.left+rect.width/2);snapped=Math.abs(distance)<=(snapped?30:18);adjustSplit(snapped?50:(next.clientX-rect.left-.5)/(rect.width-1)*100);};
     const stop=()=>{handle.removeEventListener('pointermove',move);handle.removeEventListener('pointerup',stop);handle.removeEventListener('pointercancel',stop);handle.removeEventListener('lostpointercapture',stop);dragCleanup.current=null;};
     handle.addEventListener('pointermove',move);handle.addEventListener('pointerup',stop);handle.addEventListener('pointercancel',stop);handle.addEventListener('lostpointercapture',stop);dragCleanup.current=stop;
   };
@@ -890,9 +890,9 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
       setStatementCopied(true);clearTimeout(statementCopyTimer.current);statementCopyTimer.current=setTimeout(()=>setStatementCopied(false),1600);
     }catch{setActionError('暂时无法复制题面，请选中题面后复制。');}
   };
-  return <section className={`tb-workbench wb-pane-${effectivePane}${narrow?' wb-compact':''}${!toolbar.pinned&&!toolbar.shown?' wb-toolbar-hidden':''}`} data-surface={toolbarKind} ref={sectionRef} style={{'--wb-split-columns':`minmax(0,${splitRatio}fr) 8px minmax(0,${100-splitRatio}fr)`}} onKeyDown={handleKeys} aria-label="代码训练工作台" data-problem-id={problemId}>
+  return <section className={`tb-workbench wb-pane-${effectivePane}${narrow?' wb-compact':''}${!toolbar.pinned&&!toolbar.shown?' wb-toolbar-hidden':''}`} data-surface={toolbarKind} ref={sectionRef} style={{'--wb-split-columns':`minmax(0,${splitRatio}fr) 1px minmax(0,${100-splitRatio}fr)`}} onKeyDown={handleKeys} aria-label="代码训练工作台" data-problem-id={problemId}>
 
-    {!toolbar.pinned&&<button type="button" className="wb-toolbar-reveal" aria-label="显示顶部工具栏" onFocus={toolbar.reveal} onPointerEnter={toolbar.reveal} onClick={toolbar.reveal}/>}
+    {!toolbar.pinned&&!toolbar.shown&&<button type="button" className="wb-toolbar-reveal" aria-label="显示顶部工具栏" onFocus={toolbar.reveal} onPointerEnter={toolbar.reveal} onClick={toolbar.reveal}/>}
     {narrow&&<div className="wb-compact-toolbar"><button type="button" className="wb-icon-button wb-back-button" onClick={exit} title="返回列表" aria-label={runningContest?'返回工作台':'返回列表'}><ArrowLeft size={17}/></button>{effectivePane==='code'&&headerStart}<div className="wb-pane-buttons" role="group" aria-label="工作台布局"><button type="button" className="wb-icon-button" aria-label="只看题面" title="只看题面 · Alt+1" aria-pressed={effectivePane==='statement'} onClick={()=>focusPane('statement')}><PanelLeft size={17}/></button>{layoutToggle}</div><strong><InlineTitle>{problem?.title||'题目'}</InlineTitle></strong>{headerEnd}</div>}
 
     {saveToast&&<div className="toast success wb-save-toast" role="status"><Check size={17}/><span>草稿已保存</span></div>}
@@ -915,7 +915,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
       </div>
     </div><div className="wb-statement-actions">
           <div className="wb-font-controls" role="group" aria-label="题面字号调节">
-            <BoundedNumber aria-label="题面字号" title={`题面字号 · 滚轮调节 · ${shortcutValue('statement-font',shortcuts)}`} min={14} max={32} value={statementFontSize} wheelStep required onChange={event => changeStatementFontSize(Number(event.target.value))}/>
+            <BoundedNumber aria-label="题面字号" title={`题面字号 · 滚轮调节 · ${shortcutValue('statement-font',shortcuts)}`} min={14} max={32} unit="px" value={statementFontSize} wheelStep required onChange={event => changeStatementFontSize(Number(event.target.value))}/>
           </div>
           {problem?.markdown&&!originalIsChinese(problem)&&<div className="wb-language-toggle" role="group" aria-label="题面语言"><button type="button" aria-label={translationBusy&&language==='zh'?'翻译中…':language==='zh'?'中文':'原文'} title={`${language==='zh'?'切换到英文':'切换到中文'} · ${shortcutValue('statement-language',shortcuts)}`} disabled={loading||(problem?.translationAvailable===false&&!translation)} onClick={toggleStatementLanguage}>{translationBusy&&language==='zh'?<LoaderCircle size={14} className="wb-spinner"/>:language==='zh'?'中':'英'}</button></div>}
           <button type="button" className="wb-icon-button" aria-label={statementCopied?'已复制题面':'复制题面'} title={`${statementCopied?'已复制题面':'复制题面'} · ${shortcutValue('statement-copy',shortcuts)}`} disabled={loading||!problem?.markdown} onClick={copyStatement}>{statementCopied?<Check size={16}/>:<Copy size={16}/>}</button>

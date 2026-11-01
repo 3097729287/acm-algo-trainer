@@ -615,6 +615,13 @@ class ExternalBrowserPreparation:
 
     def action(self, body):
         action = body.get('action')
+        if action == 'open-contest':
+            import re
+            url=body.get('url')
+            if set(body)!={'action','url'} or not isinstance(url,str) or not re.fullmatch(r'https://ac\.nowcoder\.com/acm/contest/[1-9]\d*',url):
+                raise ServiceError(400,'牛客比赛原站地址无效')
+            self.bridge.browser.new_page(url)
+            return {'opened':True}
         if action == 'startup-logins':
             if set(body) != {'action'} or self.logins is None:
                 raise ServiceError(400, '平台登录准备无效')

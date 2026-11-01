@@ -1,5 +1,5 @@
 {
-  "status": "deferred until the current 1.4.34 local update is delivered",
+  "status": "in development after domestic 1.4.34 publication",
   "requestedOn": "2026-11-01",
   "continuation": "用户已要求当前版本更新完成后先列出下一版内容与实施顺序，然后继续实施；不得提前并入当前版本。",
   "features": [
@@ -20,7 +20,24 @@
       "id": "stickers",
       "description": "成长右侧大区域提供目标与贴纸两个图标按钮，与上方六项统计区分。贴纸模式用虚线标示内容区域，头像框和段位仅留下虚线轮廓。点击区域打开贴纸选择框，超出可左右滚轮浏览；按品质由高到低从左排列，下方显示数量。选择后贴纸落在点击位置，可旋转、拖动，点对勾或回车固定，然后继续贴；Esc 取消当前选择或退出模式。右键既有贴纸，通过 popconfirm 确认回收。尽量只用图标，保持页面简洁。",
       "rewards": "按任务难度获得不同稀有度的随机贴纸；对应任务的字体和边框随奖励品质变色。库存、放置、回收与发奖应按账号同步且幂等。",
-      "rarities": {"common":"blue","rare":"orange, verify Clash Royale reference","epic":"purple","legendary":"multicolor gemstone"}
+      "rarities": {
+        "common": "blue",
+        "rare": "orange, verify Clash Royale reference",
+        "epic": "purple",
+        "legendary": "multicolor gemstone"
+      }
     }
-  ]
+  ],
+  "currentDomesticStable": "1.4.34",
+  "nextVersion": "1.4.35",
+  "feedbackPriority": {
+    "id": "nowcoder-live-statement",
+    "status": "in progress",
+    "description": "匿名题单可读而题面要求报名时，在用户已有的原站登录态中只读题面；校验原站身份与当前账号，正文按账号保存，不写公共缓存。不自动报名或提交代码。"
+  },
+  "updateDelivery": {
+    "default": "verified incremental update",
+    "fallback": "verified full installer",
+    "preservePersonalData": true
+  }
 }

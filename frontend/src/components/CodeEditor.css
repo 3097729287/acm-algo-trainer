@@ -17,8 +17,8 @@
 .code-editor {position:relative;}
 .code-editor .cm-lineNumbers .cm-gutterElement {padding-inline:6px!important;min-width:3ch;text-align:center;}
 .code-editor .cm-lineNumbers {min-width:42px;}
-.code-editor-position {position:absolute;z-index:4;bottom:0;left:0;width:var(--editor-gutter-width,36px);box-sizing:border-box;padding:4px 2px;border-top:1px solid var(--line);border-right:1px solid var(--line);color:var(--editor-gutter,var(--muted));background:var(--editor-background,var(--panel-base,var(--panel)));font:10px/1.4 Consolas,monospace;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.code-editor:has(.code-editor-position) .cm-content {padding-bottom:28px;}
+.code-editor-position {position:absolute;z-index:4;bottom:0;left:6px;width:max-content;box-sizing:border-box;padding:3px 0;border:0;color:var(--editor-gutter,var(--muted));background:transparent;font:11px/1.4 Consolas,monospace;text-align:left;white-space:nowrap;pointer-events:none;}
+.code-editor:has(.code-editor-position) {padding-bottom:22px;box-sizing:border-box;}
 .code-editor .cm-search { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; padding: 6px 9px; font-size: .87rem; }
 .code-editor .cm-textfield { max-width: 150px; padding: 4px 6px; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 4px; }
 .code-editor .cm-button { padding: 3px 6px; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 4px; font-size: .86rem; }

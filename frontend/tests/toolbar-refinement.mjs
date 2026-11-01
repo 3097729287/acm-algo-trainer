@@ -16,7 +16,9 @@ try{
  const editor=page.getByRole('textbox',{name:'C++ 代码'}),font=page.getByRole('spinbutton',{name:'题面字号',exact:true});
  await editor.waitFor();await page.waitForFunction(()=>document.querySelector('.cm-content')?.contentEditable==='true');
  assert.equal(await page.locator('.wb-toolbar-lock,.wb-language-select>svg,.cm-foldGutter,.wb-editor-status,.wb-scope').count(),0);
- assert.equal(await page.locator('.wb-font-controls button,.wb-font-controls .bounded-number>span').count(),0);
+ assert.equal(await page.locator('.wb-font-controls button').count(),0);
+ assert.equal(await page.locator('.wb-font-controls .bounded-number>span').textContent(),'px');
+ assert.equal(await font.evaluate(node=>getComputedStyle(node).borderWidth),'0px');
  const before=Number(await font.inputValue());await font.hover();await page.mouse.wheel(0,-100);
  await page.waitForFunction(value=>Number(document.querySelector('[aria-label="题面字号"]').value)===value,before+1);
  await page.mouse.wheel(0,100);await page.waitForFunction(value=>Number(document.querySelector('[aria-label="题面字号"]').value)===value,before);
@@ -38,20 +40,21 @@ try{
  popup=page.getByRole('listbox',{name:'编程语言',exact:true});assert.deepEqual(await popup.getByRole('option').allTextContents(),['C++17']);
  await popup.getByRole('option',{name:'C++17',exact:true}).click();await editor.waitFor();
  assert.equal(await page.evaluate(()=>workbenchFixture.readCode()),'int main() { return 0; }');
- const style=await page.locator('.wb-pane-header :is(input,select,.initial-code-trigger,.wb-button),.wb-run-button').evaluateAll(nodes=>nodes.map(node=>({font:getComputedStyle(node).fontSize,bg:getComputedStyle(node).backgroundColor,height:node.getBoundingClientRect().height})));
+ const style=await page.locator('.wb-pane-header :is(select,.initial-code-trigger,.wb-button),.wb-run-button').evaluateAll(nodes=>nodes.map(node=>({font:getComputedStyle(node).fontSize,bg:getComputedStyle(node).backgroundColor,height:node.getBoundingClientRect().height})));
  assert.equal(new Set(style.map(item=>item.font)).size,1,JSON.stringify(style));
  assert.equal(new Set(style.map(item=>item.bg)).size,1,JSON.stringify(style));
  assert(style.every(item=>item.height===30),JSON.stringify(style));
- const position=await page.locator('.code-editor-position').evaluate(node=>{const rect=node.getBoundingClientRect(),gutter=node.parentElement.querySelector('.cm-gutters').getBoundingClientRect(),pane=node.parentElement.getBoundingClientRect();return{width:rect.width,gutter:gutter.width,bottom:rect.bottom,paneBottom:pane.bottom};});
- assert(Math.abs(position.width-position.gutter)<1&&Math.abs(position.bottom-position.paneBottom)<1,JSON.stringify(position));
+ const position=await page.locator('.code-editor-position').evaluate(node=>{const rect=node.getBoundingClientRect(),pane=node.parentElement.getBoundingClientRect(),style=getComputedStyle(node);return{text:node.textContent,bg:style.backgroundColor,border:style.borderWidth,left:rect.left-pane.left,bottom:rect.bottom,paneBottom:pane.bottom};});
+ assert.match(position.text,/^Ln \d+, Col \d+$/);assert.equal(position.bg,'rgba(0, 0, 0, 0)');assert.equal(position.border,'0px');
+ assert(Math.abs(position.bottom-position.paneBottom)<1&&position.left===6,JSON.stringify(position));
  const splitter=page.getByRole('separator',{name:'调整题面与代码宽度'}),body=await page.locator('.wb-body').boundingBox();
  assert.equal(await splitter.evaluate(node=>getComputedStyle(node,'::after').width),'1px');
  for(const direction of[-1,1]){
-  const handle=await splitter.boundingBox();await page.mouse.move(handle.x+4,handle.y+100);await page.mouse.down();
-  await page.mouse.move(body.x+body.width/2+direction*100,body.y+100);await page.mouse.move(body.x+body.width/2+direction*6,body.y+100);
+  const handle=await splitter.boundingBox();assert.equal(handle.width,1);await page.mouse.move(handle.x+.5,handle.y+100);await page.mouse.down();
+  await page.mouse.move(body.x+body.width/2+direction*100,body.y+100);await page.mouse.move(body.x+body.width/2+direction*16,body.y+100);
   assert.equal(await splitter.getAttribute('aria-valuenow'),'50');
-  await page.mouse.move(body.x+body.width/2+direction*12,body.y+100);assert.equal(await splitter.getAttribute('aria-valuenow'),'50');
-  await page.mouse.move(body.x+body.width/2+direction*30,body.y+100);assert.notEqual(await splitter.getAttribute('aria-valuenow'),'50');
+  await page.mouse.move(body.x+body.width/2+direction*26,body.y+100);assert.equal(await splitter.getAttribute('aria-valuenow'),'50');
+  await page.mouse.move(body.x+body.width/2+direction*42,body.y+100);assert.notEqual(await splitter.getAttribute('aria-valuenow'),'50');
   await page.mouse.move(body.x+body.width/2,body.y+100);await page.mouse.up();
  }
  await editor.focus();await editor.press('Control+ArrowRight');await page.waitForFunction(()=>workbenchFixture.nextCount===1);
@@ -69,6 +72,15 @@ try{
  await page.waitForFunction(()=>document.querySelector('.wb-toolbar-hidden'));
  await editor.press('Alt+t');await page.waitForFunction(()=>!document.querySelector('.wb-toolbar-hidden'));
  const languageToggle=page.getByRole('group',{name:'题面语言',exact:true}).getByRole('button');assert.equal(await languageToggle.getAttribute('aria-pressed'),null);
+ // At the viewport edge there is no frame, gap, rounded corner or reveal overlay.
+ await page.addStyleTag({url:base+'/src/styles/revision.css'});
+ await page.addStyleTag({content:'html,body,#root{margin:0!important;padding:0!important;width:100dvw!important;height:100dvh!important;min-height:0!important}.tb-workbench{border:0!important;border-radius:0!important}'});
+ const geometry=await page.locator('.tb-workbench').evaluate(node=>{const r=node.getBoundingClientRect(),a=node.querySelector('.wb-statement-pane').getBoundingClientRect(),b=node.querySelector('.wb-code-pane').getBoundingClientRect(),s=node.querySelector('.wb-splitter').getBoundingClientRect();return{x:r.x,y:r.y,width:r.width,height:r.height,radius:getComputedStyle(node).borderRadius,gap:b.left-a.right,seamTop:s.top,seamBottom:s.bottom};});
+ assert.deepEqual(geometry,{x:0,y:0,width:1536,height:900,radius:'0px',gap:1,seamTop:0,seamBottom:900});
+ await editor.press('Alt+t');await page.waitForFunction(()=>document.querySelector('.wb-toolbar-hidden'));
+ await page.mouse.move(0,0);await page.waitForFunction(()=>!document.querySelector('.wb-toolbar-hidden'));
+ assert.equal(await page.evaluate(()=>document.elementFromPoint(0,0)?.closest('button')?.getAttribute('aria-label')),'返回列表');
+ await page.mouse.click(0,0);await page.waitForFunction(()=>workbenchFixture.exitCount===1);
  await page.screenshot({path:output+'/workbench.png'});
  assert.deepEqual(errors,[]);console.log('PASS toolbar typography and backgrounds, alternative-language menu, wheel font, sample/custom execution, saved input/code, hidden lock shortcut, pointer auto-hide, bidirectional split snap, thin separator, line-number position and Ctrl+Right.');
 }finally{await browser.close();await server.close();}
