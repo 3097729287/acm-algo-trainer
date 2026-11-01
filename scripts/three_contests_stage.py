@@ -48,7 +48,7 @@ def additions():
     assert len(result['problems'])==16
     return result
 
-def insert(database,packet):
+def insert(database,packet,meta_key="threeContests20261102"):
     lib=LibraryDatabase(database)
     with lib.connection() as db:
         names={r[0] for r in db.execute("select name from sqlite_master where type='table'")}
@@ -80,7 +80,7 @@ def insert(database,packet):
             else:db.execute('insert into problem_lectures values(?,?,?,?)',values)
         if changed:
             LibraryDatabase._rebuild_urls(db)
-            db.execute("insert into library_meta values('threeContests20261102','16-problems-32-articles') on conflict(key) do update set value=excluded.value")
+            db.execute("insert into library_meta values(?,?) on conflict(key) do update set value=excluded.value", (meta_key, str(len(packet["problems"]))+"-problems-"+str(len(packet["solutions"])+len(packet["detailed_solutions"]))+"-articles"))
             db.execute("update library_meta set value=cast(value as integer)+1 where key='revision'")
         assert not db.execute('pragma foreign_key_check').fetchall()
     return lib
@@ -126,7 +126,7 @@ def upgrade_check(packet,seed):
     assert lib.find(own)
     for p in packet['problems']:
         assert lib.solution(p['id'],'detailed')
-    dump(OUT/'upgrade-report.json',{'passed':True,'localEditorialPreserved':True,'localImportPreserved':True,'detailedArticles':16})
+    dump(OUT/'upgrade-report.json',{'passed':True,'localEditorialPreserved':True,'localImportPreserved':True,'detailedArticles':len(packet['problems'])})
 
 def export_readers(lib,packet):
     store=Store(data_file=OUT/'absent.md',library_file=lib.path,history_file=OUT/'fixture/history.jsonl')

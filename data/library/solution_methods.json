@@ -9519,5 +9519,156 @@
       "primaryMethod": "main"
     },
     "problem_id": "remote:nowcoder:141882::F"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "main",
+          "lectureIds": [
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "构造",
+            "贪心"
+          ],
+          "title": "主解法",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "b95d664fbd8fc31e689547e0fb983902bf659234d958bf6b493e4bb4080e30f3"
+          }
+        }
+      ],
+      "primaryMethod": "main"
+    },
+    "problem_id": "remote:codeforces:2278::B"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "main",
+          "lectureIds": [
+            "lecture:foundation-vector",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "贪心"
+          ],
+          "title": "主解法",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "171553d01dcbc0bd4c46139c0e4744410698e8b820899d3fa0c61ea6f7664648"
+          }
+        }
+      ],
+      "primaryMethod": "main"
+    },
+    "problem_id": "remote:codeforces:2278::C"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "main",
+          "lectureIds": [
+            "lecture:foundation-vector",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "贪心",
+            "排序"
+          ],
+          "title": "主解法",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "1634ca825da7e7c56366e2b993df3c3da7ff64a309cfe0c0158fc2eb7cfbe9b8"
+          }
+        }
+      ],
+      "primaryMethod": "main"
+    },
+    "problem_id": "remote:codeforces:2278::D"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "main",
+          "lectureIds": [
+            "lecture:foundation-vector",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "贪心",
+            "排序"
+          ],
+          "title": "主解法",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "1aae58f66ab0a708fe54e6a86dc160f427432c5437f6a2e6f718927318660878"
+          }
+        }
+      ],
+      "primaryMethod": "main"
+    },
+    "problem_id": "remote:codeforces:2278::E"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "main",
+          "lectureIds": [
+            "lecture:foundation-vector",
+            "lecture:foundation-prefix",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "线性 DP",
+            "前缀和",
+            "取模与同余"
+          ],
+          "title": "主解法",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "578fe62ae2d819910370d5cc9a6e10ee27656f9aa4fc72d82346b5f17924cf2a"
+          }
+        }
+      ],
+      "primaryMethod": "main"
+    },
+    "problem_id": "remote:codeforces:2278::F"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "main",
+          "lectureIds": [
+            "lecture:foundation-bitwise",
+            "lecture:foundation-vector",
+            "lecture:foundation-integer"
+          ],
+          "legacy": true,
+          "tags": [
+            "位运算",
+            "DFS"
+          ],
+          "title": "主解法",
+          "validation": {
+            "officialSubmissionsSent": 0,
+            "programSha256": "55d0a98f98fd561d9c4fcf48328137e050d53344bdffdd2fb39cea2cb341c29f"
+          }
+        }
+      ],
+      "primaryMethod": "main"
+    },
+    "problem_id": "remote:codeforces:2278::G"
   }
 ]

@@ -1,0 +1,473 @@
+{
+  "boundaries": 31,
+  "checkerMutationCasesRejected": 4,
+  "corrections": [
+    {
+      "correctedExpected": "-1",
+      "initialExpected": "2",
+      "inputTarget": "00010",
+      "letter": "G",
+      "reason": "独立逐脉冲模拟证明同层冲突；保留原输入，另加可达目标00110期望2，参考程序未改。"
+    }
+  ],
+  "formatCheckedVariants": 2,
+  "isolatedUpgrade": {
+    "detailedArticles": 6,
+    "localEditorialPreserved": true,
+    "localImportPreserved": true,
+    "passed": true
+  },
+  "limitCases": 9,
+  "markdownCodeChecks": 12,
+  "officialSamples": 6,
+  "officialSubmissionsSent": 0,
+  "passed": true,
+  "randomComparisons": 5300,
+  "render": {
+    "articles": [
+      {
+        "id": 0,
+        "images": 0,
+        "mathErrors": 0,
+        "mode": "wide-light",
+        "variant": "default"
+      },
+      {
+        "id": 0,
+        "images": 0,
+        "mathErrors": 0,
+        "mode": "wide-dark",
+        "variant": "default"
+      },
+      {
+        "id": 0,
+        "images": 0,
+        "mathErrors": 0,
+        "mode": "narrow-dark",
+        "variant": "default"
+      },
+      {
+        "id": 0,
+        "images": 0,
+        "mathErrors": 0,
+        "mode": "wide-light",
+        "variant": "detailed"
+      },
+      {
+        "id": 0,
+        "images": 0,
+        "mathErrors": 0,
+        "mode": "wide-dark",
+        "variant": "detailed"
+      },
+      {
+        "id": 0,
+        "images": 0,
+        "mathErrors": 0,
+        "mode": "narrow-dark",
+        "variant": "detailed"
+      },
+      {
+        "id": 1,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "wide-light",
+        "variant": "default"
+      },
+      {
+        "id": 1,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "wide-dark",
+        "variant": "default"
+      },
+      {
+        "id": 1,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "narrow-dark",
+        "variant": "default"
+      },
+      {
+        "id": 1,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "wide-light",
+        "variant": "detailed"
+      },
+      {
+        "id": 1,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "wide-dark",
+        "variant": "detailed"
+      },
+      {
+        "id": 1,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "narrow-dark",
+        "variant": "detailed"
+      },
+      {
+        "id": 2,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "wide-light",
+        "variant": "default"
+      },
+      {
+        "id": 2,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "wide-dark",
+        "variant": "default"
+      },
+      {
+        "id": 2,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "narrow-dark",
+        "variant": "default"
+      },
+      {
+        "id": 2,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "wide-light",
+        "variant": "detailed"
+      },
+      {
+        "id": 2,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "wide-dark",
+        "variant": "detailed"
+      },
+      {
+        "id": 2,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "narrow-dark",
+        "variant": "detailed"
+      },
+      {
+        "id": 3,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "wide-light",
+        "variant": "default"
+      },
+      {
+        "id": 3,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "wide-dark",
+        "variant": "default"
+      },
+      {
+        "id": 3,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "narrow-dark",
+        "variant": "default"
+      },
+      {
+        "id": 3,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "wide-light",
+        "variant": "detailed"
+      },
+      {
+        "id": 3,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "wide-dark",
+        "variant": "detailed"
+      },
+      {
+        "id": 3,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "narrow-dark",
+        "variant": "detailed"
+      },
+      {
+        "id": 4,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "wide-light",
+        "variant": "default"
+      },
+      {
+        "id": 4,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "wide-dark",
+        "variant": "default"
+      },
+      {
+        "id": 4,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "narrow-dark",
+        "variant": "default"
+      },
+      {
+        "id": 4,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "wide-light",
+        "variant": "detailed"
+      },
+      {
+        "id": 4,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "wide-dark",
+        "variant": "detailed"
+      },
+      {
+        "id": 4,
+        "images": 2,
+        "mathErrors": 0,
+        "mode": "narrow-dark",
+        "variant": "detailed"
+      },
+      {
+        "id": 5,
+        "images": 4,
+        "mathErrors": 0,
+        "mode": "wide-light",
+        "variant": "default"
+      },
+      {
+        "id": 5,
+        "images": 4,
+        "mathErrors": 0,
+        "mode": "wide-dark",
+        "variant": "default"
+      },
+      {
+        "id": 5,
+        "images": 4,
+        "mathErrors": 0,
+        "mode": "narrow-dark",
+        "variant": "default"
+      },
+      {
+        "id": 5,
+        "images": 4,
+        "mathErrors": 0,
+        "mode": "wide-light",
+        "variant": "detailed"
+      },
+      {
+        "id": 5,
+        "images": 4,
+        "mathErrors": 0,
+        "mode": "wide-dark",
+        "variant": "detailed"
+      },
+      {
+        "id": 5,
+        "images": 4,
+        "mathErrors": 0,
+        "mode": "narrow-dark",
+        "variant": "detailed"
+      }
+    ],
+    "errors": [],
+    "foundationFlows": 12,
+    "imageZoomFlows": 15,
+    "passed": true,
+    "statements": [
+      {
+        "chinese": false,
+        "images": 0,
+        "index": 0,
+        "mathErrors": 0
+      },
+      {
+        "chinese": true,
+        "images": 0,
+        "index": 0,
+        "mathErrors": 0
+      },
+      {
+        "chinese": false,
+        "images": 0,
+        "index": 1,
+        "mathErrors": 0
+      },
+      {
+        "chinese": true,
+        "images": 0,
+        "index": 1,
+        "mathErrors": 0
+      },
+      {
+        "chinese": false,
+        "images": 0,
+        "index": 2,
+        "mathErrors": 0
+      },
+      {
+        "chinese": true,
+        "images": 0,
+        "index": 2,
+        "mathErrors": 0
+      },
+      {
+        "chinese": false,
+        "images": 0,
+        "index": 3,
+        "mathErrors": 0
+      },
+      {
+        "chinese": true,
+        "images": 0,
+        "index": 3,
+        "mathErrors": 0
+      },
+      {
+        "chinese": false,
+        "images": 0,
+        "index": 4,
+        "mathErrors": 0
+      },
+      {
+        "chinese": true,
+        "images": 0,
+        "index": 4,
+        "mathErrors": 0
+      },
+      {
+        "chinese": false,
+        "images": 2,
+        "index": 5,
+        "mathErrors": 0
+      },
+      {
+        "chinese": true,
+        "images": 2,
+        "index": 5,
+        "mathErrors": 0
+      }
+    ]
+  },
+  "tasks": [
+    {
+      "boundaries": 4,
+      "letter": "B",
+      "limits": [
+        {
+          "name": "最大组数与最长输出",
+          "officialTimeLimitSeconds": 2.0,
+          "seconds": 0.007
+        }
+      ],
+      "officialSampleGroups": 1,
+      "passed": true,
+      "randomComparisons": 300,
+      "referenceSha256": "b95d664fbd8fc31e689547e0fb983902bf659234d958bf6b493e4bb4080e30f3",
+      "seed": 227801
+    },
+    {
+      "boundaries": 5,
+      "letter": "C",
+      "limits": [
+        {
+          "name": "最大总质量",
+          "officialTimeLimitSeconds": 2.0,
+          "seconds": 0.016
+        },
+        {
+          "name": "最大长度仅端点活跃",
+          "officialTimeLimitSeconds": 2.0,
+          "seconds": 0.016
+        }
+      ],
+      "officialSampleGroups": 1,
+      "passed": true,
+      "randomComparisons": 1000,
+      "referenceSha256": "171553d01dcbc0bd4c46139c0e4744410698e8b820899d3fa0c61ea6f7664648",
+      "seed": 227802
+    },
+    {
+      "boundaries": 5,
+      "letter": "D",
+      "limits": [
+        {
+          "name": "最大绝对成本",
+          "officialTimeLimitSeconds": 2.0,
+          "seconds": 0.021
+        }
+      ],
+      "officialSampleGroups": 1,
+      "passed": true,
+      "randomComparisons": 1000,
+      "referenceSha256": "1634ca825da7e7c56366e2b993df3c3da7ff64a309cfe0c0158fc2eb7cfbe9b8",
+      "seed": 227803
+    },
+    {
+      "boundaries": 5,
+      "letter": "E",
+      "limits": [
+        {
+          "name": "最大数量与边界值",
+          "officialTimeLimitSeconds": 2.0,
+          "seconds": 0.021
+        }
+      ],
+      "officialSampleGroups": 1,
+      "passed": true,
+      "randomComparisons": 1000,
+      "referenceSha256": "1aae58f66ab0a708fe54e6a86dc160f427432c5437f6a2e6f718927318660878",
+      "seed": 227804
+    },
+    {
+      "boundaries": 5,
+      "letter": "F",
+      "limits": [
+        {
+          "name": "最大二维状态",
+          "officialTimeLimitSeconds": 2.0,
+          "seconds": 0.04
+        },
+        {
+          "name": "组数上界与总和上界",
+          "officialTimeLimitSeconds": 2.0,
+          "seconds": 0.008
+        }
+      ],
+      "officialSampleGroups": 1,
+      "passed": true,
+      "randomComparisons": 1000,
+      "referenceSha256": "578fe62ae2d819910370d5cc9a6e10ee27656f9aa4fc72d82346b5f17924cf2a",
+      "seed": 227805
+    },
+    {
+      "boundaries": 7,
+      "letter": "G",
+      "limits": [
+        {
+          "name": "最大深度与超大答案",
+          "officialTimeLimitSeconds": 2.0,
+          "seconds": 0.046
+        },
+        {
+          "name": "最大同层数量",
+          "officialTimeLimitSeconds": 2.0,
+          "seconds": 0.039
+        }
+      ],
+      "officialSampleGroups": 1,
+      "passed": true,
+      "randomComparisons": 1000,
+      "referenceSha256": "55d0a98f98fd561d9c4fcf48328137e050d53344bdffdd2fb39cea2cb341c29f",
+      "seed": 227806
+    }
+  ]
+}
