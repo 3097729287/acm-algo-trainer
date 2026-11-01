@@ -42,6 +42,7 @@ async function api(path, body) {
   if (path === 'official/open' || path === 'official/submit') {
     const sessionId = `official-${Object.keys(fixture.officialSessions).length + 1}`;
     fixture.officialSessions[sessionId] = { id: body.id, code: body.code, status: 'loading' };
+    await sleep(fixture.officialOpenDelay || 0);
     return { sessionId, status: 'loading', platform: 'AtCoder', message: '正在连接浏览器。' };
   }
   if (url.pathname === '/official/status') {

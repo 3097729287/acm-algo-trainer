@@ -1,0 +1,25 @@
+{
+  "status": "deferred until the current 1.4.34 local update is delivered",
+  "requestedOn": "2026-11-01",
+  "features": [
+    {
+      "id": "problem-solving-templates",
+      "description": "模板不局限于数据结构，补充滑动窗口、双指针、二分等基本思路。展示标准写法、不变量、适用条件、可替换部分和变种；按题调整状态与目标，不机械替换比较符号。用边界和反例验证。"
+    },
+    {
+      "id": "wiki",
+      "source": "https://oi-wiki.org/",
+      "description": "新增维基百科板块，提供核心算法知识查询，统一现有 UI。实施时核实原站内容、许可、署名与更新方式。"
+    },
+    {
+      "id": "online-duel",
+      "description": "在线匹配，达到两人即开始，题目难度暂定 800–1500。服务先本地验证，生产部署另行确认。"
+    },
+    {
+      "id": "stickers",
+      "description": "成长右侧大区域提供目标与贴纸两个图标按钮，与上方六项统计区分。贴纸模式用虚线标示内容区域，头像框和段位仅留下虚线轮廓。点击区域打开贴纸选择框，超出可左右滚轮浏览；按品质由高到低从左排列，下方显示数量。选择后贴纸落在点击位置，可旋转、拖动，点对勾或回车固定，然后继续贴；Esc 取消当前选择或退出模式。右键既有贴纸，通过 popconfirm 确认回收。尽量只用图标，保持页面简洁。",
+      "rewards": "按任务难度获得不同稀有度的随机贴纸；对应任务的字体和边框随奖励品质变色。库存、放置、回收与发奖应按账号同步且幂等。",
+      "rarities": {"common":"blue","rare":"orange, verify Clash Royale reference","epic":"purple","legendary":"multicolor gemstone"}
+    }
+  ]
+}

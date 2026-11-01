@@ -1,0 +1,31 @@
+html .growth-dashboard .account-hero-person {display:flex;flex-direction:column;align-items:stretch;gap:8px;min-width:0;}
+html .growth-dashboard .account-hero-person .profile-overview {padding-inline:0;}
+html .growth-dashboard .account-hero-titles {justify-content:center;margin:0;}
+html .growth-dashboard .account-hero-titles .title-medals {justify-content:center;gap:12px;}
+html .growth-dashboard .account-hero-titles .title-medal {flex-direction:column;align-items:center;gap:4px;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;text-align:center;font-size:.78rem;line-height:1.25;white-space:normal;color:#9b6512;}
+html[data-theme=dark] .growth-dashboard .account-hero-titles .title-medal {color:#ffd26d;}
+html .achievement-panel .progress-achievement {min-height:0;align-items:stretch;}
+html .achievement-panel .progress-achievement>svg {align-self:flex-start;}
+html .achievement-panel .achievement-card-content {min-height:0;}
+html .achievement-panel .progress-achievement-name {justify-content:flex-start;gap:6px;}
+html .achievement-panel .progress-achievement-name>strong {flex:0 1 auto;}
+html .achievement-panel .progress-achievement-name>time {margin-left:auto;}
+html .achievement-panel .achievement-card-content>p {margin-bottom:0;}
+html .achievement-panel .achievement-reward-row {display:flex;align-items:center;gap:8px;min-height:36px;margin-top:auto;padding-top:8px;}
+html .achievement-panel .achievement-reward-row:empty {display:none;}
+html .achievement-panel .achievement-reward {font-size:.75rem;color:var(--accent);white-space:nowrap;}
+html .achievement-panel .achievement-reward-row>.tooltip-anchor {margin-left:auto;}
+html .achievement-panel .achievement-reward-row>span {margin-top:0;}
+html .achievement-panel .achievement-claim {padding:4px 7px;min-height:28px;border:0;background:var(--accent-soft);color:var(--accent);font-size:.75rem;white-space:nowrap;}
+html .modal .achievement-panel .progress-achievement.progress-unlocked,html .modal .daily-task.daily-task-completed {border-color:var(--success);background:color-mix(in srgb,var(--success) 14%,var(--panel));opacity:1;}
+@media(max-width:600px) {html .growth-dashboard .account-hero-titles .medal-emblem {width:38px;height:43.7px;}html .growth-dashboard .account-hero-titles .title-medals {gap:8px;}}
+.admin-dominance-dialog {width:min(360px,calc(100vw - 32px));box-sizing:border-box;padding:18px;color:var(--text);background:var(--panel-base);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);}
+.admin-dominance-dialog::backdrop {background:#0006;backdrop-filter:blur(3px);}
+.admin-dominance-dialog>header {display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.admin-dominance-dialog h3 {margin:0;flex:1;font-size:1rem;}
+.admin-dominance-row {display:grid;grid-template-columns:44px minmax(0,1fr) 100px;align-items:center;gap:12px;min-height:68px;}
+.admin-dominance-row .ranking-medal {width:36px;height:54px;}
+.admin-dominance-row input {width:100%;min-width:0;box-sizing:border-box;padding:7px 8px;border:1px solid var(--line);border-radius:5px;color:var(--text);background:var(--panel-2);}
+html .settings-home-grid .settings-tile-label {display:inline-flex;align-items:center;gap:10px;max-width:100%;min-width:0;line-height:1.5;text-align:left;}
+html .settings-home-grid .settings-tile-label>svg {display:block;flex:none;width:1.0625em;height:1.0625em;}
+html .settings-home-grid .settings-tile-label>span {min-width:0;}

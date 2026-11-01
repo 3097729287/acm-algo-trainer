@@ -638,11 +638,28 @@ class TrainingService:
             self._insights_cache = (time.monotonic(), signature, deepcopy(value))
             return value
 
-    def claim_achievement(self, identity, hub=None):
-        from progression import ACHIEVEMENT_DEFINITIONS
+    def claim_achievement(self, identity, hub=None, *, compact=False):
+        from progression import ACHIEVEMENT_DEFINITIONS, parse_time as achievement_time
         from achievement_rewards import award_achievement_xp
         if not isinstance(identity,str) or identity not in ACHIEVEMENT_DEFINITIONS:
             raise ServiceError(400,'请选择有效成就')
+        if compact:
+            # An unlock is durable, account-local backend evidence. Claiming an
+            # already displayed milestone must not rebuild the entire radar.
+            with self.lock:
+                proof=self.connection.execute('SELECT value FROM account_preferences WHERE key=?',('achievement-unlock:'+identity,)).fetchone()
+                try:proof=json.loads(proof[0]) if proof else None
+                except (ValueError,TypeError):proof=None
+                unlocked=proof.get('unlockedAt') or proof.get('observedAt') if isinstance(proof,dict) else None
+                claimed=self.connection.execute('SELECT unlocked_at FROM achievement_xp_claims WHERE achievement_id=?',(identity,)).fetchone()
+                if achievement_time(unlocked) or claimed:
+                    definition=ACHIEVEMENT_DEFINITIONS[identity]
+                    item={'id':identity,'target':definition['target'],'progress':definition['target'],'unlocked':True,'unlockedAt':unlocked or claimed[0]}
+                    with self._write() as connection:
+                        reward=award_achievement_xp(connection,[item],self._now(),claim_ids={identity})
+                    item['earnedRewardXp']=reward['claims'].get(identity,{}).get('awardedXp',0)
+                    self._insights_cache=None
+                    return {'achievementId':identity,'awardedXp':reward['newXp'],'achievement':item,'refreshRequired':True}
         with self.lock,self._library_view():
             current=self._compute_insights(hub)
             achievement=next((item for item in current['achievements'] if item['id']==identity),None)
@@ -650,9 +667,14 @@ class TrainingService:
                 raise ServiceError(409,'这项成就尚未完成')
             if achievement.get('rewardClaimed'):
                 current.update(achievementId=identity,awardedXp=0)
+                if compact:return {'achievementId':identity,'awardedXp':0,'achievement':achievement,'refreshRequired':True}
                 return current
             with self._write() as connection:
                 reward=award_achievement_xp(connection,[achievement],self._now(),claim_ids={identity})
+            if compact:
+                achievement['earnedRewardXp']=reward['claims'].get(identity,{}).get('awardedXp',0)
+                self._insights_cache=None
+                return {'achievementId':identity,'awardedXp':reward['newXp'],'achievement':achievement,'refreshRequired':True}
             result=self._compute_insights(hub)
             result['growth']['newAchievementXp']=reward['newXp']
             result.update(achievementId=identity,awardedXp=reward['newXp'])
@@ -1823,9 +1845,29 @@ class TrainingService:
             began,ended=parse_time(event['startAt']),parse_time(event['endAt'])
             if not began<=self._now()<ended:raise ServiceError(409,'这场比赛尚未开始或已经结束')
             duration=max(1,int((ended-began).total_seconds()/60))
-            plan=self.preview_replay({'contest':event['contest'],'duration':duration})['plan']
-            saved=self.previews[tuple(slot['id'] for slot in plan['slots'])]
-            saved['plan']['constraints']['calendarEvent']={key:event[key] for key in ('id','url','startAt','endAt')}
+            from contest_rules import event_info, rules
+            from replay_catalog import unique_replay_rows
+            import re
+            identities=event.get('problemIds') or []
+            rows=[self._row(identity) for identity in identities] if identities else unique_replay_rows(
+                [row for row in self._library() if row['contest']==event['contest'] and not row.get('catalogHidden')])
+            if not rows:raise ServiceError(409,'原站题单尚未就绪，请稍后重试')
+            rows.sort(key=lambda row:tuple((0,int(p)) if p.isdecimal() else (1,p.upper()) for p in re.findall(r'\d+|\D+',row['problem'])))
+            if event.get('entryId') and rows[0]['id']!=event['entryId']:raise ServiceError(409,'原站题单已变化，请刷新赛程')
+            # The trusted calendar owns the complete source roster. Only A
+            # must be readable now; never wait for the other statements here.
+            assets=self._asset_library()
+            clear=getattr(getattr(assets,'_cached',None),'cache_clear',None)
+            if callable(clear):clear()
+            if not self._contest_candidates(rows[:1],official=True):raise ServiceError(409,'A 题题面尚未就绪，请稍后重试')
+            info=event_info(event['contest'],rows)
+            options={'strategy':'replay','contest':event['contest'],'tags':[],'platform':'','excludeSolved':False,'reviewedOnly':False,
+                     **rules({'rules':info['rules']}),'calendarEvent':{key:event[key] for key in ('id','url','startAt','endAt')}}
+            slots=[{'letter':row['problem'],'id':row['id'],'title':row['title'],'difficulty':row.get('difficulty'),
+                    'tags':row.get('tags',[]),'judgeScope':'official'} for row in rows]
+            plan={'previewId':uuid.uuid4().hex,'name':event['contest'],'slots':slots,'duration':duration,'min':0,'max':10000,
+                  'strategy':'replay','constraints':options,'event':info}
+            self.previews[tuple(slot['id'] for slot in slots)]={'plan':plan,'slots':slots,'at':self._now()}
             return self.start_contest({'ids':[slot['id'] for slot in plan['slots']],
                                       'previewId':plan['previewId'],'duration':duration,'name':plan['name']})
 
@@ -1864,7 +1906,11 @@ class TrainingService:
                 if key in body and body[key] != preview["plan"][key]:
                     raise ServiceError(409, "难度条件已变化，请重新生成题目")
             solved = self._solved_problem_keys(self._library()) if options["excludeSolved"] else set()
-            current_rows = {row["id"]: row for row in self._contest_candidates([self._row(identity) for identity in ids],official=options['strategy']=='replay')}
+            current_rows = {row['id']:row for row in [self._row(identity) for identity in ids]}
+            if not options.get('calendarEvent'):
+                current_rows={row['id']:row for row in self._contest_candidates(list(current_rows.values()),official=options['strategy']=='replay')}
+            elif not self._contest_candidates([current_rows[ids[0]]],official=True):
+                raise ServiceError(409,'A 题题面尚未就绪，请稍后重试')
             for identity in ids:
                 row = current_rows.get(identity)
                 if row is None:
@@ -1926,7 +1972,20 @@ class TrainingService:
         until = parse_time(record["finished_at"] or record["deadline"])
         elapsed = max(0, int((min(self._now(), until) - parse_time(record["started_at"])).total_seconds()))
         config = json.loads(record["config"] or "{}")
-        return {"id": record["id"], "name": record["name"], "status": record["status"], "startedAt": record["started_at"], "deadline": record["deadline"], "finishedAt": record["finished_at"], "duration": record["duration"], "slots": slots, "accepted": sum(slot["accepted"] for slot in slots), "total": len(slots), "penalty": penalty, "elapsedSeconds": elapsed, "strategy": config.get("strategy", "comprehensive"), "constraints": config}
+        name=record['name']
+        if name.startswith('重现赛 · '):
+            live=bool(config.get('calendarEvent'))
+            if not live:
+                try:
+                    original=self._row(slots[0]['id'])
+                    live=parse_time(original['startedAt'])<=parse_time(record['started_at'])<parse_time(original['endedAt'])
+                except (KeyError,TypeError,ValueError,IndexError,ServiceError):pass
+            if live:name=name.removeprefix('重现赛 · ')
+        if config.get('calendarEvent'):
+            for slot in slots:
+                try:slot['statementReady']=self._row(slot['id']).get('catalogContentReady',True)
+                except ServiceError:slot['statementReady']=False
+        return {"id": record["id"], "name": name, "status": record["status"], "startedAt": record["started_at"], "deadline": record["deadline"], "finishedAt": record["finished_at"], "duration": record["duration"], "slots": slots, "accepted": sum(slot["accepted"] for slot in slots), "total": len(slots), "penalty": penalty, "elapsedSeconds": elapsed, "strategy": config.get("strategy", "comprehensive"), "constraints": config}
 
     def contest(self, identity):
         with self.lock:

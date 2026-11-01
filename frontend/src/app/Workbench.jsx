@@ -222,6 +222,14 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const consoleButtonRef = useRef(null);
   const undoReplace = useRef(null);
   const officialRef = useRef(null);
+  const officialOpening = useRef(false), mounted = useRef(false);
+  const accountOwner=window.__tbAccountUserId||'local';
+  const ownerRef=useRef(accountOwner);ownerRef.current=accountOwner;
+  useEffect(()=>{mounted.current=true;return()=>{
+    mounted.current=false;
+    const current=officialRef.current;officialRef.current=null;
+    if(current)current.api('official/close',{sessionId:current.id}).catch(()=>undefined);
+  };},[]);
   const officialReported = useRef(new Set());
   const [problem, setProblem] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -353,9 +361,9 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     setCopied(false);
     setInitialPickerOpen(false);
     setInitialCode(null);
-    setOpeningOfficial(false);
-    setOfficialSession(null);
-    setOfficialPollError('');
+    if(!officialRef.current&&!officialOpening.current){
+      setOpeningOfficial(false);setOfficialSession(null);setOfficialPollError('');
+    }
     setLanguage('original');
     setTranslation(null);
     setTranslationBusy(false);
@@ -418,11 +426,6 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
       alive = false;
       clearTimeout(record.timer);
       saveRecord(record);
-      if (officialRef.current?.record === record) {
-        const session = officialRef.current;
-        officialRef.current = null;
-        apiRef.current('official/close', { sessionId: session.id }).catch(() => undefined);
-      }
       if (isActive(record)) activeRecord.current = null;
     };
     // api and callback references may change with workspace polling. A draft
@@ -544,7 +547,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     // Refresh progress independently; displaying the persisted receipt never
     // waits for a full workspace/statement round trip.
     apiRef.current('workspace').then(workspace => {
-      if (isActive(record)) callbacks.current.onProgress?.(workspace);
+      if (mounted.current&&record.accountOwner===ownerRef.current) callbacks.current.onProgress?.(workspace);
     }).catch(() => undefined);
     if (session.submission) return;
     try {
@@ -566,7 +569,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   useEffect(() => {
     const receive = event => {
       const session = event.detail, current = officialRef.current;
-      if (!session || !current || current.id !== session.sessionId || !isActive(current.record)) return;
+      if (!session || !current || current.id !== session.sessionId || current.record.accountOwner!==ownerRef.current) return;
       current.pushed = (current.pushed || 0) + 1;
       current.status = session.status;
       setOfficialSession(session);
@@ -580,12 +583,13 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   useEffect(() => {
     if (!officialSession?.sessionId || OFFICIAL_TERMINAL.has(officialSession.status)) return;
     let alive = true, timer;
-    const record = activeRecord.current, sessionId = officialSession.sessionId;
+    const record = officialRef.current?.record, sessionId = officialSession.sessionId;
+    if(!record)return;
     const poll = async () => {
       const pushed = officialRef.current?.pushed || 0;
       try {
         const answer = await apiRef.current(`official/status?sessionId=${encodeURIComponent(sessionId)}`);
-        if (!alive || !isActive(record) || officialRef.current?.id !== sessionId) return;
+        if (!alive || record.accountOwner!==ownerRef.current || officialRef.current?.id !== sessionId) return;
         if ((officialRef.current.pushed || 0) !== pushed) {
           if (!OFFICIAL_TERMINAL.has(officialRef.current.status)) timer = setTimeout(poll, 900);
           return;
@@ -596,7 +600,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
         await announceOfficialCompletion({ ...answer, sessionId }, record);
         if (!OFFICIAL_TERMINAL.has(answer.status)) timer = setTimeout(poll, ['needs_login', 'needs_verification', 'ready'].includes(answer.status) ? 2200 : 900);
       } catch (error) {
-        if (alive && isActive(record)) {
+        if (alive && record.accountOwner===ownerRef.current && officialRef.current?.id===sessionId) {
           setOfficialPollError(error.message || '暂时无法读取原站状态，正在重试。');
           timer = setTimeout(poll, 2500);
         }
@@ -604,7 +608,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     };
     timer = setTimeout(poll, 450);
     return () => { alive = false; clearTimeout(timer); };
-  }, [officialSession?.sessionId, contextKey, announceOfficialCompletion]);
+  }, [officialSession?.sessionId, announceOfficialCompletion]);
 
   useEffect(()=>{
     if(officialSession?.status!=='finished'||!officialSession.sessionId)return;
@@ -739,31 +743,34 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const openOfficial = async (path = 'official/submit') => {
     const record = activeRecord.current;
     if(path==='official/submit'&&!nativeSubmit)return;
-    if (!record?.loaded || unavailable || sidePracticeLocked || record.officialBusy || (path === 'official/submit' && officialBusy)) return;
+    if (!record?.loaded || unavailable || sidePracticeLocked || record.officialBusy || officialOpening.current || (path === 'official/submit' && officialBusy)) return;
     if (!record.code.trim() || byteLength(record.code) > MAX_BYTES) {
       setActionError(!record.code.trim() ? '先写入代码，再提交到原站。' : '代码超过 64 KiB，请缩短后再提交。');
       return;
     }
     if (path === 'official/submit') primeAcceptedSound();
     record.officialBusy = true;
+    officialOpening.current=true;
+    record.accountOwner=ownerRef.current;
+    const submitApi=apiRef.current;
     setOpeningOfficial(true); setActionError(''); setOfficialPollError('');
     setConsoleOpen(true); setConsoleTab('result');
     saveRecord(record);
     try {
-      const answer = await apiRef.current(path, requestBody(record, { code: record.code }));
+      const answer = await submitApi(path, requestBody(record, { code: record.code }));
       if (!answer.sessionId) throw new Error('原站面板未返回会话，请重试。');
-      if (!isActive(record)) {
-        apiRef.current('official/close', { sessionId: answer.sessionId }).catch(() => undefined);
+      if (!mounted.current||record.accountOwner!==ownerRef.current) {
+        submitApi('official/close', { sessionId: answer.sessionId }).catch(() => undefined);
         return;
       }
-      officialRef.current = { id: answer.sessionId, record, status: answer.status };
+      officialRef.current = { id: answer.sessionId, record, status: answer.status,api:submitApi };
       setOfficialSession(answer);
       await announceOfficialCompletion(answer, record);
     } catch (error) {
       if (isActive(record)) {
         setActionError(error.message || '暂时无法提交到原站，请稍后重试。');
       }
-    } finally { record.officialBusy = false; if (isActive(record)) setOpeningOfficial(false); }
+    } finally { record.officialBusy = false;officialOpening.current=false;if(mounted.current&&record.accountOwner===ownerRef.current)setOpeningOfficial(false); }
   };
   const closeOfficial = async () => {
     const session = officialRef.current;
@@ -771,13 +778,13 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     setOpeningOfficial(true);
     try {
       const answer = await apiRef.current('official/close', { sessionId: session.id });
-      if (isActive(session.record) && officialRef.current?.id === session.id) {
+      if (mounted.current&&session.record.accountOwner===ownerRef.current && officialRef.current?.id === session.id) {
         setOfficialSession({ ...answer, sessionId: session.id });
         setOfficialPollError('');
         editorRef.current?.focus();
       }
-    } catch (error) { if (isActive(session.record)) setOfficialPollError(error.message || '暂时无法关闭原站面板。'); }
-    finally { if (isActive(session.record)) setOpeningOfficial(false); }
+    } catch (error) { if (mounted.current&&session.record.accountOwner===ownerRef.current) setOfficialPollError(error.message || '暂时无法关闭原站面板。'); }
+    finally { if (mounted.current&&session.record.accountOwner===ownerRef.current) setOpeningOfficial(false); }
   };
   const translateStatement = async () => {
     const record = activeRecord.current;

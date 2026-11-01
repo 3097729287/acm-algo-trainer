@@ -32,7 +32,7 @@ def fun_achievements(training,records):
             batches=[[record for record in batch if verdict is None or record.get('verdict')==verdict] for _,batch in sorted(by_day.items())]
             at=next((batch[target-1]['submitted_at'] for batch in batches if len(batch)>=target),None)
             label=f'正式 {verdict}' if verdict else '正式提交'
-            add(f'{prefix}-{target}',f'{name} {target}',f'同一天{label} {target} 次',max(map(len,batches),default=0),target,at)
+            add(f'{prefix}-{target}',name,f'同一天{label} {target} 次',max(map(len,batches),default=0),target,at)
     reviews=defaultdict(list)
     for row in training.connection.execute("SELECT value FROM account_preferences WHERE key LIKE 'review-task:%'"):
         try:task=json.loads(row[0])
@@ -48,7 +48,7 @@ def fun_achievements(training,records):
         chains.append(distinct)
     for target in (2,3,5):
         completed=sorted(chain[target-1][1] for chain in chains if len(chain)>=target)
-        add(f'review-rebound-{target}',f'再战老朋友 {target}',f'同一道题在相隔至少一天的 {target} 次间隔复习中，都先错误提交再独立 AC',max(map(len,chains),default=0),target,completed[0] if completed else None)
+        add(f'review-rebound-{target}','再战老友',f'同一道题在相隔至少一天的 {target} 次间隔复习中，都先错误提交再独立 AC',max(map(len,chains),default=0),target,completed[0] if completed else None)
     actions=[]
     for row in training.connection.execute("SELECT value FROM account_preferences WHERE key LIKE 'activity-actions:%'"):
         try:value=json.loads(row[0])
@@ -58,7 +58,7 @@ def fun_achievements(training,records):
     hearts.pop(None,None)
     for target in (3,10,25):
         times=sorted(stamp for stamp in hearts.values() if stamp)
-        add(f'hearts-given-{target}',f'爱心传递 {target}',f'给 {target} 位不同的训练者点爱心',len(hearts),target,times[target-1] if len(times)>=target else None)
+        add(f'hearts-given-{target}','爱心传递',f'给 {target} 位不同的训练者点爱心',len(hearts),target,times[target-1] if len(times)>=target else None)
     teases=[event.get('at') for event in actions if event.get('kind')=='leader-tease' and event.get('at')]
     add('leader-tease','榜首切磋','给今日排行榜第一名留言“就这?”',len(teases),1,min(teases,default=None))
     # First-place achievements only use settlement receipts from the service.
@@ -73,5 +73,5 @@ def fun_achievements(training,records):
             if key:days[str(key)]=stamp
     for target in (3,7,30):
         times=sorted(stamp for stamp in days.values() if stamp)
-        add(f'daily-leader-{target}',f'霸榜今日第一 {target} 天',f'累计获得 {target} 天今日排行榜第一名',len(days),target,times[target-1] if len(times)>=target else None)
+        add(f'daily-leader-{target}','每日榜首',f'累计获得 {target} 天今日排行榜第一名',len(days),target,times[target-1] if len(times)>=target else None)
     return result

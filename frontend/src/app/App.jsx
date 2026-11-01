@@ -110,7 +110,7 @@ import InlineTitle from "@/components/InlineTitle.jsx";
 import { useSoftwareUpdates, SoftwareUpdatePanel, SoftwareUpdateNotice } from '@/pages/SoftwareUpdates.jsx';
 import MockProblemPicker from "./MockProblemPicker.jsx";
 import { difficultyBand, difficultyLabel, difficultyDescription, briefSolution } from "@/lib/practiceMetadata.js";
-import TitleMedals from '@/components/TitleMedals.jsx';
+import '@/styles/followups-1434.css';
 import { organizeCategories } from "@/models/model.js";
 import NavigationSettings, { orderedPages } from "@/pages/NavigationSettings.jsx";
 import { AppearanceSettings, TopbarClock } from "@/components/WorkspaceDecorations.jsx";
@@ -710,7 +710,7 @@ export default function App() {
   const backgroundDialog=useRef(dialog);backgroundDialog.current=dialog;
   const refreshBackground = useCallback(function refresh(force = false) {
     if (document.hidden && !force) return Promise.resolve();
-    if(backgroundDialog.current==='daily-tasks')return Promise.resolve();
+    if(['daily-tasks','achievements'].includes(backgroundDialog.current))return Promise.resolve();
     if (backgroundRequest.current) {
       if (force) backgroundAgain.current = true;
       return backgroundRequest.current;
@@ -1383,7 +1383,7 @@ export default function App() {
     setBusy(true);
     try {
       const [{events=[]},schedule]=await Promise.all([api('contests/events'),api('contest-calendar').catch(()=>calendar.snapshot)]);
-      const live=(schedule?.contests||[]).find(item=>(item.contest===name||item.name===name)&&Date.parse(item.startAt)<=Date.now()&&Date.now()<Date.parse(item.endAt));
+      const live=(schedule?.contests||[]).find(item=>[item.contest,item.name,item.title,item.import?.title].includes(name)&&Date.parse(item.startAt)<=Date.now()&&Date.now()<Date.parse(item.endAt));
       if(live){startedMock(await api('contests/start-calendar',{id:live.id}));return;}
       const event = events.find(item => item.name === name);
       if (!event) throw new Error('这场比赛暂不能开始重现赛，请刷新比赛列表');
@@ -2043,7 +2043,7 @@ export default function App() {
           <div id="tb-page-search" className="topbar-search-slot"/>
           {account?.userId&&!practiceId&&!mockFocus&&<Suspense fallback={null}><NextActions key={account.userId} rows={rows} training={mine} reviewPlan={workspace.reviews} insights={insights} prefs={prefs} api={api} availablePages={visiblePageIds} activeContest={active} onNavigate={openRecommendation} onTrain={openPractice} onOpenChange={setRecommendationOpen} suspended={Boolean(dialog||clearTrainingAnchor||tourOpen||levelUp.dialog)}/></Suspense>}
           <div className="topbar-actions">
-            <PracticeStreak days={summary.streak || 0} completedToday={Number(todayAc)>0}/>{window.__tbAdmin&&<span className="admin-workspace-label">管理员</span>}<div className="topbar-titles"><TitleMedals iconOnly titles={insights?.equippedTitles || growth?.equippedTitles || []} /></div>
+            <PracticeStreak days={summary.streak || 0} completedToday={Number(todayAc)>0}/>{window.__tbAdmin&&<span className="admin-workspace-label">管理员</span>}
             {active && page !== "mock" && (
               <button className="live-contest" onClick={() => go("mock")}>
                 <Clock size={14} />
@@ -2085,7 +2085,7 @@ export default function App() {
             </div>
           ) : practiceId ? (
             <Workbench
-              key={"practice:" + practiceId}
+              key={"practice:" + (account?.userId||'local')}
               shortcuts={prefs.shortcuts}
               problemId={practiceId}
               preparedProblem={practicePrefetch.current?.id===practiceId?practicePrefetch.current.promise:null}
@@ -2108,7 +2108,7 @@ export default function App() {
               <div className="contest-player">
                 {currentMockSlot && (
                   <Workbench
-                    key={active.id + ":" + currentMockSlot.id}
+                    key={active.id}
                     problemId={currentMockSlot.id}
                     shortcuts={prefs.shortcuts}
               contest={active}
@@ -2251,7 +2251,7 @@ export default function App() {
       {tourOpen && <Suspense fallback={null}><Onboarding availablePages={visiblePageIds} key={tourContext} initialGuide={tourContext} practiceId={practiceId||(mockFocus?currentMockSlot?.id:null)} onShown={markGuideShown} onComplete={finishOnboarding} onDirectory={()=>openGuide('catalog')} onNavigate={(target,tab)=>{go(target);if(target==="settings")setSettingsTab(tab||"home");}}/></Suspense>}
       {experienceOffer?.owner===account?.userId&&experienceOffer?.policyVersion===1&&<Suspense fallback={null}><ExperienceChallenge owner={account?.userId} offer={experienceOffer} ready={preferencesLoaded.current&&!loading&&prefs.levelNoticeVersion===1&&prefs.levelNoticeSeen>=Math.min(navigationLevel,4)} blocked={levelNoticeBlocked||Boolean(levelUp.dialog)} api={api} onOpenChange={setExperienceOpen} onOpen={openPractice} onGrowth={growth=>{const owner=window.__tbAccountUserId;if(confirmedGrowth(growth,owner))setInsights(previous=>protectGrowth(previous,{...previous,growth},owner,retiredGrowthEpochs.current));}}/></Suspense>}
       {levelUp.dialog&&<Suspense fallback={null}><LevelUpDialog notice={levelUp.dialog} pages={PAGES} preferences={prefs} onPresented={levelUp.markPresented} onClose={levelUp.close} onOpen={go}/></Suspense>}
-      {dialog === "achievements" && <Modal opacityKey="achievements" title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => setDialog(null)} wide><AchievementPanel achievements={achievements} newIds={unseenAchievements.map(item => item.id)} onSeen={markAchievementSeen} onClaim={async id=>{const owner=window.__tbAccountUserId;dailyClaimPending.current=true;backgroundSeq.current++;try{const result=await api('achievements/claim',{id});if(owner!==window.__tbAccountUserId)return;backgroundSeq.current++;setInsights(previous=>protectGrowth(previous,result,owner,retiredGrowthEpochs.current));notice('奖励已领取','success');}finally{dailyClaimPending.current=false;}}} /></Modal>}
+      {dialog === "achievements" && <Modal opacityKey="achievements" title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => {setDialog(null);backgroundDialog.current=null;void refreshBackground(true);}} wide><AchievementPanel achievements={achievements} newIds={unseenAchievements.map(item => item.id)} onSeen={markAchievementSeen} onClaim={async id=>{const owner=window.__tbAccountUserId;dailyClaimPending.current=true;backgroundSeq.current++;try{const result=await api('achievements/claim',{id,compact:true});if(owner!==window.__tbAccountUserId)return;backgroundSeq.current++;setInsights(previous=>result.achievement?{...previous,achievements:(previous?.achievements||[]).map(item=>item.id===id?{...item,...result.achievement}:item)}:protectGrowth(previous,result,owner,retiredGrowthEpochs.current));notice('奖励已领取','success');}finally{dailyClaimPending.current=false;}}} /></Modal>}
       {dialog === "submission" && selectedSubmission && <Modal title={selectedSubmission.title + " · 历史提交"} onClose={() => setDialog(null)} wide footer={<button className="primary" onClick={() => { setDialog(null); openPractice(selectedSubmission.problemId); }}><Play size={14} />继续练习</button>}><div className="submission-detail-meta"><Verdict value={selectedSubmission.verdict} /><span>{formatDate(selectedSubmission.submittedAt)}</span><span>{selectedSubmission.contestName}</span></div><HistoricalCode submission={selectedSubmission} api={api}/>{selectedSubmission.message && <p className="submission-message">{selectedSubmission.message}</p>}</Modal>}
       {dialog === "updates" && (
         <Modal opacityKey="messages" title="消息与更新" onClose={() => setDialog(null)} wide className="messages-modal" headerActions={<IconButton label="全部已读" icon={Check} disabled={messagesReading||!((hub?.notifications||[]).some(item=>!item.read)||social.snapshot?.unreadCount>0)} onClick={async()=>{

@@ -46,7 +46,7 @@ export default function ContestCalendar({calendar,onStart,onOpen}) {
       <Tooltip text={`时长 ${Math.round((Date.parse(contest.endAt)-Date.parse(contest.startAt))/60000)} 分钟`}><CalendarClock size={17}/></Tooltip>
       <span className="calendar-actions">
        {live&&contest.import?.status!=='ready'&&<Tooltip text={contest.import?.error||'重新读取公开题面'}><button type="button" className="icon-button" aria-label={`重试题面 ${contest.title}`} disabled={snapshot?.importing||snapshot?.refreshing} onClick={refresh}><RefreshCw size={16} className={snapshot?.importing?'spin':''}/></button></Tooltip>}
-       {live&&contest.import?.status==='ready'&&(onStart||onOpen)&&<Tooltip text="开始比赛"><button type="button" className="icon-button" aria-label={`开始比赛 ${contest.title}`} disabled={Boolean(starting)} onClick={()=>act(contest,onStart||onOpen,Boolean(onStart))}>{starting===contest.id?<LoaderCircle size={17} className="spin"/>:<Play size={17}/>}</button></Tooltip>}
+       {live&&(contest.import?.status==='ready'||contest.import?.entryReady)&&(onStart||onOpen)&&<Tooltip text="开始比赛"><button type="button" className="icon-button" aria-label={`开始比赛 ${contest.title}`} disabled={Boolean(starting)} onClick={()=>act(contest,onStart||onOpen,Boolean(onStart))}>{starting===contest.id?<LoaderCircle size={17} className="spin"/>:<Play size={17}/>}</button></Tooltip>}
        <a href={contest.url} target="_blank" rel="noreferrer" aria-label={`前往原站 ${contest.title}`}><ArrowUpRight size={15}/></a>
       </span>
      </div>;

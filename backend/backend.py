@@ -344,8 +344,8 @@ class Handler(BaseHTTPRequestHandler):
                 elif path == "/api/daily-tasks/claim":
                     value = training.claim_daily_task(body.get("id"), body.get("date"))
                 elif path == '/api/achievements/claim':
-                    if set(body)!={'id'}:raise APIError(400,'请选择有效成就')
-                    value=training.claim_achievement(body['id'],self.server.store.extensions.snapshot())
+                    if set(body)-{'id','compact'} or 'id' not in body or 'compact' in body and type(body['compact']) is not bool:raise APIError(400,'请选择有效成就')
+                    value=training.claim_achievement(body['id'],None if body.get('compact') else self.server.store.extensions.snapshot(),compact=body.get('compact',False))
                 elif path in ("/api/profile", "/api/identity"):
                     if accounts is not None:
                         if set(body) - {'nickname', 'endpoint'} or body.get('endpoint', accounts.endpoint) != accounts.endpoint:
@@ -840,7 +840,7 @@ class LocalServer(ThreadingHTTPServer):
             if self.contest_calendar is None:
                 from contest_calendar import ContestCalendar
                 from contest_imports import import_contest
-                self.contest_calendar = ContestCalendar(self.state_dir, importer=lambda event: import_contest(self.store.extensions, event))
+                self.contest_calendar = ContestCalendar(self.state_dir, importer=lambda event,on_progress=None: import_contest(self.store.extensions, event,on_progress=on_progress))
                 self.contest_calendar.start()
             return self.contest_calendar
 

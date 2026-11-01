@@ -136,11 +136,39 @@ def roster(client, event):
     return rows
 
 
-def import_contest(service, event):
-    """Publish complete roster with truthful per-task availability, idempotently."""
+def import_contest(service, event, on_progress=None):
+    """Publish the real roster, then durable statements in source order."""
     client = StartedContestClient(service.client)
     rows = roster(client, event)
+    def order(row):
+        return tuple((0,int(piece)) if piece.isdecimal() else (1,piece.upper()) for piece in re.findall(r'\d+|\D+',row['problem']))
+    rows.sort(key=order)
     ready, errors = 0, []
+    for row in rows:
+        path=service.state_dir/'statements'/(hashlib.sha256(row['id'].encode()).hexdigest()+'.json')
+        row['catalogContentReady']=content_ready(load_document(path,{}))
+    def publish():
+        with service.lock:
+            if service.closed or service.stop.is_set():raise RuntimeError('应用正在关闭，稍后继续')
+            merged_rows=[]
+            for row in rows:
+                old=service.state['rows'].get(row['id'],{})
+                merged={**old,**row}
+                if row['catalogContentReady']:merged.pop('statementNotice',None)
+                else:merged['statementNotice']='原站题面正在补齐'
+                if row.get('difficulty') is None:
+                    for key in ('difficulty','difficultySource','difficultyEvidence','difficultyEstimated'):
+                        if key in old:merged[key]=old[key]
+                service.state['rows'][row['id']]=merged;merged_rows.append(merged)
+            service._save()
+        ready_ids=[row['id'] for row in rows if row['catalogContentReady']]
+        value={'status':'ready' if len(ready_ids)==len(rows) else 'partial','total':len(rows),'ready':len(ready_ids),
+               'title':rows[0]['contest'],'error':'；'.join(errors)[:350],'problemIds':[row['id'] for row in rows],
+               'readyProblemIds':ready_ids,'entryId':rows[0]['id'],'entryReady':bool(rows[0]['catalogContentReady']),
+               'catalogRevision':hashlib.sha256(json.dumps(merged_rows,sort_keys=True,ensure_ascii=False).encode()).hexdigest()}
+        if callable(on_progress):on_progress(value)
+        return value
+    publish()
     for row in rows:
         if service.stop.is_set():
             raise RuntimeError('应用正在关闭，稍后继续')
@@ -159,24 +187,5 @@ def import_contest(service, event):
             ready += 1
         else:
             row['statementNotice'] = '原站题面尚未公开或需要在原站报名'
-    with service.lock:
-        if service.closed:
-            raise RuntimeError('应用正在关闭，稍后继续')
-        merged_rows = []
-        for row in rows:
-            old = service.state['rows'].get(row['id'], {})
-            # Do not discard later ratings, local supplementation, or first-added dates.
-            merged = {**old, **row}
-            if row['catalogContentReady'] and merged.get('statementNotice') == '原站题面尚未公开或需要在原站报名':
-                merged.pop('statementNotice', None)
-            if row.get('difficulty') is None:
-                for key in ('difficulty', 'difficultySource', 'difficultyEvidence', 'difficultyEstimated'):
-                    if key in old:
-                        merged[key] = old[key]
-            service.state['rows'][row['id']] = merged
-            merged_rows.append(merged)
-        service._save()
-    return {'status': 'ready' if ready == len(rows) else 'partial', 'total': len(rows),
-            'ready': ready, 'title': rows[0]['contest'], 'error': '；'.join(errors)[:350],
-            'problemIds': [row['id'] for row in rows],
-            'catalogRevision': hashlib.sha256(json.dumps(merged_rows, sort_keys=True, ensure_ascii=False).encode()).hexdigest()}
+        result=publish()
+    return result

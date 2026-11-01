@@ -85,12 +85,12 @@ Source: "{#WebViewInstaller}"; DestName: "WebView2-offline-x64.exe"; Flags: dont
 
 #ifndef ValidationSetup
 [Icons]
-Name: "{group}\{#ProductName}"; Filename: "{app}\{#ProductExe}"; WorkingDir: "{app}"; IconFilename: "{app}\tb.ico"
-Name: "{autodesktop}\{#ProductName}"; Filename: "{app}\{#ProductExe}"; WorkingDir: "{app}"; IconFilename: "{app}\tb.ico"; Tasks: desktopicon
+Name: "{group}\{#ProductName}"; Filename: "{app}\ToBeLoader.exe"; WorkingDir: "{app}"; IconFilename: "{app}\tb.ico"
+Name: "{autodesktop}\{#ProductName}"; Filename: "{app}\ToBeLoader.exe"; WorkingDir: "{app}"; IconFilename: "{app}\tb.ico"; Tasks: desktopicon
 #endif
 
 [Run]
-Filename: "{app}\{#ProductExe}"; Description: "打开 {#ProductName}"; WorkingDir: "{app}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\ToBeLoader.exe"; Description: "打开 {#ProductName}"; WorkingDir: "{app}"; Flags: nowait postinstall skipifsilent
 
 [InstallDelete]
 Type: files; Name: "{app}\{#LegacyExe}"

@@ -24,6 +24,8 @@ def package_document(source, target, *, version=VERSION, source_root=ROOT):
     """Keep shipped manuals linked locally; pin other references to this tag."""
     source, target, source_root = Path(source).resolve(), Path(target), Path(source_root).resolve()
     if not re.fullmatch(r'\d+\.\d+\.\d+', version): raise ValueError('Invalid document version')
+    document_ref=os.environ.get('TB_PACKAGE_DOC_REF') or 'v'+version
+    if document_ref!='v'+version and not re.fullmatch(r'[a-f0-9]{40}',document_ref):raise ValueError('Invalid document source commit')
     def replace(match):
         value = match[2].strip()
         if value.startswith('<') and '>' in value:
@@ -43,7 +45,7 @@ def package_document(source, target, *, version=VERSION, source_root=ROOT):
         elif destination.parent == source_root and destination.name in ('VERSION','LICENSE','THIRDPARTY.md','TOOLCHAIN-SOURCES.md','third-party-inventory.json'):
             resolved = destination.name
         else:
-            resolved = 'https://github.com/3097729287/acm-algo-trainer/blob/v' + version + '/' + quote(relative, safe='/')
+            resolved = 'https://github.com/3097729287/acm-algo-trainer/blob/' + document_ref + '/' + quote(relative, safe='/')
         if parts.query: resolved += '?' + parts.query
         if parts.fragment: resolved += '#' + parts.fragment
         return match[1] + resolved + rest + match[3]
@@ -137,6 +139,11 @@ def assemble(args):
     shutil.copytree(ROOT / 'frontend' / 'dist', package / 'frontend' / 'dist')
     shutil.copytree(ROOT / 'backend' / 'resources', package / 'resources')
     shutil.copytree(args.compiler_source, package / 'compiler')
+    compiler=args.compiler_source/'ucrt64/bin/g++.exe'
+    if not compiler.is_file():raise RuntimeError('The native shortcut loader requires the bundled C++ compiler')
+    subprocess.run([str(compiler),'-x','c++','-municode','-mwindows','-Os','-s','-static','-fno-exceptions','-fno-rtti','-finput-charset=UTF-8',
+                    str(ROOT/'desktop/startup_loader.c'),'-o',str(package/'ToBeLoader.exe'),'-luser32','-lgdi32'],
+                   check=True,env={**os.environ,'PATH':str(compiler.parent)+os.pathsep+os.environ.get('PATH','')})
     if not args.python_source or not (args.python_source / 'python.exe').is_file() or not (args.python_source / 'LICENSE.txt').is_file():
         raise RuntimeError('--python-source must contain the verified CPython embeddable runtime')
     shutil.copytree(args.python_source, package / '_internal' / 'python3')

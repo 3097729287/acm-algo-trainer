@@ -63,7 +63,7 @@ try {
  assert.equal(await nav().getByRole('button').count(),12,'Restart paints the last confirmed complete navigation before insights arrives');
  assert.equal(await page.locator('.navigation-pending').count(),0);release();await settled();
  assert.deepEqual((await nav().getByRole('button').allTextContents()).slice(0,4),['我的训练','题库','题单','比赛'],'The shipped singleton preference migrates to the requested default order');
- assert.equal(await page.locator('.topbar-titles .title-medal').count(),2);assert.deepEqual(await page.locator('.topbar-titles .title-medal').allTextContents(),['',''],'Topbar medals keep accessible names and tooltips without adjacent text');
+ assert.equal(await page.locator('.topbar .title-medal').count(),0,'Equipped title medals appear only beneath the growth nickname');
  await page.setViewportSize({width:1440,height:600});
  await nav().getByRole('button',{name:'比赛',exact:true}).click();
  await page.getByRole('button',{name:'查看 牛客 1024数学专场考核，20 道题',exact:true}).click();

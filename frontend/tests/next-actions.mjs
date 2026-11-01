@@ -208,7 +208,7 @@ try{
     await hover();
     const box=await popup().boundingBox();
     const trigger=await root.boundingBox();
-    assert(Math.abs(box.x-trigger.x)<.75&&Math.abs(box.width-trigger.width)<.75,'The flyout aligns with the whole recommendation control: '+JSON.stringify({font,width,box,trigger}));
+    assert(Math.abs(box.x-Math.max(10,Math.min(trigger.x,width-box.width-10)))<.75,'The content-sized flyout stays aligned with the trigger or viewport edge: '+JSON.stringify({font,width,box,trigger}));
     assert(box.x>=0&&box.x+box.width<=width+.5&&box.y+box.height<=800+.5,JSON.stringify({font,width,box}));
     assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
     const alignment=await page.evaluate(()=>{
@@ -222,8 +222,9 @@ try{
     });
     for(const item of alignment){
       assert(item.borders.every(value=>parseFloat(value)===0)&&item.shadow==='none','Rows share the popup border and shadow: '+JSON.stringify({width,font,item}));
-      assert(Math.abs(item.textX-alignment[0].textX)<.75,'Primary and expanded task text share the same horizontal start: '+JSON.stringify({width,font,alignment}));
-      if(item.iconX!==null&&alignment[0].iconX!==null)assert(Math.abs(item.iconX-alignment[0].iconX)<.75,'Recommendation icons share the same horizontal start');
+      const offset=item===alignment[0]?0:box.x-trigger.x;
+      assert(Math.abs(item.textX-alignment[0].textX-offset)<.75,'Primary and expanded task text share the same inset: '+JSON.stringify({width,font,alignment}));
+      if(item.iconX!==null&&alignment[0].iconX!==null)assert(Math.abs(item.iconX-alignment[0].iconX-offset)<.75,'Recommendation icons share the same inset');
     }
     const arrows=alignment.filter(item=>item.arrowRight!==null);assert(arrows.every(item=>Math.abs(item.arrowRight-arrows[0].arrowRight)<.75),'Trailing arrows align');
     assert(await root.evaluate(node=>{

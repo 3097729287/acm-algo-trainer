@@ -1,0 +1,51 @@
+import assert from 'node:assert/strict';
+import {mkdir} from 'node:fs/promises';
+import {createServer} from 'vite';
+import {chromium} from 'playwright';
+const vite=await createServer({server:{host:'127.0.0.1',port:0}});await vite.listen();
+const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
+const page=await browser.newPage({viewport:{width:1280,height:900}}),errors=[];
+page.on('pageerror',error=>errors.push(error.message));
+await page.addInitScript(()=>window.__tbAdmin=true);
+const output='../.backups/interaction-1434/ui';await mkdir(output,{recursive:true});
+try{
+ await page.goto(`http://127.0.0.1:${vite.httpServer.address().port}/tests/followups-1434-fixture.html`);
+ await page.getByText('星光代码',{exact:true}).waitFor();
+ assert.equal(await page.locator('.achievement-claim svg').count(),0);
+ assert.equal(await page.getByText('领取奖励',{exact:true}).count(),2);
+ assert.equal(await page.getByText('任务奖励 · +20 XP',{exact:true}).count(),1);
+ for(const width of[1280,740,430])for(const theme of['light','dark']){
+  await page.setViewportSize({width,height:900});await page.evaluate(theme=>followups.theme(theme),theme);
+  const rows=await page.locator('.progress-achievement').evaluateAll(nodes=>nodes.map(node=>{
+    const rect=node.getBoundingClientRect(),footer=node.querySelector('.achievement-reward-row'),title=node.querySelector('.progress-achievement-name strong'),date=node.querySelector('time');
+    return{height:rect.height,footer:footer?.getBoundingClientRect().bottom,nameRight:title.getBoundingClientRect().right,dateLeft:date?.getBoundingClientRect().left,bg:getComputedStyle(node).backgroundColor,border:getComputedStyle(node).borderColor};
+  }));
+  assert(rows.slice(0,3).every(row=>row.height<165&&row.nameRight<=row.dateLeft+.5),JSON.stringify(rows));
+  assert.notEqual(rows[0].bg,rows.at(-1).bg,'Completed background differs from incomplete');
+  assert.notEqual(rows[0].border,rows.at(-1).border,'Completed border is distinct');
+  assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  if(width===1280)await page.screenshot({path:output+'/achievements-'+theme+'.png'});
+ }
+ await page.getByRole('button',{name:'领取星光代码奖励',exact:true}).dblclick({delay:5});
+ await page.waitForFunction(()=>followups.claims===1);await page.getByRole('button',{name:'领取星光代码奖励',exact:true}).waitFor({state:'detached'});
+ await page.evaluate(()=>followups.setPanel('daily'));
+ const routines=page.getByRole('region',{name:'日常',exact:true}),missions=page.getByRole('region',{name:'任务',exact:true});
+ assert.deepEqual(await routines.locator('strong').allTextContents(),['AC','使用时长','复习']);
+ assert.deepEqual(await missions.locator('strong').allTextContents(),['攻坚挑战','晚间一题','基础巩固']);
+ assert.equal(await page.getByText('进行中',{exact:true}).count(),0);
+ await page.setViewportSize({width:1280,height:900});await page.evaluate(()=>followups.setPanel('growth'));
+ const medal=page.locator('.account-hero-person .title-medal');await medal.waitFor();
+ const geometry=await medal.evaluate(node=>{const medal=node.getBoundingClientRect(),name=node.closest('.account-hero-person').querySelector('.profile-nickname').getBoundingClientRect(),svg=node.querySelector('svg').getBoundingClientRect();return{medal:medal.toJSON(),name:name.toJSON(),svg:svg.toJSON(),border:getComputedStyle(node).borderWidth};});
+ assert(geometry.medal.top>=geometry.name.bottom&&Math.abs(geometry.medal.x+geometry.medal.width/2-geometry.name.x-geometry.name.width/2)<1,JSON.stringify(geometry));
+ assert(geometry.svg.width>=44);assert.equal(geometry.border,'0px');await page.screenshot({path:output+'/growth.png'});
+ await page.evaluate(()=>followups.setPanel('admin'));await page.getByRole('button',{name:'调整霸榜天数'}).click();
+ await page.getByRole('spinbutton',{name:'每日霸榜天数'}).fill('9');
+ assert.equal(await page.locator('.admin-dominance-row [data-days="9"]').count(),1);
+ await page.getByRole('button',{name:'关闭霸榜预览'}).click();
+ await page.evaluate(()=>followups.setOwner('B'));await page.getByRole('button',{name:'调整霸榜天数'}).click();
+ assert.equal(await page.getByRole('spinbutton',{name:'每日霸榜天数'}).inputValue(),'2');
+ await page.getByRole('button',{name:'关闭霸榜预览'}).click();await page.evaluate(()=>followups.setOwner('A'));
+ await page.getByRole('button',{name:'调整霸榜天数'}).click();assert.equal(await page.getByRole('spinbutton',{name:'每日霸榜天数'}).inputValue(),'9');
+ await page.getByRole('button',{name:'恢复真实霸榜天数'}).click();assert.equal(await page.getByRole('spinbutton',{name:'每日霸榜天数'}).inputValue(),'2');
+ assert.deepEqual(errors,[]);console.log('PASS compact reward footer and text claim, brighter completed cards, routine grouping independent of order, larger borderless medals below nickname, per-account private admin dominance preview.');
+}finally{await browser.close();await vite.close();}

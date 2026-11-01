@@ -1,5 +1,7 @@
 # ToBe 开发与构建
 
+当前候选为 1.4.34，已安装 1.4.33，公开稳定版为 1.4.32。新增 `test_interaction_followups.py` 验证快速幂等奖励、真实本地目录 A 先发布、赛时名称及两套工作区的多账号同步；`submit-switching.mjs` 验证开浏览器和评测期间切题，`followups-1434.mjs` 验证完成色、紧凑奖励、正确分组和本机管理员霸榜预览。`settings-scenes.mjs` 增加全部卡片图标与文字在字号和窗口变化时的中心线检查。原生加载器由随包固定 C++ 工具链静态链接，最终冻结程序另测首次可见时间。[范围](releases/1.4.34.md)。
+
 1.4.33 已通过本机安装与升级验证并完成更新，尚未公开发布；公开稳定版为 1.4.32。[构建与验证来源](local-delivery-1.4.33.md)。完整后端检查使用隔离状态与 `TB_OFFLINE=1`；UI 构建与 Playwright 覆盖主题、布局、光标、领取、题单恢复和原站适配夹具。共享服务候选为 1.3.0，生产仍为 1.2.9，新增 013/014 迁移不得自动部署。
 
 本版新增检查：`node tests/editor-themes.mjs`、`node tests/interaction-1433.mjs`、`node tests/achievement-layout.mjs`、`node tests/training-list-cache.mjs` 与完整目录的 `node tests/training-catalog.mjs`。服务 HTTP 与隔离 MySQL 共用译文及连续第一套件。题单模型热缓存数字仅代表模型整理时间，原生窗口创建数字仅代表窗口创建，均不冒充冷开机或真实网络延迟。所有实际结果见 [本版说明](releases/1.4.33.md)。

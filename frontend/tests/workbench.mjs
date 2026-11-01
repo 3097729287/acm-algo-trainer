@@ -351,10 +351,13 @@ try {
   await editor.fill('int main() { return 0; }');
   await editor.press('Control+Enter');
   await page.evaluate(() => { window.workbenchFixture.officialStatus = 'finished'; });
+  await page.waitForFunction(() => Object.values(workbenchFixture.officialSessions).some(session=>session.saved));
+  await page.waitForFunction(() => !document.querySelector('.wb-primary')?.disabled);
+  await page.getByRole('button',{name:'提交',exact:true}).click();
   await page.waitForFunction(() => document.querySelector('.wb-result-summary')?.textContent.includes('AC'));
   assert.equal(await page.locator('.tb-workbench > .wb-official-status').count(), 0, 'Submission status never adds a top strip');
   assert.equal(await page.getByLabel('原站提交状态').count(), 0, 'A final verdict appears only in the result panel');
-  await page.waitForFunction(() => window.workbenchFixture.progress.length === 2);
+  await page.waitForFunction(() => window.workbenchFixture.progress.length >= 2);
   assert.equal(await page.evaluate(() => window.workbenchFixture.progress.at(-1).summary.accepted), 1);
   await editor.fill('unsaved edit before restoring history');
   await page.getByRole('button', { name: /^记录/ }).click();

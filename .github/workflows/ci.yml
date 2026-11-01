@@ -153,6 +153,8 @@ jobs:
       - run: node tests/interaction-1433.mjs
       - run: node tests/editor-themes.mjs
       - run: node tests/achievement-layout.mjs
+      - run: node tests/followups-1434.mjs
+      - run: node tests/submit-switching.mjs
       - run: node tests/training-list-cache.mjs
       - run: node tests/training-overview.mjs
       - run: node tests/navigation-learning.mjs

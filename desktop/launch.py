@@ -214,7 +214,7 @@ def run_desktop() -> int:
                     time.sleep(.1)
             else:
                 return 0
-        if os.name=='nt' and os.environ.get('TB_OFFLINE')!='1':
+        if os.name=='nt' and os.environ.get('TB_OFFLINE')!='1' and os.environ.get('TB_NATIVE_LOADING')!='1':
             from startup_splash import StartupSplash
             splash=StartupSplash();splash.show()
         check_dependencies()

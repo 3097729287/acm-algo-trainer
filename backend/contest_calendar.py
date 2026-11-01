@@ -156,8 +156,12 @@ class ContestCalendar:
             if not dt.datetime.fromisoformat(row['startAt']).timestamp()<=now<dt.datetime.fromisoformat(row['endAt']).timestamp():
                 raise ServiceError(409,'这场比赛尚未开始或已经结束')
             imported=self.imports.get(identity,{})
-            if imported.get('status')!='ready':raise ServiceError(409,'完整题面尚未就绪，请稍后重试')
-            return {**copy.deepcopy(row),'contest':imported.get('title') or row['title']}
+            if imported.get('scheduledStartAt') is not None and imported['scheduledStartAt']!=row['startAt']:
+                raise ServiceError(409,'比赛时间已调整，请等待题单重新核验')
+            if imported.get('status')!='ready' and not imported.get('entryReady'):raise ServiceError(409,'A 题题面尚未就绪，请稍后重试')
+            return {**copy.deepcopy(row),'contest':imported.get('title') or row['title'],
+                    'problemIds':copy.deepcopy(imported.get('problemIds',[])),
+                    'entryId':imported.get('entryId'),'partial':imported.get('status')!='ready'}
 
     def import_due(self, refresh=False):
         if self.offline or self.stop.is_set() or self.importer is None:
@@ -182,7 +186,7 @@ class ContestCalendar:
                 ongoing = row.get('endAt') and now < dt.datetime.fromisoformat(row['endAt']).timestamp()
                 manual = refresh and ongoing and now - self.manual_import_attempted.get(identity, float('-inf')) >= 15
                 moved = old.get('scheduledStartAt') is not None and old.get('scheduledStartAt') != row.get('startAt')
-                if old.get('status') == 'ready' or identity in self.import_running or not (manual or moved) and now < old.get('retryAt', 0):
+                if old.get('status') == 'ready' and not moved or identity in self.import_running or not (manual or moved) and now < old.get('retryAt', 0):
                     continue
                 # One source operation at a time; rate limiting is also shared with sync.
                 if self.import_running:
@@ -194,8 +198,18 @@ class ContestCalendar:
 
     def _import(self, event):
         identity = event['id']
+        def progress(value):
+            if not isinstance(value,dict):return
+            with self.lock:
+                if self.stop.is_set():return
+                self.imports[identity]={**self.imports.get(identity,{}),**copy.deepcopy(value),'id':identity,
+                    'url':event['url'],'scheduledStartAt':event.get('startAt'),'checkedAt':self.clock()}
+                save_document(self.import_path,self.imports)
         try:
-            result = self.importer(event)
+            import inspect
+            if 'on_progress' in inspect.signature(self.importer).parameters:
+                result=self.importer(event,on_progress=progress)
+            else:result=self.importer(event)
             if not isinstance(result, dict):
                 raise ValueError('原站导入结果无效，请稍后重试')
         except (OSError, ValueError, RuntimeError, KeyError, TypeError, AttributeError) as issue:
