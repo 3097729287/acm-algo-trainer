@@ -434,3 +434,16 @@ html .algorithm-lab .lab-course-header .lab-menu nav button {display:grid;grid-t
 html .algorithm-lab .lab-course-header .lab-menu nav button>span {width:2ch;justify-self:end;text-align:right;font-variant-numeric:tabular-nums}
 html .algorithm-lab .lab-course-header .lab-menu nav button>b {min-width:0;justify-self:start;text-align:left;overflow-wrap:anywhere}
 html .algorithm-lab .lab-course-header .lab-menu nav button>svg {margin-left:0;align-self:center}
+
+/* Title, contents and position form one readable cluster. */
+.algorithm-lab .lab-course-header>.lab-header-actions {order:0;}
+.algorithm-lab .lab-course-header>h1 {order:1;min-width:0;}
+.algorithm-lab .lab-course-header>.lab-course-tools {display:contents;}
+.algorithm-lab .lab-course-header .lab-menu {order:2;flex:none;margin:0;}
+.algorithm-lab .lab-course-header>.lab-position {order:3;display:inline-flex;align-items:center;flex:none;white-space:nowrap;font-size:.84rem;line-height:1.5;font-variant-numeric:tabular-nums;}
+.algorithm-lab .lab-course-header .lab-page-navigation {order:4;margin-left:auto;}
+.algorithm-lab .lab-course-header .lab-menu nav {left:0;right:auto;}
+.algorithm-lab .lab-course-header .lab-menu :is(.lab-icon-button,.lab-menu-toggle) {width:40px;min-width:40px;font-size:0;}
+
+.algorithm-lab .lab-course-header {min-height:44px;padding-block:2px;}
+.algorithm-lab .lab-course-header :is(.lab-icon-button,.lab-menu-toggle) {border:1px solid var(--line);}

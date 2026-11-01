@@ -53,7 +53,7 @@ class CalendarLiveTests(unittest.TestCase):
             self.assertTrue(value['importing']);self.assertTrue(entered.wait(1))
             for _ in range(5):calendar.snapshot(refresh=True)
             self.assertEqual(seen,['nowcoder:2'])
-            release.set();self.wait(lambda:not calendar.import_running)
+            release.set();self.wait(lambda:not calendar.import_running and not calendar.running)
 
     def test_opening_backoff_is_bounded_and_manual_refresh_can_retry(self):
         with tempfile.TemporaryDirectory() as directory, patch('contest_imports.SCHOOL_CONTESTS',()):

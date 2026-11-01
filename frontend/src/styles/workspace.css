@@ -1876,7 +1876,7 @@ kbd {
 }
 .record-score small {
   display: inline;
-  font-size: var(--ui-font-size, 15px);
+  font-size: inherit;
   color: var(--muted);
   font-weight: 400;
 }

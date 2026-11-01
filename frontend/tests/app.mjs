@@ -382,8 +382,9 @@ try {
 
   await page.keyboard.press('Control+0');
   await openSettings(page, '交互与导航');
-  assert.equal(await page.getByLabel('页面组合 mine', { exact: true }).inputValue(), '', 'legacy training/today group is removed from preferences');
-  assert.ok(await page.getByRole('button', { name: /^上移 / }).count() > 0, 'navigation naming and ordering share one category');
+  await page.getByRole('checkbox',{name:'显示 我的训练',exact:true}).waitFor();
+  assert.equal(await page.getByRole('textbox',{name:/导航名称|页面组合/}).count(),0);
+  assert.equal(await page.getByRole('button',{name:/^上移 /}).count(),0);
   await openSettings(page, '快捷键');
   assert.equal(await page.locator('.settings-command-grid button').count(), 0, 'shortcut launcher was removed');
   await page.keyboard.press('Control+k');
@@ -506,11 +507,8 @@ try {
   await page.setViewportSize({ width: 1050, height: 760 });
   await page.keyboard.press('Control+0');
   await openSettings(page, '交互与导航');
-  await page.getByLabel('导航名称 records').fill('历史提交');
-  await page.getByLabel('页面组合 records').fill('我的记录');
-  await page.getByLabel('页面组合 activity').fill('我的记录');
-  await openSettings(page, '交互与导航');
-  await page.getByRole('button', { name: '上移 排行榜', exact: true }).click();
+  const rankingButton=page.getByRole('navigation',{name:'主导航'}).getByRole('button',{name:'排行榜',exact:true});
+  const r=await rankingButton.boundingBox();await page.mouse.move(r.x+20,r.y+r.height/2);await page.mouse.down();await page.waitForFunction(()=>document.querySelector('[data-reordering=true]'));await page.mouse.move(r.x+20,r.y-r.height,{steps:6});await page.mouse.up();await page.waitForFunction(()=>!document.querySelector('[data-reordering=true]'));
   assert.equal(await page.getByText('我的书签', { exact: true }).count(), 0);
   assert.equal(await page.getByRole('button', { name: '添加书签', exact: true }).count(), 0);
   assert.equal(await page.getByRole('button', { name: '书签 旧书签', exact: true }).count(), 0, 'stored bookmarks stay removed after upgrade');

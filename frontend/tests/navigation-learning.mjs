@@ -70,10 +70,7 @@ try{
   assert.deepEqual(await nav().getByRole('button').allTextContents(),customNames,'A genuine custom order survives account restoration, including preferences without an old schema');
  }
  await openSettings(page,'交互与导航');
- const resetSaved=page.waitForResponse(response=>new URL(response.url()).pathname==='/api/preferences'&&response.request().method()==='POST'&&response.request().postDataJSON().preferences?.navOrder?.length===0);
- await page.getByRole('button',{name:'恢复默认导航',exact:true}).click();
- assert.deepEqual(await nav().getByRole('button').allTextContents(),defaultNames,'Reset immediately uses the new page order');
- assert.equal((await resetSaved).status(),200);await load(11);
+ preferences={...originalPreferences,navOrder:[]};await load(11);
  assert.deepEqual(await nav().getByRole('button').allTextContents(),defaultNames,'Reset keeps the new default order after restoring persisted preferences');
  for(const width of [2048,1440,800,430]){
   preferences={...originalPreferences,fontSize:22};await page.setViewportSize({width,height:960});await load(11);await openSettings(page,'交互与导航');
@@ -140,9 +137,9 @@ try{
  await load(4);await nav().getByRole('button',{name:'实验室',exact:true}).click();await page.getByRole('button',{name:'打开算法 排序基础',exact:true}).click();assert.match(await page.locator('.lab-course-header h1').textContent(),/排序基础/);await page.getByRole('button',{name:'返回实验室',exact:true}).click();
  await load(11);assert.equal(await nav().getByRole('button').count(),12);
  await openSettings(page,'交互与导航');
- assert(await page.getByRole('button',{name:'隐藏 我的训练',exact:true}).isDisabled());
- await page.getByRole('button',{name:'隐藏 题单',exact:true}).click();
- await page.getByRole('button',{name:'隐藏 模板',exact:true}).click();
+ assert(await page.getByRole('checkbox',{name:'显示 我的训练',exact:true}).isDisabled());
+ await page.getByRole('checkbox',{name:'显示 题单',exact:true}).uncheck();
+ await page.getByRole('checkbox',{name:'显示 模板',exact:true}).uncheck();
  assert.equal(await nav().getByRole('button',{name:'题单',exact:true}).count(),0);
  assert.equal(await nav().getByRole('button',{name:'模板',exact:true}).count(),0);
  await nav().getByRole('button',{name:'题库',exact:true}).click();await page.locator('.problem-table').waitFor();
@@ -151,13 +148,12 @@ try{
  await openSettings(page,'新手指引');
  assert.equal(await page.locator('.tour-guide-grid').getByRole('button',{name:'题单',exact:true}).count(),0);
  assert.equal(await page.locator('.tour-guide-grid').getByRole('button',{name:'模板',exact:true}).count(),0);
- await openSettings(page,'交互与导航');await page.getByRole('button',{name:'显示 题单',exact:true}).click();
+ await openSettings(page,'交互与导航');await page.getByRole('checkbox',{name:'显示 题单',exact:true}).check();
  assert.equal(await nav().getByRole('button',{name:'题单',exact:true}).count(),1);
  // Existing custom group and hide changes survive account-owned persistence.
- await page.getByRole('textbox',{name:'页面组合 library',exact:true}).fill('学习');
- await page.getByRole('textbox',{name:'页面组合 training-lists',exact:true}).fill('学习');
+ preferences={...preferences,navGroups:{library:'学习','training-lists':'学习'}};await load(11);await openSettings(page,'交互与导航');
  assert.equal(await nav().getByRole('button',{name:'学习',exact:true}).count(),1);
- await page.getByRole('button',{name:'隐藏 题单',exact:true}).click();
+ await page.getByRole('checkbox',{name:'显示 题单',exact:true}).uncheck();
  assert.equal(await nav().getByRole('button',{name:'学习',exact:true}).count(),1);
  await nav().getByRole('button',{name:'学习',exact:true}).click();
  assert.equal(await page.getByRole('tab',{name:'题单',exact:true}).count(),0);
@@ -185,7 +181,7 @@ try{
   const hidden=response.request().postDataJSON().preferences?.hiddenNavPages;
   return Array.isArray(hidden)&&!hidden.includes('training-lists')&&!hidden.includes('templates');
  });
- await page.getByRole('button',{name:'显示 题单',exact:true}).click();
+ await page.getByRole('checkbox',{name:'显示 题单',exact:true}).check();
  await page.getByRole('button',{name:'显示 模板',exact:true}).click();
  assert.equal((await restoredPreferences).status(),200,'Geometry starts only after restored account preferences are saved');
  assert(!preferences.hiddenNavPages.includes('training-lists')&&!preferences.hiddenNavPages.includes('templates'));

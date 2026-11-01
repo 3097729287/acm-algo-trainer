@@ -106,6 +106,18 @@ function compareContestKeys(a,b){
   return chronologicalText.compare(x.platform,y.platform) || chronologicalText.compare(x.family,y.family) || y.number-x.number || chronologicalNames.compare(y.name,x.name);
 }
 export function compareContestNewest(a,b){return compareContestKeys(contestOrderKey(a),contestOrderKey(b));}
+export function contestAddedTime(row){
+ const times=[row?.addedAt,row?.firstAdded,row?.catalogAddedAt].map(value=>typeof value==='string'?Date.parse(value):NaN).filter(Number.isFinite);
+ for(const child of row?.rows||[]){const time=contestAddedTime(child);if(time!=null)times.push(time);}
+ return times.length?Math.min(...times):null;
+}
+export function compareContestAddedNewest(a,b){
+ const left=contestAddedTime(a),right=contestAddedTime(b);
+ if(left!=null&&right!=null&&left!==right)return right-left;
+ if(left!=null&&right==null)return -1;
+ if(left==null&&right!=null)return 1;
+ return compareContestNewest(a,b);
+}
 export function createContestComparator(){
  const keys=new WeakMap();
  const key=row=>{if(!keys.has(row))keys.set(row,contestOrderKey(row));return keys.get(row);};

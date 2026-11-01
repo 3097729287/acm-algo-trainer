@@ -8,7 +8,7 @@ class DailyPersonalizationTests(unittest.TestCase):
                 value=adapt_challenge(task,score)
                 if task.get('minDifficulty'):
                     self.assertGreaterEqual(value['minDifficulty'],score)
-                    self.assertLessEqual(value['minDifficulty'],min(4000,score+200))
+                    self.assertLessEqual(value['minDifficulty'],min(4000,score+300))
                     self.assertTrue(value['difficultyEvidenceRequired'])
         self.assertTrue(all(task['kind']!='action' for task in EXPLORATIONS))
         for day in range(1,29):
@@ -24,3 +24,14 @@ class DailyPersonalizationTests(unittest.TestCase):
         self.assertEqual(task_progress(task,[item],day)[0],0)
         self.assertEqual(task_progress(task,[dict(item,abilityDifficulty=1100)],day)[0],0)
         self.assertEqual(task_progress(task,[dict(item,abilityDifficulty=1200)],day)[0],1)
+
+    def test_adaptive_tiers_and_selected_tasks_have_distinct_conditions(self):
+        from daily_rotation import task_condition
+        tiers={task['id']:adapt_challenge(task,None) for task in CHALLENGES if task.get('minDifficulty')}
+        self.assertEqual([tiers[key]['minDifficulty'] for key in ('hard-1500','hard-1800','hard-2100')],[900,1000,1100])
+        self.assertEqual([tiers[key]['xp'] for key in ('hard-1500','hard-1800','hard-2100')],[80,100,130])
+        for ability in (None,800,1700,3900,4000):
+            for day in range(1,29):
+                tasks=tasks_for(f'2026-11-{day:02d}','account',ability)[3:]
+                conditions=[task_condition(adapt_challenge(task,ability)) for task in tasks]
+                self.assertEqual(len(conditions),3);self.assertEqual(len(set(conditions)),3)

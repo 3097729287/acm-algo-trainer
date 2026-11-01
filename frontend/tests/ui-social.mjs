@@ -172,9 +172,9 @@ try {
   await page.mouse.move(10,10);
   await openSettings(page, '交互与导航');await page.getByLabel('全屏',{exact:true}).waitFor();
   assert.equal(await page.getByRole('spinbutton',{name:'界面字号',exact:true}).count(),0);
-  await openSettings(page, '交互与导航');await page.getByLabel('导航名称 mine',{exact:true}).waitFor();
-  assert.ok(await page.getByRole('button',{name:/^上移 /}).count()>0);
-  await openSettings(page, '交互与导航');assert((await page.getByRole('button',{name:/^上移 /}).count())>0);
+  await openSettings(page, '交互与导航');await page.getByRole('checkbox',{name:'显示 我的训练',exact:true}).waitFor();
+  assert.equal(await page.getByRole('button',{name:/^上移 /}).count(),0);
+  await openSettings(page, '交互与导航');assert.equal(await page.getByRole('button',{name:/^上移 /}).count(),0);
   await openSettings(page, '外观');
   await page.setViewportSize({width:1296,height:860});await font.fill('22');await font.blur();await checkOverflow();assert.equal(await page.locator('#tb-page-search').evaluate(node=>node.getBoundingClientRect().right>document.querySelector('.topbar-actions').getBoundingClientRect().left+1),false);await shot('small-settings');
   await font.fill('16');await font.blur();await page.setViewportSize({width:1600,height:1000});

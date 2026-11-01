@@ -143,6 +143,7 @@ class OfficialSync:
         if not receipts:return 0
         training = self.server.training
         with training.lock, training._library_view():
+            training.reconcile_official_contests()
             recorded={row[0]:row[1] for row in training.connection.execute("SELECT id,message FROM submissions WHERE id LIKE 'official-%'")}
             rows = {}
             for row in training._library():

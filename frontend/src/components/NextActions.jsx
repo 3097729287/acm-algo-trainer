@@ -1,11 +1,11 @@
 import {useEffect,useId,useLayoutEffect,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
-import {BookOpen,Code2,FlaskConical,FolderOpen,History,Target} from 'lucide-react';
+import {RECOMMENDATION_KINDS} from '@/lib/recommendationKinds.js';
 import {nextActions} from '@/lib/nextActions.js';
 import './NextActions.css';
 
-const icons={review:History,list:FolderOpen,problem:Target,course:FlaskConical,template:Code2,'template-problem':Code2,stretch:Target,contest:BookOpen,mixed:BookOpen};
-const labels={review:'间隔复习',list:'基础题单',problem:'基础练习',course:'实验室',template:'模板','template-problem':'模板练习',stretch:'进阶挑战',contest:'继续比赛',mixed:'混合限时训练'};
+const icons=Object.fromEntries(Object.entries(RECOMMENDATION_KINDS).map(([kind,value])=>[kind,value.Icon]));
+const labels=Object.fromEntries(Object.entries(RECOMMENDATION_KINDS).map(([kind,value])=>[kind,value.label]));
 
 export default function NextActions({rows,training,insights,prefs,api,availablePages,activeContest,onNavigate,onTrain,suspended=false,onOpenChange,reviewPlan={}}) {
  const [metadata,setMetadata]=useState({lists:[],templates:[]}),[revision,setRevision]=useState(0);
@@ -64,8 +64,8 @@ export default function NextActions({rows,training,insights,prefs,api,availableP
  const blur=event=>{if(!contains(event.relatedTarget))leave(true);};
  if(!primary)return null;
  const Icon=icons[primary.kind];
- return <section ref={root} className="next-actions" aria-label="下一步推荐做的事" data-open={expanded} data-expandable={expandable} data-suspended={suspended} onPointerEnter={event=>{if(event.pointerType==='mouse')show();}} onPointerLeave={event=>{if(event.pointerType==='mouse')leave();}} onFocus={()=>{if(!ignoreFocus.current)show();}} onBlur={blur}>
-  <button ref={trigger} type="button" className="next-actions-primary" data-recommendation={primary.kind} aria-label={`开始${labels[primary.kind]} ${primary.title}`} aria-describedby={reasonId} aria-expanded={expandable?expanded:undefined} aria-controls={expandable?popupId:undefined} title={`${labels[primary.kind]}：${primary.title}\n${primary.reason}`} disabled={suspended} onPointerDown={event=>{if(event.pointerType==='touch'&&expandable&&!open){touchOpened.current=true;show();}}} onClick={event=>{if(touchOpened.current){touchOpened.current=false;event.preventDefault();return;}start(primary);}} onKeyDown={openWithKeys}>
+ return <section ref={root} className="next-actions" aria-label="下一步推荐做的事" data-open={expanded} data-expandable={expandable} data-suspended={suspended} onPointerEnter={event=>{if(event.pointerType==='mouse')show();}} onPointerLeave={event=>{if(event.pointerType==='mouse')leave();}} onFocus={event=>{if(!ignoreFocus.current&&event.target.matches(':focus-visible'))show();}} onBlur={blur}>
+  <button ref={trigger} type="button" className="next-actions-primary" data-recommendation={primary.kind} aria-label={`开始${labels[primary.kind]} ${primary.title}`} aria-describedby={reasonId} aria-expanded={expandable?expanded:undefined} aria-controls={expandable?popupId:undefined} disabled={suspended} onPointerDown={event=>{if(event.pointerType==='touch'&&expandable&&!open){touchOpened.current=true;show();}}} onClick={event=>{if(touchOpened.current){touchOpened.current=false;event.preventDefault();return;}start(primary);}} onKeyDown={openWithKeys}>
    <Icon size={18} aria-hidden="true"/><span className="next-actions-primary-copy"><strong>{primary.title}</strong></span>
   </button>
   <span className="sr-only" id={reasonId}>{primary.reason}</span>
@@ -75,7 +75,7 @@ export default function NextActions({rows,training,insights,prefs,api,availableP
     const buttons=[...event.currentTarget.querySelectorAll('.next-actions-item')],index=buttons.indexOf(document.activeElement);if(index<0)return;
     event.preventDefault();buttons[event.key==='Home'?0:event.key==='End'?buttons.length-1:(index+(event.key==='ArrowDown'?1:-1)+buttons.length)%buttons.length]?.focus();
    }}>
-    <ul>{rest.map((item,index)=>{const ItemIcon=icons[item.kind],description=`${popupId}-reason-${index}`;return <li key={`${item.kind}:${item.id}`} style={{'--task-index':index}}><button type="button" className="next-actions-item" data-recommendation={item.kind} aria-label={`开始${labels[item.kind]} ${item.title}`} aria-describedby={description} title={`${labels[item.kind]}：${item.title}\n${item.reason}`} onClick={()=>start(item)}><ItemIcon size={18} aria-hidden="true"/><span className="next-actions-item-copy"><strong>{item.title}</strong></span></button><span className="sr-only" id={description}>{item.reason}</span></li>;})}</ul>
+    <ul>{rest.map((item,index)=>{const ItemIcon=icons[item.kind],description=`${popupId}-reason-${index}`;return <li key={`${item.kind}:${item.id}`} style={{'--task-index':index}}><button type="button" className="next-actions-item" data-recommendation={item.kind} aria-label={`开始${labels[item.kind]} ${item.title}`} aria-describedby={description} onClick={()=>start(item)}><ItemIcon size={18} aria-hidden="true"/><span className="next-actions-item-copy"><strong>{item.title}</strong></span></button><span className="sr-only" id={description}>{item.reason}</span></li>;})}</ul>
    </section>
   </div>,document.body)}
  </section>;

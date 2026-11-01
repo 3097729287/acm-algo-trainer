@@ -42,10 +42,11 @@
   },
   "currentRepair": {
     "version": "1.4.36",
-    "status": "candidate B: storage and incremental bridge fixes; native/install validation in progress",
+    "status": "final candidate: native fullscreen, timed official evidence, addition chronology and recommendation icons under validation",
     "scope": "releases/1.4.36.md",
     "automaticBackupBounds": true,
     "defaultFutureDelivery": "verified incremental update",
     "oneTimeFullRepairBaseline": true
-  }
+  },
+  "nextSessionPrompt": "另一个会话使用独立分支开发维基、双人对战、贴纸，不修改当前修复工作副本、候选或正式更新清单"
 }

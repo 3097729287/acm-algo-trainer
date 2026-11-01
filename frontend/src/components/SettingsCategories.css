@@ -8,3 +8,6 @@ html .settings-category-grid .settings-category-arrow {margin-left:auto;color:va
 .settings-category-heading h3 {margin:0;font-size:1rem;}
 .settings-category-content {min-width:0;}
 html .settings-category-content .setting-line {min-height:62px;}
+
+html .settings-category-grid>button>strong {min-width:0;display:flex;align-items:center;position:relative;top:1px;}
+html .settings-category-grid>button>svg {display:block;align-self:center;}

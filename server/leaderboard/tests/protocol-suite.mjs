@@ -93,7 +93,7 @@ test('AC events are unique by original problem, retry safe, database batches rol
   } finally { await fixture.close(); }
 });
 
-test('daily Beijing midnight and Sunday week, repeated later dates cannot farm', async () => {
+test('daily Beijing midnight and Monday week, repeated later dates cannot farm', async () => {
   const fixture = await startFixture({ now: NOW });
   try {
     const user = identity(); await register(fixture, user);
@@ -112,18 +112,18 @@ test('daily Beijing midnight and Sunday week, repeated later dates cannot farm',
   } finally { await fixture.close(); }
 });
 
-test('midnight and Sunday settle only three distinct places, atomically and without repeated XP', async () => {
-  const fixture = await startFixture({ now: Date.parse('2026-10-10T15:59:59Z') });
+test('midnight and Monday settle only three distinct places, atomically and without repeated XP', async () => {
+  const fixture = await startFixture({ now: Date.parse('2026-10-11T15:59:59Z') });
   try {
     const users = Array.from({length: 4}, identity);
     for (let index = 0; index < users.length; index++) {
       const user = users[index]; await register(fixture, user, 'fixture-' + index);
-      const events = Array.from({length: Math.max(1, 3-index)}, (_, i) => ac(user, `p${index}-${i}`, `2026-10-10T${index === 3 ? '11' : '10'}:00:00Z`));
+      const events = Array.from({length: Math.max(1, 3-index)}, (_, i) => ac(user, `p${index}-${i}`, `2026-10-11T${index === 3 ? '11' : '10'}:00:00Z`));
       assert.equal((await request(fixture, user, 'POST', '/v1/events', {events})).status, 200);
       assert.equal((await request(fixture, user, 'GET', '/v1/rewards')).value.totalXp, 0);
     }
     const before = (await request(fixture, users[0], 'GET', '/v1/leaderboard?period=weekly')).value;
-    assert.equal(before.startDate, '2026-10-04');
+    assert.equal(before.startDate, '2026-10-05');
     assert.deepEqual(before.entries.map(row => row.rank), [1,2,3,4]);
     fixture.env.TEST_NOW += 1000;
     const retries = await Promise.all(Array.from({length: 6}, () => request(fixture, users[0], 'GET', '/v1/rewards')));
@@ -137,7 +137,7 @@ test('midnight and Sunday settle only three distinct places, atomically and with
     assert.equal((await request(fixture, users[0], 'GET', '/v1/leaderboard?period=daily')).value.self.count, 0);
     assert.equal((await request(fixture, users[0], 'GET', '/v1/leaderboard?period=total')).value.self.count, 3);
     // Late synchronization changes scores, but cannot rewrite a settled reward.
-    await request(fixture, users[3], 'POST', '/v1/events', {events: Array.from({length: 5},(_,i)=>ac(users[3], 'late'+i,'2026-10-10T09:00:00Z'))});
+    await request(fixture, users[3], 'POST', '/v1/events', {events: Array.from({length: 5},(_,i)=>ac(users[3], 'late'+i,'2026-10-11T09:00:00Z'))});
     assert.equal((await request(fixture, users[3], 'GET', '/v1/rewards')).value.totalXp, 0);
     fixture.env.TEST_NOW += 3 * 86400000;
     assert.equal((await request(fixture, users[0], 'GET', '/v1/rewards')).value.totalXp, 600);

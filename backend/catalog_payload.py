@@ -8,7 +8,7 @@ HTTP caller opts in to a smaller list response after reading the normal view.
 # contestShelves and the competition groups. Keep evidence used by difficulty
 # tooltips, while omitting the much larger algorithm-analysis derivations.
 ROW_FIELDS = frozenset('''
-    id aliasIds title name contest problem platform series url source status date queue
+    id aliasIds title name contest problem platform series url source status date queue addedAt firstAdded catalogAddedAt
     tags knowledge knowledgeCategories knowledgeReviewRequired difficulty difficultySource difficultyBand
     difficultyConfidence difficultyEvidence difficultyEstimated nativeDifficulty nativeDifficultyLabel problemKind schoolTraining labTopic
     solutionAvailable solutionState detailedSolutionAvailable statementAvailable
@@ -23,10 +23,30 @@ ROW_FIELDS = frozenset('''
 '''.split())
 
 
+# Legacy explicit additions predate persisted addedAt. These UTC timestamps
+# come from their first source inclusion (679e2c7d and be24193f), not from
+# contest names/dates or users' practice activity. New imports retain addedAt.
+_LEGACY_ADDED={
+    'https://codeforces.com/gym/726517/':'2026-10-25T09:44:56Z',
+    'https://ac.nowcoder.com/acm/contest/142622/':'2026-10-25T09:44:56Z',
+    'https://codeforces.com/gym/728862/':'2026-11-01T07:38:58Z',
+}
+
+
+def _project(row):
+    result={key:value for key,value in row.items() if key in ROW_FIELDS}
+    if row.get('schoolTraining') and not any(row.get(key) for key in ('addedAt','firstAdded','catalogAddedAt')):
+        url=str(row.get('url') or '')
+        for prefix,stamp in _LEGACY_ADDED.items():
+            if url.startswith(prefix):
+                result['catalogAddedAt']=stamp
+                break
+    return result
+
+
 def catalogue_payload(data):
     """Project rows without dropping, sorting, renaming or mutating a record."""
-    return {**data, 'rows': [{key: value for key, value in row.items() if key in ROW_FIELDS}
-                           for row in data.get('rows', [])]}
+    return {**data, 'rows': [_project(row) for row in data.get('rows', [])]}
 
 
 def hub_payload(data):

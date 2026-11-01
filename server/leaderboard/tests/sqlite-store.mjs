@@ -10,7 +10,7 @@ import { EventConflict } from '../src/errors.mjs';
 import { AccountError } from '../src/accounts.mjs';
 import { nicknameKey } from '../src/nicknames.mjs';
 import { storedPublicProgress } from '../src/public-progress.mjs';
-import { bounds, addDays, rankingQuery, normalizeRank, REWARD_POLICY } from '../src/ranking-rules.mjs';
+import { bounds, addDays, rankingQuery, normalizeRank, settlementStart, REWARD_POLICY } from '../src/ranking-rules.mjs';
 
 export class SQLiteStore {
   constructor(path = ':memory:') {
@@ -177,7 +177,7 @@ export class SQLiteStore {
       this.database.prepare('INSERT OR IGNORE INTO ranking_schedule VALUES(1,?,?)').run(day, week);
       const settings = this.database.prepare('SELECT * FROM ranking_schedule WHERE singleton=1').get();
       for (const [period, cutoff, step] of [['daily', day, 1], ['weekly', week, 7]]) {
-        let start = settings[period + '_start'];
+        let start = settlementStart(period,settings[period + '_start']);
         while (start < cutoff) {
           const end = addDays(start, step), { sql, values } = rankingQuery({ start, end });
           const winners = this.database.prepare(sql + ' SELECT * FROM ranked WHERE position<=3 ORDER BY position').all(...values);

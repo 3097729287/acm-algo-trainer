@@ -47,6 +47,25 @@ class ReceiptSyncTests(unittest.TestCase):
         sync.once()
         self.assertEqual(self.service.submissions()['total'], 0)
 
+    def test_late_official_receipt_restores_finished_mock_score_idempotently(self):
+        sync,payload=self.sync()
+        plan=self.service.preview_contest({'count':2,'duration':120,'min':1000,'max':1200})['plan']
+        contest=self.service.start_contest({'ids':[row['id'] for row in plan['slots']],'duration':120})['contest']
+        self.clock.advance(minutes=30)
+        payload['result'][0]['creationTimeSeconds']=int(self.clock.value.timestamp())
+        self.clock.advance(minutes=90);self.service.finish_contest(contest['id'])
+        self.assertEqual(sync.once()['imported'],1)
+        receipt=dict(self.service.connection.execute("SELECT * FROM submissions WHERE id LIKE 'official-%'").fetchone())
+        self.assertEqual(receipt['contest_id'],contest['id'])
+        self.assertEqual(self.service.workspace()['contests'][0]['accepted'],1)
+        # Reproduce an old imported row that lacked its historical context.
+        self.service.connection.execute('UPDATE submissions SET contest_id=NULL WHERE id=?',(receipt['id'],))
+        self.assertEqual(sync.once()['imported'],0)
+        restored=dict(self.service.connection.execute('SELECT * FROM submissions WHERE id=?',(receipt['id'],)).fetchone())
+        self.assertEqual(restored,receipt)
+        self.assertEqual(self.service.reconcile_official_contests(),0)
+        self.assertEqual(self.service.submissions()['total'],1)
+
     def test_sync_enriches_old_receipt_diagnostic_without_counting_another_submit(self):
         sync,payload=self.sync()
         payload['result'][0]['verdict']='WRONG_ANSWER'

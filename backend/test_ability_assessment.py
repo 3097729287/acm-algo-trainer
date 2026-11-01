@@ -111,4 +111,41 @@ class AbilityAssessmentTests(unittest.TestCase):
             self.assertTrue(all(not row['code'] for row in annotated))
             self.assertFalse(next(row for row in annotated if row['id']=='public').get('sourcePresent',False))
 
+    def test_verified_owner_contest_receipt_counts_without_exposed_source(self):
+        row={'id':'a','url':'https://codeforces.com/contest/100/problem/A','difficulty':1800,'platform':'Codeforces',
+             'difficultySource':'Codeforces 官方 rating','difficultyEstimated':False,
+             'contestDateSource':'原站公开比赛时间','startedAt':'2026-10-01T00:00:00Z','endedAt':'2026-10-01T02:00:00Z'}
+        receipt={'id':'official-'+hashlib.sha256(b'owner').hexdigest(),'problem_id':'a','contest_id':None,'mode':'submit','scope':'official',
+                 'verdict':'AC','submitted_at':'2026-10-01T00:30:00Z','finished_at':'2026-10-01T00:31:00Z','code':'',
+                 'solution_seen':0,'message':'原站确认提交 #1234 · 官网同步（未取得源码）'}
+        fields=('id','problem_id','contest_id','mode','scope','verdict','submitted_at','finished_at','solution_seen','message')
+        with closing(sqlite3.connect(':memory:')) as db:
+            db.execute('CREATE TABLE submissions('+','.join(key+(' INTEGER' if key=='solution_seen' else ' TEXT') for key in fields)+')')
+            db.execute('INSERT INTO submissions VALUES('+','.join('?' for _ in fields)+')',tuple(receipt[k] for k in fields))
+            saved=annotate_sources([receipt],db)
+            evidence=from_records([row],saved,NOW)
+            self.assertEqual(len(evidence),1);self.assertTrue(evidence[0]['solved']);self.assertTrue(evidence[0]['timed'])
+            self.assertEqual(saved[0]['code'],'')
+            for change in ({'submitted_at':'2026-10-01T02:00:00Z'},{'solution_seen':1},{'verdict':'CE'}):
+                changed={**receipt,**change};db.execute('UPDATE submissions SET '+','.join(k+'=?' for k in change),tuple(change.values()))
+                self.assertEqual(from_records([row],annotate_sources([changed],db),NOW),[])
+                db.execute('UPDATE submissions SET '+','.join(k+'=?' for k in fields),tuple(receipt[k] for k in fields))
+            self.assertEqual(from_records([{**row,'contestDateSource':'猜测日期'}],saved,NOW),[])
+            self.assertEqual(from_records([row],annotate_sources([{**receipt,'id':'public','ownerReceipt':True,'timedReceipt':True,'sourcePresent':True}],db),NOW),[])
+            self.assertEqual(from_records([row],annotate_sources([{**receipt,'message':'原站确认提交 #9999'}],db),NOW),[])
+            unknown=assess(from_records([{**row,'difficulty':None}],saved,NOW),NOW)
+            self.assertEqual(unknown['unratedAttemptedCount'],1);self.assertEqual(len(unknown['unratedEvidence']),1)
+            self.assertIsNone(unknown['abilityScore'])
+
+    def test_historical_mock_context_requires_exact_slot_unambiguous_instant(self):
+        from submission_evidence import matching_contest
+        record={'problem_id':'a','submitted_at':'2026-10-01T08:30:00+08:00'}
+        contest={'id':'mock','status':'finished','started_at':'2026-10-01T00:00:00Z',
+                 'deadline':'2026-10-01T02:00:00Z','finished_at':'2026-10-01T01:00:00Z','slots':'[{"id":"a"}]'}
+        self.assertEqual(matching_contest(record,[contest]),'mock')
+        self.assertIsNone(matching_contest({**record,'submitted_at':'2026-10-01T01:01:00Z'},[contest]))
+        self.assertIsNone(matching_contest({**record,'problem_id':'b'},[contest]))
+        self.assertIsNone(matching_contest(record,[contest,{**contest,'id':'overlap'}]))
+        self.assertEqual(matching_contest({**record,'contest_id':'mock'},[contest,{**contest,'id':'overlap'}]),'mock')
+
 if __name__=='__main__':unittest.main()

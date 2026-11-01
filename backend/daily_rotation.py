@@ -28,19 +28,27 @@ def adapt_challenge(task, ability):
     if not result.get('minDifficulty'):return result
     score=ability if type(ability) in (int,float) and 0<ability<=4000 else None
     base=int(score//100)*100 if score is not None else 800
-    offset=100 if result['id']=='hard-1500' else 200
+    offset={'hard-1500':100,'hard-1800':200,'hard-2100':300}.get(result['id'],100)
     target=min(4000,base+offset)
     result.update(minDifficulty=target,abilityReference=score,difficultyEvidenceRequired=True,
-                  xp=min(result.get('xp',100),80 if offset==100 else 100),
+                  xp=min(result.get('xp',100),{100:80,200:100,300:130}[offset]),
                   description=f'首次 AC 一道难度至少 {target} 的新题',
                   challengeBasis='近期独立作答能力' if score is not None else '入门训练起点，能力证据不足')
     return result
 
-def tasks_for(day,owner):
+def task_condition(task):
+    return (task.get('kind'),task.get('target',1),task.get('minDifficulty',0),bool(task.get('newOnly')),task.get('scope'))
+
+def tasks_for(day,owner,ability=None):
     # Fixed within the Beijing date and independent of UI opening order.
     rank=lambda item:hashlib.sha256((str(owner)+'\0'+day+'\0'+item['id']).encode()).digest()
-    challenge=sorted(CHALLENGES,key=rank)[:2]
-    exploration=sorted(EXPLORATIONS,key=rank)[:1]
+    challenge=[];conditions=set()
+    for task in sorted(CHALLENGES,key=rank):
+        condition=task_condition(adapt_challenge(task,ability))
+        if condition in conditions:continue
+        challenge.append(task);conditions.add(condition)
+        if len(challenge)==2:break
+    exploration=[task for task in sorted(EXPLORATIONS,key=rank) if task_condition(task) not in conditions][:1]
     return [dict(task) for task in [*TASKS[:3],*challenge,*exploration]]
 
 def record_action(connection,kind,stamp,key):

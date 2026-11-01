@@ -8,8 +8,9 @@ const page=await browser.newPage({viewport:{width:430,height:700}}),errors=[];pa
 try{
  await page.goto(`http://127.0.0.1:${server.httpServer.address().port}/tests/ability-evidence-fixture.html`);
  const trigger=page.getByRole('button',{name:'能力分依据',exact:true});await trigger.click();const popup=page.getByRole('dialog',{name:'能力分依据',exact:true});await popup.waitFor();
- assert.match(await popup.innerText(),/95% 模型区间 960–1520/);assert.match(await popup.innerText(),/有效证据权重 4.5/);assert.match(await popup.innerText(),/独立完成 5\/6/);
- assert.equal(await popup.getByRole('row').count(),7);assert.equal(await popup.getByRole('cell',{name:'Codeforces 官方',exact:true}).count(),4);assert.equal(await popup.getByRole('cell',{name:'0.25',exact:true}).count(),2);
+ assert.match(await popup.innerText(),/95% 模型区间 960–1520/);assert.match(await popup.innerText(),/有效证据权重 4.5/);assert.match(await popup.innerText(),/独立完成 6\/7/);
+ assert.equal(await popup.getByRole('row').count(),8);assert.equal(await popup.getByRole('cell',{name:'Codeforces 官方',exact:true}).count(),4);assert.equal(await popup.getByRole('cell',{name:'0.25',exact:true}).count(),2);
+ assert.match(await popup.innerText(),/待核实/);assert.match(await popup.getByRole('row').nth(1).innerText(),/尚未评级的比赛题/);
  const bounds=await popup.boundingBox();assert(bounds.x>=12&&bounds.x+bounds.width<=418&&bounds.y>=12&&bounds.y+bounds.height<=688);assert(await popup.evaluate(node=>node.scrollHeight>node.clientHeight),'small viewport scrolls long evidence, instead of losing rows');
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);assert(await popup.evaluate(node=>node===document.activeElement));
  const table=popup.getByRole('region',{name:'作答证据表，可横向滚动'});await table.focus();await page.keyboard.press('ArrowRight');await page.waitForFunction(()=>document.querySelector('.ability-evidence-table').scrollLeft>0);

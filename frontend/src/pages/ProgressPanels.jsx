@@ -25,7 +25,7 @@ import { useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState
 import InlineTitle from '@/components/InlineTitle.jsx';
 import TitleMedals from '../components/TitleMedals.jsx';
 import { ArrowLeft, ArrowRight, Award, BookOpen, CalendarDays, Check, CheckCheck, Circle, ChevronRight, ExternalLink, Flag, Github, LoaderCircle, Play, RefreshCw, Search, Target, TrendingUp, Trophy, UserRound } from 'lucide-react';
-import { compareContestNewest, difficultyBand, difficultyLabel, difficultyDescription } from '@/lib/practiceMetadata.js';
+import { compareContestAddedNewest as compareContestNewest, difficultyBand, difficultyLabel, difficultyDescription } from '@/lib/practiceMetadata.js';
 import {completedReplayContests, hidesContestDifficulty} from '@/lib/difficultyVisibility.js';
 import './ProgressPanels.css';
 import GoalsPanel from './GoalsPanel.jsx';

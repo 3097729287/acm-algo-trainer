@@ -1,0 +1,10 @@
+.reorderable-navigation { position:relative;isolation:isolate;overscroll-behavior:contain; }
+.reorderable-navigation>[data-navigation-id] { position:relative;user-select:none;touch-action:pan-y;transform-origin:center; }
+.reorderable-navigation[data-reordering=true] { cursor:grabbing; }
+.reorderable-navigation[data-reordering=true]>[data-navigation-id] { transition:transform 170ms cubic-bezier(.2,.8,.2,1); }
+.reorderable-navigation[data-reordering=true]>[data-drag-active=true] { z-index:3;cursor:grabbing;box-shadow:0 8px 22px #0004;background:var(--panel-base);border-radius:8px;transition:box-shadow 150ms; }
+.reorderable-navigation[data-reordering=true][data-settling=true]>[data-drag-active=true] { transition:transform 170ms cubic-bezier(.2,.8,.2,1),box-shadow 170ms; }
+.reorderable-navigation[data-reordering=true]>[data-navigation-id]:not([data-drag-active=true])>svg { animation:navigation-arrange 240ms ease-in-out infinite alternate; }
+@keyframes navigation-arrange { from{rotate:-2deg}to{rotate:2deg} }
+@media(prefers-reduced-motion:reduce) { .reorderable-navigation>[data-navigation-id],.reorderable-navigation>[data-navigation-id]>svg { transition:none!important;animation:none!important; } }
+html[data-motion=off] .reorderable-navigation>[data-navigation-id],html[data-motion=off] .reorderable-navigation>[data-navigation-id]>svg { transition:none!important;animation:none!important; }

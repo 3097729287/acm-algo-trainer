@@ -64,3 +64,11 @@ html .ranking-social .ranking-message {display:grid;place-items:center;width:40p
  html .training-lists-page .training-list-table :is(th,td):last-child {width:76px;padding-inline:4px!important;}
  html .training-lists-page .training-list-table .row-icon {width:24px;min-width:24px;padding-inline:2px;}
 }
+
+/* Compact spacing across the join, with full-height readable control text. */
+html .tb-workbench .wb-top-both>.wb-merged-header {padding-right:4px;}
+html .tb-workbench .wb-top-both>.wb-editor-header {padding-left:4px;}
+html .tb-workbench .wb-top-toolbar {--wb-control-height:32px;}
+html .tb-workbench .wb-top-toolbar .wb-statement-actions {gap:3px;}
+html .tb-workbench .wb-top-toolbar :is(.tb-select,.wb-language-toggle button,.initial-code-trigger) {line-height:1.4;white-space:nowrap;flex-shrink:0;}
+html .tb-workbench .wb-font-controls .bounded-number {align-items:baseline;}

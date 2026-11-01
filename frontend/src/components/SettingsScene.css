@@ -1,5 +1,5 @@
 .settings-home-grid .settings-tile>button>.settings-scene {left:50%;top:calc(50% + 20px);right:auto;bottom:auto;transform:translate(-50%,-50%);width:210px;height:160px;max-width:75%;max-height:75%;opacity:.8;overflow:visible}
-.settings-home-grid .settings-tile>button>.scene-globe {width:300px;height:230px}
+.settings-home-grid .settings-tile>button>.scene-globe {width:300px;height:230px;left:calc(50% + 10px);top:50%}
 .settings-home-grid .settings-tile>button>:is(.scene-dino-stage,.scene-cloud-stage,.scene-balloon-stage) {top:52px;bottom:10px;left:12px;right:12px;transform:none;width:auto;height:auto;max-width:none;max-height:none;overflow:hidden}
 .dino-ground {position:absolute;left:8px;right:8px;bottom:10px;border-bottom:1px solid currentColor;opacity:.2}
 .cloud-flight {position:absolute;width:115px;height:70px;top:20%;animation:cloud-across 22s linear infinite;animation-delay:-7s}
@@ -118,3 +118,9 @@ html[data-motion=off] .settings-scene .balloon-flight {top:20%;bottom:auto;opaci
 @media(max-width:800px){.settings-scene{--settings-line-width:1.5px}}
 html[data-motion=off] .settings-scene .globe-building {opacity:1;transform:none}
 html[data-motion=off] .settings-scene .globe-burst {opacity:0}
+
+@container settings-tile (min-height:171px) {
+ .settings-home-grid .settings-tile>button>.scene-globe {left:calc(50% + 10px);top:50%;}
+}
+.settings-scene [data-scene-interactive],.settings-scene [data-scene-interactive] path {touch-action:none;}
+.balloon-pop-burst {stroke:currentColor;stroke-width:2.4px;pointer-events:none;}
