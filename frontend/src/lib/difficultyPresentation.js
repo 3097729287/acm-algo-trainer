@@ -1,4 +1,5 @@
 const LUOGU_LEVELS=['未定级','入门','普及-','普及','普及+/提高-','提高','提高+/省选-','省选/NOI-','NOI/NOI+/CTS'];
+import {lectureCurriculum} from './learningCurriculum.js';
 export function difficultyPresentation(row={},mode='number') {
   if(row.difficultyHidden)return {label:'—',kind:'hidden'};
   const value=Number(row.difficulty),known=row.difficulty!=null&&Number.isFinite(value)&&value>0;
@@ -21,8 +22,5 @@ export function difficultyPresentation(row={},mode='number') {
 }
 
 export function lessonLevel(lesson={}) {
-  const names=`${lesson.category||''} ${(lesson.tags||[]).join(' ')} ${lesson.concept||lesson.title||''}`;
-  if(/语言与标准库|C\+\+.*语言/.test(names))return /lambda|迭代器|递归|捕获|生命周期|模板|unordered/.test(names)?'进阶':'基础';
-  if(/莫比乌斯|生成函数|FFT|NTT|网络流|自动机|可持久化|多项式|虚树/.test(names))return '深入';
-  return /模拟|枚举|前缀和|排序|二分|并查集|DFS|BFS|输入|输出/.test(names)?'基础':'进阶';
+  return lectureCurriculum(lesson).levelLabel;
 }

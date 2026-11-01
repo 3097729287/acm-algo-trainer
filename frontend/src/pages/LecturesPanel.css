@@ -27,4 +27,10 @@ html .lecture-focus .lectures-detail {border:0;border-radius:0}
 @container workspace (max-width:650px){html .lectures-layout {grid-template-columns:1fr}}
 html .lectures-list button.lecture-learned {background:color-mix(in srgb,var(--success) 11%,transparent);}
 html .lectures-list button.lecture-learned.selected {background:color-mix(in srgb,var(--success) 18%,transparent);}
+.lecture-curriculum-group{position:sticky;top:0;z-index:1;margin:0;padding:10px 18px;font-size:.82rem;font-weight:600;background:var(--panel-base);color:var(--muted);border-bottom:1px solid var(--line)}
+.lectures-list .lecture-prerequisite-preview{display:block;max-width:100%;font-size:.72rem;line-height:1.5;color:var(--muted);overflow-wrap:anywhere}
+.lecture-difficulty.lecture-level-1{color:var(--success)}
+.lecture-difficulty.lecture-level-2{color:var(--info,#79aee8)}
+.lecture-difficulty.lecture-level-3{color:var(--warning,#d7a45e)}
+.lecture-difficulty.lecture-level-unknown{color:var(--muted)}
 html .lectures-detail-bar>.icon-button {border-color:transparent;background:transparent;}

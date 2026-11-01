@@ -1,5 +1,6 @@
 import { ArrowLeft, BookOpen, Code2, Search } from 'lucide-react';
-import {useEffect,useLayoutEffect,useRef,useState} from 'react';
+import {useCallback,useEffect,useLayoutEffect,useRef,useState} from 'react';
+import {recordKnowledgeNavigation} from '@/lib/knowledgeJourney.js';
 import CatalogGroup from '@/components/CatalogGroup.jsx';
 import CatalogCard from '@/components/CatalogCard.jsx';
 import PageSearch from '../components/PageSearch.jsx';
@@ -26,17 +27,19 @@ const COURSES = [
   { id: 'knapsack', title: '背包 DP', search: '动态规划 knapsack', description: '从一次装包开始，学会定义小问题、推导选择、辨认倒序更新背后的旧状态。', meta: '7 节互动课 · 状态、选择与读写顺序 · 5 道跟做题', first: 'pack' },
 ].sort((a,b)=>COURSE_ORDER.indexOf(a.id)-COURSE_ORDER.indexOf(b.id));
 
-export default function LearningPathsPage({ rows = [], prefs, setPrefs, onTrain,onOpenTemplate, lockedProblems = [], visit, standalone = false }) {
+export default function LearningPathsPage({ rows = [], prefs, setPrefs:savePreferences, onTrain,onOpenTemplate, lockedProblems = [], visit, standalone = false }) {
+  const setPrefs=useCallback(update=>savePreferences(previous=>{const next=typeof update==='function'?update(previous):update;return recordKnowledgeNavigation(previous,next);}),[savePreferences]);
   const [query,setQuery]=useState('');
   const matches = COURSES.filter(course => `${course.title} ${course.search}`.toLowerCase().includes(query.trim().toLowerCase()));
   const fallback=useRef({leftAt:null,scrollTop:0}),session=visit||fallback.current,panel=useRef(null),enteredCourse=useRef(null);
   const active = COURSES.find(course=>course.id===prefs.learningPaths?.activePath);
-  const coursePreferences=active&&enteredCourse.current!==active.id?startCourseAtBeginning(prefs,active):prefs;
+  const resume=active&&prefs.learningPaths?.resumePath===active.id;
+  const coursePreferences=active&&enteredCourse.current!==active.id&&!resume?startCourseAtBeginning(prefs,active):prefs;
   useLayoutEffect(()=>{
     if(!active){enteredCourse.current=null;return;}
     if(enteredCourse.current===active.id)return;
     enteredCourse.current=active.id;
-    setPrefs(previous=>startCourseAtBeginning(previous,active));
+    if(!resume)setPrefs(previous=>startCourseAtBeginning(previous,active));
   },[active?.id,setPrefs]);
   useLayoutEffect(()=>{
     const node=panel.current;
@@ -44,7 +47,7 @@ export default function LearningPathsPage({ rows = [], prefs, setPrefs, onTrain,
     session.leftAt=null;
     return()=>{session.leftAt=Date.now();session.scrollTop=(node.querySelector('.lab-lesson')||node).scrollTop;};
   },[]);
-  const open = course => {if(panel.current)panel.current.scrollTop=0;setPrefs(previous=>startCourseAtBeginning(previous,course));};
+  const open = course => {if(panel.current)panel.current.scrollTop=0;setPrefs(previous=>{const next=startCourseAtBeginning(previous,course);return {...next,learningPaths:{...next.learningPaths,resumePath:null}};});};
   const back = () => setPrefs(previous => ({ ...previous, learningPaths: { ...previous.learningPaths, activePath: null } }));
   useEffect(()=>{
     if(!COURSES.some(course=>course.id===prefs.learningPaths?.activePath))return;

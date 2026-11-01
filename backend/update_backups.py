@@ -89,6 +89,8 @@ def recycle_directory(path):
     import ctypes,winreg
     from ctypes import wintypes as w
     try:
+        path=Path(path).absolute()
+        if not path.exists() or not ordinary(path) or path==Path(path.anchor):return False
         volume=ctypes.create_unicode_buffer(128)
         if not ctypes.windll.kernel32.GetVolumeNameForVolumeMountPointW(path.drive+'\\',volume,128):return False
         guid=volume.value.split('{')[1].split('}')[0]
@@ -102,19 +104,24 @@ def recycle_directory(path):
         if ctypes.windll.shell32.SHQueryRecycleBinW(path.drive+'\\',ctypes.byref(info))!=0:return False
         size=path.stat().st_size if path.is_file() else sum(p.stat().st_size for p in files(path))
         if info.bytes+size+16*1024**2>=capacity*800000:return False
-        class Operation(ctypes.Structure):_fields_=[('hwnd',w.HWND),('function',w.UINT),('source',w.LPCWSTR),('destination',w.LPCWSTR),('flags',w.WORD),('aborted',w.BOOL),('mapping',ctypes.c_void_p),('title',w.LPCWSTR)]
-        operation=Operation();operation.function=3;operation.source=str(path)+'\0\0';operation.flags=0x454
-        code=ctypes.windll.shell32.SHFileOperationW(ctypes.byref(operation))
-        return code==0 and not operation.aborted and not path.exists()
-    except (OSError,ValueError,IndexError):return False
+        # The Windows 8+ recycle-only flag forbids a permanent-delete fallback.
+        # ALLOWUNDO alone merely requests undo information when possible.
+        import pythoncom
+        from win32com.shell import shell,shellcon
+        pythoncom.CoInitializeEx(pythoncom.COINIT_APARTMENTTHREADED)
+        try:
+            operation=pythoncom.CoCreateInstance(shell.CLSID_FileOperation,None,pythoncom.CLSCTX_INPROC_SERVER,shell.IID_IFileOperation)
+            operation.SetOperationFlags(0x00080000|shellcon.FOFX_EARLYFAILURE|shellcon.FOF_SILENT|shellcon.FOF_NOCONFIRMATION|shellcon.FOF_NOERRORUI)
+            item=shell.SHCreateItemFromParsingName(str(path),None,shell.IID_IShellItem)
+            operation.DeleteItem(item,None);operation.PerformOperations()
+            return not operation.GetAnyOperationsAborted() and not path.exists()
+        finally:pythoncom.CoUninitialize()
+    except ImportError:return False
+    except Exception:return False
 
 def retire_directory(path):
-    """Only called for old, verified updater-owned copies; keep two recoveries."""
-    try:
-        shutil.rmtree(path)
-        return not path.exists()
-    except OSError:
-        return recycle_directory(path)
+    """Recycle verified old copies only; failure retains them and stops growth."""
+    return recycle_directory(path)
 
 def _trim(root):
     owned=_owned(root)

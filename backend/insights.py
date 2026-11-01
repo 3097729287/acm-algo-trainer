@@ -219,8 +219,16 @@ def build_insights(rows, submissions, history, workspace, hub, now):
     achievements = ac_achievements(official_reward_evidence(rows, records, hub))
     achievements.append({"id": "contest-1", "name": "完成模拟赛", "description": "完成一场至少训练一分钟并实际提交的计时模拟赛", "unlocked": bool(completed_contests), "unlockedAt": min((item.get("finishedAt") for item in completed_contests if item.get("finishedAt")), default=None), "progress": min(1, len(completed_contests)), "target": 1})
     from ability_assessment import assess,from_records
-    ability=assess(from_records(rows,records,now),now)
-    if workspace.get('activeContest'):ability['evidence']=[];ability['unratedEvidence']=[]
+    learning_facts=from_records(rows,records,now)
+    ability=assess(learning_facts,now)
+    # Learning retention needs verified independent work, including native or
+    # unrated questions. It must not inherit the rating model's 60-item window.
+    learning_records=[{key:item.get(key) for key in ('id','problemId','solved','date','failures','firstPass','rated','independentKnown')}
+                      | {'scope':'official'} for item in sorted(learning_facts,key=lambda item:(item['date'],item['id']))[-512:]]
+    if workspace.get('activeContest'):
+        ability['evidence']=[];ability['unratedEvidence']=[];learning_records=[]
+    learning_evidence={'version':1,'method':'verified-official-learning-v1','limit':512,'records':learning_records}
+
     assessment={**ability,'rating':ability['abilityScore'],'band':ability['confidence'],
         'label':'训练难度估算' if ability['qualified'] else '独立通过证据不足',
         'explanation':ability['rules'],'platforms':platforms,'trend':[]}
@@ -242,7 +250,7 @@ def build_insights(rows, submissions, history, workspace, hub, now):
     personal_statistics={'longestAcStreak':longest_ac,'maxDailyAc':len(per_day[best_day]['officialAccepted']) if best_day else 0,
                          'maxDailyAcDate':best_day.isoformat() if best_day else None,
                          'hardestSolved':{key:hardest.get(key) for key in ('id','title','contest','problem','difficulty')} if hardest else None}
-    return {"summary": summary, "personalStatistics":personal_statistics, "growth": growth, "activity": activity, "knowledge": knowledge, "knowledgeEvidence": list(mastery_evidence.values()), "knowledgeModel": dict(KNOWLEDGE_MODEL), "recommendations": recommendations, "achievements": achievements, "assessment": assessment}
+    return {"summary": summary, "personalStatistics":personal_statistics, "growth": growth, "activity": activity, "knowledge": knowledge, "knowledgeEvidence": list(mastery_evidence.values()), "learningEvidence":learning_evidence, "knowledgeModel": dict(KNOWLEDGE_MODEL), "recommendations": recommendations, "achievements": achievements, "assessment": assessment}
 
 
 def recommend_problems(library, active, independent, personal, official, hub, ability=None):

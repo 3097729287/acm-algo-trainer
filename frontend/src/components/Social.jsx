@@ -4,23 +4,28 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Check, Heart, MessageCircle, Send, X } from 'lucide-react';
 import Tooltip from './Tooltip.jsx';
 import './Social.css';
+import {readSocialCounts,saveSocialCounts,retainSocialCounts} from '@/lib/socialSnapshot.js';
 
 const dateText=value=>new Date(value).toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
 const socialCache=new WeakMap();
-export function useSocial(api, enabled) {
-  const [snapshot,setSnapshot]=useState(()=>enabled?socialCache.get(api)||null:null), [error,setError]=useState('');
+export function useSocial(api, enabled, owner='') {
+  const cached=()=>socialCache.get(api)?.get(owner)||readSocialCounts(owner);
+  const [saved,setSaved]=useState(()=>({owner,value:enabled?cached():null})), [error,setError]=useState('');
+  const snapshot=saved.owner===owner?saved.value:enabled?cached():null;
+  const setSnapshot=update=>setSaved(previous=>({owner,value:typeof update==='function'?update(previous.owner===owner?previous.value:null):update}));
+  const remember=value=>{let cache=socialCache.get(api);if(!cache){cache=new Map();socialCache.set(api,cache);}cache.set(owner,value);saveSocialCounts(owner,value);};
   const generation=useRef(0), pending=useRef(null);
   const refresh=useCallback(() => {
     if (!enabled) return Promise.resolve();
     if (pending.current) return pending.current;
     const request=generation.current;
-    const task=api('social').then(value=>{if(request===generation.current){setSnapshot(value);socialCache.set(api,value);setError('');}})
+    const task=api('social').then(value=>{if(request===generation.current){setSnapshot(previous=>{const retained=retainSocialCounts(previous,value);remember(retained);return retained;});setError('');}})
       .catch(issue=>{if(request===generation.current)setError(issue.message);})
       .finally(()=>{if(pending.current===task)pending.current=null;});
     pending.current=task;return task;
-  },[api,enabled]);
+  },[api,enabled,owner]);
   useEffect(()=>{
-    generation.current++;pending.current=null;setSnapshot(enabled?socialCache.get(api)||null:null);
+    generation.current++;pending.current=null;setSnapshot(enabled?cached():null);
     if(!enabled)return;
     refresh();const visible=()=>{if(!document.hidden)refresh();};
     const timer=setInterval(visible,30000);
@@ -37,7 +42,7 @@ export function useSocial(api, enabled) {
       const ids=new Set(selection.ids||[]),matches=item=>selection.all||ids.has(item.id);
       const count=previous.notifications.filter(item=>!item.read&&matches(item)).length;
       const value={...previous,notifications:previous.notifications.map(item=>matches(item)?{...item,read:true}:item),unreadCount:selection.all?0:Math.max(0,previous.unreadCount-count)};
-      socialCache.set(api,value);return value;
+      remember(value);return value;
     });
     await refresh();
   },[api,refresh]);

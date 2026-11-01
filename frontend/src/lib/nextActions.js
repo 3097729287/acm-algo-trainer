@@ -1,6 +1,9 @@
+import {original} from './problemIdentity.js';
 import {organizeTrainingLists} from './trainingListCatalog.js';
 import {buildTrainingCurriculum,filterTrainingListsScope} from './trainingCurriculum.js';
 import {canonicalKnowledgeName,rowKnowledgeNames} from './knowledgeNames.js';
+import {foundationNext} from './learningCurriculum.js';
+import {knowledgeJourney,optionalLearningActions} from './knowledgeJourney.js';
 
 // Real shipped lessons, with explicit prerequisites and template associations.
 // A broad shared tag never implies that an unrelated advanced template is next.
@@ -76,21 +79,6 @@ function verifiedPaper(paper){
  return letters.every(letter=>/^[1-9]\d*$/.test(letter))&&letters.map(Number).sort((a,b)=>a-b).every((value,index)=>value===index+1);
 }
 
-function original(row){
- try{
-  const url=new URL(row.url),host=url.hostname.toLowerCase().replace(/^www\./,''),path=url.pathname.replace(/\/+$/,'');
-  if(!['http:','https:'].includes(url.protocol))return row.id;
-  if(/^(?:m[12]\.)?codeforces\.com$/.test(host)){
-   const found=path.match(/^\/(?:contest\/(\d+)\/problem|problemset\/problem\/(\d+))\/([A-Za-z0-9]+)$/);
-   if(found)return `codeforces.com/contest/${found[1]||found[2]}/problem/${found[3].toUpperCase()}`;
-  }
-  if(host==='qoj.ac'){
-   const found=path.match(/^\/(?:contest\/\d+\/)?problem\/(\d+)(?:\/statement\/(?:default|zh_cn))?$/);
-   if(found)return 'qoj.ac/problem/'+found[1];
-  }
-  return host+(host==='atcoder.jp'?path.toLowerCase():path);
- }catch{return row.id;}
-}
 export function trustedDifficulty(row){
  if(!finite(row?.difficulty)||row.difficulty<=0||row.difficultyHidden)return false;
  const source=String(row.difficultySource||'');
@@ -116,7 +104,7 @@ export function learningEvidence(rows,insights={},now=Date.now()){
  // Only this versioned assessment comes from strict backend.from_records:
  // completed official receipts, known independence/source, one episode per
  // original. AC counts, saved chapters, local samples and XP cannot replace it.
- const assessment=[insights.assessment,insights.growth?.ranked].find(value=>value?.model?.method==='rasch-practice-evidence-v2');
+ const assessment=[insights.assessment,insights.growth?.ranked].find(value=>/^rasch-practice-evidence-v[23]$/.test(value?.model?.method||''));
  const unique=new Map();
  for(const item of list(assessment?.evidence)){
   const row=byId.get(item.problemId)||byId.get(item.id),time=stamp(item.date);
@@ -134,7 +122,14 @@ export function learningEvidence(rows,insights={},now=Date.now()){
   if(!cache.has(key))cache.set(key,statistics(evidence.filter(item=>topicMatches(item.row,wanted))));
   return cache.get(key);
  };
- return {byId,evidence,all:statistics(evidence),forTopics,forIds:ids=>{
+ const learningRecords=new Map(),source=insights.learningEvidence;
+ if(source?.version===1&&source.method==='verified-official-learning-v1')for(const item of list(source.records)){
+  const row=byId.get(item.problemId)||byId.get(item.id),time=stamp(item.date);
+  if(!row||row.knowledgeReviewRequired||!finite(time)||time>now||item.scope!=='official'||item.independentKnown!==true||typeof item.solved!=='boolean')continue;
+  const key=original(row),candidate={...item,row,time,key,failures:Number.isInteger(item.failures)&&item.failures>=0?item.failures:1},prior=learningRecords.get(key);
+  if(!prior||candidate.time<prior.time||candidate.time===prior.time&&!candidate.solved)learningRecords.set(key,candidate);
+ }
+ return {byId,evidence,assessment,learningRecords:source?.version===1&&source.method==='verified-official-learning-v1'?[...learningRecords.values()]:evidence,all:statistics(evidence),forTopics,forIds:ids=>{
   const keys=new Set(ids.map(id=>byId.get(id)).filter(row=>row&&!row.knowledgeReviewRequired&&requiredTopics(row).length).map(original));return statistics(evidence.filter(item=>keys.has(item.key)));
  }};
 }
@@ -145,12 +140,12 @@ function implementationPosition(course,saved){
 }
 const proof=stats=>`近 90 天 ${stats.attempted} 道不同原题中独立通过 ${stats.solved} 道，分布在 ${stats.days} 天`;
 
-export function nextActions({rows=[],training=[],insights={},prefs={},lists=[],templates=[],availablePages=[],activeContest=null,reviewPlan={},now=Date.now()}={}){
+export function routineActions({rows=[],training=[],insights={},prefs={},lists=[],templates=[],availablePages=[],activeContest=null,reviewPlan={},now=Date.now(),_evidence}={}){
  now=now instanceof Date?now.getTime():now;if(!finite(now))return [];
  const allowed=id=>availablePages.includes(id),answer=[],used=new Set();
  if(activeContest)return allowed('mock')?[{kind:'contest',page:'mock',id:activeContest.id,title:activeContest.name,
-  reason:'已有正在进行的模拟赛，先继续当前试卷，避免同时开启新的训练。'}]:[];
- const {byId,...evidence}=learningEvidence(rows,insights,now);
+  reason:'已有正在进行的模拟赛，先继续当前试卷，避免同时开启新的训练。'}]:[{kind:'navigation',page:'settings',id:'learning-visibility',title:'恢复模拟赛入口',reason:'当前模拟赛仍在进行，先在设置中恢复入口，再继续当前试卷。'}];
+ const {byId,...evidence}=_evidence||learningEvidence(rows,insights,now);
  const push=item=>{
   if(!item||!allowed(item.page)||answer.length>=NEXT_ACTION_POLICY.maxActions)return false;
   const key=['course','template','list'].includes(item.kind)?item.kind+':'+item.id:original(byId.get(item.id)||item);
@@ -187,13 +182,28 @@ export function nextActions({rows=[],training=[],insights={},prefs={},lists=[],t
  };
  // Keep the main due task first, make room for the current learning frontier,
  // then fill spare choices with genuine due work rather than another syllabus.
- const finish=()=>{offerReviews();return answer;};
+ const finish=()=>{
+  offerReviews();
+  if(!answer.length){
+   // A completed queue, a fresh account or uncalibrated evidence must never
+   // remove the next-step entry. Offer a real bundled learning resource while
+   // metadata loads, and a safe available exercise once the catalog is ready.
+   const task=candidates.find(row=>row.difficulty<=Math.max(1100,Number(insights.assessment?.abilityScore)||1100)
+    &&!row.knowledgeReviewRequired&&requiredTopics(row).length>0
+    &&requiredTopics(row).every(tag=>['输入输出','顺序结构','分支','循环'].includes(tag)||evidence.forTopics([tag]).prerequisite));
+   if(task)push({kind:'problem',page:allowed('library')?'library':'mine',id:task.id,title:task.title,reason:'当前到期任务已经处理完；可继续一道题面和讲解完整的练习。'});
+   else if(allowed('lectures')){const lesson=foundationNext(prefs);push({kind:'lecture',page:'lectures',id:lesson.id,title:lesson.title,reason:'从已有基础讲解继续学习；阅读进度与正式作答分别保存。'});}
+   else if(allowed('paths'))push({kind:'course',page:'paths',id:'sorting-basics',title:'排序基础',first:'order',reason:'用已有互动课程继续学习。'});
+   else answer.push({kind:'navigation',page:'settings',id:'learning-visibility',title:'恢复学习入口',reason:'当前学习入口已隐藏，可在设置中恢复后继续。'});
+  }
+  return answer;
+ };
  offerReviews(1);
  if(reviewPlan?.reviewOnly===true||finite(reviewPlan?.newMinutes)&&reviewPlan.newMinutes<15)return finish();
  const sourceLists=filterTrainingListsScope(organizeTrainingLists(lists.filter(item=>!item.custom&&!String(item.id).startsWith('custom:')&&item.available!==false)),rows);
  const units=buildTrainingCurriculum(sourceLists,rows).filter(unit=>unit.topicPath?.[0]?.startsWith('01'));
  const foundational=evidence.forTopics(BASICS);
- const assessment=insights.assessment?.model?.method==='rasch-practice-evidence-v2'?insights.assessment:insights.growth?.ranked;
+ const assessment=/^rasch-practice-evidence-v[23]$/.test(insights.assessment?.model?.method||'')?insights.assessment:insights.growth?.ranked;
  const supportedBasics=['数组','模拟','枚举','字符串','排序','前缀和','递归','二分查找'].filter(tag=>evidence.forTopics([tag]).prerequisite);
  // Representative independent work can demonstrate basic programming across
  // source lists. Never demand clearing every spare introductory question.
@@ -373,3 +383,27 @@ export function nextActions({rows=[],training=[],insights={},prefs={},lists=[],t
  }
  return finish();
 }
+
+export function recommendationState(input={}){
+ const now=input.now instanceof Date?input.now.getTime():input.now??Date.now();if(!finite(now))return {items:[],journey:{}};
+ const evidence=learningEvidence(input.rows||[],input.insights||{},now),args={...input,now,evidence};
+ const routine=routineActions({...input,now,_evidence:evidence});if(input.activeContest)return {items:routine,journey:{},evidence};
+ const journey=knowledgeJourney(args),optional=optionalLearningActions({...args,deferTopic:journey.doneForToday?journey.topic:null}),result=[],seen=new Set();
+ const push=item=>{
+  if(!item)return;
+  const problem=['problem','stretch','review','template-problem','knowledge-review','random'].includes(item.kind);
+  const key=problem?'problem:'+original(evidence.byId.get(item.id)||item):item.kind+':'+item.id;
+  if(seen.has(key))return;seen.add(key);result.push(item);
+ };
+ const currentTask=item=>journey.doneForToday&&journey.topic&&(item.id===journey.topic.course||item.id===journey.topic.template||evidence.byId.has(item.id)&&matches(evidence.byId.get(item.id),journey.topic.tags)&&item.kind!=='review');
+ const routines=routine.filter(item=>!currentTask(item));
+ const other=journey.doneForToday?(routines.find(item=>item.kind==='review')||optional[0]||(()=>{const lesson=foundationNext(input.prefs);return (input.availablePages||[]).includes('lectures')?{kind:'lecture',page:'lectures',id:lesson.id,title:lesson.title,reason:'今天的知识点安排已完成，保留学习进度；可以继续其它基础讲解。'}:routines[0];})()):routines[0];
+ push(journey.action||other);
+ push(journey.suggestion);
+ for(const item of optional)push(item);
+ for(const item of routines)push(item);
+ const maximum=NEXT_ACTION_POLICY.maxActions-(journey.completed?1:0),chosen=result.slice(0,maximum);
+ if(journey.completed)chosen.push(journey.completed);
+ return {items:chosen,journey,evidence};
+}
+export const nextActions=input=>recommendationState(input).items;

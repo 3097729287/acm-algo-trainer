@@ -4,6 +4,8 @@ import {trainingListLocation} from '@/lib/trainingListLocation.js';
 import useNavigationLevel from '@/lib/useNavigationLevel.js';
 import NavigationPending from '@/components/NavigationPending.jsx';
 import DailyTaskCount from '@/components/DailyTaskCount.jsx';
+import NextActions from '@/components/NextActions.jsx';
+import {migrateNavigationAccess} from '@/lib/featureUnlocks.js';
 import {DifficultyDisplayProvider} from '@/components/DifficultyDisplay.jsx';
 import {ProblemCells,ProblemTableHead,Difficulty,Verdict} from '@/components/ProblemTableParts.jsx';
 import BrandWordmark from '../components/BrandWordmark.jsx';
@@ -154,7 +156,6 @@ const TemplatesPage=lazy(()=>import('@/pages/TemplatesPage.jsx'));
 const loadTrainingListsPage=()=>import('@/pages/TrainingListsPage.jsx');
 const TrainingListsPage=lazy(loadTrainingListsPage);
 const PreferencesPage = lazy(() => import('@/pages/PreferencesPage.jsx'));
-const NextActions=lazy(()=>import('@/components/NextActions.jsx'));
 const ExperienceChallenge=lazy(()=>import('@/components/ExperienceChallenge.jsx'));
 const LevelUpDialog=lazy(()=>import('@/components/LevelUpDialog.jsx'));
 
@@ -596,6 +597,7 @@ export default function App() {
     [record, setRecord] = useState(null),
     [recordOnlyPending, setRecordOnlyPending] = useState(false),
     [mockTab, setMockTab] = useState("create"),
+    [mockRecommendation,setMockRecommendation]=useState(null),
     [selectedSubmission, setSelectedSubmission] = useState(null),
     [settingsTab, setSettingsTab] = useState(()=>{try{return JSON.parse(sessionStorage.getItem(`tb.settings.location.${window.__tbAccount?.userId || window.__tbAccount?.loginId || 'local'}`)||'{}').tab==='appearance'?'appearance':'home';}catch{return 'home';}});
   const [keyboardSelection, setKeyboardSelection] = useState(false), [listOrder, setListOrder] = useState(null);
@@ -655,7 +657,7 @@ export default function App() {
   const api = useCallback((path, body) => request(path, body, token.current), []);
   const [account, setAccount] = useState(() => window.__tbAccount || null);
   const calendar = useContestCalendar(api, Boolean(data), dialog === 'contest-calendar', now, account?.userId ?? null);
-  const social = useSocial(api, Boolean(data && account?.userId));
+  const social = useSocial(api, Boolean(account?.userId),account?.userId||'');
   const [messagesReading,setMessagesReading]=useState(false);
   useUsage(api,data&&account?.userId,Boolean((!dialog||['lecture','solution'].includes(dialog))&&(practiceId||readerId||page==='mock'&&mockSlot&&workspace.activeContest||['lectures','paths','templates'].includes(page)||page==='settings'&&settingsTab==='accounts')));
   usePlatformLogins(api,Boolean(data&&account?.userId));
@@ -680,6 +682,9 @@ export default function App() {
     if(value?.profile?.nickname){setAccount(previous=>previous?{...previous,nickname:value.profile.nickname}:previous);if(window.__tbAccount)window.__tbAccount={...window.__tbAccount,nickname:value.profile.nickname};}
   }, []);
   const preferencesLoaded = useRef(false), uploadedPreferences = useRef(''), preferencesQueue = useRef(Promise.resolve(true));
+  useEffect(()=>{
+    if(preferencesLoaded.current&&!loading&&!navigation.pending&&account?.userId)setPrefs(previous=>migrateNavigationAccess(previous,navigationLevel));
+  },[preferencesLoaded.current,loading,navigation.pending,navigationLevel,account?.userId]);
   const preferencesBaseline = useRef(prefs);
   const [preferencesRevision, setPreferencesRevision] = useState(0);
   useEffect(() => {
@@ -1186,11 +1191,13 @@ export default function App() {
   }
   function openRecommendation(item) {
     if(!featureAvailable(item.page))return;
-    if(item.kind==='course'){
+    if(item.kind==='course'||item.kind==='guided'){
       labVisit.current.leftAt=Date.now();labVisit.current.scrollTop=0;
-      setPrefs(previous=>({...previous,learningPaths:{...previous.learningPaths,activePath:item.id,[item.id]:previous.learningPaths?.[item.id]||{mode:'learn'}}}));
-    } else if(item.kind==='contest'||item.kind==='mixed'){setMockTab('create');setRecord(null);}
+      setPrefs(previous=>{const saved=previous.learningPaths?.[item.id]||{mode:'learn'};return {...previous,learningPaths:{...previous.learningPaths,activePath:item.id,resumePath:item.resume?item.id:null,[item.id]:item.kind==='guided'?{...saved,mode:'guided',guided:{...saved.guided,active:Math.max(0,item.guidedIndex||0)}}:saved}};});
+    } else if(['contest','mixed','specialized','replay'].includes(item.kind)){setMockTab('create');setRecord(null);if(item.kind==='specialized'||item.kind==='replay')setMockRecommendation({requestId:Date.now(),mode:item.kind==='replay'?'replay':'topic',tags:item.tags||[]});}
     else if(item.kind==='template')Object.assign(templatesVisit.current,{selected:item.id,draft:null});
+    else if(item.kind==='lecture')setLectureId(item.id);
+    else if(item.kind==='navigation')setSettingsTab('interaction');
     else if(item.kind==='list'){
       const state={curriculumVersion:1,mode:'algorithm',trail:[item.id],folder:[],sections:[],flat:false,query:'',page:1};
       Object.assign(trainingListsVisit.current,{scrollTop:0,state});
@@ -2047,7 +2054,7 @@ export default function App() {
         <header className={"topbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}>
           <div id="tb-page-location" className="page-location-slot"/>
           <div id="tb-page-search" className="topbar-search-slot"/>
-          {account?.userId&&!practiceId&&!mockFocus&&<Suspense fallback={null}><NextActions key={account.userId} rows={rows} training={mine} reviewPlan={workspace.reviews} insights={insights} prefs={prefs} api={api} availablePages={visiblePageIds} activeContest={active} onNavigate={openRecommendation} onTrain={openPractice} onOpenChange={setRecommendationOpen} suspended={Boolean(dialog||clearTrainingAnchor||tourOpen||levelUp.dialog)}/></Suspense>}
+          {!practiceId&&!mockFocus&&(account?.userId?<NextActions key={account.userId} rows={rows} training={mine} reviewPlan={workspace.reviews} insights={insights} prefs={prefs} setPrefs={setPrefs} preferencesReady={preferencesLoaded.current&&!loading} api={api} availablePages={visiblePageIds} activeContest={active} onNavigate={openRecommendation} onTrain={openPractice} onOpenChange={setRecommendationOpen} suspended={Boolean(dialog||clearTrainingAnchor||tourOpen||levelUp.dialog)}/>:<section className="next-actions next-actions-pending" aria-label="下一步推荐做的事" aria-busy="true"><Clock size={18}/><span>正在准备下一步</span></section>)}
           <div className="topbar-actions">
             <PracticeStreak days={summary.streak || 0} completedToday={Number(todayAc)>0}/>{window.__tbAdmin&&<span className="admin-workspace-label">管理员</span>}
             {active && page !== "mock" && (
@@ -2057,7 +2064,7 @@ export default function App() {
               </button>
             )}
             <button className="text-button topbar-daily-ac topbar-status-chip" aria-label={`AC：历史 ${beforeTodayAc}，今日 ${todayAc}`} onClick={()=>go('mine')}><span className="metric-label">AC</span><span className="metric-separator" aria-hidden="true">:</span><b>{beforeTodayAc}{todayAc>0&&<span className="topbar-ac-today">+{todayAc}</span>}</b></button>
-            {social.snapshot?.available && <button className="text-button topbar-love-count topbar-status-chip" data-positive={Number(social.snapshot.todayLikes)>=1} aria-label={`爱心：历史 ${Math.max(0,(social.snapshot.totalLikes||0)-(social.snapshot.todayLikes||0))}，今日 ${social.snapshot.todayLikes||0}`} onClick={() => setDialog('updates')}><Heart size={18} fill="currentColor"/><span className="metric-separator" aria-hidden="true">:</span><b>{Math.max(0,(social.snapshot.totalLikes||0)-(social.snapshot.todayLikes||0))}{social.snapshot.todayLikes>0&&<span className="topbar-ac-today">+{social.snapshot.todayLikes}</span>}</b></button>}
+            <button className="text-button topbar-love-count topbar-status-chip" data-positive={Number(social.snapshot?.todayLikes)>=1} data-cached={social.snapshot?.countsCached||undefined} aria-busy={!social.snapshot?.available} aria-label={social.snapshot?.totalLikes!=null?`爱心：历史 ${Math.max(0,(social.snapshot.totalLikes||0)-(social.snapshot.todayLikes||0))}，今日 ${social.snapshot.todayLikes||0}${social.snapshot.available?'':'，上次确认数据'}`:'爱心，正在读取'} onClick={() => setDialog('updates')}><Heart size={18} fill="currentColor"/><span className="metric-separator" aria-hidden="true">:</span><b>{social.snapshot?.totalLikes!=null?Math.max(0,(social.snapshot.totalLikes||0)-(social.snapshot.todayLikes||0)):'—'}{social.snapshot?.todayLikes>0&&<span className="topbar-ac-today">+{social.snapshot.todayLikes}</span>}</b></button>
             <ProfileBadge growth={growth} avatar={prefs.avatarData} nickname={account?.nickname || profileSnapshot?.profile?.nickname} onClick={()=>openAccounts('profile')} onAvatarClick={()=>setDialog('avatar')}/>
             <IconButton label="切换深浅主题" className="icon-button theme-toggle" icon={prefs.theme==='dark'?Sun:Moon} aria-pressed={prefs.theme==='light'} onClick={()=>setPrefs(previous=>({...previous,theme:previous.theme==='dark'?'light':'dark'}))}/>
             <IconButton
@@ -2157,6 +2164,7 @@ export default function App() {
               </div>
             ) : <>{active ? <div className="mock-resume-row"><button className="secondary" onClick={()=>setMockTab("create")}><Play size={15}/>继续比赛</button></div> : (
               <MockSetup
+                recommendation={mockRecommendation}
                 historyQuery={mockHistoryQuery}
                 onHistoryQuery={setMockHistoryQuery}
                 onPreviewChange={setMockPreview}

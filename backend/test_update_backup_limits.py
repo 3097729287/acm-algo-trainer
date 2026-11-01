@@ -60,17 +60,24 @@ class UpdateBackupLimitTests(unittest.TestCase):
         with patch('update_backups.retire_directory',side_effect=retain):
             for i in range(6):self.db.execute('UPDATE drafts SET code=?',(str(i),));backup(self.state,self.destination(i),context='same')
         self.assertEqual(len(_owned(self.state/'backups')),2);self.assertEqual(len(list(retired.iterdir())),4)
-    def test_verified_old_copies_are_directly_removed_and_disk_usage_stays_bounded(self):
-        with patch('update_backups.recycle_directory') as recycle:
+    def test_verified_old_copies_are_recycled_and_active_generations_stay_bounded(self):
+        retained=Path(self.temp.name)/'simulated-recycle';retained.mkdir()
+        def recycle_copy(path):
+            self.assertTrue(path.resolve().is_relative_to(Path(self.temp.name).resolve()))
+            target=retained/path.name;self.assertTrue(target.resolve().is_relative_to(retained.resolve()))
+            path.rename(target);return True
+        with patch('update_backups.recycle_directory',side_effect=recycle_copy) as recycle:
             for i in range(12):self.db.execute('UPDATE drafts SET code=?',(str(i),));backup(self.state,self.destination(i),context='same')
-        recycle.assert_not_called();self.assertEqual(len(_owned(self.state/'backups')),2)
+        self.assertEqual(recycle.call_count,10);self.assertEqual(len(list(retained.iterdir())),10)
+        self.assertEqual(len(_owned(self.state/'backups')),2)
         self.assertEqual({p.name for p in (self.state/'backups').iterdir()},{'before-update-10','before-update-11'})
         self.assertEqual(self.db.execute('SELECT code FROM drafts').fetchone()[0],'11')
-    def test_filesystem_removal_failure_uses_safe_recycling(self):
+    def test_recycle_failure_never_tries_permanent_removal(self):
         path=self.destination('retired')
-        with patch('update_backups.shutil.rmtree',side_effect=PermissionError('fixture locked file')),patch('update_backups.recycle_directory',return_value=False) as recycle:
+        path.mkdir(parents=True);(path/'keep.cpp').write_text('preserved','utf-8')
+        with patch('update_backups.shutil.rmtree',side_effect=AssertionError('permanent removal forbidden')) as remove,patch('update_backups.recycle_directory',return_value=False) as recycle:
             self.assertFalse(retire_directory(path))
-        recycle.assert_called_once_with(path)
+        recycle.assert_called_once_with(path);remove.assert_not_called();self.assertEqual((path/'keep.cpp').read_text('utf-8'),'preserved')
     def test_backup_with_unrecorded_file_is_never_retired(self):
         first=backup(self.state,self.destination(1),context='same')
         (first/'manual-code.cpp').write_text('keep unique manual code','utf-8')
@@ -100,8 +107,9 @@ class UpdateBackupLimitTests(unittest.TestCase):
         old=directory/'ToBe-Setup-1.4.35-win64.exe';old.write_bytes(b'obsolete installer')
         protected=['ToBe-Setup-1.4.36-win64.exe','ToBe-Update-1.4.36-to-1.4.37-win64.zip','unique-code.cpp']
         for name in protected:(directory/name).write_bytes(b'keep')
-        _retire_downloads(directory,'1.4.36')
-        self.assertFalse(old.exists());self.assertTrue(all((directory/name).read_bytes()==b'keep' for name in protected))
+        with patch('update_backups.recycle_directory',return_value=False) as recycle,patch.object(Path,'unlink',side_effect=AssertionError('permanent removal forbidden')):
+            _retire_downloads(directory,'1.4.36')
+        recycle.assert_called_once_with(old);self.assertTrue(old.exists());self.assertTrue(all((directory/name).read_bytes()==b'keep' for name in protected))
     def test_download_cache_limit_blocks_network_before_new_partial_files(self):
         directory=Path(self.temp.name)/'cache/updates';directory.mkdir(parents=True)
         (directory/'ToBe-Setup-1.4.99-win64.exe').write_bytes(b'retained future candidate')

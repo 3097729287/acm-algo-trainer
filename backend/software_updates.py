@@ -35,8 +35,7 @@ def _retire_downloads(directory,current):
         try:obsolete=version_tuple(match.group(1) or match.group(2))<version_tuple(current)
         except ValueError:continue
         if obsolete:
-            try:path.unlink()
-            except OSError:recycle_directory(path)
+            recycle_directory(path)
 
 
 def version_tuple(value):

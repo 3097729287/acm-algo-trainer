@@ -1,0 +1,1463 @@
+{
+  "version": 1,
+  "lessons": [
+    {
+      "id": "lecture:foundation-io-basics",
+      "title": "C++ 输入输出：把数据读进变量，把结果写到标准输出",
+      "kind": "language",
+      "level": 1,
+      "order": 0,
+      "prerequisites": []
+    },
+    {
+      "id": "lecture:foundation-basic-arithmetic",
+      "title": "整数、实数与单位换算",
+      "kind": "language",
+      "level": 1,
+      "order": 1,
+      "prerequisites": [
+        "lecture:foundation-io-basics"
+      ]
+    },
+    {
+      "id": "lecture:foundation-integer",
+      "title": "整数类型、整除与溢出",
+      "kind": "language",
+      "level": 1,
+      "order": 2,
+      "prerequisites": [
+        "lecture:foundation-basic-arithmetic"
+      ]
+    },
+    {
+      "id": "lecture:foundation-basic-control",
+      "title": "分支与循环：按条件选择，按次序重复",
+      "kind": "language",
+      "level": 1,
+      "order": 3,
+      "prerequisites": [
+        "lecture:foundation-io-basics",
+        "lecture:foundation-basic-arithmetic"
+      ]
+    },
+    {
+      "id": "lecture:foundation-arrays",
+      "title": "数组：用下标定位一组状态",
+      "kind": "language",
+      "level": 1,
+      "order": 4,
+      "prerequisites": [
+        "lecture:foundation-basic-control"
+      ]
+    },
+    {
+      "id": "lecture:foundation-functions",
+      "title": "具名函数：给可复用计算一个明确接口",
+      "kind": "language",
+      "level": 1,
+      "order": 5,
+      "prerequisites": [
+        "lecture:foundation-basic-control"
+      ]
+    },
+    {
+      "id": "lecture:foundation-strings",
+      "title": "string：字符、下标与子串",
+      "kind": "language",
+      "level": 1,
+      "order": 6,
+      "prerequisites": [
+        "lecture:foundation-arrays"
+      ]
+    },
+    {
+      "id": "lecture:foundation-structures",
+      "title": "结构体：把一个对象的相关数据保存在一起",
+      "kind": "language",
+      "level": 1,
+      "order": 7,
+      "prerequisites": [
+        "lecture:foundation-functions"
+      ]
+    },
+    {
+      "id": "lecture:foundation-vector",
+      "title": "vector：长度可变的连续数组",
+      "kind": "language",
+      "level": 1,
+      "order": 8,
+      "prerequisites": [
+        "lecture:foundation-arrays"
+      ]
+    },
+    {
+      "id": "lecture:foundation-string-tools",
+      "title": "字符串修改、数字转换与字符判断",
+      "kind": "language",
+      "level": 1,
+      "order": 9,
+      "prerequisites": [
+        "lecture:foundation-strings"
+      ]
+    },
+    {
+      "id": "lecture:foundation-bindings",
+      "title": "pair、tuple 与结构化绑定",
+      "kind": "language",
+      "level": 2,
+      "order": 10,
+      "prerequisites": [
+        "lecture:foundation-structures"
+      ]
+    },
+    {
+      "id": "lecture:foundation-iterators",
+      "title": "迭代器、begin/end 与左闭右开范围",
+      "kind": "language",
+      "level": 2,
+      "order": 11,
+      "prerequisites": [
+        "lecture:foundation-vector"
+      ]
+    },
+    {
+      "id": "lecture:foundation-sort",
+      "title": "sort 与比较器：先建立统一的顺序",
+      "kind": "language",
+      "level": 2,
+      "order": 12,
+      "prerequisites": [
+        "lecture:foundation-arrays",
+        "lecture:foundation-functions"
+      ]
+    },
+    {
+      "id": "lecture:foundation-bounds",
+      "title": "lower_bound 与 upper_bound：从位置到数量",
+      "kind": "language",
+      "level": 2,
+      "order": 13,
+      "prerequisites": [
+        "lecture:foundation-sort",
+        "lecture:foundation-iterators"
+      ]
+    },
+    {
+      "id": "lecture:foundation-queue-stack",
+      "title": "queue、deque 与 stack：处理顺序也是规则",
+      "kind": "language",
+      "level": 2,
+      "order": 14,
+      "prerequisites": [
+        "lecture:foundation-arrays"
+      ]
+    },
+    {
+      "id": "lecture:foundation-sets",
+      "title": "set、multiset 与有序邻居",
+      "kind": "language",
+      "level": 2,
+      "order": 15,
+      "prerequisites": [
+        "lecture:foundation-sort"
+      ]
+    },
+    {
+      "id": "lecture:foundation-maps",
+      "title": "map 与 unordered_map：按键保存信息",
+      "kind": "language",
+      "level": 2,
+      "order": 16,
+      "prerequisites": [
+        "lecture:foundation-structures"
+      ]
+    },
+    {
+      "id": "lecture:foundation-heap",
+      "title": "priority_queue：随时取出最高优先级",
+      "kind": "language",
+      "level": 2,
+      "order": 17,
+      "prerequisites": [
+        "lecture:foundation-sort"
+      ]
+    },
+    {
+      "id": "lecture:foundation-numeric-tools",
+      "title": "数值工具：连续编号、累加与最值",
+      "kind": "language",
+      "level": 2,
+      "order": 18,
+      "prerequisites": [
+        "lecture:foundation-arrays"
+      ]
+    },
+    {
+      "id": "lecture:foundation-lambda",
+      "title": "lambda：定义、捕获和调用一个局部函数",
+      "kind": "language",
+      "level": 2,
+      "order": 19,
+      "prerequisites": [
+        "lecture:foundation-functions"
+      ]
+    },
+    {
+      "id": "lecture:foundation-vector-ranges",
+      "title": "vector 的区间插入与内容复制",
+      "kind": "language",
+      "level": 2,
+      "order": 20,
+      "prerequisites": [
+        "lecture:foundation-vector",
+        "lecture:foundation-iterators"
+      ]
+    },
+    {
+      "id": "lecture:foundation-interactive-io",
+      "title": "交互输入输出：先发出问题，再等待对方回复",
+      "kind": "language",
+      "level": 2,
+      "order": 21,
+      "prerequisites": [
+        "lecture:foundation-io-basics",
+        "lecture:foundation-basic-control"
+      ]
+    },
+    {
+      "id": "lecture:foundation-unsigned64",
+      "title": "无符号六十四位整数与模二的六十四次方",
+      "kind": "language",
+      "level": 2,
+      "order": 22,
+      "prerequisites": [
+        "lecture:foundation-integer",
+        "lecture:foundation-bitwise"
+      ]
+    },
+    {
+      "id": "lecture:foundation-enumeration",
+      "title": "枚举与模拟：让代码和允许的动作一一对应",
+      "kind": "algorithm",
+      "level": 1,
+      "order": 23,
+      "prerequisites": [
+        "lecture:foundation-basic-control"
+      ]
+    },
+    {
+      "id": "lecture:foundation-counting",
+      "title": "计数：先确定一个方案包含哪些选择",
+      "kind": "algorithm",
+      "level": 1,
+      "order": 24,
+      "prerequisites": [
+        "lecture:foundation-basic-control"
+      ]
+    },
+    {
+      "id": "lecture:foundation-construction",
+      "title": "构造：找到一份合法对象，并解释它为何总能生成",
+      "kind": "algorithm",
+      "level": 1,
+      "order": 25,
+      "prerequisites": [
+        "lecture:foundation-basic-control"
+      ]
+    },
+    {
+      "id": "lecture:foundation-prefix",
+      "title": "前缀和：一段和由两段前缀相减",
+      "kind": "algorithm",
+      "level": 1,
+      "order": 26,
+      "prerequisites": [
+        "lecture:foundation-arrays"
+      ]
+    },
+    {
+      "id": "lecture:foundation-difference",
+      "title": "差分：把区间的变化写在两个边界",
+      "kind": "algorithm",
+      "level": 1,
+      "order": 27,
+      "prerequisites": [
+        "lecture:foundation-prefix"
+      ]
+    },
+    {
+      "id": "lecture:foundation-recursion",
+      "title": "递归：把一个任务交给更小的同类任务",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 28,
+      "prerequisites": [
+        "lecture:foundation-functions"
+      ]
+    },
+    {
+      "id": "lecture:foundation-binary-answer",
+      "title": "二分答案：在单调的可行性分界处找最优值",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 29,
+      "prerequisites": [
+        "lecture:foundation-bounds"
+      ]
+    },
+    {
+      "id": "lecture:foundation-two-pointers",
+      "title": "双指针与连续窗口：边界为什么能只向前走",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 30,
+      "prerequisites": [
+        "lecture:foundation-arrays",
+        "lecture:foundation-sort"
+      ]
+    },
+    {
+      "id": "lecture:foundation-greedy",
+      "title": "贪心：先证明当前选择不会丢掉最优解",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 31,
+      "prerequisites": [
+        "lecture:foundation-enumeration"
+      ]
+    },
+    {
+      "id": "lecture:foundation-bitwise",
+      "title": "位运算：把非负整数看成一组二进制开关",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 32,
+      "prerequisites": [
+        "lecture:foundation-integer"
+      ]
+    },
+    {
+      "id": "lecture:foundation-number-theory",
+      "title": "整除、最大公约数与质因数",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 33,
+      "prerequisites": [
+        "lecture:foundation-integer"
+      ]
+    },
+    {
+      "id": "lecture:foundation-prime-sieve",
+      "title": "埃氏筛：一次求出整个上界内的所有素数",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 34,
+      "prerequisites": [
+        "lecture:foundation-arrays",
+        "lecture:foundation-number-theory"
+      ]
+    },
+    {
+      "id": "lecture:foundation-modular",
+      "title": "取模、快速幂与乘法逆元",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 35,
+      "prerequisites": [
+        "lecture:foundation-number-theory"
+      ]
+    },
+    {
+      "id": "lecture:foundation-big-integers",
+      "title": "高精度整数：用数组保存十进制位",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 36,
+      "prerequisites": [
+        "lecture:foundation-arrays",
+        "lecture:foundation-integer"
+      ]
+    },
+    {
+      "id": "lecture:foundation-decimal-addition",
+      "title": "十进制高精度加法：从个位逐位进位",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 37,
+      "prerequisites": [
+        "lecture:foundation-big-integers"
+      ]
+    },
+    {
+      "id": "lecture:foundation-lex-permutation",
+      "title": "字典序排列与 next_permutation",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 38,
+      "prerequisites": [
+        "lecture:foundation-sort"
+      ]
+    },
+    {
+      "id": "lecture:foundation-random-selection",
+      "title": "随机枢轴：把期望分析与最坏情况分开",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 39,
+      "prerequisites": [
+        "lecture:foundation-sort"
+      ]
+    },
+    {
+      "id": "lecture:foundation-rectangle-difference",
+      "title": "二维差分：四个角登记一块矩形的增量",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 40,
+      "prerequisites": [
+        "lecture:foundation-difference"
+      ]
+    },
+    {
+      "id": "lecture:foundation-graphs",
+      "title": "图的表示、BFS 与 DFS",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 41,
+      "prerequisites": [
+        "lecture:foundation-arrays",
+        "lecture:foundation-queue-stack"
+      ]
+    },
+    {
+      "id": "lecture:foundation-dsu",
+      "title": "并查集：维护哪些对象已属于同一组",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 42,
+      "prerequisites": [
+        "lecture:foundation-arrays",
+        "lecture:foundation-functions"
+      ]
+    },
+    {
+      "id": "lecture:foundation-dp",
+      "title": "动态规划：保存明确子问题的答案",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 43,
+      "prerequisites": [
+        "lecture:foundation-arrays",
+        "lecture:foundation-recursion"
+      ]
+    },
+    {
+      "id": "lecture:foundation-knapsack",
+      "title": "背包 DP：容量约束下保留不同选择",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 44,
+      "prerequisites": [
+        "lecture:foundation-dp"
+      ]
+    },
+    {
+      "id": "lecture:foundation-fenwick",
+      "title": "树状数组：动态前缀和",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 45,
+      "prerequisites": [
+        "lecture:foundation-prefix"
+      ]
+    },
+    {
+      "id": "lecture:foundation-segment-tree",
+      "title": "线段树：把区间问题分成可合并的两半",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 46,
+      "prerequisites": [
+        "lecture:foundation-prefix",
+        "lecture:foundation-recursion"
+      ]
+    },
+    {
+      "id": "lecture:foundation-trie",
+      "title": "字典树：共享相同前缀的分支",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 47,
+      "prerequisites": [
+        "lecture:foundation-strings"
+      ]
+    },
+    {
+      "id": "lecture:foundation-shortest-path",
+      "title": "最短路：从一步到达转向累计费用",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 48,
+      "prerequisites": [
+        "lecture:foundation-graphs",
+        "lecture:foundation-heap"
+      ]
+    },
+    {
+      "id": "lecture:foundation-binary-lifting",
+      "title": "倍增：把重复后继操作拼成二的幂次步长",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 49,
+      "prerequisites": [
+        "lecture:foundation-arrays"
+      ]
+    },
+    {
+      "id": "lecture:foundation-permutations",
+      "title": "置换环：沿“去哪里”把编号分组",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 50,
+      "prerequisites": [
+        "lecture:foundation-arrays"
+      ]
+    },
+    {
+      "id": "lecture:foundation-monotonic",
+      "title": "单调栈与单调队列：删去以后不会更优的候选",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 51,
+      "prerequisites": [
+        "lecture:foundation-queue-stack",
+        "lecture:foundation-two-pointers"
+      ]
+    },
+    {
+      "id": "lecture:foundation-hashing",
+      "title": "哈希：用摘要快速筛选相同对象",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 52,
+      "prerequisites": [
+        "lecture:foundation-strings"
+      ]
+    },
+    {
+      "id": "lecture:foundation-geometry",
+      "title": "计算几何：先画位置，再选择精确判定",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 53,
+      "prerequisites": [
+        "lecture:foundation-basic-arithmetic"
+      ]
+    },
+    {
+      "id": "lecture:foundation-probability",
+      "title": "概率与期望：按事件或按贡献计算",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 54,
+      "prerequisites": [
+        "lecture:foundation-counting"
+      ]
+    },
+    {
+      "id": "lecture:foundation-games",
+      "title": "博弈状态：自己的选择与对方的选择不同",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 55,
+      "prerequisites": [
+        "lecture:foundation-enumeration"
+      ]
+    },
+    {
+      "id": "lecture:foundation-trees",
+      "title": "树的根、子树、DFS 序与倍增",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 56,
+      "prerequisites": [
+        "lecture:foundation-graphs",
+        "lecture:foundation-recursion"
+      ]
+    },
+    {
+      "id": "lecture:foundation-topology",
+      "title": "拓扑排序与生成树：两类不同的图结构",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 57,
+      "prerequisites": [
+        "lecture:foundation-graphs",
+        "lecture:foundation-dsu"
+      ]
+    },
+    {
+      "id": "lecture:foundation-coordinates",
+      "title": "离散化、扫描线与连续区间",
+      "kind": "algorithm",
+      "level": 2,
+      "order": 58,
+      "prerequisites": [
+        "lecture:foundation-sort",
+        "lecture:foundation-prefix"
+      ]
+    },
+    {
+      "id": "lecture:foundation-subset-dp",
+      "title": "状态压缩与记忆化：把集合也作为状态的一部分",
+      "kind": "algorithm",
+      "level": 3,
+      "order": 59,
+      "prerequisites": [
+        "lecture:foundation-dp",
+        "lecture:foundation-bitwise"
+      ]
+    },
+    {
+      "id": "lecture:foundation-max-flow",
+      "title": "最大流、最小割与 Dinic：容量限制下怎样传递",
+      "kind": "algorithm",
+      "level": 3,
+      "order": 60,
+      "prerequisites": [
+        "lecture:foundation-graphs",
+        "lecture:foundation-shortest-path"
+      ]
+    },
+    {
+      "id": "lecture:foundation-li-chao",
+      "title": "Li Chao 树：插入直线并查询某个横坐标的最优值",
+      "kind": "algorithm",
+      "level": 3,
+      "order": 61,
+      "prerequisites": [
+        "lecture:foundation-segment-tree",
+        "lecture:foundation-geometry"
+      ]
+    }
+  ],
+  "topics": [
+    {
+      "id": "io-basics",
+      "title": "输入输出",
+      "level": 1,
+      "order": 0,
+      "tags": [
+        "输入输出",
+        "顺序结构"
+      ],
+      "prerequisites": [],
+      "lectures": [
+        "lecture:foundation-io-basics"
+      ],
+      "course": null,
+      "template": null
+    },
+    {
+      "id": "basic-control",
+      "title": "分支与循环",
+      "level": 1,
+      "order": 1,
+      "tags": [
+        "分支",
+        "循环"
+      ],
+      "prerequisites": [
+        "io-basics"
+      ],
+      "lectures": [
+        "lecture:foundation-basic-control"
+      ],
+      "course": null,
+      "template": null
+    },
+    {
+      "id": "arrays",
+      "title": "数组",
+      "level": 1,
+      "order": 2,
+      "tags": [
+        "数组"
+      ],
+      "prerequisites": [
+        "basic-control"
+      ],
+      "lectures": [
+        "lecture:foundation-arrays"
+      ],
+      "course": null,
+      "template": null
+    },
+    {
+      "id": "functions",
+      "title": "函数",
+      "level": 1,
+      "order": 3,
+      "tags": [
+        "函数"
+      ],
+      "prerequisites": [
+        "basic-control"
+      ],
+      "lectures": [
+        "lecture:foundation-functions"
+      ],
+      "course": null,
+      "template": null
+    },
+    {
+      "id": "strings",
+      "title": "string 与字符串",
+      "level": 1,
+      "order": 4,
+      "tags": [
+        "字符串"
+      ],
+      "prerequisites": [
+        "arrays"
+      ],
+      "lectures": [
+        "lecture:foundation-strings"
+      ],
+      "course": null,
+      "template": null
+    },
+    {
+      "id": "sorting-basics",
+      "title": "排序基础",
+      "level": 1,
+      "order": 5,
+      "tags": [
+        "排序"
+      ],
+      "prerequisites": [
+        "arrays",
+        "functions"
+      ],
+      "lectures": [
+        "lecture:foundation-sort"
+      ],
+      "course": "sorting-basics",
+      "template": null
+    },
+    {
+      "id": "enumeration",
+      "title": "枚举与模拟",
+      "level": 1,
+      "order": 6,
+      "tags": [
+        "枚举",
+        "模拟"
+      ],
+      "prerequisites": [
+        "basic-control"
+      ],
+      "lectures": [
+        "lecture:foundation-enumeration"
+      ],
+      "course": null,
+      "template": null
+    },
+    {
+      "id": "prefix-difference",
+      "title": "前缀和与差分",
+      "level": 1,
+      "order": 7,
+      "tags": [
+        "前缀和",
+        "差分"
+      ],
+      "prerequisites": [
+        "arrays"
+      ],
+      "lectures": [
+        "lecture:foundation-prefix",
+        "lecture:foundation-difference"
+      ],
+      "course": "prefix-difference",
+      "template": "builtin:prefix-difference"
+    },
+    {
+      "id": "binary-search",
+      "title": "二分查找",
+      "level": 2,
+      "order": 8,
+      "tags": [
+        "二分查找",
+        "二分答案"
+      ],
+      "prerequisites": [
+        "sorting-basics"
+      ],
+      "lectures": [
+        "lecture:foundation-bounds",
+        "lecture:foundation-binary-answer"
+      ],
+      "course": null,
+      "template": "builtin:binary-search"
+    },
+    {
+      "id": "two-pointers",
+      "title": "双指针与滑动窗口",
+      "level": 2,
+      "order": 9,
+      "tags": [
+        "双指针",
+        "滑动窗口"
+      ],
+      "prerequisites": [
+        "sorting-basics",
+        "arrays"
+      ],
+      "lectures": [
+        "lecture:foundation-two-pointers"
+      ],
+      "course": "two-pointers",
+      "template": null
+    },
+    {
+      "id": "recursion",
+      "title": "递归",
+      "level": 2,
+      "order": 10,
+      "tags": [
+        "递归"
+      ],
+      "prerequisites": [
+        "functions"
+      ],
+      "lectures": [
+        "lecture:foundation-recursion"
+      ],
+      "course": null,
+      "template": null
+    },
+    {
+      "id": "bfs",
+      "title": "BFS 广度优先搜索",
+      "level": 2,
+      "order": 11,
+      "tags": [
+        "BFS"
+      ],
+      "prerequisites": [
+        "arrays"
+      ],
+      "lectures": [
+        "lecture:foundation-graphs"
+      ],
+      "course": "bfs",
+      "template": "builtin:bfs"
+    },
+    {
+      "id": "dfs",
+      "title": "DFS 深度优先搜索",
+      "level": 2,
+      "order": 12,
+      "tags": [
+        "DFS"
+      ],
+      "prerequisites": [
+        "recursion"
+      ],
+      "lectures": [
+        "lecture:foundation-graphs"
+      ],
+      "course": "dfs",
+      "template": null
+    },
+    {
+      "id": "dsu",
+      "title": "并查集",
+      "level": 2,
+      "order": 13,
+      "tags": [
+        "并查集"
+      ],
+      "prerequisites": [
+        "arrays",
+        "functions"
+      ],
+      "lectures": [
+        "lecture:foundation-dsu"
+      ],
+      "course": "dsu",
+      "template": "builtin:dsu"
+    },
+    {
+      "id": "knapsack",
+      "title": "背包 DP",
+      "level": 2,
+      "order": 14,
+      "tags": [
+        "背包 DP"
+      ],
+      "prerequisites": [
+        "arrays",
+        "recursion"
+      ],
+      "lectures": [
+        "lecture:foundation-dp",
+        "lecture:foundation-knapsack"
+      ],
+      "course": "knapsack",
+      "template": "builtin:knapsack"
+    },
+    {
+      "id": "fenwick",
+      "title": "树状数组",
+      "level": 2,
+      "order": 15,
+      "tags": [
+        "树状数组"
+      ],
+      "prerequisites": [
+        "prefix-difference"
+      ],
+      "lectures": [
+        "lecture:foundation-fenwick"
+      ],
+      "course": "fenwick",
+      "template": "builtin:fenwick"
+    },
+    {
+      "id": "segment-tree",
+      "title": "线段树",
+      "level": 2,
+      "order": 16,
+      "tags": [
+        "线段树"
+      ],
+      "prerequisites": [
+        "prefix-difference",
+        "recursion"
+      ],
+      "lectures": [
+        "lecture:foundation-segment-tree"
+      ],
+      "course": "segment-tree",
+      "template": "builtin:segment-tree"
+    },
+    {
+      "id": "dijkstra",
+      "title": "Dijkstra 最短路",
+      "level": 2,
+      "order": 17,
+      "tags": [
+        "最短路"
+      ],
+      "prerequisites": [
+        "bfs",
+        "sorting-basics"
+      ],
+      "lectures": [
+        "lecture:foundation-shortest-path"
+      ],
+      "course": "dijkstra",
+      "template": "builtin:dijkstra"
+    },
+    {
+      "id": "trie",
+      "title": "字典树",
+      "level": 2,
+      "order": 18,
+      "tags": [
+        "字典树"
+      ],
+      "prerequisites": [
+        "strings"
+      ],
+      "lectures": [
+        "lecture:foundation-trie"
+      ],
+      "course": "trie",
+      "template": "builtin:trie"
+    },
+    {
+      "id": "binary-lifting",
+      "title": "倍增",
+      "level": 2,
+      "order": 19,
+      "tags": [
+        "倍增"
+      ],
+      "prerequisites": [
+        "arrays"
+      ],
+      "lectures": [
+        "lecture:foundation-binary-lifting"
+      ],
+      "course": "binary-lifting",
+      "template": "builtin:binary-lifting"
+    },
+    {
+      "id": "dinic",
+      "title": "最大流与最小割",
+      "level": 3,
+      "order": 20,
+      "tags": [
+        "最大流",
+        "最小割"
+      ],
+      "prerequisites": [
+        "bfs",
+        "dijkstra"
+      ],
+      "lectures": [
+        "lecture:foundation-max-flow"
+      ],
+      "course": "dinic",
+      "template": "builtin:dinic"
+    },
+    {
+      "id": "li-chao",
+      "title": "Li Chao 树",
+      "level": 3,
+      "order": 21,
+      "tags": [
+        "Li Chao 树"
+      ],
+      "prerequisites": [
+        "segment-tree"
+      ],
+      "lectures": [
+        "lecture:foundation-li-chao"
+      ],
+      "course": "li-chao",
+      "template": "builtin:li-chao"
+    }
+  ],
+  "courses": {
+    "dsu": {
+      "first": "0",
+      "chapters": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "problems": [
+        {
+          "pid": "217A",
+          "url": "https://codeforces.com/contest/217/problem/A"
+        },
+        {
+          "pid": "277A",
+          "url": "https://codeforces.com/contest/277/problem/A"
+        },
+        {
+          "pid": "1167C",
+          "url": "https://codeforces.com/contest/1167/problem/C"
+        },
+        {
+          "pid": "722C",
+          "url": "https://codeforces.com/contest/722/problem/C"
+        },
+        {
+          "pid": "25D",
+          "url": "https://codeforces.com/contest/25/problem/D"
+        }
+      ]
+    },
+    "fenwick": {
+      "first": "0",
+      "chapters": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "problems": []
+    },
+    "segment-tree": {
+      "first": "0",
+      "chapters": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "problems": []
+    },
+    "trie": {
+      "first": "0",
+      "chapters": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "problems": []
+    },
+    "binary-lifting": {
+      "first": "0",
+      "chapters": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "problems": []
+    },
+    "dinic": {
+      "first": "0",
+      "chapters": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "problems": []
+    },
+    "li-chao": {
+      "first": "0",
+      "chapters": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "problems": []
+    },
+    "linear-basis": {
+      "first": "0",
+      "chapters": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "problems": []
+    },
+    "bfs": {
+      "first": "0",
+      "chapters": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "problems": [
+        {
+          "pid": "520B",
+          "url": "https://codeforces.com/contest/520/problem/B"
+        },
+        {
+          "pid": "242C",
+          "url": "https://codeforces.com/contest/242/problem/C"
+        },
+        {
+          "pid": "601A",
+          "url": "https://codeforces.com/contest/601/problem/A"
+        },
+        {
+          "pid": "59E",
+          "url": "https://codeforces.com/contest/59/problem/E"
+        },
+        {
+          "pid": "796D",
+          "url": "https://codeforces.com/contest/796/problem/D"
+        }
+      ]
+    },
+    "dfs": {
+      "first": "0",
+      "chapters": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "problems": [
+        {
+          "pid": "115A",
+          "url": "https://codeforces.com/contest/115/problem/A"
+        },
+        {
+          "pid": "580C",
+          "url": "https://codeforces.com/contest/580/problem/C"
+        },
+        {
+          "pid": "377A",
+          "url": "https://codeforces.com/contest/377/problem/A"
+        },
+        {
+          "pid": "510B",
+          "url": "https://codeforces.com/contest/510/problem/B"
+        },
+        {
+          "pid": "1592C",
+          "url": "https://codeforces.com/contest/1592/problem/C"
+        }
+      ]
+    },
+    "dijkstra": {
+      "first": "0",
+      "chapters": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "problems": [
+        {
+          "pid": "20C",
+          "url": "https://codeforces.com/contest/20/problem/C"
+        },
+        {
+          "pid": "1076D",
+          "url": "https://codeforces.com/contest/1076/problem/D"
+        },
+        {
+          "pid": "545E",
+          "url": "https://codeforces.com/contest/545/problem/E"
+        },
+        {
+          "pid": "449B",
+          "url": "https://codeforces.com/contest/449/problem/B"
+        },
+        {
+          "pid": "938D",
+          "url": "https://codeforces.com/contest/938/problem/D"
+        }
+      ]
+    },
+    "sorting-basics": {
+      "first": "order",
+      "chapters": [
+        "order",
+        "bubble",
+        "insert",
+        "apply"
+      ],
+      "problems": [
+        {
+          "pid": "339A",
+          "url": "https://codeforces.com/problemset/problem/339/A"
+        },
+        {
+          "pid": "405A",
+          "url": "https://codeforces.com/problemset/problem/405/A"
+        },
+        {
+          "pid": "160A",
+          "url": "https://codeforces.com/problemset/problem/160/A"
+        },
+        {
+          "pid": "977C",
+          "url": "https://codeforces.com/problemset/problem/977/C"
+        },
+        {
+          "pid": "451B",
+          "url": "https://codeforces.com/problemset/problem/451/B"
+        }
+      ]
+    },
+    "divide-sort": {
+      "first": "split",
+      "chapters": [
+        "split",
+        "merge",
+        "inversions",
+        "partition",
+        "random",
+        "transfer"
+      ],
+      "problems": [
+        {
+          "pid": "1490D",
+          "url": "https://codeforces.com/problemset/problem/1490/D"
+        },
+        {
+          "pid": "768B",
+          "url": "https://codeforces.com/problemset/problem/768/B"
+        },
+        {
+          "pid": "559B",
+          "url": "https://codeforces.com/problemset/problem/559/B"
+        },
+        {
+          "pid": "448C",
+          "url": "https://codeforces.com/problemset/problem/448/C"
+        },
+        {
+          "pid": "873D",
+          "url": "https://codeforces.com/problemset/problem/873/D"
+        }
+      ]
+    },
+    "bucket-sort": {
+      "first": "keys",
+      "chapters": [
+        "keys",
+        "counting",
+        "bucket",
+        "compress",
+        "radix",
+        "summary"
+      ],
+      "problems": [
+        {
+          "pid": "43A",
+          "url": "https://codeforces.com/problemset/problem/43/A"
+        },
+        {
+          "pid": "4C",
+          "url": "https://codeforces.com/problemset/problem/4/C"
+        },
+        {
+          "pid": "1520D",
+          "url": "https://codeforces.com/problemset/problem/1520/D"
+        },
+        {
+          "pid": "1742D",
+          "url": "https://codeforces.com/problemset/problem/1742/D"
+        },
+        {
+          "pid": "1399C",
+          "url": "https://codeforces.com/problemset/problem/1399/C"
+        }
+      ]
+    },
+    "prefix-difference": {
+      "first": "sum",
+      "chapters": [
+        "sum",
+        "inverse",
+        "events",
+        "plane",
+        "choose",
+        "code",
+        "debug"
+      ],
+      "problems": [
+        {
+          "pid": "363B",
+          "url": "https://codeforces.com/problemset/problem/363/B"
+        },
+        {
+          "pid": "433B",
+          "url": "https://codeforces.com/problemset/problem/433/B"
+        },
+        {
+          "pid": "816B",
+          "url": "https://codeforces.com/problemset/problem/816/B"
+        },
+        {
+          "pid": "295A",
+          "url": "https://codeforces.com/problemset/problem/295/A"
+        },
+        {
+          "pid": "276C",
+          "url": "https://codeforces.com/problemset/problem/276/C"
+        }
+      ]
+    },
+    "two-pointers": {
+      "first": "pair",
+      "chapters": [
+        "pair",
+        "window",
+        "unique",
+        "compact",
+        "negative",
+        "code",
+        "transfer"
+      ],
+      "problems": [
+        {
+          "pid": "381A",
+          "url": "https://codeforces.com/problemset/problem/381/A"
+        },
+        {
+          "pid": "1538C",
+          "url": "https://codeforces.com/problemset/problem/1538/C"
+        },
+        {
+          "pid": "279B",
+          "url": "https://codeforces.com/problemset/problem/279/B"
+        },
+        {
+          "pid": "580B",
+          "url": "https://codeforces.com/problemset/problem/580/B"
+        },
+        {
+          "pid": "701C",
+          "url": "https://codeforces.com/problemset/problem/701/C"
+        }
+      ]
+    },
+    "knapsack": {
+      "first": "pack",
+      "chapters": [
+        "pack",
+        "state",
+        "trace",
+        "code",
+        "debug",
+        "transfer",
+        "practice"
+      ],
+      "problems": [
+        {
+          "pid": "P1048",
+          "url": ""
+        },
+        {
+          "pid": "P1049",
+          "url": ""
+        },
+        {
+          "pid": "P1060",
+          "url": ""
+        },
+        {
+          "pid": "P2392",
+          "url": ""
+        },
+        {
+          "pid": "P1507",
+          "url": ""
+        }
+      ]
+    }
+  }
+}

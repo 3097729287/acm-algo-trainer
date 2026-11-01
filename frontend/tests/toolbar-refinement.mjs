@@ -43,7 +43,7 @@ try{
  const style=await page.locator('.wb-pane-header :is(select,.initial-code-trigger,.wb-button),.wb-run-button').evaluateAll(nodes=>nodes.map(node=>({font:getComputedStyle(node).fontSize,bg:getComputedStyle(node).backgroundColor,height:node.getBoundingClientRect().height})));
  assert.equal(new Set(style.map(item=>item.font)).size,1,JSON.stringify(style));
  assert.equal(new Set(style.map(item=>item.bg)).size,1,JSON.stringify(style));
- assert(style.every(item=>item.height===30),JSON.stringify(style));
+ assert(style.slice(0,-1).every(item=>item.height===32)&&style.at(-1).height===30,JSON.stringify(style));
  const position=await page.locator('.code-editor-position').evaluate(node=>{const rect=node.getBoundingClientRect(),pane=node.parentElement.getBoundingClientRect(),style=getComputedStyle(node);return{text:node.textContent,bg:style.backgroundColor,border:style.borderWidth,left:rect.left-pane.left,bottom:rect.bottom,paneBottom:pane.bottom};});
  assert.match(position.text,/^Ln \d+, Col \d+$/);assert.equal(position.bg,'rgba(0, 0, 0, 0)');assert.equal(position.border,'0px');
  assert(Math.abs(position.bottom-position.paneBottom)<1&&position.left===6,JSON.stringify(position));
