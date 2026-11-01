@@ -1,0 +1,41 @@
+{
+  "attachments": {},
+  "id": "remote:nowcoder:142559::C",
+  "images": {},
+  "integrity": {
+    "checkedAt": "2026-11-01T17:47:38.540668+00:00",
+    "pdfPageCountVerified": false,
+    "sampleCount": 2,
+    "schema": 1,
+    "sourceVerified": true,
+    "status": "complete"
+  },
+  "limits": {
+    "memoryMb": 256,
+    "timeMs": 1000
+  },
+  "localJudgeSupported": true,
+  "markdown": "# 小月的同余\n\n## 题目描述\n\n给定一个长为 $n$ 的数组 $a_1,a_2,\\dots,a_n$ 和一个正整数 $m$，请你统计有多少个位置 $i\\left(1\\leqq i\\leqq n\\right)$ 满足：$a_1+\\dots+a_i$ 和 $a_i+\\dots+a_n$ 在模 $m$ 意义下同余。\n\n \n\n## 输入描述:\n\n \n\n第一行输入两个整数 $n,m\\left(1\\leqq n\\leqq2\\times10^5,1\\leqq m\\leqq10^9\\right)$。\n第二行输入 $n$ 个整数 $a_1,a_2,\\dots,a_n\\left(-10^9\\leqq a_i\\leqq10^9\\right)$。\n\n \n\n## 输出描述:\n\n \n\n输出一个整数，代表合法位置数量。",
+  "problemType": "standard",
+  "resourceIssues": [],
+  "resourceManifest": {},
+  "samples": [
+    {
+      "explanation": "只有第 $3$ 个位置的前缀和与后缀和都同余于 $0$。",
+      "input": "3 3\n1 2 3",
+      "name": "样例 1",
+      "output": "1"
+    },
+    {
+      "explanation": "唯一位置的两个和相同。",
+      "input": "1 7\n-5",
+      "name": "样例 2",
+      "output": "1"
+    }
+  ],
+  "sourceSnapshotSha256": "c97d204805891550a1a82dd1480ecb73264301042bbf54e80d53e0747b4477a0",
+  "statementAvailable": true,
+  "statementVersion": 7,
+  "title": "小月的同余",
+  "url": "https://ac.nowcoder.com/acm/contest/142559/C"
+}

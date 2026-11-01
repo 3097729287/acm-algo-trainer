@@ -1,0 +1,173 @@
+{
+  "passed": true,
+  "problems": 16,
+  "articles": 32,
+  "officialSamples": 31,
+  "boundaryCases": 64,
+  "randomChecks": 11100,
+  "boundedExhaustive": [
+    {
+      "task": "week168 G prefix feasibility",
+      "cases": 102400,
+      "passed": true
+    },
+    {
+      "task": "week168 F all thresholds n=2..5",
+      "cases": 8474,
+      "passed": true
+    }
+  ],
+  "articleFrames": 96,
+  "foundationFlows": 32,
+  "imageZoomFlows": 21,
+  "statementFrames": 21,
+  "sourceDocumentChecks": 32,
+  "formatManuscripts": 6,
+  "officialSubmissionsSent": 0,
+  "tasks": [
+    {
+      "contest": "周赛 168",
+      "letter": "B",
+      "samples": 2,
+      "edges": 3,
+      "randomChecks": 300,
+      "programSha256": "992e88298d6a71ca8df5f729325fcba364a2aa4d96bf31cb953b8613c81b6c3a",
+      "timingPassed": true
+    },
+    {
+      "contest": "周赛 168",
+      "letter": "C",
+      "samples": 2,
+      "edges": 3,
+      "randomChecks": 300,
+      "programSha256": "f8d595fa5c6f619fd97c83125e78cf92debbaf5e6a609cf934f98f28abcfeadf",
+      "timingPassed": true
+    },
+    {
+      "contest": "周赛 168",
+      "letter": "D",
+      "samples": 2,
+      "edges": 3,
+      "randomChecks": 1000,
+      "programSha256": "981cf1ba3e9d6792867d4da029df9efc62e7b14e181140215f80827bff7f3465",
+      "timingPassed": true
+    },
+    {
+      "contest": "周赛 168",
+      "letter": "E",
+      "samples": 2,
+      "edges": 5,
+      "randomChecks": 1000,
+      "programSha256": "032c188a04a0b55142eb987d17e1e0f4455a1d36493cadcc23873eb631b7fe23",
+      "timingPassed": true
+    },
+    {
+      "contest": "周赛 168",
+      "letter": "F",
+      "samples": 3,
+      "edges": 4,
+      "randomChecks": 1000,
+      "programSha256": "6c5c9be1b4deed3281530f5b61bd969049ce5c6f35bede627a2af6412f6ee429",
+      "timingPassed": true
+    },
+    {
+      "contest": "周赛 168",
+      "letter": "G",
+      "samples": 2,
+      "edges": 5,
+      "randomChecks": 1000,
+      "programSha256": "d2326420d532580d70d70e1495dd4efd6b0697264703bd27a71fce312fb9e5ea",
+      "timingPassed": true
+    },
+    {
+      "contest": "ABC 482",
+      "letter": "B",
+      "samples": 3,
+      "edges": 3,
+      "randomChecks": 300,
+      "programSha256": "8e226f27abad709c15afedf88252dc7392d97f198531d70290ad100b44dd7b91",
+      "timingPassed": true
+    },
+    {
+      "contest": "ABC 482",
+      "letter": "C",
+      "samples": 2,
+      "edges": 2,
+      "randomChecks": 300,
+      "programSha256": "36061525b068d0e81d077f2ff9a41af1fc2d11dbc5432cd5fd8005d45e21ba31",
+      "timingPassed": true
+    },
+    {
+      "contest": "ABC 482",
+      "letter": "D",
+      "samples": 2,
+      "edges": 4,
+      "randomChecks": 300,
+      "programSha256": "3fdb0d5c879d6d211924e73acda7a1d127a1e268ed1515d1a4cc015db8834012",
+      "timingPassed": true
+    },
+    {
+      "contest": "ABC 482",
+      "letter": "E",
+      "samples": 3,
+      "edges": 5,
+      "randomChecks": 1000,
+      "programSha256": "ca64c84f21852f3ef7316e4d929d1d9ccdbeab0a1876b5f7cc98d8301a5053e5",
+      "timingPassed": true
+    },
+    {
+      "contest": "ABC 482",
+      "letter": "F",
+      "samples": 3,
+      "edges": 4,
+      "randomChecks": 1000,
+      "programSha256": "85b198d8a62511680d6a8282d80f38633bc6fae9a0f63269b563d7e37bfebfe1",
+      "timingPassed": true
+    },
+    {
+      "contest": "小白月赛 139",
+      "letter": "B",
+      "samples": 1,
+      "edges": 3,
+      "randomChecks": 300,
+      "programSha256": "82f343c1a7b99159062343bbd910bcac029aa9405d379db49f492818c1f908b6",
+      "timingPassed": true
+    },
+    {
+      "contest": "小白月赛 139",
+      "letter": "C",
+      "samples": 1,
+      "edges": 5,
+      "randomChecks": 1000,
+      "programSha256": "3b75e7ce779fcb26d87f37d86fd4d3db479eb9476c8aec563f44ca65d3d9a672",
+      "timingPassed": true
+    },
+    {
+      "contest": "小白月赛 139",
+      "letter": "D",
+      "samples": 1,
+      "edges": 5,
+      "randomChecks": 300,
+      "programSha256": "4d19998a3414d21dfdfe27003443bb0560936de7faa78b0179f8de866628b121",
+      "timingPassed": true
+    },
+    {
+      "contest": "小白月赛 139",
+      "letter": "E",
+      "samples": 1,
+      "edges": 5,
+      "randomChecks": 1000,
+      "programSha256": "3b52437c20d43c979aadba8c4563cc0439b021524b0309c0244d2364e005841b",
+      "timingPassed": true
+    },
+    {
+      "contest": "小白月赛 139",
+      "letter": "F",
+      "samples": 1,
+      "edges": 5,
+      "randomChecks": 1000,
+      "programSha256": "87f257875e68d291598e1ca7f4d6493b3b78ebb4b62b3c41786a55031a4d15d1",
+      "timingPassed": true
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "kind": "third-party statistical estimate, not AtCoder official difficulty",
+  "models": {
+    "abc482_a": {
+      "difficulty": -995,
+      "discrimination": 0.004479398673070138,
+      "intercept": 6.160305300095791,
+      "irt_loglikelihood": -287.61232877581614,
+      "irt_users": 5297,
+      "is_experimental": false,
+      "slope": -0.0010283588357727388,
+      "variance": 1.0741327738845836
+    },
+    "abc482_b": {
+      "difficulty": -325,
+      "discrimination": 0.004479398673070138,
+      "intercept": 7.095343971796973,
+      "irt_loglikelihood": -1003.945817988211,
+      "irt_users": 5297,
+      "is_experimental": false,
+      "slope": -0.0010434615625654203,
+      "variance": 0.3594074520292623
+    },
+    "abc482_c": {
+      "difficulty": 486,
+      "discrimination": 0.004479398673070138,
+      "intercept": 7.9115702810015645,
+      "irt_loglikelihood": -2985.010523659428,
+      "irt_users": 6176,
+      "is_experimental": false,
+      "slope": -0.0010101240013806344,
+      "variance": 0.5385887315163214
+    },
+    "abc482_d": {
+      "difficulty": 766,
+      "discrimination": 0.004479398673070138,
+      "intercept": 8.008250033807828,
+      "irt_loglikelihood": -2702.000902435564,
+      "irt_users": 6176,
+      "is_experimental": false,
+      "slope": -0.0007250159171592187,
+      "variance": 0.3125201968714299
+    },
+    "abc482_e": {
+      "difficulty": 1531,
+      "discrimination": 0.004479398673070138,
+      "intercept": 8.022137109732558,
+      "irt_loglikelihood": -1459.6334129410936,
+      "irt_users": 6176,
+      "is_experimental": false,
+      "slope": -0.00021514245123551549,
+      "variance": 0.3268943484692196
+    },
+    "abc482_f": {
+      "difficulty": 2277,
+      "discrimination": 0.004479398673070138,
+      "irt_loglikelihood": -393.26208801896587,
+      "irt_users": 6176,
+      "is_experimental": false
+    },
+    "abc482_g": {
+      "difficulty": 2741,
+      "discrimination": 0.004479398673070138,
+      "intercept": 7.272083386346036,
+      "irt_loglikelihood": -130.4608970357322,
+      "irt_users": 6176,
+      "is_experimental": false,
+      "slope": -3.431602399592879e-05,
+      "variance": 0.3637114702129404
+    }
+  },
+  "retrievedAt": "2026-11-01T17:47:15.379755+00:00",
+  "url": "https://kenkoooo.com/atcoder/resources/problem-models.json"
+}

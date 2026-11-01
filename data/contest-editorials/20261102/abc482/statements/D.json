@@ -1,0 +1,50 @@
+{
+  "attachments": {},
+  "id": "remote:atcoder:abc482::D",
+  "images": {},
+  "integrity": {
+    "checkedAt": "2026-11-01T17:47:38.567930+00:00",
+    "pdfPageCountVerified": false,
+    "sampleCount": 2,
+    "schema": 1,
+    "sourceVerified": true,
+    "status": "complete"
+  },
+  "limits": {
+    "memoryMb": 1024,
+    "timeMs": 2000
+  },
+  "localJudgeSupported": true,
+  "markdown": "# Wannabe Zombie\n\nScore : $400$ points\n\n### Problem Statement\n\nThere are $N$ people, numbered $1$ to $N$, standing on a number line.\nPerson $i$ is standing at coordinate $X_i$. Here, $X_i$ is even for $i=1,2,\\dots,N$, and $X_1 < X_2 < \\cdots < X_N$ holds.\n\nFor each $k=1,2,\\dots,N$, solve the following problem.\n\nAt time $0$, person $k$ becomes a zombie. Everyone other than person $k$ remains human.\nFrom time $0$ onward, humans and zombies can move freely on the number line at a speed of at most $1$ per unit time.\nWhen a zombie and a human are at the same coordinate, that human becomes a zombie.\nFind the minimum possible time at which everyone has become a zombie.\n\nIt can be proved that the answer is an integer under the constraints of this problem.\n\n### Constraints\n\n- $1 \\leq N \\leq 2 \\times 10^5$\n\n- $0 \\leq X_1 < X_2 < \\cdots < X_N \\leq 10^9$\n\n- $X_i$ is even.\n\n- All input values are integers.\n\n### Input\n\nThe input is given from Standard Input in the following format:\n\n```input-format\n$N$\n$X_1$ $X_2$ $\\dots$ $X_N$\n```\n\n### Output\n\nPrint $N$ lines. The $i$-th line $(1 \\leq i \\leq N)$ should contain the answer to the problem for $k=i$.\n\n### Sample Input 1\n\n```text\n5\n2 4 10 14 18\n```\n\n### Sample Output 1\n\n```text\n8\n7\n6\n6\n8\n```\n\nFor $k=1$, if person $1$ moves in the positive direction of the number line at speed $1$ and persons $2,3,4,5$ move in the negative direction at speed $1$, everyone will have become a zombie by time $8$.\n\nFor $k=2$, if each person moves as follows, everyone will have become a zombie by time $7$.\n\n- Person $1$: Moves in the positive direction at speed $1$.\n\n- Person $2$: Moves in the positive direction at speed $1$ until time $3$, and in the negative direction at speed $1$ from time $3$ onward.\n\n- Person $3$: Moves in the negative direction at speed $1$ until time $3$, and in the positive direction at speed $1$ from time $3$ onward.\n\n- Person $4$: Moves in the negative direction at speed $1$.\n\n- Person $5$: Moves in the negative direction at speed $1$.\n\n### Sample Input 2\n\n```text\n9\n140322306 171833796 356303608 595703832 701965684 798563428 857902324 933683272 971602066\n```\n\n### Sample Output 2\n\n```text\n415639880\n399884135\n307649229\n280821689\n280821689\n329120561\n358790009\n396680483\n415639880\n```",
+  "problemType": "standard",
+  "resourceIssues": [],
+  "resourceManifest": {},
+  "samples": [
+    {
+      "explanation": "For $k=1$, if person $1$ moves in the positive direction of the number line at speed $1$ and persons $2,3,4,5$ move in the negative direction at speed $1$, everyone will have become a zombie by time $8$.\n\nFor $k=2$, if each person moves as follows, everyone will have become a zombie by time $7$.\n\n- Person $1$: Moves in the positive direction at speed $1$.\n\n- Person $2$: Moves in the positive direction at speed $1$ until time $3$, and in the negative direction at speed $1$ from time $3$ onward.\n\n- Person $3$: Moves in the negative direction at speed $1$ until time $3$, and in the positive direction at speed $1$ from time $3$ onward.\n\n- Person $4$: Moves in the negative direction at speed $1$.\n\n- Person $5$: Moves in the negative direction at speed $1$.",
+      "input": "5\n2 4 10 14 18",
+      "name": "样例 1",
+      "output": "8\n7\n6\n6\n8"
+    },
+    {
+      "input": "9\n140322306 171833796 356303608 595703832 701965684 798563428 857902324 933683272 971602066",
+      "name": "样例 2",
+      "output": "415639880\n399884135\n307649229\n280821689\n280821689\n329120561\n358790009\n396680483\n415639880"
+    }
+  ],
+  "sourceSnapshotSha256": "b5ad688094d48483bc21eefa1455ce6a9e23225502255a367482e70f9833b19d",
+  "statementAvailable": true,
+  "statementVersion": 7,
+  "title": "Wannabe Zombie",
+  "translation": {
+    "format": "complete-prose-v4",
+    "kind": "bundled",
+    "markdown": "# Wannabe Zombie\n\n分值：$400$ 分\n\n### 题目描述\n\n数轴上站着 $N$ 个人，编号从 $1$ 到 $N$。\n第 $i$ 个人站在坐标 $X_i$。对 $i=1,2,\\dots,N$，$X_i$ 均为偶数，并且满足 $X_1 < X_2 < \\cdots < X_N$。\n\n对每个 $k=1,2,\\dots,N$，分别解决以下问题。\n\n在时刻 $0$，第 $k$ 个人变为感染者，除第 $k$ 个人外的所有人仍为普通人。\n从时刻 $0$ 开始，普通人和感染者均可以在数轴上自由移动，每单位时间速度不超过 $1$。\n当感染者与普通人处于同一坐标时，该普通人也变为感染者。\n求所有人均变为感染者的最早可能时刻。\n\n可以证明，在本题约束下答案为整数。\n\n### 数据范围\n\n- $1 \\leq N \\leq 2 \\times 10^5$\n\n- $0 \\leq X_1 < X_2 < \\cdots < X_N \\leq 10^9$\n\n- $X_i$ 为偶数。\n\n- 所有输入值均为整数。\n\n### 输入格式\n\n输入从标准输入按以下格式给出：\n\n```input-format\n$N$\n$X_1$ $X_2$ $\\dots$ $X_N$\n```\n\n### 输出格式\n\n输出 $N$ 行。第 $i$ 行 $(1 \\leq i \\leq N)$ 输出初始感染者为 $k=i$ 时的答案。\n\n### 样例输入 1\n\n```text\n5\n2 4 10 14 18\n```\n\n### 样例输出 1\n\n```text\n8\n7\n6\n6\n8\n```\n\n对于 $k=1$，若第 $1$ 个人以速度 $1$ 向数轴正方向移动，第 $2,3,4,5$ 个人以速度 $1$ 向负方向移动，则到时刻 $8$ 所有人都已感染。\n\n对于 $k=2$，若每个人按以下方式移动，则到时刻 $7$ 所有人都已感染。\n\n- 第 $1$ 个人：以速度 $1$ 向正方向移动。\n\n- 第 $2$ 个人：到时刻 $3$ 为止以速度 $1$ 向正方向移动，从时刻 $3$ 起以速度 $1$ 向负方向移动。\n\n- 第 $3$ 个人：到时刻 $3$ 为止以速度 $1$ 向负方向移动，从时刻 $3$ 起以速度 $1$ 向正方向移动。\n\n- 第 $4$ 个人：以速度 $1$ 向负方向移动。\n\n- 第 $5$ 个人：以速度 $1$ 向负方向移动。\n\n### 样例输入 2\n\n```text\n9\n140322306 171833796 356303608 595703832 701965684 798563428 857902324 933683272 971602066\n```\n\n### 样例输出 2\n\n```text\n415639880\n399884135\n307649229\n280821689\n280821689\n329120561\n358790009\n396680483\n415639880\n```",
+    "notice": "中文译文；公式、数值、输入输出与样例保留原题。",
+    "provider": "ToBe 中文题面复核",
+    "sourceHash": "0c7e7eb0cf33b8cbb600aa87d4b3115f31aa05b5795a5aa27adde2105e46114d",
+    "sourceLanguage": "en",
+    "targetLanguage": "zh-CN"
+  },
+  "url": "https://atcoder.jp/contests/abc482/tasks/abc482_d"
+}

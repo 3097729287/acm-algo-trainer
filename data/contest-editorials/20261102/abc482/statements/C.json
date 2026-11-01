@@ -1,0 +1,50 @@
+{
+  "attachments": {},
+  "id": "remote:atcoder:abc482::C",
+  "images": {},
+  "integrity": {
+    "checkedAt": "2026-11-01T17:47:38.563741+00:00",
+    "pdfPageCountVerified": false,
+    "sampleCount": 2,
+    "schema": 1,
+    "sourceVerified": true,
+    "status": "complete"
+  },
+  "limits": {
+    "memoryMb": 1024,
+    "timeMs": 2000
+  },
+  "localJudgeSupported": true,
+  "markdown": "# Band Count\n\nScore : $300$ points\n\n### Problem Statement\n\nThere is a grid with $H$ rows and $W$ columns. Let $(i,j)$ denote the cell at the $i$-th row from the top and the $j$-th column from the left.\nThere are $N$ pieces placed on the grid, and the $i$-th piece is at $(R_i, C_i)$.\nAnswer $Q$ queries. Each query is of one of the following $2$ types.\n\n- `1 u d`: Print the number of pieces placed in rows $u$ through $d$.\n\n- `2 l r`: Print the number of pieces placed in columns $l$ through $r$.\n\n### Constraints\n\n- $1 \\leq H, W \\leq 10^9$\n\n- $1 \\leq N \\leq \\min(H \\times W, 3 \\times 10^5)$\n\n- $1 \\leq R_i \\leq H$\n\n- $1 \\leq C_i \\leq W$\n\n- $(R_i, C_i) \\neq (R_j, C_j)$ if $i \\neq j$.\n\n- $1 \\leq Q \\leq 3 \\times 10^5$\n\n- $1 \\leq u \\leq d \\leq H$\n\n- $1 \\leq l \\leq r \\leq W$\n\n- All input values are integers.\n\n### Input\n\nThe input is given from Standard Input in the following format:\n\n```input-format\n$H$ $W$ $N$ $Q$ \n$R_1$ $C_1$\n$R_2$ $C_2$\n$\\vdots$\n$R_N$ $C_N$\n$\\mathrm{query}_1$ \n$\\mathrm{query}_2$\n$\\vdots$\n$\\mathrm{query}_Q$\n```\n\nEach query $\\mathrm{query}_q$ is given in one of the following formats:\n\n```input-format\n$1$ $u$ $d$\n```\n\n```input-format\n$2$ $l$ $r$\n```\n\n### Output\n\nPrint $Q$ lines. The $i$-th line should contain the answer to the $i$-th query.\n\n### Sample Input 1\n\n```text\n5 7 5 6\n1 1\n2 3\n2 5\n4 3\n5 7\n1 2 4\n2 3 5\n1 3 3\n2 1 7\n1 2 2\n2 7 7\n```\n\n### Sample Output 1\n\n```text\n3\n3\n0\n5\n2\n1\n```\n\nFor the $1$-st query, the pieces in rows $2$ through $4$ are the $2$-nd, $3$-rd, and $4$-th pieces, for a total of $3$.\n\n### Sample Input 2\n\n```text\n17 23 12 12\n14 8\n2 19\n17 3\n7 11\n2 4\n10 19\n7 8\n1 23\n14 11\n2 23\n17 19\n7 2\n1 2 7\n2 9 20\n1 3 6\n2 8 8\n1 11 17\n2 1 23\n1 1 1\n2 20 22\n1 7 14\n2 3 11\n1 15 17\n2 19 23\n```\n\n### Sample Output 2\n\n```text\n6\n5\n0\n2\n4\n12\n1\n0\n6\n6\n2\n5\n```",
+  "problemType": "standard",
+  "resourceIssues": [],
+  "resourceManifest": {},
+  "samples": [
+    {
+      "explanation": "For the $1$-st query, the pieces in rows $2$ through $4$ are the $2$-nd, $3$-rd, and $4$-th pieces, for a total of $3$.",
+      "input": "5 7 5 6\n1 1\n2 3\n2 5\n4 3\n5 7\n1 2 4\n2 3 5\n1 3 3\n2 1 7\n1 2 2\n2 7 7",
+      "name": "样例 1",
+      "output": "3\n3\n0\n5\n2\n1"
+    },
+    {
+      "input": "17 23 12 12\n14 8\n2 19\n17 3\n7 11\n2 4\n10 19\n7 8\n1 23\n14 11\n2 23\n17 19\n7 2\n1 2 7\n2 9 20\n1 3 6\n2 8 8\n1 11 17\n2 1 23\n1 1 1\n2 20 22\n1 7 14\n2 3 11\n1 15 17\n2 19 23",
+      "name": "样例 2",
+      "output": "6\n5\n0\n2\n4\n12\n1\n0\n6\n6\n2\n5"
+    }
+  ],
+  "sourceSnapshotSha256": "86e1053ede2dcf7bb611f028de1bc77d88f3c5fdf6b915e20b67311236876f3a",
+  "statementAvailable": true,
+  "statementVersion": 7,
+  "title": "Band Count",
+  "translation": {
+    "format": "complete-prose-v4",
+    "kind": "bundled",
+    "markdown": "# Band Count\n\n分值：$300$ 分\n\n### 题目描述\n\n有一个 $H$ 行 $W$ 列的网格。以 $(i,j)$ 表示从上数第 $i$ 行、从左数第 $j$ 列的格子。\n网格上放有 $N$ 枚棋子，第 $i$ 枚棋子位于 $(R_i, C_i)$。\n回答 $Q$ 次查询，每次属于以下 $2$ 种类型之一。\n\n- `1 u d`：输出行号从 $u$ 到 $d$，包含两端的棋子数量。\n\n- `2 l r`：输出列号从 $l$ 到 $r$，包含两端的棋子数量。\n\n### 数据范围\n\n- $1 \\leq H, W \\leq 10^9$\n\n- $1 \\leq N \\leq \\min(H \\times W, 3 \\times 10^5)$\n\n- $1 \\leq R_i \\leq H$\n\n- $1 \\leq C_i \\leq W$\n\n- 若 $i \\neq j$，则 $(R_i, C_i) \\neq (R_j, C_j)$。\n\n- $1 \\leq Q \\leq 3 \\times 10^5$\n\n- $1 \\leq u \\leq d \\leq H$\n\n- $1 \\leq l \\leq r \\leq W$\n\n- 所有输入值均为整数。\n\n### 输入格式\n\n输入从标准输入按以下格式给出：\n\n```input-format\n$H$ $W$ $N$ $Q$ \n$R_1$ $C_1$\n$R_2$ $C_2$\n$\\vdots$\n$R_N$ $C_N$\n$\\mathrm{query}_1$ \n$\\mathrm{query}_2$\n$\\vdots$\n$\\mathrm{query}_Q$\n```\n\n每次查询 $\\mathrm{query}_q$ 按以下两种格式之一给出：\n\n```input-format\n$1$ $u$ $d$\n```\n\n```input-format\n$2$ $l$ $r$\n```\n\n### 输出格式\n\n输出 $Q$ 行，第 $i$ 行为第 $i$ 次查询的答案。\n\n### 样例输入 1\n\n```text\n5 7 5 6\n1 1\n2 3\n2 5\n4 3\n5 7\n1 2 4\n2 3 5\n1 3 3\n2 1 7\n1 2 2\n2 7 7\n```\n\n### 样例输出 1\n\n```text\n3\n3\n0\n5\n2\n1\n```\n\n对于第 $1$ 次查询，行号从 $2$ 到 $4$ 的棋子是第 $2$、第 $3$ 和第 $4$ 枚，共 $3$ 枚。\n\n### 样例输入 2\n\n```text\n17 23 12 12\n14 8\n2 19\n17 3\n7 11\n2 4\n10 19\n7 8\n1 23\n14 11\n2 23\n17 19\n7 2\n1 2 7\n2 9 20\n1 3 6\n2 8 8\n1 11 17\n2 1 23\n1 1 1\n2 20 22\n1 7 14\n2 3 11\n1 15 17\n2 19 23\n```\n\n### 样例输出 2\n\n```text\n6\n5\n0\n2\n4\n12\n1\n0\n6\n6\n2\n5\n```",
+    "notice": "中文译文；公式、数值、输入输出与样例保留原题。",
+    "provider": "ToBe 中文题面复核",
+    "sourceHash": "8ce00bab7fc27513b10577566148736342bed8ad758627d5c5d9ab25d7296747",
+    "sourceLanguage": "en",
+    "targetLanguage": "zh-CN"
+  },
+  "url": "https://atcoder.jp/contests/abc482/tasks/abc482_c"
+}

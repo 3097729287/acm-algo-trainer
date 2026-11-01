@@ -1,0 +1,56 @@
+{
+  "attachments": {},
+  "id": "remote:atcoder:abc482::B",
+  "images": {},
+  "integrity": {
+    "checkedAt": "2026-11-01T17:47:38.560645+00:00",
+    "pdfPageCountVerified": false,
+    "sampleCount": 3,
+    "schema": 1,
+    "sourceVerified": true,
+    "status": "complete"
+  },
+  "limits": {
+    "memoryMb": 1024,
+    "timeMs": 2000
+  },
+  "localJudgeSupported": true,
+  "markdown": "# Blank Bingo\n\nScore : $200$ points\n\n### Problem Statement\n\nThere is a $5\\times 5$ grid, and some of the cells are marked.\n\nThe current state of the grid is given by strings $S_1,S_2,S_3,S_4,S_5$ of length $5$ consisting of `o` and `.`.\nThe cell at the $i$-th row from the top and the $j$-th column from the left is marked if the $j$-th character of $S_i$ is `o`, and unmarked if it is `.`.\n\nFind the minimum number of additional marks needed to achieve a bingo.\n\nHere, achieving a bingo means that there exist $5$ cells lined up in a single vertical, horizontal, or diagonal line, all of which are marked.\n\n### Constraints\n\n- Each of $S_1,S_2,S_3,S_4,S_5$ is a string of length $5$ consisting of `o` and `.`.\n\n### Input\n\nThe input is given from Standard Input in the following format:\n\n```input-format\n$S_1$\n$S_2$\n$S_3$\n$S_4$\n$S_5$\n```\n\n### Output\n\nPrint the answer.\n\n### Sample Input 1\n\n```text\n.o..o\n..oo.\n.o..o\no.o..\no..oo\n```\n\n### Sample Output 1\n\n```text\n2\n```\n\nFor example, you can achieve a bingo by marking the $2$ cells in the $5$-th row from the top and the $2$-nd and $3$-rd columns from the left.\n\n### Sample Input 2\n\n```text\no..oo\n...o.\no.ooo\noo.o.\n.o.oo\n```\n\n### Sample Output 2\n\n```text\n0\n```\n\nIf a bingo is already achieved, no additional marks are needed, so the answer is $0$.\n\n### Sample Input 3\n\n```text\no..o.\n.o...\n..o.o\n..o..\no...o\n```\n\n### Sample Output 3\n\n```text\n1\n```",
+  "problemType": "standard",
+  "resourceIssues": [],
+  "resourceManifest": {},
+  "samples": [
+    {
+      "explanation": "For example, you can achieve a bingo by marking the $2$ cells in the $5$-th row from the top and the $2$-nd and $3$-rd columns from the left.",
+      "input": ".o..o\n..oo.\n.o..o\no.o..\no..oo",
+      "name": "样例 1",
+      "output": "2"
+    },
+    {
+      "explanation": "If a bingo is already achieved, no additional marks are needed, so the answer is $0$.",
+      "input": "o..oo\n...o.\no.ooo\noo.o.\n.o.oo",
+      "name": "样例 2",
+      "output": "0"
+    },
+    {
+      "input": "o..o.\n.o...\n..o.o\n..o..\no...o",
+      "name": "样例 3",
+      "output": "1"
+    }
+  ],
+  "sourceSnapshotSha256": "924300338622456ebb70ca99640f17fa4a16f2753c434b3b5bcf5abd0c65e78e",
+  "statementAvailable": true,
+  "statementVersion": 7,
+  "title": "Blank Bingo",
+  "translation": {
+    "format": "complete-prose-v4",
+    "kind": "bundled",
+    "markdown": "# Blank Bingo\n\n分值：$200$ 分\n\n### 题目描述\n\n有一个 $5\\times 5$ 的网格，其中一些格子已经被标记。\n\n网格的当前状态由五个长度为 $5$、仅含 `o` 和 `.` 的字符串 $S_1,S_2,S_3,S_4,S_5$ 给出。\n从上数第 $i$ 行、从左数第 $j$ 列的格子，当 $S_i$ 的第 $j$ 个字符为 `o` 时已经标记，为 `.` 时尚未标记。\n\n求最少还要标记多少个格子，才能达成 Bingo。\n\n达成 Bingo 指存在沿竖直、水平或对角方向连续排成一条线的 $5$ 个格子，且全部已经标记。\n\n### 数据范围\n\n- $S_1,S_2,S_3,S_4,S_5$ 均为长度 $5$、仅含 `o` 和 `.` 的字符串。\n\n### 输入格式\n\n输入从标准输入按以下格式给出：\n\n```input-format\n$S_1$\n$S_2$\n$S_3$\n$S_4$\n$S_5$\n```\n\n### 输出格式\n\n输出答案。\n\n### 样例输入 1\n\n```text\n.o..o\n..oo.\n.o..o\no.o..\no..oo\n```\n\n### 样例输出 1\n\n```text\n2\n```\n\n例如，可以标记从上数第 $5$ 行、从左数第 $2$ 列和第 $3$ 列的 $2$ 个格子，以达成 Bingo。\n\n### 样例输入 2\n\n```text\no..oo\n...o.\no.ooo\noo.o.\n.o.oo\n```\n\n### 样例输出 2\n\n```text\n0\n```\n\n如果已经达成 Bingo，就无须增加标记，答案为 $0$。\n\n### 样例输入 3\n\n```text\no..o.\n.o...\n..o.o\n..o..\no...o\n```\n\n### 样例输出 3\n\n```text\n1\n```",
+    "notice": "中文译文；公式、数值、输入输出与样例保留原题。",
+    "provider": "ToBe 中文题面复核",
+    "sourceHash": "6b03f2356cbf7d7d405819f621c8b56a7957f05d494c3602b884ca917b89ff8b",
+    "sourceLanguage": "en",
+    "targetLanguage": "zh-CN"
+  },
+  "url": "https://atcoder.jp/contests/abc482/tasks/abc482_b"
+}
