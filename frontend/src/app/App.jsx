@@ -1644,7 +1644,7 @@ export default function App() {
         return;
       }
       if (e.key === "Escape") {
-        if (page==='settings' && settingsTab!=='home') {e.preventDefault();setSettingsTab('home');return;}
+        if (page==='settings' && settingsTab!=='home') {e.preventDefault();const back=document.querySelector('.settings-return-button');if(back)back.click();else setSettingsTab('home');return;}
         if (page==='settings') {e.preventDefault();go(lastWorkspacePage.current);return;}
 
         if (readerId) {

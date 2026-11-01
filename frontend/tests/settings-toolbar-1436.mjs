@@ -1,0 +1,53 @@
+import assert from 'node:assert/strict';
+import {createServer} from 'vite';
+import {chromium} from 'playwright';
+import {mkdir} from 'node:fs/promises';
+
+const server=await createServer({server:{host:'127.0.0.1',port:0}});await server.listen();
+const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
+const page=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];
+page.on('pageerror',error=>errors.push(error.message));
+const base=`http://127.0.0.1:${server.httpServer.address().port}`;
+const out='../.backups/feedback-1436/settings-toolbar';await mkdir(out,{recursive:true});
+try{
+ await page.goto(base+'/tests/interaction-1433.html');await page.evaluate(()=>fixture.screen('training'));
+ await page.getByRole('button',{name:'全局',exact:true}).click();
+ await page.getByLabel('快捷键 命令面板',{exact:true}).waitFor();
+ assert.equal(await page.getByRole('heading',{name:'全局',exact:true}).count(),0);
+ assert.equal(await page.locator('.settings-category-heading').count(),0);
+ await page.getByRole('button',{name:'返回快捷键板块',exact:true}).click();
+ await page.getByRole('button',{name:'全局',exact:true}).waitFor();
+ await page.getByRole('button',{name:'返回设置首页',exact:true}).click();
+ await page.getByRole('tab',{name:'快捷键',exact:true}).waitFor({state:'visible'});
+ await page.getByRole('tab',{name:'快捷键',exact:true}).click();
+ await page.getByRole('button',{name:'全局',exact:true}).waitFor();
+ await page.evaluate(()=>fixture.screen('code-theme'));
+ const font=page.getByRole('spinbutton',{name:'代码预览字号',exact:true});await font.waitFor();
+ const metrics=await font.evaluate(node=>{const box=node.getBoundingClientRect(),header=node.closest('header').getBoundingClientRect(),unit=node.nextElementSibling.getBoundingClientRect();return {left:box.left-header.left,right:unit.right-header.left,border:getComputedStyle(node).borderWidth,unit:node.nextElementSibling.textContent,gap:unit.left-box.right};});
+ assert(metrics.left>50&&metrics.right<300,JSON.stringify(metrics));assert.equal(metrics.border,'0px');assert.equal(metrics.unit,'px');assert(metrics.gap>=0&&metrics.gap<=3);
+ const previous=Number(await font.inputValue());await font.hover();await page.mouse.wheel(0,-100);
+ await page.waitForFunction(size=>Number(document.querySelector('[aria-label="代码预览字号"]').value)===size,previous+1);
+ await page.screenshot({path:out+'/theme-font.png'});
+ await page.getByRole('button',{name:'返回外观',exact:true}).click();
+ assert.equal(await page.locator('.editor-theme-settings').count(),0);
+ await page.getByRole('button',{name:'返回设置首页',exact:true}).click();await page.getByRole('tab',{name:'外观',exact:true}).waitFor({state:'visible'});
+
+ await page.addInitScript(()=>{window.initialCodeFixture={selection:{cpp17:'default',python3:'default'},revisions:{cpp17:'r1',python3:'r1'},templates:[{id:'default',title:'默认',builtin:true,language:'cpp17',code:'int main() { return 0; }'},{id:'own',title:'比赛模板',revision:'r1',language:'cpp17',code:'// retained selected template\nint main() { return 7; }'},{id:'default',title:'默认',builtin:true,language:'python3',code:'print(0)'}]};});
+ await page.goto(base+'/tests/workbench-fixture.html');await page.addStyleTag({url:base+'/src/styles/interaction.css'});
+ const editor=page.getByRole('textbox',{name:'C++ 代码',exact:true});await editor.waitFor();
+ const template=page.getByRole('combobox',{name:'选择初始代码模板',exact:true});await template.click();
+ const choices=page.getByRole('listbox',{name:'选择初始代码模板',exact:true});await choices.waitFor();
+ assert.equal(await page.getByRole('dialog',{name:'选择初始代码模板',exact:true}).count(),0);
+ await choices.getByRole('option',{name:'比赛模板',exact:true}).click();
+ await page.waitForFunction(()=>workbenchFixture.readCode().includes('return 7'));
+ assert.equal(await template.inputValue(),'own');
+ await page.getByRole('button',{name:'撤销载入代码',exact:true}).click();
+ assert(!await editor.innerText().then(text=>text.includes('return 7')));
+ const language=page.getByRole('combobox',{name:'编程语言',exact:true});await language.click();
+ const popup=page.getByRole('listbox',{name:'编程语言',exact:true});await popup.waitFor();
+ const alignment=await popup.getByRole('option').first().evaluate(node=>{const trigger=document.querySelector('[aria-label="编程语言"]'),r=trigger.getBoundingClientRect(),style=getComputedStyle(trigger),span=node.querySelector('span').getBoundingClientRect(),option=node.getBoundingClientRect(),menu=node.closest('[role="listbox"]');return {textStart:span.left,triggerStart:r.left+parseFloat(style.borderLeftWidth)+parseFloat(style.paddingLeft),font:getComputedStyle(node).fontSize,triggerFont:style.fontSize,textCenter:span.top+span.height/2,optionCenter:option.top+option.height/2,triggerLeft:r.left,padding:style.paddingLeft,optionPadding:getComputedStyle(node).paddingLeft,indent:menu.style.getPropertyValue('--select-option-indent'),menuLeft:menu.getBoundingClientRect().left,menuPadding:getComputedStyle(menu).paddingLeft};});
+ assert(Math.abs(alignment.textStart-alignment.triggerStart)<=1.5,JSON.stringify(alignment));assert.equal(alignment.font,alignment.triggerFont);assert(Math.abs(alignment.textCenter-alignment.optionCenter)<=1,JSON.stringify(alignment));
+ await page.screenshot({path:out+'/language-template.png'});
+ assert.deepEqual(errors,[]);
+ console.log('PASS settings one-level Back, removed repeated category heading, left-aligned borderless preview font with px and wheel, direct template dropdown with real draft replacement/undo, language text alignment.');
+}finally{await browser.close();await server.close();}

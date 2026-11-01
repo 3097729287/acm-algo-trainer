@@ -17,7 +17,7 @@ from urllib.request import Request, build_opener, HTTPRedirectHandler, ProxyHand
 
 from persistence import load_document, save_document
 from version import VERSION
-from update_errors import UpdateBaseMismatch
+from update_errors import UpdateBaseMismatch, UpdateStorageError
 
 REPOSITORY = "3097729287/acm-algo-trainer"
 RELEASES = "https://github.com/" + REPOSITORY + "/releases"
@@ -148,24 +148,9 @@ def release_info(payload, current):
     return result
 
 
-def backup_databases(state, destination):
-    """Online SQLite backup includes committed WAL, never replaces live databases."""
-    destination.mkdir(parents=True, exist_ok=False)
-    for directory, children, names in os.walk(state, followlinks=False):
-        # Include other account workspaces and document caches, but never recurse
-        # into earlier backups (or the backup currently being created).
-        children[:] = [name for name in children if name not in {"backups", "backup"}
-                       and not (Path(directory) / name).is_symlink()]
-        for name in names:
-            source = Path(directory) / name
-            if not name.endswith(".sqlite3") or source.is_symlink():
-                continue
-            target = destination / source.relative_to(state)
-            target.parent.mkdir(parents=True, exist_ok=True)
-            with closing(sqlite3.connect(source.as_uri() + "?mode=ro", uri=True)) as src, closing(sqlite3.connect(target)) as dst:
-                src.backup(dst)
-                if dst.execute("PRAGMA integrity_check").fetchone()[0] != "ok":
-                    raise RuntimeError("个人数据库备份未通过校验，已停止更新")
+def backup_databases(state, destination, *, context=None):
+    from update_backups import backup
+    return backup(state,destination,context=context)
 
 
 class SoftwareUpdates:
@@ -239,7 +224,7 @@ class SoftwareUpdates:
             last_check = dt.datetime.now(dt.timezone.utc)
             while not self.stop.wait(60):
                 now = dt.datetime.now(dt.timezone.utc)
-                if self.status == "error" or self.auto_check and (now - last_check).total_seconds() >= 24 * 3600:
+                if self.error_code!='storage' and (self.status == "error" or self.auto_check and (now - last_check).total_seconds() >= 24 * 3600):
                     self.check()
                     last_check = now
         self._spawn(automatic)
@@ -347,7 +332,12 @@ class SoftwareUpdates:
                 if verified:
                     with self.lock:self.installer,self.status,self.downloaded=destination,'ready',release['size']
                     return
-            partial = destination.with_suffix(".download")
+            pending = destination.with_suffix(".download")
+            from update_backups import require_space
+            if len(list(directory.glob(pending.name+'.failed-*')))>=2:
+                raise UpdateStorageError('下载失败文件已达保留上限，原文件保留，更新已暂停')
+            require_space(directory,release['size'])
+            partial=pending
             digest = hashlib.sha256()
             size = 0
             with self._open(release["url"]) as response, partial.open("wb") as output:
@@ -360,6 +350,7 @@ class SoftwareUpdates:
                     size += len(block)
                     if size > release["size"]:
                         raise ValueError("更新包大小不匹配，已停止下载")
+                    require_space(directory,0)
                     digest.update(block)
                     output.write(block)
                     with self.lock:
@@ -377,17 +368,19 @@ class SoftwareUpdates:
                 except OSError:pass  # Keep the original when it cannot be moved.
             with self.lock:
                 self.status = "error"
+                if isinstance(error,UpdateStorageError):self.error_code='storage'
                 self.error = str(error) if isinstance(error, ValueError) else "安装包下载失败，请检查网络后重试"
 
-    def install(self):
+    def install(self, *, retry=False):
         from training import ServiceError
         with self.lock:
-            if self.status != "ready" or not self.installer or not self.launcher:
+            if not (self.status=="ready" or retry is True and self.status=="install-error") or not self.installer or not self.launcher:
                 raise ServiceError(409, "请先下载并校验安装包")
             self.error,self.error_code,self.deferred_reason='','',''
             if self.guard:
                 try:self.guard()
                 except ServiceError as error:
+                    self.status='ready'
                     self.error_code,self.deferred_reason='busy',str(error)
                     raise
             try:
@@ -399,7 +392,7 @@ class SoftwareUpdates:
                     raise ValueError("更新包校验失败，请重新下载")
                 if self.preparer:self.preparer(self.installer,self.release['sha256'],self.release['version'])
                 stamp = dt.datetime.now().strftime("%Y%m%d-%H%M%S-%f")
-                backup_databases(self.state_dir, self.state_dir / "backups" / ("before-update-" + stamp))
+                backup_databases(self.state_dir, self.state_dir / "backups" / ("before-update-" + stamp),context=self.current+':'+self.release['version']+':'+self.release['sha256'])
                 self.launcher(self.installer, self.release["sha256"], self.release["version"])
                 self.status = "installing"
             except UpdateBaseMismatch as error:
@@ -412,7 +405,7 @@ class SoftwareUpdates:
                 raise ServiceError(409,self.error) from error
             except Exception as error:
                 if self.status!='error':self.status='install-error'
-                self.error_code='verification' if self.status=='error' else 'prepare-failed'
+                self.error_code='storage' if isinstance(error,UpdateStorageError) else 'verification' if self.status=='error' else 'prepare-failed'
                 self.error=str(error) if isinstance(error,ValueError) else '更新准备失败，程序和个人数据已保留，请重试'
                 raise ServiceError(409,self.error) from error
         return self.snapshot()

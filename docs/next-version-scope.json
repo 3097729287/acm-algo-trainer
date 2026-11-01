@@ -1,5 +1,5 @@
 {
-  "status": "in development after domestic 1.4.34 publication",
+  "status": "four feature requests remain queued; 1.4.36 reliability and UI repair candidate takes priority",
   "requestedOn": "2026-11-01",
   "continuation": "用户已要求当前版本更新完成后先列出下一版内容与实施顺序，然后继续实施；不得提前并入当前版本。",
   "features": [
@@ -29,15 +29,22 @@
     }
   ],
   "currentDomesticStable": "1.4.34",
-  "nextVersion": "1.4.35",
+  "nextVersion": "after validated 1.4.36 repair delivery",
   "feedbackPriority": {
     "id": "nowcoder-live-statement",
-    "status": "in progress",
+    "status": "1.4.35 local implementation and fixtures passed; real provider result not claimed",
     "description": "匿名题单可读而题面要求报名时，在用户已有的原站登录态中只读题面；校验原站身份与当前账号，正文按账号保存，不写公共缓存。不自动报名或提交代码。"
   },
   "updateDelivery": {
     "default": "verified incremental update",
     "fallback": "verified full installer",
     "preservePersonalData": true
+  },
+  "currentRepair": {
+    "version": "1.4.36",
+    "status": "source prepared; native and installation validation pending recording completion",
+    "scope": "releases/1.4.36.md",
+    "automaticBackupBounds": true,
+    "defaultFutureDelivery": "verified incremental update"
   }
 }

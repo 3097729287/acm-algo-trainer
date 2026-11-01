@@ -10,6 +10,7 @@ style.textContent = `:root {font-family:"Segoe UI","Microsoft YaHei UI",sans-ser
 document.head.append(style);
 
 const fixture = window.workbenchFixture = {
+  initialCode: window.initialCodeFixture || null,
   drafts: {}, calls: [], submissions: [], progress: [], problemDelay: {}, draftDelay: 15,
   nextVerdict: 'SAMPLE_PASS', nextRunVerdict: 'SAMPLE_PASS', exitCount: 0, solutionCount: 0, nextCount: 0,
   officialStatus: 'needs_login', officialSessions: {}, translationError: '', translationDelay: 10,
@@ -24,6 +25,7 @@ fixture.readSelection = () => ({anchor:currentEditor().state.selection.main.anch
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 const key = body => `${body.contestId || 'solo'}:${body.id}`;
 const problem = id => ({
+  ...(fixture.initialCode?{initialCode:structuredClone(fixture.initialCode)}:{}),
   id, title: id === 'A' ? '两数之和' : id === 'B' ? '最长的路径' : '第三道题',
   markdown: '# Input and Output\n\nGiven two integers $a$ and $b$, output $a+b$.\n\n## Input\n\nOne line contains two integers.\n\n## Output\n\nPrint their sum.\n\n## Example\n\n```text\n1 2\n```\n',
   url: 'https://atcoder.jp/contests/abc001/tasks/abc001_1', samples: [{ name: '样例 1', input: '1 2\n', output: '3\n' }, { name: '样例 2', input: '4 5\n', output: '9\n' }],
@@ -33,6 +35,8 @@ const problem = id => ({
 async function api(path, body) {
   fixture.calls.push({ path, body, at: Date.now() });
   const url = new URL('http://fixture/' + path);
+  if(path==='initial-code'&&fixture.initialCode)return structuredClone(fixture.initialCode);
+  if(path==='initial-code/select'&&fixture.initialCode){fixture.initialCode.selection[body.language]=body.id;return structuredClone(fixture.initialCode);}
   if(path==='templates')return TEMPLATES;
   if (path === 'problem/translate') {
     await sleep(fixture.translationDelay);

@@ -42,7 +42,7 @@ export default function EditorThemeSettings({prefs,setPrefs}) {
   choose(EDITOR_THEMES[next].id);
  }
  return <section className="editor-theme-settings" aria-label="代码主题">
-  <header className="editor-theme-heading"><h2><Code2 size={19}/>代码主题</h2><BoundedNumber aria-label="代码预览字号" title="代码预览字号 · 滚轮调节" value={previewFont} min={12} max={28} required wheelStep onChange={event=>setPreviewFont(Number(event.target.value))}/></header>
+  <header className="editor-theme-heading"><h2><Code2 size={19}/>代码主题</h2><BoundedNumber aria-label="代码预览字号" title="代码预览字号 · 滚轮调节" unit="px" value={previewFont} min={12} max={28} required wheelStep onChange={event=>setPreviewFont(Number(event.target.value))}/></header>
   <div className="editor-theme-layout">
    <div className="editor-theme-options" role="listbox" aria-label="代码主题选择">
     {EDITOR_THEMES.map(theme=><button type="button" key={theme.id} role="option" tabIndex={selected===theme.id?0:-1} aria-selected={selected===theme.id} title={theme.name} onClick={()=>choose(theme.id)} onKeyDown={event=>navigate(event,theme)}>

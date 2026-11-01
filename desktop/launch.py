@@ -175,7 +175,7 @@ def configure_desktop_downloads() -> None:
 
 
 def bind_desktop_fullscreen(server, window) -> None:
-    from window_memory import is_fullscreen
+    from window_memory import is_fullscreen, fullscreen_frame
 
     def desktop_state():
         try:
@@ -186,6 +186,7 @@ def bind_desktop_fullscreen(server, window) -> None:
     def desktop_fullscreen(value):
         if bool(value) != is_fullscreen(window):
             window.toggle_fullscreen()
+        fullscreen_frame(window)
         return {"available": True, "fullscreen": is_fullscreen(window)}
 
     server.desktop_state = desktop_state

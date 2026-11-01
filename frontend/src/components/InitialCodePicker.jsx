@@ -9,10 +9,10 @@ export function InitialCodeButton({title='默认', disabled=false, onClick,short
   return <button type="button" className="initial-code-trigger" aria-label="选择初始代码模板" aria-haspopup="dialog" title={`选择初始代码模板${shortcut?' · '+shortcut:''}`} disabled={disabled} onClick={onClick}><span>{title}</span><ChevronDown size={13}/></button>;
 }
 
-export function InitialCodeSelect({api,snapshot,language,selected='default',disabled=false,onSelect,onError}) {
+export function InitialCodeSelect({api,snapshot,language,selected='default',disabled=false,onSelect,onError,onOpenChange,title}) {
   const [busy,setBusy]=useState(false),generation=useRef(0);
   useEffect(()=>()=>{generation.current++;},[api,language]);
-  return <ThemedSelect aria-label="选择初始代码模板" className="initial-code-select" value={selected} disabled={disabled||busy||!snapshot} onChange={async event=>{
+  return <ThemedSelect aria-label="选择初始代码模板" title={title} onOpenChange={onOpenChange} className="initial-code-select" value={selected} disabled={disabled||busy||!snapshot} onChange={async event=>{
     const id=event.target.value,item=snapshot?.templates?.find(row=>row.language===language&&row.id===id);
     if(!item)return;const seq=++generation.current;setBusy(true);
     try {const result=await api('initial-code/select',{id,language,revision:snapshot.revisions[language]});if(seq===generation.current)await onSelect(item,result);}

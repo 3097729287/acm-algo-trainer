@@ -73,7 +73,8 @@ function UpdateAction({ update }) {
   if (state.status === 'installing') return <span role="status">正在关闭 ToBe 并安装，完成后将自动重新打开…</span>;
   if (state.status === 'downloading') return <div role="status"><progress max={state.totalBytes || 1} value={state.downloadedBytes || 0} aria-label="更新包下载进度" /> {Math.floor(100 * (state.downloadedBytes || 0) / (state.totalBytes || 1))}%</div>;
   if(state.status==='repair-required')return <a href={state.releaseUrl} target="_blank" rel="noreferrer">下载 Windows 安装版</a>;
-  if(state.status==='install-error'||state.status==='ready'&&error&&!deferred&&!state.installDeferred)return <button className="primary" disabled={busy} onClick={()=>action('install')}>重试安装</button>;
+  if(state.errorCode==='storage')return null;
+  if(state.status==='install-error'||state.status==='ready'&&error&&!deferred&&!state.installDeferred)return <button className="primary" disabled={busy} onClick={()=>action('install',{retry:true})}>重试安装</button>;
   if (state.automatic && state.canInstall && state.latestVersion) return <span role="status">{state.status === 'ready' ? busy ? '正在保存草稿并准备安装…' : deferred||state.installDeferred ? '等待草稿保存及当前提交、模拟赛结束后自动安装…' : '更新已校验，正在准备安装…' : state.status === 'error' ? '更新暂未完成，正在自动重试…' : '正在准备自动下载更新…'}</span>;
   if (state.status === 'ready') return <button className="primary" disabled={busy || !state.canInstall} onClick={() => action('install')}>保存并替换更新</button>;
   if (state.latestVersion) return state.canInstall

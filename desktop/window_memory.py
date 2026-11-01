@@ -8,6 +8,32 @@ def is_fullscreen(window):
     return bool(getattr(native, 'is_fullscreen', getattr(window, 'fullscreen', False)))
 
 
+def fullscreen_frame(window):
+    """Remove the shadow's client-area margins as well as rounded corners.
+
+    pywebview enables a one-pixel DWM glass frame when creating the normal
+    window. Changing FormBorderStyle alone leaves that frame around the view.
+    Run after each fullscreen transition, on the owning WinForms UI thread.
+    """
+    import ctypes
+    from ctypes import wintypes
+    from System import Action
+    form=window.native
+    def apply():
+        class Margins(ctypes.Structure):
+            _fields_=[(name,ctypes.c_int) for name in ('left','right','top','bottom')]
+        dwm=ctypes.WinDLL('dwmapi');handle=wintypes.HWND(form.Handle.ToInt64())
+        dwm.DwmSetWindowAttribute.argtypes=[wintypes.HWND,wintypes.DWORD,ctypes.c_void_p,wintypes.DWORD]
+        dwm.DwmExtendFrameIntoClientArea.argtypes=[wintypes.HWND,ctypes.POINTER(Margins)]
+        full=is_fullscreen(window);shadow=bool(getattr(window,'shadow',True))
+        for attribute,value in [(33,1 if full else 0),(34,0xfffffffe if full else 0xffffffff)]:
+            number=ctypes.c_uint32(value);dwm.DwmSetWindowAttribute(handle,attribute,ctypes.byref(number),4)
+        margin=0 if full or not shadow else 1
+        dwm.DwmExtendFrameIntoClientArea(handle,ctypes.byref(Margins(margin,margin,margin,margin)))
+    if form.InvokeRequired:form.Invoke(Action(apply))
+    else:apply()
+
+
 def fit_bounds(saved, screens):
     screens=list(screens) or [(0, 0, 1480, 920)]
     try:

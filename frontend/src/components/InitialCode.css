@@ -31,3 +31,16 @@ html .settings-page:has(.initial-code-settings) .settings-grid {display:flex;fle
 html .settings-page .initial-code-settings {display:flex;flex:1;flex-direction:column;min-height:0;height:100%;box-sizing:border-box;}
 html .initial-code-settings .initial-code-settings-editor {flex:1;min-height:0;height:auto;}
 html .initial-code-settings-toolbar> .tb-select-wrap {flex:none;max-width:min(280px,40%);}
+html .initial-code-settings-toolbar {align-items:center;min-height:36px;gap:10px;}
+html .initial-code-settings-toolbar>.tb-select-wrap {align-self:center;}
+html .initial-code-settings-toolbar :is(select,.initial-code-trigger) {height:36px;min-height:36px;padding-block:0!important;line-height:1.2;box-sizing:border-box;}
+html .initial-code-settings-actions {align-self:center;min-height:36px;gap:6px;}
+html .initial-code-settings-actions>button {width:36px;height:36px;min-height:36px;padding:0;display:inline-flex;align-items:center;justify-content:center;}
+.initial-code-save-notice {align-self:center;margin-right:8px;color:var(--success);font-size:.85rem;white-space:nowrap;}
+.initial-code-name-dialog {width:min(360px,calc(100vw - 32px));padding:20px;border:1px solid var(--line);border-radius:10px;background:var(--panel-base);color:var(--text);}
+.initial-code-name-dialog::backdrop {background:#0007;}
+.initial-code-name-dialog form {display:flex;flex-direction:column;gap:14px;}
+.initial-code-name-dialog h3 {font-size:1rem;margin:0;}
+.initial-code-name-dialog input {width:100%;min-height:38px;padding:7px 10px;border:1px solid var(--line);border-radius:6px;background:var(--panel-2);color:var(--text);font:inherit;}
+.initial-code-name-dialog footer {display:flex;justify-content:flex-end;gap:8px;}
+.initial-code-name-dialog [role=alert] {margin:0;color:var(--danger);font-size:.85rem;}

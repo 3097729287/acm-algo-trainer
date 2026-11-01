@@ -1,6 +1,7 @@
 import ShortcutSettings from './ShortcutSettings.jsx';
 import { ArrowLeft, Code2, GraduationCap, Heart, ShieldCheck, Command, Download, Keyboard, Layers, Palette, RefreshCw, Settings2, SlidersHorizontal, UserRound, X } from 'lucide-react';
-import { lazy, Suspense, useLayoutEffect, useRef } from 'react';
+import { lazy, Suspense, useCallback, useLayoutEffect, useRef, useState } from 'react';
+import SettingsBackContext from '@/components/SettingsBackContext.jsx';
 import SettingsScene from '@/components/SettingsScene.jsx';
 import '@/styles/followups-1434.css';
 import AdminSettings from './AdminSettings.jsx';
@@ -18,6 +19,15 @@ const DataHelpSettings=lazy(()=>import('./DataHelpSettings.jsx'));
 
 export default function PreferencesPage({availablePages,level,insights,onTrain,rows,tab,onTab,prefs,setPrefs,display,onFullscreen,api,softwareUpdate,hub,account,accountFocus,profileSnapshot,onProfileChanged,onRefresh,onHubChanged,onError,onContent,onMessages,onTutorial,onKeyboard,commands}) {
   const panel=useRef(null),restoring=useRef(false);
+  const currentTab=useRef(tab);currentTab.current=tab;
+  const [nestedBack,setNestedBack]=useState(null);
+  const registerBack=useCallback((handler,label)=>{
+    const registration={handler,label,tab:currentTab.current};setNestedBack(registration);
+    return()=>setNestedBack(current=>current===registration?null:current);
+  },[]);
+  const nested=nestedBack?.tab===tab?nestedBack:null;
+  const backLabel=nested?`返回${nested.label}`:tab==='code-theme'?'返回外观':'返回设置首页';
+  const goBack=()=>nested?nested.handler():onTab(tab==='code-theme'?'appearance':'home');
   const locationKey=`tb.settings.location.${window.__tbAccount?.userId || window.__tbAccount?.loginId || 'local'}`;
   const positions=useRef((()=>{try{return {appearance:JSON.parse(sessionStorage.getItem(locationKey)||'{}').scroll?.appearance||0};}catch{return {};}})());
   const savePosition=()=>{if(restoring.current||!panel.current||tab!=='appearance')return;positions.current.appearance=panel.current.scrollTop;try{sessionStorage.setItem(locationKey,JSON.stringify({tab:'appearance',scroll:positions.current}));}catch{}};
@@ -31,7 +41,7 @@ export default function PreferencesPage({availablePages,level,insights,onTrain,r
   },[tab]);
   const tabs=[['appearance','外观',Palette],['interaction','交互与导航',SlidersHorizontal],['updates','更新',RefreshCw],['training','快捷键',Keyboard],['help','数据统计',Download],['advanced','翻译 API',Settings2],['accounts','初始代码模板',Command],['thanks','鸣谢',Heart],['guide','新手指引',GraduationCap],...(window.__tbAdmin?[['admin','管理员',ShieldCheck]]:[])];
   const guideIcons={...Object.fromEntries(commands.pages.map(({id,icon})=>[id,icon])),...Object.fromEntries(tabs.map(([key,,Icon])=>['settings:'+key,Icon])),practice:Code2,settings:Settings2,'settings:animation':Layers};
-  return <div ref={panel} onScroll={savePosition} className="settings-page scroll-panel" aria-label="设置">{tab!=='home'&&<div className="settings-subpage-controls"><button type="button" className="icon-button settings-return-button" aria-label="返回设置首页" title="返回设置首页 · Esc" onClick={()=>onTab('home')}><ArrowLeft size={19}/></button></div>}<nav className={"settings-subpage-tabs " + (tab==='home'?'settings-home-grid':'settings-hidden-nav')} role="tablist" aria-label="设置分类">{tabs.map(([key,label,Icon])=><span className="settings-tile" data-section={key} key={key}><button role="tab" aria-label={label} aria-selected={tab===key} onClick={()=>onTab(key)}><span className="settings-tile-label"><Icon size={17} aria-hidden="true"/><span>{label}</span></span><SettingsScene kind={{appearance:'dino',interaction:'globe',updates:'balloon',training:'cloud',help:'coffee',advanced:'orbit',accounts:'bulb',thanks:'stars',guide:'compass',admin:'compass'}[key]}/></button></span>)}</nav>
+  return <SettingsBackContext.Provider value={registerBack}><div ref={panel} onScroll={savePosition} className="settings-page scroll-panel" aria-label="设置">{tab!=='home'&&<div className="settings-subpage-controls"><button type="button" className="icon-button settings-return-button" aria-label={backLabel} title={`${backLabel} · Esc`} onClick={goBack}><ArrowLeft size={19}/></button></div>}<nav className={"settings-subpage-tabs " + (tab==='home'?'settings-home-grid':'settings-hidden-nav')} role="tablist" aria-label="设置分类">{tabs.map(([key,label,Icon])=><span className="settings-tile" data-section={key} key={key}><button role="tab" aria-label={label} aria-selected={tab===key} onClick={()=>onTab(key)}><span className="settings-tile-label"><Icon size={17} aria-hidden="true"/><span>{label}</span></span><SettingsScene kind={{appearance:'dino',interaction:'globe',updates:'balloon',training:'cloud',help:'coffee',advanced:'orbit',accounts:'bulb',thanks:'stars',guide:'compass',admin:'compass'}[key]}/></button></span>)}</nav>
     <div className="settings-column">
       {tab==='thanks'&&<section className="acknowledgements" aria-label="鸣谢"><h2>鸣谢</h2><div className="special-thanks-list"><section className="special-thanks" aria-label="特别鸣谢猫猫头教主"><h3>特别鸣谢</h3><p className="special-thanks-name special-thanks-cat">猫猫头教主</p><div>感谢提供的专业性知识以及大量必要建议</div></section><section className="special-thanks" aria-label="特别鸣谢 LT"><h3>特别鸣谢</h3><p className="special-thanks-name special-thanks-lt">LT</p><div>感谢给予的资金支持以及信任</div></section></div><div className="thanks-contributors">{['InkStarry','蒟蒻','她不爱吃酸','jiahao27','NiuXyn','将去未还','彤宇maaa'].map(name=><p key={name}>{name}</p>)}</div></section>}
       {tab==='code-theme'&&<Suspense fallback={<p role="status">正在读取…</p>}><EditorThemeSettings prefs={prefs} setPrefs={setPrefs}/></Suspense>}
@@ -46,5 +56,5 @@ export default function PreferencesPage({availablePages,level,insights,onTrain,r
       {tab==='training' &&<ShortcutSettings prefs={prefs} setPrefs={setPrefs}/>}
       {tab==='updates'&&<><SoftwareUpdatePanel update={softwareUpdate}/><UpdatePanel softwareState={softwareUpdate.state} showNotifications={false} hub={hub} api={api} onContent={onContent} onChanged={onHubChanged} onError={onError}/></>}
     </div>
-  </div>;
+  </div></SettingsBackContext.Provider>;
 }

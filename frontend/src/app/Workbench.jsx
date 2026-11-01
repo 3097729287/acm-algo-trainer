@@ -19,7 +19,7 @@ import { normalizeStatement } from '@/lib/normalizeStatement.js';
 import { primeAcceptedSound, playAcceptedSound } from '@/lib/acceptedSound.js';
 import { verdictLabel } from '@/models/workspaceModel.js';
 import CodeEditor from '@/components/CodeEditor.jsx';
-import InitialCodePicker, {InitialCodeButton} from '@/components/InitialCodePicker.jsx';
+import {InitialCodeSelect} from '@/components/InitialCodePicker.jsx';
 import InlineTitle from '@/components/InlineTitle.jsx';
 import ReadingImage, {readingUrlTransform} from '@/components/ReadingImage.jsx';
 import ReadingLink from '@/components/ReadingLink.jsx';
@@ -828,7 +828,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     else if(command==='statement-font'||command==='code-language'){toolbar.reveal();requestAnimationFrame(()=>{const node=sectionRef.current?.querySelector(command==='statement-font'?'input[aria-label="题面字号"]':'select[aria-label="编程语言"]');node?.focus();if(command==='code-language')node?.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowDown',bubbles:true}));});}
     else if(command==='workbench-undo')sectionRef.current?.querySelector('button[aria-label="撤销载入代码"]')?.click();
     else if(command==='toolbar-lock')toolbar.toggle();
-    else if(command==='initial-code')setInitialPickerOpen(true);
+    else if(command==='initial-code'){toolbar.reveal();requestAnimationFrame(()=>{const node=sectionRef.current?.querySelector('select[aria-label="选择初始代码模板"]');node?.focus();node?.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowDown',bubbles:true}));});}
     else if(command==='code-templates'&&featureAvailable('templates',true))setTemplatesOpen(true);
     else if(command==='workbench-solution')sectionRef.current?.querySelector('.wb-solution-button:not(:disabled)')?.click();
     else if(command==='console-toggle')setConsoleOpen(value=>!value);
@@ -875,7 +875,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     if(event.button!==0)return;event.preventDefault();dragCleanup.current?.();
     const body=event.currentTarget.parentElement,rect=body.getBoundingClientRect(),handle=event.currentTarget;handle.focus();handle.setPointerCapture(event.pointerId);
     let snapped=Math.abs(splitRatio-50)<.01;
-    const move=next=>{const distance=next.clientX-(rect.left+rect.width/2);snapped=Math.abs(distance)<=(snapped?30:18);adjustSplit(snapped?50:(next.clientX-rect.left-.5)/(rect.width-1)*100);};
+    const move=next=>{const distance=next.clientX-(rect.left+rect.width/2);snapped=Math.abs(distance)<=(snapped?52:32);adjustSplit(snapped?50:(next.clientX-rect.left-.5)/(rect.width-1)*100);};
     const stop=()=>{handle.removeEventListener('pointermove',move);handle.removeEventListener('pointerup',stop);handle.removeEventListener('pointercancel',stop);handle.removeEventListener('lostpointercapture',stop);dragCleanup.current=null;};
     handle.addEventListener('pointermove',move);handle.addEventListener('pointerup',stop);handle.addEventListener('pointercancel',stop);handle.addEventListener('lostpointercapture',stop);dragCleanup.current=stop;
   };
@@ -890,21 +890,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
       setStatementCopied(true);clearTimeout(statementCopyTimer.current);statementCopyTimer.current=setTimeout(()=>setStatementCopied(false),1600);
     }catch{setActionError('暂时无法复制题面，请选中题面后复制。');}
   };
-  return <section className={`tb-workbench wb-pane-${effectivePane}${narrow?' wb-compact':''}${!toolbar.pinned&&!toolbar.shown?' wb-toolbar-hidden':''}`} data-surface={toolbarKind} ref={sectionRef} style={{'--wb-split-columns':`minmax(0,${splitRatio}fr) 1px minmax(0,${100-splitRatio}fr)`}} onKeyDown={handleKeys} aria-label="代码训练工作台" data-problem-id={problemId}>
-
-    {!toolbar.pinned&&!toolbar.shown&&<button type="button" className="wb-toolbar-reveal" aria-label="显示顶部工具栏" onFocus={toolbar.reveal} onPointerEnter={toolbar.reveal} onClick={toolbar.reveal}/>}
-    {narrow&&<div className="wb-compact-toolbar"><button type="button" className="wb-icon-button wb-back-button" onClick={exit} title="返回列表" aria-label={runningContest?'返回工作台':'返回列表'}><ArrowLeft size={17}/></button>{effectivePane==='code'&&headerStart}<div className="wb-pane-buttons" role="group" aria-label="工作台布局"><button type="button" className="wb-icon-button" aria-label="只看题面" title="只看题面 · Alt+1" aria-pressed={effectivePane==='statement'} onClick={()=>focusPane('statement')}><PanelLeft size={17}/></button>{layoutToggle}</div><strong><InlineTitle>{problem?.title||'题目'}</InlineTitle></strong>{headerEnd}</div>}
-
-    {saveToast&&<div className="toast success wb-save-toast" role="status"><Check size={17}/><span>草稿已保存</span></div>}
-    {initialPickerOpen&&<InitialCodePicker api={api} language={codeLanguage} selected={startingTemplate(initialCode,codeLanguage).id} onClose={()=>setInitialPickerOpen(false)} onSelect={(item,snapshot)=>{const record=activeRecord.current;if(record?.key!==contextKey||record.closed||record.language!==item.language)return;setInitialCode(snapshot);loadOwnCode(item.language==='cpp17'&&item.id==='default'?normalizeCppTemplate(item.code):item.code);}}/>}
-
-    {templatesOpen&&<div className="modal-overlay wb-templates-overlay" onClick={event=>{if(event.target===event.currentTarget)setTemplatesOpen(false);}}><section role="dialog" aria-modal="true" aria-label="模板" className="modal wb-templates-modal"><button type="button" className="icon-button wb-templates-close" aria-label="关闭模板" onClick={()=>setTemplatesOpen(false)}>×</button><Suspense fallback={<LoaderCircle className="spin"/>}><TemplatesPage embedded api={api} language={codeLanguage} shortcuts={shortcuts} visit={templatesVisit.current} onUse={template=>{try{updateCode(insertTemplate(editorRef.current?.value||code,template.code,template.language));}catch(issue){setActionError(issue.message);}setTemplatesOpen(false);requestAnimationFrame(()=>editorRef.current?.focus());}}/></Suspense></section></div>}
-    {sidePracticeLocked && !endedContest && <div className="wb-notice">这题正在模拟赛中，请进入考场运行与提交。</div>}
-    {actionError && <div className="wb-error-strip" role="alert"><span>{actionError}</span><button type="button" onClick={() => setActionError('')}>知道了</button></div>}
-
-    <div className="wb-body">
-      <div className="wb-statement-pane">
-        <div className="wb-pane-header wb-merged-header">
+  const statementHeader=(<div className="wb-pane-header wb-merged-header">
       <button type="button" className="wb-icon-button wb-back-button" onClick={exit} title={`${runningContest?'返回工作台（比赛继续计时）':'返回列表'} · ${shortcutValue('workbench-back',shortcuts)}`} aria-label={runningContest ? '返回工作台' : '返回列表'}><ArrowLeft size={17} /></button>
       <div className="wb-toolbar">
       {headerStart}
@@ -920,25 +906,10 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
           {problem?.markdown&&!originalIsChinese(problem)&&<div className="wb-language-toggle" role="group" aria-label="题面语言"><button type="button" aria-label={translationBusy&&language==='zh'?'翻译中…':language==='zh'?'中文':'原文'} title={`${language==='zh'?'切换到英文':'切换到中文'} · ${shortcutValue('statement-language',shortcuts)}`} disabled={loading||(problem?.translationAvailable===false&&!translation)} onClick={toggleStatementLanguage}>{translationBusy&&language==='zh'?<LoaderCircle size={14} className="wb-spinner"/>:language==='zh'?'中':'英'}</button></div>}
           <button type="button" className="wb-icon-button" aria-label={statementCopied?'已复制题面':'复制题面'} title={`${statementCopied?'已复制题面':'复制题面'} · ${shortcutValue('statement-copy',shortcuts)}`} disabled={loading||!problem?.markdown} onClick={copyStatement}>{statementCopied?<Check size={16}/>:<Copy size={16}/>}</button>
           {problem?.url && <a className="wb-original-link" href={problem.url} target="_blank" rel="noreferrer" aria-label="在浏览器打开原题" title={`在浏览器打开原题 · ${shortcutValue('statement-original',shortcuts)}`}><ExternalLink size={16} /></a>}
-        </div></div>
-        {translationBusy && <p className="wb-translation-note" role="status"><LoaderCircle size={12} className="wb-spinner" />正在翻译公开题面，原文仍可阅读。</p>}
-        {translationError && <div className="wb-translation-note wb-translation-error" role="alert"><span>{translationError}</span><button type="button" onClick={translateStatement}>重试</button></div>}
-        <article className={`wb-statement${problem?.statementPdf && !(language === 'zh' && translation) ? ' wb-pdf-statement' : ''}`} ref={statementRef} tabIndex={0} aria-label="题面内容" style={{ '--statement-font-size': `${statementFontSize}px` }}>
-          {loading ? <div className="wb-empty"><LoaderCircle className="wb-spinner" size={22} /><span>正在载入题面</span></div>
-            : loadError ? <div className="wb-empty"><span>{loadError}</span><button type="button" className="wb-button" onClick={() => setLoadAttempt(value => value + 1)}><RotateCcw size={14} />重新载入</button></div>
-            : problem?.statementPdf && !(language === 'zh' && translation) ? <StatementPdf key={problem.statementPdf.sha256} pdf={problem.statementPdf} title={problem.title}/>
-            : problem?.markdown ? <StatementMarkdown markdown={language === 'zh' && translation ? translation.markdown+(problem.statementSupplement?'\n\n'+problem.statementSupplement:'') : problem.currentSourceMarkdown || problem.markdown} samples={problem.samples} title={problem.title} images={problem.images} attachments={problem.attachments} />
-            : problem?.statementLoading ? <div className="wb-empty" role="status"><LoaderCircle className="wb-spinner" size={22}/><strong>正在读取原站题面</strong>{problem?.url && <a className="wb-button" href={problem.url} target="_blank" rel="noreferrer">打开原题<ExternalLink size={14}/></a>}</div>
-            : <div className="wb-empty"><BookOpen size={24} /><strong>题面暂时未能加载</strong><span>{problem?.statementError || '请重试读取原站题面。'}</span><button type="button" className="wb-button" onClick={retryStatement}><RotateCcw size={14} />重新载入</button>{problem?.url && <a className="wb-button" href={problem.url} target="_blank" rel="noreferrer">打开原题<ExternalLink size={14} /></a>}</div>}
-        </article>
-      </div>
-
-      {!narrow&&pane==='both'&&<div className="wb-splitter" role="separator" aria-label="调整题面与代码宽度" aria-orientation="vertical" tabIndex={0} aria-valuemin={Math.round(splitBounds[0])} aria-valuemax={Math.round(splitBounds[1])} aria-valuenow={Math.round(splitRatio)} aria-valuetext={`题面 ${Math.round(splitRatio)}%，代码 ${Math.round(100-splitRatio)}%`} onPointerDown={startSplit} onKeyDown={event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();adjustSplit(event.key==='Home'?splitBounds[0]:event.key==='End'?splitBounds[1]:splitRatio+(event.key==='ArrowRight'?1:-1)*(event.shiftKey?10:2));}}/>}
-
-      <div className="wb-code-pane">
-        <div className="wb-pane-header wb-editor-header">
+        </div></div>);
+  const editorHeader=(<div className="wb-pane-header wb-editor-header">
           <span className="wb-language-select"><ThemedSelect hideSelectedOption aria-label="编程语言" title={`编程语言 · ${shortcutValue('code-language',shortcuts)}`} value={codeLanguage} disabled={unavailable||busy||officialBusy} onChange={changeCodeLanguage}><option value="cpp17">C++17</option><option value="python3">Python3</option></ThemedSelect></span>
-          <InitialCodeButton title={startingTemplate(initialCode,codeLanguage).title} shortcut={shortcutValue('initial-code',shortcuts)} disabled={loading||!problem||unavailable||busy||officialBusy} onClick={()=>setInitialPickerOpen(true)}/>
+          <InitialCodeSelect api={api} snapshot={initialCode} language={codeLanguage} selected={startingTemplate(initialCode,codeLanguage).id} title={`选择初始代码模板 · ${shortcutValue('initial-code',shortcuts)}`} disabled={loading||!problem||unavailable||busy||officialBusy} onOpenChange={setInitialPickerOpen} onError={setActionError} onSelect={(item,snapshot)=>{const record=activeRecord.current;if(record?.key!==contextKey||record.closed||record.language!==item.language)return;setInitialCode(snapshot);loadOwnCode(item.language==='cpp17'&&item.id==='default'?normalizeCppTemplate(item.code):item.code);}}/>
           {!['saved','automatic'].includes(saveState.kind)&&<span className={`wb-save-state wb-save-${saveState.kind}`} title={saveState.message||saveLabel} aria-label={saveLabel} role={saveState.kind==='error'?'alert':'status'}>{saveState.kind==='saving'?<LoaderCircle size={14} className="wb-spinner"/>:saveState.kind==='unsaved'?<span className="wb-pending-dot"/>:saveLabel}</span>}
           <div className="wb-editor-actions">
             {featureAvailable('templates',true)&&<button type="button" className="wb-button" aria-label="打开模板" title={`打开模板 · ${shortcutValue('code-templates',shortcuts)}`} disabled={loading||!problem||unavailable} onClick={()=>setTemplatesOpen(true)}><Code2 size={14}/></button>}
@@ -958,7 +929,39 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
             }}><RotateCcw size={14} /></button>}
           </div>
           {headerEnd&&!narrow&&<div className="wb-context-actions">{headerEnd}</div>}
-        </div>
+        </div>);
+  return <section className={`tb-workbench wb-pane-${effectivePane}${narrow?' wb-compact':''}${!toolbar.pinned&&!toolbar.shown?' wb-toolbar-hidden':''}`} data-surface={toolbarKind} ref={sectionRef} style={{'--wb-split-columns':`minmax(0,${splitRatio}fr) 1px minmax(0,${100-splitRatio}fr)`}} onKeyDown={handleKeys} aria-label="代码训练工作台" data-problem-id={problemId}>
+
+    {!toolbar.pinned&&!toolbar.shown&&<button type="button" className="wb-toolbar-reveal" aria-label="显示顶部工具栏" onFocus={toolbar.reveal} onPointerEnter={toolbar.reveal} onClick={toolbar.reveal}/>}
+    {narrow&&<div className="wb-compact-toolbar"><button type="button" className="wb-icon-button wb-back-button" onClick={exit} title="返回列表" aria-label={runningContest?'返回工作台':'返回列表'}><ArrowLeft size={17}/></button>{effectivePane==='code'&&headerStart}<div className="wb-pane-buttons" role="group" aria-label="工作台布局"><button type="button" className="wb-icon-button" aria-label="只看题面" title="只看题面 · Alt+1" aria-pressed={effectivePane==='statement'} onClick={()=>focusPane('statement')}><PanelLeft size={17}/></button>{layoutToggle}</div><strong><InlineTitle>{problem?.title||'题目'}</InlineTitle></strong>{headerEnd}</div>}
+
+    {saveToast&&<div className="toast success wb-save-toast" role="status"><Check size={17}/><span>草稿已保存</span></div>}
+
+    {templatesOpen&&<div className="modal-overlay wb-templates-overlay" onClick={event=>{if(event.target===event.currentTarget)setTemplatesOpen(false);}}><section role="dialog" aria-modal="true" aria-label="模板" className="modal wb-templates-modal"><button type="button" className="icon-button wb-templates-close" aria-label="关闭模板" onClick={()=>setTemplatesOpen(false)}>×</button><Suspense fallback={<LoaderCircle className="spin"/>}><TemplatesPage embedded api={api} language={codeLanguage} shortcuts={shortcuts} visit={templatesVisit.current} onUse={template=>{try{updateCode(insertTemplate(editorRef.current?.value||code,template.code,template.language));}catch(issue){setActionError(issue.message);}setTemplatesOpen(false);requestAnimationFrame(()=>editorRef.current?.focus());}}/></Suspense></section></div>}
+    {sidePracticeLocked && !endedContest && <div className="wb-notice">这题正在模拟赛中，请进入考场运行与提交。</div>}
+    {actionError && <div className="wb-error-strip" role="alert"><span>{actionError}</span><button type="button" onClick={() => setActionError('')}>知道了</button></div>}
+
+    {!narrow&&<div className={`wb-top-toolbar wb-top-${effectivePane}`} role="group" aria-label="单题工具栏">{effectivePane!=='code'&&statementHeader}{effectivePane==='both'&&<span className="wb-toolbar-join" aria-hidden="true"/>}{effectivePane!=='statement'&&editorHeader}</div>}
+
+    <div className="wb-body">
+      <div className="wb-statement-pane">
+        {narrow&&statementHeader}
+        {translationBusy && <p className="wb-translation-note" role="status"><LoaderCircle size={12} className="wb-spinner" />正在翻译公开题面，原文仍可阅读。</p>}
+        {translationError && <div className="wb-translation-note wb-translation-error" role="alert"><span>{translationError}</span><button type="button" onClick={translateStatement}>重试</button></div>}
+        <article className={`wb-statement${problem?.statementPdf && !(language === 'zh' && translation) ? ' wb-pdf-statement' : ''}`} ref={statementRef} tabIndex={0} aria-label="题面内容" style={{ '--statement-font-size': `${statementFontSize}px` }}>
+          {loading ? <div className="wb-empty"><LoaderCircle className="wb-spinner" size={22} /><span>正在载入题面</span></div>
+            : loadError ? <div className="wb-empty"><span>{loadError}</span><button type="button" className="wb-button" onClick={() => setLoadAttempt(value => value + 1)}><RotateCcw size={14} />重新载入</button></div>
+            : problem?.statementPdf && !(language === 'zh' && translation) ? <StatementPdf key={problem.statementPdf.sha256} pdf={problem.statementPdf} title={problem.title}/>
+            : problem?.markdown ? <StatementMarkdown markdown={language === 'zh' && translation ? translation.markdown+(problem.statementSupplement?'\n\n'+problem.statementSupplement:'') : problem.currentSourceMarkdown || problem.markdown} samples={problem.samples} title={problem.title} images={problem.images} attachments={problem.attachments} />
+            : problem?.statementLoading ? <div className="wb-empty" role="status"><LoaderCircle className="wb-spinner" size={22}/><strong>正在读取原站题面</strong>{problem?.url && <a className="wb-button" href={problem.url} target="_blank" rel="noreferrer">打开原题<ExternalLink size={14}/></a>}</div>
+            : <div className="wb-empty"><BookOpen size={24} /><strong>题面暂时未能加载</strong><span>{problem?.statementError || '请重试读取原站题面。'}</span><button type="button" className="wb-button" onClick={retryStatement}><RotateCcw size={14} />重新载入</button>{problem?.url && <a className="wb-button" href={problem.url} target="_blank" rel="noreferrer">打开原题<ExternalLink size={14} /></a>}</div>}
+        </article>
+      </div>
+
+      {!narrow&&pane==='both'&&<div className="wb-splitter" role="separator" aria-label="调整题面与代码宽度" aria-orientation="vertical" tabIndex={0} aria-valuemin={Math.round(splitBounds[0])} aria-valuemax={Math.round(splitBounds[1])} aria-valuenow={Math.round(splitRatio)} aria-valuetext={`题面 ${Math.round(splitRatio)}%，代码 ${Math.round(100-splitRatio)}%`} onPointerDown={startSplit} onKeyDown={event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();adjustSplit(event.key==='Home'?splitBounds[0]:event.key==='End'?splitBounds[1]:splitRatio+(event.key==='ArrowRight'?1:-1)*(event.shiftKey?10:2));}}/>}
+
+      <div className="wb-code-pane">
+        {narrow&&editorHeader}
         <div className="wb-editor">
           <CodeEditor shortcuts={shortcuts} ref={editorRef} value={code} docKey={contextKey} onChange={updateCode} onCursorChange={setCursor} cursorPosition={cursor} onCommand={editorCommand} onLeave={() => consoleButtonRef.current?.focus()} readOnly={unavailable} disabled={loading || !problem} language={codeLanguage} ariaLabel={codeLanguage==='python3'?'Python 代码':'C++ 代码'} />
         </div>

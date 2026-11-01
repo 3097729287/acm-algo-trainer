@@ -79,7 +79,7 @@ try {
   await page.waitForFunction(()=>!document.querySelector('.tb-workbench').classList.contains('wb-compact'));
   const geometry=await page.locator('.wb-body').evaluate(body=>{
    const rect=node=>{const r=node.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height,right:r.right,bottom:r.bottom};};
-   return [...body.querySelectorAll(':scope>.wb-statement-pane>.wb-pane-header,:scope>.wb-code-pane>.wb-pane-header')].map(header=>({header:rect(header),controls:[...header.querySelectorAll('button,input,select,a')].filter(node=>node.getClientRects().length).map(node=>({label:node.getAttribute('aria-label')||node.textContent,rect:rect(node)}))}));
+   return [...body.parentElement.querySelectorAll('.wb-top-toolbar>.wb-pane-header')].map(header=>({header:rect(header),controls:[...header.querySelectorAll('button,input,select,a')].filter(node=>node.getClientRects().length).map(node=>({label:node.getAttribute('aria-label')||node.textContent,rect:rect(node)}))}));
   });
   assert.equal(geometry.length,2);assert(Math.abs(geometry[0].header.y-geometry[1].header.y)<.5&&Math.abs(geometry[0].header.height-geometry[1].header.height)<.5,'Both full-App toolbars share one row: '+JSON.stringify({font,width,geometry}));
   for(const {header,controls} of geometry)for(const {label,rect} of controls)assert(rect.y>=header.y-.5&&rect.bottom<=header.bottom+.5&&rect.x>=header.x-.5&&rect.right<=header.right+.5,'Toolbar controls fit their actual pane: '+JSON.stringify({font,width,label,rect,header}));

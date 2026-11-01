@@ -251,12 +251,14 @@ class Handler(BaseHTTPRequestHandler):
                 elif path == "/api/software-update/download":
                     value = self.server.software_updates.download()
                 elif path == "/api/software-update/install":
+                    if set(body)-{'retry'} or 'retry' in body and type(body['retry']) is not bool:
+                        raise ServiceError(400,'更新重试参数无效')
                     if accounts is not None and accounts.session:
                         # The local SQLite journal and online upgrade backup
                         # preserve unsent changes. A slow cloud upload must not
                         # hold an installation request/account barrier open.
                         accounts.queue_sync()
-                    value = self.server.software_updates.install()
+                    value = self.server.software_updates.install(retry=True) if body.get('retry') is True else self.server.software_updates.install()
                 elif path == "/api/status":
                     with training.lock:
                         training.assert_solution_unlocked(body.get("id"))

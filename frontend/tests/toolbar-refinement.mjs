@@ -51,10 +51,10 @@ try{
  assert.equal(await splitter.evaluate(node=>getComputedStyle(node,'::after').width),'1px');
  for(const direction of[-1,1]){
   const handle=await splitter.boundingBox();assert.equal(handle.width,1);await page.mouse.move(handle.x+.5,handle.y+100);await page.mouse.down();
-  await page.mouse.move(body.x+body.width/2+direction*100,body.y+100);await page.mouse.move(body.x+body.width/2+direction*16,body.y+100);
+  await page.mouse.move(body.x+body.width/2+direction*100,body.y+100);await page.mouse.move(body.x+body.width/2+direction*28,body.y+100);
   assert.equal(await splitter.getAttribute('aria-valuenow'),'50');
-  await page.mouse.move(body.x+body.width/2+direction*26,body.y+100);assert.equal(await splitter.getAttribute('aria-valuenow'),'50');
-  await page.mouse.move(body.x+body.width/2+direction*42,body.y+100);assert.notEqual(await splitter.getAttribute('aria-valuenow'),'50');
+  await page.mouse.move(body.x+body.width/2+direction*46,body.y+100);assert.equal(await splitter.getAttribute('aria-valuenow'),'50');
+  await page.mouse.move(body.x+body.width/2+direction*64,body.y+100);assert.notEqual(await splitter.getAttribute('aria-valuenow'),'50');
   await page.mouse.move(body.x+body.width/2,body.y+100);await page.mouse.up();
  }
  await editor.focus();await editor.press('Control+ArrowRight');await page.waitForFunction(()=>workbenchFixture.nextCount===1);
@@ -76,7 +76,10 @@ try{
  await page.addStyleTag({url:base+'/src/styles/revision.css'});
  await page.addStyleTag({content:'html,body,#root{margin:0!important;padding:0!important;width:100dvw!important;height:100dvh!important;min-height:0!important}.tb-workbench{border:0!important;border-radius:0!important}'});
  const geometry=await page.locator('.tb-workbench').evaluate(node=>{const r=node.getBoundingClientRect(),a=node.querySelector('.wb-statement-pane').getBoundingClientRect(),b=node.querySelector('.wb-code-pane').getBoundingClientRect(),s=node.querySelector('.wb-splitter').getBoundingClientRect();return{x:r.x,y:r.y,width:r.width,height:r.height,radius:getComputedStyle(node).borderRadius,gap:b.left-a.right,seamTop:s.top,seamBottom:s.bottom};});
- assert.deepEqual(geometry,{x:0,y:0,width:1536,height:900,radius:'0px',gap:1,seamTop:0,seamBottom:900});
+ assert.deepEqual(geometry,{x:0,y:0,width:1536,height:900,radius:'0px',gap:1,seamTop:44,seamBottom:900});
+ const join=await page.locator('.wb-toolbar-join').evaluate(node=>{const r=node.getBoundingClientRect(),parent=node.parentElement.getBoundingClientRect();return {width:r.width,top:r.top,bottom:r.bottom,parentTop:parent.top,parentBottom:parent.bottom,color:getComputedStyle(node).backgroundColor};});
+ assert.equal(join.color,'rgba(0, 0, 0, 0)');assert.equal(join.top,join.parentTop);assert.equal(join.bottom,join.parentBottom);
+ const fontGap=await font.evaluate(input=>input.nextElementSibling.getBoundingClientRect().left-input.getBoundingClientRect().right);assert(fontGap>=0&&fontGap<=3);
  await editor.press('Alt+t');await page.waitForFunction(()=>document.querySelector('.wb-toolbar-hidden'));
  await page.mouse.move(0,0);await page.waitForFunction(()=>!document.querySelector('.wb-toolbar-hidden'));
  assert.equal(await page.evaluate(()=>document.elementFromPoint(0,0)?.closest('button')?.getAttribute('aria-label')),'返回列表');

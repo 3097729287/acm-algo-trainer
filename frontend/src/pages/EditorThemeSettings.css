@@ -1,9 +1,10 @@
 html .settings-page:has(.editor-theme-settings) {display:flex;flex-direction:column;height:100%;min-height:0;overflow:hidden;}
 html .settings-page .editor-theme-settings {display:flex;flex:1;min-height:0;flex-direction:column;gap:18px;box-sizing:border-box;}
 .editor-theme-settings h2 {display:flex;align-items:center;gap:8px;font-size:1.05rem;margin:0;}
-.editor-theme-heading {display:flex;align-items:center;justify-content:space-between;gap:12px;}
-.editor-theme-heading .bounded-number {width:54px;}
-.editor-theme-heading .bounded-number input {padding-inline:7px;text-align:center;appearance:textfield;}
+.editor-theme-heading {display:flex;align-items:center;justify-content:flex-start;gap:12px;}
+.editor-theme-heading .bounded-number {display:inline-flex;align-items:center;gap:2px;width:max-content;}
+.editor-theme-heading .bounded-number input {width:2.2ch;min-width:2.2ch;padding:0!important;text-align:right;appearance:textfield;border:0;background:transparent;box-shadow:none;}
+.editor-theme-heading .bounded-number>span {position:static;line-height:1;}
 .editor-theme-heading .bounded-number input::-webkit-inner-spin-button {display:none;}
 .editor-theme-layout {display:grid;grid-template-columns:clamp(210px,15.5rem,280px) minmax(0,1fr);gap:14px;flex:1;min-height:0;}
 .editor-theme-options {overflow:auto;min-height:0;display:flex;flex-direction:column;gap:6px;padding-right:5px;scrollbar-width:thin;}
