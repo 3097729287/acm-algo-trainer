@@ -21,7 +21,7 @@ try{
   assert.equal(await toggle.getAttribute('aria-label'),'原文','The short visible label retains its complete accessible name');
   await toggle.click();await page.getByText('图中的红点符合条件。',{exact:true}).waitFor();
   await page.waitForFunction(()=>{const image=document.querySelector('.wb-statement img');return image?.complete&&image.naturalWidth===360;});
-  assert.equal(await toggle.getAttribute('aria-pressed'),'true');
+  assert.equal(await toggle.getAttribute('aria-pressed'),null,'The language switch has no persistent selected state');
   assert.equal(await toggle.innerText(),'中');assert.equal(await toggle.getAttribute('aria-label'),'中文');
   assert.equal(await page.evaluate(()=>window.workbenchFixture.calls.filter(call=>call.path==='problem/translate').length),0);
   await toggle.click();await page.getByText('The red points satisfy the condition.',{exact:true}).waitFor();
@@ -61,7 +61,7 @@ try{
   await toggle.click();
   await page.getByText('The red points satisfy the condition.',{exact:true}).waitFor();
   await page.waitForTimeout(200);
-  assert.equal(await toggle.getAttribute('aria-pressed'),'false','Explicit English selection wins over the Chinese default');
+  assert.equal(await toggle.getAttribute('aria-pressed'),null,'The English language switch also has no selected state');
   assert.equal(await page.evaluate(()=>window.workbenchFixture.calls.filter(call=>call.path==='problem/translate'&&call.body.id==='DEFAULT_ZH').length),0,'A prebuilt Chinese default works offline without provider calls');
   await page.evaluate(()=>window.workbenchFixture.changeProblem('P'));
   await page.getByText('The red points satisfy the condition.',{exact:true}).waitFor();

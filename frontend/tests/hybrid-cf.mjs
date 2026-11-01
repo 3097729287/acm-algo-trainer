@@ -34,7 +34,7 @@ try{
   const req=route.request(),url=new URL(req.url());if(url.hostname==='127.0.0.1')return route.continue();
   requests.push({url:req.url(),type:req.resourceType()});
   if(url.hostname!==officialHost){
-   assert.ok(['codeforces.com','atcoder.jp','ac.nowcoder.com','www.luogu.com.cn'].includes(url.hostname));
+   assert.ok(['codeforces.com','atcoder.jp','ac.nowcoder.com','www.luogu.com.cn','qoj.ac'].includes(url.hostname),'Unexpected fixture host: '+url.hostname);
    assert.equal(req.method(),'GET');
    return route.fulfill({status:503,body:'Other platform fixture unavailable'});
   }
@@ -127,5 +127,5 @@ try{
 }finally{
  if(browser)await browser.close();server.kill();
  assert.ok(path.resolve(profile).startsWith(path.resolve(os.tmpdir())+path.sep));
- await rm(profile,{recursive:true,force:true,maxRetries:10,retryDelay:200});
+ if(!process.env.TB_KEEP_TEST_STATE)await rm(profile,{recursive:true,force:true,maxRetries:10,retryDelay:200});
 }
