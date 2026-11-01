@@ -877,6 +877,7 @@
 /* One measured toolbar height and a real keyboard/pointer split handle. */
 .tb-workbench {--wb-control-height:30px;--wb-toolbar-font-size:clamp(12px,.82rem,16px);--wb-control-background:var(--panel-2)}
 .tb-workbench.wb-pane-both:not(.wb-compact) .wb-body {grid-template-columns:var(--wb-split-columns);grid-template-rows:minmax(0,1fr)}
+.tb-workbench.wb-pane-both:not(.wb-compact) .wb-statement-pane {border-right:0}
 .wb-splitter {cursor:col-resize;touch-action:none;background:transparent;position:relative;z-index:1}
 .wb-splitter::after {content:'';position:absolute;width:1px;top:0;bottom:0;left:50%;background:var(--line)}
 .wb-splitter::before {content:'';position:absolute;left:0;right:0;top:43px;height:1px;background:var(--line)}

@@ -320,10 +320,10 @@ def run(action, output):
                         wait_js("Array.from(document.querySelectorAll('.problem-table tbody tr')).some(row=>row.textContent.includes(" + title + "))")
                         window.evaluate_js("Array.from(document.querySelectorAll('.problem-table tbody tr')).find(row=>row.textContent.includes(" + title + ")).querySelector('.problem-title').click()")
                         wait_js("!!document.querySelector('.wb-run-actions') && document.querySelector('.cm-content')?.textContent.includes('long long one')")
-                        labels = window.evaluate_js("Array.from(document.querySelectorAll('.wb-run-actions button')).map(node=>node.textContent.trim())")
-                        assert labels == ['运行样例', '提交'], labels
+                        labels = window.evaluate_js("Array.from(document.querySelectorAll('.wb-run-toolbar button')).map(node=>node.textContent.trim())")
+                        assert labels == ['官方样例','自测输入','自测运行','提交'], labels
                         report['buttonOrder'] = labels
-                        window.evaluate_js("document.querySelectorAll('.wb-run-actions button')[0].click()")
+                        window.evaluate_js("document.querySelector('.wb-run-button').click()")
                         wait_js("document.querySelector('.wb-result-summary')?.textContent.includes('样例通过')", timeout=90)
                         submission = next(row for row in server.training.submissions()['submissions'] if row['problemId'] == tested['id'] and row['mode'] == 'run')
                         assert submission['verdict'] == 'SAMPLE_PASS', submission['verdict']

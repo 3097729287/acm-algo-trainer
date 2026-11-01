@@ -100,7 +100,7 @@ const CodeEditor = forwardRef(function CodeEditor({ shortcuts={}, value = '', on
     viewRef.current = view;
     notifyCursor(view);
     const gutter=view.dom.querySelector('.cm-gutters'),measure=()=>host.current?.style.setProperty('--editor-gutter-width',`${gutter?.getBoundingClientRect().width||36}px`),observer=new ResizeObserver(measure);
-    if(gutter)observer.observe(gutter);measure();
+    if(cursorPosition&&gutter)observer.observe(gutter);
     return () => { observer.disconnect();viewRef.current = null; view.destroy(); };
     // Changing document identity creates a fresh undo history; mirrored value
     // updates below preserve the current caret and history during ordinary edits.
