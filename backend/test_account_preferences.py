@@ -46,6 +46,22 @@ class AccountPreferencesTests(unittest.TestCase):
                 save_preferences(self.service, {'preferences': {'onboardingGuideVersion': invalid}})
         self.assertIsNone(read_preferences(self.service)['preferences'])
 
+    def test_code_theme_and_list_position_survive_restart(self):
+        value = {'theme':'light','editorTheme':'woodfish-neon',
+                 'trainingListLocation':{'state':{'mode':'official','page':3},'scrollTop':480}}
+        save_preferences(self.service,{'preferences':value})
+        self.service.close()
+        from training import TrainingService
+        self.service=TrainingService(self.library,self.db,self.assets,self.judge,self.clock,self.root/'backups')
+        self.assertEqual(read_preferences(self.service)['preferences'],value)
+
+    def test_invalid_code_themes_are_rejected_without_changing_account(self):
+        save_preferences(self.service,{'preferences':{'editorTheme':'dracula'}})
+        for invalid in ('unknown-theme',{},[],True,None,123):
+            with self.subTest(value=invalid),self.assertRaises(ServiceError):
+                save_preferences(self.service,{'preferences':{'editorTheme':invalid}})
+        self.assertEqual(read_preferences(self.service)['preferences'],{'editorTheme':'dracula'})
+
     def test_guide_rollout_version_merge_does_not_reset_when_other_computer_is_older(self):
         from account_sync import baselines, merge_states
         def state(value, stamp):

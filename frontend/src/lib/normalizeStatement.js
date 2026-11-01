@@ -23,9 +23,11 @@ export function normalizeStatement(markdown, samples = [], title = '') {
     const marker = line.match(/^\s*(`{3,}|~{3,})/);
     if (marker) { if (!fenced) fenced = marker[1][0]; else if (fenced === marker[1][0]) fenced = null; return line; }
     if (fenced) return line;
+    if (/^\s*(?:翻译由\s*[^\n]{1,100}\s*完成|本题由\s*[^\n]{1,100}\s*翻译)\s*[。.]?\s*$/.test(line)) return '';
     const heading = line.match(/^\s*(题目描述|输入描述|输出描述|输入格式|输出格式|数据范围|约束条件)\s*[:：]?\s*$/);
     return heading ? '## ' + heading[1].replace('描述', heading[1] === '题目描述' ? '描述' : '格式') : line;
   }).join('\n');
+  text = text.replace(/^#{1,6}\s*(?:提示|翻译说明)\s*\n\s*(?=#{1,6}\s|$)/gm,'');
   if (samples.length) {
     const banner = text.match(/\n={12,}\s*\n官方样例\s*\n={12,}\s*\n/);
     const legacy = text.match(/(?:^|\n)(?:#{1,4}\s*)?(?:示例|样例)\s*\d+\s*[:：]?\s*\n/);

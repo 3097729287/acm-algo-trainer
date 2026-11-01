@@ -15,7 +15,7 @@ const ThemedSelect=forwardRef(function ThemedSelect({children,onChange,onKeyDown
   function move(direction){let index=active;for(let count=0;count<items.length;count++){index=(index+direction+items.length)%items.length;if(!items[index].disabled){setActive(index);break;}}}
   useLayoutEffect(()=>{
     if(!open)return;
-    const layout=()=>{const rect=native.current.getBoundingClientRect();const width=Math.min(Math.max(rect.width,160),innerWidth-16);const below=innerHeight-rect.bottom-12,above=rect.top-12;const height=Math.min(288,Math.max(80,Math.max(below,above)));const upwards=below<Math.min(240,items.length*36)&&above>below;
+    const layout=()=>{const rect=native.current.getBoundingClientRect(),context=document.createElement('canvas').getContext('2d');context.font=getComputedStyle(native.current).font;const textWidth=Math.max(0,...items.map(item=>context.measureText(item.text).width));const width=Math.min(Math.max(rect.width,Math.ceil(textWidth)+54),innerWidth-16);const below=innerHeight-rect.bottom-12,above=rect.top-12;const height=Math.min(288,Math.max(80,Math.max(below,above)));const upwards=below<Math.min(240,items.length*36)&&above>below;
       setPosition({position:'fixed',left:Math.max(8,Math.min(rect.left,innerWidth-width-8)),width,maxHeight:height,...(upwards?{bottom:innerHeight-rect.top+5}:{top:rect.bottom+5})});};
     layout();const outside=event=>{if(!native.current?.contains(event.target)&&!menu.current?.contains(event.target))setOpen(false);};
     document.addEventListener('pointerdown',outside,true);window.addEventListener('resize',layout);window.addEventListener('scroll',layout,true);

@@ -246,14 +246,14 @@ class ServiceTests(unittest.TestCase):
         self.assertEqual(row["queue"], "review")
         self.assertTrue(row["today"])
 
-    def test_open_draft_and_run_are_not_participation(self):
+    def test_open_and_run_are_not_participation_but_an_edit_joins_training(self):
         problem = self.service.problem("fixture::A")
         self.assertNotIn("referenceCode", problem)
         self.service.save_draft("fixture::A", "AC")
         self.assertEqual(self.service.problem("fixture::A")["draft"], "AC")
         result = self.completed(code="AC", mode="run", input_text="1 2")
         self.assertEqual(result["submission"]["verdict"], "RUN_OK")
-        self.assertEqual(self.service.workspace()["summary"]["total"], 0)
+        self.assertEqual(self.service.workspace()["summary"]["total"], 1)
         self.assertEqual(self.service.workspace()["summary"]["attempts"], 0)
         self.assertEqual(len(self.service.submissions()["submissions"]), 1)
 

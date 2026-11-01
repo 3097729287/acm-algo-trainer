@@ -1,4 +1,4 @@
-import {matchesShortcut} from '@/lib/shortcuts.js';
+import {EXTRA_SHORTCUTS,matchesShortcut} from '@/lib/shortcuts.js';
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import { basicSetup } from 'codemirror';
 import { drawSelection, EditorView, keymap } from '@codemirror/view';
@@ -10,6 +10,8 @@ import { HighlightStyle, indentUnit, syntaxHighlighting } from '@codemirror/lang
 import { acceptCompletion, autocompletion, completionStatus, snippetCompletion } from '@codemirror/autocomplete';
 import { tags } from '@lezer/highlight';
 import './CodeEditor.css';
+import './CodeEditorTheme.css';
+import {editorTheme as findEditorTheme,editorThemeStyle} from '@/lib/editorThemes.js';
 
 const externalChange = Annotation.define();
 const keywordOptions = 'alignas alignof auto bool break case catch char class const constexpr continue decltype default delete do double else enum explicit extern false float for friend if inline int long namespace new noexcept nullptr operator private protected public return short signed sizeof static struct switch template this throw true try typedef typename union unsigned using virtual void volatile while'.split(' ').map(label => ({ label, type: 'keyword' }));
@@ -28,26 +30,26 @@ function completeCpp(context) {
   return { from: word ? word.from : context.pos, options: completions, validFor: /^[A-Za-z_0-9]*$/ };
 }
 const colors = HighlightStyle.define([
-  { tag: tags.keyword, color: 'var(--code-keyword)' },
-  { tag: [tags.typeName, tags.className], color: 'var(--code-type)' },
-  { tag: [tags.string, tags.character], color: 'var(--code-string)' },
-  { tag: [tags.number, tags.bool, tags.null], color: 'var(--code-number)' },
-  { tag: tags.comment, color: 'var(--code-comment)', fontStyle: 'italic' },
-  { tag: [tags.function(tags.variableName), tags.definition(tags.variableName)], color: 'var(--code-function)' },
-  { tag: [tags.meta, tags.processingInstruction], color: 'var(--code-meta)' },
-  { tag: [tags.operator, tags.punctuation], color: 'var(--code-operator)' },
+  { tag: tags.keyword, class: 'tok-keyword' },
+  { tag: [tags.typeName, tags.className], class: 'tok-type' },
+  { tag: [tags.string, tags.character], class: 'tok-string' },
+  { tag: [tags.number, tags.bool, tags.null], class: 'tok-number' },
+  { tag: tags.comment, class: 'tok-comment' },
+  { tag: [tags.function(tags.variableName), tags.definition(tags.variableName)], class: 'tok-function' },
+  { tag: [tags.meta, tags.processingInstruction], class: 'tok-meta' },
+  { tag: [tags.operator, tags.punctuation], class: 'tok-operator' },
 ]);
 const theme = EditorView.theme({
-  '&': { height: '100%', color: 'var(--text)', backgroundColor: 'var(--panel)' },
+  '&': { height: '100%', color: 'var(--editor-foreground,var(--text))', backgroundColor: 'var(--editor-surface,var(--panel))' },
   '.cm-scroller': { overflow: 'auto', fontFamily: 'Consolas, "Cascadia Code", monospace', fontSize: '1rem', lineHeight: '1.7' },
-  '.cm-content': { padding: '12px 0', caretColor: 'var(--accent)' },
+  '.cm-content': { padding: '12px 0', caretColor: 'transparent' },
   '.cm-line': { padding: '0 13px' },
-  '.cm-gutters': { backgroundColor: 'var(--panel-2)', color: 'var(--muted)', borderRight: '1px solid var(--line)' },
-  '.cm-activeLineGutter': { backgroundColor: 'var(--accent-soft)', color: 'var(--accent)' },
-  '.cm-activeLine': { backgroundColor: 'var(--accent-soft)' },
-  '.cm-cursor, .cm-dropCursor': { borderLeftColor: 'var(--accent)' },
+  '.cm-gutters': { backgroundColor: 'transparent', color: 'var(--editor-gutter,var(--muted))', borderRight: '1px solid var(--line)' },
+  '.cm-activeLineGutter': { backgroundColor: 'var(--editor-active-line,var(--accent-soft))', color: 'var(--editor-accent,var(--accent))' },
+  '.cm-activeLine': { backgroundColor: 'var(--editor-active-line,var(--accent-soft))' },
+  '.cm-cursor, .cm-dropCursor': { borderLeftColor: 'var(--text)', borderLeftWidth: '2px' },
   '&.cm-focused .cm-selectionBackground, .cm-selectionBackground, ::selection': { backgroundColor: 'color-mix(in srgb, var(--accent) 24%, transparent)' },
-  '.cm-matchingBracket': { backgroundColor: 'var(--accent-soft)', outline: '1px solid var(--accent)' },
+  '.cm-matchingBracket': { backgroundColor: 'color-mix(in srgb, var(--accent) 10%, transparent)', outline: 'none', borderBottom: '1px solid color-mix(in srgb, var(--accent) 45%, transparent)' },
   '.cm-tooltip': { backgroundColor: 'var(--panel-2)', border: '1px solid var(--line)', color: 'var(--text)' },
   '.cm-tooltip-autocomplete > ul > li[aria-selected]': { backgroundColor: 'var(--accent-soft)', color: 'var(--text)' },
   '.cm-panels': { backgroundColor: 'var(--panel-2)', color: 'var(--text)' },
@@ -55,7 +57,7 @@ const theme = EditorView.theme({
   '.cm-searchMatch-selected': { backgroundColor: 'color-mix(in srgb, var(--warning) 45%, transparent)' },
 });
 
-const CodeEditor = forwardRef(function CodeEditor({ shortcuts={}, value = '', onChange, onCursorChange, onCommand, onLeave, readOnly = false, disabled = false, docKey = '', language = 'cpp17', ariaLabel = 'C++ 代码' }, ref) {
+const CodeEditor = forwardRef(function CodeEditor({ shortcuts={}, value = '', onChange, onCursorChange, onCommand, onLeave, readOnly = false, disabled = false, docKey = '', language = 'cpp17', ariaLabel = 'C++ 代码',editorTheme }, ref) {
   const host = useRef(null), viewRef = useRef(null), readonlyCompartment = useRef(new Compartment());
   const callbacks = useRef({ onChange, onCursorChange, onCommand, onLeave, shortcuts });
   callbacks.current = { onChange, onCursorChange, onCommand, onLeave, shortcuts };
@@ -77,7 +79,7 @@ const CodeEditor = forwardRef(function CodeEditor({ shortcuts={}, value = '', on
       Prec.highest(EditorView.domEventHandlers({ keydown(event, editor) {
         if (event.isComposing || editor.composing || event.keyCode === 229) return false;
         if((event.ctrlKey||event.metaKey)&&event.key==='Tab'){event.preventDefault();event.stopPropagation();callbacks.current.onLeave?.();return true;}
-        const command=['official','submit','run','save','pane-0','pane-1','pane-2'].find(id=>matchesShortcut(event,id,callbacks.current.shortcuts));
+        const command=['official','submit','run','save','pane-0','pane-1','pane-2',...EXTRA_SHORTCUTS.filter(item=>item[3]==='编辑器').map(item=>item[0])].find(id=>matchesShortcut(event,id,callbacks.current.shortcuts));
         if (!command) return false;
         event.preventDefault(); event.stopPropagation(); callbacks.current.onCommand?.(command); return true;
       } })),
@@ -103,6 +105,7 @@ const CodeEditor = forwardRef(function CodeEditor({ shortcuts={}, value = '', on
     if (view && view.state.doc.toString() !== value) view.dispatch({ changes: { from: 0, to: view.state.doc.length, insert: value }, annotations: externalChange.of(true) });
   }, [value, docKey]);
   useEffect(() => { viewRef.current?.dispatch({ effects: readonlyCompartment.current.reconfigure([EditorState.readOnly.of(readOnly || disabled), EditorView.editable.of(!disabled)]) }); }, [readOnly, disabled, docKey]);
-  return <div className="code-editor" ref={host} data-readonly={readOnly || disabled} onKeyDown={event => { if (event.defaultPrevented) event.stopPropagation(); }} />;
+  const selected=editorTheme?findEditorTheme(editorTheme):null;
+  return <div className="code-editor" style={selected?editorThemeStyle(selected.id):undefined} ref={host} data-editor-theme={selected?.id} data-editor-effect={selected?selected.effect||'none':undefined} data-readonly={readOnly || disabled} onKeyDown={event => { if (event.defaultPrevented) event.stopPropagation(); }} />;
 });
 export default CodeEditor;

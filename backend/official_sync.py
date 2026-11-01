@@ -1,6 +1,7 @@
 """Import owner-scoped official receipts independently of a TB submit attempt."""
 import contextlib
 import datetime as dt
+import official_verdict
 import hashlib
 import json
 import logging
@@ -35,7 +36,7 @@ def cf_receipts(payload, handle):
             continue
         result.append({'platform': 'Codeforces', 'owner': handle, 'submissionId': str(identity),
                        'url': f'https://codeforces.com/{"gym" if cid >= 100000 else "contest"}/{cid}/problem/{index.upper()}',
-                       'verdict': verdict, 'status': 'finished',
+                       'verdict': verdict, 'status': 'finished', 'verdictDetail': official_verdict.codeforces_detail(row),
                        'acceptedAt': dt.datetime.fromtimestamp(created, dt.timezone.utc).isoformat(),
                        'message': '官网提交同步；原站未提供源码'})
     return result
@@ -142,7 +143,7 @@ class OfficialSync:
         if not receipts:return 0
         training = self.server.training
         with training.lock, training._library_view():
-            recorded={row[0] for row in training.connection.execute("SELECT id FROM submissions WHERE id LIKE 'official-%'")}
+            recorded={row[0]:row[1] for row in training.connection.execute("SELECT id,message FROM submissions WHERE id LIKE 'official-%'")}
             rows = {}
             for row in training._library():
                 key = canonical_url(row.get('url'))
@@ -154,12 +155,14 @@ class OfficialSync:
                 if not row:
                     continue
                 remote_id='official-'+hashlib.sha256((str(urlsplit(row['url']).hostname)+'/'+str(receipt.get('submissionId'))).encode()).hexdigest()
-                if remote_id in recorded:continue
+                existing=remote_id in recorded
+                detail=official_verdict.receipt_detail(receipt)
+                if existing and (not detail or detail in recorded[remote_id]):continue
                 try:
                     before = training.connection.total_changes
                     training.record_official({'id': row['id'], 'url': row['url'], 'code': '', 'external': True}, receipt)
-                    recorded.add(remote_id)
-                    imported += int(training.connection.total_changes > before)
+                    recorded[remote_id]=training.connection.execute("SELECT message FROM submissions WHERE id=?",(remote_id,)).fetchone()[0]
+                    imported += int(not existing and training.connection.total_changes > before)
                 except ServiceError as error:
                     if error.status not in (403, 404, 409):
                         raise

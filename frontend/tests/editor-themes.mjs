@@ -1,0 +1,68 @@
+import assert from 'node:assert/strict';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {mkdir} from 'node:fs/promises';
+import {createServer} from 'vite';
+import {chromium} from 'playwright';
+
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const output=path.resolve(root,'../.backups/interaction-1433/theme-visuals');
+const vite=await createServer({root,server:{host:'127.0.0.1',port:0}});await vite.listen();
+const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
+const page=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];
+page.on('pageerror',error=>errors.push(error.message));
+const base=`http://127.0.0.1:${vite.httpServer.address().port}`;
+try {
+ await mkdir(output,{recursive:true});
+ await page.goto(base+'/tests/interaction-1433.html');
+ await page.evaluate(()=>fixture.screen('code-theme'));
+ const options=page.getByRole('listbox',{name:'代码主题选择'}),preview=page.locator('.editor-theme-preview');
+ await options.waitFor();
+ assert((await options.getByRole('option').count())>=20);
+ for(const name of ['Woodfish Dracula','Woodfish Black','Woodfish Neon','Woodfish Light'])await options.getByRole('option',{name,exact:true}).waitFor({state:'attached'});
+ await options.getByRole('option',{name:'Woodfish Neon',exact:true}).click();
+ await page.evaluate(()=>fixture.setPrefs({theme:'light'}));
+ assert.equal(await preview.locator('.cm-editor').evaluate(node=>getComputedStyle(node).color),'rgb(232, 227, 255)');
+ const token=preview.locator('.tok-keyword').first();
+ assert.match(await token.evaluate(node=>getComputedStyle(node).backgroundImage),/^linear-gradient/);
+ assert.equal(await preview.locator('.tok-comment').first().evaluate(node=>getComputedStyle(node).backgroundImage),'none');
+ await page.screenshot({path:path.join(output,'neon-in-light-ui.png')});
+ const before=await preview.boundingBox();
+ await options.getByRole('option',{name:'Woodfish Neon',exact:true}).focus();
+ await page.keyboard.press('End');
+ assert.equal(await options.getByRole('option',{selected:true}).getAttribute('title'),'Rosé Pine Dawn');
+ assert((await options.evaluate(node=>node.scrollTop))>0);
+ assert.deepEqual(await preview.boundingBox(),before);
+ await page.keyboard.press('Home');
+ assert.equal(await options.getByRole('option',{selected:true}).getAttribute('title'),'跟随界面');
+ assert.equal(await token.evaluate(node=>getComputedStyle(node).backgroundImage),'none');
+ assert.equal(await page.evaluate(()=>document.documentElement.style.getPropertyValue('--theme-background')),'');
+ await options.getByRole('option',{name:'Woodfish Light',exact:true}).click();
+ assert.equal(await preview.locator('.cm-editor').evaluate(node=>getComputedStyle(node).color),'rgb(36, 41, 47)');
+ await page.screenshot({path:path.join(output,'woodfish-light.png')});
+ for(const width of [1024,560]) {
+  await page.setViewportSize({width,height:820});
+  const geometry=await page.locator('.editor-theme-layout').evaluate(node=>{const frame=node.getBoundingClientRect(),left=node.children[0].getBoundingClientRect(),right=node.children[1].getBoundingClientRect();return {frameRight:frame.right,leftTop:left.top,rightTop:right.top,leftBottom:left.bottom,rightBottom:right.bottom,viewport:innerWidth,height:innerHeight,scrollable:node.children[0].scrollHeight>node.children[0].clientHeight};});
+  assert(geometry.frameRight<=geometry.viewport&&geometry.rightBottom<=geometry.height,JSON.stringify(geometry));
+  assert.equal(geometry.leftTop,geometry.rightTop);assert.equal(geometry.leftBottom,geometry.rightBottom);assert(geometry.scrollable);
+ }
+ await page.screenshot({path:path.join(output,'narrow-theme-layout.png')});
+ await page.setViewportSize({width:1440,height:900});
+ await page.goto(base+'/tests/workbench-fixture.html');
+ await page.addStyleTag({url:base+'/src/styles/interaction.css'});
+ const editor=page.getByRole('textbox',{name:'C++ 代码'});await editor.fill('int main() { return (); }');await editor.focus();await editor.press('End');await editor.press('ArrowLeft');
+ const selection=await editor.evaluate(node=>getSelection().anchorOffset);
+ await page.evaluate(async()=>{const {applyEditorTheme}=await import('/src/lib/editorThemes.js');applyEditorTheme(document.documentElement,'woodfish-dracula');});
+ assert.equal(await editor.innerText(),'int main() { return (); }');
+ assert.equal(await editor.evaluate(node=>getSelection().anchorOffset),selection);
+ const caret=page.locator('.cm-cursor-primary');
+ assert.equal(await caret.evaluate(node=>getComputedStyle(node).width),'2px');
+ assert.match(await caret.evaluate(node=>getComputedStyle(node).backgroundImage),/^linear-gradient/);
+ await page.evaluate(()=>document.documentElement.dataset.motion='off');
+ assert.equal(await caret.evaluate(node=>getComputedStyle(node).animationName),'none');
+ await editor.press('Control+a');
+ const selectionColor=await page.locator('.cm-selectionBackground').first().evaluate(node=>getComputedStyle(node).backgroundColor);
+ assert(!selectionColor.includes('rgb(255, 255, 255)'),selectionColor);
+ assert.deepEqual(errors,[]);
+ console.log('Editor themes: palette/effect preview, light/dark independence, keyboard scrolling, aligned responsive layout, caret preservation and reduced motion passed.');
+} finally {await browser.close();await vite.close();}

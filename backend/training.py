@@ -5,6 +5,7 @@ from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager, nullcontext
 from contextvars import ContextVar
 import datetime as dt
+import official_verdict
 import hashlib
 import inspect
 import json
@@ -343,16 +344,17 @@ class TrainingService:
         canonical = aliases.get(identity, identity)
         return sorted({identity} | {other for other, target in aliases.items() if target == canonical})
 
-    def start_training(self, identity, *, assisted=False, defer_workspace=False):
+    def start_training(self, identity, *, assisted=False, defer_workspace=False, activate=True):
         # One catalog snapshot for activation, aliases, review scheduling and the
         # returned workspace; repeated full catalog decoding delays single tasks.
         with (nullcontext() if defer_workspace else self._library_view()), self.lock:
             self._row(identity)
             if assisted:
                 self.assert_solution_unlocked(identity)
-            with self._write() as connection:
-                self._claim_training(connection, identity)
-                self._activate(connection, identity, iso(self._now()))
+            if activate:
+                with self._write() as connection:
+                    self._claim_training(connection, identity)
+                    self._activate(connection, identity, iso(self._now()))
             if assisted:
                 self.mark_solution_seen(identity)
             if defer_workspace and not assisted:
@@ -391,17 +393,23 @@ class TrainingService:
                     connection.execute(f"UPDATE training SET active=0,removed_at=? WHERE id IN ({placeholders})", [iso(self._now())] + ids)
             return {"workspace": self.workspace()}
 
-    def clear_training(self):
-        with self.lock:
+    def clear_training(self, identities=None):
+        if identities is not None and (not isinstance(identities,list) or len(identities)>20000 or any(not isinstance(identity,str) or not identity or len(identity)>400 for identity in identities)):
+            raise ServiceError(400,'训练题目列表无效')
+        with self.lock,self._library_view():
             self._expire()
             if self.active_contest():
                 raise ServiceError(409, "模拟赛正在进行，交卷后才能清空训练")
             if self.connection.execute("SELECT 1 FROM submissions WHERE finished_at IS NULL").fetchone():
                 raise ServiceError(409, "还有评测任务，请等待结果后清空训练")
-            count=self.connection.execute("SELECT COUNT(*) FROM training WHERE active=1").fetchone()[0]
+            aliases=self._identity_map(self._library())
+            visible={item['id'] for item in self.workspace()['training']}
+            targets=visible if identities is None else {aliases.get(identity,identity) for identity in identities}&visible
+            records=[row['id'] for row in self.connection.execute('SELECT id FROM training') if aliases.get(row['id'],row['id']) in targets]
+            count=len(targets)
             if count:
                 with self._write() as connection:
-                    connection.execute("UPDATE training SET active=0,removed_at=? WHERE active=1",(iso(self._now()),))
+                    connection.execute("UPDATE training SET active=0,removed_at=? WHERE id IN (SELECT value FROM json_each(?))",(iso(self._now()),json.dumps(records)))
             return {"cleared":count,"workspace":self.workspace()}
 
     def save_official_pending(self, record):
@@ -450,6 +458,8 @@ class TrainingService:
     def record_official(self, session, receipt):
         from insights import canonical_url
         from urllib.parse import urlsplit
+        from official_verdict import receipt_detail
+        detail=receipt_detail(receipt)
         remote=str(receipt.get('submissionId') or '')
         verdict=receipt.get('verdict')
         if receipt.get('status')!='finished' or not remote.isdecimal() or verdict not in (FAILURES-{'ERROR'})|{'AC'}:
@@ -475,6 +485,9 @@ class TrainingService:
             identity='official-'+hashlib.sha256((str(urlsplit(session['url']).hostname)+'/'+remote).encode()).hexdigest()
             existing=self.connection.execute('SELECT * FROM submissions WHERE id=?',(identity,)).fetchone()
             if existing:
+                if detail and detail not in existing['message']:
+                    with self._write() as connection:
+                        connection.execute('UPDATE submissions SET message=? WHERE id=?',(existing['message'].split('\n',1)[0]+'\n'+detail,identity))
                 # A public receipt may arrive before the bound browser job.
                 # Enrich its missing code when the actual submitted code arrives.
                 if not existing['code'] and session.get('code'):
@@ -506,7 +519,7 @@ class TrainingService:
                 if review:
                     seen = reviews.assisted(row['id'], review, submitted)
                 connection.execute("INSERT INTO submissions(id,problem_id,contest_id,mode,code,submitted_at,finished_at,verdict,scope,message,solution_seen) VALUES(?,?,?,'submit',?,?,?,?, 'official',?,?)",
-                    (identity,row['id'],contest_id,self._code(session['code']),submitted,finished,verdict,'原站确认提交 #'+remote+(' · 官网同步（未取得源码）' if session.get('external') else ''),int(seen)))
+                    (identity,row['id'],contest_id,self._code(session['code']),submitted,finished,verdict,'原站确认提交 #'+remote+(' · 官网同步（未取得源码）' if session.get('external') else '')+('\n'+detail if detail else ''),int(seen)))
                 reviews.bind(connection, identity, review_id)
                 self._recompute_progress(connection,row['id'])
             if review and verdict == 'AC':
@@ -562,17 +575,12 @@ class TrainingService:
             value["achievements"].extend(extra_achievements(evidence, records, completed, value["summary"]["longestStreak"], claimed_dates))
             from daily_rotation import action_achievements
             value["achievements"].extend(action_achievements(self,evidence))
-            from achievement_rewards import award_achievement_xp
+            from fun_achievements import fun_achievements
+            value['achievements'].extend(fun_achievements(self,records))
+            from achievement_rewards import award_achievement_xp,preserve_completion
+            preserve_completion(self,value['achievements'])
             from progression import ACHIEVEMENT_DEFINITIONS, earned_titles
-            awarded = {item[0] for item in self.connection.execute('SELECT achievement_id FROM achievement_xp_claims')}
-            new_achievements = any(item.get('unlocked') and item['id'] in ACHIEVEMENT_DEFINITIONS and item['id'] not in awarded
-                                   and not (item['id'] == 'streak-730' and 'streak-1000' in awarded)
-                                   for item in value['achievements'])
-            if new_achievements:
-                with self._write() as connection:
-                    achievement_rewards = award_achievement_xp(connection, value['achievements'], self._now())
-            else:
-                achievement_rewards = award_achievement_xp(self.connection, value['achievements'], self._now())
+            achievement_rewards = award_achievement_xp(self.connection, value['achievements'], self._now(),claim_ids=())
             ranking_profile = self._ranking_profile()
             ranking_reward = self.connection.execute("SELECT total_xp FROM ranking_reward_totals WHERE endpoint=? AND user_id=?",
                                                      (ranking_profile["endpoint"], ranking_profile["user_id"])).fetchone()
@@ -629,6 +637,26 @@ class TrainingService:
             signature = self._insights_signature(hub)
             self._insights_cache = (time.monotonic(), signature, deepcopy(value))
             return value
+
+    def claim_achievement(self, identity, hub=None):
+        from progression import ACHIEVEMENT_DEFINITIONS
+        from achievement_rewards import award_achievement_xp
+        if not isinstance(identity,str) or identity not in ACHIEVEMENT_DEFINITIONS:
+            raise ServiceError(400,'请选择有效成就')
+        with self.lock,self._library_view():
+            current=self._compute_insights(hub)
+            achievement=next((item for item in current['achievements'] if item['id']==identity),None)
+            if not achievement or not achievement.get('unlocked'):
+                raise ServiceError(409,'这项成就尚未完成')
+            if achievement.get('rewardClaimed'):
+                current.update(achievementId=identity,awardedXp=0)
+                return current
+            with self._write() as connection:
+                reward=award_achievement_xp(connection,[achievement],self._now(),claim_ids={identity})
+            result=self._compute_insights(hub)
+            result['growth']['newAchievementXp']=reward['newXp']
+            result.update(achievementId=identity,awardedXp=reward['newXp'])
+            return result
 
     def _insights_signature(self, hub):
         library = getattr(self.store, 'library', None)
@@ -1168,6 +1196,7 @@ class TrainingService:
                 self._save_language(connection,self._draft_language_key(identity,context),language)
                 if not contest_id and not review_id and code.strip():
                     self._claim_training(connection, identity)
+                    self._activate(connection, identity, saved_at)
                 connection.execute("INSERT INTO drafts VALUES(?,?,?,?) ON CONFLICT(problem_id,context) DO UPDATE SET code=excluded.code,saved_at=excluded.saved_at", (identity, context, code, saved_at))
             return {"savedAt": saved_at}
 
@@ -1374,7 +1403,7 @@ class TrainingService:
     def _submission(self, record):
         from reviews import receipt_reward
         cold=not record['code'] and getattr(self,'history_code_loader',None) and self.connection.execute('SELECT 1 FROM account_sync_code_refs WHERE submission_id=?',(record['id'],)).fetchone()
-        return {"reviewRewardXp":receipt_reward(self,record['id']) if record['scope']=='official' and record['verdict']=='AC' else 0,"codePending":bool(cold),"language":self._read_language("submission-language:"+record["id"]), "id": record["id"], "problemId": record["problem_id"], "contestId": record["contest_id"], "mode": record["mode"], "verdict": record["verdict"], "scope": record["scope"], "code": record["code"], "submittedAt": record["submitted_at"], "finishedAt": record["finished_at"], "timeMs": record["time_ms"], "memoryKb": record["memory_kb"], "passed": record["passed"], "total": record["total"], "output": record["output"], "stderr": record["stderr"], "message": record["message"], "sampleRun": bool(record["sample_run"]), "caseResults": json.loads(record["case_results"])}
+        return {"reviewRewardXp":receipt_reward(self,record['id']) if record['scope']=='official' and record['verdict']=='AC' else 0,"codePending":bool(cold),"language":self._read_language("submission-language:"+record["id"]), "id": record["id"], "problemId": record["problem_id"], "contestId": record["contest_id"], "mode": record["mode"], "verdict": record["verdict"], "scope": record["scope"], "code": record["code"], "submittedAt": record["submitted_at"], "finishedAt": record["finished_at"], "timeMs": record["time_ms"], "memoryKb": record["memory_kb"], "passed": record["passed"], "total": record["total"], "output": record["output"], "stderr": record["stderr"], "message": record["message"], "verdictDetail": official_verdict.saved_detail(record["message"],record["scope"]), "sampleRun": bool(record["sample_run"]), "caseResults": json.loads(record["case_results"])}
 
     def submission(self, identity):
         loader=getattr(self,'history_code_loader',None)
@@ -1491,7 +1520,7 @@ class TrainingService:
             where = " WHERE " + " AND ".join(clauses) if clauses else ""
             total = self.connection.execute("SELECT COUNT(*) FROM submissions" + where, values).fetchone()[0]
             direction = 'ASC' if order == 'asc' else 'DESC'
-            fields='id,problem_id,contest_id,mode,verdict,scope,submitted_at,finished_at,time_ms,memory_kb,passed,total,sample_run' if compact else '*'
+            fields='id,problem_id,contest_id,mode,verdict,scope,submitted_at,finished_at,time_ms,memory_kb,passed,total,sample_run,message' if compact else '*'
             records = self.connection.execute("SELECT " + fields + " FROM submissions" + where + f" ORDER BY submitted_at {direction},rowid {direction} LIMIT ? OFFSET ?", values + [limit, offset]).fetchall()
             if compact:
                 # List navigation never decodes code/output/case blobs. Resolve
@@ -1507,7 +1536,7 @@ class TrainingService:
                         'submittedAt':record['submitted_at'],'finishedAt':record['finished_at'],
                         'timeMs':record['time_ms'],'memoryKb':record['memory_kb'],
                         'passed':record['passed'],'total':record['total'],'sampleRun':bool(record['sample_run']),
-                        'codePending':True} if compact else self._submission(record))
+                        'verdictDetail':official_verdict.saved_detail(record['message'],record['scope']),'codePending':True} if compact else self._submission(record))
                 canonical,row=history_row(value['problemId'])
                 if row:value.update(canonicalProblemId=canonical,title=row.get('title'),contestName=row.get('contest'),problem=row.get('problem'),platform=_submission_platform(row.get('platform')),url=row.get('url'))
                 submissions.append(value)
@@ -2040,13 +2069,20 @@ class TrainingService:
                 identity = aliases.get(event["problem_id"], event["problem_id"])
                 activity[identity] = max(activity.get(identity, ""), event["at"])
             training = []
-            for record in self.connection.execute("SELECT * FROM training WHERE active=1 ORDER BY active_at,id"):
+            due_ids=[identity for identity,canonical in aliases.items() if canonical in review_tasks]
+            due_ids=sorted(set(due_ids)|set(review_tasks))
+            due_clause=' OR id IN ('+','.join('?' for _ in due_ids)+')' if due_ids else ''
+            for record in self.connection.execute("SELECT * FROM training WHERE active=1"+due_clause+" ORDER BY active_at,id",due_ids):
                 canonical = aliases.get(record["id"], record["id"])
                 attempts = grouped.get(canonical, [])
                 completed = [submission for submission in attempts if submission["finished_at"]]
                 latest = completed[-1] if completed else None
-                # 只有官方 AC 才算通过；record["accepted_at"] 由 _recompute_progress 保证已按官方口径清理。
+                # Verified complete template drills also leave the continuing
+                # queue; official XP and ranking evidence stay official-only.
                 accepted_at = next((submission["submitted_at"] for submission in completed if submission["verdict"] == "AC" and submission["scope"] == "official"), record["accepted_at"])
+                from template_drills import is_drill
+                if not accepted_at and is_drill(canonical):
+                    accepted_at=next((submission['submitted_at'] for submission in completed if submission['verdict']=='AC' and submission['scope']=='template'),None)
                 accepted = bool(accepted_at)
                 queue = None
                 if canonical not in locked:
@@ -2065,7 +2101,7 @@ class TrainingService:
                             raise
                 item = dict(source or {"id": record["id"], "title": record["id"], "contest": "", "problem": "", "difficulty": None, "tags": [], "knowledge": "", "platform": ""})
                 last_attempt = attempts[-1] if attempts else None
-                accepted_scope = ('official' if any(submission['scope']=='official' and submission['verdict']=='AC' for submission in completed) else 'local') if accepted else None
+                accepted_scope = ('official' if any(submission['scope']=='official' and submission['verdict']=='AC' for submission in completed) else 'template' if is_drill(canonical) else 'local') if accepted else None
                 item.update({"id": canonical, "accepted": accepted, "verdict": last_attempt["verdict"] if last_attempt else None, "scope": accepted_scope if accepted else last_attempt["scope"] if last_attempt else None, "attempts": len(attempts), "acceptedAt": accepted_at, "lastSubmittedAt": attempts[-1]["submitted_at"] if attempts else None, "queue": queue, "reviewCount": record["review_count"], "solutionSeen": bool(record["solution_pending"] or record["rewrite_due"]), "activeAt": record["active_at"]})
                 last_activity = max(activity.get(canonical, ""), record["active_at"], record["solution_seen_at"] or "")
                 item.update(lastActivityAt=last_activity, today=bool(queue or canonical in locked or parse_time(last_activity).astimezone(TRAINING_ZONE).date() == today))

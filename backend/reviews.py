@@ -129,7 +129,13 @@ class ReviewScheduler:
             return cached[1]
         metadata = {r['id']: r for r in library}
         aliases = t._identity_map(library)
-        active = {aliases.get(r['id'], r['id']) for r in t.connection.execute('SELECT id FROM training WHERE active=1')}
+        # Clearing the visible queue postpones its contents for the current
+        # Beijing day. It does not erase the independent spaced-review plan.
+        active = set()
+        for record in t.connection.execute('SELECT id,active,removed_at FROM training'):
+            removed=parse_time(record['removed_at'])
+            if record['active'] or removed and removed.astimezone(SHANGHAI).date()<today:
+                active.add(aliases.get(record['id'],record['id']))
         locked = {aliases.get(s['id'], s['id']) for r in t.connection.execute("SELECT slots FROM contests WHERE status='running'") for s in json.loads(r['slots'])}
         facts = {}
         evidence = []

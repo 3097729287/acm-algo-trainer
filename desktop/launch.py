@@ -196,6 +196,7 @@ def run_desktop() -> int:
     instance = SingleInstance()
     server = None
     service_thread = None
+    splash = None
     try:
         if instance.existing:
             if not instance.focus_existing():
@@ -213,6 +214,9 @@ def run_desktop() -> int:
                     time.sleep(.1)
             else:
                 return 0
+        if os.name=='nt' and os.environ.get('TB_OFFLINE')!='1':
+            from startup_splash import StartupSplash
+            splash=StartupSplash();splash.show()
         check_dependencies()
         if getattr(sys, 'frozen', False) and not ADMIN_MODE and os.environ.get('TB_OFFLINE') != '1':
             from legacy_cleanup import prepare
@@ -247,6 +251,7 @@ def run_desktop() -> int:
         )
         if window is None:
             raise RuntimeError("无法创建 ToBe 窗口。")
+        if splash is not None:window.events.shown+=lambda:splash.close()
         bind(window, memory_path)
         from webview_resources import bind as bind_resources
         bind_resources(window)
@@ -316,6 +321,7 @@ def run_desktop() -> int:
         )
         return 0
     finally:
+        if splash is not None:splash.close()
         if server is not None:
             if service_thread is not None and service_thread.is_alive():
                 server.shutdown()

@@ -1,3 +1,5 @@
+import {trainingListLocation} from '@/lib/trainingListLocation.js';
+import {trainingListModel} from '@/lib/trainingListModel.js';
 import CatalogName from '@/components/CatalogName.jsx';
 import {ProblemCells,ProblemTableHead} from '@/components/ProblemTableParts.jsx';
 import PagePagination from '@/components/PagePagination.jsx';
@@ -26,28 +28,33 @@ const source = 'https://www.luogu.com.cn/training/list';
 const leaf=list=>list && !list.virtual && !list.children?.length && !list.problems?.some(item=>item.sections?.length);
 const cardTitle=list=>String(list.displayTitle||list.title).replace(/^(?:【[^】]*】|\[[^\]]*\])\s*/,'');
 
-export default function TrainingListsPage({ api, rows = [], onTrain, visit, pageSize = 50, busy = false, prefs={},onTag,onFavorite,onSolution,onAddToList,navigationRequest }) {
+export default function TrainingListsPage({ api, rows = [], onTrain, visit, pageSize = 50, busy = false, prefs={},onTag,onFavorite,onSolution,onAddToList,navigationRequest,onLocationChange }) {
   const fallback = useRef({}), session = visit || fallback.current;
   const owner = window.__tbAccountUserId || 'local';
+  const savedLocation=trainingListLocation(prefs.trainingListLocation);
+  if(!session.state&&savedLocation)Object.assign(session,savedLocation);
   const cached = session.content?.owner === owner ? session.content : null;
-  const [state, setState] = useState(() => platformListState({ ...INITIAL, ...(session.state?.curriculumVersion===1?session.state:{}), status: '' }));
+  const [state, setState] = useState(() => platformListState({ ...INITIAL, ...(session.state?.curriculumVersion===1?session.state:{}) }));
   const [lists, setLists] = useState(() => cached?.lists || null), [error, setError] = useState(''), [attempt, setAttempt] = useState(0);
   const [deletion,setDeletion]=useState(null),[deleting,setDeleting]=useState(false),[deleteError,setDeleteError]=useState('');
   const panel = useRef(null), navigation = useRef(null);
-  const contentVersion=useRef(0);
+  const contentVersion=useRef(0),locationCallback=useRef(onLocationChange),locationTimer=useRef(null);locationCallback.current=onLocationChange;
+  const rememberLocation=()=>{const location=trainingListLocation({state:session.state,scrollTop:session.scrollTop});if(location)locationCallback.current?.(location);};
+  useEffect(()=>()=>{clearTimeout(locationTimer.current);rememberLocation();},[]);
   const [editor,setEditor]=useState(null);
   const patch = value => setState(previous => ({ ...previous, page: 1, ...value }));
   useEffect(() => {
     let alive = true;
     const version=contentVersion.current;
     setError('');
-    api('training-lists').then(value => {
-      if (alive && version===contentVersion.current) { session.content={owner,lists:value.lists}; setLists(value.lists); }
+    const request=attempt===0&&session.content?.owner===owner&&Date.now()-(session.content.at||0)<30000?Promise.resolve({lists:session.content.lists}):session.loading||api('training-lists');
+    request.then(value => {
+      if (alive && version===contentVersion.current) { session.content={owner,lists:value.lists,at:Date.now()}; setLists(value.lists); }
     }).catch(issue => { if (alive) setError(issue.message || '题单读取失败'); });
     return () => { alive = false; };
   }, [api, attempt, owner]);
-  useEffect(() => { if (lists) session.content={owner,lists}; }, [lists,owner]);
-  useLayoutEffect(() => { session.state = state; }, [state]);
+  useEffect(() => { if (lists) session.content={owner,lists,at:session.content?.at||Date.now()}; }, [lists,owner]);
+  useLayoutEffect(() => { session.state = state;clearTimeout(locationTimer.current);locationTimer.current=setTimeout(rememberLocation,250); }, [state]);
   useLayoutEffect(() => {
     const node = panel.current;
     if (!node) return;
@@ -75,8 +82,7 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
   }, [state, canBack]);
 
   useEffect(()=>{const changed=()=>setAttempt(value=>value+1);window.addEventListener('tb:training-lists-changed',changed);return()=>window.removeEventListener('tb:training-lists-changed',changed);},[]);
-  const organized = useMemo(() => {const original=filterTrainingListsScope(organizeTrainingLists((lists || []).filter(list=>!list.custom)),rows);const favorites=new Set(prefs.favorites||[]);const favorite={id:'personal:favorites',title:'我的收藏',displayTitle:'我的收藏',virtual:true,available:true,aggregateChildren:false,children:[],categories:[{id:'personal',name:'我的题单',order:-1}],topicPath:[],problems:rows.filter(row=>[row.id,...row.aliasIds||[]].some(id=>favorites.has(id))).map(row=>({problemId:row.id,pid:row.problem,url:row.url,sections:[]}))};return [...filterTrainingListsScope([...platformTrainingLists(original,rows,state.mode),...(lists||[]).filter(list=>list.custom).map(list=>({...list,displayTitle:list.title,sourceLabel:'',topicPath:['我的题单']})),favorite],rows)];}, [lists, rows, state.mode,prefs.favorites]);
-  const index = useMemo(() => trainingIndex(organized, rows), [organized, rows]);
+  const {organized,index}=useMemo(()=>trainingListModel(lists||[],rows,state.mode,prefs.favorites||[]),[lists,rows,state.mode,prefs.favorites]);
   const active = index.byList.get(state.trail.at(-1));
   useLayoutEffect(()=>{
     if(!navigationRequest||session.navigationRequest===navigationRequest)return;
@@ -175,7 +181,7 @@ export default function TrainingListsPage({ api, rows = [], onTrain, visit, page
     {active?.custom&&<div className="training-list-tools"><button type="button" className="icon-button" aria-label="编辑题单" title="编辑题单" onClick={()=>setEditor({...active,problems:index.own.get(active.id)})}><Pencil size={15}/></button><button type="button" className="icon-button" aria-label="删除题单" title="删除题单" onClick={event=>confirmDelete(event,active)}><Trash2 size={15}/></button></div>}
     <div className="training-list-summary"><span className="training-list-stats">{active ? `${listStats.accepted} / ${listStats.total} 题已通过` : `${scopeLists.length} 个题单${readableLists < scopeLists.length ? `（${readableLists} 个可读取）` : ''} · ${listStats.total} 道题 · ${listStats.accepted} 题已通过`}</span>{state.mode==='source'&&!active?.custom&&<a className="icon-button training-list-source" aria-label={sourceName} href={sourceUrl} target="_blank" rel="noreferrer"><ExternalLink size={15}/></a>}</div></div>
     {error && <p role="alert" className="connection-error">{error} <button className="icon-button" aria-label="重新读取" onClick={() => setAttempt(value => value + 1)}><RotateCw size={16}/></button></p>}
-    <div className="catalog-explorer training-list-content" ref={panel} onScroll={event => { session.scrollTop = event.currentTarget.scrollTop; }} aria-busy={!lists && !error}>
+    <div className="catalog-explorer training-list-content" ref={panel} onScroll={event => { session.scrollTop = event.currentTarget.scrollTop;clearTimeout(locationTimer.current);locationTimer.current=setTimeout(rememberLocation,250); }} aria-busy={!lists && !error}>
       {!lists && !error && <p className="progress-muted" role="status">正在读取题单…</p>}
       {active && !active.available && <p role="status" className="progress-muted">原站题单暂不可读取，可从右上角前往洛谷查看。</p>}
       <div className={cards?'training-list-card-grid':'training-list-folders'}>{displayedEntries.map(({ folder, list, all:allEntry }) => {

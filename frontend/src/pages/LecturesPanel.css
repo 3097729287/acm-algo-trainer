@@ -25,3 +25,6 @@ html .lecture-reading-full>.lectures-detail {width:100%;padding-inline:clamp(20p
 html .lecture-focus .lectures-detail {border:0;border-radius:0}
 @container workspace (max-width:850px){html .lectures-layout {grid-template-columns:minmax(190px,29%) minmax(0,1fr)}}
 @container workspace (max-width:650px){html .lectures-layout {grid-template-columns:1fr}}
+html .lectures-list button.lecture-learned {background:color-mix(in srgb,var(--success) 11%,transparent);}
+html .lectures-list button.lecture-learned.selected {background:color-mix(in srgb,var(--success) 18%,transparent);}
+html .lectures-detail-bar>.icon-button {border-color:transparent;background:transparent;}

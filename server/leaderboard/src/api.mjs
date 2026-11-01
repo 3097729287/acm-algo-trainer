@@ -1,3 +1,4 @@
+import {translationIdentity,translationSubmission} from './shared-translations.mjs';
 import {CHUNK_LIMIT,validateChunk,validateHashes} from './account-chunks.mjs';
 import {validateAvatar} from './public-avatar.mjs';
 import { EventConflict } from './errors.mjs';
@@ -10,7 +11,7 @@ import { socialSnapshot, socialWrite, rankingSocial } from './social.mjs';
 import {trainingListLikes} from './training-list-likes.mjs';
 import {adminAccounts} from './admin-accounts.mjs';
 
-const VERSION = '1.2.9';
+const VERSION = '1.3.0';
 const NOTICE = '排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const hashPattern = /^[a-f0-9]{64}$/;
@@ -100,9 +101,13 @@ async function leaderboard(user, env, period, now) {
   const { rows, own } = await env.STORE.rankings(user.user_id, period === 'total' ? null : range, range.day);
   const entries=rows.map(rankingRow), self=own ? rankingRow(own) : { ...rankingRow(user),rank:null,count:0 };
   const socialAvailable=await rankingSocial(env.STORE,user.user_id,[...entries,self],period,now);
+  const dominanceAvailable=Boolean(env.STORE.dominance&&await env.STORE.dominance.available());
+  const leaders=[...entries,self].filter(item=>item.rank===1&&item.count>0);
+  const streaks=dominanceAvailable?await env.STORE.dominance.summary(leaders.map(item=>item.userId),period,range.day):new Map();
+  for(const item of [...entries,self])if(streaks.has(item.userId))item.dominance=streaks.get(item.userId);
   return { period, date: range.day, timezone: 'Asia/Shanghai', startDate: period === 'total' ? null : range.start,
     endDate: period === 'total' ? null : range.end, entries, isAdmin: Boolean(user.is_admin), rewardPolicy: REWARD_POLICY,
-    self, socialAvailable, socialProtocol:1, notice: NOTICE };
+    self, socialAvailable, socialProtocol:1, dominanceAvailable, notice: NOTICE };
 }
 
 function event(item, now) {
@@ -127,7 +132,7 @@ export async function handle(request, env) {
     const timestamp = new Date(now).toISOString();
     if (path === '/v1/health' && request.method === 'GET') {
       await env.STORE.health();
-      return json({ ok: true, version: VERSION, eventScope: 'official', accountStateProtocol: 1, accountChunkProtocol:env.STORE.chunks&&await env.STORE.chunks.available()?2:0, adminAccountProtocol:env.STORE.accountAdmin&&await env.STORE.accountAdmin.available()?1:0, singleSession: true, publicProgressProtocol: 1, publicAppearanceProtocol: 1, nicknameUnique: true, stateResumeProtocol: 1, socialProtocol:env.STORE.social && await env.STORE.social.available() ? 1 : 0, trainingListLikesProtocol:env.STORE.social && await env.STORE.social.listAvailable() ? 1 : 0 });
+      return json({ ok: true, version: VERSION, eventScope: 'official', rankingDominanceProtocol:env.STORE.dominance&&await env.STORE.dominance.available()?1:0, sharedTranslationProtocol:env.STORE.translations&&await env.STORE.translations.available()?1:0, accountStateProtocol: 1, accountChunkProtocol:env.STORE.chunks&&await env.STORE.chunks.available()?2:0, adminAccountProtocol:env.STORE.accountAdmin&&await env.STORE.accountAdmin.available()?1:0, singleSession: true, publicProgressProtocol: 1, publicAppearanceProtocol: 1, nicknameUnique: true, stateResumeProtocol: 1, socialProtocol:env.STORE.social && await env.STORE.social.available() ? 1 : 0, trainingListLikesProtocol:env.STORE.social && await env.STORE.social.listAvailable() ? 1 : 0 });
     }
     if (path === '/v1/profile/register') throw new ApiError(410, '请升级 TB 并注册账号后登录');
     if (['/v1/accounts/register', '/v1/accounts/login'].includes(path) && request.method === 'POST') {
@@ -259,6 +264,21 @@ export async function handle(request, env) {
     if (env.READ_ONLY !== '1') await env.STORE.settleRewards(now);
     if (path === '/v1/profile' && request.method === 'GET') return json({ ...publicAccount(user), publicId: publicId(user.user_id), publicProgressProtocol: 1, publicAppearanceProtocol: 1,
       publicProgress: await env.STORE.publicProgress(user.user_id) });
+    if(path==='/v1/translations') {
+      if(!env.STORE.translations)throw new ApiError(503,'共享译文正在准备');
+      if(request.method==='GET') {
+        if([...url.searchParams.keys()].some(key=>!['url','sourceHash','format','language'].includes(key)))throw new ApiError(400,'共享译文字段无效');
+        const query=Object.fromEntries(url.searchParams);translationIdentity(query);
+        return json(await env.STORE.translations.get(query));
+      }
+      if(request.method==='POST') {
+        await limit(env,'translations:'+user.user_id,30,86400,Math.floor(now/1000));
+        const value=await body(request,['url','sourceHash','format','language','original','markdown'],196608,false);
+        translationSubmission(value);
+        return json(await env.STORE.translations.publish(value,user.user_id,timestamp));
+      }
+      throw new ApiError(405,'请求方法无效');
+    }
     if (path === '/v1/rewards' && request.method === 'GET') return json(await env.STORE.rewards(user.user_id));
     if (path === '/v1/admin/leaderboard/delete' && request.method === 'POST') {
       if (!user.is_admin) throw new ApiError(403, '只有管理员可以删除排行榜成绩');

@@ -47,6 +47,19 @@ class ReceiptSyncTests(unittest.TestCase):
         sync.once()
         self.assertEqual(self.service.submissions()['total'], 0)
 
+    def test_sync_enriches_old_receipt_diagnostic_without_counting_another_submit(self):
+        sync,payload=self.sync()
+        payload['result'][0]['verdict']='WRONG_ANSWER'
+        self.assertEqual(sync.once()['imported'],1)
+        payload['result'][0].update(testset='TESTS',passedTestCount=2)
+        self.assertEqual(sync.once()['imported'],0)
+        records=self.service.submissions()['submissions']
+        self.assertEqual(len(records),1)
+        self.assertEqual(records[0]['verdictDetail'],'Wrong answer on test 3')
+        payload['result'][0].pop('passedTestCount')
+        sync.once()
+        self.assertEqual(self.service.submissions()['submissions'][0]['verdictDetail'],'Wrong answer on test 3')
+
     def test_pending_fetch_cannot_cross_personal_workspace(self):
         sync, payload = self.sync()
         def changed_owner(_):

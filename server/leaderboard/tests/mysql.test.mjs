@@ -1,3 +1,5 @@
+import {sharedTranslationsSuite} from './shared-translations-suite.mjs';
+import {rankingDominanceSuite} from './ranking-dominance-suite.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomUUID, createHash } from 'node:crypto';
@@ -196,3 +198,6 @@ test('MySQL compressed learning state survives idempotent migration, concurrent 
     assert.equal(Number(sessions[0].n),1);
   } finally { await f.close(); }
 });
+
+sharedTranslationsSuite(startMySQLFixture);
+rankingDominanceSuite(startMySQLFixture);

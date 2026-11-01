@@ -10,6 +10,7 @@ import "katex/dist/katex.min.css";
 import "@/styles/polish.css";
 import "@/styles/unified.css";
 import "@/styles/revision.css";
+import "@/styles/interaction.css";
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AppRecovery><AccountGate><BackgroundPlayback/><App /></AccountGate></AppRecovery>

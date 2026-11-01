@@ -4,6 +4,7 @@ import { Check, ChevronDown, History } from 'lucide-react';
 import { verdictLabel } from '@/models/workspaceModel.js';
 import InlineTitle from '@/components/InlineTitle.jsx';
 import './MockProblemPicker.css';
+import {opacityStyle} from '@/lib/surfaceOpacity.js';
 
 export default function MockProblemPicker({ contest, currentId, onSelect, onHistory }) {
   const [open, setOpen] = useState(false);
@@ -59,7 +60,7 @@ export default function MockProblemPicker({ contest, currentId, onSelect, onHist
       <span className="mock-picker-letter">{current?.letter}</span>
       <span>选题</span><ChevronDown size={13} aria-hidden="true" />
     </button>
-    {open && createPortal(<div className="mock-problem-menu" style={position} ref={menuRef} id={menuId} role="menu" aria-label="模拟赛题目">
+    {open && createPortal(<div className="mock-problem-menu" style={{...opacityStyle(contest.constraints?.calendarEvent||contest.calendarId||contest.live?'contest-picker':'mock-picker'),...position}} ref={menuRef} id={menuId} role="menu" aria-label="模拟赛题目">
       <div className="mock-picker-summary" role="presentation">
         <strong>{contest.name}</strong><span>{contest.accepted}/{contest.total} 原站 AC</span>
       </div>

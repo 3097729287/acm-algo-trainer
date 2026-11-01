@@ -1,4 +1,5 @@
 .tb-workbench {
+  position: relative;
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -9,7 +10,7 @@
   color: var(--text);
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 0;
 }
 .tb-workbench button,
 .tb-workbench select,
@@ -887,8 +888,8 @@
 .wb-pane-header .tb-select select {height:var(--wb-control-height);min-height:var(--wb-control-height);padding-block:3px}
 .wb-statement-actions,.wb-editor-actions,.wb-editor-header {gap:6px}
 .wb-editor-header {flex-wrap:nowrap}
-.wb-editor-header>span:first-child {flex:none}
-.wb-editor-header>span:first-child .tb-select-wrap {width:90px;flex:none}
+.wb-editor-header>.wb-language-select {flex:none}
+.wb-editor-header>.wb-language-select .tb-select-wrap {width:90px;flex:none}
 .wb-font-controls {padding:0;height:var(--wb-control-height);box-sizing:border-box;border:0;gap:2px}
 .wb-font-controls .bounded-number {width:48px;height:var(--wb-control-height)}
 .wb-font-controls .bounded-number input {box-sizing:border-box;min-height:var(--wb-control-height);height:var(--wb-control-height);width:100%;padding:2px 18px 2px 2px;text-align:center;font-size:12px;line-height:1}
@@ -912,8 +913,12 @@ html .tb-workbench:not(.wb-compact) .wb-editor-header>.wb-save-state {flex:0 1 a
 html .tb-workbench:not(.wb-compact) .wb-editor-actions {flex:0 0 auto;margin-left:auto}
 .wb-code-pane {container-type:inline-size;container-name:code-pane}
 @container code-pane (max-width:380px) {
- .wb-editor-header>span:first-child>svg {display:none}
- .wb-editor-header>span:first-child .tb-select-wrap {width:80px}
+ .wb-editor-header>.wb-language-select>svg {display:none}
+ .wb-editor-header>.wb-language-select .tb-select-wrap {width:80px}
  .wb-editor-header {padding-inline:8px;gap:4px}
  .wb-editor-actions {gap:4px}
 }
+
+html .tb-workbench.wb-toolbar-hidden :is(.wb-pane-header,.wb-compact-toolbar){flex-basis:0!important;}
+.wb-history-detail {min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-size:.78rem;text-align:left;}
+.toast.toast-workbench {top:60px;right:18px;left:auto;bottom:auto;transform:none;}

@@ -23,6 +23,7 @@ class RemovalInsightsTests(unittest.TestCase):
     contest = fixtures.ServiceTests.contest
 
     def assert_xp_components(self, base, achievement):
+        self.service.claim_achievement('official-1')
         growth = self.service.insights()['growth']
         self.assertEqual(growth['xp'], base + achievement)
         self.assertEqual(growth['achievementXp'], achievement)

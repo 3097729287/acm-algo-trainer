@@ -2,9 +2,14 @@
 [data-theme="light"] .code-editor { --code-keyword: #824cb3; --code-type: #9a691b; --code-string: #2c7a4b; --code-number: #ad552e; --code-comment: #70816f; --code-function: #2c70ae; --code-meta: #ac4d73; --code-operator: #56627a; }
 .code-editor .cm-editor { min-height: 0; }
 .code-editor .cm-editor.cm-focused { outline: none !important; box-shadow: none; }
-.code-editor .cm-content { min-height: 100%; }
+.code-editor .cm-content { min-height: 100%;font-variant-ligatures:none; }
 .code-editor .cm-content:focus-visible { outline: none; }
-.code-editor[data-readonly="false"] .cm-editor:not(.cm-focused) .cm-cursor-primary { display:block; opacity:.7; }
+.code-editor[data-readonly="false"] .cm-editor:not(.cm-focused) .cm-cursorLayer { display:block!important; animation:none!important; }
+.code-editor[data-readonly="false"] .cm-editor:not(.cm-focused) .cm-cursor { display:block!important; opacity:.65; }
+.code-editor .cm-cursor {border-left:2px solid var(--text)!important; margin-left:-1px;}
+.code-editor .cm-selectionBackground {background:color-mix(in srgb,var(--accent) 19%,transparent)!important;}
+.code-editor .cm-focused .cm-selectionBackground {background:color-mix(in srgb,var(--accent) 27%,transparent)!important;}
+.code-editor .cm-content ::selection {background:transparent!important;}
 .code-editor .cm-tooltip-autocomplete { max-width: min(380px, 90vw); font-size: .9rem; }
 .code-editor .cm-tooltip-autocomplete ul { font-family: inherit; }
 .code-editor .cm-completionDetail { color: var(--muted); }

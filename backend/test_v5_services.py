@@ -30,14 +30,17 @@ class DailyMissionTests(unittest.TestCase):
         with self.assertRaises(ServiceError): self.service.claim_daily_task("ac-chain:0")
         self.service.start_training("fixture::A")
         self.accept()
-        before = self.service.insights()['growth']
+        self.assertEqual(self.service.insights()['growth']['achievementXp'],0)
+        before = self.service.claim_achievement('official-1')['growth']
         self.assertEqual(before['xp'],125)
         self.assertEqual(before['achievementXp'],25)
         self.assertEqual(before['missionXp'],0)
         with ThreadPoolExecutor(max_workers=8) as workers:
             results = list(workers.map(lambda _: self.service.claim_daily_task("ac-chain:0"), range(8)))
         self.assertEqual(sum(not result["alreadyClaimed"] for result in results), 1)
-        after = self.service.insights()['growth']
+        waiting=self.service.insights()['growth']
+        self.assertEqual(waiting['xp'],before['xp']+25)
+        after = self.service.claim_achievement('missions-1')['growth']
         self.assertEqual(after['xp'],before['xp'] + 25 + 15)
         self.assertEqual(after['missionXp'],25)
         self.assertEqual(after['achievementXp'],before['achievementXp'] + 15)
@@ -71,6 +74,8 @@ class DailyMissionTests(unittest.TestCase):
         self.assertEqual(tasks["hard-1800"]["xp"], tasks["hard-2100"]["xp"])
         for identity in ("ac-chain:0", "hard-1500", "hard-1800", "hard-2100"):
             self.service.claim_daily_task(identity)
+        for achievement in ('official-1','difficulty-1500','difficulty-1800','difficulty-2100','missions-1'):
+            self.service.claim_achievement(achievement)
         growth = self.service.insights()['growth']
         self.assertEqual(growth['missionXp'],305)
         self.assertEqual(growth['achievementXp'],220)

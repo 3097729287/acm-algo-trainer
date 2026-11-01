@@ -1,5 +1,10 @@
 .level-up-overlay { position:fixed;inset:0;z-index:11000;display:flex;align-items:center;justify-content:center;padding:16px;background:#0008;backdrop-filter:blur(5px); }
 .level-up-dialog { width:min(520px,100%);max-height:85vh;display:flex;flex-direction:column;border:1px solid var(--accent);border-radius:14px;background:var(--panel-raised-base,var(--panel-2));color:var(--text);box-shadow:0 22px 80px #0006;overflow:hidden;animation:level-dialog-enter .18s ease-out both; }
+.level-up-dialog {--panel:color-mix(in srgb,var(--panel-raised-base) var(--opacity-level-up,100%),transparent);background:var(--panel);}
+html[data-theme=light] .level-up-dialog {--accent:#177d65;--accent-soft:#e1f2eb;--text:#243b35;--muted:#637a71;--line:#cbded6;box-shadow:0 14px 50px #163e292e;}
+html[data-theme=light] .level-up-dialog>header,html[data-theme=light] .level-up-dialog>footer {background:#f5fbf7;}
+html[data-theme=light] .level-up-dialog .primary {color:#fff;background:#177d65;border-color:#177d65;}
+html[data-theme=light] .level-up-overlay {background:#25392b40;}
 .level-up-dialog>header,.level-up-dialog>footer { display:flex;align-items:center;justify-content:space-between;flex:none;padding:12px 18px;background:var(--panel-raised-base,var(--panel-2)); }
 .level-up-dialog>header { border-bottom:1px solid var(--line); }.level-up-dialog h2 { margin:0;font-size:1rem; }.level-up-dialog>footer { justify-content:flex-end;border-top:1px solid var(--line); }
 .level-up-dialog .icon-button { min-height:38px;min-width:38px;justify-content:center; }.level-up-body { overflow:auto;min-height:0;padding:12px 22px 20px; }

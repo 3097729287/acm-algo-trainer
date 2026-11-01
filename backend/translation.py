@@ -320,9 +320,34 @@ def restore(translated,tokens,require_chinese=True):
 
 
 class TranslationService:
-    def __init__(self,assets,state_dir,provider=None):
+    def __init__(self,assets,state_dir,provider=None,shared=None):
         from translation_config import ProviderSettings
         self.assets=assets;self.directory=Path(state_dir)/'translations';self.settings=ProviderSettings(state_dir);self.provider=provider or DeepSeekProvider(settings=self.settings);self.lock=threading.RLock()
+        self.shared=shared;self.share_pending=set();self.share_sent=set();self.share_lock=threading.Lock();self.share_slots=threading.Semaphore(2);self.share_stop=threading.Event()
+
+    def close(self):self.share_stop.set()
+
+    def _queue_share(self,problem,original,markdown):
+        if self.shared is None or self.share_stop.is_set():return
+        key=hashlib.sha256((problem['url']+'\n'+original).encode()).hexdigest()
+        owner=self.shared.owner() if callable(getattr(self.shared,'owner',None)) else None
+        with self.share_lock:
+            if key in self.share_pending or key in self.share_sent or len(self.share_pending)>=16:return
+            self.share_pending.add(key)
+        def upload():
+            try:
+                with self.share_slots:
+                    if self.share_stop.is_set():return
+                    confirmed=self.shared.publish({'url':problem['url']},original,markdown,TRANSLATION_FORMAT,owner)
+                    if confirmed:
+                        with self.share_lock:
+                            if len(self.share_sent)>=256:self.share_sent.clear()
+                            self.share_sent.add(key)
+            except Exception:
+                pass  # The already-saved translation remains usable offline.
+            finally:
+                with self.share_lock:self.share_pending.discard(key)
+        threading.Thread(target=upload,name='tb-public-translation',daemon=True).start()
 
     def status(self):return self.settings.status()
     def configure(self,body):return self.settings.configure(body)
@@ -381,6 +406,20 @@ class TranslationService:
         if len(re.findall(r'\b[A-Za-z]{3,}\b',prose))<5 and re.search(r'[\u3400-\u9fff]',prose):
             return {'id':identity,'markdown':original,'sourceLanguage':'zh-CN','targetLanguage':'zh-CN','provider':'原站中文题面','kind':'original','cached':True}
         if len(re.findall(r'\b[A-Za-z]{3,}\b',prose))<5:raise ServiceError(422,'当前题面没有足够英文正文，无需翻译')
+        if self.shared is not None:
+            public_hash=hashlib.sha256((TRANSLATION_FORMAT+'\n'+original).encode()).hexdigest()
+            public_path=self.directory/('shared-'+hashlib.sha256((problem['url']+'\n'+public_hash).encode()).hexdigest()+'.json')
+            saved=load(public_path,{})
+            if saved.get('sourceHash')==public_hash and saved.get('format')==TRANSLATION_FORMAT:
+                try:validate_translation(original,saved.get('markdown') or '')
+                except ServiceError:pass
+                else:return {k:v for k,v in dict(saved,id=identity,cached=True).items() if k!='sourceHash'}
+            shared=self.shared.get({'url':problem['url']},original,TRANSLATION_FORMAT)
+            if shared:
+                validate_translation(original,shared)
+                value=dict(id=identity,markdown=shared,sourceLanguage='en',targetLanguage='zh-CN',provider='共享译文',kind='shared',cached=True,sourceHash=public_hash,format=TRANSLATION_FORMAT)
+                atomic(public_path,value)
+                return {k:v for k,v in value.items() if k!='sourceHash'}
         configuration=self.settings.status() if isinstance(self.provider,DeepSeekProvider) else {}
         fingerprint=hashlib.sha256((TRANSLATION_FORMAT+'\n'+identity+'\n'+problem['url']+'\n'+original+'\n'+self.provider.name+'\n'+str(configuration.get('provider'))+'\n'+str(configuration.get('model'))+'\n'+str(configuration.get('baseUrl'))).encode()).hexdigest()
         path=self.directory/(fingerprint+'.json')
@@ -389,7 +428,10 @@ class TranslationService:
             if saved.get('sourceHash')==fingerprint and saved.get('id')==identity and saved.get('format')==TRANSLATION_FORMAT:
                 try:validate_translation(original,saved.get('markdown') or '')
                 except TranslationIncomplete:pass
-                else:return {k:v for k,v in dict(saved,cached=True).items() if k!='sourceHash'}
+                else:
+                    if self.shared is not None:atomic(public_path,dict(saved,sourceHash=public_hash))
+                    self._queue_share(problem,original,saved['markdown'])
+                    return {k:v for k,v in dict(saved,cached=True).items() if k!='sourceHash'}
             try:
                 chunks=translation_chunks(original)
                 markdown=''.join(self._translate_chunk(chunk) for chunk in chunks)
@@ -397,5 +439,7 @@ class TranslationService:
             except ServiceError as error:self.settings.error=str(error);raise
             value={'id':identity,'markdown':markdown,'sourceLanguage':'en','targetLanguage':'zh-CN','provider':self.provider.name,'cached':False,'sourceHash':fingerprint,'format':TRANSLATION_FORMAT,'notice':'机器翻译仅供理解；公式、代码、原题链接和数字保留，判断以原站题面为准。'}
             atomic(path,value)
+            if self.shared is not None:atomic(public_path,dict(value,sourceHash=public_hash))
+            self._queue_share(problem,original,markdown)
             if isinstance(self.provider,DeepSeekProvider):self.settings.mark_verified()
             return {k:v for k,v in value.items() if k!='sourceHash'}

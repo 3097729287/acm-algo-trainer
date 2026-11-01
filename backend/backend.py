@@ -262,11 +262,12 @@ class Handler(BaseHTTPRequestHandler):
                         training.assert_solution_unlocked(body.get("id"))
                         value = store.update(body)
                 elif path == "/api/training/start":
-                    value = training.start_training(body.get("id"), assisted=body.get("assisted") is True, defer_workspace=body.get('deferWorkspace') is True)
+                    value = training.start_training(body.get("id"), assisted=body.get("assisted") is True, defer_workspace=body.get('deferWorkspace') is True, activate=body.get('deferActivation') is not True)
                 elif path == "/api/training/remove":
                     value = training.remove_training(body.get("id"))
                 elif path == "/api/training/clear":
-                    value = training.clear_training()
+                    if set(body)-{'ids'}:raise APIError(400,'训练题目列表无效')
+                    value = training.clear_training(body.get('ids'))
                 elif path == "/api/goals/save":
                     from goals import Goals
                     value = Goals(training).save(body)
@@ -289,12 +290,15 @@ class Handler(BaseHTTPRequestHandler):
                 elif path == '/api/templates/save':
                     from code_templates import save
                     value = save(training, body)
+                    if accounts is not None:accounts.queue_sync()
                 elif path == '/api/initial-code/save':
                     from initial_code import save
                     value = save(training, body)
+                    if accounts is not None:accounts.queue_sync()
                 elif path == '/api/initial-code/select':
                     from initial_code import choose
                     value = choose(training, body)
+                    if accounts is not None:accounts.queue_sync()
                 elif path == '/api/code/format':
                     from code_format import format_code
                     value = format_code(training, body)
@@ -339,6 +343,9 @@ class Handler(BaseHTTPRequestHandler):
                     value = training.finish_contest(body.get("contestId"))
                 elif path == "/api/daily-tasks/claim":
                     value = training.claim_daily_task(body.get("id"), body.get("date"))
+                elif path == '/api/achievements/claim':
+                    if set(body)!={'id'}:raise APIError(400,'请选择有效成就')
+                    value=training.claim_achievement(body['id'],self.server.store.extensions.snapshot())
                 elif path in ("/api/profile", "/api/identity"):
                     if accounts is not None:
                         if set(body) - {'nickname', 'endpoint'} or body.get('endpoint', accounts.endpoint) != accounts.endpoint:
@@ -824,7 +831,8 @@ class LocalServer(ThreadingHTTPServer):
         with self.translation_lock:
             if self.translation is None:
                 from translation import TranslationService
-                self.translation = TranslationService(self.training._asset_library(), self.state_dir)
+                from shared_translations import SharedStatementTranslations
+                self.translation = TranslationService(self.training._asset_library(), self.state_dir,shared=SharedStatementTranslations(self.training))
             return self.translation
 
     def calendar_service(self):
@@ -865,6 +873,8 @@ class LocalServer(ThreadingHTTPServer):
     def server_close(self):
         content=getattr(self,'content_updates',None)
         if content is not None:content.close()
+        translation=getattr(self,'translation',None)
+        if translation is not None and callable(getattr(translation,'close',None)):translation.close()
         cache=getattr(self,'catalogue_compression',None)
         if cache is not None:cache.clear()
         backfill = getattr(self, 'statement_backfill', None)

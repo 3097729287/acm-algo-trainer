@@ -1,0 +1,10 @@
+.settings-categories {min-width:0;width:100%;}
+html .settings-category-grid {display:grid!important;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px;margin-top:16px;}
+html .settings-category-grid>button {display:flex;align-items:center;gap:14px;min-height:96px;padding:16px 18px;text-align:left;color:var(--text);background:var(--panel-2);border:1px solid var(--line);border-radius:8px;}
+html .settings-category-grid>button>svg:first-child {color:var(--accent);flex:none;}
+html .settings-category-grid>button>strong {font-size:1rem;line-height:1.4;}
+html .settings-category-grid .settings-category-arrow {margin-left:auto;color:var(--muted);flex:none;}
+.settings-category-heading {display:flex;align-items:center;gap:10px;margin:14px 0 8px;}
+.settings-category-heading h3 {margin:0;font-size:1rem;}
+.settings-category-content {min-width:0;}
+html .settings-category-content .setting-line {min-height:62px;}

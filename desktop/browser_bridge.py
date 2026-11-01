@@ -375,10 +375,10 @@ class BrowserBridge:
             if value.get('attempted') is False:
                 session.pop('dispatchedAt', None)
                 session['attempted'] = False
-        for key in ('status', 'message', 'compiler', 'attempted', 'baseline', 'baselineKnown', 'baselineOwner'):
+        for key in ('status', 'message', 'verdictDetail', 'compiler', 'attempted', 'baseline', 'baselineKnown', 'baselineOwner'):
             if key in value:
                 item = value[key]
-                if key in ('message', 'compiler', 'baselineOwner'):
+                if key in ('message', 'verdictDetail', 'compiler', 'baselineOwner'):
                     if not isinstance(item, str):
                         continue
                     item = item[:500]

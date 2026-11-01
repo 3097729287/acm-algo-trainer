@@ -16,12 +16,13 @@ const crowns = [
   'M15 11 14 7l4 2 2-3 2 3 4-2-1 4Z',
 ];
 
-export default function RankingMedal({ period, rank }) {
+export default function RankingMedal({ period, rank, dominance }) {
+  const days=rank===1?Math.max(0,Math.min(100000,Math.floor(Number(dominance?.days)||0))):0;
   if (!names[period] || !Number.isInteger(rank) || rank < 1 || rank > 3) return null;
   const label = names[period] + places[rank - 1] + '奖牌';
   const grade = (period === 'total' ? 9 : period === 'weekly' ? 6 : 3) - rank + 1;
   return <svg className={`ranking-medal ranking-medal-${period} ranking-medal-${period}-${rank}`}
-    viewBox="0 0 40 44" role="img" aria-label={label} data-grade={grade} data-rank={rank}
+    viewBox={days?"0 0 40 60":"0 0 40 44"} data-days={days||undefined} role="img" aria-label={label+(days?` · 连续第一 ${days} 天`:'')} data-grade={grade} data-rank={rank}
     fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
     <title>{label}</title>
     {period === 'daily' && <>
@@ -40,5 +41,12 @@ export default function RankingMedal({ period, rank }) {
       <path d={crowns[rank - 1]} className="ranking-medal-crown"/>
     </>}
     <text x="20" y={period === 'weekly' ? '26.5' : '29.5'} textAnchor="middle" className="ranking-medal-number">{rank}</text>
+    {days>0&&<Dominance days={days}/>}
   </svg>;
+}
+
+function Dominance({days}) {
+  if(days>=9)return <g className="ranking-dominance" aria-hidden="true"><path d="M10 46h20l-1 10-9 4-9-4Z" fill="currentColor" fillOpacity=".14"/><text x="20" y="55" textAnchor="middle" fontSize={days>=1000?6:8} fontWeight="700" fill="currentColor" stroke="none">{days}</text></g>;
+  const crowns=Math.floor(days/3),stars=days%3,items=[...Array(crowns).fill('crown'),...Array(stars).fill('star')],width=items.length*9-1;
+  return <g className="ranking-dominance" aria-hidden="true">{items.map((kind,index)=><g key={index} transform={`translate(${20-width/2+index*9} 47)`}>{kind==='crown'?<path d="m0 2 2 2 2-4 2 4 2-2-1 6H1Z" fill="currentColor" fillOpacity=".65" strokeWidth=".7"/>:<path d="m4 0 1.2 2.7L8 3l-2.1 2 0.6 3L4 6.5 1.5 8l.6-3L0 3l2.8-.3Z" fill="currentColor" fillOpacity=".7" strokeWidth=".6"/>}</g>)}</g>;
 }

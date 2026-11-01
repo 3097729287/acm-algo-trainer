@@ -1,4 +1,4 @@
-import {matchesShortcut} from '@/lib/shortcuts.js';
+import {EXTRA_SHORTCUTS,matchesShortcut} from '@/lib/shortcuts.js';
 import {useFeatureVisibility} from '@/lib/FeatureVisibility.jsx';
 import ThemedSelect from '@/components/ThemedSelect.jsx';
 import BoundedNumber from '@/components/BoundedNumber.jsx';
@@ -11,7 +11,7 @@ import {ChangeSet} from '@codemirror/state';
 import {isolateHistory} from '@codemirror/commands';
 import {
   ArrowLeft, ArrowRight, BookOpen, Check, ChevronDown, ChevronUp,
-  Code2, Copy, ExternalLink, History, LoaderCircle,
+  LockKeyhole, LockKeyholeOpen, Code2, Copy, ExternalLink, History, LoaderCircle,
   PanelLeft, PanelsTopLeft, Play, RotateCcw, Send, Terminal,
 } from 'lucide-react';
 import { normalizeMarkdown } from '@/lib/normalizeMarkdown.js';
@@ -235,6 +235,9 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   const [codeLanguage,setCodeLanguage]=useState('cpp17');
   const [saveState, setSaveState] = useState({ kind: 'automatic' });
   const [pane, setPane] = useState('both');
+  const [toolbarPinned,setToolbarPinned]=useState(true),[toolbarShown,setToolbarShown]=useState(true);
+  const toolbarKind=contest?(contest.constraints?.calendarEvent||contest.calendarId||contest.live?'contest':'mock'):'practice';
+  const toolbarLock=<button type="button" className="wb-icon-button wb-toolbar-lock" aria-label={toolbarPinned?'解锁顶部工具栏':'锁定顶部工具栏'} title={toolbarPinned?'解锁顶部工具栏':'锁定顶部工具栏'} aria-pressed={toolbarPinned} onClick={()=>{const next=!toolbarPinned;setToolbarPinned(next);setToolbarShown(next);if(!next)editorRef.current?.focus();}}>{toolbarPinned?<LockKeyhole size={16}/>:<LockKeyholeOpen size={16}/>}</button>;
   const [splitRatio,setSplitRatio]=useState(50),[splitBounds,setSplitBounds]=useState([30,70]);
   const dragCleanup=useRef(null),saveFeedback=useRef({at:0,key:null,revision:0}),[saveToast,setSaveToast]=useState(false),saveToastTimer=useRef(null);
   useEffect(()=>()=>{dragCleanup.current?.();clearTimeout(saveToastTimer.current);},[]);
@@ -809,10 +812,19 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
     else if (command === 'pane-0') setPane('both');
     else if (command === 'pane-1') focusPane('statement');
     else if (command === 'pane-2') focusPane('code');
+    else if(command==='workbench-back')void exit();
+    else if(command==='workbench-next'){void saveRecord(activeRecord.current).then(saved=>{if(saved)callbacks.current.onNext?.();});}
+    else if(command==='statement-language')toggleStatementLanguage();
+    else if(command==='statement-copy')void copyStatement();
+    else if(command==='toolbar-lock'){setToolbarPinned(value=>!value);setToolbarShown(!toolbarPinned);editorRef.current?.focus();}
+    else if(command==='initial-code')setInitialPickerOpen(true);
+    else if(command==='code-templates'&&featureAvailable('templates',true))setTemplatesOpen(true);
+    else if(command==='workbench-solution')sectionRef.current?.querySelector('.wb-solution-button:not(:disabled)')?.click();
+    else if(command==='console-toggle')setConsoleOpen(value=>!value);
   };
   const handleKeys = event => {
     if (event.defaultPrevented || event.nativeEvent.isComposing) return;
-    const id=['official','submit','run','save','pane-0','pane-1','pane-2'].find(id=>matchesShortcut(event,id,shortcuts));
+    const id=['official','submit','run','save','pane-0','pane-1','pane-2',...EXTRA_SHORTCUTS.filter(item=>item[3]==='编辑器').map(item=>item[0])].find(id=>matchesShortcut(event,id,shortcuts));
     if(id){event.preventDefault();event.stopPropagation();editorCommand(id);}
 
   };
@@ -866,9 +878,10 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
       setStatementCopied(true);clearTimeout(statementCopyTimer.current);statementCopyTimer.current=setTimeout(()=>setStatementCopied(false),1600);
     }catch{setActionError('暂时无法复制题面，请选中题面后复制。');}
   };
-  return <section className={`tb-workbench wb-pane-${effectivePane}${narrow?' wb-compact':''}`} ref={sectionRef} style={{'--wb-split-columns':`minmax(0,${splitRatio}fr) 8px minmax(0,${100-splitRatio}fr)`}} onKeyDown={handleKeys} aria-label="代码训练工作台" data-problem-id={problemId}>
+  return <section className={`tb-workbench wb-pane-${effectivePane}${narrow?' wb-compact':''}${!toolbarPinned&&!toolbarShown?' wb-toolbar-hidden':''}`} data-surface={toolbarKind} ref={sectionRef} style={{'--wb-split-columns':`minmax(0,${splitRatio}fr) 8px minmax(0,${100-splitRatio}fr)`}} onPointerMove={event=>{if(toolbarPinned)return;const top=sectionRef.current?.getBoundingClientRect().top||0;if(event.clientY-top<=44)setToolbarShown(true);else if(!sectionRef.current?.querySelector('.wb-pane-header:focus-within,.wb-compact-toolbar:focus-within'))setToolbarShown(false);}} onFocusCapture={event=>{if(event.target.closest('.wb-pane-header,.wb-compact-toolbar,.wb-toolbar-reveal'))setToolbarShown(true);else if(!toolbarPinned)setToolbarShown(false);}} onKeyDown={handleKeys} aria-label="代码训练工作台" data-problem-id={problemId}>
 
-    {narrow&&<div className="wb-compact-toolbar"><button type="button" className="wb-icon-button wb-back-button" onClick={exit} title="返回列表" aria-label={runningContest?'返回工作台':'返回列表'}><ArrowLeft size={17}/></button>{effectivePane==='code'&&headerStart}<div className="wb-pane-buttons" role="group" aria-label="工作台布局"><button type="button" className="wb-icon-button" aria-label="只看题面" title="只看题面 · Alt+1" aria-pressed={effectivePane==='statement'} onClick={()=>focusPane('statement')}><PanelLeft size={17}/></button>{layoutToggle}</div><strong><InlineTitle>{problem?.title||'题目'}</InlineTitle></strong>{headerEnd}</div>}
+    {!toolbarPinned&&<button type="button" className="wb-toolbar-reveal" aria-label="显示顶部工具栏" onFocus={()=>setToolbarShown(true)} onPointerEnter={()=>setToolbarShown(true)} onClick={()=>setToolbarShown(true)}/>}
+    {narrow&&<div className="wb-compact-toolbar">{toolbarLock}<button type="button" className="wb-icon-button wb-back-button" onClick={exit} title="返回列表" aria-label={runningContest?'返回工作台':'返回列表'}><ArrowLeft size={17}/></button>{effectivePane==='code'&&headerStart}<div className="wb-pane-buttons" role="group" aria-label="工作台布局"><button type="button" className="wb-icon-button" aria-label="只看题面" title="只看题面 · Alt+1" aria-pressed={effectivePane==='statement'} onClick={()=>focusPane('statement')}><PanelLeft size={17}/></button>{layoutToggle}</div><strong><InlineTitle>{problem?.title||'题目'}</InlineTitle></strong>{headerEnd}</div>}
 
     {saveToast&&<div className="toast success wb-save-toast" role="status"><Check size={17}/><span>草稿已保存</span></div>}
     {initialPickerOpen&&<InitialCodePicker api={api} language={codeLanguage} selected={startingTemplate(initialCode,codeLanguage).id} onClose={()=>setInitialPickerOpen(false)} onSelect={(item,snapshot)=>{const record=activeRecord.current;if(record?.key!==contextKey||record.closed||record.language!==item.language)return;setInitialCode(snapshot);loadOwnCode(item.language==='cpp17'&&item.id==='default'?normalizeCppTemplate(item.code):item.code);}}/>}
@@ -914,7 +927,8 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
 
       <div className="wb-code-pane">
         <div className="wb-pane-header wb-editor-header">
-          <span><Code2 size={14}/><ThemedSelect aria-label="编程语言" value={codeLanguage} disabled={unavailable||busy||officialBusy} onChange={changeCodeLanguage}><option value="cpp17">C++17</option><option value="python3">Python 3</option></ThemedSelect></span>
+          {!narrow&&toolbarLock}
+          <span className="wb-language-select"><Code2 size={14}/><ThemedSelect aria-label="编程语言" value={codeLanguage} disabled={unavailable||busy||officialBusy} onChange={changeCodeLanguage}><option value="cpp17">C++17</option><option value="python3">Python 3</option></ThemedSelect></span>
           <InitialCodeButton title={startingTemplate(initialCode,codeLanguage).title} disabled={loading||!problem||unavailable||busy||officialBusy} onClick={()=>setInitialPickerOpen(true)}/>
           {!['saved','automatic'].includes(saveState.kind)&&<span className={`wb-save-state wb-save-${saveState.kind}`} title={saveState.message||saveLabel} aria-label={saveLabel} role={saveState.kind==='error'?'alert':'status'}>{saveState.kind==='saving'?<LoaderCircle size={14} className="wb-spinner"/>:saveState.kind==='unsaved'?<span className="wb-pending-dot"/>:saveLabel}</span>}
           <div className="wb-editor-actions">
@@ -963,7 +977,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
           </div> : consoleTab === 'history' ? <div className="wb-history">
             {submissions.length ? submissions.map(row => <div className={`wb-history-row${row.id === resultId ? ' wb-history-selected' : ''}`} key={row.id}>
               <button type="button" className="wb-history-main" onClick={() => { setResultId(row.id); setConsoleTab('result'); setOutputTab(row.stderr && !row.output ? 'stderr' : 'output'); }}>
-                <span className="wb-history-kind">{row.mode === 'run' ? '运行' : '提交'}</span><Verdict submission={row} /><time dateTime={row.submittedAt}>{dateText(row.submittedAt)}</time>
+                <span className="wb-history-kind">{row.mode === 'run' ? '运行' : '提交'}</span><Verdict submission={row} />{row.verdictDetail&&<span className="wb-history-detail">{row.verdictDetail}</span>}<time dateTime={row.submittedAt}>{dateText(row.submittedAt)}</time>
               </button>
               <button type="button" className="wb-history-load" disabled={unavailable || !row.code&&!row.codePending} onClick={() => loadHistoryCode(row)} title="将这次自己的代码载入编辑器">载入代码</button>
             </div>) : <div className="wb-empty"><History size={21} /><span>运行或提交后，记录会保存在这里。</span></div>}

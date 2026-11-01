@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {trainingListModel} from '../src/lib/trainingListModel.js';
+const lists=JSON.parse(fs.readFileSync('../data/library/training_lists.json','utf8'));
+const rows=JSON.parse(fs.readFileSync('../data/library/problems.json','utf8')).map(row=>row.encoded);
+const start=performance.now(),first=trainingListModel(lists,rows,'algorithm',[]),cold=performance.now()-start;
+const repeatStart=performance.now(),repeat=trainingListModel(lists,rows,'algorithm',[]),warm=performance.now()-repeatStart;
+assert.equal(first,repeat);assert(first.organized.length>10);
+const favorite=trainingListModel(lists,rows,'algorithm',[rows[0].id]);
+assert.notEqual(favorite,first);assert.equal(trainingListModel(lists,rows,'algorithm',[]),first);
+const updated=trainingListModel(lists,rows.map((row,index)=>index?row:{...row,accepted:true}),'algorithm',[]);
+assert.notEqual(updated.index,first.index);
+console.log(JSON.stringify({lists:lists.length,rows:rows.length,coldMs:Number(cold.toFixed(2)),warmMs:Number(warm.toFixed(2)),cacheReuse:true,favoriteAndProgressInvalidation:true}));

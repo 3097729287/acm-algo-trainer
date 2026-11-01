@@ -13,7 +13,7 @@ const buildings=[
  'M82 40V22h9v7h7v11M85 27h3m5 7h2',
 ];
 const cityFrames=buildings.map((_,index)=>{
- const start=4+index*8,land=start+3;
+ const start=4+index*8,land=start+2;
  return `@keyframes settings-city-drop-${index}{0%,${start}%{opacity:0;transform:translateY(-12px)}${start+.5}%{opacity:1;transform:translateY(-12px)}${land}%,83.5%{opacity:1;transform:translateY(0)}84.5%,100%{opacity:0;transform:translateY(0)}}`;
 }).join('');
 

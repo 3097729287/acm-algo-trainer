@@ -1,0 +1,14 @@
+Editor theme references
+
+Woodfish Black / Neon / Light palette colors and the Woodfish visual reference:
+https://github.com/woodfishhhh/Woodfish-Theme
+Reference commit: 162883f73474d11ad703c30d9568dac0a33bd6c6
+Copyright (c) 2024 Woodfish. MIT; see Woodfish-LICENSE.txt.
+
+Dracula / Woodfish Dracula palette reference:
+https://github.com/dracula/visual-studio-code
+MIT; see Dracula-LICENSE.txt.
+
+The CodeMirror gradient, glow, cursor and popup styles are original ToBe code.
+The deep-space palette is original. No Bearded theme, third-party extension
+runtime, workbench patcher or screenshot is included in the application.

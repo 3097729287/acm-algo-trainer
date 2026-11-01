@@ -205,6 +205,8 @@ print(*(p[v[i+1]]-p[v[i]] for i in range(2+n,len(v),2)))
         self.service.connection.execute('CREATE TABLE IF NOT EXISTS account_sync_conflicts(id TEXT PRIMARY KEY,data TEXT NOT NULL)')
         original = {'tables': {name: [dict(row) for row in self.service.connection.execute(f'SELECT * FROM "{name}"')] for name in TABLES}, 'publicAccounts': {}}
         self.accept()
+        self.assertEqual(self.service.insights()['growth']['totalXp'],100)
+        self.service.claim_achievement('official-1')
         self.assertEqual(self.service.insights()['growth']['totalXp'], 125)
         only_a = {'tables': {name: [dict(row) for row in self.service.connection.execute(f'SELECT * FROM "{name}"')] for name in TABLES}, 'publicAccounts': {}}
         granted = self.pass_challenge()

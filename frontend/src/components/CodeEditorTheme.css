@@ -1,0 +1,49 @@
+/* Palette colors stay local to the code surface, including mixed light/dark UI. */
+.code-editor {
+  --editor-background:var(--panel-base,var(--panel));
+  --editor-foreground:var(--text);
+  --editor-gutter:var(--muted);
+  --editor-accent:var(--accent);
+  --editor-active-line:var(--accent-soft);
+  --editor-selection:color-mix(in srgb,var(--accent) 22%,transparent);
+  --editor-line:var(--line);
+  --editor-popup:var(--panel-2);
+}
+.code-editor .tok-keyword {--token-color:var(--code-keyword);color:var(--token-color);}
+.code-editor .tok-type {--token-color:var(--code-type);color:var(--token-color);}
+.code-editor .tok-string {--token-color:var(--code-string);color:var(--token-color);}
+.code-editor .tok-number {--token-color:var(--code-number);color:var(--token-color);}
+.code-editor .tok-function {--token-color:var(--code-function);color:var(--token-color);}
+.code-editor .tok-meta {--token-color:var(--code-meta);color:var(--token-color);}
+.code-editor .tok-comment {color:var(--code-comment);font-style:italic;}
+.code-editor .tok-operator {color:var(--code-operator);}
+.code-editor .cm-gutters {border-right-color:var(--editor-line);}
+.code-editor :is(.cm-tooltip,.cm-panels) {background:var(--editor-popup);color:var(--editor-foreground);border-color:var(--editor-line);}
+.code-editor .cm-tooltip-autocomplete > ul > li[aria-selected] {background:var(--editor-selection);color:var(--editor-foreground);}
+.code-editor :is(.cm-search,.cm-tooltip) {--text:var(--editor-foreground);--muted:var(--editor-gutter);--line:var(--editor-line);--panel:var(--editor-background);--accent:var(--editor-accent);}
+.code-editor .cm-content::selection,.code-editor .cm-content ::selection {background:transparent!important;}
+
+/* Static token gradients retain syntax hierarchy; comments and brackets stay flat. */
+:is(html[data-editor-effect=rainbow] .code-editor:not([data-editor-theme]),.code-editor[data-editor-effect=rainbow]) :is(.tok-keyword,.tok-type,.tok-string,.tok-number,.tok-function,.tok-meta) {
+  background-image:linear-gradient(115deg,var(--token-color) 15%,color-mix(in oklch,var(--token-color) 72%,var(--editor-shift)) 100%);
+  background-clip:text;
+  -webkit-background-clip:text;
+  color:transparent;
+  text-shadow:0 0 7px color-mix(in srgb,var(--token-color) 20%,transparent);
+}
+:is(html[data-editor-effect=rainbow] .code-editor:not([data-editor-theme]),.code-editor[data-editor-effect=rainbow]) .cm-cursor {
+  border-left:0!important;
+  width:2px;
+  background-image:var(--editor-cursor-spectrum,linear-gradient(180deg,#ff92c4,#bda3ff,#8be9fd,#8be5b4,#ff92c4));
+  background-position:0 0;
+  background-size:100% 400%;
+  box-shadow:0 0 4px #bda3ff55;
+  animation:editor-cursor-spectrum 9s linear infinite;
+}
+:is(html[data-editor-effect=rainbow] .code-editor:not([data-editor-theme]),.code-editor[data-editor-effect=rainbow]) .cm-tooltip {
+  backdrop-filter:blur(14px) saturate(115%);
+  box-shadow:0 8px 28px #0003;
+}
+@keyframes editor-cursor-spectrum {to{background-position:0 100%;}}
+html[data-motion=off] .code-editor .cm-cursor {animation:none!important;}
+@media(prefers-reduced-motion:reduce){.code-editor .cm-cursor{animation:none!important;}}

@@ -12,7 +12,14 @@ AC_ACHIEVEMENT_REWARDS = (
     (200, 160), (300, 200), (500, 0), (750, 0), (1000, 0),
     (1500, 0), (2000, 0),
 )
+# Keep historical IDs and paid XP while moving the difficulty ladder to 1500–2300.
+DIFFICULTY_LADDER = ((1500,1500,'进阶第一步'),(1800,1600,'攻坚突破'),
+                    (2100,1700,'高难突破'),(2400,1800,'钻石攻坚者'),
+                    (2700,1900,'大师挑战者'),(3000,2000,'宗师突破'),
+                    (3300,2150,'王者之路'),(3600,2300,'巅峰解题者'))
 ACHIEVEMENT_TITLES = {
+    **{f'difficulty-{identity}':{'id':f'difficulty-{identity}','name':name,'category':'difficulty','target':level}
+       for identity,level,name in DIFFICULTY_LADDER},
     **{f'official-{target}': {'id': f'ac-{target}', 'name': name, 'category': 'ac', 'target': target}
        for target, name in ((500, '解题能手'), (750, '解题精英'), (1000, '千题大师'), (1500, '解题宗师'), (2000, '双千传奇'))},
     **{f'streak-{target}': {'id': f'streak-{target}', 'name': name, 'category': 'streak', 'target': target}
@@ -30,6 +37,14 @@ ACHIEVEMENT_DEFINITIONS = {
     'platforms-2': {'target': 2, 'rewardXp': 40},
     **{key:{'target':target,'rewardXp':xp} for key,target,xp in [('collection-10',10,25),('curation-1',1,25),('curation-5',5,60),('appearance-1',1,10),('lessons-1',1,15),('lessons-10',10,60),('topics-5',5,50),('platforms-3',3,70),('recovery-3',3,60),('new-ten-day',10,80),('daily-leader-1',1,80)]},
     **{f'missions-{target}': {'target': target, 'rewardXp': xp} for target, xp in ((1, 15), (10, 40), (50, 80))},
+    **{key:{'target':target,'rewardXp':xp} for key,target,xp in (
+        ('morning-submit',1,20),('evening-submit',1,20),('weekend-submit',1,15),
+        ('day-submissions-10',10,25),('day-submissions-30',30,40),('day-submissions-60',60,60),
+        ('day-ac-5',5,30),('day-ac-10',10,50),('day-ac-20',20,80),
+        ('day-wa-3',3,15),('day-wa-10',10,25),('day-wa-20',20,35),
+        ('review-rebound-2',2,40),('review-rebound-3',3,70),('review-rebound-5',5,100),
+        ('hearts-given-3',3,20),('hearts-given-10',10,40),('hearts-given-25',25,60),
+        ('leader-tease',1,20),('daily-leader-3',3,60),('daily-leader-7',7,100),('daily-leader-30',30,200))},
 }
 
 
@@ -56,7 +71,7 @@ def earned_titles(claims):
         if claim is not None:
             titles.append({**definition, 'unlockedAt': claim.get('unlockedAt')})
     equipped = [max((title for title in titles if title['category'] == category),
-                    key=lambda title: title['target'], default=None) for category in ('ac', 'streak')]
+                    key=lambda title: title['target'], default=None) for category in ('ac', 'streak', 'difficulty')]
     return titles, [dict(title) for title in equipped if title]
 
 
@@ -74,7 +89,7 @@ def public_progress(insights):
     return {'level': min(100, max(1, int(growth.get('level') or 1))), 'tier': growth.get('tier') or '黑铁',
             'rankTier': rank.get('tier') if placed else None, 'rankScore': rank.get('score') if placed else None,
             'titles': [{key: title[key] for key in ('id', 'name', 'category', 'target')}
-                       for title in growth.get('equippedTitles', [])]}
+                       for title in growth.get('equippedTitles', []) if title.get('category') in {'ac','streak'}]}
 
 
 def ac_achievements(first_accepted):
@@ -319,8 +334,8 @@ def extra_achievements(evidence, records, completed, longest_streak, claimed_dat
         values = sorted(value for value in values if value)
         result.append({"id": identity, "name": name, "description": description, "unlocked": len(values) >= target,
                        "unlockedAt": values[target - 1] if len(values) >= target else None, "progress": min(target, len(values)), "target": target, "rewardXp": achievement_reward(identity)})
-    for difficulty, name in ((1500, "进阶第一步"), (1800, "攻坚突破"), (2100, "高难突破"), (2400, "钻石攻坚者"), (2700, "大师挑战者"), (3000, "宗师突破"), (3300, "王者之路"), (3600, "巅峰解题者")):
-        add("difficulty-" + str(difficulty), name, f"官方首次 AC 一道难度至少 {difficulty} 的题目", [item["acceptedAt"] for item in evidence if item.get("difficulty") is not None and item["difficulty"] >= difficulty and item.get("acceptedAt")], 1)
+    for identity, difficulty, name in DIFFICULTY_LADDER:
+        add("difficulty-" + str(identity), name, f"官方首次 AC 一道难度至少 {difficulty} 的题目", [item["acceptedAt"] for item in evidence if item.get("difficulty") is not None and item["difficulty"] >= difficulty and item.get("acceptedAt")], 1)
     add("independent-5", "独立五题", "独立官方 AC 五道不同题目；看题解后的 AC 不计入", [item["acceptedAt"] for item in evidence if item.get("independent") and item.get("acceptedAt")], 5)
     add("independent-25", "独立积累", "独立官方 AC 二十五道不同题目", [item["acceptedAt"] for item in evidence if item.get("independent") and item.get("acceptedAt")], 25)
     for target, name in ((100, '百题先锋'), (300, '算法精英'), (1000, '千题大师')):

@@ -4,6 +4,7 @@
 .mock-focus .mock-page-tabs {
   display: none;
 }
+.mock-problem-menu {background:var(--panel)!important;box-shadow:0 8px 26px #0003;border:1px solid var(--line);}
 .mock-focus .workspace-area {
   padding: 0;
   gap: 0;

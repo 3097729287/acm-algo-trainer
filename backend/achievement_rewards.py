@@ -9,11 +9,35 @@ from __future__ import annotations
 
 import datetime as dt
 import math
+import json
 
 from progression import ACHIEVEMENT_DEFINITIONS, achievement_title, parse_time
 
 
-def award_achievement_xp(connection, achievements, now=None):
+def preserve_completion(training,achievements):
+    """Remember earned milestones without paying them before an explicit claim."""
+    saved={}
+    for row in training.connection.execute("SELECT key,value FROM account_preferences WHERE key LIKE 'achievement-unlock:%'"):
+        try:value=json.loads(row[1])
+        except (ValueError,TypeError):continue
+        if isinstance(value,dict):saved[row[0].split(':',1)[1]]=value
+    updates=[];now=training._now().astimezone(dt.timezone.utc).isoformat()
+    for item in achievements:
+        identity=item.get('id');definition=ACHIEVEMENT_DEFINITIONS.get(identity)
+        if not definition:continue
+        completed=saved.get(identity)
+        if completed:
+            item.update(unlocked=True,progress=definition['target'],unlockedAt=completed.get('unlockedAt') or completed.get('observedAt'))
+        elif item.get('unlocked') is True and item.get('target')==definition['target'] and isinstance(item.get('progress'),(int,float)) and item['progress']>=definition['target']:
+            stamp=parse_time(item.get('unlockedAt'))
+            at=stamp.astimezone(dt.timezone.utc).isoformat() if stamp else now
+            updates.append(('achievement-unlock:'+identity,json.dumps({'unlockedAt':at,'observedAt':now}),now))
+            item['unlockedAt']=at
+    if updates:
+        with training._write() as connection:connection.executemany('INSERT OR IGNORE INTO account_preferences VALUES(?,?,?)',updates)
+
+
+def award_achievement_xp(connection, achievements, now=None, *, claim_ids=None):
     """Persist newly earned known bonuses and return ``xp/newXp/claims``.
 
     ``achievements`` must be the complete server-computed collection, never an
@@ -22,6 +46,8 @@ def award_achievement_xp(connection, achievements, now=None):
     and measured progress must agree before a first claim. Existing claims keep
     their original XP even after a definition or public evidence later changes.
     The caller owns the surrounding write transaction and rollback/backup rules.
+    Reads pass an empty collection; a claim passes only its validated stable ID.
+    None retains the old helper behavior for restoring legacy award batches.
     """
     stamp = now or dt.datetime.now(dt.timezone.utc)
     stamp = stamp if isinstance(stamp, dt.datetime) else parse_time(stamp)
@@ -58,6 +84,8 @@ def award_achievement_xp(connection, achievements, now=None):
                 item.update(unlocked=True, progress=definition['target'], unlockedAt=claim['unlockedAt'])
             continue
         item['rewardClaimed'] = False
+        if claim_ids is not None and identity not in claim_ids:
+            continue
         progress = item.get('progress')
         if (not definition or item.get('unlocked') is not True
                 or not isinstance(progress, (int, float)) or isinstance(progress, bool)

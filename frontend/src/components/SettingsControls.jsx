@@ -1,4 +1,4 @@
-import { Check } from 'lucide-react';
+import { Check, Code2 } from 'lucide-react';
 import Tooltip from './Tooltip.jsx';
 import BoundedNumber from './BoundedNumber.jsx';
 import './SettingsControls.css';
@@ -6,8 +6,9 @@ import './SettingsControls.css';
 export function SettingRow({title,hint,children}){
   return <div className="setting-line"><div className="setting-label"><strong>{title}</strong>{hint&&<Tooltip text={hint} label={`${title}说明`}/>}</div><div className="setting-control">{children}</div></div>;
 }
-export function VisualPreferences({prefs,setPrefs}){
+export function VisualPreferences({prefs,setPrefs,onCodeThemes}){
   return <section className="visual-preferences" aria-label="界面偏好"><h2>界面偏好</h2>
+    <SettingRow title="代码主题"><button type="button" className="icon-button" aria-label="打开代码主题" title="代码主题" onClick={onCodeThemes}><Code2 size={19}/></button></SettingRow>
     <SettingRow title="强调色" hint="用于核心操作、选中项和键盘焦点。"><div className="accent-options">{[['violet','雾紫','#9d8df1'],['blue','澄空蓝','#6fa5e8'],['teal','松石绿','#5bbda4'],['amber','暖琥珀','#d7a45e']].map(([id,name,color])=><Tooltip key={id} text={name}><button aria-label={name} aria-pressed={prefs.accent===id} style={{'--swatch':color}} className={prefs.accent===id?'active':''} onClick={()=>setPrefs(previous=>({...previous,accent:id}))}><span/>{prefs.accent===id&&<Check size={12}/>}</button></Tooltip>)}</div></SettingRow>
     <SettingRow title="难度显示"><div className="choice-group" role="group" aria-label="难度显示">{[['number','数字'],['text','文字']].map(([value,label])=><button type="button" key={value} aria-pressed={(prefs.difficultyDisplay==='text'?'text':'number')===value} className={(prefs.difficultyDisplay==='text'?'text':'number')===value?'active':''} onClick={()=>setPrefs(previous=>({...previous,difficultyDisplay:value}))}>{label}</button>)}</div></SettingRow>
     <SettingRow title="界面字号" hint="可输入 13–22 px；题目列表和控件同步调整。"><BoundedNumber aria-label="界面字号" value={prefs.fontSize} min={13} max={22} unit="px" required onChange={event=>setPrefs(previous=>({...previous,fontSize:Number(event.target.value)}))}/></SettingRow>

@@ -48,6 +48,33 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(self.service.problem(row['id'])['draft'],'saved accepted code')
         self.assertEqual(self.service.connection.execute('SELECT code FROM submissions WHERE id=?',(receipt['id'],)).fetchone()[0],'independent rewrite')
 
+    def test_clearing_today_preserves_overdue_reviews_and_original_code_tomorrow(self):
+        self.seed()
+        self.service.save_draft('fixture::A','private original solution')
+        self.clock.advance(days=1)
+        task=self.due()
+        before=self.service.connection.execute('SELECT COUNT(*) FROM submissions').fetchone()[0]
+        self.assertEqual(self.service.clear_training()['workspace']['training'],[])
+        self.assertEqual(self.service.review_plan()['tasks'],[])
+        self.clock.advance(days=1)
+        self.assertEqual(self.due()['id'],task['id'])
+        training=self.service.workspace()['training']
+        self.assertTrue(any(item['id']=='fixture::A' and item.get('reviewTask',{}).get('id')==task['id'] for item in training))
+        self.assertEqual(self.service.clear_training(['fixture::A'])['workspace']['training'],[])
+        self.clock.advance(days=1)
+        self.assertEqual(self.due()['id'],task['id'])
+        self.assertEqual(self.service.problem('fixture::A')['draft'],'private original solution')
+        self.assertEqual(self.service.connection.execute('SELECT COUNT(*) FROM submissions').fetchone()[0],before)
+
+    def test_browsing_without_activation_only_joins_after_an_actual_draft_change(self):
+        self.service.start_training('fixture::B',activate=False,defer_workspace=True)
+        self.assertEqual(self.service.connection.execute("SELECT COUNT(*) FROM training WHERE id='fixture::B' AND active=1").fetchone()[0],0)
+        self.service.save_draft('fixture::B','int main() { return 0; }')
+        self.assertEqual(self.service.connection.execute("SELECT active FROM training WHERE id='fixture::B'").fetchone()[0],1)
+        self.service.remove_training('fixture::B')
+        self.service.save_draft('fixture::B','int main() { return 1; }')
+        self.assertEqual(self.service.connection.execute("SELECT active FROM training WHERE id='fixture::B'").fetchone()[0],1)
+
     def test_first_review_uses_next_beijing_day_not_fixed_week_or_24_hours(self):
         self.clock.value = dt.datetime(2026,10,8,15,58,tzinfo=UTC)
         self.seed()

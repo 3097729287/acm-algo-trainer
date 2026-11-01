@@ -1,3 +1,6 @@
+import {applyEditorTheme,editorTheme} from '@/lib/editorThemes.js';
+import {OPACITY_KEYS,SURFACE_DEFAULTS,opacityStyle} from '@/lib/surfaceOpacity.js';
+import {trainingListLocation} from '@/lib/trainingListLocation.js';
 import useNavigationLevel from '@/lib/useNavigationLevel.js';
 import NavigationPending from '@/components/NavigationPending.jsx';
 import DailyTaskCount from '@/components/DailyTaskCount.jsx';
@@ -25,7 +28,8 @@ import useContestCalendar from '@/lib/useContestCalendar.js';
 import ContestReminder from '@/components/ContestReminder.jsx';
 import {createCalendarCatalogReader} from '@/lib/calendarCatalogRefresh.js';
 import PopConfirm from '@/components/PopConfirm.jsx';
-import {matchesShortcut,shortcutValue} from '@/lib/shortcuts.js';
+import {activatePageAction} from '@/lib/shortcutControls.js';
+import {EXTRA_SHORTCUTS,matchesShortcut,shortcutValue} from '@/lib/shortcuts.js';
 import PageSearch from '@/components/PageSearch.jsx';
 import FolderSelect from '@/components/FolderSelect.jsx';
 import Tooltip from '@/components/Tooltip.jsx';
@@ -149,7 +153,8 @@ const ContestCalendar = lazy(() => import('@/pages/ContestCalendar.jsx'));
 const Onboarding = lazy(() => import('@/pages/Onboarding.jsx'));
 const LearningPathsPage = lazy(() => import('@/pages/LearningPathsPage.jsx'));
 const TemplatesPage=lazy(()=>import('@/pages/TemplatesPage.jsx'));
-const TrainingListsPage = lazy(() => import('@/pages/TrainingListsPage.jsx'));
+const loadTrainingListsPage=()=>import('@/pages/TrainingListsPage.jsx');
+const TrainingListsPage=lazy(loadTrainingListsPage);
 const PreferencesPage = lazy(() => import('@/pages/PreferencesPage.jsx'));
 
 const PAGES = [
@@ -192,6 +197,8 @@ const DEFAULTS = {
   navOrder: [...NAVIGATION_ORDER],
   learningPaths: {},
   shortcuts: {},
+  editorTheme: 'auto',
+  trainingListLocation: {},
   navSchema: 2,
   navLabels: {},
   navGroups: {},
@@ -214,6 +221,7 @@ function normalizePreferences(saved) {
     preferences.navOrder = navigationOrder(preferences.navOrder);
     preferences.learnedLectures=Array.isArray(preferences.learnedLectures)?[...new Set(preferences.learnedLectures.filter(value=>typeof value==='string'))]:[];
     preferences.difficultyDisplay=preferences.difficultyDisplay==='text'?'text':'number';
+    preferences.editorTheme=editorTheme(preferences.editorTheme).id;
     preferences.onboardingGuideVersion=Number.isSafeInteger(preferences.onboardingGuideVersion)&&preferences.onboardingGuideVersion>=0&&preferences.onboardingGuideVersion<=1000?preferences.onboardingGuideVersion:0;
     preferences.motion = saved?.motion !== false;
     preferences.navSchema = 2;
@@ -297,7 +305,7 @@ function IconButton({ label, icon: Icon, onClick, children, ...props }) {
     </button>
   );
 }
-function Modal({ title, onClose, children, wide = false, footer, headerActions, className='' }) {
+function Modal({ title, onClose, children, wide = false, footer, headerActions, className='', opacityKey='popups' }) {
   const ref = useRef(null),
     restore = useRef(document.activeElement),
     close = useRef(onClose);
@@ -351,6 +359,7 @@ function Modal({ title, onClose, children, wide = false, footer, headerActions, 
     >
       <section
         className={"modal " + (wide ? "wide " : "")+className}
+        style={opacityStyle(opacityKey)}
         ref={ref}
         tabIndex={-1}
         role="dialog"
@@ -595,7 +604,7 @@ export default function App() {
   const templatesVisit=useRef({});
   const competitionsVisit=useRef({});
   const [templateActive,setTemplateActive]=useState(false);
-  const trainingListsVisit = useRef(window.__tbNewAccount?{state:foundationListState()}:{});
+  const trainingListsVisit = useRef(window.__tbNewAccount?{state:foundationListState()}:trainingListLocation(prefs.trainingListLocation)||{});
   const [trainingListRequest,setTrainingListRequest]=useState(null);
   const lecturesVisit = useRef({});
   const [lectureFull,setLectureFull]=useState(false);
@@ -892,8 +901,9 @@ export default function App() {
     root.style.setProperty('--panel-opacity', `${Math.min(100, Math.max(0, Number(prefs.panelOpacity ?? 76)))}%`);
     for (const [key, value] of Object.entries(prefs.pageOpacities || {}))
       root.style.setProperty(`--opacity-${key}`, `${Math.min(100, Math.max(0, Number(value) || 0))}%`);
-    for (const key of ['mine','library','competitions','mock','paths','templates','rankings','growth','records','activity','lectures','settings','statement','editor','solution'])
-      if (prefs.pageOpacities?.[key] == null) root.style.removeProperty(`--opacity-${key}`);
+    for (const key of OPACITY_KEYS)
+      if (prefs.pageOpacities?.[key] == null) {if(SURFACE_DEFAULTS[key]!=null)root.style.setProperty(`--opacity-${key}`,SURFACE_DEFAULTS[key]+'%');else root.style.removeProperty(`--opacity-${key}`);}
+    applyEditorTheme(root,prefs.editorTheme);
     root.dataset.theme = prefs.theme;
     root.dataset.accent = prefs.accent;
     const motionQuery=window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -1031,6 +1041,21 @@ export default function App() {
       () => progressRows(data?.rows || [], workspace),
       [data?.rows, workspace.training, workspace.activeContest, workspace.contests, workspace.completedReplayContests],
     );
+  useEffect(()=>{
+    if(!data||!window.__tbAccountUserId)return;let alive=true;const owner=window.__tbAccountUserId,visit=trainingListsVisit.current;
+    if(visit.preloadedOwner===owner&&visit.content?.owner===owner)return;
+    const preload=async()=>{let request;try{
+      request=visit.content?.owner===owner?Promise.resolve({lists:visit.content.lists}):visit.loading||api('training-lists');
+      visit.loading=request;
+      const [value,,model]=await Promise.all([request,loadTrainingListsPage(),import('@/lib/trainingListModel.js')]);
+      if(!alive||(window.__tbAccountUserId||'local')!==owner)return;
+      visit.content={owner,lists:value.lists,at:Date.now()};
+      model.trainingListModel(value.lists,rows,visit.state?.mode||'algorithm',prefs.favorites||[]);
+      visit.preloadedOwner=owner;
+    }catch{}finally{if(visit.loading===request)delete visit.loading;}};
+    const handle=window.requestIdleCallback?window.requestIdleCallback(preload,{timeout:1500}):setTimeout(preload,500);
+    return()=>{alive=false;if(window.cancelIdleCallback)window.cancelIdleCallback(handle);else clearTimeout(handle);};
+  },[Boolean(data),api,account?.userId]);
   const mine = useMemo(()=>{
     const result=new Map(rows.filter(row=>row.active).map(row=>[row.id,row])),catalog=new Map(rows.map(row=>[row.id,row]));
     for(const task of workspace.goalTasks||[]){const row=catalog.get(task.id);result.set(task.id,{...task,...row,tags:row?.tags||[],accepted:!!(row?.accepted||task.accepted),goalTask:true,goalTitles:task.goalTitles||[]});}
@@ -1038,6 +1063,7 @@ export default function App() {
   },[rows,workspace.goalTasks]);
   const currentTrainingDay = trainingDay(workspace.now || now);
   const todayMine = useMemo(() => mine.filter(row => row.goalTask || isTodayTraining(row, workspace.now || now)), [mine, currentTrainingDay]);
+  const clearableMine=useMemo(()=>{const known=new Set((workspace.training||[]).map(row=>row.id));return todayMine.filter(row=>known.has(row.id));},[todayMine,workspace.training]);
   const categories = useMemo(
     () => organizeCategories(data?.categories || []),
     [data?.categories],
@@ -1239,7 +1265,7 @@ export default function App() {
     setHoveredRow(null);
     setKeyboardSelection(false);
     try {
-      const result = await api("training/start", { id, deferWorkspace:true, ...(assisted ? { assisted: true } : {}) });
+      const result = await api("training/start", { id, deferWorkspace:true, deferActivation:!assisted, ...(assisted ? { assisted: true } : {}) });
       if (result.workspace) applyWorkspace(result.workspace);
       else void api('workspace').then(applyWorkspace).catch(()=>{});
       practicePrefetch.current = !result.reviewTask && !result.workspace?.activeContest ? {id,promise:prepared} : null;
@@ -1356,7 +1382,9 @@ export default function App() {
     replayStarting.current = true;
     setBusy(true);
     try {
-      const { events = [] } = await api('contests/events');
+      const [{events=[]},schedule]=await Promise.all([api('contests/events'),api('contest-calendar').catch(()=>calendar.snapshot)]);
+      const live=(schedule?.contests||[]).find(item=>(item.contest===name||item.name===name)&&Date.parse(item.startAt)<=Date.now()&&Date.now()<Date.parse(item.endAt));
+      if(live){startedMock(await api('contests/start-calendar',{id:live.id}));return;}
       const event = events.find(item => item.name === name);
       if (!event) throw new Error('这场比赛暂不能开始重现赛，请刷新比赛列表');
       const { plan } = await api('contests/preview', {
@@ -1530,6 +1558,18 @@ export default function App() {
         button =
           e.target instanceof Element &&
           !!e.target.closest('button,a,[role="treeitem"]');
+      const context=practiceId||page==='mock'&&active?'编辑器':({'mine':'题目列表','library':'题目列表','training-lists':'题单','competitions':'比赛','mock':'模拟赛','lectures':'从零讲','templates':'模板','records':'提交记录','rankings':'排行榜'})[page]||(page==='settings'&&settingsTab==='accounts'?'初始代码模板':'');
+      const extra=EXTRA_SHORTCUTS.find(([id,,,scope])=>scope!=='编辑器'&&(scope==='全局'||scope===context)&&shortcut(id));
+      if(extra&&(!typing||e.altKey||control)) {
+        const id=extra[0];
+        if(id==='theme')setPrefs(previous=>({...previous,theme:previous.theme==='dark'?'light':'dark'}));
+        else if(id==='calendar'){if(featureAvailable('competitions'))setDialog('contest-calendar');}
+        else if(id==='daily-tasks')setDialog('daily-tasks');
+        else if(id==='achievements')setDialog('achievements');
+        else if(id==='list-difficulty'||id==='list-recent'){const sort=id==='list-difficulty'?'difficulty':'date';setFilter({sort:currentFilters.sort===sort?'contestDate':sort});}
+        else activatePageAction(id);
+        e.preventDefault();e.stopPropagation();return;
+      }
       if (shortcut("commands")) {
         e.preventDefault();
         e.stopPropagation();
@@ -1777,7 +1817,7 @@ export default function App() {
     );
   }
   function toolbar() {
-    return <PageSearch><label className="search-box"><Search size={17}/><input ref={searchRef} aria-label="搜索题目" value={currentFilters.query} onChange={event=>setFilter({query:event.target.value})} onKeyDown={event=>{if(['ArrowDown','Enter'].includes(event.key)){event.preventDefault();focusList();}}}/></label><SortDirection label="切换题目排序方向" descending={currentFilters.desc} onChange={desc=>setFilter({desc})}/><ProblemFilters rows={data?.rows || []} categories={categories} views={prefs.views||[]} onDeleteView={id=>setPrefs(previous=>({...previous,views:previous.views.filter(view=>view.id!==id)}))} value={currentFilters} onChange={setFilter} onReset={resetFilters} onSave={()=>{setViewName('');setDialog('saveView');}}/>{page==='mine'&&<Tooltip text="清空我的训练"><button type="button" className="icon-button clear-training-trigger" aria-label="清空我的训练" disabled={busy||!mine.length||!!active||!!workspace.summary.pending} onClick={event=>setClearTrainingAnchor(event.currentTarget)}><Trash2 size={17}/></button></Tooltip>}{page==='library'&&featureAvailable('training-lists')&&<Tooltip text={Boolean(currentFilters.query||currentFilters.category||currentFilters.result||currentFilters.catalogPath?.length)?`将筛选结果加入题单（${visible.length} 道题）`:`加入题单（${visible.length} 道题）`}><button type="button" className="icon-button" aria-label="将筛选结果加入题单" disabled={busy||!visible.length||query!==currentFilters.query} onClick={()=>setListProblemIds(visible.map(row=>row.id))}><ListPlus size={17}/></button></Tooltip>}{page==='library'&&<RandomProblem rows={visible} disabled={busy||query!==currentFilters.query} onChoose={openPractice} onError={error=>notice(error.message,'error')}/>}{currentFilters.category&&<span className="active-knowledge-filter" role="group" aria-label="当前知识点筛选"><span>{currentFilters.category.name}</span><button type="button" aria-label={`清除知识点筛选 ${currentFilters.category.name}`} onClick={()=>setFilter({category:null})}><X size={13}/></button></span>}</PageSearch>;
+    return <PageSearch><label className="search-box"><Search size={17}/><input ref={searchRef} aria-label="搜索题目" value={currentFilters.query} onChange={event=>setFilter({query:event.target.value})} onKeyDown={event=>{if(['ArrowDown','Enter'].includes(event.key)){event.preventDefault();focusList();}}}/></label><SortDirection label="切换题目排序方向" descending={currentFilters.desc} onChange={desc=>setFilter({desc})}/><ProblemFilters rows={data?.rows || []} categories={categories} views={prefs.views||[]} onDeleteView={id=>setPrefs(previous=>({...previous,views:previous.views.filter(view=>view.id!==id)}))} value={currentFilters} onChange={setFilter} onReset={resetFilters} onSave={()=>{setViewName('');setDialog('saveView');}}/>{page==='mine'&&<Tooltip text="清空我的训练"><button type="button" className="icon-button clear-training-trigger" aria-label="清空我的训练" disabled={busy||!clearableMine.length||!!active||!!workspace.summary.pending} onClick={event=>setClearTrainingAnchor(event.currentTarget)}><Trash2 size={17}/></button></Tooltip>}{page==='library'&&featureAvailable('training-lists')&&<Tooltip text={Boolean(currentFilters.query||currentFilters.category||currentFilters.result||currentFilters.catalogPath?.length)?`将筛选结果加入题单（${visible.length} 道题）`:`加入题单（${visible.length} 道题）`}><button type="button" className="icon-button" aria-label="将筛选结果加入题单" disabled={busy||!visible.length||query!==currentFilters.query} onClick={()=>setListProblemIds(visible.map(row=>row.id))}><ListPlus size={17}/></button></Tooltip>}{page==='library'&&<RandomProblem rows={visible} disabled={busy||query!==currentFilters.query} onChoose={openPractice} onError={error=>notice(error.message,'error')}/>}{currentFilters.category&&<span className="active-knowledge-filter" role="group" aria-label="当前知识点筛选"><span>{currentFilters.category.name}</span><button type="button" aria-label={`清除知识点筛选 ${currentFilters.category.name}`} onClick={()=>setFilter({category:null})}><X size={13}/></button></span>}</PageSearch>;
   }
 
   function renderListPage() {
@@ -2027,7 +2067,7 @@ export default function App() {
           </div>
         </header>
         <footer className={"app-statusbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}> {featureAvailable('competitions')&&<Tooltip text="比赛日历"><button className="achievement-top-button contest-calendar-button" aria-label="比赛日历" onClick={()=>setDialog('contest-calendar')}><CalendarClock size={18}/>{calendar.hasUnreadToday&&<i className="notification-dot" aria-hidden="true"/>}</button></Tooltip>}<button className="achievement-top-button daily-task-top-button" aria-label="每日任务" onClick={() => setDialog("daily-tasks")}><CalendarDays size={17} /><DailyTaskCount value={insights?.dailyTasks}/>{(insights?.dailyTasks?.tasks?.some(task => task.completed && !task.claimed)) && <i className="notification-dot" />}</button>
-            <button className="achievement-top-button" aria-label="成就" onClick={openAchievements}><Medal size={17} /><small>{unlockedAchievements.length}/{achievements.length}</small>{unseenAchievements.length > 0 && <i className="notification-dot" />}</button>
+            <button className="achievement-top-button" aria-label="成就" onClick={openAchievements}><Medal size={17} /><small>{unlockedAchievements.length}/{achievements.length}</small>{(unseenAchievements.length > 0 || unlockedAchievements.some(item=>!item.rewardClaimed)) && <i className="notification-dot" />}</button>
 {prefs.widgets && <TopbarClock />}</footer>
         {error && (
           <div className="error-banner" role="alert">
@@ -2172,7 +2212,7 @@ export default function App() {
           ) : page === "activity" ? (
             <ActivityPage insights={insights} onTrain={openPractice} />
           ) : page === "training-lists" ? (
-            <TrainingListsPage rows={rows} api={api} onTrain={openPractice} visit={trainingListsVisit.current} navigationRequest={trainingListRequest} pageSize={prefs.libraryPageSize} busy={busy} prefs={prefs} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={featureAvailable('training-lists')?id=>setListProblemIds(Array.isArray(id)?id:[id]):undefined}/>
+            <TrainingListsPage onLocationChange={location=>setPrefs(previous=>JSON.stringify(previous.trainingListLocation)===JSON.stringify(location)?previous:{...previous,trainingListLocation:location})} rows={rows} api={api} onTrain={openPractice} visit={trainingListsVisit.current} navigationRequest={trainingListRequest} pageSize={prefs.libraryPageSize} busy={busy} prefs={prefs} onTag={filterCategory} onFavorite={toggleFavorite} onSolution={openSolution} onAddToList={featureAvailable('training-lists')?id=>setListProblemIds(Array.isArray(id)?id:[id]):undefined}/>
           ) : page === "templates" ? (
             <TemplatesPage api={api} shortcuts={prefs.shortcuts} visit={templatesVisit.current} onActiveChange={setTemplateActive} onTrain={openPractice} onOpenCourse={id=>{setPrefs(previous=>({...previous,learningPaths:{...previous.learningPaths,activePath:id,[id]:{...previous.learningPaths?.[id],mode:'learn',labV1:{...previous.learningPaths?.[id]?.labV1,chapter:'0'}}}}));setPage('paths');}}/>
           ) : page === "paths" ? (
@@ -2189,7 +2229,7 @@ export default function App() {
         </div>
       </main>
       {toast && (
-        <div className={"toast " + toast.type} role="status">
+        <div className={"toast " + toast.type+(practiceId||page==='mock'&&workspace.activeContest?' toast-workbench':'')} role="status">
           {toast.type === "success" ? (
             <Trophy size={17} />
           ) : toast.type === "error" ? (
@@ -2203,18 +2243,18 @@ export default function App() {
           )}
         </div>
       )}
-      {dialog === 'accounts'&&<Modal title="账号与身份" className="compact-account-modal" onClose={()=>setDialog(null)}><AccountPanel api={api} account={account} profileSnapshot={profileSnapshot} hub={hub} onProfileChanged={profileChanged} onHubChanged={setHub}/></Modal>}
-      {dialog === "daily-tasks" && <Modal title="每日任务" onClose={() => {setDialog(null);backgroundDialog.current=null;clearTimeout(dailyRefreshTimer.current);dailyRefreshTimer.current=setTimeout(()=>void refreshBackground(true),300);}} wide><DailyTasks dailyTasks={insights?.dailyTasks} onClaim={async (id, date) => { dailyClaimPending.current=true;backgroundSeq.current++;try { const result = await api("daily-tasks/claim", { id, date }); backgroundSeq.current++; setInsights(previous => applyDailyTaskReward(previous,result)); notice("经验已领取", "success"); } catch (issue) { notice(issue.message, "error"); throw issue; } finally {dailyClaimPending.current=false;} }} /></Modal>}
-      {dialog === 'contest-calendar' && <Modal title="比赛日历" onClose={()=>setDialog(null)} wide><ContestCalendar calendar={calendar} onOpen={featureAvailable('competitions')?openCalendarContest:undefined} onStart={featureAvailable('mock')?async(contest,{isCurrent=()=>true}={})=>{const owner=account?.userId;const result=await api('contests/start-calendar',{id:contest.id});if(!isCurrent()||calendarDataOwner.current!==owner||window.__tbAccountUserId!==undefined&&window.__tbAccountUserId!==owner)return;await calendarDataReader.refresh(owner,{isCurrent});if(!isCurrent()||calendarDataOwner.current!==owner)return;setDialog(null);startedMock(result);}:undefined}/></Modal>}
+      {dialog === 'accounts'&&<Modal opacityKey="accounts" title="账号与身份" className="compact-account-modal" onClose={()=>setDialog(null)}><AccountPanel api={api} account={account} profileSnapshot={profileSnapshot} hub={hub} onProfileChanged={profileChanged} onHubChanged={setHub}/></Modal>}
+      {dialog === "daily-tasks" && <Modal opacityKey="daily-tasks" title="每日任务" onClose={() => {setDialog(null);backgroundDialog.current=null;clearTimeout(dailyRefreshTimer.current);dailyRefreshTimer.current=setTimeout(()=>void refreshBackground(true),300);}} wide><DailyTasks dailyTasks={insights?.dailyTasks} onClaim={async (id, date) => { dailyClaimPending.current=true;backgroundSeq.current++;try { const result = await api("daily-tasks/claim", { id, date }); backgroundSeq.current++; setInsights(previous => applyDailyTaskReward(previous,result)); notice("经验已领取", "success"); } catch (issue) { notice(issue.message, "error"); throw issue; } finally {dailyClaimPending.current=false;} }} /></Modal>}
+      {dialog === 'contest-calendar' && <Modal opacityKey="contest-calendar" title="比赛日历" onClose={()=>setDialog(null)} wide><ContestCalendar calendar={calendar} onOpen={featureAvailable('competitions')?openCalendarContest:undefined} onStart={featureAvailable('mock')?async(contest,{isCurrent=()=>true}={})=>{const owner=account?.userId;const result=await api('contests/start-calendar',{id:contest.id});if(!isCurrent()||calendarDataOwner.current!==owner||window.__tbAccountUserId!==undefined&&window.__tbAccountUserId!==owner)return;await calendarDataReader.refresh(owner,{isCurrent});if(!isCurrent()||calendarDataOwner.current!==owner)return;setDialog(null);startedMock(result);}:undefined}/></Modal>}
       {dialog === 'contest-reminder' && calendar.reminder && <Modal title="比赛即将开始" onClose={()=>{calendar.dismissReminder();setDialog(previous=>previous==='contest-reminder'?null:previous);}} footer={<button type="button" className="primary" onClick={()=>{calendar.dismissReminder();setDialog('contest-calendar');}}>查看比赛</button>}><ContestReminder contest={calendar.reminder} now={calendar.now} onShown={calendar.markReminderShown}/></Modal>}
       {dialog === "avatar" && <Modal title="修改头像" onClose={()=>setDialog(null)}><Suspense fallback={<p role="status">正在读取…</p>}><AvatarSettings prefs={prefs} setPrefs={setPrefs} onError={message=>notice(message,"error")}/></Suspense></Modal>}
       {tourOpen && <Suspense fallback={null}><Onboarding availablePages={visiblePageIds} key={tourContext} initialGuide={tourContext} practiceId={practiceId||(mockFocus?currentMockSlot?.id:null)} onShown={markGuideShown} onComplete={finishOnboarding} onDirectory={()=>openGuide('catalog')} onNavigate={(target,tab)=>{go(target);if(target==="settings")setSettingsTab(tab||"home");}}/></Suspense>}
       <ExperienceChallenge owner={account?.userId} offer={experienceOffer} ready={preferencesLoaded.current&&!loading&&prefs.levelNoticeVersion===1&&prefs.levelNoticeSeen>=Math.min(navigationLevel,4)} blocked={levelNoticeBlocked||Boolean(levelUp.dialog)} api={api} onOpenChange={setExperienceOpen} onOpen={openPractice} onGrowth={growth=>{const owner=window.__tbAccountUserId;if(confirmedGrowth(growth,owner))setInsights(previous=>protectGrowth(previous,{...previous,growth},owner,retiredGrowthEpochs.current));}}/>
       {levelUp.dialog&&<LevelUpDialog notice={levelUp.dialog} pages={PAGES} preferences={prefs} onPresented={levelUp.markPresented} onClose={levelUp.close} onOpen={go}/>}
-      {dialog === "achievements" && <Modal title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => setDialog(null)} wide><AchievementPanel achievements={achievements} newIds={unseenAchievements.map(item => item.id)} onSeen={markAchievementSeen} /></Modal>}
+      {dialog === "achievements" && <Modal opacityKey="achievements" title={`成就 · ${unlockedAchievements.length}/${achievements.length}`} onClose={() => setDialog(null)} wide><AchievementPanel achievements={achievements} newIds={unseenAchievements.map(item => item.id)} onSeen={markAchievementSeen} onClaim={async id=>{const owner=window.__tbAccountUserId;dailyClaimPending.current=true;backgroundSeq.current++;try{const result=await api('achievements/claim',{id});if(owner!==window.__tbAccountUserId)return;backgroundSeq.current++;setInsights(previous=>protectGrowth(previous,result,owner,retiredGrowthEpochs.current));notice('奖励已领取','success');}finally{dailyClaimPending.current=false;}}} /></Modal>}
       {dialog === "submission" && selectedSubmission && <Modal title={selectedSubmission.title + " · 历史提交"} onClose={() => setDialog(null)} wide footer={<button className="primary" onClick={() => { setDialog(null); openPractice(selectedSubmission.problemId); }}><Play size={14} />继续练习</button>}><div className="submission-detail-meta"><Verdict value={selectedSubmission.verdict} /><span>{formatDate(selectedSubmission.submittedAt)}</span><span>{selectedSubmission.contestName}</span></div><HistoricalCode submission={selectedSubmission} api={api}/>{selectedSubmission.message && <p className="submission-message">{selectedSubmission.message}</p>}</Modal>}
       {dialog === "updates" && (
-        <Modal title="消息与更新" onClose={() => setDialog(null)} wide className="messages-modal" headerActions={<IconButton label="全部已读" icon={Check} disabled={messagesReading||!((hub?.notifications||[]).some(item=>!item.read)||social.snapshot?.unreadCount>0)} onClick={async()=>{
+        <Modal opacityKey="messages" title="消息与更新" onClose={() => setDialog(null)} wide className="messages-modal" headerActions={<IconButton label="全部已读" icon={Check} disabled={messagesReading||!((hub?.notifications||[]).some(item=>!item.read)||social.snapshot?.unreadCount>0)} onClick={async()=>{
           if(messagesReading)return;setMessagesReading(true);
           try{
             const results=await Promise.allSettled([
@@ -2272,7 +2312,7 @@ export default function App() {
           {growth?.ranked?.tierRequirements?.length > 0 && <details className="rank-requirements"><summary>段位要求</summary><p>{growth.ranked.rules}</p><table aria-label="段位能力分要求"><thead><tr><th>段位</th><th>最低能力分</th></tr></thead><tbody>{growth.ranked.tierRequirements.map(tier=><tr key={tier.badge}><td><span className={`rank-requirement-tier ${tier.badge}`}><TierIcon badge={tier.badge} size={16}/>{tier.tier}</span></td><td>{num(tier.minAbilityScore)}</td></tr>)}</tbody></table></details>}
         </Modal>
       )}
-      {clearTrainingAnchor&&page==='mine'&&<PopConfirm anchor={clearTrainingAnchor} title="清空我的训练？" label="清空我的训练确认" busy={busy} confirmLabel={`确认清空 ${mine.length} 道训练题`} busyLabel="正在处理…" onCancel={()=>{setClearTrainingAnchor(null);clearTrainingAnchor.focus({preventScroll:true});}} onConfirm={async()=>{if(busy||active||workspace.summary.pending||!mine.length)return;setBusy(true);try{const result=await api('training/clear',{});applyWorkspace(result.workspace);setClearTrainingAnchor(null);notice(`已清空 ${result.cleared} 道训练题，代码与提交记录已保留`,'success');}catch(issue){notice(issue.message,'error');}finally{setBusy(false);}}}/>}
+      {clearTrainingAnchor&&page==='mine'&&<PopConfirm anchor={clearTrainingAnchor} title="清空我的训练？" label="清空我的训练确认" busy={busy} confirmLabel={`确认清空 ${clearableMine.length} 道训练题`} busyLabel="正在处理…" onCancel={()=>{setClearTrainingAnchor(null);clearTrainingAnchor.focus({preventScroll:true});}} onConfirm={async()=>{if(busy||active||workspace.summary.pending||!clearableMine.length)return;setBusy(true);try{const result=await api('training/clear',{ids:clearableMine.map(row=>row.id)});applyWorkspace(result.workspace);setClearTrainingAnchor(null);notice(`已清空 ${result.cleared} 道训练题，代码与提交记录已保留`,'success');}catch(issue){notice(issue.message,'error');}finally{setBusy(false);}}}/>}
       {dialog === "help" && (
         <Modal title="键盘操作" onClose={() => setDialog(null)} wide>
           <div className="shortcut-grid">

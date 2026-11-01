@@ -33,5 +33,12 @@
 
 html .template-focus .workspace-area {padding:0}
 .template-edition-toggle {min-height:34px;min-width:70px;white-space:nowrap}
+html .template-focus .templates-page.template-detail-open {border:0;border-radius:0;}
+html .template-focus .templates-page .template-detail {padding:0;}
+html .template-focus .template-heading {height:44px;padding:4px 8px;box-sizing:border-box;border-bottom:1px solid var(--line);}
+html .template-focus .template-heading h2 {font-size:1rem;}
+html .template-focus .template-code {border:0;border-left:1px solid var(--line);border-radius:0;}
+html .template-focus .template-explanation {padding:0 16px 12px;}
+html .template-focus .template-example {padding-inline:16px;}
 
 .template-editions{display:flex;flex:none;align-items:center;gap:8px;margin:0}.template-editions>button[aria-pressed=true]{color:var(--accent);border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent)}.template-editions .icon-button{display:inline-flex;align-items:center;gap:3px}.template-editions small{font-size:11px}

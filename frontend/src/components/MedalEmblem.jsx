@@ -2,7 +2,7 @@ import {useId} from 'react';
 import {RankDefs,RankGem,RankWings,safeTier} from './RankArtwork.jsx';
 import './TierIcon.css';
 
-export function titleMedalIndex(title){const targets=title?.category==='streak'?[30,90,180,365,730]:[500,750,1000,1500,2000];return Math.max(0,targets.indexOf(Number(title?.target)))*2+1;}
+export function titleMedalIndex(title){const difficulty=title?.category==='difficulty',targets=difficulty?[1500,1600,1700,1800,1900,2000,2150,2300]:title?.category==='streak'?[30,90,180,365,730]:[500,750,1000,1500,2000],index=Math.max(0,targets.indexOf(Number(title?.target)));return difficulty?Math.round(index*9/7):index*2+1;}
 export default function MedalEmblem({index=0,size=30,variant='rank',label}){
  const tier=Math.max(0,Math.min(9,index)),title=variant!=='rank',id=useId().replace(/:/g,''),metal=`medal-metal-${id}`,face=`medal-face-${id}`;
  if(!title){

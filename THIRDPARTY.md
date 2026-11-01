@@ -20834,3 +20834,7 @@ The Windows x64 wheel includes native PDFium and its dependency notices. Wrapper
 Original license preserved byte for byte from the installed wheel.
 
 - [LICENSE](licenses/python/pypdf-6.19.0/LICENSE)
+
+## Editor theme references
+
+Woodfish Black, Neon and Light colors and the Woodfish visual reference use the MIT-licensed source pinned at `162883f73474d11ad703c30d9568dac0a33bd6c6`. Dracula colors retain their MIT notice. ToBe implements its own CodeMirror effects and original deep-space palette; no Bearded theme or extension patcher is bundled. See [notices](licenses/editor-themes/NOTICE.txt), [Woodfish license](licenses/editor-themes/Woodfish-LICENSE.txt) and [Dracula license](licenses/editor-themes/Dracula-LICENSE.txt).

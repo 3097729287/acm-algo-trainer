@@ -1,3 +1,5 @@
+import MedalEmblem,{titleMedalIndex} from '@/components/MedalEmblem.jsx';
+import {Gift} from 'lucide-react';
 import CatalogName from '@/components/CatalogName.jsx';
 import {StreakFlame} from '@/components/PracticeStreak.jsx';
 import {useDifficultyDisplay} from '@/components/DifficultyDisplay.jsx';
@@ -61,31 +63,40 @@ function Meter({ value, label }) { return <span className="progress-meter" role=
 
 export { default as TitleMedals } from '../components/TitleMedals.jsx';
 
-export function AchievementPanel({ achievements = [], newIds = [], onSeen }) {
-  const [filter, setFilter] = useState('all');
-  const [seen, setSeen] = useState(() => new Set());
-  const fresh = new Set(newIds);
-  const markSeen = id => {
-    if (seen.has(id) || !fresh.has(id)) return;
-    setSeen(previous => new Set([...previous, id]));
-    onSeen?.(id);
-  };
-  const items = list(achievements).map(item => ({ ...item, name: acText(item.name), description: achievementText(item.description) })).filter(item => filter === 'all' || (filter === 'unlocked' ? item.unlocked : !item.unlocked)).slice().sort((left, right) => Number(right.unlocked) - Number(left.unlocked));
-  return <div className="achievement-panel"><div className="ranking-tabs" role="group" aria-label="成就筛选">{[['all', '全部成就'], ['unlocked', '已达成'], ['pending', '待达成']].map(([value, label]) => <button className={filter === value ? 'active' : ''} aria-pressed={filter === value} key={value} onClick={() => setFilter(value)}>{label}</button>)}</div><div className="progress-achievements">{items.map(item => {
-    const isNew = item.unlocked && fresh.has(item.id) && !seen.has(item.id);
-    return <div className={`progress-achievement${item.unlocked ? ' progress-unlocked' : ''}${isNew ? ' progress-achievement-new' : ''}`} key={item.id} data-achievement-id={item.id} tabIndex={isNew ? 0 : undefined} onMouseEnter={() => markSeen(item.id)} onFocus={() => markSeen(item.id)}><AchievementIcon achievement={item}/><div><div className="progress-achievement-name"><strong>{item.name}</strong>{isNew && <span className="achievement-new-label">新达成</span>}</div><p>{item.description}</p>{!item.unlocked && <Meter value={item.target ? item.progress / item.target * 100 : 0} label={`${item.name}完成进度`} />}<div className="progress-achievement-status"><span>{item.unlocked ? `已达成${item.unlockedAt ? ' · ' + dateLabel(item.unlockedAt) : ''}` : `${number(item.progress)} / ${number(item.target)}`}</span>{item.rewardTitle ? <span className={`achievement-title-reward${item.unlocked ? ' claimed' : ''}`}><Award size={14} aria-hidden="true" />{item.rewardTitle.name} · {item.unlocked ? '称号已获得' : '达成后获得称号'}</span> : item.rewardXp > 0 && <span className={`achievement-reward${item.rewardClaimed ? ' claimed' : ''}`}>+{number(item.rewardXp)} XP · {item.rewardClaimed ? '已发放' : item.unlocked ? '待发放' : '达成后发放'}</span>}</div></div></div>;
-  })}</div>{!items.length && <p className="progress-muted">这一组暂时没有成就记录。</p>}</div>;
+export function AchievementPanel({ achievements = [], newIds = [], onSeen, onClaim }) {
+  const [filter,setFilter]=useState('all'),[seen,setSeen]=useState(()=>new Set()),[pending,setPending]=useState(null),[error,setError]=useState('');
+  const claiming=useRef(false),fresh=new Set(newIds);
+  const markSeen=id=>{if(seen.has(id)||!fresh.has(id))return;setSeen(previous=>new Set([...previous,id]));onSeen?.(id);};
+  async function claim(item) {
+    if(claiming.current||!onClaim||!item.unlocked||item.rewardClaimed)return;
+    claiming.current=true;setPending(item.id);setError('');
+    try{await onClaim(item.id);}catch(issue){setError(issue.message);}finally{claiming.current=false;setPending(null);}
+  }
+  const items=list(achievements).map(item=>({...item,name:acText(item.name),description:achievementText(item.description)})).filter(item=>filter==='all'||(filter==='unlocked'?item.unlocked:!item.unlocked)).slice().sort((left,right)=>Number(right.unlocked&&!right.rewardClaimed)-Number(left.unlocked&&!left.rewardClaimed)||Number(right.unlocked)-Number(left.unlocked));
+  return <div className="achievement-panel"><div className="ranking-tabs" role="group" aria-label="成就筛选">{[['all','全部成就'],['unlocked','已达成'],['pending','待达成']].map(([value,label])=><button className={filter===value?'active':''} aria-pressed={filter===value} key={value} onClick={()=>setFilter(value)}>{label}</button>)}</div>
+    <div className="progress-achievements">{items.map(item=>{
+      const isNew=item.unlocked&&fresh.has(item.id)&&!seen.has(item.id);
+      return <div className={`progress-achievement${item.unlocked?' progress-unlocked':''}${isNew?' progress-achievement-new':''}`} key={item.id} data-achievement-id={item.id} tabIndex={isNew?0:undefined} onMouseEnter={()=>markSeen(item.id)} onFocus={()=>markSeen(item.id)}>
+        {item.rewardClaimed&&item.rewardTitle?<MedalEmblem index={titleMedalIndex(item.rewardTitle)} variant={item.rewardTitle.category} size={28} label={item.rewardTitle.name}/>:<AchievementIcon achievement={item}/>}
+        <div className="achievement-card-content"><div className="progress-achievement-name"><strong title={item.name}>{item.name}</strong>{item.unlocked&&item.unlockedAt&&<time dateTime={item.unlockedAt}>{dateLabel(item.unlockedAt)}</time>}</div>
+          <p>{item.description}</p>{!item.unlocked&&<><Meter value={item.target?item.progress/item.target*100:0} label={`${item.name}完成进度`}/><span className="progress-muted achievement-progress-count">{number(item.progress)} / {number(item.target)}</span></>}
+          {item.unlocked&&!item.rewardClaimed&&<div className="achievement-claim-row"><Tooltip text={`领取奖励${item.rewardXp?' · +'+number(item.rewardXp)+' XP':''}${item.rewardTitle?' · '+item.rewardTitle.name:''}`}><button type="button" className="icon-button achievement-claim" aria-label={`领取${item.name}奖励`} disabled={Boolean(pending)||!onClaim} onClick={()=>claim(item)}>{pending===item.id?<LoaderCircle size={18} className="spin"/>:<Gift size={18}/>}</button></Tooltip></div>}
+        </div>
+      </div>;
+    })}</div>{!items.length&&<p className="progress-muted">这一组暂时没有成就记录。</p>}{error&&<p className="connection-error" role="alert">{error}</p>}
+  </div>;
 }
 export function DailyTasks({ dailyTasks, onClaim }) {
   const [claiming, setClaiming] = useState(null), [error, setError] = useState('');
   const claimPending=useRef(false);
   const tasks = list(dailyTasks?.tasks);
   async function claim(task) { if (claimPending.current || !task.completed || task.claimed) return; claimPending.current=true;setClaiming(task.id); setError(''); try { await onClaim?.(task.id, dailyTasks.date); } catch (issue) { setError(issue.message); } finally { claimPending.current=false;setClaiming(null); } }
-  return <section className="progress-section daily-tasks" aria-label="每日任务"><div className="progress-section-heading"><h2><CalendarDays size={18}/>每日任务</h2><span>{dailyTasks?.date||'每日更新'} · {dailyTasks?.policyVersion===3?`已领取 ${dailyTasks.completedCount||0}`:`${tasks.filter(task=>task.claimed).length}/${tasks.length}`}</span></div>
-    <div className="daily-task-grid">{tasks.map(task=><article className={`daily-task${task.claimed?' daily-task-claimed':''}`} key={task.slot??task.id} data-slot={task.slot} data-lane={task.lane}>
+  const groups=[['日常',tasks.filter((task,index)=>task.lane==='fixed'||!task.lane&&index<3)],['任务',tasks.filter((task,index)=>task.lane!=='fixed'&&(task.lane||index>=3))]];
+  return <section className="progress-section daily-tasks" aria-label="每日任务"><div className="progress-section-heading"><span>{dailyTasks?.date||'每日更新'}</span></div>
+    {groups.filter(([,items])=>items.length).map(([title,items])=><section className="daily-task-group" key={title} aria-label={title}><h3>{title}</h3><div className="daily-task-grid">{items.map(task=><article className={`daily-task${task.claimed?' daily-task-claimed':''}`} key={task.slot??task.id} data-slot={task.slot} data-lane={task.lane}>
       <div className="daily-task-main"><div><strong>{task.title}</strong><span className="daily-task-xp">+{number(task.xp)} XP</span></div><p>{acText(task.description)}</p><div className="daily-task-progress"><Meter value={task.target?task.progress/task.target*100:0} label={`${task.title}任务进度`}/><span>{number(task.progress)}/{number(task.target)}{task.unit||''}</span></div></div>
-      <button type="button" className={'progress-button '+(task.completed&&!task.claimed?'progress-primary':'')} disabled={!task.completed||task.claimed||Boolean(claiming)||!onClaim} onClick={()=>claim(task)}>{claiming===task.id?<LoaderCircle size={13} className="spin"/>:task.claimed?<Check size={13}/>:null}{task.claimed?(task.lane==='fixed'?'已完成':'已领取'):task.completed?'领取经验':'进行中'}</button>
-    </article>)}</div>{!tasks.length&&<p className="progress-muted">每日任务正在准备。</p>}{error&&<p role="alert" className="connection-error">{error}</p>}
+      {(task.completed||task.claimed)&&<button type="button" className={'progress-button '+(!task.claimed?'progress-primary':'')} disabled={task.claimed||Boolean(claiming)||!onClaim} onClick={()=>claim(task)}>{claiming===task.id?<LoaderCircle size={13} className="spin"/>:task.claimed?<Check size={13}/>:null}{task.claimed?(task.lane==='fixed'?'已完成':'已领取'):'领取经验'}</button>}
+    </article>)}</div></section>)}{!tasks.length&&<p className="progress-muted">每日任务正在准备。</p>}{error&&<p role="alert" className="connection-error">{error}</p>}
   </section>;
 }
 
@@ -218,7 +229,7 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
       <label className="filter-field"><span>训练情况</span><ThemedSelect value={filter} onChange={event=>setFilter(event.target.value)} aria-label="比赛训练情况"><option value="all">全部比赛</option><option value="joined">已加入训练</option><option value="available">尚未加入</option><option value="unfinished">尚未全部通过</option></ThemedSelect></label>
     </FilterMenu><Tooltip text={folder?'切换到比赛列表':'按平台、系列、年份和场次逐级浏览'}><button type="button" className="competition-view-toggle" aria-label="比赛文件夹浏览" aria-pressed={!!folder} onClick={()=>setFolder(folder?null:{stage:'platforms',path:[]})}><FolderTree size={17}/></button></Tooltip></PageSearch>
     {joinError&&<p className="connection-error" role="alert">{joinError}</p>}
-    {folder&&<CatalogPath scope={folder} onChange={setFolder}/>}<div className="catalog-list-heading" aria-label="比赛表头"><span>比赛 / 来源</span><span className="competition-heading-problems">题目</span>{onStartReproduction&&<span className="competition-heading-action" aria-hidden="true"/>}</div>
+    {folder&&<CatalogPath scope={folder} onChange={setFolder}/>}
     {folder?<><CatalogExplorer paginate descending={descending} rows={filtered.flatMap(group=>group.rows.map(row=>({...row,groupKey:group.key})))} scope={folder} onChange={setFolder} onContest={row=>setSelected(row.groupKey)} renderContest={row=>renderCard(groups.find(group=>group.key===row.groupKey))}/></>:<div ref={listRef} className="competition-list">{visibleGroups.map(renderCard)}</div>}
     {!folder&&filtered.length>0&&<PagePagination label="比赛分页" count={`共 ${filtered.length} 场`} page={currentPage} pages={pageCount} onPageChange={setPage} onPrevious={()=>setPage(currentPage-1)} onNext={()=>setPage(currentPage+1)}/>}
     {!filtered.length&&<Empty><Flag size={24}/><span>没有匹配的比赛</span></Empty>}

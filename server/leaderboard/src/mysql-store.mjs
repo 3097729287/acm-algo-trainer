@@ -1,4 +1,6 @@
 import mysql from 'mysql2/promise';
+import {SharedTranslations} from './shared-translations.mjs';
+import {RankingDominance} from './ranking-dominance.mjs';
 import {AccountChunks} from './account-chunks.mjs';
 import {AccountAdministration} from './admin-accounts.mjs';
 import { SocialStore } from './social-store.mjs';
@@ -25,7 +27,7 @@ export async function openStore(env = process.env) {
 }
 
 export class MySQLStore {
-  constructor(pool) { this.accountAdmin=new AccountAdministration({execute:(...args)=>pool.execute(...args),transaction:action=>this.transaction(action)});this.chunks=new AccountChunks({execute:(...args)=>pool.execute(...args),transaction:action=>this.transaction(action)}); this.pool = pool; this.social = new SocialStore({ execute:(...args)=>pool.execute(...args), transaction:action=>this.transaction(action) }); }
+  constructor(pool) { this.translations=new SharedTranslations({execute:(...args)=>pool.execute(...args)}); this.dominance=new RankingDominance({execute:(...args)=>pool.execute(...args),transaction:action=>this.transaction(action)}); this.accountAdmin=new AccountAdministration({execute:(...args)=>pool.execute(...args),transaction:action=>this.transaction(action)});this.chunks=new AccountChunks({execute:(...args)=>pool.execute(...args),transaction:action=>this.transaction(action)}); this.pool = pool; this.social = new SocialStore({ execute:(...args)=>pool.execute(...args), transaction:action=>this.transaction(action) }); }
   async health() {
     await this.pool.execute('SELECT 1 FROM official_ac_events LIMIT 0');
     await this.pool.execute('SELECT 1 FROM accounts LIMIT 0');
@@ -212,7 +214,7 @@ export class MySQLStore {
         }
         await connection.execute(`UPDATE ranking_schedule SET ${period}_start=? WHERE singleton=1`, [start]);
       }
-    });
+    }).then(async value=>{await this.dominance.settle(now);return value;});
   }
   async rewards(id) {
     const [rows] = await this.pool.execute('SELECT COALESCE(SUM(xp),0) AS totalXp FROM ranking_rewards WHERE user_id=?', [id]);

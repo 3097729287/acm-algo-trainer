@@ -7,7 +7,7 @@ import re
 from training import ServiceError, iso
 
 ALLOWED = frozenset(('panelStyle', 'backdrop', 'panelOpacity', 'pageOpacities', 'widgets', 'theme', 'accent', 'motion', 'compact', 'collapsed', 'favorites', 'views',
-                     'readerWidth', 'fontSize', 'difficultyDisplay', 'learnedLectures', 'libraryPageSize', 'navOrder', 'navLabels', 'navGroups', 'hiddenNavPages', 'onboardingUnlockedPages', 'levelNoticeVersion', 'levelNoticeSeen', 'levelNoticePending', 'seenAchievements', 'showPlatforms', 'onboardingCompleted', 'onboardingGuideVersion', 'avatarData', 'navSchema', 'learningPaths', 'shortcuts'))
+                     'readerWidth', 'fontSize', 'difficultyDisplay', 'learnedLectures', 'libraryPageSize', 'navOrder', 'navLabels', 'navGroups', 'hiddenNavPages', 'onboardingUnlockedPages', 'levelNoticeVersion', 'levelNoticeSeen', 'levelNoticePending', 'seenAchievements', 'showPlatforms', 'onboardingCompleted', 'onboardingGuideVersion', 'avatarData', 'navSchema', 'learningPaths', 'shortcuts', 'editorTheme', 'trainingListLocation'))
 AVATAR_DATA_MAX_BYTES = 48 * 1024
 
 
@@ -87,6 +87,7 @@ def save_preferences(training, body):
         allowed = {'commands','sidebar','settings','search','refresh','regions','help','practice','solution','favorite','listSearch',
                    'run','submit','official','save','pane-0','pane-1','pane-2',
                    'page-mine','page-library','page-training-lists','page-templates','page-paths','page-competitions','page-mock','page-records','page-growth','page-activity','page-lectures'}
+        allowed.update(['theme', 'calendar', 'daily-tasks', 'achievements', 'list-filter', 'list-random', 'list-difficulty', 'list-recent', 'workbench-back', 'workbench-next', 'statement-language', 'statement-copy', 'toolbar-lock', 'initial-code', 'code-templates', 'workbench-solution', 'console-toggle', 'catalog-up', 'catalog-home', 'catalog-filter', 'catalog-new', 'contest-filter', 'contest-folders', 'contest-up', 'mock-filter', 'mock-regenerate', 'lecture-learned', 'lecture-fullscreen', 'lecture-back', 'template-copy', 'template-back', 'records-platform', 'records-result', 'ranking-daily', 'ranking-weekly', 'ranking-all', 'initial-new', 'initial-copy'])
         if (not isinstance(shortcuts, dict) or set(shortcuts) - allowed or any(
                 not isinstance(binding, str) or len(binding) > 64 or any(ord(char) < 32 for char in binding)
                 for binding in shortcuts.values())):
@@ -117,9 +118,17 @@ def save_preferences(training, body):
         raise ServiceError(400, '题库每页题数须为 10–200')
     if 'pageOpacities' in value:
         opacities = value['pageOpacities']
-        if (not isinstance(opacities, dict) or set(opacities) - {'mine','library','training-lists','competitions','mock','rankings','growth','records','activity','lectures','settings','statement','editor','solution','paths','templates'}
+        if (not isinstance(opacities, dict) or set(opacities) - {'mine','library','training-lists','competitions','mock','rankings','growth','records','activity','lectures','settings','statement','editor','solution','paths','templates','practice-toolbar','practice-picker','template-picker','contest-statement','contest-editor','contest-toolbar','contest-picker','contest-calendar','mock-statement','mock-editor','mock-toolbar','mock-picker','initial-code','daily-tasks','achievements','level-up','popups','messages','accounts'}
                 or any(type(opacity) is not int or not 0 <= opacity <= 100 for opacity in opacities.values())):
             raise ServiceError(400, '界面不透明度须为 0–100')
+    if 'editorTheme' in value and (not isinstance(value['editorTheme'],str) or value['editorTheme'] not in {'auto','rainbow-dark','woodfish-dracula','woodfish-black','woodfish-neon','woodfish-light','one-dark','dracula','nord','tokyo-night','catppuccin','github-dark','monokai','gruvbox','solarized-dark','ayu-dark','rose-pine','github-light','one-light','solarized-light','ayu-light','paper','rose-pine-dawn'}):
+        raise ServiceError(400, '代码主题无效')
+    if 'trainingListLocation' in value:
+        location=value['trainingListLocation']
+        if (not isinstance(location,dict) or len(json.dumps(location,ensure_ascii=False))>8192
+                or set(location)-{'state','scrollTop'} or not isinstance(location.get('state',{}),dict)
+                or type(location.get('scrollTop',0)) not in (int,float) or not 0<=location.get('scrollTop',0)<=1000000):
+            raise ServiceError(400, '题单位置无效')
     try:
         text = json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False)
     except (ValueError, TypeError):

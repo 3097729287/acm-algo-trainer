@@ -109,7 +109,7 @@ def merge_states(remote, local, baseline=None):
         for key, old in list(rows.items()):
             previous = previous_rows.get(encoded(list(key)))
             if previous and encoded(list(key)) not in local_keys:
-                if table == 'account_preferences' and key == ('experience-challenge-v1',):
+                if table == 'account_preferences' and (key == ('experience-challenge-v1',) or str(key[0]).startswith('achievement-unlock:')):
                     continue
                 if digest(old) == previous:
                     del rows[key]  # An actual pending local deletion.
@@ -120,7 +120,7 @@ def merge_states(remote, local, baseline=None):
             old = rows.get(key)
             previous = previous_rows.get(encoded(list(key)))
             if old is None:
-                if previous is None or digest(row) != previous:
+                if previous is None or digest(row) != previous or table=='account_preferences' and str(key[0]).startswith('achievement-unlock:'):
                     rows[key] = copy.deepcopy(row)
                 continue
             if old == row:
@@ -158,6 +158,13 @@ def merge_states(remote, local, baseline=None):
                 winner['claimed_at'] = min(old['claimed_at'], row['claimed_at'])
             elif table == 'ranking_reward_totals':
                 winner['total_xp'] = max(old['total_xp'], row['total_xp'])
+            elif table == 'account_preferences' and str(winner.get('key','')).startswith('achievement-unlock:'):
+                try:
+                    values=[json.loads(item['value']) for item in (old,row)]
+                    dates=[value[name] for value in values if isinstance(value,dict) for name in ('unlockedAt',) if isinstance(value.get(name),str)]
+                    observed=[value['observedAt'] for value in values if isinstance(value,dict) and isinstance(value.get('observedAt'),str)]
+                    if dates:winner['value']=encoded({'unlockedAt':min(dates),'observedAt':min(observed) if observed else min(dates)})
+                except (ValueError,TypeError):pass
             elif table == 'account_preferences' and winner.get('key') == 'experience-challenge-v1':
                 from experience_challenge import merge as merge_experience
                 try:

@@ -1,4 +1,6 @@
 // Test-only SQLite store for exercising the production API protocol offline.
+import {SharedTranslations} from '../src/shared-translations.mjs';
+import {RankingDominance} from '../src/ranking-dominance.mjs';
 import {AccountChunks} from '../src/account-chunks.mjs';
 import {AccountAdministration} from '../src/admin-accounts.mjs';
 import { DatabaseSync } from 'node:sqlite';
@@ -24,6 +26,9 @@ export class SQLiteStore {
     };
     let writes=Promise.resolve();
     const chunkTransaction=action=>{const next=writes.then(async()=>{this.database.exec('BEGIN IMMEDIATE');try{const result=await action({execute});this.database.exec('COMMIT');return result;}catch(error){this.database.exec('ROLLBACK');throw error;}});writes=next.catch(()=>{});return next;};
+    this.serial=action=>{const next=writes.then(action);writes=next.catch(()=>{});return next;};
+    this.translations=new SharedTranslations({execute},'sqlite');
+    this.dominance=new RankingDominance({execute,transaction:chunkTransaction},'sqlite');
     this.accountAdmin=new AccountAdministration({execute,transaction:chunkTransaction},'sqlite');
     this.chunks=new AccountChunks({execute,transaction:chunkTransaction},'sqlite');
     this.social=new SocialStore({execute,transaction:action=>{
@@ -162,6 +167,10 @@ export class SQLiteStore {
     });
   }
   async settleRewards(now) {
+    await this.serial(()=>this._settleRewardsNow(now));
+    await this.dominance.settle(now);
+  }
+  _settleRewardsNow(now) {
     this.database.exec('BEGIN IMMEDIATE');
     try {
       const day = bounds('daily', now).start, week = bounds('weekly', now).start, timestamp = new Date(now).toISOString();

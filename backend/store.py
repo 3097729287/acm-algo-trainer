@@ -313,6 +313,10 @@ class Store:
         Older installations keep their original public rows for private history.
         Custom user lists are stored separately and are not changed here.
         """
+        signature=self._content_signature()
+        cached=getattr(self,'_training_lists_cache',None)
+        if signature is not None and cached and cached[0]==signature:
+            return json.loads(cached[1])
         rows = [row for row in self.training_data()['rows'] if not row.get('catalogHidden')]
         allowed_ids = {row['id'] for row in rows}
         allowed_urls = {canonical_url(row.get('url')) for row in rows if row.get('url')}
@@ -326,6 +330,7 @@ class Store:
                                     and canonical_url(entry.get('url')) not in retired_urls]
             if len(entries) != len(training['problems']):
                 training['problemCount'] = len(training['problems'])
+        if signature is not None:self._training_lists_cache=(signature,json.dumps(result,ensure_ascii=False,separators=(',',':')))
         return result
 
     def training_data(self):

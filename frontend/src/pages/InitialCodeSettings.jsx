@@ -3,19 +3,29 @@ import {Check, Code2, Copy, LoaderCircle, Plus, Save, Trash2} from 'lucide-react
 import CodeEditor from '@/components/CodeEditor.jsx';
 import ThemedSelect from '@/components/ThemedSelect.jsx';
 import PopConfirm from '@/components/PopConfirm.jsx';
-import InitialCodePicker, {InitialCodeButton} from '@/components/InitialCodePicker.jsx';
+import {InitialCodeSelect} from '@/components/InitialCodePicker.jsx';
 
 export default function InitialCodeSettings({api, shortcuts={}}){
   const [snapshot,setSnapshot]=useState(null),[language,setLanguage]=useState('cpp17'),[identity,setIdentity]=useState('default');
-  const [draft,setDraft]=useState(null),[picker,setPicker]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[deleting,setDeleting]=useState(null);
+  const [draft,setDraft]=useState(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[deleting,setDeleting]=useState(null);
   const buffers=useRef(new Map()), titleRef=useRef(null), toolbarRef=useRef(null);
+  const catalogRevision=useRef(0),view=useRef(null);view.current={language,identity,busy};
   const load=(value,lang=language,id=value.selection[lang]||'default')=>{
+    catalogRevision.current++;
     setSnapshot(value);setIdentity(id);setLanguage(lang);
     const item=value.templates.find(row=>row.language===lang&&row.id===id)||value.templates.find(row=>row.language===lang&&row.id==='default');
     setDraft(buffers.current.get(lang+':'+id)||item);
   };
-  useEffect(()=>{let alive=true;api('initial-code').then(value=>{if(alive)load(value,'cpp17');}).catch(issue=>{if(alive)setError(issue.message);});return()=>{alive=false;};},[api]);
-  const change=value=>{const next={...draft,...value};buffers.current.set(language+':'+identity,next);setDraft(next);};
+  useEffect(()=>{
+    let alive=true,pending=false;
+    const refresh=async(initial=false)=>{if(pending||document.hidden||view.current.busy)return;pending=true;const revision=catalogRevision.current;
+      try{const value=await api('initial-code');if(!alive||revision!==catalogRevision.current||view.current.busy)return;
+        if(initial)load(value,'cpp17');else{const {language,identity}=view.current;if(buffers.current.has(language+':'+identity)){setSnapshot(value);return;}const next=value.templates.some(item=>item.language===language&&item.id===identity)?identity:value.selection[language]||'default';load(value,language,next);}
+      }catch(issue){if(alive&&initial)setError(issue.message);}finally{pending=false;}};
+    const focus=()=>void refresh();void refresh(true);window.addEventListener('focus',focus);document.addEventListener('visibilitychange',focus);
+    return()=>{alive=false;window.removeEventListener('focus',focus);document.removeEventListener('visibilitychange',focus);};
+  },[api]);
+  const change=value=>{catalogRevision.current++;const next={...draft,...value};buffers.current.set(language+':'+identity,next);setDraft(next);};
   const create=(copy=false)=>{
     const item=snapshot.templates.find(row=>row.language===language&&row.id==='default');
     const next={id:'new',title:'',language,code:copy?draft.code:item.code,builtin:false};
@@ -24,7 +34,7 @@ export default function InitialCodeSettings({api, shortcuts={}}){
     setIdentity('new');setDraft(remembered||next);requestAnimationFrame(()=>titleRef.current?.focus());
   };
   const save=async()=>{
-    if(!draft||busy)return;setBusy(true);setError('');
+    if(!draft||busy)return;catalogRevision.current++;setBusy(true);setError('');
     try{
       const value=await api('initial-code/save',{...(identity!=='new'?{id:identity,revision:draft.revision}:{}),title:draft.title,language,code:draft.code});
       buffers.current.delete(language+':'+identity);
@@ -42,11 +52,10 @@ export default function InitialCodeSettings({api, shortcuts={}}){
   return <section className="initial-code-settings" aria-label="初始代码模板"><h2><Code2 size={19}/>初始代码模板</h2>
     {error&&<p role="alert" className="connection-error">{error}</p>}
     {!snapshot||!draft?<LoaderCircle className="spin" aria-label="正在读取"/>:<>
-      <div ref={toolbarRef} className="initial-code-settings-toolbar"><ThemedSelect aria-label="模板语言" value={language} disabled={busy} onChange={event=>load(snapshot,event.target.value)}><option value="cpp17">C++17</option><option value="python3">Python 3</option></ThemedSelect><InitialCodeButton title={identity==='new'?'新模板':draft.title} disabled={busy} onClick={()=>setPicker(true)}/><div className="initial-code-settings-actions"><button type="button" className="icon-button" aria-label="新建初始代码模板" title="新建模板" onClick={()=>create()} disabled={busy}><Plus size={17}/></button><button type="button" className="icon-button" aria-label="复制为初始代码模板" title="另存为" onClick={()=>create(true)} disabled={busy}><Copy size={17}/></button>{!draft.builtin&&<><button type="button" className="icon-button" aria-label="删除初始代码模板" title="删除模板" onClick={event=>setDeleting(event.currentTarget)} disabled={busy}><Trash2 size={17}/></button><button type="button" className="icon-button primary" aria-label="保存初始代码模板" title="保存并使用" onClick={save} disabled={busy||!draft.title.trim()}>{busy?<LoaderCircle className="spin" size={17}/>:<Save size={17}/>}</button></>}{snapshot.selection[language]===identity&&<Check size={16} aria-label="当前初始代码模板"/>}</div></div>
+      <div ref={toolbarRef} className="initial-code-settings-toolbar"><ThemedSelect aria-label="模板语言" value={language} disabled={busy} onChange={event=>load(snapshot,event.target.value)}><option value="cpp17">C++17</option><option value="python3">Python 3</option></ThemedSelect><InitialCodeSelect api={api} snapshot={snapshot} language={language} selected={identity==='new'?'':identity} disabled={busy} onSelect={(item,value)=>load(value,language,item.id)} onError={setError}/><div className="initial-code-settings-actions"><button type="button" className="icon-button" aria-label="新建初始代码模板" title="新建模板" onClick={()=>create()} disabled={busy}><Plus size={17}/></button><button type="button" className="icon-button" aria-label="复制为初始代码模板" title="另存为" onClick={()=>create(true)} disabled={busy}><Copy size={17}/></button>{!draft.builtin&&<><button type="button" className="icon-button" aria-label="删除初始代码模板" title="删除模板" onClick={event=>setDeleting(event.currentTarget)} disabled={busy}><Trash2 size={17}/></button><button type="button" className="icon-button primary" aria-label="保存初始代码模板" title="保存并使用" onClick={save} disabled={busy||!draft.title.trim()}>{busy?<LoaderCircle className="spin" size={17}/>:<Save size={17}/>}</button></>}{snapshot.selection[language]===identity&&<Check size={16} aria-label="当前初始代码模板"/>}</div></div>
       {!draft.builtin&&<input ref={titleRef} className="initial-code-title" aria-label="初始代码模板名称" placeholder="模板名称" value={draft.title} maxLength={120} disabled={busy} onChange={event=>change({title:event.target.value})}/>}
       <div className="initial-code-settings-editor"><CodeEditor shortcuts={shortcuts} value={draft.code} onChange={code=>change({code})} onCommand={command=>{if(command==='save'&&!draft.builtin)void save();}} onLeave={()=>toolbarRef.current?.querySelector('button:not(:disabled)')?.focus()} language={language} readOnly={draft.builtin||busy} ariaLabel="初始代码模板内容" docKey={language+':'+identity}/></div>
     </>}
-    {picker&&<InitialCodePicker api={api} language={language} selected={identity} onClose={()=>setPicker(false)} onSelect={(item,value)=>load(value,language,item.id)}/>}
     {deleting&&<PopConfirm anchor={deleting} title="删除这个模板？" busy={busy} error={error} cancelLabel="×" confirmLabel={<Trash2 size={15}/>} cancelAriaLabel="取消删除" confirmAriaLabel="确认删除模板" onCancel={()=>setDeleting(null)} onConfirm={remove}/>}
   </section>;
 }

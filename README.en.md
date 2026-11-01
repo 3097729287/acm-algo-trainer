@@ -1,6 +1,8 @@
 # ToBe · Training Workbench
 
-**Development status: 1.4.32 is merged and under validation; it is not packaged, installed or published.** Local and public stable remain 1.4.31 and download links still target that release. This update fixes workbench toolbars, return hit targets, recommendation menus and navigation defaults; it separates XCPC event shelves and integrates audited offline statements, assets and native PDF reading. All original IDs and teaching content remain; 358 problems are withheld from public selection. [Scope](docs/releases/1.4.32.md).
+**Development status: 1.4.33 is not publicly released; local packaging and upgrade validation are in progress.** The installed version is 1.4.32 and download links continue to target the published release. Settings → Appearance → Code themes offers 22 palettes plus automatic UI matching, a scrollable left selector and live code preview. Woodfish-inspired gradients, subtle glow, a colored caret and editor glass adapt independently to light and dark UI. [Scope](docs/releases/1.4.33.md).
+
+Achievements now require an explicit reward claim and keep previous awards. Difficulty milestones span 1500–2300 and grant medals, with additional time, daily submission/AC/WA, spaced-review and social milestones. Training clearing preserves review schedules; ordinary problems join training on the first actual edit. Catalogue loading, synchronized settings, the startup window, images and caret are refined. Service 1.3.0 is an undeployed candidate; leadership streaks and shared public translations require that service.
 
 This update also adds five-minute contest reminders and live statement import, a level-five assessment for experienced users, and offline Ctrl+S formatting in ordinary practice. It fixes AtCoder submission readiness and feedback, caret visibility and learned-state icons, and removes the activity feed below rankings.
 

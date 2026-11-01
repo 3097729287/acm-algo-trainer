@@ -17,6 +17,7 @@ export const rowPlatform=row=>normalizePlatform(row?.platform)||platformFromUrl(
 export function platformNames(rows=[],selected=''){
  const names=new Set(rows.map(row=>typeof row==='string'?normalizePlatform(row):rowPlatform(row)).filter(Boolean));
  if(selected)names.add(normalizePlatform(selected));
+ names.delete('ToBe');
  const order=new Map(PLATFORM_REGISTRY.map((platform,index)=>[platform.id,index]));
  return [...names].sort((a,b)=>(order.get(a)??99)-(order.get(b)??99)||a.localeCompare(b,'zh-CN',{numeric:true}));
 }

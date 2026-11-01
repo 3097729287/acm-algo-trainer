@@ -241,6 +241,10 @@ class TrainingTitleTests(unittest.TestCase):
         hub = {'accounts': [{'platform': 'codeforces', 'solved': [
             {'url': f'https://codeforces.com/contest/1000/problem/A{index}', 'acceptedAt': None} for index in range(500)]}]}
         self.library.extensions = SimpleNamespace(snapshot=lambda: copy.deepcopy(hub), rows=lambda: [])
+        self.assertEqual(self.service.public_progress()['titles'],[])
+        for achievement in self.service.insights(hub)['achievements']:
+            if achievement['id'].startswith('official-') and achievement['unlocked']:
+                self.service.claim_achievement(achievement['id'],hub)
         summary = self.service.public_progress()
         self.assertEqual([item['id'] for item in summary['titles']], ['ac-500'])
         self.assertEqual(self.service.connection.execute("SELECT awarded_xp FROM achievement_xp_claims WHERE achievement_id='official-500'").fetchone()[0], 0)

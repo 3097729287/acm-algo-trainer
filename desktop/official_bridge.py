@@ -122,7 +122,7 @@ class OfficialBridge:
                 return
             if value.get('attempted') or value.get('status') in ('needs_login', 'needs_verification', 'error'):
                 session['submitting'] = False
-            for key in ('status', 'message', 'submissionId', 'verdict', 'attempted',
+            for key in ('status', 'message', 'verdictDetail', 'submissionId', 'verdict', 'attempted',
                         'baseline', 'baselineKnown', 'baselineOwner', 'compiler', 'acceptedAt'):
                 if key in value:
                     session[key] = value[key]

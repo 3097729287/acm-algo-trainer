@@ -80,3 +80,9 @@ CREATE TABLE IF NOT EXISTS account_chunks(user_id TEXT NOT NULL REFERENCES accou
 
 CREATE TABLE IF NOT EXISTS account_chunk_usage(user_id TEXT PRIMARY KEY REFERENCES accounts(user_id),byte_count INTEGER NOT NULL DEFAULT 0,object_count INTEGER NOT NULL DEFAULT 0,last_gc_at TEXT NOT NULL DEFAULT '');
 CREATE TABLE account_admin_actions(id INTEGER PRIMARY KEY AUTOINCREMENT,actor_id TEXT NOT NULL,target_id TEXT NOT NULL,action TEXT NOT NULL,created_at TEXT NOT NULL);
+
+CREATE TABLE ranking_leader_schedule(singleton INTEGER PRIMARY KEY,next_day TEXT NOT NULL);
+CREATE TABLE ranking_leader_days(period TEXT NOT NULL,ranking_day TEXT NOT NULL,user_id TEXT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,score INTEGER NOT NULL,observed_at TEXT NOT NULL,PRIMARY KEY(period,ranking_day));
+CREATE INDEX ranking_leader_owner ON ranking_leader_days(user_id,period,ranking_day);
+
+CREATE TABLE shared_statement_translations(translation_key TEXT PRIMARY KEY,source_url TEXT NOT NULL,source_hash TEXT NOT NULL,source_format TEXT NOT NULL,target_language TEXT NOT NULL,markdown TEXT NOT NULL,contributor_id TEXT REFERENCES users(user_id) ON DELETE SET NULL,created_at TEXT NOT NULL);

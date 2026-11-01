@@ -32,7 +32,8 @@ class WorkbenchUpdateTests(unittest.TestCase):
         self.assertEqual(value['growth']['level'],42)
         self.assertEqual(value['growth']['ranked']['badge'],'tier-6')
         self.assertTrue(all(item['unlocked'] for item in value['achievements']))
-        self.assertEqual(len(value['titles']),10)
+        self.assertEqual(len(value['titles']),18)
+        self.assertEqual(len([title for title in value['titles'] if title['category']=='difficulty']),8)
         self.assertEqual(self.user.insights()['growth']['level'],before['growth']['level'])
         self.assertEqual(self.admin.connection.execute('SELECT COUNT(*) FROM submissions').fetchone()[0],0)
         with patch.object(self.admin.leaderboard,'_request',side_effect=AssertionError('admin cloud access')):

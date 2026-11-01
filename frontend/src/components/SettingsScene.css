@@ -17,12 +17,12 @@
 .bulb-glass {fill-opacity:.09;animation:bulb-glass-light 6s ease-in-out infinite}
 .bulb-filament {stroke:var(--warning);animation:bulb-filament 6s ease-in-out infinite}
 .bulb-rays {animation:bulb-rays 6s ease-in-out infinite}
-.globe-turn {transform-origin:90px 73px;animation:planet-rotation 24s linear infinite}
-.globe-planet {transform-origin:90px 73px;animation:planet-cycle 24s ease-in-out infinite}
-.globe-building {transform-origin:90px 40px;animation-duration:24s;animation-timing-function:ease-out;animation-iteration-count:infinite;opacity:0}
-.globe-burst {opacity:0;animation:planet-burst 24s linear infinite}
-.globe-shockwave {transform-origin:90px 73px;animation:shockwave-spread 24s ease-out infinite}
-.globe-fragment {transform-origin:90px 73px;animation:fragment-flight 24s ease-out infinite}
+.globe-turn {transform-origin:90px 73px;animation:planet-rotation 9s linear infinite}
+.globe-planet {transform-origin:90px 73px;animation:planet-cycle 14s ease-in-out infinite}
+.globe-building {transform-origin:90px 40px;animation-duration:14s;animation-timing-function:ease-out;animation-iteration-count:infinite;opacity:0}
+.globe-burst {opacity:0;animation:planet-burst 14s linear infinite}
+.globe-shockwave {transform-origin:90px 73px;animation:shockwave-spread 14s ease-out infinite}
+.globe-fragment {transform-origin:90px 73px;animation:fragment-flight 14s ease-out infinite}
 @keyframes dino-direction {0%,49.99%{transform:scaleX(1)}50%,99.99%{transform:scaleX(-1)}100%{transform:scaleX(1)}}
 @keyframes cloud-across {0%{left:-125px;opacity:0}8%,92%{opacity:.75}100%{left:calc(100% + 5px);opacity:0}}
 @keyframes balloon-ascent {0%{bottom:-155px;transform:translateX(0) rotate(-3deg);opacity:0}8%{opacity:.9}25%{bottom:5%;transform:translateX(-15px) rotate(3deg)}45%{bottom:25%;transform:translateX(17px) rotate(-3deg)}65%{bottom:48%;transform:translateX(-18px) rotate(3deg)}85%{bottom:76%;transform:translateX(13px) rotate(-2deg);opacity:.9}100%{bottom:110%;transform:translateX(-10px);opacity:0}}

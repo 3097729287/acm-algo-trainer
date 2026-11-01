@@ -141,7 +141,10 @@ class LibraryDatabase:
         """Upgrade bundled content, preserving locally imported/edited rows and fetched statements."""
         path = Path(path).resolve()
         if fingerprint is None:
-            fingerprint = hashlib.sha256(path.read_bytes()).hexdigest()
+            # The public seed contains images/PDFs; hashing must not allocate
+            # another entire library on first startup or during upgrades.
+            with path.open('rb') as stream:
+                fingerprint = hashlib.file_digest(stream, 'sha256').hexdigest()
         if self.metadata().get('bundled_sha256') == fingerprint:
             return False
         seed = sqlite3.connect(path.as_uri() + '?mode=ro', uri=True)
@@ -163,7 +166,7 @@ class LibraryDatabase:
             if seed.execute("SELECT 1 FROM sqlite_master WHERE name='training_lists'").fetchone():
                 tables['training_lists'] = ('id', ['id', 'content'])
             rows = {name: list(seed.execute('SELECT * FROM ' + name)) for name in tables}
-            asset_rows=list(seed.execute('SELECT sha256,mime,data FROM statement_assets')) if seed.execute("SELECT 1 FROM sqlite_master WHERE name='statement_assets'").fetchone() else []
+            asset_rows=list(seed.execute('SELECT sha256,mime FROM statement_assets')) if seed.execute("SELECT 1 FROM sqlite_master WHERE name='statement_assets'").fetchone() else []
             links = {}
             for row in seed.execute('SELECT * FROM problem_lectures ORDER BY problem_id,position'):
                 links.setdefault(row['problem_id'], []).append(tuple(row))
@@ -176,10 +179,13 @@ class LibraryDatabase:
         digest = lambda value: hashlib.sha256(json.dumps(value, ensure_ascii=False, sort_keys=True).encode()).hexdigest()
         with self.connection() as db:
             db.execute('BEGIN IMMEDIATE')
-            for asset in asset_rows:
-                if hashlib.sha256(asset['data']).hexdigest()!=asset['sha256']:
-                    raise ValueError('Bundled statement asset hash mismatch')
-                db.execute('INSERT OR IGNORE INTO statement_assets VALUES (?,?,?)',tuple(asset))
+            from contextlib import closing
+            with closing(sqlite3.connect(path.as_uri()+'?mode=ro',uri=True)) as asset_source:
+                for sha,mime in asset_rows:
+                    data=asset_source.execute('SELECT data FROM statement_assets WHERE sha256=?',(sha,)).fetchone()[0]
+                    if hashlib.sha256(data).hexdigest()!=sha:
+                        raise ValueError('Bundled statement asset hash mismatch')
+                    db.execute('INSERT OR IGNORE INTO statement_assets VALUES (?,?,?)',(sha,mime,data))
             def previous(table, identity):
                 row = db.execute('SELECT digest FROM bundled_items WHERE table_name=? AND item_id=?', (table, identity)).fetchone()
                 return row[0] if row else None

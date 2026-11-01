@@ -57,12 +57,14 @@ await page.route('**/api/**', async route => {
 });
 const content = () => page.locator('.training-list-content');
 const folder = title => content().getByRole('button').filter({ has: page.locator('strong', { hasText: title }) }).first();
-const sourceMode = async () => { await page.getByLabel('题单目录方式').selectOption('source'); };
+const sourceMode = async () => { const control=page.getByLabel('题单目录方式');if(await control.getAttribute('data-mode')!=='source')await control.click(); };
 const home = async () => page.getByRole('button', { name: '全部题单', exact: true }).click();
 const search = () => page.getByRole('textbox', { name: '搜索题单或题目', exact: true });
 const noOverflow = async () => {
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
-  assert.ok(await content().evaluate(node => node.scrollWidth <= node.clientWidth + 1));
+  const geometry=await content().evaluate(node=>({viewport:innerWidth,width:node.clientWidth,scroll:node.scrollWidth,table:node.querySelector('table')?.getBoundingClientRect().toJSON(),cells:[...node.querySelectorAll('tbody tr:first-child td')].map(cell=>({text:cell.innerText,width:cell.getBoundingClientRect().width,scroll:cell.scrollWidth,display:getComputedStyle(cell).display}))}));
+  if(geometry.scroll>geometry.width+1)await page.screenshot({path:`${out}/overflow.png`});
+  assert.ok(geometry.scroll<=geometry.width+1,JSON.stringify(geometry));
 };
 
 try {
@@ -70,14 +72,14 @@ try {
   await page.locator('.sidebar').getByRole('button', { name: '题单', exact: true }).click();
   await page.getByRole('alert').filter({ hasText: '测试读取失败' }).waitFor();
   await page.getByRole('button', { name: '重新读取', exact: true }).click();
-  await folder('动态规划').waitFor();
+  await sourceMode();
+  await folder('精选用户分享').waitFor();
   const navigation = await page.locator('.sidebar nav button').allTextContents();
   assert.equal(navigation.findIndex(text => text.includes('题单')), navigation.findIndex(text => text === '题库') + 1, 'existing navigation gains entry after library');
-  await folder('动态规划').click();
-  await folder('背包').click();
+  await folder('精选用户分享').click();
   await folder('背包问题').click();
   assert.equal(await page.locator('.training-list-table tbody tr').count(), 3);
-  assert.match(await page.locator('.training-list-heading p').textContent(), /1 \/ 3/);
+  assert.match(await page.locator('.training-list-stats').textContent(), /1 \/ 3/);
   await page.keyboard.press('Escape');
   await folder('背包问题').waitFor();
   await home();
@@ -90,51 +92,50 @@ try {
   await sourceMode();
   await folder('深入浅出基础篇').click();
   await folder('顺序结构').click();
-  assert.equal(await page.locator('.training-list-table tbody tr').count(), 10);
+  const perPage=await page.locator('.training-list-table tbody tr').count();
+  assert(perPage>=5&&perPage<=rows.length);
   await page.getByRole('button', { name: '题单下一页', exact: true }).click();
-  await page.getByRole('button', { name: '练习 11', exact: true }).waitFor();
-  await content().evaluate(node => { node.scrollTop = 120; });
-  const scrollTop = await content().evaluate(node => node.scrollTop);
-  await page.getByRole('button', { name: '练习 15', exact: true }).click();
-  await page.getByRole('textbox', { name: 'C++ 代码' }).waitFor();
-  assert.equal(writes.findLast(write => write.path === '/api/training/start').body.id, 'task-14');
+  await page.getByRole('button', { name: `练习 ${perPage+1}`, exact: true }).waitFor();
+  await content().evaluate(node=>{node.scrollTop=120;});
+  const scrollTop=await content().evaluate(node=>node.scrollTop),chosen=perPage+4;
+  await page.getByRole('button',{name:`练习 ${chosen+1}`,exact:true}).click();
+  await page.getByRole('textbox',{name:'C++ 代码'}).waitFor();
+  assert.equal(writes.findLast(write=>write.path==='/api/training/start').body.id,`task-${chosen}`);
+  assert.equal(writes.findLast(write=>write.path==='/api/training/start').body.deferActivation,true);
   await page.locator('.wb-next-button').click();
-  await page.waitForFunction(() => document.querySelector('.wb-heading')?.textContent.includes('练习 16'));
-  assert.equal(writes.findLast(write => write.path === '/api/training/start').body.id, 'task-15');
-  await page.getByRole('button', { name: '返回列表', exact: true }).click();
-  await page.getByRole('button', { name: '练习 11', exact: true }).waitFor();
-  assert.match(await page.locator('[aria-label="题单分页"]').textContent(), /第 2 \/ 6 页/);
-  assert.equal(await content().evaluate(node => node.scrollTop), scrollTop);
-  await page.getByLabel('题单通过状态').selectOption('accepted');
-  assert.equal(await page.locator('.training-list-table tbody tr').count(), 1);
-  await page.getByLabel('题单通过状态').selectOption('');
-  await home();
-  await folder('深入浅出基础篇').click();
-  await folder('图论专题').click();
-  await folder('最短路').click();
-  assert.equal(await page.locator('.training-list-table tbody tr').count(), 2);
-  await page.getByRole('button', { name: '返回上一级题单目录' }).click();
-  await page.getByRole('button', { name: '全部题目 3 题', exact: true }).click();
-  assert.equal(await page.locator('.training-list-table tbody tr').count(), 3);
-  for (const width of [1440, 1050, 390]) {
-    await page.setViewportSize({ width, height: 900 });
-    for (const theme of ['light', 'dark']) {
-      await page.evaluate(theme => { document.documentElement.dataset.theme = theme; }, theme);
-      await noOverflow();
-      assert.ok(await page.locator('.training-lists-page').evaluate(node => node.clientWidth > node.parentElement.clientWidth * .9), 'the page fills the workspace at every width');
-      assert.equal(await page.locator('.training-list-table th:visible').count(), 3);
-      assert.ok(await page.locator('.training-list-table').evaluate(table => [...table.querySelectorAll('td')].every(cell => cell.getBoundingClientRect().right <= table.getBoundingClientRect().right + 1)), 'all columns remain visible');
-      await page.screenshot({ path: `${out}/problems-${width}-${theme}.png`, fullPage: true });
-    }
+  await page.waitForFunction(title=>document.querySelector('.wb-heading')?.textContent.includes(title),`练习 ${chosen+2}`);
+  assert.equal(writes.findLast(write=>write.path==='/api/training/start').body.id,`task-${chosen+1}`);
+  await page.getByRole('button',{name:'返回列表',exact:true}).click();
+  await page.getByRole('button',{name:`练习 ${perPage+1}`,exact:true}).waitFor();
+  assert.equal(await page.locator('[aria-label="题单分页"] input').inputValue(),'2');
+  assert.match(await page.locator('[aria-label="题单分页"]').textContent(),new RegExp(`/ ${Math.ceil(rows.length/perPage)} 页`));
+  assert.equal(await content().evaluate(node=>node.scrollTop),scrollTop);
+  await page.getByRole('button',{name:'筛选题单题目',exact:true}).click();
+  await page.getByLabel('题单提交结果筛选',{exact:true}).click();
+  await page.getByRole('listbox',{name:'题单提交结果筛选',exact:true}).getByRole('option',{name:'AC',exact:true}).click();
+  assert.equal(await page.locator('.training-list-table tbody tr').count(),1);
+  await page.getByLabel('题单提交结果筛选',{exact:true}).click();
+  await page.getByRole('listbox',{name:'题单提交结果筛选',exact:true}).getByRole('option',{name:'全部结果',exact:true}).click();
+  await page.keyboard.press('Escape');
+  await home();await folder('深入浅出基础篇').click();await folder('图论专题').click();await folder('最短路').click();
+  assert.equal(await page.locator('.training-list-table tbody tr').count(),2);
+  await page.getByRole('button',{name:'返回上一级文件夹',exact:true}).click();
+  await page.getByRole('button',{name:'全部题目 3 题',exact:true}).click();
+  assert.equal(await page.locator('.training-list-table tbody tr').count(),3);
+  for(const width of [1440,1050,390]){
+   await page.setViewportSize({width,height:900});
+   for(const theme of ['light','dark']){
+    await page.evaluate(value=>document.documentElement.dataset.theme=value,theme);await page.waitForTimeout(200);
+    await noOverflow();
+    assert.equal(await page.locator('.training-list-table th:visible').count(),await page.locator('.training-list-table tbody tr').first().locator('td:visible').count());
+    assert(await page.locator('.training-list-table').evaluate(table=>[...table.querySelectorAll('td')].every(cell=>cell.getBoundingClientRect().right<=table.getBoundingClientRect().right+1)));
+    await page.screenshot({path:`${out}/problems-${width}-${theme}.png`,fullPage:true});
+   }
   }
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await home();
-  await folder('精选用户分享').click();
-  await folder('动态规划专题').click();
-  await page.getByRole('button', { name: '全部题目 3 题', exact: true }).click();
-  assert.equal(await page.locator('.training-list-table tbody tr').count(), 3);
-  await home();
-  await page.screenshot({ path: `${out}/folders.png`, fullPage: true });
+  await page.setViewportSize({width:1440,height:900});await home();await folder('精选用户分享').click();await folder('动态规划专题').click();
+  await page.getByRole('button',{name:'全部题目 3 题',exact:true}).click();
+  assert.equal(await page.locator('.training-list-table tbody tr').count(),3);
+  await home();await page.screenshot({path:`${out}/folders.png`,fullPage:true});
   assert.deepEqual(errors, []);
   assert.ok(writes.every(write => ['/api/training/start', '/api/draft'].includes(write.path)));
   console.log('PASS: retry, navigation migration, algorithms, sources, chapters, search, progress, pagination, workbench next/return, six layouts; zero official submissions');

@@ -24,6 +24,11 @@ class EarnedExperienceTests(unittest.TestCase):
         self.service.connection.execute('INSERT INTO submissions(id,problem_id,mode,code,submitted_at,finished_at,verdict,scope) VALUES(?,?,?,?,?,?,?,?)',
                                         (identity, row['id'], 'submit', 'fixture', stamp, stamp, 'AC', 'official'))
 
+    def claim_ac_milestones(self):
+        for item in self.service.insights()['achievements']:
+            if item['unlocked'] and not item['rewardClaimed'] and item['id'].startswith(('official-','difficulty-')):
+                self.service.claim_achievement(item['id'])
+
     def assert_xp_components(self, base, achievement):
         growth = self.service.insights()['growth']
         self.assertEqual(growth['totalXp'], base + achievement)
@@ -41,6 +46,10 @@ class EarnedExperienceTests(unittest.TestCase):
 
     def test_upgrade_preserves_published_reward_after_difficulty_reassessment(self):
         self.accept(self.library.rows[0], 'historical-ac')
+        # Simulate already-paid rows from the previous release, including its
+        # original 1800 threshold. New unclaimed milestones must not add XP.
+        stamp=self.clock().isoformat()
+        self.service.connection.executemany('INSERT INTO achievement_xp_claims VALUES(?,?,?,?)',[(identity,stamp,xp,stamp) for identity,xp in [('official-1',25),('difficulty-1500',40),('difficulty-1800',60)]])
         self.service.connection.executescript('DROP TABLE official_first_xp_awards; DROP TABLE official_xp_state;')
         self.service.close()
         self.service = TrainingService(self.library, self.root / 'personal.sqlite3', clock=self.clock,
@@ -52,22 +61,27 @@ class EarnedExperienceTests(unittest.TestCase):
 
     def test_new_awards_use_current_difficulty_and_stay_frozen_on_restart(self):
         self.accept(self.library.rows[0], 'new-ac')
-        self.assert_xp_components(200,125)
+        self.assertEqual(self.service.insights()['growth']['achievementXp'],0)
+        self.claim_ac_milestones()
+        self.assert_xp_components(200,425)
         self.library.rows[0]['difficulty'] = 1000
-        self.assert_xp_components(200,125)
+        self.assert_xp_components(200,425)
         self.service.close()
         self.service = TrainingService(self.library, self.root / 'personal.sqlite3', clock=self.clock,
                                        backup_dir=self.root / 'backups')
-        self.assert_xp_components(200,125)
+        self.assert_xp_components(200,425)
 
     def test_unrated_task_awards_once_after_rating_becomes_available(self):
         self.library.rows[0].update(url='https://example.com/unrated', difficulty=None)
         self.accept(self.library.rows[0], 'unrated-ac')
+        self.claim_ac_milestones()
         self.assert_xp_components(0,25)
         self.library.rows[0]['difficulty'] = 1500
+        self.claim_ac_milestones()
         self.assert_xp_components(150,65)
         self.library.rows[0]['difficulty'] = 2300
-        self.assert_xp_components(150,205)
+        self.claim_ac_milestones()
+        self.assert_xp_components(150,955)
 
     def test_reading_unchanged_experience_does_not_create_more_backups(self):
         self.accept(self.library.rows[0], 'new-ac')

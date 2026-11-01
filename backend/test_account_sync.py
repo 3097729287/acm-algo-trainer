@@ -60,6 +60,30 @@ class CloudStateTests(unittest.TestCase):
         connection.close()
         return result
 
+    def test_code_theme_and_initial_template_restore_on_second_computer(self):
+        self.signup();self.assertEqual(self.login()[0],200)
+        preferences={'theme':'light','editorTheme':'woodfish-neon',
+                     'trainingListLocation':{'state':{'mode':'official','page':2},'scrollTop':320}}
+        self.assertEqual(self.call('/api/preferences',{'preferences':preferences})[0],200)
+        status,saved=self.call('/api/initial-code/save',{'title':'Shared starter','language':'cpp17','code':'// private starter\nint main() {}\n'})
+        self.assertEqual(status,200,saved)
+        status,catalog=self.call('/api/initial-code')
+        self.assertEqual(status,200,catalog)
+        template=saved['template']
+        status,chosen=self.call('/api/initial-code/select',{'id':template['id'],'language':'cpp17','revision':catalog['revisions']['cpp17']})
+        self.assertEqual(status,200,chosen)
+        self.server.accounts.sync_pending(wait=True)
+        other=self.other_computer()
+        status,login=self.call_other(other,'/api/account/login',{'loginId':'account_a','password':'fixture-password'})
+        self.assertEqual(status,200,login)
+        status,restored=self.call_other(other,'/api/preferences')
+        self.assertEqual(status,200,restored)
+        self.assertEqual(restored['preferences'],preferences)
+        status,restored=self.call_other(other,'/api/initial-code')
+        self.assertEqual(status,200,restored)
+        self.assertEqual(restored['selection']['cpp17'],template['id'])
+        self.assertEqual(next(item for item in restored['templates'] if item['id']==template['id'])['code'],template['code'])
+
     def test_two_computers_receive_all_learning_data_before_login_and_revoke_old_device(self):
         self.signup(); self.assertEqual(self.login()[0], 200)
         service = self.server.training

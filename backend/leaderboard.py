@@ -101,7 +101,7 @@ class LeaderboardClient:
         self.last_public_progress = None
         self.avatar_cache = {}
 
-    def _request(self, profile, method, path, data=None):
+    def _request(self, profile, method, path, data=None, *, timeout=None):
         if self.closed or getattr(self.training,'closed',False):
             raise RuntimeError('排行榜正在关闭')
         if getattr(self.training, "admin_mode", False):
@@ -115,7 +115,7 @@ class LeaderboardClient:
                 self.opener = service_opener(profile['endpoint'])
                 self.opener_endpoint = profile['endpoint']
             maximum = 1024 * 1024 if method == 'GET' and path == '/v1/social' else 256 * 1024
-            with self.opener.open(request, timeout=self.timeout) as response:
+            with self.opener.open(request, timeout=self.timeout if timeout is None else min(self.timeout,timeout)) as response:
                 raw = response.read(maximum + 1)
             if len(raw) > maximum:
                 raise ValueError("排行榜响应过大")
@@ -336,6 +336,12 @@ class LeaderboardClient:
         if action and (action not in allowed or not isinstance(body, dict) or set(body) not in allowed[action]
                        or action == 'read' and 'all' in body and body['all'] is not True):
             raise ServiceError(400, '互动请求格式无效')
+        leader_tease=False
+        if action=='comments' and isinstance(body.get('text'),str) and body['text'].strip() in {'就这?','就这？'}:
+            try:
+                daily=self._request(profile,'GET','/v1/leaderboard?period=daily')
+                leader_tease=any(entry.get('userId')==body.get('targetId') and entry.get('rank')==1 and entry.get('count',0)>0 for entry in daily.get('entries',[]))
+            except (RuntimeError,RankingRequestError):pass
         try:
             value = self._request(profile, 'POST' if action else 'GET', '/v1/social' + ('/' + action if action else ''), body if action else None)
         except RankingRequestError as error:
@@ -355,6 +361,11 @@ class LeaderboardClient:
             # A stale ranking refresh must not restore an unliked button.
             with self.lock:
                 self.cache.clear()
+        if action=='likes' and value.get('likes',{}).get('likedToday') or action=='comments' and leader_tease:
+            from daily_rotation import record_action
+            from training import iso
+            with self.training.lock,self.training._write() as connection:
+                record_action(connection,'heart-given' if action=='likes' else 'leader-tease',iso(self.training._now()),body['targetId'])
         return value
 
     def list_likes(self, ids=None, body=None):
