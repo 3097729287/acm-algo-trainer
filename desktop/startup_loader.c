@@ -16,6 +16,7 @@ static HFONT title_font, body_font;
 static int width, height, scale;
 static HWND splash;
 static int px(int value){return MulDiv(value,scale,96);}
+static int smaller(int left,int right){return left<right?left:right;}
 
 static BOOL CALLBACK main_visible(HWND window, LPARAM data) {
     DWORD pid=0; GetWindowThreadProcessId(window,&pid);
@@ -78,7 +79,7 @@ int WINAPI wWinMain(HINSTANCE instance,HINSTANCE previous,LPWSTR arguments,int d
     if(!*arguments) {
         SetProcessDPIAware();scale=(int)GetDpiForSystem();
         RECT work;SystemParametersInfoW(SPI_GETWORKAREA,0,&work,0);
-        width=min(px(1480),work.right-work.left);height=min(px(920),work.bottom-work.top);
+        width=smaller(px(1480),work.right-work.left);height=smaller(px(920),work.bottom-work.top);
         background=CreateSolidBrush(RGB(16,17,22));accent=CreateSolidBrush(RGB(106,205,180));
         panel=CreateSolidBrush(RGB(32,36,44));muted=CreateSolidBrush(RGB(125,136,151));
         title_font=CreateFontW(-px(19),0,0,0,600,0,0,0,DEFAULT_CHARSET,0,0,CLEARTYPE_QUALITY,0,L"Segoe UI");

@@ -7,6 +7,7 @@ import argparse
 import ctypes
 from ctypes import wintypes as w
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -33,13 +34,16 @@ int WINAPI wWinMain(HINSTANCE i,HINSTANCE p,LPWSTR a,int n){
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--work-dir',type=Path,required=True)
+    parser.add_argument('--compiler',type=Path,help='The same bundled g++.exe used by the release assembler')
     args=parser.parse_args();folder=args.work_dir.resolve()
     assert folder.is_relative_to((ROOT/'.backups').resolve())
     folder.mkdir(parents=True,exist_ok=False)
-    compiler=shutil.which('gcc');assert compiler
+    cpp=str(args.compiler.resolve()) if args.compiler else shutil.which('g++')
+    assert cpp
     child=folder/'fixture.c';child.write_text(FIXTURE,'utf8')
     for source,target in [(ROOT/'desktop/startup_loader.c',folder/'ToBeLoader.exe'),(child,folder/'ToBe.exe')]:
-        result=subprocess.run([compiler,'-Os','-s','-municode','-mwindows','-Wall','-Wextra',str(source),'-o',str(target),'-luser32','-lgdi32'],capture_output=True,text=True,encoding='utf8',errors='replace',timeout=60)
+        command=[cpp,'-x','c++','-static','-fno-exceptions','-fno-rtti','-finput-charset=UTF-8','-Wl,--no-insert-timestamp']
+        result=subprocess.run(command+['-Os','-s','-municode','-mwindows','-Wall','-Wextra',str(source),'-o',str(target),'-luser32','-lgdi32'],env={**os.environ,'PATH':str(Path(cpp).parent)+os.pathsep+os.environ.get('PATH','')},capture_output=True,text=True,encoding='utf8',errors='replace',timeout=60)
         (folder/(target.stem+'.compile.log')).write_text(result.stdout+result.stderr,'utf8');assert result.returncode==0,result.stderr
     user=ctypes.WinDLL('user32',use_last_error=True)
     callback=ctypes.WINFUNCTYPE(w.BOOL,w.HWND,w.LPARAM)

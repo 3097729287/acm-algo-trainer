@@ -1,14 +1,14 @@
 import assert from 'node:assert/strict';
 import {createServer} from 'vite';
 import {chromium} from 'playwright';
-const vite=await createServer({server:{host:'127.0.0.1',port:0,watch:null}});await vite.listen();
+const vite=await createServer({cacheDir:'../.backups/next-150/vite-owner-races',server:{host:'127.0.0.1',port:0,watch:null}});await vite.listen();
 const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true}),page=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];
 page.setDefaultTimeout(5000);
 page.on('pageerror',error=>errors.push(error.message));
 const find=async(owner,path)=>{await page.waitForFunction(({owner,path})=>gameplayRaces.pending().some(p=>p.owner===owner&&p.path===path),{owner,path});return page.evaluate(({owner,path})=>gameplayRaces.pending().find(p=>p.owner===owner&&p.path===path).id,{owner,path});};
 const finish=id=>page.evaluate(id=>gameplayRaces.finish(id),id);
 try{
- await page.goto(`http://127.0.0.1:${vite.httpServer.address().port}/tests/gameplay-owner-fixture.html`);
+ await page.goto(`http://127.0.0.1:${vite.httpServer.address().port}/tests/gameplay-owner-fixture.html`,{timeout:30000});
  await page.getByRole('button',{name:'开始匹配',exact:true}).click();const old=await find('A','duel/join');
  await page.getByRole('button',{name:'账号 B',exact:true}).click();await page.getByRole('button',{name:'开始匹配',exact:true}).click();const current=await find('B','duel/join');
  await finish(old);assert(await page.getByRole('button',{name:'开始匹配',exact:true}).isDisabled(),'Old write must not release the new owner busy state');

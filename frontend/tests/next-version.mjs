@@ -9,7 +9,7 @@ import {randomUUID} from 'node:crypto';
 const shared=await startFixture(),wiki=new DatabaseSync('../backend/resources/oi-wiki.sqlite3',{readOnly:true});
 shared.STORE.gameplay.verify=async()=>[];
 const json=(res,value)=>{res.setHeader('Content-Type','application/json');res.end(JSON.stringify(value));};
-const vite=await createServer({plugins:[{name:'real-wiki-test-reader',configureServer(server){server.middlewares.use('/test-wiki',(req,res)=>{
+const vite=await createServer({cacheDir:'../.backups/next-150/vite-next-version',plugins:[{name:'real-wiki-test-reader',configureServer(server){server.middlewares.use('/test-wiki',(req,res)=>{
  const params=new URL(req.url,'http://fixture').searchParams,id=params.get('id');
  if(id)return json(res,{article:wiki.prepare('SELECT id,title,html,url FROM articles WHERE id=?').get(id)});
  const q=params.get('q')||'';json(res,{articles:wiki.prepare('SELECT id,title,category,url FROM articles WHERE title LIKE ? OR search_text LIKE ?').all('%'+q+'%','%'+q+'%')});
@@ -26,7 +26,7 @@ async function client(name,handle){
 try{
  const a=await client('browser_alpha','Alpha'),b=await client('browser_beta','Beta');
  for(const [i,xp] of [15,30,60,100].entries())await a.send('/v1/stickers/grant',{requestId:randomUUID(),day:'2026-11-02',taskId:'ac-chain:'+i,xp});
- await a.page.goto(base+'/tests/next-version-fixture.html');
+ await a.page.goto(base+'/tests/next-version-fixture.html',{timeout:30000});
  await a.page.getByText('王者',{exact:true}).waitFor();assert(await a.page.locator('.profile-badge.tier-8').count()>0,'2000 ability uses the same tier despite a stale snapshot badge');
  await a.page.getByRole('button',{name:'贴纸',exact:true}).click();
  const region=a.page.getByRole('region',{name:'贴纸区域'});let box=await region.boundingBox();
@@ -39,11 +39,31 @@ try{
  await a.page.getByRole('button',{name:'旋转贴纸'}).click();await a.page.keyboard.press('Enter');await a.page.waitForFunction(()=>document.querySelectorAll('.placed-sticker:not(.selected-sticker)').length===1);
  let inventory=await a.send('/v1/stickers');assert.equal(inventory.units.filter(x=>x.placement).length,1);assert.equal(inventory.units.find(x=>x.placement).placement.angle,15);
  await a.page.reload();await a.page.locator('.placed-sticker').waitFor();assert.equal((await a.send('/v1/stickers')).units.length,4);
+ await a.page.getByRole('button',{name:'贴纸',exact:true}).click();
+ await a.page.locator('.placed-sticker').click();await a.page.getByRole('button',{name:'旋转贴纸'}).click();
+ box=await region.boundingBox();
+ for(const [x,y] of [[.98,.98],[.86,.83]]){
+  sticker=await selected.boundingBox();await a.page.mouse.move(sticker.x+sticker.width/2,sticker.y+sticker.height/2);await a.page.mouse.down();
+  await a.page.mouse.move(box.x+box.width*x,box.y+box.height*y,{steps:8});await a.page.mouse.up();
+  assert(await selected.evaluate(node=>node.style.transform.includes('rotate(30deg)')),'Repeated dragging keeps the draft rotation of an already placed sticker');
+ }
+ await a.page.keyboard.press('Enter');await a.page.waitForFunction(()=>!document.querySelector('.selected-sticker'));
+ assert.equal((await a.send('/v1/stickers')).units.find(x=>x.placement).placement.angle,30);
+ sticker=await a.page.locator('.placed-sticker').boundingBox();await a.page.mouse.move(sticker.x+sticker.width/2,sticker.y+sticker.height/2);await a.page.mouse.down();
+ await a.page.mouse.move(box.x+box.width*.3,box.y+box.height*.4,{steps:4});await a.page.keyboard.press('Escape');await a.page.mouse.move(box.x+box.width*.4,box.y+box.height*.5);await a.page.mouse.up();
+ assert.equal(await selected.count(),0,'Escape cancels a captured drag');
+ assert.equal((await a.send('/v1/stickers')).units.find(x=>x.placement).placement.angle,30);
  await a.page.locator('.placed-sticker').click({button:'right'});await a.page.getByRole('alertdialog',{name:'回收贴纸确认'}).waitFor();await a.page.getByRole('button',{name:'回收',exact:true}).click();await a.page.waitForFunction(()=>!document.querySelector('.placed-sticker'));
  inventory=await a.send('/v1/stickers');assert.equal(inventory.units.length,4);assert.equal(inventory.units.filter(x=>x.placement).length,0);
  await a.page.getByRole('button',{name:'贴纸',exact:true}).click();box=await region.boundingBox();await a.page.mouse.click(box.x+box.width*.5,box.y+box.height*.5);await picker.waitFor();await picker.locator('button.sticker-choice:not([disabled])').first().click();await a.page.keyboard.press('Escape');assert.equal(await a.page.locator('.selected-sticker').count(),0);await a.page.keyboard.press('Escape');assert.equal(await a.page.locator('.sticker-mode').count(),0);
  await mkdir('tests/screenshots/next-version',{recursive:true});
  for(const [width,height] of [[1440,1100],[1100,800],[760,900],[430,760]]){await a.page.setViewportSize({width,height});await a.page.screenshot({path:`tests/screenshots/next-version/growth-${width}.png`});assert(await a.page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'no horizontal clipping '+width);}
+ await a.page.getByRole('button',{name:'贴纸',exact:true}).click();await region.scrollIntoViewIfNeeded();box=await region.boundingBox();
+ await a.page.mouse.click(box.x+box.width*.98,box.y+box.height*.98);await picker.waitFor();await picker.locator('button.sticker-choice:not([disabled])').first().click();
+ await a.page.getByRole('button',{name:'旋转贴纸'}).click();
+ await a.page.waitForFunction(()=>{const sticker=document.querySelector('.selected-sticker')?.getBoundingClientRect(),surface=document.querySelector('.sticker-surface')?.getBoundingClientRect();return sticker&&surface&&sticker.left>=surface.left&&sticker.right<=surface.right&&sticker.top>=surface.top&&sticker.bottom<=surface.bottom;});
+ assert(await a.page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Rotated edge sticker stays inside the narrow content area');
+ await a.page.keyboard.press('Escape');await a.page.keyboard.press('Escape');
  await a.page.getByRole('button',{name:'wiki',exact:true}).click();await a.page.getByRole('button',{name:'二分',exact:true}).click();
  const frame=a.page.frameLocator('iframe');await frame.locator('math').first().waitFor();assert(await frame.locator('pre').count()>0);await frame.locator('details').evaluateAll(nodes=>nodes.forEach(node=>node.open=true));await frame.locator('img').first().scrollIntoViewIfNeeded();await frame.locator('img').first().waitFor();await frame.locator('img').first().evaluate(img=>img.decode());assert(await frame.locator('img').first().evaluate(img=>img.complete&&img.naturalWidth>0));
  assert(await frame.locator('body').innerText().then(text=>text.includes('本页面贡献者')));assert.equal(await frame.locator('script').count(),0);

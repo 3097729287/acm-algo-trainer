@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-01T22:16:33.197717+00:00",
+  "updatedAt": "2026-11-01T23:20:47.822033+00:00",
   "version": "1.5.0",
   "repairBaseline": "6907a65495b9e6519f5ace9747a412a78ea2ca06",
   "installed": false,
@@ -7,13 +7,13 @@
   "observedOnlineServiceVersion": "1.2.9",
   "fullBackend": {
     "tests": 1044,
-    "passed": 1036,
+    "passed": 1041,
     "failures": 1,
-    "errors": 5,
+    "errors": 0,
     "skipped": 2,
     "passedFullSuite": false,
     "failureOwner": "delegated core-seven editorial review",
-    "errorDetails": "SQLite database or disk is full during public-library copies"
+    "errorDetails": null
   },
   "sharedServicePass": 59,
   "mysqlGameplayPass": 4,
@@ -32,8 +32,8 @@
       "sha256": "02baf6548f31ed7d135d3c82e22d6fe0596d4675841c6eff3dd3a316eb841785"
     },
     "backend": {
-      "path": ".backups/next-150/backend-check-merged-content-3.log",
-      "sha256": "d0a0a75c26fad01a536b5b6532d25a1381d9923f1c2402645e3f192e891334c2"
+      "path": ".backups/next-150/backend-check-merged-content-4.log",
+      "sha256": "09b9bd12094dd41f64330ac5240a93bb3166deff43d809a5461bf26d588ab1af"
     },
     "targetedRetirement": {
       "path": ".backups/next-150/recycle-receipt-tests-2.log",
@@ -56,20 +56,31 @@
       "sha256": "a5e85f8fc7e09f02dbb19c9152c39220c7abf6b465693f30d4226c0fef4e028e"
     },
     "ownerRaces": {
-      "path": ".backups/next-150/gameplay-owner-races-3.log",
-      "sha256": "7ecabf899159bd95497f137abf0778671ede529a567d8e0956b0ae9a8d3fd4dd"
+      "path": ".backups/next-150/gameplay-owner-races-5.log",
+      "sha256": "bdc6b17acba9f5c3cdd476a7db3570e2adf056a19f50830c3af9a7b3b496a618"
     },
     "twoBrowserClients": {
-      "path": ".backups/next-150/next-version-browser-5.log",
+      "path": ".backups/next-150/next-version-browser-7.log",
       "sha256": "027b5b32cebbcbaa79ed9c11623bcf79a116bbfd8d99679fc0afb4bdb984e7a7"
     },
     "fullApp": {
-      "path": ".backups/next-150/app-integration-4.log",
+      "path": ".backups/next-150/app-integration-5.log",
       "sha256": "d2c7cff53dfb9aec5489a1a6f40c49140b2438a6c5b1d4f68905fa6a49ab6d3b"
     },
     "sourceStartup": {
       "path": ".backups/next-150/native-startup-digest/report.json",
       "sha256": "09b610d6cd0e360fb90769c189924220d414c63553f69b2421ec27a945c984c9"
+    },
+    "packagedService": {
+      "path": ".backups/next-150/mysql-artifact-rehearsal-a1d67a77/report.json",
+      "sha256": "2d29909ced6e1a7099c1a1f4cc95c1ff7cc8161d9d6e162ca5a4fa2b91738685"
+    },
+    "cppLoader": {
+      "path": ".backups/next-150/native-loader-cpp-2/report.json",
+      "sha256": "dad606237179f7c25b3bf4cd7caac881f085432b22cbad5bd42b20335e95f3bd"
     }
-  }
+  },
+  "stickerGeometryCases": 1750,
+  "packagedLoaderCppFrameworkMs": 43.68,
+  "packagedServiceBackupRestoreRollback": true
 }
