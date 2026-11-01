@@ -1,0 +1,224 @@
+[
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "main",
+          "knowledge": "枚举",
+          "legacy": true,
+          "tags": [
+            "枚举"
+          ],
+          "title": "逐年枚举与数位去重"
+        }
+      ],
+      "primaryMethod": "main",
+      "schema": 1
+    },
+    "problem_id": "remote:codeforces:728862::A"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "main",
+          "knowledge": "位运算",
+          "legacy": true,
+          "tags": [
+            "位运算"
+          ],
+          "title": "二进制计数"
+        }
+      ],
+      "primaryMethod": "main",
+      "schema": 1
+    },
+    "problem_id": "remote:codeforces:728862::B"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "main",
+          "knowledge": "双指针",
+          "legacy": true,
+          "tags": [
+            "双指针"
+          ],
+          "title": "固定长度滑动窗口"
+        }
+      ],
+      "primaryMethod": "main",
+      "schema": 1
+    },
+    "problem_id": "remote:codeforces:728862::C"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "main",
+          "knowledge": "贪心 + 枚举",
+          "legacy": true,
+          "tags": [
+            "贪心",
+            "枚举"
+          ],
+          "title": "枚举削减顺序"
+        }
+      ],
+      "primaryMethod": "main",
+      "schema": 1
+    },
+    "problem_id": "remote:codeforces:728862::D"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "main",
+          "knowledge": "素数",
+          "legacy": true,
+          "tags": [
+            "素数"
+          ],
+          "title": "质数平方与埃氏筛"
+        }
+      ],
+      "primaryMethod": "main",
+      "schema": 1
+    },
+    "problem_id": "remote:codeforces:728862::E"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "main",
+          "knowledge": "贪心 + 排序",
+          "legacy": true,
+          "tags": [
+            "贪心",
+            "排序"
+          ],
+          "title": "排序贪心"
+        }
+      ],
+      "primaryMethod": "main",
+      "schema": 1
+    },
+    "problem_id": "remote:codeforces:728862::F"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "main",
+          "knowledge": "模拟",
+          "legacy": true,
+          "tags": [
+            "模拟"
+          ],
+          "title": "逐字符模拟"
+        }
+      ],
+      "primaryMethod": "main",
+      "schema": 1
+    },
+    "problem_id": "remote:codeforces:728862::G"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "main",
+          "knowledge": "线性 DP",
+          "legacy": true,
+          "tags": [
+            "线性 DP"
+          ],
+          "title": "按长度动态规划"
+        }
+      ],
+      "primaryMethod": "main",
+      "schema": 1
+    },
+    "problem_id": "remote:codeforces:728862::H"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "main",
+          "knowledge": "BFS + 连通块计数",
+          "legacy": true,
+          "tags": [
+            "BFS",
+            "连通块计数"
+          ],
+          "title": "BFS 统计连通块"
+        }
+      ],
+      "primaryMethod": "main",
+      "schema": 1
+    },
+    "problem_id": "remote:codeforces:728862::I"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "main",
+          "knowledge": "生成树 + 贪心 + 构造",
+          "legacy": true,
+          "tags": [
+            "生成树",
+            "贪心",
+            "构造"
+          ],
+          "title": "虚拟电源与 Prim"
+        }
+      ],
+      "primaryMethod": "main",
+      "schema": 1
+    },
+    "problem_id": "remote:codeforces:728862::J"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "main",
+          "knowledge": "拓扑排序 + 构造",
+          "legacy": true,
+          "tags": [
+            "拓扑排序",
+            "构造"
+          ],
+          "title": "拓扑序定向"
+        }
+      ],
+      "primaryMethod": "main",
+      "schema": 1
+    },
+    "problem_id": "remote:codeforces:728862::K"
+  },
+  {
+    "content": {
+      "methods": [
+        {
+          "id": "main",
+          "knowledge": "双指针",
+          "legacy": true,
+          "tags": [
+            "双指针"
+          ],
+          "title": "双指针滑动窗口"
+        }
+      ],
+      "primaryMethod": "main",
+      "schema": 1
+    },
+    "problem_id": "remote:codeforces:728862::L"
+  }
+]

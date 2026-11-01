@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "newTasks": 12,
+  "newArticles": 24,
+  "localEditorialPreserved": true,
+  "localImportedProblemPreserved": true,
+  "privateFixtureUnchanged": true,
+  "checks": {
+    "problems": 12295,
+    "solutions": 1686,
+    "statements": 12195,
+    "lectures": 467,
+    "problem_lectures": 7238,
+    "detailed_solutions": 1686
+  }
+}

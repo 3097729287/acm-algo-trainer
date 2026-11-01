@@ -1,0 +1,15 @@
+{
+  "count": 12,
+  "articles": 24,
+  "references": 24,
+  "counts": {
+    "problems": 12294,
+    "solutions": 1686,
+    "statements": 12195,
+    "lectures": 467,
+    "problem_lectures": 7238,
+    "detailed_solutions": 1686
+  },
+  "personalDatabasesModified": false,
+  "textSourceUpdated": true
+}

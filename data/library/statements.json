@@ -278462,5 +278462,528 @@
       "url": "https://ac.nowcoder.com/acm/contest/140236/F"
     },
     "problem_id": "练习赛 157::F"
+  },
+  {
+    "content": {
+      "attachments": {},
+      "id": "remote:codeforces:728862::A",
+      "images": {},
+      "integrity": {
+        "checkedAt": "2026-11-01T07:23:24.046379+00:00",
+        "pdfPageCountVerified": false,
+        "sampleCount": 2,
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete"
+      },
+      "limits": {
+        "memoryMb": 256,
+        "timeMs": 2000
+      },
+      "localJudgeSupported": true,
+      "markdown": "# Beautiful Year\n\nIt seems like the year of 2013 came only yesterday. Do you know a curious fact? The year of 2013 is the first year after the old 1987 with only distinct digits.\n\n\n\nNow you are suggested to solve the following problem: given a year number, find the minimum year number which is strictly larger than the given one and has only distinct digits.\n\n\n\n## Input\n\n\n\nThe single line contains integer $y$ $(1000 \\le y \\le 9000)$ — the year number.\n\n\n\n## Output\n\n\n\nPrint a single integer — the minimum year number that is strictly larger than $y$ and all it's digits are distinct. It is guaranteed that the answer exists.",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {},
+      "samples": [
+        {
+          "input": "1987",
+          "name": "样例 1",
+          "output": "2013"
+        },
+        {
+          "input": "2013",
+          "name": "样例 2",
+          "output": "2014"
+        }
+      ],
+      "statementAvailable": true,
+      "statementVersion": 7,
+      "title": "Beautiful Year",
+      "url": "https://codeforces.com/gym/728862/problem/A"
+    },
+    "problem_id": "remote:codeforces:728862::A"
+  },
+  {
+    "content": {
+      "attachments": {},
+      "id": "remote:codeforces:728862::B",
+      "images": {},
+      "integrity": {
+        "checkedAt": "2026-11-01T07:23:24.050907+00:00",
+        "pdfPageCountVerified": false,
+        "sampleCount": 2,
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete"
+      },
+      "limits": {
+        "memoryMb": 256,
+        "timeMs": 1000
+      },
+      "localJudgeSupported": true,
+      "markdown": "# Raising Bacteria\n\nYou are a lover of bacteria. You want to raise some bacteria in a box.\n\n\n\nInitially, the box is empty. Each morning, you can put any number of bacteria into the box. And each night, every bacterium in the box will split into two bacteria. You hope to see exactly $x$ bacteria in the box at some moment.\n\n\n\nWhat is the minimum number of bacteria you need to put into the box across those days?\n\n\n\n## Input\n\n\n\nThe only line containing one integer $x$ ($1 \\le x \\le 10^9$).\n\n\n\n## Output\n\n\n\nThe only line containing one integer: the answer.\n\n\n\n## Note\n\n\n\nFor the first sample, we can add one bacterium in the box in the first day morning and at the third morning there will be $4$ bacteria in the box. Now we put one more resulting $5$ in the box. We added $2$ bacteria in the process so the answer is $2$.\n\n\n\nFor the second sample, we can put one in the first morning and in the 4-th morning there will be $8$ in the box. So the answer is $1$.",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {},
+      "samples": [
+        {
+          "input": "5",
+          "name": "样例 1",
+          "output": "2"
+        },
+        {
+          "input": "8",
+          "name": "样例 2",
+          "output": "1"
+        }
+      ],
+      "statementAvailable": true,
+      "statementVersion": 7,
+      "title": "Raising Bacteria",
+      "url": "https://codeforces.com/gym/728862/problem/B"
+    },
+    "problem_id": "remote:codeforces:728862::B"
+  },
+  {
+    "content": {
+      "attachments": {},
+      "id": "remote:codeforces:728862::C",
+      "images": {
+        "https://espresso.codeforces.com/ff4898e61fdca3713f04ee1d3db5a83ac2b3ebcd.png": "data:image/webp;base64,UklGRmADAABXRUJQVlA4TFQDAAAvk0AmAIUsyLZN25lPB0+xbdu2bdu2bf3Ztp1n2zZi23ay186+557wVkX035HbNpJEX2fxbNVV1Y15wKe/sklbs2IVT1YufWnUjoE3t43aRVtOVg+MnUW5KhXZqVJWDxSgv7NRqg7IlU7yttQDl0zupJO89EC+J6RwRRP2Tp7LlQlnRbGdsIjou3ikmSbUBWeGGPecuz2viUYvb6eW7LTonkMgq0Ztic5t62vGTLpLP4Hy3ye7BCtaMYbW9SsDjoummkbTugiUk2MdoBlzaANEzpGekSIVrSg/axyReUUFsh4ymag8pY+ZPs25f7d1SfRjx/dKU4GyngojOofvt9SKKXSXXgLluU12CZT0YKxONx1dm+jSsX8JbahABd+RYm3+BqwDet6OiWUm5mkrgbK5psWyk3baUism0V16iFwH3CS7BOjDOsAk+FxBmmbPFayijRKoyCdSyl+BdcCgS/Fx7NxoI/Im7klE5dT9slZMoLt0Fyj3DXodYGUyvg5op7Vjv5c2dAUW0IYIVOA9KUkVLsHT34+K79V6Rj+/bQiuGL0eesXMTlaYke0BmNlSXeyEUlV2Z1m1NoiZdJfeXNen9Rd5E/p1B6iGMErz46KPpR7xNi3SnUs7XhPEsOHdi3ssVn9gMq0bMJVr3jRLCHc75L1DCpIhv+P31PmCIxn/+kC7cAd2FYeomkD7IKKeQ2R9oKOn48/He42KzPs8iC4emywBRZbo4OMPEyh9yadvwvLolTxFChRkpUChggDyUl1KyoBt8QIFiS4qYFeUqFIkJ2CevzBRuUgewCwf1aVwPkBycHZkx3UHk03opzfsfIrLBaSTXbp/u8lbqksvYOaHd0SV83YomUhWvpARea98pLp4qpBefaJyiUkJJkslZwESDTUunldRNIns4mCLXJfJLr5c42ICWxAp8asEQzmrokiCmLHatEcgXeqreGHrAD6i1gHSU3pfnMk6nnQ1B3CD1B2YTusLzCa52aLkdZKHPfJy/A+HDOnG+xfsvEtlkladPcLOya22wNozRBfPqkBLpyNUl1pAmzNH2VXOz5WRc8Mpot65hTIybaS6nFljAWTOkomdzFn0bc4dnEWPxDUtX0VHUjXHdz48e/pMT/Lw09+ofAI="
+      },
+      "integrity": {
+        "checkedAt": "2026-11-01T07:23:24.118910+00:00",
+        "pdfPageCountVerified": false,
+        "sampleCount": 1,
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete"
+      },
+      "limits": {
+        "memoryMb": 256,
+        "timeMs": 1000
+      },
+      "localJudgeSupported": true,
+      "markdown": "# Fence\n\nThere is a fence in front of Polycarpus's home. The fence consists of $n$ planks of the same width which go one after another from left to right. The height of the $i$-th plank is $h_i$ meters, distinct planks can have distinct heights.\n\n ![](https://espresso.codeforces.com/ff4898e61fdca3713f04ee1d3db5a83ac2b3ebcd.png) Fence for $n=7$ and $h=[1, 2, 6, 1, 1, 7, 1]$ \n\nPolycarpus has bought a posh piano and is thinking about how to get it into the house. In order to carry out his plan, he needs to take exactly $k$ consecutive planks from the fence. Higher planks are harder to tear off the fence, so Polycarpus wants to find such $k$ consecutive planks that the sum of their heights is minimal possible.\n\n\n\nWrite the program that finds the indexes of $k$ consecutive planks with minimal total height. Pay attention, the fence is not around Polycarpus's home, it is in front of home (in other words, the fence isn't cyclic).\n\n\n\n## Input\n\n\n\nThe first line of the input contains integers $n$ and $k$ ($1 \\le n \\le 1.5\\cdot10^5, 1 \\le k \\le n$) — the number of planks in the fence and the width of the hole for the piano. The second line contains the sequence of integers $h_1, h_2, \\dots, h_n$ ($1 \\le h_i \\le 100$), where $h_i$ is the height of the $i$-th plank of the fence.\n\n\n\n## Output\n\n\n\nPrint such integer $j$ that the sum of the heights of planks $j$, $j+1$, ..., $j+k-1$ is the minimum possible. If there are multiple such $j$'s, print any of them.\n\n\n\n## Note\n\n\n\nIn the sample, your task is to find three consecutive planks with the minimum sum of heights. In the given case three planks with indexes 3, 4 and 5 have the required attribute, their total height is 8.",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {
+        "https://espresso.codeforces.com/ff4898e61fdca3713f04ee1d3db5a83ac2b3ebcd.png": {
+          "bytes": 872,
+          "frameCount": 1,
+          "height": 154,
+          "mime": "image/webp",
+          "sha256": "ebb50c873d86a10e4c38ea45f92d54b6cb178388ce2fd717ff0c0920bb84f775",
+          "sourceUrl": "https://espresso.codeforces.com/ff4898e61fdca3713f04ee1d3db5a83ac2b3ebcd.png",
+          "width": 148
+        }
+      },
+      "samples": [
+        {
+          "input": "7 3\n1 2 6 1 1 7 1",
+          "name": "样例 1",
+          "output": "3"
+        }
+      ],
+      "statementAvailable": true,
+      "statementVersion": 7,
+      "title": "Fence",
+      "url": "https://codeforces.com/gym/728862/problem/C"
+    },
+    "problem_id": "remote:codeforces:728862::C"
+  },
+  {
+    "content": {
+      "attachments": {},
+      "id": "remote:codeforces:728862::D",
+      "images": {},
+      "integrity": {
+        "checkedAt": "2026-11-01T07:23:24.127876+00:00",
+        "pdfPageCountVerified": false,
+        "sampleCount": 1,
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete"
+      },
+      "limits": {
+        "memoryMb": 256,
+        "timeMs": 1000
+      },
+      "localJudgeSupported": true,
+      "markdown": "# Minimum Product\n\nYou are given four integers $a$, $b$, $x$ and $y$. Initially, $a \\ge x$ and $b \\ge y$. You can do the following operation **no more than** $n$ times:\n\n\n\n- Choose either $a$ or $b$ and decrease it by one. However, as a result of this operation, value of $a$ cannot become less than $x$, and value of $b$ cannot become less than $y$.\n\n\n\nYour task is to find the **minimum** possible product of $a$ and $b$ ($a \\cdot b$) you can achieve by applying the given operation no more than $n$ times.\n\n\n\nYou have to answer $t$ independent test cases.\n\n\n\n## Input\n\n\n\nThe first line of the input contains one integer $t$ ($1 \\le t \\le 2 \\cdot 10^4$) — the number of test cases. Then $t$ test cases follow.\n\n\n\nThe only line of the test case contains five integers $a$, $b$, $x$, $y$ and $n$ ($1 \\le a, b, x, y, n \\le 10^9$). Additional constraint on the input: $a \\ge x$ and $b \\ge y$ always holds.\n\n\n\n## Output\n\n\n\nFor each test case, print one integer: the **minimum** possible product of $a$ and $b$ ($a \\cdot b$) you can achieve by applying the given operation no more than $n$ times.\n\n\n\n## Note\n\n\n\nIn the first test case of the example, you need to decrease $b$ three times and obtain $10 \\cdot 7 = 70$.\n\n\n\nIn the second test case of the example, you need to decrease $a$ one time, $b$ one time and obtain $11 \\cdot 7 = 77$.\n\n\n\nIn the sixth test case of the example, you need to decrease $a$ five times and obtain $5 \\cdot 11 = 55$.\n\n\n\nIn the seventh test case of the example, you need to decrease $b$ ten times and obtain $10 \\cdot 1 = 10$.",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {},
+      "samples": [
+        {
+          "input": "7\n10 10 8 5 3\n12 8 8 7 2\n12343 43 4543 39 123212\n1000000000 1000000000 1 1 1\n1000000000 1000000000 1 1 1000000000\n10 11 2 1 5\n10 11 9 1 10",
+          "name": "样例 1",
+          "output": "70\n77\n177177\n999999999000000000\n999999999\n55\n10"
+        }
+      ],
+      "statementAvailable": true,
+      "statementVersion": 7,
+      "title": "Minimum Product",
+      "url": "https://codeforces.com/gym/728862/problem/D"
+    },
+    "problem_id": "remote:codeforces:728862::D"
+  },
+  {
+    "content": {
+      "attachments": {},
+      "id": "remote:codeforces:728862::E",
+      "images": {},
+      "integrity": {
+        "checkedAt": "2026-11-01T07:23:24.134058+00:00",
+        "pdfPageCountVerified": false,
+        "sampleCount": 1,
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete"
+      },
+      "limits": {
+        "memoryMb": 256,
+        "timeMs": 2000
+      },
+      "localJudgeSupported": true,
+      "markdown": "# T-primes\n\nWe know that prime numbers are positive integers that have exactly two distinct positive divisors. Similarly, we'll call a positive integer *t* Т-prime, if *t* has exactly three distinct positive divisors.\n\n\n\nYou are given an array of *n* positive integers. For each of them determine whether it is Т-prime or not.\n\n\n\n## Input\n\n\n\nThe first line contains a single positive integer, *n* (1 ≤ *n* ≤ 10$^{5}$), showing how many numbers are in the array. The next line contains *n* space-separated integers *x*$_{i}$ (1 ≤ *x*$_{i}$ ≤ 10$^{12}$).\n\n\n\nPlease, do not use the `%lld` specifier to read or write 64-bit integers in С++. It is advised to use the `cin`, `cout` streams or the `%I64d` specifier.\n\n\n\n## Output\n\n\n\nPrint *n* lines: the *i*-th line should contain \"`YES`\" (without the quotes), if number *x*$_{i}$ is Т-prime, and \"`NO`\" (without the quotes), if it isn't.\n\n\n\n## Note\n\n\n\nThe given test has three numbers. The first number 4 has exactly three divisors — 1, 2 and 4, thus the answer for this number is \"`YES`\". The second number 5 has two divisors (1 and 5), and the third number 6 has four divisors (1, 2, 3, 6), hence the answer for them is \"`NO`\".",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {},
+      "samples": [
+        {
+          "input": "3\n4 5 6",
+          "name": "样例 1",
+          "output": "YES\nNO\nNO"
+        }
+      ],
+      "statementAvailable": true,
+      "statementVersion": 7,
+      "title": "T-primes",
+      "url": "https://codeforces.com/gym/728862/problem/E"
+    },
+    "problem_id": "remote:codeforces:728862::E"
+  },
+  {
+    "content": {
+      "attachments": {},
+      "id": "remote:codeforces:728862::F",
+      "images": {},
+      "integrity": {
+        "checkedAt": "2026-11-01T07:23:24.138806+00:00",
+        "pdfPageCountVerified": false,
+        "sampleCount": 2,
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete"
+      },
+      "limits": {
+        "memoryMb": 256,
+        "timeMs": 2000
+      },
+      "localJudgeSupported": true,
+      "markdown": "# Twins\n\nImagine that you have a twin brother or sister. Having another person that looks exactly like you seems very unusual. It's hard to say if having something of an alter ego is good or bad. And if you do have a twin, then you very well know what it's like.\n\n\n\nNow let's imagine a typical morning in your family. You haven't woken up yet, and Mom is already going to work. She has been so hasty that she has nearly forgotten to leave the two of her darling children some money to buy lunches in the school cafeteria. She fished in the purse and found some number of coins, or to be exact, *n* coins of arbitrary values *a*$_{1}$, *a*$_{2}$, ..., *a*$_{n}$. But as Mom was running out of time, she didn't split the coins for you two. So she scribbled a note asking you to split the money equally.\n\n\n\nAs you woke up, you found Mom's coins and read her note. \"But why split the money equally?\" — you thought. After all, your twin is sleeping and he won't know anything. So you decided to act like that: pick for yourself some subset of coins so that the sum of values of your coins is **strictly larger** than the sum of values of the remaining coins that your twin will have. However, you correctly thought that if you take too many coins, the twin will suspect the deception. So, you've decided to stick to the following strategy to avoid suspicions: you take the **minimum number of coins**, whose sum of values is strictly more than the sum of values of the remaining coins. On this basis, determine what **minimum** number of coins you need to take to divide them in the described manner.\n\n\n\n## Input\n\n\n\nThe first line contains integer *n* (1 ≤ *n* ≤ 100) — the number of coins. The second line contains a sequence of *n* integers *a*$_{1}$, *a*$_{2}$, ..., *a*$_{n}$ (1 ≤ *a*$_{i}$ ≤ 100) — the coins' values. All numbers are separated with spaces.\n\n\n\n## Output\n\n\n\nIn the single line print the single number — the minimum needed number of coins.\n\n\n\n## Note\n\n\n\nIn the first sample you will have to take 2 coins (you and your twin have sums equal to 6, 0 correspondingly). If you take 1 coin, you get sums 3, 3. If you take 0 coins, you get sums 0, 6. Those variants do not satisfy you as your sum should be strictly more that your twins' sum.\n\n\n\nIn the second sample one coin isn't enough for us, too. You can pick coins with values 1, 2 or 2, 2. In any case, the minimum number of coins equals 2.",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {},
+      "samples": [
+        {
+          "input": "2\n3 3",
+          "name": "样例 1",
+          "output": "2"
+        },
+        {
+          "input": "3\n2 1 2",
+          "name": "样例 2",
+          "output": "2"
+        }
+      ],
+      "statementAvailable": true,
+      "statementVersion": 7,
+      "title": "Twins",
+      "url": "https://codeforces.com/gym/728862/problem/F"
+    },
+    "problem_id": "remote:codeforces:728862::F"
+  },
+  {
+    "content": {
+      "attachments": {},
+      "id": "remote:codeforces:728862::G",
+      "images": {},
+      "integrity": {
+        "checkedAt": "2026-11-01T07:23:24.142645+00:00",
+        "pdfPageCountVerified": false,
+        "sampleCount": 3,
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete"
+      },
+      "limits": {
+        "memoryMb": 256,
+        "timeMs": 2000
+      },
+      "localJudgeSupported": true,
+      "markdown": "# String Task\n\nPetya started to attend programming lessons. On the first lesson his task was to write a simple program. The program was supposed to do the following: in the given string, consisting if uppercase and lowercase Latin letters, it:\n\n\n\n- deletes all the vowels,\n\n- inserts a character \"`.`\" before each consonant,\n\n- replaces all uppercase consonants with corresponding lowercase ones.\n\n\n\nVowels are letters \"A\", \"O\", \"Y\", \"E\", \"U\", \"I\", and the rest are consonants. The program's input is exactly one string, it should return the output as a single string, resulting after the program's processing the initial string.\n\n\n\nHelp Petya cope with this easy task.\n\n\n\n## Input\n\n\n\nThe first line represents input string of Petya's program. This string only consists of uppercase and lowercase Latin letters and its length is from 1 to 100, inclusive.\n\n\n\n## Output\n\n\n\nPrint the resulting string. It is guaranteed that this string is not empty.",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {},
+      "samples": [
+        {
+          "input": "tour",
+          "name": "样例 1",
+          "output": ".t.r"
+        },
+        {
+          "input": "Codeforces",
+          "name": "样例 2",
+          "output": ".c.d.f.r.c.s"
+        },
+        {
+          "input": "aBAcAba",
+          "name": "样例 3",
+          "output": ".b.c.b"
+        }
+      ],
+      "statementAvailable": true,
+      "statementVersion": 7,
+      "title": "String Task",
+      "url": "https://codeforces.com/gym/728862/problem/G"
+    },
+    "problem_id": "remote:codeforces:728862::G"
+  },
+  {
+    "content": {
+      "attachments": {},
+      "id": "remote:codeforces:728862::H",
+      "images": {},
+      "integrity": {
+        "checkedAt": "2026-11-01T07:23:24.146315+00:00",
+        "pdfPageCountVerified": false,
+        "sampleCount": 2,
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete"
+      },
+      "limits": {
+        "memoryMb": 256,
+        "timeMs": 1000
+      },
+      "localJudgeSupported": true,
+      "markdown": "# Cut Ribbon\n\nPolycarpus has a ribbon, its length is *n*. He wants to cut the ribbon in a way that fulfils the following two conditions:\n\n\n\n- After the cutting each ribbon piece should have length *a*, *b* or *c*.\n\n- After the cutting the number of ribbon pieces should be maximum.\n\n\n\nHelp Polycarpus and find the number of ribbon pieces after the required cutting.\n\n\n\n## Input\n\n\n\nThe first line contains four space-separated integers *n*, *a*, *b* and *c* (1 ≤ *n*, *a*, *b*, *c* ≤ 4000) — the length of the original ribbon and the acceptable lengths of the ribbon pieces after the cutting, correspondingly. The numbers *a*, *b* and *c* can coincide.\n\n\n\n## Output\n\n\n\nPrint a single number — the maximum possible number of ribbon pieces. It is guaranteed that at least one correct ribbon cutting exists.\n\n\n\n## Note\n\n\n\nIn the first example Polycarpus can cut the ribbon in such way: the first piece has length 2, the second piece has length 3.\n\n\n\nIn the second example Polycarpus can cut the ribbon in such way: the first piece has length 5, the second piece has length 2.",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {},
+      "samples": [
+        {
+          "input": "5 5 3 2",
+          "name": "样例 1",
+          "output": "2"
+        },
+        {
+          "input": "7 5 5 2",
+          "name": "样例 2",
+          "output": "2"
+        }
+      ],
+      "statementAvailable": true,
+      "statementVersion": 7,
+      "title": "Cut Ribbon",
+      "url": "https://codeforces.com/gym/728862/problem/H"
+    },
+    "problem_id": "remote:codeforces:728862::H"
+  },
+  {
+    "content": {
+      "attachments": {},
+      "id": "remote:codeforces:728862::I",
+      "images": {},
+      "integrity": {
+        "checkedAt": "2026-11-01T07:23:24.150296+00:00",
+        "pdfPageCountVerified": false,
+        "sampleCount": 2,
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete"
+      },
+      "limits": {
+        "memoryMb": 256,
+        "timeMs": 2000
+      },
+      "localJudgeSupported": true,
+      "markdown": "# Ice Skating\n\nBajtek is learning to skate on ice. He's a beginner, so his only mode of transportation is pushing off from a snow drift to the north, east, south or west and sliding until he lands in another snow drift. He has noticed that in this way it's impossible to get from some snow drifts to some other by any sequence of moves. He now wants to heap up some additional snow drifts, so that he can get from any snow drift to any other one. He asked you to find the minimal number of snow drifts that need to be created.\n\n\n\nWe assume that Bajtek can only heap up snow drifts at integer coordinates.\n\n\n\n## Input\n\n\n\nThe first line of input contains a single integer *n* (1 ≤ *n* ≤ 100) — the number of snow drifts. Each of the following *n* lines contains two integers *x*$_{i}$ and *y*$_{i}$ (1 ≤ *x*$_{i}$, *y*$_{i}$ ≤ 1000) — the coordinates of the *i*-th snow drift.\n\n\n\nNote that the north direction coinсides with the direction of *Oy* axis, so the east direction coinсides with the direction of the *Ox* axis. All snow drift's locations are distinct.\n\n\n\n## Output\n\n\n\nOutput the minimal number of snow drifts that need to be created in order for Bajtek to be able to reach any snow drift from any other one.",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {},
+      "samples": [
+        {
+          "input": "2\n2 1\n1 2",
+          "name": "样例 1",
+          "output": "1"
+        },
+        {
+          "input": "2\n2 1\n4 1",
+          "name": "样例 2",
+          "output": "0"
+        }
+      ],
+      "statementAvailable": true,
+      "statementVersion": 7,
+      "title": "Ice Skating",
+      "url": "https://codeforces.com/gym/728862/problem/I"
+    },
+    "problem_id": "remote:codeforces:728862::I"
+  },
+  {
+    "content": {
+      "attachments": {},
+      "id": "remote:codeforces:728862::J",
+      "images": {
+        "https://espresso.codeforces.com/90852f0207479bf2b34b5ab73f94befafb8be3d3.png": "data:image/webp;base64,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"
+      },
+      "integrity": {
+        "checkedAt": "2026-11-01T07:23:24.163524+00:00",
+        "pdfPageCountVerified": false,
+        "sampleCount": 2,
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete"
+      },
+      "limits": {
+        "memoryMb": 256,
+        "timeMs": 2000
+      },
+      "localJudgeSupported": true,
+      "markdown": "# Shichikuji and Power Grid\n\nShichikuji is the new resident deity of the South Black Snail Temple. Her first job is as follows:\n\n\n\nThere are $n$ new cities located in Prefecture X. Cities are numbered from $1$ to $n$. City $i$ is located $x_i$ km North of the shrine and $y_i$ km East of the shrine. It is possible that $(x_i, y_i) = (x_j, y_j)$ even when $i \\ne j$.\n\n\n\nShichikuji must provide electricity to each city either by building a power station in that city, or by making a connection between that city and another one that already has electricity. So the City has electricity if it has a power station in it or it is connected to a City which has electricity by a direct connection or via a chain of connections.\n\n\n\n- Building a power station in City $i$ will cost $c_i$ yen;\n\n- Making a connection between City $i$ and City $j$ will cost $k_i + k_j$ yen **per km of wire** used for the connection. However, wires can only go the cardinal directions (North, South, East, West). Wires can cross each other. Each wire must have both of its endpoints in some cities. If City $i$ and City $j$ are connected by a wire, the wire will go through any shortest path from City $i$ to City $j$. Thus, the length of the wire if City $i$ and City $j$ are connected is $|x_i - x_j| + |y_i - y_j|$ km.\n\n\n\nShichikuji wants to do this job spending as little money as possible, since according to her, there isn't really anything else in the world other than money. However, she died when she was only in fifth grade so she is not smart enough for this. And thus, the new resident deity asks for your help.\n\n\n\nAnd so, you have to provide Shichikuji with the following information: minimum amount of yen needed to provide electricity to all cities, the cities in which power stations will be built, and the connections to be made.\n\n\n\nIf there are multiple ways to choose the cities and the connections to obtain the construction of minimum price, then print any of them.\n\n\n\n## Input\n\n\n\nFirst line of input contains a single integer $n$ ($1 \\leq n \\leq 2000$) — the number of cities.\n\n\n\nThen, $n$ lines follow. The $i$-th line contains two space-separated integers $x_i$ ($1 \\leq x_i \\leq 10^6$) and $y_i$ ($1 \\leq y_i \\leq 10^6$) — the coordinates of the $i$-th city.\n\n\n\nThe next line contains $n$ space-separated integers $c_1, c_2, \\dots, c_n$ ($1 \\leq c_i \\leq 10^9$) — the cost of building a power station in the $i$-th city.\n\n\n\nThe last line contains $n$ space-separated integers $k_1, k_2, \\dots, k_n$ ($1 \\leq k_i \\leq 10^9$).\n\n\n\n## Output\n\n\n\nIn the first line print a single integer, denoting the minimum amount of yen needed.\n\n\n\nThen, print an integer $v$ — the number of power stations to be built.\n\n\n\nNext, print $v$ space-separated integers, denoting the indices of cities in which a power station will be built. Each number should be from $1$ to $n$ and all numbers should be pairwise distinct. You can print the numbers in arbitrary order.\n\n\n\nAfter that, print an integer $e$ — the number of connections to be made.\n\n\n\nFinally, print $e$ pairs of integers $a$ and $b$ ($1 \\le a, b \\le n$, $a \\ne b$), denoting that a connection between City $a$ and City $b$ will be made. Each unordered pair of cities should be included at most once (for each $(a, b)$ there should be no more $(a, b)$ or $(b, a)$ pairs). You can print the pairs in arbitrary order.\n\n\n\nIf there are multiple ways to choose the cities and the connections to obtain the construction of minimum price, then print any of them.\n\n\n\n## Note\n\n\n\nFor the answers given in the samples, refer to the following diagrams (cities with power stations are colored green, other cities are colored blue, and wires are colored red):\n\n\n\n![](https://espresso.codeforces.com/90852f0207479bf2b34b5ab73f94befafb8be3d3.png)\n\n\n\nFor the first example, the cost of building power stations in all cities is $3 + 2 + 3 = 8$. It can be shown that no configuration costs less than 8 yen.\n\n\n\nFor the second example, the cost of building a power station in City 2 is 2. The cost of connecting City 1 and City 2 is $2 \\cdot (3 + 2) = 10$. The cost of connecting City 2 and City 3 is $3 \\cdot (2 + 3) = 15$. Thus the total cost is $2 + 10 + 15 = 27$. It can be shown that no configuration costs less than 27 yen.",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {
+        "https://espresso.codeforces.com/90852f0207479bf2b34b5ab73f94befafb8be3d3.png": {
+          "bytes": 2948,
+          "frameCount": 1,
+          "height": 271,
+          "mime": "image/webp",
+          "sha256": "df57995962df8a372d203a7858835ca5ce4d6028f430bb33d464d17562c2ab67",
+          "sourceUrl": "https://espresso.codeforces.com/90852f0207479bf2b34b5ab73f94befafb8be3d3.png",
+          "width": 601
+        }
+      },
+      "samples": [
+        {
+          "input": "3\n2 3\n1 1\n3 2\n3 2 3\n3 2 3",
+          "name": "样例 1",
+          "output": "8\n3\n1 2 3 \n0"
+        },
+        {
+          "input": "3\n2 1\n1 2\n3 3\n23 2 23\n3 2 3",
+          "name": "样例 2",
+          "output": "27\n1\n2 \n2\n1 2\n2 3"
+        }
+      ],
+      "statementAvailable": true,
+      "statementVersion": 7,
+      "title": "Shichikuji and Power Grid",
+      "url": "https://codeforces.com/gym/728862/problem/J"
+    },
+    "problem_id": "remote:codeforces:728862::J"
+  },
+  {
+    "content": {
+      "attachments": {},
+      "id": "remote:codeforces:728862::K",
+      "images": {
+        "https://espresso.codeforces.com/1b31040120defba31411414ddf5e16120829b817.png": "data:image/webp;base64,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",
+        "https://espresso.codeforces.com/f95f0b5e39e049d354e693b59ac8109653e247a2.png": "data:image/webp;base64,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"
+      },
+      "integrity": {
+        "checkedAt": "2026-11-01T07:23:24.186537+00:00",
+        "pdfPageCountVerified": false,
+        "sampleCount": 1,
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete"
+      },
+      "limits": {
+        "memoryMb": 256,
+        "timeMs": 3000
+      },
+      "localJudgeSupported": true,
+      "markdown": "# Directing Edges\n\nYou are given a graph consisting of $n$ vertices and $m$ edges. It is not guaranteed that the given graph is connected. Some edges are already directed and you can't change their direction. Other edges are undirected and you have to choose some direction for all these edges.\n\n\n\nYou have to direct undirected edges in such a way that the resulting graph is directed and acyclic (i.e. the graph with all edges directed and having no directed cycles). Note that you have to direct **all** undirected edges.\n\n\n\nYou have to answer $t$ independent test cases.\n\n\n\n## Input\n\n\n\nThe first line of the input contains one integer $t$ ($1 \\le t \\le 2 \\cdot 10^4$) — the number of test cases. Then $t$ test cases follow.\n\n\n\nThe first line of the test case contains two integers $n$ and $m$ ($2 \\le n \\le 2 \\cdot 10^5$, $1 \\le m \\le min(2 \\cdot 10^5, \\frac{n(n-1)}{2})$) — the number of vertices and the number of edges in the graph, respectively.\n\n\n\nThe next $m$ lines describe edges of the graph. The $i$-th edge is described with three integers $t_i$, $x_i$ and $y_i$ ($t_i \\in [0; 1]$, $1 \\le x_i, y_i \\le n$) — the type of the edge ($t_i = 0$ if the edge is undirected and $t_i = 1$ if the edge is directed) and vertices this edge connects (the undirected edge connects vertices $x_i$ and $y_i$ and directed edge is going from the vertex $x_i$ to the vertex $y_i$). It is guaranteed that the graph do not contain self-loops (i.e. edges from the vertex to itself) and multiple edges (i.e. for each pair ($x_i, y_i$) there are no other pairs ($x_i, y_i$) or ($y_i, x_i$)).\n\n\n\nIt is guaranteed that both sum $n$ and sum $m$ do not exceed $2 \\cdot 10^5$ ($\\sum n \\le 2 \\cdot 10^5$; $\\sum m \\le 2 \\cdot 10^5$).\n\n\n\n## Output\n\n\n\nFor each test case print the answer — \"`NO`\" if it is impossible to direct undirected edges in such a way that the resulting graph is directed and acyclic, otherwise print \"`YES`\" on the first line and $m$ lines describing edges of the resulted directed acyclic graph (**in any order**). Note that you cannot change the direction of the already directed edges. If there are several answers, you can print any.\n\n\n\n## Note\n\n\n\nExplanation of the second test case of the example:\n\n\n\n![](https://espresso.codeforces.com/1b31040120defba31411414ddf5e16120829b817.png)\n\n\n\nExplanation of the third test case of the example:\n\n\n\n![](https://espresso.codeforces.com/f95f0b5e39e049d354e693b59ac8109653e247a2.png)",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {
+        "https://espresso.codeforces.com/1b31040120defba31411414ddf5e16120829b817.png": {
+          "bytes": 7668,
+          "frameCount": 1,
+          "height": 262,
+          "mime": "image/webp",
+          "sha256": "a3226e0326ba8f9ad50ccb36f8a2ab846dc333d5c5114a1884ab20a35fb2c178",
+          "sourceUrl": "https://espresso.codeforces.com/1b31040120defba31411414ddf5e16120829b817.png",
+          "width": 579
+        },
+        "https://espresso.codeforces.com/f95f0b5e39e049d354e693b59ac8109653e247a2.png": {
+          "bytes": 6858,
+          "frameCount": 1,
+          "height": 262,
+          "mime": "image/webp",
+          "sha256": "ed22097ea04a59d1a57c3b95469e2ebd4039ae2a731eadb2978fa727b7d9b4d9",
+          "sourceUrl": "https://espresso.codeforces.com/f95f0b5e39e049d354e693b59ac8109653e247a2.png",
+          "width": 579
+        }
+      },
+      "samples": [
+        {
+          "input": "4\n3 1\n0 1 3\n5 5\n0 2 1\n1 1 5\n1 5 4\n0 5 2\n1 3 5\n4 5\n1 1 2\n0 4 3\n1 3 1\n0 2 3\n1 2 4\n4 5\n1 4 1\n1 1 3\n0 1 2\n1 2 4\n1 3 2",
+          "name": "样例 1",
+          "output": "YES\n3 1\nYES\n2 1\n1 5\n5 4\n2 5\n3 5\nYES\n1 2\n3 4\n3 1\n3 2\n2 4\nNO"
+        }
+      ],
+      "statementAvailable": true,
+      "statementVersion": 7,
+      "title": "Directing Edges",
+      "url": "https://codeforces.com/gym/728862/problem/K"
+    },
+    "problem_id": "remote:codeforces:728862::K"
+  },
+  {
+    "content": {
+      "attachments": {},
+      "id": "remote:codeforces:728862::L",
+      "images": {},
+      "integrity": {
+        "checkedAt": "2026-11-01T07:23:24.203505+00:00",
+        "pdfPageCountVerified": false,
+        "sampleCount": 2,
+        "schema": 1,
+        "sourceVerified": true,
+        "status": "complete"
+      },
+      "limits": {
+        "memoryMb": 256,
+        "timeMs": 2000
+      },
+      "localJudgeSupported": true,
+      "markdown": "# Books\n\nWhen Valera has got some free time, he goes to the library to read some books. Today he's got *t* free minutes to read. That's why Valera took *n* books in the library and for each book he estimated the time he is going to need to read it. Let's number the books by integers from 1 to *n*. Valera needs *a*$_{i}$ minutes to read the *i*-th book.\n\n\n\nValera decided to choose an arbitrary book with number *i* and read the books one by one, starting from this book. In other words, he will first read book number *i*, then book number *i* + 1, then book number *i* + 2 and so on. He continues the process until he either runs out of the free time or finishes reading the *n*-th book. Valera reads each book up to the end, that is, he doesn't start reading the book if he doesn't have enough free time to finish reading it.\n\n\n\nPrint the maximum number of books Valera can read.\n\n\n\n## Input\n\n\n\nThe first line contains two integers *n* and *t* (1 ≤ *n* ≤ 10$^{5}$; 1 ≤ *t* ≤ 10$^{9}$) — the number of books and the number of free minutes Valera's got. The second line contains a sequence of *n* integers *a*$_{1}$, *a*$_{2}$, ..., *a*$_{n}$ (1 ≤ *a*$_{i}$ ≤ 10$^{4}$), where number *a*$_{i}$ shows the number of minutes that the boy needs to read the *i*-th book.\n\n\n\n## Output\n\n\n\nPrint a single integer — the maximum number of books Valera can read.",
+      "problemType": "standard",
+      "resourceIssues": [],
+      "resourceManifest": {},
+      "samples": [
+        {
+          "input": "4 5\n3 1 2 1",
+          "name": "样例 1",
+          "output": "3"
+        },
+        {
+          "input": "3 3\n2 2 3",
+          "name": "样例 2",
+          "output": "1"
+        }
+      ],
+      "statementAvailable": true,
+      "statementVersion": 7,
+      "title": "Books",
+      "url": "https://codeforces.com/gym/728862/problem/L"
+    },
+    "problem_id": "remote:codeforces:728862::L"
   }
 ]

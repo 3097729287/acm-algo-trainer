@@ -1,0 +1,18 @@
+{
+  "normalOnlineRestart": true,
+  "runtimeGymTasks": 12,
+  "runtimeDefaultArticles": 12,
+  "runtimeDetailedArticles": 12,
+  "privateContentPreserved": true,
+  "cacheDocumentsUpdated": [
+    "account-session.json",
+    "contest-calendar.json",
+    "contest-imports.json",
+    "integrations.json",
+    "statement-backfill.json",
+    "tb-catalog-cache.json",
+    "tb-knowledge-analysis.json"
+  ],
+  "submissions": 390,
+  "drafts": 87
+}

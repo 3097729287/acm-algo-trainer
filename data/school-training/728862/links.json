@@ -1,0 +1,146 @@
+[
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 0,
+    "problem_id": "remote:codeforces:728862::A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-arrays",
+    "position": 1,
+    "problem_id": "remote:codeforces:728862::A"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 0,
+    "problem_id": "remote:codeforces:728862::B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bitwise",
+    "position": 1,
+    "problem_id": "remote:codeforces:728862::B"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 0,
+    "problem_id": "remote:codeforces:728862::C"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-functions",
+    "position": 0,
+    "problem_id": "remote:codeforces:728862::D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 1,
+    "problem_id": "remote:codeforces:728862::D"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 0,
+    "problem_id": "remote:codeforces:728862::E"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "remote:codeforces:728862::E"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-sort",
+    "position": 0,
+    "problem_id": "remote:codeforces:728862::F"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 1,
+    "problem_id": "remote:codeforces:728862::F"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-strings",
+    "position": 0,
+    "problem_id": "remote:codeforces:728862::G"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-string-tools",
+    "position": 1,
+    "problem_id": "remote:codeforces:728862::G"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 0,
+    "problem_id": "remote:codeforces:728862::H"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-queue-stack",
+    "position": 0,
+    "problem_id": "remote:codeforces:728862::I"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "remote:codeforces:728862::I"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 0,
+    "problem_id": "remote:codeforces:728862::J"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-bindings",
+    "position": 1,
+    "problem_id": "remote:codeforces:728862::J"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 2,
+    "problem_id": "remote:codeforces:728862::J"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-queue-stack",
+    "position": 0,
+    "problem_id": "remote:codeforces:728862::K"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "remote:codeforces:728862::K"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-structures",
+    "position": 2,
+    "problem_id": "remote:codeforces:728862::K"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 0,
+    "problem_id": "remote:codeforces:728862::L"
+  },
+  {
+    "kind": "foundation",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 1,
+    "problem_id": "remote:codeforces:728862::L"
+  }
+]
