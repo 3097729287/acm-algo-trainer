@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="385" viewBox="0 0 760 385" role="img" aria-labelledby="title"><title id="title">同点、祖先关系与跨分支 LCA 都保留</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">同点、祖先关系与跨分支 LCA 都保留</text>
+<line x1="350" y1="100" x2="160" y2="200" stroke="#68778b" stroke-width="4"/>
+<line x1="350" y1="100" x2="530" y2="200" stroke="#68778b" stroke-width="4"/>
+<line x1="530" y1="200" x2="450" y2="300" stroke="#68778b" stroke-width="4"/>
+<line x1="530" y1="200" x2="650" y2="300" stroke="#68778b" stroke-width="4"/>
+<circle cx="350" cy="100" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="350" y="107" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<circle cx="160" cy="200" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="160" y="207" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<circle cx="530" cy="200" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="530" y="207" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<circle cx="450" cy="300" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="450" y="307" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<circle cx="650" cy="300" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="650" y="307" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<text x="55" y="350" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">LCA(2,4)=4；LCA(3,2)=4；LCA(3,5)=1</text>
+</g></svg>

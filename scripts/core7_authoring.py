@@ -60,6 +60,19 @@ def load_all():
         import core7_stage02_interactive
         import core7_stage03_dfs
         import core7_stage03_search_models
+        import core7_stage03_dsu
+        import core7_stage03_topology
+        import core7_stage03_shortest
+        import core7_stage03_mst
+        import core7_stage03_trees
+        import core7_stage04_linear
+        import core7_stage04_knapsack
+        import core7_stage04_interval
+        import core7_stage04_tree_dp
+        import core7_stage04_subset_dp
+        import core7_stage04_digit_dp
+        import core7_stage05_monotonic
+        import core7_stage05_fenwick
         from core7_figures import attach_figures
         attach_figures(SPECS)
         from core7_figures_greedy import attach_figures as greedy_figures
@@ -72,6 +85,32 @@ def load_all():
         binary_figures(SPECS)
         from core7_figures_search import attach_figures as search_figures
         search_figures(SPECS)
+        from core7_figures_dsu import attach_figures as dsu_figures
+        dsu_figures(SPECS)
+        from core7_figures_topology import attach_figures as topology_figures
+        topology_figures(SPECS)
+        from core7_figures_shortest import attach_figures as shortest_figures
+        shortest_figures(SPECS)
+        from core7_figures_mst import attach_figures as mst_figures
+        mst_figures(SPECS)
+        from core7_figures_trees import attach_figures as tree_figures
+        tree_figures(SPECS)
+        from core7_figures_linear import attach_figures as linear_figures
+        linear_figures(SPECS)
+        from core7_figures_knapsack import attach_figures as knapsack_figures
+        knapsack_figures(SPECS)
+        from core7_figures_interval import attach_figures as interval_figures
+        interval_figures(SPECS)
+        from core7_figures_tree_dp import attach_figures as tree_dp_figures
+        tree_dp_figures(SPECS)
+        from core7_figures_subset_dp import attach_figures as subset_dp_figures
+        subset_dp_figures(SPECS)
+        from core7_figures_digit_dp import attach_figures as digit_dp_figures
+        digit_dp_figures(SPECS)
+        from core7_figures_monotonic import attach_figures as monotonic_figures
+        monotonic_figures(SPECS)
+        from core7_figures_fenwick import attach_figures as fenwick_figures
+        fenwick_figures(SPECS)
         for spec in SPECS:
             spec.tags=['线性 DP' if tag=='DP' else tag for tag in spec.tags]
             if spec.pid=='P5732':spec.tags=['递推']
@@ -88,6 +127,10 @@ def source_hash(text):
 def verification_footer(record):
     if record.get('interactive'):
         live=record['interactive']
+        if live.get('kind')=='railway':
+            return (f"本地 C++17 编译、{live['liveScenarios']} 个真实铁路交互场景与 {record['independentCases']} 组转录重放通过；核对主动刷新、合法询问、两倍边数上限及负回复／断流退出。\n"
+                    "官方样例为交互对话，没有当作普通固定输入输出；本批逐问校验本地生成的固定秘密图，不把未读取的图示计为样例。\n"
+                    "正文参考程序与源码逐字核对；没有向原站提交。\n")
         return (f"本地 C++17 编译、{live['liveScenarios']} 个真实交互场景与 {record['independentCases']} 组转录重放通过；核对主动刷新、合法询问与问数上限。\n"
                 "官方样例是对话，已按样例秘密场景另行交互验证，未当作普通固定输入输出比较。\n"
                 "正文参考程序与源码逐字核对；没有向原站提交。\n")

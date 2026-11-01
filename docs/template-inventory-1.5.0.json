@@ -1,0 +1,359 @@
+{
+  "schema": 1,
+  "status": "audit only; full teaching completion is not claimed",
+  "existingTemplates": 28,
+  "templates": [
+    {
+      "id": "builtin:dsu",
+      "title": "并查集：路径压缩与按大小合并",
+      "explanationCharacters": 625,
+      "teachingCodeSha256": "c5824a935cf3f6caaf88adf7855f15f901507c8a3f99c883d7d8f7e7a156de89",
+      "contestCodeSha256": "c8ba13b980ae3f516b0dbf410337fbbcc41a6418051afa3e6b37c8ba4fccdb00",
+      "practiceIds": [
+        "template-drill:dsu:1",
+        "template-drill:dsu:2"
+      ],
+      "learningPath": "dsu",
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:dijkstra",
+      "title": "Dijkstra：非负权最短路与路径还原",
+      "explanationCharacters": 0,
+      "teachingCodeSha256": "0b55c1e18cc743ae6ca03ac17483d0bd98690bb63278e3525aaed3be75312ca6",
+      "contestCodeSha256": "70f6901e2f0bf21897f66d15d7c41d952fb59163f092c79c8580194e4993e8e2",
+      "practiceIds": [
+        "template-drill:dijkstra:1",
+        "template-drill:dijkstra:2"
+      ],
+      "learningPath": null,
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:kruskal",
+      "title": "Kruskal + 并查集：最小生成树",
+      "explanationCharacters": 0,
+      "teachingCodeSha256": "078fdaaf4d73a8eb10b12a7c2fd4f325a0d47460100d91a90ed36abeb073ae22",
+      "contestCodeSha256": "c0b0db11b92a986260bc5aa03acc08bb5f9d11199d241cca12cce40579bdf460",
+      "practiceIds": [
+        "template-drill:kruskal:1",
+        "template-drill:kruskal:2"
+      ],
+      "learningPath": null,
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:bfs",
+      "title": "BFS：多源无权最短路",
+      "explanationCharacters": 0,
+      "teachingCodeSha256": "7fa3e1ed8fa72b7e9bd1625bf90e4d5c66ad0314f920f3fdf483ff05afcf9180",
+      "contestCodeSha256": "3365669429f7aea17ab8a730d927acb7d03ab42691731428def32dbff089f3da",
+      "practiceIds": [
+        "template-drill:bfs:1",
+        "template-drill:bfs:2"
+      ],
+      "learningPath": null,
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:zero-one-bfs",
+      "title": "0–1 BFS：双端队列最短路",
+      "explanationCharacters": 0,
+      "teachingCodeSha256": "d61ba88d4e11daa0bc2cdb3eeed039da2c47a49e71058ffb46b584d245e7b0f9",
+      "contestCodeSha256": "59bab311df4a08392e9c717b4ecd2dff3d9cdf1ec088c56ac5b9cd46dd410dbb",
+      "practiceIds": [
+        "template-drill:zero-one-bfs:1",
+        "template-drill:zero-one-bfs:2"
+      ],
+      "learningPath": null,
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:bellman-ford",
+      "title": "Bellman–Ford：负权与负环影响",
+      "explanationCharacters": 0,
+      "teachingCodeSha256": "d0d7931ba360f19cf2f24157180030518f0469d987e1f1140968e609a8d04739",
+      "contestCodeSha256": "76da50c2c651d61efa42e02dff17f4a23027414714558ed9cfc73cb21d628d61",
+      "practiceIds": [
+        "template-drill:bellman-ford:1",
+        "template-drill:bellman-ford:2"
+      ],
+      "learningPath": null,
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:topological",
+      "title": "拓扑排序：DAG 顺序与环检测",
+      "explanationCharacters": 0,
+      "teachingCodeSha256": "85eeabd770b66a0cd0a853cbf059632c78cce330bf5ed60592ee3180c1a5f41e",
+      "contestCodeSha256": "8b82895ea54671668ca68097225fc90e9687f25ea3d18248f0092c14872f7132",
+      "practiceIds": [
+        "template-drill:topological:1",
+        "template-drill:topological:2"
+      ],
+      "learningPath": null,
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:scc",
+      "title": "强连通分量：迭代 Kosaraju 与缩点",
+      "explanationCharacters": 0,
+      "teachingCodeSha256": "3c49cc0bdeccb4baa90b45c9eb7afea3844bf8b116b1a50ed46a44ea97a3be8f",
+      "contestCodeSha256": "c4d3ba70d01233855c0712bbdb6b2b92990768a878288f7a5695415e74e81aa0",
+      "practiceIds": [
+        "template-drill:scc:1",
+        "template-drill:scc:2"
+      ],
+      "learningPath": null,
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:lca",
+      "title": "LCA：倍增、祖先与树上距离",
+      "explanationCharacters": 0,
+      "teachingCodeSha256": "469ffcbb4c12d55f4f9b5ab846238f4acc83c3b83b6b812bfcc6b6fa612fc950",
+      "contestCodeSha256": "6bbf007378f3e4fa33d77754caebf852baabaae673de6a12c4191168bb882b5d",
+      "practiceIds": [
+        "template-drill:lca:1",
+        "template-drill:lca:2"
+      ],
+      "learningPath": null,
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:fenwick",
+      "title": "树状数组：单点加、区间和与第 k 小",
+      "explanationCharacters": 817,
+      "teachingCodeSha256": "45c1f50321812d542693c52ca9eac89b097437a0adaa671705737820752ea02c",
+      "contestCodeSha256": "2d46d2132d26997a6fc43e169beba35a97c55384439ea65a79e1086e32071f41",
+      "practiceIds": [
+        "template-drill:fenwick:1",
+        "template-drill:fenwick:2"
+      ],
+      "learningPath": "fenwick",
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:segment-tree",
+      "title": "懒标记线段树：区间加与区间和",
+      "explanationCharacters": 686,
+      "teachingCodeSha256": "4deae2813ec2f2a774f62090796eb06a84af5fbd449dca6a352e1af918bd3074",
+      "contestCodeSha256": "990c1facf28c26ecc54189102633d9fcb6ecd2e62d8a2027feaef67270513d4a",
+      "practiceIds": [
+        "template-drill:segment-tree:1",
+        "template-drill:segment-tree:2"
+      ],
+      "learningPath": "segment-tree",
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:sparse-table",
+      "title": "ST 表：静态区间最小值",
+      "explanationCharacters": 0,
+      "teachingCodeSha256": "27c8d7f022950d2cb341ca272e5ca2fe4c92b426d131fefd9aa3625c11663ca2",
+      "contestCodeSha256": "89be086602ff1398d1ad8d61d52993bf8b2ec1c9a05f03f12ddb5408af375903",
+      "practiceIds": [
+        "template-drill:sparse-table:1",
+        "template-drill:sparse-table:2"
+      ],
+      "learningPath": null,
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:compression",
+      "title": "离散化：排序、去重与原值还原",
+      "explanationCharacters": 0,
+      "teachingCodeSha256": "39703b139b7efa857b8152981d5c11493d98bf1ef11395c5b067a9fd45ff438d",
+      "contestCodeSha256": "22ec762261e2f49b670417ecdceb90f234a71781b7a1049f3c36c2a042c2878a",
+      "practiceIds": [
+        "template-drill:compression:1",
+        "template-drill:compression:2"
+      ],
+      "learningPath": null,
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:prefix-difference",
+      "title": "一维前缀和与差分",
+      "explanationCharacters": 0,
+      "teachingCodeSha256": "a39d5450caa5f91f9ed30b2f6299b1ad56506aa573727fd50fbabf7f650bc97f",
+      "contestCodeSha256": "fdd37670ec3be254913573d8ed7b1e68f9d3df90d6f944676cc045f84e8d987b",
+      "practiceIds": [
+        "template-drill:prefix-difference:1",
+        "template-drill:prefix-difference:2"
+      ],
+      "learningPath": null,
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:window-extrema",
+      "title": "单调队列：滑动窗口最值",
+      "explanationCharacters": 0,
+      "teachingCodeSha256": "8963b3938f472217046726360f52e18e408f9da0a5eb711d753e43ee91621fbe",
+      "contestCodeSha256": "65195b52d4747522f97ec2fbe060d438cf4cc6c24f6a0004faeafe10b0d50937",
+      "practiceIds": [
+        "template-drill:window-extrema:1",
+        "template-drill:window-extrema:2"
+      ],
+      "learningPath": null,
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:binary-search",
+      "title": "整数二分：第一个满足条件的位置",
+      "explanationCharacters": 0,
+      "teachingCodeSha256": "f16055248d903db95bb37bc8b2dbc74d96bd7c3c56b17c9bf3f5c48dcad92c13",
+      "contestCodeSha256": "70783c36ca3eb62ad4ec64f8b563bf0d92e51c8f562a6e053f1b356109363664",
+      "practiceIds": [
+        "template-drill:binary-search:1",
+        "template-drill:binary-search:2"
+      ],
+      "learningPath": null,
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:kmp",
+      "title": "KMP：前缀函数与全部匹配位置",
+      "explanationCharacters": 0,
+      "teachingCodeSha256": "e5195b162dc931ef7101816bbc50caf547bc13e003123e7c992b0a4a123d89fe",
+      "contestCodeSha256": "a33618a516c777147200fd6c85bbccbb02adf3bbe7b18e1e0ac9cd0e73b3458a",
+      "practiceIds": [
+        "template-drill:kmp:1",
+        "template-drill:kmp:2"
+      ],
+      "learningPath": null,
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:z-function",
+      "title": "Z 函数：与整串前缀的最长公共长度",
+      "explanationCharacters": 0,
+      "teachingCodeSha256": "292b15c57fc54ba004b0e55f4a8fd29a4487d2fe5aa175d9144ff97ab8f73749",
+      "contestCodeSha256": "9279554aec0b54a045e1bb44f050958900238c58ff74ed06ace42088114774fd",
+      "practiceIds": [
+        "template-drill:z-function:1",
+        "template-drill:z-function:2"
+      ],
+      "learningPath": null,
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:trie",
+      "title": "Trie：插入、计数、前缀与删除",
+      "explanationCharacters": 690,
+      "teachingCodeSha256": "a51cf88772a89eb8b1ecc1341d04f93fe060359eabd560d5a4dcd2d52dbbdf55",
+      "contestCodeSha256": "8207b327910b4f43b8ffd4b797e8f93d5c7b08a8b2897289c1802236b04270d5",
+      "practiceIds": [
+        "template-drill:trie:1",
+        "template-drill:trie:2"
+      ],
+      "learningPath": "trie",
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:mod-combination",
+      "title": "模运算：快速幂、逆元与组合数",
+      "explanationCharacters": 0,
+      "teachingCodeSha256": "27f77a3c4af55172b4f5464e7eec0e2dfc74e739141414b1e8a79060fe4c0f92",
+      "contestCodeSha256": "6a21bfd3fbe3abb098b646d166d3af72828bf5820f270694d2f76dbb9c3b1221",
+      "practiceIds": [
+        "template-drill:mod-combination:1",
+        "template-drill:mod-combination:2"
+      ],
+      "learningPath": null,
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:linear-sieve",
+      "title": "线性筛：素数、最小质因子与分解",
+      "explanationCharacters": 0,
+      "teachingCodeSha256": "5a91cd073ea4706a79b02a0b9c3be7c02a60f91285a1474a41960d28161c5c4d",
+      "contestCodeSha256": "acbe593b4a5a9097b2aaa00f87af6fee3dcbb01a3825575113a8d038baf5f035",
+      "practiceIds": [
+        "template-drill:linear-sieve:1",
+        "template-drill:linear-sieve:2"
+      ],
+      "learningPath": null,
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:extended-gcd",
+      "title": "扩展欧几里得：裴蜀系数与一般逆元",
+      "explanationCharacters": 0,
+      "teachingCodeSha256": "862cd154861580f79e8fd6f580840cf65817db8f56e3d6f77ce4b1677d56b7b2",
+      "contestCodeSha256": "ed5784dd97ae074268e3e7d1fce5d2e59d15d91a2d0246e33e519fd60e17192c",
+      "practiceIds": [
+        "template-drill:extended-gcd:1",
+        "template-drill:extended-gcd:2"
+      ],
+      "learningPath": null,
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:knapsack",
+      "title": "背包：0/1 与完全背包",
+      "explanationCharacters": 0,
+      "teachingCodeSha256": "b468b46451c348a86252de90e2629a1a30030d3030584118bad48993c97943b5",
+      "contestCodeSha256": "a7ee381155ef2d648abb19abc63e954fca8a23e173de2d346a212249a56169bd",
+      "practiceIds": [
+        "template-drill:knapsack:1",
+        "template-drill:knapsack:2"
+      ],
+      "learningPath": null,
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:lis",
+      "title": "最长上升子序列：长度与路径还原",
+      "explanationCharacters": 0,
+      "teachingCodeSha256": "41701d76ab5c6ca8a4ba7faee5b20a44489423a37b4f054548020be47a968647",
+      "contestCodeSha256": "7b3a0add9e419655b64ff9b9032486432b4bfd5574e98e66e6c242253713335b",
+      "practiceIds": [
+        "template-drill:lis:1",
+        "template-drill:lis:2"
+      ],
+      "learningPath": null,
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:binary-lifting",
+      "title": "倍增",
+      "explanationCharacters": 670,
+      "teachingCodeSha256": "4730e9ce43f228ede52ef97ccef1e2ae6fef416358558701409d0441c7044e2e",
+      "contestCodeSha256": "118f021d417b64318e9cc6518f855b8645b73ce3e8faa323dc90f485b353f15b",
+      "practiceIds": [],
+      "learningPath": "binary-lifting",
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:dinic",
+      "title": "最大流与最小割",
+      "explanationCharacters": 661,
+      "teachingCodeSha256": "e3efb7f1e3259f3cc6c683079117f79c4e662231743e3715a1a9952bc3f14b9f",
+      "contestCodeSha256": "65c7ce5e6b6defe80f6df991f12ac03dcb95d6b4cbbd79212e091963a52c08db",
+      "practiceIds": [],
+      "learningPath": "dinic",
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:li-chao",
+      "title": "Li Chao 树",
+      "explanationCharacters": 664,
+      "teachingCodeSha256": "ccb9cf11e111e616e4a69771a88514eaad4e37475f37994c40c17fd9528c6751",
+      "contestCodeSha256": "ebf2b49618cc240444d2f72bfaa8b63dda74a93da112e64c9f7a4224125a0327",
+      "practiceIds": [],
+      "learningPath": "li-chao",
+      "nextVersionTeachingReview": "pending"
+    },
+    {
+      "id": "builtin:linear-basis",
+      "title": "线性基",
+      "explanationCharacters": 1193,
+      "teachingCodeSha256": "a02b5afe64556cc49eb18036578132973659b0abaa02f36dd1140e66bd95bd7a",
+      "contestCodeSha256": "5c1e1fdb1fe8b147244cda989b74acb6a2a5602ef8d837a4162fef79a74fea43",
+      "practiceIds": [],
+      "learningPath": "linear-basis",
+      "nextVersionTeachingReview": "pending"
+    }
+  ]
+}

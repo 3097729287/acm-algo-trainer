@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="375" viewBox="0 0 760 375" role="img" aria-labelledby="title"><title id="title">区间 24 至 69：两个数位和前缀相减</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">区间 24 至 69：两个数位和前缀相减</text>
+<rect x="45" y="115" width="210" height="65" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="150.0" y="154.5" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">1 … 23</text>
+<rect x="270" y="115" width="440" height="65" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="490.0" y="154.5" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">24 … 69</text>
+<text x="150" y="230" fill="#68778b" font-size="24" text-anchor="middle" font-weight="normal">F(23)=114</text>
+<text x="485" y="230" fill="#12805c" font-size="24" text-anchor="middle" font-weight="normal">本段数位和 411</text>
+<line x1="45" y1="80" x2="710" y2="80" stroke="#2365ab" stroke-width="3"/>
+<text x="380" y="65" fill="#2365ab" font-size="24" text-anchor="middle" font-weight="normal">F(69)=525</text>
+<text x="45" y="325" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">525−114=411；低位段包含右端点，所以有 low+1</text>
+</g></svg>

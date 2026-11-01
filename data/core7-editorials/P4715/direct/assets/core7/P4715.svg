@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="430" viewBox="0 0 760 430" role="img" aria-labelledby="title"><title id="title">决赛先由两半区各选最强者，亚军是较弱的一位</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">决赛先由两半区各选最强者，亚军是较弱的一位</text>
+<rect x="35" y="100" width="79" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="74.5" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="117" y="100" width="79" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="156.5" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="199" y="100" width="79" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="238.5" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="281" y="100" width="79" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="320.5" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="405" y="100" width="79" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="444.5" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">10</text>
+<rect x="487" y="100" width="79" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="526.5" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="569" y="100" width="79" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="608.5" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">9</text>
+<rect x="651" y="100" width="79" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="690.5" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">7</text>
+<text x="70" y="185" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">队号 1、2、3、4</text>
+<text x="440" y="185" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">队号 5、6、7、8</text>
+<line x1="200" y1="198" x2="200" y2="245" stroke="#12805c" stroke-width="3"/>
+<line x1="570" y1="198" x2="570" y2="245" stroke="#12805c" stroke-width="3"/>
+<rect x="95" y="245" width="210" height="52" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="200.0" y="278.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">第一队：能力 4</text>
+<rect x="465" y="245" width="210" height="52" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="570.0" y="278.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">第五队：能力 10</text>
+<line x1="200" y1="298" x2="385" y2="350" stroke="#bc3645" stroke-width="3"/>
+<line x1="570" y1="298" x2="385" y2="350" stroke="#12805c" stroke-width="3"/>
+<text x="385" y="380" fill="#12805c" font-size="25" text-anchor="middle" font-weight="normal">冠军 5；亚军 1</text>
+<text x="95" y="417" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">全体次大能力 9 在第五队同半区，进不了决赛</text>
+</g></svg>

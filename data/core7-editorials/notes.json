@@ -1,14 +1,51 @@
 {
+  "luogu-training-P1858": {
+    "status": "needs-semantic-review",
+    "reason": "要求K份两两不同且恰好装满的清单，未给出不足K种时的输出，也未写保证至少K种；不自行添加无解输出。",
+    "source": "https://www.luogu.com.cn/problem/P1858",
+    "lastPrimaryCheck": "2026-10-31",
+    "evidence": "K=2、V=1、N=1且唯一物品体积价值均为1，只有一种合法清单；两个编号不同但体积1价值5的物品则有两种等价值得分清单，合计10。",
+    "review": "docs/core7-p1858-semantics.md",
+    "supplementalRuleRequested": true
+  },
   "luogu-training-P1766": {
     "status": "needs-semantic-review",
-    "reason": "题面允许相交轨道，尚需核对同高交点处同时命中的处理；本题仍未写入题解，不用仅按端点高度排序的模拟冒充完整解法。",
+    "reason": "首次下落同时命中两条轨道内部的交点时，原题未给出选择规则；同一合法输入能得到两个不同最终横坐标。轨道上滑动期间忽略交点这一条已核对清楚。",
     "source": "https://www.luogu.com.cn/problem/P1766",
     "lastPrimaryCheck": "2026-10-30",
-    "evidence": "复查洛谷原题仍只说明允许相交、轨道内部不受影响及端点不计，未补充同高同时命中、水平或竖直轨道的处理；不从二手程序推定原题未声明保证。"
+    "evidence": "最小反例：2 0 / -1 2 1 0 / -1 0 1 2，两条内部在(0,1)同时命中，分别沿其下滑可落到1或-1；不为任意择一的程序宣称唯一正确答案。",
+    "review": "docs/core7-p1766-semantics.md",
+    "supplementalRuleRequested": true,
+    "equalHeightLanding": "另一轨道下端点位于某轨道内部时，离轨后的再次命中可以同高；不能只查严格更低交点。"
   },
   "luogu-training-P1019": {
     "status": "exact-exponential-reference",
     "reason": "原题明确标注疑似错题及最坏数据性能无保证。本批给出语义精确的最短合法重叠记忆化搜索，实际访问状态经小域独立枚举核对；最坏仍指数级，不宣称所有 n=20 输入在原时限内通过。",
     "source": "https://www.luogu.com.cn/problem/P1019"
+  },
+  "luogu-training-P5958": {
+    "status": "primary-statement-reviewed",
+    "reason": "中文题面与波兰语原卷均为比例严格超过x才触发，英文官方译本使用至少；本文按中文与原语言的严格定义，精确分数枚举确认最小安全临界值。最初叛徒不会自动强迫下属。",
+    "source": "https://szkopul.edu.pl/problemset/problem/CUjJDGGSEZmO7HvdZU4FKrL6/statement/",
+    "lastPrimaryCheck": "2026-10-31",
+    "polishPdfSha256": "28d0880fbf6d0e90662ae56f2ed637e32cd6dd0a148decabd7ae1db68493752c",
+    "englishPdfSha256": "f8856fa3028145bef96a529cbdb218d5bd122d83bf6f40276e61fcf02808922f"
+  },
+  "luogu-training-P9584": {
+    "status": "verified-with-unavailable-attachments",
+    "reason": "已读取并验证两组字面样例；第三至第六组city附件未取得，保留原引用，不计入已验证样例。",
+    "source": "https://www.luogu.com.cn/problem/P9584",
+    "readableSamples": 2,
+    "unavailableAttachmentSamples": [
+      3,
+      4,
+      5,
+      6
+    ]
+  },
+  "luogu-training-P4928": {
+    "status": "exact-unbounded-color-integers",
+    "reason": "原题未写颜色值上界，不补猜测范围。颜色按十进制整数字符串读入，符号大整数精确处理加法、比较与乘有界天气，复杂度显式计入位数；验证包含80至100位颜色及负天气。",
+    "source": "https://www.luogu.com.cn/problem/P4928"
   }
 }

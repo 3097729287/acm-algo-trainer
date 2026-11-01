@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="440" viewBox="0 0 760 440" role="img" aria-labelledby="title"><title id="title">内部名次与全局实力不同，先求能赢的相对名次</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">内部名次与全局实力不同，先求能赢的相对名次</text>
+<line x1="380" y1="95" x2="205" y2="210" stroke="#68778b" stroke-width="4"/>
+<line x1="380" y1="95" x2="555" y2="210" stroke="#68778b" stroke-width="4"/>
+<line x1="205" y1="210" x2="100" y2="315" stroke="#68778b" stroke-width="4"/>
+<line x1="205" y1="210" x2="280" y2="315" stroke="#68778b" stroke-width="4"/>
+<line x1="555" y1="210" x2="480" y2="315" stroke="#68778b" stroke-width="4"/>
+<line x1="555" y1="210" x2="660" y2="315" stroke="#68778b" stroke-width="4"/>
+<circle cx="380" cy="95" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="380" y="102" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">min</text>
+<circle cx="205" cy="210" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="205" y="217" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">max</text>
+<circle cx="555" cy="210" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="555" y="217" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">max</text>
+<circle cx="100" cy="315" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="100" y="322" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">?</text>
+<circle cx="280" cy="315" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="280" y="322" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">?</text>
+<circle cx="480" cy="315" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="480" y="322" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">?</text>
+<circle cx="660" cy="315" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="660" y="322" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">?</text>
+<text x="55" y="385" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">四人先各取强，再在决赛取弱，冠军只能相对第 2 或 3</text>
+<text x="55" y="430" fill="#12805c" font-size="21" text-anchor="start" font-weight="normal">进入第 2 轮只需赢一场；进入第 3 轮才是冠军</text>
+</g></svg>

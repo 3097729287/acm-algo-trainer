@@ -17,6 +17,10 @@ import unpair_ticks
 import check_solution
 
 CODE_SPELLINGS=[
+    'bitset<N>','<bitset>','|=','count()','reset()',
+    '(sub-1)&S','mask & -mask','S^T','Number(text)','const Number&',
+    'array<T,N>','<array>','int &x',
+    '<functional>','auto','threshold','value','a','limit','int&','const vector<int>&','mutable','const auto&','auto f = ...','f',
     'vector<int> snapshot = result','result = source','dist',
     'greater<int>()','greater<T>','greater<int>()(a,b)','no solution',
     '? l r','! answer','? 1 3','! 7','cout.flush()','1 p ... q ...','2 x y',
@@ -46,7 +50,7 @@ CODE_SPELLINGS=[
 def main():
     unpair_ticks.KEEP_EXACT.update(CODE_SPELLINGS)
     results=[]
-    with tempfile.TemporaryDirectory(prefix='core7-format-') as temporary:
+    with contextlib.nullcontext(tempfile.mkdtemp(prefix='core7-format-',dir=OUT)) as temporary:
         for spec in load_all():
             for variant in ['default','detailed']:
                 path=CONTENT/spec.pid/spec.key/(variant+'.md')

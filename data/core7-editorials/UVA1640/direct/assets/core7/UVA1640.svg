@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="380" viewBox="0 0 760 380" role="img" aria-labelledby="title"><title id="title">统计零出现次数时，只算实际写出来的零</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">统计零出现次数时，只算实际写出来的零</text>
+<text x="45" y="105" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">整数 7</text>
+<rect x="65" y="140" width="92" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="111.0" y="171.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="160" y="140" width="92" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="206.0" y="171.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="255" y="140" width="92" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="301.0" y="171.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">7</text>
+<text x="410" y="175" fill="#68778b" font-size="24" text-anchor="start" font-weight="normal">占位零均不计</text>
+<text x="45" y="255" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">整数 100</text>
+<rect x="65" y="280" width="92" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="111.0" y="311.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="160" y="280" width="92" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="206.0" y="311.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="255" y="280" width="92" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="301.0" y="311.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<text x="410" y="315" fill="#12805c" font-size="24" text-anchor="start" font-weight="normal">实际零有两个</text>
+</g></svg>

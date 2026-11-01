@@ -8,6 +8,32 @@ from decimal import Decimal, ROUND_HALF_UP
 
 
 def cases_for(pid):
+    from core7_cases_fenwick import IDS as fenwick_ids,cases_for as fenwick_cases
+    if pid in fenwick_ids:return fenwick_cases(pid)
+    from core7_cases_monotonic import IDS as monotonic_ids,cases_for as monotonic_cases
+    if pid in monotonic_ids:return monotonic_cases(pid)
+    from core7_cases_digit_dp import IDS as digit_dp_ids,cases_for as digit_dp_cases
+    if pid in digit_dp_ids:return digit_dp_cases(pid)
+    from core7_cases_subset_dp import IDS as subset_dp_ids,cases_for as subset_dp_cases
+    if pid in subset_dp_ids:return subset_dp_cases(pid)
+    from core7_cases_tree_dp import IDS as tree_dp_ids,cases_for as tree_dp_cases
+    if pid in tree_dp_ids:return tree_dp_cases(pid)
+    from core7_cases_interval import IDS as interval_ids,cases_for as interval_cases
+    if pid in interval_ids:return interval_cases(pid)
+    from core7_cases_knapsack import IDS as knapsack_ids,cases_for as knapsack_cases
+    if pid in knapsack_ids:return knapsack_cases(pid)
+    from core7_cases_linear import IDS as linear_ids,cases_for as linear_cases
+    if pid in linear_ids:return linear_cases(pid)
+    from core7_cases_trees import IDS as tree_ids,cases_for as tree_cases
+    if pid in tree_ids:return tree_cases(pid)
+    from core7_cases_mst import IDS as mst_ids,cases_for as mst_cases
+    if pid in mst_ids:return mst_cases(pid)
+    from core7_cases_shortest import IDS as shortest_ids,cases_for as shortest_cases
+    if pid in shortest_ids:return shortest_cases(pid)
+    from core7_cases_topology import IDS as topology_ids,cases_for as topology_cases
+    if pid in topology_ids:return topology_cases(pid)
+    from core7_cases_dsu import IDS as dsu_ids,cases_for as dsu_cases
+    if pid in dsu_ids:return dsu_cases(pid)
     from core7_cases_search import IDS as search_ids,cases_for as search_cases
     if pid in search_ids:return search_cases(pid)
     from core7_cases_binary import IDS as binary_ids,cases_for as binary_cases

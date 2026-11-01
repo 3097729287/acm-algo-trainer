@@ -1,0 +1,1030 @@
+{
+  "source": "https://codeforces.com/api/problemset.problems",
+  "verifiedOn": "2026-11-02",
+  "problems": [
+    {
+      "contestId": 2250,
+      "index": "A",
+      "title": "Threshold Movement",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2250/problem/A",
+      "libraryId": "Div.2 1112::A"
+    },
+    {
+      "contestId": 2250,
+      "index": "B",
+      "title": "String Construction",
+      "difficulty": 1000,
+      "url": "https://codeforces.com/contest/2250/problem/B",
+      "libraryId": "Div.2 1112::B"
+    },
+    {
+      "contestId": 2248,
+      "index": "A",
+      "title": "You Delete, I Delete",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2248/problem/A",
+      "libraryId": "Div.2 1113::A"
+    },
+    {
+      "contestId": 2248,
+      "index": "B",
+      "title": "Merge to Match",
+      "difficulty": 1000,
+      "url": "https://codeforces.com/contest/2248/problem/B",
+      "libraryId": "Div.2 1113::B"
+    },
+    {
+      "contestId": 2248,
+      "index": "C",
+      "title": "Maximize the Score",
+      "difficulty": 1300,
+      "url": "https://codeforces.com/contest/2248/problem/C",
+      "libraryId": "Div.2 1113::C"
+    },
+    {
+      "contestId": 2248,
+      "index": "D",
+      "title": "Good Pair Queries",
+      "difficulty": 1400,
+      "url": "https://codeforces.com/contest/2248/problem/D",
+      "libraryId": "Div.2 1113::D"
+    },
+    {
+      "contestId": 2252,
+      "index": "A",
+      "title": "Boss Fight",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2252/problem/A",
+      "libraryId": "Div.2 1115::A"
+    },
+    {
+      "contestId": 2252,
+      "index": "B",
+      "title": "Always Changing",
+      "difficulty": 1100,
+      "url": "https://codeforces.com/contest/2252/problem/B",
+      "libraryId": "Div.2 1115::B"
+    },
+    {
+      "contestId": 2252,
+      "index": "C",
+      "title": "Risky Tower",
+      "difficulty": 1400,
+      "url": "https://codeforces.com/contest/2252/problem/C",
+      "libraryId": "Div.2 1115::C"
+    },
+    {
+      "contestId": 2256,
+      "index": "A",
+      "title": "Three Numbers on the Blackboard",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2256/problem/A",
+      "libraryId": "Div.2 1116::A"
+    },
+    {
+      "contestId": 2256,
+      "index": "B",
+      "title": "Domino Tiles",
+      "difficulty": 1000,
+      "url": "https://codeforces.com/contest/2256/problem/B",
+      "libraryId": "Div.2 1116::B"
+    },
+    {
+      "contestId": 2257,
+      "index": "A",
+      "title": "Creating Abbreviations",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2257/problem/A",
+      "libraryId": "Div.2 1117::A"
+    },
+    {
+      "contestId": 2257,
+      "index": "B",
+      "title": "Gigantomachy",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2257/problem/B",
+      "libraryId": "Div.2 1117::B"
+    },
+    {
+      "contestId": 2257,
+      "index": "C",
+      "title": "Spying on the Beaver",
+      "difficulty": 1200,
+      "url": "https://codeforces.com/contest/2257/problem/C",
+      "libraryId": "Div.2 1117::C"
+    },
+    {
+      "contestId": 2258,
+      "index": "A",
+      "title": "Odd Eraser",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2258/problem/A",
+      "libraryId": "Div.2 1118::A"
+    },
+    {
+      "contestId": 2258,
+      "index": "B1",
+      "title": "Carrot Chopdown (Easy Version)",
+      "difficulty": 900,
+      "url": "https://codeforces.com/contest/2258/problem/B1",
+      "libraryId": "Div.2 1118::B1"
+    },
+    {
+      "contestId": 2263,
+      "index": "A",
+      "title": "Min Max Game",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2263/problem/A",
+      "libraryId": "Div.2 1120::A"
+    },
+    {
+      "contestId": 2263,
+      "index": "B",
+      "title": "Min Matrices",
+      "difficulty": 900,
+      "url": "https://codeforces.com/contest/2263/problem/B",
+      "libraryId": "Div.2 1120::B"
+    },
+    {
+      "contestId": 2264,
+      "index": "A",
+      "title": "Rumb Needs a Hand",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2264/problem/A",
+      "libraryId": "Div.2 1121::A"
+    },
+    {
+      "contestId": 2264,
+      "index": "B",
+      "title": "Knife's Pill Farm",
+      "difficulty": 1000,
+      "url": "https://codeforces.com/contest/2264/problem/B",
+      "libraryId": "Div.2 1121::B"
+    },
+    {
+      "contestId": 2264,
+      "index": "C",
+      "title": "Madamant's Skating Dynasty",
+      "difficulty": 1400,
+      "url": "https://codeforces.com/contest/2264/problem/C",
+      "libraryId": "Div.2 1121::C"
+    },
+    {
+      "contestId": 2267,
+      "index": "A",
+      "title": "Turn Into a Palindrome",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2267/problem/A",
+      "libraryId": "Div.2 1123::A"
+    },
+    {
+      "contestId": 2267,
+      "index": "B",
+      "title": "Fashionable Array",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2267/problem/B",
+      "libraryId": "Div.2 1123::B"
+    },
+    {
+      "contestId": 2267,
+      "index": "C",
+      "title": "GCD Treasury",
+      "difficulty": 1200,
+      "url": "https://codeforces.com/contest/2267/problem/C",
+      "libraryId": "Div.2 1123::C"
+    },
+    {
+      "contestId": 2267,
+      "index": "D",
+      "title": "Backrooms Hill",
+      "difficulty": 1400,
+      "url": "https://codeforces.com/contest/2267/problem/D",
+      "libraryId": "Div.2 1123::D"
+    },
+    {
+      "contestId": 2269,
+      "index": "A",
+      "title": "SauSaGe Bank",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2269/problem/A",
+      "libraryId": "Div.2 1124::A"
+    },
+    {
+      "contestId": 2269,
+      "index": "B",
+      "title": "KiaKio and Squared Numbers",
+      "difficulty": 1000,
+      "url": "https://codeforces.com/contest/2269/problem/B",
+      "libraryId": "Div.2 1124::B"
+    },
+    {
+      "contestId": 2274,
+      "index": "B",
+      "title": "Prefix",
+      "difficulty": 1100,
+      "url": "https://codeforces.com/contest/2274/problem/B",
+      "libraryId": "Div.2 1127::B"
+    },
+    {
+      "contestId": 2193,
+      "index": "A",
+      "title": "DBMB and the Array",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2193/problem/A",
+      "libraryId": "Div.3 1076::A"
+    },
+    {
+      "contestId": 2193,
+      "index": "B",
+      "title": "Reverse a Permutation",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2193/problem/B",
+      "libraryId": "Div.3 1076::B"
+    },
+    {
+      "contestId": 2193,
+      "index": "C",
+      "title": "Replace and Sum",
+      "difficulty": 1000,
+      "url": "https://codeforces.com/contest/2193/problem/C",
+      "libraryId": "Div.3 1076::C"
+    },
+    {
+      "contestId": 2193,
+      "index": "D",
+      "title": "Monster Game",
+      "difficulty": 1100,
+      "url": "https://codeforces.com/contest/2193/problem/D",
+      "libraryId": "Div.3 1076::D"
+    },
+    {
+      "contestId": 2193,
+      "index": "E",
+      "title": "Product Queries",
+      "difficulty": 1300,
+      "url": "https://codeforces.com/contest/2193/problem/E",
+      "libraryId": "Div.3 1076::E"
+    },
+    {
+      "contestId": 2195,
+      "index": "A",
+      "title": "Sieve of Erato67henes",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2195/problem/A",
+      "libraryId": "Div.3 1080::A"
+    },
+    {
+      "contestId": 2195,
+      "index": "B",
+      "title": "Heapify 1",
+      "difficulty": 900,
+      "url": "https://codeforces.com/contest/2195/problem/B",
+      "libraryId": "Div.3 1080::B"
+    },
+    {
+      "contestId": 2195,
+      "index": "C",
+      "title": "Dice Roll Sequence",
+      "difficulty": 1100,
+      "url": "https://codeforces.com/contest/2195/problem/C",
+      "libraryId": "Div.3 1080::C"
+    },
+    {
+      "contestId": 2195,
+      "index": "D",
+      "title": "Absolute Cinema",
+      "difficulty": 1300,
+      "url": "https://codeforces.com/contest/2195/problem/D",
+      "libraryId": "Div.3 1080::D"
+    },
+    {
+      "contestId": 2195,
+      "index": "E",
+      "title": "Idiot First Search",
+      "difficulty": 1500,
+      "url": "https://codeforces.com/contest/2195/problem/E",
+      "libraryId": "Div.3 1080::E"
+    },
+    {
+      "contestId": 2200,
+      "index": "A",
+      "title": "Eating Game",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2200/problem/A",
+      "libraryId": "Div.3 1084::A"
+    },
+    {
+      "contestId": 2200,
+      "index": "B",
+      "title": "Deletion Sort",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2200/problem/B",
+      "libraryId": "Div.3 1084::B"
+    },
+    {
+      "contestId": 2200,
+      "index": "C",
+      "title": "Specialty String",
+      "difficulty": 900,
+      "url": "https://codeforces.com/contest/2200/problem/C",
+      "libraryId": "Div.3 1084::C"
+    },
+    {
+      "contestId": 2200,
+      "index": "D",
+      "title": "Portal",
+      "difficulty": 1300,
+      "url": "https://codeforces.com/contest/2200/problem/D",
+      "libraryId": "Div.3 1084::D"
+    },
+    {
+      "contestId": 2200,
+      "index": "E",
+      "title": "Divisive Battle",
+      "difficulty": 1500,
+      "url": "https://codeforces.com/contest/2200/problem/E",
+      "libraryId": "Div.3 1084::E"
+    },
+    {
+      "contestId": 2227,
+      "index": "A",
+      "title": "Koshary",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2227/problem/A",
+      "libraryId": "Div.3 1096::A"
+    },
+    {
+      "contestId": 2227,
+      "index": "B",
+      "title": "Party Monster",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2227/problem/B",
+      "libraryId": "Div.3 1096::B"
+    },
+    {
+      "contestId": 2227,
+      "index": "C",
+      "title": "Snowfall",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2227/problem/C",
+      "libraryId": "Div.3 1096::C"
+    },
+    {
+      "contestId": 2227,
+      "index": "D",
+      "title": "Palindromex",
+      "difficulty": 1200,
+      "url": "https://codeforces.com/contest/2227/problem/D",
+      "libraryId": "Div.3 1096::D"
+    },
+    {
+      "contestId": 2227,
+      "index": "E",
+      "title": "It All Went Sideways",
+      "difficulty": 1400,
+      "url": "https://codeforces.com/contest/2227/problem/E",
+      "libraryId": "Div.3 1096::E"
+    },
+    {
+      "contestId": 2236,
+      "index": "A",
+      "title": "Games on the Train",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2236/problem/A",
+      "libraryId": "Div.3 1103::A"
+    },
+    {
+      "contestId": 2236,
+      "index": "B",
+      "title": "Tatar TV Show",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2236/problem/B",
+      "libraryId": "Div.3 1103::B"
+    },
+    {
+      "contestId": 2236,
+      "index": "C",
+      "title": "Omsk Programmers",
+      "difficulty": 1000,
+      "url": "https://codeforces.com/contest/2236/problem/C",
+      "libraryId": "Div.3 1103::C"
+    },
+    {
+      "contestId": 2236,
+      "index": "D",
+      "title": "Brand New Tatar TV Show",
+      "difficulty": 1300,
+      "url": "https://codeforces.com/contest/2236/problem/D",
+      "libraryId": "Div.3 1103::D"
+    },
+    {
+      "contestId": 2241,
+      "index": "A",
+      "title": "Divide and Conquer",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2241/problem/A",
+      "libraryId": "Div.3 1107::A"
+    },
+    {
+      "contestId": 2241,
+      "index": "B",
+      "title": "Good times Good times",
+      "difficulty": 1100,
+      "url": "https://codeforces.com/contest/2241/problem/B",
+      "libraryId": "Div.3 1107::B"
+    },
+    {
+      "contestId": 2241,
+      "index": "C",
+      "title": "RemovevomeR",
+      "difficulty": 1000,
+      "url": "https://codeforces.com/contest/2241/problem/C",
+      "libraryId": "Div.3 1107::C"
+    },
+    {
+      "contestId": 2241,
+      "index": "D",
+      "title": "An Alternative Way",
+      "difficulty": 1100,
+      "url": "https://codeforces.com/contest/2241/problem/D",
+      "libraryId": "Div.3 1107::D"
+    },
+    {
+      "contestId": 2244,
+      "index": "A",
+      "title": "Iskander and Drawings",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2244/problem/A",
+      "libraryId": "Div.3 1109::A"
+    },
+    {
+      "contestId": 2244,
+      "index": "B",
+      "title": "Nikita and Books",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2244/problem/B",
+      "libraryId": "Div.3 1109::B"
+    },
+    {
+      "contestId": 2244,
+      "index": "C",
+      "title": "Stepan and Permutation",
+      "difficulty": 1100,
+      "url": "https://codeforces.com/contest/2244/problem/C",
+      "libraryId": "Div.3 1109::C"
+    },
+    {
+      "contestId": 2244,
+      "index": "D",
+      "title": "Yaroslav and Productivity",
+      "difficulty": 1200,
+      "url": "https://codeforces.com/contest/2244/problem/D",
+      "libraryId": "Div.3 1109::D"
+    },
+    {
+      "contestId": 2244,
+      "index": "E",
+      "title": "Masha and the Garland",
+      "difficulty": 1400,
+      "url": "https://codeforces.com/contest/2244/problem/E",
+      "libraryId": "Div.3 1109::E"
+    },
+    {
+      "contestId": 2254,
+      "index": "A",
+      "title": "Riptide",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2254/problem/A",
+      "libraryId": "Div.3 1114::A"
+    },
+    {
+      "contestId": 2254,
+      "index": "B",
+      "title": "Evanescent",
+      "difficulty": 900,
+      "url": "https://codeforces.com/contest/2254/problem/B",
+      "libraryId": "Div.3 1114::B"
+    },
+    {
+      "contestId": 2254,
+      "index": "C1",
+      "title": "Marenol (easy version)",
+      "difficulty": 1000,
+      "url": "https://codeforces.com/contest/2254/problem/C1",
+      "libraryId": "Div.3 1114::C1"
+    },
+    {
+      "contestId": 2254,
+      "index": "C2",
+      "title": "Marenol (hard version)",
+      "difficulty": 1200,
+      "url": "https://codeforces.com/contest/2254/problem/C2",
+      "libraryId": "Div.3 1114::C2"
+    },
+    {
+      "contestId": 2254,
+      "index": "D",
+      "title": "Silhouette",
+      "difficulty": 1300,
+      "url": "https://codeforces.com/contest/2254/problem/D",
+      "libraryId": "Div.3 1114::D"
+    },
+    {
+      "contestId": 2254,
+      "index": "E",
+      "title": "Chronostasis",
+      "difficulty": 1500,
+      "url": "https://codeforces.com/contest/2254/problem/E",
+      "libraryId": "Div.3 1114::E"
+    },
+    {
+      "contestId": 2259,
+      "index": "A",
+      "title": "Moo Language School",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2259/problem/A",
+      "libraryId": "Div.3 1119::A"
+    },
+    {
+      "contestId": 2259,
+      "index": "B",
+      "title": "Minus Two",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2259/problem/B",
+      "libraryId": "Div.3 1119::B"
+    },
+    {
+      "contestId": 2259,
+      "index": "C",
+      "title": "101",
+      "difficulty": 1000,
+      "url": "https://codeforces.com/contest/2259/problem/C",
+      "libraryId": "Div.3 1119::C"
+    },
+    {
+      "contestId": 2259,
+      "index": "D",
+      "title": "MEX Multiset",
+      "difficulty": 1200,
+      "url": "https://codeforces.com/contest/2259/problem/D",
+      "libraryId": "Div.3 1119::D"
+    },
+    {
+      "contestId": 2259,
+      "index": "E",
+      "title": "Treasure Map Destruction (Constructive Version)",
+      "difficulty": 1500,
+      "url": "https://codeforces.com/contest/2259/problem/E",
+      "libraryId": "Div.3 1119::E"
+    },
+    {
+      "contestId": 2266,
+      "index": "A",
+      "title": "Good Contest",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2266/problem/A",
+      "libraryId": "Div.3 1122::A"
+    },
+    {
+      "contestId": 2266,
+      "index": "B",
+      "title": "Three Piles",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2266/problem/B",
+      "libraryId": "Div.3 1122::B"
+    },
+    {
+      "contestId": 2266,
+      "index": "C",
+      "title": "AND, OR, Sort!",
+      "difficulty": 1000,
+      "url": "https://codeforces.com/contest/2266/problem/C",
+      "libraryId": "Div.3 1122::C"
+    },
+    {
+      "contestId": 2266,
+      "index": "D",
+      "title": "Falling Concrete",
+      "difficulty": 1400,
+      "url": "https://codeforces.com/contest/2266/problem/D",
+      "libraryId": "Div.3 1122::D"
+    },
+    {
+      "contestId": 2266,
+      "index": "E",
+      "title": "Prime Destruction",
+      "difficulty": 1400,
+      "url": "https://codeforces.com/contest/2266/problem/E",
+      "libraryId": "Div.3 1122::E"
+    },
+    {
+      "contestId": 2275,
+      "index": "A",
+      "title": "In Search of Convenience",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2275/problem/A",
+      "libraryId": "Div.3 1125::A"
+    },
+    {
+      "contestId": 2275,
+      "index": "B",
+      "title": "Did Not Go to Print",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2275/problem/B",
+      "libraryId": "Div.3 1125::B"
+    },
+    {
+      "contestId": 2275,
+      "index": "C",
+      "title": "Unrequited Love",
+      "difficulty": 1000,
+      "url": "https://codeforces.com/contest/2275/problem/C",
+      "libraryId": "Div.3 1125::C"
+    },
+    {
+      "contestId": 2275,
+      "index": "D",
+      "title": "Precision Alignment",
+      "difficulty": 1300,
+      "url": "https://codeforces.com/contest/2275/problem/D",
+      "libraryId": "Div.3 1125::D"
+    },
+    {
+      "contestId": 2275,
+      "index": "E",
+      "title": "Repentance Is Already on the Way",
+      "difficulty": 1500,
+      "url": "https://codeforces.com/contest/2275/problem/E",
+      "libraryId": "Div.3 1125::E"
+    },
+    {
+      "contestId": 2148,
+      "index": "A",
+      "title": "Sublime Sequence",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2148/problem/A",
+      "libraryId": "Div.4 1050::A"
+    },
+    {
+      "contestId": 2148,
+      "index": "B",
+      "title": "Lasers",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2148/problem/B",
+      "libraryId": "Div.4 1050::B"
+    },
+    {
+      "contestId": 2148,
+      "index": "C",
+      "title": "Pacer",
+      "difficulty": 900,
+      "url": "https://codeforces.com/contest/2148/problem/C",
+      "libraryId": "Div.4 1050::C"
+    },
+    {
+      "contestId": 2148,
+      "index": "D",
+      "title": "Destruction of the Dandelion Fields",
+      "difficulty": 1000,
+      "url": "https://codeforces.com/contest/2148/problem/D",
+      "libraryId": "Div.4 1050::D"
+    },
+    {
+      "contestId": 2148,
+      "index": "E",
+      "title": "Split",
+      "difficulty": 1200,
+      "url": "https://codeforces.com/contest/2148/problem/E",
+      "libraryId": "Div.4 1050::E"
+    },
+    {
+      "contestId": 2167,
+      "index": "A",
+      "title": "Square?",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2167/problem/A",
+      "libraryId": "Div.4 1062::A"
+    },
+    {
+      "contestId": 2167,
+      "index": "B",
+      "title": "Your Name",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2167/problem/B",
+      "libraryId": "Div.4 1062::B"
+    },
+    {
+      "contestId": 2167,
+      "index": "C",
+      "title": "Isamatdin and His Magic Wand!",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2167/problem/C",
+      "libraryId": "Div.4 1062::C"
+    },
+    {
+      "contestId": 2167,
+      "index": "D",
+      "title": "Yet Another Array Problem",
+      "difficulty": 1000,
+      "url": "https://codeforces.com/contest/2167/problem/D",
+      "libraryId": "Div.4 1062::D"
+    },
+    {
+      "contestId": 2185,
+      "index": "A",
+      "title": "Perfect Root",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2185/problem/A",
+      "libraryId": "Div.4 1074::A"
+    },
+    {
+      "contestId": 2185,
+      "index": "B",
+      "title": "Prefix Max",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2185/problem/B",
+      "libraryId": "Div.4 1074::B"
+    },
+    {
+      "contestId": 2185,
+      "index": "C",
+      "title": "Shifted MEX",
+      "difficulty": 900,
+      "url": "https://codeforces.com/contest/2185/problem/C",
+      "libraryId": "Div.4 1074::C"
+    },
+    {
+      "contestId": 2185,
+      "index": "D",
+      "title": "OutOfMemoryError",
+      "difficulty": 1100,
+      "url": "https://codeforces.com/contest/2185/problem/D",
+      "libraryId": "Div.4 1074::D"
+    },
+    {
+      "contestId": 2185,
+      "index": "E",
+      "title": "The Robotic Rush",
+      "difficulty": 1500,
+      "url": "https://codeforces.com/contest/2185/problem/E",
+      "libraryId": "Div.4 1074::E"
+    },
+    {
+      "contestId": 2218,
+      "index": "A",
+      "title": "The 67th Integer Problem",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2218/problem/A",
+      "libraryId": "Div.4 1090::A"
+    },
+    {
+      "contestId": 2218,
+      "index": "B",
+      "title": "The 67th 6-7 Integer Problem",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2218/problem/B",
+      "libraryId": "Div.4 1090::B"
+    },
+    {
+      "contestId": 2218,
+      "index": "C",
+      "title": "The 67th Permutation Problem",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2218/problem/C",
+      "libraryId": "Div.4 1090::C"
+    },
+    {
+      "contestId": 2218,
+      "index": "D",
+      "title": "The 67th OEIS Problem",
+      "difficulty": 1100,
+      "url": "https://codeforces.com/contest/2218/problem/D",
+      "libraryId": "Div.4 1090::D"
+    },
+    {
+      "contestId": 2218,
+      "index": "E",
+      "title": "The 67th XOR Problem",
+      "difficulty": 1200,
+      "url": "https://codeforces.com/contest/2218/problem/E",
+      "libraryId": "Div.4 1090::E"
+    },
+    {
+      "contestId": 2218,
+      "index": "F",
+      "title": "The 67th Tree Problem",
+      "difficulty": 1500,
+      "url": "https://codeforces.com/contest/2218/problem/F",
+      "libraryId": "Div.4 1090::F"
+    },
+    {
+      "contestId": 2125,
+      "index": "A",
+      "title": "Difficult Contest",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2125/problem/A",
+      "libraryId": "remote:codeforces:2125::A"
+    },
+    {
+      "contestId": 2125,
+      "index": "B",
+      "title": "Left and Down",
+      "difficulty": 900,
+      "url": "https://codeforces.com/contest/2125/problem/B",
+      "libraryId": "remote:codeforces:2125::B"
+    },
+    {
+      "contestId": 2125,
+      "index": "C",
+      "title": "Count Good Numbers",
+      "difficulty": 1100,
+      "url": "https://codeforces.com/contest/2125/problem/C",
+      "libraryId": "remote:codeforces:2125::C"
+    },
+    {
+      "contestId": 2144,
+      "index": "A",
+      "title": "Cut the Array",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2144/problem/A",
+      "libraryId": "remote:codeforces:2144::A"
+    },
+    {
+      "contestId": 2144,
+      "index": "B",
+      "title": "Maximum Cost Permutation",
+      "difficulty": 1000,
+      "url": "https://codeforces.com/contest/2144/problem/B",
+      "libraryId": "remote:codeforces:2144::B"
+    },
+    {
+      "contestId": 2144,
+      "index": "C",
+      "title": "Non-Descending Arrays",
+      "difficulty": 1300,
+      "url": "https://codeforces.com/contest/2144/problem/C",
+      "libraryId": "remote:codeforces:2144::C"
+    },
+    {
+      "contestId": 2145,
+      "index": "A",
+      "title": "Candies for Nephews",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2145/problem/A",
+      "libraryId": "remote:codeforces:2145::A"
+    },
+    {
+      "contestId": 2145,
+      "index": "B",
+      "title": "Deck of Cards",
+      "difficulty": 1000,
+      "url": "https://codeforces.com/contest/2145/problem/B",
+      "libraryId": "remote:codeforces:2145::B"
+    },
+    {
+      "contestId": 2145,
+      "index": "C",
+      "title": "Monocarp's String",
+      "difficulty": 1300,
+      "url": "https://codeforces.com/contest/2145/problem/C",
+      "libraryId": "remote:codeforces:2145::C"
+    },
+    {
+      "contestId": 2169,
+      "index": "A",
+      "title": "Alice and Bob",
+      "difficulty": 900,
+      "url": "https://codeforces.com/contest/2169/problem/A",
+      "libraryId": "remote:codeforces:2169::A"
+    },
+    {
+      "contestId": 2169,
+      "index": "B",
+      "title": "Drifting Away",
+      "difficulty": 1100,
+      "url": "https://codeforces.com/contest/2169/problem/B",
+      "libraryId": "remote:codeforces:2169::B"
+    },
+    {
+      "contestId": 2169,
+      "index": "C",
+      "title": "Range Operation",
+      "difficulty": 1300,
+      "url": "https://codeforces.com/contest/2169/problem/C",
+      "libraryId": "remote:codeforces:2169::C"
+    },
+    {
+      "contestId": 2169,
+      "index": "D1",
+      "title": "Removal of a Sequence (Easy Version)",
+      "difficulty": 1500,
+      "url": "https://codeforces.com/contest/2169/problem/D1",
+      "libraryId": "remote:codeforces:2169::D1"
+    },
+    {
+      "contestId": 2170,
+      "index": "A",
+      "title": "Maximum Neighborhood",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2170/problem/A",
+      "libraryId": "remote:codeforces:2170::A"
+    },
+    {
+      "contestId": 2170,
+      "index": "B",
+      "title": "Addition on a Segment",
+      "difficulty": 1200,
+      "url": "https://codeforces.com/contest/2170/problem/B",
+      "libraryId": "remote:codeforces:2170::B"
+    },
+    {
+      "contestId": 2170,
+      "index": "C",
+      "title": "Quotient and Remainder",
+      "difficulty": 1300,
+      "url": "https://codeforces.com/contest/2170/problem/C",
+      "libraryId": "remote:codeforces:2170::C"
+    },
+    {
+      "contestId": 2182,
+      "index": "A",
+      "title": "New Year String",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2182/problem/A",
+      "libraryId": "remote:codeforces:2182::A"
+    },
+    {
+      "contestId": 2182,
+      "index": "B",
+      "title": "New Year Cake",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2182/problem/B",
+      "libraryId": "remote:codeforces:2182::B"
+    },
+    {
+      "contestId": 2182,
+      "index": "C",
+      "title": "Production of Snowmen",
+      "difficulty": 1200,
+      "url": "https://codeforces.com/contest/2182/problem/C",
+      "libraryId": "remote:codeforces:2182::C"
+    },
+    {
+      "contestId": 2203,
+      "index": "A",
+      "title": "Towers of Boxes",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2203/problem/A",
+      "libraryId": "remote:codeforces:2203::A"
+    },
+    {
+      "contestId": 2203,
+      "index": "B",
+      "title": "Beautiful Numbers",
+      "difficulty": 1000,
+      "url": "https://codeforces.com/contest/2203/problem/B",
+      "libraryId": "remote:codeforces:2203::B"
+    },
+    {
+      "contestId": 2203,
+      "index": "C",
+      "title": "Test Generator",
+      "difficulty": 1500,
+      "url": "https://codeforces.com/contest/2203/problem/C",
+      "libraryId": "remote:codeforces:2203::C"
+    },
+    {
+      "contestId": 2204,
+      "index": "A",
+      "title": "Passing the Ball",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2204/problem/A",
+      "libraryId": "remote:codeforces:2204::A"
+    },
+    {
+      "contestId": 2204,
+      "index": "B",
+      "title": "Right Maximum",
+      "difficulty": 800,
+      "url": "https://codeforces.com/contest/2204/problem/B",
+      "libraryId": "remote:codeforces:2204::B"
+    },
+    {
+      "contestId": 2204,
+      "index": "C",
+      "title": "Spring",
+      "difficulty": 1000,
+      "url": "https://codeforces.com/contest/2204/problem/C",
+      "libraryId": "remote:codeforces:2204::C"
+    },
+    {
+      "contestId": 2204,
+      "index": "D",
+      "title": "Alternating Path",
+      "difficulty": 1400,
+      "url": "https://codeforces.com/contest/2204/problem/D",
+      "libraryId": "remote:codeforces:2204::D"
+    }
+  ]
+}

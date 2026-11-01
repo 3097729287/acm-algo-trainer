@@ -198,6 +198,8 @@ def run_desktop() -> int:
     server = None
     service_thread = None
     splash = None
+    early = None
+    initialization = None
     try:
         if instance.existing:
             if not instance.focus_existing():
@@ -219,30 +221,19 @@ def run_desktop() -> int:
             from startup_splash import StartupSplash
             splash=StartupSplash();splash.show()
         check_dependencies()
-        if getattr(sys, 'frozen', False) and not ADMIN_MODE and os.environ.get('TB_OFFLINE') != '1':
-            from legacy_cleanup import prepare
-            try:
-                prepare(APP_DIR)
-            except Exception as issue:
-                LOG.warning('Legacy migration deferred; original data retained: %s', type(issue).__name__)
         import webview
         from backend import start_server
-
+        from early_window import EarlyWindow
         PROFILE_DIR.mkdir(parents=True, exist_ok=True)
         INSTANCE_DIR.mkdir(parents=True, exist_ok=True)
         PID_FILE.write_text(str(os.getpid()), encoding="ascii")
-        try:
-            server = start_server(port=PORT, dist_dir=FRONTEND, admin_mode=ADMIN_MODE, integration_auto_start=False if os.environ.get("TB_OFFLINE")=="1" else None)
-        except OSError as exc:
-            LOG.info("Default port unavailable; choosing a free local port")
-            server = start_server(port=0, dist_dir=FRONTEND, admin_mode=ADMIN_MODE, integration_auto_start=False if os.environ.get("TB_OFFLINE")=="1" else None)
-        service_thread = threading.Thread(target=server.serve_forever, name="tb-local-service", daemon=True)
-        service_thread.start()
-        port = server.server_address[1]
-        url = f"http://127.0.0.1:{port}"
-        LOG.info("Launching TB at %s with %s", url, sys.executable)
-        webview.settings["OPEN_EXTERNAL_LINKS_IN_BROWSER"] = True
+        webview.settings["OPEN_EXTERNAL_LINKS_IN_BROWSER"]=True
         configure_desktop_downloads()
+        from persistence import load_document
+        resume_expected=bool(ADMIN_MODE or load_document(STATE/'account-session.json',''))
+        early=EarlyWindow(FRONTEND,PORT,resume_expected=resume_expected)
+        url=early.url
+        LOG.info('Window host ready at %s',url)
         from window_memory import remembered, bind
         memory_path = STATE / 'desktop-window.json'
         bounds = remembered(memory_path)
@@ -256,80 +247,102 @@ def run_desktop() -> int:
         bind(window, memory_path)
         from webview_resources import bind as bind_resources
         bind_resources(window)
-        # 桌面全屏：受本机写接口保护，通过 pywebview 原生 toggle_fullscreen 实现。
-        bind_desktop_fullscreen(server, window)
-        def push_status(name, value):
-            window.evaluate_js('window.dispatchEvent(new CustomEvent(' + json.dumps(name) +
-                               ',{detail:' + json.dumps(value, ensure_ascii=True) + '}))')
-        server.submission_listener = lambda value: push_status('tb:submission-status', value)
-        def push_official(value):
-            with server.official_session_lock:
-                session = server.official_sessions.get(value.get('sessionId'))
-            if session and session.get('_training') is server.training:
-                push_status('tb:official-status', value)
-        from external_browser import ExternalBrowserBridge, ExternalBrowserPreparation
-        official = ExternalBrowserBridge(
-            STATE.parent / 'cache' / 'tb-submission-browser',
-            guard=server.validate_official_url,
-            on_receipt=server.record_official_receipt,
-            on_pending=server.record_official_pending,
-            on_status=push_official,
-        )
-        server.browser_bridge = official
-        from platform_login import PlatformLogins
-        logins = PlatformLogins(official, server.browser_account_context, server.bind_browser_account)
-        server.browser_preparation = ExternalBrowserPreparation(official, logins)
-        from contest_reading import ContestReading
-        server.original_contest_reader=ContestReading(official,server.browser_account_context,server.bind_browser_account)
-        server.official_opener = official.open
-        server.official_acknowledger = official.acknowledge
-        server.official_submitter = official.submit
-        server.official_status = official.status
-        server.official_closer = official.close
-        from close_coordinator import CloseCoordinator
-        def begin_close():
-            server.fast_shutdown=True
-            official.on_closing()
-        closing=CloseCoordinator(window,begin_close)
-        window.events.closing += closing.on_closing
-        if getattr(sys, 'frozen', False):
-            from update_installer import launch_installer
-            from training import ServiceError
-            def prepare_update(path,digest,version):
-                if path.suffix.lower()=='.zip':
-                    import zipfile
-                    from update_patch import inspect_patch
-                    with zipfile.ZipFile(path) as archive:inspect_patch(archive,APP_DIR,version)
-            server.software_updates.preparer=prepare_update
-            def install_update(path, digest, version):
-                if path.suffix.lower() == ".zip":
-                    from update_patch import launch_patch
-                    launch_patch(path, digest, version, APP_DIR)
-                else:
-                    launch_installer(path, digest, version, APP_DIR)
-                threading.Timer(1, window.destroy).start()
-            server.software_updates.launcher = install_update
-        server.software_updates.start()
-        if getattr(sys, 'frozen', False) and not ADMIN_MODE and os.environ.get('TB_OFFLINE') != '1':
-            from legacy_cleanup import start as start_legacy_cleanup
-            loaded = threading.Event()
-            window.events.loaded += loaded.set
-            start_legacy_cleanup(APP_DIR, lambda: loaded.is_set() and bool(server.accounts.session))
-            def warm_submission_browser():
-                while not official.stopping.wait(.5):
-                    if loaded.is_set() and server.accounts.session:
-                        try:
-                            official.browser.ensure(background=True)
-                        except Exception as issue:
-                            LOG.info('Browser warmup deferred: %s', type(issue).__name__)
-                        return
-            threading.Thread(target=warm_submission_browser, name='tb-browser-warmup', daemon=True).start()
+        loaded=threading.Event()
+        window.events.loaded+=loaded.set
+        def initialize():
+            nonlocal server,service_thread
+            try:
+                if getattr(sys, 'frozen', False) and not ADMIN_MODE and os.environ.get('TB_OFFLINE') != '1':
+                    from legacy_cleanup import prepare
+                    try:
+                        prepare(APP_DIR)
+                    except Exception as issue:
+                        LOG.warning('Legacy migration deferred; original data retained: %s', type(issue).__name__)
+                server=start_server(port=0,dist_dir=FRONTEND,admin_mode=ADMIN_MODE,integration_auto_start=False if os.environ.get('TB_OFFLINE')=='1' else None)
+                service_thread=threading.Thread(target=server.serve_forever,name='tb-local-service',daemon=True)
+                service_thread.start()
+                LOG.info('Local backend ready')
+                # 桌面全屏：受本机写接口保护，通过 pywebview 原生 toggle_fullscreen 实现。
+                bind_desktop_fullscreen(server, window)
+                def push_status(name, value):
+                    window.evaluate_js('window.dispatchEvent(new CustomEvent(' + json.dumps(name) +
+                                       ',{detail:' + json.dumps(value, ensure_ascii=True) + '}))')
+                server.submission_listener = lambda value: push_status('tb:submission-status', value)
+                def push_official(value):
+                    with server.official_session_lock:
+                        session = server.official_sessions.get(value.get('sessionId'))
+                    if session and session.get('_training') is server.training:
+                        push_status('tb:official-status', value)
+                from external_browser import ExternalBrowserBridge, ExternalBrowserPreparation
+                official = ExternalBrowserBridge(
+                    STATE.parent / 'cache' / 'tb-submission-browser',
+                    guard=server.validate_official_url,
+                    on_receipt=server.record_official_receipt,
+                    on_pending=server.record_official_pending,
+                    on_status=push_official,
+                )
+                server.browser_bridge = official
+                from platform_login import PlatformLogins
+                logins = PlatformLogins(official, server.browser_account_context, server.bind_browser_account)
+                server.browser_preparation = ExternalBrowserPreparation(official, logins)
+                from contest_reading import ContestReading
+                server.original_contest_reader=ContestReading(official,server.browser_account_context,server.bind_browser_account)
+                server.official_opener = official.open
+                server.official_acknowledger = official.acknowledge
+                server.official_submitter = official.submit
+                server.official_status = official.status
+                server.official_closer = official.close
+                from close_coordinator import CloseCoordinator
+                def begin_close():
+                    server.fast_shutdown=True
+                    official.on_closing()
+                closing=CloseCoordinator(window,begin_close)
+                window.events.closing += closing.on_closing
+                if getattr(sys, 'frozen', False):
+                    from update_installer import launch_installer
+                    from training import ServiceError
+                    def prepare_update(path,digest,version):
+                        if path.suffix.lower()=='.zip':
+                            import zipfile
+                            from update_patch import inspect_patch
+                            with zipfile.ZipFile(path) as archive:inspect_patch(archive,APP_DIR,version)
+                    server.software_updates.preparer=prepare_update
+                    def install_update(path, digest, version):
+                        if path.suffix.lower() == ".zip":
+                            from update_patch import launch_patch
+                            launch_patch(path, digest, version, APP_DIR)
+                        else:
+                            launch_installer(path, digest, version, APP_DIR)
+                        threading.Timer(1, window.destroy).start()
+                    server.software_updates.launcher = install_update
+                server.software_updates.start()
+                if getattr(sys, 'frozen', False) and not ADMIN_MODE and os.environ.get('TB_OFFLINE') != '1':
+                    from legacy_cleanup import start as start_legacy_cleanup
+                    start_legacy_cleanup(APP_DIR, lambda: loaded.is_set() and bool(server.accounts.session))
+                    def warm_submission_browser():
+                        while not official.stopping.wait(.5):
+                            if loaded.is_set() and server.accounts.session:
+                                try:
+                                    official.browser.ensure(background=True)
+                                except Exception as issue:
+                                    LOG.info('Browser warmup deferred: %s', type(issue).__name__)
+                                return
+                    threading.Thread(target=warm_submission_browser, name='tb-browser-warmup', daemon=True).start()
+                early.activate(server)
+                LOG.info('Local interface ready')
+            except Exception:
+                LOG.exception('Local backend initialization failed')
+                early.fail()
+        initialization=threading.Thread(target=initialize,name='tb-initialize',daemon=False)
+        initialization.start()
         webview.start(
             gui="edgechromium", private_mode=False, storage_path=str(PROFILE_DIR),
             icon=str(APP_DIR / "tb.ico"), debug=False,
         )
         return 0
     finally:
+        if initialization is not None and initialization.is_alive():initialization.join()
+        if early is not None:early.close()
         if splash is not None:splash.close()
         if server is not None:
             if service_thread is not None and service_thread.is_alive():

@@ -143,8 +143,8 @@ class LibraryDatabase:
         if fingerprint is None:
             # The public seed contains images/PDFs; hashing must not allocate
             # another entire library on first startup or during upgrades.
-            with path.open('rb') as stream:
-                fingerprint = hashlib.file_digest(stream, 'sha256').hexdigest()
+            from seed_identity import identity
+            fingerprint = identity(path)
         if self.metadata().get('bundled_sha256') == fingerprint:
             return False
         seed = sqlite3.connect(path.as_uri() + '?mode=ro', uri=True)

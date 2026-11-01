@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="390" viewBox="0 0 760 390" role="img" aria-labelledby="title"><title id="title">最小值四的完整跨度是第3至5项，得分六十</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">最小值四的完整跨度是第3至5项，得分六十</text>
+<rect x="35" y="100" width="112" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="91.0" y="131.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="150" y="100" width="112" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="206.0" y="131.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="265" y="100" width="112" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="321.0" y="131.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">6</text>
+<rect x="380" y="100" width="112" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="436.0" y="131.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="495" y="100" width="112" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="551.0" y="131.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="610" y="100" width="112" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="666.0" y="131.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<text x="45" y="245" fill="#12805c" font-size="24" text-anchor="start" font-weight="normal">跨度 [6,4,5]：元素和 15，最小值 4</text>
+<text x="45" y="310" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">左右的 1、2 都更小，不能再按最小值 4 扩展</text>
+<text x="45" y="365" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">15×4=60；同分按更短、再更靠左取</text>
+</g></svg>

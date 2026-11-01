@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="325" viewBox="0 0 760 325" role="img" aria-labelledby="title"><title id="title">花种顺序已固定，选定每种数量就唯一确定摆法</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">花种顺序已固定，选定每种数量就唯一确定摆法</text>
+<rect x="190" y="100" width="107" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="243.5" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">A</text>
+<rect x="300" y="100" width="107" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="353.5" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">A</text>
+<rect x="410" y="100" width="107" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="463.5" y="131.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">B</text>
+<rect x="520" y="100" width="107" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="573.5" y="131.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">B</text>
+<rect x="190" y="200" width="107" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="243.5" y="231.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">A</text>
+<rect x="300" y="200" width="107" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="353.5" y="231.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">A</text>
+<rect x="410" y="200" width="107" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="463.5" y="231.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">A</text>
+<rect x="520" y="200" width="107" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="573.5" y="231.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">B</text>
+<text x="50" y="135" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">2 盆 A</text>
+<text x="50" y="235" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">3 盆 A</text>
+<text x="65" y="305" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">A 至多 3 盆，B 至多 2 盆，共 4 盆：只有这 2 种</text>
+</g></svg>

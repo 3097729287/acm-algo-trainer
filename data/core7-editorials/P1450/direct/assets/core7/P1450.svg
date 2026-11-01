@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="590" viewBox="0 0 760 590" role="img" aria-labelledby="title"><title id="title">十元方案：扣单类超限，补回同时超限的交集</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">十元方案：扣单类超限，补回同时超限的交集</text>
+<rect x="35" y="75" width="690" height="445" rx="12" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<ellipse cx="270" cy="245" rx="175" ry="125" fill="#fff4f5" fill-opacity="0.3" stroke="#bc3645" stroke-width="3"/>
+<ellipse cx="490" cy="245" rx="175" ry="125" fill="#edf5ff" fill-opacity="0.3" stroke="#2365ab" stroke-width="3"/>
+<text x="240" y="110" fill="#bc3645" font-size="20" text-anchor="middle" font-weight="normal">A：1元币超过3枚</text>
+<text x="535" y="110" fill="#2365ab" font-size="20" text-anchor="middle" font-weight="normal">B：2元币超过2枚</text>
+<circle cx="155" cy="180" r="4" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="215" y="185" fill="#2365ab" font-size="17" text-anchor="middle" font-weight="normal">10,0,0,0</text>
+<circle cx="130" cy="225" r="4" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="190" y="230" fill="#2365ab" font-size="17" text-anchor="middle" font-weight="normal">8,1,0,0</text>
+<circle cx="130" cy="280" r="4" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="190" y="285" fill="#2365ab" font-size="17" text-anchor="middle" font-weight="normal">6,2,0,0</text>
+<circle cx="205" cy="330" r="4" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="265" y="335" fill="#2365ab" font-size="17" text-anchor="middle" font-weight="normal">5,0,1,0</text>
+<circle cx="340" cy="240" r="4" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="400" y="245" fill="#2365ab" font-size="17" text-anchor="middle" font-weight="normal">4,3,0,0</text>
+<circle cx="505" cy="200" r="4" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="565" y="205" fill="#2365ab" font-size="17" text-anchor="middle" font-weight="normal">2,4,0,0</text>
+<circle cx="505" cy="280" r="4" fill="#fff" stroke="#68778b" stroke-width="3"/>
+<text x="565" y="285" fill="#2365ab" font-size="17" text-anchor="middle" font-weight="normal">0,5,0,0</text>
+<circle cx="170" cy="425" r="4" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="230" y="430" fill="#12805c" font-size="17" text-anchor="middle" font-weight="normal">3,1,1,0</text>
+<circle cx="470" cy="425" r="4" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="530" y="430" fill="#12805c" font-size="17" text-anchor="middle" font-weight="normal">1,2,1,0</text>
+<circle cx="170" cy="480" r="4" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="230" y="485" fill="#12805c" font-size="17" text-anchor="middle" font-weight="normal">0,0,2,0</text>
+<circle cx="470" cy="480" r="4" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="530" y="485" fill="#12805c" font-size="17" text-anchor="middle" font-weight="normal">0,0,0,1</text>
+<text x="55" y="560" fill="#12805c" font-size="22" text-anchor="start" font-weight="normal">每串是四类枚数；11−5−3+1=4，绿色四份合法</text>
+</g></svg>

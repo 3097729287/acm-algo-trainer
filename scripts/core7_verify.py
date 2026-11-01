@@ -12,6 +12,14 @@ from core7_authoring import ROOT, OUT, CONTENT, load_all, source_hash, statement
 from core7_cases import cases_for
 
 
+def interaction_provider(spec):
+    if spec.interactive=='railway':
+        import core7_interactive_mst
+        return core7_interactive_mst
+    import core7_interactive
+    return core7_interactive
+
+
 def validate_one(spec):
     folder = CONTENT / spec.pid / spec.key
     logs = OUT / 'verification' / spec.pid / spec.key
@@ -21,9 +29,8 @@ def validate_one(spec):
     edges = cases_for(spec.pid) + [(f'手工边界 {i+1}',x,y) for i,(x,y) in enumerate(spec.cases)]
     interactive_proof=None
     if spec.interactive:
-        from core7_interactive import prepare
         samples=[]
-        edges,interactive_proof=prepare(spec,folder,logs)
+        edges,interactive_proof=interaction_provider(spec).prepare(spec,folder,logs)
     sample_success=(f'官方样例：{len(samples)} 组全过' if samples else '官方样例：未验证（没有 samples.py）')
     (folder/'samples.py').write_text('SAMPLES = '+repr(samples)+'\n', encoding='utf-8')
     (folder/'cases.json').write_text(json.dumps(edges,ensure_ascii=False,indent=2)+'\n', encoding='utf-8')
@@ -92,7 +99,7 @@ def main():
         log=logpath.read_text('utf-8') if logpath.exists() else ''
         audited_log=bool(old and '编译：通过' in log and (f'官方样例：{old.get("samples",0)} 组全过' in log or bool(old.get('interactive') and '官方样例：未验证（没有 samples.py）' in log))
                          and (not old.get('independentCases') or f'边界用例：{old["independentCases"]} 条全过' in log))
-        interactive_valid=not spec.interactive or bool(old and old.get('interactive') and old['interactive']['judgeSha256']==__import__('hashlib').sha256((ROOT/'scripts/core7_interactive.py').read_bytes()).hexdigest())
+        interactive_valid=not spec.interactive or bool(old and old.get('interactive') and old['interactive']['judgeSha256']==__import__('hashlib').sha256(Path(interaction_provider(spec).__file__).read_bytes()).hexdigest())
         if interactive_valid and '--only-new' in sys.argv and old and old['passed'] and old['programSha256']==source_hash(spec.code) and audited_log:
             report.append(old)
         else:run.append(spec)

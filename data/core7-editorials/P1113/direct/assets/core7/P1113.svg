@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="335" viewBox="0 0 760 335" role="img" aria-labelledby="title"><title id="title">并行前驱取最晚结束时刻，不把两段时间相加</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">并行前驱取最晚结束时刻，不把两段时间相加</text>
+<rect x="45" y="95" width="185" height="65" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="137.5" y="134.5" fill="#12805c" font-size="20" text-anchor="middle" font-weight="normal">前驱一：5 分钟</text>
+<rect x="45" y="195" width="185" height="65" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="137.5" y="234.5" fill="#2365ab" font-size="20" text-anchor="middle" font-weight="normal">前驱二：8 分钟</text>
+<rect x="410" y="145" width="280" height="65" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="550.0" y="184.5" fill="#bc3645" font-size="22" text-anchor="middle" font-weight="normal">本项耗时：3 分钟</text>
+<line x1="230" y1="125" x2="405" y2="167" stroke="#12805c" stroke-width="3"/>
+<line x1="405" y1="167" x2="394.38241397636347" y2="169.87521599722152" stroke="#12805c" stroke-width="3"/>
+<line x1="405" y1="167" x2="396.84388295195845" y2="159.61909526557577" stroke="#12805c" stroke-width="3"/>
+<line x1="230" y1="225" x2="405" y2="190" stroke="#2365ab" stroke-width="3"/>
+<line x1="405" y1="190" x2="396.5683084042503" y2="197.06445870779658" stroke="#2365ab" stroke-width="3"/>
+<line x1="405" y1="190" x2="394.49980056246307" y2="186.72191949886076" stroke="#2365ab" stroke-width="3"/>
+<text x="245" y="300" fill="#bc3645" font-size="22" text-anchor="middle" font-weight="normal">开始 8，结束 11</text>
+</g></svg>

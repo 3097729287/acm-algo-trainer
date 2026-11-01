@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="365" viewBox="0 0 760 365" role="img" aria-labelledby="title"><title id="title">三道三分钟的题不能劈开，两脑分配三与六</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">三道三分钟的题不能劈开，两脑分配三与六</text>
+<text x="55" y="100" fill="#2365ab" font-size="23" text-anchor="start" font-weight="normal">左脑</text>
+<rect x="180" y="65" width="152" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="256.0" y="96.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<text x="55" y="225" fill="#12805c" font-size="23" text-anchor="start" font-weight="normal">右脑</text>
+<rect x="180" y="190" width="152" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="256.0" y="221.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="335" y="190" width="152" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="411.0" y="221.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<text x="65" y="310" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">一科总时长 9；可达半边 3；本科用 9−3=6</text>
+<text x="65" y="350" fill="#bc3645" font-size="22" text-anchor="start" font-weight="normal">每题整体分配，不能把总时长直接平分</text>
+</g></svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="405" viewBox="0 0 760 405" role="img" aria-labelledby="title"><title id="title">两条不同路径可以共同经过同一条桥</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">两条不同路径可以共同经过同一条桥</text>
+<line x1="120" y1="115" x2="120" y2="295" stroke="#2365ab" stroke-width="4"/>
+<line x1="120" y1="295" x2="410" y2="205" stroke="#2365ab" stroke-width="4"/>
+<line x1="410" y1="205" x2="120" y2="115" stroke="#2365ab" stroke-width="4"/>
+<line x1="410" y1="205" x2="665" y2="205" stroke="#bc3645" stroke-width="5"/>
+<circle cx="120" cy="115" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="120" y="122" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<circle cx="120" cy="295" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="120" y="302" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<circle cx="410" cy="205" r="23" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="410" y="212" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<circle cx="665" cy="205" r="23" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="665" y="212" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<text x="50" y="355" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">四到一：4−3−1 和 4−3−2−1，共用桥 4−3</text>
+<text x="50" y="393" fill="#12805c" font-size="20" text-anchor="start" font-weight="normal">三、四由桥相连必须同色；一、二可与它们异色</text>
+</g></svg>

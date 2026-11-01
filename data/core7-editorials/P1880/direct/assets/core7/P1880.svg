@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="525" viewBox="0 0 760 525" role="img" aria-labelledby="title"><title id="title">末尾四与开头四相邻，合并不能固定断口</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">末尾四与开头四相邻，合并不能固定断口</text>
+<line x1="380" y1="100" x2="555" y2="225" stroke="#2365ab" stroke-width="4"/>
+<line x1="555" y1="225" x2="380" y2="350" stroke="#2365ab" stroke-width="4"/>
+<line x1="380" y1="350" x2="205" y2="225" stroke="#2365ab" stroke-width="4"/>
+<line x1="205" y1="225" x2="380" y2="100" stroke="#12805c" stroke-width="4"/>
+<circle cx="380" cy="100" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="380" y="107" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<circle cx="555" cy="225" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="555" y="232" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<circle cx="380" cy="350" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="380" y="357" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">9</text>
+<circle cx="205" cy="225" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="205" y="232" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<text x="65" y="420" fill="#12805c" font-size="22" text-anchor="start" font-weight="normal">最小：先跨首尾合成 8，再成 13、22，总费 43</text>
+<text x="65" y="485" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">最大：依次合成 14、18、22，总费 54</text>
+</g></svg>

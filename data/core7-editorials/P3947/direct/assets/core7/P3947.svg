@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="440" viewBox="0 0 760 440" role="img" aria-labelledby="title"><title id="title">最高分顺序由完成时刻决定，不能先贪歌名字典序</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">最高分顺序由完成时刻决定，不能先贪歌名字典序</text>
+<rect x="75" y="115" width="137" height="70" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="143.5" y="157.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">S3</text>
+<text x="215" y="225" fill="#12805c" font-size="20" text-anchor="middle" font-weight="normal">时刻 2</text>
+<rect x="215" y="115" width="207" height="70" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="318.5" y="157.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">S1</text>
+<text x="425" y="225" fill="#2365ab" font-size="20" text-anchor="middle" font-weight="normal">时刻 5</text>
+<rect x="425" y="115" width="67" height="70" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="458.5" y="157.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">S2</text>
+<text x="495" y="225" fill="#68778b" font-size="20" text-anchor="middle" font-weight="normal">时刻 6</text>
+<text x="75" y="95" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">开始 0</text>
+<text x="60" y="295" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">S3：5−2=3；S1：8−5=3；S2：过期得 0</text>
+<text x="60" y="355" fill="#12805c" font-size="24" text-anchor="start" font-weight="normal">总用时 6≤10，总分 6≥奖励线 2</text>
+<text x="60" y="415" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">S编号按原输入行；比较字典序时使用完整歌名</text>
+</g></svg>

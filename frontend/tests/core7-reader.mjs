@@ -16,14 +16,51 @@ selections.push(['P2437','decimal-addition'],['P7167','binary-lifting'],['P1908'
 selections.push(['P8649','prefix'],['P5542','rectangle-difference'],['UVA1210','prime-sieve'],['P14520','games']);
 selections.push(['P14115','order-selection'],['P7579','interactive-io'],['CF2037E','interactive-io'],['P10445','segment-tree'],['P13824','dp']);
 selections.push(['P1605','recursion'],['P1019','maps'],['CF700B','trees'],['P10488','vector-ranges'],['UVA11367','shortest-path'],['P4289','bitwise']);
-const server=await createServer({root:path.join(root,'frontend'),server:{host:'127.0.0.1',port:0}});await server.listen();
-const browser=await chromium.launch({channel:'msedge',headless:true});const errors=[],frames=[];
+selections.push(['P1196','weighted-dsu'],['P13308','lambda-local'],['P13308','subtree-regions'],['P1656','graphs'],['UVA10369','geometry'],['P16495','bitwise']);
+selections.push(['B3644','topology'],['CF1361A','lambda-local'],['P7113','number-theory'],['P1038','big-integers'],['P3627','graphs'],['P11022','queue-stack']);
+selections.push(['CF910A','functions'],['P1339','shortest-path'],['P1828','heap'],['P3905','graphs'],['P11966','integer'],['AT_arc064_c','geometry']);
+selections.push(['P1608','dp'],['P2737','modular'],['P5195','lambda-local'],['P7100','shortest-path'],['P10726','graphs'],['UVA658','bitwise']);
+selections.push(['CF938D','heap'],['CF912D','probability'],['P2371','modular'],['P3831','lambda-local'],['P6096','maps'],['UVA11997','heap']);
+selections.push(['P1194','graphs'],['P1195','dsu'],['P1546','integer'],['P1547','sort'],['P2212','geometry'],['P2330','dsu']);
+selections.push(['P2872','geometry'],['P17016','geometry'],['CF1687B','interactive-io'],['P1340','lambda-local'],['P2700','graphs'],['P5425','modular']);
+selections.push(['P12375','integer'],['CF1184E1','dsu'],['CF1184E2','binary-lifting'],['P2245','trees'],['CF545E','shortest-path'],['P14362','bitwise']);
+selections.push(['P1030','recursion'],['P4715','trees'],['P1351','modular'],['P3379','binary-lifting'],['P10113','binary-lifting'],['P1185','strings']);
+selections.push(['P5536','sort'],['UVA11987','dsu'],['CF77C','bindings'],['CF455C','dsu'],['CF540E','bounds'],['P1099','geometry']);
+selections.push(['P9433','binary-lifting'],['CF196C','vector-ranges'],['CF538E','games'],['CF765E','maps'],['CF980E','greedy'],['CF1278E','construction']);
+selections.push(['P1077','counting'],['P1203','strings'],['P2834','knapsack'],['P2842','dp'],['P1095','greedy'],['P1280','dp']);
+selections.push(['P1544','integer'],['P1874','strings'],['P2285','coordinates'],['P2758','strings'],['P3842','coordinates'],['CF946D','knapsack']);
+selections.push(['P1005','integer'],['P1020','bounds'],['P1436','rectangle-prefix'],['P1541','lambda-local'],['P4310','bitwise'],['P17594','bitwise']);
+selections.push(['P1048','knapsack'],['P2392','standard-array'],['P1679','dp'],['P1855','knapsack'],['P2639','vector'],['P11246','dp']);
+selections.push(['B3873','knapsack'],['P1466','counting'],['P2170','dsu'],['P2725','sort'],['P5365','integer'],['P14920','knapsack']);
+selections.push(['P1156','structures'],['P1776','knapsack'],['P4912','dp'],['P13018','knapsack'],['P11274','integer']);
+selections.push(['P1435','strings'],['P1775','prefix'],['P2734','games'],['P17015','dp'],['P1063','integer'],['P1388','dp']);
+selections.push(['P1880','prefix'],['P3205','counting'],['P4290','bitwise'],['P10236','modular'],['P13439','dp'],['UVA1362','trees']);
+selections.push(['UVA10003','dp'],['P1070','queue-stack'],['P6006','lambda-local'],['P7129','knapsack'],['UVA1626','recursion'],['CF1336C','strings']);
+selections.push(['B4016','queue-stack'],['B4016','dp'],['P11249','queue-stack'],['P15801','trees'],['P1131','integer'],['P2458','dp']);
+selections.push(['P2986','trees'],['P4084','modular'],['P9584','integer'],['P13020','counting'],['CF337D','dp'],['CF1416C','bitwise']);
+selections.push(['P1453','dsu'],['P3554','lambda-local'],['P5958','structures'],['P8916','dp'],['P10767','trees'],['UVA1218','dp'],['CF1540B','probability']);
+selections.push(['P12593','subset-dp'],['P2622','queue-stack'],['AT_abc359_d','strings'],['P1441','bitset-states'],['P2210','graphs'],['P5911','subset-enumeration']);
+selections.push(['P10865','sets'],['P1450','standard-array'],['P2167','counting'],['P2473','probability'],['P2831','geometry'],['P3694','prefix']);
+selections.push(['P3786','coordinates'],['P3947','unsigned64'],['P4928','decimal-signed'],['P7296','strings'],['P9017','lambda-local'],['CF11D','subset-enumeration']);
+selections.push(['P2657','digit-dp'],['P14074','digit-aggregation'],['P1836','counting'],['P4798','dp'],['P4999','modular'],['SP17247','integer']);
+selections.push(['UVA1640','standard-array'],['CF401D','digit-dp'],['P2518','counting'],['P4124','digit-dp'],['P4127','modular'],['P5128','strings']);
+selections.push(['P6218','bitwise'],['P14084','linear-recurrence'],['SP10606','unsigned64'],['UVA1652','digit-aggregation'],['CF628D','digit-dp'],['CF1073E','digit-aggregation']);
+selections.push(['P1628','strings'],['UVA11462','standard-array'],['B3666','unsigned64'],['P1440','monotone-structures'],['P1886','queue-stack'],['P2251','bindings']);
+selections.push(['P2947','monotone-structures'],['P5788','monotone-structures'],['P15232','greedy'],['UVA1619','prefix'],['P1950','monotone-contribution'],['P2564','two-pointers']);
+selections.push(['P6503','monotone-contribution'],['P7410','monotone-contribution'],['P9977','bindings'],['P10277','heap'],['CF547B','monotone-structures'],['CF1237D','iterators']);
+selections.push(['CF44C','difference'],['P1714','monotone-structures'],['P3531','fenwick'],['P2161','sets'],['P4939','bounds'],['P5367','counting']);
+selections.push(['P7149','rectangle-prefix'],['P10235','binary-answer'],['P14521','trees'],['CF961E','lambda-local'],['P1966','sort'],['P3149','prefix']);
+selections.push(['P4064','greedy'],['P5677','bindings'],['P8201','bitwise'],['P11656','dp'],['P14379','monotonic'],['CF1194E','coordinates']);
+const server=await createServer({root:path.join(root,'frontend'),cacheDir:path.join(out,'vite-cache'),server:{host:'127.0.0.1',port:0}});await server.listen();
+const browser=await chromium.launch({channel:'msedge',headless:true});const errors=[],frames=[],network=[];let current=null;
 try{
 for(const [width,dark] of [[1440,false],[1050,true],[390,false]])for(const [pid,name] of selections){
+  current={pid,name,width,dark};
   const identity=authored.find(entry=>entry.pid===pid).problemId;
   const content=solutions.find(row=>row.problem_id===identity).content;
   const reader={...content,title:pid};const page=await browser.newPage({viewport:{width,height:1000}});
   page.on('pageerror',error=>errors.push(error.message));
+  page.on('requestfailed',request=>network.push({url:request.url(),error:request.failure()?.errorText}));
   await page.addInitScript(data=>{window.core7Reader=data;},{reader,lectures,dark});
   await page.goto(`http://127.0.0.1:${server.httpServer.address().port}/tests/core7-reader-fixture.html`);
   await page.getByRole('button',{name:'切换为详细题解',exact:true}).waitFor();
@@ -69,4 +106,9 @@ for(const width of [1440,390]){
   frames.push({pid:'private-amendment-fixture',width,capture});await page.close();
 }
 assert.deepEqual(errors,[]);fs.writeFileSync(path.join(out,'report.json'),JSON.stringify({frames,errors},null,2)+'\n');console.log(JSON.stringify({frames:frames.length,errors}));
+}catch(error){
+ fs.writeFileSync(path.join(out,'failure.json'),JSON.stringify({current,message:error.message,errors,network},null,2)+'\n');
+ const page=browser.contexts().flatMap(context=>context.pages()).at(-1);
+ if(page){await page.screenshot({path:path.join(out,'failure.png')}).catch(()=>{});fs.writeFileSync(path.join(out,'failure.html'),await page.content().catch(()=>''));}
+ throw error;
 }finally{await browser.close();await server.close();}

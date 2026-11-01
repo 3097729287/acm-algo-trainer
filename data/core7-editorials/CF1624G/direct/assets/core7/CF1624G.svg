@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="355" viewBox="0 0 760 355" role="img" aria-labelledby="title"><title id="title">边权和更小，不代表按位或更小</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">边权和更小，不代表按位或更小</text>
+<line x1="160" y1="105" x2="590" y2="105" stroke="#bc3645" stroke-width="4"/>
+<line x1="160" y1="105" x2="375" y2="260" stroke="#12805c" stroke-width="5"/>
+<line x1="590" y1="105" x2="375" y2="260" stroke="#12805c" stroke-width="5"/>
+<circle cx="160" cy="105" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="160" y="112" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<circle cx="590" cy="105" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="590" y="112" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<circle cx="375" cy="260" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="375" y="267" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<text x="375" y="85" fill="#bc3645" font-size="22" text-anchor="middle" font-weight="normal">3</text>
+<text x="240" y="210" fill="#12805c" font-size="22" text-anchor="start" font-weight="normal">4</text>
+<text x="495" y="210" fill="#12805c" font-size="22" text-anchor="start" font-weight="normal">4</text>
+<text x="70" y="330" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">选绿边：4 OR 4 = 4；选三和四则得到七</text>
+</g></svg>

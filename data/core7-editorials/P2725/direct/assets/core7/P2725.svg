@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="355" viewBox="0 0 760 355" role="img" aria-labelledby="title"><title id="title">邮资六可以贴出，也不能越过邮资五的缺口</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">邮资六可以贴出，也不能越过邮资五的缺口</text>
+<text x="55" y="95" fill="#243449" font-size="24" text-anchor="start" font-weight="normal">面额 1、3，最多 2 张</text>
+<rect x="55" y="135" width="102" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="106.0" y="166.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="160" y="135" width="102" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="211.0" y="166.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="265" y="135" width="102" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="316.0" y="166.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="370" y="135" width="102" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="421.0" y="166.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="475" y="135" width="102" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="526.0" y="166.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="580" y="135" width="102" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="631.0" y="166.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">6</text>
+<text x="105" y="255" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<text x="210" y="255" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">1+1</text>
+<text x="315" y="255" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<text x="420" y="255" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">3+1</text>
+<text x="525" y="255" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">需 3 张</text>
+<text x="630" y="255" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">3+3</text>
+<text x="65" y="325" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">连续区间只到 4；不能把最大可达的 6 当答案</text>
+</g></svg>

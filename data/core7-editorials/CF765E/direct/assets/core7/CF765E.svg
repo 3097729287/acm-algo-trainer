@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" role="img" aria-labelledby="title"><title id="title">长度一、二、二：折去一条二，剩三边路径</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">长度一、二、二：折去一条二，剩三边路径</text>
+<line x1="220" y1="270" x2="310" y2="270" stroke="#bc3645" stroke-width="4" stroke-dasharray="7 5"/>
+<line x1="310" y1="270" x2="400" y2="270" stroke="#bc3645" stroke-width="4" stroke-dasharray="7 5"/>
+<line x1="220" y1="270" x2="130" y2="270" stroke="#12805c" stroke-width="4"/>
+<line x1="220" y1="270" x2="220" y2="190" stroke="#12805c" stroke-width="4"/>
+<line x1="220" y1="190" x2="220" y2="110" stroke="#12805c" stroke-width="4"/>
+<circle cx="220" cy="270" r="23" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="220" y="277" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">c</text>
+<circle cx="130" cy="270" r="23" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="130" y="277" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">a</text>
+<circle cx="220" cy="190" r="23" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="220" y="197" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">b</text>
+<circle cx="220" cy="110" r="23" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="220" y="117" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">d</text>
+<circle cx="310" cy="270" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="310" y="277" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">e</text>
+<circle cx="400" cy="270" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="400" y="277" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">f</text>
+<circle cx="310" cy="270" r="23" fill="#fff" stroke="#bc3645" stroke-width="3"/>
+<text x="310" y="277" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">e</text>
+<circle cx="400" cy="270" r="23" fill="#fff" stroke="#bc3645" stroke-width="3"/>
+<text x="400" y="277" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">f</text>
+<text x="470" y="145" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">两条长 2 的叶端臂</text>
+<text x="470" y="210" fill="#bc3645" font-size="22" text-anchor="start" font-weight="normal">可以合并一条</text>
+<text x="470" y="285" fill="#12805c" font-size="22" text-anchor="start" font-weight="normal">保留路径长 1+2=3</text>
+<text x="55" y="390" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">三为奇数，没有结点能分成两条等长臂，不能再折</text>
+</g></svg>

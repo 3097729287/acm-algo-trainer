@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="435" viewBox="0 0 760 435" role="img" aria-labelledby="title"><title id="title">先均分，再在汇点用共同单位相加</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">先均分，再在汇点用共同单位相加</text>
+<line x1="109.90590668413537" y1="169.5742716205945" x2="275.09409331586465" y2="100.4257283794055" stroke="#68778b" stroke-width="3"/>
+<line x1="275.09409331586465" y1="100.4257283794055" x2="268.22576300272715" y2="109.0179364023549" stroke="#68778b" stroke-width="3"/>
+<line x1="275.09409331586465" y1="100.4257283794055" x2="264.15302486346684" y2="99.28861751412204" stroke="#68778b" stroke-width="3"/>
+<line x1="109.26132293163366" y1="191.84855305963504" x2="275.7386770683663" y2="273.15144694036496" stroke="#68778b" stroke-width="3"/>
+<line x1="275.7386770683663" y1="273.15144694036496" x2="264.7501607157598" y2="273.65394904831993" stroke="#68778b" stroke-width="3"/>
+<line x1="275.7386770683663" y1="273.15144694036496" x2="269.3787154013343" y2="264.17643231119115" stroke="#68778b" stroke-width="3"/>
+<line x1="111.52939663382082" y1="185.01907503883098" x2="613.4706033661791" y2="279.980924961169" stroke="#68778b" stroke-width="3"/>
+<line x1="613.4706033661791" y1="279.980924961169" x2="603.005118374027" y2="283.3681987734018" stroke="#68778b" stroke-width="3"/>
+<line x1="613.4706033661791" y1="279.980924961169" x2="604.9657850622974" y2="273.0046748496866" stroke="#68778b" stroke-width="3"/>
+<line x1="327.0" y1="90.0" x2="613.0" y2="90.0" stroke="#68778b" stroke-width="3"/>
+<line x1="613.0" y1="90.0" x2="603.3465918192059" y2="95.27368092464623" stroke="#68778b" stroke-width="3"/>
+<line x1="613.0" y1="90.0" x2="603.3465918192059" y2="84.72631907535377" stroke="#68778b" stroke-width="3"/>
+<line x1="323.42133970940955" y1="103.432827186279" x2="616.5786602905905" y2="271.567172813721" stroke="#68778b" stroke-width="3"/>
+<line x1="616.5786602905905" y1="271.567172813721" x2="605.5810233701342" y2="271.3391768360897" stroke="#68778b" stroke-width="3"/>
+<line x1="616.5786602905905" y1="271.567172813721" x2="610.828463703197" y2="262.1897936912621" stroke="#68778b" stroke-width="3"/>
+<line x1="323.42133970940955" y1="271.567172813721" x2="616.5786602905905" y2="103.432827186279" stroke="#68778b" stroke-width="3"/>
+<line x1="616.5786602905905" y1="103.432827186279" x2="610.828463703197" y2="112.81020630873795" stroke="#68778b" stroke-width="3"/>
+<line x1="616.5786602905905" y1="103.432827186279" x2="605.5810233701342" y2="103.66082316391035" stroke="#68778b" stroke-width="3"/>
+<line x1="327.0" y1="285.0" x2="613.0" y2="285.0" stroke="#68778b" stroke-width="3"/>
+<line x1="613.0" y1="285.0" x2="603.3465918192059" y2="290.2736809246462" stroke="#68778b" stroke-width="3"/>
+<line x1="613.0" y1="285.0" x2="603.3465918192059" y2="279.7263190753538" stroke="#68778b" stroke-width="3"/>
+<circle cx="85" cy="180" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="85" y="187" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<circle cx="300" cy="90" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="300" y="97" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<circle cx="300" cy="285" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="300" y="292" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<circle cx="640" cy="90" r="23" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="640" y="97" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<circle cx="640" cy="285" r="23" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="640" y="292" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<text x="145" y="95" fill="#2365ab" font-size="19" text-anchor="start" font-weight="normal">每支 1/3</text>
+<text x="420" y="70" fill="#bc3645" font-size="19" text-anchor="start" font-weight="normal">各出管 1/6</text>
+<text x="45" y="370" fill="#12805c" font-size="21" text-anchor="start" font-weight="normal">四号：1/6 + 1/6 = 1/3</text>
+<text x="45" y="412" fill="#12805c" font-size="21" text-anchor="start" font-weight="normal">五号：1/3 + 1/6 + 1/6 = 2/3</text>
+</g></svg>

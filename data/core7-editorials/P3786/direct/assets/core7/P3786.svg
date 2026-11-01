@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="440" viewBox="0 0 760 440" role="img" aria-labelledby="title"><title id="title">同时换位后没有同格，不能把途中交叉判成碰撞</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">同时换位后没有同格，不能把途中交叉判成碰撞</text>
+<text x="35" y="110" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">时刻 1</text>
+<text x="35" y="295" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">时刻 2</text>
+<rect x="200" y="85" width="207" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="303.5" y="116.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">萃香</text>
+<rect x="410" y="85" width="207" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="513.5" y="116.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">大瓜</text>
+<rect x="200" y="270" width="207" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="303.5" y="301.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">大瓜</text>
+<rect x="410" y="270" width="207" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="513.5" y="301.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">萃香</text>
+<line x1="300" y1="140" x2="510" y2="265" stroke="#12805c" stroke-width="4"/>
+<line x1="510" y1="140" x2="300" y2="265" stroke="#bc3645" stroke-width="4"/>
+<text x="45" y="370" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">一行两格，无小瓜：必须从左移到右，最少移动 1 次</text>
+<text x="45" y="425" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">线段仅连接时刻端点，西瓜的瞬移途中不占位</text>
+</g></svg>

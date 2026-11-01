@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="355" viewBox="0 0 760 355" role="img" aria-labelledby="title"><title id="title">最多一次三倍：不放大负根，把右下四分变十二分</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">最多一次三倍：不放大负根，把右下四分变十二分</text>
+<line x1="350" y1="105" x2="170" y2="245" stroke="#68778b" stroke-width="3"/>
+<line x1="350" y1="105" x2="540" y2="245" stroke="#12805c" stroke-width="5"/>
+<circle cx="350" cy="105" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="350" y="112" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">-2</text>
+<circle cx="170" cy="245" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="170" y="252" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">-3</text>
+<circle cx="540" cy="245" r="23" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="540" y="252" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<text x="585" y="250" fill="#12805c" font-size="22" text-anchor="start" font-weight="normal">×3 → 12</text>
+<text x="55" y="325" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">沿右路：-2+12=10；三倍次数不是必须用满</text>
+</g></svg>

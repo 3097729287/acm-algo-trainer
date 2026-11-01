@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="375" viewBox="0 0 760 375" role="img" aria-labelledby="title"><title id="title">闭区间共享第二天：第一次异常就是第二天</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">闭区间共享第二天：第一次异常就是第二天</text>
+<text x="35" y="120" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">天数</text>
+<rect x="175" y="85" width="107" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="228.5" y="116.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="285" y="85" width="107" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="338.5" y="116.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="395" y="85" width="107" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="448.5" y="116.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="505" y="85" width="107" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="558.5" y="116.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="615" y="85" width="107" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="668.5" y="116.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<text x="35" y="230" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">人数</text>
+<rect x="175" y="195" width="107" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="228.5" y="226.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="285" y="195" width="107" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="338.5" y="226.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="395" y="195" width="107" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="448.5" y="226.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="505" y="195" width="107" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="558.5" y="226.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="615" y="195" width="107" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="668.5" y="226.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<text x="45" y="315" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">值班 [1,2] 与 [2,5]；第二天同时有两人</text>
+<text x="45" y="360" fill="#12805c" font-size="23" text-anchor="start" font-weight="normal">按天扫描输出 2 2，不只检查有没有人值班</text>
+</g></svg>

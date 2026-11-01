@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="360" viewBox="0 0 760 360" role="img" aria-labelledby="title"><title id="title">十三件拆成四批，整批选取仍能覆盖所有件数</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">十三件拆成四批，整批选取仍能覆盖所有件数</text>
+<rect x="75" y="100" width="147" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="148.5" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="225" y="100" width="147" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="298.5" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="375" y="100" width="147" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="448.5" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="525" y="100" width="147" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="598.5" y="131.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">6</text>
+<text x="65" y="235" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">前三批能取 0 到 7 件；加最后一批得到 6 到 13 件</text>
+<text x="65" y="295" fill="#12805c" font-size="23" text-anchor="start" font-weight="normal">两段覆盖 0 到 13，不漏数量，也不会超过 13</text>
+<text x="65" y="345" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">每批的重量、价值都乘上批内件数</text>
+</g></svg>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="280" viewBox="0 0 760 280" role="img" aria-labelledby="title"><title id="title">二分答案：最小可行容量是五</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">二分答案：最小可行容量是五</text>
+<rect x="90" y="90" width="97" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="138.5" y="121.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="190" y="90" width="97" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="238.5" y="121.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="290" y="90" width="97" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="338.5" y="121.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="390" y="90" width="97" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="438.5" y="121.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="490" y="90" width="97" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="538.5" y="121.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">6</text>
+<rect x="590" y="90" width="97" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="638.5" y="121.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">7</text>
+<text x="137" y="175" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">不行</text>
+<text x="237" y="175" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">不行</text>
+<text x="337" y="175" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">不行</text>
+<text x="437" y="175" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">可行</text>
+<text x="537" y="175" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">可行</text>
+<text x="637" y="175" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">可行</text>
+<line x1="387" y1="80" x2="387" y2="205" stroke="#68778b" stroke-width="3" stroke-dasharray="7 5"/>
+<text x="80" y="247" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">13 件物品，3 个容器；判定：ceil(13 / c) ≤ 3</text>
+</g></svg>

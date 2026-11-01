@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="445" viewBox="0 0 760 445" role="img" aria-labelledby="title"><title id="title">费用一的车道放两辆 b=2 的车，费用二放单辆</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">费用一的车道放两辆 b=2 的车，费用二放单辆</text>
+<rect x="40" y="110" width="680" height="90" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="380.0" y="162.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<circle cx="300" cy="155" r="32" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="300" y="162" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">车2</text>
+<circle cx="470" cy="155" r="32" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="470" y="162" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">车3</text>
+<text x="75" y="160" fill="#12805c" font-size="24" text-anchor="start" font-weight="normal">单价 1</text>
+<rect x="40" y="255" width="680" height="90" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="380.0" y="307.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal"></text>
+<circle cx="385" cy="300" r="32" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="385" y="307" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">车1</text>
+<text x="75" y="305" fill="#2365ab" font-size="24" text-anchor="start" font-weight="normal">单价 2</text>
+<text x="45" y="410" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">两车组人数 2 ≤ 各自 b；总费用 2×1+1×2=4</text>
+</g></svg>

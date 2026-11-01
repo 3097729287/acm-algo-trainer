@@ -28,3 +28,7 @@ html .lecture-focus .lectures-detail {border:0;border-radius:0}
 html .lectures-list button.lecture-learned {background:color-mix(in srgb,var(--success) 11%,transparent);}
 html .lectures-list button.lecture-learned.selected {background:color-mix(in srgb,var(--success) 18%,transparent);}
 html .lectures-detail-bar>.icon-button {border-color:transparent;background:transparent;}
+
+html .workspace-area .lectures-page .lectures-list>button.lecture-learned{background:color-mix(in srgb,var(--success,var(--accent)) 19%,var(--panel-base));box-shadow:inset 3px 0 0 var(--success,var(--accent));}
+html .workspace-area .lectures-page .lectures-list>button.lecture-learned:hover{background:color-mix(in srgb,var(--success,var(--accent)) 25%,var(--panel-base));}
+html .workspace-area .lectures-page .lectures-list>button.lecture-learned.selected{background:color-mix(in srgb,var(--success,var(--accent)) 29%,var(--panel-base));box-shadow:inset 3px 0 0 var(--success,var(--accent)),inset 0 0 0 1px color-mix(in srgb,var(--accent) 50%,transparent);}

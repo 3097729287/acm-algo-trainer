@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="450" viewBox="0 0 760 450" role="img" aria-labelledby="title"><title id="title">二维前缀相减：上条、左条的交集需要加回来</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">二维前缀相减：上条、左条的交集需要加回来</text>
+<rect x="100" y="100" width="85" height="85" fill="#e9dff8" stroke="#68778b"/>
+<text x="142.5" y="152" fill="#243449" font-size="27" text-anchor="middle" font-weight="normal">2</text>
+<rect x="185" y="100" width="85" height="85" fill="#ffe7e8" stroke="#68778b"/>
+<text x="227.5" y="152" fill="#243449" font-size="27" text-anchor="middle" font-weight="normal">3</text>
+<rect x="270" y="100" width="85" height="85" fill="#ffe7e8" stroke="#68778b"/>
+<text x="312.5" y="152" fill="#243449" font-size="27" text-anchor="middle" font-weight="normal">1</text>
+<rect x="355" y="100" width="85" height="85" fill="#ffe7e8" stroke="#68778b"/>
+<text x="397.5" y="152" fill="#243449" font-size="27" text-anchor="middle" font-weight="normal">4</text>
+<rect x="100" y="185" width="85" height="85" fill="#ffe9ce" stroke="#68778b"/>
+<text x="142.5" y="237" fill="#243449" font-size="27" text-anchor="middle" font-weight="normal">5</text>
+<rect x="185" y="185" width="85" height="85" fill="#ddf3e8" stroke="#68778b"/>
+<text x="227.5" y="237" fill="#243449" font-size="27" text-anchor="middle" font-weight="normal">0</text>
+<rect x="270" y="185" width="85" height="85" fill="#ddf3e8" stroke="#68778b"/>
+<text x="312.5" y="237" fill="#243449" font-size="27" text-anchor="middle" font-weight="normal">2</text>
+<rect x="355" y="185" width="85" height="85" fill="#ddf3e8" stroke="#68778b"/>
+<text x="397.5" y="237" fill="#243449" font-size="27" text-anchor="middle" font-weight="normal">1</text>
+<rect x="100" y="270" width="85" height="85" fill="#ffe9ce" stroke="#68778b"/>
+<text x="142.5" y="322" fill="#243449" font-size="27" text-anchor="middle" font-weight="normal">1</text>
+<rect x="185" y="270" width="85" height="85" fill="#ddf3e8" stroke="#68778b"/>
+<text x="227.5" y="322" fill="#243449" font-size="27" text-anchor="middle" font-weight="normal">4</text>
+<rect x="270" y="270" width="85" height="85" fill="#ddf3e8" stroke="#68778b"/>
+<text x="312.5" y="322" fill="#243449" font-size="27" text-anchor="middle" font-weight="normal">3</text>
+<rect x="355" y="270" width="85" height="85" fill="#ddf3e8" stroke="#68778b"/>
+<text x="397.5" y="322" fill="#243449" font-size="27" text-anchor="middle" font-weight="normal">7</text>
+<rect x="100" y="100" width="340" height="255" fill="none" stroke="#2365ab" stroke-width="4"/>
+<rect x="100" y="100" width="340" height="85" fill="none" stroke="#bc3645" stroke-width="4"/>
+<rect x="100" y="100" width="85" height="255" fill="none" stroke="#b86c18" stroke-width="4"/>
+<rect x="100" y="100" width="85" height="85" fill="none" stroke="#8151a4" stroke-width="4"/>
+<text x="480" y="120" fill="#2365ab" font-size="22" text-anchor="start" font-weight="normal">整个 P[3][4]：33</text>
+<text x="480" y="180" fill="#bc3645" font-size="22" text-anchor="start" font-weight="normal">减上条 P[1][4]：10</text>
+<text x="480" y="240" fill="#b86c18" font-size="22" text-anchor="start" font-weight="normal">减左条 P[3][1]：8</text>
+<text x="480" y="300" fill="#8151a4" font-size="22" text-anchor="start" font-weight="normal">加交集 P[1][1]：2</text>
+<text x="480" y="360" fill="#12805c" font-size="22" text-anchor="start" font-weight="normal">绿色六格：17</text>
+<text x="55" y="425" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">33-10-8+2=17；左上角的 2 不能被减去两次</text>
+</g></svg>

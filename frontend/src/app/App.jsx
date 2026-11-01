@@ -1,3 +1,5 @@
+import ReaderFrame from '@/components/ReaderFrame.jsx';
+import useDuel from '@/lib/useDuel.js';
 import {applyEditorTheme,editorTheme} from '@/lib/editorThemes.js';
 import {OPACITY_KEYS,SURFACE_DEFAULTS,opacityStyle} from '@/lib/surfaceOpacity.js';
 import {trainingListLocation} from '@/lib/trainingListLocation.js';
@@ -54,6 +56,8 @@ import {
 } from "react";
 import {
   BookOpen,
+  Swords,
+  NotebookTabs,
   FlaskConical,
   Library,
   FolderOpen,
@@ -149,6 +153,8 @@ const AvatarSettings = lazy(() => import('@/components/AvatarSettings.jsx'));
 const ContestCalendar = lazy(() => import('@/pages/ContestCalendar.jsx'));
 const Onboarding = lazy(() => import('@/pages/Onboarding.jsx'));
 const LearningPathsPage = lazy(() => import('@/pages/LearningPathsPage.jsx'));
+const WikiPage=lazy(()=>import('@/pages/WikiPage.jsx'));
+const DuelPage=lazy(()=>import('@/pages/DuelPage.jsx'));
 const TemplatesPage=lazy(()=>import('@/pages/TemplatesPage.jsx'));
 const loadTrainingListsPage=()=>import('@/pages/TrainingListsPage.jsx');
 const TrainingListsPage=lazy(loadTrainingListsPage);
@@ -162,6 +168,8 @@ const PAGES = [
   { id: "library", label: "题库", icon: Library, key: "2" },
   { id: "training-lists", label: "题单", icon: FolderOpen, key: "" },
   { id: "competitions", label: "比赛", icon: Flag, key: "4" },
+  { id: "duel", label: "双人在线对战", icon: Swords, key: "" },
+  { id: "wiki", label: "维基百科", icon: NotebookTabs, key: "" },
   { id: "mock", label: "模拟赛", icon: Clock, key: "5" },
   { id: "growth", label: "成长", icon: ChartNoAxesCombined, key: "7" },
   { id: "records", label: "提交记录", icon: History, key: "6" },
@@ -653,10 +661,11 @@ export default function App() {
     previousActive = useRef(null);
   const api = useCallback((path, body) => request(path, body, token.current), []);
   const [account, setAccount] = useState(() => window.__tbAccount || null);
+  const duel=useDuel(api,data?account?.userId:null);
   const calendar = useContestCalendar(api, Boolean(data), dialog === 'contest-calendar', now, account?.userId ?? null);
   const social = useSocial(api, Boolean(data && account?.userId));
   const [messagesReading,setMessagesReading]=useState(false);
-  useUsage(api,data&&account?.userId,Boolean((!dialog||['lecture','solution'].includes(dialog))&&(practiceId||readerId||page==='mock'&&mockSlot&&workspace.activeContest||['lectures','paths','templates'].includes(page)||page==='settings'&&settingsTab==='accounts')));
+  useUsage(api,data&&account?.userId,Boolean((!dialog||['lecture','solution'].includes(dialog))&&(practiceId||readerId||page==='mock'&&mockSlot&&workspace.activeContest||['lectures','paths','templates','wiki'].includes(page)||page==='settings'&&settingsTab==='accounts')));
   usePlatformLogins(api,Boolean(data&&account?.userId));
   const [profileSnapshot, setProfileSnapshot] = useState(null), [accountFocus, setAccountFocus] = useState(null);
   const dailyClaimPending=useRef(false),dailyRefreshTimer=useRef(null);
@@ -1942,11 +1951,7 @@ export default function App() {
       active?.slots.find((slot) => slot.id === mockSlot) || active?.slots[0];
   const conciseSolution = reader && briefSolution(reader.markdown, rows.find(row => row.id === readerId)?.difficulty);
   const readerPanel = readerId && (
-    <aside
-      className={"reader-panel " + (readerFull ? "reader-full" : "")}
-      style={!readerFull ? { width: prefs.readerWidth } : undefined}
-      aria-label="题解阅读"
-      tabIndex={0}
+    <ReaderFrame fullscreen={readerFull} width={prefs.readerWidth}
       onKeyDown={(e) => {
         if (e.key === "Escape") {
           e.preventDefault();
@@ -1958,7 +1963,7 @@ export default function App() {
         }
       }}
     >
-      <div
+      {!readerFull&&<div
         className="reader-resizer"
         role="separator"
         aria-label="调整题解宽度"
@@ -1980,9 +1985,9 @@ export default function App() {
             }));
           }
         }}
-      />
+      />}
       <Suspense fallback={<div className="reader-content" role="status"><LoaderCircle className="spin" size={20}/></div>}><SolutionReader key={readerId} reader={reader} error={readerError} api={api} methodId={readerMethod} onMethodChange={setReaderMethod} prefs={prefs} setPrefs={setPrefs} onTrain={openPractice} fullscreen={readerFull} onFullscreen={()=>setReaderFull(!readerFull)} onClose={()=>{readerSeq.current++;setReaderId(null);setReader(null);setReaderFull(false);focusList();}}/></Suspense>
-    </aside>
+    </ReaderFrame>
   );
   const beforeTodayAc = insights?.summary?.beforeTodaySolved ?? Math.max(summary.beforeTodayAccepted || 0, (insights?.summary?.totalSolved ?? summary.historicalAccepted ?? 0) - (summary.todayAccepted || 0));
   const todayAc = insights?.summary?.todaySolved ?? summary.todayAccepted ?? 0;
@@ -2163,7 +2168,7 @@ export default function App() {
                 onError={notice}
               />
             )}{!mockPreview&&<MockHistory embedded query={mockHistoryQuery} contests={workspace.contests} onDelete={async body => { const answer = await api("contests/delete", body); applyWorkspace(answer.workspace); notice(`已删除 ${answer.deleted} 场模拟赛记录`); }} onSelect={openRecord} onResume={contest=>{setMockTab("create");setMockSlot(contest.slots[0]?.id);}} onCreate={()=>{setMockTab("create");document.querySelector('.mock-create')?.scrollIntoView({block:'start'});}}/>}</>}</>}</div>
-          ) : page === "records" ? (
+          ) : page === "wiki" ? (<WikiPage api={api}/>) : page === "duel" ? (<DuelPage duel={duel} rows={rows} onTrain={openPractice}/>) : page === "records" ? (
             <SubmissionRecords api={api} revision={workspace.summary?.attempts} scope={`${account?.userId||'local'}:${workspace.activeContest?.id||''}`} rows={rows} onOpenProblem={openPractice} onSelect={(submission) => { setSelectedSubmission(submission); setDialog("submission"); }} />
           ) : page === "competitions" ? (
             <CompetitionPage
@@ -2171,7 +2176,6 @@ export default function App() {
               workspace={workspace}
               hub={hub}
               onTrain={openPractice}
-              visit={competitionsVisit.current}
               onTag={node=>{go('library');setFilter({...blankFilters(),category:node},'library');}}
               initialContest={calendarContest}
               onBack={()=>setCalendarContest(null)}
@@ -2244,7 +2248,7 @@ export default function App() {
         </div>
       )}
       {dialog === 'accounts'&&<Modal opacityKey="accounts" title="账号与身份" className="compact-account-modal" onClose={()=>setDialog(null)}><AccountPanel api={api} account={account} profileSnapshot={profileSnapshot} hub={hub} onProfileChanged={profileChanged} onHubChanged={setHub}/></Modal>}
-      {dialog === "daily-tasks" && <Modal opacityKey="daily-tasks" title="每日任务" onClose={() => {setDialog(null);backgroundDialog.current=null;clearTimeout(dailyRefreshTimer.current);dailyRefreshTimer.current=setTimeout(()=>void refreshBackground(true),300);}} wide><DailyTasks dailyTasks={insights?.dailyTasks} onClaim={async (id, date) => { dailyClaimPending.current=true;backgroundSeq.current++;try { const result = await api("daily-tasks/claim", { id, date }); backgroundSeq.current++; setInsights(previous => applyDailyTaskReward(previous,result)); notice("经验已领取", "success"); } catch (issue) { notice(issue.message, "error"); throw issue; } finally {dailyClaimPending.current=false;} }} /></Modal>}
+      {dialog === "daily-tasks" && <Modal opacityKey="daily-tasks" title="每日任务" onClose={() => {setDialog(null);backgroundDialog.current=null;clearTimeout(dailyRefreshTimer.current);dailyRefreshTimer.current=setTimeout(()=>void refreshBackground(true),300);}} wide><DailyTasks dailyTasks={insights?.dailyTasks} onClaim={async (id, date) => { dailyClaimPending.current=true;backgroundSeq.current++;try { const result = await api("daily-tasks/claim", { id, date }); backgroundSeq.current++; setInsights(previous => applyDailyTaskReward(previous,result)); window.dispatchEvent(new Event("tb:sticker-rewards")); notice("经验已领取", "success"); } catch (issue) { notice(issue.message, "error"); throw issue; } finally {dailyClaimPending.current=false;} }} /></Modal>}
       {dialog === 'contest-calendar' && <Modal opacityKey="contest-calendar" title="比赛日历" onClose={()=>setDialog(null)} wide><ContestCalendar calendar={calendar} onOriginal={contest=>api('browser-preparation',{action:'open-contest',url:contest.url})} onOpen={featureAvailable('competitions')?openCalendarContest:undefined} onStart={featureAvailable('mock')?async(contest,{isCurrent=()=>true}={})=>{const owner=account?.userId;const result=await api('contests/start-calendar',{id:contest.id});if(!isCurrent()||calendarDataOwner.current!==owner||window.__tbAccountUserId!==undefined&&window.__tbAccountUserId!==owner)return;await calendarDataReader.refresh(owner,{isCurrent});if(!isCurrent()||calendarDataOwner.current!==owner)return;setDialog(null);startedMock(result);}:undefined}/></Modal>}
       {dialog === 'contest-reminder' && calendar.reminder && <Modal title="比赛即将开始" onClose={()=>{calendar.dismissReminder();setDialog(previous=>previous==='contest-reminder'?null:previous);}} footer={<button type="button" className="primary" onClick={()=>{calendar.dismissReminder();setDialog('contest-calendar');}}>查看比赛</button>}><ContestReminder contest={calendar.reminder} now={calendar.now} onShown={calendar.markReminderShown}/></Modal>}
       {dialog === "avatar" && <Modal title="修改头像" onClose={()=>setDialog(null)}><Suspense fallback={<p role="status">正在读取…</p>}><AvatarSettings prefs={prefs} setPrefs={setPrefs} onError={message=>notice(message,"error")}/></Suspense></Modal>}

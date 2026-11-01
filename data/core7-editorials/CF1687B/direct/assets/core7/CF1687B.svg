@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="380" viewBox="0 0 760 380" role="img" aria-labelledby="title"><title id="title">三角环的最大森林五，小于全部三条边之和六</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">三角环的最大森林五，小于全部三条边之和六</text>
+<line x1="105" y1="270" x2="380" y2="95" stroke="#12805c" stroke-width="4"/>
+<rect x="230.5" y="150.5" width="24" height="28" rx="3" fill="#fff"/>
+<text x="242.5" y="172.5" fill="#12805c" font-size="20" text-anchor="middle" font-weight="normal">1</text>
+<line x1="380" y1="95" x2="655" y2="270" stroke="#12805c" stroke-width="4"/>
+<rect x="505.5" y="150.5" width="24" height="28" rx="3" fill="#fff"/>
+<text x="517.5" y="172.5" fill="#12805c" font-size="20" text-anchor="middle" font-weight="normal">2</text>
+<line x1="105" y1="270" x2="655" y2="270" stroke="#bc3645" stroke-width="4" stroke-dasharray="7 5"/>
+<rect x="342.0" y="278.0" width="76" height="28" rx="3" fill="#fff"/>
+<text x="380.0" y="300.0" fill="#bc3645" font-size="20" text-anchor="middle" font-weight="normal">尝试 3</text>
+<circle cx="105" cy="270" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="105" y="277" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<circle cx="380" cy="95" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="380" y="102" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<circle cx="655" cy="270" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="655" y="277" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<text x="45" y="340" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">原森林总权 3；加入第三边，模拟器回答 5</text>
+<text x="45" y="375" fill="#bc3645" font-size="21" text-anchor="start" font-weight="normal">5 虽然大于 3，却不等于 3+3，所以应拒绝</text>
+</g></svg>

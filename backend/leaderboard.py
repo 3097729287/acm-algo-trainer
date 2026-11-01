@@ -114,7 +114,7 @@ class LeaderboardClient:
             if self.opener_endpoint != profile['endpoint']:
                 self.opener = service_opener(profile['endpoint'])
                 self.opener_endpoint = profile['endpoint']
-            maximum = 1024 * 1024 if method == 'GET' and path == '/v1/social' else 256 * 1024
+            maximum = 8 * 1024 * 1024 if method == 'GET' and path == '/v1/stickers' else 1024 * 1024 if method == 'GET' and path == '/v1/social' else 256 * 1024
             with self.opener.open(request, timeout=self.timeout if timeout is None else min(self.timeout,timeout)) as response:
                 raw = response.read(maximum + 1)
             if len(raw) > maximum:

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="435" viewBox="0 0 760 435" role="img" aria-labelledby="title"><title id="title">相邻差至少二：占位零与实际零分开处理</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">相邻差至少二：占位零与实际零分开处理</text>
+<rect x="50" y="90" width="82" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="91.0" y="121.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="135" y="90" width="82" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="176.0" y="121.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="220" y="90" width="82" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="261.0" y="121.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<text x="430" y="122" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">差 2、2，合法</text>
+<rect x="50" y="205" width="82" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="91.0" y="236.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="135" y="205" width="82" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="176.0" y="236.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="220" y="205" width="82" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="261.0" y="236.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<text x="430" y="237" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">差 2、1，不合法</text>
+<rect x="50" y="320" width="82" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="91.0" y="351.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="135" y="320" width="82" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="176.0" y="351.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="220" y="320" width="82" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="261.0" y="351.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="305" y="320" width="82" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="346.0" y="351.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<text x="430" y="352" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">占位零不比较</text>
+<text x="45" y="410" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">开始之后的 0 仍要与前一位比较，例如 100 不合法</text>
+</g></svg>

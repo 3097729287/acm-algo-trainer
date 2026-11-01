@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="300" viewBox="0 0 760 300" role="img" aria-labelledby="title"><title id="title">有序对到无序组：每组恰好数了两遍</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">有序对到无序组：每组恰好数了两遍</text>
+<rect x="45" y="90" width="95" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="92.5" y="121.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">AB</text>
+<rect x="155" y="90" width="95" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="202.5" y="121.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">BA</text>
+<text x="145" y="220" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">{A,B}</text>
+<line x1="145" y1="145" x2="145" y2="185" stroke="#68778b" stroke-width="3"/>
+<rect x="285" y="90" width="95" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="332.5" y="121.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">AC</text>
+<rect x="395" y="90" width="95" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="442.5" y="121.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">CA</text>
+<text x="385" y="220" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">{A,C}</text>
+<line x1="385" y1="145" x2="385" y2="185" stroke="#68778b" stroke-width="3"/>
+<rect x="525" y="90" width="95" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="572.5" y="121.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">BC</text>
+<rect x="635" y="90" width="95" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="682.5" y="121.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">CB</text>
+<text x="625" y="220" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">{B,C}</text>
+<line x1="625" y1="145" x2="625" y2="185" stroke="#68778b" stroke-width="3"/>
+<text x="125" y="275" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">6 个有序方案 ÷ 2 = 3 个无序小组</text>
+</g></svg>

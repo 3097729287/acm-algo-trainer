@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="360" viewBox="0 0 760 360" role="img" aria-labelledby="title"><title id="title">223 的不同重排只有三种，只有 232 被四整除</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">223 的不同重排只有三种，只有 232 被四整除</text>
+<rect x="55" y="115" width="180" height="65" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="145.0" y="154.5" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">223</text>
+<text x="145" y="245" fill="#68778b" font-size="24" text-anchor="middle" font-weight="normal">余数 3</text>
+<rect x="290" y="115" width="180" height="65" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="380.0" y="154.5" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">232</text>
+<text x="380" y="245" fill="#12805c" font-size="24" text-anchor="middle" font-weight="normal">余数 0</text>
+<rect x="525" y="115" width="180" height="65" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="615.0" y="154.5" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">322</text>
+<text x="615" y="245" fill="#68778b" font-size="24" text-anchor="middle" font-weight="normal">余数 2</text>
+<text x="45" y="325" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">两个 2 不编号；交换它们不会产生新的整数</text>
+</g></svg>

@@ -26,6 +26,8 @@ await page.route('**/api/**',async route=>{
  else if(name==='training-lists')value={lists:[]};
  else if(name==='training-list-likes')value={likes:[]};
  else if(name==='templates')value={templates:[]};
+ else if(name==='duel')value={owner,state:'idle',serverTime:now};
+ else if(name==='stickers')value={owner,units:[],catalog:[],revision:0};
  else if(name==='contest')value={contest:null};
  else if(name==='software-update')value={currentVersion:'1.4.31',status:'current',autoCheck:false,canInstall:false};
  else if(name==='content-update')value={status:'current',revision:0};
@@ -83,10 +85,12 @@ try{
  assert.equal(await qojFolder.count(),0,'XCPC events appear only under their platform-independent category');assert.equal(await xcpcFolder.count(),1);
  await xcpcFolder.click();const catalogPath=page.getByRole('navigation',{name:'题目浏览路径'});
  assert.equal(await catalogPath.getByRole('button',{name:'XCPC',exact:true}).count(),1);assert.equal(await catalogPath.getByRole('button',{name:'QOJ',exact:true}).count(),0);
- await nav().getByRole('button',{name:'提交记录',exact:true}).click();await page.getByLabel('提交平台',{exact:true}).click();await page.getByRole('listbox',{name:'提交平台',exact:true}).getByRole('option',{name:'QOJ',exact:true}).click();
- await page.waitForFunction(()=>document.querySelectorAll('.submission-log-row').length===1&&document.querySelector('.submission-platform')?.textContent==='QOJ');
- assert(requests.some(request=>request.name==='submissions'&&request.query.platform==='QOJ'&&request.query.offset==='0'));
- assert.match(await page.locator('.submission-problem-link').textContent(),/QOJ 真实来源夹具/);
+ await nav().getByRole('button',{name:'提交记录',exact:true}).click();
+ await page.waitForFunction(()=>document.querySelectorAll('.submission-log-row').length===6);
+ assert.equal(await page.getByLabel('提交平台',{exact:true}).count(),0,'The requested platform folder filter is removed');
+ assert(requests.filter(request=>request.name==='submissions').every(request=>!request.query.platform));
+ const qojReceipt=page.locator('.submission-log-row').filter({has:page.locator('.submission-platform',{hasText:'QOJ'})});
+ assert.match(await qojReceipt.locator('.submission-problem-link').textContent(),/QOJ 真实来源夹具/);
  await nav().getByRole('button',{name:'模拟赛',exact:true}).click();await page.getByRole('button',{name:'训练筛选',exact:true}).click();await page.getByRole('button',{name:'QOJ',exact:true}).click();await page.getByRole('button',{name:'关闭筛选',exact:true}).click();
  await page.getByRole('button',{name:'生成试卷',exact:true}).click();await page.getByLabel('训练试卷预览',{exact:true}).waitFor();
  assert.equal(requests.filter(request=>request.name==='contests/preview').at(-1).body.platform,'QOJ');

@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "contests": {
+    "2278": {
+      "source": "https://codeforces.com/api/contest.standings?contestId=2278",
+      "verifiedAt": "2026-11-01T18:23:25.335885+00:00",
+      "contest": {
+        "id": 2278,
+        "name": "Codeforces Round 1131 (Div. 3)",
+        "type": "ICPC",
+        "phase": "FINISHED",
+        "frozen": false,
+        "durationSeconds": 8100,
+        "startTimeSeconds": 1793457300,
+        "relativeTimeSeconds": 100081
+      },
+      "problems": [
+        {
+          "contestId": 2278,
+          "index": "A",
+          "name": "Fraction and Six",
+          "type": "PROGRAMMING",
+          "tags": [
+            "implementation",
+            "sortings",
+            "strings"
+          ]
+        },
+        {
+          "contestId": 2278,
+          "index": "B",
+          "name": "Stakes and Shapes",
+          "type": "PROGRAMMING",
+          "tags": [
+            "constructive algorithms",
+            "greedy"
+          ]
+        },
+        {
+          "contestId": 2278,
+          "index": "C",
+          "name": "Math and Physics",
+          "type": "PROGRAMMING",
+          "tags": [
+            "greedy"
+          ]
+        },
+        {
+          "contestId": 2278,
+          "index": "D",
+          "name": "Lock and Unlock",
+          "type": "PROGRAMMING",
+          "tags": [
+            "greedy"
+          ]
+        },
+        {
+          "contestId": 2278,
+          "index": "E",
+          "name": "Swap and Negate",
+          "type": "PROGRAMMING",
+          "tags": [
+            "constructive algorithms",
+            "greedy"
+          ]
+        },
+        {
+          "contestId": 2278,
+          "index": "F",
+          "name": "Modulo and Counting",
+          "type": "PROGRAMMING",
+          "tags": [
+            "dp",
+            "math",
+            "number theory"
+          ]
+        },
+        {
+          "contestId": 2278,
+          "index": "G",
+          "name": "0s and 1s",
+          "type": "PROGRAMMING",
+          "tags": [
+            "bitmasks",
+            "dfs and similar",
+            "dp",
+            "hashing",
+            "number theory",
+            "trees"
+          ]
+        }
+      ]
+    }
+  }
+}

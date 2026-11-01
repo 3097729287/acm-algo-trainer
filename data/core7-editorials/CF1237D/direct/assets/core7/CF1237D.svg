@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="450" viewBox="0 0 760 450" role="img" aria-labelledby="title"><title id="title">原第二样例从第4首开始：听六次，第七次触发停止</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">原第二样例从第4首开始：听六次，第七次触发停止</text>
+<rect x="45" y="100" width="92" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="91.0" y="131.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="140" y="100" width="92" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="186.0" y="131.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="235" y="100" width="92" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="281.0" y="131.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="330" y="100" width="92" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="376.0" y="131.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="425" y="100" width="92" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="471.0" y="131.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="520" y="100" width="92" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="566.0" y="131.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="615" y="100" width="92" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="661.0" y="131.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<text x="45" y="230" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">已听最大值依次：3、3、3、5、5、5</text>
+<text x="45" y="300" fill="#bc3645" font-size="23" text-anchor="start" font-weight="normal">第二次听到2时，2×2 &lt; 5，立即停，它不计入</text>
+<text x="45" y="370" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">同一首重复播放要逐次计数；答案为 6</text>
+<text x="45" y="425" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">新值等于一半时不满足严格小于，继续听</text>
+</g></svg>

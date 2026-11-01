@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="390" viewBox="0 0 760 390" role="img" aria-labelledby="title"><title id="title">全部关键点的主干长八，支路只补两端接入路</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">全部关键点的主干长八，支路只补两端接入路</text>
+<line x1="150" y1="155" x2="385" y2="155" stroke="#12805c" stroke-width="4"/>
+<line x1="385" y1="155" x2="640" y2="155" stroke="#12805c" stroke-width="4"/>
+<line x1="150" y1="155" x2="150" y2="295" stroke="#68778b" stroke-width="4"/>
+<circle cx="150" cy="155" r="23" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="150" y="162" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<circle cx="385" cy="155" r="23" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="385" y="162" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<circle cx="640" cy="155" r="23" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="640" y="162" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<circle cx="150" cy="295" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="150" y="302" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">6</text>
+<text x="265" y="130" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">3</text>
+<text x="510" y="130" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">5</text>
+<text x="175" y="235" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">1</text>
+<text x="360" y="235" fill="#12805c" font-size="22" text-anchor="start" font-weight="normal">关键点：2、3；主干 W=8</text>
+<text x="360" y="295" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">s=t=6，接入点都为 2</text>
+<text x="55" y="365" fill="#12805c" font-size="24" text-anchor="start" font-weight="normal">答案 2×8+1+1-0=18</text>
+</g></svg>

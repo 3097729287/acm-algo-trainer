@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="465" viewBox="0 0 760 465" role="img" aria-labelledby="title"><title id="title">洗一天表示隔一天再穿，不能第二天立即重复</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">洗一天表示隔一天再穿，不能第二天立即重复</text>
+<text x="35" y="85" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">天数</text>
+<text x="215" y="85" fill="#243449" font-size="22" text-anchor="middle" font-weight="normal">1</text>
+<text x="315" y="85" fill="#243449" font-size="22" text-anchor="middle" font-weight="normal">2</text>
+<text x="415" y="85" fill="#243449" font-size="22" text-anchor="middle" font-weight="normal">3</text>
+<text x="515" y="85" fill="#243449" font-size="22" text-anchor="middle" font-weight="normal">4</text>
+<text x="615" y="85" fill="#243449" font-size="22" text-anchor="middle" font-weight="normal">5</text>
+<text x="35" y="147" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">衣服</text>
+<rect x="170" y="115" width="97" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="218.5" y="146.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="270" y="115" width="97" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="318.5" y="146.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="370" y="115" width="97" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="418.5" y="146.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="470" y="115" width="97" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="518.5" y="146.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="570" y="115" width="97" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="618.5" y="146.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<text x="35" y="257" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">天气</text>
+<rect x="170" y="225" width="97" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="218.5" y="256.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="270" y="225" width="97" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="318.5" y="256.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="370" y="225" width="97" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="418.5" y="256.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="470" y="225" width="97" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="518.5" y="256.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="570" y="225" width="97" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="618.5" y="256.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<text x="35" y="367" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">收益</text>
+<rect x="170" y="335" width="97" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="218.5" y="366.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">10</text>
+<rect x="270" y="335" width="97" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="318.5" y="366.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">40</text>
+<rect x="370" y="335" width="97" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="418.5" y="366.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">15</text>
+<rect x="470" y="335" width="97" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="518.5" y="366.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">50</text>
+<rect x="570" y="335" width="97" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="618.5" y="366.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">10</text>
+<text x="45" y="440" fill="#12805c" font-size="23" text-anchor="start" font-weight="normal">颜色 5、10，清洗都为 1；此安排总收益 125</text>
+</g></svg>

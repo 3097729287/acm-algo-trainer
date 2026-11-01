@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="405" viewBox="0 0 760 405" role="img" aria-labelledby="title"><title id="title">先加一，再或二：最后六优于一直按位或的七</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">先加一，再或二：最后六优于一直按位或的七</text>
+<line x1="380" y1="90" x2="170" y2="200" stroke="#68778b" stroke-width="4"/>
+<line x1="380" y1="90" x2="570" y2="200" stroke="#12805c" stroke-width="4"/>
+<line x1="170" y1="200" x2="170" y2="320" stroke="#68778b" stroke-width="4"/>
+<line x1="570" y1="200" x2="475" y2="320" stroke="#12805c" stroke-width="4"/>
+<line x1="570" y1="200" x2="665" y2="320" stroke="#68778b" stroke-width="4"/>
+<circle cx="380" cy="90" r="23" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="380" y="97" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<circle cx="170" cy="200" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="170" y="207" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<circle cx="570" cy="200" r="23" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="570" y="207" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">6</text>
+<circle cx="170" cy="320" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="170" y="327" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">7</text>
+<circle cx="475" cy="320" r="23" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="475" y="327" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">6</text>
+<circle cx="665" cy="320" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="665" y="327" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">8</text>
+<text x="220" y="125" fill="#68778b" font-size="20" text-anchor="middle" font-weight="normal">或 1</text>
+<text x="545" y="125" fill="#12805c" font-size="20" text-anchor="middle" font-weight="normal">加 1</text>
+<text x="75" y="270" fill="#68778b" font-size="20" text-anchor="middle" font-weight="normal">或 2 或加 2</text>
+<text x="430" y="270" fill="#12805c" font-size="20" text-anchor="middle" font-weight="normal">或 2</text>
+<text x="665" y="270" fill="#68778b" font-size="20" text-anchor="middle" font-weight="normal">加 2</text>
+<text x="65" y="385" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">初始 x=3、y=5，p 依次是 1、2；绿色路线最优</text>
+</g></svg>

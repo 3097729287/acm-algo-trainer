@@ -11,7 +11,7 @@ import { socialSnapshot, socialWrite, rankingSocial } from './social.mjs';
 import {trainingListLikes} from './training-list-likes.mjs';
 import {adminAccounts} from './admin-accounts.mjs';
 
-const VERSION = '1.3.0';
+const VERSION = '1.4.0';
 const NOTICE = '排行统计 TB 保存的原站已确认首次 AC 题数；样例、运行与重复题不计入。记录由客户端同步，暂不提供独立防作弊认证。';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const hashPattern = /^[a-f0-9]{64}$/;
@@ -132,7 +132,7 @@ export async function handle(request, env) {
     const timestamp = new Date(now).toISOString();
     if (path === '/v1/health' && request.method === 'GET') {
       await env.STORE.health();
-      return json({ ok: true, version: VERSION, eventScope: 'official', rankingDominanceProtocol:env.STORE.dominance&&await env.STORE.dominance.available()?1:0, sharedTranslationProtocol:env.STORE.translations&&await env.STORE.translations.available()?1:0, accountStateProtocol: 1, accountChunkProtocol:env.STORE.chunks&&await env.STORE.chunks.available()?2:0, adminAccountProtocol:env.STORE.accountAdmin&&await env.STORE.accountAdmin.available()?1:0, singleSession: true, publicProgressProtocol: 1, publicAppearanceProtocol: 1, nicknameUnique: true, stateResumeProtocol: 1, socialProtocol:env.STORE.social && await env.STORE.social.available() ? 1 : 0, trainingListLikesProtocol:env.STORE.social && await env.STORE.social.listAvailable() ? 1 : 0 });
+      return json({ ok: true, version: VERSION, eventScope: 'official', gameplayProtocol:env.STORE.gameplay&&await env.STORE.gameplay.available()?1:0, rankingDominanceProtocol:env.STORE.dominance&&await env.STORE.dominance.available()?1:0, sharedTranslationProtocol:env.STORE.translations&&await env.STORE.translations.available()?1:0, accountStateProtocol: 1, accountChunkProtocol:env.STORE.chunks&&await env.STORE.chunks.available()?2:0, adminAccountProtocol:env.STORE.accountAdmin&&await env.STORE.accountAdmin.available()?1:0, singleSession: true, publicProgressProtocol: 1, publicAppearanceProtocol: 1, nicknameUnique: true, stateResumeProtocol: 1, socialProtocol:env.STORE.social && await env.STORE.social.available() ? 1 : 0, trainingListLikesProtocol:env.STORE.social && await env.STORE.social.listAvailable() ? 1 : 0 });
     }
     if (path === '/v1/profile/register') throw new ApiError(410, '请升级 TB 并注册账号后登录');
     if (['/v1/accounts/register', '/v1/accounts/login'].includes(path) && request.method === 'POST') {
@@ -186,6 +186,20 @@ export async function handle(request, env) {
     if (path === '/v1/accounts/me' && request.method === 'GET') {
       if (env.READ_ONLY !== '1') await env.STORE.recordLogin(user.user_id, bounds('daily', now).day, timestamp);
       return json({ account: publicAccount(user), stateRevision: await env.STORE.stateRevision(user.user_id), singleSession: true });
+    }
+    if(path.startsWith('/v1/stickers')||path.startsWith('/v1/duels')) {
+      if(!env.STORE.gameplay||!await env.STORE.gameplay.available())throw new ApiError(503,'?????????????');
+      const game=env.STORE.gameplay,owner=user.user_id,auth=tokenHash(credentials(request).token);
+      await limit(env,'gameplay:'+owner,240,60,Math.floor(now/1000));
+      if(path==='/v1/stickers'&&request.method==='GET')return json(await game.stickers(owner));
+      if(path==='/v1/duels'&&request.method==='GET')return json(await game.read(owner,now));
+      if(request.method==='POST'){
+        const sticker=/^\/v1\/stickers\/(grant|place|recycle)$/.exec(path);
+        const duel=/^\/v1\/duels\/(join|cancel|poll|dismiss)$/.exec(path);
+        if(sticker){const value=await body(request,['requestId','unitId','revision','x','y','angle','day','taskId','xp','minDifficulty'],4096);return json(await game.stickerWrite(owner,auth,sticker[1],value,now));}
+        if(duel){const value=await body(request,['requestId','handle','ticket','matchId'],2048);return json(await game.duelWrite(owner,auth,duel[1],value,now));}
+      }
+      throw new ApiError(404,'????????');
     }
     if(path.startsWith('/v2/accounts/state')) {
       if(!env.STORE.chunks||!await env.STORE.chunks.available())throw new ApiError(404,'分块同步暂不可用');

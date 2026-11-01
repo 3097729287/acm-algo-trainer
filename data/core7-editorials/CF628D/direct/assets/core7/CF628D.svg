@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="375" viewBox="0 0 760 375" role="img" aria-labelledby="title"><title id="title">d=6，区间10至99中共有八个满足条件的偶数</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">d=6，区间10至99中共有八个满足条件的偶数</text>
+<rect x="40" y="105" width="82" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="81.0" y="136.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">16</text>
+<rect x="125" y="105" width="82" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="166.0" y="136.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">26</text>
+<rect x="210" y="105" width="82" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="251.0" y="136.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">36</text>
+<rect x="295" y="105" width="82" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="336.0" y="136.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">46</text>
+<rect x="380" y="105" width="82" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="421.0" y="136.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">56</text>
+<rect x="465" y="105" width="82" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="506.0" y="136.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">76</text>
+<rect x="550" y="105" width="82" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="591.0" y="136.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">86</text>
+<rect x="635" y="105" width="82" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="676.0" y="136.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">96</text>
+<text x="45" y="245" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">第二位必须是 6；第一位不能是 6，也不能是 0</text>
+<text x="45" y="315" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">66 在第一位已违规；这些数都被 m=2 整除</text>
+</g></svg>

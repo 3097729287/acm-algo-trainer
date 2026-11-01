@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="450" viewBox="0 0 760 450" role="img" aria-labelledby="title"><title id="title">最小值恰一百：至少一百的五个，减至少一百零一的两个</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">最小值恰一百：至少一百的五个，减至少一百零一的两个</text>
+<rect x="55" y="105" width="105" height="100" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="107.5" y="162.0" fill="#12805c" font-size="26" text-anchor="middle" font-weight="normal">100</text>
+<rect x="165" y="105" width="105" height="100" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="217.5" y="162.0" fill="#2365ab" font-size="26" text-anchor="middle" font-weight="normal">101</text>
+<rect x="55" y="215" width="105" height="100" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="107.5" y="272.0" fill="#2365ab" font-size="26" text-anchor="middle" font-weight="normal">101</text>
+<rect x="165" y="215" width="105" height="100" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="217.5" y="272.0" fill="#bc3645" font-size="26" text-anchor="middle" font-weight="normal">99</text>
+<text x="340" y="165" fill="#12805c" font-size="23" text-anchor="start" font-weight="normal">全 ≥100：5 个矩形</text>
+<text x="340" y="255" fill="#2365ab" font-size="23" text-anchor="start" font-weight="normal">全 ≥101：2 个矩形</text>
+<text x="340" y="345" fill="#12805c" font-size="23" text-anchor="start" font-weight="normal">恰等于100：5−2=3</text>
+<text x="45" y="420" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">三者是左上单格、第一行、第一列，均不含右下99</text>
+</g></svg>

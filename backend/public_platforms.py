@@ -212,23 +212,24 @@ def discover_cf(client,now,allowed_ids=None):
                and authorized({'contest':c.get('name'),'url':f"https://codeforces.com/contest/{c.get('id')}"},'codeforces')]
     ids={c['id']:c for c in ended}
     if not ids:return [],[],'指定题解赛事暂未发现可补充的公开题目'
-    problems=list(cf_result(client,'problemset.problems')['problems']);rows=[];pending=[]
+    problems=list(cf_result(client,'problemset.problems')['problems']);rows=[];pending=[];verified_counts={}
     # Recent split divisions frequently share most tasks. The global problemset
     # then lists only the Div.1 URL; exact rosters retain Div.2 letters and URLs.
     for contest in ended[:2]:
-        if len([p for p in problems if p.get('contestId')==contest['id']])>=5:continue
         try:roster=cf_roster(client,contest['id'])
         except (OSError,ValueError,RuntimeError,KeyError,TypeError):continue
         official=roster.get('contest') or {}
         if str(official.get('id'))!=str(contest['id']) or not authorized({'contest':official.get('name')},'codeforces'):continue
         tasks=roster.get('problems') or []
         if tasks:
+            verified_counts[contest['id']]=len(tasks)
             problems=[p for p in problems if p.get('contestId')!=contest['id']]+tasks
     for p in problems:
         c=ids.get(p.get('contestId'))
         if not c:continue
         contest={'id':c['id'],'name':c['name'],'start':c['startTimeSeconds'],'end':c['startTimeSeconds']+c['durationSeconds'],'series':'Codeforces'}
         item=row('codeforces',contest,p['index'],p['name'],f"https://codeforces.com/contest/{c['id']}/problem/{p['index']}",integer(p.get('rating')),'Codeforces 官方 rating',[CF_TAGS[t] for t in p.get('tags',[]) if t in CF_TAGS])
+        if c['id'] in verified_counts:item.update(contestProblemCount=verified_counts[c['id']],contestRosterSource='https://codeforces.com/api/contest.standings?contestId='+str(c['id']))
         rows.append(item)
     # problemset.problems can omit shared Div.1/Div.2 tasks; it is not
     # evidence of an exact original task count. Still keep every public task.

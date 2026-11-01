@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="390" viewBox="0 0 760 390" role="img" aria-labelledby="title"><title id="title">核是一整段，支路只走到接入点就到达核</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">核是一整段，支路只走到接入点就到达核</text>
+<line x1="100" y1="170" x2="380" y2="170" stroke="#12805c" stroke-width="4"/>
+<line x1="380" y1="170" x2="660" y2="170" stroke="#12805c" stroke-width="4"/>
+<line x1="380" y1="170" x2="380" y2="300" stroke="#68778b" stroke-width="4"/>
+<circle cx="100" cy="170" r="23" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="100" y="177" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">A</text>
+<circle cx="380" cy="170" r="23" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="380" y="177" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">C</text>
+<circle cx="660" cy="170" r="23" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="660" y="177" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">B</text>
+<circle cx="380" cy="300" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="380" y="307" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">v</text>
+<text x="230" y="145" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">4</text>
+<text x="520" y="145" fill="#12805c" font-size="23" text-anchor="start" font-weight="normal">4</text>
+<text x="405" y="245" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">3</text>
+<text x="50" y="350" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">核 A—B 长 8；v 到核为 (7+7-8)/2=3</text>
+<text x="50" y="385" fill="#12805c" font-size="23" text-anchor="start" font-weight="normal">到最近端点为 7，到整段路径却只有 3</text>
+</g></svg>

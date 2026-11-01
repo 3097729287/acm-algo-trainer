@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="475" viewBox="0 0 760 475" role="img" aria-labelledby="title"><title id="title">原样例五个三进制数的价值之和是八</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">原样例五个三进制数的价值之和是八</text>
+<rect x="55" y="100" width="127" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="118.5" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="185" y="100" width="127" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="248.5" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="315" y="100" width="127" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="378.5" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">10</text>
+<rect x="445" y="100" width="127" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="508.5" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">11</text>
+<rect x="575" y="100" width="127" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="638.5" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">12</text>
+<rect x="55" y="195" width="127" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="118.5" y="226.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="185" y="195" width="127" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="248.5" y="226.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="315" y="195" width="127" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="378.5" y="226.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="445" y="195" width="127" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="508.5" y="226.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="575" y="195" width="127" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="638.5" y="226.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<text x="45" y="290" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">每项最长等差段长度：1+1+2+2+2=8</text>
+<rect x="55" y="345" width="127" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="118.5" y="376.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="185" y="345" width="127" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="248.5" y="376.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="315" y="345" width="127" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="378.5" y="376.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="445" y="345" width="127" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="508.5" y="376.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="575" y="345" width="127" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="638.5" y="376.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<text x="45" y="450" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">另一组数码：1、3、5 的相邻差都为 2，最长段为 3</text>
+</g></svg>

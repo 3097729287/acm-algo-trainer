@@ -21,6 +21,16 @@ def dump(path,value):path.write_text(json.dumps(value,ensure_ascii=False,sort_ke
 def programs(text):return re.findall(r'^```cpp\s*\n(.*?)^```',text,re.S|re.M)
 
 
+def reference_programs(text):
+    # Legacy detailed articles can contain executable-looking transition
+    # fragments. Compare the complete reference section, not those examples.
+    sections=re.findall(r'^### 参考代码[^\n]*\n(.*?)(?=^### |\Z)',text,re.S|re.M)
+    if sections:
+        assert len(sections)==1,'Ambiguous legacy reference sections'
+        return programs(sections[0])
+    return programs(text)
+
+
 def prepare():
     source=ROOT/'data/library'
     names=['solutions','detailed_solutions','solution_methods','lectures','links','statements','meta']
@@ -47,8 +57,8 @@ def prepare():
             article=deepcopy(primary['variants'][variant])
             if identity in index[table]:
                 previous=index[table][identity]
-                if programs(previous['markdown'])!=programs(article['markdown']):
-                    old=programs(previous['markdown']);fix=corrections.get(identity)
+                if reference_programs(previous['markdown'])!=programs(article['markdown']):
+                    old=reference_programs(previous['markdown']);fix=corrections.get(identity)
                     assert fix and len(old)==1 and source_hash(old[0])==fix['previousProgramSha256'],identity
                     assert fix['reproductions'] and all(r['observed']!=r['expected'] for r in fix['reproductions']),identity
                 for key,value in previous['images'].items():assert article['images'].get(key)==value,(identity,key)

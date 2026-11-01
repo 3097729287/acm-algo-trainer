@@ -1,3 +1,5 @@
+import {compareCompetitionNewest} from '@/lib/competitionOrder.js';
+import StickerCanvas from '@/components/StickerCanvas.jsx';
 import MedalEmblem,{titleMedalIndex} from '@/components/MedalEmblem.jsx';
 import {Gift} from 'lucide-react';
 import CatalogName from '@/components/CatalogName.jsx';
@@ -95,7 +97,7 @@ export function DailyTasks({ dailyTasks, onClaim }) {
   const routine=task=>['ac','review','review-random','learning','routine'].includes(task.lane)||!task.lane&&(['AC','复习','使用时长'].includes(task.title)||['solve','review','learning'].includes(task.kind));
   const groups=[['日常',tasks.filter(routine)],['任务',tasks.filter(task=>!routine(task))]];
   return <section className="progress-section daily-tasks" aria-label="每日任务"><div className="progress-section-heading"><span>{dailyTasks?.date||'每日更新'}</span></div>
-    {groups.filter(([,items])=>items.length).map(([title,items])=><section className="daily-task-group" key={title} aria-label={title}><h3>{title}</h3><div className="daily-task-grid">{items.map(task=><article className={`daily-task${task.claimed?' daily-task-claimed':''}${task.completed||task.claimed?' daily-task-completed':''}`} key={task.slot??task.id} data-slot={task.slot} data-lane={task.lane}>
+    {groups.filter(([,items])=>items.length).map(([title,items])=><section className="daily-task-group" key={title} aria-label={title}><h3>{title}</h3><div className="daily-task-grid">{items.map(task=><article className={`daily-task rarity-${task.stickerRarity||'common'}${task.claimed?' daily-task-claimed':''}${task.completed||task.claimed?' daily-task-completed':''}`} key={task.slot??task.id} data-slot={task.slot} data-lane={task.lane}>
       <div className="daily-task-main"><div><strong>{task.title}</strong><span className="daily-task-xp">+{number(task.xp)} XP</span></div><p>{acText(task.description)}</p><div className="daily-task-progress"><Meter value={task.target?task.progress/task.target*100:0} label={`${task.title}任务进度`}/><span>{number(task.progress)}/{number(task.target)}{task.unit||''}</span></div></div>
       {(task.completed||task.claimed)&&<button type="button" className={'progress-button '+(!task.claimed?'progress-primary':'')} disabled={task.claimed||Boolean(claiming)||!onClaim} onClick={()=>claim(task)}>{claiming===task.id?'领取中…':task.claimed?(routine(task)?'已完成':'已领取'):'领取奖励'}</button>}
     </article>)}</div></section>)}{!tasks.length&&<p className="progress-muted">每日任务正在准备。</p>}{error&&<p role="alert" className="connection-error">{error}</p>}
@@ -127,10 +129,10 @@ export function GrowthPage({avatarData,onAvatar,goalOverview,api,onGoalsChanged,
  const rankName=Number(growth.level)<5?'未定级':rank.qualified===false?'定级中':rank.tier||'定级中';
  return <div className="progress-page growth-dashboard" aria-label="成长"><div className="progress-growth-columns">
  <KnowledgeRadar rows={rows} categories={categories} knowledge={insights.knowledge||[]} knowledgeEvidence={insights.knowledgeEvidence||[]} knowledgeModel={insights.knowledgeModel||{}} onTopic={onTopic} onTrain={onTrain}/>
- <section className="progress-section growth-account-hero" aria-label="账号成长统计"><div className="account-hero-identity"><div className="account-hero-person"><ProfileBadge compact={false} growth={growth} avatar={avatarData} nickname={nickname} onAvatarClick={onAvatar} onClick={onAccounts}/><div className="account-hero-titles"><TitleMedals iconOnly medalSize={56} titles={insights.equippedTitles||growth.equippedTitles||[]}/></div></div><div className="account-hero-rank"><TierIcon badge={rank.badge||'tier-0'} tier={rank.tier} size={180}/><strong>{rankName}</strong>{rank.abilityScore!=null&&<span title="根据独立作答和题目难度估计的保守参考，不是 Codeforces 官方等级分">约 {number(rank.abilityScore)} · CF 参考</span>}<AbilityEvidence rank={rank} rows={rows}/></div></div>
+ <section className="progress-section growth-account-hero" aria-label="账号成长统计"> <div className="account-hero-statistics">{stats.map(([Icon,value,label])=><div key={label} aria-label={`${label} ${number(value)}`}><Tooltip text={label}><span className="account-stat-icon" tabIndex={0} aria-label={label}>{Icon===Flame?<StreakFlame size={30}/>:<Icon size={30} fill="none"/>}</span></Tooltip><b>{number(value)}</b></div>)}</div><StickerCanvas api={api} owner={account?.userId||profile?.userId}><div className="account-hero-identity"><div className="account-hero-person"><ProfileBadge compact={false} growth={growth} avatar={avatarData} nickname={nickname} onAvatarClick={onAvatar} onClick={onAccounts}/><div className="account-hero-titles"><TitleMedals iconOnly medalSize={56} titles={insights.equippedTitles||growth.equippedTitles||[]}/></div></div><div className="account-hero-rank"><TierIcon badge={rank.badge||'tier-0'} tier={rank.tier} size={180}/><strong>{rankName}</strong>{rank.abilityScore!=null&&<span title="根据独立作答和题目难度估计的保守参考，不是 Codeforces 官方等级分">约 {number(rank.abilityScore)} · CF 参考</span>}<AbilityEvidence rank={rank} rows={rows}/></div></div>
  <div className="account-hero-level"><span>Lv.{growth.level??'—'}</span><div><Meter value={growth.nextLevelXp?Number(growth.currentLevelXp||0)/growth.nextLevelXp*100:0} label="等级经验"/><span>{number(growth.currentLevelXp||0)} / {number(growth.nextLevelXp||0)} XP</span></div></div>
- <div className="account-hero-statistics">{stats.map(([Icon,value,label])=><div key={label} aria-label={`${label} ${number(value)}`}><Tooltip text={label}><span className="account-stat-icon" tabIndex={0} aria-label={label}>{Icon===Flame?<StreakFlame size={30}/>:<Icon size={30} fill="none"/>}</span></Tooltip><b>{number(value)}</b></div>)}</div><div id="growth-goals" className="account-hero-goals">{api&&<GoalsPanel api={api} overview={goalOverview} onChanged={onGoalsChanged}/>}</div>
- </section></div></div>;
+<div id="growth-goals" className="account-hero-goals">{api&&<GoalsPanel api={api} overview={goalOverview} onChanged={onGoalsChanged}/>}</div>
+ </StickerCanvas></section></div></div>;
 }
 
 export {default as ActivityPage} from './ActivityPage.jsx';
@@ -142,7 +144,7 @@ function contestGroups(rows) {
     if (!map.has(key)) map.set(key, { key, name: row.contest, platform: row.platform, series: row.series, examYear: contestYear(row), examStage: row.examStage ?? row.xcpcKind, xcpc: isXcpc(row), notice: row.collectionNotice, rows: [] });
     map.get(key).rows.push(row);
   }
-  return [...map.values()].filter(group=>completeContest(group.rows)||group.rows.every(row=>row.schoolTraining)&&group.rows.some(row=>row.solutionAvailable||row.catalogContentReady)).map(group => ({ ...group, rows: withContestLetters(group.rows.sort((a, b) => String(a.problem).localeCompare(String(b.problem), 'en', { numeric: true }))) })).sort(compareContestNewest);
+  return [...map.values()].filter(group=>completeContest(group.rows)||group.rows.every(row=>row.schoolTraining)&&group.rows.some(row=>row.solutionAvailable||row.catalogContentReady)).map(group => ({ ...group, rows: withContestLetters(group.rows.sort((a, b) => String(a.problem).localeCompare(String(b.problem), 'en', { numeric: true }))) })).sort(compareCompetitionNewest);
 }
 function Difficulty({ row, locked = false }) { const mode=useDifficultyDisplay();return <span className={`competition-difficulty competition-difficulty-${locked ? 'unknown' : difficultyBand(row.difficulty)}${locked ? ' competition-hidden-difficulty' : ''}`} title={locked ? '比赛进行中，赛后显示难度' : difficultyDescription(row)}>{locked ? '赛中隐藏' : difficultyLabel(row,mode)}</span>; }
 export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStartReproduction, initialContest, onBack, visit, onTag }) {
@@ -173,7 +175,7 @@ export function CompetitionPage({ rows, workspace, hub, onTrain, onJoin, onStart
       && (!examYear || String(group.examYear) === examYear)
       && (!search || `${group.name} ${group.platform} ${group.rows.map(row => `${row.title} ${row.problem} ${lockedIds.has(row.id) ? '' : list(row.tags).join(' ')}`).join(' ')}`.toLowerCase().includes(search))
       && (filter === 'all' || filter === 'joined' ? filter === 'all' || counts.get(group.key).active > 0 : filter === 'available' ? counts.get(group.key).active === 0 : counts.get(group.key).accepted < group.rows.length))
-      .sort((a,b) => (sort === 'name' ? a.name.localeCompare(b.name, 'zh-CN', {numeric:true}) : -compareContestNewest(a,b)) * (descending ? -1 : 1));
+      .sort((a,b) => (sort === 'name' ? a.name.localeCompare(b.name, 'zh-CN', {numeric:true}) : -compareCompetitionNewest(a,b)) * (descending ? -1 : 1));
   }, [groups, catalogPath, platform, examYear, deferredQuery, lockedIds, filter, counts, sort, descending]);
   const filterKey=JSON.stringify([deferredQuery,catalogPath,platform,examYear,filter,sort,descending]);
   const previousFilter=useRef(filterKey);

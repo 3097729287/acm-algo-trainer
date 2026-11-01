@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="385" viewBox="0 0 760 385" role="img" aria-labelledby="title"><title id="title">第一刀切四，左右两段再各切一次</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">第一刀切四，左右两段再各切一次</text>
+<line x1="65" y1="140" x2="695" y2="140" stroke="#2365ab" stroke-width="7"/>
+<line x1="65" y1="112" x2="65" y2="167" stroke="#68778b" stroke-width="4"/>
+<text x="65" y="215" fill="#68778b" font-size="23" text-anchor="middle" font-weight="normal">0</text>
+<line x1="191" y1="112" x2="191" y2="167" stroke="#68778b" stroke-width="4"/>
+<text x="191" y="215" fill="#68778b" font-size="23" text-anchor="middle" font-weight="normal">2</text>
+<line x1="317" y1="112" x2="317" y2="167" stroke="#12805c" stroke-width="4"/>
+<text x="317" y="215" fill="#68778b" font-size="23" text-anchor="middle" font-weight="normal">4</text>
+<line x1="506" y1="112" x2="506" y2="167" stroke="#68778b" stroke-width="4"/>
+<text x="506" y="215" fill="#68778b" font-size="23" text-anchor="middle" font-weight="normal">7</text>
+<line x1="695" y1="112" x2="695" y2="167" stroke="#68778b" stroke-width="4"/>
+<text x="695" y="215" fill="#68778b" font-size="23" text-anchor="middle" font-weight="normal">10</text>
+<text x="65" y="290" fill="#12805c" font-size="25" text-anchor="start" font-weight="normal">先切 4：10 + 4 + 6 = 20</text>
+<text x="65" y="350" fill="#bc3645" font-size="25" text-anchor="start" font-weight="normal">若先切 2：10 + 8 + 6 = 24</text>
+</g></svg>

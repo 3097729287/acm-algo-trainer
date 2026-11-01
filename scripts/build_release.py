@@ -151,6 +151,9 @@ def assemble(args):
     copy_to_package(formatters_source,package)
     (package / 'data').mkdir()
     shutil.copy2(seed, package / 'data' / 'library.sqlite3')
+    sys.path.insert(0,str(ROOT/'backend'))
+    from seed_identity import describe
+    (package/'resources/library-seed-identity.json').write_text(json.dumps(describe(package/'data/library.sqlite3'),sort_keys=True)+'\n',encoding='utf8')
     shutil.copy2(ROOT / 'desktop' / 'official_languages.js', package / 'official_languages.js')
     shutil.copy2(ROOT / 'desktop' / 'official_nowcoder.js', package / 'official_nowcoder.js')
     shutil.copy2(ROOT / 'desktop' / 'official_luogu.js', package / 'official_luogu.js')

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="380" viewBox="0 0 760 380" role="img" aria-labelledby="title"><title id="title">页码 1 至 13：个位贡献 51，十位贡献 4</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">页码 1 至 13：个位贡献 51，十位贡献 4</text>
+<rect x="35" y="100" width="50" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="60.0" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="88" y="100" width="50" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="113.0" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="141" y="100" width="50" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="166.0" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="194" y="100" width="50" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="219.0" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="247" y="100" width="50" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="272.0" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="300" y="100" width="50" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="325.0" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">6</text>
+<rect x="353" y="100" width="50" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="378.0" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">7</text>
+<rect x="406" y="100" width="50" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="431.0" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">8</text>
+<rect x="459" y="100" width="50" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="484.0" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">9</text>
+<rect x="512" y="100" width="50" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="537.0" y="131.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">10</text>
+<rect x="565" y="100" width="50" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="590.0" y="131.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">11</text>
+<rect x="618" y="100" width="50" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="643.0" y="131.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">12</text>
+<rect x="671" y="100" width="50" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="696.0" y="131.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">13</text>
+<text x="45" y="230" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">个位：1+…+9，再加 0+1+2+3，得到 51</text>
+<text x="45" y="290" fill="#12805c" font-size="23" text-anchor="start" font-weight="normal">十位：只有 10、11、12、13，各贡献 1</text>
+<text x="45" y="350" fill="#2365ab" font-size="25" text-anchor="start" font-weight="normal">数位和总计 51+4=55</text>
+</g></svg>

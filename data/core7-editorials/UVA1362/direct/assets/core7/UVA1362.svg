@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="440" viewBox="0 0 760 440" role="img" aria-labelledby="title"><title id="title">五次进入均记 A，可以来自两种三节点有序树</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">五次进入均记 A，可以来自两种三节点有序树</text>
+<line x1="180" y1="90" x2="180" y2="205" stroke="#2365ab" stroke-width="4"/>
+<line x1="180" y1="205" x2="180" y2="320" stroke="#2365ab" stroke-width="4"/>
+<line x1="540" y1="90" x2="450" y2="205" stroke="#2365ab" stroke-width="4"/>
+<line x1="540" y1="90" x2="630" y2="205" stroke="#2365ab" stroke-width="4"/>
+<circle cx="180" cy="90" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="180" y="97" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">A</text>
+<circle cx="180" cy="205" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="180" y="212" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">A</text>
+<circle cx="180" cy="320" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="180" y="327" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">A</text>
+<circle cx="540" cy="90" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="540" y="97" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">A</text>
+<circle cx="450" cy="205" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="450" y="212" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">A</text>
+<circle cx="630" cy="205" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="630" y="212" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">A</text>
+<text x="180" y="385" fill="#243449" font-size="22" text-anchor="middle" font-weight="normal">链：下、下、回、回</text>
+<text x="540" y="385" fill="#243449" font-size="22" text-anchor="middle" font-weight="normal">两孩子：下回、下回</text>
+<text x="65" y="430" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">两种记录都为 AAAAA；每次回到父洞也会记颜色</text>
+</g></svg>

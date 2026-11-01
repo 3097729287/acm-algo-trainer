@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="430" viewBox="0 0 760 430" role="img" aria-labelledby="title"><title id="title">三人的全部合法队伍序列，122 排第四</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">三人的全部合法队伍序列，122 排第四</text>
+<rect x="45" y="115" width="125" height="60" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="107.5" y="152.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">111</text>
+<text x="107" y="230" fill="#2365ab" font-size="22" text-anchor="middle" font-weight="normal">第 1 天</text>
+<rect x="185" y="115" width="125" height="60" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="247.5" y="152.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">112</text>
+<text x="247" y="230" fill="#2365ab" font-size="22" text-anchor="middle" font-weight="normal">第 2 天</text>
+<rect x="325" y="115" width="125" height="60" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="387.5" y="152.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">121</text>
+<text x="387" y="230" fill="#2365ab" font-size="22" text-anchor="middle" font-weight="normal">第 3 天</text>
+<rect x="465" y="115" width="125" height="60" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="527.5" y="152.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">122</text>
+<text x="527" y="230" fill="#12805c" font-size="22" text-anchor="middle" font-weight="normal">第 4 天</text>
+<rect x="605" y="115" width="125" height="60" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="667.5" y="152.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">123</text>
+<text x="667" y="230" fill="#2365ab" font-size="22" text-anchor="middle" font-weight="normal">第 5 天</text>
+<text x="45" y="310" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">新队伍编号只能是前缀最大编号加一</text>
+<text x="45" y="380" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">122 前面的首次不同位置各只计一次，排名再加一</text>
+</g></svg>

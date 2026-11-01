@@ -322,3 +322,14 @@ button.competition-tag:hover,button.competition-tag:focus-visible{color:var(--ac
 .achievement-progress-count {display:block;margin-top:6px;font-size:.78rem;}
 .achievement-claim-row {display:flex;justify-content:flex-end;margin-top:auto;padding-top:8px;}
 .achievement-claim {color:var(--accent);}
+
+html .workspace-area .competition-detail-heading{padding-inline-end:0;align-items:center;gap:10px;flex-wrap:nowrap;}
+html .workspace-area .competition-detail-heading>div{min-width:0;display:flex;align-items:center;}
+html .workspace-area .competition-detail-heading h2{margin:0;line-height:32px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+html .workspace-area .competition-detail-heading>.progress-button{height:32px;min-height:32px;padding:5px 11px;line-height:1;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;flex:none;}
+html .workspace-area .competition-detail-heading>.progress-button>svg{width:14px;height:14px;flex:none;}
+
+html .competition-list .competition-card-open{padding-inline-start:16px;text-align:left;justify-content:flex-start;}
+html .competition-list .competition-card-title{align-items:flex-start;text-align:left;}
+html .competition-list .competition-card-title>strong{display:block;width:100%;font-size:1rem;line-height:1.5;text-align:left;font-weight:650;}
+html .competition-list .competition-card-title .catalog-latin-name{font:inherit;letter-spacing:inherit;}

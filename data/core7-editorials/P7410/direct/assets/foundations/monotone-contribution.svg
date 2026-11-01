@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="480" viewBox="0 0 760 480" role="img" aria-labelledby="title"><title id="title">区间最小值交给最右相等项：总和为十三</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">区间最小值交给最右相等项：总和为十三</text>
+<text x="30" y="122" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">数值</text>
+<rect x="210" y="90" width="122" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="271.0" y="121.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="335" y="90" width="122" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="396.0" y="121.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="460" y="90" width="122" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="521.0" y="121.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="585" y="90" width="122" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="646.0" y="121.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<text x="30" y="232" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">负责区间数</text>
+<rect x="210" y="200" width="122" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="271.0" y="231.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="335" y="200" width="122" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="396.0" y="231.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="460" y="200" width="122" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="521.0" y="231.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="585" y="200" width="122" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="646.0" y="231.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<text x="30" y="342" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">贡献</text>
+<rect x="210" y="310" width="122" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="271.0" y="341.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="335" y="310" width="122" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="396.0" y="341.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="460" y="310" width="122" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="521.0" y="341.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="585" y="310" width="122" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="646.0" y="341.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<text x="45" y="410" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">整段 [3,1,2,1] 归第四项，不再归第二项</text>
+<text x="45" y="460" fill="#12805c" font-size="24" text-anchor="start" font-weight="normal">四项贡献：3+4+2+4=13</text>
+</g></svg>

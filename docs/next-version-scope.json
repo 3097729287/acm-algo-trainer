@@ -1,5 +1,5 @@
 {
-  "status": "four feature requests remain queued; 1.4.36 reliability and UI repair candidate takes priority",
+  "status": "1.5.0 independent development; installation/integration waits for completed 1.4.36",
   "requestedOn": "2026-11-01",
   "continuation": "用户已要求当前版本更新完成后先列出下一版内容与实施顺序，然后继续实施；不得提前并入当前版本。",
   "features": [
@@ -47,5 +47,38 @@
     "automaticBackupBounds": true,
     "defaultFutureDelivery": "verified incremental update",
     "oneTimeFullRepairBaseline": true
+  },
+  "activeFeatures": [
+    "problem-solving-templates",
+    "wiki",
+    "online-duel",
+    "stickers",
+    "core7-editorials"
+  ],
+  "explicitFollowups": [
+    "Full task-card rarity palettes, Clash Royale reference supplied by user",
+    "Immediate complete window; actual content within 3 seconds, measured cold/restart",
+    "Remove submissions platform folder filter",
+    "Learned lecture full-row background",
+    "Fullscreen solution alone at top layer, no workbench separator",
+    "Compact aligned contest header buttons at right edge",
+    "Verified Div.3 1131 roster in competitions",
+    "Reset competition navigation on every entry",
+    "Contest name left alignment and uniform typography; XCPC original-year chronology"
+  ],
+  "teachingHandoff": {
+    "acceptedByUser": true,
+    "sourceLedgerProblems": 428,
+    "sourceLedgerMethods": 443,
+    "sourceLedgerArticles": 886,
+    "programHashesChecked": 443,
+    "remainingLedgerReview": 182,
+    "missingLedgerVariants": 179,
+    "libraryAndReaderAudit": "in progress; ledger counts are not delivery proof",
+    "preservedSemanticQuestions": [
+      "luogu-training-P1766",
+      "luogu-training-P1858"
+    ],
+    "publicArchiveReadOnly": true
   }
 }

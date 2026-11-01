@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="585" viewBox="0 0 760 585" role="img" aria-labelledby="title"><title id="title">三至八中，二进制一的数量为奇数的是 4、7、8</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">三至八中，二进制一的数量为奇数的是 4、7、8</text>
+<text x="90" y="85" fill="#243449" font-size="22" text-anchor="middle" font-weight="normal">整数</text>
+<text x="280" y="85" fill="#243449" font-size="22" text-anchor="middle" font-weight="normal">二进制</text>
+<text x="470" y="85" fill="#243449" font-size="22" text-anchor="middle" font-weight="normal">一的个数</text>
+<text x="655" y="85" fill="#243449" font-size="22" text-anchor="middle" font-weight="normal">计入值</text>
+<text x="90" y="140" fill="#68778b" font-size="25" text-anchor="middle" font-weight="normal">3</text>
+<text x="280" y="140" fill="#68778b" font-size="25" text-anchor="middle" font-weight="normal">11</text>
+<text x="470" y="140" fill="#68778b" font-size="25" text-anchor="middle" font-weight="normal">2</text>
+<text x="655" y="140" fill="#68778b" font-size="25" text-anchor="middle" font-weight="normal">—</text>
+<text x="90" y="200" fill="#12805c" font-size="25" text-anchor="middle" font-weight="normal">4</text>
+<text x="280" y="200" fill="#12805c" font-size="25" text-anchor="middle" font-weight="normal">100</text>
+<text x="470" y="200" fill="#12805c" font-size="25" text-anchor="middle" font-weight="normal">1</text>
+<text x="655" y="200" fill="#12805c" font-size="25" text-anchor="middle" font-weight="normal">4</text>
+<text x="90" y="260" fill="#68778b" font-size="25" text-anchor="middle" font-weight="normal">5</text>
+<text x="280" y="260" fill="#68778b" font-size="25" text-anchor="middle" font-weight="normal">101</text>
+<text x="470" y="260" fill="#68778b" font-size="25" text-anchor="middle" font-weight="normal">2</text>
+<text x="655" y="260" fill="#68778b" font-size="25" text-anchor="middle" font-weight="normal">—</text>
+<text x="90" y="320" fill="#68778b" font-size="25" text-anchor="middle" font-weight="normal">6</text>
+<text x="280" y="320" fill="#68778b" font-size="25" text-anchor="middle" font-weight="normal">110</text>
+<text x="470" y="320" fill="#68778b" font-size="25" text-anchor="middle" font-weight="normal">2</text>
+<text x="655" y="320" fill="#68778b" font-size="25" text-anchor="middle" font-weight="normal">—</text>
+<text x="90" y="380" fill="#12805c" font-size="25" text-anchor="middle" font-weight="normal">7</text>
+<text x="280" y="380" fill="#12805c" font-size="25" text-anchor="middle" font-weight="normal">111</text>
+<text x="470" y="380" fill="#12805c" font-size="25" text-anchor="middle" font-weight="normal">3</text>
+<text x="655" y="380" fill="#12805c" font-size="25" text-anchor="middle" font-weight="normal">7</text>
+<text x="90" y="440" fill="#12805c" font-size="25" text-anchor="middle" font-weight="normal">8</text>
+<text x="280" y="440" fill="#12805c" font-size="25" text-anchor="middle" font-weight="normal">1000</text>
+<text x="470" y="440" fill="#12805c" font-size="25" text-anchor="middle" font-weight="normal">1</text>
+<text x="655" y="440" fill="#12805c" font-size="25" text-anchor="middle" font-weight="normal">8</text>
+<text x="45" y="555" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">答案是整数和 4+7+8=19，不是个数或数位和</text>
+</g></svg>

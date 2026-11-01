@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="445" viewBox="0 0 760 445" role="img" aria-labelledby="title"><title id="title">序列 [1,2,3] 的六个非空连续区间，极差和四</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">序列 [1,2,3] 的六个非空连续区间，极差和四</text>
+<rect x="135" y="95" width="157" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="213.5" y="126.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="295" y="95" width="157" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="373.5" y="126.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="455" y="95" width="157" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="533.5" y="126.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<text x="45" y="230" fill="#243449" font-size="24" text-anchor="start" font-weight="normal">三段单项：极差都是 0</text>
+<text x="45" y="300" fill="#243449" font-size="24" text-anchor="start" font-weight="normal">两段双项：[1,2] 与 [2,3]，各为 1</text>
+<text x="45" y="370" fill="#243449" font-size="24" text-anchor="start" font-weight="normal">一段三项：[1,2,3]，极差为 2</text>
+<text x="45" y="425" fill="#12805c" font-size="24" text-anchor="start" font-weight="normal">总和 0+0+0+1+1+2=4</text>
+</g></svg>

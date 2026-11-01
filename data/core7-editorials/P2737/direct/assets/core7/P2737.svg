@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="355" viewBox="0 0 760 355" role="img" aria-labelledby="title"><title id="title">包装三、六、十：同余类从最小值起连续可达</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">包装三、六、十：同余类从最小值起连续可达</text>
+<text x="25" y="112" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">余 0</text>
+<rect x="120" y="80" width="84" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="162.0" y="111.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="207" y="80" width="84" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="249.0" y="111.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="294" y="80" width="84" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="336.0" y="111.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">6</text>
+<rect x="381" y="80" width="84" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="423.0" y="111.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">9</text>
+<rect x="468" y="80" width="84" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="510.0" y="111.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">12</text>
+<rect x="555" y="80" width="84" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="597.0" y="111.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">15</text>
+<rect x="642" y="80" width="84" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="684.0" y="111.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">18</text>
+<text x="25" y="187" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">余 1</text>
+<rect x="120" y="155" width="84" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="162.0" y="186.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="207" y="155" width="84" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="249.0" y="186.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="294" y="155" width="84" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="336.0" y="186.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">7</text>
+<rect x="381" y="155" width="84" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="423.0" y="186.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">10</text>
+<rect x="468" y="155" width="84" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="510.0" y="186.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">13</text>
+<rect x="555" y="155" width="84" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="597.0" y="186.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">16</text>
+<rect x="642" y="155" width="84" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="684.0" y="186.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">19</text>
+<text x="25" y="262" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">余 2</text>
+<rect x="120" y="230" width="84" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="162.0" y="261.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="207" y="230" width="84" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="249.0" y="261.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="294" y="230" width="84" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="336.0" y="261.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">8</text>
+<rect x="381" y="230" width="84" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="423.0" y="261.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">11</text>
+<rect x="468" y="230" width="84" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="510.0" y="261.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">14</text>
+<rect x="555" y="230" width="84" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="597.0" y="261.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">17</text>
+<rect x="642" y="230" width="84" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="684.0" y="261.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">20</text>
+<text x="45" y="335" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">绿色可组成；红色不可组成；最后一个红数是 17</text>
+</g></svg>

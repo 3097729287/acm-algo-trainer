@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="455" viewBox="0 0 760 455" role="img" aria-labelledby="title"><title id="title">父指针压缩后，仍保留相同的坐标差</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">父指针压缩后，仍保留相同的坐标差</text>
+<line x1="175.0" y1="201.0" x2="175.0" y2="124.0" stroke="#2365ab" stroke-width="3"/>
+<polygon points="175.00,124.00 180.08,133.76 169.92,133.76" fill="#2365ab"/>
+<line x1="175.0" y1="326.0" x2="175.0" y2="249.0" stroke="#2365ab" stroke-width="3"/>
+<polygon points="175.00,249.00 180.08,258.76 169.92,258.76" fill="#2365ab"/>
+<line x1="71.62076387655313" y1="207.68670429525716" x2="158.37923612344687" y2="117.31329570474284" stroke="#2365ab" stroke-width="3"/>
+<polygon points="158.38,117.31 155.29,127.87 147.96,120.83" fill="#2365ab"/>
+<circle cx="175" cy="100" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="175" y="107" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<circle cx="175" cy="225" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="175" y="232" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<circle cx="175" cy="350" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="175" y="357" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<circle cx="55" cy="225" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="55" y="232" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<line x1="447.34789813026066" y1="279.42016978289894" x2="542.6521018697393" y2="120.57983021710106" stroke="#2365ab" stroke-width="3"/>
+<polygon points="542.65,120.58 541.99,131.56 533.28,126.33" fill="#2365ab"/>
+<line x1="555.0" y1="326.0" x2="555.0" y2="124.0" stroke="#2365ab" stroke-width="3"/>
+<polygon points="555.00,124.00 560.08,133.76 549.92,133.76" fill="#2365ab"/>
+<line x1="667.2800254399236" y1="279.6480407038779" x2="567.7199745600764" y2="120.35195929612212" stroke="#2365ab" stroke-width="3"/>
+<polygon points="567.72,120.35 577.20,125.93 568.58,131.32" fill="#2365ab"/>
+<circle cx="555" cy="100" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="555" y="107" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<circle cx="435" cy="300" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="435" y="307" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<circle cx="555" cy="350" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="555" y="357" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<circle cx="680" cy="300" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="680" y="307" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<text x="205" y="170" fill="#12805c" font-size="22" text-anchor="start" font-weight="normal">+4</text>
+<text x="205" y="295" fill="#bc3645" font-size="22" text-anchor="start" font-weight="normal">−2</text>
+<text x="70" y="145" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">0</text>
+<text x="590" y="230" fill="#12805c" font-size="22" text-anchor="start" font-weight="normal">+2</text>
+<text x="447" y="185" fill="#12805c" font-size="22" text-anchor="start" font-weight="normal">+4</text>
+<text x="678" y="180" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">0</text>
+<text x="85" y="410" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">压缩前：−2+4=2</text>
+<text x="440" y="410" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">压缩后：直接到根，偏移二</text>
+</g></svg>

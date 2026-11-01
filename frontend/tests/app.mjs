@@ -114,6 +114,8 @@ await page.route('**/api/**', async route => {
   else if (path === '/api/hub/dismiss-all') { hub.notifications.forEach(item => { item.read = true; }); value = hub; }
   else if (path === '/api/hub/configure') { Object.assign(hub.settings, body); value = hub; }
   else if (path === '/api/hub/sync') value = hub;
+  else if(path==='/api/stickers')value={owner:profile.userId,catalogue:[],units:[],grants:{},revision:0};
+  else if(path==='/api/duel')value={owner:profile.userId,status:'idle',match:null,ticket:null,serverNow:Date.now()};
   else throw new Error('Unhandled fixture request: ' + path);
   if (path === '/api/insights' && slowInsights.enabled) {
     slowInsights.calls++;
@@ -160,6 +162,16 @@ try {
   await page.getByRole('button', { name: '题解', exact: true }).click();
   await page.locator('.reader-panel header .katex').waitFor();
   assert.equal(await page.locator('.reader-panel header .katex-html').textContent(), 'gcd');
+  await page.getByRole('button',{name:'题解全屏',exact:true}).click();
+  await page.locator('body>.reader-panel.reader-full').waitFor();
+  assert(await page.locator('.app-shell').evaluate(node=>node.inert));
+  assert.equal(await page.locator('.reader-full .reader-resizer').count(),0);
+  assert(await page.evaluate(()=>Boolean(document.elementFromPoint(innerWidth/2,innerHeight/2)?.closest('.reader-full'))));
+  const full=await page.locator('.reader-full').boundingBox();assert.equal(full.x,0);assert.equal(full.y,0);assert.equal(full.width,2048);assert.equal(full.height,1152);
+  await page.screenshot({path:'tests/screenshots/fullscreen-solution-top-layer.png',animations:'disabled'});
+  await page.getByRole('button',{name:'退出题解全屏',exact:true}).click();
+  assert.equal(await page.locator('.app-shell').evaluate(node=>node.inert),false);
+
   await page.screenshot({ path: 'tests/screenshots/title-math-workbench.png', animations: 'disabled' });
   await page.setViewportSize({width:960,height:700});
   await page.waitForFunction(()=>document.querySelector('.reader-panel')?.getBoundingClientRect().width>650);
@@ -275,6 +287,12 @@ try {
   await page.locator('.lectures-list button').filter({hasText:'位运算'}).first().click();
   await page.locator('.lecture-markdown .katex').waitFor();
   assert.equal(await page.locator('.lecture-markdown').evaluate(node => getComputedStyle(node).userSelect), 'text');
+  const learnedRow=page.locator('.lectures-list button').filter({hasText:'位运算'}).first();
+  const unlearnedColor=await learnedRow.evaluate(node=>getComputedStyle(node).backgroundColor);
+  await page.locator('.lectures-detail-bar').getByRole('button',{name:'标记已学会',exact:true}).click();
+  await page.waitForFunction(()=>document.querySelector('.lectures-list button.lecture-learned'));
+  assert.notEqual(await learnedRow.evaluate(node=>getComputedStyle(node).backgroundColor),unlearnedColor);
+
   await page.screenshot({ path: 'tests/screenshots/v5-lectures-light-2048.png', animations: 'disabled' });
 
   await page.keyboard.press('Control+6');

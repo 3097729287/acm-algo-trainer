@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="370" viewBox="0 0 760 370" role="img" aria-labelledby="title"><title id="title">区间10至50，最多一种数码，整数和为110</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">区间10至50，最多一种数码，整数和为110</text>
+<rect x="55" y="110" width="157" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="133.5" y="141.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">11</text>
+<rect x="215" y="110" width="157" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="293.5" y="141.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">22</text>
+<rect x="375" y="110" width="157" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="453.5" y="141.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">33</text>
+<rect x="535" y="110" width="157" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="613.5" y="141.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">44</text>
+<text x="45" y="235" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">11+22+33+44=110；重复出现同一数码只算一种</text>
+<text x="45" y="315" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">10 含实际数码 1、0 两种；011 只是 11 的补位写法</text>
+</g></svg>

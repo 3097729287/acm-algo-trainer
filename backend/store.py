@@ -124,6 +124,8 @@ class Store:
                 value.update({key: patch[key] for key in ('officialTags', 'officialTagsCheckedAt') if key in patch})
         dated_row = dict(row, _library_metadata=found['encoded']) if found else row
         value.update(self.contest_metadata(dated_row, value.get('url')))
+        from contest_rosters import annotate
+        value=annotate(value)
         methods=getattr(self,'_solution_methods',{}).get(found['id'] if found else identity,{})
         extra=[tag for method in methods.get('methods',[]) for tag in method.get('tags',[])]
         if extra:value['tags']=list(dict.fromkeys([*value.get('tags',[]),*extra]))
@@ -148,7 +150,7 @@ class Store:
             return None
         from knowledge import asset_path
         assets = []
-        for name in ('problem_knowledge.json', 'public-knowledge.json','knowledge_catalog.json','knowledge_extensions.json','knowledge_topic_review.json'):
+        for name in ('problem_knowledge.json', 'public-knowledge.json','knowledge_catalog.json','knowledge_extensions.json','knowledge_topic_review.json','reviewed-contest-rosters.json'):
             try:
                 stat = asset_path(name).stat()
                 assets.append((stat.st_mtime_ns, stat.st_size))

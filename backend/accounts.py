@@ -437,7 +437,7 @@ class Accounts:
         else:
             state_sync = AccountStateSync(self, service, candidate)
             try:
-                with self._restoration_deadline(2 if local_path else RESTORE_NETWORK_SECONDS if allow_offline else LOGIN_NETWORK_SECONDS):
+                with self._restoration_deadline(.6 if local_path else RESTORE_NETWORK_SECONDS if allow_offline else LOGIN_NETWORK_SECONDS):
                     state_sync.initialize()
                     self._check_account_operation()
             except ServiceError as issue:

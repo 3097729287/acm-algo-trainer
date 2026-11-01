@@ -343,6 +343,12 @@ class Handler(BaseHTTPRequestHandler):
                     value = training.cancel_contest(body.get('contestId'))
                 elif path == "/api/contests/finish":
                     value = training.finish_contest(body.get("contestId"))
+                elif path in ('/api/stickers/place','/api/stickers/recycle'):
+                    from gameplay import stickers
+                    value=stickers(training,path.rsplit('/',1)[1],body)
+                elif path in ('/api/duel/join','/api/duel/cancel','/api/duel/poll','/api/duel/dismiss'):
+                    from gameplay import duel
+                    value=duel(training,path.rsplit('/',1)[1],body)
                 elif path == "/api/daily-tasks/claim":
                     value = training.claim_daily_task(body.get("id"), body.get("date"))
                 elif path == '/api/achievements/claim':
@@ -532,6 +538,16 @@ class Handler(BaseHTTPRequestHandler):
                 value=self.server.calendar_service().snapshot(refresh=parse_qs(target.query).get('refresh', ['0'])[0] == '1')
                 value['browserReadingAvailable']=callable(getattr(self.server,'original_contest_reader',None))
                 self.send_json(200,value)
+            elif path == '/api/wiki':
+                from wiki import read
+                query=parse_qs(target.query)
+                self.send_json(200,read(query.get('q',[''])[0],query.get('id',[None])[0]))
+            elif path == '/api/stickers':
+                from gameplay import stickers
+                self.send_json(200,stickers(self.server.training))
+            elif path == '/api/duel':
+                from gameplay import duel
+                self.send_json(200,duel(self.server.training))
             elif path == "/api/goals":
                 from goals import Goals
                 self.send_json(200, Goals(self.server.training).list())

@@ -86,3 +86,10 @@ CREATE TABLE ranking_leader_days(period TEXT NOT NULL,ranking_day TEXT NOT NULL,
 CREATE INDEX ranking_leader_owner ON ranking_leader_days(user_id,period,ranking_day);
 
 CREATE TABLE shared_statement_translations(translation_key TEXT PRIMARY KEY,source_url TEXT NOT NULL,source_hash TEXT NOT NULL,source_format TEXT NOT NULL,target_language TEXT NOT NULL,markdown TEXT NOT NULL,contributor_id TEXT REFERENCES users(user_id) ON DELETE SET NULL,created_at TEXT NOT NULL);
+
+CREATE TABLE gameplay_accounts(user_id TEXT PRIMARY KEY REFERENCES accounts(user_id) ON DELETE CASCADE,payload TEXT NOT NULL);
+CREATE TABLE gameplay_operations(user_id TEXT NOT NULL REFERENCES accounts(user_id) ON DELETE CASCADE,request_id TEXT NOT NULL,request_hash TEXT NOT NULL,response TEXT NOT NULL,PRIMARY KEY(user_id,request_id));
+CREATE TABLE duel_lobby(singleton INTEGER PRIMARY KEY,payload TEXT NOT NULL);
+INSERT INTO duel_lobby VALUES(1,'{"queue":[]}');
+CREATE TABLE duel_matches(match_id TEXT PRIMARY KEY,payload TEXT NOT NULL);
+CREATE TABLE duel_members(user_id TEXT PRIMARY KEY REFERENCES accounts(user_id) ON DELETE CASCADE,match_id TEXT NOT NULL REFERENCES duel_matches(match_id));

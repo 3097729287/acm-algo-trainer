@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="385" viewBox="0 0 760 385" role="img" aria-labelledby="title"><title id="title">只禁止长度四的回文；短一些的重复仍允许</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">只禁止长度四的回文；短一些的重复仍允许</text>
+<text x="40" y="85" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">原样例：AB?A?BA，K=4</text>
+<rect x="60" y="110" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="103.5" y="141.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">A</text>
+<rect x="150" y="110" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="193.5" y="141.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">B</text>
+<rect x="240" y="110" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="283.5" y="141.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">A</text>
+<rect x="330" y="110" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="373.5" y="141.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">A</text>
+<rect x="420" y="110" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="463.5" y="141.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">A</text>
+<rect x="510" y="110" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="553.5" y="141.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">B</text>
+<rect x="600" y="110" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="643.5" y="141.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">A</text>
+<text x="60" y="185" fill="#12805c" font-size="22" text-anchor="start" font-weight="normal">ABAAABA：四个长度四窗口都不回文</text>
+<rect x="60" y="245" width="87" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="103.5" y="276.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">A</text>
+<rect x="150" y="245" width="87" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="193.5" y="276.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">B</text>
+<rect x="240" y="245" width="87" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="283.5" y="276.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">B</text>
+<rect x="330" y="245" width="87" height="48" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="373.5" y="276.0" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">A</text>
+<rect x="420" y="245" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="463.5" y="276.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">B</text>
+<rect x="510" y="245" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="553.5" y="276.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">B</text>
+<rect x="600" y="245" width="87" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="643.5" y="276.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">A</text>
+<text x="60" y="335" fill="#bc3645" font-size="22" text-anchor="start" font-weight="normal">ABBABBA：最前 ABBA 回文，这次填法作废</text>
+</g></svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="400" viewBox="0 0 760 400" role="img" aria-labelledby="title"><title id="title">一条跨一号到四号位置的边，付三个分界的费用</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">一条跨一号到四号位置的边，付三个分界的费用</text>
+<line x1="210" y1="85" x2="210" y2="310" stroke="#68778b" stroke-width="2" stroke-dasharray="7 5"/>
+<line x1="370" y1="85" x2="370" y2="310" stroke="#68778b" stroke-width="2" stroke-dasharray="7 5"/>
+<line x1="530" y1="85" x2="530" y2="310" stroke="#68778b" stroke-width="2" stroke-dasharray="7 5"/>
+<circle cx="130" cy="255" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="130" y="262" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<circle cx="290" cy="255" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="290" y="262" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<circle cx="450" cy="255" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="450" y="262" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<circle cx="610" cy="255" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="610" y="262" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<line x1="130" y1="230" x2="130" y2="125" stroke="#12805c" stroke-width="3"/>
+<line x1="130" y1="125" x2="610" y2="125" stroke="#12805c" stroke-width="5"/>
+<line x1="610" y1="125" x2="610" y2="230" stroke="#12805c" stroke-width="3"/>
+<text x="55" y="350" fill="#12805c" font-size="23" text-anchor="start" font-weight="normal">绿色这一条边跨过三条虚线，线路长度为 3</text>
+<text x="55" y="390" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">若四头牛互为朋友，全部六条边总长为 10</text>
+</g></svg>

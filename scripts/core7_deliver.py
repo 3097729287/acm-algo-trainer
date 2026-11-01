@@ -25,16 +25,51 @@ sys.path[:0]=[str(ROOT/'backend'),str(ROOT/'backend/common')]
 from library import LibraryDatabase
 
 PRIVATE={'accounts','submissions','drafts','training','documents','account_preferences'}
+INSTALLATION_LEASE=Path('D:/项目/TB/开发/tb-next-1.4.31/.backups/local-1431/public-installation-lease.json')
+LEASE_WORKSPACES=Path('D:/项目/TB/开发')
 
 def read(path):return json.loads(path.read_text('utf-8-sig'))
 def dump(path,value):
     path.parent.mkdir(parents=True,exist_ok=True)
     path.write_text(json.dumps(value,ensure_ascii=False,sort_keys=True,indent=2)+'\n',encoding='utf-8')
+
+def assert_installation_available(path):
+    """Respect the other local updater's lease; never release or bypass it.
+
+    The lease records exact protected files. A held lease remains authoritative
+    until its owner releases it, including when the owner's process is restarting.
+    This check is read-only and also guards metadata's Windows-native fallback.
+    """
+    candidate=path.resolve()
+    leases={INSTALLATION_LEASE}
+    if LEASE_WORKSPACES.is_dir():leases.update(LEASE_WORKSPACES.glob('*/.backups/local-*/public-installation-lease.json'))
+    for lease_path in sorted(leases):
+        if not lease_path.is_file():continue
+        try:
+            lease=read(lease_path)
+            if lease['state']!='held':continue
+            files=[Path(value['path']).resolve() for value in lease['files'].values()]
+            assert files
+        except (KeyError,TypeError,ValueError,OSError,AssertionError) as error:
+            raise RuntimeError('Cannot verify the public-installation lease; installation is blocked') from error
+        if any(candidate==protected or candidate in protected.parents for protected in files):
+            raise RuntimeError('Public installation is protected by the other updater (PID '+str(lease.get('pid','unknown'))+'); wait for its owner to release the lease, integrate the new source and restage. No force replacement is permitted.')
+
 def atomic_bytes(path,value):
+    assert_installation_available(path)
     temporary=path.with_name(path.name+'.core7-staged')
     with temporary.open('wb') as stream:
         stream.write(value);stream.flush();os.fsync(stream.fileno())
-    os.replace(temporary,path)
+    try:os.replace(temporary,path)
+    except PermissionError:
+        if os.name!='nt':raise
+        assert_installation_available(path)
+        # The current installation requires native replacement for an existing
+        # metadata file on Windows. Both are files in the same resolved folder.
+        assert temporary.parent.resolve()==path.parent.resolve()
+        assert path.name in {'BUILD-INFO.json','SOURCE-MANIFEST.json','core7-editorials.json'}
+        literal=lambda p:"'"+str(p).replace("'","''")+"'"
+        subprocess.run(['powershell','-NoProfile','-Command','Move-Item -LiteralPath '+literal(temporary)+' -Destination '+literal(path)+' -Force -ErrorAction Stop'],check=True,capture_output=True)
 def filehash(path):
     with path.open('rb') as stream:return hashlib.file_digest(stream,'sha256').hexdigest()
 def quote(name):return '"'+name.replace('"','""')+'"'
@@ -69,19 +104,26 @@ def authored():
     return entries
 
 def delivery_folder(target):
-    revision=source_hash(filehash(OUT/'authored.json')+filehash(ROOT/'data/library/solution_methods.json'))[:12]
+    # A new installed version/baseline must never reuse a failed attempt's
+    # recovery directory, even when the authored editorial payload is identical.
+    revision=source_hash(jsonrow({
+        'authored':filehash(OUT/'authored.json'),
+        'methods':filehash(ROOT/'data/library/solution_methods.json'),
+        'publicSeed':filehash(target/'data/library.sqlite3'),
+        'buildInfo':filehash(target/'BUILD-INFO.json'),
+    }))[:12]
     return OUT/'delivery'/revision/target.name
 
-def stage(target):
+def stage(target,destination=None):
     target=target.resolve();public=target/'data/library.sqlite3';assert public.is_file()
     build=target/'BUILD-INFO.json';assert build.is_file()
     assert read(build)['version']==(ROOT/'VERSION').read_text('utf-8').strip(),'Installed app version changed; integrate its source before staging'
-    folder=delivery_folder(target);folder.mkdir(parents=True,exist_ok=True)
+    folder=Path(destination).resolve() if destination is not None else delivery_folder(target)
+    assert folder.resolve().is_relative_to(OUT.resolve()),'Keep candidates within the owned task workspace'
+    folder.mkdir(parents=True,exist_ok=True)
     staged=folder/'library.sqlite3'
     if staged.exists():
-        # Staging output is disposable, never a personal database.
-        assert staged.resolve().is_relative_to((OUT/'delivery').resolve())
-        staged.unlink()
+        raise FileExistsError('Retained stage exists; use a fresh candidate directory instead of permanently deleting it')
     backup(public,staged)
     entries=authored();identities={x['problemId'] for x in entries}
     needed={'lecture:foundation-'+name for x in entries for name in x['lessons']}
@@ -136,13 +178,13 @@ def stage(target):
             for row in old.execute('SELECT * FROM '+table):
                 if row[0] not in identities:assert new.execute('SELECT * FROM '+table+' WHERE problem_id=?',(row[0],)).fetchone()==row
     fresh=folder/'fresh-install.sqlite3'
-    if fresh.exists():fresh.unlink()
+    assert not fresh.exists(),'Use a fresh candidate directory'
     LibraryDatabase(fresh).merge_seed(staged)
     assert LibraryDatabase(fresh,readonly=True).check()==counts
     # Upgrade from the precise installed public baseline with an independent
     # local amendment/import. Actual personal state is tested separately below.
     upgrade=folder/'upgrade-fixture.sqlite3'
-    if upgrade.exists():upgrade.unlink()
+    assert not upgrade.exists(),'Use a fresh candidate directory'
     check=LibraryDatabase(upgrade);check.merge_seed(public)
     with check.connection() as db:
         db.execute("UPDATE solutions SET markdown='local amendment',digest=? WHERE problem_id='luogu-training-P5707'",(source_hash('local amendment'),))
@@ -161,7 +203,11 @@ def stage(target):
     return report
 
 def apply(target):
-    target=target.resolve();folder=delivery_folder(target);report=read(folder/'stage-report.json')
+    target=target.resolve()
+    assert_installation_available(target)
+    folder=delivery_folder(target)
+    assert (folder/'stage-report.json').is_file(),'No stage matches the installed baseline; integrate its source and restage'
+    report=read(folder/'stage-report.json')
     public=target/'data/library.sqlite3';build=target/'BUILD-INFO.json';staged=folder/'library.sqlite3'
     assert read(build)['version']==(ROOT/'VERSION').read_text('utf-8').strip(),'Installed app version changed; restage after source integration'
     assert str(target)==report['target']
@@ -215,9 +261,10 @@ def apply(target):
     for name in paths:
         if name and (ROOT/name).is_file():source_manifest[name]=filehash(ROOT/name)
     manifest_bytes=(json.dumps(source_manifest,ensure_ascii=False,sort_keys=True,indent=2)+'\n').encode()
-    info.update(localRevision='english-first-core7-20261030',commit=commit,sourceCommit=commit,sourceBranch=source_branch,
+    revision=('algorithm-learning-core7-' if info.get('algorithmLearning') else 'ui-followups-core7-' if info.get('frontendSourceCommit')=='3d3c12e763661f437a980476d25e5cf95cdae2fe' else 'english-first-core7-')+str(report['problems'])+'-20261030'
+    info.update(localRevision=revision,commit=commit,sourceCommit=commit,sourceBranch=source_branch,
         contentSourceCommit=commit,sourcePushed=False,workingTreeDirty=False,sourceTag=None,
-        status='local content-only editorial update; English-first frontend retained; unpublished',
+        status='local content-only editorial update; installed frontend retained; unpublished',
         sourceManifestSha256=hashlib.sha256(manifest_bytes).hexdigest(),core7Editorials={k:report[k] for k in ['problems','methods','articles','scopeTotal','complete','missingDualEditorials','pendingStandardReview']})
     info['publicLibrary'].update(report['countsAfter'])
     if 'publicLibraryCounts' in info:info['publicLibraryCounts'].update(report['countsAfter'])
@@ -231,11 +278,19 @@ def apply(target):
         payloads[target/prefix/'BUILD-INFO.json']=info_bytes
     payloads[target/'resources/core7-editorials.json']=(json.dumps({'revision':'2026-10-30-method-variants-v1','sourceCommit':commit,**info['core7Editorials']},ensure_ascii=False,sort_keys=True,indent=2)+'\n').encode()
     old_metadata={p:p.read_bytes() if p.exists() else None for p in payloads}
+    assert_installation_available(target)
+    seed_replaced=False
     try:
         temporary=public.with_name(public.name+'.core7-staged');shutil.copy2(staged,temporary)
+        assert_installation_available(target)
         os.replace(temporary,public)
+        seed_replaced=True
         for path,value in payloads.items():atomic_bytes(path,value)
     except Exception:
+        # A denied initial replacement left the original seed/metadata intact.
+        # Do not turn that harmless failure into an unnecessary rollback write.
+        if not seed_replaced:raise
+        assert_installation_available(target)
         temporary=public.with_name(public.name+'.core7-rollback');shutil.copy2(recovery/'public-library.sqlite3',temporary);os.replace(temporary,public)
         for path,value in old_metadata.items():
             if value is None:path.unlink(missing_ok=True)

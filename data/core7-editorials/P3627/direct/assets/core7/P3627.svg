@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="395" viewBox="0 0 760 395" role="img" aria-labelledby="title"><title id="title">同一强连通组拿完一次，分叉路线只能选择一支</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">同一强连通组拿完一次，分叉路线只能选择一支</text>
+<rect x="25" y="140" width="240" height="80" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="145.0" y="187.0" fill="#2365ab" font-size="23" text-anchor="middle" font-weight="normal">{1,2,4}：38</text>
+<rect x="350" y="70" width="155" height="60" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="427.5" y="107.0" fill="#12805c" font-size="22" text-anchor="middle" font-weight="normal">{3}：8</text>
+<rect x="350" y="240" width="155" height="60" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="427.5" y="277.0" fill="#68778b" font-size="22" text-anchor="middle" font-weight="normal">{6}：5</text>
+<rect x="590" y="140" width="140" height="80" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="660.0" y="187.0" fill="#2365ab" font-size="22" text-anchor="middle" font-weight="normal">{5}：1</text>
+<line x1="265" y1="155" x2="350" y2="108" stroke="#12805c" stroke-width="3"/>
+<line x1="350" y1="108" x2="344.10394438183914" y2="117.28636248202457" stroke="#12805c" stroke-width="3"/>
+<line x1="350" y1="108" x2="339.00014297094856" y2="108.0560833346693" stroke="#12805c" stroke-width="3"/>
+<line x1="505" y1="108" x2="590" y2="155" stroke="#12805c" stroke-width="3"/>
+<line x1="590" y1="155" x2="579.0001429709486" y2="154.9439166653307" stroke="#12805c" stroke-width="3"/>
+<line x1="590" y1="155" x2="584.1039443818391" y2="145.71363751797543" stroke="#12805c" stroke-width="3"/>
+<line x1="265" y1="200" x2="350" y2="265" stroke="#68778b" stroke-width="3"/>
+<line x1="350" y1="265" x2="339.12824155168965" y2="263.325225913267" stroke="#68778b" stroke-width="3"/>
+<line x1="350" y1="265" x2="345.5352376416305" y2="254.94684641103666" stroke="#68778b" stroke-width="3"/>
+<line x1="505" y1="265" x2="590" y2="200" stroke="#68778b" stroke-width="3"/>
+<line x1="590" y1="200" x2="585.5352376416305" y2="210.05315358896334" stroke="#68778b" stroke-width="3"/>
+<line x1="590" y1="200" x2="579.1282415516896" y2="201.67477408673304" stroke="#68778b" stroke-width="3"/>
+<text x="50" y="348" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">选上支：38+8+1=47；选下支：38+5+1=44</text>
+<text x="50" y="385" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">组内允许重复走，但每个 ATM 的钱只计算一次</text>
+</g></svg>

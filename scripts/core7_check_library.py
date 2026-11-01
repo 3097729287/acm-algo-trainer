@@ -1,6 +1,6 @@
-"""Verify actual Store responses and seed upgrades in disposable databases."""
+"""Verify Store responses and seed upgrades in retained isolated databases."""
 import hashlib
-from contextlib import closing
+from contextlib import closing,nullcontext
 import json
 import os
 from pathlib import Path
@@ -21,7 +21,7 @@ def main():
     authored=json.loads((OUT/'authored.json').read_text('utf-8'))
     grouped={}
     for entry in authored:grouped.setdefault(entry['problemId'],[]).append(entry)
-    with tempfile.TemporaryDirectory(prefix='core7-library-') as temporary:
+    with nullcontext(tempfile.mkdtemp(prefix='core7-library-',dir=OUT)) as temporary:
         temp=Path(temporary)
         public=LibraryDatabase(ROOT/'data/library.sqlite3',readonly=True)
         target=temp/'reader.sqlite3'

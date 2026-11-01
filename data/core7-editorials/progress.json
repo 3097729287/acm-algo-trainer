@@ -2,12 +2,12 @@
   "scopeVersion": "2026-10-30-screenshot-verified-610",
   "requestedStages": 7,
   "totalProblems": 610,
-  "authoredProblems": 195,
-  "authoredMethods": 206,
-  "authoredArticles": 412,
-  "hasBothVariants": 201,
-  "missingVariants": 409,
-  "pendingStandardReview": 415,
+  "authoredProblems": 428,
+  "authoredMethods": 443,
+  "authoredArticles": 886,
+  "hasBothVariants": 431,
+  "missingVariants": 179,
+  "pendingStandardReview": 182,
   "complete": false,
   "stages": [
     {
@@ -23,17 +23,17 @@
     {
       "stage": "03 搜索与图",
       "total": 109,
-      "reviewed": 19
+      "reviewed": 109
     },
     {
       "stage": "04 动态规划",
       "total": 108,
-      "reviewed": 0
+      "reviewed": 107
     },
     {
       "stage": "05 数据结构进阶",
       "total": 70,
-      "reviewed": 0
+      "reviewed": 36
     },
     {
       "stage": "06 数学与字符串",
@@ -1920,10 +1920,13 @@
       "reviewed": false,
       "reviewNote": {
         "status": "needs-semantic-review",
-        "reason": "题面允许相交轨道，尚需核对同高交点处同时命中的处理；本题仍未写入题解，不用仅按端点高度排序的模拟冒充完整解法。",
+        "reason": "首次下落同时命中两条轨道内部的交点时，原题未给出选择规则；同一合法输入能得到两个不同最终横坐标。轨道上滑动期间忽略交点这一条已核对清楚。",
         "source": "https://www.luogu.com.cn/problem/P1766",
         "lastPrimaryCheck": "2026-10-30",
-        "evidence": "复查洛谷原题仍只说明允许相交、轨道内部不受影响及端点不计，未补充同高同时命中、水平或竖直轨道的处理；不从二手程序推定原题未声明保证。"
+        "evidence": "最小反例：2 0 / -1 2 1 0 / -1 0 1 2，两条内部在(0,1)同时命中，分别沿其下滑可落到1或-1；不为任意择一的程序宣称唯一正确答案。",
+        "review": "docs/core7-p1766-semantics.md",
+        "supplementalRuleRequested": true,
+        "equalHeightLanding": "另一轨道下端点位于某轨道内部时，离轨后的再次命中可以同高；不能只查严格更低交点。"
       }
     },
     {
@@ -2419,9 +2422,9 @@
       "title": "村村通",
       "difficulty": 1200,
       "knowledge": "图论 + 并查集",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF1263D",
@@ -2431,9 +2434,9 @@
       "title": "Secret Passwords",
       "difficulty": 1500,
       "knowledge": "DFS + 并查集 + 图论",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1656",
@@ -2442,10 +2445,10 @@
       "unit": "并查集",
       "title": "炸铁路",
       "difficulty": 1500,
-      "knowledge": "模拟 + 图论 + 并查集 + 最短路",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "模拟 + 图论 + 并查集 + 最短路 + 枚举 + DFS",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2256",
@@ -2455,9 +2458,9 @@
       "title": "一中校运会之百米跑",
       "difficulty": 1500,
       "knowledge": "并查集",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P3420",
@@ -2466,10 +2469,10 @@
       "unit": "并查集",
       "title": "SKA-Piggy Banks",
       "difficulty": 1500,
-      "knowledge": "并查集",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "并查集 + 图论",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P10378",
@@ -2478,10 +2481,10 @@
       "unit": "并查集",
       "title": "交流问题",
       "difficulty": 1500,
-      "knowledge": "图论 + 并查集 + 二分图匹配",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + 并查集 + 二分图匹配 + BFS",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-UVA10369",
@@ -2491,9 +2494,9 @@
       "title": "Arctic Network",
       "difficulty": 1500,
       "knowledge": "图论 + 二分查找 + 并查集 + 生成树",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF1365D",
@@ -2502,10 +2505,10 @@
       "unit": "并查集",
       "title": "Solve The Maze",
       "difficulty": 1700,
-      "knowledge": "构造 + DFS + 并查集 + 图论 + 贪心 + 模拟 + 最短路",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "构造 + DFS + 并查集 + 图论 + 贪心 + 模拟 + 最短路 + BFS",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1196",
@@ -2515,9 +2518,9 @@
       "title": "银河英雄传说",
       "difficulty": 1800,
       "knowledge": "并查集",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1621",
@@ -2526,10 +2529,10 @@
       "unit": "并查集",
       "title": "集合",
       "difficulty": 1800,
-      "knowledge": "并查集",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "并查集 + 素数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2294",
@@ -2539,9 +2542,9 @@
       "title": "狡猾的商人",
       "difficulty": 1800,
       "knowledge": "并查集 + 差分约束 + 前缀和",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2916",
@@ -2551,9 +2554,9 @@
       "title": "Cheering up the Cow G",
       "difficulty": 1800,
       "knowledge": "并查集 + 生成树",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P7073",
@@ -2562,10 +2565,10 @@
       "unit": "并查集",
       "title": "表达式",
       "difficulty": 1800,
-      "knowledge": "模拟 + 并查集 + 栈",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "模拟 + 并查集 + 栈 + 树形 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P7991",
@@ -2574,10 +2577,10 @@
       "unit": "并查集",
       "title": "Connecting Two Barns S",
       "difficulty": 1800,
-      "knowledge": "二分查找 + 并查集",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "二分查找 + 并查集 + 图论",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P13308",
@@ -2586,10 +2589,10 @@
       "unit": "并查集",
       "title": "故障",
       "difficulty": 1800,
-      "knowledge": "并查集 + 哈希表",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "并查集 + 哈希表 + 图论",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P16495",
@@ -2598,10 +2601,10 @@
       "unit": "并查集",
       "title": "踏青南陌上，寄远展壮游",
       "difficulty": 1800,
-      "knowledge": "并查集 + 位运算",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "并查集 + 位运算 + 图论",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-UVA1395",
@@ -2610,10 +2613,10 @@
       "unit": "并查集",
       "title": "苗条的生成树 Slim Span",
       "difficulty": 1800,
-      "knowledge": "并查集 + 排序 + 生成树",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "并查集 + 排序 + 生成树 + 枚举",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF1624G",
@@ -2623,9 +2626,9 @@
       "title": "MinOr Tree",
       "difficulty": 1900,
       "knowledge": "生成树 + 位运算 + DFS + 并查集 + 图论 + 贪心",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-B3644",
@@ -2635,9 +2638,9 @@
       "title": "拓扑排序 / 家谱树",
       "difficulty": 1500,
       "knowledge": "图论 + 拓扑排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1113",
@@ -2646,10 +2649,10 @@
       "unit": "拓扑排序与 DAG",
       "title": "杂务",
       "difficulty": 1500,
-      "knowledge": "图论 + 递推 + 拓扑排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + 递推 + 拓扑排序 + 线性 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1137",
@@ -2658,10 +2661,10 @@
       "unit": "拓扑排序与 DAG",
       "title": "旅行计划",
       "difficulty": 1500,
-      "knowledge": "图论 + 递推 + 记忆化搜索 + 拓扑排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + 递推 + 记忆化搜索 + 拓扑排序 + 线性 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1960",
@@ -2671,9 +2674,9 @@
       "title": "郁闷的记者",
       "difficulty": 1500,
       "knowledge": "图论 + 拓扑排序 + 差分约束",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2419",
@@ -2683,9 +2686,9 @@
       "title": "Cow Contest S",
       "difficulty": 1500,
       "knowledge": "图论 + 拓扑排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2712",
@@ -2695,9 +2698,9 @@
       "title": "摄像头",
       "difficulty": 1500,
       "knowledge": "拓扑排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P3183",
@@ -2706,10 +2709,10 @@
       "unit": "拓扑排序与 DAG",
       "title": "食物链",
       "difficulty": 1500,
-      "knowledge": "图论 + 记忆化搜索 + 拓扑排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + 记忆化搜索 + 拓扑排序 + 线性 DP + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P4017",
@@ -2718,10 +2721,10 @@
       "unit": "拓扑排序与 DAG",
       "title": "最大食物链计数",
       "difficulty": 1500,
-      "knowledge": "图论 + 排序 + 记忆化搜索 + 拓扑排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + 排序 + 记忆化搜索 + 拓扑排序 + 线性 DP + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P7113",
@@ -2730,10 +2733,10 @@
       "unit": "拓扑排序与 DAG",
       "title": "排水系统",
       "difficulty": 1500,
-      "knowledge": "图论 + 高精度 + 拓扑排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + 高精度 + 拓扑排序 + 最大公约数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P10166",
@@ -2743,9 +2746,9 @@
       "title": "环",
       "difficulty": 1500,
       "knowledge": "贪心 + 拓扑排序 + 图论",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-UVA10305",
@@ -2755,9 +2758,9 @@
       "title": "给任务排序 Ordering Tasks",
       "difficulty": 1500,
       "knowledge": "排序 + 拓扑排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF1361A",
@@ -2767,9 +2770,9 @@
       "title": "Johnny and Contribution",
       "difficulty": 1700,
       "knowledge": "模拟 + 图论 + 贪心 + 拓扑排序 + 构造 + 排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1038",
@@ -2778,10 +2781,10 @@
       "unit": "拓扑排序与 DAG",
       "title": "神经网络",
       "difficulty": 1800,
-      "knowledge": "图论 + 拓扑排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + 拓扑排序 + 高精度",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P3243",
@@ -2790,10 +2793,10 @@
       "unit": "拓扑排序与 DAG",
       "title": "菜肴制作",
       "difficulty": 1800,
-      "knowledge": "贪心 + 排序 + 拓扑排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "贪心 + 排序 + 拓扑排序 + 堆",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P3627",
@@ -2802,10 +2805,10 @@
       "unit": "拓扑排序与 DAG",
       "title": "抢掠计划",
       "difficulty": 1800,
-      "knowledge": "记忆化搜索 + 拓扑排序 + 强连通分量 + 栈",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "记忆化搜索 + 拓扑排序 + 强连通分量 + 栈 + DFS + 线性 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P8269",
@@ -2814,10 +2817,10 @@
       "unit": "拓扑排序与 DAG",
       "title": "Visits S",
       "difficulty": 1800,
-      "knowledge": "拓扑排序 + 生成树 + 强连通分量 + 基环树",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "拓扑排序 + 生成树 + 强连通分量 + 基环树 + 贪心",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P11022",
@@ -2826,10 +2829,10 @@
       "unit": "拓扑排序与 DAG",
       "title": "Yet Another Graph Coloration Problem",
       "difficulty": 1800,
-      "knowledge": "图论 + 拓扑排序 + 双连通分量 + 构造",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + 拓扑排序 + 双连通分量 + 构造 + DFS",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF1385E",
@@ -2839,9 +2842,9 @@
       "title": "Directing Edges",
       "difficulty": 2000,
       "knowledge": "图论 + 拓扑排序 + 构造 + DFS",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF910A",
@@ -2850,10 +2853,10 @@
       "unit": "最短路",
       "title": "The Way to Home",
       "difficulty": 800,
-      "knowledge": "图论 + 最短路 + DFS + 贪心 + 模拟",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + 最短路 + DFS + 贪心 + 模拟 + 线性 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1339",
@@ -2863,9 +2866,9 @@
       "title": "Heat Wave G",
       "difficulty": 1500,
       "knowledge": "图论 + 最短路",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1828",
@@ -2875,9 +2878,9 @@
       "title": "香甜的黄油 Sweet Butter",
       "difficulty": 1500,
       "knowledge": "图论 + 最短路 + 队列",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P3905",
@@ -2887,9 +2890,9 @@
       "title": "道路重建",
       "difficulty": 1500,
       "knowledge": "图论 + 最短路 + 队列",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P11966",
@@ -2899,9 +2902,9 @@
       "title": "上学",
       "difficulty": 1500,
       "knowledge": "最短路 + 图论",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-AT_arc064_c",
@@ -2910,10 +2913,10 @@
       "unit": "最短路",
       "title": "Cosmic Rays",
       "difficulty": 1800,
-      "knowledge": "最短路",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "最短路 + 计算几何",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1608",
@@ -2922,10 +2925,10 @@
       "unit": "最短路",
       "title": "路径统计",
       "difficulty": 1800,
-      "knowledge": "图论 + 最短路",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + 最短路 + 线性 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2737",
@@ -2934,10 +2937,10 @@
       "unit": "最短路",
       "title": "麦香牛块 Beef McNuggets",
       "difficulty": 1800,
-      "knowledge": "图论 + 最短路",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + 最短路 + 取模与同余",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P5195",
@@ -2946,10 +2949,10 @@
       "unit": "最短路",
       "title": "Knights of Ni S",
       "difficulty": 1800,
-      "knowledge": "枚举",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "枚举 + BFS",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P7100",
@@ -2958,10 +2961,10 @@
       "unit": "最短路",
       "title": "团",
       "difficulty": 1800,
-      "knowledge": "最短路 + 构造",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "最短路 + 构造 + 图论",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P10726",
@@ -2971,9 +2974,9 @@
       "title": "空间跳跃",
       "difficulty": 1800,
       "knowledge": "最短路 + 扫描线",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-UVA658",
@@ -2982,10 +2985,10 @@
       "unit": "最短路",
       "title": "这不是bug，而是特性 It's not a Bug, it's a Feature!",
       "difficulty": 1800,
-      "knowledge": "图论 + 最短路",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + 最短路 + 位运算",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF938D",
@@ -2995,9 +2998,9 @@
       "title": "Buy a Ticket",
       "difficulty": 2000,
       "knowledge": "最短路 + 图论",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF912D",
@@ -3006,10 +3009,10 @@
       "unit": "最短路",
       "title": "Fishes",
       "difficulty": 2100,
-      "knowledge": "图论 + 贪心 + 期望与概率 + 最短路",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + 贪心 + 期望与概率 + 最短路 + 堆",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2371",
@@ -3018,10 +3021,10 @@
       "unit": "最短路",
       "title": "墨墨的等式",
       "difficulty": 2100,
-      "knowledge": "图论 + 最短路",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + 最短路 + 取模与同余",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P3831",
@@ -3031,9 +3034,9 @@
       "title": "回家的路",
       "difficulty": 2100,
       "knowledge": "图论 + 最短路",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P6096",
@@ -3042,10 +3045,10 @@
       "unit": "最短路",
       "title": "地铁线路",
       "difficulty": 2100,
-      "knowledge": "最短路",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "最短路 + BFS + 线性 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-UVA11997",
@@ -3054,10 +3057,10 @@
       "unit": "最短路",
       "title": "K Smallest Sums",
       "difficulty": 2100,
-      "knowledge": "最短路 + 队列",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "最短路 + 队列 + 堆",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1194",
@@ -3067,9 +3070,9 @@
       "title": "买礼物",
       "difficulty": 1500,
       "knowledge": "图论 + 拓扑排序 + 生成树",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1195",
@@ -3079,9 +3082,9 @@
       "title": "口袋的天空",
       "difficulty": 1500,
       "knowledge": "图论 + 并查集 + 生成树",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1546",
@@ -3091,9 +3094,9 @@
       "title": "最短网络 Agri-Net",
       "difficulty": 1500,
       "knowledge": "图论 + 贪心 + 并查集 + 生成树",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1547",
@@ -3103,9 +3106,9 @@
       "title": "Out of Hay S",
       "difficulty": 1500,
       "knowledge": "图论 + 贪心 + 并查集 + 生成树",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2212",
@@ -3114,10 +3117,10 @@
       "unit": "最小生成树",
       "title": "Watering the Fields S",
       "difficulty": 1500,
-      "knowledge": "生成树",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "生成树 + 计算几何",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2330",
@@ -3127,9 +3130,9 @@
       "title": "繁忙的都市",
       "difficulty": 1500,
       "knowledge": "图论 + 二分查找 + 并查集 + 生成树",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2872",
@@ -3138,10 +3141,10 @@
       "unit": "最小生成树",
       "title": "Building Roads S",
       "difficulty": 1500,
-      "knowledge": "图论 + 并查集 + 生成树",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + 并查集 + 生成树 + 计算几何",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P17016",
@@ -3150,10 +3153,10 @@
       "unit": "最小生成树",
       "title": "线网建设",
       "difficulty": 1500,
-      "knowledge": "图论 + 生成树",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + 生成树 + 计算几何",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF1687B",
@@ -3163,9 +3166,9 @@
       "title": "Railway System",
       "difficulty": 1700,
       "knowledge": "生成树 + 构造 + 图论 + 贪心 + 交互题 + 排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1340",
@@ -3174,10 +3177,10 @@
       "unit": "最小生成树",
       "title": "兽径管理",
       "difficulty": 1800,
-      "knowledge": "图论 + 排序 + 生成树",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + 排序 + 生成树 + 并查集",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2700",
@@ -3186,10 +3189,10 @@
       "unit": "最小生成树",
       "title": "逐个击破",
       "difficulty": 1800,
-      "knowledge": "图论 + 并查集 + 树形 DP + 生成树",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + 并查集 + 树形 DP + 生成树 + 贪心",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P5425",
@@ -3198,10 +3201,10 @@
       "unit": "最小生成树",
       "title": "I Would Walk 500 Miles G",
       "difficulty": 1800,
-      "knowledge": "生成树",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "生成树 + 结论与计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P12375",
@@ -3210,10 +3213,10 @@
       "unit": "最小生成树",
       "title": "MST?",
       "difficulty": 1800,
-      "knowledge": "生成树 + 图论",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "生成树 + 图论 + 结论与计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF1184E1",
@@ -3222,10 +3225,10 @@
       "unit": "最小生成树",
       "title": "Daleks' Invasion (easy)",
       "difficulty": 1900,
-      "knowledge": "生成树 + 图论",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "生成树 + 图论 + 并查集",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF545E",
@@ -3235,9 +3238,9 @@
       "title": "Paths and Trees",
       "difficulty": 2000,
       "knowledge": "贪心 + 最短路 + 生成树 + 图论",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF1184E2",
@@ -3246,10 +3249,10 @@
       "unit": "最小生成树",
       "title": "Daleks' Invasion (medium)",
       "difficulty": 2100,
-      "knowledge": "倍增 + 生成树 + 树链剖分 + DFS + 图论 + 最短路",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "倍增 + 生成树 + 树链剖分 + DFS + 图论 + 最短路 + LCA",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2245",
@@ -3258,10 +3261,10 @@
       "unit": "最小生成树",
       "title": "星际导航",
       "difficulty": 2100,
-      "knowledge": "图论 + Kruskal重构树 + 树链剖分",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + Kruskal重构树 + 树链剖分 + 生成树 + 倍增 + LCA",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P14362",
@@ -3270,10 +3273,10 @@
       "unit": "最小生成树",
       "title": "道路修复",
       "difficulty": 2100,
-      "knowledge": "图论 + 贪心 + 生成树",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + 贪心 + 生成树 + 枚举",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1030",
@@ -3282,10 +3285,10 @@
       "unit": "树的遍历、倍增与 LCA",
       "title": "求先序排列",
       "difficulty": 1200,
-      "knowledge": "递归",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "递归 + 分治",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P4715",
@@ -3295,9 +3298,9 @@
       "title": "淘汰赛",
       "difficulty": 1200,
       "knowledge": "模拟 + 队列",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1351",
@@ -3306,10 +3309,10 @@
       "unit": "树的遍历、倍增与 LCA",
       "title": "联合权值",
       "difficulty": 1500,
-      "knowledge": "图论",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + 结论与计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P3379",
@@ -3318,10 +3321,10 @@
       "unit": "树的遍历、倍增与 LCA",
       "title": "最近公共祖先（LCA）",
       "difficulty": 1500,
-      "knowledge": "LCA",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "LCA + 倍增",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P10113",
@@ -3330,10 +3333,10 @@
       "unit": "树的遍历、倍增与 LCA",
       "title": "大量的工作沟通",
       "difficulty": 1500,
-      "knowledge": "倍增",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "倍增 + LCA",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1185",
@@ -3342,10 +3345,10 @@
       "unit": "树的遍历、倍增与 LCA",
       "title": "绘制二叉树",
       "difficulty": 1800,
-      "knowledge": "模拟",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "模拟 + 递归",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P5536",
@@ -3355,9 +3358,9 @@
       "title": "核心城市",
       "difficulty": 1800,
       "knowledge": "贪心 + 堆 + 树的直径",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-UVA11987",
@@ -3367,9 +3370,9 @@
       "title": "Almost Union-Find",
       "difficulty": 1800,
       "knowledge": "并查集 + 平衡树 + 启发式合并",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF77C",
@@ -3378,10 +3381,10 @@
       "unit": "树的遍历、倍增与 LCA",
       "title": "Beavermuncher-0xFF",
       "difficulty": 2100,
-      "knowledge": "DFS + 并查集 + 贪心 + 图论",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "DFS + 并查集 + 贪心 + 图论 + 树形 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF455C",
@@ -3390,10 +3393,10 @@
       "unit": "树的遍历、倍增与 LCA",
       "title": "Civilization",
       "difficulty": 2100,
-      "knowledge": "DFS + 并查集",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "DFS + 并查集 + 树的直径",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF540E",
@@ -3403,9 +3406,9 @@
       "title": "Infinite Inversions",
       "difficulty": 2100,
       "knowledge": "树状数组 + 离散化 + 二分查找 + 模拟 + 排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1099",
@@ -3415,9 +3418,9 @@
       "title": "树网的核",
       "difficulty": 2100,
       "knowledge": "模拟 + 单调队列 + 枚举 + 最短路 + 树的直径 + 图论",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P9433",
@@ -3426,10 +3429,10 @@
       "unit": "树的遍历、倍增与 LCA",
       "title": "Stage5 - Conveyors",
       "difficulty": 2100,
-      "knowledge": "",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "LCA + 倍增",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF196C",
@@ -3439,9 +3442,9 @@
       "title": "Paint Tree",
       "difficulty": 2200,
       "knowledge": "构造 + 计算几何 + 排序 + 分治 + 图论",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF538E",
@@ -3450,10 +3453,10 @@
       "unit": "树的遍历、倍增与 LCA",
       "title": "Demiurges Play Again",
       "difficulty": 2200,
-      "knowledge": "DFS",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "DFS + 树形 DP + 博弈论",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF765E",
@@ -3462,10 +3465,10 @@
       "unit": "树的遍历、倍增与 LCA",
       "title": "Tree Folding",
       "difficulty": 2200,
-      "knowledge": "DFS + 贪心 + 模拟 + 图论",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "DFS + 贪心 + 模拟 + 图论 + 树形 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF980E",
@@ -3475,9 +3478,9 @@
       "title": "The Number Games",
       "difficulty": 2200,
       "knowledge": "贪心 + 倍增",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF1278E",
@@ -3486,10 +3489,10 @@
       "unit": "树的遍历、倍增与 LCA",
       "title": "Tests for problem D",
       "difficulty": 2200,
-      "knowledge": "构造 + DFS + 分治 + 图论",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "构造 + DFS + 分治 + 图论 + DFS 序",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1077",
@@ -3498,10 +3501,10 @@
       "unit": "状态定义与线性 DP",
       "title": "摆花",
       "difficulty": 1200,
-      "knowledge": "前缀和",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "前缀和 + 线性 DP + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1203",
@@ -3510,10 +3513,10 @@
       "unit": "状态定义与线性 DP",
       "title": "坏掉的项链 Broken Necklace",
       "difficulty": 1200,
-      "knowledge": "单调队列",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "单调队列 + 枚举 + 模拟",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2834",
@@ -3522,10 +3525,10 @@
       "unit": "状态定义与线性 DP",
       "title": "纸币问题 3",
       "difficulty": 1200,
-      "knowledge": "背包 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "背包 DP + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2842",
@@ -3534,10 +3537,10 @@
       "unit": "状态定义与线性 DP",
       "title": "纸币问题 1",
       "difficulty": 1200,
-      "knowledge": "背包 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "背包 DP + 线性 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1095",
@@ -3546,10 +3549,10 @@
       "unit": "状态定义与线性 DP",
       "title": "守望者的逃离",
       "difficulty": 1500,
-      "knowledge": "模拟 + 贪心",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "模拟 + 贪心 + 线性 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1280",
@@ -3558,10 +3561,10 @@
       "unit": "状态定义与线性 DP",
       "title": "尼克的任务",
       "difficulty": 1500,
-      "knowledge": "图论 + 枚举 + 排序 + 最短路",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + 枚举 + 排序 + 最短路 + 线性 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1544",
@@ -3570,10 +3573,10 @@
       "unit": "状态定义与线性 DP",
       "title": "三倍经验",
       "difficulty": 1500,
-      "knowledge": "记忆化搜索",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "记忆化搜索 + 线性 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1874",
@@ -3582,10 +3585,10 @@
       "unit": "状态定义与线性 DP",
       "title": "快速求和",
       "difficulty": 1500,
-      "knowledge": "",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "线性 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2285",
@@ -3594,10 +3597,10 @@
       "unit": "状态定义与线性 DP",
       "title": "打鼹鼠",
       "difficulty": 1500,
-      "knowledge": "递推 + 最短路",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "递推 + 最短路 + 线性 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2758",
@@ -3606,10 +3609,10 @@
       "unit": "状态定义与线性 DP",
       "title": "编辑距离",
       "difficulty": 1500,
-      "knowledge": "",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "线性 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P3842",
@@ -3618,10 +3621,10 @@
       "unit": "状态定义与线性 DP",
       "title": "线段",
       "difficulty": 1500,
-      "knowledge": "",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "线性 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF946D",
@@ -3630,10 +3633,10 @@
       "unit": "状态定义与线性 DP",
       "title": "Timetable",
       "difficulty": 1800,
-      "knowledge": "",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "线性 DP + 背包 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1005",
@@ -3643,9 +3646,9 @@
       "title": "矩阵取数游戏",
       "difficulty": 1800,
       "knowledge": "高精度 + 区间 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1020",
@@ -3655,9 +3658,9 @@
       "title": "导弹拦截",
       "difficulty": 1800,
       "knowledge": "贪心 + 线段树 + 二分查找 + 树状数组 + 离散化 + Dilworth定理 + 线性 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1436",
@@ -3666,10 +3669,10 @@
       "unit": "状态定义与线性 DP",
       "title": "棋盘分割",
       "difficulty": 1800,
-      "knowledge": "",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "区间 DP + 前缀和",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1541",
@@ -3678,10 +3681,10 @@
       "unit": "状态定义与线性 DP",
       "title": "乌龟棋",
       "difficulty": 1800,
-      "knowledge": "递归 + 枚举",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "递归 + 枚举 + 线性 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P4310",
@@ -3690,10 +3693,10 @@
       "unit": "状态定义与线性 DP",
       "title": "绝世好题",
       "difficulty": 1800,
-      "knowledge": "枚举 + 位运算",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "枚举 + 位运算 + 线性 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "月赛 304::B",
@@ -3705,7 +3708,7 @@
       "knowledge": "线性 DP + 位运算",
       "default": true,
       "detailed": true,
-      "reviewed": false
+      "reviewed": true
     },
     {
       "id": "lab:luogu:P1048",
@@ -3717,7 +3720,7 @@
       "knowledge": "背包 DP",
       "default": true,
       "detailed": true,
-      "reviewed": false
+      "reviewed": true
     },
     {
       "id": "lab:luogu:P2392",
@@ -3729,7 +3732,7 @@
       "knowledge": "背包 DP",
       "default": true,
       "detailed": true,
-      "reviewed": false
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1679",
@@ -3739,9 +3742,9 @@
       "title": "神奇的四次方数",
       "difficulty": 1200,
       "knowledge": "模拟 + 背包 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1855",
@@ -3751,9 +3754,9 @@
       "title": "榨取kkksc03",
       "difficulty": 1200,
       "knowledge": "枚举 + 背包 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2639",
@@ -3763,9 +3766,9 @@
       "title": "Bessie's Weight Problem G",
       "difficulty": 1200,
       "knowledge": "背包 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P11246",
@@ -3775,9 +3778,9 @@
       "title": "小杨和整数拆分",
       "difficulty": 1200,
       "knowledge": "记忆化搜索 + 背包 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-B3873",
@@ -3787,9 +3790,9 @@
       "title": "小杨买饮料",
       "difficulty": 1500,
       "knowledge": "背包 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1466",
@@ -3798,10 +3801,10 @@
       "unit": "背包 DP",
       "title": "集合 Subset Sums",
       "difficulty": 1500,
-      "knowledge": "递推 + 记忆化搜索 + 背包 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "递推 + 记忆化搜索 + 背包 DP + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2170",
@@ -3811,9 +3814,9 @@
       "title": "选学霸",
       "difficulty": 1500,
       "knowledge": "并查集 + 背包 DP + bitset",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2725",
@@ -3823,9 +3826,9 @@
       "title": "邮票 Stamps",
       "difficulty": 1500,
       "knowledge": "模拟 + 贪心 + 背包 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P5365",
@@ -3835,9 +3838,9 @@
       "title": "英雄联盟",
       "difficulty": 1500,
       "knowledge": "背包 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P14920",
@@ -3847,9 +3850,9 @@
       "title": "道具商店",
       "difficulty": 1500,
       "knowledge": "背包 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1156",
@@ -3859,9 +3862,9 @@
       "title": "垃圾陷阱",
       "difficulty": 1800,
       "knowledge": "排序 + 记忆化搜索 + 背包 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1776",
@@ -3871,9 +3874,9 @@
       "title": "宝物筛选",
       "difficulty": 1800,
       "knowledge": "单调队列 + 背包 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P4912",
@@ -3883,9 +3886,9 @@
       "title": "帕秋莉的魔法",
       "difficulty": 1800,
       "knowledge": "背包 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P13018",
@@ -3895,9 +3898,9 @@
       "title": "调味平衡",
       "difficulty": 1800,
       "knowledge": "背包 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1858",
@@ -3909,7 +3912,16 @@
       "knowledge": "背包 DP",
       "default": false,
       "detailed": false,
-      "reviewed": false
+      "reviewed": false,
+      "reviewNote": {
+        "status": "needs-semantic-review",
+        "reason": "要求K份两两不同且恰好装满的清单，未给出不足K种时的输出，也未写保证至少K种；不自行添加无解输出。",
+        "source": "https://www.luogu.com.cn/problem/P1858",
+        "lastPrimaryCheck": "2026-10-31",
+        "evidence": "K=2、V=1、N=1且唯一物品体积价值均为1，只有一种合法清单；两个编号不同但体积1价值5的物品则有两种等价值得分清单，合计10。",
+        "review": "docs/core7-p1858-semantics.md",
+        "supplementalRuleRequested": true
+      }
     },
     {
       "id": "luogu-training-P11274",
@@ -3919,9 +3931,9 @@
       "title": "DlgtTemplate",
       "difficulty": 2100,
       "knowledge": "背包 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1435",
@@ -3931,9 +3943,9 @@
       "title": "回文字串",
       "difficulty": 1500,
       "knowledge": "区间 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1775",
@@ -3943,9 +3955,9 @@
       "title": "石子合并（弱化版）",
       "difficulty": 1500,
       "knowledge": "区间 DP + 前缀和",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2734",
@@ -3955,9 +3967,9 @@
       "title": "游戏 A Game",
       "difficulty": 1500,
       "knowledge": "博弈论 + 区间 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P17015",
@@ -3967,9 +3979,9 @@
       "title": "消消乐",
       "difficulty": 1500,
       "knowledge": "记忆化搜索 + 区间 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1063",
@@ -3979,9 +3991,9 @@
       "title": "能量项链",
       "difficulty": 1800,
       "knowledge": "递归 + 枚举 + 区间 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1388",
@@ -3991,9 +4003,9 @@
       "title": "算式",
       "difficulty": 1800,
       "knowledge": "区间 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1880",
@@ -4003,9 +4015,9 @@
       "title": "石子合并",
       "difficulty": 1800,
       "knowledge": "记忆化搜索 + 区间 DP + 前缀和",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P3205",
@@ -4014,10 +4026,10 @@
       "unit": "区间 DP",
       "title": "合唱队",
       "difficulty": 1800,
-      "knowledge": "区间 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "区间 DP + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P4290",
@@ -4027,9 +4039,9 @@
       "title": "玩具取名",
       "difficulty": 1800,
       "knowledge": "枚举 + 区间 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P10236",
@@ -4038,10 +4050,10 @@
       "unit": "区间 DP",
       "title": "D. 排卡",
       "difficulty": 1800,
-      "knowledge": "区间 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "区间 DP + 快速幂",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P13439",
@@ -4051,9 +4063,9 @@
       "title": "Bribe the Prisoners",
       "difficulty": 1800,
       "knowledge": "区间 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-UVA1362",
@@ -4062,10 +4074,10 @@
       "unit": "区间 DP",
       "title": "Exploring Pyramids",
       "difficulty": 1800,
-      "knowledge": "枚举 + 区间 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "枚举 + 区间 DP + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-UVA10003",
@@ -4075,9 +4087,9 @@
       "title": "切木棍 Cutting Sticks",
       "difficulty": 1800,
       "knowledge": "记忆化搜索 + 区间 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1070",
@@ -4086,10 +4098,10 @@
       "unit": "区间 DP",
       "title": "道路游戏",
       "difficulty": 2100,
-      "knowledge": "单调队列",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "单调队列 + 区间 DP + 队列",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P6006",
@@ -4098,10 +4110,10 @@
       "unit": "区间 DP",
       "title": "Farmer John Solves 3SUM G",
       "difficulty": 2100,
-      "knowledge": "区间 DP + 前缀和",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "区间 DP + 前缀和 + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P7129",
@@ -4110,10 +4122,10 @@
       "unit": "区间 DP",
       "title": "冰淇淋游戏(play)",
       "difficulty": 2100,
-      "knowledge": "背包 DP + 区间 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "背包 DP + 区间 DP + 队列",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-UVA1626",
@@ -4123,9 +4135,9 @@
       "title": "Brackets sequence",
       "difficulty": 2100,
       "knowledge": "区间 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF1336C",
@@ -4134,10 +4146,10 @@
       "unit": "区间 DP",
       "title": "Kaavi and Magic Spell",
       "difficulty": 2200,
-      "knowledge": "区间 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "区间 DP + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-B4016",
@@ -4146,10 +4158,10 @@
       "unit": "树形 DP",
       "title": "树的直径",
       "difficulty": 1500,
-      "knowledge": "树形 DP + 树的直径",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "树形 DP + 树的直径 + BFS",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P11249",
@@ -4158,10 +4170,10 @@
       "unit": "树形 DP",
       "title": "小杨寻宝",
       "difficulty": 1500,
-      "knowledge": "图论 + 树形 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + 树形 DP + 队列",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P15801",
@@ -4171,9 +4183,9 @@
       "title": "完全二叉树",
       "difficulty": 1500,
       "knowledge": "树形 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1131",
@@ -4183,9 +4195,9 @@
       "title": "时态同步",
       "difficulty": 1800,
       "knowledge": "贪心 + 树形 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2458",
@@ -4195,9 +4207,9 @@
       "title": "保安站岗",
       "difficulty": 1800,
       "knowledge": "树形 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2986",
@@ -4207,9 +4219,9 @@
       "title": "Great Cow Gathering G",
       "difficulty": 1800,
       "knowledge": "树形 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P4084",
@@ -4218,10 +4230,10 @@
       "unit": "树形 DP",
       "title": "Barn Painting G",
       "difficulty": 1800,
-      "knowledge": "树形 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "树形 DP + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P9584",
@@ -4230,10 +4242,22 @@
       "unit": "树形 DP",
       "title": "城市",
       "difficulty": 1800,
-      "knowledge": "树形 DP + 前缀和",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "树形 DP + 前缀和 + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true,
+      "reviewNote": {
+        "status": "verified-with-unavailable-attachments",
+        "reason": "已读取并验证两组字面样例；第三至第六组city附件未取得，保留原引用，不计入已验证样例。",
+        "source": "https://www.luogu.com.cn/problem/P9584",
+        "readableSamples": 2,
+        "unavailableAttachmentSamples": [
+          3,
+          4,
+          5,
+          6
+        ]
+      }
     },
     {
       "id": "luogu-training-P13020",
@@ -4242,10 +4266,10 @@
       "unit": "树形 DP",
       "title": "遍历计数",
       "difficulty": 1800,
-      "knowledge": "树形 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "树形 DP + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF337D",
@@ -4254,10 +4278,10 @@
       "unit": "树形 DP",
       "title": "Book of Evil",
       "difficulty": 2000,
-      "knowledge": "图论 + DFS + 分治",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + DFS + 分治 + 树形 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF1416C",
@@ -4267,9 +4291,9 @@
       "title": "XOR Inverse",
       "difficulty": 2000,
       "knowledge": "树形 DP + 位运算 + 贪心 + 排序 + 分治",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1453",
@@ -4278,10 +4302,10 @@
       "unit": "树形 DP",
       "title": "城市环路",
       "difficulty": 2100,
-      "knowledge": "图论 + 树形 DP + 基环树",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "图论 + 树形 DP + 基环树 + 并查集",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P3554",
@@ -4290,10 +4314,10 @@
       "unit": "树形 DP",
       "title": "LUK-Triumphal arch",
       "difficulty": 2100,
-      "knowledge": "二分查找 + 树形 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "二分查找 + 树形 DP + 二分答案",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P5958",
@@ -4303,9 +4327,17 @@
       "title": "Sabotaż",
       "difficulty": 2100,
       "knowledge": "树形 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true,
+      "reviewNote": {
+        "status": "primary-statement-reviewed",
+        "reason": "中文题面与波兰语原卷均为比例严格超过x才触发，英文官方译本使用至少；本文按中文与原语言的严格定义，精确分数枚举确认最小安全临界值。最初叛徒不会自动强迫下属。",
+        "source": "https://szkopul.edu.pl/problemset/problem/CUjJDGGSEZmO7HvdZU4FKrL6/statement/",
+        "lastPrimaryCheck": "2026-10-31",
+        "polishPdfSha256": "28d0880fbf6d0e90662ae56f2ed637e32cd6dd0a148decabd7ae1db68493752c",
+        "englishPdfSha256": "f8856fa3028145bef96a529cbdb218d5bd122d83bf6f40276e61fcf02808922f"
+      }
     },
     {
       "id": "luogu-training-P8916",
@@ -4315,9 +4347,9 @@
       "title": "暗号",
       "difficulty": 2100,
       "knowledge": "树形 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P10767",
@@ -4327,9 +4359,9 @@
       "title": "在相思树下 II",
       "difficulty": 2100,
       "knowledge": "树形 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-UVA1218",
@@ -4338,10 +4370,10 @@
       "unit": "树形 DP",
       "title": "完美的服务 Perfect Service",
       "difficulty": 2100,
-      "knowledge": "递归 + 枚举",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "递归 + 枚举 + 树形 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF1540B",
@@ -4351,9 +4383,9 @@
       "title": "Tree Array",
       "difficulty": 2300,
       "knowledge": "树形 DP + 枚举 + 组合计数 + 图论 + 期望与概率",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P12593",
@@ -4363,9 +4395,9 @@
       "title": "沉石鱼惊旋",
       "difficulty": 1200,
       "knowledge": "枚举 + 状压 DP + 图论",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2622",
@@ -4374,10 +4406,10 @@
       "unit": "状态压缩 DP",
       "title": "关灯问题 II",
       "difficulty": 1500,
-      "knowledge": "最短路 + 状压 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "最短路 + 状压 DP + BFS + 位运算",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-AT_abc359_d",
@@ -4387,9 +4419,9 @@
       "title": "Avoid K Palindrome",
       "difficulty": 1800,
       "knowledge": "状压 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1441",
@@ -4398,10 +4430,10 @@
       "unit": "状态压缩 DP",
       "title": "砝码称重",
       "difficulty": 1800,
-      "knowledge": "状压 DP + bitset",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "状压 DP + bitset + 背包 DP + 枚举",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2210",
@@ -4411,9 +4443,9 @@
       "title": "Haywire B",
       "difficulty": 1800,
       "knowledge": "状压 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P5911",
@@ -4423,9 +4455,9 @@
       "title": "PRZ",
       "difficulty": 1800,
       "knowledge": "剪枝 + 状压 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P10865",
@@ -4434,10 +4466,10 @@
       "unit": "状态压缩 DP",
       "title": "Genshin Impact Startup Forbidden III",
       "difficulty": 1800,
-      "knowledge": "离散化 + 状压 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "离散化 + 状压 DP + 位运算",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1450",
@@ -4447,9 +4479,9 @@
       "title": "硬币购物",
       "difficulty": 2100,
       "knowledge": "背包 DP + 前缀和 + 容斥 + 位运算 + 差分",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2167",
@@ -4459,9 +4491,9 @@
       "title": "Bill的挑战",
       "difficulty": 2100,
       "knowledge": "枚举 + 容斥 + 状压 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2473",
@@ -4471,9 +4503,9 @@
       "title": "奖励关",
       "difficulty": 2100,
       "knowledge": "期望与概率 + 状压 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2831",
@@ -4482,10 +4514,10 @@
       "unit": "状态压缩 DP",
       "title": "愤怒的小鸟",
       "difficulty": 2100,
-      "knowledge": "状压 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "状压 DP + 计算几何",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P3694",
@@ -4495,9 +4527,9 @@
       "title": "邦邦的大合唱站队",
       "difficulty": 2100,
       "knowledge": "枚举 + 前缀和 + 状压 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P3786",
@@ -4507,9 +4539,9 @@
       "title": "萃香抱西瓜",
       "difficulty": 2100,
       "knowledge": "最短路 + 状压 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P3947",
@@ -4519,9 +4551,9 @@
       "title": "肝活动",
       "difficulty": 2100,
       "knowledge": "剪枝 + 状压 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P4928",
@@ -4530,10 +4562,15 @@
       "unit": "状态压缩 DP",
       "title": "衣服？身外之物！",
       "difficulty": 2100,
-      "knowledge": "枚举 + 状压 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "枚举 + 状压 DP + 高精度",
+      "default": true,
+      "detailed": true,
+      "reviewed": true,
+      "reviewNote": {
+        "status": "exact-unbounded-color-integers",
+        "reason": "原题未写颜色值上界，不补猜测范围。颜色按十进制整数字符串读入，符号大整数精确处理加法、比较与乘有界天气，复杂度显式计入位数；验证包含80至100位颜色及负天气。",
+        "source": "https://www.luogu.com.cn/problem/P4928"
+      }
     },
     {
       "id": "luogu-training-P7296",
@@ -4543,9 +4580,9 @@
       "title": "Uddered but not Herd G",
       "difficulty": 2100,
       "knowledge": "离散化 + 记忆化搜索 + 状压 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P9017",
@@ -4554,10 +4591,10 @@
       "unit": "状态压缩 DP",
       "title": "Lights Off G",
       "difficulty": 2100,
-      "knowledge": "状压 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "状压 DP + 位运算",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF11D",
@@ -4566,10 +4603,10 @@
       "unit": "状态压缩 DP",
       "title": "A Simple Task",
       "difficulty": 2200,
-      "knowledge": "枚举 + 状压 DP + 位运算 + 图论",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "枚举 + 状压 DP + 位运算 + 图论 + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2657",
@@ -4579,9 +4616,9 @@
       "title": "windy 数",
       "difficulty": 1500,
       "knowledge": "记忆化搜索 + 数位 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P14074",
@@ -4591,9 +4628,9 @@
       "title": "有趣的数字和",
       "difficulty": 1500,
       "knowledge": "分治 + 记忆化搜索 + 数位 DP + 前缀和 + 位运算",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1836",
@@ -4602,10 +4639,10 @@
       "unit": "数位 DP",
       "title": "数页码",
       "difficulty": 1800,
-      "knowledge": "数位 DP + 枚举",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "数位 DP + 枚举 + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P4798",
@@ -4614,10 +4651,10 @@
       "unit": "数位 DP",
       "title": "卡尔文球锦标赛 (Day1)",
       "difficulty": 1800,
-      "knowledge": "数位 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "数位 DP + 组合计数 + 线性 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P4999",
@@ -4626,10 +4663,10 @@
       "unit": "数位 DP",
       "title": "烦人的数学作业",
       "difficulty": 1800,
-      "knowledge": "数位 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "数位 DP + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-SP17247",
@@ -4638,10 +4675,10 @@
       "unit": "数位 DP",
       "title": "PR003004 - Digit Sum",
       "difficulty": 1800,
-      "knowledge": "数位 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "数位 DP + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-UVA1640",
@@ -4650,10 +4687,10 @@
       "unit": "数位 DP",
       "title": "统计问题 The Counting Problem",
       "difficulty": 1800,
-      "knowledge": "数位 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "数位 DP + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF401D",
@@ -4662,10 +4699,10 @@
       "unit": "数位 DP",
       "title": "Roman and Numbers",
       "difficulty": 2000,
-      "knowledge": "枚举 + 构造 + 位运算 + 组合计数",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "枚举 + 构造 + 位运算 + 组合计数 + 数位 DP + 状压 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2518",
@@ -4674,10 +4711,10 @@
       "unit": "数位 DP",
       "title": "计数",
       "difficulty": 2100,
-      "knowledge": "数位 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "数位 DP + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P4124",
@@ -4687,9 +4724,9 @@
       "title": "手机号码",
       "difficulty": 2100,
       "knowledge": "数位 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P4127",
@@ -4699,9 +4736,9 @@
       "title": "同类分布",
       "difficulty": 2100,
       "knowledge": "递推 + 枚举 + 数位 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P5128",
@@ -4711,9 +4748,9 @@
       "title": "好时光",
       "difficulty": 2100,
       "knowledge": "数位 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P6218",
@@ -4723,9 +4760,9 @@
       "title": "Round Numbers S",
       "difficulty": 2100,
       "knowledge": "数位 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P14084",
@@ -4734,10 +4771,10 @@
       "unit": "数位 DP",
       "title": "敲击",
       "difficulty": 2100,
-      "knowledge": "数位 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "数位 DP + 递推",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-SP10606",
@@ -4746,10 +4783,10 @@
       "unit": "数位 DP",
       "title": "BALNUM - Balanced Numbers",
       "difficulty": 2100,
-      "knowledge": "数位 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "数位 DP + 状压 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-UVA1652",
@@ -4758,10 +4795,10 @@
       "unit": "数位 DP",
       "title": "Fibonacci System",
       "difficulty": 2100,
-      "knowledge": "数位 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "数位 DP + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF628D",
@@ -4771,9 +4808,9 @@
       "title": "Magic Numbers",
       "difficulty": 2200,
       "knowledge": "数位 DP",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF1073E",
@@ -4783,9 +4820,9 @@
       "title": "Segment Sum",
       "difficulty": 2300,
       "knowledge": "数位 DP + 状压 DP + 位运算 + 组合计数",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1628",
@@ -4795,9 +4832,9 @@
       "title": "合并序列",
       "difficulty": 1200,
       "knowledge": "堆 + 排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-UVA11462",
@@ -4807,9 +4844,9 @@
       "title": "Age Sort",
       "difficulty": 1200,
       "knowledge": "排序 + 堆 + 队列",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-B3666",
@@ -4818,10 +4855,10 @@
       "unit": "堆与单调结构",
       "title": "求数列所有后缀最大值的位置",
       "difficulty": 1500,
-      "knowledge": "单调栈",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "单调栈 + 位运算",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1440",
@@ -4831,9 +4868,9 @@
       "title": "求m区间内的最小值",
       "difficulty": 1500,
       "knowledge": "单调队列 + 队列 + ST 表",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1886",
@@ -4843,9 +4880,9 @@
       "title": "单调队列 / 滑动窗口",
       "difficulty": 1500,
       "knowledge": "单调队列 + 队列",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2251",
@@ -4854,10 +4891,10 @@
       "unit": "堆与单调结构",
       "title": "质量检测",
       "difficulty": 1500,
-      "knowledge": "单调队列 + ST 表",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "单调队列 + ST 表 + 队列",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2947",
@@ -4867,9 +4904,9 @@
       "title": "Look Up S",
       "difficulty": 1500,
       "knowledge": "单调栈",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P5788",
@@ -4879,9 +4916,9 @@
       "title": "单调栈",
       "difficulty": 1500,
       "knowledge": "栈 + 单调栈",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P15232",
@@ -4890,10 +4927,10 @@
       "unit": "堆与单调结构",
       "title": "浣熊的快车道",
       "difficulty": 1500,
-      "knowledge": "贪心 + 排序 + 堆 + 分类讨论",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "贪心 + 排序 + 堆 + 分类讨论 + 枚举",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-UVA1619",
@@ -4902,10 +4939,10 @@
       "unit": "堆与单调结构",
       "title": "感觉不错 Feel Good",
       "difficulty": 1500,
-      "knowledge": "枚举 + 栈 + 单调栈",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "枚举 + 栈 + 单调栈 + 前缀和",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1950",
@@ -4915,9 +4952,9 @@
       "title": "长方形",
       "difficulty": 1800,
       "knowledge": "单调栈",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2564",
@@ -4926,10 +4963,10 @@
       "unit": "堆与单调结构",
       "title": "生日礼物",
       "difficulty": 1800,
-      "knowledge": "单调队列 + 队列",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "单调队列 + 队列 + 双指针 + 排序",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P6503",
@@ -4939,9 +4976,9 @@
       "title": "DIFERENCIJA",
       "difficulty": 1800,
       "knowledge": "笛卡尔树 + 单调栈",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P7410",
@@ -4950,10 +4987,10 @@
       "unit": "堆与单调结构",
       "title": "Just Green Enough S",
       "difficulty": 1800,
-      "knowledge": "枚举 + 单调栈",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "枚举 + 单调栈 + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P9977",
@@ -4962,10 +4999,10 @@
       "unit": "堆与单调结构",
       "title": "Bovine Acrobatics S",
       "difficulty": 1800,
-      "knowledge": "贪心 + 堆 + 单调队列 + 排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "贪心 + 堆 + 单调队列 + 排序 + 队列",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P10277",
@@ -4974,10 +5011,10 @@
       "unit": "堆与单调结构",
       "title": "Bessie's Interview S",
       "difficulty": 1800,
-      "knowledge": "堆 + 哈希表",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "堆 + 哈希表 + DFS",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF547B",
@@ -4987,9 +5024,9 @@
       "title": "Mike and Feet",
       "difficulty": 1900,
       "knowledge": "线段树 + 并查集 + 单调栈 + 二分查找",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF1237D",
@@ -4998,10 +5035,10 @@
       "unit": "堆与单调结构",
       "title": "Balanced Playlist",
       "difficulty": 2000,
-      "knowledge": "单调队列 + 队列 + 二分查找 + 模拟",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "单调队列 + 队列 + 二分查找 + 模拟 + 双指针",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF44C",
@@ -5011,9 +5048,9 @@
       "title": "Holidays",
       "difficulty": 1300,
       "knowledge": "模拟 + 前缀和 + 差分",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1714",
@@ -5023,9 +5060,9 @@
       "title": "切蛋糕",
       "difficulty": 1500,
       "knowledge": "线段树 + 堆 + 树状数组 + 单调队列 + 前缀和 + 队列 + ST 表",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P3531",
@@ -5035,9 +5072,9 @@
       "title": "LIT-Letters",
       "difficulty": 1500,
       "knowledge": "树状数组 + 递归 + 分治 + 排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P2161",
@@ -5047,9 +5084,9 @@
       "title": "会场预约",
       "difficulty": 1800,
       "knowledge": "线段树 + 平衡树 + 树状数组 + 堆 + 模拟",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P4939",
@@ -5058,10 +5095,10 @@
       "unit": "树状数组",
       "title": "Agent2",
       "difficulty": 1800,
-      "knowledge": "线段树 + 树状数组 + 差分",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "线段树 + 树状数组 + 差分 + 离散化",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P5367",
@@ -5070,10 +5107,10 @@
       "unit": "树状数组",
       "title": "康托展开",
       "difficulty": 1800,
-      "knowledge": "线段树 + 平衡树 + 树状数组",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "线段树 + 平衡树 + 树状数组 + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P7149",
@@ -5082,10 +5119,10 @@
       "unit": "树状数组",
       "title": "Rectangular Pasture S",
       "difficulty": 1800,
-      "knowledge": "树状数组 + 离散化 + 排序 + 前缀和",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "树状数组 + 离散化 + 排序 + 前缀和 + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P10235",
@@ -5094,10 +5131,10 @@
       "unit": "树状数组",
       "title": "C. 舞萌基本练习",
       "difficulty": 1800,
-      "knowledge": "二分查找 + 树状数组",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "二分查找 + 树状数组 + 贪心",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P14521",
@@ -5106,10 +5143,10 @@
       "unit": "树状数组",
       "title": "加减乘除",
       "difficulty": 1800,
-      "knowledge": "贪心 + 线段树 + 树状数组 + 离散化 + 前缀和 + 差分",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "贪心 + 线段树 + 树状数组 + 离散化 + 前缀和 + 差分 + 递推 + 二分查找",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF961E",
@@ -5118,10 +5155,10 @@
       "unit": "树状数组",
       "title": "Tufurama",
       "difficulty": 1900,
-      "knowledge": "树状数组 + 可持久化线段树",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "树状数组 + 可持久化线段树 + 排序",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1966",
@@ -5131,9 +5168,9 @@
       "title": "火柴排队",
       "difficulty": 2100,
       "knowledge": "贪心 + 树状数组 + 离散化 + 排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P3149",
@@ -5142,10 +5179,10 @@
       "unit": "树状数组",
       "title": "排序",
       "difficulty": 2100,
-      "knowledge": "树状数组 + 离散化",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "树状数组 + 离散化 + 排序",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P4064",
@@ -5155,9 +5192,9 @@
       "title": "加法",
       "difficulty": 2100,
       "knowledge": "贪心 + 二分查找 + 树状数组 + 堆",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P5677",
@@ -5167,9 +5204,9 @@
       "title": "配对统计",
       "difficulty": 2100,
       "knowledge": "线段树 + 树状数组 + 排序 + 可持久化线段树 + 扫描线",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P8201",
@@ -5178,10 +5215,10 @@
       "unit": "树状数组",
       "title": "生活在树上（hard version）",
       "difficulty": 2100,
-      "knowledge": "树状数组 + 树链剖分 + 前缀和 + 差分",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "树状数组 + 树链剖分 + 前缀和 + 差分 + LCA + DFS",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P11656",
@@ -5190,10 +5227,10 @@
       "unit": "树状数组",
       "title": "喷酒大赛",
       "difficulty": 2100,
-      "knowledge": "线段树 + 树状数组",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "线段树 + 树状数组 + 线性 DP",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P14379",
@@ -5202,10 +5239,10 @@
       "unit": "树状数组",
       "title": "摩天大楼",
       "difficulty": 2100,
-      "knowledge": "线段树 + 平衡树 + 树状数组",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "线段树 + 平衡树 + 树状数组 + 组合计数",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-CF1194E",
@@ -5214,10 +5251,10 @@
       "unit": "树状数组",
       "title": "Count The Rectangles",
       "difficulty": 2200,
-      "knowledge": "计算几何 + 树状数组 + bitset + 位运算 + 枚举 + 排序",
-      "default": false,
-      "detailed": false,
-      "reviewed": false
+      "knowledge": "计算几何 + 树状数组 + bitset + 位运算 + 枚举 + 排序 + 扫描线",
+      "default": true,
+      "detailed": true,
+      "reviewed": true
     },
     {
       "id": "luogu-training-P1204",

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="390" viewBox="0 0 760 390" role="img" aria-labelledby="title"><title id="title">起点不吃：两次往返一共吃四只</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">起点不吃：两次往返一共吃四只</text>
+<line x1="210" y1="135" x2="560" y2="135" stroke="#68778b" stroke-width="4"/>
+<circle cx="210" cy="135" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="210" y="142" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">s</text>
+<circle cx="560" cy="135" r="23" fill="#fff" stroke="#2365ab" stroke-width="3"/>
+<text x="560" y="142" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">v</text>
+<text x="210" y="195" fill="#243449" font-size="22" text-anchor="middle" font-weight="normal">原有 2 只</text>
+<text x="560" y="195" fill="#243449" font-size="22" text-anchor="middle" font-weight="normal">原有 3 只</text>
+<rect x="145" y="240" width="89" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="189.5" y="271.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">s</text>
+<rect x="237" y="240" width="89" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="281.5" y="271.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">v</text>
+<rect x="329" y="240" width="89" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="373.5" y="271.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">s</text>
+<rect x="421" y="240" width="89" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="465.5" y="271.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">v</text>
+<rect x="513" y="240" width="89" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="557.5" y="271.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">s</text>
+<text x="55" y="330" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">只在到达时吃：s 吃 2 只，v 吃 2 只；最终回 s</text>
+<text x="55" y="375" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">两个边对×2=4；不能在原地吃掉 v 剩余的一只</text>
+</g></svg>

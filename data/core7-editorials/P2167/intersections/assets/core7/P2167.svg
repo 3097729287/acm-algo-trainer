@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="450" viewBox="0 0 760 450" role="img" aria-labelledby="title"><title id="title">模式 a?、?b、??：恰好匹配两个的有五十串</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">模式 a?、?b、??：恰好匹配两个的有五十串</text>
+<rect x="40" y="80" width="680" height="295" rx="12" fill="#fff" stroke="#68778b" stroke-width="2"/>
+<ellipse cx="270" cy="220" rx="165" ry="115" fill="#edfff5" fill-opacity="0.3" stroke="#12805c" stroke-width="3"/>
+<ellipse cx="490" cy="220" rx="165" ry="115" fill="#edfff5" fill-opacity="0.3" stroke="#12805c" stroke-width="3"/>
+<text x="220" y="125" fill="#2365ab" font-size="22" text-anchor="middle" font-weight="normal">a? 匹配区</text>
+<text x="545" y="125" fill="#2365ab" font-size="22" text-anchor="middle" font-weight="normal">?b 匹配区</text>
+<text x="215" y="215" fill="#12805c" font-size="24" text-anchor="middle" font-weight="normal">ac、ad…</text>
+<text x="215" y="265" fill="#12805c" font-size="25" text-anchor="middle" font-weight="normal">25 串</text>
+<text x="545" y="215" fill="#12805c" font-size="24" text-anchor="middle" font-weight="normal">zb、yb…</text>
+<text x="545" y="265" fill="#12805c" font-size="25" text-anchor="middle" font-weight="normal">25 串</text>
+<text x="380" y="225" fill="#bc3645" font-size="25" text-anchor="middle" font-weight="normal">ab</text>
+<text x="380" y="265" fill="#bc3645" font-size="18" text-anchor="middle" font-weight="normal">匹配3个</text>
+<text x="70" y="355" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">整个边框都匹配 ??；两圈外的 625 串只匹配 1 个</text>
+<text x="55" y="425" fill="#243449" font-size="20" text-anchor="start" font-weight="normal">ab 的容斥权重：三个双交集各 +1，三交集 −3，抵消</text>
+</g></svg>

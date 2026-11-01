@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="395" viewBox="0 0 760 395" role="img" aria-labelledby="title"><title id="title">10 至 19 中，10、12、18 可被各自数位和整除</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">10 至 19 中，10、12、18 可被各自数位和整除</text>
+<rect x="40" y="100" width="150" height="55" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="115.0" y="134.5" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">10</text>
+<text x="115" y="220" fill="#12805c" font-size="23" text-anchor="middle" font-weight="normal">位和 1</text>
+<text x="115" y="285" fill="#12805c" font-size="23" text-anchor="middle" font-weight="normal">余数 0</text>
+<rect x="220" y="100" width="150" height="55" rx="7" fill="#edf5ff" stroke="#bc3645" stroke-width="2"/>
+<text x="295.0" y="134.5" fill="#bc3645" font-size="21" text-anchor="middle" font-weight="normal">11</text>
+<text x="295" y="220" fill="#bc3645" font-size="23" text-anchor="middle" font-weight="normal">位和 2</text>
+<text x="295" y="285" fill="#bc3645" font-size="23" text-anchor="middle" font-weight="normal">余数 1</text>
+<rect x="400" y="100" width="150" height="55" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="475.0" y="134.5" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">12</text>
+<text x="475" y="220" fill="#12805c" font-size="23" text-anchor="middle" font-weight="normal">位和 3</text>
+<text x="475" y="285" fill="#12805c" font-size="23" text-anchor="middle" font-weight="normal">余数 0</text>
+<rect x="580" y="100" width="150" height="55" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="655.0" y="134.5" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">18</text>
+<text x="655" y="220" fill="#12805c" font-size="23" text-anchor="middle" font-weight="normal">位和 9</text>
+<text x="655" y="285" fill="#12805c" font-size="23" text-anchor="middle" font-weight="normal">余数 0</text>
+<text x="45" y="365" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">先固定最终位和 3：前缀 1 与后缀 2 合成 12</text>
+</g></svg>

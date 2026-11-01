@@ -7,7 +7,7 @@ ROOT = Path(sys.executable).resolve().parent if getattr(sys, 'frozen', False) el
 RESOURCES = ROOT / 'resources' if getattr(sys, 'frozen', False) else ROOT / 'backend' / 'resources'
 ADMIN_MODE = '--admin' in sys.argv or os.environ.get('TB_ADMIN_MODE') == '1' or getattr(sys,'frozen',False) and Path(sys.executable).stem in {'TB管理员版','ToBe管理员版'}
 STATE = Path(os.environ.get('TB_STATE_DIR') or (ROOT / 'admin-workspace' / 'state' if ADMIN_MODE else ROOT / 'state')).resolve()
-FRONTEND = ROOT / 'frontend' / 'dist'
+FRONTEND = Path(os.environ.get('TB_UI_DIST') or ROOT / 'frontend' / 'dist').resolve()
 LIBRARY_SEED = ROOT / 'data' / 'library.sqlite3'
 LIBRARY_SOURCE = ROOT / 'data' / 'library'
 

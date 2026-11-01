@@ -194,6 +194,7 @@ def snapshot(training, goal_tasks=None, evidence=None, *, completed=None):
             row = current[definition['id']]
             task = {**json.loads(row['definition']), 'lane': definition['lane'], 'slot': definition['slot']}
             amount, _ = progress(training, task, evidence, day, completed)
+            task['stickerRarity']=__import__('gameplay').rarity(task)
             task.update(progress=amount, completed=amount >= task['target'], claimed=bool(row['claimed_at']), claimedAt=row['claimed_at'])
             tasks.append(task)
         if goal_tasks is None:
@@ -235,6 +236,7 @@ def claim(training, identity, date=None):
             with training._write() as db:
                 db.execute('UPDATE daily_missions SET claimed_at=?,awarded_xp=?,evidence=? WHERE day=? AND id=? AND claimed_at IS NULL',
                            (iso(training._now()), task['xp'], json.dumps(proof), day, identity))
+                db.execute('INSERT INTO account_preferences VALUES(?,?,?) ON CONFLICT(key) DO NOTHING',('sticker-eligible:'+day+':'+identity,json.dumps(task,ensure_ascii=False),iso(training._now())))
             _advance_read_caches(training, day, before_changes)
         # Compute the next tier only after the claim is durably committed.
         return {'dailyTasks': snapshot(training, goal_tasks=[], evidence=evidence, completed=completed),

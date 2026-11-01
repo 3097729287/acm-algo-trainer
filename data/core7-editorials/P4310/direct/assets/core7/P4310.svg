@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="360" viewBox="0 0 760 360" role="img" aria-labelledby="title"><title id="title">共享的一位可以改变，一、三、二是三项合法子序列</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">共享的一位可以改变，一、三、二是三项合法子序列</text>
+<line x1="140" y1="155" x2="380" y2="155" stroke="#12805c" stroke-width="4"/>
+<line x1="380" y1="155" x2="620" y2="155" stroke="#12805c" stroke-width="4"/>
+<circle cx="140" cy="155" r="23" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="140" y="162" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<circle cx="380" cy="155" r="23" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="380" y="162" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<circle cx="620" cy="155" r="23" fill="#fff" stroke="#12805c" stroke-width="3"/>
+<text x="620" y="162" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<text x="140" y="235" fill="#2365ab" font-size="27" text-anchor="middle" font-weight="normal">01</text>
+<text x="380" y="235" fill="#2365ab" font-size="27" text-anchor="middle" font-weight="normal">11</text>
+<text x="620" y="235" fill="#2365ab" font-size="27" text-anchor="middle" font-weight="normal">10</text>
+<text x="260" y="115" fill="#243449" font-size="20" text-anchor="middle" font-weight="normal">共享最低位</text>
+<text x="500" y="115" fill="#243449" font-size="20" text-anchor="middle" font-weight="normal">共享次低位</text>
+<text x="65" y="315" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">相邻按位与都非零，三个数一起按位与却为零</text>
+</g></svg>

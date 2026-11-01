@@ -11,7 +11,7 @@ const out=path.join(root,'.backups/core7-editorials-20261030/render');
 fs.mkdirSync(out,{recursive:true});
 const authored=JSON.parse(fs.readFileSync(path.join(root,'.backups/core7-editorials-20261030/authored.json'),'utf8'));
 const lectures=JSON.parse(fs.readFileSync(path.join(root,'data/library/lectures.json'),'utf8')).map(r=>r.content);
-const server=await createServer({root:path.join(root,'frontend'),server:{host:'127.0.0.1',port:0}});
+const server=await createServer({root:path.join(root,'frontend'),cacheDir:path.join(out,'vite-cache'),server:{host:'127.0.0.1',port:0}});
 await server.listen();
 const browser=await chromium.launch({channel:'msedge',headless:true});
 const frames=[],errors=[];

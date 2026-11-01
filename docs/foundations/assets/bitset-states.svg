@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="390" viewBox="0 0 760 390" role="img" aria-labelledby="title"><title id="title">位置是总重量，绿色表示该重量可以组成</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">位置是总重量，绿色表示该重量可以组成</text>
+<text x="30" y="80" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">只用一个 3</text>
+<rect x="35" y="95" width="66" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="68.0" y="126.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="104" y="95" width="66" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="137.0" y="126.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="173" y="95" width="66" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="206.0" y="126.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="242" y="95" width="66" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="275.0" y="126.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="311" y="95" width="66" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="344.0" y="126.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="380" y="95" width="66" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="413.0" y="126.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="449" y="95" width="66" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="482.0" y="126.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">6</text>
+<rect x="518" y="95" width="66" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="551.0" y="126.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">7</text>
+<rect x="587" y="95" width="66" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="620.0" y="126.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">8</text>
+<rect x="656" y="95" width="66" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="689.0" y="126.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">9</text>
+<text x="30" y="220" fill="#243449" font-size="21" text-anchor="start" font-weight="normal">再用一个 3</text>
+<rect x="35" y="235" width="66" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="68.0" y="266.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">0</text>
+<rect x="104" y="235" width="66" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="137.0" y="266.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="173" y="235" width="66" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="206.0" y="266.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="242" y="235" width="66" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="275.0" y="266.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="311" y="235" width="66" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="344.0" y="266.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="380" y="235" width="66" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="413.0" y="266.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="449" y="235" width="66" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="482.0" y="266.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">6</text>
+<rect x="518" y="235" width="66" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="551.0" y="266.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">7</text>
+<rect x="587" y="235" width="66" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="620.0" y="266.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">8</text>
+<rect x="656" y="235" width="66" height="48" rx="7" fill="#edf5ff" stroke="#68778b" stroke-width="2"/>
+<text x="689.0" y="266.0" fill="#68778b" font-size="21" text-anchor="middle" font-weight="normal">9</text>
+<line x1="68" y1="148" x2="275" y2="230" stroke="#12805c" stroke-width="3"/>
+<line x1="275" y1="148" x2="482" y2="230" stroke="#12805c" stroke-width="3"/>
+<text x="45" y="355" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">第二个 3 只能用一次；新出现的总重量是 6</text>
+</g></svg>

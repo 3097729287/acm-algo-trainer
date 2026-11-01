@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="450" viewBox="0 0 760 450" role="img" aria-labelledby="title"><title id="title">目标三：第一位需补两次，先用最远右端</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">目标三：第一位需补两次，先用最远右端</text>
+<rect x="185" y="90" width="127" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="248.5" y="121.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<rect x="315" y="90" width="127" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="378.5" y="121.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="445" y="90" width="127" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="508.5" y="121.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<line x1="185" y1="220" x2="570" y2="220" stroke="#12805c" stroke-width="10"/>
+<text x="235" y="200" fill="#12805c" font-size="22" text-anchor="start" font-weight="normal">选 [1,3]：+1</text>
+<line x1="185" y1="285" x2="310" y2="285" stroke="#2365ab" stroke-width="10"/>
+<text x="350" y="295" fill="#2365ab" font-size="22" text-anchor="start" font-weight="normal">再选 [1,1]：+1</text>
+<rect x="185" y="350" width="127" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="248.5" y="381.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="315" y="350" width="127" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="378.5" y="381.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<rect x="445" y="350" width="127" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="508.5" y="381.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<text x="45" y="435" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">恰好 k=2 段，最终最小值 3；[3,3] 不必再选</text>
+</g></svg>

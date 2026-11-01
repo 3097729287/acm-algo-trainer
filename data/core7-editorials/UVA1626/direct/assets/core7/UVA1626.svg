@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="365" viewBox="0 0 760 365" role="img" aria-labelledby="title"><title id="title">插入两个闭括号，保留原字符的先后次序</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">插入两个闭括号，保留原字符的先后次序</text>
+<rect x="65" y="100" width="102" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="116.0" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">(</text>
+<rect x="170" y="100" width="102" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="221.0" y="131.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">)</text>
+<rect x="275" y="100" width="102" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="326.0" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">[</text>
+<rect x="380" y="100" width="102" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="431.0" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">(</text>
+<rect x="485" y="100" width="102" height="48" rx="7" fill="#edf5ff" stroke="#12805c" stroke-width="2"/>
+<text x="536.0" y="131.0" fill="#12805c" font-size="21" text-anchor="middle" font-weight="normal">)</text>
+<rect x="590" y="100" width="102" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="641.0" y="131.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">]</text>
+<text x="65" y="245" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">原串是 ( [ ( ]；蓝色是原字符，绿色为新插入</text>
+<text x="65" y="310" fill="#243449" font-size="22" text-anchor="start" font-weight="normal">得到 ()[()]，总长 6，圆括号与方括号各自正确配对</text>
+</g></svg>

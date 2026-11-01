@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="465" viewBox="0 0 760 465" role="img" aria-labelledby="title"><title id="title">最后两堆的质量和固定，前面费用还要累计</title>
+<rect width="100%" height="100%" rx="12" fill="#fff"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#243449">
+<text x="28" y="36" fill="#243449" font-size="23" text-anchor="start" font-weight="bold">最后两堆的质量和固定，前面费用还要累计</text>
+<rect x="85" y="85" width="112" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="141.0" y="116.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="200" y="85" width="112" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="256.0" y="116.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="315" y="85" width="112" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="371.0" y="116.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">3</text>
+<rect x="430" y="85" width="112" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="486.0" y="116.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">1</text>
+<text x="570" y="117" fill="#12805c" font-size="22" text-anchor="middle" font-weight="normal"></text>
+<rect x="85" y="180" width="112" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="141.0" y="211.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">2</text>
+<rect x="200" y="180" width="112" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="256.0" y="211.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">5</text>
+<rect x="315" y="180" width="112" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="371.0" y="211.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<text x="570" y="212" fill="#12805c" font-size="22" text-anchor="middle" font-weight="normal">本次费用 4</text>
+<rect x="85" y="275" width="112" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="141.0" y="306.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">7</text>
+<rect x="200" y="275" width="112" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="256.0" y="306.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">4</text>
+<text x="570" y="307" fill="#12805c" font-size="22" text-anchor="middle" font-weight="normal">本次费用 7</text>
+<rect x="85" y="370" width="112" height="48" rx="7" fill="#edf5ff" stroke="#2365ab" stroke-width="2"/>
+<text x="141.0" y="401.0" fill="#2365ab" font-size="21" text-anchor="middle" font-weight="normal">11</text>
+<text x="570" y="402" fill="#12805c" font-size="22" text-anchor="middle" font-weight="normal">本次费用 11</text>
+<text x="65" y="450" fill="#243449" font-size="23" text-anchor="start" font-weight="normal">总费用 4+7+11=22；最终质量 11 不是答案</text>
+</g></svg>

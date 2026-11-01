@@ -5,3 +5,7 @@
 .lesson-reader-link>button:first-child {display:flex;align-items:center;gap:9px;flex:1;min-width:0;text-align:left;padding:10px 4px;color:var(--accent);background:transparent;border:0}
 .lesson-reader-link>button:first-child>svg {flex:none}
 .lesson-reader-link>button:first-child>span {min-width:0}
+
+html body>.reader-panel.reader-full{position:fixed;inset:0;z-index:2000;width:100%;height:100dvh;max-width:none;max-height:none;margin:0;border:0;border-radius:0;background:var(--panel-base);isolation:isolate;box-shadow:none;}
+html body>.reader-panel.reader-full>.reader-resizer{display:none;}
+html body>.reader-panel.reader-full>.reader-content{background:var(--panel-base);}
