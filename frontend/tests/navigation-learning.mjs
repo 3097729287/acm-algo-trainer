@@ -74,20 +74,14 @@ try{
  assert.deepEqual(await nav().getByRole('button').allTextContents(),defaultNames,'Reset keeps the new default order after restoring persisted preferences');
  for(const width of [2048,1440,800,430]){
   preferences={...originalPreferences,fontSize:22};await page.setViewportSize({width,height:960});await load(11);await openSettings(page,'交互与导航');
-  const rows=await page.locator('.navigation-editor-row').evaluateAll(nodes=>nodes.map(row=>{
+  const rows=await page.locator('.navigation-visibility-item').evaluateAll(nodes=>nodes.map(row=>{
    const bounds=node=>{const r=node.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height};};
-   return {label:bounds(row.querySelector(':scope>label')),name:bounds(row.querySelector(':scope>label input')),group:bounds(row.querySelector(':scope>input')),buttons:[...row.querySelectorAll('.navigation-reorder button')].map(bounds)};
+   return {row:bounds(row),icon:bounds(row.querySelector('svg')),label:bounds(row.querySelector('span')),toggle:bounds(row.querySelector('input'))};
   }));
   assert.equal(rows.length,12);
   for(const row of rows){
-   const controls=[row.name,row.group,...row.buttons];
-   assert(controls.every(rect=>rect.left>=0&&rect.right<=width+.5&&rect.width>0&&rect.height>=35.5),'Navigation fields and actions stay within the window: '+JSON.stringify({width,row}));
-   assert(row.buttons.length===3&&row.buttons.every(rect=>rect.width>=35.5&&rect.height>=35.5),'All three navigation actions keep usable targets');
-   for(let a=0;a<controls.length;a++)for(let b=a+1;b<controls.length;b++){
-    const x=controls[a],y=controls[b];assert(x.right<=y.left+.5||y.right<=x.left+.5||x.bottom<=y.top+.5||y.bottom<=x.top+.5,'Navigation inputs and buttons never overlap: '+JSON.stringify({width,row}));
-   }
-   if(width>=800){assert(row.label.width<=250.5&&row.group.width<=220.5);assert(row.group.left-row.label.right>=19.5,'Desktop navigation keeps the requested middle whitespace');}
-   else assert(row.group.top>=row.name.bottom,'Narrow navigation moves the group input below its page name');
+   assert(row.row.left>=0&&row.row.right<=width+.5&&row.row.height>=47.5,'Visibility row remains a usable target');
+   assert(row.label.right<=row.toggle.left-5&&row.icon.right<=row.label.left-5,'Icon, page name and visibility switch do not overlap');
   }
   await mkdir('tests/screenshots/navigation-learning',{recursive:true});
   await page.screenshot({path:`tests/screenshots/navigation-learning/navigation-settings-${width}-22.png`,animations:'disabled'});
