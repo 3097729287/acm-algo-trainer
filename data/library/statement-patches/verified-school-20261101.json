@@ -1,0 +1,596 @@
+{
+  "schema": 1,
+  "statements": [
+    {
+      "problem_id": "remote:codeforces:726517::A",
+      "beforeSha256": "35f9d4feddc31883c7569d26294847507422fc3a9b4fd11debb74fbfe0ca0e54",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:726517::A",
+        "images": {
+          "https://espresso.codeforces.com/2efb48fd56a6167cac3c5a8c51483513d9b48b30.png": "tb-asset:da9d1ca3d5c3ff0cac18be1a5bfa83f91ce851fe1a09a78cec1de8901f1a6bf3"
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 2,
+          "pdfPageCountVerified": false,
+          "checkedAt": "2026-11-01T08:36:02.380418+00:00",
+          "issues": [],
+          "corpusAuditVerifiedSha256": "ab64e741d84db9858e8cb6597360496ca5a3b6bf3e91cf71ac8c39bfc977fb5c",
+          "markdownSha256": "ab64e741d84db9858e8cb6597360496ca5a3b6bf3e91cf71ac8c39bfc977fb5c",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/726517/problem/A",
+              "sha256": "03bb569205114c2996d98075c54725ad116c44ab77efe0da4ecf90f9b5157571",
+              "kind": "original-browser-document"
+            }
+          ],
+          "review": "Original source prose, every sample input/output and source resource references compared; preserve existing normalized body and Chinese translation"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# A. Cyclic Components\n\nYou are given an undirected graph consisting of $n$ vertices and $m$ edges. Your task is to find the number of connected components which are cycles.\n\nHere are some definitions of graph theory.\n\nAn undirected graph consists of two sets: set of nodes (called vertices) and set of edges. Each edge connects a pair of vertices. All edges are bidirectional (i.e. if a vertex $a$ is connected with a vertex $b$, a vertex $b$ is also connected with a vertex $a$). An edge can't connect vertex with itself, there is at most one edge between a pair of vertices.\n\nTwo vertices $u$ and $v$ belong to the same connected component if and only if there is at least one path along edges connecting $u$ and $v$.\n\nA connected component is a cycle if and only if its vertices can be reordered in such a way that:\n\n- the first vertex is connected with the second vertex by an edge,\n\n- the second vertex is connected with the third vertex by an edge,\n\n- ...\n\n- the last vertex is connected with the first vertex by an edge,\n\n- all the described edges of a cycle are distinct.\n\nA cycle doesn't contain any other edges except described above. By definition any cycle contains three or more vertices.\n\n![](https://espresso.codeforces.com/2efb48fd56a6167cac3c5a8c51483513d9b48b30.png) There are $6$ connected components, $2$ of them are cycles: $[7, 10, 16]$ and $[5, 11, 9, 15]$.\n\n## Input\n\nThe first line contains two integer numbers $n$ and $m$ ($1 \\le n \\le 2 \\cdot 10^5$, $0 \\le m \\le 2 \\cdot 10^5$) — number of vertices and edges.\n\nThe following $m$ lines contains edges: edge $i$ is given as a pair of vertices $v_i$, $u_i$ ($1 \\le v_i, u_i \\le n$, $u_i \\ne v_i$). There is no multiple edges in the given graph, i.e. for each pair ($v_i, u_i$) there no other pairs ($v_i, u_i$) and ($u_i, v_i$) in the list of edges.\n\n## Output\n\nPrint one integer — the number of connected components which are also cycles.\n\n## Note\n\nIn the first example only component $[3, 4, 5]$ is also a cycle.\n\nThe illustration above corresponds to the second example.",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://espresso.codeforces.com/2efb48fd56a6167cac3c5a8c51483513d9b48b30.png": {
+            "bytes": 8599,
+            "frameCount": 1,
+            "height": 294,
+            "mime": "image/png",
+            "sha256": "da9d1ca3d5c3ff0cac18be1a5bfa83f91ce851fe1a09a78cec1de8901f1a6bf3",
+            "sourceUrl": "https://espresso.codeforces.com/2efb48fd56a6167cac3c5a8c51483513d9b48b30.png",
+            "width": 294
+          }
+        },
+        "samples": [
+          {
+            "input": "5 4\n1 2\n3 4\n5 4\n3 5",
+            "name": "样例 1",
+            "output": "1"
+          },
+          {
+            "input": "17 15\n1 8\n1 12\n5 11\n11 9\n9 15\n15 5\n4 13\n3 13\n4 3\n10 16\n7 10\n16 7\n14 3\n14 4\n17 6",
+            "name": "样例 2",
+            "output": "2"
+          }
+        ],
+        "statementAvailable": true,
+        "statementVersion": 3,
+        "title": "Cyclic Components",
+        "translation": {
+          "format": "complete-prose-v4",
+          "kind": "bundled",
+          "markdown": "# A. Cyclic Components\n\n给定由 $n$ 个顶点、$m$ 条边构成的无向图。请统计其中有多少个连通分量恰好是一个环。\n\n下面给出相关图论定义。\n\n无向图由顶点集合与边集合组成。每条边连接两个顶点，且可双向通行：若顶点 $a$ 与顶点 $b$ 相连，则顶点 $b$ 也与顶点 $a$ 相连。没有连接自身的边，任意一对顶点之间至多有一条边。\n\n两个顶点 $u$ 和 $v$ 属于同一连通分量，当且仅当存在一条沿图中边连接 $u$ 与 $v$ 的路径。\n\n一个连通分量是环，当且仅当可以重新排列其顶点，使得：\n\n- 第一个顶点与第二个顶点之间有边；\n\n- 第二个顶点与第三个顶点之间有边；\n\n- ……\n\n- 最后一个顶点与第一个顶点之间有边；\n\n- 上面提到的所有边互不相同。\n\n该分量中不能存在上述环边之外的其他边。按定义，环至少包含三个顶点。\n\n![](https://espresso.codeforces.com/2efb48fd56a6167cac3c5a8c51483513d9b48b30.png) 图中有 $6$ 个连通分量，其中 $2$ 个是环：$[7, 10, 16]$ 和 $[5, 11, 9, 15]$。\n\n## 输入\n\n第一行包含两个整数 $n$、$m$（$1 \\le n \\le 2 \\cdot 10^5$，$0 \\le m \\le 2 \\cdot 10^5$），表示顶点数与边数。\n\n接下来 $m$ 行描述边。第 $i$ 条边给出两个端点 $v_i$、$u_i$（$1 \\le v_i, u_i \\le n$，$u_i \\ne v_i$）。保证没有重边，即每个端点对（$v_i, u_i$）出现后，不会再有另一个（$v_i, u_i$）或（$u_i, v_i$）。\n\n## 输出\n\n输出一个整数，表示恰好构成环的连通分量数。\n\n## 说明\n\n第一个样例中，只有分量 $[3, 4, 5]$ 是环。\n\n上图对应第二个样例。\n",
+          "notice": "公式、输入输出与样例以原题为准。",
+          "provider": "逐段整理并核对原题",
+          "sourceHash": "ab64e741d84db9858e8cb6597360496ca5a3b6bf3e91cf71ac8c39bfc977fb5c",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN"
+        },
+        "url": "https://codeforces.com/gym/726517/problem/A"
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:726517::B",
+      "beforeSha256": "22d881c6784b8cc0515984ebeb8f7070f1cadcdd02563ac4f5d87f6c98db610c",
+      "content": {
+        "attachments": {},
+        "currentSourceMarkdown": "# Two Buttons\n\nVasya has found a strange device. On the front panel of a device there are: a red button, a blue button and a display showing some positive integer. After clicking the red button, device multiplies the displayed number by two. After clicking the blue button, device subtracts one from the number on the display. If at some point the number stops being positive, the device breaks down. The display can show arbitrarily large numbers. Initially, the display shows number *n*.\n\n\n\nBob wants to get number *m* on the display. What minimum number of clicks he has to make in order to achieve this result?\n\n\n\n## Input\n\n\n\nThe first and the only line of the input contains two distinct integers *n* and *m* (1 ≤ *n*, *m* ≤ 10$^{4}$), separated by a space .\n\n\n\n## Output\n\n\n\nPrint a single number — the minimum number of times one needs to push the button required to get the number *m* out of number *n*.\n\n\n\n## Note\n\n\n\nIn the first example you need to push the blue button once, and then push the red button once.\n\n\n\nIn the second example, doubling the number is unnecessary, so we need to push the blue button nine times.",
+        "id": "remote:codeforces:726517::B",
+        "images": {},
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 2,
+          "pdfPageCountVerified": false,
+          "checkedAt": "2026-11-01T08:36:02.384502+00:00",
+          "issues": [],
+          "corpusAuditVerifiedSha256": "ff7011776aa0a80c3c2a872151582f7b9936f765b40944a2b28a87c12d85b9c6",
+          "markdownSha256": "ff7011776aa0a80c3c2a872151582f7b9936f765b40944a2b28a87c12d85b9c6",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/726517/problem/B",
+              "sha256": "7f4f7369a8c0e23335ccced9e4ce3edafb4200856d0b3c72d6a95555bf04f7c4",
+              "kind": "original-browser-document"
+            }
+          ],
+          "review": "Original source prose, every sample input/output and source resource references compared; preserve existing normalized body and Chinese translation"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Two Buttons\n\nVasya has found a strange device. On the front panel of a device there are: a red button, a blue button and a display showing some positive integer. After clicking the red button, device multiplies the displayed number by two. After clicking the blue button, device subtracts one from the number on the display. If at some point the number stops being positive, the device breaks down. The display can show arbitrarily large numbers. Initially, the display shows number *n*.\n\nBob wants to get number *m* on the display. What minimum number of clicks he has to make in order to achieve this result?\n\n## Input\n\nThe first and the only line of the input contains two distinct integers *n* and *m* (1 ≤ *n*, *m* ≤ 10$^{4}$), separated by a space .\n\n## Output\n\nPrint a single number — the minimum number of times one needs to push the button required to get the number *m* out of number *n*.\n\n## Note\n\nIn the first example you need to push the blue button once, and then push the red button once.\n\nIn the second example, doubling the number is unnecessary, so we need to push the blue button nine times.",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "4 6",
+            "name": "样例 1",
+            "output": "2"
+          },
+          {
+            "input": "10 1",
+            "name": "样例 2",
+            "output": "9"
+          }
+        ],
+        "sourceBinding": {
+          "method": "all-body-prose-math-io-constraints-and-every-sample",
+          "mirrorBodySha256": "ea955bec390216a7c5bb6a1e10b8ea0824072806e46d1b169c72676406589f67",
+          "mirrorId": "lab:codeforces:520B",
+          "mirrorUrl": "https://codeforces.com/contest/520/problem/B",
+          "originalArchiveBodySha256": "ff7011776aa0a80c3c2a872151582f7b9936f765b40944a2b28a87c12d85b9c6",
+          "originalUrl": "https://codeforces.com/gym/726517/problem/B"
+        },
+        "statementAvailable": true,
+        "statementSupplement": "",
+        "statementVersion": 7,
+        "title": "Two Buttons",
+        "translation": {
+          "format": "complete-prose-v4",
+          "kind": "bundled",
+          "markdown": "# 两个按钮\n\nVasya发现了一个奇怪的装置。装置的前面板上有一个红色按钮、一个蓝色按钮和一个显示某个正整数的显示屏。点击红色按钮后，装置会将显示的数字乘以二。点击蓝色按钮后，装置会将显示的数字减一。如果在某个时刻数字不再为正，装置就会损坏。显示屏可以显示任意大的数字。最初，显示屏显示数字*n*。\n\nBob想要在显示屏上得到数字*m*。他最少需要点击多少次才能达到这个结果？\n\n## 输入\n\n输入的第一行也是唯一一行包含两个不同的整数*n*和*m*（1 ≤ *n*, *m* ≤ 10$^{4}$），用空格分隔。\n\n## 输出\n\n输出一个数字——从数字*n*得到数字*m*所需按下按钮的最少次数。\n\n## 说明\n\n在第一个示例中，你需要按一次蓝色按钮，然后按一次红色按钮。\n\n在第二个示例中，将数字翻倍是不必要的，所以我们需要按九次蓝色按钮。\n",
+          "notice": "公式、输入输出与样例以原题为准。",
+          "provider": "逐段整理并核对原题",
+          "sourceHash": "ff7011776aa0a80c3c2a872151582f7b9936f765b40944a2b28a87c12d85b9c6",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN"
+        },
+        "translationSourceSnapshot": {
+          "currentSourceHash": "ea955bec390216a7c5bb6a1e10b8ea0824072806e46d1b169c72676406589f67",
+          "equivalentFormattingVerified": true,
+          "samplesUnchanged": true,
+          "sourceHash": "ff7011776aa0a80c3c2a872151582f7b9936f765b40944a2b28a87c12d85b9c6"
+        },
+        "url": "https://codeforces.com/gym/726517/problem/B"
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:726517::C",
+      "beforeSha256": "5c8ae5ba9009ad395ab972d401bd7f00d1852f2e38709d497f95275f99cbe3f6",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:726517::C",
+        "images": {},
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 2,
+          "pdfPageCountVerified": false,
+          "checkedAt": "2026-11-01T08:36:02.389937+00:00",
+          "issues": [],
+          "corpusAuditVerifiedSha256": "6e125ffc56de201810e161033370689370c30608243810c42c6ef4f9bdce8c1c",
+          "markdownSha256": "6e125ffc56de201810e161033370689370c30608243810c42c6ef4f9bdce8c1c",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/726517/problem/C",
+              "sha256": "862870fab8f1b8a110f59560e0860a3abacd941e3322f7ead85d6a9957104d7a",
+              "kind": "original-browser-document"
+            }
+          ],
+          "review": "Original source prose, every sample input/output and source resource references compared; preserve existing normalized body and Chinese translation"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": false,
+        "markdown": "# C. PolandBall and Forest\n\nPolandBall lives in a forest with his family. There are some trees in the forest. Trees are undirected acyclic graphs with *k* vertices and *k* - 1 edges, where *k* is some integer. Note that one vertex is a valid tree.\n\nThere is exactly one relative living in each vertex of each tree, they have unique ids from 1 to *n*. For each Ball *i* we know the id of its most distant relative living on the same tree. If there are several such vertices, we only know the value of the one with smallest id among those.\n\nHow many trees are there in the forest?\n\n## Input\n\nThe first line contains single integer *n* (1 ≤ *n* ≤ 10$^{4}$) — the number of Balls living in the forest.\n\nThe second line contains a sequence *p*$_{1}$, *p*$_{2}$, ..., *p*$_{n}$ of length *n*, where (1 ≤ *p*$_{i}$ ≤ *n*) holds and *p*$_{i}$ denotes the most distant from Ball *i* relative living on the same tree. If there are several most distant relatives living on the same tree, *p*$_{i}$ is the id of one with the smallest id.\n\nIt's guaranteed that the sequence *p* corresponds to some valid forest.\n\nHacking: To hack someone, you should provide a correct forest as a test. The sequence *p* will be calculated according to the forest and given to the solution you try to hack as input. Use the following format:\n\nIn the first line, output the integer *n* (1 ≤ *n* ≤ 10$^{4}$) — the number of Balls and the integer *m* (0 ≤ *m* < *n*) — the total number of edges in the forest. Then *m* lines should follow. The *i*-th of them should contain two integers *a*$_{i}$ and *b*$_{i}$ and represent an edge between vertices in which relatives *a*$_{i}$ and *b*$_{i}$ live. For example, the first sample is written as follows:\n\n```text\n\n5 3\n1 2\n3 4\n4 5\n```\n\n## Output\n\nYou should output the number of trees in the forest where PolandBall lives.\n\n## Interaction\n\nFrom the technical side, this problem is interactive. However, it should not affect you (except hacking) since there is no interaction.\n\n## Note\n\nIn the first sample testcase, possible forest is: `1-2 3-4-5`.\n\nThere are 2 trees overall.\n\nIn the second sample testcase, the only possible graph is one vertex and no edges. Therefore, there is only one tree.",
+        "problemType": "interactive",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "5\n2 1 5 3 3",
+            "name": "样例 1",
+            "output": "2"
+          },
+          {
+            "input": "1\n1",
+            "name": "样例 2",
+            "output": "1"
+          }
+        ],
+        "statementAvailable": true,
+        "statementVersion": 3,
+        "title": "PolandBall and Forest",
+        "translation": {
+          "format": "complete-prose-v4",
+          "kind": "bundled",
+          "markdown": "# C. PolandBall and Forest\n\nPolandBall 和家人住在一片森林中。森林里有若干棵树；树是由 *k* 个顶点和 *k* - 1 条边构成的无向无环图，其中 *k* 为整数。单独一个顶点也算一棵树。\n\n每棵树的每个顶点恰好住着一位亲戚，他们的编号从 1 到 *n*，互不相同。对每个 Ball *i*，已知同一棵树中距离他最远的亲戚编号。如果最远的亲戚不止一位，则给出其中编号最小者。\n\n森林里共有多少棵树？\n\n## 输入\n\n第一行包含整数 *n*（1 ≤ *n* ≤ 10$^{4}$），表示森林中的 Ball 数量。\n\n第二行包含长度为 *n* 的序列 *p*$_{1}$、*p*$_{2}$、…、*p*$_{n}$，满足（1 ≤ *p*$_{i}$ ≤ *n*）。*p*$_{i}$ 表示与 Ball *i* 同树且距离最远的亲戚；若有多个最远者，*p*$_{i}$ 为其中最小编号。\n\n保证序列 *p* 对应某个合法森林。\n\n构造 Hack 数据时，需要提交一片合法森林作为测试；系统将据此计算序列 *p*，再交给被测试程序。Hack 数据格式如下：\n\n第一行输出整数 *n*（1 ≤ *n* ≤ 10$^{4}$）和整数 *m*（0 ≤ *m* < *n*），分别表示顶点数与森林总边数。随后 *m* 行，第 *i* 行包含两个整数 *a*$_{i}$、*b*$_{i}$，表示亲戚 *a*$_{i}$ 与 *b*$_{i}$ 所在顶点之间的一条边。例如，第一个样例可写为：\n\n```text\n\n5 3\n1 2\n3 4\n4 5\n```\n\n## 输出\n\n输出 PolandBall 所在森林的树的数量。\n\n## 交互说明\n\n本题在评测系统中使用交互形式封装，但除 Hack 数据格式外，这不会影响解题：程序不需要进行交互。\n\n## 说明\n\n第一个样例的一种可能森林为 `1-2 3-4-5`。\n\n总计 2 棵树。\n\n第二个样例只可能包含一个顶点，没有边，因此只有一棵树。\n",
+          "notice": "公式、输入输出与样例以原题为准。",
+          "provider": "逐段整理并核对原题",
+          "sourceHash": "6e125ffc56de201810e161033370689370c30608243810c42c6ef4f9bdce8c1c",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN"
+        },
+        "url": "https://codeforces.com/gym/726517/problem/C"
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:726517::D",
+      "beforeSha256": "65f70dc8d395fe06225d88090f7dff3a988dfcc4eefa62dd28e7d7a8fdbe4fd2",
+      "content": {
+        "attachments": {},
+        "currentSourceMarkdown": "# Minimal Labels\n\nYou are given a directed acyclic graph with *n* vertices and *m* edges. There are no self-loops or multiple edges between any pair of vertices. Graph can be disconnected.\n\n\n\nYou should assign labels to all vertices in such a way that:\n\n\n\n- Labels form a valid permutation of length *n* — an integer sequence such that each integer from 1 to *n* appears exactly once in it.\n\n- If there exists an edge from vertex *v* to vertex *u* then *label*$_{v}$ should be smaller than *label*$_{u}$.\n\n- Permutation should be lexicographically smallest among all suitable.\n\n\n\nFind such sequence of labels to satisfy all the conditions.\n\n\n\n## Input\n\n\n\nThe first line contains two integer numbers *n*, *m* (2 ≤ *n* ≤ 10$^{5}$, 1 ≤ *m* ≤ 10$^{5}$).\n\n\n\nNext *m* lines contain two integer numbers *v* and *u* (1 ≤ *v*, *u* ≤ *n*, *v* ≠ *u*) — edges of the graph. Edges are directed, graph doesn't contain loops or multiple edges.\n\n\n\n## Output\n\n\n\nPrint *n* numbers — lexicographically smallest correct permutation of labels of vertices.",
+        "id": "remote:codeforces:726517::D",
+        "images": {},
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 3,
+          "pdfPageCountVerified": false,
+          "checkedAt": "2026-11-01T08:36:02.394216+00:00",
+          "issues": [],
+          "corpusAuditVerifiedSha256": "d8fe39d251efb204373801e68d105945080ab0bd6be141438c9e921aef52ef51",
+          "markdownSha256": "d8fe39d251efb204373801e68d105945080ab0bd6be141438c9e921aef52ef51",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/726517/problem/D",
+              "sha256": "d3664432745964c0741af630fadab07175d4eb2e659d3d475220b99ce9657352",
+              "kind": "original-browser-document"
+            }
+          ],
+          "review": "Original source prose, every sample input/output and source resource references compared; preserve existing normalized body and Chinese translation"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# D. Minimal Labels\n\nYou are given a directed acyclic graph with *n* vertices and *m* edges. There are no self-loops or multiple edges between any pair of vertices. Graph can be disconnected.\n\nYou should assign labels to all vertices in such a way that:\n\n- Labels form a valid permutation of length *n* — an integer sequence such that each integer from 1 to *n* appears exactly once in it.\n\n- If there exists an edge from vertex *v* to vertex *u* then *label*$_{v}$ should be smaller than *label*$_{u}$.\n\n- Permutation should be lexicographically smallest among all suitable.\n\nFind such sequence of labels to satisfy all the conditions.\n\n## Input\n\nThe first line contains two integer numbers *n*, *m* (2 ≤ *n* ≤ 10$^{5}$, 1 ≤ *m* ≤ 10$^{5}$).\n\nNext *m* lines contain two integer numbers *v* and *u* (1 ≤ *v*, *u* ≤ *n*, *v* ≠ *u*) — edges of the graph. Edges are directed, graph doesn't contain loops or multiple edges.\n\n## Output\n\nPrint *n* numbers — lexicographically smallest correct permutation of labels of vertices.",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "3 3\n1 2\n1 3\n3 2",
+            "name": "样例 1",
+            "output": "1 3 2 "
+          },
+          {
+            "input": "4 5\n3 1\n4 1\n2 3\n3 4\n2 4",
+            "name": "样例 2",
+            "output": "4 1 2 3 "
+          },
+          {
+            "input": "5 4\n3 1\n2 1\n2 3\n4 5",
+            "name": "样例 3",
+            "output": "3 1 2 4 5 "
+          }
+        ],
+        "sourceBinding": {
+          "method": "all-body-prose-math-io-constraints-and-every-sample",
+          "mirrorBodySha256": "cb6200d8e227fe18b76a2b5cde0089a521ddbf9a58091515fc9544bfab245bb2",
+          "mirrorId": "remote:codeforces:825::E",
+          "mirrorUrl": "https://codeforces.com/contest/825/problem/E",
+          "originalArchiveBodySha256": "d8fe39d251efb204373801e68d105945080ab0bd6be141438c9e921aef52ef51",
+          "originalUrl": "https://codeforces.com/gym/726517/problem/D"
+        },
+        "statementAvailable": true,
+        "statementSupplement": "",
+        "statementVersion": 7,
+        "title": "Minimal Labels",
+        "translation": {
+          "format": "complete-prose-v4",
+          "kind": "bundled",
+          "markdown": "# D. Minimal Labels\n\n给定一个含 *n* 个顶点、*m* 条边的有向无环图，没有自环和重边，图可能不连通。\n\n请为所有顶点赋予标签，满足：\n\n- 标签构成长度为 *n* 的排列，即从 1 到 *n* 的每个整数都恰好出现一次。\n\n- 若有从顶点 *v* 到顶点 *u* 的边，则 *label*$_{v}$ 必须小于 *label*$_{u}$。\n\n- 在所有合法标签排列中，所求排列的字典序最小。\n\n求满足这些条件的标签序列。\n\n## 输入\n\n第一行包含两个整数 *n*、*m*（2 ≤ *n* ≤ 10$^{5}$，1 ≤ *m* ≤ 10$^{5}$）。\n\n随后 *m* 行，每行包含整数 *v* 和 *u*（1 ≤ *v*、*u* ≤ *n*，*v* ≠ *u*），表示一条从 *v* 指向 *u* 的边。保证没有自环或重边。\n\n## 输出\n\n输出 *n* 个数，依次为各顶点的标签，要求构成字典序最小的合法排列。\n",
+          "notice": "公式、输入输出与样例以原题为准。",
+          "provider": "逐段整理并核对原题",
+          "sourceHash": "d8fe39d251efb204373801e68d105945080ab0bd6be141438c9e921aef52ef51",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN"
+        },
+        "translationSourceSnapshot": {
+          "currentSourceHash": "cb6200d8e227fe18b76a2b5cde0089a521ddbf9a58091515fc9544bfab245bb2",
+          "equivalentFormattingVerified": true,
+          "samplesUnchanged": true,
+          "sourceHash": "d8fe39d251efb204373801e68d105945080ab0bd6be141438c9e921aef52ef51"
+        },
+        "url": "https://codeforces.com/gym/726517/problem/D"
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:726517::E",
+      "beforeSha256": "303c2ceb79f8f6d0c6126fbca8e84ebf506192279456137736d7f7ea30ed2841",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:726517::E",
+        "images": {},
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 2,
+          "pdfPageCountVerified": false,
+          "checkedAt": "2026-11-01T08:36:02.399086+00:00",
+          "issues": [],
+          "corpusAuditVerifiedSha256": "279e49c0a2badbba004aaf602f388495d6d9cd8645f39ccbb3151e4349732ff0",
+          "markdownSha256": "279e49c0a2badbba004aaf602f388495d6d9cd8645f39ccbb3151e4349732ff0",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/726517/problem/E",
+              "sha256": "eca5626a50e2b044974486639d9ddd0a4e371aae26b44d1f50de96c08e984a53",
+              "kind": "original-browser-document"
+            }
+          ],
+          "review": "Original source prose, every sample input/output and source resource references compared; preserve existing normalized body and Chinese translation"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# E. Mahmoud and Ehab and the bipartiteness\n\nMahmoud and Ehab continue their adventures! As everybody in the evil land knows, Dr. Evil likes bipartite graphs, especially trees.\n\nA tree is a connected acyclic graph. A bipartite graph is a graph, whose vertices can be partitioned into 2 sets in such a way, that for each edge (*u*, *v*) that belongs to the graph, *u* and *v* belong to different sets. You can find more formal definitions of a tree and a bipartite graph in the notes section below.\n\nDr. Evil gave Mahmoud and Ehab a tree consisting of *n* nodes and asked them to add edges to it in such a way, that the graph is still bipartite. Besides, after adding these edges the graph should be simple (doesn't contain loops or multiple edges). What is the maximum number of edges they can add?\n\nA loop is an edge, which connects a node with itself. Graph doesn't contain multiple edges when for each pair of nodes there is no more than one edge between them. A cycle and a loop aren't the same .\n\n## Input\n\nThe first line of input contains an integer *n* — the number of nodes in the tree (1 ≤ *n* ≤ 10$^{5}$).\n\nThe next *n* - 1 lines contain integers *u* and *v* (1 ≤ *u*, *v* ≤ *n*, *u* ≠ *v*) — the description of the edges of the tree.\n\nIt's guaranteed that the given graph is a tree.\n\n## Output\n\nOutput one integer — the maximum number of edges that Mahmoud and Ehab can add to the tree while fulfilling the conditions.\n\n## Note\n\nTree definition: [https://en.wikipedia.org/wiki/Tree_(graph_theory)](https://en.wikipedia.org/wiki/Tree_%28graph_theory%29)\n\nBipartite graph definition: [https://en.wikipedia.org/wiki/Bipartite_graph](https://en.wikipedia.org/wiki/Bipartite_graph)\n\nIn the first test case the only edge that can be added in such a way, that graph won't contain loops or multiple edges is (2, 3), but adding this edge will make the graph non-bipartite so the answer is 0.\n\nIn the second test case Mahmoud and Ehab can add edges (1, 4) and (2, 5).",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "3\n1 2\n1 3",
+            "name": "样例 1",
+            "output": "0"
+          },
+          {
+            "input": "5\n1 2\n2 3\n3 4\n4 5",
+            "name": "样例 2",
+            "output": "2"
+          }
+        ],
+        "statementAvailable": true,
+        "statementVersion": 3,
+        "title": "Mahmoud and Ehab and the bipartiteness",
+        "translation": {
+          "format": "complete-prose-v4",
+          "kind": "bundled",
+          "markdown": "# E. Mahmoud 与 Ehab 的二分图\n\nMahmoud 和 Ehab 继续冒险。邪恶之地的人都知道，Dr. Evil 喜欢二分图，尤其喜欢树。\n\n树是连通无环图。二分图的顶点能分成 2 个集合，使每条边（*u*、*v*）的两个端点 *u*、*v* 分属不同集合。更正式的定义见下方说明。\n\nDr. Evil 给了他们一棵有 *n* 个节点的树，要求添加一些边，使最终图仍是二分图，而且仍为简单图，即没有自环和重边。最多可以添加多少条边？\n\n自环是连接节点自身的边。无重边表示任意两个节点间至多有一条边。环和自环并不是同一概念。\n\n## 输入\n\n第一行包含整数 *n*，表示节点数量（1 ≤ *n* ≤ 10$^{5}$）。\n\n随后 *n* - 1 行，每行包含整数 *u*、*v*（1 ≤ *u*、*v* ≤ *n*，*u* ≠ *v*），表示树的一条边。\n\n保证给定图是一棵树。\n\n## 输出\n\n输出满足所有条件时可以添加的最大边数。\n\n## 说明\n\n树的定义：[https://en.wikipedia.org/wiki/Tree_(graph_theory)](https://en.wikipedia.org/wiki/Tree_%28graph_theory%29)\n\n二分图的定义：[https://en.wikipedia.org/wiki/Bipartite_graph](https://en.wikipedia.org/wiki/Bipartite_graph)\n\n第一个样例中，唯一可以添加且不产生自环或重边的是 (2, 3)，但加入后不再是二分图，所以答案为 0。\n\n第二个样例可以添加 (1, 4) 和 (2, 5)。\n",
+          "notice": "公式、输入输出与样例以原题为准。",
+          "provider": "逐段整理并核对原题",
+          "sourceHash": "279e49c0a2badbba004aaf602f388495d6d9cd8645f39ccbb3151e4349732ff0",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN"
+        },
+        "url": "https://codeforces.com/gym/726517/problem/E"
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:726517::F",
+      "beforeSha256": "144aab1bfb656b89205bece35fdcbba82b7a41d81d85f80b2fa7bc377622d6ea",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:726517::F",
+        "images": {},
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 2,
+          "pdfPageCountVerified": false,
+          "checkedAt": "2026-11-01T08:36:02.403961+00:00",
+          "issues": [],
+          "corpusAuditVerifiedSha256": "96b4019563030bc44b494bbf536f706dfe8dc110fc8ecf664f53167e1946aa40",
+          "markdownSha256": "96b4019563030bc44b494bbf536f706dfe8dc110fc8ecf664f53167e1946aa40",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/726517/problem/F",
+              "sha256": "1f44867f54deb442c7041cd5160ec1bc3cc598e5b792138121a4f238d4e49d7e",
+              "kind": "original-browser-document"
+            }
+          ],
+          "review": "Original source prose, every sample input/output and source resource references compared; preserve existing normalized body and Chinese translation"
+        },
+        "limits": {
+          "memoryMb": 64,
+          "timeMs": 1000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Dijkstra?\n\nYou are given a weighted undirected graph. The vertices are enumerated from 1 to *n*. Your task is to find the shortest path between the vertex 1 and the vertex *n*.\n\n## Input\n\nThe first line contains two integers *n* and *m* (2 ≤ *n* ≤ 10$^{5}$, 0 ≤ *m* ≤ 10$^{5}$), where *n* is the number of vertices and *m* is the number of edges. Following *m* lines contain one edge each in form *a*$_{i}$, *b*$_{i}$ and *w*$_{i}$ (1 ≤ *a*$_{i}$, *b*$_{i}$ ≤ *n*, 1 ≤ *w*$_{i}$ ≤ 10$^{6}$), where *a*$_{i}$, *b*$_{i}$ are edge endpoints and *w*$_{i}$ is the length of the edge.\n\nIt is possible that the graph has loops and multiple edges between pair of vertices.\n\n## Output\n\nWrite the only integer `-1` in case of no path. Write the shortest path in opposite case. If there are many solutions, print any of them.",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "5 6\n1 2 2\n2 5 5\n2 3 4\n1 4 1\n4 3 3\n3 5 1",
+            "name": "样例 1",
+            "output": "1 4 3 5"
+          },
+          {
+            "input": "5 6\n1 2 2\n2 5 5\n2 3 4\n1 4 1\n4 3 3\n3 5 1",
+            "name": "样例 2",
+            "output": "1 4 3 5"
+          }
+        ],
+        "statementAvailable": true,
+        "statementVersion": 3,
+        "title": "Dijkstra?",
+        "translation": {
+          "format": "complete-prose-v4",
+          "kind": "bundled",
+          "markdown": "# Dijkstra？\n\n给定一个带权无向图。顶点从1到*n*编号。你的任务是找到顶点1和顶点*n*之间的最短路径。\n\n## 输入\n\n第一行包含两个整数*n*和*m*（2 ≤ *n* ≤ 10$^{5}$，0 ≤ *m* ≤ 10$^{5}$），其中*n*是顶点数，*m*是边数。接下来的*m*行每行包含一条边，形式为*a*$_{i}$、*b*$_{i}$和*w*$_{i}$（1 ≤ *a*$_{i}$，*b*$_{i}$ ≤ *n*，1 ≤ *w*$_{i}$ ≤ 10$^{6}$），其中*a*$_{i}$、*b*$_{i}$是边的端点，*w*$_{i}$是边的长度。\n\n图中可能存在自环以及一对顶点之间的多条边。\n\n## 输出\n\n如果没有路径，输出唯一的整数`-1`。否则输出最短路径。如果有多个解，输出其中任意一个。\n",
+          "notice": "公式、输入输出与样例以原题为准。",
+          "provider": "逐段整理并核对原题",
+          "sourceHash": "96b4019563030bc44b494bbf536f706dfe8dc110fc8ecf664f53167e1946aa40",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN"
+        },
+        "url": "https://codeforces.com/gym/726517/problem/F"
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:726517::G",
+      "beforeSha256": "deffc310a1244f3a338fff441ea4aafc9b74d6981c71a7628fd5327caa6267bc",
+      "content": {
+        "attachments": {},
+        "id": "remote:codeforces:726517::G",
+        "images": {
+          "https://espresso.codeforces.com/733cb599cc7e9bd751cb590866cace5a207dec6f.png": "tb-asset:88fbec252918b325d4ffe43a9c26860f0cf53317e69b733ee4178941c2dac1e1",
+          "https://espresso.codeforces.com/aafdedd23e3077335800387927eedf7dbdf99a6c.png": "tb-asset:0b196a6b0494023e6a61e8adcd648feca4dc4e9113a65086b6ec5c8e80f16005",
+          "https://espresso.codeforces.com/af2714f5b8e774568184a3fbec53af2f54476fef.png": "tb-asset:9f809516e74d4ab383f9d0b4adf648665f041938d5dd86f54ef32b6695056731"
+        },
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": false,
+          "checkedAt": "2026-11-01T08:36:02.416882+00:00",
+          "issues": [],
+          "corpusAuditVerifiedSha256": "caa4e1ac1d24738f9528eec88f9095e3c1ccea8cfa2cb2c5238463d36675bb80",
+          "markdownSha256": "caa4e1ac1d24738f9528eec88f9095e3c1ccea8cfa2cb2c5238463d36675bb80",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/726517/problem/G",
+              "sha256": "e6ed1161e0f1508b324bb9102055552e60871e7b03ce06453117835db54364f6",
+              "kind": "original-browser-document"
+            }
+          ],
+          "review": "Original source prose, every sample input/output and source resource references compared; preserve existing normalized body and Chinese translation"
+        },
+        "limits": {
+          "memoryMb": 512,
+          "timeMs": 2000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# G. Road Reform\n\nThere are $n$ cities and $m$ bidirectional roads in Berland. The $i$-th road connects the cities $x_i$ and $y_i$, and has the speed limit $s_i$. The road network allows everyone to get from any city to any other city.\n\nThe Berland Transport Ministry is planning a road reform.\n\nFirst of all, maintaining all $m$ roads is too costly, so $m - (n - 1)$ roads will be demolished in such a way that the remaining $(n - 1)$ roads still allow to get to any city from any other city. Formally, the remaining roads should represent an undirected tree.\n\nSecondly, the speed limits on the remaining roads might be changed. The changes will be done sequentially, each change is either increasing the speed limit on some road by $1$, or decreasing it by $1$. Since changing the speed limit requires a lot of work, the Ministry wants to minimize the number of changes.\n\nThe goal of the Ministry is to have a road network of $(n - 1)$ roads with the maximum speed limit over all roads equal to exactly $k$. They assigned you the task of calculating the minimum number of speed limit changes they have to perform so the road network meets their requirements.\n\nFor example, suppose the initial map of Berland looks like that, and $k = 7$:\n\n![](https://espresso.codeforces.com/733cb599cc7e9bd751cb590866cace5a207dec6f.png)\n\nThen one of the optimal courses of action is to demolish the roads $1$–$4$ and $3$–$4$, and then decrease the speed limit on the road $2$–$3$ by $1$, so the resulting road network looks like that:\n\n![](https://espresso.codeforces.com/aafdedd23e3077335800387927eedf7dbdf99a6c.png)\n\n## Input\n\nThe first line contains one integer $t$ ($1 \\le t \\le 1000$) — the number of test cases.\n\nThe first line of each test case contains three integers $n$, $m$ and $k$ ($2 \\le n \\le 2 \\cdot 10^5$; $n - 1 \\le m \\le \\min(2 \\cdot 10^5, \\frac{n(n-1)}{2})$; $1 \\le k \\le 10^9$) — the number of cities, the number of roads and the required maximum speed limit, respectively.\n\nThen $m$ lines follow. The $i$-th line contains three integers $x_i$, $y_i$ and $s_i$ ($1 \\le x_i, y_i \\le n$; $x_i \\ne y_i$; $1 \\le s_i \\le 10^9$) — the cities connected by the $i$-th road and the speed limit on it, respectively. All roads are bidirectional.\n\nThe road network in each test case is connected (that is, it is possible to reach any city from any other city by traveling along the road), and each pair of cities is connected by at most one road.\n\nThe sum of $n$ over all test cases does not exceed $2 \\cdot 10^5$. Similarly, the sum of $m$ over all test cases does not exceed $2 \\cdot 10^5$.\n\n## Output\n\nFor each test case, print one integer — the minimum number of changes the Ministry has to perform so that the maximum speed limit among the remaining $(n - 1)$ roads is exactly $k$.\n\n## Note\n\nThe explanation for the example test:\n\nThe first test case is described in the problem statement.\n\nIn the second test case, the road network initially looks like that:\n\n![](https://espresso.codeforces.com/af2714f5b8e774568184a3fbec53af2f54476fef.png)\n\nThe Ministry can demolish the roads $1$–$2$, $3$–$2$ and $3$–$4$, and then increase the speed limit on the road $1$–$4$ three times.\n\nIn the third test case, the road network already meets all the requirements.\n\nIn the fourth test case, it is enough to demolish the road $1$–$2$ so the resulting road network meets the requirements.",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {
+          "https://espresso.codeforces.com/733cb599cc7e9bd751cb590866cace5a207dec6f.png": {
+            "bytes": 4386,
+            "frameCount": 1,
+            "height": 237,
+            "mime": "image/png",
+            "sha256": "88fbec252918b325d4ffe43a9c26860f0cf53317e69b733ee4178941c2dac1e1",
+            "sourceUrl": "https://espresso.codeforces.com/733cb599cc7e9bd751cb590866cace5a207dec6f.png",
+            "width": 295
+          },
+          "https://espresso.codeforces.com/aafdedd23e3077335800387927eedf7dbdf99a6c.png": {
+            "bytes": 3478,
+            "frameCount": 1,
+            "height": 234,
+            "mime": "image/png",
+            "sha256": "0b196a6b0494023e6a61e8adcd648feca4dc4e9113a65086b6ec5c8e80f16005",
+            "sourceUrl": "https://espresso.codeforces.com/aafdedd23e3077335800387927eedf7dbdf99a6c.png",
+            "width": 296
+          },
+          "https://espresso.codeforces.com/af2714f5b8e774568184a3fbec53af2f54476fef.png": {
+            "bytes": 4920,
+            "frameCount": 1,
+            "height": 309,
+            "mime": "image/png",
+            "sha256": "9f809516e74d4ab383f9d0b4adf648665f041938d5dd86f54ef32b6695056731",
+            "sourceUrl": "https://espresso.codeforces.com/af2714f5b8e774568184a3fbec53af2f54476fef.png",
+            "width": 313
+          }
+        },
+        "samples": [
+          {
+            "input": "4\n4 5 7\n4 1 3\n1 2 5\n2 3 8\n2 4 1\n3 4 4\n4 6 5\n1 2 1\n1 3 1\n1 4 2\n2 4 1\n4 3 1\n3 2 1\n3 2 10\n1 2 8\n1 3 10\n5 5 15\n1 2 17\n3 1 15\n2 3 10\n1 4 14\n2 5 8",
+            "name": "样例 1",
+            "output": "1\n3\n0\n0"
+          }
+        ],
+        "statementAvailable": true,
+        "statementVersion": 3,
+        "title": "Road Reform",
+        "translation": {
+          "format": "complete-prose-v4",
+          "kind": "bundled",
+          "markdown": "# G. Road Reform\n\nBerland 有 $n$ 座城市和 $m$ 条双向道路。第 $i$ 条道路连接城市 $x_i$、$y_i$，限速为 $s_i$。道路网络连通，任意两座城市之间都能到达。\n\n交通部计划进行道路改革。\n\n首先，维护全部 $m$ 条道路太昂贵，需要拆除 $m - (n - 1)$ 条道路，使剩余的 $(n - 1)$ 条道路仍连通所有城市。也就是说，剩余道路必须构成一棵无向树。\n\n其次，可以调整剩余道路的限速。每次调整只能把某条道路的限速增加 $1$ 或减少 $1$。修改限速很费工，因此希望调整次数尽可能少。\n\n最终要求：剩余 $(n - 1)$ 条道路中的最大限速必须恰好等于 $k$。请计算满足要求所需的最少调整次数。\n\n例如初始道路网络如下，且 $k = 7$：\n\n![](https://espresso.codeforces.com/733cb599cc7e9bd751cb590866cace5a207dec6f.png)\n\n一种最优方案是拆除道路 $1$–$4$ 和 $3$–$4$，然后把道路 $2$–$3$ 的限速降低 $1$。最终网络如下：\n\n![](https://espresso.codeforces.com/aafdedd23e3077335800387927eedf7dbdf99a6c.png)\n\n## 输入\n\n第一行包含整数 $t$（$1 \\le t \\le 1000$），表示测试组数。\n\n每组第一行包含三个整数 $n$、$m$、$k$（$2 \\le n \\le 2 \\cdot 10^5$；$n - 1 \\le m \\le \\min(2 \\cdot 10^5, \\frac{n(n-1)}{2})$；$1 \\le k \\le 10^9$），分别表示城市数、道路数以及要求的最大限速。\n\n随后 $m$ 行，第 $i$ 行包含三个整数 $x_i$、$y_i$、$s_i$（$1 \\le x_i, y_i \\le n$；$x_i \\ne y_i$；$1 \\le s_i \\le 10^9$），分别表示第 $i$ 条道路的两端城市及限速。所有道路均可双向通行。\n\n每组道路网络都连通，即可以沿道路从任意城市到达任意其他城市；任意一对城市间至多有一条道路。\n\n所有测试数据的 $n$ 之和不超过 $2 \\cdot 10^5$，$m$ 之和也不超过 $2 \\cdot 10^5$。\n\n## 输出\n\n每组输出一个整数：使剩余 $(n - 1)$ 条道路中的最大限速恰好等于 $k$ 所需的最少调整次数。\n\n## 说明\n\n样例解释如下。\n\n第一组已在题目描述中解释。\n\n第二组的初始网络如下：\n\n![](https://espresso.codeforces.com/af2714f5b8e774568184a3fbec53af2f54476fef.png)\n\n可拆除道路 $1$–$2$、$3$–$2$、$3$–$4$，然后将道路 $1$–$4$ 的限速增加三次。\n\n第三组的道路网络原本就满足所有要求。\n\n第四组只需拆除道路 $1$–$2$，即可满足要求。\n",
+          "notice": "公式、输入输出与样例以原题为准。",
+          "provider": "逐段整理并核对原题",
+          "sourceHash": "caa4e1ac1d24738f9528eec88f9095e3c1ccea8cfa2cb2c5238463d36675bb80",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN"
+        },
+        "url": "https://codeforces.com/gym/726517/problem/G"
+      }
+    },
+    {
+      "problem_id": "remote:codeforces:726517::H",
+      "beforeSha256": "33d4cf87b40132eb35cb7cc36bf4e95eb5fa42c9695a0765bf62849960639743",
+      "content": {
+        "attachments": {},
+        "currentSourceMarkdown": "# Party\n\nA company has *n* employees numbered from 1 to *n*. Each employee either has no immediate manager or exactly one immediate manager, who is another employee with a different number. An employee *A* is said to be the superior of another employee *B* if at least one of the following is true:\n\n\n\n- Employee *A* is the immediate manager of employee *B*\n\n- Employee *B* has an immediate manager employee *C* such that employee *A* is the superior of employee *C*.\n\n\n\nThe company will not have a managerial cycle. That is, there will not exist an employee who is the superior of his/her own immediate manager.\n\n\n\nToday the company is going to arrange a party. This involves dividing all *n* employees into several groups: every employee must belong to exactly one group. Furthermore, within any single group, there must not be two employees *A* and *B* such that *A* is the superior of *B*.\n\n\n\nWhat is the minimum number of groups that must be formed?\n\n\n\n## Input\n\n\n\nThe first line contains integer *n* (1 ≤ *n* ≤ 2000) — the number of employees.\n\n\n\nThe next *n* lines contain the integers *p*$_{i}$ (1 ≤ *p*$_{i}$ ≤ *n* or *p*$_{i}$ = -1). Every *p*$_{i}$ denotes the immediate manager for the *i*-th employee. If *p*$_{i}$ is -1, that means that the *i*-th employee does not have an immediate manager.\n\n\n\nIt is guaranteed, that no employee will be the immediate manager of him/herself (*p*$_{i}$ ≠ *i*). Also, there will be no managerial cycles.\n\n\n\n## Output\n\n\n\nPrint a single integer denoting the minimum number of groups that will be formed in the party.\n\n\n\n## Note\n\n\n\nFor the first example, three groups are sufficient, for example:\n\n\n\n- Employee 1\n\n- Employees 2 and 4\n\n- Employees 3 and 5",
+        "id": "remote:codeforces:726517::H",
+        "images": {},
+        "integrity": {
+          "schema": 1,
+          "sourceVerified": true,
+          "status": "complete",
+          "sampleCount": 1,
+          "pdfPageCountVerified": false,
+          "checkedAt": "2026-11-01T08:36:02.423799+00:00",
+          "issues": [],
+          "corpusAuditVerifiedSha256": "bec223700077ac05d7a5e7ead97a39a3128638aa461537608778f0acb5355fde",
+          "markdownSha256": "bec223700077ac05d7a5e7ead97a39a3128638aa461537608778f0acb5355fde",
+          "sourceDocuments": [
+            {
+              "url": "https://codeforces.com/gym/726517/problem/H",
+              "sha256": "fb1f90f942c2a7495f7e2e4dc58649a7349d789f55b3077c578f43412e5ca7c9",
+              "kind": "original-browser-document"
+            }
+          ],
+          "review": "Original source prose, every sample input/output and source resource references compared; preserve existing normalized body and Chinese translation"
+        },
+        "limits": {
+          "memoryMb": 256,
+          "timeMs": 3000
+        },
+        "localJudgeSupported": true,
+        "markdown": "# Party\n\nA company has *n* employees numbered from 1 to *n*. Each employee either has no immediate manager or exactly one immediate manager, who is another employee with a different number. An employee *A* is said to be the superior of another employee *B* if at least one of the following is true:\n\n- Employee *A* is the immediate manager of employee *B*\n\n- Employee *B* has an immediate manager employee *C* such that employee *A* is the superior of employee *C*.\n\nThe company will not have a managerial cycle. That is, there will not exist an employee who is the superior of his/her own immediate manager.\n\nToday the company is going to arrange a party. This involves dividing all *n* employees into several groups: every employee must belong to exactly one group. Furthermore, within any single group, there must not be two employees *A* and *B* such that *A* is the superior of *B*.\n\nWhat is the minimum number of groups that must be formed?\n\n## Input\n\nThe first line contains integer *n* (1 ≤ *n* ≤ 2000) — the number of employees.\n\nThe next *n* lines contain the integers *p*$_{i}$ (1 ≤ *p*$_{i}$ ≤ *n* or *p*$_{i}$ = -1). Every *p*$_{i}$ denotes the immediate manager for the *i*-th employee. If *p*$_{i}$ is -1, that means that the *i*-th employee does not have an immediate manager.\n\nIt is guaranteed, that no employee will be the immediate manager of him/herself (*p*$_{i}$ ≠ *i*). Also, there will be no managerial cycles.\n\n## Output\n\nPrint a single integer denoting the minimum number of groups that will be formed in the party.\n\n## Note\n\nFor the first example, three groups are sufficient, for example:\n\n- Employee 1\n\n- Employees 2 and 4\n\n- Employees 3 and 5",
+        "problemType": "standard",
+        "resourceIssues": [],
+        "resourceManifest": {},
+        "samples": [
+          {
+            "input": "5\n-1\n1\n2\n1\n-1",
+            "name": "样例 1",
+            "output": "3"
+          }
+        ],
+        "sourceBinding": {
+          "method": "all-body-prose-math-io-constraints-and-every-sample",
+          "mirrorBodySha256": "3956e50b665234b9a56fd11a8aa9023b90298bee942211d03b50385e4eacb726",
+          "mirrorId": "lab:codeforces:115A",
+          "mirrorUrl": "https://codeforces.com/contest/115/problem/A",
+          "originalArchiveBodySha256": "bec223700077ac05d7a5e7ead97a39a3128638aa461537608778f0acb5355fde",
+          "originalUrl": "https://codeforces.com/gym/726517/problem/H"
+        },
+        "statementAvailable": true,
+        "statementSupplement": "",
+        "statementVersion": 7,
+        "title": "Party",
+        "translation": {
+          "format": "complete-prose-v4",
+          "kind": "bundled",
+          "markdown": "# 聚会\n\n一家公司有 *n* 名员工，编号为 1 到 *n*。每位员工要么没有直属经理，要么恰好有一位直属经理，经理是另一名编号不同的员工。如果以下条件至少有一个成立，就称员工 *A* 是员工 *B* 的上级：\n\n- 员工 *A* 是员工 *B* 的直属经理。\n\n- 员工 *B* 的直属经理是员工 *C*，而员工 *A* 是员工 *C* 的上级。\n\n公司的管理关系中没有环。也就是说，不存在某位员工是其直属经理的上级的情况。\n\n今天公司要举办聚会，需要把全部 *n* 名员工分为若干组，每名员工必须恰好属于一组。同一个组内不能存在两名员工 *A* 和 *B*，使得 *A* 是 *B* 的上级。\n\n最少需要分成多少组？\n\n## 输入\n\n第一行包含整数 *n*（1 ≤ *n* ≤ 2000），表示员工数量。\n\n接下来的 *n* 行包含整数 *p*$_{i}$（1 ≤ *p*$_{i}$ ≤ *n* 或 *p*$_{i}$ = -1）。每个 *p*$_{i}$ 表示第 *i* 名员工的直属经理。如果 *p*$_{i}$ 为 -1，说明第 *i* 名员工没有直属经理。\n\n保证没有员工担任自己的直属经理（*p*$_{i}$ ≠ *i*），且管理关系中没有环。\n\n## 输出\n\n输出一个整数，表示聚会最少需要分成的组数。\n\n## 说明\n\n对于第一个样例，分成三组就足够，例如：\n\n- 员工 1\n\n- 员工 2 和 4\n\n- 员工 3 和 5\n\n",
+          "notice": "公式、输入输出与样例以原题为准。",
+          "provider": "逐段整理并核对原题",
+          "sourceHash": "bec223700077ac05d7a5e7ead97a39a3128638aa461537608778f0acb5355fde",
+          "sourceLanguage": "en",
+          "targetLanguage": "zh-CN"
+        },
+        "translationSourceSnapshot": {
+          "currentSourceHash": "3956e50b665234b9a56fd11a8aa9023b90298bee942211d03b50385e4eacb726",
+          "equivalentFormattingVerified": true,
+          "samplesUnchanged": true,
+          "sourceHash": "bec223700077ac05d7a5e7ead97a39a3128638aa461537608778f0acb5355fde"
+        },
+        "url": "https://codeforces.com/gym/726517/problem/H"
+      }
+    }
+  ]
+}

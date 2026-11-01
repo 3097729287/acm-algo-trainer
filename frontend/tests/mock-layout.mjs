@@ -168,12 +168,14 @@ try {
   await page.keyboard.press('Home');
   await page.keyboard.press('Enter');
   await selected('A');
+  await page.waitForFunction(code=>document.querySelector('.cm-content')?.innerText===code,codeA);
   assert.equal(await editor.innerText(), codeA);
   await picker().click();
   await page.locator('.wb-statement').click();
   assert.equal(await picker().getAttribute('aria-expanded'), 'false', 'outside click dismisses the menu');
   await page.locator('.wb-statement').press('2');
   await selected('B');
+  await page.waitForFunction(code=>document.querySelector('.cm-content')?.innerText===code,codeB);
   assert.equal(await editor.innerText(), codeB);
   await editor.press('3');
   assert.equal(await page.locator('.tb-workbench').getAttribute('data-problem-id'), rows[1].id, 'typing digits in the editor never switches problems');
