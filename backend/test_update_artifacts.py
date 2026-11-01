@@ -5,9 +5,13 @@ import unittest
 from unittest.mock import patch
 from update_artifacts import prepare_tree,_owned
 from update_errors import UpdateStorageError
+from test_recycle_policy import retained_fixture,fixture_recycler
 
 class UpdateArtifactTests(unittest.TestCase):
-    def setUp(self):self.temp=tempfile.TemporaryDirectory(prefix='tb-update-artifacts-');self.root=Path(self.temp.name)
+    def setUp(self):
+        self.temp=retained_fixture('update-artifacts');self.root=Path(self.temp.name)
+        recycler=patch('update_backups.recycle_directory',side_effect=fixture_recycler(self.root))
+        self.recycled=recycler.start();self.addCleanup(recycler.stop)
     def tearDown(self):self.temp.cleanup()
     def specs(self,value=b'isolated helper bytes'):
         return {'ToBe.exe':(value,hashlib.sha256(value).hexdigest())}

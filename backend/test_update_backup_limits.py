@@ -15,10 +15,13 @@ from update_backups import backup,sources,_owned,retire_directory
 from update_errors import UpdateStorageError
 from software_updates import SoftwareUpdates
 from training import ServiceError
+from test_recycle_policy import retained_fixture,fixture_recycler
 
 class UpdateBackupLimitTests(unittest.TestCase):
     def setUp(self):
-        self.temp=tempfile.TemporaryDirectory(prefix='tb-update-space-');self.state=Path(self.temp.name)/'state';self.state.mkdir()
+        self.temp=retained_fixture('update-space');self.state=Path(self.temp.name)/'state';self.state.mkdir()
+        recycler=patch('update_backups.recycle_directory',side_effect=fixture_recycler(Path(self.temp.name)))
+        self.recycled=recycler.start();self.addCleanup(recycler.stop)
         self.database=self.state/'personal.sqlite3';self.db=sqlite3.connect(self.database,isolation_level=None)
         self.db.execute('PRAGMA journal_mode=WAL');self.db.execute('CREATE TABLE drafts(id TEXT PRIMARY KEY,code TEXT)');self.db.execute("INSERT INTO drafts VALUES('one','private code in WAL')")
     def tearDown(self):self.db.close();self.temp.cleanup()
@@ -60,10 +63,10 @@ class UpdateBackupLimitTests(unittest.TestCase):
         with patch('update_backups.retire_directory',side_effect=retain):
             for i in range(6):self.db.execute('UPDATE drafts SET code=?',(str(i),));backup(self.state,self.destination(i),context='same')
         self.assertEqual(len(_owned(self.state/'backups')),2);self.assertEqual(len(list(retired.iterdir())),4)
-    def test_verified_old_copies_are_directly_removed_and_disk_usage_stays_bounded(self):
-        with patch('update_backups.recycle_directory') as recycle:
+    def test_verified_old_copies_are_only_recycled_and_budget_stays_bounded(self):
+        with patch('update_backups.shutil.rmtree',side_effect=AssertionError('permanent deletion')):
             for i in range(12):self.db.execute('UPDATE drafts SET code=?',(str(i),));backup(self.state,self.destination(i),context='same')
-        recycle.assert_not_called();self.assertEqual(len(_owned(self.state/'backups')),2)
+        self.assertEqual(self.recycled.call_count,10);self.assertEqual(len(_owned(self.state/'backups')),2)
         self.assertEqual({p.name for p in (self.state/'backups').iterdir()},{'before-update-10','before-update-11'})
         self.assertEqual(self.db.execute('SELECT code FROM drafts').fetchone()[0],'11')
     def test_filesystem_removal_failure_uses_safe_recycling(self):
@@ -138,7 +141,7 @@ class UpdateBackupLimitTests(unittest.TestCase):
         save_document(self.state/'private-preferences.json',{'private':'keep'})
         copied=backup(self.state,self.destination(1));self.assertEqual(load_document(copied/'private-preferences.json',{}),{'private':'keep'})
     def test_low_space_download_preserves_existing_partial_and_does_not_open_network(self):
-        service=SoftwareUpdates(self.state,offline=True,opener=Mock());service.release={'name':'ToBe-Setup-1.4.36-win64.exe','size':1024,'sha256':'0'*64,'url':'https://47.82.84.74/updates/assets/1.4.36/ToBe-Setup-1.4.36-win64.exe'}
+        service=SoftwareUpdates(self.state,current='1.4.35',offline=True,opener=Mock());service.release={'name':'ToBe-Setup-1.4.36-win64.exe','size':1024,'sha256':'0'*64,'url':'https://47.82.84.74/updates/assets/1.4.36/ToBe-Setup-1.4.36-win64.exe'}
         directory=self.state.parent/'cache/updates';directory.mkdir(parents=True);partial=directory/'ToBe-Setup-1.4.36-win64.download';partial.write_bytes(b'retained partial')
         try:
             with patch('update_backups.shutil.disk_usage',return_value=SimpleNamespace(free=1024,total=1024**4)):service._download()

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="390" viewBox="0 0 900 390">
+<rect width="900" height="390" rx="16" fill="#ffffff"/>
+<g font-family="Microsoft YaHei,SimHei,Arial,sans-serif" fill="#172033" font-size="19">
+<text x="26" y="38" fill="#172033" font-size="23" text-anchor="start">D：每层新增的边分成三组，共 3r 张纸牌</text>
+<line x1="270.0" y1="80" x2="222.5" y2="144" stroke="#277da1" stroke-width="4" stroke-dasharray=""/>
+<line x1="270.0" y1="80" x2="317.5" y2="144" stroke="#277da1" stroke-width="4" stroke-dasharray=""/>
+<line x1="222.5" y1="144" x2="317.5" y2="144" stroke="#277da1" stroke-width="4" stroke-dasharray=""/>
+<text x="520" y="128" fill="#277da1" font-size="18" text-anchor="start">第 1 层：1 左斜 + 1 右斜 + 1 横边 = 3</text>
+<line x1="222.5" y1="144" x2="175.0" y2="208" stroke="#bd5b16" stroke-width="4" stroke-dasharray=""/>
+<line x1="222.5" y1="144" x2="270.0" y2="208" stroke="#bd5b16" stroke-width="4" stroke-dasharray=""/>
+<line x1="175.0" y1="208" x2="270.0" y2="208" stroke="#bd5b16" stroke-width="4" stroke-dasharray=""/>
+<line x1="317.5" y1="144" x2="270.0" y2="208" stroke="#bd5b16" stroke-width="4" stroke-dasharray=""/>
+<line x1="317.5" y1="144" x2="365.0" y2="208" stroke="#bd5b16" stroke-width="4" stroke-dasharray=""/>
+<line x1="270.0" y1="208" x2="365.0" y2="208" stroke="#bd5b16" stroke-width="4" stroke-dasharray=""/>
+<text x="520" y="192" fill="#bd5b16" font-size="18" text-anchor="start">第 2 层：2 左斜 + 2 右斜 + 2 横边 = 6</text>
+<line x1="175.0" y1="208" x2="127.5" y2="272" stroke="#16705a" stroke-width="4" stroke-dasharray=""/>
+<line x1="175.0" y1="208" x2="222.5" y2="272" stroke="#16705a" stroke-width="4" stroke-dasharray=""/>
+<line x1="127.5" y1="272" x2="222.5" y2="272" stroke="#16705a" stroke-width="4" stroke-dasharray=""/>
+<line x1="270.0" y1="208" x2="222.5" y2="272" stroke="#16705a" stroke-width="4" stroke-dasharray=""/>
+<line x1="270.0" y1="208" x2="317.5" y2="272" stroke="#16705a" stroke-width="4" stroke-dasharray=""/>
+<line x1="222.5" y1="272" x2="317.5" y2="272" stroke="#16705a" stroke-width="4" stroke-dasharray=""/>
+<line x1="365.0" y1="208" x2="317.5" y2="272" stroke="#16705a" stroke-width="4" stroke-dasharray=""/>
+<line x1="365.0" y1="208" x2="412.5" y2="272" stroke="#16705a" stroke-width="4" stroke-dasharray=""/>
+<line x1="317.5" y1="272" x2="412.5" y2="272" stroke="#16705a" stroke-width="4" stroke-dasharray=""/>
+<text x="520" y="256" fill="#16705a" font-size="18" text-anchor="start">第 3 层：3 左斜 + 3 右斜 + 3 横边 = 9</text>
+<line x1="127.5" y1="272" x2="80.0" y2="336" stroke="#8c52a1" stroke-width="4" stroke-dasharray=""/>
+<line x1="127.5" y1="272" x2="175.0" y2="336" stroke="#8c52a1" stroke-width="4" stroke-dasharray=""/>
+<line x1="80.0" y1="336" x2="175.0" y2="336" stroke="#8c52a1" stroke-width="4" stroke-dasharray=""/>
+<line x1="222.5" y1="272" x2="175.0" y2="336" stroke="#8c52a1" stroke-width="4" stroke-dasharray=""/>
+<line x1="222.5" y1="272" x2="270.0" y2="336" stroke="#8c52a1" stroke-width="4" stroke-dasharray=""/>
+<line x1="175.0" y1="336" x2="270.0" y2="336" stroke="#8c52a1" stroke-width="4" stroke-dasharray=""/>
+<line x1="317.5" y1="272" x2="270.0" y2="336" stroke="#8c52a1" stroke-width="4" stroke-dasharray=""/>
+<line x1="317.5" y1="272" x2="365.0" y2="336" stroke="#8c52a1" stroke-width="4" stroke-dasharray=""/>
+<line x1="270.0" y1="336" x2="365.0" y2="336" stroke="#8c52a1" stroke-width="4" stroke-dasharray=""/>
+<line x1="412.5" y1="272" x2="365.0" y2="336" stroke="#8c52a1" stroke-width="4" stroke-dasharray=""/>
+<line x1="412.5" y1="272" x2="460.0" y2="336" stroke="#8c52a1" stroke-width="4" stroke-dasharray=""/>
+<line x1="365.0" y1="336" x2="460.0" y2="336" stroke="#8c52a1" stroke-width="4" stroke-dasharray=""/>
+<text x="520" y="320" fill="#8c52a1" font-size="18" text-anchor="start">第 4 层：4 左斜 + 4 右斜 + 4 横边 = 12</text>
+<text x="520" y="355" fill="#172033" font-size="21" text-anchor="start">四层：3+6+9+12=30 张</text>
+</g></svg>

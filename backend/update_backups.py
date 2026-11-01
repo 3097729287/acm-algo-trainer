@@ -84,37 +84,12 @@ def _valid(path,value):
     return {p.relative_to(path).as_posix() for p in files(path)}<=expected
 
 def recycle_directory(path):
-    """Reject unknown quotas/platforms. Never fall back to permanent removal."""
-    if os.name!='nt':return False
-    import ctypes,winreg
-    from ctypes import wintypes as w
-    try:
-        volume=ctypes.create_unicode_buffer(128)
-        if not ctypes.windll.kernel32.GetVolumeNameForVolumeMountPointW(path.drive+'\\',volume,128):return False
-        guid=volume.value.split('{')[1].split('}')[0]
-        with winreg.OpenKey(winreg.HKEY_CURRENT_USER,r'Software\Microsoft\Windows\CurrentVersion\Explorer\BitBucket\Volume\{'+guid+'}') as key:
-            capacity=winreg.QueryValueEx(key,'MaxCapacity')[0]
-            try:nuke=winreg.QueryValueEx(key,'NukeOnDelete')[0]
-            except FileNotFoundError:nuke=0
-        if nuke or capacity<=0 or capacity*1024**2>shutil.disk_usage(path).total:return False
-        class Info(ctypes.Structure):_fields_=[('size',w.DWORD),('bytes',ctypes.c_longlong),('items',ctypes.c_longlong)]
-        info=Info();info.size=ctypes.sizeof(info)
-        if ctypes.windll.shell32.SHQueryRecycleBinW(path.drive+'\\',ctypes.byref(info))!=0:return False
-        size=path.stat().st_size if path.is_file() else sum(p.stat().st_size for p in files(path))
-        if info.bytes+size+16*1024**2>=capacity*800000:return False
-        class Operation(ctypes.Structure):_fields_=[('hwnd',w.HWND),('function',w.UINT),('source',w.LPCWSTR),('destination',w.LPCWSTR),('flags',w.WORD),('aborted',w.BOOL),('mapping',ctypes.c_void_p),('title',w.LPCWSTR)]
-        operation=Operation();operation.function=3;operation.source=str(path)+'\0\0';operation.flags=0x454
-        code=ctypes.windll.shell32.SHFileOperationW(ctypes.byref(operation))
-        return code==0 and not operation.aborted and not path.exists()
-    except (OSError,ValueError,IndexError):return False
+    from system_recycle import recycle
+    return recycle(path)
 
 def retire_directory(path):
     """Only called for old, verified updater-owned copies; keep two recoveries."""
-    try:
-        shutil.rmtree(path)
-        return not path.exists()
-    except OSError:
-        return recycle_directory(path)
+    return recycle_directory(path)
 
 def _trim(root):
     owned=_owned(root)

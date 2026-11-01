@@ -33,20 +33,21 @@ const clamp=value=>Math.max(.04,Math.min(.96,value));
 
 export default function StickerCanvas({api,owner,children}){
  const [mode,setMode]=useState(false),[state,setState]=useState(null),[draft,setDraft]=useState(null),[picker,setPicker]=useState(null),[confirm,setConfirm]=useState(null),[busy,setBusy]=useState(false),[error,setError]=useState('');
- const surface=useRef(null),strip=useRef(null),drag=useRef(null),alive=useRef(owner),request=useRef(null),saving=useRef(false),revision=useRef(0);
+ const surface=useRef(null),strip=useRef(null),drag=useRef(null),alive=useRef(owner),request=useRef(null),saving=useRef(null),revision=useRef(0),latest=useRef(null);
  alive.current=owner;
- const refresh=useCallback(async()=>{const expected=owner,seq=++revision.current;try{const value=await api('stickers');if(alive.current===expected&&seq===revision.current){setState(value);setError(value.rewardSyncError||'');}}catch(issue){if(alive.current===expected)setError(issue.message);}},[api,owner]);
- useEffect(()=>{setState(null);setDraft(null);setPicker(null);setMode(false);void refresh();},[refresh]);
+ const accept=useCallback((value,expected)=>{if(alive.current!==expected||value.owner!==expected||latest.current&&value.revision<latest.current.revision)return false;latest.current=value;setState(value);return true;},[]);
+ const refresh=useCallback(async()=>{const expected=owner,seq=++revision.current;try{const value=await api('stickers');if(seq===revision.current&&accept(value,expected))setError(value.rewardSyncError||'');}catch(issue){if(alive.current===expected&&seq===revision.current)setError(issue.message);}},[api,owner,accept]);
+ useEffect(()=>{revision.current++;saving.current=null;request.current=null;drag.current=null;latest.current=null;setBusy(false);setError('');setState(null);setDraft(null);setPicker(null);setConfirm(null);setMode(false);void refresh();},[refresh]);
  useEffect(()=>{const listener=()=>void refresh();window.addEventListener('tb:sticker-rewards',listener);window.addEventListener('focus',listener);return()=>{window.removeEventListener('tb:sticker-rewards',listener);window.removeEventListener('focus',listener);};},[refresh]);
  const mutate=useCallback(async(kind,unit,position)=>{
-  if(saving.current)return;saving.current=true;setBusy(true);setError('');revision.current++;
+  if(saving.current)return;const operation={};saving.current=operation;setBusy(true);setError('');revision.current++;
   const expected=owner,payload={unitId:unit.id,revision:unit.revision,...position};
   const signature=JSON.stringify([kind,payload]);
   if(request.current?.signature!==signature)request.current={signature,requestId:crypto.randomUUID()};
-  try{const result=await api('stickers/'+kind,{...payload,requestId:request.current.requestId});if(alive.current===expected){request.current=null;setState(result);setDraft(null);setConfirm(null);}}
-  catch(issue){if(alive.current===expected){setError(issue.message);if(issue.status===409){request.current=null;setDraft(null);setConfirm(null);void refresh();}}}
-  finally{saving.current=false;if(alive.current===expected)setBusy(false);}
- },[api,owner,refresh]);
+  try{const result=await api('stickers/'+kind,{...payload,requestId:request.current.requestId});if(saving.current===operation&&alive.current===expected&&result.owner===expected){request.current=null;accept(result,expected);setDraft(null);setConfirm(null);}}
+  catch(issue){if(alive.current===expected&&saving.current===operation){setError(issue.message);if(issue.status===409){request.current=null;setDraft(null);setConfirm(null);void refresh();}}}
+  finally{if(saving.current===operation){saving.current=null;if(alive.current===expected)setBusy(false);}}
+ },[api,owner,refresh,accept]);
  const fix=()=>{if(draft)void mutate('place',draft.unit,{x:draft.x,y:draft.y,angle:draft.angle});};
  useEffect(()=>{
   if(!mode)return;

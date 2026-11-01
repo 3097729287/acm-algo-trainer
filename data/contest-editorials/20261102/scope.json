@@ -1,0 +1,32 @@
+{
+  "articles": 32,
+  "contests": 3,
+  "excluded": [
+    {
+      "contest": "周赛 168",
+      "letter": "A",
+      "reason": "签到题"
+    },
+    {
+      "contest": "ABC 482",
+      "letter": "A",
+      "reason": "签到题"
+    },
+    {
+      "contest": "小白月赛 139",
+      "letter": "A",
+      "reason": "签到题"
+    },
+    {
+      "contest": "ABC 482",
+      "letter": "G",
+      "nativeModel": 2741,
+      "reason": "CF-EQ 2500，高于 ≤2300 补写上限"
+    }
+  ],
+  "officialSubmissionsSent": 0,
+  "problems": 16,
+  "publicDeployment": false,
+  "scope": "B–G / B–F / B–F",
+  "white139": "Reused the authored manuscripts, programs and figures; no replacement algorithm."
+}

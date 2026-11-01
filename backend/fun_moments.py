@@ -25,7 +25,7 @@ def from_facts(training,records):
     dates={}
     def unlock(identity,stamp):
         parsed=parse_time(stamp)
-        if parsed and (identity not in dates or parsed<parse_time(dates[identity])):dates[identity]=stamp
+        if parsed and parsed<=now and (identity not in dates or parsed<parse_time(dates[identity])):dates[identity]=stamp
     now=training._now()
     official=sorted((record for record in records if record.get('scope')=='official' and record.get('mode')=='submit'
                      and isinstance(record.get('problem_id'),str) and record['problem_id']

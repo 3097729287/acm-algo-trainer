@@ -27,6 +27,7 @@ try{
  const a=await client('browser_alpha','Alpha'),b=await client('browser_beta','Beta');
  for(const [i,xp] of [15,30,60,100].entries())await a.send('/v1/stickers/grant',{requestId:randomUUID(),day:'2026-11-02',taskId:'ac-chain:'+i,xp});
  await a.page.goto(base+'/tests/next-version-fixture.html');
+ await a.page.getByText('王者',{exact:true}).waitFor();assert(await a.page.locator('.profile-badge.tier-8').count()>0,'2000 ability uses the same tier despite a stale snapshot badge');
  await a.page.getByRole('button',{name:'贴纸',exact:true}).click();
  const region=a.page.getByRole('region',{name:'贴纸区域'});let box=await region.boundingBox();
  await a.page.mouse.click(box.x+box.width*.34,box.y+box.height*.57);
@@ -56,5 +57,12 @@ try{
  assert.match(await a.page.locator('.duel-players').innerText(),/Alpha/);assert.match(await a.page.locator('.duel-players').innerText(),/Beta/);
  await a.page.reload();await a.page.getByRole('button',{name:'duel',exact:true}).click();await a.page.locator('.duel-player').first().waitFor();assert.equal((await a.send('/v1/duels')).match.id,matchA.id);
  await a.page.screenshot({path:'tests/screenshots/next-version/duel-two-clients.png'});
+ await a.page.setViewportSize({width:1180,height:900});
+ await a.page.getByRole('button',{name:'tasks',exact:true}).click();
+ for(const rarity of ['common','rare','epic','legendary']){
+  const card=a.page.locator('.daily-task.rarity-'+rarity);await card.waitFor();
+  assert(await card.evaluate(node=>getComputedStyle(node).backgroundImage.includes('linear-gradient')),'whole task palette '+rarity);
+ }
+ await a.page.screenshot({path:'tests/screenshots/next-version/task-rarities.png'});
  assert.deepEqual(errors,[]);console.log('PASS real isolated two-client match/reconnect; authoritative sticker drag/rotate/Enter/Esc/recycle; real OI Wiki MathML/code/images/attribution/search; four viewport sizes');
 }finally{await browser.close();await vite.close();wiki.close();await shared.close();}

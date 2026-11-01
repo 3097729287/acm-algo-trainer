@@ -90,5 +90,21 @@ class CompactStartupTests(unittest.TestCase):
                 self.assertNotIn('privateDraft',result['rows'][0])
                 self.assertEqual(result['token'],restarted.token)
 
+    def test_projection_revision_and_per_problem_refresh_keep_addition_chronology(self):
+        self.store.data_response_bytes(compact=True)
+        restarted=self.open()
+        with patch('catalog_payload.REVISION','another-reviewed-projection'):
+            with patch.object(restarted,'_catalog_rows',wraps=restarted._catalog_rows) as rows:
+                restarted.data_response_bytes(compact=True)
+                self.assertEqual(rows.call_count,1,'A changed projection cannot reuse an old compact document')
+        self.store.knowledge_analysis=KnowledgeAnalysisCache(self.root/'new-analysis.json')
+        self.store.data_response_bytes(compact=True)
+        row=self.store.data()['rows'][0]
+        self.store.knowledge_analysis.enrich(row,algorithm_evidence={'tags':['前缀和'],'source':'fixture'})
+        fresh={**row,'schoolTraining':True,'url':'https://codeforces.com/gym/728862/problem/A'}
+        with patch.object(self.store,'_encode_record',return_value=fresh):
+            updated=self.store.training_data()['rows'][0]
+        self.assertEqual(updated['catalogAddedAt'],'2026-11-01T07:38:58Z')
+
 
 if __name__=='__main__':unittest.main()

@@ -8,12 +8,16 @@ import unittest
 from unittest.mock import patch
 
 from legacy_cleanup import identify, prepare, retire, finish_install
+from test_recycle_policy import retained_fixture,fixture_recycler
 
 
 class LegacyCleanupTests(unittest.TestCase):
     def setUp(self):
-        self.temp = tempfile.TemporaryDirectory()
+        self.temp = retained_fixture('legacy')
         self.root = Path(self.temp.name)
+        recycler=patch('legacy_cleanup.recycle_directory',side_effect=fixture_recycler(self.root))
+        self.recycled=recycler.start();self.addCleanup(recycler.stop)
+        capacity=patch('legacy_cleanup.can_recycle',return_value=True);capacity.start();self.addCleanup(capacity.stop)
         self.old, self.app = self.root/'TB-old', self.root/'TB-current'
         self.old.mkdir(); self.app.mkdir()
         self.files = {'TB新版.exe': b'official test executable', '_internal/runtime.dll': b'known runtime',
@@ -59,6 +63,56 @@ class LegacyCleanupTests(unittest.TestCase):
         self.assertTrue((self.old/'TB新版.exe').exists())
         (self.old/'TB新版.exe').write_bytes(b'unknown app with same name')
         self.assertIsNone(identify(self.old,self.app,self.catalog))
+
+    def test_failed_recycling_does_not_repeat_backups_on_poll_or_restart(self):
+        item=identify(self.old,self.app,self.catalog)
+        with patch('legacy_cleanup.recycle_directory',return_value=False) as recycle:
+            first=retire(item,self.app,self.catalog)
+            for _ in range(25):self.assertEqual(retire(item,self.app,self.catalog)['status'],'retained')
+            self.assertEqual(recycle.call_count,1)
+            self.assertEqual(len(list((self.app/'state/backups/legacy-programs').iterdir())),1)
+            self.assertEqual(retire(item,self.app,self.catalog,retry=True)['backup'],first['backup'])
+            self.assertEqual(recycle.call_count,2)
+            self.assertEqual(len(list((self.app/'state/backups/legacy-programs').iterdir())),1)
+        self.assertTrue((self.old/'TB新版.exe').exists())
+
+    def test_unknown_bin_capacity_prevents_backup_creation_and_preserves_old_data(self):
+        with patch('legacy_cleanup.can_recycle',return_value=False),patch('legacy_cleanup.preserve') as preserve:
+            self.assertEqual(retire(identify(self.old,self.app,self.catalog),self.app,self.catalog)['status'],'retained')
+            preserve.assert_not_called()
+        self.assertTrue((self.old/'TB新版.exe').exists())
+
+    def test_linked_recovery_directory_is_not_reused_and_original_is_retained(self):
+        state=self.old/'state';state.mkdir();(state/'draft.cpp').write_text('unsynced draft')
+        item=identify(self.old,self.app,self.catalog)
+        with patch('legacy_cleanup.recycle_directory',return_value=False):
+            first=retire(item,self.app,self.catalog)
+        linked_directory=Path(first['backup'])/'state'
+        with patch('legacy_cleanup.linked',side_effect=lambda path:Path(path)==linked_directory),patch('legacy_cleanup.recycle_directory') as recycle:
+            with self.assertRaisesRegex(ValueError,'Linked legacy backup'):
+                retire(item,self.app,self.catalog,retry=True)
+            recycle.assert_not_called()
+        self.assertEqual((state/'draft.cpp').read_text(),'unsynced draft')
+        self.assertTrue((self.old/'TB新版.exe').exists())
+
+    def test_explicit_retry_reuses_unchanged_backup_and_captures_new_committed_wal(self):
+        state=self.old/'state';state.mkdir()
+        db=sqlite3.connect(state/'personal.sqlite3');db.execute('PRAGMA journal_mode=WAL')
+        db.execute('CREATE TABLE drafts(code TEXT)');db.execute("INSERT INTO drafts VALUES('first')");db.commit()
+        item=identify(self.old,self.app,self.catalog)
+        try:
+            with patch('legacy_cleanup.recycle_directory',return_value=False):
+                first=retire(item,self.app,self.catalog)
+                self.assertEqual(retire(item,self.app,self.catalog,retry=True)['backup'],first['backup'])
+                db.execute("UPDATE drafts SET code='second committed in WAL'");db.commit()
+                self.assertEqual(retire(item,self.app,self.catalog)['backup'],first['backup'],'Automatic retry remains suppressed')
+                second=retire(item,self.app,self.catalog,retry=True)
+            self.assertNotEqual(first['backup'],second['backup'])
+            for result,expected in [(first,'first'),(second,'second committed in WAL')]:
+                with closing(sqlite3.connect(Path(result['backup'])/'state/personal.sqlite3')) as check:
+                    self.assertEqual(check.execute('SELECT code FROM drafts').fetchone()[0],expected)
+            self.assertEqual(len(list((self.app/'state/backups/legacy-programs').iterdir())),2)
+        finally:db.close()
 
     def test_fresh_directory_automatically_migrates_state_and_never_overwrites_existing_database(self):
         state = self.old/'state'; state.mkdir()

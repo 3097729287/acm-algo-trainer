@@ -12,6 +12,9 @@ import sqlite3
 import subprocess
 import threading
 import time
+from update_backups import recycle_directory,require_space
+from system_recycle import can_recycle
+from persistence import load_document,save_document
 
 PRIVATE = {'state', 'cache', 'backups', 'logs', 'admin-workspace'}
 REPOSITORY = '3097729287/acm-algo-trainer'
@@ -72,6 +75,7 @@ def copy_private(source, target):
                     with base.open('rb') as stream:
                         if stream.read(16) == b'SQLite format 3\x00': continue
             with path.open('rb') as stream: sqlite = stream.read(16) == b'SQLite format 3\x00'
+            require_space(target,path.stat().st_size+(Path(str(path)+'-wal').stat().st_size if sqlite and Path(str(path)+'-wal').is_file() else 0))
             if sqlite:
                 deadline = time.monotonic() + 20
                 def progress(status, remaining, total):
@@ -84,49 +88,103 @@ def copy_private(source, target):
                 if sha(path) != sha(destination): raise ValueError('Personal backup changed during copying')
 
 
+def private_signature(source):
+    result={}
+    for name in sorted(PRIVATE):
+        directory=source/name
+        if not directory.exists():continue
+        for folder,children,names in os.walk(directory,followlinks=False):
+            if linked(Path(folder)) or any(linked(Path(folder)/child) for child in children+names):
+                raise ValueError('Linked personal data retained')
+            for child in names:
+                path=Path(folder)/child
+                if child.endswith('-shm'):
+                    database=path.with_name(child[:-4])
+                    if database.is_file():
+                        with database.open('rb') as stream:
+                            if stream.read(16)==b'SQLite format 3\x00':continue
+                result[path.relative_to(source).as_posix()]=sha(path)
+    return result
+
+
+def snapshot_files(root):
+    """Validate the entire recovery tree before treating it as reusable."""
+    if any(linked(path) for path in (root, *root.parents)):
+        raise ValueError('Linked legacy backup retained')
+    result = {}
+    for directory, children, names in os.walk(root, followlinks=False):
+        folder = Path(directory)
+        if any(linked(folder/name) for name in children+names):
+            raise ValueError('Linked legacy backup retained')
+        for name in names:
+            path = folder/name
+            if path != root/'complete.json':
+                result[path.relative_to(root).as_posix()] = sha(path)
+    return result
+
+
 def preserve(candidate, app):
     source = candidate['root']
     key = hashlib.sha256(str(source).casefold().encode()).hexdigest()[:20]
-    backup = app/'state/backups/legacy-programs'/key
+    signature=private_signature(source)
+    context=hashlib.sha256(json.dumps(signature,sort_keys=True).encode()).hexdigest()[:20]
+    backup = app/'state/backups/legacy-programs'/(key+'-'+context)
     complete = backup/'complete.json'
-    if complete.is_file():
-        # Never mistake an old backup for protection of newly changed data.
-        backup = backup.with_name(key+'-'+str(time.time_ns()))
-        complete = backup/'complete.json'
+    actual=snapshot_files(backup)
+    if backup.exists():
+        if complete.is_file():
+            value=json.loads(complete.read_text('utf8'))
+            if value.get('complete') and value.get('sources')==signature and value.get('files')==actual:
+                return backup
+        raise ValueError('Existing incomplete or modified legacy backup retained')
+    require_space(app,sum((source/name).stat().st_size for name in signature)+1024**2)
     backup.mkdir(parents=True, exist_ok=False)
+    snapshot_files(backup)
     for name in sorted(PRIVATE):
         directory = source/name
         if directory.exists(): copy_private(directory, backup/name)
-    complete.write_text(json.dumps({'source': str(source), 'version': candidate['version'], 'complete': True}), encoding='utf8')
+    if signature!=private_signature(source):raise ValueError('Legacy personal data changed during backup; original retained')
+    files=snapshot_files(backup)
+    complete.write_text(json.dumps({'source': str(source), 'version': candidate['version'], 'complete': True,'sources':signature,'files':files}), encoding='utf8')
     return backup
 
 
-def retire(candidate, app, catalog, *, running=()):
+def retire(candidate, app, catalog, *, running=(),retry=False):
     source = candidate['root'].resolve()
     if any(Path(path).resolve().is_relative_to(source) for path in running):
         return {'status': 'running', 'removed': 0}
     fresh = identify(source, app, catalog)
     if not fresh: return {'status': 'unrecognized', 'removed': 0}
+    marker=app/'cache/legacy-retirement.json'
+    context=hashlib.sha256((str(source).casefold()+'\0'+sha(fresh['executable'])).encode()).hexdigest()
+    records=load_document(marker,{})
+    if not retry and records.get(context,{}).get('status') in {'attempting','retained','error'}:
+        return {'status':'retained','removed':0,'retained':1,'backup':records[context].get('backup')}
+    def record(status,backup=None):
+        records[context]={'status':status,'backup':str(backup) if backup else None}
+        save_document(marker,records)
+    if not can_recycle(fresh['executable']):
+        record('retained')
+        return {'status':'retained','removed':0,'retained':1,'backup':None}
+    record('attempting')
     backup = preserve(fresh, app)
     # Removing the verified entry point first also prevents a new old-version
     # process from opening its frontend halfway through retirement.
     executable = fresh['executable']
     if sha(executable) not in catalog['versions'][fresh['version']].values():
         return {'status': 'changed', 'removed': 0}
-    executable.unlink()
+    if not recycle_directory(executable):
+        record('retained',backup)
+        return {'status':'retained','removed':0,'retained':1,'backup':str(backup)}
     removed, retained = 1, 0
-    # Only byte-for-byte known distributed files can be deleted. User-created
+    # Only byte-for-byte known distributed files can be recycled. User-created
     # code, modified files, databases and unknown contents stay where they are.
     for name, digests in catalog['files'].items():
         target = safe_file(source, name)
         if target.is_file() and sha(target) in digests:
-            try: target.unlink(); removed += 1
-            except OSError: retained += 1
-    directories = {source.joinpath(*PurePosixPath(name).parts[:i]) for name in catalog['files'] for i in range(1, len(PurePosixPath(name).parts))}
-    for directory in sorted(directories, key=lambda p: len(p.parts), reverse=True):
-        if directory.resolve().is_relative_to(source) and not linked(directory):
-            try: directory.rmdir()
-            except OSError: pass
+            if recycle_directory(target):removed+=1
+            else:retained+=1
+    record('retired',backup)
     return {'status': 'retired', 'removed': removed, 'retained': retained, 'backup': str(backup)}
 
 
@@ -233,6 +291,7 @@ def start(app, ready):
                     candidate = identify(root, app, catalog)
                     if not candidate: continue
                     result = retire(candidate, app, catalog, running=running)
+                    if result['status']=='retained':completed.add(str(root))
                     if result['status'] != 'retired': continue
                     completed.add(str(root))
                     redirect_shortcuts(links, root, app)
@@ -257,7 +316,7 @@ def finish_install(app):
         if not candidate:
             continue
         try:
-            result = retire(candidate, app, catalog, running=running)
+            result = retire(candidate, app, catalog, running=running,retry=True)
             if result['status'] == 'retired':
                 redirect_shortcuts(links, root, app)
             results.append({'source': str(root), **result})

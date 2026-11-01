@@ -2,17 +2,19 @@
 
 /* User reference, 2026-11-02: the whole legendary task has the green/ivory/
    pink crystal face of the Clash Royale legendary card, with a silver rim. */
-.daily-task.rarity-common{--reward-ink:#173869;border:2px solid #8cbbeb!important;background:linear-gradient(155deg,#d5eeff 0%,#abd9ff 40%,#7baef3 100%);box-shadow:inset 0 0 0 1px #ffffff9c,0 0 0 1px #527aa5}
-.daily-task.rarity-rare{--reward-ink:#69330d;border:2px solid #f5b171!important;background:linear-gradient(155deg,#ffe7bf 0%,#ffc989 40%,#ec9648 100%);box-shadow:inset 0 0 0 1px #fff4dcb3,0 0 0 1px #a96328}
-.daily-task.rarity-epic{--reward-ink:#491a6d;border:2px solid #d28bf7!important;background:linear-gradient(155deg,#f2ddff 0%,#d4a7fa 40%,#aa6be3 100%);box-shadow:inset 0 0 0 1px #fff0ffb3,0 0 0 1px #8244ac}
+.daily-tasks .daily-task-grid .daily-task.rarity-common{--reward-ink:#14345f;border:2px solid #8cbbeb!important;background:linear-gradient(155deg,#d5eeff 0%,#abd9ff 40%,#7baef3 100%);box-shadow:inset 0 0 0 1px #ffffff9c,0 0 0 1px #527aa5}
+.daily-tasks .daily-task-grid .daily-task.rarity-rare{--reward-ink:#4b2206;border:2px solid #f5b171!important;background:linear-gradient(155deg,#ffe7bf 0%,#ffc989 40%,#ec9648 100%);box-shadow:inset 0 0 0 1px #fff4dcb3,0 0 0 1px #a96328}
+.daily-tasks .daily-task-grid .daily-task.rarity-epic{--reward-ink:#250c35;border:2px solid #d28bf7!important;background:linear-gradient(155deg,#f2ddff 0%,#d4a7fa 40%,#aa6be3 100%);box-shadow:inset 0 0 0 1px #fff0ffb3,0 0 0 1px #8244ac}
 .daily-task:is(.rarity-common,.rarity-rare,.rarity-epic) .daily-task-main :is(strong,p,.daily-task-xp),.daily-task:is(.rarity-common,.rarity-rare,.rarity-epic) .daily-task-progress{color:var(--reward-ink)}
 .daily-task:is(.rarity-common,.rarity-rare,.rarity-epic) .progress-meter{background:color-mix(in srgb,var(--reward-ink) 18%,transparent)}
 .daily-task:is(.rarity-common,.rarity-rare,.rarity-epic) .progress-meter>i{background:var(--reward-ink)}
 .daily-task:is(.rarity-common,.rarity-rare,.rarity-epic) .progress-button{color:var(--reward-ink);border-color:color-mix(in srgb,var(--reward-ink) 55%,transparent);background:#ffffff80}
-.daily-task.rarity-legendary{position:relative;isolation:isolate;overflow:hidden;border:2px solid #c8d2de!important;background:linear-gradient(158deg,#79e9ae 0%,#c1f2b3 22%,#f5efc1 41%,#f1c3ef 59%,#e36dde 80%,#b853db 100%);box-shadow:inset 0 0 0 1px #ffffffb3,0 0 0 1px #697382;color:#39234e}
+.daily-tasks .daily-task-grid .daily-task.rarity-legendary{--reward-ink:#1d0b29;position:relative;isolation:isolate;overflow:hidden;border:2px solid #c8d2de!important;background:linear-gradient(158deg,#79e9ae 0%,#c1f2b3 22%,#f5efc1 41%,#f1c3ef 59%,#e36dde 80%,#b853db 100%);box-shadow:inset 0 0 0 1px #ffffffb3,0 0 0 1px #697382;color:#39234e}
 .daily-task.rarity-legendary::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:conic-gradient(from 25deg at 18% 22%,#fff5 0deg 52deg,transparent 52deg 150deg,#b7ffd140 150deg 205deg,transparent 205deg 360deg),conic-gradient(from 150deg at 72% 68%,#fff5 0deg 63deg,transparent 63deg 155deg,#b14ed22b 155deg 235deg,transparent 235deg 360deg);background-size:100% 100%;opacity:.8}
-.daily-task.rarity-legendary .daily-task-main :is(strong,p,.daily-task-xp){background:none;color:#39234e;-webkit-text-fill-color:currentColor}
-.daily-task.rarity-legendary .daily-task-progress{color:#493255}
+.daily-task.rarity-legendary .daily-task-main :is(strong,p,.daily-task-xp){background:none;color:var(--reward-ink);-webkit-text-fill-color:currentColor}
+.daily-task.rarity-legendary .daily-task-progress{color:var(--reward-ink)}
 .daily-task.rarity-legendary .progress-meter{background:#4b32652b}
 .daily-task.rarity-legendary .progress-meter>i{background:#754591}
-.daily-task.rarity-legendary .progress-button{color:#39234e;border-color:#6f4f8a;background:#ffffff80}
+.daily-task.rarity-legendary .progress-button{color:var(--reward-ink);border-color:#6f4f8a;background:#ffffff80}
+
+.daily-tasks .daily-task[class*="rarity-"] .daily-task-progress>span:last-child{color:var(--reward-ink)}

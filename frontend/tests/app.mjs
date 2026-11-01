@@ -238,6 +238,13 @@ try {
   assert.equal(await page.locator('.progress-page .daily-tasks').count(), 0);
   await page.getByRole('button', { name: '每日任务', exact: true }).click();
   const task = page.getByRole('dialog').locator('.daily-task').filter({ hasText: '每日热身' });
+  const taskPaint=await task.evaluate(node=>{
+    const matches=[];
+    const walk=rules=>{for(const rule of rules){if(rule.selectorText){try{if(rule.style.background&&node.matches(rule.selectorText))matches.push([rule.selectorText,rule.style.background]);}catch{}}else if(rule.cssRules)walk(rule.cssRules);}};
+    for(const sheet of document.styleSheets){try{walk(sheet.cssRules);}catch{}}
+    return {className:node.className,background:getComputedStyle(node).backgroundImage,matches};
+  });
+  assert(taskPaint.background.includes('linear-gradient'),'Actual task modal preserves the whole rarity palette: '+JSON.stringify(taskPaint));
   await task.getByRole('button', { name: '领取奖励' }).click();
   await task.getByRole('button', { name: '已领取' }).waitFor();
   assert.equal(insights.growth.totalXp, 30);

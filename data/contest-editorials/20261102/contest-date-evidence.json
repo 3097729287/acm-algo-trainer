@@ -1,0 +1,125 @@
+{
+  "records": {
+    "remote:atcoder:abc482::A": {
+      "contestDate": "2026-10-31T12:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "endedAt": "2026-10-31T13:40:00+00:00",
+      "startedAt": "2026-10-31T12:00:00+00:00"
+    },
+    "remote:atcoder:abc482::B": {
+      "contestDate": "2026-10-31T12:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "endedAt": "2026-10-31T13:40:00+00:00",
+      "startedAt": "2026-10-31T12:00:00+00:00"
+    },
+    "remote:atcoder:abc482::C": {
+      "contestDate": "2026-10-31T12:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "endedAt": "2026-10-31T13:40:00+00:00",
+      "startedAt": "2026-10-31T12:00:00+00:00"
+    },
+    "remote:atcoder:abc482::D": {
+      "contestDate": "2026-10-31T12:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "endedAt": "2026-10-31T13:40:00+00:00",
+      "startedAt": "2026-10-31T12:00:00+00:00"
+    },
+    "remote:atcoder:abc482::E": {
+      "contestDate": "2026-10-31T12:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "endedAt": "2026-10-31T13:40:00+00:00",
+      "startedAt": "2026-10-31T12:00:00+00:00"
+    },
+    "remote:atcoder:abc482::F": {
+      "contestDate": "2026-10-31T12:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "endedAt": "2026-10-31T13:40:00+00:00",
+      "startedAt": "2026-10-31T12:00:00+00:00"
+    },
+    "remote:atcoder:abc482::G": {
+      "contestDate": "2026-10-31T12:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "endedAt": "2026-10-31T13:40:00+00:00",
+      "startedAt": "2026-10-31T12:00:00+00:00"
+    },
+    "remote:nowcoder:141882::A": {
+      "contestDate": "2026-10-30T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "endedAt": "2026-10-30T13:00:00+00:00",
+      "startedAt": "2026-10-30T11:00:00+00:00"
+    },
+    "remote:nowcoder:141882::B": {
+      "contestDate": "2026-10-30T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "endedAt": "2026-10-30T13:00:00+00:00",
+      "startedAt": "2026-10-30T11:00:00+00:00"
+    },
+    "remote:nowcoder:141882::C": {
+      "contestDate": "2026-10-30T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "endedAt": "2026-10-30T13:00:00+00:00",
+      "startedAt": "2026-10-30T11:00:00+00:00"
+    },
+    "remote:nowcoder:141882::D": {
+      "contestDate": "2026-10-30T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "endedAt": "2026-10-30T13:00:00+00:00",
+      "startedAt": "2026-10-30T11:00:00+00:00"
+    },
+    "remote:nowcoder:141882::E": {
+      "contestDate": "2026-10-30T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "endedAt": "2026-10-30T13:00:00+00:00",
+      "startedAt": "2026-10-30T11:00:00+00:00"
+    },
+    "remote:nowcoder:141882::F": {
+      "contestDate": "2026-10-30T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "endedAt": "2026-10-30T13:00:00+00:00",
+      "startedAt": "2026-10-30T11:00:00+00:00"
+    },
+    "remote:nowcoder:142559::A": {
+      "contestDate": "2026-11-01T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "endedAt": "2026-11-01T13:00:00+00:00",
+      "startedAt": "2026-11-01T11:00:00+00:00"
+    },
+    "remote:nowcoder:142559::B": {
+      "contestDate": "2026-11-01T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "endedAt": "2026-11-01T13:00:00+00:00",
+      "startedAt": "2026-11-01T11:00:00+00:00"
+    },
+    "remote:nowcoder:142559::C": {
+      "contestDate": "2026-11-01T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "endedAt": "2026-11-01T13:00:00+00:00",
+      "startedAt": "2026-11-01T11:00:00+00:00"
+    },
+    "remote:nowcoder:142559::D": {
+      "contestDate": "2026-11-01T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "endedAt": "2026-11-01T13:00:00+00:00",
+      "startedAt": "2026-11-01T11:00:00+00:00"
+    },
+    "remote:nowcoder:142559::E": {
+      "contestDate": "2026-11-01T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "endedAt": "2026-11-01T13:00:00+00:00",
+      "startedAt": "2026-11-01T11:00:00+00:00"
+    },
+    "remote:nowcoder:142559::F": {
+      "contestDate": "2026-11-01T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "endedAt": "2026-11-01T13:00:00+00:00",
+      "startedAt": "2026-11-01T11:00:00+00:00"
+    },
+    "remote:nowcoder:142559::G": {
+      "contestDate": "2026-11-01T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "endedAt": "2026-11-01T13:00:00+00:00",
+      "startedAt": "2026-11-01T11:00:00+00:00"
+    }
+  },
+  "source": "原站公开比赛时间，经现有 ToBe 比赛目录读取"
+}

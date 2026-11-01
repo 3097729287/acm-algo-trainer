@@ -1,0 +1,44 @@
+{
+  "attachments": {},
+  "id": "remote:codeforces:2278::B",
+  "images": {},
+  "integrity": {
+    "checkedAt": "2026-11-01T18:42:38.643524+00:00",
+    "pdfPageCountVerified": false,
+    "sampleCount": 1,
+    "schema": 1,
+    "sourceVerified": true,
+    "status": "complete"
+  },
+  "limits": {
+    "memoryMb": 256,
+    "timeMs": 2000
+  },
+  "localJudgeSupported": true,
+  "markdown": "# Stakes and Shapes\n\nAlice and Bob are playing the *Rock, Scissors, Paper* game.\n\n\n\nThe game consists of multiple rounds. In each round, the player must choose one of the three possible outcomes: Rock, Scissors, or Paper. The rules for each round are as follows:\n\n\n\n- Rock beats Scissors;\n\n- Scissors beats Paper;\n\n- Paper beats Rock;\n\n- If both players choose the same outcome, the round ends in a draw.\n\n\n\nIt is given that the game consists of exactly $$$x+y+z$$$ rounds. Also, Bob knows that Alice will play Rock exactly $$$x$$$ times, Scissors exactly $$$y$$$ times, and Paper exactly $$$z$$$ times. However, Bob does not know the order of Alice's outcomes.\n\n\n\nBefore the game starts, Bob must choose all of his outcomes in advance. Help him find an optimal sequence of $$$x+y+z$$$ outcomes such that, regardless of the order of Alice's outcomes, the number of rounds won by Bob is **at least** the number of rounds won by Alice.\n\n\n\nIt is guaranteed that such a sequence always exists.\n\n\n\n## Input\n\n\n\nThe first line of the input contains a single integer $$$t$$$ ($$$1 \\le t \\le 1000$$$) — the number of test cases. The description of each test case follows.\n\n\n\nThe only line of each test case contains three space-separated integers $$$x$$$, $$$y$$$, and $$$z$$$ ($$$0 \\le x,y,z \\le 100$$$; $$$x+y+z \\gt 0$$$) — the number of times Alice will play Rock, Scissors, and Paper, respectively.\n\n\n\n## Output\n\n\n\nPrint a string $$$s$$$ of length $$$x+y+z$$$ consisting only of the characters `R`, `S`, and `P`. The $$$i$$$-th character $$$s_i$$$ represents Bob's move in the $$$i$$$-th round: `R` for Rock, `S` for Scissors, and `P` for Paper.\n\n\n\nThe output string $$$s$$$ must satisfy the required condition. If multiple valid answers exist, output any one of them.\n\n\n\n## Note\n\n\n\nIn the first test case, Alice can only play Paper in all three rounds.\n\n\n\nBob chooses `RPS`. Thus, Bob loses once with Rock, wins once with Scissors, and draws once with Paper. Therefore, Bob wins $$$1$$$ round and Alice wins $$$1$$$ round, so the required condition is satisfied.",
+  "problemType": "standard",
+  "resourceIssues": [],
+  "resourceManifest": {},
+  "samples": [
+    {
+      "input": "2\n0 0 3\n1 1 2",
+      "name": "样例 1",
+      "output": "RPS\nSPSS"
+    }
+  ],
+  "sourceSnapshotSha256": "2fbf35adc7278344d1fd20d9fb5e7b4f0f23f18cb050066b3f35a117e87a08c5",
+  "statementAvailable": true,
+  "statementVersion": 7,
+  "title": "Stakes and Shapes",
+  "translation": {
+    "format": "complete-prose-v4",
+    "kind": "bundled",
+    "markdown": "# Stakes and Shapes\n\nAlice 和 Bob 正在玩“石头、剪刀、布”游戏。\n\n\n\n游戏有多轮。每一轮，两人各选择石头、剪刀、布中的一种，胜负规则如下：\n\n\n\n- 石头胜剪刀；\n\n- 剪刀胜布；\n\n- 布胜石头；\n\n- 两人出相同手势时，本轮平局。\n\n\n\n游戏恰好进行 $$$x+y+z$$$ 轮。Bob 知道 Alice 恰好出 $$$x$$$ 次石头、$$$y$$$ 次剪刀和 $$$z$$$ 次布，但不知道她的出拳顺序。\n\n\n\n游戏开始前，Bob 必须预先确定自己的全部手势。请为他构造一个长度为 $$$x+y+z$$$ 的手势序列，使得无论 Alice 按什么顺序出拳，Bob 获胜的轮数都**不少于** Alice 获胜的轮数。\n\n\n\n可以证明，这样的序列一定存在。\n\n\n\n## 输入格式\n\n\n\n第一行包含一个整数 $$$t$$$（$$$1 \\le t \\le 1000$$$），表示测试用例数。接下来给出各组测试。\n\n\n\n每组测试仅一行，包含三个用空格分隔的整数 $$$x$$$、$$$y$$$、$$$z$$$（$$$0 \\le x,y,z \\le 100$$$；$$$x+y+z \\gt 0$$$），分别表示 Alice 出石头、剪刀和布的次数。\n\n\n\n## 输出格式\n\n\n\n输出一个长度为 $$$x+y+z$$$ 的字符串 $$$s$$$，仅含字符 `R`、`S` 和 `P`。第 $$$i$$$ 个字符 $$$s_i$$$ 表示 Bob 在第 $$$i$$$ 轮的手势：`R` 表示石头，`S` 表示剪刀，`P` 表示布。\n\n\n\n输出字符串 $$$s$$$ 必须满足题目要求。若存在多个合法答案，输出任意一个即可。\n\n\n\n## 样例说明\n\n\n\n第一组测试中，Alice 在全部三轮中都只能出布。\n\n\n\nBob 选择 `RPS`。因此，他出石头时输一轮，出剪刀时赢一轮，出布时平一轮。Bob 赢了 $$$1$$$ 轮，Alice 赢了 $$$1$$$ 轮，满足要求。",
+    "notice": "中文译文；公式、数值、输入输出与样例保留原题。",
+    "provider": "ToBe 中文题面复核",
+    "sourceHash": "b78eca4ad61f5016e01f847a9e22d40209f987bbbd7677e64e61726ee996d02c",
+    "sourceLanguage": "en",
+    "targetLanguage": "zh-CN"
+  },
+  "url": "https://codeforces.com/contest/2278/problem/B"
+}

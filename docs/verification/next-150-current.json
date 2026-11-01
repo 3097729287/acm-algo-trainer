@@ -1,0 +1,75 @@
+{
+  "updatedAt": "2026-11-01T22:16:33.197717+00:00",
+  "version": "1.5.0",
+  "repairBaseline": "6907a65495b9e6519f5ace9747a412a78ea2ca06",
+  "installed": false,
+  "publiclyDeployed": false,
+  "observedOnlineServiceVersion": "1.2.9",
+  "fullBackend": {
+    "tests": 1044,
+    "passed": 1036,
+    "failures": 1,
+    "errors": 5,
+    "skipped": 2,
+    "passedFullSuite": false,
+    "failureOwner": "delegated core-seven editorial review",
+    "errorDetails": "SQLite database or disk is full during public-library copies"
+  },
+  "sharedServicePass": 59,
+  "mysqlGameplayPass": 4,
+  "targetedRetirementAndDocsPass": 39,
+  "readerFrames": 135,
+  "statementFrames": 35,
+  "originalSubmissions": 0,
+  "sourceStartupMs": [
+    2910.97,
+    2804.72
+  ],
+  "frozenStartupVerified": false,
+  "evidence": {
+    "content": {
+      "path": ".backups/next-150/delivered-contests/verification.json",
+      "sha256": "02baf6548f31ed7d135d3c82e22d6fe0596d4675841c6eff3dd3a316eb841785"
+    },
+    "backend": {
+      "path": ".backups/next-150/backend-check-merged-content-3.log",
+      "sha256": "d0a0a75c26fad01a536b5b6532d25a1381d9923f1c2402645e3f192e891334c2"
+    },
+    "targetedRetirement": {
+      "path": ".backups/next-150/recycle-receipt-tests-2.log",
+      "sha256": "7524e054a4db3cc274fc18af8c92bf8b0813ca89abf743188fd142162571e9b6"
+    },
+    "nativeRecycle": {
+      "path": ".backups/next-150/system-recycle-native-3/report.json",
+      "sha256": "022d1e5f74ca756265900a655a793a6e90cfe54277a9c01946cfb523dd90c130"
+    },
+    "sharedService": {
+      "path": ".backups/next-150/shared-service-regression-4.log",
+      "sha256": "8111d3b469199643deeefd7ae9fd9fca737ecf260354cb0860c4f2af44f27eb6"
+    },
+    "mysqlGameplay": {
+      "path": ".backups/next-150/mysql-gameplay-integration-2.log",
+      "sha256": "b7cca291615a2df1453616d79b812d16666a8e14a62ffe15ce8e9e3dc724d213"
+    },
+    "mysqlRestoreRollback": {
+      "path": ".backups/next-150/mysql-deployment-rehearsal-2/report.json",
+      "sha256": "a5e85f8fc7e09f02dbb19c9152c39220c7abf6b465693f30d4226c0fef4e028e"
+    },
+    "ownerRaces": {
+      "path": ".backups/next-150/gameplay-owner-races-3.log",
+      "sha256": "7ecabf899159bd95497f137abf0778671ede529a567d8e0956b0ae9a8d3fd4dd"
+    },
+    "twoBrowserClients": {
+      "path": ".backups/next-150/next-version-browser-5.log",
+      "sha256": "027b5b32cebbcbaa79ed9c11623bcf79a116bbfd8d99679fc0afb4bdb984e7a7"
+    },
+    "fullApp": {
+      "path": ".backups/next-150/app-integration-4.log",
+      "sha256": "d2c7cff53dfb9aec5489a1a6f40c49140b2438a6c5b1d4f68905fa6a49ab6d3b"
+    },
+    "sourceStartup": {
+      "path": ".backups/next-150/native-startup-digest/report.json",
+      "sha256": "09b610d6cd0e360fb90769c189924220d414c63553f69b2421ec27a945c984c9"
+    }
+  }
+}

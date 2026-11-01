@@ -1,0 +1,200 @@
+[
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 0,
+    "problem_id": "remote:nowcoder:142559::B"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 0,
+    "problem_id": "remote:nowcoder:142559::C"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "remote:nowcoder:142559::C"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 0,
+    "problem_id": "remote:nowcoder:142559::D"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "remote:nowcoder:142559::D"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 0,
+    "problem_id": "remote:nowcoder:142559::E"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "remote:nowcoder:142559::E"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-prefix",
+    "position": 2,
+    "problem_id": "remote:nowcoder:142559::E"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 0,
+    "problem_id": "remote:nowcoder:142559::F"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "remote:nowcoder:142559::F"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 0,
+    "problem_id": "remote:nowcoder:142559::G"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "remote:nowcoder:142559::G"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-prefix",
+    "position": 2,
+    "problem_id": "remote:nowcoder:142559::G"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 0,
+    "problem_id": "remote:atcoder:abc482::B"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-bounds",
+    "position": 0,
+    "problem_id": "remote:atcoder:abc482::C"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "remote:atcoder:abc482::C"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 0,
+    "problem_id": "remote:atcoder:abc482::D"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "remote:atcoder:abc482::D"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-queue-stack",
+    "position": 0,
+    "problem_id": "remote:atcoder:abc482::E"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "remote:atcoder:abc482::E"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 2,
+    "problem_id": "remote:atcoder:abc482::E"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-queue-stack",
+    "position": 0,
+    "problem_id": "remote:atcoder:abc482::F"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "remote:atcoder:abc482::F"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 2,
+    "problem_id": "remote:atcoder:abc482::F"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 0,
+    "problem_id": "remote:nowcoder:141882::B"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-heap",
+    "position": 0,
+    "problem_id": "remote:nowcoder:141882::C"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 1,
+    "problem_id": "remote:nowcoder:141882::C"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-prefix",
+    "position": 0,
+    "problem_id": "remote:nowcoder:141882::D"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 1,
+    "problem_id": "remote:nowcoder:141882::D"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-integer",
+    "position": 0,
+    "problem_id": "remote:nowcoder:141882::E"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 1,
+    "problem_id": "remote:nowcoder:141882::E"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-vector",
+    "position": 0,
+    "problem_id": "remote:nowcoder:141882::F"
+  },
+  {
+    "kind": "own",
+    "lecture_id": "lecture:foundation-iterators",
+    "position": 1,
+    "problem_id": "remote:nowcoder:141882::F"
+  }
+]

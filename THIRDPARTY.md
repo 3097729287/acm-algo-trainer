@@ -6,6 +6,14 @@ The compiler runs as a separate tool. Its license and the GCC Runtime Library Ex
 
 The original notices below are not translated.
 
+## OI Wiki articles, figures and source notices
+
+The 1.5.0 development branch includes an independent offline OI Wiki collection in `resources/oi-wiki.sqlite3`. Copyright belongs to the OI Wiki Team and the contributors credited on each original page. The fixed upstream gh-pages revision is `948d024d37bb0bdf63f2aa8a8eda0b19c20b94b0`. Original article HTML, image bytes, original URLs, per-page contributors and individual notices remain in the database and reader.
+
+Except where an individual upstream notice says otherwise, upstream declares [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) with the additional [SATA terms](https://github.com/zTrix/sata-license/blob/master/LICENSE.txt); see the [upstream declaration](https://github.com/OI-wiki/OI-wiki#版权声明) and [FAQ](https://oi-wiki.org/intro/faq/). This educational material and its presentation adaptations retain the applicable upstream terms and are not relicensed under ToBe's MIT application license. No claim of OI Wiki endorsement is made.
+
+ToBe's changes are safe article extraction, offline embedding of original images, accessible MathML presentation and local typography. The source is not paraphrased. Updating requires an explicit upstream revision and renewed per-page notice checks; failed downloads do not replace the working snapshot. Thank you to the OI Wiki Team, each credited contributor, and the SATA maintainers zTrix and kongtianyi. The SATA request to Star the referenced project is tracked separately from attribution; an external GitHub account action is never claimed or performed merely by generating these notices.
+
 
 ## CPython 3.13.13 and bundled standard-library notices
 

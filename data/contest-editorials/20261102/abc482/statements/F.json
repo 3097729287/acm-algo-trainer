@@ -1,0 +1,55 @@
+{
+  "attachments": {},
+  "id": "remote:atcoder:abc482::F",
+  "images": {},
+  "integrity": {
+    "checkedAt": "2026-11-01T17:47:38.574567+00:00",
+    "pdfPageCountVerified": false,
+    "sampleCount": 3,
+    "schema": 1,
+    "sourceVerified": true,
+    "status": "complete"
+  },
+  "limits": {
+    "memoryMb": 1024,
+    "timeMs": 2000
+  },
+  "localJudgeSupported": true,
+  "markdown": "# Mod M Divisor\n\nScore : $525$ points\n\n### Problem Statement\n\nYou are given positive integers $N$ and $M$. For each $k = 0, 1, \\dots, M-1$, solve the following problem.\n\n- Determine whether there exists a positive integer $t$ satisfying the following condition, and if it exists, find the minimum such $t$.\n- There exists a positive divisor $x$ of $N^t$ such that $x \\equiv k \\pmod{M}$.\n\n### Constraints\n\n- $1 \\leq N \\leq 10^{14}$\n\n- $1 \\leq M \\leq 4 \\times 10^5$\n\n- $N$ and $M$ are integers.\n\n### Input\n\nThe input is given from Standard Input in the following format:\n\n```input-format\n$N$ $M$\n```\n\n### Output\n\nPrint $M$ lines. The $i$-th line should contain the minimum positive integer $t$ satisfying the condition in the problem statement for $k=i-1$ if such $t$ exists, and $-1$ otherwise.\n\n### Sample Input 1\n\n```text\n6 7\n```\n\n### Sample Output 1\n\n```text\n-1\n1\n1\n1\n2\n2\n1\n```\n\nFor example, when $k=3$, $x=3$ is a divisor of $N^1=6$ and satisfies $x\\equiv k \\pmod{M}$, so the minimum positive integer $t$ satisfying the condition is $t=1$.\n\n### Sample Input 2\n\n```text\n4 8\n```\n\n### Sample Output 2\n\n```text\n2\n1\n1\n-1\n1\n-1\n-1\n-1\n```\n\n### Sample Input 3\n\n```text\n1 5\n```\n\n### Sample Output 3\n\n```text\n-1\n1\n-1\n-1\n-1\n```",
+  "problemType": "standard",
+  "resourceIssues": [],
+  "resourceManifest": {},
+  "samples": [
+    {
+      "explanation": "For example, when $k=3$, $x=3$ is a divisor of $N^1=6$ and satisfies $x\\equiv k \\pmod{M}$, so the minimum positive integer $t$ satisfying the condition is $t=1$.",
+      "input": "6 7",
+      "name": "样例 1",
+      "output": "-1\n1\n1\n1\n2\n2\n1"
+    },
+    {
+      "input": "4 8",
+      "name": "样例 2",
+      "output": "2\n1\n1\n-1\n1\n-1\n-1\n-1"
+    },
+    {
+      "input": "1 5",
+      "name": "样例 3",
+      "output": "-1\n1\n-1\n-1\n-1"
+    }
+  ],
+  "sourceSnapshotSha256": "67e9e3377fe2abc80f7f9a9d88d2939198d4fc00ae14390d23413cf9772d8db5",
+  "statementAvailable": true,
+  "statementVersion": 7,
+  "title": "Mod M Divisor",
+  "translation": {
+    "format": "complete-prose-v4",
+    "kind": "bundled",
+    "markdown": "# Mod M Divisor\n\n分值：$525$ 分\n\n### 题目描述\n\n给定正整数 $N$ 和 $M$。对每个 $k = 0, 1, \\dots, M-1$，分别解决以下问题。\n\n- 判断是否存在满足以下条件的正整数 $t$；若存在，求最小的这种 $t$。\n- $N^t$ 存在一个正约数 $x$，使 $x \\equiv k \\pmod{M}$。\n\n### 数据范围\n\n- $1 \\leq N \\leq 10^{14}$\n\n- $1 \\leq M \\leq 4 \\times 10^5$\n\n- $N$ 与 $M$ 均为整数。\n\n### 输入格式\n\n输入从标准输入按以下格式给出：\n\n```input-format\n$N$ $M$\n```\n\n### 输出格式\n\n输出 $M$ 行。第 $i$ 行输出 $k=i-1$ 时满足题目条件的最小正整数 $t$；若这种 $t$ 不存在，输出 $-1$。\n\n### 样例输入 1\n\n```text\n6 7\n```\n\n### 样例输出 1\n\n```text\n-1\n1\n1\n1\n2\n2\n1\n```\n\n例如，当 $k=3$ 时，$x=3$ 是 $N^1=6$ 的约数，且满足 $x\\equiv k \\pmod{M}$，所以满足条件的最小正整数 $t$ 为 $t=1$。\n\n### 样例输入 2\n\n```text\n4 8\n```\n\n### 样例输出 2\n\n```text\n2\n1\n1\n-1\n1\n-1\n-1\n-1\n```\n\n### 样例输入 3\n\n```text\n1 5\n```\n\n### 样例输出 3\n\n```text\n-1\n1\n-1\n-1\n-1\n```",
+    "notice": "中文译文；公式、数值、输入输出与样例保留原题。",
+    "provider": "ToBe 中文题面复核",
+    "sourceHash": "a2b7c1eca2d28a18cd6f50791baaa9aefac2eeab3d10977d576dfba04739eb48",
+    "sourceLanguage": "en",
+    "targetLanguage": "zh-CN"
+  },
+  "url": "https://atcoder.jp/contests/abc482/tasks/abc482_f"
+}

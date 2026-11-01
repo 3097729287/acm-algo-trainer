@@ -12,10 +12,11 @@ import sys
 ROOT = Path(__file__).resolve().parent.parent
 
 
-def library_check():
+def library_check(path=None):
     source = ROOT / 'data' / 'library'
-    path = ROOT / 'data' / 'library.sqlite3'
-    if not path.is_file() and source.is_dir():
+    explicit=path is not None
+    path = Path(path).resolve() if explicit else ROOT / 'data' / 'library.sqlite3'
+    if not explicit and not path.is_file() and source.is_dir():
         sys.path.insert(0, str(ROOT / 'backend'))
         sys.path.insert(0, str(ROOT / 'backend' / 'common'))
         from library import LibraryDatabase
@@ -64,8 +65,9 @@ def library_check():
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--library-only', action='store_true')
+    parser.add_argument('--library', type=Path, help='Exact isolated public seed selected for packaging')
     args = parser.parse_args()
-    library_check()
+    library_check(args.library)
     if args.library_only:
         return
     env = dict(os.environ, TB_OFFLINE='1')

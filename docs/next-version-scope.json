@@ -1,5 +1,5 @@
 {
-  "status": "1.5.0 independent development; installation/integration waits for completed 1.4.36",
+  "status": "1.5.0 isolated verification; validated 1.4.36 source integrated; final installation coordinated after parallel 1.4.37 delivery",
   "requestedOn": "2026-11-01",
   "continuation": "用户已要求当前版本更新完成后先列出下一版内容与实施顺序，然后继续实施；不得提前并入当前版本。",
   "features": [
@@ -37,7 +37,7 @@
     }
   ],
   "currentDomesticStable": "1.4.34",
-  "nextVersion": "after validated 1.4.36 repair delivery",
+  "nextVersion": "1.5.0",
   "feedbackPriority": {
     "id": "nowcoder-live-statement",
     "status": "1.4.35 local implementation and fixtures passed; real provider result not claimed",
@@ -97,5 +97,34 @@
     ],
     "publicArchiveReadOnly": true
   },
-  "nextSessionPrompt": "另一个会话使用独立分支开发维基、双人对战、贴纸，不修改当前修复工作副本、候选或正式更新清单"
+  "nextSessionPrompt": "另一个会话使用独立分支开发维基、双人对战、贴纸，不修改当前修复工作副本、候选或正式更新清单",
+  "deliveredContentIntegration": {
+    "sourceCommits": [
+      "ecdf5d311387ec6edeaee57961fa778d2ac6269c",
+      "6b6fbbf251c7b0f911d1dbc2747aa4d57ff315ab",
+      "3e4550e8a43bad86be32912422baec02bf97ca06"
+    ],
+    "addedDefault": 23,
+    "addedDetailed": 22,
+    "preservedExistingDefault": 1916,
+    "preservedExistingDetailed": 1916,
+    "publicSeed": {
+      "problems": 12317,
+      "statements": 12218,
+      "solutions": 1939,
+      "detailedSolutions": 1938,
+      "lectures": 480,
+      "lectureLinks": 9258
+    },
+    "readerFrames": 135,
+    "statementFrames": 35,
+    "installed": false
+  },
+  "recyclePolicy": {
+    "systemBinOnly": true,
+    "permanentFallback": false,
+    "newSystemMetadataAndPayloadRequired": true,
+    "neverEmptyResizeOrEvictExistingItems": true,
+    "automaticFailedRetirementRetry": false
+  }
 }

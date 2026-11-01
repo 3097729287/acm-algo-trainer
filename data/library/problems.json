@@ -1497995,5 +1497995,1400 @@
       "题名": "Books"
     },
     "url": "https://codeforces.com/gym/728862/problem/L"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://ac.nowcoder.com/acm/contest/142559",
+      "contest": "周赛 168",
+      "contestDate": "2026-11-01T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "contestFamily": "周赛",
+      "contestId": "142559",
+      "contestProblemCount": 7,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": true,
+      "difficulty": 900,
+      "difficultyBand": [
+        800,
+        1100
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://ac.nowcoder.com/acm/contest/142559/B",
+        "扫描网格并取四条边的并集，需正确处理单行单列与重复角，O(nm)。",
+        "训练参考估计，非原站官方 rating。"
+      ],
+      "difficultySource": "ToBe 题面与算法复核估算",
+      "endedAt": "2026-11-01T13:00:00+00:00",
+      "id": "remote:nowcoder:142559::B",
+      "knowledge": "模拟",
+      "metadataVersion": "2026-11-02-three-contests",
+      "originalTitle": "小月的屏幕",
+      "platform": "牛客",
+      "problem": "B",
+      "series": "周赛",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-11-01T11:00:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "模拟"
+      ],
+      "title": "小月的屏幕",
+      "url": "https://ac.nowcoder.com/acm/contest/142559/B"
+    },
+    "id": "remote:nowcoder:142559::B",
+    "raw": {
+      "_id": "remote:nowcoder:142559::B",
+      "场次": "周赛 168",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "模拟",
+      "难度": "900",
+      "题号": "B",
+      "题名": "小月的屏幕"
+    },
+    "url": "https://ac.nowcoder.com/acm/contest/142559/B"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://ac.nowcoder.com/acm/contest/142559",
+      "contest": "周赛 168",
+      "contestDate": "2026-11-01T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "contestFamily": "周赛",
+      "contestId": "142559",
+      "contestProblemCount": 7,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": true,
+      "difficulty": 1000,
+      "difficultyBand": [
+        800,
+        1200
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://ac.nowcoder.com/acm/contest/142559/C",
+        "前后缀均包含当前位置，使用差的整除判定处理负数同余，O(n)。",
+        "训练参考估计，非原站官方 rating。"
+      ],
+      "difficultySource": "ToBe 题面与算法复核估算",
+      "endedAt": "2026-11-01T13:00:00+00:00",
+      "id": "remote:nowcoder:142559::C",
+      "knowledge": "前缀和[主] + 取模与同余",
+      "metadataVersion": "2026-11-02-three-contests",
+      "originalTitle": "小月的同余",
+      "platform": "牛客",
+      "problem": "C",
+      "series": "周赛",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-11-01T11:00:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "前缀和",
+        "取模与同余"
+      ],
+      "title": "小月的同余",
+      "url": "https://ac.nowcoder.com/acm/contest/142559/C"
+    },
+    "id": "remote:nowcoder:142559::C",
+    "raw": {
+      "_id": "remote:nowcoder:142559::C",
+      "场次": "周赛 168",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "前缀和[主] + 取模与同余",
+      "难度": "1000",
+      "题号": "C",
+      "题名": "小月的同余"
+    },
+    "url": "https://ac.nowcoder.com/acm/contest/142559/C"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://ac.nowcoder.com/acm/contest/142559",
+      "contest": "周赛 168",
+      "contestDate": "2026-11-01T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "contestFamily": "周赛",
+      "contestId": "142559",
+      "contestProblemCount": 7,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": true,
+      "difficulty": 1200,
+      "difficultyBand": [
+        1000,
+        1400
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://ac.nowcoder.com/acm/contest/142559/D",
+        "环上按原格数走步，再用后继并查集跳过占用位置，路径压缩及哨兵环绕。",
+        "训练参考估计，非原站官方 rating。"
+      ],
+      "difficultySource": "ToBe 题面与算法复核估算",
+      "endedAt": "2026-11-01T13:00:00+00:00",
+      "id": "remote:nowcoder:142559::D",
+      "knowledge": "并查集[主] + 模拟",
+      "metadataVersion": "2026-11-02-three-contests",
+      "originalTitle": "小月的储物格",
+      "platform": "牛客",
+      "problem": "D",
+      "series": "周赛",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-11-01T11:00:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "并查集",
+        "模拟"
+      ],
+      "title": "小月的储物格",
+      "url": "https://ac.nowcoder.com/acm/contest/142559/D"
+    },
+    "id": "remote:nowcoder:142559::D",
+    "raw": {
+      "_id": "remote:nowcoder:142559::D",
+      "场次": "周赛 168",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "并查集[主] + 模拟",
+      "难度": "1200",
+      "题号": "D",
+      "题名": "小月的储物格"
+    },
+    "url": "https://ac.nowcoder.com/acm/contest/142559/D"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://ac.nowcoder.com/acm/contest/142559",
+      "contest": "周赛 168",
+      "contestDate": "2026-11-01T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "contestFamily": "周赛",
+      "contestId": "142559",
+      "contestProblemCount": 7,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": true,
+      "difficulty": 1600,
+      "difficultyBand": [
+        1400,
+        1800
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://ac.nowcoder.com/acm/contest/142559/E",
+        "两前缀及最后来源堆的可达性 DP，O(nm)，价值由前缀和固定。",
+        "训练参考估计，非原站官方 rating。"
+      ],
+      "difficultySource": "ToBe 题面与算法复核估算",
+      "endedAt": "2026-11-01T13:00:00+00:00",
+      "id": "remote:nowcoder:142559::E",
+      "knowledge": "线性 DP[主] + 前缀和",
+      "metadataVersion": "2026-11-02-three-contests",
+      "originalTitle": "小月的栈（Easy）",
+      "platform": "牛客",
+      "problem": "E",
+      "series": "周赛",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-11-01T11:00:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "线性 DP",
+        "前缀和"
+      ],
+      "title": "小月的栈（Easy）",
+      "url": "https://ac.nowcoder.com/acm/contest/142559/E"
+    },
+    "id": "remote:nowcoder:142559::E",
+    "raw": {
+      "_id": "remote:nowcoder:142559::E",
+      "场次": "周赛 168",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "线性 DP[主] + 前缀和",
+      "难度": "1600",
+      "题号": "E",
+      "题名": "小月的栈（Easy）"
+    },
+    "url": "https://ac.nowcoder.com/acm/contest/142559/E"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://ac.nowcoder.com/acm/contest/142559",
+      "contest": "周赛 168",
+      "contestDate": "2026-11-01T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "contestFamily": "周赛",
+      "contestId": "142559",
+      "contestProblemCount": 7,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": true,
+      "difficulty": 2000,
+      "difficultyBand": [
+        1800,
+        2200
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://ac.nowcoder.com/acm/contest/142559/F",
+        "嵌套安全集合的部分匹配计数 DP，再以三个计数消去零、一位喝奶者，O(n²)。",
+        "训练参考估计，非原站官方 rating。"
+      ],
+      "difficultySource": "ToBe 题面与算法复核估算",
+      "endedAt": "2026-11-01T13:00:00+00:00",
+      "id": "remote:nowcoder:142559::F",
+      "knowledge": "组合计数[主] + 线性 DP",
+      "metadataVersion": "2026-11-02-three-contests",
+      "originalTitle": "小月的川菜",
+      "platform": "牛客",
+      "problem": "F",
+      "series": "周赛",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-11-01T11:00:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "组合计数",
+        "线性 DP"
+      ],
+      "title": "小月的川菜",
+      "url": "https://ac.nowcoder.com/acm/contest/142559/F"
+    },
+    "id": "remote:nowcoder:142559::F",
+    "raw": {
+      "_id": "remote:nowcoder:142559::F",
+      "场次": "周赛 168",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "组合计数[主] + 线性 DP",
+      "难度": "2000",
+      "题号": "F",
+      "题名": "小月的川菜"
+    },
+    "url": "https://ac.nowcoder.com/acm/contest/142559/F"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://ac.nowcoder.com/acm/contest/142559",
+      "contest": "周赛 168",
+      "contestDate": "2026-11-01T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "contestFamily": "周赛",
+      "contestId": "142559",
+      "contestProblemCount": 7,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": true,
+      "difficulty": 1900,
+      "difficultyBand": [
+        1700,
+        2100
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://ac.nowcoder.com/acm/contest/142559/G",
+        "证明前缀内部强制切段的两个计数条件充分必要，线性枚举前缀分配。",
+        "训练参考估计，非原站官方 rating。"
+      ],
+      "difficultySource": "ToBe 题面与算法复核估算",
+      "endedAt": "2026-11-01T13:00:00+00:00",
+      "id": "remote:nowcoder:142559::G",
+      "knowledge": "结论与计数[主] + 前缀和",
+      "metadataVersion": "2026-11-02-three-contests",
+      "originalTitle": "小月的栈（Hard）",
+      "platform": "牛客",
+      "problem": "G",
+      "series": "周赛",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-11-01T11:00:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "结论与计数",
+        "前缀和"
+      ],
+      "title": "小月的栈（Hard）",
+      "url": "https://ac.nowcoder.com/acm/contest/142559/G"
+    },
+    "id": "remote:nowcoder:142559::G",
+    "raw": {
+      "_id": "remote:nowcoder:142559::G",
+      "场次": "周赛 168",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "结论与计数[主] + 前缀和",
+      "难度": "1900",
+      "题号": "G",
+      "题名": "小月的栈（Hard）"
+    },
+    "url": "https://ac.nowcoder.com/acm/contest/142559/G"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://atcoder.jp/contests/abc482",
+      "contest": "ABC 482",
+      "contestDate": "2026-10-31T12:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "contestFamily": "ABC",
+      "contestId": "abc482",
+      "contestProblemCount": 7,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": true,
+      "difficulty": 800,
+      "difficultyBand": [
+        800,
+        900
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://atcoder.jp/contests/abc482/tasks/abc482_b",
+        "https://kenkoooo.com/atcoder/resources/problem-models.json",
+        "原模型 -325；max(800, round100(0.67 × 模型 + 650)) = 800；非官方评分。"
+      ],
+      "difficultySource": "CF-EQ v1.0 / AtCoder Problems 第三方模型",
+      "endedAt": "2026-10-31T13:40:00+00:00",
+      "id": "remote:atcoder:abc482::B",
+      "knowledge": "枚举",
+      "metadataVersion": "2026-11-02-three-contests",
+      "nativeDifficulty": -325,
+      "originalTitle": "Blank Bingo",
+      "platform": "AtCoder",
+      "problem": "B",
+      "series": "ABC",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-10-31T12:00:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "枚举"
+      ],
+      "title": "Blank Bingo",
+      "url": "https://atcoder.jp/contests/abc482/tasks/abc482_b"
+    },
+    "id": "remote:atcoder:abc482::B",
+    "raw": {
+      "_id": "remote:atcoder:abc482::B",
+      "场次": "ABC 482",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "枚举",
+      "难度": "800",
+      "题号": "B",
+      "题名": "Blank Bingo"
+    },
+    "url": "https://atcoder.jp/contests/abc482/tasks/abc482_b"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://atcoder.jp/contests/abc482",
+      "contest": "ABC 482",
+      "contestDate": "2026-10-31T12:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "contestFamily": "ABC",
+      "contestId": "abc482",
+      "contestProblemCount": 7,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": true,
+      "difficulty": 1000,
+      "difficultyBand": [
+        900,
+        1100
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://atcoder.jp/contests/abc482/tasks/abc482_c",
+        "https://kenkoooo.com/atcoder/resources/problem-models.json",
+        "原模型 486；max(800, round100(0.67 × 模型 + 650)) = 1000；非官方评分。"
+      ],
+      "difficultySource": "CF-EQ v1.0 / AtCoder Problems 第三方模型",
+      "endedAt": "2026-10-31T13:40:00+00:00",
+      "id": "remote:atcoder:abc482::C",
+      "knowledge": "二分查找[主] + 排序",
+      "metadataVersion": "2026-11-02-three-contests",
+      "nativeDifficulty": 486,
+      "originalTitle": "Band Count",
+      "platform": "AtCoder",
+      "problem": "C",
+      "series": "ABC",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-10-31T12:00:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "二分查找",
+        "排序"
+      ],
+      "title": "Band Count",
+      "url": "https://atcoder.jp/contests/abc482/tasks/abc482_c"
+    },
+    "id": "remote:atcoder:abc482::C",
+    "raw": {
+      "_id": "remote:atcoder:abc482::C",
+      "场次": "ABC 482",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "二分查找[主] + 排序",
+      "难度": "1000",
+      "题号": "C",
+      "题名": "Band Count"
+    },
+    "url": "https://atcoder.jp/contests/abc482/tasks/abc482_c"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://atcoder.jp/contests/abc482",
+      "contest": "ABC 482",
+      "contestDate": "2026-10-31T12:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "contestFamily": "ABC",
+      "contestId": "abc482",
+      "contestProblemCount": 7,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": true,
+      "difficulty": 1200,
+      "difficultyBand": [
+        1100,
+        1300
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://atcoder.jp/contests/abc482/tasks/abc482_d",
+        "https://kenkoooo.com/atcoder/resources/problem-models.json",
+        "原模型 766；max(800, round100(0.67 × 模型 + 650)) = 1200；非官方评分。"
+      ],
+      "difficultySource": "CF-EQ v1.0 / AtCoder Problems 第三方模型",
+      "endedAt": "2026-10-31T13:40:00+00:00",
+      "id": "remote:atcoder:abc482::D",
+      "knowledge": "结论与计数",
+      "metadataVersion": "2026-11-02-three-contests",
+      "nativeDifficulty": 766,
+      "originalTitle": "Wannabe Zombie",
+      "platform": "AtCoder",
+      "problem": "D",
+      "series": "ABC",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-10-31T12:00:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "结论与计数"
+      ],
+      "title": "Wannabe Zombie",
+      "url": "https://atcoder.jp/contests/abc482/tasks/abc482_d"
+    },
+    "id": "remote:atcoder:abc482::D",
+    "raw": {
+      "_id": "remote:atcoder:abc482::D",
+      "场次": "ABC 482",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "结论与计数",
+      "难度": "1200",
+      "题号": "D",
+      "题名": "Wannabe Zombie"
+    },
+    "url": "https://atcoder.jp/contests/abc482/tasks/abc482_d"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://atcoder.jp/contests/abc482",
+      "contest": "ABC 482",
+      "contestDate": "2026-10-31T12:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "contestFamily": "ABC",
+      "contestId": "abc482",
+      "contestProblemCount": 7,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": true,
+      "difficulty": 1700,
+      "difficultyBand": [
+        1600,
+        1800
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://atcoder.jp/contests/abc482/tasks/abc482_e",
+        "https://kenkoooo.com/atcoder/resources/problem-models.json",
+        "原模型 1531；max(800, round100(0.67 × 模型 + 650)) = 1700；非官方评分。"
+      ],
+      "difficultySource": "CF-EQ v1.0 / AtCoder Problems 第三方模型",
+      "endedAt": "2026-10-31T13:40:00+00:00",
+      "id": "remote:atcoder:abc482::E",
+      "knowledge": "树的直径[主] + BFS + 组合计数",
+      "metadataVersion": "2026-11-02-three-contests",
+      "nativeDifficulty": 1531,
+      "originalTitle": "Diameter Endpoint Colors",
+      "platform": "AtCoder",
+      "problem": "E",
+      "series": "ABC",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-10-31T12:00:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "树的直径",
+        "BFS",
+        "组合计数"
+      ],
+      "title": "Diameter Endpoint Colors",
+      "url": "https://atcoder.jp/contests/abc482/tasks/abc482_e"
+    },
+    "id": "remote:atcoder:abc482::E",
+    "raw": {
+      "_id": "remote:atcoder:abc482::E",
+      "场次": "ABC 482",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "树的直径[主] + BFS + 组合计数",
+      "难度": "1700",
+      "题号": "E",
+      "题名": "Diameter Endpoint Colors"
+    },
+    "url": "https://atcoder.jp/contests/abc482/tasks/abc482_e"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://atcoder.jp/contests/abc482",
+      "contest": "ABC 482",
+      "contestDate": "2026-10-31T12:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "contestFamily": "ABC",
+      "contestId": "abc482",
+      "contestProblemCount": 7,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": true,
+      "difficulty": 2200,
+      "difficultyBand": [
+        2100,
+        2300
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://atcoder.jp/contests/abc482/tasks/abc482_f",
+        "https://kenkoooo.com/atcoder/resources/problem-models.json",
+        "原模型 2277；max(800, round100(0.67 × 模型 + 650)) = 2200；非官方评分。"
+      ],
+      "difficultySource": "CF-EQ v1.0 / AtCoder Problems 第三方模型",
+      "endedAt": "2026-10-31T13:40:00+00:00",
+      "id": "remote:atcoder:abc482::F",
+      "knowledge": "最短路[主] + 素数 + 取模与同余",
+      "metadataVersion": "2026-11-02-three-contests",
+      "nativeDifficulty": 2277,
+      "originalTitle": "Mod M Divisor",
+      "platform": "AtCoder",
+      "problem": "F",
+      "series": "ABC",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-10-31T12:00:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "最短路",
+        "素数",
+        "取模与同余"
+      ],
+      "title": "Mod M Divisor",
+      "url": "https://atcoder.jp/contests/abc482/tasks/abc482_f"
+    },
+    "id": "remote:atcoder:abc482::F",
+    "raw": {
+      "_id": "remote:atcoder:abc482::F",
+      "场次": "ABC 482",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "最短路[主] + 素数 + 取模与同余",
+      "难度": "2200",
+      "题号": "F",
+      "题名": "Mod M Divisor"
+    },
+    "url": "https://atcoder.jp/contests/abc482/tasks/abc482_f"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://ac.nowcoder.com/acm/contest/141882",
+      "contest": "小白月赛 139",
+      "contestDate": "2026-10-30T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "contestFamily": "小白月赛",
+      "contestId": "141882",
+      "contestProblemCount": 6,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": true,
+      "difficulty": 900,
+      "difficultyBand": [
+        800,
+        1100
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://ac.nowcoder.com/acm/contest/141882/B",
+        "逐对表达式恒等于右项，按右端点计数并注意六十四位整数。",
+        "训练参考估计，非原站官方 rating。"
+      ],
+      "difficultySource": "ToBe 题面与算法复核估算",
+      "endedAt": "2026-10-30T13:00:00+00:00",
+      "id": "remote:nowcoder:141882::B",
+      "knowledge": "结论与计数",
+      "metadataVersion": "2026-11-02-three-contests",
+      "originalTitle": "奶龙的奇妙公式",
+      "platform": "牛客",
+      "problem": "B",
+      "series": "小白月赛",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-10-30T11:00:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "结论与计数"
+      ],
+      "title": "奶龙的奇妙公式",
+      "url": "https://ac.nowcoder.com/acm/contest/141882/B"
+    },
+    "id": "remote:nowcoder:141882::B",
+    "raw": {
+      "_id": "remote:nowcoder:141882::B",
+      "场次": "小白月赛 139",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "结论与计数",
+      "难度": "900",
+      "题号": "B",
+      "题名": "奶龙的奇妙公式"
+    },
+    "url": "https://ac.nowcoder.com/acm/contest/141882/B"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://ac.nowcoder.com/acm/contest/141882",
+      "contest": "小白月赛 139",
+      "contestDate": "2026-10-30T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "contestFamily": "小白月赛",
+      "contestId": "141882",
+      "contestProblemCount": 6,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": true,
+      "difficulty": 1600,
+      "difficultyBand": [
+        1400,
+        1800
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://ac.nowcoder.com/acm/contest/141882/C",
+        "前缀比分约束转成最少改判次数，最小堆贪心及最终胜负约束，O(n log n)。",
+        "训练参考估计，非原站官方 rating。"
+      ],
+      "difficultySource": "ToBe 题面与算法复核估算",
+      "endedAt": "2026-10-30T13:00:00+00:00",
+      "id": "remote:nowcoder:141882::C",
+      "knowledge": "贪心[主] + 堆",
+      "metadataVersion": "2026-11-02-three-contests",
+      "originalTitle": "小芳的比赛",
+      "platform": "牛客",
+      "problem": "C",
+      "series": "小白月赛",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-10-30T11:00:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "贪心",
+        "堆"
+      ],
+      "title": "小芳的比赛",
+      "url": "https://ac.nowcoder.com/acm/contest/141882/C"
+    },
+    "id": "remote:nowcoder:141882::C",
+    "raw": {
+      "_id": "remote:nowcoder:141882::C",
+      "场次": "小白月赛 139",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "贪心[主] + 堆",
+      "难度": "1600",
+      "题号": "C",
+      "题名": "小芳的比赛"
+    },
+    "url": "https://ac.nowcoder.com/acm/contest/141882/C"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://ac.nowcoder.com/acm/contest/141882",
+      "contest": "小白月赛 139",
+      "contestDate": "2026-10-30T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "contestFamily": "小白月赛",
+      "contestId": "141882",
+      "contestProblemCount": 6,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": true,
+      "difficulty": 1400,
+      "difficultyBand": [
+        1200,
+        1600
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://ac.nowcoder.com/acm/contest/141882/D",
+        "从题目结构得到可选长度，再用前缀和枚举合法区间，O(n log n)。",
+        "训练参考估计，非原站官方 rating。"
+      ],
+      "difficultySource": "ToBe 题面与算法复核估算",
+      "endedAt": "2026-10-30T13:00:00+00:00",
+      "id": "remote:nowcoder:141882::D",
+      "knowledge": "枚举[主] + 前缀和",
+      "metadataVersion": "2026-11-02-three-contests",
+      "originalTitle": "小苯的纸牌屋",
+      "platform": "牛客",
+      "problem": "D",
+      "series": "小白月赛",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-10-30T11:00:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "枚举",
+        "前缀和"
+      ],
+      "title": "小苯的纸牌屋",
+      "url": "https://ac.nowcoder.com/acm/contest/141882/D"
+    },
+    "id": "remote:nowcoder:141882::D",
+    "raw": {
+      "_id": "remote:nowcoder:141882::D",
+      "场次": "小白月赛 139",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "枚举[主] + 前缀和",
+      "难度": "1400",
+      "题号": "D",
+      "题名": "小苯的纸牌屋"
+    },
+    "url": "https://ac.nowcoder.com/acm/contest/141882/D"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://ac.nowcoder.com/acm/contest/141882",
+      "contest": "小白月赛 139",
+      "contestDate": "2026-10-30T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "contestFamily": "小白月赛",
+      "contestId": "141882",
+      "contestProblemCount": 6,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": true,
+      "difficulty": 1700,
+      "difficultyBand": [
+        1500,
+        1900
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://ac.nowcoder.com/acm/contest/141882/E",
+        "分段统计贡献并证明重排计数，需区分相同值和相同位置。",
+        "训练参考估计，非原站官方 rating。"
+      ],
+      "difficultySource": "ToBe 题面与算法复核估算",
+      "endedAt": "2026-10-30T13:00:00+00:00",
+      "id": "remote:nowcoder:141882::E",
+      "knowledge": "结论与计数",
+      "metadataVersion": "2026-11-02-three-contests",
+      "originalTitle": "小芳的睡眠排序",
+      "platform": "牛客",
+      "problem": "E",
+      "series": "小白月赛",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-10-30T11:00:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "结论与计数"
+      ],
+      "title": "小芳的睡眠排序",
+      "url": "https://ac.nowcoder.com/acm/contest/141882/E"
+    },
+    "id": "remote:nowcoder:141882::E",
+    "raw": {
+      "_id": "remote:nowcoder:141882::E",
+      "场次": "小白月赛 139",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "结论与计数",
+      "难度": "1700",
+      "题号": "E",
+      "题名": "小芳的睡眠排序"
+    },
+    "url": "https://ac.nowcoder.com/acm/contest/141882/E"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://ac.nowcoder.com/acm/contest/141882",
+      "contest": "小白月赛 139",
+      "contestDate": "2026-10-30T11:00:00+00:00",
+      "contestDateSource": "原站公开比赛时间",
+      "contestFamily": "小白月赛",
+      "contestId": "141882",
+      "contestProblemCount": 6,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": true,
+      "difficulty": 2200,
+      "difficultyBand": [
+        2000,
+        2400
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://ac.nowcoder.com/acm/contest/141882/F",
+        "利用相邻边替代约束构造生成树，处理等权、规范化点对、去重与补边。",
+        "训练参考估计，非原站官方 rating。"
+      ],
+      "difficultySource": "ToBe 题面与算法复核估算",
+      "endedAt": "2026-10-30T13:00:00+00:00",
+      "id": "remote:nowcoder:141882::F",
+      "knowledge": "构造[主] + 生成树",
+      "metadataVersion": "2026-11-02-three-contests",
+      "originalTitle": "小芳的最小生成树",
+      "platform": "牛客",
+      "problem": "F",
+      "series": "小白月赛",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-10-30T11:00:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "构造",
+        "生成树"
+      ],
+      "title": "小芳的最小生成树",
+      "url": "https://ac.nowcoder.com/acm/contest/141882/F"
+    },
+    "id": "remote:nowcoder:141882::F",
+    "raw": {
+      "_id": "remote:nowcoder:141882::F",
+      "场次": "小白月赛 139",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "构造[主] + 生成树",
+      "难度": "2200",
+      "题号": "F",
+      "题名": "小芳的最小生成树"
+    },
+    "url": "https://ac.nowcoder.com/acm/contest/141882/F"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://codeforces.com/contest/2278",
+      "contest": "Div.3 1131",
+      "contestDate": "2026-10-31T14:35:00+00:00",
+      "contestDateSource": "Codeforces 官方比赛时间",
+      "contestFamily": "Div.3",
+      "contestFullName": "Codeforces Round 1131 (Div. 3)",
+      "contestId": "2278",
+      "contestProblemCount": 7,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": true,
+      "difficulty": 800,
+      "difficultyBand": [
+        800,
+        1000
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://codeforces.com/contest/2278/problem/B",
+        "https://codeforces.com/api/contest.standings?contestId=2278",
+        "https://codeforces.com/blog/entry/158300",
+        "选择出现最多的类别并固定克制手势，按频数证明对所有排列不败，O(x+y+z)。",
+        "未公布的官方 rating 保留为空；人工复核估分独立标注，不冒充正式评分。"
+      ],
+      "difficultySource": "ToBe 题面与算法复核估算（官方未定级）",
+      "endedAt": "2026-10-31T16:50:00+00:00",
+      "eventYear": 2026,
+      "id": "remote:codeforces:2278::B",
+      "knowledge": "构造[主] + 贪心",
+      "metadataVersion": "2026-11-02-div3-1131",
+      "officialRating": null,
+      "originalTitle": "Stakes and Shapes",
+      "platform": "Codeforces",
+      "problem": "B",
+      "series": "Div.3",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-10-31T14:35:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "构造",
+        "贪心"
+      ],
+      "title": "Stakes and Shapes",
+      "url": "https://codeforces.com/contest/2278/problem/B"
+    },
+    "id": "remote:codeforces:2278::B",
+    "raw": {
+      "_id": "remote:codeforces:2278::B",
+      "场次": "Div.3 1131",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "构造[主] + 贪心",
+      "难度": "800",
+      "题号": "B",
+      "题名": "Stakes and Shapes"
+    },
+    "url": "https://codeforces.com/contest/2278/problem/B"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://codeforces.com/contest/2278",
+      "contest": "Div.3 1131",
+      "contestDate": "2026-10-31T14:35:00+00:00",
+      "contestDateSource": "Codeforces 官方比赛时间",
+      "contestFamily": "Div.3",
+      "contestFullName": "Codeforces Round 1131 (Div. 3)",
+      "contestId": "2278",
+      "contestProblemCount": 7,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": true,
+      "difficulty": 1100,
+      "difficultyBand": [
+        900,
+        1300
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://codeforces.com/contest/2278/problem/C",
+        "https://codeforces.com/api/contest.standings?contestId=2278",
+        "https://codeforces.com/blog/entry/158300",
+        "区分内部质量守恒和端点流失，证明内部活跃传播与端点滚动的最优损失，O(n)。",
+        "未公布的官方 rating 保留为空；人工复核估分独立标注，不冒充正式评分。"
+      ],
+      "difficultySource": "ToBe 题面与算法复核估算（官方未定级）",
+      "endedAt": "2026-10-31T16:50:00+00:00",
+      "eventYear": 2026,
+      "id": "remote:codeforces:2278::C",
+      "knowledge": "贪心",
+      "metadataVersion": "2026-11-02-div3-1131",
+      "officialRating": null,
+      "originalTitle": "Math and Physics",
+      "platform": "Codeforces",
+      "problem": "C",
+      "series": "Div.3",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-10-31T14:35:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "贪心"
+      ],
+      "title": "Math and Physics",
+      "url": "https://codeforces.com/contest/2278/problem/C"
+    },
+    "id": "remote:codeforces:2278::C",
+    "raw": {
+      "_id": "remote:codeforces:2278::C",
+      "场次": "Div.3 1131",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "贪心",
+      "难度": "1100",
+      "题号": "C",
+      "题名": "Math and Physics"
+    },
+    "url": "https://codeforces.com/contest/2278/problem/C"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://codeforces.com/contest/2278",
+      "contest": "Div.3 1131",
+      "contestDate": "2026-10-31T14:35:00+00:00",
+      "contestDateSource": "Codeforces 官方比赛时间",
+      "contestFamily": "Div.3",
+      "contestFullName": "Codeforces Round 1131 (Div. 3)",
+      "contestId": "2278",
+      "contestProblemCount": 7,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": true,
+      "difficulty": 1600,
+      "difficultyBand": [
+        1400,
+        1800
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://codeforces.com/contest/2278/problem/D",
+        "https://codeforces.com/api/contest.standings?contestId=2278",
+        "https://codeforces.com/blog/entry/158300",
+        "将锁定操作与整体平移联系到中位数距离和，再证明极差下界同时可达，O(n log n)。",
+        "未公布的官方 rating 保留为空；人工复核估分独立标注，不冒充正式评分。"
+      ],
+      "difficultySource": "ToBe 题面与算法复核估算（官方未定级）",
+      "endedAt": "2026-10-31T16:50:00+00:00",
+      "eventYear": 2026,
+      "id": "remote:codeforces:2278::D",
+      "knowledge": "贪心[主] + 排序",
+      "metadataVersion": "2026-11-02-div3-1131",
+      "officialRating": null,
+      "originalTitle": "Lock and Unlock",
+      "platform": "Codeforces",
+      "problem": "D",
+      "series": "Div.3",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-10-31T14:35:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "贪心",
+        "排序"
+      ],
+      "title": "Lock and Unlock",
+      "url": "https://codeforces.com/contest/2278/problem/D"
+    },
+    "id": "remote:codeforces:2278::D",
+    "raw": {
+      "_id": "remote:codeforces:2278::D",
+      "场次": "Div.3 1131",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "贪心[主] + 排序",
+      "难度": "1600",
+      "题号": "D",
+      "题名": "Lock and Unlock"
+    },
+    "url": "https://codeforces.com/contest/2278/problem/D"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://codeforces.com/contest/2278",
+      "contest": "Div.3 1131",
+      "contestDate": "2026-10-31T14:35:00+00:00",
+      "contestDateSource": "Codeforces 官方比赛时间",
+      "contestFamily": "Div.3",
+      "contestFullName": "Codeforces Round 1131 (Div. 3)",
+      "contestId": "2278",
+      "contestProblemCount": 7,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": true,
+      "difficulty": 1700,
+      "difficultyBand": [
+        1500,
+        1900
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://codeforces.com/contest/2278/problem/E",
+        "https://codeforces.com/api/contest.standings?contestId=2278",
+        "https://codeforces.com/blog/entry/158300",
+        "交错变号把操作转成相邻交换，按正负位置分配最大最小元素，O(n log n)。",
+        "未公布的官方 rating 保留为空；人工复核估分独立标注，不冒充正式评分。"
+      ],
+      "difficultySource": "ToBe 题面与算法复核估算（官方未定级）",
+      "endedAt": "2026-10-31T16:50:00+00:00",
+      "eventYear": 2026,
+      "id": "remote:codeforces:2278::E",
+      "knowledge": "贪心[主] + 排序",
+      "metadataVersion": "2026-11-02-div3-1131",
+      "officialRating": null,
+      "originalTitle": "Swap and Negate",
+      "platform": "Codeforces",
+      "problem": "E",
+      "series": "Div.3",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-10-31T14:35:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "贪心",
+        "排序"
+      ],
+      "title": "Swap and Negate",
+      "url": "https://codeforces.com/contest/2278/problem/E"
+    },
+    "id": "remote:codeforces:2278::E",
+    "raw": {
+      "_id": "remote:codeforces:2278::E",
+      "场次": "Div.3 1131",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "贪心[主] + 排序",
+      "难度": "1700",
+      "题号": "E",
+      "题名": "Swap and Negate"
+    },
+    "url": "https://codeforces.com/contest/2278/problem/E"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://codeforces.com/contest/2278",
+      "contest": "Div.3 1131",
+      "contestDate": "2026-10-31T14:35:00+00:00",
+      "contestDateSource": "Codeforces 官方比赛时间",
+      "contestFamily": "Div.3",
+      "contestFullName": "Codeforces Round 1131 (Div. 3)",
+      "contestId": "2278",
+      "contestProblemCount": 7,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": true,
+      "difficulty": 2100,
+      "difficultyBand": [
+        1900,
+        2300
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://codeforces.com/contest/2278/problem/F",
+        "https://codeforces.com/api/contest.standings?contestId=2278",
+        "https://codeforces.com/blog/entry/158300",
+        "相邻余数和的额外损失至多一，分类化为到二的前缀，前缀和优化 DP，O(nm)。",
+        "未公布的官方 rating 保留为空；人工复核估分独立标注，不冒充正式评分。"
+      ],
+      "difficultySource": "ToBe 题面与算法复核估算（官方未定级）",
+      "endedAt": "2026-10-31T16:50:00+00:00",
+      "eventYear": 2026,
+      "id": "remote:codeforces:2278::F",
+      "knowledge": "线性 DP[主] + 前缀和 + 取模与同余",
+      "metadataVersion": "2026-11-02-div3-1131",
+      "officialRating": null,
+      "originalTitle": "Modulo and Counting",
+      "platform": "Codeforces",
+      "problem": "F",
+      "series": "Div.3",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-10-31T14:35:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "线性 DP",
+        "前缀和",
+        "取模与同余"
+      ],
+      "title": "Modulo and Counting",
+      "url": "https://codeforces.com/contest/2278/problem/F"
+    },
+    "id": "remote:codeforces:2278::F",
+    "raw": {
+      "_id": "remote:codeforces:2278::F",
+      "场次": "Div.3 1131",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "线性 DP[主] + 前缀和 + 取模与同余",
+      "难度": "2100",
+      "题号": "F",
+      "题名": "Modulo and Counting"
+    },
+    "url": "https://codeforces.com/contest/2278/problem/F"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://codeforces.com/contest/2278",
+      "contest": "Div.3 1131",
+      "contestDate": "2026-10-31T14:35:00+00:00",
+      "contestDateSource": "Codeforces 官方比赛时间",
+      "contestFamily": "Div.3",
+      "contestFullName": "Codeforces Round 1131 (Div. 3)",
+      "contestId": "2278",
+      "contestProblemCount": 7,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": true,
+      "difficulty": 2100,
+      "difficultyBand": [
+        1900,
+        2300
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://codeforces.com/contest/2278/problem/G",
+        "https://codeforces.com/api/contest.standings?contestId=2278",
+        "https://codeforces.com/blog/entry/158300",
+        "根路径的二进制加法、同深度全局位与分支进位、逐位最小性，迭代树遍历 O(n)。",
+        "未公布的官方 rating 保留为空；人工复核估分独立标注，不冒充正式评分。"
+      ],
+      "difficultySource": "ToBe 题面与算法复核估算（官方未定级）",
+      "endedAt": "2026-10-31T16:50:00+00:00",
+      "eventYear": 2026,
+      "id": "remote:codeforces:2278::G",
+      "knowledge": "位运算[主] + DFS",
+      "metadataVersion": "2026-11-02-div3-1131",
+      "officialRating": null,
+      "originalTitle": "0s and 1s",
+      "platform": "Codeforces",
+      "problem": "G",
+      "series": "Div.3",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-10-31T14:35:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "位运算",
+        "DFS"
+      ],
+      "title": "0s and 1s",
+      "url": "https://codeforces.com/contest/2278/problem/G"
+    },
+    "id": "remote:codeforces:2278::G",
+    "raw": {
+      "_id": "remote:codeforces:2278::G",
+      "场次": "Div.3 1131",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "位运算[主] + DFS",
+      "难度": "2100",
+      "题号": "G",
+      "题名": "0s and 1s"
+    },
+    "url": "https://codeforces.com/contest/2278/problem/G"
+  },
+  {
+    "encoded": {
+      "collectionSource": "https://codeforces.com/contest/2278",
+      "contest": "Div.3 1131",
+      "contestDate": "2026-10-31T14:35:00+00:00",
+      "contestDateSource": "Codeforces 官方比赛时间",
+      "contestFamily": "Div.3",
+      "contestFullName": "Codeforces Round 1131 (Div. 3)",
+      "contestId": "2278",
+      "contestProblemCount": 7,
+      "contestRoster": true,
+      "date": "",
+      "detailedSolutionAvailable": false,
+      "difficulty": 800,
+      "difficultyBand": [
+        800,
+        1000
+      ],
+      "difficultyConfidence": "MEDIUM",
+      "difficultyEstimated": true,
+      "difficultyEvidence": [
+        "https://codeforces.com/contest/2278/problem/A",
+        "https://codeforces.com/api/contest.standings?contestId=2278",
+        "分子与分母的二十六类字符频数作差，匹配 six；线性扫描，无需处理顺序。",
+        "官方未定级，800 为独立复核估分。"
+      ],
+      "difficultySource": "ToBe 题面与算法复核估算（官方未定级）",
+      "editorialVariants": [
+        "default"
+      ],
+      "endedAt": "2026-10-31T16:50:00+00:00",
+      "eventYear": 2026,
+      "id": "remote:codeforces:2278::A",
+      "knowledge": "模拟",
+      "metadataVersion": "2026-11-02-div3-1131-a",
+      "officialRating": null,
+      "originalTitle": "Fraction and Six",
+      "platform": "Codeforces",
+      "problem": "A",
+      "series": "Div.3",
+      "solutionAvailable": true,
+      "solutionState": "available",
+      "source": "bundled",
+      "startedAt": "2026-10-31T14:35:00+00:00",
+      "statementAvailable": true,
+      "status": "未做",
+      "tags": [
+        "模拟"
+      ],
+      "title": "Fraction and Six",
+      "url": "https://codeforces.com/contest/2278/problem/A"
+    },
+    "id": "remote:codeforces:2278::A",
+    "raw": {
+      "_id": "remote:codeforces:2278::A",
+      "场次": "Div.3 1131",
+      "日期": "",
+      "状态": "未做",
+      "知识点": "模拟",
+      "难度": "800",
+      "题号": "A",
+      "题名": "Fraction and Six"
+    },
+    "url": "https://codeforces.com/contest/2278/problem/A"
   }
 ]

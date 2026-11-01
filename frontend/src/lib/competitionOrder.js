@@ -1,15 +1,17 @@
 import {contestYear} from './contestCatalog.js';
 import {isXcpc} from './contestShelves.js';
-import {compareContestNewest,contestTime} from './practiceMetadata.js';
+import {compareContestNewest,contestTime,contestAddedTime} from './practiceMetadata.js';
 
 const source=group=>group.rows?.[0]||group;
-// A newly imported 2019 XCPC paper belongs with 2019, regardless of addedAt.
+function position(group){
+ const row=source(group),added=!isXcpc(row)?contestAddedTime(group):null;
+ if(added!=null)return [new Date(added).getUTCFullYear(),added];
+ const time=contestTime(row),year=Number(contestYear(row)||(time!=null?new Date(time).getUTCFullYear():0));
+ return [year,time!=null&&new Date(time).getUTCFullYear()===year?time:0];
+}
+// Keep verified addition chronology for normal contests; an old XCPC paper
+// belongs to its actual event year. One key also keeps mixed lists transitive.
 export function compareCompetitionNewest(a,b){
- const x=source(a),y=source(b),left=Number(contestYear(x)||0),right=Number(contestYear(y)||0);
- if(left!==right)return right-left;
- if(isXcpc(x)||isXcpc(y)){
-  const time=value=>{const n=contestTime(value);return n!=null&&(!contestYear(value)||new Date(n).getUTCFullYear()===Number(contestYear(value)))?n:0;};
-  return time(y)-time(x)||String(a.name||x.contest||'').localeCompare(String(b.name||y.contest||''),'zh-CN',{numeric:true});
- }
- return compareContestNewest(a,b);
+ const left=position(a),right=position(b);
+ return right[0]-left[0]||right[1]-left[1]||compareContestNewest(a,b);
 }

@@ -3,6 +3,8 @@
 This does not change Store.data(), personal records or problem identities. The
 HTTP caller opts in to a smaller list response after reading the normal view.
 """
+import hashlib
+import json
 
 # Used by App/model filters, practiceMetadata tooltips/chronology, knowledgeLabels,
 # contestShelves and the competition groups. Keep evidence used by difficulty
@@ -31,9 +33,10 @@ _LEGACY_ADDED={
     'https://ac.nowcoder.com/acm/contest/142622/':'2026-10-25T09:44:56Z',
     'https://codeforces.com/gym/728862/':'2026-11-01T07:38:58Z',
 }
+REVISION=hashlib.sha256(json.dumps({'version':2,'fields':sorted(ROW_FIELDS),'legacyAdded':_LEGACY_ADDED},sort_keys=True).encode()).hexdigest()
 
 
-def _project(row):
+def project_row(row):
     result={key:value for key,value in row.items() if key in ROW_FIELDS}
     if row.get('schoolTraining') and not any(row.get(key) for key in ('addedAt','firstAdded','catalogAddedAt')):
         url=str(row.get('url') or '')
@@ -46,7 +49,7 @@ def _project(row):
 
 def catalogue_payload(data):
     """Project rows without dropping, sorting, renaming or mutating a record."""
-    return {**data, 'rows': [_project(row) for row in data.get('rows', [])]}
+    return {**data, 'rows': [project_row(row) for row in data.get('rows', [])]}
 
 
 def hub_payload(data):

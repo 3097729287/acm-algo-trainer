@@ -86,7 +86,7 @@ def build(args):
                            'kids=[StringFileInfo([StringTable("040904B0",[' + entries + '])]),'
                            'VarFileInfo([VarStruct("Translation",[1033,1200])])])', encoding='utf8')
     paths = [ROOT / 'backend', ROOT / 'backend' / 'common', ROOT / 'desktop']
-    command = [sys.executable, '-m', 'PyInstaller', '--noconfirm', '--clean', '--onedir', '--windowed',
+    command = [sys.executable, '-m', 'PyInstaller', '--noconfirm', '--onedir', '--windowed',
                '--name', NAME, '--distpath', str(stage / 'dist'), '--workpath', str(stage / 'build'),
                '--specpath', str(stage), '--version-file', str(version_file), '--icon', str(ROOT / 'desktop' / 'tb.ico')]
     modules = []
@@ -115,16 +115,20 @@ def assemble(args):
     verify(formatters_source)
     if not args.compiler_source or not (args.compiler_source / 'ucrt64' / 'bin' / 'g++.exe').is_file():
         raise RuntimeError('--compiler-source must contain a complete ucrt64 compiler')
-    if not (ROOT / 'frontend' / 'dist' / 'index.html').is_file():
+    frontend_dist=getattr(args,'frontend_dist',None) or ROOT/'frontend'/'dist'
+    if not (frontend_dist / 'index.html').is_file():
         raise RuntimeError('Build the frontend before assembling')
-    seed = ROOT / 'data' / 'library.sqlite3'
+    seed = (getattr(args,'library_seed',None) or ROOT / 'data' / 'library.sqlite3').resolve()
     source = ROOT / 'data' / 'library'
-    if not seed.is_file() and source.is_dir():
+    if not seed.is_file() and not getattr(args,'library_seed',None) and source.is_dir():
         sys.path.insert(0, str(ROOT / 'backend'))
         sys.path.insert(0, str(ROOT / 'backend' / 'common'))
         from library import LibraryDatabase
         LibraryDatabase.from_source(source, seed)
     with sqlite3.connect(seed.as_uri() + '?mode=ro', uri=True) as db:
+        tables={row[0] for row in db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+        if tables.intersection({'accounts','submissions','drafts','training','documents','account_preferences','ranking_profile'}):
+            raise RuntimeError('Refusing to package a personal database')
         if db.execute('PRAGMA integrity_check').fetchone()[0] != 'ok' or db.execute('PRAGMA foreign_key_check').fetchall():
             raise RuntimeError('Invalid bundled SQLite library')
         problems = db.execute('SELECT COUNT(*) FROM problems').fetchone()[0]
@@ -136,7 +140,7 @@ def assemble(args):
             if row['状态'] != '未做' or row['日期']:
                 raise RuntimeError('The distribution contains personal progress')
     shutil.copytree(stage / 'dist' / NAME, package)
-    shutil.copytree(ROOT / 'frontend' / 'dist', package / 'frontend' / 'dist')
+    shutil.copytree(frontend_dist, package / 'frontend' / 'dist')
     shutil.copytree(ROOT / 'backend' / 'resources', package / 'resources')
     shutil.copytree(args.compiler_source, package / 'compiler')
     compiler=args.compiler_source/'ucrt64/bin/g++.exe'
@@ -173,6 +177,9 @@ def assemble(args):
         raise RuntimeError('Package contains runtime data')
     (stage / 'release-manifest.json').write_text(json.dumps(files, ensure_ascii=False, indent=2), encoding='utf-8')
     (stage / 'assembly.json').write_text(json.dumps({'version': VERSION, 'package': str(package), 'problems': problems, 'solutions': solutions, 'files': len(files)}, ensure_ascii=False, indent=2), encoding='utf-8')
+    if getattr(args,'skip_archive',False):
+        print(json.dumps({'package':str(package),'files':len(files),'archiveCreated':False}))
+        return
     destination = stage / 'release' / (PACKAGE + '.zip')
     with zipfile.ZipFile(destination, 'x', zipfile.ZIP_DEFLATED, compresslevel=6) as output:
         for relative in files:
@@ -231,6 +238,9 @@ def main():
     parser.add_argument('--compiler-source', type=Path)
     parser.add_argument('--python-source', type=Path)
     parser.add_argument('--formatters-source', type=Path)
+    parser.add_argument('--frontend-dist',type=Path,help='Verified frontend build for this same source commit; existing builds are retained')
+    parser.add_argument('--library-seed',type=Path,help='Verified public SQLite seed rebuilt from this same source; never a personal database')
+    parser.add_argument('--skip-archive',action='store_true',help='Prepare the normal installer/delta inputs without an additional portable ZIP')
     parser.add_argument('--inno', type=Path)
     parser.add_argument('--webview2', type=Path)
     args = parser.parse_args()

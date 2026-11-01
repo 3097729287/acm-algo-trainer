@@ -159,7 +159,8 @@ class Store:
                 assets.append(None)
         from difficulty import VERSION as difficulty_version
         from contest_scope import VERSION as scope_version
-        return ('catalog-20261027-v5-calibration', VERSION, difficulty_version, scope_version, self.library.content_signature(),
+        from catalog_payload import REVISION as projection_revision
+        return ('catalog-20261027-v5-calibration', VERSION, difficulty_version, scope_version, projection_revision, self.library.content_signature(),
                 signature() if signature else None, tuple(assets))
 
     def identity_rows(self):
@@ -388,13 +389,13 @@ class Store:
                 result = json.loads(catalog_snapshot.unpack(self._compact_json))
                 analysis = self._analysis_signature()
                 previous = dict(self._compact_signature[1])
-                from catalog_payload import ROW_FIELDS
+                from catalog_payload import project_row
                 for index, row in enumerate(result['rows']):
                     if previous.get(row['id']) != analysis.get(row['id']):
                         record = self.library.find(row['id'])
                         raw = record['raw'] if record else self.row(row['id'])
                         fresh = self._encode_record(raw, record, row['solutionAvailable'], row.get('url'))
-                        result['rows'][index] = {key: value for key, value in fresh.items() if key in ROW_FIELDS}
+                        result['rows'][index] = project_row(fresh)
                 return result
             return json.loads(self.data_response_bytes(compact=True))
 

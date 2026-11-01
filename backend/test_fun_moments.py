@@ -79,6 +79,8 @@ class FunMomentTests(unittest.TestCase):
         with self.service._write() as db:db.execute("UPDATE submissions SET output='42'||char(10)")
         value=next(x for x in from_facts(self.service,[]) if x['id']=='moment-42')
         self.assertTrue(value['unlocked']);self.assertTrue(value['hidden'])
+        self.clock.advance(days=-1)
+        self.assertFalse(next(x for x in from_facts(self.service,[]) if x['id']=='moment-42')['unlocked'],'Future timestamps do not unlock a moment')
 
 
 if __name__=='__main__':unittest.main()

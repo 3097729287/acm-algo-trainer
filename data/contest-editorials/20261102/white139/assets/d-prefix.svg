@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="280" viewBox="0 0 980 280">
+<rect width="980" height="280" rx="16" fill="#ffffff"/>
+<g font-family="Microsoft YaHei,SimHei,Arial,sans-serif" fill="#172033" font-size="19">
+<text x="25" y="35" fill="#172033" font-size="23" text-anchor="start">D：长度 9 的区间 [2,10]，由两个前缀相减得到</text>
+<rect x="45" y="75" width="80" height="52" fill="#ffe9e8" stroke="#94a3b8"/>
+<text x="85" y="66" fill="#172033" font-size="16" text-anchor="middle">1</text>
+<text x="85" y="110" fill="#172033" font-size="22" text-anchor="middle">-1</text>
+<rect x="133" y="75" width="80" height="52" fill="#e6f2fa" stroke="#94a3b8"/>
+<text x="173" y="66" fill="#172033" font-size="16" text-anchor="middle">2</text>
+<text x="173" y="110" fill="#172033" font-size="22" text-anchor="middle">5</text>
+<rect x="221" y="75" width="80" height="52" fill="#e6f2fa" stroke="#94a3b8"/>
+<text x="261" y="66" fill="#172033" font-size="16" text-anchor="middle">3</text>
+<text x="261" y="110" fill="#172033" font-size="22" text-anchor="middle">4</text>
+<rect x="309" y="75" width="80" height="52" fill="#e6f2fa" stroke="#94a3b8"/>
+<text x="349" y="66" fill="#172033" font-size="16" text-anchor="middle">4</text>
+<text x="349" y="110" fill="#172033" font-size="22" text-anchor="middle">7</text>
+<rect x="397" y="75" width="80" height="52" fill="#e6f2fa" stroke="#94a3b8"/>
+<text x="437" y="66" fill="#172033" font-size="16" text-anchor="middle">5</text>
+<text x="437" y="110" fill="#172033" font-size="22" text-anchor="middle">-2</text>
+<rect x="485" y="75" width="80" height="52" fill="#e6f2fa" stroke="#94a3b8"/>
+<text x="525" y="66" fill="#172033" font-size="16" text-anchor="middle">6</text>
+<text x="525" y="110" fill="#172033" font-size="22" text-anchor="middle">-6</text>
+<rect x="573" y="75" width="80" height="52" fill="#e6f2fa" stroke="#94a3b8"/>
+<text x="613" y="66" fill="#172033" font-size="16" text-anchor="middle">7</text>
+<text x="613" y="110" fill="#172033" font-size="22" text-anchor="middle">8</text>
+<rect x="661" y="75" width="80" height="52" fill="#e6f2fa" stroke="#94a3b8"/>
+<text x="701" y="66" fill="#172033" font-size="16" text-anchor="middle">8</text>
+<text x="701" y="110" fill="#172033" font-size="22" text-anchor="middle">1</text>
+<rect x="749" y="75" width="80" height="52" fill="#e6f2fa" stroke="#94a3b8"/>
+<text x="789" y="66" fill="#172033" font-size="16" text-anchor="middle">9</text>
+<text x="789" y="110" fill="#172033" font-size="22" text-anchor="middle">1</text>
+<rect x="837" y="75" width="80" height="52" fill="#e6f2fa" stroke="#94a3b8"/>
+<text x="877" y="66" fill="#172033" font-size="16" text-anchor="middle">10</text>
+<text x="877" y="110" fill="#172033" font-size="22" text-anchor="middle">1</text>
+<line x1="45" y1="158" x2="917" y2="158" stroke="#277da1" stroke-width="4" stroke-dasharray=""/>
+<text x="480" y="184" fill="#277da1" font-size="19" text-anchor="middle">S[10]：前 10 项，和为 18</text>
+<line x1="45" y1="207" x2="125" y2="207" stroke="#bc3744" stroke-width="4" stroke-dasharray=""/>
+<text x="150" y="214" fill="#bc3744" font-size="19" text-anchor="start">减去 S[1]：只含第 1 项，和为 -1</text>
+<text x="480" y="257" fill="#172033" font-size="21" text-anchor="middle">留下蓝色区间：S[10]-S[1] = 18-(-1) = 19</text>
+</g></svg>
