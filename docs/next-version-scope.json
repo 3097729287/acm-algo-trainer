@@ -1,5 +1,5 @@
 {
-  "status": "1.5.0 isolated acceptance; actual final 1.4.37 delivery integrated; frozen content below 3 seconds; installer and delta acceptance pending",
+  "status": "Final 1.4.37 integrated; frozen content under 3s and fresh install pass; user installer built; upgrade/delta/live cutover blocked by actual storage; no production deployment",
   "requestedOn": "2026-11-01",
   "continuation": "用户已要求当前版本更新完成后先列出下一版内容与实施顺序，然后继续实施；不得提前并入当前版本。",
   "features": [
@@ -132,5 +132,18 @@
     "sourceCommit": "9f10b378b05279d54b306c0eb88b9830a5518813",
     "state": "final repair actually installed in both editions, hashes checked, and merged",
     "productionChanged": false
+  },
+  "currentAcceptance": {
+    "buildSourceCommit": "87da90ac39687a33bb3684f3d6a1d0d00a35f534",
+    "contentMilliseconds": [
+      2535.79,
+      2485.03
+    ],
+    "freshProgramFilesVerified": 4763,
+    "userInstallerBuilt": true,
+    "userInstallationChanged": false,
+    "upgradeAcceptanceComplete": false,
+    "productionService": "1.2.9",
+    "additionalStorageNeeded": true
   }
 }

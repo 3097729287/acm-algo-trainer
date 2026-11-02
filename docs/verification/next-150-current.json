@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-01T23:53:57.692356+00:00",
+  "updatedAt": "2026-11-02T00:30:28.725545+00:00",
   "version": "1.5.0",
   "repairBaseline": "6907a65495b9e6519f5ace9747a412a78ea2ca06",
   "installed": false,
@@ -124,6 +124,38 @@
     "finalRepairBrowser": {
       "path": ".backups/next-150/final-1437-toolbar-merge.log",
       "sha256": "7ff960c1be5104abbad7183f196b4f72d6880468c9510ee035a08f33fc95418b"
+    },
+    "finalFrozenStartup": {
+      "path": "build/frozen-startup-87da90ac-1/report.json",
+      "sha256": "2147add3fdc049db9d538039063732378076b8fe82c95c59497047cf74fdd96d"
+    },
+    "finalFrozenFirstNetwork": {
+      "path": "build/frozen-startup-87da90ac-1/launch-1/network.json",
+      "sha256": "2ede77c3b8ae08159650ab869f0d1656f815a656762b8bccdc301c92e411d97c"
+    },
+    "finalFrozenSecondNetwork": {
+      "path": "build/frozen-startup-87da90ac-1/launch-2/network.json",
+      "sha256": "98d08dec302d1fd02fff636aef7a299e0a811d232e98754a08857ba007629c71"
+    },
+    "finalApp": {
+      "path": ".backups/next-150/app-integration-final-repair.log",
+      "sha256": "d2c7cff53dfb9aec5489a1a6f40c49140b2438a6c5b1d4f68905fa6a49ab6d3b"
+    },
+    "freshInstallAndStorageFailure": {
+      "path": "build/release-check-current-next150-fae1c00e/report.json",
+      "sha256": "01b5ce7d6f42268b93f54c372ff2f69fe5232c064b3e147055732dfd00addab9"
+    },
+    "userInstaller": {
+      "path": ".backups/next-150/stage-87da90ac/installer-preparation.json",
+      "sha256": "30d4d17cb953a38fdf8437adbfe0b54339b8c21ee915c75ba78fdfdb80555f4f"
+    },
+    "closedRuntimeCompression": {
+      "path": ".backups/next-150/closed-runtime-compression.json",
+      "sha256": "fc4ee6db1d4c44e365663b1ecab6bd2d10f9f840048bbc1cd5365c7e134f4cd0"
+    },
+    "obsoleteBuildRetirement": {
+      "path": ".backups/next-150/obsolete-a1-build-retirement.json",
+      "sha256": "609b78660deeab8374331ee5e1a018c8d3eaf0fe86211b90f68beb0702b72efb"
     }
   },
   "stickerGeometryCases": 1750,
@@ -132,14 +164,14 @@
   "deliveredLearningBaseline": "9f10b378b05279d54b306c0eb88b9830a5518813",
   "postLearningMergeTargetedPass": 60,
   "frozenContentCandidate": {
-    "sourceCommit": "675a574a9a182d1ddbd464a55ed724805140a9bb",
+    "sourceCommit": "87da90ac39687a33bb3684f3d6a1d0d00a35f534",
     "contentMilliseconds": [
-      2572.04,
-      2447.22
+      2535.79,
+      2485.03
     ],
     "frameMilliseconds": [
-      17.75,
-      14.52
+      35.31,
+      14.27
     ],
     "draftPreserved": true,
     "originalSubmissions": 0,
@@ -149,5 +181,35 @@
     "finalMergedInstallerMeasured": false
   },
   "startupNavigationTargetedPass": 7,
-  "startupNavigationAndSyncPass": 37
+  "startupNavigationAndSyncPass": 37,
+  "installerSourceCommit": "87da90ac39687a33bb3684f3d6a1d0d00a35f534",
+  "installation": {
+    "userInstallerBuilt": true,
+    "bytes": 928599868,
+    "sha256": "8defb0b275bdbf4249a9f547dcebe8cc4903e90aecd2707118243e155d6b761d",
+    "desktopInstallerPresent": true,
+    "isolatedFreshInstall": true,
+    "verifiedProgramFiles": 4763,
+    "publicLibraryFixtureReusedInInstallerCheck": true,
+    "privateStateFreshAndIndependent": true,
+    "oldBaselineConstructionStoppedByDiskSpace": true,
+    "upgradePassed": false,
+    "deltaPassed": false,
+    "fullFallbackPassed": false,
+    "livePersonalBackupPerformedBy150": false,
+    "activeUserInstallationChanged": false,
+    "privateAdminPrepared": true,
+    "privateAdminComponentCheck": true,
+    "adminAssetsPublished": false
+  },
+  "pendingInputs": [
+    "Additional storage directory for isolated upgrade and required backup",
+    "Original deployment SSH connection name or private-key path; default key rejected",
+    "Confirmation for public SATA Star actions"
+  ],
+  "actualFreeGiB": {
+    "C": 0.92,
+    "D": 0.3
+  },
+  "fiftyGiBTargetMet": false
 }
