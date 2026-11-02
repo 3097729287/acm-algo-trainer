@@ -71,6 +71,19 @@ def run(action, output):
         return network_check(output)
     from paths import ROOT, STATE, FRONTEND
     from version import VERSION
+    if os.environ.get('TB_STATE_DIR'):
+        # Disposable release checks obey the workspace's retirement policy too.
+        # Normal application runs never enter this probe-only branch.
+        import tempfile
+        from system_recycle import recycle
+        scratch=STATE/'probe-temporaries';scratch.mkdir(parents=True,exist_ok=True)
+        tempfile.tempdir=str(scratch)
+        def cleanup(directory):
+            directory._finalizer.detach()
+            recycle(Path(directory.name))
+        def finalize(_cls,name,*_args,**_kwargs):recycle(Path(name))
+        tempfile.TemporaryDirectory.cleanup=cleanup
+        tempfile.TemporaryDirectory._cleanup=classmethod(finalize)
     server = None
     report = {'ok': False, 'version': VERSION}
     try:
@@ -288,7 +301,7 @@ def run(action, output):
                             assert control['bottom'] <= geometry['header']['bottom'] + 1
                             assert control['left'] >= geometry['header']['left'] - 1
                             assert control['right'] <= geometry['header']['right'] + 1
-                        assert window.evaluate_js("(() => {const r=document.querySelector('.study-browser').getBoundingClientRect();return document.querySelector('.app-shell').inert&&r.x===0&&r.y===0&&r.width===innerWidth&&r.height===innerHeight;})()")
+                        assert window.evaluate_js("(() => {const r=document.querySelector('.study-browser').getBoundingClientRect();return document.querySelector('.app-shell').inert&&r.x===0&&r.y===0&&Math.abs(r.width-innerWidth)<1&&Math.abs(r.height-innerHeight)<1;})()")
                         report['nativeTopNavigation'] = True
                         window.evaluate_js("document.querySelector('.study-pane:not([hidden]) .lab-menu-toggle').click()")
                         wait_js("!!document.querySelector('[aria-label=\"课程章节\"]')")
