@@ -174,8 +174,9 @@ try {
   assert.ok(!(await mathTitle.textContent()).includes('$'), 'the reported title shows its formula instead of delimiters');
   assert.equal(await mathTitle.locator('p,div,a,button').count(), 0, 'title markup stays inline inside its button');
   await page.locator('tr[data-id="测试比赛::C"] td').nth(2).click();
-  await page.locator('.study-tab-wrap .katex').waitFor();
-  assert.equal(await page.locator('.study-tab-wrap .katex-html').textContent(), 'gcd');
+  assert.equal(await page.locator('.study-group-header').count(),0);
+  await page.locator('.study-problem .wb-heading .katex').waitFor();
+  assert.equal(await page.locator('.study-problem .wb-heading .katex-html').textContent(), 'gcd');
   await page.getByRole('button', { name: '题解', exact: true }).click();
   await page.locator('.study-solution .reader-content .katex').waitFor();
   assert.equal(await page.locator('.study-tab-wrap .katex-html').last().textContent(), 'gcd');
@@ -192,7 +193,7 @@ try {
   assert.equal(await page.locator('.tb-workbench').count(),1,'reading in a small window preserves the mounted editor');
   assert.equal(await page.locator('.tb-workbench').isVisible(),false,'the full-width reader leaves enough space for readable text');
   await page.screenshot({path:'tests/screenshots/reader-960.png',animations:'disabled'});
-  await page.locator('.study-tab-wrap').filter({has:page.locator('[aria-selected=true]')}).getByRole('button',{name:/关闭标签/}).click();
+  await page.locator('.study-tab-wrap').filter({has:page.locator('[aria-selected=true]')}).locator('.study-tab-close').click();
   await page.locator('.tb-workbench').waitFor({state:'visible'});
   await page.setViewportSize({width:2048,height:1152});
   await page.getByRole('button', { name: '返回列表', exact: true }).click();
