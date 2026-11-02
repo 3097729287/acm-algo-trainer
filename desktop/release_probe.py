@@ -367,15 +367,16 @@ def run(action, output):
                         window.evaluate_js("[...document.querySelectorAll('.study-result')].find(node=>node.querySelector('small')?.textContent==='模板'&&node.textContent.includes('并查集')).click()")
                         wait_js("!!document.querySelector('.study-template:not([hidden]) .template-detail')")
                         report['nativeLearningSearch'] = True
-                        window.evaluate_js("document.querySelector('.study-split-toggle').click()")
-                        wait_js("!!document.querySelector('.study-left-choice')")
-                        window.evaluate_js("[...document.querySelectorAll('.study-left-choice button')].find(node=>node.querySelector('span')?.textContent===" + title + ").click()")
+                        window.evaluate_js("window.dispatchEvent(new KeyboardEvent('keydown',{key:String.fromCharCode(92),ctrlKey:true,bubbles:true}))")
+                        wait_js("document.querySelectorAll('.study-group-header').length===2")
                         wait_js("document.querySelector('.study-problem:not([hidden]) .cm-content')?.textContent.includes('long long one')")
                         assert window.evaluate_js("document.querySelectorAll('.study-pane:not([hidden])').length") == 2
+                        assert not window.evaluate_js("!!document.querySelector('.study-split-toggle')")
+                        assert window.evaluate_js("Math.abs(document.querySelectorAll('.study-group-header')[1].getBoundingClientRect().left-document.querySelectorAll('.study-pane:not([hidden])')[1].getBoundingClientRect().left)<1")
                         window.evaluate_js("document.querySelector('.study-divider').dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true}))")
                         wait_js("Number(document.querySelector('.study-divider')?.getAttribute('aria-valuenow'))>50")
                         report['nativeLearningSplitPreservesCode'] = True
-                        window.evaluate_js("document.querySelector('.study-split-toggle').click()")
+                        window.evaluate_js("window.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowLeft',ctrlKey:true,altKey:true,bubbles:true}))")
                         wait_js("!document.querySelector('.study-divider')")
                         window.evaluate_js("document.querySelector('.study-back').click()")
                         wait_js("!document.querySelector('.study-browser')&&!document.querySelector('.app-shell').inert")

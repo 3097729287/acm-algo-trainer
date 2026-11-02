@@ -11,7 +11,7 @@ page.on('pageerror',issue=>errors.push(issue.message));page.setDefaultTimeout(15
 const open=tab=>page.evaluate(tab=>window.studyFixture.open(tab),tab);
 const state=()=>page.evaluate(()=>window.studyFixture.state());
 const pane=kind=>page.locator('.study-'+kind+':not([hidden])');
-const search=async query=>{await page.getByRole('button',{name:'新建学习标签页',exact:true}).click();await page.getByRole('combobox',{name:'搜索学习内容'}).fill(query);};
+const search=async query=>{await page.getByRole('button',{name:'新建学习标签页',exact:true}).last().click();await page.getByRole('combobox',{name:'搜索学习内容'}).fill(query);};
 const result=(source,title)=>page.getByRole('option').filter({has:page.locator('small',{hasText:source})}).filter({hasText:title});
 try{
  await page.goto(server.resolvedUrls.local[0]+'tests/learning-browser-fixture.html');
@@ -23,37 +23,54 @@ try{
  await sorting.getByLabel('排序实验数组').fill('9 3 9 1');await sorting.getByRole('button',{name:'应用',exact:true}).click();
  await sorting.getByRole('button',{name:'下一步',exact:true}).click();await sorting.getByRole('button',{name:'下一步',exact:true}).click();
  const step=await sorting.locator('nav[aria-label="实验步骤"]').innerText();
- await search('并查集');await result('维基百科','并查集').waitFor();
- assert(await result('模板','并查集').count()>0);assert(await result('实验室','并查集').count()>0);assert(await result('题目','小月的数组').count()>0);assert(await result('题解','小月的数组').count()>0);
- const searchRect=await page.getByRole('combobox',{name:'搜索学习内容'}).boundingBox();assert(searchRect.y<44);
+ // Single content uses its original toolbar; + alone reveals the browser row.
+ assert.equal(await page.locator('.study-group-header').count(),0);
+ assert.equal((await pane('lab').boundingBox()).y,0);
+ const controls=await page.locator('.study-single-controls').boundingBox();assert.equal(controls.y,0);assert.equal(controls.height,44);
+ await search('');await page.waitForFunction(()=>document.querySelectorAll('.study-folder').length===4);
+ assert.deepEqual(await page.getByRole('option').locator('span').allTextContents(),['维基百科','模板','实验室','从零讲']);
+ const searchRect=await page.locator('.study-search-box').boundingBox();assert.equal(searchRect.height,32);assert(searchRect.width<=280);assert(Math.abs(searchRect.y-6)<=.5);
+ await page.getByRole('combobox').fill('并查集');await page.getByRole('option').filter({hasText:'维基百科'}).click();
  await result('维基百科','并查集').click();await pane('wiki').frameLocator('iframe.wiki-reader').getByRole('heading',{name:'并查集',exact:true}).waitFor();
  await open({kind:'wiki',id:'ds/dsu',title:'并查集'});assert.equal((await state()).tabs.length,2);
- await page.getByRole('button',{name:'左右分屏',exact:true}).click();assert.equal((await state()).left,'lab:sorting-basics');assert.equal((await state()).right,'wiki:ds/dsu');
- assert.equal(await sorting.getByLabel('排序实验数组').inputValue(),'9 3 9 1');assert.equal(await sorting.locator('nav[aria-label="实验步骤"]').innerText(),step);
- const divider=page.getByRole('separator',{name:'调整左右分屏宽度'});await divider.focus();await divider.press('ArrowRight');assert.equal((await state()).ratio,52);
- await page.getByRole('button',{name:'退出分屏',exact:true}).click();
- await search('模板');await page.waitForFunction(()=>[...document.querySelectorAll('.study-result small')].every(node=>node.textContent==='模板'));
- assert(await page.getByRole('option').count()>10);
- await result('模板','并查集').first().click();await pane('template').getByRole('region',{name:'模板讲解'}).waitFor();
- // Exercise the actual HTML drag lifecycle and the right-edge drop preview.
- const dragged=page.getByRole('tab').filter({hasText:'并查集'}).last();
  const transfer=await page.evaluateHandle(()=>new DataTransfer());
- await dragged.dispatchEvent('dragstart',{dataTransfer:transfer});
- await page.locator('.study-browser').dispatchEvent('dragover',{dataTransfer:transfer,clientX:1595,clientY:300});
- await page.locator('.study-drop-preview').waitFor();
- await page.locator('.study-browser').dispatchEvent('drop',{dataTransfer:transfer,clientX:1595,clientY:300});
- assert.equal((await state()).left,null);assert((await state()).right.startsWith('template:'));
- await page.getByRole('button',{name:'退出分屏',exact:true}).click();
- await page.getByRole('button',{name:'左右分屏',exact:true}).click();
- assert.equal((await state()).left,null);assert.equal(await page.getByLabel('选择左侧标签页').getByRole('button').count(),2);
- await page.getByLabel('选择左侧标签页').getByRole('button',{name:/排序基础/}).click();
- await sorting.getByLabel('排序实验数组').waitFor();
- await page.reload();await sorting.getByLabel('排序实验数组').waitFor();assert.equal(await sorting.getByLabel('排序实验数组').inputValue(),'9 3 9 1');assert.equal(await sorting.locator('nav[aria-label="实验步骤"]').innerText(),step);
- assert.equal((await state()).left,'lab:sorting-basics');assert((await state()).right.startsWith('template:'));
- // Both panes keep independent keyboard focus; a chapter key affects one lab.
+ const dragTo=async(key,target,x,y)=>{
+  await page.locator(`[data-tab-key="${key}"] [role=tab]`).dispatchEvent('dragstart',{dataTransfer:transfer});
+  await target.dispatchEvent('dragover',{dataTransfer:transfer,clientX:x,clientY:y});await page.locator('.study-drop-preview').waitFor();
+  await target.dispatchEvent('drop',{dataTransfer:transfer,clientX:x,clientY:y});
+ };
+ await dragTo('wiki:ds/dsu',pane('wiki'),1590,300);
+ assert.equal((await state()).groups.length,2);assert.equal((await state()).right,'wiki:ds/dsu');
+ assert.equal(await page.getByRole('button',{name:/^(左右分屏|退出分屏)$/}).count(),0);
+ assert.equal(await sorting.getByLabel('排序实验数组').inputValue(),'9 3 9 1');assert.equal(await sorting.locator('nav[aria-label="实验步骤"]').innerText(),step);
+ await page.evaluate(()=>window.heldSorting=document.querySelector('.sorting-experiment input'));
+ const divider=page.getByRole('separator',{name:'调整左右分屏宽度'});await divider.press('ArrowRight');assert(Math.abs((await state()).ratio-52)<.01);
+ const d=await divider.boundingBox();await page.mouse.move(d.x,d.y+150);await page.mouse.down();await page.mouse.move(812,350);assert.equal((await state()).ratio,50);
+ await page.mouse.move(840,350);assert.equal((await state()).ratio,50);await page.mouse.move(920,350);assert((await state()).ratio>55);await page.mouse.up();
+ await divider.press('Home');assert.equal((await state()).ratio,50);
+ const rightHeader=await page.locator('.study-group-header').nth(1).boundingBox(),rightContent=await pane('wiki').boundingBox();assert(Math.abs(rightHeader.x-rightContent.x)<1);
+ const external=pane('wiki').getByRole('link',{name:'OI Wiki 原文'}),externalRect=await external.boundingBox();assert(rightContent.x+rightContent.width-externalRect.x-externalRect.width>=10);assert.equal(externalRect.width,32);assert.equal(await pane('wiki').getByRole('button',{name:'返回维基目录'}).count(),0);
+ await search('模板');await result('模板','并查集').first().click();await pane('template').getByRole('region',{name:'模板讲解'}).waitFor();
+ const templateKey=(await state()).active;await dragTo(templateKey,pane('lab'),10,300);assert.equal((await state()).groups.length,3);
+ const groupRects=await page.locator('.study-group-header').evaluateAll(nodes=>nodes.map(node=>({id:node.dataset.groupId,x:node.getBoundingClientRect().x})));
+ for(const r of groupRects){const x=await page.locator(`.study-pane[data-group-id="${r.id}"]:not([hidden])`).evaluate(node=>node.getBoundingClientRect().x);assert(Math.abs(x-r.x)<1);}
+ for(const toolbar of [pane('template').locator('.template-heading'),pane('wiki').locator('.wiki-reader-toolbar'),pane('lab').locator('.lab-course-header')]){const r=await toolbar.boundingBox();assert.equal(r.y,44);assert.equal(r.height,44);}
+ await page.screenshot({path:`${out}/three-groups.png`});
+ // Move a tab into the middle of another pane, automatically removing its empty group.
+ const labRect=await pane('lab').boundingBox();await dragTo(templateKey,pane('lab'),labRect.x+labRect.width/2,300);assert.equal((await state()).groups.length,2);
+ const templateRect=await pane('template').boundingBox();await dragTo('wiki:ds/dsu',pane('template'),templateRect.x+templateRect.width/2,300);assert.equal((await state()).groups.length,1);
+ await page.getByRole('tab',{name:'排序基础',exact:true}).click();assert.equal(await page.evaluate(()=>window.heldSorting===document.querySelector('.sorting-experiment input')),true);
+ // Real mouse drag, including reverse (left-edge) splitting across wiki iframe content.
+ await page.getByRole('tab',{name:'并查集',exact:true}).first().click();const tabRect=await page.getByRole('tab',{name:'并查集',exact:true}).first().boundingBox();
+ await page.mouse.move(tabRect.x+30,tabRect.y+20);await page.mouse.down();await page.mouse.move(700,300,{steps:12});await page.mouse.move(10,320,{steps:12});await page.mouse.up();
+ assert.equal((await state()).groups.length,2);
+ // Restore by dragging back to the other group's tab bar, with no mode toggle.
+ const wikiKey='wiki:ds/dsu',targetHeader=page.locator('.study-group-header').filter({has:page.locator('[data-tab-key="lab:sorting-basics"]')});
+ const headerRect=await targetHeader.boundingBox();await dragTo(wikiKey,targetHeader,headerRect.x+headerRect.width-15,20);assert.equal((await state()).groups.length,1);
+ await page.getByRole('tab',{name:'排序基础',exact:true}).click();await page.reload();await sorting.getByLabel('排序实验数组').waitFor();
+ assert.equal(await sorting.getByLabel('排序实验数组').inputValue(),'9 3 9 1');assert.equal(await sorting.locator('nav[aria-label="实验步骤"]').innerText(),step);
  const lab=pane('lab');await lab.locator('.lab-lesson').focus();const before=await lab.locator('.lab-position').innerText();await page.keyboard.press('ArrowRight');assert.notEqual(await lab.locator('.lab-position').innerText(),before);
  await page.keyboard.press('ArrowLeft');assert.equal(await sorting.getByLabel('排序实验数组').inputValue(),'9 3 9 1');
- await page.getByRole('button',{name:'退出分屏',exact:true}).click();
  await open({kind:'problem',id:'fixture:A',title:'小月的数组'});const editor=pane('problem').locator('.cm-content');await editor.waitFor();await editor.fill('#include <bits/stdc++.h>\nint main(){return 42;}');
  await page.waitForFunction(()=>window.studyFixture.calls.some(call=>call.path==='draft'&&call.body.code.includes('return 42')));
  await open({kind:'wiki',id:'ds/dsu',title:'并查集'});await page.getByRole('tab',{name:'小月的数组',exact:true}).click();assert.match(await editor.innerText(),/return 42/);
@@ -65,12 +82,16 @@ try{
  for(const theme of ['dark','light'])for(const width of [1600,1024,800]){
   await page.setViewportSize({width,height:900});await page.evaluate(theme=>document.documentElement.dataset.theme=theme,theme);
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
-  const metrics=await page.locator('.study-bar').boundingBox();assert.equal(metrics.height,44);
+  const metrics=await page.locator('.study-bar').first().boundingBox();assert.equal(metrics.height,44);
   await page.screenshot({path:`${out}/browser-${theme}-${width}.png`});
  }
  await page.setViewportSize({width:1600,height:1000});
  await page.evaluate(()=>window.studyFixture.account('fixture-B'));await page.waitForFunction(()=>!document.querySelector('.study-browser'));assert.equal((await state()).tabs.length,0);
  await page.getByRole('button',{name:'实验室入口',exact:true}).click();assert.equal((await state()).tabs.length,1);
+ assert.equal(await page.locator('.study-group-header').count(),0);
+ await open({kind:'wiki',id:'basic/complexity',title:'复杂度简介'});await pane('wiki').locator('iframe.wiki-reader').waitFor();await page.getByRole('button',{name:'关闭 排序基础',exact:true}).click();
+ assert.equal(await page.locator('.study-group-header').count(),0);assert.equal((await pane('wiki').boundingBox()).y,0);
+ await page.getByRole('button',{name:'新建学习标签页',exact:true}).click();await page.getByRole('option').filter({hasText:'维基百科'}).click();await page.getByRole('option').filter({hasText:'数据结构'}).click();await result('维基百科','并查集').click();
  await page.evaluate(()=>window.studyFixture.account('fixture-A'));await editor.waitFor();assert((await state()).tabs.length>=4);assert.match(await editor.innerText(),/return 42/);
  await search('模板 并查集');await result('模板','并查集').first().click();
  await pane('template').getByRole('button',{name:'另存为我的模板',exact:true}).click();
@@ -84,7 +105,7 @@ try{
  assert.equal(await pane('template').getByRole('textbox',{name:'模板名称',exact:true}).inputValue(),'我的并查集草稿');
  await search('不存在的学习内容');await page.getByText('没有匹配的内容',{exact:true}).waitFor();await page.getByRole('combobox',{name:'搜索学习内容'}).press('Escape');assert.equal(await page.getByRole('combobox',{name:'搜索学习内容'}).count(),0);
  await page.getByRole('button',{name:'返回列表',exact:true}).click();assert.equal(await page.locator('.app-shell').evaluate(node=>node.inert),false);
- assert.deepEqual(errors,[]);await writeFile(`${out}/result.json`,JSON.stringify({passed:true,errors,scenarios:['cross-source search','source-only search','duplicate tabs','two-tab split','left chooser','split resize','experiment and draft preservation','reload and scroll restoration','native close flush','account isolation','themes and widths']},null,2));
- console.log('Learning browser UI passed: search, duplicate tabs, split/chooser/resize, live state, restart, drafts, scroll, native-close flush, account isolation and six layouts.');
+ assert.deepEqual(errors,[]);await writeFile(`${out}/result.json`,JSON.stringify({passed:true,errors,scenarios:['cross-source search','source-only search','duplicate tabs','left/right splits','three editor groups','drag-to-merge','header alignment','center snap','experiment and draft preservation','reload and scroll restoration','native close flush','account isolation','themes and widths']},null,2));
+ console.log('Learning browser UI passed: search, duplicate tabs, independent groups/left-right drag/merge/resize, live state, restart, drafts, scroll, native-close flush, account isolation and six layouts.');
 }catch(issue){await page.screenshot({path:`${out}/failure.png`});await writeFile(`${out}/failure.json`,JSON.stringify({message:issue.message,errors,state:await state().catch(()=>null)},null,2));throw issue;}
 finally{await browser.close();await server.close();}
