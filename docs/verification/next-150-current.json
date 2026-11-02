@@ -1,20 +1,24 @@
 {
-  "updatedAt": "2026-11-02T09:31:33.348276+00:00",
-  "version": "1.5.0",
+  "updatedAt": "2026-11-02T12:22:25.678553+00:00",
+  "version": "1.5.1",
   "repairBaseline": "6907a65495b9e6519f5ace9747a412a78ea2ca06",
   "installed": true,
   "publiclyDeployed": false,
   "observedOnlineServiceVersion": "1.2.9",
   "fullBackend": {
-    "tests": 1068,
-    "passed": 1065,
-    "failures": 1,
-    "errors": 0,
+    "tests": 1081,
+    "passed": 1078,
     "skipped": 2,
-    "passedFullSuite": false,
-    "sourceCommit": "c8d1cd54a684c9779588f2b0b55ab7d77eef6d37",
-    "failureOwner": "delegated editorial ledger digest review",
-    "scope": "Installed c8 baseline; latest maintenance requires a separate complete run"
+    "failed": 1,
+    "errors": 0,
+    "evidence": "build/maintenance-151-full-check/checks.log",
+    "sourceCommit": "660e6c3d3b7cab7f757e4055baecdcbe1d6ef52b",
+    "fullyGreen": false,
+    "knownTeachingFailures": 1,
+    "failureOwner": "Delegated Nailoong teaching-ledger digest review",
+    "backendInputsEqualToPackagedSource": true,
+    "failures": 1,
+    "passedFullSuite": false
   },
   "sharedServicePass": 60,
   "mysqlGameplayPass": 4,
@@ -219,16 +223,18 @@
     "actualAccountXpAfter": 15485,
     "actualContentShownMilliseconds": 8325.93,
     "actualContentTargetMet": false,
-    "sourceCommit": "c8d1cd54a684c9779588f2b0b55ab7d77eef6d37"
+    "sourceCommit": "c8d1cd54a684c9779588f2b0b55ab7d77eef6d37",
+    "scope": "Historical c8 installation evidence; administrator is now superseded by the verified private 1.5.1 delivery below"
   },
   "pendingInputs": [
-    "Maintenance frozen administrator and retained-account startup acceptance",
-    "User-edition integration and delivery owned by the other 1.5.1 window",
-    "Concrete production deployment authorization after the verified full clone rehearsal"
+    "Retained-account native user content within 3 seconds: unmet",
+    "Integrate administrator-maintenance startup logic into a future distinct user build; user delivery owned by the other window",
+    "Broader native course sweep did not complete at return-to-catalogue step",
+    "Service deployment owned by the other window: authorized but SSH connectivity blocked; production unchanged"
   ],
   "actualFreeGiB": {
-    "C": 11.92,
-    "D": 9.56
+    "C": 11.06,
+    "D": 13.02
   },
   "fiftyGiBTargetMet": false,
   "latestFeedbackValidation": {
@@ -238,9 +244,12 @@
     "updateRecovery": ".backups/next-150/update-preexisting-target-recovery.log",
     "serviceTests": 60,
     "serviceLog": ".backups/next-150/shared-service-final-restore-gate.log",
-    "finalRebuildPending": true,
-    "installed": false,
-    "productionDeployed": false
+    "finalRebuildPending": false,
+    "installed": true,
+    "productionDeployed": false,
+    "scope": "Historical c8 feedback acceptance; current private native delivery is recorded under maintenanceSource",
+    "edition": "private administrator",
+    "buildSourceCommit": "53938d41f2a9ae856471e81fccd81985bda06ea1"
   },
   "retainedDataStartupFix": {
     "isolatedConstructorSeconds": 1.265,
@@ -249,13 +258,13 @@
     "permanentRecoveryDeletionRemoved": true
   },
   "latestFollowup": {
-    "backend": "1068 total: 1065 pass, 2 skip, 1 delegated teaching SHA mismatch; bounded connections and retained startup pass",
+    "backend": "1081 total: 1078 passed, 2 skipped, 1 delegated teaching-ledger digest failure",
     "wiki": "41 original footers retained in source/license info; real reader math/code/images and two clients passed",
     "production": "full backup SHA 44b121e18eaa15d0da4a975f072d76544ce4aabe606551b743e4ba30350cfa38 restored to isolated MySQL 8.4.11; old runtime compatibility, repeated migration and complete postmigration restore passed; production unchanged",
-    "nativeFinal": "c8d1cd54 user installed; 5.63 / 8.33 seconds does not meet target; maintenance native acceptance pending",
-    "admin": "Source repaired and complete isolated browser validated; private installed admin still 1.4.37"
+    "nativeFinal": "Administrator normal launch verified; retained-user 3-second target remains unmet",
+    "admin": "Private 1.5.1 installed; normal native navigation and retained maintenance journal verified"
   },
-  "installedUserSourceCommit": "c8d1cd54a684c9779588f2b0b55ab7d77eef6d37",
+  "installedUserSourceCommit": "54646f4941318f823e5791e52e881edc9ed9ab49",
   "actualInstalledContentMs": [
     5631.81,
     8325.93
@@ -268,20 +277,23 @@
   "currentLocalDelivery": {
     "userInstalled": true,
     "normalNonDebugLaunchVerified": true,
-    "adminInstalledSource": "9f10b378",
+    "adminInstalledSource": "53938d41f2a9ae856471e81fccd81985bda06ea1",
     "privateDatabasesPreserved": 19,
     "browserDraftStoresPreserved": true,
     "pendingTeachingContentPreserved": true,
     "programFilesVerified": 4765,
-    "desktopUserInstallerSha256": "4100cf3820e0b6fdb9bf5ef5619aa1ef5374dd0ff0d9d2bac2e85280050aeae6",
+    "desktopUserInstallerSha256": "3f904fb6b319e8a9c2207c4fde5e4a1057d26eab6ad249a0175b514d9764bb20",
     "sameVersionMaintenance": "full installer fallback; rejected delta not applied or published",
-    "productionChanged": false
+    "productionChanged": false,
+    "adminNormalLaunchVerified": true,
+    "userInstalledSource": "54646f4941318f823e5791e52e881edc9ed9ab49",
+    "desktopUserInstallerCurrent": true
   },
   "maintenanceSource": {
     "implemented": true,
-    "installed": false,
-    "nativePackageVerified": false,
-    "fullRegressionComplete": false,
+    "installed": true,
+    "nativePackageVerified": true,
+    "fullRegressionComplete": true,
     "targetedBackend": {
       "adminScenarioAndStartupJobs": 7,
       "accountRestoreAndAdminPreview": 6
@@ -303,7 +315,7 @@
     "originalSiteSubmissions": 0,
     "productionAccountOperations": 0,
     "fullAppBrowserPassed": true,
-    "regressionState": "Merged 1.5.1 backend full check running; all relevant browser and shared-service unit checks passed",
+    "regressionState": "Complete; one preserved delegated teaching-ledger digest failure",
     "previousCapacityBlockedRun": {
       "tests": 102,
       "failures": 1,
@@ -315,22 +327,19 @@
     },
     "userEditionDeliveryOwner": "feature/learning-browser-20261102",
     "fullRegression": {
-      "tests": 1076,
-      "passed": 1070,
+      "tests": 1081,
+      "passed": 1078,
       "skipped": 2,
-      "failed": 4,
+      "failed": 1,
       "errors": 0,
-      "evidence": "build/maintenance-full-check/checks.log",
+      "evidence": "build/maintenance-151-full-check/checks.log",
+      "sourceCommit": "660e6c3d3b7cab7f757e4055baecdcbe1d6ef52b",
+      "fullyGreen": false,
       "knownTeachingFailures": 1,
-      "windowsFixturePathFailures": 3,
-      "windowsFixtureCause": "Retained test rename destination 264 characters; Win32 long-path prefix missing in the test-only recycler",
-      "longPathRecheck": {
-        "passed": 12,
-        "failed": 0,
-        "evidence": ".backups/next-150/recovery-long-path-recheck.log"
-      }
+      "failureOwner": "Delegated Nailoong teaching-ledger digest review",
+      "backendInputsEqualToPackagedSource": true
     },
-    "integratedPeerSource": "357dd9478ef8805026084415be1c55afef1e1c61",
+    "integratedPeerSource": "54646f4941318f823e5791e52e881edc9ed9ab49",
     "integratedVersion": "1.5.1",
     "integratedBrowser": {
       "sourceBase": "357dd947",
@@ -353,6 +362,30 @@
       "failed": 0,
       "skipped": 1,
       "mysqlSkipped": true
+    },
+    "packagedSourceCommit": "53938d41f2a9ae856471e81fccd81985bda06ea1",
+    "normalNonDebugLaunchVerified": true,
+    "actualNavigationAccessible": true,
+    "privateDatabasesProtected": 8,
+    "privateCoreTablesPreserved": true,
+    "frozenFreshInstallPassed": true,
+    "frozen1437UpgradePassed": true,
+    "committedWalRestorePassed": true,
+    "nativeAdministratorFlowPassed": true,
+    "broadNativeCourseSweep": {
+      "passed": false,
+      "step": "return to catalogue",
+      "notClaimedComplete": true
+    },
+    "backendReadySeconds": 1.356,
+    "userContentTimingEstablished": false,
+    "startupMaintenanceInstalledInUserBuild": false,
+    "integratedSourceRecommendationCheck": {
+      "frontendBuild": true,
+      "geometryCases": 20,
+      "modelCases": 45,
+      "installedInAdministrator53938d41": false,
+      "scope": "Later merged recommendation-circle removal source; user owner already installed its own build"
     }
   },
   "maintenanceEvidence": {
@@ -384,5 +417,27 @@
       "path": ".backups/next-150/maintenance-151-shared-service-all.log",
       "sha256": "fa8669acbd35fea6d2e1dbdcaff2eb69a79392bf8f468f562543f1315222ee4d"
     }
+  },
+  "packaging": {
+    "privateAdminInstalled": true
+  },
+  "latestRetirement": {
+    "verifiedLogicalBytes": 15491582276,
+    "windowsBinOnly": true,
+    "permanentDeletion": false,
+    "binEmptiedResizedOrEvicted": false,
+    "doesNotEstablishFreedBytes": true,
+    "actualFreeGiB": {
+      "C": 11.06,
+      "D": 13.02
+    }
+  },
+  "actualInstalledTimingSourceCommit": "c8d1cd54a684c9779588f2b0b55ab7d77eef6d37",
+  "storageAudit": {
+    "at": "2026-11-02T12:27:41.003073+00:00",
+    "uniqueAllocatedBytes": 203337031208,
+    "logicalBytes": 279105019920,
+    "incompletePaths": 295,
+    "report": ".backups/next-150/storage-audit-final-admin-delivery.json"
   }
 }

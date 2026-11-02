@@ -1,5 +1,5 @@
 {
-  "status": "c8d1cd54 user installed locally and normal launch verified; actual content 5.63/8.33 seconds misses 3s. Private admin/scenario and startup maintenance source passes targeted backend and full admin browser checks; native packaging/full regression pending capacity and serialized installation coordination. Production untouched.",
+  "status": "1.5.1 user build 54646f49 installed by its owner; private administrator 53938d41 installed and normal native launch verified. Retained-user 3-second target remains unmet. Service deployment authorized in the other window but SSH blocked; production unchanged.",
   "requestedOn": "2026-11-01",
   "continuation": "用户已要求当前版本更新完成后先列出下一版内容与实施顺序，然后继续实施；不得提前并入当前版本。",
   "features": [
@@ -37,7 +37,7 @@
     }
   ],
   "currentDomesticStable": "1.4.34",
-  "nextVersion": "1.5.0",
+  "nextVersion": "1.5.1",
   "feedbackPriority": {
     "id": "nowcoder-live-statement",
     "status": "1.4.35 local implementation and fixtures passed; real provider result not claimed",
@@ -69,7 +69,7 @@
     "sourceBranch": "handoff/1.5.0-teaching-20261102",
     "core7-editorials": "User moved content authorship to another window; current window stopped this work. See handoffs/core7-editorials.md.",
     "problem-solving-templates": "User moved living-template authorship and lab courses to another window; current window stopped this work. See handoffs/living-templates.md.",
-    "finalIntegrationAndInstallation": "Remain with the current primary window; delegated windows must not install or change release feeds independently."
+    "finalIntegrationAndInstallation": "User-edition delivery and authorized service deployment belong to learning-browser window; this window delivers private administrator and startup handoff only."
   },
   "explicitFollowups": [
     "Full task-card rarity palettes, Clash Royale reference supplied by user",
@@ -146,12 +146,16 @@
     "productionService": "1.2.9",
     "additionalStorageNeeded": false,
     "contentTargetMet": false,
-    "maintenanceNativeAcceptanceComplete": false
+    "maintenanceNativeAcceptanceComplete": true,
+    "privateAdminSourceCommit": "53938d41f2a9ae856471e81fccd81985bda06ea1",
+    "userInstalledSourceCommit": "54646f4941318f823e5791e52e881edc9ed9ab49",
+    "userInstalledVersion": "1.5.1",
+    "contentTimingIsHistoricalC8": true
   },
   "followupAfterCurrentDelivery": {
     "id": "private-admin-management-and-scenarios",
     "requestedOn": "2026-11-02",
-    "status": "implemented and isolated browser/backend validated; native acceptance in progress",
+    "status": "Private administrator locally installed and normal native launch verified; broader course sweep incomplete",
     "scope": [
       "repair missing navigation",
       "manage user accounts",
@@ -173,8 +177,8 @@
     "cursor position in run toolbar"
   ],
   "backendFinalChecks": {
-    "total": 1068,
-    "passed": 1065,
+    "total": 1081,
+    "passed": 1078,
     "skipped": 2,
     "failed": 1,
     "failure": "delegated teaching review digest mismatch preserved"
@@ -185,9 +189,11 @@
     "levels": "Manual level changes and upgrade simulation; real local prefix-sum full judge reaches Lv.5 once",
     "startup": "Skip redundant unchanged-state merges/acknowledgements; auxiliary catalog requests wait for main data; desktop bulk jobs start after a real workspace response",
     "installedInCurrentUserBuild": false,
-    "nativeAcceptanceComplete": false,
-    "fullRegressionComplete": false,
-    "productionChanged": false
+    "nativeAcceptanceComplete": true,
+    "fullRegressionComplete": true,
+    "productionChanged": false,
+    "privateAdminInstalled": true,
+    "fullRegressionFullyGreen": false
   },
   "deliveryCoordination": {
     "userEditionOwner": "feature/learning-browser-20261102",
