@@ -1,6 +1,6 @@
 {
   "version": "1.5.1",
-  "state": "Native core installed; task-card follow-up validated and awaiting final frontend packaging",
+  "state": "Installed locally, including the task-card follow-up; shared service awaits explicit authorization",
   "nativeSourceCommit": "357dd9478ef8805026084415be1c55afef1e1c61",
   "initialFrontendSourceCommit": "97c2c2c52b503247a4fd1c17b1e747d1ba5d934b",
   "serviceSourceCommit": "97c2c2c52b503247a4fd1c17b1e747d1ba5d934b",
@@ -15,7 +15,11 @@
     "xpCardsRetainOriginalAppearance": true,
     "onlyExplicitStickerRewardsUseRarity": true,
     "sixThemeAndWidthLayouts": true,
-    "installed": false
+    "installed": true,
+    "sourceCommit": "33bedfbc48e87970f29c8ff3f82573014a754b84",
+    "sameNativeAndLibraryPayload": true,
+    "changedProgramFiles": 36,
+    "rewardLogicUnchanged": true
   },
   "sharedServiceDeployed": false,
   "publicRelease": false,
@@ -30,5 +34,55 @@
       "Delegated Nailoong teaching ledger digest requires content-owner review",
       "Two unchanged backend boundary cases failed in CI and passed the targeted local rerun"
     ]
+  },
+  "verifiedAt": "2026-11-02T10:53:11.281803+00:00",
+  "sourceCommit": "33bedfbc48e87970f29c8ff3f82573014a754b84",
+  "frontendSourceCommit": "33bedfbc48e87970f29c8ff3f82573014a754b84",
+  "installer": {
+    "filename": "ToBe-Setup-1.5.1-win64.exe",
+    "sha256": "2c894b435fe75a4abf4b6f4a4ee30e953c4b28bd6ac6e40cc1939404d305429c",
+    "privateAdminIncluded": false
+  },
+  "normalStartup": {
+    "entry": "ToBeLoader.exe",
+    "noDebugOrTestFlags": true,
+    "authenticatedLocally": true,
+    "onlineServiceConnectivityClaimed": false,
+    "allProgramFilesSha256Match": 4765,
+    "privateIdentityDraftsTrainingSubmissionsAndExperiencePreserved": true
+  },
+  "checks": {
+    "frontendBuild": true,
+    "sourceAppUi": true,
+    "compiledAppUi": true,
+    "stickerRewardsUi": true,
+    "stickerGiftAndReplyUi": true,
+    "learningBrowserUi": true,
+    "labOperationsUi": true,
+    "workbenchUi": true,
+    "frozenNativeBrowserProbe": true,
+    "frozenDeltaAppliedByOldHelper": true,
+    "freshInstaller": true,
+    "upgradeInstaller": true,
+    "backendTargeted": 60,
+    "nativePreferences": 23,
+    "sharedServicePassed": 65,
+    "sharedServiceSkipped": 1,
+    "mysqlGameplayAndRewards": 10,
+    "productionCloneRestoreRehearsal": true
+  },
+  "cleanup": {
+    "method": "Windows system Recycle Bin only",
+    "recycledLogicalBytes": 20988155537,
+    "recycledItemCount": 12,
+    "retainedForBinCapacity": 9,
+    "actualFreeBytes": {
+      "C:/": 5203578880,
+      "D:/": 3578658816
+    },
+    "target50GiBMet": false,
+    "binEmptiedOrResized": false,
+    "permanentCleanupDeletion": false,
+    "activeCandidateRelocationAllSha256Match": true
   }
 }
