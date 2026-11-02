@@ -41,5 +41,25 @@
     "rebootColdStart": false
   },
   "originalJudgeSubmissions": 0,
-  "productionWrites": 0
+  "productionWrites": 0,
+  "latestCorrections": {
+    "inlineSolutions": true,
+    "oneNormalProblemTab": true,
+    "draftFlushBeforeReplacement": true,
+    "competitionTabsUnchanged": true,
+    "reviewCancellationFocusedTests": 65,
+    "reviewCancellationPersists": true,
+    "stickerScaleServiceTests": 7,
+    "fullBackendRerun": "pending",
+    "installed": false,
+    "userDeliveryOrder": "local acceptance, then user edition update",
+    "pdfFollowup": {
+      "afterCurrentDelivery": true,
+      "contest": "105930",
+      "problem": "D",
+      "title": "Distributed System",
+      "verifiedChinesePdf": "https://codeforces.com/gym/105930/attachments/download/31758/contest-zh.pdf",
+      "implementationPending": true
+    }
+  }
 }

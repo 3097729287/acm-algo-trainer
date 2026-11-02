@@ -397,13 +397,16 @@ class TrainingService:
         canonical = aliases.get(identity, identity)
         return sorted({identity} | {other for other, target in aliases.items() if target == canonical})
 
-    def start_training(self, identity, *, assisted=False, defer_workspace=False, activate=True):
+    def start_training(self, identity, *, assisted=False, defer_workspace=False, activate=True, restore_review_id=None):
         # One catalog snapshot for activation, aliases, review scheduling and the
         # returned workspace; repeated full catalog decoding delays single tasks.
         with (nullcontext() if defer_workspace else self._library_view()), self.lock:
             self._row(identity)
-            if assisted:
+            if assisted or restore_review_id:
                 self.assert_solution_unlocked(identity)
+            if restore_review_id:
+                from reviews import ReviewScheduler
+                ReviewScheduler(self).set_cancelled(identity, restore_review_id, False)
             if activate:
                 with self._write() as connection:
                     self._claim_training(connection, identity)
@@ -441,10 +444,16 @@ class TrainingService:
             placeholders = ",".join("?" for _ in ids)
             if self.connection.execute(f"SELECT 1 FROM submissions WHERE problem_id IN ({placeholders}) AND finished_at IS NULL", ids).fetchone():
                 raise ServiceError(409, "这道题还有评测任务，请等待结果后取消训练")
+            from reviews import ReviewScheduler
+            scheduler = ReviewScheduler(self)
+            canonical = self._identity_map().get(identity, identity)
+            task = next((task for task in scheduler.plan()['tasks'] if task['problemId'] == canonical), None)
+            if task:
+                scheduler.set_cancelled(identity, task['id'], True)
             if self.connection.execute(f"SELECT 1 FROM training WHERE id IN ({placeholders}) AND active=1", ids).fetchone():
                 with self._write() as connection:
                     connection.execute(f"UPDATE training SET active=0,removed_at=? WHERE id IN ({placeholders})", [iso(self._now())] + ids)
-            return {"workspace": self.workspace()}
+            return {"workspace": self.workspace(), "cancelledReviewId": task['id'] if task else None}
 
     def clear_training(self, identities=None):
         if identities is not None and (not isinstance(identities,list) or len(identities)>20000 or any(not isinstance(identity,str) or not identity or len(identity)>400 for identity in identities)):

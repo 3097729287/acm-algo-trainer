@@ -7,7 +7,7 @@ import re
 import json
 from functools import lru_cache
 
-VERSION = 'china-xcpc-20261028-v3'
+VERSION = 'china-xcpc-20261028-v4-explicit-wiki-examples'
 _XCPC = re.compile(r'\b(?:ICPC|CCPC|XCPC|ACM|N[WE]ERC|S[WE]ERC|SEERC|NCPC|GCPC|NAC|ECNA|CERC|NEERC)\b|Collegiate Programming|大学生.*程序设计', re.I)
 _WORLD = re.compile(r'World\s*Finals?|全球总决赛|\bWF\b', re.I)
 _FINALS = re.compile(r'决赛|\bFinals?\b', re.I)
@@ -33,8 +33,20 @@ def removals():
     return {row['id'] for row in rows}, {row['url'].split('?')[0].split('#')[0] for row in rows if row.get('url')}
 
 
+@lru_cache(maxsize=1)
+def requested_wiki_examples():
+    from paths import resource
+    path=resource('wiki-examples.json')
+    if not path.is_file():return {}
+    return {item['problemId']:item['url'] for item in json.loads(path.read_text('utf8'))['entries']}
+
+
 def excluded(row):
     row = row.get('encoded', row)
+    # The user's later request explicitly adds every bundled Wiki example.
+    # Exempt only an exact indexed ID/URL pair, never arbitrary flagged rows.
+    if row.get('wikiExample') and requested_wiki_examples().get(row.get('id'))==row.get('url') and row.get('url'):
+        return False
     ids, urls = removals()
     if row.get('id') in ids or str(row.get('url') or '').split('?')[0].split('#')[0] in urls:
         return True

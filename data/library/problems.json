@@ -1499398,9 +1499398,12 @@
       "contest": "UVa",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-b06d27d876fc9d06d888",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1499439,9 +1499442,12 @@
       "contest": "UVa",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-7297615d147f640cd965",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1499480,9 +1499486,12 @@
       "contest": "UOJ",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-e5631817410ed7d4d08f",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1499521,9 +1499530,12 @@
       "contest": "洛谷",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-04fdb6023eddfeec07b3",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1499562,9 +1499574,12 @@
       "contest": "AtCoder",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-5c19aaba0b2c5c47294e",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1499603,9 +1499618,12 @@
       "contest": "洛谷",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-66a784e804074964a966",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1499644,9 +1499662,12 @@
       "contest": "HDU",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-a800ed63761550a631fc",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1499685,9 +1499706,12 @@
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-7155300440d32638c872",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1499726,9 +1499750,12 @@
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-4e94c20adc2a064109d3",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1499767,9 +1499794,12 @@
       "contest": "AtCoder",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-fe6b65beec5a6eafdcfd",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1499808,9 +1499838,12 @@
       "contest": "UOJ",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-bb85ccf9913c089300b9",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1499849,9 +1499882,12 @@
       "contest": "UOJ",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-d644cf4a182aad0c7a5b",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1499890,9 +1499926,12 @@
       "contest": "UOJ",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-4bcd5c87367ad4ec322e",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1499931,9 +1499970,12 @@
       "contest": "HDU",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-ad1e45320c268eec87ec",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1499972,9 +1500014,12 @@
       "contest": "POJ",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-1c3d5476206f3a4e1667",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500013,9 +1500058,12 @@
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-7d7b950ec49c1d6cb728",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500054,9 +1500102,12 @@
       "contest": "AtCoder",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-76810b46090d765ab2ab",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500095,9 +1500146,12 @@
       "contest": "POJ",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-c84529769ea7c2ff74b0",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500136,9 +1500190,12 @@
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-6722713ce6333c2162be",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500177,9 +1500234,12 @@
       "contest": "SPOJ",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-c18e5093779842a90a20",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500218,9 +1500278,12 @@
       "contest": "UVa",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-74cb3923327ac8d4d753",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500259,9 +1500322,12 @@
       "contest": "AtCoder",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-6972aa83009910235305",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500300,9 +1500366,12 @@
       "contest": "UOJ",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-356a5dc12dc9f8e21efa",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500341,9 +1500410,12 @@
       "contest": "POJ",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-85220fc22b81b05c9163",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500382,9 +1500454,12 @@
       "contest": "POJ",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-eeba4ccbf4b891384e3c",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500423,9 +1500498,12 @@
       "contest": "洛谷",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-fc75abe91de7fed34fe0",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500464,9 +1500542,12 @@
       "contest": "洛谷",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-d82f0df20074af8010fe",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500505,9 +1500586,12 @@
       "contest": "SPOJ",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-9588d9b723dd4fb59237",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500546,9 +1500630,12 @@
       "contest": "HDU",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-6f3066e7def3eca13067",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500587,9 +1500674,12 @@
       "contest": "AtCoder",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-1834b0824dbf4db9fa1b",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500628,9 +1500718,12 @@
       "contest": "AtCoder",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-edaf83280a0cb175edbb",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500669,9 +1500762,12 @@
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-7be4eabf2f3512e8ad4e",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500710,9 +1500806,12 @@
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-0d6f00f94153acf8e3d0",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500751,9 +1500850,12 @@
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-33b9b87821530d3575f6",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500792,9 +1500894,12 @@
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-6d9adf08ae08ad0cf107",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500833,9 +1500938,12 @@
       "contest": "LibreOJ",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-9cf4d47ecac9cb695ea2",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500874,9 +1500982,12 @@
       "contest": "LibreOJ",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-96a5e24bda6e3fcef31f",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500915,9 +1501026,12 @@
       "contest": "HDU",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-a16f455a414aa01c6f84",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500956,9 +1501070,12 @@
       "contest": "洛谷",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-c073896f0d0751e70058",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1500997,9 +1501114,12 @@
       "contest": "POJ",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-3de4f8d05076b9dc80cc",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501038,9 +1501158,12 @@
       "contest": "UOJ",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-73d05fc011b7c1d5923b",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501079,9 +1501202,12 @@
       "contest": "POJ",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-c05973fb3c9ca0458acc",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501120,9 +1501246,12 @@
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-7d6287a4c67d7db02e7c",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501161,9 +1501290,12 @@
       "contest": "洛谷",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-9bbaa8b2372a684fc7c2",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501202,9 +1501334,12 @@
       "contest": "HDU",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-ca404373c228943b5df2",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501243,9 +1501378,12 @@
       "contest": "UVa",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-74fc4feaff1d87de9fd6",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501284,9 +1501422,12 @@
       "contest": "UVa",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-f4e70897fec1c371cb84",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501325,9 +1501466,12 @@
       "contest": "UVa",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-788895e507dcd46b4942",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501366,9 +1501510,12 @@
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-2847abc108cd46f22014",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501407,9 +1501554,12 @@
       "contest": "SPOJ",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-8dbaf4a1b5787a466da5",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501448,9 +1501598,12 @@
       "contest": "SPOJ",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-70aa3b4740d87327737a",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501489,9 +1501642,12 @@
       "contest": "SPOJ",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-d17efd6416f15d19624b",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501530,9 +1501686,12 @@
       "contest": "UVa",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-85cd26c5116bbc30df33",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501571,9 +1501730,12 @@
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-f3111abcb4011fc83c9c",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501612,9 +1501774,12 @@
       "contest": "UVa",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-39cb7c88e30aa4d3ff70",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501653,9 +1501818,12 @@
       "contest": "洛谷",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-7a771086e9d531b70e14",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501694,9 +1501862,12 @@
       "contest": "洛谷",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-a9f7769e69ad93710b9a",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501735,9 +1501906,12 @@
       "contest": "洛谷",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-b2f4832b71e0cec14697",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501776,9 +1501950,12 @@
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-23b670472c1296cf2837",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501817,9 +1501994,12 @@
       "contest": "UVa",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-f2a1bda43b8d18301d2b",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501864,9 +1502044,12 @@
       "contest": "UVa",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-d8bd03abbc4dec9737db",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501911,9 +1502094,12 @@
       "contest": "UVa",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-1735ef8c7dcc0700bc29",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501952,9 +1502138,12 @@
       "contest": "UVa",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-1bc5102563fe2a28e6ae",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1501993,9 +1502182,12 @@
       "contest": "UVa",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-21a668a2dfdc654b5bec",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1502034,9 +1502226,12 @@
       "contest": "UVa",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-5d06bae11148f065ff06",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1502075,9 +1502270,12 @@
       "contest": "SPOJ",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-aef505a3093b8e8eead9",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1502116,9 +1502314,12 @@
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-d97185272515e8baee74",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1502157,9 +1502358,12 @@
       "contest": "洛谷",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-1365ae7cbc32a63ee458",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1502198,9 +1502402,12 @@
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-9b7020aed0af59babe76",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1502239,9 +1502446,12 @@
       "contest": "UVa",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-ac118ba95802e01794e2",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [
@@ -1502280,9 +1502490,12 @@
       "contest": "Codeforces",
       "date": "",
       "difficulty": null,
-      "difficultySource": "",
+      "difficultyConfidence": "UNKNOWN",
+      "difficultySource": "未知 · 尚未核实原站评级",
       "id": "wiki-example-4f57be51e6f8340ff148",
       "knowledge": "",
+      "knowledgeCategories": [],
+      "knowledgeReviewRequired": true,
       "metadataProvenance": {
         "kind": "bundled-oi-wiki-link",
         "references": [

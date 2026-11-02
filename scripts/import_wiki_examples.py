@@ -82,13 +82,22 @@ def prepare():
     wiki,entries=collect();added=[]
     for key,item in entries.items():
         existing=by_identity.get(key)
-        if existing:item['problemId']=existing['id'];continue
+        if existing:
+            item['problemId']=existing['id']
+            if existing['encoded'].get('wikiExample'):
+                encoded=existing['encoded']
+                if encoded.get('difficulty') is None:
+                    if not encoded.get('difficultySource'):encoded['difficultySource']='未知 · 尚未核实原站评级'
+                    encoded.setdefault('difficultyConfidence','UNKNOWN')
+                if not encoded.get('tags') and not encoded.get('knowledgeCategories'):
+                    encoded['knowledgeCategories']=[];encoded['knowledgeReviewRequired']=True
+            continue
         identity='wiki-example-'+hashlib.sha256(key.encode()).hexdigest()[:20]
         label=item['references'][0]['label'] or item['platform']+' '+item['code']
         label=re.sub(r'^例题[：:]\s*','',label)
         title=problem_title(label)
         if 'identityProof' in item:title=item['identityProof']['title']
-        encoded={'id':identity,'title':title,'contest':item['platform'],'problem':item['code'],'platform':item['platform'],'url':item['url'],'status':'未做','date':'','difficulty':None,'difficultySource':'','tags':[],'knowledge':'','catalogStatementReady':False,'catalogReplayReady':False,'wikiExample':True,'metadataProvenance':{'kind':'bundled-oi-wiki-link','references':item['references']}}
+        encoded={'id':identity,'title':title,'contest':item['platform'],'problem':item['code'],'platform':item['platform'],'url':item['url'],'status':'未做','date':'','difficulty':None,'difficultySource':'未知 · 尚未核实原站评级','difficultyConfidence':'UNKNOWN','tags':[],'knowledge':'','knowledgeCategories':[],'knowledgeReviewRequired':True,'catalogStatementReady':False,'catalogReplayReady':False,'wikiExample':True,'metadataProvenance':{'kind':'bundled-oi-wiki-link','references':item['references']}}
         raw={'场次':item['platform'],'题号':item['code'],'题名':title,'难度':'','知识点':'','状态':'未做','日期':''}
         row={'id':identity,'url':item['url'],'raw':raw,'encoded':encoded};problems.append(row);by_identity[key]=row;added.append(row);item['problemId']=identity
     imported=sum(bool(by_identity[key]['encoded'].get('wikiExample')) for key in entries)

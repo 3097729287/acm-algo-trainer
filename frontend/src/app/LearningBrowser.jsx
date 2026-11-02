@@ -2,7 +2,7 @@ import {forwardRef,lazy,Suspense,useCallback,useEffect,useImperativeHandle,useLa
 import {createPortal} from 'react-dom';
 import {ArrowLeft,BookOpen,BookText,ChevronRight,Code2,FlaskConical,FolderClosed,House,LoaderCircle,NotebookTabs,Plus,Search,X} from 'lucide-react';
 import {StudyPaneContext} from '@/lib/StudyPane.jsx';
-import {activateStudyTab,buildLearningIndex,closeStudyTab,emptyStudyBrowser,learningDirectory,MAX_STUDY_TABS,moveStudyTab,openStudyTab,resizeStudyGroups,restoreStudyBrowser,splitStudyTab,STUDY_LABELS,studyGroups,studyKey,studySnapshot,updateStudyDocument} from '@/lib/learningBrowser.js';
+import {activateStudyTab,buildLearningIndex,closeStudyTab,emptyStudyBrowser,learningDirectory,MAX_STUDY_TABS,moveStudyTab,openStudyTab,replaceStudyProblem,resizeStudyGroups,restoreStudyBrowser as restoreTabs,splitStudyTab,STUDY_LABELS,studyGroups,studyKey,studySnapshot,updateStudyDocument} from '@/lib/learningBrowser.js';
 import {foundationLectures,lectureDestination} from '@/lib/algorithmLearning.js';
 import {LAB_CATALOG} from '@/lib/labCatalog.js';
 import InlineTitle from '@/components/InlineTitle.jsx';
@@ -21,14 +21,31 @@ const checkpoint=()=>window.dispatchEvent(new Event('tb:study-checkpoint'));
 function readScroll(root){return scrollSelectors.flatMap(selector=>[...root.querySelectorAll(selector)].map((node,index)=>[`${selector}|${index}`,Math.round(node.scrollTop),Math.round(node.scrollLeft)])).filter(([,top,left])=>top||left);}
 function restoreScroll(root,positions){for(const [key,top,left] of positions){const [selector,index]=key.split('|'),node=root.querySelectorAll(selector)[Number(index)];if(node){node.scrollTop=top;node.scrollLeft=left;}}}
 
-function StudySolution({tab,api,prefs,setPrefs,onTrain,onOpen,onPatch}) {
- const [reader,setReader]=useState(null),[error,setError]=useState('');
- useEffect(()=>{let live=true;setReader(null);api('solution?id='+encodeURIComponent(tab.id)).then(value=>{if(live)setReader(value);}).catch(issue=>{if(live)setError(issue.message);});return()=>{live=false;};},[api,tab.id]);
- return <div className="study-solution"><SolutionReader reader={reader} error={error} api={api} prefs={prefs} setPrefs={setPrefs} methodId={tab.methodId} onMethodChange={methodId=>onPatch({methodId})} onTrain={onTrain} embedded onOpenLecture={id=>onOpen({kind:'lecture',id})}/></div>;
+function restoreStudyBrowser(value){
+ const original=restoreTabs(value),solutions=original.tabs.filter(tab=>tab.kind==='solution');
+ let state=original;
+ for(const solution of solutions){
+  state=closeStudyTab(state,solution.key);state=openStudyTab(state,{kind:'problem',id:solution.id,title:solution.title});
+  state={...state,tabs:state.tabs.map(tab=>tab.kind==='problem'&&tab.id===solution.id?{...tab,state:{...solution.state,...tab.state,inlineSolutionOpen:true,inlineSolutionMethodId:solution.methodId||'original'},scroll:[...tab.scroll,...solution.scroll.filter(([key])=>key.startsWith('.reader-content'))]}:tab)};
+ }
+ const focused=original.focused?.replace(/^solution:/,'problem:');
+ const problems=state.tabs.filter(tab=>tab.kind==='problem'),keep=problems.find(tab=>tab.key===focused)||problems.at(-1);
+ for(const tab of problems)if(tab!==keep)state=closeStudyTab(state,tab.key);
+ state=activateStudyTab(state,focused);
+ return {...state,open:original.open,chrome:state.tabs.length===1?false:state.chrome};
 }
 
-function StudyTab({tab,visible,focused,side,groupId,column,compact,onAdd,patch,focus,api,rows,prefs,setPrefs,onTrain,onProgress,onNotice,onOpen,onClose,onDocumentChange,lockedProblems,categories}) {
+function StudySolution({tab,api,prefs,setPrefs,onTrain,onOpen,onPatch,onClose,fullscreen,onFullscreen}) {
+ const [reader,setReader]=useState(null),[error,setError]=useState('');
+ useEffect(()=>{let live=true;setReader(null);api('solution?id='+encodeURIComponent(tab.id)).then(value=>{if(live)setReader(value);}).catch(issue=>{if(live)setError(issue.message);});return()=>{live=false;};},[api,tab.id]);
+ return <div className="study-solution"><SolutionReader reader={reader} error={error} api={api} prefs={prefs} setPrefs={setPrefs} methodId={tab.methodId} onMethodChange={methodId=>onPatch({methodId})} onTrain={onTrain} onClose={onClose} fullscreen={fullscreen} onFullscreen={onFullscreen} embedded onOpenLecture={id=>onOpen({kind:'lecture',id})}/></div>;
+}
+
+function StudyTab({tab,visible,focused,side,groupId,column,compact,onAdd,patch,focus,api,rows,prefs,setPrefs,onTrain,onProgress,onNotice,onOpen,onClose,onDocumentChange,onReplaceProblem,lockedProblems,categories}) {
  const root=useRef(null),visit=useRef({...tab.visit}),savedScroll=useRef(tab.scroll||[]),restoring=useRef(true),ready=useRef(false);
+ const [solutionMounted,setSolutionMounted]=useState(Boolean(tab.state.inlineSolutionOpen)),[solutionFull,setSolutionFull]=useState(false);
+ const inlineOpen=Boolean(tab.state.inlineSolutionOpen),methodId=tab.state.inlineSolutionMethodId||'original';
+ useEffect(()=>{if(inlineOpen)setSolutionMounted(true);else setSolutionFull(false);},[inlineOpen]);
  const remember=useCallback((key,value)=>patch(tab.key,previous=>Object.is(previous.state[key],value)?previous:{...previous,state:{...previous.state,[key]:value}}),[tab.key,patch]);
  const scope=tab.kind==='lab'?(prefs.learningPaths?.[tab.id]?.mode==='guided'?'guided':prefs.learningPaths?.[tab.id]?.labV1?.chapter||LAB_CATALOG.find(item=>item.id===tab.id)?.first||'0'):'';
  const context=useMemo(()=>({key:tab.key,state:tab.state,scope,focused:visible&&focused,embedded:true,remember}),[tab.key,tab.state,scope,visible,focused,remember]);
@@ -48,10 +65,10 @@ function StudyTab({tab,visible,focused,side,groupId,column,compact,onAdd,patch,f
  useEffect(()=>{if(!visible)return;const timer=setInterval(record,1200);return()=>{clearInterval(timer);record();};},[visible,record]);
  useEffect(()=>{window.addEventListener('tb:study-checkpoint',record);return()=>window.removeEventListener('tb:study-checkpoint',record);},[record]);
  const stopRestore=()=>{restoring.current=false;focus(tab.key);};
- const onNext=()=>{const ids=tab.problemIds||rows.map(row=>row.id),index=ids.indexOf(tab.id),id=ids[index+1];if(id)onTrain(id,{problemIds:ids});};
+ const onNext=()=>{const ids=tab.problemIds||rows.map(row=>row.id),index=ids.indexOf(tab.id),id=ids[index+1];if(id)onReplaceProblem(tab.key,id,{problemIds:ids});};
  const target=lectureDestination(tab.id);
  const locked=['problem','solution'].includes(tab.kind)&&lockedProblems.some(item=>(typeof item==='string'?item:item.id)===tab.id);
- const content=locked?<p className="study-locked" role="status">比赛进行中，请从比赛界面打开本题</p>:tab.kind==='problem'?<Workbench problemId={tab.id} preparedProblem={tab.preparedProblem} reviewTask={tab.reviewTask} shortcuts={prefs.shortcuts} api={api} onProgress={value=>onProgress(value,tab.id)} onNotice={onNotice} onExit={onClose} onNext={onNext} onSolution={(id,methodId)=>onOpen({kind:'solution',id,methodId,title:tab.title})}/>
+ const content=locked?<p className="study-locked" role="status">比赛进行中，请从比赛界面打开本题</p>:tab.kind==='problem'?<div className={'study-problem-workspace'+(inlineOpen?' with-inline-solution':'')+(solutionFull?' inline-solution-full':'')}><Workbench problemId={tab.id} preparedProblem={tab.preparedProblem} reviewTask={tab.reviewTask} shortcuts={prefs.shortcuts} api={api} onProgress={value=>onProgress(value,tab.id)} onNotice={onNotice} onExit={onClose} onNext={onNext} solutionOpen={inlineOpen} solutionMethodId={methodId} onCloseSolution={()=>remember('inlineSolutionOpen',false)} onSolution={(id,methodId)=>{remember('inlineSolutionMethodId',methodId||'original');remember('inlineSolutionOpen',true);}}/>{(inlineOpen||solutionMounted)&&<aside className="study-inline-solution" aria-label="单题题解" hidden={!inlineOpen} inert={!inlineOpen?true:undefined}><StudySolution tab={{...tab,methodId}} api={api} prefs={prefs} setPrefs={setPrefs} onTrain={onTrain} onOpen={onOpen} onPatch={({methodId})=>remember('inlineSolutionMethodId',methodId)} onClose={()=>remember('inlineSolutionOpen',false)} fullscreen={solutionFull} onFullscreen={()=>setSolutionFull(value=>!value)}/></aside>}</div>
   :tab.kind==='wiki'?<WikiPage api={api} initialArticle={tab.id} visit={visit.current} rows={rows} onOpenProblem={id=>onOpen({kind:'problem',id,title:rows.find(row=>row.id===id)?.title||id})} embedded onOpenArticle={item=>onOpen({kind:'wiki',...item})}/>
   :tab.kind==='template'?<TemplatesPage api={api} visit={visit.current} initialTemplate={tab.id} embedded study shortcuts={prefs.shortcuts} onTrain={onTrain} onOpenCourse={id=>onOpen({kind:'lab',id})} onOpenDetail={item=>onOpen({kind:'template',id:item.id,title:item.title,visit:item.draft?{draft:item.draft}:{}})} onDocumentChange={result=>onDocumentChange(tab.key,result,visit.current)} lockedProblems={lockedProblems}/>
   :tab.kind==='lab'?<LearningPathsPage rows={rows} prefs={prefs} setPrefs={setPrefs} onTrain={onTrain} onOpenTemplate={id=>onOpen({kind:'template',id})} lockedProblems={lockedProblems} visit={visit.current} initialPath={tab.id} study/>
@@ -70,7 +87,7 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
  const closeSearch=useCallback(()=>{setSearching(null);setState(previous=>studyGroups(previous).length===1&&previous.tabs.length===1?{...previous,chrome:false}:previous);},[]);
  const [catalog,setCatalog]=useState({templates:[],lectures:[],wiki:[]}),[catalogLoading,setCatalogLoading]=useState(false),[catalogErrors,setCatalogErrors]=useState([]);
  const [mounted,setMounted]=useState(new Set()),[preview,setPreview]=useState(null),[dragging,setDragging]=useState(false),[resizing,setResizing]=useState(null);
- const frame=useRef(null),input=useRef(null),results=useRef(null),drag=useRef(null),resizeSession=useRef(null),catalogOwner=useRef(null),loadedOwner=useRef(null),current=useRef(state),saveRef=useRef(setPrefs),returnFocus=useRef(null);
+ const frame=useRef(null),input=useRef(null),results=useRef(null),drag=useRef(null),resizeSession=useRef(null),catalogOwner=useRef(null),loadedOwner=useRef(null),current=useRef(state),saveRef=useRef(setPrefs),returnFocus=useRef(null),opening=useRef(0);
  current.current=state;saveRef.current=setPrefs;
  const saved=prefs.learningPaths?.browserV1;
  useEffect(()=>{
@@ -92,20 +109,39 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
  },[persist,onFlush]);
  const patch=useCallback((key,update)=>setState(previous=>{const old=previous.tabs.find(tab=>tab.key===key);if(!old)return previous;const tab=update(old);return tab===old?previous:{...previous,tabs:previous.tabs.map(item=>item.key===key?tab:item)};}),[]);
  const clearDrag=()=>{drag.current=null;setDragging(false);setPreview(null);};
- const open=useCallback(source=>{
-  checkpoint();let tab=source;
+ const open=useCallback(async source=>{
+  const ticket=++opening.current,owner=loadedOwner.current;checkpoint();let tab=source;
+  const solution=source.kind==='solution';if(solution)tab={...source,kind:'problem'};
   if(source.kind==='lecture'){const moved=lectureDestination(source.id);if(moved)tab={...source,kind:'template',id:moved.templateId};}
   if(tab.kind==='template'&&tab.id==='new')tab={...tab,id:'new-'+crypto.randomUUID()};
-  if(current.current.tabs.length>=MAX_STUDY_TABS&&!current.current.tabs.some(item=>item.key===studyKey(tab))){onNotice?.('同时最多打开 64 个学习标签页，请先关闭一个','error');return;}
-  const key=studyKey(tab);setMounted(previous=>new Set([...previous,key]));setState(previous=>openStudyTab(previous,tab));setSearching(null);setPreview(null);
+  const oldProblems=tab.kind==='problem'?current.current.tabs.filter(item=>item.kind==='problem'&&item.id!==tab.id):[];
+  if(oldProblems.length){
+   const writes=[];window.dispatchEvent(new CustomEvent('tb:flush-study-problem',{detail:{ids:oldProblems.map(item=>item.id),waitUntil:value=>writes.push(Promise.resolve(value))}}));
+   const saved=await Promise.all(writes.map(value=>value.catch(()=>false)));
+   if(ticket!==opening.current||owner!==loadedOwner.current)return;
+   if(saved.some(value=>value===false)){onNotice?.('代码尚未保存，请稍后重试','error');return;}
+  }
+  if(current.current.tabs.length-oldProblems.length>=MAX_STUDY_TABS&&!current.current.tabs.some(item=>item.key===studyKey(tab))){onNotice?.('同时最多打开 64 个学习标签页，请先关闭一个','error');return;}
+  const key=studyKey(tab);setMounted(previous=>new Set([...previous].filter(item=>!oldProblems.some(old=>old.key===item)).concat(key)));
+  setState(previous=>{
+   const old=previous.tabs.filter(item=>item.kind==='problem'&&item.id!==tab.id),replace=old.find(item=>item.key===previous.focused)||old[0];
+   let next=tab.kind==='problem'&&replace?replaceStudyProblem(previous,replace.key,tab):openStudyTab(previous,tab);
+   if(tab.kind==='problem')for(const item of old)if(item!==replace)next=closeStudyTab(next,item.key);
+   if(solution)next={...next,tabs:next.tabs.map(item=>item.key===key?{...item,state:{...item.state,inlineSolutionOpen:true,inlineSolutionMethodId:source.methodId||'original'}}:item)};
+   return {...next,chrome:next.tabs.length===1?false:next.chrome};
+  });setSearching(null);setPreview(null);
  },[onNotice]);
  const hide=useCallback(options=>{
-  checkpoint();setSearching(null);setPreview(null);setState(previous=>({...previous,open:false,chrome:previous.tabs.length>1&&previous.chrome}));
+  opening.current++;checkpoint();setSearching(null);setPreview(null);setState(previous=>({...previous,open:false,chrome:previous.tabs.length>1&&previous.chrome}));
   if(!options?.silent)onExit?.();requestAnimationFrame(()=>returnFocus.current?.isConnected&&returnFocus.current.focus({preventScroll:true}));
  },[onExit]);
  const focus=useCallback(key=>setState(previous=>previous.focused===key?previous:activateStudyTab(previous,key)),[]);
  const activate=useCallback(key=>{if(!key)return;checkpoint();setMounted(previous=>new Set([...previous,key]));setState(previous=>activateStudyTab(previous,key));setSearching(null);},[]);
  const close=useCallback(key=>{checkpoint();setState(previous=>closeStudyTab(previous,key));setMounted(previous=>{const next=new Set(previous);next.delete(key);return next;});},[]);
+ const replaceProblem=useCallback((key,id,values={})=>{
+  checkpoint();const nextKey=studyKey({kind:'problem',id});setMounted(previous=>{const next=new Set(previous);next.delete(key);next.add(nextKey);return next;});
+  setState(previous=>replaceStudyProblem(previous,key,{...values,id,title:rows.find(row=>row.id===id)?.title||id}));
+ },[rows]);
  const documentChanged=useCallback((key,result,visit)=>{
   setCatalog(previous=>({...previous,templates:result.templates||previous.templates}));if(result.deleted){close(key);return;}
   const document=result.template,nextKey=studyKey({kind:'template',id:document.id});
@@ -206,7 +242,7 @@ const LearningBrowser=forwardRef(function LearningBrowser({api,accountId,ready,r
     {searching===group.id?<label className="study-search-box"><Search size={16}/><input ref={input} type="search" role="combobox" aria-label="搜索学习内容" aria-expanded="true" aria-controls="study-search-results" aria-activedescendant={matching[resultIndex]?'study-result-'+resultIndex:undefined} autoComplete="off" value={query} onChange={event=>setQuery(event.target.value)} onKeyDown={searchKeys}/><button type="button" className="study-icon" aria-label="关闭搜索" onClick={closeSearch}><X size={15}/></button></label>:<button type="button" className="study-icon study-add" aria-label="新建学习标签页" title="新建学习标签页 · Ctrl+T" onClick={()=>startSearch(group.id)}><Plus size={18}/></button>}
     <span className="study-bar-spacer"/>
    </header>)}
-   {state.tabs.filter(tab=>mounted.has(tab.key)).map(tab=>{const at=groups.findIndex(group=>group.tabs.includes(tab.key)),group=groups[at];if(!group)return null;return <StudyTab key={tab.key} tab={tab} groupId={group.id} column={at*2+1} compact={compact} onAdd={startSearch} visible={group.active===tab.key&&searching!==group.id} focused={state.focused===tab.key} side={at===0?'left':'right'} patch={patch} focus={focus} api={api} rows={rows} prefs={prefs} setPrefs={setPrefs} onTrain={onTrain} onProgress={onProgress} onNotice={onNotice} onOpen={open} onClose={hide} onDocumentChange={documentChanged} lockedProblems={lockedProblems} categories={categories}/>;})}
+   {state.tabs.filter(tab=>mounted.has(tab.key)).map(tab=>{const at=groups.findIndex(group=>group.tabs.includes(tab.key)),group=groups[at];if(!group)return null;return <StudyTab key={tab.key} tab={tab} groupId={group.id} column={at*2+1} compact={compact} onAdd={startSearch} visible={group.active===tab.key&&searching!==group.id} focused={state.focused===tab.key} side={at===0?'left':'right'} patch={patch} focus={focus} api={api} rows={rows} prefs={prefs} setPrefs={setPrefs} onTrain={onTrain} onProgress={onProgress} onNotice={onNotice} onOpen={open} onClose={hide} onDocumentChange={documentChanged} onReplaceProblem={replaceProblem} lockedProblems={lockedProblems} categories={categories}/>;})}
    {groups.slice(0,-1).map((group,index)=><div key={group.id+'-divider'} role="separator" tabIndex={0} aria-label={groups.length===2?'调整左右分屏宽度':`调整第 ${index+1} 和第 ${index+2} 分屏宽度`} aria-orientation="vertical" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(group.weight/(group.weight+groups[index+1].weight)*100)} className="study-divider" style={{gridColumn:index*2+2}} data-resizing={resizing===index||undefined} onDoubleClick={()=>setState(previous=>{const list=studyGroups(previous),start=list.slice(0,index).reduce((sum,item)=>sum+item.weight,0);return resizeStudyGroups(previous,index,start+(list[index].weight+list[index+1].weight)/2,1000);})} onKeyDown={event=>{
     if(!['ArrowLeft','ArrowRight','Home'].includes(event.key))return;event.preventDefault();setState(previous=>{const list=studyGroups(previous),start=list.slice(0,index).reduce((sum,item)=>sum+item.weight,0),position=event.key==='Home'?start+(list[index].weight+list[index+1].weight)/2:start+list[index].weight+(event.key==='ArrowRight'?2:-2);return resizeStudyGroups(previous,index,position,1000,0);});
    }} onPointerDown={event=>{if(event.button!==0)return;event.preventDefault();event.currentTarget.focus();event.currentTarget.setPointerCapture(event.pointerId);resizeSession.current={index,snapped:Math.abs(group.weight-groups[index+1].weight)<.01};setResizing(index);}} onPointerMove={event=>{

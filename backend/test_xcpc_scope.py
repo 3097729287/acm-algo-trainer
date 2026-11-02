@@ -10,6 +10,13 @@ from test_library import record
 
 
 class XcpcScopeTests(unittest.TestCase):
+    def test_only_the_exact_explicit_wiki_example_can_override_an_old_removal(self):
+        path=Path(__file__).resolve().parent/'resources/wiki-examples.json'
+        item=next(row for row in json.loads(path.read_text('utf8'))['entries'] if row['url']=='https://www.luogu.com.cn/problem/P1347')
+        row={'id':item['problemId'],'url':item['url'],'wikiExample':True}
+        self.assertFalse(excluded(row))
+        self.assertTrue(excluded({**row,'id':'unrelated-import'}))
+        self.assertTrue(excluded({**row,'wikiExample':False}))
     def test_provenance_including_mirrors_and_world_finals(self):
         for name in ('2017 ACM-ICPC World Finals', 'ICPC 2025 全球总决赛',
                      '2017-2018 ACM-ICPC Asia Daejeon Regional Contest',

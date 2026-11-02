@@ -206,6 +206,44 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(self.service.review_plan()['tasks'],[])
         self.assertEqual(self.service.problem('fixture::A',review_id=task['id'])['draft'],'preserve review')
 
+    def test_cancel_review_survives_future_days_and_preserves_all_code(self):
+        self.seed();self.clock.advance(days=1);task=self.open()
+        self.service.save_draft('fixture::A','original saved code')
+        self.service.save_draft('fixture::A','review saved code',review_id=task['id'])
+        count=self.service.connection.execute('SELECT COUNT(*) FROM submissions').fetchone()[0]
+        result=self.service.remove_training('fixture::A')
+        self.assertEqual(result['cancelledReviewId'],task['id'])
+        self.clock.advance(days=10)
+        self.assertEqual(self.service.review_plan()['tasks'],[])
+        self.assertEqual(self.service.problem('fixture::A')['draft'],'original saved code')
+        self.assertEqual(self.service.problem('fixture::A',review_id=task['id'])['draft'],'review saved code')
+        self.assertEqual(self.service.connection.execute('SELECT COUNT(*) FROM submissions').fetchone()[0],count)
+        self.assertEqual(reward_totals(self.service)['count'],0)
+        restored=self.service.start_training('fixture::A',restore_review_id=task['id'])
+        self.assertEqual(restored['reviewTask']['id'],task['id'])
+        self.assertEqual(self.service.problem('fixture::A',review_id=task['id'])['draft'],'review saved code')
+
+    def test_cancelled_review_allows_a_new_wrong_answer_to_create_a_new_plan(self):
+        self.seed();self.clock.advance(days=1);task=self.open()
+        self.service.remove_training('fixture::A')
+        self.clock.advance(days=2)
+        self.receipt(verdict='WA')
+        self.clock.advance(days=1)
+        self.assertNotEqual(self.due()['id'],task['id'])
+        self.assertTrue(ReviewScheduler(self.service).read('review-task:'+task['id'])['cancelledAt'])
+
+    def test_restore_review_is_bound_to_its_problem_and_does_not_restore_completed_tasks(self):
+        self.seed();self.clock.advance(days=1);task=self.open()
+        self.service.remove_training('fixture::A')
+        with self.assertRaises(ServiceError):
+            self.service.start_training('fixture::B',restore_review_id=task['id'])
+        with self.assertRaises(ServiceError):
+            self.service.start_training('fixture::A',restore_review_id='bad')
+        self.service.start_training('fixture::A',restore_review_id=task['id'])
+        self.receipt(review_id=task['id'])
+        with self.assertRaises(ServiceError):
+            self.service.start_training('fixture::A',restore_review_id=task['id'])
+
     def test_session_binding_survives_pending_restore_and_duplicate_result(self):
         self.seed();self.clock.advance(days=1);task=self.open()
         with self.service.lock,self.service._write() as db:

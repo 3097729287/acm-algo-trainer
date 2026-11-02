@@ -91,6 +91,16 @@ class ReviewScheduler:
                 self.save(db, 'review-task:' + review_id, item)
         return item
 
+    def set_cancelled(self, identity, review_id, cancelled):
+        from training import ServiceError, iso
+        item = self.task(identity, review_id)
+        if item.get('completedAt'):
+            raise ServiceError(409, '这次复习已经完成')
+        item['cancelledAt'] = iso(self.t._now()) if cancelled else None
+        with self.t._write() as db:
+            self.save(db, 'review-task:' + review_id, item)
+        return review_id
+
     def bind(self, db, submission_id, review_id):
         if review_id:
             self.save(db, 'review-receipt:' + submission_id, review_id)
@@ -214,7 +224,7 @@ class ReviewScheduler:
                 create_task(state, state.get('anchor', last_wrong['id']), state.get('due') or day, identity)
                 task = preferences['review-task:' + state['taskId']]
             task_before = encoded(task)
-            if task.get('openedAt') and not task.get('completedAt'):
+            if task.get('openedAt') and not task.get('completedAt') and not task.get('cancelledAt'):
                 processed = set(task.get('processed', []))
                 for receipt in receipts:
                     if receipt['id'] in processed or preferences.get('review-receipt:' + receipt['id']) != task['id']:
@@ -268,13 +278,13 @@ class ReviewScheduler:
             # already-open rewrite keeps its own draft and receipt binding.
             current = preferences.get('review-task:' + state.get('taskId', ''), {})
             if (last_wrong['submitted_at'] > state['lastAt'] and last_wrong['id'] != state.get('triggerId')
-                    and not (current.get('openedAt') and not current.get('completedAt'))):
+                    and not (current.get('openedAt') and not current.get('completedAt') and not current.get('cancelledAt'))):
                 state.update(parked=False, stability=1., lastAt=last_wrong['submitted_at'], triggerId=last_wrong['id'], triggerDay=wrong_day.isoformat())
                 create_task(state, last_wrong['id'], (wrong_day + dt.timedelta(days=1)).isoformat(), identity)
             if encoded(state) != before:
                 updates[state_key] = state
             current = preferences.get('review-task:' + state['taskId'])
-            if identity not in locked and state.get('due') and state['due'] <= day and current and not current.get('completedAt'):
+            if identity not in locked and state.get('due') and state['due'] <= day and current and not current.get('completedAt') and not current.get('cancelledAt'):
                 elapsed = max(0, (now - parse_time(state['lastAt'])).total_seconds() / 86400)
                 retention = .9 ** min(100, elapsed / max(.4, state['stability']))
                 relative = difficulty - ability if difficulty is not None and ability is not None else 0

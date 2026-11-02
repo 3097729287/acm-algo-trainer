@@ -113,7 +113,7 @@ try{
  await pane('wiki').frameLocator('iframe.wiki-reader').getByRole('link',{name:'Luogu P1706 全排列问题'}).waitFor();
  await page.evaluate(()=>window.heldWikiDocument=document.querySelector('.study-wiki:not([hidden]) iframe').contentDocument);
  await pane('wiki').frameLocator('iframe.wiki-reader').getByRole('link',{name:'Luogu P1706 全排列问题'}).click();await pane('problem').locator('.cm-content').waitFor();
- assert.equal((await state()).tabs.length,beforeExample.tabs.length+1);assert((await state()).tabs.some(tab=>tab.kind==='problem'&&tab.id==='fixture:P1706'));
+ assert.equal((await state()).tabs.length,beforeExample.tabs.length+1-beforeExample.tabs.filter(tab=>tab.kind==='problem').length);assert.equal((await state()).tabs.filter(tab=>tab.kind==='problem').length,1);assert((await state()).tabs.some(tab=>tab.kind==='problem'&&tab.id==='fixture:P1706'));
  assert.equal(page.context().pages().length,1,'Wiki problems open in a learning tab, not a separate browser window');
  await page.getByRole('tab',{name:'并查集',exact:true}).first().click();
  assert(await page.evaluate(()=>window.heldWikiDocument===document.querySelector('.study-wiki:not([hidden]) iframe').contentDocument),'Opening an example retains the original live Wiki document');

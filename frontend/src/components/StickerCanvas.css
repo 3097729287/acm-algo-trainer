@@ -3,6 +3,10 @@
 /* Fixed visual order: portrait/rank and XP, sticker space, compact statistics,
    then the two mode buttons. Goal controls are opened only by the target. */
 html .growth-account-hero .sticker-canvas{border-top:0;min-height:480px;gap:14px}
+.sticker-content{isolation:isolate}.sticker-content>:not(.sticker-surface){position:relative;z-index:1}
+html .growth-account-hero .sticker-surface{z-index:0}
+.sticker-mode .sticker-content>:not(.sticker-surface){pointer-events:none}
+.sticker-size-handle{position:absolute;z-index:4;width:22px!important;min-width:22px!important;height:22px!important;min-height:0!important;padding:0!important;transform:translate(-50%,-50%);border:1px solid var(--accent);border-radius:5px;background:var(--panel-base);color:var(--accent);cursor:nwse-resize;touch-action:none}
 html .growth-account-hero .sticker-content{min-height:340px;gap:12px}
 html .growth-account-hero .sticker-canvas .account-hero-identity{flex:0 0 auto;min-height:230px}
 html .growth-account-hero .account-hero-level{flex:none;margin-top:4px}

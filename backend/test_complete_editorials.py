@@ -17,6 +17,16 @@ class CompleteEditorialTests(unittest.TestCase):
             with self.subTest(problem=identity):
                 default = library.solution(identity)
                 detailed = library.solution(identity, 'detailed')
+                # The contest author's explicit user instruction keeps this
+                # sign-in problem in the default edition only. Do not invent a
+                # second article just to satisfy the general two-version rule.
+                if identity=='remote:codeforces:2278::A':
+                    row=library.find(identity)
+                    self.assertEqual(row['encoded']['editorialVariants'],['default'])
+                    self.assertFalse(row['encoded']['detailedSolutionAvailable'])
+                    self.assertIsNone(detailed)
+                    self.assertTrue(re.findall(r'```(?:cpp|c\+\+)\s*\n(.*?)```',default['markdown'],re.S))
+                    continue
                 self.assertIsNotNone(detailed)
                 self.assertNotEqual(default['markdown'], detailed['markdown'])
                 code = lambda text: [part.strip() for part in re.findall(

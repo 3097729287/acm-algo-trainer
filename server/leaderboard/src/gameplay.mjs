@@ -83,7 +83,7 @@ export class Gameplay extends StickerRewards {
  async stickers(owner){
   const [rows]=await this.db.execute('SELECT payload FROM gameplay_accounts WHERE user_id=?',[owner]);
   const state=rows.length?JSON.parse(rows[0].payload):empty();
-  return {owner,catalogue:STICKERS,boxPolicy:REWARDS.levelBoxes,...state};
+  return {owner,catalogue:STICKERS,boxPolicy:REWARDS.levelBoxes,placementPolicy:{scale:true,minScale:.5,maxScale:2},...state};
  }
  async stickerWrite(owner,auth,kind,value,now){
   return this.db.transaction(async db=>{
@@ -103,8 +103,9 @@ export class Gameplay extends StickerRewards {
      if(value.revision!==unit.revision)fail(409,'贴纸已在其他窗口更新，请刷新');
      if(kind==='place'){
       if(!scalar(value.x,0,1)||!scalar(value.y,0,1)||!scalar(value.angle,-180,180))fail(400,'贴纸位置无效');
+      if(value.scale!==undefined&&!scalar(value.scale,.5,2))fail(400,'贴纸大小无效');
       if(!unit.placement&&state.units.filter(item=>item.placement).length>=200)fail(409,'贴纸区域已满');
-      unit.placement={x:value.x,y:value.y,angle:value.angle};
+      unit.placement={x:value.x,y:value.y,angle:value.angle,...(value.scale!==undefined?{scale:value.scale}:unit.placement?.scale!==undefined?{scale:unit.placement.scale}:{})};
      }else if(kind==='recycle'){
       if(!unit.placement)fail(409,'贴纸已经回收');unit.placement=null;
      }else fail(404,'没有找到这个操作');

@@ -32,6 +32,21 @@ async function client(f,name){
 const post=(client,path,value)=>client.send(path,{requestId:randomUUID(),...value});
 const grant=(a,extra={})=>post(a,'/v1/stickers/grant',{day:'2026-11-02',taskId:'ac-chain:0',xp:15,...extra});
 
+test('sticker size is account-bound, durable, bounded and retained by legacy moves',async()=>{
+ const f=await startFixture({now:start});
+ try{
+  const a=await client(f,'scale_owner'),b=await client(f,'scale_other');await grant(a);
+  let inventory=(await a.send('/v1/stickers')).value;assert.equal(inventory.placementPolicy.scale,true);const unit=inventory.units[0];
+  for(const scale of [-1,0,.49,2.01,9,'1'])assert.equal((await post(a,'/v1/stickers/place',{unitId:unit.id,revision:0,x:.5,y:.5,angle:15,scale})).status,400);
+  const payload={requestId:randomUUID(),unitId:unit.id,revision:0,x:.5,y:.5,angle:15,scale:1.7};
+  assert.equal((await a.send('/v1/stickers/place',payload)).status,200);assert.equal((await a.send('/v1/stickers/place',payload)).status,200);
+  inventory=(await a.send('/v1/stickers')).value;assert.equal(inventory.units[0].placement.scale,1.7);assert.equal(inventory.units[0].revision,1);
+  assert.equal((await post(b,'/v1/stickers/place',{...payload,revision:1,scale:.5})).status,404);
+  assert.equal((await post(a,'/v1/stickers/place',{unitId:unit.id,revision:1,x:.4,y:.3,angle:0})).status,200);
+  assert.equal((await a.send('/v1/stickers')).value.units[0].placement.scale,1.7,'A legacy client does not erase a size it cannot edit');
+ }finally{await f.close();}
+});
+
 test('ready check uses one shared deadline, hides the problem and starts only after both confirmations',async()=>{
  const f=await startFixture({now:start});
  try{

@@ -94,6 +94,16 @@ export function closeStudyTab(state,key) {
  return finishGroups({...state,tabs,chrome:tabs.length>1&&state.chrome},groups,focused);
 }
 
+export function replaceStudyProblem(state,key,source){
+ const old=state.tabs.find(tab=>tab.key===key);if(old?.kind!=='problem'||!source?.id)return state;
+ const nextKey=studyKey({kind:'problem',id:source.id});if(nextKey===key)return state;
+ if(state.tabs.some(tab=>tab.key===nextKey))return activateStudyTab(closeStudyTab(state,key),nextKey);
+ const rename=value=>value===key?nextKey:value;
+ const next={...source,kind:'problem',key:nextKey,title:source.title||STUDY_LABELS.problem,visit:{},state:{},scroll:[]};
+ const groups=studyGroups(state).map(group=>({...group,tabs:group.tabs.map(rename),active:rename(group.active)}));
+ return finishGroups({...state,tabs:state.tabs.map(tab=>tab.key===key?next:tab)},groups,nextKey);
+}
+
 export function splitStudyTab(state,key,{targetGroupId,side='right'}={}) {
  if(!state.tabs.some(tab=>tab.key===key)||state.tabs.length<2)return state;
  const groups=studyGroups(state),target=groups.find(group=>group.id===targetGroupId)||groups.find(group=>group.tabs.includes(key))||groups[0],at=groups.indexOf(target),id=groupId(groups);

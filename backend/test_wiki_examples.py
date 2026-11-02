@@ -5,6 +5,7 @@ from pathlib import Path
 import sys
 import unittest
 from insights import canonical_url
+from contest_scope import excluded
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
@@ -27,6 +28,9 @@ class WikiExampleTests(unittest.TestCase):
                 self.assertIsNone(row['encoded']['difficulty'])
                 self.assertFalse(row['encoded']['catalogStatementReady'])
                 self.assertFalse(row['encoded']['catalogReplayReady'])
+                self.assertFalse(excluded(row),'Explicit Wiki examples remain visible under the requested catalogue scope')
+                self.assertEqual(row['encoded']['difficultyConfidence'],'UNKNOWN')
+                self.assertTrue(row['encoded']['knowledgeReviewRequired'])
         _,added,rebuilt=prepare()
         self.assertEqual(added,[])
         self.assertEqual(rebuilt,manifest,'Repeated indexing must not duplicate or rewrite catalogue identities')

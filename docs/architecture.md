@@ -731,3 +731,12 @@ schema 1 内容热更新包不接受 `tb-asset:` 引用。此次代码、前端�
 测试场景的等级偏移只存于该场景的管理员配置；正常奖励仍按真实本地评测与账本累计，初次注册可走既有新手／老手选择及完整模板评测。配置模拟不生成原站通过、账号云端奖励或公开排名事件。维护库与普通用户数据不被重置。
 
 账号恢复仍先验证云端凭据与 revision，待上传草稿仍先完成受保护上传。云端确认未变化时不再把本机快照与自身重复合并；本机也完全匹配时复用持久确认，不重写相同的逐行摘要和公开资料。推荐元数据和社交查询等待主数据；桌面原站／题面补齐等后台任务在真实 workspace 响应后只启动一次，关闭可取消尚未开始的任务。
+
+
+### Current single-problem and review corrections
+
+Normal LearningBrowser problem navigation awaits a targeted draft flush before replacing its sole problem tab; unrelated Wiki/template/lab tabs and the competition workspace remain independent. Restoring older sessions folds solution tabs into the problem and removes obsolete normal problem tabs without deleting any saved drafts. The inline reader preserves the mounted editor and scroll state.
+
+Review cancellation writes cancelledAt on the existing account-owned review-task journal. It suppresses only that task, preserves receipts/drafts/rewards, and a genuinely later WA may create a new task. Existing training/start accepts an owner- and problem-validated restoreReviewId for undo. No schema migration or public progress seed is added.
+
+Sticker scale is optional, finite and bounded to 0.5–2 through the existing placement owner/CAS boundary. Older services omit the capability and keep legacy placement requests. The sticker surface is below original profile content.

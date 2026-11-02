@@ -1,6 +1,8 @@
 # ToBe · Training Workbench
 
 **Current source: additional 1.5.1 changes, not publicly released or installed in the current local programs.** The installed user edition is from `4a12237a`, and the private administrator edition is from `53938d41`. The learning-browser window owns user delivery. Domestic stable downloads remain 1.4.34. That window has deployed shared service 1.4.1 (`97c2c2c5`); this branch's administrator ranking exclusion, ready checks and combined box-opening response still require integration and deployment.
+Normal consecutive practice replaces the previous problem after saving its draft; competition tabs remain independent. Solutions expand inside the current problem view. Review cancellation persists across days, supports undo and preserves code and receipts (65 focused checks passed). Stickers sit behind profile content and support user resizing.
+
 
 The candidate shares one column-list catalogue across Wiki, Templates and Lab, restores default navigation order without changing visibility, keeps complete language labels and restores the compact layout after closing search. Growth keeps identity/XP above compact statistics, with goals opened through the target control. Licensed Fluent Emoji artwork replaces most sticker drawings; artwork colors are independent of rarity. Stickers are smaller, use a compact click-position picker with owned stock only, and rotate continuously by pointer. Settings scenes add cloud inertia, dinosaur falls/respawning and balloon fragments with an independently falling string.
 

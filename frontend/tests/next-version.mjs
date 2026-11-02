@@ -48,8 +48,13 @@ try{
  const first=picker.locator('button.sticker-choice:not([disabled])').first();await first.click();
  const selected=a.page.locator('.selected-sticker');await selected.waitFor();let sticker=await selected.boundingBox();assert(sticker.width<=56,'Smaller sticker size');
  await a.page.mouse.move(sticker.x+sticker.width/2,sticker.y+sticker.height/2);await a.page.mouse.down();await a.page.mouse.move(box.x+box.width*.65,box.y+box.height*.62,{steps:12});await a.page.mouse.up();
+ const sizeBefore=await selected.evaluate(node=>node.getBoundingClientRect().width),handle=await a.page.getByRole('button',{name:'调整贴纸大小'}).boundingBox(),center=await selected.boundingBox();
+ const cx=center.x+center.width/2,cy=center.y+center.height/2,hx=handle.x+handle.width/2,hy=handle.y+handle.height/2;
+ await a.page.mouse.move(hx,hy);await a.page.mouse.down();await a.page.mouse.move(cx+(hx-cx)*1.5,cy+(hy-cy)*1.5,{steps:8});await a.page.mouse.up();
+ assert(await selected.evaluate(node=>parseFloat(node.style.width))>sizeBefore*1.4,'Dragging the size handle scales the actual artwork');
  await rotateBy(a.page,15);await a.page.keyboard.press('Enter');await a.page.waitForFunction(()=>document.querySelectorAll('.placed-sticker:not(.selected-sticker)').length===1);
  let inventory=await a.send('/v1/stickers');assert.equal(inventory.units.filter(x=>x.placement).length,1);assert.equal(inventory.units.find(x=>x.placement).placement.angle,15);
+ assert(Math.abs(inventory.units.find(x=>x.placement).placement.scale-1.5)<.05,'Confirmed size is persisted with the placement');
  await a.page.reload();await a.page.locator('.placed-sticker').waitFor();assert.equal((await a.send('/v1/stickers')).units.length,4);
  await a.page.getByRole('button',{name:'贴纸',exact:true}).click();
  await a.page.locator('.placed-sticker').click();await rotateBy(a.page,15);

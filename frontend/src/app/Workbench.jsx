@@ -641,8 +641,17 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
       clearTimeout(record?.timer);
       event.detail.waitUntil(record && !record.loaded ? Promise.resolve(false) : saveRecord(record));
     };
+    const beforeProblem = event => {
+      const record = activeRecord.current;
+      if (!record || record.contestId || !event.detail.ids.includes(record.id)) return;
+      beforeUpdate(event);
+    };
     window.addEventListener('tb-before-update', beforeUpdate);
-    return () => window.removeEventListener('tb-before-update', beforeUpdate);
+    window.addEventListener('tb:flush-study-problem', beforeProblem);
+    return () => {
+      window.removeEventListener('tb-before-update', beforeUpdate);
+      window.removeEventListener('tb:flush-study-problem', beforeProblem);
+    };
   }, [saveRecord]);
 
   const changeCodeLanguage = event => {
@@ -909,13 +918,14 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
           <button type="button" className="wb-icon-button" aria-label={statementCopied?'已复制题面':'复制题面'} title={`${statementCopied?'已复制题面':'复制题面'} · ${shortcutValue('statement-copy',shortcuts)}`} disabled={loading||!problem?.markdown} onClick={copyStatement}>{statementCopied?<Check size={16}/>:<Copy size={16}/>}</button>
           {problem?.url && <a className="wb-original-link" href={problem.url} target="_blank" rel="noreferrer" aria-label="在浏览器打开原题" title={`在浏览器打开原题 · ${shortcutValue('statement-original',shortcuts)}`}><ExternalLink size={16} /></a>}
         </div></div>);
+  const solutionButtons=(onSolution && !runningContest && !problem?.locked && <span className="wb-solution-methods">{(problem?.solutionMethods??(problem?[{id:'original',title:'题解'}]:[])).map((method,index,methods)=><button key={method.id} type="button" className="wb-button wb-solution-button" aria-label={methods.length===1?'题解':`题解${index+1}`} title={method.title||`题解${index+1}`} aria-pressed={solutionOpen&&(solutionMethodId===method.id||!solutionMethodId&&index===0)} onClick={()=>{const opened=solutionOpen&&(solutionMethodId===method.id||!solutionMethodId&&index===0);if(opened&&callbacks.current.onCloseSolution)callbacks.current.onCloseSolution();else callbacks.current.onSolution?.(problemId,method.id);}}><BookOpen size={14}/></button>)}</span>);
   const editorHeader=(<div className="wb-pane-header wb-editor-header">
           <span className="wb-language-select"><ThemedSelect hideSelectedOption aria-label="编程语言" title={`编程语言 · ${shortcutValue('code-language',shortcuts)}`} value={codeLanguage} disabled={unavailable||busy||officialBusy} onChange={changeCodeLanguage}><option value="cpp17">C++17</option><option value="python3">Python3</option></ThemedSelect></span>
           <InitialCodeSelect api={api} snapshot={initialCode} language={codeLanguage} selected={startingTemplate(initialCode,codeLanguage).id} title={`选择初始代码模板 · ${shortcutValue('initial-code',shortcuts)}`} disabled={loading||!problem||unavailable||busy||officialBusy} onOpenChange={setInitialPickerOpen} onError={setActionError} onSelect={(item,snapshot)=>{const record=activeRecord.current;if(record?.key!==contextKey||record.closed||record.language!==item.language)return;setInitialCode(snapshot);loadOwnCode(item.language==='cpp17'&&item.id==='default'?normalizeCppTemplate(item.code):item.code);}}/>
           {!['saved','automatic'].includes(saveState.kind)&&<span className={`wb-save-state wb-save-${saveState.kind}`} title={saveState.message||saveLabel} aria-label={saveLabel} role={saveState.kind==='error'?'alert':'status'}>{saveState.kind==='saving'?<LoaderCircle size={14} className="wb-spinner"/>:saveState.kind==='unsaved'?<span className="wb-pending-dot"/>:saveLabel}</span>}
           <div className="wb-editor-actions">
             {featureAvailable('templates',true)&&<button type="button" className="wb-button" aria-label="打开模板" title={`打开模板 · ${shortcutValue('code-templates',shortcuts)}`} disabled={loading||!problem||unavailable} onClick={()=>setTemplatesOpen(true)}><Code2 size={14}/></button>}
-            {onSolution && !runningContest && !problem?.locked && <span className="wb-solution-methods">{(problem?.solutionMethods??(problem?[{id:'original',title:'题解'}]:[])).map((method,index,methods)=><button key={method.id} type="button" className="wb-button wb-solution-button" aria-label={methods.length===1?'题解':`题解${index+1}`} title={method.title||`题解${index+1}`} aria-pressed={solutionOpen&&(solutionMethodId===method.id||!solutionMethodId&&index===0)} onClick={()=>{const opened=solutionOpen&&(solutionMethodId===method.id||!solutionMethodId&&index===0);if(opened&&callbacks.current.onCloseSolution)callbacks.current.onCloseSolution();else callbacks.current.onSolution?.(problemId,method.id);}}><BookOpen size={14}/></button>)}</span>}
+            {solutionButtons}
             {onNext && <button type="button" className="wb-button wb-next-button" title={`下一题 · ${shortcutValue('workbench-next',shortcuts)}`} onClick={async () => { if(await saveRecord(activeRecord.current)) callbacks.current.onNext?.(); }}>下一题<ArrowRight size={14} /></button>}
             {localDraftRecovery !== null && <button type="button" className="wb-button" disabled={unavailable} title="当前为更新的同步版本；可恢复本机未上传的旧草稿" onClick={() => {
               undoReplace.current = code;
@@ -935,7 +945,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
   return <section className={`tb-workbench wb-pane-${effectivePane}${narrow?' wb-compact':''}${!toolbar.pinned&&!toolbar.shown?' wb-toolbar-hidden':''}`} data-surface={toolbarKind} ref={sectionRef} style={{'--wb-split-columns':`minmax(0,${splitRatio}fr) 1px minmax(0,${100-splitRatio}fr)`}} onKeyDown={handleKeys} aria-label="代码训练工作台" data-problem-id={problemId}>
 
     {!toolbar.pinned&&!toolbar.shown&&<button type="button" className="wb-toolbar-reveal" aria-label="显示顶部工具栏" onFocus={toolbar.reveal} onPointerEnter={toolbar.reveal} onClick={toolbar.reveal}/>}
-    {narrow&&<div className="wb-compact-toolbar"><button type="button" className="wb-icon-button wb-back-button" onClick={exit} title="返回列表" aria-label={runningContest?'返回工作台':'返回列表'}><ArrowLeft size={17}/></button>{effectivePane==='code'&&headerStart}<div className="wb-pane-buttons" role="group" aria-label="工作台布局"><button type="button" className="wb-icon-button" aria-label="只看题面" title="只看题面 · Alt+1" aria-pressed={effectivePane==='statement'} onClick={()=>focusPane('statement')}><PanelLeft size={17}/></button>{layoutToggle}</div><strong><InlineTitle>{problem?.title||'题目'}</InlineTitle></strong>{headerEnd}</div>}
+    {narrow&&<div className="wb-compact-toolbar"><button type="button" className="wb-icon-button wb-back-button" onClick={exit} title="返回列表" aria-label={runningContest?'返回工作台':'返回列表'}><ArrowLeft size={17}/></button>{effectivePane==='code'&&headerStart}<div className="wb-pane-buttons" role="group" aria-label="工作台布局"><button type="button" className="wb-icon-button" aria-label="只看题面" title="只看题面 · Alt+1" aria-pressed={effectivePane==='statement'} onClick={()=>focusPane('statement')}><PanelLeft size={17}/></button>{layoutToggle}</div><strong><InlineTitle>{problem?.title||'题目'}</InlineTitle></strong>{effectivePane!=='code'&&solutionButtons}{headerEnd}</div>}
 
     {saveToast&&<div className="toast success wb-save-toast" role="status"><Check size={17}/><span>草稿已保存</span></div>}
 

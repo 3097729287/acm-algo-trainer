@@ -30,7 +30,7 @@ export function ProblemCells({row,favorites=[],showPlatforms=true,busy=false,onT
     <td className="row-actions">
       {visible('training-lists')&&<button className="row-icon" aria-label={'加入题单 '+row.title} title="加入题单" disabled={disabled||!onAddToList} onClick={()=>onAddToList(row.id)}><ListPlus size={15}/></button>}
       <button className={'row-icon '+(favorites.includes(row.id)?'favorited':'')} aria-label={(favorites.includes(row.id)?'取消收藏 ':'收藏 ')+row.title} disabled={unavailable||!onFavorite} onClick={()=>onFavorite(row.id)}><Star size={15} fill={favorites.includes(row.id)?'currentColor':'none'}/></button>
-      {row.active&&onRemove&&<button className="row-icon remove-training" aria-label={'取消训练 '+row.title} disabled={disabled||row.locked} onClick={()=>onRemove(row.id)}><MinusCircle size={15}/></button>}
+      {(row.active||row.reviewTask)&&onRemove&&<button className="row-icon remove-training" aria-label={(row.reviewTask?'取消复习 ':'取消训练 ')+row.title} disabled={disabled||row.locked} onClick={()=>onRemove(row.id)}><MinusCircle size={15}/></button>}
     </td>
   </>;
 }

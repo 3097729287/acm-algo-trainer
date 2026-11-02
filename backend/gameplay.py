@@ -53,7 +53,7 @@ def stickers(training,kind=None,value=None):
     owner=training._ranking_profile()['user_id']
     mutation={}
     if kind:
-        allowed={'place':{'requestId','unitId','revision','x','y','angle'},'recycle':{'requestId','unitId','revision'},'open-box':{'requestId','boxId'}}
+        allowed={'place':{'requestId','unitId','revision','x','y','angle','scale'},'recycle':{'requestId','unitId','revision'},'open-box':{'requestId','boxId'}}
         if kind not in allowed or not isinstance(value,dict) or set(value)-allowed[kind]:raise ServiceError(400,'贴纸操作无效')
         mutation=_request(training,'POST','/v1/stickers/'+kind,value,expected_owner=owner)
         # The inventory view has already delivered the durable reward outbox.

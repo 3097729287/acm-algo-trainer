@@ -1345,7 +1345,7 @@ export default function App() {
         label: "恢复",
         run: async () => {
           try {
-            const restored = await api("training/start", { id });
+            const restored = await api("training/start", { id, ...(result.cancelledReviewId?{restoreReviewId:result.cancelledReviewId}:{}) });
             applyWorkspace(restored.workspace);
             setSelected(id);
             notice("已恢复训练");
