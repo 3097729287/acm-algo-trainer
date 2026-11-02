@@ -2,7 +2,7 @@ import React,{useCallback,useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import StickerCanvas from '../src/components/StickerCanvas.jsx';
 import {SocialNotifications} from '../src/components/Social.jsx';
-import {AchievementPanel} from '../src/pages/ProgressPanels.jsx';
+import {AchievementPanel,DailyTasks} from '../src/pages/ProgressPanels.jsx';
 import '../src/styles/workspace.css';
 import '../src/styles/refinements.css';
 import '../src/styles/unified.css';
@@ -34,7 +34,8 @@ function Fixture(){
  const snapshot=()=>({available:true,totalLikes:0,todayLikes:0,notifications:[{id:'44444444-4444-4444-8444-444444444444',actor:{userId:other,nickname:'训练者乙'},kind:'comment',text:'送你一点好运',createdAt:stamp,read:true,myReplies:clone(remote.replies)}],unreadCount:0});
  const [social,setSocial]=useState(snapshot),refresh=useCallback(()=>{setSocial(snapshot());return Promise.resolve();},[]);
  const achievements=[{id:'fixed',name:'榜首切磋',description:'给今日排行榜第一名留言“就这?”',target:1,progress:0,unlocked:false,rewardXp:0,rewardSticker:remote.catalogue.find(item=>item.id==='achievement-duck')},{id:'xp',name:'五湖四海',description:'给五位训练者赠送贴纸',target:5,progress:2,unlocked:false,rewardXp:35}];
+ const tasks=[{id:'routine-xp',lane:'ac',title:'AC',description:'AC 2 道不同题目',target:2,progress:1,xp:30,stickerRarity:'rare'},{id:'challenge-xp',lane:'fixed',title:'攻坚挑战',description:'首次 AC 一道新题',target:1,progress:0,xp:100,stickerRarity:'legendary'},...['common','rare','epic','legendary'].map(rarity=>({id:rarity,lane:'fixed',title:rarity+' 贴纸任务',description:'完成后领取贴纸',target:1,progress:0,xp:0,stickerRarity:rarity}))];
  window.rewardFixture={calls,state:()=>clone(remote)};
- return <div style={{padding:20}}><div style={{height:330,position:'relative'}}><StickerCanvas owner={owner} api={api}><div style={{padding:40}}>成长</div></StickerCanvas></div><AchievementPanel achievements={achievements}/><SocialNotifications social={{owner,snapshot:social,refresh}} api={api}/></div>;
+ return <div style={{padding:20}}><div style={{height:330,position:'relative'}}><StickerCanvas owner={owner} api={api}><div style={{padding:40}}>成长</div></StickerCanvas></div><AchievementPanel achievements={achievements}/><DailyTasks dailyTasks={{date:'2026-11-02',tasks}}/><SocialNotifications social={{owner,snapshot:social,refresh}} api={api}/></div>;
 }
 createRoot(document.getElementById('root')).render(<React.StrictMode><Fixture/></React.StrictMode>);

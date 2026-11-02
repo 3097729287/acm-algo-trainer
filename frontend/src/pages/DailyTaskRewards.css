@@ -1,0 +1,26 @@
+.daily-task-reward {display:inline-flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap;}
+.daily-task-sticker-reward {display:inline-flex;align-items:center;gap:5px;white-space:nowrap;font-size:.83rem;color:color-mix(in srgb,var(--task-quality,var(--text)) 50%,var(--text));}
+
+/* Rarity belongs to an explicitly displayed sticker reward, never an XP tier.
+   Keep the requested card hues as restrained tints over the current theme. */
+.daily-tasks .daily-task.daily-task-sticker {
+  --task-quality:#77b7c8;
+  --task-tint:color-mix(in srgb,var(--task-quality) 15%,var(--panel));
+  border:1px solid color-mix(in srgb,var(--task-quality) 52%,var(--line));
+  background:linear-gradient(150deg,var(--task-tint),color-mix(in srgb,var(--task-quality) 6%,var(--panel)));
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--text) 8%,transparent);
+  color:var(--text);
+}
+.daily-task.daily-task-sticker.rarity-rare {--task-quality:#c49b61;}
+.daily-task.daily-task-sticker.rarity-epic {--task-quality:#ad89c7;}
+.daily-tasks .daily-task.daily-task-sticker.rarity-common {
+  border-color:color-mix(in srgb,#c5d7de 58%,var(--line));
+}
+.daily-tasks .daily-task.daily-task-sticker.rarity-legendary {
+  --task-quality:#bca4c7;
+  border-color:color-mix(in srgb,#c5cad3 62%,var(--line));
+  background:linear-gradient(155deg,color-mix(in srgb,#8dbbad 16%,var(--panel)),color-mix(in srgb,#c6bc93 12%,var(--panel)) 40%,color-mix(in srgb,#bc91b4 16%,var(--panel)) 75%,color-mix(in srgb,#ae8dbb 14%,var(--panel)));
+}
+.daily-task-sticker .daily-task-main strong {color:var(--text);}
+.daily-task-sticker .daily-task-main p,.daily-task-sticker .daily-task-progress>span:last-child {color:var(--muted);}
+.daily-task-sticker .progress-meter>i {background:var(--task-quality);}

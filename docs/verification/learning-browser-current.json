@@ -1,0 +1,34 @@
+{
+  "version": "1.5.1",
+  "state": "Native core installed; task-card follow-up validated and awaiting final frontend packaging",
+  "nativeSourceCommit": "357dd9478ef8805026084415be1c55afef1e1c61",
+  "initialFrontendSourceCommit": "97c2c2c52b503247a4fd1c17b1e747d1ba5d934b",
+  "serviceSourceCommit": "97c2c2c52b503247a4fd1c17b1e747d1ba5d934b",
+  "initialLocalDelivery": {
+    "normalStartup": true,
+    "filesSha256Matched": 4765,
+    "identityDraftsTrainingSubmissionsAndXpPreserved": true,
+    "onlineSqliteBackups": 11,
+    "automaticRecoveryBudgetUnchanged": true
+  },
+  "taskCardFollowup": {
+    "xpCardsRetainOriginalAppearance": true,
+    "onlyExplicitStickerRewardsUseRarity": true,
+    "sixThemeAndWidthLayouts": true,
+    "installed": false
+  },
+  "sharedServiceDeployed": false,
+  "publicRelease": false,
+  "officialSubmissionsSentForTesting": 0,
+  "realSocialMessagesSentForTesting": 0,
+  "ci": {
+    "url": "https://github.com/3097729287/acm-algo-trainer/actions/runs/41416590507",
+    "fullyGreen": false,
+    "knownFailures": [
+      "Unchanged navigation fixture omits existing duel and wiki defaults",
+      "Div.3 1131 A default-only policy conflicts with an older dual-editorial assertion",
+      "Delegated Nailoong teaching ledger digest requires content-owner review",
+      "Two unchanged backend boundary cases failed in CI and passed the targeted local rerun"
+    ]
+  }
+}
