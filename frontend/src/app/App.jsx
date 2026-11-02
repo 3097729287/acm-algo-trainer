@@ -862,7 +862,7 @@ export default function App() {
     async (initial = false) => {
       const seq = ++loadSeq.current;
       if (initial) setLoading(true);
-      if(initial){
+      if(initial&&window.__tbAccountUserId){
         const owner=window.__tbAccountUserId;
         void api('navigation').then(value=>{
           if(seq===loadSeq.current&&owner===window.__tbAccountUserId&&confirmedGrowth(value,owner))setNavigationGrowth(value);
