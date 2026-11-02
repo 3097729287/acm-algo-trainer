@@ -50,18 +50,27 @@ def _grant_pending(training):
             db.execute('INSERT INTO account_preferences VALUES(?,?,?) ON CONFLICT(key) DO NOTHING',(marker,'true',iso(training._now())))
 
 def stickers(training,kind=None,value=None):
+    owner=training._ranking_profile()['user_id']
     mutation={}
     if kind:
         allowed={'place':{'requestId','unitId','revision','x','y','angle'},'recycle':{'requestId','unitId','revision'},'open-box':{'requestId','boxId'}}
         if kind not in allowed or not isinstance(value,dict) or set(value)-allowed[kind]:raise ServiceError(400,'贴纸操作无效')
-        mutation=_request(training,'POST','/v1/stickers/'+kind,value)
+        mutation=_request(training,'POST','/v1/stickers/'+kind,value,expected_owner=owner)
+        # The inventory view has already delivered the durable reward outbox.
+        # An individual open/place/recycle must not wait for a full growth scan
+        # and unrelated pending grants again. Keep those on the next read.
+        result=_request(training,'GET','/v1/stickers',expected_owner=owner)
+        from fun_moments import confirmed_gameplay
+        confirmed_gameplay(training,result,kind)
+        if mutation.get('opening'):result['opening']=mutation['opening']
+        return result
     error=None
     try:
         _grant_pending(training)
         from sticker_rewards import grant_pending
         grant_pending(training)
     except ServiceError as issue:error=str(issue)
-    result=_request(training,'GET','/v1/stickers')
+    result=_request(training,'GET','/v1/stickers',expected_owner=owner)
     from fun_moments import confirmed_gameplay
     confirmed_gameplay(training,result,kind)
     if error:result['rewardSyncError']=error

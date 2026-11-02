@@ -11,6 +11,33 @@ class GameplayTests(unittest.TestCase):
     tearDown=fixtures.ServiceTests.tearDown
     accept=fixtures.ServiceTests.accept
 
+    def test_open_box_returns_confirmed_inventory_without_waiting_for_other_rewards(self):
+        owner=self.service._ranking_profile()['user_id']
+        payload={'requestId':'10000000-0000-4000-8000-000000000001','boxId':'level:5'}
+        opening={'id':'level:5','drops':[{'id':'one-unit','stickerId':'leaf-common'}]}
+        snapshot={'owner':owner,'revision':2,'units':[{'id':'one-unit'}],'catalogue':[]}
+        with patch.object(gameplay,'_request',side_effect=[{'owner':owner,'opening':opening},snapshot]) as network, \
+             patch.object(gameplay,'_grant_pending',side_effect=AssertionError('Unrelated outbox must not delay opening')), \
+             patch('sticker_rewards.grant_pending',side_effect=AssertionError('Full growth must not delay opening')), \
+             patch('fun_moments.confirmed_gameplay') as confirmed:
+            result=gameplay.stickers(self.service,'open-box',payload)
+        self.assertEqual(result['opening'],opening)
+        self.assertEqual(len(result['units']),1)
+        self.assertEqual(network.call_count,2)
+        self.assertEqual(network.call_args_list[0].args[3],payload)
+        self.assertTrue(all(call.kwargs['expected_owner']==owner for call in network.call_args_list))
+        confirmed.assert_called_once_with(self.service,result,'open-box')
+
+    def test_lost_inventory_response_retries_the_same_box_operation(self):
+        owner=self.service._ranking_profile()['user_id'];payload={'requestId':'10000000-0000-4000-8000-000000000002','boxId':'level:6'}
+        mutation={'owner':owner,'opening':{'id':'level:6','drops':[{'id':'durable-unit'}]}}
+        with patch.object(gameplay,'_request',side_effect=[mutation,gameplay.ServiceError(503,'lost response'),mutation,{'owner':owner,'revision':4,'units':[{'id':'durable-unit'}]}]) as network,patch('fun_moments.confirmed_gameplay'):
+            with self.assertRaises(gameplay.ServiceError):gameplay.stickers(self.service,'open-box',payload)
+            result=gameplay.stickers(self.service,'open-box',payload)
+        self.assertEqual(network.call_args_list[0].args[3],network.call_args_list[2].args[3])
+        self.assertEqual(len(result['units']),1)
+        self.assertEqual(result['opening']['drops'][0]['id'],'durable-unit')
+
     def test_claim_outbox_is_atomic_and_survives_midnight_and_lost_response(self):
         task=next(t for t in self.service.daily_tasks(goal_tasks=[])['tasks'] if t['lane']=='ac')
         self.accept()
