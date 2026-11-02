@@ -83,8 +83,8 @@
     "recycledItemCount": 12,
     "retainedForBinCapacity": 0,
     "actualFreeBytes": {
-      "C:/": 13277483008,
-      "D:/": 13949165568
+      "C:/": 8278413312,
+      "D:/": 12421554176
     },
     "target50GiBMet": false,
     "binEmptiedOrResized": false,
@@ -93,7 +93,11 @@
     "editorGroupsRecycledLogicalBytes": 7606063280,
     "editorGroupsRecycledItems": 12,
     "editorGroupsRetainedItems": [],
-    "earlierCapacityBlockedItemsNowRecycled": true
+    "earlierCapacityBlockedItemsNowRecycled": true,
+    "serviceValidationRecycledLogicalBytes": 3296563890,
+    "serviceValidationRecycledItemCount": 3,
+    "serviceValidationRetainedItems": [],
+    "fullProductionBackupAndRestoreEvidencePreserved": true
   },
   "recommendationInfoRemoval": {
     "installed": true,
@@ -145,7 +149,8 @@
     "reviewedEntryScriptSha256": "e3b48be0f84b7d406b48d1736c53be07fdfe599719d01f7378c86cc8d8217233",
     "initialCrLfFailureStoppedBeforeMigration": true,
     "desktopPublicRelease": false,
-    "domesticPublishedDesktopVersion": "1.4.34"
+    "domesticPublishedDesktopVersion": "1.4.34",
+    "finalVerifiedAt": "2026-11-02T14:18:55.017790+00:00"
   },
   "editorGroupsFollowup": {
     "installed": true,
