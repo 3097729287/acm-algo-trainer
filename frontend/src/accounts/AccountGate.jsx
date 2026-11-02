@@ -53,7 +53,7 @@ export default function AccountGate({ children }) {
   useEffect(() => {
     // Saved-session validation runs in the backend. Show its completed result
     // promptly; steady signed-in polling keeps the original lower frequency.
-    const interval = setInterval(() => { if (!document.hidden) refresh(); }, session?.restoring ? 250 : 3000);
+    const interval = setInterval(() => { if (!document.hidden) refresh(); }, session?.restoring ? 50 : 3000);
     return () => clearInterval(interval);
   }, [refresh, session?.restoring]);
   async function submit(event) {
