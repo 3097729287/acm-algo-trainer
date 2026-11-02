@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import {GUIDE_LABELS,PAGE_GUIDES} from '@/lib/guideCatalog.js';
 import {PAGE_UNLOCKS} from '@/lib/featureUnlocks.js';
-const unlockSummary=[2,3,4,5].map(level=>`Lv.${level}：${PAGE_UNLOCKS.filter(item=>!item.always&&item.level===level).map(item=>item.label).join('、')}`).join('；');
+const unlockSummary=[...new Set(PAGE_UNLOCKS.filter(item=>!item.always&&item.level>1).map(item=>item.level))].sort((a,b)=>a-b).map(level=>`Lv.${level}：${PAGE_UNLOCKS.filter(item=>!item.always&&item.level===level).map(item=>item.label).join('、')}`).join('；');
 
 const STEPS = [
   {page:'training-lists',target:'.sidebar nav',title:'按等级逐步开放',text:`先从编程基础题单开始。${unlockSummary}。提交记录与设置一直保留；达到等级后才出现对应板块和指引，设置中的导航可以隐藏可选板块。`},
