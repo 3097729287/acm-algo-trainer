@@ -1,21 +1,20 @@
 {
-  "updatedAt": "2026-11-02T03:37:04.141113+00:00",
+  "updatedAt": "2026-11-02T09:31:33.348276+00:00",
   "version": "1.5.0",
   "repairBaseline": "6907a65495b9e6519f5ace9747a412a78ea2ca06",
   "installed": true,
   "publiclyDeployed": false,
   "observedOnlineServiceVersion": "1.2.9",
   "fullBackend": {
-    "tests": 1054,
-    "passed": 1051,
+    "tests": 1068,
+    "passed": 1065,
     "failures": 1,
     "errors": 0,
     "skipped": 2,
     "passedFullSuite": false,
-    "failureOwner": "delegated core-seven editorial review",
-    "errorDetails": null,
-    "scope": "All current backend behavior; subsequent final-1.4.37 merge changes only frontend CSS and its test",
-    "sourceCommit": "675a574a9a182d1ddbd464a55ed724805140a9bb"
+    "sourceCommit": "c8d1cd54a684c9779588f2b0b55ab7d77eef6d37",
+    "failureOwner": "delegated editorial ledger digest review",
+    "scope": "Installed c8 baseline; latest maintenance requires a separate complete run"
   },
   "sharedServicePass": 60,
   "mysqlGameplayPass": 4,
@@ -197,11 +196,11 @@
   "installerSourceCommit": "87da90ac39687a33bb3684f3d6a1d0d00a35f534",
   "installation": {
     "userInstallerBuilt": true,
-    "bytes": 928599868,
-    "sha256": "8defb0b275bdbf4249a9f547dcebe8cc4903e90aecd2707118243e155d6b761d",
+    "bytes": 928622190,
+    "sha256": "4100cf3820e0b6fdb9bf5ef5619aa1ef5374dd0ff0d9d2bac2e85280050aeae6",
     "desktopInstallerPresent": true,
     "isolatedFreshInstall": true,
-    "verifiedProgramFiles": 4764,
+    "verifiedProgramFiles": 4765,
     "publicLibraryFixtureReusedInInstallerCheck": true,
     "privateStateFreshAndIndependent": true,
     "oldBaselineConstructionStoppedByDiskSpace": false,
@@ -213,22 +212,23 @@
     "privateAdminPrepared": true,
     "privateAdminComponentCheck": true,
     "adminAssetsPublished": false,
-    "latestInstallerCheckFinding": "Existing newly distributed path had no entry in old base manifest; actual-byte backup/rollback fixed and 35 targeted tests pass. Final upgrade acceptance is being rerun.",
+    "latestInstallerCheckFinding": "Actual c8d1cd54 full installation and private-data preservation verified; same-version delta rejected before writes",
     "privateAdminInstalled": false,
     "actualPrivateDatabases": 19,
-    "actualAccountXpBefore": 15345,
-    "actualAccountXpAfter": 15345,
-    "actualContentShownMilliseconds": 21345.27,
-    "actualContentTargetMet": false
+    "actualAccountXpBefore": 15485,
+    "actualAccountXpAfter": 15485,
+    "actualContentShownMilliseconds": 8325.93,
+    "actualContentTargetMet": false,
+    "sourceCommit": "c8d1cd54a684c9779588f2b0b55ab7d77eef6d37"
   },
   "pendingInputs": [
-    "Final frozen and retained-account startup validation of the large-history fixes",
-    "Complete actual-runtime compatibility / rollback proof on the restored production clone, then concrete deployment authorization",
-    "Private administrator management and scenario tools after current user delivery"
+    "Maintenance frozen administrator and retained-account startup acceptance",
+    "User-edition integration and delivery owned by the other 1.5.1 window",
+    "Concrete production deployment authorization after the verified full clone rehearsal"
   ],
   "actualFreeGiB": {
-    "C": 2.32,
-    "D": 5.89
+    "C": 11.92,
+    "D": 9.56
   },
   "fiftyGiBTargetMet": false,
   "latestFeedbackValidation": {
@@ -252,7 +252,81 @@
     "backend": "1068 total: 1065 pass, 2 skip, 1 delegated teaching SHA mismatch; bounded connections and retained startup pass",
     "wiki": "41 original footers retained in source/license info; real reader math/code/images and two clients passed",
     "production": "full backup SHA 44b121e18eaa15d0da4a975f072d76544ce4aabe606551b743e4ba30350cfa38 restored to isolated MySQL 8.4.11; old runtime compatibility, repeated migration and complete postmigration restore passed; production unchanged",
-    "nativeFinal": "pending new committed frozen candidate; installed 559807bb does not meet 3-second target",
-    "admin": "user requested after user edition; not yet repaired"
+    "nativeFinal": "c8d1cd54 user installed; 5.63 / 8.33 seconds does not meet target; maintenance native acceptance pending",
+    "admin": "Source repaired and complete isolated browser validated; private installed admin still 1.4.37"
+  },
+  "installedUserSourceCommit": "c8d1cd54a684c9779588f2b0b55ab7d77eef6d37",
+  "actualInstalledContentMs": [
+    5631.81,
+    8325.93
+  ],
+  "actualInstalledFrameworkMs": [
+    43.98,
+    15.44
+  ],
+  "actualInstalledTargetMet": false,
+  "currentLocalDelivery": {
+    "userInstalled": true,
+    "normalNonDebugLaunchVerified": true,
+    "adminInstalledSource": "9f10b378",
+    "privateDatabasesPreserved": 19,
+    "browserDraftStoresPreserved": true,
+    "pendingTeachingContentPreserved": true,
+    "programFilesVerified": 4765,
+    "desktopUserInstallerSha256": "4100cf3820e0b6fdb9bf5ef5619aa1ef5374dd0ff0d9d2bac2e85280050aeae6",
+    "sameVersionMaintenance": "full installer fallback; rejected delta not applied or published",
+    "productionChanged": false
+  },
+  "maintenanceSource": {
+    "implemented": true,
+    "installed": false,
+    "nativePackageVerified": false,
+    "fullRegressionComplete": false,
+    "targetedBackend": {
+      "adminScenarioAndStartupJobs": 7,
+      "accountRestoreAndAdminPreview": 6
+    },
+    "fullAdministratorBrowser": {
+      "passed": true,
+      "identityAuthority": true,
+      "manualLevels": true,
+      "freshWorkspaces": true,
+      "maintenanceDraftPreserved": true,
+      "syntheticAccountDeletedOnLocalService": true,
+      "widths": [
+        1440,
+        960,
+        430
+      ]
+    },
+    "prefixSumLocalJudgeCases": 24,
+    "originalSiteSubmissions": 0,
+    "productionAccountOperations": 0,
+    "fullAppBrowserPassed": true,
+    "regressionState": "running after manual disk cleanup",
+    "previousCapacityBlockedRun": {
+      "tests": 102,
+      "failures": 1,
+      "errors": 60,
+      "passed": 41,
+      "accepted": false,
+      "reason": "Actual volume headroom protection; retained test artifacts, no protection bypass",
+      "evidence": "build/maintenance-targeted-check/report.json"
+    },
+    "userEditionDeliveryOwner": "feature/learning-browser-20261102"
+  },
+  "maintenanceEvidence": {
+    "backend": {
+      "path": ".backups/next-150/maintenance-admin-startup-targeted-3.log",
+      "sha256": "3775f2f09860d71121b31655c884af4d7d34562e35308638c0b4d40b706b6f03"
+    },
+    "browser": {
+      "path": ".backups/next-150/admin-workspace-ui/report.json",
+      "sha256": "9290023e84e9a53d296074754099179dd59c2de0b79110dc5349c14814187bad"
+    },
+    "component": {
+      "path": ".backups/next-150/maintenance-admin-settings-ui.log",
+      "sha256": "36c5638bc1d75c3b78d82d8af4ccba61603a373139ab76420044792052f784af"
+    }
   }
 }

@@ -615,7 +615,8 @@ class AccountStateSync:
                 if issue.status == 404:
                     raise ServiceError(503, '账号云端同步服务正在升级，请稍后重试；本机数据已保留') from None
                 raise
-            if answer.get('unchanged') is True:
+            unchanged = answer.get('unchanged') is True
+            if unchanged:
                 if cached_revision is None or answer.get('revision') != cached_revision:
                     raise ServiceError(503, '云端同步版本不一致，请重试；本机数据已保留')
                 upload_pending = not local_matches
@@ -624,13 +625,19 @@ class AccountStateSync:
             if type(answer.get('revision')) is not int or 'state' not in answer:
                 raise ServiceError(503, '账号同步服务需要升级，请稍后重试')
             self.revision = answer['revision']
-            if answer['state'] is not None and local_matches:
+            if unchanged:
+                # The authenticated revision is the last applied cloud root.
+                # Pending local rows are already the complete upload: merging
+                # that same local object with itself only copies/hashes it again.
+                state = local
+            elif answer['state'] is not None and local_matches:
                 state = answer['state']
             else:
                 state = merge_states(answer['state'], local, self.meta.get('baseline'))
             # Complete the first upload before exposing authentication. A failure
             # leaves the local workspace and session gate untouched.
-            if upload_pending or answer['state'] != state or self.chunks.migrate:
+            uploaded = upload_pending or answer['state'] != state or self.chunks.migrate
+            if uploaded:
                 try:
                     saved = self._call('PUT', '/v1/accounts/state', {'revision': self.revision, 'state': state})
                 except ServiceError as issue:
@@ -646,10 +653,21 @@ class AccountStateSync:
             # online backup and DELETE/INSERT every personal row in that case.
             if state != local:
                 changes = self._apply(state, expected_journal=local_journal)
-            else:
+            elif not (unchanged and local_matches and imported):
                 changes = local_changes
                 self._apply_profiles(state)
-            self._persist_meta(state, changes)
+            else:
+                changes = local_changes
+            if unchanged and local_matches and not uploaded:
+                # No row or cloud root changed. Keep the durable acknowledgement
+                # rather than rebuilding its per-row hashes and rewriting the
+                # same metadata/profile documents on every ordinary launch.
+                self.last_changes = changes
+                self.synced_hash = self.meta['syncedHash']
+                self.last_profile_hash = digest(state['publicAccounts'])
+                self.last_profile_stamp = self.captured_profile_stamp
+            else:
+                self._persist_meta(state, changes)
             with self.service.lock:
                 conflict_count = self.service.connection.execute('SELECT COUNT(*) FROM account_sync_conflicts').fetchone()[0]
                 still_dirty = self.service.connection.total_changes != self.last_changes

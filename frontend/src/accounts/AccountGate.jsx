@@ -97,6 +97,7 @@ export default function AccountGate({ children }) {
     setMode(next); setError(''); setMessage(''); setPassword(''); setConfirmation(''); setVisible(false);
   }
   window.__tbAdmin = Boolean(session?.admin);
+  if(session?.admin)window.__tbNewAccount=Boolean(session.scenario?.newAccount);
   window.__tbAccountUserId = session?.account?.userId || '';
   window.__tbAccount = session?.account || null;
   window.__tbOriginalWorkspace = Boolean(session?.usesOriginalWorkspace);

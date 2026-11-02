@@ -65,7 +65,7 @@ class OfficialSync:
             return json.loads(response.read(8 * 1024 * 1024))
 
     def start(self):
-        if os.environ.get('TB_OFFLINE') == '1' or self.thread:
+        if os.environ.get('TB_OFFLINE') == '1' or self.thread or getattr(self, 'defer_start', False):
             return
         self.thread = threading.Thread(target=self._loop, name='tb-official-sync', daemon=True)
         self.thread.start()

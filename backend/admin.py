@@ -26,10 +26,15 @@ def controls(service, body=None):
                     or type(body['allAchievements']) is not bool):
                 raise ServiceError(400, '管理员等级、段位或成就选项无效')
             value = dict(body)
+            extra = {}
+            if getattr(service, 'admin_simulation', False):
+                service.insights()
+                from starter_pacing import costs
+                extra['simulationOffsetXp'] = sum(costs(service)[:value['level'] - 1]) - service._admin_simulation_raw_xp
             with service._write() as connection:
                 if value['allAchievements']:
                     connection.execute("INSERT OR IGNORE INTO account_preferences VALUES('admin-granted-at',?,?)",(iso(service._now()),iso(service._now())))
-                connection.execute("INSERT INTO account_preferences VALUES('admin-controls',?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at", (json.dumps({**value, 'rankLadderVersion': 2, 'previewVersion': 1}), iso(service._now())))
+                connection.execute("INSERT INTO account_preferences VALUES('admin-controls',?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at", (json.dumps({**value, **extra, 'rankLadderVersion': 2, 'previewVersion': 1}), iso(service._now())))
         return value
 
 def decorate(service, value):
@@ -37,9 +42,24 @@ def decorate(service, value):
     from progression import ACHIEVEMENT_DEFINITIONS, earned_titles
     setting = controls(service)
     index = setting['tier']
-    value['growth'].update(growth(sum(LEVEL_COSTS[:setting['level'] - 1])))
-    value['growth'].update(admin=True, rankedEligible=True, rankUnlockLevel=1, tier=TIERS[index], badge=f'tier-{index}',
-                           ranked={'qualified':True, 'tier':TIERS[index], 'badge':f'tier-{index}', 'score':RANK_THRESHOLDS[index], 'abilityScore':RANK_THRESHOLDS[index], 'levelGate':1, 'rules':'管理员工作区手动设置'})
+    simulation = getattr(service, 'admin_simulation', False)
+    service._admin_simulation_raw_xp = value['growth']['totalXp']
+    if simulation:
+        from starter_pacing import costs
+        row = service.connection.execute("SELECT value FROM account_preferences WHERE key='admin-controls'").fetchone()
+        offset = json.loads(row[0]).get('simulationOffsetXp', 0) if row else 0
+        value['growth'].update(growth(max(0, service._admin_simulation_raw_xp + offset), level_costs=costs(service)))
+    else:
+        value['growth'].update(growth(sum(LEVEL_COSTS[:setting['level'] - 1])))
+    gate = 5 if simulation else 1
+    qualified = value['growth']['level'] >= gate
+    value['growth'].update(admin=True, rankedEligible=qualified, rankUnlockLevel=gate,
+                           tier=TIERS[index], badge=f'tier-{index}' if qualified else None,
+                           ranked={'qualified':qualified, 'tier':TIERS[index], 'badge':f'tier-{index}' if qualified else None,
+                                   'score':RANK_THRESHOLDS[index], 'abilityScore':RANK_THRESHOLDS[index], 'levelGate':gate, 'rules':'管理员工作区手动设置'})
+    if simulation:
+        from experience_challenge import snapshot
+        value['growth']['experienceChallenge'] = snapshot(service, value['growth']['level'])
     if setting['allAchievements']:
         granted=service.connection.execute("SELECT value FROM account_preferences WHERE key='admin-granted-at'").fetchone()
         timestamp=granted['value'] if granted else iso(service._now())

@@ -175,7 +175,15 @@ class Handler(BaseHTTPRequestHandler):
                                           supersede=path in ('/api/account/login', '/api/account/register')):
                 self._dispatch(writing)
         else:
-            self._dispatch(writing)
+            scenarios = getattr(self.server, 'admin_scenarios', None)
+            changing = writing and unquote(urlsplit(self.path).path) == '/api/admin/scenario'
+            if scenarios is not None:
+                if changing:
+                    self.local_request(True)
+                with scenarios.request_context(changing=changing):
+                    self._dispatch(writing)
+            else:
+                self._dispatch(writing)
 
     def _dispatch(self, writing=False):
         body_consumed = False
@@ -197,7 +205,11 @@ class Handler(BaseHTTPRequestHandler):
             store = self.server.store
             if path == '/api/account' and not writing:
                 query = parse_qs(target.query)
-                self.send_json(200, accounts.snapshot(background=query.get('background') == ['1'], retry=query.get('retry') == ['1']) if accounts else {'required': False, 'authenticated': True, 'token': store.token, 'admin': self.server.admin_mode, 'account': {'userId':'local-admin','nickname':'admin','loginId':'admin'} if self.server.admin_mode else None})
+                value = accounts.snapshot(background=query.get('background') == ['1'], retry=query.get('retry') == ['1']) if accounts else {'required': False, 'authenticated': True, 'token': store.token, 'admin': self.server.admin_mode, 'account': {'userId':self.server.training._ranking_profile()['user_id'],'nickname':'admin','loginId':'admin'} if self.server.admin_mode else None}
+                scenarios = getattr(self.server, 'admin_scenarios', None)
+                if scenarios is not None:
+                    value['scenario'] = scenarios.snapshot()
+                self.send_json(200, value)
                 return
             # Software updates also run on the login screen. Local origin and
             # session-token guards above still protect every mutation.
@@ -286,6 +298,9 @@ class Handler(BaseHTTPRequestHandler):
                 elif path == '/api/admin':
                     from admin import controls
                     value = controls(training, body)
+                elif path == '/api/admin/scenario':
+                    if not self.server.admin_mode:raise APIError(404,'没有找到这个接口')
+                    value = self.server.admin_scenarios.apply(body)
                 elif path in ('/api/admin/accounts/delete','/api/admin/accounts/reset-password'):
                     if not self.server.admin_mode:raise APIError(404,'没有找到这个接口')
                     value=(self.server.admin_rankings.delete_account(body) if path.endswith('/delete') else self.server.admin_rankings.reset_password(body))
@@ -492,12 +507,17 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_json(200, self.server.software_updates.snapshot())
             elif path == "/api/workspace":
                 self.send_json(200, self.server.training.workspace())
+                ready = getattr(self.server, 'on_workspace_ready', None)
+                if ready is not None:ready()
             elif path == '/api/admin/session':
                 if not self.server.admin_mode:raise APIError(404,'没有找到这个接口')
                 self.send_json(200,self.server.admin_rankings.snapshot())
             elif path == '/api/admin':
                 from admin import controls
                 self.send_json(200, controls(self.server.training))
+            elif path == '/api/admin/scenario':
+                if not self.server.admin_mode:raise APIError(404,'没有找到这个接口')
+                self.send_json(200, self.server.admin_scenarios.snapshot())
             elif path == '/api/admin/accounts':
                 if not self.server.admin_mode:raise APIError(404,'没有找到这个接口')
                 self.send_json(200,self.server.admin_rankings.search_accounts(parse_qs(target.query).get('q',[''])[0]))
@@ -936,6 +956,8 @@ class LocalServer(ThreadingHTTPServer):
         return value
 
     def server_close(self):
+        jobs=getattr(self,'startup_jobs',None)
+        if jobs is not None:jobs.close()
         content=getattr(self,'content_updates',None)
         if content is not None:content.close()
         translation=getattr(self,'translation',None)
@@ -964,6 +986,8 @@ class LocalServer(ThreadingHTTPServer):
             accounts = getattr(self, 'accounts', None)
             if accounts is not None:
                 accounts.close(wait=not getattr(self,'fast_shutdown',False))
+            elif getattr(self, 'admin_scenarios', None) is not None:
+                self.admin_scenarios.close()
             elif training is not None:
                 training.close()
 
@@ -1041,6 +1065,9 @@ def create_server(port=0, data_file=None, data_root=None, dist_dir=None, history
             service.on_submission = changed
             return service
         server.training = personal_service(training_file)
+        if admin_mode:
+            from admin_scenarios import AdminScenarios
+            server.admin_scenarios = AdminScenarios(server, personal_service)
         if require_account:
             from accounts import Accounts
             server.accounts = Accounts(server, personal_service, endpoint=account_endpoint)

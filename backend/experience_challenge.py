@@ -180,7 +180,7 @@ def reward(training, base_xp):
 def snapshot(training, level):
     state = read(training)
     passed = bool(state.get('passedAt'))
-    eligible = not training.admin_mode and level < 5 and not passed
+    eligible = (not training.admin_mode or getattr(training, 'admin_simulation', False)) and level < 5 and not passed
     pending = False
     if state['attempts']:
         pending = any(training.connection.execute('SELECT 1 FROM submissions WHERE id=? AND finished_at IS NULL', (identity,)).fetchone() for identity in state['attempts'])

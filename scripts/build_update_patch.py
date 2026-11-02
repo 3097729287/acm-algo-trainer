@@ -13,6 +13,8 @@ from update_patch import safe_name
 
 def build(package, baseline, from_version, output):
     version = (package / 'VERSION').read_text().strip()
+    if version == from_version:
+        raise ValueError('同版本维护请使用完整安装包；增量更新必须包含版本变化')
     def public(values):
         result = {}
         for name, sha in values.items():

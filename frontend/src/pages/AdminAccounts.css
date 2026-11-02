@@ -11,3 +11,5 @@
 .admin-account-confirm h3{margin-top:0}.admin-account-confirm p{overflow-wrap:anywhere}
 .admin-account-confirm label{display:grid;gap:.5rem}.admin-account-confirm input{min-width:0;width:100%;box-sizing:border-box}
 .admin-account-confirm-actions{display:flex;justify-content:flex-end;gap:.5rem;flex-wrap:wrap;margin-top:1rem}
+.admin-scenario-actions,.admin-level-actions{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;min-width:0}
+.admin-scenario-actions .tb-select-wrap{max-width:100%}

@@ -56,6 +56,16 @@ class PatchTests(unittest.TestCase):
         self.assertFalse((self.app / 'frontend/dist/old.js').exists())
         self.assertEqual((self.app / 'state/private.sqlite3').read_bytes(), b'personal WAL and code untouched')
 
+    def test_builder_rejects_same_version_before_creating_any_artifact(self):
+        import importlib.util
+        source=Path(__file__).resolve().parents[1]/'scripts/build_update_patch.py'
+        spec=importlib.util.spec_from_file_location('same_version_builder',source)
+        builder=importlib.util.module_from_spec(spec);spec.loader.exec_module(builder)
+        output=self.root/'not-created'
+        with self.assertRaisesRegex(ValueError,'同版本'):
+            builder.build(self.app,self.root/'unused-baseline.json','1.0.13',output)
+        self.assertFalse(output.exists())
+
     def test_failure_rolls_back_replacements_and_added_files(self):
         path = self.package()
         with self.assertRaises(OSError): apply_patch_file(path, digest(path), '1.0.14', self.app, fail_after=1)

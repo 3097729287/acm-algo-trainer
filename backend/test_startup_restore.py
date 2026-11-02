@@ -29,7 +29,7 @@ class StartupRestoreTests(unittest.TestCase):
             calls.append((method,path))
             if method == 'GET' and path == '/v2/accounts/state': revisions.append(kwargs.get('state_revision'))
             return original(method,path,*args,**kwargs)
-        with patch.object(self.server.accounts,'_remote',side_effect=remote), patch.object(AccountStateSync,'start'), patch.object(AccountStateSync,'_apply',side_effect=AssertionError('unchanged tables must not be replaced')):
+        with patch.object(self.server.accounts,'_remote',side_effect=remote), patch.object(AccountStateSync,'start'), patch.object(AccountStateSync,'_apply',side_effect=AssertionError('unchanged tables must not be replaced')), patch.object(AccountStateSync,'_persist_meta',side_effect=AssertionError('unchanged acknowledgement rewritten')), patch.object(AccountStateSync,'_apply_profiles',side_effect=AssertionError('unchanged profiles rewritten')):
             status,value=self.call('/api/account')
         self.assertEqual(status,200,value)
         self.assertTrue(value['authenticated'])

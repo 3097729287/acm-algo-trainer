@@ -30,6 +30,7 @@ await page.route('**/api/**',async route=>{
  else if(p==='/api/admin/session'&&method==='POST'){assert.deepEqual(body,{password:'fixture-admin-password'});logged=true;value={authenticated:true,configured:true,loginId:'admin'};}
  else if(p==='/api/admin/logout'){logged=false;value={authenticated:false,configured:true,loginId:'admin'};}
  else if(p==='/api/admin'){if(method==='POST'){assert.deepEqual(Object.keys(body).sort(),['allAchievements','level','tier']);config=body;}value=config;}
+ else if(p==='/api/admin/scenario'&&method==='GET')value={active:'maintenance',kind:'maintenance',newAccount:false,workspaces:[],limit:5};
  else if(p==='/api/admin/accounts'&&method==='GET'){
   assert(logged,'An unauthenticated UI cannot search accounts');
   if(failSearch){status=503;value={error:'隔离服务暂不可用'};}else value={accounts:url.searchParams.get('q')==='admin'?[admin]:url.searchParams.get('q')===target.loginId?[target]:[]};

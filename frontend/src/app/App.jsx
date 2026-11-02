@@ -666,7 +666,7 @@ export default function App() {
   const [account, setAccount] = useState(() => window.__tbAccount || null);
   const duel=useDuel(api,data?account?.userId:null);
   const calendar = useContestCalendar(api, Boolean(data), dialog === 'contest-calendar', now, account?.userId ?? null);
-  const social = useSocial(api, Boolean(account?.userId),account?.userId||'');
+  const social = useSocial(api, Boolean(data&&account?.userId),account?.userId||'');
   const [messagesReading,setMessagesReading]=useState(false);
   useUsage(api,data&&account?.userId,Boolean((!dialog||['lecture','solution'].includes(dialog))&&(practiceId||readerId||page==='mock'&&mockSlot&&workspace.activeContest||['lectures','paths','templates','wiki'].includes(page)||page==='settings'&&settingsTab==='accounts')));
   usePlatformLogins(api,Boolean(data&&account?.userId));
@@ -2051,7 +2051,7 @@ export default function App() {
         <header className={"topbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}>
           <div className="topbar-leading"><div id="tb-page-location" className="page-location-slot"/>
           <div id="tb-page-search" className="topbar-search-slot"/></div>
-          {!practiceId&&!mockFocus&&(account?.userId?<NextActions key={account.userId} rows={rows} training={mine} reviewPlan={workspace.reviews} insights={insights} prefs={prefs} setPrefs={setPrefs} preferencesReady={preferencesLoaded.current&&!loading} api={api} availablePages={visiblePageIds} activeContest={active} onNavigate={openRecommendation} onTrain={openPractice} onOpenChange={setRecommendationOpen} suspended={Boolean(dialog||clearTrainingAnchor||tourOpen||levelUp.dialog)}/>:<section className="next-actions next-actions-pending" aria-label="下一步推荐做的事" aria-busy="true"><Clock size={18}/><span>正在准备下一步</span></section>)}
+          {!practiceId&&!mockFocus&&(account?.userId?<NextActions key={account.userId} rows={rows} training={mine} reviewPlan={workspace.reviews} insights={insights} prefs={prefs} setPrefs={setPrefs} preferencesReady={preferencesLoaded.current&&!loading} contentReady={Boolean(data&&!loading)} api={api} availablePages={visiblePageIds} activeContest={active} onNavigate={openRecommendation} onTrain={openPractice} onOpenChange={setRecommendationOpen} suspended={Boolean(dialog||clearTrainingAnchor||tourOpen||levelUp.dialog)}/>:<section className="next-actions next-actions-pending" aria-label="下一步推荐做的事" aria-busy="true"><Clock size={18}/><span>正在准备下一步</span></section>)}
           <div className="topbar-actions">
             <PracticeStreak days={summary.streak || 0} completedToday={Number(todayAc)>0}/>{window.__tbAdmin&&<span className="admin-workspace-label">管理员</span>}
             {active && page !== "mock" && (

@@ -1,5 +1,5 @@
 {
-  "status": "User 1.5.0 559807bb installed; 19 private DBs and 15345 XP preserved; actual startup 21s misses target. Follow-up large-data initialization 1.3s and 69 targeted checks pass; final native rebuild pending. Complete production backup restored on private 8.4.11; production untouched.",
+  "status": "c8d1cd54 user installed locally and normal launch verified; actual content 5.63/8.33 seconds misses 3s. Private admin/scenario and startup maintenance source passes targeted backend and full admin browser checks; native packaging/full regression pending capacity and serialized installation coordination. Production untouched.",
   "requestedOn": "2026-11-01",
   "continuation": "用户已要求当前版本更新完成后先列出下一版内容与实施顺序，然后继续实施；不得提前并入当前版本。",
   "features": [
@@ -134,22 +134,24 @@
     "productionChanged": false
   },
   "currentAcceptance": {
-    "buildSourceCommit": "87da90ac39687a33bb3684f3d6a1d0d00a35f534",
+    "buildSourceCommit": "c8d1cd54a684c9779588f2b0b55ab7d77eef6d37",
     "contentMilliseconds": [
-      2535.79,
-      2485.03
+      5631.81,
+      8325.93
     ],
-    "freshProgramFilesVerified": 4763,
+    "freshProgramFilesVerified": 4765,
     "userInstallerBuilt": true,
-    "userInstallationChanged": false,
-    "upgradeAcceptanceComplete": false,
+    "userInstallationChanged": true,
+    "upgradeAcceptanceComplete": true,
     "productionService": "1.2.9",
-    "additionalStorageNeeded": true
+    "additionalStorageNeeded": false,
+    "contentTargetMet": false,
+    "maintenanceNativeAcceptanceComplete": false
   },
   "followupAfterCurrentDelivery": {
     "id": "private-admin-management-and-scenarios",
     "requestedOn": "2026-11-02",
-    "status": "pending until current user edition delivered",
+    "status": "implemented and isolated browser/backend validated; native acceptance in progress",
     "scope": [
       "repair missing navigation",
       "manage user accounts",
@@ -176,5 +178,24 @@
     "skipped": 2,
     "failed": 1,
     "failure": "delegated teaching review digest mismatch preserved"
+  },
+  "maintenanceFollowup": {
+    "adminIdentity": "Account and confirmed growth use the same persistent local identity",
+    "scenarios": "At most five independent private registration journals; preserve maintenance and other scenarios; serialized switching, stale tokens rejected, Bin-only recycle",
+    "levels": "Manual level changes and upgrade simulation; real local prefix-sum full judge reaches Lv.5 once",
+    "startup": "Skip redundant unchanged-state merges/acknowledgements; auxiliary catalog requests wait for main data; desktop bulk jobs start after a real workspace response",
+    "installedInCurrentUserBuild": false,
+    "nativeAcceptanceComplete": false,
+    "fullRegressionComplete": false,
+    "productionChanged": false
+  },
+  "deliveryCoordination": {
+    "userEditionOwner": "feature/learning-browser-20261102",
+    "thisWindowScope": [
+      "private administrator maintenance",
+      "startup optimization and handoff"
+    ],
+    "concurrentUserInstallation": false,
+    "productionChanged": false
   }
 }

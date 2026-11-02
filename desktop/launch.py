@@ -258,7 +258,11 @@ def run_desktop() -> int:
                         prepare(APP_DIR)
                     except Exception as issue:
                         LOG.warning('Legacy migration deferred; original data retained: %s', type(issue).__name__)
-                server=start_server(port=0,dist_dir=FRONTEND,admin_mode=ADMIN_MODE,integration_auto_start=False if os.environ.get('TB_OFFLINE')=='1' else None)
+                server=start_server(port=0,dist_dir=FRONTEND,admin_mode=ADMIN_MODE,integration_auto_start=False)
+                if not ADMIN_MODE and os.environ.get('TB_OFFLINE') != '1':
+                    from startup_jobs import StartupJobs
+                    server.startup_jobs = StartupJobs(server)
+                    server.on_workspace_ready = server.startup_jobs.ready
                 if server.accounts is not None:
                     # Start the original guarded restore while WebView loads
                     # its assets; the UI still waits for authenticated evidence.
