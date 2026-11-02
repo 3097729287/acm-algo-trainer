@@ -1,3 +1,4 @@
+import {useStudyState} from '@/lib/StudyPane.jsx';
 import {useMemo,useState} from 'react';
 import {ArrowLeft,ArrowRight,Check,RotateCcw} from 'lucide-react';
 import {operationTrace} from './operationModels.js';
@@ -22,7 +23,7 @@ function State({kind,frame:f,values}) {
 export default function OperationsExperiment({topic,draft={},update}) {
  const frames=useMemo(()=>operationTrace(topic.id,topic.values,[...topic.scripts,...(draft.operations||[])]),[topic,draft.operations]);
  const index=Math.min(frames.length-1,Math.max(0,Number(draft.frame)||0)),frame=frames[index];
- const [answer,setAnswer]=useState(draft.answer||''),[checked,setChecked]=useState(false),[operation,setOperation]=useState(topic.scripts[0][0]),[parameters,setParameters]=useState(''),[error,setError]=useState('');
+ const [answer,setAnswer]=useStudyState('OperationsExperiment.answer',draft.answer||''),[checked,setChecked]=useState(false),[operation,setOperation]=useStudyState('OperationsExperiment.operation',topic.scripts[0][0]),[parameters,setParameters]=useStudyState('OperationsExperiment.parameters',''),[error,setError]=useState('');
  const choices={dsu:['unite','same','size'],fenwick:['add','prefix','sum'],'segment-tree':['addRange','sum'],trie:['insert','erase','count','prefix'],'binary-lifting':['jump'],'li-chao':['line','query'],dinic:[]}[topic.id];
  const append=()=>{
   try{

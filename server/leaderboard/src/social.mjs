@@ -6,6 +6,7 @@ export const socialEvent = row => ({
   id:row.id, kind:row.kind, actor:{ userId:row.actor_id,nickname:row.actor_name },
   recipient:{ userId:row.recipient_id,nickname:row.recipient_name },
   text:row.body, createdAt:row.created_at, read:Boolean(row.read_at),
+  ...(row.reply_to?{replyTo:row.reply_to}:{}),...(row.gift_payload?{gift:JSON.parse(row.gift_payload)}:{}),
 });
 // Public activity never discloses private message text or inbox read receipts.
 const socialActivity = row => ({
@@ -17,7 +18,9 @@ export async function socialSnapshot(store,user,now) {
   const [summary,inbox,activity] = await Promise.all([
     store.social.summary(user.user_id,[user.user_id],bounds('daily',now).day),store.social.inbox(user.user_id),store.social.activity(),
   ]);
-  return { available:true,protocol:1,totalLikes:summary.get(user.user_id).total,todayLikes:summary.get(user.user_id).today,unreadCount:inbox.unreadCount,notifications:inbox.rows.map(socialEvent),activity:activity.map(socialActivity) };
+  const replies=await store.social.replies(user.user_id,inbox.rows.map(row=>row.id));
+  const notifications=inbox.rows.map(row=>({...socialEvent(row),myReplies:replies.filter(reply=>reply.reply_to===row.id).map(reply=>({id:reply.id,text:reply.body,createdAt:reply.created_at,...(reply.gift_payload?{gift:JSON.parse(reply.gift_payload)}:{})}))}));
+  return { available:true,protocol:1,capabilities:{replies:await store.social.detailsAvailable(),stickerGifts:Boolean(await store.social.detailsAvailable()&&store.gameplay&&await store.gameplay.available())},totalLikes:summary.get(user.user_id).total,todayLikes:summary.get(user.user_id).today,unreadCount:inbox.unreadCount,notifications,activity:activity.map(socialActivity) };
 }
 export async function rankingSocial(store,viewer,rows,period,now) {
   if (!store.social || !await store.social.available()) return false;
@@ -43,5 +46,7 @@ export async function socialWrite(store,user,token,path,value,now) {
     return { ...result,targetId:value.targetId,likes:{total:counts.total,likedToday:counts.likedToday},counts:{daily:counts.today,weekly:counts.period,total:counts.total} };
   }
   if (typeof value.text !== 'string' || /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/u.test(value.text) || !value.text.trim() || [...value.text.trim()].length>500 || !uuid.test(value.requestId || '')) throw new AccountError(400,'留言须为 1–500 字');
-  return store.social.comment(user.user_id,hash,seconds,value.targetId,value.text.trim(),value.requestId,timestamp);
+  if(Object.hasOwn(value,'replyTo')&&!uuid.test(value.replyTo||''))throw new AccountError(400,'回复留言编号无效');
+  if(Object.hasOwn(value,'gift')&&(!value.gift||typeof value.gift!=='object'||!uuid.test(value.gift.unitId||'')||Object.keys(value.gift).sort().join(',')!=='revision,unitId'||!Number.isSafeInteger(value.gift.revision)||value.gift.revision<0))throw new AccountError(400,'赠送贴纸无效');
+  return store.social.comment(user.user_id,hash,seconds,value.targetId,value.text.trim(),value.requestId,timestamp,value,store.gameplay);
 }

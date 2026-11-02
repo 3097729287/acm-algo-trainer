@@ -1,5 +1,6 @@
 """Retained isolated fixtures: bin-only retirement, capacity failure and links."""
 from pathlib import Path
+import os
 from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
@@ -22,7 +23,11 @@ def fixture_recycler(root):
         path=Path(path)
         assert path.resolve().is_relative_to(root.resolve())
         destination=root/'retained-fixture';destination.mkdir(exist_ok=True)
-        path.rename(destination/(uuid.uuid4().hex+'-'+path.name))
+        target=destination/(uuid.uuid4().hex+'-'+path.name)
+        if os.name=='nt':
+            os.rename('\\\\?\\'+str(path.absolute()),'\\\\?\\'+str(target.absolute()))
+        else:
+            path.rename(target)
         return True
     return retain
 

@@ -1,5 +1,7 @@
 # TB 排行榜服务
 
+1.4.1 为待部署源码候选，生产状态不由源码版本推定。015 保留对战及贴纸账号库存；新增 016_social_replies.sql 仅添加留言回复、幂等请求摘要和礼物回执。新接口为 POST /v1/stickers/levels、achievement、open-box；留言可携带 replyTo 和 gift:{unitId,revision}。送礼在同一事务锁定双账号、转移一张未放置贴纸并写入留言，重试返回原回执。每级箱及固定成就贴纸都有持久身份，回滚客户端快照不会重复生成。部署前须使用候选同一提交及 016 重新完成备份恢复演练；deploy-gameplay.sh 要求独立授权，不覆盖配置或数据卷。[奖励、迁移与验证](../../docs/releases/1.5.1.md)。
+
 1.3.0 is a source candidate, not yet deployed. Production remains1.2.9. Migration013 adds daily observations of daily/weekly/all-time leaders;014 adds source-hash-bound public Chinese statement translations. Both are additive. Take and verify a fresh independent SQL backup and preservation fingerprints before any separately authorized deployment.
 
 

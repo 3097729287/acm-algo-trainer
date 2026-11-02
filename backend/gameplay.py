@@ -50,17 +50,22 @@ def _grant_pending(training):
             db.execute('INSERT INTO account_preferences VALUES(?,?,?) ON CONFLICT(key) DO NOTHING',(marker,'true',iso(training._now())))
 
 def stickers(training,kind=None,value=None):
+    mutation={}
     if kind:
-        allowed={'requestId','unitId','revision','x','y','angle'} if kind=='place' else {'requestId','unitId','revision'}
-        if kind not in {'place','recycle'} or not isinstance(value,dict) or set(value)-allowed:raise ServiceError(400,'贴纸操作无效')
-        _request(training,'POST','/v1/stickers/'+kind,value)
+        allowed={'place':{'requestId','unitId','revision','x','y','angle'},'recycle':{'requestId','unitId','revision'},'open-box':{'requestId','boxId'}}
+        if kind not in allowed or not isinstance(value,dict) or set(value)-allowed[kind]:raise ServiceError(400,'贴纸操作无效')
+        mutation=_request(training,'POST','/v1/stickers/'+kind,value)
     error=None
-    try:_grant_pending(training)
+    try:
+        _grant_pending(training)
+        from sticker_rewards import grant_pending
+        grant_pending(training)
     except ServiceError as issue:error=str(issue)
     result=_request(training,'GET','/v1/stickers')
     from fun_moments import confirmed_gameplay
     confirmed_gameplay(training,result,kind)
     if error:result['rewardSyncError']=error
+    if mutation.get('opening'):result['opening']=mutation['opening']
     return result
 
 def duel(training,kind=None,value=None):

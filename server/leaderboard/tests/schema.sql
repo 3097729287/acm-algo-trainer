@@ -70,6 +70,8 @@ CREATE TABLE social_likes (actor_id TEXT NOT NULL REFERENCES users(user_id),reci
 CREATE INDEX social_like_recipient ON social_likes(recipient_id,liked_day);
 CREATE TABLE social_notifications (id TEXT PRIMARY KEY,kind TEXT NOT NULL,actor_id TEXT NOT NULL REFERENCES users(user_id),recipient_id TEXT NOT NULL REFERENCES users(user_id),body TEXT NOT NULL DEFAULT '',created_at TEXT NOT NULL,read_at TEXT);
 CREATE INDEX social_inbox ON social_notifications(recipient_id,created_at);
+CREATE TABLE social_comment_details(message_id TEXT PRIMARY KEY REFERENCES social_notifications(id) ON DELETE CASCADE,reply_to TEXT REFERENCES social_notifications(id) ON DELETE SET NULL,request_hash TEXT NOT NULL,gift_payload TEXT);
+CREATE INDEX social_reply_parent ON social_comment_details(reply_to);
 
 CREATE TABLE account_public_avatars (user_id TEXT PRIMARY KEY REFERENCES accounts(user_id),data TEXT NOT NULL,hash TEXT NOT NULL,updated_at TEXT NOT NULL);
 CREATE TABLE training_list_likes (actor_id TEXT NOT NULL REFERENCES users(user_id),list_id TEXT NOT NULL,liked_day TEXT NOT NULL,created_at TEXT NOT NULL,PRIMARY KEY(actor_id,list_id,liked_day));

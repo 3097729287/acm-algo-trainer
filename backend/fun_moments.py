@@ -51,6 +51,11 @@ def from_facts(training,records):
             if language in {'cpp17','python3'}:accepted_languages[identity].add(language)
             if len(accepted_languages[identity])==2:unlock('moment-polyglot',record['submitted_at'])
             local=stamp.astimezone(SHANGHAI)
+            if local.strftime('%H%M')==local.strftime('%H%M')[::-1]:unlock('moment-palindrome',record['submitted_at'])
+            if local.weekday()==0:unlock('moment-monday',record['submitted_at'])
+            if old and old.get('verdict') in {'CE','WA','TLE','MLE','RE','OLE'} and dt.timedelta(0)<=stamp-parse_time(old['submitted_at'])<=dt.timedelta(hours=1):
+                first,second=old.get('code'),record.get('code')
+                if isinstance(first,str) and isinstance(second,str) and first and len(first)==len(second) and sum(a!=b for a,b in zip(first,second))==1:unlock('moment-one-character',record['submitted_at'])
             if local.hour==local.minute==local.second:unlock('moment-clock',record['submitted_at'])
             deadline=parse_time(contests.get(record.get('contest_id')))
             if deadline and dt.timedelta(0)<=deadline-stamp<=dt.timedelta(seconds=5):unlock('moment-photo-finish',record['submitted_at'])
@@ -83,8 +88,19 @@ def from_facts(training,records):
             raw=award.get('settledAt') or award.get('awardedAt') or award.get('createdAt') or award.get('at')
             settled=parse_time(raw)
             if settled and any(t<settled and t.astimezone(SHANGHAI).date().isoformat()==str(day)[:10] for t in teases):unlock('moment-prophet',raw)
-    return [dict(id=identity,name=definition['name'],description=definition['description'],target=1,
-                 progress=int(identity in dates),unlocked=identity in dates,unlockedAt=dates.get(identity),
+    amounts={}
+    row=training.connection.execute("SELECT value FROM account_preferences WHERE key='gameplay-moments-v1'").fetchone()
+    try:facts=json.loads(row[0]) if row else {}
+    except (ValueError,TypeError):facts={}
+    if not isinstance(facts,dict):facts={}
+    if facts.get('owner')==training._ranking_profile().get('user_id'):
+        amounts={'moment-first-gift':facts.get('sent',0),'moment-gift-five':facts.get('recipients',0),'moment-gift-circle':facts.get('recipients',0),
+                 'moment-receive-gift':facts.get('received',0),'moment-box-first':facts.get('opened',0),'moment-box-ten':facts.get('opened',0),
+                 'moment-box-lucky':int(bool(facts.get('lucky'))),'moment-box-rainbow':int(bool(facts.get('rainbow')))}
+        for identity,amount in amounts.items():
+            if amount>=MOMENTS[identity].get('target',1):unlock(identity,facts.get('observedAt'))
+    return [dict(id=identity,name=definition['name'],description=definition['description'],target=definition.get('target',1),
+                 progress=min(definition.get('target',1),amounts.get(identity,int(identity in dates))),unlocked=identity in dates,unlockedAt=dates.get(identity),
                  hidden=definition['hidden'],category='fun',rewardXp=definition['xp']) for identity,definition in MOMENTS.items()]
 
 
@@ -103,6 +119,22 @@ def confirmed_gameplay(training,view,kind=None):
     now=training._now();stamp=now.astimezone(dt.timezone.utc).isoformat();proof=[]
     units=view.get('units')
     if isinstance(units,list):
+        boxes=view.get('boxes') or {}
+        opened=[box for box in boxes.values() if isinstance(box,dict) and box.get('openedAt')]
+        stats=view.get('giftStats') or {}
+        observed={'owner':owner,'sent':stats.get('sent',0),'recipients':stats.get('recipients',0),'received':stats.get('received',0),'opened':len(opened),
+                  'lucky':any(any(drop.get('rarity')=='legendary' for drop in box.get('drops',[])) for box in opened),
+                  'rainbow':any({drop.get('rarity') for drop in box.get('drops',[])}>={'common','rare','epic','legendary'} for box in opened)}
+        with training.lock:
+            row=training.connection.execute("SELECT value FROM account_preferences WHERE key='gameplay-moments-v1'").fetchone()
+            try:previous=json.loads(row[0]) if row else {}
+            except (ValueError,TypeError):previous={}
+            if not isinstance(previous,dict):previous={}
+            for key in ('sent','recipients','received','opened','lucky','rainbow'):
+                observed[key]=max(observed[key],previous.get(key,0) if previous.get('owner')==owner else 0)
+            if any(observed[key]!=previous.get(key) for key in observed):
+                observed['observedAt']=stamp
+                with training._write() as db:db.execute('INSERT INTO account_preferences VALUES(?,?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at',('gameplay-moments-v1',json.dumps(observed),stamp))
         catalogue={item['id']:item.get('rarity') for item in view.get('catalogue',[]) if isinstance(item,dict) and item.get('id')}
         distinct={unit['id']:unit for unit in units if isinstance(unit,dict) and unit.get('id')}
         placed=[unit for unit in distinct.values() if isinstance(unit.get('placement'),dict)]

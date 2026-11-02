@@ -1,3 +1,4 @@
+import {useStudyState} from '@/lib/StudyPane.jsx';
 import { useState } from 'react';
 import { ArrowRight, RotateCcw } from 'lucide-react';
 import { Feedback, CodeBlock } from './LabParts.jsx';
@@ -10,7 +11,7 @@ export function Strip({ values, label, start = 1, selected = () => false, annota
   return <div className="seq-strip-block"><span className="seq-strip-label">{label}</span><div className="seq-strip" role="list" aria-label={label}>{values.map((value, i) => <div role="listitem" className="seq-cell" key={i} data-selected={selected(i)} data-secondary={secondary(i)}><small>{start + i}</small><b>{i < known ? value : '?'}</b><span>{annotations(i) || '\u00a0'}</span></div>)}</div></div>;
 }
 function SequenceInput({ values, onChange, positive = false, label = '修改实验数组' }) {
-  const [text, setText] = useState(values.join(' ')), [error, setError] = useState('');
+  const [text, setText] = useStudyState('SequenceInput.text:'+label,values.join(' ')), [error, setError] = useState('');
   return <form className="seq-input-row" onSubmit={event => { event.preventDefault(); const parsed = parseSequence(text, { positive }); if (parsed.error) setError(parsed.error); else { onChange(parsed.values); setError(''); } }}><label>{label}<input aria-label={label} value={text} maxLength={100} onChange={event => setText(event.target.value)}/></label><button className="lab-button lab-button-quiet" type="submit">应用数组</button>{error && <p className="seq-error" role="alert">{error}</p>}</form>;
 }
 export function NumSelect({ label, value, min = 1, max, onChange }) { return <label className="seq-select">{label}<select aria-label={label} value={value} onChange={event => onChange(Number(event.target.value))}>{Array.from({ length: max - min + 1 }, (_, i) => min + i).map(n => <option key={n} value={n}>{n}</option>)}</select></label>; }
@@ -42,7 +43,7 @@ export function InverseExperiment({ drafts, updateDraft }) {
 }
 
 export function DifferenceExperiment({ drafts, updateDraft }) {
-  const a = [3, 1, 4, 1, 5, 9], operations = drafts.events || [], [l, setL] = useState(2), [r, setR] = useState(4), [k, setK] = useState('3'), [error, setError] = useState('');
+  const a = [3, 1, 4, 1, 5, 9], operations = drafts.events || [], [l, setL] = useStudyState('DifferenceExperiment.l',2), [r, setR] = useStudyState('DifferenceExperiment.r',4), [k, setK] = useStudyState('DifferenceExperiment.k','3'), [error, setError] = useState('');
   const wrong = !!drafts.wrongEnd, model = applyEvents(a, operations, wrong), step = Math.min(a.length + 1, drafts.scanStep || 0), correct = applyEvents(a, operations);
   return <><Story title="给第 2～4 格都加 3，真的要写三次吗？">把“每格加多少”改写为“从哪里开始生效、从哪里停止生效”。每次操作先记到事件账本，等所有操作结束，再统一扫描原数组。</Story><Panel title="只记增量的事件账本 Δ" aria-label="差分边界实验"><Strip values={a} label="原数组 a：始终保留"/><form className="seq-controls" onSubmit={event => { event.preventDefault(); if (!/^-?\d+$/.test(k) || Math.abs(Number(k)) > 99) { setError('增量须是 −99～99 的整数。'); return; } updateDraft('events', [...operations, { l, r, k: Number(k) }]); updateDraft('scanStep', 0); setError(''); }}><NumSelect label="开始 l" value={l} max={6} onChange={value => { setL(value); setR(Math.max(r, value)); }}/><NumSelect label="结束 r" value={r} min={l} max={6} onChange={setR}/><label className="seq-select">增量 k<input aria-label="增量 k" value={k} maxLength={4} onChange={event => setK(event.target.value)}/></label><button type="submit" className="lab-button" disabled={operations.length >= 12}>记下这次区间加</button><button type="button" className="lab-text-button" onClick={() => { updateDraft('events', []); updateDraft('scanStep', 0); }}>清空操作</button>{error && <p role="alert" className="seq-error">{error}</p>}</form>
       <ol className="seq-operation-list">{operations.map((op, i) => <li key={i}>[{op.l},{op.r}] 加 {op.k} → Δ[{op.l}] 加 {op.k}，Δ[{op.r + 1}] 减 {op.k}<button type="button" className="lab-text-button" aria-label={`删除第 ${i + 1} 次操作`} onClick={() => { updateDraft('events', operations.filter((_, j) => j !== i)); updateDraft('scanStep', 0); }}>撤销</button></li>)}</ol>{!operations.length && <p className="lab-caption">先记一条指令，再单步观察“正在生效的增量”。也可以添加相交区间或负增量。</p>}

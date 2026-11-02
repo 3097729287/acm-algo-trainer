@@ -8,10 +8,10 @@ test "$project" = /opt/tb-leaderboard || { printf 'Use the existing deployment d
 test "$#" = 2 || { printf 'Provide staged runtime and reviewed full source commit.\n' >&2; exit 1; }
 stage=$(realpath -- "$1")
 commit=$2
-test "$stage" = "$project/runtime.next-1.4.0"
+test "$stage" = "$project/runtime.next-1.4.1"
 printf '%s\n' "$commit" | grep -Eq '^[0-9a-f]{40}$'
 test ! -L "$stage" && test ! -L "$project/runtime"
-for required in package.json BUILD-INFO.json runtime-manifest.sha256 src/gameplay.mjs src/duel-problems.json mysql/013_leader_days.sql mysql/014_shared_translations.sql mysql/015_gameplay.sql scripts/audit-preserved-data.mjs scripts/verify-gameplay-restore.mjs; do
+for required in package.json BUILD-INFO.json runtime-manifest.sha256 src/gameplay.mjs src/duel-problems.json mysql/013_leader_days.sql mysql/014_shared_translations.sql mysql/015_gameplay.sql mysql/016_social_replies.sql src/sticker-rewards.mjs src/sticker-rewards.json scripts/audit-preserved-data.mjs scripts/verify-gameplay-restore.mjs; do
   test -f "$stage/$required"
 done
 (cd "$stage" && sha256sum --status -c runtime-manifest.sha256)
@@ -29,7 +29,7 @@ printf '%s  %s\n' "$backup_sha" "$backup_path" | sha256sum --status -c -
 free_kib=$(df -Pk "$project" | awk 'NR==2 {print $4}')
 test "$free_kib" -ge 262144 || { printf 'Less than 256 MiB free; existing service retained.\n' >&2; exit 1; }
 stamp=$(date -u +%Y%m%dT%H%M%SZ)
-evidence="$project/backups/deploy-gameplay-1.4.0-$stamp"
+evidence="$project/backups/deploy-gameplay-1.4.1-$stamp"
 test ! -e "$evidence"
 mkdir -m 700 "$evidence"
 config_fingerprints() {
@@ -82,7 +82,7 @@ trap 'exit 143' TERM
 stopped=1
 docker compose stop --timeout 30 api
 audit "$stage" > "$evidence/fingerprint.before.json"
-for migration in 013_leader_days.sql 014_shared_translations.sql 015_gameplay.sql; do
+for migration in 013_leader_days.sql 014_shared_translations.sql 015_gameplay.sql 016_social_replies.sql; do
   docker compose exec -T mysql sh -c 'MYSQL_PWD="$(cat /run/secrets/mysql_root_password)" exec mysql -u root tb_leaderboard' < "$stage/mysql/$migration"
 done
 audit "$stage" > "$evidence/fingerprint.after.json"
@@ -94,7 +94,7 @@ docker compose up --no-build --no-deps -d api
 attempt=0
 until health=$(curl --fail --silent --max-time 3 http://127.0.0.1:8080/v1/health) &&
   printf '%s' "$health" | grep -q '"ok":true' &&
-  printf '%s' "$health" | grep -q '"version":"1.4.0"' &&
+  printf '%s' "$health" | grep -q '"version":"1.4.1"' &&
   printf '%s' "$health" | grep -q '"accountStateProtocol":1' &&
   printf '%s' "$health" | grep -q '"gameplayProtocol":1'; do
   attempt=$((attempt+1))
@@ -108,4 +108,4 @@ dependencies > "$evidence/dependencies.after"
 cmp -s "$evidence/dependencies.before" "$evidence/dependencies.after"
 printf '%s\n' "$commit" > "$evidence/source-commit"
 trap - EXIT INT TERM
-printf 'Shared runtime 1.4.0 healthy; original data/config/volumes preserved. Evidence: %s\n' "$evidence"
+printf 'Shared runtime 1.4.1 healthy; original data/config/volumes preserved. Evidence: %s\n' "$evidence"

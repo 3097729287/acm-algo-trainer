@@ -1,10 +1,11 @@
+import {useStudyState} from '@/lib/StudyPane.jsx';
 import {useState} from 'react';
 import {GRAPH_EDGES,GRAPH_NODES,graphTrace} from './graphModel.js';
 import {Feedback} from './LabParts.jsx';
 
 const POINTS=[[55,95],[185,35],[185,155],[325,35],[325,155],[455,95]];
 export default function GraphExperiment({kind}){
- const [step,setStep]=useState(0),[start,setStart]=useState(0),[weight,setWeight]=useState(4),[isolated,setIsolated]=useState(false),[answer,setAnswer]=useState(''),[checked,setChecked]=useState(false);
+ const [step,setStep]=useStudyState('GraphExperiment.step',0),[start,setStart]=useStudyState('GraphExperiment.start',0),[weight,setWeight]=useStudyState('GraphExperiment.weight',4),[isolated,setIsolated]=useStudyState('GraphExperiment.isolated',false),[answer,setAnswer]=useStudyState('GraphExperiment.answer',''),[checked,setChecked]=useState(false);
  const edges=GRAPH_EDGES.filter(e=>!isolated||e[0]!==5&&e[1]!==5).map((e,i)=>i===0?[e[0],e[1],weight]:e);
  const frames=graphTrace(kind,edges,start),frame=frames[Math.min(step,frames.length-1)],next=frames[Math.min(step+1,frames.length-1)];
  const components=kind==='dsu'?new Set(frame.roots).size:0;

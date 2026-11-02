@@ -1,3 +1,4 @@
+import {useStudyState} from '@/lib/StudyPane.jsx';
 import {useMemo,useState} from 'react';
 import {ArrowLeft,ArrowRight,RotateCcw} from 'lucide-react';
 import {Feedback} from './LabParts.jsx';
@@ -5,7 +6,7 @@ import {parseSortInput,sortingTrace,SORT_NAMES} from './sortingModel.js';
 import './sortingLab.css';
 
 export default function SortingExperiment({algorithms=['bubble','insertion','selection'],initial=[5,2,5,1,4,2]}){
- const [text,setText]=useState(initial.join(' ')),[values,setValues]=useState(initial),[algorithm,setAlgorithm]=useState(algorithms[0]),[seed,setSeed]=useState(7),[index,setIndex]=useState(0),[error,setError]=useState(''),[answer,setAnswer]=useState(''),[checked,setChecked]=useState(false);
+ const [text,setText]=useStudyState('SortingExperiment.text',initial.join(' ')),[values,setValues]=useStudyState('SortingExperiment.values',initial),[algorithm,setAlgorithm]=useStudyState('SortingExperiment.algorithm',algorithms[0]),[seed,setSeed]=useStudyState('SortingExperiment.seed',7),[index,setIndex]=useStudyState('SortingExperiment.index',0),[error,setError]=useState(''),[answer,setAnswer]=useStudyState('SortingExperiment.answer',''),[checked,setChecked]=useState(false);
  const frames=useMemo(()=>sortingTrace(values,algorithm,seed),[values,algorithm,seed]),position=Math.min(index,frames.length-1),frame=frames[position],next=frames[position+1];
  const reset=()=>{setIndex(0);setAnswer('');setChecked(false);};
  const move=to=>{setIndex(to);setAnswer('');setChecked(false);};

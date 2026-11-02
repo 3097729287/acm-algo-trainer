@@ -77,14 +77,14 @@ class UICompatibilityTests(unittest.TestCase):
             with patch('leaderboard.service_opener',return_value=opener):
                 return client._request(profile,method,path)
         self.assertEqual(send(payload),value)
-        self.assertEqual(read_sizes[-1],1024*1024+1)
+        self.assertEqual(read_sizes[-1],4*1024*1024+1)
         for method,path in (('GET','/v1/profile'),('POST','/v1/social'),('GET','/v1/social?other=1')):
             with self.subTest(method=method,path=path),self.assertLogs('tb.ranking',level='WARNING'),self.assertRaises(RuntimeError):
                 send(payload,method,path)
             self.assertEqual(read_sizes[-1],256*1024+1)
         with self.assertLogs('tb.ranking',level='WARNING'),self.assertRaises(RuntimeError):
-            send(b'{"oversized":"'+b'x'*(1024*1024)+b'"}')
-        self.assertEqual(read_sizes[-1],1024*1024+1)
+            send(b'{"oversized":"'+b'x'*(4*1024*1024)+b'"}')
+        self.assertEqual(read_sizes[-1],4*1024*1024+1)
 
     def test_preview_rotates_across_drafts_and_persisted_papers_after_restart(self):
         base=self.library.rows[0]

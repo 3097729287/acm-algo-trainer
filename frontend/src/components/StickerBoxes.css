@@ -1,0 +1,20 @@
+.sticker-box-dialog{width:min(900px,calc(100vw - 32px));max-height:calc(100dvh - 48px);padding:20px;border:1px solid var(--line);border-radius:12px;color:var(--text);background:var(--panel-base);box-shadow:var(--shadow);}
+.sticker-box-dialog::backdrop{background:#0008;backdrop-filter:blur(3px);}
+.sticker-box-dialog>header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;}
+.sticker-box-dialog h3{display:flex;align-items:center;gap:10px;margin:0;font-size:1.05rem;}
+.sticker-box-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px;}
+.sticker-box-card{padding:15px;border:1px solid var(--line);border-radius:9px;min-width:0;}
+.sticker-box-caption{display:flex;align-items:center;gap:12px;}
+.sticker-box-caption>svg{color:var(--accent);flex:none;}
+.sticker-box-caption>span{flex:1;font-size:.82rem;color:var(--muted);}
+.sticker-box-card dl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;margin:16px 0 0;font-size:.74rem;}
+.sticker-box-card dl>div{text-align:center;}
+.sticker-box-card dd{margin:6px 0 0;font-variant-numeric:tabular-nums;}
+.sticker-box-result{padding:12px 0 22px;margin-bottom:18px;border-bottom:1px solid var(--line);}
+.sticker-box-result h4{font-size:.9rem;margin:0 0 12px;}
+.sticker-box-result>div{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;}
+.sticker-drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:12px;min-width:90px;border:1px solid currentColor;border-radius:10px;background:color-mix(in srgb,currentColor 5%,var(--panel-base));}
+.sticker-drop>span{color:var(--text);font-size:.8rem;}.sticker-drop>small{font-size:.72rem;}
+.sticker-box-trigger{position:relative;}.sticker-box-trigger>small{position:absolute;right:-5px;top:-4px;min-width:16px;padding:1px 4px;border-radius:9px;background:var(--accent);color:var(--bg);font-size:10px;line-height:14px;}
+.achievement-sticker,.achievement-badge,.level-up-box{display:inline-flex;align-items:center;gap:7px;}
+.achievement-sticker>svg,.achievement-badge>svg{flex:none;}.level-up-box{justify-content:center;width:100%;margin:12px 0;color:var(--accent);font-size:.9rem;}

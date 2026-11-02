@@ -110,6 +110,8 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run build
+      - run: npm run test:learning-browser
+      - run: npm run test:sticker-rewards
       - run: npm run test:model
       - run: node tests/revision-1429-model.mjs
       - run: node tests/radar-frequency.mjs

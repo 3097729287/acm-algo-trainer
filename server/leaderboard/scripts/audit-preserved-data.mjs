@@ -85,7 +85,7 @@ async function main() {
   }
   if (mode==='--stage'||mode==='--stage-gameplay') {
     const value=JSON.parse(await readFile(new URL('../BUILD-INFO.json',import.meta.url),'utf8'));
-    if (value.format!=='tb-account-runtime-v1' || value.version!==(mode==='--stage-gameplay'?'1.4.0':'1.2.9') ||
+    if (value.format!=='tb-account-runtime-v1' || value.version!==(mode==='--stage-gameplay'?'1.4.1':'1.2.9') ||
         !/^[0-9a-f]{40}$/.test(value.sourceCommit) || value.sourceCommit!==process.argv[3])
       throw new Error('Staged source identity does not match the reviewed commit.');
     process.stdout.write('Staged source identity verified.\n');

@@ -2,9 +2,9 @@
   "name": "tb-shared-leaderboard",
   "private": true,
   "type": "module",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "scripts": {
-    "test": "node --test tests/api.test.mjs tests/server.test.mjs tests/chunks.test.mjs tests/ranking-dominance.test.mjs tests/gameplay.test.mjs tests/ranking-week-boundary.test.mjs tests/gameplay-restore.test.mjs",
+    "test": "node --test tests/api.test.mjs tests/server.test.mjs tests/chunks.test.mjs tests/ranking-dominance.test.mjs tests/gameplay.test.mjs tests/ranking-week-boundary.test.mjs tests/gameplay-restore.test.mjs tests/sticker-rewards.test.mjs",
     "test:mysql": "node --test tests/mysql.test.mjs",
     "start": "node src/server.mjs"
   },

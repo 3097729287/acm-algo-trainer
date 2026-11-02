@@ -1,4 +1,4 @@
-import { randomUUID } from 'node:crypto';
+import { randomUUID,createHash } from 'node:crypto';
 import { AccountError } from './accounts.mjs';
 
 // Storage-only adapter. API names and user snapshots never depend on SQL column order.
@@ -64,12 +64,33 @@ export class SocialStore {
     });
   }
   async inbox(id) {
-    const [rows] = await this.database.execute(`SELECT n.id,n.kind,n.actor_id,n.recipient_id,n.body,n.created_at,n.read_at,
+    const details=await this.detailsAvailable();
+    const [rows] = await this.database.execute(`SELECT n.id,n.kind,n.actor_id,n.recipient_id,n.body,n.created_at,n.read_at,${details?'d.reply_to,d.gift_payload,':''}
       a.nickname AS actor_name,r.nickname AS recipient_name FROM social_notifications n
       JOIN users a ON a.user_id=n.actor_id JOIN users r ON r.user_id=n.recipient_id
+      ${details?'LEFT JOIN social_comment_details d ON d.message_id=n.id':''}
       WHERE n.recipient_id=? ORDER BY n.created_at DESC,n.id DESC LIMIT 100`, [id]);
     const [unread] = await this.database.execute('SELECT COUNT(*) AS n FROM social_notifications WHERE recipient_id=? AND read_at IS NULL', [id]);
     return { rows, unreadCount:Number(unread[0].n) };
+  }
+  async detailsAvailable(){
+    try{await this.database.execute('SELECT message_id FROM social_comment_details LIMIT 0');return true;}
+    catch(error){if(error.code==='ER_NO_SUCH_TABLE'||/no such table/i.test(error.message||''))return false;throw error;}
+  }
+  async replies(owner,ids){
+    if(!ids.length||!await this.detailsAvailable())return [];
+    const [rows]=await this.database.execute(`SELECT n.id,n.body,n.created_at,d.reply_to,d.gift_payload
+      FROM social_comment_details d JOIN social_notifications n ON n.id=d.message_id
+      WHERE n.actor_id=? AND d.reply_to IN (${ids.map(()=>'?').join(',')}) ORDER BY n.created_at DESC,n.id DESC LIMIT 1000`,[owner,...ids]);
+    return rows.reverse();
+  }
+  async giftStats(owner){
+    if(!await this.detailsAvailable())return {sent:0,recipients:0,received:0};
+    const [rows]=await this.database.execute(`SELECT SUM(CASE WHEN n.actor_id=? THEN 1 ELSE 0 END) AS sent,
+      COUNT(DISTINCT CASE WHEN n.actor_id=? THEN n.recipient_id ELSE NULL END) AS recipients,
+      SUM(CASE WHEN n.recipient_id=? THEN 1 ELSE 0 END) AS received
+      FROM social_comment_details d JOIN social_notifications n ON n.id=d.message_id WHERE d.gift_payload IS NOT NULL AND (n.actor_id=? OR n.recipient_id=?)`,[owner,owner,owner,owner,owner]);
+    return {sent:Number(rows[0].sent)||0,recipients:Number(rows[0].recipients)||0,received:Number(rows[0].received)||0};
   }
   async activity() {
     const [rows] = await this.database.execute(`SELECT n.id,n.kind,n.actor_id,n.recipient_id,n.created_at,
@@ -94,17 +115,35 @@ export class SocialStore {
       return { created };
     });
   }
-  async comment(actor, hash, now, recipient, text, requestId, timestamp) {
+  async comment(actor, hash, now, recipient, text, requestId, timestamp,options={},game=null) {
+    const metadata=await this.detailsAvailable(),replyTo=options.replyTo||null,gift=options.gift?{unitId:options.gift.unitId,revision:options.gift.revision}:null;
+    if((replyTo||gift)&&!metadata)throw new AccountError(503,'留言回复与贴纸赠送正在升级');
+    if(gift&&(!game||!await game.available()))throw new AccountError(503,'贴纸服务暂不可用');
+    const digest=createHash('sha256').update(JSON.stringify([recipient,text,replyTo,gift])).digest('hex');
     return this.database.transaction(async connection => {
+      // Match opposite-direction gifts by the same lock order; the message and
+      // both inventories commit together or the entire transfer rolls back.
+      if(gift)for(const owner of [actor,recipient].sort())await connection.execute('SELECT user_id FROM accounts WHERE user_id=?'+(this.dialect==='mysql'?' FOR UPDATE':''),[owner]);
       await this.assertSession(connection,actor,hash,now);
-      const [existing] = await connection.execute('SELECT actor_id,recipient_id,body FROM social_notifications WHERE id=?', [requestId]);
+      const [existing] = await connection.execute('SELECT actor_id,recipient_id,body,created_at FROM social_notifications WHERE id=?', [requestId]);
       if (existing.length) {
         const row = existing[0];
         if (row.actor_id !== actor || row.recipient_id !== recipient || row.body !== text) throw new AccountError(409,'留言请求已被使用，请重新发送');
-        return { created:false, id:requestId };
+        let storedGift=null;
+        if(metadata){const [old]=await connection.execute('SELECT request_hash,gift_payload FROM social_comment_details WHERE message_id=?',[requestId]);
+          if(old.length&&old[0].request_hash!==digest||!old.length&&(replyTo||gift))throw new AccountError(409,'留言请求已被使用，请重新发送');
+          storedGift=old[0]?.gift_payload?JSON.parse(old[0].gift_payload):null;
+        }
+        return {created:false,id:requestId,createdAt:row.created_at,...(replyTo?{replyTo}:{}),...(storedGift?{gift:storedGift}:{})};
       }
+      if(replyTo){const [original]=await connection.execute('SELECT actor_id,recipient_id,kind FROM social_notifications WHERE id=?',[replyTo]);
+        if(!original.length||original[0].kind!=='comment'||original[0].recipient_id!==actor||original[0].actor_id!==recipient)throw new AccountError(400,'请选择这位训练者发给你的留言');
+      }
+      let transferred=null;
+      if(gift){const [registered]=await connection.execute('SELECT user_id FROM accounts WHERE user_id=?',[recipient]);if(!registered.length)throw new AccountError(400,'对方尚未启用账号');transferred=await game.transferGift(connection,actor,recipient,gift,now*1000);}
       await connection.execute('INSERT INTO social_notifications(id,kind,actor_id,recipient_id,body,created_at) VALUES(?,?,?,?,?,?)', [requestId,'comment',actor,recipient,text,timestamp]);
-      return { created:true, id:requestId };
+      if(metadata)await connection.execute('INSERT INTO social_comment_details(message_id,reply_to,request_hash,gift_payload) VALUES(?,?,?,?)',[requestId,replyTo,digest,transferred?JSON.stringify(transferred):null]);
+      return { created:true, id:requestId,createdAt:timestamp,...(replyTo?{replyTo}:{}),...(transferred?{gift:transferred}:{}) };
     });
   }
   async read(actor, hash, now, ids, timestamp, all=false) {

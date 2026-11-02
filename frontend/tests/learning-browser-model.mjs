@@ -1,0 +1,27 @@
+import assert from 'node:assert/strict';
+import {buildLearningIndex,closeStudyTab,emptyStudyBrowser,learningSearch,openStudyTab,restoreStudyBrowser,splitStudyTab,updateStudyDocument} from '../src/lib/learningBrowser.js';
+
+let state=emptyStudyBrowser();
+for(const kind of ['problem','wiki','template'])state=openStudyTab(state,{kind,id:'dsu',title:kind});
+state=openStudyTab(state,{kind:'problem',id:'dsu'});assert.equal(state.tabs.length,3);
+state=splitStudyTab(state,'template:dsu');assert.equal(state.left,null);assert.equal(state.right,'template:dsu');
+state={...state,left:'wiki:dsu',focused:'wiki:dsu'};
+state=openStudyTab(state,{kind:'problem',id:'dsu'});assert.equal(state.left,'problem:dsu');assert.equal(state.right,'template:dsu');
+state=closeStudyTab(state,'problem:dsu');assert.equal(state.left,null);assert.equal(state.right,'template:dsu');
+state=closeStudyTab(state,'wiki:dsu');assert.equal(state.right,null);assert.equal(state.active,'template:dsu');
+state=closeStudyTab(state,'template:dsu');assert.equal(state.open,false);
+const tabs=restoreStudyBrowser({tabs:[{kind:'wiki',id:'x',title:'x'},{kind:'wiki',id:'x'},{kind:'bogus',id:'bad'}],open:true,right:'missing',ratio:999});assert.equal(tabs.tabs.length,1);assert.equal(tabs.ratio,80);assert.equal(tabs.right,null);
+const index=buildLearningIndex({wiki:[{id:'ds/dsu',title:'并查集'}],templates:[{id:'builtin:dsu',title:'并查集',tags:['DSU']}],labs:[{id:'dsu',title:'并查集'}],rows:[{id:'A',title:'集合操作',tags:['并查集'],solutionAvailable:true}]});
+assert.equal(learningSearch(index,'并查集').length,5);assert.equal(learningSearch(index,'dsu').length,5);assert.equal(learningSearch(index,'模板').length,1);assert.equal(learningSearch(index,'模板 并查集')[0].kind,'template');assert.equal(learningSearch(index,'并查集 模板')[0].kind,'template');
+assert.equal(learningSearch(index,'no-such-content').length,0);
+let editing=openStudyTab(emptyStudyBrowser(),{kind:'template',id:'new-1',title:'草稿'});
+editing=openStudyTab(editing,{kind:'wiki',id:'x',title:'百科'});editing=splitStudyTab(editing,'template:new-1');
+editing=updateStudyDocument(editing,'template:new-1',{id:'own:1',title:'已保存'});
+assert.equal(editing.right,'template:own:1');assert.equal(editing.tabs[0].title,'已保存');
+assert.equal(openStudyTab(editing,{kind:'template',id:'own:1'}).tabs.length,2);
+let crowded=emptyStudyBrowser();
+for(let i=0;i<64;i++)crowded=openStudyTab(crowded,{kind:'template',id:'draft:'+i,title:'draft '+i,visit:{draft:{code:'saved '+i}}});
+assert.equal(openStudyTab(crowded,{kind:'template',id:'overflow'}),crowded);
+assert.equal(restoreStudyBrowser(crowded).tabs.at(-1).visit.draft.code,'saved 63');
+assert.equal(openStudyTab(crowded,{kind:'template',id:'draft:0'}).active,'template:draft:0');
+console.log('Learning browser model: duplicate tabs, split selection, close recovery, malformed snapshots, aliases and source searches passed.');

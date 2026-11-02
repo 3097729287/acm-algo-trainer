@@ -1,8 +1,11 @@
 import {useEffect} from 'react';
+import {useStudyPane} from '@/lib/StudyPane.jsx';
 
 export default function useCourseKeys({index,count,navigate,menuOpen=false}) {
+  const pane=useStudyPane();
   useEffect(()=>{
     const move=event=>{
+      if(pane?!pane.focused:Boolean(document.querySelector('.study-browser')))return;
       if(event.defaultPrevented||event.altKey||event.ctrlKey||event.metaKey||menuOpen||event.isComposing||document.querySelector('dialog[open],[aria-modal=true],[data-popconfirm]'))return;
       if(!['ArrowLeft','ArrowRight','a','A','d','D'].includes(event.key))return;
       if(event.target?.closest?.('input,textarea,select,[contenteditable="true"],[role="slider"],.cm-editor,[role="dialog"],dialog[open]'))return;
@@ -12,5 +15,5 @@ export default function useCourseKeys({index,count,navigate,menuOpen=false}) {
     };
     window.addEventListener('keydown',move);
     return()=>window.removeEventListener('keydown',move);
-  },[index,count,navigate,menuOpen]);
+  },[index,count,navigate,menuOpen,pane?.focused]);
 }

@@ -193,7 +193,7 @@
   },
   "startupNavigationTargetedPass": 7,
   "startupNavigationAndSyncPass": 37,
-  "installerSourceCommit": "87da90ac39687a33bb3684f3d6a1d0d00a35f534",
+  "installerSourceCommit": "c8d1cd54a684c9779588f2b0b55ab7d77eef6d37",
   "installation": {
     "userInstallerBuilt": true,
     "bytes": 928622190,
@@ -303,7 +303,7 @@
     "originalSiteSubmissions": 0,
     "productionAccountOperations": 0,
     "fullAppBrowserPassed": true,
-    "regressionState": "running after manual disk cleanup",
+    "regressionState": "1.5.0 maintenance full run completed; 1.5.1 integration pending",
     "previousCapacityBlockedRun": {
       "tests": 102,
       "failures": 1,
@@ -313,7 +313,25 @@
       "reason": "Actual volume headroom protection; retained test artifacts, no protection bypass",
       "evidence": "build/maintenance-targeted-check/report.json"
     },
-    "userEditionDeliveryOwner": "feature/learning-browser-20261102"
+    "userEditionDeliveryOwner": "feature/learning-browser-20261102",
+    "fullRegression": {
+      "tests": 1076,
+      "passed": 1070,
+      "skipped": 2,
+      "failed": 4,
+      "errors": 0,
+      "evidence": "build/maintenance-full-check/checks.log",
+      "knownTeachingFailures": 1,
+      "windowsFixturePathFailures": 3,
+      "windowsFixtureCause": "Retained test rename destination 264 characters; Win32 long-path prefix missing in the test-only recycler",
+      "longPathRecheck": {
+        "passed": 12,
+        "failed": 0,
+        "evidence": ".backups/next-150/recovery-long-path-recheck.log"
+      }
+    },
+    "integratedPeerSource": "357dd9478ef8805026084415be1c55afef1e1c61",
+    "integratedVersion": "1.5.1"
   },
   "maintenanceEvidence": {
     "backend": {

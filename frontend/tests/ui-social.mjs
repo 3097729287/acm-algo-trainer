@@ -59,7 +59,11 @@ await page.route('**/api/**',async route=>{
     if(failLike){failLike=false;await route.fulfill({status:503,json:{error:'测试连接中断'}});return;}
     likes={total:likes.total+(likes.likedToday?0:1),likedToday:true};value={created:true,targetId:other.userId,likes};
   }
-  else if(path==='/api/social/comments')value={created:true,id:body.requestId};
+  else if(path==='/api/social/comments'){
+    const reply={id:body.requestId,text:body.text,createdAt:timestamp};
+    if(body.replyTo){const original=notifications.find(item=>item.id===body.replyTo);assert(original);original.myReplies=[...(original.myReplies||[]).filter(item=>item.id!==reply.id),reply];}
+    value={created:true,id:body.requestId,createdAt:timestamp};
+  }
   else if(path==='/api/social/read'){
     if(failAutomaticRead&&body.ids){failAutomaticRead=false;await route.fulfill({status:503,json:{error:'自动已读暂未完成，请重试'}});return;}
     notifications=notifications.map(row=>body.all===true||body.ids?.includes(row.id)?{...row,read:true}:row);value={ok:true};
@@ -146,6 +150,18 @@ try {
   assert.equal(await page.getByRole('dialog',{name:'消息与更新',exact:true}).locator('header').getByRole('button',{name:'全部已读',exact:true}).count(),1);
   await page.getByText('共收到 3 个爱心 · 0 条未读消息',{exact:true}).waitFor();assert(writes.some(item=>item.path==='/api/social/read'&&item.body.all===true),'read-all includes messages beyond the first 100');assert(writes.some(item=>item.path==='/api/hub/dismiss-all'),'The single header action also marks update notifications read');
   assert(notifications.every(item=>item.read),'manual read-all includes the page-hidden 101st notification');
+  const quickReply=page.locator('.social-notification').filter({hasText:'一起加油'});
+  await quickReply.click();
+  const reply=page.locator('dialog.social-comment-dialog');await reply.waitFor();
+  assert.match(await reply.getByRole('heading').innerText(),/给 训练者乙 留言/);
+  assert(await reply.getByLabel('留言内容',{exact:true}).evaluate(node=>node===document.activeElement));
+  assert.equal(writes.filter(item=>item.path==='/api/social/comments').length,1,'Opening a reply never sends a message');
+  await reply.getByRole('button',{name:'关闭留言',exact:true}).click();
+  await quickReply.focus();await quickReply.press('Enter');await reply.waitFor();
+  await reply.getByLabel('留言内容',{exact:true}).fill('收到，一起加油！');await reply.getByRole('button',{name:'发送留言',exact:true}).click();
+  await reply.waitFor({state:'hidden'});
+  const replies=writes.filter(item=>item.path==='/api/social/comments');assert.equal(replies.length,2);assert.equal(replies[1].body.targetId,other.userId);assert.equal(replies[1].body.text,'收到，一起加油！');assert.equal(replies[1].body.replyTo,notifications.find(item=>item.text.includes('一起加油')).id);await quickReply.getByLabel('我的回复',{exact:true}).getByText('收到，一起加油！',{exact:true}).waitFor();
+  assert(await page.getByRole('dialog',{name:'消息与更新',exact:true}).isVisible(),'Closing or sending the quick reply returns to notifications');
   const freshId='66666666-6666-4666-8666-666666666666',beforeAutomatic=writes.filter(item=>item.path==='/api/social/read').length;
   notifications.unshift({id:freshId,kind:'comment',actor:other,recipient:self,text:'新到消息自动已读',createdAt:timestamp,read:false});
   await page.evaluate(()=>window.dispatchEvent(new Event('tb:social-change')));await page.getByText('新到消息自动已读',{exact:true}).waitFor();
@@ -182,7 +198,7 @@ try {
   const tierBefore=await topProfile.evaluate(node=>getComputedStyle(node).getPropertyValue('--tier-color').trim());
   await setTheme(page,'dark');
   assert.equal(await topProfile.evaluate(node=>getComputedStyle(node).getPropertyValue('--tier-color').trim()),tierBefore);
-  assert.equal(tierBefore,'#bc8aff');
+  assert.equal(tierBefore,'#f1c26c');
   assert.equal(await topProfile.locator('.avatar-rank-frame').count(),1);assert.equal(await topProfile.locator('.profile-rank-emblem').count(),0);
   assert(!/XP|665\s*\//.test(await topProfile.innerText()),'XP stays in the ring tooltip');
   await page.getByRole('meter',{name:'本级经验进度',exact:true}).hover();
