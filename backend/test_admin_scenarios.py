@@ -120,7 +120,7 @@ class AdminScenarioTests(unittest.TestCase):
         self.assertEqual(self.call('/api/admin/scenario')[0],404)
         self.assertEqual(self.call('/api/admin/scenario',{'action':'fresh','requestId':str(uuid.uuid4())})[0],404)
 
-    def test_fresh_scenario_reaches_level_five_only_after_the_real_prefix_judge(self):
+    def test_fresh_scenario_reaches_level_six_only_after_the_real_prefix_judge(self):
         base=self.server.training;before=self.protected(base);self.fresh();service=self.server.training
         from experience_challenge import PROBLEMS,update
         from judge import Judge as ActualJudge
@@ -141,7 +141,7 @@ class AdminScenarioTests(unittest.TestCase):
             time.sleep(.01)
         self.assertEqual((result['verdict'],result['passed'],result['total']),('AC',24,24))
         for _ in range(2):
-            growth=service.insights()['growth'];self.assertEqual((growth['level'],growth['totalXp']),(5,500))
+            growth=service.insights()['growth'];self.assertEqual((growth['level'],growth['totalXp']),(6,1500))
         self.assertEqual(self.protected(base),before)
         self.assertEqual(service.connection.execute('SELECT COUNT(*) FROM official_first_xp_awards').fetchone()[0],0)
         self.assertEqual(self.call('/api/admin',{'level':2,'tier':0,'allAchievements':False})[0],200)
