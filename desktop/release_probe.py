@@ -265,13 +265,12 @@ def run(action, output):
                         for course_title in ('排序基础', '分治与随机化', '桶与按位处理', 'Dijkstra 最短路', '并查集', 'DFS 深度优先搜索', 'BFS 广度优先搜索', '前缀和与差分', '双指针算法'):
                             selector = 'section[aria-label="' + course_title + '"] .catalog-card-open'
                             window.evaluate_js('document.querySelector(' + json.dumps(selector) + ').click()')
-                            wait_js("document.querySelector('.lab-course-header h1')?.textContent === " + json.dumps(course_title))
+                            wait_js("document.querySelector('.study-pane:not([hidden]) .lab-course-header h1')?.textContent === " + json.dumps(course_title))
                             report['nativeAlgorithmCourses'].append(course_title)
-                            window.evaluate_js("document.querySelector('[aria-label=\"返回实验室\"]').click()")
+                            window.evaluate_js("document.querySelector('.study-back').click()")
                             wait_js("!!document.querySelector('.catalog-card-open')")
                         window.evaluate_js("document.querySelector('section[aria-label=\"背包 DP\"] .catalog-card-open').click()")
-                        wait_js("!!document.querySelector('.algorithm-lab .lab-course-header h1')")
-                        assert window.evaluate_js("document.querySelector('.algorithm-lab .lab-course-header h1').textContent") == '背包 DP'
+                        wait_js("document.querySelector('.study-pane:not([hidden]) .lab-course-header h1')?.textContent === '背包 DP'")
                         report['nativeAlgorithmCourses'].append('背包 DP')
                         window.evaluate_js("document.querySelector('.kn-motion-track button:last-child').click()")
                         wait_js("document.querySelector('.kn-motion-result')?.textContent.includes('最大价值 8')")
@@ -280,7 +279,7 @@ def run(action, output):
                         assert window.evaluate_js("!document.querySelector('.lab-course-header .lab-mode-switch')")
                         # The toolbar wrapper uses display:contents so its own
                         # DOMRect is empty. Check the visible controls instead.
-                        report['nativeTopNavigationGeometry'] = window.evaluate_js("(() => {const header=document.querySelector('.lab-course-header').getBoundingClientRect(),controls=[...document.querySelectorAll('.lab-course-header .lab-icon-button,.lab-course-header .lab-menu-toggle')].filter(node=>node.getClientRects().length).map(node=>{const r=node.getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right,width:r.width,height:r.height};});return {header:{top:header.top,bottom:header.bottom,left:header.left,right:header.right},controls};})()")
+                        report['nativeTopNavigationGeometry'] = window.evaluate_js("(() => {const pane=document.querySelector('.study-pane:not([hidden])'),header=pane.querySelector('.lab-course-header').getBoundingClientRect(),controls=[...pane.querySelectorAll('.lab-course-header .lab-icon-button,.lab-course-header .lab-menu-toggle')].filter(node=>node.getClientRects().length).map(node=>{const r=node.getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right,width:r.width,height:r.height};});return {header:{top:header.top,bottom:header.bottom,left:header.left,right:header.right},controls};})()")
                         geometry = report['nativeTopNavigationGeometry']
                         assert len(geometry['controls']) >= 3
                         for control in geometry['controls']:
@@ -289,9 +288,9 @@ def run(action, output):
                             assert control['bottom'] <= geometry['header']['bottom'] + 1
                             assert control['left'] >= geometry['header']['left'] - 1
                             assert control['right'] <= geometry['header']['right'] + 1
-                        assert window.evaluate_js("getComputedStyle(document.querySelector('.sidebar')).display==='none'&&getComputedStyle(document.querySelector('.topbar')).display==='none'")
+                        assert window.evaluate_js("(() => {const r=document.querySelector('.study-browser').getBoundingClientRect();return document.querySelector('.app-shell').inert&&r.x===0&&r.y===0&&r.width===innerWidth&&r.height===innerHeight;})()")
                         report['nativeTopNavigation'] = True
-                        window.evaluate_js("document.querySelector('.lab-menu-toggle').click()")
+                        window.evaluate_js("document.querySelector('.study-pane:not([hidden]) .lab-menu-toggle').click()")
                         wait_js("!!document.querySelector('[aria-label=\"课程章节\"]')")
                         window.evaluate_js("document.querySelector('[aria-label=\"课程章节\"] button:last-child').click()")
                         wait_js("[...document.querySelectorAll('.lab-lesson button')].some(button=>button.textContent.trim()==='进入跟着做题')")
@@ -300,8 +299,8 @@ def run(action, output):
                         assert window.evaluate_js("document.querySelector('.lab-guided .lab-position').textContent") == '1 / 5'
                         report['nativeGuidedProblems'] = True
                         report['nativeFinalLessonHandoff'] = True
-                        window.evaluate_js("document.querySelector('.lab-guided [aria-label=\"返回实验室\"]').click()")
-                        wait_js("!!document.querySelector('.catalog-card-open') && getComputedStyle(document.querySelector('.sidebar')).display!=='none'")
+                        window.evaluate_js("document.querySelector('.study-back').click()")
+                        wait_js("!!document.querySelector('.catalog-card-open') && !document.querySelector('.study-browser') && !document.querySelector('.app-shell').inert")
                         window.evaluate_js("document.querySelector('[aria-label=\"设置\"]').click()")
                         wait_js("!!document.querySelector('[role=tab][aria-label=\"交互与导航\"]')")
                         window.evaluate_js("document.querySelector('[role=tab][aria-label=\"交互与导航\"]').click()")
@@ -348,6 +347,25 @@ def run(action, output):
                         report['localSubmission'] = {name: submission[name] for name in ('verdict', 'scope', 'passed', 'total')}
                         report['localAwardsNothing'] = True
                         report['officialSubmissionSent'] = False
+                        window.evaluate_js("document.querySelector('.study-add').click()")
+                        wait_js("!!document.querySelector('.study-search-box input')")
+                        window.evaluate_js("(() => {const input=document.querySelector('.study-search-box input');Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(input,'模板 并查集');input.dispatchEvent(new Event('input',{bubbles:true}));})()")
+                        wait_js("[...document.querySelectorAll('.study-result')].some(node=>node.querySelector('small')?.textContent==='模板'&&node.textContent.includes('并查集'))")
+                        window.evaluate_js("[...document.querySelectorAll('.study-result')].find(node=>node.querySelector('small')?.textContent==='模板'&&node.textContent.includes('并查集')).click()")
+                        wait_js("!!document.querySelector('.study-template:not([hidden]) .template-detail')")
+                        report['nativeLearningSearch'] = True
+                        window.evaluate_js("document.querySelector('.study-split-toggle').click()")
+                        wait_js("!!document.querySelector('.study-left-choice')")
+                        window.evaluate_js("[...document.querySelectorAll('.study-left-choice button')].find(node=>node.querySelector('span')?.textContent===" + title + ").click()")
+                        wait_js("document.querySelector('.study-problem:not([hidden]) .cm-content')?.textContent.includes('long long one')")
+                        assert window.evaluate_js("document.querySelectorAll('.study-pane:not([hidden])').length") == 2
+                        window.evaluate_js("document.querySelector('.study-divider').dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true}))")
+                        wait_js("Number(document.querySelector('.study-divider')?.getAttribute('aria-valuenow'))>50")
+                        report['nativeLearningSplitPreservesCode'] = True
+                        window.evaluate_js("document.querySelector('.study-split-toggle').click()")
+                        wait_js("!document.querySelector('.study-divider')")
+                        window.evaluate_js("document.querySelector('.study-back').click()")
+                        wait_js("!document.querySelector('.study-browser')&&!document.querySelector('.app-shell').inert")
                         # Exercise the real desktop Blob download path. Only
                         # the modal destination picker is replaced in this
                         # disposable probe; WebView2 still writes the JSON.
