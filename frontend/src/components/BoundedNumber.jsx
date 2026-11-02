@@ -5,7 +5,7 @@ const BoundedNumber=forwardRef(function BoundedNumber({value,onChange,onBlur,min
   const [draft,setDraft]=useState(String(value ?? '')),focused=useRef(false),input=useRef(null);
   const attach=node=>{input.current=node;if(typeof ref==='function')ref(node);else if(ref)ref.current=node;};
   useEffect(()=>{if(!focused.current)setDraft(String(value ?? ''));},[value]);
-  const emit=(event,next)=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(event.currentTarget,String(next));onChange?.({...event,target:event.currentTarget,currentTarget:event.currentTarget});};
+  const emit=(event,next)=>{event.currentTarget.value=String(next);onChange?.({...event,target:event.currentTarget,currentTarget:event.currentTarget});};
   useEffect(()=>{
     if(!wheelStep||!input.current)return;
     const node=input.current,adjust=event=>{if(event.ctrlKey||event.metaKey||!event.deltaY||node.disabled||node.readOnly)return;event.preventDefault();const next=Math.max(Number(min),Math.min(Number(max),(Number(node.value)||Number(value)||Number(min))+(event.deltaY<0?1:-1)*Number(step)));setDraft(String(next));emit({currentTarget:node},next);};

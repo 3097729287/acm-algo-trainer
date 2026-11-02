@@ -7,8 +7,8 @@ export default function DuelPage({duel,rows,onTrain}){
  const room=state?.match,now=clock.current?clock.current.server+performance.now()-clock.current.local:state?.serverNow;
  const remaining=room?Math.max(0,Math.ceil((room.deadline-now)/1000)):0;
  const row=room&&rows.find(item=>item.id===room.problem.libraryId||item.url===room.problem.url);
- return <section className="list-page duel-page" aria-label="双人在线对战">
-  <header className="duel-toolbar"><Swords size={22}/><strong>双人在线对战</strong><span>800–1500</span><button type="button" className="icon-button" aria-label="刷新对战" disabled={busy} onClick={reload}><RefreshCw size={17}/></button></header>
+ return <section className="list-page duel-page" aria-label="对战">
+  <header className="duel-toolbar"><Swords size={22}/><strong>对战</strong><span>800–1500</span><button type="button" className="icon-button" aria-label="刷新对战" disabled={busy} onClick={reload}><RefreshCw size={17}/></button></header>
   {!room?<div className="duel-waiting">{state?.status==='queued'?<><LoaderCircle size={48} className="progress-spin"/><button type="button" className="icon-button" aria-label="取消匹配" disabled={busy} onClick={()=>act('cancel',{ticket:state.ticket})}><X size={22}/></button></>:<><Swords size={64}/><button type="button" className="icon-button duel-start" aria-label="开始匹配" disabled={busy} onClick={()=>act('join')}><Play size={28}/></button></>}</div>:<>
    <div className="duel-clock" role="timer" aria-label="对战剩余时间"><Clock size={20}/>{Math.floor(remaining/60).toString().padStart(2,'0')}:{(remaining%60).toString().padStart(2,'0')}</div>
    <div className="duel-players">{room.players.map(player=><article key={player.owner} className={'duel-player'+(room.winner===player.owner?' duel-winner':'')}><strong>{player.handle}</strong>{player.online?null:<WifiOff size={16} aria-label="已掉线"/>}<b>{player.acceptedAt?<Check size={32}/>:player.attempts}</b><small>{player.acceptedAt?`${Math.max(0,Math.floor((player.acceptedAt-room.startedAt)/1000))}s`:'—'}</small>{player.syncError&&<WifiOff size={16} aria-label="成绩待核验"/>}</article>)}</div>

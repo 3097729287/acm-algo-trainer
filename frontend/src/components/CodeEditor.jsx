@@ -61,7 +61,7 @@ const theme = EditorView.theme({
   '.cm-searchMatch-selected': { backgroundColor: 'color-mix(in srgb, var(--warning) 45%, transparent)' },
 });
 
-const CodeEditor = forwardRef(function CodeEditor({ shortcuts={}, value = '', onChange, onCursorChange, onCommand, onLeave, readOnly = false, disabled = false, docKey = '', language = 'cpp17', ariaLabel = 'C++ 代码',editorTheme,cursorPosition }, ref) {
+const CodeEditor = forwardRef(function CodeEditor({ shortcuts={}, value = '', onChange, onCursorChange, onCommand, onLeave, readOnly = false, disabled = false, docKey = '', language = 'cpp17', ariaLabel = 'C++ 代码',editorTheme }, ref) {
   const host = useRef(null), viewRef = useRef(null), readonlyCompartment = useRef(new Compartment());
   const callbacks = useRef({ onChange, onCursorChange, onCommand, onLeave, shortcuts });
   callbacks.current = { onChange, onCursorChange, onCommand, onLeave, shortcuts };
@@ -99,9 +99,7 @@ const CodeEditor = forwardRef(function CodeEditor({ shortcuts={}, value = '', on
     ] }) });
     viewRef.current = view;
     notifyCursor(view);
-    const gutter=view.dom.querySelector('.cm-gutters'),measure=()=>host.current?.style.setProperty('--editor-gutter-width',`${gutter?.getBoundingClientRect().width||36}px`),observer=new ResizeObserver(measure);
-    if(cursorPosition&&gutter)observer.observe(gutter);
-    return () => { observer.disconnect();viewRef.current = null; view.destroy(); };
+    return () => { viewRef.current = null; view.destroy(); };
     // Changing document identity creates a fresh undo history; mirrored value
     // updates below preserve the current caret and history during ordinary edits.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -112,6 +110,6 @@ const CodeEditor = forwardRef(function CodeEditor({ shortcuts={}, value = '', on
   }, [value, docKey]);
   useEffect(() => { viewRef.current?.dispatch({ effects: readonlyCompartment.current.reconfigure([EditorState.readOnly.of(readOnly || disabled), EditorView.editable.of(!disabled)]) }); }, [readOnly, disabled, docKey]);
   const selected=editorTheme?findEditorTheme(editorTheme):null;
-  return <div className="code-editor" style={selected?editorThemeStyle(selected.id):undefined} ref={host} data-editor-theme={selected?.id} data-editor-effect={selected?selected.effect||'none':undefined} data-readonly={readOnly || disabled} onKeyDown={event => { if (event.defaultPrevented) event.stopPropagation(); }}>{cursorPosition&&<span className="code-editor-position" aria-label={`当前第 ${cursorPosition.line} 行，第 ${cursorPosition.column} 列`} title={`Ln ${cursorPosition.line}, Col ${cursorPosition.column}`}>Ln {cursorPosition.line}, Col {cursorPosition.column}</span>}</div>;
+  return <div className="code-editor" style={selected?editorThemeStyle(selected.id):undefined} ref={host} data-editor-theme={selected?.id} data-editor-effect={selected?selected.effect||'none':undefined} data-readonly={readOnly || disabled} onKeyDown={event => { if (event.defaultPrevented) event.stopPropagation(); }}/>;
 });
 export default CodeEditor;

@@ -7,7 +7,7 @@ import { mkdir } from 'node:fs/promises';
 
 // Every API request is isolated from the user's database and external accounts.
 const serverSettings = { host: '127.0.0.1', port: 18775, strictPort: true };
-const vite = process.env.TB_UI_DIST ? await previewServer({ build: { outDir: process.env.TB_UI_DIST }, preview: serverSettings }) : await createServer({ server: serverSettings });
+const vite = process.env.TB_UI_DIST ? await previewServer({ build: { outDir: process.env.TB_UI_DIST }, preview: serverSettings }) : await createServer({ cacheDir:'../.backups/next-150/vite-app-final',server: serverSettings });
 if (!process.env.TB_UI_DIST) await vite.listen();
 const browser = await chromium.launch({ channel: process.env.CI ? undefined : 'msedge', headless: true });
 const page = await browser.newPage({ viewport: { width: 2048, height: 1152 } });
@@ -142,6 +142,20 @@ try {
   releaseBootstrap();
   await page.locator('.queue-heading').filter({hasText:'今日目标'}).waitFor();
   await page.getByLabel('北京时间',{exact:true}).waitFor();
+  await page.setViewportSize({width:1440,height:1000});
+  for(const collapsed of [true,false]){
+    const animation=await page.evaluate(async collapsed=>{
+      const sidebar=document.querySelector('.sidebar'),icons=[...sidebar.querySelectorAll('.nav-item>svg')],original=icons.map(node=>{const r=node.getBoundingClientRect();return [r.x,r.y];}),frames=[];
+      sidebar.querySelector('.brand-mark').click();
+      for(let start=performance.now();performance.now()-start<340;){await new Promise(requestAnimationFrame);frames.push({width:sidebar.getBoundingClientRect().width,icons:icons.map(node=>{const r=node.getBoundingClientRect();return [r.x,r.y];})});}
+      return {original,frames,collapsed:document.querySelector('.app-shell').classList.contains('sidebar-collapsed')};
+    },collapsed);
+    assert.equal(animation.collapsed,collapsed);
+    assert(animation.frames.every(frame=>frame.icons.every((xy,index)=>xy.every((n,axis)=>Math.abs(n-animation.original[index][axis])<.6))),'Sidebar icons stay fixed during both directions');
+    assert(animation.frames.every((frame,index)=>!index||(collapsed?frame.width<=animation.frames[index-1].width+.2:frame.width>=animation.frames[index-1].width-.2)),'Sidebar width changes monotonically without bounce');
+  }
+
+  await page.setViewportSize({width:2048,height:1152});
   assert.equal(await page.locator('.workspace-area').getAttribute('data-page'), 'mine');
   assert.equal(await page.getByRole('tab', { name: '今日待办', exact: true }).count(), 0);
   assert.equal(await page.locator('.sidebar').getByLabel('命令面板').count(), 0);
@@ -481,6 +495,14 @@ try {
   }
   await page.keyboard.press('Control+0');
   await openSettings(page, '外观');
+  const interfaceSize=page.getByRole('spinbutton',{name:'界面字号',exact:true}),savedInterfaceSize=await interfaceSize.inputValue();
+  await page.evaluate(()=>{window.interfaceWheelEvents=[];window.addEventListener('wheel',event=>window.interfaceWheelEvents.push({target:event.target.outerHTML.slice(0,150),delta:event.deltaY,prevented:event.defaultPrevented}),false);});
+  for(const [value,delta,expected] of [['18',-100,'19'],['18',100,'17'],['22',-100,'22'],['13',100,'13']]){
+    await interfaceSize.fill(value);await interfaceSize.press('Tab');await interfaceSize.hover();await page.mouse.wheel(0,delta);
+    try{await page.waitForFunction(expected=>document.querySelector('input[aria-label="界面字号"]').value===expected,expected);}catch(error){console.error('Interface wheel failed',JSON.stringify({value,delta,expected,actual:await interfaceSize.inputValue(),events:await page.evaluate(()=>window.interfaceWheelEvents)}));await page.screenshot({path:'tests/screenshots/font-wheel-failure.png'});throw error;}
+    assert.equal(await interfaceSize.inputValue(),expected,'Wheel step '+JSON.stringify({value,delta,expected}));
+  }
+  await interfaceSize.fill(savedInterfaceSize);await interfaceSize.press('Tab');
   await setTheme(page,'dark');
   await page.screenshot({ path: 'tests/screenshots/v5-settings-dark-1050.png', animations: 'disabled' });
   for (const width of [1050, 2048]) {

@@ -247,5 +247,12 @@
     "targetedChecks": 69,
     "nativeRetainedProfilePending": true,
     "permanentRecoveryDeletionRemoved": true
+  },
+  "latestFollowup": {
+    "backend": "1068 total: 1065 pass, 2 skip, 1 delegated teaching SHA mismatch; bounded connections and retained startup pass",
+    "wiki": "41 original footers retained in source/license info; real reader math/code/images and two clients passed",
+    "production": "full backup SHA 44b121e18eaa15d0da4a975f072d76544ce4aabe606551b743e4ba30350cfa38 restored to isolated MySQL 8.4.11; old runtime compatibility, repeated migration and complete postmigration restore passed; production unchanged",
+    "nativeFinal": "pending new committed frozen candidate; installed 559807bb does not meet 3-second target",
+    "admin": "user requested after user edition; not yet repaired"
   }
 }

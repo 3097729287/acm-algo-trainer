@@ -839,3 +839,22 @@ html .topbar:has(>.next-actions)>.topbar-actions{grid-column:3;grid-row:1;justif
  html .topbar>.next-actions{grid-column:1;grid-row:1}
  html .topbar:has(>.next-actions)>.topbar-actions{grid-column:1;grid-row:3;justify-self:center;justify-content:center}
 }
+
+/* Fixed icon and logo geometry in both directions; only label paint changes. */
+html .app-shell .sidebar {transition:width 260ms cubic-bezier(.2,0,.2,1),flex-basis 260ms cubic-bezier(.2,0,.2,1);overflow:hidden}
+html .sidebar .nav-item {flex-shrink:0;overflow:hidden;min-height:38px}
+html .sidebar .nav-label {min-width:0;opacity:1;transform:translateX(0);transition:opacity 180ms ease,transform 260ms cubic-bezier(.2,0,.2,1)}
+html .sidebar .nav-sync {display:inline-flex;flex:none;transition:opacity 180ms ease}
+html .sidebar .nav-item.active:before {top:50%;transform:translateY(-50%)}
+html .sidebar-collapsed .nav-label,html .sidebar-collapsed .nav-sync {opacity:0;pointer-events:none}
+html .sidebar-collapsed .nav-label {transform:translateX(-6px)}
+@media(min-width:851px) {
+ html .app-shell .sidebar .brand {justify-content:flex-start;padding-inline-start:1px;margin:0 0 16px;gap:0}
+ html .app-shell .sidebar .nav-item {justify-content:flex-start;padding-inline:13px 3px;gap:8px}
+ html .sidebar nav .nav-item {height:38px;min-height:38px}
+}
+@media(prefers-reduced-motion:reduce) {html .app-shell .sidebar,html .sidebar :is(.nav-label,.nav-sync) {transition:none}}
+html[data-motion=off] .app-shell .sidebar,html[data-motion=off] .sidebar :is(.nav-label,.nav-sync) {transition:none}
+
+html .app-shell .sidebar .brand {margin-block:0 16px;gap:0}
+html .app-shell .sidebar nav .nav-item {height:38px;min-height:38px}

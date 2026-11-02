@@ -64,9 +64,16 @@ try{
  await a.page.waitForFunction(()=>{const sticker=document.querySelector('.selected-sticker')?.getBoundingClientRect(),surface=document.querySelector('.sticker-surface')?.getBoundingClientRect();return sticker&&surface&&sticker.left>=surface.left&&sticker.right<=surface.right&&sticker.top>=surface.top&&sticker.bottom<=surface.bottom;});
  assert(await a.page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Rotated edge sticker stays inside the narrow content area');
  await a.page.keyboard.press('Escape');await a.page.keyboard.press('Escape');
+ const sourceExtraction=await a.page.evaluate(articles=>articles.map(article=>{const doc=new DOMParser().parseFromString(article.html,'text/html'),nodes=[...doc.querySelectorAll('blockquote,footer,.md-source-file')].filter(node=>node.textContent.includes('本页面贡献者')&&node.textContent.includes('CC BY-SA')&&node.textContent.includes('SATA'));nodes.forEach(node=>node.remove());return {id:article.id,removed:nodes.length,leaked:doc.body.textContent.includes('本页面贡献者')};}),wiki.prepare('SELECT id,html FROM articles').all());
+ assert.equal(sourceExtraction.length,41);assert(sourceExtraction.every(row=>row.removed===1&&!row.leaked),JSON.stringify(sourceExtraction));
  await a.page.getByRole('button',{name:'wiki',exact:true}).click();await a.page.getByRole('button',{name:'二分',exact:true}).click();
- const frame=a.page.frameLocator('iframe');await frame.locator('math').first().waitFor();assert(await frame.locator('pre').count()>0);await frame.locator('details').evaluateAll(nodes=>nodes.forEach(node=>node.open=true));await frame.locator('img').first().scrollIntoViewIfNeeded();await frame.locator('img').first().waitFor();await frame.locator('img').first().evaluate(img=>img.decode());assert(await frame.locator('img').first().evaluate(img=>img.complete&&img.naturalWidth>0));
- assert(await frame.locator('body').innerText().then(text=>text.includes('本页面贡献者')));assert.equal(await frame.locator('script').count(),0);
+ const frame=a.page.frameLocator('.wiki-reader');await frame.locator('math').first().waitFor();assert(await frame.locator('pre').count()>0);await frame.locator('details').evaluateAll(nodes=>nodes.forEach(node=>node.open=true));await frame.locator('img').first().scrollIntoViewIfNeeded();await frame.locator('img').first().waitFor();await frame.locator('img').first().evaluate(img=>img.decode());assert(await frame.locator('img').first().evaluate(img=>img.complete&&img.naturalWidth>0));
+ assert(!(await frame.locator('body').innerText()).includes('本页面贡献者'),'The reading body contains content only');
+ await a.page.getByRole('button',{name:'来源与许可',exact:true}).click();
+ const credits=a.page.getByRole('dialog',{name:'来源与许可',exact:true});await credits.waitFor();
+ const attribution=await credits.frameLocator('iframe').locator('body').innerText();
+ for(const text of ['本页面贡献者','CC BY-SA 4.0','SATA'])assert(attribution.includes(text),'Attribution retained: '+text);
+ await a.page.keyboard.press('Escape');await credits.waitFor({state:'hidden'});assert.equal(await frame.locator('script').count(),0);
  await a.page.screenshot({path:'tests/screenshots/next-version/wiki-math.png'});
  await a.page.getByRole('button',{name:'返回维基目录'}).click();await a.page.getByRole('textbox',{name:'搜索维基百科'}).fill('no-such-wiki-xyz');await a.page.getByText('没有匹配的内容',{exact:true}).waitFor();
  await a.page.getByRole('button',{name:'duel',exact:true}).click();await a.page.getByRole('button',{name:'开始匹配'}).click();await a.page.getByRole('button',{name:'取消匹配'}).waitFor();

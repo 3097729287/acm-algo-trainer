@@ -963,7 +963,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
       <div className="wb-code-pane">
         {narrow&&editorHeader}
         <div className="wb-editor">
-          <CodeEditor shortcuts={shortcuts} ref={editorRef} value={code} docKey={contextKey} onChange={updateCode} onCursorChange={setCursor} cursorPosition={cursor} onCommand={editorCommand} onLeave={() => consoleButtonRef.current?.focus()} readOnly={unavailable} disabled={loading || !problem} language={codeLanguage} ariaLabel={codeLanguage==='python3'?'Python 代码':'C++ 代码'} />
+          <CodeEditor shortcuts={shortcuts} ref={editorRef} value={code} docKey={contextKey} onChange={updateCode} onCursorChange={setCursor} onCommand={editorCommand} onLeave={() => consoleButtonRef.current?.focus()} readOnly={unavailable} disabled={loading || !problem} language={codeLanguage} ariaLabel={codeLanguage==='python3'?'Python 代码':'C++ 代码'} />
         </div>
         <div className="wb-run-toolbar">
           <div className="wb-input-modes" role="group" aria-label="运行输入">
@@ -971,6 +971,7 @@ export default function Workbench({shortcuts={}, problemId, preparedProblem=null
             <button type="button" aria-pressed={sample==='custom'} disabled={loading||!problem} onClick={()=>selectSample('custom')}>自测输入</button>
           </div>
           <button type="button" className="wb-button wb-run-button" disabled={unavailable || busy || problem?.judge?.scope === 'unsupported'} onClick={() => execute('run')} title={`自测运行 · ${shortcutValue('run',shortcuts)}`}><Play size={16} />自测运行</button>
+          <span className="wb-cursor-position" aria-label={`当前第 ${cursor.line} 行，第 ${cursor.column} 列`} title={`Ln ${cursor.line}, Col ${cursor.column}`}>Ln {cursor.line}, Col {cursor.column}</span>
           <div className="wb-run-actions">
             <button type="button" className="wb-button wb-primary" disabled={unavailable || officialBusy || Boolean(problem?.templatePractice?busy:!nativeSubmit)} onClick={() => problem?.templatePractice?execute('submit'):openOfficial()} title={problem?.templatePractice?'模板评测 · Ctrl+Enter':nativeSubmit?'原站提交 · Ctrl+Enter':'暂不支持此平台原站提交'}>{officialBusy || Boolean(problem?.templatePractice&&busy) ? <LoaderCircle size={14} className="wb-spinner" /> : <Send size={14} />}提交</button>
           </div>

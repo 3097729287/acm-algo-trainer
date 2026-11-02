@@ -170,7 +170,7 @@ const PAGES = [
   { id: "library", label: "题库", icon: Library, key: "2" },
   { id: "training-lists", label: "题单", icon: FolderOpen, key: "" },
   { id: "competitions", label: "比赛", icon: Flag, key: "4" },
-  { id: "duel", label: "双人在线对战", icon: Swords, key: "" },
+  { id: "duel", label: "对战", icon: Swords, key: "" },
   { id: "wiki", label: "维基百科", icon: NotebookTabs, key: "" },
   { id: "mock", label: "模拟赛", icon: Clock, key: "5" },
   { id: "growth", label: "成长", icon: ChartNoAxesCombined, key: "7" },
@@ -2028,12 +2028,8 @@ export default function App() {
               onClick={() => go(p.members ? p.members.find(member => member.id === page)?.id || p.members[0].id : p.id)}
             >
               <p.icon size={18} />
-              {!prefs.collapsed && (
-                <>
-                  <span>{p.label}</span>
-                  {p.id === "mock" && active && <span className="live-dot" />}
-                </>
-              )}
+              <span className="nav-label" aria-hidden="true">{p.label}</span>
+              {p.id === "mock" && active && <span className="live-dot" />}
               {dueCount > 0 && (p.id === "mine" || p.members?.some(member => member.id === "mine")) && <><i className="training-pending-dot" aria-hidden="true" /><span className="sr-only" id={`training-pending-${p.id}`}>有 {dueCount} 项未完成训练待办</span></>}
             </button>
           )}
@@ -2046,12 +2042,8 @@ export default function App() {
             onClick={() => go("settings")}
           >
             <Settings size={18} />
-            {!prefs.collapsed && (
-              <>
-                <span>设置</span>
-                <AccountSyncStatus />
-              </>
-            )}
+            <span className="nav-label" aria-hidden="true">设置</span>
+            <span className="nav-sync"><AccountSyncStatus /></span>
           </button>
         </div>
       </aside>

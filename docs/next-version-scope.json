@@ -160,5 +160,21 @@
     ],
     "privateOnly": true,
     "productionAccountMutationRequiresExplicitAction": true
+  },
+  "finalUiFollowups": [
+    "source/license info dialog without changing original wiki snapshots",
+    "fixed sidebar icons in both animation directions",
+    "full-row recommendation highlight",
+    "font wheel 13-22px",
+    "duel label",
+    "complete language/template labels",
+    "cursor position in run toolbar"
+  ],
+  "backendFinalChecks": {
+    "total": 1068,
+    "passed": 1065,
+    "skipped": 2,
+    "failed": 1,
+    "failure": "delegated teaching review digest mismatch preserved"
   }
 }

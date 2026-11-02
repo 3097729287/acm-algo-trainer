@@ -5,7 +5,7 @@ import { createServer } from 'vite';
 import { chromium } from 'playwright';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const server = await createServer({ root, server: { host: '127.0.0.1', port: 18768, strictPort: true } });
+const server = await createServer({ root, cacheDir:'../.backups/next-150/vite-workbench-final', server: { host: '127.0.0.1', port: 18768, strictPort: true } });
 await server.listen();
 const browser = await chromium.launch({ channel: process.env.CI ? undefined : 'msedge', headless: true });
 const page = await browser.newPage({ viewport: { width: 1050, height: 700 } });
@@ -113,6 +113,16 @@ try {
     const sizes=await page.locator('.wb-pane-header button:not(.wb-back-button):visible,.wb-pane-header select:visible,.wb-pane-header input:visible,.wb-original-link:visible,.wb-compact-toolbar button:not(.wb-back-button):visible').evaluateAll(nodes=>nodes.filter(n=>!n.disabled).map(n=>({height:n.getBoundingClientRect().height,label:n.getAttribute('aria-label')})));
     assert(sizes.every(item=>Math.abs(item.height-30)<1),`toolbar controls align at ${width}: ${JSON.stringify(sizes)}`);
     if(width>=996)assert((await page.getByLabel('编程语言',{exact:true}).boundingBox()).width>=65,'language name keeps a usable width');
+    if(await page.locator('.wb-run-button').isVisible()){
+      const alignment=await page.locator('.wb-cursor-position').evaluate(node=>{const row=node.closest('.wb-run-toolbar'),button=row.querySelector('.wb-run-button'),a=node.getBoundingClientRect(),b=button.getBoundingClientRect();return {inRow:!!row,centerDelta:Math.abs(a.top+a.height/2-b.top-b.height/2),belowEditor:a.top>=document.querySelector('.wb-editor').getBoundingClientRect().bottom-1};});
+      assert(alignment.inRow&&alignment.belowEditor&&alignment.centerDelta<1,JSON.stringify({width,alignment}));
+    }
+    if(width>=996)for(const size of [13,18,22]){
+      await page.evaluate(size=>{document.documentElement.style.fontSize=size+'px';document.documentElement.style.setProperty('--ui-font-size',size+'px');},size);
+      const labels=await page.locator('.wb-editor-header select').evaluateAll(nodes=>nodes.filter(node=>node.selectedOptions.length).map(node=>{const style=getComputedStyle(node),ctx=document.createElement('canvas').getContext('2d');ctx.font=style.font;return {label:node.selectedOptions[0].text,required:ctx.measureText(node.selectedOptions[0].text).width,available:node.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight),innerHeight:node.clientHeight-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom),font:parseFloat(style.fontSize)};}));
+      assert(labels.every(label=>label.available>=label.required&&label.innerHeight>=label.font*1.3),'Complete select glyph bounds '+JSON.stringify({width,size,labels}));
+    }
+    await page.evaluate(()=>{document.documentElement.style.fontSize='';document.documentElement.style.removeProperty('--ui-font-size');});
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
   }
   await page.setViewportSize({width:1050,height:700});await page.waitForFunction(()=>!document.querySelector('.wb-compact'));

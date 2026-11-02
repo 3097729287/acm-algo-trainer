@@ -29,7 +29,7 @@ function Fixture(){const [prefs,setPrefs]=useState(initial),[state,setState]=use
 }(window.fixtureRoot||=createRoot(document.getElementById('root'))).render(<Fixture/>);`;
 const html='<!doctype html><html><head><meta charset="utf-8"></head><body><div id="root"></div><script type="module" src="/@id/virtual:learning.jsx"></script></body></html>';
 await writeFile(path.join(output,'fixture.jsx'),fixture);
-const vite=await createServer({root,configFile:path.join(root,'vite.config.js'),server:{host:'127.0.0.1',port:0,watch:null},plugins:[{name:'isolated-learning',configureServer(server){server.middlewares.use(async(req,res,next)=>{if(req.url!=='/learning')return next();res.setHeader('Content-Type','text/html');res.end(await server.transformIndexHtml('/learning',html));});},resolveId(id){if(id==='virtual:learning.jsx')return path.join(output,'fixture.jsx');},load(id){if(id===path.join(output,'fixture.jsx'))return fixture;}}]});
+const vite=await createServer({root,cacheDir:'../.backups/next-150/vite-knowledge-final',configFile:path.join(root,'vite.config.js'),server:{host:'127.0.0.1',port:0,watch:null},plugins:[{name:'isolated-learning',configureServer(server){server.middlewares.use(async(req,res,next)=>{if(req.url!=='/learning')return next();res.setHeader('Content-Type','text/html');res.end(await server.transformIndexHtml('/learning',html));});},resolveId(id){if(id==='virtual:learning.jsx')return path.join(output,'fixture.jsx');},load(id){if(id===path.join(output,'fixture.jsx'))return fixture;}}]});
 await vite.listen();const base='http://127.0.0.1:'+vite.httpServer.address().port;
 const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});const page=await browser.newPage({viewport:{width:1440,height:960}});
 page.setDefaultTimeout(10000);
@@ -40,7 +40,12 @@ try{
  await page.goto(base+'/learning');await page.locator('.next-actions-primary').waitFor();assert.equal(await page.getByRole('button',{name:'爱心',exact:true}).locator('svg').count(),1);report.checks.push('recommendation and heart present while API delayed');
  await page.waitForFunction(()=>window.fixture?.social.snapshot?.totalLikes===12);slow=false;
  const popup=()=>page.getByRole('region',{name:'推荐任务与依据'});const open=async()=>{await page.mouse.move(20,900);await page.locator('.next-actions').hover();await popup().waitFor();};
- await open();await page.getByRole('button',{name:'开始知识点学习 并查集',exact:true}).click();await page.getByRole('dialog',{name:'学习并查集',exact:true}).waitFor();assert.equal(await page.evaluate(()=>fixture.prefs.learningPaths.knowledgeLearning.activeTopicId),null);
+ await open();
+ await page.getByRole('button',{name:'开始知识点学习 并查集',exact:true}).hover();
+ await page.waitForFunction(()=>{const row=document.querySelector('.next-actions-popover li:hover');return row&&[...row.querySelectorAll(':scope>button')].every(button=>getComputedStyle(button).color===getComputedStyle(row).color);});
+ const rowPaint=await page.getByRole('button',{name:'开始知识点学习 并查集',exact:true}).evaluate(button=>{const row=button.closest('li'),style=getComputedStyle(row);return {background:style.backgroundColor,color:style.color,controls:[...row.querySelectorAll(':scope>button')].map(node=>getComputedStyle(node).color)};});
+ assert.notEqual(rowPaint.background,'rgba(0, 0, 0, 0)');assert(rowPaint.controls.every(color=>color===rowPaint.color),'Hover highlights the complete row including refresh/info: '+JSON.stringify(rowPaint));
+ await page.getByRole('button',{name:'开始知识点学习 并查集',exact:true}).click();await page.getByRole('dialog',{name:'学习并查集',exact:true}).waitFor();assert.equal(await page.evaluate(()=>fixture.prefs.learningPaths.knowledgeLearning.activeTopicId),null);
  await page.getByRole('button',{name:'进入学习',exact:true}).click();await page.waitForFunction(()=>fixture.prefs.learningPaths.knowledgeLearning.activeTopicId==='dsu');
  assert.equal(await page.locator('.next-actions-primary').getAttribute('data-recommendation'),'course');report.checks.push('explicit learning confirmation and active-topic recommendation');
  await page.locator('.next-actions-primary').click();await page.getByRole('heading',{name:'并查集',exact:true}).waitFor();await page.getByRole('button',{name:'下一页',exact:true}).click();

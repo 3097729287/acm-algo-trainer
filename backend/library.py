@@ -316,12 +316,24 @@ class LibraryDatabase:
 
     def content_signature(self):
         """Detect commits from this process and other SQLite writers, including WAL."""
+        hint=self._content_file_hint()
+        cached=getattr(self,'_generation_signature_cache',None)
+        if cached is not None and cached[0]==hint:return cached[1]
         if not self.readonly:
             with self.connection() as db:
                 row=db.execute('SELECT identity,generation FROM catalog_generation WHERE id=1').fetchone()
                 schema=db.execute('PRAGMA schema_version').fetchone()[0]
                 revision=db.execute("SELECT value FROM library_meta WHERE key='revision'").fetchone()
-            if row:return ('sqlite-content-v1',row[0],row[1],schema,revision[0] if revision else None)
+            if row:
+                result=('sqlite-content-v1',row[0],row[1],schema,revision[0] if revision else None)
+                # Only memoize when no writer committed during the read. The
+                # logical result remains stable across process/checkpoint life;
+                # fixed file headers avoid reopening metadata for each lookup.
+                if hint==self._content_file_hint():self._generation_signature_cache=(hint,result)
+                return result
+        return hint
+
+    def _content_file_hint(self):
         result = []
         for path in (self.path, Path(str(self.path) + '-wal'), Path(str(self.path) + '-shm')):
             try:
