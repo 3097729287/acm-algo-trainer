@@ -509,6 +509,8 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_json(200, self.server.training.workspace())
                 ready = getattr(self.server, 'on_workspace_ready', None)
                 if ready is not None:ready()
+            elif path == '/api/navigation':
+                self.send_json(200, self.server.training.navigation())
             elif path == '/api/admin/session':
                 if not self.server.admin_mode:raise APIError(404,'没有找到这个接口')
                 self.send_json(200,self.server.admin_rankings.snapshot())

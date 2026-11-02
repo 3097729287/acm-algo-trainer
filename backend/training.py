@@ -644,7 +644,6 @@ class TrainingService:
             value = build_insights(library, records, history, workspace, hub or {}, self._now())
             tasks = self.daily_tasks(goal_tasks=workspace.get('goalTasks', []))
             # 保留版本 2 的正式任务经验，并累加版本 3 的递进任务；旧本地领取仍留在库里。
-            claimed = self.connection.execute("SELECT COALESCE(SUM(awarded_xp),0) AS xp,COUNT(*) AS count,MAX(claimed_at) AS latest FROM daily_missions WHERE claimed_at IS NOT NULL AND CASE WHEN json_valid(definition) THEN json_extract(definition,'$.version') END IN (2,3)").fetchone()
             from progression import official_reward_evidence, extra_achievements, qualified_contests
             evidence = official_reward_evidence(library, records, hub or {})
             completed = qualified_contests(workspace["contests"], records)
@@ -661,23 +660,8 @@ class TrainingService:
             # Hidden conditions and progress do not leave the account API before
             # completion. Durable earned/claimed secrets remain visible.
             value['achievements']=[item for item in value['achievements'] if not item.get('hidden') or item.get('unlocked')]
-            ranking_profile = self._ranking_profile()
-            ranking_reward = self.connection.execute("SELECT total_xp FROM ranking_reward_totals WHERE endpoint=? AND user_id=?",
-                                                     (ranking_profile["endpoint"], ranking_profile["user_id"])).fetchone()
-            ranking_xp = ranking_reward["total_xp"] if ranking_reward else 0
-            from reviews import reward_totals
-            review_rewards = reward_totals(self)
-            xp = self._first_acceptance_xp(library, records) + claimed["xp"] + ranking_xp + achievement_rewards['xp'] + review_rewards['xp']
-            from experience_challenge import reward as experience_reward, snapshot as experience_snapshot
-            challenge_xp = experience_reward(self, xp)
-            xp += challenge_xp
-            from tb_rank import growth, ranked
-            from starter_pacing import costs as starter_costs
-            value['growth'] = dict(growth(xp,level_costs=starter_costs(self)), missionXp=claimed['xp'], rankingXp=ranking_xp,
-                                   achievementXp=achievement_rewards['xp'], newAchievementXp=achievement_rewards['newXp'],
-                                   reviewXp=review_rewards['xp'], rewardedReviews=review_rewards['count'], challengeXp=challenge_xp)
-            value['growth']['experienceChallenge'] = experience_snapshot(self, value['growth']['level'])
-            value['growth'].update(confirmed=True,authority=self._confirmed_growth_authority())
+            from tb_rank import ranked
+            value['growth'] = self._growth_snapshot(library, records, achievement_rewards)
             titles, equipped_titles = earned_titles(achievement_rewards['claims'])
             value.update(titles=titles, equippedTitles=equipped_titles)
             value['growth'].update(titles=titles, equippedTitles=equipped_titles)
@@ -718,6 +702,57 @@ class TrainingService:
             signature = self._insights_signature(hub)
             self._insights_cache = (time.monotonic(), signature, deepcopy(value))
             return value
+
+    def _growth_snapshot(self, library, records, achievement_rewards=None):
+        """Read the same durable XP sources for navigation and full insights.
+
+        This does not compute or claim new achievements, skill ratings or tasks.
+        The existing official-AC migration and assessment top-up remain the
+        authority for earned XP, including on an older account's first launch.
+        Caller holds the personal and library read contexts.
+        """
+        claimed = self.connection.execute("SELECT COALESCE(SUM(awarded_xp),0) FROM daily_missions WHERE claimed_at IS NOT NULL AND CASE WHEN json_valid(definition) THEN json_extract(definition,'$.version') END IN (2,3)").fetchone()[0]
+        profile = self._ranking_profile()
+        ranking = self.connection.execute('SELECT total_xp FROM ranking_reward_totals WHERE endpoint=? AND user_id=?',
+                                          (profile['endpoint'], profile['user_id'])).fetchone()
+        ranking_xp = ranking['total_xp'] if ranking else 0
+        achievement_xp = achievement_rewards['xp'] if achievement_rewards is not None else self.connection.execute('SELECT COALESCE(SUM(awarded_xp),0) FROM achievement_xp_claims').fetchone()[0]
+        from reviews import reward_totals
+        reviews = reward_totals(self)
+        xp = self._first_acceptance_xp(library, records) + claimed + ranking_xp + achievement_xp + reviews['xp']
+        from experience_challenge import reward, snapshot
+        challenge_xp = reward(self, xp)
+        from tb_rank import growth
+        from starter_pacing import costs
+        value = dict(growth(xp + challenge_xp, level_costs=costs(self)), missionXp=claimed, rankingXp=ranking_xp,
+                     achievementXp=achievement_xp, newAchievementXp=achievement_rewards['newXp'] if achievement_rewards else 0,
+                     reviewXp=reviews['xp'], rewardedReviews=reviews['count'], challengeXp=challenge_xp)
+        value.update(experienceChallenge=snapshot(self, value['level']), confirmed=True, authority=self._confirmed_growth_authority())
+        return value
+
+    def navigation(self):
+        """Account-confirmed entry level without waiting for the full radar."""
+        with self._library_view(), self.lock:
+            library = self._library()
+            known = {row['id'] for row in library}
+            for row in self.connection.execute('SELECT id FROM training'):
+                if row['id'] not in known:
+                    try:
+                        library.append(self._row(row['id']))
+                        known.add(row['id'])
+                    except Exception as error:
+                        if getattr(error, 'status', None) != 404:
+                            raise
+            records = [dict(row) for row in self.connection.execute("SELECT * FROM submissions WHERE mode='submit' AND finished_at IS NOT NULL ORDER BY submitted_at,rowid")]
+            from submission_evidence import annotate_sources
+            value = {'growth': self._growth_snapshot(library, annotate_sources(records, self.connection)), 'achievements': []}
+            if self.admin_mode:
+                from admin import decorate
+                decorate(self, value)
+            # No incomplete radar, rank, achievement collection or public card
+            # is exposed as if it were a completed insights response.
+            growth = value['growth']
+            return {key: growth[key] for key in ('level', 'totalXp', 'currentLevelXp', 'nextLevelXp', 'experienceChallenge', 'confirmed', 'authority')}
 
     def claim_achievement(self, identity, hub=None, *, compact=False):
         from progression import ACHIEVEMENT_DEFINITIONS, parse_time as achievement_time

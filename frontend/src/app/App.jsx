@@ -631,10 +631,12 @@ export default function App() {
   const automaticTourStarted=useRef(false);
   const [experienceOpen,setExperienceOpen]=useState(false);
   const navigationOwner=window.__tbAccountUserId||window.__tbAccount?.userId||'';
-  const experienceOffer=confirmedGrowth(insights?.growth,navigationOwner)?insights.growth.experienceChallenge:null;
+  const [navigationGrowth,setNavigationGrowth]=useState(null);
+  const entryGrowth=confirmedGrowth(insights?.growth,navigationOwner)?insights.growth:confirmedGrowth(navigationGrowth,navigationOwner)?navigationGrowth:null;
+  const experienceOffer=entryGrowth?.experienceChallenge||null;
   const experienceAccess=experienceOffer?.owner===navigationOwner&&experienceOffer.policyVersion===1?experienceOffer:{};
   const experienceAttention=Boolean(experienceOffer?.eligible&&(experienceOffer.promptRequired||window.__tbExperienceChoicePending?.owner===navigationOwner));
-  const navigation=useNavigationLevel(navigationOwner,insights?.growth?.level);
+  const navigation=useNavigationLevel(navigationOwner,entryGrowth?.level);
   const navigationLevel=navigation.level??1;
   const featureAvailable=(id,inline=false)=>inline?!hiddenPages(prefs.hiddenNavPages).includes(id):id==='mock'&&Boolean(workspace.activeContest)||pageAvailable(id,navigationLevel,prefs,experienceAccess);
   const visiblePageIds=[...new Set([...availablePages(navigationLevel,prefs,experienceAccess),...(workspace.activeContest?['mock']:[])])];
@@ -860,6 +862,12 @@ export default function App() {
     async (initial = false) => {
       const seq = ++loadSeq.current;
       if (initial) setLoading(true);
+      if(initial){
+        const owner=window.__tbAccountUserId;
+        void api('navigation').then(value=>{
+          if(seq===loadSeq.current&&owner===window.__tbAccountUserId&&confirmedGrowth(value,owner))setNavigationGrowth(value);
+        }).catch(()=>{/* Compatible older backends confirm through insights. */});
+      }
       try {
         const [library, personal] =
           await Promise.all([
