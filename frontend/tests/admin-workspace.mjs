@@ -39,7 +39,7 @@ try{
  await page.waitForFunction(count=>document.querySelectorAll('.sidebar nav .nav-item').length===count,availablePages(1).filter(id=>id!=='settings').length);
  assert.equal((await get('workspace')).summary.total,0);assert.equal((await get('insights')).growth.level,1);const scenario=(await get('account')).scenario;assert.equal(scenario.kind,'fresh');
  const prompt=page.getByRole('dialog',{name:'你有编程经验吗？'});await prompt.waitFor();await prompt.getByRole('button',{name:/我是新手/}).click();
- const guide=page.getByRole('dialog',{name:'新手指引',exact:true});if(await guide.isVisible())await page.keyboard.press('Escape');
+ const guide=page.getByRole('dialog',{name:'新手指引',exact:true});await guide.waitFor();await guide.getByRole('button',{name:'结束指引 ×',exact:true}).click();await guide.waitFor({state:'hidden'});
  await openSettings(page,'管理员');await page.getByLabel('管理员等级',{exact:true}).fill('2');await page.waitForTimeout(350);assert.equal((await get('insights')).growth.level,2);
  phase='visual-alignment';for(const width of [1440,960,430]){await page.setViewportSize({width,height:900});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.screenshot({path:path.join(out,'admin-'+width+'.png'),fullPage:true});}
  phase='restore-maintenance';await page.getByLabel('测试工作区',{exact:true}).selectOption('maintenance');await page.waitForFunction(owner=>window.__tbAccountUserId===owner,account.account.userId);assert.equal((await get('workspace')).summary.total,1);

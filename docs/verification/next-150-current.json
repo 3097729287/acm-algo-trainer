@@ -303,7 +303,7 @@
     "originalSiteSubmissions": 0,
     "productionAccountOperations": 0,
     "fullAppBrowserPassed": true,
-    "regressionState": "1.5.0 maintenance full run completed; 1.5.1 integration pending",
+    "regressionState": "Merged 1.5.1 backend full check running; all relevant browser and shared-service unit checks passed",
     "previousCapacityBlockedRun": {
       "tests": 102,
       "failures": 1,
@@ -331,7 +331,29 @@
       }
     },
     "integratedPeerSource": "357dd9478ef8805026084415be1c55afef1e1c61",
-    "integratedVersion": "1.5.1"
+    "integratedVersion": "1.5.1",
+    "integratedBrowser": {
+      "sourceBase": "357dd947",
+      "passed": true,
+      "administratorFlow": true,
+      "mainApp": true,
+      "learningReader": true,
+      "stickerRewards": true,
+      "layouts": [
+        1440,
+        960,
+        430
+      ],
+      "originalSiteSubmissions": 0,
+      "productionAccountOperations": 0
+    },
+    "sharedService": {
+      "tests": 66,
+      "passed": 65,
+      "failed": 0,
+      "skipped": 1,
+      "mysqlSkipped": true
+    }
   },
   "maintenanceEvidence": {
     "backend": {
@@ -345,6 +367,22 @@
     "component": {
       "path": ".backups/next-150/maintenance-admin-settings-ui.log",
       "sha256": "36c5638bc1d75c3b78d82d8af4ccba61603a373139ab76420044792052f784af"
+    },
+    "app": {
+      "path": ".backups/next-150/maintenance-151-app-built.log",
+      "sha256": "d2c7cff53dfb9aec5489a1a6f40c49140b2438a6c5b1d4f68905fa6a49ab6d3b"
+    },
+    "reader": {
+      "path": ".backups/next-150/maintenance-151-learning-browser.log",
+      "sha256": "a4427bca04dfc92d22c78b61aeb2b0ed76da3ae310372b8a0048326d5cabcb24"
+    },
+    "rewards": {
+      "path": ".backups/next-150/maintenance-151-sticker-rewards.log",
+      "sha256": "6f7873cda88b32945c4950ac7985c8aead19d7a121d849d62bd0ed7ba9049079"
+    },
+    "service": {
+      "path": ".backups/next-150/maintenance-151-shared-service-all.log",
+      "sha256": "fa8669acbd35fea6d2e1dbdcaff2eb69a79392bf8f468f562543f1315222ee4d"
     }
   }
 }
