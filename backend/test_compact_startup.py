@@ -40,6 +40,23 @@ class CompactStartupTests(unittest.TestCase):
         self.assertEqual(restarted.training_data()['rows'][0]['title'],'Fixture')
         self.assertIn('knowledgeAnalysis',restarted.data()['rows'][0])
 
+    def test_wal_checkpoint_and_reader_restart_reuse_only_unchanged_catalog(self):
+        with closing(sqlite3.connect(self.library.path)) as writer:
+            writer.execute('PRAGMA journal_mode=WAL')
+            self.store.data_response_bytes(compact=True)
+            before=self.library.content_signature()
+            writer.execute('PRAGMA wal_checkpoint(TRUNCATE)')
+            self.assertEqual(self.library.content_signature(),before)
+        restarted=self.open()
+        with patch.object(restarted,'data',side_effect=AssertionError('reclassified unchanged WAL catalog')):
+            self.assertEqual(json.loads(restarted.data_response_bytes(compact=True))['rows'][0]['title'],'Fixture')
+        before=self.library.content_signature()
+        with closing(sqlite3.connect(self.library.path)) as writer:
+            writer.execute('BEGIN')
+            writer.execute("UPDATE problems SET encoded=json_set(encoded,'$.title','Rolled back')")
+            writer.rollback()
+        self.assertEqual(self.library.content_signature(),before)
+
     def test_external_wal_and_analysis_changes_cannot_reuse_old_rows(self):
         self.store.data_response_bytes(compact=True)
         restarted=self.open()

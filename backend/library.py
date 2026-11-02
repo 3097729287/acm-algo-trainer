@@ -118,6 +118,13 @@ class LibraryDatabase:
             indexed = db.execute("SELECT value FROM library_meta WHERE key='url_index_version'").fetchone()
             if not indexed or indexed[0] != '2':
                 self._rebuild_urls(db)
+            # Durable content generations survive reader handles/checkpoints.
+            # Triggers also cover commits made by external SQL writers.
+            db.execute("CREATE TABLE IF NOT EXISTS catalog_generation(id INTEGER PRIMARY KEY CHECK(id=1), identity TEXT NOT NULL, generation INTEGER NOT NULL)")
+            db.execute("INSERT OR IGNORE INTO catalog_generation VALUES(1,?,0)",(__import__('uuid').uuid4().hex,))
+            for table in ('problems','solutions','detailed_solutions','statements','statement_assets','lectures','problem_lectures','training_lists','solution_methods'):
+                for action in ('INSERT','UPDATE','DELETE'):
+                    db.execute('CREATE TRIGGER IF NOT EXISTS catalog_generation_'+table+'_'+action.lower()+' AFTER '+action+' ON '+table+' BEGIN UPDATE catalog_generation SET generation=generation+1 WHERE id=1; END')
 
     @contextmanager
     def connection(self):
@@ -135,7 +142,11 @@ class LibraryDatabase:
     def backup(self, label='before-upgrade', *, manual=False):
         from recovery_backups import snapshot
         with self.connection() as source:
-            return snapshot(source, self.path, self.path.parent / 'backups', label=label, manual=manual, suffix='.sqlite3')
+            result=snapshot(source, self.path, self.path.parent / 'backups', label=label, manual=manual, suffix='.sqlite3')
+            if result is None:
+                from update_errors import UpdateStorageError
+                raise UpdateStorageError('题库迁移恢复点未完成，原数据已保留')
+            return result
 
     def merge_seed(self, path, fingerprint=None):
         """Upgrade bundled content, preserving locally imported/edited rows and fetched statements."""
@@ -305,6 +316,12 @@ class LibraryDatabase:
 
     def content_signature(self):
         """Detect commits from this process and other SQLite writers, including WAL."""
+        if not self.readonly:
+            with self.connection() as db:
+                row=db.execute('SELECT identity,generation FROM catalog_generation WHERE id=1').fetchone()
+                schema=db.execute('PRAGMA schema_version').fetchone()[0]
+                revision=db.execute("SELECT value FROM library_meta WHERE key='revision'").fetchone()
+            if row:return ('sqlite-content-v1',row[0],row[1],schema,revision[0] if revision else None)
         result = []
         for path in (self.path, Path(str(self.path) + '-wal'), Path(str(self.path) + '-shm')):
             try:

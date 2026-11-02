@@ -2,7 +2,7 @@
   "updatedAt": "2026-11-02T03:37:04.141113+00:00",
   "version": "1.5.0",
   "repairBaseline": "6907a65495b9e6519f5ace9747a412a78ea2ca06",
-  "installed": false,
+  "installed": true,
   "publiclyDeployed": false,
   "observedOnlineServiceVersion": "1.2.9",
   "fullBackend": {
@@ -201,27 +201,34 @@
     "sha256": "8defb0b275bdbf4249a9f547dcebe8cc4903e90aecd2707118243e155d6b761d",
     "desktopInstallerPresent": true,
     "isolatedFreshInstall": true,
-    "verifiedProgramFiles": 4763,
+    "verifiedProgramFiles": 4764,
     "publicLibraryFixtureReusedInInstallerCheck": true,
     "privateStateFreshAndIndependent": true,
     "oldBaselineConstructionStoppedByDiskSpace": false,
-    "upgradePassed": false,
-    "deltaPassed": false,
-    "fullFallbackPassed": false,
-    "livePersonalBackupPerformedBy150": false,
-    "activeUserInstallationChanged": false,
+    "upgradePassed": true,
+    "deltaPassed": true,
+    "fullFallbackPassed": true,
+    "livePersonalBackupPerformedBy150": true,
+    "activeUserInstallationChanged": true,
     "privateAdminPrepared": true,
     "privateAdminComponentCheck": true,
     "adminAssetsPublished": false,
-    "latestInstallerCheckFinding": "Existing newly distributed path had no entry in old base manifest; actual-byte backup/rollback fixed and 35 targeted tests pass. Final upgrade acceptance is being rerun."
+    "latestInstallerCheckFinding": "Existing newly distributed path had no entry in old base manifest; actual-byte backup/rollback fixed and 35 targeted tests pass. Final upgrade acceptance is being rerun.",
+    "privateAdminInstalled": false,
+    "actualPrivateDatabases": 19,
+    "actualAccountXpBefore": 15345,
+    "actualAccountXpAfter": 15345,
+    "actualContentShownMilliseconds": 21345.27,
+    "actualContentTargetMet": false
   },
   "pendingInputs": [
-    "Production full backup download, exact MySQL 8.4.11 restore/compatibility/rollback verification, then concrete deployment authorization",
-    "Final native build, isolated delta/full fallback/helper validation and online personal-data backup before local cutover"
+    "Final frozen and retained-account startup validation of the large-history fixes",
+    "Complete actual-runtime compatibility / rollback proof on the restored production clone, then concrete deployment authorization",
+    "Private administrator management and scenario tools after current user delivery"
   ],
   "actualFreeGiB": {
-    "C": 7.95,
-    "D": 22.88
+    "C": 2.32,
+    "D": 5.89
   },
   "fiftyGiBTargetMet": false,
   "latestFeedbackValidation": {
@@ -234,5 +241,11 @@
     "finalRebuildPending": true,
     "installed": false,
     "productionDeployed": false
+  },
+  "retainedDataStartupFix": {
+    "isolatedConstructorSeconds": 1.265,
+    "targetedChecks": 69,
+    "nativeRetainedProfilePending": true,
+    "permanentRecoveryDeletionRemoved": true
   }
 }

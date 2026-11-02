@@ -6,14 +6,17 @@ from pathlib import Path
 import sqlite3
 import tempfile
 import unittest
+from unittest.mock import patch
+from test_recycle_policy import retained_fixture,fixture_recycler
 
 from recovery_backups import snapshot, preview, prune, verify
 
 
 class RecoveryBackupTests(unittest.TestCase):
     def setUp(self):
-        self.temp = tempfile.TemporaryDirectory(prefix='tb-recovery-limits-')
+        self.temp = retained_fixture('recovery-limits')
         self.root = Path(self.temp.name)
+        self.recycler=patch('recovery_backups.recycle',side_effect=fixture_recycler(self.root));self.recycler.start();self.addCleanup(self.recycler.stop)
         self.path = self.root / 'personal.sqlite3'
         self.db = sqlite3.connect(self.path, isolation_level=None)
         self.db.execute('PRAGMA journal_mode=WAL')
@@ -90,9 +93,27 @@ class RecoveryBackupTests(unittest.TestCase):
         manifest.write_text(json.dumps(value), 'utf8')
         # Keep all when a second required recovery point has also disappeared.
         earliest = min(self.directory.glob('*.bak'))
-        earliest.unlink()
+        earliest.rename(self.root/'missing-required-recovery-fixture')
         plan = preview(self.directory, policy={'rootBytes': 1})
         self.assertEqual(plan['retire'], [])
+
+    def test_failed_recycle_keeps_required_files_and_pauses_new_automatic_copies(self):
+        for i in range(4):snapshot(self.db,self.path,self.directory,now=self.now+dt.timedelta(seconds=i))
+        old={p.name:p.read_bytes() for p in self.directory.glob('*.bak')}
+        with patch('recovery_backups.recycle',return_value=False):
+            prune(self.directory,policy={'rootBytes':1})
+            self.assertIsNone(snapshot(self.db,self.path,self.directory,policy={'rootBytes':1}))
+            with patch('recovery_backups._records',side_effect=AssertionError('repeated paused attempt')):
+                self.assertIsNone(snapshot(self.db,self.path,self.directory))
+        self.assertEqual(old,{p.name:p.read_bytes() for p in self.directory.glob('*.bak')})
+
+    def test_failed_partial_is_retained_and_not_repeated_automatically(self):
+        with patch('recovery_backups._checksum',side_effect=OSError('isolated checksum fault')),patch('recovery_backups.recycle',return_value=False):
+            with self.assertRaises(OSError):snapshot(self.db,self.path,self.directory)
+        partials=list(self.directory.glob('*.partial'));self.assertEqual(len(partials),1)
+        self.assertIsNone(snapshot(self.db,self.path,self.directory))
+        restored=snapshot(self.db,self.path,self.directory,retry=True)
+        self.assertTrue(verify(restored));self.assertTrue(partials[0].is_file())
 
 
 if __name__ == '__main__': unittest.main()

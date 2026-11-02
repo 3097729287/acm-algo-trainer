@@ -6,6 +6,7 @@ from pathlib import Path
 import sqlite3
 import tempfile
 import unittest
+from test_recycle_policy import retained_fixture
 from unittest.mock import patch
 
 from knowledge import KnowledgeAnalysisCache
@@ -17,7 +18,7 @@ from test_library import record
 
 class LoadingCacheTests(unittest.TestCase):
     def setUp(self):
-        self.temp = tempfile.TemporaryDirectory(prefix='tb-loading-')
+        self.temp = retained_fixture('loading')
         self.root = Path(self.temp.name)
         self.library = LibraryDatabase(self.root / 'library.sqlite3')
         self.library.import_records([record()], {}, {})

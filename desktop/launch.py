@@ -370,16 +370,21 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="TB 桌面应用")
     parser.add_argument("--admin", action="store_true", help="使用独立管理员数据与浏览器配置")
     parser.add_argument("--check", action="store_true", help="只检查组件，不打开窗口")
+    parser.add_argument('--prepare-startup',action='store_true',help='更新后准备本机目录缓存，不打开窗口')
     args = parser.parse_args(argv)
     try:
         configure_logging()
         if args.check:
             print(json.dumps(check_dependencies(), ensure_ascii=False, indent=2))
             return 0
+        if args.prepare_startup:
+            from startup_prepare import prepare
+            prepare()
+            return 0
         return run_desktop()
     except Exception as exc:
         LOG.exception("TB startup failed")
-        if args.check:
+        if args.check or args.prepare_startup:
             if sys.stderr is not None:
                 print(f"TB 检查失败：{exc}", file=sys.stderr)
         else:

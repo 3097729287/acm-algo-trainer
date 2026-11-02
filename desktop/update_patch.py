@@ -162,6 +162,9 @@ def helper_main(args):
             finally:
                 kernel.CloseHandle(handle)
         apply_patch_file(package, sha, version, target)
+        sources=Path(target)/'SOURCE-MANIFEST.json'
+        if sources.is_file() and 'desktop/startup_prepare.py' in json.loads(sources.read_text(encoding='utf-8')):
+            subprocess.run([str(executable(target)),'--prepare-startup'],cwd=target,check=True,timeout=240,creationflags=subprocess.CREATE_NO_WINDOW)
         log.write_text('ok', encoding='utf-8')
         command = [str(executable(target))]
         if os.environ.get('TB_OFFLINE') == '1' and os.environ.get('TB_UPDATE_TEST_REPORT'):

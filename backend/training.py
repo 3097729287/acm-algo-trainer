@@ -47,32 +47,8 @@ def _submission_platform(value):
             'nowcoder': '牛客', 'luogu': '洛谷', 'qoj': 'QOJ'}.get(name.casefold(), name)
 
 
-class TrainingService:
-    def __init__(self, store, db_path, assets=None, judge=None, clock=None, backup_dir=None, rng=None, account_provider=None, admin_mode=False):
-        self.admin_mode = bool(admin_mode)
-        self.store = store
-        self.account_provider = account_provider
-        self.db_path = Path(db_path).resolve()
-        self.db_path.parent.mkdir(parents=True, exist_ok=True)
-        self.lock = threading.RLock()
-        self.clock = clock or (lambda: dt.datetime.now(UTC))
-        self.rng = rng or secrets.SystemRandom()
-        self._last_backup_at = None
-        # A full directory mirrored into the backup name doubles its length.
-        # Per-account paths then exceed SQLite's Windows path limit. Existing
-        # backup folders stay intact; new backups use a stable short namespace.
-        mirror = 'personal-' + hashlib.sha256(str(self.db_path.parent).encode('utf-8')).hexdigest()[:16]
-        self.backup_dir = Path(backup_dir) if backup_dir else Path(__import__("toolutil").BACKUP_ROOT) / mirror
-        self.backup_budget_root = Path(backup_dir) if backup_dir else Path(__import__("toolutil").BACKUP_ROOT)
-        existed = self.db_path.exists()
-        self.connection = sqlite3.connect(self.db_path, check_same_thread=False, isolation_level=None)
-        self.connection.row_factory = sqlite3.Row
-        self.connection.execute("PRAGMA busy_timeout=5000")
-        self.connection.execute("PRAGMA synchronous=FULL")
-        self.connection.execute("PRAGMA foreign_keys=ON")
-        if existed:
-            self._backup()
-        self.connection.executescript("""
+
+_CORE_SCHEMA_0 = """
             CREATE TABLE IF NOT EXISTS training (
               id TEXT PRIMARY KEY, active_at TEXT NOT NULL, solution_pending INTEGER NOT NULL DEFAULT 0,
               rewrite_due INTEGER NOT NULL DEFAULT 0, accepted_at TEXT, last_local_at TEXT,
@@ -95,13 +71,9 @@ class TrainingService:
               message TEXT NOT NULL DEFAULT '', custom_input TEXT NOT NULL DEFAULT '', solution_seen INTEGER NOT NULL DEFAULT 0);
             CREATE INDEX IF NOT EXISTS submission_problem ON submissions(problem_id,submitted_at);
             CREATE INDEX IF NOT EXISTS submission_contest ON submissions(contest_id,submitted_at);
-        """)
-        for table, additions in (("training", {"solution_seen_at": "TEXT", "mock_due_at": "TEXT", "mock_due_context": "TEXT", "active": "INTEGER NOT NULL DEFAULT 1", "removed_at": "TEXT"}), ("submissions", {"solution_seen": "INTEGER NOT NULL DEFAULT 0", "sample_run": "INTEGER NOT NULL DEFAULT 0", "case_results": "TEXT NOT NULL DEFAULT '[]'"}), ("contests", {"config": "TEXT NOT NULL DEFAULT '{}'", "deleted_at": "TEXT"})):
-            columns = {record[1] for record in self.connection.execute(f"PRAGMA table_info({table})")}
-            for column, definition in additions.items():
-                if column not in columns:
-                    self.connection.execute(f"ALTER TABLE {table} ADD COLUMN {column} {definition}")
-        self.connection.executescript("""
+        """
+
+_CORE_SCHEMA_1 = """
             CREATE TABLE IF NOT EXISTS tb_rank_profile (
               id INTEGER PRIMARY KEY CHECK(id=1), unlocked_at TEXT NOT NULL);
             CREATE TABLE IF NOT EXISTS official_first_xp_awards (
@@ -141,7 +113,67 @@ class TrainingService:
             CREATE TABLE IF NOT EXISTS official_pending (
               id TEXT PRIMARY KEY, session_id TEXT NOT NULL, submission_id TEXT NOT NULL,
               problem_id TEXT, url TEXT, code TEXT, platform TEXT, accepted_at TEXT);
-        """)
+        """
+
+from functools import lru_cache
+from contextlib import closing
+_ALIAS_VIEW = ContextVar('training-alias-view', default=None)
+
+@lru_cache(maxsize=1)
+def _current_core_columns():
+    with closing(sqlite3.connect(':memory:')) as db:
+        db.executescript(_CORE_SCHEMA_0)
+        db.executescript(_CORE_SCHEMA_1)
+        tables=[row[0] for row in db.execute("SELECT name FROM sqlite_master WHERE type='table'")]
+        result={table:{row[1] for row in db.execute('PRAGMA table_info('+table+')')} for table in tables}
+    for table,fields in {'training':{'active','removed_at'},'submissions':{'sample_run','case_results'},'contests':{'config','deleted_at'}}.items():result[table].update(fields)
+    return result
+
+def _core_schema_current(connection):
+    return all(columns<={row[1] for row in connection.execute('PRAGMA table_info('+table+')')} for table,columns in _current_core_columns().items())
+
+class TrainingService:
+    def __init__(self, store, db_path, assets=None, judge=None, clock=None, backup_dir=None, rng=None, account_provider=None, admin_mode=False):
+        self.admin_mode = bool(admin_mode)
+        self.store = store
+        self.account_provider = account_provider
+        self.db_path = Path(db_path).resolve()
+        self.db_path.parent.mkdir(parents=True, exist_ok=True)
+        self.lock = threading.RLock()
+        self.clock = clock or (lambda: dt.datetime.now(UTC))
+        self.rng = rng or secrets.SystemRandom()
+        self._last_backup_at = None
+        # A full directory mirrored into the backup name doubles its length.
+        # Per-account paths then exceed SQLite's Windows path limit. Existing
+        # backup folders stay intact; new backups use a stable short namespace.
+        mirror = 'personal-' + hashlib.sha256(str(self.db_path.parent).encode('utf-8')).hexdigest()[:16]
+        self.backup_dir = Path(backup_dir) if backup_dir else Path(__import__("toolutil").BACKUP_ROOT) / mirror
+        self.backup_budget_root = Path(backup_dir) if backup_dir else Path(__import__("toolutil").BACKUP_ROOT)
+        existed = self.db_path.exists()
+        self.connection = sqlite3.connect(self.db_path, check_same_thread=False, isolation_level=None)
+        self.connection.row_factory = sqlite3.Row
+        self.connection.execute("PRAGMA busy_timeout=5000")
+        self.connection.execute("PRAGMA synchronous=FULL")
+        self.connection.execute("PRAGMA foreign_keys=ON")
+        if existed and not _core_schema_current(self.connection):
+            try:
+                if self._backup() is None:
+                    from update_errors import UpdateStorageError
+                    raise UpdateStorageError('迁移备份尚未完成，原数据库已保留')
+            except BaseException:
+                self.connection.close()
+                raise
+        elif existed:
+            # An ordinary open does not migrate schema or copy the whole
+            # code/chunk history before interface content can appear.
+            self._last_backup_at = time.monotonic()
+        self.connection.executescript(_CORE_SCHEMA_0)
+        for table, additions in (("training", {"solution_seen_at": "TEXT", "mock_due_at": "TEXT", "mock_due_context": "TEXT", "active": "INTEGER NOT NULL DEFAULT 1", "removed_at": "TEXT"}), ("submissions", {"solution_seen": "INTEGER NOT NULL DEFAULT 0", "sample_run": "INTEGER NOT NULL DEFAULT 0", "case_results": "TEXT NOT NULL DEFAULT '[]'"}), ("contests", {"config": "TEXT NOT NULL DEFAULT '{}'", "deleted_at": "TEXT"})):
+            columns = {record[1] for record in self.connection.execute(f"PRAGMA table_info({table})")}
+            for column, definition in additions.items():
+                if column not in columns:
+                    self.connection.execute(f"ALTER TABLE {table} ADD COLUMN {column} {definition}")
+        self.connection.executescript(_CORE_SCHEMA_1)
         if not existed:
             self.connection.execute('INSERT OR IGNORE INTO official_xp_state VALUES(1,?)', (iso(self._now()),))
         if 'target' not in {row[1] for row in self.connection.execute('PRAGMA table_info(goal_daily_assignments)')}:
@@ -164,7 +196,7 @@ class TrainingService:
         # Replay before any workspace response or leaderboard synchronization.
         cached = self.connection.execute("SELECT id FROM training WHERE accepted_at IS NOT NULL").fetchall()
         if cached:
-            with self._library_view(), self._write() as connection:
+            with self._identity_view(), self._write() as connection:
                 for record in cached:
                     self._recompute_progress(connection, record["id"])
         self.reconcile_official_contests()
@@ -296,7 +328,17 @@ class TrainingService:
         connection.execute("INSERT INTO training(id,active_at) VALUES(?,?) ON CONFLICT(id) DO UPDATE SET active=1,removed_at=NULL,active_at=MAX(training.active_at,excluded.active_at)", (identity, timestamp))
         self._recompute_progress(connection, identity)
 
+    @contextmanager
+    def _identity_view(self):
+        current=_ALIAS_VIEW.get()
+        token=None if current is not None and current[0] is self else _ALIAS_VIEW.set((self,self._identity_map()))
+        try:yield
+        finally:
+            if token is not None:_ALIAS_VIEW.reset(token)
+
     def _identity_map(self, library=None):
+        current=_ALIAS_VIEW.get()
+        if library is None and current is not None and current[0] is self:return current[1]
         from insights import canonical_url
         snapshot = _LIBRARY_VIEW.get()
         scoped = snapshot[2] if snapshot is not None and snapshot[0] is self else None

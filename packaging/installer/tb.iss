@@ -95,6 +95,7 @@ Filename: "{app}\ToBeLoader.exe"; Description: "打开 {#ProductName}"; WorkingD
 [Code]
 var
   LegacyRestartRequired: Boolean;
+  ExistingWorkspace: Boolean;
 
 function NeedsLegacyRestartName: Boolean;
 begin
@@ -126,6 +127,7 @@ var
 begin
   Result := '';
   LegacyRestartRequired := FileExists(ExpandConstant('{app}\TB新版.exe'));
+  ExistingWorkspace := FileExists(ExpandConstant('{app}\state\tb-personal.sqlite3')) or FileExists(ExpandConstant('{app}\admin-workspace\state\tb-personal.sqlite3'));
   if not WebViewPresent then
   begin
     ExtractTemporaryFile('WebView2-offline-x64.exe');
@@ -140,6 +142,13 @@ procedure CurStepChanged(CurStep: TSetupStep);
 var
   ExitCode: Integer;
 begin
+  if (CurStep = ssPostInstall) and ExistingWorkspace then
+  begin
+    if not Exec(ExpandConstant('{app}\{#ProductExe}'), '--prepare-startup', ExpandConstant('{app}'), SW_HIDE, ewWaitUntilTerminated, ExitCode) then
+      RaiseException('本机目录准备未完成，个人数据已保留。')
+    else if ExitCode <> 0 then
+      RaiseException('本机目录准备未完成，个人数据已保留。');
+  end;
 #ifndef AdminEdition
   if (CurStep = ssPostInstall) and WizardIsTaskSelected('importlegacy') then
   begin

@@ -14,6 +14,8 @@ import re
 import sqlite3
 import threading
 import uuid
+from system_recycle import recycle
+from persistence import load_document,save_document
 
 LOCK = threading.RLock()
 POLICY = {'recent': 3, 'daily': 7, 'weekly': 4, 'maxCount': 14,
@@ -132,8 +134,8 @@ def prune(root, *, policy=None, now=None):
             if not _inside(target, root) or not _inside(manifest, root): continue
             try:
                 if target.stat().st_size != item['bytes']: continue
-                target.unlink()
-                manifest.unlink()
+                if recycle(target):
+                    recycle(manifest)
             except OSError:
                 # A locked old recovery copy must not prevent saving new code.
                 logging.getLogger('tb.backups').warning('Automatic recovery cleanup deferred')
@@ -141,10 +143,12 @@ def prune(root, *, policy=None, now=None):
 
 
 def snapshot(connection, source_path, directory, *, label='automatic', manual=False,
-             budget_root=None, policy=None, now=None, suffix='.bak'):
+             budget_root=None, policy=None, now=None, suffix='.bak', retry=False):
     """Online WAL-aware copy, integrity/hash verification, then bounded retention."""
     now = now or dt.datetime.now(UTC)
     directory = Path(directory).resolve()
+    attempt_path=directory/'.recovery-attempt.json'
+    automatic_directory=directory
     if manual: directory /= 'manual'
     directory.mkdir(parents=True, exist_ok=True)
     source_path = Path(source_path).resolve()
@@ -155,7 +159,20 @@ def snapshot(connection, source_path, directory, *, label='automatic', manual=Fa
     target = directory / name
     temporary = directory / (name + '.partial')
     with LOCK:
+        attempts=load_document(attempt_path,{})
+        if not manual and attempts.get(source_key,{}).get('paused') and not retry:return None
+        rules={**POLICY,**(policy or {})}
+        if not manual:
+            records=_records(budget_root or automatic_directory)
+            family=[item for item in records if item['sourceKey']==source_key]
+            if len(family)>=2 and (len(family)>rules['maxCount'] or sum(x['bytes'] for x in family)>rules['familyBytes'] or sum(x['bytes'] for x in records)>rules['rootBytes']):
+                attempts[source_key]={'paused':True,'reason':'retained recovery budget','at':now.isoformat()}
+                save_document(attempt_path,attempts)
+                return None
         try:
+            from update_backups import require_space
+            needed=connection.execute('PRAGMA page_count').fetchone()[0]*connection.execute('PRAGMA page_size').fetchone()[0]
+            require_space(directory,needed)
             with closing(sqlite3.connect(temporary)) as destination:
                 connection.backup(destination)
                 if destination.execute('PRAGMA quick_check').fetchone()[0] != 'ok':
@@ -172,6 +189,15 @@ def snapshot(connection, source_path, directory, *, label='automatic', manual=Fa
                      'createdAt': now.isoformat(), 'bytes': target.stat().st_size, 'sha256': checksum, 'label': label}
             (directory / (name + '.recovery.json')).write_text(json.dumps(value, sort_keys=True), 'utf8')
             if not manual: prune(budget_root or directory, policy=policy, now=now)
+            if manual or source_key in attempts:
+                attempts[source_key]={'paused':False,'at':now.isoformat()}
+                save_document(attempt_path,attempts)
             return target
+        except BaseException:
+            if not manual:
+                attempts[source_key]={'paused':True,'reason':'failed recovery attempt retained','at':now.isoformat()}
+                try:save_document(attempt_path,attempts)
+                except (OSError,sqlite3.Error):pass
+            raise
         finally:
-            if temporary.is_file() and _inside(temporary, directory): temporary.unlink()
+            if temporary.is_file() and _inside(temporary, directory):recycle(temporary)

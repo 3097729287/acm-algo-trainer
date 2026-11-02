@@ -1,5 +1,5 @@
 {
-  "status": "Latest UI browser checks and 60 service checks pass; final native rebuild, incremental upgrade, full fallback and local cutover in progress; production backup download/restore pending; no deployment",
+  "status": "User 1.5.0 559807bb installed; 19 private DBs and 15345 XP preserved; actual startup 21s misses target. Follow-up large-data initialization 1.3s and 69 targeted checks pass; final native rebuild pending. Complete production backup restored on private 8.4.11; production untouched.",
   "requestedOn": "2026-11-01",
   "continuation": "用户已要求当前版本更新完成后先列出下一版内容与实施顺序，然后继续实施；不得提前并入当前版本。",
   "features": [
