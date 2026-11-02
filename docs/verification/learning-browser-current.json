@@ -1,6 +1,6 @@
 {
   "version": "1.5.1",
-  "state": "Independent editor groups installed locally; authorized shared-service deployment awaits SSH connectivity",
+  "state": "Independent editor groups installed locally; shared service 1.4.1 deployed and verified",
   "nativeSourceCommit": "4a12237a201582995e4254eacca00173df097344",
   "initialFrontendSourceCommit": "97c2c2c52b503247a4fd1c17b1e747d1ba5d934b",
   "serviceSourceCommit": "97c2c2c52b503247a4fd1c17b1e747d1ba5d934b",
@@ -21,7 +21,7 @@
     "changedProgramFiles": 36,
     "rewardLogicUnchanged": true
   },
-  "sharedServiceDeployed": false,
+  "sharedServiceDeployed": true,
   "publicRelease": false,
   "officialSubmissionsSentForTesting": 0,
   "realSocialMessagesSentForTesting": 0,
@@ -35,7 +35,7 @@
       "Two unchanged backend boundary cases failed in CI and passed the targeted local rerun"
     ]
   },
-  "verifiedAt": "2026-11-02T13:32:04.390776+00:00",
+  "verifiedAt": "2026-11-02T14:11:13.053939+00:00",
   "sourceCommit": "4a12237a201582995e4254eacca00173df097344",
   "frontendSourceCommit": "4a12237a201582995e4254eacca00173df097344",
   "installer": {
@@ -71,7 +71,11 @@
     "mysqlGameplayAndRewards": 10,
     "productionCloneRestoreRehearsal": true,
     "learningBrowserModel": true,
-    "originalDeltaValidationSourceCommit": "357dd9478ef8805026084415be1c55afef1e1c61"
+    "originalDeltaValidationSourceCommit": "357dd9478ef8805026084415be1c55afef1e1c61",
+    "productionServiceHealth": true,
+    "productionExistingDataPreserved": true,
+    "productionConfigAndVolumesPreserved": true,
+    "productionUnauthenticatedGuards": true
   },
   "cleanup": {
     "method": "Windows system Recycle Bin only",
@@ -79,8 +83,8 @@
     "recycledItemCount": 12,
     "retainedForBinCapacity": 0,
     "actualFreeBytes": {
-      "C:/": 3930615808,
-      "D:/": 1400250368
+      "C:/": 13277483008,
+      "D:/": 13949165568
     },
     "target50GiBMet": false,
     "binEmptiedOrResized": false,
@@ -103,12 +107,45 @@
   },
   "serviceDeployment": {
     "authorized": true,
-    "deployed": false,
-    "reason": "SSH key exchange does not complete through available deployment transports",
-    "publicHealthObservedVersion": "1.2.9",
-    "runtimeUploaded": false,
-    "productionDatabaseChanged": false,
-    "restoreReceiptAndCandidatePreserved": true
+    "deployed": true,
+    "sourceCommit": "97c2c2c52b503247a4fd1c17b1e747d1ba5d934b",
+    "version": "1.4.1",
+    "publicHealthObservedVersion": "1.4.1",
+    "runtimeUploaded": true,
+    "productionDatabaseChanged": true,
+    "additiveMigrations": [
+      "013",
+      "014",
+      "015",
+      "016"
+    ],
+    "existingTablesPreserved": 24,
+    "tablesAfterMigration": 33,
+    "allExistingTableFingerprintsMatch": true,
+    "originalConfigurationUnchanged": true,
+    "mysqlRedisCaddyContainersAndVolumesUnchanged": true,
+    "dependencyFileHashesPreserved": 362,
+    "restoreReceiptAndCandidatePreserved": true,
+    "fullBackupBytes": 485753617,
+    "fullBackupSha256": "44b121e18eaa15d0da4a975f072d76544ce4aabe606551b743e4ba30350cfa38",
+    "restoreRehearsalVerifiedAt": "2026-11-02T08:18:18.709Z",
+    "completedAt": "2026-11-02T14:05:38Z",
+    "serverEvidenceId": "deploy-gameplay-1.4.1-20261102T140129Z",
+    "tlsVerified": true,
+    "directAndProxyHealthPassed": true,
+    "unauthenticatedRouteStatuses": {
+      "/v1/stickers": 401,
+      "/v1/duels": 401,
+      "/v1/social": 401
+    },
+    "localClientAuthenticated": true,
+    "noProductionTestAccounts": true,
+    "noRealTestMessages": true,
+    "entryScriptNormalizedToReviewedGitBytes": true,
+    "reviewedEntryScriptSha256": "e3b48be0f84b7d406b48d1736c53be07fdfe599719d01f7378c86cc8d8217233",
+    "initialCrLfFailureStoppedBeforeMigration": true,
+    "desktopPublicRelease": false,
+    "domesticPublishedDesktopVersion": "1.4.34"
   },
   "editorGroupsFollowup": {
     "installed": true,
