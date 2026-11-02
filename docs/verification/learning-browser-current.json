@@ -1,6 +1,6 @@
 {
   "version": "1.5.1",
-  "state": "Installed locally, including the task-card follow-up; shared service awaits explicit authorization",
+  "state": "Installed locally with task cards and recommendation circle removal; authorized service deployment awaits SSH connectivity",
   "nativeSourceCommit": "357dd9478ef8805026084415be1c55afef1e1c61",
   "initialFrontendSourceCommit": "97c2c2c52b503247a4fd1c17b1e747d1ba5d934b",
   "serviceSourceCommit": "97c2c2c52b503247a4fd1c17b1e747d1ba5d934b",
@@ -35,12 +35,12 @@
       "Two unchanged backend boundary cases failed in CI and passed the targeted local rerun"
     ]
   },
-  "verifiedAt": "2026-11-02T10:53:11.281803+00:00",
-  "sourceCommit": "33bedfbc48e87970f29c8ff3f82573014a754b84",
-  "frontendSourceCommit": "33bedfbc48e87970f29c8ff3f82573014a754b84",
+  "verifiedAt": "2026-11-02T12:02:46.367429+00:00",
+  "sourceCommit": "54646f4941318f823e5791e52e881edc9ed9ab49",
+  "frontendSourceCommit": "54646f4941318f823e5791e52e881edc9ed9ab49",
   "installer": {
     "filename": "ToBe-Setup-1.5.1-win64.exe",
-    "sha256": "2c894b435fe75a4abf4b6f4a4ee30e953c4b28bd6ac6e40cc1939404d305429c",
+    "sha256": "3f904fb6b319e8a9c2207c4fde5e4a1057d26eab6ad249a0175b514d9764bb20",
     "privateAdminIncluded": false
   },
   "normalStartup": {
@@ -77,12 +77,31 @@
     "recycledItemCount": 12,
     "retainedForBinCapacity": 9,
     "actualFreeBytes": {
-      "C:/": 5203578880,
-      "D:/": 3578658816
+      "C:/": 4534726656,
+      "D:/": 8824762368
     },
     "target50GiBMet": false,
     "binEmptiedOrResized": false,
     "permanentCleanupDeletion": false,
     "activeCandidateRelocationAllSha256Match": true
+  },
+  "recommendationInfoRemoval": {
+    "installed": true,
+    "sourceCommit": "54646f4941318f823e5791e52e881edc9ed9ab49",
+    "geometryCases": 20,
+    "headerAndDropdownCirclesRemoved": true,
+    "selectionAndKeyboardPreserved": true,
+    "normalStartup": true,
+    "programFilesSha256Matched": 4765,
+    "privateDataPreserved": true
+  },
+  "serviceDeployment": {
+    "authorized": true,
+    "deployed": false,
+    "reason": "SSH key exchange does not complete through available deployment transports",
+    "publicHealthObservedVersion": "1.2.9",
+    "runtimeUploaded": false,
+    "productionDatabaseChanged": false,
+    "restoreReceiptAndCandidatePreserved": true
   }
 }

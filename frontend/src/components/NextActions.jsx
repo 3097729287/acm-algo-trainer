@@ -1,6 +1,6 @@
 import {useEffect,useId,useLayoutEffect,useMemo,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
-import {Check,Clock,Info,RefreshCw,X} from 'lucide-react';
+import {Check,Clock,RefreshCw,X} from 'lucide-react';
 import {RECOMMENDATION_KINDS} from '@/lib/recommendationKinds.js';
 import {recommendationState} from '@/lib/nextActions.js';
 import {KNOWLEDGE_BY_ID,LEARNING_COURSES} from '@/lib/learningCurriculum.js';
@@ -82,7 +82,6 @@ export default function NextActions({rows=[],training=[],insights,prefs={},setPr
   <button ref={trigger} type="button" className="next-actions-primary" data-recommendation={primary.kind} aria-label={`开始${labels[primary.kind]} ${primary.title}`} aria-describedby={reasonId} aria-expanded={expandable?expanded:undefined} aria-controls={expandable?popupId:undefined} disabled={suspended} onPointerDown={event=>{if(event.pointerType==='touch'&&expandable&&!open){touchOpened.current=true;show();}}} onClick={event=>{if(touchOpened.current){touchOpened.current=false;event.preventDefault();return;}start(primary);}} onKeyDown={openWithKeys}>
    <Icon size={18} aria-hidden="true"/><span className="next-actions-primary-copy"><strong>{primary.title}</strong></span>
   </button>
-  <button type="button" className="next-action-control" aria-label="查看当前推荐依据" onClick={()=>{close();setInformation(primary);}}><Info size={14}/></button>
   {activeTopic&&<button type="button" className="next-action-control" aria-label={`取消${activeTopic.title}学习`} onClick={event=>{close();setCancelAnchor(event.currentTarget);}}><X size={15}/></button>}
   <span className="sr-only" id={reasonId}>{primary.reason}</span>
   {expanded&&createPortal(<div ref={flyout} className="next-actions-flyout" style={{...position,visibility:position?'visible':'hidden'}} onPointerEnter={event=>{if(event.pointerType==='mouse')cancelClose();}} onPointerLeave={event=>{if(event.pointerType==='mouse')leave();}} onFocus={cancelClose} onBlur={blur}>
@@ -90,7 +89,6 @@ export default function NextActions({rows=[],training=[],insights,prefs={},setPr
     <ul>{rest.map((item,index)=>{const ItemIcon=icons[item.kind]||icons.problem,description=`${popupId}-reason-${index}`;return <li key={`${item.kind}:${item.id}`} style={{'--task-index':index}} data-completed={item.completed||undefined}>
      <button type="button" className="next-actions-item" data-recommendation={item.kind} data-completed={item.completed||undefined} aria-label={`${item.completed?item.mastered?'已掌握':'今日已完成':'开始'+labels[item.kind]} ${item.title}`} aria-describedby={description} disabled={item.kind==='knowledge'&&!preferencesReady} onClick={()=>start(item)}><ItemIcon size={18} aria-hidden="true"/><span className="next-actions-item-copy"><strong>{item.title}</strong></span>{item.completed&&<Check size={15} aria-hidden="true"/>}</button>
      {item.kind==='knowledge'&&!item.completed&&<button type="button" className="next-action-control" aria-label="更换推荐知识点" disabled={!item.refreshable||!preferencesReady} onClick={event=>{event.stopPropagation();setPrefs?.(previous=>rotateKnowledge(previous));}}><RefreshCw size={14}/></button>}
-     <button type="button" className="next-action-control" aria-label={`查看${item.title}的推荐依据`} onClick={()=>{close();setInformation(item);}}><Info size={14}/></button>
      <span className="sr-only" id={description}>{item.reason}</span>
     </li>;})}</ul>
    </section>
