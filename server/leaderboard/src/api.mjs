@@ -99,12 +99,13 @@ async function leaderboard(user, env, period, now) {
   if (!['daily', 'weekly', 'total'].includes(period)) throw new ApiError(400, '排行周期无效');
   const range = bounds(period, now);
   const { rows, own } = await env.STORE.rankings(user.user_id, period === 'total' ? null : range, range.day);
-  const entries=rows.map(rankingRow), self=own ? rankingRow(own) : { ...rankingRow(user),rank:null,count:0 };
-  const socialAvailable=await rankingSocial(env.STORE,user.user_id,[...entries,self],period,now);
+  const entries=rows.map(rankingRow), self=user.is_admin ? null : own ? rankingRow(own) : { ...rankingRow(user),rank:null,count:0 };
+  const visible=[...entries,...(self?[self]:[])];
+  const socialAvailable=!user.is_admin&&await rankingSocial(env.STORE,user.user_id,visible,period,now);
   const dominanceAvailable=Boolean(env.STORE.dominance&&await env.STORE.dominance.available());
-  const leaders=[...entries,self].filter(item=>item.rank===1&&item.count>0);
+  const leaders=visible.filter(item=>item.rank===1&&item.count>0);
   const streaks=dominanceAvailable?await env.STORE.dominance.summary(leaders.map(item=>item.userId),period,range.day):new Map();
-  for(const item of [...entries,self])if(streaks.has(item.userId))item.dominance=streaks.get(item.userId);
+  for(const item of visible)if(streaks.has(item.userId))item.dominance=streaks.get(item.userId);
   return { period, date: range.day, timezone: 'Asia/Shanghai', startDate: period === 'total' ? null : range.start,
     endDate: period === 'total' ? null : range.end, entries, isAdmin: Boolean(user.is_admin), rewardPolicy: REWARD_POLICY,
     self, socialAvailable, socialProtocol:1, dominanceAvailable, notice: NOTICE };

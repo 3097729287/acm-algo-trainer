@@ -239,6 +239,8 @@ try {
   assert.equal(await page.locator('.knowledge-details').count(),0);
   assert.equal(await page.locator('#growth-goals .goal-form').count(),0);
   assert.equal(await page.locator('.goal-contest-grid > div').count(),0);
+  assert.equal(await page.locator('#growth-goals').count(),0,'Goal controls start collapsed inside the target button');
+  await page.getByRole('button',{name:'目标',exact:true}).click();
   assert.ok(await page.locator('.goal-management-bar').evaluate(node=>node.getBoundingClientRect().height<60),'Goal management stays in one line');
   assert.equal(await page.locator('.next-milestone').count(),0);
   assert.equal(await page.locator('.goal-week-plan').count(),0);
@@ -606,10 +608,10 @@ try {
   await page.locator('.account-hero-statistics>div').first().waitFor();
   assert.equal(await page.locator('.account-hero-statistics>div').count(),6);
   assert.equal(await page.getByRole('button',{name:'雷达筛选',exact:true}).count(),0);
-  const statCenters=await page.locator('.account-hero-statistics>div').evaluateAll(nodes=>nodes.map(node=>{const icon=node.querySelector('.account-stat-icon').getBoundingClientRect(),value=node.querySelector('b').getBoundingClientRect();return {x:icon.x+icon.width/2,y:icon.y,valueX:value.x+value.width/2,valueY:value.y};}));
+  const statCenters=await page.locator('.account-hero-statistics>div').evaluateAll(nodes=>nodes.map(node=>{const icon=node.querySelector('.account-stat-icon').getBoundingClientRect(),value=node.querySelector('b').getBoundingClientRect();return {x:icon.x+icon.width/2,y:icon.y+icon.height/2,valueX:value.x+value.width/2,valueY:value.y+value.height/2};}));
   await page.screenshot({path:'tests/screenshots/growth-aligned-2048.png',animations:'disabled'});
-  assert.ok(statCenters.every(item=>Math.abs(item.x-item.valueX)<1),JSON.stringify(statCenters));
-  assert.ok(statCenters.slice(0,3).every(item=>Math.abs(item.y-statCenters[0].y)<1)&&statCenters.slice(3).every(item=>Math.abs(item.y-statCenters[3].y)<1));
+  assert.ok(statCenters.every(item=>Math.abs(item.y-item.valueY)<1),JSON.stringify(statCenters));
+  assert.ok(statCenters.every(item=>Math.abs(item.y-statCenters[0].y)<1));
   const profileRings=await page.locator('.topbar .profile-avatar-button').evaluate(node=>{
     const frame=node.querySelector('.avatar-rank-frame'),xp=node.querySelector('.profile-xp-ring'),f=frame.getBoundingClientRect(),x=xp.getBoundingClientRect();
     return {frameInner:f.width*33/120,xpOuter:x.width*20.25/44,masked:!!frame.querySelector('mask circle')};

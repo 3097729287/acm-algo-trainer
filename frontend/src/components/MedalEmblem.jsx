@@ -1,5 +1,5 @@
 import {useId} from 'react';
-import {RankDefs,RankGem,RankWings,safeTier} from './RankArtwork.jsx';
+import {KingCrown,RankDefs,RankGem,RankWings,safeTier} from './RankArtwork.jsx';
 import './TierIcon.css';
 import TitleMedallion from './TitleMedallion.jsx';
 
@@ -12,11 +12,10 @@ export default function MedalEmblem({index=0,size=30,variant='rank',label}){
    <RankDefs id={rankId} tier={rank}/>
    <g transform="translate(0 18)">
     <RankWings id={rankId} tier={rank}/>
-    <path d="M30 65 60 87 90 65 78 86 60 103 42 86Z" fill={`url(#${rankId}-metal)`}/>
-    <path d="M37 69 60 87 83 69 72 84 60 92 48 84Z" fill={`url(#${rankId}-facet)`}/>
-    <RankGem id={rankId} tier={rank} y={65} scale={rank>=4?1.1:.9}/>
-    {rank>=3&&<path d={rank>=6?'M44 37 47 24 60 31 73 24 76 37 60 44Z':'M49 41 60 31 71 41 60 45Z'} fill={`url(#${rankId}-metal)`}/>}
-    {rank===8&&<path d="M49 96 60 107 71 96 60 101Z" fill={`url(#${rankId}-gem)`}/>}
+    <path d={rank===8?'M28 72Q60 100 92 72L80 89Q60 105 40 89Z':'M30 65 60 87 90 65 78 86 60 103 42 86Z'} fill={`url(#${rankId}-metal)`}/>
+    {rank!==8&&<path d="M37 69 60 87 83 69 72 84 60 92 48 84Z" fill={`url(#${rankId}-facet)`}/>}
+    <RankGem id={rankId} tier={rank} y={65} scale={rank===8?.92:rank>=4?1.1:.9}/>
+    {rank===8?<KingCrown id={rankId} y={36}/>:rank>=3&&<path d={rank>=6?'M44 37 47 24 60 31 73 24 76 37 60 44Z':'M49 41 60 31 71 41 60 45Z'} fill={`url(#${rankId}-metal)`}/>}
    </g>
   </svg>;
  }

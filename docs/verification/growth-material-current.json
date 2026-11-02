@@ -1,0 +1,46 @@
+{
+  "updatedAt": "2026-11-02T13:49:21.761750+00:00",
+  "version": "1.5.1",
+  "state": "source and isolated checks complete; additional changes not installed",
+  "sourceBaseline": "a392a02b7d3f3810ed8b195d98440f57316d014c",
+  "checkedInputs": {
+    "backend/admin_ranking.py": "ced62b3107b74a18f1014e4dde106e0cc9c93c091fcf94cb8c00e0a09cc4f53b",
+    "backend/backend.py": "4fc4de6e257816a895ae998db67dcdf0bb89e5bccadc45e3ec89a627e537c8d5",
+    "backend/test_admin_ranking.py": "262ae2514f30c37f8fbe2fad118c4800b6a46aabe3d21aee38457d3932408a75",
+    "server/leaderboard/src/api.mjs": "2e6f8e7907b59526af63ce67fb1ac00382cb6dd6b5e60f51225a9ba8c75b2ef2",
+    "server/leaderboard/src/ranking-rules.mjs": "828a41b4919a213aca30bef46b2a5e24dbb4c2fb1bb2d6ef9d3ecf17ae190426"
+  },
+  "backend": {
+    "total": 1083,
+    "passed": 1080,
+    "skipped": 2,
+    "failures": 1,
+    "failure": "Existing delegated foundation/editorial digest mismatch",
+    "evidence": "build/growth-followup-full-check/checks.log"
+  },
+  "serviceApi": {
+    "passed": 42,
+    "failed": 0,
+    "evidence": ".backups/next-150/admin-hidden-service-tests-2.log"
+  },
+  "fullAppUi": {
+    "passed": true,
+    "evidence": ".backups/next-150/growth-followup-app-2.log"
+  },
+  "growthLayouts": {
+    "passed": 8,
+    "evidence": ".backups/next-150/growth-material-browser/report.json"
+  },
+  "retainedFrozenStartup": {
+    "contentMilliseconds": [
+      5445.9,
+      6553.99
+    ],
+    "threeSecondTargetMet": false,
+    "evidence": ".backups/next-150/retained-native-a392/report.json"
+  },
+  "officialSubmissions": 0,
+  "productionChanged": false,
+  "userInstallationChangedByThisWindow": false,
+  "adminAssetsPublic": false
+}

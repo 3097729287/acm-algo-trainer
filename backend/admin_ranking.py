@@ -24,6 +24,7 @@ class AdminRanking:
         self.opener=opener or service_opener(self.endpoint)
         self.lock=threading.RLock()
         self.session=None
+        self.avatar_cache={}
         encoded=load_document(self.path,'')
         if encoded:
             try:
@@ -55,6 +56,7 @@ class AdminRanking:
 
     def _forget(self):
         self.session=None
+        self.avatar_cache.clear()
         save_document(self.path,'')
 
     def snapshot(self):
@@ -97,12 +99,34 @@ class AdminRanking:
         if period not in ('daily','weekly','total'):raise ServiceError(400,'排行榜周期无效')
         with self.lock:
             if not self.snapshot()['authenticated']:
-                return {'period':period,'entries':[],'self':None,'configured':False,'status':'unconfigured','isAdmin':False,'notice':'使用 admin 账号登录管理员控制'}
+                return {'period':period,'entries':[],'self':None,'configured':bool(self.endpoint),'status':'unconfigured','isAdmin':False,'requiresAdminLogin':True,'notice':'使用 admin 账号登录管理员控制'}
             value=self._remote('GET','/v1/leaderboard?period='+period,session=self.session)
             if value.get('isAdmin') is not True:
                 self._forget()
                 raise ServiceError(403,'管理员权限已失效')
-            return dict(value,configured=True,status='ready',hasSnapshot=True,socialAvailable=False)
+            owner=self.session['account']['userId']
+            entries=[item for item in value.get('entries',[]) if item.get('userId')!=owner and item.get('isAdmin') is not True]
+            return dict(value,entries=entries,self=None,configured=True,status='ready',hasSnapshot=True,socialAvailable=False)
+
+    def avatar(self,user_id,expected_hash):
+        import hashlib
+        from preferences import validate_avatar
+        if (not isinstance(user_id,str) or not re.fullmatch(r'[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}',user_id)
+                or not isinstance(expected_hash,str) or not re.fullmatch(r'[0-9a-f]{64}',expected_hash)):
+            raise ServiceError(400,'头像查询参数无效')
+        with self.lock:
+            if not self.snapshot()['authenticated']:raise ServiceError(401,'请先登录 admin 账号')
+            key=(self.session['account']['userId'],user_id,expected_hash)
+            if key in self.avatar_cache:return dict(self.avatar_cache[key])
+            value=self._remote('GET','/v1/avatars/'+user_id,session=self.session)
+            validate_avatar(value.get('avatarData'))
+            digest=hashlib.sha256(value['avatarData'].encode()).hexdigest() if value.get('avatarData') else None
+            if value.get('avatarHash')!=digest:raise ServiceError(502,'头像校验失败')
+            result={'avatarData':value.get('avatarData'),'avatarHash':digest}
+            if digest==expected_hash:
+                if len(self.avatar_cache)>=100:self.avatar_cache.pop(next(iter(self.avatar_cache)))
+                self.avatar_cache[key]=result
+            return dict(result)
 
     def delete(self,body):
         with self.lock:

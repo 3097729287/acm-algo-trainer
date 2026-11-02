@@ -24,7 +24,8 @@ export function rankingQuery(range, loginDay = null) {
     participants AS (SELECT users.user_id,users.nickname,COALESCE(counts.count,0) AS count,
       COALESCE(counts.completed_at,users.created_at) AS completed_at
       FROM users JOIN accounts USING(user_id) LEFT JOIN counts USING(user_id)
-      WHERE counts.user_id IS NOT NULL ${loginDay ? 'OR EXISTS(SELECT 1 FROM account_login_days l WHERE l.user_id=users.user_id AND l.day=?)' : ''}),
+      WHERE (counts.user_id IS NOT NULL ${loginDay ? 'OR EXISTS(SELECT 1 FROM account_login_days l WHERE l.user_id=users.user_id AND l.day=?)' : ''})
+      AND NOT EXISTS(SELECT 1 FROM ranking_admins administrator WHERE administrator.user_id=users.user_id)),
     ranked AS (SELECT participants.*,
       ROW_NUMBER() OVER(ORDER BY count DESC,completed_at,user_id) AS position FROM participants)`;
   return { sql, values };

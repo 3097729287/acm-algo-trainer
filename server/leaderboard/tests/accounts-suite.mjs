@@ -228,8 +228,19 @@ export function accountsSuite(startFixture) {
       assert.equal((await call(f, '/v1/accounts/register', { ...signup, loginId: 'another_user' }, old)).status, 401);
       const login = await call(f, '/v1/accounts/login', { loginId: signup.loginId, password: signup.password });
       const board = await call(f, '/v1/leaderboard?period=total', undefined, credential(login));
-      assert.equal(board.value.self.count, 1); assert.equal(board.value.entries[0].nickname, '星河');
-      assert.equal(await f.countEvents(), 1);
+      assert.equal(board.value.self, null); assert.deepEqual(board.value.entries, []);
+      const other = await call(f, '/v1/accounts/register', { nickname:'真实训练者',loginId:'real_train',password:signup.password });
+      const otherAuth=credential(await call(f,'/v1/accounts/login',{loginId:'real_train',password:signup.password}));
+      for(const period of ['daily','weekly','total']){
+        const adminBoard=await call(f,'/v1/leaderboard?period='+period,undefined,credential(login));
+        assert.equal(adminBoard.status,200);assert.equal(adminBoard.value.self,null);
+        assert(adminBoard.value.entries.some(row=>row.userId===other.value.account.userId));
+        assert(!adminBoard.value.entries.some(row=>row.userId===old.userId));
+        const publicBoard=await call(f,'/v1/leaderboard?period='+period,undefined,otherAuth);
+        assert(!publicBoard.value.entries.some(row=>row.userId===old.userId));
+        assert.equal(publicBoard.value.self.rank,1,'Hidden administrators do not leave a ranking gap');
+      }
+      assert.equal(await f.countEvents(), 1,'Administrator history is preserved without contributing to a public rank');
     } finally { await f.close(); }
   });
   test('login attempts are limited per account and do not disclose password hashes', async () => {

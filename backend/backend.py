@@ -586,7 +586,8 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_json(200, self.server.admin_rankings.rankings(period) if self.server.admin_mode else self.server.training.leaderboard.rankings(period))
             elif path == '/api/leaderboard/avatar':
                 query = parse_qs(target.query)
-                self.send_json(200, self.server.training.leaderboard.avatar(query.get('userId', [''])[0], query.get('hash', [''])[0]))
+                avatars=self.server.admin_rankings if self.server.admin_mode else self.server.training.leaderboard
+                self.send_json(200, avatars.avatar(query.get('userId', [''])[0], query.get('hash', [''])[0]))
             elif path == '/api/social':
                 self.send_json(200, self.server.training.leaderboard.social())
             elif path == "/api/problem":

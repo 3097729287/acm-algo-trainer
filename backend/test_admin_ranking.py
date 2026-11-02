@@ -12,13 +12,14 @@ import test_training as fixtures
 
 
 class Opener:
-    def __init__(self):self.calls=[];self.is_admin=True;self.login_id='admin';self.reject=False
+    def __init__(self):self.calls=[];self.is_admin=True;self.login_id='admin';self.reject=False;self.entries=[];self.avatar=None
     def open(self,request,timeout):
         self.calls.append((request.full_url,request.method,json.loads(request.data) if request.data else None,dict(request.header_items())))
         if self.reject:raise HTTPError(request.full_url,403,'denied',{},None)
         if request.full_url.endswith('/login'):
             value={'account':{'userId':'admin-fixture','loginId':self.login_id,'isAdmin':self.is_admin},'token':'fixture-token-'+'x'*40,'expiresAt':int(time.time())+3600}
-        elif 'leaderboard?' in request.full_url:value={'isAdmin':self.is_admin,'period':'daily','entries':[]}
+        elif 'leaderboard?' in request.full_url:value={'isAdmin':self.is_admin,'period':'daily','entries':self.entries,'self':{'userId':'admin-fixture','rank':1,'count':999}}
+        elif '/v1/avatars/' in request.full_url:value=self.avatar
         elif request.full_url.endswith('/delete'):value={'removed':1}
         else:value={'ok':True}
         return io.BytesIO(json.dumps(value).encode())
@@ -44,6 +45,31 @@ class AdminRankingTests(unittest.TestCase):
         self.assertTrue(restored.snapshot()['authenticated'])
         self.assertTrue(restored.rankings('daily')['isAdmin'])
         self.assertTrue(all(item[0].endswith('/v1/accounts/login') or '/v1/leaderboard?' in item[0] for item in self.opener.calls))
+
+    def test_administrator_can_view_others_but_is_not_a_ranked_participant(self):
+        pending=self.service.rankings('daily')
+        self.assertTrue(pending['configured']);self.assertTrue(pending['requiresAdminLogin'])
+        self.login()
+        self.opener.entries=[{'userId':'admin-fixture','rank':1,'count':999},
+                             {'userId':'other-admin','isAdmin':True,'rank':2,'count':500},
+                             {'userId':'real-user','rank':3,'count':12}]
+        board=self.service.rankings('daily')
+        self.assertEqual([row['userId'] for row in board['entries']],['real-user'])
+        self.assertIsNone(board['self'])
+        self.assertFalse(board['socialAvailable'])
+        self.assertTrue(all(call[1]=='GET' or call[0].endswith('/v1/accounts/login') for call in self.opener.calls))
+
+    def test_administrator_avatar_reads_use_the_management_session(self):
+        import hashlib
+        self.login();user='00000000-0000-4000-8000-000000000011'
+        self.opener.avatar={'avatarData':'','avatarHash':None}
+        self.assertEqual(self.service.avatar(user,'a'*64),{'avatarData':'','avatarHash':None})
+        self.assertEqual(self.opener.calls[-1][1],'GET')
+        self.assertEqual(self.opener.calls[-1][3]['X-tb-user'],'admin-fixture')
+        self.opener.avatar={'avatarData':'','avatarHash':'b'*64}
+        with self.assertRaises(ServiceError):self.service.avatar(user,'b'*64)
+        self.service._forget()
+        with self.assertRaises(ServiceError):self.service.avatar(user,'a'*64)
 
     def test_an_admin_display_name_cannot_grant_a_role(self):
         self.opener.is_admin=False
