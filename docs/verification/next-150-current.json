@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-02T00:30:28.725545+00:00",
+  "updatedAt": "2026-11-02T03:37:04.141113+00:00",
   "version": "1.5.0",
   "repairBaseline": "6907a65495b9e6519f5ace9747a412a78ea2ca06",
   "installed": false,
@@ -17,7 +17,7 @@
     "scope": "All current backend behavior; subsequent final-1.4.37 merge changes only frontend CSS and its test",
     "sourceCommit": "675a574a9a182d1ddbd464a55ed724805140a9bb"
   },
-  "sharedServicePass": 59,
+  "sharedServicePass": 60,
   "mysqlGameplayPass": 4,
   "targetedRetirementAndDocsPass": 39,
   "readerFrames": 135,
@@ -156,6 +156,18 @@
     "obsoleteBuildRetirement": {
       "path": ".backups/next-150/obsolete-a1-build-retirement.json",
       "sha256": "609b78660deeab8374331ee5e1a018c8d3eaf0fe86211b90f68beb0702b72efb"
+    },
+    "latestFullApp": {
+      "path": ".backups/next-150/final-ui-built-browser.log",
+      "sha256": "d2c7cff53dfb9aec5489a1a6f40c49140b2438a6c5b1d4f68905fa6a49ab6d3b"
+    },
+    "rewardBorder": {
+      "path": ".backups/next-150/reward-border-browser.log",
+      "sha256": "b6c2398b91c5192068ce95f77998673f1c85558ed621ca8dae2397a16bdb1b1b"
+    },
+    "sharedServiceRestoreGate": {
+      "path": ".backups/next-150/shared-service-final-restore-gate.log",
+      "sha256": "d90c05ffcbe11cb2552b08f671edd739cc6ded95fd8d90352b9fdc1c0e7ab322"
     }
   },
   "stickerGeometryCases": 1750,
@@ -192,7 +204,7 @@
     "verifiedProgramFiles": 4763,
     "publicLibraryFixtureReusedInInstallerCheck": true,
     "privateStateFreshAndIndependent": true,
-    "oldBaselineConstructionStoppedByDiskSpace": true,
+    "oldBaselineConstructionStoppedByDiskSpace": false,
     "upgradePassed": false,
     "deltaPassed": false,
     "fullFallbackPassed": false,
@@ -200,16 +212,27 @@
     "activeUserInstallationChanged": false,
     "privateAdminPrepared": true,
     "privateAdminComponentCheck": true,
-    "adminAssetsPublished": false
+    "adminAssetsPublished": false,
+    "latestInstallerCheckFinding": "Existing newly distributed path had no entry in old base manifest; actual-byte backup/rollback fixed and 35 targeted tests pass. Final upgrade acceptance is being rerun."
   },
   "pendingInputs": [
-    "Additional storage directory for isolated upgrade and required backup",
-    "Original deployment SSH connection name or private-key path; default key rejected",
-    "Confirmation for public SATA Star actions"
+    "Production full backup download, exact MySQL 8.4.11 restore/compatibility/rollback verification, then concrete deployment authorization",
+    "Final native build, isolated delta/full fallback/helper validation and online personal-data backup before local cutover"
   ],
   "actualFreeGiB": {
-    "C": 0.92,
-    "D": 0.3
+    "C": 7.95,
+    "D": 22.88
   },
-  "fiftyGiBTargetMet": false
+  "fiftyGiBTargetMet": false,
+  "latestFeedbackValidation": {
+    "fullAppBrowser": ".backups/next-150/final-ui-browser.log",
+    "claimBorderBrowser": ".backups/next-150/reward-border-browser.log",
+    "recommendationCenter": ".backups/next-150/recommendation-center-browser-1.log",
+    "updateRecovery": ".backups/next-150/update-preexisting-target-recovery.log",
+    "serviceTests": 60,
+    "serviceLog": ".backups/next-150/shared-service-final-restore-gate.log",
+    "finalRebuildPending": true,
+    "installed": false,
+    "productionDeployed": false
+  }
 }

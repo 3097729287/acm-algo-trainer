@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 # Run only after deployment authorization, from the existing installation.
 # No volume/config replacement, database restore or automatic deployment retry.
-set -eu
+set -euo pipefail
 umask 077
 project=$(pwd -P)
 test "$project" = /opt/tb-leaderboard || { printf 'Use the existing deployment directory.\n' >&2; exit 1; }
@@ -11,16 +11,23 @@ commit=$2
 test "$stage" = "$project/runtime.next-1.4.0"
 printf '%s\n' "$commit" | grep -Eq '^[0-9a-f]{40}$'
 test ! -L "$stage" && test ! -L "$project/runtime"
-for required in package.json BUILD-INFO.json runtime-manifest.sha256 src/gameplay.mjs src/duel-problems.json mysql/013_leader_days.sql mysql/014_shared_translations.sql mysql/015_gameplay.sql scripts/audit-preserved-data.mjs; do
+for required in package.json BUILD-INFO.json runtime-manifest.sha256 src/gameplay.mjs src/duel-problems.json mysql/013_leader_days.sql mysql/014_shared_translations.sql mysql/015_gameplay.sql scripts/audit-preserved-data.mjs scripts/verify-gameplay-restore.mjs; do
   test -f "$stage/$required"
 done
 (cd "$stage" && sha256sum --status -c runtime-manifest.sha256)
 docker compose config --quiet
 old_health=$(curl --fail --silent --max-time 3 http://127.0.0.1:8080/v1/health)
-printf '%s' "$old_health" | grep -Eq '"version":"1\.(2\.9|3\.0)"'
-# Leave room for a consistent SQL dump and the retained rollback runtime.
+printf '%s' "$old_health" | grep -q '"version":"1.2.9"'
+# The complete, compressed production backup must already be restored and
+# rehearsed on the same MySQL version. Do not generate another raw SQL dump on
+# this small production disk or retry failed backups automatically.
+test -s "$stage/restore-verification.json"
+backup_meta=$(docker compose run --rm --no-deps -T -v "$stage:/audit:ro" -v "$project/runtime:/baseline:ro" api node /audit/scripts/verify-gameplay-restore.mjs /audit /baseline "$commit")
+read -r backup_sha backup_bytes backup_path <<< "$backup_meta"
+test "$(stat -c %s -- "$backup_path")" = "$backup_bytes"
+printf '%s  %s\n' "$backup_sha" "$backup_path" | sha256sum --status -c -
 free_kib=$(df -Pk "$project" | awk 'NR==2 {print $4}')
-test "$free_kib" -ge 1048576 || { printf 'Less than 1 GiB free; existing service retained.\n' >&2; exit 1; }
+test "$free_kib" -ge 262144 || { printf 'Less than 256 MiB free; existing service retained.\n' >&2; exit 1; }
 stamp=$(date -u +%Y%m%dT%H%M%SZ)
 evidence="$project/backups/deploy-gameplay-1.4.0-$stamp"
 test ! -e "$evidence"
@@ -44,16 +51,10 @@ config_fingerprints > "$evidence/config.before.sha256"
 dependencies > "$evidence/dependencies.before"
 docker compose run --rm --no-deps -T -v "$stage:/audit:ro" api node /audit/scripts/audit-preserved-data.mjs --stage-gameplay "$commit"
 audit "$stage" > "$evidence/preflight.json"
-# A failed/incomplete dump is retained; no trap removes files. Never restore it
-# over a running database, including when rolling the runtime back.
-docker compose exec -T mysql sh -c 'MYSQL_PWD="$(cat /run/secrets/mysql_root_password)" exec mysqldump -u root --single-transaction --routines --triggers --hex-blob --no-tablespaces --set-gtid-purged=OFF tb_leaderboard' > "$evidence/mysql-online.sql.part"
-test -s "$evidence/mysql-online.sql.part"
-mv -- "$evidence/mysql-online.sql.part" "$evidence/mysql-online.sql"
-sha256sum -- "$evidence/mysql-online.sql" > "$evidence/mysql-online.sha256"
-# Restore verification belongs in an independently provisioned database before
-# invoking this script; require its reviewed, private rehearsal receipt.
-test -s "$stage/restore-verification.json"
-docker compose run --rm --no-deps -T -v "$stage:/audit:ro" api node --input-type=module -e 'import fs from "node:fs"; const r=JSON.parse(fs.readFileSync("/audit/restore-verification.json","utf8"));if(r.passed!==true||r.productionChanged!==false||r.baselineRuntime!=="1.2.9"||r.candidateRuntime!=="1.4.0")process.exit(1);'
+# Retain the reviewed restore receipt and reference the existing complete backup.
+# Runtime rollback never restores SQL over live data.
+cp -- "$stage/restore-verification.json" "$evidence/restore-verification.json"
+printf '%s  %s\n' "$backup_sha" "$backup_path" > "$evidence/mysql-online.sha256"
 backup="$evidence/runtime.before"
 stopped=0
 restore_runtime() {

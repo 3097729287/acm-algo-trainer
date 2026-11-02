@@ -1,5 +1,5 @@
 {
-  "status": "Final 1.4.37 integrated; frozen content under 3s and fresh install pass; user installer built; upgrade/delta/live cutover blocked by actual storage; no production deployment",
+  "status": "Latest UI browser checks and 60 service checks pass; final native rebuild, incremental upgrade, full fallback and local cutover in progress; production backup download/restore pending; no deployment",
   "requestedOn": "2026-11-01",
   "continuation": "用户已要求当前版本更新完成后先列出下一版内容与实施顺序，然后继续实施；不得提前并入当前版本。",
   "features": [
@@ -145,5 +145,20 @@
     "upgradeAcceptanceComplete": false,
     "productionService": "1.2.9",
     "additionalStorageNeeded": true
+  },
+  "followupAfterCurrentDelivery": {
+    "id": "private-admin-management-and-scenarios",
+    "requestedOn": "2026-11-02",
+    "status": "pending until current user edition delivered",
+    "scope": [
+      "repair missing navigation",
+      "manage user accounts",
+      "choose simulation level",
+      "reset isolated profile to newly registered state",
+      "simulate level advancement",
+      "exercise all shipped capabilities"
+    ],
+    "privateOnly": true,
+    "productionAccountMutationRequiresExplicitAction": true
   }
 }

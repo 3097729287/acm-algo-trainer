@@ -16,7 +16,7 @@ import InlineTitle from '@/components/InlineTitle.jsx';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
-import { ArrowLeft, ArrowRight, BookOpen, ExternalLink, House, LoaderCircle, Maximize2, Minimize2, Search } from 'lucide-react';
+import { ArrowLeft, ArrowRight, BookCheck, BookOpen, ExternalLink, House, LoaderCircle, Maximize2, Minimize2, Search } from 'lucide-react';
 import { normalizeMarkdown } from '@/lib/normalizeMarkdown.js';
 import './LecturesPanel.css';
 
@@ -56,6 +56,8 @@ export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError,
   const [snapshot, setSnapshot] = useState(lectures || null), [query, setQuery] = useState(visit?.query||''), [selected, setSelected] = useState(initialLecture || visit?.selected || null);
   const moved=lectureDestination(selected);
   useEffect(()=>{if(moved&&onOpenTemplate){setSelected(null);if(visit)visit.selected=null;onOpenTemplate(moved.templateId);}},[moved,onOpenTemplate,visit]);
+  const [showLearned,setShowLearned]=useState(false);
+  const learnedKeys=useMemo(()=>new Set(prefs.learnedLectures||[]),[prefs.learnedLectures]);
   const [readingFull,setReadingFull]=useState(visit?.readingFull||false);
   const readingScroll=useRef(null);
   const changeReadingFull=value=>{readingScroll.current=detail.current?.scrollTop||0;setReadingFull(value);};
@@ -89,7 +91,7 @@ export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError,
   const classifications = useMemo(() => lectureFolderOptions(entries,categories), [snapshot,categories]);
   const sorted=useMemo(()=>orderedLectures(entries),[snapshot]);
   const categoryPath = classification ? JSON.parse(classification) : [];
-  const filtered = sorted.filter(item => lectureMatchesFolder(item, categoryPath,categories) && `${item.concept} ${item.displayTitle || ''} ${item.originalTitle || item.title} ${(item.tags || []).join(' ')} ${item.category || ''} ${item.sourceContest} ${item.sourceTitle}`.toLowerCase().includes(query.trim().toLowerCase()));
+  const filtered = sorted.filter(item => learnedKeys.has(lessonKey(item))===showLearned && lectureMatchesFolder(item, categoryPath,categories) && `${item.concept} ${item.displayTitle || ''} ${item.originalTitle || item.title} ${(item.tags || []).join(' ')} ${item.category || ''} ${item.sourceContest} ${item.sourceTitle}`.toLowerCase().includes(query.trim().toLowerCase()));
   if(descending)filtered.reverse();
   const current=entries.find(item=>item.id===selected)||lesson;
   const prerequisites=useMemo(()=>lectureCurriculum(current||{}).prerequisites.map(id=>({id,title:prerequisiteTitle(id),destination:lectureDestination(id)})),[current]);
@@ -97,11 +99,11 @@ export function LecturesPanel({ lectures, api, initialLecture, onTrain, onError,
   const toggleLearned=()=>setPrefs?.(previous=>{const keys=new Set(previous.learnedLectures||[]),key=lessonKey(lesson);keys.has(key)?keys.delete(key):keys.add(key);return recordKnowledgeLesson(previous,{...previous,learnedLectures:[...keys]},key);});
   const isLearned=(prefs.learnedLectures||[]).includes(lessonKey(lesson));
   return <div className="lectures-page" aria-label="从零讲知识总结">
-    <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索从零讲知识" value={query} onChange={event=>setQuery(event.target.value)}/></label><SortDirection label="切换讲解排序方向" descending={descending} onChange={setDescending}/><FolderSelect iconOnly label="从零讲知识分类" placeholder="全部知识分类" options={classifications} value={classification} onChange={event=>setClassification(event.target.value)}/></PageSearch>
+    <PageSearch><label className="search-box"><Search size={17}/><input aria-label="搜索从零讲知识" value={query} onChange={event=>setQuery(event.target.value)}/></label><SortDirection label="切换讲解排序方向" descending={descending} onChange={setDescending}/><FolderSelect iconOnly label="从零讲知识分类" placeholder="全部知识分类" options={classifications} value={classification} onChange={event=>setClassification(event.target.value)}/><button type="button" className="icon-button lecture-learned-filter" aria-label={showLearned?'显示未学会':'显示已学会'} title={showLearned?'显示未学会':'显示已学会'} aria-pressed={showLearned} onClick={()=>setShowLearned(value=>!value)}>{showLearned?<BookCheck size={17}/>:<BookOpen size={17}/>}</button></PageSearch>
     <div className={'lectures-layout' + (selected ? ' has-selection' : '')+(readingFull&&selected?' lecture-reading-full':'')}>
       <nav className="lectures-list" aria-label="完整知识讲解">{filtered.map((item,index) => <Fragment key={item.id}>
         {(index===0||filtered[index-1].curriculum.kind!==item.curriculum.kind)&&<h3 className="lecture-curriculum-group">{LECTURE_ROLES[item.curriculum.kind]}</h3>}
-        <button className={[selected===item.id?'selected':'',(prefs.learnedLectures||[]).includes(lessonKey(item))?'lecture-learned':''].filter(Boolean).join(' ')} data-lesson-kind={item.curriculum.kind} onClick={() => openLecture(item.id,true)}>
+        <button className={[selected===item.id?'selected':'',learnedKeys.has(lessonKey(item))?'lecture-learned':''].filter(Boolean).join(' ')} data-lesson-kind={item.curriculum.kind} onClick={() => openLecture(item.id,true)}>
           <span className="lecture-item-heading"><strong><LessonTitle>{(item.displayTitle || item.concept || item.title).replace(/^从零讲[：:]\s*/,'')}</LessonTitle></strong><Tooltip text="学习层次依据内容和先修安排，与比赛评分分开"><b className={'lecture-difficulty lecture-level-'+(item.curriculum.level??'unknown')}>{item.curriculum.levelLabel}</b></Tooltip></span>
           <span className="lecture-category">{primaryLectureTopic(item)}</span>
           {item.curriculum.prerequisites.length>0&&<span className="lecture-prerequisite-preview">先修：{item.curriculum.prerequisites.map(prerequisiteTitle).join('、')}</span>}

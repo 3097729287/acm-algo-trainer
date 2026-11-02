@@ -297,8 +297,20 @@ try {
   const learnedRow=page.locator('.lectures-list button').filter({hasText:'位运算'}).first();
   const unlearnedColor=await learnedRow.evaluate(node=>getComputedStyle(node).backgroundColor);
   await page.locator('.lectures-detail-bar').getByRole('button',{name:'标记已学会',exact:true}).click();
+  await page.waitForFunction(()=>!document.querySelector('.lectures-list button.lecture-learned'));
+  assert.equal(await learnedRow.count(),0,'Learned item immediately leaves the default unlearned list');
+  await page.getByRole('button',{name:'显示已学会',exact:true}).click();
   await page.waitForFunction(()=>document.querySelector('.lectures-list button.lecture-learned'));
+  assert.equal(await page.getByRole('button',{name:'显示未学会',exact:true}).getAttribute('aria-pressed'),'true');
   assert.notEqual(await learnedRow.evaluate(node=>getComputedStyle(node).backgroundColor),unlearnedColor);
+  await page.locator('.lectures-detail-bar').getByRole('button',{name:'取消已学会',exact:true}).click();
+  await page.waitForFunction(()=>!document.querySelector('.lectures-list button.lecture-learned'));
+  assert.equal(await learnedRow.count(),0,'Unmarking also removes the row from the learned list');
+  await page.getByRole('button',{name:'显示未学会',exact:true}).click();
+  await learnedRow.waitFor();
+  await page.locator('.lectures-detail-bar').getByRole('button',{name:'标记已学会',exact:true}).click();
+  await page.getByRole('button',{name:'显示已学会',exact:true}).click();
+  await learnedRow.waitFor();
 
   await page.screenshot({ path: 'tests/screenshots/v5-lectures-light-2048.png', animations: 'disabled' });
 
@@ -621,6 +633,10 @@ try {
   await page.getByText('感谢给予的资金支持以及信任',{exact:true}).waitFor();
   assert.match(await page.locator('.special-thanks-cat').evaluate(node=>getComputedStyle(node).backgroundImage),/linear-gradient/);
   assert.match(await page.locator('.special-thanks-lt').evaluate(node=>getComputedStyle(node).backgroundImage),/linear-gradient/);
+  for (const theme of ['light','dark']) {
+    await page.evaluate(theme=>document.documentElement.dataset.theme=theme,theme);
+    assert.equal(await page.getByText('Rei',{exact:true}).evaluate(node=>getComputedStyle(node).color),theme==='dark'?'rgb(226, 188, 104)':'rgb(149, 102, 25)');
+  }
   await page.screenshot({path:'tests/screenshots/special-thanks.png',animations:'disabled'});
   await page.setViewportSize({width:2048,height:1152});
   await page.keyboard.press('Control+2');

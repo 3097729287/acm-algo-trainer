@@ -23,6 +23,8 @@ try{
   assert(rows.slice(0,3).every(row=>row.height<165&&row.nameRight<=row.dateLeft+.5),JSON.stringify(rows));
   assert.notEqual(rows[0].bg,rows.at(-1).bg,'Completed background differs from incomplete');
   assert.notEqual(rows[0].border,rows.at(-1).border,'Completed border is distinct');
+  const claimBorders=await page.locator('.achievement-claim').evaluateAll(nodes=>nodes.map(node=>{const s=getComputedStyle(node);return[s.borderTopWidth,s.borderTopStyle,s.borderColor,s.color];}));
+  assert(claimBorders.every(([width,style,border,color])=>width==='1px'&&style==='solid'&&border===color),'Claim reward has a visible theme-aligned border');
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   if(width===1280)await page.screenshot({path:output+'/achievements-'+theme+'.png'});
  }

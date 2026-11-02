@@ -16,7 +16,7 @@ html .achievement-panel .achievement-reward-row:empty {display:none;}
 html .achievement-panel .achievement-reward {font-size:.75rem;color:var(--accent);white-space:nowrap;}
 html .achievement-panel .achievement-reward-row>.tooltip-anchor {margin-left:auto;}
 html .achievement-panel .achievement-reward-row>span {margin-top:0;}
-html .achievement-panel .achievement-claim {padding:4px 7px;min-height:28px;border:0;background:var(--accent-soft);color:var(--accent);font-size:.75rem;white-space:nowrap;}
+html .achievement-panel .achievement-claim {padding:4px 7px;min-height:28px;border:1px solid var(--accent);border-radius:6px;background:var(--accent-soft);color:var(--accent);font-size:.75rem;white-space:nowrap;}
 html .modal .achievement-panel .progress-achievement.progress-unlocked,html .modal .daily-task.daily-task-completed {border-color:var(--success);background:color-mix(in srgb,var(--success) 14%,var(--panel));opacity:1;}
 @media(max-width:600px) {html .growth-dashboard .account-hero-titles .medal-emblem {width:46px;height:52.9px;}html .growth-dashboard .account-hero-titles .title-medals {gap:8px;}}
 .admin-dominance-dialog {width:min(360px,calc(100vw - 32px));box-sizing:border-box;padding:18px;color:var(--text);background:var(--panel-base);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);}

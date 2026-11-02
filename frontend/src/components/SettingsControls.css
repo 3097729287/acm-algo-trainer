@@ -103,3 +103,6 @@ html .competition-problem-token > b:only-child { min-width:14px; text-align:cent
 
 .thanks-contributors .thanks-name-gold {color:#e2bc68;}
 html[data-theme=light] .thanks-contributors .thanks-name-gold {color:#956619;}
+
+html .acknowledgements .thanks-contributors>p.thanks-name-gold{color:#e2bc68}
+html[data-theme=light] .acknowledgements .thanks-contributors>p.thanks-name-gold{color:#956619}

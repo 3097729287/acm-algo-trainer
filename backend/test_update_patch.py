@@ -12,11 +12,12 @@ from update_patch import apply_patch_file, digest, safe_name
 from software_updates import release_info, RELEASES, SoftwareUpdates
 from unittest.mock import Mock,patch
 from test_software_updates import idle
+from test_recycle_policy import retained_fixture
 
 
 class PatchTests(unittest.TestCase):
     def setUp(self):
-        self.temp = tempfile.TemporaryDirectory()
+        self.temp = retained_fixture("patch")
         self.root = Path(self.temp.name)
         recycled=self.root/'simulated-recycle';recycled.mkdir()
         def recycle(path):
@@ -68,6 +69,23 @@ class PatchTests(unittest.TestCase):
             with self.assertRaises(UpdateStorageError):apply_patch_file(package,digest(package),'1.0.14',self.app)
         for name,value in self.old.items():self.assertEqual((self.app/name).read_bytes(),value)
         self.assertTrue((self.app/'frontend/dist/new.js').exists(),'An unrecyclable added file is retained rather than permanently removed')
+
+    def test_explicit_retry_preserves_a_preexisting_added_file(self):
+        leftover=self.app/'frontend/dist/new.js';leftover.write_bytes(self.new['frontend/dist/new.js'])
+        package=self.package()
+        result=apply_patch_file(package,digest(package),'1.0.14',self.app)
+        for name,value in self.new.items():self.assertEqual((self.app/name).read_bytes(),value)
+        recovery=Path(result['recovery'])
+        self.assertEqual((recovery/'frontend/dist/new.js').read_bytes(),self.new['frontend/dist/new.js'])
+        self.assertEqual((self.app/'state/private.sqlite3').read_bytes(),b'personal WAL and code untouched')
+
+    def test_rollback_restores_unknown_preexisting_bytes_at_a_new_distribution_path(self):
+        leftover=self.app/'frontend/dist/new.js';leftover.write_bytes(b'preexisting custom bytes')
+        package=self.package()
+        with self.assertRaises(OSError):apply_patch_file(package,digest(package),'1.0.14',self.app,fail_after=0)
+        self.assertEqual(leftover.read_bytes(),b'preexisting custom bytes')
+        for name,value in self.old.items():self.assertEqual((self.app/name).read_bytes(),value)
+        self.assertEqual((self.app/'state/private.sqlite3').read_bytes(),b'personal WAL and code untouched')
 
     def test_loader_is_verified_updated_and_rolled_back_with_the_program(self):
         self.old['ToBeLoader.exe']=b'old native shortcut loader'

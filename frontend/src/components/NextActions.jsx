@@ -63,7 +63,7 @@ export default function NextActions({rows=[],training=[],insights,prefs={},setPr
  },[open,suspended,overlay]);
  useLayoutEffect(()=>{
   if(!expanded||!primary)return;
-  const update=()=>{if(!root.current)return;const rect=root.current.getBoundingClientRect(),edge=10,width=Math.max(0,Math.min(flyout.current?.getBoundingClientRect().width||rect.width,innerWidth-edge*2)),top=Math.min(rect.bottom,Math.max(edge,innerHeight-100));setPosition({left:Math.max(edge,Math.min(rect.left,innerWidth-width-edge)),top,maxWidth:innerWidth-edge*2,maxHeight:Math.max(80,innerHeight-top-edge)});};
+  const update=()=>{if(!root.current)return;const rect=root.current.getBoundingClientRect(),edge=10,width=Math.max(0,Math.min(rect.width,innerWidth-edge*2)),top=Math.min(rect.bottom,Math.max(edge,innerHeight-100));setPosition({left:Math.max(edge,Math.min(rect.left,innerWidth-width-edge)),top,width,maxWidth:innerWidth-edge*2,maxHeight:Math.max(80,innerHeight-top-edge)});};
   update();const observer=typeof ResizeObserver==='undefined'?null:new ResizeObserver(update);if(root.current)observer?.observe(root.current);if(flyout.current)observer?.observe(flyout.current);window.addEventListener('resize',update);window.addEventListener('scroll',update,true);
   return()=>{observer?.disconnect();window.removeEventListener('resize',update);window.removeEventListener('scroll',update,true);};
  },[expanded,primary?.kind,primary?.id]);

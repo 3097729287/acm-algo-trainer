@@ -289,3 +289,6 @@ python -m unittest test_v5_services.IdentityAndClientTests
 客户端仅导出持久化的原站 AC 提交回执，原题 URL 规范化后计算哈希，同一身份/原题只计最早一次。无日期的公开账号汇总不计为当日成绩。请求不含提交代码、Cookie 或翻译密钥；服务校验身份、范围、日期及去重，尚不进行原站独立防作弊复核。
 
 现有 MySQL 升级：先运行 `sh scripts/backup.sh`，使用数据库管理员执行 `mysql/002_official_ac.sql`，再部署新 API。初始化新卷时 Compose 同时挂载 001 和 002。不要重建生产卷，也不要把旧快照重复导入已有数据库。运行时挂载部署可直接更新 `/opt/tb-leaderboard/runtime/src/` 后重启 API，无须在 1 GiB 实例构建镜像。
+
+
+1.5.0 部署准备：`scripts/deploy-gameplay.sh` 使用 Bash 的 pipefail，先由 `verify-gameplay-restore.mjs` 核对完整生产压缩备份、24 小时内的 MySQL 8.4.11 恢复与回滚回执、实际 1.2.9 公开运行文件及候选源提交／清单，再检查服务器上备份的实际大小和 SHA-256。复用已验证的备份，不在生产小磁盘重复生成原始 SQL；错误时保留文件，回滚仅切换运行程序。当前没有执行生产部署。

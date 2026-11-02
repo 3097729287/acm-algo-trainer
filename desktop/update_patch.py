@@ -84,7 +84,10 @@ def apply_patch_file(package, sha, version, app_dir, *, fail_after=None):
         existing = {name for name in touched if (app_dir/name).exists()}
         journal = {'target': str(app_dir), 'existing': sorted(existing), 'touched': touched}
         data=json.dumps(journal,ensure_ascii=False).encode('utf-8')
-        specs={name:(app_dir/name,manifest['base'][name]) for name in existing}
+        # A failed prior update can leave an added file at a path that was not
+        # in the old manifest. Preserve its actual bytes before replacing it.
+        # prepare_tree checks every captured digest before accepting recovery.
+        specs={name:(app_dir/name,manifest['base'].get(name) or digest(app_dir/name)) for name in existing}
         specs['recovery.json']=(data,hashlib.sha256(data).hexdigest())
         staging=sum(archive.getinfo('files/'+name).file_size for name in manifest['changed'])
         recovery=prepare_tree(package.parent,'rollback',str(app_dir)+':'+sha,specs,staging_bytes=staging)

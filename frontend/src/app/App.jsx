@@ -2057,8 +2057,8 @@ export default function App() {
       </aside>
       <main className="main-area">
         <header className={"topbar " + (practiceId || mockFocus ? "training-chrome-hidden" : "")}>
-          <div id="tb-page-location" className="page-location-slot"/>
-          <div id="tb-page-search" className="topbar-search-slot"/>
+          <div className="topbar-leading"><div id="tb-page-location" className="page-location-slot"/>
+          <div id="tb-page-search" className="topbar-search-slot"/></div>
           {!practiceId&&!mockFocus&&(account?.userId?<NextActions key={account.userId} rows={rows} training={mine} reviewPlan={workspace.reviews} insights={insights} prefs={prefs} setPrefs={setPrefs} preferencesReady={preferencesLoaded.current&&!loading} api={api} availablePages={visiblePageIds} activeContest={active} onNavigate={openRecommendation} onTrain={openPractice} onOpenChange={setRecommendationOpen} suspended={Boolean(dialog||clearTrainingAnchor||tourOpen||levelUp.dialog)}/>:<section className="next-actions next-actions-pending" aria-label="下一步推荐做的事" aria-busy="true"><Clock size={18}/><span>正在准备下一步</span></section>)}
           <div className="topbar-actions">
             <PracticeStreak days={summary.streak || 0} completedToday={Number(todayAc)>0}/>{window.__tbAdmin&&<span className="admin-workspace-label">管理员</span>}
